@@ -33,9 +33,9 @@ import {
   GIT_OPERATIONS,
   JIRA_OPERATIONS
 } from 'in-automation/constants';
+import DynamicTagBasedPayloadConfigurator from 'in-automation/components/DynamicTagBasedPayloadConfigurator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
-import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/ParameterDialog';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { ResolvedDynamicParamValue, NewPolicy } from 'in-automation/types';
@@ -608,7 +608,7 @@ function DynamicParameterInput({ parameter, form, setForm, policy }: ParameterIn
             </Label>
             <Label>{t('in-automation:dynamic')}</Label>
           </Row>
-          <TagBasedPayloadConfigurator value={toViewModel(parsedDynamicValue)} disabled />
+          <DynamicTagBasedPayloadConfigurator value={toViewModel(parsedDynamicValue)} disabled />
           {!policy && (
             <>
               <Spacer vertical="small" />

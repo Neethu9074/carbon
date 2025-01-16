@@ -189,7 +189,7 @@ export function ActionEntry({ actionList, noteId, event }) {
 function ActionHistoryButton({ actionId, noteId, eventObjId }) {
   // API call to get the action object which contains the field params
   // which is needed to pass to the RunActionDialog
-  const actionResult = useAction(actionId, false);
+  const actionResult = useAction({ id: actionId, isCopy: false });
   const isLoading = actionResult && actionResult?.progress?.loading;
   const hasErrors = actionResult && actionResult?.errors.length > 0;
   return (

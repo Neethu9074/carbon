@@ -4,70 +4,54 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { ChangeEvent, useContext } from 'react';
-import { Field } from 'formalistic';
+import React from 'react';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
-import { isNotEditableContext, OnChange } from 'in-automation/ActionCatalog/Action';
+import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
+import { ActionForm, MappedString } from 'in-automation/ActionCatalog/useActionForm/types';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { ActionForm } from 'in-automation/ActionCatalog/useActionForm';
+import { useIsNotEditableContext } from 'in-automation/ActionCatalog/Action';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import Input from 'in-components/form/Input/Input';
-
-import locals from './ServerTablePresenterWrapperConsumer.mless';
-
-export interface Label {
-  id: string;
-  value: string;
-}
-
-interface LabelsTableProps {
-  form: ActionForm;
-  onChange: OnChange;
-  fieldName?: string;
-  label: string;
-}
-
-interface FieldProps extends LabelsTableProps {
-  setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
-  customAddRowLabel: string;
-  noDataMessage: string;
-}
 
 const getColumnDefinitions = ({
   form,
-  onChange,
+  setForm,
   isNotEditable,
   fieldName,
   label
-}: LabelsTableProps & { isNotEditable: boolean }) => [
+}: {
+  form: ActionForm;
+  setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
+  isNotEditable: boolean;
+  fieldName: 'labels' | 'assignees';
+  label: string;
+}): ColumnDefinition<MappedString>[] => [
   {
     id: 'value',
     sortable: false,
     label: label ?? 'labels',
-    getContent(item: Label) {
-      const labelsField = form.get(`${fieldName}`);
+    getContent(item) {
+      const labelsField = form.get(fieldName);
       return (
         <>
-          <HorizontalFlexWrapper className={locals.colName}>
+          <HorizontalFlexWrapper>
             <Input
-              className={locals.key}
               value={item.value}
               disabled={isNotEditable}
-              hasError={!labelsField?.valid && labelsField?.touched && item.value === ''}
-              onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
-                const labels = (labelsField as Field<Label[]>)?.value;
-                onChange(
-                  `${fieldName}`,
-                  labels.map(label =>
-                    label?.id === item.id
-                      ? {
-                          id: label.id,
-                          value: target.value
-                        }
-                      : label
-                  )
+              hasError={!labelsField.valid && labelsField.touched && item.value === ''}
+              onChange={e => {
+                const updatedLabes = labelsField.value.map(label =>
+                  label.id === item.id
+                    ? {
+                        id: label.id,
+                        value: e.target.value
+                      }
+                    : label
                 );
+
+                setForm(form => form.updateIn([fieldName], item => item.setValue(updatedLabes).setTouched(true)));
               }}
               maxLength={128}
             />
@@ -79,28 +63,30 @@ const getColumnDefinitions = ({
   }
 ];
 
+interface FieldsTableProps {
+  fieldName?: 'labels' | 'assignees';
+  customAddRowLabel: string;
+  label: string;
+  noDataMessage: string;
+}
+
 export default function FieldsTable({
-  form,
-  setForm,
-  onChange,
   fieldName = 'labels',
   customAddRowLabel,
   label,
   noDataMessage
-}: FieldProps) {
-  const isNotEditable = useContext(isNotEditableContext);
-  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable, fieldName, label });
-  const labels = (form.get(`${fieldName}`) as Field<any>).value;
+}: FieldsTableProps) {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
+
+  const columnDefinitions = getColumnDefinitions({ form, setForm, isNotEditable, fieldName, label });
 
   return (
     <ServerTablePresenterWrapper
       columnDefinitions={columnDefinitions}
-      data={labels}
-      form={form}
       formKey={fieldName}
       customAddRowLabel={customAddRowLabel}
       defaultRow={''}
-      setForm={setForm}
       noDataMessage={noDataMessage}
     />
   );

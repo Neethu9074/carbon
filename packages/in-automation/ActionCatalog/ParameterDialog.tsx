@@ -4,39 +4,30 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, MapForm } from 'formalistic';
-import React, { useState } from 'react';
+import React from 'react';
 
-import { RadioButton, Checkbox, Spacer } from '@instana/components';
-import { Parameter, DynamicFieldValue } from '@instana/types';
+import { RadioButton, Checkbox, FormGroup } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import {
-  ViewModel,
-  createTagBasedPayloadConfigurator,
   toFormModel,
-  toViewModel
+  toViewModel,
+  ViewModel
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
-import {
-  createForm,
-  addStaticField,
-  addVaultFields,
-  mutateFieldBlankValidator,
-  addDynamicFields,
-  emptyObjectValidator
-} from 'in-automation/ActionCatalog/ParameterFormDefinition';
+import useParameterForm, {
+  getParameterFromForm,
+  ParameterForm,
+  useParameterFormContext
+} from 'in-automation/ActionCatalog/useParameterForm';
+import DynamicTagBasedPayloadConfigurator from 'in-automation/components/DynamicTagBasedPayloadConfigurator';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { ActionForm, MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
-import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
-import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import FormGroup from 'in-settings/components/FormGroup/FormGroup';
-import { getDynamicParameterTagCatalog } from 'in-automation/api';
-import { OnChange } from 'in-automation/ActionCatalog/Action';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import { ACTION_TYPE } from 'in-automation/constants';
 import Form from 'in-components/form/binding/Form';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
@@ -47,69 +38,62 @@ import { t } from 'in-i18n';
 import locals from './Action.mless';
 
 export interface ParameterDialogProps {
-  form: MapForm<any>;
-  onChange: OnChange;
-  idToEdit?: string;
+  form: ActionForm;
+  setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
+  id?: string;
   isNotEditable: boolean;
-  isAnsible: boolean;
-  isGitOrJira: boolean;
+  ticketIdParameterExist: boolean;
 }
 
 export default function ParameterDialog({
   form,
-  onChange,
-  idToEdit,
+  setForm,
+  id,
   isNotEditable,
-  isAnsible,
-  isGitOrJira = false
+  ticketIdParameterExist
 }: ParameterDialogProps) {
-  const parameter = (form.get('parameters') as Field<MappedParameter[]>).value.find(
-    parameter => parameter.id === idToEdit
-  );
+  const actionType = form.get('type').value;
+  const parameters = form.get('parameters').value;
+  const parameter = parameters.find(parameter => parameter.id === id);
 
-  const [parameterForm, setParameterForm] = useState(createForm({ parameter, form, idToEdit }));
+  const [parameterForm, setParameterForm] = useParameterForm({ parameters, id });
 
-  const type = parameterForm.get('type') as Field<string>;
-  const parameterName = parameterForm.get('name') as Field<string>;
-  const disableTicketIdParameter = isGitOrJira && parameterName.value === 'id';
+  const isAnsible = actionType === ACTION_TYPE.ANSIBLE;
+  const type = parameterForm.get('type');
+  const parameterName = parameterForm.get('name');
+  const disableTicketIdParameter = ticketIdParameterExist && parameterName.value === 'id';
   // IMPORTANT: Ansible actions are a special case where we want to allow the parameters to be editable EXCEPT for the name so we override isNotEditable so that everything is editable except for the name where we will disable the input using isAnsible flag
-  isNotEditable = isNotEditable && !isAnsible;
+  const parmeterIsNotEditable = (isNotEditable && !isAnsible) || !role?.canConfigureAutomationActions;
 
-  const sectionProps = {
-    parameterForm,
-    setParameterForm,
-    parameter,
-    form,
-    isNotEditable
-  };
+  function onSubmit(parameterForm: ParameterForm) {
+    doSubmit({ parameterForm, parameter, form, setForm, id });
+  }
 
   return (
     <Dialog
-      titleIconType={idToEdit ? 'lib_actions_edit' : 'lib_openclose_add'}
-      title={idToEdit ? t('in-automation:ActionCatalog.editParameter') : t('in-automation:ActionCatalog.addParameter')}
+      titleIconType={id ? 'lib_actions_edit' : 'lib_openclose_add'}
+      title={id ? t('in-automation:ActionCatalog.editParameter') : t('in-automation:ActionCatalog.addParameter')}
       onClose={close}
       withoutBodyPadding
     >
       <div className={locals.parameterDialog}>
         <Form
           form={parameterForm}
-          setForm={form => setParameterForm(form as MapForm<any>)}
+          setForm={form => setParameterForm(form as ParameterForm)}
           formId="action-parameter-form"
-          onSubmit={parameterForm =>
-            onSubmit({ parameterForm: parameterForm as MapForm<any>, parameter, form, onChange, idToEdit })
-          }
+          onSubmit={form => onSubmit(form as ParameterForm)}
         >
           <MetaDataSection
-            {...sectionProps}
-            isAnsible={isAnsible}
+            isNotEditable={parmeterIsNotEditable}
+            isAnsible={actionType === ACTION_TYPE.ANSIBLE}
             disableTicketIdParameter={disableTicketIdParameter}
           />
-          {type.value === 'static' && <StaticSection {...sectionProps} isAnsible={isAnsible} />}
-          {type.value === 'vault' && <VaultSection {...sectionProps} />}
-          {type.value === 'dynamic' && <DynamicSection {...sectionProps} />}
-          {type.value !== 'dynamic' && <HiddenSection {...sectionProps} isAnsible={isAnsible} />}
+          {type.value === 'static' && <StaticSection isNotEditable={parmeterIsNotEditable} />}
+          {type.value === 'vault' && <VaultSection isNotEditable={parmeterIsNotEditable} />}
+          {type.value === 'dynamic' && <DynamicSection isNotEditable={parmeterIsNotEditable} />}
+          {type.value !== 'dynamic' && <HiddenSection isNotEditable={parmeterIsNotEditable} />}
           <SaveCancel
-            hasSaveButton={!isNotEditable && role?.canConfigureAutomationActions}
+            hasSaveButton={!parmeterIsNotEditable && role?.canConfigureAutomationActions}
             form={parameterForm}
             onClickCancelButton={close}
           />
@@ -120,27 +104,22 @@ export default function ParameterDialog({
 }
 
 interface SectionProps {
-  parameter: MappedParameter | undefined;
-  parameterForm: MapForm<any>;
-  setParameterForm: React.Dispatch<React.SetStateAction<MapForm<any>>>;
   isNotEditable: boolean;
 }
 
 function MetaDataSection({
-  parameter,
-  parameterForm,
-  setParameterForm,
   isNotEditable,
   isAnsible,
   disableTicketIdParameter
 }: SectionProps & { isAnsible: boolean; disableTicketIdParameter: boolean }) {
-  const name = parameterForm.get('name') as Field<string>;
-  const label = parameterForm.get('label') as Field<string>;
-  const description = parameterForm.get('description') as Field<string>;
-  const type = parameterForm.get('type') as Field<string>;
-  const required = parameterForm.get('required') as Field<boolean>;
-  const hidden = parameterForm.get('hidden') as Field<boolean>;
-  isNotEditable = (isNotEditable && !isAnsible) || !role?.canConfigureAutomationActions;
+  const { form, setForm } = useParameterFormContext();
+
+  const name = form.get('name');
+  const label = form.get('label');
+  const description = form.get('description');
+  const type = form.get('type');
+  const required = form.get('required');
+  const hidden = form.get('hidden');
 
   return (
     <>
@@ -153,7 +132,9 @@ function MetaDataSection({
           type="text"
           disabled={isNotEditable}
           value={label.value}
-          onChange={e => onParameterChange({ fieldName: 'label', value: e.target.value, setParameterForm, parameter })}
+          onChange={e =>
+            setForm(form => form.updateIn(['label'], item => item.setValue(e.target.value).setTouched(true)))
+          }
           hasError={!label.valid && label.touched}
           maxLength={256}
         />
@@ -169,7 +150,9 @@ function MetaDataSection({
           // IMPORTANT: isNotEditable has been overridden for Ansible actions so we need to check isAnsible here to disable the input
           disabled={isNotEditable || isAnsible || disableTicketIdParameter}
           value={name.value}
-          onChange={e => onParameterChange({ fieldName: 'name', value: e.target.value, setParameterForm, parameter })}
+          onChange={e =>
+            setForm(form => form.updateIn(['name'], item => item.setValue(e.target.value).setTouched(true)))
+          }
           hasError={!name.valid && name.touched}
           maxLength={256}
         />
@@ -186,7 +169,7 @@ function MetaDataSection({
           disabled={isNotEditable}
           value={description.value}
           onChange={e =>
-            onParameterChange({ fieldName: 'description', value: e.target.value, setParameterForm, parameter })
+            setForm(form => form.updateIn(['description'], item => item.setValue(e.target.value).setTouched(true)))
           }
           hasError={!description.valid && description.touched}
           maxLength={256}
@@ -202,47 +185,29 @@ function MetaDataSection({
               disabled={isNotEditable}
               label={t('in-automation:static')}
               onChange={() =>
-                onParameterChange({
-                  fieldName: 'type',
-                  value: 'static',
-                  setParameterForm,
-                  parameter,
-                  updateFormDefinition: addStaticField
-                })
+                setForm(form => form.updateIn(['type'], item => item.setValue('static').setTouched(true)))
               }
             />
           </Col>
-          <Spacer horizontal="small" />
           <Col>
             <RadioButton
               checked={type.value === 'vault'}
               disabled={isNotEditable}
               label={t('in-automation:vault')}
-              onChange={() =>
-                onParameterChange({
-                  fieldName: 'type',
-                  value: 'vault',
-                  setParameterForm,
-                  parameter,
-                  updateFormDefinition: addVaultFields
-                })
-              }
+              onChange={() => setForm(form => form.updateIn(['type'], item => item.setValue('vault').setTouched(true)))}
             />
           </Col>
-          <Spacer horizontal="small" />
           <Col>
             <RadioButton
               checked={type.value === 'dynamic'}
               disabled={isNotEditable}
               label={t('in-automation:dynamic')}
               onChange={() =>
-                onParameterChange({
-                  fieldName: 'type',
-                  value: 'dynamic',
-                  setParameterForm,
-                  parameter,
-                  updateFormDefinition: addDynamicFields
-                })
+                setForm(form =>
+                  form
+                    .updateIn(['type'], item => item.setValue('dynamic').setTouched(true))
+                    .updateIn(['hidden'], item => item.setValue(true).setTouched(true))
+                )
               }
             />
           </Col>
@@ -254,7 +219,7 @@ function MetaDataSection({
           checked={required.value}
           label={t('in-automation:ActionCatalog.required')}
           onChange={e =>
-            onParameterChange({ fieldName: 'required', value: e.target.checked, setParameterForm, parameter })
+            setForm(form => form.updateIn(['required'], item => item.setValue(e.target.checked).setTouched(true)))
           }
         />
       </FormGroup>
@@ -262,16 +227,10 @@ function MetaDataSection({
   );
 }
 
-function HiddenSection({
-  parameter,
-  parameterForm,
-  setParameterForm,
-  isNotEditable,
-  isAnsible
-}: SectionProps & { isAnsible: boolean }) {
-  const hidden = parameterForm.get('hidden') as Field<boolean>;
-  const type = parameterForm.get('type') as Field<string>;
-  isNotEditable = (isNotEditable && !isAnsible) || !role?.canConfigureAutomationActions;
+function HiddenSection({ isNotEditable }: SectionProps) {
+  const { form, setForm } = useParameterFormContext();
+
+  const hidden = form.get('hidden');
 
   return (
     <FormGroup>
@@ -279,74 +238,55 @@ function HiddenSection({
         checked={hidden.value}
         disabled={isNotEditable}
         label={t('in-automation:ActionCatalog.hiddenParam')}
-        onChange={e =>
-          onParameterChange({
-            fieldName: 'hidden',
-            value: e.target.checked,
-            setParameterForm,
-            parameter,
-            updateFormDefinition: ({ form }) => {
-              if (e.target.checked) {
-                form = form.updateIn(['required'], field => (field as Field<boolean>).setValue(true).setTouched(true));
-              }
-              if (type.value === 'static') {
-                form = mutateFieldBlankValidator({ form, key: 'value', add: e.target.checked });
-              } else if (type.value === 'dynamic') {
-                form = mutateFieldBlankValidator({
-                  form,
-                  key: 'value',
-                  add: e.target.checked,
-                  validatorForField: emptyObjectValidator
-                });
-              } else if (type.value === 'vault') {
-                form = mutateFieldBlankValidator({ form, key: 'secretPath', add: e.target.checked });
-                form = mutateFieldBlankValidator({ form, key: 'secretKey', add: e.target.checked });
-              }
-              return form;
+        onChange={e => {
+          setForm(form => {
+            let updatedForm = form.updateIn(['hidden'], item => item.setValue(e.target.checked).setTouched(true));
+            if (e.target.checked) {
+              updatedForm = updatedForm.updateIn(['required'], item => item.setValue(true).setTouched(true));
             }
-          })
-        }
+            return updatedForm;
+          });
+        }}
       />
     </FormGroup>
   );
 }
 
-function StaticSection({
-  parameter,
-  parameterForm,
-  setParameterForm,
-  isNotEditable,
-  isAnsible
-}: SectionProps & { isAnsible: boolean }) {
-  const hidden = parameterForm.get('hidden') as Field<boolean>;
-  const value = parameterForm.get('value') as Field<string>;
-  isNotEditable = (isNotEditable && !isAnsible) || !role?.canConfigureAutomationActions;
+function StaticSection({ isNotEditable }: SectionProps) {
+  const { form, setForm } = useParameterFormContext();
+
+  const hidden = form.get('hidden');
+  const value = form.get('static');
+
   return (
-    <>
-      <FormGroup>
-        <Label htmlFor="parameter-value" hasError={!value.valid && value.touched}>
-          {hidden.value
-            ? t('in-automation:ActionCatalog.defaultValue')
-            : t('in-automation:ActionCatalog.defaultValueOptional')}
-        </Label>
-        <Input
-          id="parameter-value"
-          disabled={isNotEditable}
-          value={value.value}
-          onChange={e => onParameterChange({ fieldName: 'value', value: e.target.value, setParameterForm, parameter })}
-          hasError={!value.valid && value.touched}
-          maxLength={256}
-        />
-        <TouchedMessages field={value} className={locals.subErrorTextFormField} />
-      </FormGroup>
-    </>
+    <FormGroup>
+      <Label htmlFor="parameter-value" hasError={!value.valid && value.touched}>
+        {hidden.value
+          ? t('in-automation:ActionCatalog.defaultValue')
+          : t('in-automation:ActionCatalog.defaultValueOptional')}
+      </Label>
+      <Input
+        id="parameter-value"
+        disabled={isNotEditable}
+        value={value.value}
+        onChange={e =>
+          setForm(form => form.updateIn(['static'], item => item.setValue(e.target.value).setTouched(true)))
+        }
+        hasError={!value.valid && value.touched}
+        maxLength={256}
+      />
+      <TouchedMessages field={value} className={locals.subErrorTextFormField} />
+    </FormGroup>
   );
 }
 
-function VaultSection({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) {
-  const hidden = parameterForm.get('hidden') as Field<boolean>;
-  const secretPath = parameterForm.get('secretPath') as Field<string>;
-  const secretKey = parameterForm.get('secretKey') as Field<string>;
+function VaultSection({ isNotEditable }: SectionProps) {
+  const { form, setForm } = useParameterFormContext();
+
+  const hidden = form.get('hidden');
+  const vault = form.get('vault');
+  const secretPath = vault.get('secretPath');
+  const secretKey = vault.get('secretKey');
 
   return (
     <>
@@ -361,7 +301,9 @@ function VaultSection({ parameter, parameterForm, setParameterForm, isNotEditabl
           disabled={isNotEditable}
           value={secretPath.value}
           onChange={e =>
-            onParameterChange({ fieldName: 'secretPath', value: e.target.value, setParameterForm, parameter })
+            setForm(form =>
+              form.updateIn(['vault', 'secretPath'], item => item.setValue(e.target.value).setTouched(true))
+            )
           }
           hasError={!secretPath.valid && secretPath.touched}
           maxLength={256}
@@ -379,7 +321,9 @@ function VaultSection({ parameter, parameterForm, setParameterForm, isNotEditabl
           disabled={isNotEditable}
           value={secretKey.value}
           onChange={e =>
-            onParameterChange({ fieldName: 'secretKey', value: e.target.value, setParameterForm, parameter })
+            setForm(form =>
+              form.updateIn(['vault', 'secretKey'], item => item.setValue(e.target.value).setTouched(true))
+            )
           }
           hasError={!secretKey.valid && secretKey.touched}
           maxLength={256}
@@ -390,120 +334,46 @@ function VaultSection({ parameter, parameterForm, setParameterForm, isNotEditabl
   );
 }
 
-export const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
-  getTagCatalog: getDynamicParameterTagCatalog,
-  getSuggestions: ({ name, timeConfig, tagFilterExpression }) =>
-    getTagSuggestions({
-      tagName: name,
-      entity: DESTINATION,
-      filter: {
-        includeInternalCalls: false,
-        includeSyntheticCalls: false,
-        timeConfig: timeConfig,
-        useLongTermDataOnly: false
-      },
-      requestingSecondaryKeySuggestions: true,
-      tagFilterExpression: tagFilterExpression ?? EMPTY_EXPRESSION
-    })
-});
+function DynamicSection({ isNotEditable }: SectionProps) {
+  const { form, setForm } = useParameterFormContext();
 
-function DynamicSection({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) {
-  const value = parameterForm.get('value') as Field<DynamicFieldValue>;
+  const value = form.get('dynamic');
   return (
     <FormGroup>
       <Label htmlFor="parameter-secretPath" hasError={!value.valid && value.touched}>
         {t('in-automation:value')}
       </Label>
-      <div>
-        <TagBasedPayloadConfigurator
-          value={toViewModel(value.value)}
-          disabled={isNotEditable}
-          onChange={(viewModel: ViewModel) =>
-            onParameterChange({ fieldName: 'value', value: toFormModel(viewModel), setParameterForm, parameter })
-          }
-          tagFilterExpression={EMPTY_EXPRESSION}
-        />
-      </div>
+      <DynamicTagBasedPayloadConfigurator
+        value={toViewModel(value.value)}
+        disabled={isNotEditable}
+        onChange={(viewModel: ViewModel) =>
+          setForm(form => form.updateIn(['dynamic'], item => item.setValue(toFormModel(viewModel)).setTouched(true)))
+        }
+        tagFilterExpression={EMPTY_EXPRESSION}
+      />
       <TouchedMessages field={value} className={locals.subErrorTextFormField} />
     </FormGroup>
   );
 }
 
-interface OnParameterChangeParams<T> {
-  fieldName: string;
-  value: T;
-  setParameterForm: React.Dispatch<React.SetStateAction<MapForm<any>>>;
-  parameter: MappedParameter | undefined;
-  updateFormDefinition?: ({
-    form,
-    parameter
-  }: {
-    form: MapForm<any>;
-    parameter: MappedParameter | undefined;
-  }) => MapForm<any>;
-}
-
-function onParameterChange<T>({
-  fieldName,
-  value,
-  setParameterForm,
+function doSubmit({
+  parameterForm,
   parameter,
-  updateFormDefinition
-}: OnParameterChangeParams<T>) {
-  setParameterForm(form => {
-    form = form.updateIn([fieldName], field => (field as Field<T>).setValue(value).setTouched(true));
-    if (updateFormDefinition) {
-      form = updateFormDefinition({ form, parameter });
-    }
-    return form;
-  });
-}
-
-interface OnSubmitParams extends Omit<ParameterDialogProps, 'isNotEditable' | 'isAnsible' | 'isGitOrJira'> {
-  parameterForm: MapForm<any>;
-  parameter: MappedParameter | undefined;
-}
-
-function onSubmit({ parameterForm, parameter, form, onChange, idToEdit }: OnSubmitParams) {
-  const name = (parameterForm.get('name') as Field<string>).value;
-  const label = (parameterForm.get('label') as Field<string>).value;
-  const description = (parameterForm.get('description') as Field<string>).value;
-  const required = (parameterForm.get('required') as Field<boolean>).value;
-  const hidden = (parameterForm.get('hidden') as Field<boolean>).value;
-  const type = (parameterForm.get('type') as Field<string>).value;
-  let paramValue = '';
-  let valueType = '';
-  if (type === 'static') {
-    paramValue = (parameterForm.get('value') as Field<string>).value;
-    valueType = 'string';
-  } else if (type === 'vault') {
-    const secretKey = (parameterForm.get('secretKey') as Field<string>).value;
-    const secretPath = (parameterForm.get('secretPath') as Field<string>).value;
-    paramValue = JSON.stringify({ secretKey: secretKey, secretPath: secretPath });
-    valueType = 'map';
-  } else if (type === 'dynamic') {
-    const value = (parameterForm.get('value') as Field<DynamicFieldValue>).value;
-    paramValue = JSON.stringify(value);
-    valueType = 'map';
-  }
-  const parameterToSubmit: Parameter = {
-    name,
-    label,
-    description,
-    required,
-    hidden,
-    value: paramValue,
-    type,
-    valueType
-  };
-  const value = parameter
-    ? ((form.get('parameters') as Field<MappedParameter[]>).value ?? []).map(p =>
-        p.id === idToEdit ? { id: idToEdit, value: parameterToSubmit } : p
-      )
-    : [
-        ...((form.get('parameters') as Field<MappedParameter[]>).value ?? []),
-        { id: generateUniqueShortId(), value: parameterToSubmit }
-      ];
-  onChange('parameters', value);
+  form,
+  setForm,
+  id
+}: {
+  form: ActionForm;
+  setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
+  id?: string;
+  parameterForm: ParameterForm;
+  parameter?: MappedParameter;
+}) {
+  const parameterToSubmit = getParameterFromForm(parameterForm);
+  const parameters = form.get('parameters').value;
+  const updatedParameters = parameter
+    ? parameters.map(p => (p.id === id ? { id: id, value: parameterToSubmit } : p))
+    : [...parameters, { id: generateUniqueShortId(), value: parameterToSubmit }];
+  setForm(form => form.updateIn(['parameters'], item => item.setValue(updatedParameters).setTouched(true)));
   close();
 }
