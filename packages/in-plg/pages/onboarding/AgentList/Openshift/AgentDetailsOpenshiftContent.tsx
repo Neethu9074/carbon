@@ -111,6 +111,7 @@ export const getBashCode = ({
     case 'openshift_operator': {
       let content = customResourceFile
         .replaceAll('${agentKey}', agentKey)
+        .replaceAll('${downloadKey}', downloadKey)
         .replaceAll('${agentEndpoint}', agentEndpoint)
         .replaceAll('${agentEndpointPort}', agentEndpointPort)
         .replaceAll('${clusterName}', clusterName)
@@ -119,7 +120,7 @@ export const getBashCode = ({
       return {
         code: content,
         lang: 'bash',
-        withoutCopyButton: !(clusterName && agentKey && agentEndpoint && agentEndpointPort),
+        withoutCopyButton: !(clusterName && agentKey && downloadKey && agentEndpoint && agentEndpointPort),
         withExpandButton: true,
         linesToShow: 15
       };
