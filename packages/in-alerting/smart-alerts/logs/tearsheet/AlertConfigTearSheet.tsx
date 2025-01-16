@@ -113,6 +113,7 @@ function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
     threshold: form.get('threshold').toJS(),
     timeThreshold: form.get('timeThreshold').toJS(),
     granularity: form.get(fieldNames.granularity).value,
+    gracePeriod: form.get(fieldNames.gracePeriod).value,
     groupBy: form.get(fieldNames.groupBy).value ? toGroupByTag([form.get(fieldNames.groupBy).value]) : undefined,
     customPayloadFields: form.get('customPayloadFields').toJS()
   });

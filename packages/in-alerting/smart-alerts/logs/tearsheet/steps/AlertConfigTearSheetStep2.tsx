@@ -7,9 +7,12 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
+import { Spacer } from '@instana/components';
+
 import { ThresholdChart } from 'in-alerting/smart-alerts/logs/tearsheet/components/ThresholdChart';
 import ThresholdSection from 'in-alerting/smart-alerts/logs/tearsheet/components/ThresholdSection';
 import ThresholdViolation from 'in-alerting/smart-alerts/components/tearSheet/ThresholdViolation';
+import GracePeriodWrapper from 'in-alerting/smart-alerts/components/tearSheet/GracePeriodWrapper';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
@@ -50,6 +53,8 @@ export default function AlertConfigTearSheetStep2({
             updateForm={updateForm}
             oneMinuteGranularityAllowed={oneMinuteGranularityForStaticThresholdEnabled}
           />
+          <Spacer size="gutter" />
+          <GracePeriodWrapper form={form} updateForm={updateForm} />
         </TearSheetStepTitleWrapper>
       </div>
 
