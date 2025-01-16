@@ -23,6 +23,7 @@ export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBrea
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
 export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitoringIssuesEnabled');
 export const cveIssueEnabled = isFeatureFlagEnabled('cveIssueEnabled');
+export const vulnerabilityCenterEnabled = isFeatureFlagEnabled('vulnerabilityCenterEnabled');
 export const skipOnboardingDialog = isFeatureFlagEnabled('skipOnboardingDialog');
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
 export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEnabled');

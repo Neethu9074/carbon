@@ -20,12 +20,12 @@ import Services from 'in-applications/Dashboards/application/tabs/Services';
 //@ts-expect-error needs TS migration
 import Alerts from 'in-applications/Dashboards/application/tabs/Alerts';
 import SyntheticsList from 'in-applications/Dashboards/application/tabs/SyntheticsMonitoring/SyntheticsList';
+import { resourceOptimizationActionsEnabled, vulnerabilityCenterEnabled } from 'in-services/featureFlags';
 import ResourceOptimizationTab from 'in-applications/Dashboards/application/tabs/ResourceOptimizations';
 //@ts-expect-error needs TS migration
 import Map from 'in-applications/Dashboards/application/tabs/Map';
 import LogMessagesTab from 'in-logging/components/Dashboards/components/LogMessages';
 import { hasInfrastructureAccess, hasSyntheticsAccess } from 'in-stores/permission';
-import { resourceOptimizationActionsEnabled } from 'in-services/featureFlags';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import { Tab } from 'in-components/LocationAwareTabView/types';
 import { playwithEnabled } from 'in-services/featureFlags';
@@ -73,7 +73,7 @@ const getApplicationTabs = (canConfigureApplications: boolean | null | undefined
         path: `${applicationDashboard}/synthetics`,
         component: SyntheticsList
       },
-    {
+    vulnerabilityCenterEnabled && {
       label: t('in-events:labelCveIssue'),
       path: `${applicationDashboard}/CveVulnerabilities`,
       component: CveVulnerabilities
