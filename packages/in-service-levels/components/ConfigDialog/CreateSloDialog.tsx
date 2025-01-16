@@ -67,13 +67,17 @@ export default function CreateSloDialog({ configuration, mode, trackingMeta }: C
     );
   }, [trackingMeta]);
 
+  const title =
+    mode === 'EDIT'
+      ? t('in-service-levels:createSloDialog.title.edit')
+      : t('in-service-levels:createSloDialog.title.create');
   return (
     <SloFormContext.Provider
       value={{ form, mode, onChange: (path, fn) => updateForm(form.updateIn(path, fn) as SloForm), setForm }}
     >
       <ConfigDialogTimeConfigContextModification>
         <ConfigDialog
-          title={t('in-service-levels:createSloDialog.title')}
+          title={title}
           onClose={() => {
             trackSloEvent(
               SLO_CONFIG_DIALOG_CLOSE,
