@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { MutableRefObject } from 'react';
+import React from 'react';
 
-import { Li, SvgIcon, Ul, Button } from '@instana/components';
+import { CarbonMenuButton, CarbonMenuItem } from '@instana/components';
 import { LogItem, LogTag } from '@instana/types';
 
 import {
@@ -15,13 +15,13 @@ import {
   LOG_CUSTOM_KEY_SERVICE_ID,
   LOG_MESSAGE
 } from 'in-logging/queryBuilder';
-import { useLinkToLogs, useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { ANALYZE_LOGGING_JUMP_TO_LOGS } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import Overlay from 'in-components/overlays/Overlay';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { t } from 'in-i18n';
 
-import locals from 'in-logging/components/TraceDetails/components/LogDetails/components/AnalyzeLogsButton.mless';
+import locals from './AnalyzeLogsButton.mless';
 
 interface AnalyzeLogsButtonProps {
   log: LogItem;
@@ -32,58 +32,46 @@ export default function AnalyzeLogsButton({ log }: AnalyzeLogsButtonProps) {
   const similarLogsHref = useLinkToLogs({
     tagFilterExpression: [getValueMatchTagFilter({ name: LOG_MESSAGE, value: log.message })]
   });
-  const generateLinkToLogs = useGenerateLinkToLogs();
+  const servicesRef = useLinkToLogs({
+    tagFilterExpression: [
+      getValueMatchTagFilterWithKey({
+        name: LOG_CUSTOM,
+        key: LOG_CUSTOM_KEY_SERVICE_ID,
+        value: serviceId ?? ''
+      })
+    ]
+  });
   const { trackCta } = useSegmentTracking();
+  const { goToPath } = useNavigation();
+
   return (
-    <Overlay
-      align="bottomLeft"
-      content={() => (
-        <Ul>
-          <Li
-            href={similarLogsHref}
-            onDefaultHrefInteractionSideEffect={() =>
-              trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS, { source: 'similar logs' })
-            }
-          >
-            {t('in-analyze:logDetails.similarLogs')}
-          </Li>
-          {serviceId && (
-            <Li
-              href={generateLinkToLogs({
-                tagFilterExpression: [
-                  getValueMatchTagFilterWithKey({
-                    name: LOG_CUSTOM,
-                    key: LOG_CUSTOM_KEY_SERVICE_ID,
-                    value: serviceId
-                  })
-                ]
-              })}
-              onDefaultHrefInteractionSideEffect={() =>
-                trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS, { source: 'similar services' })
-              }
-            >
-              {t('in-analyze:logDetails.similarServiceLogs')}
-            </Li>
-          )}
-        </Ul>
-      )}
-      withoutWrapper
+    <CarbonMenuButton
+      className={locals.button}
+      //@ts-expect-error types are incorrect, "secondary" is a valid button type
+      kind="secondary"
+      label={t('in-analyze:logDetails.analyzeLogsLabel')}
+      menuAlignment="bottom"
     >
-      {({ toggle, refSetter, isOpen }) => (
-        <Button
-          kind="primary"
-          icon="lib_analyze"
-          onClick={toggle}
-          refSetter={refSetter as MutableRefObject<HTMLButtonElement>}
-          size="compact"
-        >
-          {t('in-analyze:logDetails.analyzeLogsLabel')}
-          <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
-        </Button>
+      <CarbonMenuItem
+        label={t('in-analyze:logDetails.similarLogs')}
+        onClick={() => {
+          trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS, { source: 'similar logs' });
+          goToPath(similarLogsHref.slice(2));
+        }}
+      />
+      {serviceId && (
+        <CarbonMenuItem
+          label={t('in-analyze:logDetails.similarServiceLogs')}
+          onClick={() => {
+            trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS, { source: 'similar services' });
+            goToPath(servicesRef.slice(2));
+          }}
+        />
       )}
-    </Overlay>
+    </CarbonMenuButton>
   );
 }
+
 function getServiceId(tags: LogTag[]) {
   return tags
     .filter(({ name, key }) => name === LOG_CUSTOM && key === 'service_id')
