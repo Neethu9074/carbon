@@ -7,7 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { BizOpsMetricConfiguration, TimeConfig, BusinessProcessItem, Result } from '@instana/types';
+import { TimeConfig, BusinessProcessItem, Result, PaginatedResult, BusinessProcess } from '@instana/types';
 import { KeyValue, SvgIcon, ColumnizedDefinition } from '@instana/components';
 import { Observable } from '@instana/observables';
 
@@ -17,12 +17,12 @@ import EmptyStateContent from 'in-cockpit/widgets/BusinessMonitoringTopList/Empt
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 // @ts-expect-error Module needs to be translated to TS
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
+import getBusinessProcessesWithDefaults from 'in-bizops/subscriptions/helpers/getBusinessProcessesWithDefaults';
 // @ts-expect-error Module needs to be translated to TS
 import { add, remove } from 'in-cockpit/starredItems';
+import getBusinessProcessWithDefaults from 'in-bizops/subscriptions/helpers/getBusinessProcessWithDefaults';
 import { businessProcessDashboard, summaryTab, businessProcessPath } from 'in-bizops/navigation/paths';
-import { getBusinessProcessListWithDefaults } from 'in-bizops/subscriptions/getBusinessProcessList';
 import { businessProcess as businessProcessType } from 'in-cockpit/starredItems/types';
-import getBusinessProcess from 'in-bizops/subscriptions/getBusinessProcess';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -38,7 +38,7 @@ export default function BusinessMonitoringTopList({ config }: any) {
   return (
     <TopListWidget
       {...config}
-      getItems={getBusinessProcessListWithDefaults} // subscription to get data for list
+      getItems={getItems} // subscription to get data for list
       getItem={getItem}
       pinnedItemTypes={businessProcessType}
       getId={getId}
@@ -59,19 +59,26 @@ export default function BusinessMonitoringTopList({ config }: any) {
   );
 }
 
-function getItem(id: string, timeConfig: TimeConfig): Observable<Result<BusinessProcessItem>> {
-  const started_processes: BizOpsMetricConfiguration = {
-    metric: 'started_processes',
-    granularity: getChartGranularity(timeConfig),
-    aggregation: 'DISTINCT_COUNT'
-  };
+// The default timeConfig includes the pinnedItemIdsByType field which is not needed
+// I needed to remove the field to make it compatible with the data subscription request
+interface TimeConfigWithPinned {
+  timeConfig: TimeConfig;
+  query: string;
+}
 
+function getItems({ timeConfig, query }: TimeConfigWithPinned): Observable<Result<PaginatedResult<BusinessProcess>>> {
+  return getBusinessProcessesWithDefaults({
+    timeConfig,
+    query
+  });
+}
+
+function getItem(id: string, timeConfig: TimeConfig): Observable<Result<BusinessProcessItem>> {
   // Have to use the endpoint to fetch ONE process instead of
   // getBusinessProcesses that fetches an ARRAY of processes due
   // to how the StarredItemList works
-  return getBusinessProcess({
-    timeConfig,
-    metrics: { started_processes: started_processes },
+  return getBusinessProcessWithDefaults({
+    timeConfig: { ...timeConfig },
     processDefinitionId: id
   });
 }
