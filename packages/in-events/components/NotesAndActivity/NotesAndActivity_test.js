@@ -8,14 +8,7 @@ import Immutable from 'immutable';
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import {
-  IconButton,
-  CarbonSearch,
-  CarbonInlineLoading,
-  CarbonLayer,
-  PreviewPill,
-  CarbonModal
-} from '@instana/components';
+import { IconButton, CarbonSearch, CarbonInlineLoading, CarbonLayer, CarbonModal } from '@instana/components';
 
 import { CommentInput } from 'in-events/components/NotesAndActivity/components/CommentInput';
 import { QuickActions } from 'in-events/components/NotesAndActivity/components/QuickActions';
@@ -45,7 +38,6 @@ describe('NotesAndActivity', () => {
     const wrapper = shallow(<NotesAndActivity event={event} displayNotes setDisplayNotes={() => {}} />);
 
     expect(wrapper.find(CarbonLayer)).toHaveLength(1);
-    expect(wrapper.find(PreviewPill)).toHaveLength(1);
     expect(wrapper.find(IconButton)).toHaveLength(3);
     expect(wrapper.find(CarbonInlineLoading)).toHaveLength(0);
     expect(wrapper.find(CarbonSearch)).toHaveLength(0);
@@ -84,7 +76,6 @@ describe('NotesAndActivity', () => {
     const wrapper = shallow(<NotesAndActivity event={event} displayNotes setDisplayNotes={() => {}} />);
 
     expect(wrapper.find(CarbonLayer)).toHaveLength(1);
-    expect(wrapper.find(PreviewPill)).toHaveLength(1);
     expect(wrapper.find(IconButton)).toHaveLength(3);
     expect(wrapper.find(CarbonInlineLoading)).toHaveLength(0);
     expect(wrapper.find(CarbonSearch)).toHaveLength(0);

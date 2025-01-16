@@ -669,7 +669,7 @@ module.exports = exports = [
   {
     uiClientKey: 'notesAndActivityEnabled',
     instanaCtlKey: 'feature.incident.notes.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'lastValueForNonTimeSeriesWidgetEnabled',
@@ -714,7 +714,7 @@ module.exports = exports = [
   {
     uiClientKey: 'serviceNowAdvancedEnabled',
     instanaCtlKey: 'feature.service.now.advanced.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonTabsEnabled',

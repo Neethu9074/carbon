@@ -13,6 +13,7 @@ import { generateUniqueShortId } from '@instana/utils';
 import { serviceNowAdvancedEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import SectionHelp from 'in-settings/components/SectionHelp';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { config } from 'in-services/config';
@@ -51,10 +52,11 @@ const parameters = [
 export default {
   name,
   label,
-  isAlpha: true,
-  isBeta: false,
+  isAlpha: false,
+  isBeta: true,
   testAPI: null,
   active: serviceNowAdvancedEnabled,
+  feedbackLink: 'mailto:instanafeedback@ibm.com',
 
   getParameters() {
     return parameters;
@@ -164,6 +166,9 @@ function Form({ form, onChange }) {
 
   return (
     <fieldset>
+      <FormGroup>
+        <SectionHelp>{t('in-settings:tabs.serviceNowDescription')}</SectionHelp>
+      </FormGroup>
       {form.get('name').map(field => (
         <FormGroup className={block}>
           <Label htmlFor="name" hasError={!field.valid && field.touched}>
