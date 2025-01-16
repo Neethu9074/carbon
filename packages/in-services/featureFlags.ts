@@ -200,6 +200,11 @@ export const infraSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled('infr
 // Full screen design for Log SA
 export const logSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled('logSmartAlertFullScreenDesignEnabled');
 
+// websites SA full screen design
+export const websitesSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
+  'websitesSmartAlertFullScreenDesignEnabled'
+);
+
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
 

@@ -187,5 +187,6 @@ module.exports = {
   accessControlCarbonTable: false,
   prcIssueEnabled: true,
   logSmartAlertFullScreenDesignEnabled: false,
+  websitesSmartAlertFullScreenDesignEnabled: false,
   prometheusDeltaCountersSumEnabled: true
 };

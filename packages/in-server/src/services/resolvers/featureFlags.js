@@ -843,7 +843,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'infraSmartAlertFullScreenDesignEnabled',
-    instanaCtlKey: 'feature.infra.Smart.alert.full.screen.design.enabled',
+    instanaCtlKey: 'feature.infra.smart.alert.full.screen.design.enabled',
     defaultValue: false
   },
   {
@@ -894,6 +894,11 @@ module.exports = exports = [
   {
     uiClientKey: 'accessControlCarbonTable',
     instanaCtlKey: 'feature.accessControl.carbonTable.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'websitesSmartAlertFullScreenDesignEnabled',
+    instanaCtlKey: 'feature.websites.smart.alert.full.screen.design.enabled',
     defaultValue: false
   }
 ];
