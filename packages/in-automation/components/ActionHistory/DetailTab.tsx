@@ -189,6 +189,7 @@ export default function DetailTab({
             {refSetter => (
               <span ref={refSetter}>
                 <IconButton
+                  className={locals.copyIcon}
                   color="var(--cds-link-primary)"
                   onClick={stopPropagationAndPreventDefault}
                   type="lib_actions_copy"

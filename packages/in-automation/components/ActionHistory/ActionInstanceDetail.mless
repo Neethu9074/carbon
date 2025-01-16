@@ -101,9 +101,9 @@
   .actionInstanceIdContent {
     .actionInstanceId {
       position: relative;
-      button {
-        bottom: 6px;
-      }
+    }
+    .copyIcon {
+      bottom: 6px;
     }
   }
   dd {
