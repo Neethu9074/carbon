@@ -47,10 +47,8 @@ export default function DatasetsConfigurator({
   const sortingField = form.get(sortingFieldName)?.value;
   const shouldDisplayDataset = metricsFormSize < maxLength;
 
-  // Store the previous form state in order to show the error message when having duplicated metrics.
-  // It's necessary, since the last metric added is removed from the form, so it needs to access the previous state to show the error message.
   const previousMetricsForm = usePrevious(metricsForm);
-  const hasErrors = previousMetricsForm?.messages?.length > 0;
+  const hasErrors = metricsForm?.messages?.length > 0;
 
   const metricFormField = createMetricForm(null, {
     withLabelConfiguration: true,
@@ -65,7 +63,6 @@ export default function DatasetsConfigurator({
   const previousMetrics = getMetrics(previousMetricsForm);
   const currentMetrics = getMetrics(metricsForm);
   const indexOfMetricThatHasChanged = getMetricIndexChanged(previousMetrics, currentMetrics);
-
   const isDefaultSorting = isEqual(sortingField, defaultOrder);
   const hasDifferentMetrics = indexOfMetricThatHasChanged > -1;
   const currentOrderByIsEqualPreviousMetricLabel = sortingField?.by === previousMetrics[indexOfMetricThatHasChanged];
@@ -97,19 +94,6 @@ export default function DatasetsConfigurator({
     []
   );
 
-  useEffect(() => {
-    const hasErrors = metricsForm.messages.length > 0;
-
-    // In case duplicated metrics, remove the last one
-    if (hasErrors) {
-      onChange([datasets, metricsPath], field => {
-        // @ts-expect-error
-        return field.remove(metricsFormSize - 1);
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [metricsForm.messages.length, metricsFormSize, onChange]);
-
   const handleAutoOpen = (itemIndex: number, callback: () => void) => {
     autoOpen(datasets, itemIndex);
     // @ts-expect-error
@@ -120,7 +104,7 @@ export default function DatasetsConfigurator({
     <Stack gap="normal">
       <Header>{t('in-custom-dashboards:widgets.table.form.infrastructure.datasets')}</Header>
 
-      {hasErrors && <TouchedMessages field={previousMetricsForm} />}
+      {hasErrors && <TouchedMessages field={metricsForm} />}
 
       <Ul>
         <DatasetsColumn

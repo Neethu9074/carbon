@@ -113,14 +113,19 @@ export function Reorderer({ form, onChange, children }) {
         updateForm(
           form.updateIn([], form => {
             const metric = form.getIn([e.source.droppableId, metricsPath, e.source.index]);
-            const formatterSource = form.getIn([e.source.droppableId, formatterPath])?.value;
-
-            return form
+            form = form
               .updateIn([e.source.droppableId, metricsPath], f => f.remove(e.source.index).setTouched(true))
               .updateIn([e.destination.droppableId, metricsPath], f =>
                 f.insert(e.destination.index, metric).setTouched(true)
-              )
-              .updateIn([e.destination.droppableId, formatterPath], f => f.setValue(formatterSource).setTouched(true));
+              );
+
+            if (form.containsKey(formatterPath)) {
+              const formatterSource = form.getIn([e.source.droppableId, formatterPath])?.value;
+              form = form.updateIn([e.destination.droppableId, formatterPath], f =>
+                f.setValue(formatterSource).setTouched(true)
+              );
+            }
+            return form;
           })
         );
       }}

@@ -52,6 +52,7 @@ import {
   playWithReleaseEnabled,
   tenantSwitcherEnabled,
   userProfileMenuEnabled,
+  vulnerabilityCenterEnabled,
   welcomePageV2Enabled
 } from 'in-services/featureFlags';
 import {
@@ -460,6 +461,10 @@ function Analyze() {
 function VulnerabilityCenter() {
   const { createHrefToPath, matchLocation } = useNavigation();
   const { trackVulnerabilitiesInNavigation } = useVulnerabilityTracker();
+
+  if (!vulnerabilityCenterEnabled) {
+    return null;
+  }
 
   return (
     <MenuItem
