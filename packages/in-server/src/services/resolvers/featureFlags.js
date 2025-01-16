@@ -126,6 +126,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'vulnerabilityCenterEnabled',
+    instanaCtlKey: 'feature.vulnerabilityCenter.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'routeIdOverPathTplEnabled',
     instanaCtlKey: 'feature.route.id.over.path.tpl.enabled',
     defaultValue: false

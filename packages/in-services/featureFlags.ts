@@ -24,6 +24,7 @@ export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabl
 export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitoringIssuesEnabled');
 export const cveIssueEnabled = isFeatureFlagEnabled('cveIssueEnabled');
 export const prcIssueEnabled = isFeatureFlagEnabled('prcIssueEnabled');
+export const vulnerabilityCenterEnabled = isFeatureFlagEnabled('vulnerabilityCenterEnabled');
 export const skipOnboardingDialog = isFeatureFlagEnabled('skipOnboardingDialog');
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
 export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEnabled');
