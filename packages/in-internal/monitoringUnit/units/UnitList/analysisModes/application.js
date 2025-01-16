@@ -56,6 +56,24 @@ export default {
       }
     },
     {
+      id: 'spanDroppingTotal',
+      title: t('in-internal:monitoringUnit.units.application.backendTotalDropSpans'),
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.id;
+        },
+        getMetricName() {
+          return 'appdata-processor.spanDroppingTotal';
+        },
+        getContent: percentage.detailed,
+        getTimeWindowAggregation(row) {
+          return row.metricAggregation;
+        },
+        forceTimeWindowAggregation: true
+      }
+    },
+    {
       id: 'processedSpans',
       title: t('in-internal:monitoringUnit.units.application.processSpan'),
       type: 'metric',
@@ -247,8 +265,11 @@ export default {
               min: 0,
               max: 1,
               formatter: percentage.detailed,
-              metrics: [`appdata-processor.spanDropping`],
-              labels: [t('in-internal:monitoringUnit.units.application.dropRate')],
+              metrics: [`appdata-processor.spanDropping`, `appdata-processor.spanDroppingTotal`],
+              labels: [
+                t('in-internal:monitoringUnit.units.application.dropRate'),
+                t('in-internal:monitoringUnit.units.application.totalDropRate')
+              ],
               type: 'line'
             }}
             y2={{
