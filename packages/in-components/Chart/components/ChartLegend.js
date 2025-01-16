@@ -53,8 +53,8 @@ export default function ChartLegend({ chart, onLegendItemToggle, facets, formMod
 ChartLegend.propTypes = {
   chart: rpt.object.isRequired,
   onLegendItemToggle: rpt.func,
-  facets: rpt.object.isRequired,
-  formModel: rpt.object.isRequired
+  facets: rpt.object,
+  formModel: rpt.array
 };
 
 /**
@@ -67,8 +67,8 @@ ChartLegend.propTypes = {
  * @param {Object} chart
  * @param {String} axisName
  * @param {Function} onToggle
- * @param facets
- * @param formModel
+ * @param {Object} facets
+ * @param {Object[]} formModel
  */
 function getLabelsMapFromAxis(
   axis,
