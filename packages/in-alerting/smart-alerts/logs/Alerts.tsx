@@ -21,12 +21,12 @@ import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/logs/api/
 import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import StatusColumnCell from 'in-alerting/smart-alerts/components/list/StatusColumnCell';
 import { actionHandlers } from 'in-alerting/smart-alerts/logs/lists/ListActionHandlers';
+import { CreateSmartAlertButton } from 'in-alerting/smart-alerts/logs/CreateSmartAlert';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import LogsAlertsTabHeader from 'in-alerting/smart-alerts/logs/LogsAlertsTabHeader';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import CreateSmartAlert from 'in-alerting/smart-alerts/logs/CreateSmartAlert';
 import { sortOptions } from 'in-alerting/smart-alerts/logs/lists/constants';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import ScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
@@ -62,11 +62,7 @@ export default function Alerts({ isLogsDashboardHeader = false }) {
             carbonActionHandlers={handlers}
             getNameSubtitle={() => getLogSubtitle(t('in-alerting:smartAlerts.logs.logCount'))}
             displayCarbonTable={displayCarbonTable}
-            toolBarContent={
-              role?.canConfigureGlobalLogSmartAlerts ? (
-                <CreateSmartAlert isCarbonTableView={displayCarbonTable} />
-              ) : undefined
-            }
+            toolBarContent={role?.canConfigureGlobalLogSmartAlerts ? <CreateSmartAlertButton /> : undefined}
             noDataHeader={t('in-alerting:smartAlerts.logs.list.noDataHeader')}
             noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.logs.list.noDataDescription" />}
           />
