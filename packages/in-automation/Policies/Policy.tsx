@@ -6,38 +6,34 @@
 
 import React from 'react';
 
-import { Action, Error, Policy, Result } from '@instana/types';
+import { Action, Error, Result } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { PolicyFormBody, PolicyFormFooter, PolicyFormHeader } from 'in-automation/Policies/PolicyForm';
-import { getPolicyActionFromActions, getPolicyTriggerFromTriggers } from 'in-automation/utils/policy';
-import usePolicyForm, { getPolicyFromForm, PolicyForm } from 'in-automation/Policies/usePolicyForm';
 import useNavigateToPolicies from 'in-automation/navigation/hooks/useNavigateToPolicies';
-import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
+import usePolicyDetailsUrlParams from 'in-automation/Policies/usePolicyDetailsUrlParams';
+import usePolicyFormSubmission from 'in-automation/Policies/usePolicyFormSubmission';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import usePolicyForm from 'in-automation/Policies/usePolicyForm/usePolicyForm';
 import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import { getActions, saveNewPolicy, savePolicy } from 'in-automation/api';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { isAutomatic, isManual } from 'in-automation/utils/policy';
+import { PolicyForm } from 'in-automation/Policies/usePolicyForm/types';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { PolicyFormEntity } from 'in-automation/Policies/types';
 import { hasError, isLoading } from 'in-services/util/result';
 import SectionLine from 'in-settings/components/SectionLine';
 import useTriggers from 'in-automation/Policies/useTriggers';
-import { isAIActionCopy } from 'in-automation/utils/action';
-import useFormSubmission from 'in-hooks/useFormSubmission';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { useSegmentTracker } from 'in-automation/tracker';
 import usePolicy from 'in-automation/Policies/usePolicy';
 import { pendingResult } from 'in-services/fixedObjects';
 import Form from 'in-components/form/binding/Form';
 import { seconds } from 'in-services/time/time';
-import useUrlState from 'in-hooks/useUrlState';
+import { getActions } from 'in-automation/api';
 import { Triggers } from 'in-automation/types';
 import Title from 'in-components/Title/Title';
 import { Trans, t } from 'in-i18n';
@@ -58,25 +54,11 @@ function useActions() {
   return useObservable(getActions, []) ?? (pendingResult as Result<Action[]>);
 }
 
-function usePolicyDetailsUrlParams() {
-  const [{ id, op }] = useUrlState<{ id?: string; op: 'copy' | null }>({
-    bind: [policyDetailsUrlParameters.id, policyDetailsUrlParameters.op]
-  });
-  const isCopy = op === 'copy';
-  const isCreate = !id;
-  const isNew = isCreate || isCopy;
-  return {
-    id: id ?? null,
-    isNew,
-    isCopy
-  };
-}
-
 function PolicyDetailsLoader() {
-  const { id, isNew, isCopy } = usePolicyDetailsUrlParams();
+  const { id, isCopy } = usePolicyDetailsUrlParams();
   const actions = useActions();
   const triggers = useTriggers();
-  const policy = usePolicy(id, isCopy);
+  const policy = usePolicy({ id, isCopy });
 
   const loading = isLoading(policy, actions, ...Object.values(triggers));
   const errored = hasError(policy, actions);
@@ -102,90 +84,44 @@ function PolicyDetailsLoader() {
     );
   }
 
-  return (
-    <PolicyDetails
-      key={String(isCopy)}
-      isNew={isNew}
-      actions={actions.data!}
-      triggers={triggers}
-      policy={policy.data!}
-    />
-  );
-}
-
-interface SubmitPayload {
-  form: PolicyForm;
-  triggers: Triggers;
-  actions: Action[];
-}
-
-function usePolicyFormSubmission() {
-  const { createPolicyTrackerSegment, editPolicyTrackerSegment } = useSegmentTracker();
-  const { id, isNew } = usePolicyDetailsUrlParams();
-
-  return useFormSubmission<SubmitPayload, Policy>(({ form, triggers, actions }) => {
-    const policy = getPolicyFromForm(form);
-    const selectedAction = getPolicyActionFromActions(actions, policy)!;
-    const trigger = getPolicyTriggerFromTriggers(triggers, policy);
-    const trackerDetailsSegment = {
-      actionName: selectedAction.name,
-      actionType: selectedAction.type,
-      policyName: policy.name,
-      policyType: isManual(policy) && isAutomatic(policy) ? 'both' : isManual(policy) ? 'manual' : 'automatic',
-      aiOriginated: isAIActionCopy(selectedAction) ? true : false,
-      triggerName: trigger?.name
-    };
-
-    if (isNew) {
-      createPolicyTrackerSegment(trackerDetailsSegment);
-
-      return saveNewPolicy(policy);
-    } else {
-      editPolicyTrackerSegment(trackerDetailsSegment);
-
-      return savePolicy(policy, id!);
-    }
-  });
+  return <PolicyDetails key={String(isCopy)} actions={actions.data!} triggers={triggers} policy={policy.data!} />;
 }
 
 interface PolicyDetailsProps {
-  isNew: boolean;
   policy: PolicyFormEntity;
   actions: Action[];
   triggers: Triggers;
 }
 
-function PolicyDetails({ isNew, actions, triggers, policy }: PolicyDetailsProps) {
+function PolicyDetails({ actions, triggers, policy }: PolicyDetailsProps) {
+  const { isNew } = usePolicyDetailsUrlParams();
   const navigateToPolicies = useNavigateToPolicies();
   const [form, setForm] = usePolicyForm(policy, actions, triggers);
 
   const [submitStatus, doSubmit] = usePolicyFormSubmission();
 
+  function onSubmit(form: PolicyForm) {
+    const name = form.get('name').value;
+    doSubmit({
+      payload: { form, triggers, actions },
+      onError: res => {
+        if (isNew) onSaveFailure(res?.errors);
+        else onEditFailure(res?.errors);
+      },
+      onSuccess: () => {
+        if (isNew) onSaveSuccess(name);
+        else onEditSuccess(name);
+        navigateToPolicies();
+      }
+    });
+  }
+
   return (
-    <Form
-      form={form}
-      setForm={form => setForm(form as PolicyForm)}
-      onSubmit={form => {
-        form = form as PolicyForm;
-        const name = form.get('name').value;
-        doSubmit({
-          payload: { form, triggers, actions },
-          onError: res => {
-            if (isNew) onSaveFailure(res?.errors);
-            else onEditFailure(res?.errors);
-          },
-          onSuccess: () => {
-            if (isNew) onSaveSuccess(name);
-            else onEditSuccess(name);
-            navigateToPolicies();
-          }
-        });
-      }}
-    >
-      <PolicyFormHeader isNew={isNew} policy={policy} />
+    <Form form={form} setForm={form => setForm(form as PolicyForm)} onSubmit={form => onSubmit(form as PolicyForm)}>
+      <PolicyFormHeader policy={policy} />
       <SectionLine />
-      <PolicyFormBody form={form} setForm={setForm} actions={actions} triggers={triggers} />
-      <PolicyFormFooter isNew={isNew} form={form} submitStatus={submitStatus} />
+      <PolicyFormBody actions={actions} triggers={triggers} />
+      <PolicyFormFooter submitStatus={submitStatus} />
     </Form>
   );
 }

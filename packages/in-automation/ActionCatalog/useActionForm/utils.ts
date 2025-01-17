@@ -67,6 +67,7 @@ function getAuthenFromForm(form: ActionForm) {
     type: AUTH_TYPE.NO_AUTH
   } as NoAuth;
 }
+
 export function getActionFromForm(form: ActionForm, action?: ActionFormEntity): NewAction {
   const name = form.get('name').value;
   const description = form.get('description').value;
@@ -89,7 +90,7 @@ export function getActionFromForm(form: ActionForm, action?: ActionFormEntity): 
       const acceptLanguage = form.get('acceptLanguage').value;
       const contentType = form.get('contentType').value;
       const additionalHeaders = form.get('additionalHeaders').value;
-      const body = form.get('body').value;
+      const body = form.get('httpBody').value;
       const ignoreCertErrors = form.get('ignoreCertErrors').value;
       const authen = getAuthenFromForm(form);
 

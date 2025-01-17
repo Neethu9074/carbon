@@ -74,6 +74,7 @@ function createActionFormFromForm(form: ActionForm, actionFilter: 'all' | Action
   const projectField = form.get('project');
   const methodField = form.get('method');
   const hostField = form.get('host');
+  const httpBodyField = form.get('httpBody');
   const ignoreCertErrorsField = form.get('ignoreCertErrors');
   const authTypeField = form.get('authType');
   const contentTypeField = form.get('contentType');
@@ -204,7 +205,10 @@ function createActionFormFromForm(form: ActionForm, actionFilter: 'all' | Action
         validator: validatorWrapper(ACTION_TYPE.JIRA, notBlankValidator),
         touched: projectField.touched
       }),
-
+      httpBody: createField({
+        value: httpBodyField.value,
+        touched: httpBodyField.touched
+      }),
       method: createField({
         value: methodField.value,
         validator: validatorWrapper(ACTION_TYPE.HTTP, notBlankValidator),
@@ -316,8 +320,7 @@ function createActionFormFromAction(action: ActionFormEntity, actionFilter: 'all
   const { issue_type } = getGitlabOpenTicketFields(action);
   const { project } = getJiraFields(action);
   const { summary, assignee } = getJiraOpenTicketFields(action);
-  // TODO: body
-  const { method, host, headerParsed, ignoreCertErrors, authenParsed } = getWebhookFields(action);
+  const { method, host, headerParsed, ignoreCertErrors, authenParsed, body: httpBody } = getWebhookFields(action);
   const {
     'Content-Type': contentType,
     Accept: accept,
@@ -423,6 +426,9 @@ function createActionFormFromAction(action: ActionFormEntity, actionFilter: 'all
       project: createField({
         value: project.value,
         validator: validatorWrapper(ACTION_TYPE.JIRA, notBlankValidator)
+      }),
+      httpBody: createField({
+        value: httpBody.value
       }),
       method: createField({
         value: method.value
@@ -582,7 +588,9 @@ function createDefaultActionForm(actionFilter: 'all' | ActionFilter): ActionForm
         value: '',
         validator: validatorWrapper([ACTION_TYPE.JIRA, ACTION_TYPE.JIRA], notBlankValidator)
       }),
-
+      httpBody: createField({
+        value: ''
+      }),
       method: createField({
         value: 'GET'
       }),
@@ -654,8 +662,7 @@ interface UseActionFormParams {
   action?: ActionFormEntity;
   actionFilter: 'all' | ActionFilter;
 }
-//TODO: remove ID param when open ticket selected
-// and add in cases when it makes sense
+
 export default function useActionForm({ action, actionFilter }: UseActionFormParams) {
   const [form, setForm] = useState(createActionForm({ action, actionFilter }));
   function updateForm(setStateAction: React.SetStateAction<ActionForm>) {

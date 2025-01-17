@@ -29,6 +29,7 @@ type ActionFormItems = {
   manualContent: Field<string>;
   script: Field<string>;
   subtype: Field<string>;
+  httpBody: Field<string>;
   method: Field<string>;
   body: Field<string>;
   host: Field<string>;

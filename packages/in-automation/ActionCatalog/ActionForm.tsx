@@ -1086,7 +1086,7 @@ function WebhookSection() {
   const host = form.get('host');
   const method = form.get('method');
   const accept = form.get('accept');
-  const body = form.get('body');
+  const body = form.get('httpBody');
   const acceptLanguage = form.get('acceptLanguage');
   const contentType = form.get('contentType');
   const ignoreCertErrors = form.get('ignoreCertErrors');
@@ -1181,7 +1181,7 @@ function WebhookSection() {
                 disabled={isNotEditable}
                 onChange={e =>
                   setForm(form =>
-                    form.updateIn(['body'], item =>
+                    form.updateIn(['httpBody'], item =>
                       item.setValue((e.target as HTMLTextAreaElement).value).setTouched(true)
                     )
                   )
