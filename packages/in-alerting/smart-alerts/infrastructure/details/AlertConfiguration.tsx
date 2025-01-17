@@ -26,6 +26,7 @@ import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/infrastructure/details/AlertThresholdInfos';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { InfraMetricChart } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart';
+import GracePeriodDescription from 'in-alerting/smart-alerts/components/dialog/GracePeriodDescription';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
@@ -66,6 +67,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   const {
     timeThreshold,
     granularity,
+    gracePeriod,
     alertChannelIds,
     alertChannels,
     tagFilterExpression,
@@ -192,6 +194,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         darkFrame
       >
         <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
+        <GracePeriodDescription gracePeriod={gracePeriod} />
         <ForecastAlertingDescription forecastingConfig={forecastingConfig} />
       </ExpandableLightCard>
       <ExpandableLightCard

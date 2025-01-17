@@ -18,6 +18,7 @@ import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-aler
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import GracePeriodDescription from 'in-alerting/smart-alerts/components/dialog/GracePeriodDescription';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/websites/details/AlertThresholdInfos';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
@@ -45,6 +46,7 @@ export default function AlertConfiguration({ alertConfig }) {
     threshold,
     timeThreshold,
     granularity,
+    gracePeriod,
     alertChannelIds,
     tagFilterExpression,
     websiteId,
@@ -147,6 +149,7 @@ export default function AlertConfiguration({ alertConfig }) {
         darkFrame
       >
         <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
+        <GracePeriodDescription gracePeriod={gracePeriod} />
       </ExpandableLightCard>
 
       <ExpandableLightCard

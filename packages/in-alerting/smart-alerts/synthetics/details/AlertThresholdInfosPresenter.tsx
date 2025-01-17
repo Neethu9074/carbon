@@ -16,9 +16,10 @@ interface Props {
   thresholdTypeLabel: string;
   metricLabel: string;
   scopeLabel: string;
+  gracePeriod?: string;
 }
 
-export const AlertThresholdInfosPresenter = ({ thresholdTypeLabel, metricLabel, scopeLabel }: Props) => {
+export const AlertThresholdInfosPresenter = ({ thresholdTypeLabel, metricLabel, scopeLabel, gracePeriod }: Props) => {
   return (
     <div className={locals.tilesRow}>
       <div className={locals.tile}>
@@ -45,6 +46,16 @@ export const AlertThresholdInfosPresenter = ({ thresholdTypeLabel, metricLabel, 
           multilineLabel
         />
       </div>
+      {gracePeriod && (
+        <div className={locals.tile}>
+          <KeyValue
+            label={t('in-alerting:smartAlerts.synthetics.details.gracePeriod')}
+            value={gracePeriod}
+            className={locals.keyValueExtraGap}
+            multilineLabel
+          />
+        </div>
+      )}
     </div>
   );
 };

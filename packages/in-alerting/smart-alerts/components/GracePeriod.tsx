@@ -23,8 +23,8 @@ interface GracePeriodProps {
 
 export default function GracePeriod({ form, updateForm }: GracePeriodProps) {
   const gracePeriod = form.get('gracePeriod').value;
-  const granularity = form.get('granularity').value;
-  const gracePeriodOptions: DropdownItem[] = generateGracePeriodOptions(granularity);
+  const granularity = form?.get('granularity')?.value;
+  const gracePeriodOptions: DropdownItem[] = generateGracePeriodOptions(granularity ?? 60000);
 
   const handleGracePeriodChange = (event: { selectedItem: DropdownItem }) => {
     const newValue = event.selectedItem.value;

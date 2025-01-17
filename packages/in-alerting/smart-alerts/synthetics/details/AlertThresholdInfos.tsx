@@ -13,12 +13,14 @@ import { t } from 'in-i18n';
 export const AlertThresholdInfos = ({ thresholdInfos }: { thresholdInfos: AlertThresholdInfosProps }) => {
   const thresholdTypeLabel = thresholdInfos.thresholdType;
   const metricWithThresholdLabel = thresholdInfos.failureThreshold;
+  const gracePeriod = thresholdInfos.gracePeriod;
 
   return (
     <AlertThresholdInfosPresenter
       thresholdTypeLabel={thresholdTypeLabel}
       metricLabel={metricWithThresholdLabel}
       scopeLabel={t('in-alerting:smartAlerts.synthetics.details.scope.perLocation.shortText')}
+      gracePeriod={gracePeriod}
     />
   );
 };

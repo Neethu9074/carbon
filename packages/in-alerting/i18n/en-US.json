@@ -990,7 +990,8 @@
       "gracePeriod": {
         "title": "Grace period (optional)",
         "description": "Automatically close an issue after the violation threshold is no longer met for:",
-        "label": "Select"
+        "label": "Select",
+        "summary": "Automatically close an issue after the violation threshold is no longer met <strong>for {{gracePeriodValue}}</strong>."
       },
       "tearSheet": {
         "cancelModalTitle": "Are you sure you want to cancel?",
@@ -1256,6 +1257,8 @@
         "alertConfigurationTitleAlertChannels": "Alert channels",
         "alertConfigurationTitleAlertProperties": "Alert properties",
         "failureThreshold": "{{failureCount}} failures",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "Grace period",
         "alertConfigurationTitleScope": "Scope",
         "noOfFailure": "Number of failure",
         "timeThreshold": "Time threshold",

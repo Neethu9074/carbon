@@ -13,6 +13,7 @@ import { getQueryBuilder, getGroupByQueryBuilder } from 'in-alerting/smart-alert
 import { logsGroupbyTag, toUIGrouping } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import GracePeriodDescription from 'in-alerting/smart-alerts/components/dialog/GracePeriodDescription';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/logs/details/AlertThresholdInfos';
@@ -41,8 +42,16 @@ export const selectedMetricGroup$ = create().emit(null);
 export type Tags = { [index: string]: any };
 
 export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAlertConfigWithMetadata }) {
-  const { timeThreshold, threshold, granularity, groupBy, customPayloadFields, tagFilterExpression, alertChannelIds } =
-    alertConfig;
+  const {
+    timeThreshold,
+    threshold,
+    granularity,
+    gracePeriod,
+    groupBy,
+    customPayloadFields,
+    tagFilterExpression,
+    alertChannelIds
+  } = alertConfig;
   const tagCatalog = useTagCatalog('SMART_ALERTS');
   //@ts-expect-error TODO : remove expect error once typedefinition updated with this usecase.
   const groupByTagCatalog = useTagCatalog('SMART_ALERTS_GROUPING');
@@ -144,6 +153,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
         darkFrame
       >
         <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
+        <GracePeriodDescription gracePeriod={gracePeriod} />
       </ExpandableLightCard>
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.logs.alertDetails.alertConfigurationTitleAlertChannels')}

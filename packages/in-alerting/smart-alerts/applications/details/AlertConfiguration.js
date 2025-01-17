@@ -24,6 +24,7 @@ import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/applications/details/AlertThresholdInfos';
+import GracePeriodDescription from 'in-alerting/smart-alerts/components/dialog/GracePeriodDescription';
 import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';
 import getServicesCursorPaginated from 'in-applications/subscriptions/getServicesCursorPaginated';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
@@ -54,6 +55,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
   const {
     name,
     evaluationType,
+    gracePeriod,
     timeThreshold,
     alertChannelIds,
     alertChannels,
@@ -158,6 +160,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
         darkFrame
       >
         <TimeThresholdDescription timeThreshold={timeThreshold} />
+        <GracePeriodDescription gracePeriod={gracePeriod} />
       </ExpandableLightCard>
 
       <ExpandableLightCard
