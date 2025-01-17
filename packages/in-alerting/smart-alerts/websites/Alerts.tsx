@@ -78,7 +78,6 @@ export default function Alerts({ websiteId, websiteLabel }: { websiteId: string;
               tagFilters={websiteData.tagFilters}
               timeConfig={websiteData.timeConfig}
               location={websiteData.location}
-              isCarbonTableView={smartAlertCarbonTableEnabled}
             />
           ) : undefined
         }
