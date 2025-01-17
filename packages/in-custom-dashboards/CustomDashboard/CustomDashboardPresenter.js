@@ -6,7 +6,12 @@
 import { uniqBy } from 'lodash';
 import React from 'react';
 
-import { HorizontalIndicator, Button } from '@instana/components';
+import {
+  HorizontalIndicator,
+  Button,
+  CarbonOverflowMenu as OverflowMenu,
+  CarbonOverflowMenuItem as OverflowMenuItem
+} from '@instana/components';
 
 import {
   customDashboardTopLevelFiltersEnabled,
@@ -18,13 +23,12 @@ import { FastQueryModeToggle } from 'in-custom-dashboards/CustomDashboard/FastQu
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
 import TopLevelFilterBar from 'in-custom-dashboards/CustomDashboard/FilterContext/TopLevelFilterBar';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-import { MoreMenu, MoreMenuButton, MoreMenuSetAsLandingPageButton } from 'in-components/MoreMenu';
 import { FilterContext } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 import DashboardErroneousResultPresenter from 'in-components/DashboardErroneousResultPresenter';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
-import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import { dashboardTvModeUrlParameter } from 'in-custom-dashboards/navigation/url';
+import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
@@ -35,7 +39,6 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import { playwithEnabled } from 'in-services/featureFlags';
 import SaveButton from 'in-components/form/SaveButton';
 import WithTvMode from 'in-components/WithTvMode';
-import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
@@ -121,7 +124,6 @@ export default function CustomDashboardPresenter(props) {
                           <SecondaryButtonLine {...props} setTvModeEnabled={setEnabled} onAddWidget={onAddWidget} />
                         ))
                       }
-                      renderTopLevelButtonLine={config && (() => <TopLevelButtonLine {...props} />)}
                     />
                     {customDashboardTopLevelFiltersEnabled && (
                       <TopLevelFilterBar
@@ -211,7 +213,9 @@ function SecondaryButtonLine({
   editable,
   onEditAsJson,
   onViewAsJson,
-  onCopyAllWidgets
+  onCopyAllWidgets,
+  canCreatePublicCustomDashboards,
+  onShare
 }) {
   return (
     <>
@@ -221,84 +225,92 @@ function SecondaryButtonLine({
           {t('in-custom-dashboards:customDashboard.customDashboardPresenter.addWidget')}
         </Button>
       )}
-
-      <MoreMenu kind="secondaryDarker">
-        <MoreMenuButton icon="lib_actions_maximize" disabled={playwithEnabled} onClick={() => setTvModeEnabled(true)}>
-          {t('in-custom-dashboards:customDashboard.customDashboardPresenter.tvMode')}
-        </MoreMenuButton>
-        <MoreMenuSetAsLandingPageButton
+      <OverflowMenu
+        aria-label={t('in-custom-dashboards:customDashboard.customDashboardPresenter.customDashboardOptions')}
+        flipped
+      >
+        <OverflowMenuItem
+          itemText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.editPermissions')}
+          onClick={canCreatePublicCustomDashboards ? onShare : undefined}
+          disabled={!canCreatePublicCustomDashboards}
+          requireTitle={!canCreatePublicCustomDashboards}
+          title={
+            !canCreatePublicCustomDashboards
+              ? t('in-custom-dashboards:customDashboard.customDashboardPresenter.editOptionTooltip')
+              : undefined
+          }
+        />
+        <OverflowMenuItem
+          itemText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.tvMode')}
+          disabled={playwithEnabled}
+          onClick={() => setTvModeEnabled(true)}
+        />
+        <MenuItemLandingPage
           setLandingPage={() => setLandingPage(customDashboardId)}
           isLandingPage={pageKey => isLandingPage(pageKey, customDashboardId)}
         />
+
         {editable && (
-          <MoreMenuButton icon="lib_actions_edit" onClick={onRenameDashboard}>
-            {t('in-custom-dashboards:customDashboard.customDashboardPresenter.editName')}
-          </MoreMenuButton>
+          <OverflowMenuItem
+            itemText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.editName')}
+            onClick={onRenameDashboard}
+          />
         )}
+
         {editable ? (
-          <MoreMenuButton icon="lib_views_file" onClick={onEditAsJson}>
-            {t('in-custom-dashboards:customDashboard.customDashboardPresenter.editAsJson')}
-          </MoreMenuButton>
+          <OverflowMenuItem
+            itemText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.editAsJson')}
+            onClick={onEditAsJson}
+          />
         ) : (
-          <MoreMenuButton icon="lib_views_file" disabled={playwithEnabled} onClick={onViewAsJson}>
-            {t('in-custom-dashboards:customDashboard.customDashboardPresenter.viewAsJson')}
-          </MoreMenuButton>
+          <OverflowMenuItem
+            itemText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.viewAsJson')}
+            disabled={playwithEnabled}
+            onClick={onViewAsJson}
+          />
         )}
         <CopyToClipboard
           getText={() => onCopyAllWidgets()}
           successText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.copiedAllWidgets')}
         >
           {copyToClipboardRef => (
-            <MoreMenuButton icon="lib_actions_copy" disabled={playwithEnabled} ref={copyToClipboardRef}>
-              {t('in-custom-dashboards:customDashboard.customDashboardPresenter.copyAllWidgets')}
-            </MoreMenuButton>
+            <OverflowMenuItem
+              itemText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.copyAllWidgets')}
+              disabled={playwithEnabled}
+              ref={copyToClipboardRef}
+            />
           )}
         </CopyToClipboard>
         {customDashboardsExportPdfEntireDashboard && (
-          <MoreMenuButton
-            icon="lib_actions_download"
+          <OverflowMenuItem
+            itemText={t('in-custom-dashboards:customDashboard.grid.grid.exportPDF')}
             disabled={playwithEnabled}
             onClick={() => onPDFDashboardDownload(customDashboardId)}
-          >
-            {t('in-custom-dashboards:customDashboard.grid.grid.exportPDF')}
-          </MoreMenuButton>
+          />
         )}
-        <MoreMenuButton icon="lib_group_by" disabled={playwithEnabled} onClick={onDuplicateDashboard}>
-          {t('in-custom-dashboards:customDashboard.customDashboardPresenter.duplicate')}
-        </MoreMenuButton>
+        <OverflowMenuItem
+          itemText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.duplicate')}
+          disabled={playwithEnabled}
+          onClick={onDuplicateDashboard}
+        />
         {editable && (
-          <MoreMenuButton icon="lib_actions_delete" disabled={playwithEnabled} onClick={onDeleteCustomDashboard}>
-            {t('in-custom-dashboards:customDashboard.customDashboardPresenter.delete')}
-          </MoreMenuButton>
+          <OverflowMenuItem
+            itemText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.delete')}
+            disabled={playwithEnabled}
+            onClick={onDeleteCustomDashboard}
+          />
         )}
-      </MoreMenu>
+      </OverflowMenu>
     </>
   );
 }
 
-function TopLevelButtonLine({ editable, onShare, canCreatePublicCustomDashboards }) {
-  if (!editable) {
-    return null;
-  }
-
-  let shareButton = (
-    <DashboardHeaderButton
-      icon="lib_actions_share"
-      onClick={canCreatePublicCustomDashboards ? onShare : undefined}
-      disabled={!canCreatePublicCustomDashboards}
-      className={locals.carbonShare}
-    >
-      {t('in-custom-dashboards:customDashboard.customDashboardPresenter.share')}
-    </DashboardHeaderButton>
+function MenuItemLandingPage({ setLandingPage, isLandingPage }) {
+  return (
+    <SetAsLandingPage isLandingPage={isLandingPage}>
+      {({ isAlreadyLandingPage, label }) =>
+        !isAlreadyLandingPage && <OverflowMenuItem itemText={label} onClick={setLandingPage} />
+      }
+    </SetAsLandingPage>
   );
-
-  if (!canCreatePublicCustomDashboards) {
-    shareButton = (
-      <Tooltip content={t('in-custom-dashboards:customDashboard.customDashboardPresenter.shareButtonTooltip')}>
-        {shareButton}
-      </Tooltip>
-    );
-  }
-
-  return shareButton;
 }

@@ -21,8 +21,8 @@ export default function SharingDialogPresenter(props) {
 
   return (
     <Dialog
-      title={t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.share')}
-      titleIconType="lib_actions_share"
+      title={t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.editPermissions')}
+      titleIconType="lib_actions_settings_view"
       onClose={close}
       className={locals.dialog}
       closeTooltip={t(
