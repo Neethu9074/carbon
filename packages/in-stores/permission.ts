@@ -121,7 +121,8 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS',
   CAN_CREATE_HEAP_DUMP: 'CAN_CREATE_HEAP_DUMP',
   CAN_CREATE_THREAD_DUMP: 'CAN_CREATE_THREAD_DUMP',
-  CAN_MANUALLY_CLOSE_ISSUE: 'CAN_MANUALLY_CLOSE_ISSUE'
+  CAN_MANUALLY_CLOSE_ISSUE: 'CAN_MANUALLY_CLOSE_ISSUE',
+  CAN_INVOKE_ALERT_CHANNEL: 'CAN_INVOKE_ALERT_CHANNEL'
 } as const);
 
 export const InfrastructureCapability = Object.freeze({
@@ -462,6 +463,13 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForApiTokenApi: 'canConfigureGlobalAlertPayload',
     label: t('in-stores:permissionCanConfigureGlobalAlertPayloadLabel'),
     category: t('in-stores:permissionCanConfigureGlobalAlertPayloadCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_INVOKE_ALERT_CHANNEL]: {
+    keyForGroupApi: Capability.CAN_INVOKE_ALERT_CHANNEL,
+    keyForApiTokenApi: 'canInvokeAlertChannel',
+    label: t('in-stores:permissionCanInvokeAlertChannelLabel'),
+    category: t('in-stores:permissionCanInvokeAlertChannelCategory'),
     isOwnerPermission: false
   },
   /* Custom Dashboards */

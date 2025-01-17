@@ -42,6 +42,8 @@
   "permissionCanManuallyCloseIssueLabel": "Manual closure of events",
   "permissionCanManuallyCloseIssueDescription": "Permits closing issues manually",
   "permissionCanManuallyCloseIssueCategory": "Events and Alerts",
+  "permissionCanInvokeAlertChannelLabel": "Invoking an alert channel",
+  "permissionCanInvokeAlertChannelCategory": "Events and Alerts",
   "permissionCanConfigureMaintenanceWindowsLabel": "Configuration of Maintenance Windows",
   "permissionCanConfigureMaintenanceWindowsCategory": "Events and Alerts",
   "permissionCanConfigureApplicationSmartAlertsLabel": "Configuration of Smart Alerts for Application",

@@ -67,6 +67,7 @@ export interface Role {
   canDeleteAutomationActionHistory: boolean;
   canViewAccountAndBillingInformation: boolean;
   canConfigureLogManagement: boolean;
+  canInvokeAlertChannel: boolean;
 }
 
 export interface User {
