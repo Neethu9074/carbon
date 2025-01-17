@@ -5,7 +5,7 @@
 
 import { isEmpty } from 'lodash';
 
-import { DESTINATION, SOURCE } from '../QueryBuilder/tagFilter/entities';
+import { DESTINATION, SOURCE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 
 export function isValid(groupingConfiguration, tagCatalog, disableEntitySelection = false) {

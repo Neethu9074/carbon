@@ -7,7 +7,7 @@ import React from 'react';
 
 import { t } from 'in-i18n';
 
-import locals from './PercentileMarkers.mless';
+import locals from 'in-components/LatencyDistributionBase10Chart/components/PercentileMarkers.mless';
 
 export default function PercentileMarkers({
   percentileBuckets,

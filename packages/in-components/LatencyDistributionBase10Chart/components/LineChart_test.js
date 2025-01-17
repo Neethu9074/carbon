@@ -8,7 +8,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { render } from './LineChart';
+import { render } from 'in-components/LatencyDistributionBase10Chart/components/LineChart';
 
 describe('in-components/LatencyDistributionBase10Chart/components/LineChart', () => {
   it('should catch breaking changes in line.render', () => {

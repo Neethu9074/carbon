@@ -9,7 +9,7 @@ import React from 'react';
 
 import { create } from '@instana/observables';
 
-import WithEmptyStateFallback from './WithEmptyStateFallback';
+import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 
 describe('in-components/WithEmptyStateFallback', () => {
   it('does not render the FallbackComponent if $HasDataToRender has not yet emitted a value', () => {

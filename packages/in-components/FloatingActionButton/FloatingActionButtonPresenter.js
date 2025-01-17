@@ -5,10 +5,10 @@
 
 import React from 'react';
 
-import { floatingActionButtons$ } from './stores/floatingActionButtons';
+import { floatingActionButtons$ } from 'in-components/FloatingActionButton/stores/floatingActionButtons';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from './FloatingActionButtonPresenter.mless';
+import locals from 'in-components/FloatingActionButton/FloatingActionButtonPresenter.mless';
 
 export default connectTo({
   floatingActionButtons: floatingActionButtons$

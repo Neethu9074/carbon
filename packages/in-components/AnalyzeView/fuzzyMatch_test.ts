@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { getFuzzyMatchingRegex } from './fuzzyMatch';
+import { getFuzzyMatchingRegex } from 'in-components/AnalyzeView/fuzzyMatch';
 
 describe('packages/in-components/AnalyzeView/fuzzyMatch.ts', () => {
   it('should return a RegEx where every letter of the input is interleaved with a wildcard', () => {

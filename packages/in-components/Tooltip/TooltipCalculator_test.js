@@ -5,7 +5,7 @@
 
 import { expect } from 'chai';
 
-import TooltipCalculator from './TooltipCalculator';
+import TooltipCalculator from 'in-components/Tooltip/TooltipCalculator';
 
 describe('in-components/TooltipCalculator', () => {
   const bounds = {

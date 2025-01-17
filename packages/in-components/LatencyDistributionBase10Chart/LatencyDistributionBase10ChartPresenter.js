@@ -32,7 +32,7 @@ import { isLoading } from 'in-services/util/result';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
-import locals from './LatencyDistributionBase10ChartPresenter.mless';
+import locals from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10ChartPresenter.mless';
 
 const colorLatency = chartColors.strokeColors100[0];
 const colorLatencyTimeShift = timeShift;

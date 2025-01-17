@@ -7,10 +7,10 @@ import React, { forwardRef, Ref } from 'react';
 
 import { AlertClusterResponse, TimeConfig } from '@instana/types';
 
+import { LaneItemProps, MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
 import { ChartContentPostition } from 'in-components/Chart/types';
-import { LaneItemProps, MarkerLaneEvent } from './MarkerLane';
-import { ScaleType } from 'in-services/scale/scale';
+import { ScaleType } from 'in-services/scale';
 import { Nullish } from 'in-types';
 
 interface IconConfig {

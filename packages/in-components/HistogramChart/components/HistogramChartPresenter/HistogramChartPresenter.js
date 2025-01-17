@@ -30,7 +30,7 @@ import VerticalAxis from 'in-components/Axis/VerticalAxis';
 import { chartColors } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
-import locals from './HistogramChartPresenter.mless';
+import locals from 'in-components/HistogramChart/components/HistogramChartPresenter/HistogramChartPresenter.mless';
 
 export default function HistogramChartPresenter({
   height = 200,

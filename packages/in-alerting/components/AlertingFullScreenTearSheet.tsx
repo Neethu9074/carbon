@@ -50,7 +50,7 @@ interface AlertingFullScreenTearSheetProps {
   setTagFilterValid?: React.Dispatch<React.SetStateAction<boolean>>;
   thresholdResult: Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData> | undefined | null;
   actionButtonLabel: string;
-  productArea: string;
+  productArea?: string;
 }
 
 export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTearSheetProps) {

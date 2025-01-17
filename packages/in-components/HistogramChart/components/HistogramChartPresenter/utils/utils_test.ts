@@ -12,7 +12,7 @@ import {
   groupBinsByFormattedValue,
   isLabelVisible,
   roundUp
-} from './utils';
+} from 'in-components/HistogramChart/components/HistogramChartPresenter/utils/utils';
 import { formatters } from 'in-components/HistogramChart/components/HistogramChartPresenter/utils';
 
 const maxVisibleLabels = 5;

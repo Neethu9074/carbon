@@ -10,7 +10,7 @@ import { Message as CarbonMessage, MessageTypes } from '@instana/components';
 
 import { MessageWithId } from 'in-components/MessageFlyout/stores/messages';
 
-import locals from './Message.mless';
+import locals from 'in-components/MessageFlyout/Message.mless';
 
 interface MessageProps {
   message: MessageWithId;

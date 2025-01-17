@@ -112,6 +112,7 @@ import { isVulnerabilityView, vulnerabilityRoot } from 'in-vulnerability-center/
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { actionCatalogFullyQualified, isAutomationView } from 'in-automation/navigation/paths';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
+import ProfileMenu from 'in-components/MainNavigation/components/ProfileMenu/ProfileMenu';
 import { nutanixClusterListFullyQualified, nutanix } from 'in-nutanix/navigation/paths';
 import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/paths';
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
@@ -132,7 +133,6 @@ import AsyncComponent from 'in-components/AsyncComponent';
 import { eventsPath } from 'in-events/navigation/paths';
 import UserIcon from 'in-components/UserIcon/UserIcon';
 import { all, any } from 'in-services/fixedStreams';
-import ProfileMenu from './ProfileMenu/ProfileMenu';
 import { role, user } from 'in-stores/user';
 import config from 'in-services/config';
 import { t } from 'in-i18n';

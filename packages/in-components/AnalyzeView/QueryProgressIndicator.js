@@ -14,7 +14,7 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { clickhouseTimeoutErrorMessage } from 'in-components/AnalyzeView/utils';
 import { t } from 'in-i18n';
 
-import locals from './QueryProgressIndicator.mless';
+import locals from 'in-components/AnalyzeView/QueryProgressIndicator.mless';
 
 const height = 189;
 const iconSize = 'xl';

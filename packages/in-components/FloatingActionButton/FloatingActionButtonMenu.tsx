@@ -12,7 +12,7 @@ import { SvgIcon } from '@instana/components';
 
 import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
 
-import locals from './FloatingActionButtonMenu.mless';
+import locals from 'in-components/FloatingActionButton/FloatingActionButtonMenu.mless';
 
 export default function FloatingActionButtonMenu({
   children,

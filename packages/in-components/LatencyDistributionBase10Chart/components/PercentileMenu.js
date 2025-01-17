@@ -13,7 +13,7 @@ import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
-import locals from './PercentileMenu.mless';
+import locals from 'in-components/LatencyDistributionBase10Chart/components/PercentileMenu.mless';
 
 export const ALL_PERCENTILES = List.of(50, 90, 95, 99);
 
