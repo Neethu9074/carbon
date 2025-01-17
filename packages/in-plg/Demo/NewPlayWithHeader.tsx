@@ -9,7 +9,7 @@ import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-set
 import classNames from 'classnames';
 import React from 'react';
 
-import { LicenseBannerButton, Typography } from '@instana/components';
+import { CarbonButton, Typography } from '@instana/components';
 
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
@@ -17,6 +17,7 @@ import {
   PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED,
   PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED
 } from 'in-services/tracking/tracking';
+import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -54,7 +55,8 @@ export default function NewPlayWithHeader() {
           {t('in-plg:playwithinstana.content')}?
         </Typography>
       </span>
-      <LicenseBannerButton
+
+      <CarbonButton
         className={classNames(locals.bannerButton)}
         id="free_trial"
         kind="primary"
@@ -63,11 +65,12 @@ export default function NewPlayWithHeader() {
         onClick={() => {
           trackCta(PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED, getPageType(location.pathname));
         }}
-        icon="lib_arrow_up_right"
+        renderIcon={() => <IconForButton icon="lib_arrow_up_right" iconSize="s" />}
       >
         {t('in-plg:playwithinstana.freetrial')}
-      </LicenseBannerButton>
-      <LicenseBannerButton
+      </CarbonButton>
+
+      <CarbonButton
         className={classNames(locals.bannerButton)}
         id="schedule_demo"
         kind="ghost"
@@ -76,32 +79,31 @@ export default function NewPlayWithHeader() {
         onClick={() => {
           trackCta(PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED, getPageType(location.pathname));
         }}
-        icon="lib_demo"
+        renderIcon={() => <IconForButton icon="lib_demo" iconSize="s" />}
       >
         {t('in-plg:playwithinstana.bookdemo')}
-      </LicenseBannerButton>
+      </CarbonButton>
       <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
-        <LicenseBannerButton
+        <CarbonButton
           id="shareButton"
           kind="ghost"
-          icon="lib_actions_share"
-          iconColor="var(--cds-link-primary)"
           target="_blank"
           onClick={() => addActiveDialog(<DeferredShareAndInviteDialogBox />)}
+          renderIcon={() => <IconForButton icon="lib_actions_share" iconSize="s" />}
         >
           {t('in-plg:licenseBanner.share')}
-        </LicenseBannerButton>
+        </CarbonButton>
       </Tooltip>
+
       <div className={locals.verticalLine} />
-      <LicenseBannerButton
+      <CarbonButton
         id="take_tour"
         kind="ghost"
         target="_blank"
-        icon="lib_crossroads"
-        iconColor="var(--cds-link-primary)"
+        renderIcon={() => <IconForButton icon="lib_crossroads" iconSize="s" />}
       >
         {t('in-plg:playwithinstana.taketour')}
-      </LicenseBannerButton>
+      </CarbonButton>
     </div>
   );
 }
