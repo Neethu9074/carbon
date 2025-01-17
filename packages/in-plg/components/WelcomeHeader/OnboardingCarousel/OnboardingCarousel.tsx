@@ -6,12 +6,12 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 
-import { Stack, DashboardButton, SvgIconSizes, Typography } from '@instana/components';
-import { themes } from '@instana/design-tokens';
+import { Stack, Typography, CarbonButton } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { AccountActivationProp } from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
 import OnboardingStepBuilder from 'in-plg/pages/WelcomePage/OnboardingStepBuilder';
+import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 
 import locals from 'in-plg/components/WelcomeHeader/OnboardingCarousel/OnboardingCarousel.mless';
 
@@ -143,47 +143,36 @@ export default function OnboardingCarousel({
         <div className={`${locals.toolbarSection} ${!isExpanded ? locals.expanded : ''}`}>
           <Stack direction="horizontal" align="center" distribution="spaceBetween">
             <Stack align="start">
-              <DashboardButton
+              <CarbonButton
                 kind="ghost"
                 size="sm"
                 className={locals.hideButton}
                 aria-expanded={isExpanded}
-                icon={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-                iconSize={SvgIconSizes.s}
+                renderIcon={() => (
+                  <IconForButton icon={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} iconSize="s" />
+                )}
                 onClick={toggleVisibility}
               >
                 {isExpanded ? collapsibleButton?.hideOnboardingTasks : collapsibleButton?.showOnboardingTasks}
-              </DashboardButton>
+              </CarbonButton>
             </Stack>
             {isExpanded && (
               <Stack direction="horizontal" gap="disabled" distribution="end" align="end">
-                <DashboardButton
+                <CarbonButton
                   kind="ghost"
                   onClick={handleScrollLeft}
-                  iconSize="xs"
-                  ariaLabel="Explore previous tasks"
+                  aria-label="Explore previous tasks"
                   disabled={isLeftDisabled}
-                  icon="lib_arrow_drop_left"
+                  renderIcon={() => <IconForButton icon="lib_arrow_drop_left" iconSize="xs" />}
                   iconDescription="lib_arrow_drop_left"
-                  iconColor={
-                    isLeftDisabled
-                      ? themes.default.ids.color.option.neutral['500']
-                      : themes.default.ids.color.option.black
-                  }
                 />
-                <DashboardButton
+                <CarbonButton
                   kind="ghost"
-                  iconSize="xs"
                   onClick={handleScrollRight}
-                  ariaLabel="Explore next tasks"
+                  aria-label="Explore next tasks"
                   disabled={isRightDisabled}
-                  icon="lib_arrow_drop_right"
+                  renderIcon={() => <IconForButton icon="lib_arrow_drop_right" iconSize="xs" />}
                   iconDescription="lib_arrow_drop_right"
-                  iconColor={
-                    isRightDisabled
-                      ? themes.default.ids.color.option.neutral['500']
-                      : themes.default.ids.color.option.black
-                  }
                 />
               </Stack>
             )}

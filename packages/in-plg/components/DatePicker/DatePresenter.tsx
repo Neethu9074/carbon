@@ -6,10 +6,11 @@
 
 import React from 'react';
 
-import { DashboardButton } from '@instana/components';
+import { CarbonButton } from '@instana/components';
 
 // @ts-expect-error - Could not find a declaration file
 import { timeDisplayBottomFormat, timeDisplayTopFormat } from 'in-components/time/timeframeFormatter';
+import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { TimeConfig } from 'in-types';
 
@@ -28,22 +29,21 @@ type FirstArgumentType<T> = T extends (first: infer ArgType, ...args: any[]) => 
 export default function DatePresenter({ onClick, timeConfig, refSetter }: TimePresenterProps) {
   return (
     <div data-testid="date-presenter-button">
-      <DashboardButton
+      <CarbonButton
         onClick={(e: FirstArgumentType<typeof stopPropagationAndPreventDefault>) => {
           stopPropagationAndPreventDefault(e);
           onClick();
         }}
         ref={refSetter}
-        icon="lib_arrow_drop_down"
+        renderIcon={() => <IconForButton icon="lib_arrow_drop_down" iconSize="xs" />}
         kind="tertiary"
-        iconSize="xs"
         className={locals.carbonTimePicker}
       >
         <div className={locals.carbonDisplayTimeWrapper}>
           <div className={locals.carbonTimeSettingTop}>{timeDisplayTopFormat(timeConfig)}</div>
           <div className={locals.carbonTimeSetting}>{timeDisplayBottomFormat(timeConfig)}</div>
         </div>
-      </DashboardButton>
+      </CarbonButton>
     </div>
   );
 }

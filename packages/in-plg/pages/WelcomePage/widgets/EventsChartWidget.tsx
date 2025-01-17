@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { DashboardButton, DashboardTile, NoDataTile, Stack } from '@instana/components';
+import { CarbonButton, DashboardTile, NoDataTile, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error file needs to be converted
@@ -15,6 +15,7 @@ import ChartWidget from 'in-custom-dashboards/widgets/Chart/Widget';
 import getRawEvents from 'in-subscription/getRawEvents';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
+import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { carbonAlert, outlineForColor } from 'in-themes/chartColors';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TimeConfig } from 'in-types';
@@ -122,19 +123,20 @@ export default function EventsChartWidget({
           </Stack>
         </div>
         <div className={locals.eventsChartBottomSection}>
-          <DashboardButton
+          <CarbonButton
             size="md"
             kind="ghost"
-            iconSize="s"
-            icon="lib_arrow_right"
-            iconStyle={locals.viewAllButtonArrowIcon}
+            className={locals.eventButtonWrapper}
             href={EventsfullListViewHref ? EventsfullListViewHref : '/#/events'}
-            ariaLabel={viewLabel}
+            renderIcon={() => (
+              <IconForButton iconStyle={locals.viewAllButtonArrowIcon} icon="lib_arrow_right" iconSize="s" />
+            )}
+            aria-label={viewLabel}
             iconDescription={viewLabel}
             disabled={isNoDataAvailable}
           >
             {viewLabel}
-          </DashboardButton>
+          </CarbonButton>
         </div>
       </DashboardTile>
     </section>
