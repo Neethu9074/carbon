@@ -65,10 +65,11 @@
 
   .menuClosed {
     max-height: 0px;
+    width: 0;
+    margin: 0;
   }
 
   .dropdown {
-    transition: all ease-in-out 0.25s;
     overflow: hidden;
     bottom: 4rem;
   }
