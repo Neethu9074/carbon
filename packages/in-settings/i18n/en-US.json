@@ -1356,6 +1356,7 @@
     "alertChannelDocumentationMessage": "For more details on setting up this alert channel, <documentationLink>check out our documentation</documentationLink>",
     "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "Ensure that the user access to Instana is disabled in your identity provider.",
     "createIDPConfirmationDescription": "Pending invitations will be deleted. Users are automatically provisioned from your identity provider (IdP).",
+    "deleteIDPConfirmationDescription": "Are you sure to delete the configuration? This might cause existing users loose access and the action cannot be undone.",
     "revokeInvitationForUserWithEmail": "Revoke the invitation to join the {{tenant}} tenant for {{email}}",
     "invitationValidUntil": "Invitation valid until",
     "invitedBy": "Invited by",
