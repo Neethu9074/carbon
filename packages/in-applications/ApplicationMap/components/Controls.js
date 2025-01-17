@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
 import HorizontalControlsPresenter from 'in-components/MapControls/HorizontalControlsPresenter';
@@ -14,7 +16,6 @@ import NodeSizeButton from 'in-applications/ApplicationMap/components/NodeSizeBu
 import ButtonGroup from 'in-components/MapControls/ButtonGroup';
 import Button from 'in-components/MapControls/Button';
 import Tooltip from 'in-components/Tooltip';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 export default function Controls({ serviceLocatorUid, onChangeUrlProperties, result }) {
@@ -30,7 +31,6 @@ export default function Controls({ serviceLocatorUid, onChangeUrlProperties, res
               <NodeSizeButton
                 eventBusServiceLocator={eventBusServiceLocator}
                 onChangeUrlProperties={onChangeUrlProperties}
-                appendLeft
               />
             </div>
           </Tooltip>
@@ -42,7 +42,6 @@ export default function Controls({ serviceLocatorUid, onChangeUrlProperties, res
       <VerticalControlsPresenter position="leftTop">
         <ButtonGroup vertical>
           <LayoutButton
-            appendLeft
             icon="lib_actions_flow_layout"
             eventBusServiceLocator={eventBusServiceLocator}
             layouter="flow"
@@ -50,7 +49,6 @@ export default function Controls({ serviceLocatorUid, onChangeUrlProperties, res
             tooltipLabel={t('in-applications:applicationMap.tooltipLayoutFlow')}
           />
           <LayoutButton
-            appendLeft
             icon="lib_actions_force_layout"
             eventBusServiceLocator={eventBusServiceLocator}
             layouter="force"
@@ -59,27 +57,25 @@ export default function Controls({ serviceLocatorUid, onChangeUrlProperties, res
           />
 
           <ParticlesButton
-            appendLeft
             eventBusServiceLocator={eventBusServiceLocator}
             onChangeUrlProperties={onChangeUrlProperties}
           />
 
           <TrafficButton
-            appendLeft
             eventBusServiceLocator={eventBusServiceLocator}
             onChangeUrlProperties={onChangeUrlProperties}
           />
         </ButtonGroup>
         <ButtonGroup vertical>
           <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipZoomIn')} align={'rightMiddle'}>
-            <Button appendLeft icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
+            <Button icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} appendLeft />
           </Tooltip>
           <Tooltip
             themeStyle="light"
             content={t('in-applications:applicationMap.tooltipZoomOut')}
             align={'rightMiddle'}
           >
-            <Button appendLeft icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
+            <Button icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} appendLeft />
           </Tooltip>
         </ButtonGroup>
       </VerticalControlsPresenter>
@@ -95,60 +91,52 @@ export default function Controls({ serviceLocatorUid, onChangeUrlProperties, res
   }
 }
 
-const ParticlesButton = connectTo(
-  ({ eventBusServiceLocator }) => ({
-    isActive: eventBusServiceLocator.on(SIGNALS.PARTICLES)
-  }),
-  function ParticlesButton({ onChangeUrlProperties, isActive }) {
-    return (
-      <Tooltip
-        themeStyle="light"
-        content={t('in-applications:applicationMap.tooltipSimulateTraffic')}
-        align={'rightMiddle'}
-      >
-        <Button
-          icon="lib_actions_particles"
-          onClick={() => onChangeUrlProperties({ particles: !isActive })}
-          isActive={isActive}
-          appendLeft
-        />
-      </Tooltip>
-    );
-  }
-);
+function ParticlesButton({ eventBusServiceLocator, onChangeUrlProperties }) {
+  const isActive = useObservable(eventBusServiceLocator.on(SIGNALS.PARTICLES), []) ?? false;
+  return (
+    <Tooltip
+      themeStyle="light"
+      content={t('in-applications:applicationMap.tooltipSimulateTraffic')}
+      align={'rightMiddle'}
+    >
+      <Button
+        icon="lib_actions_particles"
+        onClick={() => onChangeUrlProperties({ particles: !isActive })}
+        isActive={isActive}
+        appendLeft
+      />
+    </Tooltip>
+  );
+}
 
-const TrafficButton = connectTo(
-  ({ eventBusServiceLocator }) => ({
-    isActive: eventBusServiceLocator.on(SIGNALS.SHOW_EXTERNAL_TRAFFIC)
-  }),
-  function ParticlesButton({ isActive, onChangeUrlProperties }) {
-    return (
-      <Tooltip
-        themeStyle="light"
-        content={t('in-applications:applicationMap.tooltipToggleServiceOutside')}
-        align={'rightMiddle'}
-      >
-        <Button
-          icon="lib_actions_traffic"
-          onClick={() => onChangeUrlProperties({ traffic: !isActive })}
-          isActive={isActive}
-          appendLeft
-        />
-      </Tooltip>
-    );
-  }
-);
+function TrafficButton({ eventBusServiceLocator, onChangeUrlProperties }) {
+  const isActive = useObservable(eventBusServiceLocator.on(SIGNALS.SHOW_EXTERNAL_TRAFFIC), []) ?? false;
+  return (
+    <Tooltip
+      themeStyle="light"
+      content={t('in-applications:applicationMap.tooltipToggleServiceOutside')}
+      align={'rightMiddle'}
+    >
+      <Button
+        icon="lib_actions_traffic"
+        onClick={() => onChangeUrlProperties({ traffic: !isActive })}
+        isActive={isActive}
+        appendLeft
+      />
+    </Tooltip>
+  );
+}
 
-const LayoutButton = connectTo(
-  ({ eventBusServiceLocator, layouter }) => ({
-    isActive: eventBusServiceLocator.on(SIGNALS.LAYOUTER).map(_layouter => _layouter === layouter)
-  }),
-  function ParticlesButton(props) {
-    const { onChangeUrlProperties, layouter, tooltipLabel } = props;
-    return (
-      <Tooltip themeStyle="light" content={tooltipLabel} align={'rightMiddle'}>
-        <Button {...props} onClick={() => onChangeUrlProperties({ layouter })} />
-      </Tooltip>
-    );
-  }
-);
+function LayoutButton(props) {
+  const { eventBusServiceLocator, layouter, onChangeUrlProperties, tooltipLabel } = props;
+  const isActive =
+    useObservable(
+      eventBusServiceLocator.on(SIGNALS.LAYOUTER).map(_layouter => _layouter === layouter),
+      []
+    ) ?? false;
+  return (
+    <Tooltip themeStyle="light" content={tooltipLabel} align={'rightMiddle'}>
+      <Button {...props} isActive={isActive} onClick={() => onChangeUrlProperties({ layouter })} appendLeft />
+    </Tooltip>
+  );
+}
