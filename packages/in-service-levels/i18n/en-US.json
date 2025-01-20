@@ -355,7 +355,7 @@
             "goodEventFilters": "Good event filters:",
             "badEventFilters": "Bad event filters:"
           },
-          "approximateTooltip": "Data is aggregated. View a shorter time window to see more details"
+          "approximateTooltip": "Threshold breaches may be briefer than the length of time represented by one point on the chart. Zooming in and out can affect the metrics level of detail."
         }
       },
       "entitySection": {
