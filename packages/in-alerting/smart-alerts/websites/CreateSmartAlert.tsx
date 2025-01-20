@@ -45,9 +45,16 @@ interface CreateSmartAlertProps {
   websiteId: string;
   tagFilters: TagFilter[];
   timeConfig: TimeConfig;
+  isListingPage: boolean;
 }
 
-export default function CreateSmartAlert({ location, websiteId, tagFilters, timeConfig }: CreateSmartAlertProps) {
+export default function CreateSmartAlert({
+  location,
+  websiteId,
+  tagFilters,
+  timeConfig,
+  isListingPage
+}: CreateSmartAlertProps) {
   const errorId = getMatrixParameter(location, '/details', 'errorId');
   const customEventName = getMatrixParameter(location, '/details', 'customEventId');
 
@@ -147,6 +154,12 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
     </>
   );
 
+  const renderDialogButton = () => (
+    <Button kind="primaryv2" icon="lib_openclose_add" onClick={() => handleButtonClick(website)} size="xl">
+      {t('in-alerting:smartAlerts.createSmartAlert')}
+    </Button>
+  );
+
   const renderFloatingButton = () => (
     <FloatingActionButton
       icon="lib_alerts_create"
@@ -160,8 +173,12 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
     </FloatingActionButton>
   );
 
-  if (websitesSmartAlertFullScreenDesignEnabled && smartAlertCarbonTableEnabled) {
+  if (websitesSmartAlertFullScreenDesignEnabled && smartAlertCarbonTableEnabled && isListingPage) {
     return renderFullScreenDialog();
+  }
+
+  if (isListingPage) {
+    return renderDialogButton();
   }
 
   if (websitesSmartAlertFullScreenDesignEnabled) {
