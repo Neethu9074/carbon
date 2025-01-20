@@ -71,7 +71,7 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
             })}
             {...remainingInputProps}
             {...getInputProps({ onFocus: openMenu })}
-            autoFocus={autoFocus}
+            autoFocus={autoFocus || isOpen}
           />
         </div>
       </Tooltip>
