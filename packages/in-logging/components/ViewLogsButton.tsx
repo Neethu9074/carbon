@@ -14,9 +14,9 @@ import {
   fromBackendModel,
   joinExpressions
 } from 'in-components/QueryBuilder/transformation/formModel';
+import { TagFilterExpressionElementUnion, UnifiedMetricConfigurationUnion, Grouping } from 'in-types';
 import { isEmptyExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { Config as BigNumberConfig } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { TagFilterExpressionElementUnion, UnifiedMetricConfigurationUnion } from 'in-types';
 import { ANALYZE_CUSTOM_WIDGET_SEE_IN_LOGS_CLICKED } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
@@ -26,12 +26,18 @@ import { t } from 'in-i18n';
 
 type MetricsConfig = ChartConfig | BigNumberConfig<UnifiedMetricConfigurationUnion>;
 
+interface LogMetricsTagExpresionItem {
+  filters: FormModelElement[];
+  groups?: Grouping[];
+}
+
 export function ViewLogsButton({ config, className = '' }: { config: MetricsConfig; className?: string }) {
   const isLogsWidget = containsLogMetrics(config);
 
-  const filters = getLogMetricsTagFilterExpressions(config);
+  const logMetricTagExpressions = getLogMetricsTagExpressions(config);
+  const { filters, groups } = logMetricTagExpressions;
 
-  const link = useLinkToLogs({ tagFilterExpression: filters as FormModelElement[] });
+  const link = useLinkToLogs({ tagFilterExpression: filters as FormModelElement[], groups });
 
   const { trackCta } = useSegmentTracking();
   if (!isLogsWidget) return null;
@@ -67,12 +73,20 @@ function containsLogMetrics(config: MetricsConfig) {
 }
 
 /* Extract tag filters from widget config */
-function getLogMetricsTagFilterExpressions(config: MetricsConfig) {
+function getLogMetricsTagExpressions(config: MetricsConfig): LogMetricsTagExpresionItem {
   const expressions: any[] = [];
+  const grouping: Grouping[] = [];
 
-  const extractExpression = (metric: { source: string; tagFilterExpression: TagFilterExpressionElementUnion }) => {
+  const extractExpression = (metric: {
+    source: string;
+    tagFilterExpression: TagFilterExpressionElementUnion;
+    grouping: Grouping;
+  }) => {
     if (metric.source === 'LOG' && !isEmptyExpression(metric.tagFilterExpression)) {
       expressions.push(metric.tagFilterExpression as FormModelElement);
+    }
+    if (metric.source === 'LOG' && metric.grouping) {
+      grouping.push({ ...metric.grouping });
     }
   };
 
@@ -84,13 +98,18 @@ function getLogMetricsTagFilterExpressions(config: MetricsConfig) {
     }
   });
 
-  if (expressions.length > 1) {
-    return joinExpressions({ expressions, logicalOperator: 'OR' }).flatMap((element: any) =>
-      element.elements ? enclose(fromBackendModel(element)) : [element]
-    );
-  }
+  const filters =
+    expressions.length > 1
+      ? joinExpressions({ expressions, logicalOperator: 'OR' }).flatMap((element: any) =>
+          element.elements ? enclose(fromBackendModel(element)) : [element]
+        )
+      : expressions.length === 1 && (expressions[0]?.type === 'TAG_FILTER' || 'EXPRESSION')
+      ? expressions.flatMap(element => (element.elements ? enclose(fromBackendModel(element)) : [element]))
+      : [];
+  const groups: Grouping[] = grouping.flatMap(item => Object.values(item));
 
-  return expressions.length === 1 && expressions[0]?.type === 'TAG_FILTER'
-    ? expressions.flatMap(element => (element.elements ? enclose(fromBackendModel(element)) : [element]))
-    : [];
+  return {
+    filters,
+    groups
+  };
 }
