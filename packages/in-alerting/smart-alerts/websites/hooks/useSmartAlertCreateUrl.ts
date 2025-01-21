@@ -6,11 +6,22 @@
 
 import { isEmpty } from 'lodash';
 
-import { Result, TagCatalog, TagFilter, WebsiteAlertConfigWithMetadata } from '@instana/types';
+import { Result, TagCatalog, TagFilter } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
+import {
+  alertCreated,
+  isDuplicateMode,
+  isEditMode,
+  alertId,
+  errorMessage as error_message,
+  customEventName as custom_event_name,
+  websiteId as website_id,
+  errorId as error_id,
+  tagFilters as tag_filters
+} from 'in-websites/navigation/matrix';
+import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
-import { alertCreated, isDuplicateMode, isEditMode, alertId } from 'in-websites/navigation/matrix';
 import { generateAlertConfig } from 'in-alerting/smart-alerts/websites/TearSheet/sharedFunctions';
 import { BluePrint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
@@ -77,11 +88,11 @@ function updateCreatePathMatrixParams(
   editMode?: boolean
 ) {
   setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, '');
-  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, 'websiteId', websiteId);
-  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, 'errorId', errorId);
-  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, 'errorMessage', errorMessage);
-  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, 'customEventName', customEventName);
-  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, 'tagFilters', JSON.stringify(tagFilters));
+  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, website_id, websiteId);
+  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, error_id, errorId);
+  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, error_message, errorMessage);
+  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, custom_event_name, customEventName);
+  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, tag_filters, JSON.stringify(tagFilters));
 
   // alert config id
   if (alertConfigId) setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, alertId, String(alertConfigId));
@@ -125,13 +136,12 @@ export function useAlertConfig(
             : []
         );
 
-  //@ts-expect-error //TODO fix
-  const result: Result<WebsiteAlertConfigWithMetadata> | {} = useObservable(() => alertConfig, []) ?? {};
+  const result: Result<WebsiteSmartAlertConfigWithMetadata> | {} = useObservable(() => alertConfig as any, []) ?? {};
 
   return !isEmpty(result)
     ? {
-        alertConfig: (result as Result<WebsiteAlertConfigWithMetadata>).data,
-        alertConfigErrors: (result as Result<WebsiteAlertConfigWithMetadata>).errors
+        alertConfig: (result as Result<WebsiteSmartAlertConfigWithMetadata>).data,
+        alertConfigErrors: (result as Result<WebsiteSmartAlertConfigWithMetadata>).errors
       }
     : {};
 }

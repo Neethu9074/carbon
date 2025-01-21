@@ -37,3 +37,5 @@ export const alertId = 'alertId';
 export const alertCreated = 'alertCreated';
 export const isEditMode = 'isEditMode';
 export const isDuplicateMode = 'isDuplicateMode';
+export const errorMessage = 'errorMessage';
+export const customEventName = 'customEventName';

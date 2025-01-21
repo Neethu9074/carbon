@@ -10,11 +10,11 @@ import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/f
 import { BluePrint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
-import { WebsiteAlertConfigWithMetadata } from 'in-types';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 import { getDefaultRules } from 'in-alerting/smart-alerts/eum/utils/eumCommon';
 import { SlownessWebsiteAlertRule, TagCatalog, TagFilter } from '@instana/types';
+import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 
 const implicitTagFilters = ['beacon.website.id'];
 
@@ -26,8 +26,8 @@ export function getHeaderTitle(editMode: boolean): string {
 }
 
 export function duplicateAlertConfig(
-  config: WebsiteAlertConfigWithMetadata
-): WebsiteAlertConfigWithMetadata & { duplicateFrom?: string } {
+  config: WebsiteSmartAlertConfigWithMetadata
+): WebsiteSmartAlertConfigWithMetadata & { duplicateFrom?: string } {
   return {
     ...config,
     duplicateFrom: config.id,
@@ -83,4 +83,11 @@ export function generateAlertConfig(
     calculateThresholdOnBackend: true,
     rules: getDefaultRules(useBaseline, defaultAlertRule)
   };
+}
+
+export function getButtonLabel(editMode?: boolean): string {
+  if (editMode) {
+    return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave');
+  }
+  return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate');
 }

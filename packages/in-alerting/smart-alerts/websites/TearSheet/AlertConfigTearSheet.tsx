@@ -7,7 +7,7 @@
 import { useMemo, useState } from 'react';
 import React from 'react';
 
-import { TagFilter, WebsiteAlertConfigWithMetadata } from '@instana/types';
+import { TagFilter } from '@instana/types';
 
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import {
@@ -19,6 +19,7 @@ import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/websites
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import getAlertingUrlParameters from 'in-alerting/smart-alerts/websites/TearSheet/getAlertingUrlParameters';
+import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
 import alertFormDefinition from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
@@ -89,12 +90,12 @@ function AlertConfigTearSheetContent({
   cancelTearSheet,
   editMode
 }: {
-  alertConfig: WebsiteAlertConfigWithMetadata & { duplicateFrom?: string };
+  alertConfig: WebsiteSmartAlertConfigWithMetadata & { duplicateFrom?: string };
   cancelTearSheet: string;
   editMode: boolean;
 }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  //@ts-expect-error
+
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
 
