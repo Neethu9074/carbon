@@ -1143,6 +1143,10 @@
         },
         "noDataHeader": "No website Smart Alerts",
         "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
+      },
+      "tearSheet": {
+        "createTitle": "Create a website Smart Alert",
+        "editTitle": "Edit a website Smart Alert"
       }
     },
     "sortOptions": {

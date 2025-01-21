@@ -9,8 +9,20 @@ import { configurationAlerts, websiteSmartAlertsFullScreen } from 'in-websites/n
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
+import { TagFilter } from 'in-types';
 
-export default function getAlertingUrlParameters(location: Location) {
+export default function getAlertingUrlParameters(location: Location): {
+  editMode: boolean;
+  duplicateMode: boolean;
+  alertConfigId: string;
+  alertConfigCreated: number;
+  websiteId?: string;
+  tagFilters: TagFilter[];
+  errorMessage?: string;
+  customEventName?: string;
+  errorId?: string;
+  cancelTearSheet: string;
+} {
   const editMode = getMatrixParameter(location, websiteSmartAlertsFullScreen, isEditMode) === 'true';
   const duplicateMode = getMatrixParameter(location, websiteSmartAlertsFullScreen, isDuplicateMode) === 'true';
   const alertConfigId = getMatrixParameter(location, websiteSmartAlertsFullScreen, alertId) ?? '';
@@ -18,7 +30,7 @@ export default function getAlertingUrlParameters(location: Location) {
   const websiteId = getMatrixParameter(location, websiteSmartAlertsFullScreen, 'websiteId') ?? undefined;
   const errorId = getMatrixParameter(location, websiteSmartAlertsFullScreen, 'errorId') ?? undefined;
 
-  const tagFilters = getMatrixParameter(location, websiteSmartAlertsFullScreen, 'tagFilters') ?? undefined;
+  const tagFilters = getMatrixParameter(location, websiteSmartAlertsFullScreen, 'tagFilters') ?? [];
 
   const errorMessage = getMatrixParameter(location, websiteSmartAlertsFullScreen, 'errorMessage') ?? undefined;
 
@@ -32,8 +44,7 @@ export default function getAlertingUrlParameters(location: Location) {
     alertConfigId,
     alertConfigCreated,
     websiteId,
-    //@ts-expect-error TODO
-    tagFilters: JSON.parse(tagFilters),
+    tagFilters: JSON.parse(tagFilters as TagFilter[] | any),
     errorMessage,
     customEventName,
     errorId,
