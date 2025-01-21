@@ -44,6 +44,7 @@
   "permissionCanManuallyCloseIssueCategory": "Events and Alerts",
   "permissionCanInvokeAlertChannelLabel": "Invoking an alert channel",
   "permissionCanInvokeAlertChannelCategory": "Events and Alerts",
+  "permissionCanInvokeAlertChannelDescription": "Permits manually triggering an alert notification for an event through an API request.",
   "permissionCanConfigureMaintenanceWindowsLabel": "Configuration of Maintenance Windows",
   "permissionCanConfigureMaintenanceWindowsCategory": "Events and Alerts",
   "permissionCanConfigureApplicationSmartAlertsLabel": "Configuration of Smart Alerts for Application",

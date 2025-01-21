@@ -469,6 +469,7 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_INVOKE_ALERT_CHANNEL,
     keyForApiTokenApi: 'canInvokeAlertChannel',
     label: t('in-stores:permissionCanInvokeAlertChannelLabel'),
+    description: t('in-stores:permissionCanInvokeAlertChannelDescription'),
     category: t('in-stores:permissionCanInvokeAlertChannelCategory'),
     isOwnerPermission: false
   },
