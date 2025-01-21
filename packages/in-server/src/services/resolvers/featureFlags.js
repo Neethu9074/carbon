@@ -518,12 +518,12 @@ module.exports = exports = [
   {
     uiClientKey: 'customDashboardsExportPdfWidget',
     instanaCtlKey: 'feature.custom.dashboards.export.pdf.widget.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'customDashboardsExportPdfEntireDashboard',
     instanaCtlKey: 'feature.custom.dashboards.export.pdf.entire.dashboard.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'customDashboardsFastQueryModeEnabled',
