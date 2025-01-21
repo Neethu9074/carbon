@@ -654,7 +654,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonTooltipEnabled',
     instanaCtlKey: 'feature.carbon.tooltip.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'carbonPaginationEnabled',
