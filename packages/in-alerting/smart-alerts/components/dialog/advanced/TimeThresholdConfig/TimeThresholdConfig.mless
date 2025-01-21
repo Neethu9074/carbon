@@ -93,7 +93,7 @@
     width: 5.625rem;
   }
   .inputTearSheet {
-    width: 4rem;
+    width: 10rem;
   }
 
   .checkbox {

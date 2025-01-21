@@ -37,6 +37,7 @@ export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, 
         headline={t('in-alerting:smartAlerts.applications.tearSheet.AlertPropertiesTitle')}
         isFullWidth
       >
+        <Spacer vertical="gutter" />
         <AlertPropertiesContainer
           renderAlertProperties={() => (
             <AlertProperties
