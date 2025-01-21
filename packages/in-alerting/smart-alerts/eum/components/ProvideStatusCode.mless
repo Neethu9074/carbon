@@ -7,4 +7,9 @@
   .container {
     margin: 0.5rem;
   }
+
+  .smallWidth {
+    width: 31rem;
+    margin-top: 1rem;
+  }
 }

@@ -37,6 +37,7 @@ interface ProvideCustomEventProps {
   mode: string;
   updateForm: (form: MapForm<any>) => void;
   eumType: string;
+  tearSheetView?: boolean;
 }
 
 export default function ProvideCustomEvent({
@@ -45,7 +46,8 @@ export default function ProvideCustomEvent({
   onSelectCustomEvent,
   mode,
   updateForm,
-  eumType
+  eumType,
+  tearSheetView
 }: ProvideCustomEventProps) {
   const customEventNameField = form.get('rule').get('customEventName');
 
@@ -95,13 +97,15 @@ export default function ProvideCustomEvent({
         <>
           <HorizontalFlexWrapper className={locals.customEventWrapper}>
             <CustomEventInput field={field} onValueChange={onValueChange} />
-            <SelectCustomEventButton
-              form={form}
-              onValueChange={onValueChange}
-              onSelectCustomEvent={onSelectCustomEvent}
-              timeConfig={timeConfig}
-              eumType={eumType}
-            />
+            {!tearSheetView && (
+              <SelectCustomEventButton
+                form={form}
+                onValueChange={onValueChange}
+                onSelectCustomEvent={onSelectCustomEvent}
+                timeConfig={timeConfig}
+                eumType={eumType}
+              />
+            )}
           </HorizontalFlexWrapper>
           <TouchedMessages field={customEventNameField} />
         </>

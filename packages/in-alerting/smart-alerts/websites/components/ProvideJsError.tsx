@@ -33,9 +33,17 @@ interface ProvideJsErrorProps {
   onSelectJsError: ({ slideInConfig, isVisible }: SliderState) => void;
   mode: string;
   updateForm: (form: MapForm<any>) => void;
+  tearSheetView?: boolean;
 }
 
-export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode, updateForm }: ProvideJsErrorProps) {
+export default function ProvideJsError({
+  form,
+  timeConfig,
+  onSelectJsError,
+  mode,
+  updateForm,
+  tearSheetView = false
+}: ProvideJsErrorProps) {
   const operatorField = form.get('rule').get('operator');
   const ruleValueField = form.get('rule').get('value');
 
@@ -49,45 +57,49 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
               [locals.jsErrorsSelectAdvanceMode]: mode === modeAdvanced
             })}
           >
-            <HelpText className={locals.helpText}>
-              {t('in-alerting:smartAlerts.websites.components.selectJSErrorHelpText')}
-            </HelpText>
-            <Button
-              className={classNames({
-                [locals.jsErrorsSelectButtonAdvanceMode]: mode === modeAdvanced
-              })}
-              onClick={() => {
-                onSelectJsError({
-                  slideInConfig: {
-                    component: (
-                      <AlertConfigSlideInContentWrapper>
-                        <JsErrorsList
-                          websiteId={form.get('websiteId').value}
-                          tagFilterExpression={form.get('tagFilterExpression').value}
-                          timeConfig={timeConfig}
-                          onJsErrorSelect={message => {
-                            updateForm(
-                              form
-                                .updateIn(['rule', 'value'], f =>
-                                  (f as Field<string>).setValue(message).setTouched(true)
-                                )
-                                .updateIn(['rule', 'operator'], field =>
-                                  field.setValue(operators.EQUALS).setTouched(true)
-                                )
-                            );
-                          }}
-                          slideOut={() => onSelectJsError({ isVisible: false })}
-                        />
-                      </AlertConfigSlideInContentWrapper>
-                    ),
-                    title: t('in-alerting:smartAlerts.websites.components.selectJSErrorTitle')
-                  },
-                  isVisible: true
-                });
-              }}
-            >
-              {t('in-alerting:smartAlerts.websites.components.selectJSErrorTitle')}
-            </Button>
+            {!tearSheetView && (
+              <>
+                <HelpText className={locals.helpText}>
+                  {t('in-alerting:smartAlerts.websites.components.selectJSErrorHelpText')}
+                </HelpText>
+                <Button
+                  className={classNames({
+                    [locals.jsErrorsSelectButtonAdvanceMode]: mode === modeAdvanced
+                  })}
+                  onClick={() => {
+                    onSelectJsError({
+                      slideInConfig: {
+                        component: (
+                          <AlertConfigSlideInContentWrapper>
+                            <JsErrorsList
+                              websiteId={form.get('websiteId').value}
+                              tagFilterExpression={form.get('tagFilterExpression').value}
+                              timeConfig={timeConfig}
+                              onJsErrorSelect={message => {
+                                updateForm(
+                                  form
+                                    .updateIn(['rule', 'value'], f =>
+                                      (f as Field<string>).setValue(message).setTouched(true)
+                                    )
+                                    .updateIn(['rule', 'operator'], field =>
+                                      field.setValue(operators.EQUALS).setTouched(true)
+                                    )
+                                );
+                              }}
+                              slideOut={() => onSelectJsError({ isVisible: false })}
+                            />
+                          </AlertConfigSlideInContentWrapper>
+                        ),
+                        title: t('in-alerting:smartAlerts.websites.components.selectJSErrorTitle')
+                      },
+                      isVisible: true
+                    });
+                  }}
+                >
+                  {t('in-alerting:smartAlerts.websites.components.selectJSErrorTitle')}
+                </Button>
+              </>
+            )}
           </div>
           <Label htmlFor={'ruleOperator'} hasError={!field.valid && field.touched}>
             {t('in-alerting:smartAlerts.websites.components.errorMessage')}

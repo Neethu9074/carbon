@@ -1146,7 +1146,22 @@
       },
       "tearSheet": {
         "createTitle": "Create a website Smart Alert",
-        "editTitle": "Edit a website Smart Alert"
+        "editTitle": "Edit a website Smart Alert",
+        "steps": {
+          "step1Title": "Define the condition"
+        },
+        "step1": {
+          "title": "Pick a template",
+          "description": "Choose what you want to be alerted on"
+        },
+        "statusCode": {
+          "headline": "Automatic alerts for HTTP status codes",
+          "text": "Receive an alert when matching HTTP status codes occur more often than the threshold."
+        },
+        "throughput": {
+          "headline": "Automatic alerts for throughput",
+          "text": "Receive an alert when the number of calls is unusually high or low for selected services and endpoints of this application perspective."
+        }
       }
     },
     "sortOptions": {
