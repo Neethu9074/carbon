@@ -12,6 +12,7 @@ import useTagCatalog from 'in-applications/hooks/useTagCatalog'; // TODO can thi
 import { websitesSmartAlertFullScreenDesignEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
+import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/websites/hooks/useSmartAlertCreateUrl';
 import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
@@ -70,6 +71,14 @@ export default function CreateSmartAlert({
   const websiteError = useWebsiteError(websiteId, errorId as string, timeConfig);
   const { trackCta } = useSegmentTracking();
 
+  const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({
+    websiteId,
+    errorMessage: websiteError?.data?.message,
+    customEventName,
+    errorId,
+    tagFilters
+  });
+
   if (!tagCatalog || websiteStatus !== 'resolved') {
     return null;
   }
@@ -87,8 +96,6 @@ export default function CreateSmartAlert({
     addDialog(website);
     trackCta(ALERTING_CREATE);
   };
-
-  const getLinkToCreateSmartAlert = ''; // TODO add new tearsheet link
 
   const addDialog = (website: Website) => {
     return addActiveDialog(
@@ -117,7 +124,7 @@ export default function CreateSmartAlert({
           <ViewSelectorDialog
             trackCta={trackCta}
             openOldDialog={() => addDialog(website)}
-            getLinkToCreateSmartAlert=""
+            getLinkToCreateSmartAlert={getLinkToCreateSmartAlert}
           />
         )
       }
@@ -188,7 +195,7 @@ export default function CreateSmartAlert({
   return renderFloatingButton();
 }
 
-function deriveAlertType(errorId?: string | null, customEventName?: string | null) {
+export function deriveAlertType(errorId?: string | null, customEventName?: string | null) {
   if (isNotBlank(errorId)) {
     return 'specificJsError';
   }

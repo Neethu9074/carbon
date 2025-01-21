@@ -88,6 +88,9 @@ export const configurationJsStackTraceTranslation = '/jsStackTraceTranslation';
 export const configurationJsStackTraceTranslationFullyQualified = `${configurationTabFullyQualified}${configurationJsStackTraceTranslation}`;
 export const configurationAlerts = '/alerts';
 
+// alert full screen
+export const websiteSmartAlertsFullScreen = '/websiteSmartAlerts';
+
 export const analyzeTwoParameters = createParameters(analyzePath);
 
 export const useLinkToNewWebsite = () => {
