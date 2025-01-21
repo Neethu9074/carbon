@@ -23,11 +23,7 @@ import { t } from 'in-i18n';
 
 import locals from './EventsChartWidget.mless';
 
-export default function EventsChartWidget({
-  sectionLabel,
-  header,
-  dragAndDropConfigs
-}: DashboardTileParamProps): JSX.Element {
+export default function EventsChartWidget({ sectionLabel, header }: DashboardTileParamProps): JSX.Element {
   const EventsfullListViewHref = useObservable(getEventsViewFilteredBy({}), []);
   const timeConfig: TimeConfig = useTimeConfig();
   const tableData: any = useObservable(
@@ -53,12 +49,7 @@ export default function EventsChartWidget({
   const viewLabel = `${t('in-plg:welcomepage.viewAll')} ${t('in-plg:welcomepage.component.eventWidget.viewAllLabel')}`;
   return (
     <section aria-label={sectionLabel} role="region">
-      <DashboardTile
-        dragAndDropConfigs={dragAndDropConfigs}
-        header={header}
-        handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')}
-        size="xs"
-      >
+      <DashboardTile header={header} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
         <div className={locals.eventsChartWrapper}>
           <Stack distribution="spaceBetween">
             {isNoDataAvailable ? (
