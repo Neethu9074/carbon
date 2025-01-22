@@ -141,7 +141,7 @@ module.exports = {
   serviceNowAutoCloseAndCustomPayloadsEnabled: false,
   serviceNowAdvancedEnabled: true,
   resourceOptimizationActionsEnabled: true,
-  eventResourceActionsEnabled: true,
+  // eventResourceActionsEnabled: true,
   carbonTabsEnabled: true,
   automationActionInstanceFeedbackEnabled: false,
   infraExploreFilterEmptyValueEnabled: true,
