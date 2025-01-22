@@ -38,7 +38,7 @@ export default function ErroneousRateChart({
     source: 'SUBTRACE',
     timeConfig: timeConfig,
     granularity: granularity,
-    timeShift: 0,
+    timeShift: { offset: 0 },
     color: carbonAlert.red60,
     tagFilterExpression,
     queryPrecision

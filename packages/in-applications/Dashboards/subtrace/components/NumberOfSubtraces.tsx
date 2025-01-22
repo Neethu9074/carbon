@@ -38,7 +38,7 @@ export default function NumberOfSubtraces({
     source: 'SUBTRACE',
     timeConfig: timeConfig,
     granularity: granularity,
-    timeShift: 0,
+    timeShift: { offset: 0 },
     color: carbonAlert.green50,
     tagFilterExpression,
     queryPrecision
