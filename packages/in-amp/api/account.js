@@ -7,6 +7,7 @@ import { create } from '@instana/observables';
 
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
 import http from 'in-services/http';
 
 const refreshSignal = create().emit(true);
@@ -63,7 +64,7 @@ export const getActiveLicensesAsResultObservable = memoize(
   60000
 );
 function getActiveLicensesAsResultObservableInternal(page, pageSize) {
-  return refreshSignal.flatMap(() => createLicenseObservable(page, pageSize, 'activeLicenses'));
+  return refreshSignal.flatMap(() => createLicenseObservable(page, pageSize, ampCompanyInfoEnabled, 'activeLicenses'));
 }
 
 export const getExpiredLicensesAsResultObservable = memoize(
@@ -72,7 +73,7 @@ export const getExpiredLicensesAsResultObservable = memoize(
   60000
 );
 function getExpiredLicensesAsResultObservableInternal(page, pageSize) {
-  return refreshSignal.flatMap(() => createLicenseObservable(page, pageSize, 'expiredLicenses'));
+  return refreshSignal.flatMap(() => createLicenseObservable(page, pageSize, ampCompanyInfoEnabled, 'expiredLicenses'));
 }
 
 export const getQueuedLicensesAsResultObservable = memoize(
@@ -81,16 +82,25 @@ export const getQueuedLicensesAsResultObservable = memoize(
   60000
 );
 function getQueuedLicensesAsResultObservableInternal(page, pageSize) {
-  return refreshSignal.flatMap(() => createLicenseObservable(page, pageSize, 'queuedLicenses'));
+  return refreshSignal.flatMap(() => createLicenseObservable(page, pageSize, ampCompanyInfoEnabled, 'queuedLicenses'));
 }
 
-function createLicenseObservable(page, pageSize, type) {
+export const getQueuedLicensesOfEnvironmentAsResultObservable = memoize(
+  getQueuedLicensessOfEnvironmentAsResultObservableInternal,
+  page => page,
+  60000
+);
+function getQueuedLicensessOfEnvironmentAsResultObservableInternal(page, pageSize) {
+  return refreshSignal.flatMap(() => createLicenseObservable(page, pageSize, false, 'queuedLicenses'));
+}
+
+function createLicenseObservable(page, pageSize, getAllEnvironments, type) {
   return createObservable(
     http({
       method: 'GET',
       maxRetries: 3,
       url: `/api/settings/amp/account/${type}`,
-      queryParams: { page, pageSize }
+      queryParams: { page, pageSize, getAllEnvironments }
     })
   );
 }
