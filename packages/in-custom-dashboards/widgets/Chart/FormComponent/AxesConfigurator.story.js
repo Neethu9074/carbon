@@ -10,10 +10,10 @@ import {
   timeSeriesWidget2Axis1Datasett,
   timeSeriesWidget6Dataset2Axis,
   timeSeriesWidget6Dataset2AxisLastOnRight
-} from '../../../CustomDashboard/storyData/customDashboardStoryData';
-import { getInitialFormState } from '../../../CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
-import AxesConfigurator from './AxesConfigurator';
-import { getShortMetricKey } from '../util';
+} from 'in-custom-dashboards/CustomDashboard/storyData/customDashboardStoryData';
+import { getInitialFormState } from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
+import AxesConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/AxesConfigurator';
+import { getShortMetricKey } from 'in-custom-dashboards/widgets/Chart/util';
 
 export default {
   component: AxesConfigurator

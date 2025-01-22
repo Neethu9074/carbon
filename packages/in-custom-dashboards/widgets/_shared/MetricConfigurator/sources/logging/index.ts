@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import FormComponent from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging/FormComponent';
 import { percentageDetailed } from 'in-stores/metric/formatters';
-import FormComponent from './FormComponent';
 import { t } from 'in-i18n';
 
-export { createForm } from './form';
+export { createForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging/form';
 export const source = 'LOG';
 export const label = t('in-custom-dashboards:widgets.srcLogging.index.logging');
 export const visible = true;

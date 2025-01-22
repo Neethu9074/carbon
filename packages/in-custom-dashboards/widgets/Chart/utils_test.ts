@@ -4,7 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
-import { findDuplicatedMetricsLabels, getUniqueMetricsLabels, removeDuplicatesFromArrayObjects } from './util';
+import {
+  findDuplicatedMetricsLabels,
+  getUniqueMetricsLabels,
+  removeDuplicatesFromArrayObjects
+} from 'in-custom-dashboards/widgets/Chart/util';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 
 interface Props extends Pick<Metric, 'label'> {

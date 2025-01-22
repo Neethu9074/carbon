@@ -21,7 +21,7 @@ import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from './FormComponent.mless';
+import locals from 'in-custom-dashboards/widgets/TimeZones/FormComponent.mless';
 
 export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onChange }) {
   const supportedTimeZones = useMemo(

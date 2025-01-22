@@ -37,6 +37,7 @@ import { activeDialogs$, addActiveDialog, close } from 'in-components/DialogPres
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -48,7 +49,6 @@ import widgets from 'in-custom-dashboards/widgets';
 import { deepCopy } from 'in-services/util/object';
 import Prompt from 'in-components/Dialog/Prompt';
 import useUrlState from 'in-hooks/useUrlState';
-import { getWidgetId } from './Grid/Grid';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 

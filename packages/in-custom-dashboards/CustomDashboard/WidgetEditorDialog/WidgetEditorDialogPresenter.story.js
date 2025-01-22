@@ -6,9 +6,12 @@
 
 import React, { useState } from 'react';
 
-import { pieWidget, timeSeriesWidget6Dataset2Axis } from '../storyData/customDashboardStoryData';
-import WidgetEditorDialogPresenter from './WidgetEditorDialogPresenter';
-import { getInitialFormState } from './WidgetEditorDialog';
+import {
+  pieWidget,
+  timeSeriesWidget6Dataset2Axis
+} from 'in-custom-dashboards/CustomDashboard/storyData/customDashboardStoryData';
+import WidgetEditorDialogPresenter from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialogPresenter';
+import { getInitialFormState } from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 
 export default {
   component: WidgetEditorDialogPresenter

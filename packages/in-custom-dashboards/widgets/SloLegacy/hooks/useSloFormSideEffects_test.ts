@@ -5,9 +5,9 @@
 
 import { Field } from 'formalistic';
 
+import useSloFormSideEffects from 'in-custom-dashboards/widgets/SloLegacy/hooks/useSloFormSideEffects';
 import { createForm } from 'in-custom-dashboards/widgets/SloLegacy/form';
 import { formatDate, formatTime } from 'in-services/formatters/date';
-import useSloFormSideEffects from './useSloFormSideEffects';
 
 jest.mock('in-services/formatters/date', () => {
   return {
