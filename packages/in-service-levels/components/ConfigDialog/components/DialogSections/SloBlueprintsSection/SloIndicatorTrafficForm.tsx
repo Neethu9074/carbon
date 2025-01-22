@@ -39,6 +39,7 @@ export default function SloIndicatorTrafficForm() {
       </Typography>
       <Typography variant="body-regular" component="p" noMargin>
         {t('in-service-levels:createSloDialog.indicatorSection.thresholdDescription', {
+          entityType: entityTypeField.value,
           thresholdValue: thresholdField.value ?? 0,
           context: operatorMapping[operatorField.value]
         })}
@@ -46,6 +47,7 @@ export default function SloIndicatorTrafficForm() {
       <Stack direction="horizontal" align="center">
         <Trans
           i18nKey="in-service-levels:createSloDialog.indicatorSection.thresholdInput"
+          values={{ entityType: entityTypeField.value, count: thresholdField.value ?? 0 }}
           components={{
             Stack: <Stack gap="small" />,
             HorizontalStack: <Stack direction="horizontal" align="center" gap="small" />,

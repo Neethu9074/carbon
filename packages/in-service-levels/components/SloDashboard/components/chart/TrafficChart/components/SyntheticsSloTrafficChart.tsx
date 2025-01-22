@@ -13,9 +13,13 @@ import {
   copyFirstBucketOfSubsequentDataSeries,
   findMinMaxMetricValues
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import {
+  calculateEventGraphGranularity,
+  calculateTrafficGranularity,
+  getIndexOfFirstTimeWindowWithData
+} from 'in-service-levels/utils/time';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
-import { calculateEventGraphGranularity, calculateTrafficGranularity } from 'in-service-levels/utils/time';
 import useSyntheticsTrafficMetrics from 'in-service-levels/hooks/useSyntheticsTrafficMetrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
@@ -59,6 +63,9 @@ export default function SyntheticsSloTrafficChart({
 
   const metrics = copyFirstBucketOfSubsequentDataSeries(data);
   const { min, max } = findMinMaxMetricValues(metrics.flat(1), { withBuffer: true });
+  const timeWindowStartIndex = getIndexOfFirstTimeWindowWithData(metrics, timeWindows);
+  const timeWindowsWithData = timeWindows.slice(timeWindowStartIndex);
+  const windowColorsWithData = timeWindowColors.slice(timeWindowStartIndex);
 
   return (
     <ResultAwareChart
@@ -74,12 +81,12 @@ export default function SyntheticsSloTrafficChart({
         excludedContextMenuActions: [sloZoomInAction.name],
         y1: {
           metrics,
-          metricIds: timeWindows.map((_, index) => `timeWindows${index}`),
+          metricIds: timeWindowsWithData.map((_, index) => `timeWindows${index}`),
           min: Math.max(0, min),
           max,
           renderAllTickLabels: true,
-          labels: timeWindows.map(() => t('in-service-levels:general.metrics.results')),
-          colors: timeWindowColors,
+          labels: timeWindowsWithData.map(() => t('in-service-levels:general.metrics.results')),
+          colors: windowColorsWithData,
           formatter: number.compact,
           renderer
         },

@@ -19,7 +19,7 @@ import Label from 'in-components/form/Label/Label';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from './FormComponent.mless';
+import locals from 'in-custom-dashboards/widgets/ApplicationHealth/FormComponent.mless';
 
 export default function ApplicationHealthWidgetFormComponent({ form, onChange }) {
   const applications = useObservable(getApplicationsObservable, []) ?? pendingResult;

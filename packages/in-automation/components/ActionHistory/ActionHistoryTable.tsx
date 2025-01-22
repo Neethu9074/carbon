@@ -200,7 +200,7 @@ export default function ActionHistoryTable({
       width: 20,
       getContent(row: ActionInstance) {
         return (
-          <Tooltip content={row.actionName} align="auto" delay={500}>
+          <Tooltip content={row.actionName} align="auto" delay={500} overwriteBlock>
             <WithSubscript subscript={ACTION_TRANSLATIONS[row.type]}>
               <div
                 className={classNames({
@@ -278,6 +278,29 @@ export default function ActionHistoryTable({
       getContent(row: ActionInstance) {
         return row.status ? getStatus(row.status) : t('in-automation:actionHistory.unknown');
       }
+    },
+    {
+      label: '',
+      id: 'view',
+      sortable: false,
+      width: 5,
+      getContent(row: ActionInstance) {
+        return (
+          <Tooltip content={t('in-automation:actionHistory.viewTooltip', { actionName: row.actionName })} delay={500}>
+            <IconButton
+              type="lib_views_show"
+              onClick={e => {
+                stopPropagationAndPreventDefault(e);
+                addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
+                actionHistoryInstanceViewTrackerSegment({
+                  actionInstanceId: row.actionInstanceId,
+                  actionName: row.actionName
+                });
+              }}
+            />
+          </Tooltip>
+        );
+      }
     }
   ];
 
@@ -289,7 +312,7 @@ export default function ActionHistoryTable({
     getContent(row) {
       if (!isStatusFinished(row.status)) return null;
       return (
-        <Tooltip content={t('in-automation:actionHistory.deleteTooltip')} delay={500}>
+        <Tooltip content={t('in-automation:actionHistory.deleteTooltip', { actionName: row.actionName })} delay={500}>
           <IconButton
             kind="action"
             type="lib_actions_delete"
@@ -344,13 +367,6 @@ export default function ActionHistoryTable({
           ? ['SUCCESS', 'FAILED', 'IN_PROGRESS', 'STATUS_UNKNOWN', 'SUBMITTED', 'TIMEOUT']
           : actionStatuses
       }
-      onRowClick={(row: ActionInstance) => {
-        addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
-        actionHistoryInstanceViewTrackerSegment({
-          actionInstanceId: row.actionInstanceId,
-          actionName: row.actionName
-        });
-      }}
       searchWidth={350}
       searchMaxWidth={450}
       searchPlaceholder={t('in-automation:actionHistory.filter')}

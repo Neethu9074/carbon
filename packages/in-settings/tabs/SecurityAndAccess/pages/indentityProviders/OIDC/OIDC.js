@@ -20,6 +20,7 @@ import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/
 import { defaultIdpType, idpTypes } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/OIDC/idpTypes';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
+import { deleteItem } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/utils';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -58,7 +59,7 @@ export default function OIDC(props) {
         ldapConfig: getLdapConfig()
       })}
       enrichForm={enrichForm}
-      deleteItem={deleteItem}
+      deleteItem={data => deleteItem({ ...data, deleteConfig: deleteConfig })}
       input={input}
       file={file}
       onCancelClick={() => {
@@ -401,17 +402,6 @@ function CopyableText({ title, form, fieldName }) {
 
 function isAnyInvitationsPending(props) {
   return disableInvitesWithIdpEnabled && props.invitations?.data?.length > 0;
-}
-
-function deleteItem({ setMessage }) {
-  setMessage({ message: t('in-settings:tabs.deletingConfig'), type: 'neutral', isSaving: true });
-  const setConfigResult$ = deleteConfig();
-  setConfigResult$.once(
-    () => {
-      setMessage({ text: t('in-settings:tabs.configSuccessfullyDeleted'), type: 'success' });
-    },
-    error => setMessage({ text: t('in-settings:tabs.failedToDeleteConfig', { err: error.message }), type: 'error' })
-  );
 }
 
 function saveItem({

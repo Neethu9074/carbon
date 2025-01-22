@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { bytes, number, percentage, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { number, percentage } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -155,12 +156,54 @@ function getRowDetails(row) {
         y1={{
           formatter: percentage.compact,
           metrics: ['advanceSpinningDiskTypeMetrics.' + row.key + '.elapsedPercentBusy'],
-          labels: [t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.charts.elapsedPercentBusy')],
+          labels: [t('in-forge:plugins.ibmiDiskInfo.dashboard.elapsedPercentBusy')],
           min: 0,
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
       />
+      <div style={{ paddingTop: '1.5rem' }}>
+        <Columize>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: withSiMultiplyPrefixThreeDecimalPlaces,
+              tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces,
+              metrics: [
+                'advanceSpinningDiskTypeMetrics.' + row.key + '.elapsedReadRequests',
+                'advanceSpinningDiskTypeMetrics.' + row.key + '.elapsedWriteRequests'
+              ],
+              labels: [
+                t('in-forge:plugins.ibmiDiskInfo.dashboard.elapsedReadRequests'),
+                t('in-forge:plugins.ibmiDiskInfo.dashboard.elapsedWriteRequests')
+              ],
+              min: 0,
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: bytes.perSecond.detailed,
+              tooltipFormatter: bytes.perSecond.detailed,
+              metrics: [
+                'advanceSpinningDiskTypeMetrics.' + row.key + '.elapsedDataRead',
+                'advanceSpinningDiskTypeMetrics.' + row.key + '.elapsedDataWritten'
+              ],
+              labels: [
+                t('in-forge:plugins.ibmiDiskInfo.dashboard.elapsedDataRead'),
+                t('in-forge:plugins.ibmiDiskInfo.dashboard.elapsedDataWritten')
+              ],
+              min: 0,
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </Columize>
+      </div>
     </div>
   );
 }

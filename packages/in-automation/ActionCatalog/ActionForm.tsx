@@ -4,57 +4,17 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useContext } from 'react';
-import { Field } from 'formalistic';
+import React from 'react';
 
-import { Link, Spacer, Typography, Toggle, TextArea, Select } from '@instana/components';
+import { Link, Spacer, Typography, Toggle, IconButton, TextArea, Select, FormGroup } from '@instana/components';
 import { ActionType, Result } from '@instana/types';
 
 import {
-  putApiKeyFields,
-  putBasicFields,
-  putBearerField,
-  putDocLinkField,
-  putScriptField,
-  putWebhookFields,
-  putManualField,
-  removeApiKeyFields,
-  removeBasicFields,
-  removeBearerField,
-  removeDocLinkField,
-  removeManualContentField,
-  removeScriptField,
-  removeWebhookFields,
-  removeGithubFields,
-  removeGitlabFields,
-  removeJiraFields,
-  putGithubFields,
-  putGithubOpenTicketFields,
-  putGithubCloseTicketFields,
-  putGithubCommentTicketFields,
-  removeGithubOpenTicketFields,
-  removeCloseAndCommentTicketFields,
-  putGitlabFields,
-  removeGitlabOpenTicketFields,
-  putGitlabOpenTicketFields,
-  putGitlabCloseTicketFields,
-  putGitlabCommentTicketFields,
-  putJiraFields,
-  removeJiraOpenTicketFields,
-  putJiraOpenTicketFields,
-  putJiraCloseTicketFields,
-  putJiraCommentTicketFields,
-  createTicketIdParameter
-} from 'in-automation/ActionCatalog/useActionForm';
-import {
-  ACTION_TRANSLATIONS,
   ACTION_TYPE,
   ACTION_TYPES,
-  NON_CREATABLE_ACTION_TYPES,
   HTTP_METHODS,
   HTTP_METHODS_WITH_BODY,
-  AUTH_TYPE,
-  AUTH_TRANSLATIONS,
+  NON_CREATABLE_ACTION_TYPES,
   AUTH_TYPES,
   GIT_OPERATIONS,
   OPEN,
@@ -62,22 +22,27 @@ import {
   ADD_COMMENT,
   GL_ISSUE_TYPES,
   JIRA_ISSUE_TYPES,
-  JIRA_OPERATIONS
+  JIRA_OPERATIONS,
+  ACTION_TRANSLATIONS,
+  AUTH_TRANSLATIONS,
+  AUTH_TYPE
 } from 'in-automation/constants';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
-import GenerateScriptTileComponent from 'in-automation/ActionCatalog/GenerateScriptTileComponent';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import useActionDetailsUrlParams from 'in-automation/ActionCatalog/useActionDetailsUrlParams';
+import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
+import { createTicketIdParameter } from 'in-automation/ActionCatalog/useActionForm/utils';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import { isNotEditableContext, OnChange } from 'in-automation/ActionCatalog/Action';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
+import GenerateScriptTile from 'in-automation/ActionCatalog/GenerateScriptTile';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
+import { ActionForm } from 'in-automation/ActionCatalog/useActionForm/types';
+import { useIsNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import useHasAccessToScript from 'in-automation/hooks/useHasAccessToScript';
 import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
-import CopyActionLink from 'in-automation/ActionCatalog/CopyActionLink';
-import { ActionForm } from 'in-automation/ActionCatalog/useActionForm';
+import { isAction, ActionFilter, AuthenType } from 'in-automation/types';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import { getAnsibleFields } from 'in-automation/utils/actionField';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -86,11 +51,10 @@ import CreatableTagSelect from 'in-components/CreatableTagSelect';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import useActionTags from 'in-automation/hooks/useActionTags';
-import { isAction, ActionFilter } from 'in-automation/types';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { isAIAction } from 'in-automation/utils/action';
-import FormGroup from 'in-components/form/FormGroup';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { isLoading } from 'in-services/util/result';
 import { FetchStatus } from 'in-hooks/utils/types';
 import Code from 'in-components/form/Code/Code';
@@ -101,83 +65,79 @@ import { t } from 'in-i18n';
 
 import locals from './Action.mless';
 
-const doesParameterExist = (parameters: MappedParameter[], paramName: string) => {
-  return parameters.some(param => param.value.name === paramName);
-};
+function CopyActionLink({ action }: { action?: ActionFormEntity }) {
+  const hrefToActionDetails = useHrefToActionDetails();
+  if (!action || !role?.canConfigureAutomationActions || !isAction(action)) return null;
 
-export function ActionFormHeader({ isNew, action }: { isNew: boolean; action: ActionFormEntity }) {
   return (
-    <HorizontalFlexWrapper className={locals.spaceBetween}>
-      <SubViewHeader>
-        {isNew
-          ? t('in-automation:ActionCatalog.createANewAction')
-          : t('in-automation:ActionCatalog.configureActionEntityName', { entityName: action.name })}
-      </SubViewHeader>
-      {!isNew && (
-        <HorizontalFlexWrapper>
-          {isAction(action) && role?.canConfigureAutomationActions && <CopyActionLink action={action} />}
-        </HorizontalFlexWrapper>
-      )}
+    <HorizontalFlexWrapper>
+      <Tooltip content={t('in-automation:duplicate')} delay={500}>
+        <Link ellipsis href={action.type === ACTION_TYPE.ANSIBLE ? undefined : hrefToActionDetails(action.id, true)}>
+          <IconButton
+            id={`copy_${action.id}`}
+            disabled={action.type === ACTION_TYPE.ANSIBLE}
+            buttonType="button"
+            kind="primaryv2"
+            type={'lib_actions_copy'}
+          />
+        </Link>
+      </Tooltip>
     </HorizontalFlexWrapper>
   );
 }
 
-interface ActionFormBodyProps {
-  form: ActionForm;
-  onChange: OnChange;
-  action: ActionFormEntity;
-  setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
-  isCreate: boolean;
-  actionFilter: 'all' | ActionFilter;
+export function ActionFormHeader({ action }: { action?: ActionFormEntity }) {
+  const { isNew } = useActionDetailsUrlParams();
+  return (
+    <HorizontalFlexWrapper className={locals.spaceBetween}>
+      <SubViewHeader>
+        {!action || isNew
+          ? t('in-automation:ActionCatalog.createANewAction')
+          : t('in-automation:ActionCatalog.configureActionEntityName', { entityName: action.name })}
+      </SubViewHeader>
+      <CopyActionLink action={action} />
+    </HorizontalFlexWrapper>
+  );
 }
 
-export function ActionFormBody({ form, setForm, onChange, action, isCreate, actionFilter }: ActionFormBodyProps) {
-  const type = (form.get('type') as Field<ActionType>).value;
-  const showTimeoutSection = [ACTION_TYPE.SCRIPT, ACTION_TYPE.HTTP, ACTION_TYPE.ANSIBLE].includes(type);
-
-  const hasAccessToScript = useHasAccessToScript();
+export function ActionFormBody({
+  action,
+  actionFilter
+}: {
+  action?: ActionFormEntity;
+  actionFilter: 'all' | ActionFilter;
+}) {
+  const { form } = useActionFormContext();
   const { id } = useActionDetailsUrlParams();
+  const hasAccessToScript = useHasAccessToScript();
+
+  const type = form.get('type').value;
+
+  const showTimeoutSection = [ACTION_TYPE.SCRIPT, ACTION_TYPE.HTTP, ACTION_TYPE.ANSIBLE].includes(type);
+  const showParametersSection = ![ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].includes(type);
 
   return (
     <LeftRightPadding>
       <Row>
         <Col lg={8}>
           <SectionHeading>{t('in-automation:ActionCatalog.1ActionDetails')}</SectionHeading>
-          <MetaDataSection form={form} setForm={setForm} onChange={onChange} actionFilter={actionFilter} />
+          <MetaDataSection actionFilter={actionFilter} />
           <SectionHeading>{t('in-automation:ActionCatalog.2ActionConfiguration')}</SectionHeading>
-          <TypeSection
-            form={form}
-            onChange={onChange}
-            action={action}
-            isCreate={isCreate}
-            actionFilter={actionFilter}
-          />
-          {type === ACTION_TYPE.DOC_LINK && <DocLinkSection form={form} onChange={onChange} />}
-          {type === ACTION_TYPE.SCRIPT && <ScriptSection form={form} onChange={onChange} />}
-          {type === ACTION_TYPE.HTTP && (
-            <WebhookSection setForm={setForm} form={form} onChange={onChange} action={action} />
-          )}
+          <TypeSection action={action} actionFilter={actionFilter} />
+          {type === ACTION_TYPE.DOC_LINK && <DocLinkSection />}
+          {type === ACTION_TYPE.SCRIPT && <ScriptSection />}
+          {type === ACTION_TYPE.HTTP && <WebhookSection />}
           {type === ACTION_TYPE.ANSIBLE && <AnsibleSection action={action} />}
-          {type === ACTION_TYPE.GITHUB && (
-            <GithubSection form={form} onChange={onChange} setForm={setForm} action={action} />
-          )}
-          {type === ACTION_TYPE.GITLAB && (
-            <GitlabSection form={form} onChange={onChange} setForm={setForm} action={action} />
-          )}
-          {type === ACTION_TYPE.JIRA && (
-            <JiraSection form={form} onChange={onChange} setForm={setForm} action={action} />
-          )}
-          {type === ACTION_TYPE.MANUAL && <ManualSection form={form} onChange={onChange} />}
-          {showTimeoutSection && (
-            <>
-              <TimeoutSection form={form} onChange={onChange} />
-            </>
-          )}
-          {![ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].includes(type) && (
+          {type === ACTION_TYPE.GITHUB && <GithubSection />}
+          {type === ACTION_TYPE.GITLAB && <GitlabSection />}
+          {type === ACTION_TYPE.JIRA && <JiraSection />}
+          {type === ACTION_TYPE.MANUAL && <ManualSection />}
+          {showTimeoutSection && <TimeoutSection />}
+          {showParametersSection && (
             <>
               <SectionHeading>{t('in-automation:ActionCatalog.3ParamaterDetails')}</SectionHeading>
               <FormGroup>
-                <ParametersTable form={form} setForm={setForm} onChange={onChange} />
+                <ParametersTable />
               </FormGroup>
             </>
           )}
@@ -185,7 +145,7 @@ export function ActionFormBody({ form, setForm, onChange, action, isCreate, acti
 
         {type === ACTION_TYPE.MANUAL && automationActionAiGenerationUnitEnabled && hasAccessToScript && (
           <Col lg={4}>
-            <GenerateScriptTileComponent
+            <GenerateScriptTile
               manualContent={form.get('manualContent').value}
               actionName={form.get('name').value}
               actionId={id}
@@ -197,29 +157,22 @@ export function ActionFormBody({ form, setForm, onChange, action, isCreate, acti
   );
 }
 
-export function ActionFormFooter({
-  form,
-  submitStatus,
-  isNew,
-  action,
-  isCopy
-}: {
-  isNew: boolean;
-  submitStatus: FetchStatus | undefined;
-  form: ActionForm;
-  action: ActionFormEntity;
-  isCopy: boolean;
-}) {
+export function ActionFormFooter({ submitStatus, action }: { submitStatus?: FetchStatus; action?: ActionFormEntity }) {
+  const { form } = useActionFormContext();
+
+  const { isNew, isCopy } = useActionDetailsUrlParams();
   const navigateToActionCatalog = useNavigateToActionCatalog();
+
   const isBuiltinAction = action?.metadata?.builtIn ?? false;
   const canSaveAction = role?.canConfigureAutomationActions && ((isBuiltinAction && isCopy) || !isBuiltinAction);
+
   return (
     <>
       <Spacer vertical="xlarge" />
       <FormFooter>
         <CancelButton
           onClick={() => {
-            const view = isAIAction(action) ? 'ai' : 'user';
+            const view = action && isAIAction(action) ? 'ai' : 'user';
             navigateToActionCatalog(view);
           }}
         />
@@ -237,33 +190,37 @@ export function ActionFormFooter({
   );
 }
 
-function TimeoutSection({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) {
-  const timeout = form.get('timeout') as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
-  const type = (form.get('type') as Field<ActionType>).value;
-  return (
-    <>
-      {timeout.map(field => (
-        <FormGroup>
-          <Label htmlFor="action-timeout" hasError={!field.valid && field.touched}>
-            {t('in-automation:ActionCatalog.timeout')}
-          </Label>
-          <Input
-            id="action-timeout"
-            type="number"
-            // NOTE: Timeout is a special field we want to allow to be editable for Ansible actions
-            disabled={isNotEditable && type !== ACTION_TYPE.ANSIBLE}
-            value={isNaN(parseInt(field.value)) ? '' : field.value}
-            onChange={e => onChange('timeout', e.target.value)}
-            hasError={!field.valid && field.touched}
-            min="1"
-          />
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.timeoutHelpText')}</HelpText>
-        </FormGroup>
-      ))}
-    </>
-  );
+function TimeoutSection() {
+  const { form, setForm } = useActionFormContext();
+
+  const isNotEditable = useIsNotEditableContext();
+
+  const timeout = form.get('timeout');
+  const type = form.get('type').value;
+
+  // NOTE: Timeout is a special field we want to allow to be editable for Ansible actions
+  const disabled = isNotEditable && type !== ACTION_TYPE.ANSIBLE;
+
+  return timeout.map(field => (
+    <FormGroup>
+      <Label htmlFor="action-timeout" hasError={!field.valid && field.touched}>
+        {t('in-automation:ActionCatalog.timeout')}
+      </Label>
+      <Input
+        id="action-timeout"
+        type="number"
+        disabled={disabled}
+        value={isNaN(parseInt(field.value)) ? '' : field.value}
+        onChange={e =>
+          setForm(form => form.updateIn(['timeout'], item => item.setValue(e.target.value).setTouched(true)))
+        }
+        hasError={!field.valid && field.touched}
+        min="1"
+      />
+      <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+      <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.timeoutHelpText')}</HelpText>
+    </FormGroup>
+  ));
 }
 
 function filterTags(actionFilter: 'all' | ActionFilter, availableTags: Result<string[]>) {
@@ -274,18 +231,18 @@ function filterTags(actionFilter: 'all' | ActionFilter, availableTags: Result<st
   }
 }
 
-function MetaDataSection({
-  form,
-  onChange,
-  actionFilter
-}: Pick<ActionFormBodyProps, 'form' | 'setForm' | 'onChange' | 'actionFilter'>) {
-  const name = form.get('name') as Field<string>;
-  const description = form.get('description') as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
-  const tags = form.get('tags') as Field<string[]>;
+function MetaDataSection({ actionFilter }: { actionFilter: 'all' | ActionFilter }) {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
   const availableTags = useActionTags();
+
+  const name = form.get('name');
+  const description = form.get('description');
+  const tags = form.get('tags');
+
   const filteredTags = filterTags(actionFilter, availableTags);
-  const isValidNewOption = actionFilter === 'all' || actionFilter.tags.length === 0 ? undefined : () => false;
+  const canCreateTags = actionFilter === 'all' || actionFilter.tags.length === 0 ? undefined : () => false;
+
   return (
     <>
       {name.map(field => (
@@ -298,7 +255,9 @@ function MetaDataSection({
             type="text"
             disabled={isNotEditable}
             value={field.value}
-            onChange={e => onChange('name', e.target.value)}
+            onChange={e =>
+              setForm(form => form.updateIn(['name'], item => item.setValue(e.target.value).setTouched(true)))
+            }
             hasError={!field.valid && field.touched}
             maxLength={256}
             autoFocus
@@ -318,7 +277,13 @@ function MetaDataSection({
             id="action-description"
             value={field.value}
             readOnly={isNotEditable}
-            onChange={e => onChange('description', (e.target as HTMLTextAreaElement).value)}
+            onChange={e =>
+              setForm(form =>
+                form.updateIn(['description'], item =>
+                  item.setValue((e.target as HTMLTextAreaElement).value).setTouched(true)
+                )
+              )
+            }
             hasError={!field.valid && field.touched}
           />
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
@@ -337,9 +302,11 @@ function MetaDataSection({
             isLoading={isLoading(availableTags)}
             tags={filteredTags}
             value={field.value}
-            onChange={newTags => onChange('tags', newTags)}
+            onChange={newTags =>
+              setForm(form => form.updateIn(['tags'], item => item.setValue(newTags).setTouched(true)))
+            }
             disabled={isNotEditable || !role?.canConfigureAutomationActions}
-            isValidNewOption={isValidNewOption}
+            isValidNewOption={canCreateTags}
           />
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
         </FormGroup>
@@ -355,71 +322,6 @@ function filterTypes(actionFilter: 'all' | ActionFilter) {
   } else {
     return typeOptions.filter(option => actionFilter.types.includes(option));
   }
-}
-
-export function onTypeChange(type: ActionType, action: ActionFormEntity, onChange: OnChange) {
-  onChange('type', type, updatedForm => {
-    // WILL NEED TO UPDATE THIS FOR NEW TYPES
-    const type = (updatedForm.get('type') as Field<ActionType>).value;
-    if (type === ACTION_TYPE.DOC_LINK) {
-      updatedForm = removeScriptField(updatedForm);
-      updatedForm = removeWebhookFields(updatedForm);
-      updatedForm = removeGithubFields(updatedForm);
-      updatedForm = removeGitlabFields(updatedForm);
-      updatedForm = removeJiraFields(updatedForm);
-      updatedForm = removeManualContentField(updatedForm);
-      updatedForm = putDocLinkField(updatedForm, action);
-    } else if (type === ACTION_TYPE.SCRIPT) {
-      updatedForm = removeDocLinkField(updatedForm);
-      updatedForm = removeWebhookFields(updatedForm);
-      updatedForm = removeGithubFields(updatedForm);
-      updatedForm = removeGitlabFields(updatedForm);
-      updatedForm = removeJiraFields(updatedForm);
-      updatedForm = removeManualContentField(updatedForm);
-      updatedForm = putScriptField(updatedForm, action);
-    } else if (type === ACTION_TYPE.HTTP) {
-      updatedForm = removeDocLinkField(updatedForm);
-      updatedForm = removeScriptField(updatedForm);
-      updatedForm = removeGithubFields(updatedForm);
-      updatedForm = removeGitlabFields(updatedForm);
-      updatedForm = removeJiraFields(updatedForm);
-      updatedForm = removeManualContentField(updatedForm);
-      updatedForm = putWebhookFields(updatedForm, action);
-    } else if (type === ACTION_TYPE.MANUAL) {
-      updatedForm = removeDocLinkField(updatedForm);
-      updatedForm = removeScriptField(updatedForm);
-      updatedForm = removeWebhookFields(updatedForm);
-      updatedForm = removeGitlabFields(updatedForm);
-      updatedForm = removeJiraFields(updatedForm);
-      updatedForm = removeGithubFields(updatedForm);
-      updatedForm = putManualField(updatedForm, action);
-    } else if (type === ACTION_TYPE.GITHUB) {
-      updatedForm = removeDocLinkField(updatedForm);
-      updatedForm = removeScriptField(updatedForm);
-      updatedForm = removeWebhookFields(updatedForm);
-      updatedForm = removeGitlabFields(updatedForm);
-      updatedForm = removeJiraFields(updatedForm);
-      updatedForm = removeManualContentField(updatedForm);
-      updatedForm = putGithubFields(updatedForm, action);
-    } else if (type === ACTION_TYPE.GITLAB) {
-      updatedForm = removeDocLinkField(updatedForm);
-      updatedForm = removeScriptField(updatedForm);
-      updatedForm = removeWebhookFields(updatedForm);
-      updatedForm = removeGithubFields(updatedForm);
-      updatedForm = removeJiraFields(updatedForm);
-      updatedForm = removeManualContentField(updatedForm);
-      updatedForm = putGitlabFields(updatedForm, action);
-    } else if (type === ACTION_TYPE.JIRA) {
-      updatedForm = removeDocLinkField(updatedForm);
-      updatedForm = removeScriptField(updatedForm);
-      updatedForm = removeWebhookFields(updatedForm);
-      updatedForm = removeGithubFields(updatedForm);
-      updatedForm = removeGitlabFields(updatedForm);
-      updatedForm = removeManualContentField(updatedForm);
-      updatedForm = putJiraFields(updatedForm, action);
-    }
-    return updatedForm;
-  });
 }
 
 function getHelpTextType(type: ActionType) {
@@ -443,16 +345,15 @@ function getHelpTextType(type: ActionType) {
   }
 }
 
-const TypeSection = ({
-  form,
-  onChange,
-  action: action,
-  isCreate,
-  actionFilter
-}: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'action' | 'isCreate' | 'actionFilter'>) => {
-  const type = form.get('type') as Field<ActionType>;
-  const isNotEditable = useContext(isNotEditableContext);
+function TypeSection({ action, actionFilter }: { action?: ActionFormEntity; actionFilter: 'all' | ActionFilter }) {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
+  const { isCreate } = useActionDetailsUrlParams();
+
+  const type = form.get('type');
+
   const filteredTypes = filterTypes(actionFilter);
+
   return type.map(field => (
     <FormGroup>
       <Label htmlFor="action-type" hasError={!field.valid && field.touched}>
@@ -463,7 +364,11 @@ const TypeSection = ({
           <Select
             id="action-type"
             value={field.value}
-            onChange={e => onTypeChange(e.target.value as ActionType, action, onChange)}
+            onChange={e =>
+              setForm(form =>
+                form.updateIn(['type'], item => item.setValue(e.target.value as ActionType).setTouched(true))
+              )
+            }
             hasError={!field.valid && field.touched}
           >
             {filteredTypes.map(type => (
@@ -476,15 +381,17 @@ const TypeSection = ({
           <HelpText className={locals.subTextFormField}>{getHelpTextType(type.value)}</HelpText>
         </>
       ) : (
-        <Typography variant="body-regular">{ACTION_TRANSLATIONS[action.type]}</Typography>
+        <Typography variant="body-regular">{action ? ACTION_TRANSLATIONS[action.type] : ''}</Typography>
       )}
     </FormGroup>
   ));
-};
+}
 
-const DocLinkSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) => {
-  const docLink = form.get('docLink') as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
+function DocLinkSection() {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
+
+  const docLink = form.get('docLink');
 
   return docLink.map(field => (
     <FormGroup>
@@ -496,7 +403,9 @@ const DocLinkSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | '
         type="text"
         value={field.value}
         disabled={isNotEditable}
-        onChange={e => onChange('docLink', e.target.value)}
+        onChange={e =>
+          setForm(form => form.updateIn(['docLink'], item => item.setValue(e.target.value).setTouched(true)))
+        }
         hasError={!field.valid && field.touched}
         maxLength={256}
       />
@@ -504,11 +413,14 @@ const DocLinkSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | '
       <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.docLinkDescription')}</HelpText>
     </FormGroup>
   ));
-};
+}
 
-const ManualSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) => {
-  const manualContent = form.get('manualContent') as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
+function ManualSection() {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
+
+  const manualContent = form.get('manualContent');
+
   return manualContent.map(field => (
     <FormGroup>
       <Label htmlFor="action-docLink" hasError={!field.valid && field.touched}>
@@ -519,7 +431,9 @@ const ManualSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'o
         readOnly={isNotEditable}
         mode={'markdown'}
         value={field.value}
-        onChange={value => onChange('manualContent', value)}
+        onChange={value =>
+          setForm(form => form.updateIn(['manualContent'], item => item.setValue(value).setTouched(true)))
+        }
       />
       <TouchedMessages field={field} className={locals.subErrorTextFormField} />
       <HelpText className={locals.subTextFormField}>
@@ -527,12 +441,14 @@ const ManualSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'o
       </HelpText>
     </FormGroup>
   ));
-};
+}
 
-function ScriptSection({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) {
-  const script = form.get('script') as Field<string>;
-  const subtype = form.get('subtype') as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
+function ScriptSection() {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
+
+  const script = form.get('script');
+  const subtype = form.get('subtype');
 
   return (
     <>
@@ -546,7 +462,9 @@ function ScriptSection({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'o
             type="text"
             disabled={isNotEditable}
             value={field.value}
-            onChange={e => onChange('subtype', e.target.value)}
+            onChange={e =>
+              setForm(form => form.updateIn(['subtype'], item => item.setValue(e.target.value).setTouched(true)))
+            }
             hasError={!field.valid && field.touched}
             maxLength={256}
           />
@@ -564,7 +482,9 @@ function ScriptSection({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'o
             lineNumbers
             mode={'shell'}
             value={field.value}
-            onChange={value => onChange('script', value)}
+            onChange={value =>
+              setForm(form => form.updateIn(['script'], item => item.setValue(value).setTouched(true)))
+            }
           />
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
         </FormGroup>
@@ -573,17 +493,26 @@ function ScriptSection({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'o
   );
 }
 
-function GithubSection({
-  form,
-  onChange,
-  setForm,
-  action: action
-}: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm' | 'action'>) {
-  const owner = form.get('owner') as Field<string>;
-  const repo = form.get('repo') as Field<string>;
-  const ticketActionType = form.get('ticketActionType') as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
-  let parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
+function checkIdParameter(form: ActionForm, type: string) {
+  const parameters = form.get('parameters').value;
+  const hasIdParameter = parameters.find(parameter => parameter.value.name === 'id') !== undefined;
+  if (type == OPEN && hasIdParameter) {
+    return form.updateIn(['parameters'], item =>
+      item.setValue(parameters.filter(parameter => parameter.value.name !== 'id'))
+    );
+  }
+  if (type == OPEN || hasIdParameter) return form;
+  parameters.push(createTicketIdParameter('Issue', 'Github issue id'));
+  return form.updateIn(['parameters'], item => item.setValue(parameters));
+}
+
+function GithubSection() {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
+
+  const owner = form.get('owner');
+  const repo = form.get('repo');
+  const ticketActionType = form.get('ticketActionType');
 
   return (
     <>
@@ -599,7 +528,9 @@ function GithubSection({
                 type="text"
                 disabled={isNotEditable}
                 value={field.value}
-                onChange={e => onChange('owner', e.target.value)}
+                onChange={e =>
+                  setForm(form => form.updateIn(['owner'], item => item.setValue(e.target.value).setTouched(true)))
+                }
                 hasError={!field.valid && field.touched}
                 maxLength={256}
               />
@@ -618,7 +549,9 @@ function GithubSection({
                 type="text"
                 disabled={isNotEditable}
                 value={field.value}
-                onChange={e => onChange('repo', e.target.value)}
+                onChange={e =>
+                  setForm(form => form.updateIn(['repo'], item => item.setValue(e.target.value).setTouched(true)))
+                }
                 hasError={!field.valid && field.touched}
                 maxLength={256}
               />
@@ -637,29 +570,10 @@ function GithubSection({
                 value={field.value}
                 disabled={isNotEditable}
                 onChange={e =>
-                  onChange('ticketActionType', e.target.value, updatedForm => {
-                    const type = (updatedForm.get('ticketActionType') as Field<string>).value;
-                    if (type == OPEN) {
-                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
-                      updatedForm = putGithubOpenTicketFields(updatedForm, action);
-                    } else if (type == CLOSE) {
-                      updatedForm = removeGithubOpenTicketFields(updatedForm);
-                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
-                      updatedForm = putGithubCloseTicketFields(updatedForm, action);
-                      if (!doesParameterExist(parameters, 'id')) {
-                        parameters.push(createTicketIdParameter('Issue', 'Github issue id'));
-                      }
-                      onChange('parameters', parameters);
-                    } else if (type == ADD_COMMENT) {
-                      updatedForm = removeGithubOpenTicketFields(updatedForm);
-                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
-                      updatedForm = putGithubCommentTicketFields(updatedForm, action);
-
-                      if (!doesParameterExist(parameters, 'id')) {
-                        parameters.push(createTicketIdParameter('Issue', 'Github issue id'));
-                      }
-                      onChange('parameters', parameters);
-                    }
+                  setForm(form => {
+                    const type = e.target.value;
+                    let updatedForm = form.updateIn(['ticketActionType'], item => item.setValue(type).setTouched(true));
+                    updatedForm = checkIdParameter(updatedForm, type);
                     return updatedForm;
                   })
                 }
@@ -676,17 +590,19 @@ function GithubSection({
           ))}
         </Col>
       </Row>
-      {ticketActionType.value === OPEN && <GithubOpenSection form={form} onChange={onChange} setForm={setForm} />}
-      {ticketActionType.value === CLOSE && <TicketCloseAndCommentSection form={form} onChange={onChange} close />}
-      {ticketActionType.value === ADD_COMMENT && <TicketCloseAndCommentSection form={form} onChange={onChange} />}
+      {ticketActionType.value === OPEN && <GithubOpenSection />}
+      {ticketActionType.value === CLOSE && <TicketCloseAndCommentSection close />}
+      {ticketActionType.value === ADD_COMMENT && <TicketCloseAndCommentSection />}
     </>
   );
 }
 
-function GithubOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm'>) {
-  const title = form.get('title') as Field<string>;
-  const body = form.get('body') as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
+function GithubOpenSection() {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
+
+  const title = form.get('title');
+  const body = form.get('body');
 
   return (
     <>
@@ -702,7 +618,9 @@ function GithubOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps
                 type="text"
                 disabled={isNotEditable}
                 value={field.value}
-                onChange={e => onChange('title', e.target.value)}
+                onChange={e =>
+                  setForm(form => form.updateIn(['title'], item => item.setValue(e.target.value).setTouched(true)))
+                }
                 hasError={!field.valid && field.touched}
                 maxLength={256}
               />
@@ -726,7 +644,13 @@ function GithubOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps
                 value={field.value}
                 rows={15}
                 disabled={isNotEditable}
-                onChange={e => onChange('body', (e.target as HTMLTextAreaElement).value)}
+                onChange={e =>
+                  setForm(form =>
+                    form.updateIn(['body'], item =>
+                      item.setValue((e.target as HTMLTextAreaElement).value).setTouched(true)
+                    )
+                  )
+                }
                 hasError={!field.valid && field.touched}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
@@ -739,21 +663,14 @@ function GithubOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps
       </Row>
       <FormGroup>
         <FieldsTable
-          form={form}
-          setForm={setForm}
-          onChange={onChange}
           label={t('in-automation:labels')}
           fieldName="labels"
           customAddRowLabel={t('in-automation:ActionCatalog.addLabels')}
           noDataMessage={t('in-automation:ActionCatalog.noLabelsConfigured')}
         />
       </FormGroup>
-
       <FormGroup>
         <FieldsTable
-          form={form}
-          setForm={setForm}
-          onChange={onChange}
           label={t('in-automation:assignees')}
           fieldName="assignees"
           customAddRowLabel={t('in-automation:ActionCatalog.addAssignees')}
@@ -764,45 +681,39 @@ function GithubOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps
   );
 }
 
-function TicketCloseAndCommentSection({
-  form,
-  onChange,
-  close = false
-}: Pick<ActionFormBodyProps, 'form' | 'onChange'> & { close?: boolean }) {
-  const comment = form.get('comment') as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
+function TicketCloseAndCommentSection({ close = false }: { close?: boolean }) {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
 
-  return (
-    <>
-      {comment.map(field => (
-        <FormGroup>
-          <Label htmlFor="ticket-comment" hasError={!field.valid && field.touched}>
-            {close ? t('in-automation:ActionCatalog.commentOptional') : t('in-automation:comment')}
-          </Label>
-          <TextArea
-            id="ticket-comment"
-            value={field.value}
-            disabled={isNotEditable}
-            onChange={e => onChange('comment', (e.target as HTMLTextAreaElement).value)}
-            hasError={!field.valid && field.touched}
-          />
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-        </FormGroup>
-      ))}
-    </>
-  );
+  const comment = form.get('comment');
+
+  return comment.map(field => (
+    <FormGroup>
+      <Label htmlFor="ticket-comment" hasError={!field.valid && field.touched}>
+        {close ? t('in-automation:ActionCatalog.commentOptional') : t('in-automation:comment')}
+      </Label>
+      <TextArea
+        id="ticket-comment"
+        value={field.value}
+        disabled={isNotEditable}
+        onChange={e =>
+          setForm(form =>
+            form.updateIn(['comment'], item => item.setValue((e.target as HTMLTextAreaElement).value).setTouched(true))
+          )
+        }
+        hasError={!field.valid && field.touched}
+      />
+      <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+    </FormGroup>
+  ));
 }
 
-function GitlabSection({
-  form,
-  onChange,
-  setForm,
-  action: action
-}: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm' | 'action'>) {
-  const projectId = form.get('projectId') as Field<string>;
-  const ticketActionType = form.get('ticketActionType') as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
-  let parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
+function GitlabSection() {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
+
+  const projectId = form.get('projectId');
+  const ticketActionType = form.get('ticketActionType');
 
   return (
     <>
@@ -818,7 +729,9 @@ function GitlabSection({
                 type="text"
                 disabled={isNotEditable}
                 value={field.value}
-                onChange={e => onChange('projectId', e.target.value)}
+                onChange={e =>
+                  setForm(form => form.updateIn(['projectId'], item => item.setValue(e.target.value).setTouched(true)))
+                }
                 hasError={!field.valid && field.touched}
                 maxLength={256}
               />
@@ -837,29 +750,10 @@ function GitlabSection({
                 value={field.value}
                 disabled={isNotEditable}
                 onChange={e =>
-                  onChange('ticketActionType', e.target.value, updatedForm => {
-                    const type = (updatedForm.get('ticketActionType') as Field<string>).value;
-                    if (type == OPEN) {
-                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
-                      updatedForm = putGitlabOpenTicketFields(updatedForm, action);
-                    } else if (type == CLOSE) {
-                      updatedForm = removeGitlabOpenTicketFields(updatedForm);
-                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
-                      updatedForm = putGitlabCloseTicketFields(updatedForm, action);
-                      if (!doesParameterExist(parameters, 'id')) {
-                        parameters.push(createTicketIdParameter('Issue', 'Gitlab issue id'));
-                      }
-                      onChange('parameters', parameters);
-                    } else if (type == ADD_COMMENT) {
-                      updatedForm = removeGitlabOpenTicketFields(updatedForm);
-                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
-                      updatedForm = putGitlabCommentTicketFields(updatedForm, action);
-
-                      if (!doesParameterExist(parameters, 'id')) {
-                        parameters.push(createTicketIdParameter('Issue', 'Gitlab issue id'));
-                      }
-                      onChange('parameters', parameters);
-                    }
+                  setForm(form => {
+                    const type = e.target.value;
+                    let updatedForm = form.updateIn(['ticketActionType'], item => item.setValue(type).setTouched(true));
+                    updatedForm = checkIdParameter(updatedForm, type);
                     return updatedForm;
                   })
                 }
@@ -876,18 +770,20 @@ function GitlabSection({
           ))}
         </Col>
       </Row>
-      {ticketActionType.value === OPEN && <GitlabOpenSection form={form} onChange={onChange} setForm={setForm} />}
-      {ticketActionType.value === CLOSE && <TicketCloseAndCommentSection form={form} onChange={onChange} close />}
-      {ticketActionType.value === ADD_COMMENT && <TicketCloseAndCommentSection form={form} onChange={onChange} />}
+      {ticketActionType.value === OPEN && <GitlabOpenSection />}
+      {ticketActionType.value === CLOSE && <TicketCloseAndCommentSection close />}
+      {ticketActionType.value === ADD_COMMENT && <TicketCloseAndCommentSection />}
     </>
   );
 }
 
-function GitlabOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm'>) {
-  const title = form.get('title') as Field<string>;
-  const body = form.get('body') as Field<string>;
-  const issue_type = form.get('issue_type') as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
+function GitlabOpenSection() {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
+
+  const title = form.get('title');
+  const body = form.get('body');
+  const issue_type = form.get('issue_type');
 
   return (
     <>
@@ -903,7 +799,9 @@ function GitlabOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps
                 type="text"
                 disabled={isNotEditable}
                 value={field.value}
-                onChange={e => onChange('title', e.target.value)}
+                onChange={e =>
+                  setForm(form => form.updateIn(['title'], item => item.setValue(e.target.value).setTouched(true)))
+                }
                 hasError={!field.valid && field.touched}
                 maxLength={256}
               />
@@ -927,7 +825,13 @@ function GitlabOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps
                 value={field.value}
                 rows={15}
                 disabled={isNotEditable}
-                onChange={e => onChange('body', (e.target as HTMLTextAreaElement).value)}
+                onChange={e =>
+                  setForm(form =>
+                    form.updateIn(['body'], item =>
+                      item.setValue((e.target as HTMLTextAreaElement).value).setTouched(true)
+                    )
+                  )
+                }
                 hasError={!field.valid && field.touched}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
@@ -940,9 +844,6 @@ function GitlabOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps
       </Row>
       <FormGroup>
         <FieldsTable
-          form={form}
-          setForm={setForm}
-          onChange={onChange}
           label={t('in-automation:labels')}
           fieldName="labels"
           customAddRowLabel={t('in-automation:ActionCatalog.addLabels')}
@@ -950,43 +851,39 @@ function GitlabOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps
         />
       </FormGroup>
 
-      <FormGroup>
-        {issue_type.map(field => (
-          <FormGroup>
-            <Label htmlFor="gitlab-issue-type" hasError={!field.valid && field.touched}>
-              {t('in-automation:issueType')}
-            </Label>
-            <Select
-              id="gitlab-issue-type"
-              value={field.value}
-              disabled={isNotEditable}
-              onChange={e => onChange('issue_type', e.target.value)}
-              hasError={!field.valid && field.touched}
-            >
-              {GL_ISSUE_TYPES.map(({ value, translation }) => (
-                <option key={value} value={value}>
-                  {translation}
-                </option>
-              ))}
-            </Select>
-            <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          </FormGroup>
-        ))}
-      </FormGroup>
+      {issue_type.map(field => (
+        <FormGroup>
+          <Label htmlFor="gitlab-issue-type" hasError={!field.valid && field.touched}>
+            {t('in-automation:issueType')}
+          </Label>
+          <Select
+            id="gitlab-issue-type"
+            value={field.value}
+            disabled={isNotEditable}
+            onChange={e =>
+              setForm(form => form.updateIn(['issue_type'], item => item.setValue(e.target.value).setTouched(true)))
+            }
+            hasError={!field.valid && field.touched}
+          >
+            {GL_ISSUE_TYPES.map(({ value, translation }) => (
+              <option key={value} value={value}>
+                {translation}
+              </option>
+            ))}
+          </Select>
+          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+        </FormGroup>
+      ))}
     </>
   );
 }
 
-function JiraSection({
-  form,
-  onChange,
-  setForm,
-  action: action
-}: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm' | 'action'>) {
-  const project = form.get('project') as Field<string>;
-  const ticketActionType = form.get('ticketActionType') as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
-  let parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
+function JiraSection() {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
+
+  const project = form.get('project');
+  const ticketActionType = form.get('ticketActionType');
 
   return (
     <>
@@ -1002,7 +899,9 @@ function JiraSection({
                 type="text"
                 disabled={isNotEditable}
                 value={field.value}
-                onChange={e => onChange('project', e.target.value)}
+                onChange={e =>
+                  setForm(form => form.updateIn(['project'], item => item.setValue(e.target.value).setTouched(true)))
+                }
                 hasError={!field.valid && field.touched}
                 maxLength={256}
               />
@@ -1021,29 +920,10 @@ function JiraSection({
                 value={field.value}
                 disabled={isNotEditable}
                 onChange={e =>
-                  onChange('ticketActionType', e.target.value, updatedForm => {
-                    const type = (updatedForm.get('ticketActionType') as Field<string>).value;
-                    if (type == OPEN) {
-                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
-                      updatedForm = putJiraOpenTicketFields(updatedForm, action);
-                    } else if (type == CLOSE) {
-                      updatedForm = removeJiraOpenTicketFields(updatedForm);
-                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
-                      updatedForm = putJiraCloseTicketFields(updatedForm, action);
-                      if (!doesParameterExist(parameters, 'id')) {
-                        parameters.push(createTicketIdParameter('Task', 'Jira task id'));
-                      }
-                      onChange('parameters', parameters);
-                    } else if (type == ADD_COMMENT) {
-                      updatedForm = removeJiraOpenTicketFields(updatedForm);
-                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
-                      updatedForm = putJiraCommentTicketFields(updatedForm, action);
-
-                      if (!doesParameterExist(parameters, 'id')) {
-                        parameters.push(createTicketIdParameter('Task', 'Jira task id'));
-                      }
-                      onChange('parameters', parameters);
-                    }
+                  setForm(form => {
+                    const type = e.target.value;
+                    let updatedForm = form.updateIn(['ticketActionType'], item => item.setValue(type).setTouched(true));
+                    updatedForm = checkIdParameter(updatedForm, type);
                     return updatedForm;
                   })
                 }
@@ -1060,19 +940,21 @@ function JiraSection({
           ))}
         </Col>
       </Row>
-      {ticketActionType.value === OPEN && <JiraOpenSection form={form} onChange={onChange} setForm={setForm} />}
-      {ticketActionType.value === CLOSE && <TicketCloseAndCommentSection form={form} onChange={onChange} close />}
-      {ticketActionType.value === ADD_COMMENT && <TicketCloseAndCommentSection form={form} onChange={onChange} />}
+      {ticketActionType.value === OPEN && <JiraOpenSection />}
+      {ticketActionType.value === CLOSE && <TicketCloseAndCommentSection close />}
+      {ticketActionType.value === ADD_COMMENT && <TicketCloseAndCommentSection />}
     </>
   );
 }
 
-function JiraOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm'>) {
-  const summary = form.get('summary') as Field<string>;
-  const body = form.get('body') as Field<string>;
-  const assignee = form.get('assignee') as Field<string>;
-  const issue_type = form.get('issue_type') as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
+function JiraOpenSection() {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
+
+  const summary = form.get('summary');
+  const body = form.get('body');
+  const assignee = form.get('assignee');
+  const issue_type = form.get('issue_type');
 
   return (
     <>
@@ -1088,7 +970,9 @@ function JiraOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps, 
                 type="text"
                 disabled={isNotEditable}
                 value={field.value}
-                onChange={e => onChange('summary', e.target.value)}
+                onChange={e =>
+                  setForm(form => form.updateIn(['summary'], item => item.setValue(e.target.value).setTouched(true)))
+                }
                 hasError={!field.valid && field.touched}
                 maxLength={256}
               />
@@ -1112,7 +996,13 @@ function JiraOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps, 
                 value={field.value}
                 rows={15}
                 disabled={isNotEditable}
-                onChange={e => onChange('body', (e.target as HTMLTextAreaElement).value)}
+                onChange={e =>
+                  setForm(form =>
+                    form.updateIn(['body'], item =>
+                      item.setValue((e.target as HTMLTextAreaElement).value).setTouched(true)
+                    )
+                  )
+                }
                 hasError={!field.valid && field.touched}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
@@ -1123,7 +1013,6 @@ function JiraOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps, 
           ))}
         </Col>
       </Row>
-
       <Row>
         <Col lg={6}>
           {assignee.map(field => (
@@ -1136,7 +1025,9 @@ function JiraOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps, 
                 type="text"
                 disabled={isNotEditable}
                 value={field.value}
-                onChange={e => onChange('assignee', e.target.value)}
+                onChange={e =>
+                  setForm(form => form.updateIn(['assignee'], item => item.setValue(e.target.value).setTouched(true)))
+                }
                 hasError={!field.valid && field.touched}
                 maxLength={256}
               />
@@ -1155,7 +1046,11 @@ function JiraOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps, 
                   id="jira-issue-type"
                   value={field.value}
                   disabled={isNotEditable}
-                  onChange={e => onChange('issue_type', e.target.value)}
+                  onChange={e =>
+                    setForm(form =>
+                      form.updateIn(['issue_type'], item => item.setValue(e.target.value).setTouched(true))
+                    )
+                  }
                   hasError={!field.valid && field.touched}
                 >
                   {JIRA_ISSUE_TYPES.map(({ value, translation }) => (
@@ -1170,12 +1065,8 @@ function JiraOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps, 
           </FormGroup>
         </Col>
       </Row>
-
       <FormGroup>
         <FieldsTable
-          form={form}
-          setForm={setForm}
-          onChange={onChange}
           label={t('in-automation:labels')}
           fieldName="labels"
           customAddRowLabel={t('in-automation:ActionCatalog.addLabels')}
@@ -1188,24 +1079,20 @@ function JiraOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps, 
 
 const authOptions = AUTH_TYPES.map(type => ({ value: type, label: AUTH_TRANSLATIONS[type] }));
 
-function WebhookSection({
-  form,
-  setForm,
-  onChange,
-  action: action
-}: Pick<ActionFormBodyProps, 'form' | 'setForm' | 'onChange' | 'action'>) {
-  const host = form.get('host') as Field<string>;
-  const method = form.get('method') as Field<string>;
-  const accept = form.get('accept') as Field<string>;
-  const body = form.get('body') as Field<string>;
-  const acceptLanguage = form.get('acceptLanguage') as Field<string>;
-  const contentType = form.get('contentType') as Field<string>;
-  const ignoreCertErrors = form.get('ignoreCertErrors') as Field<boolean>;
-  const authType = form.get('authType') as Field<string>;
+function WebhookSection() {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
+
+  const host = form.get('host');
+  const method = form.get('method');
+  const accept = form.get('accept');
+  const body = form.get('httpBody');
+  const acceptLanguage = form.get('acceptLanguage');
+  const contentType = form.get('contentType');
+  const ignoreCertErrors = form.get('ignoreCertErrors');
+  const authType = form.get('authType');
 
   const renderBodyAndContentType = HTTP_METHODS_WITH_BODY.includes(method.value);
-
-  const isNotEditable = useContext(isNotEditableContext);
 
   return (
     <>
@@ -1221,7 +1108,9 @@ function WebhookSection({
                 type="text"
                 disabled={isNotEditable}
                 value={field.value}
-                onChange={e => onChange('host', e.target.value)}
+                onChange={e =>
+                  setForm(form => form.updateIn(['host'], item => item.setValue(e.target.value).setTouched(true)))
+                }
                 hasError={!field.valid && field.touched}
                 maxLength={256}
               />
@@ -1239,7 +1128,9 @@ function WebhookSection({
                 id="action-method"
                 value={field.value}
                 disabled={isNotEditable}
-                onChange={e => onChange('method', e.target.value)}
+                onChange={e =>
+                  setForm(form => form.updateIn(['method'], item => item.setValue(e.target.value).setTouched(true)))
+                }
                 hasError={!field.valid && field.touched}
               >
                 {HTTP_METHODS.map(method => (
@@ -1265,7 +1156,11 @@ function WebhookSection({
                 type="text"
                 value={field.value}
                 disabled={isNotEditable}
-                onChange={e => onChange('contentType', e.target.value)}
+                onChange={e =>
+                  setForm(form =>
+                    form.updateIn(['contentType'], item => item.setValue(e.target.value).setTouched(true))
+                  )
+                }
                 hasError={!field.valid && field.touched}
                 maxLength={256}
               />
@@ -1284,7 +1179,13 @@ function WebhookSection({
                 id="action-body"
                 value={field.value}
                 disabled={isNotEditable}
-                onChange={({ target }: React.ChangeEvent<HTMLTextAreaElement>) => onChange('body', target.value)}
+                onChange={e =>
+                  setForm(form =>
+                    form.updateIn(['httpBody'], item =>
+                      item.setValue((e.target as HTMLTextAreaElement).value).setTouched(true)
+                    )
+                  )
+                }
                 hasError={!field.valid && field.touched}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
@@ -1302,7 +1203,13 @@ function WebhookSection({
               <Label htmlFor="action-ignoreCertErrors" hasError={!field.valid && field.touched}>
                 {t('in-automation:ActionCatalog.ignoreCertErrors')}
               </Label>
-              <Toggle disabled={isNotEditable} checked={field.value} onToggle={e => onChange('ignoreCertErrors', e)} />
+              <Toggle
+                disabled={isNotEditable}
+                checked={field.value}
+                onToggle={e =>
+                  setForm(form => form.updateIn(['ignoreCertErrors'], item => item.setValue(e).setTouched(true)))
+                }
+              />
             </FormGroup>
           ))}
         </Col>
@@ -1317,21 +1224,9 @@ function WebhookSection({
                 value={field.value}
                 disabled={isNotEditable}
                 onChange={e =>
-                  onChange('authType', e.target.value, updatedForm => {
-                    const authType = (updatedForm.get('authType') as Field<string>).value;
-                    if (authType == AUTH_TYPE.NO_AUTH) {
-                      updatedForm = removeBasicFields(updatedForm);
-                      updatedForm = removeBearerField(updatedForm);
-                      updatedForm = removeApiKeyFields(updatedForm);
-                    } else if (authType == AUTH_TYPE.BASIC_AUTH) {
-                      updatedForm = putBasicFields(updatedForm, action);
-                    } else if (authType == AUTH_TYPE.BEARER_TOKEN) {
-                      updatedForm = putBearerField(updatedForm, action);
-                    } else if (authType == AUTH_TYPE.API_KEY) {
-                      updatedForm = putApiKeyFields(updatedForm, action);
-                    }
-                    return updatedForm;
-                  })
+                  setForm(form =>
+                    form.updateIn(['authType'], item => item.setValue(e.target.value as AuthenType).setTouched(true))
+                  )
                 }
                 hasError={!field.valid && field.touched}
               >
@@ -1346,9 +1241,9 @@ function WebhookSection({
           ))}
         </Col>
       </Row>
-      {authType.value === AUTH_TYPE.BASIC_AUTH && <BasicAuth form={form} onChange={onChange} />}
-      {authType.value === AUTH_TYPE.BEARER_TOKEN && <BearerAuth form={form} onChange={onChange} />}
-      {authType.value === AUTH_TYPE.API_KEY && <APIAuth form={form} onChange={onChange} />}
+      {authType.value === AUTH_TYPE.BASIC_AUTH && <BasicAuth />}
+      {authType.value === AUTH_TYPE.BEARER_TOKEN && <BearerAuth />}
+      {authType.value === AUTH_TYPE.API_KEY && <APIAuth />}
       <Row>
         <Col lg={6}>
           {accept.map(field => (
@@ -1361,7 +1256,9 @@ function WebhookSection({
                 type="text"
                 disabled={isNotEditable}
                 value={field.value}
-                onChange={e => onChange('accept', e.target.value)}
+                onChange={e =>
+                  setForm(form => form.updateIn(['accept'], item => item.setValue(e.target.value).setTouched(true)))
+                }
                 hasError={!field.valid && field.touched}
                 maxLength={256}
               />
@@ -1383,7 +1280,11 @@ function WebhookSection({
                 type="text"
                 disabled={isNotEditable}
                 value={field.value}
-                onChange={e => onChange('acceptLanguage', e.target.value)}
+                onChange={e =>
+                  setForm(form =>
+                    form.updateIn(['acceptLanguage'], item => item.setValue(e.target.value).setTouched(true))
+                  )
+                }
                 hasError={!field.valid && field.touched}
                 maxLength={256}
               />
@@ -1396,16 +1297,18 @@ function WebhookSection({
         </Col>
       </Row>
       <FormGroup>
-        <AdditionalHeadersTable form={form} setForm={setForm} onChange={onChange} />
+        <AdditionalHeadersTable form={form} setForm={setForm} />
       </FormGroup>
     </>
   );
 }
 
-function BasicAuth({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) {
-  const username = form.get('username') as Field<string>;
-  const password = form.get('password') as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
+function BasicAuth() {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
+
+  const username = form.get('username');
+  const password = form.get('password');
 
   return (
     <Row>
@@ -1420,7 +1323,9 @@ function BasicAuth({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onCha
               type="text"
               disabled={isNotEditable}
               value={field.value}
-              onChange={e => onChange('username', e.target.value)}
+              onChange={e =>
+                setForm(form => form.updateIn(['username'], item => item.setValue(e.target.value).setTouched(true)))
+              }
               hasError={!field.valid && field.touched}
               maxLength={256}
             />
@@ -1434,7 +1339,19 @@ function BasicAuth({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onCha
             <Label htmlFor="action-password" hasError={!field.valid && field.touched}>
               {t('in-automation:ActionCatalog.password')}
             </Label>
-            <SecuredInput form={form} onChange={onChange} fieldKey="password" />
+            <Input
+              id="action-password"
+              type="password"
+              disabled={isNotEditable}
+              placeholder={'*******************'}
+              value={field.value}
+              onChange={e =>
+                setForm(form => form.updateIn(['password'], item => item.setValue(e.target.value).setTouched(true)))
+              }
+              hasError={!field.valid && field.touched}
+              maxLength={256}
+            />
+
             <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           </FormGroup>
         ))}
@@ -1443,8 +1360,11 @@ function BasicAuth({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onCha
   );
 }
 
-function BearerAuth({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) {
-  const bearerToken = form.get('bearerToken') as Field<string>;
+function BearerAuth() {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
+
+  const bearerToken = form.get('bearerToken');
 
   return (
     <Row>
@@ -1454,7 +1374,18 @@ function BearerAuth({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onCh
             <Label htmlFor="action-bearerToken" hasError={!field.valid && field.touched}>
               {t('in-automation:ActionCatalog.bearerToken')}
             </Label>
-            <SecuredInput form={form} onChange={onChange} fieldKey="bearerToken" />
+            <Input
+              id="action-bearerToken"
+              type="password"
+              disabled={isNotEditable}
+              placeholder={'*******************'}
+              value={field.value}
+              onChange={e =>
+                setForm(form => form.updateIn(['bearerToken'], item => item.setValue(e.target.value).setTouched(true)))
+              }
+              hasError={!field.valid && field.touched}
+              maxLength={256}
+            />
             <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           </FormGroup>
         ))}
@@ -1463,11 +1394,13 @@ function BearerAuth({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onCh
   );
 }
 
-function APIAuth({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) {
-  const apiKey = form.get('apiKey') as Field<string>;
-  const apiKeyValue = form.get('apiKeyValue') as Field<string>;
-  const apiKeyAddTo = form.get('apiKeyAddTo') as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
+function APIAuth() {
+  const { form, setForm } = useActionFormContext();
+  const isNotEditable = useIsNotEditableContext();
+
+  const apiKey = form.get('apiKey');
+  const apiKeyValue = form.get('apiKeyValue');
+  const apiKeyAddTo = form.get('apiKeyAddTo');
 
   return (
     <Row>
@@ -1482,7 +1415,9 @@ function APIAuth({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChang
               type="text"
               disabled={isNotEditable}
               value={field.value}
-              onChange={e => onChange('apiKey', e.target.value)}
+              onChange={e =>
+                setForm(form => form.updateIn(['apiKey'], item => item.setValue(e.target.value).setTouched(true)))
+              }
               hasError={!field.valid && field.touched}
               maxLength={256}
             />
@@ -1496,7 +1431,18 @@ function APIAuth({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChang
             <Label htmlFor="action-apiKeyValue" hasError={!field.valid && field.touched}>
               {t('in-automation:value')}
             </Label>
-            <SecuredInput form={form} onChange={onChange} fieldKey="apiKeyValue" />
+            <Input
+              id="action-apiKeyValue"
+              type="password"
+              disabled={isNotEditable}
+              placeholder={'*******************'}
+              value={field.value}
+              onChange={e =>
+                setForm(form => form.updateIn(['apiKeyValue'], item => item.setValue(e.target.value).setTouched(true)))
+              }
+              hasError={!field.valid && field.touched}
+              maxLength={256}
+            />
             <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           </FormGroup>
         ))}
@@ -1511,7 +1457,9 @@ function APIAuth({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChang
               id="action-apiKeyAddTo"
               disabled={isNotEditable}
               value={field.value}
-              onChange={e => onChange('apiKeyAddTo', e.target.value)}
+              onChange={e =>
+                setForm(form => form.updateIn(['apiKeyAddTo'], item => item.setValue(e.target.value).setTouched(true)))
+              }
               hasError={!field.valid && field.touched}
             >
               <option value="header">{t('in-automation:ActionCatalog.header')}</option>
@@ -1525,58 +1473,19 @@ function APIAuth({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChang
   );
 }
 
-const tooltipTranslation = {
-  apiKeyValue: [t('in-automation:ActionCatalog.hideAPIKeyTooltip'), t('in-automation:ActionCatalog.showAPIKeyTooltip')],
-  password: [
-    t('in-automation:ActionCatalog.hidePasswordTooltip'),
-    t('in-automation:ActionCatalog.showPasswordTooltip')
-  ],
-  bearerToken: [
-    t('in-automation:ActionCatalog.hideBeaererTokenTooltip'),
-    t('in-automation:ActionCatalog.showBeaererTokenTooltip')
-  ]
-} as const;
+function AnsibleSection({ action }: { action?: ActionFormEntity }) {
+  if (!action) return null;
 
-function SecuredInput({
-  form,
-  onChange,
-  fieldKey
-}: Pick<ActionFormBodyProps, 'form' | 'onChange'> & { fieldKey: keyof typeof tooltipTranslation }) {
-  const field = form.get(fieldKey) as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
-
-  return (
-    <HorizontalFlexWrapper>
-      <Input
-        className={locals.width100}
-        id="action-password"
-        type="password"
-        disabled={isNotEditable}
-        placeholder={'*******************'}
-        value={field.value}
-        onChange={e => onChange(fieldKey, e.target.value)}
-        hasError={!field.valid && field.touched}
-        maxLength={256}
-      />
-      <Spacer horizontal="xsmall" />
-    </HorizontalFlexWrapper>
-  );
-}
-
-function AnsibleSection({ action }: Pick<ActionFormBodyProps, 'action'>) {
   const { jobTemplateUrl, isWorkflowJobTemplate } = getAnsibleFields(action);
+
+  const label = isWorkflowJobTemplate ? t('in-automation:workflowJobTemplate') : t('in-automation:jobTemplate');
+
   return (
-    <>
-      <FormGroup className={locals.widthFitContent}>
-        {isWorkflowJobTemplate ? (
-          <Label>{t('in-automation:workflowJobTemplate')}</Label>
-        ) : (
-          <Label>{t('in-automation:jobTemplate')}</Label>
-        )}
-        <Link external href={jobTemplateUrl}>
-          {action.name}
-        </Link>
-      </FormGroup>
-    </>
+    <FormGroup className={locals.widthFitContent}>
+      <Label>{label}</Label>
+      <Link external href={jobTemplateUrl}>
+        {action.name}
+      </Link>
+    </FormGroup>
   );
 }

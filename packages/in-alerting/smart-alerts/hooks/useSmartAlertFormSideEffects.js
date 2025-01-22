@@ -6,6 +6,7 @@
 import { isOneOfBaselineTypes } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
+import { generateGracePeriodOptions } from 'in-alerting/smart-alerts/components/GracePeriod';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
 
 export function useSmartAlertFormSideEffects(form, setForm) {
@@ -60,7 +61,7 @@ export function useSmartAlertFormSideEffects(form, setForm) {
     },
     {
       path: ['granularity'],
-      effects: [requestThresholdSuggestion]
+      effects: [requestThresholdSuggestion, resetGracePeriod]
     },
     {
       path: ['hiddenFields', 'chartViewEntitySelection'],
@@ -138,6 +139,21 @@ function resetThreshold(form) {
   }
 
   return form;
+}
+
+function resetGracePeriod(form) {
+  const granularity = form.get('granularity').value;
+  const currentGracePeriod = form.get('gracePeriod').value;
+  const newGracePeriodOptions = generateGracePeriodOptions(granularity);
+
+  // find the closest value
+  const closestGracePeriod = newGracePeriodOptions
+    .map(option => parseInt(option.value, 10))
+    .reduce((closest, value) =>
+      Math.abs(value - currentGracePeriod) < Math.abs(closest - currentGracePeriod) ? value : closest
+    );
+
+  return form.updateIn(['gracePeriod'], f => f.setValue(closestGracePeriod).setTouched(false));
 }
 
 function validateAggregation(form) {

@@ -17,6 +17,7 @@ import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/synthetics/
 import SimpleModeDialogThreshold from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleModeDialogThreshold';
 import SyntheticsAlertProperties from 'in-alerting/smart-alerts/synthetics/dialog/SyntheticsAlertProperties';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
 import { isCustomPayloadValidOrUntouched } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
@@ -82,16 +83,19 @@ export default function AdvancedModeContainer(
           titleToolTipText: t('in-alerting:smartAlerts.synthetics.simple.thresholdTitleHelpText'),
           valid: true,
           content: (
-            <LightCard
-              title={t('in-alerting:smartAlerts.synthetics.advanced.failureThreshold')}
-              withoutPadding={false}
-              darkFrame
-            >
-              <SimpleModeDialogThreshold
-                {...props}
-                subTitleToolTipText={t('in-alerting:smartAlerts.synthetics.simple.thresholdSubTitleHelpText')}
-              />
-            </LightCard>
+            <>
+              <LightCard
+                title={t('in-alerting:smartAlerts.synthetics.advanced.failureThreshold')}
+                withoutPadding={false}
+                darkFrame
+              >
+                <SimpleModeDialogThreshold
+                  {...props}
+                  subTitleToolTipText={t('in-alerting:smartAlerts.synthetics.simple.thresholdSubTitleHelpText')}
+                />
+              </LightCard>
+              <GracePeriodWrapper form={form} updateForm={updateForm} />
+            </>
           )
         },
         {

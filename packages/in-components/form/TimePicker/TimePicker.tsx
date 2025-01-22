@@ -11,8 +11,8 @@ import uniqueId from 'lodash/uniqueId';
 // 24 hour clock is the only format accepted at this time.
 import { CarbonTimePicker } from '@instana/components';
 
+import { TimePickerProps } from 'in-components/form/TimePicker/types';
 import { timeValidator } from 'in-services/validators/date';
-import { TimePickerProps } from './types';
 
 const TimePicker = ({ ...props }: TimePickerProps): JSX.Element => {
   const { onChange, value, id, invalid, invalidText, placeholder, seconds } = props;

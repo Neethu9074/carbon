@@ -94,6 +94,7 @@ const KubernetesOperator = ({
       `   name: ${clusterName}`,
       '  agent:',
       `   key: ${agentKey}`,
+      `   downloadKey: ${downloadKey}`,
       `   endpointHost: ${agentEndpoint}`,
       `   endpointPort: "${agentEndpointPort}"`,
       '   env: {}',

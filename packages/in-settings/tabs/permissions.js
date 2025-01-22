@@ -9,7 +9,7 @@ import {
   globalSettingsAlertingEvents,
   globalSettingsAlertingAlertChannels,
   securityAndAccessActionLog,
-  globalSettingsIntegrationsLoggingHumio,
+  globalSettingsIntegrationsLoggingFalconLogScale,
   securityAndAccessAccessControlGroups,
   globalSettingsAlertingCustomPayloadConfiguration,
   globalSettingsAlertingMaintenanceConfigurations,
@@ -62,7 +62,7 @@ export function findFirstPermittedGlobalPage() {
     return globalSettingsAlertingCustomPayloadConfiguration;
   }
   if (role.canConfigureLogManagement) {
-    return globalSettingsIntegrationsLoggingHumio;
+    return globalSettingsIntegrationsLoggingFalconLogScale;
   }
   if (role.canConfigureDatabaseManagement) {
     return globalSettingsIntegrationsDatabase;

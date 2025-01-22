@@ -111,6 +111,7 @@ export const getBashCode = ({
     case 'openshift_operator': {
       let content = customResourceFile
         .replaceAll('${agentKey}', agentKey)
+        .replaceAll('${downloadKey}', downloadKey)
         .replaceAll('${agentEndpoint}', agentEndpoint)
         .replaceAll('${agentEndpointPort}', agentEndpointPort)
         .replaceAll('${clusterName}', clusterName)
@@ -119,7 +120,7 @@ export const getBashCode = ({
       return {
         code: content,
         lang: 'bash',
-        withoutCopyButton: !(clusterName && agentKey && agentEndpoint && agentEndpointPort),
+        withoutCopyButton: !(clusterName && agentKey && downloadKey && agentEndpoint && agentEndpointPort),
         withExpandButton: true,
         linesToShow: 15
       };
@@ -127,10 +128,12 @@ export const getBashCode = ({
     case 'openshift_helm': {
       let content = [];
       content.push(
+        'oc login -u system:admin',
+        'oc new-project instana-agent',
+        'oc adm policy add-scc-to-user privileged -z instana-agent -n instana-agent',
         'helm install instana-agent \\',
         '   --repo https://agents.instana.io/helm \\',
         '   --namespace instana-agent \\',
-        '   --create-namespace \\',
         '   --set openshift=true \\',
         `   --set agent.key=${agentKey} \\`,
         `   --set agent.downloadKey=${downloadKey} \\`,

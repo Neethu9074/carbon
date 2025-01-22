@@ -6,7 +6,7 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import ShowCase from './ShowCase';
+import ShowCase from 'in-custom-dashboards/widgets/SloLegacy/ShowCase';
 import { t } from 'in-i18n';
 
 describe('in-custom-dashboards/widgets/SloLegacy/ShowCase', () => {

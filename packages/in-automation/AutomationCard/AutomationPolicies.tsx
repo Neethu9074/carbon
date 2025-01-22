@@ -15,7 +15,6 @@ import useServerTableUrlState, {
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { nameColumn, actionNameColumn as policyActionNameColumn } from 'in-automation/PolicyTable/columnDefinitions';
-import useNavigateToPolicyDetails from 'in-automation/navigation/hooks/useNavigateToPolicyDetails';
 import { refresh, usePaginatedPolicies } from 'in-automation/AutomationCard/usePolicies';
 import CreatePoliciesDialog from 'in-automation/AutomationCard/CreatePoliciesDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -301,7 +300,6 @@ export default function AutomationPolicies({ event, volatileId, actions, trigger
 
   const totalHits = paginatedPolicies?.data?.totalHits;
 
-  const navigateToPolicyDetails = useNavigateToPolicyDetails();
   return (
     <ServerTablePresenter<Policy, AutomationPoliciesTableProps>
       volatileId={volatileId}
@@ -316,7 +314,6 @@ export default function AutomationPolicies({ event, volatileId, actions, trigger
         </Typography>
       }
       onChange={setServerTableUrlState}
-      onRowClick={policy => navigateToPolicyDetails(policy.id)}
       orderBy={orderBy}
       orderDirection={orderDirection}
       page={page}

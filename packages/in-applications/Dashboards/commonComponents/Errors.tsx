@@ -57,7 +57,7 @@ export default function Errors({
     tagFilters: tagFilters,
     timeConfig: timeConfig,
     granularity,
-    timeShift: 0,
+    timeShift: { offset: 0 },
     // eslint-disable-next-line import/no-deprecated
     color: carbonAlert.red60
   };

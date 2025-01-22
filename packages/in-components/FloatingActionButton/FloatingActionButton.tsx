@@ -10,7 +10,7 @@ import { SvgIcon } from '@instana/components';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 
-import locals from './FloatingActionButton.mless';
+import locals from 'in-components/FloatingActionButton/FloatingActionButton.mless';
 
 /* same scheme as used for IconButtons */
 export const kinds = ['primaryv2', 'action'];

@@ -16,8 +16,8 @@ import {
 } from 'in-types';
 import { toNewTagFilterFormat, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { and, or, not } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import { toBackendQueryModel } from './backendQueryModel';
 
 export const OPEN_BRACKET = 'OPEN_BRACKET';
 export const CLOSE_BRACKET = 'CLOSE_BRACKET';

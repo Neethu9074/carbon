@@ -14,12 +14,12 @@ import { Stack } from '@instana/components';
 import MetricAndSortingConfigurator from 'in-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 // @ts-expect-error needs TS migration
 import { getAvailableMetrics } from 'in-components/AnalyzeView/metrics';
+import GroupedViewOnlyIndicator from 'in-components/AnalyzeView/UngroupedView/GroupedViewOnlyIndicator';
 import { UngroupedViewProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import Header from 'in-components/QueryBuilder/components/Header';
-import GroupedViewOnlyIndicator from './GroupedViewOnlyIndicator';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 

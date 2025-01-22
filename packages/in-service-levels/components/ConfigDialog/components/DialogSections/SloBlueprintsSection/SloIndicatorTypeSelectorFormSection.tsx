@@ -17,6 +17,7 @@ import locals from 'in-service-levels/components/ConfigDialog/components/DialogS
 export default function SloIndicatorTypeSelectorFormSection() {
   const { form, mode, onChange } = useContext(SloFormContext);
 
+  const entityTypeField = form.getIn(['entity', 'type']);
   const typeField = form.getIn(['indicator', 'type']);
   const blueprintField = form.getIn(['indicator', 'blueprint']);
 
@@ -41,7 +42,9 @@ export default function SloIndicatorTypeSelectorFormSection() {
           <RadioButton
             checked={isIndicatorTimeBased}
             disabled={isFormInEditMode}
-            explanation={t('in-service-levels:createSloDialog.indicatorSection.timeTypeExplanation')}
+            explanation={t('in-service-levels:createSloDialog.indicatorSection.timeTypeExplanation', {
+              context: entityTypeField.value
+            })}
             label={t('in-service-levels:general.time')}
             onChange={() => onChange(['indicator', 'type'], () => typeField.setValue('timeBased').setTouched(true))}
             size="large"
@@ -52,7 +55,9 @@ export default function SloIndicatorTypeSelectorFormSection() {
         <RadioButton
           checked={isIndicatorEventBased}
           disabled={isFormInEditMode}
-          explanation={t('in-service-levels:createSloDialog.indicatorSection.eventTypeExplanation')}
+          explanation={t('in-service-levels:createSloDialog.indicatorSection.eventTypeExplanation', {
+            context: entityTypeField.value
+          })}
           label={t('in-service-levels:createSloDialog.indicatorSection.eventCount')}
           onChange={() => onChange(['indicator', 'type'], () => typeField.setValue('eventBased').setTouched(true))}
           size="large"

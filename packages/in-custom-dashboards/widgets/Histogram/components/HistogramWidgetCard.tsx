@@ -26,12 +26,12 @@ import downloadPDFAction from 'in-components/Chart/components/ContextMenu/action
 import useResultData from 'in-custom-dashboards/widgets/Histogram/hooks/useResultData';
 import { CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF } from 'in-services/tracking/tracking';
 import WidgetCardHeader from 'in-components/WidgetCardHeader/WidgetCardHeader';
+import { HistogramConfig } from 'in-custom-dashboards/widgets/Histogram/form';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import HistogramChart from 'in-components/HistogramChart/HistogramChart';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { UnifiedMetricConfigurationUnion } from 'in-types';
-import { HistogramConfig } from '../form';
 import { t } from 'in-i18n';
 
 import locals from './HistogramWidgetCard.mless';

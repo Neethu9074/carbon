@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2025
  */
 
-// eslint-disable-next-line no-restricted-imports
-import { Dropdown } from '@carbon/react';
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
+
+import { CarbonDropdown } from '@instana/components';
 
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { days, minutes, hours } from 'in-services/time/time';
@@ -23,8 +23,8 @@ interface GracePeriodProps {
 
 export default function GracePeriod({ form, updateForm }: GracePeriodProps) {
   const gracePeriod = form.get('gracePeriod').value;
-  const granularity = form.get('granularity').value;
-  const gracePeriodOptions: DropdownItem[] = generateGracePeriodOptions(granularity);
+  const granularity = form?.get('granularity')?.value;
+  const gracePeriodOptions: DropdownItem[] = generateGracePeriodOptions(granularity ?? 60000);
 
   const handleGracePeriodChange = (event: { selectedItem: DropdownItem }) => {
     const newValue = event.selectedItem.value;
@@ -34,7 +34,7 @@ export default function GracePeriod({ form, updateForm }: GracePeriodProps) {
 
   return (
     <div className={locals.dropdownContainer}>
-      <Dropdown
+      <CarbonDropdown
         id="grace-period-dropdown"
         items={gracePeriodOptions}
         selectedItem={gracePeriodOptions.find(option => option.value === gracePeriod.toString())}

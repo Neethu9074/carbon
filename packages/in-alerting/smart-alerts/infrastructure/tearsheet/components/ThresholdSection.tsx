@@ -4,27 +4,19 @@
  * Copyright IBM Corp. 2024
  */
 
-import { MapForm, Field } from 'formalistic';
+import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { Spacer, Stack } from '@instana/components';
+import { Stack } from '@instana/components';
 
-import {
-  getMarksForThresholdType,
-  getDefaultMark
-} from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/ConfigureGranularity';
 import { getFormatter, getMetricUnitPostfix } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import MultiThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/Section/MultiThresholdCondition';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
-import { Marks } from 'in-alerting/smart-alerts/infrastructure/tearsheet/steps/AlertConfigTearSheetStep2';
-import DebouncedRestrictedSlider from 'in-components/Slider/DebouncedRestrictedSlider';
+import EvaluationWindow from 'in-alerting/smart-alerts/components/tearSheet/EvaluationWindow';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
 import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import AlertTypography from 'in-alerting/components/AlertTypography';
-import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
-
-import locals from 'in-alerting/smart-alerts/infrastructure/tearsheet/steps/AlertConfigTearSheetStep2.mless';
 
 export default function ThresholdSection({
   form,
@@ -47,12 +39,6 @@ export default function ThresholdSection({
   const formatter = getFormatter(entityType, metricName);
   const percentageMetric = formatter === 'PERCENTAGE';
   const metricUnitPostfix = getMetricUnitPostfix(formatter);
-  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
-  const granularity = form.get('granularity')?.value;
-
-  const marks = getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed);
-  const foundMark = marks.find((i: Marks) => i.millis === granularity) ?? getDefaultMark(marks, thresholdType);
-  const currentValue = foundMark.value;
 
   return (
     <Stack direction="vertical" gap="gutter" align="start">
@@ -117,54 +103,7 @@ export default function ThresholdSection({
       </Section>
 
       {/* Time window */}
-      <Section
-        title={
-          <AlertTypography
-            variant="body-regular"
-            color="color900"
-            content={t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.timeWindow')}
-          />
-        }
-        titleWidth="8rem"
-      >
-        <div className={locals.fullWidth}>
-          <DebouncedRestrictedSlider
-            marks={marks}
-            max={marks[marks.length - 1].value}
-            min={0}
-            value={currentValue}
-            onChange={value => {
-              onChangeGranularity(minutes.toMillis(value), form, updateForm);
-            }}
-            valueLabelDisplay="off"
-          />
-          <Spacer size="normal" />
-          <AlertTypography
-            variant="body-small"
-            color="color600"
-            content={t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.granularity.description', {
-              granularity: currentValue
-            })}
-          />
-        </div>
-      </Section>
+      <EvaluationWindow form={form} updateForm={updateForm} oneMinuteGranularityAllowed={oneMinuteGranularityAllowed} />
     </Stack>
-  );
-}
-
-function onChangeGranularity(newGranularity: number, form: MapForm<any>, updateForm: (form: MapForm<any>) => void) {
-  const oldGranularity = form.get('granularity').value;
-  const oldTimeWindow = form.get('timeThreshold').get('timeWindow').value;
-
-  const calculatedViolation = (oldTimeWindow / oldGranularity).toString();
-
-  const violations = parseInt(calculatedViolation);
-
-  updateForm(
-    form
-      .updateIn(['granularity'], f => f.setValue(newGranularity).setTouched(true))
-      .updateIn(['timeThreshold', 'timeWindow'], f =>
-        (f as Field<number>).setValue(violations * newGranularity).setTouched(true)
-      )
   );
 }

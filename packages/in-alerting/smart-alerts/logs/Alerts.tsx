@@ -19,15 +19,15 @@ import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/create
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
-import StatusColumnCell from 'in-alerting/smart-alerts/components/list/StatusColumnCell';
 import { actionHandlers } from 'in-alerting/smart-alerts/logs/lists/ListActionHandlers';
+import { CreateSmartAlertButton } from 'in-alerting/smart-alerts/logs/CreateSmartAlert';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import LogsAlertsTabHeader from 'in-alerting/smart-alerts/logs/LogsAlertsTabHeader';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import CreateSmartAlert from 'in-alerting/smart-alerts/logs/CreateSmartAlert';
 import { sortOptions } from 'in-alerting/smart-alerts/logs/lists/constants';
+import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import ScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { number } from 'in-services/formatters/number';
@@ -61,11 +61,7 @@ export default function Alerts({ isLogsDashboardHeader = false }) {
             carbonActionHandlers={handlers}
             getNameSubtitle={() => getLogSubtitle(t('in-alerting:smartAlerts.logs.logCount'))}
             displayCarbonTable={displayCarbonTable}
-            toolBarContent={
-              role?.canConfigureGlobalLogSmartAlerts ? (
-                <CreateSmartAlert isCarbonTableView={displayCarbonTable} />
-              ) : undefined
-            }
+            toolBarContent={role?.canConfigureGlobalLogSmartAlerts ? <CreateSmartAlertButton /> : undefined}
             noDataHeader={t('in-alerting:smartAlerts.logs.list.noDataHeader')}
             noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.logs.list.noDataDescription" />}
           />
@@ -126,15 +122,19 @@ function getCarbonTableColumnDefinitions() {
     {
       id: 'triggering-action',
       label: t('in-alerting:table.triggeringAction'),
-      getContent: (config: LogAlertConfigWithMetadata) => <>{getSubtitle(config.threshold)}</>,
+      ellipsis: '25vw',
+      getContent: (config: LogAlertConfigWithMetadata) => (
+        <TableCellWrapper>{getSubtitle(config.threshold)}</TableCellWrapper>
+      ),
       sortable: false
-    },
-    {
-      id: 'enabled',
-      label: t('in-alerting:table.status'),
-      getContent: (config: LogAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
-      sortable: true
     }
+    // TODO bring this back once the bulk actions are implemented
+    // {
+    //   id: 'enabled',
+    //   label: t('in-alerting:table.status'),
+    //   getContent: (config: LogAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
+    //   sortable: true
+    // }
   ];
 }
 

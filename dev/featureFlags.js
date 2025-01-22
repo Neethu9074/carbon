@@ -11,6 +11,7 @@ module.exports = {
   iframeEnabled: true,
   agentMonitoringIssuesEnabled: true,
   cveIssueEnabled: false,
+  vulnerabilityCenterEnabled: true,
   businessObservabilityEnabled: true,
   bizopsGenAIEnabled: true,
   bizopsStandardInclusionEnabled: true,
@@ -50,8 +51,10 @@ module.exports = {
   ampEnabled: true,
   persistentVolumeSupportEnabled: true,
   segmentAnalyticsEnabled: false,
+  amplitudeExperimentEnabled: false,
   ibmCommonEnabled: true,
   loggingEnabled: true,
+  deleteLogsV3Enabled: false,
   logRetentionPageEnabled: true,
   logWidgetsEnabled: true,
   carbonShellEnabled: true,
@@ -85,6 +88,7 @@ module.exports = {
   websiteBeaconQueryOptimizationEnabled: true,
   eumImpactedUsersForAppAlertEnabled: true,
   controlPlaneEnabled: true,
+  kubecostEnabled: true,
   largeTracesV2Enabled: true,
   multiCloseEnabled: false,
   limitVisibleNestingLevelsInTraceEnabled: false,
@@ -183,5 +187,6 @@ module.exports = {
   accessControlCarbonTable: false,
   prcIssueEnabled: true,
   logSmartAlertFullScreenDesignEnabled: false,
+  websitesSmartAlertFullScreenDesignEnabled: false,
   prometheusDeltaCountersSumEnabled: true
 };

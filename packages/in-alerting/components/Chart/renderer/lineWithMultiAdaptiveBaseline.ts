@@ -6,26 +6,21 @@
 
 import { renderBackgroundsAndLinesWithGapsForMultiThreshold } from 'in-alerting/components/Chart/renderer/renderThresholdsAndBackgroundsForMultiThreshold';
 import {
-  extractBaselineForSeverity,
-  WARNING_SEVERITY,
-  CRITICAL_SEVERITY
-} from 'in-alerting/smart-alerts/components/utils/baselineUtils';
-import {
   DataSeries,
   MultiMetricRenderProps,
   RenderAxis,
   RenderConfig,
   Renderer
 } from 'in-components/Chart/renderer/types';
+import { AdaptiveBaselineFetchedPredictions } from 'in-alerting/smart-alerts/data/adaptiveBaselinePredictionInfo';
+import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { getThresholdInTimeframe } from 'in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline';
 import { isGreaterOperatorOrUndefined } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { Granularity, ThresholdOperator, ThresholdData, TimeConfig, Severity } from 'in-types';
 import { BaselineDataSeries } from 'in-alerting/components/Chart/renderer/historicBaseline';
-import { Granularity, ThresholdOperator, ThresholdData } from 'in-types';
 import { AxisColor } from 'in-components/Chart/types';
 import line from 'in-components/Chart/renderer/line';
 import { ScaleType } from 'in-services/scale/scale';
-
-type MultiThresholdDataSeries = [number, number, number][];
 
 interface AdaptiveBaselineDataForMultiThreshold extends ThresholdData {
   readonly baseline: BaselineDataSeries;
@@ -36,8 +31,9 @@ export const createLineWithMultiAdaptiveBaseline = (
   operator: ThresholdOperator,
   warningThreshold: AdaptiveBaselineDataForMultiThreshold | undefined,
   criticalThreshold: AdaptiveBaselineDataForMultiThreshold | undefined,
-  eventBasedAdaptiveBaseline: MultiThresholdDataSeries,
-  granularity: Granularity
+  granularity: Granularity,
+  eventBasedAdaptiveBaseline?: AdaptiveBaselineFetchedPredictions, // undefined - when not in events/alert-details view
+  timeConfig?: TimeConfig
 ): Renderer<MultiMetricRenderProps> => {
   return {
     render: ({ colors50, colors100, scale, config, metrics }): void => {
@@ -49,10 +45,11 @@ export const createLineWithMultiAdaptiveBaseline = (
         operator,
         warningThreshold,
         criticalThreshold,
-        eventBasedAdaptiveBaseline,
         granularity,
         colors50,
-        colors100
+        colors100,
+        eventBasedAdaptiveBaseline,
+        timeConfig
       );
 
       // historical data
@@ -85,10 +82,11 @@ function renderMultiAdaptiveBaseline(
   operator: ThresholdOperator,
   warningBaselineData: AdaptiveBaselineDataForMultiThreshold | undefined,
   criticalBaselineData: AdaptiveBaselineDataForMultiThreshold | undefined,
-  eventBasedAdaptiveBaseline: MultiThresholdDataSeries, // either [number, number, number][] or []
   granularity: Granularity,
   colors50: AxisColor[],
-  colors100: AxisColor[]
+  colors100: AxisColor[],
+  eventBasedAdaptiveBaseline?: AdaptiveBaselineFetchedPredictions,
+  timeConfig?: TimeConfig
 ): void {
   const { baseline, warningSensitivity, criticalSensitivity } = extractBaselineData(
     warningBaselineData,
@@ -98,22 +96,26 @@ function renderMultiAdaptiveBaseline(
 
   const thresholdInTimeframeForWarning: DataSeries =
     warningSensitivity != null
-      ? getThresholdInTimeframe(
-          extractBaselineForSeverity(eventBasedAdaptiveBaseline, WARNING_SEVERITY),
+      ? calculateThresholdInTimeframeForSeveity(
+          WARNING_SEVERITY,
           baseline,
           warningSensitivity,
           isGreaterOp,
-          granularity
+          granularity,
+          eventBasedAdaptiveBaseline,
+          timeConfig
         )
       : [];
   const thresholdInTimeframeForCritical: DataSeries =
     criticalSensitivity != null
-      ? getThresholdInTimeframe(
-          extractBaselineForSeverity(eventBasedAdaptiveBaseline, CRITICAL_SEVERITY),
+      ? calculateThresholdInTimeframeForSeveity(
+          CRITICAL_SEVERITY,
           baseline,
           criticalSensitivity,
           isGreaterOp,
-          granularity
+          granularity,
+          eventBasedAdaptiveBaseline,
+          timeConfig
         )
       : [];
 
@@ -128,4 +130,29 @@ function renderMultiAdaptiveBaseline(
     isGreaterOp,
     withGaps
   );
+}
+
+export function calculateThresholdInTimeframeForSeveity(
+  severity: Severity,
+  baseline: BaselineDataSeries,
+  sensitivity: number,
+  isGreaterOp: boolean,
+  granularity: Granularity,
+  baselineEntriesFromMetadata?: AdaptiveBaselineFetchedPredictions,
+  timeConfig?: TimeConfig
+): DataSeries {
+  if (baselineEntriesFromMetadata === undefined) {
+    // we're not in alert-details or events view
+    return getThresholdInTimeframe([], baseline, sensitivity, isGreaterOp, granularity, timeConfig);
+  }
+
+  const thresholdInTimeframe: DataSeries = [];
+
+  for (const [timestamp, warningPrediction, criticalPrediction] of baselineEntriesFromMetadata) {
+    thresholdInTimeframe.push([
+      Number(timestamp),
+      severity === WARNING_SEVERITY ? warningPrediction : criticalPrediction
+    ]);
+  }
+  return thresholdInTimeframe;
 }

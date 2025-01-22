@@ -4,8 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
-import { DragDropContext, Draggable, DraggableProvidedDragHandleProps, Droppable } from 'react-beautiful-dnd';
-import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import { SortableContext, arrayMove, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import React, { useEffect, ReactNode, useMemo, useState } from 'react';
+import { CSS } from '@dnd-kit/utilities';
 
 import { useObservable } from '@instana/hooks';
 
@@ -49,7 +51,6 @@ export interface DashboardTileParamProps {
   key: number;
   header: string;
   icon?: string;
-  dragAndDropConfigs?: DraggableProvidedDragHandleProps;
   toggles?: ReactNode;
   toggleCallback?: (index: number) => void;
   sectionLabel?: string;
@@ -62,6 +63,21 @@ const syntheticArray = [
 ];
 
 const syntheticToogleArray: string[] = syntheticArray.map(ele => ele.label);
+
+interface SortableItemProps {
+  id: string;
+  content: React.ReactNode;
+}
+
+function SortableItem({ id, content }: SortableItemProps) {
+  const { attributes, listeners, setNodeRef, transform } = useSortable({ id });
+
+  return (
+    <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform) }} {...attributes} {...listeners}>
+      {content}
+    </div>
+  );
+}
 
 const widgetData = [
   {
@@ -210,64 +226,63 @@ function RenderTable() {
     setItemOrder(items);
   };
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5
+      }
+    })
+  );
+
+  const onDragEnd = ({ active, over }: any) => {
+    if (!over || active.id === over.id) {
+      return;
+    }
+
+    const oldIndex = internalItemOrder.findIndex(item => item.id === active.id);
+    const newIndex = internalItemOrder.findIndex(item => item.id === over.id);
+
+    setNewItemOrder(arrayMove(internalItemOrder, oldIndex, newIndex));
+  };
+
   return (
-    <DragDropContext
-      onDragEnd={({ source, destination }) => {
-        if (!destination) {
-          return;
-        }
-
-        const copiedItems = internalItemOrder.slice();
-        copiedItems[source.index] = internalItemOrder[destination.index];
-        copiedItems[destination.index] = internalItemOrder[source.index];
-        setNewItemOrder(copiedItems);
-      }}
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={onDragEnd}
+      autoScroll={{ acceleration: 50 }}
     >
-      <Droppable droppableId="droppable">
-        {provided => (
-          <div ref={provided.innerRef} className={locals.draggableItemWrapper}>
-            {internalItemOrder.map((_config: WidgetOrdering, index: number) => {
-              const ele = tableEntryArray.find(item => item.key == _config.id);
-              if (!ele) {
-                return null;
-              }
+      <SortableContext items={internalItemOrder} strategy={verticalListSortingStrategy}>
+        <div className={locals.draggableItemWrapper}>
+          {internalItemOrder.map((_config: WidgetOrdering) => {
+            const ele = tableEntryArray.find(item => item.key == _config.id);
+            if (!ele) {
+              return null;
+            }
 
-              const Widget = ele.widget;
+            const Widget = ele.widget;
+            let content;
 
-              return (
-                <Draggable key={_config.id} draggableId={_config.id} index={index}>
-                  {provided => {
-                    const dashboardTileProps: DashboardTileParamProps = {
-                      key: +_config.id,
-                      header: ele.label,
-                      icon: ele.icon,
-                      dragAndDropConfigs: provided.dragHandleProps,
-                      sectionLabel: ele.label
-                    };
-                    return ele?.key === 'eventsWidget' ? (
-                      <div id={ele.key} ref={provided.innerRef} {...provided.draggableProps}>
-                        <EventsChartWidget {...dashboardTileProps} />
-                      </div>
-                    ) : (
-                      <div id={ele.key} ref={provided.innerRef} {...provided.draggableProps}>
-                        {Widget && (
-                          <Widget
-                            key={ele.key}
-                            type={ele.type}
-                            widgetLabel={ele.key}
-                            dashboardTileProps={dashboardTileProps}
-                          />
-                        )}
-                      </div>
-                    );
-                  }}
-                </Draggable>
+            const dashboardTileProps: DashboardTileParamProps = {
+              key: +_config.id,
+              header: ele.label,
+              icon: ele.icon,
+              sectionLabel: ele.label
+            };
+
+            if (ele?.key === 'eventsWidget') {
+              content = <EventsChartWidget {...dashboardTileProps} />;
+            } else {
+              content = (
+                <Widget key={ele.key} type={ele.type} widgetLabel={ele.key} dashboardTileProps={dashboardTileProps} />
               );
-            })}
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+            }
+
+            return <SortableItem id={_config.id} content={content} />;
+          })}
+        </div>
+      </SortableContext>
+    </DndContext>
   );
 }
 

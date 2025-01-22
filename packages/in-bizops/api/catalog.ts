@@ -11,11 +11,20 @@ import http from 'in-services/http';
 
 const basePath = '/api/business-monitoring/catalog';
 
-export function getBusinessMonitoringTagCatalog(): Observable<Result<TagCatalog>> {
+interface BizopsTagFilterQueryParams {
+  useCase: 'FILTERING' | 'GROUPING';
+}
+
+export function getBusinessMonitoringTagCatalog({
+  useCase
+}: BizopsTagFilterQueryParams): Observable<Result<TagCatalog>> {
   return http<TagCatalog>({
     method: 'GET',
     maxRetries: 3,
     url: basePath,
-    mapToResultObject: true
+    mapToResultObject: true,
+    queryParams: {
+      useCase
+    }
   });
 }

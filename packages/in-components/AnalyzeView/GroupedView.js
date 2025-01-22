@@ -40,10 +40,10 @@ import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndic
 import { EQUALS, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { NO_VALUE, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
-import { tagFilter } from '../QueryBuilder/transformation/tagFilter';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import Header from 'in-components/QueryBuilder/components/Header';

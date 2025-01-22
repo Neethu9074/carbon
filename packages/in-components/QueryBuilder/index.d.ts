@@ -16,7 +16,7 @@ import {
   TagSuggestions,
   TimeConfig
 } from 'in-types';
-import { FormModelElement } from './transformation/formModel';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
 export type GetSuggestionsProps = { [key: string]: unknown };
 

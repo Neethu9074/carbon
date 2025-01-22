@@ -990,7 +990,8 @@
       "gracePeriod": {
         "title": "Grace period (optional)",
         "description": "Automatically close an issue after the violation threshold is no longer met for:",
-        "label": "Select"
+        "label": "Select",
+        "summary": "Automatically close an issue after the violation threshold is no longer met <strong>for {{gracePeriodValue}}</strong>."
       },
       "tearSheet": {
         "cancelModalTitle": "Are you sure you want to cancel?",
@@ -1010,8 +1011,7 @@
           "persistenceType": "Persistence type",
           "numberOfConsecutiveViolationsPostLabel": "consecutive {{granularity}}-minute window(s) have violations",
           "static": "Static",
-          "thresholdValue": "Threshold value",
-          "timeWindow": "Time Window"
+          "thresholdValue": "Threshold value"
         }
       }
     },
@@ -1257,6 +1257,8 @@
         "alertConfigurationTitleAlertChannels": "Alert channels",
         "alertConfigurationTitleAlertProperties": "Alert properties",
         "failureThreshold": "{{failureCount}} failures",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "Grace period",
         "alertConfigurationTitleScope": "Scope",
         "noOfFailure": "Number of failure",
         "timeThreshold": "Time threshold",
@@ -1543,7 +1545,7 @@
           "header": "What properties do you want to set for this alert?"
         },
         "step4": {
-          "header": "Where do you want to be notified for alert?",
+          "header": "Where do you want to be notified for this alert?",
           "description": "Select the recipient(s) of this alert"
         },
         "scopeAlerting": {
@@ -1660,7 +1662,48 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
         "noDataForSelectedGroup": "There is no data available for the specified filters and grouping combination."
       },
-      "logCount": "Log count"
+      "logCount": "Log count",
+      "tearSheet": {
+        "labelActionButtonEdit": "Edit",
+        "labelActionButtonDuplicate": "Duplicate",
+        "createTitle": "Create a log smart alert",
+        "editTitle": "Edit log Smart Alert",
+        "steps": {
+          "step1Title": "Define the condition",
+          "step2Title": "Define when to get alerted",
+          "step3Title": "Define alert properties",
+          "step4Title": "Define alert channels"
+        },
+        "step2": {
+          "header": "Set a value for the violation threshold",
+          "description": "Select a metric, violation threshold and time window to evaluate the violation."
+        },
+        "step3": {
+          "header": "What properties do you want to set for this alert?"
+        },
+        "step4": {
+          "header": "Where do you want to be notified for this alert?",
+          "description": "Select the recipient(s) of this alert"
+        },
+        "scopeFilter": {
+          "title": "Choose the scope of the logs",
+          "filter": "Filter",
+          "filterDescription": "Add filters to the services to get more precise alerts."
+        },
+        "scopeGroupBy": {
+          "group": "Group",
+          "groupByDescription": "Add group to configure calls in groups. Each call within the group is configured collectively but evaluated individually."
+        },
+        "timeThreshold": {
+          "title": "Set when violations trigger alerts",
+          "description": "Specify the persistence over time for alert trigger and time to failure."
+        },
+        "thresholdDescription": {
+          "static": "A constant threshold value is applied and it does not change over time."
+        },
+        "chartAlertPreview": "Alerts preview",
+        "chartAlertPreviewDescription": "Shows how alerts would have been triggered based on historical metric data."
+      }
     },
     "slo": {
       "components": {
@@ -1783,6 +1826,7 @@
     "warningAndCritical": "Warning and Critical",
     "warning": "Warning",
     "critical": "Critical",
-    "searchPlaceholder": "Search"
+    "searchPlaceholder": "Search",
+    "sortBy": "Sort by"
   }
 }

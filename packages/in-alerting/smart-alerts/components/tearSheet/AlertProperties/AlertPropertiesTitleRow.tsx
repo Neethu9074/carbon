@@ -5,6 +5,7 @@
  */
 
 import { MapForm, Item, Field } from 'formalistic';
+import classNames from 'classnames';
 import React from 'react';
 
 import { Button, Stack, SvgIcon, Tooltip } from '@instana/components';
@@ -27,7 +28,7 @@ export interface AlertPropertiesTitleRowProps {
   form: MapForm<any>;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   getTitlePlaceholder: (form: MapForm<any>) => string;
-  placeholders: ReadonlyArray<Readonly<Placeholder>>;
+  placeholders?: ReadonlyArray<Readonly<Placeholder>>;
   placeholderTooltipContent?: string | undefined;
   showDisabledPlaceholder?: boolean;
 }
@@ -42,7 +43,12 @@ export default function AlertPropertiesTitleRow({
   const hasError = !form.get('name').valid && form.get('name').touched;
   return (
     <Stack gap="xxsmall">
-      <div className={locals.titleRowContainer}>
+      <div
+        className={classNames(locals.titleRowContainer, {
+          [locals.noPlaceholder]: !placeholders,
+          [locals.noPlaceholderTooltip]: placeholders && !placeholderTooltipContent
+        })}
+      >
         <label>
           <AlertTypography
             variant={'body-regular'}
@@ -65,7 +71,7 @@ export default function AlertPropertiesTitleRow({
           placeholder={getTitlePlaceholder(form)}
         />
 
-        {(placeholders.length > 0 || showDisabledPlaceholder) && (
+        {((placeholders && placeholders.length > 0) || showDisabledPlaceholder) && (
           <MoreMenu
             renderInteractiveElement={({ ref, toggle }: InteractiveElementsProps) => (
               <Button
@@ -82,9 +88,9 @@ export default function AlertPropertiesTitleRow({
                 {t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertyInsertPlaceholderLabel')}
               </Button>
             )}
-            disabled={placeholders.length === 0}
+            disabled={placeholders?.length === 0}
           >
-            {placeholders.map(({ template }) => {
+            {placeholders?.map(({ template }) => {
               return (
                 <MoreMenuButton
                   onClick={insertPlaceholderText(form.get('name').value, template, onChange)}

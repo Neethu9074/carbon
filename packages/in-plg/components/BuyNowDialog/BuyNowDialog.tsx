@@ -4,15 +4,17 @@
  * Copyright IBM Corp. 2024
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
-import { Typography, Ul, Li, Stack, Link, LicenseBannerButton } from '@instana/components';
+import { Typography, Ul, Li, Stack, Link, CarbonButton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
   generateBuyOnIbmUrl,
   getPlatformSubscriptionIdsForTenantAndUnit
 } from 'in-plg/components/UsageBanner/UsageBanner';
+import { IconForButton } from '../IconForButton/IconForButton';
 import { triggerSegmentEvent } from 'in-plg/api/segmentData';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -116,44 +118,42 @@ export const BuyNowDialog = () => {
         </Stack>
       </div>
       <div className={locals.dialogButton}>
-        <Stack direction="horizontal" gap="disabled">
-          <LicenseBannerButton noAutoMargin className={locals.dialogButton} kind="ghost" size="lg" onClick={close}>
-            {t('in-plg:buyNowDialog.cancelbtn')}
-          </LicenseBannerButton>
-          <LicenseBannerButton
-            noAutoMargin
-            id="wm-buyonaws"
-            className={locals.dialogButton}
-            kind="tertiary"
-            icon="lib_views_external_link"
-            size="lg"
-            target="_blank"
-            href="https://aws.amazon.com/marketplace/pp/prodview-tbam5h35sumqg?sr=0-1&ref_=beagle&applicationId=AWSMPContessa"
-            rel="noopener noreferrer"
-            onClick={() => {
-              const data = { type: 'aws' };
-              triggerSegmentEvent(data);
-            }}
-          >
-            {t('in-plg:licenseBanner.buyNowBtn')}
-          </LicenseBannerButton>
-          <LicenseBannerButton
-            id="wm-buyonibm"
-            className={locals.dialogButton}
-            kind="primary"
-            icon="lib_views_external_link"
-            size="lg"
-            target="_blank"
-            href={generateBuyOnIbmUrl(platformSubscriptionIdFreetrial)}
-            rel="noopener noreferrer"
-            onClick={() => {
-              const data = { type: 'ibm' };
-              triggerSegmentEvent(data);
-            }}
-          >
-            {t('in-plg:licenseBanner.buyNowBtnIbm')}
-          </LicenseBannerButton>
-        </Stack>
+        <CarbonButton className={locals.dialogButton} kind="ghost" size="lg" onClick={close}>
+          {t('in-plg:buyNowDialog.cancelbtn')}
+        </CarbonButton>
+        <CarbonButton
+          id="wm-buyonaws"
+          className={locals.dialogButton}
+          kind="tertiary"
+          size="lg"
+          target="_blank"
+          href="https://aws.amazon.com/marketplace/pp/prodview-tbam5h35sumqg?sr=0-1&ref_=beagle&applicationId=AWSMPContessa"
+          rel="noopener noreferrer"
+          onClick={() => {
+            const data = { type: 'aws' };
+            triggerSegmentEvent(data);
+          }}
+          renderIcon={() => <IconForButton icon="lib_views_external_link" iconSize="s" />}
+        >
+          {t('in-plg:licenseBanner.buyNowBtn')}
+        </CarbonButton>
+
+        <CarbonButton
+          id="wm-buyonibm"
+          className={classNames({ [locals.dialogButton]: true, [locals.primaryButton]: true })}
+          kind="primary"
+          size="lg"
+          target="_blank"
+          href={generateBuyOnIbmUrl(platformSubscriptionIdFreetrial)}
+          rel="noopener noreferrer"
+          onClick={() => {
+            const data = { type: 'ibm' };
+            triggerSegmentEvent(data);
+          }}
+          renderIcon={() => <IconForButton icon="lib_views_external_link" iconSize="s" />}
+        >
+          {t('in-plg:licenseBanner.buyNowBtnIbm')}
+        </CarbonButton>
       </div>
     </Dialog>
   );

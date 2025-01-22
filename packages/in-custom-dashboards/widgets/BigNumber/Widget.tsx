@@ -10,10 +10,11 @@ import {
   ConfigWithCompanionMetric,
   ConfigWithStaticCompanion
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
+import { enrichBySettingDataSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops/utils';
 import { customDashboardsFastQueryModeEnabled, thresholdCustomDashboardsEnabled } from 'in-services/featureFlags';
+import { Threshold, UnifiedMetricConfigurationUnion, isBizOpsUnifiedMetricConfiguration } from 'in-types';
 import { hasApplicationMetrics } from 'in-custom-dashboards/widgets/_shared/hasApplicationMetrics';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
-import { Threshold, UnifiedMetricConfigurationUnion } from 'in-types';
 import { getThreshold } from 'in-components/Threshold/threshold';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { getUnit } from 'in-stores/metric/units';
@@ -46,6 +47,11 @@ export default function BigNumber({ config, title, actions, dragHandle, isInModa
       ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
       : t('in-components:approximateDataIndicator.dataRetention');
   const unit = config?.metricConfiguration?.unit;
+
+  // add bizops data source if necessary
+  if (isBizOpsUnifiedMetricConfiguration(config?.metricConfiguration)) {
+    config.metricConfiguration = enrichBySettingDataSource(config.metricConfiguration);
+  }
 
   return (
     <BigNumberKpiCard

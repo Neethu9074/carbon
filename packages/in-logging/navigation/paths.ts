@@ -7,8 +7,8 @@ import { buildJsonSerializer, setOrDeleteMatrixKey } from 'in-stores/navigation/
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
+import { Grouping, TagFilterExpression, TimeConfig } from 'in-types';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
-import { TagFilterExpression, TimeConfig } from 'in-types';
 import { setTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 
@@ -23,10 +23,11 @@ export const alertDetailsFullyQualifiedPath = `${alertsFullyQualifiedPath}${aler
 export const dashboardAlertDetailsFullPath = `${loggingDashboardPath}${alertsPath}${alertsDetailsPath}`;
 export const dashboardSmartAlertsPath = `${loggingDashboardPath}${alertsPath}`;
 export const dashboardDeletePath = `${loggingDashboardPath}/delete`;
-export const dashboardConfigurationPath = `${loggingDashboardPath}/configure`;
-export const dashboardRetentionConfigurationPath = `${dashboardConfigurationPath}/retention`;
-export const dashboardLogVolumePath = `${dashboardConfigurationPath}/logVolume`;
-export const dashboardIntegrationsPath = `${dashboardConfigurationPath}/integrations`;
+export const dashboardManagementPath = `${loggingDashboardPath}/manage`;
+export const dashboardRetentionManagementPath = `${dashboardManagementPath}/retention`;
+export const dashboardLogVolumePath = `${dashboardManagementPath}/logVolume`;
+export const dashboardIntegrationsPath = `${dashboardManagementPath}/integrations`;
+export const logSmartAlertsFullScreen = '/logSmartAlerts';
 
 export const isLoggingView = getRootPathPredicate(loggingDashboardPath);
 
@@ -38,6 +39,7 @@ interface QueryBuilderTag {
 interface GetLinkToLogsProps {
   tagFilterExpression: TagFilterExpression | FormModelElement[];
   timeConfig?: TimeConfig;
+  groups?: Grouping[];
 }
 
 export function useGenerateLinkToLogs() {
@@ -51,7 +53,8 @@ export function getLogsHref(
   location: Location,
   createHref: (target: Location) => string,
   tagFilterExpression?: QueryBuilderTag | TagFilterExpression | Array<QueryBuilderTag | TagFilterExpression>,
-  timeConfig?: TimeConfig
+  timeConfig?: TimeConfig,
+  grouping?: Grouping[]
 ) {
   location.pathname = logsPath;
 
@@ -64,6 +67,15 @@ export function getLogsHref(
   if (tagFilterExpression && !Array.isArray(tagFilterExpression)) {
     tagFilterExpression = [tagFilterExpression];
   }
+  const groupBy =
+    grouping && grouping.length > 0
+      ? grouping[0].by?.groupbyTagEntity === 'NOT_APPLICABLE'
+        ? { groupbyTag: grouping[0].by?.groupbyTag }
+        : {
+            groupbyTag: grouping[0].by?.groupbyTag,
+            groupbyTagEntity: grouping[0].by?.groupbyTagEntity
+          }
+      : [];
 
   setOrDeleteMatrixKey(
     location,
@@ -71,6 +83,7 @@ export function getLogsHref(
     'tagFilterExpression',
     tagFilterExpression ? buildJsonSerializer()(tagFilterExpression) : tagFilterExpression
   );
+  setOrDeleteMatrixKey(location, logsPath, 'groupBy', groupBy ? buildJsonSerializer()(groupBy) : groupBy);
 
   if (timeConfig) {
     setTimeConfig(location, timeConfig);
@@ -79,10 +92,10 @@ export function getLogsHref(
   return createHref(location);
 }
 
-export function useLinkToLogs({ tagFilterExpression, timeConfig }: GetLinkToLogsProps) {
+export function useLinkToLogs({ tagFilterExpression, timeConfig, groups }: GetLinkToLogsProps) {
   const { location, createHref } = useNavigation();
 
-  return getLogsHref(location, createHref, tagFilterExpression, timeConfig);
+  return getLogsHref(location, createHref, tagFilterExpression, timeConfig, groups);
 }
 
 export const isAnalyzeView = navigationParameters$.map(location => location.pathname.indexOf(logsPath) === 0);

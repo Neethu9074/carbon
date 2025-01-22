@@ -15,6 +15,7 @@ import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/infrastructu
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { infraSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -47,9 +48,13 @@ function openSmartAlertDialog(config: InfraSmartAlertConfigWithMetadata, isCopy 
 
 export const actionHandlers = {
   handleEdit: (config: InfraSmartAlertConfigWithMetadata) => handleEdit(config),
-  handleEditNew: (config: InfraSmartAlertConfigWithMetadata) => HandleEditNew(config),
+  ...(infraSmartAlertFullScreenDesignEnabled && {
+    handleEditNew: (config: InfraSmartAlertConfigWithMetadata) => HandleEditNew(config)
+  }),
   handleClone: (config: InfraSmartAlertConfigWithMetadata) => handleClone(config),
-  handleCloneNew: (config: InfraSmartAlertConfigWithMetadata) => HandleCloneNew(config),
+  ...(infraSmartAlertFullScreenDesignEnabled && {
+    handleCloneNew: (config: InfraSmartAlertConfigWithMetadata) => HandleCloneNew(config)
+  }),
   handleDelete: (
     id: string,
     setIsSaving: (saving: boolean) => void,

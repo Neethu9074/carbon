@@ -25,7 +25,7 @@ export default function MatchingSloTimeWindowsCard() {
     <Card>
       <Stack gap="xxsmall" direction="horizontal" wrap>
         <Typography noWrap variant="body-regular">
-          {t('in-service-levels:sloChart.sloChartSummary.matchedSLOTimeWindow')}
+          {t('in-service-levels:sloChart.sloChartSummary.matchedSLOTimeWindow', { count: timeWindows.length })}
         </Typography>
 
         {matchingTimeWindows.map((timeWindow, index) => {
@@ -36,7 +36,9 @@ export default function MatchingSloTimeWindowsCard() {
           );
         })}
         {!isLoading && !hasMatchingTimeWindows && (
-          <TimeWindowPill color="default.ids.color.option.neutral.400">No matching time window found</TimeWindowPill>
+          <TimeWindowPill color="default.ids.color.option.neutral.400">
+            {t('in-service-levels:sloChart.sloChartSummary.noMatchedSLOTimeWindow')}
+          </TimeWindowPill>
         )}
         {isLoading && <LoadingSkeleton />}
       </Stack>

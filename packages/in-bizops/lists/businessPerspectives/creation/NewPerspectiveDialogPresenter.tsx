@@ -9,11 +9,11 @@ import { MapForm } from 'formalistic';
 
 import { useObservable } from '@instana/hooks';
 
-import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { NewPerspectiveFormStepOne } from 'in-bizops/lists/businessPerspectives/creation/NewPerspectiveFormStepOne';
 import { NewPerspectiveFormStepTwo } from 'in-bizops/lists/businessPerspectives/creation/NewPerspectiveFormStepTwo';
 import createNewPerspectiveForm from 'in-bizops/lists/businessPerspectives/creation/createNewPerspectiveForm';
 import { isQueryValid } from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
+import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { businessPerspectiveDashboard, summaryTab } from 'in-bizops/navigation/paths';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
@@ -52,7 +52,8 @@ export function NewPerspectiveDialogPresenter() {
 
   const [step, setStep] = useState(0);
 
-  const blueprintCatalogResult = useObservable(getBusinessMonitoringTagCatalog(), []) ?? pendingResult;
+  const blueprintCatalogResult =
+    useObservable(getBusinessMonitoringTagCatalog({ useCase: 'FILTERING' }), []) ?? pendingResult;
 
   const tagFilterExpressionFormModel = form.get('tagFilterExpression')?.value;
   const validTagFilterExpressionResult =

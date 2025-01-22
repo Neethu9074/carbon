@@ -4,63 +4,45 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useContext } from 'react';
-import { Field } from 'formalistic';
-import classNames from 'classnames';
+import React from 'react';
 
 import { IconButton, Button } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
+import { ActionForm, MappedValue } from 'in-automation/ActionCatalog/useActionForm/types';
+import { useIsNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { isNotEditableContext } from 'in-automation/ActionCatalog/Action';
-import { ActionForm } from 'in-automation/ActionCatalog/useActionForm';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { deepCopy } from 'in-services/util/object';
 import { t } from 'in-i18n';
 
 import locals from './ServerTablePresenterWrapper.mless';
 
-export type ListItem<VALUETYPE> = { id: string; value: VALUETYPE };
-interface ServerTablePresenterWrapperListItem {}
-
-interface ServerTablePresenterWrapperListItemConfiguration<VALUETYPE>
-  extends ServerTablePresenterWrapperListItem,
-    ServerTablePresenterProps<ListItem<VALUETYPE>> {}
-
-interface ServerTablePresenterWrapperProps<VALUETYPE>
-  extends ServerTablePresenterWrapperListItem,
-    Partial<ServerTablePresenterWrapperListItemConfiguration<VALUETYPE>> {
-  columnDefinitions: ColumnDefinition<
-    ListItem<VALUETYPE>,
-    ServerTablePresenterWrapperListItemConfiguration<VALUETYPE>
-  >[];
-  data: ListItem<VALUETYPE>[];
-  form: ActionForm;
-  formKey: string;
+interface ServerTablePresenterWrapperProps<VALUETYPE> {
+  columnDefinitions: ColumnDefinition<MappedValue<VALUETYPE>>[];
+  formKey: 'additionalHeaders' | 'assignees' | 'labels' | 'parameters';
   defaultRow?: VALUETYPE;
-  setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
   customAddRow?: () => void;
   customAddRowLabel?: string;
   ticketIdParameterExist?: boolean;
-  isEditable?: boolean;
+  noDataMessage?: string;
+  leftHeader?: React.ReactNode;
 }
-const hasNameProperty = (obj: any): obj is { name: string } => obj && typeof obj.name === 'string';
 
 export default function ServerTablePresenterWrapper<VALUETYPE>({
   columnDefinitions,
-  data,
   noDataMessage,
   leftHeader,
-  form,
   formKey,
   defaultRow,
-  setForm,
   customAddRow,
   customAddRowLabel,
-  ticketIdParameterExist = false,
-  isEditable = true
+  ticketIdParameterExist = false
 }: ServerTablePresenterWrapperProps<VALUETYPE>) {
+  const isNotEditable = useIsNotEditableContext();
+  const { form, setForm } = useActionFormContext();
+  const data = form.get(formKey).value as MappedValue<VALUETYPE>[];
   const result = {
     // Parent component would only render if 'result has no errors' or 'result not loading'. Passing loading and errors param accordingly.
     progress: {
@@ -69,7 +51,6 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
     errors: [],
     data: {
       items: data ?? [],
-      // Show all tags
       page: 1,
       pageSize: data?.length ?? 0,
       totalHits: data?.length ?? 0
@@ -80,20 +61,17 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
     width: '8',
     sortable: false,
     label: '',
-    getContent(item: ListItem<VALUETYPE>) {
-      // we should not delete the id parameter for GH Action.
-      const isTicketId = item.value && hasNameProperty(item.value) && item.value.name === 'id';
+    getContent(item: MappedValue<VALUETYPE>) {
+      const isTicketId = item.value instanceof Object && 'name' in item.value && item.value.name === 'id';
       const disabled = ticketIdParameterExist && isTicketId;
       return (
         <div className={locals.controls}>
           <Tooltip content={t('in-alerting:components.customPayload.deleteRow')}>
             <IconButton
               kind="primary"
+              disabled={disabled}
               type="lib_actions_delete"
-              className={classNames({
-                [locals.delete]: true,
-                [locals.disabled]: disabled
-              })}
+              className={locals.delete}
               onClick={() => !disabled && deleteRow(item.id)}
             />
           </Tooltip>
@@ -101,15 +79,14 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
       );
     }
   };
-  const isNotEditableFromContext = useContext(isNotEditableContext);
-  const isNotEditable = formKey !== 'tags' ? isNotEditableFromContext : !isEditable;
-  const columnDefinitionsToShow = deepCopy(columnDefinitions);
+
+  const columnDefinitionsToShow = [...columnDefinitions];
   if (!isNotEditable) {
     columnDefinitionsToShow.push(deleteRowColumn);
   }
 
   return (
-    <ServerTablePresenter<ListItem<VALUETYPE>, ServerTablePresenterWrapperListItemConfiguration<VALUETYPE>>
+    <ServerTablePresenter<MappedValue<VALUETYPE>, ServerTablePresenterProps<MappedValue<VALUETYPE>>>
       columnDefinitions={columnDefinitionsToShow}
       getRowProps={getRowProps}
       result={result}
@@ -140,27 +117,24 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
 
   function addRow() {
     setForm(
-      form.updateIn([formKey], f => {
-        const castedF = f as Field<ListItem<VALUETYPE>[]>;
-        const value = castedF.value;
-        return castedF.setValue([...value, { value: defaultRow!, id: generateUniqueShortId() }]).setTouched(false);
-      })
+      form =>
+        form.updateIn([formKey], item => {
+          const value: any = item.value;
+          return item.setValue([...value, { value: defaultRow!, id: generateUniqueShortId() }]).setTouched(false);
+        }) as ActionForm
     );
   }
 
   function deleteRow(id: string) {
-    const rowIndex = (form.get(formKey) as Field<ListItem<VALUETYPE>[]>).value.reduce(
-      (acc: number, item: ListItem<VALUETYPE>, i: number) => (item.id === id ? i : acc),
-      -1
-    );
+    const rowIndex = form.get(formKey).value.findIndex(item => item.id === id);
     if (rowIndex >= 0) {
       setForm(
-        form.updateIn([formKey], f => {
-          const castedF = f as Field<ListItem<VALUETYPE>[]>;
-          const value = [...castedF.value];
-          value.splice(rowIndex, 1);
-          return castedF.setValue(value).setTouched(true);
-        })
+        form =>
+          form.updateIn([formKey], item => {
+            const value: any = [...item.value];
+            value.splice(rowIndex, 1);
+            return item.setValue(value).setTouched(true);
+          }) as ActionForm
       );
     }
   }

@@ -8,7 +8,7 @@ import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import {
-  dashboardConfigurationPath,
+  dashboardManagementPath,
   dashboardDeletePath,
   dashboardSmartAlertsPath,
   loggingDashboardPath
@@ -94,9 +94,9 @@ export const useLoggingNavigationItems = (): LoggingNavigationItem[] => {
       isTabAllowed: Boolean(role?.canDeleteLogs)
     },
     {
-      path: dashboardConfigurationPath,
-      label: t('in-logging:dashboard.configuration'),
-      currentTab: path => path === dashboardConfigurationPath,
+      path: dashboardManagementPath,
+      label: t('in-logging:dashboard.management'),
+      currentTab: path => path === dashboardManagementPath,
       isTabAllowed: Boolean(
         (isLoggingAddonUser && role?.canConfigureLogRetentionPeriod) ||
           (isLoggingAddonUser && role?.canViewLogVolume) ||

@@ -1405,11 +1405,11 @@
     "on": "ON",
     "the": "该",
     "number": "编号",
-    "first": "first",
-    "second": "秒",
+    "first": "第一",
+    "second": "第二",
     "third": "第三",
     "fourth": "第四",
-    "last": "last",
+    "last": "最后",
     "dayNum": "第 # 天",
     "userInfo": {
       "create": {

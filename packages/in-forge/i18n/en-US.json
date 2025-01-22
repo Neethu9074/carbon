@@ -9561,7 +9561,7 @@
         "duration": "Duration",
         "backupSize": "Backup Size",
         "transferredSize": "Transferred Size",
-        "backupStats": "Backup Progress",
+        "backupStats": "Latest Backup",
         "startTime": "Start Time",
         "entryType": "Entry Type",
         "processCpuPerc": "Process CPU",
@@ -9583,7 +9583,7 @@
         "diskUsagePercentage": "Disk Usage Percentage",
         "diskUsageSummary": "Disk Usage Summary",
         "usage": "Usage",
-        "archiveLogBackupStats": "Backup History",
+        "archiveLogBackupStats": "All Backups",
         "sourceDatabaseName": "Source Database",
         "userLockStats": "User Locks",
         "userMode": "User mode",
@@ -10872,6 +10872,14 @@
         "processName": "Process Name",
         "gpu": "GPU",
         "gpuUsage": "GPU Usage",
+        "volumeGroups": "Volume Groups",
+        "volumeGroupName": "Volume Group Name",
+        "physicalVolume": "Physical Volume",
+        "physicalVolumeName": "Physical Volume Name",
+        "totalSize":"Total Size",
+        "usedSize":"Used Size",
+        "freeSize":"Free Size",
+        "volumeGrpState": "Volume Group state",
         "encoder": "Encoder",
         "decoder": "Decoder",
         "temperature": "Temperature",
@@ -11655,10 +11663,7 @@
             "unitNumber": "Unit Number",
             "aspNumber": "ASP Number",
             "unitStorageCapacity": "Storage Capacity",
-            "unitMediaCapacityGb": "Media Capacity(GB)",
-            "charts": {
-              "elapsedPercentBusy": "Elapsed Percent Busy"
-            }
+            "unitMediaCapacityGb": "Media Capacity(GB)"
           },
           "solidStateDisk": {
             "name": "Solid State Disk(SSD) Info",
@@ -11682,10 +11687,7 @@
             "diskType": "Disk Type",
             "unitNumber": "Unit Number",
             "aspNumber": "ASP Number",
-            "typeOfDiskUnit": "Type of Disk Unit",
-            "charts": {
-              "elapsedPercentBusy": "Elapsed Percent Busy"
-            }
+            "typeOfDiskUnit": "Type of Disk Unit"
           },
           "nonVolatileMemory": {
             "name": "Non Volatile Memory Express(NVMe) Information",
@@ -11701,7 +11703,12 @@
             "unSafeShutDowns": "Unsafe Shutdowns",
             "firmwareLevel": "Firmware Level"
           }
-        }
+        },
+        "elapsedPercentBusy": "Elapsed Percent Busy",
+        "elapsedReadRequests": "Reads/s",
+        "elapsedWriteRequests": "Writes/s",
+        "elapsedDataRead": "Bytes Read/s",
+        "elapsedDataWritten": "Bytes Written/s"
       }
     },
     "ibmiNetworkInfo": {

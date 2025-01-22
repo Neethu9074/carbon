@@ -18,10 +18,10 @@ import TableNameColumnCell from 'in-alerting/smart-alerts/components/table/Table
 import { getSubtitle } from 'in-alerting/smart-alerts/applications/list/columns/ListNameColumn';
 import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/ListActionHandlers';
 import { createRowLinkLocation } from 'in-alerting/smart-alerts/applications/list/rowLinking';
-import StatusColumnCell from 'in-alerting/smart-alerts/components/list/StatusColumnCell';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { isCategoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
+import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -170,6 +170,7 @@ export function createTableColumnDefinition(configsCategory, trackCta) {
     id: 'name',
     label: t('in-alerting:smartAlerts.list.columns.name'),
     sortable: true,
+    ellipsis: '30vw',
     getContent: config => (
       <TableNameColumnCell
         config={config}
@@ -185,16 +186,17 @@ export function createTableColumnDefinition(configsCategory, trackCta) {
   const triggeringAction = {
     id: 'triggering-action',
     label: t('in-alerting:table.triggeringAction'),
-    getContent: config => <>{getSubtitle(config.rule, config.threshold)}</>,
+    ellipsis: '25vw',
+    getContent: config => <TableCellWrapper>{getSubtitle(config.rule, config.threshold)}</TableCellWrapper>,
     sortable: false
   };
-
-  const status = {
-    id: 'enabled',
-    label: t('in-alerting:table.status'),
-    getContent: config => <StatusColumnCell status={config.enabled} />,
-    sortable: true
-  };
+  // TODO bring this back once the bulk actions are implemented
+  // const status = {
+  //   id: 'enabled',
+  //   label: t('in-alerting:table.status'),
+  //   getContent: config => <StatusColumnCell status={config.enabled} />,
+  //   sortable: true
+  // };
   const actionHandler = {
     id: 'actions',
     sortable: false,
@@ -210,5 +212,5 @@ export function createTableColumnDefinition(configsCategory, trackCta) {
       );
     }
   };
-  return [nameColumn, triggeringAction, status, actionHandler];
+  return [nameColumn, triggeringAction, actionHandler];
 }

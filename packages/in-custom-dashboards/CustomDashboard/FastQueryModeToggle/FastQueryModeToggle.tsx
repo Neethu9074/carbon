@@ -13,7 +13,7 @@ import { t } from '@instana/i18n-react';
 import { fastQueryModeEnabledParameter } from 'in-custom-dashboards/navigation/url';
 import useUrlState from 'in-hooks/useUrlState';
 
-import locals from './FastQueryModeToggle.mless';
+import locals from 'in-custom-dashboards/CustomDashboard/FastQueryModeToggle/FastQueryModeToggle.mless';
 
 interface FastQueryModeToggleProps {
   tooltipContent?: string;

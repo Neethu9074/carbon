@@ -26,6 +26,7 @@ import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import GracePeriodDescription from 'in-alerting/smart-alerts/components/dialog/GracePeriodDescription';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/mobileApp/details/AlertThresholdInfos';
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
@@ -53,6 +54,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
     threshold,
     timeThreshold,
     granularity,
+    gracePeriod,
     alertChannelIds,
     tagFilterExpression,
     mobileAppId,
@@ -157,6 +159,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
         darkFrame
       >
         <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
+        <GracePeriodDescription gracePeriod={gracePeriod} />
       </ExpandableLightCard>
 
       <ExpandableLightCard

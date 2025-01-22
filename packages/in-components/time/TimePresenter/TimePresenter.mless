@@ -24,4 +24,9 @@
   .carbonTimeSettingTop {
     font-size: 0.75rem;
   }
+  .dark {
+    :global(.cds--g90) {
+      background-color: transparent;
+    }
+  }
 }

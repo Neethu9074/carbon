@@ -7,8 +7,12 @@
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
+import {
+  AdaptiveBaselineFetchedPredictions,
+  AdaptiveBaselinePredictionData
+} from 'in-alerting/smart-alerts/data/adaptiveBaselinePredictionInfo';
+import { extractMultiBaselineFromResultsOrUseErrorFallback } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import getBaselinePredictions from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteAdaptiveBaselinePredictions';
-import { extractBaselineFromResultsOrUseErrorFallback } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -20,11 +24,11 @@ interface useFetchAdaptiveBaselineProps {
   viewConfig: {
     timeConfig: TimeConfig;
   };
-  eventBasedAdaptiveBaseline: [number, number][];
+  eventBasedAdaptiveBaseline: Array<[string, AdaptiveBaselinePredictionData]>;
 }
 
 export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props: useFetchAdaptiveBaselineProps): {
-  baseline: [number, number][];
+  baseline: AdaptiveBaselineFetchedPredictions;
   error?: boolean;
 } {
   const {
@@ -48,5 +52,5 @@ export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props: useFetchAd
     timeConfig
   ]);
 
-  return extractBaselineFromResultsOrUseErrorFallback(persistedBaseline, eventBasedAdaptiveBaseline);
+  return extractMultiBaselineFromResultsOrUseErrorFallback(persistedBaseline, eventBasedAdaptiveBaseline);
 }

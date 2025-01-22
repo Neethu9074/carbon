@@ -8,6 +8,7 @@ import React from 'react';
 
 import ApplicationQueryBuilder from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { role } from 'in-stores/user';
 
 import locals from 'in-applications/Forms/shared/ApplicationQueryBuilderInput.mless';
 
@@ -19,7 +20,7 @@ interface ApplicationQueryBuilderInputProps {
 export const ApplicationQueryBuilderInput = ({ value, onChange }: ApplicationQueryBuilderInputProps) => {
   return (
     <div className={locals.queryBuilder} id="querybuilder-input">
-      <ApplicationQueryBuilder value={value} onChange={onChange} />
+      <ApplicationQueryBuilder value={value} onChange={onChange} readOnly={!role?.canConfigureSubtraces} />
     </div>
   );
 };

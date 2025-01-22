@@ -41,7 +41,7 @@ export default function ConfigureTraceImpact({ form, onChange }) {
                   field.setValue(e.target.value !== '' ? Math.abs(e.target.value) : '').setTouched(true)
                 )
               }
-              step="1"
+              step={1}
             />
           ))}
         </div>

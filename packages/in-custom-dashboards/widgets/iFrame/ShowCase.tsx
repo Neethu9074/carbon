@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Widget } from './index';
+import { Widget } from 'in-custom-dashboards/widgets/iFrame/index';
 import { t } from 'in-i18n';
 
 import locals from './ShowCase.mless';

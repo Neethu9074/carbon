@@ -5,45 +5,41 @@
 
 import React, { Fragment } from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import Button from 'in-components/MapControls/Button';
 import Overlay from 'in-components/overlays/Overlay';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './NodeSizeButton.mless';
 
-export default connectTo(
-  ({ eventBusServiceLocator }) => ({
-    activeSizeMetric: eventBusServiceLocator.on(SIGNALS.SIZING_METRIC),
-    powerFunctions: eventBusServiceLocator.on(SIGNALS.POWER_FUNCTIONS)
-  }),
-  function NodeSizeButton(props) {
-    return (
-      <Overlay content={ContextMenu} props={props}>
-        {({ toggle, isOpen }) => (
-          <Button
-            {...props}
-            icon="lib_actions_map_node_size"
-            onClick={toggle}
-            renderContent={() => (
-              <Fragment>
-                {getLabel(props.activeSizeMetric, props.powerFunctions)}
-                <SvgIcon
-                  className={locals.expandIcon}
-                  type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-                />
-              </Fragment>
-            )}
-          />
-        )}
-      </Overlay>
-    );
-  }
-);
+export default function NodeSizeButton(props) {
+  const { eventBusServiceLocator } = props;
+  const activeSizeMetric = useObservable(eventBusServiceLocator.on(SIGNALS.SIZING_METRIC), []);
+  const powerFunctions = useObservable(eventBusServiceLocator.on(SIGNALS.POWER_FUNCTIONS), []);
+
+  return (
+    <Overlay content={ContextMenu} props={props}>
+      {({ toggle, isOpen }) => (
+        <Button
+          {...props}
+          icon="lib_actions_map_node_size"
+          onClick={toggle}
+          renderContent={() => (
+            <Fragment>
+              {getLabel(activeSizeMetric, powerFunctions)}
+              <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} />
+            </Fragment>
+          )}
+          appendLeft
+        />
+      )}
+    </Overlay>
+  );
+}
 
 function getLabel(metric, powerFunctions) {
   if (!metric) {

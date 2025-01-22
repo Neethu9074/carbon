@@ -46,6 +46,18 @@ export default connectTo(
               <ul>
                 <li>
                   <Trans
+                    i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropRateExplanation_1"
+                    components={{ italic: <i />, bold: <strong /> }}
+                  />
+                </li>
+                <li>
+                  <Trans
+                    i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropRateExplanation_2"
+                    components={{ italic: <i />, bold: <strong /> }}
+                  />
+                </li>
+                <li>
+                  <Trans
                     i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_2"
                     components={{ italic: <i />, bold: <strong /> }}
                   />
@@ -90,8 +102,11 @@ export default connectTo(
               min: 0,
               max: 1,
               formatter: percentage.detailed,
-              metrics: [`appdata-processor.spanDropping`],
-              labels: [t('in-internal:monitoringUnit.unit.appDataStatistic.droppingRate')],
+              metrics: [`appdata-processor.spanDropping`, `appdata-processor.spanDroppingTotal`],
+              labels: [
+                t('in-internal:monitoringUnit.unit.appDataStatistic.droppingRate'),
+                t('in-internal:monitoringUnit.unit.appDataStatistic.totalDroppingRate')
+              ],
               type: 'line'
             }}
             y2={{

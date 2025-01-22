@@ -12,6 +12,42 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@amplitude/analytics-connector@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "@amplitude/analytics-connector@npm:1.5.0"
+  checksum: 157115b642e8b254a88184fe3294150321fdd482388f262bdc08f9ab0c68b01b5f10d2e35a924edb8a8380f0944f8b1363133c2a3f42b59e33da319bfe21c8fa
+  languageName: node
+  linkType: hard
+
+"@amplitude/experiment-core@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "@amplitude/experiment-core@npm:0.8.0"
+  dependencies:
+    js-base64: ^3.7.5
+  checksum: 2e2c28f187b4f8072fe30589af95378c220917e949ae8a4c444dd8a6fdbe8bd9c8d0d105808b37e5e5fd59f16cbfa486c66f60847c211a0e424c6e7deb1693aa
+  languageName: node
+  linkType: hard
+
+"@amplitude/experiment-js-client@npm:^1.11.0":
+  version: 1.11.0
+  resolution: "@amplitude/experiment-js-client@npm:1.11.0"
+  dependencies:
+    "@amplitude/analytics-connector": ^1.5.0
+    "@amplitude/experiment-core": ^0.8.0
+    "@amplitude/ua-parser-js": ^0.7.31
+    base64-js: 1.5.1
+    unfetch: 4.1.0
+  checksum: bc7ee5a521248ac83903b079fa61c7a884a3e27bd3573e4cedbb9f455ebe7af1e6fdc16a3e62988bf807ab9d74319de729fde78c42d4b0825f7c1a52d7753ff1
+  languageName: node
+  linkType: hard
+
+"@amplitude/ua-parser-js@npm:^0.7.31":
+  version: 0.7.33
+  resolution: "@amplitude/ua-parser-js@npm:0.7.33"
+  checksum: b08ce4cd4e96fed9eebffadb4060d24751cea80caf4265e6b829b7cfdb6561431386015674b3ac330a8987b990e2ca70725d4298eb1438beccb85264848b0b34
+  languageName: node
+  linkType: hard
+
 "@ampproject/remapping@npm:^2.2.0":
   version: 2.2.1
   resolution: "@ampproject/remapping@npm:2.2.1"
@@ -2370,7 +2406,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dnd-kit/core@npm:^6.0.8":
+"@dnd-kit/core@npm:6.1.0, @dnd-kit/core@npm:^6.0.8":
   version: 6.1.0
   resolution: "@dnd-kit/core@npm:6.1.0"
   dependencies:
@@ -2397,7 +2433,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dnd-kit/sortable@npm:^8.0.0":
+"@dnd-kit/sortable@npm:8.0.0, @dnd-kit/sortable@npm:^8.0.0":
   version: 8.0.0
   resolution: "@dnd-kit/sortable@npm:8.0.0"
   dependencies:
@@ -2956,9 +2992,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:4.65.0, @instana/components@npm:^4.65.0":
-  version: 4.65.0
-  resolution: "@instana/components@npm:4.65.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.65.0.tgz"
+"@instana/components@npm:4.68.0, @instana/components@npm:^4.68.0":
+  version: 4.68.0
+  resolution: "@instana/components@npm:4.68.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.68.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.45.0
     "@carbon/react": 1.72.0
@@ -2976,7 +3012,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.2
-  checksum: 3b85d1e14b1bf51620dcc288778d421b52bbf3d3fe45651916e65f7feaa34d0e5647238dc02bde6149746750f113ec670a1841aafa9008db2813aae2dd4010a7
+  checksum: f4de7eb8db6f575299b6fa141359a8f726683a77894d80baec2ce65ca51501e9e64d54e2c50e70a5dd21188ccbb4fda8cbb6e22d1ecbef61dd18e98da8e63238
   languageName: node
   linkType: hard
 
@@ -3072,9 +3108,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/ibm-products@npm:0.6.3":
-  version: 0.6.3
-  resolution: "@instana/ibm-products@npm:0.6.3::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fibm-products%2F-%2F%40instana%2Fibm-products-0.6.3.tgz"
+"@instana/ibm-products@npm:0.6.4":
+  version: 0.6.4
+  resolution: "@instana/ibm-products@npm:0.6.4::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fibm-products%2F-%2F%40instana%2Fibm-products-0.6.4.tgz"
   dependencies:
     "@carbon/ibm-products": 2.55.0
     "@carbon/react": 1.72.0
@@ -3082,7 +3118,7 @@ __metadata:
   peerDependencies:
     react: ^17.0.2
     react-dom: ^17.0.2
-  checksum: f1f737ed457437094e963211d792a85f5d9dee756694acb2dc2b78d122e0937fb1668474c9b1b0079297fafa883994511db6c155ca6a8dcc98516220d3808ac5
+  checksum: 65b7da49690475b1d8102fc7b72104730e972ce07619e92cbc4f5e9d2436834c0d11b849296ed9bfe63ec7cf187f618f6c6d0ad20dd0a62cd473fe81471d613a
   languageName: node
   linkType: hard
 
@@ -3095,11 +3131,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:4.3.38":
-  version: 4.3.38
-  resolution: "@instana/legacy@npm:4.3.38::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.38.tgz"
+"@instana/legacy@npm:4.3.41":
+  version: 4.3.41
+  resolution: "@instana/legacy@npm:4.3.41::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.41.tgz"
   dependencies:
-    "@instana/components": ^4.65.0
+    "@instana/components": ^4.68.0
     "@instana/design-tokens": ^1.28.7
     "@instana/format-date": ^1.7.6
     "@instana/format-numbers": ^1.6.4
@@ -3111,7 +3147,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 4d72042ed8133b4cdf77bbf35de42f6d35141c50a36e4f53f13e70c02f9e3d4a37a2a64c3fcbde3aa7c1f85b6e73602f75725a72077617b2c907c4840290e5ee
+  checksum: c3549c31f2827f37cc2a18985392aced65e1c0510a8b7e83930f1dc91626e57b3d5980ab60b66c35560c1e2bdc32f396123c03da7307cd6d59406f0cb488abca
   languageName: node
   linkType: hard
 
@@ -3148,10 +3184,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/types@npm:1.289.906":
-  version: 1.289.906
-  resolution: "@instana/types@npm:1.289.906::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.289.906.tgz"
-  checksum: a8f4b94288d8cb5ace3bf98e06ed5611e83ecbd0db69dd5afcb58eaae25f09e4401e76bdf6170106f23e4368681fd07aba4d02dfc5f781bace4a06ad58668d44
+"@instana/types@npm:1.290.119":
+  version: 1.290.119
+  resolution: "@instana/types@npm:1.290.119::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.290.119.tgz"
+  checksum: 56b9b73aa108f7e12df10ce7e1a92f314f96903d5ea1bb9a3520d08e04a58c18355bb58683ffacc51532b758696671c3130cd4811091dfac076520c500f84683
   languageName: node
   linkType: hard
 
@@ -6889,7 +6925,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"base64-js@npm:^1.3.1":
+"base64-js@npm:1.5.1, base64-js@npm:^1.3.1":
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
   checksum: 669632eb3745404c2f822a18fc3a0122d2f9a7a13f7fb8b5823ee19d1d2ff9ee5b52c53367176ea4ad093c332fd5ab4bd0ebae5a8e27917a4105a4cfc86b1005
@@ -7500,9 +7536,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001272, caniuse-lite@npm:^1.0.30001274, caniuse-lite@npm:^1.0.30001280, caniuse-lite@npm:^1.0.30001517, caniuse-lite@npm:^1.0.30001587":
-  version: 1.0.30001690
-  resolution: "caniuse-lite@npm:1.0.30001690"
-  checksum: f2c1b595f15d8de4d9ccd155d61ac9f00ac62f1515870505a0186266fd52aef169fcddc90d8a4814e52b77107244806466fadc2c216662f23f1022a430e735ee
+  version: 1.0.30001692
+  resolution: "caniuse-lite@npm:1.0.30001692"
+  checksum: 484113e3fabbe223fff0380c25c861da265a34c3f75bb5af1f254423b43e713a3c7f0c313167df52fb203f42ea68bd0df8a9e73642becfe1e9fa5734b5fc55a5
   languageName: node
   linkType: hard
 
@@ -15104,6 +15140,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"js-base64@npm:^3.7.5":
+  version: 3.7.7
+  resolution: "js-base64@npm:3.7.7"
+  checksum: d1b02971db9dc0fd35baecfaf6ba499731fb44fe3373e7e1d6681fbd3ba665f29e8d9d17910254ef8104e2cb8b44117fe4202d3dc54c7cafe9ba300fe5433358
+  languageName: node
+  linkType: hard
+
 "js-cookie@npm:3.0.1":
   version: 3.0.1
   resolution: "js-cookie@npm:3.0.1"
@@ -22236,6 +22279,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ui-client@workspace:."
   dependencies:
+    "@amplitude/experiment-js-client": ^1.11.0
     "@babel/cli": ^7.12.1
     "@babel/core": ^7.12.3
     "@babel/eslint-parser": ^7.17.0
@@ -22259,8 +22303,10 @@ __metadata:
     "@codemirror/state": 6.2.0
     "@codemirror/theme-one-dark": ^6.0.0
     "@codemirror/view": 6.6.0
+    "@dnd-kit/core": 6.1.0
+    "@dnd-kit/sortable": 8.0.0
     "@instana/carbon-charts": 0.5.0
-    "@instana/components": 4.65.0
+    "@instana/components": 4.68.0
     "@instana/design-tokens": 1.28.7
     "@instana/eslint-config-commons": 1.3.0
     "@instana/format-date": 1.7.6
@@ -22268,14 +22314,14 @@ __metadata:
     "@instana/hooks": 1.12.4
     "@instana/i18n": ^1.6.4
     "@instana/i18n-react": 1.7.2
-    "@instana/ibm-products": 0.6.3
+    "@instana/ibm-products": 0.6.4
     "@instana/import-sort-style-simon": 1.4.0
-    "@instana/legacy": 4.3.38
+    "@instana/legacy": 4.3.41
     "@instana/logger": ^1.3.1
     "@instana/observables": ^1.8.3
     "@instana/pseudo-translation": 1.5.4
     "@instana/roemitter": ^1.4.4
-    "@instana/types": 1.289.906
+    "@instana/types": 1.290.119
     "@instana/utils": ^1.5.4
     "@lezer/common": ^1.0.2
     "@lezer/generator": ^1.5.0
@@ -22520,6 +22566,13 @@ __metadata:
     object.reduce: ^1.0.0
     undertaker-registry: ^1.0.0
   checksum: 4378e3e9d9e5d6f2ceeb81eff0ae5d7c63b9eaba000fae3f0177197f991aabef29104eabf5188622d38f2e3c58dc96cfd9c182b822b6f405dbf3f63f123389d5
+  languageName: node
+  linkType: hard
+
+"unfetch@npm:4.1.0":
+  version: 4.1.0
+  resolution: "unfetch@npm:4.1.0"
+  checksum: 8a0fee1e0f6ad8b3a2966fa199d07716affc3682d8e1c2c0cc138e5e5d2a2e0627d8c3321a4529a79e8a58332955bf80ac6c018f1dcc6de652026a7c3257d726
   languageName: node
   linkType: hard
 

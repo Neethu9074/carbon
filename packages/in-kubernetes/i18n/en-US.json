@@ -251,6 +251,23 @@
       "podsDescription": "There were no pods retrieved for the selected time range.",
       "endpointsTitle": "No endpoints available",
       "endpointsDescription": "There were no endpoints retrieved for the selected time range."
+    },
+    "kubecost": {
+      "totalCost": "Total cost",
+      "costByNameSpace": "Cost by namespace",
+      "kubeCost": "Cost [Public Preview]",
+      "namespaceCumulativeCost": "Cumulative cost by namespace",
+      "trend": "Trend %",
+      "ramCost": "RAM",
+      "totalEfficiency": "Total efficiency",
+      "sharedCost": "Shared",
+      "loadBalancerCost": "LoadBalancer",
+      "pvCost": "Persistent volume",
+      "networkCost": "Network",
+      "gpuCost": "GPU",
+      "cpuCost": "CPU",
+      "namespace": "Namespace",
+      "noKubecostData": "Enable cost observability and allocation with Kubecost. To configure the integration, follow these [steps][Docs].\n\n[Docs]:https://ibm.biz/kubecost"
     }
   },
   "viewAllEntityName_unknownEntity_plural": "all",

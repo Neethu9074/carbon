@@ -106,7 +106,7 @@ export const getCarbonDataRows = (deletionHistoryResult: Result<DeleteLogsHistor
     .slice()
     .sort((a: DeleteLogsHistoryItem, b: DeleteLogsHistoryItem) => b.timestamp - a.timestamp)
     .map((item: DeleteLogsHistoryItem, i: number) => ({
-      id: i,
+      id: String(i),
       [deletionTableLocalisationStrings.status]: renderIconsByStatus(item.deletedStatus),
       [deletionTableLocalisationStrings.deletionDate]: timestampToLocaleDateTime(item.timestamp),
       [deletionTableLocalisationStrings.reason]: item.reason,

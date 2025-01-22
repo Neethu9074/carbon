@@ -19,6 +19,7 @@ import {
 import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
+import { deleteItem } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/utils';
 import { SETTINGS_IDP_LDAP_TEST_CONFIGURATION } from 'in-services/tracking/tracking';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -79,7 +80,7 @@ export default function Ldap(props) {
           );
         } else saveItem({ ...data, unstable_trackEvent });
       }}
-      deleteItem={deleteItem}
+      deleteItem={data => deleteItem({ ...data, deleteConfig: deleteConfig })}
       render={data => render({ ...data, trackCta })}
       testResultMessage={testResultMessage}
       setTestResultMessage={setTestResultMessage}
@@ -440,20 +441,6 @@ function saveItem({ form, setMessage, unstable_trackEvent }) {
       setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: 'error' });
       scrollToResultMessage();
     }
-  );
-}
-
-function deleteItem({ setMessage }) {
-  setMessage({ message: t('in-settings:tabs.deletingConfig'), type: 'neutral', isSaving: true });
-  const setConfigResult$ = deleteConfig();
-  setConfigResult$.once(
-    () => {
-      setMessage({
-        text: t('in-settings:tabs.configSuccessfullyDeleted'),
-        type: 'success'
-      });
-    },
-    error => setMessage({ text: t('in-settings:tabs.failedToDeleteConfig', { err: error.message }), type: 'error' })
   );
 }
 

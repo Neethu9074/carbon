@@ -44,7 +44,7 @@ describe('in-logging/components/TraceDetails/components/LogDetails/utils', () =>
         }
       ];
 
-      const expectedCardTitle = '1 Error, 1 Warning';
+      const expectedCardTitle = '1 error, 1 warning';
 
       // WHEN
       let cardTitle = getCardTitle(logSpans);
@@ -73,7 +73,7 @@ describe('in-logging/components/TraceDetails/components/LogDetails/utils', () =>
         }
       ];
 
-      const expectedCardTitle = '1 Error, 1 Warning';
+      const expectedCardTitle = '1 error, 1 warning';
 
       // WHEN
       let cardTitle = getCardTitle(logSpans);
@@ -93,7 +93,7 @@ describe('in-logging/components/TraceDetails/components/LogDetails/utils', () =>
         }
       ];
 
-      const expectedCardTitle = '1 Warning';
+      const expectedCardTitle = '1 warning';
 
       // WHEN
       let cardTitle = getCardTitle(logSpans);

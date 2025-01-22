@@ -7,12 +7,9 @@ import React from 'react';
 
 import { combineLatest, create, just } from '@instana/observables';
 
-import {
-  extractBaselineForSeverity,
-  WARNING_SEVERITY,
-  CRITICAL_SEVERITY
-} from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { calculateThresholdInTimeframeForSeveity } from 'in-alerting/components/Chart/renderer/lineWithMultiAdaptiveBaseline';
 import { finishedProgress, emptyArray, indeterminateProgress, pendingResult, noop } from 'in-services/fixedObjects';
+import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { getThresholdInTimeframe } from 'in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline';
 import { getHistoricBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -24,7 +21,6 @@ import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import connectTo from 'in-hoc/connectTo';
 
 export const thresholdOrBaselineLoadingSignal$ = create().emit(false);
-
 export default connectTo(
   props => {
     const { tagFilterExpression } = props.metricsConfiguration;
@@ -85,6 +81,7 @@ function getThresholdBasedOnThresholdType(
   thresholdValue,
   thresholdType,
   eventBasedAdaptiveBaseline,
+  severity,
   metricData,
   thresholdGranularity,
   timeConfig,
@@ -108,12 +105,13 @@ function getThresholdBasedOnThresholdType(
         return [time, baselineThresholdValue];
       });
     case ADAPTIVE_BASELINE:
-      return getThresholdInTimeframe(
-        eventBasedAdaptiveBaseline,
+      return calculateThresholdInTimeframeForSeveity(
+        severity,
         thresholdValue.baseline,
         thresholdValue.deviationFactor,
         isGreaterOp,
         thresholdGranularity,
+        eventBasedAdaptiveBaseline,
         timeConfig
       );
     default:
@@ -121,17 +119,18 @@ function getThresholdBasedOnThresholdType(
   }
 }
 
-export function getThreshold(y1, thresholdType, metricData, timeConfig, isMultiThresholdEnabled, isEventsView) {
+export function getThreshold(y1, thresholdType, metricData, timeConfig, isMultiThresholdEnabled) {
   const { operator, warningThresholdValue, criticalThresholdValue, thresholdGranularity } = y1;
   const isGreaterOp = isGreaterOperator(operator);
 
-  if (isMultiThresholdEnabled && !isEventsView) {
+  if (isMultiThresholdEnabled) {
     return {
       warningThreshold: !isEmptyThreshold(warningThresholdValue)
         ? getThresholdBasedOnThresholdType(
             warningThresholdValue,
             thresholdType,
-            extractBaselineForSeverity(y1.eventBasedAdaptiveBaseline, WARNING_SEVERITY),
+            y1.eventBasedAdaptiveBaseline,
+            WARNING_SEVERITY,
             metricData,
             thresholdGranularity,
             timeConfig,
@@ -142,7 +141,8 @@ export function getThreshold(y1, thresholdType, metricData, timeConfig, isMultiT
         ? getThresholdBasedOnThresholdType(
             criticalThresholdValue,
             thresholdType,
-            extractBaselineForSeverity(y1.eventBasedAdaptiveBaseline, CRITICAL_SEVERITY),
+            y1.eventBasedAdaptiveBaseline,
+            CRITICAL_SEVERITY,
             metricData,
             thresholdGranularity,
             timeConfig,
@@ -187,8 +187,7 @@ function mergeResult({
   thresholdType,
   setMetricResultPrecision = noop,
   timeConfig,
-  isMultiThresholdEnabled,
-  isEventsView
+  isMultiThresholdEnabled
 }) {
   if (result.errors.length > 0 || result.progress.loading) {
     return result;
@@ -201,9 +200,9 @@ function mergeResult({
 
   const data = {
     [metricName]: metricData,
-    ...(isMultiThresholdEnabled && !isEventsView
-      ? getThreshold(y1, thresholdType, metricData, timeConfig, isMultiThresholdEnabled, isEventsView)
-      : { threshold: getThreshold(y1, thresholdType, metricData, timeConfig, isMultiThresholdEnabled, isEventsView) })
+    ...(isMultiThresholdEnabled
+      ? getThreshold(y1, thresholdType, metricData, timeConfig, isMultiThresholdEnabled)
+      : { threshold: getThreshold(y1, thresholdType, metricData, timeConfig, isMultiThresholdEnabled) })
   };
 
   return {

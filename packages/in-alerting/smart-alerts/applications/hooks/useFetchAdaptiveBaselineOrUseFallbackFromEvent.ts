@@ -7,6 +7,10 @@
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
+import {
+  AdaptiveBaselineFetchedPredictions,
+  AdaptiveBaselinePredictionData
+} from 'in-alerting/smart-alerts/data/adaptiveBaselinePredictionInfo';
 import getBaselinePredictions from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationAdaptiveBaselinePredictions';
 import { ApplicationSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { extractMultiBaselineFromResultsOrUseErrorFallback } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
@@ -17,15 +21,14 @@ interface useFetchAdaptiveBaselineProps {
   viewConfig: {
     timeConfig: TimeConfig;
   };
-  eventBasedAdaptiveBaseline: [number, number][];
+  eventBasedAdaptiveBaseline: Array<[string, AdaptiveBaselinePredictionData]>;
   applicationId: string;
   serviceId?: string;
   endpointId?: string;
-  eventSeverity?: number;
 }
 
 export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props: useFetchAdaptiveBaselineProps): {
-  baseline: [number, number, number][] | [number, number][]; // just [number, number] in case of events view
+  baseline: AdaptiveBaselineFetchedPredictions;
   error?: boolean;
 } {
   const {
@@ -34,8 +37,7 @@ export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props: useFetchAd
     applicationId,
     serviceId,
     endpointId,
-    eventBasedAdaptiveBaseline,
-    eventSeverity
+    eventBasedAdaptiveBaseline
   } = props;
 
   const { created, id, granularity } = alertConfigWithFormModel;
@@ -50,14 +52,9 @@ export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props: useFetchAd
     granularity
   };
 
-  // the result will be [number, number, number]
   const persistedBaseline = useObservable(
     selectedEntityId ? getBaselinePredictions(queryParams).startWith(pendingResult) : null,
     [id, created, applicationId, selectedEntityId, timeConfig]
   );
-  return extractMultiBaselineFromResultsOrUseErrorFallback(
-    persistedBaseline,
-    eventBasedAdaptiveBaseline,
-    eventSeverity
-  );
+  return extractMultiBaselineFromResultsOrUseErrorFallback(persistedBaseline, eventBasedAdaptiveBaseline);
 }

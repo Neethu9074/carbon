@@ -5,7 +5,7 @@
 
 // eslint-disable-next-line no-restricted-imports
 import {
-  dashboardConfigurationPath,
+  dashboardManagementPath,
   dashboardDeletePath,
   dashboardSmartAlertsPath,
   loggingDashboardPath,
@@ -38,7 +38,7 @@ describe('Navigation Paths and Functions', () => {
     expect(loggingDashboardPath).toBe('/logging');
     expect(dashboardSmartAlertsPath).toBe('/logging/alerts');
     expect(dashboardDeletePath).toBe('/logging/delete');
-    expect(dashboardConfigurationPath).toBe('/logging/configure');
+    expect(dashboardManagementPath).toBe('/logging/manage');
   });
 
   describe('useGenerateLinkToLogs', () => {

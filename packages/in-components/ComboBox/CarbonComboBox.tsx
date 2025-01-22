@@ -11,7 +11,7 @@ import classNames from 'classnames';
 // Carbon version of ComboBox for single select
 import { ComboBox as CarbonComboBox, ComboBoxProps as CarbonComboBoxProps } from '@instana/components';
 
-import type { ComboBoxProps, Option } from './types';
+import type { ComboBoxProps, Option } from 'in-components/ComboBox/types';
 import { t } from 'in-i18n';
 
 import locals from './CarbonComboBox.mless';

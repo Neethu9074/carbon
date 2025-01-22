@@ -5,7 +5,7 @@
  */
 
 import { ChangeEvent, ReactElement, useState } from 'react';
-import { Add, CarbonIconType } from '@carbon/icons-react';
+import { Add } from '@carbon/icons-react';
 import React from 'react';
 
 import {
@@ -29,8 +29,9 @@ import {
   CarbonButton as Button,
   CarbonTableBatchAction as TableBatchAction,
   CarbonTableBatchActions as TableBatchActions,
+  CarbonInlineLoading as InlineLoading,
   CarbonIconButton as IconButton,
-  CarbonInlineLoading as InlineLoading
+  Tooltip
 } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { createLogger } from '@instana/logger';
@@ -48,7 +49,7 @@ interface OverflowMenuItemProps {
   label?: string;
   actionType: string;
   text?: string;
-  icon?: CarbonIconType;
+  icon?: JSX.Element;
 }
 interface BatchActionItemProps {
   renderIcon: React.ElementType<any> | undefined;
@@ -347,17 +348,19 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
                         placeholder={searchPlaceholderText}
                         value={searchQuery}
                         defaultExpanded={searchQuery?.length > 0}
-                        // @ts-expect-error no corrects typedef for Table header
+                        // @ts-expect-error no corrects typedef for ToolbarSearch
                         onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeSearchString(e.target.value)}
                       />
-                      <Button
-                        tabIndex={batchActionProps.shouldShowBatchActions ? -1 : 0}
-                        kind="primary"
-                        onClick={onCreateNew}
-                        renderIcon={Add}
-                      >
-                        {labelNew}
-                      </Button>
+                      {onCreateNew && (
+                        <Button
+                          tabIndex={batchActionProps.shouldShowBatchActions ? -1 : 0}
+                          kind="primary"
+                          onClick={onCreateNew}
+                          renderIcon={Add}
+                        >
+                          {labelNew}
+                        </Button>
+                      )}
                     </TableToolbarContent>
                   </TableToolbar>
                   <Table {...getTableProps()} aria-label={title}>
@@ -412,24 +415,32 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
                           ) : (
                             <TableCell>
                               {getMenuItems(row).map((item, index) => (
-                                <>
+                                <span key={row.id}>
                                   {item.actionType === 'delete' && loadingRow === row.id ? (
                                     <InlineLoading className={locals.loadingIcon} />
+                                  ) : row.disabled ? (
+                                    // as disabled icon button doesn't show the tooltip
+                                    <Tooltip content={item.label} delay={500}>
+                                      <IconButton label={item.label} disabled={row.disabled} key={index} kind="ghost">
+                                        {item.icon}
+                                      </IconButton>
+                                    </Tooltip>
                                   ) : (
                                     <IconButton
-                                      // @ts-expect-error
-                                      renderIcon={item.icon}
-                                      label={item.label}
-                                      kind="ghost"
-                                      key={index}
                                       disabled={row.disabled}
+                                      kind="ghost"
+                                      label={item.label}
+                                      key={index}
                                       onClick={() => {
                                         if (item.actionType === 'delete') handleDeleteActions(row);
                                       }}
                                       data-testid={`${item.actionType}Icon`}
-                                    />
+                                      autoAlign
+                                    >
+                                      {item.icon}
+                                    </IconButton>
                                   )}
-                                </>
+                                </span>
                               ))}
                             </TableCell>
                           )}

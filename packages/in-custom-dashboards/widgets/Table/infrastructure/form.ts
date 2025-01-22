@@ -7,13 +7,13 @@
 import { createField, notBlankValidator } from 'formalistic';
 
 import { defaultTableSize } from 'in-custom-dashboards/widgets/Table/infrastructure/components/TableSizeConfigurator';
+import { MetricItem } from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget';
 import { TableFormConfiguration } from 'in-custom-dashboards/widgets/Table/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { getMetricKey } from 'in-infrastructure/Explore/services/metrics';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import { arrayValidator } from 'in-services/validators/jsonType';
-import { MetricItem } from './InfrastructureTableWidget';
 
 export const aggregation = 'aggregation';
 export const crossSeriesAggregation = 'crossSeriesAggregation';

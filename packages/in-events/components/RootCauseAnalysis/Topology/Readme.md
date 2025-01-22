@@ -4,11 +4,11 @@ To begin we'll go over what happens from the moment the user presses the view to
 
 ### The user presses view topology
 
-Upon doing this the rendering of the dialog component `RootCauseTopologyDialog` begins where we send the related AP infromation, triggering event, time config and finally all the root causes in the format of an array like so:
+Upon doing this the rendering of the dialog component `RootCauseTopologyDialog` begins where we send the related AP information, triggering event, time config and finally all the root causes in the format of an array like so:
 
-[<SnapshotID, ProbableCauseType>] where ProbableCauseType is as follows:
+`[<SnapshotID, ProbableCauseType>]` where ProbableCauseType is as follows:
 
-```
+```js
 {
   entityID: Map<string, string>;
   explainability: List<Map<ExplainabilityKeys, ExplainabilityValues[ExplainabilityKeys]>>;
@@ -24,20 +24,20 @@ With this we can begin making requests for information inside RootCauseTopologyD
 
 The first thing that happens is that we utilize the `useFetchAppropriateRCAEntityData` hook that we normally use for RCA to gather some data of interest such as snapshot information, stack data and service information for each of the root cause entities that we send over to the `RootCauseTopologyDialog` as well as the triggering entity. Generally the data that comes back is in the following format:
 
-```
+```js
 {
-entityData: SnapshotData | null;
-entityType: string; // is 'infrastructure', 'endpoint', 'service', 'application'
-hierarchySnapshots: SnapshotData[] | null | undefined; // used for infrastructure to get the hierarchy
-entityStackData: any; // getStackforInfrastructure or getStackforEndpoint or getStackforService or getStackforApplication
-infraServiceLabelInformation: ServiceLabel[]; // For infra entities all the services associated to that infra entity
-nonInfraServiceLabelInformation: ServiceLabel | null; // For AP entities the service associated to that AP entity
-loadingStackData: boolean; // loading indicator for getting stack data
-loadingSnapshotData: boolean; // loading indicator for getting snapshot data
+  entityData: SnapshotData | null;
+  entityType: string; // is 'infrastructure', 'endpoint', 'service', 'application'
+  hierarchySnapshots: SnapshotData[] | null | undefined; // used for infrastructure to get the hierarchy
+  entityStackData: any; // getStackforInfrastructure or getStackforEndpoint or getStackforService or getStackforApplication
+  infraServiceLabelInformation: ServiceLabel[]; // For infra entities all the services associated to that infra entity
+  nonInfraServiceLabelInformation: ServiceLabel | null; // For AP entities the service associated to that AP entity
+  loadingStackData: boolean; // loading indicator for getting stack data
+  loadingSnapshotData: boolean; // loading indicator for getting snapshot data
 }
 ```
 
-Once we have all this data we can make requests for requests for service information
+Once we have all this data we can make requests for requests for service information.
 
 
 ### RootCauseTopologyDialog begins making requests for service information
@@ -46,14 +46,14 @@ Using the `getServiceMap` WS query we make requests for service map information 
 
 Once we make this requests we get a response of all relevant services and their connections in the following format
 
-```
+```js
 ServiceMap {
   connections: ServiceMapConnection[],
   services: ExtendedService[]
 }
 ```
 
-where ServiceMapConnection indicates information between services like from (which service), to (which service), errorRate and latency.
+where `ServiceMapConnection` indicates information between services like from (which service), to (which service), errorRate and latency.
 
 This gives us a starting point to begin making our service --> service connections (non-familial). Once we have all of this information we can begin manipulating it to create a basic relationship map containing nodes and links.
 
@@ -71,7 +71,7 @@ The first step here is to map all relevant service to service connections. We es
 
 Next, we construct our preliminary nodes map by taking in our filtered service to service connections, RCA(s) and triggering entity with its services and create a node map. The format of each node in the node map is as follows:
 
-```
+```js
 {
   id: string;
   label: string;
@@ -83,9 +83,9 @@ Next, we construct our preliminary nodes map by taking in our filtered service t
 }
 ```
 
-The ID and label are self explanatory, the data is just the snapshot data we get from our useFetchAppropriateRCAEntityData call, special case visibility is something that is for visual filtering (essentially to display RCA entities as purple), and finally tags are used to tag nodes that are RCA entities or triggering entities and what type of entity they are.
+The `id` and `label` fields are self explanatory, the data is just the snapshot data we get from our `useFetchAppropriateRCAEntityData` call, special case visibility is something that is for visual filtering (essentially to display RCA entities as purple), and finally tags are used to tag nodes that are RCA entities or triggering entities and what type of entity they are.
 
-We pretty much go through all the RCA entities and add to this node map the RCA entity itself along with all relevant services  as well, if it is an infra entity, any familial entities that are relevant. Then we do the same thing for the triggering entity and its services.
+We pretty much go through all the RCA entities and add to this node map the RCA entity itself along with all relevant services as well, if it is an infra entity, any familial entities that are relevant. Then we do the same thing for the triggering entity and its services.
 
 In the case that an RCA entity or Triggering entity does not have any service information then we add an "unspecified service" node as well.
 
@@ -97,12 +97,12 @@ Next, we construct a preliminary connections map indicating all connections betw
 
 The connections map will have the following data:
 
-```
+```js
 {
-      from: string, // ID
-      to: string, // ID
-      connectionType: 'outgoing', // Can be 'outgoing' or 'family' or 'physical'
-      metrics: { latency: serviceIDs.latency, errorRate: serviceIDs.errorRate } // relevant for service to service connections
+  from: string, // ID
+  to: string, // ID
+  connectionType: 'outgoing', // Can be 'outgoing' or 'family' or 'physical'
+  metrics: { latency: serviceIDs.latency, errorRate: serviceIDs.errorRate } // relevant for service to service connections
 }
 ```
 
@@ -114,7 +114,7 @@ There's a few connection types and they correspond as follows:
 **family**
 - These are logical connections between AP entities like service to endpoint or AP to service
 
-**Physical**
+**physical**
 - These are physical connections between infra entities like host to process
 
 We start with the service to service connections from our `getServiceMap` call and tag them all as 'outgoing' connections since it pretty much uses the same format sans connectionType which is something created by me.
@@ -169,28 +169,28 @@ Finally we should have a finalized version of our connections and node map that 
 
 The Elk JS library has a specific format for nodes and connections that is very akin to the ones that I created above. Nodes have the following format:
 
-```
+```js
 GraphNode {
-      id: node.id,
-      entityType: 'application' | 'service' | 'endpoint' | 'infrastructure' | 'superService',
-      metadata: { ...node.data },
-      height: 48,
-      width: 48,
-      label: string,
-      tags: Set<RCA_TOPOLOGY_TAGS>
+  id: node.id,
+  entityType: 'application' | 'service' | 'endpoint' | 'infrastructure' | 'superService',
+  metadata: { ...node.data },
+  height: 48,
+  width: 48,
+  label: string,
+  tags: Set<RCA_TOPOLOGY_TAGS>
 }
 ```
 
 Links have the following format:
 
-```
+```js
 GraphLink {
-        sources: [relationship.from], // equivalent to from
-        targets: [relationship.to], // equivalent to to
-        id: string,
-        dashed: relationship.connectionType === 'outgoing', // if link is dashed or not
-        labels: relationship.label ? [{ text: relationship.label }] : undefined, // label if necessary
-        layoutOptions: relationship.connectionType === 'outgoing' ? { 'elk.layered.priority': 0 } : undefined // used to separate outgoing connections from familial connection
+  sources: [relationship.from], // equivalent to from
+  targets: [relationship.to], // equivalent to to
+  id: string,
+  dashed: relationship.connectionType === 'outgoing', // if link is dashed or not
+  labels: relationship.label ? [{ text: relationship.label }] : undefined, // label if necessary
+  layoutOptions: relationship.connectionType === 'outgoing' ? { 'elk.layered.priority': 0 } : undefined // used to separate outgoing connections from familial connection
 }
 ```
 
@@ -198,7 +198,7 @@ The conversion is easily done between my connections and nodes map to this forma
 
 ### The RootCauseTopologyPresenter renders nodes and links
 
-Using the Elk JS library we take the above links and nodes along with a layered algorithm and create our nodes and links on an SVG canvas. Each node will make calls for health information separately for each entity to appropriately display health information on the topology
+Using the Elk JS library we take the above links and nodes along with a layered algorithm and create our nodes and links on an SVG canvas. Each node will make calls for health information separately for each entity to appropriately display health information on the topology.
 
 ## Files and their use cases
 

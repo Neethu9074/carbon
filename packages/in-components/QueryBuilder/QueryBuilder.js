@@ -29,11 +29,11 @@ import FilterButton from 'in-components/QueryBuilder/components/FilterButton';
 import Conjunction from 'in-components/QueryBuilder/components/Conjunction';
 import Spacing from 'in-components/QueryBuilder/components/Spacing/Spacing';
 import Expression from 'in-components/QueryBuilder/components/Expression';
+import { CONTAINS } from 'in-components/QueryBuilder/tagFilter/operators';
 import Bracket from 'in-components/QueryBuilder/components/Bracket';
 import Tag from 'in-components/QueryBuilder/components/Tag/Tag';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { LOG_MESSAGE } from 'in-logging/queryBuilder';
-import { CONTAINS } from './tagFilter/operators';
 
 import locals from './QueryBuilder.mless';
 

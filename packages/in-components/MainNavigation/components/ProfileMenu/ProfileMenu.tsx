@@ -29,7 +29,7 @@ import { tenantSwitcherEnabled } from 'in-services/featureFlags';
 import config from 'in-services/config';
 import { user } from 'in-stores/user';
 
-import local from './ProfileMenu.mless';
+import local from 'in-components/MainNavigation/components/ProfileMenu/ProfileMenu.mless';
 
 interface ProfileMenuProps {
   onClickSideNavExpand: VoidFunction;

@@ -23,6 +23,8 @@ export interface ClientConfig {
   websiteScriptSource?: string;
   websiteEndpoint?: string;
   activeLicenseType: string;
+  // this is injected or set with in a build step in build/gulp/build.js
+  amplitudeKey: string;
 }
 
 export interface BuildInfo {

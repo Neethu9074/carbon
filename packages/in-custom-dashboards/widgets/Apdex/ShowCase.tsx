@@ -12,7 +12,7 @@ import { success } from 'in-services/util/result';
 import { minutes } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
-import locals from './ShowCase.mless';
+import locals from 'in-custom-dashboards/widgets/Apdex/ShowCase.mless';
 
 export default function ShowCase() {
   const granularity = minutes.toMillis(5);

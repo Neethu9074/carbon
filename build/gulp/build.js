@@ -154,6 +154,7 @@ function writeTryBuildServerConfigFile(cb) {
       name: 'in-token-test'
     },
     segmentKey: 'K8GUn26weHMSk0fXYVNyiKtDPHmzr9Fj',
+    amplitudeKey: 'client-R2KC1Tw3m8BAnSOiVOSwMWosWdGyGDmN',
     eum: {
       apiKey: 'hUD6LIQpRaeFDkvAf5X4Yg',
       domain: 'pink.instana.rocks/eum/',

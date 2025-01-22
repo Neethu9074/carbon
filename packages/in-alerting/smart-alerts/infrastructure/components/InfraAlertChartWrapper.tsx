@@ -33,25 +33,18 @@ import {
 } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 // @ts-expect-error TS migration
 import AlertsPreviewLane from 'in-alerting/components/Chart/AlertsPreviewLane/AlertsPreviewLane';
-import {
-  severityMap,
-  WARNING_SEVERITY,
-  CRITICAL_SEVERITY
-} from 'in-alerting/smart-alerts/components/utils/baselineUtils';
-import {
-  createLineWithMultiStaticThreshold,
-  createLineWithThreshold
-} from 'in-alerting/components/Chart/renderer/Renderer';
 //@ts-expect-error TS migration
 import { extendMetricConfiguration } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import getInfraMetricsAlertPreview from 'in-alerting/smart-alerts/infrastructure/subscriptions/getInfraMetricsAlertPreview';
-//@ts-expect-error TS migration
-import { getY1, getY1ForMultiThreshold } from 'in-alerting/components/Chart/AlertingChart';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+//@ts-expect-error TS migration
+import { getY1ForMultiThreshold } from 'in-alerting/components/Chart/AlertingChart';
+import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 // @ts-expect-error TS migration
 import { getUniqueMetricsAndLabels } from 'in-infrastructure/Explore/Explore';
 import { MetricItem } from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget';
+import { createLineWithMultiStaticThreshold } from 'in-alerting/components/Chart/renderer/Renderer';
 import { isGreaterOperatorOrUndefined } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
@@ -61,7 +54,6 @@ import { finishedProgress, indeterminateProgress } from 'in-services/fixedObject
 import { Config, MetricData } from 'in-custom-dashboards/widgets/Chart/types';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
-import { carbonAlert, carbonCategorical } from 'in-themes/chartColors';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { getMetricDefinition } from 'in-sdk/metrics';
@@ -87,60 +79,46 @@ export default function InfraAlertChartWrapper({
   upperBound,
   selectedMetricGroup,
   alertsPreviewEnabled,
-  metricLabel,
-  isEventDetailPage = false,
-  eventSeverity = 5
+  metricLabel
 }: InfraAlertChartWrapperProps) {
   const { timeThreshold, granularity, tagFilterExpression, rules, forecastingConfig } = alertConfig;
 
   const firstRule: RuleWithThreshold<InfraAlertRuleUnion> = rules[0];
   const { entityType, metricName, aggregation, crossSeriesAggregation } = firstRule.rule;
   const thresholdsMap = firstRule.thresholds;
-  const violatedThreshold = thresholdsMap[severityMap[eventSeverity]];
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
   const formatter = metricDefinition.formatter;
-  const highlight = undefined;
-  const chartViewConfig = createDefaultChartConfig(timeConfig);
+  const chartViewConfig = createDefaultChartConfig(timeConfig); // == view config
   const displayPredictions = predictions && predictions?.length > 0 ? true : false;
 
   // we only support static threshold(s) in Infra SA.
   const warningThreshold = (thresholdsMap[WARNING_SEVERITY] as StaticThresholdRule)?.value;
   const criticalThreshold = (thresholdsMap[CRITICAL_SEVERITY] as StaticThresholdRule)?.value;
-  const violatedThresholdValue = (violatedThreshold as StaticThresholdRule)?.value;
   const thresholdOperator = firstRule.thresholdOperator;
-  const renderer = isEventDetailPage
-    ? createLineWithThreshold(thresholdOperator, violatedThresholdValue!, displayPredictions)
-    : createLineWithMultiStaticThreshold(thresholdOperator, warningThreshold, criticalThreshold);
+  const renderer = createLineWithMultiStaticThreshold(
+    thresholdOperator,
+    warningThreshold,
+    criticalThreshold,
+    displayPredictions
+  );
 
   const enrichedTagFilterExpression = getEnrichedTagFilterExpression(tagFilterExpression, selectedMetricGroup);
   const unifiedMetricConfig = getUnifiedMetricConfig(alertConfig.rule, enrichedTagFilterExpression, granularity);
 
-  const y1Props = isEventDetailPage
-    ? getY1(
-        metricName,
-        highlight,
-        metricLabel,
-        formatter,
-        renderer,
-        granularity,
-        violatedThreshold,
-        thresholdOperator,
-        [],
-        chartViewConfig,
-        eventSeverity === 5 ? carbonCategorical.yellow50 : carbonAlert.red60,
-        displayPredictions
-      )
-    : getY1ForMultiThreshold(
-        metricName,
-        metricLabel,
-        formatter,
-        renderer,
-        granularity,
-        thresholdOperator,
-        thresholdsMap[WARNING_SEVERITY],
-        thresholdsMap[CRITICAL_SEVERITY]
-      );
+  const y1Props = getY1ForMultiThreshold(
+    metricName,
+    metricLabel,
+    formatter,
+    renderer,
+    granularity,
+    thresholdOperator,
+    thresholdsMap[WARNING_SEVERITY],
+    thresholdsMap[CRITICAL_SEVERITY],
+    [],
+    chartViewConfig,
+    displayPredictions
+  );
 
   // chartProps to render the metric values and threshold to the chart
   const chartProps = {
@@ -173,7 +151,6 @@ export default function InfraAlertChartWrapper({
       time: predictionMaxTime ?? metricResult?.time,
       data: {
         [metricName]: metricValues,
-        threshold: metricValues.map(([time]) => [time, violatedThresholdValue]),
         warningThreshold: metricValues.map(([time]) => [time, warningThreshold]),
         criticalThreshold: metricValues.map(([time]) => [time, criticalThreshold]),
         predictions: predictions ?? [],

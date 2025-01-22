@@ -25,6 +25,7 @@ export const fieldNames = Object.freeze({
   id: 'id',
   rule: 'rule',
   timeThreshold: 'timeThreshold',
+  gracePeriod: 'gracePeriod',
   customPayloadFields: 'customPayloadFields'
 });
 
@@ -39,6 +40,7 @@ export default function alertFormDefinition(alertConfig: SyntheticAlertConfig & 
     syntheticTestIds = [],
     id = '',
     rule,
+    gracePeriod = 60000,
     timeThreshold
   } = alertConfig;
 
@@ -99,6 +101,12 @@ export default function alertFormDefinition(alertConfig: SyntheticAlertConfig & 
       fieldNames.id,
       createField({
         value: id
+      })
+    )
+    .put(
+      fieldNames.gracePeriod,
+      createField({
+        value: gracePeriod
       })
     )
     .put(

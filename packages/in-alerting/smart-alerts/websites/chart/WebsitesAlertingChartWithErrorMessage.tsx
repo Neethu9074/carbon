@@ -12,6 +12,12 @@ import {
   createBoundedAlertQueryBuilder,
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import {
+  CRITICAL_SEVERITY,
+  extractBaselineForSeverity,
+  WARNING_SEVERITY
+} from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { AdaptiveBaselinePredictionData } from 'in-alerting/smart-alerts/data/adaptiveBaselinePredictionInfo';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
@@ -26,17 +32,19 @@ interface WebsitesAlertingChartWithErrorMessageProps {
   alertConfigWithFormModel: Omit<WebsiteSmartAlertConfigWithMetadata, 'tagFilterExpression'> & {
     tagFilterExpression: FormModelElement[];
   };
+  eventBasedAdaptiveBaseline: Array<[string, AdaptiveBaselinePredictionData]>;
   isEventsView?: boolean;
   isAlertDetailView?: boolean;
   setMetricResultPrecision: () => void;
-  eventBasedAdaptiveBaseline: [number, number][];
 }
 
 export default function WebsitesAlertingChartWithErrorMessage(props: WebsitesAlertingChartWithErrorMessageProps) {
   const {
     alertConfigWithFormModel: { threshold },
+    eventBasedAdaptiveBaseline,
     isEventsView,
-    isAlertDetailView
+    isAlertDetailView,
+    ...remainingProps
   } = props;
 
   // fetch persistent baseline?
@@ -44,14 +52,29 @@ export default function WebsitesAlertingChartWithErrorMessage(props: WebsitesAle
     return <AlertingChartWithErrorMessageForAdaptiveBaseline {...props} />;
   }
 
-  return <ChartWithErrorMessageAndData {...props} />;
+  return (
+    <ChartWithErrorMessageAndData
+      {...remainingProps}
+      isEventsView={isEventsView}
+      isAlertDetailView={isAlertDetailView}
+      alertConfigWithFormModel={props.alertConfigWithFormModel}
+    />
+  );
 }
 
 function AlertingChartWithErrorMessageForAdaptiveBaseline(props: WebsitesAlertingChartWithErrorMessageProps) {
   const { error, baseline } = useFetchAdaptiveBaselineOrUseFallbackFromEvent(props);
+  const onlyCriticalThresholdDefined = props.alertConfigWithFormModel.rules[0].thresholds.WARNING === undefined;
+
   return (
     <>
-      <ChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={baseline} />
+      <ChartWithErrorMessageAndData
+        {...props}
+        eventBasedAdaptiveBaseline={extractBaselineForSeverity(
+          baseline,
+          onlyCriticalThresholdDefined ? CRITICAL_SEVERITY : WARNING_SEVERITY
+        )}
+      />
       {error && (
         <>
           <Spacer size="normal" />
@@ -64,8 +87,14 @@ function AlertingChartWithErrorMessageForAdaptiveBaseline(props: WebsitesAlertin
   );
 }
 
+// TODO , this needs to be updated once EUM changes for multi-threshold becomes available.
+interface ChartWithErrorMessageAndDataProps
+  extends Omit<WebsitesAlertingChartWithErrorMessageProps, 'eventBasedAdaptiveBaseline'> {
+  eventBasedAdaptiveBaseline?: [number, number][];
+}
+
 // Extracted, because it needs a memoization of the isQueryValid-method to avoid unneeded re-rendering
-function ChartWithErrorMessageAndData(props: WebsitesAlertingChartWithErrorMessageProps) {
+function ChartWithErrorMessageAndData(props: ChartWithErrorMessageAndDataProps) {
   const { alertConfigWithFormModel } = props;
 
   const { threshold, rule, websiteId } = alertConfigWithFormModel;

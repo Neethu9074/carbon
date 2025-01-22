@@ -14,8 +14,11 @@ import {
   SelfValidatingTagFilter,
   TAG
 } from 'in-components/QueryBuilder/transformation/formModel';
+import {
+  MaybeFilterable,
+  applyFilteredConfiguration
+} from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { MaybeFilterable, applyFilteredConfiguration } from './FilterContext';
 
 describe('in-custom-dashboards/CustomDashboard/FilterContext/applyFilteredConfiguration', () => {
   it('must statically remove not-applicable filters', () => {

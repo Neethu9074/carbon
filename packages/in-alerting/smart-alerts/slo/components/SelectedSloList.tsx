@@ -14,7 +14,6 @@ import SloBlueprintColumnContent from 'in-service-levels/components/SloList/comp
 import { createEntityIdUrlParameter, createTagsUrlParameter } from 'in-service-levels/navigation/urlParameters';
 import SloEntityColumnContent from 'in-service-levels/components/SloList/components/SloEntityColumnContent';
 import SloNameColumnContent from 'in-service-levels/components/SloList/components/SloNameColumnContent';
-import useNavigateToSloDashboard from 'in-service-levels/navigation/hooks/useNavigateToSloDashboard';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/configuration';
 import { serviceLevelsAlertDetailsSegment } from 'in-service-levels/navigation/path';
@@ -80,8 +79,6 @@ export default function SelectedSloList({ sloAlertConfig }: SelectedSloListProps
     query
   });
 
-  const navigateToSloDashboard = useNavigateToSloDashboard();
-
   const actualPage = result?.page ?? page;
   const actualPageSize = result?.pageSize ?? pageSize;
 
@@ -99,7 +96,6 @@ export default function SelectedSloList({ sloAlertConfig }: SelectedSloListProps
         data: result
       }}
       onChange={setServerTableState}
-      onRowClick={({ configuration }) => navigateToSloDashboard(configuration)}
       fixedLayout
     />
   );

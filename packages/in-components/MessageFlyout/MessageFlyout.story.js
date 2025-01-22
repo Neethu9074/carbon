@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { addMessage, removeAllMessages } from 'in-components/MessageFlyout/stores/messages';
-import MessageFlyout from './MessageFlyout';
+import MessageFlyout from 'in-components/MessageFlyout/MessageFlyout';
 
 export default {
   component: MessageFlyout

@@ -88,7 +88,7 @@ const redirects = [
   },
   {
     from: `${settingsPath}/loggingIntegrations`,
-    to: paths.teamSettingsIntegrationsLoggingHumio
+    to: paths.teamSettingsIntegrationsLoggingFalconLogScale
   },
   // additional redirects for merger of "knowledge management" and "alerting" into "events & alerting"
   // we keep this re-directs for a while, so that e.g. existing bookmarks are still working
@@ -109,7 +109,7 @@ const redirects = [
   { from: paths.teamSettingsLogManagementIntegrations, to: paths.teamSettingsIntegrationsLogging },
   { from: paths.teamSettingsLogManagementCoralogix, to: paths.teamSettingsIntegrationsLoggingCoralogix },
   { from: paths.teamSettingsLogManagementElk, to: paths.teamSettingsIntegrationsLoggingElk },
-  { from: paths.teamSettingsLogManagementHumio, to: paths.teamSettingsIntegrationsLoggingHumio },
+  { from: paths.teamSettingsLogManagementFalconLogScale, to: paths.teamSettingsIntegrationsLoggingFalconLogScale },
   { from: paths.teamSettingsLogManagementMezmo, to: paths.teamSettingsIntegrationsLoggingMezmo },
   { from: paths.teamSettingsLogManagementSplunk, to: paths.teamSettingsIntegrationsLoggingSplunk },
 
@@ -203,7 +203,7 @@ const redirects = [
   { from: paths.teamSettingsLogManagementLogVolume, to: paths.globalSettingsLogManagementLogVolume },
   { from: paths.teamSettingsLogManagementMezmo, to: paths.globalSettingsLogManagementMezmo },
   { from: paths.teamSettingsLogManagementSplunk, to: paths.globalSettingsLogManagementSplunk },
-  { from: paths.teamSettingsLogManagementHumio, to: paths.globalSettingsLogManagementHumio },
+  { from: paths.teamSettingsLogManagementFalconLogScale, to: paths.globalSettingsLogManagementFalconLogScale },
   { from: paths.teamSettingsLogManagementElk, to: paths.globalSettingsLogManagementElk },
 
   // redirects for database integrations as we renamed team settings to global settings in 2024
@@ -214,7 +214,10 @@ const redirects = [
   { from: paths.teamSettingsIntegrationsLoggingCoralogix, to: paths.globalSettingsIntegrationsLoggingCoralogix },
   { from: paths.teamSettingsIntegrationsLoggingMezmo, to: paths.globalSettingsIntegrationsLoggingMezmo },
   { from: paths.teamSettingsIntegrationsLoggingSplunk, to: paths.globalSettingsIntegrationsLoggingSplunk },
-  { from: paths.teamSettingsIntegrationsLoggingHumio, to: paths.globalSettingsIntegrationsLoggingHumio },
+  {
+    from: paths.teamSettingsIntegrationsLoggingFalconLogScale,
+    to: paths.globalSettingsIntegrationsLoggingFalconLogScale
+  },
   { from: paths.teamSettingsIntegrationsLoggingElk, to: paths.globalSettingsIntegrationsLoggingElk }
 ];
 

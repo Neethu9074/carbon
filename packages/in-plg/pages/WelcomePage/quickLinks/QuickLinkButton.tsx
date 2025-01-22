@@ -6,7 +6,9 @@
 
 import React from 'react';
 
-import { DashboardButton } from '@instana/components';
+import { CarbonButton } from '@instana/components';
+
+import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 
 import locals from 'in-plg/pages/WelcomePage/quickLinks/QuickLinks.mless';
 
@@ -20,18 +22,17 @@ interface QuickLinkButtonProps {
 
 export const QuickLinkButton = ({ icon, iconDescription, buttonName, href, onClick }: QuickLinkButtonProps) => {
   return (
-    <DashboardButton
+    <CarbonButton
       className={locals.buttonWithSeparator}
       size="md"
       kind="ghost"
-      iconSize="xs"
-      icon={icon}
       href={href}
+      renderIcon={() => <IconForButton icon={icon} iconSize="xs" />}
       onClick={onClick}
-      ariaLabel={buttonName}
+      aria-label={buttonName}
       iconDescription={iconDescription ?? icon}
     >
       {buttonName}
-    </DashboardButton>
+    </CarbonButton>
   );
 };

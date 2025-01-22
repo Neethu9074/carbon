@@ -25,6 +25,7 @@ import {
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
@@ -121,6 +122,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                   thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
                 }
               />
+              <GracePeriodWrapper form={form} updateForm={updateForm} />
             </>
           )
         },

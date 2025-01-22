@@ -19,6 +19,7 @@ import { getConfigAsResultObservable as getOidcConfigAsResultObservable } from '
 import ConfigureIdPInfoMessage from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/ConfigureIdPInfoMessage';
 import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
+import { deleteItem } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/utils';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -51,7 +52,7 @@ export default function Saml(props) {
         ldapConfig: getLdapConfig()
       })}
       enrichForm={enrichForm}
-      deleteItem={deleteItem}
+      deleteItem={data => deleteItem({ ...data, deleteConfig: deleteConfig })}
       setFile={setFile}
       file={file}
       onCancelClick={() => {
@@ -292,20 +293,6 @@ function CopyableText({ title, form, fieldName }) {
       </div>
     </FormGroup>
   ));
-}
-
-function deleteItem({ setMessage }) {
-  setMessage({ message: t('in-settings:tabs.deletingConfig'), type: 'neutral', isSaving: true });
-  const setConfigResult$ = deleteConfig();
-  setConfigResult$.once(
-    () => {
-      setMessage({
-        text: t('in-settings:tabs.configSuccessfullyDeleted'),
-        type: 'success'
-      });
-    },
-    error => setMessage({ text: t('in-settings:tabs.failedToDeleteConfig', { err: error.message }), type: 'error' })
-  );
 }
 
 function saveItem({ setMessage, ownerEmail, idpMetadata, spEntityId, unstable_trackEvent }) {

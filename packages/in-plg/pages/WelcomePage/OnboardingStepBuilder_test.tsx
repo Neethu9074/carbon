@@ -35,9 +35,9 @@ describe('in-plg/pages/WelcomePage/OnboardingStepBuilder', () => {
     expect(screen.getByText(expectedText)).toBeInTheDocument();
   });
 
-  it('should render OnboardingStepBuildera', () => {
+  it('OnboardingStepBuilder buttons should send segment events', () => {
     const { container } = render(<OnboardingStepBuilder activation={accountActivationData} />);
-    const buttons = container.querySelectorAll('.dashboardButton');
+    const buttons = container.querySelectorAll('[data-test-id="tile-button"]');
     buttons.forEach(button => {
       fireEvent.click(button as any);
     });

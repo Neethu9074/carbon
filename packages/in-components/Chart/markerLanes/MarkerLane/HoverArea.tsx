@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { MarkerLaneHoverOverlayConfig } from './MarkerLane';
+import { MarkerLaneHoverOverlayConfig } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 
 import locals from './HoverArea.mless';
 

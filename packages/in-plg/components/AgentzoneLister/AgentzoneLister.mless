@@ -8,9 +8,6 @@
   .helpText {
     margin: 0;
   }
-  .helpTextContentWrapper {
-    width: 8.4rem; // to keep the tooltip closer to the helpText
-  }
   .comboBox {
     width: 15rem;
   }

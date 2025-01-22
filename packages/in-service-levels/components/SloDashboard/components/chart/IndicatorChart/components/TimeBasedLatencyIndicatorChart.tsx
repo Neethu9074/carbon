@@ -31,13 +31,13 @@ import { thresholdMetricId } from 'in-service-levels/components/SloDashboard/com
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
+import { calculateTrafficGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSliMetricConfiguration from 'in-service-levels/hooks/useSliMetricConfiguration';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
-import { calculateTrafficGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { MetricDataSeries } from 'in-components/Chart/types';
@@ -92,6 +92,12 @@ export default function TimeBasedLatencyIndicatorChart({
     : websiteMetrics.beaconDuration.label;
 
   const filteredData = filterMetricValuesWithinTimeWindow(metricValues, timeConfig);
+
+  const timeWindowStartIndex = getIndexOfFirstTimeWindowWithData(filteredData, timeWindows);
+
+  const timeWindowsWithData = timeWindows.slice(timeWindowStartIndex);
+  const windowColorsWithData = timeWindowColors.slice(timeWindowStartIndex);
+
   const renderer = useLineWithThresholdAndMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: missingDataIndicator
   });
@@ -113,10 +119,10 @@ export default function TimeBasedLatencyIndicatorChart({
         excludedContextMenuActions: [zoomInAction.name],
         granularity: result.data?.[0]?.granularity ?? granularity,
         y1: {
-          metricIds: [...timeWindows.map(() => metricId), thresholdMetricId],
+          metricIds: [...timeWindowsWithData.map(() => metricId), thresholdMetricId],
           metrics: [...filteredData, thresholdMetrics],
-          labels: [...timeWindows.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
-          colors: [...timeWindowColors, themes.default.ids.color.option.red['500']],
+          labels: [...timeWindowsWithData.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
+          colors: [...windowColorsWithData, themes.default.ids.color.option.red['500']],
           formatter: millis.compact,
           renderer
         },

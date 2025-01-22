@@ -7,7 +7,7 @@
 import { TimeConfig, UnifiedMetricConfigurationUnion } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import { getTimeConfigBasedOnMetricConfiguration } from '../_shared/lastTimeConfig';
+import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 

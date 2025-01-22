@@ -69,7 +69,7 @@ export default function CallsErrorsChart({
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
-    timeShift: 0
+    timeShift: { offset: 0 }
   } as const;
 
   const chartMetrics = [

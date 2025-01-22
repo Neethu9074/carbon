@@ -4,13 +4,13 @@
  * Copyright IBM Corp. 2022
  */
 
+import { AdaptiveBaselineFetchedPredictions } from 'in-alerting/smart-alerts/data/adaptiveBaselinePredictionInfo';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { Result, GetApplicationAdaptiveBaselinePredictionsQuery } from 'in-types';
 
-type AdaptiveBaselinePrediction = [number, number, number][];
 export default createResultSubscriptionFactory<
   GetApplicationAdaptiveBaselinePredictionsQuery,
-  Result<AdaptiveBaselinePrediction>
+  Result<AdaptiveBaselineFetchedPredictions>
 >({
   eventId: 'getApplicationAdaptiveBaselinePredictions',
   memoizeFor: 0 // because subscribers rely on more than just the

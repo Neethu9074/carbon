@@ -19,4 +19,8 @@
     margin-left: 0.5rem;
     align-self: center;
   }
+
+  a.eventButtonWrapper {
+    text-decoration: none;
+  }
 }

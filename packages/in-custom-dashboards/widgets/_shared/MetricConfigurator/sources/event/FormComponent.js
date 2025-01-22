@@ -21,7 +21,7 @@ import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
-import locals from './FormComponent.mless';
+import locals from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event/FormComponent.mless';
 
 export default function FormComponent({
   form,

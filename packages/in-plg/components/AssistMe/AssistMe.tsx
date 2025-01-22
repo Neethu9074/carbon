@@ -6,9 +6,10 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { LicenseBannerButton } from '@instana/components';
+import { CarbonButton } from '@instana/components';
 
 import AssistMeSearchKeyword from 'in-plg/components/AssistMe/AssistMeDynamicSearch';
+import { IconForButton } from '../IconForButton/IconForButton';
 import { activeLanguage, t } from 'in-i18n';
 
 export default function AssistMe() {
@@ -29,20 +30,19 @@ export default function AssistMe() {
   }, [isExpanded]);
   return (
     <div data-search-context={AssistMeSearchKeyword()}>
-      <LicenseBannerButton
+      <CarbonButton
         id="wm-getanswers"
         kind="ghost"
-        icon="lib_help_error_help_outline"
-        iconColor="currentColor"
         onClick={() => {
           openAssistMe();
           setIsExpanded(!isExpanded);
         }}
         aria-controls="ibm-assist-me-shell"
         aria-expanded={isExpanded}
+        renderIcon={() => <IconForButton icon="lib_help_error_help_outline" iconSize="s" />}
       >
         {t('in-plg:licenseBanner.getAnswers')}
-      </LicenseBannerButton>
+      </CarbonButton>
     </div>
   );
 }

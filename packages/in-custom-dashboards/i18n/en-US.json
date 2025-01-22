@@ -29,7 +29,7 @@
         "pleaseSelect": "Please Select"
       },
       "sharingDialogPresenter": {
-        "share": "Share",
+        "editPermissions": "Edit permissions",
         "shareMsg": "This custom dashboard has advanced access rules which cannot be represented by this dialog. You can use the \"Edit As JSON\" feature to edit these access rules.",
         "privateDashboardDefault": "Private Dashboard (default)",
         "privateDashboardDefaultExplain": "This dashboard is only visible to you.",
@@ -81,6 +81,7 @@
       "failure": "Failure",
       "dashboardNotFoundExplain": "This dashboard does not exist or you do not have access to it.",
       "customDashboard": "Custom Dashboard",
+      "customDashboardOptions": "Custom Dashboard Options",
       "saveChange": "Save changes",
       "discardChange": "Discard Changes",
       "addWidget": "Add Widget",
@@ -92,8 +93,8 @@
       "copiedAllWidgets": "Widgets copied, use CTRL-V or CMD-V to paste on any custom dashboard",
       "duplicate": "Duplicate",
       "delete": "Delete",
-      "share": "Share",
-      "shareButtonTooltip": "Your user account does not have permissions to share dashboards."
+      "editPermissions": "Edit permissions",
+      "editOptionTooltip": "Your user account does not have permissions to share dashboards."
     },
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Failed to parse input as JSON.",
@@ -928,8 +929,8 @@
         "time": "Time"
       },
       "emptyTable": {
-        "title" : "No events available",
-        "explanation" : "There were no events retrieved for the selected time range"
+        "title": "No events available",
+        "explanation": "There were no events retrieved for the selected time range"
       }
     },
     "time": {

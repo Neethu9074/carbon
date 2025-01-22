@@ -9,7 +9,6 @@ import { find, groupBy } from 'lodash';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { TimeConfig } from '@instana/types';
 import { Stack } from '@instana/components';
 
 // @ts-expect-error module needs to be translated to TS
@@ -20,18 +19,18 @@ import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricCo
 import { isRequiringGroupingConfiguration } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 // @ts-expect-error module needs to be translated to TS
 import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import BusinessProcessQueryBuilder from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
 // @ts-expect-error module needs to be translated to TS
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { availableMetrics } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops/metrics';
-import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
-import QueryBuilder, { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import businessProcessGroupingConfigurator from 'in-bizops/api/businessProcessGroupingConfigurator';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
+import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 interface BizOpFormComponentProps {
@@ -59,8 +58,6 @@ const FormComponent = ({
   maxGrouping = 20,
   labelSection
 }: BizOpFormComponentProps) => {
-  const timeConfig = useTimeConfig();
-
   const metricField = form.get('metric');
   const tagFilterExpressionField = form.get('tagFilterExpression');
   const groupingField = form.get('grouping');
@@ -68,7 +65,7 @@ const FormComponent = ({
   const aggregators = getAggregations(metricField.value);
   const isSingleAggregator = aggregators?.length < 2;
 
-  const tagCatalogResult = useObservable(getGetTagCatalogObservable, [timeConfig]) ?? pendingResult;
+  const tagCatalogResult = useObservable(getGetTagCatalogObservable, []) ?? pendingResult;
 
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
     tagCatalogResult,
@@ -163,11 +160,11 @@ const FormComponent = ({
         {formatterSection}
       </Sections>
 
-      {QueryBuilder && (
+      {BusinessProcessQueryBuilder && (
         <QueryBuilderSection
           value={tagFilterExpression}
           onChange={setTagFilterExpression}
-          QueryBuilder={QueryBuilder}
+          QueryBuilder={BusinessProcessQueryBuilder}
           useLastValidStateWhenErroneous
           withoutIcon
         />
@@ -180,7 +177,7 @@ const FormComponent = ({
         onByChange={onByChange}
         onDirectionChange={onDirectionChange}
         onIncludeOthersChange={onIncludeOthersChange}
-        GroupingConfigurator={CallGroupingConfigurator}
+        GroupingConfigurator={businessProcessGroupingConfigurator}
         hasError={groupingField ? groupingField.touched && !groupingField.valid : false}
         additionalContent={<TouchedMessages field={groupingField} />}
         withOptionalMarker={!isRequiringGroupingConfiguration(form)}
@@ -204,8 +201,8 @@ const getMetricLabel = (metricId: string): string => {
   return find(availableMetrics, ({ metric: m }) => m === metricId)?.label!;
 };
 
-function getGetTagCatalogObservable([timeConfig]: TimeConfig[]) {
-  return getTagCatalog({ timeConfig });
+function getGetTagCatalogObservable() {
+  return getBusinessMonitoringTagCatalog({ useCase: 'FILTERING' });
 }
 
 export default FormComponent;

@@ -6,10 +6,8 @@
 import React from 'react';
 
 import { DataTable as CarbonDataTable } from '@instana/components';
-import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { carbonTableEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export default function NodeConditionsPresenter({ conditions }) {
@@ -45,30 +43,5 @@ export default function NodeConditionsPresenter({ conditions }) {
     [t('in-kubernetes:dashboards.message')]: message || valueMissingPlaceholder
   }));
 
-  return carbonTableEnabled ? (
-    <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
-  ) : (
-    <Table tableInCard>
-      <Thead>
-        <Tr size="compact">
-          <Th>{t('in-kubernetes:dashboards.condition')}</Th>
-          <Th>{t('in-kubernetes:dashboards.status')}</Th>
-          <Th>{t('in-kubernetes:dashboards.lastTransitionTime')}</Th>
-          <Th>{t('in-kubernetes:dashboards.reason')}</Th>
-          <Th>{t('in-kubernetes:dashboards.message')}</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        {conditions.map(condition => (
-          <Tr key={condition.type} size="compact">
-            <Td>{condition.type}</Td>
-            <Td>{condition.status}</Td>
-            <Td>{condition.lastTransitionTime || valueMissingPlaceholder}</Td>
-            <Td>{condition.reason || valueMissingPlaceholder}</Td>
-            <Td>{condition.message || valueMissingPlaceholder}</Td>
-          </Tr>
-        ))}
-      </Tbody>
-    </Table>
-  );
+  return <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />;
 }

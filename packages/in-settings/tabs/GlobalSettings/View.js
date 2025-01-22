@@ -30,7 +30,7 @@ import {
   globalSettingsIntegrationsLogging,
   globalSettingsIntegrationsLoggingCoralogix,
   globalSettingsIntegrationsLoggingElk,
-  globalSettingsIntegrationsLoggingHumio,
+  globalSettingsIntegrationsLoggingFalconLogScale,
   globalSettingsIntegrationsLoggingMezmo,
   globalSettingsIntegrationsLoggingSplunk,
   globalSettingsIntegrationsDatabase,
@@ -49,6 +49,7 @@ import MaintenanceWindowPage from 'in-settings/tabs/GlobalSettings/pages/eventsA
 import AlertChannelModificationPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import GlobalCustomPayloadPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
+import FalconLogScalePage from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/FalconLogScale/FalconLogScale';
 import RetentionPeriodPage from 'in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
 import DbIntegrations from 'in-settings/tabs/GlobalSettings/pages/integrations/database/Integrations/DbIntegrations';
 import LogIntegrations from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Integrations/Integrations';
@@ -62,7 +63,6 @@ import DbMarlin from 'in-settings/tabs/GlobalSettings/pages/integrations/databas
 import LogVolumePage from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/LogVolume';
 import SplunkPage from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Splunk/Splunk';
 import MezmoPage from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Mezmo/Mezmo';
-import HumioPage from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Humio/Humio';
 import EventsPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/Alerts';
 import AlertPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/Alert';
@@ -265,9 +265,9 @@ function navigationTreeForRole(role, isAddonUser) {
             component: ElkPage
           },
           {
-            path: globalSettingsIntegrationsLoggingHumio,
-            label: t('in-settings:tabs.humio'),
-            component: HumioPage
+            path: globalSettingsIntegrationsLoggingFalconLogScale,
+            label: t('in-settings:tabs.falconLogScale'),
+            component: FalconLogScalePage
           },
           {
             path: globalSettingsIntegrationsLoggingMezmo,
