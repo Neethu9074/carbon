@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { logLevelColors } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { ContextMenuButton } from 'in-components/Chart/types';
-import { outlineForColor, carbonAlert } from 'in-themes/chartColors';
+import { outlineForColor } from 'in-themes/chartColors';
 import { TagFilterExpression } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -57,9 +58,25 @@ export default function LogsChart(props: LogsChartProps) {
               tagFilterExpression,
               value: 'INFO',
               label: t('in-logging:logsOverTime', { context: 'INFO' })
+            }),
+            getMetricConfig({
+              tagFilterExpression,
+              value: 'FATAL',
+              label: t('in-logging:logsOverTime', { context: 'FATAL' })
+            }),
+            getMetricConfig({
+              tagFilterExpression,
+              value: 'NONE',
+              label: t('in-logging:logsOverTime', { context: 'NONE' })
             })
           ],
-          colors: [carbonAlert.red60, carbonAlert.yellow30, carbonAlert.blue70],
+          colors: [
+            logLevelColors.error,
+            logLevelColors.warn,
+            logLevelColors.info,
+            logLevelColors.fatal,
+            logLevelColors.nextloglevel
+          ],
           formatter: 'number.compact',
           renderer: 'stackedBar'
         },

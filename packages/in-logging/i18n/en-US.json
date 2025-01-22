@@ -8,6 +8,7 @@
   "logsOverTime_WARN": "Warn ",
   "logsOverTime_INFO": "Info",
   "logsOverTime_FATAL": "Fatal",
+  "logsOverTime_NONE": "None",
   "logsOverTime_NEXTLOGLEVEL": "{{label}}",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "The query configuration is invalid. Please address the validation failures before continuing.",
   "addAsFilter": "Add as filter",

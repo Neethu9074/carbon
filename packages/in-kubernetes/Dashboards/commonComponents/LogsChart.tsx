@@ -7,12 +7,14 @@ import React from 'react';
 
 import { Observable } from '@instana/observables';
 
+import { logLevelColors } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { TagFilterExpression, TagFilterExpressionElementUnion } from 'in-types';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
-import { carbonAlert, outlineForColor } from 'in-themes/chartColors';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
+import { outlineForColor } from 'in-themes/chartColors';
 import { ChartConfig } from 'in-components/Chart/types';
+import { LogLevel } from 'in-logging/components/types';
 import { t } from 'in-i18n';
 
 interface AdditionalContextMenuButtonConfig {
@@ -28,8 +30,12 @@ interface LogsChartProps {
   onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
 }
 
+const logLevelsToShow: LogLevel[] = ['ERROR', 'INFO', 'WARN', 'FATAL', 'NONE'];
+
 export default function LogsChart(props: LogsChartProps) {
   const { tagFilterExpression, additionalContextMenuButtons, onLegendItemToggle } = props;
+
+  const metrics = logLevelsToShow.map(level => getLogMetric({ tagFilterExpression, level }));
 
   return (
     <UnifiedMetricsChart
@@ -39,8 +45,14 @@ export default function LogsChart(props: LogsChartProps) {
         additionalContextMenuButtons,
         y1: {
           outlineForColor,
-          metrics: [errorMetric(tagFilterExpression), warnMetric(tagFilterExpression), infoMetric(tagFilterExpression)],
-          colors: [carbonAlert.red60, carbonAlert.yellow30, carbonAlert.blue70],
+          metrics,
+          colors: [
+            logLevelColors.error,
+            logLevelColors.warn,
+            logLevelColors.info,
+            logLevelColors.fatal,
+            logLevelColors.nextloglevel
+          ],
           formatter: 'number.compact',
           renderer: 'stackedBar'
         },
@@ -67,13 +79,6 @@ function getLogMetric(props: GetLogMetricRequest): Metric {
     tagFilterExpression: addLogLevelFilterTagToQueryModel({ value: level, tagFilterExpression })
   };
 }
-
-const errorMetric = (tagFilterExpression: TagFilterExpressionElementUnion) =>
-  getLogMetric({ tagFilterExpression, level: 'ERROR' });
-const warnMetric = (tagFilterExpression: TagFilterExpressionElementUnion) =>
-  getLogMetric({ tagFilterExpression, level: 'WARN' });
-const infoMetric = (tagFilterExpression: TagFilterExpressionElementUnion) =>
-  getLogMetric({ tagFilterExpression, level: 'INFO' });
 
 interface AddLogLevelFilterTagToQueryModelRequest {
   tagFilterExpression: TagFilterExpressionElementUnion | TagFilterExpression;
