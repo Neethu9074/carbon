@@ -408,7 +408,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsCustomDashboardEnabled',
     instanaCtlKey: 'feature.bizops.custom.dashboard.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'bizopsProcessStackEnabled',
