@@ -17,12 +17,12 @@ import { Result } from '@instana/types';
 
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+//@ts-expect-error missing typescript migration
+import { getQueuedLicensesOfEnvironmentAsResultObservable } from 'in-amp/api/account';
 import {
   isWalkmeScriptLoaded,
   termsAndPrivacySettingsStore$
 } from 'in-settings/terms/stores/termsAndPrivacySettingsStore';
-//@ts-expect-error missing typescript migration
-import { getQueuedLicensesAsResultObservable } from 'in-amp/api/account';
 import { onPremLicenseInformationEnabled, playWithReleaseEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { SHARE_AND_INVITE_INVITEE_JOINED } from 'in-services/tracking/eventNames';
 import { countryCode, editionID, languageCode } from 'in-plg/utils/constants';
@@ -56,7 +56,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const { createHref } = useNavigation();
   const { trackCta } = useSegmentTracking();
   //@ts-expect-error
-  const queuedLicenseDetails: Result<any> = useObservable(getQueuedLicensesAsResultObservable(1, 5), []);
+  const queuedLicenseDetails: Result<any> = useObservable(getQueuedLicensesOfEnvironmentAsResultObservable(1, 5), []);
   const { activeLicense, remainingDays, content } = message;
   const isQuota = activeLicense === 'quota';
   const isSelfService = activeLicense === 'selfService';
