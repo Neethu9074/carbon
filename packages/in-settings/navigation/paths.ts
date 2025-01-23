@@ -45,6 +45,9 @@ export const securityAndAccessAccessControlApiTokenEdit = `${securityAndAccessAc
 export const securityAndAccessAccessControlApiTokenDuplicate = `${securityAndAccessAccessControl}/apiTokens/new/:duplicateFrom`;
 export const securityAndAccessAccessControlApiTokenNew = `${securityAndAccessAccessControl}/apiTokens/new`;
 export const securityAndAccessAccessControlApiTokens = `${securityAndAccessAccessControl}/apiTokens`;
+export const securityAndAccessAccessControlTeams = `${securityAndAccessAccessControl}/teams`;
+export const securityAndAccessAccessControlTeamEdit = `${securityAndAccessAccessControl}/teams/:id`;
+export const securityAndAccessAccessControlTeamNew = `${securityAndAccessAccessControl}/teams/new`;
 
 export const teamSettingsAccessControlUsers = `${accessControl}/users`;
 export const teamSettingsAccessControlUserEdit = `${accessControl}/users/:id`;

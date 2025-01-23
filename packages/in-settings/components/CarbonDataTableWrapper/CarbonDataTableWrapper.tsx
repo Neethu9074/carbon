@@ -121,7 +121,7 @@ interface CarbonDataTableWrapperProps<ItemType extends Object> {
   tableActions: TableActions<ItemType>;
   getEntityName: (element: ItemType) => string;
   searchAttributes?: any;
-  message: Notification | null;
+  message?: Notification | null;
 }
 
 const logger = createLogger('SettingsList');

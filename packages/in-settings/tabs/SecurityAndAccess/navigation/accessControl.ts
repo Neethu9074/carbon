@@ -13,12 +13,15 @@ import {
   securityAndAccessAccessControlGroupNew,
   securityAndAccessAccessControlGroups,
   securityAndAccessAccessControlInvites,
+  securityAndAccessAccessControlTeamEdit,
+  securityAndAccessAccessControlTeamNew,
+  securityAndAccessAccessControlTeams,
   securityAndAccessAccessControlUserEdit,
   securityAndAccessAccessControlUsers,
-  securityAndAccessAudit,
-  securityAndAccessActionLog,
   securityAndAccessAccessLog,
-  securityAndAccessActionLogRetention
+  securityAndAccessActionLog,
+  securityAndAccessActionLogRetention,
+  securityAndAccessAudit
 } from 'in-settings/navigation/paths';
 //@ts-expect-error not migrated to typescript yet
 import GroupPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Group';
@@ -26,12 +29,14 @@ import GroupPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Gr
 import UserPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/User';
 import ApiTokenFormDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/ApiTokens/ApiTokenFormDialog';
 import ApiTokensPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/ApiTokens/ApiTokens';
-import InvitesV2 from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/InvitesV2';
 import InvitesPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/Invites';
+import InvitesV2 from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/InvitesV2';
 import UsersV2 from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/Users/UsersV2';
-import GroupsV2 from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/GroupsV2';
 import GroupsPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Groups';
+import GroupsV2 from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/GroupsV2';
+import TeamsPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/Teams';
 import UsersPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/Users';
+import TeamPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/Team';
 import AuditTrailPage from 'in-settings/tabs/SecurityAndAccess/pages/audit/AuditTrail';
 import { accessControlCarbonTable, rbacTeamsEnabled } from 'in-services/featureFlags';
 import { Role } from 'in-types';
@@ -127,17 +132,17 @@ export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
     if (rbacTeamsEnabled) {
       if (role.canConfigureTeams) {
         accessControlPages.push({
-          path: securityAndAccessAccessControlGroups,
-          label: t('in-settings:tabs.teams'),
-          component: GroupsPage,
+          path: securityAndAccessAccessControlTeams,
+          label: t('in-settings:tabs.teams.teamsTitle'),
+          component: TeamsPage,
           subPages: [
             {
-              path: securityAndAccessAccessControlGroupNew,
-              component: GroupPage
+              path: securityAndAccessAccessControlTeamNew,
+              component: TeamsPage
             },
             {
-              path: securityAndAccessAccessControlGroupEdit,
-              component: GroupPage
+              path: securityAndAccessAccessControlTeamEdit,
+              component: TeamPage
             }
           ]
         });

@@ -6,7 +6,7 @@
 
 // @ts-expect-error
 import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
-import { TrashCan } from '@carbon/icons-react';
+import { TrashCan, UserAvatar } from '@carbon/icons-react';
 import React from 'react';
 
 import { Link, Message, MessageTypes, Spacer, Typography } from '@instana/components';
@@ -28,7 +28,6 @@ import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
 import { hasError, isLoading } from 'in-services/util/result';
 import { USER_INVITE } from 'in-services/tracking/tracking';
 import { pendingResult } from 'in-services/fixedObjects';
-import UserIcon from 'in-components/UserIcon/UserIcon';
 import { t, Trans } from 'in-i18n';
 import { Result } from 'in-types';
 
@@ -83,7 +82,7 @@ export default function UsersV2() {
   const rows = entities?.map((user: UserResult) => ({
     fullName: (
       <HorizontalFlexWrapper>
-        <UserIcon size="xs" />
+        <UserAvatar />
         <Spacer horizontal="normal" />
         <div>
           <Link href={getEntityIdView(securityAndAccessAccessControlUsers, user.id)} ellipsis>

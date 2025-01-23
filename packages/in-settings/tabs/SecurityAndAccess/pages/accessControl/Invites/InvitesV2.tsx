@@ -6,7 +6,7 @@
 
 // @ts-expect-error
 import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
-import { TrashCan } from '@carbon/icons-react';
+import { TrashCan, UserAvatar } from '@carbon/icons-react';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
@@ -27,7 +27,6 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { formatDateTime } from 'in-services/formatters/date';
 import { USER_INVITE } from 'in-services/tracking/tracking';
 import { pendingResult } from 'in-services/fixedObjects';
-import UserIcon from 'in-components/UserIcon/UserIcon';
 import { config } from 'in-services/config';
 import { t, Trans } from 'in-i18n';
 
@@ -94,7 +93,7 @@ const InvitesV2 = () => {
   const rows = entities?.map((invite: PendingInvitation) => ({
     email: (
       <HorizontalFlexWrapper>
-        <UserIcon size="xs" />
+        <UserAvatar />
         <Spacer horizontal="xsmall" />
         {invite.email}
       </HorizontalFlexWrapper>
