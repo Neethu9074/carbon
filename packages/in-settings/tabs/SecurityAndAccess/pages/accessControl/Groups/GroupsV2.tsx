@@ -6,8 +6,7 @@
 import { TrashCan } from '@carbon/icons-react';
 import React from 'react';
 
-import { create, Observable } from '@instana/observables';
-import { ApiGroup, PermissionSet } from '@instana/types';
+import { ApiGroup, PermissionSet, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
@@ -16,35 +15,22 @@ import {
   securityAndAccessAccessControlGroups,
   securityAndAccessAccessControlGroupNew
 } from 'in-settings/navigation/paths';
-import { ProductAreaPermissionMap } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import CarbonDataTableWrapper, {
-  DataTableRow
+  DataTableRow,
+  Notification
 } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
-import { deleteGroup, deleteGroups, getGroupAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/groups';
+import { ProductAreaPermissionMap } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { ScopeRoles } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
+import { deleteGroup, deleteGroups, getGroups } from 'in-settings/tabs/SecurityAndAccess/api/groups';
 import { useTenantUnitsInfo } from 'in-settings/hooks/useTenantUnitsInfo';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
-import { isLoading } from 'in-services/util/result';
 import { config } from 'in-services/config';
 import { Trans, t } from 'in-i18n';
-import { Result } from 'in-types';
 
 export const groupNameDefault = 'Default';
 export const groupNameOwner = 'Owner';
-
-const loadEntities = (): Observable<ApiGroup[]> => {
-  const observer = create<ApiGroup[]>();
-  getGroupAsResultObservable('').subscribe(next => {
-    if (next.progress?.loading) return;
-    if (next.data) {
-      observer.emit(next.data);
-    } else if (next.errors) {
-      observer.emitError(next.errors);
-    }
-  });
-  return observer;
-};
 
 const tableActions = {
   delete: {
@@ -96,9 +82,17 @@ const getBatchActionItems = () => {
 const GroupsV2 = () => {
   const { goToPath } = useNavigation();
   const showTenantInfo = useTenantUnitsInfo();
-  const dataTableResult = useObservable(loadEntities, []) ?? pendingResult;
-  const loading = isLoading(dataTableResult as Result<any>);
-  const entities = !loading ? (dataTableResult as ApiGroup[]) : [];
+  const dataTableResult = useObservable(getGroups, []) ?? pendingResult;
+  const hasErrors = hasError(dataTableResult as Readonly<Result<ApiGroup[]>>);
+  const errorMessage = hasErrors
+    ? ({
+        title: t('in-settings:components.errorFailedToLoadData'),
+        subtitle: (dataTableResult as Readonly<Result<ApiGroup[]>>).errors[0].message,
+        kind: 'error'
+      } as Notification)
+    : null;
+  const loading = isLoading(dataTableResult as Result<ApiGroup>);
+  const entities = !loading && !hasErrors ? (dataTableResult as ApiGroup[]) : [];
   const pageSizes = [20, 50];
   const rows = entities?.map((group: ApiGroup) => ({
     name: <Link href={getEntityIdView(securityAndAccessAccessControlGroups, group.id)}>{group.name}</Link>,
@@ -192,6 +186,7 @@ const GroupsV2 = () => {
       customBatchDeleteMessage={(groups: ApiGroup[]) => getDialogMessage(groups, true)}
       getEntityName={getEntityName}
       tableActions={tableActions}
+      message={errorMessage}
     />
   );
 };

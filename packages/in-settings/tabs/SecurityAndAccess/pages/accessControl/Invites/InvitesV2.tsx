@@ -13,20 +13,21 @@ import { useObservable } from '@instana/hooks';
 import { Spacer } from '@instana/components';
 import { Result } from '@instana/types';
 
+import CarbonDataTableWrapper, {
+  DataTableRow,
+  Notification
+} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import CarbonDataTableWrapper, {
-  DataTableRow
-} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+import { getPendingInvitationsAsObservable, PendingInvitation, revokeInvitation } from 'in-api/users';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import { getPendingInvitations, PendingInvitation, revokeInvitation } from 'in-api/users';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { hasError, isLoading } from 'in-services/util/result';
 import { formatDateTime } from 'in-services/formatters/date';
 import { USER_INVITE } from 'in-services/tracking/tracking';
 import { pendingResult } from 'in-services/fixedObjects';
 import UserIcon from 'in-components/UserIcon/UserIcon';
-import { isLoading } from 'in-services/util/result';
 import { config } from 'in-services/config';
 import { t, Trans } from 'in-i18n';
 
@@ -56,7 +57,7 @@ const tableActions = {
 };
 
 const getEntityName = (entity: PendingInvitation) => {
-  return t('in-settings:tabs.groupEntityName', { entityName: entity.email });
+  return t('in-settings:tabs.inviteWithEmail', { email: entity.email });
 };
 
 const customDialogMessage = ({ email }: PendingInvitation) => {
@@ -77,10 +78,19 @@ const InvitesV2 = () => {
   const { trackCta } = useSegmentTracking();
 
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
-  const dataTableResult = useObservable(getPendingInvitations, []) ?? pendingResult;
-  const loading = isLoading(dataTableResult as Result<PendingInvitation>);
-  const entities = !loading ? (dataTableResult as PendingInvitation[]) : [];
+  const dataTableResult = useObservable(getPendingInvitationsAsObservable, []) ?? pendingResult;
+  const loading = isLoading(dataTableResult as Result<PendingInvitation[]>);
+  const hasErrors = hasError(dataTableResult as Readonly<Result<any>>);
+  const errorMessage = hasErrors
+    ? ({
+        title: t('in-settings:components.errorFailedToLoadData'),
+        subtitle: (dataTableResult as Readonly<Result<PendingInvitation[]>>).errors[0].message,
+        kind: 'error'
+      } as Notification)
+    : null;
+  const entities = !loading && !hasErrors ? (dataTableResult as PendingInvitation[]) : [];
   const pageSizes = [20, 50];
+
   const rows = entities?.map((invite: PendingInvitation) => ({
     email: (
       <HorizontalFlexWrapper>
@@ -136,6 +146,7 @@ const InvitesV2 = () => {
       customDialogMessage={(entity: PendingInvitation) => customDialogMessage(entity)}
       customDialogConfirmLabel={t('in-settings:tabs.revoke')}
       tableActions={tableActions}
+      message={errorMessage}
     />
   );
 };

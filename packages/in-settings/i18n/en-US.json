@@ -349,7 +349,11 @@
     "createNew": "Create New",
     "deselect": "Deselect",
     "select": "Select",
-    "delete": "Delete"
+    "delete": "Delete",
+    "errorTitle": "Error",
+    "noDataAvailable": "No data available",
+    "errorFailedToLoadData": "Failed to load the requested data",
+    "removedEntity": "Successfully removed {{entity}}"
   },
   "tabs": {
     "team": {
@@ -1365,6 +1369,7 @@
     "accessForTenantUnit": "Access for {{tenantUnit}}-{{tenant}}",
     "numberOfMembers": "Number of members",
     "groupEntityName": "group {{entityName}}",
+    "inviteWithEmail": "invite {{email}}",
     "selectEventType": "Select event type",
     "openSubject": "Open {{event_type}} subject",
     "openEventType": "Open {{event_type}}",

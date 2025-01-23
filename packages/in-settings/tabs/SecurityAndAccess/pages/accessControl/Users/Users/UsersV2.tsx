@@ -10,40 +10,27 @@ import { TrashCan } from '@carbon/icons-react';
 import React from 'react';
 
 import { Link, Message, MessageTypes, Spacer, Typography } from '@instana/components';
-import { create, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { MessageContentModernDesign } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import CarbonDataTableWrapper, {
+  DataTableRow,
+  Notification
+} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import CarbonDataTableWrapper, {
-  DataTableRow
-} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
-import { getUsersAsResultObservable, removeUserFromTenant, removeUsersFromTenant, UserResult } from 'in-api/users';
+import { getUsersResult, removeUserFromTenant, removeUsersFromTenant, UserResult } from 'in-api/users';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { getEntityIdView, securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
+import { hasError, isLoading } from 'in-services/util/result';
 import { USER_INVITE } from 'in-services/tracking/tracking';
 import { pendingResult } from 'in-services/fixedObjects';
 import UserIcon from 'in-components/UserIcon/UserIcon';
-import { isLoading } from 'in-services/util/result';
 import { t, Trans } from 'in-i18n';
 import { Result } from 'in-types';
-
-const loadEntities = (): Observable<UserResult[]> => {
-  const observer = create<UserResult[]>();
-  getUsersAsResultObservable([]).subscribe(next => {
-    if (next.progress?.loading) return;
-    if (next.data) {
-      observer.emit(next.data);
-    } else if (next.errors) {
-      observer.emitError(next.errors);
-    }
-  });
-  return observer;
-};
 
 const tableActions = {
   delete: {
@@ -81,9 +68,18 @@ export default function UsersV2() {
   const { trackCta } = useSegmentTracking();
   const pageSizes = [20, 50];
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
-  const dataTableResult = useObservable(loadEntities, []) ?? pendingResult;
-  const loading = isLoading(dataTableResult as Result<any>);
-  const entities = !loading ? (dataTableResult as UserResult[]) : [];
+
+  const dataTableResult = useObservable(getUsersResult, []) ?? pendingResult;
+  const loading = isLoading(dataTableResult as Result<UserResult>);
+  const hasErrors = hasError(dataTableResult as Readonly<Result<UserResult[]>>);
+  const errorMessage = hasErrors
+    ? ({
+        title: t('in-settings:components.errorFailedToLoadData'),
+        subtitle: (dataTableResult as Readonly<Result<UserResult[]>>).errors[0].message,
+        kind: 'error'
+      } as Notification)
+    : null;
+  const entities = !loading && !hasErrors ? (dataTableResult as UserResult[]) : [];
   const rows = entities?.map((user: UserResult) => ({
     fullName: (
       <HorizontalFlexWrapper>
@@ -189,6 +185,7 @@ export default function UsersV2() {
         customDialogMessage={isAnyIDPActive ? (entity: UserResult) => customDialogMessage(entity) : undefined}
         getEntityName={({ fullName }: UserResult) => t('in-settings:tabs.userWithName', { name: fullName })}
         customBatchDeleteMessage={isAnyIDPActive ? (users: UserResult[]) => customBatchDeleteMessage(users) : undefined}
+        message={errorMessage}
       />
     </>
   );
