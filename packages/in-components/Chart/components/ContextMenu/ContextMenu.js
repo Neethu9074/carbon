@@ -18,6 +18,7 @@ import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoo
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { customDashboardsExportPdfWidget } from 'in-services/featureFlags';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
+import { containsIgnoreCase } from 'in-services/util/string';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -129,8 +130,13 @@ export default class extends React.Component {
   }
 
   onMouseDown(e) {
-    const { target } = e;
-    if (!target?.closest(`.${locals.contextMenuActionsButtonsWrapper}`)) {
+    const targetClassName = e?.target?.className;
+    if (
+      typeof targetClassName === 'string' &&
+      !containsIgnoreCase(targetClassName, locals.contextMenu) &&
+      !containsIgnoreCase(targetClassName, locals.button) &&
+      !containsIgnoreCase(targetClassName, locals.contextMenuActionsButtonsWrapper)
+    ) {
       this.props.setShowContextMenu(false);
       this.props.chart.config.clearLocalHighlightedTimeframe();
     }
