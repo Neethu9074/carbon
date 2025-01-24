@@ -1147,12 +1147,9 @@
       "tearSheet": {
         "createTitle": "Create a website Smart Alert",
         "editTitle": "Edit a website Smart Alert",
-        "steps": {
-          "step1Title": "Define the condition"
-        },
         "step1": {
           "title": "Pick a template",
-          "description": "Choose what you want to be alerted on"
+          "description": "Choose the issue that you want to be alerted on"
         },
         "statusCode": {
           "headline": "Automatic alerts for HTTP status codes",

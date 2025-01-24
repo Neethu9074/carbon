@@ -11,5 +11,6 @@
   .smallWidth {
     width: 31rem;
     margin-top: 1rem;
+    height: 14rem;
   }
 }

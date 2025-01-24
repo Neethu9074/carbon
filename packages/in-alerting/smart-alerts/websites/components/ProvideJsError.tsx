@@ -48,7 +48,7 @@ export default function ProvideJsError({
   const ruleValueField = form.get('rule').get('value');
 
   return (
-    <div className={locals.container}>
+    <div className={classNames({ [locals.container]: true, [locals.height]: tearSheetView })}>
       {operatorField.map((field: Field<string>) => (
         <FormGroup>
           <div
