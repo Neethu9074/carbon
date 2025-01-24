@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
+import { DataTable as CarbonDataTable } from '@instana/components';
 import { Collapsible, Link } from '@instana/components';
 
 import { ClickableList, ClickableListItem } from 'in-sdk/components/sidebar/ClickableList';
@@ -15,38 +15,40 @@ import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { t } from 'in-i18n';
 
 export default function Pods({ pods, renderByDashboard }) {
+  const carbonHeaders = [
+    {
+      key: 'name',
+      header: t('in-forge:plugins.oTelK8sCluster.dashboard.name')
+    },
+    {
+      key: 'namespace',
+      header: t('in-forge:plugins.oTelK8sCluster.dashboard.namespace')
+    },
+    {
+      key: 'age',
+      header: t('in-forge:plugins.oTelK8sCluster.dashboard.age')
+    },
+    {
+      key: 'status',
+      header: t('in-forge:plugins.oTelK8sCluster.dashboard.status')
+    },
+    {
+      key: 'health',
+      header: t('in-forge:plugins.oTelK8sCluster.dashboard.health')
+    }
+  ];
+
+  const carbonRows = pods.map(pod => ({
+    name: <Link href={getDashboardLink(pod.id, { pathname: '/physical/dashboard' })}>{pod.resourceK8sPodName}</Link>,
+    namespace: pod.resourceK8sNamespaceName,
+    age: formatDurationAccurately(new Date() - new Date(pod.resourceK8sPodStart_time)),
+    status: 'Ready',
+    health: <HealthIndicatorPresenter openIssues={0} maxSeverity={1} tooltipLabel={'issue'} />
+  }));
+
   const getDashboardLink = useGetDashboardLink();
   if (renderByDashboard) {
-    return (
-      <Table tableInCard>
-        <Thead>
-          <Tr size="compact">
-            <Th>{t('in-forge:plugins.oTelK8sCluster.dashboard.name')}</Th>
-            <Th>{t('in-forge:plugins.oTelK8sCluster.dashboard.namespace')}</Th>
-            <Th>{t('in-forge:plugins.oTelK8sCluster.dashboard.age')}</Th>
-            <Th>{t('in-forge:plugins.oTelK8sCluster.dashboard.status')}</Th>
-            <Th>{t('in-forge:plugins.oTelK8sCluster.dashboard.health')}</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {pods.map(pod => (
-            <Tr key={pod.id} size="compact">
-              <Td>
-                <Link href={getDashboardLink(pod.id, { pathname: '/physical/dashboard' })}>
-                  {pod.resourceK8sPodName}
-                </Link>
-              </Td>
-              <Td>{pod.resourceK8sNamespaceName}</Td>
-              <Td>{formatDurationAccurately(new Date() - new Date(pod.resourceK8sPodStart_time))}</Td>
-              <Td>Ready</Td>
-              <Td>
-                <HealthIndicatorPresenter openIssues={0} maxSeverity={1} tooltipLabel={'issue'} />
-              </Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    );
+    return <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} isExpanded={false} />;
   }
   return (
     <div>
