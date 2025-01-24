@@ -10,6 +10,10 @@ import {
   UnifiedMetricConfigurationUnion
 } from '@instana/types';
 
+// @ts-expect-error Module needs to be translated to TS
+import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+
 export type BizOpsUnifiedMetricConfigurationWithDataSource = BizOpsUnifiedMetricConfiguration & {
   dataSource: 'BUSINESS_FLOW_OBJECTS';
 };
@@ -23,7 +27,7 @@ export type BizOpsUnifiedMetricConfigurationWithDataSource = BizOpsUnifiedMetric
 export const enrichBySettingDataSource = (
   metricConfiguration: UnifiedMetricConfigurationUnion
 ): UnifiedMetricConfigurationUnion | BizOpsUnifiedMetricConfigurationWithDataSource => {
-  if (isBizOpsUnifiedMetricConfiguration(metricConfiguration)) {
+  if (isBizOpsUnifiedMetricConfiguration(metricConfiguration) && IsCustomDashboardPage()) {
     const newMetrics: BizOpsUnifiedMetricConfigurationWithDataSource = {
       ...metricConfiguration,
       dataSource: 'BUSINESS_FLOW_OBJECTS'
@@ -31,4 +35,9 @@ export const enrichBySettingDataSource = (
     return newMetrics;
   }
   return metricConfiguration;
+};
+
+const IsCustomDashboardPage = () => {
+  const { matchLocation } = useNavigation();
+  return matchLocation(customDashboardsPath);
 };
