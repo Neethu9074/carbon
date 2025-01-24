@@ -164,6 +164,7 @@ export default function Summary({ timeConfig, data: cluster }) {
                 colors: [running, pending, allocated, capacity]
               }}
               renderPostChartContent={K8DashboardsMarkerLanes}
+              minRollup={10000}
             />
           </Card>
         </Col>
