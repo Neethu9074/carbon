@@ -14,6 +14,7 @@ import {
   createTypeUrlParameter,
   createTabTypeUrlParameter
 } from 'in-automation/navigation/urlParameters';
+import CreateNewAction from 'in-automation/ActionCatalog/CreateNewAction1';
 import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { getDocLinkFromFields, getManualContentFromFields, base64ToUtf8 } from 'in-automation/utils/actionField';
@@ -87,9 +88,14 @@ export default function ActionCatalog({
       rightHeader={
         <>
           {role?.canConfigureAutomationActions && isUserActions && (
-            <Button kind="action" onClick={() => navigateToActionDetails()} icon="lib_openclose_add_circle_outline">
-              {t('in-automation:ActionCatalog.newAction')}
-            </Button>
+            <>
+              <Button kind="action" onClick={() => navigateToActionDetails()} icon="lib_openclose_add_circle_outline">
+                {t('in-automation:ActionCatalog.newAction')}
+              </Button>
+              <Button kind="action" onClick={() => handleButtonClick()} icon="lib_openclose_add_circle_outline">
+                {t('in-automation:ActionCatalog.newAction')}
+              </Button>
+            </>
           )}
           <>
             <Spacer horizontal="small" />
@@ -263,3 +269,7 @@ function onDeleteFailed(error: Error) {
     'action-delete-error'
   );
 }
+
+const handleButtonClick = () => {
+  addActiveDialog(<CreateNewAction />);
+};

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import {
   Link,
@@ -117,7 +117,6 @@ export function ActionFormBody({
 }) {
   const { form } = useActionFormContext();
   const { id } = useActionDetailsUrlParams();
-
   const type = form.get('type').value;
 
   const showTimeoutSection = [ACTION_TYPE.SCRIPT, ACTION_TYPE.HTTP, ACTION_TYPE.ANSIBLE].includes(type);
@@ -127,25 +126,38 @@ export function ActionFormBody({
     <LeftRightPadding>
       <Row>
         <Col lg={8}>
-          <SectionHeading>{t('in-automation:ActionCatalog.1ActionDetails')}</SectionHeading>
-          <MetaDataSection actionFilter={actionFilter} />
-          <SectionHeading>{t('in-automation:ActionCatalog.2ActionConfiguration')}</SectionHeading>
-          <TypeSection action={action} actionFilter={actionFilter} />
-          {type === ACTION_TYPE.DOC_LINK && <DocLinkSection />}
-          {type === ACTION_TYPE.SCRIPT && <ScriptSection />}
-          {type === ACTION_TYPE.HTTP && <WebhookSection />}
-          {type === ACTION_TYPE.ANSIBLE && <AnsibleSection action={action} />}
-          {type === ACTION_TYPE.GITHUB && <GithubSection />}
-          {type === ACTION_TYPE.GITLAB && <GitlabSection />}
-          {type === ACTION_TYPE.JIRA && <JiraSection />}
-          {type === ACTION_TYPE.MANUAL && <ManualSection />}
-          {showTimeoutSection && <TimeoutSection />}
+          <Fragment key="1-select-entity">
+            <ScrollStep id="1-select-entity">
+              <SectionHeading>{t('in-automation:ActionCatalog.1ActionDetails')}</SectionHeading>
+              <MetaDataSection actionFilter={actionFilter} />
+            </ScrollStep>
+          </Fragment>
+          <Fragment key="2-select-indicator">
+            <ScrollStep id="2-select-indicator">
+              <SectionHeading>{t('in-automation:ActionCatalog.2ActionConfiguration')}</SectionHeading>
+              <TypeSection action={action} actionFilter={actionFilter} />
+              {type === ACTION_TYPE.DOC_LINK && <DocLinkSection />}
+              {type === ACTION_TYPE.SCRIPT && <ScriptSection />}
+              {type === ACTION_TYPE.HTTP && <WebhookSection />}
+              {type === ACTION_TYPE.ANSIBLE && <AnsibleSection action={action} />}
+              {type === ACTION_TYPE.GITHUB && <GithubSection />}
+              {type === ACTION_TYPE.GITLAB && <GitlabSection />}
+              {type === ACTION_TYPE.JIRA && <JiraSection />}
+              {type === ACTION_TYPE.MANUAL && <ManualSection />}
+              {showTimeoutSection && <TimeoutSection />}
+            </ScrollStep>
+          </Fragment>
+
           {showParametersSection && (
             <>
-              <SectionHeading>{t('in-automation:ActionCatalog.3ParamaterDetails')}</SectionHeading>
-              <FormGroup>
-                <ParametersTable />
-              </FormGroup>
+              <Fragment key="3-select-objective">
+                <ScrollStep id="3-select-objective">
+                  <SectionHeading>{t('in-automation:ActionCatalog.3ParamaterDetails')}</SectionHeading>
+                  <FormGroup>
+                    <ParametersTable />
+                  </FormGroup>
+                </ScrollStep>
+              </Fragment>
             </>
           )}
         </Col>
@@ -326,6 +338,7 @@ function MetaDataSection({ actionFilter }: { actionFilter: 'all' | ActionFilter 
 
 const typeOptions = ACTION_TYPES.filter(type => !NON_CREATABLE_ACTION_TYPES.includes(type));
 function filterTypes(actionFilter: 'all' | ActionFilter) {
+  console.log('actionFilter----------', actionFilter);
   if (actionFilter === 'all' || actionFilter.types.length === 0) {
     return typeOptions;
   } else {
