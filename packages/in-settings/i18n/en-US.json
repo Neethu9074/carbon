@@ -49,18 +49,6 @@
       "category": "Functional"
     }
   },
-  "createTeamDialog": {
-    "description": "Description (optional)",
-    "descriptionHelperText": "A brief description of the team so that everyone gets the purpose of this team",
-    "failedToDeleteTeam": "Failed to delete team",
-    "failedToSaveTeam": "Failed to save team",
-    "name": "Name",
-    "nameAlreadyExists": "Team name already exists.",
-    "nameHelperText": "Team can be used as a tag on the entities therefore must be unique for the tenant",
-    "nameRequired": "Team name is required and must be unique for the tenant",
-    "teamSuccessfullySaved": "Team successfully saved.",
-    "title": "Create new team"
-  },
   "roleAndAccessScope": {
     "dialogTitle": "Create new group",
     "dialogTitle_edit": "Edit access configuration",
@@ -519,18 +507,28 @@
     },
     "teams": {
       "addUsers": "Add users",
+      "createTeamDialogTitle": "Create new team",
       "delete": "Delete team",
+      "description": "Description (optional)",
+      "descriptionHelperText": "A brief description of the team so that everyone gets the purpose of this team",
       "edit": "Edit",
       "failedToLoadTeam": "Failed to load team",
+      "failedToSaveTeam": "Failed to save team",
       "members": "Members",
+      "name": "Name",
+      "nameAlreadyExists": "Team name already exists.",
+      "nameHelperText": "Team can be used as a tag on the entities therefore must be unique for the tenant",
+      "nameRequired": "Team name is required and must be unique for the tenant",
       "noDataYet": "No data yet",
       "noMembersDefinedMessage": "Add users as members of the team",
       "noMembersYet": "No members yet",
       "scopeEntireUnit": "Entire unit",
       "scopeLimitedOnUnit": "Limited on unit",
       "teamNameAndDescription": "Team name and description",
+      "teamWithName": "team {{name}}",
       "teamScope": "Team scope",
       "teamScopeNotDefinedMessage": "Until a team scope is defined, members operate with the roles granted on the entire unit scope.",
+      "teamSuccessfullySaved": "Team successfully saved.",
       "teamTagUsedOn": "Team tag used on",
       "teamTagUsedOnEntitiesMessage": "Entities displayed on this list as team members operate (create or delete).",
       "teamsTitle": "Teams"

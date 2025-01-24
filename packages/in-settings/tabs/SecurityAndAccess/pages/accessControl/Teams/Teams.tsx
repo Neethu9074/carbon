@@ -14,23 +14,19 @@ import CarbonDataTableWrapper, {
   DataTableRow,
   Notification
 } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
-import {
-  ApiTeam,
-  getTeamsAsResultObservable,
-  deleteTeam,
-  deleteTeams
-} from 'in-settings/tabs/SecurityAndAccess/api/teams';
+import { ApiTeam, getTeamsResult, deleteTeam, deleteTeams } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import CreateTeamDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/CreateTeamDialog';
 import { getEntityIdView, securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
-import { isLoading } from 'in-services/util/result';
 import config from 'in-services/config';
 import { Trans, t } from 'in-i18n';
+import { Result } from 'in-types';
 
 const headers = [
   {
-    key: 'name',
+    key: 'tag',
     header: t('in-settings:tabs.name')
   },
   {
@@ -72,14 +68,22 @@ const getScopeValue = (scope: object) => {
 };
 
 const Teams = () => {
-  const teamsObservable = getTeamsAsResultObservable;
-  const dataTableResult = useObservable(teamsObservable, []) ?? pendingResult;
-  const [message, setMessage] = useState<Notification>();
-  const entities = dataTableResult?.data as ApiTeam[];
   const pageSizes = [20, 50];
+  const dataTableResult = useObservable(getTeamsResult, []) ?? pendingResult;
+  const loading = isLoading(dataTableResult as Result<ApiTeam>);
+  const hasErrors = hasError(dataTableResult as Readonly<Result<ApiTeam[]>>);
+  const [message, setMessage] = useState<Notification>();
+  const entities = !loading && !hasErrors ? (dataTableResult as ApiTeam[]) : [];
+  const errorMessage = hasErrors
+    ? ({
+        title: t('in-settings:components.errorFailedToLoadData'),
+        subtitle: (dataTableResult as Readonly<Result<ApiTeam[]>>).errors[0].message,
+        kind: 'error'
+      } as Notification)
+    : null;
 
   const rows = entities?.map((team: ApiTeam) => ({
-    name: (
+    tag: (
       <Link href={getEntityIdView(securityAndAccessAccessControlTeams, team.id)} ellipsis>
         <Typography variant="body-regular" noMargin component="p">
           {team.tag}
@@ -91,7 +95,7 @@ const Teams = () => {
     ),
     scope: <span>{getScopeValue(team?.scope)}</span>,
     id: team.id,
-    rowData: team
+    rowData: { ...team, memberCount: team.members?.length, scope: getScopeValue(team?.scope) }
   }));
 
   const getMenuItems = (row: DataTableRow<any[]>) => {
@@ -111,8 +115,8 @@ const Teams = () => {
       <CarbonDataTableWrapper
         title={t('in-settings:tabs.teams.teamsTitle')}
         tableHeaders={headers}
-        tableRows={rows ?? []}
-        loading={isLoading(dataTableResult)}
+        tableRows={rows}
+        loading={loading}
         searchPlaceholderText={t('in-settings:components.search')}
         searchAttributes={['tag']}
         initalSortConfig={{ key: 'tag', direction: 'asc' }}
@@ -122,10 +126,11 @@ const Teams = () => {
         labelNew={t('in-settings:tabs.newTeam')}
         getMenuItems={getMenuItems}
         getBatchActionItems={getBatchActionItems}
-        getEntityName={({ tag }: ApiTeam) => t('in-settings:tabs.userWithName', { name: tag })}
+        boundedPath="/teams"
+        getEntityName={({ tag }: ApiTeam) => t('in-settings:tabs.teams.teamWithName', { name: tag })}
         pageSizes={pageSizes}
         tableActions={tableActions}
-        message={message}
+        message={errorMessage ? errorMessage : message}
       />
     </>
   );

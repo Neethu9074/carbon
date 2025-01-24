@@ -37,4 +37,9 @@
     flex-basis: 100%;
     flex: 1;
   }
+
+  .toastMessage {
+    width: auto;
+    margin-bottom: 0.5rem;
+  }
 }

@@ -10,8 +10,8 @@ import { CarbonModal } from '@instana/components';
 
 import TeamForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamForm';
 import { Notification } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+import { ApiTeam, saveTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { saveTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { SETTINGS_TEAM_CREATE } from 'in-services/tracking/eventNames';
 import { CREATED_OBJECT } from 'in-services/util/constants';
 import { t } from 'in-i18n';
@@ -34,12 +34,12 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
     scope: {}
   });
 
-  const setTeamData = (name: string, description: string) => {
+  const setTeamData = ({ tag, info }: Partial<ApiTeam>) => {
     setTeam(previous => {
       return {
         ...previous,
-        tag: name,
-        info: { ...previous.info, description: description }
+        tag: tag as string,
+        info: { ...previous.info, description: info?.description as string }
       };
     });
   };
@@ -50,7 +50,7 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
       savedTeam => {
         setMessage({
           kind: 'success',
-          title: t('in-settings:createTeamDialog.teamSuccessfullySaved'),
+          title: t('in-settings:tabs.teams.teamSuccessfullySaved'),
           timeout: 3000
         });
 
@@ -63,9 +63,8 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
       error => {
         setMessage({
           kind: 'error',
-          title: t('in-settings:createTeamDialog.failedToSaveTeam'),
-          subtitle: error.message,
-          timeout: 10000
+          title: t('in-settings:tabs.teams.failedToSaveTeam'),
+          subtitle: error.message
         });
       }
     );
@@ -75,7 +74,7 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
     <CarbonModal
       size="sm"
       open={showModel}
-      modalHeading={t('in-settings:createTeamDialog.title')}
+      modalHeading={t('in-settings:tabs.teams.createTeamDialogTitle')}
       primaryButtonDisabled={!isValid}
       primaryButtonText={t('in-settings:tabs.save')}
       secondaryButtonText={t('in-settings:tabs.cancel')}

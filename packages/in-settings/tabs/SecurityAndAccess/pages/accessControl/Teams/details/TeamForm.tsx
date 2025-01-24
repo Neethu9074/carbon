@@ -10,6 +10,7 @@ import { CarbonForm, CarbonTag, CarbonTextArea, CarbonTextInput } from '@instana
 import { useObservable } from '@instana/hooks';
 
 import { ApiTeamTag, getTagsAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/tags';
+import { ApiTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
@@ -17,7 +18,7 @@ import locals from './TeamForm.mless';
 
 interface TeamFormProps {
   setValid: (isValid: boolean) => void;
-  setTeamData: (name: string, description: string) => void;
+  setTeamData: (team: Partial<ApiTeam>) => void;
   name?: string;
   originalName?: string;
   description?: string;
@@ -26,7 +27,7 @@ interface TeamFormProps {
 
 const TeamForm = ({
   setValid,
-  setTeamData: setNameDescription,
+  setTeamData,
   editable = false,
   name = '',
   originalName = '',
@@ -39,12 +40,12 @@ const TeamForm = ({
   const validate = (teamName: string) => {
     if (teamName?.length === 0) {
       // Team name is required
-      setNameValidationMessage(t('in-settings:createTeamDialog.nameRequired'));
+      setNameValidationMessage(t('in-settings:tabs.teams.nameRequired'));
       setValid(false);
     } else {
       // Check if team name already exists as tag
-      if (originalName !== '' && originalName !== teamName && tags && tags.some(tag => tag.displayName === teamName)) {
-        setNameValidationMessage(t('in-settings:createTeamDialog.nameAlreadyExists'));
+      if (originalName !== teamName && tags && tags.some(tag => tag.displayName === teamName)) {
+        setNameValidationMessage(t('in-settings:tabs.teams.nameAlreadyExists'));
         setValid(false);
       } else {
         // Valid
@@ -66,15 +67,15 @@ const TeamForm = ({
         <CarbonForm>
           <CarbonTextInput
             id={'rbac-team-name'}
-            labelText={t('in-settings:createTeamDialog.name')}
-            helperText={t('in-settings:createTeamDialog.nameHelperText')}
+            labelText={t('in-settings:tabs.teams.name')}
+            helperText={t('in-settings:tabs.teams.nameHelperText')}
             invalid={!!nameValidationMessage}
             invalidText={nameValidationMessage}
             type="text"
             value={name}
             onChange={e => {
               const value = e.target.value;
-              setNameDescription(value, description);
+              setTeamData({ tag: value, info: { description: description } });
               validate(value);
             }}
             required
@@ -83,12 +84,12 @@ const TeamForm = ({
           <CarbonTextArea
             id={'rbac-team-description'}
             className={locals.description}
-            labelText={t('in-settings:createTeamDialog.description')}
-            helperText={t('in-settings:createTeamDialog.descriptionHelperText')}
+            labelText={t('in-settings:tabs.teams.description')}
+            helperText={t('in-settings:tabs.teams.descriptionHelperText')}
             value={description}
             rows={7}
             onChange={e => {
-              setNameDescription(name, e.target.value);
+              setTeamData({ tag: name, info: { description: e.target.value } });
               // no validation required
             }}
             maxLength={2048}

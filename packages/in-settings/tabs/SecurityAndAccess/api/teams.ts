@@ -7,8 +7,8 @@
 import { Observable, create } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { errorWithData } from 'in-services/util/result';
 import { Response } from 'in-services/http/types';
 import http from 'in-services/http';
 import { User } from 'in-types';
@@ -35,20 +35,32 @@ export interface ApiTeam {
   readonly members: Array<object>;
 }
 
-function getTeamsInternal() {
-  return refreshSignal.flatMap(() =>
-    createObservable(
-      http<ApiTeam[]>({
-        method: 'GET',
-        maxRetries: 3,
-        url: basePath
-      })
-    )
-  );
+function getTeamsInternal(): Observable<Response<ApiTeam[]>> {
+  return http<ApiTeam[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: basePath
+  });
 }
 
-const getTeamsAsResultObservableMemoized = memoize(getTeamsInternal, () => 'Teams', 60000);
-export const getTeamsAsResultObservable = () => getTeamsAsResultObservableMemoized([]);
+const emptyTeamsOnError$ = create().emit(undefined);
+
+export function getTeamsDataAndErrorResult() {
+  return refreshSignal.flatMap(() => {
+    const teamsRequest = getTeamsInternal();
+    const success$ = teamsRequest.map(response => response.body);
+    teamsRequest.errors().subscribe(err => {
+      emptyTeamsOnError$.emit(errorWithData([err], []));
+    });
+    return success$.merge(emptyTeamsOnError$);
+  });
+}
+
+export const getTeamsResult = memoize(
+  () => refreshSignal.flatMap(() => getTeamsDataAndErrorResult()),
+  () => 'Teams',
+  60000
+);
 
 export function getTeam(id: string): Observable<ApiTeam> {
   return getTeamInternal(id).map(response => response.body);

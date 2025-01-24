@@ -11,16 +11,18 @@ import { RouteComponentProps } from 'react-router';
 import { CarbonToastNotification, CarbonInlineLoading, Typography } from '@instana/components';
 import { ProductiveCard } from '@instana/ibm-products';
 
-//import { securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-//import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { UPDATED_OBJECT } from 'in-services/util/constants';
+import { ApiTeam, deleteTeam, getTeam, saveTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import TeamForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamForm';
 import { Notification } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
-import { ApiTeam, getTeam, saveTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
+import { securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { SETTINGS_TEAM_UPDATE } from 'in-services/tracking/eventNames';
+import { UPDATED_OBJECT } from 'in-services/util/constants';
 import config from 'in-services/config';
-import { t } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
 
 import locals from './Team.mless';
 
@@ -40,7 +42,7 @@ const Team = ({ match }: RouteComponentProps<{ id: string }>) => {
   const [isEditNameDescription, setEditNameDescription] = useState(false);
   const [message, setMessage] = useState<Notification>();
   const { unstable_trackEvent } = useSegmentTracking();
-  //const { goToPath } = useNavigation();
+  const { goToPath } = useNavigation();
 
   useEffect(() => {
     // Load team from URL id
@@ -59,23 +61,25 @@ const Team = ({ match }: RouteComponentProps<{ id: string }>) => {
     );
   }, [match.params.id]);
 
-  const setTeamData = (name: string, description: string) => {
+  const setTeamData = ({ tag, info }: Partial<ApiTeam>) => {
     setEditTeam(previous => {
       return {
         ...previous,
-        tag: name,
-        info: { ...previous?.info, description: description }
+        tag: tag as string,
+        info: { ...previous?.info, description: info?.description as string }
       };
     });
   };
 
   // Update team
-  const save = () => {
-    saveTeam(team).once(
+  const saveTeamHandler = () => {
+    saveTeam(editTeam).once(
       savedTeam => {
+        setTeam(savedTeam.body);
+
         setMessage({
           kind: 'success',
-          title: t('in-settings:createTeamDialog.teamSuccessfullySaved'),
+          title: t('in-settings:tabs.teams.teamSuccessfullySaved'),
           timeout: 3000
         });
 
@@ -88,9 +92,24 @@ const Team = ({ match }: RouteComponentProps<{ id: string }>) => {
       error => {
         setMessage({
           kind: 'error',
-          title: t('in-settings:createTeamDialog.failedToSaveTeam'),
-          subtitle: error.message,
-          timeout: 10000
+          title: t('in-settings:tabs.teams.failedToSaveTeam'),
+          subtitle: error.message
+        });
+      }
+    );
+  };
+
+  const deleteTeamHandler = () => {
+    close();
+    deleteTeam(team?.id).once(
+      () => {
+        goToPath(`${securityAndAccessAccessControlTeams}`);
+      },
+      error => {
+        setMessage({
+          kind: 'error',
+          title: t('in-settings:components.failedToRemoveItem'),
+          subtitle: `(${team.id}): ${error.message}`
         });
       }
     );
@@ -98,7 +117,7 @@ const Team = ({ match }: RouteComponentProps<{ id: string }>) => {
 
   return (
     <div>
-      {message && <CarbonToastNotification lowContrast {...message} />}
+      {message && <CarbonToastNotification className={locals.toastMessage} lowContrast {...message} />}
       <ProductiveCard
         className={locals.nameAndDescriptionCard}
         title={t('in-settings:tabs.teams.teamNameAndDescription')}
@@ -108,19 +127,21 @@ const Team = ({ match }: RouteComponentProps<{ id: string }>) => {
             iconDescription: t('in-settings:tabs.teams.delete'),
             id: '1',
             onClick: () => {
-              // deleteTeam(team?.id).once(
-              //   () => {
-              //     goToPath(`${securityAndAccessAccessControlTeams}`);
-              //   },
-              //   error => {
-              //     setMessage({
-              //       kind: 'error',
-              //       title: t('in-settings:createTeamDialog.failedToDeleteTeam'),
-              //       subtitle: error.message,
-              //       timeout: 10000
-              //     });
-              //   }
-              // );
+              addActiveDialog(
+                <ConfirmationDialog
+                  header={t('in-settings:components.pleaseConfirm')}
+                  description={
+                    <Trans
+                      i18nKey="in-settings:components.confirmRemoveItem"
+                      values={{ itemName: t('in-settings:tabs.teams.teamWithName', { name: team.tag }) }}
+                    />
+                  }
+                  onSubmit={deleteTeamHandler}
+                  confirmButtonLabel={t('in-settings:tabs.remove')}
+                  confirmButtonKind="danger"
+                  confirmButtonAutoFocus
+                />
+              );
             }
           },
           {
@@ -147,7 +168,7 @@ const Team = ({ match }: RouteComponentProps<{ id: string }>) => {
                     info: { ...previous?.info, description: editTeam?.info?.description }
                   };
                 });
-                save();
+                saveTeamHandler();
                 setEditNameDescription(previous => !previous);
               },
               secondaryButtonText: t('in-settings:tabs.cancel'),
