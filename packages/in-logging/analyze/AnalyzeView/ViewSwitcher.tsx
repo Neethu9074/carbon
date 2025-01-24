@@ -46,7 +46,7 @@ export default function ViewSwitcher() {
   );
 }
 
-function getTimelineUrlKeys(location: Location) {
+export function getTimelineUrlKeys(location: Location) {
   if (isEmpty(location.query)) {
     return;
   }
