@@ -5,11 +5,10 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link, Message } from '@instana/components';
 
 import { constructLink } from 'in-integrations/logging/mezmo/LinkConstruction';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import DescriptionText from 'in-components/form/DescriptionText';
 import FormGroup from 'in-settings/components/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
@@ -37,6 +36,7 @@ export default function IbmCloudLogMezmoForm({ form, onChange, disabled, areFiel
             onChange={e => onChange('baseUrl', e.target.value)}
             hasError={!field.value && field.touched}
             autoFocus
+            placeholder={t('in-settings:tabs.canBeFoundFromTheIbmCloudUrlPlaceHolder')}
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
@@ -55,6 +55,7 @@ export default function IbmCloudLogMezmoForm({ form, onChange, disabled, areFiel
             onChange={e => onChange('accountId', e.target.value)}
             hasError={!field.value && field.touched}
             autoFocus
+            placeholder={t('in-settings:tabs.mezmoAccountIdPlaceholder')}
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
@@ -63,9 +64,9 @@ export default function IbmCloudLogMezmoForm({ form, onChange, disabled, areFiel
         </FormGroup>
       ))}
       {
-        <DescriptionText>
+        <div style={{ padding: '0.75rem 0' }}>
           <Trans
-            i18nKey={'in-settings:tabs.mezmoDocumentationReference'}
+            i18nKey={'in-settings:tabs.integrationDocumentationHelperText'}
             components={{
               documentationLink: (
                 <Link
@@ -76,15 +77,28 @@ export default function IbmCloudLogMezmoForm({ form, onChange, disabled, areFiel
               )
             }}
           />
-        </DescriptionText>
+        </div>
       }
       {!areFieldsInvalid && (
-        <FormGroup>
-          <Label htmlFor="mezmo-test-link">{t('in-settings:tabs.testYourMezmoLink')}</Label>
-          <Link size="sm" href={mezmoUrl} external>
-            {mezmoUrl}
-          </Link>
-        </FormGroup>
+        <div style={{ padding: '1rem 0' }}>
+          <Message
+            type="neutral"
+            description={
+              <div>
+                <Trans
+                  i18nKey={'in-settings:tabs.mezmoAndSplunkDashboardHelperText'}
+                  values={{ integration: 'Ibm Cloud' }}
+                  components={{
+                    documentationLink: (
+                      <Link style={{ 'text-decoration': 'underline' }} size="md" href={mezmoUrl} external />
+                    )
+                  }}
+                />
+              </div>
+            }
+            dismissible
+          />
+        </div>
       )}
     </fieldset>
   );

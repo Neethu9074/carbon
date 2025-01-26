@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link, Message } from '@instana/components';
 
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -18,7 +18,6 @@ import locals from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/F
 
 export default function FalconLogScaleForm({ form, onChange, disabled, areFieldsBlank }) {
   const falconLogScaleUrl = form.get('url').value + '/' + form.get('repository').value;
-
   return (
     <fieldset>
       {form.get('url').map(field => (
@@ -32,6 +31,7 @@ export default function FalconLogScaleForm({ form, onChange, disabled, areFields
             onChange={e => onChange('url', e.target.value)}
             hasError={!field.value && field.touched}
             autoFocus
+            placeholder={t('in-settings:tabs.falconLogScaleUrlPlaceHolder')}
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
@@ -50,6 +50,7 @@ export default function FalconLogScaleForm({ form, onChange, disabled, areFields
             value={field.value}
             onChange={e => onChange('repository', e.target.value)}
             hasError={!field.value && field.touched}
+            placeholder={t('in-settings:tabs.falconLogScaleRepositoryPlaceHolder')}
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
@@ -57,14 +58,40 @@ export default function FalconLogScaleForm({ form, onChange, disabled, areFields
           </HelpText>
         </FormGroup>
       ))}
-
+      <div style={{ padding: '0.75rem 0' }}>
+        <Trans
+          i18nKey={'in-settings:tabs.integrationDocumentationHelperText'}
+          components={{
+            documentationLink: (
+              <Link
+                size="sm"
+                href="https://www.ibm.com/docs/en/instana-observability/current?topic=logging-humio"
+                external
+              />
+            )
+          }}
+        />
+      </div>
       {!areFieldsBlank && (
-        <FormGroup>
-          <Label htmlFor="falconLogScale-test-link">{t('in-settings:tabs.testYourFalconLogScaleLink')}</Label>
-          <Link size="sm" href={falconLogScaleUrl} external>
-            {falconLogScaleUrl}
-          </Link>
-        </FormGroup>
+        <div style={{ padding: '1rem 0' }}>
+          <Message
+            type="neutral"
+            description={
+              <div>
+                <Trans
+                  i18nKey={'in-settings:tabs.integrationDashboardHelperText'}
+                  values={{ integration: 'Falcon Logscale' }}
+                  components={{
+                    documentationLink: (
+                      <Link style={{ 'text-decoration': 'underline' }} size="md" href={falconLogScaleUrl} external />
+                    )
+                  }}
+                />
+              </div>
+            }
+            dismissible
+          />
+        </div>
       )}
     </fieldset>
   );

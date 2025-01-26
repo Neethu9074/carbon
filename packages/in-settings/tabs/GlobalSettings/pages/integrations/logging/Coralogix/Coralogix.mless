@@ -8,4 +8,9 @@
   .page {
     padding: 0;
   }
+
+  .subTextFormField {
+    color: var(--ids-color-option-neutral-600);
+    margin: 0.5rem 0 0 0.5rem;
+  }
 }
