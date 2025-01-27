@@ -6,11 +6,8 @@
 
 import React from 'react';
 
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -96,44 +93,7 @@ export default connectTo(
       });
 
     return (
-      <Table
-        cardTitle={t('in-forge:plugins.host.dashboard.volumeGroups')}
-        withoutPadding
-        cols={cols}
-        rows={rows}
-        getRowDetails={getDetails}
-      />
+      <Table cardTitle={t('in-forge:plugins.host.dashboard.volumeGroups')} withoutPadding cols={cols} rows={rows} />
     );
   }
 );
-
-function getDetails(row) {
-  return (
-    <Columize>
-      <Chart
-        snapshotId={row.hostSnapshotId}
-        timeConfig={row.timeConfig}
-        y1={{
-          min: 0,
-          formatter: bytesTwoDecimalPlaces,
-          metrics: ['volumeGroups.' + row.key + '.total_size'],
-          labels: ['total size'],
-          type: 'line'
-        }}
-        renderPostChartContent={PluginDashboardsMarkerLanes}
-      />
-      <Chart
-        snapshotId={row.hostSnapshotId}
-        timeConfig={row.timeConfig}
-        y1={{
-          min: 0,
-          formatter: bytesTwoDecimalPlaces,
-          metrics: ['volumeGroups.' + row.key + '.free_size'],
-          labels: ['free size'],
-          type: 'line'
-        }}
-        renderPostChartContent={PluginDashboardsMarkerLanes}
-      />
-    </Columize>
-  );
-}
