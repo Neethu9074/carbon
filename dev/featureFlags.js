@@ -13,6 +13,7 @@ module.exports = {
   cveIssueEnabled: false,
   vulnerabilityCenterEnabled: true,
   businessObservabilityEnabled: true,
+  bizopsProcessIdColumnEnabled: true,
   bizopsGenAIEnabled: true,
   bizopsStandardInclusionEnabled: true,
   bizopsRbacLimitedEnabled: true,

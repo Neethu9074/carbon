@@ -225,6 +225,7 @@ export const hiddenSearchFieldValues = {
 // Business Observability and Monitoring (BizOps) flags
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
+export const bizopsProcessIdColumnEnabled = isFeatureFlagEnabled('bizopsProcessIdColumnEnabled');
 export const bizopsGenAIEnabled = isFeatureFlagEnabled('bizopsGenAIEnabled');
 export const bizopsStandardInclusionEnabled = isFeatureFlagEnabled('bizopsStandardInclusionEnabled');
 export const bizopsRbacLimitedEnabled = isFeatureFlagEnabled('bizopsRbacLimitedEnabled');

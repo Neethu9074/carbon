@@ -8,6 +8,8 @@
   "lists": {
     "pageTitle": "Business monitoring",
     "cardTitle": "Business processes",
+    "theId": "The process ID",
+    "hasBeenCopied": "has been successfully copied to the clipboard",
     "activityLabel": "Activities",
     "nameLabel": "Name",
     "countLabel": "Count",

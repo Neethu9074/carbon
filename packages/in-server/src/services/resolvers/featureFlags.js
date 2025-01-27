@@ -386,6 +386,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'bizopsProcessIdColumnEnabled',
+    instanaCtlKey: 'feature.bizops.process.id.column.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'bizopsGenAIEnabled',
     instanaCtlKey: 'feature.bizops.genAI.enabled',
     defaultValue: false
