@@ -26,11 +26,6 @@ const subtraceTabs: Tab<SubtraceTabData, Result<Subtrace | undefined>>[] = [
     component: wrapWithMessage(Summary)
   },
   {
-    label: t('in-applications:labelSmartAlerts'),
-    path: '${subtraceDashboard}/smartAlerts',
-    component: Summary
-  },
-  {
     label: t('in-applications:labelConfiguration'),
     path: subtraceConfigurationFullyQualified,
     component: SubtraceConfiguration
