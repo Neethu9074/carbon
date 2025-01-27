@@ -6,6 +6,8 @@
 
 //@ts-expect-error TS migration
 import AlertConfigTearSheetStep1 from 'in-alerting/smart-alerts/websites/TearSheet/steps/AlertConfigTearSheetStep1';
+//@ts-expect-error TS migartion
+import AlertConfigTearSheetStep3 from 'in-alerting/smart-alerts/websites/TearSheet/steps/AlertConfigTearSheetStep3';
 import AlertConfigTearSheetStep2 from 'in-alerting/smart-alerts/websites/TearSheet/steps/AlertConfigTearSheetStep2';
 import { t } from 'in-i18n';
 
@@ -23,5 +25,10 @@ export const stepConfigsForCarbonTearSheet = [
     title: t('in-alerting:smartAlerts.websites.tearSheet.step2.title'),
     validateIntermediately: [],
     component: AlertConfigTearSheetStep2
+  },
+  {
+    title: t('in-alerting:smartAlerts.websites.tearSheet.step3.title'),
+    validateIntermediately: [],
+    component: AlertConfigTearSheetStep3
   }
 ];

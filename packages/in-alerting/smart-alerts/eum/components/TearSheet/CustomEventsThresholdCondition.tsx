@@ -4,47 +4,56 @@
  * Copyright IBM Corp. 2025
  */
 
+import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { isAdaptiveBaselineConfig } from '@instana/types';
-import { Dropdown, Spacer } from '@instana/components';
+import { Spacer } from '@instana/components';
 
 import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/ThresholdValueFormGroupForStaticThreshold';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/ThresholdDeviationSliderForm';
-//@ts-expect-error
-import { getAggregationValue } from 'in-alerting/smart-alerts/applications/dialog/advanced/thresholdConditionUtil';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/TearSheet/ThresholdTypeSelection';
+import { BluePrint as MobileAppBlueprint } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import { BluePrint as WebsiteBlueprint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
-import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
-import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
 import websiteCreateRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+interface CustomEventsThresholdConditionProps {
+  form: MapForm<any>;
+  blueprintConfig: WebsiteBlueprint | MobileAppBlueprint;
+  updateForm: (form: MapForm<any>) => void;
+  editMode?: boolean;
+  eumType: string;
+  getMetricUnitPostfix: (arg: string) => string;
+  isPercentageMetric: (arg: string) => boolean;
+  onChartViewConfigChange: (arg: number) => void;
+}
 
-export default function SlownessThresholdCondition({
+export default function CustomEventsThresholdCondition({
   form,
-  updateForm,
   blueprintConfig,
+  updateForm,
   editMode,
   eumType,
+  getMetricUnitPostfix,
+  isPercentageMetric,
   onChartViewConfigChange
-}) {
-  const thresholdType = form.get('threshold').get('type')?.value;
+}: CustomEventsThresholdConditionProps) {
   const metricName = form.get('rule').get('metricName').value;
-
-  const maxValue = blueprintConfig.getMaxMetricValue(metricName);
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
-
+  const percentageMetric = isPercentageMetric(metricName);
+  const maxValue = blueprintConfig.getMaxMetricValue(metricName);
+  const thresholdType = form.get('threshold').get('type')?.value;
   const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
 
-  const resetChartConfigSelectionWhenAdaptiveBaseline = updatedForm => {
+  const resetChartConfigSelectionWhenAdaptiveBaseline = (updatedForm: any) => {
     if (isAdaptiveBaselineConfig(updatedForm.get('threshold').toJS())) {
       onChartViewConfigChange(0);
     }
@@ -66,16 +75,7 @@ export default function SlownessThresholdCondition({
         }
         titleWidth="8rem"
       >
-        <Dropdown
-          value={getAggregationValue(form)}
-          items={getAggregationOptions(form)}
-          className={locals.dropdownsm}
-          onChange={value => {
-            updateForm(form.updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true)));
-          }}
-        />
-        {/* <AlertTypography variant="body-regular" color="color900" content={blueprintConfig.getMetricLabel(metricName)} />  */}
-        {/* TODO add this metric label */}
+        <AlertTypography variant="body-bold" content={blueprintConfig.getMetricLabel(metricName)} />
       </Section>
 
       {/* Threshold Type */}
@@ -108,6 +108,7 @@ export default function SlownessThresholdCondition({
         <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
 
         <Spacer size="medium" />
+
         {/* Threshold type */}
         {thresholdType === STATIC_THRESHOLD && (
           <ThresholdValueFormGroupForStaticThreshold
@@ -115,6 +116,7 @@ export default function SlownessThresholdCondition({
             updateForm={updateForm}
             maxValue={maxValue}
             metricUnitPostfix={metricUnitPostfix}
+            percentageMetric={percentageMetric}
           />
         )}
 
@@ -122,12 +124,7 @@ export default function SlownessThresholdCondition({
 
         {/* Threshold deviation slider */}
         {thresholdType !== STATIC_THRESHOLD && (
-          <ThresholdDeviationSliderForm
-            form={form}
-            updateForm={updateForm}
-            defaultValue={defaultDeviationFactor}
-            isTearSheet
-          />
+          <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
         )}
       </Section>
     </>

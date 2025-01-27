@@ -1,0 +1,83 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import { Spacer } from '@instana/components';
+
+import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/ThresholdValueFormGroupForStaticThreshold';
+import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
+import { getMetricUnitPostfix, isPercentageMetric } from 'in-alerting/smart-alerts/websites/form/formUtils';
+import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
+import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
+import { blueprintConfigPropType } from 'in-alerting/components/constants';
+import AlertTypography from 'in-alerting/components/AlertTypography';
+import Dropdown from 'in-alerting/components/Dropdown';
+import { t } from 'in-i18n';
+
+import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+
+export default function JsErrorsThresholdCondition({ form, blueprintConfig, updateForm }) {
+  const metricName = form.get('rule').get('metricName').value;
+  const metricUnitPostfix = getMetricUnitPostfix(metricName);
+  const percentageMetric = isPercentageMetric(metricName);
+  const maxValue = blueprintConfig.getMaxMetricValue(metricName);
+
+  return (
+    <>
+      {/* metric dropdown */}
+      <Section
+        title={
+          <AlertTypography
+            variant="body-regular"
+            color="color900"
+            content={t('in-alerting:smartAlerts.details.metricTitle')}
+          />
+        }
+        titleWidth="8rem"
+      >
+        <Dropdown
+          value={metricName}
+          items={ruleMetricNameOptions.specificJsError}
+          className={locals.dropdownmd}
+          onChange={value => {
+            updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
+          }}
+        />
+      </Section>
+
+      {/* Threshold Value */}
+
+      <Section
+        title={<AlertTypography variant="body-regular" color="color900" content={'Threshold value'} />}
+        titleWidth="8rem"
+      >
+        {/* Threshold operator */}
+        <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
+
+        <Spacer size="medium" />
+
+        {/* Threshold input field */}
+        <ThresholdValueFormGroupForStaticThreshold
+          form={form}
+          updateForm={updateForm}
+          maxValue={maxValue}
+          metricUnitPostfix={metricUnitPostfix}
+          percentageMetric={percentageMetric}
+          label={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
+          isTearSheet
+        />
+      </Section>
+    </>
+  );
+}
+
+JsErrorsThresholdCondition.propTypes = {
+  blueprintConfig: blueprintConfigPropType,
+  form: PropTypes.object.isRequired,
+  updateForm: PropTypes.func.isRequired
+};

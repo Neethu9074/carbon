@@ -1155,6 +1155,9 @@
           "title": "Define the scope",
           "description": "Where is the condition happening?"
         },
+        "step3": {
+          "title": "Define when to get alerted"
+        },
         "statusCode": {
           "headline": "Automatic alerts for HTTP status codes",
           "text": "Receive an alert when matching HTTP status codes occur more often than the threshold."
@@ -1164,7 +1167,11 @@
           "text": "Receive an alert when the number of calls is unusually high or low for selected services and endpoints of this application perspective."
         },
         "filter": "Filter",
-        "filterDescription": "Select the services to get more precise alerts."
+        "filterDescription": "Select the services to get more precise alerts.",
+        "threshold": {
+          "header": "Set a value for the violation threshold",
+          "description": "Select a metric, violation threshold and time window to evaluate the violation."
+        }
       }
     },
     "sortOptions": {
