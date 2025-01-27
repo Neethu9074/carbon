@@ -140,7 +140,7 @@ export const pageNames = Object.freeze({
   automation_action_view: 'Automation > Action Catalog > Action details',
   automation_action_history: 'Automation > Action History',
   automation_policies: 'Automation > Policies',
-  automation_policies_view: 'Automation > Policies > Policy details',
+  automation_policy_view: 'Automation > Policies > Policy details',
   automation_generate_script_with_watsonx: 'Automation > Generate script With watsonx',
   custom_payload: 'Custom Payload',
   nutanix_vm: 'Nutanix VM',

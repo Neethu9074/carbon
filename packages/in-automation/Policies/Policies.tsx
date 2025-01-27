@@ -111,7 +111,7 @@ export default function Policies() {
       <ViewTrackingMeta
         data={{
           productArea: productAreas.automation,
-          pageRootName: pageNames.automation_policies_view
+          pageRootName: pageNames.automation_policies
         }}
       />
       <AutomationTabs>

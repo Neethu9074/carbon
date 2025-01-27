@@ -44,7 +44,7 @@ export default function PolicyDetailsWrapper() {
       <ViewTrackingMeta
         data={{
           productArea: productAreas.automation,
-          pageRootName: pageNames.automation_policies
+          pageRootName: pageNames.automation_policy_view
         }}
       />
       <Title title={t('in-automation:policies.policy')} />
