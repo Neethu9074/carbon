@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useEffect, useState } from 'react';
+
 function isLocalStorageSupportedFn() {
   var testKey = 'test';
 
@@ -31,3 +33,21 @@ export function tryGet(key: string): string | null {
   }
   return null;
 }
+
+/**
+ * Function to use localstorage using a hook (It works like you would use a state)
+ * @param key Key to retrieve the data
+ * @param initialValue initial value stored in localstorage
+ * @returns [ current value, setter function]
+ */
+export const useLocalStorage = (key: string, initialValue: any) => {
+  const [value, setValue] = useState(() => {
+    return JSON.parse(tryGet(key) as string) || initialValue;
+  });
+
+  useEffect(() => {
+    trySet(key, JSON.stringify(value));
+  }, [value, key]);
+
+  return [value, setValue];
+};

@@ -51,6 +51,7 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { OnEntity } from 'in-events/components/EventsListRow';
+import { useLocalStorage } from 'in-services/localStorage';
 import { emptyList } from 'in-services/fixedImmutables';
 import EventIcon from 'in-events/components/EventIcon';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -92,13 +93,15 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
   const [relatedEventsPage, setRelatedEventsPage] = useState(1);
   const [relatedEventsSection, setRelatedEventsSection] = useState(false);
 
-  const pageSize = 5;
+  const [pageSize, setPageSize] = useLocalStorage('relatedEventsPageSize', 5);
+
   const paginatedRecentEventIds = allRecentEvents?.slice(
     pageSize * (relatedEventsPage - 1),
     pageSize * relatedEventsPage
   );
   const paginatedRecentEventsRaw: TYPE_RECENT_EVENTS =
-    useObservable(combineLatest(paginatedRecentEventIds.map(getEvent)).throttle(250), [relatedEventsPage]) ?? null;
+    useObservable(combineLatest(paginatedRecentEventIds.map(getEvent)).throttle(250), [pageSize, relatedEventsPage]) ??
+    null;
 
   const paginatedRecentEvents = paginatedRecentEventsRaw?.filter(event => {
     // @ts-expect-error no tyedef for event
@@ -164,9 +167,11 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
                   currentPage={relatedEventsPage}
                   totalItems={totalRecentEvents}
                   pageSize={pageSize}
-                  pageSizes={[pageSize]}
+                  pageSizes={[5, 10, 15, 20]}
                   onChange={data => {
-                    setRelatedEventsPage(data.page);
+                    const { page: newPage, pageSize: newPageSize } = data;
+                    setRelatedEventsPage(newPage);
+                    setPageSize(newPageSize);
                   }}
                 />
               ) : (
