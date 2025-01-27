@@ -18,7 +18,6 @@ import usePolicyFormSubmission from 'in-automation/Policies/usePolicyFormSubmiss
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import usePolicyForm from 'in-automation/Policies/usePolicyForm/usePolicyForm';
-import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { PolicyForm } from 'in-automation/Policies/usePolicyForm/types';
@@ -26,6 +25,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { PolicyFormEntity } from 'in-automation/Policies/types';
 import { hasError, isLoading } from 'in-services/util/result';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import SectionLine from 'in-settings/components/SectionLine';
 import useTriggers from 'in-automation/Policies/useTriggers';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -39,11 +39,14 @@ import Title from 'in-components/Title/Title';
 import { Trans, t } from 'in-i18n';
 
 export default function PolicyDetailsWrapper() {
-  // Set values for tracking data
-  setViewTrackingDataValues(productAreas.automation, pageNames.automation_policies);
-
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.automation,
+          pageRootName: pageNames.automation_policies
+        }}
+      />
       <Title title={t('in-automation:policies.policy')} />
       <PolicyDetailsLoader />;
     </>

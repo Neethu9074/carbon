@@ -11,12 +11,12 @@ import { ButtonGroup } from '@instana/components';
 
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import useActions, { useUserActions, useAIActions } from 'in-automation/ActionCatalog/useActions';
-import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
 import AutomationTabs from 'in-automation/AutomationTabs/AutomationTabs';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import ActionCatalog from 'in-automation/ActionCatalog/ActionCatalog';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { actionCatalog } from 'in-automation/navigation/paths';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { useSegmentTracker } from 'in-automation/tracker';
@@ -32,11 +32,18 @@ interface AutomationCardButtonGroupProps {
   aiGeneratedActionsCount?: number | undefined;
 }
 export default function ActionCatalogTab() {
-  setViewTrackingDataValues(productAreas.automation, pageNames.automation_action_catalog);
   return (
-    <AutomationTabs>
-      <ActionCatalogTabsCard />
-    </AutomationTabs>
+    <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.automation,
+          pageRootName: pageNames.automation_action_catalog
+        }}
+      />
+      <AutomationTabs>
+        <ActionCatalogTabsCard />
+      </AutomationTabs>
+    </>
   );
 }
 

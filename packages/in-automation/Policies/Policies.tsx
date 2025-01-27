@@ -46,8 +46,11 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useTriggers from 'in-automation/Policies/useTriggers';
 import { close } from 'in-components/DialogPresenter/store';
+import { pageNames } from 'in-services/tracking/pageNames';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { deletePolicy } from 'in-automation/api';
@@ -104,44 +107,52 @@ export default function Policies() {
   const totalHits = result.data?.totalHits;
 
   return (
-    <AutomationTabs>
-      <ServerTablePresenter<PolicyTableEntity, ServerTablePresenterProps<PolicyTableEntity>>
-        onChange={setServerTableUrlState}
-        pageSize={pageSize}
-        page={page}
-        searchPlaceholder={t('in-automation:policies.searchPolicies')}
-        searchMaxWidth={180}
-        cardTitle={
-          isLoading(policies)
-            ? t('in-automation:policies.policies')
-            : t('in-automation:policies.policiesWithCount', { count: totalHits })
-        }
-        rightHeader={
-          <>
-            {role?.canConfigureAutomationPolicies && (
-              <Button kind="action" onClick={() => navigateToPolicyDetails()} icon="lib_openclose_add_circle_outline">
-                {t('in-automation:policies.newPolicy')}
-              </Button>
-            )}
-            <>
-              <Spacer horizontal="small" />
-              <Stack direction="horizontal">
-                <PolicyTypeFilter type={type ?? null} setType={type => setFilter({ type: type ?? undefined })} />
-                <TagsFilter availableTags={availableTags} tags={tags} setTags={tags => setFilter({ tags })} />
-              </Stack>
-              <Spacer horizontal="small" />
-            </>
-          </>
-        }
-        orderBy={orderBy}
-        orderDirection={orderDirection}
-        query={query}
-        result={result}
-        columnDefinitions={columnDefinition}
-        noDataMessage={t('in-automation:policies.noPolicies')}
-        fixedLayout
+    <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.automation,
+          pageRootName: pageNames.automation_policies_view
+        }}
       />
-    </AutomationTabs>
+      <AutomationTabs>
+        <ServerTablePresenter<PolicyTableEntity, ServerTablePresenterProps<PolicyTableEntity>>
+          onChange={setServerTableUrlState}
+          pageSize={pageSize}
+          page={page}
+          searchPlaceholder={t('in-automation:policies.searchPolicies')}
+          searchMaxWidth={180}
+          cardTitle={
+            isLoading(policies)
+              ? t('in-automation:policies.policies')
+              : t('in-automation:policies.policiesWithCount', { count: totalHits })
+          }
+          rightHeader={
+            <>
+              {role?.canConfigureAutomationPolicies && (
+                <Button kind="action" onClick={() => navigateToPolicyDetails()} icon="lib_openclose_add_circle_outline">
+                  {t('in-automation:policies.newPolicy')}
+                </Button>
+              )}
+              <>
+                <Spacer horizontal="small" />
+                <Stack direction="horizontal">
+                  <PolicyTypeFilter type={type ?? null} setType={type => setFilter({ type: type ?? undefined })} />
+                  <TagsFilter availableTags={availableTags} tags={tags} setTags={tags => setFilter({ tags })} />
+                </Stack>
+                <Spacer horizontal="small" />
+              </>
+            </>
+          }
+          orderBy={orderBy}
+          orderDirection={orderDirection}
+          query={query}
+          result={result}
+          columnDefinitions={columnDefinition}
+          noDataMessage={t('in-automation:policies.noPolicies')}
+          fixedLayout
+        />
+      </AutomationTabs>
+    </>
   );
 }
 
