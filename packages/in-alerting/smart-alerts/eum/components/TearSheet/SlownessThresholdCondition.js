@@ -4,43 +4,45 @@
  * Copyright IBM Corp. 2025
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { isAdaptiveBaselineConfig } from '@instana/types';
-import { Spacer } from '@instana/components';
+import { Dropdown, Spacer } from '@instana/components';
 
-import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/ThresholdValueFormGroupForStaticThreshold';
+import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/tearSheet/MultiThresholdCondition/MultiThresholdDeviationSliderForm';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
-import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/ThresholdDeviationSliderForm';
-import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
+//@ts-expect-error
+import { getAggregationValue } from 'in-alerting/smart-alerts/applications/dialog/advanced/thresholdConditionUtil';
+import MultiThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/Section/MultiThresholdCondition';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/TearSheet/ThresholdTypeSelection';
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
+import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
+import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
 import websiteCreateRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertTypography from 'in-alerting/components/AlertTypography';
-import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
 
-export default function ThroughputThresholdCondition({
+export default function SlownessThresholdCondition({
   form,
   updateForm,
   blueprintConfig,
   editMode,
   eumType,
-  ruleMetricNameOptions,
-  getMetricUnitPostfix,
-  onChartViewConfigChange
+  onChartViewConfigChange,
+  isPercentageMetric
 }) {
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const metricName = form.get('rule').get('metricName').value;
-  const thresholdType = form.get('threshold').get('type')?.value;
-  const metricUnitPostfix = getMetricUnitPostfix(metricName);
-  const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
+  const percentageMetric = isPercentageMetric(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
+  const metricUnitPostfix = getMetricUnitPostfix(metricName);
+
+  const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
 
   const resetChartConfigSelectionWhenAdaptiveBaseline = updatedForm => {
     if (isAdaptiveBaselineConfig(updatedForm.get('threshold').toJS())) {
@@ -65,17 +67,16 @@ export default function ThroughputThresholdCondition({
         titleWidth="8rem"
       >
         <Dropdown
-          value={metricName}
-          items={ruleMetricNameOptions.throughput}
-          className={locals.dropdownmd}
+          value={getAggregationValue(form)}
+          items={getAggregationOptions(form)}
+          className={locals.dropdownsm}
           onChange={value => {
-            updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
+            updateForm(form.updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true)));
           }}
         />
       </Section>
 
       {/* Threshold Type */}
-
       <Section
         title={<AlertTypography variant="body-regular" color="color900" content={'Threshold Type'} />}
         titleWidth="8rem"
@@ -86,7 +87,7 @@ export default function ThroughputThresholdCondition({
           onThresholdTypeChange={websiteOnThresholdTypeChange}
           isTearSheet
         />
-
+        <Spacer size="small" />
         <ThresholdTypeSelection
           form={form}
           updateForm={updateForm}
@@ -102,45 +103,26 @@ export default function ThroughputThresholdCondition({
         title={<AlertTypography variant="body-regular" color="color900" content={'Threshold value'} />}
         titleWidth="8rem"
       >
-        {/* Threshold operator */}
-        <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
-
-        <Spacer size="medium" />
         {/* Threshold type */}
         {thresholdType === STATIC_THRESHOLD && (
-          <ThresholdValueFormGroupForStaticThreshold
+          <MultiThresholdCondition
             form={form}
             updateForm={updateForm}
-            maxValue={maxValue}
+            max={maxValue}
             metricUnitPostfix={metricUnitPostfix}
-            label={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
-            isTearSheet
+            percentageMetric={percentageMetric}
           />
         )}
 
-        <Spacer size="normal" />
-
         {/* Threshold deviation slider */}
         {thresholdType !== STATIC_THRESHOLD && (
-          <ThresholdDeviationSliderForm
+          <MultiThresholdDeviationSliderForm
             form={form}
             updateForm={updateForm}
             defaultValue={defaultDeviationFactor}
-            isTearSheet
           />
         )}
       </Section>
     </>
   );
 }
-
-ThroughputThresholdCondition.propTypes = {
-  blueprintConfig: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired,
-  updateForm: PropTypes.func.isRequired,
-  editMode: PropTypes.bool,
-  eumType: PropTypes.string.isRequired,
-  ruleMetricNameOptions: PropTypes.object.isRequired,
-  getMetricUnitPostfix: PropTypes.func.isRequired,
-  onChartViewConfigChange: PropTypes.func.isRequired
-};

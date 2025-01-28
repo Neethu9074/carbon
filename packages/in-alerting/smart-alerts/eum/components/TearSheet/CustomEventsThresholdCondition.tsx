@@ -10,10 +10,9 @@ import React from 'react';
 import { isAdaptiveBaselineConfig } from '@instana/types';
 import { Spacer } from '@instana/components';
 
-import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/ThresholdValueFormGroupForStaticThreshold';
+import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/tearSheet/MultiThresholdCondition/MultiThresholdDeviationSliderForm';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
-import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/ThresholdDeviationSliderForm';
-import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
+import MultiThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/Section/MultiThresholdCondition';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/TearSheet/ThresholdTypeSelection';
 import { BluePrint as MobileAppBlueprint } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { BluePrint as WebsiteBlueprint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
@@ -50,7 +49,7 @@ export default function CustomEventsThresholdCondition({
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const percentageMetric = isPercentageMetric(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type')?.value;
   const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
 
   const resetChartConfigSelectionWhenAdaptiveBaseline = (updatedForm: any) => {
@@ -89,6 +88,7 @@ export default function CustomEventsThresholdCondition({
           onThresholdTypeChange={websiteOnThresholdTypeChange}
           isTearSheet
         />
+        <Spacer size="medium" />
         <ThresholdTypeSelection
           form={form}
           updateForm={updateForm}
@@ -104,27 +104,24 @@ export default function CustomEventsThresholdCondition({
         title={<AlertTypography variant="body-regular" color="color900" content={'Threshold value'} />}
         titleWidth="8rem"
       >
-        {/* Threshold operator */}
-        <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
-
-        <Spacer size="medium" />
-
         {/* Threshold type */}
         {thresholdType === STATIC_THRESHOLD && (
-          <ThresholdValueFormGroupForStaticThreshold
+          <MultiThresholdCondition
             form={form}
             updateForm={updateForm}
-            maxValue={maxValue}
+            max={maxValue}
             metricUnitPostfix={metricUnitPostfix}
             percentageMetric={percentageMetric}
           />
         )}
 
-        <Spacer size="normal" />
-
         {/* Threshold deviation slider */}
         {thresholdType !== STATIC_THRESHOLD && (
-          <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
+          <MultiThresholdDeviationSliderForm
+            form={form}
+            updateForm={updateForm}
+            defaultValue={defaultDeviationFactor}
+          />
         )}
       </Section>
     </>

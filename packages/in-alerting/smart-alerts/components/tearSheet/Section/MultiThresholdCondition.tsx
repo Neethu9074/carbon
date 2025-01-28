@@ -26,25 +26,27 @@ import locals from './MultiThresholdCondition.mless';
 interface MultiThresholdConditionProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-  percentageMetric: boolean;
+  percentageMetric?: boolean;
   metricUnitPostfix: string;
   groupBy?: any;
   alertChannelPerSeverityEnabled?: boolean;
+  max?: number;
 }
 
-export default function InfraMultiThresholdCondition({
+export default function MultiThresholdCondition({
   form,
   updateForm,
-  percentageMetric,
+  percentageMetric = false,
   metricUnitPostfix,
-  groupBy,
-  alertChannelPerSeverityEnabled
+  groupBy = [],
+  alertChannelPerSeverityEnabled,
+  max
 }: MultiThresholdConditionProps) {
-  const maxValue = getMaxMetricValue(percentageMetric);
+  const maxValue = max ?? getMaxMetricValue(percentageMetric);
   const warningThresholdValueField = form.get('threshold')?.get('warningThreshold')?.get('value');
   const criticalThresholdValueField = form.get('threshold')?.get('criticalThreshold')?.get('value');
-  const warningThresholdValue = warningThresholdValueField.value;
-  const criticalThresholdValue = criticalThresholdValueField.value;
+  const warningThresholdValue = warningThresholdValueField?.value;
+  const criticalThresholdValue = criticalThresholdValueField?.value;
   const warningThresholdValuePresent = !isEmpty(warningThresholdValue);
   const criticalThresholdValuePresent = !isEmpty(criticalThresholdValue);
 

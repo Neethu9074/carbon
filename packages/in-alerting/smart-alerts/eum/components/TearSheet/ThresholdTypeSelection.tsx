@@ -10,8 +10,8 @@ import React from 'react';
 import { Spacer } from '@instana/components';
 
 import { getOptionsFilterForThresholdTyp } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
+import { getMultiThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/dialog/advanced/RecalculateBaselineButton';
-import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
 import { ThresholdTypeOptions } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
@@ -37,9 +37,11 @@ export default function ThresholdTypeSelection({
   thresholdTypeOptions,
   eumType
 }: ThresholdTypeSelectionProps) {
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const warningThresholdField = form.get('threshold').get('warningThreshold');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
+  const thresholdType = (warningThresholdField ?? criticalThresholdField).get('type')?.value;
   const options = thresholdTypeOptions.filter(getOptionsFilterForThresholdTyp(thresholdType));
-  const thresholdComboBoxValue = getThresholdComboBoxValue(form);
+  const thresholdComboBoxValue = getMultiThresholdComboBoxValue(form);
   const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
   const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange(mobileAppCreateRuleForm);
 

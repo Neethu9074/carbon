@@ -7,10 +7,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Spacer } from '@instana/components';
-
-import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/ThresholdValueFormGroupForStaticThreshold';
-import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
+import MultiThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/Section/MultiThresholdCondition';
 import { getMetricUnitPostfix, isPercentageMetric } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
@@ -56,20 +53,15 @@ export default function JsErrorsThresholdCondition({ form, blueprintConfig, upda
         title={<AlertTypography variant="body-regular" color="color900" content={'Threshold value'} />}
         titleWidth="8rem"
       >
-        {/* Threshold operator */}
-        <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
-
-        <Spacer size="medium" />
-
         {/* Threshold input field */}
-        <ThresholdValueFormGroupForStaticThreshold
+
+        <MultiThresholdCondition
           form={form}
           updateForm={updateForm}
           maxValue={maxValue}
           metricUnitPostfix={metricUnitPostfix}
           percentageMetric={percentageMetric}
           label={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
-          isTearSheet
         />
       </Section>
     </>
