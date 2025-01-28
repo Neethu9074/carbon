@@ -96,7 +96,7 @@ export default function ExpandableCardWithSubtitle({
   );
 
   return (
-    <fieldset aria-describedby={id}>
+    <fieldset aria-labelledby={id}>
       <div
         className={classNames(locals.card, {
           [locals.useMaxAvailableHeight]: useMaxAvailableHeight,
