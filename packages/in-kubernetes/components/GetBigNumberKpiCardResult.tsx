@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
+import { InfraMetricConfiguration, MetricResult, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -12,7 +13,6 @@ import {
   isConfigWithCompanionMetric
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
-import { InfraMetricConfiguration, MetricResult, Result } from 'in-types';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { pendingResult } from 'in-services/fixedObjects';
 

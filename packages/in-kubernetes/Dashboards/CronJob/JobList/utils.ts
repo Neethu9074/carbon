@@ -4,10 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Cursor, TimeConfig } from '@instana/types';
+
 // @ts-expect-error
 import getKubernetesJobs from 'in-kubernetes/subscriptions/getKubernetesJobs';
 import { getInfraGranularity } from 'in-stores/metric/metric';
-import { Cursor, TimeConfig } from 'in-types';
 
 interface GetTableDataProps {
   query: string;

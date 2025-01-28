@@ -6,6 +6,8 @@
 
 import React, { ReactNode } from 'react';
 
+import { MetricResult, Result } from '@instana/types';
+
 import MultiMetricResultAwareBigNumberKpiCard, {
   Config,
   ConfigWithCompanionMetric
@@ -13,7 +15,6 @@ import MultiMetricResultAwareBigNumberKpiCard, {
 import { GetBigNumberKpiCardResult } from './GetBigNumberKpiCardResult';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';
-import { MetricResult, Result } from 'in-types';
 
 export const metricKey = 'bigNumber';
 export const companionMetricKey = 'companion';

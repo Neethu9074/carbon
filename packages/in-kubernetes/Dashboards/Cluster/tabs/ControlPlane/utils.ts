@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { KubernetesAnnotation } from 'in-types';
+import { KubernetesAnnotation } from '@instana/types';
 
 export interface InfosProps {
   [key: string]: string;

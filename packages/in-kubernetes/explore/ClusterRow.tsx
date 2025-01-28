@@ -5,6 +5,7 @@
 
 import React, { ReactElement } from 'react';
 
+import { TimeConfig, Result, KubernetesClusterItemCounters } from '@instana/types';
 import { KeyValue, Li } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
@@ -13,7 +14,6 @@ import { Link } from '@instana/components';
 import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
 import { KubernetesListItemWithCursor } from 'in-kubernetes/subscriptions/exploreKubernetes';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { TimeConfig, Result, KubernetesClusterItemCounters } from 'in-types';
 import { getHistoricMetric } from 'in-stores/metric';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import WithIcon from 'in-components/WithIcon';

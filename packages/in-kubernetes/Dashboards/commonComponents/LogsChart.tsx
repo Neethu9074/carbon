@@ -5,11 +5,11 @@
 
 import React from 'react';
 
+import { TagFilterExpression, TagFilterExpressionElementUnion } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { logLevelColors } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import { TagFilterExpression, TagFilterExpressionElementUnion } from 'in-types';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { outlineForColor } from 'in-themes/chartColors';

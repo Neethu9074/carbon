@@ -5,8 +5,7 @@
  */
 
 import { KubernetesPodListItem } from '@instana/types';
-
-import { KubernetesCondition } from 'in-types';
+import { KubernetesCondition } from '@instana/types';
 
 interface GetHealthyStatusProps extends Omit<KubernetesPodListItem, 'pod'> {
   statusSummary: string;

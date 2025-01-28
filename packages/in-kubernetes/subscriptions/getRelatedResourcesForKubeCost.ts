@@ -5,9 +5,9 @@
  */
 
 import { TimeConfig } from '@instana/types';
+import { Result } from '@instana/types';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result } from 'in-types';
 
 interface GetRelatedResourceForKubeCostRequest {}
 

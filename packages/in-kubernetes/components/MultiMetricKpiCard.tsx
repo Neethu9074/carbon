@@ -9,13 +9,13 @@ import classNames from 'classnames';
 
 import { Link, SvgIcon, Card, Button, ButtonKinds } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { ResultPrecision } from '@instana/types';
 
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
-import { ResultPrecision } from 'in-types';
 import { t } from 'in-i18n';
 
 import local from 'in-kubernetes/components/MultiMetricKpiCard.mless';
