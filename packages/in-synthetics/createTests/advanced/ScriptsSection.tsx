@@ -80,7 +80,7 @@ export default function ScriptsSection({
   const syntheticType = (configForm.get('syntheticType') as Field<string>).value;
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
   const [script, setScript] = useState(scriptDetailsUpdater(configForm, isUpdateConfig, isUpdated, scriptDetails));
-  const [zipFile, setZipFile] = useState<Zip>({ name: '', files: [] });
+  const [zipFile, setZipFile] = useState<Zip>({ name: '', files: [], blob: null });
 
   const timeoutField = configForm.get('timeout') as Field<string>;
   const retriesField = configForm.get('retries') as Field<number>;
@@ -108,6 +108,7 @@ export default function ScriptsSection({
         )
       );
     } else {
+      setZipFile({ name: '', files: [], blob: null });
       //@ts-expect-error-next-line
       let updatedForm = form.updateIn(['configuration', 'scripts', 'bundle'], (field: Item) =>
         (field as Field<string>).setValue('').setTouched(true)

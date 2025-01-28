@@ -538,6 +538,7 @@ export interface Script {
 export interface Zip {
   name: string;
   files: string[];
+  blob: File | null;
 }
 
 export interface Code {
