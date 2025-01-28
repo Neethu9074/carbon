@@ -4543,9 +4543,9 @@ __metadata:
   linkType: hard
 
 "@types/deep-diff@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@types/deep-diff@npm:1.0.2"
-  checksum: 8811934be08cdaaa90431c54677ede7f3a36c545301299c4d0975e83fda6039ef834f94653dc2038eb8f9e443914e9f182b50c8b3d5f64c52bca0988ff67a7f9
+  version: 1.0.5
+  resolution: "@types/deep-diff@npm:1.0.5"
+  checksum: 84504a725a3e79fc5410184d4d94fd8fae05b673e03fc4250998ea48c1f5c862dfedb9a227200b495b5979ed90288b291d739b65cea5792de9e47caff6630cc2
   languageName: node
   linkType: hard
 
