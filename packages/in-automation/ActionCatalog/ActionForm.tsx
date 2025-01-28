@@ -6,7 +6,17 @@
 
 import React from 'react';
 
-import { Link, Spacer, Typography, Toggle, IconButton, TextArea, Select, FormGroup } from '@instana/components';
+import {
+  Link,
+  Spacer,
+  Typography,
+  Toggle,
+  IconButton,
+  TextArea,
+  Select,
+  FormGroup,
+  CarbonNumberInput
+} from '@instana/components';
 import { ActionType, Result } from '@instana/types';
 
 import {
@@ -202,20 +212,22 @@ function TimeoutSection() {
   const disabled = isNotEditable && type !== ACTION_TYPE.ANSIBLE;
 
   return timeout.map(field => (
-    <FormGroup>
+    <FormGroup key={1}>
       <Label htmlFor="action-timeout" hasError={!field.valid && field.touched}>
         {t('in-automation:ActionCatalog.timeout')}
       </Label>
-      <Input
+      <CarbonNumberInput
+        allowEmpty
         id="action-timeout"
         type="number"
         disabled={disabled}
-        value={isNaN(parseInt(field.value)) ? '' : field.value}
-        onChange={e =>
-          setForm(form => form.updateIn(['timeout'], item => item.setValue(e.target.value).setTouched(true)))
-        }
-        hasError={!field.valid && field.touched}
-        min="1"
+        value={field.value}
+        onChange={(_e, state) => {
+          setForm(form => form.updateIn(['timeout'], item => item.setValue(state.value as string).setTouched(true)));
+        }}
+        invalid={!field.valid && field.touched}
+        size="sm"
+        min={1}
       />
       <TouchedMessages field={field} className={locals.subErrorTextFormField} />
       <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.timeoutHelpText')}</HelpText>
