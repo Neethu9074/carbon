@@ -4,10 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
+import { render, fireEvent } from '@testing-library/react';
 import { shallow } from 'enzyme';
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { CarbonButton, HelpText } from '@instana/components';
+
+import { CarbonButton } from '@instana/components';
 
 import { QuickActions } from 'in-events/components/NotesAndActivity/components/QuickActions';
 import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPopover';
