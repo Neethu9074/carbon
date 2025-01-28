@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
+import { create, Observable } from '@instana/observables';
+import { LdapConfig, Result } from '@instana/types';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import http from 'in-services/http';
+import http, { Response } from 'in-services/http';
 
 const refreshSignal = create().emit(true);
 export function refresh() {
@@ -19,7 +20,7 @@ export function refresh() {
 
 export const getConfigAsResultObservableNotMemoized = getConfigAsResultObservableInternal;
 export const getConfigAsResultObservable = memoize(getConfigAsResultObservableInternal, () => 'LdapConfig', 60000);
-function getConfigAsResultObservableInternal() {
+function getConfigAsResultObservableInternal(): Observable<Result<LdapConfig>> {
   return refreshSignal.flatMap(() =>
     createObservable(
       http({
@@ -33,8 +34,8 @@ function getConfigAsResultObservableInternal() {
 
 // regular calls
 
-export function getTestResult(config) {
-  return http({
+export function getTestResult(config: LdapConfig): Observable<LdapConfig> {
+  return http<LdapConfig>({
     method: 'POST',
     maxRetries: 3,
     url: `/api/settings/authentication/ldap/test`,
@@ -43,7 +44,7 @@ export function getTestResult(config) {
   }).map(response => response.body);
 }
 
-export function setConfig(config) {
+export function setConfig(config: LdapConfig): Observable<Response<undefined>> {
   return http({
     method: 'PUT',
     maxRetries: 3,
@@ -53,8 +54,8 @@ export function setConfig(config) {
   });
 }
 
-export function deleteConfig() {
-  return http({
+export function deleteConfig(): Observable<boolean> {
+  return http<boolean>({
     method: 'DELETE',
     maxRetries: 3,
     url: `/api/settings/authentication/ldap`,
@@ -65,7 +66,7 @@ export function deleteConfig() {
   });
 }
 
-function isAvailableQuery() {
+function isAvailableQuery(): Observable<Response<boolean>> {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -73,12 +74,12 @@ function isAvailableQuery() {
   });
 }
 
-export function isAvailable() {
+export function isAvailable(): Observable<boolean> {
   return isAvailableQuery().map(res => res.body);
 }
 
-export function isLdapActive() {
-  return http({
+export function isLdapActive(): Observable<boolean> {
+  return http<boolean>({
     method: 'GET',
     maxRetries: 3,
     url: '/api/settings/authentication/ldap/active'
