@@ -131,6 +131,11 @@ export function validRecipients(recipients) {
 }
 
 // We want to track the clicks to segment
+/**
+ * Handle tracking for a specific element click.
+ * @param {string} id - The ID of the element.
+ * @param {string} trackingName - The name of the tracking event.
+ */
 export function handleTracking(id, trackingName) {
   const { pageRootName, productArea } = getViewTrackingMetaData();
   if (pageRootName && productArea) {
