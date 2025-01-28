@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+// @ts-expect-error import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 
 export default {
