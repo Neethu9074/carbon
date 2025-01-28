@@ -301,12 +301,33 @@ function getTableData({
     metrics: Object.fromEntries(
       metrics
         .filter(({ metric, removeFromTable }) => metric !== undefined && metric !== null && !removeFromTable)
-        .flatMap(({ metric, aggregation, crossSeriesAggregation, regex, required }) => {
-          const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
+        .flatMap(({ metric, aggregation, crossSeriesAggregation: crossSeriesAggregationInternal, regex, required }) => {
+          const id = getMetricKey(metric, aggregation, crossSeriesAggregationInternal);
           const kpiGranularity = timeConfig.windowSize;
+          const crossSeriesAggregation = crossSeriesAggregationInternal ?? 'SUM';
           return [
-            [id, { metric, granularity: kpiGranularity, aggregation, regex, crossSeriesAggregation, required }],
-            [getSeriesKey(id), { metric, granularity, aggregation, regex, crossSeriesAggregation, required }]
+            [
+              id,
+              {
+                metric,
+                granularity: kpiGranularity,
+                aggregation,
+                regex,
+                crossSeriesAggregation,
+                required
+              }
+            ],
+            [
+              getSeriesKey(id),
+              {
+                metric,
+                granularity,
+                aggregation,
+                regex,
+                crossSeriesAggregation,
+                required
+              }
+            ]
           ];
         })
     ),
