@@ -304,6 +304,7 @@ function getTableData({
         .flatMap(({ metric, aggregation, crossSeriesAggregation, regex, required }) => {
           const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
           const kpiGranularity = timeConfig.windowSize;
+          const crossSeriesAggregationForBackend = crossSeriesAggregation ?? 'SUM';
           return [
             [
               id,
@@ -312,7 +313,7 @@ function getTableData({
                 granularity: kpiGranularity,
                 aggregation,
                 regex,
-                crossSeriesAggregation: crossSeriesAggregation || 'SUM',
+                crossSeriesAggregation: crossSeriesAggregationForBackend,
                 required
               }
             ],
@@ -323,7 +324,7 @@ function getTableData({
                 granularity,
                 aggregation,
                 regex,
-                crossSeriesAggregation: crossSeriesAggregation || 'SUM',
+                crossSeriesAggregation: crossSeriesAggregationForBackend,
                 required
               }
             ]
