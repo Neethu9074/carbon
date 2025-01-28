@@ -71,6 +71,14 @@ export function createDataString(data) {
 }
 
 // Function to handle the editing and updating of a note
+/**
+ * Handle the update or delete of a note.
+ * @param {string} incidentId - The ID of the incident the note belongs to.
+ * @param {string} note - The contents of the note.
+ * @param {function} setNote - The function to set the note text field.
+ * @param {function} setEditNoteId - The function to reset the edit note state.
+ * @param {array} editNoteId - The ID of the note being edited and a boolean value for true (editing) or false (deleting).
+ */
 export function handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId, editNoteId) {
   // EditNoteId is false whenever its reset but when assigned its an array
   // Note ID, boolean value for true (editing), false (deleting)
