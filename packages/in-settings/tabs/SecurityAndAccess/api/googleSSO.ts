@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
+import { create, Observable } from '@instana/observables';
+import { GoogleSSOConfig, Result } from '@instana/types';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
+import { Response } from 'in-services/http/types';
 import http from 'in-services/http';
 
 const refreshSignal = create().emit(true);
@@ -16,7 +18,7 @@ export function refresh() {
 
 // observables
 
-export function getConfigAsResultObservable() {
+export function getConfigAsResultObservable(): Observable<Result<GoogleSSOConfig>> {
   return refreshSignal.flatMap(() =>
     createObservable(
       http({
@@ -30,7 +32,7 @@ export function getConfigAsResultObservable() {
 
 // regular calls
 
-export function setConfig(config) {
+export function setConfig(config: GoogleSSOConfig): Observable<Response<undefined>> {
   return http({
     method: 'PUT',
     maxRetries: 3,
@@ -40,16 +42,16 @@ export function setConfig(config) {
   });
 }
 
-export function isAvailable() {
-  return http({
+export function isAvailable(): Observable<boolean> {
+  return http<boolean>({
     method: 'GET',
     maxRetries: 3,
     url: '/api/settings/authentication/googleSSO/available'
   }).map(res => res.body);
 }
 
-export function isGoogleSSOActive() {
-  return http({
+export function isGoogleSSOActive(): Observable<boolean> {
+  return http<boolean>({
     method: 'GET',
     maxRetries: 3,
     url: '/api/settings/authentication/googleSSO/active'
