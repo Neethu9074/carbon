@@ -4550,9 +4550,9 @@ __metadata:
   linkType: hard
 
 "@types/deep-freeze-strict@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@types/deep-freeze-strict@npm:1.1.0"
-  checksum: 29819f8e53cd6e0e82be7878a113291363c4c5f7e43804f71a37667d845e68977245985c1f116cb04dc1c4eceffa499735b26acf5a3d25a30fc4557a88e95b18
+  version: 1.1.2
+  resolution: "@types/deep-freeze-strict@npm:1.1.2"
+  checksum: b6e5b5dd68ce74ae5c2c3a43dce9725c79f0d15895c4db90f878e999b9ba553c2bed3af4806ae0f34b6fc003e71adc094d29664654803f85e70db91d1dd440ba
   languageName: node
   linkType: hard
 
