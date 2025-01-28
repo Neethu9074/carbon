@@ -97,6 +97,7 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay, inci
             })}
           />
           <CarbonTextArea
+            id={'share-summary'}
             labelText={t('in-events:notes.body')}
             helperText={manualInput && t('in-events:notes.withManualEdits')}
             value={(!manualInput && summary) || textSummary}
