@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+// @ts-expect-error import ExpandableCard from 'in-components/ExpandableCard';
 import ExpandableCard from 'in-components/ExpandableCard';
 
 export default {
