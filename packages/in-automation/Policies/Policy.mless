@@ -28,3 +28,8 @@
     width: 90vw;
   }
 }
+:global #policy-tags {
+  .Select__menu {
+    z-index: 3;
+  }
+}
