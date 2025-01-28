@@ -373,7 +373,8 @@
     "output": "输出",
     "user": "用户",
     "apiToken": "API 令牌",
-    "deleteTooltip": "删除操作实例 {{id}}",
+    "viewTooltip": "查看操作实例 {{actionName}}",
+    "deleteTooltip": "删除操作实例 {{actionName}}",
     "deleteDialog": {
       "success": "操作实例已被成功删除。",
       "failure": "无法删除操作实例。"

@@ -833,6 +833,14 @@
         "tagNoValue": "已存在標籤 '{{labelname}}' 且不含任何值"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "呈現 https://...",
+      "form": {
+        "heading": "您想要內嵌哪一個頁面？",
+        "title": "輸入 URL"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "性能概觀"
@@ -900,7 +908,8 @@
         }
       },
       "dataSource": {
-        "events": "事件"
+        "events": "事件",
+        "k8sEvents": "Kubernetes 事件"
       },
       "eventColumns": {
         "title": "標題",
@@ -908,6 +917,19 @@
         "startedOn": "開始日期",
         "endedOn": "結束日期",
         "duration": "持續時間"
+      },
+      "kubernetesEventColumns": {
+        "type": "類型",
+        "reason": "原因",
+        "message": "訊息",
+        "namespace": "名稱空間",
+        "involvedObject": "包含物件",
+        "kind": "類型",
+        "time": "時間"
+      },
+      "emptyTable": {
+        "title": "沒有可用的事件",
+        "explanation": "未擷取到所選時間範圍內的事件"
       }
     },
     "time": {

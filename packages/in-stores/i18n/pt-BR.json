@@ -22,6 +22,8 @@
   "permissionCanConfigureMobileAppMonitoringCategory": "Aplicativos móveis",
   "permissionCanConfigureApplicationsLabel": "Configuração de aplicativos",
   "permissionCanConfigureApplicationsCategory": "Aplicativos",
+  "permissionCanConfigureSubtracesLabel": "Configuração de subtraços",
+  "permissionCanConfigureSubtracesCategory": "Aplicativos",
   "permissionCanConfigureServiceMappingLabel": "Customizar regras de serviço e mapeamento de terminal",
   "permissionCanConfigureServiceMappingCategory": "Aplicativos",
   "permissionCanInstallNewAgentsLabel": "Download do agente e visibilidade de chave do agente",

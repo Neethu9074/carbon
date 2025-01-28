@@ -73,14 +73,6 @@
       "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
     },
-    "askForHelp": {
-      "email": "电子邮件",
-      "send": "发送",
-      "askForHelpTitle": "请同事帮忙",
-      "thisWillBeAvailableOnceYourInstanceIsReady": "一旦您的实例就绪，这将可用。",
-      "inviteAColeague": "邀请同事",
-      "agentKey": "代理程序密钥"
-    },
     "common": {
       "agentDeployment": "代理程序部署",
       "step1": "步骤 1： ",
@@ -108,8 +100,7 @@
       "support": "支持",
       "sideCard": {
         "prerequisites": "先决条件",
-        "documentation": "文档",
-        "askAColleagueForHelp": "请同事帮忙"
+        "documentation": "文档"
       }
     },
     "kubernetes": {
@@ -524,7 +515,6 @@
     "heading": "欢迎使用 Instana",
     "foldableTileTitle": "开始吧！",
     "viewAll": "查看所有",
-    "UrlShortener": "URL 缩写程序",
     "addMore": "添加",
     "collapsibleButton": {
       "showOnboardingTasks": "显示加入任务",
@@ -569,6 +559,10 @@
       "title": "引入您的团队",
       "description": "邀请您的同事加入 Instana 并开始协作。",
       "buttonName": "邀请您的队友"
+    },
+    "favouriteButton": {
+      "ariaFilled": "移除收藏项",
+      "aria": "添加到收藏夹"
     },
     "component": {
       "applicationWidget": {
@@ -798,7 +792,6 @@
     },
     "ariaLabel": {
       "search": "搜索",
-      "shareButton": "“共享”按钮",
       "handleButton": "“手柄”按钮"
     }
   },

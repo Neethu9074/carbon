@@ -788,6 +788,8 @@
         "cancelTitle": "Annuler",
         "proceedTitle": "Poursuivre",
         "previousTitle": "Précédent",
+        "nextTitle": "Suivant",
+        "closeTitle": "Fermer",
         "sharedListTooltip": "{{typeName}} n'est plus disponible",
         "clearTagFilterExpressionButton": "Effacer",
         "baselineErrorMessageComputedOnApproximateData": "La base de référence est calculée en fonction des données approximatives en raison des paramètres de conservation de données. Par conséquent, il se peut qu'elle ne soit pas exacte s'il y a peu d'appels correspondant aux filtres sélectionnés.",
@@ -985,7 +987,14 @@
         "labelConfirmRemoveConfig": "Voulez-vous vraiment retirer l'alerte <strong>{{configName}}</strong> ?",
         "labelRemove": "Retirer"
       },
+      "gracePeriod": {
+        "title": "Délai de grâce (facultatif)",
+        "description": "Fermer automatiquement un problème lorsque le seuil de violation n'est plus atteint pour :",
+        "label": "Sélectionner"
+      },
       "tearSheet": {
+        "cancelModalTitle": "Voulez-vous vraiment annuler ?",
+        "cancelModalDescription": "Si vous annulez, les détails de configuration que vous avez saisis ne seront pas sauvegardés.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "Persistance des violations dans le temps",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Les violations persistent à des intervalles aléatoires",
@@ -1001,8 +1010,7 @@
           "persistenceType": "Type de persistance",
           "numberOfConsecutiveViolationsPostLabel": "les fenêtres consécutives de {{granularity}}-minute présentent des violations",
           "static": "Statique",
-          "thresholdValue": "Valeur de seuil",
-          "timeWindow": "Fenêtre de temps"
+          "thresholdValue": "Valeur de seuil"
         }
       }
     },
@@ -1520,6 +1528,7 @@
       "regexNotValid": "L'expression régulière n'est pas valide.",
       "tearSheet": {
         "createTitle": "Créer une alerte intelligente pour l'infrastructure",
+        "editTitle": "Modifier une alerte intelligente d'infrastructure",
         "steps": {
           "step1Title": "Définir la condition",
           "step2Title": "Définir quand être alerté",
@@ -1537,7 +1546,7 @@
           "header": "Quelles propriétés voulez-vous définir pour cette alerte ?"
         },
         "step4": {
-          "header": "Quelle notification souhaitez-vous recevoir pour cette alerte ?",
+          "header": "Où souhaitez-vous être averti de cette alerte ?",
           "description": "Sélectionnez le(s) destinataire(s) de cette alerte"
         },
         "scopeAlerting": {
@@ -1654,7 +1663,45 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "Indiquez un nombre >= 0",
         "noDataForSelectedGroup": "Aucune donnée n'est disponible pour la combinaison de filtres et de regroupements spécifiée."
       },
-      "logCount": "Nombre de journaux"
+      "logCount": "Nombre de journaux",
+      "tearSheet": {
+        "createTitle": "Créer une alerte intelligente de journal",
+        "steps": {
+          "step1Title": "Définir la condition",
+          "step2Title": "Définir quand être alerté",
+          "step3Title": "Définir les propriétés des alertes",
+          "step4Title": "Définir les canaux d'alerte"
+        },
+        "step2": {
+          "header": "Définir une valeur pour le seuil de violation",
+          "description": "Sélectionnez une mesure, un seuil de violation et une fenêtre temporelle pour évaluer la violation."
+        },
+        "step3": {
+          "header": "Quelles propriétés voulez-vous définir pour cette alerte ?"
+        },
+        "step4": {
+          "header": "Où souhaitez-vous être averti de cette alerte ?",
+          "description": "Sélectionnez le(s) destinataire(s) de cette alerte"
+        },
+        "scopeFilter": {
+          "title": "Choisir la portée des journaux",
+          "filter": "Filtrer",
+          "filterDescription": "Ajoutez des filtres aux services pour obtenir des alertes plus précises."
+        },
+        "scopeGroupBy": {
+          "group": "Groupe",
+          "groupByDescription": "Ajoutez un groupe pour configurer les appels dans des groupes. Chaque appel au sein du groupe est configuré collectivement mais évalué individuellement."
+        },
+        "timeThreshold": {
+          "title": "Définir quand les violations déclenchent des alertes",
+          "description": "Spécifiez la persistance dans le temps pour le déclenchement des alertes et le délai avant l'échec."
+        },
+        "thresholdDescription": {
+          "static": "Une valeur de seuil constante est appliquée et ne change pas dans le temps."
+        },
+        "chartAlertPreview": "Aperçu des alertes",
+        "chartAlertPreviewDescription": "Indique comment des alertes pourraient être déclenchées en fonction des données de métrique d'historique."
+      }
     },
     "slo": {
       "components": {

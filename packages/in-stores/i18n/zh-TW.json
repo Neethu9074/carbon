@@ -22,6 +22,8 @@
   "permissionCanConfigureMobileAppMonitoringCategory": "行動式應用程式",
   "permissionCanConfigureApplicationsLabel": "配置應用程式",
   "permissionCanConfigureApplicationsCategory": "應用程式",
+  "permissionCanConfigureSubtracesLabel": "子追蹤的配置",
+  "permissionCanConfigureSubtracesCategory": "應用程式",
   "permissionCanConfigureServiceMappingLabel": "自訂服務規則和端點對映",
   "permissionCanConfigureServiceMappingCategory": "應用程式",
   "permissionCanInstallNewAgentsLabel": "代理程式下載和代理程式金鑰的可見性",

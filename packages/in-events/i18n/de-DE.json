@@ -53,6 +53,7 @@
   "titleEmptyEvents_change": "Keine Änderungen verfügbar",
   "titleEmptyEvents_monitoringIssue": "Keine Überwachungsprobleme verfügbar",
   "titleEmptyEvents_cveIssue": "Keine CVE-Ausgaben verfügbar",
+  "titleEmptyEvents_prc_issue": "Keine wahrscheinlichen Ursachen verfügbar",
   "titleManualCloseIssue": "Problem abschließen",
   "titleMultiCloseIssues": "Mehrere Probleme schließen",
   "titleManualCloseIncident": "Schließen des Incidents",
@@ -64,6 +65,7 @@
   "explanationEmptyEvents_change": "Es wurden keine Änderungen für den ausgewählten Zeitraum abgerufen.",
   "explanationEmptyEvents_monitoringIssue": "Es wurden keine Überwachungsprobleme für den ausgewählten Zeitraum abgerufen.",
   "explanationEmptyEvents_cveIssue": "Es wurden keine CVE-Probleme für den ausgewählten Zeitraum gefunden",
+  "explanationEmptyEvents_prc_issue": "Für den ausgewählten Zeitraum wurden keine wahrscheinlichen Ursachenprobleme gefunden",
   "showAllEndpoints": "Gesamten {{count}} Endpunkt anzeigen",
   "showAllEndpoints_plural": "Alle {{count}} Endpunkte anzeigen",
   "showAllEndpoints_0": "Alle {{count}} Endpunkte anzeigen",
@@ -116,6 +118,7 @@
   "labelIssues": "Probleme",
   "labelMonitoringIssues": "Überwachungsprobleme",
   "labelCveIssue": "Sicherheitslücken",
+  "labelPrcIssue": "Wahrscheinliche Ursachen",
   "labelAll": "Alle",
   "buttonViewCustomEvent": "Angepasstes Ereignis anzeigen",
   "buttonViewBuiltInEvent": "Integriertes Ereignis anzeigen",
@@ -183,8 +186,10 @@
     "titleFailtoCloseIssues": "Problem(e), die nicht geschlossen werden konnten",
     "multiFailedCloseIncidentsDescription": "Von {{total_incidents}} Vorfällen wurden {{number_incidents_succesfully_closed}} erfolgreich abgeschlossen, aber {{number_incidents_failed_closed}} nicht. Weitere Einzelheiten finden Sie in der folgenden Liste: ",
     "singleFailedCloseIncidentDescription": "Von {{total_incidents}} Vorfall(en) wurde 1 erfolgreich abgeschlossen, aber {{number_incidents_failed_closed}} ist fehlgeschlagen. Weitere Einzelheiten finden Sie in der folgenden Liste: ",
+    "noSuccessfulIncidentCloseDescription": "Von {{total_incidents}} Vorfällen wurde keiner erfolgreich abgeschlossen, während {{number_incidents_failed_closed}} scheiterten. Weitere Einzelheiten finden Sie in der folgenden Liste: ",
     "multiFailedCloseIssuesDescription": "Von {{total_issues}} Problem(e) wurden {{number_issues_succesfully_closed}} erfolgreich geschlossen, aber {{number_issues_failed_closed}} nicht. Weitere Einzelheiten finden Sie in der folgenden Liste: ",
-    "singleFailedCloseIssueDescription": "Von {{total_issues}} Problem(e) wurde 1 erfolgreich geschlossen, aber {{number_issues_failed_closed}} ist fehlgeschlagen. Weitere Einzelheiten finden Sie in der folgenden Liste: "
+    "singleFailedCloseIssueDescription": "Von {{total_issues}} Problem(e) wurde 1 erfolgreich geschlossen, aber {{number_issues_failed_closed}} ist fehlgeschlagen. Weitere Einzelheiten finden Sie in der folgenden Liste: ",
+    "noSuccessfulIssueCloseDescription": "Von {{total_issues}} Problemen wurde keines erfolgreich abgeschlossen, während {{number_issues_failed_closed}} fehlschlugen. Weitere Einzelheiten finden Sie in der folgenden Liste: "
   },
   "ibmMqFileTransfer": {
     "transferID": "Übertragungs-ID",

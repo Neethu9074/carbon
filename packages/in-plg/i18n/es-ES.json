@@ -73,14 +73,6 @@
       "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
     },
-    "askForHelp": {
-      "email": "correo electrónico",
-      "send": "Enviar",
-      "askForHelpTitle": "Pedir ayuda a un colega",
-      "thisWillBeAvailableOnceYourInstanceIsReady": "Estará disponible una vez que la instancia esté lista.",
-      "inviteAColeague": "Invitar a un colega",
-      "agentKey": "Clave de agente"
-    },
     "common": {
       "agentDeployment": "Despliegue del agente",
       "step1": "Paso 1: ",
@@ -108,8 +100,7 @@
       "support": "Soporte",
       "sideCard": {
         "prerequisites": "Requisitos previos",
-        "documentation": "Documentación",
-        "askAColleagueForHelp": "Pedir ayuda a un colega"
+        "documentation": "Documentación"
       }
     },
     "kubernetes": {
@@ -524,7 +515,6 @@
     "heading": "Le damos la bienvenida a Instana",
     "foldableTileTitle": "Empecemos.",
     "viewAll": "Ver todo",
-    "UrlShortener": "Simplificador de URL",
     "addMore": "Añadir",
     "collapsibleButton": {
       "showOnboardingTasks": "Mostrar tareas de incorporación",
@@ -569,6 +559,10 @@
       "title": "Incorpore a su equipo",
       "description": "Invite a sus compañeros a Instana y empiece a colaborar.",
       "buttonName": "Invite a sus compañeros de equipo"
+    },
+    "favouriteButton": {
+      "ariaFilled": "Eliminar favorito",
+      "aria": "Añadir a favoritos"
     },
     "component": {
       "applicationWidget": {
@@ -798,7 +792,6 @@
     },
     "ariaLabel": {
       "search": "Búsqueda",
-      "shareButton": "Botón Compartir",
       "handleButton": "Botón Manejar"
     }
   },

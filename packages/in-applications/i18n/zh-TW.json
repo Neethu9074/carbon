@@ -12,6 +12,11 @@
   "linkDownloadRawTrace": "下載原始追蹤",
   "labelCalls": "呼叫",
   "labelCallsPerSecondFull": "每秒呼叫數",
+  "labelCallsPerSubtrace": "每個子追蹤的呼叫",
+  "labelDuration": "持續時間（平均值）",
+  "labelNumberOfSubtraces": "子追蹤數量",
+  "labelErroneousSubtraceRate": "錯誤子追蹤率",
+  "labelErroneousRate": "錯誤率",
   "labelTraces": "追蹤",
   "labelErrorRate": "錯誤率",
   "labelDisableSizing": "停用調整大小",
@@ -167,12 +172,32 @@
     },
     "configuration": {
       "success": {
-        "title": "子追蹤{{action}}成功",
-        "message": "子追蹤 \"{{subtraceName}}\" 已{{action}}。"
+        "created": {
+          "title": "成功建立子追蹤",
+          "message": "子追蹤 \"{{subtraceName}}\" 已建立。"
+        },
+        "updated": {
+          "title": "子追蹤更新成功",
+          "message": "子追蹤 \"{{subtraceName}}\" 已更新。"
+        },
+        "deleted": {
+          "title": "成功刪除子追蹤",
+          "message": "已刪除子追蹤 \"{{subtraceName}}\"。"
+        }
       },
       "failure": {
-        "title": "無法{{action}}子追蹤",
-        "message": "嘗試{{action}}此子追蹤時出現問題：\"{{subtraceName}}\""
+        "created": {
+          "title": "建立子追蹤失敗",
+          "message": "嘗試建立此子追蹤時出現問題：\"{{subtraceName}}\""
+        },
+        "updated": {
+          "title": "更新子追蹤失敗",
+          "message": "嘗試更新此子追蹤時出現問題：\"{{subtraceName}}\""
+        },
+        "deleted": {
+          "title": "刪除子追蹤失敗",
+          "message": "嘗試刪除此子追蹤時出現問題：\"{{subtraceName}}\""
+        }
       },
       "title": "更新子追蹤",
       "subtraceName": "子追蹤名稱",
@@ -465,6 +490,8 @@
   "dashboards": {
     "callCount": "{{formattedCount}} 個呼叫總數",
     "callCount_plural": "{{formattedCount}} 個呼叫總數",
+    "subtraceCount": "{{formattedCount}} 個子追蹤總數",
+    "subtraceCount_plural": "{{formattedCount}} 個子追蹤總數",
     "erroneousCallCount": "{{formattedCount}} 個錯誤呼叫總數",
     "erroneousCallCount_plural": "{{formattedCount}} 個錯誤呼叫總數",
     "meanLatencyFor90th": "第 90 個的 {{meanLatencyDetail}}",

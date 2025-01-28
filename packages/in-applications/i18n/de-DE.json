@@ -12,6 +12,11 @@
   "linkDownloadRawTrace": "Unaufbereiteten Trace herunterladen",
   "labelCalls": "Aufrufe",
   "labelCallsPerSecondFull": "Aufrufe pro Sekunde",
+  "labelCallsPerSubtrace": "Anrufe pro Teilverbindungsnachweis",
+  "labelDuration": "Dauer (Mittelwert)",
+  "labelNumberOfSubtraces": "Anzahl der Teilspuren",
+  "labelErroneousSubtraceRate": "Fehlerhafte Subtrace-Rate",
+  "labelErroneousRate": "Fehlerquote",
   "labelTraces": "Traces",
   "labelErrorRate": "Fehlerrate",
   "labelDisableSizing": "Dimensionierung inaktivieren",
@@ -167,12 +172,32 @@
     },
     "configuration": {
       "success": {
-        "title": "Subtrace {{action}} erfolgreich",
-        "message": "Unterspur \"{{subtraceName}}\" wurde {{action}}."
+        "created": {
+          "title": "Subtrace erfolgreich erstellt",
+          "message": "Subtrace \"{{subtraceName}}\" wurde erstellt."
+        },
+        "updated": {
+          "title": "Subtrace erfolgreich aktualisiert",
+          "message": "Subtrace \"{{subtraceName}}\" wurde aktualisiert."
+        },
+        "deleted": {
+          "title": "Subtrace erfolgreich gelöscht",
+          "message": "Subtrace \"{{subtraceName}}\" wurde gelöscht."
+        }
       },
       "failure": {
-        "title": "{{action}} fehlgeschlagen Subtrace",
-        "message": "Es gab ein Problem beim Versuch, {{action}} diesen Subtrace zu starten: \"{{subtraceName}}\""
+        "created": {
+          "title": "Subtrace konnte nicht erstellt werden",
+          "message": "Beim Erstellen dieser Subtrace ist ein Fehler aufgetreten: \"{{subtraceName}}\""
+        },
+        "updated": {
+          "title": "Subtrace konnte nicht aktualisiert werden",
+          "message": "Beim Versuch, diesen Subtrace zu aktualisieren, ist ein Fehler aufgetreten: \"{{subtraceName}}\""
+        },
+        "deleted": {
+          "title": "Subtrace konnte nicht gelöscht werden",
+          "message": "Beim Versuch, diesen Subtrace zu löschen, ist ein Fehler aufgetreten: \"{{subtraceName}}\""
+        }
       },
       "title": "Subtrace aktualisieren",
       "subtraceName": "Name des Subtrace",
@@ -465,6 +490,8 @@
   "dashboards": {
     "callCount": "{{formattedCount}} Aufruf insgesamt",
     "callCount_plural": "{{formattedCount}} Aufrufe insgesamt",
+    "subtraceCount": "{{formattedCount}} Gesamtzahl Subtraces",
+    "subtraceCount_plural": "{{formattedCount}} Gesamtzahl Subtraces",
     "erroneousCallCount": "{{formattedCount}} fehlerhafter Aufruf insgesamt",
     "erroneousCallCount_plural": "{{formattedCount}} fehlerhafte Aufrufe insgesamt",
     "meanLatencyFor90th": "{{meanLatencyDetail}} für 90.",

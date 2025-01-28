@@ -788,6 +788,8 @@
         "cancelTitle": "キャンセル",
         "proceedTitle": "続行",
         "previousTitle": "前へ",
+        "nextTitle": "次へ",
+        "closeTitle": "閉じる",
         "sharedListTooltip": "{{typeName}} は利用できなくなりました。",
         "clearTagFilterExpressionButton": "クリア",
         "baselineErrorMessageComputedOnApproximateData": "ベースラインは、データ保存設定による概算データに基づいて計算されます。 そのため、選択したフィルターに一致する呼び出しがほとんどない場合には、ベースラインが正確でない可能性があります。",
@@ -985,7 +987,14 @@
         "labelConfirmRemoveConfig": "アラート<strong>{{configName}}</strong>を削除しますか？",
         "labelRemove": "削除"
       },
+      "gracePeriod": {
+        "title": "猶予期間 (任意)",
+        "description": "違反しきい値を下回ってから、次の期間を経過した後に自動的に問題をクローズします:",
+        "label": "選択"
+      },
       "tearSheet": {
+        "cancelModalTitle": "本当にキャンセルしますか?",
+        "cancelModalDescription": "キャンセルすると、入力した構成の詳細は保存されません。",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "違反が長期にわたって続く場合",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "不規則な間隔で違反が続く",
@@ -1001,8 +1010,7 @@
           "persistenceType": "パーシスタンス・タイプ",
           "numberOfConsecutiveViolationsPostLabel": "連続した {{granularity}} 分のウィンドウに違反がある",
           "static": "静的",
-          "thresholdValue": "しきい値",
-          "timeWindow": "時間枠"
+          "thresholdValue": "しきい値"
         }
       }
     },
@@ -1520,6 +1528,7 @@
       "regexNotValid": "正規表現が無効です",
       "tearSheet": {
         "createTitle": "インフラストラクチャ・スマート・アラートの作成",
+        "editTitle": "インフラストラクチャー・スマート・アラートの編集",
         "steps": {
           "step1Title": "条件の定義",
           "step2Title": "アラートを受け取るタイミングの定義",
@@ -1537,7 +1546,7 @@
           "header": "このアラートに設定するプロパティーはどのようにしますか?"
         },
         "step4": {
-          "header": "このアラートについて何を通知しますか?",
+          "header": "このアラートの通知先はどこにしますか?",
           "description": "このアラートの受信者を選択する"
         },
         "scopeAlerting": {
@@ -1654,7 +1663,45 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "0 以上の数値を指定してください",
         "noDataForSelectedGroup": "指定されたフィルターとグループ化の組み合わせで使用可能なデータがありません。"
       },
-      "logCount": "ログ・カウント"
+      "logCount": "ログ・カウント",
+      "tearSheet": {
+        "createTitle": "ログのスマート・アラートの作成",
+        "steps": {
+          "step1Title": "条件の定義",
+          "step2Title": "アラートを受け取るタイミングの定義",
+          "step3Title": "アラート・プロパティの定義",
+          "step4Title": "アラート・チャンネルの定義"
+        },
+        "step2": {
+          "header": "違反しきい値の値を設定",
+          "description": "違反を評価するためのメトリック、違反しきい値、時間ウィンドウを選択します。"
+        },
+        "step3": {
+          "header": "このアラートに設定するプロパティーはどのようにしますか?"
+        },
+        "step4": {
+          "header": "このアラートの通知先はどこにしますか?",
+          "description": "このアラートの受信者を選択する"
+        },
+        "scopeFilter": {
+          "title": "ログの対象範囲を選択します",
+          "filter": "フィルター",
+          "filterDescription": "より正確なアラートを入手するために、サービスにフィルターを追加します。"
+        },
+        "scopeGroupBy": {
+          "group": "グループ",
+          "groupByDescription": "グループに呼び出しを設定するには、グループを追加します。 グループ内の各コールは一括して設定されるが、個別に評価される。"
+        },
+        "timeThreshold": {
+          "title": "違反がアラートをトリガーするタイミングを設定",
+          "description": "アラート・トリガーと障害発生までの時間に対する持続性を指定します。"
+        },
+        "thresholdDescription": {
+          "static": "定数のしきい値が適用されます。これは時間の経過とともに変化することはありません。"
+        },
+        "chartAlertPreview": "アラートのプレビュー",
+        "chartAlertPreviewDescription": "過去のメトリック・データに基づいて、アラートがどのようにトリガーされたかを示します。"
+      }
     },
     "slo": {
       "components": {

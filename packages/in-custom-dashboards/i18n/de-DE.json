@@ -833,6 +833,14 @@
         "tagNoValue": "Tag '{{labelname}}' ist ohne Wert vorhanden"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "Rendering https://...",
+      "form": {
+        "heading": "Welche Seite möchten Sie einbetten?",
+        "title": "URL eingeben"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "Statusübersicht"
@@ -900,7 +908,8 @@
         }
       },
       "dataSource": {
-        "events": "Ereignisse"
+        "events": "Ereignisse",
+        "k8sEvents": "Kubernetes-Events"
       },
       "eventColumns": {
         "title": "Titel",
@@ -908,6 +917,19 @@
         "startedOn": "Gestartet am",
         "endedOn": "Beendet am",
         "duration": "Dauer"
+      },
+      "kubernetesEventColumns": {
+        "type": "Typ",
+        "reason": "Grund",
+        "message": "Nachricht",
+        "namespace": "Namensbereich",
+        "involvedObject": "Involviertes Objekt",
+        "kind": "Art",
+        "time": "Zeit"
+      },
+      "emptyTable": {
+        "title": "Keine Ereignisse verfügbar",
+        "explanation": "Es wurden keine Ereignisse für den ausgewählten Zeitraum abgerufen."
       }
     },
     "time": {

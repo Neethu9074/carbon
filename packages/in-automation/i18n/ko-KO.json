@@ -373,7 +373,8 @@
     "output": "출력",
     "user": "사용자",
     "apiToken": "API 토큰",
-    "deleteTooltip": "조치 인스턴스 {{id}} 삭제",
+    "viewTooltip": "조치 인스턴스 {{actionName}} 보기",
+    "deleteTooltip": "조치 인스턴스 {{actionName}} 삭제",
     "deleteDialog": {
       "success": "조치 인스턴스가 삭제되었습니다.",
       "failure": "조치 인스턴스를 삭제하는 데 실패했습니다."

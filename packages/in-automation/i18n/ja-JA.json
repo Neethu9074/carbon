@@ -373,7 +373,8 @@
     "output": "出力",
     "user": "ユーザー",
     "apiToken": "API トークン",
-    "deleteTooltip": "アクション・インスタンスの削除 {{id}}",
+    "viewTooltip": "アクション・インスタンス「{{actionName}}」の表示",
+    "deleteTooltip": "アクション・インスタンス「{{actionName}}」の削除",
     "deleteDialog": {
       "success": "アクション・インスタンスは正常に削除されました。",
       "failure": "アクション・インスタンスの削除に失敗しました。"

@@ -833,6 +833,14 @@
         "tagNoValue": "呈现的标记“{{labelname}}”不含任何值"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "正在呈现 https://...",
+      "form": {
+        "heading": "您想嵌入哪个页面？",
+        "title": "输入 URL"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "运行概况"
@@ -900,7 +908,8 @@
         }
       },
       "dataSource": {
-        "events": "事件"
+        "events": "事件",
+        "k8sEvents": "Kubernetes 事件"
       },
       "eventColumns": {
         "title": "标题",
@@ -908,6 +917,19 @@
         "startedOn": "开始时间",
         "endedOn": "结束时间",
         "duration": "持续时间"
+      },
+      "kubernetesEventColumns": {
+        "type": "Type",
+        "reason": "原因",
+        "message": "消息",
+        "namespace": "名称空间",
+        "involvedObject": "涉及的对象",
+        "kind": "种类",
+        "time": "时间"
+      },
+      "emptyTable": {
+        "title": "无可用事件",
+        "explanation": "针对所选时间范围未检索到任何事件"
       }
     },
     "time": {

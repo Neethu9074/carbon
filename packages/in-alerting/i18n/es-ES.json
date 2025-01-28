@@ -788,6 +788,8 @@
         "cancelTitle": "Cancelar",
         "proceedTitle": "Continuar",
         "previousTitle": "Anterior",
+        "nextTitle": "Siguiente",
+        "closeTitle": "Cerrar",
         "sharedListTooltip": "{{typeName}} ya no está disponible",
         "clearTagFilterExpressionButton": "Borrar",
         "baselineErrorMessageComputedOnApproximateData": "La línea base se calcula en función de datos aproximados debido a los valores de retención de datos. Por lo tanto, es posible que no sea precisa en el caso de que haya pocas llamadas que coincidan con los filtros seleccionados.",
@@ -985,7 +987,14 @@
         "labelConfirmRemoveConfig": "¿Está seguro de que desea eliminar la alerta <strong>{{configName}}</strong>?",
         "labelRemove": "Eliminar"
       },
+      "gracePeriod": {
+        "title": "Periodo de gracia (opcional)",
+        "description": "Cerrar automáticamente un problema cuando deje de cumplirse el umbral de infracción para:",
+        "label": "Select"
+      },
       "tearSheet": {
+        "cancelModalTitle": "¿Está seguro de que desea cancelar?",
+        "cancelModalDescription": "Si cancela, no se guardarán los datos de configuración que haya introducido.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "Cuando las infracciones persisten en el tiempo",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Las infracciones persisten a intervalos aleatorios",
@@ -1001,8 +1010,7 @@
           "persistenceType": "Tipo de persistencia",
           "numberOfConsecutiveViolationsPostLabel": "ventanas consecutivas de {{granularity}} de minutos tienen infracciones",
           "static": "Estático",
-          "thresholdValue": "Valor del umbral",
-          "timeWindow": "Ventana de tiempo"
+          "thresholdValue": "Valor del umbral"
         }
       }
     },
@@ -1520,6 +1528,7 @@
       "regexNotValid": "La expresión regular no es válida",
       "tearSheet": {
         "createTitle": "Crear una alerta inteligente de infraestructura",
+        "editTitle": "Editar una alerta inteligente de infraestructura",
         "steps": {
           "step1Title": "Definir la condición",
           "step2Title": "Definir cuándo se debe enviar alerta",
@@ -1537,7 +1546,7 @@
           "header": "¿Qué propiedades desea establecer para esta alerta?"
         },
         "step4": {
-          "header": "¿Qué desea que se le notifique para esta alerta?",
+          "header": "¿Dónde quiere que se le notifique esta alerta?",
           "description": "Seleccione el destinatario o destinatarios de esta alerta"
         },
         "scopeAlerting": {
@@ -1654,7 +1663,45 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "Proporcione un número >= 0",
         "noDataForSelectedGroup": "No hay datos disponibles para los filtros y la combinación de agrupación especificados."
       },
-      "logCount": "Recuento de registros"
+      "logCount": "Recuento de registros",
+      "tearSheet": {
+        "createTitle": "Crear una alerta inteligente de registro",
+        "steps": {
+          "step1Title": "Definir la condición",
+          "step2Title": "Definir cuándo se debe enviar alerta",
+          "step3Title": "Definir propiedades de alertas",
+          "step4Title": "Definir canales de alerta"
+        },
+        "step2": {
+          "header": "Establecer un valor para el umbral de infracción",
+          "description": "Seleccione una métrica, un umbral de infracción y una ventana temporal para evaluar la infracción."
+        },
+        "step3": {
+          "header": "¿Qué propiedades desea establecer para esta alerta?"
+        },
+        "step4": {
+          "header": "¿Dónde quiere que se le notifique esta alerta?",
+          "description": "Seleccione el destinatario o destinatarios de esta alerta"
+        },
+        "scopeFilter": {
+          "title": "Elija el ámbito de los registros",
+          "filter": "Filtrar",
+          "filterDescription": "Añada filtros a los servicios para obtener alertas más precisas."
+        },
+        "scopeGroupBy": {
+          "group": "Grupo",
+          "groupByDescription": "Añada un grupo para configurar las llamadas en grupos. Cada llamada dentro del grupo se configura colectivamente pero se evalúa individualmente."
+        },
+        "timeThreshold": {
+          "title": "Establecer cuándo las infracciones activan alertas",
+          "description": "Especifique la persistencia en el tiempo para la activación de alertas y el tiempo hasta el error."
+        },
+        "thresholdDescription": {
+          "static": "Se aplica un valor de umbral constante y no cambia con el tiempo."
+        },
+        "chartAlertPreview": "Vista preliminar de alertas",
+        "chartAlertPreviewDescription": "Muestra cómo se habrían activado las alertas en función de los datos métricos históricos."
+      }
     },
     "slo": {
       "components": {

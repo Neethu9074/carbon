@@ -373,7 +373,8 @@
     "output": "Output",
     "user": "Utente",
     "apiToken": "Token API",
-    "deleteTooltip": "Eliminare l'istanza dell'azione {{id}}",
+    "viewTooltip": "Visualizza l'istanza dell'azione {{actionName}}",
+    "deleteTooltip": "Elimina l'istanza dell'azione {{actionName}}",
     "deleteDialog": {
       "success": "L'istanza dell'azione è stata eliminata correttamente.",
       "failure": "Impossibile eliminare l'istanza dell'azione."

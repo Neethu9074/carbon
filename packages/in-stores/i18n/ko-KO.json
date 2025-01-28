@@ -22,6 +22,8 @@
   "permissionCanConfigureMobileAppMonitoringCategory": "모바일 앱",
   "permissionCanConfigureApplicationsLabel": "애플리케이션의 구성",
   "permissionCanConfigureApplicationsCategory": "애플리케이션",
+  "permissionCanConfigureSubtracesLabel": "하위 추적 구성",
+  "permissionCanConfigureSubtracesCategory": "애플리케이션",
   "permissionCanConfigureServiceMappingLabel": "서비스 규칙 및 엔드포인트 맵핑 사용자 정의",
   "permissionCanConfigureServiceMappingCategory": "애플리케이션",
   "permissionCanInstallNewAgentsLabel": "에이전트 다운로드 및 에이전트 키 가시성",

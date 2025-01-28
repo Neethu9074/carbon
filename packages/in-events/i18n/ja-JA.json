@@ -53,6 +53,7 @@
   "titleEmptyEvents_change": "変更がありません",
   "titleEmptyEvents_monitoringIssue": "モニタリングの問題がありません",
   "titleEmptyEvents_cveIssue": "利用可能な CVE 問題はない",
+  "titleEmptyEvents_prc_issue": "推定根本原因となる問題はありません",
   "titleManualCloseIssue": "問題のクローズ",
   "titleMultiCloseIssues": "複数の問題をクローズ",
   "titleManualCloseIncident": "インシデントのクローズ",
@@ -64,6 +65,7 @@
   "explanationEmptyEvents_change": "選択された時刻範囲で取得された変更はありません",
   "explanationEmptyEvents_monitoringIssue": "選択された時刻範囲で取得されたモニタリングの問題はありません",
   "explanationEmptyEvents_cveIssue": "選択した時間範囲について検索された CVE の問題がありません",
+  "explanationEmptyEvents_prc_issue": "選択した時間範囲では、推定根本原因となる問題は見つかりませんでした",
   "showAllEndpoints": "{{count}} 個のエンドポイントをすべて表示",
   "showAllEndpoints_plural": "{{count}} 個のエンドポイントをすべて表示",
   "showAllEndpoints_0": "{{count}} 個のエンドポイントをすべて表示",
@@ -116,6 +118,7 @@
   "labelIssues": "問題",
   "labelMonitoringIssues": "モニタリングの問題",
   "labelCveIssue": "脆弱性",
+  "labelPrcIssue": "推定根本原因",
   "labelAll": "すべて",
   "buttonViewCustomEvent": "カスタム・イベントの表示",
   "buttonViewBuiltInEvent": "組み込みイベントを表示",
@@ -183,8 +186,10 @@
     "titleFailtoCloseIssues": "クローズに失敗した問題",
     "multiFailedCloseIncidentsDescription": "{{total_incidents}}件のインシデントのうち、{{number_incidents_succesfully_closed}}件は正常にクローズされましたが、{{number_incidents_failed_closed}}は失敗しました。 詳しくは、以下のトピックを参照してください: ",
     "singleFailedCloseIncidentDescription": "{{total_incidents}}件のうち、1件は正常にクローズされましたが、{{number_incidents_failed_closed}}件は失敗しました。 詳しくは、以下のトピックを参照してください: ",
+    "noSuccessfulIncidentCloseDescription": "{{total_incidents}}件のインシデントのうち、正常にクローズされたものはなく、{{number_incidents_failed_closed}}件は失敗しました。 詳しくは、以下のトピックを参照してください: ",
     "multiFailedCloseIssuesDescription": "{{total_issues}}件のうち、{{number_issues_succesfully_closed}}件は正常にクローズされましたが、{{number_issues_failed_closed}}件は失敗しました。 詳しくは、以下のトピックを参照してください: ",
-    "singleFailedCloseIssueDescription": "{{total_issues}}件のうち、1件は正常にクローズされましたが、{{number_issues_failed_closed}}件は失敗しました。 詳しくは、以下のトピックを参照してください: "
+    "singleFailedCloseIssueDescription": "{{total_issues}}件のうち、1件は正常にクローズされましたが、{{number_issues_failed_closed}}件は失敗しました。 詳しくは、以下のトピックを参照してください: ",
+    "noSuccessfulIssueCloseDescription": "{{total_issues}}件の問題のうち、正常にクローズされたものはなく、{{number_issues_failed_closed}}件は失敗しました。 詳しくは、以下のトピックを参照してください: "
   },
   "ibmMqFileTransfer": {
     "transferID": "転送 ID",

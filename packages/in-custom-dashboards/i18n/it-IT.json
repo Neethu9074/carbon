@@ -833,6 +833,14 @@
         "tagNoValue": "Tag '{{labelname}}' presente senza valore"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "Rappresentazione https://...",
+      "form": {
+        "heading": "Quale pagina si desidera incorporare?",
+        "title": "Immetti URL"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "Panoramica integrità"
@@ -900,7 +908,8 @@
         }
       },
       "dataSource": {
-        "events": "Eventi"
+        "events": "Eventi",
+        "k8sEvents": "Eventi Kubernetes"
       },
       "eventColumns": {
         "title": "Titolo",
@@ -908,6 +917,19 @@
         "startedOn": "Iniziato il",
         "endedOn": "Terminato il",
         "duration": "Durata"
+      },
+      "kubernetesEventColumns": {
+        "type": "Immettere",
+        "reason": "Motivo",
+        "message": "Messaggio",
+        "namespace": "Spazio dei nomi",
+        "involvedObject": "Oggetto interessato",
+        "kind": "Tipo",
+        "time": "Ora"
+      },
+      "emptyTable": {
+        "title": "Nessun evento disponibile",
+        "explanation": "Nell'intervallo di tempo selezionato non sono stati richiamati eventi"
       }
     },
     "time": {

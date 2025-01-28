@@ -53,6 +53,7 @@
   "titleEmptyEvents_change": "无可用的变更",
   "titleEmptyEvents_monitoringIssue": "无可用监视问题",
   "titleEmptyEvents_cveIssue": "无 CVE 问题可用",
+  "titleEmptyEvents_prc_issue": "没有可能的根本原因问题",
   "titleManualCloseIssue": "关闭问题",
   "titleMultiCloseIssues": "关闭多个问题",
   "titleManualCloseIncident": "关闭突发事件",
@@ -64,6 +65,7 @@
   "explanationEmptyEvents_change": "针对所选时间范围未检索到任何更改",
   "explanationEmptyEvents_monitoringIssue": "针对所选时间范围未检索到任何监视问题",
   "explanationEmptyEvents_cveIssue": "未检索到所选时间范围的任何 CVE 问题",
+  "explanationEmptyEvents_prc_issue": "在选定的时间范围内，没有检索到可能的根本原因问题",
   "showAllEndpoints": "显示所有 {{count}} 个端点",
   "showAllEndpoints_plural": "显示所有 {{count}} 个端点",
   "showAllEndpoints_0": "显示所有 {{count}} 个端点",
@@ -116,6 +118,7 @@
   "labelIssues": "问题",
   "labelMonitoringIssues": "监视问题",
   "labelCveIssue": "漏洞",
+  "labelPrcIssue": "可能的根本原因",
   "labelAll": "所有",
   "buttonViewCustomEvent": "查看定制事件",
   "buttonViewBuiltInEvent": "查看内置事件",
@@ -183,8 +186,10 @@
     "titleFailtoCloseIssues": "未能关闭的问题",
     "multiFailedCloseIncidentsDescription": "在 {{total_incidents}} 事件中，{{number_incidents_succesfully_closed}} 成功关闭，但 {{number_incidents_failed_closed}} 未能关闭。 更多详情，请参阅以下列表： ",
     "singleFailedCloseIncidentDescription": "在{{total_incidents}}事件中，1 起已成功关闭，但 {{number_incidents_failed_closed}} 未能关闭。 更多详情，请参阅以下列表： ",
+    "noSuccessfulIncidentCloseDescription": "在 {{total_incidents}} 个突发事件中，没有成功关闭任何一个突发事件，而 {{number_incidents_failed_closed}} 个突发事件关闭失败。 更多详情，请参阅以下列表： ",
     "multiFailedCloseIssuesDescription": "在 {{total_issues}} 问题中，{{number_issues_succesfully_closed}} 成功关闭，但 {{number_issues_failed_closed}} 未能关闭。 更多详情，请参阅以下列表： ",
-    "singleFailedCloseIssueDescription": "在 {{total_issues}} 问题中，1 个已成功关闭，但 {{number_issues_failed_closed}} 未能关闭。 更多详情，请参阅以下列表： "
+    "singleFailedCloseIssueDescription": "在 {{total_issues}} 问题中，1 个已成功关闭，但 {{number_issues_failed_closed}} 未能关闭。 更多详情，请参阅以下列表： ",
+    "noSuccessfulIssueCloseDescription": "在 {{total_issues}} 个问题中，没有成功关闭任何一个问题，而 {{number_issues_failed_closed}} 个问题关闭失败。 更多详情，请参阅以下列表： "
   },
   "ibmMqFileTransfer": {
     "transferID": "传输标识",

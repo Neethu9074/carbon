@@ -373,7 +373,8 @@
     "output": "輸出",
     "user": "使用者",
     "apiToken": "API 記號",
-    "deleteTooltip": "刪除動作實例 {{id}}",
+    "viewTooltip": "檢視動作實例 {{actionName}}",
+    "deleteTooltip": "刪除動作實例 {{actionName}}",
     "deleteDialog": {
       "success": "動作實例已順手刪除。",
       "failure": "無法刪除動作實例。"

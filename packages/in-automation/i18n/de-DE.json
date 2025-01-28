@@ -373,7 +373,8 @@
     "output": "Ausgabe",
     "user": "Benutzer",
     "apiToken": "API-Token",
-    "deleteTooltip": "Aktionsinstanz löschen {{id}}",
+    "viewTooltip": "Aktionsinstanz anzeigen {{actionName}} }}",
+    "deleteTooltip": "Aktionsinstanz löschen {{actionName}}",
     "deleteDialog": {
       "success": "Aktionsinstanz wurde erfolgreich gelöscht.",
       "failure": "Die Aktionsinstanz konnte nicht gelöscht werden."

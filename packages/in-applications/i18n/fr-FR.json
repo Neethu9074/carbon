@@ -12,6 +12,11 @@
   "linkDownloadRawTrace": "Télécharger la trace brute",
   "labelCalls": "Appels",
   "labelCallsPerSecondFull": "Appels par seconde",
+  "labelCallsPerSubtrace": "Appels par sous-trace",
+  "labelDuration": "Durée (moyenne)",
+  "labelNumberOfSubtraces": "Nombre de sous-traces",
+  "labelErroneousSubtraceRate": "Taux de sous-traces erronées",
+  "labelErroneousRate": "Taux erroné",
   "labelTraces": "Traces",
   "labelErrorRate": "Taux d'erreurs",
   "labelDisableSizing": "Désactiver le dimensionnement",
@@ -167,12 +172,32 @@
     },
     "configuration": {
       "success": {
-        "title": "Sous-trace {{action}}",
-        "message": "La sous-trace \"{{subtraceName}}\" a été {{action}}."
+        "created": {
+          "title": "Sous-trace créée avec succès",
+          "message": "La sous-trace \"{{subtraceName}}\" a été créée."
+        },
+        "updated": {
+          "title": "Mise à jour réussie de la sous-trace",
+          "message": "La sous-trace \"{{subtraceName}}\" a été mise à jour."
+        },
+        "deleted": {
+          "title": "Sous-trace supprimée avec succès",
+          "message": "La sous-trace \"{{subtraceName}}\" a été supprimée."
+        }
       },
       "failure": {
-        "title": "La sous-trace n'a pas été {{action}}",
-        "message": "Un problème est survenu lors de la tentative de {{action}} de la sous-trace \"{{subtraceName}}\""
+        "created": {
+          "title": "Échec de la création de sous-trace",
+          "message": "Un problème est survenu lors de la tentative de création de la sous-trace \"{{subtraceName}}\""
+        },
+        "updated": {
+          "title": "Échec de la mise à jour de la sous-trace",
+          "message": "Un problème est survenu lors de la tentative de mise à jour de la sous-trace \"{{subtraceName}}\""
+        },
+        "deleted": {
+          "title": "Échec de la suppression de la sous-trace",
+          "message": "Un problème est survenu lors de la suppression de cette sous-trace : \"{{subtraceName}}\""
+        }
       },
       "title": "Mettre à jour la sous-trace",
       "subtraceName": "Nom de la sous-trace",
@@ -465,6 +490,8 @@
   "dashboards": {
     "callCount": "{{formattedCount}} appel au total",
     "callCount_plural": "{{formattedCount}} appels au total",
+    "subtraceCount": "{{formattedCount}} sous-trace totale",
+    "subtraceCount_plural": "{{formattedCount}} sous-traces totales",
     "erroneousCallCount": "{{formattedCount}} appel erroné au total",
     "erroneousCallCount_plural": "{{formattedCount}} appels erronés au total",
     "meanLatencyFor90th": "{{meanLatencyDetail}} pour 90e",

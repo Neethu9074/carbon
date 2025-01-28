@@ -833,6 +833,14 @@
         "tagNoValue": "태그 '{{labelname}}'에 값이 없음"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "https:// 렌더링...",
+      "form": {
+        "heading": "어떤 페이지를 삽입하시겠습니까?",
+        "title": "URL 입력"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "상태 개요"
@@ -900,7 +908,8 @@
         }
       },
       "dataSource": {
-        "events": "이벤트"
+        "events": "이벤트",
+        "k8sEvents": "Kubernetes 이벤트"
       },
       "eventColumns": {
         "title": "제목",
@@ -908,6 +917,19 @@
         "startedOn": "시작 날짜",
         "endedOn": "종료 날짜",
         "duration": "지속 기간"
+      },
+      "kubernetesEventColumns": {
+        "type": "유형",
+        "reason": "원인",
+        "message": "메시지",
+        "namespace": "네임스페이스",
+        "involvedObject": "관련 오브젝트",
+        "kind": "유형",
+        "time": "시간"
+      },
+      "emptyTable": {
+        "title": "사용 가능한 이벤트 없음",
+        "explanation": "선택한 시간 범위에 대해 검색된 이벤트가 없습니다."
       }
     },
     "time": {

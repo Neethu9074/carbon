@@ -833,6 +833,14 @@
         "tagNoValue": "El código '{{labelname}}' está presente sin un valor"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "Representación de https://...",
+      "form": {
+        "heading": "¿Qué página desea incluir?",
+        "title": "Especificar URL"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "Visión general de salud"
@@ -900,7 +908,8 @@
         }
       },
       "dataSource": {
-        "events": "Sucesos"
+        "events": "Sucesos",
+        "k8sEvents": "Sucesos Kubernetes"
       },
       "eventColumns": {
         "title": "Título",
@@ -908,6 +917,19 @@
         "startedOn": "Se inició el",
         "endedOn": "Finalizó el",
         "duration": "Duración"
+      },
+      "kubernetesEventColumns": {
+        "type": "Tipo",
+        "reason": "Razón",
+        "message": "Mensaje",
+        "namespace": "Espacio de nombres",
+        "involvedObject": "Objeto implicado",
+        "kind": "Tipo",
+        "time": "Hora"
+      },
+      "emptyTable": {
+        "title": "No hay sucesos disponibles",
+        "explanation": "No se ha recuperado ningún suceso para el rango de tiempo seleccionado"
       }
     },
     "time": {

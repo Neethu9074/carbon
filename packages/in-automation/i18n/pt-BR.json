@@ -373,7 +373,8 @@
     "output": "Saída",
     "user": "Usuário",
     "apiToken": "Token da API",
-    "deleteTooltip": "Excluir instância de ação {{id}}",
+    "viewTooltip": "Visualizar instância de ação {{actionName}}",
+    "deleteTooltip": "Excluir instância de ação {{actionName}}",
     "deleteDialog": {
       "success": "A instância da ação foi excluída com sucesso.",
       "failure": "Falha ao excluir a instância da ação."

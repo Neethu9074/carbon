@@ -53,6 +53,7 @@
   "titleEmptyEvents_change": "No hay cambios disponibles",
   "titleEmptyEvents_monitoringIssue": "No hay problemas de supervisión disponibles",
   "titleEmptyEvents_cveIssue": "No hay problemas de CVE disponibles",
+  "titleEmptyEvents_prc_issue": "No se dispone de la causa principal probable",
   "titleManualCloseIssue": "Cerrar problema",
   "titleMultiCloseIssues": "Cerrar varios problemas",
   "titleManualCloseIncident": "Cerrar incidencia",
@@ -64,6 +65,7 @@
   "explanationEmptyEvents_change": "No se ha recuperado ningún cambio para el rango de tiempo seleccionado",
   "explanationEmptyEvents_monitoringIssue": "No se ha recuperado ningún problema de supervisión para el rango de tiempo seleccionado",
   "explanationEmptyEvents_cveIssue": "No se ha recuperado ningún problema de CVE para el intervalo de tiempo seleccionado",
+  "explanationEmptyEvents_prc_issue": "No se ha encontrado ningún problema con causa principal probable para el intervalo de tiempo seleccionado",
   "showAllEndpoints": "Mostrar {{count}} punto final completo",
   "showAllEndpoints_plural": "Mostrar todos los {{count}} puntos finales",
   "showAllEndpoints_0": "Mostrar todos los {{count}} puntos finales",
@@ -116,6 +118,7 @@
   "labelIssues": "Problemas",
   "labelMonitoringIssues": "Problemas de supervisión",
   "labelCveIssue": "Vulnerabilidades",
+  "labelPrcIssue": "Causas principales probables",
   "labelAll": "Todos",
   "buttonViewCustomEvent": "Ver suceso personalizado",
   "buttonViewBuiltInEvent": "Ver suceso incorporado",
@@ -183,8 +186,10 @@
     "titleFailtoCloseIssues": "Problema(s) que no se ha(n) podido cerrar",
     "multiFailedCloseIncidentsDescription": "De {{total_incidents}} incidencia(s), {{number_incidents_succesfully_closed}} se han cerrado correctamente, pero {{number_incidents_failed_closed}} no se han podido cerrar. Para más detalles, consulte la siguiente lista: ",
     "singleFailedCloseIncidentDescription": "De {{total_incidents}} incidencia(s), 1 se ha cerrado correctamente, pero {{number_incidents_failed_closed}} no se han podido cerrar. Para más detalles, consulte la siguiente lista: ",
+    "noSuccessfulIncidentCloseDescription": "De {{total_incidents}} incidencia(s), ninguna se ha cerrado correctamente, mientras que {{number_incidents_failed_closed}} no se han podido cerrar. Para más detalles, consulte la siguiente lista: ",
     "multiFailedCloseIssuesDescription": "De {{total_issues}} problema(s), {{number_issues_succesfully_closed}} se han cerrado correctamente, pero {{number_issues_failed_closed}} no se han podido cerrar. Para más detalles, consulte la siguiente lista: ",
-    "singleFailedCloseIssueDescription": "De {{total_issues}} incidencia(s), 1 se ha cerrado correctamente, pero {{number_issues_failed_closed}} no se han podido cerrar. Para más detalles, consulte la siguiente lista: "
+    "singleFailedCloseIssueDescription": "De {{total_issues}} incidencia(s), 1 se ha cerrado correctamente, pero {{number_issues_failed_closed}} no se han podido cerrar. Para más detalles, consulte la siguiente lista: ",
+    "noSuccessfulIssueCloseDescription": "De {{total_issues}} incidencia(s), ninguna se cerró correctamente, mientras que {{number_issues_failed_closed}} no se han podido cerrar correctamente. Para más detalles, consulte la siguiente lista: "
   },
   "ibmMqFileTransfer": {
     "transferID": "ID de transferencia",

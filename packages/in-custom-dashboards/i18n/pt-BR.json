@@ -833,6 +833,14 @@
         "tagNoValue": "Tag '{{labelname}}' presente sem valor"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "Renderizando https://...",
+      "form": {
+        "heading": "Qual página você gostaria de integrar?",
+        "title": "Inserir URL"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "Visão geral de funcionamento"
@@ -900,7 +908,8 @@
         }
       },
       "dataSource": {
-        "events": "Eventos"
+        "events": "Eventos",
+        "k8sEvents": "Eventos Kubernetes"
       },
       "eventColumns": {
         "title": "Título",
@@ -908,6 +917,19 @@
         "startedOn": "Iniciado em",
         "endedOn": "Encerrado em",
         "duration": "Duração"
+      },
+      "kubernetesEventColumns": {
+        "type": "Tipo",
+        "reason": "Razão",
+        "message": "Mensagem",
+        "namespace": "Namespace",
+        "involvedObject": "Objeto envolvido",
+        "kind": "Tipo",
+        "time": "Hora"
+      },
+      "emptyTable": {
+        "title": "Nenhum evento disponível",
+        "explanation": "Não houve eventos recuperados para o intervalo de tempo selecionado"
       }
     },
     "time": {

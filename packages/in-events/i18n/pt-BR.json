@@ -53,6 +53,7 @@
   "titleEmptyEvents_change": "Nenhuma mudança disponível",
   "titleEmptyEvents_monitoringIssue": "Nenhum problema de monitoramento disponível",
   "titleEmptyEvents_cveIssue": "Não há problemas de CVE disponíveis",
+  "titleEmptyEvents_prc_issue": "Nenhum problema de causa raiz provável disponível",
   "titleManualCloseIssue": "Fechar problema",
   "titleMultiCloseIssues": "Encerrar diversos problemas",
   "titleManualCloseIncident": "Fechar incidente",
@@ -64,6 +65,7 @@
   "explanationEmptyEvents_change": "Não houve mudanças recuperadas para o intervalo de tempo selecionado",
   "explanationEmptyEvents_monitoringIssue": "Não houve problemas de monitoramento recuperados para o intervalo de tempo selecionado",
   "explanationEmptyEvents_cveIssue": "Não houve problemas de CVE recuperados para o intervalo de tempo selecionado",
+  "explanationEmptyEvents_prc_issue": "Não houve problemas de causa raiz provável recuperados para o intervalo de tempo selecionado",
   "showAllEndpoints": "Mostrar todo o {{count}} terminal",
   "showAllEndpoints_plural": "Mostrar todos os {{count}} terminais",
   "showAllEndpoints_0": "Mostrar todos os {{count}} terminais",
@@ -116,6 +118,7 @@
   "labelIssues": "Problemas",
   "labelMonitoringIssues": "Problemas de monitoramento",
   "labelCveIssue": "Vulnerabilidades",
+  "labelPrcIssue": "Causas raiz prováveis",
   "labelAll": "Todos",
   "buttonViewCustomEvent": "Visualizar evento customizado",
   "buttonViewBuiltInEvent": "Visualizar evento integrado",
@@ -183,8 +186,10 @@
     "titleFailtoCloseIssues": "Problema(s) que falhou(aram) ao encerrar.",
     "multiFailedCloseIncidentsDescription": "Dos {{total_incidents}} incidentes, {{number_incidents_succesfully_closed}} foram encerrados com sucesso, mas {{number_incidents_failed_closed}} falharam. Para obter detalhes adicionais, consulte a lista a seguir: ",
     "singleFailedCloseIncidentDescription": "De {{total_incidents}} incidente(s), 1 foi encerrado com sucesso, mas {{number_incidents_failed_closed}} falharam. Para obter detalhes adicionais, consulte a lista a seguir: ",
+    "noSuccessfulIncidentCloseDescription": "Dos {{total_incidents}} incidentes, nenhum foi encerrado com sucesso, enquanto {{number_incidents_failed_closed}} falhou. Para obter detalhes adicionais, consulte a lista a seguir: ",
     "multiFailedCloseIssuesDescription": "Dos {{total_issues}} problemas, {{number_issues_succesfully_closed}} foram encerrados com sucesso, mas {{number_issues_failed_closed}} falharam. Para obter detalhes adicionais, consulte a lista a seguir: ",
-    "singleFailedCloseIssueDescription": "De {{total_issues}} problema(s), 1 foi encerrado com sucesso, mas {{number_issues_failed_closed}} falharam. Para obter detalhes adicionais, consulte a lista a seguir: "
+    "singleFailedCloseIssueDescription": "De {{total_issues}} problema(s), 1 foi encerrado com sucesso, mas {{number_issues_failed_closed}} falharam. Para obter detalhes adicionais, consulte a lista a seguir: ",
+    "noSuccessfulIssueCloseDescription": "Dos {{total_issues}} problemas, nenhum foi fechado com sucesso, enquanto {{number_issues_failed_closed}} falhou. Para obter detalhes adicionais, consulte a lista a seguir: "
   },
   "ibmMqFileTransfer": {
     "transferID": "ID da transferência",

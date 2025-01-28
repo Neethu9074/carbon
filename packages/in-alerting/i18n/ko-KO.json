@@ -788,6 +788,8 @@
         "cancelTitle": "취소",
         "proceedTitle": "계속",
         "previousTitle": "이전",
+        "nextTitle": "다음",
+        "closeTitle": "닫기",
         "sharedListTooltip": "{{typeName}}을(를) 더 이상 사용할 수 없음",
         "clearTagFilterExpressionButton": "지우기",
         "baselineErrorMessageComputedOnApproximateData": "기준선은 데이터 보존 설정으로 인해 대략적인 데이터를 기반으로 계산됩니다. 따라서 선택한 필터와 일치하는 호출이 거의 없는 경우 정확하지 않을 수 있습니다.",
@@ -985,7 +987,14 @@
         "labelConfirmRemoveConfig": "<strong>{{configName}}</strong> 경보를 제거하시겠습니까?",
         "labelRemove": "제거"
       },
+      "gracePeriod": {
+        "title": "유예 기간(선택사항)",
+        "description": "위반 임계값이 더 이상 충족되지 않으면 자동으로 문제를 닫음:",
+        "label": "선택"
+      },
       "tearSheet": {
+        "cancelModalTitle": "취소하시겠습니까?",
+        "cancelModalDescription": "취소하면 입력한 구성 세부사항이 저장되지 않습니다.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "시간이 지나도 위반이 지속되는 경우",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "위반이 무작위 간격으로 지속됨",
@@ -1001,8 +1010,7 @@
           "persistenceType": "지속 유형",
           "numberOfConsecutiveViolationsPostLabel": "연속된 {{granularity}}분 창에 위반 사항이 있음",
           "static": "정적",
-          "thresholdValue": "임계값",
-          "timeWindow": "기간"
+          "thresholdValue": "임계값"
         }
       }
     },
@@ -1520,6 +1528,7 @@
       "regexNotValid": "Regex가 올바르지 않습니다.",
       "tearSheet": {
         "createTitle": "인프라 스마트 알림 작성",
+        "editTitle": "인프라 스마트 알림 편집",
         "steps": {
           "step1Title": "조건 정의",
           "step2Title": "경보를 받을 시기 정의",
@@ -1537,7 +1546,7 @@
           "header": "이 경보에 대해 어떤 특성을 설정하시겠습니까?"
         },
         "step4": {
-          "header": "이 경보에 대해 어떤 알림을 받고 싶으십니까?",
+          "header": "이 경보에 대한 알림을 어디에서 받으시겠습니까?",
           "description": "이 경보를 받을 수신자 선택"
         },
         "scopeAlerting": {
@@ -1654,7 +1663,45 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "0 이상인 수를 제공하십시오.",
         "noDataForSelectedGroup": "지정된 필터 및 그룹화 조합에 사용 가능한 데이터가 없습니다."
       },
-      "logCount": "로그 개수"
+      "logCount": "로그 개수",
+      "tearSheet": {
+        "createTitle": "로그 스마트 경보 작성",
+        "steps": {
+          "step1Title": "조건 정의",
+          "step2Title": "경보를 받을 시기 정의",
+          "step3Title": "경보 특성 정의",
+          "step4Title": "경보 채널 정의"
+        },
+        "step2": {
+          "header": "위반 임계값에 대한 값 설정",
+          "description": "위반을 평가할 지표, 위반 임계값 및 기간을 선택하십시오."
+        },
+        "step3": {
+          "header": "이 경보에 대해 어떤 특성을 설정하시겠습니까?"
+        },
+        "step4": {
+          "header": "이 경보에 대한 알림을 어디에서 받으시겠습니까?",
+          "description": "이 경보를 받을 수신자 선택"
+        },
+        "scopeFilter": {
+          "title": "로그의 범위 선택",
+          "filter": "필터",
+          "filterDescription": "서비스에 필터를 추가하면 더욱 정확한 알림을 받을 수 있습니다."
+        },
+        "scopeGroupBy": {
+          "group": "그룹",
+          "groupByDescription": "그룹을 추가하여 그룹으로 통화를 구성합니다. 그룹 내의 각 호출은 집합적으로 구성되지만 개별적으로 평가됩니다."
+        },
+        "timeThreshold": {
+          "title": "위반이 경보를 트리거할 때 설정",
+          "description": "경보 트리거의 시간 경과에 따른 지속성 및 실패까지의 시간을 지정합니다."
+        },
+        "thresholdDescription": {
+          "static": "상수 임계값이 적용되며 시간이 지나도 변경되지 않습니다."
+        },
+        "chartAlertPreview": "경보 미리보기",
+        "chartAlertPreviewDescription": "히스토리 메트릭 데이터를 기반으로 경보가 트리거된 방법을 표시합니다."
+      }
     },
     "slo": {
       "components": {

@@ -22,6 +22,8 @@
   "permissionCanConfigureMobileAppMonitoringCategory": "Aplicaciones móviles",
   "permissionCanConfigureApplicationsLabel": "Configuración de aplicaciones",
   "permissionCanConfigureApplicationsCategory": "Aplicaciones",
+  "permissionCanConfigureSubtracesLabel": "Configuración de los subrastreos",
+  "permissionCanConfigureSubtracesCategory": "Aplicaciones",
   "permissionCanConfigureServiceMappingLabel": "Personalizar reglas de servicio y correlación de puntos finales",
   "permissionCanConfigureServiceMappingCategory": "Aplicaciones",
   "permissionCanInstallNewAgentsLabel": "Descarga de agente y visibilidad de la clave de agente",

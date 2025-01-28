@@ -373,7 +373,8 @@
     "output": "Salida",
     "user": "Usuario",
     "apiToken": "Señal de API",
-    "deleteTooltip": "Suprimir instancia de acción {{id}}",
+    "viewTooltip": "Ver instancia de acción {{actionName}}",
+    "deleteTooltip": "Suprimir instancia de acción {{actionName}}",
     "deleteDialog": {
       "success": "La instancia de acción se ha suprimido correctamente.",
       "failure": "No se ha podido eliminar la instancia de acción."

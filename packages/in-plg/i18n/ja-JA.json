@@ -73,14 +73,6 @@
       "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse Open J9 11"
     },
-    "askForHelp": {
-      "email": "E メール",
-      "send": "送信",
-      "askForHelpTitle": "同僚に支援を求める",
-      "thisWillBeAvailableOnceYourInstanceIsReady": "これは、インスタンスの準備ができると使用可能になります。",
-      "inviteAColeague": "同僚を招待する",
-      "agentKey": "エージェント・キー"
-    },
     "common": {
       "agentDeployment": "エージェントのデプロイメント",
       "step1": "ステップ 1: ",
@@ -108,8 +100,7 @@
       "support": "サポート",
       "sideCard": {
         "prerequisites": "前提条件",
-        "documentation": "資料",
-        "askAColleagueForHelp": "同僚に支援を求める"
+        "documentation": "資料"
       }
     },
     "kubernetes": {
@@ -524,7 +515,6 @@
     "heading": "Instanaへようこそ",
     "foldableTileTitle": "開始しましょう。",
     "viewAll": "すべて表示",
-    "UrlShortener": "URL 短縮形",
     "addMore": "追加",
     "collapsibleButton": {
       "showOnboardingTasks": "オンボーディング・タスクの表示",
@@ -569,6 +559,10 @@
       "title": "チームに招く",
       "description": "同僚をInstanaに招待し、コラボレーションを開始します。",
       "buttonName": "チームメートを招待する"
+    },
+    "favouriteButton": {
+      "ariaFilled": "お気に入りを削除",
+      "aria": "お気に入りに追加"
     },
     "component": {
       "applicationWidget": {
@@ -798,7 +792,6 @@
     },
     "ariaLabel": {
       "search": "検索",
-      "shareButton": "「共有」ボタン",
       "handleButton": "「ハンドル」ボタン"
     }
   },

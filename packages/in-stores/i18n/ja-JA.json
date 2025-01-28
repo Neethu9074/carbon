@@ -22,6 +22,8 @@
   "permissionCanConfigureMobileAppMonitoringCategory": "モバイル・アプリケーション",
   "permissionCanConfigureApplicationsLabel": "アプリケーションの構成",
   "permissionCanConfigureApplicationsCategory": "アプリケーション",
+  "permissionCanConfigureSubtracesLabel": "サブトレースの構成",
+  "permissionCanConfigureSubtracesCategory": "アプリケーション",
   "permissionCanConfigureServiceMappingLabel": "サービス・ルールおよびエンドポイント・マッピングのカスタマイズ",
   "permissionCanConfigureServiceMappingCategory": "アプリケーション",
   "permissionCanInstallNewAgentsLabel": "エージェントのダウンロードおよびエージェント・キーの可視性",

@@ -373,7 +373,8 @@
     "output": "Sortie",
     "user": "Utilisateur",
     "apiToken": "Jeton d'API",
-    "deleteTooltip": "Supprimer l'instance d'action {{id}}",
+    "viewTooltip": "Afficher l'instance d'action {{actionName}}",
+    "deleteTooltip": "Supprimer l'instance d'action {{actionName}}",
     "deleteDialog": {
       "success": "L'instance d'action a été supprimée.",
       "failure": "Échec de la suppression de l'instance d'action."

@@ -788,6 +788,8 @@
         "cancelTitle": "Abbrechen",
         "proceedTitle": "Fortfahren",
         "previousTitle": "Zurück",
+        "nextTitle": "Weiter",
+        "closeTitle": "Schließen",
         "sharedListTooltip": "{{typeName}} ist nicht mehr verfügbar",
         "clearTagFilterExpressionButton": "Löschen",
         "baselineErrorMessageComputedOnApproximateData": "Die Baseline wird anhand ungefährer Daten gemäß den Einstellungen für die Datenaufbewahrung berechnet. Sie sind möglicherweise nicht korrekt, wenn nur wenige Aufrufe den ausgewählten Filtern entsprechen.",
@@ -985,7 +987,14 @@
         "labelConfirmRemoveConfig": "Soll der Alert <strong>{{configName}}</strong> entfernt werden?",
         "labelRemove": "Entfernen"
       },
+      "gracePeriod": {
+        "title": "Nachfrist (optional)",
+        "description": "Schließen Sie ein Problem automatisch, nachdem der Schwellenwert für Verstöße nicht mehr erreicht wurde für:",
+        "label": "Wählen"
+      },
       "tearSheet": {
+        "cancelModalTitle": "Wollen Sie wirklich abbrechen?",
+        "cancelModalDescription": "Wenn Sie abbrechen, werden die von Ihnen eingegebenen Konfigurationsdetails nicht gespeichert.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "Wenn Verstöße über längere Zeit bestehen",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Verstöße bleiben in unregelmäßigen Abständen bestehen",
@@ -1001,8 +1010,7 @@
           "persistenceType": "Persistenztyp",
           "numberOfConsecutiveViolationsPostLabel": "aufeinanderfolgende {{granularity}}-Minutenfenster haben Verstöße",
           "static": "Statisch",
-          "thresholdValue": "Schwellenwert",
-          "timeWindow": "Zeitfenster"
+          "thresholdValue": "Schwellenwert"
         }
       }
     },
@@ -1520,6 +1528,7 @@
       "regexNotValid": "Regulärer Ausdruck ist ungültig",
       "tearSheet": {
         "createTitle": "Erstellen Sie einen Smart Alert für die Infrastruktur",
+        "editTitle": "Infrastruktur bearbeiten Smart Alert",
         "steps": {
           "step1Title": "Bedingung definieren",
           "step2Title": "Zeitpunkt für Alertausgabe definieren",
@@ -1537,7 +1546,7 @@
           "header": "Welche Eigenschaften sollen für diesen Alert festgelegt werden?"
         },
         "step4": {
-          "header": "Worüber möchten Sie bei dieser Ausschreibung benachrichtigt werden?",
+          "header": "Wo möchten Sie über diese Warnmeldung benachrichtigt werden?",
           "description": "Wählen Sie den/die Empfänger dieser Warnmeldung"
         },
         "scopeAlerting": {
@@ -1654,7 +1663,45 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "Geben Sie eine Zahl >= 0 an",
         "noDataForSelectedGroup": "Für die angegebene Kombination aus Filtern und Gruppierung sind keine Daten verfügbar."
       },
-      "logCount": "Anzahl der Protokolle"
+      "logCount": "Anzahl der Protokolle",
+      "tearSheet": {
+        "createTitle": "Erstellen Sie einen intelligenten Log-Alert",
+        "steps": {
+          "step1Title": "Bedingung definieren",
+          "step2Title": "Zeitpunkt für Alertausgabe definieren",
+          "step3Title": "Alerteigenschaften definieren",
+          "step4Title": "Alertkanäle definieren"
+        },
+        "step2": {
+          "header": "Legen Sie einen Wert für den Schwellenwert für Verstöße fest",
+          "description": "Wählen Sie die Metrik, den Schwellenwert für Verstöße und das Zeitfenster aus, um den Verstoß auszuwerten."
+        },
+        "step3": {
+          "header": "Welche Eigenschaften sollen für diesen Alert festgelegt werden?"
+        },
+        "step4": {
+          "header": "Wo möchten Sie über diese Warnmeldung benachrichtigt werden?",
+          "description": "Wählen Sie den/die Empfänger dieser Warnmeldung"
+        },
+        "scopeFilter": {
+          "title": "Wählen Sie den Umfang der Protokolle",
+          "filter": "Filter",
+          "filterDescription": "Fügen Sie den Diensten Filter hinzu, um präzisere Warnmeldungen zu erhalten."
+        },
+        "scopeGroupBy": {
+          "group": "Gruppe",
+          "groupByDescription": "Gruppe hinzufügen, um Anrufe in Gruppen zu konfigurieren. Jeder Aufruf innerhalb der Gruppe wird kollektiv konfiguriert, aber individuell ausgewertet."
+        },
+        "timeThreshold": {
+          "title": "Festlegen, wenn Verstöße Alerts auslösen",
+          "description": "Geben Sie die Persistenz über die Zeit für den Alarmauslöser und die Zeit bis zum Ausfall an."
+        },
+        "thresholdDescription": {
+          "static": "Ein konstanter Schwellenwert wird angewendet und ändert sich im Laufe der Zeit nicht."
+        },
+        "chartAlertPreview": "Alertvorschau",
+        "chartAlertPreviewDescription": "Zeigt, wie Alarme auf der Grundlage historischer Metrikdaten ausgelöst worden wären."
+      }
     },
     "slo": {
       "components": {

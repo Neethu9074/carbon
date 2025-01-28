@@ -833,6 +833,14 @@
         "tagNoValue": "タグ「{{labelname}}」は存在しますが、値がありません"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "https://をレンダリング中...",
+      "form": {
+        "heading": "どのページを埋め込みたいですか?",
+        "title": "URLを入力してください"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "正常性の概要"
@@ -900,7 +908,8 @@
         }
       },
       "dataSource": {
-        "events": "イベント"
+        "events": "イベント",
+        "k8sEvents": "Kubernetesイベント"
       },
       "eventColumns": {
         "title": "役職",
@@ -908,6 +917,19 @@
         "startedOn": "開始日",
         "endedOn": "終了日",
         "duration": "期間"
+      },
+      "kubernetesEventColumns": {
+        "type": "タイプ",
+        "reason": "理由",
+        "message": "メッセージ",
+        "namespace": "名前空間",
+        "involvedObject": "関連オブジェクト",
+        "kind": "種別",
+        "time": "時刻"
+      },
+      "emptyTable": {
+        "title": "イベントがありません",
+        "explanation": "選択された時刻範囲で取得されたイベントはありません"
       }
     },
     "time": {
