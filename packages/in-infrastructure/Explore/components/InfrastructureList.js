@@ -305,8 +305,28 @@ function getTableData({
           const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
           const kpiGranularity = timeConfig.windowSize;
           return [
-            [id, { metric, granularity: kpiGranularity, aggregation, regex, crossSeriesAggregation, required }],
-            [getSeriesKey(id), { metric, granularity, aggregation, regex, crossSeriesAggregation, required }]
+            [
+              id,
+              {
+                metric,
+                granularity: kpiGranularity,
+                aggregation,
+                regex,
+                crossSeriesAggregation: crossSeriesAggregation || 'SUM',
+                required
+              }
+            ],
+            [
+              getSeriesKey(id),
+              {
+                metric,
+                granularity,
+                aggregation,
+                regex,
+                crossSeriesAggregation: crossSeriesAggregation || 'SUM',
+                required
+              }
+            ]
           ];
         })
     ),
