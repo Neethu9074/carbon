@@ -7,8 +7,10 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { DashboardButton, SvgIconSizes, Link } from '@instana/components';
+import { Link, CarbonButton } from '@instana/components';
 
+// eslint-disable-next-line no-restricted-imports
+import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { tryGet, trySet } from 'in-services/localStorage';
 import { t } from 'in-i18n';
@@ -111,12 +113,13 @@ export default function InfoPanel({
       )}
       {collapsible && (
         <div id="infoPanelFooter" className={locals.buttonSection}>
-          <DashboardButton
+          <CarbonButton
             kind="ghost"
             size="sm"
             className={locals.hideButton}
-            icon={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-            iconSize={SvgIconSizes.s}
+            renderIcon={() => (
+              <IconForButton icon={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} iconSize="s" />
+            )}
             onClick={toggleVisibility}
           >
             <span>
@@ -129,7 +132,7 @@ export default function InfoPanel({
                 ? t(showLabel)
                 : t('in-automation:infoPanel.showTasks')}{' '}
             </span>
-          </DashboardButton>
+          </CarbonButton>
         </div>
       )}
     </section>
