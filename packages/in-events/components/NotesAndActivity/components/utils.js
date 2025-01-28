@@ -25,6 +25,15 @@ export function validTextEntry(text) {
 // We want to display "You" instead of the user name if its
 // your chat bubble
 // Append date to end of text
+/**
+ * Formats the note name and time based on the type of note and whether it has been edited.
+ * @param {boolean} myBubble - Indicates if the note is from the current user.
+ * @param {object} note - The note object containing the author and origin information.
+ * @param {string} date - The date of the note.
+ * @param {string} type - The type of note (TYPE_NOTE or TYPE_AI_SUMMARY).
+ * @param {boolean} isEdited - Indicates if the note has been edited.
+ * @returns {string} The formatted note name and time.
+ */
 export function noteNameAndTimeFormat(myBubble, note, date, type, isEdited = false) {
   const typeNote = type === TYPE_NOTE;
   const aiGen = type === TYPE_AI_SUMMARY;
