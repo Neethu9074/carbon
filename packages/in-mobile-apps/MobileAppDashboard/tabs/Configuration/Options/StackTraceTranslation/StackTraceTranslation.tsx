@@ -82,7 +82,7 @@ export default function StackTraceTranslationConfigurationPresenter({ mobileAppI
           </HelpParagraph>
 
           <Stack direction="horizontal">
-            <Button href="https://ibm.biz/-stack-trace-translation" kind="primaryv2" target="_blank">
+            <Button href="https://ibm.biz/Instana_-_Crash_analysis" kind="primaryv2" target="_blank">
               {t('in-mobile-apps:dashboard.tabs.configurations.symbolFileConfig.stackTraceTranslationLearnMoreLabel')}
             </Button>
           </Stack>
