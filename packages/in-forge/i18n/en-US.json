@@ -3657,6 +3657,10 @@
       "directorySystemAgentLSA": "Local security authority",
       "directorySystemAgentNSPI": "Name service provider",
       "securityAccountManagerLabel": "Security accounts manager",
+      "dhcpLabel": "Dynamic host configuration protocol(DHCP)",
+      "dnsLablelDynamicUpdates" : "Domain name system(DNS) dynamic updates",
+      "dnsLablelQueriesAndResponses" : "Domain name system(DNS) queries and responses",
+      "dnsLablelZoneTransfers" : "Domain name system(DNS) zone transfers",
       "directorySystemAgent": {
         "dsClientBindsPerSec": "Client binds per second",
         "dsClientNameTranslationsPerSec": "Client name translations per second",
@@ -3712,6 +3716,30 @@
         "samTransitiveMembershipEvaluationsPerSec": "Transitive membership evaluations per second",
         "samUniversalGroupMembershipEvaluationsPerSec": "Universal group membership evaluations per second",
         "samUserCreationAttemptsPerSec": "User creation attempts per second"
+      },
+      "dhcp" : {
+        "dhcpAcksPerSecondPercentageIncrease": "Percentage increase in acks per second",
+        "dhcpRequestSecondPercentIncrease": "Percentage increase in requests per second",
+        "dhcpConflictCheckQueueLength": "Conflict check queue length",
+        "dhcpDeclinesPersec": "Declines per second",
+        "dhcpDuplicatesDroppedPersec": "Duplicates dropped per second",
+        "dhcpNacksPersec": "Nacks per second",
+        "dhcpPacketsExpiredPersec": "Packets expired per second"
+      },
+      "dns": {
+        "dnsCachingMemory": "Caching memory",
+        "dnsDynamicUpdateQueued": "Dynamic update queued",
+        "dnsDynamicUpdateReceived": "Dynamic update received",
+        "dnsDynamicUpdateReceivedPersec": "Dynamic update received per second",
+        "dnsDynamicUpdateRejected": "Dynamic update rejected",
+        "dnsDynamicUpdateTimeOuts": "Dynamic update timeouts",
+        "dnsTotalQueryReceived": "Total query received",
+        "dnsTotalQueryReceivedPersec": "Total query received per second",
+        "dnsTotalResponseSent": "Total response sent",
+        "dnsTotalResponseSentPersec": "Total response sent per second",
+        "dnsZoneTransferFailure": "Zone transfer failure",
+        "dnsZoneTransferSuccess": "Zone transfer success",
+        "dnsZoneTransferRequestReceived": "Zone transfer request received"
       }
     },
     "activeMQ": {
