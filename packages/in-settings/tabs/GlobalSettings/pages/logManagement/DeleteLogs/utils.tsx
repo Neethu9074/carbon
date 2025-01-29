@@ -11,7 +11,6 @@ import { DeleteLogsResult } from '@instana/types/typeDefinitions';
 import { LoadingSkeleton, SvgIcon } from '@instana/components';
 import { DateFormatterOutput } from '@instana/format-date';
 import { themes } from '@instana/design-tokens';
-import { Td, Tr } from '@instana/legacy';
 
 import { deletionTableLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -113,28 +112,6 @@ export const getCarbonDataRows = (deletionHistoryResult: Result<DeleteLogsHistor
       [deletionTableLocalisationStrings.numberOfLogs]: getDeletedLineCount(item),
       [deletionTableLocalisationStrings.triggered]: item.triggeredByUser
     }));
-};
-export const getDataRows = (deletionHistoryResult: Result<DeleteLogsHistoryResult>) => {
-  if (!deletionHistoryResult.data?.deletions) return [];
-
-  return deletionHistoryResult.data?.deletions
-    .slice()
-    .sort((a: DeleteLogsHistoryItem, b: DeleteLogsHistoryItem) => b.timestamp - a.timestamp)
-    .map((item: DeleteLogsHistoryItem, i: number) => (
-      <Tr data-testid="deleteLogsHistoryRow" key={i}>
-        <Td>{renderIconsByStatus(item.deletedStatus)}</Td>
-        <Td>{timestampToLocaleDateTime(item.timestamp)}</Td>
-        <Td>{item.reason}</Td>
-        <Td>
-          {item.deletedLineCount !== null ? (
-            siPrefixCompact.formatter(item.deletedLineCount)
-          ) : (
-            <LoadingSkeleton className={locals.skeleton} />
-          )}
-        </Td>
-        <Td>{item.triggeredByUser}</Td>
-      </Tr>
-    ));
 };
 
 export enum TableState {
