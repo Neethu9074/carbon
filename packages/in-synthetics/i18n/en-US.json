@@ -637,7 +637,6 @@
       "downloadHar": "Download HAR File",
       "downloadLog": "Download Logs",
       "viewScreenshotsLabel": "View Screenshot(s)",
-      "downloadVideo": "Download Recording",
       "consoleLogsLevel": "CONSOLE",
       "consoleLogs": "Console",
       "browserLogs": "Browser",
@@ -717,7 +716,14 @@
         "timeOfIssue": "Time of Issue",
         "timeOfExpiry": "Time of Expiry"
       },
-      "failedRunErrorTypeTitle": "Error Type"
+      "failedRunErrorTypeTitle": "Error Type",
+      "viewRecordingLabel": "View recording",
+      "viewRecording": {
+        "recordingDialogLabel": "Recording",
+        "downloadRecordingButton": "Download recording",
+        "recordingLoadingMessage": "Loading recording",
+        "noRecordingAvailableMessage": "Recording not available for this test result"
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "No results available",

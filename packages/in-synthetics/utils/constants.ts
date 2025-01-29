@@ -697,3 +697,17 @@ export interface AssociatedEntitiesListProps {
   onRowClick?: (entity: any) => void;
   inSelectListDialog?: boolean;
 }
+
+export interface ResultRecording {
+  testId: string;
+  testResultId: string;
+  videos: string;
+}
+
+export const dummyTestResultRecording: Result<ResultRecording> = {
+  data: {} as ResultRecording,
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
