@@ -21,6 +21,7 @@ import {
   scriptTestType,
   Script
 } from 'in-synthetics/utils/constants';
+import { base64ToFileFormat, scriptDetailsUpdater } from 'in-synthetics/createTests/utils/scriptDetailsUpdater';
 import { createZipScriptConfigurationForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -28,7 +29,6 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 import List from 'in-settings/components/List';
 import AddScriptDialogContent from 'in-synthetics/createTests/advanced/AddScriptDialogContent';
 import Section, { ActionTitle, Description } from 'in-synthetics/createTests/wizard/Section';
-import { scriptDetailsUpdater } from 'in-synthetics/createTests/utils/scriptDetailsUpdater';
 import { timeoutValidator } from 'in-synthetics/createTests/validators/configValidators';
 import { displayRetryIntervalSlider } from 'in-synthetics/utils/sliderHelperFunctions';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
@@ -80,7 +80,14 @@ export default function ScriptsSection({
   const syntheticType = (configForm.get('syntheticType') as Field<string>).value;
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
   const [script, setScript] = useState(scriptDetailsUpdater(configForm, isUpdateConfig, isUpdated, scriptDetails));
-  const [zipFile, setZipFile] = useState<Zip>({ name: '', files: [], blob: null });
+  const [zipFile, setZipFile] = useState<Zip>({
+    name: '',
+    files: [],
+    blob:
+      configForm.get('scripts') && isNotBlank((configForm.getIn(['scripts', 'bundle']) as Field<string>)?.value)
+        ? base64ToFileFormat((configForm.getIn(['scripts', 'bundle']) as Field<string>)?.value)
+        : null
+  });
 
   const timeoutField = configForm.get('timeout') as Field<string>;
   const retriesField = configForm.get('retries') as Field<number>;

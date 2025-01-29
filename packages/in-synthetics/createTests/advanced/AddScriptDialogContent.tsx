@@ -88,6 +88,7 @@ export default function AddScriptDialogContent({
 
   async function onFileUpload(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files || e.target.files.length === 0) {
+      setZipFile({ name: '', files: [], blob: null });
       setScript({
         name: '',
         text: '',
@@ -99,7 +100,6 @@ export default function AddScriptDialogContent({
       let text = '';
       const extension = e.target.value.substring(e.target.value.lastIndexOf('.') + 1);
       isModified(false);
-      setZipFile({ name: '', files: [], blob: null });
       if (extension === 'js' || extension === 'side') {
         text = await e.target.files[0].text();
         setScript({ name: e.target.files[0].name, text, extension });
