@@ -442,6 +442,7 @@ export default function GenerateAIActionDialog({
                 return (
                   <CopyActionStep
                     clearActionNameExists={clearActionNameExists}
+                    result={result}
                     actionNameExists={actionNameExists}
                     form={form}
                     setForm={setForm}

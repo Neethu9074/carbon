@@ -28,7 +28,6 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
-import useHasAccessToManual from 'in-automation/hooks/useHasAccessToManual';
 import { TrackingFunction, useSegmentTracker } from 'in-automation/tracker';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ScoredAction, TriggerSpecification } from 'in-automation/types';
@@ -148,9 +147,7 @@ function GenerateAIActionButton({
 }) {
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const name = hasError(trigger) ? event?.problem?.problemText ?? '' : trigger.data!?.name;
-  const hasAccessToManual = useHasAccessToManual();
 
-  if (!role?.canConfigureAutomationActions || !hasAccessToManual) return null;
   return (
     <Button
       kind="action"
