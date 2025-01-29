@@ -8,14 +8,13 @@ import classNames from 'classnames';
 import { isNaN } from 'lodash';
 import React from 'react';
 
-import { NumberInput } from '@instana/components';
+import { CarbonNumberInput } from '@instana/components';
 
 import { ThresholdValueInputWithValidationMessageProps } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
 import {
   getValueRoundedToDecimals,
   getThresholdValueForPercentageMetric
 } from 'in-alerting/smart-alerts/components/utils/formatUtils';
-import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { isNotBlank } from 'in-services/util/string';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/ThresholdCondition.mless';
@@ -51,7 +50,7 @@ export default function ThresholdValueInput({
   ...props
 }: ThresholdValueInputProps) {
   const onValueChange = (targetValue: number | null) => {
-    const value = targetValue ? getThresholdValueForPercentageMetric(Math.abs(targetValue), percentageMetric, 9) : null;
+    const value = targetValue ? getThresholdValueForPercentageMetric(Math.abs(targetValue), percentageMetric) : null;
     if ((value && value > max) || isNaN(value)) {
       return;
     }
@@ -66,22 +65,31 @@ export default function ThresholdValueInput({
   };
 
   const hasError = !thresholdField?.valid && thresholdField?.touched;
-  const value = getValueRoundedToDecimals(thresholdField?.value, percentageMetric, 9);
-  const debounced = useDebouncedValue(value, onValueChange, delay);
+
+  const value = getValueRoundedToDecimals(thresholdField?.value, percentageMetric);
+
+  const mapOnChange = (_e: any, state?: { value: number | string; direction: string }) => {
+    const stateValue = state?.value ?? value ?? 0;
+    onValueChange(Number(stateValue));
+  };
 
   return (
     <>
-      <NumberInput
+      <CarbonNumberInput
         id={id}
         name={name}
         type={type}
-        min={min}
+        min={Number(min)}
         step={parseInt(step) ?? 1}
-        {...props}
-        className={classNames({ [locals.narrowControl]: isSmall, [locals.inputMd]: props.isTearSheet })}
-        value={debounced.value ?? ''}
+        className={classNames({
+          [locals.narrowControl]: isSmall,
+          [locals.inputMd]: props.isTearSheet,
+          [locals.numberInput]: true
+        })}
+        value={value ?? ''}
         invalid={hasError}
-        onKeyUp={(e: React.ChangeEvent<HTMLInputElement>) => debounced.onChange(Number(e.target.value))}
+        allowEmpty
+        onChange={mapOnChange}
       />
       {isNotBlank(metricUnitPostfix) && <span>{metricUnitPostfix}</span>}
     </>
