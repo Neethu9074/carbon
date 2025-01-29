@@ -59,6 +59,7 @@ export const pageNames = Object.freeze({
   kubernetes_clusters: 'Kubernetes > Clusters',
   kubernetes_namespaces: 'Kubernetes > Namespaces',
   cluster_summary: 'Cluster > summary',
+  cluster_cost: 'Cluster > Cost',
   vsphere: 'vSphereDatacenters',
   user_settings: 'User Settings',
   securityAndAccess: 'Security & Access',
