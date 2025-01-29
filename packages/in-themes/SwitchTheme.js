@@ -4,11 +4,14 @@
  * Copyright IBM Corp. 2024
  */
 
+import { RadioButton, RadioButtonChecked } from '@carbon/icons-react';
 import React, { useState } from 'react';
 
-import { Pill, SvgIcon, IconButton } from '@instana/components';
+import { CarbonSelectableTag, IconButton } from '@instana/components';
 
 import { userSettingsThemeEnabled, carbonG10ThemeEnabled } from 'in-services/featureFlags';
+
+import locals from './SwitchTheme.mless';
 
 // `fallbackTheme` is used when getThemeOverride() does not return a theme
 export const fallbackTheme = carbonG10ThemeEnabled ? 'g10' : 'default';
@@ -47,14 +50,22 @@ export const SwitchTheme = ({ theme, setOverride }) => {
         border: '1px gold dashed'
       }}
     >
-      <span>Internal theme override</span>
-      <Pill type="teal" onClick={() => setOverride('default')}>
-        {isLegacyTheme && <SvgIcon size={8} type="lib_fancy_checkbox_checked" />} Instana
-      </Pill>
-      <Pill type="blue" onClick={() => setOverride('g10')}>
-        {isG10 && <SvgIcon size={8} type="lib_fancy_checkbox_checked" />} Carbon g10
-      </Pill>
-      {(hasSelectedTheme && theme !== fallbackTheme) && (
+      <span className={locals.name}>Internal theme override</span>
+      <CarbonSelectableTag
+        type="teal"
+        onChange={() => setOverride('default')}
+        selected={isLegacyTheme}
+        text="Instana"
+        renderIcon={isLegacyTheme ? RadioButtonChecked : RadioButton}
+      />
+      <CarbonSelectableTag
+        type="blue"
+        onChange={() => setOverride('g10')}
+        selected={isG10}
+        text="Carbon g10"
+        renderIcon={isG10 ? RadioButtonChecked : RadioButton}
+      />
+      {hasSelectedTheme && theme !== fallbackTheme && (
         <button type="button" onClick={() => setOverride(undefined)}>
           Reset to default
         </button>
