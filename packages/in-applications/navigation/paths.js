@@ -87,6 +87,7 @@ export const resourceOptimizationsTab = '/resourceOptimizations';
 export const alertsTab = '/alerts';
 export const alertsTabListFullyQualified = `${applicationDashboard}${alertsTab}`;
 export const alertsTabDetailsFullyQualified = `${alertsTabListFullyQualified}/details`;
+export const alertsTabDetails = `${alertsTab}/details`;
 
 export const smartAlertPath = '/applicationSmartalerts';
 

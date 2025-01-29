@@ -31,6 +31,7 @@
     "optional": "Optional",
     "on": "On",
     "off": "Off",
+    "options": "Options",
     "revisionDropdownButton": {
       "revision": "Revision {{alertRevision}}",
       "pause": "Pause",

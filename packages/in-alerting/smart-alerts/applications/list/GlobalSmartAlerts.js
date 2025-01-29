@@ -16,6 +16,7 @@ import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { globalAlertDetails } from 'in-applications/navigation/paths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { alertsTabDetails } from 'in-applications/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -55,9 +56,9 @@ export default function GlobalSmartAlerts({ location }) {
           )}
         </WithEmptyStateFallback>
       </LeftRightPadding>
-      {role.canConfigureGlobalApplicationSmartAlerts && !smartAlertCarbonTableEnabled && (
-        <CreateGlobalSmartAlertButton location={location} />
-      )}
+      {role.canConfigureGlobalApplicationSmartAlerts &&
+        ((location?.pathname === alertsTabDetails && smartAlertCarbonTableEnabled) ||
+          !smartAlertCarbonTableEnabled) && <CreateGlobalSmartAlertButton location={location} />}
     </Sticky>
   );
 }

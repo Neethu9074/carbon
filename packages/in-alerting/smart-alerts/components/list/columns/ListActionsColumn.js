@@ -90,6 +90,8 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon
               />
             </div>
           )}
+          iconDescription={t('in-alerting:components.options')}
+          align="left"
         >
           {handleEdit && (
             <MoreMenuButton
