@@ -13,7 +13,6 @@ import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { carbonAlert } from 'in-themes/chartColors';
 import { bar } from 'in-stores/metric/renderer';
-import { t } from 'in-i18n';
 
 interface Props {
   tagFilterExpression: TagFilter;
@@ -33,7 +32,6 @@ export default function ErroneousRateChart({
   const timeShiftConfig = useTimeShiftConfig();
   const numberofSubtraces: Metric = {
     metric: 'subtraceErrorRate',
-    label: t('in-applications:labelErroneousSubtraceRate'),
     aggregation: 'MEAN',
     source: 'SUBTRACE',
     timeConfig: timeConfig,

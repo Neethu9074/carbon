@@ -67,7 +67,7 @@ const columnDefinitions: ColumnDefinition<SubtraceListItem>[] = [
   },
   {
     id: 'duration',
-    label: t('in-applications:subtraces.subtracesList.meanDuration'),
+    label: t('in-applications:subtraces.meanDuration'),
     getContent: item => <MetricValue value={formatMetricIfPresent(item.duration, latency.detailed)} />,
     sortable: false
   },

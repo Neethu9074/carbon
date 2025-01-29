@@ -18,7 +18,7 @@ interface Props {
 export default function DurationBigCard({ config }: Props): JSX.Element {
   return (
     <BigNumberKpiCard
-      title={t('in-applications:labelDuration')}
+      title={t('in-applications:subtraces.meanDuration')}
       formatter={latency.detailed}
       companionFormatter={(v: number) =>
         t('in-applications:dashboards.meanLatencyFor90th', {
