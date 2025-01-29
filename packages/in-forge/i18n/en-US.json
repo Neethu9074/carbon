@@ -10832,7 +10832,7 @@
         "virtualTotal": "Virtual total",
         "computational": "Computational",
         "nonComputational": "Non computational",
-        "realAvailable": "Real Available",
+        "realAvailable": "Real available",
         "pageIn": "Page-in per second",
         "pageOut": "Page-out per second",
         "pageScan": "Page-scan per second",
@@ -10947,7 +10947,7 @@
       "virtualTotal": "Virtual total",
       "computational": "Computational",
       "nonComputational": "Non computational",
-      "realAvailable": "Real Available",
+      "realAvailable": "Real available",
       "pageIn": "Page-in per second",
       "pageOut": "Page-out per second",
       "pageScan": "Page-scan per second",
@@ -13683,7 +13683,7 @@
         "totalCostByService": "Total Cost by Service",
         "totalInputCostByService": "Total Input Cost by Service",
         "totalOutputCostByService": "Total Output Cost by Service",
-        "totalCountByModel": "Total Request Counts by Model",
+        "totalCountByModel": "Total Request Counts by Model", 
         "totalCountByService": "Total Request Counts by Service"
       }
     },
