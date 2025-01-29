@@ -37,13 +37,13 @@ import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
-import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
 import { ScoredAction, TriggerSpecification } from 'in-automation/types';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import { role } from 'in-stores/user';
@@ -124,7 +124,6 @@ function useOnSubmit() {
     const userChangedAIGeneratedContent = actionContent === aiGeneratedContent;
 
     function trackAction() {
-      setViewTrackingDataValues(productAreas.events, pageNames.event_generate_with_watsonx);
       createActionTrackerSegment({
         actionName: action.name,
         actionType: action.type,
@@ -408,65 +407,73 @@ export default function GenerateAIActionDialog({
   const hasOotbActions = (ootbRecommendedActions.data?.length ?? 0) > 0;
 
   return (
-    <DialogWithSlideInView
-      title={<Typography variant="heading-400">{t('in-automation:generateWithWatsonx')}</Typography>}
-      onClose={onCancel}
-      doNotCloseOnOutsideClick
-    >
-      <LeftRightPadding className={locals.dialog}>
-        <SimpleModePageNavigation
-          renderCustomSaveAction={renderCustomSaveAction({
-            step,
-            form,
-            isSaving,
-            checkActionNameExists,
-            submit: both => onSubmit({ both, form, setForm, event })
-          })}
-          form={form}
-          onStepChanged={(oldStep, nextStep) =>
-            onStepChange(oldStep, nextStep, selectNextPromptStepClickTrackerSegment, generatedAction)
-          }
-          formId={formId}
-          onClose={onCancel}
-          updateForm={setForm}
-          simpleModeStep={step}
-          setSimpleModeStep={setStep}
-          isSaving={isSaving}
-          renderStep={step => {
-            switch (step) {
-              case 0:
-                return (
-                  <ReviewActionStep form={form} setForm={setForm} actions={ootbRecommendedActions} event={event} />
-                );
-              case 1:
-                return (
-                  <CopyActionStep
-                    clearActionNameExists={clearActionNameExists}
-                    actionNameExists={actionNameExists}
-                    form={form}
-                    setForm={setForm}
-                  />
-                );
-              case 2:
-                return (
-                  <CreatePolicyStep
-                    result={result}
-                    form={form}
-                    setForm={setForm}
-                    action={getActionFromForm(form)}
-                    trigger={trigger}
-                  />
-                );
-              default:
-                return null;
+    <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.events,
+          pageRootName: pageNames.event_generate_with_watsonx
+        }}
+      />
+      <DialogWithSlideInView
+        title={<Typography variant="heading-400">{t('in-automation:generateWithWatsonx')}</Typography>}
+        onClose={onCancel}
+        doNotCloseOnOutsideClick
+      >
+        <LeftRightPadding className={locals.dialog}>
+          <SimpleModePageNavigation
+            renderCustomSaveAction={renderCustomSaveAction({
+              step,
+              form,
+              isSaving,
+              checkActionNameExists,
+              submit: both => onSubmit({ both, form, setForm, event })
+            })}
+            form={form}
+            onStepChanged={(oldStep, nextStep) =>
+              onStepChange(oldStep, nextStep, selectNextPromptStepClickTrackerSegment, generatedAction)
             }
-          }}
-          stepConfigs={getStepConfigs(hasOotbActions)}
-          additionalStepCheck={step => additionalStepCheck(step, form)}
-          noStepCheckOnFirstStep
-        />
-      </LeftRightPadding>
-      <Spacer vertical="large" />
-    </DialogWithSlideInView>
+            formId={formId}
+            onClose={onCancel}
+            updateForm={setForm}
+            simpleModeStep={step}
+            setSimpleModeStep={setStep}
+            isSaving={isSaving}
+            renderStep={step => {
+              switch (step) {
+                case 0:
+                  return (
+                    <ReviewActionStep form={form} setForm={setForm} actions={ootbRecommendedActions} event={event} />
+                  );
+                case 1:
+                  return (
+                    <CopyActionStep
+                      clearActionNameExists={clearActionNameExists}
+                      actionNameExists={actionNameExists}
+                      form={form}
+                      setForm={setForm}
+                    />
+                  );
+                case 2:
+                  return (
+                    <CreatePolicyStep
+                      result={result}
+                      form={form}
+                      setForm={setForm}
+                      action={getActionFromForm(form)}
+                      trigger={trigger}
+                    />
+                  );
+                default:
+                  return null;
+              }
+            }}
+            stepConfigs={getStepConfigs(hasOotbActions)}
+            additionalStepCheck={step => additionalStepCheck(step, form)}
+            noStepCheckOnFirstStep
+          />
+        </LeftRightPadding>
+        <Spacer vertical="large" />
+      </DialogWithSlideInView>
+    </>
   );
 }

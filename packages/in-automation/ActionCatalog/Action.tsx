@@ -18,13 +18,13 @@ import useActionForm from 'in-automation/ActionCatalog/useActionForm/useActionFo
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { ActionForm } from 'in-automation/ActionCatalog/useActionForm/types';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import useActionFilter from 'in-automation/hooks/useActionFilter';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useAction from 'in-automation/ActionCatalog/useAction';
 import { hasError, isLoading } from 'in-services/util/result';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -37,11 +37,14 @@ import { seconds } from 'in-services/time';
 import { Trans, t } from 'in-i18n';
 
 export default function ActionDetailsWrapper() {
-  // Set values for tracking data
-  setViewTrackingDataValues(productAreas.automation, pageNames.automation_action_catalog);
-
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.automation,
+          pageRootName: pageNames.automation_action_view
+        }}
+      />
       <Title title={t('in-automation:ActionCatalog.action')} />
       <ActionDetailsLoader />
     </>
