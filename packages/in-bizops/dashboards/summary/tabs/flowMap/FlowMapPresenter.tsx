@@ -1,15 +1,16 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
 import ELK, { ElkExtendedEdge, ElkNode } from 'elkjs/lib/elk.bundled';
-import { CardNode, Edge } from '@carbon/charts-react';
 import React, { useEffect, useState } from 'react';
+import { Edge } from '@carbon/charts-react';
 import { path as d3Path } from 'd3-path';
 
 import { ZoomableSVG } from 'in-infrastructure/GraphExplorer/ZoomableSVG';
+import Node from 'in-bizops/dashboards/summary/tabs/flowMap/Node';
 
 const Link = ({ link }: { link: ElkExtendedEdge }) => {
   if (!link.sections) {
@@ -41,16 +42,6 @@ const Link = ({ link }: { link: ElkExtendedEdge }) => {
   );
 };
 
-const Node = ({ x, y, height, width }: ElkNode) => {
-  return (
-    <foreignObject transform={`translate(${x},${y})`} height={height} width={width} style={{ overflow: 'visible' }}>
-      <div style={{ height, width }}>
-        <CardNode>This is a CardNode</CardNode>
-      </div>
-    </foreignObject>
-  );
-};
-
 function Text({ text, x, y }: { text: string; x: number; y: number }) {
   return (
     <text x={x} y={y}>
@@ -61,6 +52,8 @@ function Text({ text, x, y }: { text: string; x: number; y: number }) {
 
 export default function FlowMapPresenter() {
   const [positions, setPositions] = useState<ElkNode>();
+  const width = 300;
+  const height = 100;
 
   useEffect(() => {
     // placeholder awaiting backend integration
@@ -68,9 +61,9 @@ export default function FlowMapPresenter() {
       id: 'root',
       layoutOptions: { 'elk.algorithm': 'layered' },
       children: [
-        { id: 'n1', width: 30, height: 30 },
-        { id: 'n2', width: 30, height: 30 },
-        { id: 'n3', width: 30, height: 30 }
+        { id: 'n1', width: width, height: height },
+        { id: 'n2', width: width, height: height },
+        { id: 'n3', width: width, height: height }
       ],
       edges: [
         { id: 'e1', sources: ['n1'], targets: ['n2'] },
