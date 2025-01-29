@@ -16,7 +16,7 @@
   .popoverContent {
     min-width: 10rem;
     min-height: 10rem;
-    padding: 1rem;
+    padding: 1rem !important;
   }
 
   .title {
@@ -25,6 +25,6 @@
 
   .filterContent {
     min-width: 20rem;
-    padding: 1rem 1rem 0rem 1rem;
+    padding: 1rem !important; // added !important, since story book doesn't pick up this style
   }
 }
