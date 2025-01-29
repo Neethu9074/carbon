@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
+import { create, Observable } from '@instana/observables';
+import { Result, SamlConfig } from '@instana/types';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import http from 'in-services/http';
+import http, { Response } from 'in-services/http';
 
 const refreshSignal = create().emit(true);
 export function refresh() {
@@ -18,7 +19,7 @@ export function refresh() {
 // observables
 
 export const getConfigAsResultObservable = memoize(getConfigAsResultObservableInternal, () => 'SamlConfig', 60000);
-function getConfigAsResultObservableInternal() {
+function getConfigAsResultObservableInternal(): Observable<Result<SamlConfig>> {
   return refreshSignal.flatMap(() =>
     createObservable(
       http({
@@ -32,8 +33,8 @@ function getConfigAsResultObservableInternal() {
 
 // regular calls
 
-export function setConfig(config) {
-  return http({
+export function setConfig(config: SamlConfig): Observable<Response<SamlConfig>> {
+  return http<SamlConfig>({
     method: 'PUT',
     maxRetries: 3,
     url: `/api/settings/authentication/saml`,
@@ -45,8 +46,8 @@ export function setConfig(config) {
   });
 }
 
-export function deleteConfig() {
-  return http({
+export function deleteConfig(): Observable<boolean> {
+  return http<boolean>({
     method: 'DELETE',
     maxRetries: 3,
     url: `/api/settings/authentication/saml`,
@@ -57,15 +58,15 @@ export function deleteConfig() {
   });
 }
 
-function isAvailableQuery() {
-  return http({
+function isAvailableQuery(): Observable<Response<boolean>> {
+  return http<boolean>({
     method: 'GET',
     maxRetries: 3,
     url: '/api/settings/authentication/saml/available'
   });
 }
 
-export function isAvailable() {
+export function isAvailable(): Observable<boolean> {
   return isAvailableQuery().map(res => res.body);
 }
 
