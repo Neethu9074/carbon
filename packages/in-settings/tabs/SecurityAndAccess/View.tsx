@@ -11,11 +11,8 @@ import { just } from '@instana/observables';
 
 //@ts-expect-error not migrated to typescript yet
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
-//@ts-expect-error not migrated to typescript yet
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
-//@ts-expect-error not migrated to typescript yet
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
-//@ts-expect-error not migrated to typescript yet
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 //@ts-expect-error not migrated to typescript yet
 import { findFirstPermittedSecurityAndAccessPage } from 'in-settings/tabs/permissions';
@@ -34,9 +31,9 @@ import { role } from 'in-stores/user';
 
 const useGetAuthConfigs = () => {
   return {
-    samlConfig: useObservable(idpConfigV2Enabled ? just : getSamlConfig(), []),
-    ldapConfig: useObservable(idpConfigV2Enabled ? just : getLdapConfig([]), []),
-    oidcConfig: useObservable(idpConfigV2Enabled ? just : getOidcConfig([]), []),
+    samlConfig: useObservable(idpConfigV2Enabled ? just : getSamlConfig(undefined), []),
+    ldapConfig: useObservable(idpConfigV2Enabled ? just : getLdapConfig(undefined), []),
+    oidcConfig: useObservable(idpConfigV2Enabled ? just : getOidcConfig(undefined), []),
     invitations: useObservable(getInvitations$, [])
   };
 };

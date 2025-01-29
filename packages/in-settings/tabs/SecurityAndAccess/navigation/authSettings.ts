@@ -13,18 +13,14 @@ import {
   securityAndAccessTimeouts,
   securityAndAccessIdentityProviders
 } from 'in-settings/navigation/paths';
-//@ts-expect-error not migrated to typescript yet
-import GoogleSSO from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/GoogleSSO/GoogleSSO';
+import GoogleSSO from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/GoogleSSO/GoogleSSO';
 //@ts-expect-error not migrated to typescript yet
 import SessionSettings from 'in-settings/tabs/SecurityAndAccess/pages/sessionSettings/SessionSettings';
-//@ts-expect-error not migrated to typescript yet
-import Saml from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/Saml/Saml';
-//@ts-expect-error not migrated to typescript yet
-import OIDC from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/OIDC/OIDC';
-//@ts-expect-error not migrated to typescript yet
-import Ldap from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/Ldap/Ldap';
-import GroupMapping from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/GroupMapping/GroupMapping';
-import IdentityProviders from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/indentityProviders';
+import Saml from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Saml/Saml';
+import OIDC from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/OIDC/OIDC';
+import Ldap from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Ldap/Ldap';
+import GroupMapping from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMapping/GroupMapping';
+import IdentityProviders from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/indentityProviders';
 import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
 import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
