@@ -13683,6 +13683,8 @@
       "instanceId": "Instance ID",
       "label_category_LLM": "LLM",
       "llm_status": "LLM Status",
+      "model": "model",
+      "service": "service",
       "dashboard": {
         "token": "Tokens by Model",
         "inputToken": "Input Tokens by Model",
