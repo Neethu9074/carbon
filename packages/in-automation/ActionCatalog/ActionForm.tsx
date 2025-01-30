@@ -376,11 +376,23 @@ function TypeSection({ action, actionFilter }: { action?: ActionFormEntity; acti
           <Select
             id="action-type"
             value={field.value}
-            onChange={e =>
-              setForm(form =>
-                form.updateIn(['type'], item => item.setValue(e.target.value as ActionType).setTouched(true))
-              )
-            }
+            onChange={e => {
+              setForm(form => {
+                // Update 'type'
+                const updatedForm = form.updateIn(['type'], item =>
+                  item.setValue(e.target.value as ActionType).setTouched(true)
+                );
+                const type = updatedForm.get('type').value;
+                const isGHGLJIRA =
+                  type === ACTION_TYPE.GITHUB || type === ACTION_TYPE.GITLAB || type === ACTION_TYPE.JIRA;
+                // Check the updated form state and conditionally update 'ticketActionType'
+                if (isGHGLJIRA) {
+                  return updatedForm.updateIn(['ticketActionType'], item => item.setValue('open').setTouched(true));
+                }
+
+                return updatedForm;
+              });
+            }}
             hasError={!field.valid && field.touched}
           >
             {filteredTypes.map(type => (
@@ -458,7 +470,6 @@ function ManualSection() {
 function ScriptSection() {
   const { form, setForm } = useActionFormContext();
   const isNotEditable = useIsNotEditableContext();
-
   const script = form.get('script');
   const subtype = form.get('subtype');
 
@@ -521,7 +532,6 @@ function checkIdParameter(form: ActionForm, type: string) {
 function GithubSection() {
   const { form, setForm } = useActionFormContext();
   const isNotEditable = useIsNotEditableContext();
-
   const owner = form.get('owner');
   const repo = form.get('repo');
   const ticketActionType = form.get('ticketActionType');
@@ -893,7 +903,6 @@ function GitlabOpenSection() {
 function JiraSection() {
   const { form, setForm } = useActionFormContext();
   const isNotEditable = useIsNotEditableContext();
-
   const project = form.get('project');
   const ticketActionType = form.get('ticketActionType');
 

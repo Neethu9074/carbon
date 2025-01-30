@@ -550,7 +550,7 @@ function createDefaultActionForm(actionFilter: 'all' | ActionFilter): ActionForm
         validator: validatorWrapper(ACTION_TYPE.GITHUB, notBlankValidator)
       }),
       ticketActionType: createField({
-        value: '',
+        value: 'open',
         validator: validatorWrapper([ACTION_TYPE.GITHUB, ACTION_TYPE.GITLAB, ACTION_TYPE.JIRA], notBlankValidator)
       }),
       title: createField({
