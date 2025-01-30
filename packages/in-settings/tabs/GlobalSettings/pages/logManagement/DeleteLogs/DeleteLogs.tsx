@@ -50,7 +50,6 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import TimePicker from 'in-components/form/TimePicker/TimePicker';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { deleteLogsV3Enabled } from 'in-services/featureFlags';
-import { carbonTableEnabled } from 'in-services/featureFlags';
 import { parseDateTime } from 'in-services/formatters/date';
 import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
@@ -324,7 +323,7 @@ export default function DeleteLogs() {
       <Title title={deleteLogsLocalisationStrings.deleteLogs} />
       <section className={locals.titleSection}>
         <SubViewHeader>{deleteLogsLocalisationStrings.deleteLogs}</SubViewHeader>
-        {!carbonTableEnabled && DeleteButton}
+        {DeleteButton}
       </section>
       <section className={locals.descriptionSection}>
         <Typography variant={'body-regular'}>

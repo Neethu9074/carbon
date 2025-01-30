@@ -29,7 +29,6 @@ import { ScopeRoles } from 'in-settings/tabs/SecurityAndAccess/pages/accessContr
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
-import { carbonTableEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
 import { noop } from 'in-services/fixedObjects';
@@ -141,7 +140,7 @@ export default function BusinessMonitoringPanel<I extends Object, FORM_TYPE exte
       id: 'action',
       label: '',
       useMinimumAmountOfHorizontalSpace: true,
-      width: carbonTableEnabled ? '4' : undefined,
+      width: '4',
       sortable: false,
       getContent(entity) {
         const id = extractId(entity);
