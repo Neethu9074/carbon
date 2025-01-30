@@ -68,14 +68,14 @@ export function getLogsHref(
     tagFilterExpression = [tagFilterExpression];
   }
   const groupBy =
-    grouping && grouping.length > 0
-      ? grouping[0].by?.groupbyTagEntity === 'NOT_APPLICABLE'
-        ? { groupbyTag: grouping[0].by?.groupbyTag }
+    grouping?.[0]?.by && grouping[0].by.groupbyTag
+      ? grouping[0].by.groupbyTagEntity === 'NOT_APPLICABLE'
+        ? { groupbyTag: grouping[0].by.groupbyTag }
         : {
-            groupbyTag: grouping[0].by?.groupbyTag,
-            groupbyTagEntity: grouping[0].by?.groupbyTagEntity
+            groupbyTag: grouping[0].by.groupbyTag,
+            groupbyTagEntity: grouping[0].by.groupbyTagEntity
           }
-      : [];
+      : null;
 
   setOrDeleteMatrixKey(
     location,
@@ -83,7 +83,8 @@ export function getLogsHref(
     'tagFilterExpression',
     tagFilterExpression ? buildJsonSerializer()(tagFilterExpression) : tagFilterExpression
   );
-  setOrDeleteMatrixKey(location, logsPath, 'groupBy', groupBy ? buildJsonSerializer()(groupBy) : groupBy);
+
+  setOrDeleteMatrixKey(location, logsPath, 'groupBy', groupBy ? buildJsonSerializer()(groupBy) : null);
 
   if (timeConfig) {
     setTimeConfig(location, timeConfig);
