@@ -7,7 +7,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createField, Field, MapForm, MapFormItems } from 'formalistic';
 
-import { LdapConfig, OidcApiResponseConfig, Result, SamlApiConfig, SamlConfig } from '@instana/types';
+import { LdapConfig, OidcApiResponseConfig, SamlApiConfig, SamlConfig } from '@instana/types';
 import { Link, Button } from '@instana/components';
 
 import {
@@ -18,12 +18,12 @@ import {
 } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import { getConfigAsResultObservable as getOidcConfigAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import ConfigureIdPInfoMessage from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/ConfigureIdPInfoMessage';
+import { deleteItem, isAnyInvitationsPending } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/utils';
 import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
-import { deleteItem } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/utils';
-import { disableInvitesWithIdpEnabled, idpConfigV2Enabled } from 'in-services/featureFlags';
+import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
-import { deleteItem } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/utils';
+import CopyableText from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/CopyableText';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -40,7 +40,6 @@ import FormGroup from 'in-components/form/FormGroup';
 import { shorten } from 'in-services/util/string';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import { Invitation } from 'in-api/users';
 import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';
 
@@ -61,11 +60,7 @@ interface SaveItemCallbackProps {
   setMessage: React.Dispatch<React.SetStateAction<ApiItemMessage>>;
 }
 
-interface DeleteItemCallbackProps {
-  setMessage: React.Dispatch<React.SetStateAction<ApiItemMessage | null>>;
-}
-
-interface SamlProps extends IsAnyInvitationsPendingProps {}
+interface SamlProps extends Pick<Parameters<typeof isAnyInvitationsPending>[0], 'invitations'> {}
 
 export default function Saml({ invitations }: SamlProps) {
   const [file, setFile] = useState<File | undefined>();
@@ -80,7 +75,9 @@ export default function Saml({ invitations }: SamlProps) {
       })}
       enrichForm={enrichForm}
       // ...props, setMessage, form, setForm, setCanSaveItem
-      deleteItem={({ setMessage }: DeleteItemCallbackProps) => deleteItem({ setMessage, deleteConfig })}
+      deleteItem={({ setMessage }: Pick<Parameters<typeof deleteItem>[0], 'setMessage'>) =>
+        deleteItem({ setMessage, deleteConfig })
+      }
       setFile={setFile}
       file={file}
       onCancelClick={() => {
@@ -124,14 +121,6 @@ export default function Saml({ invitations }: SamlProps) {
   );
 }
 
-interface IsAnyInvitationsPendingProps {
-  invitations: Result<Invitation[]>;
-}
-
-function isAnyInvitationsPending({ invitations }: IsAnyInvitationsPendingProps) {
-  return disableInvitesWithIdpEnabled && (invitations?.data ?? []).length > 0;
-}
-
 function save(
   setMessage: React.Dispatch<React.SetStateAction<ApiItemMessage>>,
   form: SamlMapForm,
@@ -141,7 +130,7 @@ function save(
   const reader = new FileReader();
   reader.readAsText(file, 'UTF-8');
   reader.onload = function (evt) {
-    const targetResult = (evt.target?.result as string) ?? '';
+    const targetResult = evt.target?.result?.toString() ?? '';
     if (targetResult.length > 2000000) {
       setMessage({
         text: t('in-settings:tabs.failedToSaveConfig', {
@@ -334,28 +323,7 @@ function Content({ file, form, setForm, setFile, setCanSaveItem, result }: Conte
   );
 }
 
-interface CopyableTextProps {
-  fieldName: keyof SamlMapFormItems;
-  form: SamlMapForm;
-  title: string;
-}
-
-function CopyableText({ title, form, fieldName }: CopyableTextProps) {
-  return form.get(fieldName).map(field => (
-    <FormGroup>
-      <Label htmlFor={fieldName} hasError={!field.valid && field.touched}>
-        {title}
-      </Label>
-
-      <div className={locals.flexWrapper}>
-        <Input className={locals.input} readOnly type="text" id={fieldName} value={field.value} autoComplete="off" />
-        <CopyToClipboardButton size="compact" getText={() => field.value} />
-      </div>
-    </FormGroup>
-  ));
-}
-
-interface SaveItemProps extends Pick<SamlApiConfig, 'ownerEmail' | 'idpMetadata' | 'spEntityId'> {
+interface SaveItemProps extends SamlApiConfig {
   setMessage: React.Dispatch<React.SetStateAction<ApiItemMessage>>;
   unstable_trackEvent: ReturnType<typeof useSegmentTracking>['unstable_trackEvent'];
 }
