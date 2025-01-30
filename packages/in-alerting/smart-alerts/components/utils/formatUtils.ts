@@ -13,12 +13,12 @@ export function round(value: number | string, decimals: number, fixed: boolean =
   return parseFloat(parsedValue.toPrecision(decimals));
 }
 
-export function getValueRoundedToDecimals(value: number | null, percentageMetric: boolean) {
+export function getValueRoundedToDecimals(value: number | null, percentageMetric: boolean, roundTo?: number) {
   if (value == null) {
     return value;
   }
 
-  return percentageMetric ? round(value * 100, 3) : value;
+  return percentageMetric ? round(value * 100, roundTo ?? 3) : value;
 }
 
 export function getThresholdValueForPercentageMetric(value: number | null, percentageMetric: boolean) {

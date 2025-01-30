@@ -66,7 +66,7 @@ export default function ThresholdValueInput({
 
   const hasError = !thresholdField?.valid && thresholdField?.touched;
 
-  const value = getValueRoundedToDecimals(thresholdField?.value, percentageMetric);
+  const value = getValueRoundedToDecimals(thresholdField?.value, percentageMetric, 9);
 
   const mapOnChange = (_e: any, state?: { value: number | string; direction: string }) => {
     const stateValue = state?.value ?? value ?? 0;
