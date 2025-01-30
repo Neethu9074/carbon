@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Result, SamlApiConfig, SamlConfig } from '@instana/types';
 import { create, Observable } from '@instana/observables';
-import { Result, SamlConfig } from '@instana/types';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -18,7 +18,11 @@ export function refresh() {
 
 // observables
 
-export const getConfigAsResultObservable = memoize(getConfigAsResultObservableInternal, () => 'SamlConfig', 60000);
+export const getConfigAsResultObservable = memoize<undefined, Result<SamlConfig>>(
+  getConfigAsResultObservableInternal,
+  () => 'SamlConfig',
+  60000
+);
 function getConfigAsResultObservableInternal(): Observable<Result<SamlConfig>> {
   return refreshSignal.flatMap(() =>
     createObservable(
@@ -33,7 +37,7 @@ function getConfigAsResultObservableInternal(): Observable<Result<SamlConfig>> {
 
 // regular calls
 
-export function setConfig(config: SamlConfig): Observable<Response<SamlConfig>> {
+export function setConfig(config: SamlApiConfig): Observable<Response<SamlConfig>> {
   return http<SamlConfig>({
     method: 'PUT',
     maxRetries: 3,

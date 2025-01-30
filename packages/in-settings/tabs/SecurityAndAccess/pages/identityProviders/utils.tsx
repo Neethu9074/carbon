@@ -13,19 +13,13 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { t, Trans } from 'in-i18n';
 import { Error } from 'in-types';
-
-interface MessageProps {
-  message?: string;
-  type?: string;
-  isSaving?: boolean;
-  text?: string;
-}
+import { ApiItemMessage } from 'in-settings/types';
 
 export const deleteItem = ({
   setMessage,
   deleteConfig
 }: {
-  setMessage: React.Dispatch<React.SetStateAction<MessageProps | null>>;
+  setMessage: React.Dispatch<React.SetStateAction<ApiItemMessage | null>>;
   deleteConfig: () => Observable<any>;
 }) => {
   addActiveDialog(
