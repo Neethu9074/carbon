@@ -47,3 +47,11 @@ export function isAvailable() {
     url: '/api/settings/authentication/googleSSO/available'
   }).map(res => res.body);
 }
+
+export function isGoogleSSOActive() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/settings/authentication/googleSSO/active'
+  }).map(res => res.body);
+}

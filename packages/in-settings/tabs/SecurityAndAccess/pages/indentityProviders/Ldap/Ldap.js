@@ -20,12 +20,13 @@ import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import { deleteItem } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/utils';
+import { disableInvitesWithIdpEnabled, idpConfigV2Enabled } from 'in-services/featureFlags';
 import { SETTINGS_IDP_LDAP_TEST_CONFIGURATION } from 'in-services/tracking/tracking';
+import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string.ts';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -84,6 +85,9 @@ export default function Ldap(props) {
       render={data => render({ ...data, trackCta })}
       testResultMessage={testResultMessage}
       setTestResultMessage={setTestResultMessage}
+      {...(idpConfigV2Enabled
+        ? { parentViewName: t('in-settings:tabs.identityProviders'), parentPath: securityAndAccessIdentityProviders }
+        : {})}
     />
   );
 }
@@ -129,7 +133,13 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
             <Trans
               i18nKey="in-settings:tabs.ldapHelpDoc"
               components={{
-                docLink: <Link external size="sm" href="https://ibm.biz/configuring-ldap" />
+                docLink: (
+                  <Link
+                    external
+                    size="sm"
+                    href=" https://www.ibm.com/docs/en/instana-observability/current?topic=configuration-configuring-ldap"
+                  />
+                )
               }}
             />
           </p>

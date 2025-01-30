@@ -73,7 +73,7 @@ export const groupMapping = `${authSettings}/groupMapping`;
 
 // current auth settings paths (after unification of access control permissions in 2024)
 export const securityAndAccessAuth = `${securityAndAccess}/auth`;
-
+export const securityAndAccessIdentityProviders = `${securityAndAccessAuth}/identityProviders`;
 export const securityAndAccessGoogleSSO = `${securityAndAccessAuth}/googleSingleSignOn`;
 export const securityAndAccessSaml = `${securityAndAccessAuth}/saml`;
 export const securityAndAccessOidc = `${securityAndAccessAuth}/oidc`;

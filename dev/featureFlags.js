@@ -189,5 +189,6 @@ module.exports = {
   prcIssueEnabled: true,
   logSmartAlertFullScreenDesignEnabled: false,
   websitesSmartAlertFullScreenDesignEnabled: false,
-  prometheusDeltaCountersSumEnabled: true
+  prometheusDeltaCountersSumEnabled: true,
+  idpConfigV2Enabled: false
 };

@@ -905,5 +905,10 @@ module.exports = exports = [
     uiClientKey: 'websitesSmartAlertFullScreenDesignEnabled',
     instanaCtlKey: 'feature.websites.smart.alert.full.screen.design.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'idpConfigV2Enabled',
+    instanaCtlKey: 'feature.idp.config.v2.enabled',
+    defaultValue: false
   }
 ];

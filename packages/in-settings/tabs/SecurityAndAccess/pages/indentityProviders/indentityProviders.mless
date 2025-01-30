@@ -13,4 +13,20 @@
   .space {
     height: 1.5rem;
   }
+
+  .idpTileContainer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    :global(.cds--tile) {
+      max-width: 230px;
+      width: 30%;
+      margin-right: 3rem;
+      height: 250px;
+    }
+    &_tagStatus {
+      position: absolute;
+      bottom: 0.5rem;
+    }
+  }
 }

@@ -20,10 +20,11 @@ import ConfigureIdPInfoMessage from 'in-settings/tabs/SecurityAndAccess/pages/in
 import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
 import { deleteItem } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/utils';
+import { disableInvitesWithIdpEnabled, idpConfigV2Enabled } from 'in-services/featureFlags';
+import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -89,6 +90,9 @@ export default function Saml(props) {
         }
       }}
       Content={Content}
+      {...(idpConfigV2Enabled
+        ? { parentViewName: t('in-settings:tabs.identityProviders'), parentPath: securityAndAccessIdentityProviders }
+        : {})}
     />
   );
 }

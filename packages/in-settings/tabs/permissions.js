@@ -18,9 +18,11 @@ import {
   securityAndAccessSaml,
   securityAndAccessLdap,
   securityAndAccessGroupMapping,
-  securityAndAccessTimeouts
+  securityAndAccessTimeouts,
+  securityAndAccessIdentityProviders
 } from 'in-settings/navigation/paths';
 import { productOwnerPermissions } from 'in-stores/permission';
+import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export function roleHasAnyGlobalPermissions() {
@@ -83,16 +85,20 @@ export function findFirstPermittedSecurityAndAccessPage(isGoogleSSOAvailable, is
     return securityAndAccessActionLog;
   }
   if (role.canConfigureAuthenticationMethods) {
-    if (isGoogleSSOAvailable) {
-      return securityAndAccessGoogleSSO;
-    }
+    if (idpConfigV2Enabled && (isGoogleSSOAvailable || isSamlAvailable || isLdapAvailable)) {
+      return securityAndAccessIdentityProviders;
+    } else {
+      if (isGoogleSSOAvailable) {
+        return securityAndAccessGoogleSSO;
+      }
 
-    if (isSamlAvailable) {
-      return securityAndAccessSaml;
-    }
+      if (isSamlAvailable) {
+        return securityAndAccessSaml;
+      }
 
-    if (isLdapAvailable) {
-      return securityAndAccessLdap;
+      if (isLdapAvailable) {
+        return securityAndAccessLdap;
+      }
     }
   }
   if (role.canConfigureTeams) {

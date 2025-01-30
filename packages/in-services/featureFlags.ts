@@ -338,3 +338,4 @@ export const aqmDataGridEventTableEnabled = isFeatureFlagEnabled('aqmDataGridEve
 export const openTelemetryKubernetes = isFeatureFlagEnabled('openTelemetryKubernetesEnabled', false);
 export const rbacTeamsEnabled = isFeatureFlagEnabled('rbacTeamsEnabled', false);
 export const accessControlCarbonTable = isFeatureFlagEnabled('accessControlCarbonTable', false);
+export const idpConfigV2Enabled = isFeatureFlagEnabled('idpConfigV2Enabled', false);

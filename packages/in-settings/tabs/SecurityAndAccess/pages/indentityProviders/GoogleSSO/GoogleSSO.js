@@ -9,10 +9,12 @@ import React from 'react';
 import { Typography } from '@instana/components';
 
 import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/SecurityAndAccess/api/googleSSO';
+import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
+import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
 import Section from 'in-settings/components/Section';
@@ -24,6 +26,7 @@ import { t } from 'in-i18n';
 
 export default function GoogleSSO() {
   const { unstable_trackEvent } = useSegmentTracking();
+
   return (
     <ApiItemView
       getObservables={() => ({
@@ -33,6 +36,9 @@ export default function GoogleSSO() {
       onCancelClick={refresh}
       saveItem={data => saveItem({ ...data, unstable_trackEvent })}
       render={render}
+      {...(idpConfigV2Enabled
+        ? { parentViewName: t('in-settings:tabs.identityProviders'), parentPath: securityAndAccessIdentityProviders }
+        : {})}
     />
   );
 }

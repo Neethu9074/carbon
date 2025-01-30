@@ -7,6 +7,7 @@
 import React, { Fragment } from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 //@ts-expect-error not migrated to typescript yet
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
@@ -25,21 +26,22 @@ import { getNavigationTreeForRole } from 'in-settings/tabs/SecurityAndAccess/nav
 import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
 import { securityAndAccess } from 'in-settings/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
+import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { getInvitations$ } from 'in-api/users';
 import { role } from 'in-stores/user';
 
-export const useGetAuthConfigs = () => {
+const useGetAuthConfigs = () => {
   return {
-    samlConfig: useObservable(getSamlConfig(), []),
-    ldapConfig: useObservable(getLdapConfig(), []),
-    oidcConfig: useObservable(getOidcConfig(), []),
+    samlConfig: useObservable(idpConfigV2Enabled ? just : getSamlConfig(), []),
+    ldapConfig: useObservable(idpConfigV2Enabled ? just : getLdapConfig([]), []),
+    oidcConfig: useObservable(idpConfigV2Enabled ? just : getOidcConfig([]), []),
     invitations: useObservable(getInvitations$, [])
   };
 };
 
-interface ViewProps {
+export interface ViewProps {
   isGoogleSSOAvailable: boolean;
   isSamlAvailable: boolean;
   isLdapAvailable: boolean;
