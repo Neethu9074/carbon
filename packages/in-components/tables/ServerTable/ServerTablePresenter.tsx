@@ -301,6 +301,7 @@ export default function ServerTablePresenter<
           cardTitle ? locals.carbonTitle : locals.carbonNoTitle
         )}
       >
+        {scopeNotification}
         <Fragment>
           {/* when the left header is passed as prop and not title , existing code support */}
           {!cardTitle && header && (
