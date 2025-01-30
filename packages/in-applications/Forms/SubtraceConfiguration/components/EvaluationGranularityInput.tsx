@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Field } from 'formalistic';
 import React from 'react';
 
 import { CarbonRadioButton, CarbonRadioButtonGroup } from '@instana/components';
@@ -13,14 +14,12 @@ import { minutes } from 'in-services/time/time';
 import { role } from 'in-stores/user';
 
 interface EvaluationGranularityInputProps {
-  evaluationGranularity?: number;
+  formField: Field<number>;
   onChangeGranularity: (granularity: number) => void;
 }
 
-export const EvaluationGranularityInput = ({
-  evaluationGranularity,
-  onChangeGranularity
-}: EvaluationGranularityInputProps) => {
+export const EvaluationGranularityInput = ({ formField, onChangeGranularity }: EvaluationGranularityInputProps) => {
+  const evaluationGranularity = formField.value;
   return (
     <CarbonRadioButtonGroup
       name="evaluation-granularity-radio-button-group"

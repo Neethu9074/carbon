@@ -7,6 +7,7 @@ import { MapForm, ValidationResult, createField, createMapForm } from 'formalist
 
 import { TagFilterExpression } from '@instana/types';
 
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -98,7 +99,9 @@ function applicationLabelValidator(name: string | null | undefined): ValidationR
   return null;
 }
 
-export function tagFilterExpressionValidator(tagFilterExpression: TagFilterExpression[]): ValidationResult {
+export function tagFilterExpressionValidator(
+  tagFilterExpression: TagFilterExpression[] | FormModelElement[]
+): ValidationResult {
   if (tagFilterExpression.length === 0) {
     return [
       {

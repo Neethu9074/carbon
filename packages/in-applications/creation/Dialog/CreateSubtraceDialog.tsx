@@ -23,9 +23,9 @@ import locals from './CreateSubtraceDialog.mless';
 
 export default function CreateSubtraceDialog() {
   const [formSubmitStatus, doSubmit] = useFormSubmission(createSubtrace);
-  const { form, updateForm } = useSubtraceForm();
+  const { form, isFormValid, updateForm } = useSubtraceForm();
 
-  const disabled = !form.hierarchyTouched || formSubmitStatus === 'pending';
+  const disabled = !form.hierarchyTouched || !isFormValid || formSubmitStatus === 'pending';
 
   const onHandleSubmit = () => {
     const payload = normalizeFormData(form);
