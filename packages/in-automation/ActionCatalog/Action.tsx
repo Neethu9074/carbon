@@ -16,6 +16,7 @@ import useActionDetailsUrlParams from 'in-automation/ActionCatalog/useActionDeta
 import useActionFormSubmission from 'in-automation/ActionCatalog/useActionFormSubmission';
 import useActionForm from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import ActionFormContext from 'in-automation/ActionCatalog/ActionFormContext';
 import { ActionForm } from 'in-automation/ActionCatalog/useActionForm/types';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -119,12 +120,20 @@ function ActionDetails({ action, actionFilter }: ActionDetailsProps) {
 
   return (
     <isNotEditableContext.Provider value={action ? isNotEditable(action, isCopy) : false}>
-      <Form form={form} setForm={form => setForm(form as ActionForm)} onSubmit={form => onSubmit(form as ActionForm)}>
-        <ActionFormHeader action={action} />
-        <SectionLine />
-        <ActionFormBody action={action} actionFilter={actionFilter} />
-        <ActionFormFooter submitStatus={submitStatus} action={action} />
-      </Form>
+      <ActionFormContext.Provider
+        value={{
+          form, // Ensure form is of type ActionForm or convertible to Item
+          rootPath: [],
+          setForm // Ensure setForm matches React.Dispatch<React.SetStateAction<ActionForm>>
+        }}
+      >
+        <Form form={form} setForm={form => setForm(form as ActionForm)} onSubmit={form => onSubmit(form as ActionForm)}>
+          <ActionFormHeader action={action} />
+          <SectionLine />
+          <ActionFormBody action={action} actionFilter={actionFilter} />
+          <ActionFormFooter submitStatus={submitStatus} action={action} />
+        </Form>
+      </ActionFormContext.Provider>
     </isNotEditableContext.Provider>
   );
 }

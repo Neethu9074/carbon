@@ -56,6 +56,7 @@ import { getAnsibleFields } from 'in-automation/utils/actionField';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import FieldsTable from 'in-automation/ActionCatalog/FieldsTable';
 import CreatableTagSelect from 'in-components/CreatableTagSelect';
+import ScrollStep from 'in-components/StepsContainer/ScrollStep';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import useActionTags from 'in-automation/hooks/useActionTags';
@@ -338,7 +339,6 @@ function MetaDataSection({ actionFilter }: { actionFilter: 'all' | ActionFilter 
 
 const typeOptions = ACTION_TYPES.filter(type => !NON_CREATABLE_ACTION_TYPES.includes(type));
 function filterTypes(actionFilter: 'all' | ActionFilter) {
-  console.log('actionFilter----------', actionFilter);
   if (actionFilter === 'all' || actionFilter.types.length === 0) {
     return typeOptions;
   } else {
