@@ -9,6 +9,7 @@ import React from 'react';
 import {
   DateAsNumber,
   isApplicationSloEntity,
+  isSyntheticSloEntity,
   isWebsiteSloEntity,
   Result,
   ServiceLevelIndicatorUnion,
@@ -30,10 +31,10 @@ import FilterInfo from 'in-service-levels/components/SloDashboard/components/cha
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import { createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
+import { applicationMetrics, syntheticMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
-import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import { calculateEventGraphGranularity } from 'in-service-levels/utils/time';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -158,21 +159,31 @@ function getMetricConfiguration(
 ): UnifiedMetricConfigurationUnion {
   if (isApplicationSloEntity(entity)) {
     return applicationMetrics.calls.timeSeries({
+      aggregation: 'SUM',
       entity,
       tagFilterExpression,
       timeConfig,
-      granularity,
-      aggregation: 'SUM'
+      granularity
     });
   }
 
   if (isWebsiteSloEntity(entity)) {
     return websiteMetrics.beaconCount.timeSeries({
+      aggregation: 'SUM',
       entity,
       tagFilterExpression,
       timeConfig,
-      granularity,
-      aggregation: 'SUM'
+      granularity
+    });
+  }
+
+  if (isSyntheticSloEntity(entity)) {
+    return syntheticMetrics.allTests.timeSeries({
+      aggregation: 'SUM',
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      granularity
     });
   }
 

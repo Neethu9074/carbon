@@ -113,7 +113,6 @@
       "beaconCount": "Beacon Count",
       "calls": "Calls",
       "latency": "Latency",
-      "results": "Results",
       "beaconDuration": "Beacon Duration",
       "threshold": "Threshold",
       "failureRate": "Failure Rate",
