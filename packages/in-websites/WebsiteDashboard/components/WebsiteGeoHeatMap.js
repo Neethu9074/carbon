@@ -8,8 +8,8 @@ import React from 'react';
 
 import getWebsiteCountryBreakdown from 'in-websites/subscriptions/getWebsiteCountryBreakdown';
 import getWebsiteSubdivisions from 'in-websites/subscriptions/getWebsiteSubdivisions';
+import GeoHeatMap from 'in-components/GeoHeatMap/GeoHeatMap';
 import { number } from 'in-services/formatters/number';
-import GeoHeatMap from 'in-components/GeoHeatMap';
 import { t } from 'in-i18n';
 
 const valueFormatter = v =>
