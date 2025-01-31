@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { render, fireEvent } from '@testing-library/react';
 import { shallow } from 'enzyme';
 import React from 'react';
 
@@ -43,5 +44,14 @@ describe('QuickActions', () => {
     expect(wrapper.find(CarbonButton)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.quickActionButtonContents}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.quickActionButtonContents}`).text()).toEqual('Generate a summary');
+  });
+
+  it('should stop loading after 2 minutes', () => {
+    const component = render(<QuickActions />);
+    const generateSummaryButton = component.container.querySelector('#generate_summary_ai');
+    fireEvent.click(generateSummaryButton);
+    jest.advanceTimersByTime(120000); // 2 minutes
+    const timeoutNoLoading = component.container.querySelector('#ai_summary_loading');
+    expect(timeoutNoLoading).toBeNull();
   });
 });

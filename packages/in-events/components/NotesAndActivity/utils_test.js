@@ -6,7 +6,7 @@
 
 import Immutable from 'immutable';
 
-import { getNotes, filterSearchNotes } from 'in-events/components/NotesAndActivity/utils';
+import { getNotes, filterSearchNotes, getSummaryCount } from 'in-events/components/NotesAndActivity/utils';
 
 describe('getNotes', () => {
   it('returns an empty array if the event is falsy', () => {
@@ -286,5 +286,31 @@ describe('filterSearchNotes', () => {
 
     const result = filterSearchNotes(notes, 'doe');
     expect(result).toEqual(expectedResult);
+  });
+});
+
+describe('getSummaryCount', () => {
+  // Define a mock array of notes for getSummaryCount
+  const mockNotes = [
+    { type: 'normal' },
+    { type: 'normal' },
+    { type: 'ai_summary' },
+    { type: 'normal' },
+    { type: 'ai_summary' }
+  ];
+
+  it('should return 0 if there are no AI summaries', () => {
+    const mockNotesNoSummaries = [
+      { type: 'normal' },
+      { type: 'normal' },
+      { type: 'normal' },
+      { type: 'normal' },
+      { type: 'normal' }
+    ];
+    expect(getSummaryCount(mockNotesNoSummaries)).toBe(0);
+  });
+
+  it('should return the correct count of AI summaries', () => {
+    expect(getSummaryCount(mockNotes)).toBe(2);
   });
 });

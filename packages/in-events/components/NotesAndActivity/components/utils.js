@@ -25,6 +25,15 @@ export function validTextEntry(text) {
 // We want to display "You" instead of the user name if its
 // your chat bubble
 // Append date to end of text
+/**
+ * Formats the note name and time based on the type of note and whether it has been edited.
+ * @param {boolean} myBubble - Indicates if the note is from the current user.
+ * @param {object} note - The note object containing the author and origin information.
+ * @param {string} date - The date of the note.
+ * @param {string} type - The type of note (TYPE_NOTE or TYPE_AI_SUMMARY).
+ * @param {boolean} isEdited - Indicates if the note has been edited.
+ * @returns {string} The formatted note name and time.
+ */
 export function noteNameAndTimeFormat(myBubble, note, date, type, isEdited = false) {
   const typeNote = type === TYPE_NOTE;
   const aiGen = type === TYPE_AI_SUMMARY;
@@ -71,6 +80,14 @@ export function createDataString(data) {
 }
 
 // Function to handle the editing and updating of a note
+/**
+ * Handle the update or delete of a note.
+ * @param {string} incidentId - The ID of the incident the note belongs to.
+ * @param {string} note - The contents of the note.
+ * @param {function} setNote - The function to set the note text field.
+ * @param {function} setEditNoteId - The function to reset the edit note state.
+ * @param {array} editNoteId - The ID of the note being edited and a boolean value for true (editing) or false (deleting).
+ */
 export function handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId, editNoteId) {
   // EditNoteId is false whenever its reset but when assigned its an array
   // Note ID, boolean value for true (editing), false (deleting)
@@ -131,6 +148,11 @@ export function validRecipients(recipients) {
 }
 
 // We want to track the clicks to segment
+/**
+ * Handle tracking for a specific element click.
+ * @param {string} id - The ID of the element.
+ * @param {string} trackingName - The name of the tracking event.
+ */
 export function handleTracking(id, trackingName) {
   const { pageRootName, productArea } = getViewTrackingMetaData();
   if (pageRootName && productArea) {

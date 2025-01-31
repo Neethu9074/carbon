@@ -67,6 +67,9 @@ export function CommentInput({ note, setNote, incidentId, editNoteId, setEditNot
   );
 }
 
+// This function handles the submission options within the CommentInput area
+// When the user is editing an existing note, they will have two options: save / cancel
+// If it is not editing it will just use one button for the handling note submission
 export function SubmissionButtons({ editNoteId, setEditNoteId, incidentId, note, setNote }) {
   const isEditing = editNoteId && editNoteId[1];
   return (
