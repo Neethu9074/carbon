@@ -216,7 +216,8 @@
           "retryIntervalDescription": "This test will retry {{retryCount}} after {{retryIntervalValue}} {{retryIntervalUnit}}.",
           "markSyntheticCall": "Mark Synthetic Call",
           "downloadZip": "Download .zip file",
-          "mainFileNameHelperText": "Provide the name of the file within this .zip file that contains the test's entry point"
+          "mainFileNameHelperText": "Provide the name of the file within this .zip file that contains the test's entry point",
+          "recordVideo" : "Record video of user actions"
         },
         "loadMore": "Load More",
         "selectTests": {
@@ -810,7 +811,8 @@
       "associatedWebsites": "Associated Websites",
       "noWebsitesAssociated": "No Websites associated",
       "associatedMobileApps": "Associated Mobile Apps",
-      "noMobileAppAssociated": "No Mobile Apps associated"
+      "noMobileAppAssociated": "No Mobile Apps associated",
+      "recordVideo" : "Record video of user actions"
     },
     "credentialList": {
       "mainLabel": "Credentials",
