@@ -73,7 +73,13 @@ function SortableItem({ id, content }: SortableItemProps) {
   const { attributes, listeners, setNodeRef, transform } = useSortable({ id });
 
   return (
-    <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform) }} {...attributes} {...listeners}>
+    <div
+      id={id}
+      ref={setNodeRef}
+      style={{ transform: CSS.Transform.toString(transform) }}
+      {...attributes}
+      {...listeners}
+    >
       {content}
     </div>
   );
