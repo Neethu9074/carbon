@@ -164,7 +164,10 @@
     "customFilter": "사용자 정의 필터",
     "custom": "사용자 정의",
     "customDescription": "서비스 및/또는 엔드포인트를 선택하도록 사용자 정의 필터 설정",
-    "title": "SLO(Service Level Objective) 생성",
+    "title": {
+      "create": "SLO(Service Level Objective) 생성",
+      "edit": "SLO(Service Level Objective) 편집"
+    },
     "selectIndicator": "청사진 선택",
     "selectEntityNavItem": "엔티티 설정",
     "selectEntityTitle": "SLO를 추가할 엔티티 선택:",
@@ -352,7 +355,7 @@
             "goodEventFilters": "유용한 이벤트 필터:",
             "badEventFilters": "잘못된 이벤트 필터:"
           },
-          "approximateTooltip": "데이터가 집계되었습니다. 세부사항을 보려면 더 짧은 시간 창을 보십시오."
+          "approximateTooltip": "임계값 위반은 차트에서 1점으로 표시되는 시간보다 짧을 수 있습니다. 확대 및 축소는 메트릭의 세부 레벨에 영향을 줄 수 있습니다."
         }
       },
       "entitySection": {

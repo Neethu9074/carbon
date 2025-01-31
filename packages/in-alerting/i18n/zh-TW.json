@@ -990,7 +990,8 @@
       "gracePeriod": {
         "title": "寬限期（選用）",
         "description": "當不再符合違規臨界值後自動關閉問題：",
-        "label": "選取"
+        "label": "選取",
+        "summary": "在不再<strong>符合 {{gracePeriodValue}}</strong> 的違規臨界值後，自動關閉問題。"
       },
       "tearSheet": {
         "cancelModalTitle": "您確定要取消嗎？",
@@ -1256,6 +1257,8 @@
         "alertConfigurationTitleAlertChannels": "警示通道",
         "alertConfigurationTitleAlertProperties": "警示內容",
         "failureThreshold": "{{failureCount}} 個失敗",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "寬限期",
         "alertConfigurationTitleScope": "範圍",
         "noOfFailure": "失敗次數",
         "timeThreshold": "時間臨界值",
@@ -1665,7 +1668,10 @@
       },
       "logCount": "日誌計數",
       "tearSheet": {
+        "labelActionButtonEdit": "編輯",
+        "labelActionButtonDuplicate": "抄寫",
         "createTitle": "建立日誌智慧警示",
+        "editTitle": "編輯日誌智慧型警示",
         "steps": {
           "step1Title": "定義條件",
           "step2Title": "定義何時收到警示",
@@ -1824,6 +1830,7 @@
     "warningAndCritical": "警告和嚴重",
     "warning": "警告",
     "critical": "嚴重",
-    "searchPlaceholder": "搜尋"
+    "searchPlaceholder": "搜尋",
+    "sortBy": "排序方式"
   }
 }

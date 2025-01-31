@@ -29,7 +29,7 @@
         "pleaseSelect": "Seleziona"
       },
       "sharingDialogPresenter": {
-        "share": "Condividi",
+        "editPermissions": "Modifica autorizzazioni",
         "shareMsg": "Questo dashboard personalizzato presenta regole di accesso avanzate che non possono essere rappresentate da questa finestra di dialogo. È possibile utilizzare la funzione \"Modifica come JSON\" per modificare queste regole di accesso.",
         "privateDashboardDefault": "Dashboard privato (predefinito)",
         "privateDashboardDefaultExplain": "Questo dashboard è visibile solo all'utente corrente.",
@@ -81,6 +81,7 @@
       "failure": "Errore",
       "dashboardNotFoundExplain": "Questo dashboard non esiste oppure l'utente non è autorizzato ad accedervi.",
       "customDashboard": "Dashboard personalizzato",
+      "customDashboardOptions": "Opzioni del dashboard personalizzate",
       "saveChange": "Salva le modifiche",
       "discardChange": "Elimina modifiche",
       "addWidget": "Aggiungi widget",
@@ -92,8 +93,8 @@
       "copiedAllWidgets": "Widget copiati, utilizzare CTRL-V o CMD-V per incollare su qualsiasi dashboard personalizzato",
       "duplicate": "Duplica",
       "delete": "Elimina",
-      "share": "Condividi",
-      "shareButtonTooltip": "L'account utente non dispone delle autorizzazioni per condividere i dashboard."
+      "editPermissions": "Modifica autorizzazioni",
+      "editOptionTooltip": "L'account utente non dispone delle autorizzazioni per condividere i dashboard."
     },
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Impossibile analizzare l'input come JSON.",

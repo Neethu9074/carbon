@@ -164,7 +164,10 @@
     "customFilter": "Angepasster Filter",
     "custom": "Angepasst",
     "customDescription": "Angepassten Filter für die Auswahl von Services und/oder Endpunkten festlegen",
-    "title": "Service Level Objective (SLO) erstellen",
+    "title": {
+      "create": "Service Level Objective (SLO) erstellen",
+      "edit": "Service-Level-Ziel (SLO) bearbeiten"
+    },
     "selectIndicator": "Blueprint auswählen",
     "selectEntityNavItem": "Entität festlegen",
     "selectEntityTitle": "Wählen Sie eine Entität aus, zu der SLO hinzugefügt werden soll:",
@@ -352,7 +355,7 @@
             "goodEventFilters": "Gültige Ereignisfilter:",
             "badEventFilters": "Ungültige Ereignisfilter:"
           },
-          "approximateTooltip": "Daten werden aggregiert. Ein kürzeres Zeitfenster anzeigen, um weitere Details anzuzeigen"
+          "approximateTooltip": "Schwellenwertüberschreitungen können kürzer sein als der Zeitraum, der durch einen Punkt in der Grafik dargestellt wird. Das Vergrößern und Verkleinern kann sich auf die Detailgenauigkeit der Metriken auswirken."
         }
       },
       "entitySection": {

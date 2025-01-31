@@ -8,6 +8,8 @@
   "lists": {
     "pageTitle": "商業監視",
     "cardTitle": "商業程序",
+    "theId": "處理程序 ID",
+    "hasBeenCopied": "已成功複製到剪貼簿",
     "activityLabel": "活動",
     "nameLabel": "名稱",
     "countLabel": "計數",
@@ -16,8 +18,8 @@
     "healthLabel": "性能",
     "startLabel": "已開始",
     "latencyLabel": "延遲",
-    "unnamedActivity": "（未命名活動）{{activityType}}",
-    "unnamedService": "（未命名服務）"
+    "unnamedActivity": "（未命名的活動）{{activityType}}",
+    "unnamedService": "（未命名的服務）"
   },
   "customDashboards": {
     "activityCountMetric": "活動計數",
@@ -36,7 +38,7 @@
   "perspectives": {
     "newPerspective": "建立視景",
     "lists": {
-      "perspectives": "商業視景",
+      "perspectives": "業務視景",
       "descriptionLabel": "說明",
       "numberProcessesLabel": "處理程序數目"
     },
@@ -48,7 +50,7 @@
       "loadingStateLabel": "正在載入流程"
     },
     "dialog": {
-      "title": "新建商業視景",
+      "title": "新建業務視景",
       "stepOne": {
         "progressBarTitle": "步驟 1：過濾業務流程以建立您的業務視景",
         "headline": "過濾業務流程以建立您的業務視景",
@@ -100,7 +102,7 @@
         "duration": "持續時間",
         "activityCount": "計數",
         "activityErrors": "錯誤",
-        "topServices": "排名居前的服務",
+        "topServices": "熱門服務",
         "activityLatency": "延遲",
         "viewAll": "檢視所有服務"
       },

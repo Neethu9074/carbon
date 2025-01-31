@@ -29,7 +29,7 @@
         "pleaseSelect": "選択してください"
       },
       "sharingDialogPresenter": {
-        "share": "共有",
+        "editPermissions": "アクセス権の編集",
         "shareMsg": "このカスタム・ダッシュボードには、このダイアログでは表現できない高度なアクセス・ルールがあります。 「JSON として編集」機能を使用すると、これらのアクセス・ルールを編集できます。",
         "privateDashboardDefault": "プライベート・ダッシュボード (デフォルト)",
         "privateDashboardDefaultExplain": "このダッシュボードは、自分に対してのみ表示されます。",
@@ -81,6 +81,7 @@
       "failure": "失敗",
       "dashboardNotFoundExplain": "このダッシュボードは存在しないか、またはこのダッシュボードにアクセスする権限がありません。",
       "customDashboard": "カスタム・ダッシュボード",
+      "customDashboardOptions": "カスタム・ダッシュボード・オプション",
       "saveChange": "変更の保存",
       "discardChange": "変更の破棄",
       "addWidget": "ウィジェットの追加",
@@ -92,8 +93,8 @@
       "copiedAllWidgets": "ウィジェットがコピーされました。CTRL-V または CMD-V を使用して任意のカスタム・ダッシュボードに貼り付けます",
       "duplicate": "複製",
       "delete": "削除",
-      "share": "共有",
-      "shareButtonTooltip": "ユーザー・アカウントにダッシュボードを共有する権限がありません。"
+      "editPermissions": "アクセス権の編集",
+      "editOptionTooltip": "ユーザー・アカウントにダッシュボードを共有する権限がありません。"
     },
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "入力を JSON として解析できませんでした。",

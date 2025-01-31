@@ -151,10 +151,10 @@
   "tooltipCloseEventDetail": "Chiudi dettaglio evento",
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> fa)",
-  "deprecatedCustomEventWarning": "<strong>Gli eventi personalizzati sui tipi di entità Applicazione, Servizio ed Endpoint sono obsoleti. In futuro, gli eventi personalizzati per i tre tipi di entità verranno rimossi e non si riceverà più questo {{issueOrIncident}}</strong><br/>Visualizza la configurazione dell'evento personalizzato per la migrazione ad avviso smart. <documentationLink>Ulteriori informazioni sono disponibili nella documentazione</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>Gli eventi personalizzati sui tipi di entità Applicazione, Servizio ed Endpoint sono obsoleti. A partire da marzo 2025, gli Eventi personalizzati per questi tre tipi di entità saranno rimossi e non si riceverà più questo {{issueOrIncident}}</strong><br/> Visualizza la configurazione degli Eventi personalizzati per migrare a Smart Alert. <documentationLink>Ulteriori informazioni sono disponibili nella documentazione</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} eventi personalizzati richiedono un'azione",
-    "message": "Eventi personalizzati sull'applicazione, sul servizio e sull'endpoint sono obsoleti. Non sarà possibile creare o aggiornare questi tipi di eventi personalizzati in futuro.",
+    "message": "Eventi personalizzati sull'applicazione, sul servizio e sull'endpoint sono obsoleti. A partire da <strong>marzo 2025</strong> non sarà più possibile creare o aggiornare questi tipi di eventi personalizzati.",
     "documentationLink": "<documentationLink>Ulteriori informazioni sono disponibili nella documentazione</documentationLink>",
     "affectedEventsLink": "Visualizza gli eventi personalizzati interessati"
   },
@@ -401,7 +401,7 @@
     "showAll": "Mostra tutto",
     "collapse": "Comprimi",
     "aiModel": "Modello AI",
-    "granite": "granite-13b-chat-v2",
+    "granite": "granite-3-8b-instruct",
     "withManualEdits": "(con modifiche manuali)",
     "shareIncidentSummarySubject": "Riassunto dell'incidente: {{problemText}}",
     "share": "Condividi",

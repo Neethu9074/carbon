@@ -8,6 +8,8 @@
   "lists": {
     "pageTitle": "业务监视",
     "cardTitle": "业务流程",
+    "theId": "流程 ID",
+    "hasBeenCopied": "已成功复制到剪贴板",
     "activityLabel": "活动",
     "nameLabel": "名称",
     "countLabel": "计数",
@@ -17,7 +19,7 @@
     "startLabel": "开始",
     "latencyLabel": "等待时间",
     "unnamedActivity": "（未命名的活动）{{activityType}}",
-    "unnamedService": "(未命名服务)"
+    "unnamedService": "（未命名的服务）"
   },
   "customDashboards": {
     "activityCountMetric": "活动计数",
@@ -62,7 +64,7 @@
       }
     },
     "errorMessages": {
-      "tagFilterExpressionMustNotBeEmpty": "业务透视图必须至少有一个过滤器",
+      "tagFilterExpressionMustNotBeEmpty": "业务透视图必须至少包含一个过滤器",
       "createOperationFailed": "创建操作失败",
       "unableToCreatePerspective": "我们无法为您创建业务透视图。 请重试。"
     },
@@ -81,8 +83,8 @@
       "summaryTab": "摘要",
       "activitiesTab": "活动",
       "widgets": {
-        "topActivities": "顶级活动",
-        "infrastructureIssuesAndChanges": "基础架构问题和更改",
+        "topActivities": "排名靠前的活动",
+        "infrastructureIssuesAndChanges": "基础架构问题和变更",
         "viewAll": "查看所有活动",
         "processCount": "计数",
         "processCountTotal": "总数",

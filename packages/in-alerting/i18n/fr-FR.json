@@ -990,7 +990,8 @@
       "gracePeriod": {
         "title": "Délai de grâce (facultatif)",
         "description": "Fermer automatiquement un problème lorsque le seuil de violation n'est plus atteint pour :",
-        "label": "Sélectionner"
+        "label": "Sélectionner",
+        "summary": "Fermer automatiquement un problème lorsque le seuil de violation n'est plus atteint <strong>pour {{gracePeriodValue}}</strong>."
       },
       "tearSheet": {
         "cancelModalTitle": "Voulez-vous vraiment annuler ?",
@@ -1256,6 +1257,8 @@
         "alertConfigurationTitleAlertChannels": "Canaux d'alerte",
         "alertConfigurationTitleAlertProperties": "Propriétés d'alerte",
         "failureThreshold": "{{failureCount}} échecs",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "Délai supplémentaire",
         "alertConfigurationTitleScope": "Portée",
         "noOfFailure": "Nombre d'échecs",
         "timeThreshold": "Seuil de temps",
@@ -1665,7 +1668,10 @@
       },
       "logCount": "Nombre de journaux",
       "tearSheet": {
+        "labelActionButtonEdit": "Editer",
+        "labelActionButtonDuplicate": "Dupliquer",
         "createTitle": "Créer une alerte intelligente de journal",
+        "editTitle": "Modifier l'alerte intelligente de journal",
         "steps": {
           "step1Title": "Définir la condition",
           "step2Title": "Définir quand être alerté",
@@ -1824,6 +1830,7 @@
     "warningAndCritical": "Avertissements et erreurs critiques",
     "warning": "Avertissement",
     "critical": "Critique",
-    "searchPlaceholder": "Rechercher"
+    "searchPlaceholder": "Rechercher",
+    "sortBy": "Trier par"
   }
 }

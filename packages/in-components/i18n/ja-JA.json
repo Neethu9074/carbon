@@ -105,7 +105,7 @@
     "formStateLabel": "都道府県/州"
   },
   "searchBar": {
-    "usingTheSearchBar": "Instana ダイナミック・フォーカス検索機能を使用して、3D マップ、比較表、インシデント・ビューをフィルタリングできます。 検索バーには、ファジー検索とワイルドカード検索、およびブール演算子を使用して検索するための広範な機能があります。 例えば、以下の\n照会は、CPU が 4 つ未満の実動ホストにビューを制限します。\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 構文\n動的フォーカスでは、Lucene 標準とは異なり、[lucene 照会構文](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) を利用します。\n- **デフォルト演算子:** `AND`\n- **構文制約:** は、[資料](https://ibm.biz/dynamic-focus-syntax-constraints)\n## 検索バーの相互作用\nにリストされています。検索バーは、検索フィールドのオートコンプリートをサポートしており、入力中に構文によって lucene 照会が強調表示されます。\n入力すると、検索バーは現在の入力に一致する検索フィールドを提案します。 「RETURN」を押すと、提案されたフィールドを受け入れることができます。「CTRL + SPACE」を押すと、オートコンプリート・ポップアップが開きます。\n## Lucene 照会構文虎の巻\n- **フィールド検索:** `entity.host.cpu.count:>4`\n- **ブール演算子:** `entity.host.cpu.count:<4 AND entity.zone:production`\n- **Grouping:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n- **ワイルドカード検索:** `entity.type:container*`\n\n詳しくは、[資料](https://ibm.biz/filtering-dynamic-focus) を参照してください。\n",
+    "usingTheSearchBar": "Instana ダイナミック・フォーカス検索機能を使用して、3D マップ、比較表、インシデント・ビューをフィルタリングできます。 検索バーには、ファジー検索とワイルドカード検索、およびブール演算子を使用して検索するための広範な機能があります。 例えば、以下の\n照会は、CPU が 4 つ未満の実動ホストにビューを制限します。\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 構文\n動的フォーカスでは、Lucene 標準とは異なり、[lucene 照会構文] (https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) を利用します。\n-** デフォルト演算子: ** ` AND `\n-** 構文制約: ** は、[資料] (https://ibm.biz/dynamic-focus-syntax-constraints)\n## 検索バーの相互作用\nにリストされています。検索バーは、検索フィールドのオートコンプリートをサポートしており、入力中に構文によって lucene 照会が強調表示されます。\n入力すると、検索バーは現在の入力に一致する検索フィールドを提案します。 「RETURN」を押すと、提案されたフィールドを受け入れることができます。「CTRL + SPACE」を押すと、オートコンプリート・ポップアップが開きます。## Lucene 照会構文虎の巻\n -** フィールド検索: ** `entity.host.cpu.count:>4`\n -** ブール演算子: ** `entity.host.cpu.count:<4 AND entity.zone:production`\n -** Grouping:** ` (entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4` \n -** ワイルドカード検索: ** `entity.type:container* `\n\n詳しくは、[資料] (https://ibm.biz/filtering-dynamic-focus) を参照してください。",
     "filtersBtn": "フィルター",
     "filterPresetsMenuHeading": "フィルター",
     "filterPresetsSaveFilters": "ここで簡単にアクセスできるようにフィルターを保存",
@@ -765,9 +765,9 @@
     "sanitizedTagFilterValue": "タグ・フィルター値が、最大許容長に短縮されました。",
     "sanitizedTagFilterValueAndOperator": "タグ・フィルター値が最大許容長に短縮され、それに応じて演算子が調整されました。",
     "source": "ソース",
-    "sourceAbbreviated": "ソース",
+    "sourceAbbreviated": "Src",
     "destination": "宛先",
-    "destinationAbbreviated": "宛先",
+    "destinationAbbreviated": "移動先",
     "documentation": "Documentation",
     "string": {
       "contains": "次を含む",

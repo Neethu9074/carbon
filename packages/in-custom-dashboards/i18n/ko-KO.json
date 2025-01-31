@@ -29,7 +29,7 @@
         "pleaseSelect": "선택하십시오."
       },
       "sharingDialogPresenter": {
-        "share": "공유",
+        "editPermissions": "권한 편집",
         "shareMsg": "이 사용자 정의 대시보드에는 이 대화 상자에서 표시할 수 없는 고급 액세스 규칙이 있습니다. \"JSON으로 편집\" 기능을 사용하여 해당 액세스 규칙을 편집할 수 있습니다.",
         "privateDashboardDefault": "개인용 대시보드(기본값)",
         "privateDashboardDefaultExplain": "이 대시보드는 사용자에게만 표시됩니다.",
@@ -81,6 +81,7 @@
       "failure": "실패",
       "dashboardNotFoundExplain": "이 대시보드가 없거나 액세스 권한이 없습니다.",
       "customDashboard": "사용자 정의 대시보드",
+      "customDashboardOptions": "사용자 정의 대시보드 옵션",
       "saveChange": "변경사항 저장",
       "discardChange": "변경사항 무시",
       "addWidget": "위젯 추가",
@@ -92,8 +93,8 @@
       "copiedAllWidgets": "위젯이 복사되었습니다. CTRL-V 또는 CMD-V를 사용하여 사용자 정의 대시보드에 붙여넣으십시오.",
       "duplicate": "복제",
       "delete": "삭제",
-      "share": "공유",
-      "shareButtonTooltip": "사용자 계정에 대시보드를 공유할 수 있는 권한이 없습니다."
+      "editPermissions": "권한 편집",
+      "editOptionTooltip": "사용자 계정에 대시보드를 공유할 수 있는 권한이 없습니다."
     },
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "입력을 JSON으로 구문 분석하는 데 실패했습니다.",

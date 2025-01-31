@@ -1,7 +1,7 @@
 {
   "components": {
     "accountSettings": {
-      "accountSettings": "Accounteinstellungen",
+      "accountSettings": "Kontoeinstellungen",
       "unknownDomain": "Unbekannte Domäne",
       "billingAddress": "Rechnungsadresse",
       "country": "Land",
@@ -42,7 +42,7 @@
       "title": "Die Fair-Use-Richtlinie ist nicht aktiv."
     },
     "restrictedUsage": {
-      "accountUsage": "Accountnutzung"
+      "accountUsage": "Kontonutzung"
     },
     "technologiesReportingTable": {
       "name": "Name",
@@ -81,7 +81,7 @@
     },
     "usages": {
       "allPaidUnitsAggregated": "Alle bezahlten Einheiten (aggregiert)",
-      "accountUsage": "Accountnutzung",
+      "accountUsage": "Kontonutzung",
       "activeLicenses": "Aktive Lizenzen",
       "expiredLicenses": "Abgelaufene Lizenzen",
       "queuedLicenses": "Lizenzen in der Warteschlange"
@@ -114,12 +114,12 @@
       }
     },
     "activationAdoption": {
-      "activationAdoption": "Aktivierung und Umsetzung",
+      "activationAdoption": "Aktivierung und Annahme",
       "customerAdoption": "Kundenumsetzung",
       "activation": "Aktivierung",
       "adoption": "Umsetzung",
       "activationStages": {
-        "createDate": "Erstellungsdatum",
+        "createDate": "Erstelldatum",
         "firstSignIn": "Erstanmeldung",
         "firstAgentInstalled": "1. Agent installiert",
         "additionalUserInvited": "Zusätzlicher Benutzer eingeladen",
@@ -134,17 +134,17 @@
         "eum": "EUM",
         "alerting": "Alertausgabe",
         "pipelineFeedback": "Pipeline-Feedback",
-        "customDashboards": "Angepasste Dashboards",
+        "customDashboards": "Benutzerdefinierte Dashboards",
         "mobileEum": "Mobile EUM",
         "numOfApplicationPerspectives": "Anzahl APs",
-        "numOfReportingApplicationPerspectives": "Anzahl der berichtenden APs",
-        "numOfWebsites": "Anzahl Websites",
-        "numOfAlertChannels": "Anzahl Alertkanäle",
-        "numOfAlerts": "Anzahl Alerts",
-        "numOfActiveAlerts": "Anzahl aktive Alerts",
-        "numOfReleases": "Anzahl Releasemarker/Anzahl Releases",
-        "numOfCustomDashboards": "Anzahl angepasster Dashboards",
-        "numOfMobileApps": "Anzahl Apps"
+        "numOfReportingApplicationPerspectives": "# der berichtenden APs",
+        "numOfWebsites": "# Websites",
+        "numOfAlertChannels": "# Alertkanäle",
+        "numOfAlerts": "# Alerts",
+        "numOfActiveAlerts": "# aktive Alerts",
+        "numOfReleases": "# Releasemarker/# Releases",
+        "numOfCustomDashboards": "# angepasster Dashboards",
+        "numOfMobileApps": "# Apps"
       },
       "activationChecklist": "Prüfliste für Aktivierung",
       "productAdoption": "Produktübernahme",
@@ -156,7 +156,7 @@
         "metric_active_alerts": "Aktive Alerts",
         "metric_mobile_apps": "Mobile Apps",
         "metric_alert_channels": "Alertkanäle",
-        "metric_custom_dashboards": "Angepasste Dashboards",
+        "metric_custom_dashboards": "Benutzerdefinierte Dashboards",
         "metric_releases": "Releases"
       },
       "userUsage": "Benutzerverwendung",

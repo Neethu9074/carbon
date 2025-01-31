@@ -990,7 +990,8 @@
       "gracePeriod": {
         "title": "유예 기간(선택사항)",
         "description": "위반 임계값이 더 이상 충족되지 않으면 자동으로 문제를 닫음:",
-        "label": "선택"
+        "label": "선택",
+        "summary": "위반 임계값이 <strong>{{gracePeriodValue}} 동안</strong> 더 이상 충족되지 않으면 자동으로 문제를 닫습니다."
       },
       "tearSheet": {
         "cancelModalTitle": "취소하시겠습니까?",
@@ -1256,6 +1257,8 @@
         "alertConfigurationTitleAlertChannels": "경보 채널",
         "alertConfigurationTitleAlertProperties": "경보 특성",
         "failureThreshold": "{{failureCount}}개 실패",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "유예 기간",
         "alertConfigurationTitleScope": "범위",
         "noOfFailure": "실패 횟수",
         "timeThreshold": "시간 임계값",
@@ -1665,7 +1668,10 @@
       },
       "logCount": "로그 개수",
       "tearSheet": {
+        "labelActionButtonEdit": "편집",
+        "labelActionButtonDuplicate": "중복",
         "createTitle": "로그 스마트 경보 작성",
+        "editTitle": "로그 스마트 알림 편집",
         "steps": {
           "step1Title": "조건 정의",
           "step2Title": "경보를 받을 시기 정의",
@@ -1824,6 +1830,7 @@
     "warningAndCritical": "경고 및 심각",
     "warning": "경고",
     "critical": "Critical",
-    "searchPlaceholder": "검색"
+    "searchPlaceholder": "검색",
+    "sortBy": "정렬 기준"
   }
 }

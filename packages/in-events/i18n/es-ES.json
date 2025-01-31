@@ -151,10 +151,10 @@
   "tooltipCloseEventDetail": "Cerrar detalle del suceso",
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> atrás)",
-  "deprecatedCustomEventWarning": "<strong>Los sucesos personalizados en los tipos de entidad Aplicación, Servicio y Punto final están en desuso. En el futuro, los sucesos personalizados para estos tres tipos de entidad se eliminarán y ya no recibirá esta {{issueOrIncident}}</strong><br/>Ver configuración de sucesos personalizados para migrar a alerta inteligente. <documentationLink>Más información en nuestra documentación</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>Los sucesos personalizados en los tipos de entidad Aplicación, Servicio y Punto final están en desuso. A partir de marzo de 2025, se eliminarán los sucesos personalizados para estos tres tipos de entidades y ya no recibirá este {{issueOrIncident}}</strong><br/>Ver configuración de sucesos personalizados para migrar a alerta inteligente. <documentationLink>Más información en nuestra documentación</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} sucesos personalizados requieren una acción",
-    "message": "Los sucesos personalizados en aplicación, servicio y punto final están en desuso. No podrá crear o actualizar estos tipos de sucesos personalizados en el futuro.",
+    "message": "Los sucesos personalizados en aplicación, servicio y punto final están en desuso. No podrá crear ni actualizar este tipo de sucesos personalizados a partir de <strong>marzo de 2025</strong>.",
     "documentationLink": "<documentationLink>Más información en nuestra documentación</documentationLink>",
     "affectedEventsLink": "Ver sucesos personalizados afectados"
   },
@@ -401,7 +401,7 @@
     "showAll": "Mostrar todo",
     "collapse": "Contraer",
     "aiModel": "Modelo de IA",
-    "granite": "granite-13b-chat-v2",
+    "granite": "granite-3-8b-instruct",
     "withManualEdits": "(con ediciones manuales)",
     "shareIncidentSummarySubject": "Resumen del incidencia: {{problemText}}",
     "share": "Compartir",

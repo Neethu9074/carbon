@@ -164,7 +164,10 @@
     "customFilter": "Filtre personnalisé",
     "custom": "Personnalisé",
     "customDescription": "Définir un filtre personnalisé pour sélectionner des services et/ou des noeuds finaux",
-    "title": "Créer un objectif de niveau de service (SLO)",
+    "title": {
+      "create": "Créer un objectif de niveau de service (SLO)",
+      "edit": "Modifier l'objectif de niveau de service (SLO)"
+    },
     "selectIndicator": "Sélectionner le plan directeur",
     "selectEntityNavItem": "Définir l'entité",
     "selectEntityTitle": "Sélectionnez une entité à laquelle ajouter le SLO :",
@@ -352,7 +355,7 @@
             "goodEventFilters": "Filtres d'événements corrects :",
             "badEventFilters": "Filtres d'événements incorrects:"
           },
-          "approximateTooltip": "Les données sont agrégées. Afficher une fenêtre de temps plus courte pour afficher plus de détails"
+          "approximateTooltip": "Les violations de seuil peuvent être plus brefs que la durée représentée par un point sur le graphique. Le zoom avant et arrière peut affecter le niveau de détail des métriques."
         }
       },
       "entitySection": {
