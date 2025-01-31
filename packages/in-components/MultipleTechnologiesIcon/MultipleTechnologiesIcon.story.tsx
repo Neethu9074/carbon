@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+// @ts-expect-error import MultipleTechnologiesIcon from 'in-components/MultipleTechnologiesIcon';
 import MultipleTechnologiesIcon from 'in-components/MultipleTechnologiesIcon';
 
 export default {

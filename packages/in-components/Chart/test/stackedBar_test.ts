@@ -5,6 +5,7 @@
 
 import { expect } from 'chai';
 
+// @ts-expect-error import { shouldSkipFirstDataPoint } from 'in-components/Chart/renderer/stackedBar';
 import { shouldSkipFirstDataPoint } from 'in-components/Chart/renderer/stackedBar';
 import createScale from 'in-services/scale';
 

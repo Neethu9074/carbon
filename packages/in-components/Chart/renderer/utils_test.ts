@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2022
  */
 
+// @ts-expect-error import { drawCircleWithLine } from 'in-components/Chart/renderer/utils';
 import { drawCircleWithLine } from 'in-components/Chart/renderer/utils';
 
 describe('in-components/Chart/renderer/utils', () => {

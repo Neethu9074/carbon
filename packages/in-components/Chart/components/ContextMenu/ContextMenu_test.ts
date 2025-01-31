@@ -5,6 +5,7 @@
 
 import { expect } from 'chai';
 
+// @ts-expect-error import { sortByPrimaryAction } from 'in-components/Chart/components/ContextMenu/ContextMenu';
 import { sortByPrimaryAction } from 'in-components/Chart/components/ContextMenu/ContextMenu';
 
 describe('in-components/Chart/components/ContextMenu/ContextMenu', () => {

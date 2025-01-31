@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { floatingActionButtons$ } from 'in-components/FloatingActionButton/stores/floatingActionButtons';
+// @ts-expect-error import connectTo from 'in-hoc/connectTo';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from 'in-components/FloatingActionButton/FloatingActionButtonPresenter.mless';

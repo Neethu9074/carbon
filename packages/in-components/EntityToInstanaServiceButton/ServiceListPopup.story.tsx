@@ -5,7 +5,9 @@
 
 import React from 'react';
 
+// @ts-expect-error import { EntityToInstanaServicesButton } from 'in-components/EntityToInstanaServiceButton/EntityToInstanaServiceButton';
 import { EntityToInstanaServicesButton } from 'in-components/EntityToInstanaServiceButton/EntityToInstanaServiceButton';
+// @ts-expect-error import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 
 export default {

@@ -5,6 +5,7 @@
 
 import { expect } from 'chai';
 
+// @ts-expect-error import { cluster } from 'in-components/EntityVersionList/EntityVersionListing';
 import { cluster } from 'in-components/EntityVersionList/EntityVersionListing';
 
 describe('in-components/EntityVersionList/EntityVersionListing#cluster', () => {

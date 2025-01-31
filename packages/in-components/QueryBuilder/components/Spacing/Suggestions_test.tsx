@@ -6,9 +6,11 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
+// @ts-expect-error import { translateSuggestionToNewFormModelElement } from 'in-components/QueryBuilder/components/Spacing/Suggestions';
 import { translateSuggestionToNewFormModelElement } from 'in-components/QueryBuilder/components/Spacing/Suggestions';
-import { ADD_CLOSING_BRACKET, ADD_CONJUNCTION } from 'in-components/QueryBuilder/validation/bracket';
+// @ts-expect-error import Suggestions from 'in-components/QueryBuilder/components/Spacing/Suggestions';
 import Suggestions from 'in-components/QueryBuilder/components/Spacing/Suggestions';
+import { ADD_CLOSING_BRACKET, ADD_CONJUNCTION } from 'in-components/QueryBuilder/validation/bracket';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 

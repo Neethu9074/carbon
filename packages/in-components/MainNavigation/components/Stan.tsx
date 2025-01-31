@@ -7,6 +7,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
+// @ts-expect-error import Lettering from 'in-components/Lettering';
 import Lettering from 'in-components/Lettering';
 
 import locals from './Stan.mless';

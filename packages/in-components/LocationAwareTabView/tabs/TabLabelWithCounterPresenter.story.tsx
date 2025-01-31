@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+// @ts-expect-error import TabLabelWithCounterPresenter from 'in-components/LocationAwareTabView/tabs/TabLabelWithCounterPresenter';
 import TabLabelWithCounterPresenter from 'in-components/LocationAwareTabView/tabs/TabLabelWithCounterPresenter';
 
 export default {

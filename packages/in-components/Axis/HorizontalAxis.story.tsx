@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+// @ts-expect-error import HorizontalAxis from 'in-components/Axis/HorizontalAxis';
 import HorizontalAxis from 'in-components/Axis/HorizontalAxis';
 
 export default {
