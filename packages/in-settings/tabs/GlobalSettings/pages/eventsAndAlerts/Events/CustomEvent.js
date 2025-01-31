@@ -52,10 +52,9 @@ import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metr
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-// eslint-disable-next-line
-import { goToPath } from 'in-stores/navigation';
 import { globalSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -71,6 +70,7 @@ import { t } from 'in-i18n';
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
   const { trackCta } = useSegmentTracking();
+  const { goToPath } = useNavigation();
   const entityFormParam = {
     entityId,
     createDefaultEntity: createCustomThresholdBasedEventSpecification,
