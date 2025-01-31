@@ -163,7 +163,7 @@
     "react-select": "^4.3.1",
     "react-select-async-paginate": "~0.5",
     "rrule": "^2.7.1",
-    "semver": "^5.3.0",
+    "semver": "^5.7.2",
     "sockjs-client": "^1.6.1",
     "three": "^0.167.1",
     "transition-hook": "^1.5.2",
