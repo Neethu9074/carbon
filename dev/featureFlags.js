@@ -176,7 +176,7 @@ module.exports = {
   graphTabEnabled: true,
   applicationSubtracesEnabled: true,
   customDashboardTopLevelFiltersEnabled: true,
-  infraSmartAlertFullScreenDesignEnabled: false,
+  infraSmartAlertFullScreenDesignEnabled: true,
   aqmDataGridEventTableEnabled: false,
   alertChannelPerSeverityInfraSaEnabled: true,
   alertChannelPerSeverityApplicationSaEnabled: true,
