@@ -990,7 +990,8 @@
       "gracePeriod": {
         "title": "Nachfrist (optional)",
         "description": "Schließen Sie ein Problem automatisch, nachdem der Schwellenwert für Verstöße nicht mehr erreicht wurde für:",
-        "label": "Wählen"
+        "label": "Wählen",
+        "summary": "Schließen Sie ein Problem automatisch, nachdem der Grenzwert für Verstöße <strong>für {{gracePeriodValue}}</strong> nicht mehr erreicht wurde."
       },
       "tearSheet": {
         "cancelModalTitle": "Wollen Sie wirklich abbrechen?",
@@ -1256,6 +1257,8 @@
         "alertConfigurationTitleAlertChannels": "Alertkanäle",
         "alertConfigurationTitleAlertProperties": "Alerteigenschaften",
         "failureThreshold": "{{failureCount}} Fehler",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "Karenzzeit",
         "alertConfigurationTitleScope": "Umfang",
         "noOfFailure": "Anzahl der Fehler",
         "timeThreshold": "Zeitschwellenwert",
@@ -1665,7 +1668,10 @@
       },
       "logCount": "Anzahl der Protokolle",
       "tearSheet": {
+        "labelActionButtonEdit": "Bearbeiten",
+        "labelActionButtonDuplicate": "Duplikat",
         "createTitle": "Erstellen Sie einen intelligenten Log-Alert",
+        "editTitle": "Protokoll bearbeiten Smart Alert",
         "steps": {
           "step1Title": "Bedingung definieren",
           "step2Title": "Zeitpunkt für Alertausgabe definieren",
@@ -1824,6 +1830,7 @@
     "warningAndCritical": "Warnung und kritisch",
     "warning": "Warnung",
     "critical": "Kritisch",
-    "searchPlaceholder": "Suchen"
+    "searchPlaceholder": "Suchen",
+    "sortBy": "Sortieren nach"
   }
 }

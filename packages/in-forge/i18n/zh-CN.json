@@ -1849,6 +1849,16 @@
   "pluginName_websiteHttpd_0": "Web 站点",
   "pluginName_websiteHttpd_1": "Web 站点",
   "pluginName_websiteHttpd_2": "Web 站点",
+  "pluginName_nutanixHost_plural": "Nutanix 主机",
+  "pluginName_nutanixHost_0": "Nutanix 主机",
+  "pluginName_nutanixHost_1": "Nutanix 主机",
+  "pluginName_nutanixHost_2": "Nutanix 主机",
+  "pluginName_nutanixHost": "Nutanix 主机",
+  "pluginName_nutanixDatacenter_plural": "Nutanix 数据中心",
+  "pluginName_nutanixDatacenter_0": "Nutanix 数据中心",
+  "pluginName_nutanixDatacenter_1": "Nutanix 数据中心",
+  "pluginName_nutanixDatacenter_2": "Nutanix 数据中心",
+  "pluginName_nutanixDatacenter": "Nutanix 数据中心",
   "tracingTypeName_ace": "IBM ACE",
   "tracingTypeName_actioncontroller": "ActionController",
   "tracingTypeName_actioncontroller_plural": "ActionController 调用",
@@ -10870,6 +10880,14 @@
         "processName": "进程名称",
         "gpu": "GPU",
         "gpuUsage": "GPU 使用率",
+        "volumeGroups": "卷组",
+        "volumeGroupName": "卷组名称",
+        "physicalVolume": "物理卷",
+        "physicalVolumeName": "物理卷名",
+        "totalSize": "总大小",
+        "usedSize": "已用大小",
+        "freeSize": "可用大小",
+        "volumeGrpState": "卷组状态",
         "encoder": "编码器",
         "decoder": "解码器",
         "temperature": "温度",
@@ -11653,10 +11671,7 @@
             "unitNumber": "单元号",
             "aspNumber": "ASP 编号",
             "unitStorageCapacity": "存储容量",
-            "unitMediaCapacityGb": "介质容量 (GB)",
-            "charts": {
-              "elapsedPercentBusy": "耗用的忙碌百分比"
-            }
+            "unitMediaCapacityGb": "介质容量 (GB)"
           },
           "solidStateDisk": {
             "name": "固态磁盘 (SSD) 信息",
@@ -11680,10 +11695,7 @@
             "diskType": "磁盘类型",
             "unitNumber": "单元号",
             "aspNumber": "ASP 编号",
-            "typeOfDiskUnit": "磁盘单元的类型",
-            "charts": {
-              "elapsedPercentBusy": "耗用的忙碌百分比"
-            }
+            "typeOfDiskUnit": "磁盘单元的类型"
           },
           "nonVolatileMemory": {
             "name": "Non Volatile Memory Express (NVMe) 信息",
@@ -11699,7 +11711,12 @@
             "unSafeShutDowns": "不安全关闭",
             "firmwareLevel": "固件级别"
           }
-        }
+        },
+        "elapsedPercentBusy": "耗用的忙碌百分比",
+        "elapsedReadRequests": "读取量/秒",
+        "elapsedWriteRequests": "写入量/秒",
+        "elapsedDataRead": "读取的字节数/秒",
+        "elapsedDataWritten": "写入的字节数/秒"
       }
     },
     "ibmiNetworkInfo": {

@@ -164,7 +164,10 @@
     "customFilter": "Filtro customizado",
     "custom": "Customizado",
     "customDescription": "Configurar um filtro customizado para selecionar serviços e / ou terminais",
-    "title": "Criar Objetivo de nível de serviço (SLO)",
+    "title": {
+      "create": "Criar Objetivo de nível de serviço (SLO)",
+      "edit": "Editar objetivo de nível de serviço (SLO)"
+    },
     "selectIndicator": "Selecionar blueprint",
     "selectEntityNavItem": "Configurar entidade",
     "selectEntityTitle": "Selecione uma entidade na qual incluir o SLO:",
@@ -352,7 +355,7 @@
             "goodEventFilters": "Filtros de eventos válidos:",
             "badEventFilters": "Filtros de eventos inválidos:"
           },
-          "approximateTooltip": "Os dados são agregados. Visualizar um espaço de tempo mais curto para ver mais detalhes"
+          "approximateTooltip": "As violações de limite podem ser mais breves do que o período de tempo representado por um ponto no gráfico. Aumentar e diminuir o zoom pode afetar o nível de detalhe das métricas."
         }
       },
       "entitySection": {

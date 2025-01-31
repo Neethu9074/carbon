@@ -990,7 +990,8 @@
       "gracePeriod": {
         "title": "Periodo di tolleranza (facoltativo)",
         "description": "Chiudere automaticamente un problema dopo che la soglia di violazione non è più possibile se:",
-        "label": "Seleziona"
+        "label": "Seleziona",
+        "summary": "Chiudere automaticamente un problema dopo che la soglia di violazione non è più soddisfatta <strong>per {{gracePeriodValue}}</strong>."
       },
       "tearSheet": {
         "cancelModalTitle": "Sei sicuro di voler annullare?",
@@ -1256,6 +1257,8 @@
         "alertConfigurationTitleAlertChannels": "Canali di avviso",
         "alertConfigurationTitleAlertProperties": "Proprietà avviso",
         "failureThreshold": "{{failureCount}} errori",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "Periodo di tolleranza",
         "alertConfigurationTitleScope": "Ambito",
         "noOfFailure": "Numero di errori",
         "timeThreshold": "Soglia temporale",
@@ -1665,7 +1668,10 @@
       },
       "logCount": "Conteggio log",
       "tearSheet": {
+        "labelActionButtonEdit": "Modifica",
+        "labelActionButtonDuplicate": "Duplica",
         "createTitle": "Crea un avviso smart di log",
+        "editTitle": "Modifica del registro Smart Alert",
         "steps": {
           "step1Title": "Definisci la condizione",
           "step2Title": "Definisci quando ricevere un avviso",
@@ -1824,6 +1830,7 @@
     "warningAndCritical": "Avvertenze e criticità",
     "warning": "Avvertenza",
     "critical": "Critico",
-    "searchPlaceholder": "Ricerca"
+    "searchPlaceholder": "Ricerca",
+    "sortBy": "Ordina per"
   }
 }

@@ -8,6 +8,7 @@
   "logsOverTime_WARN": "警告",
   "logsOverTime_INFO": "参考信息",
   "logsOverTime_FATAL": "致命",
+  "logsOverTime_NONE": "无",
   "logsOverTime_NEXTLOGLEVEL": "{{label}}",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "查询配置无效。请在继续之前处理验证失败。",
   "addAsFilter": "添加为过滤器",
@@ -31,8 +32,8 @@
     "mostRecent": "最新的放在最前面",
     "oldest": "最旧的放在最前面"
   },
-  "cpuTotal": "CPU 总计",
-  "memoryUsage": "内存使用情况",
+  "cpuTotal": "总 CPU",
+  "memoryUsage": "内存使用率",
   "cluster": "集群",
   "node": "节点",
   "namespace": "名称空间",
@@ -55,7 +56,7 @@
   "host": "主机",
   "fileOnHost": "于",
   "file": "文件",
-  "logExpiration": "保留到",
+  "logExpiration": "保留直至",
   "stacktraceLogMessage": "堆栈跟踪",
   "logTraceTitle": "堆栈跟踪",
   "stackTraceHeader": "堆栈跟踪消息",
@@ -63,7 +64,7 @@
     "summary": "摘要",
     "smartAlerts": "智能警报",
     "deleteLogs": "删除日志",
-    "configuration": "配置",
+    "management": "管理",
     "logVolume": {
       "logVolumeTitle": "当月日志卷",
       "gb": "GB",
@@ -72,7 +73,7 @@
     "retentionIcon": "更改保留期",
     "noData": "无可用数据",
     "analyzeLogs": "分析日志",
-    "configurationPage": {
+    "managementPage": {
       "logVolume": "日志卷",
       "logVolumeDescription": "查看长达 12 个月的日志量，并根据需要按基础架构标记分组。",
       "logIntegrations": "日志集成",

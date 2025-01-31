@@ -164,7 +164,10 @@
     "customFilter": "Filtro personalizado",
     "custom": "Personalizar",
     "customDescription": "Establecer un filtro personalizado para seleccionar servicios y/o puntos finales",
-    "title": "Crear objetivo de nivel de servicio (SLO)",
+    "title": {
+      "create": "Crear objetivo de nivel de servicio (SLO)",
+      "edit": "Editar objetivo de nivel de servicio (SLO)"
+    },
     "selectIndicator": "Seleccionar Blueprint",
     "selectEntityNavItem": "Establecer entidad",
     "selectEntityTitle": "Seleccione una entidad a la que añadir SLO:",
@@ -352,7 +355,7 @@
             "goodEventFilters": "Filtros de sucesos correctos:",
             "badEventFilters": "Filtros de sucesos incorrectos:"
           },
-          "approximateTooltip": "Los datos se han agregado. Ver una ventana de tiempo más corta para ver más detalles"
+          "approximateTooltip": "Las infracciones del umbral pueden durar menos que el intervalo de tiempo que representa cada punto en el gráfico. Acercar y alejar la imagen puede afectar al nivel de detalle de las métricas."
         }
       },
       "entitySection": {

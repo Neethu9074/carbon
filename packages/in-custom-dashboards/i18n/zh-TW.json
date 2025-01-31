@@ -29,7 +29,7 @@
         "pleaseSelect": "請選取"
       },
       "sharingDialogPresenter": {
-        "share": "共用",
+        "editPermissions": "編輯許可權",
         "shareMsg": "此自訂儀表板具有進階存取規則，但此對話框無法呈現這些規則。您可以使用「以 JSON 型式編輯」特性來編輯這些存取規則。",
         "privateDashboardDefault": "專用儀表板（預設值）",
         "privateDashboardDefaultExplain": "只有您可看見此儀表板。",
@@ -81,6 +81,7 @@
       "failure": "失敗",
       "dashboardNotFoundExplain": "此儀表板不存在，或您無權存取它。",
       "customDashboard": "自訂儀表板",
+      "customDashboardOptions": "自訂儀表板選項",
       "saveChange": "儲存變更",
       "discardChange": "捨棄變更",
       "addWidget": "新增小組件",
@@ -92,8 +93,8 @@
       "copiedAllWidgets": "已複製的小組件，使用 CTRL-V 或 CMD-V 貼到任何自訂儀表板上",
       "duplicate": "複製",
       "delete": "刪除",
-      "share": "共用",
-      "shareButtonTooltip": "您的使用者帳戶無權共用儀表板。"
+      "editPermissions": "編輯許可權",
+      "editOptionTooltip": "您的使用者帳戶無權共用儀表板。"
     },
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "無法剖析 JSON 形式的輸入。",

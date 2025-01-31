@@ -8,6 +8,8 @@
   "lists": {
     "pageTitle": "ビジネス・モニタリング",
     "cardTitle": "ビジネス・プロセス",
+    "theId": "プロセス ID",
+    "hasBeenCopied": "クリップボードに正常にコピーされました",
     "activityLabel": "アクティビティー",
     "nameLabel": "名前",
     "countLabel": "数",
@@ -100,7 +102,7 @@
         "duration": "期間",
         "activityCount": "数",
         "activityErrors": "エラー",
-        "topServices": "上位サービス",
+        "topServices": "トップ・サービス",
         "activityLatency": "待ち時間",
         "viewAll": "すべてのサービスを表示"
       },

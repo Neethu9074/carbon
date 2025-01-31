@@ -151,10 +151,10 @@
   "tooltipCloseEventDetail": "Ereignisdetails schließen",
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (vor <timeCount/>)",
-  "deprecatedCustomEventWarning": "<strong>Angepasste Ereignisse für Entitätstypen 'Anwendung', 'Service' und 'Endpunkt ' sind veraltet. Zukünftig werden benutzerdefinierte Ereignisse für diese drei Entitätstypen entfernt und Sie erhalten diese {{issueOrIncident}}</strong><br/>Konfiguration benutzerdefinierter Ereignisse für die Migration auf Smart Alert nicht mehr. <documentationLink>Weitere Informationen finden Sie in der Dokumentation</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>Angepasste Ereignisse für Entitätstypen 'Anwendung', 'Service' und 'Endpunkt ' sind veraltet. Ab März 2025 werden benutzerdefinierte Ereignisse für diese drei Entitätstypen entfernt und Sie erhalten diese {{issueOrIncident}}</strong><br/> Ansicht der Konfiguration benutzerdefinierter Ereignisse nicht mehr, um zu Smart Alert zu migrieren. <documentationLink>Weitere Informationen finden Sie in der Dokumentation</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} Angepasste Ereignisse erfordern eine Aktion",
-    "message": "Angepasste Ereignisse für Anwendung, Service und Endpunkt sind veraltet. Sie können diese Typen von angepassten Ereignissen zukünftig nicht mehr erstellen oder aktualisieren.",
+    "message": "Angepasste Ereignisse für Anwendung, Service und Endpunkt sind veraltet. Ab <strong>März 2025</strong> können Sie diese Art von benutzerdefinierten Ereignissen nicht mehr erstellen oder aktualisieren.",
     "documentationLink": "<documentationLink>Weitere Informationen finden Sie in der Dokumentation</documentationLink>",
     "affectedEventsLink": "Betroffene angepasste Ereignisse anzeigen"
   },
@@ -401,7 +401,7 @@
     "showAll": "Alle anzeigen",
     "collapse": "Ausblenden",
     "aiModel": "KI-Modell",
-    "granite": "granite-13b-chat-v2",
+    "granite": "granite-3-8b-instruct",
     "withManualEdits": "(mit manuellen Bearbeitungen)",
     "shareIncidentSummarySubject": "Zusammenfassung des Vorfalls: {{problemText}}",
     "share": "Gemeinsam nutzen",

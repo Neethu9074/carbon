@@ -505,7 +505,7 @@
       "selectAgentPackagingMode": "Paso 1: Seleccione la modalidad de empaquetado del agente.",
       "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Paso 2: Revise los requisitos previos y ejecute el código de despliegue del agente.",
       "mac_airgapped": {
-        "step1DownloadTheInstallArchive": "Paso 1. Descargue el archivador de instalación.",
+        "step1DownloadTheInstallArchive": "Paso 1. Descargue el archivo de instalación.",
         "airgappedArchives": "Archivadores",
         "installUsingAnArchive": "Instalar utilizando un archivador"
       }
