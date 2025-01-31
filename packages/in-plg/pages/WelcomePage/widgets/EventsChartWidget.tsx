@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { CarbonButton, DashboardTile, NoDataTile, Stack } from '@instana/components';
+import { CarbonButton, NoDataTile, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error file needs to be converted
@@ -16,6 +16,7 @@ import getRawEvents from 'in-subscription/getRawEvents';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
+import { DashboardTile } from 'in-plg/components/DashBoardTile/DashBoardTile';
 import { carbonAlert, outlineForColor } from 'in-themes/chartColors';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TimeConfig } from 'in-types';
