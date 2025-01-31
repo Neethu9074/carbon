@@ -10,9 +10,9 @@ import { Size } from '@instana/components/types/components/SvgIcon/types';
 import { SvgIcon, Typography, Stack } from '@instana/components';
 import { CarbonTile } from '@instana/components';
 
-import locals from 'in-plg/components/DashBoardTile/DashBoardTile.mless';
+import locals from 'in-plg/components/DashboardTile/DashboardTile.mless';
 
-export type DashBoardTileProps = {
+export type DashboardTileProps = {
   children?: ReactNode;
   header?: string;
   icon?: string;
@@ -30,14 +30,14 @@ export function DashboardTile({
   titleMetrics,
   dragAndDropConfigs = [],
   handleLabel
-}: DashBoardTileProps) {
+}: DashboardTileProps) {
   return (
     <CarbonTile className={locals.dashboardtile}>
-      <div className="headerWrapper">
+      <div className={locals.headerWrapper}>
         <Stack direction="horizontal" distribution="spaceBetween">
           <Stack direction="horizontal" align="center" gap="normal">
             {icon ? (
-              <div className="dragHandleIcon" {...dragAndDropConfigs}>
+              <div className={locals.dragHandleIcon} {...dragAndDropConfigs}>
                 <SvgIcon type={icon} size={size} color="var(--ids-color-option-neutral-700)" aria-label={handleLabel} />
               </div>
             ) : null}

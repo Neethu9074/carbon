@@ -16,7 +16,7 @@ import getRawEvents from 'in-subscription/getRawEvents';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
-import { DashboardTile } from 'in-plg/components/DashBoardTile/DashBoardTile';
+import { DashboardTile } from 'in-plg/components/DashboardTile/DashboardTile';
 import { carbonAlert, outlineForColor } from 'in-themes/chartColors';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TimeConfig } from 'in-types';
