@@ -788,6 +788,8 @@
         "cancelTitle": "取消",
         "proceedTitle": "继续",
         "previousTitle": "上一步",
+        "nextTitle": "下一步",
+        "closeTitle": "关闭",
         "sharedListTooltip": "{{typeName}} 不再可用",
         "clearTagFilterExpressionButton": "清除",
         "baselineErrorMessageComputedOnApproximateData": "根据数据保留时间设置的近似数据计算基线。 因此，如果与所选过滤器匹配的调用很少，那么可能不准确。",
@@ -985,7 +987,15 @@
         "labelConfirmRemoveConfig": "确定要除去警报 <strong>{{configName}}</strong> 吗？",
         "labelRemove": "除去"
       },
+      "gracePeriod": {
+        "title": "宽限期（可选）",
+        "description": "在不再满足违例阈值后自动关闭问题：",
+        "label": "选择",
+        "summary": "<strong>当 {{gracePeriodValue}}</strong> 不再满足违规阈值后，将自动关闭问题。"
+      },
       "tearSheet": {
+        "cancelModalTitle": "确定要取消吗？",
+        "cancelModalDescription": "如果取消，则将不会保存您输入的配置详细信息。",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "当违例存在一段时间时",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "违例以随机时间间隔发生",
@@ -1001,8 +1011,7 @@
           "persistenceType": "持久类型",
           "numberOfConsecutiveViolationsPostLabel": "连续 {{granularity}} 分钟时间窗口有违例",
           "static": "静态",
-          "thresholdValue": "阈值",
-          "timeWindow": "时间窗口"
+          "thresholdValue": "阈值"
         }
       }
     },
@@ -1248,6 +1257,8 @@
         "alertConfigurationTitleAlertChannels": "警报通道",
         "alertConfigurationTitleAlertProperties": "警报属性",
         "failureThreshold": "{{failureCount}} 个失败",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "宽限期",
         "alertConfigurationTitleScope": "作用域",
         "noOfFailure": "失败数",
         "timeThreshold": "时间阈值",
@@ -1520,6 +1531,7 @@
       "regexNotValid": "正则表达式无效",
       "tearSheet": {
         "createTitle": "创建基础架构智能警报",
+        "editTitle": "编辑基础架构智能警报",
         "steps": {
           "step1Title": "定义条件",
           "step2Title": "定义何时收到警报",
@@ -1537,7 +1549,7 @@
           "header": "要为此警报设置哪些属性？"
         },
         "step4": {
-          "header": "您希望通过此警报来通知哪些内容？",
+          "header": "您希望在何处收到此警报的通知？",
           "description": "选择该警报的收件人"
         },
         "scopeAlerting": {
@@ -1654,7 +1666,48 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "请提供大于或等于 0 的数字",
         "noDataForSelectedGroup": "指定过滤器和分组组合无可用数据。"
       },
-      "logCount": "日志计数"
+      "logCount": "日志计数",
+      "tearSheet": {
+        "labelActionButtonEdit": "编辑",
+        "labelActionButtonDuplicate": "复制",
+        "createTitle": "创建日志智能警报",
+        "editTitle": "编辑日志 智能警报",
+        "steps": {
+          "step1Title": "定义条件",
+          "step2Title": "定义何时收到警报",
+          "step3Title": "定义警报属性",
+          "step4Title": "定义警报通道"
+        },
+        "step2": {
+          "header": "设置违例阈值的值",
+          "description": "选择一个指标、违例阈值和时间窗口以评估违例情况。"
+        },
+        "step3": {
+          "header": "要为此警报设置哪些属性？"
+        },
+        "step4": {
+          "header": "您希望在何处收到此警报的通知？",
+          "description": "选择该警报的收件人"
+        },
+        "scopeFilter": {
+          "title": "选择日志的范围",
+          "filter": "过滤",
+          "filterDescription": "为服务添加过滤器，以获得更精确的警报。"
+        },
+        "scopeGroupBy": {
+          "group": "组",
+          "groupByDescription": "添加组以在组中配置调用。 组内的每次调用都是集体配置的，但会单独进行评估。"
+        },
+        "timeThreshold": {
+          "title": "设置违例何时触发警报",
+          "description": "指定警报触发的持续时间和故障时间。"
+        },
+        "thresholdDescription": {
+          "static": "将应用常量阈值，并且该值不会随时间变化。"
+        },
+        "chartAlertPreview": "警报预览",
+        "chartAlertPreviewDescription": "显示如何根据历史度量值数据触发警报。"
+      }
     },
     "slo": {
       "components": {
@@ -1777,6 +1830,7 @@
     "warningAndCritical": "警告和批评",
     "warning": "警告",
     "critical": "严重",
-    "searchPlaceholder": "搜索"
+    "searchPlaceholder": "搜索",
+    "sortBy": "排序依据"
   }
 }

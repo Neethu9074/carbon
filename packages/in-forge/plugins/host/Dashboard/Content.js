@@ -26,6 +26,8 @@ import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import GpuProcessList from 'in-forge/plugins/host/Dashboard/GpuProcessList';
+import PhysicalVolume from 'in-forge/plugins/host/Dashboard/PhysicalVolume';
+import VolumeGroups from 'in-forge/plugins/host/Dashboard/VolumeGroups';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import GpuTable from 'in-forge/plugins/host/Dashboard/GpuTable';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
@@ -139,7 +141,6 @@ export default function HostDashboard({ snapshot, timeConfig }) {
 
       {gpuInfoAvailable && <GpuTable snapshot={snapshot} timeConfig={timeConfig} />}
       {gpuInfoAvailable && <GpuProcessList snapshot={snapshot} timeConfig={timeConfig} />}
-
       {!isIbmiOs(snapshot) && (
         <DashboardSection title={t('in-forge:plugins.host.dashboard.memory')}>
           <Chart
@@ -163,10 +164,11 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               y1={{
                 min: 0,
                 formatter: bytes.detailed,
-                metrics: ['memory.computational', 'memory.nonComputational'],
+                metrics: ['memory.computational', 'memory.nonComputational', 'memory.realAvailable'],
                 labels: [
                   t('in-forge:plugins.host.dashboard.computational'),
-                  t('in-forge:plugins.host.dashboard.nonComputational')
+                  t('in-forge:plugins.host.dashboard.nonComputational'),
+                  t('in-forge:plugins.host.dashboard.realAvailable')
                 ],
                 type: 'line'
               }}
@@ -251,8 +253,12 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               y1={{
                 min: 0,
                 formatter: number.compact,
-                metrics: ['memory.pageIn', 'memory.pageOut'],
-                labels: [t('in-forge:plugins.host.dashboard.pageIn'), t('in-forge:plugins.host.dashboard.pageOut')],
+                metrics: ['memory.pageIn', 'memory.pageOut', 'memory.pageScan'],
+                labels: [
+                  t('in-forge:plugins.host.dashboard.pageIn'),
+                  t('in-forge:plugins.host.dashboard.pageOut'),
+                  t('in-forge:plugins.host.dashboard.pageScan')
+                ],
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -260,7 +266,8 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           )}
         </DashboardSection>
       )}
-
+      {isAixOs(snapshot) && <VolumeGroups snapshot={snapshot} timeConfig={timeConfig} />}
+      {isAixOs(snapshot) && <PhysicalVolume snapshot={snapshot} timeConfig={timeConfig} />}
       {supportsOpenFiles(snapshot) && (
         <DashboardSection title={t('in-forge:plugins.host.dashboard.openFiles')}>
           <Chart

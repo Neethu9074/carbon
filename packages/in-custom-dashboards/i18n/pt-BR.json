@@ -29,7 +29,7 @@
         "pleaseSelect": "Selecione"
       },
       "sharingDialogPresenter": {
-        "share": "Compartilhamento",
+        "editPermissions": "Editar permissões",
         "shareMsg": "Este painel customizado tem regras avançadas de acesso que não podem ser representadas por este diálogo. É possível usar o recurso \"Editar como JSON\" para editar essas regras de acesso.",
         "privateDashboardDefault": "Painel privado (padrão)",
         "privateDashboardDefaultExplain": "Este painel está visível somente para você.",
@@ -81,6 +81,7 @@
       "failure": "Falha",
       "dashboardNotFoundExplain": "Este painel não existe ou você não tem acesso a ele.",
       "customDashboard": "Painel customizado",
+      "customDashboardOptions": "Opções de painel customizado",
       "saveChange": "Salvar mudanças",
       "discardChange": "Descartar mudanças",
       "addWidget": "Incluir widget",
@@ -92,8 +93,8 @@
       "copiedAllWidgets": "Widgets copiados, use CTRL-V ou CMD-V para colar em qualquer painel customizado",
       "duplicate": "Duplicar",
       "delete": "Excluir",
-      "share": "Compartilhamento",
-      "shareButtonTooltip": "Sua conta de usuário não tem permissões para compartilhar painéis."
+      "editPermissions": "Editar permissões",
+      "editOptionTooltip": "Sua conta de usuário não tem permissões para compartilhar painéis."
     },
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Falha ao analisar entrada como JSON.",
@@ -833,6 +834,14 @@
         "tagNoValue": "Tag '{{labelname}}' presente sem valor"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "Renderizando https://...",
+      "form": {
+        "heading": "Qual página você gostaria de integrar?",
+        "title": "Inserir URL"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "Visão geral de funcionamento"
@@ -900,7 +909,8 @@
         }
       },
       "dataSource": {
-        "events": "Eventos"
+        "events": "Eventos",
+        "k8sEvents": "Eventos Kubernetes"
       },
       "eventColumns": {
         "title": "Título",
@@ -908,6 +918,19 @@
         "startedOn": "Iniciado em",
         "endedOn": "Encerrado em",
         "duration": "Duração"
+      },
+      "kubernetesEventColumns": {
+        "type": "Tipo",
+        "reason": "Razão",
+        "message": "Mensagem",
+        "namespace": "Namespace",
+        "involvedObject": "Objeto envolvido",
+        "kind": "Tipo",
+        "time": "Hora"
+      },
+      "emptyTable": {
+        "title": "Nenhum evento disponível",
+        "explanation": "Não houve eventos recuperados para o intervalo de tempo selecionado"
       }
     },
     "time": {

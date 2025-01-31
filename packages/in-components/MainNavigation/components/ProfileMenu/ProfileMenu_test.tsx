@@ -9,7 +9,7 @@ import React from 'react';
 
 import { t } from '@instana/i18n-react';
 
-import ProfileMenu from './ProfileMenu';
+import ProfileMenu from 'in-components/MainNavigation/components/ProfileMenu/ProfileMenu';
 
 jest.mock('in-services/featureFlags', () => ({
   tenantSwitcherEnabled: true

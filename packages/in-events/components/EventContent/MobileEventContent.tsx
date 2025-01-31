@@ -15,6 +15,7 @@ import {
 } from 'in-alerting/components/constants';
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
+import { AdaptiveBaselinePredictionsInfo } from 'in-alerting/smart-alerts/data/adaptiveBaselinePredictionInfo';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
@@ -40,6 +41,7 @@ import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import EventIcon from 'in-events/components/EventIcon';
+import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { EventOrMap } from 'in-events/types';
 import { role } from 'in-stores/user';
@@ -61,6 +63,9 @@ export default function MobileEventContent({ event, snapshot, reload }: Props) {
     return <LoadingIndicator size="xxxl" />;
   }
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
+  const adaptiveBaselineInfo: AdaptiveBaselinePredictionsInfo = event
+    .getIn(['metadata', 'adaptiveBaselineInfo'], emptyMap)
+    .toJS();
   const { tagFilterExpression, rule } = alertConfig;
   const { alertType, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -138,6 +143,7 @@ export default function MobileEventContent({ event, snapshot, reload }: Props) {
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
               setMetricResultPrecision={setMetricResultPrecision}
+              eventBasedAdaptiveBaseline={Object.entries(adaptiveBaselineInfo)}
               isEventsView
             />
           </Card>

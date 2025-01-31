@@ -29,7 +29,7 @@
         "pleaseSelect": "Sélectionnez"
       },
       "sharingDialogPresenter": {
-        "share": "Partager",
+        "editPermissions": "Modifier les autorisations",
         "shareMsg": "Ce tableau de bord personnalisé a des règles d'accès avancées qui ne peuvent pas être représentées par cette boîte de dialogue. Vous pouvez utiliser la fonction \"Modifier en tant que JSON \" pour modifier ces règles d'accès.",
         "privateDashboardDefault": "Tableau de bord privé (par défaut)",
         "privateDashboardDefaultExplain": "Vous seul pouvez voir ce tableau de bord.",
@@ -81,6 +81,7 @@
       "failure": "Echec",
       "dashboardNotFoundExplain": "Ce tableau de bord n'existe pas ou vous n'y avez pas accès.",
       "customDashboard": "Tableau de bord personnalisé",
+      "customDashboardOptions": "Options du tableau de bord personnalisé",
       "saveChange": "Sauvegarder les modifications",
       "discardChange": "Supprimer les modifications",
       "addWidget": "Ajouter un widget",
@@ -92,8 +93,8 @@
       "copiedAllWidgets": "Widgets copiés. Utilisez CTRL-V ou CMD-V pour les coller dans n'importe quel tableau de bord personnalisé.",
       "duplicate": "Dupliquer",
       "delete": "Supprimer",
-      "share": "Partager",
-      "shareButtonTooltip": "Votre compte utilisateur n'est pas autorisé à partager des tableaux de bord."
+      "editPermissions": "Modifier les autorisations",
+      "editOptionTooltip": "Votre compte utilisateur n'est pas autorisé à partager des tableaux de bord."
     },
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Impossible d'analyser l'entrée en tant que JSON.",
@@ -833,6 +834,14 @@
         "tagNoValue": "Étiquette '{{labelname}}' présente sans valeur"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "Rendu https://...",
+      "form": {
+        "heading": "Quelle page souhaitez-vous intégrer ?",
+        "title": "Entrez l'adresse URL"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "Présentation de l'intégrité"
@@ -900,7 +909,8 @@
         }
       },
       "dataSource": {
-        "events": "Evénements"
+        "events": "Evénements",
+        "k8sEvents": "Événements Kubernetes"
       },
       "eventColumns": {
         "title": "Titre",
@@ -908,6 +918,19 @@
         "startedOn": "Démarré le",
         "endedOn": "Arrêté le",
         "duration": "Durée"
+      },
+      "kubernetesEventColumns": {
+        "type": "Type",
+        "reason": "Raison",
+        "message": "Message",
+        "namespace": "Espace de nom",
+        "involvedObject": "Objet impliqué",
+        "kind": "Catégorie",
+        "time": "Durée"
+      },
+      "emptyTable": {
+        "title": "Aucun événement disponible",
+        "explanation": "Aucun événement n'a été extrait pour la période sélectionnée."
       }
     },
     "time": {

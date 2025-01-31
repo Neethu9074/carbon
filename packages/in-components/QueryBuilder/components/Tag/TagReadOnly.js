@@ -7,11 +7,11 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { createTagForm, getFormPresentationInformation } from 'in-components/QueryBuilder/validation/tagForm';
-import InputValueViewerReadOnly from './InputValueViewerReadOnly';
+import InputValueViewerReadOnly from 'in-components/QueryBuilder/components/Tag/InputValueViewerReadOnly';
+import OperatorReadOnly from 'in-components/QueryBuilder/components/Tag/OperatorReadOnly';
+import EntityReadOnly from 'in-components/QueryBuilder/components/Tag/EntityReadonly';
+import NameReadOnly from 'in-components/QueryBuilder/components/Tag/NameReadOnly';
 import useThemedLocals from 'in-hooks/useThemedLocals';
-import OperatorReadOnly from './OperatorReadOnly';
-import EntityReadOnly from './EntityReadonly';
-import NameReadOnly from './NameReadOnly';
 
 import styleDefs from './Tag.mless';
 

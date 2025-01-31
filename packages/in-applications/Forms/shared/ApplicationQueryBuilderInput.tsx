@@ -4,22 +4,24 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Field } from 'formalistic';
 import React from 'react';
 
 import ApplicationQueryBuilder from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { role } from 'in-stores/user';
 
 import locals from 'in-applications/Forms/shared/ApplicationQueryBuilderInput.mless';
 
 interface ApplicationQueryBuilderInputProps {
-  value: FormModelElement[];
+  formField: Field<FormModelElement[]>;
   onChange: (tagFilterExpression: FormModelElement[]) => void;
 }
 
-export const ApplicationQueryBuilderInput = ({ value, onChange }: ApplicationQueryBuilderInputProps) => {
+export const ApplicationQueryBuilderInput = ({ formField, onChange }: ApplicationQueryBuilderInputProps) => {
   return (
     <div className={locals.queryBuilder} id="querybuilder-input">
-      <ApplicationQueryBuilder value={value} onChange={onChange} />
+      <ApplicationQueryBuilder value={formField.value} onChange={onChange} readOnly={!role?.canConfigureSubtraces} />
     </div>
   );
 };

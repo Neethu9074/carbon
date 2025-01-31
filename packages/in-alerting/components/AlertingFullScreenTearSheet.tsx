@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { MapForm, Item } from 'formalistic';
 
 import { CreateFullPage, CreateFullPageProps, CreateFullPageStep } from '@instana/ibm-products';
@@ -12,7 +12,10 @@ import { CreateFullPage, CreateFullPageProps, CreateFullPageStep } from '@instan
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData, TimeConfig } from 'in-types';
 import AlertingCarbonTearSheetContent from 'in-alerting/components/AlertingCarbonTearSheetContent';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { ALERTING_CANCEL_CLICKED } from 'in-services/tracking/eventNames';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { t } from 'in-i18n';
 
 import locals from './AlertingFullScreenTearSheet.mless';
@@ -47,20 +50,24 @@ interface AlertingFullScreenTearSheetProps {
   setTagFilterValid?: React.Dispatch<React.SetStateAction<boolean>>;
   thresholdResult: Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData> | undefined | null;
   actionButtonLabel: string;
+  productArea?: string;
 }
 
 export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTearSheetProps) {
-  const { goToPath } = useNavigation();
   const {
     form,
     tearSheetTitle,
-    cancelTearSheet,
     updateForm,
     stepConfigs,
     handleFormSubmit,
     isEditMode,
-    actionButtonLabel
+    actionButtonLabel,
+    cancelTearSheet,
+    productArea
   } = props;
+
+  const { goToPath } = useNavigation();
+  const { trackCta } = useSegmentTracking();
 
   const simulatedDelay = 750;
   const lastStepIndex = stepConfigs.length - 1;
@@ -68,6 +75,11 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
   const [stepValid, setStepValid] = useState(true);
   const [errorStep, setErrorStep] = useState<number | null>(null);
   const [currentStep, setCurrentStep] = useState<number>(0);
+
+  /**
+   * Carbon TearSheet calls the `onclose` function after the `onRequestSubmit` since we don't want this to be triggered, we restrict this call by setting isFormSubmit:true if `onRequestSubmit` is clicked.
+   */
+  const isFormSubmit = useRef(false);
 
   /**
    * Helper function to validate the current step
@@ -107,9 +119,18 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
       backButtonText: t('in-alerting:smartAlerts.components.smartAlertDialog.previousTitle'),
       cancelButtonText: t('in-alerting:smartAlerts.components.smartAlertDialog.cancelTitle'),
       nextButtonText: t('in-alerting:smartAlerts.components.smartAlertDialog.nextTitle'),
-      onRequestSubmit: handleSubmit,
+      onRequestSubmit: () => {
+        isFormSubmit.current = true;
+        handleSubmit();
+      },
       submitButtonText: actionButtonLabel,
-      onClose: () => goToPath(cancelTearSheet.slice(2)),
+      onClose: () => {
+        if (!isFormSubmit.current) {
+          trackCta(ALERTING_CANCEL_CLICKED, { canceledStep: stepConfigs[currentStep].title, ...form.toJS() });
+          goToPath(cancelTearSheet.slice(2));
+        }
+        isFormSubmit.current = false;
+      },
       title: tearSheetTitle,
       modalDangerButtonText: t('in-alerting:smartAlerts.components.smartAlertDialog.cancelTitle'),
       modalSecondaryButtonText: t('in-alerting:smartAlerts.components.smartAlertDialog.closeTitle'),
@@ -117,7 +138,7 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
       modalDescription: t('in-alerting:smartAlerts.components.tearSheet.cancelModalDescription')
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [cancelTearSheet, goToPath, handleSubmit, isEditMode, stepConfigs, tearSheetTitle]
+    [cancelTearSheet, goToPath, handleSubmit, isEditMode, stepConfigs, tearSheetTitle, actionButtonLabel]
   );
 
   if (isEditMode) {
@@ -147,6 +168,12 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
 
   return (
     <div className={locals.fullPage}>
+      <ViewTrackingMeta
+        data={{
+          productArea: productArea,
+          pageRootName: tearSheetTitle
+        }}
+      />
       <CreateFullPage {...args}>
         {stepConfigs.map(
           (

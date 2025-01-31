@@ -132,6 +132,7 @@ function toAlertConfig(form: MapForm<any>): Readonly<WebsiteAlertConfig> {
     threshold: form.get('threshold').toJS(),
     timeThreshold: form.get('timeThreshold').toJS(),
     granularity: form.get(fieldNames.granularity).value,
+    gracePeriod: form.get(fieldNames.gracePeriod).value,
     customPayloadFields: form.get('customPayloadFields').toJS()
   });
 }

@@ -83,7 +83,7 @@ export default function HttpSections({
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
-    timeShift: 0
+    timeShift: { offset: 0 }
   };
 
   const otherCallsMetricConfig = {
@@ -92,7 +92,7 @@ export default function HttpSections({
     source: 'APPLICATION',
     tagFilters: [{ name: 'call.http.status', operator: IS_EMPTY }, ...tagFilters],
     timeConfig: timeConfig,
-    timeShift: 0
+    timeShift: { offset: 0 }
   };
 
   const chartMetrics = [

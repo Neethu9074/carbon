@@ -7,7 +7,7 @@
 import { Field, Item, MapForm, createField } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Stack, RadioButton, Checkbox } from '@instana/components';
+import { Stack, RadioButton, CarbonCheckbox as Checkbox } from '@instana/components';
 
 import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
 import Section, { ActionTitle, Description } from 'in-synthetics/createTests/wizard/Section';
@@ -41,6 +41,7 @@ export default function BrowserSimpleConfiguration({ form, updateForm, invalidTi
   const retriesField = configForm.get('retries') as Field<number>;
   const retryIntervalField = configForm.get('retryInterval') as Field<number>;
   const markSyntheticCall = configForm.get('markSyntheticCall') as Field<boolean>;
+  const recordVideo = configForm.get('recordVideo') as Field<boolean>;
 
   const [timeout, setTimeout] = useState({
     value: timeoutField.value.replace(/\D/g, ''),
@@ -179,7 +180,7 @@ export default function BrowserSimpleConfiguration({ form, updateForm, invalidTi
       <div className={locals.configContainer}>
         <Stack direction="horizontal">
           <Checkbox
-            wrapperClassName={locals.configCheckbox}
+            id="markSyntheticCall"
             onChange={({ target }) => {
               updateForm(
                 form.updateIn(['configuration', 'markSyntheticCall'], (field: Item) =>
@@ -188,9 +189,19 @@ export default function BrowserSimpleConfiguration({ form, updateForm, invalidTi
               );
             }}
             checked={markSyntheticCall.value}
-            size="larger"
-            label={t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall')}
-            disabled={false}
+            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall')}
+          />
+          <Checkbox
+            id="recordVideo"
+            checked={recordVideo.value}
+            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.recordVideo')}
+            onChange={({ target }) => {
+              updateForm(
+                form.updateIn(['configuration', 'recordVideo'], (field: Item) =>
+                  (field as Field<boolean>).setValue(target.checked).setTouched(true)
+                )
+              );
+            }}
           />
         </Stack>
       </div>

@@ -538,6 +538,7 @@ export interface Script {
 export interface Zip {
   name: string;
   files: string[];
+  blob: File | null;
 }
 
 export interface Code {
@@ -696,3 +697,17 @@ export interface AssociatedEntitiesListProps {
   onRowClick?: (entity: any) => void;
   inSelectListDialog?: boolean;
 }
+
+export interface ResultRecording {
+  testId: string;
+  testResultId: string;
+  videos: string;
+}
+
+export const dummyTestResultRecording: Result<ResultRecording> = {
+  data: {} as ResultRecording,
+  errors: [],
+  progress: {
+    loading: true
+  }
+};

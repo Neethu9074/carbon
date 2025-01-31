@@ -4,45 +4,31 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ActionType, Field, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { Result } from '@instana/types';
 
-import { mapData, successObservable } from 'in-services/util/result';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
-import { createDocLinkField } from 'in-automation/utils/actionField';
+import { mapData, successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
-import { ACTION_TYPE } from 'in-automation/constants';
-import { NewAction } from 'in-automation/types';
 import { getAction } from 'in-automation/api';
 import { t } from 'in-i18n';
 
-function createAction(
-  name: string = t('in-automation:newAction'),
-  type: ActionType = ACTION_TYPE.DOC_LINK,
-  description: string = '',
-  fields: Field[] = [createDocLinkField('')],
-  tags: string[] = []
-): NewAction {
-  return {
-    name,
-    type,
-    description,
-    fields,
-    tags
-  };
+interface UseActionParams {
+  id: string | null;
+  isCopy: boolean;
 }
 
-export default function useAction(id: string | null, isCopy: boolean) {
+export default function useAction({ id, isCopy }: UseActionParams) {
   return (
-    useObservable<Result<ActionFormEntity>, [boolean, string | null]>(
+    useObservable<Result<ActionFormEntity | undefined>, [boolean, string | null]>(
       () =>
         id
           ? getAction(id).map(result =>
-              mapData(result, policy =>
-                isCopy ? { ...policy, name: t('in-automation:copyOf', { name: policy.name }) } : policy
+              mapData(result, action =>
+                isCopy ? { ...action, name: t('in-automation:copyOf', { name: action.name }) } : action
               )
             )
-          : successObservable(createAction()),
+          : successObservable(undefined),
       [isCopy, id]
     ) ?? (pendingResult as Result<ActionFormEntity>)
   );

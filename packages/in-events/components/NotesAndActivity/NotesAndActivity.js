@@ -7,15 +7,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import {
-  SvgIcon,
-  CarbonLayer,
-  CarbonInlineLoading,
-  IconButton,
-  CarbonSearch,
-  PreviewPill,
-  CarbonModal
-} from '@instana/components';
+import { SvgIcon, CarbonLayer, CarbonInlineLoading, IconButton, CarbonSearch, CarbonModal } from '@instana/components';
 
 // Not using Carbon tooltip since tooltip has not been migrated
 // Using Carbon tooltip would cause mismatch in design on the page
@@ -97,8 +89,7 @@ export function NotesAndActivity(props) {
     <>
       <CarbonLayer>
         <div className={locals.headerWrapper}>
-          {t('in-events:notes.notesActivity')}
-          <PreviewPill />
+          <div className={locals.notesTitle}>{t('in-events:notes.notesActivity')}</div>
           <div className={locals.tagIconWrapper}>
             <IconButton
               kind="action"
@@ -229,7 +220,7 @@ export function NotesAndActivity(props) {
 }
 
 // Basic empty state for notes
-function EmptyState() {
+export function EmptyState() {
   return (
     <div className={locals.emptyWrapper}>
       <h3 className={locals.emptyHeader}>{t('in-events:notes.noActivity')}</h3>

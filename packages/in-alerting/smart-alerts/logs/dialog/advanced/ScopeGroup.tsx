@@ -16,9 +16,10 @@ import LogsGroupingConfigurator from 'in-alerting/smart-alerts/logs/components/L
 interface ScopeGroupProps {
   form: MapForm<any>;
   updateForm?: (form: MapForm<any>) => void;
+  SectionWrapper?: React.FunctionComponent<any>;
 }
 
-export default function ScopeGroup({ form, updateForm }: ScopeGroupProps) {
+export default function ScopeGroup({ form, updateForm, SectionWrapper }: ScopeGroupProps) {
   const tagFilterExpression = form?.get('tagFilterExpression')?.value;
   const groupBy = form?.get('groupBy')?.value;
 
@@ -31,6 +32,7 @@ export default function ScopeGroup({ form, updateForm }: ScopeGroupProps) {
       tagFilterExpression={backendQueryModel || EMPTY_EXPRESSION}
       onChange={(groups: Group) => handleGroupChange(groups, form, updateForm)}
       tracking={{}}
+      SectionWrapper={SectionWrapper}
     />
   );
 }

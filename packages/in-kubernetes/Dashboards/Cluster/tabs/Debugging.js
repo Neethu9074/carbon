@@ -8,8 +8,11 @@ import React from 'react';
 
 import { Card, KeyValue, Li, Ul } from '@instana/components';
 
-import { clusterDashboardFullyQualified } from '../../../navigation/paths';
+import { phasePodListUrlParameter } from 'in-kubernetes/navigation/urlParameters';
+import { clusterDashboard, kubernetes } from 'in-kubernetes/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { t } from 'in-i18n';
 
 export default function Debugging({ cluster, counters }) {
@@ -27,12 +30,13 @@ export default function Debugging({ cluster, counters }) {
 
   return (
     <Card title={t('in-kubernetes:dashboards.debuggingInformation')}>
-      <DebugList items={debuggingInfo} clusterId={cluster.id} />
+      <DebugList items={debuggingInfo} />
     </Card>
   );
 }
 
-function DebugList({ items, clusterId }) {
+function DebugList({ items }) {
+  const { location, createHref } = useNavigation();
   if (!items || items.length === 0) {
     return <NoDataAvailable height={160} text={t('in-kubernetes:dashboards.noDebuggingInformation')} />;
   }
@@ -42,15 +46,14 @@ function DebugList({ items, clusterId }) {
       {sortBy(items, item => item.key).map((item, key) => {
         let value = item.value;
         if (item.key === 'Leader') {
-          value = (
-            <a href={`#${clusterDashboardFullyQualified};clusterId=` + clusterId + '/pods;pod.query=' + item.value}>
-              {item.value}
-            </a>
-          );
+          location.pathname = `${kubernetes}${clusterDashboard}${phasePodListUrlParameter.path}`;
+          setOrDeleteMatrixKey(location, phasePodListUrlParameter.path, 'pod.query', item.value);
+          const href = createHref(location);
+          value = <a href={href}>{item.value}</a>;
         }
 
         return (
-          <Li key={key}>
+          <Li key={`${value}_${key}`}>
             <KeyValue value={value} label={item.key} />
           </Li>
         );

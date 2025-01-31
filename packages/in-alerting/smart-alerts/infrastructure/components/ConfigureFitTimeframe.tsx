@@ -10,7 +10,7 @@ import React from 'react';
 import { ForecastingConfig } from '@instana/types';
 import { Select } from '@instana/components';
 
-import { ForecastAlertingWrapper } from 'in-alerting/smart-alerts/infrastructure/tearsheet/Wrapper';
+import { ForecastAlertingWrapper } from 'in-alerting/smart-alerts/components/tearSheet/CustomWrappers/Wrapper';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { hours, days } from 'in-services/time';

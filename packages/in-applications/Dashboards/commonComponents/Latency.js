@@ -59,7 +59,7 @@ export default function Latency({
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
-    timeShift: 0
+    timeShift: { offset: 0 }
   };
 
   const latencyMetrics = [

@@ -788,6 +788,8 @@
         "cancelTitle": "取消",
         "proceedTitle": "繼續",
         "previousTitle": "上一步",
+        "nextTitle": "下一步",
+        "closeTitle": "關閉",
         "sharedListTooltip": "{{typeName}} 不再可用",
         "clearTagFilterExpressionButton": "清除",
         "baselineErrorMessageComputedOnApproximateData": "基準線是根據由於資料保留設定而產生的近似資料來計算。 因此，如果只有少數呼叫符合選取的過濾器，則它可能不正確。",
@@ -985,7 +987,15 @@
         "labelConfirmRemoveConfig": "您確定要移除警示 <strong>{{configName}}</strong> 嗎？",
         "labelRemove": "移除"
       },
+      "gracePeriod": {
+        "title": "寬限期（選用）",
+        "description": "當不再符合違規臨界值後自動關閉問題：",
+        "label": "選取",
+        "summary": "在不再<strong>符合 {{gracePeriodValue}}</strong> 的違規臨界值後，自動關閉問題。"
+      },
       "tearSheet": {
+        "cancelModalTitle": "您確定要取消嗎？",
+        "cancelModalDescription": "如果取消，您輸入的配置詳細資料將不會儲存。",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "當違規持續存在一段時間時",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "違規以隨機間隔持續存在",
@@ -1001,8 +1011,7 @@
           "persistenceType": "持續性類型",
           "numberOfConsecutiveViolationsPostLabel": "連續的 {{granularity}} 分鐘視窗有違規情況",
           "static": "靜態",
-          "thresholdValue": "臨界值",
-          "timeWindow": "時間範圍"
+          "thresholdValue": "臨界值"
         }
       }
     },
@@ -1248,6 +1257,8 @@
         "alertConfigurationTitleAlertChannels": "警示通道",
         "alertConfigurationTitleAlertProperties": "警示內容",
         "failureThreshold": "{{failureCount}} 個失敗",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "寬限期",
         "alertConfigurationTitleScope": "範圍",
         "noOfFailure": "失敗次數",
         "timeThreshold": "時間臨界值",
@@ -1520,6 +1531,7 @@
       "regexNotValid": "正規表示式無效",
       "tearSheet": {
         "createTitle": "建立基礎架構智慧型警示",
+        "editTitle": "編輯基礎結構智慧警示",
         "steps": {
           "step1Title": "定義條件",
           "step2Title": "定義何時收到警示",
@@ -1537,7 +1549,7 @@
           "header": "您要對此警示設定哪些內容？"
         },
         "step4": {
-          "header": "您希望此警示通知哪些內容？",
+          "header": "您希望在何處收到此警示的通知？",
           "description": "選取此警示的接收者"
         },
         "scopeAlerting": {
@@ -1654,7 +1666,48 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "請提供大於等於 0 的數字",
         "noDataForSelectedGroup": "指定的過濾器和分組組合沒有可用的資料。"
       },
-      "logCount": "日誌計數"
+      "logCount": "日誌計數",
+      "tearSheet": {
+        "labelActionButtonEdit": "編輯",
+        "labelActionButtonDuplicate": "抄寫",
+        "createTitle": "建立日誌智慧警示",
+        "editTitle": "編輯日誌智慧型警示",
+        "steps": {
+          "step1Title": "定義條件",
+          "step2Title": "定義何時收到警示",
+          "step3Title": "定義警示屬性",
+          "step4Title": "定義警示通道"
+        },
+        "step2": {
+          "header": "設定違規臨界值的值",
+          "description": "選取度量、違規臨界值和時間範圍來評估違規。"
+        },
+        "step3": {
+          "header": "您要對此警示設定哪些內容？"
+        },
+        "step4": {
+          "header": "您希望在何處收到此警示的通知？",
+          "description": "選取此警示的接收者"
+        },
+        "scopeFilter": {
+          "title": "選擇日誌的範圍",
+          "filter": "過濾器",
+          "filterDescription": "向服務新增過濾器以獲得更精確的警示。"
+        },
+        "scopeGroupBy": {
+          "group": "群組",
+          "groupByDescription": "新增群組以配置群組呼叫。 群組中的每個呼叫會集體進行配置，但會個別進行評估。"
+        },
+        "timeThreshold": {
+          "title": "在違規觸發警示時設定",
+          "description": "指定警示觸發的持續時間和失敗時間。"
+        },
+        "thresholdDescription": {
+          "static": "會套用常數臨界值，且不會隨著時間而變更。"
+        },
+        "chartAlertPreview": "警示預覽",
+        "chartAlertPreviewDescription": "顯示如何根據歷程度量資料觸發警示。"
+      }
     },
     "slo": {
       "components": {
@@ -1777,6 +1830,7 @@
     "warningAndCritical": "警告和嚴重",
     "warning": "警告",
     "critical": "嚴重",
-    "searchPlaceholder": "搜尋"
+    "searchPlaceholder": "搜尋",
+    "sortBy": "排序方式"
   }
 }

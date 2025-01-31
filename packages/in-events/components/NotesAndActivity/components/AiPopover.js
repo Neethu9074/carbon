@@ -23,16 +23,18 @@ export function AIPopover() {
         size="xs"
         viewBox={'4 4 24 24'}
         className={locals.aiIconSlug}
+        id="ai_slug_icon"
         onClick={() => {
           setShowPop(!showPop);
         }}
       />
 
-      <CarbonPopoverContent className={locals.popoverContent}>
+      <CarbonPopoverContent className={locals.popoverContent} id="ai_popover_content">
         <div className={locals.popupClose}>
           <IconButton
             type={'lib_openclose_cancel'}
             size="compact"
+            id="ai_popover_close"
             onClick={() => {
               setShowPop(!showPop);
             }}
@@ -77,7 +79,7 @@ export function AIExplainedContent() {
       </div>
       <div className={locals.aimodellink}>
         <div>{t('in-events:notes.aiModel')}</div>
-        <Link linkIconType={'lib_views_external_link'} href="https://ibm.biz/granite-13b-chat-v2" external>
+        <Link linkIconType={'lib_views_external_link'} href="https://ibm.biz/granite-instruct-models" external>
           {t('in-events:notes.granite')}
         </Link>
       </div>

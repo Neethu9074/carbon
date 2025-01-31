@@ -29,7 +29,7 @@
         "pleaseSelect": "请选择"
       },
       "sharingDialogPresenter": {
-        "share": "共享",
+        "editPermissions": "编辑许可权",
         "shareMsg": "此定制仪表板具有该对话框无法表示的高级访问规则。您可以使用“以 JSON 格式编辑”功能编辑这些访问规则。",
         "privateDashboardDefault": "专用仪表板（缺省）",
         "privateDashboardDefaultExplain": "此仪表板仅对您可见。",
@@ -81,6 +81,7 @@
       "failure": "失败",
       "dashboardNotFoundExplain": "此仪表板不存在，或者您没有它的访问权。",
       "customDashboard": "定制仪表板",
+      "customDashboardOptions": "定制仪表板选项",
       "saveChange": "保存更改",
       "discardChange": "放弃更改",
       "addWidget": "添加窗口小部件",
@@ -92,8 +93,8 @@
       "copiedAllWidgets": "已复制窗口小部件，使用 CTRL-V 或 CMD-V 在任何定制仪表板上粘贴",
       "duplicate": "复制",
       "delete": "删除",
-      "share": "共享",
-      "shareButtonTooltip": "您的用户帐户无权共享仪表板。"
+      "editPermissions": "编辑许可权",
+      "editOptionTooltip": "您的用户帐户无权共享仪表板。"
     },
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "无法将输入解析为 JSON。",
@@ -833,6 +834,14 @@
         "tagNoValue": "呈现的标记“{{labelname}}”不含任何值"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "正在呈现 https://...",
+      "form": {
+        "heading": "您想嵌入哪个页面？",
+        "title": "输入 URL"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "运行概况"
@@ -900,7 +909,8 @@
         }
       },
       "dataSource": {
-        "events": "事件"
+        "events": "事件",
+        "k8sEvents": "Kubernetes 事件"
       },
       "eventColumns": {
         "title": "标题",
@@ -908,6 +918,19 @@
         "startedOn": "开始时间",
         "endedOn": "结束时间",
         "duration": "持续时间"
+      },
+      "kubernetesEventColumns": {
+        "type": "Type",
+        "reason": "原因",
+        "message": "消息",
+        "namespace": "名称空间",
+        "involvedObject": "涉及的对象",
+        "kind": "种类",
+        "time": "时间"
+      },
+      "emptyTable": {
+        "title": "无可用事件",
+        "explanation": "针对所选时间范围未检索到任何事件"
       }
     },
     "time": {

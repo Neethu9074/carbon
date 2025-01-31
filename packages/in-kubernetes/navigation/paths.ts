@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import { TimeConfig } from '@instana/types';
+
 import {
   serviceId as matrixServiceId,
   clusterId as matrixClusterId,
@@ -22,7 +24,6 @@ import { LocationMutator } from 'in-stores/navigation/navigation';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
-import { TimeConfig } from 'in-types';
 
 interface NavigateToDashboardProps {
   id: string;

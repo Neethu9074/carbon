@@ -51,22 +51,31 @@ export interface NoAuth {
   type: 'noAuth';
 }
 
+export const isNoAuth = (authen: Authen): authen is NoAuth => authen.type === 'noAuth';
+
 export interface BasicAuth {
   type: 'basicAuth';
   username: string;
   password: string;
 }
 
+export const isBasicAuth = (authen: Authen): authen is BasicAuth => authen.type === 'basicAuth';
+
 export interface BearerAuth {
   type: 'bearerToken';
   bearerToken: string;
 }
+
+export const isBearerAuth = (authen: Authen): authen is BearerAuth => authen.type === 'bearerToken';
+
 export interface ApiKeyAuth {
   type: 'apiKey';
   apiKey: string;
   apiKeyValue: string;
   apiKeyAddTo: string;
 }
+
+export const isApiKeyAuth = (authen: Authen): authen is ApiKeyAuth => authen.type === 'apiKey';
 
 export type Authen = NoAuth | BasicAuth | BearerAuth | ApiKeyAuth;
 export type AuthenType = 'bearerToken' | 'apiKey' | 'noAuth' | 'basicAuth';

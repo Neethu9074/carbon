@@ -14,6 +14,7 @@ import {
   unitForInfraMetricsEnabled
 } from 'in-services/featureFlags';
 import MetricSelectionCategoryOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectionCategoryOverlay';
+import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import { regexValidationError } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
 import { formCallbacks } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/formStateManagement';
@@ -40,7 +41,6 @@ import QueryBuilder from 'in-infrastructure/Explore/components/QueryBuilder';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
-import TypeAndMetricConfigurator from './TypeAndMetricConfigurator';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
@@ -56,7 +56,7 @@ import { noop } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from './FormComponent.mless';
+import locals from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/FormComponent.mless';
 
 export default function FormComponent({
   form,

@@ -125,21 +125,24 @@
       "beaconErrorCount": "信标错误计数"
     },
     "format": {
-      "event_website": "{{formatted}} 信标",
-      "event_website_plural": "{{formatted}} 信标",
-      "event_website_0": "{{formatted}} 信标",
-      "event_website_1": "{{formatted}} 信标",
-      "event_website_2": "{{formatted}} 信标",
-      "event_application": "{{formatted}} 调用",
-      "event_application_plural": "{{formatted}} 调用",
-      "event_application_0": "{{formatted}} 调用",
-      "event_application_1": "{{formatted}} 调用",
-      "event_application_2": "{{formatted}} 调用",
-      "event_synthetic": "{{formatted}} 结果",
-      "event_synthetic_plural": "{{formatted}} 结果",
-      "event_synthetic_0": "{{formatted}} 结果",
-      "event_synthetic_1": "{{formatted}} 结果",
-      "event_synthetic_2": "{{formatted}} 结果",
+      "unit_application": "调用",
+      "unit_application_plural": "调用数",
+      "unit_application_0": "调用数",
+      "unit_application_1": "调用",
+      "unit_application_2": "调用数",
+      "unit_website": "信标",
+      "unit_website_plural": "信标",
+      "unit_website_0": "信标",
+      "unit_website_1": "信标",
+      "unit_website_2": "信标",
+      "unit_synthetic": "结果",
+      "unit_synthetic_plural": "结果",
+      "unit_synthetic_0": "结果",
+      "unit_synthetic_1": "结果",
+      "unit_synthetic_2": "结果",
+      "event_website": "{{formatted}} $t(in-service-levels:general.format.unit_website, { \"count\": {{count}} })",
+      "event_application": "{{formatted}} $t(in-service-levels:general.format.unit_application, { \"count\": {{count}} })",
+      "event_synthetic": "{{formatted}} $t(in-service-levels:general.format.unit_synthetic, { \"count\": {{count}} })",
       "event_test": "{{count}} 测试",
       "event_test_plural": "{{count}} 测试"
     },
@@ -161,7 +164,10 @@
     "customFilter": "定制过滤器",
     "custom": "定制",
     "customDescription": "设置定制过滤器以选择服务和/或端点",
-    "title": "创建服务级别目标 (SLO)",
+    "title": {
+      "create": "创建服务级别目标 (SLO)",
+      "edit": "编辑服务级别目标 (SLO)"
+    },
     "selectIndicator": "选择蓝图",
     "selectEntityNavItem": "设置实体",
     "selectEntityTitle": "选择要向其添加 SLO 的实体：",
@@ -208,8 +214,14 @@
       "description_latency": "度量服务响应速度高于设置的阈值的速度。 例如，检出服务响应速度超过 100ms 的度量。",
       "description_availability": "度量服务适当响应的频率。 例如，HTTP 调用出错的频率。",
       "description_traffic": "使用特定于系统的高级指标来衡量对系统的需求量。 例如，通常以每秒 HTTP 信标数来度量 Web 服务。",
-      "timeTypeExplanation": "按分钟分组的正确调用数与错误调用数",
+      "timeTypeExplanation": "按分钟汇总的正确调用数与错误调用数",
+      "timeTypeExplanation_application": "按分钟汇总的正确调用数与错误调用数",
+      "timeTypeExplanation_website": "按分钟汇总的正确信标数与错误信标数",
+      "timeTypeExplanation_synthetic": "按分钟汇总的正确结果数与错误结果数",
       "eventTypeExplanation": "正确调用与错误调用的总计数",
+      "eventTypeExplanation_application": "正确调用与错误调用的总计数",
+      "eventTypeExplanation_website": "正确信标总数与错误信标总数",
+      "eventTypeExplanation_synthetic": "正确结果总数与错误结果总数",
       "eventCount": "事件计数",
       "eventType": "事件类型",
       "thresholdLabel": "未知类型",
@@ -217,11 +229,11 @@
       "thresholdLabel_availability": "出错率（百分比）",
       "setGoodCall": "设置对服务的正确调用",
       "setBadCall": "设置对服务的错误调用（可选）",
-      "thresholdDescription_GT": "每分钟呼叫次数超过 {{thresholdValue}} 即为有效分钟。 每分钟呼叫次数小于或等于 {{thresholdValue}} 即为无效分钟。",
-      "thresholdDescription_GTE": "每分钟呼叫数大于或等于 {{thresholdValue}} 即为有效分钟。 每分钟呼叫数小于 {{thresholdValue}} 即为无效分钟。",
-      "thresholdDescription_LT": "每分钟呼叫数小于 {{thresholdValue}} 即为有效分钟。 每分钟呼叫数大于或等于 {{thresholdValue}} 即为无效分钟。",
-      "thresholdDescription_LTE": "每分钟呼叫数小于或等于 {{thresholdValue}} 即为有效分钟。 每分钟呼叫数大于 {{thresholdValue}} 即为无效分钟。",
-      "thresholdInput": "<Stack>将阈值设置为每分钟 <HorizontalStack><OperatorDropdown /><ThresholdInput /> 呼叫<HorizontalStack/><Stack />"
+      "thresholdDescription_GT": "每分钟计数超过 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 即为表现良好的一分钟。 每分钟计数小于或等于 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 即为表现糟糕的一分钟。",
+      "thresholdDescription_GTE": "每分钟计数大于或等于 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 即为表现良好的一分钟。 每分钟计数小于 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 即为表现糟糕的一分钟。",
+      "thresholdDescription_LT": "每分钟计数小于 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 即为表现良好的一分钟。 每分钟计数大于或等于 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 即为表现糟糕的一分钟。",
+      "thresholdDescription_LTE": "每分钟计数小于或等于 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 即为表现良好的一分钟。 每分钟计数大于 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 即为表现糟糕的一分钟。",
+      "thresholdInput": "<Stack>将每分钟的阈值设置为 <HorizontalStack><OperatorDropdown /><ThresholdInput />$t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{count}} }) <HorizontalStack/><Stack />"
     },
     "previewSection": {
       "dataInfo": "最多仅显示过去 7 天的预览数据。 SLO 将仅包含创建时的数据",
@@ -247,6 +259,11 @@
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
       "startTime": "开始时间：{{startDay}}，{{startTime}}",
       "matchedSLOTimeWindow": "匹配的 SLO 时间窗口： ",
+      "matchedSLOTimeWindow_plural": "匹配的 SLO 时间窗口： ",
+      "matchedSLOTimeWindow_0": "匹配的 SLO 时间窗口： ",
+      "matchedSLOTimeWindow_1": "匹配的 SLO 时间窗口： ",
+      "matchedSLOTimeWindow_2": "匹配的 SLO 时间窗口： ",
+      "noMatchedSLOTimeWindow": "未找到匹配的时间窗口",
       "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
     "missingData": {
@@ -338,7 +355,7 @@
             "goodEventFilters": "正确事件过滤器：",
             "badEventFilters": "错误事件过滤器："
           },
-          "approximateTooltip": "数据已聚集。 查看更短的时间窗口以了解更多详细信息"
+          "approximateTooltip": "阈值违例可能比图表上的一点所代表的时间更短。 放大和缩小会影响指标的详细程度。"
         }
       },
       "entitySection": {

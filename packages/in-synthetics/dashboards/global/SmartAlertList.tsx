@@ -17,7 +17,6 @@ import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/
 import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListActionHandlers';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
-import StatusColumnCell from 'in-alerting/smart-alerts/components/list/StatusColumnCell';
 import { SyntheticAlertConfigWithMetadata, SyntheticAlertConfig, Role } from 'in-types';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
@@ -146,13 +145,14 @@ export function getCarbonTableColumnDefinitions() {
         </>
       ),
       sortable: false
-    },
-    {
-      id: 'enabled',
-      label: t('in-alerting:table.status'),
-      getContent: (config: SyntheticAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
-      sortable: true
     }
+    // TODO bring this back once the bulk actions are implemented
+    // {
+    //   id: 'enabled',
+    //   label: t('in-alerting:table.status'),
+    //   getContent: (config: SyntheticAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
+    //   sortable: true
+    // }
   ];
 }
 

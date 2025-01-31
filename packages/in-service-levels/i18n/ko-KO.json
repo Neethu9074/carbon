@@ -125,21 +125,24 @@
       "beaconErrorCount": "비컨 오류 계수"
     },
     "format": {
-      "event_website": "{{formatted}} 비컨",
-      "event_website_plural": "{{formatted}} 비컨",
-      "event_website_0": "{{formatted}} 비컨",
-      "event_website_1": "{{formatted}} 비컨",
-      "event_website_2": "{{formatted}} 비컨",
-      "event_application": "{{formatted}} 호출",
-      "event_application_plural": "{{formatted}} 호출",
-      "event_application_0": "{{formatted}} 호출",
-      "event_application_1": "{{formatted}} 호출",
-      "event_application_2": "{{formatted}} 호출",
-      "event_synthetic": "{{formatted}} 결과",
-      "event_synthetic_plural": "{{formatted}} 결과",
-      "event_synthetic_0": "{{formatted}} 결과",
-      "event_synthetic_1": "{{formatted}} 결과",
-      "event_synthetic_2": "{{formatted}} 결과",
+      "unit_application": "호출",
+      "unit_application_plural": "호출",
+      "unit_application_0": "호출",
+      "unit_application_1": "호출",
+      "unit_application_2": "호출",
+      "unit_website": "경고",
+      "unit_website_plural": "경고",
+      "unit_website_0": "경고",
+      "unit_website_1": "경고",
+      "unit_website_2": "경고",
+      "unit_synthetic": "결과",
+      "unit_synthetic_plural": "결과",
+      "unit_synthetic_0": "결과",
+      "unit_synthetic_1": "결과",
+      "unit_synthetic_2": "결과",
+      "event_website": "{{formatted}} $t(in-service-levels:general.format.unit_website, { \"count\": {{count}} })",
+      "event_application": "{{formatted}} $t(in-service-levels:general.format.unit_application, { \"count\": {{count}} })",
+      "event_synthetic": "{{formatted}} $t(in-service-levels:general.format.unit_synthetic, { \"count\": {{count}} })",
       "event_test": "{{count}}개 테스트",
       "event_test_plural": "{{count}}개 테스트"
     },
@@ -161,7 +164,10 @@
     "customFilter": "사용자 정의 필터",
     "custom": "사용자 정의",
     "customDescription": "서비스 및/또는 엔드포인트를 선택하도록 사용자 정의 필터 설정",
-    "title": "SLO(Service Level Objective) 생성",
+    "title": {
+      "create": "SLO(Service Level Objective) 생성",
+      "edit": "SLO(Service Level Objective) 편집"
+    },
     "selectIndicator": "청사진 선택",
     "selectEntityNavItem": "엔티티 설정",
     "selectEntityTitle": "SLO를 추가할 엔티티 선택:",
@@ -208,8 +214,14 @@
       "description_latency": "서비스가 설정된 임계값을 초과하여 응답하는 속도를 측정합니다. 예를 들어, 체크아웃 서비스가 100ms보다 빠르게 응답하는 속도의 측정값입니다.",
       "description_availability": "서비스가 적절히 응답하는 빈도를 측정합니다. 예를 들어, HTTP 호출에 오류가 발생하는 빈도입니다.",
       "description_traffic": "높은 레벨의 시스템별 메트릭을 사용하여 시스템에 얼마나 많은 수요가 발생하고 있는지 측정합니다. 예를 들어, 웹 서비스는 일반적으로 초당 HTTP 비컨으로 측정됩니다.",
-      "timeTypeExplanation": "양호한 호출과 불량한 호출이 그룹화됨(분 단위로 집계됨)",
+      "timeTypeExplanation": "양호한 호출과 불량한 호출(분 단위로 집계됨)",
+      "timeTypeExplanation_application": "양호한 호출과 불량한 호출(분 단위로 집계됨)",
+      "timeTypeExplanation_website": "양호한 비컨과 불량한 비컨(분 단위로 집계됨)",
+      "timeTypeExplanation_synthetic": "양호한 결과와 불량한 결과(분 단위로 집계됨)",
       "eventTypeExplanation": "양호한 호출과 불량한 호출의 총 개수",
+      "eventTypeExplanation_application": "양호한 호출과 불량한 호출의 총 개수",
+      "eventTypeExplanation_website": "양호한 비컨과 불량한 비컨의 총 개수",
+      "eventTypeExplanation_synthetic": "양호한 결과와 불량한 결과의 총 개수",
       "eventCount": "이벤트 개수",
       "eventType": "이벤트 유형",
       "thresholdLabel": "알 수 없는 유형",
@@ -217,11 +229,11 @@
       "thresholdLabel_availability": "오류 비율(%)",
       "setGoodCall": "서비스에 대한 양호한 호출 설정",
       "setBadCall": "서비스에 대한 불량한 호출 설정(선택사항)",
-      "thresholdDescription_GT": "양호한 시간(1분)은 분당 {{thresholdValue}} 이상의 호출 수로 정의됩니다. 불량한 시간(1분)은 분당 {{thresholdValue}} 이하의 호출 수로 정의됩니다.",
-      "thresholdDescription_GTE": "양호한 시간(1분)은 분당 {{thresholdValue}} 이상의 호출 수로 정의됩니다. 불량한 시간(1분)은 분당 {{thresholdValue}} 미만의 호출 수로 정의됩니다.",
-      "thresholdDescription_LT": "양호한 시간(1분)은 분당 {{thresholdValue}} 미만의 호출 수로 정의됩니다. 불량한 시간(1분)은 분당 {{thresholdValue}} 이상의 호출 수로 정의됩니다.",
-      "thresholdDescription_LTE": "양호한 시간(1분)은 분당 {{thresholdValue}} 이하의 호출 수로 정의됩니다. 불량한 시간(1분)은 분당 {{thresholdValue}} 초과의 호출 수로 정의됩니다.",
-      "thresholdInput": "<Stack><HorizontalStack><OperatorDropdown의 임계값 설정 /><ThresholdInput />분<HorizontalStack/><스택당 호출 수/>"
+      "thresholdDescription_GT": "양호한 분은 분당 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 이상의 카운트로 정의됩니다. 불량한 분은 분당 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 이하의 카운트로 정의됩니다.",
+      "thresholdDescription_GTE": "양호한 분은 분당 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 이상의 카운트로 정의됩니다. 불량한 분은 분당 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 미만의 카운트로 정의됩니다.",
+      "thresholdDescription_LT": "양호한 분은 분당 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 미만의 카운트로 정의됩니다. 불량한 분은 분당 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 이상의 카운트로 정의됩니다.",
+      "thresholdDescription_LTE": "양호한 분은 분당 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 이하의 카운트로 정의됩니다. 불량한 분은 분당 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 초과의 카운트로 정의됩니다.",
+      "thresholdInput": "<Stack>다음 임계값 설정: <HorizontalStack><OperatorDropdown /><ThresholdInput />$t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{count}} })(분당<HorizontalStack/><Stack />)"
     },
     "previewSection": {
       "dataInfo": "미리보기 데이터는 과거에 대해 7일까지만 표시됩니다. SLO에는 작성된 시간의 데이터만 포함됩니다.",
@@ -247,6 +259,11 @@
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
       "startTime": "시작 시간: {{startDay}} , {{startTime}}",
       "matchedSLOTimeWindow": "일치하는 SLO 시간 창: ",
+      "matchedSLOTimeWindow_plural": "일치하는 SLO 시간 창: ",
+      "matchedSLOTimeWindow_0": "일치하는 SLO 시간 창: ",
+      "matchedSLOTimeWindow_1": "일치하는 SLO 시간 창: ",
+      "matchedSLOTimeWindow_2": "일치하는 SLO 시간 창: ",
+      "noMatchedSLOTimeWindow": "일치하는 시간 창을 찾을 수 없음",
       "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
     "missingData": {
@@ -338,7 +355,7 @@
             "goodEventFilters": "유용한 이벤트 필터:",
             "badEventFilters": "잘못된 이벤트 필터:"
           },
-          "approximateTooltip": "데이터가 집계되었습니다. 세부사항을 보려면 더 짧은 시간 창을 보십시오."
+          "approximateTooltip": "임계값 위반은 차트에서 1점으로 표시되는 시간보다 짧을 수 있습니다. 확대 및 축소는 메트릭의 세부 레벨에 영향을 줄 수 있습니다."
         }
       },
       "entitySection": {

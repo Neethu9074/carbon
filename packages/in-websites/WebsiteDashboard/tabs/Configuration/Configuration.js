@@ -39,12 +39,12 @@ export default function Configuration(props) {
             {
               label: t('in-websites:websiteDashboard.tabs.configuration.configurationLabelCustomGeoDetails'),
               path: configurationCustomGeoDetailsFullyQualified,
-              component: () => <StackTraceTranslation {...props} />
+              component: () => <WebsiteCustomGeoDetails {...props} />
             },
             {
               label: t('in-websites:websiteDashboard.tabs.configuration.configurationLabelJSStackTraceTranslation'),
               path: configurationJsStackTraceTranslationFullyQualified,
-              component: () => <WebsiteCustomGeoDetails {...props} />
+              component: () => <StackTraceTranslation {...props} />
             }
           ]
         }

@@ -9,6 +9,7 @@ import React from 'react';
 import {
   DateAsNumber,
   isApplicationSloEntity,
+  isSyntheticSloEntity,
   isWebsiteSloEntity,
   Result,
   SloEntityUnion,
@@ -30,14 +31,14 @@ import { thresholdMetricId } from 'in-service-levels/components/SloDashboard/com
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
+import { calculateTrafficGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
+import { applicationMetrics, syntheticMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import { defaultSliThresholdOperator, ServiceLevelErrors } from 'in-service-levels/constants';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSliMetricConfiguration from 'in-service-levels/hooks/useSliMetricConfiguration';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
-import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
-import { calculateTrafficGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { successObservable } from 'in-services/util/result';
@@ -79,6 +80,7 @@ export default function TimeBasedTrafficIndicatorChart({
     timeWindows,
     getMetricConfig
   );
+
   const result: Result<UnifiedMetricsResult[]> =
     useObservable(() => {
       if (!hasMatchingTimeWindows) return successObservable([]);
@@ -88,11 +90,13 @@ export default function TimeBasedTrafficIndicatorChart({
   const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
   const metricValues = copyFirstBucketOfSubsequentDataSeries(metrics.map(metric => metric.values as MetricDataSeries));
   const thresholdMetrics: MetricDataSeries = metricValues.flat(1).map(([timestamp]) => [timestamp, threshold]);
-  const metricLabel = isApplicationSloEntity(entity)
-    ? applicationMetrics[indicator.trafficType === 'all' ? 'calls' : 'erroneousCalls'].label
-    : websiteMetrics[indicator.trafficType === 'all' ? 'beaconCount' : 'beaconErrorCount'].label;
+  const metricLabel = getMetricLabel({ entity, indicator });
 
   const filteredData = filterMetricValuesWithinTimeWindow(metricValues, timeConfig);
+
+  const timeWindowStartIndex = getIndexOfFirstTimeWindowWithData(filteredData, timeWindows);
+  const timeWindowsWithData = timeWindows.slice(timeWindowStartIndex);
+  const windowColorsWithData = timeWindowColors.slice(timeWindowStartIndex);
 
   const operator = indicator.operator ?? defaultSliThresholdOperator;
   const isGreaterOp = operator === '>' || operator === '>=';
@@ -100,6 +104,7 @@ export default function TimeBasedTrafficIndicatorChart({
     firstCollectedMetricTimestamp: missingDataIndicator,
     isGreaterOp
   });
+
   return (
     <ResultAwareChart
       config={{
@@ -117,10 +122,10 @@ export default function TimeBasedTrafficIndicatorChart({
         excludedContextMenuActions: [zoomInAction.name],
         granularity: result.data?.[0]?.granularity ?? granularity,
         y1: {
-          metricIds: [...timeWindows.map(() => metricId), thresholdMetricId],
+          metricIds: [...timeWindowsWithData.map(() => metricId), thresholdMetricId],
           metrics: [...filteredData, thresholdMetrics],
-          labels: [...timeWindows.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
-          colors: [...timeWindowColors, themes.default.ids.color.option.red['500']],
+          labels: [...timeWindowsWithData.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
+          colors: [...windowColorsWithData, themes.default.ids.color.option.red['500']],
           formatter: number.compact,
           renderer
         },
@@ -159,6 +164,44 @@ function getMetricConfig(
       timeConfig,
       aggregation: indicator.aggregation
     });
+  }
+
+  if (isSyntheticSloEntity(entity)) {
+    const metric = indicator.trafficType === 'all' ? 'allTests' : 'erroneousTests';
+
+    return syntheticMetrics[metric].timeSeries({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      granularity
+    });
+  }
+
+  throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+}
+
+interface GetMetricLabelProps {
+  entity: SloEntityUnion;
+  indicator: TrafficBlueprintIndicator;
+}
+
+function getMetricLabel({ entity, indicator }: GetMetricLabelProps) {
+  if (isApplicationSloEntity(entity)) {
+    const metric = indicator.trafficType === 'all' ? 'calls' : 'erroneousCalls';
+
+    return applicationMetrics[metric].label;
+  }
+
+  if (isWebsiteSloEntity(entity)) {
+    const metric = indicator.trafficType === 'all' ? 'beaconCount' : 'beaconErrorCount';
+
+    return websiteMetrics[metric].label;
+  }
+
+  if (isSyntheticSloEntity(entity)) {
+    const metric = indicator.trafficType === 'all' ? 'allTests' : 'erroneousTests';
+
+    return syntheticMetrics[metric].label;
   }
 
   throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);

@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import HelpText from 'in-components/form/HelpText';
@@ -27,6 +29,7 @@ export default function ElkForm({ form, onChange, disabled }) {
             value={field.value}
             onChange={e => onChange('url', e.target.value)}
             hasError={!field.value && field.touched}
+            placeholder={t('in-settings:tabs.elkInstanceUrlInputPlaceholder')}
             autoFocus
           />
           {!disabled && <TouchedMessages field={field} />}
@@ -46,6 +49,7 @@ export default function ElkForm({ form, onChange, disabled }) {
             value={field.value}
             onChange={e => onChange('basePath', e.target.value)}
             hasError={!field.value && field.touched}
+            placeholder={t('in-settings:tabs.elkBasePathPlaceholder')}
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
@@ -64,6 +68,7 @@ export default function ElkForm({ form, onChange, disabled }) {
             value={field.value}
             onChange={e => onChange('dashboard', e.target.value)}
             hasError={!field.value && field.touched}
+            placeholder={t('in-settings:tabs.elkDashboardIdPlaceHolder')}
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
@@ -71,6 +76,20 @@ export default function ElkForm({ form, onChange, disabled }) {
           </HelpText>
         </FormGroup>
       ))}
+      <div style={{ padding: '0.75rem 0' }}>
+        <Trans
+          i18nKey={'in-settings:tabs.integrationDocumentationHelperText'}
+          components={{
+            documentationLink: (
+              <Link
+                size="sm"
+                href="https://www.ibm.com/docs/en/instana-observability/current?topic=logging-elk"
+                external
+              />
+            )
+          }}
+        />
+      </div>
     </fieldset>
   );
 }

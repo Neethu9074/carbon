@@ -7,8 +7,8 @@ import React from 'react';
 
 import { IconButton } from '@instana/components';
 
+import ExpandableCard from 'in-components/AnalyzeView/FacetedFilters/ExpandableCardWithSubtitle';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
-import ExpandableCard from './ExpandableCardWithSubtitle';
 import { t } from 'in-i18n';
 
 import locals from './FacetedExpandableCard.mless';

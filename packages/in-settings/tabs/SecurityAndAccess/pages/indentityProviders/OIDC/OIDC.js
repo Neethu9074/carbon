@@ -20,10 +20,12 @@ import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/
 import { defaultIdpType, idpTypes } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/OIDC/idpTypes';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
+import { deleteItem } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/utils';
+import { disableInvitesWithIdpEnabled, idpConfigV2Enabled } from 'in-services/featureFlags';
+import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -58,7 +60,7 @@ export default function OIDC(props) {
         ldapConfig: getLdapConfig()
       })}
       enrichForm={enrichForm}
-      deleteItem={deleteItem}
+      deleteItem={data => deleteItem({ ...data, deleteConfig: deleteConfig })}
       input={input}
       file={file}
       onCancelClick={() => {
@@ -88,6 +90,9 @@ export default function OIDC(props) {
         }
       }}
       Content={Content}
+      {...(idpConfigV2Enabled
+        ? { parentViewName: t('in-settings:tabs.identityProviders'), parentPath: securityAndAccessIdentityProviders }
+        : {})}
     />
   );
 }
@@ -401,17 +406,6 @@ function CopyableText({ title, form, fieldName }) {
 
 function isAnyInvitationsPending(props) {
   return disableInvitesWithIdpEnabled && props.invitations?.data?.length > 0;
-}
-
-function deleteItem({ setMessage }) {
-  setMessage({ message: t('in-settings:tabs.deletingConfig'), type: 'neutral', isSaving: true });
-  const setConfigResult$ = deleteConfig();
-  setConfigResult$.once(
-    () => {
-      setMessage({ text: t('in-settings:tabs.configSuccessfullyDeleted'), type: 'success' });
-    },
-    error => setMessage({ text: t('in-settings:tabs.failedToDeleteConfig', { err: error.message }), type: 'error' })
-  );
 }
 
 function saveItem({

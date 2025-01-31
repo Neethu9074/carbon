@@ -29,7 +29,7 @@
         "pleaseSelect": "선택하십시오."
       },
       "sharingDialogPresenter": {
-        "share": "공유",
+        "editPermissions": "권한 편집",
         "shareMsg": "이 사용자 정의 대시보드에는 이 대화 상자에서 표시할 수 없는 고급 액세스 규칙이 있습니다. \"JSON으로 편집\" 기능을 사용하여 해당 액세스 규칙을 편집할 수 있습니다.",
         "privateDashboardDefault": "개인용 대시보드(기본값)",
         "privateDashboardDefaultExplain": "이 대시보드는 사용자에게만 표시됩니다.",
@@ -81,6 +81,7 @@
       "failure": "실패",
       "dashboardNotFoundExplain": "이 대시보드가 없거나 액세스 권한이 없습니다.",
       "customDashboard": "사용자 정의 대시보드",
+      "customDashboardOptions": "사용자 정의 대시보드 옵션",
       "saveChange": "변경사항 저장",
       "discardChange": "변경사항 무시",
       "addWidget": "위젯 추가",
@@ -92,8 +93,8 @@
       "copiedAllWidgets": "위젯이 복사되었습니다. CTRL-V 또는 CMD-V를 사용하여 사용자 정의 대시보드에 붙여넣으십시오.",
       "duplicate": "복제",
       "delete": "삭제",
-      "share": "공유",
-      "shareButtonTooltip": "사용자 계정에 대시보드를 공유할 수 있는 권한이 없습니다."
+      "editPermissions": "권한 편집",
+      "editOptionTooltip": "사용자 계정에 대시보드를 공유할 수 있는 권한이 없습니다."
     },
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "입력을 JSON으로 구문 분석하는 데 실패했습니다.",
@@ -833,6 +834,14 @@
         "tagNoValue": "태그 '{{labelname}}'에 값이 없음"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "https:// 렌더링...",
+      "form": {
+        "heading": "어떤 페이지를 삽입하시겠습니까?",
+        "title": "URL 입력"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "상태 개요"
@@ -900,7 +909,8 @@
         }
       },
       "dataSource": {
-        "events": "이벤트"
+        "events": "이벤트",
+        "k8sEvents": "Kubernetes 이벤트"
       },
       "eventColumns": {
         "title": "제목",
@@ -908,6 +918,19 @@
         "startedOn": "시작 날짜",
         "endedOn": "종료 날짜",
         "duration": "지속 기간"
+      },
+      "kubernetesEventColumns": {
+        "type": "유형",
+        "reason": "원인",
+        "message": "메시지",
+        "namespace": "네임스페이스",
+        "involvedObject": "관련 오브젝트",
+        "kind": "유형",
+        "time": "시간"
+      },
+      "emptyTable": {
+        "title": "사용 가능한 이벤트 없음",
+        "explanation": "선택한 시간 범위에 대해 검색된 이벤트가 없습니다."
       }
     },
     "time": {

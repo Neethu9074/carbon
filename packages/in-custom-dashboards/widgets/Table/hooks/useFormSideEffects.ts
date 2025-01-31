@@ -8,8 +8,8 @@ import { Field, Item, MapForm } from 'formalistic';
 
 import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-hooks/useFormSideEffects';
 import { sourcePath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
+import { WidgetSource } from 'in-custom-dashboards/widgets/Table/types';
 import { createForm } from 'in-custom-dashboards/widgets/Table/form';
-import { WidgetSource } from '../types';
 
 // @ts-expect-error not fully matching EffectFunction
 const handleDataSourceChange: EffectFunction = (form: MapForm<any>): Item => {

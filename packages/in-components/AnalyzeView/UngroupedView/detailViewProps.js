@@ -6,7 +6,7 @@
 
 import rpt from 'prop-types';
 
-import { childrenArgsAsPropTypes } from '../StateManagement';
+import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 
 //TODO Delete after SplitScreenList is migrated to TS
 export const detailViewProps = {

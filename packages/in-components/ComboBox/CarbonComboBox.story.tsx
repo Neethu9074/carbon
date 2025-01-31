@@ -8,8 +8,8 @@ import React, { useState } from 'react';
 
 import { Pill } from '@instana/components';
 
-import ComboBox from './CarbonComboBox';
-import type { Option } from './types';
+import ComboBox from 'in-components/ComboBox/CarbonComboBox';
+import type { Option } from 'in-components/ComboBox/types';
 
 export default {
   component: ComboBox

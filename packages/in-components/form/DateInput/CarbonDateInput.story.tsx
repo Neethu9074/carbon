@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import CarbonDateInput, { DateInputValue, DateInputProps } from './DateInput';
+import CarbonDateInput, { DateInputValue, DateInputProps } from 'in-components/form/DateInput/DateInput';
 
 export default {
   component: CarbonDateInput

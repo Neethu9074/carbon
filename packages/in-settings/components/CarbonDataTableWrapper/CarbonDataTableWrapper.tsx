@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ChangeEvent, ReactElement, useState } from 'react';
-import { Add, CarbonIconType } from '@carbon/icons-react';
+import { ChangeEvent, ReactElement, useEffect, useState } from 'react';
+import { Add } from '@carbon/icons-react';
 import React from 'react';
 
 import {
@@ -29,8 +29,11 @@ import {
   CarbonButton as Button,
   CarbonTableBatchAction as TableBatchAction,
   CarbonTableBatchActions as TableBatchActions,
+  CarbonInlineLoading as InlineLoading,
   CarbonIconButton as IconButton,
-  CarbonInlineLoading as InlineLoading
+  Tooltip,
+  CarbonEmptyState,
+  CarbonToastNotification as ToastNotification
 } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { createLogger } from '@instana/logger';
@@ -38,17 +41,24 @@ import { t, Trans } from '@instana/i18n-react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import useUrlState from 'in-hooks/useUrlState';
 
 import locals from './CarbonDataTableWrapper.mless';
 
+export interface Notification {
+  readonly kind: 'error' | 'info' | 'success' | 'warning';
+  readonly title: string;
+  readonly subtitle?: string;
+  readonly caption?: string;
+  readonly timeout?: number;
+}
+
 interface OverflowMenuItemProps {
   label?: string;
   actionType: string;
   text?: string;
-  icon?: CarbonIconType;
+  icon?: JSX.Element;
 }
 interface BatchActionItemProps {
   renderIcon: React.ElementType<any> | undefined;
@@ -111,6 +121,7 @@ interface CarbonDataTableWrapperProps<ItemType extends Object> {
   tableActions: TableActions<ItemType>;
   getEntityName: (element: ItemType) => string;
   searchAttributes?: any;
+  message?: Notification | null;
 }
 
 const logger = createLogger('SettingsList');
@@ -135,7 +146,8 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
     customDialogConfirmLabel,
     customDialogMessage,
     customBatchDeleteMessage,
-    searchAttributes
+    searchAttributes,
+    message
   } = props;
 
   const [{ query, page }, setState] = useUrlState({
@@ -159,10 +171,11 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
   const [pageSize, setPageSize] = useState(pageSizes[0]);
   const [loadingRow, setLoadingRow] = useState(null);
   const [isBatchDeleting, setIsBatchDeleting] = useState(false);
-
+  const [notification, setNotification] = useState<Notification>();
   const isLoading = loading && tableRows?.length == 0;
+  const isEmptyState = !loading && tableRows?.length == 0;
 
-  const filteredRows = tableRows.filter(item => {
+  const filteredRows = tableRows?.filter(item => {
     return searchAttributes.some((key: string) => {
       const fieldValue = item.rowData[key] ? item.rowData[key].toString().toLowerCase() : '';
       return fieldValue.includes(searchQuery.toLowerCase());
@@ -180,6 +193,12 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
       : filteredRows;
   const startIndex = (currentPage - 1) * pageSize;
   const paginatedRows = sortedRows?.slice(startIndex, startIndex + pageSize);
+
+  useEffect(() => {
+    if (message) {
+      setNotification(message);
+    }
+  }, [message]);
 
   const handlePageChange = (page: number, pageSize: number) => {
     setCurrentPage(page);
@@ -224,13 +243,20 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
           setLoadingRow(entity.id);
           deletion$?.once(() => {
             setLoadingRow(null);
+            setNotification({
+              kind: 'success',
+              title: t('in-settings:components.removedEntity', {
+                entity: getEntityName(entity)
+              }),
+              timeout: 10000
+            });
           });
           deletion$?.errors().once((error: Error) => {
-            const errorMessage = t('in-settings:components.failedToRemoveItem') + ` (${entity.id}): ${error.message}`;
-            logger.error(errorMessage, error);
-            addMessage({
-              type: 'danger',
-              content: errorMessage
+            logger.error(error.message, error);
+            setNotification({
+              kind: 'error',
+              title: t('in-settings:components.failedToRemoveItem'),
+              subtitle: `(${entity.id}): ${error.message}`
             });
             setLoadingRow(null);
           });
@@ -270,17 +296,24 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
           const deletion$ = deleteEntity.batchDeleteEntity?.(selectedIds);
           deletion$?.once(() => {
             setIsBatchDeleting(false);
+            setNotification({
+              kind: 'success',
+              title: t('in-settings:components.removedEntity', {
+                entity: t('in-settings:tabs.noOfItemsSelected', { noOfItemsSelected: selectedRows?.length })
+              }),
+              timeout: 10000
+            });
           });
           deletion$?.errors().once((error: Error) => {
             setIsBatchDeleting(false);
-            const errorMessage =
-              t('in-settings:components.failedToRemoveItemName', {
+            logger.error(error.message, error);
+            setNotification({
+              kind: 'error',
+              title: t('in-settings:components.failedToRemoveItemName', {
                 itemName: t('in-settings:tabs.noOfItemsSelected', { noOfItemsSelected: selectedRows?.length })
-              }) + `: ${error.message}`;
-            logger.error(errorMessage, error);
-            addMessage({
-              type: 'danger',
-              content: errorMessage
+              }),
+              subtitle: error.message,
+              timeout: 10000
             });
           });
         }}
@@ -290,6 +323,17 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
   };
   return (
     <>
+      {notification && notification?.title && (
+        <ToastNotification
+          kind={notification.kind}
+          title={notification.title}
+          subtitle={notification.subtitle}
+          lowContrast
+          timeout={notification.timeout}
+          className={locals.toastMessage}
+          caption={notification.caption}
+        />
+      )}
       <DataTable rows={paginatedRows} headers={tableHeaders} isSortable>
         {({
           rows,
@@ -321,7 +365,7 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
               {...getTableContainerProps()}
             >
               {isLoading ? (
-                <TableSkeleton showHeader={false} zebra showToolbar={false} />
+                <TableSkeleton showHeader={false} zebra showToolbar={false} columnCount={tableHeaders.length} />
               ) : (
                 <>
                   <TableToolbar {...getToolbarProps()}>
@@ -347,23 +391,27 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
                         placeholder={searchPlaceholderText}
                         value={searchQuery}
                         defaultExpanded={searchQuery?.length > 0}
-                        // @ts-expect-error no corrects typedef for Table header
+                        // @ts-expect-error no corrects typedef for ToolbarSearch
                         onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeSearchString(e.target.value)}
                       />
-                      <Button
-                        tabIndex={batchActionProps.shouldShowBatchActions ? -1 : 0}
-                        kind="primary"
-                        onClick={onCreateNew}
-                        renderIcon={Add}
-                      >
-                        {labelNew}
-                      </Button>
+                      {onCreateNew && (
+                        <Button
+                          tabIndex={batchActionProps.shouldShowBatchActions ? -1 : 0}
+                          kind="primary"
+                          onClick={onCreateNew}
+                          renderIcon={Add}
+                        >
+                          {labelNew}
+                        </Button>
+                      )}
                     </TableToolbarContent>
                   </TableToolbar>
                   <Table {...getTableProps()} aria-label={title}>
                     <TableHead>
                       <TableRow>
-                        {enableMultSelect && <TableSelectAll {...(getSelectionProps({} as any) as any)} />}
+                        {enableMultSelect && !isEmptyState && (
+                          <TableSelectAll {...(getSelectionProps({} as any) as any)} />
+                        )}
                         {headers.map(header => (
                           <TableHeader
                             // @ts-expect-error no correct typedef for Table header
@@ -379,63 +427,87 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
                         <TableHeader />
                       </TableRow>
                     </TableHead>
-                    <TableBody>
-                      {rows.map(row => (
-                        <TableRow
-                          // @ts-expect-error no correct typedef for TableRow
-                          key={row.id}
-                          {...getRowProps({
-                            row
-                          })}
-                        >
-                          {enableMultSelect && <TableSelectRow {...(getSelectionProps({ row }) as any)} />}
-                          {row.cells.map(cell => (
-                            <TableCell key={cell.id}>{cell.value}</TableCell>
-                          ))}
-                          {getMenuItems(row)?.length > 3 ? (
-                            <TableCell className="cds--table-column-menu">
-                              <OverflowMenu disabled={row.disabled}>
-                                {getMenuItems(row).map((item, index) => (
-                                  <OverflowMenuItem
-                                    key={index}
-                                    onClick={() => {
-                                      if (item.actionType === 'delete') handleDeleteActions(row);
-                                    }}
-                                    itemText={item.text}
-                                    data-testid={`${item.actionType}Icon`}
-                                  >
-                                    {item.text}
-                                  </OverflowMenuItem>
-                                ))}
-                              </OverflowMenu>
-                            </TableCell>
-                          ) : (
-                            <TableCell>
-                              {getMenuItems(row).map((item, index) => (
-                                <>
-                                  {item.actionType === 'delete' && loadingRow === row.id ? (
-                                    <InlineLoading className={locals.loadingIcon} />
-                                  ) : (
-                                    <IconButton
-                                      // @ts-expect-error
-                                      renderIcon={item.icon}
-                                      label={item.label}
-                                      kind="ghost"
+                    {isEmptyState && (
+                      <TableBody>
+                        <TableRow>
+                          <TableCell colSpan={tableHeaders.length}>
+                            <CarbonEmptyState
+                              icon="lib_carbon_empty_state"
+                              title={message?.kind === 'error' ? t('in-settings:components.errorTitle') : ''}
+                              text={t('in-settings:components.noDataAvailable')}
+                              className={locals.emptyState}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    )}
+                    {!isEmptyState && (
+                      <TableBody>
+                        {rows.map(row => (
+                          <TableRow
+                            // @ts-expect-error no correct typedef for TableRow
+                            key={row.id}
+                            {...getRowProps({
+                              row
+                            })}
+                          >
+                            {enableMultSelect && <TableSelectRow {...(getSelectionProps({ row }) as any)} />}
+                            {row.cells.map(cell => (
+                              <TableCell key={cell.id}>{cell.value}</TableCell>
+                            ))}
+                            {getMenuItems(row)?.length > 3 ? (
+                              <TableCell className="cds--table-column-menu">
+                                <OverflowMenu disabled={row.disabled}>
+                                  {getMenuItems(row).map((item, index) => (
+                                    <OverflowMenuItem
                                       key={index}
-                                      disabled={row.disabled}
                                       onClick={() => {
                                         if (item.actionType === 'delete') handleDeleteActions(row);
                                       }}
+                                      itemText={item.text}
                                       data-testid={`${item.actionType}Icon`}
-                                    />
-                                  )}
-                                </>
-                              ))}
-                            </TableCell>
-                          )}
-                        </TableRow>
-                      ))}
-                    </TableBody>
+                                    >
+                                      {item.text}
+                                    </OverflowMenuItem>
+                                  ))}
+                                </OverflowMenu>
+                              </TableCell>
+                            ) : (
+                              <TableCell>
+                                {getMenuItems(row).map((item, index) => (
+                                  <span key={row.id}>
+                                    {item.actionType === 'delete' && loadingRow === row.id ? (
+                                      <InlineLoading className={locals.loadingIcon} />
+                                    ) : row.disabled ? (
+                                      // as disabled icon button doesn't show the tooltip
+                                      <Tooltip content={item.label} delay={500}>
+                                        <IconButton label={item.label} disabled={row.disabled} key={index} kind="ghost">
+                                          {item.icon}
+                                        </IconButton>
+                                      </Tooltip>
+                                    ) : (
+                                      <IconButton
+                                        disabled={row.disabled}
+                                        kind="ghost"
+                                        label={item.label}
+                                        key={index}
+                                        onClick={() => {
+                                          if (item.actionType === 'delete') handleDeleteActions(row);
+                                        }}
+                                        data-testid={`${item.actionType}Icon`}
+                                        autoAlign
+                                      >
+                                        {item.icon}
+                                      </IconButton>
+                                    )}
+                                  </span>
+                                ))}
+                              </TableCell>
+                            )}
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    )}
                   </Table>
                 </>
               )}
@@ -443,7 +515,7 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
           );
         }}
       </DataTable>
-      {!isLoading && (
+      {tableRows?.length > 0 && (
         <Pagination
           totalItems={filteredRows.length}
           pageSizes={pageSizes}

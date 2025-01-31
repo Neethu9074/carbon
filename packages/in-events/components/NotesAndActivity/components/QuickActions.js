@@ -67,12 +67,13 @@ export function QuickActions(props) {
           kind={'tertiary'}
           className={locals.actionsButton}
           size={'sm'}
+          id="generate_summary_ai"
           disabled={loadingSummary}
           renderIcon={() => {
             return (
               <>
                 {!loadingSummary ? (
-                  <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" />
+                  <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" id="ai_summary_loading" />
                 ) : (
                   <CarbonInlineLoading className={locals.generating} />
                 )}

@@ -10,6 +10,7 @@ import {
   AvailabilityBlueprintIndicator,
   DateAsNumber,
   isApplicationSloEntity,
+  isSyntheticSloEntity,
   isWebsiteSloEntity,
   Result,
   SloEntityUnion,
@@ -31,13 +32,14 @@ import { thresholdMetricId } from 'in-service-levels/components/SloDashboard/com
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
+import { calculateTrafficGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
+import { invertSyntheticPercentageMetrics } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
+import { applicationMetrics, syntheticMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSliMetricConfiguration from 'in-service-levels/hooks/useSliMetricConfiguration';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
-import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
-import { calculateTrafficGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { MetricDataSeries } from 'in-components/Chart/types';
@@ -88,15 +90,19 @@ export default function TimeBasedAvailabilityIndicatorChart({
   const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
   const metricValues = copyFirstBucketOfSubsequentDataSeries(metrics.map(metric => metric.values as MetricDataSeries));
   const thresholdMetrics: MetricDataSeries = metricValues.flat(1).map(([timestamp]) => [timestamp, threshold]);
-  const metricLabel = isApplicationSloEntity(entity)
-    ? applicationMetrics.errorRate.label
-    : websiteMetrics.beaconErrorRate.label;
+  const metricLabel = getMetricLabel(entity);
 
   const filteredData = filterMetricValuesWithinTimeWindow(metricValues, timeConfig);
+
+  const timeWindowStartIndex = getIndexOfFirstTimeWindowWithData(filteredData, timeWindows);
+  const timeWindowsWithData = timeWindows.slice(timeWindowStartIndex);
+  const windowColorsWithData = timeWindowColors.slice(timeWindowStartIndex);
+  const normalizedData = isSyntheticSloEntity(entity) ? invertSyntheticPercentageMetrics(filteredData) : filteredData;
 
   const renderer = useLineWithThresholdAndMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: missingDataIndicator
   });
+
   return (
     <ResultAwareChart
       config={{
@@ -114,11 +120,11 @@ export default function TimeBasedAvailabilityIndicatorChart({
         excludedContextMenuActions: [zoomInAction.name],
         granularity: result.data?.[0]?.granularity ?? granularity,
         y1: {
-          metricIds: [...timeWindows.map(() => metricId), thresholdMetricId],
-          metrics: [...filteredData, thresholdMetrics],
-          labels: [...timeWindows.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
-          colors: [...timeWindowColors, themes.default.ids.color.option.red['500']],
+          colors: [...windowColorsWithData, themes.default.ids.color.option.red['500']],
           formatter: percentage.detailed,
+          labels: [...timeWindowsWithData.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
+          metrics: [...normalizedData, thresholdMetrics],
+          metricIds: [...timeWindowsWithData.map(() => metricId), thresholdMetricId],
           renderer
         },
         timeConfig,
@@ -155,6 +161,26 @@ function getMetricConfig(
       aggregation: indicator.aggregation
     });
   }
+
+  if (isSyntheticSloEntity(entity)) {
+    return syntheticMetrics.failureRate.timeSeries({
+      entity,
+      tagFilterExpression,
+      granularity,
+      timeConfig,
+      aggregation: indicator.aggregation
+    });
+  }
+
+  throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+}
+
+function getMetricLabel(entity: SloEntityUnion): string {
+  if (isApplicationSloEntity(entity)) return applicationMetrics.errorRate.label;
+
+  if (isWebsiteSloEntity(entity)) return websiteMetrics.beaconErrorRate.label;
+
+  if (isSyntheticSloEntity(entity)) return syntheticMetrics.failureRate.label;
 
   throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
 }

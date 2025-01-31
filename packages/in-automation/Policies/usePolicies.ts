@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { ActionConfiguration, Policy, Result, TypeConfigurationType } from '@instana/types';
+import { Policy, Result, TypeConfigurationType } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 
@@ -79,7 +79,7 @@ export function usePaginatedPolicies({
       'description',
       policy => policy?.tags?.toString() ?? '',
       policy => policy?.trigger?.name ?? '',
-      policy => (getActionConfigurationFromPolicy(policy) as ActionConfiguration).action.name
+      policy => getActionConfigurationFromPolicy(policy).action.name
     ],
     sort: policy => {
       const { orderBy } = serverTableUrlState;
@@ -88,7 +88,7 @@ export function usePaginatedPolicies({
         return policy.trigger.name?.trim()?.toLowerCase();
       }
       if (orderBy === 'actionName') {
-        return (getActionConfigurationFromPolicy(policy) as ActionConfiguration).action.name?.trim()?.toLowerCase();
+        return getActionConfigurationFromPolicy(policy).action.name?.trim()?.toLowerCase();
       }
       return typeof value === 'string' ? value.trim().toLowerCase() : value;
     }

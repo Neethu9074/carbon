@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { TimeConfig, KubernetesPod } from '@instana/types';
+
 import HealthIndicatorButtonPresenter, {
   HealthIndicatorButtonPresenterProps
 } from 'in-components/health/HealthIndicatorButtonPresenter';
@@ -14,7 +16,6 @@ import { getHealthyStatus } from 'in-kubernetes/Dashboards/commonComponents/comm
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import { ApplicationTagFilter } from 'in-analyze/applicationFilter';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
-import { TimeConfig, KubernetesPod } from 'in-types';
 
 interface DashboardButtonLineProps {
   snapshotId: string;

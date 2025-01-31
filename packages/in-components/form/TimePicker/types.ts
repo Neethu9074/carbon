@@ -67,4 +67,8 @@ export type TimePickerProps = {
    * Allow seconds entry - default no seconds
    */
   seconds?: boolean;
+  /**
+   * Specify additional classname
+   */
+  className?: string;
 };

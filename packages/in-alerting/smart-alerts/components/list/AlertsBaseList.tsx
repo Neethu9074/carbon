@@ -14,8 +14,8 @@ import SmartAlertsListWithUrlState from 'in-alerting/smart-alerts/components/lis
 import { ColumnDefinition as ServerTableColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ListActionsColumn } from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn';
 import TableNameColumnCell from 'in-alerting/smart-alerts/components/table/TableNameColumnCell';
+import { SortOption } from 'in-alerting/smart-alerts/components/list/TableSortingConfigurator';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
-import { SortOption } from 'in-components/SortingConfigurator/SortingConfigurator';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { Location } from 'in-stores/navigation/types';
 import { Result } from 'in-types';
@@ -128,6 +128,7 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
           isSelectable={isSelectable}
           noDataHeader={noDataHeader}
           noDataDescription={noDataDescription}
+          sortOptions={sortOptions}
         />
       ) : (
         <Card size="l">

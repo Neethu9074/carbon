@@ -1,5 +1,5 @@
 {
-  "zhmcs": "zHMCs",
+  "zhmcs": "zHMC-Plug-ins",
   "hostname": "Hostname",
   "name": "Name",
   "systems": "Systeme",
@@ -17,7 +17,7 @@
   "status": "Status",
   "breadcrumbs": {
     "zhmc": "zHMC",
-    "zhmcs": "zHMCs",
+    "zhmcs": "zHMC-Plug-ins",
     "systems": "Systeme"
   },
   "dashboards": {
@@ -60,10 +60,10 @@
     "byte": "Byte",
     "packet": "Paket",
     "adapterInfo": "Adapterinformationen",
-    "bytesSent": "Anzahl gesendeter Byte",
-    "bytesReceived": "Anzahl empfangener Byte",
+    "bytesSent": "Anzahl gesendeter Bytes",
+    "bytesReceived": "Die Anzahl empfangener Byte.",
     "packetsSent": "Anzahl gesendeter Pakete",
-    "packetsReceived": "Anzahl empfangener Pakete",
+    "packetsReceived": "Anzahl der empfangenen Pakete",
     "packetsSentDiscarded": "Anzahl gesendeter verworfener Pakete",
     "packetsSentDropped": "Anzahl gesendeter gelöschter Pakete",
     "packetsReceivedDropped": "Anzahl empfangener gelöschter Pakete",
@@ -77,7 +77,7 @@
     "bytesPerSecondReceived": "Anzahl empfangener Byte/Sek.",
     "bytesPerSecondSent": "Anzahl gesendeter Byte/Sek.",
     "utilization": "Auslastung",
-    "flags": "Flags",
+    "flags": "Markierungen (Flags)",
     "heatLoad": "Wärmelast (Btu/Std.)",
     "environmental": "Umgebung (Grad Celsius)",
     "adapterName": "Adaptername",
@@ -94,7 +94,7 @@
   "cbp": "CBP-Prozessorauslastung",
   "cp": "CP-Prozessorbelegung",
   "iip": "IIP-Prozessorauslastung",
-  "allProc": "Auslastung aller Prozessoren",
+  "allProc": "Gesamte Prozessorauslastung",
   "hmcVersion": "HMC-Version",
   "apiVersion": "API-Version",
   "temperature": "Temperatur",

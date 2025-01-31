@@ -41,7 +41,7 @@ export function getNotes(event) {
           updated: x.get('updated'),
           data: x.get('data'),
           label: x.get('label'),
-          origin: x.get('origin'),
+          origin: x.get('origin')
         };
       }) || [];
   return notes;
@@ -59,6 +59,11 @@ export function filterSearchNotes(notes, input) {
   return result;
 }
 
+/**
+ * Returns the count of AI summary notes in the given array of notes.
+ * @param {Note[]} notes - The array of notes to check.
+ * @returns {number} - The count of AI summary notes.
+ */
 export function getSummaryCount(notes) {
   let count = 0;
   notes?.map(note => {

@@ -5,8 +5,8 @@
 
 import React from 'react';
 
+import CustomDashboardMarkerLanes from 'in-custom-dashboards/widgets/Chart/CustomDashboardMarkerLanes';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import CustomDashboardMarkerLanes from './CustomDashboardMarkerLanes';
 
 export default function ChartWidget({ actions, config, title, isPreview, dragHandle, isInModal, customHeight }) {
   return (

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-import { drawCircleWithLine } from './utils';
+import { drawCircleWithLine } from 'in-components/Chart/renderer/utils';
 
 describe('in-components/Chart/renderer/utils', () => {
   it('draws a circle with a line', () => {

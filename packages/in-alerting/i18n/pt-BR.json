@@ -788,6 +788,8 @@
         "cancelTitle": "Cancelar",
         "proceedTitle": "Continuar",
         "previousTitle": "Prévio",
+        "nextTitle": "Avançar",
+        "closeTitle": "Fechar",
         "sharedListTooltip": "{{typeName}} não está mais disponível",
         "clearTagFilterExpressionButton": "Limpar",
         "baselineErrorMessageComputedOnApproximateData": "A linha de base é calculada com base em dados aproximados, devido às configurações de retenção de dados. Portanto, pode não ser preciso no caso de haver poucas chamadas correspondentes aos filtros selecionados.",
@@ -985,7 +987,15 @@
         "labelConfirmRemoveConfig": "Tem certeza de que deseja remover o alerta <strong>{{configName}}</strong>?",
         "labelRemove": "Remover"
       },
+      "gracePeriod": {
+        "title": "Período de carência (opcional)",
+        "description": "Encerrar automaticamente um problema depois que o limite de violação não for mais atingido:",
+        "label": "Selecionar",
+        "summary": "Feche automaticamente um problema depois que o limite de violação não for mais atingido <strong>para {{gracePeriodValue}}</strong>."
+      },
       "tearSheet": {
+        "cancelModalTitle": "Tem certeza de que deseja cancelar?",
+        "cancelModalDescription": "Se você cancelar, os detalhes de configuração inseridos não serão salvos.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "Quando as violações persistem ao longo do tempo",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "As violações persistem em intervalos aleatórios",
@@ -1001,8 +1011,7 @@
           "persistenceType": "Tipo de persistência",
           "numberOfConsecutiveViolationsPostLabel": "Janelas consecutivas de {{granularity}}-minuto têm violações",
           "static": "Estático",
-          "thresholdValue": "Valor do limite",
-          "timeWindow": "Espaço de tempo"
+          "thresholdValue": "Valor do limite"
         }
       }
     },
@@ -1248,6 +1257,8 @@
         "alertConfigurationTitleAlertChannels": "Canais de alerta",
         "alertConfigurationTitleAlertProperties": "Propriedades de alerta",
         "failureThreshold": "{{failureCount}} falhas",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "Período de carência",
         "alertConfigurationTitleScope": "Escopo",
         "noOfFailure": "Número de falhas",
         "timeThreshold": "Limite de tempo",
@@ -1520,6 +1531,7 @@
       "regexNotValid": "Regex não é válido",
       "tearSheet": {
         "createTitle": "Criar um alerta inteligente de infraestrutura",
+        "editTitle": "Editar um alerta inteligente de infraestrutura",
         "steps": {
           "step1Title": "Definir a condição",
           "step2Title": "Definir quando ser alertado",
@@ -1537,7 +1549,7 @@
           "header": "Quais propriedades deseja configurar para este alerta?"
         },
         "step4": {
-          "header": "O que deseja que seja notificado sobre esse alerta?",
+          "header": "Onde você deseja ser notificado sobre esse alerta?",
           "description": "Selecione o(s) destinatário(s) desse alerta"
         },
         "scopeAlerting": {
@@ -1654,7 +1666,48 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "Forneça um número >= 0",
         "noDataForSelectedGroup": "Não há dados disponíveis para a combinação especificada de filtros e agrupamento."
       },
-      "logCount": "Contagem de logs"
+      "logCount": "Contagem de logs",
+      "tearSheet": {
+        "labelActionButtonEdit": "Editar",
+        "labelActionButtonDuplicate": "Duplicata",
+        "createTitle": "Criar um alerta inteligente de log",
+        "editTitle": "Editar log Smart Alert",
+        "steps": {
+          "step1Title": "Definir a condição",
+          "step2Title": "Definir quando ser alertado",
+          "step3Title": "Definir propriedades de alerta",
+          "step4Title": "Definir canais de alerta"
+        },
+        "step2": {
+          "header": "Configurar um valor para o limite de violação",
+          "description": "Selecione uma métrica, um limite de violação e um espaço de tempo para avaliar a violação."
+        },
+        "step3": {
+          "header": "Quais propriedades deseja configurar para este alerta?"
+        },
+        "step4": {
+          "header": "Onde você deseja ser notificado sobre esse alerta?",
+          "description": "Selecione o(s) destinatário(s) desse alerta"
+        },
+        "scopeFilter": {
+          "title": "Escolha o escopo dos logs",
+          "filter": "Filtro",
+          "filterDescription": "Inclua filtros aos serviços para obter os alertas mais precisos."
+        },
+        "scopeGroupBy": {
+          "group": "Grupo",
+          "groupByDescription": "Inclua grupo para configurar as chamadas em grupos. Cada chamada dentro do grupo é configurada coletivamente, mas avaliada individualmente."
+        },
+        "timeThreshold": {
+          "title": "Configurar quando as violações acionam alertas",
+          "description": "Especifique a persistência ao longo do tempo para o acionamento do alerta e o tempo até a falha."
+        },
+        "thresholdDescription": {
+          "static": "Um valor do limite constante é aplicado e não muda ao longo do tempo."
+        },
+        "chartAlertPreview": "Visualização de alertas",
+        "chartAlertPreviewDescription": "Mostra como os alertas teriam sido acionados com base em dados métricos históricos."
+      }
     },
     "slo": {
       "components": {
@@ -1777,6 +1830,7 @@
     "warningAndCritical": "Aviso e crítico",
     "warning": "Aviso",
     "critical": "Crítico",
-    "searchPlaceholder": "Procura"
+    "searchPlaceholder": "Procura",
+    "sortBy": "Classificar por"
   }
 }

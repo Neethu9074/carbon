@@ -10,9 +10,9 @@
 :local {
   .container {
     position: fixed;
-    bottom: 0;
-    right: 0;
-    padding: @spacing;
+    bottom: @spacing;
+    right: @spacing;
+    padding: 0;
     display: flex;
     z-index: var(--ids-z-index-option-sticky-header);
 

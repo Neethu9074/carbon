@@ -12,6 +12,11 @@
   "linkDownloadRawTrace": "Scarica traccia non elaborata",
   "labelCalls": "Chiamate",
   "labelCallsPerSecondFull": "Chiamate al secondo",
+  "labelCallsPerSubtrace": "Chiamate per sottotraccia",
+  "labelDuration": "Durata (media)",
+  "labelNumberOfSubtraces": "Numero di sottotracce",
+  "labelErroneousSubtraceRate": "Tasso di sottotracce errate",
+  "labelErroneousRate": "Tasso errato",
   "labelTraces": "Tracce",
   "labelErrorRate": "Tasso di errore",
   "labelDisableSizing": "Disabilita dimensionamento",
@@ -167,12 +172,32 @@
     },
     "configuration": {
       "success": {
-        "title": "Sottotraccia {{action}} con successo",
-        "message": "La sottotraccia{{subtraceName}}\" è stata {{action}}."
+        "created": {
+          "title": "Sottotraccia creata correttamente",
+          "message": "È stata creata la sottotraccia \"{{subtraceName}}\"."
+        },
+        "updated": {
+          "title": "Sottotraccia aggiornata correttamente",
+          "message": "La sottotraccia \"{{subtraceName}}\" è stata aggiornata."
+        },
+        "deleted": {
+          "title": "Sottotraccia eliminata correttamente",
+          "message": "La sottotraccia \"{{subtraceName}}\" è stata eliminata."
+        }
       },
       "failure": {
-        "title": "Impossibile {{action}} Sottotraccia",
-        "message": "Si è verificato un problema durante il tentativo di {{action}} di questa sottotraccia:{{subtraceName}}\""
+        "created": {
+          "title": "Impossibile creare una sottotraccia",
+          "message": "Si è verificato un problema durante il tentativo di creare questa sottotraccia: \"{{subtraceName}}\""
+        },
+        "updated": {
+          "title": "Aggiornamento della sottotraccia non riuscito",
+          "message": "Si è verificato un problema durante il tentativo di aggiornare questa sottotraccia: \"{{subtraceName}}\""
+        },
+        "deleted": {
+          "title": "Errore nell'eliminazione della sottotraccia",
+          "message": "Si è verificato un problema durante il tentativo di eliminare questa sottotraccia: \"{{subtraceName}}\""
+        }
       },
       "title": "Aggiornamento della sottotraccia",
       "subtraceName": "Nome della sottotraccia",
@@ -465,6 +490,8 @@
   "dashboards": {
     "callCount": "Numero totale di chiamate: {{formattedCount}}",
     "callCount_plural": "Numero totale di chiamate: {{formattedCount}}",
+    "subtraceCount": "Sottotraccia totale {{formattedCount}}",
+    "subtraceCount_plural": "Sottotracce totali {{formattedCount}}",
     "erroneousCallCount": "Numero totale di chiamate con errori: {{formattedCount}}",
     "erroneousCallCount_plural": "Numero totale di chiamate con errori: {{formattedCount}}",
     "meanLatencyFor90th": "{{meanLatencyDetail}} per 90esimo",

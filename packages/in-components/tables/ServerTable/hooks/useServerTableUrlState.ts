@@ -96,6 +96,12 @@ function createUrlStateDefinition({
   defaultDisabledColumns,
   paginationResettingUrlParameters
 }: UrlStateParams): Options<ServerTableUrlState> {
+  // in case defaultPageSize is provided but defaultPageSizes is not
+  if (!defaultPageSizes.includes(defaultPageSize)) {
+    const indexToInsertAt = defaultPageSizes.findIndex(size => size > defaultPageSize);
+    defaultPageSizes.splice(indexToInsertAt, 0, defaultPageSize);
+  }
+
   return {
     bind: [
       {

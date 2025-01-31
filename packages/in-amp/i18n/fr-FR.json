@@ -9,7 +9,7 @@
       "zip": "Code postal",
       "city": "Ville",
       "address": "Adresse",
-      "additionalAddress": "Adresse complémentaire",
+      "additionalAddress": "Adresse supplémentaire",
       "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "Si les informations contenues dans cette page doivent être corrigées, veuillez contacter <linkToMail>{{salesopsEmail}}</linkToMail>"
     },
     "activeLicenses": {
@@ -17,7 +17,7 @@
       "tenant": "Locataire",
       "type": "Type",
       "licenseStartData": "Date de début de la licence",
-      "licenseEndData": "Date de fin de la licence",
+      "licenseEndData": "Date de fin de licence",
       "licensedApmHosts": "Hôtes APM sous licence",
       "licensedIqmHosts": "Hôtes IQM sous licence"
     },
@@ -92,7 +92,7 @@
       "purchased": "Acheté",
       "essentials": "Essentials",
       "iqmHosts": "Hôtes IQM",
-      "syntheticPops": "PoP gérés synthétiques",
+      "syntheticPops": "PoPs gérés synthétiques",
       "logging": "Journaux en contexte",
       "resourceUnits": "Unités de ressources habilitées",
       "consumedUnits": "Unités de ressources consommées",
@@ -114,20 +114,20 @@
       }
     },
     "activationAdoption": {
-      "activationAdoption": "Activation &amp;TWBAMP; Adoption",
+      "activationAdoption": "Activation et adoption",
       "customerAdoption": "Adoption de client",
       "activation": "Activation",
       "adoption": "Adoption",
       "activationStages": {
-        "createDate": "Date création",
+        "createDate": "Date de création",
         "firstSignIn": "Première connexion",
         "firstAgentInstalled": "1er agent installé",
         "additionalUserInvited": "Utilisateur supplémentaire invité",
-        "threeAgentsInstalled": "3 Agents installés",
-        "twoApplicationPerspectivesCreated": "2 Perspective d'application créée",
-        "oneAlertSetUpAndActivated": "1 Alerte configurée et activée",
-        "oneWebsiteMonitored": "1 Site Web surveillé",
-        "fiveUsers": "5 Utilisateurs"
+        "threeAgentsInstalled": "3 agents installés",
+        "twoApplicationPerspectivesCreated": "2 perspective d'application créée",
+        "oneAlertSetUpAndActivated": "1 alerte configurée et activée",
+        "oneWebsiteMonitored": "1 site Web surveillé",
+        "fiveUsers": "5 utilisateurs"
       },
       "adoptionKPIs": {
         "applicationPerspective": "Perspective d'application",
@@ -168,7 +168,7 @@
         "noDataAvailable": "Aucune donnée disponible",
         "noTopActiveUsers": "Aucune donnée sur les utilisateurs les plus actifs pour ce compte",
         "name": "Nom",
-        "organizationRole": "Rôle organisationnel",
+        "organizationRole": "Rôle d'organisation",
         "daysActive": "Jours actifs",
         "notProvided": "(non indiqué)"
       }

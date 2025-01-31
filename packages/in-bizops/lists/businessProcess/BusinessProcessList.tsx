@@ -67,7 +67,7 @@ export default function BizOpsList() {
   location.pathname = agentInstallationPath;
 
   const [queryTagFilter, setQueryTagFilter] = useState([]);
-  const tagCatalog = useObservable(getBusinessMonitoringTagCatalog(), []);
+  const tagCatalog = useObservable(getBusinessMonitoringTagCatalog({ useCase: 'FILTERING' }), []);
 
   const CustomServerTableWithUrlState = createServerTableWithUrlState({
     Renderer: BizOpsEmptyTableState({

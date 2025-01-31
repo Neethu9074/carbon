@@ -53,6 +53,7 @@
   "titleEmptyEvents_change": "Nessuna modifica disponibile",
   "titleEmptyEvents_monitoringIssue": "Nessun problema di monitoraggio disponibile",
   "titleEmptyEvents_cveIssue": "Nessun problema CVE disponibile",
+  "titleEmptyEvents_prc_issue": "Non è disponibile alcuna probabile causa principale",
   "titleManualCloseIssue": "Chiudi problema",
   "titleMultiCloseIssues": "Chiudere più problemi",
   "titleManualCloseIncident": "Chiudi l'incidente",
@@ -64,6 +65,7 @@
   "explanationEmptyEvents_change": "Nell'intervallo di tempo selezionato non sono state richiamate modifiche",
   "explanationEmptyEvents_monitoringIssue": "Nell'intervallo di tempo selezionato non sono stati richiamati problemi di monitoraggio",
   "explanationEmptyEvents_cveIssue": "Nessun problema CVE richiamato per l'intervallo di tempo selezionato",
+  "explanationEmptyEvents_prc_issue": "Non sono stati recuperate probabili cause principali per l'intervallo di tempo selezionato",
   "showAllEndpoints": "Mostra {{count}} endpoint",
   "showAllEndpoints_plural": "Mostra tutti i {{count}} endpoint",
   "showAllEndpoints_0": "Mostra {{count}} endpoint",
@@ -116,6 +118,7 @@
   "labelIssues": "Problemi",
   "labelMonitoringIssues": "Problemi di monitoraggio",
   "labelCveIssue": "Vulnerabilità",
+  "labelPrcIssue": "Probabili cause principali",
   "labelAll": "Tutti",
   "buttonViewCustomEvent": "Visualizza evento personalizzato",
   "buttonViewBuiltInEvent": "Visualizza evento integrato",
@@ -148,10 +151,10 @@
   "tooltipCloseEventDetail": "Chiudi dettaglio evento",
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> fa)",
-  "deprecatedCustomEventWarning": "<strong>Gli eventi personalizzati sui tipi di entità Applicazione, Servizio ed Endpoint sono obsoleti. In futuro, gli eventi personalizzati per i tre tipi di entità verranno rimossi e non si riceverà più questo {{issueOrIncident}}</strong><br/>Visualizza la configurazione dell'evento personalizzato per la migrazione ad avviso smart. <documentationLink>Ulteriori informazioni sono disponibili nella documentazione</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>Gli eventi personalizzati sui tipi di entità Applicazione, Servizio ed Endpoint sono obsoleti. A partire da marzo 2025, gli Eventi personalizzati per questi tre tipi di entità saranno rimossi e non si riceverà più questo {{issueOrIncident}}</strong><br/> Visualizza la configurazione degli Eventi personalizzati per migrare a Smart Alert. <documentationLink>Ulteriori informazioni sono disponibili nella documentazione</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} eventi personalizzati richiedono un'azione",
-    "message": "Eventi personalizzati sull'applicazione, sul servizio e sull'endpoint sono obsoleti. Non sarà possibile creare o aggiornare questi tipi di eventi personalizzati in futuro.",
+    "message": "Eventi personalizzati sull'applicazione, sul servizio e sull'endpoint sono obsoleti. A partire da <strong>marzo 2025</strong> non sarà più possibile creare o aggiornare questi tipi di eventi personalizzati.",
     "documentationLink": "<documentationLink>Ulteriori informazioni sono disponibili nella documentazione</documentationLink>",
     "affectedEventsLink": "Visualizza gli eventi personalizzati interessati"
   },
@@ -183,8 +186,10 @@
     "titleFailtoCloseIssues": "Problemi che non si sono chiusi",
     "multiFailedCloseIncidentsDescription": "Su {{total_incidents}} incidenti, {{number_incidents_succesfully_closed}} sono stati chiusi con successo, ma {{number_incidents_failed_closed}} non hanno avuto esito positivo. Per maggiori dettagli, vedere l'elenco seguente: ",
     "singleFailedCloseIncidentDescription": "Su {{total_incidents}}, 1 è stato chiuso con successo, ma {{number_incidents_failed_closed}} non ha avuto esito positivo. Per maggiori dettagli, vedere l'elenco seguente: ",
+    "noSuccessfulIncidentCloseDescription": "Su {{total_incidents}} incidenti, nessuno è stato chiuso correttamente, mentre {{number_incidents_failed_closed}} hanno avuto esito negativo. Per maggiori dettagli, vedere l'elenco seguente: ",
     "multiFailedCloseIssuesDescription": "Su {{total_issues}}, {{number_issues_succesfully_closed}} sono stati chiusi con successo, ma {{number_issues_failed_closed}} non hanno avuto esito positivo. Per maggiori dettagli, vedere l'elenco seguente: ",
-    "singleFailedCloseIssueDescription": "Su {{total_issues}}, 1 è stato chiuso con successo, ma {{number_issues_failed_closed}} non ha avuto esito positivo. Per maggiori dettagli, vedere l'elenco seguente: "
+    "singleFailedCloseIssueDescription": "Su {{total_issues}}, 1 è stato chiuso con successo, ma {{number_issues_failed_closed}} non ha avuto esito positivo. Per maggiori dettagli, vedere l'elenco seguente: ",
+    "noSuccessfulIssueCloseDescription": "Su {{total_issues}}, 1 è stato chiuso correttamente, mentre {{number_issues_failed_closed}} hanno avuto esito negativo. Per maggiori dettagli, vedere l'elenco seguente: "
   },
   "ibmMqFileTransfer": {
     "transferID": "ID trasferimento",
@@ -396,7 +401,7 @@
     "showAll": "Mostra tutto",
     "collapse": "Comprimi",
     "aiModel": "Modello AI",
-    "granite": "granite-13b-chat-v2",
+    "granite": "granite-3-8b-instruct",
     "withManualEdits": "(con modifiche manuali)",
     "shareIncidentSummarySubject": "Riassunto dell'incidente: {{problemText}}",
     "share": "Condividi",

@@ -34,6 +34,7 @@ export const useSubtraceForm = (subtrace?: Subtrace) => {
 function isValid(form: MapForm<SubtraceFormFields>, validTagFilterExpressionResult: Result<any>) {
   return (
     form.hierarchyValid &&
+    form.get('tagFilterExpression').value.length > 0 &&
     !isLoading(validTagFilterExpressionResult) &&
     !hasError(validTagFilterExpressionResult) &&
     validTagFilterExpressionResult.data === true

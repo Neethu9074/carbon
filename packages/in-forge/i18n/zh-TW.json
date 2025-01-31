@@ -983,6 +983,11 @@
   "pluginName_ibmDataPowerQueueManager_1": "IBM DataPower 佇列管理程式",
   "pluginName_ibmDataPowerQueueManager_2": "IBM DataPower 佇列管理程式",
   "pluginName_ibmDataPowerQueueManager": "IBM DataPower 佇列管理程式",
+  "pluginName_ibmDataPowerQueueManagerV9_plural": "IBM DataPower Queue Managers 第 9 版及更新版本",
+  "pluginName_ibmDataPowerQueueManagerV9_0": "IBM DataPower Queue Managers 第 9 版及更新版本",
+  "pluginName_ibmDataPowerQueueManagerV9_1": "IBM DataPower Queue Managers 第 9 版及更新版本",
+  "pluginName_ibmDataPowerQueueManagerV9_2": "IBM DataPower Queue Managers 第 9 版及更新版本",
+  "pluginName_ibmDataPowerQueueManagerV9": "IBM DataPower Queue Manager 第 9 版及更新版本",
   "pluginName_ibmDataPowerService_plural": "IBM DataPower 服務",
   "pluginName_ibmDataPowerService_0": "IBM DataPower 服務",
   "pluginName_ibmDataPowerService_1": "IBM DataPower 服務",
@@ -1844,6 +1849,16 @@
   "pluginName_websiteHttpd_0": "網站",
   "pluginName_websiteHttpd_1": "網站",
   "pluginName_websiteHttpd_2": "網站",
+  "pluginName_nutanixHost_plural": "Nutanix 主機",
+  "pluginName_nutanixHost_0": "Nutanix 主機",
+  "pluginName_nutanixHost_1": "Nutanix 主機",
+  "pluginName_nutanixHost_2": "Nutanix 主機",
+  "pluginName_nutanixHost": "Nutanix 主機",
+  "pluginName_nutanixDatacenter_plural": "Nutanix 資料中心",
+  "pluginName_nutanixDatacenter_0": "Nutanix 資料中心",
+  "pluginName_nutanixDatacenter_1": "Nutanix 資料中心",
+  "pluginName_nutanixDatacenter_2": "Nutanix 資料中心",
+  "pluginName_nutanixDatacenter": "Nutanix 資料中心",
   "tracingTypeName_ace": "IBM ACE",
   "tracingTypeName_actioncontroller": "ActionController",
   "tracingTypeName_actioncontroller_plural": "ActionController 呼叫",
@@ -3428,6 +3443,8 @@
       "state": "狀況",
       "queueManagersNumber": "佇列管理程式 ({{count}})",
       "queueManagersNumber_plural": "佇列管理程式 ({{count}})",
+      "queueManagersV9Number": "Queue Manager 第 9 版及更新版本 ({{count}})",
+      "queueManagersV9Number_plural": "Queue Managers 第 9 版及更新版本 ({{count}})",
       "serviceNumber": "服務 ({{count}})",
       "serviceNumber_plural": "服務 ({{count}})",
       "sqlDatasourceNumber": "SQL 資料來源 ({{count}})",
@@ -3468,6 +3485,12 @@
       "activeConnections": "作用中連線",
       "backendActiveConnections": "後端作用中連線",
       "frontendActiveConnections": "前端作用中連線"
+    },
+    "ibmDataPowerQueueManagerV9": {
+      "ibmDataPowerQueueManagerV9Info": "IBM DataPower Queue Manager 第 9 版及更新版本",
+      "activeConversations": "作用中交談數",
+      "backendActiveConversations": "後端作用中交談",
+      "frontendActiveConversations": "前端作用中交談"
     },
     "ibmDataPowerService": {
       "ibmDataPowerServiceInfo": "IBM DataPower 服務",
@@ -9547,7 +9570,7 @@
         "duration": "持續時間",
         "backupSize": "備份大小",
         "transferredSize": "已傳送大小",
-        "backupStats": "備份進度",
+        "backupStats": "最新備份",
         "startTime": "開始時間",
         "entryType": "項目類型",
         "processCpuPerc": "處理程序 CPU",
@@ -9569,7 +9592,7 @@
         "diskUsagePercentage": "磁碟用量百分比",
         "diskUsageSummary": "磁碟用量摘要",
         "usage": "用量",
-        "archiveLogBackupStats": "備份歷程",
+        "archiveLogBackupStats": "所有備份",
         "sourceDatabaseName": "來源資料庫",
         "userLockStats": "使用者鎖定",
         "userMode": "使用者模式",
@@ -9710,9 +9733,9 @@
       "dashboard": {
         "overallCreditUsage": "整體額度使用情形",
         "totalStorageBytes": "總儲存位元組",
-        "usageInCurrency": "貨幣使用情形",
+        "usageInCurrency": "使用貨幣 ({{currency}})",
         "topFiveBillingAccounts": "前 5 個計費帳戶",
-        "remainingBalanceInCurrency": "貨幣餘額",
+        "remainingBalanceInCurrency": "貨幣餘額 ({{currency}})",
         "balance": "平衡",
         "accountName": "帳戶名稱",
         "credits": "額度",
@@ -10857,6 +10880,14 @@
         "processName": "程序名稱",
         "gpu": "GPU",
         "gpuUsage": "GPU 使用情形",
+        "volumeGroups": "磁區群組",
+        "volumeGroupName": "磁區群組名稱",
+        "physicalVolume": "實體磁區",
+        "physicalVolumeName": "實體磁區名稱",
+        "totalSize": "大小總計",
+        "usedSize": "已使用的大小",
+        "freeSize": "可用大小",
+        "volumeGrpState": "磁區群組狀態",
         "encoder": "編碼器",
         "decoder": "解碼器",
         "temperature": "溫度",
@@ -11640,10 +11671,7 @@
             "unitNumber": "裝置號碼",
             "aspNumber": "ASP 號碼",
             "unitStorageCapacity": "儲存體容量",
-            "unitMediaCapacityGb": "媒體容量 (GB)",
-            "charts": {
-              "elapsedPercentBusy": "經歷忙碌百分比"
-            }
+            "unitMediaCapacityGb": "媒體容量 (GB)"
           },
           "solidStateDisk": {
             "name": "固態硬碟 (SSD) 資訊",
@@ -11667,10 +11695,7 @@
             "diskType": "磁碟類型",
             "unitNumber": "裝置號碼",
             "aspNumber": "ASP 號碼",
-            "typeOfDiskUnit": "硬碟機類型",
-            "charts": {
-              "elapsedPercentBusy": "經歷忙碌百分比"
-            }
+            "typeOfDiskUnit": "硬碟機類型"
           },
           "nonVolatileMemory": {
             "name": "永久記憶體快速 (NVMe) 資訊",
@@ -11686,7 +11711,12 @@
             "unSafeShutDowns": "不安全關閉",
             "firmwareLevel": "韌體層次"
           }
-        }
+        },
+        "elapsedPercentBusy": "經歷忙碌百分比",
+        "elapsedReadRequests": "讀取數/秒",
+        "elapsedWriteRequests": "寫入數/秒",
+        "elapsedDataRead": "已讀取的位元組數/秒",
+        "elapsedDataWritten": "已寫入的位元組數/秒"
       }
     },
     "ibmiNetworkInfo": {
@@ -12644,7 +12674,8 @@
       "hostname": "主機名稱",
       "startType": "啟動類型",
       "turbonomicSensorException": "Turbonomic 感應器產生下列異常狀況：<code>{{e}}</code>。",
-      "jspawnhelperPermissionIssueDescription": "該代理程式無法執行 JVM 路徑 <code>{{path}}</code> 中的檔案 jspawnhelper。 請提供必要的權限。"
+      "jspawnhelperPermissionIssueDescription": "該代理程式無法執行 JVM 路徑 <code>{{path}}</code> 中的檔案 jspawnhelper。 請提供必要的權限。",
+      "switchtoJava11IssueDescription": "代理程式正在使用低於 Java 11 的 JVM 執行。 使用的版本為 <code>{{version}}</code>。"
     },
     "sparkStandalone": {
       "titleApplicationId": "應用程式 ID",
@@ -13616,19 +13647,45 @@
       "label_category_LLM": "LLM",
       "llm_status": "LLM 狀態",
       "dashboard": {
-        "token": "記號",
-        "cost": "成本",
+        "token": "依模型的記號",
+        "inputToken": "依模型的輸入記號",
+        "outputToken": "依模型的輸出記號",
+        "serviceToken": "依服務的記號",
+        "serviceInputToken": "依服務的輸入記號",
+        "serviceOutputToken": "依服務的輸出記號",
+        "cost": "依模型的成本",
+        "inputCost": "依模型的輸入成本",
+        "outputCost": "依模型的輸出成本",
+        "serviceCost": "依服務的成本",
+        "serviceInputCost": "依服務的輸入成本",
+        "serviceOutputCost": "依服務的輸出成本",
         "duration": "模型延遲",
         "analytics": "追蹤",
         "llmonitor_agent": "LLMonitor 平台",
         "details": "詳細資料",
-        "count": "要求計數",
+        "count": "依模型的要求數",
+        "serviceCount": "依服務的要求數",
         "totalToken": "記號總計",
+        "totalInputToken": "總輸入記號",
+        "totalOutputToken": "總輸出記號",
         "totalCost": "總成本",
+        "totalInputCost": "總輸入成本",
+        "totalOutputCost": "總輸出成本",
         "totalCount": "要求總數",
         "totalTokenByModel": "依模型列出的記號總計",
+        "totalInputTokenByModel": "依模型的總輸入記號",
+        "totalOutputTokenByModel": "依模型的總輸出記號",
+        "totalTokenByService": "依服務的總記號",
+        "totalInputTokenByService": "依服務的總輸入記號",
+        "totalOutputTokenByService": "依服務的總輸出記號",
         "totalCostByModel": "依模型的成本總計",
-        "totalCountByModel": "依模型的要求計數總計"
+        "totalInputCostByModel": "依模型的總輸入成本",
+        "totalOutputCostByModel": "依模型的總輸出成本",
+        "totalCostByService": "依服務的總成本",
+        "totalInputCostByService": "依服務的總輸入成本",
+        "totalOutputCostByService": "依服務的總輸出成本",
+        "totalCountByModel": "依模型的要求計數總計",
+        "totalCountByService": "依服務的總要求數"
       }
     },
     "oTelDcgm": {

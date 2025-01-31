@@ -52,8 +52,8 @@ import SelectEntitiesForm from 'in-settings/tabs/SecurityAndAccess/pages/accessC
 import { FormControlProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import RoleFormGroup from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
 import EntityTable from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/EntityTable';
-import { carbonTableEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import Divider from 'in-components/workspace/Divider/Divider';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
@@ -225,7 +225,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
       id: 'action',
       label: '',
       useMinimumAmountOfHorizontalSpace: true,
-      width: carbonTableEnabled ? '4' : undefined,
+      width: '4',
       sortable: false,
       getContent(entity) {
         const id = extractId(entity);

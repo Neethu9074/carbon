@@ -39,6 +39,14 @@
       "msg": "{{smartAlertsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countSmartAlert, { \"count\": {{smartAlertsCount}} }) & {{incidentsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countIncident, { \"count\": {{incidentsCount}} })",
       "itemMsg": "+{{leftCount}} más {{moreMsg}}"
     },
+    "charTable": {
+      "group": "Grupo",
+      "xVal": "Valor x (Tiempo)",
+      "yVal": "Valor y",
+      "tabularRep": "Representación tabular",
+      "tableVis": "Visualización de la tabla",
+      "close": "Cerrar"
+    },
     "chartMarkerLane": {
       "retryButtonLabel": "Reintento",
       "openList": "Abrir lista"
@@ -48,6 +56,7 @@
     "highlightedTimeframeCloseButtonClearHighlight": "Borrar resaltado",
     "resultAwareChartSomethingWentWrong": "Algo no ha ido bien…",
     "resultAwareChartPleaseTryAgainLater": "Vuelva a intentarlo más adelante.",
+    "openTable": "Tabla abierta",
     "tooltip": {
       "scrollHint": "Desplácese utilizando <upArrow /><downArrow /> teclas",
       "rollup": "sobre{{rollup}}",
@@ -96,7 +105,7 @@
     "formStateLabel": "Estado"
   },
   "searchBar": {
-    "usingTheSearchBar": "Se puede utilizar la función de búsqueda de foco dinámico de Instana para filtrar los mapas en 3D, las tablas de comparación y las vistas de incidencias. La barra de búsqueda tiene amplias prestaciones para buscar utilizando búsquedas similares y con caracteres comodín, así como operadores booleanos. Por ejemplo, la consulta\n siguiente restringe las vistas a los hosts de producción con menos de cuatro CPU:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\n Dynamic Focus aprovecha la [sintaxis de consultas de Lucene] (https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) con las siguientes diferencias con respecto al estándar Lucene:\n-**Operador predeterminado:** `AND`\n-**Restricciones de sintaxis:** se listan en la [documentación] (https://ibm.biz/dynamic-focus-syntax-constraints) \n## Interacción de barra de búsqueda.\n La barra de búsqueda soporta el rellenado automático de campos de búsqueda y resaltará la sintaxis de la consulta Lucene mientras se escribe.\nUna vez se ha escrito, la barra de búsqueda propondrá campos de búsqueda que coincidan con la entrada actual. Para aceptar los campos propuestos, pulse `RETORNO`. Pulse `CTRL + ESPACIO' para abrir la ventana emergente de cumplimentación automática.## Hoja de apuntes de sintaxis de consulta Lucene\n -**Búsqueda con campo:** `entity.host.cpu.count:>4`\n -**Operadores booleanos:** `entity.host.cpu.count:<4 AND entity.zone:production`\n -**Agrupamiento:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n -** Búsquedas con comodín:** `entity.type:container*`\n\nConsulte la [documentación] (https://ibm.biz/filtering-dynamic-focus) para obtener más información.",
+    "usingTheSearchBar": "Se puede utilizar la función de búsqueda de foco dinámico de Instana para filtrar los mapas en 3D, las tablas de comparación y las vistas de incidencias. La barra de búsqueda tiene amplias prestaciones para buscar utilizando búsquedas similares y con caracteres comodín, así como operadores booleanos. Por ejemplo, la consulta\n siguiente restringe las vistas a los hosts de producción con menos de cuatro CPU:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\n Dynamic Focus aprovecha la [sintaxis de consultas de Lucene] (https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) con las siguientes diferencias con respecto al estándar Lucene:\n-**Operador predeterminado:** `AND`\n-**Restricciones de sintaxis:** se listan en la [documentación] (https://ibm.biz/dynamic-focus-syntax-constraints)\n## Interacción de barra de búsqueda.\n La barra de búsqueda soporta el rellenado automático de campos de búsqueda y resaltará la sintaxis de la consulta Lucene mientras se escribe.\nUna vez se ha escrito, la barra de búsqueda propondrá campos de búsqueda que coincidan con la entrada actual. Para aceptar los campos propuestos, pulse `RETORNO`. Pulse `CTRL + ESPACIO` para abrir la ventana emergente de cumplimentación automática.\n## Hoja de apuntes de sintaxis de consulta Lucene\n -**Búsqueda con campo:** `entity.host.cpu.count:>4`\n -**Operadores booleanos:** `entity.host.cpu.count:<4 AND entity.zone:production`\n -**Agrupamiento:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n -**Búsquedas con comodín:** `entity.type:container*`\n\nConsulte la [documentación](https://ibm.biz/filtering-dynamic-focus) para obtener más información.",
     "filtersBtn": "Filtros",
     "filterPresetsMenuHeading": "Filtros",
     "filterPresetsSaveFilters": "Guarde los filtros para acceder fácilmente aquí",
@@ -346,32 +355,20 @@
     "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "(mostrando {{maxIssuesToShow}} más graves)",
     "openIssuesListPresenterIssueDescriptionOmitted": "Se ha omitido la descripción del problema. Puede encontrar más detalles en la vista de detalles del suceso.",
     "openIssuesListPresenterStarted": "Iniciado",
-    "noIssues": "Sin problemas",
+    "noIssues": "No hay ningún problema",
     "openIssues": "{{count}} problema",
     "openIssues_plural": "{{count}} problemas",
     "openIssues_0": "{{count}} problemas",
     "openIssues_1": "{{count}} problema",
     "openIssues_2": "{{count}} problemas",
     "noIncidents": "Sin incidencias",
-    "openIncidents": "{{count}} Incidencia",
-    "openIncidents_plural": "{{count}} Incidencias",
-    "openIncidents_0": "{{count}} Incidencias",
-    "openIncidents_1": "{{count}} Incidencia",
-    "openIncidents_2": "{{count}} Incidencias",
+    "openIncidents": "{{count}} incidencia",
+    "openIncidents_plural": "{{count}} incidencias",
+    "openIncidents_0": "{{count}} incidencias",
+    "openIncidents_1": "{{count}} incidencia",
+    "openIncidents_2": "{{count}} incidencias",
     "labelWarning": "Aviso",
-    "labelCritical": "Crítico",
-    "carbonNoIssues": "No hay ningún problema",
-    "carbonOpenIssues": "{{count}} problema",
-    "carbonOpenIssues_plural": "{{count}} problemas",
-    "carbonOpenIssues_0": "{{count}} problemas",
-    "carbonOpenIssues_1": "{{count}} problema",
-    "carbonOpenIssues_2": "{{count}} problemas",
-    "carbonNoIncidents": "Sin incidencias",
-    "carbonOpenIncidents": "{{count}} incidencia",
-    "carbonOpenIncidents_plural": "{{count}} incidencias",
-    "carbonOpenIncidents_0": "{{count}} incidencias",
-    "carbonOpenIncidents_1": "{{count}} incidencia",
-    "carbonOpenIncidents_2": "{{count}} incidencias"
+    "labelCritical": "Crítico"
   },
   "vulnerabilities": {
     "eventType_issue": "vulnerabilidades",
@@ -391,23 +388,11 @@
     "openVulnerabilities_1": "{{count}} vulnerabilidad",
     "openVulnerabilities_2": "{{count}} vulnerabilidades",
     "noIncidents": "Sin incidencias",
-    "openIncidents": "{{count}} Incidencia",
-    "openIncidents_plural": "{{count}} Incidencias",
-    "openIncidents_0": "{{count}} Incidencias",
-    "openIncidents_1": "{{count}} Incidencia",
-    "openIncidents_2": "{{count}} Incidencias",
-    "carbonNoVulnerabilities": "Sin vulnerabilidades",
-    "carbonOpenVulnerabilities": "{{count}} vulnerabilidad",
-    "carbonOpenVulnerabilities_plural": "{{count}} vulnerabilidades",
-    "carbonOpenVulnerabilities_0": "{{count}} vulnerabilidades",
-    "carbonOpenVulnerabilities_1": "{{count}} vulnerabilidad",
-    "carbonOpenVulnerabilities_2": "{{count}} vulnerabilidades",
-    "carbonNoIncidents": "Sin incidencias",
-    "carbonOpenIncidents": "{{count}} incidencia",
-    "carbonOpenIncidents_plural": "{{count}} incidencias",
-    "carbonOpenIncidents_0": "{{count}} incidencias",
-    "carbonOpenIncidents_1": "{{count}} incidencia",
-    "carbonOpenIncidents_2": "{{count}} incidencias"
+    "openIncidents": "{{count}} incidencia",
+    "openIncidents_plural": "{{count}} incidencias",
+    "openIncidents_0": "{{count}} incidencias",
+    "openIncidents_1": "{{count}} incidencia",
+    "openIncidents_2": "{{count}} incidencias"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "Pestaña Seleccionar"
@@ -624,7 +609,6 @@
     "timeSelectionDialogPresenterLabelTimeRange": "Rango de tiempo",
     "timeSelectionDialogPresenterLabelReleases": "Releases",
     "timeFrameFormatterStarting": "Iniciando {{fromTime}}",
-    "timeIconHistoricDataMessage": "Está visualizando datos aproximados debido a los valores de retención de datos. Los datos precisos estarán disponibles en los últimos {{retention}} días.",
     "timeUnit_year": "año",
     "timeUnit_month": "mes",
     "timeUnit_day": "día",

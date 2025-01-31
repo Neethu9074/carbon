@@ -29,7 +29,7 @@
         "pleaseSelect": "Seleccione"
       },
       "sharingDialogPresenter": {
-        "share": "Compartir",
+        "editPermissions": "Editar permisos",
         "shareMsg": "Este panel de control personalizado tiene reglas de acceso avanzadas que no se pueden representar mediante este diálogo. Puede utilizar la característica \"Editar como JSON\" para editar estas reglas de acceso.",
         "privateDashboardDefault": "Panel de control privado (predeterminado)",
         "privateDashboardDefaultExplain": "Este panel de control solo lo puede visualizar usted.",
@@ -81,6 +81,7 @@
       "failure": "Anomalía",
       "dashboardNotFoundExplain": "Este panel de control no existe o no tiene acceso al mismo.",
       "customDashboard": "Panel de control personalizado",
+      "customDashboardOptions": "Opciones personalizadas del panel de control",
       "saveChange": "Guardar cambios",
       "discardChange": "Descartar cambios",
       "addWidget": "Añadir widget",
@@ -92,8 +93,8 @@
       "copiedAllWidgets": "Widgets copiados, utilice CTRL-V o CMD-V para pegar en cualquier panel de control personalizado",
       "duplicate": "Duplicar",
       "delete": "Suprimir",
-      "share": "Compartir",
-      "shareButtonTooltip": "Su cuenta de usuario no tiene permisos para compartir paneles de control."
+      "editPermissions": "Editar permisos",
+      "editOptionTooltip": "Su cuenta de usuario no tiene permisos para compartir paneles de control."
     },
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "No se ha podido analizar la entrada como JSON.",
@@ -833,6 +834,14 @@
         "tagNoValue": "El código '{{labelname}}' está presente sin un valor"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "Representación de https://...",
+      "form": {
+        "heading": "¿Qué página desea incluir?",
+        "title": "Especificar URL"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "Visión general de salud"
@@ -900,7 +909,8 @@
         }
       },
       "dataSource": {
-        "events": "Sucesos"
+        "events": "Sucesos",
+        "k8sEvents": "Sucesos Kubernetes"
       },
       "eventColumns": {
         "title": "Título",
@@ -908,6 +918,19 @@
         "startedOn": "Se inició el",
         "endedOn": "Finalizó el",
         "duration": "Duración"
+      },
+      "kubernetesEventColumns": {
+        "type": "Tipo",
+        "reason": "Razón",
+        "message": "Mensaje",
+        "namespace": "Espacio de nombres",
+        "involvedObject": "Objeto implicado",
+        "kind": "Tipo",
+        "time": "Hora"
+      },
+      "emptyTable": {
+        "title": "No hay sucesos disponibles",
+        "explanation": "No se ha recuperado ningún suceso para el rango de tiempo seleccionado"
       }
     },
     "time": {

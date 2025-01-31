@@ -7,9 +7,9 @@
 import React from 'react';
 
 import { ColumnizedContent, Li } from '@instana/components';
+import { KubernetesJobListItem } from '@instana/types';
 
 import { labelColumnDefinitions, columnDefinitions } from 'in-kubernetes/Dashboards/CronJob/JobItem/utils';
-import { KubernetesJobListItem } from 'in-types';
 
 import locals from 'in-kubernetes/Dashboards/CronJob/JobItem/JobItem.mless';
 

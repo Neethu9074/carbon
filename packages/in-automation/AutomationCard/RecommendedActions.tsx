@@ -21,7 +21,6 @@ import useServerTableUrlState, {
 import GenerateAIActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import CreatePolicyDialog from 'in-automation/AutomationCard/CreatePolicyDialog/CreatePolicyDialog';
-import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
@@ -29,7 +28,6 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
-import useHasAccessToManual from 'in-automation/hooks/useHasAccessToManual';
 import { TrackingFunction, useSegmentTracker } from 'in-automation/tracker';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ScoredAction, TriggerSpecification } from 'in-automation/types';
@@ -149,9 +147,7 @@ function GenerateAIActionButton({
 }) {
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const name = hasError(trigger) ? event?.problem?.problemText ?? '' : trigger.data!?.name;
-  const hasAccessToManual = useHasAccessToManual();
 
-  if (!role?.canConfigureAutomationActions || !hasAccessToManual) return null;
   return (
     <Button
       kind="action"
@@ -255,7 +251,6 @@ export default function RecommendedActions({
     defaultPageSize: 7
   });
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
-  const navigateToActionDetails = useNavigateToActionDetails();
   const { runActionTrackerSegment } = useSegmentTracker();
   const availableAiEngines = [...new Set(recommendedActions.data?.map(({ aiEngine }) => aiEngine))];
   const availableTags = [...new Set(recommendedActions.data?.flatMap(({ tags }) => tags ?? []))];
@@ -273,9 +268,6 @@ export default function RecommendedActions({
 
   const totalHits = result?.data?.totalHits;
 
-  const handleRowClick = (action: ScoredAction) => {
-    navigateToActionDetails(action.id, false);
-  };
   const showOotbActions =
     getTriggerTypeFromEvent(event) === 'builtinEvent' && (ootbRecommendedActions.data?.length ?? 0) > 0;
 
@@ -314,7 +306,6 @@ export default function RecommendedActions({
         </Stack>
       }
       searchPlaceholder={t('in-automation:searchActions')}
-      onRowClick={!role?.canConfigureAutomationPolicies ? handleRowClick : undefined}
     />
   );
 }

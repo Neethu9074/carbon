@@ -6,7 +6,9 @@
 
 import React from 'react';
 
-import { DashboardButton } from '@instana/components';
+import { CarbonButton } from '@instana/components';
+
+import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 
 import locals from './ViewAllButton.mless';
 
@@ -18,18 +20,17 @@ interface ViewAllButtonProps {
 
 export default function ViewAllButton({ href, viewLabel, isTableEmpty = false }: Readonly<ViewAllButtonProps>) {
   return (
-    <DashboardButton
+    <CarbonButton
       size="md"
       kind="ghost"
-      iconSize="s"
-      icon="lib_arrow_right"
-      iconStyle={locals.viewAllButtonArrowIcon}
+      className={locals.viewAllButtonWrapper}
+      renderIcon={() => <IconForButton icon="lib_arrow_right" iconSize="s" iconStyle={locals.viewAllButtonArrowIcon} />}
       href={href}
-      ariaLabel={viewLabel}
+      aria-label={viewLabel}
       iconDescription={viewLabel}
       disabled={isTableEmpty}
     >
       {viewLabel}
-    </DashboardButton>
+    </CarbonButton>
   );
 }

@@ -12,7 +12,7 @@ import AggregationSymbol from 'in-components/AggregationSymbol';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { t } from 'in-i18n';
 
-import locals from './Tooltip.mless';
+import locals from 'in-components/LatencyDistributionBase10Chart/components/Tooltip.mless';
 
 export default function Tooltip({ metricBuckets, percentileBuckets, config, style, isGrouped }) {
   let metrics = metricBuckets

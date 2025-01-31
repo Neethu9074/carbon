@@ -5,6 +5,7 @@
  */
 
 import React, { useState, useCallback } from 'react';
+import classNames from 'classnames';
 
 import {
   Button,
@@ -48,6 +49,9 @@ interface FilterProps {
   status: string;
 }
 
+const FILTER = 'filter';
+const SETTINGS = 'settings';
+
 export default function TableSettings({
   handleSettings,
   handleFilter
@@ -67,8 +71,8 @@ export default function TableSettings({
     <span className={locals.toolbar}>
       <SettingsPopoverContent
         icon="lib_actions_filter"
-        id="filter"
-        isActive={activePopover === 'filter'}
+        id={FILTER}
+        isActive={activePopover === FILTER}
         handleClick={handleClick}
       >
         <Stack gap="xsmall">
@@ -108,8 +112,8 @@ export default function TableSettings({
       </SettingsPopoverContent>
       <SettingsPopoverContent
         icon="lib_actions_settings"
-        id="settings"
-        isActive={activePopover === 'settings'}
+        id={SETTINGS}
+        isActive={activePopover === SETTINGS}
         handleClick={handleClick}
       >
         <Stack gap="xsmall">
@@ -162,7 +166,12 @@ export function SettingsPopoverContent({
   return (
     <CarbonPopover open={isActive} align="bottom-end">
       <IconButton className={locals.icon} type={icon} onClick={() => handleClick(id)} size="compact" kind="action" />
-      <CarbonPopoverContent className={id === 'filter' ? locals.filterContent : locals.popoverContent}>
+      <CarbonPopoverContent
+        className={classNames({
+          [locals.filterContent]: id === FILTER,
+          [locals.popoverContent]: id !== FILTER
+        })}
+      >
         {children}
       </CarbonPopoverContent>
     </CarbonPopover>

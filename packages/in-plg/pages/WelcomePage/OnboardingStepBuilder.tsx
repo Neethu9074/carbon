@@ -6,7 +6,7 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { HeaderItemTile, Stack, TileButtonTypes } from '@instana/components';
+import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -20,6 +20,8 @@ import {
   UNIT_ONBOARDING_TRACE_INTERACTIONS_CLICK
 } from 'in-services/tracking/eventNames';
 import { securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
+import { HeaderItemTile } from 'in-plg/components/HeaderItemTile/HeaderItemTile';
+import { TileButtonTypes } from 'in-plg/components/HeaderItemTile/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';

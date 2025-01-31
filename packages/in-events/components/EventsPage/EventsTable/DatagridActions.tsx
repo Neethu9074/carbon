@@ -4,12 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
-// eslint-disable-next-line no-restricted-imports
-import { IconButton, TableToolbarContent } from '@carbon/react';
-import { DataGridState } from '@carbon/ibm-products/lib/components/Datagrid/types';
-import { useFilterContext } from '@carbon/ibm-products';
-import { Filter } from '@carbon/react/icons';
 import React from 'react';
+
+import { CarbonIconButton, CarbonTableToolbarContent, SvgIcon } from '@instana/components';
+import { DataGridState, useFilterContext } from '@instana/ibm-products';
 
 import locals from './EventsTable.mless';
 
@@ -18,11 +16,11 @@ export const DatagridActions = (datagridState: DataGridState) => {
   const label = datagridState.filterProps?.panelIconDescription || '';
   return (
     <>
-      <TableToolbarContent className={locals.toolbarContent}>
-        <IconButton label={label} kind="ghost" onClick={() => setPanelOpen((open: boolean) => !open)}>
-          <Filter />
-        </IconButton>
-      </TableToolbarContent>
+      <CarbonTableToolbarContent className={locals.toolbarContent}>
+        <CarbonIconButton label={label} kind="ghost" onClick={() => setPanelOpen((open: boolean) => !open)}>
+          <SvgIcon type="lib_actions_filter" size={'xs'} />
+        </CarbonIconButton>
+      </CarbonTableToolbarContent>
     </>
   );
 };

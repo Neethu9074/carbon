@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { LicenseBannerButton, Typography } from '@instana/components';
+import { CarbonButton, Typography } from '@instana/components';
 
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -31,14 +31,14 @@ export function OpenTrialExpiryDialog({ message, isSevenDaysOver }: OpenTrailExp
             : t('in-plg:trialExpirationPopUp.titleAfterTrialPeriodEnd')
         }
         customButtons={
-          <LicenseBannerButton
+          <CarbonButton
             kind="primary"
             onClick={() => {
               addActiveDialog(<BuyNowDialog />);
             }}
           >
             {t('in-plg:licenseBanner.buyNow')}
-          </LicenseBannerButton>
+          </CarbonButton>
         }
       >
         <Typography variant="body-regular">

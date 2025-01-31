@@ -22,7 +22,6 @@
     background: var(--ids-color-option-neutral-600);
   }
   .bannerLink {
-    // color: var(--ids-color-option-blue-400);
     text-decoration: underline;
   }
   .subText {
@@ -31,5 +30,8 @@
     font-size: 15px;
     font-weight: 500;
     color: var(--ids-color-option-white);
+  }
+  a.buyNow {
+    text-decoration: none;
   }
 }

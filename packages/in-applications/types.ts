@@ -6,10 +6,17 @@
 
 import { Field, MapForm, MapPath } from 'formalistic';
 
-import { Application, Endpoint, Result, ServiceLabel, TagFilterExpressionElementUnion } from '@instana/types';
+import {
+  Application,
+  Endpoint,
+  SubtraceItem,
+  Result,
+  ServiceLabel,
+  SubtracesMetricConfiguration,
+  TagFilterExpressionElementUnion
+} from '@instana/types';
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-
 import { Nullish } from 'in-types';
 
 export interface UrlMatrixParamConfig {
@@ -95,7 +102,7 @@ export interface AdditionalTagSuggestionProps {
 }
 // #endregion
 
-// #region creation & forms
+// #region subtraces
 export type SubtraceConfig = {
   id: string;
   name: string;
@@ -104,6 +111,20 @@ export type SubtraceConfig = {
 };
 
 export type NewSubtraceConfig = Omit<SubtraceConfig, 'id'>;
+
+export type SubtraceMetrics = {
+  subtraceCount: SubtracesMetricConfiguration;
+  calls: SubtracesMetricConfiguration;
+  errorRate: SubtracesMetricConfiguration;
+  duration: SubtracesMetricConfiguration;
+};
+
+export type SubtraceListItem = Required<Omit<SubtraceItem, 'metrics'>> & {
+  subtraceCount?: number;
+  calls?: number;
+  errorRate?: number;
+  duration?: number;
+};
 
 // form fields
 export type SubtraceFormFields = {

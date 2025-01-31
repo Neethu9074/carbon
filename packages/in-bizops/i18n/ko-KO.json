@@ -8,6 +8,8 @@
   "lists": {
     "pageTitle": "비즈니스 모니터링",
     "cardTitle": "비즈니스 프로세스",
+    "theId": "프로세스 ID",
+    "hasBeenCopied": "클립보드로 복사 완료",
     "activityLabel": "활동",
     "nameLabel": "이름",
     "countLabel": "개수",
@@ -100,7 +102,7 @@
         "duration": "지속 기간",
         "activityCount": "개수",
         "activityErrors": "오류",
-        "topServices": "상위 서비스",
+        "topServices": "주요 서비스",
         "activityLatency": "대기 시간",
         "viewAll": "모든 서비스 보기"
       },

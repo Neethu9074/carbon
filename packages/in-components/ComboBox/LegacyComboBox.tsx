@@ -7,7 +7,7 @@ import Select from 'react-select';
 import { isEqual } from 'lodash';
 import React from 'react';
 
-import type {Option, Options, ComboBoxProps} from './types';
+import type { Option, Options, ComboBoxProps } from 'in-components/ComboBox/types';
 import { t } from 'in-i18n';
 
 import './DropDownDirection.less';
@@ -25,7 +25,7 @@ export default function ComboBox({ isClearable = true, ...props }: ComboBoxProps
   return (
     <Select
       {...props}
-      isClearable = {isClearable}
+      isClearable={isClearable}
       classNamePrefix="Select"
       aria-label={props.name ?? 'label'}
       className={`${props.className} Select`}

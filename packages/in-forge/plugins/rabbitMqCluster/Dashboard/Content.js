@@ -16,7 +16,6 @@ import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection'
 import { greaterThanZeroFormatter } from 'in-forge/plugins/rabbitMq/formatters';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { carbonTableEnabled } from 'in-services/featureFlags';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
@@ -150,26 +149,7 @@ function renderNetworkPartitionWarn(netPartitions) {
       <div>
         <p>{t('in-forge:plugins.rabbitMqCluster.dashboard.networkPartitionDetected')}</p>
         <p>{t('in-forge:plugins.rabbitMqCluster.dashboard.theNatureOfThePartitionIsAsFollows')}</p>
-        {carbonTableEnabled && <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />}
-        {!carbonTableEnabled && (
-          <table>
-            <tbody>
-              <tr>
-                <th>{t('in-forge:plugins.rabbitMqCluster.dashboard.node')}</th>
-                <th>{t('in-forge:plugins.rabbitMqCluster.dashboard.wasPartitionedFrom')}</th>
-              </tr>
-              {netPartitions
-                .map((partFrom, node) => (
-                  <tr>
-                    <td>{node}</td>
-                    <td>{partFrom.toArray().join(',')}</td>
-                  </tr>
-                ))
-                .valueSeq()
-                .toArray()}
-            </tbody>
-          </table>
-        )}
+        {<CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />}
         <br />
         <p>
           <Trans

@@ -6,15 +6,26 @@
 
 import React from 'react';
 
-import { Config } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
+import { ConfigWithCompanionMetric } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
+import { latency, meanLatency } from 'in-services/formatters/number';
 import { SubtraceUnifiedMetricConfiguration } from 'in-types';
-import { latency } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 interface Props {
-  config: Config<SubtraceUnifiedMetricConfiguration>;
+  config: ConfigWithCompanionMetric<SubtraceUnifiedMetricConfiguration>;
 }
 export default function DurationBigCard({ config }: Props): JSX.Element {
-  return <BigNumberKpiCard title={t('in-applications:labelDuration')} formatter={latency.detailed} config={config} />;
+  return (
+    <BigNumberKpiCard
+      title={t('in-applications:subtraces.meanDuration')}
+      formatter={latency.detailed}
+      companionFormatter={(v: number) =>
+        t('in-applications:dashboards.meanLatencyFor90th', {
+          meanLatencyDetail: meanLatency.detailed(v)
+        })
+      }
+      config={config}
+    />
+  );
 }

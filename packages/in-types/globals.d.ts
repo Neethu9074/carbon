@@ -32,6 +32,7 @@ export interface Role {
   limitedBizOpsScope: boolean;
   // pre-evaluated permissions from backend
   canConfigureApplications: boolean;
+  canConfigureSubtraces: boolean;
   canConfigureServiceLevelIndicators: boolean;
   canConfigureEventsAndAlerts: boolean;
   canConfigureMaintenanceWindows: boolean;
@@ -66,6 +67,7 @@ export interface Role {
   canDeleteAutomationActionHistory: boolean;
   canViewAccountAndBillingInformation: boolean;
   canConfigureLogManagement: boolean;
+  canInvokeAlertChannel: boolean;
 }
 
 export interface User {
@@ -90,6 +92,9 @@ declare interface InstanaGlobals {
   tags: Tag[];
   permissions: string[];
   termsAndPrivacySettings: Record<string, any>;
+
+  // Needs to come in a follow-up task, after further clarification
+  // Currently missing: config: ClientConfig;
 }
 
 declare global {

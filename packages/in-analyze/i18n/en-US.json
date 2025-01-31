@@ -110,7 +110,7 @@
     "tabs": {
       "summary": {
         "logs": "Logs",
-        "analyzeLogs": "View in analyze",
+        "analyzeLogs": "Analyze logs",
         "logsCardDescription": "This is a preview, view all logs in analyze",
         "correspondingMobileAppActivity": "Corresponding Mobile App Activity",
         "hideMobileAppInformation": "Hide Mobile App Information",
@@ -279,7 +279,7 @@
     "analyzeLogsLabel": "Analyze logs",
     "similarLogs": "Similar logs",
     "message": "Message",
-    "similarServiceLogs": "Show logs in context of this service",
+    "similarServiceLogs": "Logs for this service",
     "restrictedAccessExpl": "You don't have permission to access this information"
   },
   "traceDetails": {

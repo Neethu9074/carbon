@@ -10,6 +10,7 @@ import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import ViewScreenshotsDialog from 'in-synthetics/dashboards/details/components/ViewScreenshotsDialog';
+import ViewRecordingDialog from 'in-synthetics/dashboards/details/components/ViewRecordingDialog';
 import { IMGFormatType, RECORDINGFormatType } from 'in-synthetics/utils/getValidFormat';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Col } from 'in-components/layout/Grid/Grid';
@@ -29,7 +30,6 @@ export default function DownloadButton({ testId, resultId, metadata, startTime }
   const resultsApiPath = '/api/synthetics/results/';
   const harRef: string = `${resultsApiPath}${testId}/${resultId}/file?type=HAR`;
   const logRef: string = `${resultsApiPath}${testId}/${resultId}/file?type=LOGS`;
-  const videoRef: string = `${resultsApiPath}${testId}/${resultId}/file?type=VIDEOS`;
 
   const isScreenshotAvailable: boolean = resultMetadata.includes(IMGFormatType);
   const isRecordingAvailable: boolean = resultMetadata.includes(RECORDINGFormatType);
@@ -60,18 +60,20 @@ export default function DownloadButton({ testId, resultId, metadata, startTime }
           onClick={() =>
             addActiveDialog(<ViewScreenshotsDialog testId={testId} resultId={resultId} startTime={startTime} />)
           }
-          hidden={isScreenshotAvailable ? false : true}
+          hidden={!isScreenshotAvailable}
         >
           {t('in-synthetics:dashboard.detailsPage.viewScreenshotsLabel')}
         </Button>
         <Button
           className={locals.buttonLabel}
           kind="secondary"
-          icon={'lib_actions_download'}
-          onClick={() => download('VIDEOS', videoRef)}
-          hidden={isRecordingAvailable ? false : true}
+          icon={'lib_views_external_link'}
+          onClick={() =>
+            addActiveDialog(<ViewRecordingDialog testId={testId} resultId={resultId} startTime={startTime} />)
+          }
+          hidden={!isRecordingAvailable}
         >
-          {t('in-synthetics:dashboard.detailsPage.downloadVideo')}
+          {t('in-synthetics:dashboard.detailsPage.viewRecordingLabel')}
         </Button>
       </div>
     </Col>

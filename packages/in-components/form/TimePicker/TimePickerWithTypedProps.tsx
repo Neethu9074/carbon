@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { TimePickerProps } from './types';
-import TimePicker from './TimePicker';
+import { TimePickerProps } from 'in-components/form/TimePicker/types';
+import TimePicker from 'in-components/form/TimePicker/TimePicker';
 
 export const TimePickerWithTypedProps = (props: TimePickerProps) => <TimePicker {...props} />;

@@ -69,6 +69,7 @@ export default function GlobalInventorySmartAlertsList({ onNoData }) {
           }
           noDataDescription={getNoDataMessage(configsCategory)}
           alertsTab={alertsTab}
+          sortOptions={sortOptions}
         />
       ) : (
         <Card>

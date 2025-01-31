@@ -4,6 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-import { MinimalTagDefinition } from '../transformation/formModel';
+import { MinimalTagDefinition } from 'in-components/QueryBuilder/transformation/formModel';
 
 export function minimizeTagDefinition(tagDefinition?: TagWithPath): MinimalTagDefinition | undefined;

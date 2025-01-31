@@ -1849,6 +1849,16 @@
   "pluginName_websiteHttpd_0": "Websites",
   "pluginName_websiteHttpd_1": "Website",
   "pluginName_websiteHttpd_2": "Websites",
+  "pluginName_nutanixHost_plural": "Nutanix Hosts",
+  "pluginName_nutanixHost_0": "Nutanix Hosts",
+  "pluginName_nutanixHost_1": "Nutanix Hosts",
+  "pluginName_nutanixHost_2": "Nutanix Hosts",
+  "pluginName_nutanixHost": "Nutanix Host",
+  "pluginName_nutanixDatacenter_plural": "Nutanix Datacenters",
+  "pluginName_nutanixDatacenter_0": "Nutanix Datacenters",
+  "pluginName_nutanixDatacenter_1": "Nutanix Datacenters",
+  "pluginName_nutanixDatacenter_2": "Nutanix Datacenters",
+  "pluginName_nutanixDatacenter": "Nutanix Datacenter",
   "tracingTypeName_ace": "IBM ACE",
   "tracingTypeName_actioncontroller": "ActionController",
   "tracingTypeName_actioncontroller_plural": "ActionController Calls",
@@ -3647,6 +3657,10 @@
       "directorySystemAgentLSA": "Local security authority",
       "directorySystemAgentNSPI": "Name service provider",
       "securityAccountManagerLabel": "Security accounts manager",
+      "dhcpLabel": "Dynamic host configuration protocol(DHCP)",
+      "dnsLablelDynamicUpdates" : "Domain name system(DNS) dynamic updates",
+      "dnsLablelQueriesAndResponses" : "Domain name system(DNS) queries and responses",
+      "dnsLablelZoneTransfers" : "Domain name system(DNS) zone transfers",
       "directorySystemAgent": {
         "dsClientBindsPerSec": "Client binds per second",
         "dsClientNameTranslationsPerSec": "Client name translations per second",
@@ -3702,6 +3716,30 @@
         "samTransitiveMembershipEvaluationsPerSec": "Transitive membership evaluations per second",
         "samUniversalGroupMembershipEvaluationsPerSec": "Universal group membership evaluations per second",
         "samUserCreationAttemptsPerSec": "User creation attempts per second"
+      },
+      "dhcp" : {
+        "dhcpAcksPerSecondPercentageIncrease": "Percentage increase in acks per second",
+        "dhcpRequestSecondPercentIncrease": "Percentage increase in requests per second",
+        "dhcpConflictCheckQueueLength": "Conflict check queue length",
+        "dhcpDeclinesPersec": "Declines per second",
+        "dhcpDuplicatesDroppedPersec": "Duplicates dropped per second",
+        "dhcpNacksPersec": "Nacks per second",
+        "dhcpPacketsExpiredPersec": "Packets expired per second"
+      },
+      "dns": {
+        "dnsCachingMemory": "Caching memory",
+        "dnsDynamicUpdateQueued": "Dynamic update queued",
+        "dnsDynamicUpdateReceived": "Dynamic update received",
+        "dnsDynamicUpdateReceivedPersec": "Dynamic update received per second",
+        "dnsDynamicUpdateRejected": "Dynamic update rejected",
+        "dnsDynamicUpdateTimeOuts": "Dynamic update timeouts",
+        "dnsTotalQueryReceived": "Total query received",
+        "dnsTotalQueryReceivedPersec": "Total query received per second",
+        "dnsTotalResponseSent": "Total response sent",
+        "dnsTotalResponseSentPersec": "Total response sent per second",
+        "dnsZoneTransferFailure": "Zone transfer failure",
+        "dnsZoneTransferSuccess": "Zone transfer success",
+        "dnsZoneTransferRequestReceived": "Zone transfer request received"
       }
     },
     "activeMQ": {
@@ -9561,7 +9599,7 @@
         "duration": "Duration",
         "backupSize": "Backup Size",
         "transferredSize": "Transferred Size",
-        "backupStats": "Backup Progress",
+        "backupStats": "Latest Backup",
         "startTime": "Start Time",
         "entryType": "Entry Type",
         "processCpuPerc": "Process CPU",
@@ -9583,7 +9621,7 @@
         "diskUsagePercentage": "Disk Usage Percentage",
         "diskUsageSummary": "Disk Usage Summary",
         "usage": "Usage",
-        "archiveLogBackupStats": "Backup History",
+        "archiveLogBackupStats": "All Backups",
         "sourceDatabaseName": "Source Database",
         "userLockStats": "User Locks",
         "userMode": "User mode",
@@ -10832,8 +10870,10 @@
         "virtualTotal": "Virtual total",
         "computational": "Computational",
         "nonComputational": "Non computational",
+        "realAvailable": "Real available",
         "pageIn": "Page-in per second",
         "pageOut": "Page-out per second",
+        "pageScan": "Page-scan per second",
         "openFiles": "Open Files",
         "current": "Current",
         "tcpActivity": "TCP Activity",
@@ -10872,6 +10912,14 @@
         "processName": "Process Name",
         "gpu": "GPU",
         "gpuUsage": "GPU Usage",
+        "volumeGroups": "Volume Groups",
+        "volumeGroupName": "Volume Group Name",
+        "physicalVolume": "Physical Volume",
+        "physicalVolumeName": "Physical Volume Name",
+        "totalSize":"Total Size",
+        "usedSize":"Used Size",
+        "freeSize":"Free Size",
+        "volumeGrpState": "Volume Group state",
         "encoder": "Encoder",
         "decoder": "Decoder",
         "temperature": "Temperature",
@@ -10937,8 +10985,10 @@
       "virtualTotal": "Virtual total",
       "computational": "Computational",
       "nonComputational": "Non computational",
+      "realAvailable": "Real available",
       "pageIn": "Page-in per second",
       "pageOut": "Page-out per second",
+      "pageScan": "Page-scan per second",
       "load": "Load",
       "contextSwitches": "Context Switches",
       "current": "Current",
@@ -11655,10 +11705,7 @@
             "unitNumber": "Unit Number",
             "aspNumber": "ASP Number",
             "unitStorageCapacity": "Storage Capacity",
-            "unitMediaCapacityGb": "Media Capacity(GB)",
-            "charts": {
-              "elapsedPercentBusy": "Elapsed Percent Busy"
-            }
+            "unitMediaCapacityGb": "Media Capacity(GB)"
           },
           "solidStateDisk": {
             "name": "Solid State Disk(SSD) Info",
@@ -11682,10 +11729,7 @@
             "diskType": "Disk Type",
             "unitNumber": "Unit Number",
             "aspNumber": "ASP Number",
-            "typeOfDiskUnit": "Type of Disk Unit",
-            "charts": {
-              "elapsedPercentBusy": "Elapsed Percent Busy"
-            }
+            "typeOfDiskUnit": "Type of Disk Unit"
           },
           "nonVolatileMemory": {
             "name": "Non Volatile Memory Express(NVMe) Information",
@@ -11701,7 +11745,12 @@
             "unSafeShutDowns": "Unsafe Shutdowns",
             "firmwareLevel": "Firmware Level"
           }
-        }
+        },
+        "elapsedPercentBusy": "Elapsed Percent Busy",
+        "elapsedReadRequests": "Reads/s",
+        "elapsedWriteRequests": "Writes/s",
+        "elapsedDataRead": "Bytes Read/s",
+        "elapsedDataWritten": "Bytes Written/s"
       }
     },
     "ibmiNetworkInfo": {
@@ -13634,6 +13683,8 @@
       "instanceId": "Instance ID",
       "label_category_LLM": "LLM",
       "llm_status": "LLM Status",
+      "model": "model",
+      "service": "service",
       "dashboard": {
         "token": "Tokens by Model",
         "inputToken": "Input Tokens by Model",
@@ -13672,7 +13723,7 @@
         "totalCostByService": "Total Cost by Service",
         "totalInputCostByService": "Total Input Cost by Service",
         "totalOutputCostByService": "Total Output Cost by Service",
-        "totalCountByModel": "Total Request Counts by Model", 
+        "totalCountByModel": "Total Request Counts by Model",
         "totalCountByService": "Total Request Counts by Service"
       }
     },

@@ -12,6 +12,11 @@
   "linkDownloadRawTrace": "ロー・トレースのダウンロード",
   "labelCalls": "呼び出し",
   "labelCallsPerSecondFull": "一秒当たりの呼び出しの数",
+  "labelCallsPerSubtrace": "サブトレースごとの呼び出し",
+  "labelDuration": "期間 (平均)",
+  "labelNumberOfSubtraces": "サブトレース数",
+  "labelErroneousSubtraceRate": "誤ったサブトレース率",
+  "labelErroneousRate": "誤った率",
   "labelTraces": "トレース",
   "labelErrorRate": "エラー率",
   "labelDisableSizing": "サイジングの無効化",
@@ -167,12 +172,32 @@
     },
     "configuration": {
       "success": {
-        "title": "サブトレースの{{action}}に成功しました",
-        "message": "サブトレース「{{subtraceName}}」が{{action}}されました。"
+        "created": {
+          "title": "サブトレースが正常に作成されました",
+          "message": "サブトレース「{{subtraceName}}」が作成されました。"
+        },
+        "updated": {
+          "title": "サブトレースが正常に更新されました",
+          "message": "サブトレース「{{subtraceName}}」が更新されました。"
+        },
+        "deleted": {
+          "title": "サブトレースが正常に削除されました",
+          "message": "サブトレース「{{subtraceName}}」が削除されました。"
+        }
       },
       "failure": {
-        "title": "サブトレースの{{action}}が失敗しました",
-        "message": "サブトレース「{{subtraceName}}」の{{action}}で問題が発生しました"
+        "created": {
+          "title": "サブトレースの作成に失敗しました",
+          "message": "サブトレース「{{subtraceName}}」の作成中に問題が発生しました"
+        },
+        "updated": {
+          "title": "サブトレースの更新に失敗しました",
+          "message": "サブトレース「{{subtraceName}}」の更新中に問題が発生しました"
+        },
+        "deleted": {
+          "title": "サブトレースの削除に失敗しました",
+          "message": "サブトレース「{{subtraceName}}」の削除中に問題が発生しました"
+        }
       },
       "title": "サブトレースの更新",
       "subtraceName": "サブトレース名",
@@ -465,6 +490,8 @@
   "dashboards": {
     "callCount": "合計呼び出し数: {{formattedCount}}",
     "callCount_plural": "合計呼び出し数: {{formattedCount}}",
+    "subtraceCount": "合計{{formattedCount}}個のサブトレース",
+    "subtraceCount_plural": "合計{{formattedCount}}個のサブトレース",
     "erroneousCallCount": "エラーのある呼び出しの合計数: {{formattedCount}}",
     "erroneousCallCount_plural": "エラーのある呼び出しの合計数: {{formattedCount}}",
     "meanLatencyFor90th": "90 パーセンタイルでは {{meanLatencyDetail}}",

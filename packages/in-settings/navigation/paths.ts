@@ -45,6 +45,9 @@ export const securityAndAccessAccessControlApiTokenEdit = `${securityAndAccessAc
 export const securityAndAccessAccessControlApiTokenDuplicate = `${securityAndAccessAccessControl}/apiTokens/new/:duplicateFrom`;
 export const securityAndAccessAccessControlApiTokenNew = `${securityAndAccessAccessControl}/apiTokens/new`;
 export const securityAndAccessAccessControlApiTokens = `${securityAndAccessAccessControl}/apiTokens`;
+export const securityAndAccessAccessControlTeams = `${securityAndAccessAccessControl}/teams`;
+export const securityAndAccessAccessControlTeamEdit = `${securityAndAccessAccessControl}/teams/:id`;
+export const securityAndAccessAccessControlTeamNew = `${securityAndAccessAccessControl}/teams/new`;
 
 export const teamSettingsAccessControlUsers = `${accessControl}/users`;
 export const teamSettingsAccessControlUserEdit = `${accessControl}/users/:id`;
@@ -70,7 +73,7 @@ export const groupMapping = `${authSettings}/groupMapping`;
 
 // current auth settings paths (after unification of access control permissions in 2024)
 export const securityAndAccessAuth = `${securityAndAccess}/auth`;
-
+export const securityAndAccessIdentityProviders = `${securityAndAccessAuth}/identityProviders`;
 export const securityAndAccessGoogleSSO = `${securityAndAccessAuth}/googleSingleSignOn`;
 export const securityAndAccessSaml = `${securityAndAccessAuth}/saml`;
 export const securityAndAccessOidc = `${securityAndAccessAuth}/oidc`;
@@ -175,7 +178,7 @@ export const teamSettingsLogManagementDeleteLogs = `${logManagement}/deleteLogs`
 export const teamSettingsLogManagementLogVolume = `${logManagement}/logVolume`;
 export const teamSettingsLogManagementMezmo = `${logManagement}/mezmoConfiguration`;
 export const teamSettingsLogManagementSplunk = `${logManagement}/splunkConfiguration`;
-export const teamSettingsLogManagementHumio = `${logManagement}/humioConfiguration`;
+export const teamSettingsLogManagementFalconLogScale = `${logManagement}/falconLogScaleConfiguration`;
 export const teamSettingsLogManagementElk = `${logManagement}/elkConfiguration`;
 
 export const teamSettingsAudit = `${teamSettings}/audit`;
@@ -192,7 +195,7 @@ export const globalSettingsLogManagementDeleteLogs = `${globalLogManagement}/del
 export const globalSettingsLogManagementLogVolume = `${globalLogManagement}/logVolume`;
 export const globalSettingsLogManagementMezmo = `${globalLogManagement}/mezmoConfiguration`;
 export const globalSettingsLogManagementSplunk = `${globalLogManagement}/splunkConfiguration`;
-export const globalSettingsLogManagementHumio = `${globalLogManagement}/humioConfiguration`;
+export const globalSettingsLogManagementFalconLogScale = `${globalLogManagement}/falconLogScaleConfiguration`;
 export const globalSettingsLogManagementElk = `${globalLogManagement}/elkConfiguration`;
 
 // current audit trail paths (after unification of access control permissions in 2024)
@@ -217,7 +220,7 @@ export const teamSettingsIntegrationsLogging = `${integrations}/logging`;
 export const teamSettingsIntegrationsLoggingCoralogix = `${teamSettingsIntegrationsLogging}/coralogixConfiguration`;
 export const teamSettingsIntegrationsLoggingMezmo = `${teamSettingsIntegrationsLogging}/mezmoConfiguration`;
 export const teamSettingsIntegrationsLoggingSplunk = `${teamSettingsIntegrationsLogging}/splunkConfiguration`;
-export const teamSettingsIntegrationsLoggingHumio = `${teamSettingsIntegrationsLogging}/humioConfiguration`;
+export const teamSettingsIntegrationsLoggingFalconLogScale = `${teamSettingsIntegrationsLogging}/falconLogScaleConfiguration`;
 export const teamSettingsIntegrationsLoggingElk = `${teamSettingsIntegrationsLogging}/elkConfiguration`;
 
 // logging integrations (from 2024-07)
@@ -225,7 +228,7 @@ export const globalSettingsIntegrationsLogging = `${globalIntegrations}/logging`
 export const globalSettingsIntegrationsLoggingCoralogix = `${globalSettingsIntegrationsLogging}/coralogixConfiguration`;
 export const globalSettingsIntegrationsLoggingMezmo = `${globalSettingsIntegrationsLogging}/mezmoConfiguration`;
 export const globalSettingsIntegrationsLoggingSplunk = `${globalSettingsIntegrationsLogging}/splunkConfiguration`;
-export const globalSettingsIntegrationsLoggingHumio = `${globalSettingsIntegrationsLogging}/humioConfiguration`;
+export const globalSettingsIntegrationsLoggingFalconLogScale = `${globalSettingsIntegrationsLogging}/falconLogScaleConfiguration`;
 export const globalSettingsIntegrationsLoggingElk = `${globalSettingsIntegrationsLogging}/elkConfiguration`;
 
 // config migration

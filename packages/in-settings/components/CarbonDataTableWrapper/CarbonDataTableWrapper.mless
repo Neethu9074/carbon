@@ -9,4 +9,14 @@
       }
     }
   }
+  .emptyState {
+    padding: 16px;
+    align-items: center;
+  }
+  .toastMessage {
+    width: auto;
+    :global(.cds--toast-notification__subtitle) {
+      margin-bottom: 0;
+    }
+  }
 }

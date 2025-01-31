@@ -13,7 +13,6 @@ import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { carbonAlert } from 'in-themes/chartColors';
 import { bar } from 'in-stores/metric/renderer';
-import { t } from 'in-i18n';
 
 interface Props {
   cardTitle: string;
@@ -33,12 +32,11 @@ export default function NumberOfSubtraces({
   const timeShiftConfig = useTimeShiftConfig();
   const numberofSubtraces: Metric = {
     metric: 'subtraces',
-    label: t('in-applications:labelNumberOfSubtraces'),
     aggregation: 'SUM',
     source: 'SUBTRACE',
     timeConfig: timeConfig,
     granularity: granularity,
-    timeShift: 0,
+    timeShift: { offset: 0 },
     color: carbonAlert.green50,
     tagFilterExpression,
     queryPrecision
@@ -66,6 +64,7 @@ export default function NumberOfSubtraces({
         primaryContextMenuAction: 'analyze'
       }}
       extendBar
+      customHeight={182}
     />
   );
 }

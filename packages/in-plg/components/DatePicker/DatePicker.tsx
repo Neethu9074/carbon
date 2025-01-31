@@ -6,12 +6,13 @@
 
 import React from 'react';
 
-import { DashboardButton, Stack } from '@instana/components';
+import { CarbonButton, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error
 import TimeSelectionDialogPresenter from 'in-components/time/TimeSelectionDialogPresenter/TimeSelectionDialogPresenter';
 import { TIME_WINDOW_SIZE_VIA_PICKER, TIME_LIVE_MODE, track } from 'in-services/tracking/tracking';
+import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
@@ -23,6 +24,8 @@ import Tooltip from 'in-components/Tooltip';
 import DatePresenter from './DatePresenter';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
+
+import locals from 'in-plg/components/DatePicker/DatePresenter.mless';
 
 export interface DatePickerProps {
   isHidden?: boolean;
@@ -122,20 +125,20 @@ function LiveModeToggle({ isLive: isLiveProp, liveModeDisabled, liveModeDisabled
 
   return (
     <Tooltip content={liveModeDisabledTooltip}>
-      <DashboardButton
+      <CarbonButton
         disabled={liveModeDisabled}
         id="live-mode-button"
+        className={locals.liveButtonWrapper}
         href={href}
-        icon={icon}
-        iconSize="xs"
+        renderIcon={() => <IconForButton icon={icon} iconSize="xs" />}
         kind="tertiary"
-        onClick={e => {
+        onClick={(e: { stopPropagation: () => void }) => {
           e.stopPropagation();
           return !isLive && trackCta(TIME_LIVE_MODE);
         }}
       >
         {t('in-components:time.dashboardHeaderButtonLive')}
-      </DashboardButton>
+      </CarbonButton>
     </Tooltip>
   );
 }

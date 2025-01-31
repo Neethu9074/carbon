@@ -28,6 +28,9 @@ import Tooltip from 'in-components/Tooltip';
 import { t, Trans } from 'in-i18n';
 
 const dataSource = 'calls';
+const STATUS_CODE = 'statusCode';
+const HTTP_STATUS_CALL = 'call.http.status';
+const HTTP_STATUS_CLASS = 'call.http.statusClass';
 const alertTypeWithDisabledGrouping = ['slowness'];
 export const tagNamesToUseEndpointGrouping = ['endpoint.id', 'endpoint.name', 'service.id', 'service.name'];
 
@@ -124,11 +127,14 @@ export function getLinkToUnboundAnalytics(
   getLinkToApplicationAnalyze
 ) {
   const { rule, tagFilterExpression, includeInternal, includeSynthetic, evaluationType } = alertConfig;
-  const { alertType } = rule;
+  const { alertType, statusCodeStart, statusCodeEnd } = rule;
+  const groupByStatusClass = alertType == STATUS_CODE && statusCodeStart != statusCodeEnd;
+
+  const excludeViolationRelatedFilters = alertType === STATUS_CODE;
 
   const groupByTag = groupingTagName
     ? groupingTagName
-    : getGroupingTagName(alertType, tagFilterExpression, serviceId, endpointId, evaluationType);
+    : getGroupingTagName(alertType, tagFilterExpression, serviceId, endpointId, evaluationType, groupByStatusClass);
 
   const enrichedAnalyzeTagFilterFormModel = getEnrichedAnalyzeTagFilterFormModel({
     alertConfig,
@@ -137,6 +143,7 @@ export function getLinkToUnboundAnalytics(
     serviceId,
     endpointId,
     timeConfig,
+    excludeViolationRelatedFilters,
     endpointName,
     serviceName,
     adaptiveBaselineInfo
@@ -206,7 +213,7 @@ function getChartedMetrics(alertType) {
   return [createChartedMetric('calls', 'SUM')];
 }
 
-function getGroupingTagName(alertType, tagFilterExpression, serviceId, endpointId, evaluationType) {
+function getGroupingTagName(alertType, tagFilterExpression, serviceId, endpointId, evaluationType, groupByStatusClass) {
   if (alertTypeWithDisabledGrouping.includes(alertType)) {
     return null; // no grouping
   }
@@ -224,6 +231,12 @@ function getGroupingTagName(alertType, tagFilterExpression, serviceId, endpointI
     }
   }
 
+  if (alertType === STATUS_CODE) {
+    if (groupByStatusClass) {
+      return HTTP_STATUS_CLASS;
+    }
+    return HTTP_STATUS_CALL;
+  }
   if (serviceId) {
     return 'endpoint.name';
   }
@@ -247,9 +260,10 @@ function toGroupByTag(tagName) {
   if (!tagName) {
     return {}; // no grouping
   }
+  const tagsWithNoEntity = new Set([HTTP_STATUS_CALL, HTTP_STATUS_CLASS, 'call.name']);
 
   return {
     groupbyTag: tagName,
-    groupbyTagEntity: tagName !== 'call.name' ? entityTypes.DESTINATION : undefined
+    groupbyTagEntity: tagsWithNoEntity.has(tagName) ? undefined : entityTypes.DESTINATION
   };
 }

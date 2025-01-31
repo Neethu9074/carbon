@@ -29,6 +29,7 @@ import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smar
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/dialog/advanced/TimeThresholdConfig';
+import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
@@ -174,14 +175,17 @@ export default function AdvancedModeContainer(props) {
             !fieldTouchedAndInvalid(form.get('timeThreshold')?.get('users')) &&
             !fieldTouchedAndInvalid(form.get('timeThreshold')?.get('userPercentage')),
           content: (
-            <TimeThresholdConfig
-              form={form}
-              onChange={onChange}
-              updateForm={updateForm}
-              impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
-              hasUserImpactOption
-              oneMinuteGranularityAllowed={thresholdType === STATIC_THRESHOLD}
-            />
+            <>
+              <TimeThresholdConfig
+                form={form}
+                onChange={onChange}
+                updateForm={updateForm}
+                impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
+                hasUserImpactOption
+                oneMinuteGranularityAllowed={thresholdType === STATIC_THRESHOLD}
+              />
+              <GracePeriodWrapper form={form} updateForm={updateForm} />
+            </>
           )
         },
         {

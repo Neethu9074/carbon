@@ -1,25 +1,25 @@
 {
   "components": {
     "accountSettings": {
-      "accountSettings": "Account Settings",
+      "accountSettings": "Account settings",
       "unknownDomain": "Unknown Domain",
-      "billingAddress": "Billing Address",
+      "billingAddress": "Billing address",
       "country": "Country",
       "state": "State",
       "zip": "Zip",
       "city": "City",
       "address": "Address",
-      "additionalAddress": "Additional Address",
+      "additionalAddress": "Additional address",
       "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "If any of the info on this page needs corrections, please contact <linkToMail>{{salesopsEmail}}</linkToMail>"
     },
     "activeLicenses": {
       "name": "Name",
       "tenant": "Tenant",
       "type": "Type",
-      "licenseStartData": "License Start Date",
-      "licenseEndData": "License End Date",
-      "licensedApmHosts": "Licensed APM Hosts",
-      "licensedIqmHosts": "Licensed IQM Hosts"
+      "licenseStartData": "License start date",
+      "licenseEndData": "License end date",
+      "licensedApmHosts": "Licensed APM hosts",
+      "licensedIqmHosts": "Licensed IQM hosts"
     },
     "learnMore":{
       "title": "Learn more about Instana’s Fair Use Policy",
@@ -42,7 +42,7 @@
       "title": "Fair Use Policy is not active."
     },
     "restrictedUsage": {
-      "accountUsage": "Account Usage"
+      "accountUsage": "Account usage"
     },
     "technologiesReportingTable": {
       "name": "Name",
@@ -51,12 +51,12 @@
       "average": "Average"
     },
     "dataIngestTable": {
-      "consumptionOverview": "Consumption Overview",
+      "consumptionOverview": "Consumption overview",
       "row": "Row",
       "unit": "Unit",
       "calculation": "Calculation",
-      "entitledNumberOfMVS": "Entitled Number of MVS",
-      "actualAverage": "Actual Average Configured Number of MVS",
+      "entitledNumberOfMVS": "Entitled number of MVS",
+      "actualAverage": "Actual average configured number of MVS",
       "onDemandNumber": "On-Demand number of MVS",
       "dataIngestFairUseEntitlement": "Data Ingest fair-use entitlement per MVS",
       "totalDataIngestFairUseEntitlement": "Total Data Ingest fair-use entitlement",
@@ -64,8 +64,8 @@
       "totalAmountPurchased": "Total amount purchased via extra data-ingest add-on",
       "dataIngestEntitlementFromOnDemand": "Data Ingest fair-Use Entitlement from On-Demand MVS",
       "totalDataIngestEntitlement": "Total Data Ingest Entitlement",
-      "actualDataIngest": "Actual Data-Ingest",
-      "onDemandDataIngest": "On-Demand Data-Ingest",
+      "actualDataIngest": "Actual data-ingest",
+      "onDemandDataIngest": "On-Demand data-ingest",
       "noData": "No data"
     },
     "timePresets": {
@@ -81,18 +81,18 @@
     },
     "usages": {
       "allPaidUnitsAggregated": "All paid units (aggregated)",
-      "accountUsage": "Account Usage",
-      "activeLicenses": "Active Licenses",
-      "expiredLicenses": "Expired Licenses",
-      "queuedLicenses": "Queued Licenses"
+      "accountUsage": "Account usage",
+      "activeLicenses": "Active licenses",
+      "expiredLicenses": "Expired licenses",
+      "queuedLicenses": "Queued licenses"
     },
     "usageCharts": {
       "standard": "Standard",
-      "apmHosts": "APM Hosts",
+      "apmHosts": "APM hosts",
       "purchased": "Purchased",
       "essentials": "Essentials",
-      "iqmHosts": "IQM Hosts",
-      "syntheticPops": "Synthetic Managed PoPs",
+      "iqmHosts": "IQM hosts",
+      "syntheticPops": "Synthetic managed PoPs",
       "logging": "Logs in context",
       "resourceUnits": "Entitled resource units",
       "consumedUnits": "Consumed resource units",
@@ -114,62 +114,62 @@
       }
     },
     "activationAdoption": {
-      "activationAdoption": "Activation & Adoption",
-      "customerAdoption": "Customer Adoption",
+      "activationAdoption": "Activation & adoption",
+      "customerAdoption": "Customer adoption",
       "activation": "Activation",
       "adoption": "Adoption",
       "activationStages": {
-        "createDate": "Create Date",
-        "firstSignIn": "First Sign In",
-        "firstAgentInstalled": "1st Agent Installed",
-        "additionalUserInvited": "Additional User Invited",
-        "threeAgentsInstalled": "3 Agents Installed",
-        "twoApplicationPerspectivesCreated": "2 Application Perspective created",
-        "oneAlertSetUpAndActivated": "1 Alert Set Up And Activated",
-        "oneWebsiteMonitored": "1 Website Monitored",
-        "fiveUsers": "5 Users"
+        "createDate": "Create date",
+        "firstSignIn": "First sign in",
+        "firstAgentInstalled": "1st agent installed",
+        "additionalUserInvited": "Additional user invited",
+        "threeAgentsInstalled": "3 agents installed",
+        "twoApplicationPerspectivesCreated": "2 application perspective created",
+        "oneAlertSetUpAndActivated": "1 alert set up and activated",
+        "oneWebsiteMonitored": "1 website monitored",
+        "fiveUsers": "5 users"
       },
       "adoptionKPIs": {
-        "applicationPerspective": "Application Perspective",
+        "applicationPerspective": "Application perspective",
         "eum": "EUM",
         "alerting": "Alerting",
         "pipelineFeedback": "Pipeline feedback",
-        "customDashboards": "Custom Dashboards",
+        "customDashboards": "Custom dashboards",
         "mobileEum": "Mobile EUM",
         "numOfApplicationPerspectives": "# APs",
-        "numOfReportingApplicationPerspectives": "# Reporting APs",
-        "numOfWebsites": "# Websites",
-        "numOfAlertChannels": "# Alert channels",
-        "numOfAlerts": "# Alerts",
-        "numOfActiveAlerts": "# Active Alerts",
-        "numOfReleases": "# Release Markers / # Releases",
-        "numOfCustomDashboards": "# Custom Dashboards",
-        "numOfMobileApps": "# Apps"
+        "numOfReportingApplicationPerspectives": "# reporting APs",
+        "numOfWebsites": "# websites",
+        "numOfAlertChannels": "# alert channels",
+        "numOfAlerts": "# alerts",
+        "numOfActiveAlerts": "# active alerts",
+        "numOfReleases": "# release markers / # releases",
+        "numOfCustomDashboards": "# custom dashboards",
+        "numOfMobileApps": "# apps"
       },
-      "activationChecklist": "Activation Checklist",
-      "productAdoption": "Product Adoption",
+      "activationChecklist": "Activation checklist",
+      "productAdoption": "Product adoption",
       "sparkChartMetrics": {
         "metric_applications": "Applications",
-        "metric_reportingapplications": "Reporting Applications",
+        "metric_reportingapplications": "Reporting applications",
         "metric_websites": "Websites",
-        "metric_all_alerts": "All Alerts",
-        "metric_active_alerts": "Active Alerts",
-        "metric_mobile_apps": "Mobile Apps",
+        "metric_all_alerts": "All alerts",
+        "metric_active_alerts": "Active alerts",
+        "metric_mobile_apps": "Mobile apps",
         "metric_alert_channels": "Alert channels",
-        "metric_custom_dashboards": "Custom Dashboards",
+        "metric_custom_dashboards": "Custom dashboards",
         "metric_releases": "Releases"
       },
-      "userUsage": "User Usage",
-      "userSummary": "User Summary",
-      "totalUser": "Total User",
-      "weeklyActiveUser": "Weekly Active User",
-      "lastCalendarWeekTopActiveUsers": "Last Calendar Week Top Active Users",
+      "userUsage": "User usage",
+      "userSummary": "User summary",
+      "totalUser": "Total user",
+      "weeklyActiveUser": "Weekly active user",
+      "lastCalendarWeekTopActiveUsers": "Last calendar week top active users",
       "topUsersTable": {
         "noDataAvailable": "No data available",
         "noTopActiveUsers": "No top active user data for this account",
         "name": "Name",
-        "organizationRole": "Organization Role",
-        "daysActive": "Days Active",
+        "organizationRole": "Organization role",
+        "daysActive": "Days active",
         "notProvided": "(not provided)"
       }
     }

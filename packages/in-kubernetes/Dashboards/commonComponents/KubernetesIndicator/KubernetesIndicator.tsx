@@ -7,8 +7,9 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { KubernetesLabel, KubernetesNamespace, Progress, ResultPrecisionDetails } from '@instana/types';
+
 import getKubernetesIconAndLabel from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/utils';
-import { KubernetesLabel, KubernetesNamespace, Progress, ResultPrecisionDetails } from 'in-types';
 // @ts-expect-error
 import EntityWithTypeAndIcon from 'in-components/EntityWithTypeAndIcon';
 

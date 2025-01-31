@@ -983,6 +983,11 @@
   "pluginName_ibmDataPowerQueueManager_1": "IBM DataPower-Warteschlangenmanager",
   "pluginName_ibmDataPowerQueueManager_2": "IBM DataPower-Warteschlangenmanager",
   "pluginName_ibmDataPowerQueueManager": "IBM DataPower-Warteschlangenmanager",
+  "pluginName_ibmDataPowerQueueManagerV9_plural": "IBM DataPower Queue Manager V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_0": "IBM DataPower Queue Manager V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_1": "IBM DataPower Queue Manager V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_2": "IBM DataPower Queue Manager V9+",
+  "pluginName_ibmDataPowerQueueManagerV9": "IBM DataPower Queue Manager V9+",
   "pluginName_ibmDataPowerService_plural": "IBM DataPower-Services",
   "pluginName_ibmDataPowerService_0": "IBM DataPower-Services",
   "pluginName_ibmDataPowerService_1": "IBM DataPower-Services",
@@ -1844,6 +1849,16 @@
   "pluginName_websiteHttpd_0": "Websites",
   "pluginName_websiteHttpd_1": "Website",
   "pluginName_websiteHttpd_2": "Websites",
+  "pluginName_nutanixHost_plural": "Nutanix-Hosts",
+  "pluginName_nutanixHost_0": "Nutanix-Hosts",
+  "pluginName_nutanixHost_1": "Nutanix-Hosts",
+  "pluginName_nutanixHost_2": "Nutanix-Hosts",
+  "pluginName_nutanixHost": "Nutanix-Host",
+  "pluginName_nutanixDatacenter_plural": "Nutanix-Rechenzentren",
+  "pluginName_nutanixDatacenter_0": "Nutanix-Rechenzentren",
+  "pluginName_nutanixDatacenter_1": "Nutanix-Rechenzentren",
+  "pluginName_nutanixDatacenter_2": "Nutanix-Rechenzentren",
+  "pluginName_nutanixDatacenter": "Nutanix-Rechenzentrum",
   "tracingTypeName_ace": "IBM ACE",
   "tracingTypeName_actioncontroller": "ActionController",
   "tracingTypeName_actioncontroller_plural": "ActionController-Aufrufe",
@@ -3428,6 +3443,8 @@
       "state": "Zustand",
       "queueManagersNumber": "Warteschlangenmanager ({{count}})",
       "queueManagersNumber_plural": "Warteschlangenmanager ({{count}})",
+      "queueManagersV9Number": "Queue Manager V9+ ( {{count}} )",
+      "queueManagersV9Number_plural": "Queue Manager V9+{{count}}",
       "serviceNumber": "Service ({{count}})",
       "serviceNumber_plural": "Services ({{count}})",
       "sqlDatasourceNumber": "SQL-Datenquelle ({{count}})",
@@ -3468,6 +3485,12 @@
       "activeConnections": "Aktive Verbindungen",
       "backendActiveConnections": "Aktive Back-End-Verbindungen",
       "frontendActiveConnections": "Aktive Front-End-Verbindungen"
+    },
+    "ibmDataPowerQueueManagerV9": {
+      "ibmDataPowerQueueManagerV9Info": "IBM DataPower Queue Manager V9+",
+      "activeConversations": "Aktive Dialoge",
+      "backendActiveConversations": "Backend Aktive Unterhaltungen",
+      "frontendActiveConversations": "Aktive Konversationen im Frontend"
     },
     "ibmDataPowerService": {
       "ibmDataPowerServiceInfo": "IBM DataPower-Service",
@@ -9547,7 +9570,7 @@
         "duration": "Dauer",
         "backupSize": "Sicherungsgröße",
         "transferredSize": "Übertragene Größe",
-        "backupStats": "Sicherungsfortschritt",
+        "backupStats": "Letzte Sicherung",
         "startTime": "Startzeit",
         "entryType": "Entitätstyp",
         "processCpuPerc": "Prozess-CPU",
@@ -9569,7 +9592,7 @@
         "diskUsagePercentage": "Prozentsatz der Festplattennutzung",
         "diskUsageSummary": "Plattenbelegung - Zusammenfassung",
         "usage": "Nutzung",
-        "archiveLogBackupStats": "Sicherungsprotokoll",
+        "archiveLogBackupStats": "Alle Sicherungen",
         "sourceDatabaseName": "Quellendatenbank",
         "userLockStats": "Benutzer Sperren",
         "userMode": "Benutzermodus",
@@ -9710,9 +9733,9 @@
       "dashboard": {
         "overallCreditUsage": "Gesamtkreditverbrauch",
         "totalStorageBytes": "Speicherbytes insgesamt",
-        "usageInCurrency": "Verwendung in Währung",
+        "usageInCurrency": "Verwendung in Währung ({{currency}})",
         "topFiveBillingAccounts": "Die 5 wichtigsten Rechnungskonten",
-        "remainingBalanceInCurrency": "Verbleibender Saldo in Währung",
+        "remainingBalanceInCurrency": "Restbetrag in Währung ({{currency}})",
         "balance": "Verteilung",
         "accountName": "Accountname",
         "credits": "Danksagungen",
@@ -10857,6 +10880,14 @@
         "processName": "Prozessname",
         "gpu": "GPU",
         "gpuUsage": "GPU-Nutzung",
+        "volumeGroups": "Datenträgergruppen",
+        "volumeGroupName": "Name der Datenträgergruppe",
+        "physicalVolume": "Physischer Datenträger",
+        "physicalVolumeName": "Physischer Datenträger",
+        "totalSize": "Gesamtgröße",
+        "usedSize": "Verwendete Größe",
+        "freeSize": "Freie Größe",
+        "volumeGrpState": "Volumengruppe Zustand",
         "encoder": "Encoder",
         "decoder": "Decoder",
         "temperature": "Temperatur",
@@ -11640,10 +11671,7 @@
             "unitNumber": "Einheitennummer",
             "aspNumber": "ASP-Nummer",
             "unitStorageCapacity": "Speicherkapazität",
-            "unitMediaCapacityGb": "Datenträgerkapazität (GB)",
-            "charts": {
-              "elapsedPercentBusy": "Abgelaufene Zeit belegt (Prozent)"
-            }
+            "unitMediaCapacityGb": "Datenträgerkapazität (GB)"
           },
           "solidStateDisk": {
             "name": "Informationen zur Solid-State-Platte (SSD)",
@@ -11667,10 +11695,7 @@
             "diskType": "Plattentyp",
             "unitNumber": "Einheitennummer",
             "aspNumber": "ASP-Nummer",
-            "typeOfDiskUnit": "Typ der Platteneinheit",
-            "charts": {
-              "elapsedPercentBusy": "Abgelaufene Zeit belegt (Prozent)"
-            }
+            "typeOfDiskUnit": "Typ der Platteneinheit"
           },
           "nonVolatileMemory": {
             "name": "Non Volatile Memory Express (NVMe)-Informationen",
@@ -11686,7 +11711,12 @@
             "unSafeShutDowns": "Unsichere Abschaltungen",
             "firmwareLevel": "Firmwareversion"
           }
-        }
+        },
+        "elapsedPercentBusy": "Abgelaufene Zeit belegt (Prozent)",
+        "elapsedReadRequests": "Lesevorgänge/s",
+        "elapsedWriteRequests": "Schreibvorgänge/s",
+        "elapsedDataRead": "Gelesene Byte/s",
+        "elapsedDataWritten": "Geschriebene Byte/s"
       }
     },
     "ibmiNetworkInfo": {
@@ -12644,7 +12674,8 @@
       "hostname": "Hostname",
       "startType": "Starttyp",
       "turbonomicSensorException": "Der Turbonomic-Sensor hat die folgende Ausnahmebedingung erzeugt: <code>{{e}}</code>.",
-      "jspawnhelperPermissionIssueDescription": "Der Agent kann die Datei \"jspawnhelper\" im JVM-Pfad nicht ausführen <code>{{path}}</code>. Bitte erteilen Sie die erforderlichen Genehmigungen."
+      "jspawnhelperPermissionIssueDescription": "Der Agent kann die Datei \"jspawnhelper\" im JVM-Pfad nicht ausführen <code>{{path}}</code>. Bitte erteilen Sie die erforderlichen Genehmigungen.",
+      "switchtoJava11IssueDescription": "Der Agent läuft mit einer JVM unter Java 11. Die verwendete Version ist <code>{{version}}</code>."
     },
     "sparkStandalone": {
       "titleApplicationId": "Anwendungs-ID",
@@ -13616,19 +13647,45 @@
       "label_category_LLM": "LLM",
       "llm_status": "LLM-Status",
       "dashboard": {
-        "token": "Token",
-        "cost": "Kosten",
+        "token": "Wertmarken nach Modell",
+        "inputToken": "Eingabetoken nach Modell",
+        "outputToken": "Ausgabe von Token nach Modell",
+        "serviceToken": "Wertmarken nach Service",
+        "serviceInputToken": "Eingabetoken nach Dienst",
+        "serviceOutputToken": "Ausgabe von Tokens nach Service",
+        "cost": "Kosten nach Modell",
+        "inputCost": "Eingabekosten nach Modell",
+        "outputCost": "Ausgabekosten nach Modell",
+        "serviceCost": "Kosten nach Service",
+        "serviceInputCost": "Eingangskosten nach Dienstleistungen",
+        "serviceOutputCost": "Ausgabekosten nach Dienstleistungen",
         "duration": "Modelllatenzzeiten",
         "analytics": "Tracing",
         "llmonitor_agent": "LLMonitor-Plattform",
         "details": "Details zu",
-        "count": "Anforderungszähler",
+        "count": "Anfragen nach Modell",
+        "serviceCount": "Anfragen nach Service",
         "totalToken": "Gesamtzahl Token",
+        "totalInputToken": "Gesamteingabetoken",
+        "totalOutputToken": "Gesamtausgabe-Token",
         "totalCost": "Gesamtkosten",
+        "totalInputCost": "Gesamtkosten",
+        "totalOutputCost": "Gesamtkosten der Produktion",
         "totalCount": "Gesamtzahl der Anforderungen",
         "totalTokenByModel": "Gesamtzahl Tokens nach Modell",
+        "totalInputTokenByModel": "Gesamtzahl der Eingabetoken nach Modell",
+        "totalOutputTokenByModel": "Gesamtergebnis-Token nach Modell",
+        "totalTokenByService": "Gesamtzahl der Token nach Service",
+        "totalInputTokenByService": "Gesamtzahl der Einsatzmarken nach Dienst",
+        "totalOutputTokenByService": "Gesamtausgabe-Token nach Service",
         "totalCostByModel": "Gesamtkosten nach Modell",
-        "totalCountByModel": "Gesamtzahl der Anforderungen nach Modell"
+        "totalInputCostByModel": "Gesamtkosten je nach Modell",
+        "totalOutputCostByModel": "Gesamtkosten nach Modell",
+        "totalCostByService": "Gesamtkosten nach Dienstleistungen",
+        "totalInputCostByService": "Gesamtkosten pro Dienstleistung",
+        "totalOutputCostByService": "Gesamtkosten nach Dienstleistungen",
+        "totalCountByModel": "Gesamtzahl der Anforderungen nach Modell",
+        "totalCountByService": "Gesamtzahl der Anfragen nach Dienstleistungen"
       }
     },
     "oTelDcgm": {

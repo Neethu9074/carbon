@@ -24,6 +24,7 @@ export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabl
 export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitoringIssuesEnabled');
 export const cveIssueEnabled = isFeatureFlagEnabled('cveIssueEnabled');
 export const prcIssueEnabled = isFeatureFlagEnabled('prcIssueEnabled');
+export const vulnerabilityCenterEnabled = isFeatureFlagEnabled('vulnerabilityCenterEnabled');
 export const skipOnboardingDialog = isFeatureFlagEnabled('skipOnboardingDialog');
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
 export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEnabled');
@@ -42,6 +43,7 @@ export const infraExploreFilterEmptyValueEnabled = isFeatureFlagEnabled('infraEx
 export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVolumeSupportEnabled');
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled');
 export const segmentAnalyticsEnabled = isFeatureFlagEnabled('segmentAnalyticsEnabled', false);
+export const amplitudeExperimentEnabled = isFeatureFlagEnabled('amplitudeExperimentEnabled', false);
 export const ibmCommonEnabled = isFeatureFlagEnabled('ibmCommonEnabled', false);
 export const assistmeEnabled = isFeatureFlagEnabled('assistmeEnabled', false);
 export const dataUsageNotificationEnabled = isFeatureFlagEnabled('dataUsageNotificationEnabled', false);
@@ -54,6 +56,7 @@ export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
+export const deleteLogsV3Enabled = isFeatureFlagEnabled('deleteLogsV3Enabled');
 export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
 export const logHomepageEnabled = isFeatureFlagEnabled('logHomepageEnabled');
@@ -197,6 +200,11 @@ export const infraSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled('infr
 // Full screen design for Log SA
 export const logSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled('logSmartAlertFullScreenDesignEnabled');
 
+// websites SA full screen design
+export const websitesSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
+  'websitesSmartAlertFullScreenDesignEnabled'
+);
+
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
 
@@ -217,6 +225,7 @@ export const hiddenSearchFieldValues = {
 // Business Observability and Monitoring (BizOps) flags
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
+export const bizopsProcessIdColumnEnabled = isFeatureFlagEnabled('bizopsProcessIdColumnEnabled');
 export const bizopsGenAIEnabled = isFeatureFlagEnabled('bizopsGenAIEnabled');
 export const bizopsStandardInclusionEnabled = isFeatureFlagEnabled('bizopsStandardInclusionEnabled');
 export const bizopsRbacLimitedEnabled = isFeatureFlagEnabled('bizopsRbacLimitedEnabled');
@@ -242,6 +251,7 @@ export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEna
 export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricStatisticsEnabled', false);
 
 export const controlPlaneEnabled = isFeatureFlagEnabled('controlPlaneEnabled', false);
+export const kubecostEnabled = isFeatureFlagEnabled('kubecostEnabled', true);
 
 export const limitVisibleNestingLevelsInTraceEnabled = isFeatureFlagEnabled(
   'limitVisibleNestingLevelsInTraceEnabled',
@@ -294,7 +304,7 @@ export const serviceNowAutoCloseAndCustomPayloadsEnabled = isFeatureFlagEnabled(
   'serviceNowAutoCloseAndCustomPayloadsEnabled',
   false
 );
-export const serviceNowAdvancedEnabled = isFeatureFlagEnabled('serviceNowAdvancedEnabled', false);
+export const serviceNowAdvancedEnabled = isFeatureFlagEnabled('serviceNowAdvancedEnabled', true);
 export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
   'automationActionInstanceFeedbackEnabled',
   false
@@ -328,3 +338,4 @@ export const aqmDataGridEventTableEnabled = isFeatureFlagEnabled('aqmDataGridEve
 export const openTelemetryKubernetes = isFeatureFlagEnabled('openTelemetryKubernetesEnabled', false);
 export const rbacTeamsEnabled = isFeatureFlagEnabled('rbacTeamsEnabled', false);
 export const accessControlCarbonTable = isFeatureFlagEnabled('accessControlCarbonTable', false);
+export const idpConfigV2Enabled = isFeatureFlagEnabled('idpConfigV2Enabled', false);

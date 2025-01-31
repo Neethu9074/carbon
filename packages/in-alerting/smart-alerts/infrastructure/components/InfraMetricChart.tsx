@@ -14,6 +14,7 @@ import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/infrastructure/di
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import InfraAlertChartWrapper from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
+import { ChartSkeleton } from 'in-alerting/smart-alerts/components/ChartSkeleton';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -40,13 +41,15 @@ export function InfraMetricChart({
 }: InfraMetricChartProps) {
   const selectedMetricGroup = useObservable(selectedMetricGroup$, []) as Tags | Nullish;
 
+  if (selectedMetricGroup?.loading) {
+    return <ChartSkeleton />;
+  }
+
   if ((!selectedMetricGroup && groupBy.length > 0) || (!entityType && !metricName)) {
     return (
-      <div className={local.minHeight}>
-        <Message withIcon fullInlineWidth>
-          {t('in-alerting:smartAlerts.infrastructure.form.noMetricSelected')}
-        </Message>
-      </div>
+      <Message withIcon fullInlineWidth>
+        {t('in-alerting:smartAlerts.infrastructure.form.noMetricSelected')}
+      </Message>
     );
   } else if (groupBy.length === 0 && entityType && metricName) {
     return (

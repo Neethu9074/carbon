@@ -8,7 +8,7 @@ import { Field, Item, MapForm, ValidationResult, createField } from 'formalistic
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Stack, RadioButton, Checkbox, Button, IconButton } from '@instana/components';
+import { Stack, RadioButton, CarbonCheckbox as Checkbox, Button, IconButton } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import {
@@ -495,7 +495,7 @@ export default function ConfigurationSection({
       <div className={locals.configContainer}>
         <Stack direction="horizontal">
           <Checkbox
-            wrapperClassName={locals.configCheckbox}
+            id="followRedirect"
             onChange={({ target }) => {
               updateForm(
                 form.updateIn(['configuration', 'followRedirect'], (field: Item) =>
@@ -504,12 +504,10 @@ export default function ConfigurationSection({
               );
             }}
             checked={followRedirect.value}
-            size="larger"
-            label={t('in-synthetics:dialog.createTest.advancedMode.configStep.followRedirect')}
-            disabled={false}
+            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.followRedirect')}
           />
           <Checkbox
-            wrapperClassName={locals.configCheckbox}
+            id="allowInsecure"
             onChange={({ target }) => {
               updateForm(
                 form.updateIn(['configuration', 'allowInsecure'], (field: Item) =>
@@ -518,12 +516,10 @@ export default function ConfigurationSection({
               );
             }}
             checked={allowInsecure.value}
-            size="larger"
-            label={t('in-synthetics:dialog.createTest.advancedMode.configStep.allowInsecure')}
-            disabled={false}
+            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.allowInsecure')}
           />
           <Checkbox
-            wrapperClassName={locals.configCheckbox}
+            id="markSyntheticCall"
             onChange={({ target }) => {
               updateForm(
                 form.updateIn(['configuration', 'markSyntheticCall'], (field: Item) =>
@@ -532,9 +528,7 @@ export default function ConfigurationSection({
               );
             }}
             checked={markSyntheticCall.value}
-            size="larger"
-            label={t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall')}
-            disabled={false}
+            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall')}
           />
         </Stack>
       </div>

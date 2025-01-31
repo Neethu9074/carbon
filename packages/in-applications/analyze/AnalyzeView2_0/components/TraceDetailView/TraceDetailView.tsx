@@ -6,7 +6,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 
-import { Message, SvgIcon, Link, Pill, DashboardButtonProps } from '@instana/components';
+import { Message, SvgIcon, Link, Pill } from '@instana/components';
 import { create, Observable, Subject } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -22,6 +22,7 @@ import {
 // @ts-expect-error ColorGenerator needs ts migration
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import { analyzeTagFilterExpression } from 'in-applications/analyze/AnalyzeView2_0/components/analyzeTagFilter';
+import { DashboardButtonProps } from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView/types';
 import { Endpoint, Nullish, Result, Service, TagFilterExpressionElementUnion, TraceSummary } from 'in-types';
 import DashboardHeaderContext from 'in-components/DashboardHeader/DashboardHeaderContext';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';

@@ -11,7 +11,8 @@ import { Spacer, Stack } from '@instana/components';
 
 //@ts-expect-error TS migration
 import ScopeGroup from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeGroup';
-import { ScopeWrapper, SectionWrapper } from 'in-alerting/smart-alerts/infrastructure/tearsheet/Wrapper';
+import { ScopeWrapper, SectionWrapper } from 'in-alerting/smart-alerts/components/tearSheet/CustomWrappers/Wrapper';
+import { ThresholdChart } from 'in-alerting/smart-alerts/infrastructure/tearsheet/components/ThresholdChart';
 import ScopeAggregation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAggregation';
 import ScopeAlerting from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAlerting';
 import ScopeMetric from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeMetric';
@@ -29,13 +30,17 @@ interface AlertConfigTearSheetStep1Props {
   updateForm: ((form: MapForm<any>, setForm?: (form: MapForm<any>) => void) => void) | ((form: MapForm<any>) => void);
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   setTagFilterValid: Dispatch<SetStateAction<boolean>>;
+  onChartViewConfigChange?: (arg: number) => void;
+  selectedChartViewConfigIndex?: number;
 }
 
 export default function AlertConfigTearSheetStep1({
   form,
   updateForm,
   onChange,
-  setTagFilterValid
+  setTagFilterValid,
+  onChartViewConfigChange,
+  selectedChartViewConfigIndex
 }: AlertConfigTearSheetStep1Props) {
   const entityType = form.get('rule')?.get('entityType')?.value;
   const metric = form.get('rule')?.get('metricName')?.value;
@@ -106,6 +111,11 @@ export default function AlertConfigTearSheetStep1({
           </Stack>
         </div>
       </TearSheetStepTitleWrapper>
+      <ThresholdChart
+        form={form}
+        onChartViewConfigChange={onChartViewConfigChange}
+        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+      />
     </>
   );
 }

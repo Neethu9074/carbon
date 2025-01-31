@@ -7,8 +7,8 @@
 
 import { expect } from 'chai';
 
-import { column } from './testUtil';
-import createQueue from './queue';
+import { column } from 'in-components/Chart/data/testUtil';
+import createQueue from 'in-components/Chart/data/queue';
 
 describe('queue', () => {
   let queue;

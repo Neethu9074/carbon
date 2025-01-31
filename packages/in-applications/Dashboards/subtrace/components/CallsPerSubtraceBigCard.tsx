@@ -19,7 +19,7 @@ interface Props {
 export default function CallsPerSubtraceBigCard({ config }: Props): JSX.Element {
   return (
     <BigNumberKpiCard
-      title={t('in-applications:labelCallsPerSubtrace')}
+      title={t('in-applications:subtraces.labelCallsPerSubtrace')}
       formatter={number.compact}
       companionFormatter={(v: number) =>
         t('in-applications:dashboards.subtraceCount', {

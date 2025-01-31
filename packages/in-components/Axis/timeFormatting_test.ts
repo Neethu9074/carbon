@@ -5,8 +5,8 @@
 
 import { expect } from 'chai';
 
+import { getAxisConfig } from 'in-components/Axis/timeFormatting';
 import { days, hours, minutes } from 'in-services/time';
-import { getAxisConfig } from './timeFormatting';
 
 describe('timeFormatting', () => {
   let formatter;

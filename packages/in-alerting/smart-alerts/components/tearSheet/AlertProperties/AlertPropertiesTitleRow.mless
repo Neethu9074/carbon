@@ -7,12 +7,18 @@
   .titleRowContainer {
     display: grid;
     align-items: center;
-    grid-template-columns: 15% 45% 28% 4%;
+    grid-template-columns: 15% 45% 30% 5%;
     grid-gap: 1rem;
 
     > div input::placeholder {
       opacity: 0.5;
     }
+  }
+  .noPlaceholder {
+    grid-template-columns: 15% 85%;
+  }
+  .noPlaceholderTooltip {
+    grid-template-columns: 15% 50% 30%;
   }
   .btnWidth100 {
     width: 100%;

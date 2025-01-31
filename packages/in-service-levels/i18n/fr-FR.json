@@ -125,21 +125,24 @@
       "beaconErrorCount": "Nombre d'erreurs de balises"
     },
     "format": {
-      "event_website": "Balise {{formatted}}",
-      "event_website_plural": "Balises {{formatted}}",
-      "event_website_0": "Balises {{formatted}}",
-      "event_website_1": "Balise {{formatted}}",
-      "event_website_2": "Balises {{formatted}}",
-      "event_application": "Appel {{formatted}}",
-      "event_application_plural": "Appels {{formatted}}",
-      "event_application_0": "Appels {{formatted}}",
-      "event_application_1": "Appel {{formatted}}",
-      "event_application_2": "Appels {{formatted}}",
-      "event_synthetic": "{{formatted}} résultat",
-      "event_synthetic_plural": "{{formatted}} résultats",
-      "event_synthetic_0": "{{formatted}} résultats",
-      "event_synthetic_1": "{{formatted}} résultats",
-      "event_synthetic_2": "{{formatted}} résultats",
+      "unit_application": "appel",
+      "unit_application_plural": "appels",
+      "unit_application_0": "appels",
+      "unit_application_1": "appel",
+      "unit_application_2": "appels",
+      "unit_website": "alarme",
+      "unit_website_plural": "alarmes",
+      "unit_website_0": "alarmes",
+      "unit_website_1": "alarme",
+      "unit_website_2": "alarmes",
+      "unit_synthetic": "résultat",
+      "unit_synthetic_plural": "résultats",
+      "unit_synthetic_0": "résultats",
+      "unit_synthetic_1": "résultat",
+      "unit_synthetic_2": "résultats",
+      "event_website": "{{formatted}} $t(in-service-levels:general.format.unit_website, { \"count\": {{count}} })",
+      "event_application": "{{formatted}} $t(in-service-levels:general.format.unit_application, { \"count\": {{count}} })",
+      "event_synthetic": "{{formatted}} $t(in-service-levels:general.format.unit_synthetic, { \"count\": {{count}} })",
       "event_test": "{{count}} test",
       "event_test_plural": "{{count}} tests"
     },
@@ -161,7 +164,10 @@
     "customFilter": "Filtre personnalisé",
     "custom": "Personnalisé",
     "customDescription": "Définir un filtre personnalisé pour sélectionner des services et/ou des noeuds finaux",
-    "title": "Créer un objectif de niveau de service (SLO)",
+    "title": {
+      "create": "Créer un objectif de niveau de service (SLO)",
+      "edit": "Modifier l'objectif de niveau de service (SLO)"
+    },
     "selectIndicator": "Sélectionner le plan directeur",
     "selectEntityNavItem": "Définir l'entité",
     "selectEntityTitle": "Sélectionnez une entité à laquelle ajouter le SLO :",
@@ -208,8 +214,14 @@
       "description_latency": "Mesure la vitesse à laquelle le service a répondu au-delà d'un seuil défini. Par exemple, la vitesse au-delà de 100 ms à laquelle votre service de paiement répond.",
       "description_availability": "Mesure la fréquence à laquelle un service répond de manière appropriée. Par exemple, la fréquence à laquelle vos appels HTTP sont erronés.",
       "description_traffic": "Mesure l'ampleur de la demande imposée à un système à l'aide d'une métrique de haut niveau spécifique au système. Par exemple, un service Web est généralement mesuré en balises HTTP par seconde.",
-      "timeTypeExplanation": "Appels corrects/incorrects regroupés par minute",
+      "timeTypeExplanation": "Appels corrects/incorrects agrégés par minute",
+      "timeTypeExplanation_application": "Appels corrects/incorrects agrégés par minute",
+      "timeTypeExplanation_website": "Balises correctes/incorrectes agrégées par minute",
+      "timeTypeExplanation_synthetic": "Résultats corrects/incorrects agrégés par minute",
       "eventTypeExplanation": "Nombre total d'appels corrects par rapport aux appels incorrects",
+      "eventTypeExplanation_application": "Nombre total d'appels corrects par rapport aux appels incorrects",
+      "eventTypeExplanation_website": "Nombre total de balises correctes/incorrectes",
+      "eventTypeExplanation_synthetic": "Nombre total de résultats corrects/incorrects",
       "eventCount": "Nombre d'événements",
       "eventType": "Type d'événement",
       "thresholdLabel": "Type inconnu",
@@ -217,11 +229,11 @@
       "thresholdLabel_availability": "Taux d'erreur (%)",
       "setGoodCall": "Définir les appels corrects à un service",
       "setBadCall": "Définir les appels incorrects à un service (facultatif)",
-      "thresholdDescription_GT": "Une bonne minute est définie par un nombre d'appels supérieur à {{thresholdValue}} par minute. Une mauvaise minute est définie par un nombre d'appels inférieur ou égal à {{thresholdValue}} par minute.",
-      "thresholdDescription_GTE": "Une bonne minute est définie par un nombre d'appels supérieur ou égal à {{thresholdValue}} par minute. Une mauvaise minute est définie par un nombre d'appels inférieur à {{thresholdValue}} par minute.",
-      "thresholdDescription_LT": "Une bonne minute est définie par un nombre d'appels inférieur à {{thresholdValue}} par minute. Une mauvaise minute est définie par un nombre d'appels supérieur ou égal à {{thresholdValue}} par minute.",
-      "thresholdDescription_LTE": "Une bonne minute est définie par un nombre d'appels inférieur ou égal à {{thresholdValue}} par minute. Une mauvaise minute est définie par un nombre d'appels supérieur à {{thresholdValue}} par minute.",
-      "thresholdInput": "<Stack>Définissez un seuil de<HorizontalStack><OperatorDropdown /><ThresholdInput />appels par minute<HorizontalStack/><Stack />"
+      "thresholdDescription_GT": "Une bonne minute est définie par un nombre supérieur à {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) par minute. Une mauvaise minute est définie par un nombre inférieur ou égal à {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) par minute.",
+      "thresholdDescription_GTE": "Une bonne minute est définie par un nombre supérieur ou égal à {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) par minute. Une mauvaise minute est définie par un nombre inférieur à {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) par minute.",
+      "thresholdDescription_LT": "Une bonne minute est définie par un nombre inférieur à {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) par minute. Une mauvaise minute est définie par un nombre supérieur ou égal à {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) par minute.",
+      "thresholdDescription_LTE": "Une bonne minute est définie par un nombre inférieur ou égal à {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) par minute. Une mauvaise minute est définie par un nombre supérieur à {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) par minute.",
+      "thresholdInput": "<Stack>Définissez un seuil de<HorizontalStack><OperatorDropdown /><ThresholdInput />$t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{count}} }) par minute<HorizontalStack/><Stack />"
     },
     "previewSection": {
       "dataInfo": "Les données d'aperçu ne remontent que jusqu'à 7 jours. L'objectif de niveau de service inclut uniquement les données à partir de la date de création.",
@@ -246,7 +258,12 @@
       "configuredTimeWindow": "Fenêtre de temps d'objectif de niveau configurée :",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
       "startTime": "Heure de début: {{startDay}}, {{startTime}}",
-      "matchedSLOTimeWindow": "Fenêtres de temps d'objectif de niveau de service correspondantes : ",
+      "matchedSLOTimeWindow": "Fenêtre de temps d'objectif de niveau de service correspondante : ",
+      "matchedSLOTimeWindow_plural": "Fenêtres de temps d'objectif de niveau de service correspondantes : ",
+      "matchedSLOTimeWindow_0": "Fenêtre de temps d'objectif de niveau de service correspondante : ",
+      "matchedSLOTimeWindow_1": "Fenêtre de temps d'objectif de niveau de service correspondante : ",
+      "matchedSLOTimeWindow_2": "Fenêtres de temps d'objectif de niveau de service correspondantes : ",
+      "noMatchedSLOTimeWindow": "Aucune fenêtre de temps correspondante n'a été trouvée",
       "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
     "missingData": {
@@ -338,7 +355,7 @@
             "goodEventFilters": "Filtres d'événements corrects :",
             "badEventFilters": "Filtres d'événements incorrects:"
           },
-          "approximateTooltip": "Les données sont agrégées. Afficher une fenêtre de temps plus courte pour afficher plus de détails"
+          "approximateTooltip": "Les violations de seuil peuvent être plus brefs que la durée représentée par un point sur le graphique. Le zoom avant et arrière peut affecter le niveau de détail des métriques."
         }
       },
       "entitySection": {

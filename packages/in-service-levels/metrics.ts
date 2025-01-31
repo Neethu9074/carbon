@@ -8,13 +8,25 @@ import {
   AggregationType,
   ApplicationSloEntity,
   ServiceLevelObjectiveConfiguration,
+  SyntheticSloEntity,
+  SyntheticUnifiedMetricConfiguration,
   TagFilterExpressionElementUnion,
   TimeConfig,
-  WebsiteSloEntity
+  WebsiteSloEntity,
+  isSyntheticSloEntity
 } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
+import {
+  OPERATOR_AND,
+  OPERATOR_OR,
+  createTagFilterExpression
+} from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
+import { statusTagName, testIdTagName } from 'in-synthetics/tags';
+import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { deepFreeze } from 'in-services/util/object';
 
 interface SloMetricConfigGeneratorProps {
@@ -34,6 +46,13 @@ interface ApplicationMetricConfigGeneratorProps {
 
 interface WebsiteMetricConfigGeneratorProps {
   entity: Pick<WebsiteSloEntity, 'beaconType'>;
+  tagFilterExpression: TagFilterExpressionElementUnion;
+  timeConfig: TimeConfig;
+  aggregation?: AggregationType;
+}
+
+interface SyntheticMetricConfigGeneratorProps {
+  entity: Pick<SyntheticSloEntity, 'type'>;
   tagFilterExpression: TagFilterExpressionElementUnion;
   timeConfig: TimeConfig;
   aggregation?: AggregationType;
@@ -420,5 +439,173 @@ export const sloPreviewMetrics = deepFreeze({
         timeConfig,
         timeShift: { offset: 0 }
       } as const)
+  }
+});
+
+export const syntheticMetrics = deepFreeze({
+  responseTime: {
+    label: t('in-service-levels:general.metrics.latency'),
+    timeSeries: ({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      granularity,
+      aggregation = 'P99'
+    }: TimeSeriesGenerator<SyntheticMetricConfigGeneratorProps>): SyntheticUnifiedMetricConfiguration => {
+      if (!isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+
+      return {
+        aggregation,
+        granularity,
+        metric: 'response_time',
+        resultType: 'TIME_SERIES',
+        source: 'SYNTHETICS',
+        tagFilterExpression: createTagFilterExpression(OPERATOR_AND, [
+          createTagFilterExpression(
+            OPERATOR_OR,
+            entity.syntheticTestIds.map(testId => tagFilter(testIdTagName, 'EQUALS', testId))
+          ),
+          tagFilterExpression
+        ]),
+        timeConfig,
+        timeShift: { offset: 0 }
+      };
+    }
+  },
+  allTests: {
+    label: t('in-service-levels:general.indicator.trafficTypeLabel', {
+      entityType: 'synthetic',
+      trafficType: 'all'
+    }),
+    timeSeries: ({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      granularity
+    }: TimeSeriesGenerator<SyntheticMetricConfigGeneratorProps>): SyntheticUnifiedMetricConfiguration => {
+      if (!isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+
+      return {
+        aggregation: 'DISTINCT_COUNT',
+        granularity,
+        metric: 'id',
+        resultType: 'TIME_SERIES',
+        source: 'SYNTHETICS',
+        tagFilterExpression: createTagFilterExpression(OPERATOR_AND, [
+          createTagFilterExpression(
+            OPERATOR_OR,
+            entity.syntheticTestIds.map(testId => tagFilter(testIdTagName, 'EQUALS', testId))
+          ),
+          tagFilterExpression
+        ]),
+        timeConfig,
+        timeShift: { offset: 0 }
+      };
+    },
+    singleNumber: ({
+      entity,
+      tagFilterExpression,
+      timeConfig
+    }: SyntheticMetricConfigGeneratorProps): SyntheticUnifiedMetricConfiguration => {
+      if (!isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+
+      return {
+        aggregation: 'DISTINCT_COUNT',
+        metric: 'id',
+        resultType: 'SINGLE_NUMBER',
+        source: 'SYNTHETICS',
+        tagFilterExpression: createTagFilterExpression(OPERATOR_AND, [
+          createTagFilterExpression(
+            OPERATOR_OR,
+            entity.syntheticTestIds.map(testId => tagFilter(testIdTagName, 'EQUALS', testId))
+          ),
+          tagFilterExpression
+        ]),
+        timeConfig,
+        timeShift: { offset: 0 }
+      };
+    }
+  },
+  erroneousTests: {
+    label: t('in-service-levels:general.indicator.trafficTypeLabel', {
+      entityType: 'synthetic',
+      trafficType: 'erroneous'
+    }),
+    timeSeries: ({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      granularity
+    }: TimeSeriesGenerator<SyntheticMetricConfigGeneratorProps>): SyntheticUnifiedMetricConfiguration => {
+      if (!isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+
+      return {
+        aggregation: 'DISTINCT_COUNT',
+        granularity,
+        metric: 'id',
+        resultType: 'TIME_SERIES',
+        source: 'SYNTHETICS',
+        tagFilterExpression: createTagFilterExpression(OPERATOR_AND, [
+          createTagFilterExpression(OPERATOR_OR, [
+            ...entity.syntheticTestIds.map(testId => tagFilter(testIdTagName, 'EQUALS', testId))
+          ]),
+          tagFilterExpression,
+          tagFilter(statusTagName, EQUALS, 0)
+        ]),
+        timeConfig,
+        timeShift: { offset: 0 }
+      };
+    },
+    singleNumber: ({
+      entity,
+      tagFilterExpression,
+      timeConfig
+    }: SyntheticMetricConfigGeneratorProps): SyntheticUnifiedMetricConfiguration => {
+      if (!isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+
+      return {
+        aggregation: 'DISTINCT_COUNT',
+        metric: 'id',
+        resultType: 'SINGLE_NUMBER',
+        source: 'SYNTHETICS',
+        tagFilterExpression: createTagFilterExpression(OPERATOR_AND, [
+          createTagFilterExpression(
+            OPERATOR_OR,
+            entity.syntheticTestIds.map(testId => tagFilter(testIdTagName, 'EQUALS', testId))
+          ),
+          tagFilterExpression,
+          tagFilter(statusTagName, EQUALS, 0)
+        ]),
+        timeConfig,
+        timeShift: { offset: 0 }
+      };
+    }
+  },
+  failureRate: {
+    label: t('in-service-levels:general.metrics.failureRate'),
+    timeSeries: ({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      granularity = 60000
+    }: TimeSeriesGenerator<SyntheticMetricConfigGeneratorProps>): SyntheticUnifiedMetricConfiguration => {
+      if (!isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+
+      return {
+        aggregation: 'MEAN',
+        granularity,
+        metric: 'status',
+        resultType: 'TIME_SERIES',
+        source: 'SYNTHETICS',
+        tagFilterExpression: createTagFilterExpression(OPERATOR_AND, [
+          createTagFilterExpression(OPERATOR_OR, [
+            ...entity.syntheticTestIds.map(testId => tagFilter(testIdTagName, 'EQUALS', testId))
+          ]),
+          tagFilterExpression
+        ]),
+        timeConfig,
+        timeShift: { offset: 0 }
+      };
+    }
   }
 });

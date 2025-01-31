@@ -16,6 +16,7 @@ import {
 import { Observable } from '@instana/observables';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { getChartGranularity } from 'in-stores/metric/metric';
 
 const getBusinessProcessList = createResultSubscriptionFactory<
   BusinessDataQuery,
@@ -59,7 +60,7 @@ export function getBusinessProcessListWithDefaults({
     metrics: {
       started_processes: {
         metric: 'started_processes',
-        granularity: 60,
+        granularity: getChartGranularity(timeConfig),
         aggregation: 'DISTINCT_COUNT'
       }
     },

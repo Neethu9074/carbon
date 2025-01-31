@@ -9,18 +9,22 @@ import React, { isValidElement, Children } from 'react';
 import { Link, SvgIcon, Typography, Spacer } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import { DetailsListProps, InfosProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import { DetailsListProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details';
-import { InfosProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { getItem } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/utils';
-import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
+import { phasePodListUrlParameter } from 'in-kubernetes/navigation/urlParameters';
+import { clusterDashboard, kubernetes } from 'in-kubernetes/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
 
 import locals from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details/DetailsList.mless';
 
-export default function DetailsList({ clusterInfos, clusterId }: DetailsListProps) {
+export default function DetailsList({ clusterInfos }: DetailsListProps) {
+  const { location, createHref } = useNavigation();
+
   if (!clusterInfos || clusterInfos.length === 0) {
     return <NoDataAvailable height={160} text={t('in-kubernetes:dashboards.noDebuggingInformation')} />;
   }
@@ -28,6 +32,9 @@ export default function DetailsList({ clusterInfos, clusterId }: DetailsListProp
   const uuid = getItem('UUID', clusterInfos);
   const leader = getItem('Leader', clusterInfos);
   const hostCoverage = getItem('Host Coverage', clusterInfos);
+  location.pathname = `${kubernetes}${clusterDashboard}${phasePodListUrlParameter.path}`;
+  setOrDeleteMatrixKey(location, phasePodListUrlParameter.path, 'pod.query', leader?.value);
+  const leaderHref = createHref(location);
   const infos = [
     {
       label: t('in-kubernetes:dashboards.hostCoverage'),
@@ -40,11 +47,7 @@ export default function DetailsList({ clusterInfos, clusterId }: DetailsListProp
     },
     {
       label: t('in-kubernetes:dashboards.agentMonitor'),
-      value: (
-        <Link href={`#${clusterDashboardFullyQualified};clusterId=${clusterId}/pods;pod.query=${leader?.value}`}>
-          {leader?.value}
-        </Link>
-      ),
+      value: <Link href={leaderHref}>{leader?.value}</Link>,
       hasCopyToClipboard: true
     }
   ];
@@ -52,7 +55,7 @@ export default function DetailsList({ clusterInfos, clusterId }: DetailsListProp
   return (
     <Row>
       {infos.map(({ label, value, nodeValue, hasCopyToClipboard }: InfosProps, index: number) => (
-        <Col lg key={index}>
+        <Col lg key={`${label}_${index}`}>
           <Typography variant="body-small">{label}</Typography>
           {hasCopyToClipboard ? (
             <HorizontalFlexWrapper>

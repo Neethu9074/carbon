@@ -11,6 +11,7 @@ const fs = require('fs');
 const { getCurrentUser, isRequestCarryingAValidSeemingCookie } = require('../auth');
 const getNumberLocaleDefinition = require('../services/numberLocale');
 const { getSegmentKey } = require('../services/segment');
+const { getAmplitudeKey } = require('../services/amplitude');
 const buildInformation = require('../../assets/build.json');
 const configResolver = require('../services/config');
 const checkSumMod = require('../services/checksum');
@@ -180,8 +181,10 @@ router.get('/', async (req, res) => {
     clientConfig.segmentKey = getSegmentKey();
     const activeLicenseInfo = JSON.parse(getLicenseInfo)?.type;
     clientConfig.activeLicenseType = activeLicenseInfo;
+    clientConfig.amplitudeKey = getAmplitudeKey();
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const walkmeEnabled = termsAndPrivacy.walkmeAnalyticsServices;
+    const walkmeTestEnabled = walkmeEnabled && featureFlags?.playwithTestEnabled;
     const ibmCommonEnabled = featureFlags.ibmCommonEnabled;
     const isAssistMeEnabled = featureFlags?.assistmeEnabled && ibmCommonEnabled && walkmeEnabled;
     res.set('Content-Security-Policy', getCsp(nonce, walkmeEnabled, ibmCommonEnabled));
@@ -213,6 +216,7 @@ router.get('/', async (req, res) => {
         starredItems,
         isAssistMeEnabled,
         walkmeEnabled,
+        walkmeTestEnabled,
         ibmCommonEnabled
       })
     );

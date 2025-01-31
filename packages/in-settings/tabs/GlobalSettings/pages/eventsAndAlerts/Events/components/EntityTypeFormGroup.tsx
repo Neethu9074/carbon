@@ -53,15 +53,18 @@ export function EntityTypeFormGroup({
         options={pluginsWithMetricDefinitions?.filter(plugin => entityTypesFilter(plugin.value, disabled)) ?? []}
         onChange={e => {
           const newEntityType = (e as Option).value;
-          onChange('entityType', e ? newEntityType : null, updatedForm => {
-            return updatedForm.put(
-              'rules',
-              createListForm({
-                validator: customEventRulesValidator,
-                items: [putMetricDataSourceFieldsForOneRule(newEntityType, {})]
-              })
-            );
-          });
+          const updateForm = (updatedForm: MapForm<any>) =>
+            newEntityType === entityTypeField.value
+              ? updatedForm
+              : updatedForm.put(
+                  'rules',
+                  createListForm({
+                    validator: customEventRulesValidator,
+                    items: [putMetricDataSourceFieldsForOneRule(newEntityType, {})]
+                  })
+                );
+
+          onChange('entityType', e ? newEntityType : null, updateForm);
         }}
         isClearable={false}
       />

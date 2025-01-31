@@ -29,7 +29,7 @@
         "pleaseSelect": "選択してください"
       },
       "sharingDialogPresenter": {
-        "share": "共有",
+        "editPermissions": "アクセス権の編集",
         "shareMsg": "このカスタム・ダッシュボードには、このダイアログでは表現できない高度なアクセス・ルールがあります。 「JSON として編集」機能を使用すると、これらのアクセス・ルールを編集できます。",
         "privateDashboardDefault": "プライベート・ダッシュボード (デフォルト)",
         "privateDashboardDefaultExplain": "このダッシュボードは、自分に対してのみ表示されます。",
@@ -81,6 +81,7 @@
       "failure": "失敗",
       "dashboardNotFoundExplain": "このダッシュボードは存在しないか、またはこのダッシュボードにアクセスする権限がありません。",
       "customDashboard": "カスタム・ダッシュボード",
+      "customDashboardOptions": "カスタム・ダッシュボード・オプション",
       "saveChange": "変更の保存",
       "discardChange": "変更の破棄",
       "addWidget": "ウィジェットの追加",
@@ -92,8 +93,8 @@
       "copiedAllWidgets": "ウィジェットがコピーされました。CTRL-V または CMD-V を使用して任意のカスタム・ダッシュボードに貼り付けます",
       "duplicate": "複製",
       "delete": "削除",
-      "share": "共有",
-      "shareButtonTooltip": "ユーザー・アカウントにダッシュボードを共有する権限がありません。"
+      "editPermissions": "アクセス権の編集",
+      "editOptionTooltip": "ユーザー・アカウントにダッシュボードを共有する権限がありません。"
     },
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "入力を JSON として解析できませんでした。",
@@ -833,6 +834,14 @@
         "tagNoValue": "タグ「{{labelname}}」は存在しますが、値がありません"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "https://をレンダリング中...",
+      "form": {
+        "heading": "どのページを埋め込みたいですか?",
+        "title": "URLを入力してください"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "正常性の概要"
@@ -900,7 +909,8 @@
         }
       },
       "dataSource": {
-        "events": "イベント"
+        "events": "イベント",
+        "k8sEvents": "Kubernetesイベント"
       },
       "eventColumns": {
         "title": "役職",
@@ -908,6 +918,19 @@
         "startedOn": "開始日",
         "endedOn": "終了日",
         "duration": "期間"
+      },
+      "kubernetesEventColumns": {
+        "type": "タイプ",
+        "reason": "理由",
+        "message": "メッセージ",
+        "namespace": "名前空間",
+        "involvedObject": "関連オブジェクト",
+        "kind": "種別",
+        "time": "時刻"
+      },
+      "emptyTable": {
+        "title": "イベントがありません",
+        "explanation": "選択された時刻範囲で取得されたイベントはありません"
       }
     },
     "time": {

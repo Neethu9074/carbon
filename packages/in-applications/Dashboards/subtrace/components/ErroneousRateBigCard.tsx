@@ -19,7 +19,7 @@ interface Props {
 export default function ErroneousRateBigCard({ config }: Props): JSX.Element {
   return (
     <BigNumberKpiCard
-      title={t('in-applications:labelErroneousSubtraceRate')}
+      title={t('in-applications:subtraces.labelErroneousSubtraceRate')}
       formatter={percentage.detailed}
       config={config}
     />

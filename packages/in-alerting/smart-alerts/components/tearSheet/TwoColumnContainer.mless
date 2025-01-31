@@ -66,7 +66,6 @@
   .alertProsForm {
     border-right: 1px solid var(--ids-color-option-neutral-300);
     padding-right: 2.4rem;
-    padding-top: 1.5rem;
     > div {
       border: none;
     }

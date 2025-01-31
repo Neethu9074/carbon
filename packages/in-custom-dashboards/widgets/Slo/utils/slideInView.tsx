@@ -32,7 +32,7 @@ export function openAddSloSlideInView(
 
   return setSlideInView({
     renderTitle() {
-      return t('in-service-levels:createSloDialog.title');
+      return t('in-service-levels:createSloDialog.title.create');
     },
     slideOutHandler(slideOut, [subSlideState, setSubSlideState]) {
       // To prevent some side effects on re-opening the slide, we need to reset

@@ -21,6 +21,7 @@ import {
   manuallyCloseEventEnabled,
   logVolumePageEnabled,
   logRetentionPageEnabled,
+  applicationSubtracesEnabled,
   nutanixEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
@@ -72,6 +73,7 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_EUM_APPLICATIONS: 'CAN_CONFIGURE_EUM_APPLICATIONS',
   CAN_CONFIGURE_MOBILE_APP_MONITORING: 'CAN_CONFIGURE_MOBILE_APP_MONITORING',
   CAN_CONFIGURE_APPLICATIONS: 'CAN_CONFIGURE_APPLICATIONS',
+  CAN_CONFIGURE_SUBTRACES: 'CAN_CONFIGURE_SUBTRACES',
   CAN_CONFIGURE_SERVICE_MAPPING: 'CAN_CONFIGURE_SERVICE_MAPPING',
   CAN_INSTALL_NEW_AGENTS: 'CAN_INSTALL_NEW_AGENTS',
   CAN_CONFIGURE_AGENTS: 'CAN_CONFIGURE_AGENTS',
@@ -119,7 +121,8 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS',
   CAN_CREATE_HEAP_DUMP: 'CAN_CREATE_HEAP_DUMP',
   CAN_CREATE_THREAD_DUMP: 'CAN_CREATE_THREAD_DUMP',
-  CAN_MANUALLY_CLOSE_ISSUE: 'CAN_MANUALLY_CLOSE_ISSUE'
+  CAN_MANUALLY_CLOSE_ISSUE: 'CAN_MANUALLY_CLOSE_ISSUE',
+  CAN_INVOKE_ALERT_CHANNEL: 'CAN_INVOKE_ALERT_CHANNEL'
 } as const);
 
 export const InfrastructureCapability = Object.freeze({
@@ -356,6 +359,13 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     category: t('in-stores:permissionCanConfigureServiceMappingCategory'),
     isOwnerPermission: false
   },
+  [Capability.CAN_CONFIGURE_SUBTRACES]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_SUBTRACES,
+    keyForApiTokenApi: 'canConfigureSubtraces',
+    label: t('in-stores:permissionCanConfigureSubtracesLabel'),
+    category: t('in-stores:permissionCanConfigureSubtracesCategory'),
+    isOwnerPermission: false
+  },
   /* Infrastructure */
   [Capability.CAN_INSTALL_NEW_AGENTS]: {
     keyForGroupApi: Capability.CAN_INSTALL_NEW_AGENTS,
@@ -453,6 +463,14 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForApiTokenApi: 'canConfigureGlobalAlertPayload',
     label: t('in-stores:permissionCanConfigureGlobalAlertPayloadLabel'),
     category: t('in-stores:permissionCanConfigureGlobalAlertPayloadCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_INVOKE_ALERT_CHANNEL]: {
+    keyForGroupApi: Capability.CAN_INVOKE_ALERT_CHANNEL,
+    keyForApiTokenApi: 'canInvokeAlertChannel',
+    label: t('in-stores:permissionCanInvokeAlertChannelLabel'),
+    description: t('in-stores:permissionCanInvokeAlertChannelDescription'),
+    category: t('in-stores:permissionCanInvokeAlertChannelCategory'),
     isOwnerPermission: false
   },
   /* Custom Dashboards */
@@ -759,6 +777,12 @@ export function getProductPermissions(): Array<ProductPermission> {
   if (!manuallyCloseEventEnabled) {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return keyForGroupApi !== Capability.CAN_MANUALLY_CLOSE_ISSUE;
+    });
+  }
+
+  if (!applicationSubtracesEnabled) {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      return keyForGroupApi !== Capability.CAN_CONFIGURE_SUBTRACES;
     });
   }
 

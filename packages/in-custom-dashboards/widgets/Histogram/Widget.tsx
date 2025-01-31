@@ -7,7 +7,7 @@
 import React, { ReactNode } from 'react';
 
 import HistogramWidgetCard from 'in-custom-dashboards/widgets/Histogram/components/HistogramWidgetCard';
-import { HistogramConfig } from './form';
+import { HistogramConfig } from 'in-custom-dashboards/widgets/Histogram/form';
 
 export interface HistogramWidgetProps {
   title: string;

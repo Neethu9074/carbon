@@ -68,3 +68,11 @@ function isAvailableQuery() {
 export function isAvailable() {
   return isAvailableQuery().map(res => res.body);
 }
+
+export function isSamlActive() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/settings/authentication/saml/active'
+  }).map(res => res.body);
+}

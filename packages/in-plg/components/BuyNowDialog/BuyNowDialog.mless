@@ -23,13 +23,22 @@
   .mainBodyContent {
     width: 90%;
   }
-  .dialogButton {
+  .dialogButton,
+  a.dialogButton {
     min-width: calc(100% / 3);
     height: 4rem;
-    background-color: var(--ids-color-option-white);
     position: sticky;
     bottom: 0;
+    background-color: var(--ids-color-option-white);
+
+    &.primaryButton {
+      background-color: var(--cds-link-primary);
+    }
   }
+  a.dialogButton {
+    text-decoration: none;
+  }
+
   .tableContent {
     width: 30%;
   }

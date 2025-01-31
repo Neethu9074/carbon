@@ -12,6 +12,11 @@
   "linkDownloadRawTrace": "원시 추적 다운로드",
   "labelCalls": "호출",
   "labelCallsPerSecondFull": "초당 호출 수",
+  "labelCallsPerSubtrace": "하위 추적당 호출 수",
+  "labelDuration": "지속 시간(평균)",
+  "labelNumberOfSubtraces": "하위 추적 수",
+  "labelErroneousSubtraceRate": "잘못된 하위 추적 비율",
+  "labelErroneousRate": "잘못된 비율",
   "labelTraces": "추적",
   "labelErrorRate": "오류 비율",
   "labelDisableSizing": "크기 조정 사용 안함",
@@ -167,12 +172,32 @@
     },
     "configuration": {
       "success": {
-        "title": "하위 추적 {{action}} 성공",
-        "message": "하위 추적 \"{{subtraceName}}\"이(가) {{action}}되었습니다."
+        "created": {
+          "title": "하위 추적 작성 완료",
+          "message": "하위 추적 \"{{subtraceName}}\"이(가) 작성되었습니다."
+        },
+        "updated": {
+          "title": "하위 추적 업데이트 완료",
+          "message": "하위 추적 \"{{subtraceName}}\"이(가) 업데이트되었습니다."
+        },
+        "deleted": {
+          "title": "하위 추적 삭제 완료",
+          "message": "하위 추적 \"{{subtraceName}}\"이(가) 삭제되었습니다."
+        }
       },
       "failure": {
-        "title": "하위 추적 {{action}} 실패",
-        "message": "이 하위 추적 \"{{subtraceName}}\"을(를) {{action}}하는 동안 문제가 발생했습니다."
+        "created": {
+          "title": "하위 추적 작성 실패",
+          "message": "이 하위 추적 \"{{subtraceName}}\"을(를) 작성하는 동안 문제가 발생했습니다."
+        },
+        "updated": {
+          "title": "하위 추적 업데이트 실패",
+          "message": "이 하위 추적 \"{{subtraceName}}\"을(를) 업데이트하는 동안 문제가 발생했습니다."
+        },
+        "deleted": {
+          "title": "하위 추적 삭제 실패",
+          "message": "이 하위 추적 \"{{subtraceName}}\"을(를) 삭제하는 동안 문제가 발생했습니다."
+        }
       },
       "title": "하위 추적 업데이트",
       "subtraceName": "하위 추적 이름",
@@ -465,6 +490,8 @@
   "dashboards": {
     "callCount": "{{formattedCount}}개의 총 호출",
     "callCount_plural": "{{formattedCount}}개의 총 호출",
+    "subtraceCount": "{{formattedCount}}개의 총 하위 추적",
+    "subtraceCount_plural": "{{formattedCount}}개의 총 하위 추적",
     "erroneousCallCount": "{{formattedCount}}개의 총 오류 호출",
     "erroneousCallCount_plural": "{{formattedCount}}개의 총 오류 호출",
     "meanLatencyFor90th": "90번째:  {{meanLatencyDetail}}",

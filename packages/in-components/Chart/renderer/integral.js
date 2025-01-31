@@ -6,12 +6,11 @@
 let layerBuffer;
 let layerBufferCtx;
 
+import { drawCircleWithLine, calculateMetricMap } from 'in-components/Chart/renderer/utils';
 import { extrapolateMissingStackedAreaValuesEnabled } from 'in-services/featureFlags';
-import { calculateMetricMap } from 'in-components/Chart/renderer/utils';
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 import { createCanvas } from 'in-components/Chart/canvasHelper';
 import { copyCanvasInto } from 'in-components/Chart/canvas';
-import { drawCircleWithLine } from './utils';
 
 export default {
   render: ({ metrics, colors, colors100, scale, config, axis, axisName }) => {

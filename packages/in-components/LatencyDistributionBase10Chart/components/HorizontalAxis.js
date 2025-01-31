@@ -7,7 +7,7 @@ import React from 'react';
 
 import { millis } from 'in-services/formatters/number';
 
-import locals from './HorizontalAxis.mless';
+import locals from 'in-components/LatencyDistributionBase10Chart/components/HorizontalAxis.mless';
 
 export default function HorizontalAxis({ buckets, bucketWidth, bucketCenter }) {
   return (

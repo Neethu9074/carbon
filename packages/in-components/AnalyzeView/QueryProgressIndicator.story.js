@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import QueryProgressIndicator from './QueryProgressIndicator';
+import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 
 export default {
   component: QueryProgressIndicator

@@ -27,7 +27,8 @@ module.exports = {
         'in-bizops',
         'in-websites',
         'in-mobile-apps',
-        'in-settings'
+        'in-settings',
+        'in-plg'
       ]
     })
   }

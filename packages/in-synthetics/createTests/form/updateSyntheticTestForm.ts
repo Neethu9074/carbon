@@ -27,7 +27,7 @@ import { minValidator } from 'in-services/validators/number';
 
 export function updateForm(savedState: Record<string, any>) {
   const getScriptConfiguration = () => {
-    const isFile: boolean = savedState?.configuration?.script != undefined ? true : false;
+    const isFile: boolean = savedState?.configuration?.script != undefined;
     return isFile
       ? createScriptFileConfigurationForm(savedState?.configuration)
       : createScriptsBundleConfigurationForm(savedState?.configuration);
@@ -42,7 +42,7 @@ export function updateForm(savedState: Record<string, any>) {
   const getConfigurationToRender = () => {
     let config;
     if (['HTTPScript', 'WebpageScript', 'BrowserScript'].includes(savedState?.configuration?.syntheticType)) {
-      config = config = getScriptConfiguration();
+      config = getScriptConfiguration();
     } else if (['HTTPAction', 'WebpageAction'].includes(savedState?.configuration?.syntheticType)) {
       config = getActionConfiguration();
     } else {
@@ -248,6 +248,16 @@ function createActionConfigurationForm(configuration: Record<string, any>) {
   }
 }
 
+function addRecordVideoConfig(currentConfig: any, configuration: Record<string, any>) {
+  return currentConfig.put(
+    'recordVideo',
+    createField({
+      value: configuration?.recordVideo ?? false,
+      validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+    })
+  );
+}
+
 function createScriptFileConfigurationForm(configuration: Record<string, any>) {
   const actionConfig = createMapForm()
     .put(
@@ -286,8 +296,12 @@ function createScriptFileConfigurationForm(configuration: Record<string, any>) {
       })
     );
 
+  let updatedActionConfig = ['BrowserScript', 'WebpageScript'].includes(configuration.syntheticType)
+    ? addRecordVideoConfig(actionConfig, configuration)
+    : actionConfig;
+
   if (configuration?.retryInterval) {
-    return actionConfig.put(
+    return updatedActionConfig.put(
       'retryInterval',
       createField({
         value: configuration?.retryInterval,
@@ -295,7 +309,7 @@ function createScriptFileConfigurationForm(configuration: Record<string, any>) {
       })
     );
   } else {
-    return actionConfig;
+    return updatedActionConfig;
   }
 }
 
@@ -333,8 +347,13 @@ function createScriptsBundleConfigurationForm(configuration: Record<string, any>
         validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
       })
     );
+
+  let updatedActionConfig = ['BrowserScript', 'WebpageScript'].includes(configuration.syntheticType)
+    ? addRecordVideoConfig(actionConfig, configuration)
+    : actionConfig;
+
   if (configuration?.retryInterval) {
-    return actionConfig.put(
+    return updatedActionConfig.put(
       'retryInterval',
       createField({
         value: configuration?.retryInterval,
@@ -342,7 +361,7 @@ function createScriptsBundleConfigurationForm(configuration: Record<string, any>
       })
     );
   } else {
-    return actionConfig;
+    return updatedActionConfig;
   }
 }
 
@@ -389,8 +408,11 @@ function createAdvancedBrowserActionConfigurationForm(configuration: Record<stri
       })
     );
 
+  let updatedActionConfig =
+    configuration.syntheticType === 'WebpageAction' ? addRecordVideoConfig(actionConfig, configuration) : actionConfig;
+
   if (configuration?.retryInterval) {
-    return actionConfig.put(
+    return updatedActionConfig.put(
       'retryInterval',
       createField({
         value: configuration?.retryInterval,
@@ -398,7 +420,7 @@ function createAdvancedBrowserActionConfigurationForm(configuration: Record<stri
       })
     );
   } else {
-    return actionConfig;
+    return updatedActionConfig;
   }
 }
 

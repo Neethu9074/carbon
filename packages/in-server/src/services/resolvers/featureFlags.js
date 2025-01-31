@@ -101,6 +101,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'kubecostEnabled',
+    instanaCtlKey: 'feature.kubecost.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'skipOnboardingDialog',
     instanaCtlKey: 'feature.skip.oboarding.dialog',
     defaultValue: false
@@ -119,6 +124,11 @@ module.exports = exports = [
     uiClientKey: 'cveIssueEnabled',
     instanaCtlKey: 'feature.cve.issues.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'vulnerabilityCenterEnabled',
+    instanaCtlKey: 'feature.vulnerabilityCenter.enabled',
+    defaultValue: true
   },
   {
     uiClientKey: 'routeIdOverPathTplEnabled',
@@ -171,6 +181,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'amplitudeExperimentEnabled',
+    instanaCtlKey: 'feature.amplitude.experiment.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'dataUsageNotificationEnabled',
     instanaCtlKey: 'feature.data.usage.notification.enabled',
     defaultValue: false
@@ -219,6 +234,11 @@ module.exports = exports = [
     uiClientKey: 'loggingEnabled',
     instanaCtlKey: 'feature.logging.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'deleteLogsV3Enabled',
+    instanaCtlKey: 'feature.delete.logs.v3.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'logWidgetsEnabled',
@@ -366,6 +386,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'bizopsProcessIdColumnEnabled',
+    instanaCtlKey: 'feature.bizops.process.id.column.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'bizopsGenAIEnabled',
     instanaCtlKey: 'feature.bizops.genAI.enabled',
     defaultValue: false
@@ -388,7 +413,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsCustomDashboardEnabled',
     instanaCtlKey: 'feature.bizops.custom.dashboard.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'bizopsProcessStackEnabled',
@@ -498,12 +523,12 @@ module.exports = exports = [
   {
     uiClientKey: 'customDashboardsExportPdfWidget',
     instanaCtlKey: 'feature.custom.dashboards.export.pdf.widget.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'customDashboardsExportPdfEntireDashboard',
     instanaCtlKey: 'feature.custom.dashboards.export.pdf.entire.dashboard.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'customDashboardsFastQueryModeEnabled',
@@ -634,7 +659,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonTooltipEnabled',
     instanaCtlKey: 'feature.carbon.tooltip.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'carbonPaginationEnabled',
@@ -649,7 +674,7 @@ module.exports = exports = [
   {
     uiClientKey: 'notesAndActivityEnabled',
     instanaCtlKey: 'feature.incident.notes.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'lastValueForNonTimeSeriesWidgetEnabled',
@@ -694,7 +719,7 @@ module.exports = exports = [
   {
     uiClientKey: 'serviceNowAdvancedEnabled',
     instanaCtlKey: 'feature.service.now.advanced.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonTabsEnabled',
@@ -823,7 +848,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'infraSmartAlertFullScreenDesignEnabled',
-    instanaCtlKey: 'feature.infra.Smart.alert.full.screen.design.enabled',
+    instanaCtlKey: 'feature.infra.smart.alert.full.screen.design.enabled',
     defaultValue: false
   },
   {
@@ -874,6 +899,16 @@ module.exports = exports = [
   {
     uiClientKey: 'accessControlCarbonTable',
     instanaCtlKey: 'feature.accessControl.carbonTable.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'websitesSmartAlertFullScreenDesignEnabled',
+    instanaCtlKey: 'feature.websites.smart.alert.full.screen.design.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'idpConfigV2Enabled',
+    instanaCtlKey: 'feature.idp.config.v2.enabled',
     defaultValue: false
   }
 ];

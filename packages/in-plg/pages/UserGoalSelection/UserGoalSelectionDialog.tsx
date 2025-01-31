@@ -7,7 +7,7 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import classNames from 'classnames';
 
-import { Card, Checkbox, DashboardButton, Stack, SvgIcon, Typography } from '@instana/components';
+import { CarbonButton, Card, Checkbox, Stack, SvgIcon, Typography } from '@instana/components';
 
 import { UserSettings, userSettings as userSettingsGlobal } from 'in-services/userSettings/globals';
 import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -84,11 +84,11 @@ const UserGoalSelectionDialog = () => {
           {showOtherGoal ? <OtherGoalField setOtherGoal={setOtherGoal} /> : null}
         </DialogContent>
         <Stack distribution="spaceBetween" direction="horizontal">
-          <DashboardButton kind="ghost" size="xl" className={locals.actionButton} onClick={skipHandler}>
+          <CarbonButton kind="ghost" size="xl" className={locals.actionButton} onClick={skipHandler}>
             {t('in-plg:userGoalSelectionDialog.skip')}
-          </DashboardButton>
+          </CarbonButton>
 
-          <DashboardButton
+          <CarbonButton
             disabled={!selectedGoals.length}
             kind="primary"
             size="xl"
@@ -98,7 +98,7 @@ const UserGoalSelectionDialog = () => {
             }}
           >
             {t('in-plg:userGoalSelectionDialog.done')}
-          </DashboardButton>
+          </CarbonButton>
         </Stack>
       </div>
     </Dialog>

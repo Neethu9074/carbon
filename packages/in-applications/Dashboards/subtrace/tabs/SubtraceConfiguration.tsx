@@ -22,6 +22,7 @@ import { useSubtraceForm } from 'in-applications/hooks/useSubtraceForm';
 import { subtracesList } from 'in-applications/navigation/paths';
 import { Subtrace } from 'in-applications/lists/SubtracesList';
 import useFormSubmission from 'in-hooks/useFormSubmission';
+import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
 
 import locals from 'in-applications/Dashboards/subtrace/tabs/SubtraceConfiguration.mless';
@@ -97,6 +98,7 @@ function SubtraceConfigurationContent({ subtraceTabData }: SubtraceConfiguration
         <DeleteButton
           onClick={() => onHandleDelete()}
           form={form}
+          disabled={!role?.canConfigureSubtraces}
           isDeleting={deleteStatus === 'pending'}
           icon="lib_actions_delete"
         />

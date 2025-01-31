@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { drawCircleWithLine } from './utils';
+import { drawCircleWithLine } from 'in-components/Chart/renderer/utils';
 
 export default {
   render: ({ dataSeries, colors, colors100, index, scale, config, axis, metricId }) => {

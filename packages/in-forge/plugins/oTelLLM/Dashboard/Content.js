@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { DataTable as CarbonDataTable } from '@instana/components';
-import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
 
 import TotalUsageBigNumber from 'in-forge/plugins/oTelLLM/Dashboard/TotalUsageBigNumber';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -17,7 +16,6 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, millis, scale } from 'in-services/formatters/number';
 import { days, hours, minutes, seconds } from 'in-services/time';
-import { carbonTableEnabled } from 'in-services/featureFlags';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import EntityLink from 'in-components/EntityLink';
 import { t } from 'in-i18n';
@@ -633,35 +631,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
       </Columize>
       <Columize>
         <DashboardSection title={t('in-forge:plugins.oTelLLM.dashboard.analytics')}>
-          {/* carbon table render*/}
-          {carbonTableEnabled && (
-            <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} isExpanded={false} />
-          )}
-          {!carbonTableEnabled && (
-            <Table>
-              <Thead>
-                <Tr size="regular">
-                  <Th>{t('in-forge:plugins.oTelLLM.dashboard.llmonitor_agent')}</Th>
-                  <Th>{t('in-forge:plugins.oTelLLM.dashboard.details')}</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                <Tr size="regular">
-                  <Td>{'LLM'}</Td>
-                  <Td>
-                    <EntityLink
-                      label={'Calls'}
-                      href={getDashboardLink(snapshot.get('id'), {
-                        pathname: '#/analyze;dataSource=calls',
-                        to: timeConfig.to,
-                        focusedMoment: timeConfig.to
-                      })}
-                    />
-                  </Td>
-                </Tr>
-              </Tbody>
-            </Table>
-          )}
+          <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} isExpanded={false} />
         </DashboardSection>
       </Columize>
     </div>

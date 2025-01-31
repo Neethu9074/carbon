@@ -64,3 +64,11 @@ function isAvailableQuery() {
 export function isAvailable() {
   return isAvailableQuery().map(res => res.body);
 }
+
+export function isOidcActive() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/settings/authentication/oidc/active'
+  }).map(res => res.body);
+}

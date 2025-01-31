@@ -33,6 +33,7 @@ import locals from './QueryBuilder.mless';
 interface LoggingQueryBuilderWorkspaceProps extends StateManagementChildProps {
   children: React.ReactNode;
   validationError?: string;
+  disableHeader?: boolean;
 }
 type FilterAddedTrackingPayload = { dataSource: string; tagName: string; tagFilter?: TagFilter };
 export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderWorkspaceProps) {
@@ -47,7 +48,8 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
     children,
     dataSource,
     isLoading,
-    groupBy
+    groupBy,
+    disableHeader
   } = props;
   const { trackUa2QueryBuilderFilterAdded, trackUa2NestingDepth, trackUa2GroupChanged } = useAnalyzeTracker();
   const tracking: QueryBuilderTrackingFunctions = {
@@ -66,20 +68,8 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
       })
   };
 
-  return (
-    <Sticky
-      header={
-        <>
-          <AnalyzeHeader
-            isGrouped={isGrouped}
-            liveModeDisabled
-            liveModeDisabledTooltip={t('in-logging:liveModeDisabled')}
-            withoutShadow={logSmartAlertsEnabled}
-          />
-        </>
-      }
-      backgroundColor={themes.default.ids.color.option.white}
-    >
+  const Content = (
+    <>
       <LeftRightPadding>
         <Stack gap="gutter">
           <Sections>
@@ -99,7 +89,11 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
               GroupingConfigurator={LogsGroupingConfigurator}
               tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
               tracking={{
-                onGroupAdded: group => trackUa2GroupChanged({ dataSource, tagName: group.groupbyTag })
+                onGroupAdded: group =>
+                  trackUa2GroupChanged({
+                    dataSource,
+                    tagName: group.groupbyTag
+                  })
               }}
             />
           </Sections>
@@ -113,6 +107,26 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
         </Stack>
       </LeftRightPadding>
       <Footer />
+    </>
+  );
+
+  return !disableHeader ? (
+    <Sticky
+      header={
+        <>
+          <AnalyzeHeader
+            isGrouped={isGrouped}
+            liveModeDisabled
+            liveModeDisabledTooltip={t('in-logging:liveModeDisabled')}
+            withoutShadow={logSmartAlertsEnabled}
+          />
+        </>
+      }
+      backgroundColor={themes.default.ids.color.option.white}
+    >
+      {Content}
     </Sticky>
+  ) : (
+    Content
   );
 }

@@ -6,7 +6,8 @@
 
 import {
   findMinMaxMetricValues,
-  findMinMetricValue
+  findMinMetricValue,
+  invertSyntheticPercentageMetrics
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import { MetricDataSeries } from 'in-components/Chart/types';
 
@@ -146,5 +147,71 @@ describe('findMinMetricValue', () => {
 
     // Then
     expect(result).toEqual(-100);
+  });
+});
+
+describe('invertSyntheticPercentageMetrics', () => {
+  it('Should return correct inverted metrics for 5 mixed values', () => {
+    // Given
+    const input: MetricDataSeries[] = [
+      [
+        [1, 0.5],
+        [2, 0],
+        [3, 0.25],
+        [4, 0.4],
+        [5, 1]
+      ]
+    ];
+
+    // When
+    const result = invertSyntheticPercentageMetrics(input);
+
+    // Then
+    expect(result).toStrictEqual([
+      [
+        [1, 0.5],
+        [2, 1],
+        [3, 0.75],
+        [4, 0.6],
+        [5, 0]
+      ]
+    ]);
+  });
+
+  it('Should return correct inverted metrics for 10 mixed values', () => {
+    // Given
+    const input: MetricDataSeries[] = [
+      [
+        [1, 0.66],
+        [2, 0],
+        [3, 0.75],
+        [4, 0.33],
+        [5, 1],
+        [6, 0.1],
+        [7, 0.99],
+        [8, 0.79],
+        [9, 0.75],
+        [10, 0.22]
+      ]
+    ];
+
+    // When
+    const result = invertSyntheticPercentageMetrics(input);
+
+    // Then
+    expect(result).toStrictEqual([
+      [
+        [1, 0.34],
+        [2, 1],
+        [3, 0.25],
+        [4, 0.67],
+        [5, 0],
+        [6, 0.9],
+        [7, 0.01],
+        [8, 0.21],
+        [9, 0.25],
+        [10, 0.78]
+      ]
+    ]);
   });
 });

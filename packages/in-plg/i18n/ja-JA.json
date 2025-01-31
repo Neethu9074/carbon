@@ -73,14 +73,6 @@
       "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse Open J9 11"
     },
-    "askForHelp": {
-      "email": "E メール",
-      "send": "送信",
-      "askForHelpTitle": "同僚に支援を求める",
-      "thisWillBeAvailableOnceYourInstanceIsReady": "これは、インスタンスの準備ができると使用可能になります。",
-      "inviteAColeague": "同僚を招待する",
-      "agentKey": "エージェント・キー"
-    },
     "common": {
       "agentDeployment": "エージェントのデプロイメント",
       "step1": "ステップ 1: ",
@@ -100,7 +92,7 @@
       "choosingTheProperInstallationMethod": "適切なインストール方式の選択",
       "configuringTheAgentAfterInstall": "インストール後のエージェントの構成",
       "packaging": "パッケージ化",
-      "runtime": "Runtime",
+      "runtime": "ランタイム",
       "prerequisitesTitle": "前提条件",
       "viewDeployedAgents": "デプロイ済みエージェントの表示",
       "openAgentDashboardOptional": "オプション: エージェントが正常にデプロイされたら、それをインフラストラクチャー・マップに表示できます。",
@@ -108,8 +100,7 @@
       "support": "サポート",
       "sideCard": {
         "prerequisites": "前提条件",
-        "documentation": "資料",
-        "askAColleagueForHelp": "同僚に支援を求める"
+        "documentation": "資料"
       }
     },
     "kubernetes": {
@@ -314,7 +305,7 @@
       "common": {
         "ConfigureTheAgent": "ステップ 1: エージェントの構成",
         "packaging": "パッケージ化",
-        "runtime": "Runtime",
+        "runtime": "ランタイム",
         "dynamic": "動的",
         "static": "静的",
         "previewPrerequisites": "前提条件のプレビュー",
@@ -393,7 +384,7 @@
         "Packaging": "パッケージ化",
         "dynamic": "動的",
         "static": "静的",
-        "runtime": "Runtime",
+        "runtime": "ランタイム",
         "azulZulu": "Azul Zulu 11",
         "eclipseOpenJ9": "Eclipse Open J9 11",
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。",
@@ -524,7 +515,6 @@
     "heading": "Instanaへようこそ",
     "foldableTileTitle": "開始しましょう。",
     "viewAll": "すべて表示",
-    "UrlShortener": "URL 短縮形",
     "addMore": "追加",
     "collapsibleButton": {
       "showOnboardingTasks": "オンボーディング・タスクの表示",
@@ -569,6 +559,10 @@
       "title": "チームに招く",
       "description": "同僚をInstanaに招待し、コラボレーションを開始します。",
       "buttonName": "チームメートを招待する"
+    },
+    "favouriteButton": {
+      "ariaFilled": "お気に入りを削除",
+      "aria": "お気に入りに追加"
     },
     "component": {
       "applicationWidget": {
@@ -616,7 +610,7 @@
         "memoryLimit": "メモリー制限",
         "adapters": "アダプター",
         "vios": "Virtual I/O Server",
-        "memoryUsage": "メモリー使用量",
+        "memoryUsage": "メモリー使用率",
         "cpuUsage": "CPU 使用率",
         "esXiHosts": "ESXi ホスト",
         "searchPlaceholderLabel": "プラットフォーム",
@@ -798,7 +792,6 @@
     },
     "ariaLabel": {
       "search": "検索",
-      "shareButton": "「共有」ボタン",
       "handleButton": "「ハンドル」ボタン"
     }
   },

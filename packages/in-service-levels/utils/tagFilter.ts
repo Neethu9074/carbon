@@ -27,6 +27,7 @@ import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/t
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
+import { statusTagName } from 'in-synthetics/tags';
 
 interface CreateGoodBadTagFilterExpressionProps {
   indicator: ServiceLevelIndicatorUnion;
@@ -44,10 +45,6 @@ export function createGoodBadTagFilterExpression({
 }: CreateGoodBadTagFilterExpressionProps): GoodBadTagFilterExpression {
   if (isCustomBlueprintIndicator(indicator)) {
     return getCustomEventBasedTagFilterExpression({ indicator });
-  }
-
-  if (isSyntheticSloEntity(entity)) {
-    return getEmptyTagFilterExpression();
   }
 
   if (isTrafficBlueprintIndicator(indicator)) {
@@ -85,6 +82,29 @@ function getCustomEventBasedTagFilterExpression({
     bad: badEventsFilter
   };
 }
+
+const getSyntheticTimeBasedTagFilterExpression = (
+  indicator: ServiceLevelIndicatorUnion
+): GoodBadTagFilterExpression => {
+  return {
+    good: tagFilter('synthetic.metricsResponseTime', LESS_OR_EQUAL_THAN, indicator.threshold),
+    bad: tagFilter('synthetic.metricsResponseTime', GREATER_THAN, indicator.threshold)
+  };
+};
+
+const getSyntheticEventBasedTagFilterExpression = (): GoodBadTagFilterExpression => {
+  return {
+    good: tagFilter(statusTagName, EQUALS, 1),
+    bad: tagFilter(statusTagName, EQUALS, 0)
+  };
+};
+
+const getSyntheticTagFilterExpression = (indicator: ServiceLevelIndicatorUnion): GoodBadTagFilterExpression => {
+  if (indicator.blueprint === 'latency') return getSyntheticTimeBasedTagFilterExpression(indicator);
+  if (indicator.blueprint === 'availability') return getSyntheticEventBasedTagFilterExpression();
+
+  throw new Error(ServiceLevelErrors.UNSUPPORTED_BLUEPRINT_TYPE);
+};
 
 const getBadEventsApplicationTagFilter = ({ blueprint, threshold }: AggregatedServiceLevelIndicator): TagFilter =>
   ({
@@ -131,6 +151,10 @@ function getTagFilterExpressionFromBlueprint({
       good: getGoodEventsWebsiteTagFilter(indicator),
       bad: getBadEventsWebsiteTagFilter(indicator)
     };
+  }
+
+  if (isSyntheticSloEntity(entity)) {
+    return getSyntheticTagFilterExpression(indicator);
   }
 
   throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);

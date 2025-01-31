@@ -76,3 +76,11 @@ function isAvailableQuery() {
 export function isAvailable() {
   return isAvailableQuery().map(res => res.body);
 }
+
+export function isLdapActive() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/settings/authentication/ldap/active'
+  }).map(res => res.body);
+}

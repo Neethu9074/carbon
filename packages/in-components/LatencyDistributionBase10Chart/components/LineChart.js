@@ -8,7 +8,7 @@ import React, { useEffect, useRef } from 'react';
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 import line from 'in-components/Chart/renderer/line';
 
-import locals from './LineChart.mless';
+import locals from 'in-components/LatencyDistributionBase10Chart/components/LineChart.mless';
 
 export default function LineChart({ metricBuckets, config, bucketWidth, maxCallCount, height, width, style }) {
   const canvas = useRef(null);

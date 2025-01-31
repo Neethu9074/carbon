@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
+import { DataTable as CarbonDataTable } from '@instana/components';
 import { Collapsible, Link } from '@instana/components';
 
 import { ClickableList, ClickableListItem } from 'in-sdk/components/sidebar/ClickableList';
@@ -14,36 +14,34 @@ import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { t } from 'in-i18n';
 
 export default function Nodes({ nodes, renderByDashboard }) {
+  const carbonHeaders = [
+    {
+      key: 'name',
+      header: t('in-forge:plugins.oTelK8sCluster.dashboard.name')
+    },
+    {
+      key: 'age',
+      header: t('in-forge:plugins.oTelK8sCluster.dashboard.age')
+    },
+    {
+      key: 'status',
+      header: t('in-forge:plugins.oTelK8sCluster.dashboard.status')
+    },
+    {
+      key: 'health',
+      header: t('in-forge:plugins.oTelK8sCluster.dashboard.health')
+    }
+  ];
+  const carbonRows = nodes.map(node => ({
+    name: <Link href={getDashboardLink(node.id, { pathname: '/physical/dashboard' })}>{node.resourceK8sNodeName}</Link>,
+    age: '-',
+    status: 'Ready',
+    health: <HealthIndicatorPresenter openIssues={0} maxSeverity={1} tooltipLabel={'issue'} />
+  }));
+
   const getDashboardLink = useGetDashboardLink();
   if (renderByDashboard) {
-    return (
-      <Table tableInCard>
-        <Thead>
-          <Tr size="compact">
-            <Th>{t('in-forge:plugins.oTelK8sCluster.dashboard.name')}</Th>
-            <Th>{t('in-forge:plugins.oTelK8sCluster.dashboard.age')}</Th>
-            <Th>{t('in-forge:plugins.oTelK8sCluster.dashboard.status')}</Th>
-            <Th>{t('in-forge:plugins.oTelK8sCluster.dashboard.health')}</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {nodes.map(node => (
-            <Tr key={node.id} size="compact">
-              <Td>
-                <Link href={getDashboardLink(node.id, { pathname: '/physical/dashboard' })}>
-                  {node.resourceK8sNodeName}
-                </Link>
-              </Td>
-              <Td>-</Td>
-              <Td>Ready</Td>
-              <Td>
-                <HealthIndicatorPresenter openIssues={0} maxSeverity={1} tooltipLabel={'issue'} />
-              </Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    );
+    return <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} isExpanded={false} />;
   }
   return (
     <div>

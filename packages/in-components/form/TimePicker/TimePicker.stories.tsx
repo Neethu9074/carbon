@@ -9,7 +9,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
-import { TimePickerWithTypedProps as TimePicker } from './TimePickerWithTypedProps';
+import { TimePickerWithTypedProps as TimePicker } from 'in-components/form/TimePicker/TimePickerWithTypedProps';
 
 const sizes = {
   large: 'lg',

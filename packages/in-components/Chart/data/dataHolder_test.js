@@ -5,8 +5,8 @@
 
 import { expect } from 'chai';
 
-import createDataHolder from './dataHolder';
-import { column } from './testUtil';
+import createDataHolder from 'in-components/Chart/data/dataHolder';
+import { column } from 'in-components/Chart/data/testUtil';
 
 describe('data', () => {
   let data;

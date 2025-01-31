@@ -10,6 +10,7 @@ import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
+import { errorWithData } from 'in-services/util/result';
 import { Response } from 'in-services/http/types';
 import http from 'in-services/http';
 
@@ -59,9 +60,26 @@ export const getUsersAsResultObservable = memoize(getUsersAsResultObservableInte
 function getUsersAsResultObservableInternal() {
   return refreshSignalUsers.flatMap(() => createObservable(getUsersInternal()));
 }
+export const getUsersResult = memoize(
+  () => refreshSignalUsers.flatMap(() => getUsersDataAndErrorResult()),
+  () => 'UsersResult',
+  60000
+);
 
 export function getUsers() {
   return getUsersInternal().map(response => response.body);
+}
+const emptyUsersOnError$ = create().emit(undefined);
+
+export function getUsersDataAndErrorResult() {
+  return refreshSignalUsers.flatMap(() => {
+    const usersRequest = getUsersInternal();
+    const success$ = usersRequest.map(response => response.body);
+    usersRequest.errors().subscribe(err => {
+      emptyUsersOnError$.emit(errorWithData([err], []));
+    });
+    return success$.merge(emptyUsersOnError$);
+  });
 }
 
 function getUsersInternal() {
@@ -144,6 +162,33 @@ function getPendingInvitationsInternal(): Observable<PendingInvitation[]> {
     }).map(response => response.body)
   );
 }
+
+function getPendingInvitationsRequest(): Observable<Response<PendingInvitation[]>> {
+  return http<PendingInvitation[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/settings/invitations`
+  });
+}
+
+const emptyInvitesOnError$ = create().emit(undefined);
+
+function getPendingInvitationsInternalObservable() {
+  return refreshSignalInvitations.flatMap(() => {
+    const pendingInvitationRequest = getPendingInvitationsRequest();
+    const success$ = pendingInvitationRequest.map(response => response.body);
+    pendingInvitationRequest.errors().subscribe(err => {
+      emptyInvitesOnError$.emit(errorWithData([err], []));
+    });
+    return success$.merge(emptyInvitesOnError$);
+  });
+}
+
+export const getPendingInvitationsAsObservable = memoize(
+  getPendingInvitationsInternalObservable,
+  () => 'PendingInvitations',
+  60000
+);
 
 export function sendInvitations(invitations: Invitation[]) {
   return http<InvitationResponse>({

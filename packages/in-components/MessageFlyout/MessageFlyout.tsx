@@ -11,7 +11,7 @@ import { useObservable } from '@instana/hooks';
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import Message from 'in-components/MessageFlyout/Message';
 
-import locals from './MessageFlyout.mless';
+import locals from 'in-components/MessageFlyout/MessageFlyout.mless';
 
 interface MessageFlyoutProps {
   onlyShowUsageRelatedMessages?: boolean;

@@ -28,7 +28,12 @@ function createPolicy() {
   return policy;
 }
 
-export default function usePolicy(id: string | null, isCopy: boolean) {
+interface UsePolicyParams {
+  id: string | null;
+  isCopy: boolean;
+}
+
+export default function usePolicy({ id, isCopy }: UsePolicyParams) {
   return (
     useObservable<Result<PolicyFormEntity>, [boolean, string | null]>(
       () =>

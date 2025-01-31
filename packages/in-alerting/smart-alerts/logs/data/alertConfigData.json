@@ -156,6 +156,7 @@
     "alertChannelIds": [],
     "description": "The log count is higher or equal to 12 (AN smart alert)",
     "granularity": 600000,
+    "gracePeriod": 600000,
     "name": "Test alert",
     "severity": 5,
     "tagFilterExpression": {

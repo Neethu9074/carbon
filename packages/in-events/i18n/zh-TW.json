@@ -53,6 +53,7 @@
   "titleEmptyEvents_change": "沒有可用的變更",
   "titleEmptyEvents_monitoringIssue": "沒有可用的監視問題",
   "titleEmptyEvents_cveIssue": "無 CVE 問題",
+  "titleEmptyEvents_prc_issue": "沒有可能的根本原因問題",
   "titleManualCloseIssue": "關閉問題",
   "titleMultiCloseIssues": "關閉多個問題",
   "titleManualCloseIncident": "關閉事件",
@@ -64,6 +65,7 @@
   "explanationEmptyEvents_change": "未擷取到所選時間範圍內的變更",
   "explanationEmptyEvents_monitoringIssue": "未擷取到所選時間範圍內的監視問題",
   "explanationEmptyEvents_cveIssue": "所選時間範圍內沒有擷取到 CVE 問題",
+  "explanationEmptyEvents_prc_issue": "所選取時間範圍內未擷取到可能的根本原因問題",
   "showAllEndpoints": "顯示所有 {{count}} 個端點",
   "showAllEndpoints_plural": "顯示所有 {{count}} 個端點",
   "showAllEndpoints_0": "顯示所有 {{count}} 個端點",
@@ -116,6 +118,7 @@
   "labelIssues": "問題",
   "labelMonitoringIssues": "監視問題",
   "labelCveIssue": "漏洞",
+  "labelPrcIssue": "可能的根本原因",
   "labelAll": "全部",
   "buttonViewCustomEvent": "檢視自訂事件",
   "buttonViewBuiltInEvent": "檢視內建事件",
@@ -148,10 +151,10 @@
   "tooltipCloseEventDetail": "關閉事件詳細資料",
   "releaseOccurName": "版本：{{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）",
-  "deprecatedCustomEventWarning": "<strong>實體類型「應用程式」、「服務」及「端點」上的「自訂事件」已淘汰。 未來將移除這三種實體類型的「自訂事件」，且您將不再收到此 {{issueOrIncident}}</strong><br/>檢視自訂事件配置以移轉至「智慧型警示」。 <documentationLink>進一步閱讀我們的文件</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>實體類型「應用程式」、「服務」及「端點」上的「自訂事件」已淘汰。 自 2025 年 3 月起，這三種實體類型的自訂事件將被移除，您將不再收到此 {{issueOrIncident}}</strong><br/>檢視自訂事件配置來移轉至 Smart Alert。 <documentationLink>進一步閱讀我們的文件</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} 自訂事件需要動作",
-    "message": "「應用程式」、「服務」及「端點」上的自訂事件已淘汰。 您未來將無法建立或更新這些類型的自訂事件。",
+    "message": "「應用程式」、「服務」及「端點」上的自訂事件已淘汰。 自 <strong>2025 年 3 月</strong>起，您將無法建立或更新這些自訂事件類型。",
     "documentationLink": "<documentationLink>進一步閱讀我們的文件</documentationLink>",
     "affectedEventsLink": "檢視受影響的自訂事件"
   },
@@ -183,8 +186,10 @@
     "titleFailtoCloseIssues": "無法關閉的問題",
     "multiFailedCloseIncidentsDescription": "在 {{total_incidents}} 個事件中，{{number_incidents_succesfully_closed}} 個已成功關閉，但 {{number_incidents_failed_closed}} 個失敗。 如需更多詳細資料，請參閱以下清單： ",
     "singleFailedCloseIncidentDescription": "在 {{total_incidents}} 個事件中，1 個事件已成功關閉，但 {{number_incidents_failed_closed}} 個失敗。 如需更多詳細資料，請參閱以下清單： ",
+    "noSuccessfulIncidentCloseDescription": "在 {{total_incidents}} 個事件中，沒有一個成功關閉，同時有 {{number_incidents_failed_closed}} 個失敗。 如需更多詳細資料，請參閱以下清單： ",
     "multiFailedCloseIssuesDescription": "在 {{total_issues}} 個問題中，{{number_issues_succesfully_closed}} 個已成功關閉，但{{number_issues_failed_closed}} 個失敗。 如需更多詳細資料，請參閱以下清單： ",
-    "singleFailedCloseIssueDescription": "在 {{total_issues}} 個問題中，1 個問題已成功關閉，但 {{number_issues_failed_closed}} 個問題失敗。 如需更多詳細資料，請參閱以下清單： "
+    "singleFailedCloseIssueDescription": "在 {{total_issues}} 個問題中，1 個問題已成功關閉，但 {{number_issues_failed_closed}} 個問題失敗。 如需更多詳細資料，請參閱以下清單： ",
+    "noSuccessfulIssueCloseDescription": "在 {{total_issues}} 個問題中，沒有一個成功關閉，同時有 {{number_issues_failed_closed}} 個失敗。 如需更多詳細資料，請參閱以下清單： "
   },
   "ibmMqFileTransfer": {
     "transferID": "傳送 ID",
@@ -396,7 +401,7 @@
     "showAll": "顯示全部",
     "collapse": "收合",
     "aiModel": "AI 模型",
-    "granite": "granite-13b-chat-v2",
+    "granite": "granite-3-8b-instruct",
     "withManualEdits": "（需手動編輯）",
     "shareIncidentSummarySubject": "事件摘要：{{problemText}}",
     "share": "共用",

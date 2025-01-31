@@ -25,23 +25,25 @@ type FirstArgumentType<T> = T extends (first: infer ArgType, ...args: any[]) => 
 
 export default function TimePresenter({ onClick, timeConfig, expanded, refSetter, darkTheme }: TimePresenterProps) {
   return (
-    <DropdownButton
-      data-test-id="time-picker"
-      expanded={expanded}
-      kind="tertiary"
-      darkTheme={darkTheme}
-      onClick={(e: FirstArgumentType<typeof stopPropagationAndPreventDefault>) => {
-        stopPropagationAndPreventDefault(e);
-        onClick();
-      }}
-      ref={refSetter as React.MutableRefObject<HTMLButtonElement>}
-      className={locals.carbonTimePicker}
-      noAutoMargin
-    >
-      <div className={locals.carbonDisplayTimeWrapper}>
-        <div className={locals.carbonTimeSettingTop}>{timeDisplayTopFormat(timeConfig)}</div>
-        <div className={locals.carbonTimeSetting}>{timeDisplayBottomFormat(timeConfig)}</div>
-      </div>
-    </DropdownButton>
+    <div className={darkTheme ? locals.dark : undefined}>
+      <DropdownButton
+        data-test-id="time-picker"
+        expanded={expanded}
+        kind="tertiary"
+        darkTheme={darkTheme}
+        onClick={(e: FirstArgumentType<typeof stopPropagationAndPreventDefault>) => {
+          stopPropagationAndPreventDefault(e);
+          onClick();
+        }}
+        ref={refSetter as React.MutableRefObject<HTMLButtonElement>}
+        className={locals.carbonTimePicker}
+        noAutoMargin
+      >
+        <div className={locals.carbonDisplayTimeWrapper}>
+          <div className={locals.carbonTimeSettingTop}>{timeDisplayTopFormat(timeConfig)}</div>
+          <div className={locals.carbonTimeSetting}>{timeDisplayBottomFormat(timeConfig)}</div>
+        </div>
+      </DropdownButton>
+    </div>
   );
 }

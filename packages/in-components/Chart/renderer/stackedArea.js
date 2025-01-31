@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { drawCircleWithLine, calculateMetricMap } from 'in-components/Chart/renderer/utils';
 import { extrapolateMissingStackedAreaValuesEnabled } from 'in-services/featureFlags';
-import { calculateMetricMap } from 'in-components/Chart/renderer/utils';
-import { drawCircleWithLine } from './utils';
 
 export default {
   render: ({ metrics, colors, colors100, scale, config, axis, axisName }) => {

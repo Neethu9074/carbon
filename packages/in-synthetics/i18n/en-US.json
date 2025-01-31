@@ -180,23 +180,23 @@
           "shouldBeValidHeaderName": "String entered must be a valid HTTP request header name.",
           "shouldBeValidHeaderValue": "String entered must be a valid HTTP request header value.",
           "scriptLabel": "Script",
-          "addscriptAction": "Add Script",
-          "editscriptAction": "Edit Script",
+          "addscriptAction": "Add script",
+          "editscriptAction": "Edit script",
           "scriptFileName": "File Name",
           "scriptNotAdded": "No script added.",
           "buttonAdd": "Add",
           "buttonBack": "Back",
           "buttonSave": "Save",
-          "uploadFileLabel": "Upload File",
-          "uploadFileDescription": "You can upload either a single .js file or a zip file of bundled .js files.",
+          "uploadFileLabel": "Upload file",
+          "uploadFileDescription": "You can upload either a single .js file or a .zip file of bundled .js files.",
           "scriptDescription": "Your uploaded script will appear here or you can manually enter it below.",
           "validScriptMessage": "Script is valid.",
           "zipFileUploadedMessage": "Bundled files cannot be modified or validated",
           "scriptEditedManuallyMessage": "Script added or modified manually",
-          "mainFileNameLabel": "Main File Name",
+          "mainFileNameLabel": "Enter main file name",
           "invalidMainFileName": "Main file name not valid",
           "webpageUrl": "Webpage URL",
-          "browserUploadFileDescription": "You can upload either a single .js file, a zip file of bundled .js files or a .side script recorded by SeleniumIDE.",
+          "browserUploadFileDescription": "You can upload either a single .js file, a .zip file of bundled .js files or a .side script recorded by SeleniumIDE.",
           "sideFileUploadedMessage": "Selenium scripts cannot be modified or validated",
           "bundleFileNotSupportedMessage": "Unsupported file is selected. Bundles are only supported in Advanced Mode.",
           "timeoutFieldLabel": "Timeout",
@@ -214,7 +214,10 @@
           "retryFieldOptionTwice": "Retry twice",
           "retryIntervalFieldLabel": "Retry Interval",
           "retryIntervalDescription": "This test will retry {{retryCount}} after {{retryIntervalValue}} {{retryIntervalUnit}}.",
-          "markSyntheticCall": "Mark Synthetic Call"
+          "markSyntheticCall": "Mark Synthetic Call",
+          "downloadZip": "Download .zip file",
+          "mainFileNameHelperText": "Provide the name of the file within this .zip file that contains the test's entry point",
+          "recordVideo" : "Record video of user actions"
         },
         "loadMore": "Load More",
         "selectTests": {
@@ -635,7 +638,6 @@
       "downloadHar": "Download HAR File",
       "downloadLog": "Download Logs",
       "viewScreenshotsLabel": "View Screenshot(s)",
-      "downloadVideo": "Download Recording",
       "consoleLogsLevel": "CONSOLE",
       "consoleLogs": "Console",
       "browserLogs": "Browser",
@@ -715,7 +717,14 @@
         "timeOfIssue": "Time of Issue",
         "timeOfExpiry": "Time of Expiry"
       },
-      "failedRunErrorTypeTitle": "Error Type"
+      "failedRunErrorTypeTitle": "Error Type",
+      "viewRecordingLabel": "View recording",
+      "viewRecording": {
+        "recordingDialogLabel": "Recording",
+        "downloadRecordingButton": "Download recording",
+        "recordingLoadingMessage": "Loading recording",
+        "noRecordingAvailableMessage": "Recording not available for this test result"
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "No results available",
@@ -802,7 +811,8 @@
       "associatedWebsites": "Associated Websites",
       "noWebsitesAssociated": "No Websites associated",
       "associatedMobileApps": "Associated Mobile Apps",
-      "noMobileAppAssociated": "No Mobile Apps associated"
+      "noMobileAppAssociated": "No Mobile Apps associated",
+      "recordVideo" : "Record video of user actions"
     },
     "credentialList": {
       "mainLabel": "Credentials",

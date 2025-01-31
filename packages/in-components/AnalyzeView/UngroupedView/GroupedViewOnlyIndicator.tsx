@@ -12,7 +12,7 @@ import { t } from '@instana/i18n-react';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { MetricDescription } from 'in-types';
 
-import locals from './UngroupedView.mless';
+import locals from 'in-components/AnalyzeView/UngroupedView//UngroupedView.mless';
 
 interface GroupedViewOnlyIndicatorProps {
   metricId: string;

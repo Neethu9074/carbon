@@ -225,6 +225,8 @@ export const SETTINGS_AUDIT_TRAIL_ACTION_LOG_CLICK = 'settings.auditTrail.action
 export const SETTINGS_GROUP_APPLICATION_FILTER_ADDED = 'settings.group.application.filter.added';
 export const SETTINGS_GROUP_USER_ADDED = 'settings.group.user.added';
 export const SETTINGS_IDP_LDAP_TEST_CONFIGURATION = 'settings.idp.ldap.testConfiguration';
+export const SETTINGS_TEAM_CREATE = 'settings.team.create';
+export const SETTINGS_TEAM_UPDATE = 'settings.team.update';
 export const SETTINGS_USER_GROUP_ADDED = 'settings.user.group.added';
 export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
 export const SETTINGS_ROLE_SUBMIT = 'settings.role.submit';
@@ -603,3 +605,13 @@ export const VULNERABILITIES_CONCERT_TRY_CLICK = 'vulnerabilities.concert.try.cl
 export const VULNERABILITIES_CONCERT_DOCS_CLICK = 'vulnerabilities.concert.docs.click';
 export const VULNERABILITIES_CONCERT_BUY_CLICK = 'vulnerabilities.concert.buy.click';
 export const VULNERABILITIES_CONCERT_SUPPORT_CLICK = 'vulnerabilities.concert.support.click';
+export const VULNERABILITIES_CVE_TAB_ROW_CLICK = 'vulnerabilities.cve.tab.row.click';
+export const VULNERABILITIES_CVE_DETAIL_VIEW_ON_CONCERT_CLICK = 'vulnerabilities.view.on.concert.click';
+export const VULNERABILITIES_CVE_DETAIL_ANY_AFFECTED_APPLICATION_CLICK =
+  'vulnerabilities.cve.detail.any.affected.application.click';
+export const VULNERABILITIES_CVE_DETAIL_ANY_AFFECTED_ENTITY_CLICK =
+  'vulnerabilities.cve.detail.any.affected.entity.click';
+export const VULNERABILITIES_DETECTIONS_TAB_ROW_CLICK = 'vulnerabilities.detections.tab.row.click';
+export const VULNERABILITIES_DETECTIONS_DETAIL_ON_ENTITY_CLICK = 'vulnerabilities.detections.detail.on.entity.click';
+export const VULNERABILITIES_DETECTIONS_DETAIL_ANY_ASSOCIATED_APPLICATION_CLICK =
+  'vulnerabilities.detections.detail.any.associated.application.click';

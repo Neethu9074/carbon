@@ -9,7 +9,7 @@ import React from 'react';
 import { default as LegacyComboBox } from 'in-components/ComboBox/LegacyComboBox';
 import { default as CarbonComboBox } from 'in-components/ComboBox/CarbonComboBox';
 import { hasMultipleValuesSelected } from 'in-components/ComboBox/LegacyComboBox';
-import { ComboBoxProps } from './types';
+import { ComboBoxProps } from 'in-components/ComboBox/types';
 
 export type { Option, Options, ComboBoxProps } from 'in-components/ComboBox/types';
 export { hasMultipleValuesSelected };

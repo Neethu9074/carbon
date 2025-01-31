@@ -788,6 +788,8 @@
         "cancelTitle": "Annulla",
         "proceedTitle": "Continua",
         "previousTitle": "Precedente",
+        "nextTitle": "Successivo",
+        "closeTitle": "Chiudi",
         "sharedListTooltip": "{{typeName}} non è più disponibile",
         "clearTagFilterExpressionButton": "Ripulisci",
         "baselineErrorMessageComputedOnApproximateData": "La baseline viene calcolata in base ai dati approssimati dovuti alle impostazioni di conservazione dei dati. Pertanto, potrebbe non essere accurato nel caso in cui vi siano poche chiamate che corrispondono ai filtri selezionati.",
@@ -985,7 +987,15 @@
         "labelConfirmRemoveConfig": "Si è sicuri di voler rimuovere l'avviso <strong>{{configName}}</strong>?",
         "labelRemove": "Rimuovi"
       },
+      "gracePeriod": {
+        "title": "Periodo di tolleranza (facoltativo)",
+        "description": "Chiudere automaticamente un problema dopo che la soglia di violazione non è più possibile se:",
+        "label": "Seleziona",
+        "summary": "Chiudere automaticamente un problema dopo che la soglia di violazione non è più soddisfatta <strong>per {{gracePeriodValue}}</strong>."
+      },
       "tearSheet": {
+        "cancelModalTitle": "Sei sicuro di voler annullare?",
+        "cancelModalDescription": "Si annulla, i dati di configurazione inseriti non verranno salvati.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "Quando le violazioni persistono nel tempo",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Le violazioni persistono a intervalli casuali",
@@ -1001,8 +1011,7 @@
           "persistenceType": "Tipo di persistenza",
           "numberOfConsecutiveViolationsPostLabel": "le finestre di {{granularity}} minuti consecutive hanno violazioni",
           "static": "Statico",
-          "thresholdValue": "Valore soglia",
-          "timeWindow": "Finestra temporale"
+          "thresholdValue": "Valore soglia"
         }
       }
     },
@@ -1248,6 +1257,8 @@
         "alertConfigurationTitleAlertChannels": "Canali di avviso",
         "alertConfigurationTitleAlertProperties": "Proprietà avviso",
         "failureThreshold": "{{failureCount}} errori",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "Periodo di tolleranza",
         "alertConfigurationTitleScope": "Ambito",
         "noOfFailure": "Numero di errori",
         "timeThreshold": "Soglia temporale",
@@ -1520,6 +1531,7 @@
       "regexNotValid": "La regex non è valida",
       "tearSheet": {
         "createTitle": "Creare un avviso smart per l'infrastruttura",
+        "editTitle": "Modifica di un Avviso Smart dell'infrastruttura",
         "steps": {
           "step1Title": "Definisci la condizione",
           "step2Title": "Definisci quando ricevere un avviso",
@@ -1537,7 +1549,7 @@
           "header": "Quali proprietà si desidera impostare per questo avviso?"
         },
         "step4": {
-          "header": "Cosa si desidera venga notificato per questa avvertenza?",
+          "header": "Dove si desidera ricevere la notifica di questo avviso?",
           "description": "Selezionare il/i destinatario/i di questo avviso"
         },
         "scopeAlerting": {
@@ -1654,7 +1666,48 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "Fornire un numero >= 0",
         "noDataForSelectedGroup": "Non sono disponibili dati per la combinazione di filtri e il raggruppamento specificata."
       },
-      "logCount": "Conteggio log"
+      "logCount": "Conteggio log",
+      "tearSheet": {
+        "labelActionButtonEdit": "Modifica",
+        "labelActionButtonDuplicate": "Duplica",
+        "createTitle": "Crea un avviso smart di log",
+        "editTitle": "Modifica del registro Smart Alert",
+        "steps": {
+          "step1Title": "Definisci la condizione",
+          "step2Title": "Definisci quando ricevere un avviso",
+          "step3Title": "Definisci le proprietà degli avvisi",
+          "step4Title": "Definisci i canali di avviso"
+        },
+        "step2": {
+          "header": "Impostare un valore per la soglia di violazione",
+          "description": "Selezionare una metrica, una soglia di violazione e una finestra temporale per valutare la violazione."
+        },
+        "step3": {
+          "header": "Quali proprietà si desidera impostare per questo avviso?"
+        },
+        "step4": {
+          "header": "Dove si desidera ricevere la notifica di questo avviso?",
+          "description": "Selezionare il/i destinatario/i di questo avviso"
+        },
+        "scopeFilter": {
+          "title": "Scegli l'ambito dei log",
+          "filter": "Filtro",
+          "filterDescription": "Aggiungi filtri ai servizi per ottenere avvisi più precisi."
+        },
+        "scopeGroupBy": {
+          "group": "Gruppo",
+          "groupByDescription": "Aggiungi gruppo per configurare le chiamate in gruppi. Ogni chiamata all'interno del gruppo viene configurata collettivamente ma valutata singolarmente."
+        },
+        "timeThreshold": {
+          "title": "Imposta quando le violazioni attivano gli avvisi",
+          "description": "Specificare la persistenza nel tempo per l'attivazione degli avvisi e il tempo del guasto."
+        },
+        "thresholdDescription": {
+          "static": "Viene applicato un valore di soglia costante che non cambia nel tempo."
+        },
+        "chartAlertPreview": "Anteprima avvisi",
+        "chartAlertPreviewDescription": "Mostra come sarebbero stati attivati gli avvisi in base ai dati metrici storici."
+      }
     },
     "slo": {
       "components": {
@@ -1777,6 +1830,7 @@
     "warningAndCritical": "Avvertenze e criticità",
     "warning": "Avvertenza",
     "critical": "Critico",
-    "searchPlaceholder": "Ricerca"
+    "searchPlaceholder": "Ricerca",
+    "sortBy": "Ordina per"
   }
 }

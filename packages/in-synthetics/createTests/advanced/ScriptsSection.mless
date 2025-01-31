@@ -87,4 +87,13 @@
     display: flex;
     align-items: center;
   }
+
+  .mainFileNameField {
+    :global(.cds--text-input__label-wrapper) {
+      padding-top: 1rem;
+    }
+    :global(.cds--text-input__field-outer-wrapper) {
+      width: 25%;
+    }
+  }
 }

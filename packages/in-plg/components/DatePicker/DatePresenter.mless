@@ -22,4 +22,7 @@
   .carbonTimeSettingTop {
     font-size: 0.75rem;
   }
+  a.liveButtonWrapper {
+    text-decoration: none;
+  }
 }

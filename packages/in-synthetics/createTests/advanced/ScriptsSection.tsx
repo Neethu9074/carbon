@@ -7,7 +7,7 @@
 import { Field, Item, MapForm, createField, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Stack, RadioButton, Checkbox, Button, IconButton } from '@instana/components';
+import { Stack, RadioButton, Button, IconButton, CarbonCheckbox as Checkbox } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
@@ -21,6 +21,7 @@ import {
   scriptTestType,
   Script
 } from 'in-synthetics/utils/constants';
+import { base64ToFileFormat, scriptDetailsUpdater } from 'in-synthetics/createTests/utils/scriptDetailsUpdater';
 import { createZipScriptConfigurationForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -28,7 +29,6 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 import List from 'in-settings/components/List';
 import AddScriptDialogContent from 'in-synthetics/createTests/advanced/AddScriptDialogContent';
 import Section, { ActionTitle, Description } from 'in-synthetics/createTests/wizard/Section';
-import { scriptDetailsUpdater } from 'in-synthetics/createTests/utils/scriptDetailsUpdater';
 import { timeoutValidator } from 'in-synthetics/createTests/validators/configValidators';
 import { displayRetryIntervalSlider } from 'in-synthetics/utils/sliderHelperFunctions';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
@@ -80,7 +80,14 @@ export default function ScriptsSection({
   const syntheticType = (configForm.get('syntheticType') as Field<string>).value;
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
   const [script, setScript] = useState(scriptDetailsUpdater(configForm, isUpdateConfig, isUpdated, scriptDetails));
-  const [zipFile, setZipFile] = useState<Zip>({ name: '', files: [] });
+  const [zipFile, setZipFile] = useState<Zip>({
+    name: '',
+    files: [],
+    blob:
+      configForm.get('scripts') && isNotBlank((configForm.getIn(['scripts', 'bundle']) as Field<string>)?.value)
+        ? base64ToFileFormat((configForm.getIn(['scripts', 'bundle']) as Field<string>)?.value)
+        : null
+  });
 
   const timeoutField = configForm.get('timeout') as Field<string>;
   const retriesField = configForm.get('retries') as Field<number>;
@@ -108,6 +115,7 @@ export default function ScriptsSection({
         )
       );
     } else {
+      setZipFile({ name: '', files: [], blob: null });
       //@ts-expect-error-next-line
       let updatedForm = form.updateIn(['configuration', 'scripts', 'bundle'], (field: Item) =>
         (field as Field<string>).setValue('').setTouched(true)
@@ -438,7 +446,7 @@ export default function ScriptsSection({
       <div className={locals.configContainer}>
         <Stack direction="horizontal">
           <Checkbox
-            wrapperClassName={locals.configCheckbox}
+            id="markSyntheticCall"
             onChange={({ target }) => {
               updateForm(
                 form.updateIn(['configuration', 'markSyntheticCall'], (field: Item) =>
@@ -447,10 +455,22 @@ export default function ScriptsSection({
               );
             }}
             checked={markSyntheticCall.value}
-            size="larger"
-            label={t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall')}
-            disabled={false}
+            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall')}
           />
+          {isBrowser && (
+            <Checkbox
+              id="recordVideo"
+              onChange={({ target }) => {
+                updateForm(
+                  form.updateIn(['configuration', 'recordVideo'], (field: Item) =>
+                    (field as Field<boolean>).setValue(target.checked).setTouched(true)
+                  )
+                );
+              }}
+              checked={(configForm.get('recordVideo') as Field<boolean>).value}
+              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.recordVideo')}
+            />
+          )}
         </Stack>
       </div>
     </>

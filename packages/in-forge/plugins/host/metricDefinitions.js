@@ -95,7 +95,8 @@ export default [
       'memory.virtualFree',
       'memory.virtualTotal',
       'memory.computational',
-      'memory.nonComputational'
+      'memory.nonComputational',
+      'memory.realAvailable'
     ],
     labels: [
       t('in-forge:plugins.host.swapTotal'),
@@ -106,15 +107,20 @@ export default [
       t('in-forge:plugins.host.virtualFree'),
       t('in-forge:plugins.host.virtualTotal'),
       t('in-forge:plugins.host.computational'),
-      t('in-forge:plugins.host.nonComputational')
+      t('in-forge:plugins.host.nonComputational'),
+      t('in-forge:plugins.host.realAvailable')
     ],
     category: [t('in-forge:plugins.host.memory')],
     min: 0,
     formatter: bytes
   },
   {
-    metrics: ['memory.pageIn', 'memory.pageOut'],
-    labels: [t('in-forge:plugins.host.pageIn'), t('in-forge:plugins.host.pageOut')],
+    metrics: ['memory.pageIn', 'memory.pageOut', 'memory.pageScan'],
+    labels: [
+      t('in-forge:plugins.host.pageIn'),
+      t('in-forge:plugins.host.pageOut'),
+      t('in-forge:plugins.host.pageScan')
+    ],
     category: [t('in-forge:plugins.host.memory')],
     min: 0,
     formatter: number
