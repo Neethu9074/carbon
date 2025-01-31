@@ -1171,6 +1171,14 @@
         "threshold": {
           "header": "Set a value for the violation threshold",
           "description": "Select a metric, violation threshold and time window to evaluate the violation."
+        },
+        "alertChart": {
+          "title": "Alerts preview",
+          "description": "Shows how alerts would have triggered based on historical metric data."
+        },
+        "timeThreshold": {
+          "title": "Set when violations trigger alerts",
+          "description": "Specify the alert and persistence type and then set the alert trigger."
         }
       }
     },
