@@ -4,7 +4,7 @@
  */
 
 import { create, Observable } from '@instana/observables';
-import { LdapConfig, Result } from '@instana/types';
+import { LdapConfig, LdapTestResult, Result } from '@instana/types';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -34,8 +34,8 @@ function getConfigAsResultObservableInternal(): Observable<Result<LdapConfig>> {
 
 // regular calls
 
-export function getTestResult(config: LdapConfig): Observable<LdapConfig> {
-  return http<LdapConfig>({
+export function getTestResult(config: LdapConfig): Observable<LdapTestResult> {
+  return http<LdapTestResult>({
     method: 'POST',
     maxRetries: 3,
     url: `/api/settings/authentication/ldap/test`,

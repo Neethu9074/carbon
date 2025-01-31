@@ -25,13 +25,13 @@ import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/S
 import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
 import CopyableText from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/CopyableText';
+import { ApiItemMessage, EnrichFormProps, SaveItemProps } from 'in-settings/types';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { notBlankValidator } from 'in-services/validators/string';
-import { ApiItemMessage, ApiItemResult } from 'in-settings/types';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 // @ts-expect-error needs TS migration
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -430,11 +430,6 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }: Content
   );
 }
 
-interface SaveItemProps extends OidcApiRequestConfig {
-  setMessage: React.Dispatch<React.SetStateAction<ApiItemMessage>>;
-  unstable_trackEvent: ReturnType<typeof useSegmentTracking>['unstable_trackEvent'];
-}
-
 function saveItem({
   setMessage,
   idpMetadata,
@@ -444,7 +439,7 @@ function saveItem({
   secret,
   idpType,
   unstable_trackEvent
-}: SaveItemProps) {
+}: OidcApiRequestConfig & SaveItemProps) {
   const oidcConfig = { idpMetadata, spEntityId, ownerEmail, discoveryUri, secret, idpType };
   setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = setConfig(oidcConfig);
@@ -462,13 +457,9 @@ function saveItem({
   );
 }
 
-interface EnrichFormProps extends ApiItemResult<OidcApiResponseConfig> {
-  setCanDeleteItem: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
 function enrichForm<FORM_ITEMS extends MapFormItems>(
   form: MapForm<FORM_ITEMS>,
-  { setCanDeleteItem, result: { config } }: EnrichFormProps
+  { setCanDeleteItem, result: { config } }: EnrichFormProps<OidcApiResponseConfig>
 ): OidcMapForm {
   const { oidcSignInCallbackUrl, oidcSignOutCallbackUrl, spEntityId, discoveryUri, activated, idpType } = config;
   const mappedIdpType = idpTypes.filter(({ key }) => key === idpType)[0] ?? defaultIdpType.key;

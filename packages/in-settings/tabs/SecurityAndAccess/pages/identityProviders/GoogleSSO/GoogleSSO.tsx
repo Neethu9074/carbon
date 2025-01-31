@@ -12,7 +12,7 @@ import { GoogleSSOConfig } from '@instana/types';
 import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/SecurityAndAccess/api/googleSSO';
 import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { ApiItemMessage, ApiItemResult } from 'in-settings/types';
+import { ApiItemMessage, EnrichFormProps, SaveItemProps } from 'in-settings/types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -99,13 +99,11 @@ function GoogleSsoForm({ form, setForm }: GoogleSsoFormProps) {
   );
 }
 
-interface SaveItemProps {
+interface SaveItemPropsWithForm extends SaveItemProps {
   form: GoogleSsoMapForm;
-  setMessage: React.Dispatch<React.SetStateAction<ApiItemMessage>>;
-  unstable_trackEvent: ReturnType<typeof useSegmentTracking>['unstable_trackEvent'];
 }
 
-function saveItem({ form, setMessage, unstable_trackEvent }: SaveItemProps): void {
+function saveItem({ form, setMessage, unstable_trackEvent }: SaveItemPropsWithForm): void {
   const googleSingleSignOnConfig = { filter: form.get('filter').value };
   setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = setConfig(googleSingleSignOnConfig);
@@ -124,7 +122,7 @@ function saveItem({ form, setMessage, unstable_trackEvent }: SaveItemProps): voi
 
 function enrichForm<FORM_ITEMS extends MapFormItems>(
   form: MapForm<FORM_ITEMS>,
-  { result: { config } }: ApiItemResult<GoogleSSOConfig>
+  { result: { config } }: EnrichFormProps<GoogleSSOConfig>
 ): GoogleSsoMapForm {
   return form.put(
     'filter',

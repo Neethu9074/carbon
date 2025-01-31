@@ -24,6 +24,7 @@ import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/S
 import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
 import CopyableText from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/CopyableText';
+import { ApiItemMessage, EnrichFormProps, SaveItemProps } from 'in-settings/types';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -323,12 +324,13 @@ function Content({ file, form, setForm, setFile, setCanSaveItem, result }: Conte
   );
 }
 
-interface SaveItemProps extends SamlApiConfig {
-  setMessage: React.Dispatch<React.SetStateAction<ApiItemMessage>>;
-  unstable_trackEvent: ReturnType<typeof useSegmentTracking>['unstable_trackEvent'];
-}
-
-function saveItem({ setMessage, ownerEmail, idpMetadata, spEntityId, unstable_trackEvent }: SaveItemProps) {
+function saveItem({
+  setMessage,
+  ownerEmail,
+  idpMetadata,
+  spEntityId,
+  unstable_trackEvent
+}: SamlApiConfig & SaveItemProps) {
   const samlConfig: SamlApiConfig = { ownerEmail, idpMetadata, spEntityId };
   setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = setConfig(samlConfig);
@@ -348,13 +350,9 @@ function saveItem({ setMessage, ownerEmail, idpMetadata, spEntityId, unstable_tr
   );
 }
 
-interface EnrichFormProps extends ApiItemResult<SamlConfig> {
-  setCanDeleteItem: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
 function enrichForm<FORM_ITEMS extends MapFormItems>(
   form: MapForm<FORM_ITEMS>,
-  { setCanDeleteItem, result: { config } }: EnrichFormProps
+  { setCanDeleteItem, result: { config } }: EnrichFormProps<SamlConfig>
 ): SamlMapForm {
   setCanDeleteItem(!!config.activated);
   return form
