@@ -788,6 +788,9 @@
         "documentation": "IBM documentation",
         "releaseNotes": "Release notes",
         "whatsNewLink": "What’s new in Instana"
+      },
+      "toolTip": {
+        "makeDefault": "This action sets the Instana homepage as your default landing page, replacing any custom dashboard you've set."
       }
     },
     "ariaLabel": {

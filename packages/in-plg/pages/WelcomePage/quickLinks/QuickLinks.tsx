@@ -17,15 +17,21 @@ import {
   WELCOME_PAGE_WHATS_NEW_LINK_CLICK
 } from 'in-services/tracking/eventNames';
 // @ts-expect-error no declaration file
+import { isLandingPage, setLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
+// @ts-expect-error no declaration file
+import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
+// @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { QuickLinkButton } from 'in-plg/pages/WelcomePage/quickLinks/QuickLinkButton';
 import { securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
+import { MakeDefaulButtonProps } from 'in-plg/pages/WelcomePage/quickLinks/types';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { releaseNotesEnabled } from 'in-services/featureFlags';
 import { getPageType } from 'in-plg/Demo/NewPlayWithHeader';
 import { playwithEnabled } from 'in-services/featureFlags';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { role } from 'in-stores/user';
 
 import locals from 'in-plg/pages/WelcomePage/quickLinks/QuickLinks.mless';
@@ -59,6 +65,17 @@ export const QuickLinks = () => {
             }}
           />
         )}
+        {
+          <SetAsLandingPage isLandingPage={isLandingPage}>
+            {({ label, icon, isAlreadyLandingPage }: MakeDefaulButtonProps) =>
+              !isAlreadyLandingPage && (
+                <Tooltip align="bottomMiddle" content={t('in-plg:welcomepage.quickLinks.toolTip.makeDefault')}>
+                  <QuickLinkButton icon={icon} buttonName={label} onClick={setLandingPage} />
+                </Tooltip>
+              )
+            }
+          </SetAsLandingPage>
+        }
         <QuickLinkButton
           icon="lib_views_external_link"
           iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.externalLink')}
