@@ -12,7 +12,7 @@ import { GoogleSSOConfig } from '@instana/types';
 import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/SecurityAndAccess/api/googleSSO';
 import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { ApiItemMessage, EnrichFormProps, SaveItemProps } from 'in-settings/types';
+import { EnrichFormProps, SaveItemProps } from 'in-settings/types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -40,7 +40,7 @@ export default function GoogleSSO() {
       })}
       enrichForm={enrichForm}
       onCancelClick={refresh}
-      saveItem={({ form, setMessage }: Omit<SaveItemProps, 'unstable_trackEvent'>) =>
+      saveItem={({ form, setMessage }: Omit<SaveItemPropsWithForm, 'unstable_trackEvent'>) =>
         saveItem({ form, setMessage, unstable_trackEvent })
       }
       render={GoogleSsoForm}

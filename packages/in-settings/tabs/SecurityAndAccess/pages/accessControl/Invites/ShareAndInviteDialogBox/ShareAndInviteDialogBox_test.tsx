@@ -12,11 +12,8 @@ import { useObservable } from '@instana/hooks';
 import ShareAndInviteDialogBox from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
 // @ts-expect-error File needs to be migrated to typescipt
 import { useShortUrl } from 'in-components/DashboardHeader/UrlShortener/shortener';
-//@ts-expect-error TS migration
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
-//@ts-expect-error TS migration
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
-//@ts-expect-error TS migration
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/groups';
 // @ts-expect-error file needs TS migration
