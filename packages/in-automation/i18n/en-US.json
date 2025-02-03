@@ -42,7 +42,6 @@
   "noParametersTitle": "No parameters",
   "noParametersText": "This action does not have any parameters.",
   "linkToActionHistory": "The output of this action instance can be viewed in Action History.",
-  "description": "Description",
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Failed to resolve dynamic parameters.",
   "deletePolicyWithName": "Delete policy {{actionName}}",
