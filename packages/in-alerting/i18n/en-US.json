@@ -1158,6 +1158,10 @@
         "step3": {
           "title": "Define when to get alerted"
         },
+        "step4": {
+          "title": "Define Alert properties",
+          "description": "What properties do you want to set for this alert?"
+        },
         "statusCode": {
           "headline": "Automatic alerts for HTTP status codes",
           "text": "Receive an alert when matching HTTP status codes occur more often than the threshold."
