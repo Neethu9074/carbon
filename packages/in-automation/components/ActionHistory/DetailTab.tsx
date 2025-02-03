@@ -304,7 +304,11 @@ export default function DetailTab({
       </Dl>
       <Spacer vertical="large" />
       {actionSnapshot && (
-        <ExpandableGroup expanded={isExpanded} onToggle={handleToggle} title="Action snapshot details">
+        <ExpandableGroup
+          expanded={isExpanded}
+          onToggle={handleToggle}
+          title={t('in-automation:actionHistory.actionSnapshotDetails')}
+        >
           <ActionDetails type={type} actionSnapshot={actionSnapshot ?? ''} />
         </ExpandableGroup>
       )}

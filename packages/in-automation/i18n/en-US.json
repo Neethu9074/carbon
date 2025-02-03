@@ -373,7 +373,8 @@
     "deleteDialog": {
       "success": "Action instance was deleted successfully.",
       "failure": "Failed to delete action instance."
-    }
+    },
+    "actionSnapshotDetails": "Action snapshot details"
   },
   "actionLanes": {
     "buttonInvestigate": "Investigate"
