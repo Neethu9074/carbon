@@ -22,11 +22,11 @@ describe('getCardTitle', () => {
     const titles = inputLogs.map(inputLog => getCardTitle(inputLog));
 
     expect(titles).toStrictEqual([
-      '1 error',
-      '1 warning',
-      '1 error, 1 warning',
-      '2 errors, 1 warning',
-      '2 errors, 2 warnings'
+      '1 Error',
+      '1 Warning',
+      '1 Error, 1 Warning',
+      '2 Errors, 1 Warning',
+      '2 Errors, 2 Warnings'
     ]);
   });
 });
@@ -42,6 +42,6 @@ describe('getCardTitle', () => {
 
     const titles = inputLogs.map(inputLog => getCardTitle(inputLog));
 
-    expect(titles).toStrictEqual(['1 error', '1 error', '1 warning', '1 error, 2 warnings']);
+    expect(titles).toStrictEqual(['1 Error', '1 Error', '1 Warning', '1 Error, 2 Warnings']);
   });
 });
