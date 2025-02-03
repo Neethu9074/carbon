@@ -194,7 +194,6 @@
     "ansible": "Ansible",
     "github": "Github Issue",
     "githubBody": "Body",
-    "description": "Description",
     "gitlab": "Gitlab Issue",
     "jira": "Jira Task",
     "docLink": "Documentation Link",
