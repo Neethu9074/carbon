@@ -57,9 +57,7 @@ export default function TrafficChart({
   customHeight,
   customChartSkeletonHeight
 }: TrafficChartProps) {
-  const { entity, createdDate, indicator, timeWindow } = configuration;
-
-  const missingDataIndicator = timeWindow.type === 'fixed' ? timeWindow.startTimestamp : createdDate;
+  const { entity, createdDate, indicator } = configuration;
 
   const sloZoomInAction = useSloZoomInAction();
   const tagFilterExpression = useBasicTagFilterExpression({ entity });
@@ -79,7 +77,7 @@ export default function TrafficChart({
 
   const label = getMetricLabels({ entity, indicator });
   const renderer = useLineWithMissingDataIndicatorRenderer({
-    firstCollectedMetricTimestamp: missingDataIndicator
+    firstCollectedMetricTimestamp: createdDate
   });
 
   const metrics = copyFirstBucketOfSubsequentDataSeries(metricResult?.metrics);

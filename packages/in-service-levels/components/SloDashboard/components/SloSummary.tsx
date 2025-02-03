@@ -90,7 +90,6 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
             customChartSkeletonHeight={308}
             entity={configuration.entity}
             indicator={configuration.indicator}
-            timeWindow={configuration.timeWindow}
             createdDate={configuration.createdDate}
             title={t('in-service-levels:sloDashboard.components.indicatorChart.title')}
           />

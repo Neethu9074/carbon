@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { DateAsNumber, ServiceLevelIndicatorUnion, SloEntityUnion, TimeWindowUnion } from '@instana/types';
+import { DateAsNumber, ServiceLevelIndicatorUnion, SloEntityUnion } from '@instana/types';
 
 import TimeBasedAvailabilityIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedAvailabilityIndicatorChart';
 import TimeBasedLatencyIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedLatencyIndicatorChart';
@@ -19,7 +19,6 @@ interface IndicatorChartProps {
   customChartSkeletonHeight?: number;
   entity: SloEntityUnion;
   indicator: ServiceLevelIndicatorUnion;
-  timeWindow: TimeWindowUnion;
   createdDate?: DateAsNumber;
   title?: string;
 }
@@ -30,12 +29,9 @@ export default function IndicatorChart({
   customChartSkeletonHeight,
   entity,
   indicator,
-  timeWindow,
   createdDate,
   title
 }: IndicatorChartProps) {
-  const missingDataIndicator = timeWindow.type === 'fixed' ? timeWindow.startTimestamp : createdDate;
-
   if (indicator.blueprint === 'traffic' && indicator.type === 'timeBased') {
     return (
       <TimeBasedTrafficIndicatorChart
@@ -44,7 +40,7 @@ export default function IndicatorChart({
         customChartSkeletonHeight={customChartSkeletonHeight}
         entity={entity}
         indicator={indicator}
-        missingDataIndicator={missingDataIndicator}
+        missingDataIndicator={createdDate}
         title={title}
       />
     );
@@ -58,7 +54,7 @@ export default function IndicatorChart({
         customChartSkeletonHeight={customChartSkeletonHeight}
         indicator={indicator}
         entity={entity}
-        missingDataIndicator={missingDataIndicator}
+        missingDataIndicator={createdDate}
         title={title}
       />
     );
@@ -71,7 +67,7 @@ export default function IndicatorChart({
         customChartSkeletonHeight={customChartSkeletonHeight}
         entity={entity}
         indicator={indicator}
-        missingDataIndicator={missingDataIndicator}
+        missingDataIndicator={createdDate}
         title={title}
       />
     );
@@ -84,7 +80,7 @@ export default function IndicatorChart({
         customChartSkeletonHeight={customChartSkeletonHeight}
         entity={entity}
         indicator={indicator}
-        missingDataIndicator={missingDataIndicator}
+        missingDataIndicator={createdDate}
         title={title}
       />
     );
@@ -98,7 +94,7 @@ export default function IndicatorChart({
         customHeight={customHeight}
         entity={entity}
         indicator={indicator}
-        missingDataIndicator={missingDataIndicator}
+        missingDataIndicator={createdDate}
         title={title}
       />
     );
