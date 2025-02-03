@@ -7,7 +7,7 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { Stack } from '@instana/components';
+import { Spacer, Stack } from '@instana/components';
 
 //@ts-expect-error TS migration
 import IncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/IncludeInternalOrSyntheticCallsSwitch';
@@ -17,7 +17,7 @@ import InboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/di
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import { ScopeMigrationDetailsType } from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheet';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
+import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
@@ -41,9 +41,10 @@ export default function AlertConfigTearSheetStep2({
   const expandHiddenCalls = form.get('includeInternal').value || form.get('includeSynthetic').value;
   return (
     <>
-      <TearSheetStepContentWrapper
+      <TearSheetStepTitleWrapper
         headline={t('in-alerting:smartAlerts.applications.tearSheet.callsInScope.title')}
         description={t('in-alerting:smartAlerts.applications.tearSheet.callsInScope.description')}
+        hideSpace
       >
         <InboundOutboundCallsSwitch
           form={form}
@@ -51,7 +52,7 @@ export default function AlertConfigTearSheetStep2({
           isGlobalSmartAlert={isGlobalSmartAlert}
           tearSheetView
         />
-      </TearSheetStepContentWrapper>
+      </TearSheetStepTitleWrapper>
       <ExpandableLightCard
         title={
           <AlertTypography
@@ -62,6 +63,8 @@ export default function AlertConfigTearSheetStep2({
         useMaxAvailableHeight={false}
         openByDefault={expandHiddenCalls ?? false}
         darkFrame
+        isTearSheetView
+        framed
       >
         <AlertTypography
           variant="body-small"
@@ -75,15 +78,14 @@ export default function AlertConfigTearSheetStep2({
           tearSheetView
         />
       </ExpandableLightCard>
-      <TearSheetStepContentWrapper
+      <Spacer size="normal" />
+      <TearSheetStepTitleWrapper
         headline={t('in-alerting:smartAlerts.applications.tearSheet.serviceEndPointSelection')}
+        description={t('in-alerting:smartAlerts.applications.tearSheet.serviceEndPointSelectionDescription')}
+        hideSpace
       >
+        <Spacer size="small" />
         <Stack direction="vertical" gap="small">
-          <AlertTypography
-            variant="body-small"
-            content={t('in-alerting:smartAlerts.applications.tearSheet.serviceEndPointSelectionDescription')}
-            color="color600"
-          />
           <ScopeConfig
             form={form}
             updateForm={updateForm}
@@ -96,7 +98,7 @@ export default function AlertConfigTearSheetStep2({
             tearSheetView
           />
         </Stack>
-      </TearSheetStepContentWrapper>
+      </TearSheetStepTitleWrapper>
     </>
   );
 }

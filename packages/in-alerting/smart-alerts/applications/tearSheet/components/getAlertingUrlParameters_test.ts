@@ -35,7 +35,7 @@ describe('in-alerting/smart-alerts/applications/tearSheet/components/getAlerting
       serviceId: undefined,
       endpointId: undefined,
       eventSpecificationId: '',
-      cancelTearSheet: expect.any(Function)
+      cancelTearSheet: expect.any(String)
     });
   });
 
@@ -68,7 +68,7 @@ describe('in-alerting/smart-alerts/applications/tearSheet/components/getAlerting
       serviceId: undefined,
       endpointId: undefined,
       eventSpecificationId: '',
-      cancelTearSheet: expect.any(Function)
+      cancelTearSheet: expect.any(String)
     });
   });
 
@@ -100,7 +100,7 @@ describe('in-alerting/smart-alerts/applications/tearSheet/components/getAlerting
       serviceId: undefined,
       endpointId: undefined,
       eventSpecificationId: '7vNcXYo5WEsjfEol',
-      cancelTearSheet: expect.any(Function)
+      cancelTearSheet: expect.any(String)
     });
   });
 
@@ -133,7 +133,7 @@ describe('in-alerting/smart-alerts/applications/tearSheet/components/getAlerting
       serviceId: undefined,
       endpointId: undefined,
       eventSpecificationId: '',
-      cancelTearSheet: expect.any(Function)
+      cancelTearSheet: expect.any(String)
     });
   });
 
@@ -164,7 +164,7 @@ describe('in-alerting/smart-alerts/applications/tearSheet/components/getAlerting
       serviceId: undefined,
       endpointId: undefined,
       eventSpecificationId: '',
-      cancelTearSheet: expect.any(Function)
+      cancelTearSheet: expect.any(String)
     });
   });
 });

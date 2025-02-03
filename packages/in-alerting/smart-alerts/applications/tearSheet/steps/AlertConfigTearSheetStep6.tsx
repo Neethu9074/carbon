@@ -10,7 +10,7 @@ import React from 'react';
 import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
 //@ts-expect-error
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/tearSheet/ConfigureAlertChannel';
-import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
+import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
@@ -25,9 +25,10 @@ export default function AlertConfigTearSheetStep6({
 }) {
   return (
     <>
-      <TearSheetStepContentWrapper
+      <TearSheetStepTitleWrapper
         headline={t('in-alerting:smartAlerts.applications.tearSheet.AlertChannelTitle')}
         description={t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.description')}
+        hideSpace
       >
         <>
           {alertChannelPerSeverityApplicationSaEnabled ? (
@@ -43,7 +44,7 @@ export default function AlertConfigTearSheetStep6({
             <ConfigureAlertChannel form={form} onChange={onChange} numberOfAlertChannelListRows={10} />
           )}
         </>
-      </TearSheetStepContentWrapper>
+      </TearSheetStepTitleWrapper>
     </>
   );
 }

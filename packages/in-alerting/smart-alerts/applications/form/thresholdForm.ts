@@ -179,7 +179,7 @@ function createStaticThresholdMapForm(threshold?: StaticThresholdRule, editMode:
     );
 }
 
-function validateStaticThresholdMapForm({
+export function validateStaticThresholdMapForm({
   operator,
   warningThreshold,
   criticalThreshold

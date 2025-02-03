@@ -20,6 +20,8 @@ import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
+import local from './ProvideLogMessage.mless';
+
 interface ProvideLogMessageProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
@@ -30,7 +32,7 @@ export default function ProvideLogMessage({ form, updateForm }: ProvideLogMessag
   const levelField = form.get('rule').get('level');
 
   return (
-    <div>
+    <div className={local.container}>
       {levelField.map((field: Field<string>) => (
         <FormGroup>
           <Label htmlFor={'ruleLevel'} hasError={!field.valid && field.touched}>

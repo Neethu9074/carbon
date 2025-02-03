@@ -17,7 +17,6 @@ export const stepConfigsForCarbonTearSheet = [
       ['rule', 'entityType'],
       ['rule', 'metricName']
     ],
-    description: t('in-alerting:smartAlerts.infrastructure.tearSheet.step1.header'),
     component: AlertConfigTearSheetStep1
   },
   {

@@ -20,6 +20,7 @@
     background: var(--ids-color-option-neutral-200);
     border-top-left-radius: var(--ids-border-radius-option-small);
     border-top-right-radius: var(--ids-border-radius-option-small);
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
   }
 
   .whiteBg {

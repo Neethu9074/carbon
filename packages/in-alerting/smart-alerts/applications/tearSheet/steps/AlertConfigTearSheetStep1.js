@@ -6,8 +6,6 @@
 
 import React from 'react';
 
-import { Spacer } from '@instana/components';
-
 import SelectedBlueprintPresenter from 'in-alerting/smart-alerts/components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import ProvideLogMessage from 'in-alerting/smart-alerts/applications/tearSheet/components/LogMessages/ProvideLogMessage';
 import LogMessages from 'in-alerting/smart-alerts/applications/tearSheet/components/LogMessages/LogMessages';
@@ -16,7 +14,7 @@ import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blue
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
 import { blueprintConfigs } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
+import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import Menu from 'in-alerting/smart-alerts/components/Menu';
@@ -28,7 +26,7 @@ export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintC
   const { tearSheetHeadline, isBeta, tearSheetDescription } = blueprintConfig;
 
   return (
-    <TearSheetStepContentWrapper headline={t('in-alerting:smartAlerts.applications.tearSheet.alertHeadline')}>
+    <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.applications.tearSheet.alertHeadline')} hideSpace>
       <Menu
         items={blueprintConfigList}
         onItemClick={item => {
@@ -42,7 +40,6 @@ export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintC
         alertType={alertType}
         renderLogs={() => (
           <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={false}>
-            <Spacer vertical="normal" />
             <ExpandableLightCard
               title={
                 <AlertTypography
@@ -53,6 +50,7 @@ export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintC
               useMaxAvailableHeight={false}
               openByDefault
               darkFrame
+              isTearSheetView
             >
               <LogMessages
                 form={form}
@@ -88,6 +86,6 @@ export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintC
           <SelectedBlueprintPresenter title={tearSheetHeadline} description={tearSheetDescription} isBeta={isBeta} />
         )}
       />
-    </TearSheetStepContentWrapper>
+    </TearSheetStepTitleWrapper>
   );
 }

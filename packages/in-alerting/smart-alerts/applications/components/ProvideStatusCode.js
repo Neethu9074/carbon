@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Stack } from '@instana/components';
+import { Spacer, Stack } from '@instana/components';
 
 import { ruleStatusCodeValueApplicationOptions as ruleStatusCodeValueOptions } from 'in-alerting/smart-alerts/components/utils/ruleStatusCodeValueOptions';
 import StatusCodeRangeSelection from 'in-alerting/smart-alerts/applications/components/StatusCodeRangeSelection';
@@ -26,9 +26,9 @@ export default function ProvideStatusCode({ form, updateForm, tearSheetView }) {
   const endField = field.get('statusCodeEnd');
 
   return (
-    <div className={classNames({ [locals.container]: !tearSheetView })}>
+    <div className={classNames({ [locals.container]: !tearSheetView, [locals.contentHeight]: tearSheetView })}>
       <FormGroup>
-        <Stack>
+        <Stack gap={tearSheetView ? 'disabled' : 'normal'}>
           {/* The label does not need to be displayed in tearsheet view and will only appear in dialogs.
            */}
           {!tearSheetView && (
@@ -65,25 +65,28 @@ export default function ProvideStatusCode({ form, updateForm, tearSheetView }) {
             />
           </span>
           {selection === 'custom' && (
-            <StatusCodeRangeSelection
-              tearSheetView={tearSheetView}
-              startField={startField}
-              endField={endField}
-              onStartSelectionUpdate={start =>
-                updateForm(
-                  form.updateIn(['rule', 'statusCode', 'statusCodeStart'], f =>
-                    f.setValue(start ? Number(start) : undefined).setTouched(true)
+            <>
+              <Spacer size="normal" />
+              <StatusCodeRangeSelection
+                tearSheetView={tearSheetView}
+                startField={startField}
+                endField={endField}
+                onStartSelectionUpdate={start =>
+                  updateForm(
+                    form.updateIn(['rule', 'statusCode', 'statusCodeStart'], f =>
+                      f.setValue(start ? Number(start) : undefined).setTouched(true)
+                    )
                   )
-                )
-              }
-              onEndSelectionUpdate={end =>
-                updateForm(
-                  form.updateIn(['rule', 'statusCode', 'statusCodeEnd'], f =>
-                    f.setValue(end ? Number(end) : undefined).setTouched(true)
+                }
+                onEndSelectionUpdate={end =>
+                  updateForm(
+                    form.updateIn(['rule', 'statusCode', 'statusCodeEnd'], f =>
+                      f.setValue(end ? Number(end) : undefined).setTouched(true)
+                    )
                   )
-                )
-              }
-            />
+                }
+              />
+            </>
           )}
           <TouchedMessages field={field} />
         </Stack>

@@ -38,7 +38,6 @@ import getAlertingUrlParameters from 'in-alerting/smart-alerts/applications/tear
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useApplicationSmartAlertFormSideEffects';
 import useGetMigrationAlertConfig from 'in-alerting/smart-alerts/applications/hooks/useGetMigrationAlertConfig';
-import AlertingPageHeader from 'in-alerting/smart-alerts/components/pageHeaderTemplate/AlertingPageHeader';
 import useGetSmartAlertConfig from 'in-alerting/smart-alerts/applications/hooks/useGetSmartAlertConfig';
 import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
 import { useSegmentTracking, CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
@@ -225,10 +224,6 @@ function AlertConfigTearSheetContent({
 
   return (
     <>
-      <AlertingPageHeader
-        title={getHeaderTitle(isGlobalSmartAlert, editMode, migrationMode)}
-        messageData={messages[0]}
-      />
       <AlertConfigTearSheetWithThreshold
         isGlobalSmartAlert={isGlobalSmartAlert}
         editMode={editMode}
@@ -246,9 +241,9 @@ function AlertConfigTearSheetContent({
         withTrackCreate={withTrackCreate}
         isSaving={isSaving}
         messages={messages}
-        headerWithMsg={Boolean(messages.length)}
         initialConfiguredApplications={(alertConfig as any)?.applications ?? {}}
         cancelTearSheet={cancelTearSheet}
+        tearSheetTitle={getHeaderTitle(isGlobalSmartAlert, editMode, migrationMode)}
       />
     </>
   );
