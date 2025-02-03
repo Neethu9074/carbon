@@ -84,7 +84,7 @@ function ActionDetailsLoader() {
   return <ActionDetails key={String(isCopy)} action={action.data} actionFilter={actionFilter.data!} />;
 }
 
-const isNotEditableContext = createContext(false);
+export const isNotEditableContext = createContext(false);
 
 export function useIsNotEditableContext() {
   return useContext(isNotEditableContext);

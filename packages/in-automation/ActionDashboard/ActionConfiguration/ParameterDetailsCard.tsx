@@ -6,65 +6,34 @@
 
 import React from 'react';
 
-import {
-  CarbonColumn,
-  CarbonGrid,
-  CarbonRow,
-  CarbonStack,
-  CarbonTable,
-  CarbonTableBody,
-  CarbonTableCell,
-  CarbonTableHead,
-  CarbonTableHeader,
-  CarbonTableRow,
-  CarbonTile,
-  Typography
-} from '@instana/components';
-import { Action } from '@instana/types';
+import { CarbonStack, CarbonTile, Typography } from '@instana/components';
 
-import { Nullish } from 'in-types';
+import useActionForm from 'in-automation/ActionCatalog/useActionForm/useActionForm';
+import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
+import { isNotEditableContext } from 'in-automation/ActionCatalog/Action';
+import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
+import Form from 'in-components/form/binding/Form';
 
 import local from 'in-automation/ActionDashboard/ActionDashboard.mless';
 
 interface ActionDetailsCardProps {
-  data: Action | Nullish;
+  data: ActionFormEntity;
 }
 
 export default function ActionDetailsCard({ data }: ActionDetailsCardProps) {
+  const [form] = useActionForm({ action: data, actionFilter: 'all' });
   if (!data?.inputParameters) return null;
-  const { inputParameters } = data;
 
   return (
     <CarbonTile>
       <CarbonStack orientation="horizontal" className={local.titleStack}>
         <Typography variant="heading-02">Parameter details</Typography>
       </CarbonStack>
-      <CarbonRow>
-        <CarbonGrid fullWidth className={local.noHorizontalPaddings}>
-          <CarbonColumn span="100%">
-            <CarbonTable aria-label="sample table">
-              <CarbonTableHead>
-                <CarbonTableRow>
-                  <CarbonTableHeader>Display name</CarbonTableHeader>
-                  <CarbonTableHeader>Name</CarbonTableHeader>
-                  <CarbonTableHeader>Description</CarbonTableHeader>
-                  <CarbonTableHeader>Type</CarbonTableHeader>
-                </CarbonTableRow>
-              </CarbonTableHead>
-              <CarbonTableBody>
-                {inputParameters?.map(parameter => (
-                  <CarbonTableRow key={parameter.label}>
-                    <CarbonTableCell>{parameter.label}</CarbonTableCell>
-                    <CarbonTableCell>{parameter.name}</CarbonTableCell>
-                    <CarbonTableCell>{parameter.description}</CarbonTableCell>
-                    <CarbonTableCell>{parameter.type}</CarbonTableCell>
-                  </CarbonTableRow>
-                ))}
-              </CarbonTableBody>
-            </CarbonTable>
-          </CarbonColumn>
-        </CarbonGrid>
-      </CarbonRow>
+      <Form form={form} setForm={() => {}} onSubmit={() => {}}>
+        <isNotEditableContext.Provider value>
+          <ParametersTable />
+        </isNotEditableContext.Provider>
+      </Form>
     </CarbonTile>
   );
 }
