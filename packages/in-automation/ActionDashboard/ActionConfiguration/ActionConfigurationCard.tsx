@@ -11,7 +11,7 @@ import { Action } from '@instana/types';
 
 import { getInterpreterFromFields, getScriptFromFields } from 'in-automation/utils/actionField';
 import KeyValueCard from 'in-automation/components/KeyValueCard/KeyValueCard';
-import { ACTION_TRANSLATIONS } from 'in-automation/constants';
+import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import { Nullish } from 'in-types';
 
 import local from 'in-automation/ActionDashboard/ActionDashboard.mless';
@@ -50,20 +50,22 @@ export default function ActionDetailsCard({ data }: ActionDetailsCardProps) {
           <CarbonColumn span="50%">
             <KeyValueCard label="Timeout" value={'1'} />
           </CarbonColumn>
-          <CarbonColumn span="100%">
-            <KeyValueCard
-              label="Script"
-              value={
-                <Code
-                  code={plaintextScript}
-                  lang="bash"
-                  withExpandButton
-                  wrapperClassName="code-snippet-wrapper"
-                  softWrap
-                />
-              }
-            />
-          </CarbonColumn>
+          {type === ACTION_TYPE.SCRIPT && (
+            <CarbonColumn span="100%">
+              <KeyValueCard
+                label="Script"
+                value={
+                  <Code
+                    code={plaintextScript}
+                    lang="bash"
+                    withExpandButton
+                    wrapperClassName="code-snippet-wrapper"
+                    softWrap
+                  />
+                }
+              />
+            </CarbonColumn>
+          )}
         </CarbonGrid>
       </CarbonRow>
     </CarbonTile>
