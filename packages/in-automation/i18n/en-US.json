@@ -324,8 +324,6 @@
     "status": "Status",
     "startTime": "Start Time",
     "endTime": "End Time",
-    "property": "Property",
-    "value": "Value",
     "actionInstanceId": "Action Instance ID",
     "event": "Event",
     "eventName": "Event Name",
