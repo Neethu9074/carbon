@@ -990,7 +990,8 @@
       "gracePeriod": {
         "title": "宽限期（可选）",
         "description": "在不再满足违例阈值后自动关闭问题：",
-        "label": "选择"
+        "label": "选择",
+        "summary": "<strong>当 {{gracePeriodValue}}</strong> 不再满足违规阈值后，将自动关闭问题。"
       },
       "tearSheet": {
         "cancelModalTitle": "确定要取消吗？",
@@ -1256,6 +1257,8 @@
         "alertConfigurationTitleAlertChannels": "警报通道",
         "alertConfigurationTitleAlertProperties": "警报属性",
         "failureThreshold": "{{failureCount}} 个失败",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "宽限期",
         "alertConfigurationTitleScope": "作用域",
         "noOfFailure": "失败数",
         "timeThreshold": "时间阈值",
@@ -1665,7 +1668,10 @@
       },
       "logCount": "日志计数",
       "tearSheet": {
+        "labelActionButtonEdit": "编辑",
+        "labelActionButtonDuplicate": "复制",
         "createTitle": "创建日志智能警报",
+        "editTitle": "编辑日志 智能警报",
         "steps": {
           "step1Title": "定义条件",
           "step2Title": "定义何时收到警报",
@@ -1824,6 +1830,7 @@
     "warningAndCritical": "警告和批评",
     "warning": "警告",
     "critical": "严重",
-    "searchPlaceholder": "搜索"
+    "searchPlaceholder": "搜索",
+    "sortBy": "排序依据"
   }
 }

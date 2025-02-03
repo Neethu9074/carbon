@@ -151,10 +151,10 @@
   "tooltipCloseEventDetail": "이벤트 세부사항 닫기",
   "releaseOccurName": "릴리스: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 전)",
-  "deprecatedCustomEventWarning": "<strong>엔티티 유형 애플리케이션의 사용자 정의 이벤트, 서비스 및 엔드포인트는 더 이상 사용되지 않습니다. 앞으로 이 세 가지 엔티티 유형에 대한 사용자 정의 이벤트가 삭제되며, 이 {{issueOrIncident}}</strong>이(가) 더 이상 수신되지 않습니다. <br/>SMART 경보로 마이그레이션할 사용자 정의 이벤트 구성 보기. <documentationLink>문서에서 자세히 알아보기</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>엔티티 유형 애플리케이션의 사용자 정의 이벤트, 서비스 및 엔드포인트는 더 이상 사용되지 않습니다. 2025년 3월 부터 이 세 가지 엔티티 유형에 대한 사용자 정의 이벤트가 삭제되며, 이 {{issueOrIncident}}이(가) 더 이상 수신되지 않습니다. </strong><br/>SMART 경보로 마이그레이션할 사용자 정의 이벤트 구성 보기. <documentationLink>문서에서 자세히 알아보기</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} 사용자 정의 이벤트에 조치가 필요합니다.",
-    "message": "애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트는 더 이상 사용되지 않습니다. 앞으로 이러한 유형의 사용자 정의 이벤트를 작성하거나 업데이트할 수 없습니다.",
+    "message": "애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트는 더 이상 사용되지 않습니다. <strong>2025년 3월</strong>부터 이러한 유형의 사용자 정의 이벤트를 작성하거나 업데이트할 수 없습니다.",
     "documentationLink": "<documentationLink>문서에서 자세히 알아보기</documentationLink>",
     "affectedEventsLink": "영향받는 사용자 정의 이벤트 보기"
   },
@@ -401,7 +401,7 @@
     "showAll": "모두 표시",
     "collapse": "접기",
     "aiModel": "AI 모델",
-    "granite": "granite-13b-chat-v2",
+    "granite": "granite-3-8b-instruct",
     "withManualEdits": "(수동 편집 포함)",
     "shareIncidentSummarySubject": "인시던트 요약: {{problemText}}",
     "share": "공유",

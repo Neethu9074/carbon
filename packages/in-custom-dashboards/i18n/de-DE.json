@@ -29,7 +29,7 @@
         "pleaseSelect": "Bitte auswählen"
       },
       "sharingDialogPresenter": {
-        "share": "Gemeinsam nutzen",
+        "editPermissions": "Berechtigungen bearbeiten",
         "shareMsg": "Dieses angepasste Dashboard verfügt über erweiterte Zugriffsregeln, die nicht durch dieses Dialogfenster dargestellt werden können. Zum Bearbeiten dieser Zugriffsregeln können Sie die Funktion \"Als JSON bearbeiten\" verwenden.",
         "privateDashboardDefault": "Privates Dashboard (Standardeinstellung)",
         "privateDashboardDefaultExplain": "Dieses Dashboard ist nur für Sie sichtbar.",
@@ -81,6 +81,7 @@
       "failure": "Fehler",
       "dashboardNotFoundExplain": "Dieses Dashboard ist nicht vorhanden oder Sie haben keinen Zugriff auf das Dashboard.",
       "customDashboard": "Angepasstes Dashboard",
+      "customDashboardOptions": "Benutzerdefinierte Dashboard-Optionen",
       "saveChange": "Änderungen speichern",
       "discardChange": "Änderungen verwerfen",
       "addWidget": "Widget hinzufügen",
@@ -92,8 +93,8 @@
       "copiedAllWidgets": "Kopierte Widgets: Verwenden Sie STRG-V oder CMD-V, um angepasste Dashboards einzufügen.",
       "duplicate": "Duplizieren",
       "delete": "Löschen",
-      "share": "Gemeinsam nutzen",
-      "shareButtonTooltip": "Ihr Benutzerkonto verfügt nicht über Berechtigungen zum Freigeben von Dashboards."
+      "editPermissions": "Berechtigungen bearbeiten",
+      "editOptionTooltip": "Ihr Benutzerkonto verfügt nicht über Berechtigungen zum Freigeben von Dashboards."
     },
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Fehler beim Analysieren von Eingaben als JSON.",

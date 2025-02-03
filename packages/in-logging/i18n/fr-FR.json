@@ -8,6 +8,7 @@
   "logsOverTime_WARN": "Avertissement",
   "logsOverTime_INFO": "Infos",
   "logsOverTime_FATAL": "Fatal",
+  "logsOverTime_NONE": "Aucun",
   "logsOverTime_NEXTLOGLEVEL": "{{label}}",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "La configuration de la requête n'est pas valide. Résolvez les échecs de validation avant de continuer.",
   "addAsFilter": "Ajouter comme filtre",
@@ -20,7 +21,7 @@
   "messageParam": "Paramètre du message",
   "applicationCounter": "{{count}} applications",
   "exceptionMessageHeader": "Message d'exception",
-  "stackTrace": "StackTrace",
+  "stackTrace": "Trace de pile",
   "service": "Service",
   "stream": "Flux",
   "tooltipCopyToClipboard": "Copier dans le presse-papiers",
@@ -31,7 +32,7 @@
     "mostRecent": "Le plus récent en premier",
     "oldest": "Les plus anciens en premier"
   },
-  "cpuTotal": "Total UC",
+  "cpuTotal": "Nombre total d'UC",
   "memoryUsage": "Utilisation de la mémoire",
   "cluster": "Cluster",
   "node": "Noeud",
@@ -63,7 +64,7 @@
     "summary": "Récapitulatif",
     "smartAlerts": "Alertes intelligentes",
     "deleteLogs": "Supprimer les journaux",
-    "configuration": "Configuration",
+    "management": "Gestion",
     "logVolume": {
       "logVolumeTitle": "Volume journal du mois en cours",
       "gb": "Go",
@@ -72,7 +73,7 @@
     "retentionIcon": "Modifier la durée de conservation",
     "noData": "Aucune donnée disponible",
     "analyzeLogs": "Analyser les journaux",
-    "configurationPage": {
+    "managementPage": {
       "logVolume": "Volume de journal",
       "logVolumeDescription": "Visualisez le volume des journaux sur une période pouvant aller jusqu'à 12 mois et regroupez-les par balise d'infrastructure à la demande.",
       "logIntegrations": "Intégrations de journaux",

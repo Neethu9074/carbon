@@ -990,7 +990,8 @@
       "gracePeriod": {
         "title": "猶予期間 (任意)",
         "description": "違反しきい値を下回ってから、次の期間を経過した後に自動的に問題をクローズします:",
-        "label": "選択"
+        "label": "選択",
+        "summary": "<strong>{{gracePeriodValue}}</strong>において違反の閾値が満たされなくなった後、問題を自動的にクローズする。"
       },
       "tearSheet": {
         "cancelModalTitle": "本当にキャンセルしますか?",
@@ -1256,6 +1257,8 @@
         "alertConfigurationTitleAlertChannels": "アラート・チャネル",
         "alertConfigurationTitleAlertProperties": "アラート・プロパティー",
         "failureThreshold": "{{failureCount}} 件の失敗",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "猶予期間",
         "alertConfigurationTitleScope": "範囲",
         "noOfFailure": "失敗の数",
         "timeThreshold": "時間しきい値",
@@ -1665,7 +1668,10 @@
       },
       "logCount": "ログ・カウント",
       "tearSheet": {
+        "labelActionButtonEdit": "編集",
+        "labelActionButtonDuplicate": "重複",
         "createTitle": "ログのスマート・アラートの作成",
+        "editTitle": "スマート・アラートのログを編集",
         "steps": {
           "step1Title": "条件の定義",
           "step2Title": "アラートを受け取るタイミングの定義",
@@ -1824,6 +1830,7 @@
     "warningAndCritical": "警告と重要な情報",
     "warning": "警告",
     "critical": "クリティカル",
-    "searchPlaceholder": "検索"
+    "searchPlaceholder": "検索",
+    "sortBy": "ソート基準"
   }
 }

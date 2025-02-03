@@ -990,7 +990,8 @@
       "gracePeriod": {
         "title": "Periodo de gracia (opcional)",
         "description": "Cerrar automáticamente un problema cuando deje de cumplirse el umbral de infracción para:",
-        "label": "Select"
+        "label": "Select",
+        "summary": "Cerrar automáticamente un problema después de que no se cumpla el umbral de infracción <strong>durante {{gracePeriodValue}}</strong>."
       },
       "tearSheet": {
         "cancelModalTitle": "¿Está seguro de que desea cancelar?",
@@ -1256,6 +1257,8 @@
         "alertConfigurationTitleAlertChannels": "Canales de alertas",
         "alertConfigurationTitleAlertProperties": "Propiedades de alerta",
         "failureThreshold": "{{failureCount}} anomalías",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "Período de gracia",
         "alertConfigurationTitleScope": "Ámbito",
         "noOfFailure": "Número de anomalías",
         "timeThreshold": "Umbral de tiempo",
@@ -1665,7 +1668,10 @@
       },
       "logCount": "Recuento de registros",
       "tearSheet": {
+        "labelActionButtonEdit": "Editar",
+        "labelActionButtonDuplicate": "Duplicado",
         "createTitle": "Crear una alerta inteligente de registro",
+        "editTitle": "Editar Alerta inteligente de registro",
         "steps": {
           "step1Title": "Definir la condición",
           "step2Title": "Definir cuándo se debe enviar alerta",
@@ -1824,6 +1830,7 @@
     "warningAndCritical": "Advertencia y Crítico",
     "warning": "Aviso",
     "critical": "Crítico",
-    "searchPlaceholder": "Búsqueda"
+    "searchPlaceholder": "Búsqueda",
+    "sortBy": "Ordenar por"
   }
 }

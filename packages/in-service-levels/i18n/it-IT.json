@@ -164,7 +164,10 @@
     "customFilter": "Filtro personalizzato",
     "custom": "Personalizzato",
     "customDescription": "Impostare un filtro personalizzato per selezionare i servizi e/o gli endpoint",
-    "title": "Crea SLO (Service Level Objective)",
+    "title": {
+      "create": "Crea SLO (Service Level Objective)",
+      "edit": "Modifica SLO (Service Level Objective)"
+    },
     "selectIndicator": "Seleziona blueprint",
     "selectEntityNavItem": "Imposta entità",
     "selectEntityTitle": "Selezionare un'entità a cui aggiungere SLO:",
@@ -352,7 +355,7 @@
             "goodEventFilters": "Filtri eventi validi:",
             "badEventFilters": "Filtri eventi non validi:"
           },
-          "approximateTooltip": "I dati sono aggregati. Visualizza una finestra temporale più breve per visualizzare ulteriori dettagli"
+          "approximateTooltip": "Le violazioni delle soglie possono essere più brevi della durata rappresentata da un punto del grafico. L'ingrandimento e la riduzione possono influenzare il livello di dettaglio delle metriche."
         }
       },
       "entitySection": {

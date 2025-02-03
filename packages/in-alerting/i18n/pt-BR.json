@@ -990,7 +990,8 @@
       "gracePeriod": {
         "title": "Período de carência (opcional)",
         "description": "Encerrar automaticamente um problema depois que o limite de violação não for mais atingido:",
-        "label": "Selecionar"
+        "label": "Selecionar",
+        "summary": "Feche automaticamente um problema depois que o limite de violação não for mais atingido <strong>para {{gracePeriodValue}}</strong>."
       },
       "tearSheet": {
         "cancelModalTitle": "Tem certeza de que deseja cancelar?",
@@ -1256,6 +1257,8 @@
         "alertConfigurationTitleAlertChannels": "Canais de alerta",
         "alertConfigurationTitleAlertProperties": "Propriedades de alerta",
         "failureThreshold": "{{failureCount}} falhas",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "Período de carência",
         "alertConfigurationTitleScope": "Escopo",
         "noOfFailure": "Número de falhas",
         "timeThreshold": "Limite de tempo",
@@ -1665,7 +1668,10 @@
       },
       "logCount": "Contagem de logs",
       "tearSheet": {
+        "labelActionButtonEdit": "Editar",
+        "labelActionButtonDuplicate": "Duplicata",
         "createTitle": "Criar um alerta inteligente de log",
+        "editTitle": "Editar log Smart Alert",
         "steps": {
           "step1Title": "Definir a condição",
           "step2Title": "Definir quando ser alertado",
@@ -1824,6 +1830,7 @@
     "warningAndCritical": "Aviso e crítico",
     "warning": "Aviso",
     "critical": "Crítico",
-    "searchPlaceholder": "Procura"
+    "searchPlaceholder": "Procura",
+    "sortBy": "Classificar por"
   }
 }

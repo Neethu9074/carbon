@@ -164,7 +164,10 @@
     "customFilter": "定制过滤器",
     "custom": "定制",
     "customDescription": "设置定制过滤器以选择服务和/或端点",
-    "title": "创建服务级别目标 (SLO)",
+    "title": {
+      "create": "创建服务级别目标 (SLO)",
+      "edit": "编辑服务级别目标 (SLO)"
+    },
     "selectIndicator": "选择蓝图",
     "selectEntityNavItem": "设置实体",
     "selectEntityTitle": "选择要向其添加 SLO 的实体：",
@@ -352,7 +355,7 @@
             "goodEventFilters": "正确事件过滤器：",
             "badEventFilters": "错误事件过滤器："
           },
-          "approximateTooltip": "数据已聚集。 查看更短的时间窗口以了解更多详细信息"
+          "approximateTooltip": "阈值违例可能比图表上的一点所代表的时间更短。 放大和缩小会影响指标的详细程度。"
         }
       },
       "entitySection": {

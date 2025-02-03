@@ -164,7 +164,10 @@
     "customFilter": "自訂過濾器",
     "custom": "自訂",
     "customDescription": "設定自訂過濾器以選取服務及/或端點",
-    "title": "建立服務水準目標 (SLO)",
+    "title": {
+      "create": "建立服務水準目標 (SLO)",
+      "edit": "編輯服務層級目標 (SLO)"
+    },
     "selectIndicator": "選取藍圖",
     "selectEntityNavItem": "設定實體",
     "selectEntityTitle": "選取要新增 SLO 的實體：",
@@ -352,7 +355,7 @@
             "goodEventFilters": "良好事件過濾器：",
             "badEventFilters": "不當的事件過濾器："
           },
-          "approximateTooltip": "聚集資料。 檢視較短時間範圍以查看更多詳細資料"
+          "approximateTooltip": "臨界值突破可能比圖表上一個點所代表的時間長度更短。 放大和縮小會影響度量的明細層次。"
         }
       },
       "entitySection": {

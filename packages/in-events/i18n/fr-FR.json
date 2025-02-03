@@ -151,10 +151,10 @@
   "tooltipCloseEventDetail": "Fermer les informations sur l'événement",
   "releaseOccurName": "Mise en production : {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> passé)",
-  "deprecatedCustomEventWarning": "<strong>Les événements personnalisés sur les types d'entité Application, Service et Noeud final sont dépréciés. Dans le futur, les événements personnalisés pour ces trois types d'entité seront supprimés et vous ne recevrez plus ce {{issueOrIncident}}</strong><br/>Affichez la configuration d'événement personnalisé pour migrer en Smart Alert. <documentationLink>En savoir plus en lisant notre documentation</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>Les événements personnalisés sur les types d'entité Application, Service et Noeud final sont dépréciés. À partir de mars 2025, les événements personnalisés pour ces trois types d'entité seront supprimés et vous ne recevrez plus ce {{issueOrIncident}}</strong><br/>Affichez la configuration d'événement personnalisé pour migrer en Smart Alert. <documentationLink>En savoir plus en lisant notre documentation</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} événements personnalisés requièrent une action",
-    "message": "Les événements personnalisés dans l'application, le service et le noeud final ont été dépréciés. Vous ne pourrez plus créer ou mettre à jour ces types d'événements personnalisés à l'avenir.",
+    "message": "Les événements personnalisés dans l'application, le service et le noeud final ont été dépréciés. Vous ne pourrez plus créer ou mettre à jour ces types d'événements personnalisés à partir de <strong>mars 2025</strong>.",
     "documentationLink": "<documentationLink>En savoir plus en lisant notre documentation</documentationLink>",
     "affectedEventsLink": "Afficher les événements personnalisés affectés"
   },
@@ -401,7 +401,7 @@
     "showAll": "Afficher tout",
     "collapse": "Réduire",
     "aiModel": "Modèle d'intelligence artificielle",
-    "granite": "granite-13b-chat-v2",
+    "granite": "granite-3-8b-instruct",
     "withManualEdits": "(avec modifications manuelles)",
     "shareIncidentSummarySubject": "Récapitulatif de l'incident : {{problemText}}",
     "share": "Partager",

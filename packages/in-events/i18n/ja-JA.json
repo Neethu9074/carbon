@@ -151,10 +151,10 @@
   "tooltipCloseEventDetail": "イベントの詳細を閉じる",
   "releaseOccurName": "リリース: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前)",
-  "deprecatedCustomEventWarning": "<strong>エンティティー・タイプ「アプリケーション」、「サービス」、および「エンドポイント」のカスタム・イベントは非推奨になりました。 今後、これらの 3 つのエンティティー・タイプのカスタム・イベントは削除され、スマート・アラートに移行するため、この {{issueOrIncident}}</strong><br/>ビュー・カスタム・イベント設定を受け取ることはできなくなります。 <documentationLink>詳しくは資料をご覧ください</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>エンティティー・タイプ「アプリケーション」、「サービス」、および「エンドポイント」のカスタム・イベントは非推奨になりました。 2025 年 3 月以降、これらの 3 つのエンティティー・タイプのカスタム・イベントは削除され、スマート・アラートに移行するため、この {{issueOrIncident}}</strong><br/> ビュー・カスタム・イベント設定を受け取ることはできません。 <documentationLink>詳しくは資料をご覧ください</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}}カスタム・イベントにはアクションが必要です",
-    "message": "アプリケーション、サービス、およびエンドポイントのカスタム・イベントは推奨されません。 今後、これらのタイプのカスタム・イベントを作成または更新することはできません。",
+    "message": "アプリケーション、サービス、およびエンドポイントのカスタム・イベントは推奨されません。 <strong>2025 年 3 月</strong>以降、これらのタイプのカスタム・イベントを作成または更新することはできません。",
     "documentationLink": "<documentationLink>詳しくは資料をご覧ください</documentationLink>",
     "affectedEventsLink": "影響を受けるカスタム・イベントの表示"
   },
@@ -401,7 +401,7 @@
     "showAll": "すべて表示",
     "collapse": "省略",
     "aiModel": "AI モデル",
-    "granite": "granite-13b-chat-v2",
+    "granite": "granite-3-8b-instruct",
     "withManualEdits": "(手動編集あり)",
     "shareIncidentSummarySubject": "インシデントの要約: {{problemText}}",
     "share": "共有",

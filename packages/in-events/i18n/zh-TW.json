@@ -151,10 +151,10 @@
   "tooltipCloseEventDetail": "關閉事件詳細資料",
   "releaseOccurName": "版本：{{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）",
-  "deprecatedCustomEventWarning": "<strong>實體類型「應用程式」、「服務」及「端點」上的「自訂事件」已淘汰。 未來將移除這三種實體類型的「自訂事件」，且您將不再收到此 {{issueOrIncident}}</strong><br/>檢視自訂事件配置以移轉至「智慧型警示」。 <documentationLink>進一步閱讀我們的文件</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>實體類型「應用程式」、「服務」及「端點」上的「自訂事件」已淘汰。 自 2025 年 3 月起，這三種實體類型的自訂事件將被移除，您將不再收到此 {{issueOrIncident}}</strong><br/>檢視自訂事件配置來移轉至 Smart Alert。 <documentationLink>進一步閱讀我們的文件</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} 自訂事件需要動作",
-    "message": "「應用程式」、「服務」及「端點」上的自訂事件已淘汰。 您未來將無法建立或更新這些類型的自訂事件。",
+    "message": "「應用程式」、「服務」及「端點」上的自訂事件已淘汰。 自 <strong>2025 年 3 月</strong>起，您將無法建立或更新這些自訂事件類型。",
     "documentationLink": "<documentationLink>進一步閱讀我們的文件</documentationLink>",
     "affectedEventsLink": "檢視受影響的自訂事件"
   },
@@ -401,7 +401,7 @@
     "showAll": "顯示全部",
     "collapse": "收合",
     "aiModel": "AI 模型",
-    "granite": "granite-13b-chat-v2",
+    "granite": "granite-3-8b-instruct",
     "withManualEdits": "（需手動編輯）",
     "shareIncidentSummarySubject": "事件摘要：{{problemText}}",
     "share": "共用",

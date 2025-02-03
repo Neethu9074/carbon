@@ -1849,6 +1849,16 @@
   "pluginName_websiteHttpd_0": "Sites Web",
   "pluginName_websiteHttpd_1": "Site Web",
   "pluginName_websiteHttpd_2": "Sites Web",
+  "pluginName_nutanixHost_plural": "Hôtes Nutanix",
+  "pluginName_nutanixHost_0": "Hôtes Nutanix",
+  "pluginName_nutanixHost_1": "Hôtes Nutanix",
+  "pluginName_nutanixHost_2": "Hôtes Nutanix",
+  "pluginName_nutanixHost": "Hôte Nutanix",
+  "pluginName_nutanixDatacenter_plural": "Centres de données Nutanix",
+  "pluginName_nutanixDatacenter_0": "Centres de données Nutanix",
+  "pluginName_nutanixDatacenter_1": "Centres de données Nutanix",
+  "pluginName_nutanixDatacenter_2": "Centres de données Nutanix",
+  "pluginName_nutanixDatacenter": "Centre de données Nutanix",
   "tracingTypeName_ace": "IBM ACE",
   "tracingTypeName_actioncontroller": "ActionController",
   "tracingTypeName_actioncontroller_plural": "Appels ActionController",
@@ -10870,6 +10880,14 @@
         "processName": "Nom de processus",
         "gpu": "GPU",
         "gpuUsage": "Utilisation de la GPU",
+        "volumeGroups": "Groupes de volumes",
+        "volumeGroupName": "Nom du groupe de volumes",
+        "physicalVolume": "Volume physique",
+        "physicalVolumeName": "Nom de volume physique",
+        "totalSize": "Taille totale",
+        "usedSize": "Taille utilisée",
+        "freeSize": "Taille disponible",
+        "volumeGrpState": "État du groupe de volumes",
         "encoder": "Codeur",
         "decoder": "Décodeur",
         "temperature": "Température",
@@ -11653,10 +11671,7 @@
             "unitNumber": "Numéro d'unité",
             "aspNumber": "Numéro ASP",
             "unitStorageCapacity": "Capacité de stockage",
-            "unitMediaCapacityGb": "Capacité du support (Go)",
-            "charts": {
-              "elapsedPercentBusy": "Pourcentage occupé écoulé"
-            }
+            "unitMediaCapacityGb": "Capacité du support (Go)"
           },
           "solidStateDisk": {
             "name": "Informations sur le disque SSD",
@@ -11680,10 +11695,7 @@
             "diskType": "Type de disque",
             "unitNumber": "Numéro d'unité",
             "aspNumber": "Numéro ASP",
-            "typeOfDiskUnit": "Type d'unité de disque",
-            "charts": {
-              "elapsedPercentBusy": "Pourcentage occupé écoulé"
-            }
+            "typeOfDiskUnit": "Type d'unité de disque"
           },
           "nonVolatileMemory": {
             "name": "Informations NVMe (Non-volatile Memory Express)",
@@ -11699,7 +11711,12 @@
             "unSafeShutDowns": "Arrêts non sécurisés",
             "firmwareLevel": "Niveau de microprogramme"
           }
-        }
+        },
+        "elapsedPercentBusy": "Pourcentage occupé écoulé",
+        "elapsedReadRequests": "Lectures/s",
+        "elapsedWriteRequests": "Ecritures/s",
+        "elapsedDataRead": "Octets lus/s",
+        "elapsedDataWritten": "Octets écrits/s"
       }
     },
     "ibmiNetworkInfo": {

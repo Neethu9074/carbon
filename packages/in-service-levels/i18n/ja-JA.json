@@ -164,7 +164,10 @@
     "customFilter": "カスタム・フィルター",
     "custom": "カスタム",
     "customDescription": "サービスまたはエンドポイント (あるいはその両方) を選択するためのカスタム・フィルターを設定します",
-    "title": "サービス・レベル目標 (SLO) の作成",
+    "title": {
+      "create": "サービス・レベル目標 (SLO) の作成",
+      "edit": "サービス・レベル目標 (SLO) の作成"
+    },
     "selectIndicator": "ブループリントの選択",
     "selectEntityNavItem": "エンティティーの設定",
     "selectEntityTitle": "SLO を追加するエンティティーの選択:",
@@ -352,7 +355,7 @@
             "goodEventFilters": "良好イベント・フィルター:",
             "badEventFilters": "不良イベント・フィルター:"
           },
-          "approximateTooltip": "データが集約されます。 より短い時間枠を表示して詳細を表示"
+          "approximateTooltip": "閾値違反は、チャート上の 1 つのポイントで表される時間よりも短い場合があります。 拡大・縮小すると、指標の詳細レベルに影響を与えることがあります。"
         }
       },
       "entitySection": {
