@@ -31,7 +31,7 @@ interface ActionDetailsCardProps {
 }
 
 export default function ActionDetailsCard({ data }: ActionDetailsCardProps) {
-  if (!data) return null;
+  if (!data?.inputParameters) return null;
   const { inputParameters } = data;
 
   return (

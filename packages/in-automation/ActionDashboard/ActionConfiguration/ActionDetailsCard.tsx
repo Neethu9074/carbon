@@ -9,6 +9,7 @@ import React from 'react';
 import {
   CarbonButton,
   CarbonColumn,
+  CarbonFormGroup,
   CarbonGrid,
   CarbonIconButton,
   CarbonRow,
@@ -20,7 +21,6 @@ import {
 } from '@instana/components';
 import { Action } from '@instana/types';
 
-import KeyValueCard from 'in-automation/components/KeyValueCard/KeyValueCard';
 import { Nullish } from 'in-types';
 
 import local from 'in-automation/ActionDashboard/ActionDashboard.mless';
@@ -48,13 +48,13 @@ export default function ActionDetailsCard({ data }: ActionConfigurationProps) {
       <CarbonRow>
         <CarbonGrid fullWidth className={local.noHorizontalPaddings}>
           <CarbonColumn sm={4}>
-            <KeyValueCard label="Name" value={name} />
+            <CarbonFormGroup legendText="Name">{name}</CarbonFormGroup>
           </CarbonColumn>
           <CarbonColumn sm={4}>
-            <KeyValueCard label="Description" value={description} />
+            <CarbonFormGroup legendText="Description">{description}</CarbonFormGroup>
           </CarbonColumn>
           <CarbonColumn span="50%">
-            <KeyValueCard label="Tags" value={renderTags} />
+            <CarbonFormGroup legendText="Tags">{renderTags}</CarbonFormGroup>
           </CarbonColumn>
         </CarbonGrid>
       </CarbonRow>
