@@ -1,0 +1,7 @@
+:local {
+  .keyValueWrapper {
+    :global .carbon-form-label {
+      margin-bottom: 0.3rem;
+    }
+  }
+}

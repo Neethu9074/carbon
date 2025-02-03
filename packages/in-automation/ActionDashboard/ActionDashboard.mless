@@ -1,0 +1,32 @@
+:local {
+  .titleStack {
+    display: grid;
+    justify-content: space-between;
+  }
+  .testActionButton {
+    display: flex;
+    align-items: center;
+    border-left: 1px solid #e0e0e0;
+    svg {
+      margin-left: 8px;
+      stroke: #0f62fe;
+      stroke-width: 2px;
+    }
+  }
+  .borderBottom {
+    border-bottom: 1px solid var(--cds-border-subtle-03);
+  }
+  .noHorizontalPaddings {
+    padding-left: 0;
+    padding-right: 0;
+    :global .cds--css-grid-column {
+      margin-bottom: 10px;
+      margin-top: 5px;
+    }
+  }
+}
+:global .code-snippet-wrapper {
+  --cds-layer: #f4f4f4;
+  margin-bottom: 0;
+  font-size: 0.75rem;
+}

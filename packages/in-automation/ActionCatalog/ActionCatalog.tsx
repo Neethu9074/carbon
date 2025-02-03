@@ -19,6 +19,7 @@ import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/t
 import { getDocLinkFromFields, getManualContentFromFields, base64ToUtf8 } from 'in-automation/utils/actionField';
 import { descriptionColumn, lastModifiedColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import useActionCatalogFilterUrlState from 'in-automation/ActionCatalog/useActionCatalogFilterUrlState';
+import useNavigateToActionDashboard from 'in-automation/navigation/hooks/useNavigateToActionDashboard';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
 import { refresh, usePaginatedActions } from 'in-automation/ActionCatalog/useActions';
@@ -123,6 +124,8 @@ export default function ActionCatalog({
 }
 
 function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUserActions: boolean }) {
+  const navigateToActionDetails = useNavigateToActionDetails();
+  const navigsteToActionDashboard = useNavigateToActionDashboard();
   const hasAccessToScript = useHasAccessToScript();
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
@@ -189,6 +192,10 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
                 {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
               </MoreMenuButton>
             )}
+            {/* TODO: Will remove */}
+            <MoreMenuButton icon="lib_custom_dashboard" onClick={() => navigsteToActionDashboard(action.id)}>
+              Dashboard
+            </MoreMenuButton>
             {isUserActions && (
               <MoreMenuButton
                 disabled={isNotEditable(action, false) && action.type !== ACTION_TYPE.ANSIBLE}

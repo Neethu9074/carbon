@@ -9,6 +9,8 @@ import ActionHistory from 'promise-loader?global!in-automation/components/Action
 // @ts-expect-error
 import ActionCatalogTab from 'promise-loader?global!in-automation/ActionCatalog/ActionCatalogTab';
 // @ts-expect-error
+import ActionDashboard from 'promise-loader?global!in-automation/ActionDashboard/ActionDashboard';
+// @ts-expect-error
 import ActionDetailsPage from 'promise-loader?global!in-automation/ActionCatalog/Action';
 // @ts-expect-error
 import PolicyDetails from 'promise-loader?global!in-automation/Policies/Policy';
@@ -19,6 +21,7 @@ import React from 'react';
 
 import {
   actionCatalogFullyQualified,
+  actionDashboardFullyQualified,
   actionDetailsFullyQualified,
   actionHistoryPath,
   policiesFullyQualified,
@@ -36,6 +39,9 @@ export default [
   </Route>,
   <Route exact path={actionDetailsFullyQualified} key="actionDetails">
     {renderAsyncRouteChildren(ActionDetailsPage)}
+  </Route>,
+  <Route path={actionDashboardFullyQualified} key="actionDashboard">
+    {renderAsyncRouteChildren(ActionDashboard)}
   </Route>,
   <Route exact path={policiesFullyQualified} key="policies">
     {renderAsyncRouteChildren(Policies)}
