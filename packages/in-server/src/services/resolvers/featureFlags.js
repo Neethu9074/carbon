@@ -589,7 +589,7 @@ module.exports = exports = [
   {
     uiClientKey: 'multiCloseEnabled',
     instanaCtlKey: 'feature.multi.close.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'incidentSummarizationEnabled',
@@ -869,7 +869,7 @@ module.exports = exports = [
   {
     uiClientKey: 'aqmDataGridEventTableEnabled',
     instanaCtlKey: 'feature.aqm.data.grid.event.table.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'smartAlertCarbonTableEnabled',

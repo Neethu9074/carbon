@@ -4,8 +4,13 @@
  * Copyright IBM Corp. 2024
  */
 
+/* eslint-disable react/no-unused-prop-types */
+
 import React, { useMemo, useEffect, useRef } from 'react';
+import { match } from 'react-router';
+import { History } from 'history';
 import { isEmpty } from 'lodash';
+import { isEqual } from 'lodash';
 
 import {
   Datagrid,
@@ -18,8 +23,9 @@ import {
   useDisableSelectRows
 } from '@instana/ibm-products';
 import { DateFormatterInput, formatDateTime } from '@instana/format-date';
+import { RawEvent, TimeConfig } from '@instana/types';
+import { Observable } from '@instana/observables';
 import { Button } from '@instana/components';
-import { RawEvent } from '@instana/types';
 
 import { EVENT_TYPES, getEventSeverityLabelWithEventType, getEventType } from 'in-stores/events';
 import { DatagridActions } from 'in-events/components/EventsPage/EventsTable/DatagridActions';
@@ -33,8 +39,11 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { multiCloseEnabled } from 'in-services/featureFlags';
+import { useLocalStorage } from 'in-services/localStorage';
 import EventIcon from 'in-events/components/EventIcon';
+import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { EventOrMap } from 'in-events/types';
 import TimelineCell from './TimelineCell';
 import { t } from 'in-i18n';
 
@@ -115,26 +124,7 @@ const eventsTableColumns = [
 
 const hiddenColumns = ['Event type'];
 
-const denseListColumns = [
-  {
-    Header: '',
-    accessor: 'severity',
-    Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
-      const event = cell.row.original;
-      const timeConfig = useTimeConfig();
-      return <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />;
-    },
-    width: 50,
-    filter: 'checkbox'
-  },
-  {
-    Header: t('in-events:dataGridEventTable.title'),
-    accessor: 'title',
-    width: 350
-  }
-];
-
-const filters = [
+const issueFilters = [
   // for issue page specifically
   {
     filterLabel: t('in-events:dataGridEventTable.eventType'),
@@ -200,7 +190,7 @@ const filters = [
 const sections = [
   {
     categoryTitle: '',
-    filters
+    filters: issueFilters
   }
 ];
 
@@ -214,41 +204,191 @@ const sortingMapper = {
 type SortingMapperKeys = 'title' | 'start' | 'state' | 'end';
 
 // END table configurations
+
+// START table functions
+
+/**
+ * Function to build query string from list of queries
+ * @param list list of queries
+ * @param keyword keyword to be used in query
+ * @returns {string} final query string
+ */
+const buildQueryString = (list: string[], keyword: string) => {
+  let queryString = '';
+
+  list.forEach((item, index) => {
+    queryString += `${keyword}:"${item}"`;
+    if (index < list.length - 1) {
+      queryString += ' OR ';
+    }
+  });
+
+  return queryString;
+};
+
+/**
+ *
+ * @param eventType type of event
+ * @param selectedFlatRows ids of selected events
+ * @param toggleAllRowsSelected function to set all rows selection
+ */
+const closeSelectedEvents = (
+  eventType: EVENT_KINDS,
+  selectedFlatRows: [],
+  toggleAllRowsSelected: (toggle: boolean) => void
+) => {
+  addActiveDialog(
+    <MultiCloseIssueConfigForm
+      onSaveSuccess={() => {
+        addMessage({
+          type: 'success',
+          timeout: 5000,
+          title:
+            eventType === 'incident'
+              ? t('in-events:multiClose.incidentsCloseSuccessTitle')
+              : t('in-events:multiClose.issuesCloseSuccessTitle'),
+          content: (
+            <div>
+              <p>
+                {selectedFlatRows.length > 1
+                  ? eventType === 'incident'
+                    ? t('in-events:multiClose.multipleIncidentsCloseSuccessMessage', {
+                        count: selectedFlatRows.length
+                      })
+                    : t('in-events:multiClose.multipleIssuesCloseSuccessMessage', { count: selectedFlatRows.length })
+                  : eventType === 'incident'
+                  ? t('in-events:multiClose.singleCloseIncidentSuccessMessage')
+                  : t('in-events:multiClose.singleCloseIssueSuccessMessage')}
+              </p>
+            </div>
+          )
+        });
+
+        // manually change the state of closed ids
+
+        toggleAllRowsSelected(false);
+        setTimeout(() => {
+          // TODO: reload function from prop is not working
+          window.location.reload();
+        }, 2000);
+      }}
+      // @ts-expect-error
+      eventIds={selectedFlatRows.map(i => i.original.id)}
+      eventType={eventType}
+      onSaveError={failedEvents => {
+        addMessage({
+          type: 'danger',
+          title:
+            eventType === 'incident'
+              ? t('in-events:multiClose.incidentsCloseUnsuccessTitle')
+              : t('in-events:multiClose.issuesCloseUnsuccessTitle'),
+          content: (
+            <div>
+              <p>
+                {failedEvents.length > 1
+                  ? eventType === 'incident'
+                    ? t('in-events:multiClose.multipleIncidentsCloseMessageUnsuccessful', {
+                        count: failedEvents.length
+                      })
+                    : t('in-events:multiClose.multipleIssuesCloseMessageUnsuccessful', { count: failedEvents.length })
+                  : eventType === 'incident'
+                  ? t('in-events:multiClose.singleIncidentCloseMessageUnsuccessful')
+                  : t('in-events:multiClose.singleIssueCloseMessageUnsuccessful')}
+              </p>
+              <Button
+                kind="tertiary"
+                size="compact"
+                onClick={() =>
+                  addActiveDialog(
+                    <FailedIncidentsList
+                      failedEventIds={failedEvents}
+                      eventType={eventType}
+                      // @ts-expect-error
+                      eventIds={selectedFlatRows.map(i => i.original.id)}
+                    />
+                  )
+                }
+              >
+                {t('in-events:multiClose.viewUnsuccessfulEventsList')}
+              </Button>
+            </div>
+          )
+        });
+      }}
+    />
+  );
+};
+
+type EVENT_KINDS = 'issue' | 'incident' | 'change' | 'agent_monitoring_issue' | 'prc_issue' | undefined;
+
+// END table functions
 interface EventsTableProps {
-  onItemClicked: (eventID: string) => void;
-  rawEvents: RawEvent[];
-  isDenseList: boolean;
-  orderBy: string;
-  orderDirection: string;
-  loading: boolean;
-  canLoadMore: boolean;
+  adjustedWindowSize?: number;
+  awaitingData?: boolean;
+  canLoadMore?: boolean;
+  cursor?: any;
+  disableCard?: boolean;
+  errors?: [];
+  eventId?: string;
+  eventObservable?: any;
+  eventType: EVENT_KINDS;
+  filter?: string;
+  highlightedTimeframe?: any;
+  history: History;
+  isPresentingHighlightedTimeframe?: boolean;
+  items: EventOrMap[];
   loadMore: () => void;
-  eventType?: string;
+  location: Location;
+  match: match;
+  mouseMoveSignal$?: Observable<any>;
+  onChange: (change: {}) => void;
+  onItemClicked: (eventId: string) => void;
+  orderBy?: string;
+  orderDirection?: string;
+  progress: {
+    loading: boolean;
+  };
+  query: string;
+  reload: () => void;
+  reloadCount: number;
+  resultPrecisionDetails: {
+    resultPrecision: string;
+  };
+  staticTimeConfigToUseForTable?: any;
+  time?: any;
+  timeConfig: TimeConfig;
+  totalHits?: number;
+  totalRepresentedItemCount?: number;
+  totalRetainedItemCount?: number;
 }
 
-const EventsTable = ({
-  onItemClicked,
-  rawEvents,
-  isDenseList,
-  orderBy,
-  orderDirection,
-  loading,
-  canLoadMore,
-  loadMore,
-  eventType
-}: EventsTableProps) => {
-  function buildQueryString(list: string[], keyword: string) {
-    let queryString = '';
+type ColumnWidths = { [key: string]: number };
 
-    list.forEach((item, index) => {
-      queryString += `${keyword}:"${item}"`;
-      if (index < list.length - 1) {
-        queryString += ' OR ';
-      }
-    });
+const EventsTable = (props: EventsTableProps) => {
+  const {
+    canLoadMore,
+    eventType,
+    items: rawEvents,
+    loadMore,
+    location,
+    onItemClicked,
+    orderBy,
+    orderDirection,
+    progress
+  } = props;
+  const { loading } = progress;
 
-    return queryString;
-  }
+  const isIncidentOrEvent = eventType === 'incident' || eventType === 'issue';
+  const shouldShowMultiClose = multiCloseEnabled && isIncidentOrEvent;
+  const shouldShowFilters = isIncidentOrEvent;
+
+  const originalWidths: ColumnWidths = {};
+
+  eventsTableColumns.forEach(({ accessor, width }) => {
+    originalWidths[accessor] = width || 150;
+  });
+
+  const [currentWidths, setCurrentWidths] = useLocalStorage('event-table-widths', originalWidths);
 
   // Ref to detect that all filters are cleared
   const clearFilters = useRef(false);
@@ -267,92 +407,8 @@ const EventsTable = ({
     onClearFilters: () => (clearFilters.current = true)
   };
 
-  // function to close selected events
-  const closeSelectedEvents = () => {
-    addActiveDialog(
-      <MultiCloseIssueConfigForm
-        onSaveSuccess={() => {
-          addMessage({
-            type: 'success',
-            timeout: 5000,
-            title:
-              eventType === 'incident'
-                ? t('in-events:multiClose.incidentsCloseSuccessTitle')
-                : t('in-events:multiClose.issuesCloseSuccessTitle'),
-            content: (
-              <div>
-                <p>
-                  {selectedFlatRows.length > 1
-                    ? eventType === 'incident'
-                      ? t('in-events:multiClose.multipleIncidentsCloseSuccessMessage', {
-                          count: selectedFlatRows.length
-                        })
-                      : t('in-events:multiClose.multipleIssuesCloseSuccessMessage', { count: selectedFlatRows.length })
-                    : eventType === 'incident'
-                    ? t('in-events:multiClose.singleCloseIncidentSuccessMessage')
-                    : t('in-events:multiClose.singleCloseIssueSuccessMessage')}
-                </p>
-              </div>
-            )
-          });
-
-          // manually change the state of closed ids
-
-          toggleAllRowsSelected(false);
-
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
-        }}
-        // @ts-expect-error
-        eventIds={selectedFlatRows.map(i => i.original.id)}
-        eventType={eventType}
-        onSaveError={failedEvents => {
-          addMessage({
-            type: 'danger',
-            title:
-              eventType === 'incident'
-                ? t('in-events:multiClose.incidentsCloseUnsuccessTitle')
-                : t('in-events:multiClose.issuesCloseUnsuccessTitle'),
-            content: (
-              <div>
-                <p>
-                  {failedEvents.length > 1
-                    ? eventType === 'incident'
-                      ? t('in-events:multiClose.multipleIncidentsCloseMessageUnsuccessful', {
-                          count: failedEvents.length
-                        })
-                      : t('in-events:multiClose.multipleIssuesCloseMessageUnsuccessful', { count: failedEvents.length })
-                    : eventType === 'incident'
-                    ? t('in-events:multiClose.singleIncidentCloseMessageUnsuccessful')
-                    : t('in-events:multiClose.singleIssueCloseMessageUnsuccessful')}
-                </p>
-                <Button
-                  kind="tertiary"
-                  size="compact"
-                  onClick={() =>
-                    addActiveDialog(
-                      <FailedIncidentsList
-                        failedEventIds={failedEvents}
-                        eventType={eventType}
-                        // @ts-expect-error
-                        eventIds={selectedFlatRows.map(i => i.original.id)}
-                      />
-                    )
-                  }
-                >
-                  {t('in-events:multiClose.viewUnsuccessfulEventsList')}
-                </Button>
-              </div>
-            )
-          });
-        }}
-      />
-    );
-  };
-
   // Conversion of url filters to filter state
-  const { location, navigate } = useNavigation();
+  const { navigate } = useNavigation();
 
   const currentFilters = getMatrixParameter(location, eventsPath, 'filter');
   const parsedResult = useMemo(() => parseQuery(currentFilters), [currentFilters]);
@@ -422,25 +478,25 @@ const EventsTable = ({
 
   const datagridState = useDatagrid(
     {
-      columns: isDenseList ? denseListColumns : eventsTableColumns,
+      columns: eventsTableColumns,
       hiddenColumns,
       data: rawEvents,
       multiLineWrapAll: false,
       onRowClick: (row: { original: RawEvent }) => {
         onItemClicked(row.original.id as string);
       },
-      DatagridActions,
-      filterProps,
+      DatagridActions: shouldShowFilters ? DatagridActions : null,
+      filterProps: shouldShowFilters ? filterProps : {},
       manualSortBy: true,
       // batch actions
-      batchActions: multiCloseEnabled,
+      batchActions: shouldShowMultiClose,
       hideSelectAll: false,
       toolbarBatchActions: [
         {
           label:
             eventType === 'incident' ? t('in-events:multiClose.closeIncidents') : t('in-events:multiClose.closeIssues'),
           renderIcon: null,
-          onClick: () => closeSelectedEvents()
+          onClick: () => closeSelectedEvents(eventType, selectedFlatRows, toggleAllRowsSelected)
         }
       ],
       // @ts-expect-error
@@ -450,6 +506,9 @@ const EventsTable = ({
       // end batch actions
       manualFilters: true,
       initialState: {
+        columnResizing: {
+          columnWidths: currentWidths
+        },
         filters: currentFilters ? [initialFilters] : [],
         sortableColumn: {
           id: orderBy,
@@ -474,14 +533,30 @@ const EventsTable = ({
     useOnRowClick,
     useInfiniteScroll,
     useSortableColumns,
-    multiCloseEnabled && useSelectRows
+    shouldShowMultiClose && useSelectRows
   );
 
   const {
-    state: { filters, sortBy },
+    state: {
+      filters,
+      sortBy,
+      columnResizing: { columnWidths }
+    },
     selectedFlatRows,
     toggleAllRowsSelected
   } = datagridState;
+
+  // When user change widths for columns, change it in localStorage
+  useEffect(() => {
+    const newHeaderWidths = {
+      ...currentWidths,
+      ...columnWidths
+    };
+
+    if (!isEqual(currentWidths, newHeaderWidths)) {
+      setCurrentWidths(newHeaderWidths);
+    }
+  }, [columnWidths, currentWidths, setCurrentWidths]);
 
   // When sorting is changed, change it in the url.
   useEffect(() => {

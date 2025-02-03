@@ -31,6 +31,7 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
+import EventsTable from './EventsPage/EventsTable/EventsTable';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { isAppDataEntityType } from 'in-services/entityUtils';
 import { eventStepConfig } from './feedback/eventStepConfig';
@@ -119,8 +120,9 @@ function EventTable(props) {
     onChange({ eventId, relatedEventsPage: 1 });
   }
 
+  // Use Datagrid when showing the main events table
   if (!selectedEventId) {
-    return <EventsList {...props} items={items} onItemClicked={onItemClicked} progress={progress} disableCard />;
+    return <EventsTable {...props} items={items} onItemClicked={onItemClicked} progress={progress} disableCard />;
   }
 
   return (
