@@ -238,6 +238,7 @@
     "ignoreCertErrors": "Ignore certificate errors",
     "basicAuth": "Basic Auth",
     "bearerToken": "Bearer Token",
+    "authentication": "Authentication",
     "apiKeyAddTo": "Add to",
     "apiKey": "Api Key",
     "header": "Header",
@@ -322,8 +323,6 @@
     "status": "Status",
     "startTime": "Start Time",
     "endTime": "End Time",
-    "property": "Property",
-    "value": "Value",
     "actionInstanceId": "Action Instance ID",
     "event": "Event",
     "eventName": "Event Name",
@@ -371,7 +370,8 @@
     "deleteDialog": {
       "success": "Action instance was deleted successfully.",
       "failure": "Failed to delete action instance."
-    }
+    },
+    "actionSnapshotDetails": "Action snapshot details"
   },
   "actionLanes": {
     "buttonInvestigate": "Investigate"

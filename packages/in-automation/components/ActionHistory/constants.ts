@@ -76,3 +76,28 @@ export const isUser = (type?: string) => type === 'USER';
 export const isPolicy = (type?: string) => type === 'POLICY';
 export const isApiToken = (type?: string) => type === 'APITOKEN';
 export const isUnknown = (type?: string) => type === 'ACTOR_UNKNOWN';
+
+export const ACTION_FIELD_TRANSLATIONS: Record<string, string> = {
+  script_ssh: t('in-automation:ActionCatalog.script'),
+  timeout: t('in-automation:ActionCatalog.timeout'),
+  subtype: t('in-automation:ActionCatalog.interpreter'),
+  method: t('in-automation:ActionCatalog.method'),
+  host: t('in-automation:ActionCatalog.host'),
+  header: t('in-automation:ActionCatalog.header'),
+  ignoreCertErrors: t('in-automation:ActionCatalog.ignoreCertErrors'),
+  authen: t('in-automation:ActionCatalog.authentication'),
+  body: t('in-automation:ActionCatalog.githubBody'),
+  owner: t('in-automation:owner'),
+  repo: t('in-automation:repo'),
+  ticketActionType: t('in-automation:operation'),
+  title: t('in-automation:title'),
+  labels: t('in-automation:labels'),
+  assignees: t('in-automation:assignees'),
+  comment: t('in-automation:comment'),
+  projectId: t('in-automation:projectId'),
+  issue_type: t('in-automation:issueType'),
+  project: t('in-automation:project'),
+  summary: t('in-automation:title'),
+  assignee: t('in-automation:assignee'),
+  description: t('in-automation:description')
+};
