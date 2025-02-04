@@ -7,7 +7,7 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import WelcomePage from './WelcomePage';
+import WelcomePage from 'in-plg/pages/WelcomePage/WelcomePage';
 
 describe('in-plg/pages/WelcomePage', () => {
   beforeEach(jest.clearAllMocks);

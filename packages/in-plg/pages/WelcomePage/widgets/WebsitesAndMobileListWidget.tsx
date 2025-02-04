@@ -29,6 +29,7 @@ import { useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/nav
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
+import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
 import { hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
@@ -42,7 +43,6 @@ import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { hasError, isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import DatatableWrapper from './DatatableWrapper';
 import { role } from 'in-stores/user';
 
 function handleFavoriteClick(id: string, item: any, isFavourite: boolean) {

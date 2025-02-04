@@ -29,12 +29,12 @@ import PinnedItemList, { Item } from 'in-plg/pages/WelcomePage/widgets/table/Pin
 //@ts-expect-error no declaration file found
 import connectTo from 'in-hoc/connectTo';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
+import RegularItemList from 'in-plg/pages/WelcomePage/widgets/table/RegularItemList';
 import ViewAllButton from 'in-plg/pages/WelcomePage/widgets/table/ViewAllButton';
 import { DashboardTile } from 'in-plg/components/DashboardTile/DashboardTile';
 import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
-import RegularItemList from './table/RegularItemList';
 import { timeConfig$ } from 'in-stores/time/config';
 import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';

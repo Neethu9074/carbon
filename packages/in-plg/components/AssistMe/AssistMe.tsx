@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { CarbonButton } from '@instana/components';
 
 import AssistMeSearchKeyword from 'in-plg/components/AssistMe/AssistMeDynamicSearch';
-import { IconForButton } from '../IconForButton/IconForButton';
+import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { activeLanguage, t } from 'in-i18n';
 
 export default function AssistMe() {

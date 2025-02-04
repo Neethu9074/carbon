@@ -21,6 +21,7 @@ import LinuxAirgapped from 'in-plg/pages/onboarding/AgentList/Linux/LinuxAirgapp
 import AwsFargate from 'in-plg/pages/onboarding/AgentList/Aws/Fargate/AwsFargate';
 import Windows64Bit from 'in-plg/pages/onboarding/AgentList/Windows/Windows64Bit';
 import LinuxPackages from 'in-plg/pages/onboarding/AgentList/Linux/LinuxPackages';
+import MacOsAirgapped from 'in-plg/pages/onboarding/AgentList/Mac/MacOsAirgapped';
 import Kubernetes from 'in-plg/pages/onboarding/AgentList/Kubernetes/Kubernetes';
 import UnixAirgapped from 'in-plg/pages/onboarding/AgentList/Unix/UnixAirgapped';
 import AwsEc2Windows from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Windows';
@@ -35,7 +36,6 @@ import CfAndBosh from 'in-plg/pages/onboarding/AgentList/Bosh/CfAndBosh';
 import Docker from 'in-plg/pages/onboarding/AgentList/Docker/Docker';
 import MacOs from 'in-plg/pages/onboarding/AgentList/Mac/MacOs';
 import Unix from 'in-plg/pages/onboarding/AgentList/Unix/Unix';
-import MacOsAirgapped from '../AgentList/Mac/MacOsAirgapped';
 import { t } from 'in-i18n';
 
 export function getEntriesForFreeTrial() {

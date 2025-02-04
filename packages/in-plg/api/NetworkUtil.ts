@@ -8,7 +8,7 @@ import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import createObservable from 'in-services/http/observableHttpResult';
-import { AgentSnapshotResponse } from './AgentSnapshot';
+import { AgentSnapshotResponse } from 'in-plg/api/AgentSnapshot';
 import http from 'in-services/http';
 
 export function getAgentSnapshots(query: string): Observable<AgentSnapshotResponse> {

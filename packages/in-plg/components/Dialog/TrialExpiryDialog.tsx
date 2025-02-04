@@ -8,9 +8,9 @@ import React from 'react';
 
 import { CarbonButton, Typography } from '@instana/components';
 
+import { BuyNowDialog } from 'in-plg/components/BuyNowDialog/BuyNowDialog';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { BuyNowDialog } from '../BuyNowDialog/BuyNowDialog';
 import BaseDialog from 'in-components/Dialog/BaseDialog';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
