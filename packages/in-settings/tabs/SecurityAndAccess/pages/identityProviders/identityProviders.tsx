@@ -16,18 +16,14 @@ import {
   securityAndAccessOidc,
   securityAndAccessSaml
 } from 'in-settings/navigation/paths';
-//@ts-expect-error not migrated to typescript yet;
 import { isGoogleSSOActive } from 'in-settings/tabs/SecurityAndAccess/api/googleSSO';
-//@ts-expect-error not migrated to typescript yet
 import { isLdapActive } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
-//@ts-expect-error not migrated to typescript yet
 import { isOidcActive } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
-//@ts-expect-error not migrated to typescript yet
 import { isSamlActive } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
 import { t, Trans } from 'in-i18n';
 
-import locals from './indentityProviders.mless';
+import locals from './identityProviders.mless';
 
 interface IdpConfiguration {
   title: string;

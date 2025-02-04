@@ -13,14 +13,14 @@ import {
   securityAndAccessTimeouts,
   securityAndAccessIdentityProviders
 } from 'in-settings/navigation/paths';
-import GoogleSSO from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/GoogleSSO/GoogleSSO';
 //@ts-expect-error not migrated to typescript yet
 import SessionSettings from 'in-settings/tabs/SecurityAndAccess/pages/sessionSettings/SessionSettings';
+import GroupMapping from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMapping/GroupMapping';
+import IdentityProviders from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/identityProviders';
+import GoogleSSO from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/GoogleSSO/GoogleSSO';
 import Saml from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Saml/Saml';
 import OIDC from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/OIDC/OIDC';
 import Ldap from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Ldap/Ldap';
-import GroupMapping from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMapping/GroupMapping';
-import IdentityProviders from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/indentityProviders';
 import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
 import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
