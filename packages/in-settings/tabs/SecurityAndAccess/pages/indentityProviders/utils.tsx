@@ -10,6 +10,7 @@ import { Observable } from '@instana/observables';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { t, Trans } from 'in-i18n';
 import { Error } from 'in-types';
 
@@ -40,7 +41,12 @@ export const deleteItem = ({
         const setConfigResult$ = deleteConfig();
         setConfigResult$.once(
           () => {
-            setMessage({ text: t('in-settings:tabs.configSuccessfullyDeleted'), type: 'success' });
+            addMessage({
+              title: t('in-settings:tabs.changesSaved'),
+              content: t('in-settings:tabs.configSuccessfullyDeleted'),
+              type: 'success',
+              timeout: 4000
+            });
           },
           (error: Error) =>
             setMessage({ text: t('in-settings:tabs.failedToDeleteConfig', { err: error.message }), type: 'error' })

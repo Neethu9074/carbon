@@ -26,6 +26,7 @@ import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -423,7 +424,12 @@ function saveItem({
   const setConfigResult$ = setConfig(oidcConfig);
   setConfigResult$.once(
     () => {
-      setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' });
+      addMessage({
+        title: t('in-settings:tabs.changesSaved'),
+        content: t('in-settings:tabs.configSuccessfullySaved'),
+        type: 'success',
+        timeout: 4000
+      });
       unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.identityProvider.openIdConnect' });
     },
     error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: 'error' })
