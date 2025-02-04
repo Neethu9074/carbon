@@ -8,7 +8,7 @@ import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 import { debounce } from 'lodash';
 
-import { DashboardTable, DashboardTile, Pagination as CarbonPagination } from '@instana/components';
+import { DashboardTable, Pagination as CarbonPagination } from '@instana/components';
 import { DashboardTableRow as Row } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
@@ -30,6 +30,7 @@ import PinnedItemList, { Item } from 'in-plg/pages/WelcomePage/widgets/table/Pin
 import connectTo from 'in-hoc/connectTo';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
 import ViewAllButton from 'in-plg/pages/WelcomePage/widgets/table/ViewAllButton';
+import { DashboardTile } from 'in-plg/components/DashboardTile/DashboardTile';
 import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';

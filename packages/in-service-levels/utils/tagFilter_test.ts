@@ -9,11 +9,14 @@ import {
   AvailabilityBlueprintIndicator,
   CustomBlueprintIndicator,
   LatencyBlueprintIndicator,
+  SyntheticSloEntity,
   WebsiteSloEntity
 } from '@instana/types';
 
+import { EQUALS, GREATER_THAN, LESS_OR_EQUAL_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { statusTagName } from 'in-synthetics/tags';
 
 describe('in-service-levels/utils/tagFilter', () => {
   it('returns default TagFilterExpressions for good and bad events when a time-based SLI is provided', () => {
@@ -266,6 +269,83 @@ describe('in-service-levels/utils/tagFilter', () => {
       operator: 'EQUALS',
       type: 'TAG_FILTER',
       value: true
+    });
+  });
+
+  it('returns good and bad events filter for an event-based latency synthetic SLO ', () => {
+    // Given
+    const indicator: LatencyBlueprintIndicator = {
+      blueprint: 'latency',
+      threshold: 0.9,
+      aggregation: 'SUM',
+      type: 'eventBased'
+    };
+
+    const entity: SyntheticSloEntity = {
+      type: 'synthetic',
+      syntheticTestIds: ['testId1', 'testId2'],
+      tagFilterExpression: {
+        type: 'EXPRESSION',
+        logicalOperator: 'AND',
+        elements: []
+      }
+    };
+
+    // When
+    const { good, bad } = createGoodBadTagFilterExpression({ indicator, entity });
+
+    // Then
+    expect(good).toEqual({
+      name: 'synthetic.metricsResponseTime',
+      operator: LESS_OR_EQUAL_THAN,
+      value: indicator.threshold,
+      entity: 'NOT_APPLICABLE',
+      type: 'TAG_FILTER'
+    });
+    expect(bad).toEqual({
+      name: 'synthetic.metricsResponseTime',
+      operator: GREATER_THAN,
+      value: indicator.threshold,
+      entity: 'NOT_APPLICABLE',
+      type: 'TAG_FILTER'
+    });
+  });
+
+  it('returns good and bad events filter for an event-based availability synthetic SLO ', () => {
+    // Given
+    const indicator: AvailabilityBlueprintIndicator = {
+      type: 'eventBased',
+      threshold: 0.5,
+      blueprint: 'availability'
+    };
+
+    const entity: SyntheticSloEntity = {
+      type: 'synthetic',
+      syntheticTestIds: ['testId1', 'testId2'],
+      tagFilterExpression: {
+        type: 'EXPRESSION',
+        logicalOperator: 'AND',
+        elements: []
+      }
+    };
+
+    // When
+    const { good, bad } = createGoodBadTagFilterExpression({ indicator, entity });
+
+    // Then
+    expect(good).toEqual({
+      value: 1,
+      name: statusTagName,
+      operator: EQUALS,
+      entity: 'NOT_APPLICABLE',
+      type: 'TAG_FILTER'
+    });
+    expect(bad).toEqual({
+      value: 0,
+      name: statusTagName,
+      operator: EQUALS,
+      entity: 'NOT_APPLICABLE',
+      type: 'TAG_FILTER'
     });
   });
 });

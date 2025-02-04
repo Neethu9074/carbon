@@ -32,7 +32,7 @@ import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/for
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/tearSheet/GracePeriodWrapper';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
-import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
+import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import AlertTypography from 'in-alerting/components/AlertTypography';
@@ -84,9 +84,10 @@ export default function AlertConfigTearSheetStep4(props) {
   return (
     <>
       <div className={locals.container60_40}>
-        <TearSheetStepContentWrapper
+        <TearSheetStepTitleWrapper
           headline={t('in-alerting:smartAlerts.applications.tearSheet.threshold.title')}
           description={t('in-alerting:smartAlerts.applications.tearSheet.threshold.description')}
+          hideSpace
         >
           <div className={classNames({ [locals.container]: true, [locals.alignCenter]: true })}>
             <span className={locals.label}>
@@ -157,8 +158,7 @@ export default function AlertConfigTearSheetStep4(props) {
           {!ruleComplete ? (
             <>
               <Spacer vertical="xsmall" />
-              <Spacer vertical="normal" />
-              <IncompleteChartPlaceholder message={blueprintConfig.incompleteRuleMessage} />
+              <IncompleteChartPlaceholder message={blueprintConfig.incompleteRuleMessage} isTearSheet />
             </>
           ) : (
             <AlertTypeSwitch
@@ -182,9 +182,9 @@ export default function AlertConfigTearSheetStep4(props) {
               thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
             }
           />
-        </TearSheetStepContentWrapper>
+        </TearSheetStepTitleWrapper>
         <span className={locals.seperator} />
-        <TearSheetStepContentWrapper
+        <TearSheetStepTitleWrapper
           headline={t('in-alerting:smartAlerts.applications.tearSheet.timeThreshold.title')}
           description={t('in-alerting:smartAlerts.applications.tearSheet.timeThreshold.description')}
         >
@@ -200,7 +200,7 @@ export default function AlertConfigTearSheetStep4(props) {
           />
           <Spacer size="gutter" />
           <GracePeriodWrapper form={form} updateForm={updateForm} />
-        </TearSheetStepContentWrapper>
+        </TearSheetStepTitleWrapper>
       </div>
 
       <EntitySelectionFormUpdater form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert}>
@@ -211,7 +211,7 @@ export default function AlertConfigTearSheetStep4(props) {
           headerTransparent
           isTearSheet
           sectionHeader={
-            <TearSheetStepContentWrapper
+            <TearSheetStepTitleWrapper
               headline={t('in-alerting:smartAlerts.applications.tearSheet.alertChart.title')}
               description={t('in-alerting:smartAlerts.applications.tearSheet.alertChart.description')}
               hidePadding

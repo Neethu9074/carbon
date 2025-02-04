@@ -65,14 +65,6 @@ export function getModifiedUrl(currentLocation: Location, modifyLocation: Locati
 export function getModifiedUrlStream(modifyLocation: LocationMutator) {
   return navigationParameters$.map(currentLocation => getModifiedUrl(currentLocation, modifyLocation)).distinct();
 }
-
-/**
- * @deprecated - Deprecated in favour of hook based navigation. Please use useNavigate instead
- */
-export function goToPath(path: string) {
-  mutateUrl(location => (location.pathname = path));
-}
-
 /**
  * @deprecated - Deprecated in favour of hook based navigation. Please use useNavigate instead
  */

@@ -19,6 +19,21 @@ import { t } from 'in-i18n';
 
 import locals from './CommentList.mless';
 
+/**
+ * @param {Array} notes - An array of notes to display in the CommentList.
+ * @param {Function} setDisplayQuickStart - A function to set the displayQuickStart state.
+ * @param {boolean} displayQuickStart - The current displayQuickStart state.
+ * @param {Function} setNote - A function to set the note state.
+ * @param {Function} setEditNoteId - A function to set the editNoteId state.
+ * @param {Function} setNeedOverlay - A function to set the needOverlay state.
+ * @param {Function} setShareOpen - A function to set the shareOpen state.
+ * @param {Function} setSummaryData - A function to set the summaryData state.
+ * @param {Object} event - The event object.
+ * @returns {JSX.Element} - The JSX element for the CommentList component.
+ *
+ * This is the main container for the chat bubbles where we catch the notes types
+ * and then format them accordingly
+ */
 export function CommentList({
   notes,
   setDisplayQuickStart,

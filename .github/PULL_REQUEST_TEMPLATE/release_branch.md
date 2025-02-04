@@ -1,7 +1,9 @@
+<!--
 > :warning: Please update the description with all the elements below.
 > If there are parts which do not apply, please remove them.
 > Do remove the comments once they have been addressed.
 > All this will help in getting your PR merged faster.
+-->
 
 # Why
 
@@ -31,8 +33,11 @@
 
 # Release Branch PR Checklist
 
-<!-- For PR delivered to release branch (release-NNN).-->
-Answer at least the first question.  If test or doc change, you can ignore the rest, delete, or mark N/A.   If product change, complete the rest.
+<!-- For PR delivered to release branch (release-NNN).
+Answer at least the first question (touching production code?)
+If test or doc change, you can ignore the rest, delete, or mark N/A.   
+If product change, complete the rest.
+-->
 
 Questions/information for PRs going into the current release branch
 - **Q: Is this PR for test code or product code?**
@@ -45,7 +50,8 @@ Questions/information for PRs going into the current release branch
   - **Q: What (if any) other testing is required specific to this change?**
     - TODO
 
-To merge the PR, reach out to an engineering manager, or anyone in the [release-approvers github group](https://github.ibm.com/orgs/instana/teams/release-approvers/members?page=2&query=)
+
+To merge the PR, reach out to an engineering manager, or anyone in the [release-branch-pr-mergers github group](https://github.ibm.com/orgs/instana/teams/release-approvers/members)
 
 # Other Checklist
 
@@ -75,7 +81,7 @@ Really, if not applicable, please REMOVE it.
 > Please include links to other artifacts related to this code change.
 -->
 
-- Story: CHANGE or REMOVE INSTA-12345
+- Story: PLZ CHANGE: INSTA-12345
 - [PLZ CHANGE or REMOVE:Documentation](http://example.com)
 - [PLZ CHANGE or REMOVE:CSP](http://example.com)
 - [PLZ CHANGE or REMOVE:Release Notes PR](https://github.ibm.com/instana/docs/compare)
@@ -88,13 +94,17 @@ Really, if not applicable, please REMOVE it.
 > like in the UI. Please include screenshots to highlight special / edge cases.
 
 > You can add screenshots either in a table side-by-side or for bigger screenshots, you can use the sections.
--->
 
+for small screenshots:
+-->
+<!-- use for small screenshots, or a couple of shots -->
 | Before | After |
 | ------ | ----- |
 |        |       |
 |        |       |
 
+
+<!-- for big screenshots better  -->
 ## After
 
 <!--
@@ -109,6 +119,8 @@ Really, if not applicable, please REMOVE it.
 
 # Merge Guidance
 
-❗ Please use a **squash merge** unless there is an explicit reason you need to use a different merge strategy (e.g. you are bringing in changes from a previous release branch, or you have specific changes in your branch that you would like to retain). This keeps our commit history clean, makes changes more atomic, and makes it easier to revert changes.
+❗ Please use a **squash merge** unless there is an explicit reason you need to use a different merge strategy 
+(e.g. you are bringing in changes from a previous release branch, or you have specific changes in your branch that you would like to retain, like in TS-migrations)
+This keeps our commit history clean, makes changes more atomic, and makes it easier to revert changes❗ 
 
-<img width="200" alt="DoSquashMerge" src="https://media.github.ibm.com/user/365791/files/a8ee10ca-527e-4ad7-8bb9-b366509a8026">
+<img width="100" alt="DoSquashMerge" src="https://media.github.ibm.com/user/365791/files/a8ee10ca-527e-4ad7-8bb9-b366509a8026">

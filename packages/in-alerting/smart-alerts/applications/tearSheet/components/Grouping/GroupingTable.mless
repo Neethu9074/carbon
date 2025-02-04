@@ -67,6 +67,7 @@
     border: 1px solid var(--ids-color-option-neutral-400);
     padding: 0.5rem;
     width: 100%;
+    background: var(--ids-color-option-white);
   }
 
   .block {

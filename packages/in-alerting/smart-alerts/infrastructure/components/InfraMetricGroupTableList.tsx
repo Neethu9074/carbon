@@ -64,7 +64,10 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
   const [selectedMetricGroup, setSelectedMetricGroup] = useState<Tags>();
 
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading) {
+      selectedMetricGroup$.emit({ loading: true });
+      return;
+    }
 
     if (items?.length > 0) {
       // If the value is not in the'selectedMetricGroup', set the first one as selected by default.

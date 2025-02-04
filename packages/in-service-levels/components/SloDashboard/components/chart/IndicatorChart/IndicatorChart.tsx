@@ -6,22 +6,11 @@
 
 import React from 'react';
 
-import {
-  DateAsNumber,
-  isSyntheticSloEntity,
-  ServiceLevelIndicatorUnion,
-  SloEntityUnion,
-  TimeWindowUnion
-} from '@instana/types';
+import { DateAsNumber, ServiceLevelIndicatorUnion, SloEntityUnion } from '@instana/types';
 
-import SyntheticsEventBasedAvailabilityIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/SyntheticsEventBasedAvailabilityIndicatorChart';
-import SyntheticsTimeBasedAvailabilityIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/SyntheticsTimeBasedAvailabilityIndicatorChart';
-import SyntheticsEventBasedLatencyIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/SyntheticsEventBasedLatencyIndicatorChart';
-import SyntheticsTimeBasedLatencyIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/SyntheticsTimeBasedLatencyIndicatorChart';
-import SyntheticsTimeBasedTrafficIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/SyntheticsTimeBasedTrafficIndicatorChart';
 import TimeBasedAvailabilityIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedAvailabilityIndicatorChart';
-import TimeBasedTrafficIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedTrafficIndicatorChart';
 import TimeBasedLatencyIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedLatencyIndicatorChart';
+import TimeBasedTrafficIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedTrafficIndicatorChart';
 import EventBasedIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/EventBasedIndicatorChart';
 
 interface IndicatorChartProps {
@@ -30,7 +19,6 @@ interface IndicatorChartProps {
   customChartSkeletonHeight?: number;
   entity: SloEntityUnion;
   indicator: ServiceLevelIndicatorUnion;
-  timeWindow: TimeWindowUnion;
   createdDate?: DateAsNumber;
   title?: string;
 }
@@ -41,84 +29,9 @@ export default function IndicatorChart({
   customChartSkeletonHeight,
   entity,
   indicator,
-  timeWindow,
   createdDate,
   title
 }: IndicatorChartProps) {
-  const missingDataIndicator = timeWindow.type === 'fixed' ? timeWindow.startTimestamp : createdDate;
-
-  if (isSyntheticSloEntity(entity)) {
-    if (indicator.blueprint === 'traffic' && indicator.type === 'timeBased') {
-      return (
-        <SyntheticsTimeBasedTrafficIndicatorChart
-          automaticallySize={automaticallySize}
-          customHeight={customHeight}
-          customChartSkeletonHeight={customChartSkeletonHeight}
-          entity={entity}
-          indicator={indicator}
-          missingDataIndicator={missingDataIndicator}
-          title={title}
-        />
-      );
-    }
-
-    if (indicator.blueprint === 'latency' && indicator.type === 'timeBased') {
-      return (
-        <SyntheticsTimeBasedLatencyIndicatorChart
-          automaticallySize={automaticallySize}
-          customHeight={customHeight}
-          customChartSkeletonHeight={customChartSkeletonHeight}
-          indicator={indicator}
-          entity={entity}
-          missingDataIndicator={missingDataIndicator}
-          title={title}
-        />
-      );
-    }
-
-    if (indicator.blueprint === 'availability' && indicator.type === 'timeBased') {
-      return (
-        <SyntheticsTimeBasedAvailabilityIndicatorChart
-          automaticallySize={automaticallySize}
-          customHeight={customHeight}
-          customChartSkeletonHeight={customChartSkeletonHeight}
-          indicator={indicator}
-          entity={entity}
-          missingDataIndicator={missingDataIndicator}
-          title={title}
-        />
-      );
-    }
-
-    if (indicator.blueprint === 'latency' && indicator.type === 'eventBased') {
-      return (
-        <SyntheticsEventBasedLatencyIndicatorChart
-          automaticallySize={automaticallySize}
-          customHeight={customHeight}
-          customChartSkeletonHeight={customChartSkeletonHeight}
-          entity={entity}
-          indicator={indicator}
-          missingDataIndicator={missingDataIndicator}
-          title={title}
-        />
-      );
-    }
-
-    if (indicator.blueprint === 'availability' && indicator.type === 'eventBased') {
-      return (
-        <SyntheticsEventBasedAvailabilityIndicatorChart
-          automaticallySize={automaticallySize}
-          customHeight={customHeight}
-          customChartSkeletonHeight={customChartSkeletonHeight}
-          entity={entity}
-          indicator={indicator}
-          missingDataIndicator={missingDataIndicator}
-          title={title}
-        />
-      );
-    }
-  }
-
   if (indicator.blueprint === 'traffic' && indicator.type === 'timeBased') {
     return (
       <TimeBasedTrafficIndicatorChart
@@ -127,7 +40,7 @@ export default function IndicatorChart({
         customChartSkeletonHeight={customChartSkeletonHeight}
         entity={entity}
         indicator={indicator}
-        missingDataIndicator={missingDataIndicator}
+        missingDataIndicator={createdDate}
         title={title}
       />
     );
@@ -141,7 +54,7 @@ export default function IndicatorChart({
         customChartSkeletonHeight={customChartSkeletonHeight}
         indicator={indicator}
         entity={entity}
-        missingDataIndicator={missingDataIndicator}
+        missingDataIndicator={createdDate}
         title={title}
       />
     );
@@ -154,7 +67,7 @@ export default function IndicatorChart({
         customChartSkeletonHeight={customChartSkeletonHeight}
         entity={entity}
         indicator={indicator}
-        missingDataIndicator={missingDataIndicator}
+        missingDataIndicator={createdDate}
         title={title}
       />
     );
@@ -167,7 +80,7 @@ export default function IndicatorChart({
         customChartSkeletonHeight={customChartSkeletonHeight}
         entity={entity}
         indicator={indicator}
-        missingDataIndicator={missingDataIndicator}
+        missingDataIndicator={createdDate}
         title={title}
       />
     );
@@ -181,7 +94,7 @@ export default function IndicatorChart({
         customHeight={customHeight}
         entity={entity}
         indicator={indicator}
-        missingDataIndicator={missingDataIndicator}
+        missingDataIndicator={createdDate}
         title={title}
       />
     );

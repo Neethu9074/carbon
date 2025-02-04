@@ -30,6 +30,7 @@ describe('BrowserSimpleConfiguration', () => {
     expect(screen.getByText('Timeout')).toBeInTheDocument();
     expect(screen.getByText('Retry Strategy')).toBeInTheDocument();
     expect(screen.getByText('Mark Synthetic Call')).toBeInTheDocument();
+    expect(screen.getByText('Record video of user actions')).toBeInTheDocument();
   });
 
   it('Renders all new fields with their default values', () => {
@@ -44,7 +45,7 @@ describe('BrowserSimpleConfiguration', () => {
 
     const inputElements = container.getElementsByTagName('input');
 
-    expect(inputElements.length).toBe(9);
+    expect(inputElements.length).toBe(10);
 
     // Webpage URL
     expect(inputElements[0]).toHaveValue('');
@@ -61,5 +62,8 @@ describe('BrowserSimpleConfiguration', () => {
 
     // Mark Synthetic Call
     expect((screen.getByLabelText('Mark Synthetic Call') as HTMLInputElement).checked).toBe(true);
+
+    // Record video of user actions
+    expect((screen.getByLabelText('Record video of user actions') as HTMLInputElement).checked).toBe(false);
   });
 });

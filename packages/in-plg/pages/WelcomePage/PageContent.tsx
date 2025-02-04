@@ -284,7 +284,7 @@ function RenderTable() {
               );
             }
 
-            return <SortableItem id={_config.id} content={content} />;
+            return <SortableItem id={_config.id} content={content} key={_config.id} />;
           })}
         </div>
       </SortableContext>

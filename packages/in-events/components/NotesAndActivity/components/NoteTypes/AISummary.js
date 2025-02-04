@@ -23,6 +23,17 @@ import { t } from 'in-i18n';
 
 import locals from './AISummary.mless';
 
+/**
+ * Handle the AI Summary type of note entry.  For the AI summary we want to
+ * display its data a certain format.
+ *
+ * @param {Object} noteObj - The note object containing data for summarization.
+ * @param {Function} setNeedOverlay - Function to set the need for an overlay.
+ * @param {Function} setShareOpen - Function to set the share button open state.
+ * @param {Function} setSummaryData - Function to set the summary data for sharing.
+ * @param {Object} event - The event object.
+ * @returns {JSX.Element} - The JSX element for the AISummary component.
+ */
 export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryData, event }) {
   // Show alls that handle showing more incidents / Actions
   const [showAllIncidents, setShowAllIncidents] = useState(false);
@@ -213,6 +224,8 @@ function ActionHistoryButton({ actionId, noteId, eventObjId }) {
   );
 }
 
+// Show all button is used in order to display extended content
+// This function simply controls the button and its passed in values
 export function ShowAllButton({ setShowAllType, showAllValue, trackingType, noteId }) {
   return (
     <CarbonButton
@@ -235,6 +248,7 @@ function handleRunActionClick(action, noteId, eventObjId) {
   }
 }
 
+// Copy text to clipboard
 function copyToClipboard(str) {
   navigator.clipboard.writeText(str);
 }

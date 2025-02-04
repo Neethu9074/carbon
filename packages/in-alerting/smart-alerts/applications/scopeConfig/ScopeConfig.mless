@@ -32,21 +32,19 @@
     background: var(--ids-color-option-neutral-100);
   }
 
-  .alertFilterConfiguratorWrapper {
-    padding-left: 1rem;
-  }
-
   .clearButtonWrapper {
     display: flex;
     flex-direction: row-reverse;
   }
-
+  .alignEnd {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 4.5rem;
+    align-items: flex-start;
+  }
   .servicesAndEndpointsListPresenterWrapper {
     border-bottom: 1px solid var(--ids-color-option-neutral-300);
-  }
-
-  .alertFilterConfiguratorWrapperBottomPadding {
-    padding-bottom: 1rem;
   }
 
   .toggleDialogUsage {
@@ -73,10 +71,10 @@
 
   .carbonVariant {
     .listHeight {
-      height: 19.5rem;
+      height: 25.5rem;
     }
     .list {
-      max-height: 19.5rem;
+      max-height: 25.5rem;
     }
   }
 
@@ -91,6 +89,7 @@
 
   .alignRight {
     justify-content: flex-end;
+    column-gap: 0.5rem;
   }
 
   .tearSheetLightCardHeader {

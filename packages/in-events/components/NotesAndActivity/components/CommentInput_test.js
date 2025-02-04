@@ -9,7 +9,11 @@ import React from 'react';
 
 import { CarbonTextArea, IconButton } from '@instana/components';
 
-import { CommentInput, SubmissionButtons } from 'in-events/components/NotesAndActivity/components/CommentInput';
+import {
+  CommentInput,
+  SubmissionButtons,
+  handleSubmitNote
+} from 'in-events/components/NotesAndActivity/components/CommentInput';
 
 import locals from './CommentInput.mless';
 
@@ -88,5 +92,21 @@ describe('SubmissionButtons', () => {
       />
     );
     expect(wrapper.find(IconButton)).toHaveLength(2);
+  });
+});
+
+describe('handleSubmitNote', () => {
+  it('should not fire off a new note without there being something written', () => {
+    const incidentId = '123';
+    const note = '';
+    const setNote = jest.fn();
+    const annotateEvent = jest.fn();
+    const handleTracking = jest.fn();
+
+    handleSubmitNote(incidentId, note, setNote);
+
+    expect(annotateEvent).not.toHaveBeenCalled();
+    expect(setNote).not.toHaveBeenCalled();
+    expect(handleTracking).not.toHaveBeenCalled();
   });
 });

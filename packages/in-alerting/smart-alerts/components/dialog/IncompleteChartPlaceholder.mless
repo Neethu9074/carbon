@@ -24,4 +24,8 @@
       fill: var(--ids-color-option-neutral-600);
     }
   }
+
+  .whiteBackground {
+    background-color: var(--ids-color-option-white);
+  }
 }

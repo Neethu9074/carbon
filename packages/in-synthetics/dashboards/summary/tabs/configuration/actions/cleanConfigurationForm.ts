@@ -39,27 +39,16 @@ const cleanConfigurationForm = (form: MapForm<any>, test: SyntheticTest): Synthe
           )
       : form.put('active', createField({ value: isActive })).put('modifiedAt', createField({ value: modifiedAt }));
 
-  if (isBrowserScript || isWebpage) {
-    // Add recordVideo property for all browser tests
+  // @ts-expect-error browser property could be present
+  if ((isBrowserScript || isWebpage) && isNotBlank(test.configuration?.browser)) {
     // Add browser property if present in browser script test
-    // @ts-expect-error browser property could be present
-    updatedForm = isNotBlank(test.configuration?.browser)
-      ? updatedForm.put(
-          'configuration',
-          updatedForm
-            .get('configuration')
-            //@ts-expect-error browser property could be present
-            .put('browser', createField({ value: test.configuration?.browser }))
-            //@ts-expect-error recordVideo property could be present
-            .put('recordVideo', createField({ value: test.configuration?.recordVideo }))
-        )
-      : updatedForm.put(
-          'configuration',
-          updatedForm
-            .get('configuration')
-            //@ts-expect-error recordVideo property could be present
-            .put('recordVideo', createField({ value: test.configuration?.recordVideo }))
-        );
+    updatedForm = updatedForm.put(
+      'configuration',
+      updatedForm
+        .get('configuration')
+        //@ts-expect-error browser property could be present
+        .put('browser', createField({ value: test.configuration?.browser }))
+    );
   }
 
   // Remove applicationId property if not present

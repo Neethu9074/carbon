@@ -9,6 +9,7 @@ import React from 'react';
 import {
   DateAsNumber,
   isApplicationSloEntity,
+  isSyntheticSloEntity,
   isWebsiteSloEntity,
   Result,
   SloEntityUnion,
@@ -32,11 +33,11 @@ import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoo
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
 import { calculateTrafficGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
+import { applicationMetrics, syntheticMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import { defaultSliThresholdOperator, ServiceLevelErrors } from 'in-service-levels/constants';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSliMetricConfiguration from 'in-service-levels/hooks/useSliMetricConfiguration';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
-import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { MetricDataSeries } from 'in-components/Chart/types';
@@ -79,6 +80,7 @@ export default function TimeBasedTrafficIndicatorChart({
     timeWindows,
     getMetricConfig
   );
+
   const result: Result<UnifiedMetricsResult[]> =
     useObservable(() => {
       if (!hasMatchingTimeWindows) return successObservable([]);
@@ -88,9 +90,7 @@ export default function TimeBasedTrafficIndicatorChart({
   const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
   const metricValues = copyFirstBucketOfSubsequentDataSeries(metrics.map(metric => metric.values as MetricDataSeries));
   const thresholdMetrics: MetricDataSeries = metricValues.flat(1).map(([timestamp]) => [timestamp, threshold]);
-  const metricLabel = isApplicationSloEntity(entity)
-    ? applicationMetrics[indicator.trafficType === 'all' ? 'calls' : 'erroneousCalls'].label
-    : websiteMetrics[indicator.trafficType === 'all' ? 'beaconCount' : 'beaconErrorCount'].label;
+  const metricLabel = getMetricLabel({ entity, indicator });
 
   const filteredData = filterMetricValuesWithinTimeWindow(metricValues, timeConfig);
 
@@ -164,6 +164,44 @@ function getMetricConfig(
       timeConfig,
       aggregation: indicator.aggregation
     });
+  }
+
+  if (isSyntheticSloEntity(entity)) {
+    const metric = indicator.trafficType === 'all' ? 'allTests' : 'erroneousTests';
+
+    return syntheticMetrics[metric].timeSeries({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      granularity
+    });
+  }
+
+  throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+}
+
+interface GetMetricLabelProps {
+  entity: SloEntityUnion;
+  indicator: TrafficBlueprintIndicator;
+}
+
+function getMetricLabel({ entity, indicator }: GetMetricLabelProps) {
+  if (isApplicationSloEntity(entity)) {
+    const metric = indicator.trafficType === 'all' ? 'calls' : 'erroneousCalls';
+
+    return applicationMetrics[metric].label;
+  }
+
+  if (isWebsiteSloEntity(entity)) {
+    const metric = indicator.trafficType === 'all' ? 'beaconCount' : 'beaconErrorCount';
+
+    return websiteMetrics[metric].label;
+  }
+
+  if (isSyntheticSloEntity(entity)) {
+    const metric = indicator.trafficType === 'all' ? 'allTests' : 'erroneousTests';
+
+    return syntheticMetrics[metric].label;
   }
 
   throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);

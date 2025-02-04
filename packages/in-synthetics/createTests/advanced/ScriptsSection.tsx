@@ -7,7 +7,7 @@
 import { Field, Item, MapForm, createField, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Stack, RadioButton, Checkbox, Button, IconButton } from '@instana/components';
+import { Stack, RadioButton, Button, IconButton, CarbonCheckbox as Checkbox } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
@@ -446,7 +446,7 @@ export default function ScriptsSection({
       <div className={locals.configContainer}>
         <Stack direction="horizontal">
           <Checkbox
-            wrapperClassName={locals.configCheckbox}
+            id="markSyntheticCall"
             onChange={({ target }) => {
               updateForm(
                 form.updateIn(['configuration', 'markSyntheticCall'], (field: Item) =>
@@ -455,10 +455,22 @@ export default function ScriptsSection({
               );
             }}
             checked={markSyntheticCall.value}
-            size="larger"
-            label={t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall')}
-            disabled={false}
+            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall')}
           />
+          {isBrowser && (
+            <Checkbox
+              id="recordVideo"
+              onChange={({ target }) => {
+                updateForm(
+                  form.updateIn(['configuration', 'recordVideo'], (field: Item) =>
+                    (field as Field<boolean>).setValue(target.checked).setTouched(true)
+                  )
+                );
+              }}
+              checked={(configForm.get('recordVideo') as Field<boolean>).value}
+              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.recordVideo')}
+            />
+          )}
         </Stack>
       </div>
     </>

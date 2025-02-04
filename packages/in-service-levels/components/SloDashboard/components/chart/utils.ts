@@ -92,3 +92,9 @@ export function filterMetricValuesWithinTimeWindow(
     });
   });
 }
+
+export const invertSyntheticPercentageMetrics = (metrics: MetricDataSeries[]): MetricDataSeries[] => {
+  return metrics.map(dataSeries =>
+    dataSeries.map(([timestamp, value]) => [timestamp, Math.round((1 - value) * 100) / 100])
+  );
+};

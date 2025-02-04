@@ -10,6 +10,6 @@
   }
 
   .whiteBackground {
-    background: var(--ids-color-option-neutral-50);
+    background: var(--ids-color-option-white);
   }
 }

@@ -220,7 +220,7 @@ export function NotesAndActivity(props) {
 }
 
 // Basic empty state for notes
-function EmptyState() {
+export function EmptyState() {
   return (
     <div className={locals.emptyWrapper}>
       <h3 className={locals.emptyHeader}>{t('in-events:notes.noActivity')}</h3>

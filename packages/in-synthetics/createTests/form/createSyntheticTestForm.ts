@@ -310,6 +310,13 @@ function createBrowserScriptConfigurationForm(simpleMode: boolean, savedState?: 
           value: savedState?.markSyntheticCall ?? true,
           validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
         })
+      )
+      .put(
+        'recordVideo',
+        createField({
+          value: savedState?.recordVideo ?? false,
+          validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+        })
       );
   }
 }
@@ -536,6 +543,13 @@ export function createAdvancedWebpageActionConfigurationForm(savedState?: Record
       'markSyntheticCall',
       createField({
         value: savedState?.markSyntheticCall ?? true,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'recordVideo',
+      createField({
+        value: savedState?.recordVideo ?? false,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
       })
     );
