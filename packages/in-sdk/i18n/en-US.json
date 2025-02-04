@@ -17,8 +17,8 @@
       "customMetricsTitleType": "Type",
       "customMetricsTitleName": "Name",
       "customMetricsTitleValue": "Value",
-      "customMetricsTitlePinned": "{{pinnedPrefix}} pinned metrics ({{pinnedLength}})",
-      "customMetricsTitleCustom": "{{customPrefix}} custom metrics ({{customLength}})",
+      "customMetricsTitlePinned": "{{pinnedPrefix}} Pinned Metrics ({{pinnedLength}})",
+      "customMetricsTitleCustom": "{{customPrefix}} Custom Metrics ({{customLength}})",
       "customMetricsLabelCount": "Count",
       "customMetricsLabelDelta": "Delta",
       "customMetricsLabelValue": "Value",
@@ -29,17 +29,17 @@
     },
     "table": {
       "tableNoData": "No data.",
-      "tableExpandAll": "Expand all",
-      "tableCollapseAll": "Collapse all"
+      "tableExpandAll": "Expand All",
+      "tableCollapseAll": "Collapse All"
     }
   },
 
   "sidebar": {
     "classpath": {
-      "classpathHide": "Hide classpath",
-      "classpathShow": "Show classpath"
+      "classpathHide": "Hide Classpath",
+      "classpathShow": "Show Classpath"
     },
-    "processStartedTitle": "Started at",
+    "processStartedTitle": "Started At",
     "tags": "Tags ({{size}})"
   },
 
@@ -56,7 +56,7 @@
     "runtimeLabelNodeJS": "Node.js",
     "runtimeLabelPython": "Python",
     "runtimeLabelRuby": "Ruby",
-    "runtimeLabelUnknown": "Unknown runtime"
+    "runtimeLabelUnknown": "Unknown Runtime"
   },
 
   "tracing": {

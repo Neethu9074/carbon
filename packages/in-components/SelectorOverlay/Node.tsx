@@ -86,7 +86,7 @@ export const iconColumnDefinition = {
     switch (node.type) {
       case 'TAG':
         return (
-          <Tooltip delay={2000} content={node.tagName}>
+          <Tooltip delay={2000} content={node.tagName} legacy>
             <SvgIcon
               color={node.withHighlights?.tag ? highlightedColor : defaultColor}
               type={node.icon ?? 'lib_views_tag'}
@@ -95,7 +95,7 @@ export const iconColumnDefinition = {
         );
       case 'METRIC':
         return (
-          <Tooltip delay={2000} content={node.metric}>
+          <Tooltip delay={2000} content={node.metric} legacy>
             <SvgIcon
               color={node.withHighlights?.metric ? highlightedColor : defaultColor}
               type={node.icon ?? 'lib_views_metric'}
@@ -113,7 +113,7 @@ export const iconColumnDefinition = {
         );
       case 'SERVICE':
         return (
-          <Tooltip delay={2000} content={node.label}>
+          <Tooltip delay={2000} content={node.label} legacy>
             <SvgIcon
               color={node.withHighlights?.metric ? highlightedColor : defaultColor}
               type={node.icon ?? 'lib_application_service'}
@@ -122,7 +122,7 @@ export const iconColumnDefinition = {
         );
       case 'ENDPOINT':
         return (
-          <Tooltip delay={2000} content={node.label}>
+          <Tooltip delay={2000} content={node.label} legacy>
             <SvgIcon
               color={node.withHighlights?.metric ? highlightedColor : defaultColor}
               type={node.icon ?? 'lib_application_endpoint'}
