@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, Field, MapForm, MapFormItems, ValidationResult } from 'formalistic';
 import React, { useState } from 'react';
 
+import { LdapConfig, OidcApiResponseConfig, SamlConfig } from '@instana/types';
 import { Link, Checkbox, Button } from '@instana/components';
 
 import {
@@ -16,23 +17,26 @@ import {
   setConfig,
   deleteConfig
 } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
-import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/configuredIdPCheck';
+// @ts-expect-error needs TS migration
+import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
+import { deleteItem, isAnyInvitationsPending } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/utils';
+import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
-import { deleteItem } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/utils';
-import { disableInvitesWithIdpEnabled, idpConfigV2Enabled } from 'in-services/featureFlags';
+// @ts-expect-error needs TS migration
+import ApiItemView from 'in-settings/components/ApiItemView';
+import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SETTINGS_IDP_LDAP_TEST_CONFIGURATION } from 'in-services/tracking/tracking';
 import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
-import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { notBlankValidator } from 'in-services/validators/string.ts';
+import { EnrichFormProps, SaveItemProps } from 'in-settings/types';
+import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import ApiItemView from 'in-settings/components/ApiItemView';
+import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
 import { scrollIntoView } from 'in-services/util/dom';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -45,23 +49,54 @@ import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';
 
-import indentityProvidersLocals from '../indentityProviders.mless';
+import identityProvidersLocals from '../identityProviders.mless';
 import locals from './Ldap.mless';
 
-export default function Ldap(props) {
-  const [testResultMessage, setTestResultMessage] = useState({ waitingForTest: false, messageProps: null });
+type LdapMapFormItems = {
+  acceptAnyCA: Field<boolean>;
+  activated: Field<boolean>;
+  base: Field<string | undefined>;
+  emailField: Field<string | undefined>;
+  emptyPass: Field<boolean>;
+  groupMemberField: Field<string | undefined>;
+  groupMemberFieldConfigured: Field<boolean>;
+  groupQuery: Field<string | undefined>;
+  roPassword: Field<string | undefined>;
+  roUser: Field<string | undefined>;
+  testPassword: Field<string>;
+  testUser: Field<string>;
+  url: Field<string | undefined>;
+  userDnMapping: Field<string | undefined>;
+  userField: Field<string | undefined>;
+  userQueryTemplate: Field<string | undefined>;
+};
+type LdapMapForm = MapForm<LdapMapFormItems>;
+
+interface TestResultState {
+  id?: string;
+  waitingForTest: boolean;
+  messageProps?: Parameters<typeof TemporaryMessage>[0];
+}
+
+interface LdapProps extends Pick<Parameters<typeof isAnyInvitationsPending>[0], 'invitations'> {}
+
+export default function Ldap(props: LdapProps) {
+  const [testResultMessage, setTestResultMessage] = useState<TestResultState>({
+    waitingForTest: false,
+    messageProps: undefined
+  });
   const { trackCta, unstable_trackEvent } = useSegmentTracking();
 
   return (
     <ApiItemView
       getObservables={() => ({
-        config: getConfigAsResultObservable(),
-        samlConfig: getSamlConfig(),
-        oidcConfig: getOidcConfig()
+        config: getConfigAsResultObservable(undefined),
+        samlConfig: getSamlConfig(undefined),
+        oidcConfig: getOidcConfig(undefined)
       })}
       enrichForm={enrichForm}
       onCancelClick={refresh}
-      saveItem={data => {
+      saveItem={(data: Omit<SaveItemPropsWithForm, 'unstable_trackEvent'>) => {
         if (isAnyInvitationsPending(props)) {
           addActiveDialog(
             <ConfirmationDialog
@@ -81,8 +116,10 @@ export default function Ldap(props) {
           );
         } else saveItem({ ...data, unstable_trackEvent });
       }}
-      deleteItem={data => deleteItem({ ...data, deleteConfig: deleteConfig })}
-      render={data => render({ ...data, trackCta })}
+      deleteItem={(data: Pick<Parameters<typeof deleteItem>[0], 'setMessage'>) =>
+        deleteItem({ ...data, deleteConfig: deleteConfig })
+      }
+      render={(data: Omit<LdapFormProps, 'trackCta'>) => <LdapForm {...data} trackCta={trackCta} />}
       testResultMessage={testResultMessage}
       setTestResultMessage={setTestResultMessage}
       {...(idpConfigV2Enabled
@@ -92,11 +129,31 @@ export default function Ldap(props) {
   );
 }
 
-function isAnyInvitationsPending(props) {
-  return disableInvitesWithIdpEnabled && props.invitations?.data?.length > 0;
+interface LdapFormProps {
+  form: LdapMapForm;
+  result: {
+    config: LdapConfig;
+    oidcConfig?: OidcApiResponseConfig;
+    samlConfig?: SamlConfig;
+  };
+  setForm: React.Dispatch<React.SetStateAction<LdapMapForm>>;
+  setTestResultMessage: React.Dispatch<React.SetStateAction<TestResultState>>;
+  testResultMessage: TestResultState;
+  trackCta: CtaTrackingFunction;
 }
 
-function render({ form, setForm, testResultMessage, setTestResultMessage, result, trackCta }) {
+function LdapForm({ form, setForm, testResultMessage, setTestResultMessage, result, trackCta }: LdapFormProps) {
+  const emptyPassField = form.get('emptyPass');
+  const roUserField = form.get('roUser');
+  const roPasswordField = form.get('roPassword');
+  const testUserField = form.get('testUser');
+  const testPasswordField = form.get('testPassword');
+  const acceptAnyCAField = form.get('acceptAnyCA');
+
+  // Note: Not touching this.
+  // Whoever wrote it must have had a reason…
+  // I just have no idea what it was 🙈
+  // Question: Why don't we use form.touched and form.valid here?
   const allFieldsFilled =
     form.get('url').value &&
     form.get('url').value !== '' &&
@@ -114,11 +171,12 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
     form.get('userQueryTemplate').value !== '' &&
     form.get('emailField').value &&
     form.get('emailField').value !== '';
+
   // testResultMessage.messageProps exists only when Test configuration is clicked
-  const needsROCredentials = !form.get('emptyPass').value;
+  const needsROCredentials = !emptyPassField.value;
   const shouldDoROUserPassCheck = needsROCredentials && (testResultMessage.messageProps || allFieldsFilled);
-  const hasROUser = form.get('roUser').value && form.get('roUser').value !== '';
-  const hasROPassword = form.get('roPassword').value && form.get('roPassword').value !== '';
+  const hasROUser = roUserField.value && roUserField.value !== '';
+  const hasROPassword = roPasswordField.value && roPasswordField.value !== '';
   const shouldShowMissingUserMessage = shouldDoROUserPassCheck && !hasROUser;
   const shouldShowMissingPasswordMessage = shouldDoROUserPassCheck && !hasROPassword;
   return (
@@ -134,6 +192,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
               i18nKey="in-settings:tabs.ldapHelpDoc"
               components={{
                 docLink: (
+                  // @ts-expect-error Link component expects children to be defined but children get passed down from Trans component
                   <Link
                     external
                     size="sm"
@@ -147,64 +206,64 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
           <form>
             <Section restrictWidth="50rem">
               <h2>{t('in-settings:tabs.requiredSettings')}</h2>
-              <Row className={indentityProvidersLocals.row}>
+              <Row className={identityProvidersLocals.row}>
                 <Col xs={12}>
                   <FormInput
-                    placeholder="ldaps://ldap.example.com:636"
-                    form={form}
-                    setForm={setForm}
-                    fieldName="url"
-                    label={t('in-settings:tabs.url')}
                     description={t('in-settings:tabs.urlDescription')}
+                    fieldName="url"
+                    form={form}
+                    label={t('in-settings:tabs.url')}
+                    placeholder="ldaps://ldap.example.com:636"
+                    setForm={setForm}
                   />
                 </Col>
               </Row>
 
-              <Row className={indentityProvidersLocals.row}>
+              <Row className={identityProvidersLocals.row}>
                 <Col xs={12}>
-                  {form.get('acceptAnyCA').map(field => (
-                    <Checkbox
-                      label={t('in-settings:tabs.ldapsAcceptAnyCA')}
-                      checked={field.value}
-                      onChange={() => {
-                        const newValue = form.updateIn(['acceptAnyCA'], f => f.setValue(!field.value).setTouched(true));
-                        setForm(newValue);
-                      }}
-                    />
-                  ))}
+                  <Checkbox
+                    label={t('in-settings:tabs.ldapsAcceptAnyCA')}
+                    checked={acceptAnyCAField.value}
+                    onChange={() => {
+                      const newValue = form.updateIn(['acceptAnyCA'], f =>
+                        f.setValue(!acceptAnyCAField.value).setTouched(true)
+                      );
+                      setForm(newValue);
+                    }}
+                  />
                 </Col>
               </Row>
 
-              <Row className={indentityProvidersLocals.row}>
+              <Row className={identityProvidersLocals.row}>
                 <Col xs={12}>
-                  {form.get('emptyPass').map(field => (
-                    <Checkbox
-                      label={t('in-settings:tabs.anonymous')}
-                      checked={field.value}
-                      onChange={() => {
-                        let newValues = form.updateIn(['emptyPass'], f => f.setValue(!field.value).setTouched(true));
-                        if (field.value) {
-                          newValues = newValues.updateIn(['roUser'], f => f.setValue('').setTouched(true));
-                          newValues = newValues.updateIn(['roPassword'], f => f.setValue('').setTouched(true));
-                        }
-                        setForm(newValues);
-                      }}
-                    />
-                  ))}
+                  <Checkbox
+                    label={t('in-settings:tabs.anonymous')}
+                    checked={emptyPassField.value}
+                    onChange={() => {
+                      let newValues = form.updateIn(['emptyPass'], f =>
+                        f.setValue(!emptyPassField.value).setTouched(true)
+                      );
+                      if (emptyPassField.value) {
+                        newValues = newValues.updateIn(['roUser'], f => f.setValue('').setTouched(true));
+                        newValues = newValues.updateIn(['roPassword'], f => f.setValue('').setTouched(true));
+                      }
+                      setForm(newValues);
+                    }}
+                  />
                 </Col>
               </Row>
 
-              {!form.get('emptyPass').value && (
-                <Row className={indentityProvidersLocals.firstHideableRow}>
+              {!emptyPassField.value ? (
+                <Row className={identityProvidersLocals.firstHideableRow}>
                   <Col xs={6}>
                     <FormInput
-                      placeholder="cn=admin,dc=example,dc=com"
                       className={locals.formGroupWithoutMargin}
-                      form={form}
-                      setForm={setForm}
-                      label={t('in-settings:tabs.user')}
-                      fieldName="roUser"
                       description={t('in-settings:tabs.userDescription')}
+                      fieldName="roUser"
+                      form={form}
+                      label={t('in-settings:tabs.user')}
+                      placeholder="cn=admin,dc=example,dc=com"
+                      setForm={setForm}
                     />
                     {shouldShowMissingUserMessage && (
                       <ValidationBlock>{t('in-applications:forms.errorBlankValue')}</ValidationBlock>
@@ -212,76 +271,76 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                   </Col>
                   <Col xs={6}>
                     <FormInput
-                      placeholder={t('in-settings:tabs.hidden')}
                       className={locals.formGroupWithoutMargin}
-                      form={form}
-                      setForm={setForm}
-                      label={t('in-settings:tabs.password')}
-                      fieldName="roPassword"
-                      type="password"
                       description={t('in-settings:tabs.passwordDescription')}
+                      fieldName="roPassword"
+                      form={form}
+                      label={t('in-settings:tabs.password')}
+                      placeholder={t('in-settings:tabs.hidden')}
+                      setForm={setForm}
+                      type="password"
                     />
                     {shouldShowMissingPasswordMessage && (
                       <ValidationBlock>{t('in-applications:forms.errorBlankValue')}</ValidationBlock>
                     )}
                   </Col>
                 </Row>
-              )}
+              ) : undefined}
             </Section>
             <Section restrictWidth="50rem">
-              <Row className={indentityProvidersLocals.row}>
+              <Row className={identityProvidersLocals.row}>
                 <Col xs={6}>
                   <FormInput
-                    placeholder="dc=example,dc=com"
-                    form={form}
-                    setForm={setForm}
-                    fieldName="base"
-                    label={t('in-settings:tabs.base')}
                     description={t('in-settings:tabs.baseDescription')}
+                    fieldName="base"
+                    form={form}
+                    label={t('in-settings:tabs.base')}
+                    placeholder="dc=example,dc=com"
+                    setForm={setForm}
                   />
                 </Col>
                 <Col xs={6}>
                   <FormInput
-                    placeholder="(cn=INSTANA)"
-                    form={form}
-                    setForm={setForm}
-                    fieldName="groupQuery"
-                    label={t('in-settings:tabs.groupQuery')}
                     description={t('in-settings:tabs.groupQueryDescription')}
+                    fieldName="groupQuery"
+                    form={form}
+                    label={t('in-settings:tabs.groupQuery')}
+                    placeholder="(cn=INSTANA)"
+                    setForm={setForm}
                   />
                 </Col>
               </Row>
-              <Row className={indentityProvidersLocals.row}>
+              <Row className={identityProvidersLocals.row}>
                 <Col xs={6}>
                   <FormInput
-                    placeholder={t('in-settings:tabs.member')}
-                    form={form}
-                    setForm={setForm}
-                    fieldName="groupMemberField"
-                    label={t('in-settings:tabs.groupMemberField')}
                     description={t('in-settings:tabs.groupMemberFieldDescription')}
+                    fieldName="groupMemberField"
+                    form={form}
+                    label={t('in-settings:tabs.groupMemberField')}
+                    placeholder={t('in-settings:tabs.member')}
+                    setForm={setForm}
                   />
                 </Col>
                 <Col xs={6}>
                   <FormInput
-                    placeholder="(uid=%s)"
-                    form={form}
-                    setForm={setForm}
-                    fieldName="userQueryTemplate"
-                    label={t('in-settings:tabs.userQueryTemplate')}
                     description={t('in-settings:tabs.userQueryTemplateDescription')}
+                    fieldName="userQueryTemplate"
+                    form={form}
+                    label={t('in-settings:tabs.userQueryTemplate')}
+                    placeholder="(uid=%s)"
+                    setForm={setForm}
                   />
                 </Col>
               </Row>
-              <Row className={indentityProvidersLocals.row}>
+              <Row className={identityProvidersLocals.row}>
                 <Col xs={6}>
                   <FormInput
-                    placeholder={t('in-settings:tabs.mail')}
-                    form={form}
-                    setForm={setForm}
-                    fieldName="emailField"
-                    label={t('in-settings:tabs.emailField')}
                     description={t('in-settings:tabs.emailFieldDescription')}
+                    fieldName="emailField"
+                    form={form}
+                    label={t('in-settings:tabs.emailField')}
+                    placeholder={t('in-settings:tabs.mail')}
+                    setForm={setForm}
                   />
                 </Col>
               </Row>
@@ -289,51 +348,51 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
             <Section restrictWidth="50rem">
               <h3>{t('in-settings:tabs.ldapUserAccount')}</h3>
 
-              <Row className={indentityProvidersLocals.row}>
+              <Row className={identityProvidersLocals.row}>
                 <Col xs={12}>
                   <DescriptionText>
                     {t('in-settings:tabs.thisAccountIsAutomaticallyAssignedAnAdminRoleLDAP')}
                   </DescriptionText>
                 </Col>
               </Row>
-              <Row className={indentityProvidersLocals.row}>
+              <Row className={identityProvidersLocals.row}>
                 <Col xs={6}>
                   <FormInput
                     className={locals.formGroupWithoutMargin}
-                    form={form}
-                    setForm={setForm}
-                    fieldName="testUser"
-                    label={t('in-settings:tabs.username')}
                     description={t('in-settings:tabs.usernameDescription')}
+                    fieldName="testUser"
+                    form={form}
+                    label={t('in-settings:tabs.username')}
+                    setForm={setForm}
                   />
                 </Col>
                 <Col xs={6}>
                   <FormInput
-                    placeholder={t('in-settings:tabs.hidden')}
                     className={locals.formGroupWithoutMargin}
-                    form={form}
-                    setForm={setForm}
-                    fieldName="testPassword"
-                    label={t('in-settings:tabs.password')}
-                    type="password"
                     description={t('in-settings:tabs.usernamePasswordDescription')}
+                    fieldName="testPassword"
+                    form={form}
+                    label={t('in-settings:tabs.password')}
+                    placeholder={t('in-settings:tabs.hidden')}
+                    setForm={setForm}
+                    type="password"
                   />
                 </Col>
                 <Col xs={12}>
                   <Button
-                    icon={testResultMessage.waitingForTest ? 'lib_actions_loading' : null}
+                    icon={testResultMessage.waitingForTest ? 'lib_actions_loading' : undefined}
                     iconSpinning={testResultMessage.waitingForTest}
                     className={locals.testButton}
                     disabled={
-                      !isNotBlank(getConfig(form).testUser) ||
-                      !isNotBlank(getConfig(form).testPassword) ||
+                      !isNotBlank(testUserField.value) ||
+                      !isNotBlank(testPasswordField.value) ||
                       testResultMessage.waitingForTest
                     }
                     kind="secondary"
                     onClick={() => {
-                      const config = getConfig(form);
+                      const config: LdapConfig = form.toJS();
                       const result$ = getTestResult(config);
-                      const id = '' + parseInt(Math.random() * 100000);
+                      const id = (Math.random() * 100000).toFixed();
                       setTestResultMessage({
                         id: '',
                         waitingForTest: true
@@ -369,7 +428,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                 </Col>
               </Row>
               {testResultMessage.messageProps && (
-                <Row className={indentityProvidersLocals.row}>
+                <Row className={identityProvidersLocals.row}>
                   <Col xs={12}>
                     <TemporaryMessage {...testResultMessage.messageProps} duration={10000} />
                   </Col>
@@ -378,25 +437,25 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
             </Section>
             <Section restrictWidth="50rem">
               <h2>{t('in-settings:tabs.optionalSettings')}</h2>
-              <Row className={indentityProvidersLocals.row}>
+              <Row className={identityProvidersLocals.row}>
                 <Col xs={6}>
                   <FormInput
-                    placeholder={t('in-settings:tabs.optional')}
-                    form={form}
-                    setForm={setForm}
-                    fieldName="userDnMapping"
-                    label={t('in-settings:tabs.userDnMapping')}
                     description={t('in-settings:tabs.userDnMappingDescription')}
+                    fieldName="userDnMapping"
+                    form={form}
+                    label={t('in-settings:tabs.userDnMapping')}
+                    placeholder={t('in-settings:tabs.optional')}
+                    setForm={setForm}
                   />
                 </Col>
                 <Col xs={6}>
                   <FormInput
-                    placeholder={t('in-settings:tabs.optional')}
-                    form={form}
-                    setForm={setForm}
-                    fieldName="userField"
-                    label={t('in-settings:tabs.userField')}
                     description={t('in-settings:tabs.userFieldDescription')}
+                    fieldName="userField"
+                    form={form}
+                    label={t('in-settings:tabs.userField')}
+                    placeholder={t('in-settings:tabs.optional')}
+                    setForm={setForm}
                   />
                 </Col>
               </Row>
@@ -408,7 +467,33 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
   );
 }
 
-function FormInput({ form, type, setForm, fieldName, label, className, disabled, placeholder, description }) {
+const SUPPORTED_INPUT_TYPES = Object.freeze(['text', 'number', 'password'] as const);
+
+interface FormInputProps<FIELD_KEY extends keyof LdapMapFormItems> {
+  className?: string;
+  description?: string;
+  disabled?: boolean;
+  fieldName: FIELD_KEY;
+  form: LdapMapForm;
+  label: string;
+  parseFn?: (val: string) => LdapMapFormItems[FIELD_KEY]['value'];
+  placeholder?: string;
+  setForm: React.Dispatch<React.SetStateAction<LdapMapForm>>;
+  type?: (typeof SUPPORTED_INPUT_TYPES)[number];
+}
+
+function FormInput<FIELD_KEY extends keyof LdapMapFormItems>({
+  className,
+  description,
+  disabled,
+  fieldName,
+  form,
+  label,
+  parseFn = val => val,
+  placeholder,
+  setForm,
+  type
+}: FormInputProps<FIELD_KEY>) {
   return form.get(fieldName).map(field => (
     <FormGroup className={className}>
       <Label htmlFor={`ldap_${fieldName}`} hasError={!field.valid && field.touched}>
@@ -418,11 +503,12 @@ function FormInput({ form, type, setForm, fieldName, label, className, disabled,
       <Input
         id={`ldap_${fieldName}`}
         type={type || 'text'}
-        value={field.value}
+        value={field.value?.toString() ?? ''}
         disabled={disabled}
         placeholder={placeholder}
         onChange={e => {
-          setForm(form.updateIn([fieldName], f => f.setValue(e.target.value).setTouched(true)));
+          const newValue = parseFn(e.target.value);
+          setForm(form.updateIn([fieldName], f => f.setValue(newValue as never).setTouched(true)) as LdapMapForm);
         }}
         autoComplete="off"
         hasError={!field.valid && field.touched}
@@ -435,10 +521,14 @@ function FormInput({ form, type, setForm, fieldName, label, className, disabled,
 }
 
 function scrollToResultMessage() {
-  scrollIntoView(document.getElementsByClassName('message')[0]);
+  scrollIntoView(document.getElementsByClassName('message')[0] as HTMLElement);
 }
 
-function saveItem({ form, setMessage, unstable_trackEvent }) {
+interface SaveItemPropsWithForm extends SaveItemProps {
+  form: LdapMapForm;
+}
+
+function saveItem({ form, setMessage, unstable_trackEvent }: SaveItemPropsWithForm) {
   setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = setConfig(form.toJS());
   setConfigResult$.once(
@@ -454,25 +544,7 @@ function saveItem({ form, setMessage, unstable_trackEvent }) {
   );
 }
 
-function getConfig(form) {
-  return {
-    base: form.get('base').value,
-    emailField: form.get('emailField').value,
-    emptyPass: form.get('emptyPass').value,
-    groupMemberField: form.get('groupMemberField').value,
-    groupQuery: form.get('groupQuery').value,
-    roPassword: form.get('roPassword').value,
-    roUser: form.get('roUser').value,
-    testPassword: form.get('testPassword').value,
-    testUser: form.get('testUser').value,
-    url: form.get('url').value,
-    userDnMapping: form.get('userDnMapping').value,
-    userField: form.get('userField').value,
-    userQueryTemplate: form.get('userQueryTemplate').value
-  };
-}
-
-function checkNonAnonymousROUserHasCredentials({ emptyPass, roUser, roPassword }) {
+function checkNonAnonymousROUserHasCredentials({ emptyPass, roUser, roPassword }: LdapMapFormItems): ValidationResult {
   if (!emptyPass.value) {
     if (!roUser.value || !roPassword.value || roUser.value == '' || roPassword.value == '') {
       return [
@@ -483,9 +555,13 @@ function checkNonAnonymousROUserHasCredentials({ emptyPass, roUser, roPassword }
       ];
     }
   }
+  return undefined;
 }
 
-function enrichForm(form, { setCanDeleteItem, result: { config } }) {
+function enrichForm<FORM_ITEMS extends MapFormItems>(
+  _form: MapForm<FORM_ITEMS>,
+  { setCanDeleteItem, result: { config } }: EnrichFormProps<LdapConfig>
+): LdapMapForm {
   if (config.base) {
     setCanDeleteItem(true);
   }
@@ -506,11 +582,11 @@ function enrichForm(form, { setCanDeleteItem, result: { config } }) {
         value: config.roPassword
       }),
       testUser: createField({
-        value: config.testUser || '',
+        value: config.testUser ?? '',
         validator: notBlankValidator
       }),
       testPassword: createField({
-        value: config.testPassword || '',
+        value: config.testPassword ?? '',
         validator: notBlankValidator
       }),
       base: createField({
@@ -544,6 +620,9 @@ function enrichForm(form, { setCanDeleteItem, result: { config } }) {
       }),
       acceptAnyCA: createField({
         value: config.acceptAnyCA
+      }),
+      groupMemberFieldConfigured: createField({
+        value: config.groupMemberFieldConfigured
       })
     }
   });

@@ -3,6 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-export function isAnotherIdpActivated(otherConfigs = []) {
+export function isAnotherIdpActivated<T>(otherConfigs: Array<T> = []): number {
   return otherConfigs.filter(Boolean).length;
 }

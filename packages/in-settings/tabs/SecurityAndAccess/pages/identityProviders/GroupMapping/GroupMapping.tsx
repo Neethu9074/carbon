@@ -38,13 +38,10 @@ import {
   IdpGroupMapping,
   IdentityProviderPatch
 } from 'in-settings/tabs/SecurityAndAccess/api/groupMappings';
-// @ts-expect-error
-import { getConfigAsResultObservableNotMemoized as ldapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
-// @ts-expect-error
-import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
-// @ts-expect-error
-import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { getConfigAsResultObservableNotMemoized as ldapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
+import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
+import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getGroupsAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/groups';
 // @ts-expect-error
@@ -104,9 +101,9 @@ export default function GroupMapping() {
       mappings: getMappings(),
       instanaGroups: getGroupsAsResultObservable(),
       denyCheck: getIdpRestriction(),
-      samlConfig: samlConfig(),
+      samlConfig: samlConfig(undefined),
       ldapConfig: ldapConfig(),
-      oidcConfig: oidcConfig()
+      oidcConfig: oidcConfig(undefined)
     };
     const observableKeys: any = Object.keys(apis);
     const observableValues: any = Object.values(apis);

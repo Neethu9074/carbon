@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
+import { createField, Field, MapForm, MapFormItems } from 'formalistic';
 import React, { useState, useEffect } from 'react';
-import { createField } from 'formalistic';
 
+import { LdapConfig, OidcApiRequestConfig, OidcApiResponseConfig, SamlConfig } from '@instana/types';
 import { Select, Button } from '@instana/components';
 
 import {
@@ -15,22 +16,24 @@ import {
   refresh,
   setConfig
 } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
-import ConfigureIdPInfoMessage from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/ConfigureIdPInfoMessage';
-import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/configuredIdPCheck';
-import { defaultIdpType, idpTypes } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/OIDC/idpTypes';
+import ConfigureIdPInfoMessage from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/ConfigureIdPInfoMessage';
+import { deleteItem, isAnyInvitationsPending } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/utils';
+import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/configuredIdPCheck';
+import { defaultIdpType, idpTypes } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/OIDC/idpTypes';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
-import { deleteItem } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/utils';
-import { disableInvitesWithIdpEnabled, idpConfigV2Enabled } from 'in-services/featureFlags';
+// @ts-expect-error needs TS migration
+import ApiItemView from 'in-settings/components/ApiItemView';
+import CopyableText from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/CopyableText';
+import { ApiItemMessage, EnrichFormProps, SaveItemProps } from 'in-settings/types';
 import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import ApiItemView from 'in-settings/components/ApiItemView';
+import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
 import { Row, Col } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';
@@ -41,34 +44,50 @@ import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';
 
-import indentityProvidersLocals from '../indentityProviders.mless';
+import identityProvidersLocals from '../identityProviders.mless';
 import locals from './OIDC.mless';
 
 const secretPlaceholder = 'HIDDEN';
 
-export default function OIDC(props) {
+type OidcMapFormItems = {
+  oidcSignInCallbackUrl: Field<string>;
+  oidcSignOutCallbackUrl: Field<string>;
+  spEntityId: Field<string>;
+  ownerEmail: Field<string>;
+  discoveryUri: Field<string>;
+  activated: Field<string>;
+  idpType: Field<string>;
+  secret: Field<string>;
+};
+type OidcMapForm = MapForm<OidcMapFormItems>;
+
+interface OidcProps extends Pick<Parameters<typeof isAnyInvitationsPending>[0], 'invitations'> {}
+
+export default function OIDC(props: OidcProps) {
   const { unstable_trackEvent } = useSegmentTracking();
   const inputDOMNode = document.createElement('input');
-  const [input] = useState(inputDOMNode);
-  const [file, setFile] = useState(null);
+  const [input] = useState<HTMLInputElement>(inputDOMNode);
+  const [file, setFile] = useState<File | undefined>();
   inputDOMNode.onchange = () => setFile(input && input.files && input.files.length > 0 ? input.files[0] : undefined);
 
   return (
     <ApiItemView
       getObservables={() => ({
-        config: getConfigAsResultObservable(),
-        samlConfig: getSamlConfig(),
-        ldapConfig: getLdapConfig()
+        config: getConfigAsResultObservable(undefined),
+        samlConfig: getSamlConfig(undefined),
+        ldapConfig: getLdapConfig(undefined)
       })}
       enrichForm={enrichForm}
-      deleteItem={data => deleteItem({ ...data, deleteConfig: deleteConfig })}
+      deleteItem={({ setMessage }: Pick<Parameters<typeof deleteItem>[0], 'setMessage'>) =>
+        deleteItem({ setMessage, deleteConfig: deleteConfig })
+      }
       input={input}
       file={file}
       onCancelClick={() => {
-        setFile(null);
+        setFile(undefined);
         refresh();
       }}
-      saveItem={data => {
+      saveItem={(data: Omit<SaveProps, 'file' | 'unstable_trackEvent'>) => {
         if (isAnyInvitationsPending(props)) {
           addActiveDialog(
             <ConfirmationDialog
@@ -79,7 +98,7 @@ export default function OIDC(props) {
                 </span>
               }
               onSubmit={() => {
-                save({ ...data, file: file, unstable_trackEvent });
+                save({ ...data, file, unstable_trackEvent });
                 close();
               }}
               confirmButtonKind="create"
@@ -98,12 +117,20 @@ export default function OIDC(props) {
   );
 }
 
-function save({ setMessage, form, result, file, unstable_trackEvent }) {
+interface SaveProps {
+  setMessage: React.Dispatch<React.SetStateAction<ApiItemMessage>>;
+  form: OidcMapForm;
+  file?: File;
+  unstable_trackEvent: ReturnType<typeof useSegmentTracking>['unstable_trackEvent'];
+}
+
+function save({ setMessage, form, file, unstable_trackEvent }: SaveProps) {
   if (file) {
     const reader = new FileReader();
     reader.readAsText(file, 'UTF-8');
     reader.onload = function (evt) {
-      if (evt.target.result.length > 2000000) {
+      const eventTarget = evt.target?.result?.toString() ?? '';
+      if (eventTarget.length > 2000000) {
         setMessage({
           text: t('in-settings:tabs.failedToSaveConfig', {
             err: t('in-settings:tabs.IdPMetadataLargerThanTwoMega')
@@ -113,9 +140,8 @@ function save({ setMessage, form, result, file, unstable_trackEvent }) {
         return;
       }
       saveItem({
-        result,
         setMessage,
-        idpMetadata: evt.target.result,
+        idpMetadata: eventTarget,
         spEntityId: form.get('spEntityId').value,
         ownerEmail: form.get('ownerEmail').value,
         discoveryUri: form.get('discoveryUri').value,
@@ -126,7 +152,6 @@ function save({ setMessage, form, result, file, unstable_trackEvent }) {
     };
   } else {
     saveItem({
-      result,
       setMessage,
       idpMetadata: '',
       spEntityId: form.get('spEntityId').value,
@@ -139,12 +164,27 @@ function save({ setMessage, form, result, file, unstable_trackEvent }) {
   }
 }
 
-function Content({ file, form, setForm, input, setCanSaveItem, result }) {
+interface ContentProps {
+  file?: File;
+  form: OidcMapForm;
+  result: {
+    config: OidcApiResponseConfig;
+    ldapConfig?: LdapConfig;
+    samlConfig?: SamlConfig;
+  };
+  input: HTMLInputElement;
+  setCanSaveItem: React.Dispatch<React.SetStateAction<boolean>>;
+  setForm: React.Dispatch<React.SetStateAction<OidcMapForm>>;
+}
+
+function Content({ file, form, setForm, input, setCanSaveItem, result }: ContentProps) {
   useEffect(
     // allow only saving when secret field is set and either idP metadata has been uploaded or discovery url has been set
     () =>
       setCanSaveItem(
-        form.get('secret').value && (!!file || form.get('discoveryUri').value) && !result.config.activated
+        Boolean(form.get('secret').value) &&
+          (!!file || Boolean(form.get('discoveryUri').value)) &&
+          !result.config.activated
       ),
     [file, form, setCanSaveItem, result]
   );
@@ -225,7 +265,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
             </Col>
           </Row>
 
-          <Row className={indentityProvidersLocals.row}>
+          <Row className={identityProvidersLocals.row}>
             <Col xs={12}>
               {form.get('ownerEmail').map(field => (
                 <FormGroup>
@@ -292,7 +332,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
           <h2>{t('in-settings:tabs.clientSetup')}</h2>
           <p className={locals.descriptionText}>{t('in-settings:tabs.clientSetupDescription')}</p>
 
-          <Row className={indentityProvidersLocals.row}>
+          <Row className={identityProvidersLocals.row}>
             <Col xs={12}>
               <CopyableText title={t('in-settings:tabs.redirectUrl')} form={form} fieldName="oidcSignInCallbackUrl" />
             </Col>
@@ -330,8 +370,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                   <Label htmlFor="spEntityId" hasError={!field.valid && field.touched}>
                     {t('in-settings:tabs.identityProviderType')}
                   </Label>
-
-                  <Input className={locals.input} type="text" id="idpType" value={field.value.label} disabled />
+                  <Input className={locals.input} type="text" id="idpType" value={field.value} disabled />
                 </FormGroup>
               ))}
             </Col>
@@ -390,25 +429,6 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
   );
 }
 
-function CopyableText({ title, form, fieldName }) {
-  return form.get(fieldName).map(field => (
-    <FormGroup>
-      <Label htmlFor={fieldName} hasError={!field.valid && field.touched}>
-        {title}
-      </Label>
-
-      <div className={locals.flexWrapper}>
-        <Input className={locals.input} readOnly type="text" id={fieldName} value={field.value} autoComplete="off" />
-        <CopyToClipboardButton size="compact" getText={() => field.value} />
-      </div>
-    </FormGroup>
-  ));
-}
-
-function isAnyInvitationsPending(props) {
-  return disableInvitesWithIdpEnabled && props.invitations?.data?.length > 0;
-}
-
 function saveItem({
   setMessage,
   idpMetadata,
@@ -418,7 +438,7 @@ function saveItem({
   secret,
   idpType,
   unstable_trackEvent
-}) {
+}: OidcApiRequestConfig & SaveItemProps) {
   const oidcConfig = { idpMetadata, spEntityId, ownerEmail, discoveryUri, secret, idpType };
   setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = setConfig(oidcConfig);
@@ -436,7 +456,10 @@ function saveItem({
   );
 }
 
-function enrichForm(form, { setCanDeleteItem, result: { config } }) {
+function enrichForm<FORM_ITEMS extends MapFormItems>(
+  form: MapForm<FORM_ITEMS>,
+  { setCanDeleteItem, result: { config } }: EnrichFormProps<OidcApiResponseConfig>
+): OidcMapForm {
   const { oidcSignInCallbackUrl, oidcSignOutCallbackUrl, spEntityId, discoveryUri, activated, idpType } = config;
   const mappedIdpType = idpTypes.filter(({ key }) => key === idpType)[0] ?? defaultIdpType.key;
 
@@ -465,5 +488,5 @@ function enrichForm(form, { setCanDeleteItem, result: { config } }) {
           return null;
         }
       })
-    );
+    ) as unknown as OidcMapForm;
 }

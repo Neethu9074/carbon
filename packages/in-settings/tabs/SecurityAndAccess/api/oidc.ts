@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
+import { OidcApiRequestConfig, OidcApiResponseConfig, Result } from '@instana/types';
+import { create, Observable } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import http from 'in-services/http';
+import http, { Response } from 'in-services/http';
 
 const refreshSignal = create().emit(true);
 export function refresh() {
@@ -16,7 +17,7 @@ export function refresh() {
 }
 
 export const getConfigAsResultObservable = memoize(getConfigAsResultObservableInternal, () => 'OidcConfig', 60000);
-function getConfigAsResultObservableInternal() {
+function getConfigAsResultObservableInternal(): Observable<Result<OidcApiResponseConfig>> {
   return refreshSignal.flatMap(() =>
     createObservable(
       http({
@@ -28,8 +29,8 @@ function getConfigAsResultObservableInternal() {
   );
 }
 
-export function setConfig(config) {
-  return http({
+export function setConfig(config: OidcApiRequestConfig): Observable<Response<OidcApiResponseConfig>> {
+  return http<OidcApiResponseConfig>({
     method: 'PUT',
     maxRetries: 3,
     url: `/api/settings/authentication/oidc`,
@@ -41,8 +42,8 @@ export function setConfig(config) {
   });
 }
 
-export function deleteConfig() {
-  return http({
+export function deleteConfig(): Observable<boolean> {
+  return http<boolean>({
     method: 'DELETE',
     maxRetries: 3,
     url: `/api/settings/authentication/oidc`,
@@ -53,7 +54,7 @@ export function deleteConfig() {
   });
 }
 
-function isAvailableQuery() {
+function isAvailableQuery(): Observable<Response<boolean>> {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -61,12 +62,12 @@ function isAvailableQuery() {
   });
 }
 
-export function isAvailable() {
+export function isAvailable(): Observable<boolean> {
   return isAvailableQuery().map(res => res.body);
 }
 
-export function isOidcActive() {
-  return http({
+export function isOidcActive(): Observable<boolean> {
+  return http<boolean>({
     method: 'GET',
     maxRetries: 3,
     url: '/api/settings/authentication/oidc/active'

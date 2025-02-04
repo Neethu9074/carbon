@@ -7,25 +7,21 @@
 import React from 'react';
 
 import { Observable } from '@instana/observables';
+import { Error, Result } from '@instana/types';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { t, Trans } from 'in-i18n';
-import { Error } from 'in-types';
-
-interface MessageProps {
-  message?: string;
-  type?: string;
-  isSaving?: boolean;
-  text?: string;
-}
+import { ApiItemMessage } from 'in-settings/types';
+import { disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
+import { Invitation } from 'in-api/users';
 
 export const deleteItem = ({
   setMessage,
   deleteConfig
 }: {
-  setMessage: React.Dispatch<React.SetStateAction<MessageProps | null>>;
+  setMessage: React.Dispatch<React.SetStateAction<ApiItemMessage | null>>;
   deleteConfig: () => Observable<any>;
 }) => {
   addActiveDialog(
@@ -58,3 +54,11 @@ export const deleteItem = ({
     />
   );
 };
+
+interface IsAnyInvitationsPendingProps {
+  invitations: Result<Invitation[]>;
+}
+
+export function isAnyInvitationsPending({ invitations }: IsAnyInvitationsPendingProps) {
+  return disableInvitesWithIdpEnabled && (invitations?.data ?? []).length > 0;
+}

@@ -18,13 +18,10 @@ import {
   IdentityProviderPatch,
   IdpGroupMapping
 } from 'in-settings/tabs/SecurityAndAccess/api/groupMappings';
-// @ts-expect-error
 import { getConfigAsResultObservableNotMemoized as ldapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
-// @ts-expect-error
+import GroupMapping from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMapping/GroupMapping';
 import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
-// @ts-expect-error
 import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
-import GroupMapping from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/GroupMapping/GroupMapping';
 import { getGroupsAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/groups';
 import { t } from 'in-i18n';
 
@@ -82,7 +79,7 @@ enum IdpMappingField {
   GroupId
 }
 
-describe('in-settings/tabs/SecurityAndAccess/pages/indentityProviders/GroupMapping/GroupMapping', () => {
+describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMapping/GroupMapping', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });

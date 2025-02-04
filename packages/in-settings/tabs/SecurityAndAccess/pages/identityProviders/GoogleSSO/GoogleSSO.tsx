@@ -3,18 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField } from 'formalistic';
+import { createField, Field, MapForm, MapFormItems } from 'formalistic';
 import React from 'react';
 
 import { Typography } from '@instana/components';
+import { GoogleSSOConfig } from '@instana/types';
 
 import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/SecurityAndAccess/api/googleSSO';
 import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { EnrichFormProps, SaveItemProps } from 'in-settings/types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { idpConfigV2Enabled } from 'in-services/featureFlags';
+// @ts-expect-error needs TS migration
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
 import Section from 'in-settings/components/Section';
@@ -23,6 +26,9 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
+
+type GoogleSsoMapFormItems = { filter: Field<string | undefined> };
+type GoogleSsoMapForm = MapForm<GoogleSsoMapFormItems>;
 
 export default function GoogleSSO() {
   const { unstable_trackEvent } = useSegmentTracking();
@@ -34,8 +40,10 @@ export default function GoogleSSO() {
       })}
       enrichForm={enrichForm}
       onCancelClick={refresh}
-      saveItem={data => saveItem({ ...data, unstable_trackEvent })}
-      render={render}
+      saveItem={({ form, setMessage }: Omit<SaveItemPropsWithForm, 'unstable_trackEvent'>) =>
+        saveItem({ form, setMessage, unstable_trackEvent })
+      }
+      render={GoogleSsoForm}
       {...(idpConfigV2Enabled
         ? { parentViewName: t('in-settings:tabs.identityProviders'), parentPath: securityAndAccessIdentityProviders }
         : {})}
@@ -45,13 +53,22 @@ export default function GoogleSSO() {
 
 //       <h2>{t('in-settings:tabs.configureAllowedEmailDomains')}</h2>
 
-function render({ form, setForm }) {
+interface GoogleSsoFormProps {
+  form: GoogleSsoMapForm;
+  setForm: React.Dispatch<React.SetStateAction<GoogleSsoMapForm>>;
+}
+
+function GoogleSsoForm({ form, setForm }: GoogleSsoFormProps) {
   return (
     <>
       <Title title={t('in-settings:tabs.googleSSO.configure')} />
       <SubViewHeader>{t('in-settings:tabs.googleSSO.configure')}</SubViewHeader>
-      <Typography component="p">{t('in-settings:tabs.googleSSO.domainOnlyMessage')}</Typography>
-      <Typography component="p">{t('in-settings:tabs.googleSSO.domainExistingUsersMessage')}</Typography>
+      <Typography component="p" variant="body-regular">
+        {t('in-settings:tabs.googleSSO.domainOnlyMessage')}
+      </Typography>
+      <Typography component="p" variant="body-regular">
+        {t('in-settings:tabs.googleSSO.domainExistingUsersMessage')}
+      </Typography>
 
       <form>
         <Section restrictWidth="50rem">
@@ -82,7 +99,11 @@ function render({ form, setForm }) {
   );
 }
 
-function saveItem({ form, setMessage, unstable_trackEvent }) {
+interface SaveItemPropsWithForm extends SaveItemProps {
+  form: GoogleSsoMapForm;
+}
+
+function saveItem({ form, setMessage, unstable_trackEvent }: SaveItemPropsWithForm): void {
   const googleSingleSignOnConfig = { filter: form.get('filter').value };
   setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = setConfig(googleSingleSignOnConfig);
@@ -99,11 +120,14 @@ function saveItem({ form, setMessage, unstable_trackEvent }) {
   );
 }
 
-function enrichForm(form, { result: { config } }) {
+function enrichForm<FORM_ITEMS extends MapFormItems>(
+  form: MapForm<FORM_ITEMS>,
+  { result: { config } }: EnrichFormProps<GoogleSSOConfig>
+): GoogleSsoMapForm {
   return form.put(
     'filter',
     createField({
       value: config.filter
     })
-  );
+  ) as unknown as GoogleSsoMapForm;
 }
