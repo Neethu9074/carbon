@@ -5,7 +5,7 @@
  */
 
 import React, { useMemo, useState } from 'react';
-import { MapForm } from 'formalistic';
+import { Item, MapForm } from 'formalistic';
 
 import {
   createBoundedAlertQueryBuilder,
@@ -17,7 +17,7 @@ import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/websites/
 //@ts-expect-error TS migration
 import useThresholdSuggestion from 'in-alerting/smart-alerts/eum/hooks/useThresholdSuggestion';
 import { stepConfigsForCarbonTearSheet } from 'in-alerting/smart-alerts/websites/TearSheet/steps/TearSheetStepConfigs';
-import { Item, TimeConfig, WebsiteAlertConfigWithMetadata, WebsiteAlertRule, WebsiteAlertRuleUnion } from 'in-types';
+import { TimeConfig, WebsiteAlertConfigWithMetadata, WebsiteAlertRule, WebsiteAlertRuleUnion } from 'in-types';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/websites/hooks/useAlertConfigValidation';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import AlertingFullScreenTearSheet from 'in-alerting/components/AlertingFullScreenTearSheet';
@@ -51,7 +51,7 @@ const tagSuggestionTimeConfig = {
 };
 
 export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTearSheetWithThresholdProps) {
-  const { editMode, tearSheetTitle, form, updateForm } = props;
+  const { editMode, tearSheetTitle, form, updateForm, onCreate } = props;
 
   const [, setTagFilterValid] = useState(true); //TODO
 
@@ -88,7 +88,6 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
   });
 
   return (
-    //@ts-expect-error TODO add `onChange` function
     <AlertingFullScreenTearSheet
       {...props}
       isTagFilterFormModelValid
@@ -97,9 +96,13 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
       stepConfigs={navItems}
       thresholdResult={thresholdResult}
       setTagFilterValid={setTagFilterValid}
-      handleFormSubmit={() => undefined}
+      handleFormSubmit={() => handleFormSubmit(onCreate)}
       actionButtonLabel={getButtonLabel(editMode)}
       productArea={productAreas.websites_mobile_apps}
     />
   );
+}
+
+function handleFormSubmit(onCreate: (simpleMode: boolean) => void): void {
+  onCreate(true);
 }
