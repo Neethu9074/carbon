@@ -13,6 +13,7 @@ import { LogVolumeData, MonthlyRetentionData, RetentionPeriodData, TagNames } fr
 import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 // eslint-disable-next-line no-restricted-imports
 import { groupTags } from './workspaces/LogVolumeGroupingConfigurator';
+import { millisecondsInMonth, Month } from 'in-logging/dashboard/utils';
 
 export const DEFAULT_NO_GROUPING_VALUE = 'NO_GROUPING';
 const UNCATEGORIZED_LABEL = 'UNCATEGORIZED';
@@ -80,42 +81,8 @@ export function transformData(dataResult: UnifiedMetricsResult[]): LogVolumeData
   return allHaveValidLabel ? transformLabeledData(data) : dataSorted;
 }
 
-enum Month {
-  January = 1,
-  February,
-  March,
-  April,
-  May,
-  June,
-  July,
-  August,
-  September,
-  October,
-  November,
-  December
-}
-
-const millisecondsInMonth = (year: number) => ({
-  [Month.January]: 31 * 86400000,
-  [Month.February]: (isLeapYear(year) ? 29 : 28) * 86400000,
-  [Month.March]: 31 * 86400000,
-  [Month.April]: 30 * 86400000,
-  [Month.May]: 31 * 86400000,
-  [Month.June]: 30 * 86400000,
-  [Month.July]: 31 * 86400000,
-  [Month.August]: 31 * 86400000,
-  [Month.September]: 30 * 86400000,
-  [Month.October]: 31 * 86400000,
-  [Month.November]: 30 * 86400000,
-  [Month.December]: 31 * 86400000
-});
-
 function getMonthMilliseconds(month: Month, year: number): number {
   return millisecondsInMonth(year)[month];
-}
-
-function isLeapYear(year: number): boolean {
-  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 }
 
 export function generateQuery(numMonths: number, groupingTag?: TagNames): any {
