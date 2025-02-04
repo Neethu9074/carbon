@@ -9,12 +9,12 @@ import React from 'react';
 import { Card } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import EtcdOpsChart from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Etcd/EtcdOpsChart';
+import { ChartProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Etcd/types';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
-import EtcdOpsChart from './EtcdOpsChart';
-import { ChartProps } from './types';
 
 export default function EtcdChartsV2({ snapshotId, timeConfig }: ChartProps) {
   return (

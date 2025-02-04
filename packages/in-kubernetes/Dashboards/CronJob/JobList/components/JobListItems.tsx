@@ -8,7 +8,7 @@ import React from 'react';
 
 // @ts-expect-error
 import Pods from 'in-kubernetes/Dashboards/CronJob/PodList';
-import { JobItem } from 'in-kubernetes/Dashboards/CronJob/JobItem';
+import JobItem from 'in-kubernetes/Dashboards/CronJob/JobItem/JobItem';
 
 interface JobListItemProps {
   items: any;

@@ -12,11 +12,11 @@ import {
 import { NodeVolumesTab, NodeConditionsTab, NodePodTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Node/tabs/SummaryWithoutTimeShift';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
+import PersistentVolumes from 'in-kubernetes/Dashboards/Cluster/tabs/PersistentVolumes';
 import Infrastructure from 'in-kubernetes/Dashboards/Node/tabs/Infrastructure';
 import { nodeDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Details from 'in-kubernetes/Dashboards/Node/tabs/Details/Details';
-import PersistentVolumes from '../../Cluster/tabs/PersistentVolumes';
 import Summary from 'in-kubernetes/Dashboards/Node/tabs/Summary';
 import { t } from 'in-i18n';
 

@@ -20,19 +20,19 @@ import {
 } from 'in-kubernetes/navigation/paths';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
 import getOpenShiftDeploymentConfigs$ from 'in-kubernetes/subscriptions/getOpenShiftDeploymentConfigs';
+import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Namespace/tabs/SummaryWithoutTimeShift';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import getKubernetesStatefulSets from 'in-kubernetes/subscriptions/getKubernetesStatefulSets';
 import getKubernetesDeployments$ from 'in-kubernetes/subscriptions/getKubernetesDeployments';
 import getKubernetesDaemonSets from 'in-kubernetes/subscriptions/getKubernetesDaemonSets';
+import PersistentVolumes from 'in-kubernetes/Dashboards/Cluster/tabs/PersistentVolumes';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import CronJobs from 'in-kubernetes/Dashboards/commonComponents/commonTabs/CronJobs';
 import { namespaceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import { NamespaceTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Summary from 'in-kubernetes/Dashboards/Namespace/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/Namespace/tabs/Details';
-import PersistentVolumes from '../../Cluster/tabs/PersistentVolumes';
 import Pods from 'in-kubernetes/Dashboards/Namespace/tabs/Pods';
-import SummaryWithoutTimeShift from './SummaryWithoutTimeShift';
 import { getTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 

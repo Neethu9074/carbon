@@ -11,13 +11,13 @@ import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 import { Result } from '@instana/types';
 
+import { ChartProps, EtcdProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Etcd/types';
 import EtcdChartsV3 from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Etcd/EtcdChartsV3';
 import EtcdChartsV2 from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Etcd/EtcdChartsV2';
 import getEtcdHosts from 'in-kubernetes/subscriptions/getEtcdHosts';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import SectionLine from 'in-settings/components/SectionLine';
 import { pendingResult } from 'in-services/fixedObjects';
-import { ChartProps, EtcdProps } from './types';
 import KpiCard from 'in-components/KpiCard';
 
 interface EtcdHostInfoProps {

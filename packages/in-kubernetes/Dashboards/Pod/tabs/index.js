@@ -10,6 +10,7 @@ import {
   kubernetesPrometheusMetricsEnabled
 } from 'in-services/featureFlags';
 import PersistentVolumeClaims from 'in-kubernetes/Dashboards/commonComponents/pvc/PersistentVolumeClaims';
+import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Pod/tabs/Summary/SummaryWithoutTimeShift';
 import PrometheusMetrics from 'in-kubernetes/Dashboards/Pod/tabs/Prometheus/PrometheusMetrics';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import { PodConditionsTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
@@ -18,7 +19,6 @@ import Infrastructure from 'in-kubernetes/Dashboards/Pod/tabs/Infrastructure';
 import { podDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Summary from 'in-kubernetes/Dashboards/Pod/tabs/Summary/Summary';
 import Details from 'in-kubernetes/Dashboards/Pod/tabs/Details/Details';
-import SummaryWithoutTimeShift from './Summary/SummaryWithoutTimeShift';
 import { t } from 'in-i18n';
 
 export default [

@@ -9,7 +9,7 @@ import React, { isValidElement, Children } from 'react';
 import { Link, SvgIcon, Typography, Spacer } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { DetailsListProps, InfosProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details';
+import { DetailsListProps, InfosProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details/types';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { getItem } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/utils';

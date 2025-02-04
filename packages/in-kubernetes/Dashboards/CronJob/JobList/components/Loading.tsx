@@ -6,8 +6,8 @@
 
 import React from 'react';
 
+import NotFound from 'in-kubernetes/Dashboards/CronJob/JobList/components/NotFound';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
-import { NotFound } from 'in-kubernetes/Dashboards/CronJob/JobList/components';
 
 interface LoadingProps {
   isLoading: boolean;

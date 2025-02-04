@@ -10,8 +10,8 @@ import { SvgIconSizes, KeyValue } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { t } from '@instana/i18n-react';
 
-import { PodMetrics } from 'in-kubernetes/Dashboards/CronJob/JobItem/PodMetrics';
-import { HealthDot } from 'in-kubernetes/Dashboards/CronJob/JobItem/HealthDot';
+import PodMetrics from 'in-kubernetes/Dashboards/CronJob/JobItem/PodMetrics';
+import HealthDot from 'in-kubernetes/Dashboards/CronJob/JobItem/HealthDot';
 import { formatDuration } from 'in-services/formatters/date';
 
 export const labelColumnDefinitions = [

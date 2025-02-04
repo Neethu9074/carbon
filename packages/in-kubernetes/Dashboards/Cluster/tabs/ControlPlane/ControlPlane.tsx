@@ -12,7 +12,7 @@ import { Spacer } from '@instana/components';
 // @ts-expect-error
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { getKeyValueObjectAsArray } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/utils';
-import { Details } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details';
+import Details from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details/Details';
 import Etcd from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Etcd/Etcd';
 
 export interface ControlPlaneProps {

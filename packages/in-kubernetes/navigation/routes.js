@@ -34,56 +34,37 @@ import {
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 
 export default [
-  <Route
-    key="kubernetesServiceDashboard"
-    path={serviceDashboardFullyQualified}
-    children={renderAsyncRouteChildren(ServiceDashboard)}
-  />,
-  <Route
-    key="kubernetesClusterDashboard"
-    path={clusterDashboardFullyQualified}
-    children={renderAsyncRouteChildren(ClusterDashboard)}
-  />,
-  <Route
-    key="kubernetesNamespaceDashboard"
-    path={namespaceDashboardFullyQualified}
-    children={renderAsyncRouteChildren(NamespaceDashboard)}
-  />,
-  <Route
-    key="kubernetesNodeDashboard"
-    path={nodeDashboardFullyQualified}
-    children={renderAsyncRouteChildren(NodeDashboard)}
-  />,
-  <Route
-    key="kubernetesPodDashboard"
-    path={podDashboardFullyQualified}
-    children={renderAsyncRouteChildren(PodDashboard)}
-  />,
-  <Route
-    key="kubernetesDaemonSetDashboard"
-    path={daemonSetDashboardFullyQualified}
-    children={renderAsyncRouteChildren(DaemonSetDashboard)}
-  />,
-  <Route
-    key="kubernetesDeploymentDashboard"
-    path={deploymentDashboardFullyQualified}
-    children={renderAsyncRouteChildren(DeploymentDashboard)}
-  />,
-  <Route
-    key="kubernetesStatefulSetDashboard"
-    path={statefulSetDashboardFullyQualified}
-    children={renderAsyncRouteChildren(StatefulSetDashboard)}
-  />,
-  <Route
-    key="kubernetesCroneJobDashboard"
-    path={cronJobDashboardFullyQualified}
-    children={renderAsyncRouteChildren(CronJobDashboard)}
-  />,
-  <Route
-    key="kubernetesDeploymentConfigDashboard"
-    path={deploymentConfigDashboardFullyQualified}
-    children={renderAsyncRouteChildren(DeploymentConfigDashboard)}
-  />,
-
-  <Route key="kubernetesMainView" path={kubernetes} children={renderAsyncRouteChildren(KubernetesMainView)} />
+  <Route key="kubernetesServiceDashboard" path={serviceDashboardFullyQualified}>
+    {renderAsyncRouteChildren(ServiceDashboard)}
+  </Route>,
+  <Route key="kubernetesClusterDashboard" path={clusterDashboardFullyQualified}>
+    {renderAsyncRouteChildren(ClusterDashboard)}
+  </Route>,
+  <Route key="kubernetesNamespaceDashboard" path={namespaceDashboardFullyQualified}>
+    {renderAsyncRouteChildren(NamespaceDashboard)}
+  </Route>,
+  <Route key="kubernetesNodeDashboard" path={nodeDashboardFullyQualified}>
+    {renderAsyncRouteChildren(NodeDashboard)}
+  </Route>,
+  <Route key="kubernetesPodDashboard" path={podDashboardFullyQualified}>
+    {renderAsyncRouteChildren(PodDashboard)}
+  </Route>,
+  <Route key="kubernetesDaemonSetDashboard" path={daemonSetDashboardFullyQualified}>
+    {renderAsyncRouteChildren(DaemonSetDashboard)}
+  </Route>,
+  <Route key="kubernetesDeploymentDashboard" path={deploymentDashboardFullyQualified}>
+    {renderAsyncRouteChildren(DeploymentDashboard)}
+  </Route>,
+  <Route key="kubernetesStatefulSetDashboard" path={statefulSetDashboardFullyQualified}>
+    {renderAsyncRouteChildren(StatefulSetDashboard)}
+  </Route>,
+  <Route key="kubernetesCroneJobDashboard" path={cronJobDashboardFullyQualified}>
+    {renderAsyncRouteChildren(CronJobDashboard)}
+  </Route>,
+  <Route key="kubernetesDeploymentConfigDashboard" path={deploymentConfigDashboardFullyQualified}>
+    {renderAsyncRouteChildren(DeploymentConfigDashboard)}
+  </Route>,
+  <Route key="kubernetesMainView" path={kubernetes}>
+    {renderAsyncRouteChildren(KubernetesMainView)}
+  </Route>
 ];

@@ -14,12 +14,10 @@ interface LoadMoreProps {
   label?: string;
 }
 
-function LoadMore({ canLoadMore, label = '', ...restProps }: LoadMoreProps) {
+export default function LoadMore({ canLoadMore, label = '', ...restProps }: Readonly<LoadMoreProps>) {
   if (!canLoadMore) {
     return null;
   }
 
   return <LiLoadMore label={label} {...restProps} />;
 }
-
-export default LoadMore;

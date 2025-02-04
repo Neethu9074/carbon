@@ -11,8 +11,8 @@ import React from 'react';
 
 import { create } from '@instana/observables';
 
+import MetricFilterChart from 'in-kubernetes/Dashboards/commonComponents/MetricFilterChart';
 import { getProps, NoopComponent } from 'in-test/enzymeTestUtils';
-import MetricFilterChart from './MetricFilterChart';
 
 describe('in-kubernetes/MetricFilterChart', () => {
   it('should disable metric series that do not match filters', () => {

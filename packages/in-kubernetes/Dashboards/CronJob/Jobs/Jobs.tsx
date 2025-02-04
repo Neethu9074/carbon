@@ -11,7 +11,7 @@ import { Card, SearchInput, Stack } from '@instana/components';
 import { urlStateDefinition, sortOptions } from 'in-kubernetes/Dashboards/CronJob/Jobs/utils';
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { JobList } from 'in-kubernetes/Dashboards/CronJob/JobList';
+import JobList from 'in-kubernetes/Dashboards/CronJob/JobList/JobList';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 

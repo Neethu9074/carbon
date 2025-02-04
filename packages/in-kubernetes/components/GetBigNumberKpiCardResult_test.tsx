@@ -13,9 +13,9 @@ import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/
 import { andQuery, tagEquals } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { metricKey, comparisonMetricKey } from 'in-kubernetes/components/MultiMetricBigNumberKpiCard';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { GetBigNumberKpiCardResult } from 'in-kubernetes/components/GetBigNumberKpiCardResult';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { Config } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { GetBigNumberKpiCardResult } from './GetBigNumberKpiCardResult';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { successObservable } from 'in-services/util/result';
 import { plugins } from 'in-forge/constants';
