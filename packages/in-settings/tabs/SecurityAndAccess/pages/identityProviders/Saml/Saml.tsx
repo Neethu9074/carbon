@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState, useEffect, useRef } from 'react';
 import { createField, Field, MapForm, MapFormItems } from 'formalistic';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { LdapConfig, OidcApiResponseConfig, SamlApiConfig, SamlConfig } from '@instana/types';
 import { Link, Button } from '@instana/components';
@@ -21,19 +21,17 @@ import ConfigureIdPInfoMessage from 'in-settings/tabs/SecurityAndAccess/pages/id
 import { deleteItem, isAnyInvitationsPending } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/utils';
 import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
-import { idpConfigV2Enabled } from 'in-services/featureFlags';
-import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
+// @ts-expect-error needs TS migration
+import ApiItemView from 'in-settings/components/ApiItemView';
 import CopyableText from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/CopyableText';
 import { ApiItemMessage, EnrichFormProps, SaveItemProps } from 'in-settings/types';
+import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
-import { ApiItemMessage, ApiItemResult } from 'in-settings/types';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-// @ts-expect-error needs TS migration
-import ApiItemView from 'in-settings/components/ApiItemView';
+import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
 import { Row, Col } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';

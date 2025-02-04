@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState, useEffect } from 'react';
 import { createField, Field, MapForm, MapFormItems } from 'formalistic';
+import React, { useState, useEffect } from 'react';
 
 import { LdapConfig, OidcApiRequestConfig, OidcApiResponseConfig, SamlConfig } from '@instana/types';
 import { Select, Button } from '@instana/components';
@@ -22,19 +22,18 @@ import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/
 import { defaultIdpType, idpTypes } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/OIDC/idpTypes';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
-import { idpConfigV2Enabled } from 'in-services/featureFlags';
-import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
+// @ts-expect-error needs TS migration
+import ApiItemView from 'in-settings/components/ApiItemView';
 import CopyableText from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/CopyableText';
 import { ApiItemMessage, EnrichFormProps, SaveItemProps } from 'in-settings/types';
+import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-// @ts-expect-error needs TS migration
-import ApiItemView from 'in-settings/components/ApiItemView';
+import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
 import { Row, Col } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';

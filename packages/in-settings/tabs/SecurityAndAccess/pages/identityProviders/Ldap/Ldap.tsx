@@ -17,16 +17,17 @@ import {
   setConfig,
   deleteConfig
 } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
-import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/configuredIdPCheck';
+// @ts-expect-error needs TS migration
+import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
 import { deleteItem, isAnyInvitationsPending } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/utils';
+import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
-import { idpConfigV2Enabled } from 'in-services/featureFlags';
+// @ts-expect-error needs TS migration
+import ApiItemView from 'in-settings/components/ApiItemView';
 import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SETTINGS_IDP_LDAP_TEST_CONFIGURATION } from 'in-services/tracking/tracking';
 import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
-// @ts-expect-error needs TS migration
-import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { EnrichFormProps, SaveItemProps } from 'in-settings/types';
@@ -35,8 +36,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ValidationBlock from 'in-components/form/ValidationBlock';
-// @ts-expect-error needs TS migration
-import ApiItemView from 'in-settings/components/ApiItemView';
+import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
 import { scrollIntoView } from 'in-services/util/dom';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -171,6 +171,7 @@ function LdapForm({ form, setForm, testResultMessage, setTestResultMessage, resu
     form.get('userQueryTemplate').value !== '' &&
     form.get('emailField').value &&
     form.get('emailField').value !== '';
+
   // testResultMessage.messageProps exists only when Test configuration is clicked
   const needsROCredentials = !emptyPassField.value;
   const shouldDoROUserPassCheck = needsROCredentials && (testResultMessage.messageProps || allFieldsFilled);
@@ -468,29 +469,31 @@ function LdapForm({ form, setForm, testResultMessage, setTestResultMessage, resu
 
 const SUPPORTED_INPUT_TYPES = Object.freeze(['text', 'number', 'password'] as const);
 
-interface FormInputProps {
+interface FormInputProps<FIELD_KEY extends keyof LdapMapFormItems> {
   className?: string;
   description?: string;
   disabled?: boolean;
-  fieldName: keyof LdapMapFormItems;
+  fieldName: FIELD_KEY;
   form: LdapMapForm;
   label: string;
+  parseFn?: (val: string) => LdapMapFormItems[FIELD_KEY]['value'];
   placeholder?: string;
   setForm: React.Dispatch<React.SetStateAction<LdapMapForm>>;
   type?: (typeof SUPPORTED_INPUT_TYPES)[number];
 }
 
-function FormInput({
-  form,
-  type,
-  setForm,
-  fieldName,
-  label,
+function FormInput<FIELD_KEY extends keyof LdapMapFormItems>({
   className,
+  description,
   disabled,
+  fieldName,
+  form,
+  label,
+  parseFn = val => val,
   placeholder,
-  description
-}: FormInputProps) {
+  setForm,
+  type
+}: FormInputProps<FIELD_KEY>) {
   return form.get(fieldName).map(field => (
     <FormGroup className={className}>
       <Label htmlFor={`ldap_${fieldName}`} hasError={!field.valid && field.touched}>
@@ -500,16 +503,12 @@ function FormInput({
       <Input
         id={`ldap_${fieldName}`}
         type={type || 'text'}
-        value={`${field.value}`}
+        value={field.value?.toString() ?? ''}
         disabled={disabled}
         placeholder={placeholder}
         onChange={e => {
-          setForm(
-            form.updateIn([fieldName], f => {
-              const targetValue = type === 'number' ? parseFloat(e.target.value ?? '0') : e.target.value;
-              return f.setValue(targetValue as never).setTouched(true);
-            }) as LdapMapForm
-          );
+          const newValue = parseFn(e.target.value);
+          setForm(form.updateIn([fieldName], f => f.setValue(newValue as never).setTouched(true)) as LdapMapForm);
         }}
         autoComplete="off"
         hasError={!field.valid && field.touched}
@@ -546,15 +545,17 @@ function saveItem({ form, setMessage, unstable_trackEvent }: SaveItemPropsWithFo
 }
 
 function checkNonAnonymousROUserHasCredentials({ emptyPass, roUser, roPassword }: LdapMapFormItems): ValidationResult {
-  if ([emptyPass.value, roUser.value, roPassword.value, roUser.value, roPassword.value].every(Boolean))
-    return undefined;
-
-  return [
-    {
-      severity: 'error',
-      message: t('in-applications:forms.errorBlankValue')
+  if (!emptyPass.value) {
+    if (!roUser.value || !roPassword.value || roUser.value == '' || roPassword.value == '') {
+      return [
+        {
+          severity: 'error',
+          message: t('in-applications:forms.errorBlankValue')
+        }
+      ];
     }
-  ];
+  }
+  return undefined;
 }
 
 function enrichForm<FORM_ITEMS extends MapFormItems>(

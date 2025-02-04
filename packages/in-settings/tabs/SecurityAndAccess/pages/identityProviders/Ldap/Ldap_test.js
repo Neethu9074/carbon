@@ -11,7 +11,7 @@ import { create } from '@instana/observables';
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import { getConfigAsResultObservable, getTestResult } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
-import Ldap from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/Ldap/Ldap';
+import Ldap from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Ldap/Ldap';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getInvitations$ } from 'in-api/users';
 import { t } from 'in-i18n';
