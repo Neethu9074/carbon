@@ -23,7 +23,7 @@ const getKubernetesClusters = createResultSubscriptionFactory<
 
 export default getKubernetesClusters;
 
-interface QueryParams {
+export interface QueryParams {
   page?: number;
   pageSize?: number;
   orderBy?: string;

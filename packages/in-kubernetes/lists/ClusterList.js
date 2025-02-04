@@ -7,8 +7,8 @@
 import { get, find } from 'lodash';
 import React from 'react';
 
+import { CarbonIconButton, SvgIcon } from '@instana/components';
 import { TableEntityCounter } from '@instana/legacy';
-import { SvgIcon, Card } from '@instana/components';
 
 import KubernetesNoDataNotification from 'in-kubernetes/lists/components/KubernetesNoDataNotification';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
@@ -18,7 +18,10 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHea
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { clusterList, useClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { kubernetesCloudNativeExperience } from 'in-services/featureFlags';
+import { clusterListFullyQualified } from 'in-kubernetes/navigation/paths';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -136,6 +139,8 @@ export default connectTo(
     timeConfig: timeConfig$
   },
   function ClusterList({ timeConfig }) {
+    const { createHrefToPath } = useNavigation();
+
     return (
       <>
         <Title title={t('in-kubernetes:clusters')} />
@@ -150,15 +155,26 @@ export default connectTo(
           getHasDataToRender={getHasDataToRender}
           FallbackComponent={() => <KubernetesNoDataNotification icon="lib_kubernetes_cluster" />}
         >
-          <Card>
-            <div className={locals.table}>
-              <ServerTableWithUrlState
-                get={getTableData}
-                filterColumnDefinitions={createColumnFilter}
-                timeConfig={timeConfig}
-              />
-            </div>
-          </Card>
+          <div className={locals.table}>
+            <ServerTableWithUrlState
+              get={getTableData}
+              filterColumnDefinitions={createColumnFilter}
+              timeConfig={timeConfig}
+              toolBarContent={
+                kubernetesCloudNativeExperience ? (
+                  <CarbonIconButton
+                    align="left"
+                    kind="ghost"
+                    size="lg"
+                    label={t('in-kubernetes:cloudNative.switchToGridView')}
+                    href={createHrefToPath(`${clusterListFullyQualified}/grid`)}
+                  >
+                    <SvgIcon type="lib_views_grid" size="s" />
+                  </CarbonIconButton>
+                ) : null
+              }
+            />
+          </div>
         </WithEmptyStateFallback>
       </>
     );

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment, ReactNode } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
 import { debounce } from 'lodash';
@@ -11,6 +11,7 @@ import { debounce } from 'lodash';
 import { Pagination as CarbonPagination, Checkbox, DataTable as CarbonDataTable } from '@instana/components';
 import { TableErrorRows, Table, Tbody, Thead } from '@instana/legacy';
 import { Card, SearchInput } from '@instana/components';
+import { OrderDirection } from '@instana/types';
 
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
 import { ColumnDefinition, TableProps, TableState } from 'in-components/tables/ServerTable/types';
@@ -26,7 +27,6 @@ import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { noop, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
 import Pagination from 'in-components/Pagination';
-import { OrderDirection } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ServerTablePresenter.mless';
@@ -42,20 +42,21 @@ export interface ServerTablePresenterProps<ItemType extends ListItem> extends Ta
   pageSize: number;
   pageSizes?: Array<number>;
   result?: Result<PaginatedResult<ItemType>> | Nullish;
-  renderPagination?: (p: TableState) => React.ReactNode;
+  renderPagination?: (p: TableState) => ReactNode;
   fixedLayout?: boolean;
   isScrollableTable?: boolean;
   searchWidth?: string | number;
-  rightHeader?: ((p: ServerTablePresenterProps<ItemType>) => React.ReactNode) | React.ReactNode;
-  leftHeader?: React.ReactNode;
+  rightHeader?: ((p: ServerTablePresenterProps<ItemType>) => ReactNode) | ReactNode;
+  leftHeader?: ReactNode;
   isSearchable?: boolean;
   searchPlaceholder?: string;
   withoutSearchIcon?: boolean;
   searchMaxWidth?: string | number;
-  scopeNotification?: React.ReactNode;
+  scopeNotification?: ReactNode;
   resultPrecision?: ResultPrecision;
   shadowless?: boolean;
   useMaxAvailableHeight?: boolean;
+  toolBarContent?: ReactElement;
 }
 
 export interface CarbonHeader<
@@ -128,7 +129,8 @@ export default function ServerTablePresenter<
     // events
     onChange = noop,
     onRowMouseEnter = noop,
-    onRowMouseLeave = noop
+    onRowMouseLeave = noop,
+    toolBarContent
   } = props;
   const result = props.result ?? (pendingResult as Result<PaginatedResult<ItemType>>);
   const { availableColumns, visibleColumns, optionalColumns, onColumnChecked } = filterColumns(props);
@@ -212,16 +214,19 @@ export default function ServerTablePresenter<
     // For customised column header where user can select which column to render.
     // A checklist containing all the header names to choose to rendere is got from
     // the below component.
-    const isConfigurationColum = optionalColumns && optionalColumns.length;
-    const toolBarContent = isConfigurationColum ? (
-      <ConfigureButton
-        columnDefinitions={visibleColumns}
-        availableColumnDefinitions={availableColumns}
-        onColumnChecked={onColumnChecked}
-      >
-        {''}
-      </ConfigureButton>
-    ) : undefined;
+    const isConfigurationColumn = optionalColumns && optionalColumns.length;
+    const toolBar = isConfigurationColumn ? (
+      <>
+        <ConfigureButton
+          columnDefinitions={visibleColumns}
+          availableColumnDefinitions={availableColumns}
+          onColumnChecked={onColumnChecked}
+        />
+        {toolBarContent}
+      </>
+    ) : (
+      toolBarContent
+    );
 
     let header;
     if (rightHeader) {
@@ -281,7 +286,7 @@ export default function ServerTablePresenter<
         tableInCard={tableInCard || cardTitle != null}
         fixedLayout={fixedLayout}
         results={result.data?.items}
-        toolBarContent={toolBarContent}
+        toolBarContent={toolBar}
       />
     );
 
@@ -302,7 +307,7 @@ export default function ServerTablePresenter<
         )}
       >
         {scopeNotification}
-        <Fragment>
+        <>
           {/* when the left header is passed as prop and not title , existing code support */}
           {!cardTitle && header && (
             <div className={classNames(locals.carbonHeader)}>
@@ -355,7 +360,7 @@ export default function ServerTablePresenter<
               />
             )
           ) : null}
-        </Fragment>
+        </>
       </Card>
     );
   }
@@ -502,7 +507,7 @@ export default function ServerTablePresenter<
   }
 
   return (
-    <Fragment>
+    <>
       {header && (
         <div className={classNames(locals.header, headerClassName)}>
           {leftHeader || <span>&nbsp;</span>}
@@ -512,6 +517,6 @@ export default function ServerTablePresenter<
       {scopeNotification}
       {tableElement}
       {pagination}
-    </Fragment>
+    </>
   );
 }

@@ -16,6 +16,7 @@ import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/S
 import { clusterIdUrlParameter, daemonSetIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import { getKubernetesNodesData } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
 import getHostByKubernetesNodeId from 'in-kubernetes/Dashboards/utils/getHostByKubernetesNodeId';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
@@ -23,11 +24,9 @@ import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresen
 import { formatDurationAccurately } from 'in-kubernetes/components/TimeFormatter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import getKubernetesNodes from 'in-kubernetes/subscriptions/getKubernetesNodes';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { useNodeDashboard } from 'in-kubernetes/navigation/paths';
-import { getInfraGranularity } from 'in-stores/metric/metric';
 import { isEks } from 'in-kubernetes/clusterDistributions';
 import { pendingResult } from 'in-services/fixedObjects';
 import EntityLink from 'in-components/EntityLink';
@@ -211,39 +210,10 @@ export default function Nodes(props) {
     <>
       <K8sAgentMonitoringIssueNotifications {...props} entityName="nodes" />
       <Card>
-        <ServerTableWithUrlState get={getTableData} {...props} />
+        <ServerTableWithUrlState get={getKubernetesNodesData} {...props} />
       </Card>
     </>
   );
-}
-
-function getTableData({
-  query = '',
-  page = 1,
-  pageSize = 20,
-  orderBy = 'type',
-  orderDirection = 'ASC',
-  timeConfig,
-  clusterId,
-  workloadControllerId
-}) {
-  return getKubernetesNodes({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    filter: {
-      label: query,
-      clusterId,
-      workloadControllerId,
-      timeConfig
-    },
-    granularity: getInfraGranularity(timeConfig)
-  });
 }
 
 function NodeLink({ id, name, entityHealthInfo }) {

@@ -26,6 +26,7 @@ import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commo
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import { getKubernetesPodsData } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import { getHealthyStatus } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
@@ -34,10 +35,8 @@ import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatter
 import { formatDurationAccurately } from 'in-kubernetes/components/TimeFormatter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import getKubernetesPods from 'in-kubernetes/subscriptions/getKubernetesPods';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { usePodDashboard } from 'in-kubernetes/navigation/paths';
-import { getInfraGranularity } from 'in-stores/metric/metric';
 import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import useUrlState from 'in-hooks/useUrlState';
@@ -279,7 +278,7 @@ export default function Pods(props) {
       <K8sAgentMonitoringIssueNotifications {...props} entityName="pods" />
       <Card>
         <Table
-          get={getTableData}
+          get={getKubernetesPodsData}
           timeConfig={timeConfig}
           namespaceId={namespaceId}
           workloadControllerId={workloadControllerId}
@@ -296,90 +295,7 @@ export default function Pods(props) {
   );
 }
 
-function getTableData({
-  query = '',
-  page = 1,
-  pageSize = 20,
-  orderBy = 'health',
-  orderDirection = 'DESC',
-  timeConfig,
-  namespaceId,
-  clusterId,
-  serviceId,
-  workloadControllerId,
-  nodeId,
-  cronJobId,
-  phase
-}) {
-  return getKubernetesPods({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    filter: {
-      label: query,
-      namespaceId,
-      workloadControllerId,
-      clusterId,
-      serviceId,
-      nodeId,
-      cronJobId,
-      timeConfig,
-      phase
-    },
-    granularity: getInfraGranularity(timeConfig)
-  }).map(props => sortByHealthIssues({ result: props, orderBy, orderDirection }));
-}
-
 function PodLink({ podId, deploymentId, serviceId, nodeId, podLabel, maxSeverity }) {
   const href = usePodDashboard(podId, { deploymentId, serviceId, nodeId });
   return <SeverityAwareEntityLink icon="lib_kubernetes_pod" label={podLabel} href={href} severity={maxSeverity} />;
-}
-
-function sortByHealthIssues({ result, orderBy, orderDirection }) {
-  if (!result?.data?.items || orderBy !== 'health') return result;
-  const multiplier = orderDirection === 'ASC' ? -1 : 1;
-  const getItemsWithHealthInfo = item => {
-    const {
-      pod: { conditions: podConditions },
-      entityHealthInfo,
-      statusSummary
-    } = item;
-
-    const { maxSeverity, openIssuesCount } = getHealthyStatus({
-      podConditions,
-      entityHealthInfo,
-      statusSummary
-    });
-
-    return {
-      ...item,
-      entityHealthInfo: {
-        ...entityHealthInfo,
-        maxSeverity,
-        openIssuesCount
-      }
-    };
-  };
-
-  const compareHealthInfo = (a, b) => {
-    if (a.entityHealthInfo.maxSeverity !== b.entityHealthInfo.maxSeverity) {
-      return (b.entityHealthInfo.maxSeverity - a.entityHealthInfo.maxSeverity) * multiplier;
-    }
-    return (b.entityHealthInfo.openIssuesCount - a.entityHealthInfo.openIssuesCount) * multiplier;
-  };
-
-  const sortedPods = [...result.data.items].map(getItemsWithHealthInfo).sort(compareHealthInfo);
-
-  return {
-    ...result,
-    data: {
-      ...result.data,
-      items: sortedPods
-    }
-  };
 }

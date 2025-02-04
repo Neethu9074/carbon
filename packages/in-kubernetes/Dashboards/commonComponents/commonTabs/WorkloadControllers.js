@@ -20,11 +20,12 @@ import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/S
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
-import { getInfraGranularity, getMetricForFocusedMoment } from 'in-stores/metric/metric';
+import { getWorkloadData } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
+import { getMetricForFocusedMoment } from 'in-stores/metric/metric';
 import { getIcon } from 'in-kubernetes/utils';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -154,7 +155,7 @@ export default function WorkloadControllersTable(props) {
       <K8sAgentMonitoringIssueNotifications {...props} />
       <Card>
         <ServerTableWithUrlState
-          get={getTableData}
+          get={getWorkloadData}
           filterColumnDefinitions={() => {
             const shouldShowDurationColumn =
               props.workloadControllerType === 'deployment' || props.workloadControllerType === 'deploymentConfig';
@@ -165,37 +166,4 @@ export default function WorkloadControllersTable(props) {
       </Card>
     </>
   );
-}
-
-function getTableData({
-  query = '',
-  page = 1,
-  pageSize = 20,
-  orderBy = 'health',
-  orderDirection = 'DESC',
-  timeConfig,
-  clusterId,
-  namespaceId,
-  serviceId,
-  getWorkloadControllers$,
-  resultTransformer = result => result
-}) {
-  return getWorkloadControllers$({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    filter: {
-      label: query,
-      namespaceId,
-      clusterId,
-      serviceId,
-      timeConfig
-    },
-    granularity: getInfraGranularity(timeConfig)
-  }).map(resultTransformer);
 }

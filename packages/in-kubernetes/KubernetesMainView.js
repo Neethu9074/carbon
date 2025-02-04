@@ -4,16 +4,18 @@
  */
 
 import { Switch, Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   clusterListFullyQualified,
   namespaceListFullyQualified,
   exploreFullyQualified
 } from 'in-kubernetes/navigation/paths';
+import { kubernetesCloudNativeExperience } from 'in-services/featureFlags';
 import KubernetesExplore from 'in-kubernetes/explore/KubernetesExplore';
 import ViewSwitcher from 'in-kubernetes/lists/components/ViewSwitcher';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import ClusterGrid from 'in-kubernetes/lists/components/ClusterGrid';
 import NamespaceList from 'in-kubernetes/lists/NamespaceList';
 import ClusterList from 'in-kubernetes/lists/ClusterList';
 import Footer from 'in-components/Footer';
@@ -25,9 +27,17 @@ export default function KubernetesMainView(props) {
       <Sticky header={<ViewSwitcher />}>
         <LeftRightPadding>
           <Switch>
-            <Route path={clusterListFullyQualified}>
+            <Route
+              path={kubernetesCloudNativeExperience ? `${clusterListFullyQualified}/table` : clusterListFullyQualified}
+              exact
+            >
               <ClusterList {...props} />
             </Route>
+            {kubernetesCloudNativeExperience && (
+              <Route path={clusterListFullyQualified || `${clusterListFullyQualified}/grid`}>
+                <ClusterGrid {...props} />
+              </Route>
+            )}
             <Route path={namespaceListFullyQualified}>
               <NamespaceList {...props} />
             </Route>
