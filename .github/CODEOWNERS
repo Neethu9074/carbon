@@ -317,6 +317,7 @@ packages/in-zhmc                    @Instana-IBM-GitHub-Enterprise @instana/eng-
 /containers/ @Instana-IBM-GitHub-Enterprise @instana/eng-delivery-enablement @instana/eng-ui
 
 # Service Levels areas
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/slo   @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli   @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui
 packages/in-custom-dashboards/widgets/Apdex                                    @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
 packages/in-custom-dashboards/widgets/SloLegacy                                @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui

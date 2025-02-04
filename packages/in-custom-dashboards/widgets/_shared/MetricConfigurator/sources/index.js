@@ -17,6 +17,7 @@ import * as logging from 'in-custom-dashboards/widgets/_shared/MetricConfigurato
 import * as bizops from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops';
 import * as event from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event';
 import * as sli from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
+import * as slo from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/slo';
 
 let all = {
   [infrastructure.metrics.source]: infrastructure.metrics,
@@ -24,7 +25,8 @@ let all = {
   [mobileApp.source]: mobileApp,
   [website.source]: website,
   [event.source]: event,
-  [sli.source]: sli
+  [sli.source]: sli,
+  [slo.source]: slo
 };
 if (syntheticCustomDashboardEnabled) {
   all = { ...all, [syntheticMonitoring.source]: syntheticMonitoring };

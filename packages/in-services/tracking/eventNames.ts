@@ -403,6 +403,7 @@ export const SLI_MANAGEMENT_DELETE = 'sli.v2.management.delete';
 
 // SLO Reborn Widget
 export const SLO2_WIDGET_EDIT_START = 'slo2.widget.edit.start';
+export const SLO2_BIG_NUMBER_WIDGET_EDIT_START = 'slo2.bigNumber.widget.edit.start';
 
 // Service Levels
 export const SLO_LIST_VIEW = 'slo.list.view';

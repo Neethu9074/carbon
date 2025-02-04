@@ -36,7 +36,8 @@ import {
   APDEX_MANAGEMENT_EDIT_START,
   APDEX_MANAGEMENT_EDIT_FINISH,
   APDEX_MANAGEMENT_DELETE,
-  SLO2_WIDGET_EDIT_START
+  SLO2_WIDGET_EDIT_START,
+  SLO2_BIG_NUMBER_WIDGET_EDIT_START
 } from 'in-services/tracking/eventNames';
 // eslint-disable-next-line no-restricted-imports
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
@@ -134,7 +135,9 @@ export const apdexWidgetTrackers = {
 
 export const sloWidgetTrackers = {
   ...sloTrackers,
-  [SLO2_WIDGET_EDIT_START]: (e: undefined, tracker: CtaTrackingFunction) => tracker(SLO2_WIDGET_EDIT_START, e)
+  [SLO2_WIDGET_EDIT_START]: (e: undefined, tracker: CtaTrackingFunction) => tracker(SLO2_WIDGET_EDIT_START, e),
+  [SLO2_BIG_NUMBER_WIDGET_EDIT_START]: (e: undefined, tracker: CtaTrackingFunction) =>
+    tracker(SLO2_BIG_NUMBER_WIDGET_EDIT_START, e)
 } as const;
 
 const allSloTracker = { ...sliWidgetTrackers, ...sloTrackers, ...apdexWidgetTrackers, ...sloWidgetTrackers };
