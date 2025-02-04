@@ -27,6 +27,8 @@ import { logPillColorMap } from 'in-logging/analyze/AnalyzeView/utils/constants'
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getLogMessages from 'in-applications/subscriptions/getLogMessages';
+import RootCauseLogsComboButton from './RootCauseLogsComboButton';
+import { loggingEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import { collationLanguage, t } from 'in-i18n';
 
@@ -137,6 +139,12 @@ interface RootCauseLogMessageTableProps {
   applicationName: string;
   serviceName: string;
   endpointName: string;
+  rcaEntityType: string;
+  processId: string;
+  containerId: string;
+  processContainerType: string;
+  hostName: string;
+  plugin: string;
   cardTitle: JSX.Element;
 }
 
@@ -149,6 +157,12 @@ export default function RootCauseLogMessagesTable({
   applicationName,
   serviceName,
   endpointName,
+  rcaEntityType,
+  processId,
+  containerId,
+  processContainerType,
+  hostName,
+  plugin,
   cardTitle
 }: RootCauseLogMessageTableProps) {
   return (
@@ -164,20 +178,40 @@ export default function RootCauseLogMessagesTable({
       boundaryScope={boundaryScope}
       timeConfig={timeConfig}
       cardTitle={cardTitle}
-      rightHeader={(headerProps: { query: string }) => (
-        <AnalyzeTraceLogsButton
-          groupByTagName="log.message"
-          applicationName={applicationName}
-          serviceName={serviceName}
-          endpointName={endpointName}
-          className={locals.analyzeButton}
-          boundaryScope={boundaryScope}
-          query={headerProps.query}
-          includeInternal
-          includeSynthetic
-          timeConfig={timeConfig}
-        />
-      )}
+      rightHeader={(headerProps: { query: string }) =>
+        loggingEnabled ? (
+          <RootCauseLogsComboButton
+            query={headerProps.query}
+            boundaryScope={boundaryScope}
+            applicationName={applicationName}
+            serviceName={serviceName}
+            endpointName={endpointName}
+            rcaEntityType={rcaEntityType}
+            processId={processId}
+            containerId={containerId}
+            processContainerType={processContainerType}
+            hostName={hostName}
+            plugin={plugin}
+            includeInternal
+            includeSynthetic
+            isErrorMessagesTable={false}
+            timeConfig={timeConfig}
+          />
+        ) : (
+          <AnalyzeTraceLogsButton
+            groupByTagName="log.message"
+            applicationName={applicationName}
+            serviceName={serviceName}
+            endpointName={endpointName}
+            className={locals.analyzeButton}
+            boundaryScope={boundaryScope}
+            query={headerProps.query}
+            includeInternal
+            includeSynthetic
+            timeConfig={timeConfig}
+          />
+        )
+      }
     />
   );
 }

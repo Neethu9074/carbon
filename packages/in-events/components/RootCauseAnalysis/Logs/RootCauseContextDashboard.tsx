@@ -21,6 +21,12 @@ interface RootCauseContextDashboardProps {
   endpointName: any;
   applicationId?: string;
   applicationName: any;
+  rcaEntityType: string;
+  processId: string;
+  containerId: string;
+  processContainerType: string;
+  hostName: string;
+  plugin: string;
   timeConfig: TimeConfig;
 }
 
@@ -32,6 +38,12 @@ export default function RootCauseContextDashboard({
   serviceName,
   endpointId,
   endpointName,
+  rcaEntityType,
+  processId,
+  containerId,
+  processContainerType,
+  hostName,
+  plugin,
   timeConfig
 }: RootCauseContextDashboardProps) {
   const [configsCategory, setConfigsCategory] = useState('errorMessages');
@@ -68,6 +80,12 @@ export default function RootCauseContextDashboard({
           serviceName={serviceName}
           endpointId={endpointId}
           endpointName={endpointName}
+          rcaEntityType={rcaEntityType}
+          processId={processId}
+          containerId={containerId}
+          processContainerType={processContainerType}
+          hostName={hostName}
+          plugin={plugin}
           timeConfig={timeConfig}
           cardTitle={leftHeaderContent}
         />
@@ -81,6 +99,12 @@ export default function RootCauseContextDashboard({
           serviceName={serviceName}
           endpointId={endpointId}
           endpointName={endpointName}
+          rcaEntityType={rcaEntityType}
+          processId={processId}
+          containerId={containerId}
+          processContainerType={processContainerType}
+          hostName={hostName}
+          plugin={plugin}
           timeConfig={timeConfig}
           cardTitle={leftHeaderContent}
         />
