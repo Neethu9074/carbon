@@ -5,15 +5,14 @@
 
 import { Field, MapForm } from 'formalistic';
 import classNames from 'classnames';
-import { isNaN } from 'lodash';
 import React from 'react';
 
 import { CarbonNumberInput } from '@instana/components';
 
 import { ThresholdValueInputWithValidationMessageProps } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
 import {
-  getValueRoundedToDecimals,
-  getThresholdValueForPercentageMetric
+  getThresholdValueForPercentageMetric,
+  getValueRoundedToDecimals
 } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { isNotBlank } from 'in-services/util/string';
 
@@ -50,10 +49,9 @@ export default function ThresholdValueInput({
   ...props
 }: ThresholdValueInputProps) {
   const onValueChange = (targetValue: number | null) => {
-    const value = targetValue ? getThresholdValueForPercentageMetric(Math.abs(targetValue), percentageMetric) : null;
-    if ((value && value > max) || isNaN(value)) {
-      return;
-    }
+    const value = targetValue
+      ? getThresholdValueForPercentageMetric(Math.abs(targetValue), percentageMetric, 100)
+      : null;
 
     if (updateForm) {
       const updatedForm = getUpdatedForm
@@ -66,7 +64,7 @@ export default function ThresholdValueInput({
 
   const hasError = !thresholdField?.valid && thresholdField?.touched;
 
-  const value = getValueRoundedToDecimals(thresholdField?.value, percentageMetric, 9);
+  const value = getValueRoundedToDecimals(thresholdField?.value, percentageMetric, 100);
 
   const mapOnChange = (_e: any, state?: { value: number | string; direction: string }) => {
     const stateValue = state?.value ?? value ?? 0;
