@@ -687,7 +687,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "少なくとも 1 つのフィルター式を構成する必要があります。",
       "timeBased": "時刻ベース",
       "eventBased": "イベント・ベース",
-      "sloLegacy": "SLO の遺産",
+      "sloLegacy": "SLO の旧バージョン",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "アプリケーション",
