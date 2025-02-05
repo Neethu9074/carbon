@@ -34,7 +34,7 @@ type ParameterFormItems = {
   hidden: Field<boolean>;
   type: Field<ParameterType>;
   static: Field<string>;
-  dynamic: Field<TagObject | undefined>;
+  dynamic: Field<TagObject>;
   vault: MapForm<{
     secretKey: Field<string>;
     secretPath: Field<string>;
@@ -140,7 +140,7 @@ function createFormFromParameter(parameter: MappedParameter, parameters: MappedP
         validator: type === 'static' && hidden === true ? notBlankValidator : undefined
       }),
       dynamic: createField({
-        value: type === 'dynamic' ? (parsedValue as TagObject) : undefined,
+        value: type === 'dynamic' ? (parsedValue as TagObject) : { tagName: null },
         validator: type === 'dynamic' ? needsTagAndSecondKeyMayNotBeMissingValidator : undefined
       }),
       vault: createMapForm({
@@ -205,7 +205,7 @@ function createFormFromForm(form: ParameterForm, parameters: MappedParameter[], 
         touched: staticField.touched
       }),
       dynamic: createField({
-        value: typeField.value === 'dynamic' ? dynamicField.value : undefined,
+        value: typeField.value === 'dynamic' ? dynamicField.value : { tagName: null },
         validator: typeField.value === 'dynamic' ? needsTagAndSecondKeyMayNotBeMissingValidator : undefined,
         touched: dynamicField.touched
       }),
@@ -255,8 +255,8 @@ function createDefaultForm(parameters: MappedParameter[]): ParameterForm {
       static: createField({
         value: ''
       }),
-      dynamic: createField<TagObject | undefined>({
-        value: undefined
+      dynamic: createField<TagObject>({
+        value: { tagName: null }
       }),
       vault: createMapForm({
         items: {

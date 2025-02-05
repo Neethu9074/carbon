@@ -636,7 +636,7 @@ function createDefaultActionForm(actionFilter: 'all' | ActionFilter): ActionForm
         value: ''
       }),
       apiKeyAddTo: createField({
-        value: ''
+        value: 'header'
       })
     }
   });
