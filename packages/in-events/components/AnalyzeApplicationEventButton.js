@@ -128,7 +128,7 @@ export function getLinkToUnboundAnalytics(
 ) {
   const { rule, tagFilterExpression, includeInternal, includeSynthetic, evaluationType } = alertConfig;
   const { alertType, statusCodeStart, statusCodeEnd } = rule;
-  const groupByStatusClass = alertType == STATUS_CODE && statusCodeStart != statusCodeEnd;
+  const groupByStatusClass = alertType == STATUS_CODE && isHttpStatusClassRange(statusCodeStart, statusCodeEnd);
 
   const excludeViolationRelatedFilters = alertType === STATUS_CODE;
 
@@ -266,4 +266,8 @@ function toGroupByTag(tagName) {
     groupbyTag: tagName,
     groupbyTagEntity: tagsWithNoEntity.has(tagName) ? undefined : entityTypes.DESTINATION
   };
+}
+
+function isHttpStatusClassRange(start, end) {
+  return Math.floor(start / 100) === Math.floor(end / 100) && start % 100 === 0 && end % 100 === 99;
 }
