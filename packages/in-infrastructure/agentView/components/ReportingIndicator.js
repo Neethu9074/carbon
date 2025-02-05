@@ -6,8 +6,8 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
+import { reportingStatus as ReportingStatus } from 'in-infrastructure/agentView/components/ReportingStatus';
 import * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
-import { reportingStatus as ReportingStatus } from './ReportingStatus';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getPluginName } from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';

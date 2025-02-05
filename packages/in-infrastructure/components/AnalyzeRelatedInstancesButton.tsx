@@ -7,13 +7,13 @@
 import React from 'react';
 
 import { Button, PreviewPill, Stack } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import {
   GetLinkToExploreProps,
   defaultInfraExploreViewParams,
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
+import { t } from 'in-i18n';
 
 export interface AnalyzeRelatedInstancesButtonProps extends GetLinkToExploreProps {
   onClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;

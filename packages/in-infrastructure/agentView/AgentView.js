@@ -17,6 +17,7 @@ import {
 } from 'in-services/tracking/tracking';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer/MaxWidthFullscreenContainer';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import AgentBasedIntegrationView from 'in-infrastructure/agentView/components/AgentBasedIntegrationView';
 import AgentInstallationView from 'in-infrastructure/agentView/components/AgentInstallationView';
 import AgentsPresenceChart from 'in-infrastructure/agentView/components/AgentsPresenceChart';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
@@ -25,7 +26,6 @@ import { resetAgent, updateAgent } from 'in-forge/plugins/instanaAgent/selfMonit
 import AgentInstallationViewV2 from 'in-plg/pages/onboarding/AgentInstallationViewV2';
 import AgentViewKpis from 'in-infrastructure/agentView/components/AgentViewKpis';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import AgentBasedIntegrationView from './components/AgentBasedIntegrationView';
 import AgentsTable from 'in-infrastructure/agentView/components/AgentsTable';
 import { infraEventCTAClicked } from 'in-infrastructure/tracking/tracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';

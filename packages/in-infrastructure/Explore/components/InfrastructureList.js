@@ -37,6 +37,7 @@ import { default as TagLabel } from 'in-infrastructure/Explore/components/TagLab
 import { default as TagValue } from 'in-infrastructure/Explore/components/TagValue';
 import { fixOrderForBackwardsCompatibility } from 'in-infrastructure/Explore/utils';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { tag_not_present_group } from 'in-infrastructure/Explore/constants';
 import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
@@ -46,7 +47,6 @@ import EntityLink from 'in-components/EntityLink/EntityLink';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
-import { tag_not_present_group } from '../constants';
 import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';

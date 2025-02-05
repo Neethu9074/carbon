@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { AvailablePlugins, GetAvailablePluginsQuery, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { AvailablePlugins, GetAvailablePluginsQuery, Result } from 'in-types';
 import { hiddenPlugins } from 'in-forge/constants';
 import { mapData } from 'in-services/util/result';
 

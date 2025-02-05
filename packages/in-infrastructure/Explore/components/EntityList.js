@@ -7,7 +7,7 @@ import React from 'react';
 
 import useInfrastructureEntities from 'in-infrastructure/Explore/hooks/useInfrastructureEntities';
 import { ErroneousResult } from 'in-components/QueryBuilder/components/Header/CountHeader';
-import EntityListPresenter from './EntityListPresenter';
+import EntityListPresenter from 'in-infrastructure/Explore/components/EntityListPresenter';
 
 export default function EntityList({ timeConfig, order, setOrder, query, setQuery }) {
   const { onChange, tableResult } = useInfrastructureEntities({

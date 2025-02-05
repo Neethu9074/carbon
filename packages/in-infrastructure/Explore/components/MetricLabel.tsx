@@ -6,11 +6,11 @@
 import React from 'react';
 
 import { LoadingSkeleton } from '@instana/components';
+import { Result } from '@instana/types';
 
 import AggregationSymbol from 'in-components/AggregationSymbol';
 import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { Result } from 'in-types';
 
 import locals from './MetricLabel.mless';
 

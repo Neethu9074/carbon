@@ -46,6 +46,7 @@ import { joinExpressions } from 'in-components/QueryBuilder/transformation/formM
 import { typeTag, tag_not_present_group } from 'in-infrastructure/Explore/constants';
 import ThresholdTooltip from 'in-infrastructure/Explore/components/ThresholdTooltip';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
+import { fixOrderForBackwardsCompatibility } from 'in-infrastructure/Explore/utils';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
 import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
@@ -53,7 +54,6 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getBaseUnit, getUnit } from 'in-stores/metric/units';
-import { fixOrderForBackwardsCompatibility } from '../utils';
 import { getFormatter } from 'in-stores/metric/formatters';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import CsvExporter from 'in-components/CsvExporter';

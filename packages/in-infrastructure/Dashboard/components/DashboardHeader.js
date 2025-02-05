@@ -13,6 +13,7 @@ import EntityCveIndicator from 'in-components/EntityCveIndicator/EntityHealthInd
 import DashboardBreadcrumb from 'in-infrastructure/Dashboard/components/DashboardBreadcrumb';
 import CveIndicatorButtonPresenter from 'in-components/health/CveIndicatorButtonPresenter';
 import PluginBadge from 'in-infrastructure/Dashboard/components/PluginBadge';
+import { defaultAllInfraGroup } from 'in-infrastructure/Explore/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useSegmentTracker } from 'in-infrastructure/tracking/tracking';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
@@ -20,7 +21,6 @@ import { getRelatedInstancesTagFilterCallback } from 'in-sdk/tagFilter';
 import ZoneTag from 'in-map/components/MapSidebar/components/ZoneTag';
 import DashboardHeaderComponent from 'in-components/DashboardHeader';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
-import { defaultAllInfraGroup } from '../../Explore/constants';
 import { getShowZoneInSidebarHeader } from 'in-sdk/snapshot';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';

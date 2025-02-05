@@ -6,8 +6,6 @@
 
 import { useMemo, useCallback } from 'react';
 
-import { useObservable } from '@instana/hooks';
-
 import {
   CursorPaginatedResult,
   InfrastructureGroup,
@@ -16,7 +14,9 @@ import {
   Result,
   TagFilterExpressionElementUnion,
   TimeConfig
-} from 'in-types';
+} from '@instana/types';
+import { useObservable } from '@instana/hooks';
+
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getGroups from 'in-infrastructure/subscriptions/getGroups';
 import { pendingResult } from 'in-services/fixedObjects';
