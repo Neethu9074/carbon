@@ -7,9 +7,11 @@
 import { Item, MapForm, Field } from 'formalistic';
 import React, { useMemo, useState } from 'react';
 
-import { LogAlertConfigWithMetadata, LogAlertConfig } from '@instana/types';
-
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+import {
+  LogSmartAlertConfigWithMetadata,
+  LogSmartAlertConfig
+} from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/logs/tearsheet/AlertConfigTearSheetWithThreshold';
 import { duplicateAlertConfig, getHeaderTitle } from 'in-alerting/smart-alerts/logs/tearsheet/sharedFunctions';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
@@ -59,7 +61,7 @@ function AlertConfigTearSheetContent({
   cancelTearSheet,
   editMode
 }: {
-  alertConfig: LogAlertConfigWithMetadata & { duplicateFrom?: string };
+  alertConfig: LogSmartAlertConfigWithMetadata & { duplicateFrom?: string };
   cancelTearSheet: string;
   editMode: boolean;
 }) {
@@ -114,7 +116,7 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
   };
 }
 
-function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
+function toAlertConfig(form: MapForm<any>): Readonly<LogSmartAlertConfig> {
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
 
   return Object.freeze({
@@ -129,7 +131,8 @@ function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
     granularity: form.get(fieldNames.granularity).value,
     gracePeriod: form.get(fieldNames.gracePeriod).value,
     groupBy: form.get(fieldNames.groupBy).value ? toGroupByTag([form.get(fieldNames.groupBy).value]) : undefined,
-    customPayloadFields: form.get('customPayloadFields').toJS()
+    customPayloadFields: form.get('customPayloadFields').toJS(),
+    rules: []
   });
 }
 

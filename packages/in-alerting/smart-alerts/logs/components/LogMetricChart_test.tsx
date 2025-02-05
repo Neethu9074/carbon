@@ -8,14 +8,15 @@ import { screen, render } from '@testing-library/react';
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import { LogAlertConfigWithMetadata, TimeConfig } from '@instana/types';
+import { TimeConfig } from '@instana/types';
 
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
 import data from 'in-alerting/smart-alerts/logs/data/alertConfigData.json';
 import { t } from 'in-i18n';
 
-const alertConfig = data.alertConfig as LogAlertConfigWithMetadata;
+const alertConfig = data.alertConfig as LogSmartAlertConfigWithMetadata;
 const timeConfig = {
   ...chartTimeConfig
 } as TimeConfig;

@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2024
  */
 
-import { LogAlertConfigWithMetadata, StaticThresholdConfig } from '@instana/types';
+import { StaticThresholdConfig } from '@instana/types';
 
 import { defaultTimeWindow } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
-export default function generateAlertConfig(): LogAlertConfigWithMetadata {
+export default function generateAlertConfig(): LogSmartAlertConfigWithMetadata {
   const threshold: StaticThresholdConfig = {
     type: STATIC_THRESHOLD,
     lastUpdated: 0,

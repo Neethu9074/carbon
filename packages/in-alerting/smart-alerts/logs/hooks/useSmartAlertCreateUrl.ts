@@ -6,9 +6,9 @@
 
 import { isEmpty } from 'lodash';
 
-import { LogAlertConfigWithMetadata } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import { alertCreated, isDuplicateMode, isEditMode, alertId } from 'in-logging/navigation/matrix';
 import generateAlertConfig from 'in-alerting/smart-alerts/logs/data/generateAlertConfig';
@@ -83,12 +83,12 @@ export function useAlertConfig(
       ? getAlertConfigByIdAndTimestamp(alertConfigId, alertConfigCreated)
       : successObservable(generateAlertConfig());
 
-  const result: Result<LogAlertConfigWithMetadata> | {} = useObservable(() => alertConfig, []) ?? {};
+  const result: Result<LogSmartAlertConfigWithMetadata> | {} = useObservable(() => alertConfig, []) ?? {};
 
   return !isEmpty(result)
     ? {
-        alertConfig: (result as Result<LogAlertConfigWithMetadata>).data,
-        alertConfigErrors: (result as Result<LogAlertConfigWithMetadata>).errors
+        alertConfig: (result as Result<LogSmartAlertConfigWithMetadata>).data,
+        alertConfigErrors: (result as Result<LogSmartAlertConfigWithMetadata>).errors
       }
     : {};
 }

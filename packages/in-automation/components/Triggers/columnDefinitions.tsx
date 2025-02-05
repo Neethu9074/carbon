@@ -8,7 +8,6 @@ import React from 'react';
 
 import {
   EventSpecificationInfo,
-  LogAlertConfigWithMetadata,
   ServiceLevelsAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata
 } from '@instana/types';
@@ -36,6 +35,7 @@ import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/
 import { EntityType, EventName } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/Events';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import ListEntityNameColumn from 'in-alerting/smart-alerts/applications/list/columns/ListEntityNameColumn';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ListFilterColumn from 'in-alerting/smart-alerts/applications/list/columns/ListFiltersColumn';
 import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
@@ -194,7 +194,7 @@ export const syntheticFilterAppliedColumn: ColumnDefinition<SyntheticAlertConfig
   sortable: false
 };
 
-export const logsFilterAppliedColumn: ColumnDefinition<LogAlertConfigWithMetadata> = {
+export const logsFilterAppliedColumn: ColumnDefinition<LogSmartAlertConfigWithMetadata> = {
   id: 'filterApplied',
   label: t('in-automation:policies.filterApplied'),
   getContent: item => <LogScopeColumn config={item} />,

@@ -7,7 +7,7 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { LogAlertConfig, VersionedConfig } from '@instana/types';
+import { VersionedConfig } from '@instana/types';
 
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialogWithThreshold';
@@ -18,6 +18,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { alertDetailsFullyQualifiedPath, alertsDetailsPath } from 'in-logging/navigation/paths';
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/logs/components/AlertCreateOrSave';
 import { toGroupByTag } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
+import { LogSmartAlertConfig } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -28,7 +29,7 @@ import { Location } from 'in-stores/navigation/types';
 interface AlertConfigDialogType {
   onClose: () => void;
   startWithSimpleMode: boolean;
-  alertConfig: LogAlertConfig & VersionedConfig & { duplicateFrom?: string };
+  alertConfig: LogSmartAlertConfig & VersionedConfig & { duplicateFrom?: string };
   editMode: boolean;
 }
 const initialChartConfigIndex = 0;
@@ -92,7 +93,7 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
   };
 }
 
-export function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
+export function toAlertConfig(form: MapForm<any>): Readonly<LogSmartAlertConfig> {
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
 
   return Object.freeze({
@@ -107,7 +108,8 @@ export function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
     granularity: form.get(fieldNames.granularity).value,
     gracePeriod: form.get(fieldNames.gracePeriod).value,
     groupBy: form.get(fieldNames.groupBy).value ? toGroupByTag([form.get(fieldNames.groupBy).value]) : undefined,
-    customPayloadFields: form.get('customPayloadFields').toJS()
+    customPayloadFields: form.get('customPayloadFields').toJS(),
+    rules: []
   });
 }
 

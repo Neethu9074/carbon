@@ -6,7 +6,6 @@
 
 import {
   EventSpecificationInfo,
-  LogAlertConfigWithMetadata,
   Result,
   ServiceLevelsAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata
@@ -31,6 +30,7 @@ import {
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { pendingResult } from 'in-services/fixedObjects';
 import { mapData } from 'in-services/util/result';
 import { Triggers } from 'in-automation/types';
@@ -52,7 +52,7 @@ export default function useTriggers(): Triggers {
   const infraSmartAlert =
     useObservable(getInfraSmartAlertConfigs, []) ?? (pendingResult as Result<InfraSmartAlertConfigWithMetadata[]>);
   const logSmartAlert =
-    useObservable(getLogSmartAlertConfigs, []) ?? (pendingResult as Result<LogAlertConfigWithMetadata[]>);
+    useObservable(getLogSmartAlertConfigs, []) ?? (pendingResult as Result<LogSmartAlertConfigWithMetadata[]>);
   const syntheticsSmartAlert = useObservable(getSyntheticSmartAlertConfigs, []) as Result<
     SyntheticAlertConfigWithMetadata[]
   >;

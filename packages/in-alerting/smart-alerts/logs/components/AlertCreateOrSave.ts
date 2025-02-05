@@ -6,13 +6,12 @@
 
 import { MapForm } from 'formalistic';
 
-import { LogAlertConfig } from '@instana/types';
-
 import {
   EnrichedError,
   enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError
 } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { updateAlertConfig, createAlertConfig } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
+import { LogSmartAlertConfig } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
@@ -21,11 +20,11 @@ interface createOrSaveAlertProps {
   form: MapForm<any>;
   setForm: (form: MapForm<any>) => void;
   getLinkToAlertConfig: (alertConfigId: string, alertConfigVersion?: number) => string;
-  onClose: (config?: LogAlertConfig) => void;
+  onClose: (config?: LogSmartAlertConfig) => void;
   editMode: boolean;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;
-  toAlertConfig: (form: MapForm<any>) => Readonly<LogAlertConfig>;
+  toAlertConfig: (form: MapForm<any>) => Readonly<LogSmartAlertConfig>;
   isSimpleMode: boolean;
   duplicateFrom?: string;
   trackCta: CtaTrackingFunction;
@@ -59,7 +58,7 @@ export function createOrSaveAlert({
     return;
   }
 
-  const alertConfig: LogAlertConfig = toAlertConfig(form);
+  const alertConfig: LogSmartAlertConfig = toAlertConfig(form);
 
   if (editMode) {
     const updateConfig = updateAlertConfig(alertConfig, form.get('id').value);
@@ -99,7 +98,7 @@ interface createOrSaveAlertFromTearSheetProps {
   editMode: boolean;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;
-  toAlertConfig: (form: MapForm<any>) => Readonly<LogAlertConfig>;
+  toAlertConfig: (form: MapForm<any>) => Readonly<LogSmartAlertConfig>;
   isSimpleMode: boolean;
   trackCta: CtaTrackingFunction;
   duplicateFrom?: string;
@@ -132,7 +131,7 @@ export function createOrSaveAlertFromTearSheet({
     return;
   }
 
-  const alertConfig: LogAlertConfig = toAlertConfig(form);
+  const alertConfig: LogSmartAlertConfig = toAlertConfig(form);
   if (editMode) {
     const updateConfig = updateAlertConfig(alertConfig, form.get('id').value);
     updateConfig.once(

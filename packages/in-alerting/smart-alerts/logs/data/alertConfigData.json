@@ -24,6 +24,7 @@
       "value": 20,
       "lastUpdated": 0
     },
+    "rules": [],
     "alertChannelIds": [],
     "granularity": 600000,
     "timeThreshold": {
@@ -171,6 +172,7 @@
       "lastUpdated": 0,
       "value": 12
     },
+    "rules": [],
     "timeThreshold": {
       "type": "violationsInSequence",
       "timeWindow": 600000

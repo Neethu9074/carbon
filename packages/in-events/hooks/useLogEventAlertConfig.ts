@@ -6,11 +6,12 @@
 
 import { useObservable } from '@instana/hooks';
 
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { getLogAlertConfigByIdAndTimestamp } from 'in-api/logAlertConfig';
-import { LogAlertConfigWithMetadata, Nullish } from 'in-types';
 import { EventOrMap } from 'in-events/types';
+import { Nullish } from 'in-types';
 
-export default function useLogEventAlertConfig(event: EventOrMap | Nullish): LogAlertConfigWithMetadata | Nullish {
+export default function useLogEventAlertConfig(event: EventOrMap | Nullish): LogSmartAlertConfigWithMetadata | Nullish {
   return useObservable(
     ([event]) => {
       if (!event) {

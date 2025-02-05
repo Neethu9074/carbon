@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ConfigVersion, LogAlertConfig, LogAlertConfigWithMetadata, Result } from '@instana/types';
+import { ConfigVersion, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import {
@@ -12,6 +12,10 @@ import {
   disableAlertConfig as disableAlertConfigApi,
   enableAlertConfig as enableAlertConfigApi
 } from 'in-alerting/smart-alerts/components/api/smartAlertConfig';
+import {
+  LogSmartAlertConfigWithMetadata,
+  LogSmartAlertConfig
+} from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -19,8 +23,8 @@ import http from 'in-services/http';
 
 const baseUrl = apiEndpoint.LOGS;
 
-export function getAllAlertConfigsWithResult(): Observable<Result<LogAlertConfigWithMetadata[]>> {
-  const request = http<LogAlertConfigWithMetadata[]>({
+export function getAllAlertConfigsWithResult(): Observable<Result<LogSmartAlertConfigWithMetadata[]>> {
+  const request = http<LogSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -42,7 +46,7 @@ export function deleteAlertConfig(id: string): Observable<void> {
 }
 
 function getRequest(id: string, timestamp: number) {
-  return http<LogAlertConfigWithMetadata>({
+  return http<LogSmartAlertConfigWithMetadata>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -53,7 +57,7 @@ function getRequest(id: string, timestamp: number) {
   });
 }
 
-export function getAllAlertConfigs(id: string, timestamp: number): Observable<LogAlertConfigWithMetadata> {
+export function getAllAlertConfigs(id: string, timestamp: number): Observable<LogSmartAlertConfigWithMetadata> {
   const request = getRequest(id, timestamp);
   return request.map(response => response.body);
 }
@@ -61,8 +65,8 @@ export function getAllAlertConfigs(id: string, timestamp: number): Observable<Lo
 export function getAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number
-): Observable<Result<LogAlertConfigWithMetadata>> {
-  const request = http<LogAlertConfigWithMetadata>({
+): Observable<Result<LogSmartAlertConfigWithMetadata>> {
+  const request = http<LogSmartAlertConfigWithMetadata>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -75,8 +79,8 @@ export function getAlertConfigByIdAndTimestamp(
   return createObservable(request);
 }
 
-export function getLatestAlertConfig(id: string): Observable<Result<LogAlertConfigWithMetadata>> {
-  const request = http<LogAlertConfigWithMetadata>({
+export function getLatestAlertConfig(id: string): Observable<Result<LogSmartAlertConfigWithMetadata>> {
+  const request = http<LogSmartAlertConfigWithMetadata>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -97,8 +101,8 @@ export function getAllVersionsOfAlertConfig(id: string): Observable<Result<Confi
   return createObservable(request);
 }
 
-export function restoreAlertConfigVersion(id: string, created: number): Observable<LogAlertConfigWithMetadata> {
-  return http<LogAlertConfigWithMetadata>({
+export function restoreAlertConfigVersion(id: string, created: number): Observable<LogSmartAlertConfigWithMetadata> {
+  return http<LogSmartAlertConfigWithMetadata>({
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -106,8 +110,8 @@ export function restoreAlertConfigVersion(id: string, created: number): Observab
   }).map(response => response.body);
 }
 
-export function createAlertConfig(data: LogAlertConfig): Observable<LogAlertConfigWithMetadata> {
-  return http<LogAlertConfigWithMetadata>({
+export function createAlertConfig(data: LogSmartAlertConfig): Observable<LogSmartAlertConfigWithMetadata> {
+  return http<LogSmartAlertConfigWithMetadata>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -116,8 +120,8 @@ export function createAlertConfig(data: LogAlertConfig): Observable<LogAlertConf
   }).map(response => response.body);
 }
 
-export function updateAlertConfig(data: LogAlertConfig, id: string): Observable<LogAlertConfigWithMetadata> {
-  return http<LogAlertConfigWithMetadata>({
+export function updateAlertConfig(data: LogSmartAlertConfig, id: string): Observable<LogSmartAlertConfigWithMetadata> {
+  return http<LogSmartAlertConfigWithMetadata>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),

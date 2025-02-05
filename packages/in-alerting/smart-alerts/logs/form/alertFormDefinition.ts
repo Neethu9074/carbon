@@ -11,12 +11,13 @@ import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/
 //@ts-expect-error
 import { titleValidator } from 'in-alerting/smart-alerts/logs/data/alertConfigUtils';
 import { logsGroupbyTag } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
+import { LogSmartAlertConfig } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createThresholdForm from 'in-alerting/smart-alerts/logs/form/thresholdForm';
-import { LogAlertConfig, ThresholdType, VersionedConfig } from 'in-types';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
+import { ThresholdType, VersionedConfig } from 'in-types';
 
 const severityWarning = 5;
 export const defaultAdaptiveBaselineGranularity = 1200000;
@@ -41,7 +42,7 @@ export interface AlertConfigHiddenFields {
 }
 
 export default function alertFormDefinition(
-  alertConfig: LogAlertConfig & VersionedConfig & AlertConfigHiddenFields,
+  alertConfig: LogSmartAlertConfig & VersionedConfig & AlertConfigHiddenFields,
   editMode: boolean
 ): MapForm<any> {
   const {

@@ -8,7 +8,6 @@ import React from 'react';
 
 import {
   Granularity,
-  LogAlertConfigWithMetadata,
   LogTimeThreshold,
   Result,
   StaticThresholdData,
@@ -28,6 +27,7 @@ import { SelectedMetric, getExpressionWithLogsGroupingTags } from 'in-events/com
 import { getChartConfig, getUnifiedMetricConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
 import getLogMetricsAlertPreview from 'in-alerting/smart-alerts/logs/subscriptions/getLogMetricsAlertPreview';
 import { zeroFillAndClipMetric, applyPostProcessing, Metrics } from 'in-alerting/components/Chart/chartUtils';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { useResultData } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
@@ -39,7 +39,7 @@ import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 interface LogAlertChartWrapperProps {
-  alertConfig: LogAlertConfigWithMetadata;
+  alertConfig: LogSmartAlertConfigWithMetadata;
   timeConfig: TimeConfig;
   selectedMetricGroup?: SelectedMetric;
   alertsPreviewEnabled?: boolean;

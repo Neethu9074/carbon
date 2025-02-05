@@ -7,10 +7,11 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { LogAlertConfigWithMetadata, TagCatalog } from '@instana/types';
 import { SvgIcon } from '@instana/components';
+import { TagCatalog } from '@instana/types';
 
 import { getFiltersCount, getLimitedNumberOfFilters } from 'in-alerting/smart-alerts/components/limitedFilters';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/logs/components/AlertQueryBuilder';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogScopePath from 'in-alerting/smart-alerts/logs/components/LogScopePath';
@@ -20,7 +21,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/logs/lists/ScopeColumn.mless';
 
-export default function ScopeColumn({ config }: { config: LogAlertConfigWithMetadata }) {
+export default function ScopeColumn({ config }: { config: LogSmartAlertConfigWithMetadata }) {
   const { tagFilterExpression } = config;
 
   const tagCatalog = useTagCatalog('SMART_ALERTS');

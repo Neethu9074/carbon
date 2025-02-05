@@ -7,10 +7,9 @@
 import React, { useEffect, useMemo } from 'react';
 import { MapForm } from 'formalistic';
 
-import { LogAlertConfigWithMetadata } from '@instana/types';
-
 import { alertConfigWithDefaultThresholdAndTfe } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import LogThresholdCondition from 'in-alerting/smart-alerts/logs/components/LogThresholdCondition';
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
@@ -70,7 +69,7 @@ export default function ThresholdSelectionInteractiveChart({
         {chartViewConfig => (
           <>
             <LogMetricChart
-              alertConfig={alertConfigModel as LogAlertConfigWithMetadata}
+              alertConfig={alertConfigModel as LogSmartAlertConfigWithMetadata}
               timeConfig={{
                 ...chartViewConfig.timeConfig,
                 to: timeConfig.to,

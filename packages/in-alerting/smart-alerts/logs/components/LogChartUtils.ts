@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Granularity, LogAlertConfigWithMetadata, TagFilterExpressionElementUnion, TimeConfig } from '@instana/types';
+import { Granularity, TagFilterExpressionElementUnion, TimeConfig } from '@instana/types';
 
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { numberCompact } from 'in-stores/metric/formatters';
 import { line } from 'in-stores/metric/renderer';
@@ -37,7 +38,7 @@ export function getUnifiedMetricConfig(
   };
 }
 
-export function getChartConfig(alertConfig: LogAlertConfigWithMetadata, timeConfig: TimeConfig, metricId: string) {
+export function getChartConfig(alertConfig: LogSmartAlertConfigWithMetadata, timeConfig: TimeConfig, metricId: string) {
   const { threshold, granularity } = alertConfig;
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);

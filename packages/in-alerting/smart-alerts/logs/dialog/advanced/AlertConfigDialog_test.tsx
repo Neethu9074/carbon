@@ -8,9 +8,10 @@ import { shallow } from 'enzyme';
 import React from 'react';
 
 import AlertConfigDialog, { toAlertConfig } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
+import { LogSmartAlertConfig } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import alertFormDefinition from 'in-alerting/smart-alerts/logs/form/alertFormDefinition';
 import data from 'in-alerting/smart-alerts/logs/data/alertConfigData.json';
-import { LogAlertConfig, VersionedConfig } from 'in-types';
+import { VersionedConfig } from 'in-types';
 
 const mockTriggerReload = jest.fn();
 
@@ -23,7 +24,7 @@ describe('in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog', () =
   it('renders correctly when creating a new alert', () => {
     // Renders the component with the correct props and state.
     const onClose = jest.fn();
-    const alertConfig = data.alertConfig as LogAlertConfig & VersionedConfig & { duplicateFrom?: string };
+    const alertConfig = data.alertConfig as LogSmartAlertConfig & VersionedConfig & { duplicateFrom?: string };
     const editMode = false;
     const startWithSimpleMode = false;
     const wrapper = shallow(
@@ -49,7 +50,7 @@ describe('in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog', () =
   });
 
   it('test alertFormDefinition', () => {
-    const form = alertFormDefinition(data.form as unknown as LogAlertConfig & VersionedConfig, false);
+    const form = alertFormDefinition(data.form as unknown as LogSmartAlertConfig & VersionedConfig, false);
 
     const resultData = data.form;
     delete (resultData as any).hiddenFields;

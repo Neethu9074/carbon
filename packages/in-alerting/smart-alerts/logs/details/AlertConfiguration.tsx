@@ -13,6 +13,7 @@ import { getQueryBuilder, getGroupByQueryBuilder } from 'in-alerting/smart-alert
 import { logsGroupbyTag, toUIGrouping } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import GracePeriodDescription from 'in-alerting/smart-alerts/components/dialog/GracePeriodDescription';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
@@ -31,7 +32,6 @@ import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
-import { LogAlertConfigWithMetadata } from 'in-types';
 import ListTitle from 'in-components/lists/Title';
 import { t } from 'in-i18n';
 
@@ -41,7 +41,7 @@ const initialChartConfigIndex = 0;
 export const selectedMetricGroup$ = create().emit(null);
 export type Tags = { [index: string]: any };
 
-export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAlertConfigWithMetadata }) {
+export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSmartAlertConfigWithMetadata }) {
   const {
     timeThreshold,
     threshold,
