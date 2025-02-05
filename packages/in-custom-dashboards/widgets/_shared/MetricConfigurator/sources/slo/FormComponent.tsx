@@ -7,21 +7,22 @@
 import { Field, Item } from 'formalistic';
 import React, { useEffect } from 'react';
 
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { Spacer, Stack, CarbonInlineLoading } from '@instana/components';
+import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import { SloMetric, sloMetrics } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/slo/metrics';
-import { SloTrackerProvider, sloWidgetTrackers, trackSloEvent } from 'in-service-levels/hooks/SloTrackerProvider';
 import SloListSelection from 'in-service-levels/components/Shared/SloListSelection/SloListSelection';
 import { SloForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/slo/form';
 import SloEntityTypeSelector from 'in-service-levels/components/Shared/SloEntityTypeSelector';
 import { SLO2_BIG_NUMBER_WIDGET_EDIT_START } from 'in-services/tracking/eventNames';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getSloConfiguration } from 'in-service-levels/api/configuration';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { pageNames } from 'in-services/tracking/pageNames';
 import Sections from 'in-components/workspace/Sections';
@@ -53,9 +54,10 @@ export default function FormComponent({
   formatterSection
 }: SloFormComponentProps) {
   const updateMetricConfigurationForm = (updatedForm: SloForm) => onChange([], () => updatedForm);
+  const { trackCta } = useSegmentTracking();
 
   useEffect(() => {
-    trackSloEvent(
+    trackCta(
       SLO2_BIG_NUMBER_WIDGET_EDIT_START,
       {
         productArea: productAreas.custom_dashboard,
@@ -63,7 +65,7 @@ export default function FormComponent({
       },
       undefined
     );
-  }, []);
+  }, [trackCta]);
 
   const entityTypeField = form.getIn(['entityType']);
   const configIdField = form.getIn(['configId']);
@@ -109,74 +111,71 @@ export default function FormComponent({
   return (
     <Stack gap="xsmall">
       <Sections>{dataSourceSection}</Sections>
-      <SloTrackerProvider
-        trackers={sloWidgetTrackers}
-        meta={{ productArea: productAreas.custom_dashboard, pageName: pageNames.custom_dashboard }}
-      >
-        <Stack direction="vertical" distribution="spaceEvenly" wrap>
-          <Spacer />
-          <Stack direction="horizontal" distribution="spaceBetween" wrap>
-            <SloEntityTypeSelector
-              onChange={entityType =>
-                updateMetricConfigurationForm(
-                  form
-                    .updateIn(['entityType'], field => field.setValue(entityType).setTouched(true))
-                    .updateIn(['configId'], field => field.setValue('').setTouched(false))
-                )
-              }
-              value={entityTypeField.value ?? 'application'}
-              disabled={entityTypeField.value === undefined}
-            />
-          </Stack>
-          <SloListSelection
-            entityTypeField={entityTypeField}
-            sloIdsField={configIdField}
-            onChange={f =>
+
+      <ViewTrackingMeta data={{ productArea: productAreas.custom_dashboard, pageName: pageNames.custom_dashboard }} />
+      <Stack direction="vertical" distribution="spaceEvenly" wrap>
+        <Spacer />
+        <Stack direction="horizontal" distribution="spaceBetween" wrap>
+          <SloEntityTypeSelector
+            onChange={entityType =>
               updateMetricConfigurationForm(
-                form.updateIn(['configId'], field => field.setValue((f as Field<string>).value).setTouched(true))
+                form
+                  .updateIn(['entityType'], field => field.setValue(entityType).setTouched(true))
+                  .updateIn(['configId'], field => field.setValue('').setTouched(false))
               )
             }
+            value={entityTypeField.value ?? 'application'}
+            disabled={entityTypeField.value === undefined}
           />
-          <Sections>
-            <SelectInSection
-              label={t('in-custom-dashboards:widgets.srcSli.formComp.valType')}
-              id="metric-configurator-metric"
-              value={metricField.value}
-              onChange={e => {
-                const metric = e.target.value;
-                const data = config?.data;
-                if (data) {
-                  updateMetricConfigurationForm(
-                    updateThreshold(data, metric).updateIn(['metric'], field => field.setValue(metric).setTouched(true))
-                  );
-                } else {
-                  updateMetricConfigurationForm(
-                    form.updateIn(['metric'], field => field.setValue(metric).setTouched(true))
-                  );
-                }
-              }}
-              hasError={!metricField.valid && metricField.touched}
-              additionalContent={<TouchedMessages field={metricField} />}
-            >
-              <option value="">{t('in-custom-dashboards:widgets.srcSli.formComp.pleaseSelect')}</option>
-              {(Object.keys(sloMetrics) as SloMetric[])
-                .sort((a, b) => compareIgnoreCase(sloMetrics[a].label, sloMetrics[b].label))
-                .map(key => (
-                  <option key={key} value={key}>
-                    {sloMetrics[key].label}
-                  </option>
-                ))}
-            </SelectInSection>
-            {loading && (
-              <Stack direction="horizontal" distribution="center">
-                <Spacer horizontal="small" />
-                <CarbonInlineLoading />
-              </Stack>
-            )}
-            {(!loading || !config) && formatterSection}
-          </Sections>
         </Stack>
-      </SloTrackerProvider>
+        <SloListSelection
+          entityTypeField={entityTypeField}
+          sloIdsField={configIdField}
+          onChange={f =>
+            updateMetricConfigurationForm(
+              form.updateIn(['configId'], field => field.setValue((f as Field<string>).value).setTouched(true))
+            )
+          }
+        />
+        <Sections>
+          <SelectInSection
+            label={t('in-custom-dashboards:widgets.srcSli.formComp.valType')}
+            id="metric-configurator-metric"
+            value={metricField.value}
+            onChange={e => {
+              const metric = e.target.value;
+              const data = config?.data;
+              if (data) {
+                updateMetricConfigurationForm(
+                  updateThreshold(data, metric).updateIn(['metric'], field => field.setValue(metric).setTouched(true))
+                );
+              } else {
+                updateMetricConfigurationForm(
+                  form.updateIn(['metric'], field => field.setValue(metric).setTouched(true))
+                );
+              }
+            }}
+            hasError={!metricField.valid && metricField.touched}
+            additionalContent={<TouchedMessages field={metricField} />}
+          >
+            <option value="">{t('in-custom-dashboards:widgets.srcSli.formComp.pleaseSelect')}</option>
+            {(Object.keys(sloMetrics) as SloMetric[])
+              .sort((a, b) => compareIgnoreCase(sloMetrics[a].label, sloMetrics[b].label))
+              .map(key => (
+                <option key={key} value={key}>
+                  {sloMetrics[key].label}
+                </option>
+              ))}
+          </SelectInSection>
+          {loading && (
+            <Stack direction="horizontal" distribution="center">
+              <Spacer horizontal="small" />
+              <CarbonInlineLoading />
+            </Stack>
+          )}
+          {(!loading || !config) && formatterSection}
+        </Sections>
+      </Stack>
       {thresholdConfiguration}
       {labelSection}
     </Stack>

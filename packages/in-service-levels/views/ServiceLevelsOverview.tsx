@@ -16,13 +16,13 @@ import {
 } from 'in-service-levels/navigation/path';
 import SloSmartAlertDetails from 'in-service-levels/components/SloDashboard/components/SloSmartAlertDetails';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-import { SloTrackerProvider, sloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import FloatingSloButtons from 'in-service-levels/components/FloatingSloButtons';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import SloList from 'in-service-levels/components/SloList/SloList';
 import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
 import Alerts from 'in-alerting/smart-alerts/slo/Alerts';
@@ -63,13 +63,9 @@ export default function ServiceLevelsOverview() {
       }
     >
       <LeftRightPadding>
-        <SloTrackerProvider
-          trackers={sloTrackers}
-          meta={{ productArea: productAreas.slo, pageName: pageNames.service_levels }}
-        >
-          {!isServiceLevelsAlertsActive && <SloList pathSegment={serviceLevelsOverview} />}
-          {isServiceLevelsAlertsActive && <SloSmartAlerts />}
-        </SloTrackerProvider>
+        <ViewTrackingMeta data={{ productArea: productAreas.slo, pageRootName: pageNames.service_levels }} />
+        {!isServiceLevelsAlertsActive && <SloList pathSegment={serviceLevelsOverview} />}
+        {isServiceLevelsAlertsActive && <SloSmartAlerts />}
       </LeftRightPadding>
       <Footer />
       <FloatingSloButtons />

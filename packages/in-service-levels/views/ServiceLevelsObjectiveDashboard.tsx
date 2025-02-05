@@ -28,7 +28,6 @@ import SloDashboardHeader from 'in-service-levels/components/SloDashboard/compon
 import { loadEntities, loadEntity, MonitoredEntity } from 'in-service-levels/hooks/useSloEntitiesLabels';
 import SloMetaInfoHeader from 'in-service-levels/components/SloDashboard/components/SloMetaInfoHeader';
 import { serviceLevelsObjectiveSummaryFullyQualified } from 'in-service-levels/navigation/path';
-import { SloTrackerProvider, sloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAlertDialog';
@@ -40,6 +39,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { hasError, isLoading } from 'in-services/util/result';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import { LabeledEntity } from 'in-service-levels/types';
@@ -77,16 +77,16 @@ export default function ServiceLevelsObjectiveDashboard() {
     addActiveDialog(<CreateSmartAlertDialog preselectedSloId={tabData?.configuration.id} />);
 
   return (
-    <SloTrackerProvider
-      trackers={sloTrackers}
-      meta={{
-        productArea: productAreas.slo,
-        pageName:
-          location.pathname === serviceLevelsObjectiveSummaryFullyQualified
-            ? pageNames.slo_summary
-            : pageNames.slo_config
-      }}
-    >
+    <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.slo,
+          pageRootName:
+            location.pathname === serviceLevelsObjectiveSummaryFullyQualified
+              ? pageNames.slo_summary
+              : pageNames.slo_config
+        }}
+      />
       <SloTimeWindowProvider
         sloConfigId={sloId}
         sloTimeWindow={sloTimeWindow}
@@ -113,7 +113,7 @@ export default function ServiceLevelsObjectiveDashboard() {
           {t('in-service-levels:general.addButtonLabel', { context: 'smartAlert' })}
         </FloatingActionButton>
       </FloatingActionButtons>
-    </SloTrackerProvider>
+    </>
   );
 }
 

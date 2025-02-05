@@ -21,12 +21,13 @@ import SloFormStepsContainer from 'in-service-levels/components/ConfigDialog/com
 import { SlideInViewContentProps } from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/types';
 import { formToSloConfiguration } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { CreateSloDialogMode, SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { UnstableTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { resetChildrenScrollPosition } from 'in-custom-dashboards/widgets/Slo/utils/slideInView';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import { CREATED_OBJECT, ENDED_PROCESS, UPDATED_OBJECT } from 'in-services/util/constants';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { CreateSloFormSlideState } from 'in-custom-dashboards/widgets/Slo/types';
-import { trackSloEvent } from 'in-service-levels/hooks/SloTrackerProvider';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import useHandleSloForm from 'in-service-levels/hooks/useHandleSloForm';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -52,7 +53,7 @@ interface CreateSloFormSlideProps extends SlideInViewContentProps<CreateSloFormS
 export default function CreateSloFormSlide({ slideOut, subSlideState, onCreationSuccessful }: CreateSloFormSlideProps) {
   const { form, setForm, updateForm, submitStatus, doSubmit, resetForm } = useHandleSloForm({ mode: FORM_MODE });
   const { ref: wrapperRef } = useResizeObserver<HTMLDivElement>();
-
+  const { unstable_trackEvent } = useSegmentTracking();
   // Because the SlideInView together with a StepsContainer is causing some
   // trouble we have to dynamically calculate the height of the form body
   const parentElement = wrapperRef.current?.parentElement;
@@ -63,11 +64,12 @@ export default function CreateSloFormSlide({ slideOut, subSlideState, onCreation
     slideOut();
     resetChildrenScrollPosition(parentElement);
     resetForm();
-    trackSloEvent(
-      SLO_CONFIG_DIALOG_CLOSE,
+    unstable_trackEvent(
+      ENDED_PROCESS,
       {
         productArea: productAreas.custom_dashboard,
-        pageName: pageNames.custom_dashboard
+        pageName: pageNames.custom_dashboard,
+        objectType: SLO_CONFIG_DIALOG_CLOSE
       },
       undefined
     );
@@ -109,10 +111,12 @@ export default function CreateSloFormSlide({ slideOut, subSlideState, onCreation
 
                 doSubmit({
                   onSuccess: result => {
-                    onSuccess(result);
+                    onSuccess(result, unstable_trackEvent);
                     onCreationSuccessful(result.data!);
                   },
-                  onError,
+                  onError: result => {
+                    onError(result, unstable_trackEvent);
+                  },
                   payload: formToSloConfiguration(form)
                 });
               }}
@@ -127,7 +131,7 @@ export default function CreateSloFormSlide({ slideOut, subSlideState, onCreation
   );
 }
 
-function onSuccess({ data }: Result<ServiceLevelObjectiveConfiguration>) {
+function onSuccess({ data }: Result<ServiceLevelObjectiveConfiguration>, track: UnstableTrackingFunction) {
   if (!data) throw Error(ServiceLevelErrors.UNEXPECTED_SLO_CREATION_ERROR);
 
   const { name, id, entity, indicator, timeWindow } = data;
@@ -141,11 +145,12 @@ function onSuccess({ data }: Result<ServiceLevelObjectiveConfiguration>) {
     })
   });
 
-  trackSloEvent(
-    SLO_CONFIG_DIALOG_FINISH,
+  track(
+    CREATED_OBJECT,
     {
       productArea: productAreas.custom_dashboard,
-      pageName: pageNames.custom_dashboard
+      pageName: pageNames.custom_dashboard,
+      objectType: SLO_CONFIG_DIALOG_FINISH
     },
     {
       id,
@@ -163,13 +168,14 @@ const errorMessageHeader = {
   title: t('in-service-levels:createSloDialog.messages.creationFailedTitle')
 } as const;
 
-function onError(result?: Result<ServiceLevelObjectiveConfiguration>) {
+function onError(result: Result<ServiceLevelObjectiveConfiguration> | undefined, track: UnstableTrackingFunction) {
   if (result && result.errors.length !== 0) {
-    trackSloEvent(
-      SLO_CONFIG_DIALOG_ERROR,
+    track(
+      UPDATED_OBJECT,
       {
         productArea: productAreas.custom_dashboard,
-        pageName: pageNames.custom_dashboard
+        pageName: pageNames.custom_dashboard,
+        objectType: SLO_CONFIG_DIALOG_ERROR
       },
       {
         mode: FORM_MODE,
@@ -187,11 +193,12 @@ function onError(result?: Result<ServiceLevelObjectiveConfiguration>) {
   }
 
   if (!result?.data) {
-    trackSloEvent(
-      SLO_CONFIG_DIALOG_ERROR,
+    track(
+      UPDATED_OBJECT,
       {
         productArea: productAreas.custom_dashboard,
-        pageName: pageNames.custom_dashboard
+        pageName: pageNames.custom_dashboard,
+        objectType: SLO_CONFIG_DIALOG_ERROR
       },
       {
         mode: FORM_MODE,
@@ -208,11 +215,12 @@ function onError(result?: Result<ServiceLevelObjectiveConfiguration>) {
 
   const { name } = result.data;
 
-  trackSloEvent(
-    SLO_CONFIG_DIALOG_ERROR,
+  track(
+    UPDATED_OBJECT,
     {
       productArea: productAreas.custom_dashboard,
-      pageName: pageNames.custom_dashboard
+      pageName: pageNames.custom_dashboard,
+      objectType: SLO_CONFIG_DIALOG_ERROR
     },
     {
       mode: FORM_MODE,

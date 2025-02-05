@@ -21,7 +21,7 @@ import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useSe
 import SloListFilters from 'in-service-levels/components/SloList/components/SloListFilters';
 import useSloListFilterUrlState from 'in-service-levels/hooks/useSloListFilterUrlState';
 import SloActions from 'in-service-levels/components/SloList/components/SloActions';
-import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import useSloListItems from 'in-service-levels/hooks/useSloListItems';
 import { SLO_LIST_VIEW } from 'in-services/tracking/eventNames';
@@ -117,11 +117,11 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
   const isMediumWidth = useMediaQuery('(min-width: 1560px)');
   const isSmallWidth = useMediaQuery('(min-width: 1200px)');
 
-  const track = useSloTrackers();
+  const { trackCta } = useSegmentTracking();
 
   useEffect(() => {
-    track(SLO_LIST_VIEW, undefined);
-  }, [track]);
+    trackCta(SLO_LIST_VIEW, undefined);
+  }, [trackCta]);
 
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = useServerTableUrlState({
     pathSegment,

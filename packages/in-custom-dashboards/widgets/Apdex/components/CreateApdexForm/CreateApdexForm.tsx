@@ -22,7 +22,8 @@ import useCreateApdexForm from 'in-custom-dashboards/widgets/Apdex/hooks/useCrea
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { createApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
-import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { CREATED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import useFormSubmission from 'in-hooks/useFormSubmission';
 import { seconds } from 'in-services/time/time';
@@ -62,7 +63,8 @@ export default function CreateApdexForm({
   const [form, setForm] = useCreateApdexForm(apdexConfig, entityType, entityId);
   const [submitStatus, doSubmit] = useFormSubmission(createApdexConfiguration);
 
-  const track = useSloTrackers();
+  const { unstable_trackEvent } = useSegmentTracking();
+
   const isEditing = Boolean(apdexConfig.id);
 
   const CreateApdexFormComponent = entityType === 'application' ? CreateApplicationApdexForm : CreateWebsiteApdexForm;
@@ -76,9 +78,10 @@ export default function CreateApdexForm({
   };
 
   const onSaveSuccess = (result: Result<ApdexConfiguration>) => {
-    track(isEditing ? APDEX_MANAGEMENT_EDIT_FINISH : APDEX_MANAGEMENT_CREATE_FINISH, {
-      entityType
-    });
+    const eventType = isEditing ? UPDATED_OBJECT : CREATED_OBJECT;
+    const objectType = isEditing ? APDEX_MANAGEMENT_EDIT_FINISH : APDEX_MANAGEMENT_CREATE_FINISH;
+
+    unstable_trackEvent(eventType, { entityType, objectType });
     addMessage(
       {
         type: 'info',

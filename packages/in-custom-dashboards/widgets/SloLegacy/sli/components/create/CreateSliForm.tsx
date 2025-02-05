@@ -21,7 +21,8 @@ import { SliConfigBySliType } from 'in-custom-dashboards/widgets/SloLegacy/sli/s
 import { createSliConfiguration } from 'in-custom-dashboards/widgets/SloLegacy/sli/api';
 import { sliSliNameKey } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliForm';
 import { SliType } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
-import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { CREATED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import useFormSubmission from 'in-hooks/useFormSubmission';
 import Form from 'in-components/form/binding/Form';
@@ -60,14 +61,16 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
     setFooter
   });
 
-  const track = useSloTrackers();
+  const { unstable_trackEvent } = useSegmentTracking();
 
   // eslint-disable-next-line import/no-deprecated
   const sliName = getField(form, [sliSliNameKey])?.value ?? '';
 
   const trackSaveSuccess = (entityType: SliType, editMode: boolean): void => {
-    const event = editMode ? SLI_MANAGEMENT_EDIT_FINISH : SLI_MANAGEMENT_CREATE_FINISH;
-    track(event, { entityType });
+    const eventType = editMode ? SLI_MANAGEMENT_EDIT_FINISH : SLI_MANAGEMENT_CREATE_FINISH;
+    const objectType = editMode ? UPDATED_OBJECT : CREATED_OBJECT;
+
+    unstable_trackEvent(objectType, { entityType, eventType });
   };
 
   const normalizeFormData = (submittedForm: Item) => {

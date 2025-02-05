@@ -14,30 +14,46 @@ import {
   SLO_CONFIG_DELETE_FINISH,
   SLO_CONFIG_DELETE_START
 } from 'in-services/tracking/eventNames';
-import { SloTrackingMeta, trackSloEvent } from 'in-service-levels/hooks/SloTrackerProvider';
+import {
+  CtaTrackingFunction,
+  UnstableTrackingFunction,
+  useSegmentTracking
+} from 'in-services/tracking/useSegmentTracking';
 import { deleteSloConfiguration } from 'in-service-levels/api/configuration';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { DELETED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { ProductArea } from 'in-services/tracking/productAreas';
+import { PageName } from 'in-services/tracking/pageNames';
 import { t, Trans } from 'in-i18n';
 
 type CompletionCallback = (success: boolean) => void;
 type DoFunction = () => void;
+
+interface SloTrackingMeta {
+  productArea: ProductArea;
+  pageName: PageName;
+}
 
 export default function useDoDeleteSloConfiguration(
   configuration: ServiceLevelObjectiveConfiguration,
   meta: SloTrackingMeta,
   onComplete?: CompletionCallback
 ): DoFunction {
+  const { trackCta, unstable_trackEvent } = useSegmentTracking();
+
   return () => {
-    showConfirmationDialog(configuration, meta, onComplete);
+    showConfirmationDialog(configuration, meta, onComplete, trackCta, unstable_trackEvent);
   };
 }
 
 function showConfirmationDialog(
   configuration: ServiceLevelObjectiveConfiguration,
   meta: SloTrackingMeta,
-  onComplete?: CompletionCallback
+  onComplete: CompletionCallback | undefined,
+  trackCta: CtaTrackingFunction,
+  unstable_trackEvent: UnstableTrackingFunction
 ): void {
   const { name } = configuration;
   addActiveDialog(
@@ -55,45 +71,45 @@ function showConfirmationDialog(
       confirmButtonLabel={t('in-service-levels:general.deleteDialog.delete')}
       onSubmit={() => {
         close();
-        onDelete(configuration, meta, onComplete);
+        onDelete(configuration, meta, onComplete, unstable_trackEvent);
       }}
     />
   );
 
-  trackSloEvent(
-    SLO_CONFIG_DELETE_START,
-    {
-      productArea: meta.productArea,
-      pageName: meta.pageName
-    },
-    {
-      id: configuration.id,
-      blueprint: configuration.indicator.blueprint,
-      entityType: configuration.entity.type,
-      indicatorType: configuration.indicator.type,
-      timeWindowType: configuration.timeWindow.type
-    }
-  );
+  trackCta(SLO_CONFIG_DELETE_START, {
+    id: configuration.id,
+    blueprint: configuration.indicator.blueprint,
+    entityType: configuration.entity.type,
+    indicatorType: configuration.indicator.type,
+    timeWindowType: configuration.timeWindow.type,
+    productArea: meta.productArea,
+    pageName: meta.pageName
+  });
 }
 
 function onDelete(
   configuration: ServiceLevelObjectiveConfiguration,
   meta: SloTrackingMeta,
-  onComplete?: CompletionCallback
+  onComplete: CompletionCallback | undefined,
+  track: UnstableTrackingFunction
 ): void {
   deleteSloConfiguration(configuration.id!).once(
     () => {
-      onDeleteSuccess(configuration, meta);
+      onDeleteSuccess(configuration, meta, track);
       onComplete?.(true);
     },
     () => {
-      onDeleteFailed(configuration, meta);
+      onDeleteFailed(configuration, meta, track);
       onComplete?.(false);
     }
   );
 }
 
-function onDeleteSuccess(configuration: ServiceLevelObjectiveConfiguration, meta: SloTrackingMeta): void {
+function onDeleteSuccess(
+  configuration: ServiceLevelObjectiveConfiguration,
+  meta: SloTrackingMeta,
+  track: UnstableTrackingFunction
+): void {
   addMessage(
     {
       type: 'info',
@@ -103,11 +119,12 @@ function onDeleteSuccess(configuration: ServiceLevelObjectiveConfiguration, meta
     'slo-delete-info'
   );
 
-  trackSloEvent(
-    SLO_CONFIG_DELETE_FINISH,
+  track(
+    DELETED_OBJECT,
     {
       productArea: meta.productArea,
-      pageName: meta.pageName
+      pageName: meta.pageName,
+      objectType: SLO_CONFIG_DELETE_FINISH
     },
     {
       id: configuration.id,
@@ -119,7 +136,11 @@ function onDeleteSuccess(configuration: ServiceLevelObjectiveConfiguration, meta
   );
 }
 
-function onDeleteFailed(configuration: ServiceLevelObjectiveConfiguration, meta: SloTrackingMeta): void {
+function onDeleteFailed(
+  configuration: ServiceLevelObjectiveConfiguration,
+  meta: SloTrackingMeta,
+  track: UnstableTrackingFunction
+): void {
   addMessage(
     {
       type: 'danger',
@@ -129,11 +150,12 @@ function onDeleteFailed(configuration: ServiceLevelObjectiveConfiguration, meta:
     'slo-delete-error'
   );
 
-  trackSloEvent(
-    SLO_CONFIG_DELETE_ERROR,
+  track(
+    UPDATED_OBJECT,
     {
       productArea: meta.productArea,
-      pageName: meta.pageName
+      pageName: meta.pageName,
+      objectType: SLO_CONFIG_DELETE_ERROR
     },
     {
       id: configuration.id,
