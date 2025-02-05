@@ -235,13 +235,28 @@ function EmptySection() {
   );
 }
 
-function ActionPreview() {
+function ActionPreview({
+  form,
+  setForm
+}: {
+  form: GenerateAIActionForm;
+  setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
+}) {
   const generatedAction = useGeneratedAction();
 
   if (!generatedAction) return <EmptySection />;
   if (isLoading(generatedAction)) return <LoadingSection title={t('in-automation:titleContentReadOnly')} />;
   if (hasError(generatedAction)) return <ErroneousResultPresenter errors={generatedAction.errors} />;
-  return <ManualActionContent content={createManualField(generatedAction.data?.content!)} withAISlug addCopyButton />;
+  return (
+    <ManualActionContent
+      content={createManualField(generatedAction.data?.content!)}
+      form={form}
+      setForm={setForm}
+      withAISlug
+      addCopyButton
+      showFeedback
+    />
+  );
 }
 
 export default function PromptStep({
@@ -269,7 +284,7 @@ export default function PromptStep({
       </Col>
       <Col lg={5}>
         <Spacer vertical="normal" />
-        <ActionPreview />
+        <ActionPreview form={form} setForm={setForm} />
       </Col>
     </Row>
   );
