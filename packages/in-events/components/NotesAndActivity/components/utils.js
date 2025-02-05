@@ -5,10 +5,10 @@
  */
 
 import { EVENT_NOTES_EDIT_SUBMIT, EVENT_NOTES_DELETE_SUBMIT } from 'in-services/tracking/eventNames';
+import { TYPE_NOTE, TYPE_AI_SUMMARY } from 'in-events/components/NotesAndActivity/utils';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { CTA_CLICKED } from 'in-services/util/constants';
-import { TYPE_NOTE, TYPE_AI_SUMMARY } from '../utils';
 import { track } from 'in-services/tracking/trackers';
 import { annotateEvent } from 'in-stores/events';
 import { user } from 'in-stores/user';

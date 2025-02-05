@@ -8,9 +8,9 @@ import React, { Fragment, useState } from 'react';
 
 import { ButtonGroup } from '@instana/components';
 
-import RootCauseErrorMessagesTable from './RootCauseErrorTable';
+import RootCauseErrorMessagesTable from 'in-events/components/RootCauseAnalysis/Logs/RootCauseErrorTable';
+import RootCauseLogMessagesTable from 'in-events/components/RootCauseAnalysis/Logs/RootCauseLogTable';
 import { ApplicationBoundaryScope, TimeConfig } from 'in-types';
-import RootCauseLogMessagesTable from './RootCauseLogTable';
 import { t } from 'in-i18n';
 
 interface RootCauseContextDashboardProps {

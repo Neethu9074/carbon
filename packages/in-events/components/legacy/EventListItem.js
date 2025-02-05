@@ -19,6 +19,7 @@ import WebsiteEventListItemContent from 'in-events/components/legacy/WebsiteEven
 import SloEventListItemContent from 'in-events/components/legacy/SloEventListItemContent';
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
 import EventListItemContent from 'in-events/components/legacy/EventListItemContent';
+import EventEntityDetails from 'in-events/components/legacy/EventEntityDetails';
 import { isMobileAppSmartAlertEvent } from 'in-events/components/eventUtil';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -27,7 +28,6 @@ import { isAppDataEntityType } from 'in-services/entityUtils';
 import { formatTime } from 'in-services/formatters/date';
 import Marker from 'in-events/components/legacy/Marker';
 import EventIcon from 'in-events/components/EventIcon';
-import EventEntityDetails from './EventEntityDetails';
 import { urlQueryKeys } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';

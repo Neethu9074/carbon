@@ -18,6 +18,7 @@ import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/Tr
 import { getExpressionWithLogsGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import LogAlertChartWrapper from 'in-alerting/smart-alerts/logs/components/LogAlertChartWrapper';
 import { TagFilterExpression, TimeConfig, TagCatalog, GroupTagInfo, Nullish } from 'in-types';
+import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import { ScopeGroupingTags } from 'in-events/components/EventContent/ScopeLogsGroupingTags';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
@@ -32,7 +33,6 @@ import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import LogAlertConfigButton from 'in-events/components/LogAlertConfigButton';
 import useLogEventAlertConfig from 'in-events/hooks/useLogEventAlertConfig';
-import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';

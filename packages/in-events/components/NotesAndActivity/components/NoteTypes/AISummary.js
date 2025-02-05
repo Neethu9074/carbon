@@ -9,16 +9,20 @@ import React, { useState } from 'react';
 import { SvgIcon, CarbonButton, CarbonIconButton, CarbonInlineLoading } from '@instana/components';
 
 import {
+  convertIncidentSummaryToString,
+  convertActionsToString,
+  convertNotesSummaryToString
+} from 'in-events/components/NotesAndActivity/components/NoteTypes/utils';
+import {
   EVENT_AI_SHOW_MORE_INCIDENTS,
   EVENT_AI_SHOW_MORE_ACTIONS,
   EVENT_AI_SHARE_OPENED,
   EVENT_AI_RUN_ACTION
 } from 'in-services/tracking/eventNames';
-import { convertIncidentSummaryToString, convertActionsToString, convertNotesSummaryToString } from './utils';
+import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useAction from 'in-automation/ActionCatalog/useAction';
-import { handleTracking } from '../utils';
 import { t } from 'in-i18n';
 
 import locals from './AISummary.mless';

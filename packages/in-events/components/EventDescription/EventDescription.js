@@ -15,11 +15,11 @@ import {
   getEventType,
   EVENT_TYPES
 } from 'in-stores/events';
+import IncidentContent from 'in-events/components/EventDescription/IncidentContent';
+import EventContent from 'in-events/components/EventDescription/EventContent';
 import { focusEvent } from 'in-stores/navigation/paths/eventPaths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';
-import IncidentContent from './IncidentContent';
-import EventContent from './EventContent';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

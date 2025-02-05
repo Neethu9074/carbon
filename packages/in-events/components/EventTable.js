@@ -18,12 +18,17 @@ import {
   EVENT_FEEDBACK_SUBMIT,
   EVENT_FEEDBACK_CLOSED_MANUALLY
 } from 'in-services/tracking/tracking';
-import { getKubernetesProblemText, getKubernetesProblemTextReplacement } from './EventContent/KubernetesEventContent';
+import {
+  getKubernetesProblemText,
+  getKubernetesProblemTextReplacement
+} from 'in-events/components/EventContent/KubernetesEventContent';
 import { NotesAndActivity, OpenNotesAndActivity } from 'in-events/components/NotesAndActivity/NotesAndActivity';
 import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { eventFeedbackEnabled, notesAndActivityEnabled } from 'in-services/featureFlags';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
+import EventsTable from 'in-events/components/EventsPage/EventsTable/EventsTable';
+import { eventStepConfig } from 'in-events/components/feedback/eventStepConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -31,10 +36,8 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
-import EventsTable from './EventsPage/EventsTable/EventsTable';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { isAppDataEntityType } from 'in-services/entityUtils';
-import { eventStepConfig } from './feedback/eventStepConfig';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
 import EventsList from 'in-events/components/EventsList';

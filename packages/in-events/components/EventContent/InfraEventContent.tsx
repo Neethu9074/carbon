@@ -21,6 +21,7 @@ import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/Tr
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
+import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import { ScopeGroupingTags } from 'in-events/components/EventContent/ScopeInfraGroupingTags';
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
@@ -35,7 +36,6 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
-import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import { infraPredictiveDetectionEnabled } from 'in-services/featureFlags';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { TagCatalog, TagFilterExpression, TimeConfig } from 'in-types';

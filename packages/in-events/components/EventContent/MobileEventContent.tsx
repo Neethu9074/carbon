@@ -21,6 +21,7 @@ import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/Tr
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
+import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import AnalyzeMobileAppEventButton from 'in-events/components/AnalyzeMobileAppEventButton';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import MobileAppAlertConfigButton from 'in-events/components/MobileAppAlertConfigButton';
@@ -35,7 +36,6 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
-import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';

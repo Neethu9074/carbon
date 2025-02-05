@@ -9,7 +9,11 @@ import classNames from 'classnames';
 
 import { CarbonTextArea, IconButton } from '@instana/components';
 
-import { validTextEntry, handleUpdateDeleteNote, handleTracking } from './utils';
+import {
+  validTextEntry,
+  handleUpdateDeleteNote,
+  handleTracking
+} from 'in-events/components/NotesAndActivity/components/utils';
 import { EVENT_NOTES_SUBMIT } from 'in-services/tracking/eventNames';
 import { annotateEvent } from 'in-stores/events';
 import { user } from 'in-stores/user';

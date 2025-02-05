@@ -9,9 +9,9 @@ import classNames from 'classnames';
 
 import { CarbonModal, CarbonTextArea, CarbonTextInput, CarbonForm } from '@instana/components';
 
+import { validRecipients, handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { EVENT_AI_SHARE_SUBMIT } from 'in-services/tracking/eventNames';
-import { validRecipients, handleTracking } from './utils';
 import { shareEventSummary } from 'in-stores/events';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';

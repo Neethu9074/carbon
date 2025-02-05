@@ -26,10 +26,12 @@ import {
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
+import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
+import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
@@ -38,7 +40,6 @@ import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartView
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
-import TriggeredIncidentButton from '../tabs/Summary/common/TriggeredIncidentButton';
 import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
@@ -46,7 +47,6 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
-import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { emptyMap } from 'in-services/fixedImmutables';

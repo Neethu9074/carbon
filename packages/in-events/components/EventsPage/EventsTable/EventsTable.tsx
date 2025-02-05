@@ -32,6 +32,7 @@ import { DatagridActions } from 'in-events/components/EventsPage/EventsTable/Dat
 import { OnEntity, getStateBadge, getEndValue } from 'in-events/components/EventsListRow';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import MultiCloseIssueConfigForm from 'in-events/components/MultiCloseIssueConfigForm';
+import TimelineCell from 'in-events/components/EventsPage/EventsTable/TimelineCell';
 import parseQuery from 'in-events/components/util/dataGridEventsTableUtil';
 import FailedIncidentsList from 'in-events/components/FailedIncidentsList';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -44,7 +45,6 @@ import EventIcon from 'in-events/components/EventIcon';
 import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { EventOrMap } from 'in-events/types';
-import TimelineCell from './TimelineCell';
 import { t } from 'in-i18n';
 
 // START table configurations

@@ -9,11 +9,16 @@ import classNames from 'classnames';
 
 import { SvgIcon, CarbonOverflowMenu, CarbonOverflowMenuItem } from '@instana/components';
 
+import {
+  TYPE_NOTE,
+  TYPE_EXT_NOTE,
+  TYPE_EXT_F_CHANGE,
+  TYPE_AI_SUMMARY
+} from 'in-events/components/NotesAndActivity/utils';
+import { noteNameAndTimeFormat, createDataString } from 'in-events/components/NotesAndActivity/components/utils';
 import { AISummary } from 'in-events/components/NotesAndActivity/components/NoteTypes/AISummary';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
-import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_EXT_F_CHANGE, TYPE_AI_SUMMARY } from '../utils';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
-import { noteNameAndTimeFormat, createDataString } from './utils';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 

@@ -15,10 +15,10 @@ import { useObservable } from '@instana/hooks';
 
 import { EVENT_RCA_ASSOCIATED_EVENTS_CLICK, EVENT_RCA_EXPANDED_CARD } from 'in-services/tracking/tracking';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import EventListItem from 'in-events/components/legacy/EventListItem';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 //@ts-expect-error
 import { getEvent } from 'in-stores/events';
-import EventListItem from '../legacy/EventListItem';
 import { EventOrMap } from 'in-events/types';
 import { Snapshot } from 'in-types';
 import { t } from 'in-i18n';

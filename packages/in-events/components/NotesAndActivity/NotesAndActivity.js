@@ -13,15 +13,15 @@ import { SvgIcon, CarbonLayer, CarbonInlineLoading, IconButton, CarbonSearch, Ca
 // Using Carbon tooltip would cause mismatch in design on the page
 // since tooltip is used in many places on this page
 import Tooltip from 'in-components/Tooltip';
+import { getNotes, filterSearchNotes, getSummaryCount } from 'in-events/components/NotesAndActivity/utils';
 import { handleUpdateDeleteNote } from 'in-events/components/NotesAndActivity/components/utils';
 import { CommentInput } from 'in-events/components/NotesAndActivity/components/CommentInput';
 import { QuickActions } from 'in-events/components/NotesAndActivity/components/QuickActions';
 import { ShareSummary } from 'in-events/components/NotesAndActivity/components/ShareSummary';
 import { CommentList } from 'in-events/components/NotesAndActivity/components/CommentList';
+import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { incidentSummarizationEnabled } from 'in-services/featureFlags';
-import { getNotes, filterSearchNotes, getSummaryCount } from './utils';
-import { handleTracking } from './components/utils';
 import { t } from 'in-i18n';
 
 import locals from './NotesAndActivity.mless';

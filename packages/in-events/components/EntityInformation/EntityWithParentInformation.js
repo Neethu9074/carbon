@@ -6,9 +6,9 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
+import EntityInformation from 'in-events/components/EntityInformation/EntityInformation';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { isEndpointEntity } from 'in-services/entityUtils';
-import EntityInformation from './EntityInformation';
 import { t } from 'in-i18n';
 
 export default function EntityWithParentInformation(props) {
