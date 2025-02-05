@@ -22,7 +22,7 @@ import { ActionSection } from 'in-components/workspace/ActionSection/ActionSecti
 import * as queryBuildersByDataSource from 'in-websites/queryBuilder';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { dataSourceTypes, defaultGroupings } from 'in-websites/tags';
-import { useWebsiteTracker } from '../../../tracking/segTracker';
+import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
