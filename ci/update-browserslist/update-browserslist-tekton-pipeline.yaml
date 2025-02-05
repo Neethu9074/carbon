@@ -36,7 +36,7 @@ spec:
         steps:    
         - name: update-browserslist
           workingDir: $(workspaces.output.path)/ui-client-source
-          image: delivery.instana.io/int-docker-private-virtual/library/node:16.18.1 ##registry.redhat.io/openshift-pipelines/pipelines-cli-tkn-rhel8:v1.14.4-2
+          image: delivery.instana.io/int-docker-private-virtual/library/node:16.18.1
           securityContext:
             runAsUser: 0
             privileged: true
@@ -59,7 +59,7 @@ spec:
           script: |
             #!/bin/bash
             set -e
-
+            
             echo "Node Version: $(node --version)"
             echo "Yarn Version: $(yarn --version)"
 

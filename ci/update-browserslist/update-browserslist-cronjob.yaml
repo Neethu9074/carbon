@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: update-browserslist-cronjob
+spec:
+  schedule: "0 18 * * 3"  # Runs every Wednesday at 18:00
+  concurrencyPolicy: Forbid  # Ensures a new instance won't start until the previous one completes
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          serviceAccountName: tekton-ci-worker
+          containers:
+            - name: update-browserslist
+              image: registry.redhat.io/openshift-pipelines/pipelines-cli-tkn-rhel8:v1.14.4-2
+              imagePullPolicy: IfNotPresent
+              command:
+                - /bin/sh
+                - -c
+                - |
+
+                  tkn pipeline start update-browserslist-pipeline \
+                    -s tekton-ci-worker \
+                    --use-param-defaults \
+                    --workspace name=output,volumeClaimTemplateFile=./config/output-pvc.yaml
+              volumeMounts:
+                - name: output
+                  mountPath: /config
+
+          volumes: 
+            - name: output
+              configMap:
+                name: updatebrowserlist-template-config
+
+
+
