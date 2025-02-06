@@ -50,6 +50,9 @@ const cols = [
           </Tooltip>
         );
       },
+      getFallbackValue(row) {
+        return row.gpuProcess.get('name');
+      },
       useSnapshotFromHierarchyCallback(snapshot, hierarchy) {
         if (hierarchy && hierarchy.length > 0) {
           return hierarchy[0];
