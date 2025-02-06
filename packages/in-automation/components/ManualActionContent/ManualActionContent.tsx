@@ -9,6 +9,8 @@ import React from 'react';
 import { IconButton, Typography, FormGroup, Label } from '@instana/components';
 import { Field } from '@instana/types';
 
+import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/useGenerateAIActionForm';
+import FeedbackComponent from 'in-automation/AutomationCard/GenerateAI/FeedbackComponent';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import AISlugIcon from 'in-automation/components/AISlugIcon';
@@ -22,19 +24,42 @@ export default function ManualActionContent({
   content,
   addCopyButton = false,
   actionName,
-  withAISlug = false
+  withAISlug = false,
+  showFeedback = false,
+  form,
+  setForm
 }: {
   content: Field;
+  form?: GenerateAIActionForm;
+  setForm?: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
   addCopyButton?: boolean;
   actionName?: string;
   withAISlug?: boolean;
+  showFeedback?: boolean;
 }) {
+  const promptForm = form?.get('prompt');
+
+  const eventName = promptForm?.get('eventName').value;
+  const eventDescription = promptForm?.get('eventDescription').value;
+  const eventEntityType = promptForm?.get('eventEntityType').value;
+
+  const generateAIActionPayload = {
+    eventName,
+    eventDescription,
+    eventEntityType
+  };
+
   let plaintextContent = content.value;
   if (content.encoding === 'base64') {
     plaintextContent = atob(plaintextContent);
   }
   // We trim the content because markdown-it rendering breaks if theres leading whitespace
   const htmlContent = toHtml(plaintextContent.trimStart(), { breaks: true });
+  const trackerPayload = {
+    prompt: generateAIActionPayload,
+    generatedContent: plaintextContent.trimStart(),
+    type: 'manual'
+  };
 
   return (
     <>
@@ -71,6 +96,13 @@ export default function ManualActionContent({
             </div>
           )}
         </div>
+        {showFeedback && form && setForm && (
+          <FeedbackComponent
+            trackerPayload={trackerPayload}
+            form={form.get('action')}
+            setForm={actionForm => setForm(form => form.updateIn(['action'], actionForm))}
+          />
+        )}
       </FormGroup>
     </>
   );

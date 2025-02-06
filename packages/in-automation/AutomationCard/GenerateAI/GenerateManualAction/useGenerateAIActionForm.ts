@@ -32,6 +32,7 @@ type GenerateAIActionFormItems = {
     content: FormField<string>;
     script: FormField<string>;
     aiGeneratedContent: FormField<string>;
+    feedbackState: FormField<string>;
   }>;
   policy: MapForm<{
     name: FormField<string>;
@@ -147,6 +148,9 @@ function createGenerateAIActionForm({ trigger, event }: UseGenerateAIActionFormP
             value: ''
           }),
           aiGeneratedContent: createField({
+            value: ''
+          }),
+          feedbackState: createField({
             value: ''
           })
         },

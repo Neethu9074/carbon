@@ -506,5 +506,9 @@
     "actionName": "Action name",
     "recommendedActionHistoryWithCount": "Resource action history ({{count}})",
     "recommendedActionHistory": "Resource action history"
+  },
+  "feedback": {
+    "contentHelpfulText": "Was this generated content helpful?",
+    "thankYouForYourFeedback": "Thank you for your feedback!"
   }
 }

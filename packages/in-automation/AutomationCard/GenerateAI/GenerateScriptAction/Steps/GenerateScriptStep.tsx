@@ -13,6 +13,7 @@ import { Result } from '@instana/types';
 import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
+import FeedbackComponent from 'in-automation/AutomationCard/GenerateAI/FeedbackComponent';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingSection from 'in-automation/AutomationCard/GenerateAI/LoadingSection';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
@@ -103,6 +104,7 @@ function generateAIActionForm({
             .updateIn(['action', 'script'], item => item.setValue(res.data?.content!))
             .updateIn(['action', 'aiGeneratedContent'], item => item.setValue(res.data?.content!))
             .updateIn(['action', 'description'], item => item.setValue(promptStep.value).setTouched(true))
+            .updateIn(['action', 'feedbackState'], item => item.setValue('').setTouched(true))
         );
       },
       () => {
@@ -144,7 +146,13 @@ function GenerateScriptButton({
   );
 }
 
-function ActionPreview({ form }: { form: GenerateAIScriptActionForm }) {
+function ActionPreview({
+  form,
+  setForm
+}: {
+  form: GenerateAIScriptActionForm;
+  setForm: React.Dispatch<React.SetStateAction<GenerateAIScriptActionForm>>;
+}) {
   const generatedAction = useGeneratedAction();
 
   if (!generatedAction) return <EmptySection />;
@@ -155,11 +163,21 @@ function ActionPreview({ form }: { form: GenerateAIScriptActionForm }) {
       />
     );
   if (hasError(generatedAction)) return <ErroneousResultPresenter errors={generatedAction.errors} />;
-  return <ScriptSection form={form} />;
+  return <ScriptSection form={form} setForm={setForm} />;
 }
 
-function ScriptSection({ form }: { form: GenerateAIScriptActionForm }) {
+function ScriptSection({
+  form,
+  setForm
+}: {
+  form: GenerateAIScriptActionForm;
+  setForm: React.Dispatch<React.SetStateAction<GenerateAIScriptActionForm>>;
+}) {
   const plaintextScript = form.get('action').get('aiGeneratedContent').value;
+  const promptForm = form.get('prompt');
+
+  const promptStep = promptForm.get('promptStep');
+  const trackerPayload = { prompt: promptStep.value, generatedContent: plaintextScript, type: 'script' };
   return (
     <FormGroup>
       <div className={locals.header}>
@@ -171,6 +189,11 @@ function ScriptSection({ form }: { form: GenerateAIScriptActionForm }) {
         <CodeComponent withExpandButton linesToShow={20} code={plaintextScript} lang={'bash'} softWrap />
         <AISlugIcon />
       </div>
+      <FeedbackComponent
+        trackerPayload={trackerPayload}
+        form={form.get('action')}
+        setForm={actionForm => setForm(form => form.updateIn(['action'], actionForm))}
+      />
     </FormGroup>
   );
 }
@@ -226,7 +249,7 @@ export default function GenerateScriptStep({
         </Col>
         <Col lg={6}>
           <Spacer vertical="normal" />
-          <ActionPreview form={form} />
+          <ActionPreview form={form} setForm={setForm} />
         </Col>
       </Row>
     </>

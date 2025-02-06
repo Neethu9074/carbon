@@ -35,6 +35,7 @@ type ActionFormItems = {
   script: FormField<string>;
   content: FormField<string>;
   aiGeneratedContent: FormField<string>;
+  feedbackState: FormField<string>;
 };
 
 export type ActionForm = MapForm<ActionFormItems>;
