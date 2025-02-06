@@ -10961,6 +10961,7 @@
       "machineId": "Machine ID",
       "bootId": "Boot ID",
       "systemId": "System ID",
+      "hostId": "Host ID",
       "startedAt": "Started At",
       "interfacesWithSize": "Interfaces ({{size}})",
       "cpuUsed": "CPU Used",
