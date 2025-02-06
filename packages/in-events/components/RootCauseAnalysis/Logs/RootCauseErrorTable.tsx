@@ -14,6 +14,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 //@ts-expect-error Needs TS migration
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import RootCauseLogsComboButton from 'in-events/components/RootCauseAnalysis/Logs/RootCauseLogsComboButton';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getResolvedTimeConfig, getSparkChartGranularity, TimeResult } from 'in-applications/metrics';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
@@ -24,7 +25,6 @@ import { createChartedMetric, createMetricField } from 'in-analyze/navigation/pa
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getErrorMessages from 'in-applications/subscriptions/getErrorMessages';
-import RootCauseLogsComboButton from './RootCauseLogsComboButton';
 import { loggingEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import { collationLanguage, t } from 'in-i18n';
