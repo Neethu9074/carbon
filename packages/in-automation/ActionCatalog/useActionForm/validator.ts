@@ -87,6 +87,8 @@ export function checkTypeBeforeValidating<VALUE_TYPE>(
   currentType: ActionType,
   validator?: (value: VALUE_TYPE) => ValidationResult
 ) {
-  if (types !== currentType || (Array.isArray(types) && types.includes(currentType))) return undefined;
+  if ((Array.isArray(types) && !types.includes(currentType)) || (!Array.isArray(types) && types !== currentType)) {
+    return undefined;
+  }
   return validator;
 }
