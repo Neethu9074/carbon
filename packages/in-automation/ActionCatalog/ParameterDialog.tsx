@@ -178,8 +178,8 @@ function MetaDataSection({
       </FormGroup>
       <FormGroup>
         <Label htmlFor="parameter-type">{t('in-automation:ActionCatalog.valueType')}</Label>
-        <Row withoutSideMargin>
-          <Col>
+        <Row>
+          <Col md={2} xs={3}>
             <RadioButton
               checked={type.value === 'static'}
               disabled={isNotEditable}
@@ -189,7 +189,7 @@ function MetaDataSection({
               }
             />
           </Col>
-          <Col>
+          <Col md={2} xs={3}>
             <RadioButton
               checked={type.value === 'vault'}
               disabled={isNotEditable}
@@ -197,7 +197,7 @@ function MetaDataSection({
               onChange={() => setForm(form => form.updateIn(['type'], item => item.setValue('vault').setTouched(true)))}
             />
           </Col>
-          <Col>
+          <Col md={2} xs={3}>
             <RadioButton
               checked={type.value === 'dynamic'}
               disabled={isNotEditable}
