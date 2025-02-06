@@ -25,6 +25,7 @@ import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/S
 // @ts-expect-error needs TS migration
 import ApiItemView from 'in-settings/components/ApiItemView';
 import CopyableText from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/CopyableText';
+import { SETTINGS_IDENTITY_PROVIDER_OIDC_UPDATE } from 'in-services/tracking/eventNames';
 import { ApiItemMessage, EnrichFormProps, SaveItemProps } from 'in-settings/types';
 import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -450,7 +451,7 @@ function saveItem({
         type: 'success',
         timeout: 4000
       });
-      unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.identityProvider.openIdConnect' });
+      unstable_trackEvent(UPDATED_OBJECT, { objectType: SETTINGS_IDENTITY_PROVIDER_OIDC_UPDATE });
     },
     error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: 'error' })
   );

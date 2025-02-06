@@ -26,6 +26,7 @@ import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/S
 // @ts-expect-error needs TS migration
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { SETTINGS_IDENTITY_PROVIDER_LDAP_UPDATE } from 'in-services/tracking/eventNames';
 import { SETTINGS_IDP_LDAP_TEST_CONFIGURATION } from 'in-services/tracking/tracking';
 import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -534,7 +535,7 @@ function saveItem({ form, setMessage, unstable_trackEvent }: SaveItemPropsWithFo
   setConfigResult$.once(
     () => {
       setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' });
-      unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.identityProvider.ldap' });
+      unstable_trackEvent(UPDATED_OBJECT, { objectType: SETTINGS_IDENTITY_PROVIDER_LDAP_UPDATE });
       scrollToResultMessage();
     },
     error => {

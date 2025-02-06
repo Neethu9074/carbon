@@ -22,6 +22,7 @@ import { MatchParams } from 'in-settings/tabs/SecurityAndAccess/pages/accessCont
 import { DialogWrapper } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/ApiTokens/DialogWrapper';
 import { addFormForExpiryTimeStamp, ExpiryOptionType } from 'in-settings/components/ApiTokenExpiration/utils';
 import ApiTokenForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/ApiTokens/ApiTokenForm';
+import { SETTINGS_API_TOKEN_CREATE, SETTINGS_API_TOKEN_UPDATE } from 'in-services/tracking/eventNames';
 import { securityAndAccessAccessControlApiTokens } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { CREATED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
@@ -201,7 +202,7 @@ const ApiToken = (props: MatchParams): any => {
         const customData = {
           id: apiToken?.internalId
         };
-        unstable_trackEvent(CREATED_OBJECT, { objectType: 'settings.apiToken.create' }, customData);
+        unstable_trackEvent(CREATED_OBJECT, { objectType: SETTINGS_API_TOKEN_CREATE }, customData);
         callSaveApiToken();
       });
       result$.errors().once((error: any) => {
@@ -228,7 +229,7 @@ const ApiToken = (props: MatchParams): any => {
         expiryDate: result?.expiresOn,
         expiryOption: apiToken?.expiryOption
       };
-      unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.apiToken.update' }, customData);
+      unstable_trackEvent(UPDATED_OBJECT, { objectType: SETTINGS_API_TOKEN_UPDATE }, customData);
       if (!state.createNewToken) {
         close();
       } else {

@@ -10,6 +10,9 @@ import { Typography } from '@instana/components';
 import { GoogleSSOConfig } from '@instana/types';
 
 import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/SecurityAndAccess/api/googleSSO';
+// @ts-expect-error needs TS migration
+import ApiItemView from 'in-settings/components/ApiItemView';
+import { SETTINGS_IDENTITY_PROVIDER_GOOGLE_UPDATE } from 'in-services/tracking/eventNames';
 import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { EnrichFormProps, SaveItemProps } from 'in-settings/types';
@@ -17,8 +20,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { idpConfigV2Enabled } from 'in-services/featureFlags';
-// @ts-expect-error needs TS migration
-import ApiItemView from 'in-settings/components/ApiItemView';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
 import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
@@ -110,7 +111,7 @@ function saveItem({ form, setMessage, unstable_trackEvent }: SaveItemPropsWithFo
   setConfigResult$.once(
     () => {
       setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' });
-      unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.identityProvider.googleSingleSignOn' });
+      unstable_trackEvent(UPDATED_OBJECT, { objectType: SETTINGS_IDENTITY_PROVIDER_GOOGLE_UPDATE });
     },
     error =>
       setMessage({

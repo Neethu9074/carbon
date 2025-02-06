@@ -10,6 +10,7 @@ import ExpirationDateDropdown from 'in-settings/components/ApiTokenExpiration/Ex
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { PersonalApiToken, savePersonalApiToken } from 'in-settings/tabs/UserSettings/api/personalApiToken';
 import { createPersonalApiTokenForm } from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/form';
+import { SETTINGS_PERSONAL_API_TOKEN_UPDATE } from 'in-services/tracking/eventNames';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { apiTokenExpirationEnabled } from 'in-services/featureFlags';
@@ -65,7 +66,7 @@ export default function EditPersonalApiToken({ onClose, current }: Props) {
           expiryDate: apiToken.expiresOn,
           expiryOption: form.toJS()['expiryOption']
         };
-        unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.personalApiToken.update' }, customData);
+        unstable_trackEvent(UPDATED_OBJECT, { objectType: SETTINGS_PERSONAL_API_TOKEN_UPDATE }, customData);
         onClose();
       },
       () => {
