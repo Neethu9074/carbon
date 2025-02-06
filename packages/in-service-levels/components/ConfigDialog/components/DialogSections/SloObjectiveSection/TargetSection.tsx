@@ -5,7 +5,6 @@
  */
 
 import React, { useContext } from 'react';
-import classNames from 'classnames';
 
 import { Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
@@ -28,7 +27,7 @@ export default function TargetSection() {
   return (
     <Section title={t('in-service-levels:createSloDialog.sloTarget')} titleWidth={titleWidth}>
       <PercentageInput
-        className={classNames(locals.objectiveInput, locals.percentageInput)}
+        className={locals.percentageInput}
         id={'target'}
         value={sloTargetField.value}
         onChange={target => {

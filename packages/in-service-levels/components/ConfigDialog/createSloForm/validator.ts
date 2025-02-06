@@ -14,8 +14,8 @@ import {
   SloIndicatorFields,
   SloTimeWindowFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { maxValidator, minValidator, numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { isEmptyExpression, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { minValidator, numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
@@ -82,6 +82,20 @@ export function operatorValidator(operator: string): ValidationResult {
   return undefined;
 }
 
+export function maxPercentageValidator(maxInclusive: number): (v: any) => ValidationResult {
+  return (v: any) => {
+    if (typeof v === 'number' && !isNaN(v) && v > maxInclusive) {
+      return [
+        {
+          severity: 'error',
+          message: t('in-services:validators.valueMustBeSmallerOrEqualToMinInclusive', { maxInclusive: 100 })
+        }
+      ];
+    }
+    return undefined;
+  };
+}
+
 type ThresholdFieldValidator = (value: number | undefined) => ValidationResult;
 
 const commonThresholdValidator = composeAndShortCircuitOnError(inputNotUndefinedValidator, numericValidator);
@@ -100,7 +114,11 @@ export function createThresholdFieldValidator(
       return composeAndShortCircuitOnError(commonThresholdValidator, minValidator(1));
     case 'availability':
       if (type === 'eventBased') return undefined;
-      return composeAndShortCircuitOnError(commonThresholdValidator, positiveNumberValidator, maxValidator(100));
+      return composeAndShortCircuitOnError(
+        commonThresholdValidator,
+        positiveNumberValidator,
+        maxPercentageValidator(1)
+      );
   }
 }
 
@@ -117,7 +135,11 @@ export function createOperatorFieldValidator(blueprint: CustomBlueprintType): Op
   }
 }
 
-export const targetFieldValidator = composeAndShortCircuitOnError(inputNotUndefinedValidator);
+export const targetFieldValidator = composeAndShortCircuitOnError(
+  commonThresholdValidator,
+  positiveNumberValidator,
+  maxPercentageValidator(1)
+);
 export const timeFieldValidator = composeAndShortCircuitOnError(timeValidator, notBlankValidator);
 export const dateFieldValidator = composeAndShortCircuitOnError(notBlankValidator, dateValidator);
 export const indicatorFormValidator = composeAndShortCircuitOnError(
