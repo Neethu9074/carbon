@@ -10,7 +10,7 @@ import { expect } from 'chai';
 
 import { SPECS as MICROMETER_SPECS } from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MicrometerMetrics';
 import { SPECS as PROMETHEUS_SPECS } from 'in-forge/plugins/prometheus/Dashboard/PrometheusCustomMetrics';
-import { getDefaultRows } from './CustomMetricsV2';
+import { getDefaultRows } from 'in-sdk/components/dashboard/CustomMetricsV2/CustomMetricsV2';
 import { success } from 'in-services/util/result';
 
 const snapshot = fromJS({ id: 'snapshot-1' });
