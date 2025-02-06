@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 
+import { Spacer } from '@instana/components';
 import { just } from '@instana/observables';
 
 import GlobalInventorySmartAlertsList from 'in-alerting/smart-alerts/applications/inventory/GlobalInventorySmartAlertsList';
@@ -51,6 +52,7 @@ export default function GlobalSmartAlerts({ location }) {
           ) : (
             <>
               <GlobalInventorySmartAlertsList onNoData={() => setHasDataToRender(false)} />
+              <Spacer size="gutter" />
               <Footer />
             </>
           )}

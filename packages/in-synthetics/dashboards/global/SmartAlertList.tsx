@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { Spacer } from '@instana/components';
+
 import {
   alertId as alertIdMatrixParam,
   alertCreated as alertCreatedMatrixParam
@@ -73,6 +75,7 @@ export default function SmartAlertList() {
           noDataHeader={t('in-alerting:smartAlerts.synthetics.alertList.noDataHeader')}
           noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.synthetics.alertList.noDataDescription" />}
         />
+        <Spacer size="gutter" />
       </LeftRightPadding>
       <Footer />
       {role?.canConfigureGlobalSyntheticSmartAlerts && !displayCarbonTable && (
