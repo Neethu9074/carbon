@@ -99,8 +99,12 @@ spec:
             yarn install --frozen-lockfile
 
             echo "apply update to browser list data based on can-i-use lite:"
-
             npx --yes browserslist@latest --update-db
+
+            if git diff --quiet yarn.lock; then
+              echo "yarn.lock has not changed. Exiting pipeline."
+              exit 0
+            fi
 
             git commit --no-verify --message "chore(browserslist): update caniuse data" yarn.lock
 
