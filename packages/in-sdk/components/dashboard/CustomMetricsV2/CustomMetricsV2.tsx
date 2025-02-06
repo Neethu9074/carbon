@@ -107,7 +107,7 @@ const cols = [
         return {
           value: isPinned ? 0 : 1,
           content: (
-            <Tooltip align="topMiddle" content={t('in-sdk:dashboard.customMetricsV2.customMetricsContent')}>
+            <Tooltip delay={500} align="auto" content={t('in-sdk:dashboard.customMetricsV2.customMetricsContent')}>
               <SvgIcon
                 type={isPinned ? 'lib_fancy_checkbox_checked' : 'lib_fancy_checkbox_unchecked'}
                 className={isPinned ? locals.pinned : locals.unpinned}
