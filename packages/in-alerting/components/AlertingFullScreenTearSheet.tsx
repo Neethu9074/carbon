@@ -106,8 +106,18 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
 
   /**
    *`handleSubmit` function handles the final submission of the form
+   * and before submitting the form, this function checks if the steps are valid and free of errors.
+   * If any errors are found, the corresponding error component is loaded...
    */
   const handleSubmit = () => {
+    let errorStep = stepConfigs.findIndex(({ valid }) => !valid);
+    if (errorStep >= 0) {
+      setStepValid(false);
+      setErrorStep(errorStep);
+      setCurrentStep(errorStep);
+      return;
+    }
+
     const { valid, validator, validateIntermediately } = stepConfigs[lastStepIndex];
     if (!validateCurrentStep(lastStepIndex, validateIntermediately, valid, validator)) return;
     handleFormSubmit();
@@ -149,19 +159,12 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
   );
 
   /**
-   * `onClickInfluencerStep` function is used to enable the sidenav click event, which is only required in edit mode for SA.
+   *
+   * the side-navigation is clickable only in edit mode
    */
   if (isEditMode) {
-    args.onClickInfluencerStep = (index: number) =>
-      new Promise<void>((resolve, reject) => {
-        const { valid, validator, validateIntermediately } = stepConfigs[currentStep];
-        if (!validateCurrentStep(currentStep, validateIntermediately, valid, validator))
-          return reject(new Error(`Validation failed for step ${currentStep}`));
-        setCurrentStep(index);
-        resolve();
-      }).catch(() => {
-        // catch validation error
-      });
+    args.onClickInfluencerStep = (index: number) => setCurrentStep(index);
+    args.initialStep = currentStep + 1;
   }
 
   /**
