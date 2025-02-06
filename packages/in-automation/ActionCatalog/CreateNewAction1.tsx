@@ -4,11 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 import { Tearsheet } from '@instana/ibm-products';
 import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
+import { Result } from '@instana/types';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
@@ -40,7 +41,7 @@ import SideNav from 'in-components/SideNav';
 import { seconds } from 'in-services/time';
 import { t, Trans } from 'in-i18n';
 
-export default function CreateNewAction() {
+export default function CreateNewAction1() {
   const { isCopy, id } = useActionDetailsUrlParams();
   const action = useAction({ id, isCopy });
   const actionFilter = useActionFilter();
@@ -93,7 +94,7 @@ interface TearSheetProps {
 function TearSheetLoader({ action, actionFilter }: TearSheetProps) {
   const { isCopy } = useActionDetailsUrlParams();
   const [form, setForm] = useActionForm({ action, actionFilter });
-  const { onSubmit } = useOnSubmit();
+  const { onSubmit, result } = useOnSubmit();
 
   const actionButtons = [
     {
@@ -125,7 +126,7 @@ function TearSheetLoader({ action, actionFilter }: TearSheetProps) {
       >
         <>
           <Title title={t('in-automation:ActionCatalog.action')} />
-          <ActionDetailsLoader form={form} setForm={form => setForm(form as ActionForm)} />
+          <ActionDetailsLoader form={form} setForm={form => setForm(form as ActionForm)} result={result} />
         </>
       </Tearsheet>
     </isNotEditableContext.Provider>
@@ -283,47 +284,37 @@ function onEditFailure(errors: Error[] | undefined) {
 
 function ActionDetailsLoader({
   form,
-  setForm
+  setForm,
+  result
 }: {
   form: ActionForm;
   setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
+  result: Result<any> | null;
 }) {
   const { isCopy, id } = useActionDetailsUrlParams();
   const action = useAction({ id, isCopy });
   const actionFilter = useActionFilter();
 
   const loading = isLoading(action, actionFilter);
-  const errored = hasError(action, actionFilter);
+  const errored = hasError(result!, actionFilter!);
+  let errors = null;
 
   if (loading) {
     return <LoadingIndicator size={'xl'} />;
   }
-
-  if (errored) {
-    const errors = [...action.errors, ...actionFilter.errors];
-    return (
-      <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={themes.default.ids.color.option.yellow['500']}>
-          {t('in-automation:ActionCatalog.unknownAction')}
-        </SubViewHeader>
-        <SectionLine />
-        <DescriptionText>
-          <ErroneousResultPresenter errors={errors} />
-          <br />
-          {t('in-automation:ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
-        </DescriptionText>
-      </SettingsDetailPage>
-    );
-  }
+  if (errored) errors = [...result!.errors, ...actionFilter.errors];
 
   return (
-    <ActionDetails
-      key={String(isCopy)}
-      action={action.data}
-      actionFilter={actionFilter.data!}
-      form={form}
-      setForm={form => setForm(form as ActionForm)}
-    />
+    <>
+      {errored && errors !== null && <ErroneousResultPresenter errors={errors} />}
+      <ActionDetails
+        key={String(isCopy)}
+        action={action.data}
+        actionFilter={actionFilter.data!}
+        form={form}
+        setForm={form => setForm(form as ActionForm)}
+      />
+    </>
   );
 }
 
@@ -356,7 +347,7 @@ function ActionDetails({ action, actionFilter, form, setForm }: ActionDetailsPro
 
 function useOnSubmit() {
   const { createActionTrackerSegment, editActionTrackerSegment } = useSegmentTracker();
-  // const [result, setResult] = useState<Result<any> | null>(null);
+  const [result, setResult] = useState<Result<any> | null>(null);
   const { isNew, isCopy, id } = useActionDetailsUrlParams();
   const navigateToActionCatalog = useNavigateToActionCatalog();
   function onSubmit({ form, action }: { form: ActionForm; action?: ActionFormEntity }) {
@@ -384,7 +375,7 @@ function useOnSubmit() {
         .filter(res => !isLoading(res))
         .once(
           result => {
-            // setResult(result);
+            setResult(result);
             if (hasError(result)) return;
             // trackAction();
             createActionTrackerSegment(trackerDetails);
@@ -405,7 +396,7 @@ function useOnSubmit() {
         .filter(res => !isLoading(res))
         .once(
           result => {
-            // setResult(result);
+            setResult(result);
             if (hasError(result)) return;
             // trackAction();
             editActionTrackerSegment(trackerDetails);
@@ -424,8 +415,8 @@ function useOnSubmit() {
     }
   }
   return {
-    onSubmit
-    // result
+    onSubmit,
+    result
   };
 }
 

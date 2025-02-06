@@ -14,7 +14,6 @@ import {
   createTypeUrlParameter,
   createTabTypeUrlParameter
 } from 'in-automation/navigation/urlParameters';
-import CreateNewAction from 'in-automation/ActionCatalog/CreateNewAction1';
 import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { getDocLinkFromFields, getManualContentFromFields, base64ToUtf8 } from 'in-automation/utils/actionField';
@@ -24,6 +23,7 @@ import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useSe
 import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
 import { refresh, usePaginatedActions } from 'in-automation/ActionCatalog/useActions';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import CreateNewAction1 from 'in-automation/ActionCatalog/CreateNewAction1';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -271,5 +271,5 @@ function onDeleteFailed(error: Error) {
 }
 
 const handleButtonClick = () => {
-  addActiveDialog(<CreateNewAction />);
+  addActiveDialog(<CreateNewAction1 />);
 };
