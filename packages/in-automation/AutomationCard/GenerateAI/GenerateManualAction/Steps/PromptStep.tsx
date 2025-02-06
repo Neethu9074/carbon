@@ -170,6 +170,7 @@ function generateAIActionForm({
             .updateIn(['action', 'type'], item => item.setValue('MANUAL').setTouched(true))
             .updateIn(['action', 'script'], item => item.setValue(''))
             .updateIn(['action', 'aiGeneratedContent'], item => item.setValue(res.data?.content!))
+            .updateIn(['action', 'feedbackState'], item => item.setValue('').setTouched(true))
         );
       },
       () => {
