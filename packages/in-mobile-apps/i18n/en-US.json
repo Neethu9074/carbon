@@ -185,7 +185,10 @@
       "cusLong": "Custom Events",
       "craShort": "Cra",
       "craBadgeLabel": "Cra",
-      "craLong": "Crash"
+      "craLong": "Crash",
+      "defaultShort": "Undefined",
+      "defaultBadgeLabel": "Undefined",
+      "defaultLong": "Beacon Type not defined"
     },
     "tabsSumOverviewChartTooltipStartTime": "Start Time",
     "tabsSummary": {

@@ -83,7 +83,7 @@ export default function Filter({ view, setView, query, setQuery, filterTypes, se
           </li>
 
           {Object.keys(types)
-            .filter(k => types[k])
+            .filter(k => k != 'default' && types[k])
             .map(type => (
               <FilterItem key={type} filterTypes={filterTypes} setTypes={setTypes} type={type} />
             ))}

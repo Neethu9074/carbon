@@ -55,7 +55,7 @@ export default function OverviewChart({ beacons, earliestTimestamp, endTimestamp
       <div className={locals.beacons} style={{ height: `${chartHeight}px` }} ref={ref}>
         {beaconsStacked.map((beacon, i) => {
           const type = getType(beacon);
-          const typeDefinition = types[type];
+          const typeDefinition = types[type] ?? types.default;
           const startX = scale.getRange(beaconsStacked[i].timestamp);
           const endX = scale.getRange(beaconsStacked[i].timestamp + beaconsStacked[i].duration);
           const startY = beaconsStacked[i].depth;

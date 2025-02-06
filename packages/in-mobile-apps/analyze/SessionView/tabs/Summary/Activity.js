@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { generateStableHash } from '@instana/utils';
@@ -32,22 +33,12 @@ export default function Activity({
 }) {
   const filteredBeacons = beacons
     .filter(beacon => {
-      if (types.length > 0 && types.indexOf(getType(beacon)) === -1) {
-        return false;
-      }
-      if (view && view.toLowerCase() !== beacon.view.toLowerCase()) {
-        return false;
-      }
-      if (
-        query &&
-        renderers[beacon.type]
-          .getLabel(beacon)
-          .toLowerCase()
-          .indexOf(query) === -1
-      ) {
-        return false;
-      }
-      return true;
+      return !(
+        (types?.length > 0 && types?.indexOf(getType(beacon)) === -1) ||
+        (view && view?.toLowerCase() !== beacon?.view?.toLowerCase()) ||
+        !renderers[beacon?.type] ||
+        (query && renderers[beacon?.type]?.getLabel(beacon).toLowerCase().indexOf(query) === -1)
+      );
     })
     .sort((a, b) => a.timestamp - b.timestamp);
 
@@ -107,3 +98,16 @@ function groupBeaconsByView(beacons) {
 
   return grouped;
 }
+
+Activity.propTypes = {
+  beacons: PropTypes.array.isRequired,
+  detailId: PropTypes.string,
+  firstBeacon: PropTypes.object,
+  sessionStart: PropTypes.number,
+  setView: PropTypes.func,
+  query: PropTypes.string,
+  setQuery: PropTypes.func,
+  types: PropTypes.array,
+  setTypes: PropTypes.func,
+  view: PropTypes.string
+};
