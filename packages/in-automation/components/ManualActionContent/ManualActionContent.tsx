@@ -55,7 +55,11 @@ export default function ManualActionContent({
   }
   // We trim the content because markdown-it rendering breaks if theres leading whitespace
   const htmlContent = toHtml(plaintextContent.trimStart(), { breaks: true });
-  const trackerPayload = { prompt: generateAIActionPayload, generatedContent: htmlContent, type: 'manual' };
+  const trackerPayload = {
+    prompt: generateAIActionPayload,
+    generatedContent: plaintextContent.trimStart(),
+    type: 'manual'
+  };
 
   return (
     <>
