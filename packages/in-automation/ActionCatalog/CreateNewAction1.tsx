@@ -101,7 +101,7 @@ function TearSheetLoader({ action, actionFilter }: TearSheetProps) {
       kind: 'primary',
       label: 'Save Action',
       onClick: () => {
-        onSubmit({ form });
+        onSubmit({ form, setForm });
       }
     } as any,
     {
@@ -119,7 +119,7 @@ function TearSheetLoader({ action, actionFilter }: TearSheetProps) {
       <Tearsheet
         className="ttt"
         open
-        influencer={influencerContent(action)}
+        influencer={influencerContent(form)}
         title="create action"
         description="create action description"
         actions={actionButtons}
@@ -133,10 +133,10 @@ function TearSheetLoader({ action, actionFilter }: TearSheetProps) {
   );
 }
 
-const influencerContent = (action?: ActionFormEntity) => {
+const influencerContent = (form: ActionForm) => {
   return (
     <SideNav
-      navItems={generateNavItems(action)}
+      navItems={generateNavItems(form)}
       renderPostIcon={({ valid }) => {
         if (valid) return null;
         return <SvgIcon className="icon" type="lib_help_error_error_circle" size="xs" />;
@@ -145,22 +145,21 @@ const influencerContent = (action?: ActionFormEntity) => {
   );
 };
 
-const generateNavItems = (action?: ActionFormEntity) => {
-  const showParametersSection = ![ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].includes(
-    action?.type ?? ACTION_TYPE.DOC_LINK
-  );
+const generateNavItems = (form: ActionForm) => {
+  const type = form.get('type').value;
+  const showParametersSection = ![ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].includes(type ?? ACTION_TYPE.DOC_LINK);
   const navItems = [
     {
-      label: t('in-service-levels:createSloDialog.selectEntityNavItem'),
-      scrollId: '1-select-entity',
-      title: t('in-service-levels:createSloDialog.selectEntityNavItem'),
+      label: 'Action Details',
+      scrollId: '1-action-details',
+      title: 'Action Details',
       content: null
       // valid: isEntityIdFieldValid
     },
     {
-      label: t('in-service-levels:createSloDialog.selectIndicatorNavItem'),
-      scrollId: '2-select-indicator',
-      title: t('in-service-levels:createSloDialog.selectIndicatorNavItem'),
+      label: 'Action Configuration',
+      scrollId: '2-action-configuration',
+      title: 'Action Configuration',
       content: null
       // valid: isIndicatorValid && isThresholdValid
     }
@@ -168,9 +167,9 @@ const generateNavItems = (action?: ActionFormEntity) => {
 
   if (showParametersSection) {
     navItems.push({
-      label: t('in-service-levels:createSloDialog.selectObjectiveTitle'),
-      scrollId: '3-select-objective',
-      title: t('in-service-levels:createSloDialog.selectObjectiveTitle'),
+      label: 'Parameter Details',
+      scrollId: '3-parameter-details',
+      title: 'Parameter Details',
       content: null
     });
   }
@@ -350,7 +349,19 @@ function useOnSubmit() {
   const [result, setResult] = useState<Result<any> | null>(null);
   const { isNew, isCopy, id } = useActionDetailsUrlParams();
   const navigateToActionCatalog = useNavigateToActionCatalog();
-  function onSubmit({ form, action }: { form: ActionForm; action?: ActionFormEntity }) {
+  function onSubmit({
+    form,
+    action,
+    setForm
+  }: {
+    form: ActionForm;
+    action?: ActionFormEntity;
+    setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
+  }) {
+    if (!form.hierarchyValid) {
+      setForm(form.setTouched(true, { recurse: true }));
+      return;
+    }
     const actionSpecification = getActionFromForm(form, action);
     // console.log('innnnn', actionSpecification);
     const aiOriginated = action && (isAIAction(action) || isAIActionCopy(action)) ? true : false;

@@ -127,14 +127,14 @@ export function ActionFormBody({
     <LeftRightPadding>
       <Row>
         <Col lg={8}>
-          <Fragment key="1-select-entity">
-            <ScrollStep id="1-select-entity">
+          <Fragment key="1-action-details">
+            <ScrollStep id="1-action-details">
               <SectionHeading>{t('in-automation:ActionCatalog.1ActionDetails')}</SectionHeading>
               <MetaDataSection actionFilter={actionFilter} />
             </ScrollStep>
           </Fragment>
-          <Fragment key="2-select-indicator">
-            <ScrollStep id="2-select-indicator">
+          <Fragment key="2-action-configuration">
+            <ScrollStep id="2-action-configuration">
               <SectionHeading>{t('in-automation:ActionCatalog.2ActionConfiguration')}</SectionHeading>
               <TypeSection action={action} actionFilter={actionFilter} />
               {type === ACTION_TYPE.DOC_LINK && <DocLinkSection />}
@@ -151,8 +151,8 @@ export function ActionFormBody({
 
           {showParametersSection && (
             <>
-              <Fragment key="3-select-objective">
-                <ScrollStep id="3-select-objective">
+              <Fragment key="3-parameter-details">
+                <ScrollStep id="3-parameter-details">
                   <SectionHeading>{t('in-automation:ActionCatalog.3ParamaterDetails')}</SectionHeading>
                   <FormGroup>
                     <ParametersTable />
