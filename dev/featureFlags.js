@@ -190,5 +190,6 @@ module.exports = {
   logSmartAlertFullScreenDesignEnabled: false,
   websitesSmartAlertFullScreenDesignEnabled: false,
   prometheusDeltaCountersSumEnabled: true,
+  syntheticSmartAlertFullScreenDesignEnabled: false,
   idpConfigV2Enabled: false
 };
