@@ -121,7 +121,7 @@ function useOnSubmit() {
     const liveAIGeneration = generatedAction ? true : false;
     const actionContent = form.get('action').get('content').value;
     const aiGeneratedContent = form.get('action').get('aiGeneratedContent').value;
-    const userChangedAIGeneratedContent = actionContent === aiGeneratedContent;
+    const userChangedAIGeneratedContent = actionContent !== aiGeneratedContent;
 
     function trackAction() {
       createActionTrackerSegment({

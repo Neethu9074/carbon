@@ -78,7 +78,7 @@ function useOnSubmit() {
   function onSubmit({ form }: { form: GenerateAIScriptActionForm }) {
     const actionScript = form.get('action').get('script').value;
     const aiGeneratedScript = form.get('action').get('aiGeneratedContent').value;
-    const userChangedAIGeneratedContent = actionScript === aiGeneratedScript;
+    const userChangedAIGeneratedContent = actionScript !== aiGeneratedScript;
 
     function trackAction() {
       createActionTrackerSegment({
