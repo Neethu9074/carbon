@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: update-browserslist-cronjob
 spec:
-  schedule: "0 18 * * 3"  # Runs every Wednesday at 18:00
+  schedule: "0 18 * * 3"  # Runs every Wednesday at 18:00 UTC
   concurrencyPolicy: Forbid  # Ensures a new instance won't start until the previous one completes
   jobTemplate:
     spec:
