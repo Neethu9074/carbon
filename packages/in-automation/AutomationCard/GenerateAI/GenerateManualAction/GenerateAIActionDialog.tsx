@@ -132,7 +132,7 @@ function useOnSubmit() {
         liveAIGeneration,
         userChangedAIGeneratedContent
       });
-      if (!userChangedAIGeneratedContent && liveAIGeneration) {
+      if (userChangedAIGeneratedContent && liveAIGeneration) {
         const promptForm = form.get('prompt');
         const eventName = promptForm.get('eventName').value;
         const eventDescription = promptForm.get('eventDescription').value;

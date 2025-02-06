@@ -88,7 +88,7 @@ function useOnSubmit() {
         liveAIGeneration: true,
         userChangedAIGeneratedContent
       });
-      if (!userChangedAIGeneratedContent) {
+      if (userChangedAIGeneratedContent) {
         const promptForm = form.get('prompt');
         const selectedManualStep = promptForm.get('selectedManualStep').value;
         const promptStep = promptForm.get('promptStep').value;
