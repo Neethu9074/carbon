@@ -36,17 +36,19 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.activeMQ.topics')}>
-          {snapshot.getIn(['data', 'topicNames'], emptyList).size}
+          <span>{snapshot.getIn(['data', 'topicNames'], emptyList).size}</span>
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.activeMQ.queues')}>
-          {snapshot.getIn(['data', 'queueNames'], emptyList).size}
+          <span>{snapshot.getIn(['data', 'queueNames'], emptyList).size}</span>
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.activeMQ.dlQueues')}>
-          {snapshot.getIn(['data', 'dlqueueNames'], emptyList).size}
+          <span>{snapshot.getIn(['data', 'dlqueueNames'], emptyList).size}</span>
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.activeMQ.allQueuesMessagesEnqueue')}>
           <MetricValue snapshotId={snapshotId} metric="totalQueuesEnqueueCount" />
         </KpiKeyValue>
+      </KpiSection>
+      <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.activeMQ.allTopicsMessagesEnqueue')}>
           <MetricValue snapshotId={snapshotId} metric="totalTopicsEnqueueCount" />
         </KpiKeyValue>
