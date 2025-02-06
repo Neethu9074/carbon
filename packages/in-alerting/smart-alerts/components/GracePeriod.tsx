@@ -22,7 +22,7 @@ interface GracePeriodProps {
 }
 
 export default function GracePeriod({ form, updateForm }: GracePeriodProps) {
-  const gracePeriod = form.get('gracePeriod').value;
+  const gracePeriod = form.get('gracePeriod')?.value;
   const granularity = form?.get('granularity')?.value;
   const gracePeriodOptions: DropdownItem[] = generateGracePeriodOptions(granularity ?? 60000);
 
@@ -37,7 +37,7 @@ export default function GracePeriod({ form, updateForm }: GracePeriodProps) {
       <CarbonDropdown
         id="grace-period-dropdown"
         items={gracePeriodOptions}
-        selectedItem={gracePeriodOptions.find(option => option.value === gracePeriod.toString())}
+        selectedItem={gracePeriodOptions.find(option => option.value === gracePeriod?.toString())}
         itemToString={item => (item ? item.label : '')}
         onChange={handleGracePeriodChange}
         size="sm"
