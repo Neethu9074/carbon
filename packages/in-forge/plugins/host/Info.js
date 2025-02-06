@@ -17,6 +17,7 @@ export default function HardwareInfo({ snapshot }) {
   const memoryTotal = data.get('memory.total');
   const start = data.get('start');
   const openFilesMax = data.get('openFiles.max');
+  const volatileId = snapshot.get('volatileId');
 
   return (
     <DescriptionList>
@@ -52,6 +53,7 @@ export default function HardwareInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.host.machineId')}>{data.get('machineId')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.host.bootId')}>{data.get('bootId')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.host.systemId')}>{data.get('systemSerialNumber')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.host.hostId')}>{volatileId.get('host_id')}</DescriptionItem>
 
       {start && (
         <DescriptionItem title={t('in-forge:plugins.host.startedAt')}>
