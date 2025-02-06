@@ -20,7 +20,7 @@ import { t } from 'in-i18n';
 export default function MobileAppBeaconDetails({ beacon }) {
   const getLinkToMobileAppSession = useLinkToSession();
   const type = getType(beacon);
-  const typeDefinition = types[type];
+  const typeDefinition = types[type] ?? types.default;
 
   const hasTransferSize = beacon.transferSize >= 0;
   const hasEncodedBodySize = beacon.encodedBodySize >= 0;

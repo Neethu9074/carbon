@@ -188,6 +188,7 @@ export default class Table extends React.Component {
         });
         // optionally, make rows expandable
         if (this.props.getRowDetails) {
+          carbonRow.isExpanded = row?.expanded;
           carbonRow.expanded = this.props.getRowDetails(row.rowConfig, this.props.distanceBetweenDatapointsInMillis);
         }
         return carbonRow;
@@ -220,6 +221,7 @@ export default class Table extends React.Component {
               }}
               searchText={this.state.filter}
               isExpandable={this.props.getRowDetails}
+              onClickExpandRow={toggleRowDetails}
               isSearchEnabled
             />
             {showPagination &&

@@ -34,10 +34,14 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
   const fallbackContent = columnDefinition.typeArgs.getFallbackContent
     ? columnDefinition.typeArgs.getFallbackContent(row.rowConfig)
     : null;
+
+  const fallbackValue = columnDefinition.typeArgs.getFallbackValue
+    ? columnDefinition.typeArgs.getFallbackValue(row.rowConfig)
+    : null;
   const column = {
     columnDefinition,
     columnIndex,
-    value: null,
+    value: fallbackValue,
     content: fallbackContent,
     subscription: null,
     comparator: compareIgnoreCase,
@@ -47,16 +51,38 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
 
   const withHierarchy = Boolean(columnDefinition.typeArgs.withHierarchy);
 
+  // This is to have searchable column values.
+  // If we have useSnapshotFromHierarchyCallback then
+  // we can have a situation where the value in
+  // the table cell is different than what the label
+  // which displays it.
+  const fillInColumnValueWithHierarchy = hierarchy => {
+    if (hierarchy && hierarchy.length > 0) {
+      // add all of hierarchy to cell value
+      let columnValForSearching = '';
+      hierarchy.map(entity => {
+        columnValForSearching = columnValForSearching + entity.get('label', '') + ' ';
+      });
+      column.value = columnValForSearching;
+    }
+  };
+
   const getSnapshotLink = snapshot => {
     column.value = getLabel(snapshot);
-
     column.content = (
       <HierarchicalLink
         snapshot={snapshot}
         calculateHierarchy={withHierarchy}
         pathname={columnDefinition.typeArgs.pathname}
         kind="dark"
-        useSnapshotFromHierarchyCallback={columnDefinition.typeArgs.useSnapshotFromHierarchyCallback}
+        useSnapshotFromHierarchyCallback={
+          columnDefinition.typeArgs.useSnapshotFromHierarchyCallback
+            ? (snapshot, hierarchy) => {
+                fillInColumnValueWithHierarchy(hierarchy);
+                return columnDefinition.typeArgs.useSnapshotFromHierarchyCallback(snapshot, hierarchy);
+              }
+            : undefined
+        }
         className="in-table-snapshot-link"
       />
     );

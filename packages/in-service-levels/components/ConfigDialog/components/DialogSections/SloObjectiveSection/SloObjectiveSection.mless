@@ -22,10 +22,11 @@
   }
 
   .objectiveInput {
-    max-width: 4.5rem;
+    max-width: 10rem;
   }
 
   .percentageInput {
     display: inline-block;
+    min-width: 10rem;
   }
 }

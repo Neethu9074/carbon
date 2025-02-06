@@ -853,7 +853,12 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'logSmartAlertFullScreenDesignEnabled',
-    instanaCtlKey: 'feature.log.Smart.alert.full.screen.design.enabled',
+    instanaCtlKey: 'feature.log.smart.alert.full.screen.design.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticSmartAlertFullScreenDesignEnabled',
+    instanaCtlKey: 'feature.synthetic.smart.alert.full.screen.design.enabled',
     defaultValue: false
   },
   {

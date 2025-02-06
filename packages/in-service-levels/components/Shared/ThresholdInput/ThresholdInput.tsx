@@ -13,13 +13,15 @@ interface ThresholdInputProps {
   hasError?: boolean;
   handleChange: (val: number | undefined) => void;
   value: number | undefined;
+  className?: string;
 }
 
 export default function ThresholdInput({
   disabled = false,
   handleChange,
   hasError = false,
-  value
+  value,
+  className
 }: ThresholdInputProps) {
   const onInputChange: React.ChangeEventHandler<HTMLInputElement> = e => {
     const newValue = e.target.value === '' ? undefined : Number(e.target.value);
@@ -29,6 +31,7 @@ export default function ThresholdInput({
 
   return (
     <Input
+      className={className}
       disabled={disabled}
       hasError={hasError}
       id="threshold-input"

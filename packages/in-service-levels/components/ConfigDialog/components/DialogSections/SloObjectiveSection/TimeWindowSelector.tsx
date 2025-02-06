@@ -58,7 +58,7 @@ export default function TimeWindowSelector() {
         titleHtmlFor="time-window-size"
         titleWidth={titleWidth}
       >
-        <Stack direction="horizontal" gap="medium">
+        <Stack direction="horizontal" gap="xsmall">
           <Input
             className={locals.objectiveInput}
             type="number"

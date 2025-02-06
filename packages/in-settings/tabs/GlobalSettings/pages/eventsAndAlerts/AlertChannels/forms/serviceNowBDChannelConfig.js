@@ -167,7 +167,21 @@ function Form({ form, onChange }) {
   return (
     <fieldset>
       <FormGroup>
-        <SectionHelp>{t('in-settings:tabs.serviceNowDescription')}</SectionHelp>
+        <SectionHelp>
+          {
+            <Trans
+              i18nKey="in-settings:tabs.serviceNowDescription"
+              components={{
+                Link: (
+                  <Link
+                    external
+                    href="https://store.servicenow.com/sn_appstore_store.do#!/store/application/e2b8d11fc3c202107ca67addd4013163/2.288.0"
+                  />
+                )
+              }}
+            />
+          }
+        </SectionHelp>
       </FormGroup>
       {form.get('name').map(field => (
         <FormGroup className={block}>

@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 import React from 'react';
@@ -49,6 +49,9 @@ const cols = [
             <span className={locals.label}>{shorten(processName, 100)}</span>
           </Tooltip>
         );
+      },
+      getFallbackValue(row) {
+        return row.process.get('name');
       },
       pathname: '/physical/dashboard',
       useSnapshotFromHierarchyCallback(snapshot, hierarchy) {

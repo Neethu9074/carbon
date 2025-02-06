@@ -16,6 +16,7 @@ import ThresholdInput from 'in-service-levels/components/Shared/ThresholdInput/T
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { sliThresholdOperators } from 'in-service-levels/constants';
 import { Trans, t } from 'in-i18n';
+import locals from './AggregationAndThresholdFormSection.mless';
 
 const operatorMapping: Record<SLIThresholdOperator, string> = { '>': 'GT', '>=': 'GTE', '<': 'LT', '<=': 'LTE' };
 
@@ -63,6 +64,7 @@ export default function SloIndicatorTrafficForm() {
             ),
             ThresholdInput: (
               <ThresholdInput
+                className={locals.thresholdInput}
                 disabled={isFormInEditMode}
                 hasError={!isThresholdFieldValid}
                 handleChange={value =>

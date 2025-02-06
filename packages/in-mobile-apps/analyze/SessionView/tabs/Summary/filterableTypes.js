@@ -42,6 +42,13 @@ export const types = {
     long: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.craLong'),
     color: themes.g10.ids.color.option.red[500],
     colorType: 'red'
+  },
+  default: {
+    short: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.defaultShort'),
+    badgeLabel: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.defaultBadgeLabel'),
+    long: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.defaultLong'),
+    color: themes.g10.ids.color.option.neutral[500],
+    colorType: 'neutral'
   }
 };
 
