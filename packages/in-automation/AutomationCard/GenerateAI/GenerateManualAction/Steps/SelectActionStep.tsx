@@ -54,7 +54,7 @@ const columnDefinitions: ColumnDefinition<ScoredAction, SelectActionTableProps>[
   {
     id: 'select',
     label: '',
-    width: 5,
+    width: 50,
     getContent: (action, { onSelect, selectedAction }) => (
       <RadioButton label="" checked={action.id === selectedAction?.id} onChange={() => onSelect(action)} />
     )
