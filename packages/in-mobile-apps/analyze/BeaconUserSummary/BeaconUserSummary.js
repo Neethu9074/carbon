@@ -12,8 +12,8 @@ import { expandNestedSerializedJson } from 'in-services/util/json';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import User from 'in-mobile-apps/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
+import { metaRedirectURL } from 'in-mobile-apps/constants';
 import { Row, Col } from 'in-components/layout/Grid';
-import { metaRedirectURL } from '../../constants';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
