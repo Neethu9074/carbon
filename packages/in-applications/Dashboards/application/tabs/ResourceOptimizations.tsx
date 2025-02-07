@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { BoundaryScope, TimeConfig, TurboActionCategory } from '@instana/types';
+import { BoundaryScope, TimeConfig, TurboActionCategory, Application } from '@instana/types';
 
 import {
   AUTOMATION_TURBO_BUY_CLICK,
@@ -38,6 +38,7 @@ import locals from './ResourceOptimizations.mless';
 type ResourceOptimizationTabProps = {
   applicationId: string;
   timeConfig: TimeConfig;
+  data: Application;
   boundaryScope: BoundaryScope;
 };
 
@@ -90,8 +91,10 @@ function renderActionsLane({
 export default function ResourceOptimizationTab({
   applicationId,
   timeConfig,
-  boundaryScope
+  data: application,
+  boundaryScope: urlBoundaryScope
 }: ResourceOptimizationTabProps) {
+  const boundaryScope = urlBoundaryScope || application.boundaryScope;
   const recommendedOptimizations = useResourceOptimization({ applicationId });
   const postChartContent = renderActionsLane({ applicationId, boundaryScope });
   let tagFilters = [
