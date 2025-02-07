@@ -354,7 +354,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       {
         key: 'technologies',
         getContent({ item }) {
-          return <TypographyWithTooltip content={item.snapshot.get('data').get('os.name')} />;
+          return <TypographyWithTooltip content={item?.snapshot?.get('data')?.get('os.name') ?? ''} />;
         }
       },
       {
@@ -362,7 +362,9 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <TypographyWithTooltip
-              content={`${item.snapshot.get('data').get('os.name')} ${item.snapshot.get('data').get('os.version')}`}
+              content={`${item?.snapshot?.get('data')?.get('os.name') ?? ''} ${
+                item?.snapshot?.get('data')?.get('os.version') ?? ''
+              }`}
             />
           );
         }
