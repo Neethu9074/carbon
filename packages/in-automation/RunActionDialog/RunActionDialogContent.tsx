@@ -72,6 +72,7 @@ interface RunActionDialogContentProps {
   errorResolvingDynamicParameters: boolean;
   resolvedDynamicParameters: ResolvedDynamicParamValue[] | null | undefined;
   policy?: NewPolicy;
+  isSaving?: boolean;
 }
 
 export default function RunActionDialogContent({
@@ -84,9 +85,10 @@ export default function RunActionDialogContent({
   agentSnapShots,
   errorResolvingDynamicParameters,
   resolvedDynamicParameters,
-  policy
+  policy,
+  isSaving = false
 }: RunActionDialogContentProps) {
-  if (!form) return <LoadingIndicator size="xxl" />;
+  if (!form || isSaving) return <LoadingIndicator size="xxl" />;
   if (error && !actionInstanceId) {
     return (
       <>
