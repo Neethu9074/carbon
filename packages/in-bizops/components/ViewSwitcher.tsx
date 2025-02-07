@@ -10,7 +10,6 @@ import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/compo
 
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-import { bizopsStandardInclusionEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import * as paths from 'in-bizops/navigation/paths';
@@ -31,7 +30,7 @@ export default function ViewSwitcher() {
 
   const hostCount = window.instana?.reportingData?.hostCount;
   let perspectivesDisabled = undefined;
-  if (bizopsStandardInclusionEnabled && typeof hostCount === 'number' && hostCount < 1) {
+  if (typeof hostCount === 'number' && hostCount < 1) {
     perspectivesDisabled = true;
   }
 

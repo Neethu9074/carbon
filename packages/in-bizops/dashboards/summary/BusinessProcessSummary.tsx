@@ -18,7 +18,6 @@ import StackButton from 'in-components/Stack/StackButton';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { bizopsProcessStackEnabled } from 'in-services/featureFlags';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
 import AnalyzeButton from 'in-bizops/components/AnalyzeButton';
@@ -122,15 +121,13 @@ function RenderButtonLine({ serviceId }: RenderProps) {
         serviceId={serviceId}
         timeConfig={timeConfig}
       />
-      {bizopsProcessStackEnabled && (
-        <StackButton
-          id={businessProcessId}
-          timeConfig={timeConfig}
-          productArea={'businessProcess'}
-          className={locals.leftButton}
-          noAutoMargin
-        />
-      )}
+      <StackButton
+        id={businessProcessId}
+        timeConfig={timeConfig}
+        productArea={'businessProcess'}
+        className={locals.leftButton}
+        noAutoMargin
+      />
       <AnalyzeButton
         businessProcessId={businessProcessId}
         businessProcessName={businessProcessName}

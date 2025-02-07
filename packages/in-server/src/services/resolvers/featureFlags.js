@@ -396,16 +396,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'bizopsStandardInclusionEnabled',
-    instanaCtlKey: 'feature.bizops.standard.inclusion.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'bizopsRbacLimitedEnabled',
-    instanaCtlKey: 'feature.bizops.rbac.limited.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'bizopsProcessFlowMapEnabled',
     instanaCtlKey: 'feature.bizops.process.flow.map.enabled',
     defaultValue: false
@@ -413,16 +403,6 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsCustomDashboardEnabled',
     instanaCtlKey: 'feature.bizops.custom.dashboard.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'bizopsProcessStackEnabled',
-    instanaCtlKey: 'feature.bizops.process.stack.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'bizopsActivityStackEnabled',
-    instanaCtlKey: 'feature.bizops.activity.stack.enabled',
     defaultValue: true
   },
   {

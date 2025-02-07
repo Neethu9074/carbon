@@ -26,7 +26,6 @@ import StackButton from 'in-components/Stack/StackButton';
 import { bizopsTabClick, bizopsBreadcrumbClick } from 'in-bizops/tracker';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { bizopsActivityStackEnabled } from 'in-services/featureFlags';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -112,16 +111,14 @@ export default function BusinessActivitySummary() {
           serviceId={serviceId}
           timeConfig={timeConfig}
         />
-        {bizopsActivityStackEnabled && (
-          <StackButton
-            id={businessActivityId}
-            applicationId={businessProcessId}
-            timeConfig={timeConfig}
-            productArea={'businessActivity'}
-            className={locals.leftButton}
-            noAutoMargin
-          />
-        )}
+        <StackButton
+          id={businessActivityId}
+          applicationId={businessProcessId}
+          timeConfig={timeConfig}
+          productArea={'businessActivity'}
+          className={locals.leftButton}
+          noAutoMargin
+        />
         <AnalyzeButton
           businessProcessId={businessProcessId}
           businessProcessName={businessProcessName}
