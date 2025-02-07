@@ -36,7 +36,7 @@ import {
 } from 'in-automation/ActionCatalog/useActionForm/validator';
 import { ActionFilter, Authen, AuthenType, isApiKeyAuth, isBasicAuth, isBearerAuth } from 'in-automation/types';
 import { ActionForm, MappedHeader, MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
-import { ACTION_TYPE, ADD_COMMENT, EPIC, ISSUE } from 'in-automation/constants';
+import { ACTION_TYPE, ADD_COMMENT, EPIC, ISSUE, OPEN } from 'in-automation/constants';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import { FormContext } from 'in-components/form/binding/FormContext';
@@ -162,12 +162,18 @@ function createActionFormFromForm(form: ActionForm, actionFilter: 'all' | Action
       }),
       title: createField({
         value: titleField.value,
-        validator: validatorWrapper([ACTION_TYPE.GITHUB, ACTION_TYPE.GITLAB], notBlankValidator),
+        validator:
+          ticketActionTypeField.value === OPEN
+            ? validatorWrapper([ACTION_TYPE.GITHUB, ACTION_TYPE.GITLAB], notBlankValidator)
+            : undefined,
         touched: titleField.touched
       }),
       body: createField({
         value: bodyField.value,
-        validator: validatorWrapper([ACTION_TYPE.GITHUB, ACTION_TYPE.GITLAB, ACTION_TYPE.JIRA], notBlankValidator),
+        validator:
+          ticketActionTypeField.value === OPEN
+            ? validatorWrapper([ACTION_TYPE.GITHUB, ACTION_TYPE.GITLAB, ACTION_TYPE.JIRA], notBlankValidator)
+            : undefined,
         touched: bodyField.touched
       }),
       labels: createField({
@@ -186,7 +192,8 @@ function createActionFormFromForm(form: ActionForm, actionFilter: 'all' | Action
       summary: createField({
         value: summaryField.value,
         touched: summaryField.touched,
-        validator: validatorWrapper(ACTION_TYPE.JIRA, notBlankValidator)
+        validator:
+          ticketActionTypeField.value === OPEN ? validatorWrapper(ACTION_TYPE.JIRA, notBlankValidator) : undefined
       }),
       assignee: createField({
         value: assigneeField.value,
@@ -401,11 +408,17 @@ function createActionFormFromAction(action: ActionFormEntity, actionFilter: 'all
       }),
       title: createField({
         value: title.value,
-        validator: validatorWrapper([ACTION_TYPE.GITHUB, ACTION_TYPE.GITLAB], notBlankValidator)
+        validator:
+          ticketActionType.value === OPEN
+            ? validatorWrapper([ACTION_TYPE.GITHUB, ACTION_TYPE.GITLAB], notBlankValidator)
+            : undefined
       }),
       body: createField({
         value: body.value,
-        validator: validatorWrapper([ACTION_TYPE.GITHUB, ACTION_TYPE.GITLAB, ACTION_TYPE.JIRA], notBlankValidator)
+        validator:
+          ticketActionType.value === OPEN
+            ? validatorWrapper([ACTION_TYPE.GITHUB, ACTION_TYPE.GITLAB, ACTION_TYPE.JIRA], notBlankValidator)
+            : undefined
       }),
       labels: createField({
         value: labels.value ? labels.value.split(',').map(label => ({ value: label, id: generateUniqueShortId() })) : []
@@ -421,7 +434,7 @@ function createActionFormFromAction(action: ActionFormEntity, actionFilter: 'all
       }),
       summary: createField({
         value: summary.value,
-        validator: validatorWrapper(ACTION_TYPE.JIRA, notBlankValidator)
+        validator: ticketActionType.value === OPEN ? validatorWrapper(ACTION_TYPE.JIRA, notBlankValidator) : undefined
       }),
       assignee: createField({
         value: assignee.value
@@ -598,7 +611,7 @@ function createDefaultActionForm(actionFilter: 'all' | ActionFilter): ActionForm
       }),
       project: createField({
         value: '',
-        validator: validatorWrapper([ACTION_TYPE.GITLAB, ACTION_TYPE.JIRA], notBlankValidator)
+        validator: validatorWrapper([ACTION_TYPE.JIRA], notBlankValidator)
       }),
       httpBody: createField({
         value: ''
