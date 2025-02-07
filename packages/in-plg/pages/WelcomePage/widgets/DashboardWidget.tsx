@@ -75,8 +75,8 @@ export default function DashboardWidget({
       getContent({ item }) {
         setOrDeleteMatrixKey(connectToLocation, dashboardIdUrlParameter.path, dashboardIdUrlParameter.name, item.id);
         return (
-          <Tooltip content={item.title} align="auto" caret={false} delay={300}>
-            <Link href={createHref(connectToLocation)}>{item.title}</Link>
+          <Tooltip content={item?.title ?? ''} align="auto" caret={false} delay={300}>
+            <Link href={createHref(connectToLocation)}>{item?.title ?? ''}</Link>
           </Tooltip>
         );
       }
@@ -84,19 +84,19 @@ export default function DashboardWidget({
     {
       key: 'owner',
       getContent({ item }) {
-        const user = users?.data?.find((user: UserResult) => user.id === item.ownerId);
+        const user = users?.data?.find((user: UserResult) => user.id === item?.ownerId);
 
         if (!user) {
           return '-';
         }
 
-        return <TypographyWithTooltip content={user.fullName} />;
+        return <TypographyWithTooltip content={user?.fullName ?? ''} />;
       }
     },
     {
       key: 'permissions',
       getContent({ item }) {
-        return <DashboardPermission id={item.id} annotations={item.annotations} />;
+        return <DashboardPermission id={item?.id} annotations={item?.annotations} />;
       }
     },
     {

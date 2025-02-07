@@ -181,7 +181,7 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
       getContent({ item }) {
         const { isWebsite } = item;
         const link = isWebsite ? getLinkToWebsite(getId(item)) : getLinkToMobileApp(getId(item));
-        const content = isWebsite ? item.website.label : item.mobileApp.label;
+        const content = isWebsite ? item?.website?.label : item?.mobileApp?.label;
         return (
           <Tooltip content={content} align="auto" caret={false} delay={300}>
             <Link href={link}>{content}</Link>
@@ -231,7 +231,7 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
       getContent({ item, timeConfig }) {
         return (
           <Stack direction="horizontal" align="center">
-            {item.isWebsite ? (
+            {item?.isWebsite ? (
               <WebsiteHealthInfo websiteId={getId(item)} timeConfig={timeConfig} />
             ) : (
               <MobileAppHealthInfo mobileAppId={getId(item)} timeConfig={timeConfig} />

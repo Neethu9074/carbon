@@ -311,7 +311,7 @@ export default function SyntheticMonitoringWidget({
         getContent({ item }) {
           return (
             <Tooltip
-              content={item?.testResultCommonProperties?.testCommonProperties?.label}
+              content={item?.testResultCommonProperties?.testCommonProperties?.label ?? ''}
               align="auto"
               caret={false}
               delay={300}
@@ -320,7 +320,7 @@ export default function SyntheticMonitoringWidget({
                 href={createLinkLocation(item, location)}
                 onClick={() => clickSyntheticMonitoringTestTracker(trackCta)}
               >
-                {item?.testResultCommonProperties?.testCommonProperties?.label}
+                {item?.testResultCommonProperties?.testCommonProperties?.label ?? ''}
               </Link>
             </Tooltip>
           );
@@ -329,7 +329,7 @@ export default function SyntheticMonitoringWidget({
       {
         key: 'type',
         getContent({ item }) {
-          return <TypographyWithTooltip content={item.testResultCommonProperties.testCommonProperties.type} />;
+          return <TypographyWithTooltip content={item?.testResultCommonProperties?.testCommonProperties?.type ?? ''} />;
         }
       },
       {
@@ -353,8 +353,8 @@ export default function SyntheticMonitoringWidget({
               rollup={getChartGranularity(timeConfig)}
               timeConfig={getResolvedTimeConfig(timeConfig, result?.time)}
               aggregation="MEAN"
-              metrics={item?.metrics.avg_response_time}
-              metric={item?.metrics.response_time}
+              metrics={item?.metrics?.avg_response_time}
+              metric={item?.metrics?.response_time}
               tooltipFormatter={meanLatencyFixed.compact}
             />
           );
@@ -380,7 +380,7 @@ export default function SyntheticMonitoringWidget({
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={item?.label} align="auto" caret={false} delay={300}>
+            <Tooltip content={item?.label ?? ''} align="auto" caret={false} delay={300}>
               <span>
                 <LocationNameLink item={item} />
               </span>
@@ -391,32 +391,32 @@ export default function SyntheticMonitoringWidget({
       {
         key: 'type',
         getContent({ item }) {
-          return <TypographyWithTooltip content={item?.type} />;
+          return <TypographyWithTooltip content={item?.type ?? ''} />;
         }
       },
       {
         key: 'lastTestRunOn',
         getContent({ item }) {
-          return <TypographyWithTooltip content={formatDateTime(item.lastRunOn) as string} />;
+          return <TypographyWithTooltip content={item?.lastRunOn ? (formatDateTime(item?.lastRunOn) as string) : ''} />;
         }
       },
       {
         key: 'version',
         getContent({ item }) {
-          return <TypographyWithTooltip content={item?.popVersion} />;
+          return <TypographyWithTooltip content={item?.popVersion ?? ''} />;
         }
       },
       {
         key: 'health',
         getContent({ item }) {
-          const openIssues = item.entityHealthInfo?.openIssues?.length ?? -1;
-          let maxSev = item.entityHealthInfo?.maxSeverity ?? -1;
+          const openIssues = item?.entityHealthInfo?.openIssues?.length ?? -1;
+          let maxSev = item?.entityHealthInfo?.maxSeverity ?? -1;
           if (openIssues === 0) {
             maxSev = 0;
           }
-          if (item.entityHealthInfo?.maxSeverity > 10) {
+          if (item?.entityHealthInfo?.maxSeverity > 10) {
             maxSev = 10;
-          } else if (item.entityHealthInfo?.maxSeverity === undefined) {
+          } else if (item?.entityHealthInfo?.maxSeverity === undefined) {
             return <TypographyWithTooltip content={t('in-plg:welcomepage.component.syntheticWidget.na')} />;
           }
           return <HealthIcon severity={maxSev} iconSize="xs" />;
@@ -428,8 +428,8 @@ export default function SyntheticMonitoringWidget({
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={item?.name} align="auto" caret={false} delay={300}>
-              <Link href={createLinkLocation(item, location)}>{item?.name}</Link>
+            <Tooltip content={item?.name ?? ''} align="auto" caret={false} delay={300}>
+              <Link href={createLinkLocation(item, location)}>{item?.name ?? ''}</Link>
             </Tooltip>
           );
         }
@@ -437,27 +437,27 @@ export default function SyntheticMonitoringWidget({
       {
         key: 'timeThreshold',
         getContent({ item }) {
-          return <TypographyWithTooltip content={item?.timeThreshold.violationsCount} />;
+          return <TypographyWithTooltip content={item?.timeThreshold.violationsCount ?? ''} />;
         }
       },
       {
         key: 'testsApplied',
         getContent({ item }) {
-          return <TypographyWithTooltip content={item?.syntheticTestIds.length} />;
+          return <TypographyWithTooltip content={item?.syntheticTestIds.length ?? ''} />;
         }
       },
       {
         key: 'health',
         getContent({ item }) {
-          return <HealthIcon severity={item.severity} iconSize="xs" />;
+          return <HealthIcon severity={item?.severity} iconSize="xs" />;
         }
       }
     ]
   };
 
   function LocationNameLink({ item }: { item: LocationListItem }) {
-    const entityHealthInfo = item.entityHealthInfo;
-    const href = useGetDashboardLink()(item.popSnapshotId ?? '', {
+    const entityHealthInfo = item?.entityHealthInfo;
+    const href = useGetDashboardLink()(item?.popSnapshotId ?? '', {
       pathname: physicalDashboardPath
     });
     return entityHealthInfo === undefined ? <Link>{item?.label}</Link> : <Link href={href}>{item?.label}</Link>;

@@ -227,9 +227,9 @@ export default function ApplicationWidget({
       key: 'name',
       getContent({ item }) {
         return (
-          <Tooltip content={item.application.label} align="auto" caret={false} delay={300}>
-            <Link href={getLinkToApplicationDashboard({ applicationId: item.application.id })}>
-              {item.application.label}
+          <Tooltip content={item?.application?.label ?? ''} align="auto" caret={false} delay={300}>
+            <Link href={getLinkToApplicationDashboard({ applicationId: item?.application?.id })}>
+              {item?.application?.label ?? ''}
             </Link>
           </Tooltip>
         );
@@ -304,7 +304,7 @@ export default function ApplicationWidget({
         }
         return (
           <WithApplicationHealthIndicationBehaviour
-            applicationId={item.application.id}
+            applicationId={item?.application?.id}
             render={(healthInfo: EntityHealthInfo) =>
               healthInfo ? <HealthIcon severity={healthInfo.maxSeverity} iconSize="xs" /> : null
             }

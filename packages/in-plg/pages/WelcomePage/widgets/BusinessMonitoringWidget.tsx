@@ -139,12 +139,12 @@ export default connectTo(() => ({
         };
 
         return (
-          <Tooltip content={item?.businessProcess?.definitionName} align="auto" caret={false} delay={300}>
+          <Tooltip content={item?.businessProcess?.definitionName ?? ''} align="auto" caret={false} delay={300}>
             <Link
               href={getItemLink(item, location, createHref)}
               onClick={() => bizopsProcessesListSelect(processTracking)}
             >
-              {item?.businessProcess?.definitionName}
+              {item?.businessProcess?.definitionName ?? ''}
             </Link>
           </Tooltip>
         );
@@ -153,7 +153,7 @@ export default connectTo(() => ({
     {
       key: 'activities',
       getContent({ item }) {
-        return <TypographyWithTooltip content={item?.metrics?.activities_count[0][1]} />;
+        return <TypographyWithTooltip content={item?.metrics?.activities_count?.[0][1] ?? ''} />;
       }
     },
     {

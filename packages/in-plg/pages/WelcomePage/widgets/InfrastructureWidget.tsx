@@ -333,13 +333,13 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={getLabel(item.snapshot)} align="auto" caret={false} delay={300}>
+            <Tooltip content={item?.snapshot ? getLabel(item?.snapshot) : ''} align="auto" caret={false} delay={300}>
               <Link
-                href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
+                href={getDashboardLink(item?.snapshotId || item?.snapshot?.get('id'), {
                   pathname: '/physical/dashboard'
                 })}
               >
-                {getLabel(item.snapshot)}
+                {item?.snapshot ? getLabel(item?.snapshot) : ''}
               </Link>
             </Tooltip>
           );
@@ -348,7 +348,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       {
         key: 'zones',
         getContent({ item }) {
-          return <GetZonesAndHosts getSnapshotId={() => getZone(item.snapshot.get('id'))} />;
+          return <GetZonesAndHosts getSnapshotId={() => getZone(item?.snapshot?.get('id'))} />;
         }
       },
       {
@@ -372,7 +372,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       {
         key: 'cpuNum',
         getContent({ item }) {
-          return <TypographyWithTooltip content={item.snapshot.getIn(['data', 'cpu.count'])} />;
+          return <TypographyWithTooltip content={item?.snapshot?.getIn(['data', 'cpu.count']) ?? ''} />;
         }
       },
       {
@@ -380,7 +380,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <SparkChartWithMetricValue
-              snapshotId={item.snapshot.get('id')}
+              snapshotId={item?.snapshot?.get('id')}
               formatter={percentage}
               metric="cpu.used"
               aggregation={t('in-plg:welcomepage.component.infrastructureWidget.mean')}
@@ -393,7 +393,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <WithInfrastructureHealthIndicationBehaviour
-              snapshotId={item.snapshot.get('id')}
+              snapshotId={item?.snapshot?.get('id')}
               render={(healthInfo: EntityHealthInfo) => (
                 <HealthIcon severity={healthInfo && healthInfo.maxSeverity} iconSize="xs" />
               )}
@@ -433,13 +433,13 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={getLabel(item.snapshot)} align="auto" caret={false} delay={300}>
+            <Tooltip content={item?.snapshot ? getLabel(item?.snapshot) : ''} align="auto" caret={false} delay={300}>
               <Link
-                href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
+                href={getDashboardLink(item?.snapshotId || item?.snapshot?.get('id'), {
                   pathname: '/physical/dashboard'
                 })}
               >
-                {getLabel(item.snapshot)}
+                {item?.snapshot ? getLabel(item?.snapshot) : ''}
               </Link>
             </Tooltip>
           );
@@ -448,19 +448,27 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       {
         key: 'hosts',
         getContent({ item }) {
-          return <GetZonesAndHosts getSnapshotId={() => getHostSnapshotId(item.snapshot)} />;
+          return <GetZonesAndHosts getSnapshotId={() => getHostSnapshotId(item?.snapshot)} />;
         }
       },
       {
         key: 'technologies',
         getContent({ item }) {
-          return <TypographyWithTooltip content={getTechnologyType(item.snapshot)} />;
+          return <TypographyWithTooltip content={item?.snapshot ? getTechnologyType(item?.snapshot) : ''} />;
         }
       },
       {
         key: 'created',
         getContent({ item }) {
-          return <TypographyWithTooltip content={formatDateTime(item.snapshot.get('data').get('Created')) as string} />;
+          return (
+            <TypographyWithTooltip
+              content={
+                item?.snapshot?.get('data')?.get('Created')
+                  ? (formatDateTime(item?.snapshot?.get('data')?.get('Created')) as string)
+                  : ''
+              }
+            />
+          );
         }
       },
       {
@@ -468,7 +476,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <TypographyWithTooltip
-              content={formatDateTime(item.snapshot.getIn(['data', 'Started'], undefined)) as string}
+              content={formatDateTime(item?.snapshot?.getIn(['data', 'Started'], undefined)) as string}
             />
           );
         }
@@ -478,7 +486,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <SparkChartWithMetricValue
-              snapshotId={item.snapshot.get('id')}
+              snapshotId={item?.snapshot?.get('id')}
               formatter={percentage}
               metric="cpu.total_usage"
               aggregation={t('in-plg:welcomepage.component.infrastructureWidget.mean')}
@@ -491,7 +499,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <WithInfrastructureHealthIndicationBehaviour
-              snapshotId={item.snapshot.get('id')}
+              snapshotId={item?.snapshot?.get('id')}
               render={(healthInfo: EntityHealthInfo) => (
                 <HealthIcon severity={healthInfo && healthInfo.maxSeverity} iconSize="xs" />
               )}
@@ -531,13 +539,13 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={getLabel(item.snapshot)} align="auto" caret={false} delay={300}>
+            <Tooltip content={item?.snapshot ? getLabel(item?.snapshot) : ''} align="auto" caret={false} delay={300}>
               <Link
-                href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
+                href={getDashboardLink(item?.snapshotId || item?.snapshot?.get('id'), {
                   pathname: '/physical/dashboard'
                 })}
               >
-                {getLabel(item.snapshot)}
+                {item?.snapshot ? getLabel(item?.snapshot) : ''}
               </Link>
             </Tooltip>
           );
@@ -546,13 +554,13 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       {
         key: 'hosts',
         getContent({ item }) {
-          return <GetZonesAndHosts getSnapshotId={() => getHostSnapshotId(item.snapshot)} />;
+          return <GetZonesAndHosts getSnapshotId={() => getHostSnapshotId(item?.snapshot)} />;
         }
       },
       {
         key: 'technologies',
         getContent({ item }) {
-          return <TypographyWithTooltip content={getTechnologyType(item.snapshot)} />;
+          return <TypographyWithTooltip content={item?.snapshot ? getTechnologyType(item?.snapshot) : ''} />;
         }
       },
       {
@@ -560,7 +568,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <SparkChartWithMetricValue
-              snapshotId={item.snapshot.get('id')}
+              snapshotId={item?.snapshot?.get('id')}
               formatter={percentage}
               metric="cpu.user"
               aggregation={t('in-plg:welcomepage.component.infrastructureWidget.mean')}
@@ -573,7 +581,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <WithInfrastructureHealthIndicationBehaviour
-              snapshotId={item.snapshot.get('id')}
+              snapshotId={item?.snapshot?.get('id')}
               render={(healthInfo: EntityHealthInfo) => (
                 <HealthIcon severity={healthInfo && healthInfo.maxSeverity} iconSize="xs" />
               )}

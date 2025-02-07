@@ -93,7 +93,7 @@ export function Item({ pendingItem, timeConfig, type, columnDefinitions }: ItemP
     );
   }
 
-  let item = result.data ? result.data : result;
+  let item = result?.data ? result?.data : result;
   item = {
     ...item,
     pinned: true
