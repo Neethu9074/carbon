@@ -137,7 +137,6 @@ const props: DetailsModalProps = {
         entity_id: 'self'
       },
       pollRate: 20,
-      poll_rate: 20,
       processorTags: [],
       metricIds: [
         'sensors.scheduler.poolStats.scheduler.activeCount',
