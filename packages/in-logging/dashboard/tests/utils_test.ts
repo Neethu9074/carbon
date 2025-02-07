@@ -9,7 +9,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import { useObservable } from '@instana/hooks';
 
 // eslint-disable-next-line no-restricted-imports
-import { generateQueryWithWinSize, useLoggingNavigationItems } from '../utils';
+import { generateQueryWithWinSize, millisecondsInMonth, Month, useLoggingNavigationItems } from '../utils';
 // eslint-disable-next-line no-restricted-imports
 import { loggingDashboardPath } from 'in-logging/navigation/paths';
 import { role } from 'in-stores/user';
@@ -33,6 +33,11 @@ describe('generateQueryWithWinSize', () => {
     const query = generateQueryWithWinSize(windowSize);
 
     const currentTimestamp = Date.now();
+    const currentDate = new Date(currentTimestamp);
+    const currentMonth = currentDate.getMonth() + 1;
+    let currentYear = currentDate.getFullYear();
+
+    const finalWinSize = millisecondsInMonth(currentYear as number)[currentMonth as Month];
     const tolerance = 5000; // With exact time I'm having troubles, lets put 5 second of tolerance
     const isCloseTo = (received: number, expected: number, tolerance: number): boolean => {
       return Math.abs(received - expected) <= tolerance;
@@ -74,7 +79,7 @@ describe('generateQueryWithWinSize', () => {
             timeConfig: expect.objectContaining({
               to: expect.any(Number),
               focusedMoment: expect.any(Number),
-              windowSize: windowSize + 30 * 86400000,
+              windowSize: windowSize + finalWinSize,
               autoRefresh: false
             })
           }

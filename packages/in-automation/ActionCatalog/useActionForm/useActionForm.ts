@@ -36,12 +36,12 @@ import {
 } from 'in-automation/ActionCatalog/useActionForm/validator';
 import { ActionFilter, Authen, AuthenType, isApiKeyAuth, isBasicAuth, isBearerAuth } from 'in-automation/types';
 import { ActionForm, MappedHeader, MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
+import { ACTION_TYPE, ADD_COMMENT, EPIC, ISSUE } from 'in-automation/constants';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import { FormContext } from 'in-components/form/binding/FormContext';
 import { notBlankValidator } from 'in-services/validators/string';
 import { safeParseJSON } from 'in-automation/utils/json';
-import { ACTION_TYPE } from 'in-automation/constants';
 
 function filterType(actionFilter: 'all' | ActionFilter, type: ActionType) {
   if (actionFilter === 'all' || actionFilter.types.length === 0 || actionFilter.types.includes(type)) return type;
@@ -180,11 +180,13 @@ function createActionFormFromForm(form: ActionForm, actionFilter: 'all' | Action
       }),
       comment: createField({
         value: commentField.value,
-        touched: commentField.touched
+        touched: commentField.touched,
+        validator: ticketActionTypeField.value === ADD_COMMENT ? notBlankValidator : undefined
       }),
       summary: createField({
         value: summaryField.value,
-        touched: summaryField.touched
+        touched: summaryField.touched,
+        validator: validatorWrapper(ACTION_TYPE.JIRA, notBlankValidator)
       }),
       assignee: createField({
         value: assigneeField.value,
@@ -196,7 +198,14 @@ function createActionFormFromForm(form: ActionForm, actionFilter: 'all' | Action
         touched: projectIdField.touched
       }),
       issue_type: createField({
-        value: issueTypeField.value,
+        value:
+          issueTypeField.value === ''
+            ? typeField.value === ACTION_TYPE.JIRA
+              ? EPIC
+              : typeField.value === ACTION_TYPE.GITLAB
+              ? ISSUE
+              : ''
+            : issueTypeField.value,
         validator: validatorWrapper([ACTION_TYPE.GITLAB, ACTION_TYPE.JIRA], notBlankValidator),
         touched: issueTypeField.touched
       }),
@@ -407,10 +416,12 @@ function createActionFormFromAction(action: ActionFormEntity, actionFilter: 'all
           : []
       }),
       comment: createField({
-        value: comment.value
+        value: comment.value,
+        validator: ticketActionType.value === ADD_COMMENT ? notBlankValidator : undefined
       }),
       summary: createField({
-        value: summary.value
+        value: summary.value,
+        validator: validatorWrapper(ACTION_TYPE.JIRA, notBlankValidator)
       }),
       assignee: createField({
         value: assignee.value
@@ -571,7 +582,8 @@ function createDefaultActionForm(actionFilter: 'all' | ActionFilter): ActionForm
         value: ''
       }),
       summary: createField({
-        value: ''
+        value: '',
+        validator: validatorWrapper(ACTION_TYPE.JIRA, notBlankValidator)
       }),
       assignee: createField({
         value: ''
@@ -586,7 +598,7 @@ function createDefaultActionForm(actionFilter: 'all' | ActionFilter): ActionForm
       }),
       project: createField({
         value: '',
-        validator: validatorWrapper([ACTION_TYPE.JIRA, ACTION_TYPE.JIRA], notBlankValidator)
+        validator: validatorWrapper([ACTION_TYPE.GITLAB, ACTION_TYPE.JIRA], notBlankValidator)
       }),
       httpBody: createField({
         value: ''
@@ -636,7 +648,7 @@ function createDefaultActionForm(actionFilter: 'all' | ActionFilter): ActionForm
         value: ''
       }),
       apiKeyAddTo: createField({
-        value: ''
+        value: 'header'
       })
     }
   });
