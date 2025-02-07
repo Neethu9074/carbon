@@ -10,11 +10,10 @@
   .timespan {
     display: inline-flex;
     align-items: center;
-    font-weight: 400;
     float: right;
+  }
 
-    &:hover {
-      cursor: default;
-    }
+  .selected {
+    background: var(--cds-layer-selected);
   }
 }
