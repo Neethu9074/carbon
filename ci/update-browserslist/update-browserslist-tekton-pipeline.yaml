@@ -1,0 +1,132 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: update-browserslist-pipeline
+spec:
+  params:
+    - name: git-url
+      type: string
+      default: "https://github.ibm.com/instana/ui-client.git"
+    - name: git-revision
+      type: string
+      default: "develop"
+  workspaces:
+    - name: output
+  tasks:
+    - name: git-clone
+      params:
+        - name: url
+          value: $(params.git-url)
+        - name: revision
+          value: "$(params.git-revision)"
+        - name: deleteExisting
+          value: "true"
+        - name: subdirectory
+          value: "ui-client-source"
+      taskRef:
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: output
+
+    - name: update-browserslist
+      runAfter:
+        - git-clone
+      taskSpec:
+        steps:    
+        - name: update-browserslist
+          workingDir: $(workspaces.output.path)/ui-client-source
+          image: delivery.instana.io/int-docker-private-virtual/library/node:16.18.1
+          securityContext:
+            runAsUser: 0
+            privileged: true
+          env:
+          - name: DELIVERY_INSTANA_IO_INTERNAL_PROJECT_ARTIFACT_READ_WRITER_CREDS_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: delivery-instana-io-internal-project-artifact-read-writer-creds
+                key: username
+          - name: DELIVERY_INSTANA_IO_INTERNAL_PROJECT_ARTIFACT_READ_WRITER_CREDS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: delivery-instana-io-internal-project-artifact-read-writer-creds
+                key: password
+          - name: IBM_GITHUB_E_API_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: ibm-github-e-api-token
+                key: value
+          script: |
+            #!/bin/bash
+            set -e
+            
+            echo "Node Version: $(node --version)"
+            echo "Yarn Version: $(yarn --version)"
+
+            cp ci/update-browserslist/pr-body.txt update-browserslist-pr-body.txt
+
+            echo "setup git user"
+            git config user.name "Instana CI"
+            git config user.email instana.ibm.github.enterprise@ibm.com
+            git config url."https://$IBM_GITHUB_E_API_TOKEN:x-oauth-basic@github.ibm.com/".insteadOf "https://github.ibm.com/"
+
+            git config branch.develop.remote origin
+            git config branch.develop.merge refs/heads/develop
+            git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+
+            REGISTRY="https://delivery.instana.io" \
+            REPOSITORY_KEY="int-npm-virtual" \
+            USERNAME="$DELIVERY_INSTANA_IO_INTERNAL_PROJECT_ARTIFACT_READ_WRITER_CREDS_USERNAME" \
+            PASSWORD="$DELIVERY_INSTANA_IO_INTERNAL_PROJECT_ARTIFACT_READ_WRITER_CREDS_PASSWORD" \
+            NON_INTERACTIVE=true \
+            WRITE_TO_CWD=true \
+            NPM_CONFIG_REGISTRY="https://registry.npmjs.org/" \
+            npx --yes create-artifactory-access-config
+
+            curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+            chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+            echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+            apt update
+            apt install -y gh
+
+            echo "verifying gh installation"
+            gh --version
+
+            gh auth login --hostname github.ibm.com --with-token <<< "$IBM_GITHUB_E_API_TOKEN"
+
+            git checkout -b browserslist-update-pr
+
+            yarn install --frozen-lockfile
+
+            echo "apply update to browser list data based on can-i-use lite:"
+            npx --yes browserslist@latest --update-db
+
+            if git diff --quiet yarn.lock; then
+              echo "yarn.lock has not changed. Exiting pipeline."
+              exit 0
+            fi
+
+            git commit --no-verify --message "chore(browserslist): update caniuse data" yarn.lock
+
+            git push --set-upstream origin browserslist-update-pr
+
+            gh config set prompt disabled
+
+            ACTIVE_PRS=$(gh pr list --search "Update browserslist" --author Instana-IBM-GitHub-Enterprise | cut -f1)
+            if [ "$ACTIVE_PRS" = "" ] ; then
+              echo "No existing PRs found, creating a new one"
+              gh pr create --head browserslist-update-pr --repo instana/ui-client --title "Update browserslist" --body-file update-browserslist-pr-body.txt
+
+              sleep 3
+              PR=$(gh pr list -S "Update browserslist" -B "${1:-develop}")
+              PR_ID=$(echo $PR | cut -d " " -f1)
+
+              echo "-- Enable auto merge squash"
+              gh pr merge --auto -s
+            else
+              echo "Stopping pipeline, because a PR already exists: $ACTIVE_PRS"
+              exit 0;
+            fi
+      workspaces:
+        - name: output
+          workspace: output
