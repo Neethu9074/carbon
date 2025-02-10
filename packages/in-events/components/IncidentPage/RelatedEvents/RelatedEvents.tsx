@@ -49,14 +49,12 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPad
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { OnEntity } from 'in-events/components/EventsListRow';
 import { useLocalStorage } from 'in-services/localStorage';
 import { emptyList } from 'in-services/fixedImmutables';
 import EventIcon from 'in-events/components/EventIcon';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import Pagination from 'in-components/Pagination';
 import { EventOrMap } from 'in-events/types';
 import { t } from 'in-i18n';
 
@@ -112,7 +110,6 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
   });
 
   const [expandedEventOnClickInTimeline, setExpandedEventOnClickInTimeline] = useState('');
-  const numPages = Math.ceil(totalRecentEvents / pageSize);
 
   // END related events pagination
 
@@ -162,7 +159,7 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
               {allRecentEvents.length !== 0 &&
                 !paginatedRecentEvents &&
                 Array(pageSize).map((_, idx) => <EventListItemSkeleton id={`${idx}`} />)}
-              {carbonPaginationEnabled && totalRecentEvents > pageSize ? (
+              {totalRecentEvents > pageSize && (
                 <CarbonPagination
                   currentPage={relatedEventsPage}
                   totalItems={totalRecentEvents}
@@ -173,12 +170,6 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
                     setRelatedEventsPage(newPage);
                     setPageSize(newPageSize);
                   }}
-                />
-              ) : (
-                <Pagination
-                  currentPage={relatedEventsPage}
-                  numPages={numPages}
-                  onChange={page => setRelatedEventsPage(page)}
                 />
               )}
             </LeftRightPadding>
