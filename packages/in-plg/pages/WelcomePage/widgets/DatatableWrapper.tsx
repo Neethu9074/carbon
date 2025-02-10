@@ -24,7 +24,7 @@ import {
   getNoDataHeader
 } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 //@ts-expect-error no declaration file found
-import { starredItems$ } from 'in-cockpit/starredItems';
+import { starredItems$ } from 'in-plg/pages/WelcomePage/widgets/starredItems';
 import PinnedItemList, { Item } from 'in-plg/pages/WelcomePage/widgets/table/PinnedItemList';
 //@ts-expect-error no declaration file found
 import connectTo from 'in-hoc/connectTo';

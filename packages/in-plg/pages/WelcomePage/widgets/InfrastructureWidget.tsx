@@ -22,12 +22,16 @@ import {
 } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-expect-error doesn't contain type file
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
+import {
+  host as hostType,
+  container as containerType,
+  process as processType
+} from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
 //@ts-expect-error doesn't contain type file
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
-import { host as hostType, container as containerType, process as processType } from 'in-cockpit/starredItems/types';
-import DatatableWrapper, { getFlattenedIds } from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 //@ts-expect-error doesn't contain type file
-import { add, remove } from 'in-cockpit/starredItems';
+import { add, remove } from 'in-plg/pages/WelcomePage/widgets/starredItems';
+import DatatableWrapper, { getFlattenedIds } from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
 //@ts-expect-error doesn't contain type file
 import { getMetric } from 'in-stores/metric';

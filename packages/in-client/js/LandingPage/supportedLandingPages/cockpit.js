@@ -4,14 +4,14 @@
  */
 
 import { setLandingPage as setLandingPageInPersistence } from 'in-client/js/LandingPage/persistence';
-import { cockpit } from 'in-cockpit/navigation/paths';
+import { welcomePage } from 'in-plg/navigation/paths';
 
 export const enabled = true;
 export const persistencePrefix = 'cockpit';
 export const defaultPageKey = persistencePrefix;
 
 export function resolve(location) {
-  location.pathname = cockpit;
+  location.pathname = welcomePage;
 }
 
 export function setLandingPage() {

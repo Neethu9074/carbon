@@ -24,10 +24,11 @@ import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithH
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 //@ts-expect-error doesn't contain type file
 import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
+//@ts-expect-error doesn't contain type file
+import { add, remove } from 'in-plg/pages/WelcomePage/widgets/starredItems';
+import { application as applicationType } from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
 //@ts-expect-error
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-//@ts-expect-error doesn't contain type file
-import { add, remove } from 'in-cockpit/starredItems';
 import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
@@ -40,7 +41,6 @@ import { useApplicationTracker } from 'in-applications/hooks/useApplicationTrack
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { application as applicationType } from 'in-cockpit/starredItems/types';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import getApplication from 'in-applications/subscriptions/getApplication';

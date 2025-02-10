@@ -14,13 +14,13 @@ import { t } from '@instana/i18n-react';
 
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+// @ts-expect-error Module needs to be translated to TS
+import { add, remove } from 'in-plg/pages/WelcomePage/widgets/starredItems';
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 import getBusinessProcessesWithDefaults from 'in-bizops/subscriptions/helpers/getBusinessProcessesWithDefaults';
-// @ts-expect-error Module needs to be translated to TS
-import { add, remove } from 'in-cockpit/starredItems';
+import { businessProcess as businessProcessType } from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
 import { businessProcessDashboard, summaryTab, businessProcessPath } from 'in-bizops/navigation/paths';
 import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
-import { businessProcess as businessProcessType } from 'in-cockpit/starredItems/types';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';

@@ -19,12 +19,15 @@ import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/compone
 //@ts-expect-error doesn't contain type file
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 //@ts-expect-error doesn't contain type file
-import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
+import mergeResults from 'in-plg/pages/WelcomePage/widgets/utils/mergeResults';
+import {
+  mobileApp as mobileAppType,
+  website as websiteType
+} from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
+//@ts-expect-error doesn't contain type file
+import { add, remove } from 'in-plg/pages/WelcomePage/widgets/starredItems';
 import { mobileAppMonitoringPath, useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
-import { mobileApp as mobileAppType, website as websiteType } from 'in-cockpit/starredItems/types';
-//@ts-expect-error doesn't contain type file
-import { add, remove } from 'in-cockpit/starredItems';
 import { useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';

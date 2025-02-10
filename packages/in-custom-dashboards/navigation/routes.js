@@ -11,18 +11,15 @@ import React from 'react';
 
 import { viewPathFullyQualified, customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import { welcomePageV2Enabled } from 'in-services/featureFlags';
 import RedirectWithHash from 'in-components/RedirectWithHash';
-import { cockpit } from 'in-cockpit/navigation/paths';
+import { welcomePage } from 'in-plg/navigation/paths';
 
 export default [
   <Route key="customDashboardPage" path={viewPathFullyQualified}>
     {renderAsyncRouteChildren(CustomDashboard)}
   </Route>,
-  welcomePageV2Enabled && (
-    <Route key="customDashboards" path={customDashboardsPath}>
-      {renderAsyncRouteChildren(CustomDashboardsPage)}
-    </Route>
-  ),
-  <RedirectWithHash key="customDashboardRedirectToHome" from={customDashboardsPath} to={cockpit} />
+  <Route key="customDashboards" path={customDashboardsPath}>
+    {renderAsyncRouteChildren(CustomDashboardsPage)}
+  </Route>,
+  <RedirectWithHash key="customDashboardRedirectToHome" from={customDashboardsPath} to={welcomePage} />
 ];

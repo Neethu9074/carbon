@@ -44,7 +44,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getTrackingMeta } from 'in-custom-dashboards/tracker';
 import { nodeToImage } from 'in-services/util/nodeToImage';
 import { imagesToPdf } from 'in-services/util/imagesToPdf';
-import { cockpit } from 'in-cockpit/navigation/paths';
+import { welcomePage } from 'in-plg/navigation/paths';
 import widgets from 'in-custom-dashboards/widgets';
 import { deepCopy } from 'in-services/util/object';
 import Prompt from 'in-components/Dialog/Prompt';
@@ -303,7 +303,7 @@ export default function CustomDashboardLoader(props) {
               );
               return;
             }
-            const targetLocation = { ...location, pathname: cockpit };
+            const targetLocation = { ...location, pathname: welcomePage };
             navigate(targetLocation);
           });
         }}

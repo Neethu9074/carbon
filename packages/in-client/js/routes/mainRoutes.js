@@ -40,7 +40,6 @@ import { internalMonitoringUnit } from 'in-services/featureFlags';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
-import { welcomePageV2Enabled } from 'in-services/featureFlags';
 import configurationRoutes from 'in-settings/navigation/routes';
 import automationRoutes from 'in-automation/navigation/routes';
 import syntheticsRoutes from 'in-synthetics/navigation/routes';
@@ -50,7 +49,6 @@ import profilingRoutes from 'in-profiling/navigation/routes';
 import openstackRoutes from 'in-openstack/navigation/routes';
 import sloRoutes from 'in-service-levels/navigation/routes';
 import loggingRoutes from 'in-logging/navigation/routes';
-import cockpitRoutes from 'in-cockpit/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
 import powervcRoutes from 'in-powervc/navigation/routes';
 import welcomePageRoutes from 'in-plg/navigation/routes';
@@ -96,7 +94,7 @@ export default (
     {vulnerabilityRoutes}
     {integrationRoutes}
     {customDashboardsRoutes}
-    {welcomePageV2Enabled ? welcomePageRoutes : cockpitRoutes}
+    {welcomePageRoutes}
     {profilingRoutes}
     {loggingRoutes}
     {deepLinkRoutes}

@@ -52,8 +52,7 @@ import {
   playWithReleaseEnabled,
   tenantSwitcherEnabled,
   userProfileMenuEnabled,
-  vulnerabilityCenterEnabled,
-  welcomePageV2Enabled
+  vulnerabilityCenterEnabled
 } from 'in-services/featureFlags';
 import {
   isTableView,
@@ -155,6 +154,9 @@ function HomeLink() {
       isActive={matchLocation(getRootPathPredicate(path))}
       icon="lib_home"
       href={createHrefToPath(path)}
+      // TODO: To be replaced once i18n translation package is available.
+      // For more information see: https://jsw.ibm.com/browse/INSTA-26174
+      // label={t('in-plg:home')}
       label={t('in-cockpit:cockpit.home')}
     />
   );
@@ -796,7 +798,7 @@ export default function CarbonUIShell() {
         })}
       <Infrastructure />
       <MenuItem isDivider />
-      {welcomePageV2Enabled && <CustomDashboards />}
+      <CustomDashboards />
       <Logging />
       <Synthetics />
       <Analyze />

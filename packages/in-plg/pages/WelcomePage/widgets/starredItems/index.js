@@ -7,11 +7,11 @@ import { get } from 'lodash';
 
 import { createLogger } from '@instana/logger';
 
-import { add as addApi, remove as removeApi } from 'in-cockpit/starredItems/api';
+import { add as addApi, remove as removeApi } from 'in-plg/pages/WelcomePage/widgets/starredItems/api';
 import { noop } from 'in-services/util/function';
 import { createStore } from 'in-stores/store';
 
-const logger = createLogger('in-cockpit/starredItems/store');
+const logger = createLogger('in-plg/pages/WelcomePage/widgets/starredItems/store');
 
 const store = createStore({
   initialValue: Array.isArray(get(window, ['instana', 'starredItems'])) ? get(window, ['instana', 'starredItems']) : []

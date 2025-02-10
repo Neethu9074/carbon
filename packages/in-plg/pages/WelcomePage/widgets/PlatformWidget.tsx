@@ -21,7 +21,7 @@ import {
   powervc as powervcServerType,
   sap as sapType,
   zhmcServer as zhmcServerType
-} from 'in-cockpit/starredItems/types';
+} from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
 import {
   hasKubernetesAccess,
   hasOpenStackAccess,
@@ -45,13 +45,15 @@ import { getPowerVCRegionsWithDefaults } from 'in-powervc/subscriptions/getPower
 //@ts-expect-error doesn't contain type file
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
 //@ts-expect-error doesn't contain type file
+import mergeResults from 'in-plg/pages/WelcomePage/widgets/utils/mergeResults';
+//@ts-expect-error doesn't contain type file
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 //@ts-expect-error doesn't contain type file
 import { useOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 //@ts-expect-error doesn't contain type file
-import { useNavigateToAbapSystemDashboard } from 'in-sap/navigation/paths';
+import { add, remove } from 'in-plg/pages/WelcomePage/widgets/starredItems';
 //@ts-expect-error doesn't contain type file
-import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
+import { useNavigateToAbapSystemDashboard } from 'in-sap/navigation/paths';
 //@ts-expect-error doesn't contain type file
 import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
 //@ts-expect-error doesn't contain type file
@@ -61,8 +63,6 @@ import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widg
 import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import getAbapSystem, { getAbapSystemListsWithDefaults } from 'in-sap/subscriptions/getAbapSystemLists';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
-//@ts-expect-error doesn't contain type file
-import { add, remove } from 'in-cockpit/starredItems';
 //@ts-expect-error no declaration file present
 import getZhmc from 'in-zhmc/subscriptions/getZhmc';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
