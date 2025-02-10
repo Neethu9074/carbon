@@ -39,7 +39,10 @@ function getFromConfig() {
 }
 
 function getFromHostname(req) {
-  if (req.hostname) {
+  // TODO add dynamic logic for urlFormat adjusted invironments
+  // with using different urlFormats tenant and unit information does not need to be part of hostname any longer
+  // eg.: via '$baseDomain/$tenant/$unit'
+  if (req.hostname && serverConfig.urlFormat === '$unit-$tenant.$baseDomain') {
     const hostname = req.hostname.toLowerCase();
     if (hostname.indexOf(serverConfig.clientConfig.tenantUnitDomainSuffix) === -1) {
       return null;
@@ -53,7 +56,6 @@ function getFromHostname(req) {
     if (!match) {
       return null;
     }
-
     return {
       tenant: match[3],
       unit: match[2]

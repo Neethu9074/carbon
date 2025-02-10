@@ -5,8 +5,9 @@
 
 const { getReportingEndpointsFromButler } = require('../reportingEndpoints.js');
 const { getTenantInfoFromUiBackend } = require('../getTenantInfo.js');
-const serverConfig = require('../../serverConfig.js');
 const featureFlagDefinitions = require('./featureFlags');
+const serverConfig = require('../../serverConfig.js');
+const { getBaseUrl } = require('../instanaUrls.js');
 
 exports.getFeatureFlags = () => {
   const presetWithEnabledFlags = featureFlagDefinitions.reduce((presetWithEnabledFlags, flag) => {
@@ -23,8 +24,7 @@ exports.getFeatureFlags = () => {
   return Promise.resolve(mergedFlags);
 };
 
-exports.getBaseUrl = (tenant, unit) =>
-  Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
+exports.getBaseUrl = (tenant, unit) => Promise.resolve(getBaseUrl(tenant, unit));
 exports.getButlerDomain = (tenant, unit) => Promise.resolve(getButlerDomain(tenant, unit));
 exports.getConfiguration = () => Promise.resolve(serverConfig.clientConfig.configuration);
 exports.getUiBackendBaseUrl = (tenant, unit) => Promise.resolve(getUiBackendBaseUrl(tenant, unit));
@@ -39,6 +39,9 @@ exports.getTenantInfo = (req, tenant, unit) => {
   return getTenantInfoFromUiBackend(req, tenant, unit);
 };
 
+// what is this?
+// correct butlerdomain would be `https://${serverConfig.clientConfig.tenantUnitDomainSuffix}` only
+// does this need to be adjusted for different urlFormat e.g.: '$baseDomain/$tenant/$unit'?
 function getButlerDomain(tenant, unit) {
   return `${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`;
 }
