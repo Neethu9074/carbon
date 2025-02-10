@@ -8,7 +8,7 @@ import {
   OrderDirection,
   PaginatedResult,
   GetKubernetesClustersQuery,
-  KubernetesCluster,
+  KubernetesClusterListItem,
   Result
 } from '@instana/types';
 
@@ -16,7 +16,7 @@ import { createResultSubscriptionFactory } from 'in-subscription/resultSubscript
 
 const getKubernetesClusters = createResultSubscriptionFactory<
   GetKubernetesClustersQuery,
-  Result<PaginatedResult<KubernetesCluster>>
+  Result<PaginatedResult<KubernetesClusterListItem>>
 >({
   eventId: 'getKubernetesClusters'
 });

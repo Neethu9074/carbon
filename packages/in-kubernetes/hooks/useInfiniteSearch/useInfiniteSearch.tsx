@@ -4,20 +4,21 @@
  * Copyright IBM Corp. 2025
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
+import { isEqual } from 'lodash';
 
-import { Result, PaginatedResult, KubernetesCluster } from '@instana/types';
+import { Result, PaginatedResult, KubernetesClusterListItem } from '@instana/types';
 import { Observable } from '@instana/observables';
 
+import { initialState, stateReducer, actions } from 'in-kubernetes/hooks/useInfiniteSearch/reducer';
 import { QueryParams } from 'in-kubernetes/subscriptions/getKubernetesClusters';
-import { emptyListResult, hasError, isLoading } from 'in-services/util/result';
 import { clusterList as pathSegment } from 'in-kubernetes/navigation/paths';
+import { hasError, isLoading } from 'in-services/util/result';
 import useInfiniteScroll from 'in-hooks/useInfiniteScroll';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
-import { pendingResult } from 'in-services/fixedObjects';
-import { merge } from 'in-services/util/resultMerger';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
+import usePrevious from 'in-hooks/usePrevious';
 
 interface Props {
   subscription: ({
@@ -27,54 +28,62 @@ interface Props {
     orderBy,
     orderDirection,
     timeConfig
-  }: QueryParams) => Observable<Result<PaginatedResult<KubernetesCluster>>>;
+  }: QueryParams) => Observable<Result<PaginatedResult<KubernetesClusterListItem>>>;
 }
 
 export default function useInfiniteSearch({ subscription }: Props) {
   const timeConfig = useTimeConfig();
-  const [result, setResult] = useState(pendingResult);
+  const previousTimeConfig = usePrevious(timeConfig);
+  const [{ result, page, isResettingState }, dispatch] = useReducer(stateReducer, initialState);
   const [{ query }, setUrlState] = useUrlState(urlStateDefinition);
-  const [page, setPage] = useState(1);
-  const [isUpdatingQuery, setIsUpdatingQuery] = useState(false);
+  const { setResult, setPage, setResetState, setIsResettingState } = actions;
+  const hasTimeConfigChanged: boolean = (previousTimeConfig && !isEqual(timeConfig, previousTimeConfig)) ?? false;
   const isLoadingData = isLoading(result);
+
+  const resetState = () => dispatch({ type: setResetState });
+  const dispatchResettingState = (value: boolean) => dispatch({ type: setIsResettingState, payload: value });
+  const increasePage = (value: number) => dispatch({ type: setPage, payload: value });
+
   const debouncedQuery = useDebouncedValue(
     query ?? '',
     value => {
-      setIsUpdatingQuery(true);
-      setResult(pendingResult);
+      resetState();
       setUrlState({ query: value });
-      setPage(1);
-      setIsUpdatingQuery(false);
+      dispatchResettingState(false);
     },
     500
   );
 
-  const fetchData = (page: number, query: string) => {
+  const fetchData = () =>
     subscription({
       timeConfig,
       query,
       page
     })
-      .filter((res: any) => !isLoading(res))
-      .once((res: Result<PaginatedResult<KubernetesCluster>>) => {
-        setResult(prev => mergeResults(prev, res));
+      .filter((res: Result<PaginatedResult<KubernetesClusterListItem>>) => !isLoading(res))
+      .once((res: Result<PaginatedResult<KubernetesClusterListItem>>) => {
+        dispatch({ type: setResult, payload: { result: res, hasTimeConfigChanged } });
       });
-  };
 
-  // Fetch data only when query is not getting updated
+  // Fetch data
+  // isResettingState is used to prevent fetching data when query is getting changed
   useEffect(() => {
-    if (!isUpdatingQuery) {
-      fetchData(page, query);
+    if (isResettingState) return;
+    if (hasTimeConfigChanged) {
+      resetState();
+      dispatchResettingState(false);
+    } else {
+      fetchData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, query, isUpdatingQuery]);
+  }, [page, query, hasTimeConfigChanged, isResettingState]);
 
   // Infinite scroll callback. It will increase the number of page when the element is intersected.
   const infiniteScrollCallback = useCallback(
     ([element]: IntersectionObserverEntry[]) => {
-      const canLoadMore = result?.data?.items.length < result?.data?.totalHits;
+      const canLoadMore = (result?.data?.items && result?.data?.items?.length < result?.data?.totalHits) ?? false;
       if (element.isIntersecting && !isLoadingData && canLoadMore) {
-        setPage(prev => prev + 1);
+        increasePage(page + 1);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,10 +92,11 @@ export default function useInfiniteSearch({ subscription }: Props) {
 
   const [loadMoreContainerRef] = useInfiniteScroll(infiniteScrollCallback, [infiniteScrollCallback]);
   const hasNoItems = result?.data?.totalHits === 0 || result?.data?.items?.length === 0;
-  const items = result?.data?.items;
   const hasErrors = hasError(result);
+  const isInitialLoading = isLoading(result ?? []) && hasNoItems;
+  const items = result?.data?.items;
   const errors = result?.errors;
-  const isInitialLoading = isLoading(result) && result?.data?.items?.length === 0;
+  const canLoadMore = (result?.data?.items && result?.data?.items?.length < result?.data?.totalHits) ?? false;
 
   return {
     query,
@@ -97,27 +107,10 @@ export default function useInfiniteSearch({ subscription }: Props) {
     items,
     isInitialLoading,
     isLoadingData,
+    canLoadMore,
     infiniteScrollCallback,
     loadMoreContainerRef
   };
-}
-
-function mergeResults(
-  prev: Result<PaginatedResult<KubernetesCluster>>,
-  res: Result<PaginatedResult<KubernetesCluster>>
-) {
-  const previous = isLoading(prev) ? emptyListResult : prev;
-  return merge(
-    [previous, res],
-    ([{ items: oldItems, totalHits: oldTotalHits }, { items: newItems, totalHits, ...props }]) => {
-      const items = oldTotalHits !== totalHits ? [...newItems] : [...oldItems, ...newItems];
-      return {
-        items,
-        totalHits,
-        ...props
-      };
-    }
-  );
 }
 
 const urlStateDefinition = {

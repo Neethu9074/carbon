@@ -10,12 +10,13 @@ import { CarbonTile, Spacer, SvgIcon, CarbonIconButton, Stack } from '@instana/c
 import { KubernetesClusterListItem } from '@instana/types';
 
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
+import InfoCardSkeleton from 'in-kubernetes/lists/components/InfoCardSkeleton/InfoCardSkeleton';
+import useInfiniteSearch from 'in-kubernetes/hooks/useInfiniteSearch/useInfiniteSearch';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import CarbonSearchBar from 'in-components/CarbonSearchBar/CarbonSearchBar';
 import { clusterListFullyQualified } from 'in-kubernetes/navigation/paths';
-import SearchBar from 'in-kubernetes/lists/components/SearchBar/SearchBar';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import InfoCard from 'in-kubernetes/lists/components/InfoCard/InfoCard';
-import useInfiniteSearch from 'in-kubernetes/hooks/useInfiniteSearch';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -31,6 +32,7 @@ export default function ClusterGrid() {
   const {
     debouncedQuery,
     isLoadingData,
+    canLoadMore,
     loadMoreContainerRef,
     hasNoItems,
     hasErrors,
@@ -54,9 +56,12 @@ export default function ClusterGrid() {
       />
       <CarbonTile>
         <Stack direction="horizontal" align="center" distribution="spaceBetween" gap="xsmall">
-          {!isInitialLoading && (
-            <SearchBar query={debouncedQuery.value} onChange={value => debouncedQuery.onChange(value)} />
-          )}
+          <CarbonSearchBar
+            query={debouncedQuery.value}
+            onChange={value => debouncedQuery.onChange(value)}
+            autoFocus={debouncedQuery.value !== ''}
+          />
+
           <CarbonIconButton
             align="left"
             kind="ghost"
@@ -73,13 +78,20 @@ export default function ClusterGrid() {
 
       {hasNoItems && <NoDataAvailable height={160} />}
       {hasErrors && !isInitialLoading && <ErroneousResultPresenter errors={errors} />}
-      {isLoadingData && <LoadingIndicator />}
+      {isLoadingData && (
+        <>
+          <InfoCardSkeleton />
+          <InfoCardSkeleton />
+        </>
+      )}
 
       {items?.map(({ cluster, ...props }: KubernetesClusterListItem, index: number) => (
         <InfoCard key={`${cluster.id}_${index}`} {...props} {...cluster} />
       ))}
 
       <div ref={loadMoreContainerRef as React.MutableRefObject<HTMLDivElement>} className={locals.loadMoreContainer} />
+
+      {canLoadMore && <InfoCardSkeleton />}
     </>
   );
 }

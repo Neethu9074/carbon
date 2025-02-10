@@ -282,7 +282,6 @@
     "cronJobs": "Cron Jobs",
     "switchToGridView": "Switch to grid view",
     "switchToTableView": "Switch to table view",
-    "search": "Search",
     "manyUnhealthyWorkloads": "More than 200 unhealthy {{workload}}. Select to view details."
   },
   "viewAllEntityName_unknownEntity_plural": "all",

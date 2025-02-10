@@ -10,10 +10,20 @@ import { KubernetesCluster, KubernetesClusterItemCounters } from '@instana/types
 import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
+import {
+  cronJobsDashboard,
+  deploymentsDashboard,
+  namespaceList,
+  nodesDashboard,
+  podsDashboard,
+  servicesDashboard,
+  useClusterDashboard
+} from 'in-kubernetes/navigation/paths';
 import InfoCardHeader from 'in-kubernetes/lists/components/InfoCardHeader/InfoCardHeader';
 import { getKubernetesCounters } from 'in-kubernetes/lists/components/InfoCard/utils';
-import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import InfoCardTile from 'in-kubernetes/lists/components/InfoCard/InfoCardTile';
+import { pendingResult } from 'in-services/fixedObjects';
+import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
@@ -28,18 +38,10 @@ type InfoCardProps = KubernetesCluster & Omit<KubernetesClusterItemCounters, 'ho
 interface KubernetesCountersProps {
   totalRunningPods: number;
   totalNodesIssues: number;
+  totalDeploymentsIssues: number;
   hasNodesWithOnlyWarnings: boolean;
   hasDeploymentsWithOnlyWarnings: boolean;
-  totalDeploymentsIssues: number;
 }
-
-const defaultValues: KubernetesCountersProps = {
-  totalRunningPods: 0,
-  totalNodesIssues: 0,
-  hasNodesWithOnlyWarnings: false,
-  hasDeploymentsWithOnlyWarnings: false,
-  totalDeploymentsIssues: 0
-};
 
 export default function InfoCard({
   id: clusterId,
@@ -54,16 +56,24 @@ export default function InfoCard({
   ...props
 }: InfoCardProps) {
   const timeConfig = useTimeConfig();
+  const result =
+    useObservable(() => getKubernetesCounters({ clusterId, timeConfig }), [clusterId, timeConfig]) ?? pendingResult;
+  const isLoadingData = isLoading(result as any);
+
   const {
     totalRunningPods,
     totalNodesIssues,
+    totalDeploymentsIssues,
     hasNodesWithOnlyWarnings,
-    hasDeploymentsWithOnlyWarnings,
-    totalDeploymentsIssues
-  }: KubernetesCountersProps =
-    useObservable(() => getKubernetesCounters({ clusterId, timeConfig }), [clusterId, timeConfig]) ?? defaultValues;
+    hasDeploymentsWithOnlyWarnings
+  } = result as KubernetesCountersProps;
 
-  const getWorkloadHref = generateHrefForWorkload(clusterId);
+  const nodesHref = useClusterDashboard(clusterId, { tab: nodesDashboard });
+  const deploymentsHref = useClusterDashboard(clusterId, { tab: deploymentsDashboard });
+  const podsHref = useClusterDashboard(clusterId, { tab: podsDashboard });
+  const namespacesHref = useClusterDashboard(clusterId, { tab: namespaceList });
+  const cronJobsHref = useClusterDashboard(clusterId, { tab: cronJobsDashboard });
+  const servicesHref = useClusterDashboard(clusterId, { tab: servicesDashboard });
 
   return (
     <div className={locals.cluster}>
@@ -78,7 +88,8 @@ export default function InfoCard({
         <InfoCardTile
           title={t('in-kubernetes:cloudNative.unhealthyNodes')}
           subtitle={t('in-kubernetes:cloudNative.totalNodes', { count: nodes })}
-          href={getWorkloadHref('nodes')}
+          href={nodesHref}
+          isLoading={isLoadingData}
           hasIssues={totalNodesIssues > 0}
           hasWarnings={hasNodesWithOnlyWarnings}
           tooltip={
@@ -86,12 +97,13 @@ export default function InfoCard({
               ? t('in-kubernetes:cloudNative.manyUnhealthyWorkloads', { workload: 'nodes' })
               : undefined
           }
-          counter={`${totalNodesIssues}${totalNodesIssues >= maxTotalClusters ? `+` : ''}`}
+          counter={`${totalNodesIssues}${totalNodesIssues >= maxTotalClusters ? '+' : ''}`}
         />
         <InfoCardTile
           title={t('in-kubernetes:cloudNative.unhealthyDeployments')}
           subtitle={t('in-kubernetes:cloudNative.totalDeployments', { count: deployments })}
-          href={getWorkloadHref('deployments')}
+          href={deploymentsHref}
+          isLoading={isLoadingData}
           hasIssues={totalDeploymentsIssues > 0}
           hasWarnings={hasDeploymentsWithOnlyWarnings}
           tooltip={
@@ -99,34 +111,34 @@ export default function InfoCard({
               ? t('in-kubernetes:cloudNative.manyUnhealthyWorkloads', { workload: 'deployments' })
               : undefined
           }
-          counter={`${totalDeploymentsIssues}${totalDeploymentsIssues >= maxTotalClusters ? `+` : ''}`}
+          counter={`${totalDeploymentsIssues}${totalDeploymentsIssues >= maxTotalClusters ? '+' : ''}`}
         />
         <InfoCardTile
           title={t('in-kubernetes:cloudNative.runningPods')}
-          href={getWorkloadHref('pods;pod.phase=Running~;pod.page=1')}
+          isLoading={isLoadingData}
+          href={`${podsHref};pod.phase=Running~`}
           subtitle={t('in-kubernetes:cloudNative.totalPods', { count: pods })}
           counter={`${totalRunningPods}`}
         />
         <InfoCardTile
           title={t('in-kubernetes:cloudNative.namespaces')}
-          href={getWorkloadHref('namespaces')}
+          isLoading={isLoadingData}
+          href={namespacesHref}
           counter={`${namespaces}`}
         />
         <InfoCardTile
           title={t('in-kubernetes:cloudNative.cronJobs')}
-          href={getWorkloadHref('cronjobs')}
+          isLoading={isLoadingData}
+          href={cronJobsHref}
           counter={`${cronJobs}`}
         />
         <InfoCardTile
           title={t('in-kubernetes:cloudNative.services')}
-          href={getWorkloadHref('services')}
+          isLoading={isLoadingData}
+          href={servicesHref}
           counter={`${services}`}
         />
       </Stack>
     </div>
   );
-}
-
-function generateHrefForWorkload(clusterId: string) {
-  return (workload: string) => `#${clusterDashboardFullyQualified};clusterId=${clusterId}/${workload}`;
 }

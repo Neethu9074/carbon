@@ -7,7 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { CarbonClickableTile, Typography, SvgIcon, Tooltip } from '@instana/components';
+import { CarbonClickableTile, Typography, SvgIcon, Tooltip, LoadingSkeleton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import locals from './InfoCard.mless';
@@ -19,11 +19,12 @@ interface InfoCardTileProps {
   counter: string;
   hasIssues?: boolean;
   hasWarnings?: boolean;
+  isLoading?: boolean;
   tooltip?: string;
 }
 
 export default function InfoCardTile(props: InfoCardTileProps) {
-  const { title, subtitle, counter, href, hasIssues, hasWarnings, tooltip } = props;
+  const { title, subtitle, counter, href, isLoading, hasIssues, hasWarnings, tooltip } = props;
 
   const counterWithOrWithoutTooltip = tooltip ? (
     <Tooltip content={tooltip} align="auto">
@@ -54,11 +55,11 @@ export default function InfoCardTile(props: InfoCardTileProps) {
               [locals.hasIssues]: hasIssues
             })}
           >
-            {counterWithOrWithoutTooltip}
+            {!isLoading ? counterWithOrWithoutTooltip : <LoadingSkeleton className={locals.skeleton} />}
           </span>
         </Typography>
         <Typography variant="body-02" component="p">
-          {subtitle}
+          {!isLoading ? subtitle : <LoadingSkeleton className={locals.skeletonSubtitle} />}
         </Typography>
       </div>
     </CarbonClickableTile>

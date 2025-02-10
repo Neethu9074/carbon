@@ -11,11 +11,11 @@ import {
   namespaceListFullyQualified,
   exploreFullyQualified
 } from 'in-kubernetes/navigation/paths';
+import ClusterGrid from 'in-kubernetes/lists/components/ClusterGrid/ClusterGrid';
 import { kubernetesCloudNativeExperience } from 'in-services/featureFlags';
 import KubernetesExplore from 'in-kubernetes/explore/KubernetesExplore';
 import ViewSwitcher from 'in-kubernetes/lists/components/ViewSwitcher';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import ClusterGrid from 'in-kubernetes/lists/components/ClusterGrid';
 import NamespaceList from 'in-kubernetes/lists/NamespaceList';
 import ClusterList from 'in-kubernetes/lists/ClusterList';
 import Footer from 'in-components/Footer';

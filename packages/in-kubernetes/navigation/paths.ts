@@ -39,6 +39,7 @@ interface NavigateToDashboardProps {
 export const kubernetes = '/kubernetes';
 
 export const serviceDashboard = `/service`;
+export const servicesDashboard = `/services`;
 export const serviceDashboardFullyQualified = `${kubernetes}${serviceDashboard}`;
 export const serviceDashboardDetailsFullyQualified = `${serviceDashboardFullyQualified}/details`;
 
@@ -58,18 +59,22 @@ export const explore = '/explore';
 export const exploreFullyQualified = `${kubernetes}${explore}`;
 
 export const podDashboard = `/pod`;
+export const podsDashboard = `/pods`;
 export const podDashboardFullyQualified = `${kubernetes}${podDashboard}`;
 export const podDashboardDetailsFullyQualified = `${podDashboardFullyQualified}/details`;
 
 export const nodeDashboard = `/node`;
+export const nodesDashboard = '/nodes';
 export const nodeDashboardFullyQualified = `${kubernetes}${nodeDashboard}`;
 export const nodeDashboardDetailsFullyQualified = `${nodeDashboardFullyQualified}/details`;
 
 export const cronJobDashboard = `/cronjob`;
+export const cronJobsDashboard = `/cronjobs`;
 export const cronJobDashboardFullyQualified = `${kubernetes}${cronJobDashboard}`;
 export const cronJobDashboardDetailsFullyQualified = `${cronJobDashboardFullyQualified}/details`;
 
 export const deploymentDashboard = `/deployment`;
+export const deploymentsDashboard = `/deployments`;
 export const deploymentDashboardFullyQualified = `${kubernetes}${deploymentDashboard}`;
 export const deploymentDashboardDetailsFullyQualified = `${deploymentDashboardFullyQualified}/details`;
 
@@ -78,10 +83,12 @@ export const deploymentConfigDashboardFullyQualified = `${kubernetes}${deploymen
 export const deploymentConfigDashboardDetailsFullyQualified = `${deploymentConfigDashboardFullyQualified}/details`;
 
 export const daemonSetDashboard = `/daemonset`;
+export const daemonSetsDashboard = `/daemonsets`;
 export const daemonSetDashboardFullyQualified = `${kubernetes}${daemonSetDashboard}`;
 export const daemonSetDashboardDetailsFullyQualified = `${daemonSetDashboardFullyQualified}/details`;
 
 export const statefulSetDashboard = `/statefulset`;
+export const statefulSetsDashboard = `/statefulsets`;
 export const statefulSetDashboardFullyQualified = `${kubernetes}${statefulSetDashboard}`;
 export const statefulSetDashboardDetailsFullyQualified = `${statefulSetDashboardFullyQualified}/details`;
 

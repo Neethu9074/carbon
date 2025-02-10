@@ -11,13 +11,13 @@
 
   .tile {
     flex: 1;
-    height: 176px;
+    height: 11rem;
     min-width: 230px;
   }
 
   .tileContent {
     padding-top: 0.5rem;
-    height: 78px;
+    height: 4.875rem;
 
     p {
       color: var(--cds-text-secondary);
@@ -33,9 +33,18 @@
   }
 
   .icon {
-    height: 48px;
+    height: 3rem;
     display: flex;
     flex-flow: column-reverse;
     align-items: flex-end;
+  }
+
+  .skeleton {
+    width: 3.563rem;
+    height: 2.625rem;
+  }
+
+  .skeletonSubtitle {
+    height: 1.5rem;
   }
 }
