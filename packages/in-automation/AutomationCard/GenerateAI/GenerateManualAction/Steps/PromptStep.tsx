@@ -162,7 +162,7 @@ function generateAIActionForm({
           resultContent: res.data?.content!,
           tokens: {
             inputTokenCount: res.data?.inputTokenCount!,
-            outputTokenCount: res.data?.outputTokenCount,
+            outputTokenCount: res.data?.outputTokenCount!,
             totalTokenCount: res.data?.totalTokenCount!
           }
         });
