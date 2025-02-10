@@ -3,7 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { format as defaultLocaleFormat, formatLocale as createCustomLocaleFormat } from 'd3-format';
+import {
+  formatDefaultLocale as createCustomLocaleFormat,
+  format,
+  FormatLocaleDefinition,
+  formatPrefix
+} from 'd3-format';
 
 import { t } from '@instana/i18n-react';
 
@@ -32,33 +37,25 @@ interface CompactAndDetailedFormatter {
   detailed(v: number): string;
 }
 
-const isLocaleAware = !getSingle('formatNumbersAccordingToEnUs') && window.instana.numberLocale;
-const format: (specifier: string) => (num: number) => string = isLocaleAware
-  ? // @ts-expect-error type definition is not exact, and d3-format fully works even with undefined values for e.g. decimal
-    // The external type definitions for d3-format are "incomplete".
-    // Example:
-    //   decimal? string | undefined (field in numberLocale)
-    // won't match with
-    //   decimal: string
-    //
-    // All good, because implementation is actually checking via:
-    //   locale.decimal === undefined ? "." : locale.decimal + ""
-    //
-    // Verified for d3-format@1.4.5:
-    createCustomLocaleFormat({
-      ...window.instana.numberLocale,
-      // Some languages have alternative numerals, e.g., east arabic.
-      // https://en.wikipedia.org/wiki/Eastern_Arabic_numerals
-      //
-      // Some of our formatters have assumptions about these numbers.
-      // In order to avoid breakage, we will just disable alternative
-      // numeral characters. To be revisited in the future :)
-      numerals: undefined
-    }).format
-  : defaultLocaleFormat;
+const numberLocale = (!getSingle('formatNumbersAccordingToEnUs') && window.instana.numberLocale) || {};
+const enUs: FormatLocaleDefinition = {
+  decimal: '.',
+  thousands: ',',
+  grouping: [3],
+  currency: ['$', '']
+};
+const localeFormat = {
+  ...enUs, // default values should come from `en-US`
+  ...numberLocale, // when there is a specific locale, use the FormatLocaleDefinition from https://github.com/d3/d3-format/tree/main/locale
+  // d3-format uses unicode minus. Although this is typographically better, it would break copy-paste to other applications which do not support it
+  // deliberately overriding it for all locales using hyphen
+  // see https://observablehq.com/@d3/d3-format#cell-107
+  minus: '-'
+};
+createCustomLocaleFormat(localeFormat);
 export const byteBase = 1024;
-export const decimalSeparator = (isLocaleAware && window.instana.numberLocale?.decimal) || '.';
-export const thousandsSeparator = (isLocaleAware && window.instana.numberLocale?.thousands) || ',';
+export const decimalSeparator = localeFormat.decimal;
+export const thousandsSeparator = localeFormat.thousands;
 
 export const zeroDecimalPlaces = format(',.0f');
 export const oneDecimalPlaces = format(',.1f');
@@ -369,53 +366,20 @@ export const millisPerSecondZeroDecimalPlaces = markAsFormatterType(
   RATE_FORMATTER_TYPE
 );
 
-const siPrefixZeroDecimalPlacesFormatRule = format(',.3s');
-const siPrefixZeroDecimalPlacesFormatRuleForSmallValues = format(',.0s');
-const withSiPrefixZeroDecimalPlacesRegExp = new RegExp(`^(-|\\+)?(\\d+)(\\${decimalSeparator}(\\d+))?(.*)$`, 'i');
-export const withSiPrefixZeroDecimalPlaces = (d: number) => {
-  if (d == null) {
-    d = 0;
-  }
-  if ((0 < d && d < 1) || (-1 < d && d < 0)) {
-    return siPrefixZeroDecimalPlacesFormatRuleForSmallValues(d);
-  }
-  const s = siPrefixZeroDecimalPlacesFormatRule(d);
-  const match = s.match(withSiPrefixZeroDecimalPlacesRegExp);
-  if (!match) {
-    return '';
-  }
+/**
+ * SI Prefix formatter with fixed decimal places
+ * @see https://d3js.org/d3-format#locale_formatPrefix
+ * @param decimalPlaces number of desired decimal places
+ * @example withSiPrefix(2)(1) => 1.00
+ * @example withSiPrefix(4)(5.54) => 5.5400
+ * @example withSiPrefix(4)(5540) => 5.5400k
+ * @returns a formatter that takes a number and returns the value formatted using SI notation with the decimal places required
+ */
+const withSiPrefix = (decimalPlaces: number) => (d: number) => formatPrefix(',.' + decimalPlaces, d)(d);
 
-  const sign = match[1] || '';
-  const major = match[2];
-  const prefix = match[5];
-
-  return `${sign}${major}${prefix}`;
-};
-
-const siPrefixThreeDecimalPlacesFormatRule = format(',.6s');
-const withSiPrefixThreeDecimalPlacesRegExp = new RegExp(`^(-|\\+)?(\\d+)\\${decimalSeparator}(\\d+)(.*)$`, 'i');
-export const withSiPrefixThreeDecimalPlaces = (d: number) => {
-  const s = siPrefixThreeDecimalPlacesFormatRule(d);
-  const match = s.match(withSiPrefixThreeDecimalPlacesRegExp);
-  if (!match) {
-    return `${d}`;
-  }
-
-  const sign = match[1] || '';
-  const major = match[2];
-  let minor = match[3];
-  const prefix = match[4];
-
-  while (minor.length < 3) {
-    minor += '0';
-  }
-
-  if (minor.length > 3) {
-    minor = minor.substring(0, 3);
-  }
-
-  return `${sign}${major}${decimalSeparator}${minor}${prefix}`;
-};
+export const withSiPrefixZeroDecimalPlaces = withSiPrefix(0);
+export const withSiPrefixOneDecimalPlace = withSiPrefix(1);
+export const withSiPrefixThreeDecimalPlaces = withSiPrefix(3);
 export const siPrefix = markAsFormatterType(
   {
     compact: withSiPrefixZeroDecimalPlaces,
@@ -423,28 +387,6 @@ export const siPrefix = markAsFormatterType(
   },
   NUMBER_FORMATTER_TYPE
 );
-
-export const withSiPrefixOneDecimalPlace = (d: number) => {
-  if (d < 1000 && d > -1000) {
-    return `${d}`;
-  }
-  const s = siPrefixThreeDecimalPlacesFormatRule(d);
-  const match = s.match(withSiPrefixThreeDecimalPlacesRegExp);
-  if (!match) {
-    return `${d}`;
-  }
-
-  const sign = match[1] || '';
-  const major = match[2];
-  let minor = match[3];
-  const prefix = match[4];
-
-  if (minor.length > 1) {
-    minor = minor.substring(0, 1);
-  }
-
-  return `${sign}${major}${decimalSeparator}${minor}${prefix}`;
-};
 
 export const siPrefixPerSecond = markAsFormatterType(
   {
@@ -664,9 +606,7 @@ function formatTime(v: number, units: TimeUnit[], formatNumber: (v: number) => s
     return t('in-services:formatters.timeUnits', { context: 'us', num: 0 });
   }
 
-  for (let i = 0; i < units.length; i++) {
-    const unit = units[i];
-
+  for (const unit of units) {
     if (v < unit.range) {
       return t('in-services:formatters.timeUnits', { context: unit.unit, num: formatNumber(v) });
     }
@@ -682,8 +622,7 @@ function conditionallyFormatTimeValues(v: number, units: TimeUnit[]) {
   if (typeof v !== 'number' || isNaN(v)) {
     return t('in-services:formatters.timeUnits', { context: 'us', num: 0 });
   }
-  for (let i = 0; i < units.length; i++) {
-    const unit = units[i];
+  for (const unit of units) {
     if (v.toString().split('.')[0].length > 2) {
       formatNumber = number.compact;
     } else {

@@ -17,15 +17,17 @@ const supportedNumberLocales = fs.readdirSync(formatLocaleDir).reduce((agg, file
   return agg;
 }, {});
 
+const defaultNumberLocaleDefinition = supportedNumberLocales['en-us'];
+
 module.exports = exports = function getNumberLocaleDefinition(request) {
   const lang = request.acceptsLanguages(Object.keys(supportedNumberLocales));
   if (!lang) {
-    return false;
+    return defaultNumberLocaleDefinition;
   }
 
   const definition = supportedNumberLocales[lang.toLowerCase()];
   if (!definition) {
-    return false;
+    return defaultNumberLocaleDefinition;
   }
 
   return definition;

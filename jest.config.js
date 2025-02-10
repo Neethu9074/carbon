@@ -37,6 +37,7 @@ module.exports = {
     '\\.css$': '<rootDir>/packages/in-test/styleMock.js',
     '\\.yaml$': '<rootDir>/packages/in-test/styleMock.js',
     '\\.scss$': '<rootDir>/packages/in-test/styleMock.js',
-    '^promise-loader?(.*)!(.*)': '$2'
+    '^promise-loader?(.*)!(.*)': '$2',
+    'd3-(.*)': '<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js'
   }
 };
