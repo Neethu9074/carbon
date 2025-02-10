@@ -5,11 +5,12 @@
  */
 
 import React, { createContext, useContext, useState } from 'react';
+import { Field } from 'formalistic';
 
+import { ActionType, Result } from '@instana/types';
 import { Tearsheet } from '@instana/ibm-products';
 import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
-import { Result } from '@instana/types';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
@@ -139,29 +140,102 @@ const influencerContent = (form: ActionForm) => {
       navItems={generateNavItems(form)}
       renderPostIcon={({ valid }) => {
         if (valid) return null;
-        return <SvgIcon className="icon" type="lib_help_error_error_circle" size="xs" />;
+        return (
+          <SvgIcon type="lib_help_error_error_circle" size="xs" color={themes.default.ids.color.option.red['500']} />
+        );
       }}
     />
   );
 };
 
+function isFieldValid(field: Field<any>): boolean {
+  return field.valid || !field.touched;
+}
+
 const generateNavItems = (form: ActionForm) => {
   const type = form.get('type').value;
+  // form.getIn(['entity', 'entityIds']);
+  const isMetadataValid = isFieldValid(form.get('name')) && isFieldValid(form.get('description'));
+
+  const isDocActionConfigurationValid = isFieldValid(form.get('docLink'));
+  const isScriptActionConfigurationValid = isFieldValid(form.get('script'));
+  // const isHTTPActionConfigurationValid = isFieldValid(form.get('host')) && ();
+  const isGHActionConfigurationValid =
+    isFieldValid(form.get('owner')) &&
+    isFieldValid(form.get('repo')) &&
+    ((form.get('ticketActionType').value === 'open' &&
+      isFieldValid(form.get('title')) &&
+      isFieldValid(form.get('body'))) ||
+      (form.get('ticketActionType').value === 'add_comment' && isFieldValid(form.get('comment'))));
+
+  const isGLActionConfigurationValid =
+    isFieldValid(form.get('projectId')) &&
+    ((form.get('ticketActionType').value === 'open' &&
+      isFieldValid(form.get('title')) &&
+      isFieldValid(form.get('body'))) ||
+      (form.get('ticketActionType').value === 'add_comment' && isFieldValid(form.get('comment'))));
+
+  const isJiraActionConfigurationValid =
+    isFieldValid(form.get('projectId')) &&
+    ((form.get('ticketActionType').value === 'open' &&
+      isFieldValid(form.get('summary')) &&
+      isFieldValid(form.get('body'))) ||
+      (form.get('ticketActionType').value === 'add_comment' && isFieldValid(form.get('comment'))));
+
+  const isHTTPActionConfigurationValid =
+    isFieldValid(form.get('host')) &&
+    isFieldValid(form.get('additionalHeaders')) &&
+    isFieldValid(form.get('contentType')) &&
+    isFieldValid(form.get('accept')) &&
+    ((form.get('authType').value === 'basicAuth' &&
+      isFieldValid(form.get('username')) &&
+      isFieldValid(form.get('password'))) ||
+      (form.get('authType').value === 'bearerToken' && isFieldValid(form.get('bearerToken'))) ||
+      (form.get('authType').value === 'apiKey' &&
+        isFieldValid(form.get('apiKey')) &&
+        isFieldValid(form.get('apiKeyValue'))) ||
+      form.get('authType').value === 'noAuth');
+
+  const isManualActionConfigurationValid = isFieldValid(form.get('manualContent'));
+
+  function isActionConfigurationValid(type: ActionType): boolean {
+    switch (type) {
+      case ACTION_TYPE.GITHUB:
+        return isGHActionConfigurationValid;
+      case ACTION_TYPE.GITLAB:
+        return isGLActionConfigurationValid;
+      case ACTION_TYPE.JIRA:
+        return isJiraActionConfigurationValid;
+      case ACTION_TYPE.HTTP:
+        return isHTTPActionConfigurationValid;
+      case ACTION_TYPE.SCRIPT:
+        return isScriptActionConfigurationValid;
+      case ACTION_TYPE.DOC_LINK:
+        return isDocActionConfigurationValid;
+      case ACTION_TYPE.MANUAL:
+        return isManualActionConfigurationValid;
+      default:
+        return false;
+    }
+  }
+
+  const isActionConfigValid = isActionConfigurationValid(type);
   const showParametersSection = ![ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].includes(type ?? ACTION_TYPE.DOC_LINK);
   const navItems = [
     {
       label: 'Action Details',
       scrollId: '1-action-details',
       title: 'Action Details',
-      content: null
+      content: null,
+      valid: isMetadataValid
       // valid: isEntityIdFieldValid
     },
     {
       label: 'Action Configuration',
       scrollId: '2-action-configuration',
       title: 'Action Configuration',
-      content: null
-      // valid: isIndicatorValid && isThresholdValid
+      content: null,
+      valid: isActionConfigValid
     }
   ];
 
@@ -170,7 +244,8 @@ const generateNavItems = (form: ActionForm) => {
       label: 'Parameter Details',
       scrollId: '3-parameter-details',
       title: 'Parameter Details',
-      content: null
+      content: null,
+      valid: true
     });
   }
 
