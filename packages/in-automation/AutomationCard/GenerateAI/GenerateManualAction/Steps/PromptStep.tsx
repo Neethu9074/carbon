@@ -128,12 +128,14 @@ function generateAIActionForm({
   form,
   setForm,
   event,
-  generateAIClickPromptStepTrackerSegment
+  generateAIClickPromptStepTrackerSegment,
+  aiActionGenerateErrorTrackerSegment
 }: {
   form: GenerateAIActionForm;
   setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
   event: Event;
   generateAIClickPromptStepTrackerSegment: TrackingFunction;
+  aiActionGenerateErrorTrackerSegment: TrackingFunction;
 }) {
   const promptForm = form.get('prompt');
   const eventName = promptForm.get('eventName').value;
@@ -154,10 +156,15 @@ function generateAIActionForm({
     .once(
       res => {
         setGeneratedAction(res);
-        // tracker tracks prompt input and output
+        // tracker tracks prompt input and output and tokens
         generateAIClickPromptStepTrackerSegment({
           generateAIActionPayload,
-          resultContent: res.data?.content!
+          resultContent: res.data?.content!,
+          tokens: {
+            inputTokenCount: res.data?.inputTokenCount!,
+            outputTokenCount: res.data?.outputTokenCount!,
+            totalTokenCount: res.data?.totalTokenCount!
+          }
         });
         setForm(form =>
           form
@@ -173,7 +180,12 @@ function generateAIActionForm({
             .updateIn(['action', 'feedbackState'], item => item.setValue('').setTouched(true))
         );
       },
-      () => {
+      result => {
+        aiActionGenerateErrorTrackerSegment({
+          generateAIActionPayload,
+          errors: result?.errors,
+          type: 'manual'
+        });
         setGeneratedAction(
           error([{ message: t('in-automation:GenerateAIActionDialog.failedToGenerateAction'), code: 'SERVER' }])
         );
@@ -193,7 +205,7 @@ function GenerateButton({
   const generatedAction = useGeneratedAction();
   const promptForm = form.get('prompt');
 
-  const { generateAIClickPromptStepTrackerSegment } = useSegmentTracker();
+  const { generateAIClickPromptStepTrackerSegment, aiActionGenerateErrorTrackerSegment } = useSegmentTracker();
   return (
     <Button
       kind="secondary"
@@ -205,7 +217,13 @@ function GenerateButton({
           setForm(form.updateIn(['prompt'], promptForm => promptForm.setTouched(true, { recurse: true })));
           return;
         }
-        generateAIActionForm({ form, setForm, event, generateAIClickPromptStepTrackerSegment });
+        generateAIActionForm({
+          form,
+          setForm,
+          event,
+          generateAIClickPromptStepTrackerSegment,
+          aiActionGenerateErrorTrackerSegment
+        });
       }}
       icon="lib_launch_ai"
     >
