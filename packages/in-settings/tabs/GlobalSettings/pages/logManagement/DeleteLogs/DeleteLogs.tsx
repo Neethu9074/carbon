@@ -17,7 +17,7 @@ import {
   DateInput as CarbonDateInput,
   ValidationBlock
 } from '@instana/components';
-import { Button, Card, Link, Typography } from '@instana/components';
+import { Card, Link, Typography } from '@instana/components';
 import { Tearsheet } from '@instana/ibm-products';
 
 // eslint-disable-next-line no-restricted-imports
@@ -306,24 +306,11 @@ export default function DeleteLogs() {
 
     return mapSteps();
   };
-
-  const DeleteButton = (
-    <Button
-      className={locals.deleteLogsButton}
-      onClick={openConfirmationDialog}
-      kind="danger"
-      icon="lib_actions_delete"
-    >
-      {deleteLogsLocalisationStrings.deleteLogs}
-    </Button>
-  );
-
   return (
     <>
       <Title title={deleteLogsLocalisationStrings.deleteLogs} />
       <section className={locals.titleSection}>
         <SubViewHeader>{deleteLogsLocalisationStrings.deleteLogs}</SubViewHeader>
-        {DeleteButton}
       </section>
       <section className={locals.descriptionSection}>
         <Typography variant={'body-regular'}>
