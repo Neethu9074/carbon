@@ -298,10 +298,6 @@ export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
 
-export const serviceNowAutoCloseAndCustomPayloadsEnabled = isFeatureFlagEnabled(
-  'serviceNowAutoCloseAndCustomPayloadsEnabled',
-  false
-);
 export const serviceNowAdvancedEnabled = isFeatureFlagEnabled('serviceNowAdvancedEnabled', true);
 export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
   'automationActionInstanceFeedbackEnabled',

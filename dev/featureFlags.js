@@ -138,7 +138,6 @@ module.exports = {
   logSmartAlertsEnabled: true,
   applicationSmartAlertFullScreenDesignEnabled: true,
   infrastructureExploreTagColumnsEnabled: true,
-  serviceNowAutoCloseAndCustomPayloadsEnabled: false,
   serviceNowAdvancedEnabled: true,
   resourceOptimizationActionsEnabled: true,
   eventResourceActionsEnabled: true,
