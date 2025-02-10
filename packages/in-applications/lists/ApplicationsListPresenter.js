@@ -8,8 +8,7 @@ import React from 'react';
 
 import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
 import { TableEntityCounter } from '@instana/legacy';
-import { themes } from '@instana/design-tokens';
-import { SvgIcon } from '@instana/components';
+import { IconButton } from '@instana/components';
 import { Link } from '@instana/components';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -35,12 +34,13 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { boundaryScopes } from 'in-applications/constants';
-import Tooltip from 'in-components/Tooltip';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
+
+import locals from './ApplicationsListPresenter.mless';
 
 const pathSegment = applicationsList;
 
@@ -56,12 +56,17 @@ function ApplicationLabelContent({ item }) {
 }
 
 function BoundaryScopeContent({ item }) {
-  const iconColor = themes.default.ids.color.option.blue['500'];
   if (item.application.boundaryScope) {
     return (
-      <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard} delay={500}>
-        <SvgIcon type={boundaryScopes.info[item.application.boundaryScope].icon} color={iconColor} />
-      </Tooltip>
+      <IconButton
+        type={boundaryScopes.info[item.application.boundaryScope].icon}
+        className={locals.iconButton}
+        alignment="left"
+        align="bottom"
+        isWrapperedByTooltip
+        noStyling
+        iconDescription={boundaryScopes.info[item.application.boundaryScope].dashboard}
+      />
     );
   }
   return null;
