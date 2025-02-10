@@ -7,10 +7,13 @@ import React from 'react';
 
 import { CarbonMenuItem, SvgIcon } from '@instana/components';
 
+import { integrationKey as elkIntegrationKey } from 'in-integrations/logging/elk/consts';
+import { useJumpToThirdParty } from 'in-integrations/logging/tracking';
 import { isBlank } from 'in-services/util/string';
 
 export default function ElkButton(props) {
   const { elkIntegration: integration } = props;
+  const jumpToThirdParty = useJumpToThirdParty();
 
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
@@ -22,7 +25,10 @@ export default function ElkButton(props) {
         return <SvgIcon type="lib_elk" />;
       }}
       label="ELK"
-      onClick={() => window.open(constructElkLink(integration, props), '_blank')}
+      onClick={() => {
+        jumpToThirdParty(elkIntegrationKey);
+        window.open(constructElkLink(integration, props), '_blank');
+      }}
     />
   );
 }
