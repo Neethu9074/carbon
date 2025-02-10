@@ -14,8 +14,6 @@ import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import EmptyList from 'in-components/lists/List/sharedComponents/EmptyList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import { carbonPaginationEnabled } from 'in-services/featureFlags';
-import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
 import locals from '../ApiListHeader.mless';
@@ -61,8 +59,7 @@ export default function renderListInsideCard(props) {
           >
             {message && <TemporaryMessage {...message} duration={retainMessagesAfter} />}
             {content}
-
-            {numPages > 1 && carbonPaginationEnabled ? (
+            {numPages > 1 && (
               <div className={locals.paginationWrapper}>
                 <CarbonPagination
                   currentPage={page}
@@ -72,8 +69,6 @@ export default function renderListInsideCard(props) {
                   onChange={p => setPage(p.page)}
                 />
               </div>
-            ) : (
-              <Pagination currentPage={page} numPages={numPages} onChange={setPage} />
             )}
           </LightCard>
         );
