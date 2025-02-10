@@ -501,6 +501,7 @@ export const AUTOMATION_AI_LEAVE_GENERATE_DIALOG = 'automation.ai.leave.generate
 export const AUTOMATION_AI_SCRIPT_SELECT_STEP_NEXT_CLICK = 'automation.ai.script.select.step.next.click';
 export const AUTOMATION_GENERATE_AI_SCRIPT_BUTTON_CLICK_STEP2 = 'automation.generate.ai.script.button.click.step2';
 export const AUTOMATION_AI_SCRIPT_GENERATE_STEP_NEXT_CLICK = 'automation.ai.script.generate.step.next.click';
+export const AUTOMATION_AI_GENERATE_STEP_ERROR = 'automation.ai.generate.step.error';
 
 export const AUTOMATION_AI_GOOD_FEEDBACK = 'automation.ai.good.feedback';
 export const AUTOMATION_AI_BAD_FEEDBACK = 'automation.ai.bad.feedback';
