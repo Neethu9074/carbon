@@ -124,7 +124,7 @@ export default function ActionCatalog({
 }
 
 function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUserActions: boolean }) {
-  const navigateToActionDetails = useNavigateToActionDetails();
+  const hasAccessToScript = useHasAccessToScript();
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
   let manualContent = '';
@@ -163,7 +163,7 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
             <MoreMenuButton
               disabled={action.type === ACTION_TYPE.ANSIBLE}
               icon="lib_actions_copy"
-              onClick={() => navigateToActionDetails(action.id, true)}
+              onClick={() => handleButtonClick({ actionId: action?.id, copy: true })}
             >
               {t('in-automation:copy')}
             </MoreMenuButton>
@@ -271,6 +271,6 @@ function onDeleteFailed(error: Error) {
   );
 }
 
-const handleButtonClick = ({ actionId }: { actionId?: string }) => {
-  addActiveDialog(<CreateNewAction1 actionId={actionId} />);
+const handleButtonClick = ({ actionId, copy }: { actionId?: string; copy?: boolean }) => {
+  addActiveDialog(<CreateNewAction1 actionId={actionId} copy={copy} />);
 };
