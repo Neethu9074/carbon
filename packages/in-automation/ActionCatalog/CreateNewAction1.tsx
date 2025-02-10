@@ -14,7 +14,7 @@ import { SvgIcon } from '@instana/components';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
-import useActionDetailsUrlParams from 'in-automation/ActionCatalog/useActionDetailsUrlParams';
+import useActionDetailsUrlParams1 from 'in-automation/ActionCatalog/useActionDetailsUrlParams1';
 import { aiOriginatedMetadata, isAIAction, isAIActionCopy } from 'in-automation/utils/action';
 import useActionForm from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import { getActionFromForm } from 'in-automation/ActionCatalog/useActionForm/utils';
@@ -28,6 +28,7 @@ import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import useActionFilter from 'in-automation/hooks/useActionFilter';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
+import { refresh } from 'in-automation/ActionCatalog/useActions';
 import useAction from 'in-automation/ActionCatalog/useAction';
 import { hasError, isLoading } from 'in-services/util/result';
 import { saveAction, saveNewAction } from 'in-automation/api';
@@ -42,8 +43,8 @@ import SideNav from 'in-components/SideNav';
 import { seconds } from 'in-services/time';
 import { t, Trans } from 'in-i18n';
 
-export default function CreateNewAction1() {
-  const { isCopy, id } = useActionDetailsUrlParams();
+export default function CreateNewAction1({ actionId, copy = false }: { actionId?: string; copy?: boolean }) {
+  const { isCopy, id } = useActionDetailsUrlParams1({ actionId, copy });
   const action = useAction({ id, isCopy });
   const actionFilter = useActionFilter();
 
@@ -84,18 +85,28 @@ export default function CreateNewAction1() {
     );
   }
 
-  return <TearSheetLoader key={String(isCopy)} action={action.data} actionFilter={actionFilter.data!} />;
+  return (
+    <TearSheetLoader
+      key={String(isCopy)}
+      action={action.data}
+      actionFilter={actionFilter.data!}
+      copy={copy}
+      actionId={actionId}
+    />
+  );
 }
 
 interface TearSheetProps {
   action?: ActionFormEntity;
   actionFilter: 'all' | ActionFilter;
+  copy: boolean;
+  actionId?: string;
 }
 
-function TearSheetLoader({ action, actionFilter }: TearSheetProps) {
-  const { isCopy } = useActionDetailsUrlParams();
+function TearSheetLoader({ action, actionFilter, copy, actionId }: TearSheetProps) {
+  const { isCopy } = useActionDetailsUrlParams1({ copy });
   const [form, setForm] = useActionForm({ action, actionFilter });
-  const { onSubmit, result } = useOnSubmit();
+  const { onSubmit, result } = useOnSubmit({ actionId, copy });
 
   const actionButtons = [
     {
@@ -127,7 +138,13 @@ function TearSheetLoader({ action, actionFilter }: TearSheetProps) {
       >
         <>
           <Title title={t('in-automation:ActionCatalog.action')} />
-          <ActionDetailsLoader form={form} setForm={form => setForm(form as ActionForm)} result={result} />
+          <ActionDetailsLoader
+            form={form}
+            setForm={form => setForm(form as ActionForm)}
+            result={result}
+            copy={copy}
+            actionId={actionId}
+          />
         </>
       </Tearsheet>
     </isNotEditableContext.Provider>
@@ -359,13 +376,17 @@ function onEditFailure(errors: Error[] | undefined) {
 function ActionDetailsLoader({
   form,
   setForm,
-  result
+  result,
+  copy,
+  actionId
 }: {
   form: ActionForm;
   setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
   result: Result<any> | null;
+  copy: boolean;
+  actionId?: string;
 }) {
-  const { isCopy, id } = useActionDetailsUrlParams();
+  const { isCopy, id } = useActionDetailsUrlParams1({ actionId, copy });
   const action = useAction({ id, isCopy });
   const actionFilter = useActionFilter();
 
@@ -387,6 +408,8 @@ function ActionDetailsLoader({
         actionFilter={actionFilter.data!}
         form={form}
         setForm={form => setForm(form as ActionForm)}
+        copy={copy}
+        actionId={actionId}
       />
     </>
   );
@@ -397,12 +420,14 @@ interface ActionDetailsProps {
   actionFilter: 'all' | ActionFilter;
   form: ActionForm;
   setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
+  copy: boolean;
+  actionId?: string;
 }
 
-function ActionDetails({ action, actionFilter, form, setForm }: ActionDetailsProps) {
+function ActionDetails({ action, actionFilter, form, setForm, copy, actionId }: ActionDetailsProps) {
   // const navigateToActionCatalog = useNavigateToActionCatalog();
   // console.log('actionFilter testtt----------', actionFilter);
-  const { isCopy } = useActionDetailsUrlParams();
+  const { isCopy } = useActionDetailsUrlParams1({ copy, actionId });
 
   return (
     <isNotEditableContext.Provider value={action ? isNotEditable(action, isCopy) : false}>
@@ -419,10 +444,14 @@ function ActionDetails({ action, actionFilter, form, setForm }: ActionDetailsPro
   );
 }
 
-function useOnSubmit() {
+interface useOnSubmitProps {
+  copy: boolean;
+  actionId?: string;
+}
+function useOnSubmit({ actionId, copy }: useOnSubmitProps) {
   const { createActionTrackerSegment, editActionTrackerSegment } = useSegmentTracker();
   const [result, setResult] = useState<Result<any> | null>(null);
-  const { isNew, isCopy, id } = useActionDetailsUrlParams();
+  const { isNew, isCopy, id } = useActionDetailsUrlParams1({ actionId, copy });
   const navigateToActionCatalog = useNavigateToActionCatalog();
   function onSubmit({
     form,
@@ -445,15 +474,7 @@ function useOnSubmit() {
       actionType: actionSpecification.type,
       aiOriginated
     };
-
     if (isNew) {
-      // console.log('innnnn tttt', actionSpecification);
-
-      // return saveNewAction({
-      //   ...actionSpecification,
-      //   metadata: aiOriginated && isCopy ? aiOriginatedMetadata : undefined
-      // });
-
       return saveNewAction({
         ...actionSpecification,
         metadata: aiOriginated && isCopy ? aiOriginatedMetadata : undefined
@@ -466,14 +487,12 @@ function useOnSubmit() {
             // trackAction();
             createActionTrackerSegment(trackerDetails);
             onSaveSuccess(result.data?.name!);
+
+            refresh();
             navigateToActionCatalog();
-            // refresh();
             close();
           },
           result => {
-            // const err = error([
-            //   { code: 'SERVER', message: t('in-automation:GenerateAIActionDialog.failedToCreateAction') }
-            // ]);
             onSaveFailure(result?.errors);
           }
         );
@@ -487,14 +506,12 @@ function useOnSubmit() {
             // trackAction();
             editActionTrackerSegment(trackerDetails);
             onEditSuccess(result.data?.name!);
+
+            refresh();
             navigateToActionCatalog();
-            // refresh();
             close();
           },
           result => {
-            // const err = error([
-            //   { code: 'SERVER', message: t('in-automation:GenerateAIActionDialog.failedToCreateAction') }
-            // ]);
             onEditFailure(result?.errors);
           }
         );

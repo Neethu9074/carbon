@@ -92,8 +92,9 @@ export default function ActionCatalog({
               <Button kind="action" onClick={() => navigateToActionDetails()} icon="lib_openclose_add_circle_outline">
                 {t('in-automation:ActionCatalog.newAction')}
               </Button>
-              <Button kind="action" onClick={() => handleButtonClick()} icon="lib_openclose_add_circle_outline">
-                {t('in-automation:ActionCatalog.newAction')}
+              <Button kind="action" onClick={() => handleButtonClick({})} icon="lib_openclose_add_circle_outline">
+                {/* {t('in-automation:ActionCatalog.newAction')} */}
+                New action (Tear sheet)
               </Button>
             </>
           )}
@@ -155,7 +156,7 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
         {role?.canConfigureAutomationActions && (
           <>
             {isUserActions && (
-              <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToActionDetails(action.id, false)}>
+              <MoreMenuButton icon="lib_actions_edit " onClick={() => handleButtonClick({ actionId: action?.id })}>
                 {t('in-automation:edit')}
               </MoreMenuButton>
             )}
@@ -270,6 +271,6 @@ function onDeleteFailed(error: Error) {
   );
 }
 
-const handleButtonClick = () => {
-  addActiveDialog(<CreateNewAction1 />);
+const handleButtonClick = ({ actionId }: { actionId?: string }) => {
+  addActiveDialog(<CreateNewAction1 actionId={actionId} />);
 };
