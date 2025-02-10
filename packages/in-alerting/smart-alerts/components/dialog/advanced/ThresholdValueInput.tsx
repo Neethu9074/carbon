@@ -10,14 +10,12 @@ import React from 'react';
 import { CarbonNumberInput } from '@instana/components';
 
 import { ThresholdValueInputWithValidationMessageProps } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
-import {
-  getThresholdValueForPercentageMetric,
-  getValueRoundedToDecimals
-} from 'in-alerting/smart-alerts/components/utils/formatUtils';
+import { shiftDecimalLeft, shiftDecimalRight } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { isNotBlank } from 'in-services/util/string';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/ThresholdCondition.mless';
 
+const roundDecimalPlaces = 2;
 interface ThresholdValueInputProps extends ThresholdValueInputWithValidationMessageProps {
   delay?: number;
   id?: string;
@@ -49,9 +47,10 @@ export default function ThresholdValueInput({
   ...props
 }: ThresholdValueInputProps) {
   const onValueChange = (targetValue: number | null) => {
-    const value = targetValue
-      ? getThresholdValueForPercentageMetric(Math.abs(targetValue), percentageMetric, 100)
-      : null;
+    const value =
+      targetValue != null
+        ? Number(shiftDecimalLeft(Math.abs(targetValue), roundDecimalPlaces, percentageMetric))
+        : null;
 
     if (updateForm) {
       const updatedForm = getUpdatedForm
@@ -64,7 +63,7 @@ export default function ThresholdValueInput({
 
   const hasError = !thresholdField?.valid && thresholdField?.touched;
 
-  const value = getValueRoundedToDecimals(thresholdField?.value, percentageMetric, 100);
+  const value = shiftDecimalRight(thresholdField?.value, roundDecimalPlaces, percentageMetric);
 
   const mapOnChange = (_e: any, state?: { value: number | string; direction: string }) => {
     const stateValue = state?.value ?? value ?? 0;
