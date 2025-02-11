@@ -43,7 +43,7 @@ import SideNav from 'in-components/SideNav';
 import { seconds } from 'in-services/time';
 import { t, Trans } from 'in-i18n';
 
-export default function CreateNewAction1({ actionId, copy = false }: { actionId?: string; copy?: boolean }) {
+export default function CreateNewActionTearsheet({ actionId, copy = false }: { actionId?: string; copy?: boolean }) {
   const { isCopy, id } = useActionDetailsUrlParams1({ actionId, copy });
   const action = useAction({ id, isCopy });
   const actionFilter = useActionFilter();
@@ -60,13 +60,7 @@ export default function CreateNewAction1({ actionId, copy = false }: { actionId?
 
     return (
       // @ts-expect-error
-      <Tearsheet
-        className="ttt"
-        open
-        title="create action"
-        description="create action description"
-        // actions={actionButtons}
-      >
+      <Tearsheet className="ttt" open title="edit action" description="edit action description">
         <SettingsDetailPage>
           <SubViewHeader
             iconType="lib_help_error_error_circle"
@@ -132,8 +126,8 @@ function TearSheetLoader({ action, actionFilter, copy, actionId }: TearSheetProp
         className="ttt"
         open
         influencer={influencerContent(form)}
-        title="create action"
-        description="create action description"
+        title={actionId ? 'edit action' : 'create action'}
+        description={actionId ? 'edit description' : 'create description'}
         actions={actionButtons}
       >
         <>

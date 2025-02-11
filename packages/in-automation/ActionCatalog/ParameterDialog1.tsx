@@ -20,15 +20,13 @@ import useParameterForm, {
   ParameterForm,
   useParameterFormContext
 } from 'in-automation/ActionCatalog/useParameterForm';
-// import Dialog from 'in-components/Dialog/Dialog';
-import ParameterFormContext from 'in-automation/ActionCatalog/ParameterFormContext';
-////import SaveCancel from 'in-settings/components/SaveCancel';
-import { Col, Row } from 'in-components/layout/Grid/Grid';
 import DynamicTagBasedPayloadConfigurator from 'in-automation/components/DynamicTagBasedPayloadConfigurator';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { ActionForm, MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
+import ParameterFormContext from 'in-automation/ActionCatalog/ParameterFormContext';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import HelpText from 'in-components/form/HelpText/HelpText';
+import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { ACTION_TYPE } from 'in-automation/constants';
 import Form from 'in-components/form/binding/Form';
 import Label from 'in-components/form/Label/Label';
@@ -57,7 +55,6 @@ export default function ParameterDialog({
   openDialog,
   setOpenDialog
 }: ParameterDialogProps) {
-  // const [open, setOpen] = useState(true);
   const actionType = form.get('type').value;
   const parameters = form.get('parameters').value;
   const parameter = parameters.find(parameter => parameter.id === id);
@@ -67,7 +64,6 @@ export default function ParameterDialog({
   const isAnsible = actionType === ACTION_TYPE.ANSIBLE;
   const type = parameterForm.get('type');
   const parameterName = parameterForm.get('name');
-  // let actions = [{}];
   const disableTicketIdParameter = ticketIdParameterExist && parameterName.value === 'id';
   // IMPORTANT: Ansible actions are a special case where we want to allow the parameters to be editable EXCEPT for the name so we override isNotEditable so that everything is editable except for the name where we will disable the input using isAnsible flag
   const parmeterIsNotEditable = (isNotEditable && !isAnsible) || !role?.canConfigureAutomationActions;
@@ -137,11 +133,6 @@ export default function ParameterDialog({
             {type.value !== 'dynamic' && <HiddenSection isNotEditable={parmeterIsNotEditable} />}
           </Form>
         </ParameterFormContext.Provider>
-        {/* <SaveCancel
-            hasSaveButton={!parmeterIsNotEditable && role?.canConfigureAutomationActions}
-            form={parameterForm}
-            onClickCancelButton={close}
-          /> */}
       </div>
     </SidePanel>
   );

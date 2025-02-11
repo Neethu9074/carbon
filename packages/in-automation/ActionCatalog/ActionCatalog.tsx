@@ -23,7 +23,6 @@ import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useSe
 import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
 import { refresh, usePaginatedActions } from 'in-automation/ActionCatalog/useActions';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import CreateNewAction1 from 'in-automation/ActionCatalog/CreateNewAction1';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -272,5 +271,5 @@ function onDeleteFailed(error: Error) {
 }
 
 const handleButtonClick = ({ actionId, copy }: { actionId?: string; copy?: boolean }) => {
-  addActiveDialog(<CreateNewAction1 actionId={actionId} copy={copy} />);
+  addActiveDialog(<CreateNewActionTearsheet actionId={actionId} copy={copy} />);
 };

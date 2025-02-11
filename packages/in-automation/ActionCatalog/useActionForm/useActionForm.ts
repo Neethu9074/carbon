@@ -7,7 +7,6 @@
 import { createField, createMapForm, ValidationResult } from 'formalistic';
 import { useState, useContext } from 'react';
 
-// import { Item } from 'formalistic';
 import { generateUniqueShortId } from '@instana/utils';
 import { ActionType } from '@instana/types';
 
@@ -36,14 +35,13 @@ import {
   additionalHeadersValidator,
   checkTypeBeforeValidating
 } from 'in-automation/ActionCatalog/useActionForm/validator';
-// import { FormContext } from 'in-components/form/binding/FormContext';
-import { notBlankValidator } from 'in-services/validators/string';
 import { ActionFilter, Authen, AuthenType, isApiKeyAuth, isBasicAuth, isBearerAuth } from 'in-automation/types';
 import { ActionForm, MappedHeader, MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
 import { ACTION_TYPE, ADD_COMMENT, EPIC, ISSUE, OPEN } from 'in-automation/constants';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import ActionFormContext from 'in-automation/ActionCatalog/ActionFormContext';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
+import { notBlankValidator } from 'in-services/validators/string';
 import { safeParseJSON } from 'in-automation/utils/json';
 
 function filterType(actionFilter: 'all' | ActionFilter, type: ActionType) {
@@ -703,7 +701,7 @@ export default function useActionForm({ action, actionFilter }: UseActionFormPar
   return [form, updateForm] as const;
 }
 
-interface ActionFormContext1 {
+interface ActionFormContextOutput {
   form: ActionForm;
   setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
 }
@@ -714,38 +712,5 @@ export function useActionFormContext() {
     throw new Error('Must be used inside Form');
   }
 
-  return context as ActionFormContext1;
+  return context as ActionFormContextOutput;
 }
-
-// export function useActionFormContext() {
-//   const context = useContext(FormContext);
-//   if (context === undefined) {
-//     throw new Error('Must be used inside Form');
-//   }
-
-//   return context as ActionFormContext1;
-// }
-
-// export function useItemActionForm({ action, actionFilter }: UseActionFormParams) {
-//   const [form, setForm] = useActionForm({ action, actionFilter });
-
-//   function convertItemToActionForm(item: Item): ActionForm {
-//     // Perform transformation logic
-//     return item as unknown as ActionForm;
-//   }
-
-//   function convertActionFormToItem(actionForm: ActionForm): Item {
-//     // Perform transformation logic
-//     return actionForm as unknown as Item;
-//   }
-
-//   function adaptSetForm(from: Item) {
-//     const actionForm = convertItemToActionForm(from);
-//     setForm(actionForm);
-//   }
-
-//   return {
-//     form: convertActionFormToItem(form),
-//     setForm: adaptSetForm
-//   };
-// }
