@@ -6,7 +6,7 @@
 
 import { Action } from '@instana/types';
 
-import { ACTION_TYPE } from 'in-automation/constants';
+import { ACTION_TYPE, GIT_OPERATIONS, GL_ISSUE_TYPES, JIRA_OPERATIONS } from 'in-automation/constants';
 import { NewAction } from 'in-automation/types';
 import { role } from 'in-stores/user';
 
@@ -26,3 +26,14 @@ export const isNotEditable = (action: Action | NewAction, isCopy: boolean) =>
   ((action.metadata?.builtIn ?? false) && !isCopy) ||
   action.type === ACTION_TYPE.ANSIBLE ||
   !role?.canConfigureAutomationActions;
+
+export const getGitOperation = (operation: string) =>
+  GIT_OPERATIONS.find(item => item.value === operation)?.translation;
+
+export const getGLOperation = (operation: string) => {
+  return GL_ISSUE_TYPES.find(item => item.value === operation)?.translation ?? '-';
+};
+
+export const getJiraOperation = (operation: string) => {
+  return JIRA_OPERATIONS.find(item => item.value === operation)?.translation ?? '-';
+};

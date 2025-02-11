@@ -511,6 +511,15 @@
     "recommendedActionHistoryWithCount": "Resource action history ({{count}})",
     "recommendedActionHistory": "Resource action history"
   },
+  "actionDashboard": {
+    "ActionConfiguration": "Action configuration",
+    "ActionDetails": "Action details",
+    "ParameterDetails": "Parameter details",
+    "tabs": {
+      "summaryLabel": "Summary",
+      "configurationLabel": "Configuration"
+    }
+  },
   "feedback": {
     "contentHelpfulText": "Was this generated content helpful?",
     "thankYouForYourFeedback": "Thank you for your feedback!",
