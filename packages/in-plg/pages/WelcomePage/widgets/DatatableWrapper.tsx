@@ -32,11 +32,9 @@ import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHe
 import RegularItemList from 'in-plg/pages/WelcomePage/widgets/table/RegularItemList';
 import ViewAllButton from 'in-plg/pages/WelcomePage/widgets/table/ViewAllButton';
 import { DashboardTile } from 'in-plg/components/DashboardTile/DashboardTile';
-import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import { timeConfig$ } from 'in-stores/time/config';
-import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
 import locals from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper.mless';
@@ -269,27 +267,18 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
         />
         {viewAll && viewAllButton('viewAllButton')}
       </DashboardTile>
-      {showPagination &&
-        (carbonPaginationEnabled ? (
-          <CarbonPagination
-            currentPage={page}
-            totalItems={hitsRef.current}
-            pageSize={pageSize}
-            pageSizes={pageSizes}
-            onChange={(data: { page: number; pageSize: number }) => {
-              setPage(data?.page);
-              setPageSize(data.pageSize);
-            }}
-          />
-        ) : (
-          <Pagination
-            currentPage={page}
-            numPages={Math.ceil(hitsRef.current / pageSize)}
-            onChange={newPage => {
-              setPage(newPage);
-            }}
-          />
-        ))}
+      {showPagination && (
+        <CarbonPagination
+          currentPage={page}
+          totalItems={hitsRef.current}
+          pageSize={pageSize}
+          pageSizes={pageSizes}
+          onChange={(data: { page: number; pageSize: number }) => {
+            setPage(data?.page);
+            setPageSize(data.pageSize);
+          }}
+        />
+      )}
     </section>
   );
 });
