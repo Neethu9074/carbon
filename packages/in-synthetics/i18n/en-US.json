@@ -724,6 +724,9 @@
         "downloadRecordingButton": "Download recording",
         "recordingLoadingMessage": "Loading recording",
         "noRecordingAvailableMessage": "Recording not available for this test result"
+      },
+      "customProperties": {
+        "title": "Custom properties"
       }
     },
     "noDataAvailable": {

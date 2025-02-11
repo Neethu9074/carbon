@@ -56,6 +56,7 @@ export const association = {
 };
 export const selectableCredentialsFilter = 'Selectable credentials';
 export const inheritedCredentialsFilter = 'Inherited credentials';
+export const syntheticCustomMetricPrefix = 'synthetic.customMetrics.';
 
 export const scriptTestType = (fileExtension: string, syntheticType: string) => {
   if (fileExtension === 'js' || fileExtension === 'zip') return 'BrowserScript';

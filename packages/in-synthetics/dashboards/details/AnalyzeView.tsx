@@ -13,13 +13,19 @@ import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
 import {
+  useSyntheticContextConfiguration,
+  getTestTypeTimeline,
+  getSyntheticCustomMetricLabels,
+  getSyntheticTagLabels
+} from 'in-synthetics/dashboards/details/utils';
+import {
   dummyResultDetails,
   dummyResultMetadata,
   dummyTestResultList,
   ResultDetailsResponse,
   ResultMetadataResponse
 } from 'in-synthetics/utils/constants';
-import { useSyntheticContextConfiguration, getTestTypeTimeline } from 'in-synthetics/dashboards/details/utils';
+import { CustomPropertiesSection } from 'in-synthetics/dashboards/details/components/CustomPropertiesSection';
 import SSLCertificateDetails from 'in-synthetics/dashboards/details/components/SSLCertificateDetails';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
@@ -124,7 +130,7 @@ const AnalyzeView = () => {
             pageSize
           },
           order: { by: 'errors', direction: 'DESC' },
-          syntheticMetrics: ['errors', 'status', 'start_time', 'response_size', 'custom_metrics'],
+          syntheticMetrics: ['errors', 'status', 'start_time', 'response_size', 'custom_metrics', 'synthetic.tags'],
           filter: {
             //timeConfig is ignored in synthetics-reader CH query
             //since given a testId and testResultId, the entry should be unique
@@ -190,6 +196,14 @@ const AnalyzeView = () => {
                   </Col>
                 </Row>
               )}
+            {(getSyntheticCustomMetricLabels(resultList, testType).length > 0 ||
+              getSyntheticTagLabels(resultList).length > 0) && (
+              <Row>
+                <Col xs>
+                  <CustomPropertiesSection resultList={resultList} testType={testType} />
+                </Col>
+              </Row>
+            )}
             {getTestResultListStatus(resultList) !== 1 && (
               <Row>
                 <Col xs>
