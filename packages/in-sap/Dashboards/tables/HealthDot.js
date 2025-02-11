@@ -10,7 +10,7 @@ import React from 'react';
 
 import { themes } from '@instana/design-tokens';
 
-import SapThresholdTooltip from './SapThresholdTooltip';
+import SapThresholdTooltip from 'in-sap/Dashboards/tables/SapThresholdTooltip.js';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from 'in-kubernetes/Dashboards/CronJob/CronJob.mless';

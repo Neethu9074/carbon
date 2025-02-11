@@ -15,9 +15,9 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHea
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { number, percentagePlain, percentage } from 'in-services/formatters/number';
 import SapNoDataNotification from 'in-sap/lists/components/SapNoDataNotification';
+import getWorkProcessStatus from 'in-sap/Dashboards/tables/WorkProcessHelper.tsx';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { useDashboardForEntity, sapInstanceList } from 'in-sap/navigation/paths';
-import getWorkProcessStatus from '../Dashboards/tables/WorkProcessHelper.tsx';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
 import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';

@@ -8,10 +8,10 @@ import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import getInstanceRelatedResourcesLists from 'in-sap/subscriptions/getInstanceRelatedResourceLists';
+import { getHumanReadablePluginName } from 'in-sap/Dashboards/tables/getHumanReadablePluginName.js';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import { GetSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
-import { getHumanReadablePluginName } from '../../tables/getHumanReadablePluginName';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
 import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
