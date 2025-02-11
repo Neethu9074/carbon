@@ -217,7 +217,7 @@
           "markSyntheticCall": "Mark Synthetic Call",
           "downloadZip": "Download .zip file",
           "mainFileNameHelperText": "Provide the name of the file within this .zip file that contains the test's entry point",
-          "recordVideo" : "Record video of user actions"
+          "recordVideo" : "Record user actions on failure"
         },
         "loadMore": "Load More",
         "selectTests": {
@@ -812,7 +812,7 @@
       "noWebsitesAssociated": "No Websites associated",
       "associatedMobileApps": "Associated Mobile Apps",
       "noMobileAppAssociated": "No Mobile Apps associated",
-      "recordVideo" : "Record video of user actions"
+      "recordVideo" : "Record user actions on failure"
     },
     "credentialList": {
       "mainLabel": "Credentials",
