@@ -29,7 +29,6 @@ import {
 } from 'in-events/components/eventUtil';
 import {
   aqmDisableConfigOnEventViewEnabled,
-  manuallyCloseEventEnabled,
   eumImpactedUsersForAppAlertEnabled,
   businessObservabilityEnabled
 } from 'in-services/featureFlags';
@@ -266,7 +265,7 @@ function EventContent({ event, latestSnapshot, reload }) {
 }
 
 const EventActions = ({ event, reload, latestSnapshot }) => {
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
 
   return (

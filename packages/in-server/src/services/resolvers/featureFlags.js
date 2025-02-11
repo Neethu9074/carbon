@@ -577,11 +577,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'manuallyCloseEventEnabled',
-    instanaCtlKey: 'feature.manually.close.event.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'disableEventConfigEnabled',
     instanaCtlKey: 'feature.disable.event.config.enabled',
     defaultValue: true

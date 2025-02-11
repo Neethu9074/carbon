@@ -9,12 +9,8 @@ import { Card, Stack, Typography, Collapsible, CarbonLayer, IconButton } from '@
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
-import {
-  manuallyCloseEventEnabled,
-  eventFeedbackEnabled,
-  businessObservabilityEnabled
-} from 'in-services/featureFlags';
 import LegacyRootCauseSection from 'in-events/components/RootCauseAnalysis/Legacy/LegacyRootCauseSection';
+import { eventFeedbackEnabled, businessObservabilityEnabled } from 'in-services/featureFlags';
 import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
 import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/EventListItem';
@@ -175,7 +171,7 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
 };
 
 const TriggeringEvent = ({ incident, triggeringEvent, latestSnapshot }) => {
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
 
   return (

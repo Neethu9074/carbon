@@ -289,7 +289,6 @@ export const rcaFailedStateEnabled = isFeatureFlagEnabled('rcaFailedStateEnabled
 export const rcaTopologyEnabled = isFeatureFlagEnabled('rcaTopologyEnabled', false);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
-export const manuallyCloseEventEnabled = isFeatureFlagEnabled('manuallyCloseEventEnabled', true);
 export const disableEventConfigEnabled = isFeatureFlagEnabled('disableEventConfigEnabled', true);
 
 export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);

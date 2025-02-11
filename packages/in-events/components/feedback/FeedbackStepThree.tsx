@@ -11,7 +11,6 @@ import { Message, Stack, Typography, Toggle, Tooltip, SvgIcon, CarbonTextInput }
 import { t } from '@instana/i18n-react';
 
 import { FeedbackStepConfigs } from 'in-events/components/feedback/eventStepConfig';
-import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { disableEventConfigEnabled } from 'in-services/featureFlags';
 import { EVENT_TYPES, getEventType } from 'in-stores/events';
 import { role } from 'in-stores/user';
@@ -29,7 +28,6 @@ export default function FeedbackStepThree({ form, setForm, nextStep, eventData }
   if (
     eventData?.get('state') === 'manually_closed' ||
     eventData?.get('state') === 'closed' ||
-    !manuallyCloseEventEnabled ||
     !role?.canManuallyCloseIssue ||
     (eventData && getEventType(eventData) !== EVENT_TYPES.INCIDENT)
   ) {

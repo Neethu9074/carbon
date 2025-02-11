@@ -13,17 +13,13 @@ import {
   alertingDialogItemPickerTimeframe as maxDurationMillis
 } from 'in-alerting/components/constants';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
-import {
-  manuallyCloseEventEnabled,
-  eumImpactedUsersForAppAlertEnabled,
-  businessObservabilityEnabled
-} from 'in-services/featureFlags';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import {
   getSmartAlertAnalyzeTimeConfig,
   extendWindowSizeForLateData
 } from 'in-events/components/EventContent/analyzeUtils';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import { eumImpactedUsersForAppAlertEnabled, businessObservabilityEnabled } from 'in-services/featureFlags';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
@@ -101,7 +97,7 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
 
   const eventType = getEventType(event);
 
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const pillContent = getEventStateBadge(event);
 
   return (

@@ -180,14 +180,6 @@ describe('in-stores/permission.ts', () => {
         productPermissionsObject[Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS]
       );
     });
-
-    it('Checks that manual closure of events permission is not available when manuallyCloseEventEnabled feature flag is not set', () => {
-      const featureFlags = jest.requireMock('in-services/featureFlags');
-      featureFlags.manuallyCloseEventEnabled = false;
-      const productPermissions = getProductPermissions();
-
-      expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_MANUALLY_CLOSE_ISSUE]);
-    });
   });
 
   describe('getInfrastructurePermissions', () => {

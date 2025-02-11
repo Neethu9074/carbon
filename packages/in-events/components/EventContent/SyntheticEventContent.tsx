@@ -29,7 +29,6 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
-import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { fixateTimeConfig } from 'in-stores/time/config';
 import EventIcon from 'in-events/components/EventIcon';
 import { number } from 'in-services/formatters/number';
@@ -63,7 +62,7 @@ export default function SyntheticEventContent({ event, snapshot, reload }: Props
   const analyzeTimeConfig = fixateTimeConfig(eventTimeConfig);
   const chartTimeConfigWithContext = getChartTimeConfig(event, syntheticTestInterval);
 
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const pillContent = getEventStateBadge(event);
 
   return (

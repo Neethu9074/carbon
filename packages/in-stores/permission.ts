@@ -18,7 +18,6 @@ import {
   powervcEnabled,
   infraSmartAlertsEnabled,
   logSmartAlertsEnabled,
-  manuallyCloseEventEnabled,
   logVolumePageEnabled,
   logRetentionPageEnabled,
   applicationSubtracesEnabled,
@@ -771,12 +770,6 @@ export function getProductPermissions(): Array<ProductPermission> {
   if (!logRetentionPageEnabled) {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return keyForGroupApi !== Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD;
-    });
-  }
-
-  if (!manuallyCloseEventEnabled) {
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      return keyForGroupApi !== Capability.CAN_MANUALLY_CLOSE_ISSUE;
     });
   }
 

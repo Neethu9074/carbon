@@ -25,7 +25,6 @@ import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import EventsListRowDense from 'in-events/components/EventsListRowDense';
 import { formatDate, formatDateTime } from 'in-services/formatters/date';
-import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { isDisplayColumn } from 'in-events/components/EventsList';
 import { Duration } from 'in-events/components/EventDetailsKPIs';
 import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
@@ -75,7 +74,7 @@ export default function EventRow({
   }
 
   const canMultiCloseEvents = multiCloseEnabled && role?.canManuallyCloseIssue;
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const isEventClosed = event.state === 'closed' || event.state === 'manually_closed';
   const start = event.start;
   const end = event.manualCloseTimestamp || event.end || Date.now();
