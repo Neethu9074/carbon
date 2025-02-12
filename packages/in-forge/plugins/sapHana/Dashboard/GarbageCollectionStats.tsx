@@ -71,7 +71,10 @@ const cols = [
 ];
 
 export default function GarbageCollectionStatsList({ snapshotId, timeConfig }: GarbageCollectionStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'garbageCollectionStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'garbageCollectionStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const garbageCollectionStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: GarbageCollectionStatsRow[] = garbageCollectionStat
     ? garbageCollectionStat

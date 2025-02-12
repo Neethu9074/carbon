@@ -143,7 +143,10 @@ const cols = [
 ];
 
 export default function BackupStatsList({ snapshotId, timeConfig }: BackupStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'backupStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'backupStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const backupStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: BackupStatsRow[] = backupStat
     ? backupStat

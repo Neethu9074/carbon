@@ -85,7 +85,10 @@ const cols = [
 ];
 
 export default function SystemEventStatsList({ snapshotId, timeConfig }: SystemEventStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'systemEventStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'systemEventStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const systemEventStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: SystemEventStatsRow[] = systemEventStat
     ? systemEventStat

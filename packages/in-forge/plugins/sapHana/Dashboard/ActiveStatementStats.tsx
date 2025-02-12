@@ -109,7 +109,10 @@ const cols = [
 ];
 
 export default function ActiveStatementStatsList({ snapshotId, timeConfig }: ActiveStatementStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'activeStatementStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'activeStatementStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const activeStatementStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: ActiveStatementStatsRow[] = activeStatementStat
     ? activeStatementStat
