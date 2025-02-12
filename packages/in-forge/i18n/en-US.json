@@ -3705,7 +3705,7 @@
         "samDomainLocalGroupMembershipEvaluationsPerSec": "Domain local group membership evaluations per second",
         "samEnumerationsPerSec": "Enumerations per second",
         "samGCEvaluationsPerSec": "GC evaluations per second",
-        "samGlobalGroupMembershipEvaluationsPerSec": "Glocal group membership evaluations per second",
+        "samGlobalGroupMembershipEvaluationsPerSec": "Global group membership evaluations per second",
         "samMachineCreationAttemptsPerSec": "Machine creation attempts per second",
         "samMembershipChangesPerSec": "Membership changes per second",
         "samNonTransitiveMembershipEvaluationsPerSec": "Non transitive membership evaluations per second",
@@ -3723,7 +3723,7 @@
         "dhcpConflictCheckQueueLength": "Conflict check queue length",
         "dhcpDeclinesPersec": "Declines per second",
         "dhcpDuplicatesDroppedPersec": "Duplicates dropped per second",
-        "dhcpNacksPersec": "Nacks per second",
+        "dhcpNacksPersec": "Negative acks per second",
         "dhcpPacketsExpiredPersec": "Packets expired per second"
       },
       "dns": {
