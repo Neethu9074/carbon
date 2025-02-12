@@ -62,4 +62,8 @@
     height: 400px;
     background-color: var(--cds-layer);
   }
+
+  .feedbackTextarea {
+    width: 300px;
+  }
 }
