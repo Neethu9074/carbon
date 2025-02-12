@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Action } from '@instana/types';
 
@@ -12,6 +12,7 @@ import ActionConfigurationCard from 'in-automation/ActionDashboard/ActionConfigu
 import ParameterDetailsCard from 'in-automation/ActionDashboard/ActionConfiguration/ParameterDetailsCard';
 import ActionDetailsCard from 'in-automation/ActionDashboard/ActionConfiguration/ActionDetailsCard';
 import useActionForm from 'in-automation/ActionCatalog/useActionForm/useActionForm';
+import ActionFormContext from 'in-automation/ActionCatalog/ActionFormContext';
 import { isNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import { ACTION_TYPE } from 'in-automation/constants';
@@ -24,16 +25,26 @@ interface ActionConfigurationProps {
 
 export default function ActionConfiguration({ data }: ActionConfigurationProps) {
   const [form] = useActionForm({ action: data as ActionFormEntity, actionFilter: 'all' });
+  const formValue = useMemo(
+    () => ({
+      form,
+      rootPath: [],
+      setForm: () => {}
+    }),
+    [form]
+  );
   if (!data) return null;
   const showParametersSection = ![ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].includes(data.type);
 
   return (
-    <Form form={form} setForm={() => {}} onSubmit={() => {}}>
-      <isNotEditableContext.Provider value>
-        <ActionDetailsCard data={data} />
-        <ActionConfigurationCard data={data} />
-        {showParametersSection && <ParameterDetailsCard data={data} />}
-      </isNotEditableContext.Provider>
-    </Form>
+    <isNotEditableContext.Provider value>
+      <ActionFormContext.Provider value={formValue}>
+        <Form form={form} setForm={() => {}} onSubmit={() => {}}>
+          <ActionDetailsCard data={data} />
+          <ActionConfigurationCard data={data} />
+          {showParametersSection && <ParameterDetailsCard data={data} />}
+        </Form>
+      </ActionFormContext.Provider>
+    </isNotEditableContext.Provider>
   );
 }
