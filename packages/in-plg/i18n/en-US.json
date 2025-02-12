@@ -729,7 +729,7 @@
         "buttonName": "Add mobile applications"
       },
       "infrastructureWidget": {
-        "description": "Deploy an agent to see the details here.<br>Get started on the <linkToAgents>Agents</linkToAgents> page.",
+        "description": "Deploy an agent to see the details here.<br><br>Get started on the <linkToAgents>Agents</linkToAgents> page.",
         "link": "Agents",
         "hosts": {
           "header": "No hosts"
@@ -767,7 +767,7 @@
       },
       "eventsWidget": {
         "header": "No events",
-        "description": "There may be no events or incidents to display or you may need to set up data first."
+        "description": "There might not be any events or incidents to display or you might need to connect to data first."
       },
       "dashboardWidget": {
         "header": "No custom dashboards",

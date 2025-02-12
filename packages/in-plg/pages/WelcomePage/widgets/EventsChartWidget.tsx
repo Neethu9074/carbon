@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { CarbonButton, NoDataTile, Stack } from '@instana/components';
+import { CarbonButton, Stack } from '@instana/components';
+import { NoDataEmptyState } from '@instana/ibm-products';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error file needs to be converted
@@ -136,9 +137,11 @@ export default function EventsChartWidget({ sectionLabel, header }: DashboardTil
 }
 function NoDataAvailable() {
   return (
-    <NoDataTile
-      header={t('in-plg:welcomepage.noData.eventsWidget.header')}
-      description={t('in-plg:welcomepage.noData.eventsWidget.description')}
+    <NoDataEmptyState
+      title={t('in-plg:welcomepage.noData.eventsWidget.header')}
+      subtitle={t('in-plg:welcomepage.noData.eventsWidget.description')}
+      illustrationPosition="left"
+      className={locals.noDataTile}
     />
   );
 }

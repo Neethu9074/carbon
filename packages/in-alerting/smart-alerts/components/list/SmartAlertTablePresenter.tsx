@@ -8,7 +8,6 @@ import React, { ReactNode } from 'react';
 import { debounce } from 'lodash';
 
 import {
-  NoDataTile,
   Pagination,
   Stack,
   CarbonTableBatchActions,
@@ -17,6 +16,7 @@ import {
   CarbonTableToolbar,
   CarbonTableToolbarSearch
 } from '@instana/components';
+import { NoDataEmptyState } from '@instana/ibm-products';
 import { TableErrorRows } from '@instana/legacy';
 
 import { TableProps, ColumnDefinition, TableState } from 'in-components/tables/ServerTable/types';
@@ -25,6 +25,8 @@ import AlertTypography from 'in-alerting/components/AlertTypography';
 import { OrderDirection, PaginatedResult, Result } from 'in-types';
 import { hasError } from 'in-services/util/result';
 import { t } from 'in-i18n';
+
+import locals from 'in-alerting/smart-alerts/components/list/SmartAlertTablePresenter.mless';
 
 interface CarbonHeader<ITEM_TYPE extends Object> {
   key: string;
@@ -218,7 +220,14 @@ export default function SmartAlertTablePresenter<
       ) : null}
 
       {/* Empty Content */}
-      {carbonRows.length === 0 && <NoDataTile header={noDataHeader} description={noDataDescription} />}
+      {carbonRows.length === 0 && (
+        <NoDataEmptyState
+          title={noDataHeader}
+          subtitle={noDataDescription}
+          illustrationPosition="left"
+          className={locals.noDataTile}
+        />
+      )}
 
       {/* Error */}
       {hasError(result) && <TableErrorRows cols={columnDefinitions.length} errors={result.errors} size="regular" />}
