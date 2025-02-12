@@ -264,10 +264,7 @@ const RootCauseSection = forwardRef<HTMLDivElement, RootCauseSectionProps>(
                         incidentTimeWindow={getIncidentTimeConfig(incident)}
                       />
                     )}
-                    <AssociatedEvents
-                      associatedEvents={rootCause.get('events') as List<string>}
-                      latestSnapshot={latestSnapshot}
-                    />
+                    <AssociatedEvents latestSnapshot={latestSnapshot} rootCause={rootCause} />
                     <div className={locals.accordionContent}>
                       <FeedbackComponent incident={incident} />
                     </div>
