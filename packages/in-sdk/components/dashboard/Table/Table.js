@@ -228,7 +228,7 @@ export default class Table extends React.Component {
               (carbonPaginationEnabled ? (
                 <CarbonPagination
                   currentPage={(data.page ?? 0) + 1}
-                  totalItems={this.props.rows?.length}
+                  totalItems={data.totalFilteredRowCount ?? this.props.rows?.length}
                   pageSize={this.props.maxItemsPerPage ?? 10}
                   pageSizes={[this.props.maxItemsPerPage ?? 10]}
                   onChange={p => this.store.setPage(p.page - 1)}

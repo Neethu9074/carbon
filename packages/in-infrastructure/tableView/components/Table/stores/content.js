@@ -281,10 +281,13 @@ export function createStore({
       shownPage = page;
     }
 
+    const totalFilteredRowCount = rows.length;
+
     rows = rows.slice(start, end);
     rows.forEach(updateContentForAllColumns);
 
     return {
+      totalFilteredRowCount,
       totalRowCount: rows.length,
       rows,
       page: shownPage,
