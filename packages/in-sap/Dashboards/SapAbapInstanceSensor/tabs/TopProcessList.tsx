@@ -118,7 +118,10 @@ const cols = [
 ];
 
 export default function TopProcessList({ snapshotId, timeConfig, props }: TopProcessStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'topProcessMetricStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'topProcessMetricStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const topProcessNameList = TopProcessUserNameList(props).sort((a, b) => {
     return a.label.localeCompare(b.label);
   });

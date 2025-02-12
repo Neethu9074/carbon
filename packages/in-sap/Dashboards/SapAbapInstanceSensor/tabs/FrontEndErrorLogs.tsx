@@ -81,7 +81,10 @@ const cols = [
 ];
 
 export default function FrontEndErrorLogs({ snapshotId, timeConfig }: GatewayErrorStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'gatewayErrorLogs'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'gatewayErrorLogs', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return null;
   }

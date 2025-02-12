@@ -86,7 +86,7 @@ export default function SecurityEssentials({ data }: { data: SnapshotData }) {
       <DBConnectionProvider snapshotId={snapshotId} timeConfig={timeConfig} />
       <DatabaseHitList snapshotId={snapshotId} timeConfig={timeConfig} />
       <HttpMetricsStats snapshotId={snapshotId} timeConfig={timeConfig} />
-      <TransportRequest snapshotId={snapshotId} />
+      <TransportRequest snapshotId={snapshotId} timeConfig={timeConfig} />
     </Fragment>
   );
 }

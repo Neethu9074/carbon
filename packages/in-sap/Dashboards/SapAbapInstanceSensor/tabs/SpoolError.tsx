@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
@@ -17,6 +18,11 @@ import { t } from 'in-i18n';
 interface SpoolErrorRow {
   key: string;
   spoolErrorEntry: Map<string, object>;
+}
+
+interface SpoolErrorRowProps {
+  snapshotId: string;
+  timeConfig: TimeConfig;
 }
 
 const cols = [
@@ -76,8 +82,11 @@ const cols = [
   }
 ];
 
-export default function SpoolError({ snapshotId }: SnapshotData) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'spoolErrorStats'), [snapshotId]);
+export default function SpoolError({ snapshotId, timeConfig }: SpoolErrorRowProps) {
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'spoolErrorStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const spoolErrorEntrys = data ? (data as SnapshotData).get('raw_payload') : null;
   const rows: SpoolErrorRow[] = spoolErrorEntrys
     ? spoolErrorEntrys.toArray().map((spoolErrorEntry: any, idx: any) => {

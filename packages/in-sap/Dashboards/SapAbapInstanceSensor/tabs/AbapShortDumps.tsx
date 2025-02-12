@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
@@ -17,6 +18,11 @@ import { t } from 'in-i18n';
 interface AbapDumps {
   key: string;
   dumpDetail: Map<string, object>;
+}
+
+interface AbapDumpsProps {
+  snapshotId: string;
+  timeConfig: TimeConfig;
 }
 
 const cols = [
@@ -40,8 +46,11 @@ const cols = [
   }
 ];
 
-export default function AbapShortDumps({ snapshotId }: SnapshotData) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'shortDumpsHistory'), [snapshotId]);
+export default function AbapShortDumps({ snapshotId, timeConfig }: AbapDumpsProps) {
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'shortDumpsHistory', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return null;
   }

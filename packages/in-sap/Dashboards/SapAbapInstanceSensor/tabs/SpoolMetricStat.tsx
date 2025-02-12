@@ -74,7 +74,10 @@ const cols = [
 ];
 
 export default function SpoolMetricStat({ snapshotId, timeConfig }: SpoolMetricStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'spoolMetricStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'spoolMetricStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return null;
   }

@@ -97,7 +97,10 @@ const cols = [
 ];
 
 export default function DBConnectionProvider({ snapshotId, timeConfig }: DbConnectProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'dbConnectionList'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'dbConnectionList', timeConfig),
+    [snapshotId, timeConfig]
+  );
   // @ts-expect-error Module needs to be translated to TS
   const [{ taskType }, setPhase] = useState(taskTypeMap);
   const rightHeader = (

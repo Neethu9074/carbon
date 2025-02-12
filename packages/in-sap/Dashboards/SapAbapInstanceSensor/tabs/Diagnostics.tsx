@@ -24,8 +24,8 @@ export default function Diagnostics({ data }: { data: SnapshotData }) {
       <UpdateError snapshotId={snapshotId} timeConfig={timeConfig} />
       <SystemLogStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <DumpStats snapshotId={snapshotId} timeConfig={timeConfig} />
-      <LockEntryList snapshotId={snapshotId} />
-      <SpoolError snapshotId={snapshotId} />
+      <LockEntryList snapshotId={snapshotId} timeConfig={timeConfig} />
+      <SpoolError snapshotId={snapshotId} timeConfig={timeConfig} />
       <SystemConfiguration snapshotId={snapshotId} timeConfig={timeConfig} />
       <UserConfigurationChanges snapshotId={snapshotId} timeConfig={timeConfig} />
     </>

@@ -92,7 +92,10 @@ const cols = [
 ];
 
 export default function UpdateError({ snapshotId, timeConfig }: UpdateErrorProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'updateErrorStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'updateErrorStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return null;
   }

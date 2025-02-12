@@ -138,7 +138,10 @@ const cols = [
 ];
 
 export default function DumpStats({ snapshotId, timeConfig }: DumpStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'abapdumpstats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'abapdumpstats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const dumpStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: DumpStatsRow[] = dumpStat
     ? dumpStat

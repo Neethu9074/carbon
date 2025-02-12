@@ -61,7 +61,10 @@ const cols = [
 ];
 
 export default function CombinedMetrics({ snapshotId, timeConfig }: UserStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'combinedMetrics'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'combinedMetrics', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return null;
   }

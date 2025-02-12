@@ -110,7 +110,10 @@ const cols = [
 ];
 
 export default function JobDetailsMetrics({ snapshotId, timeConfig }: JobDetailsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'jobDetails'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'jobDetails', timeConfig),
+    [snapshotId, timeConfig]
+  );
   // @ts-expect-error Module needs to be translated to TS
   const [{ status }, setPhase] = useState(statusMap);
   const rightHeader = (

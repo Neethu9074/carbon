@@ -137,7 +137,10 @@ const cols = [
 ];
 
 export default function TotalMemory({ snapshotId, timeConfig }: TotalMemoryProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'memoryStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'memoryStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   // @ts-expect-error Module needs to be translated to TS
   const [{ taskType }, setPhase] = useState(taskTypeMap);
   const rightHeader = (

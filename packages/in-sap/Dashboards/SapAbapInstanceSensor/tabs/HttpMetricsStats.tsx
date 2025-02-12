@@ -98,7 +98,10 @@ const cols = [
 ];
 
 export default function HttpMetricsStats({ snapshotId, timeConfig }: HttpMetricProps) {
-  const httpData = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'httpMetricsStats'), [snapshotId]);
+  const httpData = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'httpMetricsStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const httpMetricStat = httpData ? (httpData as SnapshotData).get('raw_payload', []) : null;
   const rows: HttpRow[] = httpMetricStat
     ? httpMetricStat

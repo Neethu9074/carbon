@@ -150,7 +150,10 @@ const cols = [
 ];
 
 export default function BufferStatistics({ snapshotId, timeConfig }: MemoryStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'bufferMetrics'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'bufferMetrics', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return null;
   }

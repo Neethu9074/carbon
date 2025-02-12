@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
@@ -17,6 +18,11 @@ import { t } from 'in-i18n';
 interface userProfileRow {
   key: string;
   configDetail: Map<string, object>;
+}
+
+interface userProfileProps {
+  snapshotId: string;
+  timeConfig: TimeConfig;
 }
 
 const cols = [
@@ -85,8 +91,11 @@ const cols = [
   }
 ];
 
-export default function UserConfigurationChanges({ snapshotId }: SnapshotData) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'userChanges'), [snapshotId]);
+export default function UserConfigurationChanges({ snapshotId, timeConfig }: userProfileProps) {
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'userChanges', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return null;
   }
