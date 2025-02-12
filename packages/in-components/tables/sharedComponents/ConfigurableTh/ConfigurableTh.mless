@@ -10,16 +10,6 @@
     justify-content: space-between;
   }
 
-  .button {
-    border: 0;
-    border-left: 1px solid var(--ids-color-option-neutral-300);
-
-    &:hover {
-      border: 0;
-      border-left: 1px solid var(--ids-color-option-neutral-300);
-    }
-  }
-
   .overlay {
     display: flex;
     flex-direction: column;
