@@ -10,7 +10,7 @@ import { Edge } from '@carbon/charts-react';
 import { path as d3Path } from 'd3-path';
 
 import Node, { BizOpsElkNode } from 'in-bizops/dashboards/summary/tabs/flowMap/Node';
-import { ZoomableSVG } from 'in-infrastructure/GraphExplorer/ZoomableSVG';
+import { Canvas } from 'in-bizops/dashboards/summary/tabs/flowMap/Canvas';
 
 const Link = ({ link }: { link: ElkExtendedEdge }) => {
   if (!link.sections) {
@@ -51,7 +51,9 @@ function Text({ text, x, y }: { text: string; x: number; y: number }) {
 }
 
 export default function FlowMapPresenter() {
+  // positions is used to place nodes within the canvas
   const [positions, setPositions] = useState<ElkNode>();
+
   const width = 300;
   const height = 100;
 
@@ -86,11 +88,10 @@ export default function FlowMapPresenter() {
   );
 
   return (
-    // possibly make our own ZoomableSVG if required, discussion in #tech-ui-dev
-    <ZoomableSVG width="100%" height="1000" defs={defs}>
+    <Canvas width="100%" height="1000" defs={defs}>
       {linkElements}
       {nodeElements}
-    </ZoomableSVG>
+    </Canvas>
   );
 }
 
