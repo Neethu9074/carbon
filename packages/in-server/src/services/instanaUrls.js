@@ -6,11 +6,32 @@
 
 const serverConfig = require('../serverConfig.js');
 
-// urlFormat requires below variables and is defaulting to `$unit-$tenant.$baseDomain`
+// default url format for saas & operator
+const saasUrlFormat = '$unit-$tenant.$baseDomain';
+
+// (additional & optional) url format for on-premise operator based installations only
+const operatorUrlFormat = '$baseDomain/$tenant/$unit';
+
+// request header for tenant&unit name i case using 'operatorUrlFormat'
+exports.header = {
+  tenant: 'x-instana-tenant',
+  unit: 'x-instana-unit'
+};
+
+exports.isDefaultUrlFormat = function isDefaultUrlFormat() {
+  // TODO adjust to having a flag in config instead
+  return serverConfig.urlFormat === saasUrlFormat;
+};
+
+// urlFormat requires below variables
 exports.getBaseUrl = (tenant, unit) => {
-  const url = serverConfig.urlFormat
+  const url = getUrlFormat()
     .replace('$unit', unit)
     .replace('$tenant', tenant)
     .replace('$baseDomain', serverConfig.clientConfig.tenantUnitDomainSuffix);
   return `https://${url}`;
 };
+
+function getUrlFormat() {
+  return exports.isDefaultUrlFormat() ? saasUrlFormat : operatorUrlFormat;
+}
