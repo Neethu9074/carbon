@@ -13,7 +13,7 @@
 # person.
 
 packages/in-alerting                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection
-packages/in-amp                     @Instana-IBM-GitHub-Enterprise @instana/eng-access-control @instana/eng-portal @instana/eng-ui
+packages/in-amp                     @Instana-IBM-GitHub-Enterprise @instana/eng-access-control @instana/eng-plg @instana/eng-ui
 packages/in-analyze                 @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-eum @instana/eng-ui
 
 # Deprecated: We should not make any more changes within this package (aside from code removal)
