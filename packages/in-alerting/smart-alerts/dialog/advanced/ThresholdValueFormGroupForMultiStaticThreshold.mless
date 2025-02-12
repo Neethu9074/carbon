@@ -10,7 +10,8 @@
   }
   .multiThresholdFieldContainer {
     display: grid;
-    grid-template-columns: 18% 1.5fr 3fr;
+    grid-template-columns: 18% 5fr 3fr;
+    gap: 0.5rem;
     align-items: center;
   }
 }

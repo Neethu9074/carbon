@@ -30,13 +30,6 @@
     padding-top: 1.75rem;
   }
 
-  .inputMd {
-    width: 9rem;
-    :global .cds--number__input-wrapper {
-      width: 16rem;
-    }
-  }
-
   .numberInput {
     :global .cds--number__input-wrapper {
       width: 12rem;

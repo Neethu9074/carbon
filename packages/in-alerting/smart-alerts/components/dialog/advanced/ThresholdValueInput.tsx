@@ -80,8 +80,7 @@ export default function ThresholdValueInput({
         step={parseInt(step) ?? 1}
         className={classNames({
           [locals.narrowControl]: isSmall,
-          [locals.inputMd]: props.isTearSheet,
-          [locals.numberInput]: true
+          [locals.numberInput]: !props.isTearSheet
         })}
         value={value ?? ''}
         invalid={hasError}
