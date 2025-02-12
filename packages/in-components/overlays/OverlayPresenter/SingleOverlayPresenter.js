@@ -118,8 +118,13 @@ export default connectTo(
       };
 
       const result = TooltipCalculator.calculate(bounds, tooltip, reference, this.props.forceConfiguredAlignment);
-      set(tooltipElement, 'left', result.left);
-      set(tooltipElement, 'right', result.right !== null ? windowWidth - result.right : null);
+
+      if (this.props.fixOverlayLeftAlignment) {
+        set(tooltipElement, 'left', result.left);
+      } else {
+        set(tooltipElement, 'left', result.left);
+        set(tooltipElement, 'right', result.right !== null ? windowWidth - result.right : null);
+      }
       if (this.props.inContentArea) {
         if (result.top != null) {
           set(tooltipElement, 'top', result.top + window.scrollY);

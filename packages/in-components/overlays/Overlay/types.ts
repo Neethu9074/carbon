@@ -54,7 +54,17 @@ export interface OverlayProps<FORWARDED_CONTENT_PROPS> {
   autoClose?: boolean;
   content: React.ComponentType<OverlayContentProps & OverlayMounterContentProps & FORWARDED_CONTENT_PROPS>;
   focusOnClose?: boolean;
-
+  /**
+   * This could be used for an overlay alignment issue on small screen resolution, see
+   * "CSP TS018037439: Instana application view - screen resolution issue on SA Dialog"
+   * https://jsw.ibm.com/browse/INSTA-21973
+   *
+   * It will help to avoid cutting-off content on the left side (out-of-screen)
+   *
+   * It is only tested with align="buttonLeft"
+   * Use with care!
+   */
+  fixOverlayLeftAlignment?: boolean;
   onToggle?: (b: boolean) => void;
   onCloseSideEffect?: (e?: any) => void;
 }
@@ -86,6 +96,8 @@ export interface OverlayMounterProps {
   withoutArrow?: boolean;
   inContentArea?: boolean;
   behindSidebar?: boolean;
+  /** see OverlayProps for comment */
+  fixOverlayLeftAlignment?: boolean;
   align?: Align;
   forceConfiguredAlignment?: boolean;
 }

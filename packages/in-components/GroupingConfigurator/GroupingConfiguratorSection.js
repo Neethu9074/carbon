@@ -21,6 +21,7 @@ export default function GroupBySection({
   actions,
   additionalContent,
   withoutIcon,
+  fixOverlayLeftAlignment,
   withOptionalMarker,
   hasError,
   additionalGetTagCatalogProps,
@@ -38,6 +39,7 @@ export default function GroupBySection({
     <SectionWrapper icon={withoutIcon ? undefined : 'lib_group_by'} title={title} actions={actions} hasError={hasError}>
       <GroupingConfigurator
         value={value}
+        fixOverlayLeftAlignment={fixOverlayLeftAlignment}
         tagFilterExpression={tagFilterExpression}
         onChange={onChange}
         tracking={tracking}
@@ -59,6 +61,7 @@ GroupBySection.propTypes = {
   additionalContent: rpt.node,
   withoutIcon: rpt.bool,
   withOptionalMarker: rpt.bool,
+  fixOverlayLeftAlignment: rpt.bool,
   tracking: rpt.shape(groupingConfiguratorTrackingProps),
   hasError: rpt.bool,
   additionalGetTagCatalogProps: rpt.object,

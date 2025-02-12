@@ -71,7 +71,7 @@ interface QueryBuilderProps<
   additionalGetTagCatalogProps?: ADDITIONAL_TAG_CATALOG_PROPS;
   addTagDefinitionToFormModel?: boolean;
   disableEntitySelection?: boolean;
-
+  fixOverlayLeftAlignment?: boolean;
   tracking?: QueryBuilderTrackingFunctions;
 
   maxExpressionDepth?: number;
