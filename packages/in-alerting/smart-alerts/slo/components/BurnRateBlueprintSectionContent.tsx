@@ -95,6 +95,7 @@ export default function BurnRateBlueprintSectionContent() {
             Evaluate the last
             <Stack direction="horizontal">
               <NumberInput
+                size="md"
                 invalid={
                   longTimeWindowDurationValue > maxAllowedTimeWindow ||
                   !isLongTimeWindowDurationFieldValid ||
@@ -153,6 +154,7 @@ export default function BurnRateBlueprintSectionContent() {
             Evaluate the last
             <Stack direction="horizontal">
               <NumberInput
+                size="md"
                 invalid={
                   shortTimeWindowDurationInMilliseconds > maxAllowedTimeWindow ||
                   !isShortTimeWindowDurationFieldValid ||
@@ -225,9 +227,12 @@ export default function BurnRateBlueprintSectionContent() {
                 onChange(['threshold'], () => thresholdField.setValue(value).setTouched(true))
               }
             />
-            .
           </Trans>
         </Stack>
+        {!isThresholdFieldValid &&
+          thresholdField.messages.map(({ message }, index) => (
+            <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
+          ))}
       </Stack>
     </Stack>
   );

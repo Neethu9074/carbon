@@ -1746,7 +1746,7 @@
         "blueprintDescription_BURN_RATE": "Burn rate is a value that indicates how fast your error budget is consumed relative to your SLO's target length.",
         "burnRateShortWindowTitle": "Short alert window",
         "burnRateShortWindowDescription": "These alerts will be triggered when the error rate exceeds the threshold faster over a shorter period. This can help capture a sudden spike of errors or downtime due to a critical bug.",
-        "burnRateDescription": "Notify me when the burn rate is <1/> <2/>.",
+        "burnRateDescription": "Notify me when the burn rate is <1/> <2/>",
         "burnRateLongWindowTitle": "Long alert window",
         "burnRateLongWindowDescription": "These alerts will be triggered when the error rate exceeds the threshold over a longer period of time. This helps identify issues building up over time that might cause problems in the future if not addressed.",
         "burnRateShortWindowLongerThanLongWindowError": "Short window cannot exceed long window. Please, adjust either of the values.",
