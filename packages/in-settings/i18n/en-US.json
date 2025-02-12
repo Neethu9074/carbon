@@ -1278,7 +1278,6 @@
     "accessControl": "Access Control",
     "maintenanceWindows": "Maintenance Windows",
     "customPayload": "Custom Payload",
-    "logManagement": "Log Management",
     "coralogix": "Coralogix",
     "elk": "ELK",
     "falconLogScale": "Falcon LogScale",

@@ -150,7 +150,6 @@ module.exports = {
   carbonPaginationEnabled: true,
   carbonTableEnabled: true,
   logVolumePageEnabled: true,
-  logHomepageEnabled: true,
   carbonHorizontalIndicatorEnabled: true,
   analyzeRelatedInstancesButtonEnabled: true,
   maxMetricsLimitForBeeinstanaEnabled: false,

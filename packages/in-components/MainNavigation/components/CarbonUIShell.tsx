@@ -47,7 +47,6 @@ import {
 } from 'in-stores/permission';
 import {
   loggingEnabled,
-  logHomepageEnabled,
   playwithEnabled,
   playWithReleaseEnabled,
   tenantSwitcherEnabled,
@@ -537,9 +536,10 @@ function SloDashboard() {
 function Logging() {
   const { matchLocation, createHrefToPath } = useNavigation();
 
-  if (!loggingEnabled || !role?.canViewLogs || !logHomepageEnabled) {
+  if (!loggingEnabled || !role?.canViewLogs) {
     return null;
   }
+
   return (
     <MenuItem
       id="main-nav-logging"
