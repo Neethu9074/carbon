@@ -12,7 +12,7 @@ import { Observable } from '@instana/observables';
 
 import { initialState, stateReducer, actions } from 'in-kubernetes/hooks/useInfiniteSearch/reducer';
 import { QueryParams } from 'in-kubernetes/subscriptions/getKubernetesClusters';
-import { clusterList as pathSegment } from 'in-kubernetes/navigation/paths';
+import { urlStateDefinition } from 'in-kubernetes/utils';
 import { hasError, isLoading } from 'in-services/util/result';
 import useInfiniteScroll from 'in-hooks/useInfiniteScroll';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
@@ -112,20 +112,3 @@ export default function useInfiniteSearch({ subscription }: Props) {
     loadMoreContainerRef
   };
 }
-
-const urlStateDefinition = {
-  bind: [
-    {
-      path: pathSegment,
-      name: 'query',
-      as: 'query',
-      initialState: ''
-    }
-  ],
-  resets: [
-    {
-      bind: [],
-      reset: {}
-    }
-  ]
-};

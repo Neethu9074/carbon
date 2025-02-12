@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { KubernetesCluster, KubernetesClusterItemCounters } from '@instana/types';
 import { useObservable } from '@instana/hooks';
@@ -33,12 +33,14 @@ import locals from './InfoCard.mless';
 // It's used to add the + to the label in case there are more than 200 clusters.
 const maxTotalClusters = 200;
 
-type InfoCardProps = KubernetesCluster & Omit<KubernetesClusterItemCounters, 'hosts'>;
+interface InfoCardProps extends KubernetesCluster, Omit<KubernetesClusterItemCounters, 'hosts'> {
+  onDataFetched?: (clusterId: string, result: any) => void;
+}
 
-interface KubernetesCountersProps {
+export interface KubernetesCountersProps {
   totalRunningPods: number;
-  totalNodesIssues: number;
-  totalDeploymentsIssues: number;
+  totalUnhealthyNodes: number;
+  totalUnhealthyDeployments: number;
   hasNodesWithOnlyWarnings: boolean;
   hasDeploymentsWithOnlyWarnings: boolean;
 }
@@ -53,17 +55,26 @@ export default function InfoCard({
   label,
   clusterDistribution,
   version,
+  onDataFetched,
   ...props
-}: InfoCardProps) {
+}: Readonly<InfoCardProps>) {
   const timeConfig = useTimeConfig();
   const result =
     useObservable(() => getKubernetesCounters({ clusterId, timeConfig }), [clusterId, timeConfig]) ?? pendingResult;
   const isLoadingData = isLoading(result as any);
 
+  // Send data to parent component via onDataFetched
+  useEffect(() => {
+    if (!isLoadingData) {
+      onDataFetched?.(clusterId, result);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clusterId, isLoadingData, result]);
+
   const {
     totalRunningPods,
-    totalNodesIssues,
-    totalDeploymentsIssues,
+    totalUnhealthyNodes,
+    totalUnhealthyDeployments,
     hasNodesWithOnlyWarnings,
     hasDeploymentsWithOnlyWarnings
   } = result as KubernetesCountersProps;
@@ -76,7 +87,7 @@ export default function InfoCard({
   const servicesHref = useClusterDashboard(clusterId, { tab: servicesDashboard });
 
   return (
-    <div className={locals.cluster}>
+    <div className={locals.infoCard}>
       <InfoCardHeader
         id={clusterId}
         label={label}
@@ -90,28 +101,28 @@ export default function InfoCard({
           subtitle={t('in-kubernetes:cloudNative.totalNodes', { count: nodes })}
           href={nodesHref}
           isLoading={isLoadingData}
-          hasIssues={totalNodesIssues > 0}
+          hasIssues={totalUnhealthyNodes > 0}
           hasWarnings={hasNodesWithOnlyWarnings}
           tooltip={
-            totalNodesIssues >= maxTotalClusters
+            totalUnhealthyNodes >= maxTotalClusters
               ? t('in-kubernetes:cloudNative.manyUnhealthyWorkloads', { workload: 'nodes' })
               : undefined
           }
-          counter={`${totalNodesIssues}${totalNodesIssues >= maxTotalClusters ? '+' : ''}`}
+          counter={`${totalUnhealthyNodes}${totalUnhealthyNodes >= maxTotalClusters ? '+' : ''}`}
         />
         <InfoCardTile
           title={t('in-kubernetes:cloudNative.unhealthyDeployments')}
           subtitle={t('in-kubernetes:cloudNative.totalDeployments', { count: deployments })}
           href={deploymentsHref}
           isLoading={isLoadingData}
-          hasIssues={totalDeploymentsIssues > 0}
+          hasIssues={totalUnhealthyDeployments > 0}
           hasWarnings={hasDeploymentsWithOnlyWarnings}
           tooltip={
-            totalDeploymentsIssues >= maxTotalClusters
+            totalUnhealthyDeployments >= maxTotalClusters
               ? t('in-kubernetes:cloudNative.manyUnhealthyWorkloads', { workload: 'deployments' })
               : undefined
           }
-          counter={`${totalDeploymentsIssues}${totalDeploymentsIssues >= maxTotalClusters ? '+' : ''}`}
+          counter={`${totalUnhealthyDeployments}${totalUnhealthyDeployments >= maxTotalClusters ? '+' : ''}`}
         />
         <InfoCardTile
           title={t('in-kubernetes:cloudNative.runningPods')}

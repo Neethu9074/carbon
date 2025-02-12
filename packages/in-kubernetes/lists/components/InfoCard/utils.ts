@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
+import { KubernetesNodeListItem, KubernetesWorkloadControllerListItem, Result, TimeConfig } from '@instana/types';
 import { combineLatest, Observable } from '@instana/observables';
 
 import {
@@ -11,7 +12,6 @@ import {
   getKubernetesPodsData,
   getWorkloadData
 } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
-import { KubernetesNodeListItem, KubernetesWorkloadControllerListItem, Result, TimeConfig } from 'in-types';
 import getKubernetesDeployments from 'in-kubernetes/subscriptions/getKubernetesDeployments';
 
 interface Props {
@@ -95,21 +95,21 @@ export function getKubernetesCounters({ clusterId, timeConfig }: Props) {
 function getNodesInfo(nodes: KubernetesNodeListItem[]) {
   if (!Array.isArray(nodes)) {
     return {
-      totalNodesIssues: 0,
+      totalUnhealthyNodes: 0,
       hasNodesWithOnlyWarnings: false
     };
   }
 
-  const totalNodesIssues = nodes.filter(
+  const totalUnhealthyNodes = nodes.filter(
     (node: KubernetesNodeListItem) => node?.entityHealthInfo?.openIssues?.length > 0
   ).length;
 
   const hasNodesWithOnlyWarnings =
     nodes.filter((node: KubernetesNodeListItem) => node?.entityHealthInfo?.maxSeverity === 5).length ===
-      totalNodesIssues && totalNodesIssues !== 0;
+      totalUnhealthyNodes && totalUnhealthyNodes !== 0;
 
   return {
-    totalNodesIssues,
+    totalUnhealthyNodes,
     hasNodesWithOnlyWarnings
   };
 }
@@ -117,22 +117,22 @@ function getNodesInfo(nodes: KubernetesNodeListItem[]) {
 function getDeploymentsInfo(deployments: KubernetesWorkloadControllerListItem[]) {
   if (!Array.isArray(deployments)) {
     return {
-      totalDeploymentsIssues: 0,
+      totalUnhealthyDeployments: 0,
       hasDeploymentsWithOnlyWarnings: false
     };
   }
 
-  const totalDeploymentsIssues = deployments.filter(
+  const totalUnhealthyDeployments = deployments.filter(
     (deployment: KubernetesWorkloadControllerListItem) => deployment?.entityHealthInfo?.openIssues?.length > 0
   ).length;
 
   const hasDeploymentsWithOnlyWarnings =
     deployments.filter(
       (deployment: KubernetesWorkloadControllerListItem) => deployment?.entityHealthInfo?.maxSeverity === 5
-    ).length === totalDeploymentsIssues && totalDeploymentsIssues !== 0;
+    ).length === totalUnhealthyDeployments && totalUnhealthyDeployments !== 0;
 
   return {
-    totalDeploymentsIssues,
+    totalUnhealthyDeployments,
     hasDeploymentsWithOnlyWarnings
   };
 }

@@ -5,7 +5,7 @@
  */
 
 :local {
-  .cluster {
+  .infoCard {
     margin-bottom: 2rem;
   }
 

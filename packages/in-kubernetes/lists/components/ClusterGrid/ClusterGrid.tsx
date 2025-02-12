@@ -4,24 +4,27 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { CarbonTile, Spacer, SvgIcon, CarbonIconButton, Stack } from '@instana/components';
 import { KubernetesClusterListItem } from '@instana/types';
 
+import SortingConfigurator from 'in-kubernetes/lists/components/SortingConfigurator/SortingConfigurator';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
+import InfoCard, { KubernetesCountersProps } from 'in-kubernetes/lists/components/InfoCard/InfoCard';
 import InfoCardSkeleton from 'in-kubernetes/lists/components/InfoCardSkeleton/InfoCardSkeleton';
 import useInfiniteSearch from 'in-kubernetes/hooks/useInfiniteSearch/useInfiniteSearch';
+import { urlStateDefinition, ItemAdditionalInfo, sortBy } from 'in-kubernetes/utils';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import CarbonSearchBar from 'in-components/CarbonSearchBar/CarbonSearchBar';
 import { clusterListFullyQualified } from 'in-kubernetes/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import InfoCard from 'in-kubernetes/lists/components/InfoCard/InfoCard';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
+import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title/Title';
 import { t } from 'in-i18n';
 
@@ -29,6 +32,8 @@ import locals from './ClusterGrid.mless';
 
 export default function ClusterGrid() {
   const { location, navigate } = useNavigation();
+  const [{ orderBy, orderDirection }, setUrlState] = useUrlState(urlStateDefinition);
+  const [itemsAdditionalInfo, setItemsAdditionalInfo] = useState<ItemAdditionalInfo>({});
   const {
     debouncedQuery,
     isLoadingData,
@@ -41,9 +46,17 @@ export default function ClusterGrid() {
     items
   } = useInfiniteSearch({ subscription: getKubernetesClustersWithDefaults });
 
+  // Callback to update the additional data for each item
+  const handleAdditionInfo = (clusterId: string, data: KubernetesCountersProps) => {
+    if (itemsAdditionalInfo[clusterId]) return;
+    setItemsAdditionalInfo(prev => ({ ...prev, [clusterId]: data }));
+  };
+
   if (isInitialLoading) {
     return <LoadingIndicator />;
   }
+
+  const sortedItems = items?.sort(sortBy({ orderBy, orderDirection, itemsAdditionalInfo }));
 
   return (
     <>
@@ -56,12 +69,19 @@ export default function ClusterGrid() {
       />
       <CarbonTile>
         <Stack direction="horizontal" align="center" distribution="spaceBetween" gap="xsmall">
-          <CarbonSearchBar
-            query={debouncedQuery.value}
-            onChange={value => debouncedQuery.onChange(value)}
-            autoFocus={debouncedQuery.value !== ''}
+          <CarbonSearchBar query={debouncedQuery.value} onChange={value => debouncedQuery.onChange(value)} autoFocus />
+          <SortingConfigurator
+            order={{
+              by: orderBy,
+              direction: orderDirection
+            }}
+            onChange={event => {
+              setUrlState({
+                orderBy: 'selectedItem' in event ? event.selectedItem?.value : orderBy,
+                orderDirection: orderDirection === 'ASC' ? 'DESC' : 'ASC'
+              });
+            }}
           />
-
           <CarbonIconButton
             align="left"
             kind="ghost"
@@ -78,6 +98,7 @@ export default function ClusterGrid() {
 
       {hasNoItems && <NoDataAvailable height={160} />}
       {hasErrors && !isInitialLoading && <ErroneousResultPresenter errors={errors} />}
+
       {isLoadingData && (
         <>
           <InfoCardSkeleton />
@@ -85,8 +106,8 @@ export default function ClusterGrid() {
         </>
       )}
 
-      {items?.map(({ cluster, ...props }: KubernetesClusterListItem, index: number) => (
-        <InfoCard key={`${cluster.id}_${index}`} {...props} {...cluster} />
+      {sortedItems?.map(({ cluster, ...props }: KubernetesClusterListItem, index: number) => (
+        <InfoCard key={`${cluster.id}_${index}`} {...props} {...cluster} onDataFetched={handleAdditionInfo} />
       ))}
 
       <div ref={loadMoreContainerRef as React.MutableRefObject<HTMLDivElement>} className={locals.loadMoreContainer} />

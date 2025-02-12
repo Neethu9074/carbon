@@ -58,7 +58,7 @@ export default function InfoCardTile(props: InfoCardTileProps) {
             {!isLoading ? counterWithOrWithoutTooltip : <LoadingSkeleton className={locals.skeleton} />}
           </span>
         </Typography>
-        <Typography variant="body-02" component="p">
+        <Typography variant="body-02" component="div">
           {!isLoading ? subtitle : <LoadingSkeleton className={locals.skeletonSubtitle} />}
         </Typography>
       </div>

@@ -284,7 +284,18 @@
     "cronJobs": "Cron Jobs",
     "switchToGridView": "Switch to grid view",
     "switchToTableView": "Switch to table view",
-    "manyUnhealthyWorkloads": "More than 200 unhealthy {{workload}}. Select to view details."
+    "manyUnhealthyWorkloads": "More than 200 unhealthy {{workload}}. Select to view details.",
+    "sortingOptions": {
+      "unhealthyNodes": "Unhealthy nodes",
+      "unhealthyDeployments": "Unhealthy deployments",
+      "runningPods": "Running pods",
+      "namespaces": "Namespaces",
+      "services": "Services",
+      "cronJobs": "Cron Jobs",
+      "sortBy": "Sort by",
+      "sortOrder": "Sort order",
+      "name": "Name"
+    }
   },
   "viewAllEntityName_unknownEntity_plural": "all",
   "viewAllEntityName_unknownEntity_0": "all",

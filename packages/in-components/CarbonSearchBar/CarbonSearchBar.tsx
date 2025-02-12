@@ -12,14 +12,19 @@ import { t } from 'in-i18n';
 
 import locals from './CarbonSearchBar.mless';
 
-interface SearchBarProps {
-  query: string;
-  onChange: (query: string) => void;
+interface CarbonSearchBarProps {
   autoFocus: boolean;
   labelText?: string;
+  query: string;
+  onChange: (query: string) => void;
 }
 
-export default function SearchBar({ query, onChange, autoFocus, labelText = '' }: Readonly<SearchBarProps>) {
+export default function CarbonSearchBar({
+  query,
+  onChange,
+  autoFocus,
+  labelText = ''
+}: Readonly<CarbonSearchBarProps>) {
   const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

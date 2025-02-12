@@ -33,7 +33,7 @@ export default function InfoCardHeader({
   label,
   clusterDistribution = 'kubernetes',
   version
-}: KubernetesCluster) {
+}: Readonly<KubernetesCluster>) {
   const clusterHref = useClusterDashboard(clusterId);
   const timeConfig = useTimeConfig();
 
