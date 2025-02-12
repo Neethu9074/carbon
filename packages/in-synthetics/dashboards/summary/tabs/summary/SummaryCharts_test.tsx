@@ -39,6 +39,10 @@ describe(SummaryCharts, () => {
     expect(screen.getByText('Average Response Size')).toBeVisible();
     expect(screen.getByText('Results')).toBeVisible();
     expect(screen.getByText('Response Status')).toBeVisible();
+    // test network timings pull down
+    screen.getByText('test-label1').click();
+    screen.getByText('test-label2').click();
+    expect(screen.getByText('test-label2')).toBeVisible();
   });
 
   it('Render correct set of charts for HTTPScript test', () => {

@@ -1,23 +1,24 @@
 /*
- * (c) Copyright IBM Corp. 2022
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc. 2022
  */
 
 import React, { useState } from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack, CarbonMenuButton as MenuButton, CarbonMenuItem as MenuItem } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { locationIdTagName, testIdTagName } from 'in-synthetics/tags';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
-import DropdownButton from 'in-components/Button/DropdownButton';
 import { latencyFixed } from 'in-services/formatters/number';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { stackedArea } from 'in-stores/metric/renderer';
 import { chartColors } from 'in-themes/chartColors';
 import { TimeShift } from 'in-types';
+
+import locals from './NetworkTiming.mless';
 
 type NetworkTimingProps = {
   timeShiftConfig: TimeShift;
@@ -34,6 +35,10 @@ type Option = {
 
 type Options = Option[];
 
+function optionLabelComparator(a: Option, b: Option) {
+  return compareIgnoreCase(a.label, b.label);
+}
+
 export default function NetworkTimings({
   testId,
   locationIds,
@@ -44,6 +49,7 @@ export default function NetworkTimings({
   const locations: string[] = locationIds.split(',');
   const locationDisplayLabelArray: string[] = locationDisplayLabels.split(',');
   const options: Options = createOptions(locations, locationDisplayLabelArray);
+  if (options.length > 1) options.sort(optionLabelComparator);
   const defaultLocation: Option = options[0];
 
   const [location, setLocation] = useState(defaultLocation);
@@ -123,24 +129,26 @@ export default function NetworkTimings({
     }
   ];
 
-  const selectedOption = options.find(({ value }) => value === location.value) || defaultLocation;
+  const onClick = (item: Option) => {
+    setLocation(item);
+  };
 
   const rightHeader: React.ReactElement = (
     <Stack direction="horizontal" distribution="spaceBetween" align="center">
-      <ComboBoxBehavior
-        value={selectedOption?.value}
-        options={options}
-        onChange={location => {
-          setLocation(options.find(({ value }) => value === location) || defaultLocation);
-        }}
-      >
-        {({ elementProps, isOpen }) => (
-          // @ts-expect-error not fully matching expected type
-          <DropdownButton {...elementProps} kind="primaryv2" expanded={isOpen}>
-            {location.label}
-          </DropdownButton>
-        )}
-      </ComboBoxBehavior>
+      <MenuButton kind="primary" size="sm" label={location.label} menuAlignment="bottom-start">
+        {options?.length
+          ? options.map(item => {
+              return (
+                <MenuItem
+                  key={item.label}
+                  label={item.label}
+                  onClick={() => onClick(item)}
+                  className={item.value === location.value ? locals.selected : undefined}
+                />
+              );
+            })
+          : null}
+      </MenuButton>
     </Stack>
   );
 
