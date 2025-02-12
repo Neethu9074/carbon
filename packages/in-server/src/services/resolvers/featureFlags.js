@@ -473,7 +473,7 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticRbacLimitedEnabled',
     instanaCtlKey: 'feature.synthetic.rbac.limited.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'syntheticDNSActionEnabled',
