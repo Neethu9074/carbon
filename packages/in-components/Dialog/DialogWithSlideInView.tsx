@@ -102,6 +102,7 @@ export default function DialogWithSlideInView({
                     [locals.showOverflow]: showOverflow,
                     [locals.withRoundedBottomBorder]: slideInViewVisible || !footer
                   })}
+                  id="dialog-slide-in-view-id"
                 >
                   {children}
                 </div>
