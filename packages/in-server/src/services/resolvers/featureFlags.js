@@ -98,7 +98,7 @@ module.exports = exports = [
   {
     uiClientKey: 'sapEnabled',
     instanaCtlKey: 'feature.sap.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'kubecostEnabled',
