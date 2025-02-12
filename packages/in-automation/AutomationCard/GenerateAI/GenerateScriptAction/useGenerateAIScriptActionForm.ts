@@ -28,6 +28,7 @@ type GenerateAIScriptActionFormItems = {
     script: FormField<string>;
     aiGeneratedContent: FormField<string>;
     feedbackState: FormField<string>;
+    badFeedback: FormField<string>;
   }>;
 };
 
@@ -104,6 +105,9 @@ function createGenerateAIActionForm() {
             value: ''
           }),
           feedbackState: createField({
+            value: ''
+          }),
+          badFeedback: createField({
             value: ''
           })
         },

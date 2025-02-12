@@ -36,6 +36,7 @@ type ActionFormItems = {
   content: FormField<string>;
   aiGeneratedContent: FormField<string>;
   feedbackState: FormField<string>;
+  badFeedback: FormField<string>;
 };
 
 export type ActionForm = MapForm<ActionFormItems>;

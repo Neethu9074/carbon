@@ -509,6 +509,9 @@
   },
   "feedback": {
     "contentHelpfulText": "Was this generated content helpful?",
-    "thankYouForYourFeedback": "Thank you for your feedback!"
+    "thankYouForYourFeedback": "Thank you for your feedback!",
+    "submitFeedback": "Submit Feedback",
+    "additionalFeedbacklabel": "Provide additional feedback (optional)",
+    "additionalFeedbackPlaceholder": "What did you not like about the response? What can be improved"
   }
 }
