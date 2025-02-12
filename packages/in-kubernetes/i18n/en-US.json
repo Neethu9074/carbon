@@ -254,19 +254,21 @@
     },
     "kubecost": {
       "totalCost": "Total cost",
+      "total": "Total",
       "costByNameSpace": "Cost by namespace",
       "kubeCost": "Cost [Public Preview]",
-      "namespaceCumulativeCost": "Cumulative cost by namespace",
+      "namespaceCumulativeCost": "Cost by namespace",
       "trend": "Trend %",
       "ramCost": "RAM",
       "totalEfficiency": "Total efficiency",
       "sharedCost": "Shared",
-      "loadBalancerCost": "LoadBalancer",
+      "loadBalancerCost": "Load balancer",
       "pvCost": "Persistent volume",
       "networkCost": "Network",
       "gpuCost": "GPU",
       "cpuCost": "CPU",
       "namespace": "Namespace",
+      "idleCost": "Idle",
       "noKubecostData": "Enable cost observability and allocation with Kubecost. To configure the integration, follow these [steps][Docs].\n\n[Docs]:https://ibm.biz/kubecost"
     }
   },

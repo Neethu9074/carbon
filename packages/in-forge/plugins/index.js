@@ -151,6 +151,7 @@ import './ec2TagsCollector';
 import './ibmInfosphereCdc';
 import './kafkaConnectTask';
 import './microsoftPurview';
+import './kubeCostPlatform';
 import './azureServiceBus';
 import './azureManagedHSM';
 import './ibmMqMftMonitor';
