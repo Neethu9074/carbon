@@ -4,8 +4,26 @@
  * Copyright IBM Corp. 2025
  */
 
+import { MapForm, Item } from 'formalistic';
 import React from 'react';
 
-export default function AlertConfigTearSheetStep1() {
-  return <>Hello Step 1</>;
+import ConfigureAlertTest from 'in-alerting/smart-alerts/synthetics/tearsheet/components/ConfigureAlertTest';
+import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
+import { t } from 'in-i18n';
+
+interface AlertConfigTearSheetStep1Props {
+  form: MapForm<any>;
+  onChange: (path: string[], updater: (item: Item) => Item) => void;
+}
+
+export default function AlertConfigTearSheetStep1({ form, onChange }: AlertConfigTearSheetStep1Props) {
+  return (
+    <TearSheetStepTitleWrapper
+      headline={t('in-alerting:smartAlerts.synthetics.tearSheet.step1.header')}
+      description={t('in-alerting:smartAlerts.synthetics.tearSheet.step1.description')}
+      hideSpace
+    >
+      <ConfigureAlertTest form={form} onChange={onChange} numberOfAlertTestListRows={10} />
+    </TearSheetStepTitleWrapper>
+  );
 }

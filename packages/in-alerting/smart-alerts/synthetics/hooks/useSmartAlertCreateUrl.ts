@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { syntheticSmartAlertsFullScreen } from 'in-synthetics/navigation/paths';
+import { syntheticSmartAlertsFullScreen, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -20,10 +20,10 @@ export function useSmartAlertCreateUrl() {
 }
 
 function updateCreatePathMatrixParams(location: Location, returnUrlWithParams: string) {
-  setOrDeleteMatrixKey(location, syntheticSmartAlertsFullScreen, '');
+  setOrDeleteMatrixKey(location, syntheticsDashboard, '');
 
   // Keep the cancelURL parameter at the end so that the URL parameters added are not mixed with the cancel URL.
-  setOrDeleteMatrixKey(location, syntheticSmartAlertsFullScreen, cancelUrl, returnUrlWithParams);
+  setOrDeleteMatrixKey(location, syntheticsDashboard, cancelUrl, returnUrlWithParams);
 
   location.pathname = syntheticSmartAlertsFullScreen;
   return location;

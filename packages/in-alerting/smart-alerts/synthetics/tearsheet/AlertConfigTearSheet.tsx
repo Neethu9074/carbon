@@ -37,20 +37,28 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfigTearSheet() {
   const location = useLocation();
-  const alertConfig = generateAlertConfig();
-  const { cancelTearSheet } = useMemo(() => {
+  const { cancelTearSheet, syntheticTestId } = useMemo(() => {
     return getAlertingUrlParameters(location);
   }, [location]);
+  const alertConfig = generateAlertConfig(syntheticTestId ? [syntheticTestId] : []);
 
-  return <AlertConfigTearSheetContent alertConfig={alertConfig} cancelTearSheet={cancelTearSheet} />;
+  return (
+    <AlertConfigTearSheetContent
+      alertConfig={alertConfig}
+      cancelTearSheet={cancelTearSheet}
+      syntheticTestId={syntheticTestId}
+    />
+  );
 }
 
 function AlertConfigTearSheetContent({
   alertConfig,
-  cancelTearSheet
+  cancelTearSheet,
+  syntheticTestId
 }: {
   alertConfig: SyntheticAlertConfigWithMetadata & { duplicateFrom?: string };
   cancelTearSheet: string;
+  syntheticTestId?: string;
 }) {
   const editMode = false; // TODO handle edit scenerio
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
@@ -80,6 +88,7 @@ function AlertConfigTearSheetContent({
             editMode,
             setIsSaving,
             setMessages,
+            syntheticTestId,
             toAlertConfig,
             trackCta,
             duplicateFrom

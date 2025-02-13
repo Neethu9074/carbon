@@ -26,6 +26,7 @@ interface createOrSaveAlertFromTearSheetProps {
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;
   toAlertConfig: (form: MapForm<any>) => Readonly<SyntheticAlertConfig>;
   trackCta: CtaTrackingFunction;
+  syntheticTestId?: string;
   duplicateFrom?: string;
 }
 

@@ -17,4 +17,11 @@
   .createAlertTestButton {
     margin-right: 1rem;
   }
+  .footerPosition {
+    position: relative;
+    padding: 1.5rem;
+  }
+  .dialogWidth {
+    min-width: 80%;
+  }
 }

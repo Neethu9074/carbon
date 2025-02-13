@@ -1269,7 +1269,11 @@
       "tearSheet": {
         "createTitle": "Create a synthetic smart alert",
         "steps": {
-          "step1Title": "Choose synthetic test(s)"
+          "step1Title": "Choose synthetic tests"
+        },
+        "step1": {
+          "header": "Which synthetic tests you want to be alerted on?",
+          "description": "Individual alerts will be sent independently for each synthetic test, per location"
         }
       }
     },
