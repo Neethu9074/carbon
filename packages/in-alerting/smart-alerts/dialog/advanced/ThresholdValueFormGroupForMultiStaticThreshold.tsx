@@ -112,6 +112,7 @@ export default function ThresholdValueFormGroupForMultiStaticThreshold({
               isMultiThreshold
               isGlobalSmartAlert={isGlobalSmartAlert}
               getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
+              isTearSheet={isTearSheet}
             />
           </div>
           <div className={locals.multiThresholdFieldContainer}>

@@ -46,16 +46,15 @@ export default function ThresholdValueInput({
   getUpdatedForm,
   ...props
 }: ThresholdValueInputProps) {
-  const onValueChange = (targetValue: number | null) => {
-    const value =
-      targetValue != null
-        ? Number(shiftDecimalLeft(Math.abs(targetValue), roundDecimalPlaces, percentageMetric))
-        : null;
+  const onValueChange = (targetValue: number | string | null) => {
+    const value = targetValue != null ? shiftDecimalLeft(targetValue, roundDecimalPlaces, percentageMetric) : null;
 
     if (updateForm) {
       const updatedForm = getUpdatedForm
-        ? getUpdatedForm(value)
-        : form.updateIn(['threshold', 'value'], f => (f as Field<number | null>).setValue(value).setTouched(true));
+        ? getUpdatedForm(value as any)
+        : form.updateIn(['threshold', 'value'], f =>
+            (f as Field<number | null>).setValue(value as any).setTouched(true)
+          );
 
       updateForm(updatedForm);
     }
@@ -65,9 +64,9 @@ export default function ThresholdValueInput({
 
   const value = shiftDecimalRight(thresholdField?.value, roundDecimalPlaces, percentageMetric);
 
-  const mapOnChange = (_e: any, state?: { value: number | string; direction: string }) => {
+  const mapOnChange = (_e: any, state?: { value: number | string | null; direction: string }) => {
     const stateValue = state?.value ?? value ?? 0;
-    onValueChange(Number(stateValue));
+    onValueChange(stateValue);
   };
 
   return (
@@ -76,7 +75,7 @@ export default function ThresholdValueInput({
         id={id}
         name={name}
         type={type}
-        min={Number(min)}
+        min={0}
         step={parseInt(step) ?? 1}
         className={classNames({
           [locals.narrowControl]: isSmall,

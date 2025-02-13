@@ -43,7 +43,11 @@ export function shiftDecimalRight(num: number, places: number = 2, percentageMet
   return Number(shifted + (remaining ? '.' + remaining : ''));
 }
 
-export function shiftDecimalLeft(num: number, places: number = 2, percentageMetric: boolean) {
+export function shiftDecimalLeft(
+  num: number | null | string,
+  places: number = 2,
+  percentageMetric: boolean
+): number | null | string {
   if (num == null || num === 0 || !percentageMetric) {
     return num;
   }
@@ -52,8 +56,8 @@ export function shiftDecimalLeft(num: number, places: number = 2, percentageMetr
   let [intPart, decPart = ''] = str.split('.');
 
   if (intPart.length <= places) {
-    return '0.' + '0'.repeat(places - intPart.length) + intPart + decPart;
+    return Number('0.' + '0'.repeat(places - intPart.length) + intPart + decPart);
   }
 
-  return intPart.slice(0, -places) + '.' + intPart.slice(-places) + decPart;
+  return Number(intPart.slice(0, -places) + '.' + intPart.slice(-places) + decPart);
 }
