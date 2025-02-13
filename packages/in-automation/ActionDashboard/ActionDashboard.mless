@@ -24,6 +24,10 @@
       margin-top: 5px;
     }
   }
+  .authPassword {
+    padding-left: 0;
+    border: 0;
+  }
 }
 :global .code-snippet-wrapper {
   --cds-layer: #f4f4f4;

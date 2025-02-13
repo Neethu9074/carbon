@@ -14,6 +14,7 @@ import {
   CarbonStack,
   CarbonTile,
   Code,
+  Input,
   Link,
   Toggle,
   Typography
@@ -334,15 +335,19 @@ function BasicAuth() {
     <>
       {username.map(field => (
         <CarbonColumn key={1} span="50%">
-          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.username')}>
-            {field.value || NO_FIELD_VALUE}
-          </CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.username')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {password.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn key={1} span="25%">
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.password')}>
-            {field.value || NO_FIELD_VALUE}
+            <Input
+              className={local.authPassword}
+              type="password"
+              disabled={false}
+              placeholder={'*******************'}
+              value={field.value}
+            />
           </CarbonFormGroup>
         </CarbonColumn>
       ))}
