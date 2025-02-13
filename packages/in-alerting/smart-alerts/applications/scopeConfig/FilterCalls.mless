@@ -8,6 +8,9 @@
   .alertFilterConfiguratorWrapper {
     padding-left: 1rem;
     width: 100%;
+  }
+
+  .setHeight {
     height: 20rem;
   }
 

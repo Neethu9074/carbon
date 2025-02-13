@@ -27,7 +27,8 @@ export default function FilterCalls({
     <div
       className={classNames({
         [locals.alertFilterConfiguratorWrapper]: true,
-        [locals.alertFilterConfiguratorWrapperBottomPadding]: !tagFilterExpression.length || isBuiltIn
+        [locals.alertFilterConfiguratorWrapperBottomPadding]: !tagFilterExpression.length || isBuiltIn,
+        [locals.setHeight]: tearSheetView
       })}
       id="scopeSection"
     >
