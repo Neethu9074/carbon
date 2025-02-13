@@ -286,19 +286,21 @@ export default function ActionHistoryTable({
       width: 5,
       getContent(row: ActionInstance) {
         return (
-          <Tooltip content={t('in-automation:actionHistory.viewTooltip', { actionName: row.actionName })} delay={500}>
-            <IconButton
-              type="lib_views_show"
-              onClick={e => {
-                stopPropagationAndPreventDefault(e);
-                addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
-                actionHistoryInstanceViewTrackerSegment({
-                  actionInstanceId: row.actionInstanceId,
-                  actionName: row.actionName
-                });
-              }}
-            />
-          </Tooltip>
+          <IconButton
+            type="lib_views_show"
+            iconDescription={t('in-automation:actionHistory.viewTooltip', { actionName: row.actionName })}
+            align="left"
+            kind="action"
+            isWrapperedByTooltip
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
+              actionHistoryInstanceViewTrackerSegment({
+                actionInstanceId: row.actionInstanceId,
+                actionName: row.actionName
+              });
+            }}
+          />
         );
       }
     }
