@@ -22,6 +22,7 @@ import {
 import { Action } from '@instana/types';
 
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
+import { NO_FIELD_VALUE } from 'in-automation/constants';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -33,7 +34,7 @@ interface ActionConfigurationProps {
 
 export default function ActionDetailsCard({ data }: ActionConfigurationProps) {
   if (!data) return null;
-  const { name, description = '-', tags } = data;
+  const { name, description, tags } = data;
 
   const renderTags = tags?.length
     ? tags.map(tag => (
@@ -41,7 +42,7 @@ export default function ActionDetailsCard({ data }: ActionConfigurationProps) {
           {tag}
         </CarbonTag>
       ))
-    : '-';
+    : NO_FIELD_VALUE;
 
   return (
     <CarbonTile className={local.borderBottom}>

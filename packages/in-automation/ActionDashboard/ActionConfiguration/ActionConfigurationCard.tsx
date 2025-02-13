@@ -28,15 +28,15 @@ import {
   AUTH_TYPE,
   CLOSE,
   HTTP_METHODS_WITH_BODY,
+  NO_FIELD_VALUE,
   OPEN
 } from 'in-automation/constants';
 import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import { getGitOperation, getGLOperation, getJiraOperation } from 'in-automation/utils/action';
-import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
+import { Di } from 'in-components/HorizontalDescriptionList/HorizontalDescriptionList';
 import { useIsNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import { getAnsibleFields } from 'in-automation/utils/actionField';
-import FieldsTable from 'in-automation/ActionCatalog/FieldsTable';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -83,6 +83,22 @@ const renderConfigurationFields = (type: ActionType, data: ActionFormEntity) => 
   return components[type];
 };
 
+function AnsibleSection({ data }: { data?: ActionFormEntity }) {
+  if (!data) return null;
+  const { jobTemplateUrl, isWorkflowJobTemplate } = getAnsibleFields(data);
+  const label = isWorkflowJobTemplate ? t('in-automation:workflowJobTemplate') : t('in-automation:jobTemplate');
+
+  return (
+    <CarbonColumn sm={4}>
+      <CarbonFormGroup legendText={label}>
+        <Link external href={jobTemplateUrl}>
+          {data.name}
+        </Link>
+      </CarbonFormGroup>
+    </CarbonColumn>
+  );
+}
+
 function DocLinkSection() {
   const { form } = useActionFormContext();
 
@@ -90,7 +106,7 @@ function DocLinkSection() {
 
   return docLink.map(field => (
     <CarbonColumn key={1} span="75%">
-      <CarbonFormGroup legendText={t('in-automation:ActionCatalog.docLink')}>{field.value || '-'}</CarbonFormGroup>
+      <CarbonFormGroup legendText={t('in-automation:ActionCatalog.docLink')}>{field.value}</CarbonFormGroup>
     </CarbonColumn>
   ));
 }
@@ -100,17 +116,16 @@ function GithubSection() {
   const owner = form.get('owner');
   const repo = form.get('repo');
   const ticketActionType = form.get('ticketActionType');
-
   return (
     <>
       {owner.map(field => (
         <CarbonColumn key={1} sm={4}>
-          <CarbonFormGroup legendText={t('in-automation:owner')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:owner')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {repo.map(field => (
         <CarbonColumn key={1} sm={4}>
-          <CarbonFormGroup legendText={t('in-automation:repo')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:repo')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {ticketActionType.map(field => (
@@ -133,32 +148,16 @@ function GithubOpenSection() {
     <>
       {title.map(field => (
         <CarbonColumn key={1} sm={4}>
-          <CarbonFormGroup legendText={t('in-automation:title')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:title')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {body.map(field => (
         <CarbonColumn key={1} span="75%">
-          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.githubBody')}>
-            {field.value || '-'}
-          </CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.githubBody')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
-      <CarbonColumn key={1} span="100%" className={local.removeYPaddingForChildCard}>
-        <FieldsTable
-          label={t('in-automation:labels')}
-          fieldName="labels"
-          customAddRowLabel={t('in-automation:ActionCatalog.addLabels')}
-          noDataMessage={t('in-automation:ActionCatalog.noLabelsConfigured')}
-        />
-      </CarbonColumn>
-      <CarbonColumn key={1} span="100%" className={local.removeYPaddingForChildCard}>
-        <FieldsTable
-          label={t('in-automation:assignees')}
-          fieldName="assignees"
-          customAddRowLabel={t('in-automation:ActionCatalog.addAssignees')}
-          noDataMessage={t('in-automation:ActionCatalog.noAssigneesConfigured')}
-        />
-      </CarbonColumn>
+      <FieldsColumn fieldName="labels" label={t('in-automation:labels')} />
+      <FieldsColumn fieldName="assignees" label={t('in-automation:assignees')} />
     </>
   );
 }
@@ -172,7 +171,7 @@ function TicketCloseAndCommentSection({ close = false }: { close?: boolean }) {
       <CarbonFormGroup
         legendText={close ? t('in-automation:ActionCatalog.commentOptional') : t('in-automation:comment')}
       >
-        {field.value || '-'}
+        {field.value || NO_FIELD_VALUE}
       </CarbonFormGroup>
     </CarbonColumn>
   ));
@@ -187,7 +186,7 @@ function GitlabSection() {
     <>
       {projectId.map(field => (
         <CarbonColumn key={1} span="25%">
-          <CarbonFormGroup legendText={t('in-automation:projectId')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:projectId')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {ticketActionType.map(field => (
@@ -211,12 +210,12 @@ function GitlabOpenSection() {
     <>
       {title.map(field => (
         <CarbonColumn key={1} span="25%">
-          <CarbonFormGroup legendText={t('in-automation:title')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:title')}>{field.value || NO_FIELD_VALUE}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {body.map(field => (
         <CarbonColumn key={1} span="25%">
-          <CarbonFormGroup legendText={t('in-automation:description')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:description')}>{field.value || NO_FIELD_VALUE}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {issue_type.map(field => (
@@ -224,14 +223,7 @@ function GitlabOpenSection() {
           <CarbonFormGroup legendText={t('in-automation:issueType')}>{getGLOperation(field.value)}</CarbonFormGroup>
         </CarbonColumn>
       ))}
-      <CarbonColumn key={1} span="100%">
-        <FieldsTable
-          label={t('in-automation:labels')}
-          fieldName="labels"
-          customAddRowLabel={t('in-automation:ActionCatalog.addLabels')}
-          noDataMessage={t('in-automation:ActionCatalog.noLabelsConfigured')}
-        />
-      </CarbonColumn>
+      <FieldsColumn fieldName="labels" label={t('in-automation:labels')} />
     </>
   );
 }
@@ -246,6 +238,7 @@ function WebhookSection() {
   const contentType = form.get('contentType');
   const ignoreCertErrors = form.get('ignoreCertErrors');
   const authType = form.get('authType');
+  const headers = form.get('additionalHeaders');
   const isNotEditable = useIsNotEditableContext();
 
   const renderBodyAndContentType = HTTP_METHODS_WITH_BODY.includes(method.value);
@@ -254,12 +247,16 @@ function WebhookSection() {
     <>
       {host.map(field => (
         <CarbonColumn key={1} span="50%">
-          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.host')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.host')}>
+            {field.value || NO_FIELD_VALUE}
+          </CarbonFormGroup>
         </CarbonColumn>
       ))}
       {method.map(field => (
         <CarbonColumn key={1} span="50%">
-          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.method')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.method')}>
+            {field.value || NO_FIELD_VALUE}
+          </CarbonFormGroup>
         </CarbonColumn>
       ))}
       {renderBodyAndContentType && (
@@ -267,13 +264,15 @@ function WebhookSection() {
           {contentType.map(field => (
             <CarbonColumn key={1} span="50%">
               <CarbonFormGroup legendText={t('in-automation:ActionCatalog.contentType')}>
-                {field.value || '-'}
+                {field.value || NO_FIELD_VALUE}
               </CarbonFormGroup>
             </CarbonColumn>
           ))}
           {body.map(field => (
             <CarbonColumn key={1} span="50%">
-              <CarbonFormGroup legendText={t('in-automation:ActionCatalog.body')}>{field.value || '-'}</CarbonFormGroup>
+              <CarbonFormGroup legendText={t('in-automation:ActionCatalog.body')}>
+                {field.value || NO_FIELD_VALUE}
+              </CarbonFormGroup>
             </CarbonColumn>
           ))}
         </>
@@ -288,7 +287,7 @@ function WebhookSection() {
       {authType.map(field => (
         <CarbonColumn key={1} span="50%">
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.authType')}>
-            {AUTH_TRANSLATIONS[field.value] || '-'}
+            {AUTH_TRANSLATIONS[field.value] || NO_FIELD_VALUE}
           </CarbonFormGroup>
         </CarbonColumn>
       ))}
@@ -297,21 +296,31 @@ function WebhookSection() {
       {authType.value === AUTH_TYPE.API_KEY && <APIAuth />}
       {accept.map(field => (
         <CarbonColumn key={1} span="50%">
-          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.accept')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.accept')}>
+            {field.value || NO_FIELD_VALUE}
+          </CarbonFormGroup>
         </CarbonColumn>
       ))}
       {acceptLanguage.map(field => (
         <CarbonColumn key={1} span="50%">
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.acceptLanguage')}>
-            {field.value || '-'}
+            {field.value || NO_FIELD_VALUE}
           </CarbonFormGroup>
         </CarbonColumn>
       ))}
-      <CarbonColumn span="100%" className={local.removeYPaddingForChildCard}>
-        <CarbonFormGroup legendText={t('in-automation:ActionCatalog.additionalHeadersOptional')}>
-          <AdditionalHeadersTable form={form} setForm={() => {}} />
-        </CarbonFormGroup>
-      </CarbonColumn>
+      {headers.map(field => (
+        <CarbonColumn key={1} span="100%">
+          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.additionalHeadersOptional')}>
+            {field.value.length
+              ? field.value.map(({ id, value: [key, val] }) => (
+                  <Di key={id} title={key}>
+                    {val}
+                  </Di>
+                ))
+              : NO_FIELD_VALUE}
+          </CarbonFormGroup>
+        </CarbonColumn>
+      ))}
     </>
   );
 }
@@ -325,12 +334,16 @@ function BasicAuth() {
     <>
       {username.map(field => (
         <CarbonColumn key={1} span="50%">
-          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.username')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.username')}>
+            {field.value || NO_FIELD_VALUE}
+          </CarbonFormGroup>
         </CarbonColumn>
       ))}
       {password.map(field => (
         <CarbonColumn key={1} span="50%">
-          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.password')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.password')}>
+            {field.value || NO_FIELD_VALUE}
+          </CarbonFormGroup>
         </CarbonColumn>
       ))}
     </>
@@ -346,7 +359,7 @@ function BearerAuth() {
       {bearerToken.map(field => (
         <CarbonColumn key={1} sm={4}>
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.bearerToken')}>
-            {field.value || '-'}
+            {field.value || NO_FIELD_VALUE}
           </CarbonFormGroup>
         </CarbonColumn>
       ))}
@@ -364,12 +377,14 @@ function APIAuth() {
     <>
       {apiKey.map(field => (
         <CarbonColumn key={1} sm={4}>
-          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.key')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:ActionCatalog.key')}>
+            {field.value || NO_FIELD_VALUE}
+          </CarbonFormGroup>
         </CarbonColumn>
       ))}
       {apiKeyValue.map(field => (
         <CarbonColumn key={1} sm={4}>
-          <CarbonFormGroup legendText={t('in-automation:value')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:value')}>{field.value || NO_FIELD_VALUE}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {apiKeyAddTo.map(field => (
@@ -394,7 +409,7 @@ function JiraSection() {
     <>
       {project.map(field => (
         <CarbonColumn key={1} span="50%">
-          <CarbonFormGroup legendText={t('in-automation:project')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:project')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {ticketActionType.map(field => (
@@ -415,37 +430,29 @@ function JiraOpenSection() {
   const body = form.get('body');
   const assignee = form.get('assignee');
   const issue_type = form.get('issue_type');
-
   return (
     <>
       {summary.map(field => (
         <CarbonColumn key={1} span="50%">
-          <CarbonFormGroup legendText={t('in-automation:title')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:title')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {body.map(field => (
         <CarbonColumn key={1} span="50%">
-          <CarbonFormGroup legendText={t('in-automation:description')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:description')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {assignee.map(field => (
         <CarbonColumn key={1} span="50%">
-          <CarbonFormGroup legendText={t('in-automation:assignee')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:assignee')}>{field.value || NO_FIELD_VALUE}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {issue_type.map(field => (
         <CarbonColumn key={1} span="50%">
-          <CarbonFormGroup legendText={t('in-automation:issueType')}>{field.value || '-'}</CarbonFormGroup>
+          <CarbonFormGroup legendText={t('in-automation:issueType')}>{field.value || NO_FIELD_VALUE}</CarbonFormGroup>
         </CarbonColumn>
       ))}
-      <CarbonColumn span="100%">
-        <FieldsTable
-          label={t('in-automation:labels')}
-          fieldName="labels"
-          customAddRowLabel={t('in-automation:ActionCatalog.addLabels')}
-          noDataMessage={t('in-automation:ActionCatalog.noLabelsConfigured')}
-        />
-      </CarbonColumn>
+      <FieldsColumn fieldName="labels" label={t('in-automation:labels')} />
     </>
   );
 }
@@ -492,23 +499,32 @@ function TimeoutSection() {
 
   return timeout.map(field => (
     <CarbonColumn key={1} sm={4}>
-      <CarbonFormGroup legendText={t('in-automation:ActionCatalog.timeout')}>{field.value || '-'}</CarbonFormGroup>
+      <CarbonFormGroup legendText={t('in-automation:ActionCatalog.timeout')}>
+        {field.value || NO_FIELD_VALUE}
+      </CarbonFormGroup>
     </CarbonColumn>
   ));
 }
 
-function AnsibleSection({ data }: { data?: ActionFormEntity }) {
-  if (!data) return null;
-  const { jobTemplateUrl, isWorkflowJobTemplate } = getAnsibleFields(data);
-  const label = isWorkflowJobTemplate ? t('in-automation:workflowJobTemplate') : t('in-automation:jobTemplate');
+interface FieldsColumnProps {
+  label: string;
+  fieldName: 'labels' | 'assignees';
+}
 
-  return (
-    <CarbonColumn sm={4}>
+function FieldsColumn({ label, fieldName }: FieldsColumnProps) {
+  const { form } = useActionFormContext();
+  const data = form.get(fieldName);
+  return data.map(field => (
+    <CarbonColumn key={1} span="50%">
       <CarbonFormGroup legendText={label}>
-        <Link external href={jobTemplateUrl}>
-          {data.name}
-        </Link>
+        {field.value.length ? (
+          <Typography component="p" variant="body-01" align="left" noMargin>
+            {field.value.map(item => item.value).join(', ')}
+          </Typography>
+        ) : (
+          NO_FIELD_VALUE
+        )}
       </CarbonFormGroup>
     </CarbonColumn>
-  );
+  ));
 }
