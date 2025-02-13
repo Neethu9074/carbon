@@ -6,10 +6,19 @@
 
 import { create, interval, Disposable } from '@instana/observables';
 
+import { timeOutSessionEnabled } from 'in-services/featureFlags';
+
 let subscription: Disposable | null;
 
 export const counter$ = create<number>();
 export const nextIdleTimeout$ = create<number>();
+
+// Needed for E2E testing.
+if (timeOutSessionEnabled) {
+  window.instana.dev.resetSessionTimeout = (timeOutInMs: number) => {
+    setIdleTimeoutCounter(timeOutInMs);
+  };
+}
 
 const startCountdownObservable = (countdownTimeInMs: number) => {
   stop();

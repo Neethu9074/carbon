@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import { CarbonModal } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { counter$ } from 'in-components/SessionTimeoutDialog/sessionTimeout';
+import { getUserInfo } from 'in-settings/api/userProfile';
 import { t } from 'in-i18n';
 
 const signOut = () => {
@@ -27,17 +28,20 @@ const convertMilliSecondsToTimer = (ms: number) => {
   return formatted;
 };
 
-export default function SessionTimeoutDialog(props: { minDuration: number }) {
+export default function SessionTimeoutDialog(props: {
+  minDuration: number;
+  showModel: boolean;
+  setShowModel: (flag: boolean) => void;
+}) {
   const counter: number | null | undefined = useObservable(counter$, []);
 
-  const [showModel, setShowModel] = useState(true);
-
-  if (counter === 0) {
-    signOut(); // logout when the counter finishes.
-  }
   if (!counter) {
     // to handle undefined counter state
     return null;
+  }
+  if (counter && counter <= 1000) {
+    window.location.reload();
+    // reload when the counter finishes.
   }
   if (counter > props.minDuration) {
     return null;
@@ -46,19 +50,20 @@ export default function SessionTimeoutDialog(props: { minDuration: number }) {
   return (
     <CarbonModal
       size="xs"
-      open={showModel}
+      open={props.showModel}
       modalHeading={t('in-components:sessionTimeout.title')}
       primaryButtonText={t('in-components:sessionTimeout.loggedInButton')}
       secondaryButtonText={t('in-components:sessionTimeout.logOutButton')}
       onRequestSubmit={() => {
-        setShowModel(false);
+        getUserInfo();
+        props.setShowModel(false);
       }}
       onSecondarySubmit={() => {
         signOut();
-        setShowModel(false);
+        props.setShowModel(false);
       }}
       onRequestClose={() => {
-        setShowModel(false);
+        props.setShowModel(false);
       }}
     >
       {t('in-components:sessionTimeout.message') + ' ' + convertMilliSecondsToTimer(counter)}
