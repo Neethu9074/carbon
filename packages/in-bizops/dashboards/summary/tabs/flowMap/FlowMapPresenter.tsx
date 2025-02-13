@@ -36,7 +36,7 @@ const Link = ({ link }: { link: ElkExtendedEdge }) => {
   const hasLabel = labelText && labelX && labelY;
   return (
     <>
-      <Edge path={path.toString()} markerEnd="arrow" variant="dash-sm" />
+      <Edge path={path.toString()} markerEnd="arrow" color="black" />
       {hasLabel && <Text text={labelText} x={labelX} y={labelY} />}
     </>
   );
@@ -66,7 +66,12 @@ export default function FlowMapPresenter() {
     // placeholder awaiting backend integration
     const graph = {
       id: 'root',
-      layoutOptions: { 'elk.algorithm': 'layered' },
+      layoutOptions: {
+        'elk.algorithm': 'layered',
+        'elk.spacing.nodeNode': '100.0', // vertical spacing
+        'elk.layered.spacing.nodeNodeBetweenLayers': '50.0', // horizontal spacing
+        'elk.layered.spacing.edgeNodeBetweenLayers': '50.0'
+      },
       children: nodesWithDimensions,
       edges: fakeEdges
     };
@@ -116,8 +121,7 @@ const fakeEdges: ElkExtendedEdge[] = [
   {
     id: '4',
     sources: ['invoice_approved'],
-    targets: ['review_invoice'],
-    labels: [{ text: 'No' }]
+    targets: ['review_invoice']
   },
   {
     id: '5',
@@ -127,14 +131,12 @@ const fakeEdges: ElkExtendedEdge[] = [
   {
     id: '6',
     sources: ['review_successful'],
-    targets: ['approve_invoice'],
-    labels: [{ text: 'Yes' }]
+    targets: ['approve_invoice']
   },
   {
     id: '7',
     sources: ['review_successful'],
-    targets: ['invoice_not_processed'],
-    labels: [{ text: 'No' }]
+    targets: ['invoice_not_processed']
   },
   {
     id: '8',
