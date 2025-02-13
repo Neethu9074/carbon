@@ -6,9 +6,8 @@
 
 import React from 'react';
 
-import { Card, DataTable as CarbonDataTable } from '@instana/components';
+import { Card, DataTable as CarbonDataTable, Pagination as CarbonPagination } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
-import { Pagination } from '@instana/components';
 
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
 import { createStore } from 'in-sdk/components/dashboard/Table/stores/content';
@@ -240,9 +239,9 @@ export default class Table extends React.Component {
             isExpandable={this.props.getRowDetails !== undefined ? true : false}
           />
           {showPagination ? (
-            <Pagination
+            <CarbonPagination
               currentPage={(data.page || 0) + 1}
-              totalItems={this.props.rows?.length}
+              totalItems={data.totalFilteredRowCount ?? this.props.rows?.length}
               pageSize={this.store.maxItemsPerPage ?? 10}
               pageSizes={[this.store.maxItemsPerPage ?? 10]}
               onChange={p => this.store.setPage(p.page - 1)}
