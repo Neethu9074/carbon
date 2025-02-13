@@ -21,19 +21,15 @@ import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smar
 import { createOrSaveAlertFromTearSheet } from 'in-alerting/smart-alerts/synthetics/components/AlertCreateOrSave';
 import { alertsTabDetailsFullyQualified, syntheticSmartAlertsDetailsPath } from 'in-synthetics/navigation/paths';
 import getAlertingUrlParameters from 'in-alerting/smart-alerts/synthetics/tearsheet/getAlertingUrlParameters';
-import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import generateAlertConfig from 'in-alerting/smart-alerts/synthetics/data/generateAlertConfig';
 import { getHeaderTitle } from 'in-alerting/smart-alerts/synthetics/tearsheet/sharedFunctions';
-import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { alertCreated, alertId } from 'in-synthetics/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
-
-const initialChartConfigIndex = 0;
 
 export default function AlertConfigTearSheet() {
   const location = useLocation();
@@ -61,9 +57,8 @@ function AlertConfigTearSheetContent({
   syntheticTestId?: string;
 }) {
   const editMode = false; // TODO handle edit scenerio
-  const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig));
-  const updateForm = useSmartAlertFormSideEffects(form, setForm);
+
   const duplicateFrom = alertConfig?.duplicateFrom;
 
   const [isSaving, setIsSaving] = useState(false);
@@ -74,12 +69,11 @@ function AlertConfigTearSheetContent({
   return (
     <>
       <AlertConfigTearSheetWithThreshold
-        updateForm={updateForm}
+        updateForm={(updateForm: MapForm<any>) => {
+          setForm(updateForm);
+        }}
         form={form}
-        onChange={createOnChange(updateForm, form)}
-        onChartViewConfigChange={setSelectedChartViewConfigIndex}
-        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
+        onChange={createOnChange(setForm, form)}
         onCreate={() => {
           createOrSaveAlertFromTearSheet({
             form,

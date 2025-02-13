@@ -1268,12 +1268,21 @@
       },
       "tearSheet": {
         "createTitle": "Create a synthetic smart alert",
+        "scopeFilter": {
+          "filter": "Filter",
+          "filterDescription": "Add filters to the synthetic tests to get more precise alerts."
+        },
         "steps": {
-          "step1Title": "Choose synthetic tests"
+          "step1Title": "Choose synthetic tests.",
+          "step2Title": "Define when to get alerted."
         },
         "step1": {
           "header": "Which synthetic tests you want to be alerted on?",
-          "description": "Individual alerts will be sent independently for each synthetic test, per location"
+          "description": "Individual alerts will be sent independently for each synthetic test, per location."
+        },
+        "step2": {
+          "sliderHeader": "Set when violations trigger alerts",
+          "sliderDescription": "Specify how many consecutive failures should occur per location before alerting."
         }
       }
     },
