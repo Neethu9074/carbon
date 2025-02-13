@@ -7,10 +7,10 @@
 const serverConfig = require('../serverConfig.js');
 
 // default url format for saas & operator
-const saasUrlFormat = '$unit-$tenant.$baseDomain';
+const subdomainUrlFormat = '$unit-$tenant.$baseDomain';
 
 // (additional & optional) url format for on-premise operator based installations only
-const operatorUrlFormat = '$baseDomain/$tenant/$unit';
+const pathUrlFormat = '$baseDomain/$tenant/$unit';
 
 // request header for tenant&unit name i case using 'operatorUrlFormat'
 exports.header = {
@@ -20,7 +20,7 @@ exports.header = {
 
 exports.isDefaultUrlFormat = function isDefaultUrlFormat() {
   // TODO adjust to having a flag in config instead
-  return serverConfig.urlFormat === saasUrlFormat;
+  return serverConfig.urlFormat === subdomainUrlFormat;
 };
 
 // urlFormat requires below variables
@@ -33,5 +33,5 @@ exports.getBaseUrl = (tenant, unit) => {
 };
 
 function getUrlFormat() {
-  return exports.isDefaultUrlFormat() ? saasUrlFormat : operatorUrlFormat;
+  return exports.isDefaultUrlFormat() ? subdomainUrlFormat : pathUrlFormat;
 }
