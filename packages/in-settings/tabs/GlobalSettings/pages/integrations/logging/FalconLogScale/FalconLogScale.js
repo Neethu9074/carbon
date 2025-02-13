@@ -165,6 +165,7 @@ const FalconLogScale = () => {
           <SectionLine />
 
           <FalconLogScaleForm
+            id={'falconLogScale-enabled'}
             form={form}
             onChange={onChange}
             areFieldsBlank={areFieldsBlank(form)}

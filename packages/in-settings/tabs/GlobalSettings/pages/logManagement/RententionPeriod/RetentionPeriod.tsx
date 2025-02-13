@@ -134,7 +134,7 @@ export default function RetentionPeriod() {
             {localisationStrings.changeRetentionPeriod}
           </Button>
         </section>
-        <main>
+        <div>
           {!isLoading ? (
             <KpiGridRow sizes={[3]}>
               <KpiCard title={localisationStrings.currentRetentionPeriod}>
@@ -163,7 +163,7 @@ export default function RetentionPeriod() {
               <Typography variant={'body-regular'}>{localisationStrings.historyChanges2}</Typography>
             </section>
           )}
-        </main>
+        </div>
       </section>
       {showConfirmation && (
         <RetentionPeriodDialog
@@ -263,7 +263,7 @@ function RetentionPeriodDialog({
       primaryButtonDisabled={!canSubmit}
     >
       <Form>
-        <FormGroup legendText="">
+        <FormGroup legendText="Form">
           <Stack gap={6}>
             <Typography variant="body-regular">{localisationStrings.retentionDialogDescription}</Typography>
             <Message type="warning" title={localisationStrings.retentionDialogUserInfo} dismissible />

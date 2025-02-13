@@ -17,14 +17,14 @@ import { t, Trans } from 'in-i18n';
 
 import locals from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Mezmo/MezmoForm.mless';
 
-export default function IbmCloudLogMezmoForm({ form, onChange, disabled, areFieldsInvalid }) {
+export default function IbmCloudLogMezmoForm({ form, onChange, disabled, areFieldsInvalid, id }) {
   let accountId = form.get('accountId').value;
   let instanceType = 'IBM_CLOUD';
   let ibmCloudBaseURL = form.get('baseUrl').value;
   const mezmoUrl = constructLink({}, instanceType, accountId, ibmCloudBaseURL);
 
   return (
-    <fieldset>
+    <fieldset id={id} aria-label={id}>
       {form.get('baseUrl').map(field => (
         <FormGroup>
           <Label htmlFor="mezmo-ibm-cloud-base-url" hasError={!field.value && field.touched}>

@@ -16,10 +16,10 @@ import { t, Trans } from 'in-i18n';
 
 import locals from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Coralogix/Coralogix.mless';
 
-export default function CoralogixForm({ form, onChange, disabled, areFieldsBlank }) {
+export default function CoralogixForm({ form, onChange, disabled, areFieldsBlank, id }) {
   const coralogixUrl = form.get('url').value + '/#/dashboard';
   return (
-    <fieldset>
+    <fieldset id={id} aria-label={id}>
       {form.get('url').map(field => (
         <FormGroup>
           <Label htmlFor="coralogix-url" hasError={!field.value && field.touched}>

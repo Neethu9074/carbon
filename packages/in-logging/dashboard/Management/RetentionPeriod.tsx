@@ -22,13 +22,11 @@ export default function RetentionPeriod() {
   if (!(user?.role?.canConfigureLogRetentionPeriod && isLoggingAddonUser)) return <RestrictedAccessMessage />;
 
   return (
-    <main>
-      <header>
-        <Breadcrumbs />
-      </header>
+    <>
+      <Breadcrumbs />
       <section className={locals.content}>
         <RetentionPeriodContent />
       </section>
-    </main>
+    </>
   );
 }

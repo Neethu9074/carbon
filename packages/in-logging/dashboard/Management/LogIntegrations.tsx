@@ -17,13 +17,11 @@ export default function LogIntegrations() {
   if (!user?.role?.canConfigureLogManagement) return <RestrictedAccessMessage />;
 
   return (
-    <main>
-      <header>
-        <Breadcrumbs />
-      </header>
+    <div>
+      <Breadcrumbs />
       <section className={locals.content}>
         <LogIntegrationsContent />
       </section>
-    </main>
+    </div>
   );
 }

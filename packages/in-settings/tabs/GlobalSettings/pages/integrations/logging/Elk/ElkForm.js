@@ -16,9 +16,9 @@ import { t, Trans } from 'in-i18n';
 
 import locals from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Elk/ElkForm.mless';
 
-export default function ElkForm({ form, onChange, disabled }) {
+export default function ElkForm({ form, onChange, disabled, id }) {
   return (
-    <fieldset>
+    <fieldset id={id} aria-label={id}>
       {form.get('url').map(field => (
         <FormGroup>
           <Label htmlFor="elk-url" hasError={!field.value && field.touched}>

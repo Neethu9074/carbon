@@ -16,11 +16,11 @@ import { t, Trans } from 'in-i18n';
 
 import locals from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Splunk/SplunkForm.mless';
 
-export default function SplunkForm({ form, onChange, disabled, areFieldsBlank }) {
+export default function SplunkForm({ form, onChange, disabled, areFieldsBlank, id }) {
   const splunkUrl = form.get('url').value;
 
   return (
-    <fieldset>
+    <fieldset id={id} aria-label={id}>
       {form.get('url').map(field => (
         <FormGroup>
           <Label htmlFor="splunk-url" hasError={!field.value && field.touched}>
