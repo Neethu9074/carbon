@@ -323,9 +323,9 @@ export default function DeleteLogs() {
         </Typography>
       </section>
       <Card className={locals.noPadding}>
-        <main>
+        <div>
           <DeletionTable openConfirmationDialog={openConfirmationDialog} isDeleting={isDeleting} />
-        </main>
+        </div>
       </Card>
 
       {showConfirmation &&
@@ -484,6 +484,7 @@ function DeleteLogsModal({
                   <span>{deleteLogsLocalisationStrings.deletionUntilDate}</span>
                   <section className={locals.marginLabel}>
                     <CarbonDateInput
+                      id="deletionUntilDate"
                       hasError={!!validationMessages.endDate}
                       disabled={isDeleting}
                       value={new Date(inputValues.endDate as string)}

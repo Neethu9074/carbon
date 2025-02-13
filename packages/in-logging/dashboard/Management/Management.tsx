@@ -45,7 +45,7 @@ export default function Management() {
 
   return (
     <LoggingDashboardWrapper>
-      <main className={locals.layout}>
+      <div className={locals.layout}>
         {shouldShowRetentionPeriod && (
           <Card>
             <section className={locals.card}>
@@ -56,6 +56,7 @@ export default function Management() {
               <p>{localisationStrings.retentionPeriodDescription}</p>
               <div className={locals.navButton}>
                 <IconButton
+                  aria-label={'logRetention-link-button'}
                   color="#0F62FE"
                   onClick={() => goToPath(dashboardRetentionManagementPath)}
                   type="lib_arrow_right"
@@ -73,7 +74,12 @@ export default function Management() {
               <span>{localisationStrings.logVolume}</span>
               <p>{localisationStrings.logVolumeDescription}</p>
               <div className={locals.navButton}>
-                <IconButton color="#0F62FE" onClick={() => goToPath(dashboardLogVolumePath)} type="lib_arrow_right" />
+                <IconButton
+                  aria-label={'logVolume-link-button'}
+                  color="#0F62FE"
+                  onClick={() => goToPath(dashboardLogVolumePath)}
+                  type="lib_arrow_right"
+                />
               </div>
             </section>
           </Card>
@@ -88,6 +94,7 @@ export default function Management() {
               <p>{localisationStrings.logIntegrationsDescription}</p>
               <div className={locals.navButton}>
                 <IconButton
+                  aria-label={'integration-link-button'}
                   color="#0F62FE"
                   onClick={() => goToPath(dashboardIntegrationsPath)}
                   type="lib_arrow_right"
@@ -96,7 +103,7 @@ export default function Management() {
             </section>
           </Card>
         )}
-      </main>
+      </div>
     </LoggingDashboardWrapper>
   );
 }
