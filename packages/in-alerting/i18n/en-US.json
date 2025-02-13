@@ -1265,6 +1265,12 @@
         "timeThreshold": "Time threshold",
         "alertingType": "Alerting type",
         "noScopeConfigured": "No scope filter configured"
+      },
+      "tearSheet": {
+        "createTitle": "Create a synthetic smart alert",
+        "steps": {
+          "step1Title": "Choose synthetic test(s)"
+        }
       }
     },
     "mobileApp": {

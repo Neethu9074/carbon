@@ -415,9 +415,6 @@
       }
     }
   },
-  "createSmartAlert": {
-    "buttonLabel": "Add Synthetic Smart Alert"
-  },
   "navigation": {
     "synthetics": "Synthetic Monitoring"
   },

@@ -13,6 +13,7 @@ import {
   alertCreated as alertCreatedMatrixParam
 } from 'in-synthetics/navigation/matrix';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
+import CreateSmartAlert, { CreateSmartAlertButton } from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import { alertsTabDetailsFullyQualified, syntheticSmartAlertsPath } from 'in-synthetics/navigation/paths';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
@@ -21,7 +22,6 @@ import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingAc
 import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { SyntheticAlertConfigWithMetadata, SyntheticAlertConfig, Role } from 'in-types';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
-import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
@@ -67,11 +67,7 @@ export default function SmartAlertList() {
           carbonActionHandlers={handlers}
           getNameSubtitle={config => getSyntheticsSubtitle(config)}
           displayCarbonTable={displayCarbonTable}
-          toolBarContent={
-            role?.canConfigureGlobalSyntheticSmartAlerts ? (
-              <CreateSmartAlert isCarbonTableView={displayCarbonTable} />
-            ) : undefined
-          }
+          toolBarContent={role?.canConfigureGlobalSyntheticSmartAlerts ? <CreateSmartAlertButton /> : undefined}
           noDataHeader={t('in-alerting:smartAlerts.synthetics.alertList.noDataHeader')}
           noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.synthetics.alertList.noDataDescription" />}
         />
