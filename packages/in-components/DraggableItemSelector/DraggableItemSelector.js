@@ -3,7 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { DndContext, closestCenter, PointerSensor, useSensor } from '@dnd-kit/core';
+import { CSS } from '@dnd-kit/utilities';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
@@ -16,6 +18,27 @@ import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './DraggableItemSelector.mless';
+
+function SortableItem({ id, children }) {
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({ id });
+
+  return (
+    <div
+      ref={setNodeRef}
+      className={locals.item}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        position: 'relative',
+        zIndex: isDragging ? 1000 : 'auto',
+        cursor: isDragging ? 'grabbing' : 'grab'
+      }}
+      {...attributes}
+      {...listeners}
+    >
+      {children(isDragging)}
+    </div>
+  );
+}
 
 export default function DraggableItemSelector(props) {
   const {
@@ -38,6 +61,7 @@ export default function DraggableItemSelector(props) {
   // SlideInView and useDuringTransition need to be in sync
   const slideTransitionDurationMillis = 250;
   const duringTransition = useDuringTransition(showSlideInContent, slideTransitionDurationMillis);
+  const sensors = [useSensor(PointerSensor, { activationConstraint: { distance: 5 } })];
 
   return (
     <SlideInView
@@ -49,47 +73,45 @@ export default function DraggableItemSelector(props) {
             [className]: true
           })}
         >
-          <DragDropContext
-            onDragEnd={e => {
-              if (e.destination && onSwap) {
-                onSwap(e.source.index, e.destination.index);
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={({ active, over }) => {
+              if (over && onSwap) {
+                onSwap(active.id, over.id);
               }
             }}
           >
-            <Droppable droppableId="tag-selection">
-              {provided => (
-                <div ref={provided.innerRef}>
-                  {items.map((item, i) => (
-                    <Draggable key={i} draggableId={String(i)} index={i}>
-                      {provided => (
-                        <div className={locals.item} ref={provided.innerRef} {...provided.draggableProps}>
-                          {onSwap ? (
-                            <Tooltip content={t('in-components:draggableItemSelector.tooltipReorderMetrics')}>
-                              <div className={locals.dragHandle} {...provided.dragHandleProps}>
-                                <SvgIcon type="lib_menu" size="xs" />
-                              </div>
-                            </Tooltip>
-                          ) : (
-                            <div className={locals.dragHandle} {...provided.dragHandleProps} />
-                          )}
-
-                          <Content item={item} {...props} i={i} />
-
-                          <SvgIcon
-                            className={locals.removeButton}
-                            type="lib_actions_delete"
-                            onClick={() => onRemove(item, i)}
-                          />
-                        </div>
+            <SortableContext items={items.map((_, i) => String(i))} strategy={verticalListSortingStrategy}>
+              {items.map((item, index) => (
+                <SortableItem key={String(index)} id={String(index)}>
+                  {isDragging => (
+                    <>
+                      {onSwap ? (
+                        <Tooltip
+                          content={isDragging ? '' : t('in-components:draggableItemSelector.tooltipReorderMetrics')}
+                        >
+                          <div className={locals.dragHandle}>
+                            <SvgIcon type="lib_menu" size="xs" />
+                          </div>
+                        </Tooltip>
+                      ) : (
+                        <div className={locals.dragHandle} />
                       )}
-                    </Draggable>
-                  ))}
 
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+                      <Content item={item} {...props} i={index} />
+
+                      <SvgIcon
+                        className={locals.removeButton}
+                        type="lib_actions_delete"
+                        onClick={() => onRemove(item, index)}
+                      />
+                    </>
+                  )}
+                </SortableItem>
+              ))}
+            </SortableContext>
+          </DndContext>
           <div className={locals.addButtonWrapper}>
             <Button
               kind="action"
