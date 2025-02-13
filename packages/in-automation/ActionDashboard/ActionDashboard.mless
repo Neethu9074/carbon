@@ -24,12 +24,6 @@
       margin-top: 5px;
     }
   }
-  .removeYPaddingForChildCard {
-    :global .carbon-card-wrapper {
-      padding-top: 0;
-      padding-bottom: 0;
-    }
-  }
 }
 :global .code-snippet-wrapper {
   --cds-layer: #f4f4f4;
