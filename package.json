@@ -148,7 +148,6 @@
     "prop-types": "^15.7.2",
     "qs": "^6.11.0",
     "react": "^17.0.2",
-    "react-beautiful-dnd": "^13.0.0",
     "react-click-away-listener": "^2.0.0",
     "react-csv": "^2.2.2",
     "react-day-picker": "^7.0.3",
