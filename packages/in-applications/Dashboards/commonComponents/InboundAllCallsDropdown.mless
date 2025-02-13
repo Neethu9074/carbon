@@ -90,4 +90,12 @@
     text-wrap: wrap;
     overflow: hidden;
   }
+
+  ul:has(.menuitem) {
+    padding: 0;
+  }
+
+  svg.icon {
+    transform: unset;
+  }
 }
