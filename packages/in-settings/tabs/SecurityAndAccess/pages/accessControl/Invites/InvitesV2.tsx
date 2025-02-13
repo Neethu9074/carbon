@@ -9,6 +9,7 @@ import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-set
 import { TrashCan, UserAvatar } from '@carbon/icons-react';
 import React from 'react';
 
+import { DateFormatterOutput } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
 import { Spacer } from '@instana/components';
 import { Result } from '@instana/types';
@@ -49,17 +50,30 @@ const headers = [
   }
 ];
 
+interface FormattedInvitation extends Omit<PendingInvitation, 'expireAt' | 'groupId'> {
+  expireAt: DateFormatterOutput;
+}
+
 const tableActions = {
   delete: {
-    deleteEntity: ({ email }: PendingInvitation) => revokeInvitation(email)
+    deleteEntity: ({ email }: FormattedInvitation) => revokeInvitation(email)
   }
 };
 
-const getEntityName = (entity: PendingInvitation) => {
+const getEntityName = (entity: FormattedInvitation) => {
   return t('in-settings:tabs.inviteWithEmail', { email: entity.email });
 };
 
-const customDialogMessage = ({ email }: PendingInvitation) => {
+interface RowObject<ROW_DATA> {
+  email: JSX.Element;
+  expireAt: DateFormatterOutput;
+  groupName: string;
+  id: string;
+  invitedBy: string;
+  rowData: ROW_DATA;
+}
+
+const customDialogMessage = ({ email }: FormattedInvitation) => {
   return (
     <span>
       <Trans
@@ -90,7 +104,7 @@ const InvitesV2 = () => {
   const entities = !loading && !hasErrors ? (dataTableResult as PendingInvitation[]) : [];
   const pageSizes = [20, 50];
 
-  const rows = entities?.map((invite: PendingInvitation) => ({
+  const rows: Array<RowObject<FormattedInvitation>> = entities?.map((invite: PendingInvitation) => ({
     email: (
       <HorizontalFlexWrapper>
         <UserAvatar />
@@ -111,7 +125,7 @@ const InvitesV2 = () => {
     }
   }));
 
-  const getMenuItems = (row: DataTableRow<any[]>) => {
+  const getMenuItems = (row: Omit<DataTableRow<RowObject<FormattedInvitation>[], FormattedInvitation>, 'rowData'>) => {
     const invite = entities.filter(item => item.id === row.id)[0];
     const { email } = invite;
     return [
@@ -142,7 +156,7 @@ const InvitesV2 = () => {
       pageSizes={pageSizes}
       enableMultSelect={false}
       getEntityName={getEntityName}
-      customDialogMessage={(entity: PendingInvitation) => customDialogMessage(entity)}
+      customDialogMessage={entity => customDialogMessage(entity)}
       customDialogConfirmLabel={t('in-settings:tabs.revoke')}
       tableActions={tableActions}
       message={errorMessage}

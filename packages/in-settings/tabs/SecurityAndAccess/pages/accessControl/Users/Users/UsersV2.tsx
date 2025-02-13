@@ -62,6 +62,14 @@ const headers = [
   }
 ];
 
+interface RowObject<ROW_DATA> {
+  fullName: JSX.Element;
+  groupCount: JSX.Element;
+  id: string;
+  rowData: ROW_DATA;
+  tfaEnabled: JSX.Element;
+}
+
 export default function UsersV2() {
   const isAnyIDPActive = useIsAnyIdPActive();
   const { trackCta } = useSegmentTracking();
@@ -79,7 +87,7 @@ export default function UsersV2() {
       } as Notification)
     : null;
   const entities = !loading && !hasErrors ? (dataTableResult as UserResult[]) : [];
-  const rows = entities?.map((user: UserResult) => ({
+  const rows: Array<RowObject<UserResult>> = entities?.map((user: UserResult) => ({
     fullName: (
       <HorizontalFlexWrapper>
         <UserAvatar />
@@ -134,7 +142,7 @@ export default function UsersV2() {
     );
   }
 
-  const getMenuItems = (row: DataTableRow<any[]>) => {
+  const getMenuItems = (row: Omit<DataTableRow<RowObject<UserResult>[], UserResult>, 'rowData'>) => {
     const user = entities.filter(item => item.id === row.id)[0];
     const { fullName } = user;
     return [

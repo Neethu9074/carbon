@@ -4,15 +4,16 @@
  * Copyright IBM Corp. 2025
  */
 
+import React, { ReactNode, useState } from 'react';
 import { TrashCan } from '@carbon/icons-react';
-import React, { useState } from 'react';
 
 import { Link, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import CarbonDataTableWrapper, {
   DataTableRow,
-  Notification
+  Notification,
+  TableActions
 } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
 import { ApiTeam, getTeamsResult, deleteTeam, deleteTeams } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import CreateTeamDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/CreateTeamDialog';
@@ -41,10 +42,10 @@ const headers = [
   }
 ];
 
-const tableActions = {
+const tableActions: TableActions<TeamRowData> = {
   delete: {
-    deleteEntity: (entity: ApiTeam) => deleteTeam(entity.id),
-    batchDeleteEntity: (selectedIds: string[]) => deleteTeams(selectedIds)
+    deleteEntity: entity => deleteTeam(entity.id),
+    batchDeleteEntity: selectedIds => deleteTeams(selectedIds)
   }
 };
 
@@ -67,6 +68,19 @@ const getScopeValue = (scope: object) => {
   }
 };
 
+interface TeamRowData extends Omit<ApiTeam, 'scope'> {
+  memberCount: number;
+  scope: string;
+}
+
+interface TeamRow<ROW_DATA> {
+  id: string;
+  memberCount: ReactNode;
+  rowData: ROW_DATA;
+  scope: ReactNode;
+  tag: ReactNode;
+}
+
 const Teams = () => {
   const pageSizes = [20, 50];
   const dataTableResult = useObservable(getTeamsResult, []) ?? pendingResult;
@@ -82,7 +96,7 @@ const Teams = () => {
       } as Notification)
     : null;
 
-  const rows = entities?.map((team: ApiTeam) => ({
+  const rows: Array<TeamRow<TeamRowData>> = entities?.map((team: ApiTeam) => ({
     tag: (
       <Link href={getEntityIdView(securityAndAccessAccessControlTeams, team.id)} ellipsis>
         <Typography variant="body-regular" noMargin component="p">
@@ -98,7 +112,7 @@ const Teams = () => {
     rowData: { ...team, memberCount: team.members?.length, scope: getScopeValue(team?.scope) }
   }));
 
-  const getMenuItems = (row: DataTableRow<any[]>) => {
+  const getMenuItems = (row: Omit<DataTableRow<TeamRow<TeamRowData>[], TeamRowData>, 'rowData'>) => {
     const team = entities.filter(item => item.id === row.id)[0];
     const { tag } = team;
     return [
@@ -127,7 +141,7 @@ const Teams = () => {
         getMenuItems={getMenuItems}
         getBatchActionItems={getBatchActionItems}
         boundedPath="/teams"
-        getEntityName={({ tag }: ApiTeam) => t('in-settings:tabs.teams.teamWithName', { name: tag })}
+        getEntityName={({ tag }) => t('in-settings:tabs.teams.teamWithName', { name: tag })}
         pageSizes={pageSizes}
         tableActions={tableActions}
         message={errorMessage ? errorMessage : message}

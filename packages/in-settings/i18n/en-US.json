@@ -356,6 +356,12 @@
     "removedEntity": "Successfully removed {{entity}}"
   },
   "tabs": {
+    "role": {
+      "deprecated": "deprecated",
+      "newRole": "New role",
+      "permissionsCount": "Permissions",
+      "usersCount": "Number of users assigned"
+    },
     "team": {
       "events": {
         "addCondition": "Add Condition",
