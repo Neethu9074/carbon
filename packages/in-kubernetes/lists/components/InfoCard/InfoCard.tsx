@@ -81,7 +81,7 @@ export default function InfoCard({
 
   const nodesHref = useClusterDashboard(clusterId, { tab: nodesDashboard });
   const deploymentsHref = useClusterDashboard(clusterId, { tab: deploymentsDashboard });
-  const podsHref = useClusterDashboard(clusterId, { tab: podsDashboard });
+  const podsHref = useClusterDashboard(clusterId, { tab: `${podsDashboard};pod.phase=Running~` });
   const namespacesHref = useClusterDashboard(clusterId, { tab: namespaceList });
   const cronJobsHref = useClusterDashboard(clusterId, { tab: cronJobsDashboard });
   const servicesHref = useClusterDashboard(clusterId, { tab: servicesDashboard });
@@ -127,7 +127,7 @@ export default function InfoCard({
         <InfoCardTile
           title={t('in-kubernetes:cloudNative.runningPods')}
           isLoading={isLoadingData}
-          href={`${podsHref};pod.phase=Running~`}
+          href={podsHref}
           subtitle={t('in-kubernetes:cloudNative.totalPods', { count: pods })}
           counter={`${totalRunningPods}`}
         />
