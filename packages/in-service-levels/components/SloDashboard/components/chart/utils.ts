@@ -37,7 +37,7 @@ export function findMinMaxMetricValues(
   if (!withBuffer) return minMax;
 
   const range = minMax.max - minMax.min;
-  const fallbackBuffer = minMax.max * 0.8;
+  const fallbackBuffer = minMax.max * 0.05;
   const buffer = Math.max(range * 0.2, fallbackBuffer);
 
   return {
