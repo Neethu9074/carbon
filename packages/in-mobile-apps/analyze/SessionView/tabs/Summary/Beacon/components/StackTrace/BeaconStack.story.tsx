@@ -106,7 +106,14 @@ const testData: Record<string, MobileAppMonitoringBeacon> = {
     coldStartTimeMs: 1,
     hotStartTimeMs: 1,
     performanceSubtype: 'performance sub type',
-    warmStartTimeMs: 1
+    warmStartTimeMs: 1,
+    availableMb: 0,
+    maxMb: 0,
+    rateLimitBeaconType: '',
+    rateLimitCount: 0,
+    rateLimitTimeMax: 0,
+    rateLimitTimeMin: 0,
+    usedMb: 0
   },
   androidBeacon: {
     ...dummyBeaconData,
@@ -172,6 +179,13 @@ const testData: Record<string, MobileAppMonitoringBeacon> = {
     coldStartTimeMs: 1,
     hotStartTimeMs: 1,
     performanceSubtype: 'performance sub type',
-    warmStartTimeMs: 1
+    warmStartTimeMs: 1,
+    availableMb: 0,
+    maxMb: 0,
+    rateLimitBeaconType: '',
+    rateLimitCount: 0,
+    rateLimitTimeMax: 0,
+    rateLimitTimeMin: 0,
+    usedMb: 0
   }
 };
