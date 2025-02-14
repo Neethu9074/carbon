@@ -33,6 +33,9 @@
   .numberInput {
     :global .cds--number__input-wrapper {
       width: 12rem;
+      input {
+        height: 2.05rem;
+      }
     }
   }
 }

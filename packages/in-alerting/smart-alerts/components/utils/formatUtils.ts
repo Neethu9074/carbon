@@ -29,8 +29,8 @@ export function getThresholdValueForPercentageMetric(value: number | null, perce
   return percentageMetric ? round(value / 100, 3) : value;
 }
 
-export function shiftDecimalRight(num: number, places: number = 2, percentageMetric: boolean) {
-  if (num === null || num === 0 || !percentageMetric) return num;
+export function shiftDecimalRight(num: number | null | string, places: number = 2, percentageMetric: boolean) {
+  if (num === null || num === '' || num === 0 || !percentageMetric) return num;
 
   let [integer, decimal = ''] = num.toString().split('.');
 
@@ -48,7 +48,7 @@ export function shiftDecimalLeft(
   places: number = 2,
   percentageMetric: boolean
 ): number | null | string {
-  if (num == null || num === 0 || !percentageMetric) {
+  if (num == null || num === '' || num === 0 || !percentageMetric) {
     return num;
   }
 
