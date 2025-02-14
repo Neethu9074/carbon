@@ -12,7 +12,7 @@ import {
   CarbonToggletipActions,
   CarbonToggletipButton,
   CarbonToggletipContent
-} from '@instana/components/types/carbon';
+} from '@instana/components';
 import { BusinessProcessItem, TimeConfig } from '@instana/types';
 
 // @ts-expect-error Could not find declaration type

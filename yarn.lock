@@ -2992,9 +2992,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:4.77.0, @instana/components@npm:^4.77.0":
-  version: 4.77.0
-  resolution: "@instana/components@npm:4.77.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.77.0.tgz"
+"@instana/components@npm:4.78.0, @instana/components@npm:^4.78.0":
+  version: 4.78.0
+  resolution: "@instana/components@npm:4.78.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.78.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.45.0
     "@carbon/react": 1.72.0
@@ -3012,7 +3012,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.2
-  checksum: ee0ec62df5c1d382f087db736c8f09bea8657e96fc7dc8fdd0994e5acd553b2670f0a0f9b46d8ada242b434e1357a2d11fa9c5c9103b563ca284b8c8920c9043
+  checksum: 9920e0ca92a9585740df4d0e89d7ea765a25110f297e3dd07848ffffd0865698f6d1d7e0affe5e17e7ba6222990d516221e2127a50f1aa50acffb40b275cc02e
   languageName: node
   linkType: hard
 
@@ -3108,9 +3108,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/ibm-products@npm:0.8.0":
-  version: 0.8.0
-  resolution: "@instana/ibm-products@npm:0.8.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fibm-products%2F-%2F%40instana%2Fibm-products-0.8.0.tgz"
+"@instana/ibm-products@npm:0.9.0":
+  version: 0.9.0
+  resolution: "@instana/ibm-products@npm:0.9.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fibm-products%2F-%2F%40instana%2Fibm-products-0.9.0.tgz"
   dependencies:
     "@carbon/ibm-products": 2.55.0
     "@carbon/react": 1.72.0
@@ -3118,7 +3118,7 @@ __metadata:
   peerDependencies:
     react: ^17.0.2
     react-dom: ^17.0.2
-  checksum: 6a6e1b03c73ae24234419270eecbeaf77473198ed4260162316a8df95ff095ba92fdda8a269a8ff0df898a7371760c39508e0e8934fa849b88f656d8ca5a8c6e
+  checksum: 791d0a53be264423f158104f554c59ae1a4eb4188856ff086d2a138ceec0a0d8a2552b6f000ded867ea23b8bae311a279ad0e364cbd69090b2e84b35b9584244
   languageName: node
   linkType: hard
 
@@ -3131,11 +3131,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:4.3.50":
-  version: 4.3.50
-  resolution: "@instana/legacy@npm:4.3.50::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.50.tgz"
+"@instana/legacy@npm:4.3.51":
+  version: 4.3.51
+  resolution: "@instana/legacy@npm:4.3.51::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.51.tgz"
   dependencies:
-    "@instana/components": ^4.77.0
+    "@instana/components": ^4.78.0
     "@instana/design-tokens": ^1.28.7
     "@instana/format-date": ^1.7.6
     "@instana/format-numbers": ^1.6.4
@@ -3147,7 +3147,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 70b72389bdbb8c3ac0784a2611dc63c1391cc537921c4da7ab8865b5ea70be598b559c725d636c896bcc972a8c13cc61c9eef1a37828b0903090769deb907382
+  checksum: 6245e9c79e1a04c3047a3a8b45d741340688c80512d295f2acec0d38b1b0a975aed98515813e1a21de53bc673f797df56e25a33fe06593e49a3beb288ae6b03c
   languageName: node
   linkType: hard
 
@@ -22291,7 +22291,7 @@ __metadata:
     "@dnd-kit/core": 6.1.0
     "@dnd-kit/sortable": 8.0.0
     "@instana/carbon-charts": 0.5.0
-    "@instana/components": 4.77.0
+    "@instana/components": 4.78.0
     "@instana/design-tokens": 1.28.7
     "@instana/eslint-config-commons": 1.3.0
     "@instana/format-date": 1.7.6
@@ -22299,9 +22299,9 @@ __metadata:
     "@instana/hooks": 1.12.4
     "@instana/i18n": ^1.6.4
     "@instana/i18n-react": 1.7.2
-    "@instana/ibm-products": 0.8.0
+    "@instana/ibm-products": 0.9.0
     "@instana/import-sort-style-simon": 1.4.0
-    "@instana/legacy": 4.3.50
+    "@instana/legacy": 4.3.51
     "@instana/logger": ^1.3.1
     "@instana/observables": ^1.8.3
     "@instana/pseudo-translation": 1.5.4
