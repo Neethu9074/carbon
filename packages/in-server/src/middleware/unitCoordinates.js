@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-const { header, isDefaultUrlFormat } = require('../service/instanaUrls');
+const { header, isDefaultUrlFormat } = require('../services/instanaUrls');
 const serverConfig = require('../serverConfig');
 const errorPages = require('../errorPages');
 
