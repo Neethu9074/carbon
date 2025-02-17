@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { get } from 'lodash';
 
 import { LocationListItem, TestResultListItem, VersionedConfig } from '@instana/types';
-import { CarbonTabPanel, Link, TableTab, TableTabs } from '@instana/components';
+import { CarbonTabPanel, Link } from '@instana/components';
 import { formatDateTime } from '@instana/format-date';
 import { LocationStatus } from '@instana/types';
 import { t } from '@instana/i18n-react';
@@ -51,6 +51,8 @@ import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
+import { TableTabs } from 'in-plg/components/DashboardTable/TableTabs';
+import { TableTab } from 'in-plg/components/DashboardTable/TableTab';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
