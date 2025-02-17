@@ -483,12 +483,12 @@ module.exports = exports = [
   {
     uiClientKey: 'customWidgetTableInfraDataSourceEnabled',
     instanaCtlKey: 'feature.custom.widget.infrastructure.table.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'thresholdCustomDashboardsEnabled',
     instanaCtlKey: 'feature.threshold.custom.dashboards.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'thresholdCustomDashboardsTableWidgetEnabled',
