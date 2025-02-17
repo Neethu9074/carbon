@@ -178,9 +178,10 @@ function useRetriableObservable({
     const shouldRetry = traceDataMissing && isAlmostNow(timeConfig.to) && retry < retries;
     if (shouldRetry) {
       const timeoutId = setTimeout(() => setRetry(prev => prev + 1), retryDelay);
-      clearTimeout(timeoutId);
+      return () => clearTimeout(timeoutId);
     }
     result$.emit(traceSummary);
+    return () => {}; // needed to satisfy return rules (ts(7030))
   }, [retry, result$, traceSummary, timeConfig.to, retries, retryDelay]);
 
   return { result$, retry };
