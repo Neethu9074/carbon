@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { DashboardTableRow as Row, DashboardTableCell as Cell } from '@instana/components';
+import { CarbonTableRow as Row, CarbonTableCell as Cell } from '@instana/components';
 import { TimeConfig } from '@instana/types';
 
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
