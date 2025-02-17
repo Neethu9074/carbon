@@ -12,34 +12,19 @@ import { SloEntityType } from '@instana/types';
 import EntityTypeFilter from 'in-service-levels/components/SloList/components/EntityTypeFilter';
 import SloTagFilter from 'in-service-levels/components/SloList/components/SloTagFilter';
 
-interface Props {
+interface SloListFiltersProps {
   tags: string[];
   selectedTags: string[];
   entityType: SloEntityType | undefined;
   setFilter: (filter: Partial<{ entityType: SloEntityType | undefined; tags: string[] }>) => void;
-  disabled?: boolean;
-
-  // Creates a trailing gap to create space to following elements
-  withTrailingGap?: boolean;
 }
-export default function SloListFilters({
-  tags,
-  selectedTags,
-  entityType,
-  setFilter,
-  withTrailingGap,
-  disabled
-}: Props) {
+
+export default function SloListFilters({ tags, selectedTags, entityType, setFilter }: SloListFiltersProps) {
   return (
     <Stack direction="horizontal">
-      <SloTagFilter
-        tags={tags}
-        value={selectedTags}
-        onChange={value => setFilter({ tags: value })}
-        disabled={disabled}
-      />
-      <EntityTypeFilter value={entityType} onChange={value => setFilter({ entityType: value })} disabled={disabled} />
-      {withTrailingGap && <Spacer />}
+      <SloTagFilter tags={tags} value={selectedTags} onChange={value => setFilter({ tags: value })} />
+      <EntityTypeFilter value={entityType} onChange={value => setFilter({ entityType: value })} />
+      <Spacer />
     </Stack>
   );
 }

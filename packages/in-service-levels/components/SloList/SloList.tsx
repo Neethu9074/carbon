@@ -166,14 +166,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
       }}
       onChange={setServerTableState}
       rightHeader={() => (
-        <SloListFilters
-          tags={availableTags ?? []}
-          selectedTags={tags}
-          entityType={entityType}
-          setFilter={setFilter}
-          disabled={progress.loading}
-          withTrailingGap
-        />
+        <SloListFilters tags={availableTags ?? []} selectedTags={tags} entityType={entityType} setFilter={setFilter} />
       )}
       tableInCard
       fixedLayout
