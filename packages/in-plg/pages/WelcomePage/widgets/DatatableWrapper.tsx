@@ -8,8 +8,7 @@ import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 import { debounce } from 'lodash';
 
-import { DashboardTable, Pagination as CarbonPagination } from '@instana/components';
-import { DashboardTableRow as Row } from '@instana/components';
+import { Pagination as CarbonPagination, CarbonTableRow as Row } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
@@ -30,6 +29,7 @@ import PinnedItemList, { Item } from 'in-plg/pages/WelcomePage/widgets/table/Pin
 import connectTo from 'in-hoc/connectTo';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
 import RegularItemList from 'in-plg/pages/WelcomePage/widgets/table/RegularItemList';
+import { DashboardTable } from 'in-plg/components/DashboardTable/DashboardTable';
 import ViewAllButton from 'in-plg/pages/WelcomePage/widgets/table/ViewAllButton';
 import { DashboardTile } from 'in-plg/components/DashboardTile/DashboardTile';
 import { playwithEnabled } from 'in-services/featureFlags';
@@ -230,7 +230,9 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   const updatedHeaders = mainPage ? headers.filter(obj => obj.key !== 'favourite') : null;
   const dataLoading = result?.progress?.loading;
   const showPagination = mainPage && (dataLoading || hits > pageSizes[0]);
-
+  const dashboardAddMoreLabel = t('in-plg:welcomepage.component.dashboardWidget.addButtonLabel');
+  const addMorePrefix =
+    addButtonLabel === dashboardAddMoreLabel ? t('in-plg:welcomepage.create') : t('in-plg:welcomepage.addMore');
   return (
     <section
       className={classNames({
@@ -261,7 +263,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
             setQuery(searchQuery);
             setPage(1);
           }, 500)}
-          buttonName={`${t('in-plg:welcomepage.addMore')} ${addButtonLabel ?? ''}`.trim()}
+          buttonName={`${addMorePrefix} ${addButtonLabel ?? ''}`.trim()}
           toggles={dashboardTileProps.toggles}
           toggleCallback={dashboardTileProps.toggleCallback}
         />
