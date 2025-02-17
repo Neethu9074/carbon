@@ -139,6 +139,8 @@ const AdvancedMode = ({
             setInvalidTimeout={setInvalidTimeout}
           />
         );
+      case 'DNSAction':
+        return <div>DNS config goes here</div>;
       default:
         return null;
     }

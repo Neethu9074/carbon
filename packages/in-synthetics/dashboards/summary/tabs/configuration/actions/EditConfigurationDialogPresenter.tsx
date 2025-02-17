@@ -78,6 +78,9 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     },
     ssl: {
       simple: syntheticType === 'SSLCertificate'
+    },
+    dns: {
+      simple: syntheticType === 'DNSAction'
     }
   });
   const [customSlideInHeaderConfig, setCustomSlideInHeaderConfig] = useState<SlideInHeader>({

@@ -121,9 +121,16 @@ const SelectionMenu = ({
             return;
           }
           const isSSLCertificate = item.name === 'SSL Certificate';
+          const isDNSAction = item.name === 'DNS';
+          const getSyntheticType = () => {
+            if (isSSLCertificate) return 'SSLCertificate';
+            else if (isDNSAction) return 'DNSAction';
+            return '';
+          };
+
+          setCommonAttributes({ ...commonAttributes, syntheticType: getSyntheticType() });
           // Segment Tracker
           syntheticAdvancedCreateTestTypeSwitch(trackCta, item);
-          setCommonAttributes({ ...commonAttributes, syntheticType: isSSLCertificate ? 'SSLCertificate' : '' });
           setSelectedBlueprint(item as AdvancedBluePrint);
           //@ts-expect-error
           setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
@@ -131,7 +138,8 @@ const SelectionMenu = ({
               ...prevState,
               api: { simple: false, script: false },
               browser: { simple: false, script: false },
-              ssl: { simple: isSSLCertificate }
+              ssl: { simple: isSSLCertificate },
+              dns: { simple: isDNSAction }
             };
           });
           setRenderSectionsCounter(0);

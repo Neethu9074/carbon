@@ -38,7 +38,8 @@ const CreateSyntheticTestDialog = ({ onClose }: CreateSyntheticTestDialogProps) 
   const [testTypeSelected, setTestTypeSelected] = useState<TestTypeSelected>({
     api: { simple: false, script: false },
     browser: { simple: false, script: false },
-    ssl: { simple: false }
+    ssl: { simple: false },
+    dns: { simple: false }
   });
   const [renderSectionsCounter, setRenderSectionsCounter] = useState(0);
   const formId = 'create-synthetics-test-form';

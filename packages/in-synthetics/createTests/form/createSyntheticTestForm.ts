@@ -94,6 +94,10 @@ export function createForm(
       case 'SSLCertificate':
       case SSLCertificateTest:
         config = createAdvancedSSLCertificateConfigurationForm(savedState);
+        break;
+      case 'DNS':
+      case 'DNSAction':
+        config = createDNSActionConfigurationForm(savedState);
     }
   }
 
@@ -616,6 +620,16 @@ export function createAdvancedSSLCertificateConfigurationForm(savedState?: Recor
         validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
       })
     );
+}
+
+export function createDNSActionConfigurationForm(savedState?: Record<string, any>) {
+  return createMapForm().put(
+    'syntheticType',
+    createField({
+      value: savedState?.syntheticType ?? 'DNSAction',
+      validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+    })
+  );
 }
 
 export const HTTPMethods: readonly HTTPMethodType[] = Object.freeze([

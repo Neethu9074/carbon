@@ -572,6 +572,7 @@ export interface TestTypeSelected {
   api: SimpleOrScript;
   browser: SimpleOrScript;
   ssl: Simple;
+  dns: Simple;
 }
 
 export interface Invalid {
