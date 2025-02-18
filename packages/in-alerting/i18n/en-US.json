@@ -872,6 +872,7 @@
         "timeThresholdConfigImpactEvaluationMethod": "User impact evaluation method",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Aggregate across all evaluation windows",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calculate for each evaluation window",
+        "timeThresholdConfigImpactEvaluationMethodSelect": "Select an option",
         "timeThresholdConfigNumberOfViolations": "Number of metric violations",
         "timeThresholdConfigEvaluationGranularity": "Evaluation granularity",
         "granularityTooltipText": "The time granularity set here will determine the frequency at which the threshold is evaluated.",

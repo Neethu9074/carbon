@@ -58,12 +58,6 @@
     fill: var(--ids-color-option-neutral-600);
   }
 
-  .alertThresholdConfigContainer {
-    div:last-child {
-      border-bottom: 0;
-    }
-  }
-
   .formGroup {
     padding: 0.5rem;
   }
@@ -129,9 +123,15 @@
     }
   }
 
+  // Carbon has a visually hidden label that is getting used however it is
+  // causing a positioning clash and a scroll bar.
   .configureSingleControlWrapper {
     padding: 0 1rem;
+    :global .cds--visually-hidden {
+      position: fixed;
+    }
   }
+
   .traceImpactValidationContainer {
     display: grid;
     grid-template-columns: 1fr 4.6fr;
