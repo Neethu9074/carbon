@@ -29,6 +29,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
+import { base64ToUtf8 } from 'in-automation/utils/actionField';
 import { formatDateTime } from 'in-services/formatters/date';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import CopyToClipboard from 'in-components/CopyToClipboard';
@@ -332,7 +333,7 @@ function ActionDetails({ type, actionSnapshot }: { type: ActionType; actionSnaps
   const { fields } = parsedSnapshot;
 
   const decodeBase64 = (encodedValue: string) => {
-    return atob(encodedValue);
+    return base64ToUtf8(encodedValue);
   };
 
   return (

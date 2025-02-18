@@ -24,7 +24,8 @@ import {
   getGitlabFields,
   getGitlabOpenTicketFields,
   getJiraFields,
-  getJiraOpenTicketFields
+  getJiraOpenTicketFields,
+  base64ToUtf8
 } from 'in-automation/utils/actionField';
 import {
   tagFilterExpressionValidator,
@@ -317,17 +318,17 @@ function createActionFormFromAction(action: ActionFormEntity, actionFilter: 'all
   const content = getManualContentFromFields(action.fields);
   let contentText = content.value;
   if (content.encoding === 'base64') {
-    contentText = atob(contentText);
+    contentText = base64ToUtf8(contentText);
   }
   const script = getScriptFromFields(action.fields);
   const interpreter = getInterpreterFromFields(action.fields);
   let plaintextInterpreter = interpreter.value;
   let plaintextScript = script.value;
   if (script.encoding === 'base64') {
-    plaintextScript = atob(plaintextScript);
+    plaintextScript = base64ToUtf8(plaintextScript);
   }
   if (interpreter.encoding === 'base64') {
-    plaintextInterpreter = atob(plaintextInterpreter);
+    plaintextInterpreter = base64ToUtf8(plaintextInterpreter);
   }
   const { owner, repo, ticketActionType } = getGithubFields(action);
   const { title, body, labels, assignees } = getGithubOpenTicketFields(action);

@@ -23,7 +23,8 @@ import {
   getGithubFields,
   getGitlabFields,
   getJiraFields,
-  getManualContentFromFields
+  getManualContentFromFields,
+  base64ToUtf8
 } from 'in-automation/utils/actionField';
 import { toViewModel } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
@@ -41,8 +42,8 @@ import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages'
 import { ResolvedDynamicParamValue, NewPolicy } from 'in-automation/types';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
-import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -236,12 +237,12 @@ function ScriptActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
   const script = getScriptFromFields(action.fields);
   let plaintextScript = script.value;
   if (script.encoding === 'base64') {
-    plaintextScript = atob(plaintextScript);
+    plaintextScript = base64ToUtf8(plaintextScript);
   }
   const interpreter = getInterpreterToUse(action);
   let plaintextInterpreter = interpreter.value;
   if (interpreter.encoding === 'base64') {
-    plaintextInterpreter = atob(plaintextInterpreter);
+    plaintextInterpreter = base64ToUtf8(plaintextInterpreter);
   }
   return (
     <DescriptionList inComponents>
