@@ -232,6 +232,7 @@ export const bizopsProcessIdColumnEnabled = isFeatureFlagEnabled('bizopsProcessI
 export const bizopsGenAIEnabled = isFeatureFlagEnabled('bizopsGenAIEnabled');
 export const bizopsProcessFlowMapEnabled = isFeatureFlagEnabled('bizopsProcessFlowMapEnabled');
 export const bizopsCustomDashboardEnabled = isFeatureFlagEnabled('bizopsCustomDashboardEnabled');
+export const bizopsVersionColumnEnabled = isFeatureFlagEnabled('bizopsVersionColumnEnabled');
 
 // ########################################################################################
 // Chart gap hiding

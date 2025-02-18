@@ -401,6 +401,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'bizopsVersionColumnEnabled',
+    instanaCtlKey: 'feature.bizops.version.column.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
     instanaCtlKey: 'feature.trace.limit.visible.nesting.levels.enabled',
     defaultValue: false

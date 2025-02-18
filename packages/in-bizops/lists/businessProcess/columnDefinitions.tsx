@@ -22,13 +22,13 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { businessPerspectiveDashboard, businessProcessDashboard, summaryTab } from 'in-bizops/navigation/paths';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
+import { bizopsProcessIdColumnEnabled, bizopsVersionColumnEnabled } from 'in-services/featureFlags';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
-import { bizopsProcessIdColumnEnabled } from 'in-services/featureFlags';
 import { bizopsProcessesListSelect } from 'in-bizops/tracker';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { number } from 'in-services/formatters/number';
@@ -150,7 +150,7 @@ if (bizopsProcessIdColumnEnabled) {
     id: 'process_id',
     sortable: true,
     defaultOrderDirection: 'DESC',
-    label: 'ID',
+    label: t('in-bizops:lists.id'),
     width: '10rem',
     getContent(item: BusinessProcessItem) {
       return (
@@ -180,6 +180,21 @@ if (bizopsProcessIdColumnEnabled) {
     }
   };
   processColumnDefinitions.splice(1, 0, processId);
+}
+
+if (bizopsVersionColumnEnabled) {
+  const version: ColumnDefinition<BusinessProcessItem, bpListProps> = {
+    id: 'version',
+    sortable: true,
+    defaultOrderDirection: 'DESC',
+    label: t('in-bizops:lists.version'),
+    getContent(item: BusinessProcessItem) {
+      <div>
+        <h4 className={locals.label}>{item.businessProcess.snapshotName}</h4>
+      </div>;
+    }
+  };
+  processColumnDefinitions.splice(1, 0, version);
 }
 
 export { processColumnDefinitions };
