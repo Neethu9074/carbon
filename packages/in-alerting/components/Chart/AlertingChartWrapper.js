@@ -139,7 +139,10 @@ export function getThreshold(y1, thresholdType, metricData, timeConfig, isMultiT
         : [],
       criticalThreshold: !isEmptyThreshold(criticalThresholdValue)
         ? getThresholdBasedOnThresholdType(
-            criticalThresholdValue,
+            {
+              ...criticalThresholdValue,
+              baseline: criticalThresholdValue?.baseline ?? warningThresholdValue?.baseline ?? []
+            },
             thresholdType,
             y1.eventBasedAdaptiveBaseline,
             CRITICAL_SEVERITY,

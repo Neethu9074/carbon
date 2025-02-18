@@ -163,18 +163,6 @@ export function extractMultiBaselineFromResultsOrUseErrorFallback(
   return { baseline };
 }
 
-export function extractBaselineForSeverity(
-  baseline: [number, number, number][],
-  eventSeverity: Severity
-): [number, number][] {
-  if (baseline === undefined || baseline?.length === 0) {
-    return [];
-  }
-  return baseline.map(([timestamp, warningValue, criticalValue]) => {
-    return eventSeverity === WARNING_SEVERITY ? [timestamp, warningValue] : [timestamp, criticalValue];
-  });
-}
-
 export function transformedFallbackBaseline(
   errorFallbackBaseline: Array<[string, AdaptiveBaselinePredictionData]>
 ): AdaptiveBaselineFetchedPredictions {

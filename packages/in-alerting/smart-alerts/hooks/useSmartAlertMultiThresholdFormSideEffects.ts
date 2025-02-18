@@ -1,19 +1,18 @@
 /*
- * IBM Confidential
- * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * (c) Copyright IBM Corp. 2025
+ * (c) Copyright Instana Inc. 2025
  */
 
 import { Field, MapForm } from 'formalistic';
 
-import { ADAPTIVE_BASELINE, STATIC_THRESHOLD, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getThresholdFieldStatus } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
 import { generateGracePeriodOptions } from 'in-alerting/smart-alerts/components/GracePeriod';
-import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
+import useFormSideEffects, { CHANGE_TYPES, Effect } from 'in-hooks/useFormSideEffects';
 
 export function useSmartAlertFormSideEffects(form: MapForm<any>, setForm: (field: MapForm<any>) => void) {
-  const effects = [
+  const effects: Effect<any>[] = [
     {
       path: ['evaluationType'],
       effects: [requestThresholdOnEvaluationTypeChange]
@@ -81,7 +80,12 @@ export function useSmartAlertFormSideEffects(form: MapForm<any>, setForm: (field
 }
 
 function updateAlertChannelsOnBPChange(form: MapForm<any>) {
-  const selectedChannelsArray = form.get('hiddenFields').get('selectedChannelList').value;
+  const selectedChannelListForm = form.get('hiddenFields').get('selectedChannelList');
+  if (!selectedChannelListForm) {
+    /** assume the Alert channnels are not implemented if the value of selectedChannelListForm is undefined **/
+    return;
+  }
+  const selectedChannelsArray = selectedChannelListForm.value;
   const { warningThresholdFieldDisabled, criticalThresholdFieldDisabled } = getThresholdFieldStatus(form);
   if (
     selectedChannelsArray.length > 0 &&
@@ -98,18 +102,21 @@ function updateAlertChannelsOnBPChange(form: MapForm<any>) {
   }
   return form;
 }
-
 function resetBaseline(form: MapForm<any>): MapForm<any> {
   const resetBaselineField = (form: MapForm<any>, thresholdType: string) => {
     const type = form?.get('threshold')?.get(thresholdType)?.get('type')?.value;
-    if (type === HISTORIC_BASELINE) {
+    if (type == HISTORIC_BASELINE) {
       return form.updateIn(['threshold', thresholdType], thresholdMapForm =>
         (thresholdMapForm as MapForm<any>).updateIn(['baseline'], item =>
           (item as Field<any>).setValue([]).setTouched(false)
         )
       );
-    } else if (type === ADAPTIVE_BASELINE) {
-      return form.updateIn(['threshold', 'baseline'], item => (item as Field<any>).setValue([]).setTouched(false));
+    } else if (type == ADAPTIVE_BASELINE) {
+      return form.updateIn(['threshold'], thresholdMapForm =>
+        (thresholdMapForm as MapForm<any>).updateIn(['baseline'], item =>
+          (item as Field<any>).setValue([]).setTouched(false)
+        )
+      );
     }
     return form;
   };
@@ -132,8 +139,8 @@ function requestThresholdOnEvaluationTypeChange(form: MapForm<any>) {
     endpointId: null
   };
 
-  const updatedForm = form.updateIn(['hiddenFields', 'chartViewEntitySelection'], item =>
-    (item as Field<any>).setValue(updatedEntitySelection).setTouched(true)
+  const updatedForm = form.updateIn(['hiddenFields', 'chartViewEntitySelection'], f =>
+    (f as Field<any>).setValue(updatedEntitySelection).setTouched(true)
   );
 
   return requestThresholdSuggestion(updatedForm);
@@ -188,7 +195,7 @@ function resetThresholdValue(form: MapForm<any>, thresholdType: string) {
     )
     .updateIn(['threshold', thresholdType], thresholdMapForm =>
       (thresholdMapForm as MapForm<any>).updateIn(['isCheckboxSelected'], item =>
-        (item as Field<boolean>).setValue(false).setTouched(false)
+        (item as Field<boolean>).setValue(thresholdType === 'warningThreshold').setTouched(false)
       )
     );
 }

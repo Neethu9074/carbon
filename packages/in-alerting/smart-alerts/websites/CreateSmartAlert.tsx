@@ -1,11 +1,11 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
 import React from 'react';
 
-import { TagCatalog, TagFilter, TimeConfig } from '@instana/types';
+import { SlownessWebsiteAlertRule, TagCatalog, TagFilter, TimeConfig } from '@instana/types';
 import { Button } from '@instana/components';
 
 import useTagCatalog from 'in-applications/hooks/useTagCatalog'; // TODO can this be moved outside of AP area, since it seems to be generic to be used in Website area as well
@@ -16,6 +16,7 @@ import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/da
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
+import { getDefaultRules } from 'in-alerting/smart-alerts/eum/utils/eumCommon';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { alertsTabListFullyQualified } from 'in-websites/navigation/paths';
@@ -126,6 +127,12 @@ function deriveAlertType(errorId?: string | null, customEventName?: string | nul
   return 'slowness';
 }
 
+const defaultAlertRule: SlownessWebsiteAlertRule = {
+  alertType: 'slowness',
+  aggregation: 'P90',
+  metricName: 'latency'
+};
+
 function generateAlertConfig(
   websiteId: string,
   tagFilters: TagFilter[],
@@ -155,6 +162,7 @@ function generateAlertConfig(
       value: 0.0
     },
     websiteId,
-    calculateThresholdOnBackend: true
+    calculateThresholdOnBackend: true,
+    rules: getDefaultRules(useBaseline, defaultAlertRule)
   };
 }

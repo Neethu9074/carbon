@@ -208,10 +208,7 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
 
       if (isWebsiteSmartAlert(item.trigger)) {
         return (
-          <NameColumnCell
-            config={item.trigger}
-            getSubtitle={config => getSubtitleWebsite(config.rule, config.threshold)}
-          />
+          <NameColumnCell config={item.trigger} getSubtitle={config => getSubtitleWebsite(config.rule, config.rules)} />
         );
       }
       if (isApplicationSmartAlert(item.trigger)) {

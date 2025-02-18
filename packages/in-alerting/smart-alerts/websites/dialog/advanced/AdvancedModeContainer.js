@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -7,11 +7,8 @@ import React from 'react';
 
 import { isAdaptiveBaselineConfig } from '@instana/types';
 
+import { MultiThresholdAlertPreviewCommon } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreviewCommon';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
-import {
-  AlertPreview,
-  AlertPreviewHeadline
-} from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import {
   isCustomPayloadValidOrUntouched,
@@ -19,6 +16,7 @@ import {
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/eum/components/ThresholdSelectionInteractiveChart';
+import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import { HISTORIC_BASELINE, ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/websites/dialog/advanced/BluePrintSelectionSection';
@@ -64,14 +62,18 @@ export default function AdvancedModeContainer(props) {
   } = props;
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
-  const thresholdType = form.get('threshold').get('type').value;
+  const warningThresholdField = form.get('threshold').get('warningThreshold');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
+  const isWarningDefined = warningThresholdField.get('isCheckboxSelected').value;
+  const isCriticalDefined = criticalThresholdField.get('isCheckboxSelected').value;
+  const thresholdType = isWarningDefined
+    ? warningThresholdField.get('type').value
+    : criticalThresholdField.get('type').value;
   const blueprintConfig = getBlueprintConfig(alertType);
   const ruleComplete = blueprintConfig?.isRuleComplete(ruleForm.toJS());
-
   const isSpecificJsErrorBlueprint = blueprintConfig.type === 'specificJsError';
   const isCustomEvent = blueprintConfig.type === 'customEvent';
   const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
-
   const resetChartConfigSelectionWhenAdaptiveBaseline = updatedForm => {
     if (isAdaptiveBaselineConfig(updatedForm.get('threshold').toJS())) {
       onChartViewConfigChange(0);
@@ -216,6 +218,7 @@ export default function AdvancedModeContainer(props) {
                   onChange={onChange}
                   getDescriptionPlaceholder={getDescriptionPlaceholder}
                   getPreviewTitlePlaceholder={getTitlePlaceholder}
+                  shouldDisplayAlertLevelSelection={false}
                   renderAlertPropertiesTitleRow={() => (
                     <AlertPropertiesTitleRow
                       form={form}
@@ -226,14 +229,17 @@ export default function AdvancedModeContainer(props) {
                 />
               )}
               renderAlertPreview={() => (
-                <AlertPreview
+                <MultiThresholdAlertPreviewCommon
                   form={form}
+                  getDescriptionPlaceholder={getDescriptionPlaceholder}
+                  isWarningDefined={isWarningDefined}
+                  isCriticalDefined={isCriticalDefined}
+                  entityLabel={websiteLabel}
+                  entityIconType="lib_website"
                   renderHeadline={() => (
                     <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder(form)} />
                   )}
-                  getDescriptionPlaceholder={getDescriptionPlaceholder}
-                  entityLabel={websiteLabel}
-                  entityIconType="lib_website"
+                  isTearSheet={false}
                 />
               )}
             />

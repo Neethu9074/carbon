@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 import { MapForm } from 'formalistic';
@@ -9,9 +9,9 @@ import React from 'react';
 
 import { Stack, Spacer } from '@instana/components';
 
+import RecalculateMultiThresholdBaselineButton from 'in-alerting/smart-alerts/components/dialog/advanced/RecalculateMultiThresholdBaselineButton';
 import { getOptionsFilterForThresholdTyp } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
-import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/dialog/advanced/RecalculateBaselineButton';
-import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
+import { getMultiThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
 import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { ThresholdTypesHelp } from 'in-alerting/smart-alerts/components/dialog/ThresholdTypesHelp';
@@ -38,9 +38,11 @@ export default function ThresholdTypeSelection({
   thresholdTypeOptions,
   eumType
 }: ThresholdTypeSelectionProps) {
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const warningThresholdField = form.get('threshold').get('warningThreshold');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
+  const thresholdType = (warningThresholdField ?? criticalThresholdField).get('type')?.value;
   const options = thresholdTypeOptions.filter(getOptionsFilterForThresholdTyp(thresholdType));
-  const thresholdComboBoxValue = getThresholdComboBoxValue(form);
+  const thresholdComboBoxValue = getMultiThresholdComboBoxValue(form);
   const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
   const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange(mobileAppCreateRuleForm);
 
@@ -70,7 +72,7 @@ export default function ThresholdTypeSelection({
         <Stack space="xxsmall" align="center" direction="horizontal">
           {options.length > 1 && thresholdType !== ADAPTIVE_BASELINE && <ThresholdTypesHelp />}
           {thresholdType === HISTORIC_BASELINE && (
-            <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
+            <RecalculateMultiThresholdBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
           )}
         </Stack>
       </>

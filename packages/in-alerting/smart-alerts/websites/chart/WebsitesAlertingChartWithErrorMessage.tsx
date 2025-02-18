@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -13,18 +13,21 @@ import {
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import {
-  CRITICAL_SEVERITY,
-  extractBaselineForSeverity,
-  WARNING_SEVERITY
-} from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+  extractAlertConfigWithFormModel,
+  getErrorMessage
+} from 'in-alerting/smart-alerts/eum/utils/thresholdChartUtil';
+import {
+  MetricName,
+  WebsitesAlertType,
+  getBlueprintConfig
+} from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { AdaptiveBaselinePredictionData } from 'in-alerting/smart-alerts/data/adaptiveBaselinePredictionInfo';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
-import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { ChartViewConfigItem } from 'in-alerting/components/Chart/chartViewConfig';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { t, Trans } from 'in-i18n';
+import { Trans } from 'in-i18n';
 
 interface WebsitesAlertingChartWithErrorMessageProps {
   viewConfig: ChartViewConfigItem;
@@ -39,16 +42,13 @@ interface WebsitesAlertingChartWithErrorMessageProps {
 }
 
 export default function WebsitesAlertingChartWithErrorMessage(props: WebsitesAlertingChartWithErrorMessageProps) {
-  const {
-    alertConfigWithFormModel: { threshold },
-    eventBasedAdaptiveBaseline,
-    isEventsView,
-    isAlertDetailView,
-    ...remainingProps
-  } = props;
+  const { alertConfigWithFormModel, eventBasedAdaptiveBaseline, isEventsView, isAlertDetailView, ...remainingProps } =
+    props;
 
+  const { rules } = alertConfigWithFormModel;
+  const thresholdType = (rules[0]?.thresholds?.WARNING ?? rules[0]?.thresholds?.CRITICAL)?.type;
   // fetch persistent baseline?
-  if (threshold?.type === ADAPTIVE_BASELINE && (isAlertDetailView || isEventsView)) {
+  if (thresholdType === ADAPTIVE_BASELINE && (isAlertDetailView || isEventsView)) {
     return <AlertingChartWithErrorMessageForAdaptiveBaseline {...props} />;
   }
 
@@ -64,17 +64,9 @@ export default function WebsitesAlertingChartWithErrorMessage(props: WebsitesAle
 
 function AlertingChartWithErrorMessageForAdaptiveBaseline(props: WebsitesAlertingChartWithErrorMessageProps) {
   const { error, baseline } = useFetchAdaptiveBaselineOrUseFallbackFromEvent(props);
-  const onlyCriticalThresholdDefined = props.alertConfigWithFormModel.rules[0].thresholds.WARNING === undefined;
-
   return (
     <>
-      <ChartWithErrorMessageAndData
-        {...props}
-        eventBasedAdaptiveBaseline={extractBaselineForSeverity(
-          baseline,
-          onlyCriticalThresholdDefined ? CRITICAL_SEVERITY : WARNING_SEVERITY
-        )}
-      />
+      <ChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={baseline} />
       {error && (
         <>
           <Spacer size="normal" />
@@ -90,36 +82,30 @@ function AlertingChartWithErrorMessageForAdaptiveBaseline(props: WebsitesAlertin
 // TODO , this needs to be updated once EUM changes for multi-threshold becomes available.
 interface ChartWithErrorMessageAndDataProps
   extends Omit<WebsitesAlertingChartWithErrorMessageProps, 'eventBasedAdaptiveBaseline'> {
-  eventBasedAdaptiveBaseline?: [number, number][];
+  eventBasedAdaptiveBaseline?: [number, number, number][];
 }
 
 // Extracted, because it needs a memoization of the isQueryValid-method to avoid unneeded re-rendering
 function ChartWithErrorMessageAndData(props: ChartWithErrorMessageAndDataProps) {
   const { alertConfigWithFormModel } = props;
-
-  const { threshold, rule, websiteId } = alertConfigWithFormModel;
-  const { metricName, alertType } = rule;
-  const blueprintConfig = getBlueprintConfig(alertType);
+  const { alertType, definedThresholdType, metricName } = extractAlertConfigWithFormModel(
+    alertConfigWithFormModel.rules[0]
+  );
+  const { websiteId } = alertConfigWithFormModel;
+  const blueprintConfig = getBlueprintConfig(alertType as WebsitesAlertType);
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
   const isAlertQueryValid = useMemo(() => {
-    const { isQueryValid } = createBoundedAlertQueryBuilder(websiteId, beaconType, threshold.type);
-
+    const { isQueryValid } = createBoundedAlertQueryBuilder(websiteId, beaconType, definedThresholdType);
     return createIsAlertQueryValid(isQueryValid);
-  }, [websiteId, beaconType, threshold.type]);
+  }, [websiteId, beaconType, definedThresholdType]);
 
   return (
     <AlertingChartWithErrorMessage
       {...props}
+      isMultiThresholdEnabled
       getErrorMessage={(isValidDependingOnMode: boolean) => getErrorMessage(!isValidDependingOnMode)}
       queryValidator={isAlertQueryValid}
     />
   );
-}
-
-function getErrorMessage(queryError: boolean) {
-  if (queryError) {
-    return t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery');
-  }
-  return;
 }

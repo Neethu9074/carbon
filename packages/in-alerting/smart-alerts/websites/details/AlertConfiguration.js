@@ -42,8 +42,7 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig }) {
   const {
-    rule: { operator, value, alertType, metricName, aggregation, customEventName },
-    threshold,
+    rules,
     timeThreshold,
     granularity,
     gracePeriod,
@@ -53,6 +52,10 @@ export default function AlertConfiguration({ alertConfig }) {
     customPayloadFields
   } = alertConfig;
 
+  const { rule, thresholds, thresholdOperator } = rules[0];
+  const { value, alertType, metricName, customEventName, operator } = rule;
+  const threshold = thresholds?.WARNING ?? thresholds.CRITICAL;
+
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const websiteLabel = useWebsiteLabel(websiteId);
 
@@ -60,12 +63,11 @@ export default function AlertConfiguration({ alertConfig }) {
   const beaconType = blueprintConfig.getBeaconType(metricName);
 
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, websiteId);
-  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType, alertConfig.threshold.type).QueryBuilder;
+  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType, threshold?.type).QueryBuilder;
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
-  const thresholdType = alertConfig.threshold;
-  const chartViewConfigs = isAdaptiveBaselineConfig(thresholdType) ? [chartViewConfig24hours] : defaultChartViewConfigs;
+  const chartViewConfigs = isAdaptiveBaselineConfig(threshold) ? [chartViewConfig24hours] : defaultChartViewConfigs;
 
   return (
     <AlertDetailsCard>
@@ -78,7 +80,7 @@ export default function AlertConfiguration({ alertConfig }) {
         openByDefault
         darkFrame
       >
-        <AlertThresholdInfos threshold={threshold} rule={{ alertType, aggregation, metricName }} />
+        <AlertThresholdInfos thresholdOperator={thresholdOperator} thresholdsMap={thresholds} rule={rule} />
       </ExpandableLightCard>
 
       <ChartViewConfigurator
@@ -171,7 +173,7 @@ export default function AlertConfiguration({ alertConfig }) {
         openByDefault
         darkFrame
       >
-        <AlertPropertyInfos alertConfig={alertConfig} />
+        <AlertPropertyInfos shouldDisplayAlertLevelSection={false} alertConfig={alertConfig} />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="WEBSITE" />
       <CustomPayloadCard

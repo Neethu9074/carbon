@@ -8,8 +8,6 @@ import React, { useState } from 'react';
 
 import {
   CustomEventMobileAppAlertRule,
-  HistoricBaselineConfig,
-  StaticThresholdConfig,
   StatusCodeMobileAppAlertRule,
   ThresholdConfig,
   isAdaptiveBaselineConfig
@@ -50,7 +48,7 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig }: { alertConfig: MobileAppSmartAlertConfigWithMetadata }) {
   const {
-    rule: { alertType, metricName, aggregation },
+    rule: { alertType, metricName },
     threshold,
     timeThreshold,
     granularity,
@@ -75,8 +73,16 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
-  const thresholdType = alertConfig.threshold;
-  const chartViewConfigs = isAdaptiveBaselineConfig(thresholdType) ? [chartViewConfig24hours] : defaultChartViewConfigs;
+  const ruleWithThreshold = alertConfig.rules[0];
+  const thresholdType = ruleWithThreshold?.thresholds?.WARNING
+    ? ruleWithThreshold.thresholds.WARNING.type
+    : ruleWithThreshold.thresholds.CRITICAL?.type;
+
+  const thresholdConfig = { operator: ruleWithThreshold.thresholdOperator, type: thresholdType } as ThresholdConfig;
+
+  const chartViewConfigs = isAdaptiveBaselineConfig(thresholdConfig)
+    ? [chartViewConfig24hours]
+    : defaultChartViewConfigs;
 
   return (
     <AlertDetailsCard>
@@ -90,8 +96,9 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
         darkFrame
       >
         <AlertThresholdInfos
-          threshold={threshold as ThresholdConfig & StaticThresholdConfig & HistoricBaselineConfig}
-          rule={{ alertType, aggregation, metricName }}
+          thresholdOperator={ruleWithThreshold.thresholdOperator}
+          thresholdsMap={ruleWithThreshold?.thresholds}
+          rule={ruleWithThreshold.rule}
         />
       </ExpandableLightCard>
 
@@ -181,7 +188,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
         openByDefault
         darkFrame
       >
-        <AlertPropertyInfos alertConfig={alertConfig} disableTrigger={false} />
+        <AlertPropertyInfos shouldDisplayAlertLevelSection={false} alertConfig={alertConfig} disableTrigger={false} />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="MOBILE_APP" />
       <CustomPayloadCard

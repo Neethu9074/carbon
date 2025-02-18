@@ -1,6 +1,6 @@
 /*
- * (c) Copyright IBM Corp. 2022
- * (c) Copyright Instana Inc. 2022
+ * (c) Copyright IBM Corp. 2025
+ * (c) Copyright Instana Inc. 2025
  */
 
 import { Field, MapForm } from 'formalistic';
@@ -31,14 +31,13 @@ interface Props {
     typeWithOptionalSeasonality: string,
     form: MapForm<any>,
     updateForm: (form: MapForm<any>) => void,
-    trackThresholdTypeChanged: (trackingObject: any) => void,
+    trackThresholdTypeChanged?: (trackingObject: any) => void,
     editMode?: boolean
   ) => void;
   editMode?: boolean;
   isTearSheet?: boolean;
   isDisabled?: boolean;
   bluePrint?: string;
-  isMultiThreshold?: boolean;
 }
 
 export default function StaticOrAdaptiveSwitch({
@@ -48,12 +47,9 @@ export default function StaticOrAdaptiveSwitch({
   isTearSheet,
   isDisabled,
   bluePrint,
-  editMode = false,
-  isMultiThreshold = false
+  editMode = false
 }: Props) {
-  const thresholdType = isMultiThreshold
-    ? form.get('threshold')?.get('warningThreshold')?.get('type')?.value
-    : form.get('threshold')?.get('type')?.value;
+  const thresholdType = form.get('threshold')?.get('warningThreshold')?.get('type')?.value;
   const evaluationType = (form.get('evaluationType') as Field<AlertEvaluationType>)?.value;
   const currentType = thresholdType === ADAPTIVE_BASELINE ? types.adaptive : types.static;
   const ruleForm = form.get('rule');
@@ -116,11 +112,6 @@ export default function StaticOrAdaptiveSwitch({
 
   function updateThresholdType(baselineType: StaticOrAdaptiveType) {
     const thresholdType = baselineType === types.static ? STATIC_THRESHOLD : ADAPTIVE_BASELINE;
-
-    if (isMultiThreshold) {
-      onThresholdTypeChange(thresholdType, form, setForm, noop, editMode);
-    } else {
-      onThresholdTypeChange(thresholdType, form, setForm, noop);
-    }
+    onThresholdTypeChange(thresholdType, form, setForm, noop, editMode);
   }
 }

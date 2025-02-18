@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 import React from 'react';
@@ -12,16 +12,15 @@ import { Button } from '@instana/components';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
-import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
+import { getDefaultRules } from 'in-alerting/smart-alerts/eum/utils/eumCommon';
 import { alertsTabListFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { STARTS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import FloatingActionButton from 'in-components/FloatingActionButton';
-import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
@@ -111,21 +110,19 @@ function generateAlertConfig(
   const metricName = blueprintConfig.defaultMetric;
   const useBaseline = blueprintConfig.baselineEnabled;
 
+  const defaultRule = {
+    alertType,
+    operator: STARTS_WITH,
+    value: '5',
+    customEventName,
+    metricName
+  };
+
   return {
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel),
-    rule: {
-      alertType,
-      operator: STARTS_WITH,
-      value: '5',
-      customEventName,
-      metricName
-    },
-    threshold: {
-      type: useBaseline ? HISTORIC_BASELINE : STATIC_THRESHOLD,
-      seasonality: useBaseline ? DAILY : undefined,
-      value: 0.0
-    },
+    rule: defaultRule,
     mobileAppId,
+    rules: getDefaultRules(useBaseline, defaultRule),
     calculateThresholdOnBackend: true
   };
 }

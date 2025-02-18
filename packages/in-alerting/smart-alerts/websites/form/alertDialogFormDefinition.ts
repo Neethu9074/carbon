@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -7,8 +7,8 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+import { applyEditModeForMultiThreshold } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
-import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -47,6 +47,7 @@ export default function alertFormDefinition(
   const {
     tagFilterExpression,
     alertChannelIds = [],
+    alertChannels,
     enabled = true,
     triggering = false,
     severity = severityWarning,
@@ -55,9 +56,9 @@ export default function alertFormDefinition(
     websiteId = '',
     id = '',
     granularity = 600000,
-    gracePeriod
+    gracePeriod,
+    rules
   } = alertConfig;
-
   const form = createMapForm()
     .put(
       fieldNames.tagFilterExpression,
@@ -133,20 +134,26 @@ export default function alertFormDefinition(
       'timeThreshold',
       createTimeThresholdForm(alertConfig.timeThreshold, granularity, alertConfig.threshold?.type as ThresholdType)
     )
-    .put('threshold', createThresholdForm(alertConfig.threshold ?? {}, alertConfig.rule.alertType as WebsitesAlertType))
+    .put('threshold', createThresholdForm(rules?.[0], (rules?.[0].rule?.alertType ?? {}) as WebsitesAlertType))
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
-    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend))
-    .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
+    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend, editMode))
+    .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false))
+    .put(
+      'alertChannels',
+      createField({
+        value: alertChannels ?? { WARNING: [], CRITICAL: [] }
+      })
+    );
 
-  return applyEditMode(form, editMode);
+  return applyEditModeForMultiThreshold(form, editMode);
 }
 
-function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
+function createHiddenFieldsForm(calculateThresholdOnBackend?: boolean, editMode?: boolean): MapForm<any> {
   return createMapForm()
     .put(
       'calculateThresholdOnBackend',
       createField({
-        value: calculateThresholdOnBackend
+        value: editMode || calculateThresholdOnBackend
       })
     )
     .put(

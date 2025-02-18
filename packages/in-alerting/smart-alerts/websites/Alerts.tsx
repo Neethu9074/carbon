@@ -5,7 +5,13 @@
 
 import React from 'react';
 
-import { AggregationType, HistoricBaselineConfig, ThresholdConfigUnion, WebsiteAlertRuleUnion } from '@instana/types';
+import {
+  AggregationType,
+  RuleWithThreshold,
+  StaticBaselineThresholdRule,
+  StaticThresholdRule,
+  WebsiteAlertRuleUnion
+} from '@instana/types';
 
 //@ts-expect-error TS migartion
 import { useWebsiteData } from 'in-alerting/smart-alerts/websites/hooks/useWebsiteData';
@@ -58,7 +64,7 @@ export default function Alerts({ websiteId, websiteLabel }: { websiteId: string;
         extraColumnDefinitions={getColumnDefinitions(websiteLabel)}
         getAlertConfigs={() => getAllAlertConfigs(websiteId, { asObservable: true })}
         actionHandlers={handlers}
-        getSubtitle={config => getSubtitle(config.rule, config.threshold)}
+        getSubtitle={config => getSubtitle(config.rule, config.rules)}
         createRowLinkLocation={createRowLinkLocation}
         sortOptions={sortOptions}
         alertsTab={alertsTab}
@@ -87,20 +93,25 @@ export default function Alerts({ websiteId, websiteLabel }: { websiteId: string;
   );
 }
 
-export function getSubtitle(rule: WebsiteAlertRuleUnion, threshold: ThresholdConfigUnion & { value?: number }) {
+export function getSubtitle(rule: WebsiteAlertRuleUnion, rules: RuleWithThreshold<WebsiteAlertRuleUnion>[]) {
   const { alertType, aggregation, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
   const metricLabel = blueprintConfig.getMetricLabel(metricName as MetricName);
   const formattedMetricLabel =
     alertType === 'slowness' ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
 
-  const { operator, type, value } = threshold;
+  const {
+    thresholdOperator,
+    thresholds: { WARNING, CRITICAL }
+  } = rules[0];
+  const threshold = WARNING ?? CRITICAL;
+  const { type, value } = threshold as StaticThresholdRule;
   if (type === STATIC_THRESHOLD) {
     const metricFormat = blueprintConfig.getMetricFormat(metricName as MetricName);
     const formattedValue = (
       (metricFormat as NumberFormatterObject).short || (metricFormat as NumberFormatterObject).compact
     )?.(value);
-    const humanReadableOperator = humanReadableThresholdOperator(operator);
+    const humanReadableOperator = humanReadableThresholdOperator(thresholdOperator);
 
     return t('in-alerting:smartAlerts.websites.list.columns.name.subtitleForStaticThreshold', {
       metricLabel: formattedMetricLabel,
@@ -116,7 +127,7 @@ export function getSubtitle(rule: WebsiteAlertRuleUnion, threshold: ThresholdCon
   }
 
   if (type === HISTORIC_BASELINE) {
-    const { seasonality } = threshold as HistoricBaselineConfig;
+    const { seasonality } = threshold as StaticBaselineThresholdRule;
     if (seasonality === DAILY) {
       return t('in-alerting:smartAlerts.websites.list.columns.name.subtitleForStaticDailySeasonality', {
         metricLabel: formattedMetricLabel,
@@ -156,7 +167,7 @@ function getCarbonTableColumnDefinitions() {
       label: t('in-alerting:table.triggeringAction'),
       ellipsis: '25vw',
       getContent: (config: WebsiteSmartAlertConfigWithMetadata) => (
-        <TableCellWrapper>{getSubtitle(config.rule, config.threshold)}</TableCellWrapper>
+        <TableCellWrapper>{getSubtitle(config.rule, config.rules)}</TableCellWrapper>
       ),
       sortable: false
     }

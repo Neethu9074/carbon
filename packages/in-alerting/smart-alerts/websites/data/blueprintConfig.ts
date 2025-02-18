@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -16,7 +16,10 @@ import {
   ThresholdOperator,
   WebsiteAlertRule,
   isStaticThresholdConfig,
-  TagFilter
+  TagFilter,
+  StaticThresholdRule,
+  StaticBaselineThresholdRule,
+  AdaptiveBaselineData
 } from '@instana/types';
 
 import {
@@ -83,6 +86,7 @@ interface BluePrintBase {
   readonly getThresholdTypeOptions: () => ThresholdTypeOptions;
 
   readonly getEntityTagFilterFormModel: (alertConfig: WebsiteSmartAlertConfig) => TagFilter;
+  readonly enrichWithDefaultThresholdValues: (alertConfig: WebsiteSmartAlertConfig) => WebsiteSmartAlertConfig;
 
   readonly getRuleTagFilterFormModel: (alertRule: WebsiteAlertRule) => FormModelElement[];
   readonly getExtraAnalyzeLinkTagFilterFormModel: (
@@ -140,6 +144,7 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   getThresholdSuggestionRequest: (metricName: MetricName) =>
     isCustomRateMetric(metricName) ? getWebsiteRateMetricThresholdSuggestion : getWebsiteMetricsThresholdSuggestion,
   getThresholdTypeOptions: () => websitesThresholdTypeOptions,
+  enrichWithDefaultThresholdValues: enrichWithDefaultThresholdValuesForBaselines,
   thresholdDefaults: {
     operator: '>='
   } as const,
@@ -203,6 +208,7 @@ const jsErrorsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   getAggregation: (alertRule: WebsiteAlertRule) => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
   isRuleComplete: (alertRule: WebsiteAlertRule) => isNotBlank((alertRule as SpecificJsErrorsWebsiteAlertRule).value),
   incompleteRuleMessage: t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigIncompleteRuleMessage'),
+  enrichWithDefaultThresholdValues: enrichWithDefaultStaticThresholdValues,
   getRuleTagFilterFormModel: (alertRule: WebsiteAlertRule) => [
     tagFilter(
       'beacon.error.message',
@@ -378,4 +384,74 @@ function getExtraSlownessAnalyzeLinkTagFilterFormModel(
   }
 
   return [tagFilter('beacon.duration', toTagFilterNumberOperator(threshold.operator), value)];
+}
+
+function enrichWithDefaultStaticThresholdValues(alertConfig: WebsiteSmartAlertConfig): WebsiteSmartAlertConfig {
+  const { rules } = alertConfig;
+
+  return {
+    ...alertConfig,
+    rules: [
+      {
+        ...rules[0],
+        thresholds: {
+          ...rules[0].thresholds,
+          // as this should already be introducing the right threshold when invoked from the blueprint,
+          // using casting to the different Threshold Types here should be fine, to make TS happy, and
+          // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
+          // do not need these defaults...
+          // @ts-expect-error-error needs to be refactored
+          WARNING: {
+            ...rules[0]?.thresholds?.WARNING,
+            value: (rules[0]?.thresholds?.WARNING as StaticThresholdRule)?.value ?? null
+          },
+          // @ts-expect-error-error needs to be refactored
+          CRITICAL: {
+            ...rules[0]?.thresholds?.CRITICAL,
+            value: (rules[0]?.thresholds?.CRITICAL as StaticThresholdRule)?.value ?? null
+          }
+        }
+      },
+      ...rules.slice(1)
+    ]
+  };
+}
+
+function enrichWithDefaultThresholdValuesForBaselines(alertConfig: WebsiteSmartAlertConfig): WebsiteSmartAlertConfig {
+  const { rules } = alertConfig;
+
+  return {
+    ...alertConfig,
+    rules: [
+      {
+        ...rules[0],
+        thresholds: {
+          ...rules[0].thresholds,
+          // as this should already be introducing the right threshold when invoked from the blueprint,
+          // using casting to the different Threshold Types here should be fine, to make TS happy, and
+          // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
+          // do not need these defaults, but needs another double-check with the different use cases.
+          // @ts-expect-error-error needs to be refactored
+          WARNING: {
+            ...rules[0]?.thresholds?.WARNING,
+            value: (rules[0]?.thresholds?.WARNING as StaticThresholdRule)?.value ?? null,
+            baseline:
+              (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.baseline ??
+              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+            deviationFactor: (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.deviationFactor ?? null
+          },
+          // @ts-expect-error-error needs to be refactored
+          CRITICAL: {
+            ...rules[0]?.thresholds?.CRITICAL,
+            value: (rules[0]?.thresholds?.CRITICAL as StaticThresholdRule)?.value ?? null,
+            baseline:
+              (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.baseline ??
+              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+            deviationFactor: (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.deviationFactor ?? null
+          }
+        }
+      },
+      ...rules.slice(1)
+    ]
+  };
 }

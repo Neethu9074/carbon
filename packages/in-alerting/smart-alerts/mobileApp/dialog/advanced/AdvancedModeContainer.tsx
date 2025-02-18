@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 import { MapForm } from 'formalistic';
@@ -9,15 +9,12 @@ import React from 'react';
 
 import { HistoricBaselineData, isAdaptiveBaselineConfig, Result } from '@instana/types';
 
+import { MultiThresholdAlertPreviewCommon } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreviewCommon';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
-import {
-  AlertPreview,
-  AlertPreviewHeadline
-} from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import {
@@ -25,6 +22,7 @@ import {
   fieldTouchedAndInvalid
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/eum/components/ThresholdSelectionInteractiveChart';
+import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/BluePrintSelectionSection';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
@@ -68,7 +66,13 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
   } = props;
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
-  const thresholdType = form.get('threshold').get('type').value;
+  const warningThresholdField = form.get('threshold').get('warningThreshold');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
+  const isWarningDefined = warningThresholdField.get('isCheckboxSelected').value;
+  const isCriticalDefined = criticalThresholdField.get('isCheckboxSelected').value;
+  const thresholdType = isWarningDefined
+    ? warningThresholdField.get('type').value
+    : criticalThresholdField.get('type').value;
   const blueprintConfig = getBlueprintConfig(alertType);
   const ruleComplete = blueprintConfig?.isRuleComplete(ruleForm.toJS());
 
@@ -208,6 +212,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                 <AlertProperties
                   form={form}
                   onChange={onChange}
+                  shouldDisplayAlertLevelSelection={false}
                   getDescriptionPlaceholder={getDescriptionPlaceholder}
                   renderAlertPropertiesTitleRow={() => (
                     <AlertPropertiesTitleRow
@@ -219,14 +224,17 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                 />
               )}
               renderAlertPreview={() => (
-                <AlertPreview
+                <MultiThresholdAlertPreviewCommon
                   form={form}
+                  getDescriptionPlaceholder={getDescriptionPlaceholder}
+                  isWarningDefined={isWarningDefined}
+                  isCriticalDefined={isCriticalDefined}
+                  entityLabel={mobileApp?.label ?? ''}
+                  entityIconType="lib_mobile_app"
                   renderHeadline={() => (
                     <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder(form)} />
                   )}
-                  getDescriptionPlaceholder={getDescriptionPlaceholder}
-                  entityLabel={mobileApp?.label}
-                  entityIconType="lib_mobile_app"
+                  isTearSheet={false}
                 />
               )}
             />

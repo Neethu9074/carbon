@@ -61,11 +61,29 @@ export default function ProvideCustomEvent({
       // This is done, to easily get started in simple mode, and even do not bother the
       // user with a not-enough-data message
       const threshold = form.get('threshold').toJS();
-      const thresholdWithHistoricBaseline = { ...threshold, type: HISTORIC_BASELINE };
+      const thresholdWithHistoricBaseline = {
+        ...threshold,
+        rule: {
+          ...threshold.rule,
+          alertType: 'customEvent',
+          customEventName: value ?? ''
+        },
+        criticalThreshold: {
+          ...threshold.criticalThreshold,
+          type: HISTORIC_BASELINE,
+          isCheckboxSelected: threshold?.criticalThreshold?.isChekboxSelected ?? false
+        },
+        warningThreshold: {
+          ...threshold.warningThreshold,
+          type: HISTORIC_BASELINE,
+          isCheckboxSelected: threshold?.warningThreshold?.isChekboxSelected ?? true
+        }
+      };
       // @ts-ignore
-      updatedForm = updatedForm
-        .updateIn(['rule', 'customEventName'], f => f.setValue(value ?? '').setTouched(true))
-        .put('threshold', createThresholdForm(thresholdWithHistoricBaseline, 'customEvent').setTouched(true));
+      updatedForm = updatedForm.put(
+        'threshold',
+        createThresholdForm(thresholdWithHistoricBaseline, 'customEvent').setTouched(true)
+      );
     }
 
     return updateForm(updatedForm);

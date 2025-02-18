@@ -402,10 +402,16 @@ function getMaxForAdaptiveBaselineChartMultiThreshold(
       fromTime
     );
   }
+
+  const opSign = isGreaterOperator(operator) ? 1 : -1;
+
   // baselineEntriesFromMetadata is an array of tuples, where each tuple contains:
   // [timestamp, warningValue, criticalValue].
   const overallMaxValue = baselineEntriesFromMetadata
-    .flatMap(baselineEntry => [baselineEntry[1], baselineEntry[2]])
+    .flatMap(baselineEntry => [
+      baselineEntry[1] + opSign * warningSensitivity,
+      baselineEntry[2] + opSign * criticalSensitivity
+    ])
     .reduce((max, current) => Math.max(max, current), metricsMaxValue);
   return overallMaxValue * 1.1;
 }

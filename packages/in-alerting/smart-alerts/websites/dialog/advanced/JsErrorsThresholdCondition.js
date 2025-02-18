@@ -6,10 +6,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
+import ThresholdValueFormGroupForMultiStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForMultiStaticThreshold';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
-import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
 import { getMetricUnitPostfix, isPercentageMetric } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
@@ -24,30 +23,27 @@ export default function JsErrorsThresholdCondition({ form, blueprintConfig, upda
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
 
   return (
-    <ThresholdConditionFormGroup>
-      <Dropdown
-        value={metricName}
-        items={ruleMetricNameOptions.specificJsError}
-        className={locals.dropdownmd}
-        onChange={value => {
-          updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
-        }}
-      />
-      <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
-      <ThresholdValueInputWithValidationMessage
-        max={maxValue}
+    <>
+      <ThresholdConditionFormGroup>
+        <Dropdown
+          value={metricName}
+          items={ruleMetricNameOptions.specificJsError}
+          className={locals.dropdownmd}
+          onChange={value => {
+            updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
+          }}
+        />
+        <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
+      </ThresholdConditionFormGroup>
+
+      <ThresholdValueFormGroupForMultiStaticThreshold
         form={form}
         updateForm={updateForm}
+        maxValue={maxValue}
         percentageMetric={percentageMetric}
         metricUnitPostfix={metricUnitPostfix}
       />
-      <UseSuggestedValueButton
-        form={form}
-        updateForm={updateForm}
-        metricUnitPostfix={metricUnitPostfix}
-        percentageMetric={percentageMetric}
-      />
-    </ThresholdConditionFormGroup>
+    </>
   );
 }
 

@@ -1,6 +1,6 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc. 2021
+ * (c) Copyright IBM Corp. 2025
+ * (c) Copyright Instana Inc. 2025
  */
 
 // ...to.be.true is a valid syntax in chai, but eslint complains, so we turn this off
@@ -9,7 +9,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useApplicationSmartAlertFormSideEffects';
+import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertMultiThresholdFormSideEffects';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';

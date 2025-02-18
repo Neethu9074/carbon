@@ -63,7 +63,7 @@ export const triggerNameColumn: ColumnDefinition<TriggerSpecification> = {
   label: t('in-automation:name'),
   getContent: item => {
     if (isWebsiteSmartAlert(item)) {
-      return <NameColumnCell config={item} getSubtitle={config => getSubtitleWebsite(config.rule, config.threshold)} />;
+      return <NameColumnCell config={item} getSubtitle={config => getSubtitleWebsite(config.rule, config.rules)} />;
     }
     if (isApplicationSmartAlert(item)) {
       return <SimpleListNameColumn config={item} />;
