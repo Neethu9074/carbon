@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import {
   serviceLevelsOverview,
@@ -28,6 +27,7 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import Alerts from 'in-alerting/smart-alerts/slo/Alerts';
 import Footer from 'in-components/Footer/Footer';
 import Sticky from 'in-components/Sticky';
+import { t } from 'in-i18n';
 
 export default function ServiceLevelsOverview() {
   const { createHrefToPath, matchLocation } = useNavigation();

@@ -7,9 +7,9 @@
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import { formatDurationAccurately } from 'in-services/formatters/date';
+import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/slo/details/CoolDownPeriodDescription.mless';
 

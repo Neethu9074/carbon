@@ -7,12 +7,12 @@
 import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import useDoDeleteSloConfiguration from 'in-service-levels/hooks/useDoDeleteSloConfiguration';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { t } from 'in-i18n';
 
 interface Props {
   configuration: ServiceLevelObjectiveConfiguration;

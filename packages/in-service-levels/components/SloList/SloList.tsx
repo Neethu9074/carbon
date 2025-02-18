@@ -7,7 +7,6 @@
 import React, { useEffect } from 'react';
 
 import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import SloErrorBudgetColumnContent from 'in-service-levels/components/SloList/components/SloErrorBudgetColumnContent';
@@ -30,6 +29,7 @@ import useSloTags from 'in-service-levels/hooks/useSloTags';
 import { LabeledEntity } from 'in-service-levels/types';
 import useMediaQuery from 'in-hooks/useMediaQuery';
 import { all } from 'in-hooks/utils/progress';
+import { t } from 'in-i18n';
 
 interface GetColumnDefinitionsProps {
   isMediumWidth?: boolean;

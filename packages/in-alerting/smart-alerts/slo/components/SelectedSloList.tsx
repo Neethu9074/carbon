@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { PaginatedResult, ServiceLevelsAlertConfig } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import SloBlueprintColumnContent from 'in-service-levels/components/SloList/components/SloBlueprintColumnContent';
@@ -26,6 +25,7 @@ import { all as allProgress } from 'in-hooks/utils/progress';
 import { pathSegment } from 'in-synthetics/utils/constants';
 import { FetchedState } from 'in-hooks/utils/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { t } from 'in-i18n';
 
 function getColumnDefinitions(): ColumnDefinition<SloListItem>[] {
   return [

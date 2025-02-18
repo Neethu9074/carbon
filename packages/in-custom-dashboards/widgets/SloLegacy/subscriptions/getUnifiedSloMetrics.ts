@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { GetUnifiedMetricsQuery, MetricResult, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetUnifiedMetricsQuery, MetricResult, Result } from 'in-types';
 
 const getUnifiedMetricsInternal = createResultSubscriptionFactory<GetUnifiedMetricsQuery, Result<MetricResult[]>>({
   eventId: 'getUnifiedMetrics',

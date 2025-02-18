@@ -8,6 +8,7 @@ import { mount } from 'enzyme';
 import React from 'react';
 
 import { Subject, create } from '@instana/observables';
+import { Result } from '@instana/types';
 
 import EndpointSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/EndpointSelectBox';
 import ComboBoxInSection from 'in-components/form/ComboBoxInSection/ComboBoxInSection';
@@ -15,7 +16,6 @@ import getEndpointsOriginal from 'in-applications/subscriptions/getEndpoints';
 import { pendingResult } from 'in-services/fixedObjects';
 import { listSuccess } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
-import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
 jest.mock('in-applications/subscriptions/getEndpoints');

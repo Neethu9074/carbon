@@ -7,10 +7,10 @@
 import React from 'react';
 
 import { SloEntityType } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import ComboBox, { hasMultipleValuesSelected, Option } from 'in-components/ComboBox';
 import { sloEntityTypes } from 'in-service-levels/constants';
+import { t } from 'in-i18n';
 
 interface EntityTypeFilterProps {
   value: SloEntityType | undefined;

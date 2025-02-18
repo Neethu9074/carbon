@@ -5,9 +5,9 @@
 
 import { get } from 'lodash';
 
+import { ApplicationBoundaryScope, Result, TagFilter, TagFilterExpressionElementUnion } from '@instana/types';
 import { combineLatest, Observable } from '@instana/observables';
 
-import { ApplicationBoundaryScope, Nullish, Result, TagFilter, TagFilterExpressionElementUnion } from 'in-types';
 import { joinExpressions, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
@@ -15,6 +15,7 @@ import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { GetLinkToAnalyzeProps } from 'in-applications/navigation/paths';
 import { alwaysNull } from 'in-services/fixedStreams';
+import { Nullish } from 'in-types';
 
 interface GetLabelsProps {
   applicationId?: string;

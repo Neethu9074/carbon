@@ -9,10 +9,10 @@ import React from 'react';
 import { Card, LoadingSkeleton, Stack, Typography } from '@instana/components';
 import { formatDateShort } from '@instana/format-date';
 import { TimeConfig } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import TimeWindowPill from 'in-service-levels/components/SloDashboard/components/TimeWindowPill';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
+import { t } from 'in-i18n';
 
 export default function MatchingSloTimeWindowsCard() {
   const { timeWindows, timeWindowColors, progress } = useSloTimeWindowContext();

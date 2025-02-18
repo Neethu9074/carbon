@@ -15,7 +15,6 @@ import {
 } from '@instana/types';
 import { combineLatest, just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { t } from '@instana/i18n-react';
 
 import tabs, {
   ApplicationSloTabData,
@@ -46,6 +45,7 @@ import { LabeledEntity } from 'in-service-levels/types';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
 import { all } from 'in-hooks/utils/progress';
+import { t } from 'in-i18n';
 
 const unknownEntity: LabeledEntity = {
   id: '',

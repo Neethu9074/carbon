@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { ServiceLevelsAlertConfigWithMetadata } from '@instana/types';
 import { Card, ColumnizedDefinition } from '@instana/components';
 
 import {
@@ -36,7 +37,6 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
-import { ServiceLevelsAlertConfigWithMetadata } from 'in-types';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';

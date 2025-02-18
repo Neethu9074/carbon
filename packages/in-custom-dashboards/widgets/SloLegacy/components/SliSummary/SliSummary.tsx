@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { SliEntity } from '@instana/types';
+
 import SliSummarySkeleton from 'in-custom-dashboards/widgets/SloLegacy/components/SliSummary/SliSummarySkeleton';
 import SloTimeTile from 'in-custom-dashboards/widgets/SloLegacy/components/widget/tiles/SloTimeTile';
 import { useSliFormatter } from 'in-custom-dashboards/widgets/SloLegacy/hooks/useSliFormatter';
@@ -13,7 +15,6 @@ import { TimeWindowType } from 'in-custom-dashboards/widgets/SloLegacy/form';
 import { formatSloStatus } from 'in-service-levels/utils/format';
 import useMediaQuery from 'in-hooks/useMediaQuery';
 import { FetchStatus } from 'in-hooks/utils/types';
-import { SliEntity } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './SliSummary.mless';

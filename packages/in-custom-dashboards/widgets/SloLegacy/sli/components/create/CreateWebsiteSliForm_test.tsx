@@ -7,12 +7,13 @@ import { shallow } from 'enzyme';
 import { isMatch } from 'lodash';
 import React from 'react';
 
+import { Website, WebsiteEventBasedSliEntity, WebsiteTimeBasedSliEntity } from '@instana/types';
+
 import { SliConfig, websiteEventBased, websiteTimeBased } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
 import CreateWebsiteSliForm from 'in-custom-dashboards/widgets/SloLegacy/sli/components/create/CreateWebsiteSliForm';
 import { useValidateWebsiteFilterExpression as uVWFE } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import CreateSliForm from 'in-custom-dashboards/widgets/SloLegacy/sli/components/create/CreateSliForm';
 import { WebsiteSliForm } from 'in-custom-dashboards/widgets/SloLegacy/sli/WebsiteSliForm';
-import { Website, WebsiteEventBasedSliEntity, WebsiteTimeBasedSliEntity } from 'in-types';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import uW from 'in-websites/hooks/useWebsite';

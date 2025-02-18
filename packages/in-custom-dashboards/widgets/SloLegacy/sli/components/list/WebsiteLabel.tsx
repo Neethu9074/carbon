@@ -8,12 +8,12 @@ import React from 'react';
 
 import { WebsiteEventBasedSliEntity, WebsiteSliEntity, WebsiteTimeBasedSliEntity } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { t } from '@instana/i18n-react';
 
 import { SliEntityLabelProps } from 'in-custom-dashboards/widgets/SloLegacy/sli/components/list/ApplicationPerspectiveLabel';
 import MonitoredEntityLabel from 'in-custom-dashboards/widgets/SloLegacy/sli/components/list/MonitoredEntityLabel';
 import { getLabel } from 'in-custom-dashboards/widgets/SloLegacy/sli/components/list/ApplicationPerspectiveLabel';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
+import { t } from 'in-i18n';
 
 interface UseWebsiteLabelsProps {
   sliEntity: WebsiteSliEntity;

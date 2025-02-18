@@ -6,8 +6,6 @@
 
 import React, { useContext } from 'react';
 
-import { t } from '@instana/i18n-react';
-
 import SloNameAndTagsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloNameAndTagsSection/SloNameAndTagsSection';
 import SloBlueprintsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloBlueprintsSection';
 import SloObjectiveSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/SloObjectiveSection';
@@ -19,6 +17,7 @@ import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSl
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { NavItem } from 'in-components/SideNav/SideNav';
+import { t } from 'in-i18n';
 
 export default function SloFormStepsContainer() {
   const { form } = useContext(SloFormContext);

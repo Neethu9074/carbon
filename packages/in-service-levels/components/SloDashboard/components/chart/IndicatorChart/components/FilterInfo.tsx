@@ -16,7 +16,6 @@ import {
   WebsiteSloEntity
 } from '@instana/types';
 import { Spacer, Stack, SvgIcon, Typography } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
 import { QueryBuilderComponent as QueryBuilderComponentType } from 'in-components/QueryBuilder';
@@ -25,6 +24,7 @@ import { fromBackendModel } from 'in-components/QueryBuilder/transformation/form
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 interface FilterInfoProps {
   entity: SloEntityUnion;

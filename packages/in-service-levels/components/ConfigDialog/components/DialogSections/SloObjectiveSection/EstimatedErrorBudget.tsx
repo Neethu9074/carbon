@@ -8,13 +8,13 @@ import React, { useContext } from 'react';
 
 import { Stack, Typography } from '@instana/components';
 import { isSyntheticSloEntity } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import EventBasedErrorBudgetPreview from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/EventBasedErrorBudgetPreview';
 import TimeBasedErrorBudgetPreview from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/TimeBasedErrorBudgetPreview';
 import { formToEntity, formToTimeWindow } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import Sections from 'in-components/workspace/Sections/Sections';
+import { t } from 'in-i18n';
 
 import locals from './SloObjectiveSection.mless';
 

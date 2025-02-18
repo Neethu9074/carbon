@@ -9,7 +9,6 @@ import React from 'react';
 import { Message } from '@instana/components';
 import { Application } from '@instana/types';
 import { just } from '@instana/observables';
-import { t } from '@instana/i18n-react';
 
 import CreateSliForm from 'in-custom-dashboards/widgets/SloLegacy/sli/components/create/CreateSliForm';
 import { createSliConfiguration } from 'in-custom-dashboards/widgets/SloLegacy/sli/api';
@@ -17,6 +16,7 @@ import { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFoot
 import { createForm } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliForm';
 import { addMessage as aM } from 'in-components/MessageFlyout/stores/messages';
 import { error, successObservable } from 'in-services/util/result';
+import { t } from 'in-i18n';
 
 jest.mock('in-components/MessageFlyout/stores/messages', () => ({
   addMessage: jest.fn()

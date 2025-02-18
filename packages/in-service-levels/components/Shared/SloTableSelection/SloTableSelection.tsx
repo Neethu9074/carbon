@@ -10,10 +10,10 @@ import React from 'react';
 
 import { Li, Stack, Ul, RadioButton, Checkbox } from '@instana/components';
 import { Progress } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import SloTableSelectionSkeleton from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelectionSkeleton';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import { t } from 'in-i18n';
 
 import locals from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelection.mless';
 
@@ -57,7 +57,7 @@ export default function SloTableSelection<COLUMN_DATA extends ColumnDataBase>({
 
   const shouldRenderMoreButton = canLoadMore && loadMore && !disabled;
 
-  const BoxComponent = asRadioButton ? RadioButton : Checkbox
+  const BoxComponent = asRadioButton ? RadioButton : Checkbox;
 
   return (
     <Ul

@@ -21,7 +21,6 @@ import {
 import { generateStableHash } from '@instana/utils';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { t } from '@instana/i18n-react';
 
 import { useLineWithThresholdAndMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThresholdAndMissingDataIndicator';
 import {
@@ -32,8 +31,8 @@ import { thresholdMetricId } from 'in-service-levels/components/SloDashboard/com
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
-import { calculateTrafficGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
 import { invertSyntheticPercentageMetrics } from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import { calculateTrafficGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import { applicationMetrics, syntheticMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
@@ -46,6 +45,7 @@ import { MetricDataSeries } from 'in-components/Chart/types';
 import { successObservable } from 'in-services/util/result';
 import { percentage } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
+import { t } from 'in-i18n';
 
 const metricId = 'availability';
 

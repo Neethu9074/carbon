@@ -9,7 +9,6 @@ import React, { useEffect } from 'react';
 
 import { Button, Spacer, Stack, Typography } from '@instana/components';
 import { SloEntityType } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import useSloWidgetFormSideEffects from 'in-custom-dashboards/widgets/Slo/hooks/useSloWidgetFormSideEffects';
 import SloListSelection from 'in-service-levels/components/Shared/SloListSelection/SloListSelection';
@@ -26,6 +25,7 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import Sections from 'in-components/workspace/Sections/Sections';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { t } from 'in-i18n';
 
 export default function FormComponent({
   form,

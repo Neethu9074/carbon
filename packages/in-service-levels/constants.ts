@@ -11,12 +11,12 @@ import {
   SloEntityType,
   TrafficIndicatorType
 } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import { SloAggregationOptions, SloBeaconTypes } from 'in-service-levels/types';
 import { sloSyntheticsEnabled } from 'in-services/featureFlags';
 import { hasSyntheticsAccess } from 'in-stores/permission';
 import { deepFreeze } from 'in-services/util/object';
+import { t } from 'in-i18n';
 
 export const hasSyntheticsSloAccess = sloSyntheticsEnabled && hasSyntheticsAccess;
 

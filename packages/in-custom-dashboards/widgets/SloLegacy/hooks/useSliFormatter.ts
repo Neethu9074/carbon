@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { t } from '@instana/i18n-react';
+import { SliEntity } from '@instana/types';
 
 import {
   isAvailabilitySliEntity,
   isWebsiteEventBasedSliEntity
 } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
 import { minutes, number } from 'in-services/formatters/number';
-import { SliEntity } from 'in-types';
+import { t } from 'in-i18n';
 
 type FormatterFunction = (value: number) => string;
 

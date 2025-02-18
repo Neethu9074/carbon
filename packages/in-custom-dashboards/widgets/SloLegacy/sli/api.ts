@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc. 2022
  */
 
+import { Result, SliConfigurationWithLastUpdated } from '@instana/types';
 import { create, Observable } from '@instana/observables';
 
 import { CombinedSliEntity, NewSliConfig } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/SloLegacy/constants';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { Result, SliConfigurationWithLastUpdated } from 'in-types';
 import http from 'in-services/http';
 
 const refreshSignal = create<string>().emit('');

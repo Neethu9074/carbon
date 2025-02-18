@@ -17,7 +17,6 @@ import {
   TimeConfig,
   UnifiedMetricConfigurationUnion
 } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports -- We cant specifically allow parts of a otherwise restricted package
 import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
@@ -43,6 +42,7 @@ import { isTrafficBlueprintIndicator } from 'in-service-levels/types';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 interface TrafficChartProps {
   automaticallySize?: boolean;

@@ -15,7 +15,6 @@ import {
   WebsiteSloEntity
 } from '@instana/types';
 import { KeyValue } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import SloConfigSection, {
   RowDefinition
@@ -29,6 +28,7 @@ import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicati
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import QueryBuilderFilter from 'in-service-levels/components/QueryBuilderFilter';
 import { getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
+import { t } from 'in-i18n';
 
 import locals from './ScopeSection.mless';
 

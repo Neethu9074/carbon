@@ -15,7 +15,6 @@ import {
   WebsiteSloEntity,
   isSyntheticSloEntity
 } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import {
   OPERATOR_AND,
@@ -28,6 +27,7 @@ import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import { statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { deepFreeze } from 'in-services/util/object';
+import { t } from 'in-i18n';
 
 interface SloMetricConfigGeneratorProps {
   configId: string;

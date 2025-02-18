@@ -12,12 +12,14 @@ import {
   SloEntity,
   SloEntityType,
   SloEntityUnion,
-  SyntheticTest
+  SyntheticTest,
+  Application,
+  Result,
+  Website
 } from '@instana/types';
 import { combineLatest, just, Observable } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
-import { t } from '@instana/i18n-react';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
@@ -27,10 +29,10 @@ import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { pendingResult } from 'in-services/fixedObjects';
 import { error, success } from 'in-services/util/result';
 import { LabeledEntity } from 'in-service-levels/types';
-import { Application, Result, Website } from 'in-types';
 import { FetchedState } from 'in-hooks/utils/types';
 import { isBlank } from 'in-services/util/string';
 import { all } from 'in-hooks/utils/progress';
+import { t } from 'in-i18n';
 
 export type MonitoredEntity = Application | Website | SyntheticTest;
 

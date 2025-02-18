@@ -9,7 +9,6 @@ import React, { useEffect } from 'react';
 
 import { Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
-import { t } from '@instana/i18n-react';
 
 import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
 import {
@@ -34,6 +33,7 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { seconds } from 'in-services/time/time';
+import { t } from 'in-i18n';
 
 import locals from './CreateSloFormSlide.mless';
 

@@ -7,7 +7,6 @@
 import React, { useContext, useState } from 'react';
 
 import { Stack, Typography } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import SloScopeServiceEndpointPanel from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloScopeServiceEndpointPanel';
 import ApplicationTagFilterBuilder from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilder';
@@ -19,6 +18,7 @@ import TabSelect, {
   TabSelectPanels
 } from 'in-components/TabSelect';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import { t } from 'in-i18n';
 
 export default function ScopeSelection() {
   const { form, mode, onChange, setForm } = useContext(SloFormContext);

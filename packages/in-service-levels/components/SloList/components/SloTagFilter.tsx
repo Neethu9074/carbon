@@ -6,9 +6,8 @@
 
 import React, { useEffect } from 'react';
 
-import { t } from '@instana/i18n-react';
-
 import ComboBox, { hasMultipleValuesSelected } from 'in-components/ComboBox';
+import { t } from 'in-i18n';
 
 export interface SloTagFilterProps {
   value: string[];

@@ -3,13 +3,12 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Result, SliConfigurationWithLastUpdated } from '@instana/types';
 import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Result } from '@instana/types';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { getSliConfiguration } from 'in-custom-dashboards/widgets/SloLegacy/sli/api';
-import { SliConfigurationWithLastUpdated } from 'in-types';
 import { FetchedState } from 'in-hooks/utils/types';
 import { isBlank } from 'in-services/util/string';
 import { error } from 'in-services/util/result';

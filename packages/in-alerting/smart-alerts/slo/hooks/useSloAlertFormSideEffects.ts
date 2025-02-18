@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-import { t } from '@instana/i18n-react';
-
 import {
   SloAlertForm,
   createUnvalidatedSloBurnRateTimeWindowsForm,
@@ -13,6 +11,7 @@ import {
 } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
 import useFormSideEffects, { CHANGE_TYPES, Effect } from 'in-hooks/useFormSideEffects';
 import { percentageUpToTwoDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 function resetSelectedSloIds(form: SloAlertForm): SloAlertForm {
   if (!form.getIn(['entityType']).touched) return form;

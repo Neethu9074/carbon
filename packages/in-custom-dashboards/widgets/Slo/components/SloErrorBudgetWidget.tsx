@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import ErrorBudgetChart from 'in-service-levels/components/SloDashboard/components/chart/ErrorBudgetChart';
@@ -15,6 +14,7 @@ import SloChartSummary from 'in-service-levels/components/SloChart/SloChartSumma
 import useSloWidgetMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloWidgetMetrics';
 import { getValueFromSingleValueMetric } from 'in-service-levels/utils/format';
 import { MetricDataPoint } from 'in-components/Chart/types';
+import { t } from 'in-i18n';
 
 interface SloErrorBudgetWidgetProps {
   sloConfig: ServiceLevelObjectiveConfiguration;

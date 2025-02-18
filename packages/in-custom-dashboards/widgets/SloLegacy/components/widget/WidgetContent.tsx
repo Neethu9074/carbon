@@ -5,9 +5,9 @@
 
 import React from 'react';
 
+import { Error, MetricResult, Progress, SliConfigurationWithLastUpdated, TimeConfig } from '@instana/types';
 import { Message } from '@instana/components';
 
-import { Error, MetricResult, Progress, SliConfigurationWithLastUpdated, TimeConfig } from 'in-types';
 import Chart from 'in-custom-dashboards/widgets/SloLegacy/components/Chart/Chart';
 import { findMetric } from 'in-custom-dashboards/widgets/SloLegacy/metric';
 import { MetricDataSeries } from 'in-components/Chart/types';

@@ -21,7 +21,6 @@ import {
 import { generateStableHash } from '@instana/utils';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { t } from '@instana/i18n-react';
 
 import { useLineWithThresholdAndMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThresholdAndMissingDataIndicator';
 import {
@@ -45,6 +44,7 @@ import { MetricDataSeries } from 'in-components/Chart/types';
 import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { millis } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 const metricId = 'latency';
 interface TimeBasedLatencyIndicatorChartProps {

@@ -21,7 +21,6 @@ import {
 import { generateStableHash } from '@instana/utils';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { t } from '@instana/i18n-react';
 
 import { useBarWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/barWithMissingDataIndicator';
 // @ts-expect-error needs migration
@@ -43,6 +42,7 @@ import { MetricDataSeries } from 'in-components/Chart/types';
 import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 const goodEventsMetricId = 'goodEvents';
 const badEventsMetricId = 'badEvents';

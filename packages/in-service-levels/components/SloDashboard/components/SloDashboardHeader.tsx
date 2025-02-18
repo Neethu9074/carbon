@@ -9,12 +9,12 @@ import React from 'react';
 import { formatDateShort, formatTimeWithoutSeconds } from '@instana/format-date';
 import { Typography } from '@instana/components';
 import { Result } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import AnalyzeSloEventsButtons from 'in-service-levels/components/AnalyzeSloEventsButtons';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { Nullish } from 'in-types';
+import { t } from 'in-i18n';
 
 interface SloDashboardHeaderProps {
   result: Result<SloTabData> | Nullish;
