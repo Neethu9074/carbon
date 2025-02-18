@@ -43,20 +43,30 @@ const generateEventTypes = isInternalVisible => [
     id: 'change',
     label: eventTypeLabels.change
   },
-  (isInternalVisible || agentMonitoringIssuesEnabled) &&
-    !playwithEnabled && {
-      id: 'agent_monitoring_issue',
-      label: eventTypeLabels.agent_monitoring_issue
-    },
-  cveIssueEnabled &&
-    !playwithEnabled &&
-    {
-      id: 'cve_issue',
-      label: eventTypeLabels.cve_issue
-    }(prcIssueEnabled && !playwithEnabled) && {
-      id: 'prc_issue',
-      label: eventTypeLabels.prc_issue
-    }
+  ...((isInternalVisible || agentMonitoringIssuesEnabled) && !playwithEnabled
+    ? [
+        {
+          id: 'agent_monitoring_issue',
+          label: eventTypeLabels.agent_monitoring_issue
+        }
+      ]
+    : []),
+  ...(cveIssueEnabled && !playwithEnabled
+    ? [
+        {
+          id: 'cve_issue',
+          label: eventTypeLabels.cve_issue
+        }
+      ]
+    : []),
+  ...(prcIssueEnabled && !playwithEnabled
+    ? [
+        {
+          id: 'prc_issue',
+          label: eventTypeLabels.prc_issue
+        }
+      ]
+    : [])
 ];
 
 export default function ViewSwitcher({ selectedEventType = null, onChange }) {
