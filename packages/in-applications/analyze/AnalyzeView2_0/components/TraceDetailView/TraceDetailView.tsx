@@ -6,8 +6,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 
+import { create, Observable, Subject, timeout } from '@instana/observables';
 import { Message, SvgIcon, Link, Pill } from '@instana/components';
-import { create, Observable, Subject } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error SplitScreenTraceDetailContent needs ts migration
@@ -171,18 +171,19 @@ function useRetriableObservable({
   }
 
   const timeConfig = useTimeConfig();
-  const traceSummary = useObservable(getTraceSummaryRetriable, [traceId, retry]) ?? pendingResult;
+  const traceSummary =
+    useObservable(getTraceSummaryRetriable, [traceId, retry]) ?? (pendingResult as Result<TraceSummary>);
+
+  const traceDataMissing = hasError(traceSummary) || (!isLoading(traceSummary) && traceSummary.data?.callCount === 0);
+  const shouldRetry = traceDataMissing && isAlmostNow(timeConfig.to) && retry < retries;
 
   useEffect(() => {
-    const traceDataMissing = hasError(traceSummary) || (!isLoading(traceSummary) && traceSummary.data.callCount === 0);
-    const shouldRetry = traceDataMissing && isAlmostNow(timeConfig.to) && retry < retries;
     if (shouldRetry) {
-      const timeoutId = setTimeout(() => setRetry(prev => prev + 1), retryDelay);
-      return () => clearTimeout(timeoutId);
+      timeout(retryDelay).once(() => setRetry(prev => prev + 1));
+    } else {
+      result$.emit(traceSummary);
     }
-    result$.emit(traceSummary);
-    return () => {}; // needed to satisfy return rules (ts(7030))
-  }, [retry, result$, traceSummary, timeConfig.to, retries, retryDelay]);
+  }, [result$, retryDelay, shouldRetry, traceSummary]);
 
   return { result$, retry };
 }
