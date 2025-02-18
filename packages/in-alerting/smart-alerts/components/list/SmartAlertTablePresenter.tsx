@@ -207,18 +207,17 @@ export default function SmartAlertTablePresenter<
         />
       </span>
       {/* Table Pagination */}
-      {result?.data && result.data.totalHits > pageSize ? (
+      {result?.data && result.data.totalHits > pageSize && (
         <Pagination
           currentPage={page}
-          totalItems={result?.data?.totalHits}
+          totalItems={result.data.totalHits}
           pageSize={pageSize}
           pageSizes={pageSizes ?? [pageSize]}
           onChange={data => {
             onChange?.({ query, orderBy, orderDirection, page: data.page, pageSize: data.pageSize, pageSizes });
           }}
         />
-      ) : null}
-
+      )}
       {/* Empty Content */}
       {carbonRows.length === 0 && (
         <NoDataEmptyState
