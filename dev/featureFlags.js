@@ -179,7 +179,7 @@ module.exports = {
   rbacTeamsEnabled: false,
   accessControlCarbonTable: false,
   prcIssueEnabled: true,
-  logSmartAlertFullScreenDesignEnabled: false,
+  logSmartAlertFullScreenDesignEnabled: true,
   websitesSmartAlertFullScreenDesignEnabled: false,
   prometheusDeltaCountersSumEnabled: true,
   syntheticSmartAlertFullScreenDesignEnabled: false,

@@ -88,7 +88,12 @@ export default function ThresholdSection({
         />
       </Section>
       {/* Evaluation Window */}
-      <EvaluationWindow form={form} updateForm={updateForm} oneMinuteGranularityAllowed={oneMinuteGranularityAllowed} />
+      <EvaluationWindow
+        form={form}
+        updateForm={updateForm}
+        oneMinuteGranularityAllowed={oneMinuteGranularityAllowed}
+        smartAlertType="logSA"
+      />
     </Stack>
   );
 }

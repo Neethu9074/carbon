@@ -1707,11 +1707,14 @@
         "scopeFilter": {
           "title": "Choose the scope of the logs",
           "filter": "Filter",
-          "filterDescription": "Add filters to the services to get more precise alerts."
+          "filterDescription": "Add filters to log message content, logs, or both to get more precise alerts."
+        },
+        "granularity": {
+          "description": "Logs are evaluated in {{granularity}}-minute windows and  a metric value is calculated for that window"
         },
         "scopeGroupBy": {
           "group": "Group",
-          "groupByDescription": "Add group to configure calls in groups. Each call within the group is configured collectively but evaluated individually."
+          "groupByDescription": "Add grouping to logs. Each entry within the group is configured collectively but evaluated individually."
         },
         "timeThreshold": {
           "title": "Set when violations trigger alerts",
