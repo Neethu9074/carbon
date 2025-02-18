@@ -38,14 +38,11 @@ describe('in-plg/pages/UserGoalSelection', () => {
     (useObservable as jest.Mock).mockImplementation(() => mockData);
   });
   test('should show dialog if first login and trial license', () => {
-    window.instana = {
-      dev: {},
-      tags: [],
-      permissions: [],
-      termsAndPrivacySettings: {
-        showUserGoalSelection: true // Set this to true for testing
-      }
+    window.instana.termsAndPrivacySettings = {
+      ...window.instana.termsAndPrivacySettings,
+      showUserGoalSelection: true
     };
+
     act(() => {
       render(<UserGoalSelection />);
     });
