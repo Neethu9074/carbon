@@ -41,7 +41,7 @@ export default function LogVolumeDetails({
   };
 
   return (
-    <>
+    <div role="table">
       {data
         ?.filter(({ totalVolume }: LogVolumeData) => totalVolume.gb > 0)
         .map((item: LogVolumeData, index: number) => {
@@ -147,6 +147,6 @@ export default function LogVolumeDetails({
             </div>
           );
         })}
-    </>
+    </div>
   );
 }

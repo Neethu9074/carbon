@@ -89,7 +89,7 @@ export function LogVolume() {
         <section className={locals.titleSection}>
           <SubViewHeader>{localisationStrings.logVolume}</SubViewHeader>
         </section>
-        <main>
+        <div>
           <section>
             <Ul>
               <Li>
@@ -99,7 +99,12 @@ export function LogVolume() {
                       <SvgIcon type="lib_datetime_date" />
                       {localisationStrings.timeRange}
                     </Label>
-                    <Select name="timeRange" value={timePeriod} onChange={e => setTimePeriod(+e.target.value)}>
+                    <Select
+                      id="timeRange"
+                      name="timeRange"
+                      value={timePeriod}
+                      onChange={e => setTimePeriod(+e.target.value)}
+                    >
                       {[1, 3, 6, 9, 12].map(months => (
                         <option key={months} value={months}>
                           {t('in-settings:tabs.logVolume.months', { context: String(months) })}
@@ -148,7 +153,7 @@ export function LogVolume() {
               />
             )}
           </section>
-        </main>
+        </div>
       </section>
     </>
   );
