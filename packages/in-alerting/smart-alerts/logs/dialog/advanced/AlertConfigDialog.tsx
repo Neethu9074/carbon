@@ -16,7 +16,7 @@ import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/use
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/logs/form/alertFormDefinition';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { alertDetailsFullyQualifiedPath, alertsDetailsPath } from 'in-logging/navigation/paths';
+import { dashboardAlertDetailsFullPath, alertsDetailsPath } from 'in-logging/navigation/paths';
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/logs/components/AlertCreateOrSave';
 import { toGroupByTag } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import { LogSmartAlertConfig } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
@@ -143,7 +143,7 @@ export const useGetAlertConfigLink = () => {
 };
 
 function fillAlertTabSpecificValues(location: Location, alertConfigId: string, alertConfigVersion?: number) {
-  location.pathname = alertDetailsFullyQualifiedPath;
+  location.pathname = dashboardAlertDetailsFullPath;
 
   setOrDeleteMatrixKey(location, alertsDetailsPath, alertId, alertConfigId);
   setOrDeleteMatrixKey(location, alertsDetailsPath, alertCreated, alertConfigVersion);
