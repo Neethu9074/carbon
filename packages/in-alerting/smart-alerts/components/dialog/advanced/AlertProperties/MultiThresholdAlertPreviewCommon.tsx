@@ -17,7 +17,7 @@ import locals from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPro
 
 interface MultiThresholdAlertPreviewCommonProps {
   form: MapForm<any>;
-  getDescriptionPlaceholder: (form: MapForm<any>) => string;
+  getDescriptionPlaceholder: (form: MapForm<any>, severity?: number) => string;
   isWarningDefined: boolean;
   isCriticalDefined: boolean;
   entityLabel: string;

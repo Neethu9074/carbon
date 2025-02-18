@@ -24,7 +24,21 @@
       "value": 20,
       "lastUpdated": 0
     },
-    "rules": [],
+    "rules": [
+      {
+        "rule": {
+          "alertType": "logCount",
+          "metricName": "logCount"
+        },
+        "thresholdOperator": ">=",
+        "thresholds": {
+          "WARNING": {
+            "type": "staticThreshold",
+            "value": 20
+          }
+        }
+      }
+    ],
     "alertChannelIds": [],
     "granularity": 600000,
     "timeThreshold": {
@@ -159,20 +173,27 @@
     "granularity": 600000,
     "gracePeriod": 600000,
     "name": "Test alert",
-    "severity": 5,
     "tagFilterExpression": {
       "elements": [],
       "logicalOperator": "AND",
       "type": "EXPRESSION"
     },
     "id": "123",
-    "threshold": {
-      "type": "staticThreshold",
-      "operator": ">=",
-      "lastUpdated": 0,
-      "value": 12
-    },
-    "rules": [],
+    "rules": [
+      {
+        "rule": {
+          "alertType": "logCount",
+          "metricName": "logCount"
+        },
+        "thresholdOperator": ">=",
+        "thresholds": {
+          "WARNING": {
+            "type": "staticThreshold",
+            "value": 20
+          }
+        }
+      }
+    ],
     "timeThreshold": {
       "type": "violationsInSequence",
       "timeWindow": 600000

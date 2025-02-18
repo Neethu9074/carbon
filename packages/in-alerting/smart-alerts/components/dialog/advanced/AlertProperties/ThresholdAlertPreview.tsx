@@ -14,7 +14,7 @@ import { t } from 'in-i18n';
 
 interface ThresholdAlertPreviewProps {
   form: MapForm<any>;
-  getDescriptionPlaceholder: (form: MapForm<any>) => string;
+  getDescriptionPlaceholder: (form: MapForm<any>, severity?: number) => string;
   entityLabel: string;
   entityIconType: string;
   severity: number;

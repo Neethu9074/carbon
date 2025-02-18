@@ -8,6 +8,7 @@ import { ListForm, MapForm } from 'formalistic';
 
 import { CustomPayloadFieldUnion } from '@instana/types/typeDefinitions';
 
+import { isEmpty as isThresholdEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingFullScreenTearSheet';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 
@@ -24,7 +25,7 @@ export default function useAlertConfigValidation(
     },
     {
       ...stepConfigs[1],
-      valid: !isEmpty(form?.get('threshold')?.get('value').value) && isTimeThresholdValid(form)
+      valid: isThresholdSectionValid(form) && isTimeThresholdValid(form)
     },
     {
       ...stepConfigs[2],
@@ -41,6 +42,29 @@ export default function useAlertConfigValidation(
 function isTimeThresholdValid(form: MapForm<any>) {
   const timeThresholdValid = form.get('timeThreshold')?.get('timeWindow').valid;
   return timeThresholdValid;
+}
+
+function isThresholdSectionValid(form: MapForm<any>) {
+  const warningThresholdValue = form.get('threshold')?.get('warningThreshold').get('value').value;
+  const hasWarningThreshold = !isThresholdEmpty(warningThresholdValue);
+  const criticalThresholdValue = form.get('threshold')?.get('criticalThreshold').get('value').value;
+  const hasCriticalThreshold = !isThresholdEmpty(criticalThresholdValue);
+
+  const operatorValue = form.get('threshold')?.get('operator').value ?? '>=';
+
+  if (hasWarningThreshold && hasCriticalThreshold) {
+    if ((operatorValue === '<' || operatorValue === '<=') && warningThresholdValue <= criticalThresholdValue) {
+      return false;
+    } else if ((operatorValue === '>' || operatorValue === '>=') && warningThresholdValue >= criticalThresholdValue) {
+      return false;
+    }
+  }
+
+  if (!hasWarningThreshold && !hasCriticalThreshold) {
+    return false;
+  }
+
+  return true;
 }
 
 function updateFormField(form: MapForm<any>, updateForm: (form: MapForm<any>) => void, fieldType: string) {

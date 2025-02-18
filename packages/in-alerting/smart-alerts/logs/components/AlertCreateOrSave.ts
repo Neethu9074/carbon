@@ -15,6 +15,7 @@ import { LogSmartAlertConfig } from 'in-alerting/smart-alerts/logs/form/logAlert
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
+import { LogAlertConfig } from 'in-types';
 
 interface createOrSaveAlertProps {
   form: MapForm<any>;
@@ -24,7 +25,7 @@ interface createOrSaveAlertProps {
   editMode: boolean;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;
-  toAlertConfig: (form: MapForm<any>) => Readonly<LogSmartAlertConfig>;
+  toAlertConfig: (form: MapForm<any>) => Readonly<LogAlertConfig>;
   isSimpleMode: boolean;
   duplicateFrom?: string;
   trackCta: CtaTrackingFunction;
@@ -58,7 +59,7 @@ export function createOrSaveAlert({
     return;
   }
 
-  const alertConfig: LogSmartAlertConfig = toAlertConfig(form);
+  const alertConfig: LogAlertConfig = toAlertConfig(form);
 
   if (editMode) {
     const updateConfig = updateAlertConfig(alertConfig, form.get('id').value);
@@ -98,7 +99,7 @@ interface createOrSaveAlertFromTearSheetProps {
   editMode: boolean;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;
-  toAlertConfig: (form: MapForm<any>) => Readonly<LogSmartAlertConfig>;
+  toAlertConfig: (form: MapForm<any>) => Readonly<LogAlertConfig>;
   isSimpleMode: boolean;
   trackCta: CtaTrackingFunction;
   duplicateFrom?: string;
@@ -131,7 +132,7 @@ export function createOrSaveAlertFromTearSheet({
     return;
   }
 
-  const alertConfig: LogSmartAlertConfig = toAlertConfig(form);
+  const alertConfig: LogAlertConfig = toAlertConfig(form);
   if (editMode) {
     const updateConfig = updateAlertConfig(alertConfig, form.get('id').value);
     updateConfig.once(

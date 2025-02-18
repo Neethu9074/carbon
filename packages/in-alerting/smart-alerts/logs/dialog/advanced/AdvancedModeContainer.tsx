@@ -12,16 +12,13 @@ import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
-import {
-  AlertPreview,
-  AlertPreviewHeadline
-} from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/logs/dialog/advanced/ThresholdSelectionInteractiveChart';
 import {
   isCustomPayloadValidOrUntouched,
   fieldTouchedAndInvalid
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { LogMultiThresholdAlertPreview } from 'in-alerting/smart-alerts/logs/dialog/advanced/LogMultiThresholdAlertPreview';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
@@ -55,7 +52,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     onChartViewConfigChange,
     selectedChartViewConfigIndex
   } = props;
-  const thresholdType = form.get('threshold').get('type').value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const tagCatalog = useTagCatalog('SMART_ALERTS');
 
   return (
@@ -152,7 +149,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                 <AlertProperties
                   form={form}
                   onChange={onChange}
-                  getDescriptionPlaceholder={() => getDescriptionPlaceholder(form)}
+                  getDescriptionPlaceholder={getDescriptionPlaceholder}
                   renderAlertPropertiesTitleRow={() => (
                     <AlertPropertiesTitleRow
                       form={form}
@@ -160,18 +157,11 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                       getTitlePlaceholder={getTitlePlaceholder}
                     />
                   )}
+                  shouldDisplayAlertLevelSelection={false}
                 />
               )}
               renderAlertPreview={() => (
-                <AlertPreview
-                  form={form}
-                  renderHeadline={() => (
-                    <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder()} />
-                  )}
-                  getDescriptionPlaceholder={getDescriptionPlaceholder}
-                  entityLabel={t('in-alerting:smartAlerts.logs.advancedModeContainer.properties.preview.subtitle')}
-                  entityIconType="lib_application_logging"
-                />
+                <LogMultiThresholdAlertPreview form={form} getDescriptionPlaceholder={getDescriptionPlaceholder} />
               )}
             />
           )
@@ -192,6 +182,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     />
   );
   function isThresholdSectionValid(): boolean {
-    return !fieldTouchedAndInvalid(form.get('threshold')?.get('value'));
+    return !fieldTouchedAndInvalid(form.get('threshold'));
   }
 }

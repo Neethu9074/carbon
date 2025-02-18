@@ -1675,11 +1675,10 @@
         "customPayloads": {
           "label": "Payloads",
           "title": "Custom payload"
-        },
-        "thresholdValue": "Threshold value"
+        }
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
+        "selectAtLeastOneThreshold": "Please provide value for at least one of the thresholds.",
         "noDataForSelectedGroup": "There is no data available for the specified filters and grouping combination."
       },
       "logCount": "Log count",
