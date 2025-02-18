@@ -11,6 +11,14 @@ import { Action, Field } from '@instana/types';
 import { HTTP_METHODS_WITH_BODY, AUTH_TYPE, ISSUE, OPEN, TASK } from 'in-automation/constants';
 import { Authen, NewAction } from 'in-automation/types';
 
+function utf8ToBase64(str: string) {
+  return window.btoa(String.fromCharCode(...new TextEncoder().encode(str)));
+}
+
+export function base64ToUtf8(base64: string) {
+  return new TextDecoder().decode(Uint8Array.from(window.atob(base64), c => c.charCodeAt(0)));
+}
+
 const getFieldsByNames = (fields: Field[] | undefined): Record<string, Field | null> => keyBy(fields, 'name');
 export const getScriptFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.script_content ??
@@ -88,14 +96,14 @@ export function getInterpreterToUse(action: Action | NewAction) {
   const script = getScriptFromFields(action.fields);
   let plaintextScript = script.value;
   if (script.encoding === 'base64') {
-    plaintextScript = atob(plaintextScript);
+    plaintextScript = base64ToUtf8(plaintextScript);
   }
   const hasShebang = plaintextScript.startsWith('#!');
   if (hasShebang) {
     return {
       encoding: 'base64',
       name: 'subtype',
-      value: btoa(plaintextScript.split('\n')[0].replace('#!', '').trim())
+      value: utf8ToBase64(plaintextScript.split('\n')[0].replace('#!', '').trim())
     };
   }
   return getInterpreterFromFields(action.fields);
@@ -226,7 +234,7 @@ export function createDocLinkField(value: string): Field {
 
 export function createManualField(value: string): Field {
   return {
-    value: btoa(value),
+    value: utf8ToBase64(value),
     description: 'Content for manual action',
     encoding: 'base64',
     name: 'content'
@@ -244,13 +252,13 @@ export function createScriptFields({
 }): Field[] {
   return [
     {
-      value: btoa(subtype),
+      value: utf8ToBase64(subtype),
       description: 'script subtype',
       encoding: 'base64',
       name: 'subtype'
     },
     {
-      value: btoa(value),
+      value: utf8ToBase64(value),
       description: 'script content',
       encoding: 'base64',
       name: 'script_ssh'
