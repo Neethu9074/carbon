@@ -13,6 +13,7 @@ import {
   createScriptFields,
   createManualField,
   createWebhookFields,
+  createTimeoutField,
   createGithubFields,
   createGitlabFields,
   createJiraFields
@@ -117,7 +118,7 @@ export function getActionFromForm(form: ActionForm, action?: ActionFormEntity): 
       break;
     }
     case 'ANSIBLE': {
-      fields.push(...(action?.fields ?? []));
+      fields.push(...(action?.fields ?? []), createTimeoutField(timeout));
       break;
     }
     case 'EXTERNAL':
