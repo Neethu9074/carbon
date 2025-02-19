@@ -20,9 +20,9 @@ import {
 import { Card, Checkbox, Stack, Button } from '@instana/components';
 import { DataTable as CarbonDataTable } from '@instana/components';
 
-import { multiCloseEnabled, aqmDataGridEventTableEnabled, carbonTableEnabled } from 'in-services/featureFlags';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
+import { multiCloseEnabled, aqmDataGridEventTableEnabled } from 'in-services/featureFlags';
 import useTimeConfigUpdatingScale from 'in-events/components/useTimeConfigUpdatingScale';
 import MultiCloseIssueConfigForm from 'in-events/components/MultiCloseIssueConfigForm';
 import EventsTable from 'in-events/components/EventsPage/EventsTable/EventsTable';
@@ -287,7 +287,7 @@ function List(props) {
     );
   };
 
-  if (carbonTableEnabled && !canMultiCloseEvents) {
+  if (!canMultiCloseEvents) {
     const sortedRows = filteredRawEventList;
 
     // Carbon interprets keys differently than the how the sorting works
