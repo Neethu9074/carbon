@@ -20,15 +20,31 @@ interface CanvasProps {
 }
 
 export function Canvas({ defs, children, width, height }: CanvasProps) {
+  const paddingAmount = 50;
   const svgRef = useRef<SVGSVGElement>(null);
   const [k, setK] = useState(1);
-  const [x, setX] = useState(0);
-  const [y, setY] = useState(0);
+  const [x, setX] = useState(paddingAmount);
+  const [y, setY] = useState(paddingAmount);
 
   function updateK(k: number) {
     if (svgRef.current) {
       d3Zoom<SVGSVGElement, unknown>().scaleTo(d3Select<SVGSVGElement, unknown>(svgRef.current), k, [x, y]);
       setK(k);
+    }
+  }
+
+  function resetView() {
+    if (svgRef.current) {
+      d3Zoom<SVGSVGElement, unknown>().scaleTo(d3Select<SVGSVGElement, unknown>(svgRef.current), 1, [x, y]);
+      d3Zoom<SVGSVGElement, unknown>().translateTo(
+        d3Select<SVGSVGElement, unknown>(svgRef.current),
+        paddingAmount,
+        paddingAmount,
+        [paddingAmount, paddingAmount]
+      );
+      setK(1);
+      setX(paddingAmount);
+      setY(paddingAmount);
     }
   }
 
@@ -53,7 +69,7 @@ export function Canvas({ defs, children, width, height }: CanvasProps) {
         {defs}
         <g transform={`translate(${x},${y})scale(${k})`}>{children}</g>
       </svg>
-      <Controls updateK={updateK} k={k} />
+      <Controls updateK={updateK} resetView={resetView} k={k} />
     </div>
   );
 }

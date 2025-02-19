@@ -4,20 +4,31 @@
  * Copyright IBM Corp. 2025
  */
 
-import { ElkNode } from 'elkjs/lib/elk.bundled';
+import classNames from 'classnames';
 import React from 'react';
 
+import { Button, Typography } from '@instana/components';
 import { CardNode } from '@instana/carbon-charts';
-import { Typography } from '@instana/components';
+
+import { BizOpsElkNode } from 'in-bizops/dashboards/summary/tabs/flowMap/FlowMapPresenter';
+import { t } from 'in-i18n';
 
 import local from './Node.mless';
 
-export interface BizOpsElkNode extends ElkNode {
-  name: string;
-  metrics: { [index: string]: number[][] };
+export interface BizOpsNodeProps extends BizOpsElkNode {
+  onPaginate: () => void;
 }
 
-export default function Node({ x, y, width, height, name, metrics }: BizOpsElkNode) {
+export default function Node({
+  x,
+  y,
+  width,
+  height,
+  name,
+  metrics,
+  remainingTargetCount,
+  onPaginate
+}: BizOpsNodeProps) {
   return (
     <foreignObject transform={`translate(${x},${y})`} height={height} width={width} style={{ overflow: 'visible' }}>
       <div style={{ height, width }}>
@@ -40,6 +51,19 @@ export default function Node({ x, y, width, height, name, metrics }: BizOpsElkNo
             </div>
           </div>
         </CardNode>
+        <div className={classNames(local.paginationContainer, { [local.hidePagination]: remainingTargetCount === 0 })}>
+          <Button
+            className={local.paginationButton}
+            kind="secondary"
+            size="compact"
+            hasIconOnly
+            icon="lib_openclose_add"
+            iconDescription={t('in-bizops:dashboards.flowMap.loadMore')}
+            onClick={onPaginate}
+          >
+            {t('in-bizops:dashboards.flowMap.loadMore')}
+          </Button>
+        </div>
       </div>
     </foreignObject>
   );

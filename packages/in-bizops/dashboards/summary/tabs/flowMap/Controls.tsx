@@ -14,10 +14,11 @@ import local from './Controls.mless';
 
 interface ControlsProps {
   updateK: (k: number) => void;
+  resetView: () => void;
   k: number;
 }
 
-export default function Controls({ updateK, k }: ControlsProps) {
+export default function Controls({ updateK, resetView, k }: ControlsProps) {
   function zoomIn() {
     updateK(k * 1.1);
   }
@@ -27,7 +28,7 @@ export default function Controls({ updateK, k }: ControlsProps) {
   }
 
   function zoomReset() {
-    updateK(1);
+    resetView();
   }
 
   return (

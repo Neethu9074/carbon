@@ -141,7 +141,8 @@
       }
     },
     "flowMap": {
-      "tabLabel": "Flow"
+      "tabLabel": "Flow",
+      "loadMore": "Load more"
     }
   }
 }
