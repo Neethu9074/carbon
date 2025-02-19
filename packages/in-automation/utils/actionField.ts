@@ -611,7 +611,7 @@ export interface CommentProps {
 }
 export type TicketTypes = OpenProps | CloseProps | CommentProps | OpenGLProps | OpenJiraProps;
 
-function createTimeoutField(value: string): Field {
+export function createTimeoutField(value: string): Field {
   return {
     value,
     description: 'timeout of the action execution in seconds',
