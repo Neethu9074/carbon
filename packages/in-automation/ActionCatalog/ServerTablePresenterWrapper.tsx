@@ -11,8 +11,8 @@ import { generateUniqueShortId } from '@instana/utils';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
+import { useIsNotEditableContext } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import { ActionForm, MappedValue } from 'in-automation/ActionCatalog/useActionForm/types';
-import { useIsNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';

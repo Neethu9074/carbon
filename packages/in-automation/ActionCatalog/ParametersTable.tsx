@@ -10,9 +10,9 @@ import { Link, Typography } from '@instana/components';
 
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
 import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
-import { ActionForm, MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
+import { useIsNotEditableContext } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
-import { useIsNotEditableContext } from 'in-automation/ActionCatalog/Action';
+import { MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
 import ParameterDialog1 from 'in-automation/ActionCatalog/ParameterDialog1';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ACTION_TYPE } from 'in-automation/constants';
@@ -21,19 +21,11 @@ import Label from 'in-components/form/Label/Label';
 import { t } from 'in-i18n';
 
 const getColumnDefinitions = ({
-  form,
-  isNotEditable,
-  setForm,
-  ticketIdParameterExist,
-  openDialog,
-  setOpenDialog
+  setOpenDialog,
+  setSelectedId
 }: {
-  form: ActionForm;
-  setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
-  isNotEditable: boolean;
-  ticketIdParameterExist: boolean;
-  openDialog: boolean;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
 }): ColumnDefinition<MappedParameter>[] => [
   {
     id: 'displayName',
@@ -48,22 +40,13 @@ const getColumnDefinitions = ({
               ellipsis
               onClick={e => {
                 e.preventDefault();
+                setSelectedId(item.id);
                 setOpenDialog(true);
               }}
             >
-              {item.value.label}
+              <>{item.value.label}</>
             </Link>
           </Tooltip>
-          {openDialog && (
-            <ParameterDialog1
-              setForm={setForm}
-              form={form}
-              isNotEditable={isNotEditable}
-              ticketIdParameterExist={ticketIdParameterExist}
-              openDialog={openDialog}
-              setOpenDialog={setOpenDialog}
-            />
-          )}
         </>
       );
     }
@@ -115,22 +98,23 @@ const getColumnDefinitions = ({
 // Note: Ansible actions will have extra vars mapped to parameters, we don't want to allow creating new parameters, but we do want to allow editing existing ones (minus the name as this is the key in the extra vars object)
 export default function ParametersTable() {
   const [openDialog, setOpenDialog] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const { form, setForm } = useActionFormContext();
   const isNotEditable = useIsNotEditableContext();
 
   const type = form.get('type').value;
   const parameters = form.get('parameters').value;
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   const ticketIdParameterExist =
     (type === ACTION_TYPE.GITHUB || type === ACTION_TYPE.GITLAB || type === ACTION_TYPE.JIRA) &&
     parameters.some(param => param.value.name === 'id');
   const columnDefinitions = getColumnDefinitions({
-    form,
-    setForm,
-    isNotEditable,
-    ticketIdParameterExist,
-    openDialog,
-    setOpenDialog
+    setOpenDialog,
+    setSelectedId
   });
 
   return (
@@ -146,6 +130,7 @@ export default function ParametersTable() {
             ? undefined
             : () => {
                 setOpenDialog(true);
+                setSelectedId(null);
               }
         }
         noDataMessage={t('in-automation:ActionCatalog.noParametersConfigured')}
@@ -157,9 +142,11 @@ export default function ParametersTable() {
           setForm={setForm}
           form={form}
           isNotEditable={isNotEditable}
+          id={selectedId === null ? undefined : selectedId}
           ticketIdParameterExist={ticketIdParameterExist}
           openDialog={openDialog}
           setOpenDialog={setOpenDialog}
+          onRequestToClose={handleCloseDialog}
         />
       )}
     </>

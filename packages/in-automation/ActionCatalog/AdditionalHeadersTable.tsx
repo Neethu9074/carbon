@@ -8,8 +8,8 @@ import React from 'react';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
+import { useIsNotEditableContext } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import { ActionForm, MappedHeader } from 'in-automation/ActionCatalog/useActionForm/types';
-import { useIsNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Input from 'in-components/form/Input';

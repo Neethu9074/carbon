@@ -9,9 +9,9 @@ import React from 'react';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
 import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
+import { useIsNotEditableContext } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import { ActionForm, MappedString } from 'in-automation/ActionCatalog/useActionForm/types';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { useIsNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import Input from 'in-components/form/Input/Input';
 

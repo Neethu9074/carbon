@@ -152,10 +152,15 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
             {t('in-automation:test')}
           </MoreMenuButton>
         )}
+
         {role?.canConfigureAutomationActions && (
           <>
             {isUserActions && (
-              <MoreMenuButton icon="lib_actions_edit " onClick={() => handleButtonClick({ actionId: action?.id })}>
+              <MoreMenuButton
+                icon="lib_actions_edit "
+                disabled={action.metadata?.builtIn}
+                onClick={() => handleButtonClick({ actionId: action?.id })}
+              >
                 {t('in-automation:edit')}
               </MoreMenuButton>
             )}

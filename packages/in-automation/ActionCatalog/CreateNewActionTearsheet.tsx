@@ -37,6 +37,7 @@ import { close } from 'in-components/DialogPresenter/store';
 import { isNotEditable } from 'in-automation/utils/action';
 import { useSegmentTracker } from 'in-automation/tracker';
 import { ACTION_TYPE } from 'in-automation/constants';
+import Form from 'in-components/form/binding/Form';
 import { ActionFilter } from 'in-automation/types';
 import Title from 'in-components/Title/Title';
 import SideNav from 'in-components/SideNav';
@@ -126,8 +127,11 @@ function TearSheetLoader({ action, actionFilter, copy, actionId }: TearSheetProp
         className="ttt"
         open
         influencer={influencerContent(form)}
-        title={actionId ? 'edit action' : 'create action'}
-        description={actionId ? 'edit description' : 'create description'}
+        title={
+          actionId && !isCopy
+            ? t('in-automation:ActionCatalog.configureActionEntityName', { entityName: action?.name })
+            : t('in-automation:ActionCatalog.createANewAction')
+        }
         actions={actionButtons}
       >
         <>
@@ -225,6 +229,8 @@ const generateNavItems = (form: ActionForm) => {
         return isDocActionConfigurationValid;
       case ACTION_TYPE.MANUAL:
         return isManualActionConfigurationValid;
+      case ACTION_TYPE.ANSIBLE:
+        return true;
       default:
         return false;
     }
@@ -432,7 +438,9 @@ function ActionDetails({ action, actionFilter, form, setForm, copy, actionId }: 
           setForm // Ensure setForm matches React.Dispatch<React.SetStateAction<ActionForm>>
         }}
       >
-        <ActionFormBody action={action} actionFilter={actionFilter} />
+        <Form form={form} setForm={form => setForm(form as ActionForm)} onSubmit={() => {}}>
+          <ActionFormBody action={action} actionFilter={actionFilter} />
+        </Form>
       </ActionFormContext.Provider>
     </isNotEditableContext.Provider>
   );

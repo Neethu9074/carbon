@@ -37,19 +37,21 @@ import {
   AUTH_TRANSLATIONS,
   AUTH_TYPE
 } from 'in-automation/constants';
+// import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
+// import GenerateScriptTile from 'in-automation/ActionCatalog/GenerateScriptTile';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+// import useHasAccessToScript from 'in-automation/hooks/useHasAccessToScript';
+import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
+import { useIsNotEditableContext } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import useActionDetailsUrlParams from 'in-automation/ActionCatalog/useActionDetailsUrlParams';
 import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import { createTicketIdParameter } from 'in-automation/ActionCatalog/useActionForm/utils';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import GenerateScriptTile from 'in-automation/ActionCatalog/GenerateScriptTile';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { ActionForm } from 'in-automation/ActionCatalog/useActionForm/types';
-import { useIsNotEditableContext } from 'in-automation/ActionCatalog/Action';
-import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
 import { isAction, ActionFilter, AuthenType } from 'in-automation/types';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import { getAnsibleFields } from 'in-automation/utils/actionField';
@@ -117,7 +119,8 @@ export function ActionFormBody({
   actionFilter: 'all' | ActionFilter;
 }) {
   const { form } = useActionFormContext();
-  const { id } = useActionDetailsUrlParams();
+  // const { id } = useActionDetailsUrlParams();
+  // const hasAccessToScript = useHasAccessToScript();
   const type = form.get('type').value;
 
   const showTimeoutSection = [ACTION_TYPE.SCRIPT, ACTION_TYPE.HTTP, ACTION_TYPE.ANSIBLE].includes(type);
@@ -163,7 +166,7 @@ export function ActionFormBody({
           )}
         </Col>
 
-        {type === ACTION_TYPE.MANUAL && (
+        {/* {type === ACTION_TYPE.MANUAL && automationActionAiGenerationUnitEnabled && hasAccessToScript && (
           <Col lg={4}>
             <GenerateScriptTile
               manualContent={form.get('manualContent').value}
@@ -171,7 +174,7 @@ export function ActionFormBody({
               actionId={id}
             />
           </Col>
-        )}
+        )} */}
       </Row>
     </LeftRightPadding>
   );

@@ -28,7 +28,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages'
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { ACTION_TYPE } from 'in-automation/constants';
-import Form from 'in-components/form/binding/Form';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import { role } from 'in-stores/user';
@@ -44,19 +43,22 @@ export interface ParameterDialogProps {
   ticketIdParameterExist: boolean;
   openDialog: boolean;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  onRequestToClose: () => void;
 }
 
-export default function ParameterDialog({
+export default function ParameterDialog1({
   form,
   setForm,
   id,
   isNotEditable,
   ticketIdParameterExist,
   openDialog,
-  setOpenDialog
+  setOpenDialog,
+  onRequestToClose
 }: ParameterDialogProps) {
   const actionType = form.get('type').value;
   const parameters = form.get('parameters').value;
+
   const parameter = parameters.find(parameter => parameter.id === id);
 
   const [parameterForm, setParameterForm] = useParameterForm({ parameters, id });
@@ -68,9 +70,6 @@ export default function ParameterDialog({
   // IMPORTANT: Ansible actions are a special case where we want to allow the parameters to be editable EXCEPT for the name so we override isNotEditable so that everything is editable except for the name where we will disable the input using isAnsible flag
   const parmeterIsNotEditable = (isNotEditable && !isAnsible) || !role?.canConfigureAutomationActions;
 
-  function onSubmit(parameterForm: ParameterForm) {
-    doSubmit({ parameterForm, parameter, form, setForm, id });
-  }
   let actions = [{}];
   if (!parmeterIsNotEditable && role?.canConfigureAutomationActions) {
     actions = [
@@ -78,12 +77,16 @@ export default function ParameterDialog({
         kind: 'primary',
         label: 'Save',
         onClick: () => {
-          doSubmit({ parameterForm, parameter, form, setForm, id, setOpenDialog });
+          doSubmit({ parameterForm, setParameterForm, parameter, form, setForm, id, setOpenDialog });
         }
       },
       {
         label: 'Cancel',
-        onClick: () => setOpenDialog(false),
+        onClick: () => {
+          if (setOpenDialog) {
+            setOpenDialog(false);
+          }
+        },
         kind: 'secondary'
       }
     ];
@@ -91,7 +94,11 @@ export default function ParameterDialog({
     actions = [
       {
         label: 'Cancel',
-        onClick: () => setOpenDialog(false),
+        onClick: () => {
+          if (setOpenDialog) {
+            setOpenDialog(false);
+          }
+        },
         kind: 'secondary'
       }
     ];
@@ -105,8 +112,8 @@ export default function ParameterDialog({
       actions={actions}
       size="md"
       subtitle="dummy text"
-      onRequestClose={() => setOpenDialog(false)}
-      title={t('in-automation:ActionCatalog.addParameter')}
+      onRequestClose={onRequestToClose}
+      title={id ? t('in-automation:ActionCatalog.editParameter') : t('in-automation:ActionCatalog.addParameter')}
     >
       <div className={locals.parameterDialog}>
         <ParameterFormContext.Provider
@@ -116,22 +123,22 @@ export default function ParameterDialog({
             rootPath: []
           }}
         >
-          <Form
+          {/* <Form
             form={parameterForm}
             setForm={form => setParameterForm(form as ParameterForm)}
             formId="action-parameter-form"
             onSubmit={form => onSubmit(form as ParameterForm)}
-          >
-            <MetaDataSection
-              isNotEditable={parmeterIsNotEditable}
-              isAnsible={actionType === ACTION_TYPE.ANSIBLE}
-              disableTicketIdParameter={disableTicketIdParameter}
-            />
-            {type.value === 'static' && <StaticSection isNotEditable={parmeterIsNotEditable} />}
-            {type.value === 'vault' && <VaultSection isNotEditable={parmeterIsNotEditable} />}
-            {type.value === 'dynamic' && <DynamicSection isNotEditable={parmeterIsNotEditable} />}
-            {type.value !== 'dynamic' && <HiddenSection isNotEditable={parmeterIsNotEditable} />}
-          </Form>
+          > */}
+          <MetaDataSection
+            isNotEditable={parmeterIsNotEditable}
+            isAnsible={actionType === ACTION_TYPE.ANSIBLE}
+            disableTicketIdParameter={disableTicketIdParameter}
+          />
+          {type.value === 'static' && <StaticSection isNotEditable={parmeterIsNotEditable} />}
+          {type.value === 'vault' && <VaultSection isNotEditable={parmeterIsNotEditable} />}
+          {type.value === 'dynamic' && <DynamicSection isNotEditable={parmeterIsNotEditable} />}
+          {type.value !== 'dynamic' && <HiddenSection isNotEditable={parmeterIsNotEditable} />}
+          {/* </Form> */}
         </ParameterFormContext.Provider>
       </div>
     </SidePanel>
@@ -395,6 +402,7 @@ function DynamicSection({ isNotEditable }: SectionProps) {
 
 function doSubmit({
   parameterForm,
+  setParameterForm,
   parameter,
   form,
   setForm,
@@ -405,16 +413,20 @@ function doSubmit({
   setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
   id?: string;
   parameterForm: ParameterForm;
+  setParameterForm: React.Dispatch<React.SetStateAction<ParameterForm>>;
   parameter?: MappedParameter;
-  setOpenDialog?: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  if (!parameterForm.hierarchyValid) {
+    setParameterForm(parameterForm.setTouched(true, { recurse: true }));
+    return;
+  }
   const parameterToSubmit = getParameterFromForm(parameterForm);
   const parameters = form.get('parameters').value;
+
   const updatedParameters = parameter
     ? parameters.map(p => (p.id === id ? { id: id, value: parameterToSubmit } : p))
     : [...parameters, { id: generateUniqueShortId(), value: parameterToSubmit }];
   setForm(form => form.updateIn(['parameters'], item => item.setValue(updatedParameters).setTouched(true)));
-  if (setOpenDialog) {
-    setOpenDialog(false);
-  }
+  setOpenDialog(false);
 }
