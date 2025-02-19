@@ -24,15 +24,13 @@ import { getAllAlertConfigs } from 'in-alerting/smart-alerts/applications/api/ap
 import { useUrlBasedCategory } from 'in-alerting/smart-alerts/applications/hooks/useUrlBasedCategory';
 import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/ListActionHandlers';
 import { createRowLinkLocation } from 'in-alerting/smart-alerts/applications/list/rowLinking';
-import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { getMetricName } from 'in-alerting/smart-alerts/applications/list/listHelper';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { alertsTab } from 'in-applications/navigation/paths';
 import Footer from 'in-components/Footer/Footer';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
-
-const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
 
 export default function Alerts({ applicationId, boundaryScope, location, data }) {
   const [configsCategory, setConfigsCategory] = useUrlBasedCategory(categoryLocal);
@@ -40,7 +38,7 @@ export default function Alerts({ applicationId, boundaryScope, location, data })
 
   return (
     <>
-      {displayCarbonTable ? (
+      {smartAlertCarbonTableEnabled ? (
         <SmartAlertsTableWithUrlState
           columnDefinitions={createTableColumnDefinition(configsCategory, trackCta)}
           getLocalAlertConfigsFetchFunction={() => getAllAlertConfigs(applicationId, { asObservable: true })}

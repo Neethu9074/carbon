@@ -24,7 +24,6 @@ import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/mobileApp
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/mobileApp/lists/ListActionHandlers';
 import { alertsTabDetailsFullyQualified, alertsTab } from 'in-mobile-apps/navigation/paths';
-import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import CreateSmartAlert from 'in-alerting/smart-alerts/mobileApp/CreateSmartAlert';
@@ -33,6 +32,7 @@ import { sortOptions } from 'in-alerting/smart-alerts/mobileApp/lists/constants'
 import ScopeColumn from 'in-alerting/smart-alerts/mobileApp/lists/ScopeColumn';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -42,8 +42,6 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
-
-const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
 
 export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
   const handlers = role?.canConfigureMobileAppSmartAlerts ? actionHandlers : {};
@@ -71,10 +69,10 @@ export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
         extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
         carbonActionHandlers={handlers}
         getNameSubtitle={() => getMobileAppSubtitle(mobileAppLabel)}
-        displayCarbonTable={displayCarbonTable}
+        displayCarbonTable={smartAlertCarbonTableEnabled}
         toolBarContent={
           role?.canConfigureMobileAppSmartAlerts ? (
-            <CreateSmartAlert {...websiteData} isCarbonTableView={displayCarbonTable} />
+            <CreateSmartAlert {...websiteData} isCarbonTableView={smartAlertCarbonTableEnabled} />
           ) : undefined
         }
         noDataHeader={t('in-alerting:smartAlerts.mobileApp.alertList.noDataHeader')}

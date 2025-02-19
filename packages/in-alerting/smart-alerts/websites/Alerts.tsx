@@ -21,7 +21,6 @@ import { STATIC_THRESHOLD, ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alert
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
-import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { actionHandlers } from 'in-alerting/smart-alerts/websites/list/ListActionHandlers';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
@@ -31,6 +30,7 @@ import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert
 import { sortOptions } from 'in-alerting/smart-alerts/components/list/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/websites/list/ScopeColumn';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -38,8 +38,6 @@ import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer/Footer';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
-
-const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
 
 function getColumnDefinitions(websiteLabel: string) {
   return [
@@ -72,7 +70,7 @@ export default function Alerts({ websiteId, websiteLabel }: { websiteId: string;
         extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
         carbonActionHandlers={handlers}
         getNameSubtitle={() => getWebsiteSubtitle(websiteLabel)}
-        displayCarbonTable={displayCarbonTable}
+        displayCarbonTable={smartAlertCarbonTableEnabled}
         toolBarContent={
           role?.canConfigureWebsiteSmartAlerts ? (
             <CreateSmartAlert
@@ -80,7 +78,7 @@ export default function Alerts({ websiteId, websiteLabel }: { websiteId: string;
               tagFilters={websiteData.tagFilters}
               timeConfig={websiteData.timeConfig}
               location={websiteData.location}
-              isCarbonTableView={displayCarbonTable}
+              isCarbonTableView={smartAlertCarbonTableEnabled}
             />
           ) : undefined
         }

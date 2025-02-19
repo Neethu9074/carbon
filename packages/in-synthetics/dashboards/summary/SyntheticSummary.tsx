@@ -16,7 +16,6 @@ import {
   clickSyntheticMonitoringResultsTabTracker
 } from 'in-synthetics/tracking/tracker';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
-import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
@@ -25,6 +24,7 @@ import { dashboardAlertsFullyQualified } from 'in-synthetics/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { TestResponse, dummyTest } from 'in-synthetics/utils/constants';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import hasEmptyStrings from 'in-synthetics/utils/hasEmptyStrings';
@@ -42,8 +42,6 @@ import { role } from 'in-stores/user';
 
 import locals from './SyntheticSummary.mless';
 
-const isCarbonTableView = smartAlertCarbonTableEnabled && carbonTableEnabled;
-
 const SyntheticSummaryDashboard = () => {
   const { trackCta } = useSegmentTracking();
   const [count, setReloadCount] = useState(0);
@@ -52,7 +50,9 @@ const SyntheticSummaryDashboard = () => {
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [count]) || dummyTest;
 
-  const hideButtonInAlertsTab = isCarbonTableView ? location.pathname !== dashboardAlertsFullyQualified : true;
+  const hideButtonInAlertsTab = smartAlertCarbonTableEnabled
+    ? location.pathname !== dashboardAlertsFullyQualified
+    : true;
 
   const props = {
     testId,
