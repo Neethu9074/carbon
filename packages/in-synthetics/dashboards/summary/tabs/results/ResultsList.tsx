@@ -160,6 +160,7 @@ export default function ResultsList({ test }: ResultListProps) {
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   testType = test.data?.configuration?.syntheticType || '';
   const isSSLCertificate = testType === 'SSLCertificate';
+  const isDNSAction = testType === 'DNSAction';
   const locationDisplayLabels: string[] =
     getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels')?.split(',') ?? [];
   const selectedMetric = getMatrixParameter(location, syntheticsDashboard, 'selectedMetric');
@@ -186,16 +187,18 @@ export default function ResultsList({ test }: ResultListProps) {
   );
 
   let columnDefinitionsBasedOnType = columnDefinitions;
-  if (isSSLCertificate) {
+  if (isSSLCertificate || isDNSAction) {
     columnDefinitionsBasedOnType = columnDefinitions.filter(
       columnDefinition => columnDefinition.id !== 'response_size'
     );
-    columnDefinitionsBasedOnType.push({
-      id: 'days_remaining',
-      sortable: false,
-      label: t('in-synthetics:dashboard.resultsListPage.daysRemaining'),
-      getContent: daysRemainingColumnContent
-    });
+    if (isSSLCertificate) {
+      columnDefinitionsBasedOnType.push({
+        id: 'days_remaining',
+        sortable: false,
+        label: t('in-synthetics:dashboard.resultsListPage.daysRemaining'),
+        getContent: daysRemainingColumnContent
+      });
+    }
   }
 
   const ServerTableWithUrlState = createServerTableWithUrlState({

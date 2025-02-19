@@ -84,4 +84,24 @@ describe(SummaryCharts, () => {
     expect(screen.queryByText('Network Timings')).toBeNull();
     expect(screen.queryByText('Response Status')).toBeNull();
   });
+
+  it('Render correct set of charts for DNSAction test', () => {
+    render(
+      <SummaryCharts
+        testId={'Fy5VXstvyDZrrCjhNYXZ'}
+        testType={'DNSAction'}
+        test={dummyTest}
+        locationIds={'f7cEoG61DJfVyWcDnWsc,,KHphVmZqqRf9Kp2xSoud'}
+        locationDisplayLabels={'test-label1,test-label2'}
+        timeShiftConfig={{ offset: 0 }}
+      />
+    );
+    expect(screen.getByText('Failures')).toBeVisible();
+    expect(screen.getByText('Results')).toBeVisible();
+    expect(screen.getByText('Response Times')).toBeVisible();
+
+    expect(screen.queryByText('Avg. Response Size')).toBeNull();
+    expect(screen.queryByText('Network Timings')).toBeNull();
+    expect(screen.queryByText('Response Status')).toBeNull();
+  });
 });

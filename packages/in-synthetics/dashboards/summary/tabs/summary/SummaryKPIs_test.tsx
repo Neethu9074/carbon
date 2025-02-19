@@ -27,6 +27,7 @@ describe(SummaryKPIs, () => {
       <SummaryKPIs
         tagFilters={{} as TagFilter[]}
         isSSLCertificate={false}
+        isDNSAction={false}
         resultList={dummyResultList}
         timeShiftConfig={{ offset: 0 }}
         timeConfig={{ windowSize: 0, autoRefresh: false }}
@@ -47,6 +48,7 @@ describe(SummaryKPIs, () => {
       <SummaryKPIs
         tagFilters={{} as TagFilter[]}
         isSSLCertificate={false}
+        isDNSAction={false}
         resultList={dummyResultList}
         timeShiftConfig={{ offset: 0 }}
         timeConfig={{ windowSize: 0, autoRefresh: false }}
@@ -95,6 +97,7 @@ describe(SummaryKPIs, () => {
       <SummaryKPIs
         tagFilters={{} as TagFilter[]}
         isSSLCertificate
+        isDNSAction={false}
         resultList={dummySslResultList}
         timeShiftConfig={{ offset: 0 }}
         timeConfig={{ windowSize: 0, autoRefresh: false }}
@@ -106,6 +109,24 @@ describe(SummaryKPIs, () => {
     expect(screen.getByText('Last Run - Certificate is Signed by Public CA')).toBeVisible();
     expect(screen.getByText('Last Run - Days Remaining')).toBeVisible();
     expect(screen.getByText('Last Run - Time of Expiry')).toBeVisible();
+
+    expect(screen.queryByText('Avg. Response Size')).toBeNull();
+  });
+
+  it('Render correct set of KPIs for DNSAction test', () => {
+    render(
+      <SummaryKPIs
+        tagFilters={{} as TagFilter[]}
+        isSSLCertificate={false}
+        isDNSAction
+        resultList={dummyResultList}
+        timeShiftConfig={{ offset: 0 }}
+        timeConfig={{ windowSize: 0, autoRefresh: false }}
+      />
+    );
+    expect(screen.getByText('Success Rate')).toBeVisible();
+    expect(screen.getByText('Locations')).toBeVisible();
+    expect(screen.getByText('Avg. Response Time')).toBeVisible();
 
     expect(screen.queryByText('Avg. Response Size')).toBeNull();
   });
