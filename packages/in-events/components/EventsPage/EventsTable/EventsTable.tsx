@@ -31,11 +31,8 @@ import buildQueryString from 'in-events/components/IncidentPage/RelatedEvents/ut
 import issueFilters from 'in-events/components/IncidentPage/RelatedEvents/configs/EventIssueFilters';
 import { DatagridActions } from 'in-events/components/EventsPage/EventsTable/DatagridActions';
 import parseQuery from 'in-events/components/util/dataGridEventsTableUtil';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { multiCloseEnabled } from 'in-services/featureFlags';
 import { useLocalStorage } from 'in-services/localStorage';
-import { eventsPath } from 'in-events/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
 import { EventOrMap } from 'in-events/types';
 import { t } from 'in-i18n';
@@ -58,7 +55,15 @@ const sortingMapper = {
   end: 'end'
 };
 
+const sortingMapperReverse = {
+  'problem.problemText': 'title',
+  start: 'start',
+  state: 'state',
+  end: 'end'
+};
+
 type SortingMapperKeys = 'title' | 'start' | 'state' | 'end';
+type SortingMapperOgKeys = 'problem.problemText' | 'start' | 'state' | 'end';
 
 // END table configurations
 
@@ -85,7 +90,7 @@ interface EventsTableProps {
   mouseMoveSignal$?: Observable<any>;
   onChange: (change: {}) => void;
   onItemClicked: (eventId: string) => void;
-  orderBy?: string;
+  orderBy?: SortingMapperOgKeys;
   orderDirection?: string;
   progress: {
     loading: boolean;
@@ -113,15 +118,13 @@ const EventsTable = (props: EventsTableProps) => {
     items: rawEvents,
     loadMore,
     onItemClicked,
-    orderBy,
+    orderBy = 'start',
     orderDirection,
-    location,
     filter: currentFilters,
     onChange,
     progress
   } = props;
   const { loading } = progress;
-  const { navigate } = useNavigation();
 
   const isIncidentOrEvent = eventType === 'incident' || eventType === 'issue';
   const shouldShowMultiClose = multiCloseEnabled && isIncidentOrEvent;
@@ -213,7 +216,7 @@ const EventsTable = (props: EventsTableProps) => {
         },
         filters: shouldShowFilters && currentFilters ? [initialFilters] : [],
         sortableColumn: {
-          id: orderBy,
+          id: sortingMapperReverse[orderBy],
           order: orderDirection
         },
         hiddenColumns
@@ -264,17 +267,20 @@ const EventsTable = (props: EventsTableProps) => {
   // When sorting is changed, change it in the url.
   useEffect(() => {
     if (isEmpty(sortBy)) {
-      setOrDeleteMatrixKey(location, eventsPath, 'orderBy', null);
-      setOrDeleteMatrixKey(location, eventsPath, 'orderDirection', null);
-      navigate(location);
+      onChange({
+        orderBy: 'start',
+        orderDirection: 'DESC'
+      });
       return;
     }
 
     const { id, desc } = sortBy[0];
-    setOrDeleteMatrixKey(location, eventsPath, 'orderBy', sortingMapper[id as SortingMapperKeys]);
-    setOrDeleteMatrixKey(location, eventsPath, 'orderDirection', desc ? 'DESC' : 'ASC');
-    navigate(location);
-  }, [sortBy, location, navigate]);
+    onChange({
+      orderBy: sortingMapper[id as SortingMapperKeys],
+      orderDirection: desc ? 'DESC' : 'ASC'
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortBy]);
 
   // When filters change, run a clear/update to match the url.
   useEffect(() => {
