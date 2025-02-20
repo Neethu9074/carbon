@@ -44,7 +44,11 @@
 
   .inContentArea {
     position: absolute;
-    z-index: var(--ids-z-index-option-overlays-in-content-area);
+    z-index: 100000;
+  }
+
+  .inAutomationArea {
+    z-index: 100000;
   }
 
   .behindSidebar {

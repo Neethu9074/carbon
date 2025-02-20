@@ -41,6 +41,7 @@ export interface OverlayContentProps extends ExternalContentProps {
 export interface OverlayProps<FORWARDED_CONTENT_PROPS> {
   autoOpen?: boolean;
   inContentArea?: boolean;
+  inAutomationArea?: boolean;
   behindSidebar?: boolean;
   forceConfiguredAlignment?: boolean;
   wrapperStyle?: CSSProperties;
@@ -95,6 +96,7 @@ export interface OverlayMounterProps {
   autoOpen?: boolean;
   withoutArrow?: boolean;
   inContentArea?: boolean;
+  inAutomationArea?: boolean;
   behindSidebar?: boolean;
   /** see OverlayProps for comment */
   fixOverlayLeftAlignment?: boolean;

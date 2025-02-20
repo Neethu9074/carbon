@@ -129,7 +129,7 @@ export function ActionFormBody({
   return (
     <LeftRightPadding>
       <Row>
-        <Col lg={8}>
+        <Col lg={10}>
           <Fragment key="1-action-details">
             <ScrollStep id="1-action-details">
               <SectionHeading>{t('in-automation:ActionCatalog.1ActionDetails')}</SectionHeading>

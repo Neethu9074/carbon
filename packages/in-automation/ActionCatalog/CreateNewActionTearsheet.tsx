@@ -425,8 +425,6 @@ interface ActionDetailsProps {
 }
 
 function ActionDetails({ action, actionFilter, form, setForm, copy, actionId }: ActionDetailsProps) {
-  // const navigateToActionCatalog = useNavigateToActionCatalog();
-  // console.log('actionFilter testtt----------', actionFilter);
   const { isCopy } = useActionDetailsUrlParams1({ copy, actionId });
 
   return (

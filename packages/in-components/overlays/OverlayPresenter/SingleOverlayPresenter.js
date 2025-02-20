@@ -89,6 +89,9 @@ export default connectTo(
       if (this.props.inContentArea) {
         tooltipElement.classList.add(locals.inContentArea);
       }
+      if (this.props.inAutomationArea) {
+        tooltipElement.classList.add(locals.inAutomationArea);
+      }
       if (this.props.behindSidebar) {
         tooltipElement.classList.add(locals.behindSidebar);
       }
@@ -152,6 +155,7 @@ export default connectTo(
         delayedOpen,
         delayedClose,
         inContentArea,
+        inAutomationArea,
         behindSidebar
       } = this.props;
       return (
@@ -161,6 +165,7 @@ export default connectTo(
           className={classNames({
             [locals.overlay]: true,
             [locals.inContentArea]: inContentArea,
+            [locals.inAutomationArea]: inAutomationArea,
             [locals.behindSidebar]: behindSidebar
           })}
           onMouseEnter={autoOpen ? delayedOpen : undefined}

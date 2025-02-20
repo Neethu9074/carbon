@@ -18,7 +18,8 @@ declare function TagBasedPayloadConfigurator<T>({
   getTagCatalog,
   suggestionsAlignedLeft,
   getSuggestions,
-  hideDestinationSourceTag
+  hideDestinationSourceTag,
+  inAutomation
 }: {
   value: T;
   disabled: boolean;
@@ -30,6 +31,7 @@ declare function TagBasedPayloadConfigurator<T>({
     args: GetTagSuggestionsProps | GetWebsiteSuggestionsProps
   ) => Observable<Result<TagSuggestions | Suggestions>>;
   hideDestinationSourceTag?: boolean;
+  inAutomation?: boolean;
 }): JSX.Element;
 
 export function createTagBasedPayloadConfigurator({

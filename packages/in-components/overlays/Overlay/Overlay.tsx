@@ -155,6 +155,7 @@ export default class Overlay<FORWARDED_CONTENT_PROPS> extends React.Component<
       forceConfiguredAlignment,
       fixOverlayLeftAlignment,
       inContentArea,
+      inAutomationArea,
       kind,
       props: forwardedProps = emptyObject,
       withoutArrow,
@@ -164,7 +165,6 @@ export default class Overlay<FORWARDED_CONTENT_PROPS> extends React.Component<
     } = this.props;
     const { isOpen, id } = this.state;
     const autoClose = this.props.autoClose === undefined ? autoOpen : this.props.autoClose;
-
     let content;
     if (withoutWrapper) {
       content = renderTriggerOverlayAction({
@@ -217,6 +217,7 @@ export default class Overlay<FORWARDED_CONTENT_PROPS> extends React.Component<
             autoClose={autoClose}
             withoutArrow={withoutArrow}
             inContentArea={inContentArea}
+            inAutomationArea={inAutomationArea}
             fixOverlayLeftAlignment={fixOverlayLeftAlignment}
             behindSidebar={behindSidebar}
             align={align}
