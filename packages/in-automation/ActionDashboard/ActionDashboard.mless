@@ -3,14 +3,24 @@
     display: grid;
     justify-content: space-between;
   }
-  .testActionButton {
+  .ghostBtn {
     display: flex;
     align-items: center;
-    border-left: 1px solid #e0e0e0;
     svg {
       margin-left: 8px;
-      stroke: #0f62fe;
+    }
+  }
+  .testActionButton {
+    border-left: 1px solid #e0e0e0;
+    svg {
+      stroke: var(--cds-link-primary, #0f62fe);
       stroke-width: 2px;
+    }
+  }
+  .watsonxBtn {
+    border-right: 1px solid #e0e0e0;
+    &:not([disabled]) svg {
+      fill: var(--cds-link-primary, #0f62fe);
     }
   }
   .borderBottom {
