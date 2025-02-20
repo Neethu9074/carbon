@@ -61,7 +61,7 @@ export default function CreateNewActionTearsheet({ actionId, copy = false }: { a
 
     return (
       // @ts-expect-error
-      <Tearsheet className="ttt" open title="edit action" description="edit action description">
+      <Tearsheet open>
         <SettingsDetailPage>
           <SubViewHeader
             iconType="lib_help_error_error_circle"
@@ -106,14 +106,14 @@ function TearSheetLoader({ action, actionFilter, copy, actionId }: TearSheetProp
   const actionButtons = [
     {
       kind: 'primary',
-      label: 'Save Action',
+      label: t('in-automation:actionHistory.saveButton'),
       onClick: () => {
         onSubmit({ form, setForm });
       }
     } as any,
     {
       kind: 'ghost',
-      label: 'Cancel',
+      label: t('in-automation:cancel'),
       onClick: () => {
         close();
       }
@@ -124,7 +124,6 @@ function TearSheetLoader({ action, actionFilter, copy, actionId }: TearSheetProp
     <isNotEditableContext.Provider value={action ? isNotEditable(action, isCopy) : false}>
       {/* @ts-expect-error */}
       <Tearsheet
-        className="ttt"
         open
         influencer={influencerContent(form)}
         title={
@@ -169,12 +168,10 @@ function isFieldValid(field: Field<any>): boolean {
 
 const generateNavItems = (form: ActionForm) => {
   const type = form.get('type').value;
-  // form.getIn(['entity', 'entityIds']);
   const isMetadataValid = isFieldValid(form.get('name')) && isFieldValid(form.get('description'));
 
   const isDocActionConfigurationValid = isFieldValid(form.get('docLink'));
   const isScriptActionConfigurationValid = isFieldValid(form.get('script'));
-  // const isHTTPActionConfigurationValid = isFieldValid(form.get('host')) && ();
   const isGHActionConfigurationValid =
     isFieldValid(form.get('owner')) &&
     isFieldValid(form.get('repo')) &&
@@ -240,34 +237,32 @@ const generateNavItems = (form: ActionForm) => {
   const showParametersSection = ![ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].includes(type ?? ACTION_TYPE.DOC_LINK);
   const navItems = [
     {
-      label: 'Action Details',
+      label: t('in-automation:ActionCatalog.actionDetails'),
       scrollId: '1-action-details',
-      title: 'Action Details',
+      title: t('in-automation:ActionCatalog.actionDetails'),
       content: null,
       valid: isMetadataValid
-      // valid: isEntityIdFieldValid
     },
     {
-      label: 'Action Configuration',
+      label: t('in-automation:ActionCatalog.actionConfiguration'),
       scrollId: '2-action-configuration',
-      title: 'Action Configuration',
+      title: t('in-automation:ActionCatalog.actionConfiguration'),
       content: null,
       valid: isActionConfigValid
+    },
+    {
+      label: t('in-automation:ActionCatalog.parameterDetails'),
+      scrollId: '3-parameter-details',
+      title: t('in-automation:ActionCatalog.parameterDetails'),
+      content: null,
+      valid: true,
+      hidden: !showParametersSection
     }
   ];
 
-  if (showParametersSection) {
-    navItems.push({
-      label: 'Parameter Details',
-      scrollId: '3-parameter-details',
-      title: 'Parameter Details',
-      content: null,
-      valid: true
-    });
-  }
-
   return navItems;
 };
+
 const isNotEditableContext = createContext(false);
 
 export function useIsNotEditableContext() {
@@ -467,7 +462,6 @@ function useOnSubmit({ actionId, copy }: useOnSubmitProps) {
       return;
     }
     const actionSpecification = getActionFromForm(form, action);
-    // console.log('innnnn', actionSpecification);
     const aiOriginated = action && (isAIAction(action) || isAIActionCopy(action)) ? true : false;
     const trackerDetails = {
       actionName: actionSpecification.name,
@@ -484,7 +478,6 @@ function useOnSubmit({ actionId, copy }: useOnSubmitProps) {
           result => {
             setResult(result);
             if (hasError(result)) return;
-            // trackAction();
             createActionTrackerSegment(trackerDetails);
             onSaveSuccess(result.data?.name!);
 
@@ -503,7 +496,6 @@ function useOnSubmit({ actionId, copy }: useOnSubmitProps) {
           result => {
             setResult(result);
             if (hasError(result)) return;
-            // trackAction();
             editActionTrackerSegment(trackerDetails);
             onEditSuccess(result.data?.name!);
 
@@ -522,5 +514,3 @@ function useOnSubmit({ actionId, copy }: useOnSubmitProps) {
     result
   };
 }
-
-// const { result, onSubmit } = useOnSubmit();

@@ -75,13 +75,13 @@ export default function ParameterDialog1({
     actions = [
       {
         kind: 'primary',
-        label: 'Save',
+        label: t('in-automation:actionHistory.saveButton'),
         onClick: () => {
           doSubmit({ parameterForm, setParameterForm, parameter, form, setForm, id, setOpenDialog });
         }
       },
       {
-        label: 'Cancel',
+        label: t('in-automation:cancel'),
         onClick: () => {
           if (setOpenDialog) {
             setOpenDialog(false);
@@ -93,7 +93,7 @@ export default function ParameterDialog1({
   } else {
     actions = [
       {
-        label: 'Cancel',
+        label: t('in-automation:cancel'),
         onClick: () => {
           if (setOpenDialog) {
             setOpenDialog(false);
@@ -121,12 +121,6 @@ export default function ParameterDialog1({
             rootPath: []
           }}
         >
-          {/* <Form
-            form={parameterForm}
-            setForm={form => setParameterForm(form as ParameterForm)}
-            formId="action-parameter-form"
-            onSubmit={form => onSubmit(form as ParameterForm)}
-          > */}
           <MetaDataSection
             isNotEditable={parmeterIsNotEditable}
             isAnsible={actionType === ACTION_TYPE.ANSIBLE}
@@ -136,7 +130,6 @@ export default function ParameterDialog1({
           {type.value === 'vault' && <VaultSection isNotEditable={parmeterIsNotEditable} />}
           {type.value === 'dynamic' && <DynamicSection isNotEditable={parmeterIsNotEditable} />}
           {type.value !== 'dynamic' && <HiddenSection isNotEditable={parmeterIsNotEditable} />}
-          {/* </Form> */}
         </ParameterFormContext.Provider>
       </div>
     </SidePanel>
