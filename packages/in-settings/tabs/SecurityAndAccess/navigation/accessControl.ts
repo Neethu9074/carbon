@@ -99,25 +99,26 @@ export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
       }
     }
 
-    // We always show the Groups page unless we are fully migrated to teams
-    accessControlPages.push({
-      idx: 'groups-page',
-      path: securityAndAccessAccessControlGroups,
-      label: t('in-settings:tabs.groups'),
-      component: accessControlCarbonTable ? GroupsV2 : GroupsPage,
-      subPages: [
-        {
-          idx: 'new-group-page',
-          path: securityAndAccessAccessControlGroupNew,
-          component: GroupPage
-        },
-        {
-          idx: 'edit-group-page',
-          path: securityAndAccessAccessControlGroupEdit,
-          component: GroupPage
-        }
-      ]
-    });
+    if (role.canConfigureTeams) {
+      accessControlPages.push({
+        idx: 'groups-page',
+        path: securityAndAccessAccessControlGroups,
+        label: t('in-settings:tabs.groups'),
+        component: accessControlCarbonTable ? GroupsV2 : GroupsPage,
+        subPages: [
+          {
+            idx: 'new-group-page',
+            path: securityAndAccessAccessControlGroupNew,
+            component: GroupPage
+          },
+          {
+            idx: 'edit-group-page',
+            path: securityAndAccessAccessControlGroupEdit,
+            component: GroupPage
+          }
+        ]
+      });
+    }
 
     if (role.canConfigureApiTokens) {
       accessControlPages.push({
