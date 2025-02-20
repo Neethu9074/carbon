@@ -5,17 +5,17 @@
  */
 
 import React, { createContext, useContext, useState } from 'react';
-import { Field } from 'formalistic';
 
-import { ActionType, Result } from '@instana/types';
 import { Tearsheet } from '@instana/ibm-products';
 import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
+import { Result } from '@instana/types';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import useActionDetailsUrlParams1 from 'in-automation/ActionCatalog/useActionDetailsUrlParams1';
 import { aiOriginatedMetadata, isAIAction, isAIActionCopy } from 'in-automation/utils/action';
+import { generateNavItems } from 'in-automation/ActionCatalog/useActionForm/validationUtils';
 import useActionForm from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import { getActionFromForm } from 'in-automation/ActionCatalog/useActionForm/utils';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -36,7 +36,6 @@ import SectionLine from 'in-settings/components/SectionLine';
 import { close } from 'in-components/DialogPresenter/store';
 import { isNotEditable } from 'in-automation/utils/action';
 import { useSegmentTracker } from 'in-automation/tracker';
-import { ACTION_TYPE } from 'in-automation/constants';
 import Form from 'in-components/form/binding/Form';
 import { ActionFilter } from 'in-automation/types';
 import Title from 'in-components/Title/Title';
@@ -162,107 +161,33 @@ const influencerContent = (form: ActionForm) => {
   );
 };
 
-function isFieldValid(field: Field<any>): boolean {
-  return field.valid || !field.touched;
-}
-
-const generateNavItems = (form: ActionForm) => {
-  const type = form.get('type').value;
-  const isMetadataValid = isFieldValid(form.get('name')) && isFieldValid(form.get('description'));
-
-  const isDocActionConfigurationValid = isFieldValid(form.get('docLink'));
-  const isScriptActionConfigurationValid = isFieldValid(form.get('script'));
-  const isGHActionConfigurationValid =
-    isFieldValid(form.get('owner')) &&
-    isFieldValid(form.get('repo')) &&
-    ((form.get('ticketActionType').value === 'open' &&
-      isFieldValid(form.get('title')) &&
-      isFieldValid(form.get('body'))) ||
-      (form.get('ticketActionType').value === 'add_comment' && isFieldValid(form.get('comment'))));
-
-  const isGLActionConfigurationValid =
-    isFieldValid(form.get('projectId')) &&
-    ((form.get('ticketActionType').value === 'open' &&
-      isFieldValid(form.get('title')) &&
-      isFieldValid(form.get('body'))) ||
-      (form.get('ticketActionType').value === 'add_comment' && isFieldValid(form.get('comment'))));
-
-  const isJiraActionConfigurationValid =
-    isFieldValid(form.get('projectId')) &&
-    ((form.get('ticketActionType').value === 'open' &&
-      isFieldValid(form.get('summary')) &&
-      isFieldValid(form.get('body'))) ||
-      (form.get('ticketActionType').value === 'add_comment' && isFieldValid(form.get('comment'))));
-
-  const isHTTPActionConfigurationValid =
-    isFieldValid(form.get('host')) &&
-    isFieldValid(form.get('additionalHeaders')) &&
-    isFieldValid(form.get('contentType')) &&
-    isFieldValid(form.get('accept')) &&
-    ((form.get('authType').value === 'basicAuth' &&
-      isFieldValid(form.get('username')) &&
-      isFieldValid(form.get('password'))) ||
-      (form.get('authType').value === 'bearerToken' && isFieldValid(form.get('bearerToken'))) ||
-      (form.get('authType').value === 'apiKey' &&
-        isFieldValid(form.get('apiKey')) &&
-        isFieldValid(form.get('apiKeyValue'))) ||
-      form.get('authType').value === 'noAuth');
-
-  const isManualActionConfigurationValid = isFieldValid(form.get('manualContent'));
-
-  function isActionConfigurationValid(type: ActionType): boolean {
-    switch (type) {
-      case ACTION_TYPE.GITHUB:
-        return isGHActionConfigurationValid;
-      case ACTION_TYPE.GITLAB:
-        return isGLActionConfigurationValid;
-      case ACTION_TYPE.JIRA:
-        return isJiraActionConfigurationValid;
-      case ACTION_TYPE.HTTP:
-        return isHTTPActionConfigurationValid;
-      case ACTION_TYPE.SCRIPT:
-        return isScriptActionConfigurationValid;
-      case ACTION_TYPE.DOC_LINK:
-        return isDocActionConfigurationValid;
-      case ACTION_TYPE.MANUAL:
-        return isManualActionConfigurationValid;
-      case ACTION_TYPE.ANSIBLE:
-        return true;
-      default:
-        return false;
-    }
-  }
-
-  const isActionConfigValid = isActionConfigurationValid(type);
-  const showParametersSection = ![ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].includes(type ?? ACTION_TYPE.DOC_LINK);
-  const navItems = [
-    {
-      label: t('in-automation:ActionCatalog.actionDetails'),
-      scrollId: '1-action-details',
-      title: t('in-automation:ActionCatalog.actionDetails'),
-      content: null,
-      valid: isMetadataValid
-    },
-    {
-      label: t('in-automation:ActionCatalog.actionConfiguration'),
-      scrollId: '2-action-configuration',
-      title: t('in-automation:ActionCatalog.actionConfiguration'),
-      content: null,
-      valid: isActionConfigValid
-    },
-    {
-      label: t('in-automation:ActionCatalog.parameterDetails'),
-      scrollId: '3-parameter-details',
-      title: t('in-automation:ActionCatalog.parameterDetails'),
-      content: null,
-      valid: true,
-      hidden: !showParametersSection
-    }
-  ];
-
-  return navItems;
-};
-
+// const generateNavItems = (form: ActionForm) => {
+//   const type = form.get('type').value;
+//   return [
+//     {
+//       label: t('in-automation:ActionCatalog.actionDetails'),
+//       scrollId: '1-action-details',
+//       title: t('in-automation:ActionCatalog.actionDetails'),
+//       content: null,
+//       valid: isMetadataValid(form)
+//     },
+//     {
+//       label: t('in-automation:ActionCatalog.actionConfiguration'),
+//       scrollId: '2-action-configuration',
+//       title: t('in-automation:ActionCatalog.actionConfiguration'),
+//       content: null,
+//       valid: isActionConfigurationValid(form, type)
+//     },
+//     {
+//       label: t('in-automation:ActionCatalog.parameterDetails'),
+//       scrollId: '3-parameter-details',
+//       title: t('in-automation:ActionCatalog.parameterDetails'),
+//       content: null,
+//       valid: true,
+//       hidden: [ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].includes(type ?? ACTION_TYPE.DOC_LINK)
+//     }
+//   ];
+// };
 const isNotEditableContext = createContext(false);
 
 export function useIsNotEditableContext() {
