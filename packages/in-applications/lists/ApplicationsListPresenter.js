@@ -7,7 +7,6 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
-import { TableEntityCounter } from '@instana/legacy';
 import { IconButton } from '@instana/components';
 import { Link } from '@instana/components';
 
@@ -93,7 +92,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'services', 0, 1], 0);
-      return <TableEntityCounter count={count} />;
+      return count;
     }
   },
   {
