@@ -61,7 +61,6 @@ function BoundaryScopeContent({ item }) {
       <IconButton
         type={boundaryScopes.info[item.application.boundaryScope].icon}
         className={locals.iconButton}
-        alignment="left"
         align="bottom"
         isWrapperedByTooltip
         noStyling
