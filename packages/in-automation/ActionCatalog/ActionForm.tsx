@@ -253,7 +253,6 @@ function MetaDataSection({ actionFilter }: { actionFilter: 'all' | ActionFilter 
   const tags = form.get('tags');
 
   const filteredTags = filterTags(actionFilter, availableTags);
-  const canCreateTags = actionFilter === 'all' || actionFilter.tags.length === 0 ? undefined : () => false;
 
   return (
     <>
@@ -307,7 +306,9 @@ function MetaDataSection({ actionFilter }: { actionFilter: 'all' | ActionFilter 
       {tags.map(field => (
         <FormGroup>
           <Label htmlFor="action-tags" hasError={!field.valid && field.touched}>
-            {t('in-automation:tagsLabel')}
+            {actionFilter !== 'all' && actionFilter.tags.length > 0
+              ? t('in-automation:tags')
+              : t('in-automation:tagsLabel')}
           </Label>
           <CreatableTagSelect
             id="action-tags"
@@ -318,7 +319,6 @@ function MetaDataSection({ actionFilter }: { actionFilter: 'all' | ActionFilter 
               setForm(form => form.updateIn(['tags'], item => item.setValue(newTags).setTouched(true)))
             }
             disabled={isNotEditable || !role?.canConfigureAutomationActions}
-            isValidNewOption={canCreateTags}
           />
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
         </FormGroup>

@@ -89,7 +89,8 @@ export default function RunActionDialogContent({
   policy,
   isSaving = false
 }: RunActionDialogContentProps) {
-  if (!form || isSaving) return <LoadingIndicator size="xxl" />;
+  if (!form || isSaving || agentSnapShots?.progress?.loading) return <LoadingIndicator size="xxl" />;
+
   if (error && !actionInstanceId) {
     return (
       <>
@@ -187,7 +188,9 @@ function AgentSelection({
       )
     );
   }, [agentSnapShots?.data?.online]);
-  const options =
+
+  if (!hostSnapshots) return null;
+  const sortedOptions =
     hostSnapshots
       ?.map(({ hostSnapshot, agent }) => {
         const isTriggeringAgent = agent.volatileId?.host_id === volatileId.host_id;
@@ -199,12 +202,9 @@ function AgentSelection({
       })
       .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
 
-  if (policy) {
-    options.push({
-      value: TRIGGERING_AGENT,
-      label: t('in-automation:policies.triggeringAgent')
-    });
-  }
+  const options = policy
+    ? [...sortedOptions, { value: TRIGGERING_AGENT, label: t('in-automation:policies.triggeringAgent') }]
+    : sortedOptions;
 
   return (
     <>
