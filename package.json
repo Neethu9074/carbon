@@ -136,7 +136,7 @@
     "invariant": "^2.2.1",
     "jest-canvas-mock": "^2.5.2",
     "js-yaml": "^3.12.0",
-    "jspdf": "^2.5.1",
+    "jspdf": "^3.0.0",
     "jszip": "^3.10.1",
     "koijs": "^0.2.0",
     "lodash": "^4.17.21",
