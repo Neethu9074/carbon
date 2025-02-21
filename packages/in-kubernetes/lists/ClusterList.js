@@ -7,8 +7,7 @@
 import { get, find } from 'lodash';
 import React from 'react';
 
-import { CarbonIconButton, SvgIcon } from '@instana/components';
-import { TableEntityCounter } from '@instana/legacy';
+import { CarbonIconButton, SvgIcon, TableEntityCounter } from '@instana/components';
 
 import KubernetesNoDataNotification from 'in-kubernetes/lists/components/KubernetesNoDataNotification';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';

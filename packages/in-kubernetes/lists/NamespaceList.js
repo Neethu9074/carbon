@@ -7,8 +7,7 @@
 import { get, find } from 'lodash';
 import React from 'react';
 
-import { TableEntityCounter } from '@instana/legacy';
-import { Card } from '@instana/components';
+import { Card, TableEntityCounter } from '@instana/components';
 
 import KubernetesNoDataNotification from 'in-kubernetes/lists/components/KubernetesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';

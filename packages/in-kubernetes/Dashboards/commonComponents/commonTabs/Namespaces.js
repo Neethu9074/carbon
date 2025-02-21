@@ -7,8 +7,7 @@
 import { get, find } from 'lodash';
 import React from 'react';
 
-import { TableEntityCounter } from '@instana/legacy';
-import { Card } from '@instana/components';
+import { Card, TableEntityCounter } from '@instana/components';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
