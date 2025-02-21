@@ -6,8 +6,6 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { TableEntityCounter } from '@instana/legacy';
-
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
@@ -70,7 +68,7 @@ const columnDefinitions = [
     label: t('in-vsphere:cpuResources'),
     sortable: true,
     getContent(item) {
-      return <TableEntityCounter count={item.cpuTotal} />;
+      return item.cpuTotal;
     }
   },
   {

@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { TableEntityCounter } from '@instana/legacy';
+import { TableEntityCounter } from '@instana/components';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
