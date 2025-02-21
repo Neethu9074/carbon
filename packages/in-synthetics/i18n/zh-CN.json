@@ -140,7 +140,10 @@
           "certificateCheckTitle": "SSL 证书检查",
           "certificateCheckLabel": "SSL 证书",
           "certificateCheckHeadline": "SSL 证书检查测试",
-          "certificateCheckText": "SSL 证书检查测试是一种方法，用于通过检查已颁发证书的剩余天数，测试 Web 应用程序中 SSL 证书的到期时间。"
+          "certificateCheckText": "SSL 证书检查测试是一种方法，用于通过检查已颁发证书的剩余天数，测试 Web 应用程序中 SSL 证书的到期时间。",
+          "dnsActionLabel": "DNS",
+          "dnsActionHeadline": "域名服务器",
+          "dnsActionText": "DNS 测试作为一种方法，用于检查您的设备或网络是否正确解析域名，以及是否存在可能导致速度降低、错误或安全漏洞的问题。"
         },
         "configurationLabel": "配置",
         "configurationTitle": "配置：此测试将如何工作？",
@@ -216,7 +219,8 @@
           "retryIntervalDescription": "此测试将在 {{retryIntervalValue}} {{retryIntervalUnit}} 之后重试 {{retryCount}} 次。",
           "markSyntheticCall": "标记合成调用",
           "downloadZip": "下载 .zip 文件",
-          "mainFileNameHelperText": "请提供此 .zip 文件中包含测试入口点的文件名"
+          "mainFileNameHelperText": "请提供此 .zip 文件中包含测试入口点的文件名",
+          "recordVideo": "记录用户在发生故障时的操作"
         },
         "loadMore": "加载更多",
         "selectTests": {
@@ -230,7 +234,8 @@
         "advancedBluePrint": {
           "apiName": "API",
           "browserName": "浏览器",
-          "certificateCheckName": "SSL 证书"
+          "certificateCheckName": "SSL 证书",
+          "dnsActionName": "DNS"
         },
         "customProperties": {
           "property": "属性",
@@ -413,9 +418,6 @@
         "show": "显示凭证值"
       }
     }
-  },
-  "createSmartAlert": {
-    "buttonLabel": "添加合成智能警报"
   },
   "navigation": {
     "synthetics": "合成监视"
@@ -637,7 +639,6 @@
       "downloadHar": "下载 HAR 文件",
       "downloadLog": "下载日志",
       "viewScreenshotsLabel": "查看屏幕快照",
-      "downloadVideo": "下载记录",
       "consoleLogsLevel": "控制台",
       "consoleLogs": "控制台",
       "browserLogs": "浏览器",
@@ -717,7 +718,17 @@
         "timeOfIssue": "问题时间",
         "timeOfExpiry": "到期时间"
       },
-      "failedRunErrorTypeTitle": "错误类型"
+      "failedRunErrorTypeTitle": "错误类型",
+      "viewRecordingLabel": "查看记录",
+      "viewRecording": {
+        "recordingDialogLabel": "正在记录",
+        "downloadRecordingButton": "下载记录",
+        "recordingLoadingMessage": "正在加载记录",
+        "noRecordingAvailableMessage": "此测试结果暂无记录"
+      },
+      "customProperties": {
+        "title": "定制属性"
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "无可用结果",
@@ -804,7 +815,8 @@
       "associatedWebsites": "关联的网站",
       "noWebsitesAssociated": "无关联的网站",
       "associatedMobileApps": "关联的移动应用",
-      "noMobileAppAssociated": "无关联的移动应用"
+      "noMobileAppAssociated": "无关联的移动应用",
+      "recordVideo": "记录用户在发生故障时的操作"
     },
     "credentialList": {
       "mainLabel": "凭证",

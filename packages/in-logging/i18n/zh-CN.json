@@ -32,7 +32,7 @@
     "mostRecent": "最新的放在最前面",
     "oldest": "最旧的放在最前面"
   },
-  "cpuTotal": "总 CPU",
+  "cpuTotal": "CPU 总计",
   "memoryUsage": "内存使用率",
   "cluster": "集群",
   "node": "节点",
@@ -56,7 +56,7 @@
   "host": "主机",
   "fileOnHost": "于",
   "file": "文件",
-  "logExpiration": "保留直至",
+  "logExpiration": "保留到",
   "stacktraceLogMessage": "堆栈跟踪",
   "logTraceTitle": "堆栈跟踪",
   "stackTraceHeader": "堆栈跟踪消息",

@@ -122,6 +122,9 @@
     "filterConfirmRemoveMsg": "<strong>{{filterName}}</strong> 필터를 제거하시겠습니까?",
     "helpDialogTitleUsingTheSearchBar": "검색 표시줄 사용"
   },
+  "carbonSearchBar": {
+    "search": "검색"
+  },
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "이 그룹 분석",

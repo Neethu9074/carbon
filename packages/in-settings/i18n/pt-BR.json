@@ -356,6 +356,12 @@
     "removedEntity": "{{entity}} removido com sucesso"
   },
   "tabs": {
+    "role": {
+      "deprecated": "descontinuado",
+      "newRole": "Nova função",
+      "permissionsCount": "Permissões",
+      "usersCount": "Número de usuários designados"
+    },
     "team": {
       "events": {
         "addCondition": "Incluir condição",
@@ -844,7 +850,8 @@
     "accountSettings": "Configurações da conta",
     "configureAllowedEmailDomains": "Configurar domínios de e-mail permitidos",
     "savingConfig": "Salvar configuração",
-    "configSuccessfullySaved": "Configuração salva com sucesso.",
+    "changesSaved": "Mudanças salvas",
+    "configSuccessfullySaved": "As mudanças na configuração foram salvas com sucesso.",
     "configureLdap": "Configurar LDAP",
     "ldapConfiguration": "Configuração do LDAP",
     "url": "URL",
@@ -986,6 +993,7 @@
     "users": "Usuários",
     "session": "Sessão",
     "timeouts": "Tempos limite",
+    "sessionTimeouts": "Tempos limites da sessão",
     "globalSettings": "Configurações globais",
     "userSettings": "Configurações do usuário",
     "securityAndAccess": "Segurança e acesso",
@@ -1275,12 +1283,27 @@
     "accessControl": "Controle de acesso",
     "maintenanceWindows": "Janelas de manutenção",
     "customPayload": "Carga útil customizada",
-    "logManagement": "Gerenciamento de log",
     "coralogix": "Coralogix",
     "elk": "ELK",
     "falconLogScale": "Falcon LogScale",
     "mezmo": "Mezmo",
     "audit": "Auditoria",
+    "authentication": "Autenticação",
+    "authenticationProviders": {
+      "title": "Provedores de autenticação",
+      "idp_active": "Ativo",
+      "idp_inActive": "Inativas",
+      "googleSSOTileTitle": "SSO do Google pré-configurado",
+      "googleSSOTileDescription": "Esse é o provedor de identidade pré-configurado que pode ser usado sem criar um cliente no SSO do Google.",
+      "samlTileTitle": "SAML",
+      "samlTileDescription": "Security Assertion Markup Language (SAML)",
+      "samlTileHelpDoc": "Os guias de iniciação rápida estão disponíveis em nossas páginas de documentação para <activeDirectoryLink>Active Directory</activeDirectoryLink> e <oktaLink>Okta</oktaLink>.",
+      "oidcTileTitle": "OIDC",
+      "oidcTileDescription": "OpenID Connect (OIDC)",
+      "ldapTileTitle": "LDAP",
+      "ldapTileDescription": "Lightweight Directory Access Protocol (LDAP)",
+      "ldapHelpDoc": "A ajuda e o suporte estão disponíveis em nossas <docLink>páginas de documentação</docLink>."
+    },
     "googleSSO": {
       "allowedDomains": "Domínios permitidos",
       "configure": "Configuração do Google SSO",
@@ -1352,7 +1375,7 @@
     "restIncidentTableDesc": "O Instana apenas propaga os dados de incidentes para a tabela intermediária IBM Instana, sem nenhuma outra atualização para a tabela de incidentes ServiceNow. Para ativar a sincronização completa de eventos, notas e atividades, será necessário atualizar suas regras de negócio ServiceNow. Para obter detalhes, consulte a  <documentationLink> documentação </documentationLink>.",
     "serviceNowAlertChannel": "Canal de alerta do aplicativo ServiceNow",
     "serviceNowUsernameTooltip": "O nome do usuário e a senha devem ser para um usuário do ServiceNow com permissão para criar incidentes.",
-    "serviceNowDescription": "Assegure-se de que você tenha um aplicativo ServiceNow ITSM instalado e configurado antes de continuar. Você precisará das credenciais de nome de usuário e senha do ServiceNow para criar um canal de alerta.",
+    "serviceNowDescription": "Assegure-se de que você tenha um aplicativo <Link>ServiceNow ITSM</Link> instalado e configurado antes de continuar. Você precisará das credenciais de nome de usuário e senha do ServiceNow para criar um canal de alerta.",
     "autoCloseIncidents": "Fechar automaticamente incidentes",
     "advancedIntro": "A criação desse canal de alerta permitirá que o Instana crie incidentes / chamados no ServiceNow. É possível customizar a forma como os incidentes são atualizados.<br/><br/>",
     "eventProps": "Propagação de eventos",

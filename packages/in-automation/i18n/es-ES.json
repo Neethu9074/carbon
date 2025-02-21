@@ -238,6 +238,7 @@
     "ignoreCertErrors": "Ignorar errores de certificado",
     "basicAuth": "Autenticación básica",
     "bearerToken": "Señal portadora",
+    "authentication": "Autenticación",
     "apiKeyAddTo": "Añadir a",
     "apiKey": "Clave de Api",
     "header": "Cabecera",
@@ -322,8 +323,6 @@
     "status": "Estado",
     "startTime": "Hora de inicio",
     "endTime": "Hora de finalización",
-    "property": "Propiedad",
-    "value": "Valor",
     "actionInstanceId": "ID de instancia de acción",
     "event": "Suceso",
     "eventName": "Nombre de suceso",
@@ -371,7 +370,8 @@
     "deleteDialog": {
       "success": "La instancia de acción se ha suprimido correctamente.",
       "failure": "No se ha podido eliminar la instancia de acción."
-    }
+    },
+    "actionSnapshotDetails": "Detalles de instantánea de acción"
   },
   "actionLanes": {
     "buttonInvestigate": "Investigar"
@@ -506,5 +506,12 @@
     "actionName": "Nombre de acción",
     "recommendedActionHistoryWithCount": "Historial de acciones de recursos ({{count}})",
     "recommendedActionHistory": "Historial de acciones de recursos"
+  },
+  "feedback": {
+    "contentHelpfulText": "¿Le ha resultado útil este contenido generado?",
+    "thankYouForYourFeedback": "Gracias por sus comentarios.",
+    "submitFeedback": "Enviar comentarios",
+    "additionalFeedbacklabel": "Proporcione comentarios adicionales (opcional)",
+    "additionalFeedbackPlaceholder": "¿Qué no le gustó de la respuesta? Qué se puede mejorar"
   }
 }

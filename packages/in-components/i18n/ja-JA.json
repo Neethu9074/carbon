@@ -122,6 +122,9 @@
     "filterConfirmRemoveMsg": "フィルター <strong>{{filterName}}</strong> を削除しますか?",
     "helpDialogTitleUsingTheSearchBar": "検索バーの使用"
   },
+  "carbonSearchBar": {
+    "search": "検索"
+  },
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "このグループの分析",

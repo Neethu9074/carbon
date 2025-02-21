@@ -356,6 +356,12 @@
     "removedEntity": "已成功移除 {{entity}}"
   },
   "tabs": {
+    "role": {
+      "deprecated": "不推荐",
+      "newRole": "新角色",
+      "permissionsCount": "许可权",
+      "usersCount": "分配的用户数"
+    },
     "team": {
       "events": {
         "addCondition": "添加条件",
@@ -844,7 +850,8 @@
     "accountSettings": "帐户设置",
     "configureAllowedEmailDomains": "配置允许的电子邮件域",
     "savingConfig": "正在保存配置",
-    "configSuccessfullySaved": "配置已成功保存。",
+    "changesSaved": "已保存更改",
+    "configSuccessfullySaved": "已成功保存配置更改。",
     "configureLdap": "配置 LDAP",
     "ldapConfiguration": "LDAP 配置",
     "url": "URL",
@@ -986,6 +993,7 @@
     "users": "用户",
     "session": "会话",
     "timeouts": "超时数",
+    "sessionTimeouts": "会话超时",
     "globalSettings": "全局设置",
     "userSettings": "用户设置",
     "securityAndAccess": "安全与访问",
@@ -1275,12 +1283,27 @@
     "accessControl": "访问控制",
     "maintenanceWindows": "维护窗口",
     "customPayload": "定制有效内容",
-    "logManagement": "日志管理",
     "coralogix": "Coralogix",
     "elk": "ELK",
     "falconLogScale": "Falcon LogScale",
     "mezmo": "Mezmo",
     "audit": "审计",
+    "authentication": "认证",
+    "authenticationProviders": {
+      "title": "认证提供程序",
+      "idp_active": "活动",
+      "idp_inActive": "不活动",
+      "googleSSOTileTitle": "预配置的 Google SSO",
+      "googleSSOTileDescription": "这是预配置的身份提供程序，无需在 Google SSO 上创建客户即可使用。",
+      "samlTileTitle": "SAML",
+      "samlTileDescription": "安全性断言标记语言 (SAML)",
+      "samlTileHelpDoc": "我们的文档页面中提供了 <activeDirectoryLink>Active Directory</activeDirectoryLink> 和 <oktaLink>Okta</oktaLink> 的快速启动指南。",
+      "oidcTileTitle": "OIDC",
+      "oidcTileDescription": "OpenID 连接 (OIDC)",
+      "ldapTileTitle": "LDAP",
+      "ldapTileDescription": "轻量级目录访问协议 (LDAP)",
+      "ldapHelpDoc": "可在<docLink>文档页面</docLink>获得帮助和支持。"
+    },
     "googleSSO": {
       "allowedDomains": "允许的域",
       "configure": "Google SSO 配置",
@@ -1352,7 +1375,7 @@
     "restIncidentTableDesc": "Instana 只会将突发事件数据传播到 IBM Instana 中间表，而不会进一步更新 ServiceNow 突发事件表。 要启用事件、备注和活动的完全同步，您需要更新 ServiceNow 业务规则。 有关详细信息，请参阅<documentationLink>文档</documentationLink>。",
     "serviceNowAlertChannel": "ServiceNow 应用程序 Alert Channel",
     "serviceNowUsernameTooltip": "用户名和密码应该是具有创建突发事件许可权的 ServiceNow 用户的用户名和密码。",
-    "serviceNowDescription": "在继续操作前，请确保您已安装并配置了 ServiceNow ITSM 应用程序。 您需要 ServiceNow 用户名和密码凭证才能创建警报通道。",
+    "serviceNowDescription": "在继续操作前，请确保您已安装并配置了 <Link>ServiceNow ITSM 应用</Link>。 您需要 ServiceNow 用户名和密码凭证才能创建警报通道。",
     "autoCloseIncidents": "自动关闭事件",
     "advancedIntro": "创建此警报频道将使 Instana 能够在 ServiceNow 中创建突发事件/凭单。 您可以自定义事故的更新方式。<br/><br/>",
     "eventProps": "事件传播",

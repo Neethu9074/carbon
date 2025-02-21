@@ -230,7 +230,7 @@
     "performanceConstantlyEvaluated": "パフォーマンスは、ベータ期間中に積極的に評価され、改善されています。 AIの改善に役立つフィードバックをお寄せください",
     "probableRootCauseLabel": "{{entity_type}} の過失:",
     "relatedEventsLabel": "関連イベント ({{number_of_events}})",
-    "relatedMessagesAndLogsLabel": "トレース・エラーとログを特定しました",
+    "relatedMessagesAndLogsLabel": "エラーとログ",
     "entitiesNumber": "エンティティー",
     "probabilityLevelText": "確率レベル:",
     "highProbability": "HIGH",
@@ -270,6 +270,7 @@
     "errorMessages": "エラー・メッセージのトレース",
     "analyzeErrors": "エラーの分析",
     "analyzeTraceLogs": "トレース・ログの分析",
+    "analyzeApplicationLogs": "アプリケーション・ログを分析する",
     "topology": {
       "viewTopology": "トポロジーの表示",
       "dialogTitle": "トポロジー",

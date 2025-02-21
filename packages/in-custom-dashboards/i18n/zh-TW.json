@@ -311,6 +311,15 @@
         "pleaseSelect": "請選取"
       }
     },
+    "srcSlo": {
+      "index": {
+        "serviceLevelsObjective": "服務水準目標 (SLO)"
+      },
+      "formComponent": {
+        "status": "狀態",
+        "errorBudgetRemaining": "剩餘的錯誤預算"
+      }
+    },
     "metricConfigurator": {
       "ds": "資料來源",
       "pleaseSelect": "請選取",

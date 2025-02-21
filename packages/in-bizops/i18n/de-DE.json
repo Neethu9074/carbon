@@ -6,6 +6,8 @@
     "count": "Anzahl"
   },
   "lists": {
+    "id": "ID",
+    "version": "Version",
     "pageTitle": "Business Monitoring",
     "cardTitle": "Geschäftsprozesse",
     "theId": "Die Prozess-ID",
@@ -102,7 +104,7 @@
         "duration": "Dauer",
         "activityCount": "Anzahl",
         "activityErrors": "Fehler",
-        "topServices": "Top-Services",
+        "topServices": "Wichtigste Services",
         "activityLatency": "Latenzzeit",
         "viewAll": "Alle Services anzeigen"
       },

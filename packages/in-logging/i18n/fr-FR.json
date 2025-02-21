@@ -21,7 +21,7 @@
   "messageParam": "Paramètre du message",
   "applicationCounter": "{{count}} applications",
   "exceptionMessageHeader": "Message d'exception",
-  "stackTrace": "Trace de pile",
+  "stackTrace": "StackTrace",
   "service": "Service",
   "stream": "Flux",
   "tooltipCopyToClipboard": "Copier dans le presse-papiers",
@@ -32,7 +32,7 @@
     "mostRecent": "Le plus récent en premier",
     "oldest": "Les plus anciens en premier"
   },
-  "cpuTotal": "Nombre total d'UC",
+  "cpuTotal": "Total UC",
   "memoryUsage": "Utilisation de la mémoire",
   "cluster": "Cluster",
   "node": "Noeud",

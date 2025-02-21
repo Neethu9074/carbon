@@ -122,6 +122,9 @@
     "filterConfirmRemoveMsg": "您確定要移除過濾器 <strong>{{filterName}}</strong> 嗎？",
     "helpDialogTitleUsingTheSearchBar": "使用搜尋列"
   },
+  "carbonSearchBar": {
+    "search": "搜尋"
+  },
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "分析此群組",

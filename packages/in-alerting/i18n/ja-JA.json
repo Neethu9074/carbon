@@ -31,6 +31,7 @@
     "optional": "オプション",
     "on": "オン",
     "off": "オフ",
+    "options": "オプション",
     "revisionDropdownButton": {
       "revision": "リビジョン {{alertRevision}}",
       "pause": "一時停止",
@@ -871,6 +872,7 @@
         "timeThresholdConfigImpactEvaluationMethod": "ユーザー・インパクト評価方法",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "すべての評価ウィンドウで集計",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "評価ウィンドウごとに計算",
+        "timeThresholdConfigImpactEvaluationMethodSelect": "オプションを選択",
         "timeThresholdConfigNumberOfViolations": "メトリック違反の数",
         "timeThresholdConfigEvaluationGranularity": "評価の粒度",
         "granularityTooltipText": "ここで設定する時間の細分度によって、しきい値が評価される頻度が決まります。",
@@ -1264,6 +1266,25 @@
         "timeThreshold": "時間しきい値",
         "alertingType": "アラート・タイプ",
         "noScopeConfigured": "スコープ・フィルターが構成されていません"
+      },
+      "tearSheet": {
+        "createTitle": "シンセティック・スマート・アラートの作成",
+        "scopeFilter": {
+          "filter": "フィルター",
+          "filterDescription": "より正確なアラートを入手するために、シンセティック・テストを追加します。"
+        },
+        "steps": {
+          "step1Title": "シンセティック・テストを選択します。",
+          "step2Title": "アラートを受け取るタイミングを定義します。"
+        },
+        "step1": {
+          "header": "どのシンセティック・テストでアラートを受け取りたいですか?",
+          "description": "個々のアラートは、ロケーションごと、シンセティック・テストごとに個別に送信されます"
+        },
+        "step2": {
+          "sliderHeader": "違反がアラートをトリガーするタイミングを設定",
+          "sliderDescription": "警告を発する前に、ロケーションごとに連続失敗の回数を指定します。"
+        }
       }
     },
     "mobileApp": {
@@ -1659,11 +1680,10 @@
         "customPayloads": {
           "label": "積載量",
           "title": "カスタム・ペイロード"
-        },
-        "thresholdValue": "しきい値"
+        }
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "0 以上の数値を指定してください",
+        "selectAtLeastOneThreshold": "少なくとも 1 つのしきい値を指定してください。",
         "noDataForSelectedGroup": "指定されたフィルターとグループ化の組み合わせで使用可能なデータがありません。"
       },
       "logCount": "ログ・カウント",
@@ -1692,11 +1712,14 @@
         "scopeFilter": {
           "title": "ログの対象範囲を選択します",
           "filter": "フィルター",
-          "filterDescription": "より正確なアラートを入手するために、サービスにフィルターを追加します。"
+          "filterDescription": "ログ・メッセージの内容、ログ、またはその両方にフィルターを追加すると、より正確なアラートを取得できます。"
+        },
+        "granularity": {
+          "description": "ログは {{granularity}} 分のウィンドウで評価され、そのウィンドウに対してメトリック値が計算されます"
         },
         "scopeGroupBy": {
           "group": "グループ",
-          "groupByDescription": "グループに呼び出しを設定するには、グループを追加します。 グループ内の各コールは一括して設定されるが、個別に評価される。"
+          "groupByDescription": "ログにグループ化を追加する。 グループ内の各エントリは一括して設定されるが、個別に評価されます。"
         },
         "timeThreshold": {
           "title": "違反がアラートをトリガーするタイミングを設定",
@@ -1749,7 +1772,7 @@
         "blueprintDescription_BURN_RATE": "燃焼率は、SLO の目標長に対して、エラー・バジェットがどの程度の速さで消費されるかを示す値です。",
         "burnRateShortWindowTitle": "短いアラート・ウィンドウ",
         "burnRateShortWindowDescription": "これらのアラートは、エラーレートが短時間でしきい値を超えた場合にトリガーされます。 これにより、重大なバグによるエラーの突然の急増やダウンタイムを捉えることができます。",
-        "burnRateDescription": "燃焼率が <1/> <2/> になったら通知します。",
+        "burnRateDescription": "燃焼率が <1/> <2/> になったら通知します",
         "burnRateLongWindowTitle": "長いアラート・ウィンドウ",
         "burnRateLongWindowDescription": "これらのアラートは、エラー率がしきい値を超える期間が長くなるとトリガーされます。 これにより、時間の経過とともに蓄積され、対処しないと将来問題を引き起こす可能性のある問題を特定できます。",
         "burnRateShortWindowLongerThanLongWindowError": "短いウインドウがロング・ウインドウを超えることはできません。 どちらかの値を調整してください。",

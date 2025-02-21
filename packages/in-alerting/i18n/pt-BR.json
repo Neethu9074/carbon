@@ -31,6 +31,7 @@
     "optional": "Opcional",
     "on": "ON",
     "off": "Desligado",
+    "options": "Opções",
     "revisionDropdownButton": {
       "revision": "Revisão {{alertRevision}}",
       "pause": "Pausar",
@@ -871,6 +872,7 @@
         "timeThresholdConfigImpactEvaluationMethod": "Método de avaliação de impacto do usuário",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Agregar em todas as janelas de avaliação",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcular para cada janela de avaliação",
+        "timeThresholdConfigImpactEvaluationMethodSelect": "Selecionar uma opção",
         "timeThresholdConfigNumberOfViolations": "Número de violações de métrica",
         "timeThresholdConfigEvaluationGranularity": "Granularidade da avaliação",
         "granularityTooltipText": "A granularidade de tempo configurada aqui determinará a frequência com que o limite é avaliado.",
@@ -1264,6 +1266,25 @@
         "timeThreshold": "Limite de tempo",
         "alertingType": "Tipo de alerta",
         "noScopeConfigured": "Não há nenhum filtro de escopo configurado."
+      },
+      "tearSheet": {
+        "createTitle": "Crie um alerta inteligente sintético",
+        "scopeFilter": {
+          "filter": "Filtro",
+          "filterDescription": "Inclua filtros nos testes sintéticos para obter alertas mais precisos."
+        },
+        "steps": {
+          "step1Title": "Escolha os testes sintéticos.",
+          "step2Title": "Defina quando será alertado."
+        },
+        "step1": {
+          "header": "Sobre quais testes sintéticos você deseja ser alertado?",
+          "description": "Os alertas individuais serão enviados independentemente para cada teste sintético, por local."
+        },
+        "step2": {
+          "sliderHeader": "Configurar quando as violações acionam alertas",
+          "sliderDescription": "Especifique quantas falhas consecutivas devem ocorrer por local antes de emitir um alerta."
+        }
       }
     },
     "mobileApp": {
@@ -1659,11 +1680,10 @@
         "customPayloads": {
           "label": "Cargas úteis",
           "title": "Carga útil customizada"
-        },
-        "thresholdValue": "Valor do limite"
+        }
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Forneça um número >= 0",
+        "selectAtLeastOneThreshold": "Forneça o valor de pelo menos um dos limites.",
         "noDataForSelectedGroup": "Não há dados disponíveis para a combinação especificada de filtros e agrupamento."
       },
       "logCount": "Contagem de logs",
@@ -1692,11 +1712,14 @@
         "scopeFilter": {
           "title": "Escolha o escopo dos logs",
           "filter": "Filtro",
-          "filterDescription": "Inclua filtros aos serviços para obter os alertas mais precisos."
+          "filterDescription": "Inclua filtros no conteúdo das mensagens de log, aos logs ou a ambos para obter alertas mais precisos."
+        },
+        "granularity": {
+          "description": "Os logs são avaliados em janelas de {{granularity}} minutos e o valor da métrica é calculado para essa janela"
         },
         "scopeGroupBy": {
           "group": "Grupo",
-          "groupByDescription": "Inclua grupo para configurar as chamadas em grupos. Cada chamada dentro do grupo é configurada coletivamente, mas avaliada individualmente."
+          "groupByDescription": "Incluir agrupamento nos logs. Cada entrada do grupo é configurada coletivamente, mas avaliada individualmente."
         },
         "timeThreshold": {
           "title": "Configurar quando as violações acionam alertas",
@@ -1749,7 +1772,7 @@
         "blueprintDescription_BURN_RATE": "A taxa de queima é um valor que indica a rapidez com que o orçamento de erros é consumido em relação ao comprimento de destino do SLO.",
         "burnRateShortWindowTitle": "Janela de alerta curta",
         "burnRateShortWindowDescription": "Esses alertas serão acionados quando a taxa de erro exceder o limite mais rapidamente em um período mais curto. Isso pode ajudar a capturar um aumento repentino de erros ou tempo de inatividade devido a um erro crítico.",
-        "burnRateDescription": "Notifique-me quando a taxa de queima for <1/> <2/>.",
+        "burnRateDescription": "Notifique-me quando a taxa de queima for <1/> <2/>",
         "burnRateLongWindowTitle": "Janela de alerta longa",
         "burnRateLongWindowDescription": "Esses alertas serão acionados quando a taxa de erro exceder o limite em um período de tempo mais longo. Isso ajuda a identificar problemas acumulados ao longo do tempo que podem causar problemas no futuro se não forem resolvidos.",
         "burnRateShortWindowLongerThanLongWindowError": "A janela curta não pode exceder a janela longa. Ajuste qualquer um dos valores.",

@@ -230,7 +230,7 @@
     "performanceConstantlyEvaluated": "Les performances sont activement évaluées et améliorées dans la version bêta. Faites-nous part de vos commentaires pour nous aider à améliorer notre IA",
     "probableRootCauseLabel": "{{entity_type}} en cause :",
     "relatedEventsLabel": "Événements associés ({{number_of_events}})",
-    "relatedMessagesAndLogsLabel": "Erreurs de trace identifiées & Journaux",
+    "relatedMessagesAndLogsLabel": "Erreurs et journaux",
     "entitiesNumber": "Entités",
     "probabilityLevelText": "Niveau de probabilité :",
     "highProbability": "ÉLEVÉ",
@@ -270,6 +270,7 @@
     "errorMessages": "Tracer les messages d'erreur",
     "analyzeErrors": "Analyser les erreurs",
     "analyzeTraceLogs": "Analyser les journaux de traces",
+    "analyzeApplicationLogs": "Analyser les journaux d'application",
     "topology": {
       "viewTopology": "Afficher la topologie",
       "dialogTitle": "Topologie",

@@ -311,6 +311,15 @@
         "pleaseSelect": "Selecionar"
       }
     },
+    "srcSlo": {
+      "index": {
+        "serviceLevelsObjective": "Objetivos de nível de serviço (SLOs)"
+      },
+      "formComponent": {
+        "status": "Status",
+        "errorBudgetRemaining": "Erro de orçamento restante"
+      }
+    },
     "metricConfigurator": {
       "ds": "Origem de dados",
       "pleaseSelect": "Selecionar",

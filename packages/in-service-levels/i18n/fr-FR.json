@@ -113,7 +113,6 @@
       "beaconCount": "Nombre de balises",
       "calls": "Appels",
       "latency": "Temps d'attente",
-      "results": "Résultats",
       "beaconDuration": "Durée des balises",
       "threshold": "Seuil",
       "failureRate": "Taux d'échec",

@@ -1185,6 +1185,11 @@
   "pluginName_kongApigateway_1": "Kongs",
   "pluginName_kongApigateway_2": "Kongs",
   "pluginName_kongApigateway": "Kong",
+  "pluginName_kubeCostPlatform": "Kubecost",
+  "pluginName_kubeCostPlatform_plural": "Kubecosts",
+  "pluginName_kubeCostPlatform_0": "Kubecosts",
+  "pluginName_kubeCostPlatform_1": "Kubecosts",
+  "pluginName_kubeCostPlatform_2": "Kubecosts",
   "pluginName_kubernetesCluster_plural": "Kubernetes 集群",
   "pluginName_kubernetesCluster_0": "Kubernetes 集群",
   "pluginName_kubernetesCluster_1": "Kubernetes 集群",
@@ -3657,6 +3662,10 @@
       "directorySystemAgentLSA": "本地安全权限",
       "directorySystemAgentNSPI": "名称服务提供程序",
       "securityAccountManagerLabel": "安全帐户管理器",
+      "dhcpLabel": "动态主机配置协议 (DHCP)",
+      "dnsLablelDynamicUpdates": "域名系统 (DNS) 动态更新",
+      "dnsLablelQueriesAndResponses": "域名系统 (DNS) 查询和响应",
+      "dnsLablelZoneTransfers": "域名系统 (DNS) 区域转移",
       "directorySystemAgent": {
         "dsClientBindsPerSec": "每秒客户端绑定次数",
         "dsClientNameTranslationsPerSec": "每秒客户端名称翻译次数",
@@ -3701,7 +3710,7 @@
         "samDomainLocalGroupMembershipEvaluationsPerSec": "每秒网域本地组成员评价",
         "samEnumerationsPerSec": "每秒枚举次数",
         "samGCEvaluationsPerSec": "每秒 GC 评估次数",
-        "samGlobalGroupMembershipEvaluationsPerSec": "每秒的本地群组成员评价",
+        "samGlobalGroupMembershipEvaluationsPerSec": "每秒全局组成员评估",
         "samMachineCreationAttemptsPerSec": "每秒尝试的机器创建",
         "samMembershipChangesPerSec": "每秒成员变更",
         "samNonTransitiveMembershipEvaluationsPerSec": "每秒非传递式成员评价",
@@ -3712,6 +3721,30 @@
         "samTransitiveMembershipEvaluationsPerSec": "每秒传递的成员评价",
         "samUniversalGroupMembershipEvaluationsPerSec": "每秒通用组员资格评估",
         "samUserCreationAttemptsPerSec": "每秒用户创建尝试"
+      },
+      "dhcp": {
+        "dhcpAcksPerSecondPercentageIncrease": "每秒应答数增长百分比",
+        "dhcpRequestSecondPercentIncrease": "每秒请求数增长百分比",
+        "dhcpConflictCheckQueueLength": "冲突检查队列长度",
+        "dhcpDeclinesPersec": "每秒下降量",
+        "dhcpDuplicatesDroppedPersec": "每秒丢弃的副本数",
+        "dhcpNacksPersec": "每秒负应答数",
+        "dhcpPacketsExpiredPersec": "每秒过期数据包数"
+      },
+      "dns": {
+        "dnsCachingMemory": "高速缓存内存",
+        "dnsDynamicUpdateQueued": "排队的动态更新",
+        "dnsDynamicUpdateReceived": "接收的动态更新",
+        "dnsDynamicUpdateReceivedPersec": "每秒接收的动态更新",
+        "dnsDynamicUpdateRejected": "被拒绝的动态更新",
+        "dnsDynamicUpdateTimeOuts": "动态更新超时",
+        "dnsTotalQueryReceived": "接收的查询总数",
+        "dnsTotalQueryReceivedPersec": "每秒接收的查询总数",
+        "dnsTotalResponseSent": "发送的响应总数",
+        "dnsTotalResponseSentPersec": "每秒发送的响应总数",
+        "dnsZoneTransferFailure": "区域传输失败",
+        "dnsZoneTransferSuccess": "区域传输成功",
+        "dnsZoneTransferRequestReceived": "接收的区域传输请求"
       }
     },
     "activeMQ": {
@@ -10840,8 +10873,10 @@
         "virtualTotal": "虚拟总计",
         "computational": "计算",
         "nonComputational": "非计算",
+        "realAvailable": "真正可用",
         "pageIn": "每秒页面调进数",
         "pageOut": "每秒页面调出数",
+        "pageScan": "每秒页面扫描数",
         "openFiles": "打开文件数",
         "current": "当前",
         "tcpActivity": "TCP 活动",
@@ -10929,6 +10964,7 @@
       "machineId": "机器标识",
       "bootId": "引导标识",
       "systemId": "系统标识",
+      "hostId": "主机标识",
       "startedAt": "开始",
       "interfacesWithSize": "接口 ({{size}})",
       "cpuUsed": "已用 CPU",
@@ -10953,8 +10989,10 @@
       "virtualTotal": "虚拟总计",
       "computational": "计算",
       "nonComputational": "非计算",
+      "realAvailable": "真正可用",
       "pageIn": "每秒页面调进数",
       "pageOut": "每秒页面调出数",
+      "pageScan": "每秒页面扫描数",
       "load": "负载",
       "contextSwitches": "上下文切换次数",
       "current": "当前",
@@ -12808,6 +12846,7 @@
       "fetch": "访存",
       "produce": "生产",
       "allBrokersStateMetrics": "所有代理状态指标",
+      "clientMetrics": "客户机度量值",
       "averageIdleTimePercentage": "平均空闲时间百分比",
       "networkProcessor": "网络处理器",
       "requestHandler": "请求处理程序",
@@ -12957,6 +12996,9 @@
         "workerLua": "工作程序 Lua VM 中的已分配字节数",
         "totalConnections": "连接总数"
       }
+    },
+    "kubecost": {
+      "label": "Kubecost"
     },
     "kubernetesCluster": {
       "noActivity": "无活动",
@@ -13646,6 +13688,8 @@
       "instanceId": "实例标识",
       "label_category_LLM": "LLM",
       "llm_status": "LLM 状态",
+      "model": "模型",
+      "service": "服务",
       "dashboard": {
         "token": "标记数（按模型划分）",
         "inputToken": "输入标记数（按模型划分）",

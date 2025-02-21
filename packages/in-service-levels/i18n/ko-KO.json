@@ -113,7 +113,6 @@
       "beaconCount": "비컨 카운트",
       "calls": "호출",
       "latency": "대기 시간",
-      "results": "결과",
       "beaconDuration": "비컨 지속 기간",
       "threshold": "임계값",
       "failureRate": "실패 비율",

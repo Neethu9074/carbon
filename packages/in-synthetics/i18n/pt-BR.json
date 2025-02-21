@@ -140,7 +140,10 @@
           "certificateCheckTitle": "Verificação de certificado SSL",
           "certificateCheckLabel": "Certificado SSL",
           "certificateCheckHeadline": "Teste de cerificação de certificado SSL",
-          "certificateCheckText": "O teste de verificação de certificado SSL é um método para testar a expiração de um certificado SSL em um aplicativo da Web verificando os dias restantes em um certificado emitido."
+          "certificateCheckText": "O teste de verificação de certificado SSL é um método para testar a expiração de um certificado SSL em um aplicativo da Web verificando os dias restantes em um certificado emitido.",
+          "dnsActionLabel": "DNS",
+          "dnsActionHeadline": "Servidor de Nomes de Domínios",
+          "dnsActionText": "O teste de DNS é um método para verificar se o seu dispositivo ou rede está resolvendo corretamente os nomes de domínio e se não há problemas que possam causar lentidão, erros ou vulnerabilidades de segurança."
         },
         "configurationLabel": "Configuração",
         "configurationTitle": "Configuração: como esse teste funcionará?",
@@ -216,7 +219,8 @@
           "retryIntervalDescription": "Este teste tentará novamente {{retryCount}} após {{retryIntervalValue}} {{retryIntervalUnit}}.",
           "markSyntheticCall": "Marcar chamada sintética",
           "downloadZip": "Fazer download do arquivo zip",
-          "mainFileNameHelperText": "Forneça o nome do arquivo dentro desse arquivo zip que contém o ponto de entrada do teste"
+          "mainFileNameHelperText": "Forneça o nome do arquivo dentro desse arquivo zip que contém o ponto de entrada do teste",
+          "recordVideo": "Registre as ações do usuário em caso de falha"
         },
         "loadMore": "Carregar mais",
         "selectTests": {
@@ -230,7 +234,8 @@
         "advancedBluePrint": {
           "apiName": "API",
           "browserName": "Navegador",
-          "certificateCheckName": "Certificado SSL"
+          "certificateCheckName": "Certificado SSL",
+          "dnsActionName": "DNS"
         },
         "customProperties": {
           "property": "Propriedade",
@@ -413,9 +418,6 @@
         "show": "Mostrar o valor da credencial"
       }
     }
-  },
-  "createSmartAlert": {
-    "buttonLabel": "Incluir alerta inteligente sintético"
   },
   "navigation": {
     "synthetics": "Monitoramento sintético"
@@ -637,7 +639,6 @@
       "downloadHar": "Fazer download do arquivo HAR",
       "downloadLog": "Fazer download de logs",
       "viewScreenshotsLabel": "Visualizar captura(s) de tela",
-      "downloadVideo": "Fazer download da gravação",
       "consoleLogsLevel": "Console",
       "consoleLogs": "Console",
       "browserLogs": "Navegador",
@@ -717,7 +718,17 @@
         "timeOfIssue": "Horário de emissão",
         "timeOfExpiry": "Horário de expiração"
       },
-      "failedRunErrorTypeTitle": "Tipo de erro"
+      "failedRunErrorTypeTitle": "Tipo de erro",
+      "viewRecordingLabel": "Visualizar gravação",
+      "viewRecording": {
+        "recordingDialogLabel": "Gravação",
+        "downloadRecordingButton": "Fazer download da gravação",
+        "recordingLoadingMessage": "Carregando a gravação",
+        "noRecordingAvailableMessage": "A gravação não está disponível para esse resultado de teste"
+      },
+      "customProperties": {
+        "title": "Propriedades customizadas"
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "Nenhum resultado disponível",
@@ -804,7 +815,8 @@
       "associatedWebsites": "Sites associados",
       "noWebsitesAssociated": "Nenhum site associado",
       "associatedMobileApps": "Aplicativos móveis associados",
-      "noMobileAppAssociated": "Nenhum aplicativo móvel associado"
+      "noMobileAppAssociated": "Nenhum aplicativo móvel associado",
+      "recordVideo": "Registre as ações do usuário em caso de falha"
     },
     "credentialList": {
       "mainLabel": "Credenciais",

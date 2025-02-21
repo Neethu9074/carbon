@@ -311,6 +311,15 @@
         "pleaseSelect": "選択してください"
       }
     },
+    "srcSlo": {
+      "index": {
+        "serviceLevelsObjective": "サービス・レベル目標 (SLO)"
+      },
+      "formComponent": {
+        "status": "状況",
+        "errorBudgetRemaining": "残りのエラー予算"
+      }
+    },
     "metricConfigurator": {
       "ds": "データ・ソース",
       "pleaseSelect": "選択してください",

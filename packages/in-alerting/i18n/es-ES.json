@@ -31,6 +31,7 @@
     "optional": "Opcional",
     "on": "Activar",
     "off": "Desactivar",
+    "options": "Opciones",
     "revisionDropdownButton": {
       "revision": "Revisión {{alertRevision}}",
       "pause": "Pausar",
@@ -871,6 +872,7 @@
         "timeThresholdConfigImpactEvaluationMethod": "Método de evaluación de impacto de usuario",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Agregar en todas las ventanas de evaluación",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcular para cada ventana de evaluación",
+        "timeThresholdConfigImpactEvaluationMethodSelect": "Seleccione una opción",
         "timeThresholdConfigNumberOfViolations": "Número de infracciones de métrica",
         "timeThresholdConfigEvaluationGranularity": "Granularidad de la evaluación",
         "granularityTooltipText": "La granularidad de tiempo establecida aquí determinará la frecuencia con la que se evalúa el umbral.",
@@ -1264,6 +1266,25 @@
         "timeThreshold": "Umbral de tiempo",
         "alertingType": "Tipo de alerta",
         "noScopeConfigured": "No se ha configurado ningún filtro de ámbito"
+      },
+      "tearSheet": {
+        "createTitle": "Crear una alerta inteligente sintética",
+        "scopeFilter": {
+          "filter": "Filtrar",
+          "filterDescription": "Añada filtros a las pruebas sintéticas para obtener alertas más precisas."
+        },
+        "steps": {
+          "step1Title": "Elija pruebas sintéticas.",
+          "step2Title": "Defina cuándo recibir alertas."
+        },
+        "step1": {
+          "header": "¿Sobre qué pruebas sintéticas desea que se le notifique?",
+          "description": "Las alertas individuales se enviarán de forma independiente para cada prueba sintética, por ubicación."
+        },
+        "step2": {
+          "sliderHeader": "Establecer cuándo las infracciones activan alertas",
+          "sliderDescription": "Especifique cuántos errores consecutivos deben producirse por ubicación antes de que se active la alerta."
+        }
       }
     },
     "mobileApp": {
@@ -1659,11 +1680,10 @@
         "customPayloads": {
           "label": "Cargas útiles",
           "title": "Carga útil personalizada"
-        },
-        "thresholdValue": "Valor del umbral"
+        }
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Proporcione un número >= 0",
+        "selectAtLeastOneThreshold": "Proporcione el valor de al menos uno de los umbrales.",
         "noDataForSelectedGroup": "No hay datos disponibles para los filtros y la combinación de agrupación especificados."
       },
       "logCount": "Recuento de registros",
@@ -1692,11 +1712,14 @@
         "scopeFilter": {
           "title": "Elija el ámbito de los registros",
           "filter": "Filtrar",
-          "filterDescription": "Añada filtros a los servicios para obtener alertas más precisas."
+          "filterDescription": "Añada filtros al contenido de los mensajes de registro, a los registros o a ambos para obtener alertas más precisas."
+        },
+        "granularity": {
+          "description": "Los registros se evalúan en intervalos de {{granularity}} minutos y se calcula un valor de métrico para ese intervalo"
         },
         "scopeGroupBy": {
           "group": "Grupo",
-          "groupByDescription": "Añada un grupo para configurar las llamadas en grupos. Cada llamada dentro del grupo se configura colectivamente pero se evalúa individualmente."
+          "groupByDescription": "Añada agrupación a los registros. Cada entrada dentro del grupo se configura colectivamente, pero se evalúa individualmente."
         },
         "timeThreshold": {
           "title": "Establecer cuándo las infracciones activan alertas",
@@ -1749,7 +1772,7 @@
         "blueprintDescription_BURN_RATE": "La tasa de consumo es un valor que indica la rapidez con la que se consume el presupuesto de errores en relación con la longitud objetivo de su SLO.",
         "burnRateShortWindowTitle": "Ventana de alerta corta",
         "burnRateShortWindowDescription": "Estas alertas se activarán cuando la tasa de error supere el umbral más rápidamente durante un periodo más corto. Esto puede ayudar a capturar un repentino pico de errores o tiempo de inactividad debido a un fallo crítico.",
-        "burnRateDescription": "Avísame cuando la tasa de consumo sea <1/> <2/>.",
+        "burnRateDescription": "Avísame cuando la tasa de consumo sea <1/> <2/>",
         "burnRateLongWindowTitle": "Ventana de alerta larga",
         "burnRateLongWindowDescription": "Estas alertas se activarán cuando la tasa de errores supere el umbral durante un periodo de tiempo prolongado. Esto ayuda a identificar problemas acumulados a lo largo del tiempo que podrían causar problemas en el futuro si no se abordan.",
         "burnRateShortWindowLongerThanLongWindowError": "La ventana corta no puede superar a la ventana larga. Por favor, ajuste cualquiera de los valores.",

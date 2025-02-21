@@ -31,6 +31,7 @@
     "optional": "伺服器配接卡的",
     "on": "開啟",
     "off": "關閉",
+    "options": "選項",
     "revisionDropdownButton": {
       "revision": "修訂 {{alertRevision}}",
       "pause": "暫停",
@@ -871,6 +872,7 @@
         "timeThresholdConfigImpactEvaluationMethod": "使用者影響評估方法",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "針對所有評估範圍進行總計",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "針對每個評估範圍計算",
+        "timeThresholdConfigImpactEvaluationMethodSelect": "選取選項",
         "timeThresholdConfigNumberOfViolations": "度量違規的數目",
         "timeThresholdConfigEvaluationGranularity": "評估精度",
         "granularityTooltipText": "這裡設定的時間精度將決定評估臨界值的頻率。",
@@ -1264,6 +1266,25 @@
         "timeThreshold": "時間臨界值",
         "alertingType": "警示類型",
         "noScopeConfigured": "未配置範圍過濾器"
+      },
+      "tearSheet": {
+        "createTitle": "建立綜合智慧型警示",
+        "scopeFilter": {
+          "filter": "過濾器",
+          "filterDescription": "在綜合測試中新增過濾器，以獲得更精確的警示。"
+        },
+        "steps": {
+          "step1Title": "選擇綜合測試。",
+          "step2Title": "定義何時收到警示。"
+        },
+        "step1": {
+          "header": "您想要收到哪些綜合測試的警示？",
+          "description": "將針對每個地點的每個綜合測試獨立傳送個別警示。"
+        },
+        "step2": {
+          "sliderHeader": "在違規觸發警示時設定",
+          "sliderDescription": "指定每個位置應該連續失敗多少次才會發出警示。"
+        }
       }
     },
     "mobileApp": {
@@ -1659,11 +1680,10 @@
         "customPayloads": {
           "label": "有效負載",
           "title": "自訂有效負載"
-        },
-        "thresholdValue": "臨界值"
+        }
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "請提供大於等於 0 的數字",
+        "selectAtLeastOneThreshold": "請提供至少其中一個臨界值的值。",
         "noDataForSelectedGroup": "指定的過濾器和分組組合沒有可用的資料。"
       },
       "logCount": "日誌計數",
@@ -1692,11 +1712,14 @@
         "scopeFilter": {
           "title": "選擇日誌的範圍",
           "filter": "過濾器",
-          "filterDescription": "向服務新增過濾器以獲得更精確的警示。"
+          "filterDescription": "針對日誌訊息內容、日誌或兩者新增過濾器，以獲得更精確的警示。"
+        },
+        "granularity": {
+          "description": "日誌會在 {{granularity}} 分鐘的時間視窗內進行評估，並計算該視窗的度量值"
         },
         "scopeGroupBy": {
           "group": "群組",
-          "groupByDescription": "新增群組以配置群組呼叫。 群組中的每個呼叫會集體進行配置，但會個別進行評估。"
+          "groupByDescription": "為日誌新增分組。 群組內的每個項目都是集體配置，但會個別評估。"
         },
         "timeThreshold": {
           "title": "在違規觸發警示時設定",
@@ -1749,7 +1772,7 @@
         "blueprintDescription_BURN_RATE": "消耗率是一個數值，表示相對於 SLO 的目標長度，誤差預算消耗的速度。",
         "burnRateShortWindowTitle": "短時間警示視窗",
         "burnRateShortWindowDescription": "當錯誤率在較短時間內較快超過臨界值時，就會觸發警示。 這有助於擷取因重要錯誤而突然激增的錯誤或停機時間。",
-        "burnRateDescription": "當消耗率為 <1/> <2/> 時通知我。",
+        "burnRateDescription": "當燃燒率為<1/> <2/>時通知我",
         "burnRateLongWindowTitle": "長警示視窗",
         "burnRateLongWindowDescription": "當錯誤率在較長時間內超過臨界值時，就會觸發警示。 這有助於找出隨著時間的推移而累積的問題，如果不加以處理，可能會在未來造成問題。",
         "burnRateShortWindowLongerThanLongWindowError": "短視窗不能超過長視窗。 請調整任一數值。",

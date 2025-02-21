@@ -230,7 +230,7 @@
     "performanceConstantlyEvaluated": "Die Leistung wird während der Betaphase aktiv bewertet und verbessert. Bitte geben Sie uns Feedback, damit wir unsere KI weiter verbessern können",
     "probableRootCauseLabel": "{{entity_type}} fehlerhaft:",
     "relatedEventsLabel": "Zugehörige Ereignisse ({{number_of_events}})",
-    "relatedMessagesAndLogsLabel": "Identifizierte Trace-Fehler & Protokolle",
+    "relatedMessagesAndLogsLabel": "Fehler und Protokolle",
     "entitiesNumber": "Entitäten",
     "probabilityLevelText": "Wahrscheinlichkeitsstufe:",
     "highProbability": "HIGH",
@@ -270,6 +270,7 @@
     "errorMessages": "Trace-Fehlermeldungen",
     "analyzeErrors": "Fehler analysieren",
     "analyzeTraceLogs": "Analysieren von Trace-Protokollen",
+    "analyzeApplicationLogs": "Analyse der Anwendungsprotokolle",
     "topology": {
       "viewTopology": "Topologie anzeigen",
       "dialogTitle": "Topologie",

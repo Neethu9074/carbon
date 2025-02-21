@@ -230,7 +230,7 @@
     "performanceConstantlyEvaluated": "베타 기간 동안 성능이 적극적으로 평가되고 개선됩니다. AI를 개선하는 데 도움이 되도록 피드백을 남겨주십시오.",
     "probableRootCauseLabel": "{{entity_type}} 오류:",
     "relatedEventsLabel": "연관된 이벤트({{number_of_events}})",
-    "relatedMessagesAndLogsLabel": "식별된 추적 오류 및 로그",
+    "relatedMessagesAndLogsLabel": "오류 및 로그",
     "entitiesNumber": "엔티티",
     "probabilityLevelText": "확률 레벨:",
     "highProbability": "HIGH",
@@ -270,6 +270,7 @@
     "errorMessages": "추적 오류 메시지",
     "analyzeErrors": "오류 분석",
     "analyzeTraceLogs": "추적 로그 분석",
+    "analyzeApplicationLogs": "응용프로그램 로그 분석",
     "topology": {
       "viewTopology": "토폴로지 보기",
       "dialogTitle": "토폴로지",

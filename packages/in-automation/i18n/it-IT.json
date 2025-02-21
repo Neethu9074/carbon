@@ -238,6 +238,7 @@
     "ignoreCertErrors": "Ignora errori certificato",
     "basicAuth": "Autorizzazione di base",
     "bearerToken": "Token bearer",
+    "authentication": "Autenticazione",
     "apiKeyAddTo": "Aggiungi a",
     "apiKey": "Chiave API",
     "header": "Intestazione",
@@ -322,8 +323,6 @@
     "status": "Stato",
     "startTime": "Ora di inizio",
     "endTime": "Data/ora di fine",
-    "property": "Proprietà",
-    "value": "Valore",
     "actionInstanceId": "ID istanza azione",
     "event": "Evento",
     "eventName": "Nome evento",
@@ -371,7 +370,8 @@
     "deleteDialog": {
       "success": "L'istanza dell'azione è stata eliminata correttamente.",
       "failure": "Impossibile eliminare l'istanza dell'azione."
-    }
+    },
+    "actionSnapshotDetails": "Dettagli dell'istantanea dell'azione"
   },
   "actionLanes": {
     "buttonInvestigate": "Ricerca causa"
@@ -506,5 +506,12 @@
     "actionName": "Nome azione",
     "recommendedActionHistoryWithCount": "Cronologia delle azioni sulle risorse{{count}})",
     "recommendedActionHistory": "Cronologia azione risorsa"
+  },
+  "feedback": {
+    "contentHelpfulText": "Questo contenuto generato è stato utile?",
+    "thankYouForYourFeedback": "Grazie per il tuo feedback!",
+    "submitFeedback": "Invia feedback",
+    "additionalFeedbacklabel": "Fornire un ulteriore feedback (facoltativo)",
+    "additionalFeedbackPlaceholder": "Cosa non è piaciuto della risposta? Cosa si può migliorare"
   }
 }

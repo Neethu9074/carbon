@@ -6,6 +6,8 @@
     "count": "Contagem"
   },
   "lists": {
+    "id": "ID",
+    "version": "Versão",
     "pageTitle": "Monitoramento de negócios",
     "cardTitle": "Processos de negócios",
     "theId": "O ID do processo",
@@ -64,7 +66,7 @@
       }
     },
     "errorMessages": {
-      "tagFilterExpressionMustNotBeEmpty": "A perspectiva do negócio deve ter pelo menos um filtro",
+      "tagFilterExpressionMustNotBeEmpty": "A perspectiva de negócios deve ter pelo menos um filtro",
       "createOperationFailed": "Falha na operação de criação",
       "unableToCreatePerspective": "Não foi possível criar sua perspectiva de negócios. Tente novamente."
     },
@@ -95,7 +97,7 @@
       }
     },
     "activity": {
-      "pageTitle": "Atividade denegócios",
+      "pageTitle": "Atividade de negócios",
       "summaryTab": "Resumo",
       "servicesTab": "Serviços",
       "widgets": {

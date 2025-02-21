@@ -1185,6 +1185,11 @@
   "pluginName_kongApigateway_1": "Kong",
   "pluginName_kongApigateway_2": "Kong",
   "pluginName_kongApigateway": "kong",
+  "pluginName_kubeCostPlatform": "Kubecost",
+  "pluginName_kubeCostPlatform_plural": "Kubecost",
+  "pluginName_kubeCostPlatform_0": "Kubecost",
+  "pluginName_kubeCostPlatform_1": "Kubecost",
+  "pluginName_kubeCostPlatform_2": "Kubecost",
   "pluginName_kubernetesCluster_plural": "Cluster Kubernetes",
   "pluginName_kubernetesCluster_0": "Cluster Kubernetes",
   "pluginName_kubernetesCluster_1": "Cluster Kubernetes",
@@ -3657,6 +3662,10 @@
       "directorySystemAgentLSA": "Autorità di protezione locale",
       "directorySystemAgentNSPI": "NSP (Name Service Provider)",
       "securityAccountManagerLabel": "SAM (Security Accounts Manager)",
+      "dhcpLabel": "DHCP (Dynamic Host Configuration Protocol)",
+      "dnsLablelDynamicUpdates": "Aggiornamenti dinamici DNS (Domain Name System)",
+      "dnsLablelQueriesAndResponses": "Query e risposte DNS (Domain Name System)",
+      "dnsLablelZoneTransfers": "Trasferimenti zona DNS (Domain Name System)",
       "directorySystemAgent": {
         "dsClientBindsPerSec": "Binding del client al secondo",
         "dsClientNameTranslationsPerSec": "Traduzioni dei nomi dei client al secondo",
@@ -3701,7 +3710,7 @@
         "samDomainLocalGroupMembershipEvaluationsPerSec": "Valutazioni dell'appartenenza al gruppo locale del dominio al secondo",
         "samEnumerationsPerSec": "Enumerazioni al secondo",
         "samGCEvaluationsPerSec": "Valutazioni GC al secondo",
-        "samGlobalGroupMembershipEvaluationsPerSec": "Valutazioni dell'appartenenza a un gruppo glocal al secondo",
+        "samGlobalGroupMembershipEvaluationsPerSec": "Valutazioni dell'appartenenza a un gruppo globale al secondo",
         "samMachineCreationAttemptsPerSec": "Tentativi di creazione di macchine al secondo",
         "samMembershipChangesPerSec": "Modifiche dei membri al secondo",
         "samNonTransitiveMembershipEvaluationsPerSec": "Valutazioni di appartenenza non transitiva al secondo",
@@ -3712,6 +3721,30 @@
         "samTransitiveMembershipEvaluationsPerSec": "Valutazioni di appartenenza transitiva al secondo",
         "samUniversalGroupMembershipEvaluationsPerSec": "Valutazioni universali di appartenenza al gruppo al secondo",
         "samUserCreationAttemptsPerSec": "Tentativi di creazione di utenti al secondo"
+      },
+      "dhcp": {
+        "dhcpAcksPerSecondPercentageIncrease": "Aumento percentuale dei riscontri al secondo",
+        "dhcpRequestSecondPercentIncrease": "Aumento percentuale delle richieste al secondo",
+        "dhcpConflictCheckQueueLength": "Lunghezza coda controllo conflitti",
+        "dhcpDeclinesPersec": "Rifiuti al secondo",
+        "dhcpDuplicatesDroppedPersec": "Duplicati scartati al secondo",
+        "dhcpNacksPersec": "Riscontri negativi al secondo",
+        "dhcpPacketsExpiredPersec": "Pacchetti scaduti al secondo"
+      },
+      "dns": {
+        "dnsCachingMemory": "Memoria cache",
+        "dnsDynamicUpdateQueued": "Aggiornamenti dinamici in coda",
+        "dnsDynamicUpdateReceived": "Aggiornamenti dinamici ricevuti",
+        "dnsDynamicUpdateReceivedPersec": "Aggiornamenti dinamici ricevuti al secondo",
+        "dnsDynamicUpdateRejected": "Aggiornamenti dinamici rifiutati",
+        "dnsDynamicUpdateTimeOuts": "Timeout aggiornamenti dinamici",
+        "dnsTotalQueryReceived": "Totale query ricevute",
+        "dnsTotalQueryReceivedPersec": "Numero totale di query ricevute al secondo",
+        "dnsTotalResponseSent": "Risposte totali inviate",
+        "dnsTotalResponseSentPersec": "Risposte totali inviate al secondo",
+        "dnsZoneTransferFailure": "Trasferimenti zona non riusciti",
+        "dnsZoneTransferSuccess": "Trasferimenti zona riusciti",
+        "dnsZoneTransferRequestReceived": "Richieste di trasferimento zona ricevute"
       }
     },
     "activeMQ": {
@@ -10840,8 +10873,10 @@
         "virtualTotal": "Totale virtuale",
         "computational": "Computazionale",
         "nonComputational": "Non computazionale",
+        "realAvailable": "Disponibile reale",
         "pageIn": "Page-in al secondo",
         "pageOut": "Page-out al secondo",
+        "pageScan": "Scansione di pagine al secondo",
         "openFiles": "File Aperti",
         "current": "Corrente",
         "tcpActivity": "Attività TCP",
@@ -10929,6 +10964,7 @@
       "machineId": "ID macchina",
       "bootId": "ID di avvio",
       "systemId": "ID sistema",
+      "hostId": "ID Host",
       "startedAt": "Avviato il",
       "interfacesWithSize": "Interfacce ({{size}})",
       "cpuUsed": "CPU utilizzata",
@@ -10953,8 +10989,10 @@
       "virtualTotal": "Totale virtuale",
       "computational": "Computazionale",
       "nonComputational": "Non computazionale",
+      "realAvailable": "Disponibile reale",
       "pageIn": "Page-in al secondo",
       "pageOut": "Page-out al secondo",
+      "pageScan": "Scansione di pagine al secondo",
       "load": "Carico",
       "contextSwitches": "Switch di contesto",
       "current": "Corrente",
@@ -12807,7 +12845,8 @@
       "allBrokersFailures": "Tutti gli errori dei Broker",
       "fetch": "Recupera",
       "produce": "Produci",
-      "allBrokersStateMetrics": "Tutte le metriche di stato dei Broker",
+      "allBrokersStateMetrics": "Tutte le metriche di stato dei broker",
+      "clientMetrics": "Metriche client",
       "averageIdleTimePercentage": "Percentuale Media tempo di inattività",
       "networkProcessor": "Processore di rete",
       "requestHandler": "Gestore richieste",
@@ -12957,6 +12996,9 @@
         "workerLua": "Byte assegnati nella VM Lua di lavoro",
         "totalConnections": "Connessioni totali"
       }
+    },
+    "kubecost": {
+      "label": "Kubecost"
     },
     "kubernetesCluster": {
       "noActivity": "Nessuna attività",
@@ -13646,6 +13688,8 @@
       "instanceId": "ID istanza",
       "label_category_LLM": "LLM",
       "llm_status": "Stato LLM",
+      "model": "modello",
+      "service": "service",
       "dashboard": {
         "token": "Token per modello",
         "inputToken": "Token di input per modello",

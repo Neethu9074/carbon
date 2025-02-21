@@ -140,7 +140,10 @@
           "certificateCheckTitle": "Vérification du certificat SSL",
           "certificateCheckLabel": "Certificat SSL",
           "certificateCheckHeadline": "Test de vérification de certificat SSL",
-          "certificateCheckText": "Le test de vérification de certificat SSL est une méthode permettant de tester l'expiration d'un certificat SSL dans une application Web en vérifiant les jours restants d'un certificat émis."
+          "certificateCheckText": "Le test de vérification de certificat SSL est une méthode permettant de tester l'expiration d'un certificat SSL dans une application Web en vérifiant les jours restants d'un certificat émis.",
+          "dnsActionLabel": "DNS",
+          "dnsActionHeadline": "Serveur de noms de domaine",
+          "dnsActionText": "Le test DNS est une méthode permettant de vérifier que votre appareil ou réseau résout correctement les noms de domaine et ne présente pas de problèmes susceptibles de provoquer des ralentissements, des erreurs ou des failles de sécurité."
         },
         "configurationLabel": "Configuration",
         "configurationTitle": "Configuration : Comment ce test fonctionnera-t-il ?",
@@ -216,7 +219,8 @@
           "retryIntervalDescription": "Ce test réessaiera {{retryCount}} après {{retryIntervalValue}} {{retryIntervalUnit}}.",
           "markSyntheticCall": "Marquer l'appel synthétique",
           "downloadZip": "Téléchargez le fichier .zip",
-          "mainFileNameHelperText": "Fournir le nom du fichier dans ce fichier .zip qui contient le point d'entrée du test"
+          "mainFileNameHelperText": "Fournir le nom du fichier dans ce fichier .zip qui contient le point d'entrée du test",
+          "recordVideo": "Enregistrement des actions de l'utilisateur en cas d'échec"
         },
         "loadMore": "Charger plus",
         "selectTests": {
@@ -230,7 +234,8 @@
         "advancedBluePrint": {
           "apiName": "API",
           "browserName": "Navigateur",
-          "certificateCheckName": "Certificat SSL"
+          "certificateCheckName": "Certificat SSL",
+          "dnsActionName": "DNS"
         },
         "customProperties": {
           "property": "Propriété",
@@ -413,9 +418,6 @@
         "show": "Afficher la valeur de données d'identification"
       }
     }
-  },
-  "createSmartAlert": {
-    "buttonLabel": "Ajouter une Smart Alert synthétique"
   },
   "navigation": {
     "synthetics": "Surveillance synthétique"
@@ -637,7 +639,6 @@
       "downloadHar": "Télécharger le fichier HAR",
       "downloadLog": "Journaux de téléchargement",
       "viewScreenshotsLabel": "Afficher la ou les captures d'écran",
-      "downloadVideo": "Télécharger l'enregistrement",
       "consoleLogsLevel": "Console",
       "consoleLogs": "Console",
       "browserLogs": "Navigateur",
@@ -717,7 +718,17 @@
         "timeOfIssue": "Date d'émission",
         "timeOfExpiry": "Date d'expiration"
       },
-      "failedRunErrorTypeTitle": "Type d'erreur"
+      "failedRunErrorTypeTitle": "Type d'erreur",
+      "viewRecordingLabel": "Afficher l'enregistrement",
+      "viewRecording": {
+        "recordingDialogLabel": "Enregistrement",
+        "downloadRecordingButton": "Télécharger l'enregistrement",
+        "recordingLoadingMessage": "Chargement de l'enregistrement",
+        "noRecordingAvailableMessage": "Enregistrement non disponible pour ce résultat de test"
+      },
+      "customProperties": {
+        "title": "Propriétés personnalisées"
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "Aucun résultat n'est disponible",
@@ -804,7 +815,8 @@
       "associatedWebsites": "Sites Web associés",
       "noWebsitesAssociated": "Aucun site Web associé",
       "associatedMobileApps": "Applications mobiles associées",
-      "noMobileAppAssociated": "Aucune application mobile associée"
+      "noMobileAppAssociated": "Aucune application mobile associée",
+      "recordVideo": "Enregistrement des actions de l'utilisateur en cas d'échec"
     },
     "credentialList": {
       "mainLabel": "Données d'identification",
