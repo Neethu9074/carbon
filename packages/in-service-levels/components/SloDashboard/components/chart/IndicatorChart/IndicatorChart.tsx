@@ -6,7 +6,12 @@
 
 import React from 'react';
 
-import { DateAsNumber, ServiceLevelIndicatorUnion, SloEntityUnion } from '@instana/types';
+import {
+  DateAsNumber,
+  ServiceLevelIndicatorUnion,
+  ServiceLevelObjectiveConfiguration,
+  SloEntityUnion
+} from '@instana/types';
 
 import TimeBasedAvailabilityIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedAvailabilityIndicatorChart';
 import TimeBasedLatencyIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedLatencyIndicatorChart';
@@ -21,6 +26,7 @@ interface IndicatorChartProps {
   indicator: ServiceLevelIndicatorUnion;
   createdDate?: DateAsNumber;
   title?: string;
+  configuration: ServiceLevelObjectiveConfiguration;
 }
 
 export default function IndicatorChart({
@@ -30,7 +36,8 @@ export default function IndicatorChart({
   entity,
   indicator,
   createdDate,
-  title
+  title,
+  configuration
 }: IndicatorChartProps) {
   if (indicator.blueprint === 'traffic' && indicator.type === 'timeBased') {
     return (
@@ -42,6 +49,7 @@ export default function IndicatorChart({
         indicator={indicator}
         missingDataIndicator={createdDate}
         title={title}
+        configuration={configuration}
       />
     );
   }
@@ -56,6 +64,7 @@ export default function IndicatorChart({
         entity={entity}
         missingDataIndicator={createdDate}
         title={title}
+        configuration={configuration}
       />
     );
   }
@@ -69,6 +78,7 @@ export default function IndicatorChart({
         indicator={indicator}
         missingDataIndicator={createdDate}
         title={title}
+        configuration={configuration}
       />
     );
   }
@@ -82,6 +92,7 @@ export default function IndicatorChart({
         indicator={indicator}
         missingDataIndicator={createdDate}
         title={title}
+        configuration={configuration}
       />
     );
   }
@@ -96,6 +107,7 @@ export default function IndicatorChart({
         indicator={indicator}
         missingDataIndicator={createdDate}
         title={title}
+        configuration={configuration}
       />
     );
   }

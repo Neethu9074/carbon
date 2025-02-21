@@ -88,6 +88,7 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
         <Col lg={4}>
           <IndicatorChart
             customHeight={250}
+            configuration={configuration}
             customChartSkeletonHeight={308}
             entity={configuration.entity}
             indicator={configuration.indicator}

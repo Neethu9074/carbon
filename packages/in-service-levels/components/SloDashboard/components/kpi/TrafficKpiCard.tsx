@@ -10,23 +10,18 @@ import {
   isApplicationSloEntity,
   isSyntheticSloEntity,
   isWebsiteSloEntity,
-  ServiceLevelIndicatorUnion,
   ServiceLevelObjectiveConfiguration,
-  SloEntityUnion,
-  TimeConfig,
-  UnifiedMetricConfigurationUnion
+  SloEntityUnion
 } from '@instana/types';
 
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
-import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import NoValueKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/NoValueKpiCard';
-import { applicationMetrics, syntheticMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { createSloEventFormatter } from 'in-service-levels/utils/format';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
-import { isTrafficBlueprintIndicator } from 'in-service-levels/types';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { FormatterFn } from 'in-stores/metric/formatters';
+import { sloMetrics } from 'in-service-levels/metrics';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -35,15 +30,17 @@ interface TrafficKpiCardProps {
 }
 
 export default function TrafficKpiCard({ configuration }: TrafficKpiCardProps) {
-  const { entity, indicator } = configuration;
+  const { entity } = configuration;
+  const configId = configuration.id!;
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const { timeWindows } = useSloTimeWindowContext();
 
-  const { primaryMetricConfiguration, companionMetricConfiguration } = useMetricConfiguration({
-    entity,
-    indicator,
-    timeConfig
-  });
+  const [primaryMetricConfiguration, companionMetricConfiguration] = [
+    isApplicationSloEntity(entity)
+      ? sloMetrics.trafficPerSecond.singleNumber({ configId, timeConfig })
+      : sloMetrics.totalTraffic.singleNumber({ configId, timeConfig }),
+    isApplicationSloEntity(entity) ? sloMetrics.totalTraffic.singleNumber({ configId, timeConfig }) : undefined
+  ];
 
   const hasMatchingTimeWindows = timeWindows.length > 0;
 
@@ -63,45 +60,6 @@ export default function TrafficKpiCard({ configuration }: TrafficKpiCardProps) {
       }}
     />
   );
-}
-
-interface MetricConfigurations {
-  primaryMetricConfiguration: UnifiedMetricConfigurationUnion;
-  companionMetricConfiguration?: UnifiedMetricConfigurationUnion;
-}
-
-interface UseMetricConfigurationProps {
-  entity: SloEntityUnion;
-  indicator: ServiceLevelIndicatorUnion;
-  timeConfig: TimeConfig;
-}
-
-function useMetricConfiguration({ entity, indicator, timeConfig }: UseMetricConfigurationProps): MetricConfigurations {
-  const tagFilterExpression = useBasicTagFilterExpression({ entity });
-  if (isApplicationSloEntity(entity)) {
-    const metricProps = { entity, tagFilterExpression, timeConfig };
-    return {
-      primaryMetricConfiguration: applicationMetrics.calls.singleNumber({ ...metricProps, aggregation: 'PER_SECOND' }),
-      companionMetricConfiguration: applicationMetrics.calls.singleNumber(metricProps)
-    };
-  }
-
-  if (isWebsiteSloEntity(entity)) {
-    return {
-      primaryMetricConfiguration: websiteMetrics.beaconCount.singleNumber({ entity, tagFilterExpression, timeConfig })
-    };
-  }
-
-  if (isSyntheticSloEntity(entity)) {
-    const shouldFetchErroneousMetrics = isTrafficBlueprintIndicator(indicator) && indicator.trafficType === 'erroneous';
-    const metric = shouldFetchErroneousMetrics ? 'erroneousTests' : 'allTests';
-
-    return {
-      primaryMetricConfiguration: syntheticMetrics[metric].singleNumber({ entity, tagFilterExpression, timeConfig })
-    };
-  }
-
-  throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
 }
 
 interface Formatters {
