@@ -14,7 +14,7 @@ module.exports = {
     ...createImportRestrictionRule({
       enforceAbsoluteImportPaths: true,
 
-      allowedInPackages: ['in-visualize']
+      allowedInPackages: ['in-visualize', 'in-infrastructure']
     }),
     'react/function-component-definition': [
       'error',
