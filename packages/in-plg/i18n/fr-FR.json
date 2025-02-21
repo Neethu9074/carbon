@@ -1,5 +1,6 @@
 {
   "welcomeToInstana": "Bienvenue dans Instana !",
+  "home": "Accueil",
   "getStartedAndInstallYourFirstAgent": "Commencez et installez votre premier agent.",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "Votre essai a expiré",
@@ -516,6 +517,7 @@
     "foldableTileTitle": "Il est temps de se lancer !",
     "viewAll": "Afficher tout",
     "addMore": "Ajouter",
+    "create": "Créer",
     "collapsibleButton": {
       "showOnboardingTasks": "Afficher les tâches d'intégration",
       "hideOnboardingTasks": "Masquer les tâches d'intégration"
@@ -710,25 +712,22 @@
     "noData": {
       "applicationWidget": {
         "header": "Aucune application",
-        "description": "Créez votre propre perspective de l'application pour les services que vous souhaitez observer.",
-        "buttonName": "Créer une perspective d'application"
+        "description": "Créez votre propre perspective d'application sur les services que vous souhaitez observer.<br><br>Pour commencer, cliquez sur <strong>Ajouter une application</strong>."
       },
       "incidentsWidget": {
         "header": "Aucun incident",
-        "description": "Les incidents vous aident à détecter, à comprendre et à étudier les problèmes de qualité de service de vos applications."
+        "description": "Les incidents vous aident à détecter, comprendre et analyser les problèmes dans vos applications. <br><br><strong>Déployez un agent</strong> pour commencer à surveiller les incidents."
       },
       "websitesWidget": {
         "header": "Aucun site Web",
-        "description": "Collecter des données de site Web pour comprendre l'expérience numérique de l'utilisateur.",
-        "buttonName": "Ajouter un site Web"
+        "description": "Collectez les données du site web pour comprendre l'expérience numérique de vos utilisateurs.<br><br>Pour commencer, cliquez sur <strong>Ajouter un site web</strong>."
       },
       "mobileListWidget": {
         "header": "Aucune application mobile",
-        "description": "Collectez des données sur les applications mobiles pour comprendre l'expérience numérique de vos utilisateurs.",
-        "buttonName": "Ajouter des applications mobiles"
+        "description": "Collectez les données des applications mobiles pour comprendre l'expérience numérique de vos utilisateurs.<br><br>Pour commencer, cliquez sur <strong>Ajouter une application mobile</strong>."
       },
       "infrastructureWidget": {
-        "description": "Déployez un agent pour voir ses détails ici.<br>Démarrez sur la page <linkToAgents>Agents</linkToAgents>.",
+        "description": "Déployez un agent pour voir ses détails ici.<br><br>Commencez à la page <linkToAgents>Agents</linkToAgents>.",
         "link": "Agents",
         "hosts": {
           "header": "Aucun hôte"
@@ -751,8 +750,7 @@
       "syntheticWidget": {
         "test": {
           "header": "Aucun test synthétique",
-          "description": "Configurez les tests synthétiques pour qu'ils s'exécutent à des intervalles continus spécifiques.",
-          "buttonName": "Ajouter un test synthétique"
+          "description": "Configurez des tests synthétiques pour surveiller les applications à des intervalles réguliers. <br><br>Pour commencer, cliquez sur <strong>Ajouter un test synthétique</strong>."
         },
         "location": {
           "header": "Aucun emplacement synthétique",
@@ -760,18 +758,16 @@
         },
         "smartalerts": {
           "header": "Aucune Smart Alerts synthétique",
-          "description": "Configurez Smart Alerts pour les données synthétiques afin d'envoyer une alerte si le test d'un emplacement échoue.",
-          "buttonName": "Ajouter des alertes intelligentes synthétiques"
+          "description": "Configurez les Smart Alerts pour les synthétiques afin d'envoyer une alerte si le test d'un emplacement échoue.<br><br>Pour commencer, cliquez sur <strong>Ajouter une Smart Alert synthétique</strong>."
         }
       },
       "eventsWidget": {
         "header": "Aucun événement",
-        "description": "Il se peut qu'il n'y ait pas d'événements ou d'incidents à afficher ou que vous deviez d'abord configurer les données."
+        "description": "Il se peut qu'aucun événement ou incident ne soit affiché ou que vous deviez d'abord vous connecter aux données."
       },
       "dashboardWidget": {
         "header": "Aucun tableau de bord personnalisé",
-        "description": "Créez votre propre tableau de bord personnalisé.",
-        "buttonName": "Créer un tableau de bord personnalisé"
+        "description": "Les tableaux de bord personnalisés offrent une vue plus adaptée des informations qui sont importantes pour vous.<br><br>Pour commencer, cliquez sur <strong>Créer un tableau de bord</strong>."
       }
     },
     "quickLinks": {
@@ -788,11 +784,16 @@
         "documentation": "Documentation IBM",
         "releaseNotes": "Notes d'édition",
         "whatsNewLink": "Nouveautés dans Instana"
+      },
+      "toolTip": {
+        "makeDefault": "Cette action définit la page d'accueil Instana comme page de destination par défaut, en remplacement de tout tableau de bord personnalisé que vous avez défini."
       }
     },
     "ariaLabel": {
       "search": "Rechercher",
-      "handleButton": "Bouton Traiter"
+      "handleButton": "Bouton Traiter",
+      "toolbar": "barre d'outils de table de données",
+      "tabs": "Liste des onglets"
     }
   },
   "Components": {

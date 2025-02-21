@@ -6,8 +6,10 @@
     "count": "Count"
   },
   "lists": {
+    "id": "ID",
+    "version": "Versión",
     "pageTitle": "Supervisión de negocio",
-    "cardTitle": "Procesos empresariales",
+    "cardTitle": "Procesos de negocio",
     "theId": "El ID del proceso",
     "hasBeenCopied": "se ha copiado correctamente en el portapapeles",
     "activityLabel": "Actividades",
@@ -38,7 +40,7 @@
   "perspectives": {
     "newPerspective": "Crear perspectiva",
     "lists": {
-      "perspectives": "Perspectivas empresariales",
+      "perspectives": "Perspectivas de negocio",
       "descriptionLabel": "Descripción",
       "numberProcessesLabel": "Número de procesos"
     },
@@ -50,7 +52,7 @@
       "loadingStateLabel": "Cargando procesos"
     },
     "dialog": {
-      "title": "Nueva perspectiva empresarial",
+      "title": "Nueva perspectiva de negocio",
       "stepOne": {
         "progressBarTitle": "Paso 1: Filtrar los procesos empresariales para crear su perspectiva empresarial",
         "headline": "Filtre los procesos empresariales para crear su perspectiva empresarial",
@@ -64,7 +66,7 @@
       }
     },
     "errorMessages": {
-      "tagFilterExpressionMustNotBeEmpty": "La perspectiva empresarial debe tener al menos un filtro",
+      "tagFilterExpressionMustNotBeEmpty": "La Perspectiva empresarial debe tener al menos un filtro",
       "createOperationFailed": "Error en la operación de creación",
       "unableToCreatePerspective": "No hemos podido crear su perspectiva de negocio. Inténtelo de nuevo."
     },
@@ -102,7 +104,7 @@
         "duration": "Duración",
         "activityCount": "Count",
         "activityErrors": "Errores",
-        "topServices": "Principales servicios",
+        "topServices": "Servicios principales",
         "activityLatency": "Latencia",
         "viewAll": "Ver todos los servicios"
       },

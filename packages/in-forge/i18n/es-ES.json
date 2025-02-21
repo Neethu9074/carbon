@@ -1185,6 +1185,11 @@
   "pluginName_kongApigateway_1": "Kongs",
   "pluginName_kongApigateway_2": "Kongs",
   "pluginName_kongApigateway": "Kong",
+  "pluginName_kubeCostPlatform": "Kubecost",
+  "pluginName_kubeCostPlatform_plural": "Kubecosts",
+  "pluginName_kubeCostPlatform_0": "Kubecosts",
+  "pluginName_kubeCostPlatform_1": "Kubecosts",
+  "pluginName_kubeCostPlatform_2": "Kubecosts",
   "pluginName_kubernetesCluster_plural": "Clústeres de Kubernetes",
   "pluginName_kubernetesCluster_0": "Clústeres de Kubernetes",
   "pluginName_kubernetesCluster_1": "Clústeres de Kubernetes",
@@ -3657,6 +3662,10 @@
       "directorySystemAgentLSA": "Autoridad de seguridad local",
       "directorySystemAgentNSPI": "Proveedor de servicio de nombres",
       "securityAccountManagerLabel": "Gestor de cuentas de seguridad",
+      "dhcpLabel": "Protocolo de configuración dinámica de hosts (DHCP)",
+      "dnsLablelDynamicUpdates": "Actualizaciones dinámicas del sistema de nombres de dominio (DNS)",
+      "dnsLablelQueriesAndResponses": "Consultas y respuestas del sistema de nombres de dominio (DNS)",
+      "dnsLablelZoneTransfers": "Transferencias de zona del sistema de nombres de dominio (DNS)",
       "directorySystemAgent": {
         "dsClientBindsPerSec": "Enlaces de clientes por segundo",
         "dsClientNameTranslationsPerSec": "Traducciones de nombres de clientes por segundo",
@@ -3701,7 +3710,7 @@
         "samDomainLocalGroupMembershipEvaluationsPerSec": "Evaluaciones de pertenencia a grupos locales de dominio por segundo",
         "samEnumerationsPerSec": "Enumeraciones por segundo",
         "samGCEvaluationsPerSec": "Evaluaciones de GC por segundo",
-        "samGlobalGroupMembershipEvaluationsPerSec": "Evaluaciones de pertenencia a grupos Glocal por segundo",
+        "samGlobalGroupMembershipEvaluationsPerSec": "Evaluaciones de pertenencia a grupos globales por segundo",
         "samMachineCreationAttemptsPerSec": "Intentos de creación de máquinas por segundo",
         "samMembershipChangesPerSec": "Cambios de pertenencia a grupo por segundo",
         "samNonTransitiveMembershipEvaluationsPerSec": "Evaluaciones de pertenencia a grupo no transitivas por segundo",
@@ -3712,6 +3721,30 @@
         "samTransitiveMembershipEvaluationsPerSec": "Evaluaciones de pertenencia a grupo transitiva por segundo",
         "samUniversalGroupMembershipEvaluationsPerSec": "Evaluaciones de pertenencia a grupo universales por segundo",
         "samUserCreationAttemptsPerSec": "Intentos de creación de usuarios por segundo"
+      },
+      "dhcp": {
+        "dhcpAcksPerSecondPercentageIncrease": "Porcentaje de aumento en reconocimientos por segundo",
+        "dhcpRequestSecondPercentIncrease": "Porcentaje de aumento en solicitudes por segundo",
+        "dhcpConflictCheckQueueLength": "Longitud de cola de comprobación de conflictos",
+        "dhcpDeclinesPersec": "Rechazos por segundo",
+        "dhcpDuplicatesDroppedPersec": "Duplicados eliminados por segundo",
+        "dhcpNacksPersec": "Reconocimientos negativos por segundo",
+        "dhcpPacketsExpiredPersec": "Paquetes caducados por segundo"
+      },
+      "dns": {
+        "dnsCachingMemory": "Memoria caché",
+        "dnsDynamicUpdateQueued": "Actualización dinámica en cola",
+        "dnsDynamicUpdateReceived": "Actualización dinámica recibida",
+        "dnsDynamicUpdateReceivedPersec": "Actualización dinámica recibida por segundo",
+        "dnsDynamicUpdateRejected": "Actualización dinámica rechazada",
+        "dnsDynamicUpdateTimeOuts": "Tiempos de espera excedidos de actualización dinámica",
+        "dnsTotalQueryReceived": "Total de consultas recibidas",
+        "dnsTotalQueryReceivedPersec": "Total de consultas recibidas por segundo",
+        "dnsTotalResponseSent": "Total de respuestas enviadas",
+        "dnsTotalResponseSentPersec": "Total de respuestas enviadas por segundo",
+        "dnsZoneTransferFailure": "Error de transferencia de zona",
+        "dnsZoneTransferSuccess": "Transferencia de zona correcta",
+        "dnsZoneTransferRequestReceived": "Solicitud de transferencia de zona recibida"
       }
     },
     "activeMQ": {
@@ -10840,8 +10873,10 @@
         "virtualTotal": "Virtual total",
         "computational": "De cálculo",
         "nonComputational": "No de cálculo",
+        "realAvailable": "Disponible real",
         "pageIn": "Entrada de páginas por segundo",
         "pageOut": "Salida de páginas por segundo",
+        "pageScan": "Exploraciones de páginas por segundo",
         "openFiles": "Archivos abiertos",
         "current": "Actual",
         "tcpActivity": "Actividad TCP",
@@ -10929,6 +10964,7 @@
       "machineId": "ID de máquina",
       "bootId": "ID de arranque",
       "systemId": "ID del sistema",
+      "hostId": "ID de host",
       "startedAt": "Iniciado a las",
       "interfacesWithSize": "Interfaces ({{size}})",
       "cpuUsed": "CPU utilizada",
@@ -10953,8 +10989,10 @@
       "virtualTotal": "Virtual total",
       "computational": "De cálculo",
       "nonComputational": "No de cálculo",
+      "realAvailable": "Disponible real",
       "pageIn": "Entrada de páginas por segundo",
       "pageOut": "Salida de páginas por segundo",
+      "pageScan": "Exploraciones de páginas por segundo",
       "load": "Cargar",
       "contextSwitches": "Conmutadores de contexto",
       "current": "Actual",
@@ -12808,6 +12846,7 @@
       "fetch": "Captar",
       "produce": "Producir",
       "allBrokersStateMetrics": "Métricas de estado de todos los intermediarios",
+      "clientMetrics": "Métricas de cliente",
       "averageIdleTimePercentage": "Porcentaje promedio de tiempo de inactividad",
       "networkProcessor": "Procesador de red",
       "requestHandler": "Manejador de solicitudes",
@@ -12957,6 +12996,9 @@
         "workerLua": "Bytes asignados en VM de trabajador Lua",
         "totalConnections": "Total de conexiones"
       }
+    },
+    "kubecost": {
+      "label": "Kubecost"
     },
     "kubernetesCluster": {
       "noActivity": "Sin actividad",
@@ -13646,6 +13688,8 @@
       "instanceId": "ID de instancia",
       "label_category_LLM": "LLM",
       "llm_status": "Estado de LLM",
+      "model": "modelo",
+      "service": "Servicio",
       "dashboard": {
         "token": "Señales por modelo",
         "inputToken": "Señales de entrada por modelo",

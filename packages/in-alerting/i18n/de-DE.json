@@ -31,6 +31,7 @@
     "optional": "Optional",
     "on": "Ein",
     "off": "Aus",
+    "options": "Optionen",
     "revisionDropdownButton": {
       "revision": "Überarbeitung {{alertRevision}}",
       "pause": "Pausieren",
@@ -871,6 +872,7 @@
         "timeThresholdConfigImpactEvaluationMethod": "Auswertungsmethode für die Auswirkungen auf Benutzer",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Für alle Auswertungsfenster aggregieren",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Für jedes Auswertungsfenster berechnen",
+        "timeThresholdConfigImpactEvaluationMethodSelect": "Auswahl einer Option",
         "timeThresholdConfigNumberOfViolations": "Anzahl der Messwertverstöße",
         "timeThresholdConfigEvaluationGranularity": "Evaluierungsgranularität",
         "granularityTooltipText": "Die hier festgelegte Zeitunterteilung bestimmt die Häufigkeit, mit der der Schwellenwert ausgewertet wird.",
@@ -1264,6 +1266,25 @@
         "timeThreshold": "Zeitschwellenwert",
         "alertingType": "Alerttyp",
         "noScopeConfigured": "Kein Bereichsfilter konfiguriert"
+      },
+      "tearSheet": {
+        "createTitle": "Erstellen Sie einen synthetischen Smart Alert",
+        "scopeFilter": {
+          "filter": "Filter",
+          "filterDescription": "Fügen Sie Filter zu den synthetischen Tests hinzu, um präzisere Warnmeldungen zu erhalten."
+        },
+        "steps": {
+          "step1Title": "Wählen Sie synthetische Tests.",
+          "step2Title": "Legen Sie fest, wann Sie benachrichtigt werden möchten."
+        },
+        "step1": {
+          "header": "Über welche synthetischen Tests möchten Sie benachrichtigt werden?",
+          "description": "Für jeden synthetischen Test und jeden Standort werden unabhängig voneinander individuelle Warnmeldungen gesendet."
+        },
+        "step2": {
+          "sliderHeader": "Festlegen, wenn Verstöße Alerts auslösen",
+          "sliderDescription": "Geben Sie an, wie viele aufeinanderfolgende Ausfälle pro Standort auftreten müssen, bevor eine Warnung ausgegeben wird."
+        }
       }
     },
     "mobileApp": {
@@ -1659,11 +1680,10 @@
         "customPayloads": {
           "label": "Nutzdaten",
           "title": "Angepasste Nutzdaten"
-        },
-        "thresholdValue": "Schwellenwert"
+        }
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Geben Sie eine Zahl >= 0 an",
+        "selectAtLeastOneThreshold": "Bitte geben Sie für mindestens einen der Schwellenwerte einen Wert an.",
         "noDataForSelectedGroup": "Für die angegebene Kombination aus Filtern und Gruppierung sind keine Daten verfügbar."
       },
       "logCount": "Anzahl der Protokolle",
@@ -1692,11 +1712,14 @@
         "scopeFilter": {
           "title": "Wählen Sie den Umfang der Protokolle",
           "filter": "Filter",
-          "filterDescription": "Fügen Sie den Diensten Filter hinzu, um präzisere Warnmeldungen zu erhalten."
+          "filterDescription": "Fügen Sie Filter hinzu, um den Inhalt von Nachrichtenprotokollen, Protokollen oder beidem zu filtern und präzisere Warnmeldungen zu erhalten."
+        },
+        "granularity": {
+          "description": "Protokolle werden in {{granularity}}-Minuten-Fenstern ausgewertet und ein metrischer Wert wird für dieses Fenster berechnet"
         },
         "scopeGroupBy": {
           "group": "Gruppe",
-          "groupByDescription": "Gruppe hinzufügen, um Anrufe in Gruppen zu konfigurieren. Jeder Aufruf innerhalb der Gruppe wird kollektiv konfiguriert, aber individuell ausgewertet."
+          "groupByDescription": "Fügen Sie Gruppierungen zu Protokollen hinzu. Jeder Eintrag innerhalb der Gruppe wird gemeinsam konfiguriert, aber einzeln bewertet."
         },
         "timeThreshold": {
           "title": "Festlegen, wenn Verstöße Alerts auslösen",
@@ -1749,7 +1772,7 @@
         "blueprintDescription_BURN_RATE": "Die Verbrennungsrate ist ein Wert, der angibt, wie schnell Ihr Fehlerbudget im Verhältnis zur Ziellänge Ihres SLOs verbraucht wird.",
         "burnRateShortWindowTitle": "Kurzes Alarmierungsfenster",
         "burnRateShortWindowDescription": "Diese Warnungen werden ausgelöst, wenn die Fehlerquote den Schwellenwert über einen kürzeren Zeitraum hinweg schneller überschreitet. Dies kann helfen, eine plötzliche Fehlerspitze oder Ausfallzeiten aufgrund eines kritischen Fehlers zu erfassen.",
-        "burnRateDescription": "Benachrichtigen Sie mich, wenn die Verbrennungsrate <1/> <2/> beträgt.",
+        "burnRateDescription": "Benachrichtigen Sie mich, wenn die Verbrennungsrate <1/> <2/> beträgt",
         "burnRateLongWindowTitle": "Langes Alarmfenster",
         "burnRateLongWindowDescription": "Diese Warnungen werden ausgelöst, wenn die Fehlerquote über einen längeren Zeitraum hinweg den Schwellenwert überschreitet. Auf diese Weise lassen sich Probleme erkennen, die sich im Laufe der Zeit angesammelt haben und die in Zukunft zu Problemen führen könnten, wenn sie nicht behoben werden.",
         "burnRateShortWindowLongerThanLongWindowError": "Das kurze Fenster kann das lange Fenster nicht überschreiten. Bitte passen Sie einen der beiden Werte an.",

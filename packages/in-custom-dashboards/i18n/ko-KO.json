@@ -311,6 +311,15 @@
         "pleaseSelect": "선택"
       }
     },
+    "srcSlo": {
+      "index": {
+        "serviceLevelsObjective": "SLO(Service-Level Objective)"
+      },
+      "formComponent": {
+        "status": "상태",
+        "errorBudgetRemaining": "남은 예산 오류"
+      }
+    },
     "metricConfigurator": {
       "ds": "데이터 소스",
       "pleaseSelect": "선택하십시오.",

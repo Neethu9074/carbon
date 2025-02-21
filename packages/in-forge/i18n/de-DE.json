@@ -1185,6 +1185,11 @@
   "pluginName_kongApigateway_1": "Kongs",
   "pluginName_kongApigateway_2": "Kongs",
   "pluginName_kongApigateway": "Kong",
+  "pluginName_kubeCostPlatform": "Kubikosten",
+  "pluginName_kubeCostPlatform_plural": "Kubokosten",
+  "pluginName_kubeCostPlatform_0": "Kubokosten",
+  "pluginName_kubeCostPlatform_1": "Kubokosten",
+  "pluginName_kubeCostPlatform_2": "Kubokosten",
   "pluginName_kubernetesCluster_plural": "Kubernetes-Cluster",
   "pluginName_kubernetesCluster_0": "Kubernetes-Cluster",
   "pluginName_kubernetesCluster_1": "Kubernetes-Cluster",
@@ -3657,6 +3662,10 @@
       "directorySystemAgentLSA": "Local Security Authority (LSA)",
       "directorySystemAgentNSPI": "Name Service Provider (NPS)",
       "securityAccountManagerLabel": "Sicherheitskontenverwaltung (Security Accounts Manager, SAM)",
+      "dhcpLabel": "Dynamic Host Configuration Protocol (DHCP)",
+      "dnsLablelDynamicUpdates": "Dynamische Updates des Domain Name Systems (DNS)",
+      "dnsLablelQueriesAndResponses": "Domain Name System (DNS)-Abfragen und -Antworten",
+      "dnsLablelZoneTransfers": "Domain Name System (DNS)-Zonenübertragungen",
       "directorySystemAgent": {
         "dsClientBindsPerSec": "Kundenbindungen pro Sekunde",
         "dsClientNameTranslationsPerSec": "Übersetzungen von Clientnamen pro Sekunde",
@@ -3701,7 +3710,7 @@
         "samDomainLocalGroupMembershipEvaluationsPerSec": "Bewertungen der Mitgliedschaft in lokalen Domänengruppen pro Sekunde",
         "samEnumerationsPerSec": "Aufzählungen pro Sekunde",
         "samGCEvaluationsPerSec": "GC-Auswertungen pro Sekunde",
-        "samGlobalGroupMembershipEvaluationsPerSec": "Bewertung der Mitgliedschaft in einer lokalen Gruppe pro Sekunde",
+        "samGlobalGroupMembershipEvaluationsPerSec": "Globale Gruppenmitgliedschaftsbewertungen pro Sekunde",
         "samMachineCreationAttemptsPerSec": "Maschinenerstellungsversuche pro Sekunde",
         "samMembershipChangesPerSec": "Mitgliedschaftsänderungen pro Sekunde",
         "samNonTransitiveMembershipEvaluationsPerSec": "Nichttransitive Mitgliedschaftsbewertungen pro Sekunde",
@@ -3712,6 +3721,30 @@
         "samTransitiveMembershipEvaluationsPerSec": "Transitive Mitgliedschaftsbewertungen pro Sekunde",
         "samUniversalGroupMembershipEvaluationsPerSec": "Universelle Gruppenmitgliedschaftsbewertungen pro Sekunde",
         "samUserCreationAttemptsPerSec": "Benutzererstellungsversuche pro Sekunde"
+      },
+      "dhcp": {
+        "dhcpAcksPerSecondPercentageIncrease": "Prozentuale Steigerung der Bestätigungen pro Sekunde",
+        "dhcpRequestSecondPercentIncrease": "Prozentuale Zunahme der Anfragen pro Sekunde",
+        "dhcpConflictCheckQueueLength": "Länge der Konfliktprüfwarteschlange",
+        "dhcpDeclinesPersec": "Rückgänge pro Sekunde",
+        "dhcpDuplicatesDroppedPersec": "Duplikate pro Sekunde gelöscht",
+        "dhcpNacksPersec": "Negative Bestätigungen pro Sekunde",
+        "dhcpPacketsExpiredPersec": "Abgelaufene Pakete pro Sekunde"
+      },
+      "dns": {
+        "dnsCachingMemory": "Cachespeicher",
+        "dnsDynamicUpdateQueued": "Dynamische DNS-Aktualisierungsanforderungen in Warteschlange",
+        "dnsDynamicUpdateReceived": "Empfangene dynamische DNS-Aktualisierungsanforderungen",
+        "dnsDynamicUpdateReceivedPersec": "Dynamische Aktualisierung pro Sekunde erhalten",
+        "dnsDynamicUpdateRejected": "Zurückgewiesene dynamische DNS-Aktualisierungsanforderungen",
+        "dnsDynamicUpdateTimeOuts": "Dynamische DNS-Aktualisierung - Zeitlimitüberschreitungen",
+        "dnsTotalQueryReceived": "Gesamtzahl empfangener Abfragen",
+        "dnsTotalQueryReceivedPersec": "Gesamtzahl der pro Sekunde eingegangenen Anfragen",
+        "dnsTotalResponseSent": "Gesamtzahl gesendeter Antworten",
+        "dnsTotalResponseSentPersec": "Gesendete Antworten insgesamt pro Sekunde",
+        "dnsZoneTransferFailure": "Fehlgeschlagene Zonentransfers",
+        "dnsZoneTransferSuccess": "Erfolgreiche Zonentransfers",
+        "dnsZoneTransferRequestReceived": "Empfangene Zonentransferanforderungen"
       }
     },
     "activeMQ": {
@@ -10840,8 +10873,10 @@
         "virtualTotal": "Virtuell – Gesamtwert",
         "computational": "Rechnergestützt",
         "nonComputational": "Nicht rechnergestützt",
+        "realAvailable": "Tatsächlich verfügbar",
         "pageIn": "Einlagerungen pro Sekunde",
         "pageOut": "Auslagerungen pro Sekunde",
+        "pageScan": "Seiten-Scan pro Sekunde",
         "openFiles": "Offene Dateien",
         "current": "Aktuell",
         "tcpActivity": "TCP-Aktivität",
@@ -10929,6 +10964,7 @@
       "machineId": "Maschinen-ID",
       "bootId": "Boot-ID",
       "systemId": "System-ID",
+      "hostId": "Host-ID",
       "startedAt": "Gestartet um",
       "interfacesWithSize": "Schnittstellen ({{size}})",
       "cpuUsed": "Verwendete CPU",
@@ -10953,8 +10989,10 @@
       "virtualTotal": "Virtuell – Gesamtwert",
       "computational": "Rechnergestützt",
       "nonComputational": "Nicht rechnergestützt",
+      "realAvailable": "Tatsächlich verfügbar",
       "pageIn": "Einlagerungen pro Sekunde",
       "pageOut": "Auslagerungen pro Sekunde",
+      "pageScan": "Seiten-Scan pro Sekunde",
       "load": "Auslastung",
       "contextSwitches": "Kontextwechsel",
       "current": "Aktuell",
@@ -12807,7 +12845,8 @@
       "allBrokersFailures": "Fehler für alle Broker",
       "fetch": "Abrufen",
       "produce": "Produzieren",
-      "allBrokersStateMetrics": "Messdaten für Status aller Broker",
+      "allBrokersStateMetrics": "Statusmessdaten für alle Broker",
+      "clientMetrics": "Clientmetriken",
       "averageIdleTimePercentage": "Prozentsatz der durchschnittlichen Leerlaufzeit",
       "networkProcessor": "Netzprozessor",
       "requestHandler": "Anforderungshandler",
@@ -12957,6 +12996,9 @@
         "workerLua": "Zugeordnete Byte in Lua-VM des Workers",
         "totalConnections": "Gesamtzahl der Verbindungen"
       }
+    },
+    "kubecost": {
+      "label": "Kubikosten"
     },
     "kubernetesCluster": {
       "noActivity": "Keine Aktivität",
@@ -13646,6 +13688,8 @@
       "instanceId": "Instanz-ID",
       "label_category_LLM": "LLM",
       "llm_status": "LLM-Status",
+      "model": "model",
+      "service": "Service",
       "dashboard": {
         "token": "Wertmarken nach Modell",
         "inputToken": "Eingabetoken nach Modell",

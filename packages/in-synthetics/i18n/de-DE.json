@@ -140,7 +140,10 @@
           "certificateCheckTitle": "SSL-Zertifikatsprüfung",
           "certificateCheckLabel": "SSL-Zertifikat",
           "certificateCheckHeadline": "Test der SSL-Zertifikatsprüfung",
-          "certificateCheckText": "Der Test der SSL-Zertifikatsprüfung ist eine Methode zum Testen des Ablaufs eines SSL-Zertifikats in einer Webanwendung, indem die verbleibenden Tage eines ausgestellten Zertifikats überprüft werden."
+          "certificateCheckText": "Der Test der SSL-Zertifikatsprüfung ist eine Methode zum Testen des Ablaufs eines SSL-Zertifikats in einer Webanwendung, indem die verbleibenden Tage eines ausgestellten Zertifikats überprüft werden.",
+          "dnsActionLabel": "DNS",
+          "dnsActionHeadline": "Domänennamens-Server",
+          "dnsActionText": "Der DNS-Test ist eine Methode, mit der Sie überprüfen können, ob Ihr Gerät oder Netzwerk Domainnamen ordnungsgemäß auflöst und frei von Problemen ist, die zu Verlangsamungen, Fehlern oder Sicherheitslücken führen könnten."
         },
         "configurationLabel": "Konfiguration",
         "configurationTitle": "Konfiguration: Wie funktioniert dieser Test?",
@@ -216,7 +219,8 @@
           "retryIntervalDescription": "Dieser Test wird {{retryCount}} nach {{retryIntervalValue}} {{retryIntervalUnit}} wiederholt.",
           "markSyntheticCall": "Synthetischen Aufruf markieren",
           "downloadZip": "ZIP-Datei herunterladen",
-          "mainFileNameHelperText": "Geben Sie den Namen der Datei in dieser ZIP-Datei an, die den Einstiegspunkt des Tests enthält"
+          "mainFileNameHelperText": "Geben Sie den Namen der Datei in dieser ZIP-Datei an, die den Einstiegspunkt des Tests enthält",
+          "recordVideo": "Benutzeraktionen bei Fehlern aufzeichnen"
         },
         "loadMore": "Mehr laden",
         "selectTests": {
@@ -230,7 +234,8 @@
         "advancedBluePrint": {
           "apiName": "API",
           "browserName": "Browser",
-          "certificateCheckName": "SSL-Zertifikat"
+          "certificateCheckName": "SSL-Zertifikat",
+          "dnsActionName": "DNS"
         },
         "customProperties": {
           "property": "Eigenschaft",
@@ -413,9 +418,6 @@
         "show": "Berechtigungsnachweiswert anzeigen"
       }
     }
-  },
-  "createSmartAlert": {
-    "buttonLabel": "Synthetischen Smart Alert hinzufügen"
   },
   "navigation": {
     "synthetics": "Überwachung der synthetischen Transaktionen"
@@ -637,7 +639,6 @@
       "downloadHar": "HAR-Datei herunterladen",
       "downloadLog": "Protokolle herunterladen",
       "viewScreenshotsLabel": "Screenshot(s) anzeigen",
-      "downloadVideo": "Aufzeichnung herunterladen",
       "consoleLogsLevel": "KONSOLE",
       "consoleLogs": "Konsole",
       "browserLogs": "Browser",
@@ -717,7 +718,17 @@
         "timeOfIssue": "Zeitpunkt der Ausgabe",
         "timeOfExpiry": "Ablaufdatum"
       },
-      "failedRunErrorTypeTitle": "Fehlertyp"
+      "failedRunErrorTypeTitle": "Fehlertyp",
+      "viewRecordingLabel": "Aufzeichnung ansehen",
+      "viewRecording": {
+        "recordingDialogLabel": "Aufzeichnung",
+        "downloadRecordingButton": "Aufzeichnung herunterladen",
+        "recordingLoadingMessage": "Lade Aufnahme",
+        "noRecordingAvailableMessage": "Für dieses Testergebnis ist keine Aufzeichnung verfügbar"
+      },
+      "customProperties": {
+        "title": "Benutzerdefinierte Eigenschaften"
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "Keine Ergebnisse verfügbar",
@@ -804,7 +815,8 @@
       "associatedWebsites": "Zugeordnete Websites",
       "noWebsitesAssociated": "Keine zugeordneten Websites",
       "associatedMobileApps": "Zugeordnete Mobile Apps",
-      "noMobileAppAssociated": "Keine zugeordneten Mobile Apps"
+      "noMobileAppAssociated": "Keine zugeordneten Mobile Apps",
+      "recordVideo": "Benutzeraktionen bei Fehlern aufzeichnen"
     },
     "credentialList": {
       "mainLabel": "Berechtigungsnachweise",

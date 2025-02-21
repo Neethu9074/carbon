@@ -1,5 +1,6 @@
 {
   "welcomeToInstana": "¡Bienvenido a Instana!",
+  "home": "Inicio",
   "getStartedAndInstallYourFirstAgent": "Empiece e instale el primer agente.",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "Su evaluación ha caducado",
@@ -516,6 +517,7 @@
     "foldableTileTitle": "Empecemos.",
     "viewAll": "Ver todo",
     "addMore": "Añadir",
+    "create": "Crear",
     "collapsibleButton": {
       "showOnboardingTasks": "Mostrar tareas de incorporación",
       "hideOnboardingTasks": "Ocultar tareas de incorporación"
@@ -710,25 +712,22 @@
     "noData": {
       "applicationWidget": {
         "header": "Sin aplicaciones",
-        "description": "Cree su propia perspectiva de aplicación sobre los servicios que desea observar.",
-        "buttonName": "Crear perspectiva de aplicación"
+        "description": "Cree su propia perspectiva de aplicación sobre los servicios que desea observar.<br><br>Para empezar, haga clic en <strong>Añadir aplicación</strong>."
       },
       "incidentsWidget": {
         "header": "Sin incidencias",
-        "description": "Las incidencias le ayudan a detectar, comprender e investigar los problemas de calidad de servicio de sus aplicaciones."
+        "description": "Los incidentes le ayudan a detectar, comprender e investigar problemas en sus aplicaciones.<br><br><strong>Despliegue un agente</strong> para empezar a supervisar incidentes."
       },
       "websitesWidget": {
         "header": "Sin sitios web",
-        "description": "Recopile datos del sitio web para entender la experiencia digital de sus usuarios.",
-        "buttonName": "Añadir sitio web"
+        "description": "Recopile datos del sitio web para comprender la experiencia digital de su usuario.<br><br>Para empezar, haga clic en <strong>Añadir sitio web</strong>."
       },
       "mobileListWidget": {
         "header": "No hay aplicaciones móviles",
-        "description": "Recopile datos de aplicaciones móviles para entender la experiencia digital de sus usuarios.",
-        "buttonName": "Añadir aplicaciones móviles"
+        "description": "Recopile datos de aplicaciones móviles para comprender la experiencia digital de su usuario.<br><br>Para empezar, haga clic en <strong>Añadir aplicación móvil</strong>."
       },
       "infrastructureWidget": {
-        "description": "Despliegue un agente para ver los detalles aquí.<br>Empiece en la página <linkToAgents>Agentes</linkToAgents>.",
+        "description": "Despliegue un agente para ver los detalles aquí.<br><br> Empiece en la página <linkToAgents>Agentes</linkToAgents>.",
         "link": "Agentes",
         "hosts": {
           "header": "No hay hosts"
@@ -751,8 +750,7 @@
       "syntheticWidget": {
         "test": {
           "header": "No hay pruebas sintéticas",
-          "description": "Configure las pruebas sintéticas para que se ejecuten a intervalos continuos específicos.",
-          "buttonName": "Añadir prueba sintética"
+          "description": "Configure pruebas sintéticas para supervisar los intervalos continuos de las aplicaciones.<br><br>Para empezar, haga clic en <strong>Añadir prueba sintética</strong>."
         },
         "location": {
           "header": "No hay ubicaciones sintéticas",
@@ -760,18 +758,16 @@
         },
         "smartalerts": {
           "header": "No hay alertas inteligentes sintéticas",
-          "description": "Configure las alertas inteligentes para sintéticos para que se envíe una alerta si falla la prueba de una ubicación.",
-          "buttonName": "Añadir alertas inteligentes sintéticas"
+          "description": "Configure alertas inteligentes sintéticas de modo que envíen una alerta si la prueba de una ubicación falla.<br><br>Para empezar, haga clic en <strong>Añadir alerta inteligente sintética</strong>."
         }
       },
       "eventsWidget": {
         "header": "No hay sucesos",
-        "description": "Puede que no haya sucesos o incidencias que mostrar o que tenga que configurar los datos primero."
+        "description": "Es posible que no haya ningún suceso o incidente que mostrar o que primero tenga que conectarse a los datos."
       },
       "dashboardWidget": {
         "header": "No hay paneles de control personalizados",
-        "description": "Cree su propio panel de control personalizado.",
-        "buttonName": "Crear panel de control personalizado"
+        "description": "Los paneles de control personalizados proporcionan una vista más adaptada de la información que es importante para usted.<br><br> Para empezar, haga clic en <strong>Crear panel de control</strong>."
       }
     },
     "quickLinks": {
@@ -788,11 +784,16 @@
         "documentation": "Documentación de IBM",
         "releaseNotes": "Notas del release",
         "whatsNewLink": "Novedades de Instana"
+      },
+      "toolTip": {
+        "makeDefault": "Esta acción establece la página de inicio de Instana como su página de destino predeterminada, reemplazando cualquier panel de control personalizado que haya establecido."
       }
     },
     "ariaLabel": {
       "search": "Búsqueda",
-      "handleButton": "Botón Manejar"
+      "handleButton": "Botón Manejar",
+      "toolbar": "barra de herramientas de la tabla de datos",
+      "tabs": "Lista de pestañas"
     }
   },
   "Components": {

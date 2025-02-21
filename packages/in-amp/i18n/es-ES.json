@@ -1,7 +1,7 @@
 {
   "components": {
     "accountSettings": {
-      "accountSettings": "Configuración de cuenta",
+      "accountSettings": "Valores de la cuenta",
       "unknownDomain": "Dominio desconocido",
       "billingAddress": "Dirección de facturación",
       "country": "País",
@@ -18,8 +18,8 @@
       "type": "Tipo",
       "licenseStartData": "Fecha de inicio de la licencia",
       "licenseEndData": "Fecha de finalización de la licencia",
-      "licensedApmHosts": "Hosts de APM con licencia",
-      "licensedIqmHosts": "Hosts de IQM con licencia"
+      "licensedApmHosts": "Hosts APM con licencia",
+      "licensedIqmHosts": "Hosts IQM con licencia"
     },
     "learnMore": {
       "title": "Más información sobre la Política de uso razonable de Instana",
@@ -42,7 +42,7 @@
       "title": "La Política de uso justo no está activa."
     },
     "restrictedUsage": {
-      "accountUsage": "Uso de cuenta"
+      "accountUsage": "Uso de la cuenta"
     },
     "technologiesReportingTable": {
       "name": "Nombre",
@@ -51,7 +51,7 @@
       "average": "Promedio"
     },
     "dataIngestTable": {
-      "consumptionOverview": "Resumen del consumo",
+      "consumptionOverview": "Visión general del consumo",
       "row": "Fila",
       "unit": "Unidad",
       "calculation": "Cálculo",
@@ -65,7 +65,7 @@
       "dataIngestEntitlementFromOnDemand": "Autorización de uso justo de ingesta de datos de MVS a petición",
       "totalDataIngestEntitlement": "Autorización de ingesta de datos total",
       "actualDataIngest": "Ingesta de datos real",
-      "onDemandDataIngest": "Intesta de datos bajo demanda",
+      "onDemandDataIngest": "Intesta de datos a petición",
       "noData": "No hay datos"
     },
     "timePresets": {
@@ -81,7 +81,7 @@
     },
     "usages": {
       "allPaidUnitsAggregated": "Todas las unidades pagadas (agregadas)",
-      "accountUsage": "Uso de cuenta",
+      "accountUsage": "Uso de la cuenta",
       "activeLicenses": "Licencias activas",
       "expiredLicenses": "Licencias caducadas",
       "queuedLicenses": "Licencias en cola"
@@ -115,7 +115,7 @@
     },
     "activationAdoption": {
       "activationAdoption": "Activación y adopción",
-      "customerAdoption": "Adopción del cliente",
+      "customerAdoption": "Adopción del Cliente",
       "activation": "Activación",
       "adoption": "Adopción",
       "activationStages": {
@@ -123,11 +123,11 @@
         "firstSignIn": "Primer inicio de sesión",
         "firstAgentInstalled": "Primer agente instalado",
         "additionalUserInvited": "Usuario adicional invitado",
-        "threeAgentsInstalled": "3 agentes instalados",
-        "twoApplicationPerspectivesCreated": "2 perspectivas de aplicación creadas",
-        "oneAlertSetUpAndActivated": "1 alerta establecida y activada",
-        "oneWebsiteMonitored": "1 sitio web supervisado",
-        "fiveUsers": "5 usuarios"
+        "threeAgentsInstalled": "3 Agentes instalados",
+        "twoApplicationPerspectivesCreated": "2 Perspectiva de aplicación creada",
+        "oneAlertSetUpAndActivated": "1 Alerta establecida y activada",
+        "oneWebsiteMonitored": "1 Sitio web supervisado",
+        "fiveUsers": "5 Usuarios"
       },
       "adoptionKPIs": {
         "applicationPerspective": "Perspectiva de aplicación",
@@ -137,14 +137,14 @@
         "customDashboards": "Paneles de control personalizados",
         "mobileEum": "EUM móvil",
         "numOfApplicationPerspectives": "# APs",
-        "numOfReportingApplicationPerspectives": "Núm. de AP de informes",
-        "numOfWebsites": "Núm. de sitios web",
-        "numOfAlertChannels": "Núm. de canales de alertas",
-        "numOfAlerts": "Núm. de alertas",
-        "numOfActiveAlerts": "Núm. de alertas activas",
-        "numOfReleases": "Núm de marcadores de release / Núm. de releases",
-        "numOfCustomDashboards": "Núm. de paneles de control personalizados",
-        "numOfMobileApps": "Núm. de aplicaciones"
+        "numOfReportingApplicationPerspectives": "# APs de informes",
+        "numOfWebsites": "# Sitios web",
+        "numOfAlertChannels": "Núm. de canales de alerta",
+        "numOfAlerts": "# Alertas",
+        "numOfActiveAlerts": "# Alertas activas",
+        "numOfReleases": "# Marcadores de Release/# Releases",
+        "numOfCustomDashboards": "# Paneles de control personalizados",
+        "numOfMobileApps": "# Aplicaciones"
       },
       "activationChecklist": "Lista de comprobación de activación",
       "productAdoption": "Adopción del producto",
@@ -154,7 +154,7 @@
         "metric_websites": "Sitios web",
         "metric_all_alerts": "Todas las alertas",
         "metric_active_alerts": "Alertas activas",
-        "metric_mobile_apps": "Apps móviles",
+        "metric_mobile_apps": "Aplicaciones móviles",
         "metric_alert_channels": "Canales de alertas",
         "metric_custom_dashboards": "Paneles de control personalizados",
         "metric_releases": "Releases"

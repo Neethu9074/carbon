@@ -6,6 +6,8 @@
     "count": "개수"
   },
   "lists": {
+    "id": "ID",
+    "version": "버전",
     "pageTitle": "비즈니스 모니터링",
     "cardTitle": "비즈니스 프로세스",
     "theId": "프로세스 ID",
@@ -102,7 +104,7 @@
         "duration": "지속 기간",
         "activityCount": "개수",
         "activityErrors": "오류",
-        "topServices": "주요 서비스",
+        "topServices": "상위 서비스",
         "activityLatency": "대기 시간",
         "viewAll": "모든 서비스 보기"
       },

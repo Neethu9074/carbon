@@ -113,7 +113,6 @@
       "beaconCount": "Recuento de balizas",
       "calls": "Llamadas",
       "latency": "Latencia",
-      "results": "Resultados",
       "beaconDuration": "Duración de baliza",
       "threshold": "Umbral",
       "failureRate": "Frecuencia de errores",

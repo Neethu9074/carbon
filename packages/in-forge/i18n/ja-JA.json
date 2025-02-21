@@ -1185,6 +1185,11 @@
   "pluginName_kongApigateway_1": "コング",
   "pluginName_kongApigateway_2": "コング",
   "pluginName_kongApigateway": "コング",
+  "pluginName_kubeCostPlatform": "Kubecost",
+  "pluginName_kubeCostPlatform_plural": "Kubecosts",
+  "pluginName_kubeCostPlatform_0": "Kubecosts",
+  "pluginName_kubeCostPlatform_1": "Kubecosts",
+  "pluginName_kubeCostPlatform_2": "Kubecosts",
   "pluginName_kubernetesCluster_plural": "Kubernetes クラスター",
   "pluginName_kubernetesCluster_0": "Kubernetes クラスター",
   "pluginName_kubernetesCluster_1": "Kubernetes クラスター",
@@ -3657,6 +3662,10 @@
       "directorySystemAgentLSA": "ローカル・セキュリティー権限",
       "directorySystemAgentNSPI": "名前サービス・プロバイダー",
       "securityAccountManagerLabel": "セキュリティー・アカウント・マネージャー",
+      "dhcpLabel": "ダイナミック・ホスト構成プロトコル (DHCP)",
+      "dnsLablelDynamicUpdates": "ドメイン・ネーム・システム (DNS) の動的更新",
+      "dnsLablelQueriesAndResponses": "ドメイン・ネーム・システム (DNS) の問い合わせと応答",
+      "dnsLablelZoneTransfers": "ドメイン・ネーム・システム (DNS) ゾーン転送",
       "directorySystemAgent": {
         "dsClientBindsPerSec": "クライアント・バインド数/秒",
         "dsClientNameTranslationsPerSec": "クライアント名の翻訳数/秒",
@@ -3701,7 +3710,7 @@
         "samDomainLocalGroupMembershipEvaluationsPerSec": "ドメイン・ローカル・グループ・メンバーシップ評価数/秒",
         "samEnumerationsPerSec": "列挙数/秒",
         "samGCEvaluationsPerSec": "GC評価/秒",
-        "samGlobalGroupMembershipEvaluationsPerSec": "グローカル・グループ・メンバーシップ評価数/秒",
+        "samGlobalGroupMembershipEvaluationsPerSec": "グローカル・グループ・メンバーシップ評価数 / 秒",
         "samMachineCreationAttemptsPerSec": "マシン作成試行回数/秒",
         "samMembershipChangesPerSec": "メンバーシップ変更数/秒",
         "samNonTransitiveMembershipEvaluationsPerSec": "非推移的メンバーシップ評価/秒",
@@ -3712,6 +3721,30 @@
         "samTransitiveMembershipEvaluationsPerSec": "推移的メンバーシップ評価/秒",
         "samUniversalGroupMembershipEvaluationsPerSec": "ユニバーサル・グループ・メンバーシップ評価/秒",
         "samUserCreationAttemptsPerSec": "ユーザー作成試行回数/秒"
+      },
+      "dhcp": {
+        "dhcpAcksPerSecondPercentageIncrease": "1 秒あたりの応答数増加率",
+        "dhcpRequestSecondPercentIncrease": "1 秒あたりのリクエストの増加率",
+        "dhcpConflictCheckQueueLength": "競合チェック・キューの長さ",
+        "dhcpDeclinesPersec": "毎秒減少数",
+        "dhcpDuplicatesDroppedPersec": "1 秒ごとにドロップされた複製",
+        "dhcpNacksPersec": "1 秒あたりの否定応答数",
+        "dhcpPacketsExpiredPersec": "1 秒ごとにパケットが期限切れ"
+      },
+      "dns": {
+        "dnsCachingMemory": "キャッシュ・メモリー",
+        "dnsDynamicUpdateQueued": "キューに入れられた動的更新",
+        "dnsDynamicUpdateReceived": "受信した動的更新",
+        "dnsDynamicUpdateReceivedPersec": "1秒ごとに受信される動的更新",
+        "dnsDynamicUpdateRejected": "動的更新が拒否されました",
+        "dnsDynamicUpdateTimeOuts": "動的更新のタイムアウト",
+        "dnsTotalQueryReceived": "受信したクエリーの合計",
+        "dnsTotalQueryReceivedPersec": "1 秒間に受信したクエリーの合計",
+        "dnsTotalResponseSent": "送信応答の合計",
+        "dnsTotalResponseSentPersec": "1 秒間に送信された応答の合計",
+        "dnsZoneTransferFailure": "ゾーン転送の失敗",
+        "dnsZoneTransferSuccess": "ゾーン転送の成功",
+        "dnsZoneTransferRequestReceived": "受信したゾーン転送要求"
       }
     },
     "activeMQ": {
@@ -10840,8 +10873,10 @@
         "virtualTotal": "仮想合計",
         "computational": "計算",
         "nonComputational": "非計算",
+        "realAvailable": "実際に使用可能",
         "pageIn": "1秒当たりのページイン",
         "pageOut": "1秒当たりのページアウト",
+        "pageScan": "1 秒あたりのページスキャン数",
         "openFiles": "オープン・ファイル",
         "current": "現行",
         "tcpActivity": "TCP アクティビティー",
@@ -10929,6 +10964,7 @@
       "machineId": "マシン ID",
       "bootId": "ブート ID",
       "systemId": "システム ID",
+      "hostId": "ホスト ID",
       "startedAt": "開始日時",
       "interfacesWithSize": "インターフェース ({{size}})",
       "cpuUsed": "使用中の CPU",
@@ -10953,8 +10989,10 @@
       "virtualTotal": "仮想合計",
       "computational": "計算",
       "nonComputational": "非計算",
+      "realAvailable": "実際に使用可能",
       "pageIn": "1秒当たりのページイン",
       "pageOut": "1秒当たりのページアウト",
+      "pageScan": "1 秒あたりのページスキャン数",
       "load": "負荷",
       "contextSwitches": "コンテキスト・スイッチ回数",
       "current": "現行",
@@ -12807,7 +12845,8 @@
       "allBrokersFailures": "すべてのブローカーの失敗数",
       "fetch": "フェッチ",
       "produce": "生成",
-      "allBrokersStateMetrics": "すべてのブローカーの状態メトリック",
+      "allBrokersStateMetrics": "すべてのブローカー状態メトリック",
+      "clientMetrics": "クライアント・メトリック",
       "averageIdleTimePercentage": "平均アイドル時間 (%)",
       "networkProcessor": "ネットワーク・プロセッサー",
       "requestHandler": "要求ハンドラー",
@@ -12957,6 +12996,9 @@
         "workerLua": "ワーカー Lua VM の割り振りバイト数",
         "totalConnections": "合計接続数"
       }
+    },
+    "kubecost": {
+      "label": "Kubecost"
     },
     "kubernetesCluster": {
       "noActivity": "アクティビティーなし",
@@ -13646,6 +13688,8 @@
       "instanceId": "インスタンス ID",
       "label_category_LLM": "LLM",
       "llm_status": "LLM ステータス",
+      "model": "モデル",
+      "service": "サービス",
       "dashboard": {
         "token": "モデル別トークン数",
         "inputToken": "モデル別入力トークン数",

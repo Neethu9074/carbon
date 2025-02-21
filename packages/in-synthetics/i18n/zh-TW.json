@@ -140,7 +140,10 @@
           "certificateCheckTitle": "SSL 憑證檢查",
           "certificateCheckLabel": "SSL 憑證",
           "certificateCheckHeadline": "SSL 憑證檢查測試",
-          "certificateCheckText": "SSL 憑證檢查測試是一種透過檢查已發出憑證的剩餘天數來測試 Web 應用程式中 SSL 憑證有效期限的方法。"
+          "certificateCheckText": "SSL 憑證檢查測試是一種透過檢查已發出憑證的剩餘天數來測試 Web 應用程式中 SSL 憑證有效期限的方法。",
+          "dnsActionLabel": "DNS",
+          "dnsActionHeadline": "網域名稱伺服器",
+          "dnsActionText": "DNS 測試是一種檢查您的裝置或網路是否能正確解析網域名稱，且沒有可能導致速度變慢、錯誤或安全漏洞問題的方法。"
         },
         "configurationLabel": "配置",
         "configurationTitle": "配置：此測試將如何運作？",
@@ -216,7 +219,8 @@
           "retryIntervalDescription": "此測試將在 {{retryIntervalValue}} {{retryIntervalUnit}} 之後重試 {{retryCount}}。",
           "markSyntheticCall": "標示虛構呼叫",
           "downloadZip": "下載 .zip 檔案",
-          "mainFileNameHelperText": "提供此 .zip 檔案中包含測試入口點的檔案的名稱"
+          "mainFileNameHelperText": "提供此 .zip 檔案中包含測試入口點的檔案的名稱",
+          "recordVideo": "記錄使用者在失敗時的動作"
         },
         "loadMore": "載入更多",
         "selectTests": {
@@ -230,7 +234,8 @@
         "advancedBluePrint": {
           "apiName": "API",
           "browserName": "瀏覽器",
-          "certificateCheckName": "SSL 憑證"
+          "certificateCheckName": "SSL 憑證",
+          "dnsActionName": "DNS"
         },
         "customProperties": {
           "property": "內容",
@@ -413,9 +418,6 @@
         "show": "顯示認證值"
       }
     }
-  },
-  "createSmartAlert": {
-    "buttonLabel": "新增綜合智慧型警示"
   },
   "navigation": {
     "synthetics": "綜合監視"
@@ -637,7 +639,6 @@
       "downloadHar": "下載 HAR 檔",
       "downloadLog": "下載日誌",
       "viewScreenshotsLabel": "檢視擷取畫面",
-      "downloadVideo": "下載記錄",
       "consoleLogsLevel": "主控台",
       "consoleLogs": "主控台",
       "browserLogs": "瀏覽器",
@@ -717,7 +718,17 @@
         "timeOfIssue": "發出時間",
         "timeOfExpiry": "到期時間"
       },
-      "failedRunErrorTypeTitle": "錯誤類型"
+      "failedRunErrorTypeTitle": "錯誤類型",
+      "viewRecordingLabel": "檢視記錄",
+      "viewRecording": {
+        "recordingDialogLabel": "記錄",
+        "downloadRecordingButton": "下載記錄",
+        "recordingLoadingMessage": "載入記錄",
+        "noRecordingAvailableMessage": "無法記錄此測試結果"
+      },
+      "customProperties": {
+        "title": "自訂內容"
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "無可用的結果",
@@ -804,7 +815,8 @@
       "associatedWebsites": "相關聯的網站",
       "noWebsitesAssociated": "沒有相關聯的網站",
       "associatedMobileApps": "相關聯的行動應用程式",
-      "noMobileAppAssociated": "沒有相關聯的行動應用程式"
+      "noMobileAppAssociated": "沒有相關聯的行動應用程式",
+      "recordVideo": "記錄使用者在失敗時的動作"
     },
     "credentialList": {
       "mainLabel": "認證",

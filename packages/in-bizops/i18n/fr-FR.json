@@ -6,6 +6,8 @@
     "count": "Nombre"
   },
   "lists": {
+    "id": "ID",
+    "version": "Version",
     "pageTitle": "Surveillance métier",
     "cardTitle": "Processus métier",
     "theId": "ID du processus",

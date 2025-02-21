@@ -311,6 +311,15 @@
         "pleaseSelect": "選択してください"
       }
     },
+    "srcSlo": {
+      "index": {
+        "serviceLevelsObjective": "サービス・レベル目標 (SLO)"
+      },
+      "formComponent": {
+        "status": "状況",
+        "errorBudgetRemaining": "残りのエラー予算"
+      }
+    },
     "metricConfigurator": {
       "ds": "データ・ソース",
       "pleaseSelect": "選択してください",
@@ -678,7 +687,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "少なくとも 1 つのフィルター式を構成する必要があります。",
       "timeBased": "時刻ベース",
       "eventBased": "イベント・ベース",
-      "sloLegacy": "SLO の旧バージョン",
+      "sloLegacy": "SLO の遺産",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "アプリケーション",

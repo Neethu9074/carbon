@@ -3,7 +3,7 @@
     "accountSettings": {
       "accountSettings": "계정 설정",
       "unknownDomain": "알 수 없는 도메인",
-      "billingAddress": "지불 청구 주소",
+      "billingAddress": "비용 청구 주소",
       "country": "국가",
       "state": "시/도",
       "zip": "우편번호",
@@ -42,7 +42,7 @@
       "title": "공정 사용 정책이 활성화되어 있지 않습니다."
     },
     "restrictedUsage": {
-      "accountUsage": "계정 사용"
+      "accountUsage": "계정 사용량"
     },
     "technologiesReportingTable": {
       "name": "이름",
@@ -81,7 +81,7 @@
     },
     "usages": {
       "allPaidUnitsAggregated": "모든 유료 장치(집계됨)",
-      "accountUsage": "계정 사용",
+      "accountUsage": "계정 사용량",
       "activeLicenses": "활성 라이센스",
       "expiredLicenses": "만료된 라이센스",
       "queuedLicenses": "큐에 대기된 라이센스"
@@ -123,7 +123,7 @@
         "firstSignIn": "첫 번째 로그인",
         "firstAgentInstalled": "처음 설치된 에이전트",
         "additionalUserInvited": "초대된 추가 사용자",
-        "threeAgentsInstalled": "3개의 에이전트가 설치됨",
+        "threeAgentsInstalled": "3개 에이전트 설치됨",
         "twoApplicationPerspectivesCreated": "2개의 애플리케이션 퍼스펙티브 작성됨",
         "oneAlertSetUpAndActivated": "1개의 경보 설정 및 활성화됨",
         "oneWebsiteMonitored": "1개의 웹 사이트 모니터됨",

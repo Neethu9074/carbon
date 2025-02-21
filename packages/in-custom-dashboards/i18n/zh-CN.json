@@ -311,6 +311,15 @@
         "pleaseSelect": "请选择"
       }
     },
+    "srcSlo": {
+      "index": {
+        "serviceLevelsObjective": "服务级别目标 (SLO)"
+      },
+      "formComponent": {
+        "status": "状态",
+        "errorBudgetRemaining": "错误预算剩余"
+      }
+    },
     "metricConfigurator": {
       "ds": "数据源",
       "pleaseSelect": "请选择",

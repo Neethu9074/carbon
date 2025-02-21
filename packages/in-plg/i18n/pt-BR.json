@@ -1,5 +1,6 @@
 {
   "welcomeToInstana": "Bem-vindo ao Instana!",
+  "home": "Página inicial",
   "getStartedAndInstallYourFirstAgent": "Comece e instale o seu primeiro agente.",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "Sua avaliação expirou",
@@ -516,6 +517,7 @@
     "foldableTileTitle": "Vamos começar.",
     "viewAll": "Visualizar todos",
     "addMore": "Incluir",
+    "create": "Criar",
     "collapsibleButton": {
       "showOnboardingTasks": "Mostrar tarefas de integração",
       "hideOnboardingTasks": "Ocultar tarefas de integração"
@@ -710,25 +712,22 @@
     "noData": {
       "applicationWidget": {
         "header": "Nenhum aplicativo",
-        "description": "Crie sua própria perspectiva de aplicativo sobre os serviços que deseja observar.",
-        "buttonName": "Criar perspectiva de aplicativo"
+        "description": "Crie sua própria perspectiva de aplicativo nos serviços que deseja observar.<br><br>Para começar, clique em <strong>Incluir aplicativo</strong>."
       },
       "incidentsWidget": {
         "header": "Nenhum incidente",
-        "description": "Incidentes ajudam a detectar, entender e investigar problemas de qualidade de serviço de seus aplicativos."
+        "description": "Os incidentes o ajudam a detectar, compreender e investigar problemas em seus aplicativos.<br><br><strong>Implemente um agente</strong> para iniciar o monitoramento de incidentes."
       },
       "websitesWidget": {
         "header": "Nenhum website",
-        "description": "Colete dados do site para entender a experiência digital do usuário.",
-        "buttonName": "Incluir website"
+        "description": "Colete dados do website para entender a experiência digital do usuário.<br><br>Para começar, clique em <strong>Incluir website</strong>."
       },
       "mobileListWidget": {
         "header": "Nenhum aplicativo móvel",
-        "description": "Colete dados de aplicativos móveis para entender a experiência digital do usuário.",
-        "buttonName": "Incluir aplicativos móveis"
+        "description": "Colete dados de app móveis para entender a experiência digital do usuário.<br><br>Para começar, clique em <strong>Incluir app móvel</strong>."
       },
       "infrastructureWidget": {
-        "description": "Implemente um agente para ver os detalhes aqui.<br>Comece na página <linkToAgents>Agentes</linkToAgents>.",
+        "description": "Implemente um agente para ver os detalhes aqui.<br><br>Comece na página <linkToAgents>Agentes</linkToAgents>.",
         "link": "Agentes",
         "hosts": {
           "header": "Nenhum host"
@@ -751,8 +750,7 @@
       "syntheticWidget": {
         "test": {
           "header": "Nenhum teste sintético",
-          "description": "Configure testes sintéticos para executar em intervalos contínuos específicos.",
-          "buttonName": "Incluir teste sintético"
+          "description": "Configure testes sintéticos para monitorar intervalos contínuos de aplicativos.<br><br>Para começar, clique em <strong>Incluir teste sintético</strong>."
         },
         "location": {
           "header": "Nenhum local sintético",
@@ -760,18 +758,16 @@
         },
         "smartalerts": {
           "header": "Nenhum Smart Alert sintético",
-          "description": "Configure o Smart Alerts para sintéticos para enviar um alerta se o teste de um local falhar.",
-          "buttonName": "Incluir Smart Alerts sintéticos"
+          "description": "Configure os alertas inteligentes para sintéticos para enviar um alerta se o teste de um local falhar.<br><br>Para começar, clique em <strong>Incluir alerta inteligente sintético</strong>."
         }
       },
       "eventsWidget": {
         "header": "Nenhum evento",
-        "description": "Talvez não haja eventos ou incidentes a serem exibidos ou talvez você precise configurar os dados primeiro."
+        "description": "Talvez não haja eventos ou incidentes para exibir ou talvez seja necessário conectar-se aos dados primeiro."
       },
       "dashboardWidget": {
         "header": "Nenhum painel customizado",
-        "description": "Crie seu próprio painel customizado.",
-        "buttonName": "Criar painel customizado"
+        "description": "Os painéis customizados oferecem uma visualização mais personalizada das informações que são importantes para você.<br><br>Para começar, clique em <strong>Criar painel</strong>."
       }
     },
     "quickLinks": {
@@ -788,11 +784,16 @@
         "documentation": "Documentação IBM",
         "releaseNotes": "Notas sobre a liberação",
         "whatsNewLink": "O que há de novo no Instana"
+      },
+      "toolTip": {
+        "makeDefault": "Essa ação configura a página inicial do Instana como sua página de entrada padrão, substituindo qualquer painel customizado que você tenha configurado."
       }
     },
     "ariaLabel": {
       "search": "Procura",
-      "handleButton": "Botão de manipulação"
+      "handleButton": "Botão de manipulação",
+      "toolbar": "barra de ferramentas da tabela de dados",
+      "tabs": "Lista de guias"
     }
   },
   "Components": {

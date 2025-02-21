@@ -1,5 +1,6 @@
 {
   "welcomeToInstana": "欢迎使用 Instana！",
+  "home": "主页",
   "getStartedAndInstallYourFirstAgent": "开始并安装第一个代理程序。",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "您的试用已到期",
@@ -516,6 +517,7 @@
     "foldableTileTitle": "开始吧！",
     "viewAll": "查看所有",
     "addMore": "添加",
+    "create": "创建",
     "collapsibleButton": {
       "showOnboardingTasks": "显示加入任务",
       "hideOnboardingTasks": "隐藏上线任务"
@@ -710,25 +712,22 @@
     "noData": {
       "applicationWidget": {
         "header": "无应用程序",
-        "description": "在要观察的服务上创建您自己的应用程序透视图。",
-        "buttonName": "创建应用程序透视图"
+        "description": "围绕要观察的服务创建自己的应用程序透视图。<br><br> 要开始操作，请<strong>添加应用程序</strong>。"
       },
       "incidentsWidget": {
         "header": "无事件",
-        "description": "事件可帮助您检测、了解和调查应用程序的服务质量问题。"
+        "description": "事件可帮助您检测、了解和调查应用程序中的问题。 <br><br><strong>部署代理</strong>以开始监控事件。"
       },
       "websitesWidget": {
         "header": "无 Web 站点",
-        "description": "收集网站数据，了解用户的数字体验。",
-        "buttonName": "添加 Web 站点"
+        "description": "收集网站数据，了解用户的数字体验。 <br><br> 要开始操作，请<strong>添加网站</strong>。"
       },
       "mobileListWidget": {
         "header": "无移动应用程序",
-        "description": "收集移动应用数据，了解用户的数字体验。",
-        "buttonName": "添加移动应用程序"
+        "description": "收集移动应用数据，了解用户的数字体验。 <br><br> 要开始操作，请<strong>添加移动应用</strong>。"
       },
       "infrastructureWidget": {
-        "description": "部署代理程序以在此查看详细信息。<br>从 <linkToAgents>代理程序</linkToAgents>页面开始操作。",
+        "description": "部署代理程序以在此查看详细信息。<br><br>从<linkToAgents>代理程序</linkToAgents>页面开始操作。",
         "link": "代理",
         "hosts": {
           "header": "无主机"
@@ -751,8 +750,7 @@
       "syntheticWidget": {
         "test": {
           "header": "无合成测试",
-          "description": "将合成测试配置为按照特定连续时间间隔运行。",
-          "buttonName": "添加合成测试"
+          "description": "配置合成测试以监控应用程序的连续间隔。<br><br> 要开始操作，请单击<strong>添加合成测试</strong>。"
         },
         "location": {
           "header": "无合成位置",
@@ -760,18 +758,16 @@
         },
         "smartalerts": {
           "header": "无合成智能警报",
-          "description": "为合成配置智能警报，以便在针对某个位置的测试失败时发送警报。",
-          "buttonName": "添加合成智能警报"
+          "description": "配置合成智能警报，以便在某个位置的测试失败时发送警报。 <br><br> 要开始操作，请单击<strong>添加合成智能警报</strong>。"
         }
       },
       "eventsWidget": {
         "header": "无事件",
-        "description": "可能没有要显示的事件或事故，或者您可能需要先设置数据。"
+        "description": "可能没有任何事件或事故可供显示，或者您可能需要先连接数据。"
       },
       "dashboardWidget": {
         "header": "无定制仪表板",
-        "description": "创建您自己的定制仪表板。",
-        "buttonName": "创建定制仪表板"
+        "description": "自定义仪表板为您提供了进一步定制的重要信息视图。<br><br> 要开始操作，请单击<strong>创建仪表板</strong>。"
       }
     },
     "quickLinks": {
@@ -788,11 +784,16 @@
         "documentation": "IBM 文档",
         "releaseNotes": "发行说明",
         "whatsNewLink": "Instana 中的新增功能"
+      },
+      "toolTip": {
+        "makeDefault": "此操作会将 Instana 主页设置为您的缺省登录页面，并替换您设置的任何自定义仪表板。"
       }
     },
     "ariaLabel": {
       "search": "搜索",
-      "handleButton": "“手柄”按钮"
+      "handleButton": "“手柄”按钮",
+      "toolbar": "数据表工具栏",
+      "tabs": "选项卡列表"
     }
   },
   "Components": {

@@ -230,7 +230,7 @@
     "performanceConstantlyEvaluated": "在 Beta 期间，正在积极评估和改进性能。 请留下反馈，以帮助我们更好地改进人工智能",
     "probableRootCauseLabel": "{{entity_type}} 出错：",
     "relatedEventsLabel": "关联事件 ({{number_of_events}})",
-    "relatedMessagesAndLogsLabel": "已确定跟踪错误和日志",
+    "relatedMessagesAndLogsLabel": "错误和日志",
     "entitiesNumber": "实体",
     "probabilityLevelText": "概率等级：",
     "highProbability": "高",
@@ -270,6 +270,7 @@
     "errorMessages": "跟踪错误消息",
     "analyzeErrors": "分析错误",
     "analyzeTraceLogs": "分析跟踪日志",
+    "analyzeApplicationLogs": "分析应用程序日志",
     "topology": {
       "viewTopology": "查看拓扑",
       "dialogTitle": "拓扑",

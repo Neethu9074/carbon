@@ -113,7 +113,6 @@
       "beaconCount": "ビーコン数",
       "calls": "呼び出し",
       "latency": "待ち時間",
-      "results": "結果",
       "beaconDuration": "ビーコン期間",
       "threshold": "しきい値",
       "failureRate": "故障率",
