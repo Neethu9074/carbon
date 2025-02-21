@@ -112,7 +112,8 @@ function createActionFormFromForm(form: ActionForm, actionFilter: 'all' | Action
       }),
       tags: createField({
         value: tagsField.value,
-        validator: tags => tagFilterExpressionValidator(tags, actionFilter)
+        validator: tags => tagFilterExpressionValidator(tags, actionFilter),
+        touched: tagsField.touched
       }),
       parameters: createField({
         value: parametersField.value,
