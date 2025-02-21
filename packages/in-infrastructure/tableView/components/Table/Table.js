@@ -191,22 +191,6 @@ export default class Table extends React.Component {
                 />
               )}
               {this.props.rightHeader}
-              {showPagination ? (
-                <div className={carbonFooterElement}>
-                  <CarbonPagination
-                    currentPage={(data.page || 0) + 1}
-                    totalItems={this.props.rows?.length}
-                    pageSize={this.state.pageSize}
-                    pageSizes={[this.props.maxItemsPerPage || 10, this.props.maxItemsPerPage * 2 || 20]}
-                    onChange={p => {
-                      if (this.state.pageSize !== p.pageSize) {
-                        this.setState({ pageSize: p.pageSize });
-                      }
-                      this.store.setPage(p.page - 1);
-                    }}
-                  />
-                </div>
-              ) : null}
             </div>
           </div>
         ) : null}
