@@ -32,7 +32,7 @@ export function MetricLabel({
 }: MetricLabelProps): JSX.Element {
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
   const formatter = getFormatter(entityType, metricName);
-  const metricFormat = getMetricFormat(formatter);
+  const metricFormat = getMetricFormat(formatter, value);
   const formattedValue = formatMetricValue(metricFormat, value);
 
   const subtitleElements = [t('in-alerting:smartAlerts.infrastructure.list.columns.name.subtitle.staticThresholdType')];

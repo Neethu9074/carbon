@@ -53,7 +53,6 @@ export function ThresholdInfo({ thresholdOperator, thresholdsMap, rule }: Thresh
   const humanReadableOperator = humanReadableThresholdOperator(thresholdOperator);
   const { metricName, entityType } = rule;
   const formatter = getFormatter(entityType, metricName);
-  const metricFormat: NumberFormatter = getMetricFormat(formatter);
   const warningThresholdLabel = t('in-alerting:smartAlerts.details.warningThresholdLabel');
   const criticalThresholdLabel = t('in-alerting:smartAlerts.details.criticalThresholdLabel');
 
@@ -61,12 +60,22 @@ export function ThresholdInfo({ thresholdOperator, thresholdsMap, rule }: Thresh
     <Stack gap="xxsmall">
       {!isEmpty(warningThreshold) && (
         <div>
-          {getFormattedThresholdValue(warningThresholdLabel, humanReadableOperator, metricFormat, warningThreshold!)}
+          {getFormattedThresholdValue(
+            warningThresholdLabel,
+            humanReadableOperator,
+            getMetricFormat(formatter, warningThreshold),
+            warningThreshold!
+          )}
         </div>
       )}
       {!isEmpty(criticalThreshold) && (
         <div>
-          {getFormattedThresholdValue(criticalThresholdLabel, humanReadableOperator, metricFormat, criticalThreshold!)}
+          {getFormattedThresholdValue(
+            criticalThresholdLabel,
+            humanReadableOperator,
+            getMetricFormat(formatter, criticalThreshold),
+            criticalThreshold!
+          )}
         </div>
       )}
     </Stack>
