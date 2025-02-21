@@ -14,6 +14,10 @@ const basePath = '/api/settings/tags';
 
 const refreshSignal = create().emit(true);
 
+export function refresh() {
+  refreshSignal.emit(true);
+}
+
 /**
  * Model for a Tag until type from backend is available
  * @property id unique tag id

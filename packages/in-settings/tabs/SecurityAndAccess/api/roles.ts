@@ -6,10 +6,11 @@
 
 import { create, just } from '@instana/observables';
 import { Result } from '@instana/types';
-import { minutes } from 'in-services/time/time';
+
+import { Role, roleOverview } from 'in-settings/tabs/SecurityAndAccess/api/rolesMocks';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { success } from 'in-services/util/result';
-import { Role, roleOverview } from 'in-settings/tabs/SecurityAndAccess/api/rolesMocks';
+import { minutes } from 'in-services/time/time';
 
 // const API_BASE_PATH_ROLES = '/api/settings/rbac/roles';
 
@@ -27,4 +28,8 @@ function getRolesOverviewInternal() {
   );
 }
 
-export const getRolesOverview = memoize<void, Result<Role[]>>(getRolesOverviewInternal, () => '', minutes.toMillis(1));
+export const getRolesOverview = memoize<void, Result<Role[]>>(
+  getRolesOverviewInternal,
+  () => 'Roles',
+  minutes.toMillis(1)
+);

@@ -13,15 +13,15 @@ import { Notification } from 'in-settings/components/CarbonDataTableWrapper/Carb
 import { ApiTeam, saveTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SETTINGS_TEAM_CREATE } from 'in-services/tracking/eventNames';
+import { close } from 'in-components/DialogPresenter/store';
 import { CREATED_OBJECT } from 'in-services/util/constants';
 import { t } from 'in-i18n';
 
 interface CreateTeamDialogProps {
-  setMessage: (message: Notification) => void;
+  setMessage: React.Dispatch<React.SetStateAction<Notification | undefined>>;
 }
 
 const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
-  const [showModel, setShowModel] = useState(true);
   const [isValid, setValid] = useState(false);
   const { unstable_trackEvent } = useSegmentTracking();
   const [team, setTeam] = useState({
@@ -59,6 +59,9 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
           id: savedTeam.body.id
         };
         unstable_trackEvent(CREATED_OBJECT, { objectType: SETTINGS_TEAM_CREATE }, customData);
+
+        // Close dialog after successful save
+        close();
       },
       error => {
         setMessage({
@@ -72,29 +75,22 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
 
   return (
     <CarbonModal
-      size="sm"
-      open={showModel}
       modalHeading={t('in-settings:tabs.teams.createTeamDialogTitle')}
+      onRequestClose={close}
+      onRequestSubmit={save}
+      onSecondarySubmit={close}
+      open
       primaryButtonDisabled={!isValid}
       primaryButtonText={t('in-settings:tabs.save')}
       secondaryButtonText={t('in-settings:tabs.cancel')}
-      onRequestSubmit={() => {
-        save();
-        setShowModel(false);
-      }}
-      onSecondarySubmit={() => {
-        setShowModel(false);
-      }}
-      onRequestClose={() => {
-        setShowModel(false);
-      }}
+      size="sm"
     >
       <TeamForm
+        description={team.info.description}
         editable
         name={team.tag}
-        description={team.info.description}
-        setValid={setValid}
         setTeamData={setTeamData}
+        setValid={setValid}
       />
     </CarbonModal>
   );

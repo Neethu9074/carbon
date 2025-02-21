@@ -35,6 +35,7 @@ import {
   CarbonEmptyState,
   CarbonToastNotification as ToastNotification
 } from '@instana/components';
+import { generateUniqueShortId } from '@instana/utils';
 import { Observable } from '@instana/observables';
 import { createLogger } from '@instana/logger';
 import { t, Trans } from '@instana/i18n-react';
@@ -47,6 +48,7 @@ import useUrlState from 'in-hooks/useUrlState';
 import locals from './CarbonDataTableWrapper.mless';
 
 export interface Notification {
+  readonly key?: string;
   readonly kind: 'error' | 'info' | 'success' | 'warning';
   readonly title: string;
   readonly subtitle?: string;
@@ -215,7 +217,7 @@ export default function CarbonDataTableWrapper<
 
   useEffect(() => {
     if (message) {
-      setNotification(message);
+      setNotification({ key: generateUniqueShortId(), ...message });
     }
   }, [message]);
 
@@ -263,6 +265,7 @@ export default function CarbonDataTableWrapper<
           deletion$?.once(() => {
             setLoadingRow(null);
             setNotification({
+              key: generateUniqueShortId(),
               kind: 'success',
               title: t('in-settings:components.removedEntity', {
                 entity: getEntityName(entity)
@@ -273,6 +276,7 @@ export default function CarbonDataTableWrapper<
           deletion$?.errors().once((error: Error) => {
             logger.error(error.message, error);
             setNotification({
+              key: generateUniqueShortId(),
               kind: 'error',
               title: t('in-settings:components.failedToRemoveItem'),
               subtitle: `(${entity.id}): ${error.message}`
@@ -345,6 +349,7 @@ export default function CarbonDataTableWrapper<
     <>
       {notification && notification?.title && (
         <ToastNotification
+          key={notification?.key}
           kind={notification.kind}
           title={notification.title}
           subtitle={notification.subtitle}

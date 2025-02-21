@@ -66,33 +66,33 @@ const TeamForm = ({
       {editable && (
         <CarbonForm>
           <CarbonTextInput
-            id={'rbac-team-name'}
-            labelText={t('in-settings:tabs.teams.name')}
             helperText={t('in-settings:tabs.teams.nameHelperText')}
+            id="rbac-team-name"
             invalid={!!nameValidationMessage}
             invalidText={nameValidationMessage}
-            type="text"
-            value={name}
+            labelText={t('in-settings:tabs.teams.name')}
+            maxLength={256}
             onChange={e => {
               const value = e.target.value;
               setTeamData({ tag: value, info: { description: description } });
               validate(value);
             }}
             required
-            maxLength={256}
+            type="text"
+            value={name}
           />
           <CarbonTextArea
-            id={'rbac-team-description'}
             className={locals.description}
-            labelText={t('in-settings:tabs.teams.description')}
             helperText={t('in-settings:tabs.teams.descriptionHelperText')}
-            value={description}
-            rows={7}
+            id="rbac-team-description"
+            labelText={t('in-settings:tabs.teams.description')}
+            maxLength={2048}
             onChange={e => {
               setTeamData({ tag: name, info: { description: e.target.value } });
               // no validation required
             }}
-            maxLength={2048}
+            rows={7}
+            value={description}
           />
         </CarbonForm>
       )}
