@@ -51,4 +51,10 @@
     width: @width;
     padding: 1rem;
   }
+
+  .pagination {
+    :global .cds--pagination__left {
+      padding-left: 0;
+    }
+  }
 }

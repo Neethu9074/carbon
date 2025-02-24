@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { SearchInput, Checkbox, CarbonIconButton, SvgIcon } from '@instana/components';
+import { SearchInput, Checkbox, CarbonIconButton, SvgIcon, Pagination } from '@instana/components';
 import { Th, SortableTh } from '@instana/legacy';
 
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -14,7 +14,6 @@ import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { OrderDirection, SortComparator } from 'in-types';
 import Overlay from 'in-components/overlays/Overlay';
-import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
 import locals from './ConfigurableTh.mless';
@@ -132,7 +131,6 @@ function Content<ItemType extends Object>({
     .filter(def => def.label.toLowerCase().includes(query.toLowerCase()))
     .sort(compareCheckedAndLabel(currentIds));
 
-  const numPages = Math.ceil(filteredDefinitions.length / pageSize);
   const paginatedDefinitions = filteredDefinitions.slice((page - 1) * pageSize, page * pageSize);
   return (
     <div className={locals.overlay}>
@@ -174,7 +172,16 @@ function Content<ItemType extends Object>({
         />
       )}
       {filteredDefinitions.length > pageSize && (
-        <Pagination currentPage={page} numPages={numPages} onChange={setPage} />
+        <Pagination
+          className={locals.pagination}
+          currentPage={page}
+          totalItems={filteredDefinitions.length}
+          pageSize={pageSize}
+          pageSizes={[pageSize]}
+          onChange={p => setPage(p.page)}
+          size="sm"
+          itemsPerPageText=""
+        />
       )}
     </div>
   );
