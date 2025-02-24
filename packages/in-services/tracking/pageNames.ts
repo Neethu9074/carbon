@@ -65,6 +65,7 @@ export const pageNames = Object.freeze({
   securityAndAccess: 'Security & Access',
   global_settings: 'Global Settings',
   account_and_billing: 'Account & Billing',
+  license: 'Account & Billing > Licenses',
   cron_job_summary: 'Cron Jobs > Summary',
   namespace_summary: 'Namespaces > Summary',
   node_summary: 'Nodes > Summary',

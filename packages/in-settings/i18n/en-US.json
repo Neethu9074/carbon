@@ -848,6 +848,7 @@
     "byDefaultWeWillAttemptToFormatNumbersInYourPreferredLocaleFormat": "By default we will attempt to format numbers in your preferred locale's  format. By checking this, you can force an <code>en-US</code> number format.",
     "accountBilling": "Account & Billing",
     "usage": "Usage",
+    "licenses": "Licenses",
     "activationAdoption": "Activation & Adoption",
     "technologiesReporting": "Technologies Reporting",
     "accountSettings": "Account Settings",
