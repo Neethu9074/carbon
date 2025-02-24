@@ -11,13 +11,14 @@ import {
   namespaceListFullyQualified,
   exploreFullyQualified
 } from 'in-kubernetes/navigation/paths';
-import ClusterGrid from 'in-kubernetes/lists/components/ClusterGrid/ClusterGrid';
+import NamespaceTable from 'in-kubernetes/lists/NamespaceTable/NamespaceTable';
 import { kubernetesCloudNativeExperience } from 'in-services/featureFlags';
+import ClusterTable from 'in-kubernetes/lists/ClusterTable/ClusterTable';
 import KubernetesExplore from 'in-kubernetes/explore/KubernetesExplore';
 import ViewSwitcher from 'in-kubernetes/lists/components/ViewSwitcher';
+import NamespaceCardView from 'in-kubernetes/lists/NamespaceCardView';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import NamespaceList from 'in-kubernetes/lists/NamespaceList';
-import ClusterList from 'in-kubernetes/lists/ClusterList';
+import ClusterCardView from 'in-kubernetes/lists/ClusterCardView';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 
@@ -31,16 +32,26 @@ export default function KubernetesMainView(props) {
               path={kubernetesCloudNativeExperience ? `${clusterListFullyQualified}/table` : clusterListFullyQualified}
               exact
             >
-              <ClusterList {...props} />
+              <ClusterTable {...props} />
+            </Route>
+            <Route
+              path={
+                kubernetesCloudNativeExperience ? `${namespaceListFullyQualified}/table` : namespaceListFullyQualified
+              }
+              exact
+            >
+              <NamespaceTable {...props} />
             </Route>
             {kubernetesCloudNativeExperience && (
-              <Route path={clusterListFullyQualified || `${clusterListFullyQualified}/grid`}>
-                <ClusterGrid {...props} />
-              </Route>
+              <>
+                <Route path={clusterListFullyQualified || `${clusterListFullyQualified}`}>
+                  <ClusterCardView {...props} />
+                </Route>
+                <Route path={namespaceListFullyQualified || `${namespaceListFullyQualified}`}>
+                  <NamespaceCardView {...props} />
+                </Route>
+              </>
             )}
-            <Route path={namespaceListFullyQualified}>
-              <NamespaceList {...props} />
-            </Route>
             <Route path={exploreFullyQualified}>
               <KubernetesExplore {...props} />
             </Route>

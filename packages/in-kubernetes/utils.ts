@@ -4,9 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
-import { KubernetesClusterListItem } from '@instana/types';
+import { KubernetesClusterListItem, KubernetesNamespaceListItem } from '@instana/types';
 
-import { clusterList as pathSegment } from 'in-kubernetes/navigation/paths';
+import {
+  clusterList as pathClusterSegment,
+  namespaceList as pathNamespaceSegment
+} from 'in-kubernetes/navigation/paths';
 import { plugins } from 'in-forge/constants';
 
 export const name = 'name';
@@ -18,17 +21,35 @@ export const services = 'services';
 export const cronJobs = 'cronJobs';
 
 export type ItemAdditionalInfo = Record<string, any>;
-
+export interface FilterProps extends Pick<OrderProps, 'orderBy' | 'orderDirection'> {
+  query: string;
+}
 interface OrderProps {
   orderBy: string;
   orderDirection: string;
   itemsAdditionalInfo: ItemAdditionalInfo;
 }
 
-interface Elements {
-  current: KubernetesClusterListItem;
-  next: KubernetesClusterListItem;
-}
+export const getUrlStateDefinition = (isClusterPage: boolean) => {
+  const pathSegment = isClusterPage ? pathClusterSegment : pathNamespaceSegment;
+
+  return {
+    bind: [
+      createUrlParameter(pathSegment, 'query', ''),
+      createUrlParameter(pathSegment, 'orderBy', 'name'),
+      createUrlParameter(pathSegment, 'orderDirection', 'ASC')
+    ],
+    resets: [
+      {
+        bind: [
+          createUrlParameter(pathSegment, 'orderBy', 'name'),
+          createUrlParameter(pathSegment, 'orderDirection', 'ASC')
+        ],
+        reset: {}
+      }
+    ]
+  };
+};
 
 export function getContainerIconByPlugin(plugin: string) {
   if (plugin === plugins.containerd) {
@@ -60,40 +81,59 @@ export function getIcon(workloadType: string) {
 }
 
 export function sortBy({ orderBy, orderDirection, itemsAdditionalInfo }: OrderProps) {
-  return (current: KubernetesClusterListItem, next: KubernetesClusterListItem) => {
-    // Sort by name
-    if (orderBy === name) return sortByName({ orderDirection, current, next });
+  return (
+    current: KubernetesClusterListItem | KubernetesNamespaceListItem,
+    next: KubernetesClusterListItem | KubernetesNamespaceListItem
+  ) => {
+    const [currentId, currentLabel] = getLabelAndId(current);
+    const [nextId, nextLabel] = getLabelAndId(next);
 
-    // Sort by namespaces, services or cronjobs.
-    if (orderBy === namespaces || orderBy === services || orderBy === cronJobs) {
-      return orderDirection === 'ASC' ? current?.[orderBy] - next?.[orderBy] : next?.[orderBy] - current?.[orderBy];
+    // Sort by name
+    if (orderBy === name) return sortByName({ orderDirection, currentLabel, nextLabel });
+
+    // Sort by workloads
+    const workloads = 'cluster' in current ? [services, namespaces, cronJobs] : [services];
+    if (workloads.includes(orderBy)) {
+      return sortByWorkloads(orderDirection, current, next, orderBy);
     }
 
-    // Sort by unhealthy nodes, unhealthy deployments or running pods
-    if (orderBy === unhealthyNodes || orderBy === unhealthyDeployments || orderBy === runningPods) {
-      return sortByOtherProperties({ orderBy, orderDirection, itemsAdditionalInfo, current, next });
+    // Sort by other properties
+    if ([unhealthyNodes, unhealthyDeployments, runningPods, cronJobs].includes(orderBy)) {
+      return sortByOtherProperties({
+        orderBy,
+        orderDirection,
+        itemsAdditionalInfo,
+        currentId,
+        nextId
+      });
     }
 
     return -1;
   };
 }
 
-export function sortByName({ orderDirection, current, next }: Pick<OrderProps, 'orderDirection'> & Elements) {
-  const currentName = current.name ?? '';
-  const nextName = next.name ?? '';
-  if (currentName === nextName) return 0;
-  if (currentName < nextName) return orderDirection === 'ASC' ? -1 : 1;
-  if (currentName > nextName) return orderDirection === 'ASC' ? 1 : -1;
+export function sortByName({
+  orderDirection,
+  currentLabel,
+  nextLabel
+}: Pick<OrderProps, 'orderDirection'> & { currentLabel: string; nextLabel: string }) {
+  if (currentLabel === nextLabel) return 0;
+  if (currentLabel < nextLabel) return orderDirection === 'ASC' ? -1 : 1;
+  if (currentLabel > nextLabel) return orderDirection === 'ASC' ? 1 : -1;
   return 0;
 }
 
-function sortByOtherProperties({ orderBy, orderDirection, itemsAdditionalInfo, current, next }: OrderProps & Elements) {
+function sortByOtherProperties({
+  orderBy,
+  orderDirection,
+  itemsAdditionalInfo,
+  currentId,
+  nextId
+}: OrderProps & { currentId: string; nextId: string }) {
   const getAdditionalInfoItemById = getAdditionalInfoItem(itemsAdditionalInfo);
-
-  const currentItem = getAdditionalInfoItemById(current.cluster.id);
-  const nextItem = getAdditionalInfoItemById(next.cluster.id);
+  const currentItem = getAdditionalInfoItemById(currentId);
+  const nextItem = getAdditionalInfoItemById(nextId);
   const orderByKey = `total${orderBy?.[0].toUpperCase() + orderBy.slice(1)}`;
-
   return orderDirection === 'ASC'
     ? Number(currentItem?.[orderByKey]) - Number(nextItem?.[orderByKey])
     : Number(nextItem?.[orderByKey]) - Number(currentItem?.[orderByKey]);
@@ -104,40 +144,43 @@ const getAdditionalInfoItem = (itemsAdditionalInfo: ItemAdditionalInfo) => (id: 
   return itemsAdditionalInfo[id];
 };
 
-export const urlStateDefinition = {
-  bind: [
-    {
-      path: pathSegment,
-      name: 'query',
-      as: 'query',
-      initialState: ''
-    },
-    {
-      path: pathSegment,
-      name: 'orderBy',
-      as: 'orderBy',
-      initialState: 'name'
-    },
-    {
-      path: pathSegment,
-      name: 'orderDirection',
-      as: 'orderDirection',
-      initialState: 'ASC'
+function createUrlParameter(pathSegment: string, matrixPrefix: string, initialState: string) {
+  return {
+    path: pathSegment,
+    name: matrixPrefix,
+    as: matrixPrefix,
+    initialState
+  };
+}
+
+const getLabelAndId = (item: KubernetesClusterListItem | KubernetesNamespaceListItem) => {
+  const hasClusterProperty = 'cluster' in item;
+  const id = hasClusterProperty ? item.cluster.id : item.namespace.id;
+  const label = hasClusterProperty ? item.cluster.label : item.namespace.label;
+  return [id, label];
+};
+
+const sortByWorkloads = (
+  orderDirection: string,
+  current: KubernetesClusterListItem | KubernetesNamespaceListItem,
+  next: KubernetesClusterListItem | KubernetesNamespaceListItem,
+  orderBy: string
+) => {
+  const hasClusterProperty = 'cluster' in current && 'cluster' in next;
+
+  if (hasClusterProperty) {
+    if (orderBy === 'namespaces') {
+      return orderDirection === 'ASC' ? current.namespaces - next.namespaces : next.namespaces - current.namespaces;
     }
-  ],
-  resets: [
-    {
-      bind: [
-        {
-          path: pathSegment,
-          name: 'orderBy'
-        },
-        {
-          path: pathSegment,
-          name: 'orderDirection'
-        }
-      ],
-      reset: {}
+
+    if (orderBy === 'cronJobs') {
+      return orderDirection === 'ASC' ? current.cronJobs - next.cronJobs : next.cronJobs - current.cronJobs;
     }
-  ]
+  }
+
+  if (orderBy === 'services') {
+    return orderDirection === 'ASC' ? current.services - next.services : next.services - current.services;
+  }
+
+  return 0;
 };

@@ -23,7 +23,7 @@ interface InfoCardTileProps {
   tooltip?: string;
 }
 
-export default function InfoCardTile(props: InfoCardTileProps) {
+export default function InfoCardTile(props: Readonly<InfoCardTileProps>) {
   const { title, subtitle, counter, href, isLoading, hasIssues, hasWarnings, tooltip } = props;
 
   const counterWithOrWithoutTooltip = tooltip ? (
@@ -58,8 +58,10 @@ export default function InfoCardTile(props: InfoCardTileProps) {
             {!isLoading ? counterWithOrWithoutTooltip : <LoadingSkeleton className={locals.skeleton} />}
           </span>
         </Typography>
-        <Typography variant="body-02" component="div">
-          {!isLoading ? subtitle : <LoadingSkeleton className={locals.skeletonSubtitle} />}
+        <Typography variant="body-01" component="div">
+          <span className={locals.subtitle}>
+            {!isLoading ? subtitle : <LoadingSkeleton className={locals.skeletonSubtitle} />}
+          </span>
         </Typography>
       </div>
     </CarbonClickableTile>

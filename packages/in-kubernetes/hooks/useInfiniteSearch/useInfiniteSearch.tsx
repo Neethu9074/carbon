@@ -12,12 +12,12 @@ import { Observable } from '@instana/observables';
 
 import { initialState, stateReducer, actions } from 'in-kubernetes/hooks/useInfiniteSearch/reducer';
 import { QueryParams } from 'in-kubernetes/subscriptions/getKubernetesClusters';
-import { urlStateDefinition } from 'in-kubernetes/utils';
 import { hasError, isLoading } from 'in-services/util/result';
+import useUrlState, { Options } from 'in-hooks/useUrlState';
 import useInfiniteScroll from 'in-hooks/useInfiniteScroll';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useUrlState from 'in-hooks/useUrlState';
+import { FilterProps } from 'in-kubernetes/utils';
 import usePrevious from 'in-hooks/usePrevious';
 
 interface Props {
@@ -29,9 +29,10 @@ interface Props {
     orderDirection,
     timeConfig
   }: QueryParams) => Observable<Result<PaginatedResult<KubernetesClusterListItem>>>;
+  urlStateDefinition: Options<FilterProps>;
 }
 
-export default function useInfiniteSearch({ subscription }: Props) {
+export default function useInfiniteSearch({ subscription, urlStateDefinition }: Props) {
   const timeConfig = useTimeConfig();
   const previousTimeConfig = usePrevious(timeConfig);
   const [{ result, page, isResettingState }, dispatch] = useReducer(stateReducer, initialState);
@@ -78,7 +79,7 @@ export default function useInfiniteSearch({ subscription }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, query, hasTimeConfigChanged, isResettingState]);
 
-  // Infinite scroll callback. It will increase the number of page when the element is intersected.
+  // Infinite scroll callback. It will increase the page number when the element is intersected.
   const infiniteScrollCallback = useCallback(
     ([element]: IntersectionObserverEntry[]) => {
       const canLoadMore = (result?.data?.items && result?.data?.items?.length < result?.data?.totalHits) ?? false;

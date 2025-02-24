@@ -25,7 +25,7 @@ import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { t } from 'in-i18n';
 
-import locals from 'in-kubernetes/lists/ClusterList.mless';
+import locals from 'in-kubernetes/lists/ClusterTable/ClusterTable.mless';
 
 const pathSegment = '/namespaces';
 const matrixPrefix = 'namespace.';

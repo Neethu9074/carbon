@@ -7,25 +7,29 @@
 import { get, find } from 'lodash';
 import React from 'react';
 
-import { Card, TableEntityCounter } from '@instana/components';
+import { CarbonIconButton, SvgIcon } from '@instana/components';
+import { TableEntityCounter } from '@instana/legacy';
 
+import { namespaceList, useNamespaceDashboard, namespaceListFullyQualified } from 'in-kubernetes/navigation/paths';
 import KubernetesNoDataNotification from 'in-kubernetes/lists/components/KubernetesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
+import { urlParameters as timeConfigUrlParameters, timeConfig$ } from 'in-stores/time/config';
 import getKubernetesNamespaces from 'in-kubernetes/subscriptions/getKubernetesNamespaces';
-import { namespaceList, useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
-import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { kubernetesCloudNativeExperience } from 'in-services/featureFlags';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
+
+import locals from './NamespaceTable.mless';
 
 const pathSegment = namespaceList;
 const matrixPrefix = 'k8Namespace.';
@@ -118,7 +122,9 @@ export default connectTo(
   {
     timeConfig: timeConfig$
   },
-  function NamespaceList({ timeConfig }) {
+  function NamespaceTable({ timeConfig }) {
+    const { createHrefToPath } = useNavigation();
+
     return (
       <>
         <Title title={t('in-kubernetes:namespaces')} />
@@ -133,13 +139,26 @@ export default connectTo(
           getHasDataToRender={getHasDataToRender}
           FallbackComponent={() => <KubernetesNoDataNotification icon="lib_kubernetes_namespace" />}
         >
-          <Card>
+          <div className={locals.table}>
             <ServerTableWithUrlState
               get={getTableData}
               filterColumnDefinitions={createColumnFilter}
               timeConfig={timeConfig}
+              toolBarContent={
+                kubernetesCloudNativeExperience ? (
+                  <CarbonIconButton
+                    align="left"
+                    kind="ghost"
+                    size="lg"
+                    label={t('in-kubernetes:cloudNative.switchToCardView')}
+                    href={createHrefToPath(`${namespaceListFullyQualified}`)}
+                  >
+                    <SvgIcon type="lib_views_grid" size="s" />
+                  </CarbonIconButton>
+                ) : null
+              }
             />
-          </Card>
+          </div>
         </WithEmptyStateFallback>
       </>
     );
@@ -170,7 +189,7 @@ function getHasDataToRender() {
     .map(result => !result.data || result.data.totalHits > 0);
 }
 
-function getKubernetesNamespacesSubscribeEvent({
+export function getKubernetesNamespacesSubscribeEvent({
   query = '',
   page = 1,
   pageSize = 20,

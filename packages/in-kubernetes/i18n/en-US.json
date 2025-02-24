@@ -282,7 +282,7 @@
     "namespaces": "Namespaces",
     "services": "Services",
     "cronJobs": "Cron Jobs",
-    "switchToGridView": "Switch to grid view",
+    "switchToCardView": "Switch to card view",
     "switchToTableView": "Switch to table view",
     "manyUnhealthyWorkloads": "More than 200 unhealthy {{workload}}. Select to view details.",
     "sortingOptions": {

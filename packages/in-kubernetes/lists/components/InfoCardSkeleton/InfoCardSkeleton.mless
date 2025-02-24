@@ -6,15 +6,23 @@
 
 :local {
   .wrapper {
+    width: 100%;
     display: flex;
     margin-bottom: 2rem;
+
+    :global {
+      .stack {
+        width: 100%;
+      }
+    }
   }
   .title {
     width: 34.375rem;
     height: 2.123rem;
   }
   .skeleton {
-    width: 18.125rem;
+    flex: 1;
+    min-width: 14.375rem;
     height: 11rem;
   }
 }

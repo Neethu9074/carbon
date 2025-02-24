@@ -94,13 +94,13 @@ export const statefulSetDashboardDetailsFullyQualified = `${statefulSetDashboard
 
 export const summaryTab = '/summary';
 
-interface BaseProps {
+export interface BaseProps {
   tab?: NavigateToDashboardProps['tab'];
   tabMatrix?: NavigateToDashboardProps['tabMatrix'];
   timeConfig?: NavigateToDashboardProps['timeConfig'];
 }
 
-interface IdsProps {
+export interface IdsProps {
   deploymentId?: string;
   nodeId?: string;
   cronJobId?: string;
@@ -146,6 +146,40 @@ export function useClusterDashboard(clusterId: string, { tab, tabMatrix, timeCon
   });
 }
 
+export const useGetClusterDashboard = () => {
+  const { createHref, location } = useNavigation();
+
+  return (
+    clusterId: string,
+    { tab = summaryTab, tabMatrix, timeConfig }: BaseProps & Pick<IdsProps, 'clusterId'> = emptyObject
+  ) => {
+    const base = clusterDashboardFullyQualified;
+    const matrixSegment = clusterDashboard;
+    const matrixParam = matrixClusterId;
+    const id = clusterId;
+    const paramsCallback = (params: any) => {
+      setOrDeleteMatrixKey(params, namespaceDashboard, matrixClusterId, clusterId);
+    };
+
+    location.pathname = `${base}${tab}`;
+
+    setOrDeleteMatrixKey(location, matrixSegment, matrixParam, id);
+
+    if (timeConfig != null) {
+      setTimeConfig(location, timeConfig);
+    }
+
+    // @ts-expect-error
+    location.matrix[tab] = tabMatrix;
+
+    if (paramsCallback) {
+      paramsCallback(location);
+    }
+
+    return createHref(location);
+  };
+};
+
 export function useNamespaceDashboard(
   namespaceId: string,
   { tab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'> = emptyObject
@@ -163,6 +197,40 @@ export function useNamespaceDashboard(
     }
   });
 }
+
+export const useGetNamespaceDashboard = () => {
+  const { createHref, location } = useNavigation();
+
+  return (
+    namespaceId: string,
+    { tab = summaryTab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'> = emptyObject
+  ) => {
+    const base = namespaceDashboardFullyQualified;
+    const matrixSegment = namespaceDashboard;
+    const matrixParam = matrixNamespaceId;
+    const id = namespaceId;
+    const paramsCallback = (params: any) => {
+      setOrDeleteMatrixKey(params, namespaceDashboard, matrixClusterId, clusterId);
+    };
+
+    location.pathname = `${base}${tab}`;
+
+    setOrDeleteMatrixKey(location, matrixSegment, matrixParam, id);
+
+    if (timeConfig != null) {
+      setTimeConfig(location, timeConfig);
+    }
+
+    // @ts-expect-error
+    location.matrix[tab] = tabMatrix;
+
+    if (paramsCallback) {
+      paramsCallback(location);
+    }
+
+    return createHref(location);
+  };
+};
 
 export function usePodDashboard(
   podId: string,

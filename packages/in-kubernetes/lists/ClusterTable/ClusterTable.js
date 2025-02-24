@@ -7,30 +7,29 @@
 import { get, find } from 'lodash';
 import React from 'react';
 
-import { CarbonIconButton, SvgIcon, TableEntityCounter } from '@instana/components';
+import { CarbonIconButton, SvgIcon } from '@instana/components';
+import { TableEntityCounter } from '@instana/legacy';
 
+import { clusterList, useClusterDashboard, clusterListFullyQualified } from 'in-kubernetes/navigation/paths';
 import KubernetesNoDataNotification from 'in-kubernetes/lists/components/KubernetesNoDataNotification';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
+import { urlParameters as timeConfigUrlParameters, timeConfig$ } from 'in-stores/time/config';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
-import { clusterList, useClusterDashboard } from 'in-kubernetes/navigation/paths';
-import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { kubernetesCloudNativeExperience } from 'in-services/featureFlags';
-import { clusterListFullyQualified } from 'in-kubernetes/navigation/paths';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
-import locals from './ClusterList.mless';
+import locals from './ClusterTable.mless';
 
 const pathSegment = clusterList;
 const matrixPrefix = 'k8Cluster.';
@@ -137,7 +136,7 @@ export default connectTo(
   {
     timeConfig: timeConfig$
   },
-  function ClusterList({ timeConfig }) {
+  function ClusterTable({ timeConfig }) {
     const { createHrefToPath } = useNavigation();
 
     return (
@@ -165,8 +164,8 @@ export default connectTo(
                     align="left"
                     kind="ghost"
                     size="lg"
-                    label={t('in-kubernetes:cloudNative.switchToGridView')}
-                    href={createHrefToPath(`${clusterListFullyQualified}/grid`)}
+                    label={t('in-kubernetes:cloudNative.switchToCardView')}
+                    href={createHrefToPath(`${clusterListFullyQualified}`)}
                   >
                     <SvgIcon type="lib_views_grid" size="s" />
                   </CarbonIconButton>
@@ -208,10 +207,8 @@ function ClusterManagedByWithIcon({ clusterManagement }) {
   if (clusterManagement && clusterManagement.shortName !== 'none') {
     return (
       <div className={locals.clusterManagement}>
-        <>
-          <span className={locals.clusterManagementLabel}>Managed by {clusterManagement.fullName}</span>
-          <SvgIcon className={locals.clusterManagementIcon} type={`lib_${clusterManagement.shortName}`} />
-        </>
+        <span className={locals.clusterManagementLabel}>Managed by {clusterManagement.fullName}</span>
+        <SvgIcon className={locals.clusterManagementIcon} type={`lib_${clusterManagement.shortName}`} />
       </div>
     );
   }

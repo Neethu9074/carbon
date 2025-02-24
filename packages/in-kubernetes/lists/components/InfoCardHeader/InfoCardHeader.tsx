@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { SvgIcon, Tooltip, Stack, Typography, Link } from '@instana/components';
-import { KubernetesCluster } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 
 import HealthIndicatorButtonPresenter, {
@@ -20,7 +19,6 @@ import { clusterBadgeName } from 'in-kubernetes/clusterDistributions';
 import { getIndicatorPresenter } from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 // @ts-expect-error
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
-import { useClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { plugin } from 'in-applications/navigation/matrix';
 import BadgeList from 'in-components/BadgeList/BadgeList';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -28,28 +26,45 @@ import { t } from 'in-i18n';
 
 import locals from './InfoCardHeader.mless';
 
+interface InfoCardHeaderProps {
+  id: string;
+  label: string;
+  href: string;
+  icon: string;
+  clusterName: string;
+  clusterDistribution?: string;
+  version: string;
+}
+
 export default function InfoCardHeader({
-  id: clusterId,
+  id,
   label,
-  clusterDistribution = 'kubernetes',
+  href,
+  icon,
+  clusterName = '',
+  clusterDistribution,
   version
-}: Readonly<KubernetesCluster>) {
-  const clusterHref = useClusterDashboard(clusterId);
+}: Readonly<InfoCardHeaderProps>) {
   const timeConfig = useTimeConfig();
 
   return (
-    <div id={clusterId} className={locals.container}>
+    <div id={id} className={locals.container}>
       <Stack direction="horizontal" align="center">
-        <span className={locals.icon} role="img" aria-label={label}>
+        <span className={locals.icon} aria-label={label}>
           <Tooltip content={label} delay={500}>
-            <SvgIcon type={`lib_${clusterDistribution}`} />
+            <SvgIcon type={icon} />
           </Tooltip>
         </span>
-        <Link href={clusterHref}>
+        <Link href={href}>
           <Typography variant="heading-03" noMargin component="h2">
             {label}
           </Typography>
         </Link>
+        {clusterName !== '' && (
+          <Typography variant="body-compact-01" noMargin component="p">
+            <span className={locals.clusterName}>{clusterName}</span>
+          </Typography>
+        )}
         {version && (
           <BadgeList types={[version]} type={version} getColor={() => themes.default.ids.color.option.neutral['700']} />
         )}
@@ -58,14 +73,18 @@ export default function InfoCardHeader({
             clusterDistributionName: clusterBadgeName(clusterDistribution)
           })}
         />
-        <EntityHealthIndicator
-          IndicatorPresenter={(props: HealthIndicatorButtonPresenterProps) => (
-            <HealthIndicatorButtonPresenter {...getIndicatorPresenter({ plugin, ...props })} />
-          )}
-          snapshotId={clusterId}
-          timeConfig={timeConfig}
-        />
+        <EntityHealthIndicator IndicatorPresenter={IndicatorPresenter} snapshotId={id} timeConfig={timeConfig} />
       </Stack>
     </div>
   );
+}
+
+function IndicatorPresenter(props: Readonly<HealthIndicatorButtonPresenterProps>) {
+  const { maxSeverity, openIssues } = props;
+
+  if (maxSeverity === 0 && openIssues === 0) {
+    return null;
+  }
+
+  return <HealthIndicatorButtonPresenter {...getIndicatorPresenter({ plugin, ...props })} />;
 }
