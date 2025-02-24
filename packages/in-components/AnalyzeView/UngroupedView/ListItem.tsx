@@ -31,6 +31,7 @@ export const ListItem = (props: ListItemProps) => {
       initiallyOpen={isToggled}
       tracking={tracking}
       toggleContentOnRowClick
+      noAlternatingBg
     >
       <ColumnizedContent isToggled={isToggled} {...item} {...props} />
     </Li>
