@@ -59,17 +59,10 @@ export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const deleteLogsV3Enabled = isFeatureFlagEnabled('deleteLogsV3Enabled');
 export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
-export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 export const logRetentionPageEnabled = isFeatureFlagEnabled('logRetentionPageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
-export const carbonIconButtonEnabled = isFeatureFlagEnabled('carbonIconButtonEnabled');
-export const carbonContentSwitcherEnabled = isFeatureFlagEnabled('carbonContentSwitcherEnabled');
-export const carbonTabsEnabled = isFeatureFlagEnabled('carbonTabsEnabled');
 export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
-export const carbonExpandableGroupEnabled = isFeatureFlagEnabled('carbonExpandableGroupEnabled');
-export const carbonSideNavLinksEnabled = isFeatureFlagEnabled('carbonSideNavLinksEnabled');
-export const carbonG10ThemeEnabled = isFeatureFlagEnabled('carbonG10ThemeEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
@@ -296,8 +289,6 @@ export const disableEventConfigEnabled = isFeatureFlagEnabled('disableEventConfi
 
 export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 
-export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);
-
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
 
 export const serviceNowAdvancedEnabled = isFeatureFlagEnabled('serviceNowAdvancedEnabled', true);
@@ -308,8 +299,6 @@ export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
 export const multiCloseEnabled = isFeatureFlagEnabled('multiCloseEnabled', false);
 export const resourceOptimizationActionsEnabled = isFeatureFlagEnabled('resourceOptimizationActionsEnabled', true);
 export const eventResourceActionsEnabled = isFeatureFlagEnabled('eventResourceActionsEnabled', false);
-export const carbonStepProgressBarEnabled = isFeatureFlagEnabled('carbonStepProgressBarEnabled', false);
-export const carbonHorizontalIndicatorEnabled = isFeatureFlagEnabled('carbonHorizontalIndicatorEnabled', false);
 export const analyzeRelatedInstancesButtonEnabled = isFeatureFlagEnabled('analyzeRelatedInstancesButtonEnabled', false);
 export const maxMetricsLimitForBeeinstanaEnabled = isFeatureFlagEnabled('maxMetricsLimitForBeeinstanaEnabled', false);
 export const serverSideInfraTagSearchEnabled = isFeatureFlagEnabled('serverSideInfraTagSearchEnabled', false);

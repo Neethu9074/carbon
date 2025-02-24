@@ -612,26 +612,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'enableCarbonIcons',
-    instanaCtlKey: 'feature.carbon.icons.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonContentSwitcherEnabled',
-    instanaCtlKey: 'feature.carbon.content.switcher.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonPillEnabled',
-    instanaCtlKey: 'feature.carbon.pill.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonIconButtonEnabled',
-    instanaCtlKey: 'feature.carbon.iconbutton.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'carbonTooltipEnabled',
     instanaCtlKey: 'feature.carbon.tooltip.enabled',
     defaultValue: false
@@ -687,11 +667,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonTabsEnabled',
-    instanaCtlKey: 'feature.carbon.tabs.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'automationActionInstanceFeedbackEnabled',
     instanaCtlKey: 'automation.action.instance.feedback.enabled',
     defaultValue: false
@@ -709,31 +684,6 @@ module.exports = exports = [
   {
     uiClientKey: 'weaselSubresourceIntegrityEnabled',
     instanaCtlKey: 'feature.weasel.subresource.integrity.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonStepProgressBarEnabled',
-    instanaCtlKey: 'feature.carbon.stepprogressbar.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonHorizontalIndicatorEnabled',
-    instanaCtlKey: 'feature.carbon.horizontalindicator.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonExpandableGroupEnabled',
-    instanaCtlKey: 'feature.carbon.expandablegroup.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonSideNavLinksEnabled',
-    instanaCtlKey: 'feature.carbon.side.nav.links.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonG10ThemeEnabled',
-    instanaCtlKey: 'feature.carbon.g10.theme.enabled',
     defaultValue: true
   },
   {

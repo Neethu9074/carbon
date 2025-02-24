@@ -51,16 +51,9 @@
   }
 
   .tableContainer {
-    min-height: 22.25rem;
-    height: 22.25rem;
+    min-height: 22.55rem;
+    height: 22.55rem;
     overflow: auto;
-  }
-
-  .carbonVariant {
-    .tableContainer {
-      min-height: 22.55rem;
-      height: 22.55rem;
-    }
   }
 
   .wrapper {

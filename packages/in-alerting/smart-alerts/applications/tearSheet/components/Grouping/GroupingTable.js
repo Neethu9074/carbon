@@ -5,7 +5,6 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
-import classNames from 'classnames';
 
 import { Ul, LiLoadMore, LiHorizontalIndicator, Li, ColumnizedContent, SvgIcon, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -40,7 +39,6 @@ import AlertTypography from 'in-alerting/components/AlertTypography';
 import { meanLatencyFixed } from 'in-services/formatters/number';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { noResultObservable } from 'in-services/util/result';
-import { enableCarbonIcons } from 'in-services/featureFlags';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { t } from 'in-i18n';
 
@@ -209,7 +207,7 @@ export default function GroupingTable({
           <Spacer vertical="xsmall" />
         </div>
       )}
-      <div className={classNames({ [locals.wrapper]: true, [locals.carbonVariant]: enableCarbonIcons })}>
+      <div className={locals.wrapper}>
         <Ul className={locals.tableContainer}>
           {items.length > 0 && (
             <>

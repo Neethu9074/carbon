@@ -9,12 +9,12 @@ import React, { useState } from 'react';
 
 import { CarbonSelectableTag, IconButton } from '@instana/components';
 
-import { userSettingsThemeEnabled, carbonG10ThemeEnabled } from 'in-services/featureFlags';
+import { userSettingsThemeEnabled } from 'in-services/featureFlags';
 
 import locals from './SwitchTheme.mless';
 
 // `fallbackTheme` is used when getThemeOverride() does not return a theme
-export const fallbackTheme = carbonG10ThemeEnabled ? 'g10' : 'default';
+export const fallbackTheme = 'g10';
 
 /**
  * This is a simplistic UI for indicating the current theme, and
@@ -65,7 +65,7 @@ export const SwitchTheme = ({ theme, setOverride }) => {
         text="Carbon g10"
         renderIcon={isG10 ? RadioButtonChecked : RadioButton}
       />
-      {hasSelectedTheme && theme !== fallbackTheme && (
+      {hasSelectedTheme && theme !== 'g10' && (
         <button type="button" onClick={() => setOverride(undefined)}>
           Reset to default
         </button>

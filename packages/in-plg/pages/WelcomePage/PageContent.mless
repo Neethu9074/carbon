@@ -8,23 +8,6 @@
   .dashboardTilesWrapper {
     overflow-x: hidden;
     padding: 1rem 1rem 3rem 1rem;
-    :global {
-      // Todo: This style can be removed as soon as "carbonIconButtonEnabled" FF is enabled in production
-      .iconButton {
-        svg {
-          fill: var(--cds-icon-primary);
-        }
-      }
-    }
-  }
-
-  .backgroundImage {
-    background-image: url('in-plg/components/WelcomeHeader/bottom-right-image.png');
-    background-repeat: no-repeat !important;
-  }
-
-  .emptyImage {
-    padding-top: 2rem;
   }
 
   .draggableItemWrapper {
