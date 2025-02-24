@@ -10,7 +10,6 @@ import { noop } from 'lodash';
 import { PaginatedResult, Result, SyntheticTest, TestResultListItem } from '@instana/types';
 import { IconButton, Checkbox } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { TrProps } from '@instana/legacy';
 
 import {
   columnDefinitions,
@@ -24,6 +23,7 @@ import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { TrProps } from 'in-components/tables/ServerTable/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';

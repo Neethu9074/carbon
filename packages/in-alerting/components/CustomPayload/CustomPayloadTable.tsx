@@ -8,11 +8,10 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Button } from '@instana/components';
-import { TrProps } from '@instana/legacy';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { ColumnDefinition, TrProps } from 'in-components/tables/ServerTable/types';
 import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';
-import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Nullish, PaginatedResult, Result } from 'in-types';
 import Section from 'in-settings/components/Section';

@@ -3,10 +3,7 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-import React from 'react';
-
-import { TrSizes } from '@instana/legacy/types/components/Table/types';
-import { ThProps, TrProps } from '@instana/legacy';
+import React, { DetailedHTMLProps, HTMLAttributes, ReactNode, CSSProperties } from 'react';
 
 import { OrderDirection } from 'in-types';
 
@@ -71,3 +68,29 @@ export interface TableProps<ItemType extends Object> {
   onRowMouseEnter?: (item: ItemType) => void;
   onRowMouseLeave?: (item: ItemType) => void;
 }
+
+export enum TrSizes {
+  compact,
+  minimal,
+  regular
+}
+
+export type TrProps = {
+  className?: string;
+  depth?: 1 | 2;
+  size?: keyof typeof TrSizes;
+  active?: boolean;
+  dull?: boolean;
+  selected?: boolean;
+} & DetailedHTMLProps<HTMLAttributes<HTMLTableRowElement>, HTMLTableRowElement>;
+
+export type ThProps = {
+  children?: ReactNode;
+  style?: CSSProperties;
+  width?: number | string;
+  widthInAbsoluteUnit?: boolean;
+  wrapContent?: (e: ReactNode) => {};
+  className?: string;
+  noWrap?: boolean;
+  useMinimumAmountOfHorizontalSpace?: boolean;
+};
