@@ -183,5 +183,7 @@ module.exports = {
   websitesSmartAlertFullScreenDesignEnabled: false,
   prometheusDeltaCountersSumEnabled: true,
   syntheticSmartAlertFullScreenDesignEnabled: false,
+  alertChannelPerSeverityWebsiteSaEnabled: true,
+  alertChannelPerSeverityMobileAppSaEnabled: true,
   idpConfigV2Enabled: false
 };

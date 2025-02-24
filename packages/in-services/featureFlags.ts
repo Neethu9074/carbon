@@ -170,6 +170,10 @@ export const alertChannelPerSeverityInfraSaEnabled = isFeatureFlagEnabled('alert
 export const alertChannelPerSeverityApplicationSaEnabled = isFeatureFlagEnabled(
   'alertChannelPerSeverityApplicationSaEnabled'
 );
+export const alertChannelPerSeverityWebsiteSaEnabled = isFeatureFlagEnabled('alertChannelPerSeverityWebsiteSaEnabled');
+export const alertChannelPerSeverityMobileAppSaEnabled = isFeatureFlagEnabled(
+  'alertChannelPerSeverityMobileAppSaEnabled'
+);
 
 export const regexMetricSelectionEnabled = isFeatureFlagEnabled('regexMetricSelectionEnabled');
 

@@ -837,6 +837,16 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'alertChannelPerSeverityWebsiteSaEnabled',
+    instanaCtlKey: 'feature.alert.channel.per.severity.website.sa.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'alertChannelPerSeverityMobileAppSaEnabled',
+    instanaCtlKey: 'feature.alert.channel.per.severity.mobile.app.sa.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'aqmDataGridEventTableEnabled',
     instanaCtlKey: 'feature.aqm.data.grid.event.table.enabled',
     defaultValue: true
