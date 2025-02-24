@@ -10,13 +10,14 @@ import createSubscription from 'in-subscription/subscription';
 export default createSubscription({
   eventId: 'subscribe-physical-hierarchy',
 
-  getData(subscriptionId, { snapshotId, timeConfig, includeCluster, includeKubernetes }) {
+  getData(subscriptionId, { snapshotId, timeConfig, includeCluster, includeKubernetes, extendTimeframe }) {
     return {
       subscriptionId,
       snapshotId,
       timeConfig,
       clusterIncluded: includeCluster,
-      kubernetesIncluded: includeKubernetes
+      kubernetesIncluded: includeKubernetes,
+      extendTimeframe
     };
   },
 

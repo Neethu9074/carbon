@@ -214,13 +214,25 @@ export const getSnapshotFromPhysicalHierarchyByPlugin = memoize(
   3000
 );
 
-export function getPhysicalHierarchy({ snapshotId, timeConfig, includeCluster = true, includeKubernetes = true }) {
+export function getPhysicalHierarchy({
+  snapshotId,
+  timeConfig,
+  includeCluster = true,
+  includeKubernetes = true,
+  extendTimeframe = false
+}) {
   if (timeConfig) {
-    return createPhysicalHierarchyObservable({ snapshotId, timeConfig, includeCluster, includeKubernetes });
+    return createPhysicalHierarchyObservable({
+      snapshotId,
+      timeConfig,
+      includeCluster,
+      includeKubernetes,
+      extendTimeframe
+    });
   }
 
   return timeConfig$.flatMap(timeConfig =>
-    createPhysicalHierarchyObservable({ snapshotId, timeConfig, includeCluster, includeKubernetes })
+    createPhysicalHierarchyObservable({ snapshotId, timeConfig, includeCluster, includeKubernetes, extendTimeframe })
   );
 }
 
