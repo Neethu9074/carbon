@@ -6,15 +6,17 @@
 
 import React from 'react';
 
+import { just } from '@instana/observables';
+
+// @ts-expect-error file needs to be converted
+import ChartWidget from 'in-custom-dashboards/widgets/Chart/Widget';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { CarbonButton, Stack } from '@instana/components';
 import { NoDataEmptyState } from '@instana/ibm-products';
 import { useObservable } from '@instana/hooks';
 
-// @ts-expect-error file needs to be converted
-import ChartWidget from 'in-custom-dashboards/widgets/Chart/Widget';
 //@ts-expect-error file needs to be converted
 import getRawEvents from 'in-subscription/getRawEvents';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { DashboardTile } from 'in-plg/components/DashboardTile/DashboardTile';
@@ -26,7 +28,15 @@ import { t } from 'in-i18n';
 import locals from './EventsChartWidget.mless';
 
 export default function EventsChartWidget({ sectionLabel, header }: DashboardTileParamProps): JSX.Element {
-  const EventsfullListViewHref = useObservable(getEventsViewFilteredBy({}), []);
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+
+  const getHref$ = (highlightedTime: TimeConfig) =>
+    just(
+      getEventsViewFilteredBy({
+        timeConfig: highlightedTime
+      })
+    );
+  const EventsfullListViewHref = getEventsViewFilteredBy({});
   const timeConfig: TimeConfig = useTimeConfig();
   const tableData: any = useObservable(
     getRawEvents({
@@ -103,10 +113,7 @@ export default function EventsChartWidget({ sectionLabel, header }: DashboardTil
                       name: 'showEvents',
                       icon: 'lib_events_inverted',
                       label: t('in-plg:welcomepage.component.eventWidget.viewEvents'),
-                      getHref$: (highlightedTime: TimeConfig) =>
-                        getEventsViewFilteredBy({
-                          timeConfig: highlightedTime
-                        })
+                      getHref$: getHref$
                     }
                   ]
                 }}

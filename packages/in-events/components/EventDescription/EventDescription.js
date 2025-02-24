@@ -17,7 +17,7 @@ import {
 } from 'in-stores/events';
 import IncidentContent from 'in-events/components/EventDescription/IncidentContent';
 import EventContent from 'in-events/components/EventDescription/EventContent';
-import { focusEvent } from 'in-stores/navigation/paths/eventPaths';
+import { useFocusEvent } from 'in-stores/navigation/paths/eventPaths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
@@ -48,6 +48,7 @@ export default connectTo(
     isOpen,
     isPreview
   }) {
+    const focusEvent = useFocusEvent();
     const eventType = getEventType(event);
     const start = event.get('start');
     const end = event.get('end');
