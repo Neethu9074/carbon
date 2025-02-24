@@ -1,8 +1,8 @@
 import { Meta } from '@storybook/addon-docs';
+
 import tagCatalogExample from 'in-components/QueryBuilder/stories/tagCatalogExample.png';
 
-
-<Meta title='IN-COMPONENTS/QueryBuilder/TagCatalog'/>
+<Meta title='in-components/QueryBuilder/TagCatalog'/>
 
 # Tag Catalog
 
@@ -25,7 +25,7 @@ helps us gradually introduce the new query builder without requiring a
 complete rebuild of the existing tag definitions while supporting the old
 query builder.
 
-```js
+```typescript
 {
   // functional concern
   tags: Tag[],
@@ -40,7 +40,7 @@ configuration. In these cases they are always expecting a function
 which returns an observable that resolves to a result that contains
 a tag catalog. This is done to support lazy loading use cases. Example:
 
-```js
+```typescript
 import {just} from '@instana/observables';
 
 const tagCatalog = {
@@ -65,7 +65,7 @@ Refer to the tag tree model for those.
 
 ### Type Definition
 
-```json
+```typescript
 {
   name: String,
   type: 'STRING' | 'NUMBER' | 'BOOLEAN' | 'KEY_VALUE_PAIR',
@@ -78,7 +78,7 @@ Refer to the tag tree model for those.
 
 ### Example
 
-```json
+```js
 {
   name: 'beacon.website.name',
   type: 'STRING',
@@ -90,7 +90,7 @@ Refer to the tag tree model for those.
 
 ### Type Definition
 
-```json
+```ts
 {
   type: 'LEVEL' | 'TAG',
   label: String,

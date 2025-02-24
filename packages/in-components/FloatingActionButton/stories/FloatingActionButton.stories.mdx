@@ -1,4 +1,4 @@
-import { Meta, Story, Preview, Props } from '@storybook/addon-docs';
+import { Meta, Story, Canvas, Props } from '@storybook/addon-docs';
 import { action as storybookAction } from '@storybook/addon-actions';
 
 import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
@@ -18,11 +18,11 @@ import placement from 'in-components/FloatingActionButton/stories/assets/placeme
 
 We use the Floating Action Button for primary actions that apply to a page / entity. A good example is “Create SLI” or “Add Alert”.
 
-<Preview>
+<Canvas>
   <Story name="Standard">
     <FloatingActionButton onClick={storybookAction('clicked')}>Example Floating Button</FloatingActionButton>;
   </Story>
-</Preview>
+</Canvas>
 
 # Types
 
@@ -93,7 +93,4 @@ We use the Floating Action Button for primary actions that apply to a page / ent
 - For non-scrollable content (eg. maps, canvas elements etc.) additional controls / interaction elements should not be placed in the area reserved for Floating Action Buttons. See image to the right for designated map control areas.
 
 <Clearfix />
-
-### Props
-<Props of={FloatingActionButton} />
 

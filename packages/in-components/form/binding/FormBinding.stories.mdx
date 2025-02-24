@@ -1,5 +1,5 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
-import { Meta, Story, Preview, Props } from '@storybook/addon-docs';
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
 import { action as storybookAction } from '@storybook/addon-actions';
 import { useState } from 'react';
 
@@ -23,7 +23,7 @@ The basic idea of these binding facilities is that form models are being stored 
 components exist to interact with this context, e.g. to render an input field, to establish relative path paths or
 to provide arbitrary form interaction extensions.
 
-<Preview>
+<Canvas>
   <Story name="default">
     {() => {
       const initialForm = createMapForm()
@@ -52,7 +52,7 @@ to provide arbitrary form interaction extensions.
       );
     }}
   </Story>
-</Preview>
+</Canvas>
 
 ## Form
 
@@ -75,10 +75,6 @@ import Form from 'in-components/form/binding/Form';
 </Form>;
 ```
 
-### Props
-
-<Props of={Form} />
-
 ## FormBoundInput
 
 `FormBoundInput` connects a [formalistic form field](https://github.com/bripkens/formalistic/blob/master/formalistic.d.ts#L7-L30) to
@@ -95,11 +91,6 @@ import Form from 'in-components/form/binding/Form';
 </Form>;
 ```
 
-### Props
-
-**Note:** All additional props not listed in this table will be forwarded to `Input`.
-
-<Props of={Input} />
 
 ## SubForm
 
@@ -121,10 +112,6 @@ import Form from 'in-components/form/binding/Form';
   </SubForm>
 </Form>;
 ```
-
-### Props
-
-<Props of={SubForm} />
 
 ## FormBound
 

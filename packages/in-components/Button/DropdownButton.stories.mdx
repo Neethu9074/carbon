@@ -1,7 +1,8 @@
-import { Meta, Story, Preview, Props } from '@storybook/addon-docs';
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
 import { action as storybookAction } from '@storybook/addon-actions';
 
 import DropdownButton from 'in-components/Button/DropdownButton';
+import { Stack } from '@instana/components';
 
 
 <Meta component={DropdownButton} />
@@ -12,17 +13,14 @@ import DropdownButton from 'in-components/Button/DropdownButton';
 
 **Are you looking for a button with an attached overlay?** Check out `MoreMenu` for a ready-made solution or `Combobox` which allows custom combobox-like implementations with good default UI/UX.
 
-<Preview>
+<Canvas>
   <Story name="default">
-    <>
+    <Stack>
       <DropdownButton kind="primary" onClick={storybookAction('clicked')}>DropdownButton</DropdownButton>
       <DropdownButton kind="primary" onClick={storybookAction('clicked')} expanded>Expanded DropdownButton</DropdownButton>
-    </>
+    </Stack>
   </Story>
-</Preview>
-
-### Props
-<Props of={DropdownButton} />
+</Canvas>
 
 ## DropdownButton Kinds
 
@@ -31,7 +29,7 @@ import DropdownButton from 'in-components/Button/DropdownButton';
 DropdownButton have colours to add context - they should still be usable without colour (some users have colour blindness), but the colour should be used to enhance the information conveyed to the user - not the source of all information.
 
 <Story name="All Kinds">
-  <div>
+  <Stack>
   <DropdownButton kind="primary">Primary</DropdownButton>
   <DropdownButton kind="primaryv2">PrimaryV2</DropdownButton>
   <DropdownButton kind="secondary">Secondary</DropdownButton>
@@ -42,7 +40,7 @@ DropdownButton have colours to add context - they should still be usable without
   <DropdownButton kind="danger">Danger</DropdownButton>
   <DropdownButton kind="warning">Warning</DropdownButton>
   <DropdownButton kind="info">Info</DropdownButton>
-  </div>
+  </Stack>
 </Story>
 
 **Primary**

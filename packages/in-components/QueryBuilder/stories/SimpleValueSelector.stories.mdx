@@ -1,4 +1,4 @@
-import { Meta, Story, Preview, Props } from '@storybook/addon-docs';
+import { Meta, Story, Canvas, Props } from '@storybook/addon-docs';
 import { action as storybookAction } from '@storybook/addon-actions';
 
 import SimpleValueSelector from 'in-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
@@ -11,7 +11,7 @@ import PermanentlyVisibleOverlay from 'in-components/overlays/OverlayPresenter/s
 This overlay can be used within the query builder to allow selection of a
 conjunction, braces or to even clear the selection.
 
-<Preview>
+<Canvas>
   <Story name="default">
     <PermanentlyVisibleOverlay>
       <SimpleValueSelector onChange={storybookAction('onChange')} close={storybookAction('close')} values={[
@@ -118,8 +118,4 @@ conjunction, braces or to even clear the selection.
     ]}/>
     </PermanentlyVisibleOverlay>
   </Story>
-</Preview>
-
-### Props
-<Props of={SimpleValueSelector} />
-
+</Canvas>
