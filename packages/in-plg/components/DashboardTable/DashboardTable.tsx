@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import {
@@ -59,7 +60,12 @@ export const DashboardTable = React.forwardRef<any, DashboardTableProps>(functio
   return (
     <CarbonDataTable ref={ref} rows={rows} headers={headers} {...otherProps} sortRow={sortRow} isSortable={isSortable}>
       {({ headers, getTableProps, getHeaderProps, getToolbarProps, getTableContainerProps }: any) => (
-        <CarbonTableContainer className={locals.dashboardTable} {...getTableContainerProps()}>
+        <CarbonTableContainer
+          className={classNames({
+            [locals.dashboardTable]: header === ''
+          })}
+          {...getTableContainerProps()}
+        >
           {toggles && <Stack gap="disabled">{toggles}</Stack>}
           <CarbonTableToolbar
             aria-label={`${header} ${t('in-plg:welcomepage.ariaLabel.toolbar')}`}

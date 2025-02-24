@@ -151,11 +151,11 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
     };
   }
 
+  const { header: updatedHeader = '' } = dashboardTileProps || {};
+  const hitsCount = hitsRef.current > 0 ? `(${hitsRef.current})` : '';
   dashboardTileProps = {
     ...dashboardTileProps,
-    header: dashboardTileProps
-      ? `${dashboardTileProps.header} ${hitsRef.current > 0 ? `(${hitsRef.current})` : ''}`
-      : ''
+    header: header !== '' ? `${updatedHeader} ${hitsCount}` : ''
   };
 
   function pinnedItems() {

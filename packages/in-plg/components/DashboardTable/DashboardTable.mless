@@ -12,6 +12,7 @@
       width: 15.5rem;
     }
   }
+
   .addMoreButton {
     border-block-end: 1px solid var(--Border-border-strong-01, #8d8d8d);
     &:global(.cds--btn--ghost .cds--btn__icon) {
@@ -29,5 +30,9 @@
     border-block-end: none;
     border-block-start: none;
     padding-inline: 0;
+  }
+
+  .dashboardTable {
+    padding: 0;
   }
 }
