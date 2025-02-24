@@ -6,7 +6,7 @@
 
 /* eslint-disable react/no-unused-prop-types */
 
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { get, isEmpty } from 'lodash';
 import { match } from 'react-router';
 import { History } from 'history';
@@ -129,6 +129,8 @@ const EventsTable = (props: EventsTableProps) => {
   const isIncidentOrEvent = eventType === 'incident' || eventType === 'issue';
   const shouldShowMultiClose = multiCloseEnabled && isIncidentOrEvent;
   const shouldShowFilters = isIncidentOrEvent;
+  // This is done to have a source of truth so the events is selected even after new data is fetched
+  const [selectedRows, setSelectedRows] = useState({});
 
   const originalWidths: ColumnWidths = {};
 
@@ -187,6 +189,7 @@ const EventsTable = (props: EventsTableProps) => {
       hiddenColumns,
       data: rawEvents,
       multiLineWrapAll: false,
+      getRowId: (row: RawEvent) => row.id,
       onRowClick: (row: { original: RawEvent }) => {
         onItemClicked(row.original.id as string);
       },
@@ -196,12 +199,19 @@ const EventsTable = (props: EventsTableProps) => {
       // batch actions
       batchActions: shouldShowMultiClose,
       hideSelectAll: false,
+      onRowSelect: (row: RawEvent, event: React.ChangeEvent<HTMLInputElement>) => {
+        const isChecked = event.target.checked;
+        setSelectedRows({
+          ...selectedRows,
+          [row.id as string]: isChecked
+        });
+      },
       toolbarBatchActions: [
         {
           label:
             eventType === 'incident' ? t('in-events:multiClose.closeIncidents') : t('in-events:multiClose.closeIssues'),
           renderIcon: null,
-          onClick: () => closeSelectedEvents(eventType, selectedFlatRows, toggleAllRowsSelected)
+          onClick: () => closeSelectedEvents(eventType, Object.keys(selectedRows), toggleAllRowsSelected)
         }
       ],
       // @ts-expect-error
@@ -219,7 +229,8 @@ const EventsTable = (props: EventsTableProps) => {
           id: sortingMapperReverse[orderBy],
           order: orderDirection
         },
-        hiddenColumns
+        hiddenColumns,
+        selectedRowIds: selectedRows
       },
       isFetching: loading,
       // infinite scroll
@@ -245,13 +256,18 @@ const EventsTable = (props: EventsTableProps) => {
     state: {
       filters,
       sortBy,
-      columnResizing: { columnWidths }
+      columnResizing: { columnWidths },
+      selectedRowIds
     },
-    selectedFlatRows,
     toggleAllRowsSelected,
     setAllFilters
   } = datagridState;
 
+  useEffect(() => {
+    if (!isEqual(selectedRows, selectedRowIds)) {
+      setSelectedRows(selectedRowIds);
+    }
+  }, [selectedRowIds, selectedRows]);
   // When user change widths for columns, change it in localStorage
   useEffect(() => {
     const newHeaderWidths = {

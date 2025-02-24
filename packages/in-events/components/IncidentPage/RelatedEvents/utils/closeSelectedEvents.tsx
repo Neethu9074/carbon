@@ -24,7 +24,7 @@ type EVENT_KINDS = 'issue' | 'incident' | 'change' | 'agent_monitoring_issue' | 
  */
 const closeSelectedEvents = (
   eventType: EVENT_KINDS,
-  selectedFlatRows: [],
+  selectedRowIds: string[],
   toggleAllRowsSelected: (toggle: boolean) => void
 ) => {
   addActiveDialog(
@@ -40,12 +40,12 @@ const closeSelectedEvents = (
           content: (
             <div>
               <p>
-                {selectedFlatRows.length > 1
+                {selectedRowIds.length > 1
                   ? eventType === 'incident'
                     ? t('in-events:multiClose.multipleIncidentsCloseSuccessMessage', {
-                        count: selectedFlatRows.length
+                        count: selectedRowIds.length
                       })
-                    : t('in-events:multiClose.multipleIssuesCloseSuccessMessage', { count: selectedFlatRows.length })
+                    : t('in-events:multiClose.multipleIssuesCloseSuccessMessage', { count: selectedRowIds.length })
                   : eventType === 'incident'
                   ? t('in-events:multiClose.singleCloseIncidentSuccessMessage')
                   : t('in-events:multiClose.singleCloseIssueSuccessMessage')}
@@ -62,8 +62,7 @@ const closeSelectedEvents = (
           window.location.reload();
         }, 2000);
       }}
-      // @ts-expect-error
-      eventIds={selectedFlatRows.map(i => i.original.id)}
+      eventIds={selectedRowIds}
       eventType={eventType}
       onSaveError={failedEvents => {
         addMessage({
@@ -93,8 +92,7 @@ const closeSelectedEvents = (
                     <FailedIncidentsList
                       failedEventIds={failedEvents}
                       eventType={eventType}
-                      // @ts-expect-error
-                      eventIds={selectedFlatRows.map(i => i.original.id)}
+                      eventIds={selectedRowIds}
                     />
                   )
                 }
