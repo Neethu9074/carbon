@@ -58,7 +58,7 @@ import { t } from 'in-i18n';
 import locals from './InfrastructureList.mless';
 
 export default function InfrastructureList({
-  retrievalSize = 200,
+  retrievalSize = 20,
   numSkeletonRows = 3,
   backendQueryModel,
   showHeader = false,
