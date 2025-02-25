@@ -4,7 +4,6 @@
  */
 
 import metricDefinitions from 'in-forge/plugins/ibmCloudElasticsearch/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/ibmCloudElasticsearch/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -14,6 +13,5 @@ registerSnapshotDefinition({
   technologyDescriptor: {
     label: 'IBM Cloud Databases for Elasticsearch'
   },
-  kpiDefinitions,
   metricDefinitions
 });
