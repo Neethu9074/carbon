@@ -54,7 +54,6 @@ module.exports = {
   loggingEnabled: true,
   deleteLogsV3Enabled: false,
   logRetentionPageEnabled: true,
-  logWidgetsEnabled: true,
   notesAndActivityEnabled: true,
   carbonTooltipEnabled: true,
   pseudoLanguageEnabled: true,
