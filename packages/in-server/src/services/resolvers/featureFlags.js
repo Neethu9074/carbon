@@ -246,11 +246,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'logRetentionPageEnabled',
-    instanaCtlKey: 'feature.log.retention.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'enableTroubleshootingMode',
     instanaCtlKey: 'feature.troubleshooting.mode.enabled',
     defaultValue: false

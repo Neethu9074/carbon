@@ -18,7 +18,6 @@ import {
   powervcEnabled,
   infraSmartAlertsEnabled,
   logSmartAlertsEnabled,
-  logRetentionPageEnabled,
   applicationSubtracesEnabled,
   nutanixEnabled
 } from 'in-services/featureFlags';
@@ -757,12 +756,6 @@ export function getProductPermissions(): Array<ProductPermission> {
   if (!logSmartAlertsEnabled) {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return keyForGroupApi !== Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS;
-    });
-  }
-
-  if (!logRetentionPageEnabled) {
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      return keyForGroupApi !== Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD;
     });
   }
 

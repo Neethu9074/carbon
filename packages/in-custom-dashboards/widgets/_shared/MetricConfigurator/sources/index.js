@@ -5,8 +5,8 @@
 
 import * as syntheticMonitoring from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/syntheticMonitoring';
 import * as infrastructure from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure';
-import { syntheticCustomDashboardEnabled, bizopsCustomDashboardEnabled } from 'in-services/featureFlags';
 import * as application from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application';
+import { syntheticCustomDashboardEnabled, bizopsCustomDashboardEnabled } from 'in-services/featureFlags';
 import * as mobileApp from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp';
 import * as website from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/website';
 import * as logging from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging';

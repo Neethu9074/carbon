@@ -18,7 +18,6 @@ import {
 import {
   applicationSubtracesEnabled,
   infraSmartAlertsEnabled,
-  logRetentionPageEnabled,
   logSmartAlertsEnabled,
   syntheticsEnabled
 } from 'in-services/featureFlags';
@@ -207,8 +206,8 @@ export const logCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_LOG_MANAGEMENT,
   Capability.CAN_DELETE_LOGS,
   Capability.CAN_VIEW_LOG_VOLUME,
-  ...(logSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS] : []),
-  ...(logRetentionPageEnabled ? [Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD] : [])
+  Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD,
+  ...(logSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS] : [])
 ];
 
 export const customDashboardCapabilities: Array<CapabilityType> = [
