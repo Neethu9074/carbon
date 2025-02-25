@@ -5,13 +5,11 @@
  */
 
 import metricDefinitions from 'in-forge/plugins/phmcSharedProcessorPool/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/phmcSharedProcessorPool/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 registerSnapshotDefinition({
   plugin: plugins.phmcSharedProcessorPool,
 
-  kpiDefinitions,
   metricDefinitions,
   getIconType: () => 'phmc_console'
 });
