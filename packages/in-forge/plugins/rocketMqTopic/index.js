@@ -4,12 +4,10 @@
  */
 
 import metricDefinitions from '../rocketMqTopic/metricDefinitions';
-import kpiDefinitions from '../rocketMqTopic/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.rocketMqTopic,
-  kpiDefinitions,
   metricDefinitions
 });
