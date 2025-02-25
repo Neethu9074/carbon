@@ -7,12 +7,10 @@
 // @ts-expect-error
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import metricDefinitions from 'in-forge/plugins/websiteHttpd/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/websiteHttpd/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.websiteHttpd,
 
-  kpiDefinitions,
   metricDefinitions
 });
