@@ -6,7 +6,6 @@
 // @ts-expect-error Module needs to be translated to TS
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import metricDefinitions from 'in-forge/plugins/otelHost/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/otelHost/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
 
 const linuxPlugin = plugins.host + '_linux';
@@ -20,7 +19,6 @@ registerSnapshotDefinition({
   plugin: plugins.otelHost,
 
   showZoneInSidebarHeader: true,
-  kpiDefinitions,
   metricDefinitions,
 
   getIconType(snapshotOrPlugin: any) {
