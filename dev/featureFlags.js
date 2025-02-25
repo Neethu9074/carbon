@@ -139,7 +139,6 @@ module.exports = {
   thresholdCustomDashboardsEnabled: true,
   thresholdCustomDashboardsTableWidgetEnabled: true,
   carbonTableEnabled: true,
-  logVolumePageEnabled: true,
   analyzeRelatedInstancesButtonEnabled: true,
   maxMetricsLimitForBeeinstanaEnabled: false,
   serverSideInfraTagSearchEnabled: true,

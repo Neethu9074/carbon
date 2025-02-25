@@ -18,7 +18,6 @@ import {
   powervcEnabled,
   infraSmartAlertsEnabled,
   logSmartAlertsEnabled,
-  logVolumePageEnabled,
   logRetentionPageEnabled,
   applicationSubtracesEnabled,
   nutanixEnabled
@@ -758,12 +757,6 @@ export function getProductPermissions(): Array<ProductPermission> {
   if (!logSmartAlertsEnabled) {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return keyForGroupApi !== Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS;
-    });
-  }
-
-  if (!logVolumePageEnabled) {
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      return keyForGroupApi !== Capability.CAN_VIEW_LOG_VOLUME;
     });
   }
 

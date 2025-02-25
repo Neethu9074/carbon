@@ -251,11 +251,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'logVolumePageEnabled',
-    instanaCtlKey: 'feature.log.volume.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'enableTroubleshootingMode',
     instanaCtlKey: 'feature.troubleshooting.mode.enabled',
     defaultValue: false
