@@ -321,8 +321,12 @@ export default {
   },
   agent_tmp_directory_missing: {
     issueDescription: {
-      Component: function missingTmpDirectory() {
-        return <span>{t('in-forge:plugins.instanaAgent.tmpDirectoryMissingIssue')}</span>;
+      Component: function missingTmpDirectory({ tmpDirLocation }) {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.instanaAgent.tmpDirectoryMissingIssue" values={{ tmpDirLocation }} />
+          </span>
+        );
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),

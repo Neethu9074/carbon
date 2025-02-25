@@ -12685,7 +12685,7 @@
       "agentTlsExpired": "The Agent TLS certificate <code>{{cert}}</code> expired in <code>{{context}}</code>.",
       "agentTlsAboutToExpire": "The Agent TLS certificate <code>{{cert}}</code> is about to expire in <code>{{context}}</code> days.",
       "tlsProtocolMissingIssue": "The Agent is missing TLSv1.3 support",
-      "tmpDirectoryMissingIssue": "The /tmp directory is missing in the Agent",
+      "tmpDirectoryMissingIssue": "The <code>{{tmpDirLocation}}</code> directory is missing as seen from the Agent",
       "agentVersion": "Agent Version",
       "bootVersion": "Boot Version",
       "origin": "Origin",
