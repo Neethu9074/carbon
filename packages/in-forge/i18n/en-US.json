@@ -2527,6 +2527,11 @@
   "tracingTypeName_otel_0": "Calls",
   "tracingTypeName_otel_1": "Call",
   "tracingTypeName_otel_2": "Calls",
+  "tracingTypeName_otelbatchsynthetic": "Internal trigger",
+  "tracingTypeName_otelbatchsynthetic_plural": "Internal triggers",
+  "tracingTypeName_otelbatchsynthetic_0": "Internal triggers",
+  "tracingTypeName_otelbatchsynthetic_1": "Internal trigger",
+  "tracingTypeName_otelbatchsynthetic_2": "Internal triggers",
   "tracingTypeName_pdo": "PDO Call",
   "tracingTypeName_pdo_plural": "PDO Calls",
   "tracingTypeName_pdo_0": "PDO Calls",
@@ -17454,6 +17459,10 @@
       "error": "Error",
       "tags": "Tags",
       "resource": "Resource"
+    },
+    "otelBatchSynthetic": {
+      "indexReturn": "Internal trigger",
+      "bodyApproximated": "Instana has detected this call, but has no specifics about its source. The timing and duration of what triggered this call is approximated."
     },
     "pdo": {
       "driver": "Driver",
