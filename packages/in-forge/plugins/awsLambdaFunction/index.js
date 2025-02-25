@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import kpiDefinitions from 'in-forge/plugins/awsLambdaFunction/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -12,6 +11,5 @@ import { plugins } from 'in-forge/constants';
  * stuff) is in awsLambdaVersion.
  */
 registerSnapshotDefinition({
-  plugin: plugins.awsLambdaFunction,
-  kpiDefinitions
+  plugin: plugins.awsLambdaFunction
 });
