@@ -33,21 +33,24 @@ function getColumnDefinitions(): ColumnDefinition<SloListItem>[] {
       id: 'name',
       label: t('in-service-levels:sloList.columnLabels.name'),
       getContent: item => <SloNameColumnContent item={item} />,
-      width: 23,
+      width: '50%',
+      widthInAbsoluteUnit: true,
       sortable: true
     },
     {
       id: 'entityType',
       label: t('in-service-levels:sloList.columnLabels.entity'),
       getContent: item => <SloEntityColumnContent item={item} />,
-      width: 18.5,
+      width: '30%',
+      widthInAbsoluteUnit: true,
       sortable: false
     },
     {
       id: 'blueprint',
       label: t('in-service-levels:sloList.columnLabels.blueprint'),
       getContent: item => <SloBlueprintColumnContent item={item} />,
-      width: 8,
+      width: '20%',
+      widthInAbsoluteUnit: true,
       sortable: false
     }
   ];
