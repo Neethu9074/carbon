@@ -4,17 +4,18 @@
  * Copyright IBM Corp. 2025
  */
 
+import { SlownessWebsiteAlertRule, TagCatalog, TagFilter } from '@instana/types';
+
+import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
 import { BluePrint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { getDefaultRules } from 'in-alerting/smart-alerts/eum/utils/eumCommon';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
-import { getDefaultRules } from 'in-alerting/smart-alerts/eum/utils/eumCommon';
-import { SlownessWebsiteAlertRule, TagCatalog, TagFilter } from '@instana/types';
-import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 
 const implicitTagFilters = ['beacon.website.id'];
 

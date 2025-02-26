@@ -34,7 +34,7 @@ import { Location } from 'in-stores/navigation/types';
 
 interface AlertURLProps {
   websiteId: string;
-  tagFilters: TagFilter[];
+  tagFilters?: TagFilter[];
   errorMessage?: string;
   customEventName?: string;
   errorId?: string;
@@ -78,7 +78,7 @@ function updateCreatePathMatrixParams(
   location: Location,
   returnUrlWithParams: string,
   websiteId: string,
-  tagFilters: TagFilter[],
+  tagFilters?: TagFilter[],
   errorMessage?: string,
   customEventName?: string,
   errorId?: string,
@@ -88,11 +88,11 @@ function updateCreatePathMatrixParams(
   editMode?: boolean
 ) {
   setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, '');
-  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, website_id, websiteId);
-  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, error_id, errorId);
-  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, error_message, errorMessage);
-  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, custom_event_name, customEventName);
-  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, tag_filters, JSON.stringify(tagFilters));
+  if (websiteId) setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, website_id, websiteId);
+  if (errorId) setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, error_id, errorId);
+  if (errorMessage) setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, error_message, errorMessage);
+  if (customEventName) setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, custom_event_name, customEventName);
+  if (tagFilters) setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, tag_filters, JSON.stringify(tagFilters));
 
   // alert config id
   if (alertConfigId) setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, alertId, String(alertConfigId));
@@ -129,7 +129,7 @@ export function useAlertConfig(
 ) {
   const alertConfig =
     editMode || duplicateMode
-      ? getAlertConfigByIdAndTimestamp(alertConfigId, alertConfigCreated)
+      ? getAlertConfigByIdAndTimestamp(alertConfigId, alertConfigCreated, { asObservable: true })
       : successObservable(
           websiteId
             ? generateAlertConfig(websiteId, tagFilters, blueprintConfig, tagCatalog, errorMessage, customEventName)

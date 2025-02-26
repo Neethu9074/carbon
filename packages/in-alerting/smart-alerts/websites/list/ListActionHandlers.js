@@ -6,6 +6,10 @@
 
 import React from 'react';
 
+import {
+  TearSheetEditActionHandler,
+  TearSheetCloneActionHandler
+} from 'in-alerting/smart-alerts/websites/list/TearSheetActionHandlers';
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
@@ -19,6 +23,14 @@ function handleClone(config) {
 
 function handleEdit(config) {
   openSmartAlertDialog(config);
+}
+
+function HandleEditNew(config) {
+  return <TearSheetEditActionHandler id={config.id} created={config.created} websiteId={config.websiteId} />;
+}
+
+function HandleCloneNew(config) {
+  return <TearSheetCloneActionHandler id={config.id} created={config.created} websiteId={config.websiteId} />;
 }
 
 function openSmartAlertDialog(config, isCopy = false) {
@@ -37,8 +49,10 @@ function openSmartAlertDialog(config, isCopy = false) {
 
 export const actionHandlers = {
   handleClone: config => handleClone(config),
+  handleCloneNew: config => HandleCloneNew(config),
   handleDelete: (id, setIsSaving, configName, trackCta) =>
     handleDelete(id, setIsSaving, configName, baseUrl.WEBSITE, trackCta),
   handleEdit: config => handleEdit(config),
+  handleEditNew: config => HandleEditNew(config),
   handleToggleEnabled: (enabled, id, setIsSaving) => handleToggleEnabled(enabled, id, setIsSaving, baseUrl.WEBSITE)
 };

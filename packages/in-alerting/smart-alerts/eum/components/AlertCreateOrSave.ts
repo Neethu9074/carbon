@@ -173,12 +173,12 @@ export function createOrSaveAlertFromTearSheet({
   if (editMode) {
     const updateConfig =
       eumType === websiteEum
-        ? websiteUpdateAlertConfig(alertConfig as WebsiteSmartAlertConfig, form.get('id').value)
-        : mobileUpdateAlertConfig(alertConfig as MobileAppSmartAlertConfig, form.get('id').value);
+        ? websiteUpdateAlertConfig(alertConfig as WebsiteSmartAlertConfigWithMetadata, form.get('id').value)
+        : mobileUpdateAlertConfig(alertConfig as MobileAppSmartAlertConfigWithMetadata, form.get('id').value);
     updateConfig.once(
       updatedAlertConfig => {
         trackCta?.(ALERTING_UPDATED, { ...updatedAlertConfig, dialogMode: 'Advanced' });
-        navigateToAlertConfig(updatedAlertConfig.id, eumType, updatedAlertConfig?.created);
+        navigateToAlertConfig(form.get('id').value, eumId, updatedAlertConfig?.created);
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));

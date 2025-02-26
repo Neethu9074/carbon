@@ -18,7 +18,9 @@ export const stepConfigsForCarbonTearSheet = [
     title: t('in-alerting:smartAlerts.websites.tearSheet.step1.title'),
     validateIntermediately: [
       ['rule', 'entityType'],
-      ['rule', 'metricName']
+      ['rule', 'metricName'],
+      ['rule', 'value'],
+      ['rule', 'customEventName']
     ],
     description: t('in-alerting:smartAlerts.websites.tearSheet.step1.description'),
     component: AlertConfigTearSheetStep1
@@ -30,12 +32,15 @@ export const stepConfigsForCarbonTearSheet = [
   },
   {
     title: t('in-alerting:smartAlerts.websites.tearSheet.step3.title'),
-    validateIntermediately: [],
+    validateIntermediately: [
+      ['threshold', 'value'],
+      ['timeThreshold', 'timeWindow']
+    ],
     component: AlertConfigTearSheetStep3
   },
   {
     title: t('in-alerting:smartAlerts.websites.tearSheet.step4.title'),
-    validateIntermediately: [],
+    validateIntermediately: [['name']],
     component: AlertConfigTearSheetStep4
   },
   {

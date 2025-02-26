@@ -65,9 +65,6 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
 
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
-  // this hook will validate each step and prevents navigation
-  const navItems = useAlertConfigValidation(stepConfigsForCarbonTearSheet);
-
   const { isQueryValid } = useMemo(
     () => createBoundedAlertQueryBuilder(websiteId, beaconType, threshold?.type, tagSuggestionTimeConfig),
     [websiteId, beaconType, threshold?.type]
@@ -86,6 +83,15 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
     alertConfigWithFormModel,
     blueprintConfig
   });
+
+  // this hook will validate each step and prevents navigation
+  const navItems = useAlertConfigValidation(
+    stepConfigsForCarbonTearSheet,
+    form,
+    isTagFilterFormModelValid,
+    thresholdResult,
+    updateForm
+  );
 
   return (
     <AlertingFullScreenTearSheet

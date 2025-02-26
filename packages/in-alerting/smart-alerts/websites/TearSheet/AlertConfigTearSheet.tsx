@@ -30,6 +30,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { getRuleWithThreshold } from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { useAlertConfig } from 'in-alerting/smart-alerts/websites/hooks/useSmartAlertCreateUrl';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdUtils';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigationToAlertConfig } from 'in-websites/navigation/paths';
@@ -82,10 +83,10 @@ export default function AlertConfigTearSheet() {
   } else if (!alertConfig) {
     return <TearSheetLoading />;
   } else {
-    const infraAlertConfig = duplicateMode ? duplicateAlertConfig(alertConfig) : alertConfig;
+    const websiteAlertConfig = duplicateMode ? duplicateAlertConfig(alertConfig) : alertConfig;
     return (
       <AlertConfigTearSheetContent
-        alertConfig={infraAlertConfig}
+        alertConfig={websiteAlertConfig}
         cancelTearSheet={cancelTearSheet}
         editMode={editMode}
       />
@@ -104,7 +105,7 @@ function AlertConfigTearSheetContent({
 }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
 
-  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
+  const [form, setForm] = useState(() => alertFormDefinition(populateRulesInConfig(alertConfig), editMode, true));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
 
   const [isSaving, setIsSaving] = useState(false);

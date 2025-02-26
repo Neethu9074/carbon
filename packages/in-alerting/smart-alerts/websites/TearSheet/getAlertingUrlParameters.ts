@@ -30,7 +30,7 @@ export default function getAlertingUrlParameters(location: Location): {
   const websiteId = getMatrixParameter(location, websiteSmartAlertsFullScreen, 'websiteId') ?? undefined;
   const errorId = getMatrixParameter(location, websiteSmartAlertsFullScreen, 'errorId') ?? undefined;
 
-  const tagFilters = getMatrixParameter(location, websiteSmartAlertsFullScreen, 'tagFilters') ?? [];
+  const tagFilters = getMatrixParameter(location, websiteSmartAlertsFullScreen, 'tagFilters') ?? undefined;
 
   const errorMessage = getMatrixParameter(location, websiteSmartAlertsFullScreen, 'errorMessage') ?? undefined;
 
@@ -44,7 +44,7 @@ export default function getAlertingUrlParameters(location: Location): {
     alertConfigId,
     alertConfigCreated,
     websiteId,
-    tagFilters: JSON.parse(tagFilters as TagFilter[] | any),
+    tagFilters: tagFilters ? JSON.parse(tagFilters as TagFilter[] | any) : undefined,
     errorMessage,
     customEventName,
     errorId,
