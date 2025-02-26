@@ -44,6 +44,8 @@ export default function SimpleAlertConfigDialogStep1({
     >
       <SideRadioMenu
         items={simpleModeBlueprintConfigs.map(x => ({ id: idFromBluePrint(x), name: x.name }))}
+        legendHidden
+        legendText={t('in-alerting:smartAlerts.websites.simple.simpleAlertConfigDialogStep1Headline')}
         onChange={bluePrintId => {
           const item = simpleModeBlueprintConfigs.find(i => bluePrintId === idFromBluePrint(i));
           updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, true));

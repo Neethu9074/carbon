@@ -67,13 +67,15 @@ const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateFor
     >
       <SideRadioMenu
         items={locationTypes.map(x => ({ id: x.type, name: x.name }))}
-        valueSelected={selectedBlueprint.type}
+        legendHidden
+        legendText={t('in-synthetics:dialog.createLocation.selectLocationType.contentWrapperHeadline')}
         onChange={type => {
           const item = locationTypes.find(x => type === x.type);
           if (!item) return;
           setSelectedBlueprint(item);
           updateForm(createNewLocationForm(item.type));
         }}
+        valueSelected={selectedBlueprint.type}
       />
       <div className={locals.presenterWrapper}>
         {selectedBlueprint.type === 'managed' && getWarningMessage()}

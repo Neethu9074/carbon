@@ -115,6 +115,8 @@ const SelectionMenu = ({
     >
       <SideRadioMenu
         items={blueprintConfigs.map(x => ({ id: x.type, name: x.name }))}
+        legendHidden
+        legendText={t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.selectedTestTypeLightCardTitle')}
         onChange={type => {
           const item = blueprintConfigs.find(x => x.type === type);
           if (!item) {
