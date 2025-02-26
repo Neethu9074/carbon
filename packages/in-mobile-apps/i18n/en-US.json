@@ -4,7 +4,8 @@
     "viewChange": "View Transition",
     "httpRequest": "HTTP Request",
     "custom": "Custom Event",
-    "crash": "Crash"
+    "crash": "Crash",
+    "perf" : "Performance"
   },
   "analyzeView": {
     "eumTags": {
@@ -496,7 +497,8 @@
     "viewName": "View Name",
     "access": "Access",
     "eventName": "Event Name",
-    "crash": "Crash"
+    "crash": "Crash",
+    "perf" : "Performance"
   },
   "dataSource_sessionStart": "{{formattedCount}} Session Start",
   "dataSource_sessionStart_plural": "{{formattedCount}} Session Starts",
@@ -523,6 +525,11 @@
   "dataSource_crash_0": "{{formattedCount}} Crashes",
   "dataSource_crash_1": "{{formattedCount}} Crashes",
   "dataSource_crash_2": "{{formattedCount}} Crashes",
+  "dataSource_perf": "{{formattedCount}} Performance",
+  "dataSource_perf_plural": "{{formattedCount}} Performance",
+  "dataSource_perf_0": "{{formattedCount}} Performance",
+  "dataSource_perf_1": "{{formattedCount}} Performance",
+  "dataSource_perf_2": "{{formattedCount}} Performance",
   "facetedSearch": {
     "mobileApp": "Mobile App",
     "view": "View",

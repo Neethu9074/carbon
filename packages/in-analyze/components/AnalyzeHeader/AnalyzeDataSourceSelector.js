@@ -21,11 +21,16 @@ import {
   hasWebsitesAccess
 } from 'in-stores/permission';
 import {
+  infraExploreDataEnabled,
+  loggingEnabled,
+  mobileAppCrashBeaconEnabled,
+  mobileAppPerfBeaconEnabled
+} from 'in-services/featureFlags';
+import {
   defaultInfraExploreViewParams,
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { infraExploreDataEnabled, loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { useLinkToAnalyze as useLinkToProfileAnalyze } from 'in-components/Profiling/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
@@ -62,7 +67,8 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
     mobileTagCatalogViewChange: useMobileTagCatalog('viewChange'),
     mobileTagCatalogHttpRequest: useMobileTagCatalog('httpRequest'),
     mobileTagCatalogCustom: useMobileTagCatalog('custom'),
-    mobileTagCatalogCrash: useMobileTagCatalog('crash')
+    mobileTagCatalogCrash: useMobileTagCatalog('crash'),
+    mobileTagCatalogPerformance: useMobileTagCatalog('perf')
   };
   const callsTagCatalog = useApplicationTagCatalog(getCallsTagCatalog);
   const tracesTagCatalog = useApplicationTagCatalog(getTracesTagCatalog);
@@ -244,6 +250,18 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
               groupBy: isGrouped ? defaultMobileAppGroupings.crash : emptyObject,
               formModel,
               beaconType: 'crash',
+              tagCatalog
+            })
+        },
+        {
+          dataSource: 'perf',
+          enabled: mobileAppPerfBeaconEnabled,
+          getHref: ({ isGrouped, formModel, mobileTagCatalogPerformance: tagCatalog }) =>
+            tagCatalog &&
+            getLinkToMobileAppAnalyze({
+              groupBy: isGrouped ? defaultMobileAppGroupings.perf : emptyObject,
+              formModel,
+              beaconType: 'perf',
               tagCatalog
             })
         }

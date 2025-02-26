@@ -356,6 +356,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'mobileAppPerfBeaconEnabled',
+    instanaCtlKey: 'feature.mobile.app.perf.beacon.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'eumImpactedUsersForAppAlertEnabled',
     instanaCtlKey: 'feature.eum.impacted.users.appalert.enabled',
     defaultValue: false

@@ -96,6 +96,7 @@ export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
 export const sloSyntheticsEnabled = isFeatureFlagEnabled('sloSyntheticsEnabled', true);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
+export const mobileAppPerfBeaconEnabled = isFeatureFlagEnabled('mobileAppPerfBeaconEnabled', false);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
 
 export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', true);

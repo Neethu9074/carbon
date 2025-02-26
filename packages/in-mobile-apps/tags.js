@@ -5,8 +5,8 @@
 
 import { get } from 'lodash';
 
+import { mobileAppCrashBeaconEnabled, mobileAppPerfBeaconEnabled } from 'in-services/featureFlags';
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
-import { mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -40,27 +40,22 @@ function getMobileAppLabelTagFilter(mobileAppLabel) {
   };
 }
 
-export const dataSourceTitles = mobileAppCrashBeaconEnabled
-  ? {
-      sessionStart: t('in-mobile-apps:tags.sessionStart'),
-      viewChange: t('in-mobile-apps:tags.viewChange'),
-      httpRequest: t('in-mobile-apps:tags.httpRequest'),
-      custom: t('in-mobile-apps:tags.custom'),
-      crash: t('in-mobile-apps:tags.crash')
-    }
-  : {
-      sessionStart: t('in-mobile-apps:tags.sessionStart'),
-      viewChange: t('in-mobile-apps:tags.viewChange'),
-      httpRequest: t('in-mobile-apps:tags.httpRequest'),
-      custom: t('in-mobile-apps:tags.custom')
-    };
+export const dataSourceTitles = {
+  ...(mobileAppCrashBeaconEnabled ? { crash: t('in-mobile-apps:tags.crash') } : {}),
+  ...(mobileAppPerfBeaconEnabled ? { perf: t('in-mobile-apps:tags.perf') } : {}),
+  sessionStart: t('in-mobile-apps:tags.sessionStart'),
+  viewChange: t('in-mobile-apps:tags.viewChange'),
+  httpRequest: t('in-mobile-apps:tags.httpRequest'),
+  custom: t('in-mobile-apps:tags.custom')
+};
 
 export const dataSourceTypes = {
   sessionStart: 'SESSION_START',
   viewChange: 'VIEW_CHANGE',
   httpRequest: 'HTTP_REQUEST',
   custom: 'CUSTOM',
-  crash: 'CRASH'
+  crash: 'CRASH',
+  perf: 'PERF'
 };
 
 export const defaultGroupings = {
@@ -78,6 +73,9 @@ export const defaultGroupings = {
   },
   crash: {
     groupbyTag: 'mobileBeacon.crash.groupLabel'
+  },
+  perf: {
+    groupbyTag: 'mobileBeacon.performanceSubtype'
   }
 };
 
@@ -128,7 +126,8 @@ export const availableGroupingTags = {
     'mobileBeacon.error.type',
     'mobileBeacon.stackTrace',
     'mobileBeacon.crash.groupLabel'
-  ].sort()
+  ].sort(),
+  perf: [...commonGroupingTags, 'mobileBeacon.performanceSubtype']
 };
 
 const commonFilterTags = ['mobileBeacon.id', 'mobileBeacon.sessionId'];
@@ -138,5 +137,6 @@ export const availableFilterTags = {
   viewChange: [...availableGroupingTags.viewChange, ...commonFilterTags].sort(),
   httpRequest: [...availableGroupingTags.httpRequest, 'mobileBeacon.backend.traceId', ...commonFilterTags].sort(),
   custom: [...availableGroupingTags.custom, ...commonFilterTags].sort(),
-  crash: [...availableGroupingTags.crash, 'mobileBeacon.error.id', ...commonFilterTags].sort()
+  crash: [...availableGroupingTags.crash, 'mobileBeacon.error.id', ...commonFilterTags].sort(),
+  perf: [...availableGroupingTags.perf, ...commonFilterTags].sort()
 };
