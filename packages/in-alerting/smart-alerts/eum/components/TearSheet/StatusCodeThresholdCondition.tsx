@@ -8,7 +8,6 @@ import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import { isAdaptiveBaselineConfig } from '@instana/types';
-import { Spacer } from '@instana/components';
 
 import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/tearSheet/MultiThresholdCondition/MultiThresholdDeviationSliderForm';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
@@ -102,7 +101,7 @@ export default function StatusCodeThresholdCondition({
           onThresholdTypeChange={websiteOnThresholdTypeChange}
           isTearSheet
         />
-        <Spacer size="medium" />
+
         <ThresholdTypeSelection
           form={form}
           updateForm={updateForm}

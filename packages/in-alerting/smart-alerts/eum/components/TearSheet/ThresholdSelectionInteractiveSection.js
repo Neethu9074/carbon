@@ -13,6 +13,9 @@ import ThroughputThresholdCondition from 'in-alerting/smart-alerts/eum/component
 import StatusCodeThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/StatusCodeThresholdCondition';
 import SlownessThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/SlownessThresholdCondition';
 import JsErrorsThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/JsErrorsThresholdCondition';
+import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
+import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/AdaptiveBaselineErrorMessage';
+import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
@@ -26,7 +29,9 @@ export default function ThresholdSelectionInteractiveSection({
   blueprintConfig,
   eumType,
   isPercentageMetric,
-  getMetricUnitPostfix
+  getMetricUnitPostfix,
+  thresholdType,
+  thresholdResult
 }) {
   return (
     <Stack direction="vertical" gap="small" align="start">
@@ -85,6 +90,8 @@ export default function ThresholdSelectionInteractiveSection({
           />
         )}
       />
+      {thresholdType === HISTORIC_BASELINE && <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />}
+      {thresholdType === ADAPTIVE_BASELINE && <AdaptiveBaselineErrorMessage thresholdResult={thresholdResult} />}
     </Stack>
   );
 }

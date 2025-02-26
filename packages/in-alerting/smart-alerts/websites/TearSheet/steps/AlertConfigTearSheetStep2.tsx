@@ -49,9 +49,13 @@ export default function AlertConfigTearSheetStep2({
 
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
+  const validThreshold = (threshold as any)?.warningThreshold?.type
+    ? (threshold as any).warningThreshold
+    : (threshold as any)?.criticalThreshold;
+
   const { getTagCatalog, QueryBuilder: AlertQueryBuilder } = useMemo(
-    () => createBoundedAlertQueryBuilder(websiteId, beaconType, threshold.type, tagSuggestionTimeConfig),
-    [websiteId, beaconType, threshold.type]
+    () => createBoundedAlertQueryBuilder(websiteId, beaconType, validThreshold?.type, tagSuggestionTimeConfig),
+    [websiteId, beaconType, validThreshold?.type]
   );
 
   const updateTagFilterExpression = (filteredTagFilterExpression: FormModelElement[]) => {

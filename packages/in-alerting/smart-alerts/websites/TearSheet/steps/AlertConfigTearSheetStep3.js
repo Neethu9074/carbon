@@ -20,7 +20,6 @@ import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-aler
 import EvaluationGranularity from 'in-alerting/smart-alerts/components/tearSheet/EvaluationGranularity';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/tearSheet/ChartViewConfigurator';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/tearSheet/GracePeriodWrapper';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import toAlertConfigWithRules from 'in-alerting/smart-alerts/eum/utils/thresholdChartUtil';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
@@ -36,53 +35,52 @@ export default function AlertConfigTearSheetStep3({
   editMode,
   onChartViewConfigChange,
   onChange,
-  selectedChartViewConfigIndex
+  selectedChartViewConfigIndex,
+  thresholdResult,
+  blueprintConfig
 }) {
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
-  const warningThresholdField = form.get('threshold').get('warningThreshold');
-  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
-  const isWarningDefined = warningThresholdField.get('isCheckboxSelected').value;
+  const alertConfigWithFormModel = blueprintConfig.enrichWithDefaultThresholdValues(toAlertConfigWithRules(form));
 
-  const thresholdType = isWarningDefined
-    ? warningThresholdField.get('type').value
-    : criticalThresholdField.get('type').value;
-  const blueprintConfig = getBlueprintConfig(alertType);
+  const thresholdType = alertConfigWithFormModel.rules[0].thresholds.WARNING;
 
   const chartViewConfigs = isAdaptiveBaselineConfig(thresholdType) ? [chartViewConfig24hours] : defaultChartViewConfigs;
-
-  const alertConfigWithFormModel = toAlertConfigWithRules(form);
 
   return (
     <>
       <div className={locals.container60_40}>
-        <TearSheetStepTitleWrapper
-          headline={t('in-alerting:smartAlerts.websites.tearSheet.threshold.header')}
-          description={t('in-alerting:smartAlerts.websites.tearSheet.threshold.description')}
-        >
-          {/* Threshold */}
-          <ThresholdSelectionInteractiveSection
-            form={form}
-            eumType={websiteEum}
-            alertType={alertType}
-            updateForm={updateForm}
-            editMode={editMode}
-            onChartViewConfigChange={onChartViewConfigChange}
-            blueprintConfig={blueprintConfig}
-            isPercentageMetric={isPercentageMetric}
-            getMetricUnitPostfix={getMetricUnitPostfix}
-          />
-          <Spacer size="normal" />
-          {/* Granularity Slider */}
-          <EvaluationGranularity
-            form={form}
-            updateForm={updateForm}
-            oneMinuteGranularityAllowed={
-              thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
-            }
-            thresholdType={thresholdType}
-          />
-        </TearSheetStepTitleWrapper>
+        <div className={locals.wrapper}>
+          <TearSheetStepTitleWrapper
+            headline={t('in-alerting:smartAlerts.websites.tearSheet.threshold.header')}
+            description={t('in-alerting:smartAlerts.websites.tearSheet.threshold.description')}
+          >
+            {/* Threshold */}
+            <ThresholdSelectionInteractiveSection
+              form={form}
+              eumType={websiteEum}
+              alertType={alertType}
+              updateForm={updateForm}
+              editMode={editMode}
+              onChartViewConfigChange={onChartViewConfigChange}
+              blueprintConfig={blueprintConfig}
+              isPercentageMetric={isPercentageMetric}
+              getMetricUnitPostfix={getMetricUnitPostfix}
+              thresholdType={thresholdType}
+              thresholdResult={thresholdResult}
+            />
+            <Spacer size="normal" />
+            {/* Granularity Slider */}
+            <EvaluationGranularity
+              form={form}
+              updateForm={updateForm}
+              oneMinuteGranularityAllowed={
+                thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
+              }
+              thresholdType={thresholdType}
+            />
+          </TearSheetStepTitleWrapper>
+        </div>
         <span className={locals.seperator} />
         <TearSheetStepTitleWrapper
           headline={t('in-alerting:smartAlerts.websites.tearSheet.timeThreshold.title')}

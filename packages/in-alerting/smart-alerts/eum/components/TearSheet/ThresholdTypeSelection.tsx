@@ -7,11 +7,11 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { Spacer } from '@instana/components';
+import { Spacer, Stack } from '@instana/components';
 
+import RecalculateMultiThresholdBaselineButton from 'in-alerting/smart-alerts/components/dialog/advanced/RecalculateMultiThresholdBaselineButton';
 import { getOptionsFilterForThresholdTyp } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import { getMultiThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
-import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/dialog/advanced/RecalculateBaselineButton';
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
 import { ThresholdTypeOptions } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
@@ -44,31 +44,31 @@ export default function ThresholdTypeSelection({
   const thresholdComboBoxValue = getMultiThresholdComboBoxValue(form);
   const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
   const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange(mobileAppCreateRuleForm);
-
   return (
-    <>
+    <Stack gap="xsmall" direction="horizontal">
       {options.length > 1 && (
-        <Dropdown
-          value={thresholdComboBoxValue as string}
-          className={locals.dropdownxlg}
-          items={options}
-          onChange={newThresholdTypeWithSeasonality => {
-            if (eumType === websiteEum) {
-              return websiteOnThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm);
-            }
-            if (eumType === mobileAppEum) {
-              return mobileAppOnThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm);
-            }
-            return '';
-          }}
-        />
-      )}
+        <>
+          <Dropdown
+            value={thresholdComboBoxValue as string}
+            className={locals.dropdownxlg}
+            items={options}
+            onChange={newThresholdTypeWithSeasonality => {
+              if (eumType === websiteEum) {
+                return websiteOnThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm);
+              }
+              if (eumType === mobileAppEum) {
+                return mobileAppOnThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm);
+              }
+              return '';
+            }}
+          />
+          <Spacer vertical="xxsmall" />
 
-      <Spacer vertical="xxsmall" />
-
-      {thresholdType === HISTORIC_BASELINE && (
-        <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
+          {thresholdType === HISTORIC_BASELINE && (
+            <RecalculateMultiThresholdBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
+          )}
+        </>
       )}
-    </>
+    </Stack>
   );
 }

@@ -26,9 +26,8 @@ import Menu from 'in-alerting/smart-alerts/components/Menu';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
 
-export default function AlertConfigTearSheetStep1({ form, updateForm }) {
+export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintConfig }) {
   const alertType = form.get('rule').get('alertType').value;
-  const blueprintConfig = blueprintConfigs.find(item => item.type === alertType);
   const alertContent = blueprintConfig?.tearSheet?.description ?? {};
 
   return (

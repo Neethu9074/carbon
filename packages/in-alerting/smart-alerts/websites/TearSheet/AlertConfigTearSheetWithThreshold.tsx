@@ -12,6 +12,7 @@ import {
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/eum/hooks/useCalculateThresholdOnBackendSignalEmitter';
 // @ts-expect-error
 import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/websites/hooks/useIsTagFilterFormModelValid';
 //@ts-expect-error TS migration
@@ -53,7 +54,8 @@ const tagSuggestionTimeConfig = {
 export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTearSheetWithThresholdProps) {
   const { editMode, tearSheetTitle, form, updateForm, onCreate } = props;
 
-  const [, setTagFilterValid] = useState(true); //TODO
+  useCalculateThresholdOnBackendSignalEmitter(form);
+  const [, setTagFilterValid] = useState(true);
 
   const alertConfigWithFormModel = form.toJS() as unknown as WebsiteAlertConfigWithMetadata;
 
@@ -63,11 +65,15 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
 
   const blueprintConfig = getBlueprintConfig(alertType);
 
+  const validThreshold = (threshold as any)?.warningThreshold?.type
+    ? (threshold as any).warningThreshold
+    : (threshold as any)?.criticalThreshold;
+
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
   const { isQueryValid } = useMemo(
-    () => createBoundedAlertQueryBuilder(websiteId, beaconType, threshold?.type, tagSuggestionTimeConfig),
-    [websiteId, beaconType, threshold?.type]
+    () => createBoundedAlertQueryBuilder(websiteId, beaconType, validThreshold?.type, tagSuggestionTimeConfig),
+    [websiteId, beaconType, validThreshold?.type]
   );
 
   const isAlertQueryValid = createIsAlertQueryValid(isQueryValid);
@@ -96,6 +102,7 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
   return (
     <AlertingFullScreenTearSheet
       {...props}
+      blueprintConfig={blueprintConfig}
       isTagFilterFormModelValid
       isEditMode={false}
       tearSheetTitle={tearSheetTitle}
