@@ -61,7 +61,7 @@ export default function TagSelectorOverlay({
   );
   const query = useDebouncedValue('', noop, 800);
   const timeConfig = useTimeConfig();
-  const shouldUseQueryCatalog = isNotBlank(query.value) && getTagCatalog && additionalGetTagCatalogProps;
+  const shouldUseQueryCatalog = isNotBlank(query.value) && getTagCatalog;
   const queryCatalog =
     useObservable(
       () =>
