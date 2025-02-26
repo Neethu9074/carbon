@@ -104,7 +104,7 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
       {...props}
       blueprintConfig={blueprintConfig}
       isTagFilterFormModelValid
-      isEditMode={false}
+      isEditMode={editMode}
       tearSheetTitle={tearSheetTitle}
       stepConfigs={navItems}
       thresholdResult={thresholdResult}
