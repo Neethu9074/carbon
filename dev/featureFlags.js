@@ -172,5 +172,6 @@ module.exports = {
   syntheticSmartAlertFullScreenDesignEnabled: false,
   alertChannelPerSeverityWebsiteSaEnabled: true,
   alertChannelPerSeverityMobileAppSaEnabled: true,
+  alertChannelPerSeverityLogSaEnabled: true,
   idpConfigV2Enabled: false
 };
