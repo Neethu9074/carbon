@@ -9,6 +9,7 @@ import React from 'react';
 
 import { isAdaptiveBaselineConfig } from '@instana/types';
 import { Spacer } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/tearSheet/MultiThresholdCondition/MultiThresholdDeviationSliderForm';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
@@ -23,7 +24,7 @@ import AlertTypography from 'in-alerting/components/AlertTypography';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+import locals from 'in-alerting/smart-alerts/eum/components/TearSheet/ThresholdCondition.mless';
 
 export default function ThroughputThresholdCondition({
   form,
@@ -51,7 +52,7 @@ export default function ThroughputThresholdCondition({
   const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
 
   return (
-    <>
+    <Stack gap="medium">
       {/* metric dropdown */}
       <Section
         title={
@@ -120,7 +121,7 @@ export default function ThroughputThresholdCondition({
           />
         )}
       </Section>
-    </>
+    </Stack>
   );
 }
 

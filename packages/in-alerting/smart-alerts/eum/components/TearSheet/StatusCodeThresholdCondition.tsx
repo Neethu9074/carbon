@@ -8,6 +8,7 @@ import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import { isAdaptiveBaselineConfig } from '@instana/types';
+import { Stack } from '@instana/components';
 
 import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/tearSheet/MultiThresholdCondition/MultiThresholdDeviationSliderForm';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
@@ -25,7 +26,7 @@ import Dropdown from 'in-alerting/components/Dropdown';
 import { Option } from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+import locals from 'in-alerting/smart-alerts/eum/components/TearSheet/ThresholdCondition.mless';
 
 interface StatusCodeThresholdConditionProps {
   form: MapForm<any>;
@@ -68,7 +69,7 @@ export default function StatusCodeThresholdCondition({
   const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
 
   return (
-    <>
+    <Stack gap="medium">
       {/* metric dropdown */}
       <Section
         title={
@@ -83,7 +84,7 @@ export default function StatusCodeThresholdCondition({
         <Dropdown
           value={metricName}
           items={ruleMetricNameOptions.statusCode}
-          className={locals.dropdownlg}
+          className={locals.dropdownmd}
           onChange={value => {
             updateForm(form.updateIn(['rule', 'metricName'], f => (f as Field<any>).setValue(value).setTouched(true)));
           }}
@@ -136,6 +137,6 @@ export default function StatusCodeThresholdCondition({
           />
         )}
       </Section>
-    </>
+    </Stack>
   );
 }

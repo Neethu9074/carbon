@@ -6,8 +6,8 @@
 
 import React from 'react';
 
+import { Dropdown, Spacer, Stack } from '@instana/components';
 import { isAdaptiveBaselineConfig } from '@instana/types';
-import { Dropdown, Spacer } from '@instana/components';
 
 import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/tearSheet/MultiThresholdCondition/MultiThresholdDeviationSliderForm';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
@@ -25,7 +25,7 @@ import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+import locals from 'in-alerting/smart-alerts/eum/components/TearSheet/ThresholdCondition.mless';
 
 export default function SlownessThresholdCondition({
   form,
@@ -54,7 +54,7 @@ export default function SlownessThresholdCondition({
   const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
 
   return (
-    <>
+    <Stack gap="medium">
       {/* metric dropdown */}
       <Section
         title={
@@ -123,6 +123,6 @@ export default function SlownessThresholdCondition({
           />
         )}
       </Section>
-    </>
+    </Stack>
   );
 }

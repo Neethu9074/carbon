@@ -8,7 +8,7 @@ import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { isAdaptiveBaselineConfig } from '@instana/types';
-import { Spacer } from '@instana/components';
+import { Spacer, Stack } from '@instana/components';
 
 import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/tearSheet/MultiThresholdCondition/MultiThresholdDeviationSliderForm';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
@@ -62,7 +62,7 @@ export default function CustomEventsThresholdCondition({
   const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
 
   return (
-    <>
+    <Stack gap="medium">
       {/* metric dropdown */}
       <Section
         title={
@@ -124,6 +124,6 @@ export default function CustomEventsThresholdCondition({
           />
         )}
       </Section>
-    </>
+    </Stack>
   );
 }

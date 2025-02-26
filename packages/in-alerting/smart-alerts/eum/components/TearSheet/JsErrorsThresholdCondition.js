@@ -7,6 +7,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import MultiThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/Section/MultiThresholdCondition';
 import { getMetricUnitPostfix, isPercentageMetric } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
@@ -16,7 +18,7 @@ import AlertTypography from 'in-alerting/components/AlertTypography';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+import locals from 'in-alerting/smart-alerts/eum/components/TearSheet/ThresholdCondition.mless';
 
 export default function JsErrorsThresholdCondition({ form, blueprintConfig, updateForm }) {
   const metricName = form.get('rule').get('metricName').value;
@@ -25,7 +27,7 @@ export default function JsErrorsThresholdCondition({ form, blueprintConfig, upda
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
 
   return (
-    <>
+    <Stack gap="medium">
       {/* metric dropdown */}
       <Section
         title={
@@ -40,7 +42,7 @@ export default function JsErrorsThresholdCondition({ form, blueprintConfig, upda
         <Dropdown
           value={metricName}
           items={ruleMetricNameOptions.specificJsError}
-          className={locals.dropdownmd}
+          className={locals.dropdownsm}
           onChange={value => {
             updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
           }}
@@ -64,7 +66,7 @@ export default function JsErrorsThresholdCondition({ form, blueprintConfig, upda
           label={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
         />
       </Section>
-    </>
+    </Stack>
   );
 }
 

@@ -43,7 +43,7 @@ export default function AlertConfigTearSheetStep3({
   const alertType = ruleForm.get('alertType').value;
   const alertConfigWithFormModel = blueprintConfig.enrichWithDefaultThresholdValues(toAlertConfigWithRules(form));
 
-  const thresholdType = alertConfigWithFormModel.rules[0].thresholds.WARNING;
+  const thresholdType = alertConfigWithFormModel.rules[0].thresholds.WARNING?.type;
 
   const chartViewConfigs = isAdaptiveBaselineConfig(thresholdType) ? [chartViewConfig24hours] : defaultChartViewConfigs;
 
