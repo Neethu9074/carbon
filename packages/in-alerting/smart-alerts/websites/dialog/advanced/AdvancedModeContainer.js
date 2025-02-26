@@ -16,6 +16,7 @@ import {
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/eum/components/ThresholdSelectionInteractiveChart';
+import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
 import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import { HISTORIC_BASELINE, ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
@@ -37,6 +38,7 @@ import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ru
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import websiteCreateRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
+import { alertChannelPerSeverityWebsiteSaEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
@@ -196,13 +198,26 @@ export default function AdvancedModeContainer(props) {
           title: t('in-alerting:smartAlerts.websites.advanced.alertChannelsTitle'),
           valid: true,
           content: (
-            <ConfigureAlertChannel
-              form={form}
-              onChange={onChange}
-              setSliderState={setSliderState}
-              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-              numberOfAlertChannelListRows={5}
-            />
+            <>
+              {alertChannelPerSeverityWebsiteSaEnabled ? (
+                <ConfigureAlertChannelMT
+                  form={form}
+                  onChange={onChange}
+                  updateForm={updateForm}
+                  setSliderState={setSliderState}
+                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                  numberOfAlertChannelListRows={5}
+                />
+              ) : (
+                <ConfigureAlertChannel
+                  form={form}
+                  onChange={onChange}
+                  setSliderState={setSliderState}
+                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                  numberOfAlertChannelListRows={5}
+                />
+              )}
+            </>
           )
         },
         {

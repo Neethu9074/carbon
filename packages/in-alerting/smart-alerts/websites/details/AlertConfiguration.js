@@ -27,6 +27,7 @@ import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/Websi
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
+import { alertChannelPerSeverityWebsiteSaEnabled } from 'in-services/featureFlags';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
@@ -47,6 +48,7 @@ export default function AlertConfiguration({ alertConfig }) {
     granularity,
     gracePeriod,
     alertChannelIds,
+    alertChannels,
     tagFilterExpression,
     websiteId,
     customPayloadFields
@@ -162,7 +164,11 @@ export default function AlertConfiguration({ alertConfig }) {
         darkFrame
       >
         <div className={locals.alertChannelsWrapper}>
-          <AlertChannelsViewer alertChannelIds={alertChannelIds} />
+          <AlertChannelsViewer
+            alertChannelIds={alertChannelIds}
+            alertChannels={alertChannels}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityWebsiteSaEnabled}
+          />
         </div>
       </ExpandableLightCard>
 

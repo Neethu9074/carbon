@@ -20,6 +20,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/eum/components/AlertCreateOrSave';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdUtils';
+import { alertChannelPerSeverityWebsiteSaEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { WebsiteAlertConfig, ThresholdType, Severity } from 'in-types';
@@ -88,6 +89,7 @@ export default function AlertConfigDialog({
       isSaving={isSaving}
       messages={messages}
       setIsSimpleMode={setIsSimpleMode}
+      alertChannelPerSeverityEnabled={alertChannelPerSeverityWebsiteSaEnabled}
     />
   );
 }
@@ -128,7 +130,8 @@ export function toAlertConfig(form: MapForm<any>): Readonly<WebsiteAlertConfig> 
 
   return Object.freeze({
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
-    alertChannelIds: form.get(fieldNames.alertChannelIds).value,
+    alertChannelIds: alertChannelPerSeverityWebsiteSaEnabled ? null : form.get(fieldNames.alertChannelIds).value,
+    alertChannels: alertChannelPerSeverityWebsiteSaEnabled ? form.get(fieldNames.alertChannels).value : null,
     enabled: form.get(fieldNames.enabled).value,
     triggering: form.get(fieldNames.triggering).value,
     description:
