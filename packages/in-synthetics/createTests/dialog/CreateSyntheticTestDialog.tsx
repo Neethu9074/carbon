@@ -4,19 +4,20 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
-import { MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 
 import CreateSyntheticTestDialogPresenter from 'in-synthetics/createTests/dialog/CreateSyntheticTestDialogPresenter';
+import { Code, SlideInConfig, SliderState, TargetFilter, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
-import { Code, SlideInConfig, SliderState, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { syntheticWizardCreateButtonClick } from 'in-synthetics/tracking/tracker';
 import { Error as ScriptError, SyntheticTest } from 'in-types';
+import { isNotBlank } from 'in-services/util/string';
 import { createTest } from 'in-synthetics/api';
 
 interface CreateSyntheticTestDialogProps {
@@ -110,6 +111,23 @@ const createSyntheticTest = (
       isEmpty(form.get('configuration').get('headers').value)
     ) {
       updatedForm = form.put('configuration', form.get('configuration').remove('headers'));
+      testConfig = {
+        active: true,
+        ...updatedForm.toJS()
+      } as SyntheticTest;
+    } else if (form.get('configuration').get('syntheticType').value === 'DNSAction') {
+      if (isEmpty(form.get('configuration').get('targetValues').value)) {
+        updatedForm = form.put('configuration', form.get('configuration').remove('targetValues'));
+      } else {
+        const updatedFilter = form
+          .get('configuration')
+          .get('targetValues')
+          .value.map(({ id, ...otherValues }: { id: string }) => otherValues)
+          .filter((targetValue: TargetFilter) => isNotBlank(targetValue.key));
+        updatedForm = form.updateIn(['configuration', 'targetValues'], (field: Item) =>
+          (field as Field<TargetFilter>).setValue(updatedFilter).setTouched(true)
+        );
+      }
       testConfig = {
         active: true,
         ...updatedForm.toJS()

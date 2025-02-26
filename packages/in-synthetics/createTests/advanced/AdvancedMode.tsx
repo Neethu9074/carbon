@@ -18,6 +18,7 @@ import BrowserSimpleConfiguration from 'in-synthetics/createTests/advanced/Brows
 import BluePrintSelectionSection from 'in-synthetics/createTests/advanced/BluePrintSelectionSection';
 import AssociationsCommonSection from 'in-synthetics/createTests/wizard/AssociationsCommonSection';
 import CustomPropertiesSection from 'in-synthetics/createTests/advanced/CustomPropertiesSection';
+import DNSActionConfiguration from 'in-synthetics/createTests/advanced/DNSActionConfiguration';
 import ConfigurationSection from 'in-synthetics/createTests/advanced/ConfigurationSection';
 import ApplicationsSection from 'in-synthetics/createTests//wizard/ApplicationsSection';
 import ConfigureLocations from 'in-synthetics/createTests/advanced/ConfigureLocations';
@@ -100,7 +101,7 @@ const AdvancedMode = ({
             setScriptDetails={setScriptDetails!}
             commonAttributes={commonAttributes}
             setCommonAttributes={setCommonAttributes}
-            isBrowser={syntheticType === 'HTTPScript' ? false : true}
+            isBrowser={syntheticType !== 'HTTPScript'}
             invalidTimeout={invalidTimeout}
             setInvalidTimeout={setInvalidTimeout}
           />
@@ -140,7 +141,14 @@ const AdvancedMode = ({
           />
         );
       case 'DNSAction':
-        return <div>DNS config goes here</div>;
+        return (
+          <DNSActionConfiguration
+            form={form}
+            updateForm={updateForm}
+            invalidTimeout={invalidTimeout}
+            setInvalidTimeout={setInvalidTimeout}
+          />
+        );
       default:
         return null;
     }

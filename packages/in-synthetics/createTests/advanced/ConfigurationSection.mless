@@ -61,4 +61,34 @@
   .validityInput {
     margin: 0 1rem;
   }
+
+  .configProtocol {
+    width: 50%;
+  }
+
+  .queryStack {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .queryWidth {
+    width: 30%;
+  }
+
+  .headline {
+    font-size: var(--ids-font-size-option-body-bold);
+    font-weight: 600;
+  }
+
+  .timeoutUnit {
+    :global(.cds--text-input__field-outer-wrapper) {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      input {
+        padding-left: 0;
+        border: none;
+      }
+    }
+  }
 }
