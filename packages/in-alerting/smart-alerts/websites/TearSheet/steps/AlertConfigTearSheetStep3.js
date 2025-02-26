@@ -72,7 +72,7 @@ export default function AlertConfigTearSheetStep3({
             isPercentageMetric={isPercentageMetric}
             getMetricUnitPostfix={getMetricUnitPostfix}
           />
-          <Spacer size="small" />
+          <Spacer size="normal" />
           {/* Granularity Slider */}
           <EvaluationGranularity
             form={form}
@@ -83,7 +83,7 @@ export default function AlertConfigTearSheetStep3({
             thresholdType={thresholdType}
           />
         </TearSheetStepTitleWrapper>
-        <Spacer size="gutter" />
+        <span className={locals.seperator} />
         <TearSheetStepTitleWrapper
           headline={t('in-alerting:smartAlerts.websites.tearSheet.timeThreshold.title')}
           description={t('in-alerting:smartAlerts.websites.tearSheet.timeThreshold.description')}

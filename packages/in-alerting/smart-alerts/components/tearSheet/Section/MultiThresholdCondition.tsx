@@ -156,11 +156,17 @@ export default function MultiThresholdCondition({
   );
 
   function updatedThresholdValue(targetValue: number | null, thresholdType: string) {
-    return form.updateIn(['threshold', thresholdType], thresholdMapForm =>
-      (thresholdMapForm as MapForm<any>).updateIn(['value'], item =>
-        (item as Field<any>).setValue(targetValue).setTouched(true)
+    return form
+      .updateIn(['threshold', thresholdType], thresholdMapForm =>
+        (thresholdMapForm as MapForm<any>).updateIn(['value'], item =>
+          (item as Field<any>).setValue(targetValue).setTouched(true)
+        )
       )
-    );
+      .updateIn(['threshold', thresholdType], thresholdMapForm =>
+        (thresholdMapForm as MapForm<any>).updateIn(['isCheckboxSelected'], item =>
+          (item as Field<any>).setValue(targetValue === null ? false : true).setTouched(true)
+        )
+      );
   }
 
   function updatedThresholdCheckboxSelection(isChecked: boolean, thresholdType: string) {
