@@ -85,7 +85,7 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
   const [thresholdResult, setThresholdResult] = useState();
   useThresholdSuggestion(form, updateForm, setThresholdResult, createThresholdForm, {
     isValid,
-    simpleMode: true,
+    simpleMode: false,
     alertConfigWithFormModel,
     blueprintConfig
   });
