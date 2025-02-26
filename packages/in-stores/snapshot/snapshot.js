@@ -282,8 +282,8 @@ export function getSnapshotVersions(snapshotId, timeConfig) {
   return createSnapshotVersionsObservable({ snapshotId, timeConfig });
 }
 
-export function shouldStayInCurrentTimeModeForNavigationToSnapshot({ snapshotId }) {
-  return getSnapshot(snapshotId)
+export function shouldStayInCurrentTimeModeForNavigationToSnapshot({ snapshotId, timeConfig }) {
+  return getSnapshot(snapshotId, timeConfig)
     .map(() => true)
     .startWith(false);
 }
