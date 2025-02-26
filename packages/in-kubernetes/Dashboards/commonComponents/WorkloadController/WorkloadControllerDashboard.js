@@ -23,11 +23,11 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { useKubernetesTracker } from 'in-kubernetes/tracker';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { useSegmentTracker } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-components/Footer';
 
@@ -57,7 +57,7 @@ export default function WorkloadControllerDashboard({
   };
   props[`${props.workloadControllerType}Id`] = props.workloadControllerId;
 
-  const { kubernetesTimeShiftSelectTracker } = useSegmentTracker();
+  const { kubernetesTimeShiftSelectTracker } = useKubernetesTracker();
 
   return (
     <>

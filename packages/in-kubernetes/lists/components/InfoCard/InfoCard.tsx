@@ -30,6 +30,7 @@ import {
 import InfoCardHeader from 'in-kubernetes/lists/components/InfoCardHeader/InfoCardHeader';
 import { getKubernetesCounters } from 'in-kubernetes/lists/components/InfoCard/utils';
 import InfoCardTile from 'in-kubernetes/lists/components/InfoCard/InfoCardTile';
+import { useKubernetesTracker } from 'in-kubernetes/tracker';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -62,6 +63,7 @@ export interface KubernetesCountersProps {
 
 export default function InfoCard({ type, data, onDataFetched, getHrefs, workloads }: Readonly<InfoCardProps>) {
   const timeConfig = useTimeConfig();
+  const { kubernetesCardClicked } = useKubernetesTracker();
   const namespaceId = data?.namespace?.id;
   const clusterId = data?.cluster?.id;
   const isClusterType = type === 'cluster';
@@ -96,6 +98,7 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
   const {
     workloads: { pods, deployments },
     clusterName,
+    label,
     nodes,
     namespaces,
     cronJobs,
@@ -122,6 +125,8 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
   const shouldDisplayServices = workloads.includes(servicesLabel) && servicesHref;
   const shouldDisplayCronJobs = workloads.includes(cronJobsLabel) && cronJobsHref;
 
+  const resourceName = isClusterType ? { cluster: name } : { namespace: label };
+
   return (
     <div className={locals.infoCard}>
       <InfoCardHeader
@@ -142,6 +147,13 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
             href={nodesHref}
             isLoading={isLoadingData}
             hasIssues={totalUnhealthyNodes > 0}
+            onClick={() => {
+              kubernetesCardClicked({
+                ...resourceName,
+                cardTitle: t('in-kubernetes:cloudNative.unhealthyNodes'),
+                href: nodesHref
+              });
+            }}
             hasWarnings={hasNodesWithOnlyWarnings}
             tooltip={
               totalUnhealthyNodes >= maxTotalItems
@@ -159,6 +171,13 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
             isLoading={isLoadingData}
             hasIssues={totalUnhealthyDeployments > 0}
             hasWarnings={hasDeploymentsWithOnlyWarnings}
+            onClick={() => {
+              kubernetesCardClicked({
+                ...resourceName,
+                cardTitle: t('in-kubernetes:cloudNative.unhealthyDeployments'),
+                href: deploymentsHref
+              });
+            }}
             tooltip={
               totalUnhealthyDeployments >= maxTotalItems
                 ? t('in-kubernetes:cloudNative.manyUnhealthyWorkloads', { workload: 'deployments' })
@@ -172,6 +191,13 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
             title={t('in-kubernetes:cloudNative.runningPods')}
             isLoading={isLoadingData}
             href={podsHref}
+            onClick={() => {
+              kubernetesCardClicked({
+                ...resourceName,
+                cardTitle: t('in-kubernetes:cloudNative.runningPods'),
+                href: podsHref
+              });
+            }}
             subtitle={t('in-kubernetes:cloudNative.totalPods', { count: pods })}
             counter={`${totalRunningPods}`}
           />
@@ -182,6 +208,13 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
             isLoading={isLoadingData}
             href={namespacesHref}
             counter={`${namespaces}`}
+            onClick={() => {
+              kubernetesCardClicked({
+                ...resourceName,
+                cardTitle: t('in-kubernetes:cloudNative.namespaces'),
+                href: namespacesHref
+              });
+            }}
           />
         )}
         {shouldDisplayServices && (
@@ -190,6 +223,13 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
             isLoading={isLoadingData}
             href={servicesHref}
             counter={`${services}`}
+            onClick={() => {
+              kubernetesCardClicked({
+                ...resourceName,
+                cardTitle: t('in-kubernetes:cloudNative.services'),
+                href: servicesHref
+              });
+            }}
           />
         )}
         {shouldDisplayCronJobs && (
@@ -198,6 +238,13 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
             isLoading={isLoadingData}
             href={cronJobsHref}
             counter={`${cronJobs ?? totalCronJobs}`}
+            onClick={() => {
+              kubernetesCardClicked({
+                ...resourceName,
+                cardTitle: t('in-kubernetes:cloudNative.cronJobs'),
+                href: cronJobsHref
+              });
+            }}
           />
         )}
       </Stack>

@@ -24,10 +24,10 @@ import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { CronJobBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { useKubernetesTracker } from 'in-kubernetes/tracker';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
 import BadgeList from 'in-components/BadgeList/BadgeList';
-import { useSegmentTracker } from 'in-kubernetes/tracker';
 import tabs from 'in-kubernetes/Dashboards/CronJob/tabs';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
@@ -41,7 +41,7 @@ export default function CronJobDashboard({ location }) {
     timeConfig: getTimeConfig(location)
   };
 
-  const { k8sTabChange } = useSegmentTracker();
+  const { k8sTabChange } = useKubernetesTracker();
 
   return (
     <>

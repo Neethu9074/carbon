@@ -24,6 +24,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { useKubernetesTracker } from 'in-kubernetes/tracker';
 import { pageNames } from 'in-services/tracking/pageNames';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -124,6 +125,7 @@ export default connectTo(
   },
   function NamespaceTable({ timeConfig }) {
     const { createHrefToPath } = useNavigation();
+    const { kubernetesViewModeToggled } = useKubernetesTracker();
 
     return (
       <>
@@ -151,6 +153,12 @@ export default connectTo(
                     kind="ghost"
                     size="lg"
                     label={t('in-kubernetes:cloudNative.switchToCardView')}
+                    onClick={() =>
+                      kubernetesViewModeToggled({
+                        switchedToView: 'card',
+                        tab: 'namespace'
+                      })
+                    }
                     href={createHrefToPath(`${namespaceListFullyQualified}`)}
                   >
                     <SvgIcon type="lib_views_grid" size="s" />

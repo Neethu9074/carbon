@@ -25,13 +25,13 @@ import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { nodeDashboard } from 'in-kubernetes/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { useKubernetesTracker } from 'in-kubernetes/tracker';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Node/tabs/index';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { pageNames } from 'in-services/tracking/pageNames';
 import BadgeList from 'in-components/BadgeList/BadgeList';
-import { useSegmentTracker } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
@@ -44,7 +44,7 @@ export default function NodeDashboard({ location }) {
     timeConfig: getTimeConfig(location)
   };
 
-  const { k8sTabChange, kubernetesTimeShiftSelectTracker } = useSegmentTracker();
+  const { k8sTabChange, kubernetesTimeShiftSelectTracker } = useKubernetesTracker();
 
   return (
     <>

@@ -30,12 +30,12 @@ import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { podDashboard } from 'in-kubernetes/navigation/paths';
+import { useKubernetesTracker } from 'in-kubernetes/tracker';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { useSegmentTracker } from 'in-kubernetes/tracker';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
@@ -50,7 +50,7 @@ export default function PodDashboard({ location }) {
     timeConfig: getTimeConfig(location)
   };
 
-  const { k8sTabChange, kubernetesTimeShiftSelectTracker } = useSegmentTracker();
+  const { k8sTabChange, kubernetesTimeShiftSelectTracker } = useKubernetesTracker();
 
   const { podId, timeConfig } = props;
 

@@ -13,6 +13,7 @@ import { Observable } from '@instana/observables';
 import { initialState, stateReducer, actions } from 'in-kubernetes/hooks/useInfiniteSearch/reducer';
 import { QueryParams } from 'in-kubernetes/subscriptions/getKubernetesClusters';
 import { hasError, isLoading } from 'in-services/util/result';
+import { useKubernetesTracker } from 'in-kubernetes/tracker';
 import useUrlState, { Options } from 'in-hooks/useUrlState';
 import useInfiniteScroll from 'in-hooks/useInfiniteScroll';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
@@ -36,6 +37,7 @@ export default function useInfiniteSearch({ subscription, urlStateDefinition }: 
   const timeConfig = useTimeConfig();
   const previousTimeConfig = usePrevious(timeConfig);
   const [{ result, page, isResettingState }, dispatch] = useReducer(stateReducer, initialState);
+  const { kubernetesSearchQueryChanged } = useKubernetesTracker();
   const [{ query }, setUrlState] = useUrlState(urlStateDefinition);
   const { setResult, setPage, setResetState, setIsResettingState } = actions;
   const hasTimeConfigChanged: boolean = (previousTimeConfig && !isEqual(timeConfig, previousTimeConfig)) ?? false;
@@ -51,6 +53,9 @@ export default function useInfiniteSearch({ subscription, urlStateDefinition }: 
       resetState();
       setUrlState({ query: value });
       dispatchResettingState(false);
+      kubernetesSearchQueryChanged({
+        query: value
+      });
     },
     500
   );

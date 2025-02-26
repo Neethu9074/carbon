@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 
-import { CarbonTile, Spacer, SvgIcon, CarbonIconButton, Stack } from '@instana/components';
+import { CarbonTile, CarbonSearch, Spacer, SvgIcon, CarbonIconButton, Stack } from '@instana/components';
 import { Observable } from '@instana/observables';
 
 import {
@@ -36,12 +36,12 @@ import InfoCardSkeleton from 'in-kubernetes/lists/components/InfoCardSkeleton/In
 import useInfiniteSearch from 'in-kubernetes/hooks/useInfiniteSearch/useInfiniteSearch';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { QueryParams } from 'in-kubernetes/subscriptions/getKubernetesClusters';
-import CarbonSearchBar from 'in-components/CarbonSearchBar/CarbonSearchBar';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { useKubernetesTracker } from 'in-kubernetes/tracker';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { deepFreeze } from 'in-services/util/object';
 import useUrlState from 'in-hooks/useUrlState';
@@ -68,6 +68,8 @@ export default function ResourceCardList({ subscription, type, getHrefs, workloa
   const isClusterType = type === 'cluster';
   const urlStateDefinition = getUrlStateDefinition(isClusterType);
   const { location, navigate } = useNavigation();
+  const searchRef = useRef<HTMLDivElement>(null);
+  const { kubernetesViewModeToggled, kubernetesSearchBarCleared, kubernetesSortingChanged } = useKubernetesTracker();
   const [{ orderBy, orderDirection }, setUrlState] = useUrlState(urlStateDefinition);
   const [itemsAdditionalInfo, setItemsAdditionalInfo] = useState<ItemAdditionalInfo>({});
   const {
@@ -91,6 +93,13 @@ export default function ResourceCardList({ subscription, type, getHrefs, workloa
     if (itemsAdditionalInfo[id]) return;
     setItemsAdditionalInfo(prev => ({ ...prev, [id]: data }));
   };
+
+  // Auto focus search bar input
+  useEffect(() => {
+    if (searchRef?.current) {
+      searchRef?.current?.querySelector('input')?.focus();
+    }
+  }, []);
 
   if (isInitialLoading) {
     return <LoadingIndicator />;
@@ -117,7 +126,15 @@ export default function ResourceCardList({ subscription, type, getHrefs, workloa
       />
       <CarbonTile>
         <Stack direction="horizontal" align="center" distribution="spaceBetween" gap="xsmall">
-          <CarbonSearchBar query={debouncedQuery.value} onChange={value => debouncedQuery.onChange(value)} autoFocus />
+          <div className={locals.searchBar} ref={searchRef}>
+            <CarbonSearch
+              value={debouncedQuery.value}
+              placeholder={t('in-components:carbonSearchBar.search')}
+              onChange={e => debouncedQuery.onChange(e.target.value)}
+              onClear={() => kubernetesSearchBarCleared({})}
+              labelText=""
+            />
+          </div>
           <SortingConfigurator
             options={sortingOptions}
             order={{
@@ -125,9 +142,22 @@ export default function ResourceCardList({ subscription, type, getHrefs, workloa
               direction: orderDirection
             }}
             onChange={event => {
+              const hasSelectedItem = 'selectedItem' in event;
+              const selectedOrderBy = hasSelectedItem ? event.selectedItem?.value : orderBy;
+              const selectedOrderDirection = hasSelectedItem
+                ? orderDirection
+                : orderDirection === 'ASC'
+                ? 'DESC'
+                : 'ASC';
+
               setUrlState({
-                orderBy: 'selectedItem' in event ? event.selectedItem?.value : orderBy,
-                orderDirection: 'selectedItem' in event ? orderDirection : orderDirection === 'ASC' ? 'DESC' : 'ASC'
+                orderBy: selectedOrderBy,
+                orderDirection: selectedOrderDirection
+              });
+
+              kubernetesSortingChanged({
+                orderBy: selectedOrderBy,
+                orderDirection: selectedOrderDirection
               });
             }}
           />
@@ -136,15 +166,19 @@ export default function ResourceCardList({ subscription, type, getHrefs, workloa
             kind="ghost"
             size="lg"
             label={t('in-kubernetes:cloudNative.switchToTableView')}
-            onClick={() =>
+            onClick={() => {
+              kubernetesViewModeToggled({
+                switchedToView: 'table',
+                tab: type
+              });
               navigate(
                 {
                   ...location,
                   pathname: `${isClusterType ? clusterListFullyQualified : namespaceListFullyQualified}/table`
                 },
                 true
-              )
-            }
+              );
+            }}
           >
             <SvgIcon type="lib_views_list" size="s" />
           </CarbonIconButton>

@@ -11,12 +11,12 @@ import { deploymentId as matrixDeploymentId } from 'in-kubernetes/navigation/mat
 import { WorkloadControllerBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { deploymentDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/Deployment/tabs/index';
-import { useSegmentTracker } from 'in-kubernetes/tracker';
+import { useKubernetesTracker } from 'in-kubernetes/tracker';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
 export default function DeploymentDashboard({ location }) {
-  const { k8sTabChange } = useSegmentTracker();
+  const { k8sTabChange } = useKubernetesTracker();
   return (
     <WorkloadControllerDashboard
       location={location}
