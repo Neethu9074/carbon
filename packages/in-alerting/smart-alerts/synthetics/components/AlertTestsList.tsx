@@ -118,10 +118,10 @@ function columnDefinitions(hasRowNavigation: boolean): Array<ColumnDefinition<Sy
     {
       id: 'test_name',
       label: t('in-synthetics:dashboard.testList.testLabel'),
-      width: 30,
+      width: 50,
       getContent(entity: SyntheticTest) {
         return (
-          <Tooltip content={entity.label} align="topLeft" delay={500}>
+          <Tooltip content={entity.label} delay={500} align="auto" forceTheme>
             {hasRowNavigation ? (
               <TestLabelContent item={entity} />
             ) : (
@@ -138,7 +138,7 @@ function columnDefinitions(hasRowNavigation: boolean): Array<ColumnDefinition<Sy
       id: 'status',
       label: t('in-synthetics:dashboard.testList.status'),
       defaultOrderDirection: 'ASC',
-      width: 10,
+      width: '10%',
       getContent(entity: SyntheticTest) {
         const status = entity?.active
           ? t('in-synthetics:dashboard.testList.active')
@@ -150,7 +150,7 @@ function columnDefinitions(hasRowNavigation: boolean): Array<ColumnDefinition<Sy
       id: 'synthetic_type',
       label: t('in-synthetics:dashboard.testList.type'),
       defaultOrderDirection: 'ASC',
-      width: 15,
+      width: '10%',
       getContent(entity: SyntheticTest) {
         return (
           <div>
@@ -171,6 +171,7 @@ function applicationLabel(): ColumnDefinition<SyntheticTest> {
   return {
     id: syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
     label: t('in-synthetics:dashboard.testList.associationLabel'),
+    width: '20%',
     defaultOrderDirection: 'ASC',
     getContent(item: SyntheticTest) {
       if (syntheticRbacLimitedEnabled) {

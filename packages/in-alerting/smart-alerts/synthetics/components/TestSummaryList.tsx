@@ -70,15 +70,23 @@ const pageSize = 5;
 
 export default function TestSummaryList({
   tableActions,
-  hiddenIds
+  hiddenIds,
+  isTearSheet
 }: {
   tableActions: TableActions<any>;
   hiddenIds: string[];
+  isTearSheet?: boolean;
 }) {
   const [state, setState] = useState(defaultState);
 
   return (
-    <SummaryList externalState={state} setExternalState={setState} tableActions={tableActions} hiddenIds={hiddenIds} />
+    <SummaryList
+      externalState={state}
+      setExternalState={setState}
+      tableActions={tableActions}
+      hiddenIds={hiddenIds}
+      isTearSheet={isTearSheet}
+    />
   );
 }
 
@@ -86,12 +94,14 @@ export function SummaryList({
   externalState,
   setExternalState,
   tableActions,
-  hiddenIds
+  hiddenIds,
+  isTearSheet
 }: {
   externalState: StateProps;
   setExternalState: any;
   tableActions: TableActions<any>;
   hiddenIds: string[];
+  isTearSheet?: boolean;
 }) {
   const timeConfig = useTimeConfig();
 
@@ -167,7 +177,7 @@ export function SummaryList({
       }
       isSearchable
       searchPlaceholder={t('in-settings:tabs.filter')}
-      cardTitle={t('in-alerting:smartAlerts.synthetics.selectTests.alertTests')}
+      cardTitle={isTearSheet ? ' ' : t('in-alerting:smartAlerts.synthetics.selectTests.alertTests')}
       allRowsAreSelected={areAllRowsOnCurrentPageSelected(listData?.data, tableActions)}
       setSelectedStateForRows={setSelectedStateForRowsOnCurrentPage(listData?.data, tableActions)}
       shadowless

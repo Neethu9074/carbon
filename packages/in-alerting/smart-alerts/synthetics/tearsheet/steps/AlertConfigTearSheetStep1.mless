@@ -6,6 +6,6 @@
 
 :local {
   .container {
-    width: 50%;
+    height: calc(100vh - 6rem);
   }
 }

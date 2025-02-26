@@ -1216,11 +1216,11 @@
           "failuresWithCount_2": "{{count}} Failures"
         },
         "alertPropertiesTitlePlaceholder": "Synthetic test failed",
-        "alertPropertiesDescriptionPlaceholder": "Synthetic test failed for {{count}} consecutive time",
-        "alertPropertiesDescriptionPlaceholder_plural": "Synthetic test failed for {{count}} consecutive times",
-        "alertPropertiesDescriptionPlaceholder_0": "Synthetic test failed for {{count}} consecutive times",
-        "alertPropertiesDescriptionPlaceholder_1": "Synthetic test failed for {{count}} consecutive times",
-        "alertPropertiesDescriptionPlaceholder_2": "Synthetic test failed for {{count}} consecutive times"
+        "alertPropertiesDescriptionPlaceholder": "Synthetic test failed {{count}} consecutive time.",
+        "alertPropertiesDescriptionPlaceholder_plural": "Synthetic test failed {{count}} consecutive times.",
+        "alertPropertiesDescriptionPlaceholder_0": "Synthetic test failed {{count}} consecutive times.",
+        "alertPropertiesDescriptionPlaceholder_1": "Synthetic test failed {{count}} consecutive times.",
+        "alertPropertiesDescriptionPlaceholder_2": "Synthetic test failed {{count}} consecutive times."
       },
       "advanced": {
         "alertChannelsLabel": "Alert channels",
@@ -1274,8 +1274,9 @@
           "filterDescription": "Add filters to the synthetic tests to get more precise alerts."
         },
         "steps": {
-          "step1Title": "Choose synthetic tests.",
-          "step2Title": "Define when to get alerted."
+          "step1Title": "Choose synthetic tests",
+          "step2Title": "Define when to get alerted",
+          "step3Title": "Define alert properties"
         },
         "step1": {
           "header": "Which synthetic tests you want to be alerted on?",
@@ -1284,6 +1285,9 @@
         "step2": {
           "sliderHeader": "Set when violations trigger alerts",
           "sliderDescription": "Specify how many consecutive failures should occur per location before alerting."
+        },
+        "step3": {
+          "header": "What properties do you want to set for this alert?"
         }
       }
     },

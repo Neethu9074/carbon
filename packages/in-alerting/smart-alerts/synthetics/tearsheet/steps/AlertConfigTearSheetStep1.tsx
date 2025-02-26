@@ -16,6 +16,8 @@ import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitle
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import { t } from 'in-i18n';
 
+import locals from 'in-alerting/smart-alerts/synthetics/tearsheet/steps/AlertConfigTearSheetStep1.mless';
+
 interface AlertConfigTearSheetStep1Props {
   form: MapForm<any>;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
@@ -30,20 +32,22 @@ export default function AlertConfigTearSheetStep1({
   QueryBuilderComponent
 }: AlertConfigTearSheetStep1Props) {
   return (
-    <TearSheetStepTitleWrapper
-      headline={t('in-alerting:smartAlerts.synthetics.tearSheet.step1.header')}
-      description={t('in-alerting:smartAlerts.synthetics.tearSheet.step1.description')}
-      hideSpace
-    >
-      <ConfigureAlertTest form={form} onChange={onChange} numberOfAlertTestListRows={10} />
-      <Spacer size="gutter" />
-      <ScopeWrapper
-        title={t('in-alerting:smartAlerts.synthetics.tearSheet.scopeFilter.filter')}
-        description={t('in-alerting:smartAlerts.synthetics.tearSheet.scopeFilter.filterDescription')}
-        gap="normal"
+    <div className={locals.container}>
+      <TearSheetStepTitleWrapper
+        headline={t('in-alerting:smartAlerts.synthetics.tearSheet.step1.header')}
+        description={t('in-alerting:smartAlerts.synthetics.tearSheet.step1.description')}
+        hideSpace
       >
-        <AlertFilterConfigurator QueryBuilderComponent={QueryBuilderComponent} form={form} updateForm={updateForm} />
-      </ScopeWrapper>
-    </TearSheetStepTitleWrapper>
+        <ConfigureAlertTest form={form} onChange={onChange} numberOfAlertTestListRows={10} />
+        <Spacer size="gutter" />
+        <ScopeWrapper
+          title={t('in-alerting:smartAlerts.synthetics.tearSheet.scopeFilter.filter')}
+          description={t('in-alerting:smartAlerts.synthetics.tearSheet.scopeFilter.filterDescription')}
+          gap="normal"
+        >
+          <AlertFilterConfigurator QueryBuilderComponent={QueryBuilderComponent} form={form} updateForm={updateForm} />
+        </ScopeWrapper>
+      </TearSheetStepTitleWrapper>
+    </div>
   );
 }

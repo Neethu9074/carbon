@@ -46,6 +46,7 @@ interface AlertingFullScreenTearSheetProps {
   cancelTearSheet: string;
   tearSheetTitle: string;
   isTagFilterFormModelValid?: boolean;
+  TagBasedPayloadConfigurator?: React.FunctionComponent<any>;
   stepConfigs: AlertingTearSheetStepConfigs[];
   handleFormSubmit: VoidFunction;
   isEditMode: boolean;

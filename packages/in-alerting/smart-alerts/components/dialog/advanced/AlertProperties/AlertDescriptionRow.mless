@@ -7,7 +7,7 @@
   .alertDescriptionContainer {
     display: grid;
     align-items: start;
-    grid-template-columns: 15% 85%;
+    grid-template-columns: 15% 1fr;
     padding-top: 1.5rem;
     grid-gap: 1rem;
   }

@@ -15,6 +15,7 @@ import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichS
 //@ts-expect-error
 import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/synthetics/hooks/useIsTagFilterFormModelValid';
 import { stepConfigsForCarbonTearSheet } from 'in-alerting/smart-alerts/synthetics/tearsheet/steps/TearSheetStepConfigs';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/synthetics/hooks/useTagBasedPayloadConfigurator';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/synthetics/hooks/useAlertConfigValidation';
 import AlertingFullScreenTearSheet from 'in-alerting/components/AlertingFullScreenTearSheet';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -57,6 +58,7 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
   const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isAlertQueryValid);
 
   const navItems = useAlertConfigValidation(stepConfigsForCarbonTearSheet);
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(tagSuggestionTimeConfig);
 
   return (
     <AlertingFullScreenTearSheet
@@ -69,6 +71,7 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
       handleFormSubmit={() => handleFormSubmit(onCreate)}
       actionButtonLabel={getButtonLabel(editMode)}
       QueryBuilderComponent={AlertQueryBuilder}
+      TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
       isTagFilterFormModelValid={isTagFilterFormModelValid}
       productArea={productAreas.synthetic_monitoring}
     />

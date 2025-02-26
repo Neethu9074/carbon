@@ -96,6 +96,7 @@ export default function ConfigureAlertTest({
             {t('in-alerting:smartAlerts.synthetics.selectTests.selectAlertTestButton')}
           </Button>
         }
+        pageSize={5}
       />
       <TouchedMessages field={form.get('syntheticTestIds')} />
     </>
@@ -111,7 +112,9 @@ export interface SelectListDialogContentProps {
 function SelectListDialogContent({ form, onSubmit, numberOfAlertTestListRows }: SelectListDialogContentProps) {
   return (
     <SelectListDialogContentComponent
-      listComponent={props => <TestSummaryList tableActions={props.tableActions} hiddenIds={props.hiddenIds} />}
+      listComponent={props => (
+        <TestSummaryList tableActions={props.tableActions} hiddenIds={props.hiddenIds} isTearSheet />
+      )}
       hiddenIds={(form.get('syntheticTestIds') as Field<string[]>)?.value ?? []}
       limit={limitForConnectedAlertTests}
       onSubmit={onSubmit}
