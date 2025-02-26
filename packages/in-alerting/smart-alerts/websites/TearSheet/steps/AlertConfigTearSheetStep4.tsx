@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
+import { Item, MapForm } from 'formalistic';
 import React from 'react';
 
 import { Spacer } from '@instana/components';
@@ -25,7 +26,15 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/websites/TearSheet/steps/AlertConfigTearSheetStep4.mless';
 
-export default function AlertConfigTearSheetStep4({ form, onChange, updateForm }: any) {
+export default function AlertConfigTearSheetStep4({
+  form,
+  onChange,
+  updateForm
+}: {
+  form: MapForm<any>;
+  onChange: (path: string[], updater: (item: Item) => Item) => void;
+  updateForm: (form: MapForm<any>) => void;
+}) {
   const websiteId = form.get('websiteId')?.value ?? undefined;
   const websiteLabel = useWebsiteLabel(form.get('websiteId')?.value) ?? undefined;
   const metricName = form.get('rule')?.get('metricName')?.value;
@@ -43,7 +52,7 @@ export default function AlertConfigTearSheetStep4({ form, onChange, updateForm }
 
   return (
     <>
-      <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.websites.tearSheet.step2.description')}>
+      <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.websites.tearSheet.step4.description')}>
         <AlertPropertiesContainer
           renderAlertProperties={() => (
             <AlertProperties

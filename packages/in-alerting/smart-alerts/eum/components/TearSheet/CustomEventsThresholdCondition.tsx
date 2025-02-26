@@ -52,7 +52,7 @@ export default function CustomEventsThresholdCondition({
   const thresholdType = form.get('threshold').get('warningThreshold').get('type')?.value;
   const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
 
-  const resetChartConfigSelectionWhenAdaptiveBaseline = (updatedForm: any) => {
+  const resetChartConfigSelectionWhenAdaptiveBaseline = (updatedForm: MapForm<any>) => {
     if (isAdaptiveBaselineConfig(updatedForm.get('threshold').toJS())) {
       onChartViewConfigChange(0);
     }
