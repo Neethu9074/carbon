@@ -43,7 +43,7 @@ export default function AlertConfigTearSheetStep3({
   const alertType = ruleForm.get('alertType').value;
   const alertConfigWithFormModel = blueprintConfig.enrichWithDefaultThresholdValues(toAlertConfigWithRules(form));
 
-  const thresholdType = alertConfigWithFormModel.rules[0].thresholds.WARNING?.type;
+  const thresholdType = alertConfigWithFormModel.rules[0].thresholds.WARNING;
 
   const chartViewConfigs = isAdaptiveBaselineConfig(thresholdType) ? [chartViewConfig24hours] : defaultChartViewConfigs;
 
@@ -66,7 +66,7 @@ export default function AlertConfigTearSheetStep3({
               blueprintConfig={blueprintConfig}
               isPercentageMetric={isPercentageMetric}
               getMetricUnitPostfix={getMetricUnitPostfix}
-              thresholdType={thresholdType}
+              thresholdType={thresholdType?.type}
               thresholdResult={thresholdResult}
             />
             <Spacer size="normal" />
@@ -75,9 +75,9 @@ export default function AlertConfigTearSheetStep3({
               form={form}
               updateForm={updateForm}
               oneMinuteGranularityAllowed={
-                thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
+                thresholdType?.type === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
               }
-              thresholdType={thresholdType}
+              thresholdType={thresholdType?.type}
             />
           </TearSheetStepTitleWrapper>
         </div>

@@ -13,4 +13,8 @@
     min-height: 18.5rem;
     align-content: center;
   }
+
+  .label {
+    width: 8rem;
+  }
 }

@@ -14,6 +14,7 @@ import {
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/tearSheet/ChartViewConfigurator.mless';
@@ -48,7 +49,11 @@ export default function ChartViewConfigurator({
           hideSpace
         />
         <>
-          {isSingleConfig && <label className={locals.singleChartViewConfig}>{chartViewConfigs[0].label}</label>}
+          {isSingleConfig && (
+            <span className={locals.label}>
+              <AlertTypography variant="body-regular" content={chartViewConfigs[0].label} />
+            </span>
+          )}
           {!isSingleConfig && (
             <ButtonGroup
               buttonPropsList={chartViewConfigs.map((chartConfig, index) => ({

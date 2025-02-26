@@ -45,7 +45,7 @@ export default function useAlertConfigValidation(
       return false;
     }
 
-    return !(thresholdType === ADAPTIVE_BASELINE && (thresholdResult?.data as any)?.message);
+    return !(thresholdType === ADAPTIVE_BASELINE && thresholdResult && thresholdResult?.errors?.length > 0);
   }
 
   function isTimeThresholdSectionValid() {
