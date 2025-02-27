@@ -48,7 +48,7 @@ export default function AssociatedEvents({ latestSnapshot, rootCause }: Associat
   const rawEventsQueryForAssociatedEvents: any = useObservable(
     getRawEvents({
       timeConfig: userTimeConfig,
-      query: `(event.steadyId:"${steadyId}") AND (event.pluginId:"${pluginId}") AND (event.host:"${hostIdValue}")`,
+      query: `(event.steadyId:"${steadyId}") AND (event.pluginId:"${pluginId}") AND (event.host:"${hostIdValue}") AND !event.type:prc_issue`,
       pagination: {
         cursor: null,
         retrievalSize: 200
