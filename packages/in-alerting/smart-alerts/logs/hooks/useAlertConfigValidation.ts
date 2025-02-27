@@ -5,12 +5,12 @@
  */
 
 import { ListForm, MapForm } from 'formalistic';
+import { isEmpty } from 'lodash';
 
 import { CustomPayloadFieldUnion } from '@instana/types/typeDefinitions';
 
 import { isEmpty as isThresholdEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingFullScreenTearSheet';
-import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 
 export default function useAlertConfigValidation(
   stepConfigs: AlertingTearSheetStepConfigs[],
@@ -77,7 +77,10 @@ function isCustomPayloadValidOrUntouched(form: MapForm<any>): boolean {
   const customPayload = customPayloadForm.toJS() as unknown as CustomPayloadFieldUnion[];
 
   if (customPayload.length > 0) {
-    return !customPayload.some(value => value.key === '' || value.value === '' || isEmpty(value.value));
+    return !customPayload.some(
+      //@ts-expect-error
+      value => value.key === '' || isEmpty(value.key.trim()) || value.value === '' || isEmpty(value.value.trim())
+    );
   }
   return true;
 }
