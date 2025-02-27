@@ -7,6 +7,7 @@
 
 :local {
   .section {
+    min-height: 3rem;
     border-top: 1px solid var(--ids-color-option-neutral-400);
     .spaceBetweenFlexbox();
     background: var(--ids-color-option-neutral-100);
@@ -28,6 +29,9 @@
     border-right: 1px solid var(--ids-color-option-neutral-400);
   }
 
+  .right {
+    padding-right: 2rem;
+  }
   .right .button {
     border-left: 1px solid var(--ids-color-option-neutral-400);
   }

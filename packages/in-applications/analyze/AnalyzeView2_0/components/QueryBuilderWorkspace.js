@@ -16,11 +16,13 @@ import TraceGroupingConfigurator from 'in-applications/analyze/components/worksp
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
+import { FilterActions } from 'in-applications/analyze/AnalyzeView2_0/components/FilterActions';
 import TraceQueryBuilder from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import CallQueryBuilder from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { findInvalidTraceIdTagFilter } from 'in-analyze/AnalyzeView/validationUtils';
 import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
+import { applicationSaveFiltersEnabled } from 'in-services/featureFlags';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
@@ -165,26 +167,58 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
             />
 
             <ActionSection
+              left={
+                applicationSaveFiltersEnabled && (
+                  <Stack direction={'horizontal'} gap={'small'}>
+                    {CustomAction && <CustomAction {...props} />}
+                    <ApiQueryAction
+                      group={hasNoGroupingForCalls ? defaultGroupings.calls : groupBy}
+                      hiddenCalls={hiddenCalls}
+                      metrics={getMetricsAsApi()}
+                      order={isGrouped ? removeAggregation(orderByGroups, dataSource) : orderBy}
+                      backendQueryModel={backendQueryModel}
+                      backendQueryModelWithFacets={backendQueryModelWithFacets}
+                      tracking={{
+                        onClick: () => trackUa2ApiQueryPressed({ dataSource })
+                      }}
+                      docsLink={docLink}
+                      endpointUrl={endpointUrl}
+                      timeFrame={timeConfig}
+                      disabled={disableApiQuery}
+                      disabledTooltip={disabledApiQueryTooltip}
+                    />
+                  </Stack>
+                )
+              }
               right={
-                <Stack direction={'horizontal'} gap={'small'}>
-                  {CustomAction && <CustomAction {...props} />}
-                  <ApiQueryAction
-                    group={hasNoGroupingForCalls ? defaultGroupings.calls : groupBy}
-                    hiddenCalls={hiddenCalls}
-                    metrics={getMetricsAsApi()}
-                    order={isGrouped ? removeAggregation(orderByGroups, dataSource) : orderBy}
+                applicationSaveFiltersEnabled ? (
+                  <FilterActions
                     backendQueryModel={backendQueryModel}
-                    backendQueryModelWithFacets={backendQueryModelWithFacets}
-                    tracking={{
-                      onClick: () => trackUa2ApiQueryPressed({ dataSource })
-                    }}
-                    docsLink={docLink}
-                    endpointUrl={endpointUrl}
-                    timeFrame={timeConfig}
-                    disabled={disableApiQuery}
-                    disabledTooltip={disabledApiQueryTooltip}
+                    group={groupBy}
+                    formModel={formModel}
+                    setUrlState={props.setUrlState}
                   />
-                </Stack>
+                ) : (
+                  <Stack direction={'horizontal'} gap={'small'}>
+                    {CustomAction && <CustomAction {...props} />}
+                    <ApiQueryAction
+                      group={hasNoGroupingForCalls ? defaultGroupings.calls : groupBy}
+                      hiddenCalls={hiddenCalls}
+                      metrics={getMetricsAsApi()}
+                      order={isGrouped ? removeAggregation(orderByGroups, dataSource) : orderBy}
+                      backendQueryModel={backendQueryModel}
+                      backendQueryModelWithFacets={backendQueryModelWithFacets}
+                      tracking={{
+                        onClick: () => trackUa2ApiQueryPressed({ dataSource })
+                      }}
+                      docsLink={docLink}
+                      endpointUrl={endpointUrl}
+                      timeFrame={timeConfig}
+                      disabled={disableApiQuery}
+                      disabledTooltip={disabledApiQueryTooltip}
+                    />
+                  </Stack>
+                )
               }
             />
           </Sections>

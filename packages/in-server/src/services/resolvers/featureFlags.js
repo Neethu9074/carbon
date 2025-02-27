@@ -752,6 +752,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'applicationSaveFiltersEnabled',
+    instanaCtlKey: 'feature.application.save.filters.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'customDashboardTopLevelFiltersEnabled',
     instanaCtlKey: 'feature.custom.dashboard.top.level.filters.enabled',
     defaultValue: false
