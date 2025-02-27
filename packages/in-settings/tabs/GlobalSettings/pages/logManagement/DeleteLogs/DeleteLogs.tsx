@@ -29,7 +29,7 @@ import {
 } from 'in-services/tracking/tracking';
 import { deleteLogsLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 // eslint-disable-next-line no-restricted-imports
-import { addSecondsIfValidFormat, deleteLogs, DeleteLogsRequest } from './utils';
+import { addSecondsIfValidFormat, DeleteLogsRequest } from './utils';
 // eslint-disable-next-line no-restricted-imports
 import { ConfirmSelectionPage } from './Modal/TabPages/ConfirmSelectionPage';
 // eslint-disable-next-line no-restricted-imports
@@ -56,6 +56,7 @@ import Label from 'in-components/form/Label';
 import { user } from 'in-stores/user';
 
 import locals from './DeleteLogs.mless';
+import { deleteLogs } from 'in-logging/api/deleteLogs';
 
 export const useMock = true;
 const forceError = false;

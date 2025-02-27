@@ -4,19 +4,18 @@
  * Copyright IBM Corp. 2024
  */
 
+import { format } from 'date-fns';
 import React from 'react';
 
 import { DeleteLogsHistoryItem, DeleteLogsHistoryResult, Result } from '@instana/types';
-import { DeleteLogsResult } from '@instana/types/typeDefinitions';
 import { LoadingSkeleton, SvgIcon } from '@instana/components';
 import { DateFormatterOutput } from '@instana/format-date';
 import { themes } from '@instana/design-tokens';
 
 import { deletionTableLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
-import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { siPrefixCompact } from 'in-stores/metric/formatters';
 import { hasError, isLoading } from 'in-services/util/result';
-import http from 'in-services/http';
+import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeletionTable.mless';
 
@@ -35,16 +34,6 @@ export interface DeleteLogsRequest {
   status?: string;
   retryCount?: number;
   errorMessage?: string;
-}
-
-export function deleteLogs(params: DeleteLogsRequest) {
-  return http<DeleteLogsResult>({
-    method: 'DELETE',
-    maxRetries: 3,
-    headers: getCsrfHeader(),
-    url: `/api/logging/logs`,
-    queryParams: { ...params }
-  });
 }
 
 export const timestampToLocaleDateTime = (timestamp: number) => {
@@ -146,3 +135,21 @@ export function addSecondsIfValidFormat(timeInputValue: string) {
 
   return timeInputValue;
 }
+
+export const bytesToLargerUnit = (bytes: number, round?: number): { amount: number; localizedUnit: string } => {
+  const TBinBytes = 1099511627776;
+  const isMoreThanTB = bytes > TBinBytes;
+  const dataUnitScale = isMoreThanTB ? 4 : 3;
+
+  const convertedBytes = bytes / Math.pow(1024, dataUnitScale);
+  const roundedConvertedBytes = round !== undefined ? parseFloat(convertedBytes.toFixed(round)) : convertedBytes;
+
+  const localizedUnit = t(`in-logging:dashboard.logVolume.${isMoreThanTB ? 'tb' : 'gb'}`);
+
+  return { amount: roundedConvertedBytes, localizedUnit };
+};
+
+export const getMonthName = (month: number): string => {
+  const date = new Date(2000, month - 1);
+  return format(date, 'MMMM');
+};

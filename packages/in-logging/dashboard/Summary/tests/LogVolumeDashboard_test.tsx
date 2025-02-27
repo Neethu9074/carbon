@@ -21,15 +21,6 @@ jest.mock('@instana/hooks', () => ({
 
 jest.mock('in-hooks/useTimeConfig', () => jest.fn());
 
-jest.mock('in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/utils', () => ({
-  transformData: jest.fn(data => {
-    if (Array.isArray(data) && data.length > 0) {
-      return [{ totalVolume: { gb: data[0].totalVolume.gb } }];
-    }
-    return undefined;
-  })
-}));
-
 jest.mock('in-subscription/getUnifiedMetrics', () => jest.fn());
 
 jest.mock('in-logging/api/licence', () => ({
@@ -43,7 +34,7 @@ jest.mock('in-stores/user', () => ({
 describe('LogVolumeDashboard', () => {
   beforeEach(() => {
     (useTimeConfig as jest.Mock).mockReturnValue({ to: null, windowSize: 1, autoRefresh: false });
-    (useObservable as jest.Mock).mockReturnValue({ progress: { loading: false }, data: [] });
+    (useObservable as jest.Mock).mockReturnValue({ progress: { loading: false }, data: { logVolumeUsageItems: [] } });
   });
 
   it('renders without crashing', () => {
@@ -53,7 +44,23 @@ describe('LogVolumeDashboard', () => {
   });
 
   it('displays log volume data when available', () => {
-    const mockLogVolumeData = [{ totalVolume: { gb: 100 } }];
+    const expectedGB = 1;
+    const GBtoBytes = expectedGB * Math.pow(1024, 3);
+
+    const mockLogVolumeData = {
+      logVolumeUsageItems: [
+        {
+          numberOfMonth: 2,
+          logVolume: GBtoBytes,
+          retentionPeriods: [
+            {
+              retentionDays: 30,
+              logVolume: GBtoBytes
+            }
+          ]
+        }
+      ]
+    };
 
     (useObservable as jest.Mock).mockReturnValue({
       progress: { loading: false },
@@ -62,7 +69,7 @@ describe('LogVolumeDashboard', () => {
 
     render(<LogVolumeDashboard />);
 
-    expect(screen.getByTestId('retentionValue')).toHaveTextContent('100');
+    expect(screen.getByTestId('retentionValue')).toHaveTextContent(String(expectedGB));
     expect(screen.getByText('Current month log volume')).toBeInTheDocument();
   });
   it('shows no data when log volume data is unavailable', () => {

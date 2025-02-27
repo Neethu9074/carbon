@@ -68,6 +68,7 @@
     "logVolume":{
       "logVolumeTitle": "Current month log volume",
       "gb": "GB",
+      "tb": "TB",
       "logVolumeIcon": "Go to log volume"
     },
     "retentionIcon": "Change retention period",

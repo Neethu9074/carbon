@@ -14,7 +14,7 @@
 
   .logVolumeCategories {
     .tableGrid();
-    padding: 0.75rem 0rem 0.75rem 2rem;
+    padding: 0.75rem 0.75rem 0.75rem 2rem;
     font-weight: bold;
     background-color: var(--ids-color-option-white);
     color: var(--ids-color-option-neutral-600);
@@ -66,6 +66,7 @@
 
   .retentionDays {
     .tableGrid();
+    align-items: center;
     width: 100%;
     font-weight: bold;
     color: black;
@@ -100,5 +101,30 @@
     height: 12rem;
     margin: 0 var(--cds-layout-density-padding-inline-local) var(--cds-layout-density-padding-inline-local)
       var(--cds-layout-density-padding-inline-local);
+  }
+}
+
+.retentionPeriod {
+  display: flex;
+  padding: 0;
+  flex-direction: column;
+
+  svg {
+    place-self: center;
+  }
+
+  > section {
+    transition: background-color 150ms ease-in-out;
+    &:first-of-type {
+      padding: 0.75rem 1rem;
+    }
+    width: 100%;
+  }
+}
+
+.retentionPeriodWithGroups {
+  &:hover {
+    cursor: pointer;
+    background-color: #e6e6e6;
   }
 }

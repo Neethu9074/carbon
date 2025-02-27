@@ -4,60 +4,15 @@
  * Copyright IBM Corp. 2023
  */
 
+import { LogVolumeUsageItem, RetentionPeriod } from 'in-logging/api/logVolume';
 import { Progress, TagType } from 'in-types';
 
-interface LogVolumeDataWithSums {
-  month: string;
-  year: number;
-  totalVolume: VolumeUnits;
-  retentionPeriods: {
-    [key: string]: { label: string; volumeGB: number }[];
-  };
-  partialSums: {
-    days30: VolumeUnits;
-    days60: VolumeUnits;
-    days90: VolumeUnits;
-  };
-}
+export type GroupingTag = string | undefined;
 
-interface LogVolumeDataWithoutSums {
-  month: string;
-  year: number;
-  totalVolume: VolumeUnits;
-  retentionPeriods: {
-    days30: VolumeUnits;
-    days60: VolumeUnits;
-    days90: VolumeUnits;
-  };
-}
-
-export interface VolumeUnits {
-  gb: number;
-}
-
-export type LogVolumeData = LogVolumeDataWithSums | LogVolumeDataWithoutSums;
-
-export interface LogVolumeDetailsProps {
-  data: LogVolumeData[] | null | undefined;
-  progress: Progress;
-  timePeriod: number;
-  expandedRetention: any;
-  handleUpdateExpandedRetention: Function;
-  groupingTag: string | null;
-}
-
-export interface RetentionPeriodData {
-  days90: VolumeUnits;
-  days60: VolumeUnits;
-  days30: VolumeUnits;
-}
-
-export interface MonthlyRetentionData {
-  month: string;
-  year: number;
-  totalVolume: VolumeUnits;
-  retentionPeriods: RetentionPeriodData;
-  label: string;
+export interface TagObject {
+  groupbyTag: TagNames;
+  tagType: TagType;
+  tagDefinition?: string;
 }
 
 export type TagNames =
@@ -69,8 +24,35 @@ export type TagNames =
   | 'kubernetes_daemonset_name'
   | 'kubernetes_deployment_name';
 
-export interface TagObject {
-  groupbyTag: TagNames;
-  tagType: TagType;
-  tagDefinition?: string;
+export interface LogVolumeDetailsProps {
+  data?: LogVolumeUsageItem[];
+  progress: Progress;
+  timePeriod: number;
+  groupingTag: GroupingTag;
+}
+
+export interface ExpandedState {
+  handleToggle(key: string): void;
+  expanded: Record<string, boolean>;
+}
+
+export interface MonthReportProps {
+  numberOfMonth: number;
+  logVolume: number;
+  retentionPeriods: RetentionPeriod[];
+  expandedState: ExpandedState;
+  groupingTag: GroupingTag;
+}
+
+export interface RetentionPeriodsProps {
+  retentionPeriods: RetentionPeriod[];
+  isExpanded?: boolean;
+  expandedState: ExpandedState;
+  groupingTag: GroupingTag;
+}
+
+export interface GroupProps {
+  label: string;
+  logVolume: number;
+  groupingTag: GroupingTag;
 }

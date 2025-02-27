@@ -6,24 +6,19 @@
 
 import React, { useState } from 'react';
 
-import { CarbonLayer, Li, SvgIcon, Ul, Typography } from '@instana/components';
-import { combineLatest } from '@instana/observables';
+import { CarbonLayer, Li, SvgIcon, Typography, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 import { Result } from '@instana/types';
 
 import LogVolumeGroupingConfigurator from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/workspaces/LogVolumeGroupingConfigurator';
-import {
-  generateQuery,
-  getLabelByName,
-  transformData
-} from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/utils';
+import { GroupingTag, TagNames, TagObject } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/types';
+import { generateQuery, getLabelByName } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/utils';
 import LogVolumeDetails from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/LogVolumeDetails';
-import { TagNames, TagObject } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/types';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { getLogVolumeReport, GetVolumeReportData } from 'in-logging/api/logVolume';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
-import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { dataSource } from 'in-applications/navigation/matrix';
 import Select from 'in-components/form/Select/Select';
@@ -51,36 +46,24 @@ const DEFAULT_TAG_NAME: TagNames = '';
 export function LogVolume() {
   const [timePeriod, setTimePeriod] = useState<number>(1);
   const [groupingTag, setGroupingTag] = useState<TagNames>(DEFAULT_TAG_NAME);
-  const [groupingTagLabel, setGroupingTaglabel] = useState<string | null>(DEFAULT_TAG_NAME);
+  const [groupingTagLabel, setGroupingTaglabel] = useState<GroupingTag>(DEFAULT_TAG_NAME);
   const [groupValue, setGroupValue] = useState<TagObject | null>(null);
-  const [expandedRetention, setExpandedRetention] = useState({});
 
-  const result = useObservable(
-    ([timePeriod, groupingTag]: [number, TagNames]) => {
-      return combineLatest([getUnifiedMetrics(generateQuery(timePeriod, groupingTag))]).map(([result]) => ({
-        progress: result?.progress || false,
-        data: result?.data || [],
-        errors: result?.errors || []
-      }));
-    },
+  const result = (useObservable<Result<GetVolumeReportData>, [number, string]>(
+    () => getLogVolumeReport(generateQuery(timePeriod, groupingTag)),
     [timePeriod, groupingTag]
-  );
+  ) ?? { errors: [], progress: { loading: true }, data: {} }) as Result<GetVolumeReportData>;
 
-  const { progress, data } = result || { progress: { loading: false }, data: [] };
-  const logVolumeData = result && transformData(data);
-
-  const handleUpdateExpandedRetention = (newState: any) => {
-    setExpandedRetention(newState);
-  };
+  const { progress, data } = result;
 
   const onChangeGroup = (param: TagObject | null) => {
     const newTag = param ? param.groupbyTag : DEFAULT_TAG_NAME;
     const newTagLabel = param ? getLabelByName(param.groupbyTag) : DEFAULT_TAG_NAME;
     setGroupValue(param);
     setGroupingTag(newTag);
-    setGroupingTaglabel(newTagLabel);
-    handleUpdateExpandedRetention({});
+    setGroupingTaglabel(newTagLabel as GroupingTag);
   };
+
   const { trackUa2GroupChanged } = useAnalyzeTracker();
   return (
     <>
@@ -127,29 +110,21 @@ export function LogVolume() {
             </Ul>
           </section>
           <section>
-            {data?.length === 0 && !progress.loading ? (
-              hasError(result as Result<any>) ? (
-                <section className={locals.stateContainer}>
-                  <div data-testid="logVolumeDataError" className={locals.noLogVolumeData}>
-                    <SvgIcon type="lib_help_error_error_circle" size="xxxl" />
-                    <Typography variant="body-bold">{t('in-settings:tabs.logVolume.logVolumeErrorTitle')}</Typography>
-                    <Typography variant="body-regular">{t('in-settings:tabs.logVolume.logVolumeErrorInfo')}</Typography>
-                  </div>
-                </section>
-              ) : (
-                <div data-testid="noLogVolumeData" className={locals.noLogVolumeData}>
-                  <SvgIcon type="lib_help_error_info_outline" size="xxxl" />
-                  <Typography variant="body-bold"> {t('in-settings:tabs.logVolume.noLogVolumeData')}</Typography>
+            {hasError(result) ? (
+              <section className={locals.stateContainer}>
+                <div data-testid="logVolumeDataError" className={locals.noLogVolumeData}>
+                  <SvgIcon type="lib_help_error_error_circle" size="xxxl" />
+                  <Typography variant="body-bold">{t('in-settings:tabs.logVolume.logVolumeErrorTitle')}</Typography>
+                  <Typography variant="body-regular">{t('in-settings:tabs.logVolume.logVolumeErrorInfo')}</Typography>
                 </div>
-              )
+              </section>
             ) : (
               <LogVolumeDetails
-                data={logVolumeData}
+                key={timePeriod + groupingTag}
                 progress={progress}
+                data={data?.logVolumeUsageItems}
                 timePeriod={timePeriod}
-                expandedRetention={expandedRetention}
                 groupingTag={groupingTagLabel}
-                handleUpdateExpandedRetention={handleUpdateExpandedRetention}
               />
             )}
           </section>

@@ -503,10 +503,11 @@
       "months_6": "Past 6 months",
       "months_9": "Past 9 months",
       "months_12": "Past 12 months",
+      "days_7": "7 days retention",
+      "days_20": "20 days retention",
       "days_30": "30 days retention",
       "days_60": "60 days retention",
       "days_90": "90 days retention",
-      "noLogVolumeData": "No data to show",
       "logVolumeErrorTitle": "Something went wrong",
       "logVolumeErrorInfo": "We are unable to retrieve data from the database",
       "groupingTagTootip": "{{groupingTag}} information not available"
