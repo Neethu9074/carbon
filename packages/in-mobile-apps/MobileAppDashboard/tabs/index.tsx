@@ -8,8 +8,13 @@
 import Configuration from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Configuration';
 // @ts-expect-error Could not find a declaration file for module
 import Geography from 'in-mobile-apps/MobileAppDashboard/tabs/Geography/Geography';
+import {
+  mobileAppCrashBeaconEnabled,
+  syntheticRbacLimitedEnabled,
+  mobileAppPerformanceTabEnabled
+} from 'in-services/featureFlags';
 import SyntheticMonitoring from 'in-mobile-apps/MobileAppDashboard/tabs/SyntheticMonitoring/SyntheticMonitoring';
-import { mobileAppCrashBeaconEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
+import Performance from 'in-mobile-apps/MobileAppDashboard/tabs/Performance/Performance';
 import CustomEvents from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents';
 import HttpRequests from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests';
 import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
@@ -30,6 +35,11 @@ export const mobileAppTabs: Array<MobileAppTab> = [
     label: t('in-mobile-apps:dashboard.tabs.summaryLabel'),
     path: `${mobileAppPathFullyQualified}/summary`,
     component: Summary
+  },
+  mobileAppPerformanceTabEnabled && {
+    label: t('in-mobile-apps:dashboard.tabs.performanceLabel'),
+    path: `${mobileAppPathFullyQualified}/performance`,
+    component: Performance
   },
   {
     label: t('in-mobile-apps:dashboard.tabs.httpRequestLabel'),

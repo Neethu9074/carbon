@@ -75,6 +75,7 @@ module.exports = {
   pluginMetricStatisticsEnabled: true,
   mobileAppCrashBeaconEnabled: true,
   mobileAppPerfBeaconEnabled: false,
+  mobileAppPerformanceTabEnabled: false,
   websiteBeaconQueryOptimizationEnabled: true,
   eumImpactedUsersForAppAlertEnabled: true,
   controlPlaneEnabled: true,

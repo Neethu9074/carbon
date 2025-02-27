@@ -361,6 +361,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'mobileAppPerformanceTabEnabled',
+    instanaCtlKey: 'feature.eum.mobile.performance.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'eumImpactedUsersForAppAlertEnabled',
     instanaCtlKey: 'feature.eum.impacted.users.appalert.enabled',
     defaultValue: false
