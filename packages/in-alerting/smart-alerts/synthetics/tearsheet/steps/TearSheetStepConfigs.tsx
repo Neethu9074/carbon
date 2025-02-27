@@ -23,7 +23,7 @@ export const stepConfigsForCarbonTearSheet = [
   },
   {
     title: t('in-alerting:smartAlerts.synthetics.tearSheet.steps.step3Title'),
-    validateIntermediately: [],
+    validateIntermediately: [['name']],
     component: AlertConfigTearSheetStep3
   },
   {

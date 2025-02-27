@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useState, useMemo } from 'react';
 import { Item, MapForm } from 'formalistic';
+import React, { useMemo } from 'react';
 
 import {
   createBoundedAlertQueryBuilder,
@@ -43,9 +43,7 @@ export const tagSuggestionTimeConfig = {
 };
 
 export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTearSheetWithThresholdProps) {
-  const { form, editMode, onCreate, tearSheetTitle } = props;
-
-  const [, setTagFilterValid] = useState(true);
+  const { form, updateForm, editMode, onCreate, tearSheetTitle } = props;
 
   const { QueryBuilder: AlertQueryBuilder, isQueryValid } = useMemo(
     () => createBoundedAlertQueryBuilder(tagSuggestionTimeConfig),
@@ -57,7 +55,8 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
 
   const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isAlertQueryValid);
 
-  const navItems = useAlertConfigValidation(stepConfigsForCarbonTearSheet);
+  const navItems = useAlertConfigValidation(stepConfigsForCarbonTearSheet, form, isTagFilterFormModelValid, updateForm);
+
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(tagSuggestionTimeConfig);
 
   return (
@@ -67,12 +66,10 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
       tearSheetTitle={tearSheetTitle}
       stepConfigs={navItems}
       thresholdResult={null}
-      setTagFilterValid={setTagFilterValid}
       handleFormSubmit={() => handleFormSubmit(onCreate)}
       actionButtonLabel={getButtonLabel(editMode)}
       QueryBuilderComponent={AlertQueryBuilder}
       TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
-      isTagFilterFormModelValid={isTagFilterFormModelValid}
       productArea={productAreas.synthetic_monitoring}
     />
   );

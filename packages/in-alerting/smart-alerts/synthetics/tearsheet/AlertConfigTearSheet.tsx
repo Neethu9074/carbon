@@ -57,7 +57,7 @@ function AlertConfigTearSheetContent({
   syntheticTestId?: string;
 }) {
   const editMode = false; // TODO handle edit scenerio
-  const [form, setForm] = useState(() => alertFormDefinition(alertConfig));
+  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, true));
 
   const duplicateFrom = alertConfig?.duplicateFrom;
 
