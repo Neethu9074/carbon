@@ -12,7 +12,6 @@ module.exports = {
   agentMonitoringIssuesEnabled: true,
   cveIssueEnabled: false,
   vulnerabilityCenterEnabled: true,
-  businessObservabilityEnabled: true,
   bizopsProcessIdColumnEnabled: true,
   bizopsGenAIEnabled: true,
   bizopsProcessFlowMapEnabled: true,

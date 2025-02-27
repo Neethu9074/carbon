@@ -346,11 +346,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'businessObservabilityEnabled',
-    instanaCtlKey: 'feature.business.observability.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'bizopsProcessIdColumnEnabled',
     instanaCtlKey: 'feature.bizops.process.id.column.enabled',
     defaultValue: false

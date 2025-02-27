@@ -10,7 +10,6 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import LegacyRootCauseSection from 'in-events/components/RootCauseAnalysis/Legacy/LegacyRootCauseSection';
-import { eventFeedbackEnabled, businessObservabilityEnabled } from 'in-services/featureFlags';
 import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
 import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/EventListItem';
@@ -27,6 +26,7 @@ import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import { FeedbackComponents } from 'in-events/components/EventTable';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { eventFeedbackEnabled } from 'in-services/featureFlags';
 import { toHtml } from 'in-services/formatters/markdown';
 import { rcaUIEnabled } from 'in-services/featureFlags';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -107,13 +107,11 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
       {/* Automations */}
       <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} />
       {/* Business impact */}
-      {businessObservabilityEnabled && (
-        <ImpactedBusinessProcesses
-          eventType={eventType}
-          entityType={incident?.get('entityType', undefined)}
-          entityId={incident?.get('entityId', undefined)}
-        />
-      )}
+      <ImpactedBusinessProcesses
+        eventType={eventType}
+        entityType={incident?.get('entityType', undefined)}
+        entityId={incident?.get('entityId', undefined)}
+      />
     </>
   );
 }

@@ -27,12 +27,8 @@ import {
   hasManualCloseFields,
   getEventStateBadge
 } from 'in-events/components/eventUtil';
-import {
-  aqmDisableConfigOnEventViewEnabled,
-  eumImpactedUsersForAppAlertEnabled,
-  businessObservabilityEnabled
-} from 'in-services/featureFlags';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
+import { aqmDisableConfigOnEventViewEnabled, eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
@@ -245,13 +241,11 @@ function EventContent({ event, latestSnapshot, reload }) {
       {isIssue && hasEventSpec && (
         <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
       )}
-      {businessObservabilityEnabled && (
-        <ImpactedBusinessProcesses
-          eventType={eventType}
-          entityType={event?.get('entityType', undefined)}
-          entityId={event?.get('entityId', undefined)}
-        />
-      )}
+      <ImpactedBusinessProcesses
+        eventType={eventType}
+        entityType={event?.get('entityType', undefined)}
+        entityId={event?.get('entityId', undefined)}
+      />
       {isCveIssueEvent(event) && snapshot?.get('id') && (
         <AffectedEntitiesPresenter id={snapshot?.get('id')} timeConfig={timeConfig} />
       )}
