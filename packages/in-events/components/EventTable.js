@@ -25,6 +25,7 @@ import {
 import { NotesAndActivity, OpenNotesAndActivity } from 'in-events/components/NotesAndActivity/NotesAndActivity';
 import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
+import EventsNavItems from 'in-events/components/EventContent/EventsNavItems/EventsNavItems';
 import { eventFeedbackEnabled, notesAndActivityEnabled } from 'in-services/featureFlags';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import EventsTable from 'in-events/components/EventsPage/EventsTable/EventsTable';
@@ -135,7 +136,9 @@ function EventTable(props) {
     <NavigatorSplitScreen
       {...props}
       items={items}
-      navigator={<EventsList {...props} items={items} onItemClicked={onItemClicked} />}
+      navigator={
+        <EventsNavItems {...props} items={items} onItemClicked={onItemClicked} progress={progress} disableCard />
+      }
       typeLabel="event"
       openItemIndex={findIndex(items, event => event.id === selectedEventId)}
       openItem={e => onChange({ eventId: e.id })}

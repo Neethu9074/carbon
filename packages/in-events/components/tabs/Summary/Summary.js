@@ -41,7 +41,6 @@ import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMo
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import IncidentContent from 'in-events/components/tabs/Summary/IncidentDetailPage/IncidentContent';
 import DisableEventConfigButton from 'in-events/components/tabs/Summary/DisableEventConfigButton';
-import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
 import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
@@ -95,23 +94,19 @@ export default function Summary(props) {
   const isIncident = eventType === EVENT_TYPES.INCIDENT;
 
   return (
-    <HeightRestrictedView
-      render={() => (
-        <>
-          <div className={locals.content}>
-            <DeprecatedCustomEventWarning event={event.toJS()} isIncident={isIncident} />
-            {isIncident ? (
-              <IncidentContent incident={event} latestSnapshot={latestSnapshot} />
-            ) : (
-              <>
-                <EventDetailsKPIs event={event} isIncident={isIncident} />
-                <EventContent event={event} latestSnapshot={latestSnapshot} reload={reload} />
-              </>
-            )}
-          </div>
-        </>
-      )}
-    />
+    <>
+      <div className={locals.content}>
+        <DeprecatedCustomEventWarning event={event.toJS()} isIncident={isIncident} />
+        {isIncident ? (
+          <IncidentContent incident={event} latestSnapshot={latestSnapshot} />
+        ) : (
+          <>
+            <EventDetailsKPIs event={event} isIncident={isIncident} />
+            <EventContent event={event} latestSnapshot={latestSnapshot} reload={reload} />
+          </>
+        )}
+      </div>
+    </>
   );
 }
 

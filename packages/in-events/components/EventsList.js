@@ -20,7 +20,6 @@ import {
 import { Card, Checkbox, Stack, Button } from '@instana/components';
 import { DataTable as CarbonDataTable } from '@instana/components';
 
-import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
 import { multiCloseEnabled, aqmDataGridEventTableEnabled } from 'in-services/featureFlags';
 import useTimeConfigUpdatingScale from 'in-events/components/useTimeConfigUpdatingScale';
@@ -39,10 +38,7 @@ import locals from './EventsList.mless';
 
 export default function EventsList(props) {
   const list = <List {...props} />;
-  if (!props.selectedEventId) {
-    return list;
-  }
-  return <HeightRestrictedView render={() => list} />;
+  return list;
 }
 
 function List(props) {
