@@ -9,15 +9,15 @@ export { default as Form } from 'in-custom-dashboards/widgets/Slo/FormComponent'
 export { default as Widget } from 'in-custom-dashboards/widgets/Slo/SloWidgetPresenter';
 export { createForm } from 'in-custom-dashboards/widgets/Slo/form';
 
-import { isSloWidgetEnabled } from 'in-custom-dashboards/widgets/Slo/constants';
+import { sloFullEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export const type = 'slo2';
 export const label = t('in-custom-dashboards:widgets.slo.slo');
 export const minimumWidth = 6;
 export const minimumHeight = 26;
-export const enabled = isSloWidgetEnabled;
-export const trackViews = isSloWidgetEnabled;
+export const enabled = sloFullEnabled;
+export const trackViews = sloFullEnabled;
 export const badge = {
   content: 'BETA'
 };

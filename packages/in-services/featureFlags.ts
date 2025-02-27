@@ -83,18 +83,6 @@ export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreE
 export const kubernetesPrometheusMetricsEnabled = isFeatureFlagEnabled('kubernetesPrometheusMetricsEnabled', false);
 export const kubernetesCloudNativeExperience = isFeatureFlagEnabled('kubernetesCloudNativeExperience', false);
 
-export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', true);
-// In self-hosted environments the feature flag had to be named differently:
-// sliChClusterAccessEnabled
-// compared to other places:
-// sliCHClusterAccessEnabled
-export const sliCHClusterAccessEnabled =
-  isFeatureFlagEnabled('sliCHClusterAccessEnabled') || isFeatureFlagEnabled('sliChClusterAccessEnabled');
-export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
-export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
-export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
-export const sloSyntheticsEnabled = isFeatureFlagEnabled('sloSyntheticsEnabled', true);
-
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 export const mobileAppPerfBeaconEnabled = isFeatureFlagEnabled('mobileAppPerfBeaconEnabled', false);
 export const mobileAppPerformanceTabEnabled = isFeatureFlagEnabled('mobileAppPerformanceTabEnabled', false);
@@ -326,3 +314,5 @@ export const openTelemetryKubernetes = isFeatureFlagEnabled('openTelemetryKubern
 export const rbacTeamsEnabled = isFeatureFlagEnabled('rbacTeamsEnabled', false);
 export const accessControlCarbonTable = isFeatureFlagEnabled('accessControlCarbonTable', false);
 export const idpConfigV2Enabled = isFeatureFlagEnabled('idpConfigV2Enabled', false);
+export const sloLiteEnabled = isFeatureFlagEnabled('sloLiteEnabled', false);
+export const sloFullEnabled = isFeatureFlagEnabled('sloFullEnabled', true);

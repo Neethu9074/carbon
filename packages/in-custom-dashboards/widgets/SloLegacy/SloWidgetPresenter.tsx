@@ -12,27 +12,44 @@ import useWidgetTimeConfig from 'in-custom-dashboards/widgets/SloLegacy/hooks/us
 import useMonitoredEntity from 'in-custom-dashboards/widgets/SloLegacy/hooks/useMonitoredEntity';
 import useSloMetrics from 'in-custom-dashboards/widgets/SloLegacy/hooks/useSloMetrics';
 import Widget from 'in-custom-dashboards/widgets/SloLegacy/components/widget/Widget';
+import { sloFullEnabled, sloLiteEnabled } from 'in-services/featureFlags';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
+import { WidgetProps } from 'in-custom-dashboards/widgets/types';
 import { all as allStatus } from 'in-hooks/utils/fetchStatus';
 import { all as allProgress } from 'in-hooks/utils/progress';
 
-interface SloWidgetPresenterProps {
-  actions: React.ReactNode;
-  config: SloWidgetConfiguration;
-  isPreview?: boolean;
-  title: string;
-  isInModal?: boolean;
-  dragHandle: React.ReactNode;
-}
-
-export default function SloWidgetPresenter({
+export default function SloWidgetPresenterWrapper({
   actions,
   config,
   isPreview,
   title,
   isInModal,
   dragHandle
-}: SloWidgetPresenterProps) {
+}: WidgetProps<SloWidgetConfiguration>) {
+  const { entityType } = ensureConfigBackwardCompatibility(config);
+
+  if ((!sloLiteEnabled && !sloFullEnabled) || (entityType === 'website' && !sloFullEnabled)) return null;
+
+  return (
+    <SloWidgetPresenter
+      actions={actions}
+      config={config}
+      isPreview={isPreview}
+      title={title}
+      isInModal={isInModal}
+      dragHandle={dragHandle}
+    />
+  );
+}
+
+function SloWidgetPresenter({
+  actions,
+  config,
+  isPreview,
+  title,
+  isInModal,
+  dragHandle
+}: Omit<WidgetProps<SloWidgetConfiguration>, 'timeConfig' | 'widgetId'>) {
   const {
     slo,
     entityId,

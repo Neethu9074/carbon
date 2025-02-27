@@ -276,36 +276,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'websiteSloEnabled',
-    instanaCtlKey: 'feature.slo.websites.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'apdexWidgetEnabled',
-    instanaCtlKey: 'feature.apdex.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'sliCHClusterAccessEnabled',
-    instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'sloEnabled',
-    instanaCtlKey: 'feature.slo.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'sloV2Enabled',
-    instanaCtlKey: 'feature.sloV2.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'sloSyntheticsEnabled',
-    instanaCtlKey: 'feature.slo.synthetics.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
     instanaCtlKey: 'feature.application.smart.alerts.logs.blueprint.enabled',
     defaultValue: false
@@ -850,5 +820,15 @@ module.exports = exports = [
     uiClientKey: 'idpConfigV2Enabled',
     instanaCtlKey: 'feature.idp.config.v2.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'sloLiteEnabled',
+    instanaCtlKey: 'feature.slo.lite.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'sloFullEnabled',
+    instanaCtlKey: 'feature.slo.full.enabled',
+    defaultValue: true
   }
 ];

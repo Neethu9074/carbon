@@ -14,7 +14,7 @@ import {
   syntheticsEnabled,
   vsphereEnabled,
   zhmcEnabled,
-  sloV2Enabled,
+  sloFullEnabled,
   powervcEnabled,
   infraSmartAlertsEnabled,
   logSmartAlertsEnabled,
@@ -222,7 +222,7 @@ export const amountPlatformAccesses = (() => {
   return count;
 })();
 
-export const hasSloAccess = sloV2Enabled && (hasWebsitesAccess || hasApplicationsAccess);
+export const hasSloAccess = sloFullEnabled && (hasWebsitesAccess || hasApplicationsAccess || hasSyntheticsAccess);
 export const hasEventsAccess =
   hasWebsitesAccess ||
   hasMobileAppsAccess ||

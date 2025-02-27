@@ -687,7 +687,8 @@
       "atLeastOneFilterExpressionMustBeConfigured": "At least one filter expression must be configured.",
       "timeBased": "Time-based",
       "eventBased": "Event-based",
-      "sloLegacy": "SLO legacy",
+      "sloLite": "SLO Lite",
+      "sloLegacy": "SLO Legacy",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Application",

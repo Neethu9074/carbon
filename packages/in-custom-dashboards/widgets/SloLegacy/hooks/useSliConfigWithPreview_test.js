@@ -12,7 +12,7 @@ jest.mock('in-custom-dashboards/widgets/SloLegacy/hooks/useSliConfiguration', ()
   default: jest.fn(() => [])
 }));
 jest.mock('in-services/featureFlags', () => ({
-  sliCHClusterAccessEnabled: false
+  sloFullEnabled: false
 }));
 
 describe('in-custom-dashboards/widgets/SloLegacy/hooks/useSliConfigWithPreview', () => {
@@ -81,7 +81,7 @@ describe('in-custom-dashboards/widgets/SloLegacy/hooks/useSliConfigWithPreview',
     });
 
     describe('If isPreview is true', () => {
-      describe('if sliCHClusterAccessEnabled is set to false', () => {
+      describe('if sloFullEnabled is set to false', () => {
         it('returns sliConfiguration with initialEvaluationTimestamp value for both initialEvaluationTimestamp and lastUpdated, if initialEvaluationTimestamp is more than 7 days from the current date', () => {
           // Given
           const initialEvaluationTimestamp = days.toMillis(4);
@@ -151,12 +151,12 @@ describe('in-custom-dashboards/widgets/SloLegacy/hooks/useSliConfigWithPreview',
         });
       });
 
-      describe('if sliCHClusterAccessEnabled is set to true', () => {
+      describe('if sloFullEnabled is set to true', () => {
         it('returns sliConfiguration with lastUpdated value for both initialEvaluationTimestamp and lastUpdated, if the lastUpdated value is more than seven days before the current date', async () => {
           // Given
           jest.resetModules();
           jest.doMock('in-services/featureFlags', () => ({
-            sliCHClusterAccessEnabled: true
+            sloFullEnabled: true
           }));
           jest.doMock('in-custom-dashboards/widgets/SloLegacy/hooks/useSliConfiguration', () => ({
             __esModule: true,
@@ -204,7 +204,7 @@ describe('in-custom-dashboards/widgets/SloLegacy/hooks/useSliConfigWithPreview',
           // Given
           jest.resetModules();
           jest.doMock('in-services/featureFlags', () => ({
-            sliCHClusterAccessEnabled: true
+            sloFullEnabled: true
           }));
           jest.doMock('in-custom-dashboards/widgets/SloLegacy/hooks/useSliConfiguration', () => ({
             __esModule: true,

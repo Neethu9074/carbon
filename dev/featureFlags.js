@@ -63,7 +63,6 @@ module.exports = {
   hideAppDataLegacyEventsEnabled: false,
   potentialProblemsEnabled: true,
   builtInGlobalApplicationSmartAlertsEnabled: true,
-  websiteSloEnabled: true,
   perEndpointAdaptiveBaselineEnabled: false,
   smartAlertsLogsBlueprintEnabled: true,
   syntheticsEnabled: true,
@@ -95,11 +94,6 @@ module.exports = {
   systemRuleEntityCountEnabled: true,
   userSettingsThemeEnabled: true,
   oneMinuteGranularityForStaticThresholdEnabled: true,
-  apdexWidgetEnabled: true,
-  sliCHClusterAccessEnabled: true,
-  sloV2Enabled: true,
-  sloEnabled: true,
-  sloSyntheticsEnabled: true,
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,
   customDashboardsExportPdfWidget: true,
@@ -175,5 +169,7 @@ module.exports = {
   alertChannelPerSeverityWebsiteSaEnabled: true,
   alertChannelPerSeverityMobileAppSaEnabled: true,
   alertChannelPerSeverityLogSaEnabled: true,
-  idpConfigV2Enabled: false
+  idpConfigV2Enabled: false,
+  sloLiteEnabled: true,
+  sloFullEnabled: true
 };

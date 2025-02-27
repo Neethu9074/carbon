@@ -26,7 +26,7 @@ jest.mock('in-websites/api/tagCatalog', () => ({
   getTagCatalog: jest.fn(() => () => ({ tags: [] }))
 }));
 jest.mock('in-services/featureFlags', () => ({
-  sliCHClusterAccessEnabled: true
+  sloFullEnabled: true
 }));
 jest.mock('in-service-levels/components/SloDashboard/components/chart/renderer/stairway');
 jest.mock('in-custom-dashboards/widgets/SloLegacy/hooks/useShouldShowMissingDataIndicator');
@@ -282,7 +282,7 @@ describe('in-custom-dashboards/widgets/SloLegacy/Chart', () => {
     ).toBeFalsy();
   });
 
-  it('uses lastUpdated value from sliConfig when calling useShouldShowMissingDataIndicator, if sliCHClusterAccessEnabled is set to true', () => {
+  it('uses lastUpdated value from sliConfig when calling useShouldShowMissingDataIndicator, if sloFullEnabled is set to true', () => {
     // Given
     const isPreview = true;
     const lastUpdated = 3;
@@ -303,10 +303,10 @@ describe('in-custom-dashboards/widgets/SloLegacy/Chart', () => {
     );
   });
 
-  it('uses initialEvaluationTimestamp value from sliConfig when calling useShouldShowMissingDataIndicator, if sliCHClusterAccessEnabled is set to false', async () => {
+  it('uses initialEvaluationTimestamp value from sliConfig when calling useShouldShowMissingDataIndicator, if sloFullEnabled is set to false', async () => {
     jest.resetModules();
     jest.doMock('in-services/featureFlags', () => ({
-      sliCHClusterAccessEnabled: false
+      sloFullEnabled: false
     }));
     jest.doMock('react', () => {
       const react = jest.requireActual('react');
@@ -344,7 +344,7 @@ describe('in-custom-dashboards/widgets/SloLegacy/Chart', () => {
     );
   });
 
-  it('uses lastUpdated value from sliConfig when calling useStairwayRenderer, if sliCHClusterAccessEnabled is set to true', () => {
+  it('uses lastUpdated value from sliConfig when calling useStairwayRenderer, if sloFullEnabled is set to true', () => {
     // Given
     const isPreview = true;
     const lastUpdated = 3;
@@ -365,10 +365,10 @@ describe('in-custom-dashboards/widgets/SloLegacy/Chart', () => {
     );
   });
 
-  it('uses initialEvaluationTimestamp value from sliConfig when calling useStairwayRenderer, if sliCHClusterAccessEnabled is set to false', async () => {
+  it('uses initialEvaluationTimestamp value from sliConfig when calling useStairwayRenderer, if sloFullEnabled is set to false', async () => {
     jest.resetModules();
     jest.doMock('in-services/featureFlags', () => ({
-      sliCHClusterAccessEnabled: false
+      sloFullEnabled: false
     }));
 
     const { default: Chart } = await import('in-custom-dashboards/widgets/SloLegacy/components/Chart/Chart');
