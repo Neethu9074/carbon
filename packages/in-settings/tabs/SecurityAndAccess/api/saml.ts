@@ -74,8 +74,8 @@ export function isAvailable(): Observable<boolean> {
   return isAvailableQuery().map(res => res.body);
 }
 
-export function isSamlActive() {
-  return http({
+export function isSamlActive(): Observable<boolean> {
+  return http<boolean>({
     method: 'GET',
     maxRetries: 3,
     url: '/api/settings/authentication/saml/active'

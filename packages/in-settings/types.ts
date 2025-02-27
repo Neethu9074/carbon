@@ -5,6 +5,7 @@
  */
 
 import { MessageTypes } from '@instana/components';
+
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 
 export interface ApiItemResult<RESULT> {
@@ -26,3 +27,5 @@ export interface SaveItemProps {
   setMessage: React.Dispatch<React.SetStateAction<ApiItemMessage>>;
   unstable_trackEvent: ReturnType<typeof useSegmentTracking>['unstable_trackEvent'];
 }
+
+export type LoadingStatus = 'inactive' | 'active' | 'finished' | 'error' | undefined;

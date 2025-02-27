@@ -24,15 +24,15 @@ import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoo
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
 import FilterInfo from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/FilterInfo';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
-import { sloMetrics } from 'in-service-levels/metrics';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
-import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
+import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
+import { sloMetrics } from 'in-service-levels/metrics';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

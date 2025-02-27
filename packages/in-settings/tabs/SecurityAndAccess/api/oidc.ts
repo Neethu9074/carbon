@@ -7,7 +7,6 @@ import { OidcApiRequestConfig, OidcApiResponseConfig, Result } from '@instana/ty
 import { create, Observable } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import http, { Response } from 'in-services/http';
 
@@ -17,15 +16,14 @@ export function refresh() {
 }
 
 export const getConfigAsResultObservable = memoize(getConfigAsResultObservableInternal, () => 'OidcConfig', 60000);
-function getConfigAsResultObservableInternal(): Observable<Result<OidcApiResponseConfig>> {
+export function getConfigAsResultObservableInternal(): Observable<Result<OidcApiResponseConfig>> {
   return refreshSignal.flatMap(() =>
-    createObservable(
-      http({
-        method: 'GET',
-        maxRetries: 3,
-        url: `/api/settings/authentication/oidc`
-      })
-    )
+    http({
+      method: 'GET',
+      maxRetries: 3,
+      url: `/api/settings/authentication/oidc`,
+      mapToResultObject: true
+    })
   );
 }
 
