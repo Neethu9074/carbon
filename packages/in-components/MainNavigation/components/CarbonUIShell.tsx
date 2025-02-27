@@ -153,10 +153,7 @@ function HomeLink() {
       isActive={matchLocation(getRootPathPredicate(path))}
       icon="lib_home"
       href={createHrefToPath(path)}
-      // TODO: To be replaced once i18n translation package is available.
-      // For more information see: https://jsw.ibm.com/browse/INSTA-26174
-      // label={t('in-plg:home')}
-      label={t('in-cockpit:cockpit.home')}
+      label={t('in-plg:home')}
     />
   );
 }
