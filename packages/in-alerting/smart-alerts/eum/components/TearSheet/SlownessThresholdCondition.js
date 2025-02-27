@@ -6,8 +6,8 @@
 
 import React from 'react';
 
-import { Dropdown, Spacer, Stack } from '@instana/components';
 import { isAdaptiveBaselineConfig } from '@instana/types';
+import { Dropdown, Stack } from '@instana/components';
 
 import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/tearSheet/MultiThresholdCondition/MultiThresholdDeviationSliderForm';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
@@ -87,7 +87,6 @@ export default function SlownessThresholdCondition({
           onThresholdTypeChange={websiteOnThresholdTypeChange}
           isTearSheet
         />
-        <Spacer size="small" />
         <ThresholdTypeSelection
           form={form}
           updateForm={updateForm}
