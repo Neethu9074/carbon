@@ -9,7 +9,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { Tooltip } from '@instana/components';
 
-import { checkLogLevel } from 'in-components/Chart/components/utils';
+import { getShouldRenderLabel } from 'in-components/Chart/components/GetShouldRenderLabel';
 import Legend from 'in-components/Chart/components/Legend';
 import { t } from 'in-i18n';
 
@@ -98,11 +98,11 @@ function getLabelsMapFromAxis(
           label
         );
 
-      const disableLabel = !checkLogLevel(facets, label, formModel);
+      const shouldRenderLabel = getShouldRenderLabel(formModel, facets, axis, i);
 
       return {
         name: showLegendToolTip,
-        renderLabel: disableLabel,
+        renderLabel: shouldRenderLabel,
         dataSeriesName: `${axisName}-${i}`,
         isDisabled: filteredDataSeries?.has(`${axisName}-${i}`),
         timeShift: axis.timeShifts && axis.timeShifts[i],
