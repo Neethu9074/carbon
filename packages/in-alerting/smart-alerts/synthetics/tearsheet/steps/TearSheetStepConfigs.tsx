@@ -7,6 +7,7 @@
 import AlertConfigTearSheetStep1 from 'in-alerting/smart-alerts/synthetics/tearsheet/steps/AlertConfigTearSheetStep1';
 import AlertConfigTearSheetStep2 from 'in-alerting/smart-alerts/synthetics/tearsheet/steps/AlertConfigTearSheetStep2';
 import AlertConfigTearSheetStep3 from 'in-alerting/smart-alerts/synthetics/tearsheet/steps/AlertConfigTearSheetStep3';
+import AlertConfigTearSheetStep4 from 'in-alerting/smart-alerts/synthetics/tearsheet/steps/AlertConfigTearSheetStep4';
 import { t } from 'in-i18n';
 
 export const stepConfigsForCarbonTearSheet = [
@@ -24,5 +25,10 @@ export const stepConfigsForCarbonTearSheet = [
     title: t('in-alerting:smartAlerts.synthetics.tearSheet.steps.step3Title'),
     validateIntermediately: [],
     component: AlertConfigTearSheetStep3
+  },
+  {
+    title: t('in-alerting:smartAlerts.synthetics.tearSheet.steps.step4Title'),
+    validateIntermediately: [],
+    component: AlertConfigTearSheetStep4
   }
 ];

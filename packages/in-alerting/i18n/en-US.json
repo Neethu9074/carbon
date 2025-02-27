@@ -1276,7 +1276,8 @@
         "steps": {
           "step1Title": "Choose synthetic tests",
           "step2Title": "Define when to get alerted",
-          "step3Title": "Define alert properties"
+          "step3Title": "Define alert properties",
+          "step4Title": "Define alert channels"
         },
         "step1": {
           "header": "Which synthetic tests you want to be alerted on?",
@@ -1288,6 +1289,10 @@
         },
         "step3": {
           "header": "What properties do you want to set for this alert?"
+        },
+        "step4": {
+          "header": "Where do you want to be notified for this alert?",
+          "description": "Select the recipient(s) of this alert"
         }
       }
     },

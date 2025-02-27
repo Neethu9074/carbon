@@ -19,6 +19,10 @@ export default function useAlertConfigValidation(stepConfigs: AlertingTearSheetS
     {
       ...stepConfigs[2],
       valid: true
+    },
+    {
+      ...stepConfigs[3],
+      valid: true
     }
   ];
 }
