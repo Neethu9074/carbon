@@ -216,6 +216,9 @@ export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObserv
 export const bizopsProcessIdColumnEnabled = isFeatureFlagEnabled('bizopsProcessIdColumnEnabled');
 export const bizopsGenAIEnabled = isFeatureFlagEnabled('bizopsGenAIEnabled');
 export const bizopsProcessFlowMapEnabled = isFeatureFlagEnabled('bizopsProcessFlowMapEnabled');
+export const bizopsProcessFlowMapHealthOverlayEnabled = isFeatureFlagEnabled(
+  'bizopsProcessFlowMapHealthOverlayEnabled'
+);
 export const bizopsCustomDashboardEnabled = isFeatureFlagEnabled('bizopsCustomDashboardEnabled');
 export const bizopsVersionColumnEnabled = isFeatureFlagEnabled('bizopsVersionColumnEnabled');
 

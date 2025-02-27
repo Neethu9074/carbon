@@ -51,6 +51,12 @@ interface FlowMapPresenterProps {
 export default function FlowMapPresenter({ mapData }: FlowMapPresenterProps) {
   // positions is used to place nodes within the canvas
   const [positions, setPositions] = useState<ElkNode>();
+  // Used to determine which node was clicked on by the user
+  // and should display the health overlay
+  const [selectedNodeId, setSelectedNodeId] = useState<string>('');
+  function handleNodeClick(nodeId: string) {
+    setSelectedNodeId(nodeId);
+  }
 
   // TODO:  This currently fakes the pagination so we can get design feedback.  When ready for real data,
   // we just need to make a new subscription with the clicked node as the originNodeId
@@ -127,7 +133,14 @@ export default function FlowMapPresenter({ mapData }: FlowMapPresenterProps) {
   if (!positions) return null;
 
   const nodeElements = positions.children?.map(node => (
-    <Node key={node.id} {...(node as BizOpsElkNode)} onPaginate={onPaginate} />
+    (
+    <Node
+      key={node.id}
+      selectedNodeId={selectedNodeId}
+      handleNodeClick={handleNodeClick}
+      node={node as BizOpsElkNode}
+      onPaginate={onPaginate} />
+  )
   ));
   const linkElements = positions.edges?.map(edge => <Link key={`link_${edge.id}`} link={edge} />);
 
