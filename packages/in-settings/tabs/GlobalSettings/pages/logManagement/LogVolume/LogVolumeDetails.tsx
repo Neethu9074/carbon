@@ -102,16 +102,17 @@ function MonthReport({ expandedState, logVolume, numberOfMonth, retentionPeriods
         groupingTag={groupingTag}
         expandedState={expandedState}
         retentionPeriods={refinedRetentionPeriodData}
+        numberOfMonth={numberOfMonth}
       />
     </div>
   );
 }
 
-function RetentionPeriods({ retentionPeriods, expandedState, groupingTag }: RetentionPeriodsProps) {
+function RetentionPeriods({ retentionPeriods, expandedState, groupingTag, numberOfMonth }: RetentionPeriodsProps) {
   return (
     <Ul>
-      {retentionPeriods.map(({ retentionDays, logVolume, logVolumeGroups }: RetentionPeriod, index) => {
-        const key = `${retentionDays}-${index}`;
+      {retentionPeriods.map(({ retentionDays, logVolume, logVolumeGroups }: RetentionPeriod) => {
+        const key = `${retentionDays}-${numberOfMonth}`;
         const isExpanded = expandedState.expanded[key];
         const hasGroups = logVolumeGroups?.length > 0;
 

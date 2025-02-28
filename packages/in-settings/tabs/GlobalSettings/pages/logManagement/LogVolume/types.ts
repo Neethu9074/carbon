@@ -49,6 +49,7 @@ export interface RetentionPeriodsProps {
   isExpanded?: boolean;
   expandedState: ExpandedState;
   groupingTag: GroupingTag;
+  numberOfMonth: number;
 }
 
 export interface GroupProps {
