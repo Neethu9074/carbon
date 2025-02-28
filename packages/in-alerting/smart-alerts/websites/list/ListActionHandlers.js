@@ -14,6 +14,7 @@ import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/comp
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/websites/details/AlertDetails';
+import { websitesSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 
@@ -49,10 +50,10 @@ function openSmartAlertDialog(config, isCopy = false) {
 
 export const actionHandlers = {
   handleClone: config => handleClone(config),
-  handleCloneNew: config => HandleCloneNew(config),
+  ...(websitesSmartAlertFullScreenDesignEnabled && { handleCloneNew: config => HandleCloneNew(config) }),
   handleDelete: (id, setIsSaving, configName, trackCta) =>
     handleDelete(id, setIsSaving, configName, baseUrl.WEBSITE, trackCta),
   handleEdit: config => handleEdit(config),
-  handleEditNew: config => HandleEditNew(config),
+  ...(websitesSmartAlertFullScreenDesignEnabled && { handleEditNew: config => HandleEditNew(config) }),
   handleToggleEnabled: (enabled, id, setIsSaving) => handleToggleEnabled(enabled, id, setIsSaving, baseUrl.WEBSITE)
 };
