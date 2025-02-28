@@ -6,10 +6,10 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
 import { Card, Link, Button } from '@instana/components';
 
 import MobileHealthIndicatorBehavior from 'in-mobile-apps/MobileAppDashboard/components/MobileHealthIndicatorBehavior/MobileHealthIndicatorBehavior';
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/ServerTable/internalComponents/LegacySeverityIndicatorCellContentWrapper';
 import {
   getTimeConfigAlignedToResultTime,
   timeConfig$,
