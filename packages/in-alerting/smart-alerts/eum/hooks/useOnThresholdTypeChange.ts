@@ -70,12 +70,6 @@ export function useOnThresholdTypeChange(
           );
       }
 
-      if (updatedThresholdType === ADAPTIVE_BASELINE) {
-        newThresholdForm = newThresholdForm
-          .updateIn(['warningThreshold', 'type'], f => (f as Field<string>).setTouched(true))
-          .updateIn(['criticalThreshold', 'type'], f => (f as Field<string>).setTouched(true));
-      }
-
       const ruleWithoutAggregation = { ...rule, aggregation: null };
       // aggregation will be reset to default value
       const newRuleForm = createRuleForm(ruleWithoutAggregation);
