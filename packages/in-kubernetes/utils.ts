@@ -36,14 +36,14 @@ export const getUrlStateDefinition = (isClusterPage: boolean) => {
   return {
     bind: [
       createUrlParameter(pathSegment, 'query', ''),
-      createUrlParameter(pathSegment, 'orderBy', 'name'),
-      createUrlParameter(pathSegment, 'orderDirection', 'ASC')
+      createUrlParameter(pathSegment, 'orderBy', 'unhealthyDeployments'),
+      createUrlParameter(pathSegment, 'orderDirection', 'DESC')
     ],
     resets: [
       {
         bind: [
-          createUrlParameter(pathSegment, 'orderBy', 'name'),
-          createUrlParameter(pathSegment, 'orderDirection', 'ASC')
+          createUrlParameter(pathSegment, 'orderBy', 'unhealthyDeployments'),
+          createUrlParameter(pathSegment, 'orderDirection', 'DESC')
         ],
         reset: {}
       }

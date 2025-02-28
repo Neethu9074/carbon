@@ -16,4 +16,18 @@
     display: flex;
     flex: 2.5;
   }
+
+  .acknowledgment {
+    margin-top: 1rem;
+  }
+
+  .popoverInfo {
+    width: 288px;
+    padding: 1rem;
+
+    p,
+    h2 {
+      color: var(--cds-text-on-color);
+    }
+  }
 }

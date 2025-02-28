@@ -295,6 +295,11 @@
       "sortBy": "Sort by",
       "sortOrder": "Sort order",
       "name": "Name"
+    },
+    "popover": {
+      "title": "Access important information faster",
+      "content": "The card view provides more details about your clusters and namespaces at a glance and directly links to each tab page from the dashboard for focused investigation. <br /><br />You can easily move between these new views and table views by clicking the content switcher.",
+      "button": "Got it"
     }
   },
   "viewAllEntityName_unknownEntity_plural": "all",

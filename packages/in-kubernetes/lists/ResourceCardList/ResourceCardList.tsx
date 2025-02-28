@@ -5,8 +5,18 @@
  */
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-
-import { CarbonTile, CarbonSearch, Spacer, SvgIcon, CarbonIconButton, Stack } from '@instana/components';
+import {
+  Stack,
+  Spacer,
+  SvgIcon,
+  CarbonIconButton,
+  CarbonTile,
+  CarbonSearch,
+  CarbonPopover,
+  CarbonButton,
+  CarbonPopoverContent,
+  Typography
+} from '@instana/components';
 import { Observable } from '@instana/observables';
 
 import {
@@ -42,11 +52,12 @@ import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { useKubernetesTracker } from 'in-kubernetes/tracker';
+import { useLocalStorage } from 'in-services/localStorage';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { deepFreeze } from 'in-services/util/object';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title/Title';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './ResourceCardList.mless';
 
@@ -70,6 +81,7 @@ export default function ResourceCardList({ subscription, type, getHrefs, workloa
   const { location, navigate } = useNavigation();
   const searchRef = useRef<HTMLDivElement>(null);
   const { kubernetesViewModeToggled, kubernetesSearchBarCleared, kubernetesSortingChanged } = useKubernetesTracker();
+  const [isTooltipSeen, setIsTooltipSeen] = useLocalStorage('k8sClusterNamespaceTooltipSeen', false);
   const [{ orderBy, orderDirection }, setUrlState] = useUrlState(urlStateDefinition);
   const [itemsAdditionalInfo, setItemsAdditionalInfo] = useState<ItemAdditionalInfo>({});
   const {
@@ -114,6 +126,8 @@ export default function ResourceCardList({ subscription, type, getHrefs, workloa
     { label: t('in-kubernetes:cloudNative.sortingOptions.services'), value: services },
     { label: t('in-kubernetes:cloudNative.sortingOptions.cronJobs'), value: cronJobs }
   ]).filter(item => item.value === 'name' || workloads.includes(item.value));
+
+  const pathname = `${isClusterType ? clusterListFullyQualified : namespaceListFullyQualified}/table`;
 
   return (
     <>
@@ -161,27 +175,37 @@ export default function ResourceCardList({ subscription, type, getHrefs, workloa
               });
             }}
           />
-          <CarbonIconButton
-            align="left"
-            kind="ghost"
-            size="lg"
-            label={t('in-kubernetes:cloudNative.switchToTableView')}
-            onClick={() => {
-              kubernetesViewModeToggled({
-                switchedToView: 'table',
-                tab: type
-              });
-              navigate(
-                {
-                  ...location,
-                  pathname: `${isClusterType ? clusterListFullyQualified : namespaceListFullyQualified}/table`
-                },
-                true
-              );
-            }}
-          >
-            <SvgIcon type="lib_views_list" size="s" />
-          </CarbonIconButton>
+
+          <CarbonPopover open={!isTooltipSeen} autoAlign caret highContrast>
+            <CarbonIconButton
+              align="left"
+              kind="ghost"
+              size="lg"
+              label={t('in-kubernetes:cloudNative.switchToTableView')}
+              onClick={() => {
+                kubernetesViewModeToggled({
+                  switchedToView: 'table',
+                  tab: type
+                });
+                navigate({ ...location, pathname }, true);
+              }}
+            >
+              <SvgIcon type="lib_views_list" size="s" />
+            </CarbonIconButton>
+            <CarbonPopoverContent className={locals.popoverInfo}>
+              <Typography variant="heading-01" component="h2">
+                {t('in-kubernetes:cloudNative.popover.title')}
+              </Typography>
+              <Typography variant="body-01" component="p">
+                <Trans i18nKey="in-kubernetes:cloudNative.popover.content" />
+              </Typography>
+              <Stack direction="vertical" align="end">
+                <CarbonButton className={locals.acknowledgment} size="sm" onClick={() => setIsTooltipSeen(true)}>
+                  {t('in-kubernetes:cloudNative.popover.button')}
+                </CarbonButton>
+              </Stack>
+            </CarbonPopoverContent>
+          </CarbonPopover>
         </Stack>
       </CarbonTile>
 
