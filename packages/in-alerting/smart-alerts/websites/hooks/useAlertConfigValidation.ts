@@ -102,10 +102,12 @@ function isCustomPayloadValidOrUntouched(form: MapForm<any>): boolean {
 
   if (customPayload.length > 0) {
     return !customPayload.some(value => {
-      return value.key === '' || isEmpty(value.key.trim()) || value.value === '' || typeof value === 'string'
-        ? //@ts-expect-error
-          isEmpty(value.value.trim())
-        : false;
+      return (
+        value.key === '' ||
+        isEmpty(value.key.trim()) ||
+        value.value === '' ||
+        isEmpty(typeof value.value === 'string' ? value.value.trim() : value.value)
+      );
     });
   }
   return true;
