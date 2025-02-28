@@ -6,6 +6,7 @@
 
 import { SlownessWebsiteAlertRule, TagCatalog, TagFilter } from '@instana/types';
 
+import { customEvent, latency, slowness, specificJsError } from 'in-alerting/smart-alerts/websites/constants';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -38,18 +39,18 @@ export function duplicateAlertConfig(
 
 export function deriveAlertType(errorId?: string, customEventName?: string) {
   if (isNotBlank(errorId)) {
-    return 'specificJsError';
+    return specificJsError;
   }
   if (isNotBlank(customEventName)) {
-    return 'customEvent';
+    return customEvent;
   }
-  return 'slowness';
+  return slowness;
 }
 
 const defaultAlertRule: SlownessWebsiteAlertRule = {
-  alertType: 'slowness',
+  alertType: slowness,
   aggregation: 'P90',
-  metricName: 'latency'
+  metricName: latency
 };
 
 export function generateAlertConfig(

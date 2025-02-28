@@ -34,8 +34,8 @@ export default function EvaluationGranularity({
     <Section
       title={
         <AlertTypography
-          variant={'body-regular'}
-          color={'color900'}
+          variant="body-regular"
+          color="color900"
           content={t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigEvaluationGranularity')}
           noMargin
         />

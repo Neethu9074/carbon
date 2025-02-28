@@ -102,7 +102,7 @@ export default function AlertConfigTearSheetStep4({
         />
         <div className={locals.columnContainer}>
           <Spacer size="xxsmall" />
-          <GlobalCustomPayloadCard context="INFRA" isTearSheetView />
+          <GlobalCustomPayloadCard context="WEBSITE" isTearSheetView />
           <AlertConfigCustomPayload
             form={form}
             setForm={updateForm}

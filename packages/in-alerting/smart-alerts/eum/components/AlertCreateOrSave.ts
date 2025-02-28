@@ -28,6 +28,7 @@ import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/us
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
+import { FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
 import { MobileAppAlertConfig, WebsiteAlertConfig } from 'in-types';
 
 interface createOrSaveAlertProps {
@@ -130,7 +131,6 @@ interface createOrSaveAlertFromTearSheetProps {
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;
   toAlertConfig: (form: MapForm<any>) => Readonly<MobileAppAlertConfig | WebsiteAlertConfig>;
-  isSimpleMode: boolean;
   eumType: string;
   duplicateFrom?: string;
   trackCta: CtaTrackingFunction;
@@ -144,7 +144,6 @@ export function createOrSaveAlertFromTearSheet({
   setIsSaving,
   setMessages,
   toAlertConfig,
-  isSimpleMode,
   eumType,
   duplicateFrom,
   trackCta
@@ -177,7 +176,7 @@ export function createOrSaveAlertFromTearSheet({
         : mobileUpdateAlertConfig(alertConfig as MobileAppSmartAlertConfigWithMetadata, form.get('id').value);
     updateConfig.once(
       updatedAlertConfig => {
-        trackCta?.(ALERTING_UPDATED, { ...updatedAlertConfig, dialogMode: 'Advanced' });
+        trackCta?.(ALERTING_UPDATED, { ...updatedAlertConfig, pageViewType: FULLSCREEN });
         navigateToAlertConfig(form.get('id').value, eumId, updatedAlertConfig?.created);
       },
       error => {
@@ -194,7 +193,7 @@ export function createOrSaveAlertFromTearSheet({
     createConfig.once(
       createAlertConfig => {
         const newConfig = duplicateFrom ? { ...createAlertConfig, cloneFromId: duplicateFrom } : createAlertConfig;
-        trackCta?.(ALERTING_SAVED, { ...newConfig, dialogMode: isSimpleMode ? 'Simple' : 'Advanced' });
+        trackCta?.(ALERTING_SAVED, { ...newConfig, pageViewType: FULLSCREEN });
         navigateToAlertConfig(createAlertConfig.id, eumId, createAlertConfig?.created);
       },
       error => {

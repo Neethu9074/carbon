@@ -34,7 +34,7 @@ export default function ThresholdSelectionInteractiveSection({
   thresholdResult
 }) {
   return (
-    <Stack direction="vertical" gap="small" align="start">
+    <Stack gap="small" align="start">
       <AlertTypeSwitch
         alertType={alertType}
         renderJsErrors={() => (

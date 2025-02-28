@@ -101,7 +101,13 @@ export default function CustomEventsThresholdCondition({
       {/* Threshold Value */}
 
       <Section
-        title={<AlertTypography variant="body-regular" color="color900" content={'Threshold value'} />}
+        title={
+          <AlertTypography
+            variant="body-regular"
+            color="color900"
+            content={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
+          />
+        }
         titleWidth="8rem"
       >
         {/* Threshold type */}

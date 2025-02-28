@@ -19,11 +19,11 @@ import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingAc
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
-
+import { alertsTabListFullyQualified, detailsPath } from 'in-websites/navigation/paths';
+import { customEventId, errorId as errorIdMatrix } from 'in-websites/navigation/matrix';
 import ViewSelectorDialog from 'in-alerting/components/Dialog/ViewSelectorDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { alertsTabListFullyQualified } from 'in-websites/navigation/paths';
 import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useWebsiteError from 'in-websites/hooks/useWebsiteError';
@@ -49,8 +49,8 @@ export default function CreateSmartAlert({
   timeConfig,
   isListingPage
 }: CreateSmartAlertProps) {
-  const errorId = getMatrixParameter(location, '/details', 'errorId') ?? undefined;
-  const customEventName = getMatrixParameter(location, '/details', 'customEventId') ?? undefined;
+  const errorId = getMatrixParameter(location, detailsPath, errorIdMatrix) ?? undefined;
+  const customEventName = getMatrixParameter(location, detailsPath, customEventId) ?? undefined;
 
   const alertType = deriveAlertType(errorId, customEventName);
   const blueprintConfig = getBlueprintConfig(alertType);

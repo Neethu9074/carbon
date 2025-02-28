@@ -167,8 +167,8 @@ function createHiddenFieldsForm(calculateThresholdOnBackend?: boolean, editMode?
     );
 }
 
-export function titleValidator(): (str?: any) => ValidationResult {
-  return (value: string) => {
+export function titleValidator(): (string?: string | null) => ValidationResult {
+  return (value?: string | null) => {
     if (typeof value === 'string' && value.length > MAX_LABEL_LENGTH) {
       return [
         {

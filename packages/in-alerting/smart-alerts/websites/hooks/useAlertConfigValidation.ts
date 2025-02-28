@@ -101,7 +101,10 @@ function isCustomPayloadValidOrUntouched(form: MapForm<any>): boolean {
   const customPayload = customPayloadForm.toJS() as unknown as CustomPayloadFieldUnion[];
 
   if (customPayload.length > 0) {
-    return !customPayload.some(value => value.key === '' || value.value === '' || isEmpty(value.value));
+    return !customPayload.some(
+      //@ts-expect-error trim doesnt exist for Dynamic value
+      value => value.key === '' || isEmpty(value.key.trim()) || value.value === '' || isEmpty(value?.value?.trim())
+    );
   }
   return true;
 }
