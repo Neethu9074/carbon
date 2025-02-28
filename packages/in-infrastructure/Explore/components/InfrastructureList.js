@@ -7,7 +7,6 @@ import React, { useEffect, useMemo } from 'react';
 import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
-import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { Ul } from '@instana/components';
@@ -23,6 +22,7 @@ import {
   getConvertedSeries
 } from 'in-infrastructure/Explore/services/metrics';
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/ServerTable/internalComponents/LegacySeverityIndicatorCellContentWrapper';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
