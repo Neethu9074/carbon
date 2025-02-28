@@ -6,9 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { CarbonTable, CarbonTableBody, CarbonTableRow, CarbonTableCell, Button, SvgIcon } from '@instana/components';
 import { CloudfoundryApplicationLink, TimeConfig } from '@instana/types';
-import { Table, Tbody, Td, Tr } from '@instana/legacy';
-import { Button, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
@@ -93,28 +92,28 @@ function ServiceList({ pcfApplications }: { pcfApplications: CloudfoundryApplica
   const getApplicationDashboardLink = useNavigateToApplicationDashboard();
   return (
     <div className={locals.tableWrapper}>
-      <Table>
-        <Tbody>
+      <CarbonTable>
+        <CarbonTableBody>
           {pcfApplications.map(pcfApp => (
-            <Tr key={pcfApp.snapshotId} size="compact">
-              <Td className={locals.labelColumn}>
+            <CarbonTableRow key={pcfApp.snapshotId}>
+              <CarbonTableCell className={locals.labelColumn}>
                 <SeverityAwareEntityLink
                   icon="lib_cloudfoundry_application"
                   label={pcfApp.name}
                   severity={get(pcfApp, ['entityHealthInfo', 'maxSeverity'], 0)}
                   href={getApplicationDashboardLink(pcfApp.snapshotId)}
                 />
-              </Td>
-              <Td>
+              </CarbonTableCell>
+              <CarbonTableCell>
                 <EntityWithType label={pcfApp.organization || valueMissingPlaceholder} type="Organization" />
-              </Td>
-              <Td>
+              </CarbonTableCell>
+              <CarbonTableCell>
                 <EntityWithType label={pcfApp.space || valueMissingPlaceholder} type="Space" />
-              </Td>
-            </Tr>
+              </CarbonTableCell>
+            </CarbonTableRow>
           ))}
-        </Tbody>
-      </Table>
+        </CarbonTableBody>
+      </CarbonTable>
     </div>
   );
 }
