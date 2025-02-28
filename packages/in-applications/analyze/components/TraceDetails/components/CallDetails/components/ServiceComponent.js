@@ -123,7 +123,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                 snapshotId={destinationSnapshotId}
                 calculateHierarchy
                 pathname={physicalDashboardPath}
-                timeConfig={getResolvedTimeConfig(timeConfig, call.start)}
+                timeConfig={getResolvedTimeConfig(timeConfig, destinationEntity.time)}
               />
             )}
           </ExpandableGroup>
@@ -251,7 +251,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                       entity={sourceEntity}
                       plugin={sourceEntity && sourceEntity.plugin}
                       physicalContext={sourcePhysicalContext}
-                      timeConfig={getResolvedTimeConfig(timeConfig, call.start)}
+                      timeConfig={getResolvedTimeConfig(timeConfig, sourceEntity.time)}
                     />
                   </ExpandableGroup>
                 )}
@@ -310,7 +310,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                   entity={destinationEntity}
                   plugin={destinationEntity && destinationEntity.plugin}
                   physicalContext={destinationPhysicalContext}
-                  timeConfig={getResolvedTimeConfig(timeConfig, call.start)}
+                  timeConfig={getResolvedTimeConfig(timeConfig, destinationEntity.time)}
                 />
               )}
             </ExpandableGroup>
