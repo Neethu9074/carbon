@@ -36,9 +36,15 @@ export function findMinMaxMetricValues(
 
   if (!withBuffer) return minMax;
 
-  const range = minMax.max - minMax.min;
-  const fallbackBuffer = minMax.max * 0.05;
-  const buffer = Math.max(range * 0.2, fallbackBuffer);
+  const range = Math.abs(minMax.max - minMax.min);
+
+  const fallbackBuffer = Math.abs(minMax.max * 0.05);
+
+  const dynamicBuffer = Math.max(range * 0.2, fallbackBuffer);
+
+  const logBuffer = Math.abs(minMax.max) * (0.02 / Math.log10(Math.abs(minMax.max) + 1));
+
+  const buffer = Math.min(dynamicBuffer, logBuffer);
 
   return {
     max: minMax.max + buffer,

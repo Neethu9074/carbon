@@ -52,14 +52,14 @@ export default function TrafficChart({
   const { entity, createdDate, indicator } = configuration;
   const configId = configuration.id!;
   const sloZoomInAction = useSloZoomInAction();
-  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateSloGranularity(timeConfig);
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
     configuration,
     timeConfig => sloMetrics.traffic.timeSeries({ configId, timeConfig, granularity }),
     timeConfig,
-    timeWindows,
+    selectedTimeWindowType === 'SELECTED_TIME' ? [timeConfig] : timeWindows,
     granularity
   );
 
