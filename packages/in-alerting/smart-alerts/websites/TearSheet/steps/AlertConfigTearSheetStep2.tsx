@@ -71,7 +71,7 @@ export default function AlertConfigTearSheetStep2({
   return (
     <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.websites.tearSheet.step2.description')} hideSpace>
       {/* Filter */}
-      <Stack direction="vertical" gap="normal">
+      <Stack gap="normal">
         <Spacer size="small" />
         <ScopeWrapper
           title={t('in-alerting:smartAlerts.websites.tearSheet.filter')}
