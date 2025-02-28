@@ -78,7 +78,7 @@ export default function AlertConfigTearSheetStep2({
           description={t('in-alerting:smartAlerts.websites.tearSheet.filterDescription')}
           gap="normal"
         >
-          <div className={locals.Wrapper}>
+          <div className={locals.wrapper}>
             <Stack direction="horizontal" gap="small">
               <AlertFilterConfigurator QueryBuilderComponent={AlertQueryBuilder} form={form} updateForm={updateForm} />
             </Stack>

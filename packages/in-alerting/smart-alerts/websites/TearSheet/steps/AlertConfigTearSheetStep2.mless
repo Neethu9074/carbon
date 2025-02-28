@@ -5,7 +5,7 @@
  */
 
 :local {
-  .Wrapper {
+  .wrapper {
     min-height: 20rem;
   }
 }

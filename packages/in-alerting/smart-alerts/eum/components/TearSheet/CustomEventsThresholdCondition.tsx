@@ -79,7 +79,13 @@ export default function CustomEventsThresholdCondition({
 
       {/* Threshold Type */}
       <Section
-        title={<AlertTypography variant="body-regular" color="color900" content={'Threshold Type'} />}
+        title={
+          <AlertTypography
+            variant="body-regular"
+            color="color900"
+            content={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
+          />
+        }
         titleWidth="8rem"
       >
         <StaticOrAdaptiveSwitch

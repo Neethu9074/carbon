@@ -59,8 +59,8 @@ export default function EvaluationGranularity({
       />
       <Spacer size="normal" />
       <AlertTypography
-        variant={'body-small'}
-        color={'color600'}
+        variant="body-small"
+        color="color600"
         content={t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.granularity.description', {
           granularity: currentValue
         })}
