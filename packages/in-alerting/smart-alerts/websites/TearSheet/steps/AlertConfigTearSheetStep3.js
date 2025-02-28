@@ -43,9 +43,16 @@ export default function AlertConfigTearSheetStep3({
   const alertType = ruleForm.get('alertType').value;
   const alertConfigWithFormModel = blueprintConfig.enrichWithDefaultThresholdValues(toAlertConfigWithRules(form));
 
-  const thresholdType = alertConfigWithFormModel.rules[0].thresholds.WARNING;
+  const warningThresholdField = form.get('threshold').get('warningThreshold');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
+  const isWarningDefined = warningThresholdField.get('isCheckboxSelected').value;
+  const thresholdType = isWarningDefined
+    ? warningThresholdField.get('type').value
+    : criticalThresholdField.get('type').value;
 
-  const chartViewConfigs = isAdaptiveBaselineConfig(thresholdType) ? [chartViewConfig24hours] : defaultChartViewConfigs;
+  const chartViewConfigs = isAdaptiveBaselineConfig(form.get('threshold').toJS().warningThreshold)
+    ? [chartViewConfig24hours]
+    : defaultChartViewConfigs;
 
   return (
     <>
@@ -66,7 +73,7 @@ export default function AlertConfigTearSheetStep3({
               blueprintConfig={blueprintConfig}
               isPercentageMetric={isPercentageMetric}
               getMetricUnitPostfix={getMetricUnitPostfix}
-              thresholdType={thresholdType?.type}
+              thresholdType={thresholdType}
               thresholdResult={thresholdResult}
             />
             <Spacer size="normal" />
@@ -75,9 +82,9 @@ export default function AlertConfigTearSheetStep3({
               form={form}
               updateForm={updateForm}
               oneMinuteGranularityAllowed={
-                thresholdType?.type === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
+                thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
               }
-              thresholdType={thresholdType?.type}
+              thresholdType={thresholdType}
             />
           </TearSheetStepTitleWrapper>
         </div>
@@ -94,7 +101,7 @@ export default function AlertConfigTearSheetStep3({
             impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
             hasTraceImpactOption
             oneMinuteGranularityAllowed={
-              thresholdType?.type === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
+              thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
             }
           />
           <Spacer size="gutter" />
