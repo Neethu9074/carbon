@@ -5,11 +5,11 @@
 
 import React, { forwardRef } from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
 import { useLinkToEndpointDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import Tooltip from 'in-components/Tooltip';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './EntityLink.mless';
@@ -32,25 +32,20 @@ export function ServiceLink({ serviceId, node, isOutofAppContext, boundaryScope,
   );
 }
 
-export const EndpointLink = connectTo(
-  props => ({
-    serviceData: props.node.events$.on('data')
-  }),
-  function EndpointLink({ node, serviceData, className, children, data, boundaryScope }) {
-    const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
-
-    return (
-      <EntityLink
-        className={className}
-        getLink={() =>
-          getLinkToEndpoint(node.applicationId, serviceData.id, data.id, boundaryScope, getLinkToEndpointDashboard)
-        }
-      >
-        {children}
-      </EntityLink>
-    );
-  }
-);
+export function EndpointLink({ node, className, children, data, boundaryScope }) {
+  const serviceData = useObservable(node.events$.on('data'), [node]);
+  const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
+  return (
+    <EntityLink
+      className={className}
+      getLink={() =>
+        getLinkToEndpoint(node.applicationId, serviceData?.id, data.id, boundaryScope, getLinkToEndpointDashboard)
+      }
+    >
+      {children}
+    </EntityLink>
+  );
+}
 
 const EntityLink = forwardRef(function EntityLink({ className, getLink, children }, ref) {
   return (
