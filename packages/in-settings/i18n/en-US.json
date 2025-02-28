@@ -448,7 +448,7 @@
       "confirmDeletion": "Confirm Deletion",
       "deletionDetails": "Deletion details",
       "logsToDelete": "Logs to delete",
-      "modalDescription": "Deleting logs will permanently erase all selected logs from Instana based on the specified start and end dates, times, and any matching queries or filters you define. This action cannot be undone.",
+      "modalDescription": "Deleting logs permanently erases all the logs from Instana until the specified end date and end time. This action cannot be undone",
       "deleteButton": "Delete",
       "nextButton": "Next",
       "backButton": "Back",
