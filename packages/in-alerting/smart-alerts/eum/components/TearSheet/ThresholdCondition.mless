@@ -12,4 +12,8 @@
   .dropdownmd {
     max-width: 15rem;
   }
+
+  .wrapper {
+    width: 24rem;
+  }
 }

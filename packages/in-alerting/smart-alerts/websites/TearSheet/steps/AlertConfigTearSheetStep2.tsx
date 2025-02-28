@@ -21,6 +21,8 @@ import { MetricName } from 'in-alerting/smart-alerts/websites/data/blueprintConf
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 
+import locals from 'in-alerting/smart-alerts/websites/TearSheet/steps/AlertConfigTearSheetStep2.mless';
+
 /**
  * Timeframe used for the tag-suggestions in QB2.
  */
@@ -76,9 +78,11 @@ export default function AlertConfigTearSheetStep2({
           description={t('in-alerting:smartAlerts.websites.tearSheet.filterDescription')}
           gap="normal"
         >
-          <Stack direction="horizontal" gap="small">
-            <AlertFilterConfigurator QueryBuilderComponent={AlertQueryBuilder} form={form} updateForm={updateForm} />
-          </Stack>
+          <div className={locals.Wrapper}>
+            <Stack direction="horizontal" gap="small">
+              <AlertFilterConfigurator QueryBuilderComponent={AlertQueryBuilder} form={form} updateForm={updateForm} />
+            </Stack>
+          </div>
         </ScopeWrapper>
       </Stack>
     </TearSheetStepTitleWrapper>

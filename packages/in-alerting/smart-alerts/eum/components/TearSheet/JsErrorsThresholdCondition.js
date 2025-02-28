@@ -62,15 +62,16 @@ export default function JsErrorsThresholdCondition({ form, blueprintConfig, upda
         titleWidth="8rem"
       >
         {/* Threshold input field */}
-
-        <MultiThresholdCondition
-          form={form}
-          updateForm={updateForm}
-          maxValue={maxValue}
-          metricUnitPostfix={metricUnitPostfix}
-          percentageMetric={percentageMetric}
-          label={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
-        />
+        <div className={locals.wrapper}>
+          <MultiThresholdCondition
+            form={form}
+            updateForm={updateForm}
+            maxValue={maxValue}
+            metricUnitPostfix={metricUnitPostfix}
+            percentageMetric={percentageMetric}
+            label={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
+          />
+        </div>
       </Section>
     </Stack>
   );
