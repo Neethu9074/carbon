@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Td, Table, Tbody, Tr } from '@instana/legacy';
+import { CarbonTable, CarbonTableBody, CarbonTableRow, CarbonTableCell } from '@instana/components';
 import { SvgIcon, Button } from '@instana/components';
 
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
@@ -50,46 +50,46 @@ function ServiceList({ instanaServices }) {
 
   return (
     <div className={locals.tableWrapper}>
-      <Table>
-        <Tbody>
+      <CarbonTable size="lg">
+        <CarbonTableBody>
           {instanaServices.map(service => {
             const calls = get(service, ['metrics', 'callsAgg', 0, 1]);
             const latency = get(service, ['metrics', 'latencyAgg', 0, 1]);
             const errors = get(service, ['metrics', 'errorsAgg', 0, 1]);
 
             return (
-              <Tr key={service.id} size="compact">
-                <Td className={locals.labelColumn}>
+              <CarbonTableRow key={service.id}>
+                <CarbonTableCell className={locals.labelColumn}>
                   <SeverityAwareEntityLink
                     icon="lib_application_service"
                     label={service.label}
                     severity={get(service, ['metrics', 'maxSeverity', 0, 1], 0)}
                     href={getLinkToServiceDashboard({ serviceId: service.id })}
                   />
-                </Td>
-                <Td>
+                </CarbonTableCell>
+                <CarbonTableCell>
                   <EndpointTypeBadgeList types={service.types} />
-                </Td>
-                <Td>
+                </CarbonTableCell>
+                <CarbonTableCell>
                   <EntityWithType label={calls >= 0 ? number.compact(calls) : valueMissingPlaceholder} type="Calls" />
-                </Td>
-                <Td>
+                </CarbonTableCell>
+                <CarbonTableCell>
                   <EntityWithType
                     label={latency >= 0 ? meanLatency.detailed(latency) : valueMissingPlaceholder}
                     type="Latency"
                   />
-                </Td>
-                <Td>
+                </CarbonTableCell>
+                <CarbonTableCell>
                   <EntityWithType
                     label={errors >= 0 ? percentage.detailed(errors) : valueMissingPlaceholder}
                     type="Errors"
                   />
-                </Td>
-              </Tr>
+                </CarbonTableCell>
+              </CarbonTableRow>
             );
           })}
-        </Tbody>
-      </Table>
+        </CarbonTableBody>
+      </CarbonTable>
     </div>
   );
 }
