@@ -12,7 +12,6 @@ import {
   CarbonContainedList,
   CarbonContainedListItem,
   CarbonInlineLoading,
-  CarbonTag,
   Link,
   Typography
 } from '@instana/components';
@@ -21,6 +20,8 @@ import { UserResult } from '@instana/types';
 
 //@ts-expect-error not a typescript component yet
 import { AddUserDialog } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/AddUserButton';
+import { AssignRoleDialog } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoleDialog';
+import RoleView from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/RoleView';
 import { getEntityIdView, securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { ApiTeam, ApiTeamMember } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -65,7 +66,6 @@ const TeamMember = ({ isLoading, team, setTeamData, saveTeam }: TeamMemberProps)
   };
 
   const removeMember = (member: ApiTeamMember) => {
-    // Remove fullName as not yet supported by API
     const teamData = {
       ...team,
       members: team.members.filter(m => m.userId !== member.userId)
@@ -79,26 +79,37 @@ const TeamMember = ({ isLoading, team, setTeamData, saveTeam }: TeamMemberProps)
     close();
   };
 
-  const getRoleName = (roleId: string) => {
-    if (roleId === '-1') {
-      return 'Default';
-    } else {
-      return roleId;
-    }
+  const assignRoles = (members: Array<ApiTeamMember>) => {
+    // Update members with role assignment
+    setTeamData({ members });
+
+    const teamData = {
+      ...team,
+      members: members
+    };
+
+    // Save role assignment for members
+    saveTeam(teamData);
   };
 
   return (
     <ProductiveCard
       className={locals.card}
+      primaryButtonPlacement="top"
+      primaryButtonText={t('in-settings:tabs.teams.addUsers')}
       onPrimaryButtonClick={() => {
         // replace with new pure Carbon AddUserDialog
         addActiveDialog(<AddUserDialog members={team?.members} onSubmit={addMembers} />);
       }}
-      onSecondaryButtonClick={() => {}}
-      primaryButtonPlacement="top"
-      primaryButtonText={t('in-settings:tabs.teams.addUsers')}
-      secondaryButtonPlacement="top"
-      secondaryButtonText={t('in-settings:tabs.teams.assignRoleForMembers')}
+      {...(team?.members?.length > 0
+        ? {
+            secondaryButtonPlacement: 'top',
+            secondaryButtonText: t('in-settings:tabs.teams.assignRoleForMembers'),
+            onSecondaryButtonClick: () => {
+              addActiveDialog(<AssignRoleDialog team={team} onSubmit={assignRoles} setMessage={() => ''} />);
+            }
+          }
+        : {})}
       title={t('in-settings:tabs.teams.members', { count: team?.members?.length })}
     >
       {isLoading && <CarbonInlineLoading />}
@@ -151,15 +162,7 @@ const TeamMember = ({ isLoading, team, setTeamData, saveTeam }: TeamMemberProps)
                       {member?.fullName ? member.fullName : member?.userId}
                     </Link>
                   </span>
-                  <span>
-                    {member?.roleIds && (
-                      <CarbonTag type="high-contrast">
-                        {member?.roleIds?.length === 1
-                          ? getRoleName(member.roleIds[0].roleId)
-                          : member?.roleIds?.length}
-                      </CarbonTag>
-                    )}
-                  </span>
+                  <span>{member?.roleIds && <RoleView roles={member.roleIds} />}</span>
                 </div>
               </CarbonContainedListItem>
             );

@@ -8,8 +8,9 @@ import React, { useState } from 'react';
 
 import { CarbonForm, CarbonTag, CarbonTextArea, CarbonTextInput } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { TeamTag } from '@instana/types';
 
-import { ApiTeamTag, getTagsAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/tags';
+import { getTagsResult } from 'in-settings/tabs/SecurityAndAccess/api/tags';
 import { ApiTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -34,8 +35,8 @@ const TeamForm = ({
   description = ''
 }: TeamFormProps) => {
   const [nameValidationMessage, setNameValidationMessage] = useState('');
-  const tagsResult = useObservable(getTagsAsResultObservable, []) ?? pendingResult;
-  const tags = tagsResult?.data as ApiTeamTag[];
+  const tagsResult = useObservable(getTagsResult, []) ?? pendingResult;
+  const tags: Array<TeamTag> = tagsResult?.data;
 
   const validate = (teamName: string) => {
     if (teamName?.length === 0) {
@@ -59,7 +60,9 @@ const TeamForm = ({
     <>
       {!editable && (
         <>
-          <CarbonTag type="blue">{name}</CarbonTag>
+          <CarbonTag type="blue" size="lg">
+            {name}
+          </CarbonTag>
           <div className={locals.description}>{description}</div>
         </>
       )}

@@ -25,6 +25,7 @@ const refreshSignal = create().emit(true);
  */
 export interface ApiTeamRole {
   readonly roleId: string;
+  readonly roleName?: string;
   readonly viaIdP?: boolean;
 }
 

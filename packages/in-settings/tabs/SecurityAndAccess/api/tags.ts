@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
-import { create } from '@instana/observables';
+import { Observable, create } from '@instana/observables';
+import { Result, TeamTag } from '@instana/types';
 
-import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import http from 'in-services/http';
 
@@ -18,27 +18,18 @@ export function refresh() {
   refreshSignal.emit(true);
 }
 
-/**
- * Model for a Tag until type from backend is available
- * @property id unique tag id
- * @property displayName name of the tag
- */
-export interface ApiTeamTag {
-  readonly id: string;
-  readonly displayName: string;
+function getTagsInternal(): Observable<Result<TeamTag[]>> {
+  return http<TeamTag[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: basePath,
+    mapToResultObject: true,
+    treat400AsError: true
+  });
 }
 
-function getTagsInternal() {
-  return refreshSignal.flatMap(() =>
-    createObservable(
-      http<ApiTeamTag[]>({
-        method: 'GET',
-        maxRetries: 3,
-        url: basePath
-      })
-    )
-  );
-}
-
-const getTagsAsResultObservableMemoized = memoize(getTagsInternal, () => 'Tags', 60000);
-export const getTagsAsResultObservable = () => getTagsAsResultObservableMemoized([]);
+export const getTagsResult = memoize(
+  () => refreshSignal.flatMap(() => getTagsInternal()),
+  () => 'Tags',
+  60000
+);
