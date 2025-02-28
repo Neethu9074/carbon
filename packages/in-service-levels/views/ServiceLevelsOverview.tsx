@@ -41,7 +41,6 @@ export default function ServiceLevelsOverview() {
             label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
             title={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
             labelForTitle={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
-            isBeta
           />
           <DashboardHeaderModule>
             <SecondLevelNavigation>
