@@ -132,7 +132,7 @@ export default function ResourceOptimizationTab({
               title: t('in-applications:infoBanner.tryLabel'),
               text: t('in-applications:infoBanner.tryText'),
               link: {
-                url: 'https://www.ibm.com/account/reg/us-en/signup?formid=urx-52198',
+                url: 'https://www.ibm.com/account/reg/us-en/signup?formid=urx-52198&launch=Instana',
                 label: t('in-applications:infoBanner.tryButtonLabel'),
                 trackKey: AUTOMATION_TURBO_TRY_CLICK
               }
