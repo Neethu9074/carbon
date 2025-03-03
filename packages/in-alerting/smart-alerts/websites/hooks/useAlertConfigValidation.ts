@@ -4,11 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
-import { ListForm, MapForm } from 'formalistic';
-import { isEmpty } from 'lodash';
+import { MapForm } from 'formalistic';
 
 import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData } from '@instana/types';
-import { CustomPayloadFieldUnion } from '@instana/types/typeDefinitions';
 
 import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingFullScreenTearSheet';
@@ -80,7 +78,7 @@ export default function useAlertConfigValidation(
     },
     {
       ...stepConfigs[3],
-      valid: isCustomPayloadValidOrUntouched(form) && form?.get('name').valid,
+      valid: form.get('customPayloadFields').hierarchyValid && form?.get('name').valid,
       validator: () => updateFormField(form, updateForm, ['customPayloadFields'])
     },
     {
@@ -94,22 +92,4 @@ function updateFormField(form: MapForm<any>, updateForm: (form: MapForm<any>) =>
   return fieldType.forEach(field =>
     updateForm(form.updateIn([field], (f: any) => f.setTouched(true, { recurse: true })))
   );
-}
-
-function isCustomPayloadValidOrUntouched(form: MapForm<any>): boolean {
-  const customPayloadForm = (form.get('customPayloadFields') as ListForm<any>) ?? null;
-
-  const customPayload = customPayloadForm.toJS() as unknown as CustomPayloadFieldUnion[];
-
-  if (customPayload.length > 0) {
-    return !customPayload.some(value => {
-      return (
-        value.key === '' ||
-        isEmpty(value.key.trim()) ||
-        value.value === '' ||
-        isEmpty(typeof value.value === 'string' ? value.value.trim() : value.value)
-      );
-    });
-  }
-  return true;
 }
