@@ -193,6 +193,11 @@ export const websitesSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
   'websitesSmartAlertFullScreenDesignEnabled'
 );
 
+// mobile app SA full screen design
+export const mobileAppSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
+  'mobileAppSmartAlertFullScreenDesignEnabled'
+);
+
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
 

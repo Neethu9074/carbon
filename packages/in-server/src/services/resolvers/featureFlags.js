@@ -830,5 +830,10 @@ module.exports = exports = [
     uiClientKey: 'sloFullEnabled',
     instanaCtlKey: 'feature.slo.full.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'mobileAppSmartAlertFullScreenDesignEnabled',
+    instanaCtlKey: 'feature.mobile.app.smart.alert.full.screen.design.enabled',
+    defaultValue: false
   }
 ];

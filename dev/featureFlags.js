@@ -171,5 +171,6 @@ module.exports = {
   alertChannelPerSeverityLogSaEnabled: true,
   idpConfigV2Enabled: false,
   sloLiteEnabled: true,
-  sloFullEnabled: true
+  sloFullEnabled: true,
+  mobileAppSmartAlertFullScreenDesignEnabled: false
 };
