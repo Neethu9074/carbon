@@ -102,6 +102,10 @@
   "createPolicyWithName": "View action {{actionName}} and create policy",
   "viewActionCreatePolicy": "View action and create policy",
   "titleContentReadOnly": "Generated content (Read only)",
+  "hostId": "Host ID",
+  "ansibleUrl": "Ansible url",
+  "playbookFileName": "Playbook file name",
+  "playbookId": "Playbook ID",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Action configuration",
     "actionDetails": "Action details",
