@@ -117,7 +117,7 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
     const payload = {
       name: filter.name,
       tagFilterExpression: backendQueryModel,
-      ...(hasGroup && {
+      ...(includeGroup && {
         group: { tag: group.groupbyTag, entity: group.groupbyTagEntity ?? NOT_APPLICABLE } as SavedFilterGroup
       })
     };
