@@ -104,6 +104,7 @@ export default function MultiThresholdCondition({
             getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
             isMultiThreshold
             id="warningThreshold"
+            isTearSheet
           />
         </div>
         {/* threshold suggestion for warning threshold */}
@@ -143,6 +144,7 @@ export default function MultiThresholdCondition({
             thresholdField={criticalThresholdValueField}
             getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'criticalThreshold')}
             isMultiThreshold
+            isTearSheet
             id="criticalThreshold"
           />
         </div>

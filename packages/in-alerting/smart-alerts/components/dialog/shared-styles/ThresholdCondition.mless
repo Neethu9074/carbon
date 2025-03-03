@@ -15,6 +15,9 @@
 
   .narrowControl {
     width: 6rem;
+    :global .cds--number__input-wrapper {
+      width: 12rem;
+    }
   }
 
   .toolTip {
@@ -27,7 +30,12 @@
     padding-top: 1.75rem;
   }
 
-  .inputMd {
-    width: 9rem;
+  .numberInput {
+    :global .cds--number__input-wrapper {
+      width: 12rem;
+      input {
+        height: 2.05rem;
+      }
+    }
   }
 }
