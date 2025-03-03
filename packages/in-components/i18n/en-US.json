@@ -53,7 +53,7 @@
       "openList": "Open list"
     },
     "chartReleasesLanePresenterReleasesLabel": "Releases",
-    "chartReleasesLanePresenterTooltip": "+{{len}} more Releases",
+    "chartReleasesLanePresenterTooltip": "+{{len}} more releases",
     "highlightedTimeframeCloseButtonClearHighlight": "Clear highlight",
     "resultAwareChartSomethingWentWrong": "Something went wrong…",
     "resultAwareChartPleaseTryAgainLater": "Please try again later.",

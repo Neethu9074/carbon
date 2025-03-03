@@ -19,7 +19,8 @@ export default {
 };
 
 const oneMinute = minutes.toMillis(1);
-const timeConfig = generateTimeframe(oneMinute);
+const oneHour = oneMinute * 60;
+const timeConfig = generateTimeframe(oneHour);
 
 // optional retry feature and helper for storybook
 const RETRY_ARGS = {
@@ -184,7 +185,7 @@ function ChartWithSomeData({ renderPostChartContent, renderPreChartContent }) {
           y1: {
             renderer: Renderer.bar,
             labels: ['Calls'],
-            metrics: ['calls'],
+            metrics: generateMetrics(12, 100, oneHour),
             metricIds: [],
             aggregation: 'awesomeAggregation'
           },
@@ -222,9 +223,27 @@ function getReleases(timeConfig) {
       timestamp: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 10),
       clusteredReleases: [
         {
-          name: 'Release Lane Test: abc',
+          name: 'Release Lane Test: 1',
           start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 10),
-          id: '2WqiOdUES2yLLk8kqKfxzQ',
+          id: '2WqiOdUES2yLLk8kqKfxz1',
+          lastUpdated: 1594973648774
+        },
+        {
+          name: 'Release Lane Test: 2',
+          start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 10),
+          id: '2WqiOdUES2yLLk8kqKfxz2',
+          lastUpdated: 1594973648774
+        },
+        {
+          name: 'Release Lane Test: 3',
+          start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 10),
+          id: '2WqiOdUES2yLLk8kqKfxz3',
+          lastUpdated: 1594973648774
+        },
+        {
+          name: 'Release Lane Test: 3',
+          start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 10),
+          id: '2WqiOdUES2yLLk8kqKfxz4',
           lastUpdated: 1594973648774
         }
       ]
