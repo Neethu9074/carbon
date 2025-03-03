@@ -5,7 +5,11 @@
 
 :local {
   .container {
-    margin: 0.5rem;
+    margin: 0 0.5rem;
+  }
+
+  .height {
+    height: 16rem;
   }
 
   .jsErrorTextInput {

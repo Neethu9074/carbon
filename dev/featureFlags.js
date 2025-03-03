@@ -163,7 +163,7 @@ module.exports = {
   accessControlCarbonTable: false,
   prcIssueEnabled: true,
   logSmartAlertFullScreenDesignEnabled: true,
-  websitesSmartAlertFullScreenDesignEnabled: false,
+  websitesSmartAlertFullScreenDesignEnabled: true,
   prometheusDeltaCountersSumEnabled: true,
   syntheticSmartAlertFullScreenDesignEnabled: false,
   alertChannelPerSeverityWebsiteSaEnabled: true,

@@ -171,6 +171,17 @@ const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze({
         <li>${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli5')}</li>
       <ul>
     `,
+  tearSheet: {
+    headline: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigHeadline'),
+    text: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextP'),
+    description: {
+      text1: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli1'),
+      text2: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli2'),
+      text3: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli3'),
+      text4: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli4'),
+      text5: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli5')
+    }
+  },
   getAvailableTags: () => getIncludedTags(availableFilterTags.pageLoad),
   baselineEnabled: true,
   defaultMetric: 'onLoadTime',
@@ -244,7 +255,11 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
       (alertRule as StatusCodeWebsiteAlertRule).value
     )
   ],
-  getBeaconType: () => 'httpRequest'
+  getBeaconType: () => 'httpRequest',
+  tearSheet: {
+    headline: t('in-alerting:smartAlerts.websites.tearSheet.statusCode.headline'),
+    text: t('in-alerting:smartAlerts.websites.tearSheet.statusCode.text')
+  }
 });
 
 const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
@@ -264,7 +279,11 @@ const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   getAggregation: () => 'SUM',
   isRuleComplete: () => true,
   getBeaconType: (metricName: MetricName) => (metricName === 'pageLoads' ? 'pageLoad' : 'pageChange'),
-  impactTimeThresholdDisabled: true
+  impactTimeThresholdDisabled: true,
+  tearSheet: {
+    headline: t('in-alerting:smartAlerts.websites.tearSheet.throughput.headline'),
+    text: t('in-alerting:smartAlerts.websites.tearSheet.throughput.text')
+  }
 });
 
 const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({

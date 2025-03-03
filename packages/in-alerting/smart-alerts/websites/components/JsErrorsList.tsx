@@ -13,6 +13,7 @@ import {
   TimeConfig,
   WebsiteErrorsItem
 } from '@instana/types';
+import { CarbonLayer } from '@instana/components';
 
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -49,7 +50,7 @@ export default function JsErrorsList({
   slideOut
 }: JsErrorsListProps) {
   return (
-    <>
+    <CarbonLayer>
       <List
         key={Math.random()} // It's save to trigger a reload this way because results are memoized in the backend.
         getHeader={() => ''}
@@ -82,7 +83,7 @@ export default function JsErrorsList({
         }}
         isSearchable
       />
-    </>
+    </CarbonLayer>
   );
 }
 

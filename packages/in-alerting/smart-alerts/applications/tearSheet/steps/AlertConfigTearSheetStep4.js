@@ -180,6 +180,8 @@ export default function AlertConfigTearSheetStep4(props) {
             oneMinuteGranularityAllowed={
               thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
             }
+            thresholdType={thresholdType}
+            titleWidth="4.5rem"
           />
         </TearSheetStepTitleWrapper>
         <span className={locals.seperator} />

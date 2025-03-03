@@ -55,6 +55,7 @@ interface AlertingFullScreenTearSheetProps {
   actionButtonLabel: string;
   QueryBuilderComponent?: QueryBuilderComponent;
   productArea?: string;
+  blueprintConfig?: object;
 }
 
 export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTearSheetProps) {

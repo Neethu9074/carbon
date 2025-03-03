@@ -1143,6 +1143,52 @@
         },
         "noDataHeader": "No website Smart Alerts",
         "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
+      },
+      "tearSheet": {
+        "createTitle": "Create a website Smart Alert",
+        "editTitle": "Edit a website Smart Alert",
+        "step1": {
+          "title": "Pick a template",
+          "description": "Choose the issue that you want to be alerted on"
+        },
+        "step2": {
+          "title": "Define the scope",
+          "description": "Where is the condition happening?"
+        },
+        "step3": {
+          "title": "Define when to get alerted"
+        },
+        "step4": {
+          "title": "Define Alert properties",
+          "description": "What properties do you want to set for this alert?"
+        },
+        "step5": {
+          "title": "Define alert channels",
+          "description": "Where do you want to be notified for this alert?",
+          "text": "Select the recipient(s) of this alert"
+        },
+        "statusCode": {
+          "headline": "Automatic alerts for HTTP status codes",
+          "text": "Receive an alert when matching HTTP status codes occur more often than the threshold."
+        },
+        "throughput": {
+          "headline": "Automatic alerts for throughput",
+          "text": "Receive an alert when the number of calls is unusually high or low for selected services and endpoints of this application perspective."
+        },
+        "filter": "Filter",
+        "filterDescription": "Select the services to get more precise alerts.",
+        "threshold": {
+          "header": "Set a value for the violation threshold",
+          "description": "Select a metric, violation threshold and time window to evaluate the violation."
+        },
+        "alertChart": {
+          "title": "Alerts preview",
+          "description": "Shows how alerts would have triggered based on historical metric data."
+        },
+        "timeThreshold": {
+          "title": "Set when violations trigger alerts",
+          "description": "Specify the alert and persistence type and then set the alert trigger."
+        }
       }
     },
     "sortOptions": {
