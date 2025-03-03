@@ -27,8 +27,8 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { indeterminateProgress } from 'in-services/fixedObjects';
-import { useCockpitLink } from 'in-cockpit/navigation/paths';
 import { playwithEnabled } from 'in-services/featureFlags';
+import { useCockpitLink } from 'in-plg/navigation/paths';
 import Lettering from 'in-components/Lettering';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -186,12 +186,12 @@ function DashboardList({
 }) {
   const cockpitLink = useCockpitLink();
   const itemsRefs = React.useRef([]);
-  const {location, createHref} = useNavigation()
-  const dashboardListLocation = {...location, pathname: viewPathFullyQualified}
+  const { location, createHref } = useNavigation();
+  const dashboardListLocation = { ...location, pathname: viewPathFullyQualified };
 
-  function customNavigation(id){
+  function customNavigation(id) {
     setOrDeleteMatrixKey(dashboardListLocation, dashboardIdUrlParameter.path, dashboardIdUrlParameter.name, id);
-    return createHref(dashboardListLocation)
+    return createHref(dashboardListLocation);
   }
 
   let items = (customDashboards || [])

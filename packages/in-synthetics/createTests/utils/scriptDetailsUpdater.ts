@@ -57,3 +57,8 @@ export function scriptDetailsUpdater(
     return { name: '', text: '', extension: 'js' };
   }
 }
+
+export function base64ToFileFormat(base64String: string) {
+  const byteArray = Uint8Array.from((globalThis as any).atob(base64String), (c: string) => c.charCodeAt(0));
+  return new File([byteArray], 'bundled-scripts.zip', { type: 'application/zip' });
+}

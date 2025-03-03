@@ -153,6 +153,7 @@ export default class Overlay<FORWARDED_CONTENT_PROPS> extends React.Component<
       children: renderTriggerOverlayAction,
       content: OverlayContent,
       forceConfiguredAlignment,
+      fixOverlayLeftAlignment,
       inContentArea,
       kind,
       props: forwardedProps = emptyObject,
@@ -216,6 +217,7 @@ export default class Overlay<FORWARDED_CONTENT_PROPS> extends React.Component<
             autoClose={autoClose}
             withoutArrow={withoutArrow}
             inContentArea={inContentArea}
+            fixOverlayLeftAlignment={fixOverlayLeftAlignment}
             behindSidebar={behindSidebar}
             align={align}
             forceConfiguredAlignment={forceConfiguredAlignment}

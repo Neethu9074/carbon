@@ -100,6 +100,7 @@ export default function RunActionDialog({
           <RunActionContent
             action={action}
             error={error}
+            isSaving={isSaving}
             actionInstanceId={actionInstanceId}
             form={form}
             setForm={setForm}

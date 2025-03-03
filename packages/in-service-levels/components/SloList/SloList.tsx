@@ -7,7 +7,6 @@
 import React, { useEffect } from 'react';
 
 import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import SloErrorBudgetColumnContent from 'in-service-levels/components/SloList/components/SloErrorBudgetColumnContent';
@@ -21,7 +20,7 @@ import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useSe
 import SloListFilters from 'in-service-levels/components/SloList/components/SloListFilters';
 import useSloListFilterUrlState from 'in-service-levels/hooks/useSloListFilterUrlState';
 import SloActions from 'in-service-levels/components/SloList/components/SloActions';
-import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import useSloListItems from 'in-service-levels/hooks/useSloListItems';
 import { SLO_LIST_VIEW } from 'in-services/tracking/eventNames';
@@ -30,6 +29,7 @@ import useSloTags from 'in-service-levels/hooks/useSloTags';
 import { LabeledEntity } from 'in-service-levels/types';
 import useMediaQuery from 'in-hooks/useMediaQuery';
 import { all } from 'in-hooks/utils/progress';
+import { t } from 'in-i18n';
 
 interface GetColumnDefinitionsProps {
   isMediumWidth?: boolean;
@@ -117,11 +117,11 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
   const isMediumWidth = useMediaQuery('(min-width: 1560px)');
   const isSmallWidth = useMediaQuery('(min-width: 1200px)');
 
-  const track = useSloTrackers();
+  const { trackCta } = useSegmentTracking();
 
   useEffect(() => {
-    track(SLO_LIST_VIEW, undefined);
-  }, [track]);
+    trackCta(SLO_LIST_VIEW, undefined);
+  }, [trackCta]);
 
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = useServerTableUrlState({
     pathSegment,
@@ -166,14 +166,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
       }}
       onChange={setServerTableState}
       rightHeader={() => (
-        <SloListFilters
-          tags={availableTags ?? []}
-          selectedTags={tags}
-          entityType={entityType}
-          setFilter={setFilter}
-          disabled={progress.loading}
-          withTrailingGap
-        />
+        <SloListFilters tags={availableTags ?? []} selectedTags={tags} entityType={entityType} setFilter={setFilter} />
       )}
       tableInCard
       fixedLayout

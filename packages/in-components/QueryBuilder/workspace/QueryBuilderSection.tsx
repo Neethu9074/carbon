@@ -32,7 +32,7 @@ interface QueryBuilderSectionProps<ADDITIONAL_TAG_CATALOG_PROPS = {}> {
   onChange: (formModel: FormModelElement[]) => void;
   tracking?: QueryBuilderTrackingFunctions;
   tagCatalog?: TagCatalog;
-
+  fixOverlayLeftAlignment?: boolean;
   useLastValidStateWhenErroneous?: boolean;
 
   withOptionalMarker?: boolean;
@@ -53,6 +53,7 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
   onChange,
   tracking,
   withoutIcon,
+  fixOverlayLeftAlignment = false,
   actions,
   useLastValidStateWhenErroneous = false,
   withOptionalMarker = false,
@@ -136,6 +137,7 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
             tagCatalog={tagCatalog}
             onError={setInternalError}
             tracking={tracking}
+            fixOverlayLeftAlignment={fixOverlayLeftAlignment}
             useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}
             getSuggestionsProps={getSuggestionsProps}
             getSuggestionLabel={getSuggestionLabel}

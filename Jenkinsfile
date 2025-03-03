@@ -75,11 +75,17 @@ pipeline {
           gitMessage          = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (<https://github.ibm.com/instana/ui-client/commit/%h|%h>): %s'").trim()
           // https://github.ibm.com/instana/jenkins/blob/develop/vars/getBackendComponents.groovy
           backendComponents = getBackendComponents()
-              .findAll { it.isIncludedInRelease(majorReleaseVersion) && !(it.name ==~ /^ui-client.*/) }
+              .findAll { 
+                (it.isIncludedInRelease(majorReleaseVersion) && !(it.name ==~ /^ui-client.*/)) &&
+                !(env.BRANCH_NAME != 'develop' && it.onDevelopBranchOnly)
+              }
               .collect { it.name }
               .plus(['ingress', 'ingress-global', 'ingress-otlp-acceptor'])
           uiClientComponents = getBackendComponents()
-              .findAll { it.isIncludedInRelease(majorReleaseVersion) && (it.name ==~ /^ui-client.*/) }
+              .findAll {
+                (it.isIncludedInRelease(majorReleaseVersion) && (it.name ==~ /^ui-client.*/)) &&
+                !(env.BRANCH_NAME != 'develop' && it.onDevelopBranchOnly)
+              }
               .collect { it.name }
 
           currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId.take(8)} -> ${instanaUiClientVersion}"
@@ -332,7 +338,7 @@ def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instan
         def currentBackendTag = "${backendRepoPath}/${it}:${backendStableImageVersion}"
         def newBackendTag = "${backendRepoPath}/${it}:${instanaImageVersion}"
         rebuildBackendComponents[it] = {
-          lock(resource: "build-ui-client-rebuild-backend-${branchName}", quantity: 10) {
+          lock(label: "ui-client-retag-backend", quantity: 1) {
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'delivery-instana-io-internal-project-artifact-read-writer-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
               sh """
               INSTANA_ARTIFACTORY_USERNAME=$USERNAME INSTANA_ARTIFACTORY_PASSWORD=$PASSWORD \

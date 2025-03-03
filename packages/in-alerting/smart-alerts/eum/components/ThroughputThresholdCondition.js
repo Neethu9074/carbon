@@ -7,16 +7,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
-import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdDeviationSliderForm';
+import ThresholdValueFormGroupForMultiStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForMultiStaticThreshold';
+import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/MultiThresholdDeviationSliderForm';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
-import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/ThresholdTypeSelection';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import Dropdown from 'in-alerting/components/Dropdown';
-import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
 
@@ -29,8 +27,8 @@ export default function ThroughputThresholdCondition({
   ruleMetricNameOptions,
   getMetricUnitPostfix
 }) {
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const metricName = form.get('rule').get('metricName').value;
-  const thresholdType = form.get('threshold').get('type')?.value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
@@ -64,21 +62,16 @@ export default function ThroughputThresholdCondition({
       </ThresholdConditionFormGroup>
 
       {thresholdType === STATIC_THRESHOLD && (
-        <ThresholdConditionFormGroup
-          iconType="lib_threshold"
-          label={t('in-alerting:smartAlerts.eum.advanced.thresholdValue')}
-        >
-          <ThresholdValueInputWithValidationMessage
-            max={maxValue}
-            form={form}
-            updateForm={updateForm}
-            metricUnitPostfix={metricUnitPostfix}
-          />
-          <UseSuggestedValueButton form={form} updateForm={updateForm} metricUnitPostfix={metricUnitPostfix} />
-        </ThresholdConditionFormGroup>
+        <ThresholdValueFormGroupForMultiStaticThreshold
+          form={form}
+          updateForm={updateForm}
+          maxValue={maxValue}
+          metricUnitPostfix={metricUnitPostfix}
+          isGlobalSmartAlert={false}
+        />
       )}
       {thresholdType !== STATIC_THRESHOLD && (
-        <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
+        <MultiThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>
   );

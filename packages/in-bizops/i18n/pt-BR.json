@@ -6,8 +6,12 @@
     "count": "Contagem"
   },
   "lists": {
+    "id": "ID",
+    "version": "Versão",
     "pageTitle": "Monitoramento de negócios",
     "cardTitle": "Processos de negócios",
+    "theId": "O ID do processo",
+    "hasBeenCopied": "foi copiado com sucesso para a área de transferência",
     "activityLabel": "Atividades",
     "nameLabel": "Nome",
     "countLabel": "Contagem",

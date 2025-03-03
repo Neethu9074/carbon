@@ -21,7 +21,7 @@ import {
   powervc as powervcServerType,
   sap as sapType,
   zhmcServer as zhmcServerType
-} from 'in-cockpit/starredItems/types';
+} from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
 import {
   hasKubernetesAccess,
   hasOpenStackAccess,
@@ -45,13 +45,15 @@ import { getPowerVCRegionsWithDefaults } from 'in-powervc/subscriptions/getPower
 //@ts-expect-error doesn't contain type file
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
 //@ts-expect-error doesn't contain type file
+import mergeResults from 'in-plg/pages/WelcomePage/widgets/utils/mergeResults';
+//@ts-expect-error doesn't contain type file
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 //@ts-expect-error doesn't contain type file
 import { useOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 //@ts-expect-error doesn't contain type file
-import { useNavigateToAbapSystemDashboard } from 'in-sap/navigation/paths';
+import { add, remove } from 'in-plg/pages/WelcomePage/widgets/starredItems';
 //@ts-expect-error doesn't contain type file
-import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
+import { useNavigateToAbapSystemDashboard } from 'in-sap/navigation/paths';
 //@ts-expect-error doesn't contain type file
 import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
 //@ts-expect-error doesn't contain type file
@@ -61,8 +63,6 @@ import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widg
 import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import getAbapSystem, { getAbapSystemListsWithDefaults } from 'in-sap/subscriptions/getAbapSystemLists';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
-//@ts-expect-error doesn't contain type file
-import { add, remove } from 'in-cockpit/starredItems';
 //@ts-expect-error no declaration file present
 import getZhmc from 'in-zhmc/subscriptions/getZhmc';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
@@ -368,12 +368,12 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
     {
       key: 'esxiHost',
       getContent({ item }) {
-        if (item.isPcf || item.isKubernetes || item.isPhmc || item.isZhmc || item.isOpenstack || item.isSap) {
+        if (item?.isPcf || item?.isKubernetes || item?.isPhmc || item?.isZhmc || item?.isOpenstack || item?.isSap) {
           return null;
         }
         return (
           <TypographyWithTooltip
-            content={`${item.hosts} ${t('in-plg:welcomepage.component.platformWidget.esXiHosts')}`}
+            content={item?.hosts ? `${item?.hosts} ${t('in-plg:welcomepage.component.platformWidget.esXiHosts')}` : ''}
           />
         );
       }
@@ -381,51 +381,69 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
     {
       key: 'systemsNodesVms',
       getContent({ item }) {
-        if (item.isPcf) {
+        if (item?.isPcf) {
           return null;
-        } else if (item.isPhmc || item.isZhmc) {
+        } else if (item?.isPhmc || item?.isZhmc) {
           return (
             <TypographyWithTooltip
-              content={`${item.systems} ${t('in-plg:welcomepage.component.platformWidget.systems')}`}
+              content={
+                item?.systems ? `${item?.systems} ${t('in-plg:welcomepage.component.platformWidget.systems')}` : ''
+              }
             />
           );
-        } else if (item.isOpenstack || item.isSap || item.isPowervc) {
+        } else if (item?.isOpenstack || item?.isSap || item?.isPowervc) {
           return null;
         }
-        return item.isKubernetes ? (
-          <TypographyWithTooltip content={`${item.nodes} ${t('in-plg:welcomepage.component.platformWidget.nodes')}`} />
+        return item?.isKubernetes ? (
+          <TypographyWithTooltip
+            content={item?.nodes ? `${item?.nodes} ${t('in-plg:welcomepage.component.platformWidget.nodes')}` : ''}
+          />
         ) : (
-          <TypographyWithTooltip content={`${item.vms} ${t('in-plg:welcomepage.component.platformWidget.vMs')}`} />
+          <TypographyWithTooltip
+            content={item?.vms ? `${item?.vms} ${t('in-plg:welcomepage.component.platformWidget.vMs')}` : ''}
+          />
         );
       }
     },
     {
       key: 'instancesPartitionsNamespacesCpuUsage',
       getContent({ item }) {
-        if (item.isPcf) {
+        if (item?.isPcf) {
           return (
             <TypographyWithTooltip
-              content={`${(<InstanceMetric applicationId={item.id} />)} ${t(
-                'in-plg:welcomepage.component.platformWidget.instances'
-              )}`}
+              content={
+                item?.id
+                  ? `${(<InstanceMetric applicationId={item?.id} />)} ${t(
+                      'in-plg:welcomepage.component.platformWidget.instances'
+                    )}`
+                  : ''
+              }
             />
           );
-        } else if (item.isPhmc || item.isZhmc) {
+        } else if (item?.isPhmc || item?.isZhmc) {
           return (
             <TypographyWithTooltip
-              content={`${item.partitions} ${t('in-plg:welcomepage.component.platformWidget.partitions')}`}
+              content={
+                item?.partitions
+                  ? `${item?.partitions} ${t('in-plg:welcomepage.component.platformWidget.partitions')}`
+                  : ''
+              }
             />
           );
-        } else if (item.isOpenstack || item.isSap) {
+        } else if (item?.isOpenstack || item?.isSap) {
           return null;
         }
-        return item.isKubernetes ? (
+        return item?.isKubernetes ? (
           <TypographyWithTooltip
-            content={`${item.namespaces} ${t('in-plg:welcomepage.component.platformWidget.namespaces')}`}
+            content={
+              item?.namespaces
+                ? `${item?.namespaces} ${t('in-plg:welcomepage.component.platformWidget.namespaces')}`
+                : ''
+            }
           />
         ) : (
           <SparkChartWithMetricValue
-            snapshotId={item.id}
+            snapshotId={item?.id}
             formatter={percentage.compact}
             metric="cpu.usage.percent.maximum.*"
             label={t('in-plg:welcomepage.component.platformWidget.cpuUsage')}
@@ -437,32 +455,46 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
     {
       key: 'memoryLimitAdaptersViosPodsMemoryUsage',
       getContent({ item }) {
-        if (item.isPcf) {
+        if (item?.isPcf) {
           return (
             <TypographyWithTooltip
-              content={`${bytesZeroDecimalPlaces(item.memoryLimit)} ${t(
-                'in-plg:welcomepage.component.platformWidget.memoryLimit'
-              )}`}
+              content={
+                item?.memoryLimit
+                  ? `${bytesZeroDecimalPlaces(item?.memoryLimit)} ${t(
+                      'in-plg:welcomepage.component.platformWidget.memoryLimit'
+                    )}`
+                  : ''
+              }
             />
           );
-        } else if (item.isZhmc) {
+        } else if (item?.isZhmc) {
           return (
             <TypographyWithTooltip
-              content={`${item.adapters} ${t('in-plg:welcomepage.component.platformWidget.adapters')}`}
+              content={
+                item?.adapters ? `${item?.adapters} ${t('in-plg:welcomepage.component.platformWidget.adapters')}` : ''
+              }
             />
           );
-        } else if (item.isPhmc) {
+        } else if (item?.isPhmc) {
           return (
-            <TypographyWithTooltip content={`${item.vios} ${t('in-plg:welcomepage.component.platformWidget.vios')}`} />
+            <TypographyWithTooltip
+              content={
+                item?.vios ? `${item?.vios} ${t('in-plg:welcomepage.component.platformWidget.vios')}` : item?.vios
+              }
+            />
           );
         }
-        return item.isKubernetes ? (
+        return item?.isKubernetes ? (
           <TypographyWithTooltip
-            content={`${item.workloads.pods} ${t('in-plg:welcomepage.component.platformWidget.pods')}`}
+            content={
+              item?.workloads?.pods
+                ? `${item?.workloads?.pods} ${t('in-plg:welcomepage.component.platformWidget.pods')}`
+                : ''
+            }
           />
         ) : (
           <SparkChartWithMetricValue
-            snapshotId={item.id}
+            snapshotId={item?.id}
             formatter={percentage.compact}
             metric="mem.usage.average.percent"
             label={t('in-plg:welcomepage.component.platformWidget.memoryUsage')}

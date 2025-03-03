@@ -19,16 +19,20 @@ import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/compone
 //@ts-expect-error doesn't contain type file
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 //@ts-expect-error doesn't contain type file
-import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
+import mergeResults from 'in-plg/pages/WelcomePage/widgets/utils/mergeResults';
+import {
+  mobileApp as mobileAppType,
+  website as websiteType
+} from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
+//@ts-expect-error doesn't contain type file
+import { add, remove } from 'in-plg/pages/WelcomePage/widgets/starredItems';
 import { mobileAppMonitoringPath, useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
-import { mobileApp as mobileAppType, website as websiteType } from 'in-cockpit/starredItems/types';
-//@ts-expect-error doesn't contain type file
-import { add, remove } from 'in-cockpit/starredItems';
 import { useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
+import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
 import { hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
@@ -42,7 +46,6 @@ import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { hasError, isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import DatatableWrapper from './DatatableWrapper';
 import { role } from 'in-stores/user';
 
 function handleFavoriteClick(id: string, item: any, isFavourite: boolean) {
@@ -181,7 +184,7 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
       getContent({ item }) {
         const { isWebsite } = item;
         const link = isWebsite ? getLinkToWebsite(getId(item)) : getLinkToMobileApp(getId(item));
-        const content = isWebsite ? item.website.label : item.mobileApp.label;
+        const content = isWebsite ? item?.website?.label : item?.mobileApp?.label;
         return (
           <Tooltip content={content} align="auto" caret={false} delay={300}>
             <Link href={link}>{content}</Link>
@@ -231,7 +234,7 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
       getContent({ item, timeConfig }) {
         return (
           <Stack direction="horizontal" align="center">
-            {item.isWebsite ? (
+            {item?.isWebsite ? (
               <WebsiteHealthInfo websiteId={getId(item)} timeConfig={timeConfig} />
             ) : (
               <MobileAppHealthInfo mobileAppId={getId(item)} timeConfig={timeConfig} />

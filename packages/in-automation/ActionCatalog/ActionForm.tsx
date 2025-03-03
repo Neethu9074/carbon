@@ -6,7 +6,17 @@
 
 import React from 'react';
 
-import { Link, Spacer, Typography, Toggle, IconButton, TextArea, Select, FormGroup } from '@instana/components';
+import {
+  Link,
+  Spacer,
+  Typography,
+  Toggle,
+  IconButton,
+  TextArea,
+  Select,
+  FormGroup,
+  CarbonNumberInput
+} from '@instana/components';
 import { ActionType, Result } from '@instana/types';
 
 import {
@@ -202,20 +212,22 @@ function TimeoutSection() {
   const disabled = isNotEditable && type !== ACTION_TYPE.ANSIBLE;
 
   return timeout.map(field => (
-    <FormGroup>
+    <FormGroup key={1}>
       <Label htmlFor="action-timeout" hasError={!field.valid && field.touched}>
         {t('in-automation:ActionCatalog.timeout')}
       </Label>
-      <Input
+      <CarbonNumberInput
+        allowEmpty
         id="action-timeout"
         type="number"
         disabled={disabled}
-        value={isNaN(parseInt(field.value)) ? '' : field.value}
-        onChange={e =>
-          setForm(form => form.updateIn(['timeout'], item => item.setValue(e.target.value).setTouched(true)))
-        }
-        hasError={!field.valid && field.touched}
-        min="1"
+        value={field.value}
+        onChange={(_e, state) => {
+          setForm(form => form.updateIn(['timeout'], item => item.setValue(state.value as string).setTouched(true)));
+        }}
+        invalid={!field.valid && field.touched}
+        size="sm"
+        min={1}
       />
       <TouchedMessages field={field} className={locals.subErrorTextFormField} />
       <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.timeoutHelpText')}</HelpText>
@@ -241,7 +253,6 @@ function MetaDataSection({ actionFilter }: { actionFilter: 'all' | ActionFilter 
   const tags = form.get('tags');
 
   const filteredTags = filterTags(actionFilter, availableTags);
-  const canCreateTags = actionFilter === 'all' || actionFilter.tags.length === 0 ? undefined : () => false;
 
   return (
     <>
@@ -295,7 +306,9 @@ function MetaDataSection({ actionFilter }: { actionFilter: 'all' | ActionFilter 
       {tags.map(field => (
         <FormGroup>
           <Label htmlFor="action-tags" hasError={!field.valid && field.touched}>
-            {t('in-automation:tagsLabel')}
+            {actionFilter !== 'all' && actionFilter.tags.length > 0
+              ? t('in-automation:tags')
+              : t('in-automation:tagsLabel')}
           </Label>
           <CreatableTagSelect
             id="action-tags"
@@ -306,7 +319,6 @@ function MetaDataSection({ actionFilter }: { actionFilter: 'all' | ActionFilter 
               setForm(form => form.updateIn(['tags'], item => item.setValue(newTags).setTouched(true)))
             }
             disabled={isNotEditable || !role?.canConfigureAutomationActions}
-            isValidNewOption={canCreateTags}
           />
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
         </FormGroup>
@@ -364,11 +376,23 @@ function TypeSection({ action, actionFilter }: { action?: ActionFormEntity; acti
           <Select
             id="action-type"
             value={field.value}
-            onChange={e =>
-              setForm(form =>
-                form.updateIn(['type'], item => item.setValue(e.target.value as ActionType).setTouched(true))
-              )
-            }
+            onChange={e => {
+              setForm(form => {
+                // Update 'type'
+                const updatedForm = form.updateIn(['type'], item =>
+                  item.setValue(e.target.value as ActionType).setTouched(true)
+                );
+                const type = updatedForm.get('type').value;
+                const isGHGLJIRA =
+                  type === ACTION_TYPE.GITHUB || type === ACTION_TYPE.GITLAB || type === ACTION_TYPE.JIRA;
+                // Check the updated form state and conditionally update 'ticketActionType'
+                if (isGHGLJIRA) {
+                  return updatedForm.updateIn(['ticketActionType'], item => item.setValue('open').setTouched(true));
+                }
+
+                return updatedForm;
+              });
+            }}
             hasError={!field.valid && field.touched}
           >
             {filteredTypes.map(type => (
@@ -446,7 +470,6 @@ function ManualSection() {
 function ScriptSection() {
   const { form, setForm } = useActionFormContext();
   const isNotEditable = useIsNotEditableContext();
-
   const script = form.get('script');
   const subtype = form.get('subtype');
 
@@ -509,7 +532,6 @@ function checkIdParameter(form: ActionForm, type: string) {
 function GithubSection() {
   const { form, setForm } = useActionFormContext();
   const isNotEditable = useIsNotEditableContext();
-
   const owner = form.get('owner');
   const repo = form.get('repo');
   const ticketActionType = form.get('ticketActionType');
@@ -881,7 +903,6 @@ function GitlabOpenSection() {
 function JiraSection() {
   const { form, setForm } = useActionFormContext();
   const isNotEditable = useIsNotEditableContext();
-
   const project = form.get('project');
   const ticketActionType = form.get('ticketActionType');
 

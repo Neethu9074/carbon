@@ -44,6 +44,7 @@ export default function ScopeGroup({ form, updateForm, tagCatalog, SectionWrappe
           tagFilterExpression={backendQueryModel || EMPTY_EXPRESSION}
           onChange={groups => handleGroupChange(groups, form, updateForm)}
           SectionWrapper={SectionWrapper}
+          fixOverlayLeftAlignment
         />
       )}
     </div>

@@ -25,3 +25,5 @@ export function updateAlertChannelSelectionOnCriticalThresholdFieldChange(
 );
 
 export function getThresholdFieldStatus(form: MapForm<any>);
+export const CRITICAL: string;
+export const WARNING: string;

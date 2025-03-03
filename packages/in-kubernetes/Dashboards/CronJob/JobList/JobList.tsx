@@ -5,16 +5,17 @@
 
 import React from 'react';
 
+import { KubernetesQueryFilter, OrderDirection } from '@instana/types';
 import { Ul } from '@instana/components';
 
-import { Loading, LoadMore } from 'in-kubernetes/Dashboards/CronJob/JobList/components';
+import JobListItems from 'in-kubernetes/Dashboards/CronJob/JobList/components/JobListItems';
 import { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedView';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
-import { JobListItems } from 'in-kubernetes/Dashboards/CronJob/JobList/components';
+import LoadMore from 'in-kubernetes/Dashboards/CronJob/JobList/components/LoadMore';
+import Loading from 'in-kubernetes/Dashboards/CronJob/JobList/components/Loading';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { isLoading as getIsLoading, hasError } from 'in-services/util/result';
 import { getTableData } from 'in-kubernetes/Dashboards/CronJob/JobList/utils';
-import { KubernetesQueryFilter, OrderDirection } from 'in-types';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { t } from 'in-i18n';
 

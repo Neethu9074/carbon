@@ -4,26 +4,32 @@
  * Copyright IBM Corp. 2024
  */
 
-import { MapForm } from 'formalistic';
-
-import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData } from '@instana/types';
-import { useObservable } from '@instana/hooks';
+import { ListForm, MapForm } from 'formalistic';
+import { isEmpty } from 'lodash';
 
 import {
-  fieldTouchedAndInvalid,
-  isCustomPayloadValidOrUntouched
-} from 'in-alerting/smart-alerts/components/utils/formUtils';
+  AdaptiveBaselineData,
+  CustomPayloadFieldUnion,
+  HistoricBaselineData,
+  Result,
+  StaticThresholdData
+} from '@instana/types';
+import { useObservable } from '@instana/hooks';
+
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
-import { AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingTearSheet';
+import { AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingFullScreenTearSheet';
+import { fieldTouchedAndInvalid } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { BluePrint } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { Nullish } from 'in-types';
 
 export default function useAlertConfigValidation(
   stepConfigs: AlertingTearSheetStepConfigs[],
   blueprintConfig: BluePrint,
   form: MapForm<any>,
   isTagFilterFormModelValid: boolean,
-  thresholdResult: Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData> | undefined | null
+  thresholdResult: Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData> | undefined | null,
+  updateForm: (form: MapForm<any>) => void
 ) {
   const isLogsBlueprint = blueprintConfig.type === 'logs';
   const ruleForm = form.get('rule');
@@ -67,7 +73,7 @@ export default function useAlertConfigValidation(
     {
       ...stepConfigs[0],
       valid:
-        (!isLogsBlueprint || !fieldTouchedAndInvalid(ruleForm?.get('message'))) &&
+        (!isLogsBlueprint || !ruleForm?.get('message')?.hierarchyValid === false) &&
         // for custom ranges only: we do have direct invalidation feedback on the fields,
         // so only can get invalid after the user has changed it
         (!isStatusCodeBluePrint || !ruleForm?.get('statusCode')?.hierarchyValid === false)
@@ -82,15 +88,45 @@ export default function useAlertConfigValidation(
     },
     {
       ...stepConfigs[3],
-      valid: isThresholdSectionValid() && isTimeThresholdSectionValid() && !isCalculatingThreshold
+      valid:
+        isThresholdSectionValid() &&
+        form.get('threshold').hierarchyValid &&
+        isTimeThresholdSectionValid() &&
+        !isChartReady(isCalculatingThreshold, isEmpty(form.get('applications').value))
     },
     {
       ...stepConfigs[4],
-      valid: isCustomPayloadValidOrUntouched(form) && !fieldTouchedAndInvalid(form?.get('name'))
+      valid: isCustomPayloadValidOrUntouched(form) && form?.get('name').valid,
+      validator: () => updateFormField(form, updateForm, 'customPayloadFields')
     },
     {
       ...stepConfigs[5],
       valid: true
     }
   ];
+}
+
+function isCustomPayloadValidOrUntouched(form: MapForm<any>): boolean {
+  const customPayloadForm = (form.get('customPayloadFields') as ListForm<any>) ?? null;
+
+  const customPayload = customPayloadForm.toJS() as unknown as CustomPayloadFieldUnion[];
+
+  if (customPayload.length > 0) {
+    return !customPayload.some(value => value.key === '' || value.value === '' || isEmpty(value.value));
+  }
+  return true;
+}
+
+function updateFormField(form: MapForm<any>, updateForm: (form: MapForm<any>) => void, fieldType: string) {
+  return updateForm(form.updateIn([fieldType], (f: any) => f.setTouched(true, { recurse: true })));
+}
+
+/*
+ * If any application is selected, the threshold is calculated, and until the chart is loaded, the user cannot proceed to the next step.
+ */
+function isChartReady(isCalculatingThreshold: boolean | Nullish, isApplicationsSelected: boolean): boolean | Nullish {
+  if (!isApplicationsSelected) {
+    return isCalculatingThreshold;
+  }
+  return false;
 }

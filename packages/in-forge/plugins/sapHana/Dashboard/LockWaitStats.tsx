@@ -94,7 +94,10 @@ const cols = [
 ];
 
 export default function LockWaitStatsList({ snapshotId, timeConfig }: LockWaitStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'lockWaitStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'lockWaitStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const lockWaitStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: LockWaitStatsRow[] = lockWaitStat
     ? lockWaitStat

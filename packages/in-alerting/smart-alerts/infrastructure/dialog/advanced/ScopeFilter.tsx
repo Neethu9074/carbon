@@ -40,6 +40,7 @@ export default function ScopeFilter({
       useLastValidStateWhenErroneous
       onErrorStateChange={setTagFilterValid}
       SectionWrapper={SectionWrapper}
+      fixOverlayLeftAlignment
     />
   );
 }

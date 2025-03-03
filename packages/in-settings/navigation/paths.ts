@@ -45,6 +45,9 @@ export const securityAndAccessAccessControlApiTokenEdit = `${securityAndAccessAc
 export const securityAndAccessAccessControlApiTokenDuplicate = `${securityAndAccessAccessControl}/apiTokens/new/:duplicateFrom`;
 export const securityAndAccessAccessControlApiTokenNew = `${securityAndAccessAccessControl}/apiTokens/new`;
 export const securityAndAccessAccessControlApiTokens = `${securityAndAccessAccessControl}/apiTokens`;
+export const securityAndAccessAccessControlTeams = `${securityAndAccessAccessControl}/teams`;
+export const securityAndAccessAccessControlTeamEdit = `${securityAndAccessAccessControl}/teams/:id`;
+export const securityAndAccessAccessControlTeamNew = `${securityAndAccessAccessControl}/teams/new`;
 
 export const teamSettingsAccessControlUsers = `${accessControl}/users`;
 export const teamSettingsAccessControlUserEdit = `${accessControl}/users/:id`;
@@ -70,7 +73,7 @@ export const groupMapping = `${authSettings}/groupMapping`;
 
 // current auth settings paths (after unification of access control permissions in 2024)
 export const securityAndAccessAuth = `${securityAndAccess}/auth`;
-
+export const securityAndAccessIdentityProviders = `${securityAndAccessAuth}/identityProviders`;
 export const securityAndAccessGoogleSSO = `${securityAndAccessAuth}/googleSingleSignOn`;
 export const securityAndAccessSaml = `${securityAndAccessAuth}/saml`;
 export const securityAndAccessOidc = `${securityAndAccessAuth}/oidc`;
@@ -93,6 +96,7 @@ export const ampAccountSettings = `${ampSettings}/account`;
 export const ampUsage = `${ampSettings}/usage`;
 export const ampTechnologies = `${ampSettings}/technologies`;
 export const ampActivationAdoption = `${ampSettings}/activationAdoption`;
+export const ampLicense = `${ampSettings}/licenses`;
 
 // current events & alerting configuration paths (after unification of alerting configuration in 2019-02)
 export const events = `/events`;

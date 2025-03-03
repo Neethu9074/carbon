@@ -1,0 +1,15 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .iconButton {
+    svg {
+      // using important only because the icons used cannot be change via color prop or using css without important
+      fill: var(--ids-color-option-blue-500) !important;
+    }
+  }
+}

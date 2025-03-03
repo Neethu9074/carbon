@@ -5,7 +5,7 @@
 
 import { useObservable } from '@instana/hooks';
 
-import { loadEntityByTypeAndId, MonitoredEntity } from 'in-service-levels/hooks/useSloEntitiesLabels';
+import { loadEntityByTypeAndId, MonitoredEntity } from 'in-service-levels/utils/loadEntities';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/SloLegacy/constants';
 import { FetchedState } from 'in-hooks/utils/types';
@@ -19,6 +19,6 @@ export default function useMonitoredEntity({
   entityId,
   entityType
 }: UseMonitoredEntityRequest): FetchedState<MonitoredEntity> {
-  const result = useObservable(() => loadEntityByTypeAndId(entityType, entityId), [entityType, entityId]);
+  const result = useObservable(() => loadEntityByTypeAndId({ entityType, entityId }), [entityType, entityId]);
   return resultToFetchedStateResponse(result);
 }

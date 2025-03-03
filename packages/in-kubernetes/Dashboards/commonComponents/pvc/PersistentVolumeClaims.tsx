@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { Card, Stack, Ul, Li, KeyValue, SearchInput } from '@instana/components';
+import { Error } from '@instana/types';
 
 import exploreKubernetesPersistentVolumeClaims from 'in-kubernetes/subscriptions/exploreKubernetesPersistentVolumeClaims';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
@@ -15,7 +16,6 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-kubernetes/Dashboards/commonComponents/pvc/PersistentVolumeClaims.mless';

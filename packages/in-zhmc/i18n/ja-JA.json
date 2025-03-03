@@ -1,5 +1,5 @@
 {
-  "zhmcs": "zHMCs",
+  "zhmcs": "複数の zHMC",
   "hostname": "ホスト名",
   "name": "名前",
   "systems": "システム",
@@ -17,7 +17,7 @@
   "status": "状況",
   "breadcrumbs": {
     "zhmc": "zHMC",
-    "zhmcs": "zHMCs",
+    "zhmcs": "複数の zHMC",
     "systems": "システム"
   },
   "dashboards": {
@@ -25,7 +25,7 @@
     "systems": "システム",
     "summary": "サマリー",
     "environmentalAndPower": "環境と電力",
-    "channel": "チャネル",
+    "channel": "チャンネル",
     "adapter": "アダプター",
     "networkPort": "ネットワーク",
     "cpcProcessorUsage": "CPC プロセッサーの使用状況",

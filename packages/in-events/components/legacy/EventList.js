@@ -9,31 +9,27 @@ import { Card, Stack, Typography, Collapsible, CarbonLayer, IconButton } from '@
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
-import {
-  manuallyCloseEventEnabled,
-  eventFeedbackEnabled,
-  businessObservabilityEnabled
-} from 'in-services/featureFlags';
 import LegacyRootCauseSection from 'in-events/components/RootCauseAnalysis/Legacy/LegacyRootCauseSection';
 import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
+import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/EventListItem';
+import { CombinedEventListItemContent } from 'in-events/components/legacy/EventListItem';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import RootCauseSection from 'in-events/components/RootCauseAnalysis/RootCauseSection';
 import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import EventEntityDetails from 'in-events/components/legacy/EventEntityDetails';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
+import { FeedbackComponents } from 'in-events/components/EventTable';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { getEventViewWithTimeFocusedAt } from './EventListItem';
-import { CombinedEventListItemContent } from './EventListItem';
+import { eventFeedbackEnabled } from 'in-services/featureFlags';
 import { toHtml } from 'in-services/formatters/markdown';
 import { rcaUIEnabled } from 'in-services/featureFlags';
-import EventEntityDetails from './EventEntityDetails';
 import { Row, Col } from 'in-components/layout/Grid';
-import EventDetailsKPIs from '../EventDetailsKPIs';
-import { FeedbackComponents } from '../EventTable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getEventType } from 'in-stores/events';
 import { getEvent } from 'in-stores/events';
@@ -111,13 +107,11 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
       {/* Automations */}
       <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} />
       {/* Business impact */}
-      {businessObservabilityEnabled && (
-        <ImpactedBusinessProcesses
-          eventType={eventType}
-          entityType={incident?.get('entityType', undefined)}
-          entityId={incident?.get('entityId', undefined)}
-        />
-      )}
+      <ImpactedBusinessProcesses
+        eventType={eventType}
+        entityType={incident?.get('entityType', undefined)}
+        entityId={incident?.get('entityId', undefined)}
+      />
     </>
   );
 }
@@ -175,7 +169,7 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
 };
 
 const TriggeringEvent = ({ incident, triggeringEvent, latestSnapshot }) => {
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
 
   return (

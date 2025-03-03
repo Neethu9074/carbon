@@ -11,7 +11,7 @@ import {
   CustomPayloadFieldUnion,
   MobileAppAlertRule,
   MobileAppAlertRuleUnion,
-  ThresholdConfig,
+  ThresholdType,
   TimeConfig
 } from '@instana/types';
 
@@ -94,8 +94,11 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
   }, [simpleMode]);
   const alertConfigWithFormModel = form.toJS();
   const { rule, tagFilterExpression, mobileAppId, customPayloadFields, threshold } = alertConfigWithFormModel;
+
+  const validThreshold = (threshold as any)?.warningThreshold ?? (threshold as any)?.criticalThreshold;
+
   const { metricName, alertType } = rule as MobileAppAlertRuleUnion;
-  const thresholdType = (threshold as ThresholdConfig)?.type;
+  const thresholdType = validThreshold?.type as ThresholdType;
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 

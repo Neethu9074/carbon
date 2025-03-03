@@ -127,52 +127,6 @@ export default function Summary({ data }: { data: SnapshotData }) {
         </Col>
       </Row>
       <Columize>
-        <DashboardSection title={t('in-sap:dashboards.userStats')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            primaryContextMenuAction="showStatistics"
-            additionalContextMenuButtons={[
-              {
-                name: 'showStatistics',
-                icon: 'lib_sap_abapTransaction',
-                label: 'View User Details',
-                getHref$: () => just(getLinkToUser())
-              }
-            ]}
-            y1={{
-              min: 0,
-              metrics: ['sapMetricsStats.userName', 'sapMetricsStats.userSession'],
-              labels: [t('in-sap:dashboards.numberOfUsers'), t('in-sap:dashboards.userSession')],
-              type: 'line',
-              formatter: number.compact
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-        <DashboardSection title={t('in-sap:dashboards.rfcStats')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            primaryContextMenuAction="showStatistics"
-            additionalContextMenuButtons={[
-              {
-                name: 'showStatistics',
-                icon: 'lib_sap_abapTransaction',
-                label: 'View RFC Details',
-                getHref$: () => just(getLinkToRFC())
-              }
-            ]}
-            y1={{
-              min: 0,
-              metrics: ['sapMetricsStats.totalRFCCalls'],
-              labels: [t('in-sap:dashboards.totalRFCCalls')],
-              type: 'line',
-              formatter: number.compact
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
         <DashboardSection title={t('in-sap:dashboards.totalcpuUtilization')}>
           <Chart
             snapshotId={snapshotId}
@@ -182,7 +136,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
               {
                 name: 'showStatistics',
                 icon: 'lib_sap_abapTransaction',
-                label: 'View CPU Details',
+                label: t('in-sap:dashboards.viewCPUDetails'),
                 getHref$: () => just(getLinkToWorkload())
               }
             ]}
@@ -192,6 +146,43 @@ export default function Summary({ data }: { data: SnapshotData }) {
               labels: [t('in-sap:abapsensor.metrics.total')],
               type: 'line',
               formatter: percentagePlain.detailed
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-sap:dashboards.workProcessState')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: t('in-sap:dashboards.viewWorkProcessDetails'),
+                getHref$: () => just(getLinkToWorkload())
+              }
+            ]}
+            y1={{
+              min: 0,
+              metrics: [
+                'workloadcounts.waiting',
+                'workloadcounts.running',
+                'workloadcounts.onHold',
+                'workloadcounts.stopped',
+                'workloadcounts.shutdown',
+                'workloadcounts.reserviert'
+              ],
+              labels: [
+                t('in-sap:dashboards.waiting'),
+                t('in-sap:dashboards.running'),
+                t('in-sap:dashboards.onHold'),
+                t('in-sap:dashboards.stopped'),
+                t('in-sap:dashboards.shutdown'),
+                t('in-sap:dashboards.reserved')
+              ],
+              type: 'line',
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -208,7 +199,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
               {
                 name: 'showStatistics',
                 icon: 'lib_sap_abapTransaction',
-                label: 'View Work Process Details',
+                label: t('in-sap:dashboards.viewWorkProcessDetails'),
                 getHref$: () => just(getLinkToWorkload())
               }
             ]}
@@ -238,43 +229,6 @@ export default function Summary({ data }: { data: SnapshotData }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title={t('in-sap:dashboards.workProcessState')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            primaryContextMenuAction="showStatistics"
-            additionalContextMenuButtons={[
-              {
-                name: 'showStatistics',
-                icon: 'lib_sap_abapTransaction',
-                label: 'View Work Process Details',
-                getHref$: () => just(getLinkToWorkload())
-              }
-            ]}
-            y1={{
-              min: 0,
-              metrics: [
-                'workloadcounts.waiting',
-                'workloadcounts.running',
-                'workloadcounts.onHold',
-                'workloadcounts.stopped',
-                'workloadcounts.shutdown',
-                'workloadcounts.reserviert'
-              ],
-              labels: [
-                t('in-sap:dashboards.waiting'),
-                t('in-sap:dashboards.running'),
-                t('in-sap:dashboards.onHold'),
-                t('in-sap:dashboards.stopped'),
-                t('in-sap:dashboards.shutdown'),
-                t('in-sap:dashboards.reserved')
-              ],
-              type: 'line',
-              formatter: number.compact
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
         <DashboardSection title={t('in-sap:abapsensor.metrics.backgroundJobCounts')}>
           <Chart
             snapshotId={snapshotId}
@@ -284,7 +238,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
               {
                 name: 'showStatistics',
                 icon: 'lib_sap_abapTransaction',
-                label: 'View Jobs Details',
+                label: t('in-sap:dashboards.viewJobDetails'),
                 getHref$: () => just(getLinkToWorkload())
               }
             ]}
@@ -310,6 +264,56 @@ export default function Summary({ data }: { data: SnapshotData }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
+        <DashboardSection title={t('in-sap:dashboards.loginAttempts')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: t('in-sap:dashboards.viewDiagnosticDetails'),
+                getHref$: () => just(getLinkToDiagnostics())
+              }
+            ]}
+            y1={{
+              min: 0,
+              metrics: ['sapMetricsStats.successLogins', 'sapMetricsStats.failedLogins'],
+              labels: [t('in-sap:dashboards.successLogins'), t('in-sap:dashboards.failureLogins')],
+              type: 'line',
+              formatter: number.detailed,
+              // @ts-expect-error Module needs to be translated to TS
+              colors: [[themes.default.ids.color.option.green['500']], [themes.default.ids.color.option.red['700']]]
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-sap:dashboards.systemLogErrors')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: t('in-sap:dashboards.viewErrorDetails'),
+                getHref$: () => just(getLinkToDiagnostics())
+              }
+            ]}
+            y1={{
+              min: 0,
+              metrics: ['sapMetricsStats.concernedSystemLogCount', 'sapMetricsStats.urgentSystemLogCount'],
+              labels: [t('in-sap:dashboards.severity1'), t('in-sap:dashboards.severity2')],
+              type: 'line',
+              // @ts-expect-error Module needs to be translated to TS
+              colors: [[themes.default.ids.color.option.red['700']], [themes.default.ids.color.option.orange['500']]],
+              formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
       </Columize>
       <Columize>
         <DashboardSection title={t('in-sap:dashboards.freeMemoryStats')}>
@@ -321,7 +325,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
               {
                 name: 'showStatistics',
                 icon: 'lib_sap_abapTransaction',
-                label: 'View Memory Details',
+                label: t('in-sap:dashboards.viewMemoryDetails'),
                 getHref$: () => just(getLinkToMemory())
               }
             ]}
@@ -344,7 +348,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
               {
                 name: 'showStatistics',
                 icon: 'lib_sap_abapTransaction',
-                label: 'View Memory Details',
+                label: t('in-sap:dashboards.viewMemoryDetails'),
                 getHref$: () => just(getLinkToMemory())
               }
             ]}
@@ -367,7 +371,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
               {
                 name: 'showStatistics',
                 icon: 'lib_sap_abapTransaction',
-                label: 'View Memory Details',
+                label: t('in-sap:dashboards.viewMemoryDetails'),
                 getHref$: () => just(getLinkToMemory())
               }
             ]}
@@ -392,7 +396,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
               {
                 name: 'showStatistics',
                 icon: 'lib_sap_abapTransaction',
-                label: 'View CPU Details',
+                label: t('in-sap:dashboards.viewCPUDetails'),
                 getHref$: () => just(getLinkToWorkload())
               }
             ]}
@@ -419,7 +423,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
               {
                 name: 'showStatistics',
                 icon: 'lib_sap_abapTransaction',
-                label: 'View CPU Details',
+                label: t('in-sap:dashboards.viewCPUDetails'),
                 getHref$: () => just(getLinkToWorkload())
               }
             ]}
@@ -446,7 +450,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
               {
                 name: 'showStatistics',
                 icon: 'lib_sap_abapTransaction',
-                label: 'View CPU Details',
+                label: t('in-sap:dashboards.viewCPUDetails'),
                 getHref$: () => just(getLinkToWorkload())
               }
             ]}
@@ -475,7 +479,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
               {
                 name: 'showStatistics',
                 icon: 'lib_sap_abapTransaction',
-                label: 'View ICM Details',
+                label: t('in-sap:dashboards.viewICMDetails'),
                 getHref$: () => just(getLinkToNetworks())
               }
             ]}
@@ -489,7 +493,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title={t('in-sap:dashboards.loginAttempts')}>
+        <DashboardSection title={t('in-sap:dashboards.userStats')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -498,23 +502,21 @@ export default function Summary({ data }: { data: SnapshotData }) {
               {
                 name: 'showStatistics',
                 icon: 'lib_sap_abapTransaction',
-                label: 'View Diagnostic Details',
-                getHref$: () => just(getLinkToDiagnostics())
+                label: t('in-sap:dashboards.viewUserDetails'),
+                getHref$: () => just(getLinkToUser())
               }
             ]}
             y1={{
               min: 0,
-              metrics: ['sapMetricsStats.successLogins', 'sapMetricsStats.failedLogins'],
-              labels: [t('in-sap:dashboards.successLogins'), t('in-sap:dashboards.failureLogins')],
+              metrics: ['sapMetricsStats.userName', 'sapMetricsStats.userSession'],
+              labels: [t('in-sap:dashboards.uniqueUsers'), t('in-sap:dashboards.userLogins')],
               type: 'line',
-              formatter: number.detailed,
-              // @ts-expect-error Module needs to be translated to TS
-              colors: [[themes.default.ids.color.option.green['500']], [themes.default.ids.color.option.red['700']]]
+              formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title={t('in-sap:dashboards.systemLogErrors')}>
+        <DashboardSection title={t('in-sap:dashboards.rfcStats')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -523,17 +525,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
               {
                 name: 'showStatistics',
                 icon: 'lib_sap_abapTransaction',
-                label: 'View Error Details',
-                getHref$: () => just(getLinkToDiagnostics())
+                label: t('in-sap:dashboards.viewRFCDetails'),
+                getHref$: () => just(getLinkToRFC())
               }
             ]}
             y1={{
               min: 0,
-              metrics: ['sapMetricsStats.concernedSystemLogCount', 'sapMetricsStats.urgentSystemLogCount'],
-              labels: [t('in-sap:dashboards.severity1'), t('in-sap:dashboards.severity2')],
+              metrics: ['sapMetricsStats.totalRFCCalls'],
+              labels: [t('in-sap:dashboards.totalRFCCalls')],
               type: 'line',
-              // @ts-expect-error Module needs to be translated to TS
-              colors: [[themes.default.ids.color.option.red['700']], [themes.default.ids.color.option.orange['500']]],
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -550,7 +550,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
               {
                 name: 'showStatistics',
                 icon: 'lib_sap_abapTransaction',
-                label: 'View Workload Details',
+                label: t('in-sap:dashboards.viewWorkloadDetails'),
                 getHref$: () => just(getLinkToWorkload())
               }
             ]}
@@ -593,7 +593,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
               {
                 name: 'showStatistics',
                 icon: 'lib_sap_abapTransaction',
-                label: 'View Workload Details',
+                label: t('in-sap:dashboards.viewWorkloadDetails'),
                 getHref$: () => just(getLinkToWorkload())
               }
             ]}

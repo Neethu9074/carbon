@@ -18,7 +18,7 @@ import AlertEvaluationControl from 'in-alerting/smart-alerts/applications/dialog
 import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import GroupingTable from 'in-alerting/smart-alerts/applications/tearSheet/components/Grouping/GroupingTable';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
+import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { t } from 'in-i18n';
 
@@ -88,9 +88,10 @@ export default function AlertConfigTearSheetStep3(props) {
   const [pagination, setPagination] = useState({ page: 1, pageSize: 5 });
 
   return (
-    <TearSheetStepContentWrapper
+    <TearSheetStepTitleWrapper
       headline={t('in-alerting:smartAlerts.applications.tearSheet.grouping.title')}
       description={t('in-alerting:smartAlerts.applications.tearSheet.grouping.description')}
+      hideSpace
     >
       <Stack>
         <AlertEvaluationControl
@@ -114,7 +115,7 @@ export default function AlertConfigTearSheetStep3(props) {
           granularity={granularity}
         />
       </Stack>
-    </TearSheetStepContentWrapper>
+    </TearSheetStepTitleWrapper>
   );
 }
 

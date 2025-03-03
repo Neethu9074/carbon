@@ -8,7 +8,6 @@ import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { themes } from '@instana/design-tokens';
-import { t } from '@instana/i18n-react';
 
 import NoValueKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/NoValueKpiCard';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
@@ -17,6 +16,7 @@ import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { minutes } from 'in-services/formatters/number';
 import { sloMetrics } from 'in-service-levels/metrics';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { t } from 'in-i18n';
 
 interface ErrorBudgetKpiCardProps {
   configuration: ServiceLevelObjectiveConfiguration;

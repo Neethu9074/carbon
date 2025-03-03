@@ -6,11 +6,11 @@
 import React from 'react';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { reportingStatus as ReportingStatus } from 'in-infrastructure/agentView/components/ReportingStatus';
 import { LinkWithHealthIndicator } from 'in-infrastructure/agentView/components/LinkWithHealthIndicator';
 import ReportingIndicator from 'in-infrastructure/agentView/components/ReportingIndicator';
 import { getTimeConfigAtMoment, timeConfig$ } from 'in-stores/time/config';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
-import { reportingStatus as ReportingStatus } from './ReportingStatus';
 import { logLevels, modes } from 'in-forge/plugins/instanaAgent/modes';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { compareIgnoreCase } from 'in-services/util/string';

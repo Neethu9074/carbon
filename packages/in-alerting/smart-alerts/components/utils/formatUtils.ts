@@ -28,3 +28,36 @@ export function getThresholdValueForPercentageMetric(value: number | null, perce
 
   return percentageMetric ? round(value / 100, 3) : value;
 }
+
+export function shiftDecimalRight(num: number | null | string, places: number = 2, percentageMetric: boolean) {
+  if (num === null || num === '' || num === 0 || !percentageMetric) return num;
+
+  let [integer, decimal = ''] = num.toString().split('.');
+
+  // Append necessary zeros if decimal part is shorter than places
+  decimal = decimal.padEnd(places, '0');
+
+  let shifted = integer + decimal.slice(0, places);
+  let remaining = decimal.slice(places);
+
+  return Number(shifted + (remaining ? '.' + remaining : ''));
+}
+
+export function shiftDecimalLeft(
+  num: number | null | string,
+  places: number = 2,
+  percentageMetric: boolean
+): number | null | string {
+  if (num == null || num === '' || num === 0 || !percentageMetric) {
+    return num;
+  }
+
+  let str = num.toString();
+  let [intPart, decPart = ''] = str.split('.');
+
+  if (intPart.length <= places) {
+    return Number('0.' + '0'.repeat(places - intPart.length) + intPart + decPart);
+  }
+
+  return Number(intPart.slice(0, -places) + '.' + intPart.slice(-places) + decPart);
+}

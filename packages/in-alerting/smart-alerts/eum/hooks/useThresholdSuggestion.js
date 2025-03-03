@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * Copyright IBM Corp. 2025
  */
 
 import { useEffect } from 'react';
@@ -10,7 +10,7 @@ import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
-import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { updateMultiThresholdInForm } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
@@ -28,7 +28,7 @@ export default function useThresholdSuggestion(form, updateForm, setThresholdRes
     const { data, errors, time } = thresholdResult;
 
     if (isValid) {
-      updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
+      updateMultiThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,9 +37,9 @@ export default function useThresholdSuggestion(form, updateForm, setThresholdRes
 
 function resolveThresholdRequest(alertConfigWithFormModel, blueprintConfig, isSimpleMode, isValid) {
   const {
-    rule: { metricName },
+    threshold,
     rule,
-    threshold: { operator, seasonality = null, type },
+    rule: { metricName },
     granularity,
     hiddenFields: { calculateThresholdOnBackend }
   } = alertConfigWithFormModel;
@@ -47,6 +47,10 @@ function resolveThresholdRequest(alertConfigWithFormModel, blueprintConfig, isSi
   if (!isValid || !calculateThresholdOnBackend) {
     return empty;
   }
+
+  const { operator, warningThreshold, criticalThreshold } = threshold;
+
+  const validThreshold = warningThreshold?.type ? warningThreshold : criticalThreshold;
 
   const { enrichedTagFilterFormModel, numeratorTagFilterFormModel } = getEnhancedTagFilterFormModel(
     alertConfigWithFormModel,
@@ -60,7 +64,7 @@ function resolveThresholdRequest(alertConfigWithFormModel, blueprintConfig, isSi
     }
     // In simple mode, user does not have a choice to change threshold type, so we set it to HISTORIC_BASELINE for
     // blueprint where baseline is enabled and here we need to select DAILY seasonality as default!
-    return isSimpleMode ? DAILY : seasonality;
+    return isSimpleMode ? DAILY : validThreshold?.seasonality;
   };
 
   const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);
@@ -76,6 +80,6 @@ function resolveThresholdRequest(alertConfigWithFormModel, blueprintConfig, isSi
     operator,
     seasonality: getSeasonality(),
     fallbackOnError: isSimpleMode,
-    type
+    type: validThreshold?.type
   });
 }

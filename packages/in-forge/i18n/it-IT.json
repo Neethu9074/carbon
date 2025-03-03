@@ -983,6 +983,11 @@
   "pluginName_ibmDataPowerQueueManager_1": "Gestori coda IBM DataPower",
   "pluginName_ibmDataPowerQueueManager_2": "Gestori coda IBM DataPower",
   "pluginName_ibmDataPowerQueueManager": "Gestora coda IBM DataPower",
+  "pluginName_ibmDataPowerQueueManagerV9_plural": "IBM DataPower Queue Managers V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_0": "IBM DataPower Queue Managers V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_1": "IBM DataPower Queue Managers V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_2": "IBM DataPower Queue Managers V9+",
+  "pluginName_ibmDataPowerQueueManagerV9": "IBM DataPower Queue Manager V9+",
   "pluginName_ibmDataPowerService_plural": "Servizi IBM DataPower",
   "pluginName_ibmDataPowerService_0": "Servizi IBM DataPower",
   "pluginName_ibmDataPowerService_1": "Servizi IBM DataPower",
@@ -1180,6 +1185,11 @@
   "pluginName_kongApigateway_1": "Kong",
   "pluginName_kongApigateway_2": "Kong",
   "pluginName_kongApigateway": "kong",
+  "pluginName_kubeCostPlatform": "Kubecost",
+  "pluginName_kubeCostPlatform_plural": "Kubecost",
+  "pluginName_kubeCostPlatform_0": "Kubecost",
+  "pluginName_kubeCostPlatform_1": "Kubecost",
+  "pluginName_kubeCostPlatform_2": "Kubecost",
   "pluginName_kubernetesCluster_plural": "Cluster Kubernetes",
   "pluginName_kubernetesCluster_0": "Cluster Kubernetes",
   "pluginName_kubernetesCluster_1": "Cluster Kubernetes",
@@ -1844,6 +1854,16 @@
   "pluginName_websiteHttpd_0": "Siti web",
   "pluginName_websiteHttpd_1": "Sito web",
   "pluginName_websiteHttpd_2": "Siti web",
+  "pluginName_nutanixHost_plural": "Host Nutanix",
+  "pluginName_nutanixHost_0": "Host Nutanix",
+  "pluginName_nutanixHost_1": "Host Nutanix",
+  "pluginName_nutanixHost_2": "Host Nutanix",
+  "pluginName_nutanixHost": "Host Nutanix",
+  "pluginName_nutanixDatacenter_plural": "Centri dati Nutanix",
+  "pluginName_nutanixDatacenter_0": "Centri dati Nutanix",
+  "pluginName_nutanixDatacenter_1": "Centri dati Nutanix",
+  "pluginName_nutanixDatacenter_2": "Centri dati Nutanix",
+  "pluginName_nutanixDatacenter": "Centro dati Nutanix",
   "tracingTypeName_ace": "IBM ACE",
   "tracingTypeName_actioncontroller": "ActionController",
   "tracingTypeName_actioncontroller_plural": "Chiamate ActionController",
@@ -3428,6 +3448,8 @@
       "state": "Condizione",
       "queueManagersNumber": "({{count}}) gestori code",
       "queueManagersNumber_plural": "Gestori code ({{count}})",
+      "queueManagersV9Number": "Queue Manager V9+ ({{count}})",
+      "queueManagersV9Number_plural": "Queue Managers V9+ ({{count}})",
       "serviceNumber": "({{count}}) di servizi",
       "serviceNumber_plural": "Servizi ({{count}})",
       "sqlDatasourceNumber": "Origine dati SQL {{count}})",
@@ -3468,6 +3490,12 @@
       "activeConnections": "Connessioni attive",
       "backendActiveConnections": "Connessioni attive del backend",
       "frontendActiveConnections": "Connessioni attive del frontend"
+    },
+    "ibmDataPowerQueueManagerV9": {
+      "ibmDataPowerQueueManagerV9Info": "IBM DataPower Queue Manager V9+",
+      "activeConversations": "Conversazioni attive",
+      "backendActiveConversations": "Conversazioni attive nel backend",
+      "frontendActiveConversations": "Conversazioni attive nel frontend"
     },
     "ibmDataPowerService": {
       "ibmDataPowerServiceInfo": "Servizio IBM DataPower",
@@ -3634,6 +3662,10 @@
       "directorySystemAgentLSA": "Autorità di protezione locale",
       "directorySystemAgentNSPI": "NSP (Name Service Provider)",
       "securityAccountManagerLabel": "SAM (Security Accounts Manager)",
+      "dhcpLabel": "DHCP (Dynamic Host Configuration Protocol)",
+      "dnsLablelDynamicUpdates": "Aggiornamenti dinamici DNS (Domain Name System)",
+      "dnsLablelQueriesAndResponses": "Query e risposte DNS (Domain Name System)",
+      "dnsLablelZoneTransfers": "Trasferimenti zona DNS (Domain Name System)",
       "directorySystemAgent": {
         "dsClientBindsPerSec": "Binding del client al secondo",
         "dsClientNameTranslationsPerSec": "Traduzioni dei nomi dei client al secondo",
@@ -3678,7 +3710,7 @@
         "samDomainLocalGroupMembershipEvaluationsPerSec": "Valutazioni dell'appartenenza al gruppo locale del dominio al secondo",
         "samEnumerationsPerSec": "Enumerazioni al secondo",
         "samGCEvaluationsPerSec": "Valutazioni GC al secondo",
-        "samGlobalGroupMembershipEvaluationsPerSec": "Valutazioni dell'appartenenza a un gruppo glocal al secondo",
+        "samGlobalGroupMembershipEvaluationsPerSec": "Valutazioni dell'appartenenza a un gruppo globale al secondo",
         "samMachineCreationAttemptsPerSec": "Tentativi di creazione di macchine al secondo",
         "samMembershipChangesPerSec": "Modifiche dei membri al secondo",
         "samNonTransitiveMembershipEvaluationsPerSec": "Valutazioni di appartenenza non transitiva al secondo",
@@ -3689,6 +3721,30 @@
         "samTransitiveMembershipEvaluationsPerSec": "Valutazioni di appartenenza transitiva al secondo",
         "samUniversalGroupMembershipEvaluationsPerSec": "Valutazioni universali di appartenenza al gruppo al secondo",
         "samUserCreationAttemptsPerSec": "Tentativi di creazione di utenti al secondo"
+      },
+      "dhcp": {
+        "dhcpAcksPerSecondPercentageIncrease": "Aumento percentuale dei riscontri al secondo",
+        "dhcpRequestSecondPercentIncrease": "Aumento percentuale delle richieste al secondo",
+        "dhcpConflictCheckQueueLength": "Lunghezza coda controllo conflitti",
+        "dhcpDeclinesPersec": "Rifiuti al secondo",
+        "dhcpDuplicatesDroppedPersec": "Duplicati scartati al secondo",
+        "dhcpNacksPersec": "Riscontri negativi al secondo",
+        "dhcpPacketsExpiredPersec": "Pacchetti scaduti al secondo"
+      },
+      "dns": {
+        "dnsCachingMemory": "Memoria cache",
+        "dnsDynamicUpdateQueued": "Aggiornamenti dinamici in coda",
+        "dnsDynamicUpdateReceived": "Aggiornamenti dinamici ricevuti",
+        "dnsDynamicUpdateReceivedPersec": "Aggiornamenti dinamici ricevuti al secondo",
+        "dnsDynamicUpdateRejected": "Aggiornamenti dinamici rifiutati",
+        "dnsDynamicUpdateTimeOuts": "Timeout aggiornamenti dinamici",
+        "dnsTotalQueryReceived": "Totale query ricevute",
+        "dnsTotalQueryReceivedPersec": "Numero totale di query ricevute al secondo",
+        "dnsTotalResponseSent": "Risposte totali inviate",
+        "dnsTotalResponseSentPersec": "Risposte totali inviate al secondo",
+        "dnsZoneTransferFailure": "Trasferimenti zona non riusciti",
+        "dnsZoneTransferSuccess": "Trasferimenti zona riusciti",
+        "dnsZoneTransferRequestReceived": "Richieste di trasferimento zona ricevute"
       }
     },
     "activeMQ": {
@@ -9547,7 +9603,7 @@
         "duration": "Durata",
         "backupSize": "Dimensione backup",
         "transferredSize": "Dimensione trasferita",
-        "backupStats": "Avanzamento backup",
+        "backupStats": "Ultimo backup",
         "startTime": "Ora di inizio",
         "entryType": "Tipo di voce",
         "processCpuPerc": "CPU processo",
@@ -9569,7 +9625,7 @@
         "diskUsagePercentage": "Percentuale utilizzo disco",
         "diskUsageSummary": "Riepilogo utilizzo disco",
         "usage": "Utilizzo",
-        "archiveLogBackupStats": "Cronologia di backup",
+        "archiveLogBackupStats": "Tutti i backup",
         "sourceDatabaseName": "Database di origine",
         "userLockStats": "Blocchi utente",
         "userMode": "Modalità utente",
@@ -9710,9 +9766,9 @@
       "dashboard": {
         "overallCreditUsage": "Utilizzo complessivo del credito",
         "totalStorageBytes": "Byte totali di storage",
-        "usageInCurrency": "Utilizzo in valuta",
+        "usageInCurrency": "Utilizzo in valuta ({{currency}})",
         "topFiveBillingAccounts": "I 5 principali account di fatturazione",
-        "remainingBalanceInCurrency": "Saldo residuo in valuta",
+        "remainingBalanceInCurrency": "Saldo residuo in valuta ({{currency}})",
         "balance": "Bilancia",
         "accountName": "Nome account",
         "credits": "Crediti",
@@ -10817,8 +10873,10 @@
         "virtualTotal": "Totale virtuale",
         "computational": "Computazionale",
         "nonComputational": "Non computazionale",
+        "realAvailable": "Disponibile reale",
         "pageIn": "Page-in al secondo",
         "pageOut": "Page-out al secondo",
+        "pageScan": "Scansione di pagine al secondo",
         "openFiles": "File Aperti",
         "current": "Corrente",
         "tcpActivity": "Attività TCP",
@@ -10857,6 +10915,14 @@
         "processName": "Nome processo",
         "gpu": "GPU",
         "gpuUsage": "Utilizzo GPU",
+        "volumeGroups": "Gruppi di volumi",
+        "volumeGroupName": "Nome gruppo di volumi",
+        "physicalVolume": "Volume fisico",
+        "physicalVolumeName": "Nome volume fisico",
+        "totalSize": "Dimensione totale",
+        "usedSize": "Dimensione utilizzata",
+        "freeSize": "Dimensione libera",
+        "volumeGrpState": "Stato del gruppo di volumi",
         "encoder": "Codificatore",
         "decoder": "Decodificatore",
         "temperature": "Temperatura",
@@ -10898,6 +10964,7 @@
       "machineId": "ID macchina",
       "bootId": "ID di avvio",
       "systemId": "ID sistema",
+      "hostId": "ID Host",
       "startedAt": "Avviato il",
       "interfacesWithSize": "Interfacce ({{size}})",
       "cpuUsed": "CPU utilizzata",
@@ -10922,8 +10989,10 @@
       "virtualTotal": "Totale virtuale",
       "computational": "Computazionale",
       "nonComputational": "Non computazionale",
+      "realAvailable": "Disponibile reale",
       "pageIn": "Page-in al secondo",
       "pageOut": "Page-out al secondo",
+      "pageScan": "Scansione di pagine al secondo",
       "load": "Carico",
       "contextSwitches": "Switch di contesto",
       "current": "Corrente",
@@ -11640,10 +11709,7 @@
             "unitNumber": "Numero unità",
             "aspNumber": "Numero ASP",
             "unitStorageCapacity": "Capacità di archiviazione",
-            "unitMediaCapacityGb": "Capacità media (GB)",
-            "charts": {
-              "elapsedPercentBusy": "Percentuale occupata elaborata"
-            }
+            "unitMediaCapacityGb": "Capacità media (GB)"
           },
           "solidStateDisk": {
             "name": "Informazioni SSD (Solid State Disk)",
@@ -11667,10 +11733,7 @@
             "diskType": "Tipo di disco",
             "unitNumber": "Numero unità",
             "aspNumber": "Numero ASP",
-            "typeOfDiskUnit": "Tipo di unità disco",
-            "charts": {
-              "elapsedPercentBusy": "Percentuale occupata elaborata"
-            }
+            "typeOfDiskUnit": "Tipo di unità disco"
           },
           "nonVolatileMemory": {
             "name": "Informazioni NVMe (Non Volatile Memory Express)",
@@ -11686,7 +11749,12 @@
             "unSafeShutDowns": "Arresti non sicuri",
             "firmwareLevel": "Livello firmware"
           }
-        }
+        },
+        "elapsedPercentBusy": "Percentuale occupata elaborata",
+        "elapsedReadRequests": "Letture/s",
+        "elapsedWriteRequests": "Scritture/s",
+        "elapsedDataRead": "Byte letti/s",
+        "elapsedDataWritten": "Byte scritti/s"
       }
     },
     "ibmiNetworkInfo": {
@@ -12644,7 +12712,8 @@
       "hostname": "Nome host",
       "startType": "Tipo di avvio",
       "turbonomicSensorException": "Il sensore Turbonomic ha generato la seguente eccezione: <code>{{e}}</code>.",
-      "jspawnhelperPermissionIssueDescription": "L'agente non è in grado di eseguire il file jspawnhelper nel percorso JVM <code>{{path}}</code>. Fornire le autorizzazioni necessarie."
+      "jspawnhelperPermissionIssueDescription": "L'agente non è in grado di eseguire il file jspawnhelper nel percorso JVM <code>{{path}}</code>. Fornire le autorizzazioni necessarie.",
+      "switchtoJava11IssueDescription": "L'agent è in esecuzione con una JVM precedente a Java 11. La versione utilizzata è <code>{{version}}</code>."
     },
     "sparkStandalone": {
       "titleApplicationId": "ID applicazione",
@@ -12776,7 +12845,8 @@
       "allBrokersFailures": "Tutti gli errori dei Broker",
       "fetch": "Recupera",
       "produce": "Produci",
-      "allBrokersStateMetrics": "Tutte le metriche di stato dei Broker",
+      "allBrokersStateMetrics": "Tutte le metriche di stato dei broker",
+      "clientMetrics": "Metriche client",
       "averageIdleTimePercentage": "Percentuale Media tempo di inattività",
       "networkProcessor": "Processore di rete",
       "requestHandler": "Gestore richieste",
@@ -12926,6 +12996,9 @@
         "workerLua": "Byte assegnati nella VM Lua di lavoro",
         "totalConnections": "Connessioni totali"
       }
+    },
+    "kubecost": {
+      "label": "Kubecost"
     },
     "kubernetesCluster": {
       "noActivity": "Nessuna attività",
@@ -13615,20 +13688,48 @@
       "instanceId": "ID istanza",
       "label_category_LLM": "LLM",
       "llm_status": "Stato LLM",
+      "model": "modello",
+      "service": "service",
       "dashboard": {
-        "token": "Token",
-        "cost": "Costo",
+        "token": "Token per modello",
+        "inputToken": "Token di input per modello",
+        "outputToken": "Token di output per modello",
+        "serviceToken": "Token per servizio",
+        "serviceInputToken": "Token di input per servizio",
+        "serviceOutputToken": "Token di output per servizio",
+        "cost": "Costo per modello",
+        "inputCost": "Costo di input per modello",
+        "outputCost": "Costo di output per modello",
+        "serviceCost": "Costo per servizio",
+        "serviceInputCost": "Costo di input per servizio",
+        "serviceOutputCost": "Costo di output per servizio",
         "duration": "Latenze modello",
         "analytics": "Traccia",
         "llmonitor_agent": "Piattaforma LLMonitor",
         "details": "Dettagli",
-        "count": "Conteggi richieste",
+        "count": "Numero di richieste per modello",
+        "serviceCount": "Numero di richieste per servizio",
         "totalToken": "Token totali",
+        "totalInputToken": "Token di input totali",
+        "totalOutputToken": "Token di output totali",
         "totalCost": "Costo totale",
+        "totalInputCost": "Costo di input totale",
+        "totalOutputCost": "Costo di output totale",
         "totalCount": "Conteggi richieste totali",
         "totalTokenByModel": "Token totali per modello",
+        "totalInputTokenByModel": "Token di input totali per modello",
+        "totalOutputTokenByModel": "Token di output totali per modello",
+        "totalTokenByService": "Token totali per servizio",
+        "totalInputTokenByService": "Token di input totali per servizio",
+        "totalOutputTokenByService": "Token di output totali per servizio",
         "totalCostByModel": "Costo totale per modello",
-        "totalCountByModel": "Conteggi richieste totali per modello"
+        "totalInputCostByModel": "Costo di input totale per modello",
+        "totalOutputCostByModel": "Costo di output totale per modello",
+        "totalCostByService": "Costo totale per servizio",
+        "totalInputCostByService": "Costo di input totale per servizio",
+        "totalOutputCostByService": "Costo di output totale per servizio",
+        "totalCountByModel": "Conteggi richieste totali per modello",
+        "totalCountByService": "Numero di richieste totali per servizio"
       }
     },
     "oTelDcgm": {

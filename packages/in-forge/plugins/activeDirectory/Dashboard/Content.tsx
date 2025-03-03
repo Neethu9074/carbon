@@ -554,6 +554,135 @@ export default function ActiveDirectoryDashboard({
           }
         </Columize>
       </DashboardSection>
+      <DashboardSection>
+        <Columize>
+          {
+            <Card title={t('in-forge:plugins.activeDirectory.dhcpLabel')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.dhcpMetrics.conflictCheckQueueLength',
+                    'stats.dhcpMetrics.declinesPersec',
+                    'stats.dhcpMetrics.nacksPersec',
+                    'stats.dhcpMetrics.duplicatesDroppedPersec',
+                    'stats.dhcpMetrics.packetsExpiredPersec'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.dhcp.dhcpConflictCheckQueueLength'),
+                    t('in-forge:plugins.activeDirectory.dhcp.dhcpDeclinesPersec'),
+                    t('in-forge:plugins.activeDirectory.dhcp.dhcpNacksPersec'),
+                    t('in-forge:plugins.activeDirectory.dhcp.dhcpDuplicatesDroppedPersec'),
+                    t('in-forge:plugins.activeDirectory.dhcp.dhcpPacketsExpiredPersec')
+                  ],
+                  formatter: number.compact,
+                  type: 'line'
+                }}
+                y2={{
+                  metrics: [
+                    'stats.dhcpMetrics.acksPerSecondPercentageIncrease',
+                    'stats.dhcpMetrics.requestSecondPercentIncrease'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.dhcp.dhcpAcksPerSecondPercentageIncrease'),
+                    t('in-forge:plugins.activeDirectory.dhcp.dhcpRequestSecondPercentIncrease')
+                  ],
+                  formatter: percentage.detailed,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+        </Columize>
+      </DashboardSection>
+
+      <DashboardSection>
+        <Columize>
+          {
+            <Card title={t('in-forge:plugins.activeDirectory.dnsLablelDynamicUpdates')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.dnsMetrics.cachingMemory',
+                    'stats.dnsMetrics.dynamicUpdateQueued',
+                    'stats.dnsMetrics.dynamicUpdateReceived',
+                    'stats.dnsMetrics.dynamicUpdateReceivedPersec',
+                    'stats.dnsMetrics.dynamicUpdateRejected',
+                    'stats.dnsMetrics.dynamicUpdateTimeOuts'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.dns.dnsCachingMemory'),
+                    t('in-forge:plugins.activeDirectory.dns.dnsDynamicUpdateQueued'),
+                    t('in-forge:plugins.activeDirectory.dns.dnsDynamicUpdateReceived'),
+                    t('in-forge:plugins.activeDirectory.dns.dnsDynamicUpdateReceivedPersec'),
+                    t('in-forge:plugins.activeDirectory.dns.dnsDynamicUpdateRejected'),
+                    t('in-forge:plugins.activeDirectory.dns.dnsDynamicUpdateTimeOuts')
+                  ],
+                  formatter: number.compact,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+        </Columize>
+        <Columize>
+          {
+            <Card title={t('in-forge:plugins.activeDirectory.dnsLablelQueriesAndResponses')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.dnsMetrics.totalQueryReceived',
+                    'stats.dnsMetrics.totalQueryReceivedPersec',
+                    'stats.dnsMetrics.totalResponseSent',
+                    'stats.dnsMetrics.totalResponseSentPersec'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.dns.dnsTotalQueryReceived'),
+                    t('in-forge:plugins.activeDirectory.dns.dnsTotalQueryReceivedPersec'),
+                    t('in-forge:plugins.activeDirectory.dns.dnsTotalResponseSent'),
+                    t('in-forge:plugins.activeDirectory.dns.dnsTotalResponseSentPersec')
+                  ],
+                  formatter: number.compact,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+        </Columize>
+        <Columize>
+          {
+            <Card title={t('in-forge:plugins.activeDirectory.dnsLablelZoneTransfers')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.dnsMetrics.zoneTransferFailure',
+                    'stats.dnsMetrics.zoneTransferSuccess',
+                    'stats.dnsMetrics.zoneTransferRequestReceived'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.dns.dnsZoneTransferFailure'),
+                    t('in-forge:plugins.activeDirectory.dns.dnsZoneTransferSuccess'),
+                    t('in-forge:plugins.activeDirectory.dns.dnsZoneTransferRequestReceived')
+                  ],
+                  formatter: number.compact,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+        </Columize>
+      </DashboardSection>
     </div>
   );
 }

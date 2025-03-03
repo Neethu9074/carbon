@@ -159,7 +159,13 @@ const Splunk = () => {
           </div>
           <SectionLine />
 
-          <SplunkForm form={form} onChange={onChange} areFieldsBlank={areFieldsBlank(form)} disabled={!enabled} />
+          <SplunkForm
+            id={'splunk-enabled'}
+            form={form}
+            onChange={onChange}
+            areFieldsBlank={areFieldsBlank(form)}
+            disabled={!enabled}
+          />
 
           <SaveCancel
             form={form}

@@ -6,7 +6,7 @@
 import { SliConfigurationWithLastUpdated } from '@instana/types';
 
 import useSliConfiguration from 'in-custom-dashboards/widgets/SloLegacy/hooks/useSliConfiguration';
-import { sliCHClusterAccessEnabled } from 'in-services/featureFlags';
+import { sloFullEnabled } from 'in-services/featureFlags';
 import { FetchedState } from 'in-hooks/utils/types';
 import { days } from 'in-services/time/time';
 
@@ -18,7 +18,7 @@ function applyPreviewOverrides(
 
   const { initialEvaluationTimestamp, lastUpdated } = sliConfig;
   const newSliStartTimestamp = Date.now() - days.toMillis(7);
-  const initialTimestamp = sliCHClusterAccessEnabled ? lastUpdated : initialEvaluationTimestamp;
+  const initialTimestamp = sloFullEnabled ? lastUpdated : initialEvaluationTimestamp;
   const previewStartTimestamp = Math.min(initialTimestamp, newSliStartTimestamp);
   return { ...sliConfig, initialEvaluationTimestamp: previewStartTimestamp, lastUpdated: previewStartTimestamp };
 }

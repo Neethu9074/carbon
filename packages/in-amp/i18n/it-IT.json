@@ -114,7 +114,7 @@
       }
     },
     "activationAdoption": {
-      "activationAdoption": "Attivazione & Adozione",
+      "activationAdoption": "Attivazione e adozione",
       "customerAdoption": "Adozione del cliente",
       "activation": "Attivazione",
       "adoption": "Adozione",
@@ -154,7 +154,7 @@
         "metric_websites": "Siti Web",
         "metric_all_alerts": "Tutti gli avvisi",
         "metric_active_alerts": "Avvisi attivi",
-        "metric_mobile_apps": "App mobili",
+        "metric_mobile_apps": "App per dispositivi mobili",
         "metric_alert_channels": "Canali di avviso",
         "metric_custom_dashboards": "Dashboard personalizzati",
         "metric_releases": "Release"

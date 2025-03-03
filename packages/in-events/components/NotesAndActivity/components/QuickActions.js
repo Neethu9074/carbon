@@ -9,10 +9,10 @@ import classNames from 'classnames';
 
 import { SvgIcon, CarbonButton, CarbonInlineLoading, HelpText, PreviewPill } from '@instana/components';
 
+import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPopover';
 import { EVENT_AI_GENERATE_SUBMIT } from 'in-services/tracking/eventNames';
 import { generateJournalSummary } from 'in-stores/events';
-import { handleTracking } from './utils';
 import { t } from 'in-i18n';
 
 import locals from './QuickActions.mless';
@@ -67,12 +67,13 @@ export function QuickActions(props) {
           kind={'tertiary'}
           className={locals.actionsButton}
           size={'sm'}
+          id="generate_summary_ai"
           disabled={loadingSummary}
           renderIcon={() => {
             return (
               <>
                 {!loadingSummary ? (
-                  <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" />
+                  <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" id="ai_summary_loading" />
                 ) : (
                   <CarbonInlineLoading className={locals.generating} />
                 )}

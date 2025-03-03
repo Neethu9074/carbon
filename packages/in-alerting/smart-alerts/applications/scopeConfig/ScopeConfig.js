@@ -17,8 +17,8 @@ import useScrollToFirstInvalidItem from 'in-alerting/smart-alerts/components/tea
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext/SectionLabelWithSubtext';
 import ScopeMigrationMessage from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeMigrationMessage';
-import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import FilterCalls from 'in-alerting/smart-alerts/applications/scopeConfig/FilterCalls';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import Dropdown from 'in-alerting/components/Dropdown';
@@ -82,41 +82,27 @@ export default function ScopeConfig({
 
   useScrollToFirstInvalidItem('scopeSection');
 
-  return (
-    <>
-      {tearSheetView && (
-        <>
-          <div className={locals.grid}>
-            <AlertTypography
-              variant="heading-100"
-              color="color900"
-              content={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigSubTitle')}
-            />
-            <LightCardHeaderControls
-              filterBySelectionState={filterBySelectionState}
-              setSearchQuery={setSearchQuery}
-              setSearchType={setSearchType}
-              searchType={searchType}
-              setFilterBySelectionState={setFilterBySelectionState}
-              tearSheetView={tearSheetView}
-              isGlobalSmartAlert={isGlobalSmartAlert}
-            />
-          </div>
-        </>
-      )}
-      <ExpandableLightCard
-        title={
-          !tearSheetView ? (
-            <SectionLabelWithSubtext
-              subtext={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleTooltip')}
-            >
-              <div className={locals.lightCardTitle}>
-                {isGlobalSmartAlert
-                  ? t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleWithApplications')
-                  : t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitle')}
-              </div>
-            </SectionLabelWithSubtext>
-          ) : (
+  if (tearSheetView)
+    return (
+      <>
+        <div className={locals.grid}>
+          <AlertTypography
+            variant="heading-100"
+            color="color900"
+            content={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigSubTitle')}
+          />
+          <LightCardHeaderControls
+            filterBySelectionState={filterBySelectionState}
+            setSearchQuery={setSearchQuery}
+            setSearchType={setSearchType}
+            searchType={searchType}
+            setFilterBySelectionState={setFilterBySelectionState}
+            tearSheetView={tearSheetView}
+            isGlobalSmartAlert={isGlobalSmartAlert}
+          />
+        </div>
+        <ExpandableLightCard
+          title={
             <SectionLabelWithSubtext>
               <div className={locals.subtitle}>
                 <SvgIcon type={'lib_application'} className={locals.icon} />
@@ -129,20 +115,104 @@ export default function ScopeConfig({
                 />
               </div>
             </SectionLabelWithSubtext>
-          )
+          }
+          headerClassName={!tearSheetView ? locals.lightCardHeader : locals.tearSheetLightCardHeader}
+          bodyWithoutPadding
+          openByDefault
+          darkFrame
+          framed
+          isTearSheetView
+        >
+          <div
+            className={classNames({
+              [locals.scopeConfigContainer]: !tearSheetView,
+              [locals.scopeConfigContainerTearSheetView]: tearSheetView,
+              [locals.carbonVariant]: true
+            })}
+          >
+            <Stack>
+              <div
+                className={classNames({
+                  [locals.servicesAndEndpointsListPresenterWrapper]: shouldDisplayAlertConfigurator,
+                  [locals.listHeight]: tearSheetView && isGlobalSmartAlert,
+                  [locals.list]: tearSheetView
+                })}
+              >
+                <ServicesAndEndpointsListPresenter
+                  applicationsSelection={applications}
+                  onChange={applicationsSelection =>
+                    updateForm(
+                      form.updateIn(['applications'], field => field.setValue(applicationsSelection).setTouched(true))
+                    )
+                  }
+                  timeConfig={scopeSelectionTimeConfig}
+                  boundaryScope={boundaryScope}
+                  includeInternal={includeInternal}
+                  includeSynthetic={includeSynthetic}
+                  searchQuery={searchQuery}
+                  searchType={searchType}
+                  editMode={editMode}
+                  showInteractedItemsOnly={filterBySelectionState}
+                  isGlobalSmartAlert={isGlobalSmartAlert}
+                  initialConfiguredApplications={initialConfiguredApplications}
+                  validationError={
+                    !form.get('applications').valid &&
+                    t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigSelectOneEntryMessage')
+                  }
+                  retrievalSize={6}
+                  tearSheetView={tearSheetView}
+                />
+              </div>
+            </Stack>
+          </div>
+          {migrationMode && scopeMigrationDetails && (
+            <ScopeMigrationMessage scopeMigrationDetails={scopeMigrationDetails} />
+          )}
+        </ExpandableLightCard>
+        <Stack direction="horizontal">
+          {shouldDisplayAlertConfigurator && (
+            <FilterCalls
+              tagFilterExpression={tagFilterExpression}
+              isBuiltIn={isBuiltIn}
+              tearSheetView={tearSheetView}
+              QueryBuilder={QueryBuilder}
+              form={form}
+              updateForm={updateForm}
+            />
+          )}
+          {tagFilterExpression.length > 0 && !isBuiltIn && (
+            <div className={locals.alignEnd}>
+              <ClearTagFilterExpressionButton form={form} updateForm={updateForm} />
+            </div>
+          )}
+        </Stack>
+      </>
+    );
+
+  return (
+    <>
+      <ExpandableLightCard
+        title={
+          <SectionLabelWithSubtext
+            subtext={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleTooltip')}
+          >
+            <div className={locals.lightCardTitle}>
+              {isGlobalSmartAlert
+                ? t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleWithApplications')
+                : t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitle')}
+            </div>
+          </SectionLabelWithSubtext>
         }
         headerClassName={!tearSheetView ? locals.lightCardHeader : locals.tearSheetLightCardHeader}
         header={
-          !tearSheetView && (
-            <LightCardHeaderControls
-              filterBySelectionState={filterBySelectionState}
-              setSearchQuery={setSearchQuery}
-              setSearchType={setSearchType}
-              searchType={searchType}
-              setFilterBySelectionState={setFilterBySelectionState}
-              isGlobalSmartAlert={isGlobalSmartAlert}
-            />
-          )
+          <LightCardHeaderControls
+            filterBySelectionState={filterBySelectionState}
+            setSearchQuery={setSearchQuery}
+            setSearchType={setSearchType}
+            searchType={searchType}
+            setFilterBySelectionState={setFilterBySelectionState}
+            isGlobalSmartAlert={isGlobalSmartAlert}
+          />
         }
         bodyWithoutPadding
         openByDefault
@@ -190,32 +260,14 @@ export default function ScopeConfig({
               />
             </div>
             {shouldDisplayAlertConfigurator && (
-              <div
-                className={classNames({
-                  [locals.alertFilterConfiguratorWrapper]: true,
-                  [locals.alertFilterConfiguratorWrapperBottomPadding]: !tagFilterExpression.length || isBuiltIn
-                })}
-                id="scopeSection"
-              >
-                {tearSheetView && (
-                  <>
-                    <Spacer vertical="normal" />
-                    <AlertTypography
-                      variant="heading-200"
-                      color="color900"
-                      content={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeFilterCallsTitle')}
-                    />
-                    <AlertTypography
-                      variant="body-small"
-                      color="color600"
-                      content={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeFilterCallsDescription')}
-                    />
-
-                    <Spacer vertical="normal" />
-                  </>
-                )}
-                <AlertFilterConfigurator QueryBuilderComponent={QueryBuilder} form={form} updateForm={updateForm} />
-              </div>
+              <FilterCalls
+                tagFilterExpression={tagFilterExpression}
+                isBuiltIn={isBuiltIn}
+                tearSheetView={tearSheetView}
+                QueryBuilder={QueryBuilder}
+                form={form}
+                updateForm={updateForm}
+              />
             )}
           </Stack>
           {tagFilterExpression.length > 0 && !isBuiltIn && (

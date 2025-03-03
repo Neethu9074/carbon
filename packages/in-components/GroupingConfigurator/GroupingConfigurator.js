@@ -25,6 +25,7 @@ export default function GroupingConfigurator({
   getSuggestions,
   onChange,
   tracking,
+  fixOverlayLeftAlignment,
   label = t('in-components:groupingConfigurator.addGroup'),
   loadingLabel,
   getTagCatalog,
@@ -86,6 +87,7 @@ export default function GroupingConfigurator({
             autoFocus={autoFocus}
             onChange={onChange}
             tracking={tracking}
+            fixOverlayLeftAlignment={fixOverlayLeftAlignment}
           >
             {({ toggle, refSetter }) => (
               <ActiveGroupingConfiguration
@@ -110,6 +112,7 @@ export default function GroupingConfigurator({
           autoFocus={autoFocus}
           onChange={addGroup}
           tracking={tracking}
+          fixOverlayLeftAlignment={fixOverlayLeftAlignment}
           getTagCatalog={getTagCatalog}
           additionalGetTagCatalogProps={additionalGetTagCatalogProps}
           addTagDefinitionToFormModel={addTagDefinitionToFormModel}
@@ -144,6 +147,7 @@ function GroupingOverlay({
   children,
   onChange,
   tracking,
+  fixOverlayLeftAlignment,
   getTagCatalog,
   additionalGetTagCatalogProps,
   addTagDefinitionToFormModel,
@@ -166,6 +170,7 @@ function GroupingOverlay({
       }}
       align={'bottomLeft'}
       withoutWrapper
+      fixOverlayLeftAlignment={fixOverlayLeftAlignment}
     >
       {children}
     </Overlay>
@@ -196,6 +201,7 @@ GroupingConfigurator.propTypes = {
   loadingLabel: rpt.string,
   getTagCatalog: rpt.func,
   additionalGetTagCatalogProps: rpt.object,
+  fixOverlayLeftAlignment: rpt.bool,
   addTagDefinitionToFormModel: rpt.bool,
   disableEntitySelection: rpt.bool
 };

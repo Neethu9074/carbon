@@ -164,10 +164,11 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               y1={{
                 min: 0,
                 formatter: bytes.detailed,
-                metrics: ['memory.computational', 'memory.nonComputational'],
+                metrics: ['memory.computational', 'memory.nonComputational', 'memory.realAvailable'],
                 labels: [
                   t('in-forge:plugins.host.dashboard.computational'),
-                  t('in-forge:plugins.host.dashboard.nonComputational')
+                  t('in-forge:plugins.host.dashboard.nonComputational'),
+                  t('in-forge:plugins.host.dashboard.realAvailable')
                 ],
                 type: 'line'
               }}
@@ -252,8 +253,12 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               y1={{
                 min: 0,
                 formatter: number.compact,
-                metrics: ['memory.pageIn', 'memory.pageOut'],
-                labels: [t('in-forge:plugins.host.dashboard.pageIn'), t('in-forge:plugins.host.dashboard.pageOut')],
+                metrics: ['memory.pageIn', 'memory.pageOut', 'memory.pageScan'],
+                labels: [
+                  t('in-forge:plugins.host.dashboard.pageIn'),
+                  t('in-forge:plugins.host.dashboard.pageOut'),
+                  t('in-forge:plugins.host.dashboard.pageScan')
+                ],
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}

@@ -31,6 +31,7 @@
     "optional": "Opcional",
     "on": "ON",
     "off": "Desligado",
+    "options": "Opções",
     "revisionDropdownButton": {
       "revision": "Revisão {{alertRevision}}",
       "pause": "Pausar",
@@ -238,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "Confirme",
+            "confirmRemove": "Confirme",
             "description": "A modificação do escopo do limite reconfigura a seleção do aplicativo.",
             "confirmButtonLabel": "Confirmar"
           }
@@ -259,7 +260,7 @@
           "includeInternalCalls": "Incluir chamadas internas",
           "includeSyntheticCalls": "Incluir chamadas sintéticas",
           "confirmationDialog": {
-            "pleaseConfirm": "Confirme",
+            "confirmRemove": "Confirme",
             "description": "Remover a seleção \"{{callType}}\" reconfiguraria a seleção de aplicativos.",
             "confirmButtonLabel": "Confirmar"
           }
@@ -788,6 +789,8 @@
         "cancelTitle": "Cancelar",
         "proceedTitle": "Continuar",
         "previousTitle": "Prévio",
+        "nextTitle": "Avançar",
+        "closeTitle": "Fechar",
         "sharedListTooltip": "{{typeName}} não está mais disponível",
         "clearTagFilterExpressionButton": "Limpar",
         "baselineErrorMessageComputedOnApproximateData": "A linha de base é calculada com base em dados aproximados, devido às configurações de retenção de dados. Portanto, pode não ser preciso no caso de haver poucas chamadas correspondentes aos filtros selecionados.",
@@ -869,6 +872,7 @@
         "timeThresholdConfigImpactEvaluationMethod": "Método de avaliação de impacto do usuário",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Agregar em todas as janelas de avaliação",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcular para cada janela de avaliação",
+        "timeThresholdConfigImpactEvaluationMethodSelect": "Selecionar uma opção",
         "timeThresholdConfigNumberOfViolations": "Número de violações de métrica",
         "timeThresholdConfigEvaluationGranularity": "Granularidade da avaliação",
         "granularityTooltipText": "A granularidade de tempo configurada aqui determinará a frequência com que o limite é avaliado.",
@@ -985,7 +989,15 @@
         "labelConfirmRemoveConfig": "Tem certeza de que deseja remover o alerta <strong>{{configName}}</strong>?",
         "labelRemove": "Remover"
       },
+      "gracePeriod": {
+        "title": "Período de carência (opcional)",
+        "description": "Encerrar automaticamente um problema depois que o limite de violação não for mais atingido:",
+        "label": "Selecionar",
+        "summary": "Feche automaticamente um problema depois que o limite de violação não for mais atingido <strong>para {{gracePeriodValue}}</strong>."
+      },
       "tearSheet": {
+        "cancelModalTitle": "Tem certeza de que deseja cancelar?",
+        "cancelModalDescription": "Se você cancelar, os detalhes de configuração inseridos não serão salvos.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "Quando as violações persistem ao longo do tempo",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "As violações persistem em intervalos aleatórios",
@@ -1001,8 +1013,7 @@
           "persistenceType": "Tipo de persistência",
           "numberOfConsecutiveViolationsPostLabel": "Janelas consecutivas de {{granularity}}-minuto têm violações",
           "static": "Estático",
-          "thresholdValue": "Valor do limite",
-          "timeWindow": "Espaço de tempo"
+          "thresholdValue": "Valor do limite"
         }
       }
     },
@@ -1248,11 +1259,32 @@
         "alertConfigurationTitleAlertChannels": "Canais de alerta",
         "alertConfigurationTitleAlertProperties": "Propriedades de alerta",
         "failureThreshold": "{{failureCount}} falhas",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "Período de carência",
         "alertConfigurationTitleScope": "Escopo",
         "noOfFailure": "Número de falhas",
         "timeThreshold": "Limite de tempo",
         "alertingType": "Tipo de alerta",
         "noScopeConfigured": "Não há nenhum filtro de escopo configurado."
+      },
+      "tearSheet": {
+        "createTitle": "Crie um alerta inteligente sintético",
+        "scopeFilter": {
+          "filter": "Filtro",
+          "filterDescription": "Inclua filtros nos testes sintéticos para obter alertas mais precisos."
+        },
+        "steps": {
+          "step1Title": "Escolha os testes sintéticos.",
+          "step2Title": "Defina quando será alertado."
+        },
+        "step1": {
+          "header": "Sobre quais testes sintéticos você deseja ser alertado?",
+          "description": "Os alertas individuais serão enviados independentemente para cada teste sintético, por local."
+        },
+        "step2": {
+          "sliderHeader": "Configurar quando as violações acionam alertas",
+          "sliderDescription": "Especifique quantas falhas consecutivas devem ocorrer por local antes de emitir um alerta."
+        }
       }
     },
     "mobileApp": {
@@ -1520,6 +1552,7 @@
       "regexNotValid": "Regex não é válido",
       "tearSheet": {
         "createTitle": "Criar um alerta inteligente de infraestrutura",
+        "editTitle": "Editar um alerta inteligente de infraestrutura",
         "steps": {
           "step1Title": "Definir a condição",
           "step2Title": "Definir quando ser alertado",
@@ -1537,7 +1570,7 @@
           "header": "Quais propriedades deseja configurar para este alerta?"
         },
         "step4": {
-          "header": "O que deseja que seja notificado sobre esse alerta?",
+          "header": "Onde você deseja ser notificado sobre esse alerta?",
           "description": "Selecione o(s) destinatário(s) desse alerta"
         },
         "scopeAlerting": {
@@ -1647,14 +1680,57 @@
         "customPayloads": {
           "label": "Cargas úteis",
           "title": "Carga útil customizada"
-        },
-        "thresholdValue": "Valor do limite"
+        }
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Forneça um número >= 0",
+        "selectAtLeastOneThreshold": "Forneça o valor de pelo menos um dos limites.",
         "noDataForSelectedGroup": "Não há dados disponíveis para a combinação especificada de filtros e agrupamento."
       },
-      "logCount": "Contagem de logs"
+      "logCount": "Contagem de logs",
+      "tearSheet": {
+        "labelActionButtonEdit": "Editar",
+        "labelActionButtonDuplicate": "Duplicata",
+        "createTitle": "Criar um alerta inteligente de log",
+        "editTitle": "Editar log Smart Alert",
+        "steps": {
+          "step1Title": "Definir a condição",
+          "step2Title": "Definir quando ser alertado",
+          "step3Title": "Definir propriedades de alerta",
+          "step4Title": "Definir canais de alerta"
+        },
+        "step2": {
+          "header": "Configurar um valor para o limite de violação",
+          "description": "Selecione uma métrica, um limite de violação e um espaço de tempo para avaliar a violação."
+        },
+        "step3": {
+          "header": "Quais propriedades deseja configurar para este alerta?"
+        },
+        "step4": {
+          "header": "Onde você deseja ser notificado sobre esse alerta?",
+          "description": "Selecione o(s) destinatário(s) desse alerta"
+        },
+        "scopeFilter": {
+          "title": "Escolha o escopo dos logs",
+          "filter": "Filtro",
+          "filterDescription": "Inclua filtros no conteúdo das mensagens de log, aos logs ou a ambos para obter alertas mais precisos."
+        },
+        "granularity": {
+          "description": "Os logs são avaliados em janelas de {{granularity}} minutos e o valor da métrica é calculado para essa janela"
+        },
+        "scopeGroupBy": {
+          "group": "Grupo",
+          "groupByDescription": "Incluir agrupamento nos logs. Cada entrada do grupo é configurada coletivamente, mas avaliada individualmente."
+        },
+        "timeThreshold": {
+          "title": "Configurar quando as violações acionam alertas",
+          "description": "Especifique a persistência ao longo do tempo para o acionamento do alerta e o tempo até a falha."
+        },
+        "thresholdDescription": {
+          "static": "Um valor do limite constante é aplicado e não muda ao longo do tempo."
+        },
+        "chartAlertPreview": "Visualização de alertas",
+        "chartAlertPreviewDescription": "Mostra como os alertas teriam sido acionados com base em dados métricos históricos."
+      }
     },
     "slo": {
       "components": {
@@ -1696,7 +1772,7 @@
         "blueprintDescription_BURN_RATE": "A taxa de queima é um valor que indica a rapidez com que o orçamento de erros é consumido em relação ao comprimento de destino do SLO.",
         "burnRateShortWindowTitle": "Janela de alerta curta",
         "burnRateShortWindowDescription": "Esses alertas serão acionados quando a taxa de erro exceder o limite mais rapidamente em um período mais curto. Isso pode ajudar a capturar um aumento repentino de erros ou tempo de inatividade devido a um erro crítico.",
-        "burnRateDescription": "Notifique-me quando a taxa de queima for <1/> <2/>.",
+        "burnRateDescription": "Notifique-me quando a taxa de queima for <1/> <2/>",
         "burnRateLongWindowTitle": "Janela de alerta longa",
         "burnRateLongWindowDescription": "Esses alertas serão acionados quando a taxa de erro exceder o limite em um período de tempo mais longo. Isso ajuda a identificar problemas acumulados ao longo do tempo que podem causar problemas no futuro se não forem resolvidos.",
         "burnRateShortWindowLongerThanLongWindowError": "A janela curta não pode exceder a janela longa. Ajuste qualquer um dos valores.",
@@ -1777,6 +1853,7 @@
     "warningAndCritical": "Aviso e crítico",
     "warning": "Aviso",
     "critical": "Crítico",
-    "searchPlaceholder": "Procura"
+    "searchPlaceholder": "Procura",
+    "sortBy": "Classificar por"
   }
 }

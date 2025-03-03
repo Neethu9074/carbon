@@ -5,9 +5,8 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
-
 import { Entity, getEntityNameByType, getIconByType, ProductArea } from 'in-analyze/AnalyzeView/dataSources';
+import { LegacyButton as Button } from 'in-components/Button/LegacyButton';
 import ComboBoxOverlay from 'in-components/form/ComboBox/ComboBoxOverlay';
 import Overlay from 'in-components/overlays/Overlay';
 import { MetricSource } from 'in-types';

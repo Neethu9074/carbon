@@ -6,12 +6,12 @@
 
 import React from 'react';
 
+import { TagFilterExpression, TimeConfig } from '@instana/types';
 import { IconButton } from '@instana/components';
 
 import { ANALYZE_LOGGING_JUMP_TO_LOGS } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
-import { TagFilterExpression, TimeConfig } from 'in-types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 

@@ -103,7 +103,10 @@ const cols = [
 ];
 
 export default function FioriCallMetric({ snapshotId, timeConfig }: FioriCallStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'fioriCallMetrics'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'fioriCallMetrics', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const fioriCallStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: FioriCallStatsRow[] = fioriCallStat
     ? fioriCallStat

@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Result, GetInfrastructureGroupsQuery, InfrastructureGroup, CursorPaginatedResult } from 'in-types';
+import { Result, GetInfrastructureGroupsQuery, InfrastructureGroup, CursorPaginatedResult } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory<

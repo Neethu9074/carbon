@@ -17,7 +17,7 @@ import {
   DateInput as CarbonDateInput,
   ValidationBlock
 } from '@instana/components';
-import { Button, Card, Link, Typography } from '@instana/components';
+import { Card, Link, Typography } from '@instana/components';
 import { Tearsheet } from '@instana/ibm-products';
 
 // eslint-disable-next-line no-restricted-imports
@@ -29,7 +29,7 @@ import {
 } from 'in-services/tracking/tracking';
 import { deleteLogsLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 // eslint-disable-next-line no-restricted-imports
-import { addSecondsIfValidFormat, deleteLogs, DeleteLogsRequest } from './utils';
+import { addSecondsIfValidFormat, DeleteLogsRequest } from './utils';
 // eslint-disable-next-line no-restricted-imports
 import { ConfirmSelectionPage } from './Modal/TabPages/ConfirmSelectionPage';
 // eslint-disable-next-line no-restricted-imports
@@ -50,13 +50,13 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import TimePicker from 'in-components/form/TimePicker/TimePicker';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { deleteLogsV3Enabled } from 'in-services/featureFlags';
-import { carbonTableEnabled } from 'in-services/featureFlags';
 import { parseDateTime } from 'in-services/formatters/date';
 import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
 import { user } from 'in-stores/user';
 
 import locals from './DeleteLogs.mless';
+import { deleteLogs } from 'in-logging/api/deleteLogs';
 
 export const useMock = true;
 const forceError = false;
@@ -307,24 +307,11 @@ export default function DeleteLogs() {
 
     return mapSteps();
   };
-
-  const DeleteButton = (
-    <Button
-      className={locals.deleteLogsButton}
-      onClick={openConfirmationDialog}
-      kind="danger"
-      icon="lib_actions_delete"
-    >
-      {deleteLogsLocalisationStrings.deleteLogs}
-    </Button>
-  );
-
   return (
     <>
       <Title title={deleteLogsLocalisationStrings.deleteLogs} />
       <section className={locals.titleSection}>
         <SubViewHeader>{deleteLogsLocalisationStrings.deleteLogs}</SubViewHeader>
-        {!carbonTableEnabled && DeleteButton}
       </section>
       <section className={locals.descriptionSection}>
         <Typography variant={'body-regular'}>
@@ -337,9 +324,9 @@ export default function DeleteLogs() {
         </Typography>
       </section>
       <Card className={locals.noPadding}>
-        <main>
+        <div>
           <DeletionTable openConfirmationDialog={openConfirmationDialog} isDeleting={isDeleting} />
-        </main>
+        </div>
       </Card>
 
       {showConfirmation &&
@@ -498,6 +485,7 @@ function DeleteLogsModal({
                   <span>{deleteLogsLocalisationStrings.deletionUntilDate}</span>
                   <section className={locals.marginLabel}>
                     <CarbonDateInput
+                      id="deletionUntilDate"
                       hasError={!!validationMessages.endDate}
                       disabled={isDeleting}
                       value={new Date(inputValues.endDate as string)}

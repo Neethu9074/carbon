@@ -10,10 +10,15 @@ import React, { useState } from 'react';
 import { RuleWithThreshold } from '@instana/types/typeDefinitions';
 import { InfraAlertRuleUnion } from '@instana/types';
 
+import {
+  useFormattedThresholdValue,
+  useGetAlertTitle,
+  generateTitle,
+  getTitlePlaceholderData
+} from 'in-alerting/smart-alerts/infrastructure/hooks/useGetAlertTitle';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { useInfraSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/infrastructure/form/useInfraSmartAlertFormSideEffects';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/infrastructure/dialog/AlertConfigDialogWithThreshold';
-import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/infrastructure/components/AlertCreateOrSave';
@@ -53,6 +58,19 @@ export default function AlertConfigDialog({
 
   const { trackCta } = useSegmentTracking();
 
+  const { aggregation, warningThreshold, criticalThreshold, thresholdOperatorValue, metricFormat, entityType, metric } =
+    getTitlePlaceholderData(form);
+
+  const metricLabel = useGetAlertTitle(entityType, metric, aggregation);
+  const alertTitle = generateTitle(metricLabel);
+  const alertDescription = useFormattedThresholdValue(
+    metricLabel,
+    thresholdOperatorValue(warningThreshold, criticalThreshold),
+    metricFormat,
+    warningThreshold,
+    criticalThreshold
+  );
+
   return (
     <AlertConfigDialogWithThreshold
       updateForm={updateForm}
@@ -73,7 +91,8 @@ export default function AlertConfigDialog({
           toAlertConfig,
           isSimpleMode,
           trackCta,
-          duplicateFrom
+          duplicateFrom,
+          placeHolderText: { alertTitle, alertDescription }
         });
       }}
       onClose={() => {
@@ -114,16 +133,21 @@ function getRuleWithThreshold(form: MapForm<any>) {
   return ruleWithThreshold;
 }
 
-function toAlertConfig(form: MapForm<any>): Readonly<InfraAlertConfig> {
+function toAlertConfig(
+  form: MapForm<any>,
+  placeHolderText: { alertTitle: string; alertDescription: { WARNING?: string; CRITICAL?: string } }
+): Readonly<InfraAlertConfig> {
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
   const ruleWithThreshold = getRuleWithThreshold(form);
+
+  const { alertTitle, alertDescription } = placeHolderText;
 
   return Object.freeze({
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
     alertChannelIds: alertChannelPerSeverityInfraSaEnabled ? null : form.get(fieldNames.alertChannelIds).value,
     alertChannels: alertChannelPerSeverityInfraSaEnabled ? form.get(fieldNames.alertChannels).value : null,
-    description: form.get(fieldNames.description).value || getDescriptionPlaceholder(),
-    name: form.get(fieldNames.name).value || getTitlePlaceholder(),
+    description: form.get(fieldNames.description).value || (alertDescription?.WARNING ?? alertDescription?.CRITICAL),
+    name: form.get(fieldNames.name).value || alertTitle,
     id: form.get(fieldNames.id).value,
     timeThreshold: form.get('timeThreshold').toJS(),
     granularity: form.get(fieldNames.granularity).value,

@@ -7,29 +7,31 @@
 import { Item, MapForm, Field } from 'formalistic';
 import React, { useMemo, useState } from 'react';
 
-import { LogAlertConfigWithMetadata, LogAlertConfig } from '@instana/types';
-
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/logs/tearsheet/AlertConfigTearSheetWithThreshold';
+import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertMultiThresholdFormSideEffects';
 import { duplicateAlertConfig, getHeaderTitle } from 'in-alerting/smart-alerts/logs/tearsheet/sharedFunctions';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { createOrSaveAlertFromTearSheet } from 'in-alerting/smart-alerts/logs/components/AlertCreateOrSave';
-import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/logs/form/alertFormDefinition';
 import getAlertingUrlParameters from 'in-alerting/smart-alerts/logs/tearsheet/getAlertingUrlParameters';
+import { getRuleWithThreshold } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
 import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { dashboardAlertDetailsFullPath, alertsDetailsPath } from 'in-logging/navigation/paths';
 import { toGroupByTag } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import { useAlertConfig } from 'in-alerting/smart-alerts/logs/hooks/useSmartAlertCreateUrl';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { alertChannelPerSeverityLogSaEnabled } from 'in-services/featureFlags';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { alertCreated, alertId } from 'in-logging/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
+import { LogAlertConfig } from 'in-types';
 
 const initialChartConfigIndex = 0;
 
@@ -59,7 +61,7 @@ function AlertConfigTearSheetContent({
   cancelTearSheet,
   editMode
 }: {
-  alertConfig: LogAlertConfigWithMetadata & { duplicateFrom?: string };
+  alertConfig: LogSmartAlertConfigWithMetadata & { duplicateFrom?: string };
   cancelTearSheet: string;
   editMode: boolean;
 }) {
@@ -116,20 +118,21 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
 
 function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
+  const ruleWithThreshold = getRuleWithThreshold(form);
 
   return Object.freeze({
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
-    alertChannelIds: form.get(fieldNames.alertChannelIds).value,
-    severity: form.get(fieldNames.severity).value,
+    alertChannelIds: alertChannelPerSeverityLogSaEnabled ? null : form.get(fieldNames.alertChannelIds).value,
+    alertChannels: alertChannelPerSeverityLogSaEnabled ? form.get(fieldNames.alertChannels).value : null,
     description: form.get(fieldNames.description).value || getDescriptionPlaceholder(form),
     name: form.get(fieldNames.name).value || getTitlePlaceholder(),
     id: form.get(fieldNames.id).value,
-    threshold: form.get('threshold').toJS(),
     timeThreshold: form.get('timeThreshold').toJS(),
     granularity: form.get(fieldNames.granularity).value,
     gracePeriod: form.get(fieldNames.gracePeriod).value,
     groupBy: form.get(fieldNames.groupBy).value ? toGroupByTag([form.get(fieldNames.groupBy).value]) : undefined,
-    customPayloadFields: form.get('customPayloadFields').toJS()
+    customPayloadFields: form.get('customPayloadFields').toJS(),
+    rules: [ruleWithThreshold]
   });
 }
 

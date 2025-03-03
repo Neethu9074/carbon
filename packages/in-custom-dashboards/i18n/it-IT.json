@@ -29,7 +29,7 @@
         "pleaseSelect": "Seleziona"
       },
       "sharingDialogPresenter": {
-        "share": "Condividi",
+        "editPermissions": "Modifica autorizzazioni",
         "shareMsg": "Questo dashboard personalizzato presenta regole di accesso avanzate che non possono essere rappresentate da questa finestra di dialogo. È possibile utilizzare la funzione \"Modifica come JSON\" per modificare queste regole di accesso.",
         "privateDashboardDefault": "Dashboard privato (predefinito)",
         "privateDashboardDefaultExplain": "Questo dashboard è visibile solo all'utente corrente.",
@@ -81,6 +81,7 @@
       "failure": "Errore",
       "dashboardNotFoundExplain": "Questo dashboard non esiste oppure l'utente non è autorizzato ad accedervi.",
       "customDashboard": "Dashboard personalizzato",
+      "customDashboardOptions": "Opzioni del dashboard personalizzate",
       "saveChange": "Salva le modifiche",
       "discardChange": "Elimina modifiche",
       "addWidget": "Aggiungi widget",
@@ -92,8 +93,8 @@
       "copiedAllWidgets": "Widget copiati, utilizzare CTRL-V o CMD-V per incollare su qualsiasi dashboard personalizzato",
       "duplicate": "Duplica",
       "delete": "Elimina",
-      "share": "Condividi",
-      "shareButtonTooltip": "L'account utente non dispone delle autorizzazioni per condividere i dashboard."
+      "editPermissions": "Modifica autorizzazioni",
+      "editOptionTooltip": "L'account utente non dispone delle autorizzazioni per condividere i dashboard."
     },
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Impossibile analizzare l'input come JSON.",
@@ -308,6 +309,15 @@
         "metric": "Metrica",
         "aggregation": "Aggregazione",
         "pleaseSelect": "Selezionare"
+      }
+    },
+    "srcSlo": {
+      "index": {
+        "serviceLevelsObjective": "SLO (Service-Level Objective)"
+      },
+      "formComponent": {
+        "status": "Stato",
+        "errorBudgetRemaining": "Budget di errore rimanente"
       }
     },
     "metricConfigurator": {
@@ -604,8 +614,8 @@
         "sliType": "Tipo di SLI",
         "viewCloneSliConfig": "Visualizza/clona configurazione dello SLI",
         "delSliConfig": "Elimina configurazione dello SLI",
-        "pleaseConfirm": "Confermare",
-        "pleaseConfirmMsg": "Si è certi di voler eliminare <strong>{{sliName}}</strong>?",
+        "confirmRemove": "Confermare",
+        "confirmRemoveMsg": "Si è certi di voler eliminare <strong>{{sliName}}</strong>?",
         "delete": "Elimina",
         "eventBasedSli": "Basato sull'evento",
         "timeBasedSli": "Basato sul tempo, {{metricNameLabel}}"
@@ -833,6 +843,14 @@
         "tagNoValue": "Tag '{{labelname}}' presente senza valore"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "Rappresentazione https://...",
+      "form": {
+        "heading": "Quale pagina si desidera incorporare?",
+        "title": "Immetti URL"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "Panoramica integrità"
@@ -900,7 +918,8 @@
         }
       },
       "dataSource": {
-        "events": "Eventi"
+        "events": "Eventi",
+        "k8sEvents": "Eventi Kubernetes"
       },
       "eventColumns": {
         "title": "Titolo",
@@ -908,6 +927,19 @@
         "startedOn": "Iniziato il",
         "endedOn": "Terminato il",
         "duration": "Durata"
+      },
+      "kubernetesEventColumns": {
+        "type": "Immettere",
+        "reason": "Motivo",
+        "message": "Messaggio",
+        "namespace": "Spazio dei nomi",
+        "involvedObject": "Oggetto interessato",
+        "kind": "Tipo",
+        "time": "Ora"
+      },
+      "emptyTable": {
+        "title": "Nessun evento disponibile",
+        "explanation": "Nell'intervallo di tempo selezionato non sono stati richiamati eventi"
       }
     },
     "time": {

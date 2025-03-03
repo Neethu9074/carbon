@@ -10,7 +10,6 @@
   "recommendedOptimizations": "권장 리소스 조치",
   "actionName": "조치 이름",
   "validVaultParameter": "선택 사항으로 표시된 Vault 매개변수는 둘 다 비어 있거나 둘 다 비어 있지 않아야 합니다.",
-  "newAction": "새 조치",
   "runAction": "조치 실행",
   "testAction": "조치 테스트",
   "targetAgent": "대상 에이전트",
@@ -239,6 +238,7 @@
     "ignoreCertErrors": "인증서 오류 무시",
     "basicAuth": "기본 인증",
     "bearerToken": "Bearer 토큰",
+    "authentication": "인증",
     "apiKeyAddTo": "추가 위치",
     "apiKey": "API 키",
     "header": "헤더",
@@ -255,12 +255,6 @@
     "defaultValue": "기본값",
     "defaultValueOptional": "기본값(선택사항)",
     "parameters": "매개변수",
-    "showPasswordTooltip": "비밀번호 표시",
-    "hidePasswordTooltip": "비밀번호 숨기기",
-    "showAPIKeyTooltip": "API 키 표시",
-    "hideAPIKeyTooltip": "API 키 숨기기",
-    "showBeaererTokenTooltip": "베어러 토큰 표시",
-    "hideBeaererTokenTooltip": "베어러 토큰 숨기기",
     "secretKey": "시크릿 키",
     "secretPath": "보안 경로",
     "secretKeyOptional": "시크릿 키 (선택사항)",
@@ -329,8 +323,6 @@
     "status": "상태",
     "startTime": "시작 시간",
     "endTime": "종료 시간",
-    "property": "특성",
-    "value": "값",
     "actionInstanceId": "조치 인스턴스 ID",
     "event": "이벤트",
     "eventName": "이벤트 이름",
@@ -373,11 +365,13 @@
     "output": "출력",
     "user": "사용자",
     "apiToken": "API 토큰",
-    "deleteTooltip": "조치 인스턴스 {{id}} 삭제",
+    "viewTooltip": "조치 인스턴스 {{actionName}} 보기",
+    "deleteTooltip": "조치 인스턴스 {{actionName}} 삭제",
     "deleteDialog": {
       "success": "조치 인스턴스가 삭제되었습니다.",
       "failure": "조치 인스턴스를 삭제하는 데 실패했습니다."
-    }
+    },
+    "actionSnapshotDetails": "조치 스냅샷 세부사항"
   },
   "actionLanes": {
     "buttonInvestigate": "조사"
@@ -478,8 +472,8 @@
     "showTasks": "표시"
   },
   "deleteDialog": {
-    "pleaseConfirm": "확인하십시오.",
-    "pleaseConfirmMsg": "<strong>{{name}}</strong>을(를) 삭제하시겠습니까?",
+    "confirmRemove": "확인하십시오.",
+    "confirmRemoveMsg": "<strong>{{name}}</strong>을(를) 삭제하시겠습니까?",
     "delete": "삭제"
   },
   "turboActionCategories": {
@@ -512,5 +506,12 @@
     "actionName": "조치 이름",
     "recommendedActionHistoryWithCount": "리소스 조치 히스토리({{count}}개)",
     "recommendedActionHistory": "리소스 조치 히스토리"
+  },
+  "feedback": {
+    "contentHelpfulText": "이 생성된 컨텐츠가 도움이 되었습니까?",
+    "thankYouForYourFeedback": "의견을 주셔서 감사합니다!",
+    "submitFeedback": "피드백 제출",
+    "additionalFeedbacklabel": "추가 피드백 제공(선택사항)",
+    "additionalFeedbackPlaceholder": "답변이 마음에 들지 않았던 이유는 무엇입니까? 개선할 수 있는 항목"
   }
 }

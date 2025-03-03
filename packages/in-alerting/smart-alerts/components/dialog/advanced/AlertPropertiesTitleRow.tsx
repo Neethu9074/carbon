@@ -29,13 +29,15 @@ export interface AlertPropertiesTitleRowProps {
   getTitlePlaceholder: (form: MapForm<any>) => string;
   placeholders: ReadonlyArray<Readonly<Placeholder>>;
   placeholderTooltipContent?: string | undefined;
+  titlePlaceholder?: string;
 }
 export default function AlertPropertiesTitleRow({
   form,
   onChange,
   getTitlePlaceholder,
   placeholders,
-  placeholderTooltipContent
+  placeholderTooltipContent,
+  titlePlaceholder
 }: AlertPropertiesTitleRowProps) {
   const titleTextareaRef = useRef(null);
   return (
@@ -89,7 +91,7 @@ export default function AlertPropertiesTitleRow({
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
             onChange(['name'], field => (field as Field<string>).setValue(e.target.value || '').setTouched(true));
           }}
-          placeholder={getTitlePlaceholder(form)}
+          placeholder={titlePlaceholder ?? getTitlePlaceholder(form)}
           formField={form.get('name')}
         />
       </Stack>

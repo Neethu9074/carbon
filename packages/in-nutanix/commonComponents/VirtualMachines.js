@@ -7,8 +7,6 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { TableEntityCounter } from '@instana/legacy';
-
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -64,14 +62,14 @@ const columnDefinitions = [
     label: t('in-nutanix:dashboards.noOfCpus'),
     sortable: true,
     getContent(item) {
-      return <TableEntityCounter count={item.noOfCpus} />;
+      return item.noOfCpus;
     }
   },
   {
     id: 'noOfCores',
     label: t('in-nutanix:dashboards.noOfCores'),
     getContent(item) {
-      return <TableEntityCounter count={item.noOfCores} />;
+      return item.noOfCores;
     }
   },
   {

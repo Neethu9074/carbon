@@ -15,7 +15,6 @@ import {
   RunConfiguration,
   ActionConfiguration,
   SyntheticAlertConfigWithMetadata,
-  LogAlertConfigWithMetadata,
   ServiceLevelsAlertConfigWithMetadata,
   Result
 } from '@instana/types';
@@ -27,6 +26,7 @@ import {
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 
 export type ScoredAction = Action & {
   score: number;
@@ -111,7 +111,7 @@ export type TriggerSpecification =
   | MobileAppSmartAlertConfigWithMetadata
   | InfraSmartAlertConfigWithMetadata
   | SyntheticAlertConfigWithMetadata
-  | LogAlertConfigWithMetadata
+  | LogSmartAlertConfigWithMetadata
   | ServiceLevelsAlertConfigWithMetadata;
 
 export const isEventSpecification = (item?: TriggerSpecification): item is EventSpecificationInfo =>
@@ -148,7 +148,7 @@ export type Triggers = {
   globalApplicationSmartAlert: Result<GlobalApplicationsSmartAlertConfigWithMetadata[]>;
   mobileAppSmartAlert: Result<MobileAppSmartAlertConfigWithMetadata[]>;
   infraSmartAlert: Result<InfraSmartAlertConfigWithMetadata[]>;
-  logSmartAlert: Result<LogAlertConfigWithMetadata[]>;
+  logSmartAlert: Result<LogSmartAlertConfigWithMetadata[]>;
   syntheticsSmartAlert: Result<SyntheticAlertConfigWithMetadata[]>;
   sloSmartAlert: Result<ServiceLevelsAlertConfigWithMetadata[]>;
 };

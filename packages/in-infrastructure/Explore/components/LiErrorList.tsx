@@ -7,10 +7,10 @@
 import React from 'react';
 
 import { Li, Message } from '@instana/components';
-import { t } from '@instana/i18n-react';
 import { Error } from '@instana/types';
 
 import { isTechnicalError } from 'in-services/util/error';
+import { t } from 'in-i18n';
 
 interface Props {
   errors: Error[];

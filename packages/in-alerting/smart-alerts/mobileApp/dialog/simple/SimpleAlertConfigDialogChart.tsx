@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 import { MapForm } from 'formalistic';
@@ -17,6 +17,7 @@ import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import toAlertConfigWithRules from 'in-alerting/smart-alerts/eum/utils/thresholdChartUtil';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
@@ -35,14 +36,14 @@ export default function SimpleAlertConfigDialogChart({
   selectedChartViewConfigIndex,
   thresholdResult
 }: SimpleAlertConfigDialogChartProps) {
-  const alertConfigWithFormModel = form.toJS();
+  const alertConfigWithFormModel = toAlertConfigWithRules(form);
   const alertType = (alertConfigWithFormModel as unknown as MobileAppSmartAlertConfigWithMetadata).rule.alertType;
   const blueprintConfig = getBlueprintConfig(alertType);
   const isRuleComplete = blueprintConfig.isRuleComplete(
     (alertConfigWithFormModel as unknown as MobileAppSmartAlertConfigWithMetadata).rule
   );
   const chartViewConfigs = defaultChartViewConfigs;
-  const thresholdType = form.get('threshold').get('type').value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
 
   return (
     <Stack>

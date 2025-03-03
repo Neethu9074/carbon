@@ -8,13 +8,16 @@ export { default as Form } from 'in-custom-dashboards/widgets/SloLegacy/FormComp
 export { default as Widget } from 'in-custom-dashboards/widgets/SloLegacy/SloWidgetPresenter';
 export { createForm } from 'in-custom-dashboards/widgets/SloLegacy/form';
 
+import { sloLiteEnabled, sloFullEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export const type = 'slo';
-export const label = t('in-custom-dashboards:widgets.slo.sloLegacy');
+export const label = sloFullEnabled
+  ? t('in-custom-dashboards:widgets.slo.sloLegacy')
+  : t('in-custom-dashboards:widgets.slo.sloLite');
 export const minimumWidth = 6;
 export const minimumHeight = 18;
-export const enabled = true;
+export const enabled = sloLiteEnabled || sloFullEnabled;
 export const trackViews = true;
 
 // For the future we would like to have this value calculated from the minimumHeight of the

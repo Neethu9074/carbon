@@ -21,7 +21,7 @@ export default function CustomDashboards() {
   const widgetProps = getWidget('dashboardWidget');
   const dashboardTileProps = {
     ...widgetProps,
-    header: widgetProps?.label ?? '',
+    header: '',
     icon: ''
   };
 

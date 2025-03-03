@@ -6,27 +6,28 @@
 
 // @ts-expect-error
 import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
-import { TrashCan } from '@carbon/icons-react';
+import { TrashCan, UserAvatar } from '@carbon/icons-react';
 import React from 'react';
 
+import { DateFormatterOutput } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
 import { Spacer } from '@instana/components';
 import { Result } from '@instana/types';
 
+import CarbonDataTableWrapper, {
+  DataTableRow,
+  Notification
+} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import CarbonDataTableWrapper, {
-  DataTableRow
-} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+import { getPendingInvitationsAsObservable, PendingInvitation, revokeInvitation } from 'in-api/users';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import { getPendingInvitations, PendingInvitation, revokeInvitation } from 'in-api/users';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { hasError, isLoading } from 'in-services/util/result';
 import { formatDateTime } from 'in-services/formatters/date';
 import { USER_INVITE } from 'in-services/tracking/tracking';
 import { pendingResult } from 'in-services/fixedObjects';
-import UserIcon from 'in-components/UserIcon/UserIcon';
-import { isLoading } from 'in-services/util/result';
 import { config } from 'in-services/config';
 import { t, Trans } from 'in-i18n';
 
@@ -49,17 +50,30 @@ const headers = [
   }
 ];
 
+interface FormattedInvitation extends Omit<PendingInvitation, 'expireAt' | 'groupId'> {
+  expireAt: DateFormatterOutput;
+}
+
 const tableActions = {
   delete: {
-    deleteEntity: ({ email }: PendingInvitation) => revokeInvitation(email)
+    deleteEntity: ({ email }: FormattedInvitation) => revokeInvitation(email)
   }
 };
 
-const getEntityName = (entity: PendingInvitation) => {
-  return t('in-settings:tabs.groupEntityName', { entityName: entity.email });
+const getEntityName = (entity: FormattedInvitation) => {
+  return t('in-settings:tabs.inviteWithEmail', { email: entity.email });
 };
 
-const customDialogMessage = ({ email }: PendingInvitation) => {
+interface RowObject<ROW_DATA> {
+  email: JSX.Element;
+  expireAt: DateFormatterOutput;
+  groupName: string;
+  id: string;
+  invitedBy: string;
+  rowData: ROW_DATA;
+}
+
+const customDialogMessage = ({ email }: FormattedInvitation) => {
   return (
     <span>
       <Trans
@@ -77,14 +91,23 @@ const InvitesV2 = () => {
   const { trackCta } = useSegmentTracking();
 
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
-  const dataTableResult = useObservable(getPendingInvitations, []) ?? pendingResult;
-  const loading = isLoading(dataTableResult as Result<PendingInvitation>);
-  const entities = !loading ? (dataTableResult as PendingInvitation[]) : [];
+  const dataTableResult = useObservable(getPendingInvitationsAsObservable, []) ?? pendingResult;
+  const loading = isLoading(dataTableResult as Result<PendingInvitation[]>);
+  const hasErrors = hasError(dataTableResult as Readonly<Result<any>>);
+  const errorMessage = hasErrors
+    ? ({
+        title: t('in-settings:components.errorFailedToLoadData'),
+        subtitle: (dataTableResult as Readonly<Result<PendingInvitation[]>>).errors[0].message,
+        kind: 'error'
+      } as Notification)
+    : null;
+  const entities = !loading && !hasErrors ? (dataTableResult as PendingInvitation[]) : [];
   const pageSizes = [20, 50];
-  const rows = entities?.map((invite: PendingInvitation) => ({
+
+  const rows: Array<RowObject<FormattedInvitation>> = entities?.map((invite: PendingInvitation) => ({
     email: (
       <HorizontalFlexWrapper>
-        <UserIcon size="xs" />
+        <UserAvatar />
         <Spacer horizontal="xsmall" />
         {invite.email}
       </HorizontalFlexWrapper>
@@ -102,7 +125,7 @@ const InvitesV2 = () => {
     }
   }));
 
-  const getMenuItems = (row: DataTableRow<any[]>) => {
+  const getMenuItems = (row: Omit<DataTableRow<RowObject<FormattedInvitation>[], FormattedInvitation>, 'rowData'>) => {
     const invite = entities.filter(item => item.id === row.id)[0];
     const { email } = invite;
     return [
@@ -133,9 +156,10 @@ const InvitesV2 = () => {
       pageSizes={pageSizes}
       enableMultSelect={false}
       getEntityName={getEntityName}
-      customDialogMessage={(entity: PendingInvitation) => customDialogMessage(entity)}
+      customDialogMessage={entity => customDialogMessage(entity)}
       customDialogConfirmLabel={t('in-settings:tabs.revoke')}
       tableActions={tableActions}
+      message={errorMessage}
     />
   );
 };

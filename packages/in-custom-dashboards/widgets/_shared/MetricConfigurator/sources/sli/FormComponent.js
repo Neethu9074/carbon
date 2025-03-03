@@ -19,9 +19,11 @@ import InputInSection from 'in-components/form/Input/InputInSection';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { indeterminateProgress } from 'in-services/fixedObjects';
+import { noResultObservable } from 'in-services/util/result';
 import HelpAction from 'in-components/workspace/HelpAction';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { percentage } from 'in-services/formatters/number';
+import { sloFullEnabled } from 'in-services/featureFlags';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Overlay from 'in-components/overlays/Overlay';
@@ -43,7 +45,7 @@ export default function FormComponent({
   const { data: applicationConfigs = [], progress: applicationsProgress = indeterminateProgress } =
     useObservable(() => getApplicationConfigsAsResultObservable(), []) ?? {};
   const { data: websiteConfigs = [], progress: websitesProgress = indeterminateProgress } =
-    useObservable(() => getWebsiteConfigsAsResultObservable(), []) ?? {};
+    useObservable(() => (sloFullEnabled ? getWebsiteConfigsAsResultObservable() : noResultObservable()), []) ?? {};
   const metric = form.get('metric').value;
   const showSlo = metric && metric !== 'SLI';
 
@@ -185,6 +187,7 @@ function getDropdownOptions(entityConfigs, sliConfigs) {
     const entityType = getEntityType(sliEntity.sliType);
     const entityId = sliEntity[`${entityType}Id`];
 
+    if (entityType === 'website' && !sloFullEnabled) return;
     if (!(entityId in categories)) {
       const label = findEntityLabel(entityConfigs, entityId, entityType);
       categories[entityId] = {

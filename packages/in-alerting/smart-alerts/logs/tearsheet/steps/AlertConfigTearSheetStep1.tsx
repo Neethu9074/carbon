@@ -12,6 +12,7 @@ import { Select } from '@instana/components';
 import { TimeConfig } from '@instana/types';
 
 import { ScopeWrapper, SectionWrapper } from 'in-alerting/smart-alerts/components/tearSheet/CustomWrappers/Wrapper';
+import { ThresholdChart } from 'in-alerting/smart-alerts/logs/tearsheet/components/ThresholdChart';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import ScopeFilter from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeFilter';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
@@ -25,13 +26,17 @@ interface AlertConfigTearSheetStep1Props {
   updateForm: ((form: MapForm<any>, setForm?: (form: MapForm<any>) => void) => void) | ((form: MapForm<any>) => void);
   setTagFilterValid: Dispatch<SetStateAction<boolean>>;
   timeConfig?: TimeConfig;
+  onChartViewConfigChange?: (arg: number) => void;
+  selectedChartViewConfigIndex?: number;
 }
 
 export default function AlertConfigTearSheetStep1({
   form,
   updateForm,
   timeConfig,
-  setTagFilterValid
+  setTagFilterValid,
+  onChartViewConfigChange,
+  selectedChartViewConfigIndex
 }: AlertConfigTearSheetStep1Props) {
   const tagCatalog = useTagCatalog('SMART_ALERTS');
   return (
@@ -81,6 +86,11 @@ export default function AlertConfigTearSheetStep1({
           </ScopeWrapper>
         </Stack>
       </TearSheetStepTitleWrapper>
+      <ThresholdChart
+        form={form}
+        onChartViewConfigChange={onChartViewConfigChange}
+        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+      />
     </>
   );
 }

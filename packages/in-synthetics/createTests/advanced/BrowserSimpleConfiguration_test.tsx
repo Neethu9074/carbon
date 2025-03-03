@@ -10,6 +10,7 @@ import React from 'react';
 
 import { createAdvancedWebpageActionConfigurationForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import BrowserSimpleConfiguration from 'in-synthetics/createTests/advanced/BrowserSimpleConfiguration';
+import { t } from 'in-i18n';
 
 describe('BrowserSimpleConfiguration', () => {
   const form = createMapForm().put('configuration', createAdvancedWebpageActionConfigurationForm());
@@ -30,6 +31,7 @@ describe('BrowserSimpleConfiguration', () => {
     expect(screen.getByText('Timeout')).toBeInTheDocument();
     expect(screen.getByText('Retry Strategy')).toBeInTheDocument();
     expect(screen.getByText('Mark Synthetic Call')).toBeInTheDocument();
+    expect(screen.getByText(t('in-synthetics:dashboard.configuration.recordVideo'))).toBeInTheDocument();
   });
 
   it('Renders all new fields with their default values', () => {
@@ -44,7 +46,7 @@ describe('BrowserSimpleConfiguration', () => {
 
     const inputElements = container.getElementsByTagName('input');
 
-    expect(inputElements.length).toBe(9);
+    expect(inputElements.length).toBe(10);
 
     // Webpage URL
     expect(inputElements[0]).toHaveValue('');
@@ -61,5 +63,10 @@ describe('BrowserSimpleConfiguration', () => {
 
     // Mark Synthetic Call
     expect((screen.getByLabelText('Mark Synthetic Call') as HTMLInputElement).checked).toBe(true);
+
+    // Record video of user actions
+    expect(
+      (screen.getByLabelText(t('in-synthetics:dashboard.configuration.recordVideo')) as HTMLInputElement).checked
+    ).toBe(false);
   });
 });

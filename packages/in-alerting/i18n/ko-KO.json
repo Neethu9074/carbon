@@ -31,6 +31,7 @@
     "optional": "선택적",
     "on": "On",
     "off": "해제",
+    "options": "옵션",
     "revisionDropdownButton": {
       "revision": "개정 {{alertRevision}}",
       "pause": "일시정지",
@@ -238,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "확인하시기 바랍니다.",
+            "confirmRemove": "확인하시기 바랍니다.",
             "description": "경계 범위를 수정하면 애플리케이션 선택사항이 재설정됩니다.",
             "confirmButtonLabel": "확인"
           }
@@ -259,7 +260,7 @@
           "includeInternalCalls": "내부 호출 포함",
           "includeSyntheticCalls": "합성 호출 포함",
           "confirmationDialog": {
-            "pleaseConfirm": "확인하십시오.",
+            "confirmRemove": "확인하십시오.",
             "description": "\"{{callType}}\"을(를) 선택 취소하면 애플리케이션 선택사항이 재설정됩니다.",
             "confirmButtonLabel": "확인"
           }
@@ -788,6 +789,8 @@
         "cancelTitle": "취소",
         "proceedTitle": "계속",
         "previousTitle": "이전",
+        "nextTitle": "다음",
+        "closeTitle": "닫기",
         "sharedListTooltip": "{{typeName}}을(를) 더 이상 사용할 수 없음",
         "clearTagFilterExpressionButton": "지우기",
         "baselineErrorMessageComputedOnApproximateData": "기준선은 데이터 보존 설정으로 인해 대략적인 데이터를 기반으로 계산됩니다. 따라서 선택한 필터와 일치하는 호출이 거의 없는 경우 정확하지 않을 수 있습니다.",
@@ -869,6 +872,7 @@
         "timeThresholdConfigImpactEvaluationMethod": "사용자 영향 평가 방법",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "모든 평가 창에서 집계",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "각 평가 창에 대한 계산",
+        "timeThresholdConfigImpactEvaluationMethodSelect": "옵션 선택",
         "timeThresholdConfigNumberOfViolations": "메트릭 위반 수",
         "timeThresholdConfigEvaluationGranularity": "평가 단위",
         "granularityTooltipText": "여기에 설정된 시간 단위는 임계값이 평가되는 빈도를 판별합니다.",
@@ -985,7 +989,15 @@
         "labelConfirmRemoveConfig": "<strong>{{configName}}</strong> 경보를 제거하시겠습니까?",
         "labelRemove": "제거"
       },
+      "gracePeriod": {
+        "title": "유예 기간(선택사항)",
+        "description": "위반 임계값이 더 이상 충족되지 않으면 자동으로 문제를 닫음:",
+        "label": "선택",
+        "summary": "위반 임계값이 <strong>{{gracePeriodValue}} 동안</strong> 더 이상 충족되지 않으면 자동으로 문제를 닫습니다."
+      },
       "tearSheet": {
+        "cancelModalTitle": "취소하시겠습니까?",
+        "cancelModalDescription": "취소하면 입력한 구성 세부사항이 저장되지 않습니다.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "시간이 지나도 위반이 지속되는 경우",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "위반이 무작위 간격으로 지속됨",
@@ -1001,8 +1013,7 @@
           "persistenceType": "지속 유형",
           "numberOfConsecutiveViolationsPostLabel": "연속된 {{granularity}}분 창에 위반 사항이 있음",
           "static": "정적",
-          "thresholdValue": "임계값",
-          "timeWindow": "기간"
+          "thresholdValue": "임계값"
         }
       }
     },
@@ -1248,11 +1259,32 @@
         "alertConfigurationTitleAlertChannels": "경보 채널",
         "alertConfigurationTitleAlertProperties": "경보 특성",
         "failureThreshold": "{{failureCount}}개 실패",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "유예 기간",
         "alertConfigurationTitleScope": "범위",
         "noOfFailure": "실패 횟수",
         "timeThreshold": "시간 임계값",
         "alertingType": "경보 유형",
         "noScopeConfigured": "구성된 범위 필터 없음"
+      },
+      "tearSheet": {
+        "createTitle": "종합 스마트 경보 작성",
+        "scopeFilter": {
+          "filter": "필터",
+          "filterDescription": "종합 테스트에 필터를 추가하면 더욱 정확한 경보를 받을 수 있습니다."
+        },
+        "steps": {
+          "step1Title": "종합 테스트를 선택하십시오.",
+          "step2Title": "알림을 받을 시점을 정의하십시오."
+        },
+        "step1": {
+          "header": "경보를 받을 합성 테스트는 무엇입니까?",
+          "description": "각 종합 테스트에 대해 위치별로 개별 경보가 독립적으로 전송됩니다."
+        },
+        "step2": {
+          "sliderHeader": "위반이 경보를 트리거할 때 설정",
+          "sliderDescription": "경보하기 전에 위치당 몇 번의 연속 실패가 발생해야 하는 지 지정하십시오."
+        }
       }
     },
     "mobileApp": {
@@ -1520,6 +1552,7 @@
       "regexNotValid": "Regex가 올바르지 않습니다.",
       "tearSheet": {
         "createTitle": "인프라 스마트 알림 작성",
+        "editTitle": "인프라 스마트 알림 편집",
         "steps": {
           "step1Title": "조건 정의",
           "step2Title": "경보를 받을 시기 정의",
@@ -1537,7 +1570,7 @@
           "header": "이 경보에 대해 어떤 특성을 설정하시겠습니까?"
         },
         "step4": {
-          "header": "이 경보에 대해 어떤 알림을 받고 싶으십니까?",
+          "header": "이 경보에 대한 알림을 어디에서 받으시겠습니까?",
           "description": "이 경보를 받을 수신자 선택"
         },
         "scopeAlerting": {
@@ -1647,14 +1680,57 @@
         "customPayloads": {
           "label": "페이로드",
           "title": "사용자 정의 페이로드"
-        },
-        "thresholdValue": "임계값"
+        }
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "0 이상인 수를 제공하십시오.",
+        "selectAtLeastOneThreshold": "임계값 중 하나 이상의 값을 입력하십시오.",
         "noDataForSelectedGroup": "지정된 필터 및 그룹화 조합에 사용 가능한 데이터가 없습니다."
       },
-      "logCount": "로그 개수"
+      "logCount": "로그 개수",
+      "tearSheet": {
+        "labelActionButtonEdit": "편집",
+        "labelActionButtonDuplicate": "중복",
+        "createTitle": "로그 스마트 경보 작성",
+        "editTitle": "로그 스마트 알림 편집",
+        "steps": {
+          "step1Title": "조건 정의",
+          "step2Title": "경보를 받을 시기 정의",
+          "step3Title": "경보 특성 정의",
+          "step4Title": "경보 채널 정의"
+        },
+        "step2": {
+          "header": "위반 임계값에 대한 값 설정",
+          "description": "위반을 평가할 지표, 위반 임계값 및 기간을 선택하십시오."
+        },
+        "step3": {
+          "header": "이 경보에 대해 어떤 특성을 설정하시겠습니까?"
+        },
+        "step4": {
+          "header": "이 경보에 대한 알림을 어디에서 받으시겠습니까?",
+          "description": "이 경보를 받을 수신자 선택"
+        },
+        "scopeFilter": {
+          "title": "로그의 범위 선택",
+          "filter": "필터",
+          "filterDescription": "메시지 컨텐츠, 로그 또는 둘 다에 필터를 추가하여 보다 정확한 알림을 받으십시오."
+        },
+        "granularity": {
+          "description": "로그는 {{granularity}}분 단위로 평가되고, 해당 기간에 대한 메트릭 값이 계산됩니다"
+        },
+        "scopeGroupBy": {
+          "group": "그룹",
+          "groupByDescription": "로그에 그룹화를 추가하십시오. 그룹 내의 각 항목은 전체적으로 구성되지만 개별적으로 평가됩니다."
+        },
+        "timeThreshold": {
+          "title": "위반이 경보를 트리거할 때 설정",
+          "description": "경보 트리거의 시간 경과에 따른 지속성 및 실패까지의 시간을 지정합니다."
+        },
+        "thresholdDescription": {
+          "static": "상수 임계값이 적용되며 시간이 지나도 변경되지 않습니다."
+        },
+        "chartAlertPreview": "경보 미리보기",
+        "chartAlertPreviewDescription": "히스토리 메트릭 데이터를 기반으로 경보가 트리거된 방법을 표시합니다."
+      }
     },
     "slo": {
       "components": {
@@ -1696,7 +1772,7 @@
         "blueprintDescription_BURN_RATE": "소모율은 SLO의 목표 길이에 비해 오류 예산이 얼마나 빨리 소모되는지를 나타내는 값입니다.",
         "burnRateShortWindowTitle": "짧은 경보 창",
         "burnRateShortWindowDescription": "이러한 경보는 오류율이 짧은 기간 동안 임계값을 더 빨리 초과할 때 트리거됩니다. 이렇게 하면 심각한 버그로 인한 갑작스러운 오류 급증이나 다운타임을 포착하는 데 도움이 됩니다.",
-        "burnRateDescription": "소모율이 <1/> <2/>인 경우 알림을 받습니다.",
+        "burnRateDescription": "소진율이 <1/> <2/>일 때 알림",
         "burnRateLongWindowTitle": "긴 경보 창",
         "burnRateLongWindowDescription": "이러한 경보는 오류율이 장기간에 걸쳐 임계값을 초과할 때 트리거됩니다. 이를 통해 시간이 지남에 따라 누적되는 문제를 파악하여 해결하지 않으면 향후 문제를 일으킬 수 있는 문제를 파악할 수 있습니다.",
         "burnRateShortWindowLongerThanLongWindowError": "짧은 창은 긴 창을 초과할 수 없습니다. 두 값 중 하나를 조정하십시오.",
@@ -1777,6 +1853,7 @@
     "warningAndCritical": "경고 및 심각",
     "warning": "경고",
     "critical": "Critical",
-    "searchPlaceholder": "검색"
+    "searchPlaceholder": "검색",
+    "sortBy": "정렬 기준"
   }
 }

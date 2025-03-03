@@ -7,9 +7,10 @@
 import React, { ReactNode } from 'react';
 import { find } from 'lodash';
 
+import { InfraMetricConfiguration, MetricResult, Result, TagFilter, TimeConfig } from '@instana/types';
+
 import MultiMetricKpiCard, { KpiCardIconAction } from 'in-kubernetes/components/MultiMetricKpiCard';
 import MultiMetricResultAwareKpiCard from 'in-kubernetes/components/MultiMetricResultAwareKpiCard';
-import { InfraMetricConfiguration, MetricResult, Result, TagFilter, TimeConfig } from 'in-types';
 import { getTimeShiftLabel, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import Badge from 'in-custom-dashboards/widgets/BigNumber/Badge';

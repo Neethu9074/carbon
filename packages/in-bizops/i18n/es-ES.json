@@ -6,8 +6,12 @@
     "count": "Count"
   },
   "lists": {
+    "id": "ID",
+    "version": "Versión",
     "pageTitle": "Supervisión de negocio",
     "cardTitle": "Procesos de negocio",
+    "theId": "El ID del proceso",
+    "hasBeenCopied": "se ha copiado correctamente en el portapapeles",
     "activityLabel": "Actividades",
     "nameLabel": "Nombre",
     "countLabel": "Count",

@@ -23,4 +23,11 @@
   a.eventButtonWrapper {
     text-decoration: none;
   }
+  .noDataTile {
+    width: 100%;
+    padding: 2.5rem 2rem 2.5rem;
+    :global(.c4p--empty-state__content) {
+      width: 15.5rem;
+    }
+  }
 }

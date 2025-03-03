@@ -110,8 +110,8 @@ export default connectTo(() => ({
       key: 'title',
       getContent({ item }) {
         return (
-          <Tooltip content={item.title} align="auto" caret={false} delay={300}>
-            <Link href={onItemClicked(item.id)}>{item.title}</Link>
+          <Tooltip content={item?.title ?? ''} align="auto" caret={false} delay={300}>
+            <Link href={onItemClicked(item?.id)}>{item?.title ?? ''}</Link>
           </Tooltip>
         );
       }
@@ -119,13 +119,13 @@ export default connectTo(() => ({
     {
       key: 'on',
       getContent({ item }) {
-        return <TypographyWithTooltip content={item.entityLabel} />;
+        return <TypographyWithTooltip content={item?.entityLabel ?? ''} />;
       }
     },
     {
       key: 'started',
       getContent({ item }) {
-        return <TypographyWithTooltip content={formatDisplayDateTime(item.start) as string} />;
+        return <TypographyWithTooltip content={formatDisplayDateTime(item?.start) as string} />;
       }
     },
     {
@@ -137,7 +137,7 @@ export default connectTo(() => ({
     {
       key: 'health',
       getContent({ item }) {
-        return <HealthIcon severity={item.severity} iconSize="xs" />;
+        return <HealthIcon severity={item?.severity} iconSize="xs" />;
       }
     }
   ];

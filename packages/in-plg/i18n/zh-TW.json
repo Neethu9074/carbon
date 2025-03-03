@@ -1,5 +1,6 @@
 {
   "welcomeToInstana": "歡迎使用 Instana！",
+  "home": "首頁",
   "getStartedAndInstallYourFirstAgent": "開始並安裝您的第一個代理程式。",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "您的試用已過期",
@@ -73,14 +74,6 @@
       "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
     },
-    "askForHelp": {
-      "email": "電子郵件",
-      "send": "傳送",
-      "askForHelpTitle": "尋求同事協助",
-      "thisWillBeAvailableOnceYourInstanceIsReady": "一旦您的實例備妥即可使用。",
-      "inviteAColeague": "邀請同事",
-      "agentKey": "代理程式金鑰"
-    },
     "common": {
       "agentDeployment": "代理程式部署",
       "step1": "步驟 1： ",
@@ -108,8 +101,7 @@
       "support": "支援",
       "sideCard": {
         "prerequisites": "必要條件",
-        "documentation": "文件",
-        "askAColleagueForHelp": "尋求同事協助"
+        "documentation": "文件"
       }
     },
     "kubernetes": {
@@ -524,8 +516,8 @@
     "heading": "歡迎使用 Instana",
     "foldableTileTitle": "我們開始吧。",
     "viewAll": "檢視全部",
-    "UrlShortener": "URL 縮短程式",
     "addMore": "新增",
+    "create": "建立",
     "collapsibleButton": {
       "showOnboardingTasks": "顯示上線作業",
       "hideOnboardingTasks": "隱藏上線作業"
@@ -569,6 +561,10 @@
       "title": "納入您的團隊",
       "description": "邀請您的同事加入 Instana 並開始分工合作。",
       "buttonName": "邀請您的隊友"
+    },
+    "favouriteButton": {
+      "ariaFilled": "移除我的最愛",
+      "aria": "新增至我的最愛"
     },
     "component": {
       "applicationWidget": {
@@ -716,25 +712,22 @@
     "noData": {
       "applicationWidget": {
         "header": "沒有應用程式",
-        "description": "針對您想要觀察的服務，建立自己的應用程式視景。",
-        "buttonName": "建立應用程式視景"
+        "description": "對您想要觀察的服務建立您專屬的應用程式視景。<br><br>若要開始，請按一下<strong>新增應用程式</strong>。"
       },
       "incidentsWidget": {
         "header": "無記事",
-        "description": "發生事件可協助您偵測、瞭解及調查應用程式的服務品質問題。"
+        "description": "事件可協助您偵測、瞭解及調查應用程式中的問題。<br><br><strong>部署代理程式</strong>，以開始監視事件。"
       },
       "websitesWidget": {
         "header": "無網站",
-        "description": "收集網站資料以了解您的使用者的數位體驗。",
-        "buttonName": "新增網站"
+        "description": "收集網站資料以瞭解使用者的數位體驗。<br><br>若要開始，請按一下<strong>新增網站</strong>。"
       },
       "mobileListWidget": {
         "header": "無行動式應用程式",
-        "description": "收集行動式應用程式資料以了解您的使用者的數位體驗。",
-        "buttonName": "新增行動式應用程式"
+        "description": "收集行動式應用程式資料，以瞭解使用者的數位體驗。<br><br>若要開始使用，請按一下<strong>新增行動式應用程式</strong>。"
       },
       "infrastructureWidget": {
-        "description": "部署代理程式以在此處查看詳細資料。<br>開始使用<linkToAgents>代理程式</linkToAgents>頁面。",
+        "description": "部署一個代理程式，在此處查看詳細資料。<br><br>從<linkToAgents>代理程式</linkToAgents>頁面開始。",
         "link": "代理程式",
         "hosts": {
           "header": "無主機"
@@ -757,8 +750,7 @@
       "syntheticWidget": {
         "test": {
           "header": "無綜合測試",
-          "description": "配置綜合測試來以特定的連續間隔執行。",
-          "buttonName": "新增綜合測試"
+          "description": "配置綜合測試，以連續間隔地監視應用程式。<br><br>若要開始，請按一下<strong>新增綜合測試</strong>。"
         },
         "location": {
           "header": "沒有綜合位置",
@@ -766,18 +758,16 @@
         },
         "smartalerts": {
           "header": "沒有綜合智慧型警示",
-          "description": "為綜合測試配置智慧型警示，以便在某個位置的測試失敗時傳送警示。",
-          "buttonName": "新增綜合智慧型警示"
+          "description": "配置綜合的智慧型警示，當某個位置的測試失敗時傳送警示。<br><br>若要開始，請按一下<strong>新增綜合智慧型警示</strong>。"
         }
       },
       "eventsWidget": {
         "header": "無事件",
-        "description": "可能沒有可顯示的事件或發生事件，或者您可能需要先設定資料。"
+        "description": "可能沒有任何事件或事故要顯示，或者您可能需要先連線到資料。"
       },
       "dashboardWidget": {
         "header": "無自訂儀表板",
-        "description": "建立您自己的自訂儀表板。",
-        "buttonName": "建立自訂儀表板"
+        "description": "自訂儀表板可提供更符合您需求的資訊視圖。<br><br>若要開始，請按一下<strong>建立儀表板</strong>。"
       }
     },
     "quickLinks": {
@@ -794,12 +784,16 @@
         "documentation": "IBM 說明文件",
         "releaseNotes": "版本注意事項",
         "whatsNewLink": "Instana 的新增功能"
+      },
+      "toolTip": {
+        "makeDefault": "此動作會將 Instana 首頁設定為預設登陸頁面，取代您設定的任何自訂儀表板。"
       }
     },
     "ariaLabel": {
       "search": "搜尋",
-      "shareButton": "共用按鈕",
-      "handleButton": "控點按鈕"
+      "handleButton": "控點按鈕",
+      "toolbar": "資料表工具列",
+      "tabs": "標籤清單"
     }
   },
   "Components": {

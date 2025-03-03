@@ -983,6 +983,11 @@
   "pluginName_ibmDataPowerQueueManager_1": "Gestores de colas de IBM DataPower",
   "pluginName_ibmDataPowerQueueManager_2": "Gestores de colas de IBM DataPower",
   "pluginName_ibmDataPowerQueueManager": "Gestor de colas de IBM DataPower",
+  "pluginName_ibmDataPowerQueueManagerV9_plural": "Gestores de colas de IBM DataPower V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_0": "Gestores de colas de IBM DataPower V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_1": "Gestores de colas de IBM DataPower V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_2": "Gestores de colas de IBM DataPower V9+",
+  "pluginName_ibmDataPowerQueueManagerV9": "Gestor de colas de IBM DataPower V9+",
   "pluginName_ibmDataPowerService_plural": "Servicios de IBM DataPower",
   "pluginName_ibmDataPowerService_0": "Servicios de IBM DataPower",
   "pluginName_ibmDataPowerService_1": "Servicios de IBM DataPower",
@@ -1180,6 +1185,11 @@
   "pluginName_kongApigateway_1": "Kongs",
   "pluginName_kongApigateway_2": "Kongs",
   "pluginName_kongApigateway": "Kong",
+  "pluginName_kubeCostPlatform": "Kubecost",
+  "pluginName_kubeCostPlatform_plural": "Kubecosts",
+  "pluginName_kubeCostPlatform_0": "Kubecosts",
+  "pluginName_kubeCostPlatform_1": "Kubecosts",
+  "pluginName_kubeCostPlatform_2": "Kubecosts",
   "pluginName_kubernetesCluster_plural": "Clústeres de Kubernetes",
   "pluginName_kubernetesCluster_0": "Clústeres de Kubernetes",
   "pluginName_kubernetesCluster_1": "Clústeres de Kubernetes",
@@ -1844,6 +1854,16 @@
   "pluginName_websiteHttpd_0": "Sitios web",
   "pluginName_websiteHttpd_1": "Sitio web",
   "pluginName_websiteHttpd_2": "Sitios web",
+  "pluginName_nutanixHost_plural": "Hosts de Nutanix",
+  "pluginName_nutanixHost_0": "Hosts de Nutanix",
+  "pluginName_nutanixHost_1": "Hosts de Nutanix",
+  "pluginName_nutanixHost_2": "Hosts de Nutanix",
+  "pluginName_nutanixHost": "Host de Nutanix",
+  "pluginName_nutanixDatacenter_plural": "Centros de datos de Nutanix",
+  "pluginName_nutanixDatacenter_0": "Centros de datos de Nutanix",
+  "pluginName_nutanixDatacenter_1": "Centros de datos de Nutanix",
+  "pluginName_nutanixDatacenter_2": "Centros de datos de Nutanix",
+  "pluginName_nutanixDatacenter": "Centro de datos de Nutanix",
   "tracingTypeName_ace": "IBM ACE",
   "tracingTypeName_actioncontroller": "ActionController",
   "tracingTypeName_actioncontroller_plural": "Llamadas de ActionController",
@@ -3428,6 +3448,8 @@
       "state": "Estado",
       "queueManagersNumber": "Gestor de colas ({{count}})",
       "queueManagersNumber_plural": "Gestores de colas ({{count}})",
+      "queueManagersV9Number": "Gestor de colas V9+ ({{count}})",
+      "queueManagersV9Number_plural": "Gestores de colas V9+ ({{count}})",
       "serviceNumber": "Servicio ({{count}})",
       "serviceNumber_plural": "Servicios ({{count}})",
       "sqlDatasourceNumber": "Origen de datos SQL ({{count}})",
@@ -3468,6 +3490,12 @@
       "activeConnections": "Conexiones activas",
       "backendActiveConnections": "Conexiones activas de fondo",
       "frontendActiveConnections": "Conexiones activas en primer plano"
+    },
+    "ibmDataPowerQueueManagerV9": {
+      "ibmDataPowerQueueManagerV9Info": "Gestor de colas de IBM DataPower V9+",
+      "activeConversations": "Conversaciones activas",
+      "backendActiveConversations": "Conversaciones activas de programa de fondo",
+      "frontendActiveConversations": "Conversaciones activas de programa en primer plano"
     },
     "ibmDataPowerService": {
       "ibmDataPowerServiceInfo": "Servicio IBM DataPower",
@@ -3634,6 +3662,10 @@
       "directorySystemAgentLSA": "Autoridad de seguridad local",
       "directorySystemAgentNSPI": "Proveedor de servicio de nombres",
       "securityAccountManagerLabel": "Gestor de cuentas de seguridad",
+      "dhcpLabel": "Protocolo de configuración dinámica de hosts (DHCP)",
+      "dnsLablelDynamicUpdates": "Actualizaciones dinámicas del sistema de nombres de dominio (DNS)",
+      "dnsLablelQueriesAndResponses": "Consultas y respuestas del sistema de nombres de dominio (DNS)",
+      "dnsLablelZoneTransfers": "Transferencias de zona del sistema de nombres de dominio (DNS)",
       "directorySystemAgent": {
         "dsClientBindsPerSec": "Enlaces de clientes por segundo",
         "dsClientNameTranslationsPerSec": "Traducciones de nombres de clientes por segundo",
@@ -3678,7 +3710,7 @@
         "samDomainLocalGroupMembershipEvaluationsPerSec": "Evaluaciones de pertenencia a grupos locales de dominio por segundo",
         "samEnumerationsPerSec": "Enumeraciones por segundo",
         "samGCEvaluationsPerSec": "Evaluaciones de GC por segundo",
-        "samGlobalGroupMembershipEvaluationsPerSec": "Evaluaciones de pertenencia a grupos Glocal por segundo",
+        "samGlobalGroupMembershipEvaluationsPerSec": "Evaluaciones de pertenencia a grupos globales por segundo",
         "samMachineCreationAttemptsPerSec": "Intentos de creación de máquinas por segundo",
         "samMembershipChangesPerSec": "Cambios de pertenencia a grupo por segundo",
         "samNonTransitiveMembershipEvaluationsPerSec": "Evaluaciones de pertenencia a grupo no transitivas por segundo",
@@ -3689,6 +3721,30 @@
         "samTransitiveMembershipEvaluationsPerSec": "Evaluaciones de pertenencia a grupo transitiva por segundo",
         "samUniversalGroupMembershipEvaluationsPerSec": "Evaluaciones de pertenencia a grupo universales por segundo",
         "samUserCreationAttemptsPerSec": "Intentos de creación de usuarios por segundo"
+      },
+      "dhcp": {
+        "dhcpAcksPerSecondPercentageIncrease": "Porcentaje de aumento en reconocimientos por segundo",
+        "dhcpRequestSecondPercentIncrease": "Porcentaje de aumento en solicitudes por segundo",
+        "dhcpConflictCheckQueueLength": "Longitud de cola de comprobación de conflictos",
+        "dhcpDeclinesPersec": "Rechazos por segundo",
+        "dhcpDuplicatesDroppedPersec": "Duplicados eliminados por segundo",
+        "dhcpNacksPersec": "Reconocimientos negativos por segundo",
+        "dhcpPacketsExpiredPersec": "Paquetes caducados por segundo"
+      },
+      "dns": {
+        "dnsCachingMemory": "Memoria caché",
+        "dnsDynamicUpdateQueued": "Actualización dinámica en cola",
+        "dnsDynamicUpdateReceived": "Actualización dinámica recibida",
+        "dnsDynamicUpdateReceivedPersec": "Actualización dinámica recibida por segundo",
+        "dnsDynamicUpdateRejected": "Actualización dinámica rechazada",
+        "dnsDynamicUpdateTimeOuts": "Tiempos de espera excedidos de actualización dinámica",
+        "dnsTotalQueryReceived": "Total de consultas recibidas",
+        "dnsTotalQueryReceivedPersec": "Total de consultas recibidas por segundo",
+        "dnsTotalResponseSent": "Total de respuestas enviadas",
+        "dnsTotalResponseSentPersec": "Total de respuestas enviadas por segundo",
+        "dnsZoneTransferFailure": "Error de transferencia de zona",
+        "dnsZoneTransferSuccess": "Transferencia de zona correcta",
+        "dnsZoneTransferRequestReceived": "Solicitud de transferencia de zona recibida"
       }
     },
     "activeMQ": {
@@ -9547,7 +9603,7 @@
         "duration": "Duración",
         "backupSize": "Tamaño de la copia de seguridad",
         "transferredSize": "Tamaño transferido",
-        "backupStats": "Progreso de copia de seguridad",
+        "backupStats": "Última copia de seguridad",
         "startTime": "Hora de inicio",
         "entryType": "Tipo de entrada",
         "processCpuPerc": "CPU de proceso",
@@ -9569,7 +9625,7 @@
         "diskUsagePercentage": "Porcentaje de uso del disco",
         "diskUsageSummary": "Resumen de uso de disco",
         "usage": "Uso",
-        "archiveLogBackupStats": "Historia de copias de seguridad",
+        "archiveLogBackupStats": "Todas las copias de seguridad",
         "sourceDatabaseName": "Base de datos de origen",
         "userLockStats": "Bloqueos de usuario",
         "userMode": "Modalidad de usuario",
@@ -9710,9 +9766,9 @@
       "dashboard": {
         "overallCreditUsage": "Uso de crédito global",
         "totalStorageBytes": "Bytes de almacenamiento totales",
-        "usageInCurrency": "Uso en moneda",
+        "usageInCurrency": "Uso en moneda ({{currency}})",
         "topFiveBillingAccounts": "5 principales cuentas de facturación",
-        "remainingBalanceInCurrency": "Saldo restante en moneda",
+        "remainingBalanceInCurrency": "Saldo restante en moneda ({{currency}})",
         "balance": "Balance",
         "accountName": "Nombre de cuenta",
         "credits": "Créditos",
@@ -10817,8 +10873,10 @@
         "virtualTotal": "Virtual total",
         "computational": "De cálculo",
         "nonComputational": "No de cálculo",
+        "realAvailable": "Disponible real",
         "pageIn": "Entrada de páginas por segundo",
         "pageOut": "Salida de páginas por segundo",
+        "pageScan": "Exploraciones de páginas por segundo",
         "openFiles": "Archivos abiertos",
         "current": "Actual",
         "tcpActivity": "Actividad TCP",
@@ -10857,6 +10915,14 @@
         "processName": "Nombre de proceso",
         "gpu": "GPU",
         "gpuUsage": "Uso de GPU",
+        "volumeGroups": "Grupos de volúmenes",
+        "volumeGroupName": "Nombre de grupo de volúmenes",
+        "physicalVolume": "Volúmenes físicos",
+        "physicalVolumeName": "Nombre de volumen físico",
+        "totalSize": "Tamaño total",
+        "usedSize": "Tamaño utilizado",
+        "freeSize": "Tamaño libre",
+        "volumeGrpState": "Estado de grupo de volúmenes",
         "encoder": "Codificador",
         "decoder": "Decodificador",
         "temperature": "Temperatura",
@@ -10898,6 +10964,7 @@
       "machineId": "ID de máquina",
       "bootId": "ID de arranque",
       "systemId": "ID del sistema",
+      "hostId": "ID de host",
       "startedAt": "Iniciado a las",
       "interfacesWithSize": "Interfaces ({{size}})",
       "cpuUsed": "CPU utilizada",
@@ -10922,8 +10989,10 @@
       "virtualTotal": "Virtual total",
       "computational": "De cálculo",
       "nonComputational": "No de cálculo",
+      "realAvailable": "Disponible real",
       "pageIn": "Entrada de páginas por segundo",
       "pageOut": "Salida de páginas por segundo",
+      "pageScan": "Exploraciones de páginas por segundo",
       "load": "Cargar",
       "contextSwitches": "Conmutadores de contexto",
       "current": "Actual",
@@ -11640,10 +11709,7 @@
             "unitNumber": "Número de unidad",
             "aspNumber": "Número de ASP",
             "unitStorageCapacity": "Capacidad de almacenamiento",
-            "unitMediaCapacityGb": "Capacidad de soporte (GB)",
-            "charts": {
-              "elapsedPercentBusy": "Porcentaje ocupado en el tiempo transcurrido"
-            }
+            "unitMediaCapacityGb": "Capacidad de soporte (GB)"
           },
           "solidStateDisk": {
             "name": "Información de disco de estado sólido (SSD)",
@@ -11667,10 +11733,7 @@
             "diskType": "Tipo de disco",
             "unitNumber": "Número de unidad",
             "aspNumber": "Número de ASP",
-            "typeOfDiskUnit": "Tipo de unidad de disco",
-            "charts": {
-              "elapsedPercentBusy": "Porcentaje ocupado en el tiempo transcurrido"
-            }
+            "typeOfDiskUnit": "Tipo de unidad de disco"
           },
           "nonVolatileMemory": {
             "name": "Información de NVMe (Non Volatile Memory Express)",
@@ -11686,7 +11749,12 @@
             "unSafeShutDowns": "Cierres no seguros",
             "firmwareLevel": "Nivel de firmware"
           }
-        }
+        },
+        "elapsedPercentBusy": "Porcentaje ocupado en el tiempo transcurrido",
+        "elapsedReadRequests": "Lecturas/s",
+        "elapsedWriteRequests": "Escrituras/s",
+        "elapsedDataRead": "Bytes leídos/s",
+        "elapsedDataWritten": "Bytes grabados/s"
       }
     },
     "ibmiNetworkInfo": {
@@ -12644,7 +12712,8 @@
       "hostname": "Nombre de host",
       "startType": "Tipo de inicio",
       "turbonomicSensorException": "El sensor Turbonomic ha generado la siguiente excepción: <code>{{e}}</code>.",
-      "jspawnhelperPermissionIssueDescription": "El agente no puede ejecutar el archivo jspawnhelper en la vía de acceso de JVM <code>{{path}}</code>. Proporcione los permisos necesarios."
+      "jspawnhelperPermissionIssueDescription": "El agente no puede ejecutar el archivo jspawnhelper en la vía de acceso de JVM <code>{{path}}</code>. Proporcione los permisos necesarios.",
+      "switchtoJava11IssueDescription": "El agente se está ejecutando con una JVM por debajo de Java 11. La versión utilizada es <code>{{version}}</code>."
     },
     "sparkStandalone": {
       "titleApplicationId": "ID de aplicación",
@@ -12777,6 +12846,7 @@
       "fetch": "Captar",
       "produce": "Producir",
       "allBrokersStateMetrics": "Métricas de estado de todos los intermediarios",
+      "clientMetrics": "Métricas de cliente",
       "averageIdleTimePercentage": "Porcentaje promedio de tiempo de inactividad",
       "networkProcessor": "Procesador de red",
       "requestHandler": "Manejador de solicitudes",
@@ -12926,6 +12996,9 @@
         "workerLua": "Bytes asignados en VM de trabajador Lua",
         "totalConnections": "Total de conexiones"
       }
+    },
+    "kubecost": {
+      "label": "Kubecost"
     },
     "kubernetesCluster": {
       "noActivity": "Sin actividad",
@@ -13615,20 +13688,48 @@
       "instanceId": "ID de instancia",
       "label_category_LLM": "LLM",
       "llm_status": "Estado de LLM",
+      "model": "modelo",
+      "service": "Servicio",
       "dashboard": {
-        "token": "Señales",
-        "cost": "Coste",
+        "token": "Señales por modelo",
+        "inputToken": "Señales de entrada por modelo",
+        "outputToken": "Señales de salida por modelo",
+        "serviceToken": "Señales por servicio",
+        "serviceInputToken": "Señales de entrada por servicio",
+        "serviceOutputToken": "Señales de salida por servicio",
+        "cost": "Coste por modelo",
+        "inputCost": "Coste de entrada por modelo",
+        "outputCost": "Coste de salida por modelo",
+        "serviceCost": "Coste por servicio",
+        "serviceInputCost": "Coste de entrada por servicio",
+        "serviceOutputCost": "Coste de salida por servicio",
         "duration": "Latencias de modelo",
         "analytics": "Rastreo",
         "llmonitor_agent": "Plataforma LLMonitor",
         "details": "Detalles",
-        "count": "Recuentos de solicitudes",
+        "count": "Recuentos de solicitudes por modelo",
+        "serviceCount": "Recuentos de solicitudes por servicio",
         "totalToken": "Total de señales",
+        "totalInputToken": "Total de señales de entrada",
+        "totalOutputToken": "Total de señales de salida",
         "totalCost": "Coste total",
+        "totalInputCost": "Coste total de entrada",
+        "totalOutputCost": "Coste total de salida",
         "totalCount": "Total de recuentos de solicitudes",
         "totalTokenByModel": "Total de señales por modelo",
+        "totalInputTokenByModel": "Total de señales de entrada por modelo",
+        "totalOutputTokenByModel": "Total de señales de salida por modelo",
+        "totalTokenByService": "Total de señales por servicio",
+        "totalInputTokenByService": "Total de señales de entrada por servicio",
+        "totalOutputTokenByService": "Total de señales de salida por servicio",
         "totalCostByModel": "Coste total por modelo",
-        "totalCountByModel": "Total de recuentos de solicitudes por modelo"
+        "totalInputCostByModel": "Coste total de entrada por modelo",
+        "totalOutputCostByModel": "Coste total de salida por modelo",
+        "totalCostByService": "Coste total por servicio",
+        "totalInputCostByService": "Coste total de entrada por servicio",
+        "totalOutputCostByService": "Coste total de salida por servicio",
+        "totalCountByModel": "Total de recuentos de solicitudes por modelo",
+        "totalCountByService": "Total de recuentos de solicitudes por servicio"
       }
     },
     "oTelDcgm": {

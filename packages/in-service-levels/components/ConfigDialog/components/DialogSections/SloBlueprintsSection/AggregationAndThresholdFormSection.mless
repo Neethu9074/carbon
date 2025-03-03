@@ -5,4 +5,8 @@
     column-gap: 2rem;
     align-items: start;
   }
+
+  .thresholdInput {
+    max-width: 12rem;
+  }
 }

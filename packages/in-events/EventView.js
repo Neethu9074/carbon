@@ -119,8 +119,17 @@ function EventView(props) {
 }
 
 function EventViewComponent(props) {
-  const { eventType, staticTimeConfigToUseForTable, orderBy, orderDirection, query, eventId, timeConfig, filter } =
-    props;
+  const {
+    eventType,
+    staticTimeConfigToUseForTable,
+    orderBy,
+    orderDirection,
+    query,
+    eventId,
+    timeConfig,
+    filter,
+    onChange
+  } = props;
 
   const fetchEvents = useCallback(
     ({ cursor }) => {
@@ -183,7 +192,7 @@ function EventViewComponent(props) {
             labelForTitle=""
           />
           <DashboardHeaderModule theme={themes.light} withBottomBorder={eventId}>
-            <ViewSwitcher selectedEventType={eventType} />
+            <ViewSwitcher onChange={onChange} selectedEventType={eventType} />
           </DashboardHeaderModule>
           {!eventId && <DashboardHeaderShadowModule />}
         </>

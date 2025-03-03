@@ -6,6 +6,7 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React from 'react';
 
+import { ApplicationBoundaryScope } from '@instana/types';
 import { Stack } from '@instana/components';
 
 import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
@@ -25,12 +26,12 @@ import { MetricsForm } from 'in-custom-dashboards/widgets/SloLegacy/sli/MetricsF
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
-import { ApplicationBoundaryScope, Nullish } from 'in-types';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
 import Divider from 'in-components/workspace/Divider';
 import Section from 'in-components/workspace/Section';
 import Header from 'in-components/workspace/Header';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 const titleWidth = '10.938rem';

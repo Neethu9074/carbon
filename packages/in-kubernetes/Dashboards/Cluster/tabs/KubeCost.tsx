@@ -16,6 +16,9 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn/Ce
 import TotalCostList from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost/TotalCostList';
 import NamespaceCost from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost/NameSpaceCost';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import ArticleContent from 'in-components/ArticleContent';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -48,6 +51,12 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
     !loading &&
     (namespaceEndpoints.data ? (
       <>
+        <ViewTrackingMeta
+          data={{
+            productArea: productAreas.kubernetes,
+            pageRootName: pageNames.cluster_cost
+          }}
+        />
         <Row>
           <Col lg={12}>
             <TotalCostList
@@ -69,6 +78,12 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
       </>
     ) : (
       <Li>
+        <ViewTrackingMeta
+          data={{
+            productArea: productAreas.kubernetes,
+            pageRootName: pageNames.cluster_cost
+          }}
+        />
         <CenterAlignmentColumn>
           <EntityPageMainNotification
             icon="lib_missing_data"

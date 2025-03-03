@@ -18,19 +18,18 @@ import {
   isInfraEntityType
 } from 'in-services/entityUtils';
 import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
-import { carbonTableEnabled, multiCloseEnabled } from 'in-services/featureFlags';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import EventsListRowDense from 'in-events/components/EventsListRowDense';
 import { formatDate, formatDateTime } from 'in-services/formatters/date';
-import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { isDisplayColumn } from 'in-events/components/EventsList';
 import { Duration } from 'in-events/components/EventDetailsKPIs';
 import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
+import { multiCloseEnabled } from 'in-services/featureFlags';
 import EventIcon from 'in-events/components/EventIcon';
 import { UNKNOWN_LABEL } from 'in-sdk/snapshot/legacy';
 import { isNotBlank } from 'in-services/util/string';
@@ -75,7 +74,7 @@ export default function EventRow({
   }
 
   const canMultiCloseEvents = multiCloseEnabled && role?.canManuallyCloseIssue;
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const isEventClosed = event.state === 'closed' || event.state === 'manually_closed';
   const start = event.start;
   const end = event.manualCloseTimestamp || event.end || Date.now();
@@ -140,7 +139,7 @@ export default function EventRow({
     )
   };
 
-  if (carbonTableEnabled && !canMultiCloseEvents) {
+  if (!canMultiCloseEvents) {
     return carbonRow;
   }
   return (

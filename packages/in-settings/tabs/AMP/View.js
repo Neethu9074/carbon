@@ -10,12 +10,14 @@ import {
   ampAccountSettings,
   ampUsage,
   ampTechnologies,
-  ampActivationAdoption
+  ampActivationAdoption,
+  ampLicense
 } from 'in-settings/navigation/paths';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import RestrictedTechnologiesReporting from 'in-amp/components/RestrictedTechnologiesReporting';
 import TechnologiesReporting from 'in-amp/components/TechnologiesReporting';
 import ActivationAdoption from 'in-amp/components/ActivationAdoption';
+import RestrictedLicense from 'in-amp/components/RestrictedLicense';
 import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
 import AccountSettings from 'in-amp/components/AccountSettings';
@@ -23,6 +25,7 @@ import RestrictedUsage from 'in-amp/components/RestrictedUsage';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import { pageNames } from 'in-services/tracking/pageNames';
+import Licenses from 'in-amp/components/Licenses';
 import Usage from 'in-amp/components/Usage';
 import { t } from 'in-i18n';
 
@@ -48,6 +51,11 @@ export default function View(props) {
                       component: Usage
                     },
                     {
+                      path: ampLicense,
+                      label: t('in-settings:tabs.licenses'),
+                      component: Licenses
+                    },
+                    {
                       path: ampActivationAdoption,
                       label: t('in-settings:tabs.activationAdoption'),
                       component: ActivationAdoption
@@ -68,6 +76,11 @@ export default function View(props) {
                       path: ampUsage,
                       label: t('in-settings:tabs.usage'),
                       component: RestrictedUsage
+                    },
+                    {
+                      path: ampLicense,
+                      label: t('in-settings:tabs.licenses'),
+                      component: RestrictedLicense
                     },
                     {
                       path: ampTechnologies,

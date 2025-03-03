@@ -7,12 +7,14 @@
 import React, { useEffect, useMemo } from 'react';
 import { MapForm } from 'formalistic';
 
-import { LogAlertConfigWithMetadata } from '@instana/types';
+import { RuleWithThreshold } from '@instana/types/typeDefinitions';
+import { LogAlertRuleUnion } from '@instana/types';
 
-import { alertConfigWithDefaultThresholdAndTfe } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import LogMultiThresholdCondition from 'in-alerting/smart-alerts/logs/components/LogMultiThresholdCondition';
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
-import LogThresholdCondition from 'in-alerting/smart-alerts/logs/components/LogThresholdCondition';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
 import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
@@ -58,7 +60,7 @@ export default function ThresholdSelectionInteractiveChart({
 
   return (
     <BorderedContainer>
-      <LogThresholdCondition form={form} updateForm={updateForm} percentageMetric={false} metricUnitPostfix={''} />
+      <LogMultiThresholdCondition form={form} updateForm={updateForm} percentageMetric={false} metricUnitPostfix={''} />
       <ChartViewConfigurator
         chartViewConfigs={chartViewConfigs}
         onChartViewConfigChange={onChartViewConfigChange}
@@ -70,7 +72,7 @@ export default function ThresholdSelectionInteractiveChart({
         {chartViewConfig => (
           <>
             <LogMetricChart
-              alertConfig={alertConfigModel as LogAlertConfigWithMetadata}
+              alertConfig={alertConfigModel as LogSmartAlertConfigWithMetadata}
               timeConfig={{
                 ...chartViewConfig.timeConfig,
                 to: timeConfig.to,
@@ -94,4 +96,22 @@ export default function ThresholdSelectionInteractiveChart({
       </ChartViewConfigurator>
     </BorderedContainer>
   );
+}
+
+export function alertConfigWithDefaultThresholdAndTfe(form: MapForm<any>) {
+  const tagFilterExpression = form.get('tagFilterExpression').value;
+  const warningThresholdField = form.get('threshold').get('warningThreshold');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
+
+  const ruleWithThreshold: RuleWithThreshold<LogAlertRuleUnion> = {
+    rule: form.get('rule').toJS(),
+    thresholdOperator: form.get('threshold').get('operator').value,
+    thresholds: { WARNING: warningThresholdField.toJS(), CRITICAL: criticalThresholdField.toJS() }
+  };
+
+  return {
+    ...form.toJS(),
+    rules: [ruleWithThreshold],
+    tagFilterExpression: toBackendQueryModel(tagFilterExpression)
+  };
 }

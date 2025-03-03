@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import FlavorTable from '../../Table/FlavorTable';
+import FlavorTable from 'in-openstack/Dashboards/Table/FlavorTable';
 
 export default function Flavor({ timeConfig, data: region }) {
   return (

@@ -40,12 +40,6 @@ exports.createImportRestrictionRule = ({
         // The only usage of moment-timezone is used in timezone widget for now.
         'in-services/moment-timezone',
         'moment-timezone',
-        // There should be no new imports for material ui
-        // mui will be imported and managed on foundation
-        '@material-ui/core',
-        '@mui/material',
-        '@emotion/react',
-        '@emotion/styled',
 
         // we want to avoid mixing different versions of carbon, and
         // have carbon components only in ui-foundation repository

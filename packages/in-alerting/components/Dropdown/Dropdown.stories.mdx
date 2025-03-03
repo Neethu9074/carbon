@@ -1,4 +1,4 @@
-import { Meta, Story, Preview, Props } from '@storybook/addon-docs';
+import { Meta, Story, Canvas, Preview, Props } from '@storybook/addon-docs';
 import { action as storybookAction } from '@storybook/addon-actions';
 import { useState } from 'react';
 import { Stack } from '@instana/components';
@@ -13,7 +13,6 @@ An alerting area specific `Dropdown` component used select one out of many items
 
 Check out `MoreMenu` for a ready-made solution or `Combobox` which allows custom combobox-like implementations with good default UI/UX.
 
-<Preview>
   <Story name="default">
     <Stack direction="vertical" align="start">
       <Dropdown
@@ -26,7 +25,6 @@ Check out `MoreMenu` for a ready-made solution or `Combobox` which allows custom
       />
     </Stack>
   </Story>
-</Preview>
 
 ## Triggering onChange and handling duplicates:
 
@@ -35,7 +33,6 @@ Check out `MoreMenu` for a ready-made solution or `Combobox` which allows custom
 
 You can test this by watching the results in Storybook's Action addon tab.
 
-<Preview>
   <Story name="onChange">
     {() => {
       const [currentValue, setCurrentValue] = useState(3);
@@ -60,8 +57,3 @@ You can test this by watching the results in Storybook's Action addon tab.
       );
     }}
   </Story>
-</Preview>
-
-### Props
-
-<Props of={Dropdown} />

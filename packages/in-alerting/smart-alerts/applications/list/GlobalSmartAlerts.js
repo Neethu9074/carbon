@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 
+import { Spacer } from '@instana/components';
 import { just } from '@instana/observables';
 
 import GlobalInventorySmartAlertsList from 'in-alerting/smart-alerts/applications/inventory/GlobalInventorySmartAlertsList';
@@ -16,6 +17,7 @@ import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { globalAlertDetails } from 'in-applications/navigation/paths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { alertsTabDetails } from 'in-applications/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -50,14 +52,15 @@ export default function GlobalSmartAlerts({ location }) {
           ) : (
             <>
               <GlobalInventorySmartAlertsList onNoData={() => setHasDataToRender(false)} />
+              <Spacer size="gutter" />
               <Footer />
             </>
           )}
         </WithEmptyStateFallback>
       </LeftRightPadding>
-      {role.canConfigureGlobalApplicationSmartAlerts && !smartAlertCarbonTableEnabled && (
-        <CreateGlobalSmartAlertButton location={location} />
-      )}
+      {role.canConfigureGlobalApplicationSmartAlerts &&
+        ((location?.pathname === alertsTabDetails && smartAlertCarbonTableEnabled) ||
+          !smartAlertCarbonTableEnabled) && <CreateGlobalSmartAlertButton location={location} />}
     </Sticky>
   );
 }

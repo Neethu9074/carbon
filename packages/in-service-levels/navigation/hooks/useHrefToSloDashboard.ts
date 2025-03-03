@@ -7,7 +7,7 @@
 import { TimeConfig } from '@instana/types';
 
 import { defaultServiceLevelObjectiveUrlParameters } from 'in-service-levels/navigation/urlParameters';
-import { serviceLevelsObjectiveFullyQualified } from 'in-service-levels/navigation/path';
+import { serviceLevelsObjectiveSummaryFullyQualified } from 'in-service-levels/navigation/path';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { setTimeConfig } from 'in-stores/time/config';
@@ -19,7 +19,7 @@ export default function useHrefToSloDashboard(): SloDashboardHrefGenerator {
   const { location, createHref } = useNavigation();
 
   return (id: string, timeConfig?: TimeConfig) => {
-    location.pathname = serviceLevelsObjectiveFullyQualified;
+    location.pathname = serviceLevelsObjectiveSummaryFullyQualified;
     setOrDeleteMatrixKey(location, sloIdParameter.path ?? '', sloIdParameter.name, id!);
 
     if (timeConfig) {

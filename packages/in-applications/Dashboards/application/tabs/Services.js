@@ -6,8 +6,6 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { TableEntityCounter } from '@instana/legacy';
-
 import {
   applicationDashboardUrlParameters,
   createEndpointTypesUrlParameter,
@@ -98,7 +96,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
-      return <TableEntityCounter count={count} />;
+      return count;
     }
   },
   {

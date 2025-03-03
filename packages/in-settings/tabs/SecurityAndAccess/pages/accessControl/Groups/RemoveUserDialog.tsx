@@ -74,7 +74,7 @@ export function RemoveUserDialog({ groupId, userId, username, removeLocally }: P
 
   return (
     <ConfirmationDialog
-      header={t('in-settings:components.pleaseConfirm')}
+      header={t('in-settings:components.confirmRemove')}
       description={<Trans i18nKey="in-settings:components.confirmRemoveItem" values={{ itemName: username }} />}
       isSaving={isSaving}
       onSubmit={onSubmit}

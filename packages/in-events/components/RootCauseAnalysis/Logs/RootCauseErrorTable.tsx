@@ -14,6 +14,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 //@ts-expect-error Needs TS migration
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import RootCauseLogsComboButton from 'in-events/components/RootCauseAnalysis/Logs/RootCauseLogsComboButton';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getResolvedTimeConfig, getSparkChartGranularity, TimeResult } from 'in-applications/metrics';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
@@ -24,6 +25,7 @@ import { createChartedMetric, createMetricField } from 'in-analyze/navigation/pa
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getErrorMessages from 'in-applications/subscriptions/getErrorMessages';
+import { loggingEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import { collationLanguage, t } from 'in-i18n';
 
@@ -114,6 +116,12 @@ interface RootCauseErrorMessageTableProps {
   applicationName: string;
   serviceName: string;
   endpointName: string;
+  rcaEntityType: string;
+  processId: string;
+  containerId: string;
+  processContainerType: string;
+  hostName: string;
+  plugin: string;
   cardTitle: JSX.Element;
 }
 
@@ -126,6 +134,12 @@ export default function RootCauseErrorMessagesTable({
   applicationName,
   serviceName,
   endpointName,
+  rcaEntityType,
+  processId,
+  containerId,
+  processContainerType,
+  hostName,
+  plugin,
   cardTitle
 }: RootCauseErrorMessageTableProps) {
   return (
@@ -141,19 +155,39 @@ export default function RootCauseErrorMessagesTable({
       boundaryScope={boundaryScope}
       timeConfig={timeConfig}
       cardTitle={cardTitle}
-      rightHeader={(headerProps: { query: string }) => (
-        <AnalyzeErrorMessagesButton
-          groupByTagName="call.error.message"
-          applicationName={applicationName}
-          serviceName={serviceName}
-          endpointName={endpointName}
-          boundaryScope={boundaryScope}
-          query={headerProps.query}
-          includeInternal
-          includeSynthetic
-          timeConfig={timeConfig}
-        />
-      )}
+      rightHeader={(headerProps: { query: string }) =>
+        loggingEnabled ? (
+          <RootCauseLogsComboButton
+            query={headerProps.query}
+            boundaryScope={boundaryScope}
+            applicationName={applicationName}
+            serviceName={serviceName}
+            endpointName={endpointName}
+            rcaEntityType={rcaEntityType}
+            processId={processId}
+            containerId={containerId}
+            processContainerType={processContainerType}
+            hostName={hostName}
+            plugin={plugin}
+            includeInternal
+            includeSynthetic
+            isErrorMessagesTable
+            timeConfig={timeConfig}
+          />
+        ) : (
+          <AnalyzeErrorMessagesButton
+            groupByTagName="call.error.message"
+            applicationName={applicationName}
+            serviceName={serviceName}
+            endpointName={endpointName}
+            boundaryScope={boundaryScope}
+            query={headerProps.query}
+            includeInternal
+            includeSynthetic
+            timeConfig={timeConfig}
+          />
+        )
+      }
     />
   );
 }

@@ -13,6 +13,7 @@ import ExpirationDateDropdown from 'in-settings/components/ApiTokenExpiration/Ex
 import { PersonalApiToken, createPersonalApiToken } from 'in-settings/tabs/UserSettings/api/personalApiToken';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { createPersonalApiTokenForm } from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/form';
+import { SETTINGS_PERSONAL_API_TOKEN_CREATE } from 'in-services/tracking/eventNames';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { apiTokenExpirationEnabled } from 'in-services/featureFlags';
@@ -81,7 +82,7 @@ function CreateForm({ onCreated, onClose }: CreateFormProps) {
           expiryDate: body.expiresOn,
           expiryOption: form.toJS()['expiryOption']
         };
-        unstable_trackEvent(CREATED_OBJECT, { objectType: 'settings.personalApiToken.create' }, customData);
+        unstable_trackEvent(CREATED_OBJECT, { objectType: SETTINGS_PERSONAL_API_TOKEN_CREATE }, customData);
       },
       () => {
         const message = t('in-settings:tabs.failedToCreatePersonalApiToken');

@@ -140,7 +140,10 @@
           "certificateCheckTitle": "Vérification du certificat SSL",
           "certificateCheckLabel": "Certificat SSL",
           "certificateCheckHeadline": "Test de vérification de certificat SSL",
-          "certificateCheckText": "Le test de vérification de certificat SSL est une méthode permettant de tester l'expiration d'un certificat SSL dans une application Web en vérifiant les jours restants d'un certificat émis."
+          "certificateCheckText": "Le test de vérification de certificat SSL est une méthode permettant de tester l'expiration d'un certificat SSL dans une application Web en vérifiant les jours restants d'un certificat émis.",
+          "dnsActionLabel": "DNS",
+          "dnsActionHeadline": "Serveur de noms de domaine",
+          "dnsActionText": "Le test DNS est une méthode permettant de vérifier que votre appareil ou réseau résout correctement les noms de domaine et ne présente pas de problèmes susceptibles de provoquer des ralentissements, des erreurs ou des failles de sécurité."
         },
         "configurationLabel": "Configuration",
         "configurationTitle": "Configuration : Comment ce test fonctionnera-t-il ?",
@@ -181,22 +184,22 @@
           "shouldBeValidHeaderValue": "La chaîne entrée doit être une valeur d'en-tête de requête HTTP valide.",
           "scriptLabel": "Script",
           "addscriptAction": "Ajouter un script",
-          "editscriptAction": "Editer le script",
+          "editscriptAction": "Modifier le script",
           "scriptFileName": "Nom du fichier",
           "scriptNotAdded": "Aucun script n'a été ajouté.",
           "buttonAdd": "Ajouter",
           "buttonBack": "Précédent",
           "buttonSave": "Sauvegarder",
-          "uploadFileLabel": "Transférer le fichier",
-          "uploadFileDescription": "Vous pouvez télécharger un fichier .js unique ou un fichier zip de fichiers .js intégrés.",
+          "uploadFileLabel": "Envoyer un fichier par téléchargement",
+          "uploadFileDescription": "Vous pouvez télécharger un seul fichier .js ou un fichier .zip de fichiers .js intégrés.",
           "scriptDescription": "Votre script téléchargé apparaît ici ou vous pouvez l'entrer manuellement ci-dessous.",
           "validScriptMessage": "Le script est valide.",
           "zipFileUploadedMessage": "Les fichiers groupés ne peuvent pas être modifiés ou validés",
           "scriptEditedManuallyMessage": "Script ajouté ou modifié manuellement",
-          "mainFileNameLabel": "Nom du fichier principal",
+          "mainFileNameLabel": "Entrez le nom du fichier principal",
           "invalidMainFileName": "Nom de fichier principal non valide",
           "webpageUrl": "URL de la page Web",
-          "browserUploadFileDescription": "Vous pouvez télécharger un fichier .js unique, un fichier zip de fichiers .js intégrés ou un script .side enregistré par SeleniumIDE.",
+          "browserUploadFileDescription": "Vous pouvez télécharger un seul fichier .js, un fichier .zip de fichiers .js intégrés ou un script .side enregistré par SeleniumIDE.",
           "sideFileUploadedMessage": "Les scripts Selenium ne peuvent pas être modifiés ou validés",
           "bundleFileNotSupportedMessage": "Un fichier non pris en charge est sélectionné. Les bundles sont uniquement pris en charge en mode avancé.",
           "timeoutFieldLabel": "Dépassements du délai d'attente",
@@ -214,7 +217,10 @@
           "retryFieldOptionTwice": "Réessayer deux fois",
           "retryIntervalFieldLabel": "Intervalle entre les nouvelles tentatives",
           "retryIntervalDescription": "Ce test réessaiera {{retryCount}} après {{retryIntervalValue}} {{retryIntervalUnit}}.",
-          "markSyntheticCall": "Marquer l'appel synthétique"
+          "markSyntheticCall": "Marquer l'appel synthétique",
+          "downloadZip": "Téléchargez le fichier .zip",
+          "mainFileNameHelperText": "Fournir le nom du fichier dans ce fichier .zip qui contient le point d'entrée du test",
+          "recordVideo": "Enregistrement des actions de l'utilisateur en cas d'échec"
         },
         "loadMore": "Charger plus",
         "selectTests": {
@@ -228,7 +234,8 @@
         "advancedBluePrint": {
           "apiName": "API",
           "browserName": "Navigateur",
-          "certificateCheckName": "Certificat SSL"
+          "certificateCheckName": "Certificat SSL",
+          "dnsActionName": "DNS"
         },
         "customProperties": {
           "property": "Propriété",
@@ -411,9 +418,6 @@
         "show": "Afficher la valeur de données d'identification"
       }
     }
-  },
-  "createSmartAlert": {
-    "buttonLabel": "Ajouter une Smart Alert synthétique"
   },
   "navigation": {
     "synthetics": "Surveillance synthétique"
@@ -635,7 +639,6 @@
       "downloadHar": "Télécharger le fichier HAR",
       "downloadLog": "Journaux de téléchargement",
       "viewScreenshotsLabel": "Afficher la ou les captures d'écran",
-      "downloadVideo": "Télécharger l'enregistrement",
       "consoleLogsLevel": "Console",
       "consoleLogs": "Console",
       "browserLogs": "Navigateur",
@@ -715,7 +718,17 @@
         "timeOfIssue": "Date d'émission",
         "timeOfExpiry": "Date d'expiration"
       },
-      "failedRunErrorTypeTitle": "Type d'erreur"
+      "failedRunErrorTypeTitle": "Type d'erreur",
+      "viewRecordingLabel": "Afficher l'enregistrement",
+      "viewRecording": {
+        "recordingDialogLabel": "Enregistrement",
+        "downloadRecordingButton": "Télécharger l'enregistrement",
+        "recordingLoadingMessage": "Chargement de l'enregistrement",
+        "noRecordingAvailableMessage": "Enregistrement non disponible pour ce résultat de test"
+      },
+      "customProperties": {
+        "title": "Propriétés personnalisées"
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "Aucun résultat n'est disponible",
@@ -802,7 +815,8 @@
       "associatedWebsites": "Sites Web associés",
       "noWebsitesAssociated": "Aucun site Web associé",
       "associatedMobileApps": "Applications mobiles associées",
-      "noMobileAppAssociated": "Aucune application mobile associée"
+      "noMobileAppAssociated": "Aucune application mobile associée",
+      "recordVideo": "Enregistrement des actions de l'utilisateur en cas d'échec"
     },
     "credentialList": {
       "mainLabel": "Données d'identification",

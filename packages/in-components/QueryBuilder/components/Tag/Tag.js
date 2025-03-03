@@ -119,7 +119,7 @@ export default function Tag(props) {
       <SuspendDraggable draggableElement={draggableElement}>
         <KeyInput
           form={form}
-          onChange={(propName, value) => onChangeInFormModel({ ...form.toJS(), [propName]: value }, true)}
+          onChange={onChange}
           getSuggestions={getSuggestions}
           getSuggestionsProps={getSuggestionsProps}
           formModel={formModel}

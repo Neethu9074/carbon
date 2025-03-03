@@ -25,7 +25,7 @@ interface AlertConfigurationProps {
 }
 
 export default function AlertConfiguration({ alertConfig }: AlertConfigurationProps) {
-  const { rule, threshold, timeThreshold, alertChannelIds, customPayloadFields } = alertConfig;
+  const { rule, threshold, timeThreshold, alertChannelIds, customPayloadFields, burnRateTimeWindows } = alertConfig;
 
   return (
     <AlertDetailsCard>
@@ -36,7 +36,7 @@ export default function AlertConfiguration({ alertConfig }: AlertConfigurationPr
         openByDefault
         darkFrame
       >
-        <AlertThresholdInfos threshold={threshold} rule={rule} />
+        <AlertThresholdInfos threshold={threshold} rule={rule} burnRateTimeWindows={burnRateTimeWindows} />
       </ExpandableLightCard>
 
       <ExpandableLightCard

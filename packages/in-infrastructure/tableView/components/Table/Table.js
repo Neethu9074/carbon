@@ -9,16 +9,13 @@ import { ButtonGroup, Pagination as CarbonPagination, DataTable as CarbonDataTab
 
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
 import { createStore } from 'in-infrastructure/tableView/components/Table/stores/content';
-import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { shallowEquals } from 'in-services/util/object';
-import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
 import locals from './Table.mless';
 
 const headerElement = locals.header;
-const footerElement = locals.footer;
 const carbonFooterElement = locals.carbonFooter;
 const headerLeftSideElement = locals.headerLeft;
 const headerRightSideElement = locals.headerRight;
@@ -194,17 +191,6 @@ export default class Table extends React.Component {
                 />
               )}
               {this.props.rightHeader}
-
-              {showPagination ? (
-                <div className={locals.paginationWrapper}>
-                  <Pagination
-                    onChange={p => this.store.setPage(p - 1)}
-                    onNextPage={this.store.onNextPage}
-                    currentPage={(data.page || 0) + 1}
-                    numPages={data.pageCount}
-                  />
-                </div>
-              ) : null}
             </div>
           </div>
         ) : null}
@@ -234,37 +220,20 @@ export default class Table extends React.Component {
         {showHeader ? (
           <>
             {showPagination ? (
-              <>
-                {carbonPaginationEnabled ? (
-                  <div className={carbonFooterElement}>
-                    <CarbonPagination
-                      currentPage={(data.page || 0) + 1}
-                      totalItems={this.props.rows?.length}
-                      pageSize={this.state.pageSize}
-                      pageSizes={[this.props.maxItemsPerPage || 10, this.props.maxItemsPerPage * 2 || 20]}
-                      onChange={p => {
-                        if (this.state.pageSize !== p.pageSize) {
-                          this.setState({ pageSize: p.pageSize });
-                        }
-                        this.store.setPage(p.page - 1);
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <div className={footerElement}>
-                    <div className={headerRightSideElement}>
-                      <div className={locals.paginationWrapper}>
-                        <Pagination
-                          onChange={p => this.store.setPage(p - 1)}
-                          onNextPage={this.store.onNextPage}
-                          currentPage={(data.page || 0) + 1}
-                          numPages={data.pageCount}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </>
+              <div className={carbonFooterElement}>
+                <CarbonPagination
+                  currentPage={(data.page || 0) + 1}
+                  totalItems={this.props.rows?.length}
+                  pageSize={this.state.pageSize}
+                  pageSizes={[this.props.maxItemsPerPage || 10, this.props.maxItemsPerPage * 2 || 20]}
+                  onChange={p => {
+                    if (this.state.pageSize !== p.pageSize) {
+                      this.setState({ pageSize: p.pageSize });
+                    }
+                    this.store.setPage(p.page - 1);
+                  }}
+                />
+              </div>
             ) : null}
           </>
         ) : null}

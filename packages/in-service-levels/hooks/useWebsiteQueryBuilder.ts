@@ -5,6 +5,7 @@
 
 import { useMemo } from 'react';
 
+import { Result, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -17,7 +18,6 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { Result, TimeConfig } from 'in-types';
 
 export interface UseWebsiteQueryBuilderProps {
   websiteId?: string;

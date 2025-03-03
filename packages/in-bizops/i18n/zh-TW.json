@@ -6,8 +6,12 @@
     "count": "計數"
   },
   "lists": {
+    "id": "ID",
+    "version": "版本",
     "pageTitle": "商業監視",
     "cardTitle": "商業程序",
+    "theId": "處理程序 ID",
+    "hasBeenCopied": "已成功複製到剪貼簿",
     "activityLabel": "活動",
     "nameLabel": "名稱",
     "countLabel": "計數",

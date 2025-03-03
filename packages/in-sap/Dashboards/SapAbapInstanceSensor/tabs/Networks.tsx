@@ -99,9 +99,9 @@ export default function Networks({ data }: { data: SnapshotData }) {
           />
         </DashboardSection>
       </Columize>
-      <ICMThreadList snapshotId={snapshotId} />
-      <ICMServiceList snapshotId={snapshotId} />
-      <ICMServicesList snapshotId={snapshotId} />
+      <ICMThreadList snapshotId={snapshotId} timeConfig={timeConfig} />
+      <ICMServiceList snapshotId={snapshotId} timeConfig={timeConfig} />
+      <ICMServicesList snapshotId={snapshotId} timeConfig={timeConfig} />
     </Fragment>
   );
 }

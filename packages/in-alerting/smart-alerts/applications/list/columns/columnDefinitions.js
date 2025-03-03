@@ -207,6 +207,7 @@ export function createTableColumnDefinition(configsCategory, trackCta) {
             config={config}
             isLoading={loading}
             actionHandlers={actionHandlers(isGlobalSmartAlertConfig, trackCta)}
+            icon={'lib_menu_more_vertical'}
           />
         )
       );

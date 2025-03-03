@@ -5,10 +5,8 @@
  */
 
 import React, { useContext } from 'react';
-import classNames from 'classnames';
 
 import { Typography } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
@@ -17,6 +15,7 @@ import PercentageInput from 'in-service-levels/components/PercentageInput';
 import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
 import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';
+import { t } from 'in-i18n';
 
 import locals from './SloObjectiveSection.mless';
 
@@ -28,7 +27,7 @@ export default function TargetSection() {
   return (
     <Section title={t('in-service-levels:createSloDialog.sloTarget')} titleWidth={titleWidth}>
       <PercentageInput
-        className={classNames(locals.objectiveInput, locals.percentageInput)}
+        className={locals.percentageInput}
         id={'target'}
         value={sloTargetField.value}
         onChange={target => {

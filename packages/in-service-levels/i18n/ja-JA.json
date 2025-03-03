@@ -113,7 +113,6 @@
       "beaconCount": "ビーコン数",
       "calls": "呼び出し",
       "latency": "待ち時間",
-      "results": "結果",
       "beaconDuration": "ビーコン期間",
       "threshold": "しきい値",
       "failureRate": "故障率",
@@ -125,27 +124,30 @@
       "beaconErrorCount": "ビーコン・エラー数"
     },
     "format": {
-      "event_website": "{{formatted}} ビーコン",
-      "event_website_plural": "{{formatted}} ビーコン (複数可)",
-      "event_website_0": "{{formatted}} ビーコン (複数可)",
-      "event_website_1": "{{formatted}} ビーコン",
-      "event_website_2": "{{formatted}} ビーコン (複数可)",
-      "event_application": "{{formatted}} 呼び出し",
-      "event_application_plural": "{{formatted}} 呼び出し (複数可)",
-      "event_application_0": "{{formatted}} 呼び出し (複数可)",
-      "event_application_1": "{{formatted}} 呼び出し",
-      "event_application_2": "{{formatted}} 呼び出し (複数可)",
-      "event_synthetic": "{{formatted}} 結果",
-      "event_synthetic_plural": "{{formatted}} 結果",
-      "event_synthetic_0": "{{formatted}} 結果",
-      "event_synthetic_1": "{{formatted}} 結果",
-      "event_synthetic_2": "{{formatted}} 結果",
+      "unit_application": "コール",
+      "unit_application_plural": "呼び出し",
+      "unit_application_0": "呼び出し",
+      "unit_application_1": "コール",
+      "unit_application_2": "呼び出し",
+      "unit_website": "ビーコン",
+      "unit_website_plural": "ビーコン",
+      "unit_website_0": "ビーコン",
+      "unit_website_1": "ビーコン",
+      "unit_website_2": "ビーコン",
+      "unit_synthetic": "結果",
+      "unit_synthetic_plural": "結果",
+      "unit_synthetic_0": "結果",
+      "unit_synthetic_1": "結果",
+      "unit_synthetic_2": "結果",
+      "event_website": "{{formatted}} $t(in-service-levels:general.format.unit_website, { \"count\": {{count}} })",
+      "event_application": "{{formatted}} $t(in-service-levels:general.format.unit_application, { \"count\": {{count}} })",
+      "event_synthetic": "{{formatted}} $t(in-service-levels:general.format.unit_synthetic, { \"count\": {{count}} })",
       "event_test": "{{count}}テスト",
       "event_test_plural": "{{count}}テスト"
     },
     "deleteDialog": {
-      "pleaseConfirm": "ご確認ください",
-      "pleaseConfirmMsg": "<strong>{{name}}</strong> を削除してよろしいですか?",
+      "confirmRemove": "ご確認ください",
+      "confirmRemoveMsg": "<strong>{{name}}</strong> を削除してよろしいですか?",
       "delete": "削除"
     }
   },
@@ -161,7 +163,10 @@
     "customFilter": "カスタム・フィルター",
     "custom": "カスタム",
     "customDescription": "サービスまたはエンドポイント (あるいはその両方) を選択するためのカスタム・フィルターを設定します",
-    "title": "サービス・レベル目標 (SLO) の作成",
+    "title": {
+      "create": "サービス・レベル目標 (SLO) の作成",
+      "edit": "サービス・レベル目標 (SLO) の作成"
+    },
     "selectIndicator": "ブループリントの選択",
     "selectEntityNavItem": "エンティティーの設定",
     "selectEntityTitle": "SLO を追加するエンティティーの選択:",
@@ -208,8 +213,14 @@
       "description_latency": "設定されたしきい値を超えてサービスが応答した速度を測定します。 例えば、ご使用のチェックアウト・サービスが 100ms よりも速く応答する速度の指標。",
       "description_availability": "サービスが適切に対応する頻度を測定します。 例えば、HTTP 呼び出しがエラーになる頻度などです。",
       "description_traffic": "高レベルのシステム固有の指標を用いて、システムにどれだけの需要があるかを測定します。 例えば、Web サービスは通常 1 秒あたりの HTTP ビーコン数で計測されます。",
-      "timeTypeExplanation": "分単位でグループ化された良好呼び出しと不良呼び出し",
+      "timeTypeExplanation": "分単位で集計された正常な呼び出しと異常な呼び出し",
+      "timeTypeExplanation_application": "分単位で集計された正常な呼び出しと異常な呼び出し",
+      "timeTypeExplanation_website": "分単位で集計された正常なビーコンと異常なビーコン",
+      "timeTypeExplanation_synthetic": "分単位で集計された正常な結果と異常な結果",
       "eventTypeExplanation": "良好呼び出しと不良呼び出しの合計数",
+      "eventTypeExplanation_application": "良好呼び出しと不良呼び出しの合計数",
+      "eventTypeExplanation_website": "正常なビーコンと異常なビーコンのそれぞれの総数",
+      "eventTypeExplanation_synthetic": "正常な結果と異常な結果のそれぞれの総数",
       "eventCount": "イベント数",
       "eventType": "イベント・タイプ",
       "thresholdLabel": "不明なタイプ",
@@ -217,11 +228,11 @@
       "thresholdLabel_availability": "エラー率 (%)",
       "setGoodCall": "サービスに対する良好な呼び出しを設定する",
       "setBadCall": "不正な呼び出しをサービスに設定する (オプション)",
-      "thresholdDescription_GT": "良い分は、1 分あたりのコール数が {{thresholdValue}} 以上で定義されます。 悪い分は、1 分あたりのコール数が {{thresholdValue}} 以下で定義されます。",
-      "thresholdDescription_GTE": "良好な 1 分間とは、1 分あたりの通話回数が {{thresholdValue}} 以上で定義されます。 悪い分とは、1分あたりのコール数が{{thresholdValue}} 未満で定義されます。",
-      "thresholdDescription_LT": "良好な1分間とは、1分間あたりのコール数が{{thresholdValue}} 未満で定義されます。 悪い分とは、1 分あたりのコール数が {{thresholdValue}} 以上で定義されます。",
-      "thresholdDescription_LTE": "良好な1分間とは、1 分間あたりのコール数が {{thresholdValue}} 以下で定義されます。 悪い分とは、1 分あたりのコール数が {{thresholdValue}} 以上で定義されます。",
-      "thresholdInput": "1 分<HorizontalStack/><Stack /> あたりの <HorizontalStack><OperatorDropdown /><ThresholdInput /> コールの<Stack>しきい値を設定します。"
+      "thresholdDescription_GT": "正常な1分間とは、1分あたりの数が{{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} })の場合と定義されます。 異常な1分間とは、1分あたりの数が{{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} })以下の場合と定義されます。",
+      "thresholdDescription_GTE": "正常な1分間とは、1分あたりの数が {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} })以上の場合と定義されます。 異常な1分間とは、1分あたりの数が{{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} })未満の場合と定義されます。",
+      "thresholdDescription_LT": "正常な1分間とは、1分あたりの数が{{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 未満の場合と定義されます。 異常な1分間とは、1分あたりの数が{{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} })以上の場合と定義されます。",
+      "thresholdDescription_LTE": "正常な1分間とは、1分あたりの数が{{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} })以下の場合と定義されます。 異常な1分間とは、1分あたりの数が{{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} })の場合と定義されます。",
+      "thresholdInput": "<Stack>1分<HorizontalStack/><Stack />当たりの<HorizontalStack><OperatorDropdown /><ThresholdInput />$t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{count}} })のしきい値を設定します。"
     },
     "previewSection": {
       "dataInfo": "プレビュー・データは、過去 7 日分までしか表示されません。 SLO には、SLO が作成された時点からのデータのみが含まれます。",
@@ -246,7 +257,12 @@
       "configuredTimeWindow": "構成済みの SLO 時間枠:",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
       "startTime": "開始時刻: {{startDay}}、{{startTime}}",
-      "matchedSLOTimeWindow": "一致する SLO 時間ウィンドウ: ",
+      "matchedSLOTimeWindow": "一致するSLO時間枠: ",
+      "matchedSLOTimeWindow_plural": "一致する SLO 時間ウィンドウ: ",
+      "matchedSLOTimeWindow_0": "一致するSLO時間枠: ",
+      "matchedSLOTimeWindow_1": "一致するSLO時間枠: ",
+      "matchedSLOTimeWindow_2": "一致する SLO 時間ウィンドウ: ",
+      "noMatchedSLOTimeWindow": "一致する時間枠が見つかりません",
       "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
     "missingData": {
@@ -338,7 +354,7 @@
             "goodEventFilters": "良好イベント・フィルター:",
             "badEventFilters": "不良イベント・フィルター:"
           },
-          "approximateTooltip": "データが集約されます。 より短い時間枠を表示して詳細を表示"
+          "approximateTooltip": "閾値違反は、チャート上の 1 つのポイントで表される時間よりも短い場合があります。 拡大・縮小すると、指標の詳細レベルに影響を与えることがあります。"
         }
       },
       "entitySection": {

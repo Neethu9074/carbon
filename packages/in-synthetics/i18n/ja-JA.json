@@ -140,7 +140,10 @@
           "certificateCheckTitle": "SSL証明書の確認",
           "certificateCheckLabel": "SSL 証明書",
           "certificateCheckHeadline": "SSL証明書の確認テスト",
-          "certificateCheckText": "SSL証明書の確認テストは、発行された証明書の残り日数を確認することによって、WebアプリケーションでSSL証明書の有効期限をテストする方法です。"
+          "certificateCheckText": "SSL証明書の確認テストは、発行された証明書の残り日数を確認することによって、WebアプリケーションでSSL証明書の有効期限をテストする方法です。",
+          "dnsActionLabel": "DNS",
+          "dnsActionHeadline": "ドメイン・ネーム・サービス",
+          "dnsActionText": "DNS テストは、デバイスやネットワークがドメイン名を適切に解決し、速度低下、エラー、セキュリティ上の脆弱性につながる問題がないことを確認する方法です。"
         },
         "configurationLabel": "構成",
         "configurationTitle": "構成: このテストはどのように機能しますか?",
@@ -188,12 +191,12 @@
           "buttonBack": "戻る",
           "buttonSave": "保存",
           "uploadFileLabel": "ファイルのアップロード",
-          "uploadFileDescription": "単一の .js ファイルをアップロードすることも、バンドルされた .js ファイルの zip ファイルをアップロードすることもできます。",
+          "uploadFileDescription": "単独の .js ファイル、または .js ファイルをまとめた .zip ファイルのいずれかをアップロードできます。",
           "scriptDescription": "アップロードしたスクリプトがここに表示されます。または、以下に手動で入力することもできます。",
           "validScriptMessage": "スクリプトは有効です。",
           "zipFileUploadedMessage": "バンドル・ファイルは変更も検証もできません",
           "scriptEditedManuallyMessage": "手動で追加または変更されたスクリプト",
-          "mainFileNameLabel": "メインファイル名",
+          "mainFileNameLabel": "メイン・ファイル名を入力してください",
           "invalidMainFileName": "メインファイル名が無効です",
           "webpageUrl": "Web ページ URL",
           "browserUploadFileDescription": "アップロードできるのは、単一の .js ファイル、バンドルされた .js ファイルの zip ファイル、または SeleniumIDE によって記録された .side スクリプトのいずれかです。",
@@ -214,7 +217,10 @@
           "retryFieldOptionTwice": "2 回再試行",
           "retryIntervalFieldLabel": "再試行間隔",
           "retryIntervalDescription": "このテストは、{{retryIntervalValue}} {{retryIntervalUnit}}の後に {{retryCount}} を再試行します。",
-          "markSyntheticCall": "マーク・シンセティック・コール"
+          "markSyntheticCall": "マーク・シンセティック・コール",
+          "downloadZip": ".zip ファイルをダウンロードする",
+          "mainFileNameHelperText": "この .zip ファイル内の、テストのエントリー・ポイントを含むファイル名を指定してください",
+          "recordVideo": "失敗時にユーザーアクションを記録する"
         },
         "loadMore": "さらにロード",
         "selectTests": {
@@ -228,7 +234,8 @@
         "advancedBluePrint": {
           "apiName": "API",
           "browserName": "ブラウザー",
-          "certificateCheckName": "SSL 証明書"
+          "certificateCheckName": "SSL 証明書",
+          "dnsActionName": "DNS"
         },
         "customProperties": {
           "property": "プロパティー",
@@ -411,9 +418,6 @@
         "show": "クレデンシャルの値を表示する"
       }
     }
-  },
-  "createSmartAlert": {
-    "buttonLabel": "合成スマート・アラートの追加"
   },
   "navigation": {
     "synthetics": "シンセティック・モニタリング"
@@ -635,7 +639,6 @@
       "downloadHar": "HAR ファイルのダウンロード",
       "downloadLog": "ログのダウンロード",
       "viewScreenshotsLabel": "スクリーン・ショットの表示",
-      "downloadVideo": "記録のダウンロード",
       "consoleLogsLevel": "コンソール",
       "consoleLogs": "コンソール",
       "browserLogs": "ブラウザー",
@@ -715,7 +718,17 @@
         "timeOfIssue": "発行時期",
         "timeOfExpiry": "有効期限"
       },
-      "failedRunErrorTypeTitle": "エラー・タイプ"
+      "failedRunErrorTypeTitle": "エラー・タイプ",
+      "viewRecordingLabel": "録画の表示",
+      "viewRecording": {
+        "recordingDialogLabel": "記録",
+        "downloadRecordingButton": "記録のダウンロード",
+        "recordingLoadingMessage": "記録のロード",
+        "noRecordingAvailableMessage": "このテスト結果の記録は利用できません"
+      },
+      "customProperties": {
+        "title": "カスタム・プロパティー"
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "表示可能な結果はありません",
@@ -802,7 +815,8 @@
       "associatedWebsites": "関連ウェブサイト",
       "noWebsitesAssociated": "関連サイトなし",
       "associatedMobileApps": "関連モバイル・アプリ",
-      "noMobileAppAssociated": "モバイル・アプリは関連なし"
+      "noMobileAppAssociated": "モバイル・アプリは関連なし",
+      "recordVideo": "失敗時にユーザーアクションを記録する"
     },
     "credentialList": {
       "mainLabel": "資格情報",

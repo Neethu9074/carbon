@@ -7,10 +7,12 @@
 import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
+//@ts-expect-error
+import { titleValidator } from 'in-alerting/smart-alerts/synthetics/data/alertConfigUtils';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { SyntheticAlertConfig, TagFilter, VersionedConfig } from 'in-types';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
+import { MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 
 const severityWarning = 5;
 
@@ -29,7 +31,10 @@ export const fieldNames = Object.freeze({
   customPayloadFields: 'customPayloadFields'
 });
 
-export default function alertFormDefinition(alertConfig: SyntheticAlertConfig & VersionedConfig): MapForm<any> {
+export default function alertFormDefinition(
+  alertConfig: SyntheticAlertConfig & VersionedConfig,
+  isTearSheet?: boolean
+): MapForm<any> {
   const {
     tagFilterExpression,
     alertChannelIds = [],
@@ -81,7 +86,7 @@ export default function alertFormDefinition(alertConfig: SyntheticAlertConfig & 
       fieldNames.name,
       createField({
         value: name,
-        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
+        validator: titleValidator(isTearSheet)
       })
     )
     .put(

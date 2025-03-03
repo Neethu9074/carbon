@@ -6,9 +6,9 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
 import { Link, Card, Button } from '@instana/components';
 
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/ServerTable/internalComponents/LegacySeverityIndicatorCellContentWrapper';
 import {
   getTimeConfigAlignedToResultTime,
   timeConfig$,

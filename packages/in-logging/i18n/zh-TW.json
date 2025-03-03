@@ -8,6 +8,7 @@
   "logsOverTime_WARN": "警告",
   "logsOverTime_INFO": "資訊",
   "logsOverTime_FATAL": "嚴重",
+  "logsOverTime_NONE": "無",
   "logsOverTime_NEXTLOGLEVEL": "{{label}}",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
   "addAsFilter": "新增為過濾器",
@@ -63,7 +64,7 @@
     "summary": "摘要",
     "smartAlerts": "智慧型警示",
     "deleteLogs": "刪除日誌",
-    "configuration": "配置",
+    "management": "管理",
     "logVolume": {
       "logVolumeTitle": "當月日誌量",
       "gb": "GB",
@@ -72,7 +73,7 @@
     "retentionIcon": "變更保留期間",
     "noData": "沒有可用的資料",
     "analyzeLogs": "分析日誌",
-    "configurationPage": {
+    "managementPage": {
       "logVolume": "日誌量",
       "logVolumeDescription": "檢視長達 12 個月的日誌量，並隨需應變依基礎架構標籤進行分組。",
       "logIntegrations": "日誌整合",

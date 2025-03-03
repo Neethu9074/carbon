@@ -9,9 +9,9 @@ import { DataTable as CarbonTable, TableSkeleton as CarbonTableSkeleton, Loading
 import { TableLoadMoreRow } from '@instana/legacy';
 import { useObservable } from '@instana/hooks';
 
+import { getSnapshotVersionsObservable, HostInformation } from 'in-profiling/analyze/AnalyzeView/ProfiledProcesses/Row';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { useLinkToProfiles } from 'in-components/Profiling/navigation/paths';
-import { getSnapshotVersionsObservable, HostInformation } from './Row';
 import EntityLink from 'in-components/EntityLink';
 import { t } from 'in-i18n';
 

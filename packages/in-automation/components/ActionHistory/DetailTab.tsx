@@ -4,20 +4,21 @@
  * Copyright IBM Corp. 2023
  */
 
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
-import React from 'react';
 
-import { Li, Link, Ul, IconButton, SvgIcon, DataTable as CarbonTable } from '@instana/components';
-import { ActionInstance, ActorType } from '@instana/types';
+import { Li, Link, Ul, IconButton, SvgIcon, Spacer, ExpandableGroup } from '@instana/components';
+import { ActionInstance, ActorType, Field, ActionType } from '@instana/types';
+import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { just } from '@instana/observables';
 
 import {
   getEntityIdView,
   securityAndAccessAccessControlUsers,
   securityAndAccessAccessControlApiTokens
 } from 'in-settings/navigation/paths';
+import { ACTION_FIELD_TRANSLATIONS } from 'in-automation/components/ActionHistory/constants';
 import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -27,12 +28,15 @@ import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
+import { base64ToUtf8 } from 'in-automation/utils/actionField';
 import { formatDateTime } from 'in-services/formatters/date';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { eventsPath } from 'in-events/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import Code from 'in-components/Code';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -47,9 +51,10 @@ export default function DetailTab({
   properties: ActionInstance;
   inActionLane?: boolean;
 }) {
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const { createHref, location } = useNavigation();
   const getDashboardLink = useGetDashboardLink();
-
+  const handleToggle = () => setIsExpanded(expanded => !expanded);
   function getPolicyView(id: string): string {
     const path = location;
     path.pathname = policiesDetailsFullyQualified;
@@ -83,7 +88,8 @@ export default function DetailTab({
     actorType,
     actorName,
     output,
-    actorId
+    actorId,
+    actionSnapshot
   } = properties;
 
   const timeConfig = useTimeConfig();
@@ -184,9 +190,11 @@ export default function DetailTab({
             {refSetter => (
               <span ref={refSetter}>
                 <IconButton
+                  className={locals.copyIcon}
                   color="var(--cds-link-primary)"
                   onClick={stopPropagationAndPreventDefault}
                   type="lib_actions_copy"
+                  size="compact"
                 />
               </span>
             )}
@@ -202,17 +210,21 @@ export default function DetailTab({
         <Ul framed={false}>
           {(() => {
             const hostsLimit = (metadata?.find(data => data.name === 'hostsLimit')?.value ?? '').split(',');
-            return hostsLimit.map(host => (
-              <Li
-                key={host}
-                className={classNames({
-                  [locals.singleHostLimit]: hostsLimit.length === 1,
-                  [locals.hostLimit]: true
-                })}
-              >
-                {host}
-              </Li>
-            ));
+            return hostsLimit.length > 0 ? (
+              hostsLimit.map(host => (
+                <Li
+                  key={host}
+                  className={classNames({
+                    [locals.singleHostLimit]: hostsLimit.length === 1,
+                    [locals.hostLimit]: true
+                  })}
+                >
+                  {host}
+                </Li>
+              ))
+            ) : (
+              <span>-</span>
+            );
           })()}
         </Ul>
       )
@@ -256,42 +268,32 @@ export default function DetailTab({
     }
   }
 
-  const carbonHeaders = [
-    {
-      key: 'property',
-      header: t('in-automation:actionHistory.property')
-    },
-    {
-      key: 'value',
-      header: t('in-automation:actionHistory.value')
-    }
-  ];
+  const renderRow = (
+    label: string,
+    value: React.ReactNode,
+    isLink?: boolean,
+    ObservableLink?: Observable<string> | null,
+    stringLink?: string | null,
+    showCondition?: boolean,
+    actionLane?: boolean,
+    inActionLane?: boolean
+  ) => {
+    if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) return null;
 
-  const filterRows_WhenNotShowingCondition_or_actionLaneIsDifferent = ({
-    showCondition = true,
-    actionLane = false
-  }) => {
-    if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) {
-      return false;
-    }
-    return true;
-  };
+    return (
+      <Di key={label} title={label}>
+        {/* <td>{label}</td> */}
 
-  const carbonRows = tableData
-    .filter(filterRows_WhenNotShowingCondition_or_actionLaneIsDifferent)
-    .map(({ label, value, isLink, ObservableLink, stringLink }) => {
-      return {
-        id: label,
-        property: label,
-        value: isLink ? (
-          <Link target="_blank" className={locals.detailsLink} href={ObservableLink ?? stringLink ?? undefined}>
-            {value} <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />{' '}
+        {isLink ? (
+          <Link className={locals.detailsLink} target="_blank" href={ObservableLink ?? stringLink ?? undefined}>
+            {value} <SvgIcon size="xs" type="lib_views_external_link" color="var(--cds-link-primary)" />
           </Link>
         ) : (
           value
-        )
-      };
-    });
+        )}
+      </Di>
+    );
+  };
 
   return (
     <div
@@ -299,7 +301,22 @@ export default function DetailTab({
         [locals.instanceTabContent]: !inActionLane
       })}
     >
-      <CarbonTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+      <Dl>
+        {tableData.map(
+          ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false }) =>
+            renderRow(label, value, isLink, ObservableLink, stringLink, showCondition, actionLane, inActionLane)
+        )}
+      </Dl>
+      <Spacer vertical="large" />
+      {actionSnapshot && (
+        <ExpandableGroup
+          expanded={isExpanded}
+          onToggle={handleToggle}
+          title={t('in-automation:actionHistory.actionSnapshotDetails')}
+        >
+          <ActionDetails type={type} actionSnapshot={actionSnapshot ?? ''} />
+        </ExpandableGroup>
+      )}
     </div>
   );
 }
@@ -313,4 +330,65 @@ function getActorLink(actorType?: ActorType, actorId?: string) {
     default:
       return null;
   }
+}
+
+function ActionDetails({ type, actionSnapshot }: { type: ActionType; actionSnapshot: string }) {
+  const parsedSnapshot = JSON.parse(actionSnapshot);
+  const { fields } = parsedSnapshot;
+
+  const decodeBase64 = (encodedValue: string) => {
+    return base64ToUtf8(encodedValue);
+  };
+
+  return (
+    <div>
+      {fields?.map((field: Field) => {
+        if (field.name === 'header' || field.name === 'authen') {
+          // Parse JSON if field is headers or authentication(http fields)
+          const parsedJsonField = JSON.parse(field.value);
+          return (
+            <>
+              <Spacer vertical="small" />
+              <div className={locals.parsedFields} key={field.name}>
+                <div className={locals.headerField}>
+                  <h3>{ACTION_FIELD_TRANSLATIONS[field.name]}</h3>
+                </div>
+
+                <div>
+                  {Object.entries(parsedJsonField).map(([key, value]) => (
+                    <Di key={key} title={key}>
+                      {value}
+                    </Di>
+                  ))}
+                </div>
+              </div>
+              <Spacer vertical="small" />
+            </>
+          );
+        }
+
+        // For other fields, display normally
+        return (
+          <Di
+            key={field.name}
+            title={
+              field.name === 'body' && (type === ACTION_TYPE.JIRA || type === ACTION_TYPE.GITLAB)
+                ? ACTION_FIELD_TRANSLATIONS['description']
+                : ACTION_FIELD_TRANSLATIONS[field.name]
+            }
+          >
+            {field.encoding === 'base64' ? (
+              field.name === 'script_ssh' ? (
+                <Code withExpandButton withoutCopyButton code={decodeBase64(field.value)} lang={'bash'} softWrap />
+              ) : (
+                decodeBase64(field.value) ?? ''
+              )
+            ) : (
+              field.value
+            )}
+          </Di>
+        );
+      })}
+    </div>
+  );
 }

@@ -5,9 +5,9 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 
+import { Result, SliConfigMetricConfiguration, SliConfigurationWithLastUpdated, SliEntityUnion } from '@instana/types';
 import { just } from '@instana/observables';
 
-import { Result, SliConfigMetricConfiguration, SliConfigurationWithLastUpdated, SliEntityUnion } from 'in-types';
 import useSliConfiguration from 'in-custom-dashboards/widgets/SloLegacy/hooks/useSliConfiguration';
 import { getSliConfiguration } from 'in-custom-dashboards/widgets/SloLegacy/sli/api';
 

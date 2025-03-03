@@ -27,13 +27,8 @@ import {
   hasManualCloseFields,
   getEventStateBadge
 } from 'in-events/components/eventUtil';
-import {
-  aqmDisableConfigOnEventViewEnabled,
-  manuallyCloseEventEnabled,
-  eumImpactedUsersForAppAlertEnabled,
-  businessObservabilityEnabled
-} from 'in-services/featureFlags';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
+import { aqmDisableConfigOnEventViewEnabled, eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
@@ -42,7 +37,6 @@ import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMo
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import IncidentContent from 'in-events/components/tabs/Summary/IncidentDetailPage/IncidentContent';
 import DisableEventConfigButton from 'in-events/components/tabs/Summary/DisableEventConfigButton';
-import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
 import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
@@ -96,23 +90,19 @@ export default function Summary(props) {
   const isIncident = eventType === EVENT_TYPES.INCIDENT;
 
   return (
-    <HeightRestrictedView
-      render={() => (
-        <>
-          <div className={locals.content}>
-            <DeprecatedCustomEventWarning event={event.toJS()} isIncident={isIncident} />
-            {isIncident ? (
-              <IncidentContent incident={event} latestSnapshot={latestSnapshot} />
-            ) : (
-              <>
-                <EventDetailsKPIs event={event} isIncident={isIncident} />
-                <EventContent event={event} latestSnapshot={latestSnapshot} reload={reload} />
-              </>
-            )}
-          </div>
-        </>
-      )}
-    />
+    <>
+      <div className={locals.content}>
+        <DeprecatedCustomEventWarning event={event.toJS()} isIncident={isIncident} />
+        {isIncident ? (
+          <IncidentContent incident={event} latestSnapshot={latestSnapshot} />
+        ) : (
+          <>
+            <EventDetailsKPIs event={event} isIncident={isIncident} />
+            <EventContent event={event} latestSnapshot={latestSnapshot} reload={reload} />
+          </>
+        )}
+      </div>
+    </>
   );
 }
 
@@ -251,13 +241,11 @@ function EventContent({ event, latestSnapshot, reload }) {
       {isIssue && hasEventSpec && (
         <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
       )}
-      {businessObservabilityEnabled && (
-        <ImpactedBusinessProcesses
-          eventType={eventType}
-          entityType={event?.get('entityType', undefined)}
-          entityId={event?.get('entityId', undefined)}
-        />
-      )}
+      <ImpactedBusinessProcesses
+        eventType={eventType}
+        entityType={event?.get('entityType', undefined)}
+        entityId={event?.get('entityId', undefined)}
+      />
       {isCveIssueEvent(event) && snapshot?.get('id') && (
         <AffectedEntitiesPresenter id={snapshot?.get('id')} timeConfig={timeConfig} />
       )}
@@ -266,7 +254,7 @@ function EventContent({ event, latestSnapshot, reload }) {
 }
 
 const EventActions = ({ event, reload, latestSnapshot }) => {
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
 
   return (

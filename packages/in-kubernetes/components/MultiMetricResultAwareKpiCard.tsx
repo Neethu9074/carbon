@@ -7,9 +7,9 @@
 import React, { ReactElement, ReactNode } from 'react';
 
 import { HorizontalIndicator, LoadingSkeleton, Stack, SvgIcon } from '@instana/components';
+import { Result } from '@instana/types';
 
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import { Result } from 'in-types';
 
 import locals from 'in-components/KpiCard/ResultAwareKpiCard.mless';
 

@@ -9,7 +9,6 @@ import React, { useContext } from 'react';
 import { DurationUnitType, TimeWindowType } from '@instana/types';
 import { Stack, SvgIcon } from '@instana/components';
 import { Select } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
@@ -21,6 +20,7 @@ import TimeInput from 'in-components/TimeInput/TimeInput';
 import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';
 import Input from 'in-components/form/Input/Input';
+import { t } from 'in-i18n';
 
 import locals from './SloObjectiveSection.mless';
 
@@ -58,7 +58,7 @@ export default function TimeWindowSelector() {
         titleHtmlFor="time-window-size"
         titleWidth={titleWidth}
       >
-        <Stack direction="horizontal" gap="medium">
+        <Stack direction="horizontal" gap="xsmall">
           <Input
             className={locals.objectiveInput}
             type="number"

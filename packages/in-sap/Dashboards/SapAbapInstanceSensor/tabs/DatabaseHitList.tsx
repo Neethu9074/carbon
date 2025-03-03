@@ -125,7 +125,10 @@ const cols = [
 ];
 
 export default function DatabaseHitList({ snapshotId, timeConfig }: DatabaseHitListProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'databaseStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'databaseStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   // @ts-expect-error Module needs to be translated to TS
   const [{ taskType }, setPhase] = useState(taskTypeMap);
 

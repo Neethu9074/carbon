@@ -6,8 +6,9 @@
 
 import { fromJS } from 'immutable';
 
+import { TimeConfig } from '@instana/types';
+
 import getHostByKubernetesNode from 'in-kubernetes/subscriptions/getHostByKubernetesNode';
-import { TimeConfig } from 'in-types';
 
 interface Props {
   nodeId: string;

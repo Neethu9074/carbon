@@ -1,5 +1,6 @@
 {
   "welcomeToInstana": "Instana에 오신 것을 환영합니다!",
+  "home": "홈",
   "getStartedAndInstallYourFirstAgent": "우선 첫 번째 에이전트를 설치하십시오.",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "평가판이 만료됨",
@@ -73,14 +74,6 @@
       "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
     },
-    "askForHelp": {
-      "email": "이메일(email)",
-      "send": "전송",
-      "askForHelpTitle": "동료에게 도움을 요청하십시오.",
-      "thisWillBeAvailableOnceYourInstanceIsReady": "인스턴스가 준비되면 이를 사용할 수 있습니다.",
-      "inviteAColeague": "동료 초대",
-      "agentKey": "에이전트 키"
-    },
     "common": {
       "agentDeployment": "에이전트 배치",
       "step1": "1단계: ",
@@ -108,8 +101,7 @@
       "support": "지원",
       "sideCard": {
         "prerequisites": "전제조건",
-        "documentation": "문서",
-        "askAColleagueForHelp": "동료에게 도움을 요청하십시오."
+        "documentation": "문서"
       }
     },
     "kubernetes": {
@@ -524,8 +516,8 @@
     "heading": "Instana 시작",
     "foldableTileTitle": "시작합니다.",
     "viewAll": "모두 보기",
-    "UrlShortener": "URL 단축기",
     "addMore": "추가",
+    "create": "작성",
     "collapsibleButton": {
       "showOnboardingTasks": "온보딩 태스크 표시",
       "hideOnboardingTasks": "온보딩 작업 숨기기"
@@ -569,6 +561,10 @@
       "title": "팀 가져오기",
       "description": "동료를 Instana에 초대하고 협업을 시작하십시오.",
       "buttonName": "팀 구성원 초대"
+    },
+    "favouriteButton": {
+      "ariaFilled": "즐겨찾기 제거",
+      "aria": "즐겨찾기에 추가"
     },
     "component": {
       "applicationWidget": {
@@ -716,25 +712,22 @@
     "noData": {
       "applicationWidget": {
         "header": "애플리케이션 없음",
-        "description": "관찰할 서비스에 대한 사용자 고유의 퍼스펙티브를 작성하십시오.",
-        "buttonName": "애플리케이션 퍼스펙티브 작성"
+        "description": "관찰하려는 서비스에 대한 사용자 고유의 애플리케이션 퍼스펙티브를 작성하십시오.<br><br> 시작하려면, <strong>애플리케이션 추가</strong>를 클릭하십시오."
       },
       "incidentsWidget": {
         "header": "인시던트 없음",
-        "description": "인시던트는 애플리케이션의 서비스 품질 문제를 발견, 이해 및 조사하는 데 도움이 됩니다."
+        "description": "인시던트는 애플리케이션의 문제를 감지, 이해, 조사하는 데 도움이 됩니다.<br><br><strong>에이전트를 배치하여</strong> 인시던트 모니터링을 시작하십시오."
       },
       "websitesWidget": {
         "header": "웹 사이트 없음",
-        "description": "웹 사이트 데이터를 수집하여 사용자의 디지털 경험을 이해합니다.",
-        "buttonName": "웹 사이트 추가"
+        "description": "웹 사이트 데이터를 수집하여 사용자의 디지털 환경을 파악하십시오.<br><br>시작하려면 <strong>웹 사이트 추가</strong>를 클릭하십시오."
       },
       "mobileListWidget": {
         "header": "모바일 앱 없음",
-        "description": "모바일 앱 데이터를 수집하여 사용자의 디지털 경험을 이해합니다.",
-        "buttonName": "모바일 애플리케이션 추가"
+        "description": "모바일 앱 데이터를 수집하여 사용자의 디지털 경험을 파악하십시오.<br><br>시작하려면 <strong>모바일 앱 추가</strong>를 클릭하십시오."
       },
       "infrastructureWidget": {
-        "description": "여기에서 자세한 내용을 보려면 에이전트를 배치하십시오.<br><linkToAgents>에이전트</linkToAgents> 페이지에서 시작하십시오.",
+        "description": "여기에서 자세한 내용을 보려면 에이전트를 배치하십시오.<br><br><linkToAgents>에이전트</linkToAgents> 페이지에서 시작하십시오.",
         "link": "에이전트",
         "hosts": {
           "header": "호스트 없음"
@@ -757,8 +750,7 @@
       "syntheticWidget": {
         "test": {
           "header": "합성 테스트 없음",
-          "description": "특정 연속 간격으로 실행되도록 합성 테스트를 구성하십시오.",
-          "buttonName": "합성 테스트 추가"
+          "description": "애플리케이션을 지속적으로 모니터링하는 종합 테스트를 구성하십시오.<br><br> 시작하려면 <strong>종합 테스트 추가</strong>를 클릭하십시오."
         },
         "location": {
           "header": "합성 위치 없음",
@@ -766,18 +758,16 @@
         },
         "smartalerts": {
           "header": "합성 스마트 경보 없음",
-          "description": "위치에 대한 테스트가 실패할 경우 경보를 보내도록 합성에 대한 스마트 경보를 구성하십시오.",
-          "buttonName": "합성 스마트 경보 추가"
+          "description": "위치 테스트에 실패하면 경보를 보내도록 합성 기기에 대한 스마트 알림을 구성하십시오.<br><br>시작하려면 <strong>종합 스마트 경보 추가</strong>를 클릭하십시오."
         }
       },
       "eventsWidget": {
         "header": "이벤트 없음",
-        "description": "표시할 이벤트나 인시던트가 없거나 먼저 데이터를 설정해야 할 수 있습니다."
+        "description": "표시할 이벤트나 인시던트가 없을 수도 있고 먼저 데이터에 연결해야 할 수도 있습니다."
       },
       "dashboardWidget": {
         "header": "사용자 정의 대시보드 없음",
-        "description": "사용자 정의 대시보드를 작성하십시오.",
-        "buttonName": "사용자 정의 대시보드 작성"
+        "description": "사용자 정의 대시보드는 중요한 정보에 대한 보다 맞춤화된 보기를 제공합니다.<br><br> 시작하려면 <strong>대시보드 작성</strong>을 클릭하십시오."
       }
     },
     "quickLinks": {
@@ -794,12 +784,16 @@
         "documentation": "IBM 문서",
         "releaseNotes": "릴리스 정보",
         "whatsNewLink": "Instana의 새로운 기능"
+      },
+      "toolTip": {
+        "makeDefault": "이 조치를 수행하면 Instana 홈 페이지가 기본 랜딩 페이지로 설정되어, 설정한 사용자 정의 대시보드를 대체합니다."
       }
     },
     "ariaLabel": {
       "search": "검색",
-      "shareButton": "공유 단추",
-      "handleButton": "처리 단추"
+      "handleButton": "처리 단추",
+      "toolbar": "데이터 테이블 도구 모음",
+      "tabs": "탭 목록"
     }
   },
   "Components": {

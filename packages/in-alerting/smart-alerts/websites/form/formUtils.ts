@@ -19,11 +19,12 @@ import {
   StatusCodeWebsiteAlertRule,
   TagFilterOperator,
   ThresholdOperator,
-  ThresholdType,
   ThroughputWebsiteAlertRule,
   WebsiteAlertRule
 } from 'in-types';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { severityMap, WARNING_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { isEmpty as checkIsEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { errorRate, onLoadTime, statusCodeRate } from 'in-alerting/smart-alerts/websites/constants';
 import { getStatusCodeLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
@@ -77,11 +78,15 @@ export function getTitlePlaceholder(form: MapForm<any>) {
   }
 }
 
-export function getDescriptionPlaceholder(form: MapForm<any>) {
+export function getDescriptionPlaceholder(form: MapForm<any>, severity: number) {
   const rule = (form.get('rule') as MapForm<any>).toJS() as unknown as WebsiteAlertRule;
   const alertType = rule.alertType;
   const thresholdForm = form.get('threshold') as MapForm<any>;
 
+  const thresholdType = thresholdForm.get('warningThreshold').get('type').value;
+  const isMultiThresholdConfigured =
+    !checkIsEmpty(thresholdForm?.get('warningThreshold')?.get('value')?.value) &&
+    !checkIsEmpty(thresholdForm?.get('criticalThreshold')?.get('value')?.value);
   const thresholdOperator = (thresholdForm.get('operator') as Field<ThresholdOperator>).value;
 
   switch (alertType) {
@@ -99,10 +104,9 @@ export function getDescriptionPlaceholder(form: MapForm<any>) {
     }
     case 'slowness': {
       const slownessRule = rule as SlownessWebsiteAlertRule;
-      const thresholdType = (thresholdForm.get('type') as Field<ThresholdType>).value;
       const aggregationText = getAggregationText(slownessRule.aggregation);
-      if (thresholdType === STATIC_THRESHOLD) {
-        const thresholdValue = (thresholdForm.get('value') as Field<number>).value;
+      if (thresholdType === STATIC_THRESHOLD && !isMultiThresholdConfigured) {
+        const thresholdValue = getThresholdValue(thresholdForm, severity);
         return getSlownessGreaterOrLessOperatorText(aggregationText, thresholdOperator, thresholdValue);
       }
       return getSlownessSimpleAboveOrBelowOperatorText(aggregationText, thresholdOperator);
@@ -111,10 +115,9 @@ export function getDescriptionPlaceholder(form: MapForm<any>) {
       const blueprintConfig = getBlueprintConfig(alertType);
       const metricName = blueprintConfig!.getMetricName(rule as ThroughputWebsiteAlertRule);
       const metricLabel = blueprintConfig!.getMetricLabel(metricName as MetricName);
-      const thresholdType = (thresholdForm.get('type') as Field<ThresholdType>).value;
 
-      if (thresholdType === STATIC_THRESHOLD) {
-        const thresholdValue = (thresholdForm.get('value') as Field<number>).value;
+      if (thresholdType === STATIC_THRESHOLD && !isMultiThresholdConfigured) {
+        const thresholdValue = getThresholdValue(thresholdForm, severity);
         return getStaticThresholdHigherOrLowerOperatorText(metricLabel, thresholdOperator, thresholdValue);
       }
       return getThresholdHigherOrLowerOperatorText(metricLabel, thresholdOperator);
@@ -127,6 +130,12 @@ export function getDescriptionPlaceholder(form: MapForm<any>) {
     default:
       throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedAlertType', { alertType: alertType }));
   }
+}
+
+export function getThresholdValue(thresholdForm: MapForm<any>, severity: number) {
+  return severityMap[severity] === WARNING_SEVERITY
+    ? thresholdForm?.get('warningThreshold')?.get('value')?.value
+    : thresholdForm?.get('criticalThreshold')?.get('value')?.value;
 }
 
 export function getMetricUnitPostfix(metricName: string) {

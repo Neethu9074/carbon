@@ -158,21 +158,46 @@
     "labelSubtraces": "Sub-rastreios",
     "labelSubtrace": "Sub-rastreio",
     "newSubtrace": "Incluir sub-rastreio",
+    "labelCallsPerSubtrace": "Chamadas por subtraço",
+    "labelDuration": "Duração",
+    "labelNumberOfSubtraces": "Número de subtraços",
+    "labelErroneousSubtraceRate": "Taxa de subtraços errôneos",
+    "labelErroneousRate": "Taxa errônea",
+    "meanDuration": "Duração média",
     "subtracesList": {
       "name": "Nome",
       "count": "Contagem",
-      "meanDuration": "Duração média",
       "meanSubcallCount": "Número médio de sub-chamadas",
       "meanErrorRate": "Taxa média de erro"
     },
     "configuration": {
       "success": {
-        "title": "A ação {{action}} de sub-rastreio foi realizada com sucesso.",
-        "message": "O nome \"{{subtraceName}}\" do sub-rastreio foi {{action}}."
+        "created": {
+          "title": "Subtraço criado com sucesso",
+          "message": "O subtraço \"{{subtraceName}}\" foi criado."
+        },
+        "updated": {
+          "title": "Subtraço atualizado com sucesso",
+          "message": "O subtraço \"{{subtraceName}}\" foi atualizado."
+        },
+        "deleted": {
+          "title": "Subtraço excluído com sucesso",
+          "message": "O subtraço \"{{subtraceName}}\" foi excluído."
+        }
       },
       "failure": {
-        "title": "Falha no sub-rastreio da ação {{action}}.",
-        "message": "Houve um problema ao tentar a ação {{action}} este sub-rastreio: \"{{subtraceName}}\""
+        "created": {
+          "title": "Falha ao criar subtraço",
+          "message": "Houve um problema ao tentar criar este subtraço: \"{{subtraceName}}\""
+        },
+        "updated": {
+          "title": "Falha ao atualizar subtraço",
+          "message": "Houve um problema ao tentar atualizar este subtraço: \"{{subtraceName}}\""
+        },
+        "deleted": {
+          "title": "Falha ao excluir subtraço",
+          "message": "Houve um problema ao tentar excluir este subtraço: \"{{subtraceName}}\""
+        }
       },
       "title": "Atualizar o sub-rastreio",
       "subtraceName": "Nome do sub-rastreio",
@@ -465,6 +490,8 @@
   "dashboards": {
     "callCount": "{{formattedCount}} total de chamada",
     "callCount_plural": "{{formattedCount}} total de chamadas",
+    "subtraceCount": "{{formattedCount}} total de subtraço",
+    "subtraceCount_plural": "{{formattedCount}} total de subtraços",
     "erroneousCallCount": "{{formattedCount}} total de chamadas errôneas",
     "erroneousCallCount_plural": "{{formattedCount}} total de chamadas errôneas",
     "meanLatencyFor90th": "{{meanLatencyDetail}} para 90º",

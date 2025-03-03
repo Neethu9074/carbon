@@ -140,7 +140,10 @@
           "certificateCheckTitle": "SSL Certificate Check",
           "certificateCheckLabel": "SSL Certificate",
           "certificateCheckHeadline": "SSL Certificate Check Test",
-          "certificateCheckText": "SSL Certificate check testing is a method to test the expiration for a SSL certificate in a web application by checking the remaining days on a issued certificate."
+          "certificateCheckText": "SSL Certificate check testing is a method to test the expiration for a SSL certificate in a web application by checking the remaining days on a issued certificate.",
+          "dnsActionLabel": "DNS",
+          "dnsActionHeadline": "Domain Name Server",
+          "dnsActionText": "DNS test is a method to check that your device or network is properly resolving domain names and is free from issues that could cause slowdowns, errors, or security vulnerabilities."
         },
         "configurationLabel": "Configuration",
         "configurationTitle": "Configuration: How will this test work?",
@@ -180,23 +183,23 @@
           "shouldBeValidHeaderName": "String entered must be a valid HTTP request header name.",
           "shouldBeValidHeaderValue": "String entered must be a valid HTTP request header value.",
           "scriptLabel": "Script",
-          "addscriptAction": "Add Script",
-          "editscriptAction": "Edit Script",
+          "addscriptAction": "Add script",
+          "editscriptAction": "Edit script",
           "scriptFileName": "File Name",
           "scriptNotAdded": "No script added.",
           "buttonAdd": "Add",
           "buttonBack": "Back",
           "buttonSave": "Save",
-          "uploadFileLabel": "Upload File",
-          "uploadFileDescription": "You can upload either a single .js file or a zip file of bundled .js files.",
+          "uploadFileLabel": "Upload file",
+          "uploadFileDescription": "You can upload either a single .js file or a .zip file of bundled .js files.",
           "scriptDescription": "Your uploaded script will appear here or you can manually enter it below.",
           "validScriptMessage": "Script is valid.",
           "zipFileUploadedMessage": "Bundled files cannot be modified or validated",
           "scriptEditedManuallyMessage": "Script added or modified manually",
-          "mainFileNameLabel": "Main File Name",
+          "mainFileNameLabel": "Enter main file name",
           "invalidMainFileName": "Main file name not valid",
           "webpageUrl": "Webpage URL",
-          "browserUploadFileDescription": "You can upload either a single .js file, a zip file of bundled .js files or a .side script recorded by SeleniumIDE.",
+          "browserUploadFileDescription": "You can upload either a single .js file, a .zip file of bundled .js files or a .side script recorded by SeleniumIDE.",
           "sideFileUploadedMessage": "Selenium scripts cannot be modified or validated",
           "bundleFileNotSupportedMessage": "Unsupported file is selected. Bundles are only supported in Advanced Mode.",
           "timeoutFieldLabel": "Timeout",
@@ -214,7 +217,37 @@
           "retryFieldOptionTwice": "Retry twice",
           "retryIntervalFieldLabel": "Retry Interval",
           "retryIntervalDescription": "This test will retry {{retryCount}} after {{retryIntervalValue}} {{retryIntervalUnit}}.",
-          "markSyntheticCall": "Mark Synthetic Call"
+          "markSyntheticCall": "Mark Synthetic Call",
+          "downloadZip": "Download .zip file",
+          "mainFileNameHelperText": "Provide the name of the file within this .zip file that contains the test's entry point",
+          "recordVideo": "Record user actions on failure",
+          "dnsAction": {
+            "lookupLabel": "URL",
+            "lookupHelperText": "The URL is the domain name being tested for DNS resolution",
+            "lookupPlaceholder": "Your website's url",
+            "serverLabel": "DNS server",
+            "serverHelperText": "The DNS server is the server responsible for translating the domain name into an IP address",
+            "portLabel": "Port",
+            "portHelperText": "The DNS server port is the network port used or communication between your device (PoP) and the DNS server, typically port 53",
+            "queryTimeLabel": "Response Time",
+            "queryTimeHelperText": "Optimal DNS resolution time is between 20-120 ms",
+            "recordTypeTitle": "Conditions (optional)",
+            "recordTypeSubtitle": "These fields are optional, but when filled they all need to be true for the test to be successful.",
+            "recordTypeLabel": "Record type",
+            "operatorLabel": "Conditional",
+            "operatorOptionMatches": "Matches",
+            "operatorOptionContains": "Contains",
+            "resolutionRecordLabel": "Resolution record",
+            "deleteButtonLabel": "Delete",
+            "addRecordTypeLabel": "Add field",
+            "recursiveLookupLabel": "Recursive lookup",
+            "dnsRadioButtonOnLabel": "On",
+            "dnsRadioButtonOffLabel": "Off",
+            "transportProtocolLabel": "Transport Protocol",
+            "acceptCNAMELabel": "Accept CNAME",
+            "lookupServerNamelabel": "Lookup server name",
+            "serverRetriesLabel": "Server retries (optional)"
+          }
         },
         "loadMore": "Load More",
         "selectTests": {
@@ -228,7 +261,8 @@
         "advancedBluePrint": {
           "apiName": "API",
           "browserName": "Browser",
-          "certificateCheckName": "SSL Certificate"
+          "certificateCheckName": "SSL Certificate",
+          "dnsActionName": "DNS"
         },
         "customProperties": {
           "property": "Property",
@@ -411,9 +445,6 @@
         "show": "Show credential value"
       }
     }
-  },
-  "createSmartAlert": {
-    "buttonLabel": "Add Synthetic Smart Alert"
   },
   "navigation": {
     "synthetics": "Synthetic Monitoring"
@@ -635,7 +666,6 @@
       "downloadHar": "Download HAR File",
       "downloadLog": "Download Logs",
       "viewScreenshotsLabel": "View Screenshot(s)",
-      "downloadVideo": "Download Recording",
       "consoleLogsLevel": "CONSOLE",
       "consoleLogs": "Console",
       "browserLogs": "Browser",
@@ -715,7 +745,17 @@
         "timeOfIssue": "Time of Issue",
         "timeOfExpiry": "Time of Expiry"
       },
-      "failedRunErrorTypeTitle": "Error Type"
+      "failedRunErrorTypeTitle": "Error Type",
+      "viewRecordingLabel": "View recording",
+      "viewRecording": {
+        "recordingDialogLabel": "Recording",
+        "downloadRecordingButton": "Download recording",
+        "recordingLoadingMessage": "Loading recording",
+        "noRecordingAvailableMessage": "Recording not available for this test result"
+      },
+      "customProperties": {
+        "title": "Custom properties"
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "No results available",
@@ -802,7 +842,8 @@
       "associatedWebsites": "Associated Websites",
       "noWebsitesAssociated": "No Websites associated",
       "associatedMobileApps": "Associated Mobile Apps",
-      "noMobileAppAssociated": "No Mobile Apps associated"
+      "noMobileAppAssociated": "No Mobile Apps associated",
+      "recordVideo": "Record user actions on failure"
     },
     "credentialList": {
       "mainLabel": "Credentials",

@@ -7,7 +7,6 @@
 import React, { useEffect } from 'react';
 
 import { Message } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import MatchingSloTimeWindowsCard from 'in-service-levels/components/SloDashboard/components/MatchingSloTimeWindowsCard';
 import IndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
@@ -18,11 +17,12 @@ import TrafficKpiCard from 'in-service-levels/components/SloDashboard/components
 import TrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart';
 import TimeWindowCard from 'in-service-levels/components/SloDashboard/components/TimeWindowCard';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
-import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { SLO_SUMMARY_VIEW } from 'in-services/tracking/eventNames';
 import { Col, Row } from 'in-components/layout/Grid';
 import { Nullish } from 'in-types';
+import { t } from 'in-i18n';
 
 interface SloSummaryProps {
   data: SloTabData;
@@ -44,17 +44,18 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const { timeWindows, progress } = useSloTimeWindowContext();
   const hasMatchingTimeWindows = timeWindows.length > 0;
 
-  const track = useSloTrackers();
+  const { trackCta } = useSegmentTracking();
+
   useEffect(() => {
     const { indicator, timeWindow, entity } = configuration;
-    track(SLO_SUMMARY_VIEW, {
+    trackCta(SLO_SUMMARY_VIEW, {
       id: configuration.id,
       blueprint: indicator.blueprint,
       indicatorType: indicator.type,
       timeWindowType: timeWindow.type,
       entityType: entity.type
     });
-  }, [track, configuration]);
+  }, [trackCta, configuration]);
   return (
     <>
       {!progress.loading && !hasMatchingTimeWindows && (
@@ -87,10 +88,10 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
         <Col lg={4}>
           <IndicatorChart
             customHeight={250}
+            configuration={configuration}
             customChartSkeletonHeight={308}
             entity={configuration.entity}
             indicator={configuration.indicator}
-            timeWindow={configuration.timeWindow}
             createdDate={configuration.createdDate}
             title={t('in-service-levels:sloDashboard.components.indicatorChart.title')}
           />

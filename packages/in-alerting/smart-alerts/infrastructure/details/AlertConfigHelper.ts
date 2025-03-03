@@ -23,11 +23,12 @@ export const infraThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([
   ...thresholdTypeOptions.filter(option => option.value === STATIC_THRESHOLD)
 ]);
 
-export function getMetricFormat(formatter: any): NumberFormatter {
+export function getMetricFormat(formatter: any, value: number): NumberFormatter {
   if (formatter === 'PERCENTAGE') {
     return percentage;
   }
-  return number.forcedCompact;
+
+  return value !== Math.floor(value) ? number.forcedDetailed : number.forcedCompact;
 }
 
 export function getThresholdTypeOptions(): ThresholdTypeOptions {

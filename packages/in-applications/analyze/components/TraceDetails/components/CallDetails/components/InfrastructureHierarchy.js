@@ -63,11 +63,14 @@ export default function InfrastructureHierarchy({
 }
 
 function getStickyTimeConfig([snapshotId, timeConfig]) {
-  return shouldStayInCurrentTimeModeForNavigationToSnapshot(snapshotId).map(stay => (stay ? undefined : timeConfig), [
-    snapshotId
-  ]);
+  return shouldStayInCurrentTimeModeForNavigationToSnapshot(snapshotId).map(
+    stay => (stay ? undefined : timeConfig),
+    [snapshotId]
+  );
 }
 
 function getHierarchy([snapshotId, timeConfig, calculateHierarchy]) {
-  return calculateHierarchy && getPhysicalHierarchy({ snapshotId, includeCluster: false, timeConfig });
+  return (
+    calculateHierarchy && getPhysicalHierarchy({ snapshotId, includeCluster: false, timeConfig, extendTimeframe: true })
+  );
 }

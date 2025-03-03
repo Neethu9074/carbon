@@ -8,7 +8,6 @@ import React from 'react';
 
 import { FixedTimeWindow, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { themes } from '@instana/design-tokens';
-import { t } from '@instana/i18n-react';
 
 import ControlledSloErrorBudgetChart from 'in-service-levels/components/Shared/ControlledSloErrorBudgetChart';
 import SloChartSummary from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummary';
@@ -19,6 +18,7 @@ import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import { finishedProgress } from 'in-services/fixedObjects';
 import { truncFloat } from 'in-service-levels/utils/math';
 import { days } from 'in-services/time/time';
+import { t } from 'in-i18n';
 
 import locals from './ShowCase.mless';
 

@@ -36,6 +36,7 @@ import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedI
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
+import EntityExploreHeader from 'in-infrastructure/components/EntityExploreHeader';
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction';
 import { useSegmentTracker } from 'in-infrastructure/Explore/services/tracking';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
@@ -46,7 +47,6 @@ import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import { themes } from 'in-components/DashboardHeader/DashboardHeader';
 import { ActionSection } from 'in-components/workspace/ActionSection';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import EntityExploreHeader from '../components/EntityExploreHeader';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';

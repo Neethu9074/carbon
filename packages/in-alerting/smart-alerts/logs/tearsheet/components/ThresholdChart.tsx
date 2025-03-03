@@ -8,14 +8,14 @@ import React, { useEffect, useMemo } from 'react';
 import { MapForm } from 'formalistic';
 
 import { CarbonLayer, Spacer, Stack, StackItem, ButtonGroup } from '@instana/components';
-import { LogAlertConfigWithMetadata } from '@instana/types';
 import { create } from '@instana/observables';
 
+import { alertConfigWithDefaultThresholdAndTfe } from 'in-alerting/smart-alerts/logs/dialog/advanced/ThresholdSelectionInteractiveChart';
 import {
   ChartViewConfigItem,
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
-import { alertConfigWithDefaultThresholdAndTfe } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
@@ -70,7 +70,7 @@ export function ThresholdChart({ form, onChartViewConfigChange, selectedChartVie
               <BorderedContainer>
                 <div className={locals.chartPadding}>
                   <LogMetricChart
-                    alertConfig={alertConfigModel as LogAlertConfigWithMetadata}
+                    alertConfig={alertConfigModel as LogSmartAlertConfigWithMetadata}
                     timeConfig={{
                       ...chartViewConfig.timeConfig,
                       to: timeConfig.to,

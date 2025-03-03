@@ -33,6 +33,10 @@ import {
 } from '.';
 import { days, hours, minutes, seconds } from 'in-services/time';
 
+jest.mock('in-services/settings', () => ({
+  getSingle: () => true
+}));
+
 describe('in-services.formatter.number', () => {
   describe('decimal places', () => {
     it('should format to zero decimal places', () => {
@@ -116,8 +120,8 @@ describe('in-services.formatter.number', () => {
       expect(withSiPrefixZeroDecimalPlaces(0.001)).toEqual('1m');
       expect(withSiPrefixZeroDecimalPlaces(1)).toEqual('1');
       expect(withSiPrefixZeroDecimalPlaces(15)).toEqual('15');
-      expect(withSiPrefixZeroDecimalPlaces(14.57)).toEqual('14');
-      expect(withSiPrefixZeroDecimalPlaces(-14.57)).toEqual('-14');
+      expect(withSiPrefixZeroDecimalPlaces(14.57)).toEqual('15');
+      expect(withSiPrefixZeroDecimalPlaces(-14.57)).toEqual('-15');
       expect(withSiPrefixZeroDecimalPlaces(1000)).toEqual('1k');
       expect(withSiPrefixZeroDecimalPlaces(1000)).toEqual('1k');
       expect(withSiPrefixZeroDecimalPlaces(1000000)).toEqual('1M');
@@ -142,8 +146,8 @@ describe('in-services.formatter.number', () => {
     });
 
     it('should format with one decimal place', () => {
-      expect(withSiPrefixOneDecimalPlace(1.567)).toEqual('1.567');
-      expect(withSiPrefixOneDecimalPlace(1567)).toEqual('1.5k');
+      expect(withSiPrefixOneDecimalPlace(1.567)).toEqual('1.6');
+      expect(withSiPrefixOneDecimalPlace(1567)).toEqual('1.6k');
     });
 
     it('should format with decimal places using only multiplication prefixes', () => {
@@ -167,11 +171,11 @@ describe('in-services.formatter.number', () => {
 
     it('should always use one decimal place', () => {
       expect(withSiPrefixOneDecimalPlace(1.5)).toEqual('1.5');
-      expect(withSiPrefixOneDecimalPlace(1.53)).toEqual('1.53');
-      expect(withSiPrefixOneDecimalPlace(5)).toEqual('5');
-      expect(withSiPrefixOneDecimalPlace(433)).toEqual('433');
+      expect(withSiPrefixOneDecimalPlace(1.53)).toEqual('1.5');
+      expect(withSiPrefixOneDecimalPlace(5)).toEqual('5.0');
+      expect(withSiPrefixOneDecimalPlace(433)).toEqual('433.0');
       expect(withSiPrefixOneDecimalPlace(4433.123)).toEqual('4.4k');
-      expect(withSiPrefixOneDecimalPlace(433.123)).toEqual('433.123');
+      expect(withSiPrefixOneDecimalPlace(433.123)).toEqual('433.1');
     });
 
     it('should handle fractions correctly', () => {
@@ -192,11 +196,11 @@ describe('in-services.formatter.number', () => {
 
     it('should support negative values with one decimal place', () => {
       expect(withSiPrefixOneDecimalPlace(-1.5)).toEqual('-1.5');
-      expect(withSiPrefixOneDecimalPlace(-1.53)).toEqual('-1.53');
-      expect(withSiPrefixOneDecimalPlace(-5)).toEqual('-5');
-      expect(withSiPrefixOneDecimalPlace(-433)).toEqual('-433');
+      expect(withSiPrefixOneDecimalPlace(-1.53)).toEqual('-1.5');
+      expect(withSiPrefixOneDecimalPlace(-5)).toEqual('-5.0');
+      expect(withSiPrefixOneDecimalPlace(-433)).toEqual('-433.0');
       expect(withSiPrefixOneDecimalPlace(-4433.123)).toEqual('-4.4k');
-      expect(withSiPrefixOneDecimalPlace(-433.123)).toEqual('-433.123');
+      expect(withSiPrefixOneDecimalPlace(-433.123)).toEqual('-433.1');
     });
   });
 

@@ -8,10 +8,10 @@ import { round } from 'lodash';
 import React from 'react';
 
 import { Typography } from '@instana/components';
+import { Threshold } from '@instana/types';
 
 import { humanReadableThresholdOperator } from 'in-components/Threshold/threshold';
 import { FormatterFn } from 'in-stores/metric/formatters';
-import { Threshold } from 'in-types';
 import { t } from 'in-i18n';
 
 export interface ThresholdTooltipProps {

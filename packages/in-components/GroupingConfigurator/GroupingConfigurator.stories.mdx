@@ -1,4 +1,4 @@
-import {Meta, Preview, Story} from '@storybook/addon-docs';
+import {Meta, Canvas, Story} from '@storybook/addon-docs';
 import GroupingConfigurator from "./GroupingConfigurator";
 
 <Meta component={GroupingConfigurator}/>
@@ -99,7 +99,7 @@ export const tagCatalog = {
   "allTagNames": ["trace.service.name", "trace.endpoint.name"]
 };
 
-<Preview>
+<Canvas>
   <Story name="traceServiceName">
     <GroupingConfigurator value={{"groupbyTag": "trace.service.name", "groupbyTagEntity": "DESTINATION"}}
                           tagCatalog={tagCatalog} tagFilterExpression={{
@@ -110,4 +110,4 @@ export const tagCatalog = {
       "value": "End-to-End test-1666221113342-G-app-1"
     }}/>
   </Story>
-</Preview>
+</Canvas>

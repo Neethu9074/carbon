@@ -1,6 +1,6 @@
 {
-  "zhmcs": "zHMCs",
-  "hostname": "Nome Host",
+  "zhmcs": "zHMC",
+  "hostname": "Nome host",
   "name": "Nome",
   "systems": "Sistemi",
   "partitions": "Partizioni",
@@ -17,7 +17,7 @@
   "status": "Stato",
   "breadcrumbs": {
     "zhmc": "zHMC",
-    "zhmcs": "zHMCs",
+    "zhmcs": "zHMC",
     "systems": "Sistemi"
   },
   "dashboards": {

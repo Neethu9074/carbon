@@ -16,11 +16,11 @@ import {
 } from 'in-automation/navigation/urlParameters';
 import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { getDocLinkFromFields, getManualContentFromFields, base64ToUtf8 } from 'in-automation/utils/actionField';
 import { descriptionColumn, lastModifiedColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import useActionCatalogFilterUrlState from 'in-automation/ActionCatalog/useActionCatalogFilterUrlState';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
-import { getDocLinkFromFields, getManualContentFromFields } from 'in-automation/utils/actionField';
 import { refresh, usePaginatedActions } from 'in-automation/ActionCatalog/useActions';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -128,7 +128,7 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
   if (action.type === ACTION_TYPE.MANUAL) {
     const content = getManualContentFromFields(action.fields);
     if (content.encoding === 'base64') {
-      manualContent = atob(content.value);
+      manualContent = base64ToUtf8(content.value);
     }
   }
   if (!hasPermisson) return null;
@@ -215,10 +215,10 @@ function showConfirmationDialog(action: Action) {
   const { id, name } = action;
   addActiveDialog(
     <ConfirmationDialog
-      header={t('in-automation:deleteDialog.pleaseConfirm')}
+      header={t('in-automation:deleteDialog.confirmRemove')}
       description={
         <Typography variant="body-regular">
-          <Trans i18nKey="in-automation:deleteDialog.pleaseConfirmMsg" values={{ name }} />
+          <Trans i18nKey="in-automation:deleteDialog.confirmRemoveMsg" values={{ name }} />
         </Typography>
       }
       confirmButtonLabel={t('in-automation:deleteDialog.delete')}

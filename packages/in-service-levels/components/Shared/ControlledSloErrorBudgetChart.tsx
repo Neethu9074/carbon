@@ -51,14 +51,13 @@ export default function ControlledSloErrorBudgetChart({
   title,
   renderPostChartContent
 }: ControlledSloErrorBudgetChartProps) {
-  const { indicator, createdDate, timeWindow } = configuration;
+  const { indicator, createdDate } = configuration;
 
-  const missingDataIndicator = timeWindow.type === 'fixed' ? timeWindow.startTimestamp : createdDate;
   const sloZoomInAction = useSloZoomInAction();
 
   const formatter = indicator.type === 'timeBased' ? minutes.fixedCompact : number.compact;
   const renderer = useLineWithMissingDataIndicatorRenderer({
-    firstCollectedMetricTimestamp: missingDataIndicator
+    firstCollectedMetricTimestamp: createdDate
   });
 
   const chartMetrics = copyFirstBucketOfSubsequentDataSeries(metrics?.metrics);

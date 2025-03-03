@@ -11,7 +11,8 @@ import { Card } from '@instana/components';
 
 // @ts-expect-error
 import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
-import { DetailsList, DetailsProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details';
+import DetailsList from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details/DetailsList';
+import { DetailsProps } from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/Details/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 

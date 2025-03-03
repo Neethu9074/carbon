@@ -13,6 +13,7 @@ import AbstractConnectionState from 'in-connection/states/AbstractConnectionStat
 import ReconnectingMessage from 'in-connection/components/ReconnectingMessage';
 import { activeStrategy, ConnectionStrategy } from 'in-connection/strategy';
 import { SubscriptionDescription } from 'in-connection/types';
+import { formatPathWithTU } from 'in-services/formatters/url';
 import { combineDataAndError } from 'in-services/util/ro';
 import { ineum } from 'in-services/tracking/ineum';
 import { minutes } from 'in-services/time/time';
@@ -127,7 +128,7 @@ export default class ConnectionLostState extends AbstractConnectionState {
           'connectionStatus'
         );
       } else {
-        this.sharedState.socket = new SockJS('/api/data', null, {
+        this.sharedState.socket = new SockJS(formatPathWithTU('/api/data'), null, {
           transports: transports[activeStrategy] || transports.auto,
           // Number of characters used for the randomly generated session IDs
           sessionId: 16,

@@ -203,6 +203,14 @@ const dataSourceConfigurations = {
     ungroupedView,
     fixedFields,
     defaultChartedMetrics
+  },
+  perf: {
+    metricCatalogTransformer: createMetricCatalogTransformer('perf'),
+    facetedSearchItems,
+    groupedView,
+    ungroupedView,
+    fixedFields,
+    defaultChartedMetrics
   }
 };
 

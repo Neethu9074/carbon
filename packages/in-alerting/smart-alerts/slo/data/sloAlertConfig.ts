@@ -5,10 +5,10 @@
  */
 
 import { ServiceLevelsAlertConfig, ThresholdOperator } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import { deepCopy } from 'in-services/util/object';
 import { minutes } from 'in-services/time/time';
+import { t } from 'in-i18n';
 
 const defaultOperator: ThresholdOperator = '>=';
 

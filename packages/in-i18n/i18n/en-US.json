@@ -4,7 +4,7 @@
       "mainNavigation": "Main navigation"
     },
     "list": {
-      "loadMore": "Load more",
+      "loadMore": "Load More",
       "expand": "Expand",
       "collapse": "Collapse",
       "toggleExtraContent": "Toggle extra content",
@@ -18,7 +18,7 @@
         "unexpectedError": "An unexpected error occurred. Please refresh the page or try again later."
       },
       "tableLoadMoreRow": {
-        "loadMore": "Load more"
+        "loadMore": "Load More"
       },
       "dataTable": "Data table",
       "expandHeader": "Expand row",

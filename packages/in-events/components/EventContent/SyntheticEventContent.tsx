@@ -12,6 +12,7 @@ import { Card } from '@instana/components';
 
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import SyntheticScopePath from 'in-alerting/smart-alerts/synthetics/components/SyntheticScopePath';
+import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import AnalyzeSyntheticEventButton from 'in-events/components/AnalyzeSyntheticEventButton';
 import SyntheticsAlertconfigButton from 'in-events/components/SyntheticsAlertconfigButton';
@@ -25,11 +26,9 @@ import { TimeConfig, TagFilterExpressionElementUnion, TagFilter } from 'in-types
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
-import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { fixateTimeConfig } from 'in-stores/time/config';
 import EventIcon from 'in-events/components/EventIcon';
 import { number } from 'in-services/formatters/number';
@@ -63,7 +62,7 @@ export default function SyntheticEventContent({ event, snapshot, reload }: Props
   const analyzeTimeConfig = fixateTimeConfig(eventTimeConfig);
   const chartTimeConfigWithContext = getChartTimeConfig(event, syntheticTestInterval);
 
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const pillContent = getEventStateBadge(event);
 
   return (

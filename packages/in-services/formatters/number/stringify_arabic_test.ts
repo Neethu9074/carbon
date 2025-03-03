@@ -32,7 +32,7 @@ describe('in-services/formatters/number/stringify', () => {
 
   describe('withSiPrefixZeroDecimalPlaces', () => {
     it('must not fail for Arabic', () => {
-      expect(withSiPrefixZeroDecimalPlaces(1234)).to.equal('1k');
+      expect(withSiPrefixZeroDecimalPlaces(1234)).to.equal('١k');
     });
   });
 });

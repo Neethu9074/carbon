@@ -9,6 +9,9 @@
     width: 80vw;
     height: 40vw;
     overflow-y: auto;
+    :global table th.table-column-width\.w-50 {
+      width: 50px;
+    }
   }
   .contentSection {
     display: inline-flex;
@@ -58,5 +61,9 @@
   .loadingContent {
     height: 400px;
     background-color: var(--cds-layer);
+  }
+
+  .feedbackTextarea {
+    width: 300px;
   }
 }

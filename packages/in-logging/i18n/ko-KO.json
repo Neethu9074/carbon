@@ -8,6 +8,7 @@
   "logsOverTime_WARN": "경고",
   "logsOverTime_INFO": "정보",
   "logsOverTime_FATAL": "심각",
+  "logsOverTime_NONE": "없음",
   "logsOverTime_NEXTLOGLEVEL": "{{label}}",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "조회 구성이 올바르지 않습니다. 계속하기 전에 유효성 검증 실패를 해결하십시오.",
   "addAsFilter": "필터로 추가",
@@ -63,7 +64,7 @@
     "summary": "요약",
     "smartAlerts": "스마트 경보",
     "deleteLogs": "로그 삭제",
-    "configuration": "구성",
+    "management": "관리",
     "logVolume": {
       "logVolumeTitle": "현재 월별 로그 볼륨",
       "gb": "GB",
@@ -72,7 +73,7 @@
     "retentionIcon": "보존 기간 변경",
     "noData": "사용 가능한 데이터 없음",
     "analyzeLogs": "로그 분석",
-    "configurationPage": {
+    "managementPage": {
       "logVolume": "로그 볼륨",
       "logVolumeDescription": "최대 12개월 동안의 로그 볼륨을 보고 필요에 따라 인프라 태그별로 그룹화하십시오.",
       "logIntegrations": "로그 통합",

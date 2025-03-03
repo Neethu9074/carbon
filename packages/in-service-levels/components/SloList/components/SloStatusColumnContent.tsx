@@ -7,12 +7,12 @@
 import React, { useMemo } from 'react';
 
 import { KeyValue, Stack } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import { SloListItem } from 'in-service-levels/components/SloList/SloList';
 import { formatSloStatus } from 'in-service-levels/utils/format';
 import { calculateSeverity } from 'in-service-levels/utils/math';
 import HealthDot from 'in-components/health/HealthDot';
+import { t } from 'in-i18n';
 
 interface SloStatusColumnContentProps {
   item: SloListItem;

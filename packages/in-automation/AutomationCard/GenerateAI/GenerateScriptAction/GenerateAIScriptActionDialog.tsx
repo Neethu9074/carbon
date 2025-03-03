@@ -29,10 +29,10 @@ import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { close, addActiveDialog } from 'in-components/DialogPresenter/store';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
-import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { refresh } from 'in-automation/ActionCatalog/useActions';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import { saveNewAction } from 'in-automation/api';
@@ -78,10 +78,9 @@ function useOnSubmit() {
   function onSubmit({ form }: { form: GenerateAIScriptActionForm }) {
     const actionScript = form.get('action').get('script').value;
     const aiGeneratedScript = form.get('action').get('aiGeneratedContent').value;
-    const userChangedAIGeneratedContent = actionScript === aiGeneratedScript;
+    const userChangedAIGeneratedContent = actionScript !== aiGeneratedScript;
 
     function trackAction() {
-      setViewTrackingDataValues(productAreas.events, pageNames.event_generate_with_watsonx);
       createActionTrackerSegment({
         actionName: action.name,
         actionType: action.type,
@@ -89,7 +88,7 @@ function useOnSubmit() {
         liveAIGeneration: true,
         userChangedAIGeneratedContent
       });
-      if (!userChangedAIGeneratedContent) {
+      if (userChangedAIGeneratedContent) {
         const promptForm = form.get('prompt');
         const selectedManualStep = promptForm.get('selectedManualStep').value;
         const promptStep = promptForm.get('promptStep').value;
@@ -188,63 +187,71 @@ export default function GenerateAIScriptActionDialog({ manualContent, actionName
   };
 
   return (
-    <DialogWithSlideInView
-      title={
-        <>
-          <Typography variant="heading-400">
-            {t('in-automation:GenerateAIActionDialog.generateScriptDialog.dialogHeader')}
-          </Typography>
-          <Spacer horizontal="small" />
-          <PreviewPill />
-        </>
-      }
-      onClose={onCancel}
-      doNotCloseOnOutsideClick
-    >
-      <LeftRightPadding className={locals.dialog}>
-        <SimpleModePageNavigation
-          form={form}
-          formId="generateScriptForm"
-          onCreate={onCreate}
-          updateForm={setForm}
-          isSaving={isSaving}
-          onClose={onCancel}
-          onStepChanged={(oldStep, nextStep) =>
-            onStepChange(
-              oldStep,
-              nextStep,
-              aiActionScriptSelectStepNextTrackerSegment,
-              form,
-              aiActionScriptGenerateStepNextClickTrackerSegment
-            )
-          }
-          simpleModeStep={step}
-          setSimpleModeStep={setStep}
-          renderStep={step => {
-            switch (step) {
-              case 0:
-                return (
-                  <SelectManualStep
-                    actionName={actionName}
-                    manualContent={manualContent}
-                    form={form}
-                    setForm={setForm}
-                  />
-                );
-              case 1:
-                return <GenerateScriptStep form={form} setForm={setForm} />;
-              case 2:
-                return <CopyActionStepScriptAction form={form} setForm={setForm} result={result} />;
-              default:
-                return null;
+    <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.automation,
+          pageRootName: pageNames.automation_generate_script_with_watsonx
+        }}
+      />
+      <DialogWithSlideInView
+        title={
+          <>
+            <Typography variant="heading-400">
+              {t('in-automation:GenerateAIActionDialog.generateScriptDialog.dialogHeader')}
+            </Typography>
+            <Spacer horizontal="small" />
+            <PreviewPill />
+          </>
+        }
+        onClose={onCancel}
+        doNotCloseOnOutsideClick
+      >
+        <LeftRightPadding className={locals.dialog}>
+          <SimpleModePageNavigation
+            form={form}
+            formId="generateScriptForm"
+            onCreate={onCreate}
+            updateForm={setForm}
+            isSaving={isSaving}
+            onClose={onCancel}
+            onStepChanged={(oldStep, nextStep) =>
+              onStepChange(
+                oldStep,
+                nextStep,
+                aiActionScriptSelectStepNextTrackerSegment,
+                form,
+                aiActionScriptGenerateStepNextClickTrackerSegment
+              )
             }
-          }}
-          additionalStepCheck={step => additionalStepCheck(step, form)}
-          stepConfigs={stepConfigs}
-          noStepCheckOnFirstStep
-        />
-      </LeftRightPadding>
-      <Spacer vertical="large" />
-    </DialogWithSlideInView>
+            simpleModeStep={step}
+            setSimpleModeStep={setStep}
+            renderStep={step => {
+              switch (step) {
+                case 0:
+                  return (
+                    <SelectManualStep
+                      actionName={actionName}
+                      manualContent={manualContent}
+                      form={form}
+                      setForm={setForm}
+                    />
+                  );
+                case 1:
+                  return <GenerateScriptStep form={form} setForm={setForm} />;
+                case 2:
+                  return <CopyActionStepScriptAction form={form} setForm={setForm} result={result} />;
+                default:
+                  return null;
+              }
+            }}
+            additionalStepCheck={step => additionalStepCheck(step, form)}
+            stepConfigs={stepConfigs}
+            noStepCheckOnFirstStep
+          />
+        </LeftRightPadding>
+        <Spacer vertical="large" />
+      </DialogWithSlideInView>
+    </>
   );
 }

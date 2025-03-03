@@ -1,5 +1,5 @@
 {
-  "zhmcs": "zHMCs",
+  "zhmcs": "zHMC-Plug-ins",
   "hostname": "Hostname",
   "name": "Name",
   "systems": "Systeme",
@@ -17,7 +17,7 @@
   "status": "Status",
   "breadcrumbs": {
     "zhmc": "zHMC",
-    "zhmcs": "zHMCs",
+    "zhmcs": "zHMC-Plug-ins",
     "systems": "Systeme"
   },
   "dashboards": {
@@ -77,7 +77,7 @@
     "bytesPerSecondReceived": "Anzahl empfangener Byte/Sek.",
     "bytesPerSecondSent": "Anzahl gesendeter Byte/Sek.",
     "utilization": "Auslastung",
-    "flags": "Flags",
+    "flags": "Markierungen (Flags)",
     "heatLoad": "Wärmelast (Btu/Std.)",
     "environmental": "Umgebung (Grad Celsius)",
     "adapterName": "Adaptername",

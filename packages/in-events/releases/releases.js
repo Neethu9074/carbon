@@ -6,8 +6,8 @@
 import React from 'react';
 
 import getReleaseNotification from 'in-events/subscriptions/getReleaseNotification';
+import ReleaseOccurredMessage from 'in-events/releases/ReleaseOccuredMessage';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import ReleaseOccurredMessage from './ReleaseOccuredMessage';
 import { t } from 'in-i18n';
 
 export function init() {

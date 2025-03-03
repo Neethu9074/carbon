@@ -10,7 +10,6 @@
   "recommendedOptimizations": "Empfohlene Ressourcenmaßnahmen",
   "actionName": "Aktionsname",
   "validVaultParameter": "Als optional markierte Vaultparameter müssen entweder beide leer oder beide nicht leer sein.",
-  "newAction": "Neue Aktion",
   "runAction": "Aktion ausführen",
   "testAction": "Testaktion",
   "targetAgent": "Zielagent",
@@ -239,6 +238,7 @@
     "ignoreCertErrors": "Zertifikatsfehler ignorieren",
     "basicAuth": "Grundlegende Autorisierung",
     "bearerToken": "Trägertoken",
+    "authentication": "Authentifizierung",
     "apiKeyAddTo": "Hinzufügen zu",
     "apiKey": "API-Schlüssel",
     "header": "Header",
@@ -255,12 +255,6 @@
     "defaultValue": "Standardwert",
     "defaultValueOptional": "Standardwert (optional)",
     "parameters": "Parameter",
-    "showPasswordTooltip": "Kennwort anzeigen",
-    "hidePasswordTooltip": "Kennwort verbergen",
-    "showAPIKeyTooltip": "API-Schlüssel anzeigen",
-    "hideAPIKeyTooltip": "API-Schlüssel ausblenden",
-    "showBeaererTokenTooltip": "Trägertoken anzeigen",
-    "hideBeaererTokenTooltip": "Trägertoken ausblenden",
     "secretKey": "Geheimer Schlüssel",
     "secretPath": "Pfad des geheimen Schlüssels",
     "secretKeyOptional": "Geheimer Schlüssel (optional)",
@@ -329,8 +323,6 @@
     "status": "Status",
     "startTime": "Startzeit",
     "endTime": "Endzeit",
-    "property": "Eigenschaft",
-    "value": "Wert",
     "actionInstanceId": "Aktionsinstanz-ID",
     "event": "Ereignis",
     "eventName": "Ereignisname",
@@ -373,11 +365,13 @@
     "output": "Ausgabe",
     "user": "Benutzer",
     "apiToken": "API-Token",
-    "deleteTooltip": "Aktionsinstanz löschen {{id}}",
+    "viewTooltip": "Aktionsinstanz anzeigen {{actionName}} }}",
+    "deleteTooltip": "Aktionsinstanz löschen {{actionName}}",
     "deleteDialog": {
       "success": "Aktionsinstanz wurde erfolgreich gelöscht.",
       "failure": "Die Aktionsinstanz konnte nicht gelöscht werden."
-    }
+    },
+    "actionSnapshotDetails": "Details des Aktionsschnappschusses"
   },
   "actionLanes": {
     "buttonInvestigate": "Überprüfen"
@@ -478,8 +472,8 @@
     "showTasks": "Einblenden"
   },
   "deleteDialog": {
-    "pleaseConfirm": "Bitte bestätigen",
-    "pleaseConfirmMsg": "Möchten Sie <strong>{{name}}</strong> wirklich löschen?",
+    "confirmRemove": "Bitte bestätigen",
+    "confirmRemoveMsg": "Möchten Sie <strong>{{name}}</strong> wirklich löschen?",
     "delete": "Löschen"
   },
   "turboActionCategories": {
@@ -512,5 +506,12 @@
     "actionName": "Aktionsname",
     "recommendedActionHistoryWithCount": "Historie der Ressourcenaktionen ({{count}})",
     "recommendedActionHistory": "Geschichte der Ressourcenaktionen"
+  },
+  "feedback": {
+    "contentHelpfulText": "War dieser generierte Inhalt hilfreich?",
+    "thankYouForYourFeedback": "Danke für Ihr Feedback!",
+    "submitFeedback": "Feedback einreichen",
+    "additionalFeedbacklabel": "Zusätzliches Feedback (optional)",
+    "additionalFeedbackPlaceholder": "Was hat Ihnen an der Antwort nicht gefallen? Was kann verbessert werden?"
   }
 }

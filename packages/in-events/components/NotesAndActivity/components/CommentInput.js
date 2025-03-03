@@ -9,7 +9,11 @@ import classNames from 'classnames';
 
 import { CarbonTextArea, IconButton } from '@instana/components';
 
-import { validTextEntry, handleUpdateDeleteNote, handleTracking } from './utils';
+import {
+  validTextEntry,
+  handleUpdateDeleteNote,
+  handleTracking
+} from 'in-events/components/NotesAndActivity/components/utils';
 import { EVENT_NOTES_SUBMIT } from 'in-services/tracking/eventNames';
 import { annotateEvent } from 'in-stores/events';
 import { user } from 'in-stores/user';
@@ -67,6 +71,9 @@ export function CommentInput({ note, setNote, incidentId, editNoteId, setEditNot
   );
 }
 
+// This function handles the submission options within the CommentInput area
+// When the user is editing an existing note, they will have two options: save / cancel
+// If it is not editing it will just use one button for the handling note submission
 export function SubmissionButtons({ editNoteId, setEditNoteId, incidentId, note, setNote }) {
   const isEditing = editNoteId && editNoteId[1];
   return (

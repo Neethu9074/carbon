@@ -9,7 +9,6 @@ import React from 'react';
 import { ServiceLevelIndicatorType, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { formatDuration } from '@instana/format-date';
 import { KeyValue } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import useOverlappingTimeWindows from 'in-service-levels/hooks/useOverlappingTimeWindows';
 import useSloWindowTimeConfig from 'in-service-levels/hooks/useSloWindowTimeConfig';
@@ -19,6 +18,7 @@ import { calculateTimeRemaining } from 'in-service-levels/utils/time';
 import { minutes, number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hours } from 'in-services/time/time';
+import { t } from 'in-i18n';
 
 interface ErrorBudgetInfoProps {
   configuration: ServiceLevelObjectiveConfiguration;

@@ -158,21 +158,46 @@
     "labelSubtraces": "Subrastreos",
     "labelSubtrace": "Subrastreo",
     "newSubtrace": "Añadir subrastreo",
+    "labelCallsPerSubtrace": "Llamadas por subrastreo",
+    "labelDuration": "Duración",
+    "labelNumberOfSubtraces": "Número de subrastreos",
+    "labelErroneousSubtraceRate": "Índice de subrastreos erróneos",
+    "labelErroneousRate": "Índice erróneo",
+    "meanDuration": "Duración media",
     "subtracesList": {
       "name": "Nombre",
       "count": "Count",
-      "meanDuration": "Duración media",
       "meanSubcallCount": "Nº medio de subllamadas",
       "meanErrorRate": "Tasa media de error"
     },
     "configuration": {
       "success": {
-        "title": "Subrastreo {{action}} correctamente",
-        "message": "El subrastreo \"{{subtraceName}}\" ha sido {{action}}."
+        "created": {
+          "title": "Subrastreo creado correctamente",
+          "message": "Se ha creado el subrastreo \"{{subtraceName}}\"."
+        },
+        "updated": {
+          "title": "Subrastreo actualizado correctamente",
+          "message": "El subrastreo \"{{subtraceName}}\" ha sido actualizado."
+        },
+        "deleted": {
+          "title": "Subrastreo suprimido correctamente",
+          "message": "Se ha suprimido el subrastreo \"{{subtraceName}}\"."
+        }
       },
       "failure": {
-        "title": "No se ha podido {{action}} el subrastreo",
-        "message": "Se ha producido un problema al intentar {{action}} este subrastreo: \"{{subtraceName}}\""
+        "created": {
+          "title": "Error al crear subrastreo",
+          "message": "Hubo un problema al intentar crear este subrastreo: \"{{subtraceName}}\""
+        },
+        "updated": {
+          "title": "Error al actualizar subrastreo",
+          "message": "Hubo un problema al intentar actualizar este subrastreo: \"{{subtraceName}}\""
+        },
+        "deleted": {
+          "title": "Error al suprimir subrastreo",
+          "message": "Hubo un problema al intentar suprimir este subrastreo: {{subtraceName}}\""
+        }
       },
       "title": "Actualizar subrastreo",
       "subtraceName": "Nombre de subrastreo",
@@ -465,6 +490,8 @@
   "dashboards": {
     "callCount": "{{formattedCount}} llamada en total",
     "callCount_plural": "{{formattedCount}} llamadas en total",
+    "subtraceCount": "{{formattedCount}} subrastreo total",
+    "subtraceCount_plural": "{{formattedCount}} subrastreos totales",
     "erroneousCallCount": "{{formattedCount}} llamada errónea en total",
     "erroneousCallCount_plural": "{{formattedCount}} llamadas erróneas en total",
     "meanLatencyFor90th": "{{meanLatencyDetail}} para 90º",

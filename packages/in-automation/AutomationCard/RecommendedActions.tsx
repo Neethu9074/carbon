@@ -27,10 +27,10 @@ import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlag
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import useHasAccessToManual from 'in-automation/hooks/useHasAccessToManual';
-import { TrackingFunction, useSegmentTracker } from 'in-automation/tracker';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
+import { TrackingFunction, useSegmentTracker } from 'in-automation/tracker';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+// import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { ScoredAction, TriggerSpecification } from 'in-automation/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
@@ -40,6 +40,7 @@ import { TagsFilter } from 'in-automation/components/tableFilters';
 import { ACTION_TYPE } from 'in-automation/constants';
 import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+// import DetailsModal from 'in-automation/ResourceOptimization/DetailsModal';
 import { hasError } from 'in-services/util/result';
 import { mapData } from 'in-services/util/result';
 import { role } from 'in-stores/user';
@@ -63,27 +64,29 @@ const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>
   sortable: false,
   width: 17,
   getContent(action, { volatileId, event, trigger, runActionTrackerSegment }) {
+    // const agentSnapShots = useTurboAgentSnapShots();
     const isManualExternal =
       action?.metadata?.ai &&
       action?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' &&
       action.type === ACTION_TYPE.EXTERNAL;
     if (!isManualExternal) return null;
-    // if (isManualExternal) {
-    //   if (!role?.canRunAutomationActions) return null;
-    //   return (
-    //     <Button
-    //       kind="action"
-    //       icon="lib_actions_play"
-    //       onClick={e => {
-    //         stopPropagationAndPreventDefault(e);
-    //         addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
-    //       }}
-    //       noAutoMargin
-    //     >
-    //       {t('in-automation:ActionCatalog.run')}
-    //     </Button>
-    //   );
-    // }
+    if (isManualExternal) {
+      if (!role?.canRunAutomationActions) return null;
+
+      return (
+        <Button
+          kind="action"
+          icon="lib_actions_play"
+          onClick={e => {
+            stopPropagationAndPreventDefault(e);
+            addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+          }}
+          noAutoMargin
+        >
+          {t('in-automation:ActionCatalog.run')}
+        </Button>
+      );
+    }
     if (!role?.canRunAutomationActions && !role?.canConfigureAutomationPolicies) return null;
     return (
       <HorizontalFlexWrapper className={locals.rowActions}>
@@ -169,9 +172,7 @@ function GenerateAIActionButton({
 }) {
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const name = hasError(trigger) ? event?.problem?.problemText ?? '' : trigger.data!?.name;
-  const hasAccessToManual = useHasAccessToManual();
 
-  if (!role?.canConfigureAutomationActions || !hasAccessToManual) return null;
   return (
     <Button
       kind="action"

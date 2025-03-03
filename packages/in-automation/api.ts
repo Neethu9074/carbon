@@ -16,7 +16,6 @@ import {
   ParameterValue,
   GetDynamicParameterValues,
   TriggerType,
-  LogAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata,
   ServiceLevelsAlertConfigWithMetadata,
   ActionType,
@@ -32,6 +31,7 @@ import {
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import submitTurbonomicResourceImpact from 'in-automation/subscriptions/submitTurbonomicResourceImpact';
 import { ActionFilter, NewAction, ResolvedDynamicParamValue, NewPolicy } from 'in-automation/types';
 import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
@@ -459,7 +459,7 @@ export function getInfraSmartAlertConfigs() {
 }
 
 export function getLogSmartAlertConfigs() {
-  return http<LogAlertConfigWithMetadata[]>({
+  return http<LogSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     url: apiEndpoint.LOGS,
@@ -542,7 +542,7 @@ export function getInfraSmartAlertConfig(id: string) {
 }
 
 export function getLogSmartAlertConfig(id: string) {
-  return http<LogAlertConfigWithMetadata>({
+  return http<LogSmartAlertConfigWithMetadata>({
     method: 'GET',
     url: `${apiEndpoint.LOGS}/${encodeURIComponent(id)}`,
     maxRetries: 3,

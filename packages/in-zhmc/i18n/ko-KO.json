@@ -1,5 +1,5 @@
 {
-  "zhmcs": "zHMCs",
+  "zhmcs": "zHMC",
   "hostname": "호스트 이름",
   "name": "이름",
   "systems": "시스템",
@@ -17,7 +17,7 @@
   "status": "상태",
   "breadcrumbs": {
     "zhmc": "zHMC",
-    "zhmcs": "zHMCs",
+    "zhmcs": "zHMC",
     "systems": "시스템"
   },
   "dashboards": {

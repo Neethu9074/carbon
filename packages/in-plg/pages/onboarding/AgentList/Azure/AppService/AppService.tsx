@@ -9,13 +9,13 @@ import React, { useState } from 'react';
 import { Typography, KeyValue } from '@instana/components';
 
 import NodeJsRuntimeContent from 'in-plg/pages/onboarding/AgentList/Azure/AppService/AppServiceRuntimes/NodeJsRuntimeContent';
+import DotNetRuntimeContent from 'in-plg/pages/onboarding/AgentList/Azure/AppService/AppServiceRuntimes/DotNetRuntimeContent';
 import { Documentations, Prerequisites } from 'in-plg/pages/onboarding/AgentList/Azure/AppService/SupportView';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
 import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSection';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import { DropDown } from 'in-plg/pages/onboarding/content/ContentComponents';
-import DotNetRuntimeContent from './AppServiceRuntimes/DotNetRuntimeContent';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import { t } from 'in-i18n';
 

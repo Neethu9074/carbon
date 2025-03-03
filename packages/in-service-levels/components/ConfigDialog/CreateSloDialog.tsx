@@ -18,17 +18,24 @@ import {
 import SloFormStepsContainer from 'in-service-levels/components/ConfigDialog/components/SloFormStepsContainer';
 import { formToSloConfiguration } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { CreateSloDialogMode, SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { UnstableTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import useHandleSloForm, { UseHandleSloFormProps } from 'in-service-levels/hooks/useHandleSloForm';
-import { SloTrackingMeta, trackSloEvent } from 'in-service-levels/hooks/SloTrackerProvider';
+import { CREATED_OBJECT, ENDED_PROCESS, UPDATED_OBJECT } from 'in-services/util/constants';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { close as closeDialog } from 'in-components/DialogPresenter/store';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import ConfigDialog from 'in-service-levels/components/ConfigDialog';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
+import { ProductArea } from 'in-services/tracking/productAreas';
+import { PageName } from 'in-services/tracking/pageNames';
 import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
+interface SloTrackingMeta {
+  productArea: ProductArea;
+  pageName: PageName;
+}
 interface CreateSloDialogProps extends UseHandleSloFormProps {
   trackingMeta: SloTrackingMeta;
 }
@@ -55,9 +62,10 @@ export default function CreateSloDialog(props: CloneModeProps): JSX.Element;
 export default function CreateSloDialog(props: EditModeProps): JSX.Element;
 export default function CreateSloDialog({ configuration, mode, trackingMeta }: CreateSloDialogProps): JSX.Element {
   const { form, setForm, updateForm, submitStatus, doSubmit } = useHandleSloForm({ configuration, mode });
+  const { trackCta, unstable_trackEvent } = useSegmentTracking();
 
   useEffect(() => {
-    trackSloEvent(
+    trackCta(
       SLO_CONFIG_DIALOG_OPEN,
       {
         productArea: trackingMeta.productArea,
@@ -65,7 +73,7 @@ export default function CreateSloDialog({ configuration, mode, trackingMeta }: C
       },
       undefined
     );
-  }, [trackingMeta]);
+  }, [trackingMeta, trackCta]);
 
   const title =
     mode === 'EDIT'
@@ -79,11 +87,12 @@ export default function CreateSloDialog({ configuration, mode, trackingMeta }: C
         <ConfigDialog
           title={title}
           onClose={() => {
-            trackSloEvent(
-              SLO_CONFIG_DIALOG_CLOSE,
+            unstable_trackEvent(
+              ENDED_PROCESS,
               {
                 productArea: trackingMeta.productArea,
-                pageName: trackingMeta.pageName
+                pageName: trackingMeta.pageName,
+                objectType: SLO_CONFIG_DIALOG_CLOSE
               },
               undefined
             );
@@ -97,8 +106,10 @@ export default function CreateSloDialog({ configuration, mode, trackingMeta }: C
 
             doSubmit({
               payload: formToSloConfiguration(form, configuration?.id),
-              onSuccess: (result: Result<ServiceLevelObjectiveConfiguration>) => onSuccess(mode, result, trackingMeta),
-              onError: (result?: Result<ServiceLevelObjectiveConfiguration>) => onError(mode, trackingMeta, result)
+              onSuccess: (result: Result<ServiceLevelObjectiveConfiguration>) =>
+                onSuccess(mode, result, trackingMeta, unstable_trackEvent),
+              onError: (result?: Result<ServiceLevelObjectiveConfiguration>) =>
+                onError(mode, trackingMeta, result, unstable_trackEvent)
             });
           }}
         >
@@ -112,7 +123,8 @@ export default function CreateSloDialog({ configuration, mode, trackingMeta }: C
 function onSuccess(
   mode: CreateSloDialogMode,
   { data }: Result<ServiceLevelObjectiveConfiguration>,
-  trackingMeta: SloTrackingMeta
+  trackingMeta: SloTrackingMeta,
+  track: UnstableTrackingFunction
 ) {
   if (!data) throw Error(ServiceLevelErrors.UNEXPECTED_SLO_CREATION_ERROR);
 
@@ -127,9 +139,9 @@ function onSuccess(
     })
   });
 
-  trackSloEvent(
-    SLO_CONFIG_DIALOG_FINISH,
-    { productArea: trackingMeta.productArea, pageName: trackingMeta.pageName },
+  track(
+    CREATED_OBJECT,
+    { productArea: trackingMeta.productArea, pageName: trackingMeta.pageName, objectType: SLO_CONFIG_DIALOG_FINISH },
     {
       id,
       mode,
@@ -151,12 +163,13 @@ const errorMessageHeader = {
 function onError(
   mode: CreateSloDialogMode,
   trackingMeta: SloTrackingMeta,
-  result?: Result<ServiceLevelObjectiveConfiguration>
+  result: Result<ServiceLevelObjectiveConfiguration> | undefined,
+  track: UnstableTrackingFunction
 ) {
   if (result && result.errors.length !== 0) {
-    trackSloEvent(
-      SLO_CONFIG_DIALOG_ERROR,
-      { productArea: trackingMeta.productArea, pageName: trackingMeta.pageName },
+    track(
+      UPDATED_OBJECT,
+      { productArea: trackingMeta.productArea, pageName: trackingMeta.pageName, objectType: SLO_CONFIG_DIALOG_ERROR },
       {
         mode,
         code: 'API_ERROR'
@@ -173,11 +186,12 @@ function onError(
   }
 
   if (!result?.data) {
-    trackSloEvent(
-      SLO_CONFIG_DIALOG_ERROR,
+    track(
+      UPDATED_OBJECT,
       {
         productArea: trackingMeta.productArea,
-        pageName: trackingMeta.pageName
+        pageName: trackingMeta.pageName,
+        objectType: SLO_CONFIG_DIALOG_ERROR
       },
       {
         mode,
@@ -194,11 +208,12 @@ function onError(
 
   const { name } = result.data;
 
-  trackSloEvent(
-    SLO_CONFIG_DIALOG_ERROR,
+  track(
+    UPDATED_OBJECT,
     {
       productArea: trackingMeta.productArea,
-      pageName: trackingMeta.pageName
+      pageName: trackingMeta.pageName,
+      objectType: SLO_CONFIG_DIALOG_ERROR
     },
     {
       mode,

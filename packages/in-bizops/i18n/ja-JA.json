@@ -6,8 +6,12 @@
     "count": "数"
   },
   "lists": {
+    "id": "ID",
+    "version": "バージョン",
     "pageTitle": "ビジネス・モニタリング",
     "cardTitle": "ビジネス・プロセス",
+    "theId": "プロセス ID",
+    "hasBeenCopied": "クリップボードに正常にコピーされました",
     "activityLabel": "アクティビティー",
     "nameLabel": "名前",
     "countLabel": "数",

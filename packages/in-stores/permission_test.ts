@@ -141,26 +141,6 @@ describe('in-stores/permission.ts', () => {
       );
     });
 
-    it('Checks the BizOps flag does not affect other permissions', () => {
-      const featureFlags = jest.requireMock('in-services/featureFlags');
-      featureFlags.businessObservabilityEnabled = true;
-      const productPermissions = getProductPermissions();
-      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_APPLICATIONS]);
-      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_VIEW_LOGS]);
-      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING]);
-      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_INSTALL_NEW_AGENTS]);
-    });
-
-    it('Checks the BizOps flag does not affect other permissions', () => {
-      const featureFlags = jest.requireMock('in-services/featureFlags');
-      featureFlags.businessObservabilityEnabled = false;
-      const productPermissions = getProductPermissions();
-      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_APPLICATIONS]);
-      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_VIEW_LOGS]);
-      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING]);
-      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_INSTALL_NEW_AGENTS]);
-    });
-
     it('Checks that Infra SA permission is not available when infraSmartAlertsEnabled feature flag is not set', () => {
       const featureFlags = jest.requireMock('in-services/featureFlags');
       featureFlags.infraSmartAlertsEnabled = false;
@@ -179,14 +159,6 @@ describe('in-stores/permission.ts', () => {
       expect(productPermissions).not.toContain(
         productPermissionsObject[Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS]
       );
-    });
-
-    it('Checks that manual closure of events permission is not available when manuallyCloseEventEnabled feature flag is not set', () => {
-      const featureFlags = jest.requireMock('in-services/featureFlags');
-      featureFlags.manuallyCloseEventEnabled = false;
-      const productPermissions = getProductPermissions();
-
-      expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_MANUALLY_CLOSE_ISSUE]);
     });
   });
 

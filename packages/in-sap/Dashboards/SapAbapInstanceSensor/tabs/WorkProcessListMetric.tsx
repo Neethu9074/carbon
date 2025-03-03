@@ -130,7 +130,10 @@ const cols = [
 ];
 
 export default function WorkProcessListMetric({ snapshotId, timeConfig }: WorkProcessProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'workprocessList'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'workprocessList', timeConfig),
+    [snapshotId, timeConfig]
+  );
   // @ts-expect-error Module needs to be translated to TS
   const [{ wpStatus }, setPhase] = useState(workProcessStatusMap);
 

@@ -138,7 +138,10 @@ function getDetails(row: JobProgressStatsRow) {
   );
 }
 export default function JobProgressStatsList({ snapshotId, timeConfig }: JobProgressStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'jobProgressStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'jobProgressStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const jobProgressStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: JobProgressStatsRow[] = jobProgressStat
     ? jobProgressStat

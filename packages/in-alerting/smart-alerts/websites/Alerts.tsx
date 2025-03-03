@@ -5,7 +5,13 @@
 
 import React from 'react';
 
-import { AggregationType, HistoricBaselineConfig, ThresholdConfigUnion, WebsiteAlertRuleUnion } from '@instana/types';
+import {
+  AggregationType,
+  RuleWithThreshold,
+  StaticBaselineThresholdRule,
+  StaticThresholdRule,
+  WebsiteAlertRuleUnion
+} from '@instana/types';
 
 //@ts-expect-error TS migartion
 import { useWebsiteData } from 'in-alerting/smart-alerts/websites/hooks/useWebsiteData';
@@ -15,7 +21,6 @@ import { STATIC_THRESHOLD, ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alert
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
-import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { actionHandlers } from 'in-alerting/smart-alerts/websites/list/ListActionHandlers';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
@@ -25,6 +30,7 @@ import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert
 import { sortOptions } from 'in-alerting/smart-alerts/components/list/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/websites/list/ScopeColumn';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -32,8 +38,6 @@ import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer/Footer';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
-
-const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
 
 function getColumnDefinitions(websiteLabel: string) {
   return [
@@ -58,7 +62,7 @@ export default function Alerts({ websiteId, websiteLabel }: { websiteId: string;
         extraColumnDefinitions={getColumnDefinitions(websiteLabel)}
         getAlertConfigs={() => getAllAlertConfigs(websiteId, { asObservable: true })}
         actionHandlers={handlers}
-        getSubtitle={config => getSubtitle(config.rule, config.threshold)}
+        getSubtitle={config => getSubtitle(config.rule, config.rules)}
         createRowLinkLocation={createRowLinkLocation}
         sortOptions={sortOptions}
         alertsTab={alertsTab}
@@ -66,7 +70,7 @@ export default function Alerts({ websiteId, websiteLabel }: { websiteId: string;
         extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
         carbonActionHandlers={handlers}
         getNameSubtitle={() => getWebsiteSubtitle(websiteLabel)}
-        displayCarbonTable={displayCarbonTable}
+        displayCarbonTable={smartAlertCarbonTableEnabled}
         toolBarContent={
           role?.canConfigureWebsiteSmartAlerts ? (
             <CreateSmartAlert
@@ -74,7 +78,7 @@ export default function Alerts({ websiteId, websiteLabel }: { websiteId: string;
               tagFilters={websiteData.tagFilters}
               timeConfig={websiteData.timeConfig}
               location={websiteData.location}
-              isCarbonTableView={displayCarbonTable}
+              isListingPage
             />
           ) : undefined
         }
@@ -87,20 +91,25 @@ export default function Alerts({ websiteId, websiteLabel }: { websiteId: string;
   );
 }
 
-export function getSubtitle(rule: WebsiteAlertRuleUnion, threshold: ThresholdConfigUnion & { value?: number }) {
+export function getSubtitle(rule: WebsiteAlertRuleUnion, rules: RuleWithThreshold<WebsiteAlertRuleUnion>[]) {
   const { alertType, aggregation, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
   const metricLabel = blueprintConfig.getMetricLabel(metricName as MetricName);
   const formattedMetricLabel =
     alertType === 'slowness' ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
 
-  const { operator, type, value } = threshold;
+  const {
+    thresholdOperator,
+    thresholds: { WARNING, CRITICAL }
+  } = rules[0];
+  const threshold = WARNING ?? CRITICAL;
+  const { type, value } = threshold as StaticThresholdRule;
   if (type === STATIC_THRESHOLD) {
     const metricFormat = blueprintConfig.getMetricFormat(metricName as MetricName);
     const formattedValue = (
       (metricFormat as NumberFormatterObject).short || (metricFormat as NumberFormatterObject).compact
     )?.(value);
-    const humanReadableOperator = humanReadableThresholdOperator(operator);
+    const humanReadableOperator = humanReadableThresholdOperator(thresholdOperator);
 
     return t('in-alerting:smartAlerts.websites.list.columns.name.subtitleForStaticThreshold', {
       metricLabel: formattedMetricLabel,
@@ -116,7 +125,7 @@ export function getSubtitle(rule: WebsiteAlertRuleUnion, threshold: ThresholdCon
   }
 
   if (type === HISTORIC_BASELINE) {
-    const { seasonality } = threshold as HistoricBaselineConfig;
+    const { seasonality } = threshold as StaticBaselineThresholdRule;
     if (seasonality === DAILY) {
       return t('in-alerting:smartAlerts.websites.list.columns.name.subtitleForStaticDailySeasonality', {
         metricLabel: formattedMetricLabel,
@@ -156,7 +165,7 @@ function getCarbonTableColumnDefinitions() {
       label: t('in-alerting:table.triggeringAction'),
       ellipsis: '25vw',
       getContent: (config: WebsiteSmartAlertConfigWithMetadata) => (
-        <TableCellWrapper>{getSubtitle(config.rule, config.threshold)}</TableCellWrapper>
+        <TableCellWrapper>{getSubtitle(config.rule, config.rules)}</TableCellWrapper>
       ),
       sortable: false
     }

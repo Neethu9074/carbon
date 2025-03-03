@@ -311,6 +311,15 @@
         "pleaseSelect": "Please select"
       }
     },
+    "srcSlo": {
+      "index": {
+        "serviceLevelsObjective": "Service-Level Objectives (SLOs)"
+      },
+      "formComponent": {
+        "status": "Status",
+        "errorBudgetRemaining": "Error Budget Remaining"
+      }
+    },
     "metricConfigurator": {
       "ds": "Data Source",
       "pleaseSelect": "Please select",
@@ -605,8 +614,8 @@
         "sliType": "SLI Type",
         "viewCloneSliConfig": "View/Clone SLI Configuration",
         "delSliConfig": "Delete SLI Configuration",
-        "pleaseConfirm": "Please Confirm",
-        "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{sliName}}</strong>?",
+        "confirmRemove": "Confirm remove",
+        "confirmRemoveMsg": "Are you sure you want to delete <strong>{{sliName}}</strong>?",
         "delete": "Delete",
         "eventBasedSli": "Event-based",
         "timeBasedSli": "Time-based, {{metricNameLabel}}"
@@ -678,7 +687,8 @@
       "atLeastOneFilterExpressionMustBeConfigured": "At least one filter expression must be configured.",
       "timeBased": "Time-based",
       "eventBased": "Event-based",
-      "sloLegacy": "SLO legacy",
+      "sloLite": "SLO Lite",
+      "sloLegacy": "SLO Legacy",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Application",
@@ -756,7 +766,7 @@
         "cardTitle": "Apdex Configuration",
         "nameColumn": "Apdex configuration",
         "thresholdColumn": "Threshold",
-        "confirmDeleteHeader": "Please Confirm",
+        "confirmDeleteHeader": "Confirm remove",
         "confirmDeleteMessage": "Are you sure you want to delete {{apdex}}?",
         "editApdexTooltip": "Edit/Clone Apdex configuration",
         "deleteApdexTooltip": "Delete Apdex configuration",

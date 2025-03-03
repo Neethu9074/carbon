@@ -16,7 +16,12 @@ import { t } from 'in-i18n';
 export default function Filters({ setFilter, types, actionStatuses }: FilterSectionProps) {
   return (
     <>
-      <TypeFilter type={types ?? undefined} showExternal setType={params => setFilter({ types: params.types })} />
+      <TypeFilter
+        type={types ?? undefined}
+        showExternal
+        setType={params => setFilter({ types: params.types })}
+        showRunnable
+      />
       <Spacer horizontal="small" />
       <ComboBox
         value={actionStatuses}

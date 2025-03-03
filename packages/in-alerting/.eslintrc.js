@@ -26,26 +26,30 @@ module.exports = {
 
       allowedInPackages: [
         'in-alerting',
+
+        // other areas
         'in-analyze',
-        'in-api',
         'in-applications',
-        'in-components',
         'in-events',
+        'in-custom-dashboards',
+        'in-infrastructure',
+        'in-logging',
+        'in-mobile-apps',
+        'in-service-levels',
+        'in-websites',
+
+        // shared
+        'in-api',
+        'in-components',
         'in-hoc',
         'in-hooks',
-        'in-mobile-apps',
         'in-sdk',
         'in-services',
-        'in-service-levels',
         'in-settings',
         'in-stores',
         'in-subscription',
         'in-test',
-        'in-themes',
-        'in-websites',
-        'in-infrastructure',
-        'in-custom-dashboards',
-        'in-logging'
+        'in-themes'
       ]
     })
   }

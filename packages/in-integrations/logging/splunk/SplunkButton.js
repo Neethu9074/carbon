@@ -7,11 +7,14 @@ import React from 'react';
 
 import { CarbonMenuItem, SvgIcon } from '@instana/components';
 
+import { integrationKey as splunkIntegrationKey } from 'in-integrations/logging/splunk/consts';
+import { useJumpToThirdParty } from 'in-integrations/logging/tracking';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 
 export default function SplunkButton(props) {
   const { splunkIntegration: integration } = props;
+  const jumpToThirdParty = useJumpToThirdParty();
 
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
@@ -23,7 +26,10 @@ export default function SplunkButton(props) {
       renderIcon={() => {
         return <SvgIcon type="lib_splunk" />;
       }}
-      onClick={() => window.open(constructSplunkLink(integration, props), '_blank')}
+      onClick={() => {
+        window.open(constructSplunkLink(integration, props), '_blank');
+        jumpToThirdParty(splunkIntegrationKey);
+      }}
     />
   );
 }

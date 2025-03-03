@@ -5,8 +5,6 @@
 
 import React, { Fragment } from 'react';
 
-import { TableEntityCounter } from '@instana/legacy';
-
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import PhmcNoDataNotification from 'in-phmc/lists/components/PhmcNoDataNotification';
@@ -45,14 +43,14 @@ const columnDefinitions = [
     id: 'partitions',
     label: t('in-phmc:partitions'),
     getContent(item) {
-      return <TableEntityCounter count={item.partitions} />;
+      return item.partitions;
     }
   },
   {
     id: 'vios',
     label: t('in-phmc:vios'),
     getContent(item) {
-      return <TableEntityCounter count={item.vios} />;
+      return item.vios;
     }
   },
   {

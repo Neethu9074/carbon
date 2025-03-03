@@ -22,7 +22,6 @@ interface SubmitConfigFormProps {
 }
 
 export const SubtraceConfigForm = ({ form, updateForm }: SubmitConfigFormProps) => {
-  const subtraceName = form.get('name').value;
   const updateName = (e: React.ChangeEvent<HTMLInputElement>) =>
     updateForm(form.updateIn(['name'], field => field.setValue(e.target.value || '').setTouched(true)));
 
@@ -35,15 +34,15 @@ export const SubtraceConfigForm = ({ form, updateForm }: SubmitConfigFormProps) 
   return (
     <Form aria-label="subtrace-config-form">
       <Stack gap={6}>
-        <SubtraceNameInput value={subtraceName} onChange={updateName} />
+        <SubtraceNameInput formField={form.get('name')} onChange={updateName} />
         <FormGroup id="querybuilder-formgroup" legendText={t('in-applications:subtraces.configuration.subtraceFilter')}>
           <ApplicationQueryBuilderInput
-            value={form.get('tagFilterExpression').value}
+            formField={form.get('tagFilterExpression')}
             onChange={updateTagFilterExpression}
           />
         </FormGroup>
         <EvaluationGranularityInput
-          evaluationGranularity={form.get('evaluationGranularitySeconds').value}
+          formField={form.get('evaluationGranularitySeconds')}
           onChangeGranularity={value => updateEvaluationGranularity(value)}
         />
       </Stack>

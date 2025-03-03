@@ -25,6 +25,7 @@ import {
   restoreAlertConfigVersion,
   getAllVersionsOfAlertConfig
 } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
+import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/synthetics/hooks/useSmartAlertCreateUrl';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-synthetics/navigation/matrix';
 import { allowedPlaceholders } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 //@ts-expect-error need TS migration
@@ -32,6 +33,7 @@ import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
+import { syntheticSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { TestResponse } from 'in-synthetics/utils/constants';
@@ -83,6 +85,8 @@ export default function AlertDetails(props: AlertDetailsProps) {
         <AlertConfiguration alertConfig={alertConfig} />
       )}
       getAllowedPlaceholders={() => allowedPlaceholders}
+      getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
+      displayTearSheetActions={syntheticSmartAlertFullScreenDesignEnabled}
       isGlobalSmartAlert
       canConfigureGlobalAlertConfigs={role?.canConfigureGlobalSyntheticSmartAlerts}
     />

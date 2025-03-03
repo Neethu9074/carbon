@@ -5,7 +5,7 @@
 
 import { FC } from 'react';
 
-import { Cursor, EntityHealthInfo, IngestionOffsetCursor, TimeConfig } from 'in-types';
+import { Cursor, EntityHealthInfo, IngestionOffsetCursor, TimeConfig } from '@instana/types';
 
 export interface KubernetesListItemWithCursor {
   item: KubernetesClusterListItem;

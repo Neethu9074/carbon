@@ -87,7 +87,10 @@ const cols = [
 ];
 
 export default function NetworkStatsList({ snapshotId, timeConfig }: NetworkStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'networkStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'networkStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const networkStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: NetworkStatsRow[] = networkStat
     ? networkStat

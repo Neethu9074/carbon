@@ -39,7 +39,7 @@ export default function Summary() {
 
   const iconWithTooltip = role?.canViewLogs && isLoggingAddonUser && (
     <Tooltip content={t('in-logging:dashboard.analyzeLogs')} align="leftMiddle">
-      <IconButton kind="subtle" type={'lib_analyze'} href={goToLogs} />
+      <IconButton aria-label={'go-to-logs-link'} kind="subtle" type={'lib_analyze'} href={goToLogs} />
     </Tooltip>
   );
 

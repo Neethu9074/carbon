@@ -31,6 +31,7 @@
     "optional": "可选",
     "on": "ON",
     "off": "关闭",
+    "options": "选项",
     "revisionDropdownButton": {
       "revision": "修订版 {{alertRevision}}",
       "pause": "暂停",
@@ -238,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "请确认",
+            "confirmRemove": "请确认",
             "description": "修改边界范围将重置应用程序选择。",
             "confirmButtonLabel": "确认"
           }
@@ -259,7 +260,7 @@
           "includeInternalCalls": "包含内部调用数",
           "includeSyntheticCalls": "包含合成调用数",
           "confirmationDialog": {
-            "pleaseConfirm": "请确认",
+            "confirmRemove": "请确认",
             "description": "取消选择“{{callType}}”将重置应用程序选择。",
             "confirmButtonLabel": "确认"
           }
@@ -788,6 +789,8 @@
         "cancelTitle": "取消",
         "proceedTitle": "继续",
         "previousTitle": "上一步",
+        "nextTitle": "下一步",
+        "closeTitle": "关闭",
         "sharedListTooltip": "{{typeName}} 不再可用",
         "clearTagFilterExpressionButton": "清除",
         "baselineErrorMessageComputedOnApproximateData": "根据数据保留时间设置的近似数据计算基线。 因此，如果与所选过滤器匹配的调用很少，那么可能不准确。",
@@ -869,6 +872,7 @@
         "timeThresholdConfigImpactEvaluationMethod": "用户影响评估方法",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "在所有评估窗口中聚集",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "为每个评估窗口计算",
+        "timeThresholdConfigImpactEvaluationMethodSelect": "选择一个选项",
         "timeThresholdConfigNumberOfViolations": "指标违例次数",
         "timeThresholdConfigEvaluationGranularity": "评估详细程度",
         "granularityTooltipText": "此处设置的时间粒度将确定对阈值进行求值的频率。",
@@ -985,7 +989,15 @@
         "labelConfirmRemoveConfig": "确定要除去警报 <strong>{{configName}}</strong> 吗？",
         "labelRemove": "除去"
       },
+      "gracePeriod": {
+        "title": "宽限期（可选）",
+        "description": "在不再满足违例阈值后自动关闭问题：",
+        "label": "选择",
+        "summary": "<strong>当 {{gracePeriodValue}}</strong> 不再满足违规阈值后，将自动关闭问题。"
+      },
       "tearSheet": {
+        "cancelModalTitle": "确定要取消吗？",
+        "cancelModalDescription": "如果取消，则将不会保存您输入的配置详细信息。",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "当违例存在一段时间时",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "违例以随机时间间隔发生",
@@ -1001,8 +1013,7 @@
           "persistenceType": "持久类型",
           "numberOfConsecutiveViolationsPostLabel": "连续 {{granularity}} 分钟时间窗口有违例",
           "static": "静态",
-          "thresholdValue": "阈值",
-          "timeWindow": "时间窗口"
+          "thresholdValue": "阈值"
         }
       }
     },
@@ -1248,11 +1259,32 @@
         "alertConfigurationTitleAlertChannels": "警报通道",
         "alertConfigurationTitleAlertProperties": "警报属性",
         "failureThreshold": "{{failureCount}} 个失败",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "宽限期",
         "alertConfigurationTitleScope": "作用域",
         "noOfFailure": "失败数",
         "timeThreshold": "时间阈值",
         "alertingType": "警报类型",
         "noScopeConfigured": "未配置范围过滤器"
+      },
+      "tearSheet": {
+        "createTitle": "创建一个合成智能警报",
+        "scopeFilter": {
+          "filter": "过滤",
+          "filterDescription": "在合成测试中添加过滤器，以获得更精确的警报。"
+        },
+        "steps": {
+          "step1Title": "选择合成测试。",
+          "step2Title": "定义何时收到警报。"
+        },
+        "step1": {
+          "header": "要对哪些合成测试发出警报？",
+          "description": "将针对每个合成测试、每个位置分开发送单独的警报"
+        },
+        "step2": {
+          "sliderHeader": "设置违例何时触发警报",
+          "sliderDescription": "指定在发出警报之前每个位置应连续发生多少次故障。"
+        }
       }
     },
     "mobileApp": {
@@ -1520,6 +1552,7 @@
       "regexNotValid": "正则表达式无效",
       "tearSheet": {
         "createTitle": "创建基础架构智能警报",
+        "editTitle": "编辑基础架构智能警报",
         "steps": {
           "step1Title": "定义条件",
           "step2Title": "定义何时收到警报",
@@ -1537,7 +1570,7 @@
           "header": "要为此警报设置哪些属性？"
         },
         "step4": {
-          "header": "您希望通过此警报来通知哪些内容？",
+          "header": "您希望在何处收到此警报的通知？",
           "description": "选择该警报的收件人"
         },
         "scopeAlerting": {
@@ -1647,14 +1680,57 @@
         "customPayloads": {
           "label": "有效内容",
           "title": "定制有效内容"
-        },
-        "thresholdValue": "阈值"
+        }
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "请提供大于或等于 0 的数字",
+        "selectAtLeastOneThreshold": "请提供至少一个阈值的值。",
         "noDataForSelectedGroup": "指定过滤器和分组组合无可用数据。"
       },
-      "logCount": "日志计数"
+      "logCount": "日志计数",
+      "tearSheet": {
+        "labelActionButtonEdit": "编辑",
+        "labelActionButtonDuplicate": "复制",
+        "createTitle": "创建日志智能警报",
+        "editTitle": "编辑日志 智能警报",
+        "steps": {
+          "step1Title": "定义条件",
+          "step2Title": "定义何时收到警报",
+          "step3Title": "定义警报属性",
+          "step4Title": "定义警报通道"
+        },
+        "step2": {
+          "header": "设置违例阈值的值",
+          "description": "选择一个指标、违例阈值和时间窗口以评估违例情况。"
+        },
+        "step3": {
+          "header": "要为此警报设置哪些属性？"
+        },
+        "step4": {
+          "header": "您希望在何处收到此警报的通知？",
+          "description": "选择该警报的收件人"
+        },
+        "scopeFilter": {
+          "title": "选择日志的范围",
+          "filter": "过滤",
+          "filterDescription": "为日志消息内容和/或日志添加过滤器，以获得更精确的警报。"
+        },
+        "granularity": {
+          "description": "日志会在 {{granularity}} 分钟窗口内进行评估，并计算该时间窗口的度量值"
+        },
+        "scopeGroupBy": {
+          "group": "组",
+          "groupByDescription": "在日志中添加分组。 组内的每个条目都是集体配置的，但会单独进行评估。"
+        },
+        "timeThreshold": {
+          "title": "设置违例何时触发警报",
+          "description": "指定警报触发的持续时间和故障时间。"
+        },
+        "thresholdDescription": {
+          "static": "将应用常量阈值，并且该值不会随时间变化。"
+        },
+        "chartAlertPreview": "警报预览",
+        "chartAlertPreviewDescription": "显示如何根据历史度量值数据触发警报。"
+      }
     },
     "slo": {
       "components": {
@@ -1696,7 +1772,7 @@
         "blueprintDescription_BURN_RATE": "烧损率是一个值，表示相对于 SLO 目标长度，误差预算消耗的速度。",
         "burnRateShortWindowTitle": "短警报窗口",
         "burnRateShortWindowDescription": "当错误率在较短时间内以较快的速度超过阈值时，就会触发这些警报。 这有助于捕获因关键错误而突然激增的错误或停机时间。",
-        "burnRateDescription": "当烧损率为 <1/> <2/> 时通知我。",
+        "burnRateDescription": "当烧损率为 <1/> <2/>  时通知我",
         "burnRateLongWindowTitle": "长警报窗口",
         "burnRateLongWindowDescription": "当错误率在较长时间内超过阈值时，就会触发这些警报。 这有助于发现日积月累的问题，如果不加以解决，将来可能会造成问题。",
         "burnRateShortWindowLongerThanLongWindowError": "短窗口不能超过长窗口。 请调整任一值。",
@@ -1777,6 +1853,7 @@
     "warningAndCritical": "警告和批评",
     "warning": "警告",
     "critical": "严重",
-    "searchPlaceholder": "搜索"
+    "searchPlaceholder": "搜索",
+    "sortBy": "排序依据"
   }
 }

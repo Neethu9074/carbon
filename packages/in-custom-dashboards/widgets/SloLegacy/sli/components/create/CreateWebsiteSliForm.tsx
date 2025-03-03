@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import { Item } from 'formalistic';
 
+import { Result, TimeConfig, Website } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import {
@@ -20,7 +21,6 @@ import { WebsiteSliForm } from 'in-custom-dashboards/widgets/SloLegacy/sli/Websi
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { websiteTimeBased } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { Result, TimeConfig, Website } from 'in-types';
 import useWebsite from 'in-websites/hooks/useWebsite';
 
 export default function CreateWebsiteSliForm({

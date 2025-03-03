@@ -110,7 +110,10 @@ const cols = [
 ];
 
 export default function DiskSummaryStats({ snapshotId, timeConfig }: DiskSummaryDataStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'diskSummaryStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'diskSummaryStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return null;
   }

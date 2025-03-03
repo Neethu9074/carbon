@@ -145,7 +145,10 @@ function getDetails(row: TransactionStatsRow) {
 }
 
 export default function TransactionStatsList({ snapshotId, timeConfig }: TransactionStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'transactionStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'transactionStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const transactionStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: TransactionStatsRow[] = transactionStat
     ? transactionStat

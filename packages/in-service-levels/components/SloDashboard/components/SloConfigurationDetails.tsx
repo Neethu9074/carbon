@@ -13,7 +13,7 @@ import ObjectiveSection from 'in-service-levels/components/SloDashboard/componen
 import IndicatorSection from 'in-service-levels/components/SloDashboard/components/configuration/IndicatorSection';
 import SloActionButtons from 'in-service-levels/components/SloDashboard/components/configuration/SloActionButtons';
 import EntitySection from 'in-service-levels/components/SloDashboard/components/configuration/EntitySection';
-import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { SLO_CONFIG_VIEW } from 'in-services/tracking/eventNames';
 import TagList from 'in-components/TagsList/TagList';
@@ -38,18 +38,19 @@ export default function SloConfigurationDetails({ data }: SloConfigurationDetail
 function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContentProps) {
   const { configuration, entities } = data;
 
-  const track = useSloTrackers();
+  const { trackCta } = useSegmentTracking();
+
   useEffect(() => {
     const { indicator, timeWindow, entity } = configuration;
 
-    track(SLO_CONFIG_VIEW, {
+    trackCta(SLO_CONFIG_VIEW, {
       id: configuration.id,
       blueprint: indicator.blueprint,
       indicatorType: indicator.type,
       timeWindowType: timeWindow.type,
       entityType: entity.type
     });
-  }, [track, configuration]);
+  }, [trackCta, configuration]);
 
   return (
     <Card

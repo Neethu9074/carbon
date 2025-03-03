@@ -49,13 +49,12 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPad
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { OnEntity } from 'in-events/components/EventsListRow';
+import { useLocalStorage } from 'in-services/localStorage';
 import { emptyList } from 'in-services/fixedImmutables';
 import EventIcon from 'in-events/components/EventIcon';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import Pagination from 'in-components/Pagination';
 import { EventOrMap } from 'in-events/types';
 import { t } from 'in-i18n';
 
@@ -92,13 +91,15 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
   const [relatedEventsPage, setRelatedEventsPage] = useState(1);
   const [relatedEventsSection, setRelatedEventsSection] = useState(false);
 
-  const pageSize = 5;
+  const [pageSize, setPageSize] = useLocalStorage('relatedEventsPageSize', 5);
+
   const paginatedRecentEventIds = allRecentEvents?.slice(
     pageSize * (relatedEventsPage - 1),
     pageSize * relatedEventsPage
   );
   const paginatedRecentEventsRaw: TYPE_RECENT_EVENTS =
-    useObservable(combineLatest(paginatedRecentEventIds.map(getEvent)).throttle(250), [relatedEventsPage]) ?? null;
+    useObservable(combineLatest(paginatedRecentEventIds.map(getEvent)).throttle(250), [pageSize, relatedEventsPage]) ??
+    null;
 
   const paginatedRecentEvents = paginatedRecentEventsRaw?.filter(event => {
     // @ts-expect-error no tyedef for event
@@ -109,7 +110,6 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
   });
 
   const [expandedEventOnClickInTimeline, setExpandedEventOnClickInTimeline] = useState('');
-  const numPages = Math.ceil(totalRecentEvents / pageSize);
 
   // END related events pagination
 
@@ -159,21 +159,17 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
               {allRecentEvents.length !== 0 &&
                 !paginatedRecentEvents &&
                 Array(pageSize).map((_, idx) => <EventListItemSkeleton id={`${idx}`} />)}
-              {carbonPaginationEnabled && totalRecentEvents > pageSize ? (
+              {totalRecentEvents > pageSize && (
                 <CarbonPagination
                   currentPage={relatedEventsPage}
                   totalItems={totalRecentEvents}
                   pageSize={pageSize}
-                  pageSizes={[pageSize]}
+                  pageSizes={[5, 10, 15, 20]}
                   onChange={data => {
-                    setRelatedEventsPage(data.page);
+                    const { page: newPage, pageSize: newPageSize } = data;
+                    setRelatedEventsPage(newPage);
+                    setPageSize(newPageSize);
                   }}
-                />
-              ) : (
-                <Pagination
-                  currentPage={relatedEventsPage}
-                  numPages={numPages}
-                  onChange={page => setRelatedEventsPage(page)}
                 />
               )}
             </LeftRightPadding>

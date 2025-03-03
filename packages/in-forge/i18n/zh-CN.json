@@ -983,6 +983,11 @@
   "pluginName_ibmDataPowerQueueManager_1": "IBM DataPower 队列管理器",
   "pluginName_ibmDataPowerQueueManager_2": "IBM DataPower 队列管理器",
   "pluginName_ibmDataPowerQueueManager": "IBM DataPower 队列管理器",
+  "pluginName_ibmDataPowerQueueManagerV9_plural": "IBM DataPower 队列管理器 V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_0": "IBM DataPower 队列管理器 V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_1": "IBM DataPower 队列管理器 V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_2": "IBM DataPower 队列管理器 V9+",
+  "pluginName_ibmDataPowerQueueManagerV9": "IBM DataPower 队列管理器 V9+",
   "pluginName_ibmDataPowerService_plural": "IBM DataPower 服务",
   "pluginName_ibmDataPowerService_0": "IBM DataPower 服务",
   "pluginName_ibmDataPowerService_1": "IBM DataPower 服务",
@@ -1180,6 +1185,11 @@
   "pluginName_kongApigateway_1": "Kongs",
   "pluginName_kongApigateway_2": "Kongs",
   "pluginName_kongApigateway": "Kong",
+  "pluginName_kubeCostPlatform": "Kubecost",
+  "pluginName_kubeCostPlatform_plural": "Kubecosts",
+  "pluginName_kubeCostPlatform_0": "Kubecosts",
+  "pluginName_kubeCostPlatform_1": "Kubecosts",
+  "pluginName_kubeCostPlatform_2": "Kubecosts",
   "pluginName_kubernetesCluster_plural": "Kubernetes 集群",
   "pluginName_kubernetesCluster_0": "Kubernetes 集群",
   "pluginName_kubernetesCluster_1": "Kubernetes 集群",
@@ -1844,6 +1854,16 @@
   "pluginName_websiteHttpd_0": "Web 站点",
   "pluginName_websiteHttpd_1": "Web 站点",
   "pluginName_websiteHttpd_2": "Web 站点",
+  "pluginName_nutanixHost_plural": "Nutanix 主机",
+  "pluginName_nutanixHost_0": "Nutanix 主机",
+  "pluginName_nutanixHost_1": "Nutanix 主机",
+  "pluginName_nutanixHost_2": "Nutanix 主机",
+  "pluginName_nutanixHost": "Nutanix 主机",
+  "pluginName_nutanixDatacenter_plural": "Nutanix 数据中心",
+  "pluginName_nutanixDatacenter_0": "Nutanix 数据中心",
+  "pluginName_nutanixDatacenter_1": "Nutanix 数据中心",
+  "pluginName_nutanixDatacenter_2": "Nutanix 数据中心",
+  "pluginName_nutanixDatacenter": "Nutanix 数据中心",
   "tracingTypeName_ace": "IBM ACE",
   "tracingTypeName_actioncontroller": "ActionController",
   "tracingTypeName_actioncontroller_plural": "ActionController 调用",
@@ -3428,6 +3448,8 @@
       "state": "状态",
       "queueManagersNumber": "队列管理器 ({{count}})",
       "queueManagersNumber_plural": "队列管理器 ({{count}})",
+      "queueManagersV9Number": "队列管理器 V9+（{{count}} 个）",
+      "queueManagersV9Number_plural": "队列管理器 V9+（{{count}} 个）",
       "serviceNumber": "服务 ({{count}})",
       "serviceNumber_plural": "服务 ({{count}})",
       "sqlDatasourceNumber": "SQL 数据源 ({{count}})",
@@ -3468,6 +3490,12 @@
       "activeConnections": "活动连接数",
       "backendActiveConnections": "后端活动连接数",
       "frontendActiveConnections": "前端活动连接数"
+    },
+    "ibmDataPowerQueueManagerV9": {
+      "ibmDataPowerQueueManagerV9Info": "IBM DataPower 队列管理器 V9+",
+      "activeConversations": "活动对话",
+      "backendActiveConversations": "后端活动对话",
+      "frontendActiveConversations": "前端活动对话"
     },
     "ibmDataPowerService": {
       "ibmDataPowerServiceInfo": "IBM DataPower 服务",
@@ -3634,6 +3662,10 @@
       "directorySystemAgentLSA": "本地安全权限",
       "directorySystemAgentNSPI": "名称服务提供程序",
       "securityAccountManagerLabel": "安全帐户管理器",
+      "dhcpLabel": "动态主机配置协议 (DHCP)",
+      "dnsLablelDynamicUpdates": "域名系统 (DNS) 动态更新",
+      "dnsLablelQueriesAndResponses": "域名系统 (DNS) 查询和响应",
+      "dnsLablelZoneTransfers": "域名系统 (DNS) 区域转移",
       "directorySystemAgent": {
         "dsClientBindsPerSec": "每秒客户端绑定次数",
         "dsClientNameTranslationsPerSec": "每秒客户端名称翻译次数",
@@ -3678,7 +3710,7 @@
         "samDomainLocalGroupMembershipEvaluationsPerSec": "每秒网域本地组成员评价",
         "samEnumerationsPerSec": "每秒枚举次数",
         "samGCEvaluationsPerSec": "每秒 GC 评估次数",
-        "samGlobalGroupMembershipEvaluationsPerSec": "每秒的本地群组成员评价",
+        "samGlobalGroupMembershipEvaluationsPerSec": "每秒全局组成员评估",
         "samMachineCreationAttemptsPerSec": "每秒尝试的机器创建",
         "samMembershipChangesPerSec": "每秒成员变更",
         "samNonTransitiveMembershipEvaluationsPerSec": "每秒非传递式成员评价",
@@ -3689,6 +3721,30 @@
         "samTransitiveMembershipEvaluationsPerSec": "每秒传递的成员评价",
         "samUniversalGroupMembershipEvaluationsPerSec": "每秒通用组员资格评估",
         "samUserCreationAttemptsPerSec": "每秒用户创建尝试"
+      },
+      "dhcp": {
+        "dhcpAcksPerSecondPercentageIncrease": "每秒应答数增长百分比",
+        "dhcpRequestSecondPercentIncrease": "每秒请求数增长百分比",
+        "dhcpConflictCheckQueueLength": "冲突检查队列长度",
+        "dhcpDeclinesPersec": "每秒下降量",
+        "dhcpDuplicatesDroppedPersec": "每秒丢弃的副本数",
+        "dhcpNacksPersec": "每秒负应答数",
+        "dhcpPacketsExpiredPersec": "每秒过期数据包数"
+      },
+      "dns": {
+        "dnsCachingMemory": "高速缓存内存",
+        "dnsDynamicUpdateQueued": "排队的动态更新",
+        "dnsDynamicUpdateReceived": "接收的动态更新",
+        "dnsDynamicUpdateReceivedPersec": "每秒接收的动态更新",
+        "dnsDynamicUpdateRejected": "被拒绝的动态更新",
+        "dnsDynamicUpdateTimeOuts": "动态更新超时",
+        "dnsTotalQueryReceived": "接收的查询总数",
+        "dnsTotalQueryReceivedPersec": "每秒接收的查询总数",
+        "dnsTotalResponseSent": "发送的响应总数",
+        "dnsTotalResponseSentPersec": "每秒发送的响应总数",
+        "dnsZoneTransferFailure": "区域传输失败",
+        "dnsZoneTransferSuccess": "区域传输成功",
+        "dnsZoneTransferRequestReceived": "接收的区域传输请求"
       }
     },
     "activeMQ": {
@@ -9547,7 +9603,7 @@
         "duration": "持续时间",
         "backupSize": "备份大小",
         "transferredSize": "传输大小",
-        "backupStats": "备份进度",
+        "backupStats": "最新备份",
         "startTime": "开始时间",
         "entryType": "入口类型",
         "processCpuPerc": "进程 CPU",
@@ -9569,7 +9625,7 @@
         "diskUsagePercentage": "磁盘使用率百分比",
         "diskUsageSummary": "磁盘使用情况摘要",
         "usage": "用法",
-        "archiveLogBackupStats": "备份历史记录",
+        "archiveLogBackupStats": "全部备份",
         "sourceDatabaseName": "源数据库",
         "userLockStats": "用户锁",
         "userMode": "用户方式",
@@ -9710,9 +9766,9 @@
       "dashboard": {
         "overallCreditUsage": "总体信贷使用情况",
         "totalStorageBytes": "总存储字节数",
-        "usageInCurrency": "货币使用量",
+        "usageInCurrency": "货币使用量 ({{currency}})",
         "topFiveBillingAccounts": "5 大账单账户",
-        "remainingBalanceInCurrency": "货币余额",
+        "remainingBalanceInCurrency": "货币余额 ({{currency}})",
         "balance": "平衡",
         "accountName": "帐户名称",
         "credits": "工作人员",
@@ -10817,8 +10873,10 @@
         "virtualTotal": "虚拟总计",
         "computational": "计算",
         "nonComputational": "非计算",
+        "realAvailable": "真正可用",
         "pageIn": "每秒页面调进数",
         "pageOut": "每秒页面调出数",
+        "pageScan": "每秒页面扫描数",
         "openFiles": "打开文件数",
         "current": "当前",
         "tcpActivity": "TCP 活动",
@@ -10857,6 +10915,14 @@
         "processName": "进程名称",
         "gpu": "GPU",
         "gpuUsage": "GPU 使用率",
+        "volumeGroups": "卷组",
+        "volumeGroupName": "卷组名称",
+        "physicalVolume": "物理卷",
+        "physicalVolumeName": "物理卷名",
+        "totalSize": "总大小",
+        "usedSize": "已用大小",
+        "freeSize": "可用大小",
+        "volumeGrpState": "卷组状态",
         "encoder": "编码器",
         "decoder": "解码器",
         "temperature": "温度",
@@ -10898,6 +10964,7 @@
       "machineId": "机器标识",
       "bootId": "引导标识",
       "systemId": "系统标识",
+      "hostId": "主机标识",
       "startedAt": "开始",
       "interfacesWithSize": "接口 ({{size}})",
       "cpuUsed": "已用 CPU",
@@ -10922,8 +10989,10 @@
       "virtualTotal": "虚拟总计",
       "computational": "计算",
       "nonComputational": "非计算",
+      "realAvailable": "真正可用",
       "pageIn": "每秒页面调进数",
       "pageOut": "每秒页面调出数",
+      "pageScan": "每秒页面扫描数",
       "load": "负载",
       "contextSwitches": "上下文切换次数",
       "current": "当前",
@@ -11640,10 +11709,7 @@
             "unitNumber": "单元号",
             "aspNumber": "ASP 编号",
             "unitStorageCapacity": "存储容量",
-            "unitMediaCapacityGb": "介质容量 (GB)",
-            "charts": {
-              "elapsedPercentBusy": "耗用的忙碌百分比"
-            }
+            "unitMediaCapacityGb": "介质容量 (GB)"
           },
           "solidStateDisk": {
             "name": "固态磁盘 (SSD) 信息",
@@ -11667,10 +11733,7 @@
             "diskType": "磁盘类型",
             "unitNumber": "单元号",
             "aspNumber": "ASP 编号",
-            "typeOfDiskUnit": "磁盘单元的类型",
-            "charts": {
-              "elapsedPercentBusy": "耗用的忙碌百分比"
-            }
+            "typeOfDiskUnit": "磁盘单元的类型"
           },
           "nonVolatileMemory": {
             "name": "Non Volatile Memory Express (NVMe) 信息",
@@ -11686,7 +11749,12 @@
             "unSafeShutDowns": "不安全关闭",
             "firmwareLevel": "固件级别"
           }
-        }
+        },
+        "elapsedPercentBusy": "耗用的忙碌百分比",
+        "elapsedReadRequests": "读取量/秒",
+        "elapsedWriteRequests": "写入量/秒",
+        "elapsedDataRead": "读取的字节数/秒",
+        "elapsedDataWritten": "写入的字节数/秒"
       }
     },
     "ibmiNetworkInfo": {
@@ -12644,7 +12712,8 @@
       "hostname": "主机名",
       "startType": "启动类型",
       "turbonomicSensorException": "涡轮工程传感器产生以下异常：<code>{{e}}</code>。",
-      "jspawnhelperPermissionIssueDescription": "代理程序无法执行 JVM 路径 <code>{{path}}</code> 中的 jspawnhelper 文件。 请提供必要的权限。"
+      "jspawnhelperPermissionIssueDescription": "代理程序无法执行 JVM 路径 <code>{{path}}</code> 中的 jspawnhelper 文件。 请提供必要的权限。",
+      "switchtoJava11IssueDescription": "代理程序运行的 JVM 低于 Java 11。 使用的版本为 <code>{{version}}</code>。"
     },
     "sparkStandalone": {
       "titleApplicationId": "应用程序标识",
@@ -12777,6 +12846,7 @@
       "fetch": "访存",
       "produce": "生产",
       "allBrokersStateMetrics": "所有代理状态指标",
+      "clientMetrics": "客户机度量值",
       "averageIdleTimePercentage": "平均空闲时间百分比",
       "networkProcessor": "网络处理器",
       "requestHandler": "请求处理程序",
@@ -12926,6 +12996,9 @@
         "workerLua": "工作程序 Lua VM 中的已分配字节数",
         "totalConnections": "连接总数"
       }
+    },
+    "kubecost": {
+      "label": "Kubecost"
     },
     "kubernetesCluster": {
       "noActivity": "无活动",
@@ -13615,20 +13688,48 @@
       "instanceId": "实例标识",
       "label_category_LLM": "LLM",
       "llm_status": "LLM 状态",
+      "model": "模型",
+      "service": "服务",
       "dashboard": {
-        "token": "令牌",
-        "cost": "开销",
+        "token": "标记数（按模型划分）",
+        "inputToken": "输入标记数（按模型划分）",
+        "outputToken": "输出标记数（按模型划分）",
+        "serviceToken": "标记数（按服务划分）",
+        "serviceInputToken": "输入标记数（按服务划分）",
+        "serviceOutputToken": "输出标记数（按服务划分）",
+        "cost": "成本（按模型划分）",
+        "inputCost": "输入成本（按模型划分）",
+        "outputCost": "输出成本（按模型划分）",
+        "serviceCost": "成本（按服务划分）",
+        "serviceInputCost": "输入成本（按服务划分）",
+        "serviceOutputCost": "输出成本（按服务划分）",
         "duration": "模型等待时间",
         "analytics": "跟踪",
         "llmonitor_agent": "LLMonitor 平台",
         "details": "详细信息",
-        "count": "请求计数",
+        "count": "请求计数（按模型划分）",
+        "serviceCount": "请求计数（按服务划分）",
         "totalToken": "令牌总数",
+        "totalInputToken": "输入标记总数",
+        "totalOutputToken": "输出标记总数",
         "totalCost": "成本总计",
+        "totalInputCost": "总输入成本",
+        "totalOutputCost": "总输出成本",
         "totalCount": "请求总数",
         "totalTokenByModel": "令牌总数（按模型划分）",
+        "totalInputTokenByModel": "输入标记总数（按模型划分）",
+        "totalOutputTokenByModel": "输出标记总数（按模型划分）",
+        "totalTokenByService": "标记总数（按服务划分）",
+        "totalInputTokenByService": "输入标记总数（按服务划分）",
+        "totalOutputTokenByService": "输出标记总数（按服务划分）",
         "totalCostByModel": "总成本（按模型划分）",
-        "totalCountByModel": "请求总数（按模型划分）"
+        "totalInputCostByModel": "总输入成本（按模型划分）",
+        "totalOutputCostByModel": "总输出成本（按模型划分）",
+        "totalCostByService": "总成本（按服务划分）",
+        "totalInputCostByService": "总输入成本（按服务划分）",
+        "totalOutputCostByService": "总输出成本（按服务划分）",
+        "totalCountByModel": "请求总数（按模型划分）",
+        "totalCountByService": "请求总数（按服务划分）"
       }
     },
     "oTelDcgm": {

@@ -10,7 +10,6 @@
   "recommendedOptimizations": "Azioni raccomandate per le risorse",
   "actionName": "Nome azione",
   "validVaultParameter": "I parametri del vault contrassegnati come facoltativi devono essere entrambi vuoti o non vuoti.",
-  "newAction": "Nuova azione",
   "runAction": "Esegui azione",
   "testAction": "Azione di test",
   "targetAgent": "Agent di destinazione",
@@ -239,6 +238,7 @@
     "ignoreCertErrors": "Ignora errori certificato",
     "basicAuth": "Autorizzazione di base",
     "bearerToken": "Token bearer",
+    "authentication": "Autenticazione",
     "apiKeyAddTo": "Aggiungi a",
     "apiKey": "Chiave API",
     "header": "Intestazione",
@@ -255,12 +255,6 @@
     "defaultValue": "Valore predefinito",
     "defaultValueOptional": "Valore predefinito (facoltativo)",
     "parameters": "Parametri",
-    "showPasswordTooltip": "Mostra password",
-    "hidePasswordTooltip": "Nascondi password",
-    "showAPIKeyTooltip": "Mostra chiave API",
-    "hideAPIKeyTooltip": "Nascondi chiave API",
-    "showBeaererTokenTooltip": "Mostra token di connessione",
-    "hideBeaererTokenTooltip": "Nascondi token di connessione",
     "secretKey": "Chiave segreta",
     "secretPath": "Percorso segreto",
     "secretKeyOptional": "Chiave segreta (facoltativo)",
@@ -329,8 +323,6 @@
     "status": "Stato",
     "startTime": "Ora di inizio",
     "endTime": "Data/ora di fine",
-    "property": "Proprietà",
-    "value": "Valore",
     "actionInstanceId": "ID istanza azione",
     "event": "Evento",
     "eventName": "Nome evento",
@@ -373,11 +365,13 @@
     "output": "Output",
     "user": "Utente",
     "apiToken": "Token API",
-    "deleteTooltip": "Eliminare l'istanza dell'azione {{id}}",
+    "viewTooltip": "Visualizza l'istanza dell'azione {{actionName}}",
+    "deleteTooltip": "Elimina l'istanza dell'azione {{actionName}}",
     "deleteDialog": {
       "success": "L'istanza dell'azione è stata eliminata correttamente.",
       "failure": "Impossibile eliminare l'istanza dell'azione."
-    }
+    },
+    "actionSnapshotDetails": "Dettagli dell'istantanea dell'azione"
   },
   "actionLanes": {
     "buttonInvestigate": "Ricerca causa"
@@ -478,8 +472,8 @@
     "showTasks": "Mostra"
   },
   "deleteDialog": {
-    "pleaseConfirm": "Confermare",
-    "pleaseConfirmMsg": "Si è sicuri di voler eliminare <strong>{{name}}</strong>?",
+    "confirmRemove": "Confermare",
+    "confirmRemoveMsg": "Si è sicuri di voler eliminare <strong>{{name}}</strong>?",
     "delete": "Elimina"
   },
   "turboActionCategories": {
@@ -512,5 +506,12 @@
     "actionName": "Nome azione",
     "recommendedActionHistoryWithCount": "Cronologia delle azioni sulle risorse{{count}})",
     "recommendedActionHistory": "Cronologia azione risorsa"
+  },
+  "feedback": {
+    "contentHelpfulText": "Questo contenuto generato è stato utile?",
+    "thankYouForYourFeedback": "Grazie per il tuo feedback!",
+    "submitFeedback": "Invia feedback",
+    "additionalFeedbacklabel": "Fornire un ulteriore feedback (facoltativo)",
+    "additionalFeedbackPlaceholder": "Cosa non è piaciuto della risposta? Cosa si può migliorare"
   }
 }

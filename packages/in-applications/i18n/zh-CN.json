@@ -158,21 +158,46 @@
     "labelSubtraces": "子溯源",
     "labelSubtrace": "子跟踪",
     "newSubtrace": "添加子跟踪",
+    "labelCallsPerSubtrace": "每个子跟踪的调用数",
+    "labelDuration": "持续时间",
+    "labelNumberOfSubtraces": "子跟踪数",
+    "labelErroneousSubtraceRate": "错误子跟踪率",
+    "labelErroneousRate": "错误率",
+    "meanDuration": "平均持续时间",
     "subtracesList": {
       "name": "名称",
       "count": "计数",
-      "meanDuration": "平均持续时间",
       "meanSubcallCount": "平均人数 的子调用",
       "meanErrorRate": "平均错误率"
     },
     "configuration": {
       "success": {
-        "title": "子跟踪 {{action}} 成功",
-        "message": "子跟踪 {{subtraceName}} 已被 {{action}}。"
+        "created": {
+          "title": "已成功创建子跟踪",
+          "message": "已创建子跟踪“{{subtraceName}}”。"
+        },
+        "updated": {
+          "title": "已成功更新子跟踪",
+          "message": "已更新子跟踪“{{subtraceName}}”。"
+        },
+        "deleted": {
+          "title": "已成功删除子跟踪",
+          "message": "已删除子跟踪“{{subtraceName}}”。"
+        }
       },
       "failure": {
-        "title": "{{action}} 子跟踪失败",
-        "message": "在尝试 {{action}} 此子跟踪时出现问题：{{subtraceName}}"
+        "created": {
+          "title": "创建子跟踪失败",
+          "message": "在尝试创建以下子跟踪时出现问题：“{{subtraceName}}”"
+        },
+        "updated": {
+          "title": "更新子跟踪失败",
+          "message": "在尝试更新以下子跟踪时出现问题：“{{subtraceName}}”"
+        },
+        "deleted": {
+          "title": "删除子跟踪失败",
+          "message": "在尝试删除以下子跟踪时出现问题：“{{subtraceName}}”"
+        }
       },
       "title": "更新子跟踪",
       "subtraceName": "子跟踪名称",
@@ -465,6 +490,8 @@
   "dashboards": {
     "callCount": "总共 {{formattedCount}} 次调用",
     "callCount_plural": "总共 {{formattedCount}} 次调用",
+    "subtraceCount": "总共 {{formattedCount}} 个子跟踪",
+    "subtraceCount_plural": "总共 {{formattedCount}} 个子跟踪",
     "erroneousCallCount": "总共 {{formattedCount}} 次错误调用",
     "erroneousCallCount_plural": "总共 {{formattedCount}} 次错误调用",
     "meanLatencyFor90th": "第 90 个的 {{meanLatencyDetail}}",

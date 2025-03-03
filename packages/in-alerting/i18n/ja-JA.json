@@ -31,6 +31,7 @@
     "optional": "オプション",
     "on": "オン",
     "off": "オフ",
+    "options": "オプション",
     "revisionDropdownButton": {
       "revision": "リビジョン {{alertRevision}}",
       "pause": "一時停止",
@@ -238,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "ご確認ください",
+            "confirmRemove": "ご確認ください",
             "description": "バウンダリー・スコープを変更すると、アプリケーションの選択がリセットされます。",
             "confirmButtonLabel": "確認"
           }
@@ -259,7 +260,7 @@
           "includeInternalCalls": "内部呼び出しを含める",
           "includeSyntheticCalls": "シンセティック呼び出しを含める",
           "confirmationDialog": {
-            "pleaseConfirm": "ご確認ください",
+            "confirmRemove": "ご確認ください",
             "description": "「{{callType}}」を選択し、解除すると、アプリケーション選択がリセットされます。",
             "confirmButtonLabel": "確認"
           }
@@ -788,6 +789,8 @@
         "cancelTitle": "キャンセル",
         "proceedTitle": "続行",
         "previousTitle": "前へ",
+        "nextTitle": "次へ",
+        "closeTitle": "閉じる",
         "sharedListTooltip": "{{typeName}} は利用できなくなりました。",
         "clearTagFilterExpressionButton": "クリア",
         "baselineErrorMessageComputedOnApproximateData": "ベースラインは、データ保存設定による概算データに基づいて計算されます。 そのため、選択したフィルターに一致する呼び出しがほとんどない場合には、ベースラインが正確でない可能性があります。",
@@ -869,6 +872,7 @@
         "timeThresholdConfigImpactEvaluationMethod": "ユーザー・インパクト評価方法",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "すべての評価ウィンドウで集計",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "評価ウィンドウごとに計算",
+        "timeThresholdConfigImpactEvaluationMethodSelect": "オプションを選択",
         "timeThresholdConfigNumberOfViolations": "メトリック違反の数",
         "timeThresholdConfigEvaluationGranularity": "評価の粒度",
         "granularityTooltipText": "ここで設定する時間の細分度によって、しきい値が評価される頻度が決まります。",
@@ -985,7 +989,15 @@
         "labelConfirmRemoveConfig": "アラート<strong>{{configName}}</strong>を削除しますか？",
         "labelRemove": "削除"
       },
+      "gracePeriod": {
+        "title": "猶予期間 (任意)",
+        "description": "違反しきい値を下回ってから、次の期間を経過した後に自動的に問題をクローズします:",
+        "label": "選択",
+        "summary": "<strong>{{gracePeriodValue}}</strong>において違反の閾値が満たされなくなった後、問題を自動的にクローズする。"
+      },
       "tearSheet": {
+        "cancelModalTitle": "本当にキャンセルしますか?",
+        "cancelModalDescription": "キャンセルすると、入力した構成の詳細は保存されません。",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "違反が長期にわたって続く場合",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "不規則な間隔で違反が続く",
@@ -1001,8 +1013,7 @@
           "persistenceType": "パーシスタンス・タイプ",
           "numberOfConsecutiveViolationsPostLabel": "連続した {{granularity}} 分のウィンドウに違反がある",
           "static": "静的",
-          "thresholdValue": "しきい値",
-          "timeWindow": "時間枠"
+          "thresholdValue": "しきい値"
         }
       }
     },
@@ -1248,11 +1259,32 @@
         "alertConfigurationTitleAlertChannels": "アラート・チャネル",
         "alertConfigurationTitleAlertProperties": "アラート・プロパティー",
         "failureThreshold": "{{failureCount}} 件の失敗",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "猶予期間",
         "alertConfigurationTitleScope": "範囲",
         "noOfFailure": "失敗の数",
         "timeThreshold": "時間しきい値",
         "alertingType": "アラート・タイプ",
         "noScopeConfigured": "スコープ・フィルターが構成されていません"
+      },
+      "tearSheet": {
+        "createTitle": "シンセティック・スマート・アラートの作成",
+        "scopeFilter": {
+          "filter": "フィルター",
+          "filterDescription": "より正確なアラートを入手するために、シンセティック・テストを追加します。"
+        },
+        "steps": {
+          "step1Title": "シンセティック・テストを選択します。",
+          "step2Title": "アラートを受け取るタイミングを定義します。"
+        },
+        "step1": {
+          "header": "どのシンセティック・テストでアラートを受け取りたいですか?",
+          "description": "個々のアラートは、ロケーションごと、シンセティック・テストごとに個別に送信されます"
+        },
+        "step2": {
+          "sliderHeader": "違反がアラートをトリガーするタイミングを設定",
+          "sliderDescription": "警告を発する前に、ロケーションごとに連続失敗の回数を指定します。"
+        }
       }
     },
     "mobileApp": {
@@ -1520,6 +1552,7 @@
       "regexNotValid": "正規表現が無効です",
       "tearSheet": {
         "createTitle": "インフラストラクチャ・スマート・アラートの作成",
+        "editTitle": "インフラストラクチャー・スマート・アラートの編集",
         "steps": {
           "step1Title": "条件の定義",
           "step2Title": "アラートを受け取るタイミングの定義",
@@ -1537,7 +1570,7 @@
           "header": "このアラートに設定するプロパティーはどのようにしますか?"
         },
         "step4": {
-          "header": "このアラートについて何を通知しますか?",
+          "header": "このアラートの通知先はどこにしますか?",
           "description": "このアラートの受信者を選択する"
         },
         "scopeAlerting": {
@@ -1647,14 +1680,57 @@
         "customPayloads": {
           "label": "積載量",
           "title": "カスタム・ペイロード"
-        },
-        "thresholdValue": "しきい値"
+        }
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "0 以上の数値を指定してください",
+        "selectAtLeastOneThreshold": "少なくとも 1 つのしきい値を指定してください。",
         "noDataForSelectedGroup": "指定されたフィルターとグループ化の組み合わせで使用可能なデータがありません。"
       },
-      "logCount": "ログ・カウント"
+      "logCount": "ログ・カウント",
+      "tearSheet": {
+        "labelActionButtonEdit": "編集",
+        "labelActionButtonDuplicate": "重複",
+        "createTitle": "ログのスマート・アラートの作成",
+        "editTitle": "スマート・アラートのログを編集",
+        "steps": {
+          "step1Title": "条件の定義",
+          "step2Title": "アラートを受け取るタイミングの定義",
+          "step3Title": "アラート・プロパティの定義",
+          "step4Title": "アラート・チャンネルの定義"
+        },
+        "step2": {
+          "header": "違反しきい値の値を設定",
+          "description": "違反を評価するためのメトリック、違反しきい値、時間ウィンドウを選択します。"
+        },
+        "step3": {
+          "header": "このアラートに設定するプロパティーはどのようにしますか?"
+        },
+        "step4": {
+          "header": "このアラートの通知先はどこにしますか?",
+          "description": "このアラートの受信者を選択する"
+        },
+        "scopeFilter": {
+          "title": "ログの対象範囲を選択します",
+          "filter": "フィルター",
+          "filterDescription": "ログ・メッセージの内容、ログ、またはその両方にフィルターを追加すると、より正確なアラートを取得できます。"
+        },
+        "granularity": {
+          "description": "ログは {{granularity}} 分のウィンドウで評価され、そのウィンドウに対してメトリック値が計算されます"
+        },
+        "scopeGroupBy": {
+          "group": "グループ",
+          "groupByDescription": "ログにグループ化を追加する。 グループ内の各エントリは一括して設定されるが、個別に評価されます。"
+        },
+        "timeThreshold": {
+          "title": "違反がアラートをトリガーするタイミングを設定",
+          "description": "アラート・トリガーと障害発生までの時間に対する持続性を指定します。"
+        },
+        "thresholdDescription": {
+          "static": "定数のしきい値が適用されます。これは時間の経過とともに変化することはありません。"
+        },
+        "chartAlertPreview": "アラートのプレビュー",
+        "chartAlertPreviewDescription": "過去のメトリック・データに基づいて、アラートがどのようにトリガーされたかを示します。"
+      }
     },
     "slo": {
       "components": {
@@ -1696,7 +1772,7 @@
         "blueprintDescription_BURN_RATE": "燃焼率は、SLO の目標長に対して、エラー・バジェットがどの程度の速さで消費されるかを示す値です。",
         "burnRateShortWindowTitle": "短いアラート・ウィンドウ",
         "burnRateShortWindowDescription": "これらのアラートは、エラーレートが短時間でしきい値を超えた場合にトリガーされます。 これにより、重大なバグによるエラーの突然の急増やダウンタイムを捉えることができます。",
-        "burnRateDescription": "燃焼率が <1/> <2/> になったら通知します。",
+        "burnRateDescription": "燃焼率が <1/> <2/> になったら通知します",
         "burnRateLongWindowTitle": "長いアラート・ウィンドウ",
         "burnRateLongWindowDescription": "これらのアラートは、エラー率がしきい値を超える期間が長くなるとトリガーされます。 これにより、時間の経過とともに蓄積され、対処しないと将来問題を引き起こす可能性のある問題を特定できます。",
         "burnRateShortWindowLongerThanLongWindowError": "短いウインドウがロング・ウインドウを超えることはできません。 どちらかの値を調整してください。",
@@ -1777,6 +1853,7 @@
     "warningAndCritical": "警告と重要な情報",
     "warning": "警告",
     "critical": "クリティカル",
-    "searchPlaceholder": "検索"
+    "searchPlaceholder": "検索",
+    "sortBy": "ソート基準"
   }
 }

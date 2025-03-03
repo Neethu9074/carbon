@@ -118,7 +118,7 @@ function LoadButtonOrSkeleton({ startLoading, setStartLoading, parent = false, e
   }
 
   return (
-    <CallTreeHeader size="small" onClick={handleOnClick}>
+    <CallTreeHeader size="small" onClick={() => handleOnClick()}>
       {parent
         ? t('in-applications:traceDetail.components.callTreeHeaderParent')
         : t('in-applications:traceDetail.components.callTreeHeaderCalls')}

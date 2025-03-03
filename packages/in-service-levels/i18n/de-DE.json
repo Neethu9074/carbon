@@ -113,7 +113,6 @@
       "beaconCount": "Beacon-Anzahl",
       "calls": "Aufrufe",
       "latency": "Latenzzeit",
-      "results": "Ergebnisse",
       "beaconDuration": "Beacon-Dauer",
       "threshold": "Schwellenwert",
       "failureRate": "Störungsrate",
@@ -125,27 +124,30 @@
       "beaconErrorCount": "Anzahl der Fehlersignale"
     },
     "format": {
-      "event_website": "{{formatted}} Beaconnachricht",
-      "event_website_plural": "{{formatted}} Beaconnachrichten",
-      "event_website_0": "{{formatted}} Beaconnachrichten",
-      "event_website_1": "{{formatted}} Beaconnachricht",
-      "event_website_2": "{{formatted}} Beaconnachrichten",
-      "event_application": "{{formatted}} Aufruf",
-      "event_application_plural": "{{formatted}} Aufrufe",
-      "event_application_0": "{{formatted}} Aufrufe",
-      "event_application_1": "{{formatted}} Aufruf",
-      "event_application_2": "{{formatted}} Aufrufe",
-      "event_synthetic": "{{formatted}} Ergebnis",
-      "event_synthetic_plural": "{{formatted}} Ergebnisse",
-      "event_synthetic_0": "{{formatted}} Ergebnisse",
-      "event_synthetic_1": "{{formatted}} Ergebnisse",
-      "event_synthetic_2": "{{formatted}} Ergebnisse",
+      "unit_application": "Aufruf",
+      "unit_application_plural": "Aufrufe",
+      "unit_application_0": "Aufrufe",
+      "unit_application_1": "Aufruf",
+      "unit_application_2": "Aufrufe",
+      "unit_website": "Beacon",
+      "unit_website_plural": "Beacons",
+      "unit_website_0": "Beacons",
+      "unit_website_1": "Beacon",
+      "unit_website_2": "Beacons",
+      "unit_synthetic": "Ergebnis",
+      "unit_synthetic_plural": "Ergebnisse",
+      "unit_synthetic_0": "Ergebnisse",
+      "unit_synthetic_1": "Ergebnis",
+      "unit_synthetic_2": "Ergebnisse",
+      "event_website": "{{formatted}} $ in-service-levels:general.format.unit_website, { \"count\": {{count}} })",
+      "event_application": "{{formatted}} $t in-service-levels:general.format.unit_application, { \"count\": {{count}} })",
+      "event_synthetic": "{{formatted}} $t in-service-levels:general.format.unit_synthetic, { \"count\": {{count}} })",
       "event_test": "{{count}} Test",
       "event_test_plural": "{{count}} Tests"
     },
     "deleteDialog": {
-      "pleaseConfirm": "Bitte bestätigen",
-      "pleaseConfirmMsg": "Möchten Sie <strong>{{name}}</strong> wirklich löschen?",
+      "confirmRemove": "Bitte bestätigen",
+      "confirmRemoveMsg": "Möchten Sie <strong>{{name}}</strong> wirklich löschen?",
       "delete": "Löschen"
     }
   },
@@ -161,7 +163,10 @@
     "customFilter": "Angepasster Filter",
     "custom": "Angepasst",
     "customDescription": "Angepassten Filter für die Auswahl von Services und/oder Endpunkten festlegen",
-    "title": "Service Level Objective (SLO) erstellen",
+    "title": {
+      "create": "Service Level Objective (SLO) erstellen",
+      "edit": "Service-Level-Ziel (SLO) bearbeiten"
+    },
     "selectIndicator": "Blueprint auswählen",
     "selectEntityNavItem": "Entität festlegen",
     "selectEntityTitle": "Wählen Sie eine Entität aus, zu der SLO hinzugefügt werden soll:",
@@ -208,8 +213,14 @@
       "description_latency": "Misst, wie schnell der Service oberhalb eines festgelegten Schwellenwerts reagiert hat. Beispiel: Die Kennzahl, wie schnell Ihr Checkout-Service schneller als 100ms antwortet.",
       "description_availability": "Misst, wie oft ein Service angemessen reagiert. Zum Beispiel, wie oft Ihre HTTP-Aufrufe fehlerhaft sind.",
       "description_traffic": "Misst, wie stark ein System beansprucht wird, indem es eine hochgradig systemspezifische Metrik verwendet. So wird beispielsweise ein Webdienst in der Regel in HTTP-Beacons pro Sekunde gemessen.",
-      "timeTypeExplanation": "Gültige und fehlerhafte Aufrufe nach Minuten zusammengefasst",
+      "timeTypeExplanation": "Gute und schlechte Anrufe, nach Minute zusammengefasst",
+      "timeTypeExplanation_application": "Gute und schlechte Anrufe, nach Minute zusammengefasst",
+      "timeTypeExplanation_website": "Gute und schlechte Beacons, minutengenau zusammengefasst",
+      "timeTypeExplanation_synthetic": "Gute und schlechte Ergebnisse, nach Minute zusammengefasst",
       "eventTypeExplanation": "Gesamtzahl der gültigen und fehlerhaften Aufrufe",
+      "eventTypeExplanation_application": "Gesamtzahl der gültigen und fehlerhaften Aufrufe",
+      "eventTypeExplanation_website": "Gesamtzahl der guten und schlechten Beacons",
+      "eventTypeExplanation_synthetic": "Gesamtzahl der guten und schlechten Ergebnisse",
       "eventCount": "Ereignisanzahl",
       "eventType": "Ereignistyp",
       "thresholdLabel": "Unbekannter Typ",
@@ -217,11 +228,11 @@
       "thresholdLabel_availability": "Fehlerrate (%)",
       "setGoodCall": "Legen Sie die gültigen Aufrufe für einen Service fest",
       "setBadCall": "Legen Sie die fehlerhaften Aufrufe für einen Service fest (optional)",
-      "thresholdDescription_GT": "Eine gute Minute ist definiert durch eine Anzahl von mehr als {{thresholdValue}} Anrufen pro Minute. Eine schlechte Minute ist definiert durch eine Anzahl von weniger als oder gleich {{thresholdValue}} Anrufen pro Minute.",
-      "thresholdDescription_GTE": "Eine gute Minute ist definiert durch eine Anzahl von mehr als oder gleich {{thresholdValue}} Anrufen pro Minute. Eine schlechte Minute ist definiert durch eine Anzahl von weniger als {{thresholdValue}} Anrufen pro Minute.",
-      "thresholdDescription_LT": "Eine gute Minute ist definiert durch eine Anzahl von weniger als {{thresholdValue}} Anrufen pro Minute. Eine schlechte Minute ist definiert durch eine Anzahl von mehr als oder gleich {{thresholdValue}} Anrufen pro Minute.",
-      "thresholdDescription_LTE": "Eine gute Minute ist definiert durch eine Anzahl von weniger als oder gleich {{thresholdValue}} Anrufen pro Minute. Eine schlechte Minute ist definiert durch eine Anzahl von mehr als {{thresholdValue}} Anrufen pro Minute.",
-      "thresholdInput": "<Stack>Grenze festlegen des<HorizontalStack><OperatorDropdown /><ThresholdInput />Anrufe pro Minute<HorizontalStack/><Stack />"
+      "thresholdDescription_GT": "Eine gute Minute wird durch eine Zählung von mehr als {{thresholdValue}}in-service-levels:general.format.unit, { \"context\": {{entityType}} \", \"count\": {{thresholdValue}} }) pro Minute definiert. Eine schlechte Minute wird durch eine Zählung von weniger als oder gleich {{thresholdValue}}in-service-levels:general.format.unit, { \"context\": {{entityType}} \", \"count\": {{thresholdValue}} }) pro Minute definiert.",
+      "thresholdDescription_GTE": "Eine gute Minute ist definiert als eine Zählung von mehr als oder gleich {{thresholdValue}}in-service-levels:general.format.unit, { \"context\": {{entityType}} \", \"count\": {{thresholdValue}} }) pro Minute. Eine schlechte Minute wird durch eine Zählung von weniger als {{thresholdValue}}in-service-levels:general.format.unit, { \"context\": {{entityType}} \", \"count\": {{thresholdValue}} }) pro Minute definiert.",
+      "thresholdDescription_LT": "Eine gute Minute wird durch eine Zählung von weniger als {{thresholdValue}}in-service-levels:general.format.unit, { \"context\": {{entityType}} \", \"count\": {{thresholdValue}} }) pro Minute definiert. Eine schlechte Minute wird durch eine Zählung von mehr als oder gleich {{thresholdValue}}in-service-levels:general.format.unit, { \"context\": {{entityType}} \", \"count\": {{thresholdValue}} }) pro Minute definiert.",
+      "thresholdDescription_LTE": "Eine gute Minute ist definiert als eine Zählung von weniger als oder gleich {{thresholdValue}}in-service-levels:general.format.unit, { \"context\": {{entityType}} \", \"count\": {{thresholdValue}} }) pro Minute. Eine schlechte Minute wird durch eine Zählung von mehr als {{thresholdValue}}in-service-levels:general.format.unit, { \"context\": {{entityType}} \", \"count\": {{thresholdValue}} }) pro Minute definiert.",
+      "thresholdInput": "<Stack>Set a threshold of<HorizontalStack><OperatorDropdown /><ThresholdInput />$t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{count}} }) per minute<HorizontalStack/><Stack />"
     },
     "previewSection": {
       "dataInfo": "Vorschaudaten werden nur bis zu 7 Tage in der Vergangenheit angezeigt. Das SLO enthält nur Daten ab dem Zeitpunkt seiner Erstellung",
@@ -246,7 +257,12 @@
       "configuredTimeWindow": "Konfiguriertes SLO-Zeitfenster:",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
       "startTime": "Startzeit: {{startDay}} , {{startTime}}",
-      "matchedSLOTimeWindow": "Übereinstimmende SLO-Zeitfenster: ",
+      "matchedSLOTimeWindow": "Zeitfenster für die Anpassung der SLO: ",
+      "matchedSLOTimeWindow_plural": "Übereinstimmende SLO-Zeitfenster: ",
+      "matchedSLOTimeWindow_0": "Zeitfenster für die Anpassung der SLO: ",
+      "matchedSLOTimeWindow_1": "Zeitfenster für die Anpassung der SLO: ",
+      "matchedSLOTimeWindow_2": "Übereinstimmende SLO-Zeitfenster: ",
+      "noMatchedSLOTimeWindow": "Es wurde kein passendes Zeitfenster gefunden",
       "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
     "missingData": {
@@ -338,7 +354,7 @@
             "goodEventFilters": "Gültige Ereignisfilter:",
             "badEventFilters": "Ungültige Ereignisfilter:"
           },
-          "approximateTooltip": "Daten werden aggregiert. Ein kürzeres Zeitfenster anzeigen, um weitere Details anzuzeigen"
+          "approximateTooltip": "Schwellenwertüberschreitungen können kürzer sein als der Zeitraum, der durch einen Punkt in der Grafik dargestellt wird. Das Vergrößern und Verkleinern kann sich auf die Detailgenauigkeit der Metriken auswirken."
         }
       },
       "entitySection": {

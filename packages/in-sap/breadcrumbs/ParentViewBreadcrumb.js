@@ -7,7 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import getParentForSapBreadCrumb from '../subscriptions/getParentForSapBreadCrumb';
+import getParentForSapBreadCrumb from 'in-sap/subscriptions/getParentForSapBreadCrumb.ts';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import { useDashboardForEntity } from 'in-sap/navigation/paths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';

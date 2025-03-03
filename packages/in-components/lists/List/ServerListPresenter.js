@@ -15,10 +15,8 @@ import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import ApiListHeader from 'in-settings/components/ApiList/ApiListHeader';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
-import Pagination from 'in-components/Pagination';
 
 export default function ServerListPresenter(props) {
   const {
@@ -65,25 +63,15 @@ export default function ServerListPresenter(props) {
           ))}
         </Ul>
         {result.data.totalHits > result.data.pageSize && (
-          <div>
-            {carbonPaginationEnabled ? (
-              <CarbonPagination
-                currentPage={page}
-                totalItems={result.data.totalHits}
-                pageSize={result.data.pageSize}
-                pageSizes={[result.data.pageSize]}
-                onChange={data => {
-                  onChange({ query, orderBy, orderDirection, page: data.page, pageSize });
-                }}
-              />
-            ) : (
-              <Pagination
-                currentPage={page}
-                numPages={Math.ceil(result.data.totalHits / result.data.pageSize)}
-                onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
-              />
-            )}
-          </div>
+          <CarbonPagination
+            currentPage={page}
+            totalItems={result.data.totalHits}
+            pageSize={result.data.pageSize}
+            pageSizes={[result.data.pageSize]}
+            onChange={data => {
+              onChange({ query, orderBy, orderDirection, page: data.page, pageSize });
+            }}
+          />
         )}
       </>
     );

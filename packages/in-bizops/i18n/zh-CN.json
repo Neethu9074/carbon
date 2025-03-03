@@ -6,8 +6,12 @@
     "count": "计数"
   },
   "lists": {
+    "id": "标识",
+    "version": "版本",
     "pageTitle": "业务监视",
     "cardTitle": "业务流程",
+    "theId": "流程 ID",
+    "hasBeenCopied": "已成功复制到剪贴板",
     "activityLabel": "活动",
     "nameLabel": "名称",
     "countLabel": "计数",

@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Result } from '@instana/types';
+
 import { KubernetesExploreQuery } from 'in-kubernetes/subscriptions/exploreKubernetes';
 import createSubscription from 'in-subscription/subscription';
-import { Result } from 'in-types';
 
 export default createSubscription<KubernetesExploreQuery, Result<any>>({
   eventId: 'exploreK8sNateInTeam'

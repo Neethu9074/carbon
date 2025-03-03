@@ -147,7 +147,10 @@ function getDetails(row: ArchiveLogBackupStatsRow) {
 }
 
 export default function ArchiveLogBackupStatsList({ snapshotId, timeConfig }: ArchiveLogBackupStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'archiveLogBackupStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'archiveLogBackupStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const archiveLogBackupStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: ArchiveLogBackupStatsRow[] = archiveLogBackupStat
     ? archiveLogBackupStat

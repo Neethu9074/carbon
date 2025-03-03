@@ -46,5 +46,10 @@ export const metricRenderers = {
     beaconCount: 'stackedBar',
     beaconDuration: 'stackedArea',
     uniqueUsersOrSessions: 'stackedBar'
+  },
+  perf: {
+    beaconCount: 'stackedBar',
+    beaconDuration: 'stackedArea',
+    uniqueUsersOrSessions: 'stackedBar'
   }
 };

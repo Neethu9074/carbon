@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import { TimeConfig } from '@instana/types';
+
 import {
   serviceId as matrixServiceId,
   clusterId as matrixClusterId,
@@ -22,7 +24,6 @@ import { LocationMutator } from 'in-stores/navigation/navigation';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
-import { TimeConfig } from 'in-types';
 
 interface NavigateToDashboardProps {
   id: string;
@@ -38,6 +39,7 @@ interface NavigateToDashboardProps {
 export const kubernetes = '/kubernetes';
 
 export const serviceDashboard = `/service`;
+export const servicesDashboard = `/services`;
 export const serviceDashboardFullyQualified = `${kubernetes}${serviceDashboard}`;
 export const serviceDashboardDetailsFullyQualified = `${serviceDashboardFullyQualified}/details`;
 
@@ -57,18 +59,22 @@ export const explore = '/explore';
 export const exploreFullyQualified = `${kubernetes}${explore}`;
 
 export const podDashboard = `/pod`;
+export const podsDashboard = `/pods`;
 export const podDashboardFullyQualified = `${kubernetes}${podDashboard}`;
 export const podDashboardDetailsFullyQualified = `${podDashboardFullyQualified}/details`;
 
 export const nodeDashboard = `/node`;
+export const nodesDashboard = '/nodes';
 export const nodeDashboardFullyQualified = `${kubernetes}${nodeDashboard}`;
 export const nodeDashboardDetailsFullyQualified = `${nodeDashboardFullyQualified}/details`;
 
 export const cronJobDashboard = `/cronjob`;
+export const cronJobsDashboard = `/cronjobs`;
 export const cronJobDashboardFullyQualified = `${kubernetes}${cronJobDashboard}`;
 export const cronJobDashboardDetailsFullyQualified = `${cronJobDashboardFullyQualified}/details`;
 
 export const deploymentDashboard = `/deployment`;
+export const deploymentsDashboard = `/deployments`;
 export const deploymentDashboardFullyQualified = `${kubernetes}${deploymentDashboard}`;
 export const deploymentDashboardDetailsFullyQualified = `${deploymentDashboardFullyQualified}/details`;
 
@@ -77,22 +83,24 @@ export const deploymentConfigDashboardFullyQualified = `${kubernetes}${deploymen
 export const deploymentConfigDashboardDetailsFullyQualified = `${deploymentConfigDashboardFullyQualified}/details`;
 
 export const daemonSetDashboard = `/daemonset`;
+export const daemonSetsDashboard = `/daemonsets`;
 export const daemonSetDashboardFullyQualified = `${kubernetes}${daemonSetDashboard}`;
 export const daemonSetDashboardDetailsFullyQualified = `${daemonSetDashboardFullyQualified}/details`;
 
 export const statefulSetDashboard = `/statefulset`;
+export const statefulSetsDashboard = `/statefulsets`;
 export const statefulSetDashboardFullyQualified = `${kubernetes}${statefulSetDashboard}`;
 export const statefulSetDashboardDetailsFullyQualified = `${statefulSetDashboardFullyQualified}/details`;
 
 export const summaryTab = '/summary';
 
-interface BaseProps {
+export interface BaseProps {
   tab?: NavigateToDashboardProps['tab'];
   tabMatrix?: NavigateToDashboardProps['tabMatrix'];
   timeConfig?: NavigateToDashboardProps['timeConfig'];
 }
 
-interface IdsProps {
+export interface IdsProps {
   deploymentId?: string;
   nodeId?: string;
   cronJobId?: string;
@@ -138,6 +146,40 @@ export function useClusterDashboard(clusterId: string, { tab, tabMatrix, timeCon
   });
 }
 
+export const useGetClusterDashboard = () => {
+  const { createHref, location } = useNavigation();
+
+  return (
+    clusterId: string,
+    { tab = summaryTab, tabMatrix, timeConfig }: BaseProps & Pick<IdsProps, 'clusterId'> = emptyObject
+  ) => {
+    const base = clusterDashboardFullyQualified;
+    const matrixSegment = clusterDashboard;
+    const matrixParam = matrixClusterId;
+    const id = clusterId;
+    const paramsCallback = (params: any) => {
+      setOrDeleteMatrixKey(params, namespaceDashboard, matrixClusterId, clusterId);
+    };
+
+    location.pathname = `${base}${tab}`;
+
+    setOrDeleteMatrixKey(location, matrixSegment, matrixParam, id);
+
+    if (timeConfig != null) {
+      setTimeConfig(location, timeConfig);
+    }
+
+    // @ts-expect-error
+    location.matrix[tab] = tabMatrix;
+
+    if (paramsCallback) {
+      paramsCallback(location);
+    }
+
+    return createHref(location);
+  };
+};
+
 export function useNamespaceDashboard(
   namespaceId: string,
   { tab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'> = emptyObject
@@ -155,6 +197,40 @@ export function useNamespaceDashboard(
     }
   });
 }
+
+export const useGetNamespaceDashboard = () => {
+  const { createHref, location } = useNavigation();
+
+  return (
+    namespaceId: string,
+    { tab = summaryTab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'> = emptyObject
+  ) => {
+    const base = namespaceDashboardFullyQualified;
+    const matrixSegment = namespaceDashboard;
+    const matrixParam = matrixNamespaceId;
+    const id = namespaceId;
+    const paramsCallback = (params: any) => {
+      setOrDeleteMatrixKey(params, namespaceDashboard, matrixClusterId, clusterId);
+    };
+
+    location.pathname = `${base}${tab}`;
+
+    setOrDeleteMatrixKey(location, matrixSegment, matrixParam, id);
+
+    if (timeConfig != null) {
+      setTimeConfig(location, timeConfig);
+    }
+
+    // @ts-expect-error
+    location.matrix[tab] = tabMatrix;
+
+    if (paramsCallback) {
+      paramsCallback(location);
+    }
+
+    return createHref(location);
+  };
+};
 
 export function usePodDashboard(
   podId: string,

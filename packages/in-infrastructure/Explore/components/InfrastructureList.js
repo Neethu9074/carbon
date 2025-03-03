@@ -7,7 +7,6 @@ import React, { useEffect, useMemo } from 'react';
 import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
-import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { Ul } from '@instana/components';
@@ -23,6 +22,7 @@ import {
   getConvertedSeries
 } from 'in-infrastructure/Explore/services/metrics';
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/ServerTable/internalComponents/LegacySeverityIndicatorCellContentWrapper';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
@@ -37,6 +37,7 @@ import { default as TagLabel } from 'in-infrastructure/Explore/components/TagLab
 import { default as TagValue } from 'in-infrastructure/Explore/components/TagValue';
 import { fixOrderForBackwardsCompatibility } from 'in-infrastructure/Explore/utils';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { tag_not_present_group } from 'in-infrastructure/Explore/constants';
 import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
@@ -46,7 +47,6 @@ import EntityLink from 'in-components/EntityLink/EntityLink';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
-import { tag_not_present_group } from '../constants';
 import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';
@@ -58,7 +58,7 @@ import { t } from 'in-i18n';
 import locals from './InfrastructureList.mless';
 
 export default function InfrastructureList({
-  retrievalSize = 200,
+  retrievalSize = 20,
   numSkeletonRows = 3,
   backendQueryModel,
   showHeader = false,
@@ -301,12 +301,33 @@ function getTableData({
     metrics: Object.fromEntries(
       metrics
         .filter(({ metric, removeFromTable }) => metric !== undefined && metric !== null && !removeFromTable)
-        .flatMap(({ metric, aggregation, crossSeriesAggregation, regex, required }) => {
-          const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
+        .flatMap(({ metric, aggregation, crossSeriesAggregation: crossSeriesAggregationInternal, regex, required }) => {
+          const id = getMetricKey(metric, aggregation, crossSeriesAggregationInternal);
           const kpiGranularity = timeConfig.windowSize;
+          const crossSeriesAggregation = crossSeriesAggregationInternal ?? 'SUM';
           return [
-            [id, { metric, granularity: kpiGranularity, aggregation, regex, crossSeriesAggregation, required }],
-            [getSeriesKey(id), { metric, granularity, aggregation, regex, crossSeriesAggregation, required }]
+            [
+              id,
+              {
+                metric,
+                granularity: kpiGranularity,
+                aggregation,
+                regex,
+                crossSeriesAggregation,
+                required
+              }
+            ],
+            [
+              getSeriesKey(id),
+              {
+                metric,
+                granularity,
+                aggregation,
+                regex,
+                crossSeriesAggregation,
+                required
+              }
+            ]
           ];
         })
     ),

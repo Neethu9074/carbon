@@ -15,6 +15,7 @@ import { EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK } from 'in-services/tracking/event
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -68,15 +69,21 @@ export default function RootCauseLogsSection({
       </Collapsible.Header>
       <Collapsible.Content>
         <div className={locals.accordionContent}>
-          {entityData !== null && (
+          {entityData && (
             <RootCauseContextDashboard
               applicationBoundaryScope="ALL"
               serviceId={nonInfraServiceLabelInformation?.id || infraServiceLabelInformation[0]?.id}
               serviceName={nonInfraServiceLabelInformation?.label || infraServiceLabelInformation[0]?.label}
               applicationId={relatedApplicationInformation?.id}
               applicationName={relatedApplicationInformation?.label}
+              rcaEntityType={rcaEntityType}
               endpointId={rcaEntityType === 'endpoint' ? entityData.steadyId : undefined}
               endpointName={rcaEntityType === 'endpoint' ? entityData.label : undefined}
+              processId={rcaEntityType === 'infrastructure' ? getProcessId(entityData) : undefined}
+              containerId={rcaEntityType === 'infrastructure' ? getContainerId(entityData) : undefined}
+              processContainerType={rcaEntityType === 'infrastructure' ? getProcessContainerId(entityData) : undefined}
+              hostName={rcaEntityType === 'infrastructure' ? getHostFQDN(entityData) : undefined}
+              plugin={rcaEntityType === 'infrastructure' ? entityData.get('plugin') : undefined}
               timeConfig={incidentTimeWindow}
             />
           )}
@@ -84,4 +91,33 @@ export default function RootCauseLogsSection({
       </Collapsible.Content>
     </Collapsible>
   );
+}
+
+export function isContainer(plugin: string) {
+  const containerPlugins = ['docker', 'crio', 'garden', 'containerd', 'awsEcsContainer', 'podman'];
+  return containerPlugins.includes(plugin);
+}
+
+function getProcessContainerId(entityData: SnapshotData) {
+  const plugin = entityData && entityData.get('plugin');
+  return plugin === 'process' ? entityData.getIn(['data', 'containerType']) : undefined;
+}
+
+function getContainerId(entityData: SnapshotData) {
+  const plugin = entityData && entityData.get('plugin');
+  return plugin === 'process'
+    ? entityData.getIn(['data', 'container'])
+    : isContainer(plugin)
+    ? entityData.getIn(['data', 'id'])
+    : undefined;
+}
+
+function getProcessId(entityData: SnapshotData) {
+  const plugin = entityData && entityData.get('plugin');
+  return plugin === 'process' ? entityData.getIn(['data', 'pid']) : undefined;
+}
+
+function getHostFQDN(entityData: SnapshotData) {
+  const plugin = entityData && entityData.get('plugin');
+  return plugin === 'host' ? entityData.getIn(['data', 'hostname']) : undefined;
 }

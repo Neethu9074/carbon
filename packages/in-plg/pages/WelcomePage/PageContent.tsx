@@ -7,7 +7,6 @@
 import { SortableContext, arrayMove, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import React, { useEffect, ReactNode, useMemo, useState } from 'react';
-import { CSS } from '@dnd-kit/utilities';
 
 import { useObservable } from '@instana/hooks';
 
@@ -70,10 +69,21 @@ interface SortableItemProps {
 }
 
 function SortableItem({ id, content }: SortableItemProps) {
-  const { attributes, listeners, setNodeRef, transform } = useSortable({ id });
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({ id });
+
+  const transformStyle = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`
+      }
+    : {};
+
+  const style = {
+    ...transformStyle,
+    zIndex: isDragging ? 1000 : 'auto'
+  };
 
   return (
-    <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform) }} {...attributes} {...listeners}>
+    <div id={id} ref={setNodeRef} style={style} {...attributes} {...listeners}>
       {content}
     </div>
   );
@@ -278,7 +288,7 @@ function RenderTable() {
               );
             }
 
-            return <SortableItem id={_config.id} content={content} />;
+            return <SortableItem id={_config.id} content={content} key={_config.id} />;
           })}
         </div>
       </SortableContext>

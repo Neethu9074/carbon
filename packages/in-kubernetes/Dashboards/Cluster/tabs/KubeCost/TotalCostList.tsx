@@ -28,7 +28,10 @@ interface NameSpaceStatsProps {
 }
 
 export default function Summary({ currencyCode, snapshotId, timeConfig }: NameSpaceStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'namespaceCostGraph'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'namespaceCostGraph', timeConfig),
+    [snapshotId, timeConfig]
+  );
 
   if (!data) {
     return getSpecificErrorNotification('Kubecost is not retrieving data');
@@ -58,8 +61,8 @@ export default function Summary({ currencyCode, snapshotId, timeConfig }: NameSp
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: ['namespaceCostList.Total.totalCost'],
-            labels: [t('in-kubernetes:dashboards.kubecost.totalCost')],
+            metrics: ['namespaceCostList.Total.totalCost', 'namespaceCostGraph.__idle__.totalCost'],
+            labels: [t('in-kubernetes:dashboards.kubecost.total'), t('in-kubernetes:dashboards.kubecost.idleCost')],
             type: 'line',
             formatter: (d: number) => `${currencyCode} ${twoDecimalPlaces(d)}`
           }}

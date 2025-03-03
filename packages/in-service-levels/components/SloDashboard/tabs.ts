@@ -5,7 +5,6 @@
  */
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import {
   serviceLevelsObjectiveSummaryFullyQualified,
@@ -17,6 +16,7 @@ import SloSmartAlerts from 'in-service-levels/components/SloDashboard/components
 import SloSummary from 'in-service-levels/components/SloDashboard/components/SloSummary';
 import { Tab } from 'in-components/LocationAwareTabView/types';
 import { LabeledEntity } from 'in-service-levels/types';
+import { t } from 'in-i18n';
 
 export interface SloTabData {
   configuration: ServiceLevelObjectiveConfiguration;

@@ -8,9 +8,9 @@ import React from 'react';
 
 import { AlertingDurationUnitType } from '@instana/types';
 import { Dropdown } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import { SloAlertDurationUnitTypes } from 'in-alerting/smart-alerts/slo/types';
+import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/slo/components/TimeOptionsDropdown.mless';
 

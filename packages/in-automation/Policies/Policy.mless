@@ -26,5 +26,13 @@
   }
   .select {
     width: 90vw;
+    :global table th.table-column-width\.w-50 {
+      width: 50px;
+    }
+  }
+}
+:global #policy-tags {
+  .Select__menu {
+    z-index: 3;
   }
 }

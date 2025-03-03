@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { LogAlertConfigWithMetadata, ThresholdConfigUnion } from '@instana/types';
+import { ThresholdConfigUnion } from '@instana/types';
 
 import {
   alertsPath,
@@ -17,8 +17,8 @@ import {
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
-import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { actionHandlers } from 'in-alerting/smart-alerts/logs/lists/ListActionHandlers';
 import { CreateSmartAlertButton } from 'in-alerting/smart-alerts/logs/CreateSmartAlert';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
@@ -29,6 +29,7 @@ import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { sortOptions } from 'in-alerting/smart-alerts/logs/lists/constants';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import ScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { number } from 'in-services/formatters/number';
 import { Location } from 'in-stores/navigation/types';
@@ -38,8 +39,6 @@ import { t, Trans } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/logs/Alerts.mless';
 
-const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
-
 export default function Alerts({ isLogsDashboardHeader = false }) {
   const handlers = role?.canConfigureGlobalLogSmartAlerts ? actionHandlers : {};
 
@@ -48,7 +47,7 @@ export default function Alerts({ isLogsDashboardHeader = false }) {
     <>
       <Header>
         <div className={locals.wrapper}>
-          <AlertBaseList<LogAlertConfigWithMetadata>
+          <AlertBaseList<LogSmartAlertConfigWithMetadata>
             extraColumnDefinitions={getColumnDefinitions()}
             actionHandlers={handlers}
             getAlertConfigs={() => getAllAlertConfigsWithResult()}
@@ -60,7 +59,7 @@ export default function Alerts({ isLogsDashboardHeader = false }) {
             extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
             carbonActionHandlers={handlers}
             getNameSubtitle={() => getLogSubtitle(t('in-alerting:smartAlerts.logs.logCount'))}
-            displayCarbonTable={displayCarbonTable}
+            displayCarbonTable={smartAlertCarbonTableEnabled}
             toolBarContent={role?.canConfigureGlobalLogSmartAlerts ? <CreateSmartAlertButton /> : undefined}
             noDataHeader={t('in-alerting:smartAlerts.logs.list.noDataHeader')}
             noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.logs.list.noDataDescription" />}
@@ -68,7 +67,7 @@ export default function Alerts({ isLogsDashboardHeader = false }) {
           <Footer />
         </div>
       </Header>
-      {!displayCarbonTable && <CreateLogsSmartAlertFloatingButton />}
+      {!smartAlertCarbonTableEnabled && <CreateLogsSmartAlertFloatingButton />}
     </>
   );
 }
@@ -78,7 +77,7 @@ export function getColumnDefinitions() {
     {
       id: 'filterApplied',
       label: '',
-      getContent: (entity: LogAlertConfigWithMetadata) => <ScopeColumn config={entity} />
+      getContent: (entity: LogSmartAlertConfigWithMetadata) => <ScopeColumn config={entity} />
     }
   ];
 }
@@ -103,7 +102,7 @@ export function getSubtitle(threshold: ThresholdConfigUnion & { value?: number }
 }
 
 function createRowLinkLocation(
-  config: LogAlertConfigWithMetadata,
+  config: LogSmartAlertConfigWithMetadata,
   location: Location,
   isLogsDashboardHeader: boolean
 ): Location {
@@ -123,7 +122,7 @@ function getCarbonTableColumnDefinitions() {
       id: 'triggering-action',
       label: t('in-alerting:table.triggeringAction'),
       ellipsis: '25vw',
-      getContent: (config: LogAlertConfigWithMetadata) => (
+      getContent: (config: LogSmartAlertConfigWithMetadata) => (
         <TableCellWrapper>{getSubtitle(config.threshold)}</TableCellWrapper>
       ),
       sortable: false
@@ -132,7 +131,7 @@ function getCarbonTableColumnDefinitions() {
     // {
     //   id: 'enabled',
     //   label: t('in-alerting:table.status'),
-    //   getContent: (config: LogAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
+    //   getContent: (config: LogSmartAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
     //   sortable: true
     // }
   ];

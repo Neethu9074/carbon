@@ -10,7 +10,6 @@
   "recommendedOptimizations": "建议的资源操作",
   "actionName": "操作名称",
   "validVaultParameter": "标记为可选的保险库文件参数必须同时为空白或同时为非空白。",
-  "newAction": "新建操作",
   "runAction": "运行操作",
   "testAction": "测试操作",
   "targetAgent": "目标代理程序",
@@ -239,6 +238,7 @@
     "ignoreCertErrors": "忽略证书错误",
     "basicAuth": "基本认证",
     "bearerToken": "不记名令牌",
+    "authentication": "认证",
     "apiKeyAddTo": "添加到",
     "apiKey": "API 密钥",
     "header": "页眉",
@@ -255,12 +255,6 @@
     "defaultValue": "缺省值",
     "defaultValueOptional": "缺省值（可选）",
     "parameters": "参数",
-    "showPasswordTooltip": "显示密码",
-    "hidePasswordTooltip": "隐藏密码",
-    "showAPIKeyTooltip": "显示 API 密钥",
-    "hideAPIKeyTooltip": "隐藏 API 密钥",
-    "showBeaererTokenTooltip": "显示不记名令牌",
-    "hideBeaererTokenTooltip": "隐藏不记名令牌",
     "secretKey": "私钥",
     "secretPath": "私钥路径",
     "secretKeyOptional": "密钥（可选）",
@@ -329,8 +323,6 @@
     "status": "状态",
     "startTime": "开始时间",
     "endTime": "结束时间",
-    "property": "属性",
-    "value": "值",
     "actionInstanceId": "操作实例标识",
     "event": "事件",
     "eventName": "事件名称",
@@ -373,11 +365,13 @@
     "output": "输出",
     "user": "用户",
     "apiToken": "API 令牌",
-    "deleteTooltip": "删除操作实例 {{id}}",
+    "viewTooltip": "查看操作实例 {{actionName}}",
+    "deleteTooltip": "删除操作实例 {{actionName}}",
     "deleteDialog": {
       "success": "操作实例已被成功删除。",
       "failure": "无法删除操作实例。"
-    }
+    },
+    "actionSnapshotDetails": "操作快照详细信息"
   },
   "actionLanes": {
     "buttonInvestigate": "调查"
@@ -478,8 +472,8 @@
     "showTasks": "显示"
   },
   "deleteDialog": {
-    "pleaseConfirm": "请确认",
-    "pleaseConfirmMsg": "确定要删除 <strong>{{name}}</strong> 吗？",
+    "confirmRemove": "请确认",
+    "confirmRemoveMsg": "确定要删除 <strong>{{name}}</strong> 吗？",
     "delete": "删除"
   },
   "turboActionCategories": {
@@ -512,5 +506,12 @@
     "actionName": "操作名称",
     "recommendedActionHistoryWithCount": "资源行动历史记录{{count}})",
     "recommendedActionHistory": "资源行动历史"
+  },
+  "feedback": {
+    "contentHelpfulText": "这些生成的内容是否有帮助？",
+    "thankYouForYourFeedback": "谢谢您的反馈！",
+    "submitFeedback": "提交反馈",
+    "additionalFeedbacklabel": "提供额外反馈（可选）",
+    "additionalFeedbackPlaceholder": "您对回复不满意的地方是什么？ 哪些方面可以改进"
   }
 }

@@ -157,7 +157,13 @@ const Coralogix = () => {
             <Heading text={t('in-settings:tabs.showCoralogixLinkOnHosts')} htmlFor="coralogix-enabled" />
           </div>
           <SectionLine />
-          <CoralogixForm form={form} onChange={onChange} areFieldsBlank={areFieldsBlank(form)} disabled={!enabled} />
+          <CoralogixForm
+            id={'coralogix-enabled'}
+            form={form}
+            onChange={onChange}
+            areFieldsBlank={areFieldsBlank(form)}
+            disabled={!enabled}
+          />
           <SaveCancel
             form={form}
             message={message}

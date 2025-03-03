@@ -8,7 +8,6 @@ import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { Stack, IconButton } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import useDoDeleteSloConfiguration from 'in-service-levels/hooks/useDoDeleteSloConfiguration';
 import CreateSloDialog from 'in-service-levels/components/ConfigDialog/CreateSloDialog';
@@ -18,6 +17,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { noop } from 'in-services/fixedObjects';
+import { t } from 'in-i18n';
 
 interface SloActionButtonsProps {
   configuration: ServiceLevelObjectiveConfiguration;

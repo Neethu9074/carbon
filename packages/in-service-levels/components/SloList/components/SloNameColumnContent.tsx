@@ -6,9 +6,9 @@
 
 import React from 'react';
 
-import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
 import { Link } from '@instana/components';
 
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/ServerTable/internalComponents/LegacySeverityIndicatorCellContentWrapper';
 import useHrefToSloDashboard from 'in-service-levels/navigation/hooks/useHrefToSloDashboard';
 import { SloListItem } from 'in-service-levels/components/SloList/SloList';
 import { calculateSeverity } from 'in-service-levels/utils/math';

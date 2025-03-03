@@ -983,6 +983,11 @@
   "pluginName_ibmDataPowerQueueManager_1": "IBM DataPower キュー・マネージャー",
   "pluginName_ibmDataPowerQueueManager_2": "IBM DataPower キュー・マネージャー",
   "pluginName_ibmDataPowerQueueManager": "IBM DataPower キュー・マネージャー",
+  "pluginName_ibmDataPowerQueueManagerV9_plural": "IBM DataPowerキュー・マネージャーV9+",
+  "pluginName_ibmDataPowerQueueManagerV9_0": "IBM DataPowerキュー・マネージャーV9+",
+  "pluginName_ibmDataPowerQueueManagerV9_1": "IBM DataPowerキュー・マネージャーV9+",
+  "pluginName_ibmDataPowerQueueManagerV9_2": "IBM DataPowerキュー・マネージャーV9+",
+  "pluginName_ibmDataPowerQueueManagerV9": "IBM DataPowerキュー・マネージャーV9+",
   "pluginName_ibmDataPowerService_plural": "IBM DataPower サービス",
   "pluginName_ibmDataPowerService_0": "IBM DataPower サービス",
   "pluginName_ibmDataPowerService_1": "IBM DataPower サービス",
@@ -1180,6 +1185,11 @@
   "pluginName_kongApigateway_1": "コング",
   "pluginName_kongApigateway_2": "コング",
   "pluginName_kongApigateway": "コング",
+  "pluginName_kubeCostPlatform": "Kubecost",
+  "pluginName_kubeCostPlatform_plural": "Kubecosts",
+  "pluginName_kubeCostPlatform_0": "Kubecosts",
+  "pluginName_kubeCostPlatform_1": "Kubecosts",
+  "pluginName_kubeCostPlatform_2": "Kubecosts",
   "pluginName_kubernetesCluster_plural": "Kubernetes クラスター",
   "pluginName_kubernetesCluster_0": "Kubernetes クラスター",
   "pluginName_kubernetesCluster_1": "Kubernetes クラスター",
@@ -1844,6 +1854,16 @@
   "pluginName_websiteHttpd_0": "Web サイト",
   "pluginName_websiteHttpd_1": "Web サイト",
   "pluginName_websiteHttpd_2": "Web サイト",
+  "pluginName_nutanixHost_plural": "Nutanix ホスト",
+  "pluginName_nutanixHost_0": "Nutanix ホスト",
+  "pluginName_nutanixHost_1": "Nutanix ホスト",
+  "pluginName_nutanixHost_2": "Nutanix ホスト",
+  "pluginName_nutanixHost": "Nutanix ホスト",
+  "pluginName_nutanixDatacenter_plural": "Nutanix データ・センター",
+  "pluginName_nutanixDatacenter_0": "Nutanix データ・センター",
+  "pluginName_nutanixDatacenter_1": "Nutanix データ・センター",
+  "pluginName_nutanixDatacenter_2": "Nutanix データ・センター",
+  "pluginName_nutanixDatacenter": "Nutanix データ・センター",
   "tracingTypeName_ace": "IBM ACE",
   "tracingTypeName_actioncontroller": "ActionController",
   "tracingTypeName_actioncontroller_plural": "ActionController 呼び出し",
@@ -3428,6 +3448,8 @@
       "state": "状態",
       "queueManagersNumber": "キュー・マネージャー数 ({{count}})",
       "queueManagersNumber_plural": "キュー・マネージャー数 ({{count}})",
+      "queueManagersV9Number": "キュー・マネージャーV9+ ({{count}})",
+      "queueManagersV9Number_plural": "キュー・マネージャーV9+ ({{count}})",
       "serviceNumber": "サービス数 ({{count}})",
       "serviceNumber_plural": "サービス数 ({{count}})",
       "sqlDatasourceNumber": "SQL データ・ソース数 ({{count}})",
@@ -3468,6 +3490,12 @@
       "activeConnections": "アクティブな接続",
       "backendActiveConnections": "バックエンドのアクティブ接続数",
       "frontendActiveConnections": "フロントエンドのアクティブ接続数"
+    },
+    "ibmDataPowerQueueManagerV9": {
+      "ibmDataPowerQueueManagerV9Info": "IBM DataPowerキュー・マネージャーV9+",
+      "activeConversations": "アクティブ会話",
+      "backendActiveConversations": "バックエンドのアクティブな会話数",
+      "frontendActiveConversations": "フロントエンドのアクティブな会話数"
     },
     "ibmDataPowerService": {
       "ibmDataPowerServiceInfo": "IBM DataPower サービス",
@@ -3634,6 +3662,10 @@
       "directorySystemAgentLSA": "ローカル・セキュリティー権限",
       "directorySystemAgentNSPI": "名前サービス・プロバイダー",
       "securityAccountManagerLabel": "セキュリティー・アカウント・マネージャー",
+      "dhcpLabel": "ダイナミック・ホスト構成プロトコル (DHCP)",
+      "dnsLablelDynamicUpdates": "ドメイン・ネーム・システム (DNS) の動的更新",
+      "dnsLablelQueriesAndResponses": "ドメイン・ネーム・システム (DNS) の問い合わせと応答",
+      "dnsLablelZoneTransfers": "ドメイン・ネーム・システム (DNS) ゾーン転送",
       "directorySystemAgent": {
         "dsClientBindsPerSec": "クライアント・バインド数/秒",
         "dsClientNameTranslationsPerSec": "クライアント名の翻訳数/秒",
@@ -3678,7 +3710,7 @@
         "samDomainLocalGroupMembershipEvaluationsPerSec": "ドメイン・ローカル・グループ・メンバーシップ評価数/秒",
         "samEnumerationsPerSec": "列挙数/秒",
         "samGCEvaluationsPerSec": "GC評価/秒",
-        "samGlobalGroupMembershipEvaluationsPerSec": "グローカル・グループ・メンバーシップ評価数/秒",
+        "samGlobalGroupMembershipEvaluationsPerSec": "グローカル・グループ・メンバーシップ評価数 / 秒",
         "samMachineCreationAttemptsPerSec": "マシン作成試行回数/秒",
         "samMembershipChangesPerSec": "メンバーシップ変更数/秒",
         "samNonTransitiveMembershipEvaluationsPerSec": "非推移的メンバーシップ評価/秒",
@@ -3689,6 +3721,30 @@
         "samTransitiveMembershipEvaluationsPerSec": "推移的メンバーシップ評価/秒",
         "samUniversalGroupMembershipEvaluationsPerSec": "ユニバーサル・グループ・メンバーシップ評価/秒",
         "samUserCreationAttemptsPerSec": "ユーザー作成試行回数/秒"
+      },
+      "dhcp": {
+        "dhcpAcksPerSecondPercentageIncrease": "1 秒あたりの応答数増加率",
+        "dhcpRequestSecondPercentIncrease": "1 秒あたりのリクエストの増加率",
+        "dhcpConflictCheckQueueLength": "競合チェック・キューの長さ",
+        "dhcpDeclinesPersec": "毎秒減少数",
+        "dhcpDuplicatesDroppedPersec": "1 秒ごとにドロップされた複製",
+        "dhcpNacksPersec": "1 秒あたりの否定応答数",
+        "dhcpPacketsExpiredPersec": "1 秒ごとにパケットが期限切れ"
+      },
+      "dns": {
+        "dnsCachingMemory": "キャッシュ・メモリー",
+        "dnsDynamicUpdateQueued": "キューに入れられた動的更新",
+        "dnsDynamicUpdateReceived": "受信した動的更新",
+        "dnsDynamicUpdateReceivedPersec": "1秒ごとに受信される動的更新",
+        "dnsDynamicUpdateRejected": "動的更新が拒否されました",
+        "dnsDynamicUpdateTimeOuts": "動的更新のタイムアウト",
+        "dnsTotalQueryReceived": "受信したクエリーの合計",
+        "dnsTotalQueryReceivedPersec": "1 秒間に受信したクエリーの合計",
+        "dnsTotalResponseSent": "送信応答の合計",
+        "dnsTotalResponseSentPersec": "1 秒間に送信された応答の合計",
+        "dnsZoneTransferFailure": "ゾーン転送の失敗",
+        "dnsZoneTransferSuccess": "ゾーン転送の成功",
+        "dnsZoneTransferRequestReceived": "受信したゾーン転送要求"
       }
     },
     "activeMQ": {
@@ -9547,7 +9603,7 @@
         "duration": "期間",
         "backupSize": "バックアップ・サイズ",
         "transferredSize": "転送済みサイズ",
-        "backupStats": "バックアップの進行状況",
+        "backupStats": "最新のバックアップ",
         "startTime": "開始時刻",
         "entryType": "エントリー・タイプ",
         "processCpuPerc": "プロセスCPU",
@@ -9569,7 +9625,7 @@
         "diskUsagePercentage": "ディスク使用率",
         "diskUsageSummary": "ディスク使用の要約",
         "usage": "使用法",
-        "archiveLogBackupStats": "バックアップ・ヒストリー",
+        "archiveLogBackupStats": "すべてのバックアップ",
         "sourceDatabaseName": "ソース・データベース",
         "userLockStats": "ユーザー・ロック",
         "userMode": "ユーザー・モード",
@@ -9710,9 +9766,9 @@
       "dashboard": {
         "overallCreditUsage": "全体的なクレジット利用",
         "totalStorageBytes": "ストレージの総バイト数",
-        "usageInCurrency": "通貨での使用",
+        "usageInCurrency": "通貨 ({{currency}}) の利用額",
         "topFiveBillingAccounts": "請求先アカウント上位5件",
-        "remainingBalanceInCurrency": "通貨の残高",
+        "remainingBalanceInCurrency": "通貨 ({{currency}}) の残高",
         "balance": "残高",
         "accountName": "アカウント名",
         "credits": "クレジット",
@@ -10817,8 +10873,10 @@
         "virtualTotal": "仮想合計",
         "computational": "計算",
         "nonComputational": "非計算",
+        "realAvailable": "実際に使用可能",
         "pageIn": "1秒当たりのページイン",
         "pageOut": "1秒当たりのページアウト",
+        "pageScan": "1 秒あたりのページスキャン数",
         "openFiles": "オープン・ファイル",
         "current": "現行",
         "tcpActivity": "TCP アクティビティー",
@@ -10857,6 +10915,14 @@
         "processName": "プロセス名",
         "gpu": "GPU",
         "gpuUsage": "GPU 使用率",
+        "volumeGroups": "ボリューム・グループ",
+        "volumeGroupName": "ボリューム・グループ名",
+        "physicalVolume": "物理ボリューム",
+        "physicalVolumeName": "物理ボリューム名",
+        "totalSize": "合計サイズ",
+        "usedSize": "使用済みサイズ",
+        "freeSize": "空きサイズ",
+        "volumeGrpState": "ボリューム・グループの状態",
         "encoder": "エンコーダー",
         "decoder": "デコーダー",
         "temperature": "温度",
@@ -10898,6 +10964,7 @@
       "machineId": "マシン ID",
       "bootId": "ブート ID",
       "systemId": "システム ID",
+      "hostId": "ホスト ID",
       "startedAt": "開始日時",
       "interfacesWithSize": "インターフェース ({{size}})",
       "cpuUsed": "使用中の CPU",
@@ -10922,8 +10989,10 @@
       "virtualTotal": "仮想合計",
       "computational": "計算",
       "nonComputational": "非計算",
+      "realAvailable": "実際に使用可能",
       "pageIn": "1秒当たりのページイン",
       "pageOut": "1秒当たりのページアウト",
+      "pageScan": "1 秒あたりのページスキャン数",
       "load": "負荷",
       "contextSwitches": "コンテキスト・スイッチ回数",
       "current": "現行",
@@ -11640,10 +11709,7 @@
             "unitNumber": "装置番号",
             "aspNumber": "ASP番号",
             "unitStorageCapacity": "ストレージ容量",
-            "unitMediaCapacityGb": "メディア容量(GB)",
-            "charts": {
-              "elapsedPercentBusy": "経過パーセントが使用中です"
-            }
+            "unitMediaCapacityGb": "メディア容量(GB)"
           },
           "solidStateDisk": {
             "name": "ソリッド・ステート・ディスク (SSD) 情報",
@@ -11667,10 +11733,7 @@
             "diskType": "ディスク・タイプ",
             "unitNumber": "装置番号",
             "aspNumber": "ASP番号",
-            "typeOfDiskUnit": "ディスク装置のタイプ",
-            "charts": {
-              "elapsedPercentBusy": "経過パーセントが使用中です"
-            }
+            "typeOfDiskUnit": "ディスク装置のタイプ"
           },
           "nonVolatileMemory": {
             "name": "Non Volatile Memory Express(NVMe) 情報",
@@ -11686,7 +11749,12 @@
             "unSafeShutDowns": "アンセーフ・シャットダウン",
             "firmwareLevel": "ファームウェア・レベル"
           }
-        }
+        },
+        "elapsedPercentBusy": "経過パーセントが使用中です",
+        "elapsedReadRequests": "読み取り数/秒",
+        "elapsedWriteRequests": "書き込み数/秒",
+        "elapsedDataRead": "読み取りバイト数/秒",
+        "elapsedDataWritten": "書き込みバイト数/秒"
       }
     },
     "ibmiNetworkInfo": {
@@ -12644,7 +12712,8 @@
       "hostname": "ホスト名",
       "startType": "始動タイプ",
       "turbonomicSensorException": "Turbonomicセンサーが次の例外を生成しました: <code>{{e}}</code>。",
-      "jspawnhelperPermissionIssueDescription": "エージェントは、JVM パスにあるファイル jspawnhelper を実行できません <code>{{path}}</code>。 必要な権限の提供をお願いします。"
+      "jspawnhelperPermissionIssueDescription": "エージェントは、JVM パスにあるファイル jspawnhelper を実行できません <code>{{path}}</code>。 必要な権限の提供をお願いします。",
+      "switchtoJava11IssueDescription": "エージェントはJava 11以下のJVMで実行されています。 使用バージョンは<code>{{version}}</code>です。"
     },
     "sparkStandalone": {
       "titleApplicationId": "アプリケーション ID",
@@ -12776,7 +12845,8 @@
       "allBrokersFailures": "すべてのブローカーの失敗数",
       "fetch": "フェッチ",
       "produce": "生成",
-      "allBrokersStateMetrics": "すべてのブローカーの状態メトリック",
+      "allBrokersStateMetrics": "すべてのブローカー状態メトリック",
+      "clientMetrics": "クライアント・メトリック",
       "averageIdleTimePercentage": "平均アイドル時間 (%)",
       "networkProcessor": "ネットワーク・プロセッサー",
       "requestHandler": "要求ハンドラー",
@@ -12926,6 +12996,9 @@
         "workerLua": "ワーカー Lua VM の割り振りバイト数",
         "totalConnections": "合計接続数"
       }
+    },
+    "kubecost": {
+      "label": "Kubecost"
     },
     "kubernetesCluster": {
       "noActivity": "アクティビティーなし",
@@ -13615,20 +13688,48 @@
       "instanceId": "インスタンス ID",
       "label_category_LLM": "LLM",
       "llm_status": "LLM ステータス",
+      "model": "モデル",
+      "service": "サービス",
       "dashboard": {
-        "token": "トークン",
-        "cost": "コスト",
+        "token": "モデル別トークン数",
+        "inputToken": "モデル別入力トークン数",
+        "outputToken": "モデル別出力トークン数",
+        "serviceToken": "サービス別トークン数",
+        "serviceInputToken": "サービス別入力トークン数",
+        "serviceOutputToken": "サービス別トークン出力数",
+        "cost": "モデル別コスト",
+        "inputCost": "モデル別入力コスト",
+        "outputCost": "モデル別出力コスト",
+        "serviceCost": "サービス別コスト",
+        "serviceInputCost": "サービス別入力コスト",
+        "serviceOutputCost": "サービス別出力コスト",
         "duration": "モデル待ち時間",
         "analytics": "トレース",
         "llmonitor_agent": "LLMonitor プラットフォーム",
         "details": "詳細",
-        "count": "要求数",
+        "count": "モデル別リクエスト数",
+        "serviceCount": "サービス別リクエスト数",
         "totalToken": "合計トークン数",
+        "totalInputToken": "入力トークン総数",
+        "totalOutputToken": "出力トークン総数",
         "totalCost": "合計コスト",
+        "totalInputCost": "総入力コスト",
+        "totalOutputCost": "総出力コスト",
         "totalCount": "合計要求数",
         "totalTokenByModel": "モデル別の合計トークン数",
+        "totalInputTokenByModel": "モデル別入力トークン総数",
+        "totalOutputTokenByModel": "モデル別出力トークン総数",
+        "totalTokenByService": "サービス別トークン総数",
+        "totalInputTokenByService": "サービス別入力トークン総数",
+        "totalOutputTokenByService": "サービス別出力トークン総数",
         "totalCostByModel": "モデル別の合計コスト",
-        "totalCountByModel": "モデルごとの合計要求数"
+        "totalInputCostByModel": "モデル別総入力コスト",
+        "totalOutputCostByModel": "モデル別総出力コスト",
+        "totalCostByService": "サービス別総コスト",
+        "totalInputCostByService": "サービス別総入力コスト",
+        "totalOutputCostByService": "サービス別総出力コスト",
+        "totalCountByModel": "モデルごとの合計要求数",
+        "totalCountByService": "サービス別リクエスト総数"
       }
     },
     "oTelDcgm": {

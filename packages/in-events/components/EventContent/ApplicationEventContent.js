@@ -13,11 +13,6 @@ import {
   alertingDialogItemPickerTimeframe as maxDurationMillis
 } from 'in-alerting/components/constants';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
-import {
-  manuallyCloseEventEnabled,
-  eumImpactedUsersForAppAlertEnabled,
-  businessObservabilityEnabled
-} from 'in-services/featureFlags';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import {
   getSmartAlertAnalyzeTimeConfig,
@@ -26,10 +21,12 @@ import {
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
+import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
+import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
@@ -38,7 +35,6 @@ import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartView
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
-import TriggeredIncidentButton from '../tabs/Summary/common/TriggeredIncidentButton';
 import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
@@ -46,7 +42,7 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
-import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
+import { eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -101,7 +97,7 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
 
   const eventType = getEventType(event);
 
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const pillContent = getEventStateBadge(event);
 
   return (
@@ -220,13 +216,11 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
 
       {!isEndpointType && <AffectedEntitiesRow alertConfig={alertConfig} event={event} eventEntity={eventEntity} />}
       <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
-      {businessObservabilityEnabled && (
-        <ImpactedBusinessProcesses
-          eventType={eventType}
-          entityType={event?.get('entityType', undefined)}
-          entityId={event?.get('entityId', undefined)}
-        />
-      )}
+      <ImpactedBusinessProcesses
+        eventType={eventType}
+        entityType={event?.get('entityType', undefined)}
+        entityId={event?.get('entityId', undefined)}
+      />
     </>
   );
 }

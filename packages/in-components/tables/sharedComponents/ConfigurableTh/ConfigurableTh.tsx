@@ -5,17 +5,15 @@
 
 import React, { useState } from 'react';
 
-import { SvgIcon, SearchInput, Button, Checkbox } from '@instana/components';
+import { SearchInput, Checkbox, CarbonIconButton, SvgIcon, Pagination } from '@instana/components';
 import { Th, SortableTh } from '@instana/legacy';
 
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import { carbonTableEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { OrderDirection, SortComparator } from 'in-types';
 import Overlay from 'in-components/overlays/Overlay';
-import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
 import locals from './ConfigurableTh.mless';
@@ -95,19 +93,17 @@ export function ConfigureButton<ItemType extends Object>({
         props={{ availableColumnDefinitions, columnDefinitions, onColumnChecked }}
       >
         {({ toggle, refSetter, isOpen }) => (
-          <Button
-            className={locals.button}
+          <CarbonIconButton
             aria-label={t('in-components:tables.sharedComponents.settings')}
             aria-haspopup="true"
             aria-expanded={isOpen}
-            kind={carbonTableEnabled ? 'action' : 'secondary'}
+            label={t('in-components:tables.sharedComponents.settings')}
+            kind="ghost"
             onClick={toggle}
-            // Casting here because ts has trouble handling the inverted information flow of refs. I.e. ts should accept more narrow types as values for refs specifying a wider accepted type, but fails to do that
-            refSetter={refSetter as React.MutableRefObject<HTMLButtonElement>}
-            hasIconOnly
+            ref={refSetter}
           >
-            <SvgIcon type="lib_actions_settings" />
-          </Button>
+            <SvgIcon type="lib_actions_settings" size="xs" />
+          </CarbonIconButton>
         )}
       </Overlay>
     </div>
@@ -135,7 +131,6 @@ function Content<ItemType extends Object>({
     .filter(def => def.label.toLowerCase().includes(query.toLowerCase()))
     .sort(compareCheckedAndLabel(currentIds));
 
-  const numPages = Math.ceil(filteredDefinitions.length / pageSize);
   const paginatedDefinitions = filteredDefinitions.slice((page - 1) * pageSize, page * pageSize);
   return (
     <div className={locals.overlay}>
@@ -177,7 +172,16 @@ function Content<ItemType extends Object>({
         />
       )}
       {filteredDefinitions.length > pageSize && (
-        <Pagination currentPage={page} numPages={numPages} onChange={setPage} />
+        <Pagination
+          className={locals.pagination}
+          currentPage={page}
+          totalItems={filteredDefinitions.length}
+          pageSize={pageSize}
+          pageSizes={[pageSize]}
+          onChange={p => setPage(p.page)}
+          size="sm"
+          itemsPerPageText=""
+        />
       )}
     </div>
   );

@@ -32,6 +32,7 @@ export default function DateTimeInput({ form, path, setValue }) {
           value={timeField.value}
           onChange={timeString => setValue(form, [path, 'time'], timeString)}
           hasError={!timeField.valid && timeField.touched}
+          direction="top"
         />
       </div>
       <TouchedMessages field={dateField} />

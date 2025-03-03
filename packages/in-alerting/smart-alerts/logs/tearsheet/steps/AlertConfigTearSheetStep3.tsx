@@ -9,11 +9,8 @@ import React from 'react';
 
 import { Spacer } from '@instana/components';
 
-import {
-  AlertPreview,
-  AlertPreviewHeadline
-} from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
+import { LogMultiThresholdAlertPreview } from 'in-alerting/smart-alerts/logs/dialog/advanced/LogMultiThresholdAlertPreview';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/tearSheet/AlertProperties/AlertPropertiesTitleRow';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
@@ -46,7 +43,7 @@ export default function AlertConfigTearSheetStep3({
               renderAlertPropertiesTitleRow={() => (
                 <AlertPropertiesTitleRow form={form} onChange={onChange} getTitlePlaceholder={getTitlePlaceholder} />
               )}
-              shouldDisplayAlertLevelSelection
+              shouldDisplayAlertLevelSelection={false}
               isTearSheet
             />
           )}
@@ -56,13 +53,7 @@ export default function AlertConfigTearSheetStep3({
                 variant="heading-200"
                 content={t('in-alerting:smartAlerts.applications.tearSheet.alertProperties.previewTitle')}
               />
-              <AlertPreview
-                form={form}
-                renderHeadline={() => <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder()} />}
-                getDescriptionPlaceholder={getDescriptionPlaceholder}
-                entityLabel={t('in-alerting:smartAlerts.logs.advancedModeContainer.properties.preview.subtitle')}
-                entityIconType="lib_application_logging"
-              />
+              <LogMultiThresholdAlertPreview form={form} getDescriptionPlaceholder={getDescriptionPlaceholder} />
             </div>
           )}
           isTearSheet

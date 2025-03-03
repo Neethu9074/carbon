@@ -15,12 +15,11 @@ import {
 
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
 import SortIndicator from 'in-sdk/components/dashboard/Table/components/SortIndicator';
-import { carbonPaginationEnabled, carbonTableEnabled } from 'in-services/featureFlags';
 import { createStore } from 'in-sdk/components/dashboard/Table/stores/content';
 import Row from 'in-sdk/components/dashboard/Table/components/Row';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { shallowEquals } from 'in-services/util/object';
-import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
 import locals from './Table.mless';
@@ -188,6 +187,7 @@ export default class Table extends React.Component {
         });
         // optionally, make rows expandable
         if (this.props.getRowDetails) {
+          carbonRow.isExpanded = row?.expanded;
           carbonRow.expanded = this.props.getRowDetails(row.rowConfig, this.props.distanceBetweenDatapointsInMillis);
         }
         return carbonRow;
@@ -220,26 +220,18 @@ export default class Table extends React.Component {
               }}
               searchText={this.state.filter}
               isExpandable={this.props.getRowDetails}
+              onClickExpandRow={toggleRowDetails}
               isSearchEnabled
             />
-            {showPagination &&
-              (carbonPaginationEnabled ? (
-                <CarbonPagination
-                  currentPage={(data.page ?? 0) + 1}
-                  totalItems={this.props.rows?.length}
-                  pageSize={this.props.maxItemsPerPage ?? 10}
-                  pageSizes={[this.props.maxItemsPerPage ?? 10]}
-                  onChange={p => this.store.setPage(p.page - 1)}
-                />
-              ) : (
-                <div className={locals.paginationWrapper}>
-                  <Pagination
-                    onChange={newPage => this.store.setPage(newPage - 1)}
-                    currentPage={(data.page ?? 0) + 1}
-                    numPages={data.pageCount}
-                  />
-                </div>
-              ))}
+            {showPagination && (
+              <CarbonPagination
+                currentPage={(data.page ?? 0) + 1}
+                totalItems={data.totalFilteredRowCount ?? this.props.rows?.length}
+                pageSize={this.props.maxItemsPerPage ?? 10}
+                pageSizes={[this.props.maxItemsPerPage ?? 10]}
+                onChange={p => this.store.setPage(p.page - 1)}
+              />
+            )}
             {this.props.bottomContent && <div className={locals.bottomContent}>{this.props.bottomContent}</div>}
           </Card>
         </div>
@@ -311,27 +303,15 @@ export default class Table extends React.Component {
             </thead>
             <tbody>{rows}</tbody>
           </table>
-          {showPagination ? (
-            carbonPaginationEnabled ? (
-              <>
-                <CarbonPagination
-                  currentPage={(data.page || 0) + 1}
-                  totalItems={this.props.rows?.length}
-                  pageSize={this.props.maxItemsPerPage ?? 10}
-                  pageSizes={[this.props.maxItemsPerPage ?? 10]}
-                  onChange={p => this.store.setPage(p.page - 1)}
-                />
-              </>
-            ) : (
-              <div className={locals.paginationWrapper}>
-                <Pagination
-                  onChange={newPage => this.store.setPage(newPage - 1)}
-                  currentPage={(data.page || 0) + 1}
-                  numPages={data.pageCount}
-                />
-              </div>
-            )
-          ) : null}
+          {showPagination && (
+            <CarbonPagination
+              currentPage={(data.page || 0) + 1}
+              totalItems={data.totalFilteredRowCount ?? this.props.rows?.length}
+              pageSize={this.props.maxItemsPerPage ?? 10}
+              pageSizes={[this.props.maxItemsPerPage ?? 10]}
+              onChange={p => this.store.setPage(p.page - 1)}
+            />
+          )}
           {this.props.bottomContent ? <div className={locals.bottomContent}>{this.props.bottomContent}</div> : null}
         </Card>
       </div>

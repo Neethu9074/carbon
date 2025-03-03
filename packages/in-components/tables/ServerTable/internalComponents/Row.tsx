@@ -7,9 +7,9 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { TrSizes } from '@instana/legacy/types/components/Table/types';
-import { Tr, Td, TrProps } from '@instana/legacy';
+import { Tr, Td } from '@instana/legacy';
 
-import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
+import { ColumnDefinition, TableProps, TrProps } from 'in-components/tables/ServerTable/types';
 
 import locals from './Row.mless';
 

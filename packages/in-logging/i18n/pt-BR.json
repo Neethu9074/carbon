@@ -8,6 +8,7 @@
   "logsOverTime_WARN": "Avisar",
   "logsOverTime_INFO": "Informações",
   "logsOverTime_FATAL": "Fatal",
+  "logsOverTime_NONE": "Nenhum",
   "logsOverTime_NEXTLOGLEVEL": "{{label}}",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "A configuração da consulta é inválida. Trate as falhas de validação antes de continuar.",
   "addAsFilter": "Incluir como filtro",
@@ -63,7 +64,7 @@
     "summary": "Resumo",
     "smartAlerts": "Alertas inteligentes",
     "deleteLogs": "Excluir logs",
-    "configuration": "Configuração",
+    "management": "Gerenciamento",
     "logVolume": {
       "logVolumeTitle": "Volume de logs do mês atual",
       "gb": "GB",
@@ -72,7 +73,7 @@
     "retentionIcon": "Mudar período de retenção",
     "noData": "Dados não disponíveis",
     "analyzeLogs": "Analisar logs",
-    "configurationPage": {
+    "managementPage": {
       "logVolume": "Volume de log",
       "logVolumeDescription": "Visualize o volume de log de até 12 meses e agrupe por tags de infraestrutura sob demanda.",
       "logIntegrations": "Integrações de log",

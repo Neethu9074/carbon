@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { tag_not_present_group } from '../constants';
+import { tag_not_present_group } from 'in-infrastructure/Explore/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 
 import locals from './TagValue.mless';

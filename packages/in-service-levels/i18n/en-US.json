@@ -109,11 +109,9 @@
       "remainingBudget": "Remaining",
       "totalBudget": "Error Budget",
       "consumedBudget": "Error Budget Consumed",
-      "momentaryBudgetConsumption": "Error Budget Consumption",
       "beaconCount": "Beacon Count",
       "calls": "Calls",
       "latency": "Latency",
-      "results": "Results",
       "beaconDuration": "Beacon Duration",
       "threshold": "Threshold",
       "failureRate": "Failure Rate",
@@ -147,8 +145,8 @@
       "event_test_plural": "{{count}} tests"
     },
     "deleteDialog": {
-      "pleaseConfirm": "Please Confirm",
-      "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{name}}</strong>?",
+      "confirmRemove": "Confirm remove",
+      "confirmRemoveMsg": "Are you sure you want to delete <strong>{{name}}</strong>?",
       "delete": "Delete"
     }
   },

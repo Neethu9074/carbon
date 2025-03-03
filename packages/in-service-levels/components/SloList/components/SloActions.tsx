@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { Stack } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import DeleteSloMoreMenuButton from 'in-service-levels/components/SloList/components/DeleteSloMoreMenuButton';
 import CreateSloDialog from 'in-service-levels/components/ConfigDialog/CreateSloDialog';
@@ -18,6 +17,7 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { noop } from 'in-services/fixedObjects';
+import { t } from 'in-i18n';
 
 interface Props {
   item: SloListItem;

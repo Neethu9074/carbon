@@ -7,11 +7,11 @@
 import React from 'react';
 
 import { Button } from '@instana/components';
+import { Group } from '@instana/types';
 
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { type as typeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { Group } from 'in-types';
 import { t } from 'in-i18n';
 
 interface AnalyzeCallsProps {

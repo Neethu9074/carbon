@@ -1,0 +1,134 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import { createField, Field, MapForm, MapFormItems } from 'formalistic';
+import React from 'react';
+
+import { Typography } from '@instana/components';
+import { GoogleSSOConfig } from '@instana/types';
+
+import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/SecurityAndAccess/api/googleSSO';
+// @ts-expect-error needs TS migration
+import ApiItemView from 'in-settings/components/ApiItemView';
+import { SETTINGS_IDENTITY_PROVIDER_GOOGLE_UPDATE } from 'in-services/tracking/eventNames';
+import { securityAndAccessIdentityProviders } from 'in-settings/navigation/paths';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { EnrichFormProps, SaveItemProps } from 'in-settings/types';
+import TouchedMessages from 'in-components/form/TouchedMessages';
+import SubViewHeader from 'in-settings/components/SubViewHeader';
+import DescriptionText from 'in-components/form/DescriptionText';
+import { idpConfigV2Enabled } from 'in-services/featureFlags';
+import { UPDATED_OBJECT } from 'in-services/util/constants';
+import Section from 'in-settings/components/Section';
+import FormGroup from 'in-components/form/FormGroup';
+import Label from 'in-components/form/Label';
+import Input from 'in-components/form/Input';
+import Title from 'in-components/Title';
+import { t } from 'in-i18n';
+
+type GoogleSsoMapFormItems = { filter: Field<string | undefined> };
+type GoogleSsoMapForm = MapForm<GoogleSsoMapFormItems>;
+
+export default function GoogleSSO() {
+  const { unstable_trackEvent } = useSegmentTracking();
+
+  return (
+    <ApiItemView
+      getObservables={() => ({
+        config: getConfigAsResultObservable()
+      })}
+      enrichForm={enrichForm}
+      onCancelClick={refresh}
+      saveItem={({ form, setMessage }: Omit<SaveItemPropsWithForm, 'unstable_trackEvent'>) =>
+        saveItem({ form, setMessage, unstable_trackEvent })
+      }
+      render={GoogleSsoForm}
+      {...(idpConfigV2Enabled
+        ? { parentViewName: t('in-settings:tabs.identityProviders'), parentPath: securityAndAccessIdentityProviders }
+        : {})}
+    />
+  );
+}
+
+//       <h2>{t('in-settings:tabs.configureAllowedEmailDomains')}</h2>
+
+interface GoogleSsoFormProps {
+  form: GoogleSsoMapForm;
+  setForm: React.Dispatch<React.SetStateAction<GoogleSsoMapForm>>;
+}
+
+function GoogleSsoForm({ form, setForm }: GoogleSsoFormProps) {
+  return (
+    <>
+      <Title title={t('in-settings:tabs.googleSSO.configure')} />
+      <SubViewHeader>{t('in-settings:tabs.googleSSO.configure')}</SubViewHeader>
+      <Typography component="p" variant="body-regular">
+        {t('in-settings:tabs.googleSSO.domainOnlyMessage')}
+      </Typography>
+      <Typography component="p" variant="body-regular">
+        {t('in-settings:tabs.googleSSO.domainExistingUsersMessage')}
+      </Typography>
+
+      <form>
+        <Section restrictWidth="50rem">
+          {form.get('filter').map(field => (
+            <FormGroup>
+              <Label htmlFor="google_sso_filter" hasError={!field.valid && field.touched}>
+                {t('in-settings:tabs.googleSSO.allowedDomains')}
+              </Label>
+
+              <Input
+                id="google_sso_filter"
+                type="text"
+                value={field.value}
+                onChange={e => {
+                  setForm(form.updateIn(['filter'], f => f.setValue(e.target.value).setTouched(true)));
+                }}
+                placeholder="@example.com, @example.io"
+                autoComplete="off"
+                hasError={!field.valid && field.touched}
+              />
+              <DescriptionText>{t('in-settings:tabs.googleSSO.hint')}</DescriptionText>
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
+        </Section>
+      </form>
+    </>
+  );
+}
+
+interface SaveItemPropsWithForm extends SaveItemProps {
+  form: GoogleSsoMapForm;
+}
+
+function saveItem({ form, setMessage, unstable_trackEvent }: SaveItemPropsWithForm): void {
+  const googleSingleSignOnConfig = { filter: form.get('filter').value };
+  setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
+  const setConfigResult$ = setConfig(googleSingleSignOnConfig);
+  setConfigResult$.once(
+    () => {
+      setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' });
+      unstable_trackEvent(UPDATED_OBJECT, { objectType: SETTINGS_IDENTITY_PROVIDER_GOOGLE_UPDATE });
+    },
+    error =>
+      setMessage({
+        text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }),
+        type: 'error'
+      })
+  );
+}
+
+function enrichForm<FORM_ITEMS extends MapFormItems>(
+  form: MapForm<FORM_ITEMS>,
+  { result: { config } }: EnrichFormProps<GoogleSSOConfig>
+): GoogleSsoMapForm {
+  return form.put(
+    'filter',
+    createField({
+      value: config.filter
+    })
+  ) as unknown as GoogleSsoMapForm;
+}

@@ -12,16 +12,14 @@ import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
-import {
-  AlertPreview,
-  AlertPreviewHeadline
-} from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/logs/dialog/advanced/ThresholdSelectionInteractiveChart';
 import {
   isCustomPayloadValidOrUntouched,
   fieldTouchedAndInvalid
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { LogMultiThresholdAlertPreview } from 'in-alerting/smart-alerts/logs/dialog/advanced/LogMultiThresholdAlertPreview';
+import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
@@ -33,6 +31,7 @@ import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featu
 import ScopeFilter from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeFilter';
 import ScopeGroup from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeGroup';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { alertChannelPerSeverityLogSaEnabled } from 'in-services/featureFlags';
 import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
@@ -55,7 +54,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     onChartViewConfigChange,
     selectedChartViewConfigIndex
   } = props;
-  const thresholdType = form.get('threshold').get('type').value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const tagCatalog = useTagCatalog('SMART_ALERTS');
 
   return (
@@ -132,13 +131,26 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           title: t('in-alerting:smartAlerts.logs.advancedModeContainer.alertChannel.title'),
           valid: true,
           content: (
-            <ConfigureAlertChannel
-              form={form}
-              onChange={onChange}
-              setSliderState={setSliderState}
-              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-              numberOfAlertChannelListRows={5}
-            />
+            <>
+              {alertChannelPerSeverityLogSaEnabled ? (
+                <ConfigureAlertChannelMT
+                  form={form}
+                  onChange={onChange}
+                  updateForm={updateForm}
+                  setSliderState={setSliderState}
+                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                  numberOfAlertChannelListRows={5}
+                />
+              ) : (
+                <ConfigureAlertChannel
+                  form={form}
+                  onChange={onChange}
+                  setSliderState={setSliderState}
+                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                  numberOfAlertChannelListRows={5}
+                />
+              )}
+            </>
           )
         },
         {
@@ -152,7 +164,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                 <AlertProperties
                   form={form}
                   onChange={onChange}
-                  getDescriptionPlaceholder={() => getDescriptionPlaceholder(form)}
+                  getDescriptionPlaceholder={getDescriptionPlaceholder}
                   renderAlertPropertiesTitleRow={() => (
                     <AlertPropertiesTitleRow
                       form={form}
@@ -160,18 +172,11 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                       getTitlePlaceholder={getTitlePlaceholder}
                     />
                   )}
+                  shouldDisplayAlertLevelSelection={false}
                 />
               )}
               renderAlertPreview={() => (
-                <AlertPreview
-                  form={form}
-                  renderHeadline={() => (
-                    <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder()} />
-                  )}
-                  getDescriptionPlaceholder={getDescriptionPlaceholder}
-                  entityLabel={t('in-alerting:smartAlerts.logs.advancedModeContainer.properties.preview.subtitle')}
-                  entityIconType="lib_application_logging"
-                />
+                <LogMultiThresholdAlertPreview form={form} getDescriptionPlaceholder={getDescriptionPlaceholder} />
               )}
             />
           )
@@ -192,6 +197,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     />
   );
   function isThresholdSectionValid(): boolean {
-    return !fieldTouchedAndInvalid(form.get('threshold')?.get('value'));
+    return !fieldTouchedAndInvalid(form.get('threshold'));
   }
 }

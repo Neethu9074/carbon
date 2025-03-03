@@ -1,5 +1,5 @@
 {
-  "zhmcs": "zHMCs",
+  "zhmcs": "zHMC",
   "hostname": "主机名",
   "name": "名称",
   "systems": "系统",
@@ -17,13 +17,13 @@
   "status": "状态",
   "breadcrumbs": {
     "zhmc": "zHMC",
-    "zhmcs": "zHMCs",
+    "zhmcs": "zHMC",
     "systems": "系统"
   },
   "dashboards": {
     "zhmc": "zHMC",
     "systems": "系统",
-    "summary": "摘要",
+    "summary": "目录",
     "environmentalAndPower": "环境与电力",
     "channel": "通道",
     "adapter": "适配器",

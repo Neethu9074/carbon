@@ -10,13 +10,13 @@ import { ThemeProvider, setThemeOverride, getThemeOverride } from '@instana/comp
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
 import OnboardingWidgetPresenterV2 from 'in-plg/pages/onboarding/OnboardingWidgetPresenterV2';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
+import { SwitchTheme, fallbackTheme } from 'in-themes/SwitchTheme';
 import useResultFromApiPing from 'in-hooks/useResultFromApiPing';
 import createTracker from 'in-waiting-for-deployment/tracker';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import { SwitchTheme, fallbackTheme } from 'in-themes/SwitchTheme';
+import config, { baseUrl } from 'in-services/config';
 import GlobalTheme from 'in-themes/GlobalTheme';
-import config from 'in-services/config';
 
 const trackingService = createTracker('onboarding');
 
@@ -64,7 +64,7 @@ function Renderer() {
       trackingIdPrefix="onboarding"
       getRedirectButtonProperties={() => ({
         disabled: !apiCallSatisfied,
-        href: `https://${config.tenantUnit}-${config.tenant}.${config.tenantUnitDomainSuffix}`,
+        href: baseUrl,
         children: 'Sign in to Instana',
         onClick: () => {
           trackingService.signInToInstanaButtonClicked();

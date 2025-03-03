@@ -11,7 +11,10 @@ import {
   HttpActionConfiguration,
   HttpScriptConfiguration,
   SyntheticTypeConfigurationUnion,
-  SSLCertificateConfiguration
+  SSLCertificateConfiguration,
+  BrowserScriptConfiguration,
+  WebpageActionConfiguration,
+  WebpageScriptConfiguration
 } from '@instana/types';
 import { Card, KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
@@ -125,6 +128,17 @@ const showAdditionalOptions = (configuration: SyntheticTypeConfigurationUnion) =
         {t('in-synthetics:dashboard.configuration.markSyntheticCall')}
       </Row>
     );
+
+  if (
+    ['BrowserScript', 'WebpageAction', 'WebpageScript'].includes(configuration.syntheticType) &&
+    (configuration as BrowserScriptConfiguration | WebpageActionConfiguration | WebpageScriptConfiguration).recordVideo
+  ) {
+    content.push(
+      <Row key={'recordVideo'} className={locals.additionalOptionsRow}>
+        {t('in-synthetics:dashboard.configuration.recordVideo')}
+      </Row>
+    );
+  }
 
   return content;
 };

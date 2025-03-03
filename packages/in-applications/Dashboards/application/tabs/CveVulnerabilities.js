@@ -7,9 +7,8 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { TableLoadingSkeletonRows } from '@instana/legacy';
+import { Stack, TableSkeleton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Stack } from '@instana/components';
 
 import {
   eventIdUrlParameter,
@@ -83,13 +82,13 @@ export default function AffectedCvePresenter({ location }) {
     return (
       <>
         <ConcertBanner expanded="showVulnerabilityInfoPanel" />
-        <TableLoadingSkeletonRows />
+        <TableSkeleton />
       </>
     );
   }
 
   if (isLoading(cveEventsResult)) {
-    return <TableLoadingSkeletonRows />;
+    return <TableSkeleton />;
   }
   const handleOnRowClick = item => {
     addActiveDialog(<DetectionDetailDialog event={item} timeConfig={timeConfig} onClose={close} />);

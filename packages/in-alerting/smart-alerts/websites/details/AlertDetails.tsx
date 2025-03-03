@@ -21,6 +21,7 @@ import {
   alertsTabDetailsFullyQualified as detailsPath,
   alertsTabListFullyQualified as listPath
 } from 'in-websites/navigation/paths';
+import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/websites/hooks/useSmartAlertCreateUrl';
 //@ts-expect-error TS migration
 import AlertConfiguration from 'in-alerting/smart-alerts/websites/details/AlertConfiguration';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
@@ -28,6 +29,7 @@ import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-w
 //@ts-expect-error TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
+import { websitesSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
@@ -63,6 +65,8 @@ export default function AlertDetails(props: AlertDetailsProps) {
         <AlertConfiguration alertConfig={alertConfig} />
       )}
       canConfigureIndividualAlertConfigs={role?.canConfigureWebsiteSmartAlerts}
+      getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
+      displayTearSheetActions={websitesSmartAlertFullScreenDesignEnabled}
     />
   );
 }

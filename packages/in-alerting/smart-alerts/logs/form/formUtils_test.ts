@@ -4,15 +4,19 @@
  * Copyright IBM Corp. 2024
  */
 
-import { LogAlertConfig, ThresholdOperator, VersionedConfig } from '@instana/types';
+import { ThresholdOperator, VersionedConfig } from '@instana/types';
 
 import alertFormDefinition, { AlertConfigHiddenFields } from 'in-alerting/smart-alerts/logs/form/alertFormDefinition';
 import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import { getHigherOrLowerOperatorContext } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { LogSmartAlertConfig } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import data from 'in-alerting/smart-alerts/logs/data/alertConfigData.json';
 import { t } from 'in-i18n';
 
-const form = alertFormDefinition(data.alertConfig as LogAlertConfig & VersionedConfig & AlertConfigHiddenFields, false);
+const form = alertFormDefinition(
+  data.alertConfig as LogSmartAlertConfig & VersionedConfig & AlertConfigHiddenFields,
+  false
+);
 
 describe('in-alerting/smart-alerts/logs/form/formUtils', () => {
   describe('getTitlePlaceholder', () => {
@@ -34,16 +38,25 @@ describe('in-alerting/smart-alerts/logs/form/formUtils', () => {
     it('returns the correct placeholder text when the threshold operator is "lower than"', () => {
       const updatedForm = {
         ...data.alertConfig,
-        threshold: {
-          type: 'staticThreshold',
-          operator: '<=',
-          value: 20,
-          lastUpdated: 0
-        }
+        rules: [
+          {
+            rule: {
+              alertType: 'logCount',
+              metricName: 'logCount'
+            },
+            thresholdOperator: '<=',
+            thresholds: {
+              WARNING: {
+                type: 'staticThreshold',
+                value: 20
+              }
+            }
+          }
+        ]
       };
 
       const form = alertFormDefinition(
-        updatedForm as LogAlertConfig & VersionedConfig & AlertConfigHiddenFields,
+        updatedForm as LogSmartAlertConfig & VersionedConfig & AlertConfigHiddenFields,
         false
       );
       const result = getDescription('<=');

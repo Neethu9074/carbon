@@ -17,7 +17,7 @@ import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced
 import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
-import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
+import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
@@ -33,9 +33,9 @@ export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, 
 
   return (
     <>
-      <TearSheetStepContentWrapper
+      <TearSheetStepTitleWrapper
         headline={t('in-alerting:smartAlerts.applications.tearSheet.AlertPropertiesTitle')}
-        isFullWidth
+        hideSpace
       >
         <Spacer vertical="gutter" />
         <AlertPropertiesContainer
@@ -74,7 +74,7 @@ export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, 
           )}
           isTearSheet
         />
-      </TearSheetStepContentWrapper>
+      </TearSheetStepTitleWrapper>
       <Spacer vertical="medium" />
       <Spacer vertical="xxsmall" />
       <>
@@ -85,7 +85,7 @@ export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, 
           noMargin
         />
         <div className={locals.columnContainer}>
-          <GlobalCustomPayloadCard context="APPLICATION" />
+          <GlobalCustomPayloadCard context="APPLICATION" isTearSheetView />
           <AlertConfigCustomPayload
             form={form}
             setForm={updateForm}

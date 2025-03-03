@@ -6,8 +6,12 @@
     "count": "Nombre"
   },
   "lists": {
+    "id": "ID",
+    "version": "Version",
     "pageTitle": "Surveillance métier",
     "cardTitle": "Processus métier",
+    "theId": "ID du processus",
+    "hasBeenCopied": "a été copié avec succès dans le presse-papiers",
     "activityLabel": "Activités",
     "nameLabel": "Nom",
     "countLabel": "Nombre",

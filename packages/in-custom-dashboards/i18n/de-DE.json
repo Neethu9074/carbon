@@ -29,7 +29,7 @@
         "pleaseSelect": "Bitte auswählen"
       },
       "sharingDialogPresenter": {
-        "share": "Gemeinsam nutzen",
+        "editPermissions": "Berechtigungen bearbeiten",
         "shareMsg": "Dieses angepasste Dashboard verfügt über erweiterte Zugriffsregeln, die nicht durch dieses Dialogfenster dargestellt werden können. Zum Bearbeiten dieser Zugriffsregeln können Sie die Funktion \"Als JSON bearbeiten\" verwenden.",
         "privateDashboardDefault": "Privates Dashboard (Standardeinstellung)",
         "privateDashboardDefaultExplain": "Dieses Dashboard ist nur für Sie sichtbar.",
@@ -81,6 +81,7 @@
       "failure": "Fehler",
       "dashboardNotFoundExplain": "Dieses Dashboard ist nicht vorhanden oder Sie haben keinen Zugriff auf das Dashboard.",
       "customDashboard": "Angepasstes Dashboard",
+      "customDashboardOptions": "Benutzerdefinierte Dashboard-Optionen",
       "saveChange": "Änderungen speichern",
       "discardChange": "Änderungen verwerfen",
       "addWidget": "Widget hinzufügen",
@@ -92,8 +93,8 @@
       "copiedAllWidgets": "Kopierte Widgets: Verwenden Sie STRG-V oder CMD-V, um angepasste Dashboards einzufügen.",
       "duplicate": "Duplizieren",
       "delete": "Löschen",
-      "share": "Gemeinsam nutzen",
-      "shareButtonTooltip": "Ihr Benutzerkonto verfügt nicht über Berechtigungen zum Freigeben von Dashboards."
+      "editPermissions": "Berechtigungen bearbeiten",
+      "editOptionTooltip": "Ihr Benutzerkonto verfügt nicht über Berechtigungen zum Freigeben von Dashboards."
     },
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Fehler beim Analysieren von Eingaben als JSON.",
@@ -308,6 +309,15 @@
         "metric": "Metrik",
         "aggregation": "Aggregation",
         "pleaseSelect": "Bitte auswählen"
+      }
+    },
+    "srcSlo": {
+      "index": {
+        "serviceLevelsObjective": "Serviceziele (SLOs)"
+      },
+      "formComponent": {
+        "status": "Status",
+        "errorBudgetRemaining": "Verbleibendes Fehlerbudget"
       }
     },
     "metricConfigurator": {
@@ -604,8 +614,8 @@
         "sliType": "SLI-Typ",
         "viewCloneSliConfig": "SLI-Konfiguration anzeigen/klonen",
         "delSliConfig": "SLI-Konfiguration löschen",
-        "pleaseConfirm": "Bitte bestätigen",
-        "pleaseConfirmMsg": "Sind Sie sicher, dass Sie <strong>{{sliName}}</strong> löschen möchten?",
+        "confirmRemove": "Bitte bestätigen",
+        "confirmRemoveMsg": "Sind Sie sicher, dass Sie <strong>{{sliName}}</strong> löschen möchten?",
         "delete": "Löschen",
         "eventBasedSli": "Ereignisbasiert",
         "timeBasedSli": "Zeitbasiert, {{metricNameLabel}}"
@@ -833,6 +843,14 @@
         "tagNoValue": "Tag '{{labelname}}' ist ohne Wert vorhanden"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "Rendering https://...",
+      "form": {
+        "heading": "Welche Seite möchten Sie einbetten?",
+        "title": "URL eingeben"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "Statusübersicht"
@@ -900,7 +918,8 @@
         }
       },
       "dataSource": {
-        "events": "Ereignisse"
+        "events": "Ereignisse",
+        "k8sEvents": "Kubernetes-Events"
       },
       "eventColumns": {
         "title": "Titel",
@@ -908,6 +927,19 @@
         "startedOn": "Gestartet am",
         "endedOn": "Beendet am",
         "duration": "Dauer"
+      },
+      "kubernetesEventColumns": {
+        "type": "Typ",
+        "reason": "Grund",
+        "message": "Nachricht",
+        "namespace": "Namensbereich",
+        "involvedObject": "Involviertes Objekt",
+        "kind": "Art",
+        "time": "Zeit"
+      },
+      "emptyTable": {
+        "title": "Keine Ereignisse verfügbar",
+        "explanation": "Es wurden keine Ereignisse für den ausgewählten Zeitraum abgerufen."
       }
     },
     "time": {

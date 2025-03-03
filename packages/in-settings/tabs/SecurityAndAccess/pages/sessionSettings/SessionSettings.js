@@ -13,6 +13,7 @@ import {
 } from 'in-settings/tabs/SecurityAndAccess/api/sessionSettings';
 import { getSessionSettingsAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/sessionSettings';
 import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
+import { SETTINGS_SESSION_TIMEOUT_UPDATE } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -164,7 +165,7 @@ function deleteItem({ setMessage, unstable_trackEvent }) {
       });
       unstable_trackEvent(
         UPDATED_OBJECT,
-        { objectType: 'settings.sessionTimeout.update' },
+        { objectType: SETTINGS_SESSION_TIMEOUT_UPDATE },
         { idleTimeInMillis: idleTimeInMillisDefault, tokenLifeTimeInMillis: tokenLifeTimeInMillisDefault }
       );
     },
@@ -199,7 +200,7 @@ function saveItem({ form, setMessage, unstable_trackEvent }) {
         text: t('in-settings:tabs.timeoutsSuccessfullySaved'),
         type: 'success'
       });
-      unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.sessionTimeout.update' }, configToSave);
+      unstable_trackEvent(UPDATED_OBJECT, { objectType: SETTINGS_SESSION_TIMEOUT_UPDATE }, configToSave);
     },
     error => setMessage({ text: t('in-settings:tabs.failedToSaveTimeouts', { err: error.message }), type: 'error' })
   );

@@ -21,7 +21,6 @@ import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManage
 import { QueryBuilderTrackingFunctions } from 'in-components/QueryBuilder';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { logSmartAlertsEnabled } from 'in-services/featureFlags';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import Sticky from 'in-components/Sticky';
@@ -118,7 +117,6 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
             isGrouped={isGrouped}
             liveModeDisabled
             liveModeDisabledTooltip={t('in-logging:liveModeDisabled')}
-            withoutShadow={logSmartAlertsEnabled}
           />
         </>
       }

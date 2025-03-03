@@ -128,7 +128,7 @@ function handleFormatterUpdate(form: MapForm<any>): Item {
   }
 
   return form.updateIn([formatterPath], f =>
-    (f as Field<string>).setValue(formatters?.[0].id ?? defaultFormatter).setTouched(true)
+    (f as Field<string>).setValue(formatters?.[0]?.id ?? defaultFormatter.id).setTouched(true)
   );
 }
 

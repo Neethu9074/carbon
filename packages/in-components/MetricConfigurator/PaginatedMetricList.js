@@ -8,10 +8,8 @@ import PropTypes from 'prop-types';
 
 import { Ul, Li, SearchInput, Pagination as CarbonPagination } from '@instana/components';
 
-import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { useSearch } from 'in-components/SelectorOverlay/search';
 import { getInteractiveElements } from 'in-services/util/dom';
-import Pagination from 'in-components/Pagination/Pagination';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -81,7 +79,7 @@ export default function PaginatedMetricList({ options, onChange, isMetricDisable
             )
           )}
         </Ul>
-        {numPages > 1 && carbonPaginationEnabled ? (
+        {numPages > 1 && (
           <CarbonPagination
             className={locals.paginationSmallWidth}
             currentPage={currentPage}
@@ -90,17 +88,6 @@ export default function PaginatedMetricList({ options, onChange, isMetricDisable
             pageSizes={[itemsPerPage]}
             onChange={data => {
               const newPage = data.page;
-              setState({
-                currentPage: newPage,
-                query
-              });
-            }}
-          />
-        ) : (
-          <Pagination
-            currentPage={currentPage}
-            numPages={Math.ceil(options.length / itemsPerPage)}
-            onChange={newPage => {
               setState({
                 currentPage: newPage,
                 query

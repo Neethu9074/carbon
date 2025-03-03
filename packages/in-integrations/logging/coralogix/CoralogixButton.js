@@ -7,11 +7,15 @@ import React from 'react';
 
 import { CarbonMenuItem, SvgIcon } from '@instana/components';
 
+import { integrationKey as coralogixIntegrationKey } from 'in-integrations/logging/coralogix/consts';
+import { useJumpToThirdParty } from 'in-integrations/logging/tracking';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { isBlank } from 'in-services/util/string';
 
 export default function CoralogixButton(props) {
   const { coralogixIntegration: integration } = props;
+  const jumpToThirdParty = useJumpToThirdParty();
+
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
   }
@@ -20,7 +24,10 @@ export default function CoralogixButton(props) {
       renderIcon={() => {
         return <SvgIcon type="lib_coralogix" />;
       }}
-      onClick={() => window.open(constructCoralogixLink(integration, props), '_blank')}
+      onClick={() => {
+        jumpToThirdParty(coralogixIntegrationKey);
+        window.open(constructCoralogixLink(integration, props), '_blank');
+      }}
       label="Coralogix"
     />
   );

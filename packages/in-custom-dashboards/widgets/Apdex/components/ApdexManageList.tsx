@@ -17,11 +17,12 @@ import {
 import useFilteredAndSortedApdexConfigurations from 'in-custom-dashboards/widgets/Apdex/hooks/useFilteredAndSortedApdexConfigurations';
 import { useSlideOutDelay } from 'in-custom-dashboards/widgets/SloLegacy/hooks/useSlideOutDelay';
 import CreateApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm';
+import { CREATED_OBJECT, DELETED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import { deleteApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import ApdexList from 'in-custom-dashboards/widgets/Apdex/components/ApdexList';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
-import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isLoading } from 'in-services/util/result';
 import { seconds } from 'in-services/time/time';
@@ -51,30 +52,32 @@ export default function ApdexManageList({
   const apdexResult = useFilteredAndSortedApdexConfigurations(entityType, entityId, query, orderBy, orderDirection);
   const transitionDelay = 500;
   const [isCreateFormVisible, hideCreateForm] = useSlideOutDelay(showCreateForm, transitionDelay);
-
-  const track = useSloTrackers();
+  const { unstable_trackEvent } = useSegmentTracking();
 
   const onShowSlideInContentChange = () => onChange(undefined);
 
   const onCreateConfig = () => {
-    track(APDEX_MANAGEMENT_CREATE_START, {
-      entityType
+    unstable_trackEvent(CREATED_OBJECT, {
+      entityType,
+      objectType: APDEX_MANAGEMENT_CREATE_START
     });
     setEditableApdexConfig({});
     onShowCreateForm(false);
   };
 
   const onEditConfig = (config: ApdexConfiguration) => {
-    track(APDEX_MANAGEMENT_EDIT_START, {
-      entityType
+    unstable_trackEvent(UPDATED_OBJECT, {
+      entityType,
+      objectType: APDEX_MANAGEMENT_EDIT_START
     });
     setEditableApdexConfig(config);
     onShowCreateForm(true);
   };
 
   const onDeleteApdexConfig = (id: string) => {
-    track(APDEX_MANAGEMENT_DELETE, {
-      entityType
+    unstable_trackEvent(DELETED_OBJECT, {
+      entityType,
+      objectType: APDEX_MANAGEMENT_DELETE
     });
 
     deleteApdexConfiguration(id)

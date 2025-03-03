@@ -20,6 +20,7 @@ export default function FilterButton({
   trailingButton = false,
   withoutOrConjunction = false,
   withoutBrackets = false,
+  fixOverlayLeftAlignment = false,
   getTagCatalog,
   additionalGetTagCatalogProps,
   addTagDefinitionToFormModel
@@ -42,6 +43,7 @@ export default function FilterButton({
       }}
       align="bottomLeft"
       withoutWrapper
+      fixOverlayLeftAlignment={fixOverlayLeftAlignment}
       onCloseSideEffect={() => {
         if (
           lastTimeExternalAddToFormModelWasCalledRef.current == null ||

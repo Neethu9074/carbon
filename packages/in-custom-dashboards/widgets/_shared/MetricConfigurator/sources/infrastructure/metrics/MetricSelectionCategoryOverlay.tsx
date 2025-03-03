@@ -34,7 +34,6 @@ export interface Props {
   onSelectType: (t?: string) => void;
   close?: VoidFunction;
   disabled: boolean;
-  selectedType?: string;
 }
 
 const tabList = [
@@ -67,8 +66,7 @@ export default function MetricSelectionCategoryOverlay({
   onTypeChange,
   onSelectType,
   close,
-  disabled,
-  selectedType
+  disabled
 }: Props) {
   const listOverlay = (
     <MetricSelectorOverlay
@@ -80,7 +78,7 @@ export default function MetricSelectionCategoryOverlay({
       onSelectType={onSelectType}
       close={close}
       disabled={disabled}
-      backButton={selectedType !== undefined}
+      backButton
     />
   );
   if (!regexMetricSelectionEnabled) {

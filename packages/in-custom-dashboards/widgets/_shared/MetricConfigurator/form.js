@@ -388,7 +388,7 @@ export function migrate(savedState) {
   );
 }
 
-function createThresholdForm(savedState) {
+export function createThresholdForm(savedState) {
   return createMapForm({ validator: validateThresholdOrder })
     .put(
       'thresholdEnabled',

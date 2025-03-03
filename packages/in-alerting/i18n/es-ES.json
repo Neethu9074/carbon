@@ -31,6 +31,7 @@
     "optional": "Opcional",
     "on": "Activar",
     "off": "Desactivar",
+    "options": "Opciones",
     "revisionDropdownButton": {
       "revision": "Revisión {{alertRevision}}",
       "pause": "Pausar",
@@ -238,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "Confírmelo",
+            "confirmRemove": "Confírmelo",
             "description": "Al modificar el ámbito de límite se puede restaurar la selección de aplicación.",
             "confirmButtonLabel": "Confirmar"
           }
@@ -259,7 +260,7 @@
           "includeInternalCalls": "Incluir llamadas internas",
           "includeSyntheticCalls": "Incluir llamadas sintéticas",
           "confirmationDialog": {
-            "pleaseConfirm": "Confírmelo",
+            "confirmRemove": "Confírmelo",
             "description": "Si se anula la selección de \"{{callType}}\", se restablece la selección de la aplicación.",
             "confirmButtonLabel": "Confirmar"
           }
@@ -788,6 +789,8 @@
         "cancelTitle": "Cancelar",
         "proceedTitle": "Continuar",
         "previousTitle": "Anterior",
+        "nextTitle": "Siguiente",
+        "closeTitle": "Cerrar",
         "sharedListTooltip": "{{typeName}} ya no está disponible",
         "clearTagFilterExpressionButton": "Borrar",
         "baselineErrorMessageComputedOnApproximateData": "La línea base se calcula en función de datos aproximados debido a los valores de retención de datos. Por lo tanto, es posible que no sea precisa en el caso de que haya pocas llamadas que coincidan con los filtros seleccionados.",
@@ -869,6 +872,7 @@
         "timeThresholdConfigImpactEvaluationMethod": "Método de evaluación de impacto de usuario",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Agregar en todas las ventanas de evaluación",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcular para cada ventana de evaluación",
+        "timeThresholdConfigImpactEvaluationMethodSelect": "Seleccione una opción",
         "timeThresholdConfigNumberOfViolations": "Número de infracciones de métrica",
         "timeThresholdConfigEvaluationGranularity": "Granularidad de la evaluación",
         "granularityTooltipText": "La granularidad de tiempo establecida aquí determinará la frecuencia con la que se evalúa el umbral.",
@@ -985,7 +989,15 @@
         "labelConfirmRemoveConfig": "¿Está seguro de que desea eliminar la alerta <strong>{{configName}}</strong>?",
         "labelRemove": "Eliminar"
       },
+      "gracePeriod": {
+        "title": "Periodo de gracia (opcional)",
+        "description": "Cerrar automáticamente un problema cuando deje de cumplirse el umbral de infracción para:",
+        "label": "Select",
+        "summary": "Cerrar automáticamente un problema después de que no se cumpla el umbral de infracción <strong>durante {{gracePeriodValue}}</strong>."
+      },
       "tearSheet": {
+        "cancelModalTitle": "¿Está seguro de que desea cancelar?",
+        "cancelModalDescription": "Si cancela, no se guardarán los datos de configuración que haya introducido.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "Cuando las infracciones persisten en el tiempo",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Las infracciones persisten a intervalos aleatorios",
@@ -1001,8 +1013,7 @@
           "persistenceType": "Tipo de persistencia",
           "numberOfConsecutiveViolationsPostLabel": "ventanas consecutivas de {{granularity}} de minutos tienen infracciones",
           "static": "Estático",
-          "thresholdValue": "Valor del umbral",
-          "timeWindow": "Ventana de tiempo"
+          "thresholdValue": "Valor del umbral"
         }
       }
     },
@@ -1248,11 +1259,32 @@
         "alertConfigurationTitleAlertChannels": "Canales de alertas",
         "alertConfigurationTitleAlertProperties": "Propiedades de alerta",
         "failureThreshold": "{{failureCount}} anomalías",
+        "gracePeriodValue": "{{gracePeriodValue}}",
+        "gracePeriod": "Período de gracia",
         "alertConfigurationTitleScope": "Ámbito",
         "noOfFailure": "Número de anomalías",
         "timeThreshold": "Umbral de tiempo",
         "alertingType": "Tipo de alerta",
         "noScopeConfigured": "No se ha configurado ningún filtro de ámbito"
+      },
+      "tearSheet": {
+        "createTitle": "Crear una alerta inteligente sintética",
+        "scopeFilter": {
+          "filter": "Filtrar",
+          "filterDescription": "Añada filtros a las pruebas sintéticas para obtener alertas más precisas."
+        },
+        "steps": {
+          "step1Title": "Elija pruebas sintéticas.",
+          "step2Title": "Defina cuándo recibir alertas."
+        },
+        "step1": {
+          "header": "¿Sobre qué pruebas sintéticas desea que se le notifique?",
+          "description": "Las alertas individuales se enviarán de forma independiente para cada prueba sintética, por ubicación."
+        },
+        "step2": {
+          "sliderHeader": "Establecer cuándo las infracciones activan alertas",
+          "sliderDescription": "Especifique cuántos errores consecutivos deben producirse por ubicación antes de que se active la alerta."
+        }
       }
     },
     "mobileApp": {
@@ -1520,6 +1552,7 @@
       "regexNotValid": "La expresión regular no es válida",
       "tearSheet": {
         "createTitle": "Crear una alerta inteligente de infraestructura",
+        "editTitle": "Editar una alerta inteligente de infraestructura",
         "steps": {
           "step1Title": "Definir la condición",
           "step2Title": "Definir cuándo se debe enviar alerta",
@@ -1537,7 +1570,7 @@
           "header": "¿Qué propiedades desea establecer para esta alerta?"
         },
         "step4": {
-          "header": "¿Qué desea que se le notifique para esta alerta?",
+          "header": "¿Dónde quiere que se le notifique esta alerta?",
           "description": "Seleccione el destinatario o destinatarios de esta alerta"
         },
         "scopeAlerting": {
@@ -1647,14 +1680,57 @@
         "customPayloads": {
           "label": "Cargas útiles",
           "title": "Carga útil personalizada"
-        },
-        "thresholdValue": "Valor del umbral"
+        }
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Proporcione un número >= 0",
+        "selectAtLeastOneThreshold": "Proporcione el valor de al menos uno de los umbrales.",
         "noDataForSelectedGroup": "No hay datos disponibles para los filtros y la combinación de agrupación especificados."
       },
-      "logCount": "Recuento de registros"
+      "logCount": "Recuento de registros",
+      "tearSheet": {
+        "labelActionButtonEdit": "Editar",
+        "labelActionButtonDuplicate": "Duplicado",
+        "createTitle": "Crear una alerta inteligente de registro",
+        "editTitle": "Editar Alerta inteligente de registro",
+        "steps": {
+          "step1Title": "Definir la condición",
+          "step2Title": "Definir cuándo se debe enviar alerta",
+          "step3Title": "Definir propiedades de alertas",
+          "step4Title": "Definir canales de alerta"
+        },
+        "step2": {
+          "header": "Establecer un valor para el umbral de infracción",
+          "description": "Seleccione una métrica, un umbral de infracción y una ventana temporal para evaluar la infracción."
+        },
+        "step3": {
+          "header": "¿Qué propiedades desea establecer para esta alerta?"
+        },
+        "step4": {
+          "header": "¿Dónde quiere que se le notifique esta alerta?",
+          "description": "Seleccione el destinatario o destinatarios de esta alerta"
+        },
+        "scopeFilter": {
+          "title": "Elija el ámbito de los registros",
+          "filter": "Filtrar",
+          "filterDescription": "Añada filtros al contenido de los mensajes de registro, a los registros o a ambos para obtener alertas más precisas."
+        },
+        "granularity": {
+          "description": "Los registros se evalúan en intervalos de {{granularity}} minutos y se calcula un valor de métrico para ese intervalo"
+        },
+        "scopeGroupBy": {
+          "group": "Grupo",
+          "groupByDescription": "Añada agrupación a los registros. Cada entrada dentro del grupo se configura colectivamente, pero se evalúa individualmente."
+        },
+        "timeThreshold": {
+          "title": "Establecer cuándo las infracciones activan alertas",
+          "description": "Especifique la persistencia en el tiempo para la activación de alertas y el tiempo hasta el error."
+        },
+        "thresholdDescription": {
+          "static": "Se aplica un valor de umbral constante y no cambia con el tiempo."
+        },
+        "chartAlertPreview": "Vista preliminar de alertas",
+        "chartAlertPreviewDescription": "Muestra cómo se habrían activado las alertas en función de los datos métricos históricos."
+      }
     },
     "slo": {
       "components": {
@@ -1696,7 +1772,7 @@
         "blueprintDescription_BURN_RATE": "La tasa de consumo es un valor que indica la rapidez con la que se consume el presupuesto de errores en relación con la longitud objetivo de su SLO.",
         "burnRateShortWindowTitle": "Ventana de alerta corta",
         "burnRateShortWindowDescription": "Estas alertas se activarán cuando la tasa de error supere el umbral más rápidamente durante un periodo más corto. Esto puede ayudar a capturar un repentino pico de errores o tiempo de inactividad debido a un fallo crítico.",
-        "burnRateDescription": "Avísame cuando la tasa de consumo sea <1/> <2/>.",
+        "burnRateDescription": "Avísame cuando la tasa de consumo sea <1/> <2/>",
         "burnRateLongWindowTitle": "Ventana de alerta larga",
         "burnRateLongWindowDescription": "Estas alertas se activarán cuando la tasa de errores supere el umbral durante un periodo de tiempo prolongado. Esto ayuda a identificar problemas acumulados a lo largo del tiempo que podrían causar problemas en el futuro si no se abordan.",
         "burnRateShortWindowLongerThanLongWindowError": "La ventana corta no puede superar a la ventana larga. Por favor, ajuste cualquiera de los valores.",
@@ -1777,6 +1853,7 @@
     "warningAndCritical": "Advertencia y Crítico",
     "warning": "Aviso",
     "critical": "Crítico",
-    "searchPlaceholder": "Búsqueda"
+    "searchPlaceholder": "Búsqueda",
+    "sortBy": "Ordenar por"
   }
 }

@@ -10,7 +10,15 @@ import {
   useDaemonSetDashboard,
   useDeploymentDashboard,
   useDeploymentConfigDashboard,
-  useStatefulSetDashboard
+  useStatefulSetDashboard,
+  nodesDashboard,
+  namespaceList,
+  deploymentsDashboard,
+  daemonSetsDashboard,
+  statefulSetsDashboard,
+  cronJobsDashboard,
+  servicesDashboard,
+  podsDashboard
 } from 'in-kubernetes/navigation/paths';
 import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
@@ -28,15 +36,14 @@ import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Servi
 import Infrastructure from 'in-kubernetes/Dashboards/Cluster/tabs/Infrastructure';
 import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
+import { controlPlaneEnabled, kubecostEnabled } from 'in-services/featureFlags';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
 import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import KubeCost from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost';
 import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
-import { controlPlaneEnabled } from 'in-services/featureFlags';
+import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/Summary';
 import Pods from 'in-kubernetes/Dashboards/Cluster/tabs/Pods';
-import { kubecostEnabled } from 'in-services/featureFlags';
 import { getTimeConfig } from 'in-stores/time/config';
-import Summary from './Summary';
 import { t } from 'in-i18n';
 
 export default [
@@ -63,26 +70,26 @@ export default [
   },
   {
     label: t('in-kubernetes:dashboards.nodes'),
-    path: `${clusterDashboardFullyQualified}/nodes`,
+    path: `${clusterDashboardFullyQualified}${nodesDashboard}`,
     component: Nodes,
     header: props => getCounterComponent(props, v => v.nodes)
   },
   {
     label: t('in-kubernetes:dashboards.namespaces'),
-    path: `${clusterDashboardFullyQualified}/namespaces`,
+    path: `${clusterDashboardFullyQualified}${namespaceList}`,
     component: Namespaces,
     header: props => getCounterComponent(props, v => v.namespaces)
   },
   {
     label: t('in-kubernetes:dashboards.deployments'),
-    path: `${clusterDashboardFullyQualified}/deployments`,
+    path: `${clusterDashboardFullyQualified}${deploymentsDashboard}`,
     component: props =>
       WorkloadControllers({
         ...props,
         workloadControllerType: 'deployment',
         getWorkloadControllers$: getKubernetesDeployments,
         getWorkloadControllerDashboard: useDeploymentDashboard,
-        pathSegment: '/deployments',
+        pathSegment: deploymentsDashboard,
         entityName: 'deployments'
       }),
     header: props => getCounterComponent(props, v => v.workloads.deployments)
@@ -103,47 +110,47 @@ export default [
   },
   {
     label: t('in-kubernetes:dashboards.daemonSets'),
-    path: `${clusterDashboardFullyQualified}/daemonsets`,
+    path: `${clusterDashboardFullyQualified}${daemonSetsDashboard}`,
     component: props =>
       WorkloadControllers({
         ...props,
         workloadControllerType: 'daemonset',
         getWorkloadControllers$: getKubernetesDaemonSets,
         getWorkloadControllerDashboard: useDaemonSetDashboard,
-        pathSegment: '/daemonsets',
+        pathSegment: daemonSetsDashboard,
         entityName: 'daemonsets'
       }),
     header: props => getCounterComponent(props, v => v.workloads.daemonSets)
   },
   {
     label: t('in-kubernetes:dashboards.statefulSets'),
-    path: `${clusterDashboardFullyQualified}/statefulsets`,
+    path: `${clusterDashboardFullyQualified}${statefulSetsDashboard}`,
     component: props =>
       WorkloadControllers({
         ...props,
         workloadControllerType: 'statefulset',
         getWorkloadControllers$: getKubernetesStatefulSets,
         getWorkloadControllerDashboard: useStatefulSetDashboard,
-        pathSegment: '/statefulsets',
+        pathSegment: statefulSetsDashboard,
         entityName: 'statefulsets'
       }),
     header: props => getCounterComponent(props, v => v.workloads.statefulSets)
   },
   {
     label: t('in-kubernetes:dashboards.cronJobs'),
-    path: `${clusterDashboardFullyQualified}/cronjobs`,
+    path: `${clusterDashboardFullyQualified}${cronJobsDashboard}`,
     component: CronJobs,
     header: props => getCounterComponent(props, v => v.cronJobs)
   },
   {
     label: t('in-kubernetes:dashboards.k8SServices'),
-    path: `${clusterDashboardFullyQualified}/services`,
+    path: `${clusterDashboardFullyQualified}${servicesDashboard}`,
     component: Services,
     header: props => getCounterComponent(props, v => v.services)
   },
   {
     label: t('in-kubernetes:dashboards.pods'),
-    path: `${clusterDashboardFullyQualified}/pods`,
+    path: `${clusterDashboardFullyQualified}${podsDashboard}`,
     component: Pods,
     header: props => getCounterComponent(props, v => v.workloads.pods),
     stickToBottom: true

@@ -11,6 +11,7 @@ import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/Ung
 import { FacetedSearchPresenter } from 'in-websites/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
+import { ChartsPresenter } from 'in-websites/analyze/AnalyzeView2_0/components/ChartsPresenter';
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
 import getWebsitePartialBeacons from 'in-websites/subscriptions/getWebsitePartialBeacons';
 import { websiteBeaconQueryOptimizationEnabled } from 'in-services/featureFlags';
@@ -20,7 +21,6 @@ import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { useLinkToWebsite } from 'in-websites/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
-import { ChartsPresenter } from './ChartsPresenter';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

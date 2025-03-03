@@ -11,17 +11,17 @@
   "ipAddress": "Dirección IP",
   "machineTypeModel": "Modelo de tipo de máquina",
   "machineSerial": "Serie de máquina",
-  "mode": "Modalidad",
+  "mode": "Modo",
   "noMonitoringData": "No hay datos de supervisión",
   "explanation": "No está disponible en esta modalidad de sistema",
   "status": "Estado",
   "breadcrumbs": {
-    "zhmc": "zHMC",
+    "zhmc": "ZHMC",
     "zhmcs": "zHMCs",
     "systems": "Sistemas"
   },
   "dashboards": {
-    "zhmc": "zHMC",
+    "zhmc": "ZHMC",
     "systems": "Sistemas",
     "summary": "Resumen",
     "environmentalAndPower": "Medio Ambiente y energía",

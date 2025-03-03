@@ -13,8 +13,6 @@ import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import EmptyList from 'in-components/lists/List/sharedComponents/EmptyList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import ApiListHeader from 'in-settings/components/ApiList/ApiListHeader';
-import { carbonPaginationEnabled } from 'in-services/featureFlags';
-import Pagination from 'in-components/Pagination';
 
 export default function renderDefaultList(props) {
   return (
@@ -49,19 +47,14 @@ export default function renderDefaultList(props) {
             {message && <TemporaryMessage {...message} duration={retainMessagesAfter} />}
             <ApiListHeader {..._props} totalFilteredItems={totalFilteredItems} totalItems={totalItems} />
             {content}
-
-            {numPages > 1 && carbonPaginationEnabled ? (
-              <>
-                <CarbonPagination
-                  currentPage={page}
-                  totalItems={totalFilteredItems}
-                  pageSize={numPages}
-                  pageSizes={[numPages]}
-                  onChange={p => setPage(p.page)}
-                />
-              </>
-            ) : (
-              <Pagination currentPage={page} numPages={numPages} onChange={setPage} />
+            {numPages > 1 && (
+              <CarbonPagination
+                currentPage={page}
+                totalItems={totalFilteredItems}
+                pageSize={numPages}
+                pageSizes={[numPages]}
+                onChange={p => setPage(p.page)}
+              />
             )}
           </>
         );

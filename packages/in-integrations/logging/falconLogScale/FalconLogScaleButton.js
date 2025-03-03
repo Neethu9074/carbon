@@ -7,12 +7,15 @@ import React from 'react';
 
 import { CarbonMenuItem, SvgIcon } from '@instana/components';
 
+import { integrationKey as falconLogScaleIntegrationKey } from 'in-integrations/logging/falconLogScale/consts';
 import { formatDurationAccurately } from 'in-services/formatters/date';
+import { useJumpToThirdParty } from 'in-integrations/logging/tracking';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { isBlank } from 'in-services/util/string';
 
 export default function FalconLogScaleButton(props) {
   const { falconLogScaleIntegration: integration } = props;
+  const jumpToThirdParty = useJumpToThirdParty();
 
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
@@ -24,7 +27,10 @@ export default function FalconLogScaleButton(props) {
         return <SvgIcon type="lib_humio" />;
       }}
       label="Falcon Log Scale"
-      onClick={() => window.open(constructFalconLogScaleLink(integration, props), '_blank')}
+      onClick={() => {
+        jumpToThirdParty(falconLogScaleIntegrationKey);
+        window.open(constructFalconLogScaleLink(integration, props), '_blank');
+      }}
     />
   );
 }

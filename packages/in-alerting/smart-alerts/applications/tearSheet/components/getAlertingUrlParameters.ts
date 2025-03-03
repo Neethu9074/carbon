@@ -38,10 +38,7 @@ export default function getAlertingUrlParameters(location: Location) {
   const endpointId = getMatrixParameter(location, smartAlertPath, endpointIdFromURL) ?? undefined;
   const eventSpecificationId = getMatrixParameter(location, smartAlertPath, eventId) ?? '';
 
-  const cancelTearSheet = (): string => {
-    return getMatrixParameter(location, smartAlertPath, cancelUrl) ?? applicationsList;
-  };
-
+  const cancelTearSheet = getMatrixParameter(location, smartAlertPath, cancelUrl) ?? applicationsList;
   return {
     migrationMode,
     editMode,

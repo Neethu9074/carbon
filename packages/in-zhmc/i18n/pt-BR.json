@@ -1,8 +1,8 @@
 {
   "zhmcs": "zHMCs",
-  "hostname": "Nome do Host",
+  "hostname": "Nome do host",
   "name": "Nome",
-  "systems": "Systems",
+  "systems": "Sistemas",
   "partitions": "Partições",
   "adapters": "Adaptadores",
   "ibmzZhmcs": "HMCs do IBM Z",
@@ -18,11 +18,11 @@
   "breadcrumbs": {
     "zhmc": "zHMC",
     "zhmcs": "zHMCs",
-    "systems": "Systems"
+    "systems": "Sistemas"
   },
   "dashboards": {
     "zhmc": "zHMC",
-    "systems": "Systems",
+    "systems": "Sistemas",
     "summary": "Resumo",
     "environmentalAndPower": "Ambiental e Energia",
     "channel": "Canal",

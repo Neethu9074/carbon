@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ChangeEvent, ReactElement, useState } from 'react';
+import { ChangeEvent, ReactElement, useEffect, useState } from 'react';
 import { Add } from '@carbon/icons-react';
 import React from 'react';
 
@@ -31,35 +31,47 @@ import {
   CarbonTableBatchActions as TableBatchActions,
   CarbonInlineLoading as InlineLoading,
   CarbonIconButton as IconButton,
-  Tooltip
+  Tooltip,
+  CarbonEmptyState,
+  CarbonToastNotification as ToastNotification
 } from '@instana/components';
+import { generateUniqueShortId } from '@instana/utils';
 import { Observable } from '@instana/observables';
 import { createLogger } from '@instana/logger';
 import { t, Trans } from '@instana/i18n-react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import useUrlState from 'in-hooks/useUrlState';
 
 import locals from './CarbonDataTableWrapper.mless';
 
-interface OverflowMenuItemProps {
+export interface Notification {
+  readonly key?: string;
+  readonly kind: 'error' | 'info' | 'success' | 'warning';
+  readonly title: string;
+  readonly subtitle?: string;
+  readonly caption?: string;
+  readonly timeout?: number;
+}
+
+export interface OverflowMenuItemProps {
   label?: string;
   actionType: string;
   text?: string;
   icon?: JSX.Element;
 }
-interface BatchActionItemProps {
+
+export interface BatchActionItemProps {
   renderIcon: React.ElementType<any> | undefined;
   actionName: string;
   actionType: string;
 }
 
-export interface DataTableCell<ItemType extends Object> {
+export interface DataTableCell<ITEM_TYPE extends Object> {
   id: string;
-  value: ItemType;
+  value: ITEM_TYPE;
   isEditable: boolean;
   isEditing: boolean;
   isValid: boolean;
@@ -76,47 +88,62 @@ export interface DataTableHeader {
   slug?: React.ReactElement;
 }
 
-export interface DataTableRow<ColTypes extends any[]> {
+export interface DataTableRow<COL_TYPE extends any[], ROW_DATA_TYPE extends Record<string, any>> {
   id: string;
-  cells: DataTableCells<ColTypes>;
+  cells: DataTableCells<COL_TYPE>;
   disabled?: boolean;
   isExpanded?: boolean;
   isSelected?: boolean;
-  rowData?: Object | any;
+  rowData: ROW_DATA_TYPE;
 }
 
-export interface TableActions<ItemType extends Object> {
+export interface TableActions<ITEM_TYPE extends Object> {
   delete?: {
-    deleteEntity: (entity: ItemType) => Observable<any> | undefined;
+    deleteEntity: (entity: ITEM_TYPE) => Observable<any> | undefined;
     batchDeleteEntity?: (entity: string[]) => Observable<any> | undefined;
   };
 }
 
-interface CarbonDataTableWrapperProps<ItemType extends Object> {
+type TableRows<ROW_OBJECT_TYPE extends Object, ROW_DATA_TYPE extends Object> = Omit<
+  DataTableRow<any[], ROW_DATA_TYPE>,
+  'cells'
+> &
+  ROW_OBJECT_TYPE;
+
+interface CarbonDataTableWrapperProps<
+  ROW_OBJECT_TYPE extends Object,
+  ROW_DATA_TYPE extends Record<string, any>,
+  COL_TYPE extends any[]
+> {
   title: string;
-  tableHeaders: DataTableHeader[];
-  tableRows: Array<Omit<DataTableRow<any>, 'cells'>>;
-  getMenuItems: (row: DataTableRow<any[]>) => OverflowMenuItemProps[];
-  getBatchActionItems?: () => BatchActionItemProps[];
+  tableHeaders: Readonly<DataTableHeader[]>;
+  tableRows: Array<TableRows<ROW_OBJECT_TYPE, ROW_DATA_TYPE>>;
+  getMenuItems: (row: Omit<DataTableRow<COL_TYPE, ROW_DATA_TYPE>, 'rowData'>) => Readonly<OverflowMenuItemProps[]>;
+  getBatchActionItems?: () => Readonly<BatchActionItemProps[]>;
   labelNew: string;
   loading: boolean;
   onCreateNew?: () => void;
   searchPlaceholderText: string;
-  initalSortConfig: { key: string; direction: string };
+  initalSortConfig: Readonly<{ key: string; direction: string }>;
   boundedPath?: string;
-  pageSizes: number[];
+  pageSizes: Readonly<number[]>;
   enableMultSelect?: boolean;
-  customDialogMessage?: (entity: ItemType) => string | ReactElement<any> | undefined;
-  customBatchDeleteMessage?: (entities: ItemType[]) => string | ReactElement<any> | undefined;
+  customDialogMessage?: (entity: ROW_DATA_TYPE) => string | ReactElement<any> | undefined;
+  customBatchDeleteMessage?: (entities: ROW_DATA_TYPE[]) => string | ReactElement<any> | undefined;
   customDialogConfirmLabel?: string;
-  tableActions: TableActions<ItemType>;
-  getEntityName: (element: ItemType) => string;
-  searchAttributes?: any;
+  tableActions: Readonly<TableActions<ROW_DATA_TYPE>>;
+  getEntityName: (element: ROW_DATA_TYPE) => string;
+  message?: Notification | null;
+  searchAttributes: Array<keyof ROW_DATA_TYPE>;
 }
 
 const logger = createLogger('SettingsList');
 
-export default function CarbonDataTableWrapper<ItemType extends Object>(props: CarbonDataTableWrapperProps<ItemType>) {
+export default function CarbonDataTableWrapper<
+  ROW_OBJECT_TYPE extends Object,
+  ROW_DATA_TYPE extends Record<string, any>,
+  COL_TYPE extends any[]
+>(props: CarbonDataTableWrapperProps<ROW_OBJECT_TYPE, ROW_DATA_TYPE, COL_TYPE>) {
   const {
     title,
     tableHeaders,
@@ -136,8 +163,11 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
     customDialogConfirmLabel,
     customDialogMessage,
     customBatchDeleteMessage,
-    searchAttributes
+    searchAttributes,
+    message
   } = props;
+
+  if (!searchAttributes.length) throw new Error('At least one search attribute must be defined.');
 
   const [{ query, page }, setState] = useUrlState({
     bind: [
@@ -160,15 +190,17 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
   const [pageSize, setPageSize] = useState(pageSizes[0]);
   const [loadingRow, setLoadingRow] = useState(null);
   const [isBatchDeleting, setIsBatchDeleting] = useState(false);
-
+  const [notification, setNotification] = useState<Notification>();
   const isLoading = loading && tableRows?.length == 0;
+  const isEmptyState = !loading && tableRows?.length == 0;
 
   const filteredRows = tableRows.filter(item => {
-    return searchAttributes.some((key: string) => {
+    return searchAttributes.some(key => {
       const fieldValue = item.rowData[key] ? item.rowData[key].toString().toLowerCase() : '';
       return fieldValue.includes(searchQuery.toLowerCase());
     });
   });
+
   const sortedRows =
     sortConfig.key && filteredRows?.length > 0
       ? [...filteredRows].sort((a, b) => {
@@ -179,8 +211,15 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
           return 0;
         })
       : filteredRows;
+
   const startIndex = (currentPage - 1) * pageSize;
   const paginatedRows = sortedRows?.slice(startIndex, startIndex + pageSize);
+
+  useEffect(() => {
+    if (message) {
+      setNotification({ key: generateUniqueShortId(), ...message });
+    }
+  }, [message]);
 
   const handlePageChange = (page: number, pageSize: number) => {
     setCurrentPage(page);
@@ -203,12 +242,12 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
     setSortConfig({ key, direction });
   };
 
-  const handleDeleteActions = (row: DataTableRow<any>) => {
+  const handleDeleteActions = (row: DataTableRow<COL_TYPE, ROW_DATA_TYPE>) => {
     const deleteEntity = { ...tableActions.delete };
     const entity = paginatedRows.filter(item => item.id === row.id)[0].rowData;
     return addActiveDialog(
       <ConfirmationDialog
-        header={t('in-settings:components.pleaseConfirm')}
+        header={t('in-settings:components.confirmRemove')}
         description={
           customDialogMessage ? (
             customDialogMessage(entity)
@@ -225,13 +264,22 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
           setLoadingRow(entity.id);
           deletion$?.once(() => {
             setLoadingRow(null);
+            setNotification({
+              key: generateUniqueShortId(),
+              kind: 'success',
+              title: t('in-settings:components.removedEntity', {
+                entity: getEntityName(entity)
+              }),
+              timeout: 10000
+            });
           });
           deletion$?.errors().once((error: Error) => {
-            const errorMessage = t('in-settings:components.failedToRemoveItem') + ` (${entity.id}): ${error.message}`;
-            logger.error(errorMessage, error);
-            addMessage({
-              type: 'danger',
-              content: errorMessage
+            logger.error(error.message, error);
+            setNotification({
+              key: generateUniqueShortId(),
+              kind: 'error',
+              title: t('in-settings:components.failedToRemoveItem'),
+              subtitle: `(${entity.id}): ${error.message}`
             });
             setLoadingRow(null);
           });
@@ -241,7 +289,7 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
     );
   };
 
-  const handleBatchDeleteActions = (selectedRows: DataTableRow<any[]>[]) => {
+  const handleBatchDeleteActions = (selectedRows: DataTableRow<COL_TYPE, ROW_DATA_TYPE>[]) => {
     const deleteEntity = { ...tableActions.delete };
     const entities = paginatedRows
       .filter(item => selectedRows.some(selectedRow => selectedRow.id === item.id))
@@ -249,7 +297,7 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
     const selectedIds = entities.map(entity => entity.id);
     return addActiveDialog(
       <ConfirmationDialog
-        header={t('in-settings:components.pleaseConfirm')}
+        header={t('in-settings:components.confirmRemove')}
         description={
           customBatchDeleteMessage ? (
             customBatchDeleteMessage(entities)
@@ -271,17 +319,24 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
           const deletion$ = deleteEntity.batchDeleteEntity?.(selectedIds);
           deletion$?.once(() => {
             setIsBatchDeleting(false);
+            setNotification({
+              kind: 'success',
+              title: t('in-settings:components.removedEntity', {
+                entity: t('in-settings:tabs.noOfItemsSelected', { noOfItemsSelected: selectedRows?.length })
+              }),
+              timeout: 10000
+            });
           });
           deletion$?.errors().once((error: Error) => {
             setIsBatchDeleting(false);
-            const errorMessage =
-              t('in-settings:components.failedToRemoveItemName', {
+            logger.error(error.message, error);
+            setNotification({
+              kind: 'error',
+              title: t('in-settings:components.failedToRemoveItemName', {
                 itemName: t('in-settings:tabs.noOfItemsSelected', { noOfItemsSelected: selectedRows?.length })
-              }) + `: ${error.message}`;
-            logger.error(errorMessage, error);
-            addMessage({
-              type: 'danger',
-              content: errorMessage
+              }),
+              subtitle: error.message,
+              timeout: 10000
             });
           });
         }}
@@ -289,9 +344,22 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
       />
     );
   };
+
   return (
     <>
-      <DataTable rows={paginatedRows} headers={tableHeaders} isSortable>
+      {notification && notification?.title && (
+        <ToastNotification
+          key={notification?.key}
+          kind={notification.kind}
+          title={notification.title}
+          subtitle={notification.subtitle}
+          lowContrast
+          timeout={notification.timeout}
+          className={locals.toastMessage}
+          caption={notification.caption}
+        />
+      )}
+      <DataTable rows={paginatedRows} headers={[...tableHeaders]} isSortable>
         {({
           rows,
           headers,
@@ -322,7 +390,7 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
               {...getTableContainerProps()}
             >
               {isLoading ? (
-                <TableSkeleton showHeader={false} zebra showToolbar={false} />
+                <TableSkeleton showHeader={false} zebra showToolbar={false} columnCount={tableHeaders.length} />
               ) : (
                 <>
                   <TableToolbar {...getToolbarProps()}>
@@ -334,7 +402,8 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
                           renderIcon={batchActionItem.renderIcon}
                           disabled={batchActionItem.actionType === 'delete' && isBatchDeleting}
                           onClick={() => {
-                            if (batchActionItem.actionType === 'delete') handleBatchDeleteActions(selectedRows);
+                            if (batchActionItem.actionType === 'delete')
+                              handleBatchDeleteActions(selectedRows as DataTableRow<COL_TYPE, ROW_DATA_TYPE>[]);
                           }}
                         >
                           {batchActionItem.actionName}
@@ -366,7 +435,9 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
                   <Table {...getTableProps()} aria-label={title}>
                     <TableHead>
                       <TableRow>
-                        {enableMultSelect && <TableSelectAll {...(getSelectionProps({} as any) as any)} />}
+                        {enableMultSelect && !isEmptyState && (
+                          <TableSelectAll {...(getSelectionProps({} as any) as any)} />
+                        )}
                         {headers.map(header => (
                           <TableHeader
                             // @ts-expect-error no correct typedef for Table header
@@ -382,71 +453,98 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
                         <TableHeader />
                       </TableRow>
                     </TableHead>
-                    <TableBody>
-                      {rows.map(row => (
-                        <TableRow
-                          // @ts-expect-error no correct typedef for TableRow
-                          key={row.id}
-                          {...getRowProps({
-                            row
-                          })}
-                        >
-                          {enableMultSelect && <TableSelectRow {...(getSelectionProps({ row }) as any)} />}
-                          {row.cells.map(cell => (
-                            <TableCell key={cell.id}>{cell.value}</TableCell>
-                          ))}
-                          {getMenuItems(row)?.length > 3 ? (
-                            <TableCell className="cds--table-column-menu">
-                              <OverflowMenu disabled={row.disabled}>
-                                {getMenuItems(row).map((item, index) => (
-                                  <OverflowMenuItem
-                                    key={index}
-                                    onClick={() => {
-                                      if (item.actionType === 'delete') handleDeleteActions(row);
-                                    }}
-                                    itemText={item.text}
-                                    data-testid={`${item.actionType}Icon`}
-                                  >
-                                    {item.text}
-                                  </OverflowMenuItem>
-                                ))}
-                              </OverflowMenu>
-                            </TableCell>
-                          ) : (
-                            <TableCell>
-                              {getMenuItems(row).map((item, index) => (
-                                <span key={row.id}>
-                                  {item.actionType === 'delete' && loadingRow === row.id ? (
-                                    <InlineLoading className={locals.loadingIcon} />
-                                  ) : row.disabled ? (
-                                    // as disabled icon button doesn't show the tooltip
-                                    <Tooltip content={item.label} delay={500}>
-                                      <IconButton label={item.label} disabled={row.disabled} key={index} kind="ghost">
-                                        {item.icon}
-                                      </IconButton>
-                                    </Tooltip>
-                                  ) : (
-                                    <IconButton
-                                      disabled={row.disabled}
-                                      kind="ghost"
-                                      label={item.label}
-                                      key={index}
-                                      onClick={() => {
-                                        if (item.actionType === 'delete') handleDeleteActions(row);
-                                      }}
-                                      data-testid={`${item.actionType}Icon`}
-                                      autoAlign
-                                    >
-                                      {item.icon}
-                                    </IconButton>
-                                  )}
-                                </span>
-                              ))}
-                            </TableCell>
-                          )}
+                    {isEmptyState && (
+                      <TableBody>
+                        <TableRow>
+                          <TableCell colSpan={tableHeaders.length}>
+                            <CarbonEmptyState
+                              icon="lib_carbon_empty_state"
+                              title={message?.kind === 'error' ? t('in-settings:components.errorTitle') : ''}
+                              text={t('in-settings:components.noDataAvailable')}
+                              className={locals.emptyState}
+                            />
+                          </TableCell>
                         </TableRow>
-                      ))}
-                    </TableBody>
+                      </TableBody>
+                    )}
+                    {!isEmptyState && (
+                      <TableBody>
+                        {rows.map(row => (
+                          <TableRow
+                            // @ts-expect-error no correct typedef for TableRow
+                            key={row.id}
+                            {...getRowProps({
+                              row
+                            })}
+                          >
+                            {enableMultSelect && <TableSelectRow {...(getSelectionProps({ row }) as any)} />}
+                            {row.cells.map(cell => (
+                              <TableCell key={cell.id}>{cell.value}</TableCell>
+                            ))}
+                            {getMenuItems(row as Omit<DataTableRow<COL_TYPE, ROW_DATA_TYPE>, 'rowData'>)?.length > 3 ? (
+                              <TableCell className="cds--table-column-menu">
+                                <OverflowMenu disabled={row.disabled}>
+                                  {getMenuItems(row as Omit<DataTableRow<COL_TYPE, ROW_DATA_TYPE>, 'rowData'>).map(
+                                    (item, index) => (
+                                      <OverflowMenuItem
+                                        key={index}
+                                        onClick={() => {
+                                          if (item.actionType === 'delete')
+                                            handleDeleteActions(row as DataTableRow<COL_TYPE, ROW_DATA_TYPE>);
+                                        }}
+                                        itemText={item.text}
+                                        data-testid={`${item.actionType}Icon`}
+                                      >
+                                        {item.text}
+                                      </OverflowMenuItem>
+                                    )
+                                  )}
+                                </OverflowMenu>
+                              </TableCell>
+                            ) : (
+                              <TableCell>
+                                {getMenuItems(row as Omit<DataTableRow<COL_TYPE, ROW_DATA_TYPE>, 'rowData'>).map(
+                                  (item, index) => (
+                                    <span key={row.id}>
+                                      {item.actionType === 'delete' && loadingRow === row.id ? (
+                                        <InlineLoading className={locals.loadingIcon} />
+                                      ) : row.disabled ? (
+                                        // as disabled icon button doesn't show the tooltip
+                                        <Tooltip content={item.label} delay={500}>
+                                          <IconButton
+                                            label={item.label}
+                                            disabled={row.disabled}
+                                            key={index}
+                                            kind="ghost"
+                                          >
+                                            {item.icon}
+                                          </IconButton>
+                                        </Tooltip>
+                                      ) : (
+                                        <IconButton
+                                          disabled={row.disabled}
+                                          kind="ghost"
+                                          label={item.label}
+                                          key={index}
+                                          onClick={() => {
+                                            if (item.actionType === 'delete')
+                                              handleDeleteActions(row as DataTableRow<COL_TYPE, ROW_DATA_TYPE>);
+                                          }}
+                                          data-testid={`${item.actionType}Icon`}
+                                          autoAlign
+                                        >
+                                          {item.icon}
+                                        </IconButton>
+                                      )}
+                                    </span>
+                                  )
+                                )}
+                              </TableCell>
+                            )}
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    )}
                   </Table>
                 </>
               )}
@@ -454,10 +552,10 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
           );
         }}
       </DataTable>
-      {!isLoading && (
+      {tableRows?.length > 0 && (
         <Pagination
           totalItems={filteredRows.length}
-          pageSizes={pageSizes}
+          pageSizes={[...pageSizes]}
           page={currentPage}
           pageSize={pageSize}
           onChange={data => handlePageChange(data.page, data.pageSize)}

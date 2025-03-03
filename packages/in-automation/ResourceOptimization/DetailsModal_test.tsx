@@ -136,6 +136,7 @@ const props: DetailsModalProps = {
         sensor_name: 'com.instana.agent',
         entity_id: 'self'
       },
+      pollRate: 20,
       processorTags: [],
       metricIds: [
         'sensors.scheduler.poolStats.scheduler.activeCount',

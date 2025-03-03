@@ -8,7 +8,6 @@ import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { themes } from '@instana/design-tokens';
-import { t } from '@instana/i18n-react';
 
 import NoValueKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/NoValueKpiCard';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
@@ -16,6 +15,7 @@ import { createSloPercentageFormatter } from 'in-service-levels/utils/format';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { sloMetrics } from 'in-service-levels/metrics';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { t } from 'in-i18n';
 
 interface SloStatusKpiCardProps {
   configuration: ServiceLevelObjectiveConfiguration;

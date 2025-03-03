@@ -27,6 +27,7 @@ import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/create
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfigDialog from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
 import AlertConfiguration from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
@@ -34,9 +35,9 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPad
 import LogsAlertsTabHeader from 'in-alerting/smart-alerts/logs/LogsAlertsTabHeader';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import { logSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
-import { LogAlertConfigWithMetadata, Nullish } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
+import { Nullish } from 'in-types';
 
 interface AlertDetailsProps {
   isLogsDashboardHeader?: boolean;
@@ -81,13 +82,13 @@ export default function AlertDetails({ isLogsDashboardHeader = false }: AlertDet
     </>
   );
 }
-function renderAlertConfiguration({ alertConfig }: { alertConfig: LogAlertConfigWithMetadata }) {
+function renderAlertConfiguration({ alertConfig }: { alertConfig: LogSmartAlertConfigWithMetadata }) {
   return <AlertConfiguration alertConfig={alertConfig} />;
 }
 
 interface SmartAlertDialogWrapperProps {
   close: () => void;
-  alertConfig: LogAlertConfigWithMetadata;
+  alertConfig: LogSmartAlertConfigWithMetadata;
   setRevision: (arg: string | Nullish) => void;
   isCopy: boolean;
 }

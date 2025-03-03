@@ -6,8 +6,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 
-import { Message, SvgIcon, Link, Pill, DashboardButtonProps } from '@instana/components';
-import { create, Observable, Subject } from '@instana/observables';
+import { create, Observable, Subject, timeout } from '@instana/observables';
+import { Message, SvgIcon, Link, Pill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error SplitScreenTraceDetailContent needs ts migration
@@ -22,6 +22,7 @@ import {
 // @ts-expect-error ColorGenerator needs ts migration
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import { analyzeTagFilterExpression } from 'in-applications/analyze/AnalyzeView2_0/components/analyzeTagFilter';
+import { DashboardButtonProps } from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView/types';
 import { Endpoint, Nullish, Result, Service, TagFilterExpressionElementUnion, TraceSummary } from 'in-types';
 import DashboardHeaderContext from 'in-components/DashboardHeader/DashboardHeaderContext';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
@@ -170,17 +171,19 @@ function useRetriableObservable({
   }
 
   const timeConfig = useTimeConfig();
-  const traceSummary = useObservable(getTraceSummaryRetriable, [traceId, retry]) ?? pendingResult;
+  const traceSummary =
+    useObservable(getTraceSummaryRetriable, [traceId, retry]) ?? (pendingResult as Result<TraceSummary>);
+
+  const traceDataMissing = hasError(traceSummary) || (!isLoading(traceSummary) && traceSummary.data?.callCount === 0);
+  const shouldRetry = traceDataMissing && isAlmostNow(timeConfig.to) && retry < retries;
 
   useEffect(() => {
-    const traceDataMissing = hasError(traceSummary) || (!isLoading(traceSummary) && traceSummary.data.callCount === 0);
-    const shouldRetry = traceDataMissing && isAlmostNow(timeConfig.to) && retry < retries;
     if (shouldRetry) {
-      const timeoutId = setTimeout(() => setRetry(prev => prev + 1), retryDelay);
-      clearTimeout(timeoutId);
+      timeout(retryDelay).once(() => setRetry(prev => prev + 1));
+    } else {
+      result$.emit(traceSummary);
     }
-    result$.emit(traceSummary);
-  }, [retry, result$, traceSummary, timeConfig.to, retries, retryDelay]);
+  }, [result$, retryDelay, shouldRetry, traceSummary]);
 
   return { result$, retry };
 }

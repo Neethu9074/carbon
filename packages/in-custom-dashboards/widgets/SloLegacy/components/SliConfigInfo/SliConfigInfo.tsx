@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { SliEntity } from '@instana/types';
+
 import {
   ApplicationFilterWidgetConfigInfoItem,
   WebsiteFilterWidgetConfigInfoItem
@@ -22,7 +24,6 @@ import SliMetricWidgetConfigInfoItem from 'in-custom-dashboards/widgets/SloLegac
 import WidgetConfigInfoItem from 'in-custom-dashboards/widgets/SloLegacy/components/WidgetConfigInfo/WidgetConfigInfoItem';
 import WidgetConfigInfo from 'in-custom-dashboards/widgets/SloLegacy/components/WidgetConfigInfo';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/SloLegacy/constants';
-import { SliEntity } from 'in-types';
 import { t } from 'in-i18n';
 
 interface SliConfigInfoProps<S extends MonitoringSource = MonitoringSource> {

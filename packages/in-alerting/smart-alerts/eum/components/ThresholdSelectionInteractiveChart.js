@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * Copyright IBM Corp. 2025
  */
 
 import React from 'react';
@@ -19,8 +19,8 @@ import CrashThresholdCondition from 'in-alerting/smart-alerts/mobileApp/dialog/a
 import StatusCodeThresholdCondition from 'in-alerting/smart-alerts/eum/components/StatusCodeThresholdCondition';
 import ThroughputThresholdCondition from 'in-alerting/smart-alerts/eum/components/ThroughputThresholdCondition';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/dialog/IncompleteChartPlaceholder';
-import { alertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
+import toAlertConfigWithRules from 'in-alerting/smart-alerts/eum/utils/thresholdChartUtil';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
@@ -40,9 +40,8 @@ export default function ThresholdSelectionInteractiveChart({
   ruleMetricNameOptions,
   AlertTypeSwitch
 }) {
-  const alertConfigWithFormModel = alertConfigWithDefaultThreshold(form);
-
-  const thresholdType = alertConfigWithFormModel.threshold;
+  const alertConfigWithFormModel = blueprintConfig.enrichWithDefaultThresholdValues(toAlertConfigWithRules(form));
+  const thresholdType = alertConfigWithFormModel.rules[0].thresholds.WARNING;
   const chartViewConfigs = isAdaptiveBaselineConfig(thresholdType) ? [chartViewConfig24hours] : defaultChartViewConfigs;
 
   if (!blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule)) {
@@ -132,6 +131,7 @@ export default function ThresholdSelectionInteractiveChart({
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
             alertsPreviewEnabled
+            isMultiThresholdEnabled
             canReload
           />
         )}

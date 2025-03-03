@@ -44,7 +44,7 @@ import {
   dashboardRetentionManagementPath,
   dashboardLogVolumePath,
   dashboardIntegrationsPath,
-  logSmartAlertsFullScreen
+  logSmartAlertsFullScreenFullyQualifiedPath
 } from 'in-logging/navigation/paths';
 //@ts-expect-error needs TS migration
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
@@ -69,6 +69,11 @@ export default [
   <Route key="loggingDashboardManagement" path={dashboardIntegrationsPath}>
     {renderAsyncRouteChildren(LogIntegrations)}
   </Route>,
+  logSmartAlertFullScreenDesignEnabled && (
+    <Route key="logSmartAlert" path={logSmartAlertsFullScreenFullyQualifiedPath} exact>
+      {renderAsyncRouteChildren(AlertConfigTearSheet)}
+    </Route>
+  ),
   <Route key="loggingDashboardManagement" path={dashboardManagementPath}>
     {renderAsyncRouteChildren(Management)}
   </Route>,
@@ -86,10 +91,5 @@ export default [
   </Route>,
   <Route key="loggingDashboardWrapper" path={`${loggingDashboardPath}/:subpath?`}>
     {renderAsyncRouteChildren(LoggingDashboardWrapper)}
-  </Route>,
-  logSmartAlertFullScreenDesignEnabled && (
-    <Route key="infraSmartAlert" path={logSmartAlertsFullScreen}>
-      {renderAsyncRouteChildren(AlertConfigTearSheet)}
-    </Route>
-  )
+  </Route>
 ];

@@ -50,11 +50,11 @@ describe('useResolvedName - Resolved Names', () => {
     ['id.process', 'Process'],
     ['id.host', 'Host'],
     ['log.file.path', 'File'],
-    ['expiration.ts.seconds', 'Retained until'],
-    ['id.containerd', 'Containerd container'],
-    ['id.docker', 'Docker container'],
-    ['id.crio', 'Crio container'],
-    ['id.garden', 'Garden container']
+    ['expiration.ts.seconds', 'Retained Until'],
+    ['id.containerd', 'Containerd Container'],
+    ['id.docker', 'Docker Container'],
+    ['id.crio', 'Crio Container'],
+    ['id.garden', 'Garden Container']
   ]);
 
   const testCases = [

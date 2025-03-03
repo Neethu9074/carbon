@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
@@ -17,6 +18,11 @@ import { t } from 'in-i18n';
 interface ICMOutboundQRFCRow {
   key: string;
   rfcDetail: Map<string, object>;
+}
+
+interface ICMOutboundQRFCProps {
+  snapshotId: string;
+  timeConfig: TimeConfig;
 }
 const cols = [
   {
@@ -111,8 +117,11 @@ const cols = [
   }
 ];
 
-export default function OutboundQueueRfcInfo({ snapshotId }: SnapshotData) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'outboundQRfcInfo'), [snapshotId]);
+export default function OutboundQueueRfcInfo({ snapshotId, timeConfig }: ICMOutboundQRFCProps) {
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'outboundQRfcInfo', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const tRFCDetails = data ? (data as SnapshotData).get('raw_payload') : null;
   const rows: ICMOutboundQRFCRow[] = tRFCDetails
     ? tRFCDetails.toArray().map((tRFCDetail: any, idx: any) => {

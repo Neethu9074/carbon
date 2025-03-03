@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc. 2022
  */
 
+import { WebsiteBeaconType, Group, TagCatalog, TagFilterExpressionElementUnion, TimeConfig } from '@instana/types';
 import { just, Observable } from '@instana/observables';
 
-import { WebsiteBeaconType, Group, TagCatalog, TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';

@@ -14,22 +14,21 @@ import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
 import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
+//@ts-expect-error doesn't contain type file
+import { add, remove } from 'in-plg/pages/WelcomePage/widgets/starredItems';
 import useGetCustomDashboardPermissions from 'in-plg/pages/WelcomePage/widgets/hooks/useGetCustomDashboardPermissions';
 //@ts-expect-error doesn't contain type file
 import NewDashboardDialog from 'in-custom-dashboards/NewDashboardDialog';
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 // @ts-expect-error needs ts migration
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
-//@ts-expect-error doesn't contain type file
-import { add, remove } from 'in-cockpit/starredItems';
+import { customDashboard as customDashboardType } from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
 import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
-import { customDashboard as customDashboardType } from 'in-cockpit/starredItems/types';
 import { getCustomDashboardsPaginated, getUsers } from 'in-custom-dashboards/api';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { welcomePageV2Enabled } from 'in-services/featureFlags';
 import { getCustomDashboard } from 'in-custom-dashboards/api';
 import { hasError, isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -39,7 +38,7 @@ export default function DashboardWidget({
   widgetLabel,
   dashboardTileProps,
   maxItems,
-  viewAll = welcomePageV2Enabled,
+  viewAll = true,
   mainPage
 }: WidgetProps) {
   // @ts-ignore
@@ -75,8 +74,8 @@ export default function DashboardWidget({
       getContent({ item }) {
         setOrDeleteMatrixKey(connectToLocation, dashboardIdUrlParameter.path, dashboardIdUrlParameter.name, item.id);
         return (
-          <Tooltip content={item.title} align="auto" caret={false} delay={300}>
-            <Link href={createHref(connectToLocation)}>{item.title}</Link>
+          <Tooltip content={item?.title ?? ''} align="auto" caret={false} delay={300}>
+            <Link href={createHref(connectToLocation)}>{item?.title ?? ''}</Link>
           </Tooltip>
         );
       }
@@ -84,19 +83,19 @@ export default function DashboardWidget({
     {
       key: 'owner',
       getContent({ item }) {
-        const user = users?.data?.find((user: UserResult) => user.id === item.ownerId);
+        const user = users?.data?.find((user: UserResult) => user.id === item?.ownerId);
 
         if (!user) {
           return '-';
         }
 
-        return <TypographyWithTooltip content={user.fullName} />;
+        return <TypographyWithTooltip content={user?.fullName ?? ''} />;
       }
     },
     {
       key: 'permissions',
       getContent({ item }) {
-        return <DashboardPermission id={item.id} annotations={item.annotations} />;
+        return <DashboardPermission id={item?.id} annotations={item?.annotations} />;
       }
     },
     {

@@ -6,22 +6,24 @@
 
 import React from 'react';
 
-import { t } from '@instana/i18n-react';
+import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 
 import { SetSlideInViewAction } from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/types';
 import CreateSloFormSlide from 'in-custom-dashboards/widgets/Slo/components/CreateSloFormSlide';
 import { CreateSloFormSlideState } from 'in-custom-dashboards/widgets/Slo/types';
-import { trackSloEvent } from 'in-service-levels/hooks/SloTrackerProvider';
+import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { SLO_CONFIG_DIALOG_OPEN } from 'in-services/tracking/eventNames';
-import { Nullish, ServiceLevelObjectiveConfiguration } from 'in-types';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { Nullish } from 'in-types';
+import { t } from 'in-i18n';
 
 export function openAddSloSlideInView(
   setSlideInView: SetSlideInViewAction<CreateSloFormSlideState>,
-  onCreationSuccessful: (sloConfig: ServiceLevelObjectiveConfiguration) => void
+  onCreationSuccessful: (sloConfig: ServiceLevelObjectiveConfiguration) => void,
+  track: CtaTrackingFunction
 ) {
-  trackSloEvent(
+  track(
     SLO_CONFIG_DIALOG_OPEN,
     {
       productArea: productAreas.custom_dashboard,

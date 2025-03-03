@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import {
   serviceLevelsOverview,
@@ -16,18 +15,19 @@ import {
 } from 'in-service-levels/navigation/path';
 import SloSmartAlertDetails from 'in-service-levels/components/SloDashboard/components/SloSmartAlertDetails';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-import { SloTrackerProvider, sloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import FloatingSloButtons from 'in-service-levels/components/FloatingSloButtons';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import SloList from 'in-service-levels/components/SloList/SloList';
 import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
 import Alerts from 'in-alerting/smart-alerts/slo/Alerts';
 import Footer from 'in-components/Footer/Footer';
 import Sticky from 'in-components/Sticky';
+import { t } from 'in-i18n';
 
 export default function ServiceLevelsOverview() {
   const { createHrefToPath, matchLocation } = useNavigation();
@@ -41,7 +41,6 @@ export default function ServiceLevelsOverview() {
             label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
             title={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
             labelForTitle={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
-            isBeta
           />
           <DashboardHeaderModule>
             <SecondLevelNavigation>
@@ -63,13 +62,9 @@ export default function ServiceLevelsOverview() {
       }
     >
       <LeftRightPadding>
-        <SloTrackerProvider
-          trackers={sloTrackers}
-          meta={{ productArea: productAreas.slo, pageName: pageNames.service_levels }}
-        >
-          {!isServiceLevelsAlertsActive && <SloList pathSegment={serviceLevelsOverview} />}
-          {isServiceLevelsAlertsActive && <SloSmartAlerts />}
-        </SloTrackerProvider>
+        <ViewTrackingMeta data={{ productArea: productAreas.slo, pageRootName: pageNames.service_levels }} />
+        {!isServiceLevelsAlertsActive && <SloList pathSegment={serviceLevelsOverview} />}
+        {isServiceLevelsAlertsActive && <SloSmartAlerts />}
       </LeftRightPadding>
       <Footer />
       <FloatingSloButtons />

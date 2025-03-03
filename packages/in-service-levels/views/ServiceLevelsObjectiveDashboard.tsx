@@ -6,16 +6,9 @@
 
 import React from 'react';
 
-import {
-  Error,
-  isApplicationSloEntity,
-  isSyntheticSloEntity,
-  Result,
-  ServiceLevelObjectiveConfiguration
-} from '@instana/types';
+import { Error, isApplicationSloEntity, Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { combineLatest, just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { t } from '@instana/i18n-react';
 
 import tabs, {
   ApplicationSloTabData,
@@ -25,13 +18,12 @@ import tabs, {
 import { defaultServiceLevelObjectiveUrlParameters, SloUrlState } from 'in-service-levels/navigation/urlParameters';
 import SloTimeWindowProvider from 'in-service-levels/components/SloDashboard/components/SloTimeWindowProvider';
 import SloDashboardHeader from 'in-service-levels/components/SloDashboard/components/SloDashboardHeader';
-import { loadEntities, loadEntity, MonitoredEntity } from 'in-service-levels/hooks/useSloEntitiesLabels';
 import SloMetaInfoHeader from 'in-service-levels/components/SloDashboard/components/SloMetaInfoHeader';
 import { serviceLevelsObjectiveSummaryFullyQualified } from 'in-service-levels/navigation/path';
-import { SloTrackerProvider, sloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAlertDialog';
+import { loadEntities, MonitoredEntity } from 'in-service-levels/utils/loadEntities';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import { getSloConfiguration } from 'in-service-levels/api/configuration';
@@ -40,12 +32,14 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { hasError, isLoading } from 'in-services/util/result';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import { LabeledEntity } from 'in-service-levels/types';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
 import { all } from 'in-hooks/utils/progress';
+import { t } from 'in-i18n';
 
 const unknownEntity: LabeledEntity = {
   id: '',
@@ -77,16 +71,16 @@ export default function ServiceLevelsObjectiveDashboard() {
     addActiveDialog(<CreateSmartAlertDialog preselectedSloId={tabData?.configuration.id} />);
 
   return (
-    <SloTrackerProvider
-      trackers={sloTrackers}
-      meta={{
-        productArea: productAreas.slo,
-        pageName:
-          location.pathname === serviceLevelsObjectiveSummaryFullyQualified
-            ? pageNames.slo_summary
-            : pageNames.slo_config
-      }}
-    >
+    <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.slo,
+          pageRootName:
+            location.pathname === serviceLevelsObjectiveSummaryFullyQualified
+              ? pageNames.slo_summary
+              : pageNames.slo_config
+        }}
+      />
       <SloTimeWindowProvider
         sloConfigId={sloId}
         sloTimeWindow={sloTimeWindow}
@@ -113,7 +107,7 @@ export default function ServiceLevelsObjectiveDashboard() {
           {t('in-service-levels:general.addButtonLabel', { context: 'smartAlert' })}
         </FloatingActionButton>
       </FloatingActionButtons>
-    </SloTrackerProvider>
+    </>
   );
 }
 
@@ -136,13 +130,7 @@ function getData(sloId: string): Observable<Result<SloTabData | ApplicationSloTa
         Observable<Result<ServiceLevelObjectiveConfiguration | MonitoredEntity | MonitoredEntity[]>>
       > = [createResultWithIdentifier(just(result), ResultIdentifier.CONFIG)];
 
-      if (isSyntheticSloEntity(entity)) {
-        observables.push(
-          createResultWithIdentifier(loadEntities('synthetic', entity.syntheticTestIds), ResultIdentifier.ENTITY)
-        );
-      } else {
-        observables.push(createResultWithIdentifier(loadEntity(entity), ResultIdentifier.ENTITY));
-      }
+      observables.push(createResultWithIdentifier(loadEntities(entity), ResultIdentifier.ENTITY));
 
       if (isApplicationSloEntity(entity)) {
         const { serviceId, endpointId } = entity;
@@ -172,15 +160,8 @@ function getData(sloId: string): Observable<Result<SloTabData | ApplicationSloTa
       // We need to cast here, because the types for combineLatest don't handle non uniform observables very well.
       // And we don't have a better way to combine such non uniform observables with better typing
       const configuration = results[0].data as ServiceLevelObjectiveConfiguration;
-      const { entity } = configuration;
 
-      const entities: LabeledEntity[] = isSyntheticSloEntity(entity)
-        ? entity.syntheticTestIds.map(synthTestId => {
-            const data = (entityResult?.data ?? []) as LabeledEntity[];
-            const foundEntity = data.find(({ id }) => id === synthTestId);
-            return foundEntity ?? unknownEntity;
-          })
-        : [(entityResult?.data as LabeledEntity) ?? unknownEntity];
+      const entities: LabeledEntity[] = (entityResult?.data as LabeledEntity[]) ?? [unknownEntity];
 
       const service: LabeledEntity = (serviceResult?.data as LabeledEntity) ?? undefined;
       const endpoint: LabeledEntity = (endpointResult?.data as LabeledEntity) ?? undefined;

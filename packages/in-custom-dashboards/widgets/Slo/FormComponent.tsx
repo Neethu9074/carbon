@@ -9,9 +9,7 @@ import React, { useEffect } from 'react';
 
 import { Button, Spacer, Stack, Typography } from '@instana/components';
 import { SloEntityType } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
-import { SloTrackerProvider, sloWidgetTrackers, trackSloEvent } from 'in-service-levels/hooks/SloTrackerProvider';
 import useSloWidgetFormSideEffects from 'in-custom-dashboards/widgets/Slo/hooks/useSloWidgetFormSideEffects';
 import SloListSelection from 'in-service-levels/components/Shared/SloListSelection/SloListSelection';
 import { SloWidgetChartType, SloWidgetChartTypes } from 'in-custom-dashboards/widgets/Slo/constants';
@@ -19,12 +17,15 @@ import { FormComponentProps } from 'in-custom-dashboards/CustomDashboard/WidgetE
 import SloEntityTypeSelector from 'in-service-levels/components/Shared/SloEntityTypeSelector';
 import { openAddSloSlideInView } from 'in-custom-dashboards/widgets/Slo/utils/slideInView';
 import { CreateSloFormSlideState } from 'in-custom-dashboards/widgets/Slo/types';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SLO2_WIDGET_EDIT_START } from 'in-services/tracking/eventNames';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { SloWidgetForm } from 'in-custom-dashboards/widgets/Slo/form';
 import { productAreas } from 'in-services/tracking/productAreas';
 import Sections from 'in-components/workspace/Sections/Sections';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { t } from 'in-i18n';
 
 export default function FormComponent({
   form,
@@ -32,27 +33,24 @@ export default function FormComponent({
   setSlideInView
 }: FormComponentProps<SloWidgetForm, CreateSloFormSlideState>) {
   const updateForm = useSloWidgetFormSideEffects(form, updatedForm => originalOnChange([], () => updatedForm));
+  const { trackCta } = useSegmentTracking();
 
   useEffect(() => {
-    trackSloEvent(
-      SLO2_WIDGET_EDIT_START,
-      {
-        productArea: productAreas.custom_dashboard,
-        pageName: pageNames.custom_dashboard
-      },
-      undefined
-    );
-  }, []);
+    trackCta(SLO2_WIDGET_EDIT_START, {
+      productArea: productAreas.custom_dashboard,
+      pageName: pageNames.custom_dashboard
+    });
+  }, [trackCta]);
 
   const entityTypeField = form.getIn(['entityType']);
   const sloIdField = form.getIn(['sloId']);
   const chartTypeField = form.getIn(['chartType']);
 
   return (
-    <SloTrackerProvider
-      trackers={sloWidgetTrackers}
-      meta={{ productArea: productAreas.custom_dashboard, pageName: pageNames.custom_dashboard }}
-    >
+    <>
+      <ViewTrackingMeta
+        data={{ productArea: productAreas.custom_dashboard, pageRootName: pageNames.custom_dashboard }}
+      />
       <Stack direction="vertical" distribution="spaceEvenly" wrap>
         <Stack gap="xsmall">
           <Typography variant="heading-200" component="h2" noMargin>
@@ -78,15 +76,19 @@ export default function FormComponent({
           <Button
             kind="action"
             onClick={() =>
-              openAddSloSlideInView(setSlideInView, sloConfig => {
-                // Once the creation of a new SLO config was successful, we set
-                // the entityType and sloId to the values of the newly created
-                // SLO config
-                const updatedForm = form
-                  .updateIn(['entityType'], field => field.setValue(sloConfig.entity.type))
-                  .updateIn(['sloId'], field => field.setValue(sloConfig.id!).setTouched(true));
-                updateForm(updatedForm);
-              })
+              openAddSloSlideInView(
+                setSlideInView,
+                sloConfig => {
+                  // Once the creation of a new SLO config was successful, we set
+                  // the entityType and sloId to the values of the newly created
+                  // SLO config
+                  const updatedForm = form
+                    .updateIn(['entityType'], field => field.setValue(sloConfig.entity.type))
+                    .updateIn(['sloId'], field => field.setValue(sloConfig.id!).setTouched(true));
+                  updateForm(updatedForm);
+                },
+                trackCta
+              )
             }
             icon="lib_openclose_add_circle_outline"
           >
@@ -127,6 +129,6 @@ export default function FormComponent({
           </SelectInSection>
         </Sections>
       </Stack>
-    </SloTrackerProvider>
+    </>
   );
 }

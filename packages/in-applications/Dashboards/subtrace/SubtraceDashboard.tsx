@@ -31,7 +31,7 @@ export default function SubtraceDashboard() {
           <DashboardHeader
             title={t('in-applications:subtraces.labelSubtrace')}
             label={subtrace.data?.name ?? ''}
-            icon="lib_application"
+            icon="lib_application_call"
             result={subtrace}
           />
         )}

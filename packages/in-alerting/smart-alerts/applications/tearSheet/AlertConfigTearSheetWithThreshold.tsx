@@ -4,17 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { Dispatch, ReactNode, SetStateAction, useMemo, useState } from 'react';
+import React, { ReactNode, useMemo, useState } from 'react';
 import { Item, MapForm, MapPath } from 'formalistic';
 
-import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData, TimeConfig } from '@instana/types';
-import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
-import {
-  APStepRenderers,
-  stepConfigs,
-  getFooterActions
-} from 'in-alerting/smart-alerts/applications/tearSheet/steps/TearSheetStepConfigs';
 import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/applications/hooks/useCalculateThresholdOnBackendSignalEmitter';
 //@ts-expect-error TS migration
 import { useThresholdSuggestion } from 'in-alerting/smart-alerts/applications/hooks/useThresholdSuggestion';
@@ -28,18 +22,16 @@ import {
   getBlueprintConfig,
   blueprintConfigs
 } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
-//@ts-expect-error
-import { channelListLoading$ } from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelsList';
-import { smartAlertsLogsBlueprintEnabled, alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
+import { stepConfigsForCarbonTearSheet } from 'in-alerting/smart-alerts/applications/tearSheet/steps/TearSheetStepConfigs';
 import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/applications/hooks/useAlertConfigValidation';
-import AlertingTearSheet from 'in-alerting/components/AlertingTearSheet';
+import AlertingFullScreenTearSheet from 'in-alerting/components/AlertingFullScreenTearSheet';
+import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import { MessageType } from 'in-components/MessageStack/MessageStack';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { days } from 'in-services/time/time';
-import { Nullish } from 'in-types';
+import { t } from 'in-i18n';
 
 /**
  * Timeframe used for the tag-suggestions in QB2.
@@ -48,8 +40,6 @@ export const tagSuggestionTimeConfig = {
   windowSize: days.toMillis(1),
   autoRefresh: true
 };
-
-const FORM_ID = 'smart-alert-editor';
 
 export interface AlertConfigTearSheetWithThresholdProps {
   form: MapForm<any>;
@@ -68,9 +58,9 @@ export interface AlertConfigTearSheetWithThresholdProps {
   withTrackCreate: () => void;
   isSaving: boolean;
   messages: MessageType[] | EnrichedError[];
-  headerWithMsg: boolean;
   initialConfiguredApplications?: object;
-  cancelTearSheet: () => string | Nullish;
+  cancelTearSheet: string;
+  tearSheetTitle: string;
 }
 
 export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTearSheetWithThresholdProps) {
@@ -114,16 +104,14 @@ function SmartAlertConfigTearSheetWithQueryValidation({
   ...props
 }: TearSheetWithQueryValidationProps) {
   const {
-    migrationMode,
     form,
     updateForm,
     editMode,
-    withTrackCreate,
-    withTrackClose,
-    headerWithMsg,
-    isSaving,
     isGlobalSmartAlert,
-    cancelTearSheet
+    tearSheetTitle,
+    withTrackCreate,
+    cancelTearSheet,
+    migrationMode
   } = props;
 
   // we are validating only the user-defined part, not the whole enriched form model here,
@@ -155,81 +143,43 @@ function SmartAlertConfigTearSheetWithQueryValidation({
     editMode
   });
 
-  const { step, setStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
-    stepConfigs,
-    form,
-    setForm: updateForm,
-    onCreate: withTrackCreate,
-    onClose: withTrackClose
-  });
-
-  const actions = getFooterActions(backOrCancel, cancelTearSheet, handleSubmit, editMode, migrationMode);
-
   const navItems = useAlertConfigValidation(
-    stepConfigs,
+    stepConfigsForCarbonTearSheet,
     blueprintConfig,
     form,
     isTagFilterFormModelValid,
-    thresholdResult
+    thresholdResult,
+    updateForm
   );
 
-  const channelListLoading = useObservable(channelListLoading$, []) as number | undefined;
   return (
-    <AlertingTearSheet
-      step={step}
-      setStep={setStep}
-      actions={actions}
+    //@ts-expect-error
+    <AlertingFullScreenTearSheet
+      {...props}
+      isTagFilterFormModelValid={isTagFilterFormModelValid}
+      isEditMode={editMode ?? false}
+      tearSheetTitle={tearSheetTitle}
       stepConfigs={navItems}
-      isSaving={isSaving}
-      formId={FORM_ID}
+      thresholdResult={thresholdResult}
       form={form}
-      headerWithMsg={headerWithMsg}
-      additionalValidationCheck={additionalValidationCheck(step, isTagFilterFormModelValid, channelListLoading)}
-      setForm={updateForm}
-      sideNavigationEnabled={editMode}
+      handleFormSubmit={() => handleFormSubmit(withTrackCreate)}
+      actionButtonLabel={getButtonLabel(editMode, migrationMode)}
+      cancelTearSheet={cancelTearSheet}
       productArea={productAreas.applications}
-    >
-      {APStepRenderers.map(
-        (
-          Renderer: (
-            props: AlertConfigTearSheetWithThresholdProps & {
-              isTagFilterFormModelValid: boolean;
-              setStep: Dispatch<SetStateAction<number>>;
-              thresholdResult:
-                | Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData>
-                | undefined
-                | null;
-            }
-          ) => JSX.Element,
-          idx: number
-        ) => {
-          return (
-            step === idx && (
-              <Renderer
-                {...props}
-                key={`key-${idx}`}
-                isGlobalSmartAlert={isGlobalSmartAlert}
-                isTagFilterFormModelValid={isTagFilterFormModelValid}
-                thresholdResult={thresholdResult}
-                setStep={setStep}
-              />
-            )
-          );
-        }
-      )}
-    </AlertingTearSheet>
+    />
   );
 }
 
-function additionalValidationCheck(
-  step: number,
-  isTagFilterFormModelValid: boolean,
-  channelListLoading: number | undefined
-) {
-  if (step === 1 || step === 3) {
-    return isTagFilterFormModelValid;
-  } else if (step === 5) {
-    return channelListLoading === undefined && !alertChannelPerSeverityApplicationSaEnabled ? false : true;
+function handleFormSubmit(withTrackCreate: () => void): void {
+  withTrackCreate();
+}
+
+function getButtonLabel(editMode?: boolean, migrationMode?: boolean) {
+  if (migrationMode) {
+    return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonMigrate');
   }
-  return true;
+  if (editMode) {
+    return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave');
+  }
+  return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate');
 }

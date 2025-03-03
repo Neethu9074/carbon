@@ -6,25 +6,27 @@
 
 import React from 'react';
 
+import { Spacer } from '@instana/components';
+
 import {
   alertId as alertIdMatrixParam,
   alertCreated as alertCreatedMatrixParam
 } from 'in-synthetics/navigation/matrix';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
+import CreateSmartAlert, { CreateSmartAlertButton } from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import { alertsTabDetailsFullyQualified, syntheticSmartAlertsPath } from 'in-synthetics/navigation/paths';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListActionHandlers';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
-import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { SyntheticAlertConfigWithMetadata, SyntheticAlertConfig, Role } from 'in-types';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
-import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -35,8 +37,6 @@ import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
-
-const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
 
 export default function SmartAlertList() {
   const handlers = (role as Role).canConfigureGlobalSyntheticSmartAlerts ? actionHandlers : {};
@@ -64,18 +64,15 @@ export default function SmartAlertList() {
           extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
           carbonActionHandlers={handlers}
           getNameSubtitle={config => getSyntheticsSubtitle(config)}
-          displayCarbonTable={displayCarbonTable}
-          toolBarContent={
-            role?.canConfigureGlobalSyntheticSmartAlerts ? (
-              <CreateSmartAlert isCarbonTableView={displayCarbonTable} />
-            ) : undefined
-          }
+          displayCarbonTable={smartAlertCarbonTableEnabled}
+          toolBarContent={role?.canConfigureGlobalSyntheticSmartAlerts ? <CreateSmartAlertButton /> : undefined}
           noDataHeader={t('in-alerting:smartAlerts.synthetics.alertList.noDataHeader')}
           noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.synthetics.alertList.noDataDescription" />}
         />
+        <Spacer size="gutter" />
       </LeftRightPadding>
       <Footer />
-      {role?.canConfigureGlobalSyntheticSmartAlerts && !displayCarbonTable && (
+      {role?.canConfigureGlobalSyntheticSmartAlerts && !smartAlertCarbonTableEnabled && (
         <FloatingActionButtons>
           <CreateSmartAlert />
         </FloatingActionButtons>

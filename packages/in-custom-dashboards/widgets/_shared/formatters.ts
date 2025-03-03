@@ -6,8 +6,7 @@
 
 import { uniq } from 'lodash';
 
-import { MetricSource } from '@instana/types/typeDefinitions';
-import { AggregationType } from '@instana/types';
+import { MetricSource, AggregationType } from '@instana/types';
 
 import {
   bytesCompact,
@@ -54,6 +53,8 @@ export function getFormatter(
       return getLogFormatter(aggregation);
     case 'INFRASTRUCTURE_METRICS':
       return baseUnit ? getInfrastructureMetricFormatter(baseUnit) : publicFormatters;
+    case 'SLO':
+      return getSloMetricFormatter(metric);
   }
   return publicFormatters;
 }
@@ -90,6 +91,15 @@ function getSyntheticMetricFormatter(metric: string): Formatter[] {
     return [percentageDetailed, percentageCompact];
   } else if (metric === 'response_size') {
     return [bytesCompact, bytesDetailed];
+  }
+  return publicFormatters;
+}
+
+function getSloMetricFormatter(metric: string): Formatter[] {
+  if (metric === 'STATUS') {
+    return [percentageDetailed, percentageCompact];
+  } else if (metric === 'ERROR_BUDGET_REMAINING') {
+    return [numberCompact];
   }
   return publicFormatters;
 }

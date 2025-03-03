@@ -24,14 +24,12 @@ import SmartAlertsListWithUrlState from 'in-alerting/smart-alerts/components/lis
 import { useUrlBasedCategory } from 'in-alerting/smart-alerts/applications/hooks/useUrlBasedCategory';
 import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/ListActionHandlers';
 import { createRowLinkLocation } from 'in-alerting/smart-alerts/applications/list/rowLinking';
-import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { getMetricName } from 'in-alerting/smart-alerts/applications/list/listHelper';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { alertsTab } from 'in-applications/navigation/paths';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
-
-const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
 
 export default function GlobalInventorySmartAlertsList({ onNoData }) {
   const [configsCategory, setConfigsCategory] = useUrlBasedCategory(categoryLocal);
@@ -39,7 +37,7 @@ export default function GlobalInventorySmartAlertsList({ onNoData }) {
 
   return (
     <>
-      {displayCarbonTable ? (
+      {smartAlertCarbonTableEnabled ? (
         <SmartAlertsTableWithUrlState
           columnDefinitions={createTableColumnDefinition(configsCategory, trackCta)}
           getLocalAlertConfigsFetchFunction={() =>

@@ -11,12 +11,12 @@ import { just } from '@instana/observables';
 
 import { highlightedTimeframe$, addOrDeleteHighlightedTimeframeToParams } from 'in-stores/highlightedTimeframe';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
+import ProfileMarker from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileMarker';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { formatDateTime } from 'in-services/formatters/date';
 import bucketize from 'in-services/util/bucketize';
-import ProfileMarker from './ProfileMarker';
 import { t } from 'in-i18n';
 
 import locals from './ProfilesLane.mless';

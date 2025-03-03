@@ -5,6 +5,15 @@
 
 import React, { ReactNode } from 'react';
 
+import { useObservable } from '@instana/hooks';
+
+import {
+  Result,
+  SliConfigurationWithLastUpdated,
+  Threshold,
+  UnifiedMetricConfigurationUnion,
+  isBizOpsUnifiedMetricConfiguration
+} from 'in-types';
 import {
   Config,
   ConfigWithCompanionMetric,
@@ -12,11 +21,15 @@ import {
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { enrichBySettingDataSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops/utils';
 import { customDashboardsFastQueryModeEnabled, thresholdCustomDashboardsEnabled } from 'in-services/featureFlags';
-import { Threshold, UnifiedMetricConfigurationUnion, isBizOpsUnifiedMetricConfiguration } from 'in-types';
+import hideSliSource from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/hideSliSource';
+import hideSloSource from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/slo/hideSloSource';
 import { hasApplicationMetrics } from 'in-custom-dashboards/widgets/_shared/hasApplicationMetrics';
+import { getSliConfiguration } from 'in-custom-dashboards/widgets/SloLegacy/sli/api';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { getThreshold } from 'in-components/Threshold/threshold';
+import { successObservable } from 'in-services/util/result';
 import { getFormatter } from 'in-stores/metric/formatters';
+import { pendingResult } from 'in-services/fixedObjects';
 import { getUnit } from 'in-stores/metric/units';
 import { t } from 'in-i18n';
 
@@ -25,7 +38,7 @@ type MetricProps = UnifiedMetricConfigurationUnion & {
   unit?: string;
 };
 
-type ConfigProps =
+export type ConfigProps =
   | Config<MetricProps>
   | ConfigWithCompanionMetric<MetricProps>
   | ConfigWithStaticCompanion<MetricProps>;
@@ -40,7 +53,38 @@ export interface BigNumberProps {
   isInModal?: boolean;
 }
 
-export default function BigNumber({ config, title, actions, dragHandle, isInModal, isPreview }: BigNumberProps) {
+export default function BigNumberWrapper({ config, title, actions, dragHandle, isInModal, isPreview }: BigNumberProps) {
+  const sliConfig =
+    useObservable<Result<SliConfigurationWithLastUpdated> | Result<null>, []>(
+      () =>
+        config.metricConfiguration.source === 'SLI'
+          ? getSliConfiguration(config.metricConfiguration.sliConfigId)
+          : successObservable(null),
+      []
+    ) ?? (pendingResult as Result<null>);
+
+  return (
+    <BigNumber
+      config={config}
+      title={title}
+      actions={actions}
+      dragHandle={dragHandle}
+      isInModal={isInModal}
+      isPreview={isPreview}
+      sliConfig={sliConfig}
+    />
+  );
+}
+
+function BigNumber({
+  config,
+  title,
+  actions,
+  dragHandle,
+  isInModal,
+  isPreview,
+  sliConfig
+}: BigNumberProps & { sliConfig: Result<SliConfigurationWithLastUpdated> | Result<null> }) {
   const thresholdProps = config?.metricConfiguration?.threshold;
   const approximateTooltipText =
     customDashboardsFastQueryModeEnabled && hasApplicationMetrics(config)
@@ -52,6 +96,8 @@ export default function BigNumber({ config, title, actions, dragHandle, isInModa
   if (isBizOpsUnifiedMetricConfiguration(config?.metricConfiguration)) {
     config.metricConfiguration = enrichBySettingDataSource(config.metricConfiguration);
   }
+
+  if (hideSloSource(config) || hideSliSource(config, sliConfig)) return null;
 
   return (
     <BigNumberKpiCard

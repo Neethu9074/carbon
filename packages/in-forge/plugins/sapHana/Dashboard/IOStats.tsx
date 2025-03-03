@@ -80,7 +80,10 @@ const cols = [
 ];
 
 export default function IOStatsList({ snapshotId, timeConfig }: IOStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'ioStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'ioStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const ioStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: IOStatsRow[] = ioStat
     ? ioStat

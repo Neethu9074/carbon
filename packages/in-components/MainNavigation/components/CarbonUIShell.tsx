@@ -47,13 +47,11 @@ import {
 } from 'in-stores/permission';
 import {
   loggingEnabled,
-  logHomepageEnabled,
   playwithEnabled,
   playWithReleaseEnabled,
   tenantSwitcherEnabled,
   userProfileMenuEnabled,
-  vulnerabilityCenterEnabled,
-  welcomePageV2Enabled
+  vulnerabilityCenterEnabled
 } from 'in-services/featureFlags';
 import {
   isTableView,
@@ -69,6 +67,11 @@ import {
   isAnalyzeView as isMobileAppAnalyzeView,
   mobileAppMonitoringPath
 } from 'in-mobile-apps/navigation/paths';
+import {
+  websiteMonitoringPath,
+  isAnalyzeView as isWebsiteAnalyzeView,
+  useLinkToAnalyze as useLinkToWebsiteAnalyze
+} from 'in-websites/navigation/paths';
 import {
   isAnalyzeView as isLogsAnalyzeView,
   isLoggingView,
@@ -86,11 +89,6 @@ import {
 } from 'in-infrastructure/navigation/paths';
 // @ts-expect-error no declaration file
 import { sapSystemListFullyQualified as sapSystemList, sap } from 'in-sap/navigation/paths';
-import {
-  websiteMonitoringPath,
-  isAnalyzeView as isWebsiteAnalyzeView,
-  useLinkToAnalyze
-} from 'in-websites/navigation/paths';
 import {
   applicationListFullyQualified as cloudfoundryApplicationList,
   cloudfoundry
@@ -155,7 +153,7 @@ function HomeLink() {
       isActive={matchLocation(getRootPathPredicate(path))}
       icon="lib_home"
       href={createHrefToPath(path)}
-      label={t('in-cockpit:cockpit.home')}
+      label={t('in-plg:home')}
     />
   );
 }
@@ -410,10 +408,7 @@ function Analyze() {
     []
   );
 
-  const analyzeHref = useLinkToAnalyze({
-    beaconType: 'pageLoad',
-    groupBy: {}
-  });
+  const analyzeWebsiteHref = useLinkToWebsiteAnalyze({ beaconType: 'pageLoad', groupBy: {} });
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   const getLinkToMobileAppAnalyze = useLinkToMobileAppAnalyze();
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
@@ -424,36 +419,26 @@ function Analyze() {
 
   const isActive = matchLocation(isAnalyzeView) || isActiveLegacy;
 
+  let analyzePath = '';
+  if (hasApplicationsAccess) {
+    analyzePath = urlWithoutQueryParameter(getLinkToApplicationAnalyze({ dataSource: 'calls' }));
+  } else if (hasWebsitesAccess) {
+    analyzePath = analyzeWebsiteHref!; // since we pass groupBy and beaconType this value is never null
+  } else if (role?.canViewLogs) {
+    analyzePath = createHrefToPath(logsPathWithDataSource);
+  } else if (hasMobileAppsAccess) {
+    analyzePath = getLinkToMobileAppAnalyze({ beaconType: 'sessionStart', groupBy: {} });
+  } else if (hasInfrastructureAnalyzeAccess) {
+    analyzePath = getLinkToInfraEntityExplore(defaultInfraExploreViewParams);
+  }
+
   return (
     <MenuItem
       id="main-nav-analyze"
       label={t('in-components:mainNavigation.viewSwitcherLabelAnalytics')}
       icon="lib_analyze_inverted"
       isActive={isActive || false}
-      // @ts-expect-error incorrect type in ui-foundation
-      href$={
-        [
-          hasApplicationsAccess &&
-            just(
-              urlWithoutQueryParameter(
-                getLinkToApplicationAnalyze({
-                  dataSource: 'calls'
-                })
-              )
-            ),
-          hasWebsitesAccess && just(analyzeHref),
-          // eslint-disable-next-line no-console
-          role?.canViewLogs && just(createHrefToPath(logsPathWithDataSource)),
-          hasMobileAppsAccess &&
-            just(
-              getLinkToMobileAppAnalyze({
-                beaconType: 'sessionStart',
-                groupBy: {}
-              })
-            ),
-          hasInfrastructureAnalyzeAccess && just(getLinkToInfraEntityExplore(defaultInfraExploreViewParams))
-        ].filter(Boolean)[0]
-      }
+      href={analyzePath}
     />
   );
 }
@@ -540,7 +525,6 @@ function SloDashboard() {
       icon="lib_service_level"
       isActive={matchLocation(isSloView)}
       href={createHrefToPath(serviceLevelsOverview)}
-      isBeta
     />
   );
 }
@@ -548,9 +532,10 @@ function SloDashboard() {
 function Logging() {
   const { matchLocation, createHrefToPath } = useNavigation();
 
-  if (!loggingEnabled || !role?.canViewLogs || !logHomepageEnabled) {
+  if (!loggingEnabled || !role?.canViewLogs) {
     return null;
   }
+
   return (
     <MenuItem
       id="main-nav-logging"
@@ -796,7 +781,7 @@ export default function CarbonUIShell() {
         })}
       <Infrastructure />
       <MenuItem isDivider />
-      {welcomePageV2Enabled && <CustomDashboards />}
+      <CustomDashboards />
       <Logging />
       <Synthetics />
       <Analyze />

@@ -7,13 +7,13 @@
     "alertHeaderLabelBackToListOfAlerts": "Back to list of alerts",
     "alertHeaderAlert": "Alert",
     "alertHeaderRestoreRevisionTooltip": "Restore",
-    "alertHeaderRestoreRevisionConfirmationDialogHeader": "Please Confirm",
+    "alertHeaderRestoreRevisionConfirmationDialogHeader": "Confirm restore",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "Are you sure you want to restore the selected revision?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restore",
     "alertHeaderRestoreDeleteTooltip": "Delete",
     "alertHeaderEditTooltip": "Edit",
     "alertHeaderDuplicateTooltip": "Duplicate",
-    "alertHeaderRestoreDeleteConfirmationDialogHeader": "Please Confirm",
+    "alertHeaderRestoreDeleteConfirmationDialogHeader": "Confirm remove",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Are you sure you want to remove the alert <strong>{{alertConfigName}}</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remove",
     "alertHeaderIsNotLatestRevisionMessage": "You are looking at revision {{description}} of this alert configuration. Please <latestRevisionButton>select the latest revision</latestRevisionButton> or <restoreRevisionButton>restore from current revision</restoreRevisionButton> if you want to make changes.",
@@ -31,6 +31,7 @@
     "optional": "Optional",
     "on": "On",
     "off": "Off",
+    "options": "Options",
     "revisionDropdownButton": {
       "revision": "Revision {{alertRevision}}",
       "pause": "Pause",
@@ -238,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "Please Confirm",
+            "confirmRemove": "Confirm modification",
             "description": "Modifying boundary scope would reset application selection.",
             "confirmButtonLabel": "Confirm"
           }
@@ -259,7 +260,7 @@
           "includeInternalCalls": "Include Internal Calls",
           "includeSyntheticCalls": "Include Synthetic Calls",
           "confirmationDialog": {
-            "pleaseConfirm": "Please Confirm",
+            "confirmRemove": "Confirm remove",
             "description": "Deselecting \"{{callType}}\" would reset application selection.",
             "confirmButtonLabel": "Confirm"
           }
@@ -524,7 +525,7 @@
         "labelActionButtonDuplicate": "Duplicate",
         "labelActionButtonDelete": "Delete",
         "labelAlertFilters": "Filters",
-        "labelConfirm": "Please Confirm",
+        "labelConfirm": "Confirm remove",
         "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
         "labelRemove": "Remove",
         "numberOfApplicationsSelected": "{{count}} application selected",
@@ -871,6 +872,7 @@
         "timeThresholdConfigImpactEvaluationMethod": "User impact evaluation method",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Aggregate across all evaluation windows",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calculate for each evaluation window",
+        "timeThresholdConfigImpactEvaluationMethodSelect": "Select an option",
         "timeThresholdConfigNumberOfViolations": "Number of metric violations",
         "timeThresholdConfigEvaluationGranularity": "Evaluation granularity",
         "granularityTooltipText": "The time granularity set here will determine the frequency at which the threshold is evaluated.",
@@ -983,7 +985,7 @@
         "aggregationTextP99": "99th"
       },
       "list": {
-        "labelConfirm": "Please Confirm",
+        "labelConfirm": "Confirm remove",
         "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
         "labelRemove": "Remove"
       },
@@ -1141,6 +1143,52 @@
         },
         "noDataHeader": "No website Smart Alerts",
         "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
+      },
+      "tearSheet": {
+        "createTitle": "Create a website Smart Alert",
+        "editTitle": "Edit a website Smart Alert",
+        "step1": {
+          "title": "Pick a template",
+          "description": "Choose the issue that you want to be alerted on"
+        },
+        "step2": {
+          "title": "Define the scope",
+          "description": "Where is the condition happening?"
+        },
+        "step3": {
+          "title": "Define when to get alerted"
+        },
+        "step4": {
+          "title": "Define Alert properties",
+          "description": "What properties do you want to set for this alert?"
+        },
+        "step5": {
+          "title": "Define alert channels",
+          "description": "Where do you want to be notified for this alert?",
+          "text": "Select the recipient(s) of this alert"
+        },
+        "statusCode": {
+          "headline": "Automatic alerts for HTTP status codes",
+          "text": "Receive an alert when matching HTTP status codes occur more often than the threshold."
+        },
+        "throughput": {
+          "headline": "Automatic alerts for throughput",
+          "text": "Receive an alert when the number of calls is unusually high or low for selected services and endpoints of this application perspective."
+        },
+        "filter": "Filter",
+        "filterDescription": "Select the services to get more precise alerts.",
+        "threshold": {
+          "header": "Set a value for the violation threshold",
+          "description": "Select a metric, violation threshold and time window to evaluate the violation."
+        },
+        "alertChart": {
+          "title": "Alerts preview",
+          "description": "Shows how alerts would have triggered based on historical metric data."
+        },
+        "timeThreshold": {
+          "title": "Set when violations trigger alerts",
+          "description": "Specify the alert and persistence type and then set the alert trigger."
+        }
       }
     },
     "sortOptions": {
@@ -1158,7 +1206,7 @@
       "migrateButtonTooltip": "Opens a Smart Alert config pre–filled with the migrated values from the current event to the best extent we can. Please double check the result carefully!",
       "markAsMigratedButton": "Mark as migrated",
       "markAsMigratedButtonTooltip": "Marks the Event as migrated. Please use this in case you have already configured a Smart Alert which will replace this Event.",
-      "markAsMigratedButtonConfirmationTitle": "Please Confirm",
+      "markAsMigratedButtonConfirmationTitle": "Confirm migration",
       "markAsMigratedButtonConfirmationDescription": "Marking this Custom Event as migrated will disable it. The event cannot be re-enabled afterwards. Do you want to proceed?",
       "markAsMigratedButtonConfirmationConfirmLabel": "Confirm"
     },
@@ -1214,11 +1262,11 @@
           "failuresWithCount_2": "{{count}} Failures"
         },
         "alertPropertiesTitlePlaceholder": "Synthetic test failed",
-        "alertPropertiesDescriptionPlaceholder": "Synthetic test failed for {{count}} consecutive time",
-        "alertPropertiesDescriptionPlaceholder_plural": "Synthetic test failed for {{count}} consecutive times",
-        "alertPropertiesDescriptionPlaceholder_0": "Synthetic test failed for {{count}} consecutive times",
-        "alertPropertiesDescriptionPlaceholder_1": "Synthetic test failed for {{count}} consecutive times",
-        "alertPropertiesDescriptionPlaceholder_2": "Synthetic test failed for {{count}} consecutive times"
+        "alertPropertiesDescriptionPlaceholder": "Synthetic test failed {{count}} consecutive time.",
+        "alertPropertiesDescriptionPlaceholder_plural": "Synthetic test failed {{count}} consecutive times.",
+        "alertPropertiesDescriptionPlaceholder_0": "Synthetic test failed {{count}} consecutive times.",
+        "alertPropertiesDescriptionPlaceholder_1": "Synthetic test failed {{count}} consecutive times.",
+        "alertPropertiesDescriptionPlaceholder_2": "Synthetic test failed {{count}} consecutive times."
       },
       "advanced": {
         "alertChannelsLabel": "Alert channels",
@@ -1264,6 +1312,37 @@
         "timeThreshold": "Time threshold",
         "alertingType": "Alerting type",
         "noScopeConfigured": "No scope filter configured"
+      },
+      "tearSheet": {
+        "labelActionButtonEdit": "Edit",
+        "labelActionButtonDuplicate": "Duplicate",
+        "createTitle": "Create a synthetic smart alert",
+        "editTitle": "Edit synthetic Smart Alert",
+        "scopeFilter": {
+          "filter": "Filter",
+          "filterDescription": "Add filters to the synthetic tests to get more precise alerts."
+        },
+        "steps": {
+          "step1Title": "Choose synthetic tests",
+          "step2Title": "Define when to get alerted",
+          "step3Title": "Define alert properties",
+          "step4Title": "Define alert channels"
+        },
+        "step1": {
+          "header": "Which synthetic tests you want to be alerted on?",
+          "description": "Individual alerts will be sent independently for each synthetic test, per location."
+        },
+        "step2": {
+          "sliderHeader": "Set when violations trigger alerts",
+          "sliderDescription": "Specify how many consecutive failures should occur per location before alerting."
+        },
+        "step3": {
+          "header": "What properties do you want to set for this alert?"
+        },
+        "step4": {
+          "header": "Where do you want to be notified for this alert?",
+          "description": "Select the recipient(s) of this alert"
+        }
       }
     },
     "mobileApp": {
@@ -1584,7 +1663,12 @@
             "tooltipContent": "Defines the timeframe of the forecast used for alerting. "
           }
         }
-      }
+      },
+      "placeholderTitle": "Problem on {{metricName}} detected",
+      "descriptionIsHigherThan": "{{metricName}} is higher than {{value}}.",
+      "descriptionIsHigherOrEqualTo": "{{metricName}} is higher or equal to {{value}}.",
+      "descriptionIsLowerThan": "{{metricName}} is lower than {{value}}.",
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} is lower or equal to {{value}}."
     },
     "logs": {
       "alertDetails": {
@@ -1655,11 +1739,10 @@
         "customPayloads": {
           "label": "Payloads",
           "title": "Custom payload"
-        },
-        "thresholdValue": "Threshold value"
+        }
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
+        "selectAtLeastOneThreshold": "Please provide value for at least one of the thresholds.",
         "noDataForSelectedGroup": "There is no data available for the specified filters and grouping combination."
       },
       "logCount": "Log count",
@@ -1688,11 +1771,14 @@
         "scopeFilter": {
           "title": "Choose the scope of the logs",
           "filter": "Filter",
-          "filterDescription": "Add filters to the services to get more precise alerts."
+          "filterDescription": "Add filters to log message content, logs, or both to get more precise alerts."
+        },
+        "granularity": {
+          "description": "Logs are evaluated in {{granularity}}-minute windows and  a metric value is calculated for that window"
         },
         "scopeGroupBy": {
           "group": "Group",
-          "groupByDescription": "Add group to configure calls in groups. Each call within the group is configured collectively but evaluated individually."
+          "groupByDescription": "Add grouping to logs. Each entry within the group is configured collectively but evaluated individually."
         },
         "timeThreshold": {
           "title": "Set when violations trigger alerts",
@@ -1745,7 +1831,7 @@
         "blueprintDescription_BURN_RATE": "Burn rate is a value that indicates how fast your error budget is consumed relative to your SLO's target length.",
         "burnRateShortWindowTitle": "Short alert window",
         "burnRateShortWindowDescription": "These alerts will be triggered when the error rate exceeds the threshold faster over a shorter period. This can help capture a sudden spike of errors or downtime due to a critical bug.",
-        "burnRateDescription": "Notify me when the burn rate is <1/> <2/>.",
+        "burnRateDescription": "Notify me when the burn rate is <1/> <2/>",
         "burnRateLongWindowTitle": "Long alert window",
         "burnRateLongWindowDescription": "These alerts will be triggered when the error rate exceeds the threshold over a longer period of time. This helps identify issues building up over time that might cause problems in the future if not addressed.",
         "burnRateShortWindowLongerThanLongWindowError": "Short window cannot exceed long window. Please, adjust either of the values.",
@@ -1771,14 +1857,33 @@
       "details": {
         "alertConfigurationTitle": "Alert configuration",
         "sloHeader": "SLOs",
-        "thresholdInfo": "",
-        "thresholdInfo_BURN_RATE": "When burn rate is {{operator}} {{percentage}}",
-        "thresholdInfo_BURNED_PERCENTAGE": "When {{operator}} {{percentage}} percent of error budget is consumed",
-        "thresholdInfo_STATUS": "When SLO status is {{operator}} {{percentage}} percent",
+        "thresholdLabel": "Threshold",
+        "thresholdInfo": "{{operator}} {{percentage}}",
         "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
         "blueprintLabel": "Blueprint",
+        "blueprintInfo": "",
+        "blueprintInfo_BURN_RATE": "Burn rate",
+        "blueprintInfo_BURNED_PERCENTAGE": "Error budget consumed",
+        "blueprintInfo_STATUS": "Status",
+        "longWindowLabel": "Long window",
+        "shortWindowLabel": "Short window",
+        "timeWindowInfo_minute": "{{count}} minute",
+        "timeWindowInfo_minute_plural": "{{count}} minutes",
+        "timeWindowInfo_minute_0": "{{count}} minutes",
+        "timeWindowInfo_minute_1": "{{count}} minute",
+        "timeWindowInfo_minute_2": "{{count}} minutes",
+        "timeWindowInfo_hour": "{{count}} hour",
+        "timeWindowInfo_hour_plural": "{{count}} hours",
+        "timeWindowInfo_hour_0": "{{count}} hours",
+        "timeWindowInfo_hour_1": "{{count}} hour",
+        "timeWindowInfo_hour_2": "{{count}} hours",
+        "timeWindowInfo_day": "{{count}} day",
+        "timeWindowInfo_day_plural": "{{count}} days",
+        "timeWindowInfo_day_0": "{{count}} days",
+        "timeWindowInfo_day_1": "{{count}} day",
+        "timeWindowInfo_day_2": "{{count}} days",
         "coolDownPeriodDescription": "A minimum of {{value}} must pass for the event to conclude."
       },
       "alertList": {

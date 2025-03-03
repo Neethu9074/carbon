@@ -6,22 +6,22 @@
 
 import { MapForm } from 'formalistic';
 
-import { LogAlertConfig } from '@instana/types';
-
 import {
   EnrichedError,
   enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError
 } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { updateAlertConfig, createAlertConfig } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
+import { LogSmartAlertConfig } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
+import { LogAlertConfig } from 'in-types';
 
 interface createOrSaveAlertProps {
   form: MapForm<any>;
   setForm: (form: MapForm<any>) => void;
   getLinkToAlertConfig: (alertConfigId: string, alertConfigVersion?: number) => string;
-  onClose: (config?: LogAlertConfig) => void;
+  onClose: (config?: LogSmartAlertConfig) => void;
   editMode: boolean;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;

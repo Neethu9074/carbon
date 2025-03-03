@@ -39,6 +39,10 @@ describe(SummaryCharts, () => {
     expect(screen.getByText('Average Response Size')).toBeVisible();
     expect(screen.getByText('Results')).toBeVisible();
     expect(screen.getByText('Response Status')).toBeVisible();
+    // test network timings pull down
+    screen.getByText('test-label1').click();
+    screen.getByText('test-label2').click();
+    expect(screen.getByText('test-label2')).toBeVisible();
   });
 
   it('Render correct set of charts for HTTPScript test', () => {
@@ -66,6 +70,26 @@ describe(SummaryCharts, () => {
       <SummaryCharts
         testId={'Fy5VXstvyDZrrCjhNYXZ'}
         testType={'SSLCertificate'}
+        test={dummyTest}
+        locationIds={'f7cEoG61DJfVyWcDnWsc,,KHphVmZqqRf9Kp2xSoud'}
+        locationDisplayLabels={'test-label1,test-label2'}
+        timeShiftConfig={{ offset: 0 }}
+      />
+    );
+    expect(screen.getByText('Failures')).toBeVisible();
+    expect(screen.getByText('Results')).toBeVisible();
+    expect(screen.getByText('Response Times')).toBeVisible();
+
+    expect(screen.queryByText('Avg. Response Size')).toBeNull();
+    expect(screen.queryByText('Network Timings')).toBeNull();
+    expect(screen.queryByText('Response Status')).toBeNull();
+  });
+
+  it('Render correct set of charts for DNSAction test', () => {
+    render(
+      <SummaryCharts
+        testId={'Fy5VXstvyDZrrCjhNYXZ'}
+        testType={'DNSAction'}
         test={dummyTest}
         locationIds={'f7cEoG61DJfVyWcDnWsc,,KHphVmZqqRf9Kp2xSoud'}
         locationDisplayLabels={'test-label1,test-label2'}

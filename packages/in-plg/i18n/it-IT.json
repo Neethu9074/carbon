@@ -1,5 +1,6 @@
 {
   "welcomeToInstana": "Benvenuto in Instana!",
+  "home": "Home",
   "getStartedAndInstallYourFirstAgent": "Inizia e installa il tuo primo agent.",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "La versione di prova è scaduta",
@@ -73,14 +74,6 @@
       "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
     },
-    "askForHelp": {
-      "email": "email",
-      "send": "Invia",
-      "askForHelpTitle": "Chiedi aiuto a un collega",
-      "thisWillBeAvailableOnceYourInstanceIsReady": "Questa opzione sarà disponibile una volta pronta l'istanza.",
-      "inviteAColeague": "Invita un collega",
-      "agentKey": "Chiave agent"
-    },
     "common": {
       "agentDeployment": "Distribuzione agent",
       "step1": "Passo 1: ",
@@ -108,8 +101,7 @@
       "support": "Supporto",
       "sideCard": {
         "prerequisites": "Prerequisiti",
-        "documentation": "Documentazione",
-        "askAColleagueForHelp": "Chiedi aiuto a un collega"
+        "documentation": "Documentazione"
       }
     },
     "kubernetes": {
@@ -524,8 +516,8 @@
     "heading": "Benvenuto in Instana",
     "foldableTileTitle": "Iniziamo.",
     "viewAll": "Visualizza tutto",
-    "UrlShortener": "URL Shortener",
     "addMore": "Aggiungi",
+    "create": "Crea",
     "collapsibleButton": {
       "showOnboardingTasks": "Mostra le attività di onboarding",
       "hideOnboardingTasks": "Nascondi attività di onboarding"
@@ -569,6 +561,10 @@
       "title": "Coinvolgi il tuo team",
       "description": "Invita i tuoi colleghi in Instana e inizia a collaborare.",
       "buttonName": "Invita i membri del tuo team"
+    },
+    "favouriteButton": {
+      "ariaFilled": "Rimuovi i preferiti",
+      "aria": "Aggiungi ai preferiti"
     },
     "component": {
       "applicationWidget": {
@@ -716,25 +712,22 @@
     "noData": {
       "applicationWidget": {
         "header": "Nessuna applicazione",
-        "description": "Creare la propria prospettiva dell'applicazione sui servizi che si desidera osservare.",
-        "buttonName": "Crea prospettiva dell'applicazione"
+        "description": "Crea una propria prospettiva dell'applicazione sui servizi che si desidera osservare.<br><br>Per iniziare, fare clic su <strong>Aggiungi applicazione</strong>."
       },
       "incidentsWidget": {
         "header": "Nessun incidente",
-        "description": "Gli incidenti consentono di rilevare, comprendere e analizzare i problemi di qualità del servizio delle proprie applicazioni."
+        "description": "Gli incidenti aiutano a rilevare, comprendere e analizzare i problemi nelle applicazioni.<br><br>Per iniziare a monitorare gli incidenti, procedere a <strong>distribuire un agent</strong>."
       },
       "websitesWidget": {
         "header": "Nessun sito web",
-        "description": "Raccogliere i dati del sito web per comprendere l'esperienza digitale degli utenti.",
-        "buttonName": "Aggiungi sito web"
+        "description": "Raccogliere i dati del sito web per comprendere l'esperienza digitale degli utenti.<br><br>Per iniziare, fare clic su <strong>Aggiungi sito web</strong>."
       },
       "mobileListWidget": {
         "header": "Nessuna app mobile",
-        "description": "Raccogliere dati sulle app mobili per comprendere l'esperienza digitale degli utenti.",
-        "buttonName": "Aggiungi applicazioni mobili"
+        "description": "Raccogliere i dati delle app per dispositivi mobili per comprendere l'esperienza digitale degli utenti.<br><br>Per iniziare, fare clic su <strong>Aggiungi app per dispositivo mobile</strong>."
       },
       "infrastructureWidget": {
-        "description": "Distribuire un agente per vederne i dettagli. <br>Iniziare dalla pagina <linkToAgents>Agenti</linkToAgents>.",
+        "description": "Distribuire un agent per vedere i dettagli qui.<br><br>Iniziare dalla pagina <linkToAgents>Agent.</linkToAgents>",
         "link": "Agent",
         "hosts": {
           "header": "Nessun host"
@@ -757,8 +750,7 @@
       "syntheticWidget": {
         "test": {
           "header": "Nessun test sintetico",
-          "description": "Configurare i test sintetici per l'esecuzione a intervalli continui specifici.",
-          "buttonName": "Aggiungi test sintetico"
+          "description": "Configurare i test sintetici per monitorare le applicazioni a intervalli continui. <br><br>Per iniziare, fare clic su <strong>Aggiungi test sintetico</strong>."
         },
         "location": {
           "header": "Nessuna ubicazione sintetica",
@@ -766,18 +758,16 @@
         },
         "smartalerts": {
           "header": "Nessun avviso smart sintetico",
-          "description": "Configurare gli avvisi smart per i test sintetici per inviare un avviso se il test di un'ubicazione non riesce.",
-          "buttonName": "Aggiungi avvisi smart sintetici"
+          "description": "Configurare gli avvisi smart per i test sintetici per inviare un avviso se il test di un'ubicazione non riesce.<br><br> Per iniziare, fare clic su <strong>Aggiungi avviso smart per i test sintetici</strong>."
         }
       },
       "eventsWidget": {
         "header": "Nessun evento",
-        "description": "È possibile che non ci siano eventi o incidenti da visualizzare o che sia necessario impostare prima i dati."
+        "description": "Potrebbero non esserci eventi o incidenti da visualizzare oppure potrebbe essere necessario connettersi prima ai dati."
       },
       "dashboardWidget": {
         "header": "Nessun dashboard personalizzato",
-        "description": "Crea il dashboard personalizzato.",
-        "buttonName": "Crea dashboard personalizzato"
+        "description": "I dashboard personalizzati offrono una visualizzazione più mirata delle informazioni importanti per l'utente.<br><br> Per iniziare, fare clic su <strong>Crea dashboard</strong>."
       }
     },
     "quickLinks": {
@@ -794,12 +784,16 @@
         "documentation": "Documentazione IBM",
         "releaseNotes": "Note di release",
         "whatsNewLink": "Cosa c'è di nuovo in Instana"
+      },
+      "toolTip": {
+        "makeDefault": "Questa azione imposta la homepage di Instana come pagina di destinazione predefinita, sostituendo qualsiasi dashboard personalizzato impostato dall'utente."
       }
     },
     "ariaLabel": {
       "search": "Ricerca",
-      "shareButton": "Pulsante di condivisione",
-      "handleButton": "Pulsante Gestisci"
+      "handleButton": "Pulsante Gestisci",
+      "toolbar": "barra degli strumenti della tabella dati",
+      "tabs": "Elenco di schede"
     }
   },
   "Components": {

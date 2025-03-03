@@ -37,13 +37,11 @@ import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Error, OrderDirection, Result } from 'in-types';
 import { Location } from 'in-stores/navigation/types';
-import Pagination from 'in-components/Pagination';
 import ListTitle from 'in-components/lists/Title';
 import { t } from 'in-i18n';
 
@@ -234,7 +232,7 @@ export default function SmartAlertsBaseList<AlertConfig extends AlertConfigType>
           ) : null}
           {hasError({ errors } as Result<AlertConfig>) && <ErrorList className={locals.list} errors={errors} />}
         </Ul>
-        {carbonPaginationEnabled && searchResultsSelected.length > 0 ? (
+        {searchResultsSelected.length > 0 && (
           <CarbonPagination
             currentPage={page}
             totalItems={searchResultsSelected.length}
@@ -244,12 +242,6 @@ export default function SmartAlertsBaseList<AlertConfig extends AlertConfigType>
               const { page } = data;
               setState({ page });
             }}
-          />
-        ) : (
-          <Pagination
-            currentPage={page}
-            numPages={Math.ceil(searchResultsSelected.length / pageSize)}
-            onChange={newPage => setState({ page: newPage })}
           />
         )}
       </Stack>

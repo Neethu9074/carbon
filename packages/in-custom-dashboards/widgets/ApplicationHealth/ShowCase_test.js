@@ -18,8 +18,6 @@ describe('in-custom-dashboards/widgets/ApplicationHealth/ShowCase', () => {
     await screen.findByText('payment service');
 
     // pagination items
-    await screen.findByText('1');
-    await screen.findByText('2');
-    await screen.findByText('3');
+    await screen.findByText('1–3 of 9 items');
   });
 });

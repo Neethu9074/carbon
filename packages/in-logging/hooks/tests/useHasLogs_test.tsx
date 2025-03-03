@@ -1,38 +1,39 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
 import { render } from '@testing-library/react';
 import React from 'react';
 
-import { TagFilterExpression, TimeConfig } from 'in-types';
-import useHasLogs from 'in-logging/hooks/useHasLogs';
+import { useObservable } from '@instana/hooks';
 
-jest.mock('in-logging/subscriptions/hasLogs', () => jest.fn());
+// eslint-disable-next-line no-restricted-imports
+import useHasLogs from '../useHasLogs';
+import { TagFilterExpression, TimeConfig } from 'in-types';
+import hasLogs from 'in-logging/subscriptions/hasLogs';
+
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()
 }));
+jest.mock('in-logging/subscriptions/hasLogs', () => jest.fn());
 
-describe('useHasLogs', () => {
-  const { useObservable } = require('@instana/hooks');
+describe('useHasLogs - map and hasLogs tests', () => {
   let hookResult: boolean | undefined;
-
   const timeConfig: TimeConfig = {
     to: Date.now(),
     windowSize: 60000,
     autoRefresh: false
   };
-
   const tagFilterExpression: TagFilterExpression = {
     elements: [],
     logicalOperator: 'AND',
     type: 'EXPRESSION'
   };
 
-  function MockLogsComponent() {
-    hookResult = useHasLogs({ timeConfig, tagFilterExpression });
+  function MockComponent() {
+    hookResult = useHasLogs({ tagFilterExpression, timeConfig });
     return null;
   }
 
@@ -41,31 +42,66 @@ describe('useHasLogs', () => {
     hookResult = undefined;
   });
 
-  it('returns true when Observable returns true', () => {
-    useObservable.mockReturnValue(true);
+  it('calls hasLogs with correct parameters', () => {
+    const hasLogsMock = jest.fn().mockReturnValue({
+      map: jest.fn()
+    });
+    (hasLogs as jest.Mock).mockImplementation(hasLogsMock);
+    (useObservable as jest.Mock).mockImplementation(callback => callback());
 
-    render(<MockLogsComponent />);
+    render(<MockComponent />);
+
+    expect(hasLogsMock).toHaveBeenCalledWith({
+      timeConfig,
+      tagFilterExpression
+    });
+  });
+
+  it('maps result.data.hasLogs to true when it is true', () => {
+    const hasLogsMock = jest.fn().mockReturnValue({
+      map: jest.fn(callback => callback({ data: { hasLogs: true } }))
+    });
+    (hasLogs as jest.Mock).mockImplementation(hasLogsMock);
+    (useObservable as jest.Mock).mockImplementation(fn => fn());
+
+    render(<MockComponent />);
+
     expect(hookResult).toBe(true);
   });
 
-  it('returns false when Observable returns false', () => {
-    useObservable.mockReturnValue(false);
+  it('maps result.data.hasLogs to false when it is false', () => {
+    const hasLogsMock = jest.fn().mockReturnValue({
+      map: jest.fn(callback => callback({ data: { hasLogs: false } }))
+    });
+    (hasLogs as jest.Mock).mockImplementation(hasLogsMock);
+    (useObservable as jest.Mock).mockImplementation(fn => fn());
 
-    render(<MockLogsComponent />);
+    render(<MockComponent />);
+
     expect(hookResult).toBe(false);
   });
 
-  it('returns undefined when useObservable returns undefined', () => {
-    useObservable.mockReturnValue(undefined);
+  it('maps result.data.hasLogs to false when data is undefined', () => {
+    const hasLogsMock = jest.fn().mockReturnValue({
+      map: jest.fn(callback => callback({ data: undefined }))
+    });
+    (hasLogs as jest.Mock).mockImplementation(hasLogsMock);
+    (useObservable as jest.Mock).mockImplementation(fn => fn());
 
-    render(<MockLogsComponent />);
-    expect(hookResult).toBeUndefined();
+    render(<MockComponent />);
+
+    expect(hookResult).toBe(false);
   });
 
-  it('returns undefined when useObservable returns null', () => {
-    useObservable.mockReturnValue(null);
+  it('maps result.data.hasLogs to false when hasLogs is undefined', () => {
+    const hasLogsMock = jest.fn().mockReturnValue({
+      map: jest.fn(callback => callback({ data: { hasLogs: undefined } }))
+    });
+    (hasLogs as jest.Mock).mockImplementation(hasLogsMock);
+    (useObservable as jest.Mock).mockImplementation(fn => fn());
 
-    render(<MockLogsComponent />);
-    expect(hookResult).toBeUndefined();
+    render(<MockComponent />);
+
+    expect(hookResult).toBe(false);
   });
 });

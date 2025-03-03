@@ -38,7 +38,6 @@ import { FormControlProps } from 'in-settings/tabs/SecurityAndAccess/pages/acces
 import { LimitableProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
-import { bizopsRbacLimitedEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export interface PermissionSectionBusinessMonitoringProps<I extends Object, FORM_TYPE extends MapFormItems>
@@ -75,102 +74,7 @@ export default function PermissionSectionBusinessMonitoring<I extends Object, FO
   setSubSlideConfig,
   setShowSubSlide
 }: PermissionSectionBusinessMonitoringProps<I, FORM_TYPE>) {
-  if (bizopsRbacLimitedEnabled) return limitedEnabledSection();
-  else return limitedDisabledSection();
-
-  // this needs to overwrite types to remove limited access,
-  // so we'll extract them into individual functions with their own scope.
-  // TODO: simplify to just return when bizopsRBACLimitedEnabled FF is removed
-  function limitedDisabledSection() {
-    const ScopedPermissionItem = Object.freeze({
-      ACCESS_ALL: 'ACCESS_ALL',
-      NO_ACCESS: 'NO_ACCESS'
-    } as const);
-    type ScopedPermissionType = keyof typeof ScopedPermissionItem;
-    const ScopedPermissionItems = Object.freeze(Object.values(ScopedPermissionItem)) as Array<ScopedPermissionType>;
-
-    function getScopeFromProductArea(permissionSet: PermissionSet): ScopedPermissionType {
-      const { permissions } = permissionSet;
-      const hasAreaPermission = !permissions.includes('LIMITED_BIZOPS_SCOPE');
-
-      if (hasAreaPermission) return ScopedPermissionItem.ACCESS_ALL;
-      return ScopedPermissionItem.NO_ACCESS;
-    }
-
-    const defaultLimitation = ScopedPermissionItem.ACCESS_ALL;
-    const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
-    const permissionSet = permissionSetField?.value;
-    const limitedPermission = permissionSet ? getScopeFromProductArea(permissionSet) : defaultLimitation;
-
-    const onUpdatePermissionSet = (limitation: ScopedPermissionType) => {
-      if (!permissionSet) return;
-      const { ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
-        permissionSet,
-        productArea,
-        limitation,
-        undefined
-      );
-      const newPermissionSet = {
-        ...restPermissionSet
-      };
-      setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
-    };
-
-    return (
-      <TabSelect
-        activePanelId={limitedPermission}
-        onChange={panelId => onUpdatePermissionSet(panelId ?? defaultLimitation)}
-      >
-        <TabSelectHeader>
-          <SvgIcon type={icon} size="l" />
-          <Typography variant="heading-200" component="h3" noMargin>
-            {title}
-          </Typography>
-        </TabSelectHeader>
-        <TabSelectMenu>
-          {ScopedPermissionItems.map(context => (
-            <TabSelectItem key={context} forId={context} withRadioButton>
-              {t('in-settings:permissionScope.selection', { context: context.toLowerCase() })}
-            </TabSelectItem>
-          ))}
-        </TabSelectMenu>
-        <TabSelectPanels>
-          {ScopedPermissionItems.map(context => (
-            <TabSelectPanel key={context} id={context}>
-              {context === ScopedPermissionItem.ACCESS_ALL && (
-                <BusinessMonitoringPanel
-                  title={t('in-settings:productAreas.permissions')}
-                  description={accessAllDescription}
-                  extractId={extractId}
-                  extractName={extractName}
-                  observable={observable}
-                  form={form}
-                  setForm={setForm}
-                  setSubSlideConfig={setSubSlideConfig}
-                  setShowSubSlide={setShowSubSlide}
-                  access="ALL"
-                />
-              )}
-              {context === ScopedPermissionItem.NO_ACCESS && (
-                <BusinessMonitoringPanel
-                  title={t('in-settings:productAreas.permissions')}
-                  description={noAccessDescription}
-                  extractId={extractId}
-                  extractName={extractName}
-                  observable={observable}
-                  form={form}
-                  setForm={setForm}
-                  setSubSlideConfig={setSubSlideConfig}
-                  setShowSubSlide={setShowSubSlide}
-                  access="NONE"
-                />
-              )}
-            </TabSelectPanel>
-          ))}
-        </TabSelectPanels>
-      </TabSelect>
-    );
-  }
+  return limitedEnabledSection();
 
   function limitedEnabledSection() {
     const defaultLimitation = ScopedPermissionItem.ACCESS_ALL;

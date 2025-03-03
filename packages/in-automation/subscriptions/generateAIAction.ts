@@ -10,6 +10,9 @@ import { createResultSubscriptionFactory } from 'in-subscription/resultSubscript
 
 export interface AIActionContent {
   content: string;
+  inputTokenCount?: number;
+  outputTokenCount?: number;
+  totalTokenCount?: number;
 }
 
 export default createResultSubscriptionFactory<GenerateActionQuery, Result<AIActionContent>>({

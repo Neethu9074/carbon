@@ -22,12 +22,14 @@ export default function SimpleCreateStep1({ selectedBlueprint, setSelectedBluepr
     <SimpleModeStepContentWrapper headline={t('in-applications:creation.simple.step1.headline')}>
       <SideRadioMenu
         items={blueprintConfig.map(x => ({ id: idFromBluePrint(x), name: x.name }))}
-        valueSelected={idFromBluePrint(selectedBlueprint)}
+        legendHidden
+        legendText={t('in-applications:creation.simple.step1.headline')}
         onChange={id => {
           const item = blueprintConfig.find(i => id === idFromBluePrint(i));
           setSelectedBlueprint(item);
           trackApplicationCreationBlueprintSelected({ item });
         }}
+        valueSelected={idFromBluePrint(selectedBlueprint)}
       />
       <div className={locals.presenterWrapper}>
         <SelectedBlueprintPresenter title={selectedBlueprint.headline}>

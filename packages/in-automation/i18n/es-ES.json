@@ -10,7 +10,6 @@
   "recommendedOptimizations": "Acciones de recursos recomendadas",
   "actionName": "Nombre de acción",
   "validVaultParameter": "Ambos parámetros de caja fuerte marcados como opcionales deberán estar en blanco o no en blanco.",
-  "newAction": "Acción nueva",
   "runAction": "Ejecutar acción",
   "testAction": "Probar acción",
   "targetAgent": "Agente de destino",
@@ -239,6 +238,7 @@
     "ignoreCertErrors": "Ignorar errores de certificado",
     "basicAuth": "Autenticación básica",
     "bearerToken": "Señal portadora",
+    "authentication": "Autenticación",
     "apiKeyAddTo": "Añadir a",
     "apiKey": "Clave de Api",
     "header": "Cabecera",
@@ -255,12 +255,6 @@
     "defaultValue": "Valor predeterminado",
     "defaultValueOptional": "Valor predeterminado (opcional)",
     "parameters": "Parámetros",
-    "showPasswordTooltip": "Mostrar contraseña",
-    "hidePasswordTooltip": "Ocultar contraseña",
-    "showAPIKeyTooltip": "Mostrar clave de API",
-    "hideAPIKeyTooltip": "Ocultar clave de API",
-    "showBeaererTokenTooltip": "Mostrar señal portadora",
-    "hideBeaererTokenTooltip": "Ocultar señal portadora",
     "secretKey": "Clave secreta",
     "secretPath": "Vía de acceso de secreto",
     "secretKeyOptional": "Clave secreta (opcional)",
@@ -329,8 +323,6 @@
     "status": "Estado",
     "startTime": "Hora de inicio",
     "endTime": "Hora de finalización",
-    "property": "Propiedad",
-    "value": "Valor",
     "actionInstanceId": "ID de instancia de acción",
     "event": "Suceso",
     "eventName": "Nombre de suceso",
@@ -373,11 +365,13 @@
     "output": "Salida",
     "user": "Usuario",
     "apiToken": "Señal de API",
-    "deleteTooltip": "Suprimir instancia de acción {{id}}",
+    "viewTooltip": "Ver instancia de acción {{actionName}}",
+    "deleteTooltip": "Suprimir instancia de acción {{actionName}}",
     "deleteDialog": {
       "success": "La instancia de acción se ha suprimido correctamente.",
       "failure": "No se ha podido eliminar la instancia de acción."
-    }
+    },
+    "actionSnapshotDetails": "Detalles de instantánea de acción"
   },
   "actionLanes": {
     "buttonInvestigate": "Investigar"
@@ -478,8 +472,8 @@
     "showTasks": "Mostrar"
   },
   "deleteDialog": {
-    "pleaseConfirm": "Confírmelo",
-    "pleaseConfirmMsg": "¿Seguro que desea suprimir <strong>{{name}}</strong>?",
+    "confirmRemove": "Confírmelo",
+    "confirmRemoveMsg": "¿Seguro que desea suprimir <strong>{{name}}</strong>?",
     "delete": "Suprimir"
   },
   "turboActionCategories": {
@@ -512,5 +506,12 @@
     "actionName": "Nombre de acción",
     "recommendedActionHistoryWithCount": "Historial de acciones de recursos ({{count}})",
     "recommendedActionHistory": "Historial de acciones de recursos"
+  },
+  "feedback": {
+    "contentHelpfulText": "¿Le ha resultado útil este contenido generado?",
+    "thankYouForYourFeedback": "Gracias por sus comentarios.",
+    "submitFeedback": "Enviar comentarios",
+    "additionalFeedbacklabel": "Proporcione comentarios adicionales (opcional)",
+    "additionalFeedbackPlaceholder": "¿Qué no le gustó de la respuesta? Qué se puede mejorar"
   }
 }

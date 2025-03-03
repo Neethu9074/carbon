@@ -7,15 +7,14 @@
 import React from 'react';
 
 import { SloEntityType } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import ComboBox, { hasMultipleValuesSelected, Option } from 'in-components/ComboBox';
 import { sloEntityTypes } from 'in-service-levels/constants';
+import { t } from 'in-i18n';
 
-interface Props {
+interface EntityTypeFilterProps {
   value: SloEntityType | undefined;
   onChange: (value: SloEntityType | undefined) => void;
-  disabled?: boolean;
 }
 
 const options: Option[] = sloEntityTypes.map(entityType => ({
@@ -23,7 +22,7 @@ const options: Option[] = sloEntityTypes.map(entityType => ({
   label: t('in-service-levels:general.entityTypes.label', { context: entityType })
 }));
 
-export default function EntityTypeFilter({ value, onChange, disabled }: Props) {
+export default function EntityTypeFilter({ value, onChange }: EntityTypeFilterProps) {
   return (
     <ComboBox
       options={options}
@@ -38,7 +37,6 @@ export default function EntityTypeFilter({ value, onChange, disabled }: Props) {
           onChange(newValue.value as SloEntityType);
         }
       }}
-      disabled={disabled}
     />
   );
 }

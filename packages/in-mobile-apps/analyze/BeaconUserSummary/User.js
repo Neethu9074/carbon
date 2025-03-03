@@ -9,8 +9,8 @@ import React from 'react';
 import { SvgIcon, Link, Button } from '@instana/components';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
+import { redirectURL } from 'in-mobile-apps/constants';
 import UserIcon from 'in-components/UserIcon/UserIcon';
-import { redirectURL } from '../../constants';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

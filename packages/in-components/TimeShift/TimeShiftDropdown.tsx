@@ -52,6 +52,7 @@ export default function TimeShiftDropdown({
             type={'lib_datetime_time'}
             size="xs"
             aria-label={t('in-components:timeShift.changeSelectedTimeShift')}
+            className={locals.timeicon}
           />
           {t('in-components:timeShift.timeShiftValue', { timeShiftValue: label })}
         </div>

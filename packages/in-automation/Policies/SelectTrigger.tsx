@@ -177,7 +177,7 @@ function SelectTriggerDialog({
     {
       id: 'select',
       label: '',
-      width: 5,
+      width: 50,
       getContent: item => <RadioButton label="" checked={item.id === selectedId} onChange={() => onChange(item)} />
     },
     triggerNameColumn,

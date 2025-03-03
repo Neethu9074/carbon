@@ -9,9 +9,9 @@ import { useObservable } from '@instana/hooks';
 
 import useOpenDashboardOnEntityDoubleClick from 'in-map/useOpenDashboardOnEntityDoubleClick';
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
-import MapNoContentMessage from 'in-map/components/MapNoContentMessage';
-import useClearSelectedEventForInMap from 'in-map/useClearSelectedEvent'
 import { view$, types as views } from 'in-infrastructure/perspectives/view';
+import useClearSelectedEventForInMap from 'in-map/useClearSelectedEvent';
+import MapNoContentMessage from 'in-map/components/MapNoContentMessage';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
@@ -90,6 +90,7 @@ export default function Map() {
       canvas.removeEventListener('webglcontextlost', onLost);
       canvas.removeEventListener('webglcontextrestored', onRestored);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref.current?.canvas]);
 
   return (

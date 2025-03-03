@@ -5,10 +5,11 @@
 
 import { useMemo } from 'react';
 
+import { ApdexConfiguration } from '@instana/types';
+
 import useApdexConfiguration from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexConfiguration';
 import { FetchedState } from 'in-hooks/utils/types';
 import { days, hours } from 'in-services/time/time';
-import { ApdexConfiguration } from 'in-types';
 
 function applyPreviewOverrides(apdexConfig?: ApdexConfiguration, isPreview?: boolean): ApdexConfiguration | undefined {
   if (!apdexConfig || !isPreview) return apdexConfig;
@@ -25,10 +26,10 @@ export default function useApdexConfigWithPreview(
 ): FetchedState<ApdexConfiguration> {
   const [apdexConfiguration, status, ...rest] = useApdexConfiguration(apdexConfigId);
 
-  const apdexConfigWithPreview = useMemo(() => applyPreviewOverrides(apdexConfiguration, isPreview), [
-    apdexConfiguration,
-    isPreview
-  ]);
+  const apdexConfigWithPreview = useMemo(
+    () => applyPreviewOverrides(apdexConfiguration, isPreview),
+    [apdexConfiguration, isPreview]
+  );
 
   if (status !== 'resolved') return [undefined, status, ...rest];
 

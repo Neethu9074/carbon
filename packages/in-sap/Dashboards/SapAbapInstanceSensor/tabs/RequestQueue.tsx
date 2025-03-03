@@ -76,7 +76,10 @@ const cols = [
 ];
 
 export default function RequestQueue({ snapshotId, timeConfig }: RequestQueueProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'requestQueueList'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'requestQueueList', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return null;
   }

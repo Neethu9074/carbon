@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { TableEntityCounter } from '@instana/legacy';
+import { TableEntityCounter } from '@instana/components';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -65,7 +65,7 @@ const columnDefinitions = [
     label: t('in-vsphere:dashboards.cpuResources'),
     sortable: true,
     getContent(item) {
-      return <TableEntityCounter count={item.cpuTotal} />;
+      return item.cpuTotal;
     }
   },
   {

@@ -6,8 +6,12 @@
     "count": "Conteggio"
   },
   "lists": {
+    "id": "ID",
+    "version": "Versione",
     "pageTitle": "Monitoraggio aziendale",
     "cardTitle": "Processi di business",
+    "theId": "L'ID processo",
+    "hasBeenCopied": "è stato copiato con successo negli appunti",
     "activityLabel": "Attività",
     "nameLabel": "Nome",
     "countLabel": "Conteggio",

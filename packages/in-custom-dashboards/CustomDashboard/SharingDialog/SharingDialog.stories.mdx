@@ -1,4 +1,4 @@
-import { Meta, Story, Preview, Props } from '@storybook/addon-docs';
+import { Meta, Story, Canvas, Props } from '@storybook/addon-docs';
 import { action } from '@storybook/addon-actions';
 import { finishedProgress } from 'in-services/fixedObjects';
 
@@ -6,26 +6,23 @@ import SharingDialogPresenter from 'in-custom-dashboards/CustomDashboard/Sharing
 
 <Meta component={SharingDialogPresenter} />
 
-<Preview>
+<Canvas>
   <Story name="default">
     <SharingDialogPresenter isPrivate setPrivate={action('setPrivate')} />
   </Story>
-</Preview>
-
-### Props
-<Props of={SharingDialogPresenter} />
+</Canvas>
 
 ### Public Mode (loading)
 
-<Preview>
+<Canvas>
   <Story name="public mode – loading">
     <SharingDialogPresenter isPrivate={false} setPrivate={action('setPrivate')} />
   </Story>
-</Preview>
+</Canvas>
 
 ### Public Mode (with users)
 
-<Preview>
+<Canvas>
   <Story name="public mode – with users">
     <SharingDialogPresenter
       accessRules={[]}
@@ -69,4 +66,4 @@ import SharingDialogPresenter from 'in-custom-dashboards/CustomDashboard/Sharing
         }]
     }}/>
   </Story>
-</Preview>
+</Canvas>

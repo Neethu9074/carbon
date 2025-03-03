@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { UserGoal } from '../types';
+import { UserGoal } from 'in-plg/pages/UserGoalSelection/types';
 
 export const TOGGLER = 'toggler';
 

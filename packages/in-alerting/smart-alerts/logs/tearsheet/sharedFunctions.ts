@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { LogAlertConfigWithMetadata } from '@instana/types';
-
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { t } from 'in-i18n';
 
 export function getHeaderTitle(editMode: boolean): string {
@@ -16,8 +15,8 @@ export function getHeaderTitle(editMode: boolean): string {
 }
 
 export function duplicateAlertConfig(
-  config: LogAlertConfigWithMetadata
-): LogAlertConfigWithMetadata & { duplicateFrom?: string } {
+  config: LogSmartAlertConfigWithMetadata
+): LogSmartAlertConfigWithMetadata & { duplicateFrom?: string } {
   return {
     ...config,
     duplicateFrom: config.id,

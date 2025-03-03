@@ -24,9 +24,6 @@ import {
   globalSettingsAlertingMaintenanceConfigurationEdit,
   globalSettingsAlertingMaintenanceConfigurationNew,
   globalSettingsAlertingMaintenanceConfigurations,
-  globalSettingsLogManagementDeleteLogs,
-  globalSettingsLogManagementLogVolume,
-  globalSettingsLogManagementRetentionPeriod,
   globalSettingsIntegrationsLogging,
   globalSettingsIntegrationsLoggingCoralogix,
   globalSettingsIntegrationsLoggingElk,
@@ -38,19 +35,12 @@ import {
 } from 'in-settings/navigation/paths';
 import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
 import RecurrentMaintenanceWindowFormPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
-import {
-  recurrentMaintenanceWindowEnabled,
-  logRetentionPageEnabled,
-  logVolumePageEnabled,
-  logHomepageEnabled
-} from 'in-services/featureFlags';
 import MaintenanceWindowsPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
 import AlertChannelModificationPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import GlobalCustomPayloadPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import FalconLogScalePage from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/FalconLogScale/FalconLogScale';
-import RetentionPeriodPage from 'in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
 import DbIntegrations from 'in-settings/tabs/GlobalSettings/pages/integrations/database/Integrations/DbIntegrations';
 import LogIntegrations from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Integrations/Integrations';
 import AlertChannelsPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
@@ -58,15 +48,14 @@ import AlertChannelPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAle
 import CoralogixPage from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Coralogix/Coralogix';
 import BuiltInEventPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import CustomEventPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEvent';
-import DeleteLogsPage from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogs';
 import DbMarlin from 'in-settings/tabs/GlobalSettings/pages/integrations/database/DbMarlin/DbMarlin';
-import LogVolumePage from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/LogVolume';
 import SplunkPage from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Splunk/Splunk';
 import MezmoPage from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Mezmo/Mezmo';
 import EventsPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/Alerts';
 import AlertPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/Alert';
 import ElkPage from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Elk/Elk';
+import { recurrentMaintenanceWindowEnabled } from 'in-services/featureFlags';
 import { findFirstPermittedGlobalPage } from 'in-settings/tabs/permissions';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -76,7 +65,7 @@ import { isAddonUserCached } from 'in-logging/api/licence';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-function navigationTreeForRole(role, isAddonUser) {
+function navigationTreeForRole(role) {
   const navigationTree = [];
   if (
     role.canConfigureEventsAndAlerts ||
@@ -189,43 +178,6 @@ function navigationTreeForRole(role, isAddonUser) {
     navigationTree.push({
       title: t('in-settings:tabs.eventsAlerts'),
       pages: eventsAndAlertsPages
-    });
-  }
-
-  const deleteLogsPage = {
-    path: globalSettingsLogManagementDeleteLogs,
-    label: t('in-settings:tabs.deleteLogs.deleteLogs'),
-    component: DeleteLogsPage
-  };
-
-  const retentionPeriodPage = {
-    path: globalSettingsLogManagementRetentionPeriod,
-    label: 'Retention Period',
-    component: RetentionPeriodPage
-  };
-  const logVolumePage = {
-    path: globalSettingsLogManagementLogVolume,
-    label: t('in-settings:tabs.logVolume.logVolume'),
-    component: LogVolumePage
-  };
-
-  if ((role.canDeleteLogs || role.canViewLogVolume || role.canConfigureLogRetentionPeriod) && !logHomepageEnabled) {
-    let pages = [];
-
-    if (role.canDeleteLogs) {
-      pages.push(deleteLogsPage);
-    }
-    if (role.canConfigureLogRetentionPeriod && logRetentionPageEnabled && isAddonUser) {
-      pages.unshift(retentionPeriodPage);
-    }
-
-    if (role.canViewLogVolume && logVolumePageEnabled && isAddonUser) {
-      pages.push(logVolumePage);
-    }
-
-    navigationTree.push({
-      title: t('in-settings:tabs.logManagement'),
-      pages
     });
   }
 

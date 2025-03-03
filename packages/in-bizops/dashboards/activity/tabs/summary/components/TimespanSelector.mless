@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 @import '~in-themes/active.less';
@@ -10,11 +10,10 @@
   .timespan {
     display: inline-flex;
     align-items: center;
-    font-weight: 400;
     float: right;
+  }
 
-    &:hover {
-      cursor: default;
-    }
+  .selected {
+    background: var(--cds-layer-selected);
   }
 }

@@ -20,8 +20,9 @@ import { useSlideOutDelay } from 'in-custom-dashboards/widgets/SloLegacy/hooks/u
 import SliList from 'in-custom-dashboards/widgets/SloLegacy/sli/components/list/SliList';
 import { deleteSliConfiguration } from 'in-custom-dashboards/widgets/SloLegacy/sli/api';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
-import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { DELETED_OBJECT } from 'in-services/util/constants';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
@@ -106,25 +107,26 @@ function SliManageListContent<S extends SliType>({
   const [orderBy, setOrderBy] = useState<string>('name');
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   const sliResult = useFilteredAndSortedSliConfigurations(entityType, entityId, nameQuery, orderBy, orderDirection);
-  const track = useSloTrackers();
+  const { trackCta, unstable_trackEvent } = useSegmentTracking();
 
   const onCreateConfig = () => {
-    track(SLI_MANAGEMENT_CREATE_START, {
+    trackCta(SLI_MANAGEMENT_CREATE_START, {
       entityType
     });
     setSliConfigToEdit({});
     onShowCreateForm(false);
   };
   const onEditConfig = (config: SliConfigBySliType<S>) => {
-    track(SLI_MANAGEMENT_EDIT_START, {
+    trackCta(SLI_MANAGEMENT_EDIT_START, {
       entityType
     });
     setSliConfigToEdit({ ...config, sliName: t('in-custom-dashboards:editor.copyOf', { title: config.sliName }) });
     onShowCreateForm(true);
   };
   const onDeleteConfig = (id: string) => {
-    track(SLI_MANAGEMENT_DELETE, {
-      entityType
+    unstable_trackEvent(DELETED_OBJECT, {
+      entityType,
+      objectType: SLI_MANAGEMENT_DELETE
     });
     deleteSliConfiguration(id).once(onDeleteSuccess, onDeleteFailed);
   };
@@ -151,7 +153,7 @@ function SliManageListContent<S extends SliType>({
             <Button
               kind="action"
               onClick={() => {
-                track(SLI_MANAGEMENT_CREATE_START, {
+                trackCta(SLI_MANAGEMENT_CREATE_START, {
                   entityType
                 });
                 onCreateConfig();

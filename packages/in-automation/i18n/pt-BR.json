@@ -10,7 +10,6 @@
   "recommendedOptimizations": "Ações de recursos recomendadas",
   "actionName": "Nome da Ação",
   "validVaultParameter": "Os parâmetros da área segura marcados como opcionais devem estar ambos em branco ou ambos não em branco.",
-  "newAction": "Nova ação",
   "runAction": "Executar a ação",
   "testAction": "Ação de teste",
   "targetAgent": "Destinar agente",
@@ -239,6 +238,7 @@
     "ignoreCertErrors": "Ignorar erros de certificado",
     "basicAuth": "Autenticação básica",
     "bearerToken": "Token de Acesso",
+    "authentication": "Autenticação",
     "apiKeyAddTo": "Incluir em",
     "apiKey": "Chave de API",
     "header": "Cabeçalho",
@@ -255,12 +255,6 @@
     "defaultValue": "Valor padrão",
     "defaultValueOptional": "Valor padrão (opcional)",
     "parameters": "Parâmetros",
-    "showPasswordTooltip": "Mostrar senha",
-    "hidePasswordTooltip": "Ocultar senha",
-    "showAPIKeyTooltip": "Mostrar chave de API",
-    "hideAPIKeyTooltip": "Ocultar chave de API",
-    "showBeaererTokenTooltip": "Mostrar token de acesso",
-    "hideBeaererTokenTooltip": "Ocultar token de acesso",
     "secretKey": "Chave secreta",
     "secretPath": "Caminho do segredo",
     "secretKeyOptional": "Chave secreta (opcional)",
@@ -329,8 +323,6 @@
     "status": "Status",
     "startTime": "Hora de Início",
     "endTime": "Horário de encerramento",
-    "property": "Propriedade",
-    "value": "Valor",
     "actionInstanceId": "ID da instância de ação",
     "event": "Evento",
     "eventName": "Nome do evento",
@@ -373,11 +365,13 @@
     "output": "Saída",
     "user": "Usuário",
     "apiToken": "Token da API",
-    "deleteTooltip": "Excluir instância de ação {{id}}",
+    "viewTooltip": "Visualizar instância de ação {{actionName}}",
+    "deleteTooltip": "Excluir instância de ação {{actionName}}",
     "deleteDialog": {
       "success": "A instância da ação foi excluída com sucesso.",
       "failure": "Falha ao excluir a instância da ação."
-    }
+    },
+    "actionSnapshotDetails": "Detalhes da captura instantânea da ação"
   },
   "actionLanes": {
     "buttonInvestigate": "Investigar"
@@ -478,8 +472,8 @@
     "showTasks": "Mostrar"
   },
   "deleteDialog": {
-    "pleaseConfirm": "Confirme",
-    "pleaseConfirmMsg": "Tem certeza de que deseja excluir <strong>{{name}}</strong>?",
+    "confirmRemove": "Confirme",
+    "confirmRemoveMsg": "Tem certeza de que deseja excluir <strong>{{name}}</strong>?",
     "delete": "Excluir"
   },
   "turboActionCategories": {
@@ -512,5 +506,12 @@
     "actionName": "Nome da Ação",
     "recommendedActionHistoryWithCount": "Histórico de ações de recursos ({{count}})",
     "recommendedActionHistory": "Histórico de ações de recursos"
+  },
+  "feedback": {
+    "contentHelpfulText": "Esse conteúdo gerado foi útil?",
+    "thankYouForYourFeedback": "Obrigado por seu feedback.",
+    "submitFeedback": "Enviar feedback",
+    "additionalFeedbacklabel": "Fornecer feedback adicional (opcional)",
+    "additionalFeedbackPlaceholder": "O que você não gostou na resposta? O que pode ser melhorado"
   }
 }

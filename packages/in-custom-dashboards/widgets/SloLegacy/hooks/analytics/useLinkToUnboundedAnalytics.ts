@@ -3,15 +3,6 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-import { just, Observable } from '@instana/observables';
-
-import {
-  isApplicationSliConfig,
-  isAvailabilitySliConfig,
-  isWebsiteEventBasedSliConfig,
-  isWebsiteTimeBasedSliConfig,
-  SliConfig
-} from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
 import {
   ApplicationSliEntity,
   AvailabilitySliEntity,
@@ -21,7 +12,16 @@ import {
   TimeConfig,
   WebsiteEventBasedSliEntity,
   WebsiteTimeBasedSliEntity
-} from 'in-types';
+} from '@instana/types';
+import { just, Observable } from '@instana/observables';
+
+import {
+  isApplicationSliConfig,
+  isAvailabilitySliConfig,
+  isWebsiteEventBasedSliConfig,
+  isWebsiteTimeBasedSliConfig,
+  SliConfig
+} from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
 import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/SloLegacy/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href';
 import {
   ChartedMetric,

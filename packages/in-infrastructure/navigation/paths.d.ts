@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
+import { AggregationType, Group, Order, TimeConfig } from '@instana/types';
+
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { AggregationType, Group, Order, TimeConfig } from 'in-types';
 import { Grouping } from 'in-custom-dashboards/widgets/Table/types';
 
 export interface MetricItem {

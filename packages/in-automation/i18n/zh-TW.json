@@ -10,7 +10,6 @@
   "recommendedOptimizations": "建議的資源動作",
   "actionName": "動作名稱",
   "validVaultParameter": "標示為選用的儲存庫參數必須同時空白或兩者都不是空白。",
-  "newAction": "新增動作",
   "runAction": "執行動作",
   "testAction": "測試動作",
   "targetAgent": "目標代理程式",
@@ -239,6 +238,7 @@
     "ignoreCertErrors": "忽略憑證錯誤",
     "basicAuth": "基本鑑別",
     "bearerToken": "載送記號",
+    "authentication": "鑑別",
     "apiKeyAddTo": "新增至",
     "apiKey": "API 金鑰",
     "header": "標頭",
@@ -255,12 +255,6 @@
     "defaultValue": "預設值",
     "defaultValueOptional": "預設值（選用）",
     "parameters": "參數",
-    "showPasswordTooltip": "顯示密碼",
-    "hidePasswordTooltip": "隱藏密碼",
-    "showAPIKeyTooltip": "顯示 API 金鑰",
-    "hideAPIKeyTooltip": "隱藏 API 金鑰",
-    "showBeaererTokenTooltip": "顯示載送記號",
-    "hideBeaererTokenTooltip": "隱藏載送記號",
     "secretKey": "秘密金鑰",
     "secretPath": "密鑰路徑",
     "secretKeyOptional": "秘密金鑰（選用）",
@@ -329,8 +323,6 @@
     "status": "狀態",
     "startTime": "開始時間",
     "endTime": "結束時間",
-    "property": "內容",
-    "value": "值",
     "actionInstanceId": "動作實例 ID",
     "event": "事件",
     "eventName": "事件名稱",
@@ -373,11 +365,13 @@
     "output": "輸出",
     "user": "使用者",
     "apiToken": "API 記號",
-    "deleteTooltip": "刪除動作實例 {{id}}",
+    "viewTooltip": "檢視動作實例 {{actionName}}",
+    "deleteTooltip": "刪除動作實例 {{actionName}}",
     "deleteDialog": {
       "success": "動作實例已順手刪除。",
       "failure": "無法刪除動作實例。"
-    }
+    },
+    "actionSnapshotDetails": "動作 Snapshot 詳細資料"
   },
   "actionLanes": {
     "buttonInvestigate": "調查"
@@ -478,8 +472,8 @@
     "showTasks": "顯示"
   },
   "deleteDialog": {
-    "pleaseConfirm": "請確認",
-    "pleaseConfirmMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？",
+    "confirmRemove": "請確認",
+    "confirmRemoveMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？",
     "delete": "刪除"
   },
   "turboActionCategories": {
@@ -512,5 +506,12 @@
     "actionName": "動作名稱",
     "recommendedActionHistoryWithCount": "資源動作歷程 ({{count}})",
     "recommendedActionHistory": "資源動作歷程"
+  },
+  "feedback": {
+    "contentHelpfulText": "此產生內容是否有幫助？",
+    "thankYouForYourFeedback": "謝謝您的意見！",
+    "submitFeedback": "提交意見回饋",
+    "additionalFeedbacklabel": "提供其他意見（選用）",
+    "additionalFeedbackPlaceholder": "您不喜歡回應的哪一點？ 可以改進的地方"
   }
 }

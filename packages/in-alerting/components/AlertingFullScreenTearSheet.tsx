@@ -8,6 +8,7 @@ import React, { useMemo, useRef, useState } from 'react';
 import { MapForm, Item } from 'formalistic';
 
 import { CreateFullPage, CreateFullPageProps, CreateFullPageStep } from '@instana/ibm-products';
+import { Stack } from '@instana/components';
 
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData, TimeConfig } from 'in-types';
@@ -15,6 +16,8 @@ import AlertingCarbonTearSheetContent from 'in-alerting/components/AlertingCarbo
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ALERTING_CANCEL_CLICKED } from 'in-services/tracking/eventNames';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import AlertingMessage from 'in-alerting/components/AlertingMessage';
+import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { t } from 'in-i18n';
 
@@ -33,24 +36,26 @@ interface AlertingFullScreenTearSheetProps {
   form: MapForm<any>;
   updateForm: ((form: MapForm<any>, setForm?: (form: MapForm<any>) => void) => void) | ((form: MapForm<any>) => void);
   onChange: (path: string[], updater: (item: Item) => Item) => void;
-  onChartViewConfigChange: (arg: number) => void;
-  selectedChartViewConfigIndex: number;
+  onChartViewConfigChange?: (arg: number) => void;
+  selectedChartViewConfigIndex?: number;
   editMode: boolean;
-  timeConfig: TimeConfig;
-  onCreate: (simpleMode: boolean) => void;
+  timeConfig?: TimeConfig;
+  onCreate?: (simpleMode: boolean) => void;
   isSaving: boolean;
   messages: EnrichedError[];
-  withTrackClose: VoidFunction;
   cancelTearSheet: string;
   tearSheetTitle: string;
   isTagFilterFormModelValid?: boolean;
+  TagBasedPayloadConfigurator?: React.FunctionComponent<any>;
   stepConfigs: AlertingTearSheetStepConfigs[];
   handleFormSubmit: VoidFunction;
   isEditMode: boolean;
   setTagFilterValid?: React.Dispatch<React.SetStateAction<boolean>>;
   thresholdResult: Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData> | undefined | null;
   actionButtonLabel: string;
+  QueryBuilderComponent?: QueryBuilderComponent;
   productArea?: string;
+  blueprintConfig?: object;
 }
 
 export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTearSheetProps) {
@@ -63,7 +68,8 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
     isEditMode,
     actionButtonLabel,
     cancelTearSheet,
-    productArea
+    productArea,
+    messages
   } = props;
 
   const { goToPath } = useNavigation();
@@ -104,8 +110,18 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
 
   /**
    *`handleSubmit` function handles the final submission of the form
+   * and before submitting the form, this function checks if the steps are valid and free of errors.
+   * If any errors are found, the corresponding error component is loaded...
    */
   const handleSubmit = () => {
+    let errorStep = stepConfigs.findIndex(({ valid }) => !valid);
+    if (errorStep >= 0) {
+      setStepValid(false);
+      setErrorStep(errorStep);
+      setCurrentStep(errorStep);
+      return;
+    }
+
     const { valid, validator, validateIntermediately } = stepConfigs[lastStepIndex];
     if (!validateCurrentStep(lastStepIndex, validateIntermediately, valid, validator)) return;
     handleFormSubmit();
@@ -114,6 +130,7 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
   /**
    * `args` returns the arguments that need to be passed to the tearSheet `CreateFullPage` component
    */
+  //@ts-expect-error there is no other way to include notification bar sticky in tearSheet
   const args: CreateFullPageProps = useMemo(
     () => ({
       backButtonText: t('in-alerting:smartAlerts.components.smartAlertDialog.previousTitle'),
@@ -131,7 +148,11 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
         }
         isFormSubmit.current = false;
       },
-      title: tearSheetTitle,
+      title: (
+        <Stack gap="xxsmall">
+          {tearSheetTitle} <AlertingMessage messages={messages} />
+        </Stack>
+      ),
       modalDangerButtonText: t('in-alerting:smartAlerts.components.smartAlertDialog.cancelTitle'),
       modalSecondaryButtonText: t('in-alerting:smartAlerts.components.smartAlertDialog.closeTitle'),
       modalTitle: t('in-alerting:smartAlerts.components.tearSheet.cancelModalTitle'),
@@ -141,19 +162,19 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
     [cancelTearSheet, goToPath, handleSubmit, isEditMode, stepConfigs, tearSheetTitle, actionButtonLabel]
   );
 
+  /**
+   *
+   * the side-navigation is clickable only in edit mode
+   */
   if (isEditMode) {
-    args.onClickInfluencerStep = (index: number) =>
-      new Promise<void>((resolve, reject) => {
-        const { valid, validator, validateIntermediately } = stepConfigs[currentStep];
-        if (!validateCurrentStep(currentStep, validateIntermediately, valid, validator))
-          return reject(new Error(`Validation failed for step ${currentStep}`));
-        setCurrentStep(index);
-        resolve();
-      }).catch(() => {
-        // catch validation error
-      });
+    args.onClickInfluencerStep = (index: number) => setCurrentStep(index);
     args.initialStep = currentStep + 1;
   }
+
+  /**
+   * `initialStep` need to be defined to enable the click event through the side nav and to redirect to some previous step in case of an error.
+   */
+  args.initialStep = currentStep + 1;
 
   /**
    * `handleNext` function is used to validate each step in the form
@@ -189,7 +210,13 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
               disableSubmit={false}
               onMount={() => setCurrentStep(index)}
             >
-              <RenderPageContent currentStep={currentStep} StepComponent={StepComponent} index={index} {...props} />
+              <RenderPageContent
+                currentStep={currentStep}
+                StepComponent={StepComponent}
+                index={index}
+                setStep={(step: number) => setCurrentStep(step)}
+                {...props}
+              />
             </CreateFullPageStep>
           )
         )}
@@ -205,12 +232,18 @@ function RenderPageContent({
   currentStep,
   StepComponent,
   index,
+  setStep,
   ...props
-}: AlertingFullScreenTearSheetProps & { currentStep: number; StepComponent: React.ComponentType<any>; index: number }) {
+}: AlertingFullScreenTearSheetProps & {
+  currentStep: number;
+  StepComponent: React.ComponentType<any>;
+  index: number;
+  setStep: any;
+}) {
   if (index === currentStep) {
     return (
       <AlertingCarbonTearSheetContent>
-        <StepComponent {...props} key={currentStep} />
+        <StepComponent {...props} key={currentStep} setStep={setStep} />
       </AlertingCarbonTearSheetContent>
     );
   }

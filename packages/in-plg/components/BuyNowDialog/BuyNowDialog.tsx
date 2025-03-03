@@ -14,7 +14,7 @@ import {
   generateBuyOnIbmUrl,
   getPlatformSubscriptionIdsForTenantAndUnit
 } from 'in-plg/components/UsageBanner/UsageBanner';
-import { IconForButton } from '../IconForButton/IconForButton';
+import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { triggerSegmentEvent } from 'in-plg/api/segmentData';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog/Dialog';

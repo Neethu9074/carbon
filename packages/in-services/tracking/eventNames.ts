@@ -109,6 +109,12 @@ export const DFQ_FILTER_SELECTED = 'dfq.filter.selected';
 
 export const KUBERNETES_DASHBOARD_TAB_CHANGE = 'kubernetes.dashboard.tabChange';
 export const KUBERNETES_TIME_SHIFT_SELECT = 'kubernetes.timeShift.select';
+export const KUBERNETES_VIEW_MODE_TOGGLED = 'kubernetes.view.mode.toggled';
+export const KUBERNETES_SEARCH_QUERY_CHANGED = 'kubernetes.search.query.changed';
+export const KUBERNETES_SEARCH_BAR_CLEARED = 'kubernetes.search.bar.cleared';
+export const KUBERNETES_SORTING_CHANGED = 'kubernetes.sorting.changed';
+export const KUBERNETES_CARD_CLICKED = 'kubernetes.card.clicked';
+
 export const MAP_GROUPING_CHANGED = 'map.grouping.change';
 export const MAP_METRICS_AGGREGATION = 'map.metrics.aggregation';
 export const MAP_METRICS_SHOW = 'map.metrics.show';
@@ -220,15 +226,28 @@ export const MOBILE_APPS_DASHBOARD_RENAME_MOBILE_APP = 'mobileApps.dashboard.ren
 export const MOBILE_APPS_DASHBOARD_TAB_CHANGE = 'mobileApps.dashboard.tabChange';
 export const MOBILE_APPS_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'mobileApps.dashboard.viewDeprecationDetails';
 
+export const SETTINGS_ACCESS_CONTROL_GROUP_CREATE = 'settings.accessControl.createGroup';
+export const SETTINGS_ACCESS_CONTROL_GROUP_UPDATE = 'settings.accessControl.updateGroup';
+export const SETTINGS_API_TOKEN_CREATE = 'settings.apiToken.create';
+export const SETTINGS_API_TOKEN_UPDATE = 'settings.apiToken.update';
 export const SETTINGS_AUDIT_TRAIL_ACCESS_LOG_CLICK = 'settings.auditTrail.accessLog.click';
 export const SETTINGS_AUDIT_TRAIL_ACTION_LOG_CLICK = 'settings.auditTrail.actionLog.click';
 export const SETTINGS_GROUP_APPLICATION_FILTER_ADDED = 'settings.group.application.filter.added';
 export const SETTINGS_GROUP_USER_ADDED = 'settings.group.user.added';
+export const SETTINGS_IDENTITY_PROVIDER_GOOGLE_UPDATE = 'settings.identityProvider.googleSingleSignOn';
+export const SETTINGS_IDENTITY_PROVIDER_LDAP_UPDATE = 'settings.identityProvider.ldap';
+export const SETTINGS_IDENTITY_PROVIDER_OIDC_UPDATE = 'settings.identityProvider.openIdConnect';
+export const SETTINGS_IDENTITY_PROVIDER_SAML_UPDATE = 'settings.identityProvider.saml';
 export const SETTINGS_IDP_LDAP_TEST_CONFIGURATION = 'settings.idp.ldap.testConfiguration';
-export const SETTINGS_USER_GROUP_ADDED = 'settings.user.group.added';
-export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
+export const SETTINGS_PERSONAL_API_TOKEN_CREATE = 'settings.personalApiToken.create';
+export const SETTINGS_PERSONAL_API_TOKEN_UPDATE = 'settings.personalApiToken.update';
 export const SETTINGS_ROLE_SUBMIT = 'settings.role.submit';
 export const SETTINGS_ROLE_OPEN_SUBMIT_FORM = 'settings.role.new';
+export const SETTINGS_SESSION_TIMEOUT_UPDATE = 'settings.sessionTimeout.update';
+export const SETTINGS_TEAM_CREATE = 'settings.team.create';
+export const SETTINGS_TEAM_UPDATE = 'settings.team.update';
+export const SETTINGS_USER_GROUP_ADDED = 'settings.user.group.added';
+export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
 
 export const PROFILE_MENU_LOGOUT_CLICK = 'profileMenu.logout.click';
 export const PROFILE_MENU_SWITCH_TENANT_OR_UNIT_CLICK = 'profileMenu.switchUnitOrTenant.click';
@@ -401,6 +420,7 @@ export const SLI_MANAGEMENT_DELETE = 'sli.v2.management.delete';
 
 // SLO Reborn Widget
 export const SLO2_WIDGET_EDIT_START = 'slo2.widget.edit.start';
+export const SLO2_BIG_NUMBER_WIDGET_EDIT_START = 'slo2.bigNumber.widget.edit.start';
 
 // Service Levels
 export const SLO_LIST_VIEW = 'slo.list.view';
@@ -422,11 +442,14 @@ export const ANALYZE_LOGGING_LOG_MESSAGE_PARAMETER_CLICKED = 'analyze.logging.lo
 export const ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED = 'analyze.logging.log.message.tag.clicked';
 export const ANALYZE_LOGGING_JUMP_TO_LOGS = 'analyze.logging.jump.to.logs';
 export const ANALYZE_LOGGING_TIME_SPENT = 'analyze.logging.time.spent';
-export const LOGGING_MEZMO_BUTTON_CLICKED = 'logging.mezmo.clicked';
 export const ANALYZE_LOGGING_SORTING_CHANGED = 'analyze.logging.sorting.changed';
 export const LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK = 'analyze.logging.applications.perspective.link.clicked';
 export const ANALYZE_LOGGING_LOG_GETLOGS_FILTERS = 'analyze.logging.log.getLogs.filters';
 export const ANALYZE_CUSTOM_WIDGET_SEE_IN_LOGS_CLICKED = 'analyze.custom.widget.see.in.logs.clicked';
+
+// Logging Integrations
+export const LOGGING_MEZMO_BUTTON_CLICKED = 'logging.mezmo.clicked';
+export const LOGGING_INTEGRATIONS_INSTANCE_THIRD_PARTY_CLICKED = 'logging.integration.instance.third.party.clicked';
 
 // ENTERPRISE
 export const ENTERPRISE_IDP_MAPPING_FIRST = 'enterprise.idp.mapping.first';
@@ -484,6 +507,10 @@ export const AUTOMATION_AI_LEAVE_GENERATE_DIALOG = 'automation.ai.leave.generate
 export const AUTOMATION_AI_SCRIPT_SELECT_STEP_NEXT_CLICK = 'automation.ai.script.select.step.next.click';
 export const AUTOMATION_GENERATE_AI_SCRIPT_BUTTON_CLICK_STEP2 = 'automation.generate.ai.script.button.click.step2';
 export const AUTOMATION_AI_SCRIPT_GENERATE_STEP_NEXT_CLICK = 'automation.ai.script.generate.step.next.click';
+export const AUTOMATION_AI_GENERATE_STEP_ERROR = 'automation.ai.generate.step.error';
+
+export const AUTOMATION_AI_GOOD_FEEDBACK = 'automation.ai.good.feedback';
+export const AUTOMATION_AI_BAD_FEEDBACK = 'automation.ai.bad.feedback';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 
@@ -603,3 +630,13 @@ export const VULNERABILITIES_CONCERT_TRY_CLICK = 'vulnerabilities.concert.try.cl
 export const VULNERABILITIES_CONCERT_DOCS_CLICK = 'vulnerabilities.concert.docs.click';
 export const VULNERABILITIES_CONCERT_BUY_CLICK = 'vulnerabilities.concert.buy.click';
 export const VULNERABILITIES_CONCERT_SUPPORT_CLICK = 'vulnerabilities.concert.support.click';
+export const VULNERABILITIES_CVE_TAB_ROW_CLICK = 'vulnerabilities.cve.tab.row.click';
+export const VULNERABILITIES_CVE_DETAIL_VIEW_ON_CONCERT_CLICK = 'vulnerabilities.view.on.concert.click';
+export const VULNERABILITIES_CVE_DETAIL_ANY_AFFECTED_APPLICATION_CLICK =
+  'vulnerabilities.cve.detail.any.affected.application.click';
+export const VULNERABILITIES_CVE_DETAIL_ANY_AFFECTED_ENTITY_CLICK =
+  'vulnerabilities.cve.detail.any.affected.entity.click';
+export const VULNERABILITIES_DETECTIONS_TAB_ROW_CLICK = 'vulnerabilities.detections.tab.row.click';
+export const VULNERABILITIES_DETECTIONS_DETAIL_ON_ENTITY_CLICK = 'vulnerabilities.detections.detail.on.entity.click';
+export const VULNERABILITIES_DETECTIONS_DETAIL_ANY_ASSOCIATED_APPLICATION_CLICK =
+  'vulnerabilities.detections.detail.any.associated.application.click';

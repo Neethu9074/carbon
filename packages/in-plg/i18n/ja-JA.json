@@ -1,5 +1,6 @@
 {
   "welcomeToInstana": "Instana へようこそ。",
+  "home": "ホーム",
   "getStartedAndInstallYourFirstAgent": "開始して最初のエージェントをインストールします。",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "試用版の有効期限が切れました",
@@ -73,14 +74,6 @@
       "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse Open J9 11"
     },
-    "askForHelp": {
-      "email": "E メール",
-      "send": "送信",
-      "askForHelpTitle": "同僚に支援を求める",
-      "thisWillBeAvailableOnceYourInstanceIsReady": "これは、インスタンスの準備ができると使用可能になります。",
-      "inviteAColeague": "同僚を招待する",
-      "agentKey": "エージェント・キー"
-    },
     "common": {
       "agentDeployment": "エージェントのデプロイメント",
       "step1": "ステップ 1: ",
@@ -100,7 +93,7 @@
       "choosingTheProperInstallationMethod": "適切なインストール方式の選択",
       "configuringTheAgentAfterInstall": "インストール後のエージェントの構成",
       "packaging": "パッケージ化",
-      "runtime": "Runtime",
+      "runtime": "ランタイム",
       "prerequisitesTitle": "前提条件",
       "viewDeployedAgents": "デプロイ済みエージェントの表示",
       "openAgentDashboardOptional": "オプション: エージェントが正常にデプロイされたら、それをインフラストラクチャー・マップに表示できます。",
@@ -108,8 +101,7 @@
       "support": "サポート",
       "sideCard": {
         "prerequisites": "前提条件",
-        "documentation": "資料",
-        "askAColleagueForHelp": "同僚に支援を求める"
+        "documentation": "資料"
       }
     },
     "kubernetes": {
@@ -314,7 +306,7 @@
       "common": {
         "ConfigureTheAgent": "ステップ 1: エージェントの構成",
         "packaging": "パッケージ化",
-        "runtime": "Runtime",
+        "runtime": "ランタイム",
         "dynamic": "動的",
         "static": "静的",
         "previewPrerequisites": "前提条件のプレビュー",
@@ -393,7 +385,7 @@
         "Packaging": "パッケージ化",
         "dynamic": "動的",
         "static": "静的",
-        "runtime": "Runtime",
+        "runtime": "ランタイム",
         "azulZulu": "Azul Zulu 11",
         "eclipseOpenJ9": "Eclipse Open J9 11",
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。",
@@ -524,8 +516,8 @@
     "heading": "Instanaへようこそ",
     "foldableTileTitle": "開始しましょう。",
     "viewAll": "すべて表示",
-    "UrlShortener": "URL 短縮形",
     "addMore": "追加",
+    "create": "作成",
     "collapsibleButton": {
       "showOnboardingTasks": "オンボーディング・タスクの表示",
       "hideOnboardingTasks": "オンボーディング・タスクの非表示"
@@ -569,6 +561,10 @@
       "title": "チームに招く",
       "description": "同僚をInstanaに招待し、コラボレーションを開始します。",
       "buttonName": "チームメートを招待する"
+    },
+    "favouriteButton": {
+      "ariaFilled": "お気に入りを削除",
+      "aria": "お気に入りに追加"
     },
     "component": {
       "applicationWidget": {
@@ -616,7 +612,7 @@
         "memoryLimit": "メモリー制限",
         "adapters": "アダプター",
         "vios": "Virtual I/O Server",
-        "memoryUsage": "メモリー使用量",
+        "memoryUsage": "メモリー使用率",
         "cpuUsage": "CPU 使用率",
         "esXiHosts": "ESXi ホスト",
         "searchPlaceholderLabel": "プラットフォーム",
@@ -716,25 +712,22 @@
     "noData": {
       "applicationWidget": {
         "header": "アプリケーションはありません",
-        "description": "観察したいサービスについて、独自のアプリケーション・パースペクティブを作成します。",
-        "buttonName": "アプリケーション・パースペクティブの作成"
+        "description": "監視したいサービスについて、独自のアプリケーションの視点を作成します。<br><br> 開始するには、<strong>［アプリケーションの追加］</strong> をクリックします。"
       },
       "incidentsWidget": {
         "header": "インシデントなし",
-        "description": "インシデントは、アプリケーションのサービス品質の問題を検出、理解、および調査するのに役立ちます。"
+        "description": "インシデントは、アプリケーションの問題を検出、理解、調査するのに役立ちます。<br><br><strong>エージェントをデプロイ</strong>してインシデントの監視を開始します。"
       },
       "websitesWidget": {
         "header": "Web サイトなし",
-        "description": "ウェブサイト・データを収集し、ユーザーのデジタル体験を理解する。",
-        "buttonName": "Web サイトの追加"
+        "description": "ウェブサイト・データを収集して、ユーザーのデジタル体験を理解します。<br><br>開始するには、<strong>「ウェブサイトを追加」</strong> をクリックしてください。"
       },
       "mobileListWidget": {
         "header": "モバイル・アプリがありません",
-        "description": "モバイルアプリのデータを収集し、ユーザーのデジタル体験を理解する。",
-        "buttonName": "モバイル・アプリケーションの追加"
+        "description": "モバイル・アプリのデータを収集して、ユーザーのデジタル体験を把握しましょう。<br><br>開始するには、<strong>「モバイルアプリを追加」</strong> をクリックしてください。"
       },
       "infrastructureWidget": {
-        "description": "ここで詳細を表示するには、エージェントを展開します。<br>エージェント <linkToAgents>Agents</linkToAgents> ページで開始します。",
+        "description": "ここで詳細を表示するには、エージェントを展開します。<br><br><linkToAgents>エージェント</linkToAgents>・ページで開始します。",
         "link": "エージェント",
         "hosts": {
           "header": "ホストがありません"
@@ -757,8 +750,7 @@
       "syntheticWidget": {
         "test": {
           "header": "シンセティック・テストなし",
-          "description": "特定の連続間隔で実行するようにシンセティック・テストを構成します。",
-          "buttonName": "シンセティック・テストの追加"
+          "description": "シンセティック・テストを設定して、アプリケーションを連続した間隔で監視します。<br><br>開始するには、<strong>シンセティック・テストの追加</strong>をクリックしてください。"
         },
         "location": {
           "header": "合成ロケーションなし",
@@ -766,18 +758,16 @@
         },
         "smartalerts": {
           "header": "合成スマート・アラートなし",
-          "description": "ロケーションのテストが失敗した場合にアラートを送信するように、合成のスマート・アラートを設定します。",
-          "buttonName": "合成スマート・アラートの追加"
+          "description": "シンセティックのためのスマートアラートを設定し、ある場所のテストに失敗した場合にアラートを送信します。 <br><br> 開始するには、<strong>シンセティック・スマート・アラートの追加</strong>をクリックしてください。"
         }
       },
       "eventsWidget": {
         "header": "イベントなし",
-        "description": "表示するイベントやインシデントがない場合や、最初にデータを設定する必要がある場合があります。"
+        "description": "表示できるイベントやインシデントがない可能性があります。また、最初にデータに接続する必要がある場合があります。"
       },
       "dashboardWidget": {
         "header": "カスタム・ダッシュボードがありません",
-        "description": "独自のカスタム・ダッシュボードを作成します。",
-        "buttonName": "カスタム・ダッシュボードの作成"
+        "description": "カスタム・ダッシュボードは、お客様にとって重要な情報をよりカスタマイズされた形で表示します。<br><br>開始するには、<strong>「ダッシュボードの作成」</strong>をクリックします。"
       }
     },
     "quickLinks": {
@@ -794,12 +784,16 @@
         "documentation": "IBM 資料",
         "releaseNotes": "リリース情報",
         "whatsNewLink": "インスタナの新機能"
+      },
+      "toolTip": {
+        "makeDefault": "このアクションにより、Instana のホーム・ページがデフォルトのランディング・ページとして設定され、カスタム・ダッシュボードが置き換えられます。"
       }
     },
     "ariaLabel": {
       "search": "検索",
-      "shareButton": "「共有」ボタン",
-      "handleButton": "「ハンドル」ボタン"
+      "handleButton": "「ハンドル」ボタン",
+      "toolbar": "データ・テーブル・ツールバー",
+      "tabs": "タブのリスト"
     }
   },
   "Components": {

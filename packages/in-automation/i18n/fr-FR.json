@@ -10,7 +10,6 @@
   "recommendedOptimizations": "Actions de ressources recommandées",
   "actionName": "Nom d'action",
   "validVaultParameter": "Les paramètres de coffre marqués comme facultatifs doivent être soit tous les deux vides, soit tous les deux non vides.",
-  "newAction": "Nouvelle action",
   "runAction": "Exécuter l'action",
   "testAction": "Tester l'action",
   "targetAgent": "Agent cible",
@@ -239,6 +238,7 @@
     "ignoreCertErrors": "Ignorer les erreurs de certificat",
     "basicAuth": "Authentification de base",
     "bearerToken": "Jeton bearer",
+    "authentication": "Authentification",
     "apiKeyAddTo": "Ajouter à",
     "apiKey": "Clé d'API",
     "header": "En-tête",
@@ -255,12 +255,6 @@
     "defaultValue": "Valeur par défaut",
     "defaultValueOptional": "Valeur par défaut (facultatif)",
     "parameters": "Paramètres",
-    "showPasswordTooltip": "Afficher le mot de passe",
-    "hidePasswordTooltip": "Masquer le mot de passe",
-    "showAPIKeyTooltip": "Afficher la clé d'API",
-    "hideAPIKeyTooltip": "Masquer la clé d'API",
-    "showBeaererTokenTooltip": "Afficher le jeton bearer",
-    "hideBeaererTokenTooltip": "Masquer le jeton bearer",
     "secretKey": "Clé secrète",
     "secretPath": "Chemin d'accès au secret",
     "secretKeyOptional": "Clé secrète (facultatif)",
@@ -329,8 +323,6 @@
     "status": "Statut",
     "startTime": "Heure de début",
     "endTime": "Heure de fin",
-    "property": "Propriété",
-    "value": "Valeur",
     "actionInstanceId": "ID d'instance d'action",
     "event": "Événement",
     "eventName": "Nom de l'événement",
@@ -373,11 +365,13 @@
     "output": "Sortie",
     "user": "Utilisateur",
     "apiToken": "Jeton d'API",
-    "deleteTooltip": "Supprimer l'instance d'action {{id}}",
+    "viewTooltip": "Afficher l'instance d'action {{actionName}}",
+    "deleteTooltip": "Supprimer l'instance d'action {{actionName}}",
     "deleteDialog": {
       "success": "L'instance d'action a été supprimée.",
       "failure": "Échec de la suppression de l'instance d'action."
-    }
+    },
+    "actionSnapshotDetails": "Détails de l'instantané d'action"
   },
   "actionLanes": {
     "buttonInvestigate": "Enquêter"
@@ -478,8 +472,8 @@
     "showTasks": "Afficher"
   },
   "deleteDialog": {
-    "pleaseConfirm": "Veuillez confirmer",
-    "pleaseConfirmMsg": "Voulez-vous vraiment supprimer <strong>{{name}}</strong> ?",
+    "confirmRemove": "Veuillez confirmer",
+    "confirmRemoveMsg": "Voulez-vous vraiment supprimer <strong>{{name}}</strong> ?",
     "delete": "Supprimer"
   },
   "turboActionCategories": {
@@ -512,5 +506,12 @@
     "actionName": "Nom de l'action",
     "recommendedActionHistoryWithCount": "Historique des actions de ressource ({{count}})",
     "recommendedActionHistory": "Historique des actions de ressource"
+  },
+  "feedback": {
+    "contentHelpfulText": "Ce contenu généré a-t-il été utile ?",
+    "thankYouForYourFeedback": "Merci pour vos commentaires !",
+    "submitFeedback": "Envoyer les commentaires",
+    "additionalFeedbacklabel": "Fournir des commentaires supplémentaires (facultatif)",
+    "additionalFeedbackPlaceholder": "Qu'est-ce qui ne vous a pas plu dans la réponse ? Ce qui peut être amélioré"
   }
 }

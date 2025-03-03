@@ -24,13 +24,13 @@ import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/infrastru
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import { actionHandlers } from 'in-alerting/smart-alerts/infrastructure/lists/ListActionHandlers';
 import { CreateSmartAlertButton } from 'in-alerting/smart-alerts/infrastructure/CreateSmartAlert';
-import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { MetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
 import { sortOptions } from 'in-alerting/smart-alerts/infrastructure/lists/constants';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import ScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
 import { Location } from 'in-stores/navigation/types';
@@ -40,8 +40,6 @@ import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Alerts.mless';
-
-const displayCarbonTable = carbonTableEnabled && smartAlertCarbonTableEnabled;
 
 export default function Alerts() {
   const handlers = role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope ? actionHandlers : {};
@@ -70,7 +68,7 @@ export default function Alerts() {
           renderName={replaceTitlePlaceholdersWithMarkup}
           hideAlertIcon
           // for carbon table
-          displayCarbonTable={displayCarbonTable}
+          displayCarbonTable={smartAlertCarbonTableEnabled}
           extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
           carbonActionHandlers={handlers}
           getNameSubtitle={(config: InfraSmartAlertConfigWithMetadata) => getNameSubtitle(config)}

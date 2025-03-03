@@ -17,6 +17,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLoggingNavigationItems } from 'in-logging/dashboard/utils';
 import { logsPathWithDataSource } from 'in-logging/navigation/paths';
 import DashboardHeader from 'in-components/DashboardHeader';
+import Sticky from 'in-components/Sticky/Sticky';
 
 import locals from './LoggingDashboardWrapper.mless';
 
@@ -25,20 +26,26 @@ interface Props {
   withPadding?: boolean;
 }
 
-function LoggingDashboardWrapper(props: Props) {
-  const { children, withPadding = false } = props;
-
-  const { location, createHref, matchLocation } = useNavigation();
-
-  const loggingNavigationItems = useLoggingNavigationItems();
-
+function LoggingDashboardWrapper({ children, withPadding = false }: Props) {
   return (
     <LoggingPermissionWrapper
       requiredPermission="canViewLogs"
       permissionLabel={t('in-stores:permissionCanViewLogsLabel')}
     >
+      <Sticky header={<LoggingDashboardHeader />}>
+        <section className={classNames(withPadding && locals.content)}>{children}</section>
+      </Sticky>
+    </LoggingPermissionWrapper>
+  );
+}
+
+const LoggingDashboardHeader = () => {
+  const { location, createHref, matchLocation } = useNavigation();
+  const loggingNavigationItems = useLoggingNavigationItems();
+
+  return (
+    <>
       <DashboardHeader
-        {...props}
         icon="lib_application_logging"
         label={t('in-components:mainNavigation.viewSwitcherLabelLogs')}
         title={t('in-components:mainNavigation.viewSwitcherLabelLogs')}
@@ -60,10 +67,9 @@ function LoggingDashboardWrapper(props: Props) {
         </SecondLevelNavigation>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />
-      <section className={classNames(withPadding && locals.content)}>{children}</section>
-    </LoggingPermissionWrapper>
+    </>
   );
-}
+};
 
 function ButtonLine() {
   const { createHrefToPath } = useNavigation();

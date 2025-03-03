@@ -10,9 +10,9 @@ import CallsPerSubtraceBigCard from 'in-applications/Dashboards/subtrace/compone
 import ErroneousRateBigCard from 'in-applications/Dashboards/subtrace/components/ErroneousRateBigCard';
 import ErroneousRateChart from 'in-applications/Dashboards/subtrace/components/ErrenousRateChart';
 import NumberOfSubtraces from 'in-applications/Dashboards/subtrace/components/NumberOfSubtraces';
-import DurationMeanChart from 'in-applications/Dashboards/subtrace/components/DurationMeanChart';
 import DurationBigCard from 'in-applications/Dashboards/subtrace/components/DurationBigCard';
 import { Granularity, SubtraceUnifiedMetricConfiguration, TagFilter } from 'in-types';
+import DurationChart from 'in-applications/Dashboards/subtrace/components/Duration';
 import { Config } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
@@ -113,7 +113,7 @@ export function Summary({ data }: Props) {
       <Row>
         <Col lg={4}>
           <NumberOfSubtraces
-            cardTitle={t('in-applications:labelNumberOfSubtraces')}
+            cardTitle={t('in-applications:subtraces.labelNumberOfSubtraces')}
             timeConfig={timeConfig}
             tagFilterExpression={tagFilterExpression}
             granularity={granularity}
@@ -121,19 +121,19 @@ export function Summary({ data }: Props) {
         </Col>
         <Col lg={4}>
           <ErroneousRateChart
-            cardTitle={t('in-applications:labelErroneousRate')}
+            cardTitle={t('in-applications:subtraces.labelErroneousRate')}
             timeConfig={timeConfig}
             tagFilterExpression={tagFilterExpression}
             granularity={granularity}
           />
         </Col>
         <Col lg={4}>
-          <DurationMeanChart
-            cardTitle={t('in-applications:labelDuration')}
+          <DurationChart
+            cardTitle={t('in-applications:subtraces.labelDuration')}
             timeConfig={timeConfig}
             tagFilterExpression={tagFilterExpression}
             granularity={granularity}
-          />{' '}
+          />
         </Col>
       </Row>
     </>

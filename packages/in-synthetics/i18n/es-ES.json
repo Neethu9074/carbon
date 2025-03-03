@@ -140,7 +140,10 @@
           "certificateCheckTitle": "Comprobación de certificado SSL",
           "certificateCheckLabel": "Certificado SSL",
           "certificateCheckHeadline": "Prueba de comprobación de certificado SSL",
-          "certificateCheckText": "La comprobación de certificados SSL es un método para probar la caducidad de un certificado SSL en una aplicación web comprobando los días restantes en un certificado emitido."
+          "certificateCheckText": "La comprobación de certificados SSL es un método para probar la caducidad de un certificado SSL en una aplicación web comprobando los días restantes en un certificado emitido.",
+          "dnsActionLabel": "DNS",
+          "dnsActionHeadline": "Servidor de nombres de dominio",
+          "dnsActionText": "La prueba de DNS es un método para comprobar que su dispositivo o red resuelve correctamente los nombres de dominio y no tiene problemas que podrían causar ralentizaciones, errores o vulnerabilidades de seguridad."
         },
         "configurationLabel": "Configuración",
         "configurationTitle": "Configuración: ¿Cómo funcionará esta prueba?",
@@ -188,15 +191,15 @@
           "buttonBack": "Atrás",
           "buttonSave": "Guardar",
           "uploadFileLabel": "Cargar archivo",
-          "uploadFileDescription": "Puede cargar un único archivo .js o un empaquetamiento zip de archivos .js.",
+          "uploadFileDescription": "Puede cargar un único archivo .js o un archivo .zip de archivos .js agrupados.",
           "scriptDescription": "El script cargado aparecerá aquí, o puede especificarlo manualmente a continuación.",
           "validScriptMessage": "El script es válido.",
           "zipFileUploadedMessage": "Los archivos empaquetados no se pueden modificar ni validar",
           "scriptEditedManuallyMessage": "Script añadido o modificado manualmente",
-          "mainFileNameLabel": "Nombre del archivo principal",
+          "mainFileNameLabel": "Especifique el nombre del archivo principal",
           "invalidMainFileName": "Nombre de archivo principal no válido",
           "webpageUrl": "URL de página web",
-          "browserUploadFileDescription": "Puede cargar un único archivo .js, un zip de archivos .js o un script .side grabado por SeleniumIDE.",
+          "browserUploadFileDescription": "Puede cargar un único archivo .js, un archivo .zip de archivos .js agrupados o un script .side grabado por SeleniumIDE.",
           "sideFileUploadedMessage": "Los scripts de Selenium no se pueden modificar ni validar",
           "bundleFileNotSupportedMessage": "Se ha seleccionado un archivo no soportado. Los paquetes solo están soportados en el modalidad avanzada.",
           "timeoutFieldLabel": "Tiempo de espera",
@@ -214,7 +217,10 @@
           "retryFieldOptionTwice": "Reintentar dos veces",
           "retryIntervalFieldLabel": "Intervalo de reintentos",
           "retryIntervalDescription": "Esta prueba reintentará {{retryCount}} después de {{retryIntervalValue}} {{retryIntervalUnit}}.",
-          "markSyntheticCall": "Marcar llamada sintética"
+          "markSyntheticCall": "Marcar llamada sintética",
+          "downloadZip": "Descargar archivo .zip",
+          "mainFileNameHelperText": "Proporcione el nombre del archivo dentro de este archivo .zip que contiene el punto de entrada de la prueba",
+          "recordVideo": "Registrar las acciones del usuario en caso de error"
         },
         "loadMore": "Cargar más",
         "selectTests": {
@@ -228,7 +234,8 @@
         "advancedBluePrint": {
           "apiName": "API",
           "browserName": "Navegador",
-          "certificateCheckName": "Certificado SSL"
+          "certificateCheckName": "Certificado SSL",
+          "dnsActionName": "DNS"
         },
         "customProperties": {
           "property": "Propiedad",
@@ -411,9 +418,6 @@
         "show": "Mostrar valor de credencial"
       }
     }
-  },
-  "createSmartAlert": {
-    "buttonLabel": "Añadir alerta inteligente sintética"
   },
   "navigation": {
     "synthetics": "Supervisión sintética"
@@ -635,7 +639,6 @@
       "downloadHar": "Descargar archivo HAR",
       "downloadLog": "Descargar registros",
       "viewScreenshotsLabel": "Ver capturas de pantalla",
-      "downloadVideo": "Descargar grabación",
       "consoleLogsLevel": "CONSOLA",
       "consoleLogs": "Consola",
       "browserLogs": "Navegador",
@@ -715,7 +718,17 @@
         "timeOfIssue": "Hora de emisión",
         "timeOfExpiry": "Hora de caducidad"
       },
-      "failedRunErrorTypeTitle": "Tipo de error"
+      "failedRunErrorTypeTitle": "Tipo de error",
+      "viewRecordingLabel": "Ver grabación",
+      "viewRecording": {
+        "recordingDialogLabel": "Grabando",
+        "downloadRecordingButton": "Descargar grabación",
+        "recordingLoadingMessage": "Cargando grabación",
+        "noRecordingAvailableMessage": "La grabación no está disponible para este resultado de la prueba"
+      },
+      "customProperties": {
+        "title": "Propiedades personalizadas"
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "No hay resultados disponibles",
@@ -802,7 +815,8 @@
       "associatedWebsites": "Sitios web asociados",
       "noWebsitesAssociated": "No hay sitios web asociados",
       "associatedMobileApps": "Aplicaciones móviles asociadas",
-      "noMobileAppAssociated": "No hay aplicaciones móviles asociadas"
+      "noMobileAppAssociated": "No hay aplicaciones móviles asociadas",
+      "recordVideo": "Registrar las acciones del usuario en caso de error"
     },
     "credentialList": {
       "mainLabel": "Credenciales",

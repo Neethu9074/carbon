@@ -5,9 +5,11 @@
 
 import React, { useState } from 'react';
 
-import { Card, DashboardTable, DashboardTableCell, DashboardTableRow, Stack } from '@instana/components';
+import { Card, CarbonTableCell, CarbonTableRow, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+// eslint-disable-next-line no-restricted-imports
+import { DashboardTable } from 'in-plg/components/DashboardTable/DashboardTable';
 import useDatatIngestHeaderRows from 'in-amp/hooks/useDatatIngestHeaderRows';
 import { getDataTableAsResultObservable } from 'in-amp/api/account';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -59,11 +61,11 @@ const DataIngestTable = () => {
           rows={rows.map((row, rowIndex) => ({
             id: `${rowIndex}`,
             ...(
-              <DashboardTableRow key={rowIndex}>
+              <CarbonTableRow key={rowIndex}>
                 {header.map((heading, columnIndex) => (
-                  <DashboardTableCell key={columnIndex}>{row[heading.key]}</DashboardTableCell>
+                  <CarbonTableCell key={columnIndex}>{row[heading.key]}</CarbonTableCell>
                 ))}
-              </DashboardTableRow>
+              </CarbonTableRow>
             )
           }))}
           hasNoDataTile={!rows.length}

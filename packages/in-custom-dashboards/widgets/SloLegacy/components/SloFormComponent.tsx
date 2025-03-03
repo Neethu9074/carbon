@@ -22,7 +22,6 @@ import {
   TimeWindowType
 } from 'in-custom-dashboards/widgets/SloLegacy/form';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/SloLegacy/components/OverridingFieldValidationMessage';
-import { sliWidgetTrackers, SloTrackerProvider, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { SLI_MANAGEMENT_EXIT, SLI_MANAGEMENT_VIEW, SLO_WIDGET_EDIT_START } from 'in-services/tracking/eventNames';
 import MonitoringSourceSelector from 'in-custom-dashboards/widgets/SloLegacy/components/MonitoringSourceSelector';
 import ApplicationSelector from 'in-custom-dashboards/widgets/SloLegacy/components/ApplicationSelector';
@@ -36,13 +35,16 @@ import SliSelector from 'in-custom-dashboards/widgets/SloLegacy/components/SliSe
 import { isWebsiteSloEnabled } from 'in-custom-dashboards/widgets/SloLegacy/constants';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { SliType } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import PercentageInput from 'in-service-levels/components/PercentageInput';
 import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import HelpAction from 'in-components/workspace/HelpAction';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { ENDED_PROCESS } from 'in-services/util/constants';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import DateInput from 'in-components/form/DateInput';
@@ -67,10 +69,11 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
     originalOnChange([], () => updatedForm as MapForm<any>);
   });
 
-  const track = useSloTrackers();
+  const { trackCta, unstable_trackEvent } = useSegmentTracking();
+
   useEffect(() => {
-    track(SLO_WIDGET_EDIT_START, undefined);
-  }, [track]);
+    trackCta(SLO_WIDGET_EDIT_START, undefined);
+  }, [trackCta]);
 
   const entityIdField = form.get(entityId) as Field<string>;
   const entityIdValue = entityIdField?.value;
@@ -97,7 +100,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
   const timeField = (form.get(timeWindowStart) as MapForm<any>)?.get('time') as Field<string>;
 
   function activateManageSliSlideIn() {
-    track(SLI_MANAGEMENT_VIEW, {
+    trackCta(SLI_MANAGEMENT_VIEW, {
       entityType: entityTypeValue
     });
     return setSlideInView({
@@ -112,18 +115,19 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
       slideOutHandler(slideOut, [showCreateFormState, setShowCreateFormState]) {
         if (showCreateFormState) return () => setShowCreateFormState(undefined);
         return () => {
-          track(SLI_MANAGEMENT_EXIT, {
-            entityType: entityTypeValue
+          unstable_trackEvent(ENDED_PROCESS, {
+            entityType: entityTypeValue,
+            objectType: SLI_MANAGEMENT_EXIT
           });
           slideOut();
         };
       },
       getContent({ slideOut, subSlideState: [showCreateFormState, setShowCreateFormState] }) {
         return (
-          <SloTrackerProvider
-            trackers={sliWidgetTrackers}
-            meta={{ productArea: productAreas.custom_dashboard, pageName: pageNames.custom_dashboard }}
-          >
+          <>
+            <ViewTrackingMeta
+              data={{ productArea: productAreas.custom_dashboard, pageRootName: pageNames.custom_dashboard }}
+            />
             <SliManageList
               entityType={entityTypeValue}
               entityId={entityIdValue}
@@ -141,7 +145,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
               onShowCreateForm={isEditing => setShowCreateFormState(isEditing ? 'EDIT' : 'CREATE')}
               onCloseCreateForm={() => setShowCreateFormState(undefined)}
             />
-          </SloTrackerProvider>
+          </>
         );
       }
     });

@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { DashboardTableRow as Row, DashboardTableCell as Cell } from '@instana/components';
+import { CarbonTableRow as Row, CarbonTableCell as Cell } from '@instana/components';
 import { LoadingSkeleton } from '@instana/components';
 
 import { DEFAULT_NUMBER_ROWS } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';

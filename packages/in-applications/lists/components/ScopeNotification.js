@@ -8,6 +8,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { Link, SvgIcon, Button } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import {
   useLinkToApplicationDashboard,
@@ -23,140 +24,137 @@ import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
-import connectTo from 'in-hoc/connectTo';
 import { t, Trans } from 'in-i18n';
 
-import locals from './ScopeNotification.mless';
+import locals from 'in-applications/lists/components/ScopeNotification.mless';
 
-export default connectTo(
-  ({ applicationId, serviceId, endpointId, snapshotId }) => ({
-    applicationLabel: applicationId ? getApplication({ id: applicationId }).map(getLabel) : alwaysNull,
-    serviceLabel: serviceId ? getServiceLabel({ id: serviceId }).map(getLabel) : alwaysNull,
-    endpointLabel: endpointId
+export default function ScopeNotification({
+  productArea,
+  contextScope,
+  applicationId,
+  serviceId,
+  endpointId,
+  icon,
+  onClose,
+  tagFilters,
+  snapshotId,
+  plugin
+}) {
+  const applicationLabel = useObservable(
+    applicationId ? getApplication({ id: applicationId }).map(getLabel) : alwaysNull,
+    []
+  );
+  const serviceLabel = useObservable(serviceId ? getServiceLabel({ id: serviceId }).map(getLabel) : alwaysNull, []);
+  const endpointLabel = useObservable(
+    endpointId
       ? timeConfig$.flatMap(timeConfig => getEndpoint({ id: endpointId, filter: { timeConfig } })).map(getLabel)
       : alwaysNull,
-    snapshotLabel: snapshotId ? getSnapshot(snapshotId).map(getSnapshotLabel) : alwaysNull
-  }),
-  function ScopeNotification({
-    productArea,
-    contextScope,
-    applicationId,
-    serviceId,
-    endpointId,
-    applicationLabel,
-    serviceLabel,
-    endpointLabel,
-    icon,
-    onClose,
-    tagFilters,
-    snapshotId,
-    plugin,
-    snapshotLabel
-  }) {
-    const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
-    const getLinkToServiceDashboard = useLinkToServiceDashboard();
-    const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
+    []
+  );
+  const snapshotLabel = useObservable(snapshotId ? getSnapshot(snapshotId).map(getSnapshotLabel) : alwaysNull, []);
+  const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
+  const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
 
-    const kubernetesDashboardLink = useDashboardForEntity(snapshotId, plugin);
-    const kubernetesServiceDashboardLink = useServiceDashboard(serviceId);
-    const getDashboardLink = useGetDashboardLink();
-    let entityLabel;
-    let href;
-    if (endpointId) {
-      entityLabel = endpointLabel;
-      href = getLinkToEndpointDashboard({ applicationId, serviceId, endpointId });
-    } else if (serviceId && tagFilters.length === 0) {
-      entityLabel = serviceLabel;
-      href = getLinkToServiceDashboard({ serviceId, applicationId });
-    } else if (applicationId) {
-      entityLabel = applicationLabel;
-      href = getLinkToApplicationDashboard({ applicationId });
-    } else if (snapshotLabel && !serviceLabel) {
-      entityLabel = snapshotLabel;
-      href = getDashboardLink(snapshotId, { pathname: '/physical/dashboard' });
-    } else if (tagFilters.map(tagFilter => tagFilter.name.includes('kubernetes'))) {
-      href = !tagFilters.map(tagFilter => tagFilter.name.includes('kubernetes.service.name'))
-        ? kubernetesDashboardLink
-        : kubernetesServiceDashboardLink;
+  const kubernetesDashboardLink = useDashboardForEntity(snapshotId, plugin);
+  const kubernetesServiceDashboardLink = useServiceDashboard(serviceId);
+  const getDashboardLink = useGetDashboardLink();
+  let entityLabel;
+  let href;
+  if (endpointId) {
+    entityLabel = endpointLabel;
+    href = getLinkToEndpointDashboard({ applicationId, serviceId, endpointId });
+  } else if (serviceId && tagFilters.length === 0) {
+    entityLabel = serviceLabel;
+    href = getLinkToServiceDashboard({ serviceId, applicationId });
+  } else if (applicationId) {
+    entityLabel = applicationLabel;
+    href = getLinkToApplicationDashboard({ applicationId });
+  } else if (snapshotLabel && !serviceLabel) {
+    entityLabel = snapshotLabel;
+    href = getDashboardLink(snapshotId, { pathname: '/physical/dashboard' });
+  } else if (tagFilters.map(tagFilter => tagFilter.name.includes('kubernetes'))) {
+    href = !tagFilters.map(tagFilter => tagFilter.name.includes('kubernetes.service.name'))
+      ? kubernetesDashboardLink
+      : kubernetesServiceDashboardLink;
 
-      entityLabel = getKubernetesLabel(tagFilters);
-    }
+    entityLabel = getKubernetesLabel(tagFilters);
+  }
 
-    return (
-      <div className={locals.wrapper}>
-        <SvgIcon size="s" className={locals.icon} type={icon} />
-        <div className={locals.notificationText}>
-          {applicationLabel && (serviceLabel || endpointLabel) ? (
-            productArea.toLowerCase() === 'application' ? (
-              <Trans
-                i18nKey="in-applications:list.showApplicationsScopeWithApplicationLabel"
-                values={{
-                  contextScope: contextScope.toLowerCase(),
-                  entityLabel: entityLabel,
-                  applicationLabel: applicationLabel
-                }}
-                components={{
-                  bold: <span className={locals.bold} />,
-                  linkToEntity: <Link className={locals.bold} href={href} />,
-                  linkToApplication: (
-                    <Link className={locals.bold} href={getLinkToApplicationDashboard({ applicationId })} />
-                  )
-                }}
-              />
-            ) : (
-              <Trans
-                i18nKey="in-applications:list.showServicesScopeWithServiceLabel"
-                values={{
-                  contextScope: contextScope.toLowerCase(),
-                  entityLabel: entityLabel,
-                  applicationLabel: applicationLabel
-                }}
-                components={{
-                  bold: <span className={locals.bold} />,
-                  linkToEntity: <Link className={locals.bold} href={href} />,
-                  linkToApplication: (
-                    <Link className={locals.bold} href={getLinkToApplicationDashboard({ applicationId })} />
-                  )
-                }}
-              />
-            )
-          ) : productArea.toLowerCase() === 'application' ? (
+  return (
+    <div className={locals.wrapper}>
+      <SvgIcon size="s" className={locals.icon} type={icon} />
+      <div className={locals.notificationText}>
+        {applicationLabel && (serviceLabel || endpointLabel) ? (
+          productArea.toLowerCase() === 'application' ? (
             <Trans
-              i18nKey="in-applications:list.showApplicationsScope"
+              i18nKey="in-applications:list.showApplicationsScopeWithApplicationLabel"
               values={{
                 contextScope: contextScope.toLowerCase(),
-                entityLabel: entityLabel
+                entityLabel: entityLabel,
+                applicationLabel: applicationLabel
               }}
               components={{
                 bold: <span className={locals.bold} />,
-                linkToEntity: <Link className={locals.bold} href={href} />
+                linkToEntity: <Link className={locals.bold} href={href} />,
+                linkToApplication: (
+                  <Link className={locals.bold} href={getLinkToApplicationDashboard({ applicationId })} />
+                )
               }}
             />
           ) : (
             <Trans
-              i18nKey="in-applications:list.showServicesScope"
+              i18nKey="in-applications:list.showServicesScopeWithServiceLabel"
               values={{
                 contextScope: contextScope.toLowerCase(),
-                entityLabel: entityLabel
+                entityLabel: entityLabel,
+                applicationLabel: applicationLabel
               }}
               components={{
                 bold: <span className={locals.bold} />,
-                linkToEntity: <Link className={locals.bold} href={href} />
+                linkToEntity: <Link className={locals.bold} href={href} />,
+                linkToApplication: (
+                  <Link className={locals.bold} href={getLinkToApplicationDashboard({ applicationId })} />
+                )
               }}
             />
-          )}
-        </div>
-        <div>
-          <Button icon="lib_openclose_circle" size="compact" onClick={onClose}>
-            {productArea.toLowerCase() === 'application'
-              ? t('in-applications:buttonShowAllApplications')
-              : t('in-applications:buttonShowAllServices')}
-          </Button>
-        </div>
+          )
+        ) : productArea.toLowerCase() === 'application' ? (
+          <Trans
+            i18nKey="in-applications:list.showApplicationsScope"
+            values={{
+              contextScope: contextScope.toLowerCase(),
+              entityLabel: entityLabel
+            }}
+            components={{
+              bold: <span className={locals.bold} />,
+              linkToEntity: <Link className={locals.bold} href={href} />
+            }}
+          />
+        ) : (
+          <Trans
+            i18nKey="in-applications:list.showServicesScope"
+            values={{
+              contextScope: contextScope.toLowerCase(),
+              entityLabel: entityLabel
+            }}
+            components={{
+              bold: <span className={locals.bold} />,
+              linkToEntity: <Link className={locals.bold} href={href} />
+            }}
+          />
+        )}
       </div>
-    );
-  }
-);
+      <div>
+        <Button icon="lib_openclose_circle" size="compact" onClick={onClose}>
+          {productArea.toLowerCase() === 'application'
+            ? t('in-applications:buttonShowAllApplications')
+            : t('in-applications:buttonShowAllServices')}
+        </Button>
+      </div>
+    </div>
+  );
+}
 
 function getLabel(result) {
   return get(result, ['data', 'label'], null);

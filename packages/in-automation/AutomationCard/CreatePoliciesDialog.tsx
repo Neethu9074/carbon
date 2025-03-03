@@ -40,6 +40,8 @@ import { mapData } from 'in-services/util/result';
 import Dialog from 'in-components/Dialog/Dialog';
 import { Trans, t } from 'in-i18n';
 
+import local from 'in-automation/AutomationCard/CreatePoliciesDialog.mless';
+
 const pathSegment = '/createPolicies';
 const matrixPrefix = '';
 
@@ -160,7 +162,7 @@ interface SelectActionsTableProps extends ServerTablePresenterProps<ScoredAction
 const selectActionColumn: ColumnDefinition<ScoredAction, SelectActionsTableProps> = {
   id: 'select',
   label: '',
-  width: 5,
+  width: 50,
   getContent: (action, { selectedIds, onSelect }) => (
     <Checkbox
       label=""
@@ -235,7 +237,12 @@ export default function CreatePoliciesDialog({ event, actions, trigger }: Create
   }
 
   return (
-    <Dialog title={t('in-automation:policies.createPolicies')} onClose={close} withoutBodyPadding>
+    <Dialog
+      title={t('in-automation:policies.createPolicies')}
+      onClose={close}
+      withoutBodyPadding
+      className={local.dialogWrapper}
+    >
       <LeftRightPadding>
         <ServerTablePresenter<ScoredAction, SelectActionsTableProps>
           selectedIds={selectedIds}

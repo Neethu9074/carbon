@@ -15,13 +15,13 @@ import { TIME_WINDOW_SIZE_VIA_PICKER, TIME_LIVE_MODE, track } from 'in-services/
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import DatePresenter from 'in-plg/components/DatePicker/DatePresenter';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { Location } from 'in-stores/navigation/types';
 import Overlay from 'in-components/overlays/Overlay';
 import Tooltip from 'in-components/Tooltip';
-import DatePresenter from './DatePresenter';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 

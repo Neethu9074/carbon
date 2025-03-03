@@ -26,7 +26,10 @@ import {
   AUTOMATION_AI_LEAVE_GENERATE_DIALOG,
   AUTOMATION_AI_SCRIPT_SELECT_STEP_NEXT_CLICK,
   AUTOMATION_GENERATE_AI_SCRIPT_BUTTON_CLICK_STEP2,
-  AUTOMATION_AI_SCRIPT_GENERATE_STEP_NEXT_CLICK
+  AUTOMATION_AI_SCRIPT_GENERATE_STEP_NEXT_CLICK,
+  AUTOMATION_AI_GOOD_FEEDBACK,
+  AUTOMATION_AI_BAD_FEEDBACK,
+  AUTOMATION_AI_GENERATE_STEP_ERROR
 } from 'in-services/tracking/tracking';
 import { CREATED_OBJECT, STARTED_PROCESS, UPDATED_OBJECT } from 'in-services/util/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -56,6 +59,9 @@ export function useSegmentTracker(): {
   aiActionScriptSelectStepNextTrackerSegment: TrackingFunction;
   aiActionScriptGenerateAIButtonTrackerSegment: TrackingFunction;
   aiActionScriptGenerateStepNextClickTrackerSegment: TrackingFunction;
+  aiActionGoodFeedbackTrackerSegment: TrackingFunction;
+  aiActionBadFeedbackTrackerSegment: TrackingFunction;
+  aiActionGenerateErrorTrackerSegment: TrackingFunction;
 } {
   const { trackCta, unstable_trackEvent } = useSegmentTracking();
 
@@ -146,6 +152,18 @@ export function useSegmentTracker(): {
     trackCta(AUTOMATION_AI_SCRIPT_GENERATE_STEP_NEXT_CLICK, customData);
   }
 
+  function aiActionGoodFeedbackTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_GOOD_FEEDBACK, customData);
+  }
+
+  function aiActionBadFeedbackTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_BAD_FEEDBACK, customData);
+  }
+
+  function aiActionGenerateErrorTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_GENERATE_STEP_ERROR, customData);
+  }
+
   return {
     createActionTrackerSegment,
     editActionTrackerSegment,
@@ -168,6 +186,9 @@ export function useSegmentTracker(): {
     AIActionLeaveGenerateDialogTrackerSegment,
     aiActionScriptSelectStepNextTrackerSegment,
     aiActionScriptGenerateAIButtonTrackerSegment,
-    aiActionScriptGenerateStepNextClickTrackerSegment
+    aiActionScriptGenerateStepNextClickTrackerSegment,
+    aiActionGoodFeedbackTrackerSegment,
+    aiActionBadFeedbackTrackerSegment,
+    aiActionGenerateErrorTrackerSegment
   };
 }

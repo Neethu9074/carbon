@@ -19,7 +19,6 @@ import FeedbackStepThree from 'in-events/components/feedback/FeedbackStepThree';
 import FeedbackStepOne from 'in-events/components/feedback/FeedbackStepOne';
 import FeedbackStepTwo from 'in-events/components/feedback/FeedbackStepTwo';
 import { FeedbackConfigEventForm } from 'in-events/components/feedback/api';
-import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventIcon from 'in-events/components/EventIcon';
 import { manuallyCloseIssue } from 'in-events/api';
@@ -64,7 +63,7 @@ export interface IStepConfig {
   [key: string]: StepConfig;
 }
 
-const canManuallyCloseIssue = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+const canManuallyCloseIssue = role?.canManuallyCloseIssue;
 
 export const eventStepConfig: IStepConfig = {
   start_0: {

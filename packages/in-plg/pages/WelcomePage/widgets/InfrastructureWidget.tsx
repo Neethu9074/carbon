@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import { List } from 'immutable';
 
-import { CarbonTabPanel, Link, IconButton, TableTabs, TableTab } from '@instana/components';
+import { CarbonTabPanel, Link, IconButton } from '@instana/components';
 import { EntityHealthInfo, TimeConfig } from '@instana/types';
 import { combineLatest, just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
@@ -20,14 +20,18 @@ import {
   SyntheticInfraColumn,
   ToggleType
 } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+import {
+  host as hostType,
+  container as containerType,
+  process as processType
+} from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
 //@ts-expect-error doesn't contain type file
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
 //@ts-expect-error doesn't contain type file
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
-import { host as hostType, container as containerType, process as processType } from 'in-cockpit/starredItems/types';
-import DatatableWrapper, { getFlattenedIds } from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 //@ts-expect-error doesn't contain type file
-import { add, remove } from 'in-cockpit/starredItems';
+import { add, remove } from 'in-plg/pages/WelcomePage/widgets/starredItems';
+import DatatableWrapper, { getFlattenedIds } from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
 //@ts-expect-error doesn't contain type file
 import { getMetric } from 'in-stores/metric';
@@ -42,6 +46,8 @@ import { getZone } from 'in-stores/zone';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
+import { TableTabs } from 'in-plg/components/DashboardTable/TableTabs';
+import { TableTab } from 'in-plg/components/DashboardTable/TableTab';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
@@ -333,13 +339,13 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={getLabel(item.snapshot)} align="auto" caret={false} delay={300}>
+            <Tooltip content={item?.snapshot ? getLabel(item?.snapshot) : ''} align="auto" caret={false} delay={300}>
               <Link
-                href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
+                href={getDashboardLink(item?.snapshotId || item?.snapshot?.get('id'), {
                   pathname: '/physical/dashboard'
                 })}
               >
-                {getLabel(item.snapshot)}
+                {item?.snapshot ? getLabel(item?.snapshot) : ''}
               </Link>
             </Tooltip>
           );
@@ -348,13 +354,13 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       {
         key: 'zones',
         getContent({ item }) {
-          return <GetZonesAndHosts getSnapshotId={() => getZone(item.snapshot.get('id'))} />;
+          return <GetZonesAndHosts getSnapshotId={() => getZone(item?.snapshot?.get('id'))} />;
         }
       },
       {
         key: 'technologies',
         getContent({ item }) {
-          return <TypographyWithTooltip content={item.snapshot.get('data').get('os.name')} />;
+          return <TypographyWithTooltip content={item?.snapshot?.get('data')?.get('os.name') ?? ''} />;
         }
       },
       {
@@ -362,7 +368,9 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <TypographyWithTooltip
-              content={`${item.snapshot.get('data').get('os.name')} ${item.snapshot.get('data').get('os.version')}`}
+              content={`${item?.snapshot?.get('data')?.get('os.name') ?? ''} ${
+                item?.snapshot?.get('data')?.get('os.version') ?? ''
+              }`}
             />
           );
         }
@@ -370,7 +378,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       {
         key: 'cpuNum',
         getContent({ item }) {
-          return <TypographyWithTooltip content={item.snapshot.getIn(['data', 'cpu.count'])} />;
+          return <TypographyWithTooltip content={item?.snapshot?.getIn(['data', 'cpu.count']) ?? ''} />;
         }
       },
       {
@@ -378,7 +386,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <SparkChartWithMetricValue
-              snapshotId={item.snapshot.get('id')}
+              snapshotId={item?.snapshot?.get('id')}
               formatter={percentage}
               metric="cpu.used"
               aggregation={t('in-plg:welcomepage.component.infrastructureWidget.mean')}
@@ -391,7 +399,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <WithInfrastructureHealthIndicationBehaviour
-              snapshotId={item.snapshot.get('id')}
+              snapshotId={item?.snapshot?.get('id')}
               render={(healthInfo: EntityHealthInfo) => (
                 <HealthIcon severity={healthInfo && healthInfo.maxSeverity} iconSize="xs" />
               )}
@@ -431,13 +439,13 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={getLabel(item.snapshot)} align="auto" caret={false} delay={300}>
+            <Tooltip content={item?.snapshot ? getLabel(item?.snapshot) : ''} align="auto" caret={false} delay={300}>
               <Link
-                href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
+                href={getDashboardLink(item?.snapshotId || item?.snapshot?.get('id'), {
                   pathname: '/physical/dashboard'
                 })}
               >
-                {getLabel(item.snapshot)}
+                {item?.snapshot ? getLabel(item?.snapshot) : ''}
               </Link>
             </Tooltip>
           );
@@ -446,19 +454,27 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       {
         key: 'hosts',
         getContent({ item }) {
-          return <GetZonesAndHosts getSnapshotId={() => getHostSnapshotId(item.snapshot)} />;
+          return <GetZonesAndHosts getSnapshotId={() => getHostSnapshotId(item?.snapshot)} />;
         }
       },
       {
         key: 'technologies',
         getContent({ item }) {
-          return <TypographyWithTooltip content={getTechnologyType(item.snapshot)} />;
+          return <TypographyWithTooltip content={item?.snapshot ? getTechnologyType(item?.snapshot) : ''} />;
         }
       },
       {
         key: 'created',
         getContent({ item }) {
-          return <TypographyWithTooltip content={formatDateTime(item.snapshot.get('data').get('Created')) as string} />;
+          return (
+            <TypographyWithTooltip
+              content={
+                item?.snapshot?.get('data')?.get('Created')
+                  ? (formatDateTime(item?.snapshot?.get('data')?.get('Created')) as string)
+                  : ''
+              }
+            />
+          );
         }
       },
       {
@@ -466,7 +482,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <TypographyWithTooltip
-              content={formatDateTime(item.snapshot.getIn(['data', 'Started'], undefined)) as string}
+              content={formatDateTime(item?.snapshot?.getIn(['data', 'Started'], undefined)) as string}
             />
           );
         }
@@ -476,7 +492,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <SparkChartWithMetricValue
-              snapshotId={item.snapshot.get('id')}
+              snapshotId={item?.snapshot?.get('id')}
               formatter={percentage}
               metric="cpu.total_usage"
               aggregation={t('in-plg:welcomepage.component.infrastructureWidget.mean')}
@@ -489,7 +505,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <WithInfrastructureHealthIndicationBehaviour
-              snapshotId={item.snapshot.get('id')}
+              snapshotId={item?.snapshot?.get('id')}
               render={(healthInfo: EntityHealthInfo) => (
                 <HealthIcon severity={healthInfo && healthInfo.maxSeverity} iconSize="xs" />
               )}
@@ -529,13 +545,13 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={getLabel(item.snapshot)} align="auto" caret={false} delay={300}>
+            <Tooltip content={item?.snapshot ? getLabel(item?.snapshot) : ''} align="auto" caret={false} delay={300}>
               <Link
-                href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
+                href={getDashboardLink(item?.snapshotId || item?.snapshot?.get('id'), {
                   pathname: '/physical/dashboard'
                 })}
               >
-                {getLabel(item.snapshot)}
+                {item?.snapshot ? getLabel(item?.snapshot) : ''}
               </Link>
             </Tooltip>
           );
@@ -544,13 +560,13 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       {
         key: 'hosts',
         getContent({ item }) {
-          return <GetZonesAndHosts getSnapshotId={() => getHostSnapshotId(item.snapshot)} />;
+          return <GetZonesAndHosts getSnapshotId={() => getHostSnapshotId(item?.snapshot)} />;
         }
       },
       {
         key: 'technologies',
         getContent({ item }) {
-          return <TypographyWithTooltip content={getTechnologyType(item.snapshot)} />;
+          return <TypographyWithTooltip content={item?.snapshot ? getTechnologyType(item?.snapshot) : ''} />;
         }
       },
       {
@@ -558,7 +574,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <SparkChartWithMetricValue
-              snapshotId={item.snapshot.get('id')}
+              snapshotId={item?.snapshot?.get('id')}
               formatter={percentage}
               metric="cpu.user"
               aggregation={t('in-plg:welcomepage.component.infrastructureWidget.mean')}
@@ -571,7 +587,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ item }) {
           return (
             <WithInfrastructureHealthIndicationBehaviour
-              snapshotId={item.snapshot.get('id')}
+              snapshotId={item?.snapshot?.get('id')}
               render={(healthInfo: EntityHealthInfo) => (
                 <HealthIcon severity={healthInfo && healthInfo.maxSeverity} iconSize="xs" />
               )}

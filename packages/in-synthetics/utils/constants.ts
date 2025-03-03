@@ -21,7 +21,9 @@ import {
   PoPInstallationProperties,
   TestResultMetadata,
   SyntheticDatacenter,
-  GroupPermissionEntity
+  GroupPermissionEntity,
+  DNSActionQueryType,
+  DNSActionFilterOperator
 } from 'in-types';
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
@@ -56,6 +58,48 @@ export const association = {
 };
 export const selectableCredentialsFilter = 'Selectable credentials';
 export const inheritedCredentialsFilter = 'Inherited credentials';
+export const syntheticCustomMetricPrefix = 'synthetic.customMetrics.';
+
+export const DNSTransportOptions: { label: string; value: string }[] = [
+  {
+    label: 'UDP',
+    value: 'UDP'
+  },
+  {
+    label: 'TCP',
+    value: 'TCP'
+  }
+];
+
+export const DNSActionQueryTypes: { label: DNSActionQueryType; value: DNSActionQueryType }[] = [
+  {
+    label: 'A',
+    value: 'A'
+  },
+  {
+    label: 'AAAA',
+    value: 'AAAA'
+  },
+  {
+    label: 'CNAME',
+    value: 'CNAME'
+  },
+  {
+    label: 'NS',
+    value: 'NS'
+  }
+];
+
+export const DNSActionFilterOperators: { label: string; value: DNSActionFilterOperator }[] = [
+  {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.operatorOptionContains'),
+    value: 'CONTAINS'
+  },
+  {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.operatorOptionMatches'),
+    value: 'MATCHES'
+  }
+];
 
 export const scriptTestType = (fileExtension: string, syntheticType: string) => {
   if (fileExtension === 'js' || fileExtension === 'zip') return 'BrowserScript';
@@ -538,6 +582,7 @@ export interface Script {
 export interface Zip {
   name: string;
   files: string[];
+  blob: File | null;
 }
 
 export interface Code {
@@ -570,6 +615,7 @@ export interface TestTypeSelected {
   api: SimpleOrScript;
   browser: SimpleOrScript;
   ssl: Simple;
+  dns: Simple;
 }
 
 export interface Invalid {
@@ -604,31 +650,43 @@ export interface ViewScreenshotsDialogProps {
   startTime: number;
 }
 
-export const timeoutObject: any = Object.freeze({
+export const timeoutObject: {
+  [key: string]: {
+    id: string;
+    label: string;
+    value: string;
+  };
+} = Object.freeze({
   minutes: {
+    id: 'minutes',
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionMinutes'),
     value: 'm'
   },
   seconds: {
+    id: 'seconds',
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionSeconds'),
     value: 's'
   },
   milliseconds: {
+    id: 'milliseconds',
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionMilliseconds'),
     value: 'ms'
   }
 });
 
-export const retriesObject: { label: string; value: number }[] = [
+export const retriesObject: { id: string; label: string; value: number }[] = [
   {
+    id: 'retry-none',
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionNone'),
     value: 0
   },
   {
+    id: 'retry-once',
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionOnce'),
     value: 1
   },
   {
+    id: 'retry-twice',
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionTwice'),
     value: 2
   }
@@ -695,4 +753,23 @@ export interface AssociatedEntitiesListProps {
   isSearchable?: boolean;
   onRowClick?: (entity: any) => void;
   inSelectListDialog?: boolean;
+}
+
+export interface ResultRecording {
+  testId: string;
+  testResultId: string;
+  videos: string;
+}
+
+export const dummyTestResultRecording: Result<ResultRecording> = {
+  data: {} as ResultRecording,
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+export interface TargetFilter {
+  key: string;
+  operator: string;
+  value: string;
 }

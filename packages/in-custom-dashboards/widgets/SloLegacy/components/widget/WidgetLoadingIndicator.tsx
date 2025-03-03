@@ -6,8 +6,7 @@
 import React from 'react';
 
 import { HorizontalIndicator } from '@instana/components';
-
-import { Progress } from 'in-types';
+import { Progress } from '@instana/types';
 
 import locals from './WidgetLoadingIndicator.mless';
 

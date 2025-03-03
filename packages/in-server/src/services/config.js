@@ -19,6 +19,7 @@ exports.getClientConfig = (req, tenant, unit) => {
     activeResolver.getTenantInfo(req, tenant, unit)
   ]).then(([butlerDomain, featureFlags, configuration, reportingEndpoints, internalIds]) => ({
     butlerDomain,
+    urlFormat: serverConfig.urlFormat,
     tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
     region: serverConfig.clientConfig.region,
     instanaRegion: serverConfig.clientConfig.instanaRegion,

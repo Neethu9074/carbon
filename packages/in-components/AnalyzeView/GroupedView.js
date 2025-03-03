@@ -313,6 +313,7 @@ export default function GroupedView(props) {
                     data-testid="grouped-view-list-item"
                     initiallyOpen={props.selectedGroup === key}
                     key={key}
+                    noAlternatingBg
                     toggleContentOnRowClick
                     tracking={tracker}
                     renderNestedContent={() => {

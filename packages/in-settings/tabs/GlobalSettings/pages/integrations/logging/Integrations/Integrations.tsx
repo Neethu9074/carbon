@@ -134,7 +134,7 @@ export default function LogIntegrations() {
           <SubViewHeaderComponent>{localisationStrings.logIntegrations}</SubViewHeaderComponent>
           <Typography variant="body-regular">{localisationStrings.logIntegrationsDescription}</Typography>
         </section>
-        <main className={locals.marginRight}>
+        <div className={locals.marginRight}>
           <Stack direction="horizontal" gap="large" wrap>
             {integrations &&
               integrations.map((integration: Integration) => {
@@ -170,6 +170,7 @@ export default function LogIntegrations() {
                               disabled={!integration.url && !integration.baseUrl && !!integration.isConfigurable}
                               onToggle={e => onToggle(e, integration)}
                               checked={integration.enabled ?? false}
+                              id={integration.label}
                             />{' '}
                           </span>
                         )}
@@ -179,7 +180,7 @@ export default function LogIntegrations() {
                 );
               })}
           </Stack>
-        </main>
+        </div>
       </section>
     </>
   );

@@ -167,7 +167,10 @@ function getDetails(row: BlockedTransactionStatsRow) {
 }
 
 export default function BlockedTransactionStatsList({ snapshotId, timeConfig }: BlockedTransactionStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'blockedTransactionStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'blockedTransactionStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const transactionStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: BlockedTransactionStatsRow[] = transactionStat
     ? transactionStat

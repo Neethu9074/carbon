@@ -6,28 +6,20 @@
 
 import React from 'react';
 
-import { Card, Pagination as CarbonPagination, DataTable as CarbonDataTable } from '@instana/components';
+import { Card, DataTable as CarbonDataTable, Pagination as CarbonPagination } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
 
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
-import SortIndicator from 'in-sdk/components/dashboard/Table/components/SortIndicator';
-import { carbonPaginationEnabled, carbonTableEnabled } from 'in-services/featureFlags';
 import { createStore } from 'in-sdk/components/dashboard/Table/stores/content';
 import Row from 'in-sdk/components/dashboard/Table/components/Row';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { shallowEquals } from 'in-services/util/object';
-import SearchInput from 'in-components/SearchInput';
-import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
 import locals from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Table.mless';
 
-const tableElement = locals.table;
 const cellElement = locals.cell;
 const expandedCellElement = `${cellElement} ${locals.expanded}`;
-const headerCellElement = locals.headerCell;
-const headerToggleCellElement = locals.headerToggleCell;
-const columnHeader = locals.columnHeader;
 
 export default class Table extends React.Component {
   constructor(props) {
@@ -151,6 +143,7 @@ export default class Table extends React.Component {
     }
 
     const showPagination = data.pageCount > 1 || data.page >= data.pageCount || this.props.alwaysShowPagination;
+
     const header = (
       <div className={locals.headerExtensions}>
         {this.props.rightHeader}
@@ -177,151 +170,95 @@ export default class Table extends React.Component {
             ]}
           />
         )}
-        {!carbonTableEnabled && (this.props.showHeader == null || this.props.showHeader) && (
-          <SearchInput
-            maxWidth={140}
-            query={this.state.filter}
-            onChange={this.store.setFilter}
-            placeholder={t('in-components:searchInput.placeholderSearch')}
-          />
-        )}
       </div>
     );
 
-    if (!carbonTableEnabled) {
-      return (
-        <div className={locals.tableContainer}>
-          <Card
-            title={this.props.cardTitle === '' ? null : this.props.cardTitle}
-            header={this.props.cardTitle === '' ? null : header}
-            withoutPadding={this.props.cardTitle === '' ? null : this.props.withoutPadding}
-          >
-            {this.props.explanation}
-            <table className={tableElement}>
-              <thead className={columnHeader}>
-                <tr>
-                  {supportsRowDetails ? <th className={headerToggleCellElement} /> : null}
-                  {cols.map((col, i) => (
-                    <th key={i} className={headerCellElement} style={{ width: `${col.width ? col.width + 'px' : ''}` }}>
-                      <SortIndicator
-                        title={col.title}
-                        index={i}
-                        sortIndex={data.sortColumnIndex}
-                        sortDirection={data.sortDirection}
-                        onChangeSort={this.store.setSort}
-                        columnDefinition={col}
-                      />
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>{rows}</tbody>
-            </table>
-            {showPagination ? (
-              carbonPaginationEnabled ? (
-                <>
-                  <CarbonPagination
-                    currentPage={(data.page || 0) + 1}
-                    totalItems={this.props.rows?.length}
-                    pageSize={this.store.maxItemsPerPage ?? 10}
-                    pageSizes={[this.store.maxItemsPerPage ?? 10]}
-                    onChange={p => this.store.setPage(p.page - 1)}
-                  />
-                </>
-              ) : (
-                <div className={locals.paginationWrapper}>
-                  <Pagination
-                    onChange={newPage => this.store.setPage(newPage - 1)}
-                    currentPage={(data.page || 0) + 1}
-                    numPages={data.pageCount}
-                  />
-                </div>
-              )
-            ) : null}
+    const carbonHeaders = cols.map((item, i) => ({
+      id: i,
+      key: item.title,
+      header: item.title,
+      isSortable: true,
+      sortDirection: data.sortColumnIndex === i ? data.sortDirection.toUpperCase() : 'NONE'
+    }));
+    let carbonRows = [];
+    let carbonRow = {};
+    let title = `${t('in-sap:dashboards.no')}${t('in-sap:dashboards.dataAvailable')}`;
 
-            {this.props.bottomContent ? <div className={locals.bottomContent}>{this.props.bottomContent}</div> : null}
-          </Card>
-        </div>
-      );
-    } else {
-      const carbonHeaders = cols.map((item, i) => ({
-        id: i,
-        key: item.title,
-        header: item.title,
-        isSortable: true,
-        sortDirection: data.sortColumnIndex === i ? data.sortDirection.toUpperCase() : 'NONE'
-      }));
-      let carbonRows = [];
-      let carbonRow = {};
-      let title = `${t('in-sap:dashboards.no')}${t('in-sap:dashboards.dataAvailable')}`;
-
-      if (data.rows.length === 0) {
-        if (typeof this.props.cardTitle === 'string') {
-          title = `${t('in-sap:dashboards.no')}${this.props.cardTitle}${t('in-sap:dashboards.dataAvailable')}`;
-        } else {
-          title = `${t('in-sap:dashboards.no')}${this.props.cardTitle.props['title']}${t(
-            'in-sap:dashboards.dataAvailable'
-          )}`;
-        }
+    if (data.rows.length === 0) {
+      if (typeof this.props.cardTitle === 'string') {
+        title = `${t('in-sap:dashboards.no')}${this.props.cardTitle}${t('in-sap:dashboards.dataAvailable')}`;
       } else {
-        for (let i = 0, length = data.rows.length; i < length; i++) {
-          carbonRow = {};
-          carbonRow['id'] = data.rows[i].key || String(i);
-          data.rows[i].columns.map((column, i) => {
-            // get column header name and assign value to that
-            carbonRow[carbonHeaders[i]['header']] = column.content ?? '-';
-          });
-          if (this.props.getRowDetails != undefined) {
-            carbonRow['expanded'] = this.props.getRowDetails(data.rows[i].rowConfig);
-          }
-          carbonRows.push(carbonRow);
-        }
+        title = `${t('in-sap:dashboards.no')}${this.props.cardTitle.props['title']}${t(
+          'in-sap:dashboards.dataAvailable'
+        )}`;
       }
-      return (
-        <div className={locals.tableContainer}>
-          <Card
-            title={this.props.cardTitle === '' ? null : this.props.cardTitle}
-            header={this.props.cardTitle === '' ? null : header}
-            withoutPadding={this.props.cardTitle === '' ? null : this.props.withoutPadding}
-          >
-            <CarbonDataTable
-              headers={carbonHeaders}
-              rows={carbonRows}
-              filterRows={value => {
-                this.setState({ filter: value?.target?.value });
-                this.store.setFilter(value?.target?.value);
-              }}
-              sortRow={sortState => {
-                let orderBy = sortState.sortHeaderKey;
-                let orderDirection = sortState.sortDirection;
-                // backend APIs as of now doesnt support NONE sort direction option, so will be
-                // changing it to ASC to maintain the current behaviour.
-                if (sortState.sortDirection === 'NONE' || sortState.sortDirection === 'DESC') {
-                  orderDirection = 'ASC';
-                } else if (sortState.sortDirection === 'ASC') {
-                  orderDirection = 'DESC';
-                }
-                let columnIndex = carbonHeaders.findIndex(x => x.header === orderBy);
-
-                this.store.setSort(columnIndex, orderDirection.toLowerCase());
-              }}
-              searchText={this.state.filter}
-              isSearchEnabled
-              isExpandable={this.props.getRowDetails !== undefined ? true : false}
-            />
-            {data.rows.length === 0 && (
-              <div className={locals.emptyTable}>
-                <EmptyContent
-                  cols={cols?.length}
-                  size="compact"
-                  renderNoDataAvailable={() => <NoDataAvailable text={title} height={80} />}
-                  noDataMessage={title}
-                />
-              </div>
-            )}
-          </Card>
-        </div>
-      );
+    } else {
+      for (let i = 0, length = data.rows.length; i < length; i++) {
+        carbonRow = {};
+        carbonRow['id'] = data.rows[i].key || String(i);
+        data.rows[i].columns.map((column, i) => {
+          // get column header name and assign value to that
+          carbonRow[carbonHeaders[i]['header']] = column.content ?? '-';
+        });
+        if (this.props.getRowDetails != undefined) {
+          carbonRow['expanded'] = this.props.getRowDetails(data.rows[i].rowConfig);
+        }
+        carbonRows.push(carbonRow);
+      }
     }
+    return (
+      <div className={locals.tableContainer}>
+        <Card
+          title={this.props.cardTitle === '' ? null : this.props.cardTitle}
+          header={this.props.cardTitle === '' ? null : header}
+          withoutPadding={this.props.cardTitle === '' ? null : this.props.withoutPadding}
+        >
+          <CarbonDataTable
+            headers={carbonHeaders}
+            rows={carbonRows}
+            filterRows={value => {
+              this.setState({ filter: value?.target?.value });
+              this.store.setFilter(value?.target?.value);
+            }}
+            sortRow={sortState => {
+              let orderBy = sortState.sortHeaderKey;
+              let orderDirection = sortState.sortDirection;
+              // backend APIs as of now doesnt support NONE sort direction option, so will be
+              // changing it to ASC to maintain the current behaviour.
+              if (sortState.sortDirection === 'NONE' || sortState.sortDirection === 'DESC') {
+                orderDirection = 'ASC';
+              } else if (sortState.sortDirection === 'ASC') {
+                orderDirection = 'DESC';
+              }
+              let columnIndex = carbonHeaders.findIndex(x => x.header === orderBy);
+
+              this.store.setSort(columnIndex, orderDirection.toLowerCase());
+            }}
+            searchText={this.state.filter}
+            isSearchEnabled
+            isExpandable={this.props.getRowDetails !== undefined ? true : false}
+          />
+          {showPagination ? (
+            <CarbonPagination
+              currentPage={(data.page || 0) + 1}
+              totalItems={data.totalFilteredRowCount ?? this.props.rows?.length}
+              pageSize={this.store.maxItemsPerPage ?? 10}
+              pageSizes={[this.store.maxItemsPerPage ?? 10]}
+              onChange={p => this.store.setPage(p.page - 1)}
+            />
+          ) : null}
+          {data.rows.length === 0 && (
+            <div className={locals.emptyTable}>
+              <EmptyContent
+                cols={cols?.length}
+                size="compact"
+                renderNoDataAvailable={() => <NoDataAvailable text={title} height={80} />}
+                noDataMessage={title}
+              />
+            </div>
+          )}
+        </Card>
+      </div>
+    );
   }
 }

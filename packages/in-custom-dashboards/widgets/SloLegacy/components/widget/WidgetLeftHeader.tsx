@@ -11,7 +11,7 @@ import { CombinedSliEntity, SliConfig } from 'in-custom-dashboards/widgets/SloLe
 import SliConfigInfo from 'in-custom-dashboards/widgets/SloLegacy/components/SliConfigInfo';
 import SloEntityInfo from 'in-service-levels/components/SloList/components/SloEntityInfo';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/SloLegacy/constants';
-import { MonitoredEntity } from 'in-service-levels/hooks/useSloEntitiesLabels';
+import { MonitoredEntity } from 'in-service-levels/utils/loadEntities';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';

@@ -17,15 +17,16 @@ import { Result } from '@instana/types';
 
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+//@ts-expect-error missing typescript migration
+import { getQueuedLicensesOfEnvironmentAsResultObservable } from 'in-amp/api/account';
 import {
   isWalkmeScriptLoaded,
   termsAndPrivacySettingsStore$
 } from 'in-settings/terms/stores/termsAndPrivacySettingsStore';
-//@ts-expect-error missing typescript migration
-import { getQueuedLicensesAsResultObservable } from 'in-amp/api/account';
 import { onPremLicenseInformationEnabled, playWithReleaseEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { SHARE_AND_INVITE_INVITEE_JOINED } from 'in-services/tracking/eventNames';
 import { countryCode, editionID, languageCode } from 'in-plg/utils/constants';
+import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { BuyNowDialog } from 'in-plg/components/BuyNowDialog/BuyNowDialog';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
@@ -35,7 +36,6 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { IconForButton } from '../IconForButton/IconForButton';
 import { assistmeEnabled } from 'in-services/featureFlags';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
 import { isLoading } from 'in-services/util/result';
@@ -56,7 +56,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const { createHref } = useNavigation();
   const { trackCta } = useSegmentTracking();
   //@ts-expect-error
-  const queuedLicenseDetails: Result<any> = useObservable(getQueuedLicensesAsResultObservable(1, 5), []);
+  const queuedLicenseDetails: Result<any> = useObservable(getQueuedLicensesOfEnvironmentAsResultObservable(1, 5), []);
   const { activeLicense, remainingDays, content } = message;
   const isQuota = activeLicense === 'quota';
   const isSelfService = activeLicense === 'selfService';

@@ -233,7 +233,7 @@
     "performanceConstantlyEvaluated": "Performance is being actively evaluated and improved during the Beta. Please leave feedback to help us better improve our AI",
     "probableRootCauseLabel": "{{entity_type}} at fault:",
     "relatedEventsLabel": "Associated Events ({{number_of_events}})",
-    "relatedMessagesAndLogsLabel": "Identified Trace Errors & Logs",
+    "relatedMessagesAndLogsLabel": "Errors & Logs",
     "entitiesNumber": "Entities",
     "probabilityLevelText": "Probability Level:",
     "highProbability": "HIGH",
@@ -273,6 +273,7 @@
     "errorMessages": "Trace Error Messages",
     "analyzeErrors": "Analyze Errors",
     "analyzeTraceLogs": "Analyze Trace Logs",
+    "analyzeApplicationLogs": "Analyze Application Logs",
     "topology": {
       "viewTopology": "View topology",
       "dialogTitle": "Topology",

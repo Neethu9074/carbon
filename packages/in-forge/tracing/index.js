@@ -8,6 +8,7 @@ import './micronaut.http.client';
 import './datapower.http.server';
 import './datapower.http.client';
 import './spring-webflux-entry';
+import './otel-batch-synthetic';
 import './aspnetmvccontroller';
 import './distributeme.client';
 import './spring-webflux-exit';

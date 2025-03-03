@@ -66,7 +66,7 @@ export default function InboundOutboundCallsSwitch({ form, updateForm, isGlobalS
       addActiveDialog(
         <ConfirmationDialog
           header={t(
-            'in-alerting:smartAlerts.applications.advanced.inboundOutboundCalls.confirmationDialog.pleaseConfirm'
+            'in-alerting:smartAlerts.applications.advanced.inboundOutboundCalls.confirmationDialog.confirmRemove'
           )}
           description={t(
             'in-alerting:smartAlerts.applications.advanced.inboundOutboundCalls.confirmationDialog.description'

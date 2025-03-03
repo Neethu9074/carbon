@@ -14,7 +14,7 @@ import locals from './TypeHeader.mless';
 
 export default function TypeHeader({ beacon }) {
   const type = getType(beacon);
-  const typeDefinition = types[type];
+  const typeDefinition = types[type] ?? types.default;
 
   return (
     <Tooltip content={typeDefinition.long} align="rightMiddle">

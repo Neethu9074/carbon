@@ -7,7 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { DashboardTableCell as Cell } from '@instana/components';
+import { CarbonTableCell as Cell } from '@instana/components';
 import { LoadingSkeleton } from '@instana/components';
 import { TimeConfig } from '@instana/types';
 
@@ -93,7 +93,7 @@ export function Item({ pendingItem, timeConfig, type, columnDefinitions }: ItemP
     );
   }
 
-  let item = result.data ? result.data : result;
+  let item = result?.data ? result?.data : result;
   item = {
     ...item,
     pinned: true

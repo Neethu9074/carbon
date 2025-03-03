@@ -20,10 +20,6 @@ jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn((o, d) => o(d))
 }));
 
-jest.mock('in-service-levels/hooks/SloTrackerProvider', () => ({
-  useSloTrackers: jest.fn(() => () => {})
-}));
-
 jest.mock('in-custom-dashboards/widgets/SloLegacy/sli/api', () => ({
   deleteSliConfiguration: jest.fn(),
   getSliConfigurationsByEntity: jest.fn()

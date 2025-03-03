@@ -6,14 +6,13 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { TableEntityCounter } from '@instana/legacy';
-
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
+import { MemoryTotal } from 'in-vsphere/commonComponents/MemoryTotal';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import getVsphereVms from 'in-vsphere/subscriptions/getVsphereVms';
 import { getInfraGranularity } from 'in-stores/metric/metric';
@@ -21,7 +20,6 @@ import EntityLink from 'in-components/EntityLink/EntityLink';
 import { percentage } from 'in-services/formatters/number';
 import Capitalize from 'in-components/Capitalize';
 import { plugins } from 'in-forge/constants';
-import { MemoryTotal } from './MemoryTotal';
 import { t } from 'in-i18n';
 
 const pathSegment = '/vms';
@@ -70,7 +68,7 @@ const columnDefinitions = [
     label: t('in-vsphere:cpuResources'),
     sortable: true,
     getContent(item) {
-      return <TableEntityCounter count={item.cpuTotal} />;
+      return item.cpuTotal;
     }
   },
   {

@@ -1,5 +1,6 @@
 {
   "welcomeToInstana": "Welcome to Instana!",
+  "home": "Home",
   "getStartedAndInstallYourFirstAgent": "Get started and install your first agent.",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "Your trial has expired",
@@ -516,6 +517,7 @@
     "foldableTileTitle": "Let’s get started.",
     "viewAll": "View all",
     "addMore": "Add",
+    "create": "Create",
     "collapsibleButton": {
       "showOnboardingTasks": "Show onboarding tasks",
       "hideOnboardingTasks": "Hide onboarding tasks"
@@ -710,25 +712,22 @@
     "noData": {
       "applicationWidget": {
         "header": "No applications",
-        "description": "Create your own application perspective on the services you want to observe.",
-        "buttonName": "Create application perspective"
+        "description": "Create your own application perspective on the services you want to observe.<br><br>To get started, click <strong>Add application</strong>."
       },
       "incidentsWidget": {
         "header": "No incidents",
-        "description": "Incidents help you detect, understand, and investigate quality of service issues of your applications."
+        "description": "Incidents help you detect, understand, and investigate issues in your applications.<br><br><strong>Deploy an agent</strong> to start monitoring incidents."
       },
       "websitesWidget": {
         "header": "No websites",
-        "description": "Collect website data to understand your user's digital experience.",
-        "buttonName": "Add website"
+        "description": "Collect website data to understand your user's digital experience.<br><br>To get started, click <strong>Add website</strong>."
       },
       "mobileListWidget": {
         "header": "No mobiles apps",
-        "description": "Collect mobile app data to understand your user's digital experience.",
-        "buttonName": "Add mobile applications"
+        "description": "Collect mobile app data to understand your user's digital experience.<br><br>To get started, click <strong>Add mobile app</strong>."
       },
       "infrastructureWidget": {
-        "description": "Deploy an agent to see the details here.<br>Get started on the <linkToAgents>Agents</linkToAgents> page.",
+        "description": "Deploy an agent to see the details here.<br><br>Get started on the <linkToAgents>Agents</linkToAgents> page.",
         "link": "Agents",
         "hosts": {
           "header": "No hosts"
@@ -751,8 +750,7 @@
       "syntheticWidget": {
         "test": {
           "header": "No synthetic tests",
-          "description": "Configure synthetic tests to run at specific continuous intervals.",
-          "buttonName": "Add Synthetic test"
+          "description": "Configure synthetic tests to monitor applications continuous intervals.<br><br>To get started, click <strong>Add synthetic test</strong>."
         },
         "location": {
           "header": "No synthetic locations",
@@ -760,18 +758,16 @@
         },
         "smartalerts": {
           "header": "No synthetic Smart Alerts",
-          "description": "Configure Smart Alerts for synthetics to send an alert if the test for a location fails.",
-          "buttonName": "Add Synthetic smart alerts"
+          "description": "Configure Smart Alerts for synthetics to send an alert if the test for a location fails.<br><br>To get started, click <strong>Add synthetic Smart Alert</strong>."
         }
       },
       "eventsWidget": {
         "header": "No events",
-        "description": "There may be no events or incidents to display or you may need to set up data first."
+        "description": "There might not be any events or incidents to display or you might need to connect to data first."
       },
       "dashboardWidget": {
         "header": "No custom dashboards",
-        "description": "Create your own custom dashboard.",
-        "buttonName": "Create custom dashboard"
+        "description": "Custom dashboards provide a more tailored view of the information that's important to you.<br><br>To get started, click <strong>Create dashboard</strong>."
       }
     },
     "quickLinks": {
@@ -788,11 +784,16 @@
         "documentation": "IBM documentation",
         "releaseNotes": "Release notes",
         "whatsNewLink": "What’s new in Instana"
+      },
+      "toolTip": {
+        "makeDefault": "This action sets the Instana homepage as your default landing page, replacing any custom dashboard you've set."
       }
     },
     "ariaLabel": {
       "search": "Search",
-      "handleButton": "Handle button"
+      "handleButton": "Handle button",
+      "toolbar": "data table toolbar",
+      "tabs": "List of Tabs"
     }
   },
   "Components": {

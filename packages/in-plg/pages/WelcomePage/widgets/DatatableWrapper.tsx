@@ -8,8 +8,7 @@ import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 import { debounce } from 'lodash';
 
-import { DashboardTable, DashboardTile, Pagination as CarbonPagination } from '@instana/components';
-import { DashboardTableRow as Row } from '@instana/components';
+import { Pagination as CarbonPagination, CarbonTableRow as Row } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
@@ -24,18 +23,18 @@ import {
   getNoDataHeader
 } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 //@ts-expect-error no declaration file found
-import { starredItems$ } from 'in-cockpit/starredItems';
+import { starredItems$ } from 'in-plg/pages/WelcomePage/widgets/starredItems';
 import PinnedItemList, { Item } from 'in-plg/pages/WelcomePage/widgets/table/PinnedItemList';
 //@ts-expect-error no declaration file found
 import connectTo from 'in-hoc/connectTo';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
+import RegularItemList from 'in-plg/pages/WelcomePage/widgets/table/RegularItemList';
+import { DashboardTable } from 'in-plg/components/DashboardTable/DashboardTable';
 import ViewAllButton from 'in-plg/pages/WelcomePage/widgets/table/ViewAllButton';
-import { carbonPaginationEnabled } from 'in-services/featureFlags';
+import { DashboardTile } from 'in-plg/components/DashboardTile/DashboardTile';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
-import RegularItemList from './table/RegularItemList';
 import { timeConfig$ } from 'in-stores/time/config';
-import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
 import locals from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper.mless';
@@ -152,11 +151,11 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
     };
   }
 
+  const { header: updatedHeader = '' } = dashboardTileProps || {};
+  const hitsCount = hitsRef.current > 0 ? `(${hitsRef.current})` : '';
   dashboardTileProps = {
     ...dashboardTileProps,
-    header: dashboardTileProps
-      ? `${dashboardTileProps.header} ${hitsRef.current > 0 ? `(${hitsRef.current})` : ''}`
-      : ''
+    header: header !== '' ? `${updatedHeader} ${hitsCount}` : ''
   };
 
   function pinnedItems() {
@@ -231,7 +230,9 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   const updatedHeaders = mainPage ? headers.filter(obj => obj.key !== 'favourite') : null;
   const dataLoading = result?.progress?.loading;
   const showPagination = mainPage && (dataLoading || hits > pageSizes[0]);
-
+  const dashboardAddMoreLabel = t('in-plg:welcomepage.component.dashboardWidget.addButtonLabel');
+  const addMorePrefix =
+    addButtonLabel === dashboardAddMoreLabel ? t('in-plg:welcomepage.create') : t('in-plg:welcomepage.addMore');
   return (
     <section
       className={classNames({
@@ -262,33 +263,24 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
             setQuery(searchQuery);
             setPage(1);
           }, 500)}
-          buttonName={`${t('in-plg:welcomepage.addMore')} ${addButtonLabel ?? ''}`.trim()}
+          buttonName={`${addMorePrefix} ${addButtonLabel ?? ''}`.trim()}
           toggles={dashboardTileProps.toggles}
           toggleCallback={dashboardTileProps.toggleCallback}
         />
         {viewAll && viewAllButton('viewAllButton')}
       </DashboardTile>
-      {showPagination &&
-        (carbonPaginationEnabled ? (
-          <CarbonPagination
-            currentPage={page}
-            totalItems={hitsRef.current}
-            pageSize={pageSize}
-            pageSizes={pageSizes}
-            onChange={(data: { page: number; pageSize: number }) => {
-              setPage(data?.page);
-              setPageSize(data.pageSize);
-            }}
-          />
-        ) : (
-          <Pagination
-            currentPage={page}
-            numPages={Math.ceil(hitsRef.current / pageSize)}
-            onChange={newPage => {
-              setPage(newPage);
-            }}
-          />
-        ))}
+      {showPagination && (
+        <CarbonPagination
+          currentPage={page}
+          totalItems={hitsRef.current}
+          pageSize={pageSize}
+          pageSizes={pageSizes}
+          onChange={(data: { page: number; pageSize: number }) => {
+            setPage(data?.page);
+            setPageSize(data.pageSize);
+          }}
+        />
+      )}
     </section>
   );
 });

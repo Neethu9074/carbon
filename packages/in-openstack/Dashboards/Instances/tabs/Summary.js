@@ -7,17 +7,17 @@ import React, { Fragment } from 'react';
 
 import { Card } from '@instana/components';
 
+import NetworkInterface from 'in-openstack/Dashboards/Instances/table/NetworkInterface';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import InstanceUsage from 'in-openstack/Dashboards/Instances/table/InstanceUsage';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import DiskDetails from 'in-openstack/Dashboards/Instances/table/DiskDetails';
+import CpuDetails from 'in-openstack/Dashboards/Instances/table/CpuDetails';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { number, percentage } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
-import NetworkInterface from '../table/NetworkInterface';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import InstanceUsage from '../table/InstanceUsage';
-import DiskDetails from '../table/DiskDetails';
-import CpuDetails from '../table/CpuDetails';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: instance }) {

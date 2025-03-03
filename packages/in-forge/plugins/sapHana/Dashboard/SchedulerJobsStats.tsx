@@ -85,7 +85,10 @@ const cols = [
   }
 ];
 export default function SchedulerJobsStatsList({ snapshotId, timeConfig }: SchedulerJobsStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'schedulerJobStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'schedulerJobStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const schedulerJobsStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: SchedulerJobsStatsRow[] = schedulerJobsStat
     ? schedulerJobsStat

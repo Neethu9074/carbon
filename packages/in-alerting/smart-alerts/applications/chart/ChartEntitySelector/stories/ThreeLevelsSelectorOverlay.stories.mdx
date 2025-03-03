@@ -4,7 +4,7 @@
 
 [//]: # (Copyright IBM Corp. 2022)
 
-import { Meta, Preview, Story } from '@storybook/addon-docs';
+import { Meta, Canvas, Story } from '@storybook/addon-docs';
 import { action as storybookAction } from '@storybook/addon-actions';
 
 import ThreeLevelsSelectorOverlay
@@ -16,29 +16,28 @@ import {
   firstLevelChildren
 } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/stories/treeSelectionData';
 
-
-<Meta title='Three level selector overlay'/>
+<Meta title='in-alerting/smart-alerts/applications/chart/ChartEntitySelector/ThreeLevelsSelectorOverlay' />
 
 # Three-levels Selector Overlay
 
-<Preview>
+<Canvas>
   <Story name="default">
     <PermanentlyVisibleOverlay>
       <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={options} />
     </PermanentlyVisibleOverlay>
   </Story>
+</Canvas>
+<Canvas>
   <Story name="only two levels">
     <PermanentlyVisibleOverlay>
       <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={firstLevelChildren} />
     </PermanentlyVisibleOverlay>
   </Story>
+</Canvas>
+<Canvas>
   <Story name="with search">
     <PermanentlyVisibleOverlay>
       <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={options} query={"with Search"} />
     </PermanentlyVisibleOverlay>
   </Story>
-</Preview>
-
-### Props
-
-<Props of={ThreeLevelsSelectorOverlay} />
+</Canvas>

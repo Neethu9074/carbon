@@ -7,13 +7,15 @@ import React from 'react';
 
 import { CarbonMenuItem, SvgIcon } from '@instana/components';
 
+import { integrationKey as mezmoIntegrationKey } from 'in-integrations/logging/mezmo/consts';
 import { constructLink } from 'in-integrations/logging/mezmo/LinkConstruction';
-import { jumpToMezmo } from 'in-integrations/logging/mezmo/tracker';
+import { useJumpToThirdParty } from 'in-integrations/logging/tracking';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 export default function MezmoButton(props) {
   const { mezmoIntegration: integration } = props;
+  const jumpToThirdParty = useJumpToThirdParty();
 
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
@@ -35,7 +37,7 @@ export default function MezmoButton(props) {
           ),
           '_blank'
         );
-        jumpToMezmo();
+        jumpToThirdParty(mezmoIntegrationKey);
       }}
     />
   );

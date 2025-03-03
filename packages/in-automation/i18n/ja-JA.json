@@ -10,7 +10,6 @@
   "recommendedOptimizations": "推奨されるリソース・アクション",
   "actionName": "アクション名",
   "validVaultParameter": "オプションとしてマークされたボールト・パラメーターは、両方ともブランクであるか、あるいは両方ともブランクではない必要があります。",
-  "newAction": "新規アクション",
   "runAction": "アクションの実行",
   "testAction": "テスト・アクション",
   "targetAgent": "ターゲット・エージェント",
@@ -239,6 +238,7 @@
     "ignoreCertErrors": "証明書エラーを無視する",
     "basicAuth": "基本認証",
     "bearerToken": "ベアラー・トークン",
+    "authentication": "認証",
     "apiKeyAddTo": "追加先",
     "apiKey": "API 鍵",
     "header": "ヘッダー",
@@ -255,12 +255,6 @@
     "defaultValue": "デフォルト値",
     "defaultValueOptional": "デフォルト値(オプション)",
     "parameters": "パラメーター",
-    "showPasswordTooltip": "パスワードを表示する",
-    "hidePasswordTooltip": "パスワードを非表示にする",
-    "showAPIKeyTooltip": "API キーの表示",
-    "hideAPIKeyTooltip": "API キーを非表示",
-    "showBeaererTokenTooltip": "ベアラー・トークンの表示",
-    "hideBeaererTokenTooltip": "ベアラー・トークンの非表示",
     "secretKey": "秘密鍵",
     "secretPath": "秘密パス",
     "secretKeyOptional": "秘密鍵(オプション)",
@@ -329,8 +323,6 @@
     "status": "状況",
     "startTime": "開始時刻",
     "endTime": "終了時刻",
-    "property": "プロパティー",
-    "value": "値",
     "actionInstanceId": "アクション・インスタンス ID",
     "event": "イベント",
     "eventName": "イベント名",
@@ -373,11 +365,13 @@
     "output": "出力",
     "user": "ユーザー",
     "apiToken": "API トークン",
-    "deleteTooltip": "アクション・インスタンスの削除 {{id}}",
+    "viewTooltip": "アクション・インスタンス「{{actionName}}」の表示",
+    "deleteTooltip": "アクション・インスタンス「{{actionName}}」の削除",
     "deleteDialog": {
       "success": "アクション・インスタンスは正常に削除されました。",
       "failure": "アクション・インスタンスの削除に失敗しました。"
-    }
+    },
+    "actionSnapshotDetails": "アクションのスナップショットの詳細"
   },
   "actionLanes": {
     "buttonInvestigate": "調査"
@@ -478,8 +472,8 @@
     "showTasks": "表示"
   },
   "deleteDialog": {
-    "pleaseConfirm": "ご確認ください",
-    "pleaseConfirmMsg": "<strong>{{name}}</strong> を削除してよろしいですか?",
+    "confirmRemove": "ご確認ください",
+    "confirmRemoveMsg": "<strong>{{name}}</strong> を削除してよろしいですか?",
     "delete": "削除"
   },
   "turboActionCategories": {
@@ -512,5 +506,12 @@
     "actionName": "アクション名",
     "recommendedActionHistoryWithCount": "リソースのアクション履歴({{count}})",
     "recommendedActionHistory": "リソース・アクション履歴"
+  },
+  "feedback": {
+    "contentHelpfulText": "生成されたコンテンツは役に立ちましたか？",
+    "thankYouForYourFeedback": "フィードバックをありがとうございました。",
+    "submitFeedback": "フィードバックの送信",
+    "additionalFeedbacklabel": "ご意見がございましたら、お聞かせください(任意)",
+    "additionalFeedbackPlaceholder": "この応答について、どのような点が気に入らなかったのでしょうか？ 改善できる点"
   }
 }

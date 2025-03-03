@@ -196,6 +196,38 @@ const columnsPerDataSource = {
       }
     },
     mobileAppColumnDefinition
+  ],
+  perf: [
+    erroneousColumnDefinition,
+    {
+      id: 'perf',
+      label: t('in-mobile-apps:mobileBeacons.perf'),
+      sortable: false,
+      getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
+        return (
+          <div className={locals.batchedLine}>
+            <LinkToDetailPage
+              beacon={beacon}
+              getHrefToDetailId={getHrefToDetailId}
+              linkLabel={beacon.performanceSubtype}
+              groupLabel={groupLabel}
+            />
+            <BatchingIndicator
+              batchCount={beacon.batchSize}
+              tooltipContent={t(
+                'in-mobile-apps:analyzeView.perBeaconTypeConfigs.customBatchingIndicatorTooltipContent',
+                {
+                  size: beacon.batchSize
+                }
+              )}
+              tooltipAlign="rightMiddle"
+              noTopPosition
+            />
+          </div>
+        );
+      }
+    },
+    mobileAppColumnDefinition
   ]
 };
 

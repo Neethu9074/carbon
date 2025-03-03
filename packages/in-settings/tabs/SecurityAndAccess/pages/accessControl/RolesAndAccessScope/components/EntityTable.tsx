@@ -14,7 +14,6 @@ import ServerTablePresenter, {
   ServerTablePresenterProps
 } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { carbonTableEnabled } from 'in-services/featureFlags';
 import { FetchedState } from 'in-hooks/utils/types';
 
 import locals from './EntityTable.mless';
@@ -79,7 +78,7 @@ export default function EntityTable<ITEM_CONFIG extends ListItem>({
   }
 
   return (
-    <div className={carbonTableEnabled ? locals.paddingInCarbonTable : undefined}>
+    <div className={locals.paddingInCarbonTable}>
       <ServerTablePresenter<ITEM_CONFIG, ServerTablePresenterProps<ITEM_CONFIG>>
         getRowProps={getRowProps}
         result={paginatedResult}

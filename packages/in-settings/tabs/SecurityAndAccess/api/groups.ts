@@ -10,6 +10,7 @@ import { syntheticViewCapabilities } from 'in-settings/tabs/SecurityAndAccess/pa
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { errorWithData } from 'in-services/util/result';
 import { Response } from 'in-services/http/types';
 import http from 'in-services/http';
 
@@ -56,6 +57,29 @@ function getGroupWithIdpFlagAsResultObservableInternal(groupId: string) {
     )
   );
 }
+
+function getGroupsRequest() {
+  return http<ApiGroup[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: basePath
+  });
+}
+
+const emptyGroupsOnError$ = create().emit(undefined);
+
+function getGroupsResultInternal() {
+  return refreshSignalTeams.flatMap(() => {
+    const groupsRequest = getGroupsRequest();
+    const success$ = groupsRequest.map(response => response.body);
+    groupsRequest.errors().subscribe(err => {
+      emptyGroupsOnError$.emit(errorWithData([err], []));
+    });
+    return success$.merge(emptyGroupsOnError$);
+  });
+}
+
+export const getGroups = memoize(getGroupsResultInternal, () => 'groups', 60000);
 
 export const getGroupsAsResultObservable = () =>
   memoize<undefined, Result<ApiGroup[]>>(getGroupsAsResultObservableInternal, () => '', 60000)(undefined);

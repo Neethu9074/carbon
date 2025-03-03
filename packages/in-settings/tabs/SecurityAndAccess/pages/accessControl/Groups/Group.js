@@ -16,6 +16,10 @@ import {
   saveGroup,
   createNewGroup
 } from 'in-settings/tabs/SecurityAndAccess/api/groups';
+import {
+  SETTINGS_ACCESS_CONTROL_GROUP_CREATE,
+  SETTINGS_ACCESS_CONTROL_GROUP_UPDATE
+} from 'in-services/tracking/eventNames';
 import { ProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { RemoveUserDialog } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/RemoveUserDialog';
 import { createForm } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
@@ -97,9 +101,9 @@ const trackGroupUpdate = (unstable_trackEvent, isExistingGroup, group) => {
   };
 
   if (isExistingGroup) {
-    unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.accessControl.updateGroup' }, groupObject);
+    unstable_trackEvent(UPDATED_OBJECT, { objectType: SETTINGS_ACCESS_CONTROL_GROUP_UPDATE }, groupObject);
   } else {
-    unstable_trackEvent(CREATED_OBJECT, { objectType: 'settings.accessControl.createGroup' }, groupObject);
+    unstable_trackEvent(CREATED_OBJECT, { objectType: SETTINGS_ACCESS_CONTROL_GROUP_CREATE }, groupObject);
   }
 };
 

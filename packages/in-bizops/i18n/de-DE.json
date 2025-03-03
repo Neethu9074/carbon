@@ -6,8 +6,12 @@
     "count": "Anzahl"
   },
   "lists": {
+    "id": "ID",
+    "version": "Version",
     "pageTitle": "Business Monitoring",
     "cardTitle": "Geschäftsprozesse",
+    "theId": "Die Prozess-ID",
+    "hasBeenCopied": "wurde erfolgreich in die Zwischenablage kopiert",
     "activityLabel": "Aktivitäten",
     "nameLabel": "Name",
     "countLabel": "Anzahl",

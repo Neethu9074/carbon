@@ -1,5 +1,5 @@
 {
-  "zhmcs": "zHMCs",
+  "zhmcs": "ZHMCs",
   "hostname": "Nom d'hôte",
   "name": "Nom",
   "systems": "Systèmes",
@@ -17,7 +17,7 @@
   "status": "Statut",
   "breadcrumbs": {
     "zhmc": "zHMC",
-    "zhmcs": "zHMCs",
+    "zhmcs": "ZHMCs",
     "systems": "Systèmes"
   },
   "dashboards": {

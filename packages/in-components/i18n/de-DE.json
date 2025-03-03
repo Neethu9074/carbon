@@ -39,6 +39,14 @@
       "msg": "{{smartAlertsCount}} $t(in-components: chart.chartAlertsLaneTooltipContent.countSmartAlert, {\" count \": {{smartAlertsCount}}}) & {{incidentsCount}} $t(in-components: chart.chartAlertsLaneTooltipContent.countIncident, {\" Anzahl\": {{incidentsCount}}}})",
       "itemMsg": "+{{leftCount}} weitere {{moreMsg}}"
     },
+    "charTable": {
+      "group": "Gruppe",
+      "xVal": "x-Wert (Zeit)",
+      "yVal": "y-Wert",
+      "tabularRep": "Tabellarische Darstellung",
+      "tableVis": "Tabellenvisualisierung",
+      "close": "Schließen"
+    },
     "chartMarkerLane": {
       "retryButtonLabel": "Wiederholen",
       "openList": "Liste öffnen"
@@ -48,6 +56,7 @@
     "highlightedTimeframeCloseButtonClearHighlight": "Hervorhebung aufheben",
     "resultAwareChartSomethingWentWrong": "Ein Fehler ist aufgetreten...",
     "resultAwareChartPleaseTryAgainLater": "Versuchen Sie es später erneut.",
+    "openTable": "Tabelle öffnen",
     "tooltip": {
       "scrollHint": "Blättern mit <upArrow /><downArrow /> Tasten",
       "rollup": "über {{rollup}}",
@@ -96,7 +105,7 @@
     "formStateLabel": "Bundesstaat"
   },
   "searchBar": {
-    "usingTheSearchBar": "Die Instana-Suchfunktion 'Dynamischer Fokus' kann verwendet werden, um die 3D-Karten, Vergleichstabellen und Ereignisansichten zu filtern. Die Suchleiste bietet umfangreiche Möglichkeiten für Suchen nach groben Übereinstimmungen und für Platzhaltersuchen sowie für Suchen mit booleschen Operatoren. Die folgende\nAbfrage beschränkt beispielsweise Ansichten auf Produktionshosts mit weniger als vier CPUs:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\n Dynamic Focus nutzt die [Lucene-Abfragesyntax](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) mit den folgenden Unterschieden zum Lucene-Standard:\n- **Standardoperator:** `AND`\n- **Syntaxbedingungen:** werden in der [Dokumentation](https://ibm.biz/dynamic-focus-syntax-constraints)\n## Suchleisteninteraktion\naufgelistet. Die Suchleiste unterstützt die automatische Vervollständigung für Suchfelder und hebt die Lucene-Abfrage während der Eingabe hervor.\nNach der Eingabe schlägt die Suchleiste Suchfelder vor, die mit der aktuellen Eingabe übereinstimmen. Sie können vorgeschlagene Felder akzeptieren, indem Sie die Eingabetaste drücken. Drücken Sie die Tastenkombination Strg + Leertaste, um das Popup-Fenster für die automatische Vervollständigung zu öffnen.## Cheat-Sheet für Lucene-Abfragesyntax\n - **Feldspezifische Suche:** `entity.host.cpu.count:>4`\n - **Boolesche Operatoren:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - ** Gruppierung:** ` (entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - ** Platzhaltersuchen:** `entity.type:container*`\n\nWeitere Informationen finden Sie in der [Dokumentation](https://ibm.biz/filtering-dynamic-focus).",
+    "usingTheSearchBar": "Die Instana-Suchfunktion 'Dynamischer Fokus' kann verwendet werden, um die 3D-Karten, Vergleichstabellen und Ereignisansichten zu filtern. Die Suchleiste bietet umfangreiche Möglichkeiten für Suchen nach groben Übereinstimmungen und für Platzhaltersuchen sowie für Suchen mit booleschen Operatoren. Die folgende\nAbfrage beschränkt beispielsweise Ansichten auf Produktionshosts mit weniger als vier CPUs:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\n Dynamic Focus nutzt die [Lucene-Abfragesyntax](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) mit den folgenden Unterschieden zum Lucene-Standard:\n- **Standardoperator:** `AND`\n- **Syntaxbedingungen:** werden in der [Dokumentation](https://ibm.biz/dynamic-focus-syntax-constraints)\n## Suchleisteninteraktion\naufgelistet. Die Suchleiste unterstützt die automatische Vervollständigung für Suchfelder und hebt die Lucene-Abfrage während der Eingabe hervor.\nNach der Eingabe schlägt die Suchleiste Suchfelder vor, die mit der aktuellen Eingabe übereinstimmen. Sie können vorgeschlagene Felder akzeptieren, indem Sie die Eingabetaste drücken. Drücken Sie die Tastenkombination `Strg + Leertaste`, um das Popup-Fenster für die automatische Vervollständigung zu öffnen.\n## Cheat-Sheet für Lucene-Abfragesyntax\n - **Feldspezifische Suche:** `entity.host.cpu.count:>4`\n - **Boolesche Operatoren:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Gruppierung:** ` (entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Platzhaltersuchen:** `entity.type:container*`\n\nWeitere Informationen finden Sie in der [Dokumentation](https://ibm.biz/filtering-dynamic-focus).",
     "filtersBtn": "Filter",
     "filterPresetsMenuHeading": "Filter",
     "filterPresetsSaveFilters": "Speichern Sie hier Filter für einfachen Zugriff",
@@ -112,6 +121,9 @@
     "filterConfirmButtonLabel": "Filter entfernen",
     "filterConfirmRemoveMsg": "Sind Sie sicher, dass Sie den Filter <strong>{{filterName}}</strong> entfernen möchten?",
     "helpDialogTitleUsingTheSearchBar": "Suchleiste verwenden"
+  },
+  "carbonSearchBar": {
+    "search": "Suchen"
   },
   "tables": {
     "serverTable": {
@@ -359,19 +371,7 @@
     "openIncidents_1": "{{count}} Vorfall",
     "openIncidents_2": "{{count}} Vorfälle",
     "labelWarning": "Warnung",
-    "labelCritical": "Kritisch",
-    "carbonNoIssues": "Keine Probleme",
-    "carbonOpenIssues": "{{count}} Problem",
-    "carbonOpenIssues_plural": "{{count}} Probleme",
-    "carbonOpenIssues_0": "{{count}} Probleme",
-    "carbonOpenIssues_1": "{{count}} Problem",
-    "carbonOpenIssues_2": "{{count}} Probleme",
-    "carbonNoIncidents": "Keine Vorfälle",
-    "carbonOpenIncidents": "{{count}} Vorfall",
-    "carbonOpenIncidents_plural": "{{count}} Vorfälle",
-    "carbonOpenIncidents_0": "{{count}} Vorfälle",
-    "carbonOpenIncidents_1": "{{count}} Vorfall",
-    "carbonOpenIncidents_2": "{{count}} Vorfälle"
+    "labelCritical": "Kritisch"
   },
   "vulnerabilities": {
     "eventType_issue": "Sicherheitslücken",
@@ -395,19 +395,7 @@
     "openIncidents_plural": "{{count}} Vorfälle",
     "openIncidents_0": "{{count}} Vorfälle",
     "openIncidents_1": "{{count}} Vorfall",
-    "openIncidents_2": "{{count}} Vorfälle",
-    "carbonNoVulnerabilities": "Keine Schwachstellen",
-    "carbonOpenVulnerabilities": "{{count}} Schwachstelle",
-    "carbonOpenVulnerabilities_plural": "{{count}} Schwachstellen",
-    "carbonOpenVulnerabilities_0": "{{count}} Schwachstellen",
-    "carbonOpenVulnerabilities_1": "{{count}} Schwachstelle",
-    "carbonOpenVulnerabilities_2": "{{count}} Schwachstellen",
-    "carbonNoIncidents": "Keine Vorfälle",
-    "carbonOpenIncidents": "{{count}} Vorfall",
-    "carbonOpenIncidents_plural": "{{count}} Vorfälle",
-    "carbonOpenIncidents_0": "{{count}} Vorfälle",
-    "carbonOpenIncidents_1": "{{count}} Vorfall",
-    "carbonOpenIncidents_2": "{{count}} Vorfälle"
+    "openIncidents_2": "{{count}} Vorfälle"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "Registerkarte auswählen"
@@ -624,7 +612,6 @@
     "timeSelectionDialogPresenterLabelTimeRange": "Zeitbereich",
     "timeSelectionDialogPresenterLabelReleases": "Releases",
     "timeFrameFormatterStarting": "Start um {{fromTime}}",
-    "timeIconHistoricDataMessage": "Sie zeigen die ungefähren Daten aufgrund der Einstellungen für die Datenaufbewahrung an. Genaue Daten sind innerhalb der letzten {{retention}} Tage verfügbar.",
     "timeUnit_year": "Jahr",
     "timeUnit_month": "Monat",
     "timeUnit_day": "Tag",

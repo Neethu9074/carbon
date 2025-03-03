@@ -20,11 +20,9 @@ import {
 import { Card, Checkbox, Stack, Button } from '@instana/components';
 import { DataTable as CarbonDataTable } from '@instana/components';
 
-import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
-import { aqmDataGridEventTableEnabled, carbonTableEnabled } from 'in-services/featureFlags';
+import { multiCloseEnabled, aqmDataGridEventTableEnabled } from 'in-services/featureFlags';
 import useTimeConfigUpdatingScale from 'in-events/components/useTimeConfigUpdatingScale';
-import { manuallyCloseEventEnabled, multiCloseEnabled } from 'in-services/featureFlags';
 import MultiCloseIssueConfigForm from 'in-events/components/MultiCloseIssueConfigForm';
 import EventsTable from 'in-events/components/EventsPage/EventsTable/EventsTable';
 import FailedIncidentsList from 'in-events/components/FailedIncidentsList.tsx';
@@ -40,10 +38,7 @@ import locals from './EventsList.mless';
 
 export default function EventsList(props) {
   const list = <List {...props} />;
-  if (!props.selectedEventId) {
-    return list;
-  }
-  return <HeightRestrictedView render={() => list} />;
+  return list;
 }
 
 function List(props) {
@@ -80,7 +75,7 @@ function List(props) {
   const canMultiCloseEvents = multiCloseEnabled && role?.canManuallyCloseIssue;
 
   const eventTypeSupported = eventType === 'incident' || eventType === 'issue';
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const isDenseList = !!selectedEventId;
   let cols = 0;
 
@@ -288,7 +283,7 @@ function List(props) {
     );
   };
 
-  if (carbonTableEnabled && !canMultiCloseEvents) {
+  if (!canMultiCloseEvents) {
     const sortedRows = filteredRawEventList;
 
     // Carbon interprets keys differently than the how the sorting works

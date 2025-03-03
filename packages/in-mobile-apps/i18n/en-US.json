@@ -4,7 +4,8 @@
     "viewChange": "View Transition",
     "httpRequest": "HTTP Request",
     "custom": "Custom Event",
-    "crash": "Crash"
+    "crash": "Crash",
+    "perf" : "Performance"
   },
   "analyzeView": {
     "eumTags": {
@@ -185,7 +186,10 @@
       "cusLong": "Custom Events",
       "craShort": "Cra",
       "craBadgeLabel": "Cra",
-      "craLong": "Crash"
+      "craLong": "Crash",
+      "defaultShort": "Undefined",
+      "defaultBadgeLabel": "Undefined",
+      "defaultLong": "Beacon Type not defined"
     },
     "tabsSumOverviewChartTooltipStartTime": "Start Time",
     "tabsSummary": {
@@ -279,6 +283,7 @@
     "numSessionStarts": "{{num}} session starts",
     "tabs": {
       "summaryLabel": "Summary",
+      "performanceLabel": "Performance",
       "crashLabel": "Crashes",
       "httpRequestLabel": "HTTP Requests",
       "geographyLabel": "Geography",
@@ -325,6 +330,11 @@
       "erroneousCallRateTitle": "Erroneous Call Rate",
       "erroneousCallRateLabel": "Erroneous Call Rate",
       "latencyCardTitle": "Latency",
+      "coldStartTimeGridTitle": "Cold start time",
+      "appNotRespondingGridTitle": "App not responding/ App freezing",
+      "lowMemoryGridTitle": "Low Memory",
+      "androidLabel": "Android",
+      "iosLabel": "iOS",
       "50thLabel": "50th",
       "90thLabel": "90th",
       "95thLabel": "95th",
@@ -347,6 +357,11 @@
       "topHTTPRequestOriginsTitle": "Top HTTP Request Origins",
       "viewAllOriginsLink": "View all origins",
       "sessionStartsTitle": "Session Starts",
+      "coldStartTimeTitle": "Cold start time (75th)",
+      "appNotRespondingAffectedSessionsTitle": "App not responding/App freezing affected sessions",
+      "appNotRespondingAffectedUsersTitle": "App not responding/App freezing affected users",
+      "userCount": "{{formattedCount}} user",
+      "userCount_plural": "{{formattedCount}} users",
       "viewInAnalyzeIconAction": "View in Analyze",
       "crashAffectedSessionRateTitle": "Crash Affected Session Rate",
       "crashAffectedUserRateTitle": "Crash Affected User Rate",
@@ -493,7 +508,8 @@
     "viewName": "View Name",
     "access": "Access",
     "eventName": "Event Name",
-    "crash": "Crash"
+    "crash": "Crash",
+    "perf" : "Performance"
   },
   "dataSource_sessionStart": "{{formattedCount}} Session Start",
   "dataSource_sessionStart_plural": "{{formattedCount}} Session Starts",
@@ -520,6 +536,11 @@
   "dataSource_crash_0": "{{formattedCount}} Crashes",
   "dataSource_crash_1": "{{formattedCount}} Crashes",
   "dataSource_crash_2": "{{formattedCount}} Crashes",
+  "dataSource_perf": "{{formattedCount}} Performance",
+  "dataSource_perf_plural": "{{formattedCount}} Performance",
+  "dataSource_perf_0": "{{formattedCount}} Performance",
+  "dataSource_perf_1": "{{formattedCount}} Performance",
+  "dataSource_perf_2": "{{formattedCount}} Performance",
   "facetedSearch": {
     "mobileApp": "Mobile App",
     "view": "View",

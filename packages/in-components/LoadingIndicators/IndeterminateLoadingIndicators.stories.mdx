@@ -1,4 +1,4 @@
-import { Meta, Story, Preview, Props } from '@storybook/addon-docs';
+import { Meta, Story, Canvas, Props } from '@storybook/addon-docs';
 import { action as storybookAction } from '@storybook/addon-actions';
 
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
@@ -13,17 +13,13 @@ import { themes } from '@instana/design-tokens';
 import { IndeterminateLoadingIndicator } from 'in-components/LoadingIndicators';
 ```
 
-<Preview>
+<Canvas>
   <Story name="default">
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <IndeterminateLoadingIndicator />
     </div>
   </Story>
-</Preview>
-
-## Props
-
-<Props of={IndeterminateLoadingIndicator} />
+</Canvas>
 
 ## Custom Styles
 

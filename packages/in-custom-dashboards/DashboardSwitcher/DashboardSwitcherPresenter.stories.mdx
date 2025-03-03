@@ -1,10 +1,10 @@
-import { Meta, Story, Preview, Props } from '@storybook/addon-docs';
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
 
 import DashboardSwitcherPresenter from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcherPresenter';
 
 <Meta component={DashboardSwitcherPresenter} />
 
-<Preview>
+<Canvas>
   <Story name="default">
     <DashboardSwitcherPresenter activeDashboardTitle="System Overview" customDashboards={[
       {
@@ -25,21 +25,18 @@ import DashboardSwitcherPresenter from 'in-custom-dashboards/DashboardSwitcher/D
       }
     ]} />
   </Story>
-</Preview>
-
-### Props
-<Props of={DashboardSwitcherPresenter} />
+</Canvas>
 
 ### Loading
-<Preview>
+<Canvas>
   <Story name="Loading">
     <DashboardSwitcherPresenter activeDashboardTitle="System Overview" isLoadingMore />
   </Story>
-</Preview>
+</Canvas>
 
 ### No custom dashboards
-<Preview>
+<Canvas>
   <Story name="no custom dashboards">
     <DashboardSwitcherPresenter activeDashboardTitle="System Overview" customDashboards={[]} />
   </Story>
-</Preview>
+</Canvas>

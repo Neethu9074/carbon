@@ -13,26 +13,26 @@ import {
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { logSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { LogAlertConfigWithMetadata } from 'in-types';
 
-function handleEdit(config: LogAlertConfigWithMetadata) {
+function handleEdit(config: LogSmartAlertConfigWithMetadata) {
   openSmartAlertDialog(config);
 }
 
-function HandleEditNew(config: LogAlertConfigWithMetadata) {
+function HandleEditNew(config: LogSmartAlertConfigWithMetadata) {
   return <TearSheetEditActionHandler id={config.id} created={config.created} />;
 }
 
-function HandleCloneNew(config: LogAlertConfigWithMetadata) {
+function HandleCloneNew(config: LogSmartAlertConfigWithMetadata) {
   return <TearSheetCloneActionHandler id={config.id} created={config.created} />;
 }
 
-function openSmartAlertDialog(config: LogAlertConfigWithMetadata, isCopy = false) {
+function openSmartAlertDialog(config: LogSmartAlertConfigWithMetadata, isCopy = false) {
   addActiveDialog(
     <SmartAlertConfigDialogWrapper
       alertConfig={isCopy ? duplicateAlertConfig(config) : config}
@@ -46,18 +46,18 @@ function openSmartAlertDialog(config: LogAlertConfigWithMetadata, isCopy = false
   );
 }
 
-function handleClone(config: LogAlertConfigWithMetadata) {
+function handleClone(config: LogSmartAlertConfigWithMetadata) {
   openSmartAlertDialog(config, true);
 }
 
 export const actionHandlers = {
-  handleEdit: (config: LogAlertConfigWithMetadata) => handleEdit(config),
+  handleEdit: (config: LogSmartAlertConfigWithMetadata) => handleEdit(config),
   ...(logSmartAlertFullScreenDesignEnabled && {
-    handleEditNew: (config: LogAlertConfigWithMetadata) => HandleEditNew(config)
+    handleEditNew: (config: LogSmartAlertConfigWithMetadata) => HandleEditNew(config)
   }),
-  handleClone: (config: LogAlertConfigWithMetadata) => handleClone(config),
+  handleClone: (config: LogSmartAlertConfigWithMetadata) => handleClone(config),
   ...(logSmartAlertFullScreenDesignEnabled && {
-    handleCloneNew: (config: LogAlertConfigWithMetadata) => HandleCloneNew(config)
+    handleCloneNew: (config: LogSmartAlertConfigWithMetadata) => HandleCloneNew(config)
   }),
   handleDelete: (
     id: string,

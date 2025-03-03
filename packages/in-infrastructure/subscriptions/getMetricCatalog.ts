@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Result, GetInfraMetricsCatalogQuery, MetricCatalog, MetricTreeLevel } from 'in-types';
+import { Result, GetInfraMetricsCatalogQuery, MetricCatalog, MetricTreeLevel } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { hiddenPlugins } from 'in-forge/constants';
 import { mapData } from 'in-services/util/result';

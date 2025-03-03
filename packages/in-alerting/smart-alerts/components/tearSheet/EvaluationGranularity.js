@@ -6,59 +6,67 @@
 
 import React from 'react';
 
+import { Spacer } from '@instana/components';
+
 import {
   getMarksForThresholdType,
   getDefaultMark
 } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/ConfigureGranularity';
 import DebouncedRestrictedSlider from 'in-components/Slider/DebouncedRestrictedSlider';
+import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/components/tearSheet/EvaluationGranularity.mless';
-
-export default function EvaluationGranularity({ form, updateForm, oneMinuteGranularityAllowed }) {
+export default function EvaluationGranularity({
+  form,
+  updateForm,
+  oneMinuteGranularityAllowed,
+  thresholdType,
+  titleWidth = '8rem'
+}) {
   const granularity = form.get('granularity')?.value;
-  const thresholdType = form.get('threshold').get('warningThreshold').get('type')?.value;
+
   const marks = getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed);
   const currentValue = marks.find((i => i.millis === granularity) ?? getDefaultMark(marks, thresholdType)).value;
 
   return (
-    <div className={locals.granularityContainer}>
+    <Section
+      title={
+        <AlertTypography
+          variant="body-regular"
+          color="color900"
+          content={t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigEvaluationGranularity')}
+          noMargin
+        />
+      }
+      titleWidth={titleWidth}
+    >
+      <DebouncedRestrictedSlider
+        marks={marks}
+        max={marks[marks.length - 1].value}
+        min={0}
+        value={currentValue}
+        onChange={value => {
+          onChangeGranularity(minutes.toMillis(value));
+        }}
+        valueLabelFormat={val =>
+          t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigMinutes', {
+            min: val
+          })
+        }
+        key={currentValue}
+      />
+      <Spacer size="normal" />
       <AlertTypography
-        variant={'body-regular'}
-        color={'color900'}
-        content={t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigEvaluationGranularity')}
+        variant="body-small"
+        color="color600"
+        content={t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.granularity.description', {
+          granularity: currentValue
+        })}
         noMargin
       />
-      <div>
-        <DebouncedRestrictedSlider
-          marks={marks}
-          max={marks[marks.length - 1].value}
-          min={0}
-          value={currentValue}
-          onChange={value => {
-            onChangeGranularity(minutes.toMillis(value));
-          }}
-          valueLabelFormat={val =>
-            t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigMinutes', {
-              min: val
-            })
-          }
-          key={currentValue}
-        />
-        <div className={locals.description}>
-          <AlertTypography
-            variant={'body-small'}
-            color={'color600'}
-            content={t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.granularity.description', {
-              granularity: currentValue
-            })}
-            noMargin
-          />
-        </div>
-      </div>
-    </div>
+    </Section>
   );
   function onChangeGranularity(newGranularity) {
     const oldGranularity = form.get('granularity').value;

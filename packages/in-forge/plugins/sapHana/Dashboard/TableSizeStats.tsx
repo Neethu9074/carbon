@@ -94,7 +94,10 @@ const cols = [
 ];
 
 export default function TableSizeStatsList({ snapshotId, timeConfig }: TableSizeStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'tableSizeStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'tableSizeStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const tableSizeStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: TableSizeStatsRow[] = tableSizeStat
     ? tableSizeStat

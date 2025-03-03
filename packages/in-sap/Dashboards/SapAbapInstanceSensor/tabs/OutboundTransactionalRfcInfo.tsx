@@ -114,7 +114,10 @@ const cols = [
   }
 ];
 export default function OutboundTransactionalRfcInfo({ snapshotId, timeConfig }: TRfcOutboundProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'outboundTRfcInfo'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'outboundTRfcInfo', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const tRfcList = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: TRfcOutboundRow[] = tRfcList
     ? tRfcList

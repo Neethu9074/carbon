@@ -17,7 +17,6 @@ import {
   TimeConfig
 } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
 
 import {
   CurrentState,
@@ -51,24 +50,22 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
-import CreateSmartAlertDialog from 'in-alerting/smart-alerts/synthetics/CreateSmartAlertDialog';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { CONTAINS, EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
+import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getTestSummaryList from 'in-synthetics/subscriptions/getTestSummaryList';
 import CreateSyntheticTest from 'in-synthetics/createTests/CreateSyntheticTest';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useFilterHeader } from 'in-synthetics/dashboards/global/utils';
 import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import { close } from 'in-components/DialogPresenter/store';
 import useUrlState, { Options } from 'in-hooks/useUrlState';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -140,7 +137,6 @@ const TestSummaryList = () => {
   const [{ syntheticTypes, locationIds, applicationIds, entityIds }, setFilter] = useUrlState(urlStateDefinition);
   const storedDialogAlarm = storedAlarmTimeOrNull();
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(() => getTests(), []) ?? pendingResult;
-  const { trackCta } = useSegmentTracking();
   if (syntheticRbacLimitedEnabled && !syntheticTests?.progress?.loading) {
     syntheticTests?.data?.forEach(function (item: SyntheticTest) {
       if (item?.applications) {
@@ -170,11 +166,6 @@ const TestSummaryList = () => {
       }
     }
   }, [storedDialogAlarm]);
-
-  const showSADialog = () => {
-    trackCta(ALERTING_CREATE);
-    return addActiveDialog(<CreateSmartAlertDialog />);
-  };
 
   const rightHeader = useFilterHeader(true, syntheticTests, setFilter);
   const location = useLocation();
@@ -208,11 +199,7 @@ const TestSummaryList = () => {
           <FloatingActionButtonMenu>
             {role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
 
-            {role?.canConfigureGlobalSyntheticSmartAlerts && (
-              <Button onClick={showSADialog} icon="lib_alerts_create" kind="primaryv2">
-                {t('in-synthetics:createSmartAlert.buttonLabel')}
-              </Button>
-            )}
+            {role?.canConfigureGlobalSyntheticSmartAlerts && <CreateSmartAlert withOutFloatingBtnMenu />}
           </FloatingActionButtonMenu>
         </FloatingActionButtons>
       )}

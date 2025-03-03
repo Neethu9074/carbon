@@ -178,8 +178,8 @@ function MetaDataSection({
       </FormGroup>
       <FormGroup>
         <Label htmlFor="parameter-type">{t('in-automation:ActionCatalog.valueType')}</Label>
-        <Row withoutSideMargin>
-          <Col>
+        <Row>
+          <Col md={2} xs={3}>
             <RadioButton
               checked={type.value === 'static'}
               disabled={isNotEditable}
@@ -189,7 +189,7 @@ function MetaDataSection({
               }
             />
           </Col>
-          <Col>
+          <Col md={2} xs={3}>
             <RadioButton
               checked={type.value === 'vault'}
               disabled={isNotEditable}
@@ -197,7 +197,7 @@ function MetaDataSection({
               onChange={() => setForm(form => form.updateIn(['type'], item => item.setValue('vault').setTouched(true)))}
             />
           </Col>
-          <Col>
+          <Col md={2} xs={3}>
             <RadioButton
               checked={type.value === 'dynamic'}
               disabled={isNotEditable}
@@ -206,7 +206,7 @@ function MetaDataSection({
                 setForm(form =>
                   form
                     .updateIn(['type'], item => item.setValue('dynamic').setTouched(true))
-                    .updateIn(['hidden'], item => item.setValue(true).setTouched(true))
+                    .updateIn(['hidden'], item => item.setValue(false).setTouched(true))
                 )
               }
             />
@@ -243,8 +243,6 @@ function HiddenSection({ isNotEditable }: SectionProps) {
             let updatedForm = form.updateIn(['hidden'], item => item.setValue(e.target.checked).setTouched(true));
             if (e.target.checked) {
               updatedForm = updatedForm.updateIn(['required'], item => item.setValue(true).setTouched(true));
-            } else {
-              updatedForm = updatedForm.updateIn(['required'], item => item.setValue(false).setTouched(true));
             }
             return updatedForm;
           });
@@ -345,14 +343,16 @@ function DynamicSection({ isNotEditable }: SectionProps) {
       <Label htmlFor="parameter-secretPath" hasError={!value.valid && value.touched}>
         {t('in-automation:value')}
       </Label>
-      <DynamicTagBasedPayloadConfigurator
-        value={toViewModel(value.value)}
-        disabled={isNotEditable}
-        onChange={(viewModel: ViewModel) =>
-          setForm(form => form.updateIn(['dynamic'], item => item.setValue(toFormModel(viewModel)).setTouched(true)))
-        }
-        tagFilterExpression={EMPTY_EXPRESSION}
-      />
+      <div>
+        <DynamicTagBasedPayloadConfigurator
+          value={toViewModel(value.value)}
+          disabled={isNotEditable}
+          onChange={(viewModel: ViewModel) =>
+            setForm(form => form.updateIn(['dynamic'], item => item.setValue(toFormModel(viewModel)).setTouched(true)))
+          }
+          tagFilterExpression={EMPTY_EXPRESSION}
+        />
+      </div>
       <TouchedMessages field={value} className={locals.subErrorTextFormField} />
     </FormGroup>
   );

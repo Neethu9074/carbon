@@ -24,6 +24,7 @@ interface AlertPreviewProps {
   isTearSheet?: boolean;
   isMultiThreshold?: boolean;
   severity?: number;
+  descriptionPlaceholder?: string;
 }
 
 export function AlertPreview({
@@ -36,7 +37,8 @@ export function AlertPreview({
   entityIconType2,
   isTearSheet = false,
   isMultiThreshold = false,
-  severity = Number(form.get('severity')?.value)
+  severity = Number(form.get('severity')?.value),
+  descriptionPlaceholder
 }: AlertPreviewProps) {
   const description = form.get('description')?.value;
   const triggering = form.get('triggering')?.value;
@@ -88,7 +90,9 @@ export function AlertPreview({
         </p>
         <p>
           {description ||
-            (isMultiThreshold ? getDescriptionPlaceholder(form, severity) : getDescriptionPlaceholder(form))}
+            (isMultiThreshold
+              ? descriptionPlaceholder ?? getDescriptionPlaceholder(form, severity)
+              : getDescriptionPlaceholder(form))}
         </p>
       </div>
     </div>

@@ -1,9 +1,11 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
@@ -12,7 +14,6 @@ import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './ProcessTopList.mless';
@@ -26,7 +27,7 @@ const cols = [
         return row.process.get('pid');
       },
       getContent(value) {
-        return value;
+        return String(value);
       }
     }
   },
@@ -48,6 +49,9 @@ const cols = [
             <span className={locals.label}>{shorten(processName, 100)}</span>
           </Tooltip>
         );
+      },
+      getFallbackValue(row) {
+        return row.process.get('name');
       },
       pathname: '/physical/dashboard',
       useSnapshotFromHierarchyCallback(snapshot, hierarchy) {
@@ -90,43 +94,38 @@ const cols = [
   }
 ];
 
-export default connectTo(
-  props => {
-    return {
-      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'processes', props.timeConfig)
-    };
-  },
-  function ProcessTopList({ snapshot, data }) {
-    if (!data || !data.get('raw_payload')) {
-      return null;
-    }
+export default function ProcessTopList({ snapshot, timeConfig }) {
+  const data = useObservable(getRawPayloadWithTimestamp(snapshot.get('id'), 'processes', timeConfig), [snapshot]);
 
-    const processes = data.get('raw_payload');
-    if (processes.size === 0) {
-      return null;
-    }
-
-    const rows = processes.toArray().map(process => {
-      return {
-        key: String(process.get('pid')),
-        process,
-        host: snapshot
-      };
-    });
-
-    return (
-      <Table
-        cardTitle={
-          <TimeOfLastUpdateCardTitle
-            title={t('in-forge:plugins.host.dashboard.processTopList')}
-            timestamp={data.get('timestamp')}
-          />
-        }
-        cols={cols}
-        rows={rows}
-        initialSortColumn={2}
-        initialSortDirection="desc"
-      />
-    );
+  if (!data || !data.get('raw_payload')) {
+    return null;
   }
-);
+
+  const processes = data.get('raw_payload');
+  if (processes.size === 0) {
+    return null;
+  }
+
+  const rows = processes.toArray().map(process => {
+    return {
+      key: String(process.get('pid')),
+      process,
+      host: snapshot
+    };
+  });
+
+  return (
+    <Table
+      cardTitle={
+        <TimeOfLastUpdateCardTitle
+          title={t('in-forge:plugins.host.dashboard.processTopList')}
+          timestamp={data.get('timestamp')}
+        />
+      }
+      cols={cols}
+      rows={rows}
+      initialSortColumn={2}
+      initialSortDirection="desc"
+    />
+  );
+}

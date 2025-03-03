@@ -239,6 +239,7 @@
     "ignoreCertErrors": "Ignore certificate errors",
     "basicAuth": "Basic Auth",
     "bearerToken": "Bearer Token",
+    "authentication": "Authentication",
     "apiKeyAddTo": "Add to",
     "apiKey": "Api Key",
     "header": "Header",
@@ -323,8 +324,6 @@
     "status": "Status",
     "startTime": "Start Time",
     "endTime": "End Time",
-    "property": "Property",
-    "value": "Value",
     "actionInstanceId": "Action Instance ID",
     "event": "Event",
     "eventName": "Event Name",
@@ -372,7 +371,8 @@
     "deleteDialog": {
       "success": "Action instance was deleted successfully.",
       "failure": "Failed to delete action instance."
-    }
+    },
+    "actionSnapshotDetails": "Action snapshot details"
   },
   "actionLanes": {
     "buttonInvestigate": "Investigate"
@@ -473,8 +473,8 @@
     "showTasks": "Show"
   },
   "deleteDialog": {
-    "pleaseConfirm": "Please Confirm",
-    "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{name}}</strong>?",
+    "confirmRemove": "Confirm remove",
+    "confirmRemoveMsg": "Are you sure you want to delete <strong>{{name}}</strong>?",
     "delete": "Delete"
   },
   "turboActionCategories": {
@@ -507,5 +507,12 @@
     "actionName": "Action name",
     "recommendedActionHistoryWithCount": "Resource action history ({{count}})",
     "recommendedActionHistory": "Resource action history"
+  },
+  "feedback": {
+    "contentHelpfulText": "Was this generated content helpful?",
+    "thankYouForYourFeedback": "Thank you for your feedback!",
+    "submitFeedback": "Submit Feedback",
+    "additionalFeedbacklabel": "Provide additional feedback (optional)",
+    "additionalFeedbackPlaceholder": "What did you not like about the response? What can be improved"
   }
 }

@@ -23,7 +23,6 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { processColumnDefinitions } from 'in-bizops/lists/businessProcess/columnDefinitions';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { bizopsStandardInclusionEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -120,7 +119,7 @@ export default function BizOpsList() {
               )}
             </div>
           </Card>
-          {bizopsStandardInclusionEnabled && typeof hostCount === 'number' && hostCount < 1 ? (
+          {typeof hostCount === 'number' && hostCount < 1 ? (
             <CustomServerTableWithUrlState
               get={getBusinessProcessListData}
               timeConfig={timeConfig}

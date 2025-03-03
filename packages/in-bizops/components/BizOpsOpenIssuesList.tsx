@@ -12,10 +12,10 @@ import { useObservable } from '@instana/hooks';
 // @ts-expect-error Module needs to be translated to TS
 import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
 import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApplicationEntityHealthInfo';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { eventsPath } from 'in-events/navigation/paths';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 
 interface BizOpsOpenIssuesListProps {
   inContentArea: boolean;
@@ -84,6 +84,8 @@ export default function BizOpsOpenIssuesList({
 
   // if the full data is ready to load, the component is no longer loading
   if (openIssuesResult.data) openIssuesResult.progress.loading = false;
+
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
 
   return (
     <WithMaxWidthWhenInContentArea maxWidth="80vw">

@@ -1,5 +1,5 @@
 {
-  "zhmcs": "zHMCs",
+  "zhmcs": "zHMC",
   "hostname": "主機名稱",
   "name": "名稱",
   "systems": "系統",
@@ -17,7 +17,7 @@
   "status": "狀態",
   "breadcrumbs": {
     "zhmc": "zHMC",
-    "zhmcs": "zHMCs",
+    "zhmcs": "zHMC",
     "systems": "系統"
   },
   "dashboards": {

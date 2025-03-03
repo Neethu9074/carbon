@@ -39,6 +39,14 @@
       "msg": "{{smartAlertsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countSmartAlert, { \"count\": {{smartAlertsCount}} }) & {{incidentsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countIncident, { \"count\": {{incidentsCount}} })",
       "itemMsg": "+其他 {{leftCount}} 条{{moreMsg}}"
     },
+    "charTable": {
+      "group": "组",
+      "xVal": "x 值（时间）",
+      "yVal": "y 值",
+      "tabularRep": "表格形式",
+      "tableVis": "表可视化",
+      "close": "关闭"
+    },
     "chartMarkerLane": {
       "retryButtonLabel": "重试",
       "openList": "打开列表"
@@ -48,6 +56,7 @@
     "highlightedTimeframeCloseButtonClearHighlight": "清除突出显示",
     "resultAwareChartSomethingWentWrong": "出错...",
     "resultAwareChartPleaseTryAgainLater": "请稍后重试。",
+    "openTable": "打开表",
     "tooltip": {
       "scrollHint": "使用 <upArrow /><downArrow /> 键滚动",
       "rollup": "超出 {{rollup}}",
@@ -96,7 +105,7 @@
     "formStateLabel": "省/直辖市/自治区"
   },
   "searchBar": {
-    "usingTheSearchBar": "Instana 的 Dynamic Focus 搜索功能可用于过滤 3D 图、比较表和突发事件视图。 搜索栏具有丰富的搜索功能，能执行模糊搜索、通配符搜索以及使用布尔运算符进行搜索。 例如，以下\n查询将视图限制为具有少于四个 CPU 的生产主机：\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 语法\n动态焦点利用 [lucene 查询语法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) 与 Lucene 标准有以下差异：\n- **缺省运算符：** ` AND `\n- **语法约束：**在[文档](https://ibm.biz/dynamic-focus-syntax-constraints)\n中列出。##搜索栏交互\n搜索栏支持自动完成搜索字段，并在您输入时将语法突出显示 lucene 查询。\n一旦输入内容，搜索栏就将建议与当前输入匹配的搜索字段。 您可以通过点击 `RETURN` 键来接受建议的字段。点击 `CTRL+空格键`可打开自动补全弹出框。## Lucene 查询语法备忘单\n - **字段搜索：**`entity.host.cpu.count:>4`\n - **布尔运算符：** `entity.host.cpu.count:<4 AND entity.zone:production`\n -**分组：** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **通配符搜索：** `entity.type:container*`\n\n请参阅[文档](https://ibm.biz/filtering-dynamic-focus)以获取更多信息。",
+    "usingTheSearchBar": "Instana 的 Dynamic Focus 搜索功能可用于过滤 3D 图、比较表和突发事件视图。 搜索栏具有丰富的搜索功能，能执行模糊搜索、通配符搜索以及使用布尔运算符进行搜索。 例如，以下\n查询将视图限制为具有少于四个 CPU 的生产主机：\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n\n## 语法\n动态焦点利用 [lucene 查询语法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) 与 Lucene 标准有以下差异：\n- **缺省运算符：** ` AND `\n- **语法约束：** 在[文档](https://ibm.biz/dynamic-focus-syntax-constraints)\n中列出。\n\n## 搜索栏交互\n搜索栏支持自动完成搜索字段，并在您输入时将语法突出显示 lucene 查询。\n一旦输入内容，搜索栏就将建议与当前输入匹配的搜索字段。 您可以通过点击 `RETURN` 键来接受建议的字段。点击 `CTRL+空格键`可打开自动补全弹出框。\n\n## Lucene 查询语法备忘单\n - **字段搜索：**`entity.host.cpu.count:>4`\n - **布尔运算符：** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **分组：** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **通配符搜索：** `entity.type:container*`\n\n请参阅[文档](https://ibm.biz/filtering-dynamic-focus)以获取更多信息。",
     "filtersBtn": "过滤器",
     "filterPresetsMenuHeading": "过滤器",
     "filterPresetsSaveFilters": "保存过滤器以便在此处轻松访问",
@@ -112,6 +121,9 @@
     "filterConfirmButtonLabel": "移除过滤器",
     "filterConfirmRemoveMsg": "是否确定要移除过滤器 <strong>{{filterName}}</strong>？",
     "helpDialogTitleUsingTheSearchBar": "使用搜索栏"
+  },
+  "carbonSearchBar": {
+    "search": "搜索"
   },
   "tables": {
     "serverTable": {
@@ -346,7 +358,7 @@
     "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "（显示 {{maxIssuesToShow}} 个最严重）",
     "openIssuesListPresenterIssueDescriptionOmitted": "已省略问题描述。可在事件的详细视图中看到更多详细信息。",
     "openIssuesListPresenterStarted": "开始",
-    "noIssues": "无问题",
+    "noIssues": "没有问题",
     "openIssues": "{{count}} 个问题",
     "openIssues_plural": "{{count}} 个问题",
     "openIssues_0": "{{count}} 个问题",
@@ -359,19 +371,7 @@
     "openIncidents_1": "{{count}} 个突发事件",
     "openIncidents_2": "{{count}} 个突发事件",
     "labelWarning": "警告",
-    "labelCritical": "严重",
-    "carbonNoIssues": "没有问题",
-    "carbonOpenIssues": "{{count}} 个问题",
-    "carbonOpenIssues_plural": "{{count}} 个问题",
-    "carbonOpenIssues_0": "{{count}} 个问题",
-    "carbonOpenIssues_1": "{{count}} 个问题",
-    "carbonOpenIssues_2": "{{count}} 个问题",
-    "carbonNoIncidents": "无事件",
-    "carbonOpenIncidents": "{{count}} 个突发事件",
-    "carbonOpenIncidents_plural": "{{count}} 个突发事件",
-    "carbonOpenIncidents_0": "{{count}} 个突发事件",
-    "carbonOpenIncidents_1": "{{count}} 个突发事件",
-    "carbonOpenIncidents_2": "{{count}} 个突发事件"
+    "labelCritical": "严重"
   },
   "vulnerabilities": {
     "eventType_issue": "漏洞",
@@ -395,19 +395,7 @@
     "openIncidents_plural": "{{count}} 个突发事件",
     "openIncidents_0": "{{count}} 个突发事件",
     "openIncidents_1": "{{count}} 个突发事件",
-    "openIncidents_2": "{{count}} 个突发事件",
-    "carbonNoVulnerabilities": "无漏洞",
-    "carbonOpenVulnerabilities": "{{count}} 个漏洞",
-    "carbonOpenVulnerabilities_plural": "{{count}} 个漏洞",
-    "carbonOpenVulnerabilities_0": "{{count}} 个漏洞",
-    "carbonOpenVulnerabilities_1": "{{count}} 个漏洞",
-    "carbonOpenVulnerabilities_2": "{{count}} 个漏洞",
-    "carbonNoIncidents": "无事件",
-    "carbonOpenIncidents": "{{count}} 个突发事件",
-    "carbonOpenIncidents_plural": "{{count}} 个突发事件",
-    "carbonOpenIncidents_0": "{{count}} 个突发事件",
-    "carbonOpenIncidents_1": "{{count}} 个突发事件",
-    "carbonOpenIncidents_2": "{{count}} 个突发事件"
+    "openIncidents_2": "{{count}} 个突发事件"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "选择选项卡"
@@ -624,7 +612,6 @@
     "timeSelectionDialogPresenterLabelTimeRange": "时间范围",
     "timeSelectionDialogPresenterLabelReleases": "版本",
     "timeFrameFormatterStarting": "{{fromTime}} 开始",
-    "timeIconHistoricDataMessage": "由于数据保留时间设置，因此您查看的是近似数据。提供了最近 {{retention}} 天内的精确数据。",
     "timeUnit_year": "年",
     "timeUnit_month": "月",
     "timeUnit_day": "天",

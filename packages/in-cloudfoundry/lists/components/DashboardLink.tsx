@@ -8,7 +8,7 @@ import React from 'react';
 
 import { CloudfoundryApplicationListItem } from '@instana/types/typeDefinitions';
 
-import { useNavigateToApplicationDashboard } from '../../navigation/paths';
+import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import EntityLink from 'in-components/EntityLink';
 
 export function DashboardLink({ item }: { item: CloudfoundryApplicationListItem }) {

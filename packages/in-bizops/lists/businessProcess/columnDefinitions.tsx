@@ -1,12 +1,18 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 import { get } from 'lodash';
 import React from 'react';
 
+import {
+  CarbonToggletip,
+  CarbonToggletipActions,
+  CarbonToggletipButton,
+  CarbonToggletipContent
+} from '@instana/components';
 import { BusinessProcessItem, TimeConfig } from '@instana/types';
 
 // @ts-expect-error Could not find declaration type
@@ -16,11 +22,13 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { businessPerspectiveDashboard, businessProcessDashboard, summaryTab } from 'in-bizops/navigation/paths';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
+import { bizopsProcessIdColumnEnabled, bizopsVersionColumnEnabled } from 'in-services/featureFlags';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
+import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { bizopsProcessesListSelect } from 'in-bizops/tracker';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { number } from 'in-services/formatters/number';
@@ -64,7 +72,7 @@ const BusinessProcessNameColumnContent = ({ item }: { item: BusinessProcessItem 
   };
 
   return (
-    <div className={locals.tracker} onClick={() => bizopsProcessesListSelect(processTracking)}>
+    <div className={locals.processName} onClick={() => bizopsProcessesListSelect(processTracking)}>
       <SeverityAwareEntityLink severity={getSeverity(item)} label={businessProcessName} href={createHref(location)} />
     </div>
   );
@@ -74,12 +82,13 @@ function getSeverity(item: BusinessProcessItem) {
   return get(item, ['metrics', 'maxSeverity', 0, 1], 0);
 }
 
-export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpListProps>[] = [
+let processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpListProps>[] = [
   {
     id: 'process_name',
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.nameLabel'),
+    width: '8rem',
     getContent: (item: BusinessProcessItem) => <BusinessProcessNameColumnContent item={item} />
   },
   {
@@ -135,3 +144,57 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
     }
   }
 ];
+
+if (bizopsProcessIdColumnEnabled) {
+  const processId: ColumnDefinition<BusinessProcessItem, bpListProps> = {
+    id: 'process_id',
+    sortable: true,
+    defaultOrderDirection: 'DESC',
+    label: t('in-bizops:lists.id'),
+    width: '10rem',
+    getContent(item: BusinessProcessItem) {
+      return (
+        <CarbonToggletip autoAlign>
+          <CarbonToggletipButton>
+            <div className={locals.ellipsis}>{item.businessProcess.definitionId}</div>
+          </CarbonToggletipButton>
+          <CarbonToggletipContent>
+            {item.businessProcess.definitionId}
+            <CarbonToggletipActions>
+              <CopyToClipboardButton
+                kind="primary"
+                size="compact"
+                getText={() => item.businessProcess.definitionId}
+                successText={
+                  t('in-bizops:lists.theId') +
+                  " '" +
+                  item.businessProcess.definitionId +
+                  "' " +
+                  t('in-bizops:lists.hasBeenCopied')
+                }
+              />
+            </CarbonToggletipActions>
+          </CarbonToggletipContent>
+        </CarbonToggletip>
+      );
+    }
+  };
+  processColumnDefinitions.splice(1, 0, processId);
+}
+
+if (bizopsVersionColumnEnabled) {
+  const version: ColumnDefinition<BusinessProcessItem, bpListProps> = {
+    id: 'version',
+    sortable: true,
+    defaultOrderDirection: 'DESC',
+    label: t('in-bizops:lists.version'),
+    getContent(item: BusinessProcessItem) {
+      <div>
+        <h4 className={locals.label}>{item.businessProcess.snapshotName}</h4>
+      </div>;
+    }
+  };
+  processColumnDefinitions.splice(1, 0, version);
+}
+
+export { processColumnDefinitions };
