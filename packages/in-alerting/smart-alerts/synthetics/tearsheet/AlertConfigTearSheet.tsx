@@ -29,12 +29,14 @@ import {
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/synthetics/tearsheet/AlertConfigTearSheetWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
+import { duplicateAlertConfig, getHeaderTitle } from 'in-alerting/smart-alerts/synthetics/tearsheet/sharedFunctions';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/synthetics/form/formUtils';
 import { createOrSaveAlertFromTearSheet } from 'in-alerting/smart-alerts/synthetics/components/AlertCreateOrSave';
 import getAlertingUrlParameters from 'in-alerting/smart-alerts/synthetics/tearsheet/getAlertingUrlParameters';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
+import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import generateAlertConfig from 'in-alerting/smart-alerts/synthetics/data/generateAlertConfig';
-import { getHeaderTitle } from 'in-alerting/smart-alerts/synthetics/tearsheet/sharedFunctions';
+import { useAlertConfig } from 'in-alerting/smart-alerts/synthetics/hooks/useSmartAlertCreateUrl';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -46,30 +48,48 @@ import { t } from 'in-i18n';
 
 export default function AlertConfigTearSheet() {
   const location = useLocation();
-  const { cancelTearSheet, syntheticTestId } = useMemo(() => {
-    return getAlertingUrlParameters(location);
-  }, [location]);
-  const alertConfig = generateAlertConfig(syntheticTestId ? [syntheticTestId] : []);
+  const { cancelTearSheet, syntheticTestId, editMode, duplicateMode, alertConfigId, alertConfigCreated } =
+    useMemo(() => {
+      return getAlertingUrlParameters(location);
+    }, [location]);
 
-  return (
-    <AlertConfigTearSheetContent
-      alertConfig={alertConfig}
-      cancelTearSheet={cancelTearSheet}
-      syntheticTestId={syntheticTestId}
-    />
+  const { alertConfig, alertConfigErrors } = useAlertConfig(
+    alertConfigId,
+    alertConfigCreated,
+    editMode,
+    duplicateMode,
+    syntheticTestId
   );
+
+  if (alertConfigErrors?.length) {
+    return <ErroneousResultPresenter errors={[...alertConfigErrors]} />;
+  } else if (!alertConfig) {
+    return <TearSheetLoading />;
+  } else {
+    const syntheticsAlertConfig = duplicateMode ? duplicateAlertConfig(alertConfig) : alertConfig;
+
+    return (
+      <AlertConfigTearSheetContent
+        alertConfig={syntheticsAlertConfig}
+        cancelTearSheet={cancelTearSheet}
+        syntheticTestId={syntheticTestId}
+        editMode={editMode}
+      />
+    );
+  }
 }
 
 function AlertConfigTearSheetContent({
   alertConfig,
   cancelTearSheet,
+  editMode,
   syntheticTestId
 }: {
   alertConfig: SyntheticAlertConfigWithMetadata & { duplicateFrom?: string };
   cancelTearSheet: string;
+  editMode: boolean;
   syntheticTestId?: string;
 }) {
-  const editMode = false; // TODO handle edit scenerio
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig, true));
 
   const duplicateFrom = alertConfig?.duplicateFrom;
@@ -136,7 +156,7 @@ function AlertConfigTearSheetContent({
         messages={messages}
         cancelTearSheet={cancelTearSheet}
         withTrackClose={() => undefined}
-        tearSheetTitle={getHeaderTitle()}
+        tearSheetTitle={getHeaderTitle(editMode)}
       />
     </>
   );
@@ -165,19 +185,7 @@ function toAlertConfig(form: MapForm<any>): Readonly<SyntheticAlertConfig> {
   });
 }
 
-function fillAlertTabSpecificValues(
-  params: Location,
-  alertConfigId: string,
-  alertsPath: string,
-  alertConfigVersion?: number,
-  syntheticTestId?: string
-) {
-  setOrDeleteMatrixKey(params, syntheticsDashboard, testIdMatrixParam, syntheticTestId);
-  setOrDeleteMatrixKey(params, alertsPath, alertIdMatrixParam, alertConfigId);
-  setOrDeleteMatrixKey(params, alertsPath, alertCreatedMatrixParam, alertConfigVersion);
-}
-
-export const useNavigationToAlertConfig = (syntheticTestId?: string) => {
+const useNavigationToAlertConfig = (syntheticTestId?: string) => {
   const { navigate, location } = useNavigation();
 
   return (alertConfigId: string, alertConfigVersion?: number) => {
@@ -191,3 +199,15 @@ export const useNavigationToAlertConfig = (syntheticTestId?: string) => {
     return navigate(location);
   };
 };
+
+function fillAlertTabSpecificValues(
+  params: Location,
+  alertConfigId: string,
+  alertsPath: string,
+  alertConfigVersion?: number,
+  syntheticTestId?: string
+) {
+  setOrDeleteMatrixKey(params, syntheticsDashboard, testIdMatrixParam, syntheticTestId);
+  setOrDeleteMatrixKey(params, alertsPath, alertIdMatrixParam, alertConfigId);
+  setOrDeleteMatrixKey(params, alertsPath, alertCreatedMatrixParam, alertConfigVersion);
+}

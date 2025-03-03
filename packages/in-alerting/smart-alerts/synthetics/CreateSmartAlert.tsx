@@ -31,7 +31,7 @@ export interface CreateSmartAlertProps {
 export default function CreateSmartAlert({ testId, withOutFloatingBtnMenu = false }: CreateSmartAlertProps) {
   const { trackCta } = useSegmentTracking();
   const labelNew = t('in-alerting:smartAlerts.labelNew');
-  const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
+  const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({});
   const handleButtonClick = () => {
     trackCta(ALERTING_CREATE);
     addActiveDialog(<CreateSmartAlertDialog testId={testId} />);
@@ -73,7 +73,7 @@ export default function CreateSmartAlert({ testId, withOutFloatingBtnMenu = fals
 
 export function CreateSmartAlertButton({ testId }: CreateSmartAlertProps) {
   const { trackCta } = useSegmentTracking();
-  const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
+  const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({});
 
   const openOldDialog = () => {
     addActiveDialog(<CreateSmartAlertDialog testId={testId} />);

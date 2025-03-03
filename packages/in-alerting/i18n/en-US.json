@@ -1268,7 +1268,10 @@
         "noScopeConfigured": "No scope filter configured"
       },
       "tearSheet": {
+        "labelActionButtonEdit": "Edit",
+        "labelActionButtonDuplicate": "Duplicate",
         "createTitle": "Create a synthetic smart alert",
+        "editTitle": "Edit synthetic Smart Alert",
         "scopeFilter": {
           "filter": "Filter",
           "filterDescription": "Add filters to the synthetic tests to get more precise alerts."
