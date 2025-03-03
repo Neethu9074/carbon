@@ -35,8 +35,8 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { MonitoringSource } from 'in-custom-dashboards/widgets/SloLegacy/constants';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { numericValidator, minValidator } from 'in-services/validators/number';
-import { MonitoredEntity } from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { MonitoredEntity } from 'in-service-levels/utils/loadEntities';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { boundaryScopes } from 'in-applications/constants';

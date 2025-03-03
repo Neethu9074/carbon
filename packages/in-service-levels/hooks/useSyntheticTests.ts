@@ -4,15 +4,15 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Result, SyntheticTest } from '@instana/types';
-import { combineLatest } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
+import { SyntheticTest } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import { pendingResult } from 'in-services/fixedObjects';
+import { getFilteredSyntheticTests } from 'in-synthetics/api';
 import { FetchedState } from 'in-hooks/utils/types';
-import { getTest } from 'in-synthetics/api';
+import { success } from 'in-services/util/result';
 
 interface UseSyntheticTestsProps {
   testIds: string[];
@@ -20,29 +20,9 @@ interface UseSyntheticTestsProps {
 
 export default function useSyntheticTests({ testIds }: UseSyntheticTestsProps): FetchedState<SyntheticTest[]> {
   const result = useObservable(
-    () => combineLatest(testIds.map(testId => getTest(testId))),
+    () => (testIds.length ? getFilteredSyntheticTests(testIds) : just(success<SyntheticTest[]>([]))),
     [generateStableHash(testIds)]
   );
 
-  const combinedResult: Result<SyntheticTest[]> = (result ?? []).reduce(
-    (prevResult, curResult) => {
-      const hasData = curResult.data !== null && curResult.data !== undefined;
-      const loading = prevResult.progress.loading || curResult.progress.loading;
-      const prevData: SyntheticTest[] = prevResult.data ?? [];
-      const data: SyntheticTest[] = hasData ? [...prevData, curResult.data!] : prevData;
-
-      return {
-        data,
-        errors: [...prevResult.errors, ...curResult.errors],
-        progress: { loading }
-      };
-    },
-    {
-      ...pendingResult,
-      data: [],
-      progress: { loading: false }
-    } as Result<SyntheticTest[]>
-  );
-
-  return resultToFetchedStateResponse(combinedResult);
+  return resultToFetchedStateResponse(result);
 }

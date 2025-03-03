@@ -15,11 +15,11 @@ import WidgetLeftHeader from 'in-custom-dashboards/widgets/SloLegacy/components/
 import { TimeWindowConfig } from 'in-custom-dashboards/widgets/SloLegacy/hooks/useWidgetTimeConfig';
 import WidgetContent from 'in-custom-dashboards/widgets/SloLegacy/components/widget/WidgetContent';
 import SliSummary from 'in-custom-dashboards/widgets/SloLegacy/components/SliSummary';
-import { MonitoredEntity } from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { SliType } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
 import { TimeWindowType } from 'in-custom-dashboards/widgets/SloLegacy/form';
 import { widgetPreviewHeight } from 'in-custom-dashboards/widgets/SloLegacy';
 import { findMetric } from 'in-custom-dashboards/widgets/SloLegacy/metric';
+import { MonitoredEntity } from 'in-service-levels/utils/loadEntities';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { FetchStatus } from 'in-hooks/utils/types';
 

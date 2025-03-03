@@ -4,6 +4,7 @@
  */
 
 import { Observable, create } from '@instana/observables';
+import { generateStableHash } from '@instana/utils';
 
 import {
   Result,
@@ -21,6 +22,7 @@ import memoize from 'in-services/util/memoizingObservableGenerator';
 import { roundDownToWeek } from 'in-services/util/date';
 import { deepFreeze } from 'in-services/util/object';
 import { isNotBlank } from 'in-services/util/string';
+import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 
 const refreshSignal = create().emit(true);
@@ -137,6 +139,24 @@ export function getTests(): Observable<Result<SyntheticTest[]>> {
     url: testsUrl,
     mapToResultObject: true
   }).map(response => deepFreeze(response));
+}
+
+export const getFilteredSyntheticTests = memoize<string[], Result<SyntheticTest[]>>(
+  getFilteredTestsInternal,
+  ids => generateStableHash(ids),
+  minutes.toMillis(1)
+);
+
+function getFilteredTestsInternal(ids: string[]) {
+  return refreshSignal.flatMap(() =>
+    http<SyntheticTest[]>({
+      method: 'GET',
+      maxRetries: 3,
+      url: testsUrl,
+      queryParams: { filter: ids.length ? `{id:${ids.join(',')}}` : undefined },
+      mapToResultObject: true
+    })
+  );
 }
 
 export function getTest(testId: string): Observable<Result<SyntheticTest>> {
