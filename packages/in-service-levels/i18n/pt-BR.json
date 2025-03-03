@@ -146,8 +146,8 @@
       "event_test_plural": "{{count}} testes"
     },
     "deleteDialog": {
-      "pleaseConfirm": "Confirme",
-      "pleaseConfirmMsg": "Tem certeza de que deseja excluir <strong>{{name}}</strong>?",
+      "confirmRemove": "Confirme",
+      "confirmRemoveMsg": "Tem certeza de que deseja excluir <strong>{{name}}</strong>?",
       "delete": "Excluir"
     }
   },

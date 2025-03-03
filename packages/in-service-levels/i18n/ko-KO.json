@@ -146,8 +146,8 @@
       "event_test_plural": "{{count}}개 테스트"
     },
     "deleteDialog": {
-      "pleaseConfirm": "확인하십시오.",
-      "pleaseConfirmMsg": "<strong>{{name}}</strong>을(를) 삭제하시겠습니까?",
+      "confirmRemove": "확인하십시오.",
+      "confirmRemoveMsg": "<strong>{{name}}</strong>을(를) 삭제하시겠습니까?",
       "delete": "삭제"
     }
   },

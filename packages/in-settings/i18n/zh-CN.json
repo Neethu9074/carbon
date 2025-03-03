@@ -345,7 +345,7 @@
     "selectAll": "选择全部 ({{len}})",
     "failedToRemoveItemName": "无法移除 {{itemName}}",
     "failedToRemoveItem": "无法移除项",
-    "pleaseConfirm": "请确认",
+    "confirmRemove": "请确认",
     "createNew": "新建",
     "deselect": "取消选择",
     "select": "选择",

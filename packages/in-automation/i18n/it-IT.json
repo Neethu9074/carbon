@@ -472,8 +472,8 @@
     "showTasks": "Mostra"
   },
   "deleteDialog": {
-    "pleaseConfirm": "Confermare",
-    "pleaseConfirmMsg": "Si è sicuri di voler eliminare <strong>{{name}}</strong>?",
+    "confirmRemove": "Confermare",
+    "confirmRemoveMsg": "Si è sicuri di voler eliminare <strong>{{name}}</strong>?",
     "delete": "Elimina"
   },
   "turboActionCategories": {

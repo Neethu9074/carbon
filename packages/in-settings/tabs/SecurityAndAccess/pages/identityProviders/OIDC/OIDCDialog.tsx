@@ -166,7 +166,7 @@ const OIDCDialog = (props: OIDCDialogProps) => {
             <CarbonModal
               open
               size="sm"
-              modalHeading={t('in-settings:components.pleaseConfirm')}
+              modalHeading={t('in-settings:components.confirmRemove')}
               primaryButtonText={t('in-components:dialog.confirmationDialogLabelConfirm')}
               secondaryButtonText={t('in-settings:tabs.cancel')}
               onRequestClose={close}

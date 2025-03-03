@@ -58,11 +58,11 @@ function showConfirmationDialog(
   const { name } = configuration;
   addActiveDialog(
     <ConfirmationDialog
-      header={t('in-service-levels:general.deleteDialog.pleaseConfirm')}
+      header={t('in-service-levels:general.deleteDialog.confirmRemove')}
       description={
         <Typography variant="body-regular">
           <Trans
-            i18nKey="in-service-levels:general.deleteDialog.pleaseConfirmMsg"
+            i18nKey="in-service-levels:general.deleteDialog.confirmRemoveMsg"
             values={{ name }}
             components={{ italic: <i />, bold: <strong /> }}
           />

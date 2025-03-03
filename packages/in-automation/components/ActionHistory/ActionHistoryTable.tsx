@@ -56,10 +56,10 @@ function showConfirmationDialog(
   const { actionInstanceId = '', createdDate } = actionInstance;
   addActiveDialog(
     <ConfirmationDialog
-      header={t('in-automation:deleteDialog.pleaseConfirm')}
+      header={t('in-automation:deleteDialog.confirmRemove')}
       description={
         <Typography variant="body-regular">
-          <Trans i18nKey="in-automation:deleteDialog.pleaseConfirmMsg" values={{ name: actionInstanceId }} />
+          <Trans i18nKey="in-automation:deleteDialog.confirmRemoveMsg" values={{ name: actionInstanceId }} />
         </Typography>
       }
       confirmButtonLabel={t('in-automation:deleteDialog.delete')}

@@ -239,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "Veuillez confirmer",
+            "confirmRemove": "Veuillez confirmer",
             "description": "La modification de la portée des limites réinitialise la sélection des applications.",
             "confirmButtonLabel": "Confirmer"
           }
@@ -260,7 +260,7 @@
           "includeInternalCalls": "Inclure les appels internes",
           "includeSyntheticCalls": "Inclure les appels synthétiques",
           "confirmationDialog": {
-            "pleaseConfirm": "Veuillez confirmer",
+            "confirmRemove": "Veuillez confirmer",
             "description": "Si vous désélectionnez \"{{callType}}\", la sélection de l'application est réinitialisée.",
             "confirmButtonLabel": "Confirmer"
           }

@@ -43,7 +43,7 @@ export const deleteItem = ({
 }) => {
   addActiveDialog(
     <ConfirmationDialog
-      header={t('in-settings:components.pleaseConfirm')}
+      header={t('in-settings:components.confirmRemove')}
       description={
         <span>
           <Trans i18nKey="in-settings:tabs.deleteIDPConfirmationDescription" />
@@ -127,7 +127,7 @@ export function onDeleteIdpConfig({ deleteConfig, setDescription, setStatus, onF
       onRequestClose={close}
       size="sm"
       danger
-      modalHeading={t('in-settings:components.pleaseConfirm')}
+      modalHeading={t('in-settings:components.confirmRemove')}
       primaryButtonText={t('in-settings:components.removeBtn')}
       secondaryButtonText={t('in-settings:tabs.cancel')}
       onRequestSubmit={() => {

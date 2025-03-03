@@ -345,7 +345,7 @@
     "selectAll": "Alles auswählen ({{len}})",
     "failedToRemoveItemName": "{{itemName}} konnte nicht entfernt werden",
     "failedToRemoveItem": "Element konnte nicht entfernt werden",
-    "pleaseConfirm": "Bitte bestätigen",
+    "confirmRemove": "Bitte bestätigen",
     "createNew": "Neu erstellen",
     "deselect": "Abwählen",
     "select": "Wählen",

@@ -34,7 +34,7 @@ export default forwardRef(function Delete(
         }
         addActiveDialog(
           <ConfirmationDialog
-            header={t('in-settings:components.pleaseConfirm')}
+            header={t('in-settings:components.confirmRemove')}
             description={
               dialogMessage ? (
                 dialogMessage(entity)

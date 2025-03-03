@@ -614,8 +614,8 @@
         "sliType": "SLI タイプ",
         "viewCloneSliConfig": "SLI 構成の表示/複製",
         "delSliConfig": "SLI 構成の削除",
-        "pleaseConfirm": "ご確認ください",
-        "pleaseConfirmMsg": "<strong>{{sliName}}</strong> を削除しますか?",
+        "confirmRemove": "ご確認ください",
+        "confirmRemoveMsg": "<strong>{{sliName}}</strong> を削除しますか?",
         "delete": "削除",
         "eventBasedSli": "イベント・ベース",
         "timeBasedSli": "時間ベース、{{metricNameLabel}}"

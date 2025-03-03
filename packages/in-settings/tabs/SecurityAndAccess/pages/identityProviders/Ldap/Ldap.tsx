@@ -101,7 +101,7 @@ export default function Ldap(props: LdapProps) {
         if (isAnyInvitationsPending(props)) {
           addActiveDialog(
             <ConfirmationDialog
-              header={t('in-settings:components.pleaseConfirm')}
+              header={t('in-settings:components.confirmRemove')}
               description={
                 <span>
                   <Trans i18nKey="in-settings:tabs.createIDPConfirmationDescription" />

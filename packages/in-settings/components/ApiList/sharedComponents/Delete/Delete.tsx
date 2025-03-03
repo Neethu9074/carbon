@@ -55,7 +55,7 @@ export function Delete({
 
     return addActiveDialog(
       <ConfirmationDialog
-        header={t('in-settings:components.pleaseConfirm')}
+        header={t('in-settings:components.confirmRemove')}
         description={
           dialogMessage ? (
             dialogMessage

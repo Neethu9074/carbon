@@ -239,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "확인하시기 바랍니다.",
+            "confirmRemove": "확인하시기 바랍니다.",
             "description": "경계 범위를 수정하면 애플리케이션 선택사항이 재설정됩니다.",
             "confirmButtonLabel": "확인"
           }
@@ -260,7 +260,7 @@
           "includeInternalCalls": "내부 호출 포함",
           "includeSyntheticCalls": "합성 호출 포함",
           "confirmationDialog": {
-            "pleaseConfirm": "확인하십시오.",
+            "confirmRemove": "확인하십시오.",
             "description": "\"{{callType}}\"을(를) 선택 취소하면 애플리케이션 선택사항이 재설정됩니다.",
             "confirmButtonLabel": "확인"
           }

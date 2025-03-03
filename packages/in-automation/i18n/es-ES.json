@@ -472,8 +472,8 @@
     "showTasks": "Mostrar"
   },
   "deleteDialog": {
-    "pleaseConfirm": "Confírmelo",
-    "pleaseConfirmMsg": "¿Seguro que desea suprimir <strong>{{name}}</strong>?",
+    "confirmRemove": "Confírmelo",
+    "confirmRemoveMsg": "¿Seguro que desea suprimir <strong>{{name}}</strong>?",
     "delete": "Suprimir"
   },
   "turboActionCategories": {

@@ -345,7 +345,7 @@
     "selectAll": "Seleziona tutto ({{len}})",
     "failedToRemoveItemName": "Impossibile rimuovere {{itemName}}",
     "failedToRemoveItem": "Impossibile rimuovere l'elemento",
-    "pleaseConfirm": "Confermare",
+    "confirmRemove": "Confermare",
     "createNew": "Crea nuovo",
     "deselect": "Deseleziona",
     "select": "Seleziona",

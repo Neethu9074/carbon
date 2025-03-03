@@ -239,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "Bitte bestätigen",
+            "confirmRemove": "Bitte bestätigen",
             "description": "Das Ändern des Grenzbereichs würde die Anwendungsauswahl zurücksetzen.",
             "confirmButtonLabel": "Bestätigen"
           }
@@ -260,7 +260,7 @@
           "includeInternalCalls": "Interne Aufrufe einschließen",
           "includeSyntheticCalls": "Synthetische Aufrufe einschließen",
           "confirmationDialog": {
-            "pleaseConfirm": "Bitte bestätigen",
+            "confirmRemove": "Bitte bestätigen",
             "description": "Wenn Sie \"{{callType}}\" abwählen, wird die Anwendungsauswahl zurückgesetzt.",
             "confirmButtonLabel": "Bestätigen"
           }

@@ -7,13 +7,13 @@
     "alertHeaderLabelBackToListOfAlerts": "Back to list of alerts",
     "alertHeaderAlert": "Alert",
     "alertHeaderRestoreRevisionTooltip": "Restore",
-    "alertHeaderRestoreRevisionConfirmationDialogHeader": "Please Confirm",
+    "alertHeaderRestoreRevisionConfirmationDialogHeader": "Confirm restore",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "Are you sure you want to restore the selected revision?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restore",
     "alertHeaderRestoreDeleteTooltip": "Delete",
     "alertHeaderEditTooltip": "Edit",
     "alertHeaderDuplicateTooltip": "Duplicate",
-    "alertHeaderRestoreDeleteConfirmationDialogHeader": "Please Confirm",
+    "alertHeaderRestoreDeleteConfirmationDialogHeader": "Confirm remove",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Are you sure you want to remove the alert <strong>{{alertConfigName}}</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remove",
     "alertHeaderIsNotLatestRevisionMessage": "You are looking at revision {{description}} of this alert configuration. Please <latestRevisionButton>select the latest revision</latestRevisionButton> or <restoreRevisionButton>restore from current revision</restoreRevisionButton> if you want to make changes.",
@@ -239,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "Please Confirm",
+            "confirmRemove": "Confirm modification",
             "description": "Modifying boundary scope would reset application selection.",
             "confirmButtonLabel": "Confirm"
           }
@@ -260,7 +260,7 @@
           "includeInternalCalls": "Include Internal Calls",
           "includeSyntheticCalls": "Include Synthetic Calls",
           "confirmationDialog": {
-            "pleaseConfirm": "Please Confirm",
+            "confirmRemove": "Confirm remove",
             "description": "Deselecting \"{{callType}}\" would reset application selection.",
             "confirmButtonLabel": "Confirm"
           }
@@ -525,7 +525,7 @@
         "labelActionButtonDuplicate": "Duplicate",
         "labelActionButtonDelete": "Delete",
         "labelAlertFilters": "Filters",
-        "labelConfirm": "Please Confirm",
+        "labelConfirm": "Confirm remove",
         "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
         "labelRemove": "Remove",
         "numberOfApplicationsSelected": "{{count}} application selected",
@@ -985,7 +985,7 @@
         "aggregationTextP99": "99th"
       },
       "list": {
-        "labelConfirm": "Please Confirm",
+        "labelConfirm": "Confirm remove",
         "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
         "labelRemove": "Remove"
       },
@@ -1160,7 +1160,7 @@
       "migrateButtonTooltip": "Opens a Smart Alert config pre–filled with the migrated values from the current event to the best extent we can. Please double check the result carefully!",
       "markAsMigratedButton": "Mark as migrated",
       "markAsMigratedButtonTooltip": "Marks the Event as migrated. Please use this in case you have already configured a Smart Alert which will replace this Event.",
-      "markAsMigratedButtonConfirmationTitle": "Please Confirm",
+      "markAsMigratedButtonConfirmationTitle": "Confirm migration",
       "markAsMigratedButtonConfirmationDescription": "Marking this Custom Event as migrated will disable it. The event cannot be re-enabled afterwards. Do you want to proceed?",
       "markAsMigratedButtonConfirmationConfirmLabel": "Confirm"
     },

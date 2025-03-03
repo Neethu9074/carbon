@@ -239,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "请确认",
+            "confirmRemove": "请确认",
             "description": "修改边界范围将重置应用程序选择。",
             "confirmButtonLabel": "确认"
           }
@@ -260,7 +260,7 @@
           "includeInternalCalls": "包含内部调用数",
           "includeSyntheticCalls": "包含合成调用数",
           "confirmationDialog": {
-            "pleaseConfirm": "请确认",
+            "confirmRemove": "请确认",
             "description": "取消选择“{{callType}}”将重置应用程序选择。",
             "confirmButtonLabel": "确认"
           }

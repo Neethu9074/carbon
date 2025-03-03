@@ -95,7 +95,7 @@ export default function Saml({ invitations }: SamlProps) {
         if (isAnyInvitationsPending({ invitations })) {
           addActiveDialog(
             <ConfirmationDialog
-              header={t('in-settings:components.pleaseConfirm')}
+              header={t('in-settings:components.confirmRemove')}
               description={
                 <span>
                   <Trans i18nKey="in-settings:tabs.createIDPConfirmationDescription" />

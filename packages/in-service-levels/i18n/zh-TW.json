@@ -146,8 +146,8 @@
       "event_test_plural": "{{count}} 個測試"
     },
     "deleteDialog": {
-      "pleaseConfirm": "請確認",
-      "pleaseConfirmMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？",
+      "confirmRemove": "請確認",
+      "confirmRemoveMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？",
       "delete": "刪除"
     }
   },

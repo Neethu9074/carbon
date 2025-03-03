@@ -345,7 +345,7 @@
     "selectAll": "모두 선택({{len}})",
     "failedToRemoveItemName": "{{itemName}}을(를) 제거하는 데 실패함",
     "failedToRemoveItem": "항목을 제거하는 데 실패함",
-    "pleaseConfirm": "확인하시기 바랍니다.",
+    "confirmRemove": "확인하시기 바랍니다.",
     "createNew": "새로 작성",
     "deselect": "선택 취소",
     "select": "선택",

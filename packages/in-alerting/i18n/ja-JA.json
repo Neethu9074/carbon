@@ -239,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "ご確認ください",
+            "confirmRemove": "ご確認ください",
             "description": "バウンダリー・スコープを変更すると、アプリケーションの選択がリセットされます。",
             "confirmButtonLabel": "確認"
           }
@@ -260,7 +260,7 @@
           "includeInternalCalls": "内部呼び出しを含める",
           "includeSyntheticCalls": "シンセティック呼び出しを含める",
           "confirmationDialog": {
-            "pleaseConfirm": "ご確認ください",
+            "confirmRemove": "ご確認ください",
             "description": "「{{callType}}」を選択し、解除すると、アプリケーション選択がリセットされます。",
             "confirmButtonLabel": "確認"
           }

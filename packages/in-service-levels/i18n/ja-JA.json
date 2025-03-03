@@ -146,8 +146,8 @@
       "event_test_plural": "{{count}}テスト"
     },
     "deleteDialog": {
-      "pleaseConfirm": "ご確認ください",
-      "pleaseConfirmMsg": "<strong>{{name}}</strong> を削除してよろしいですか?",
+      "confirmRemove": "ご確認ください",
+      "confirmRemoveMsg": "<strong>{{name}}</strong> を削除してよろしいですか?",
       "delete": "削除"
     }
   },

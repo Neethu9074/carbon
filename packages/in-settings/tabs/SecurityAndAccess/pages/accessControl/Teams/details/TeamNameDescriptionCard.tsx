@@ -45,7 +45,7 @@ const TeamNameDescriptionCard = ({
       onClick: () => {
         addActiveDialog(
           <ConfirmationDialog
-            header={t('in-settings:components.pleaseConfirm')}
+            header={t('in-settings:components.confirmRemove')}
             description={
               <Trans
                 i18nKey="in-settings:components.confirmRemoveItem"

@@ -167,11 +167,11 @@ const columnDefinitions: ColumnDefinition<SliConfiguration, InternalSliListProps
               onClick={() => {
                 addActiveDialog(
                   <ConfirmationDialog
-                    header={t('in-custom-dashboards:widgets.slo.sliList.pleaseConfirm')}
+                    header={t('in-custom-dashboards:widgets.slo.sliList.confirmRemove')}
                     description={
                       <span>
                         <Trans
-                          i18nKey="in-custom-dashboards:widgets.slo.sliList.pleaseConfirmMsg"
+                          i18nKey="in-custom-dashboards:widgets.slo.sliList.confirmRemoveMsg"
                           values={{ sliName: item.sliName }}
                           components={{ italic: <i />, bold: <strong /> }}
                         />

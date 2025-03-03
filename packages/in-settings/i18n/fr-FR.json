@@ -345,7 +345,7 @@
     "selectAll": "Sélectionner tout ({{len}})",
     "failedToRemoveItemName": "Echec du retrait de {{itemName}}",
     "failedToRemoveItem": "Echec du retrait de l'élément",
-    "pleaseConfirm": "Veuillez confirmer",
+    "confirmRemove": "Veuillez confirmer",
     "createNew": "Créer",
     "deselect": "Désélectionner",
     "select": "Sélectionner",

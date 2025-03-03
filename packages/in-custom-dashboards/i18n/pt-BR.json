@@ -614,8 +614,8 @@
         "sliType": "Tipo de SLI",
         "viewCloneSliConfig": "Visualizar/Clonar configuração de SLI",
         "delSliConfig": "Excluir configuração de SLI",
-        "pleaseConfirm": "Confirme",
-        "pleaseConfirmMsg": "Tem certeza de que deseja excluir <strong>{{sliName}}</strong>?",
+        "confirmRemove": "Confirme",
+        "confirmRemoveMsg": "Tem certeza de que deseja excluir <strong>{{sliName}}</strong>?",
         "delete": "Excluir",
         "eventBasedSli": "Com base em evento",
         "timeBasedSli": "Com base em tempo, {{metricNameLabel}}"

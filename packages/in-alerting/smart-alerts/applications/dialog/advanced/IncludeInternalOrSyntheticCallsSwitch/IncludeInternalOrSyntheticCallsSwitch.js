@@ -79,7 +79,7 @@ export default function IncludeInternalOrSyntheticCallsSwitch({
       addActiveDialog(
         <ConfirmationDialog
           header={t(
-            'in-alerting:smartAlerts.applications.advanced.includeInternalOrSyntheticCalls.confirmationDialog.pleaseConfirm'
+            'in-alerting:smartAlerts.applications.advanced.includeInternalOrSyntheticCalls.confirmationDialog.confirmRemove'
           )}
           description={t(
             'in-alerting:smartAlerts.applications.advanced.includeInternalOrSyntheticCalls.confirmationDialog.description',

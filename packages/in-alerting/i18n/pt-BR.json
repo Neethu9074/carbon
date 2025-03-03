@@ -239,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "Confirme",
+            "confirmRemove": "Confirme",
             "description": "A modificação do escopo do limite reconfigura a seleção do aplicativo.",
             "confirmButtonLabel": "Confirmar"
           }
@@ -260,7 +260,7 @@
           "includeInternalCalls": "Incluir chamadas internas",
           "includeSyntheticCalls": "Incluir chamadas sintéticas",
           "confirmationDialog": {
-            "pleaseConfirm": "Confirme",
+            "confirmRemove": "Confirme",
             "description": "Remover a seleção \"{{callType}}\" reconfiguraria a seleção de aplicativos.",
             "confirmButtonLabel": "Confirmar"
           }

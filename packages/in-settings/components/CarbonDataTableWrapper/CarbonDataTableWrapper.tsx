@@ -247,7 +247,7 @@ export default function CarbonDataTableWrapper<
     const entity = paginatedRows.filter(item => item.id === row.id)[0].rowData;
     return addActiveDialog(
       <ConfirmationDialog
-        header={t('in-settings:components.pleaseConfirm')}
+        header={t('in-settings:components.confirmRemove')}
         description={
           customDialogMessage ? (
             customDialogMessage(entity)
@@ -297,7 +297,7 @@ export default function CarbonDataTableWrapper<
     const selectedIds = entities.map(entity => entity.id);
     return addActiveDialog(
       <ConfirmationDialog
-        header={t('in-settings:components.pleaseConfirm')}
+        header={t('in-settings:components.confirmRemove')}
         description={
           customBatchDeleteMessage ? (
             customBatchDeleteMessage(entities)

@@ -239,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "請確認",
+            "confirmRemove": "請確認",
             "description": "如果修改界限範圍，將會重設應用程式選擇。",
             "confirmButtonLabel": "確認"
           }
@@ -260,7 +260,7 @@
           "includeInternalCalls": "包含內部呼叫",
           "includeSyntheticCalls": "包含合成呼叫",
           "confirmationDialog": {
-            "pleaseConfirm": "請確認",
+            "confirmRemove": "請確認",
             "description": "取消選取 \"{{callType}}\" 會重設應用程式選擇。",
             "confirmButtonLabel": "確認"
           }

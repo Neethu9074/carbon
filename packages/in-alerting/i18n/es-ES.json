@@ -239,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "Confírmelo",
+            "confirmRemove": "Confírmelo",
             "description": "Al modificar el ámbito de límite se puede restaurar la selección de aplicación.",
             "confirmButtonLabel": "Confirmar"
           }
@@ -260,7 +260,7 @@
           "includeInternalCalls": "Incluir llamadas internas",
           "includeSyntheticCalls": "Incluir llamadas sintéticas",
           "confirmationDialog": {
-            "pleaseConfirm": "Confírmelo",
+            "confirmRemove": "Confírmelo",
             "description": "Si se anula la selección de \"{{callType}}\", se restablece la selección de la aplicación.",
             "confirmButtonLabel": "Confirmar"
           }
