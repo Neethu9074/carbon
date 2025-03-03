@@ -46,7 +46,7 @@ import { t, Trans } from 'in-i18n';
 export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
   const handlers = role?.canConfigureMobileAppSmartAlerts ? actionHandlers : {};
 
-  const websiteData = useGetMobileAppProps();
+  const mobileAppData = useGetMobileAppProps();
   const location = useLocation();
   return (
     <>
@@ -71,9 +71,7 @@ export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
         getNameSubtitle={() => getMobileAppSubtitle(mobileAppLabel)}
         displayCarbonTable={smartAlertCarbonTableEnabled}
         toolBarContent={
-          role?.canConfigureMobileAppSmartAlerts ? (
-            <CreateSmartAlert {...websiteData} isCarbonTableView={smartAlertCarbonTableEnabled} />
-          ) : undefined
+          role?.canConfigureMobileAppSmartAlerts ? <CreateSmartAlert {...mobileAppData} isListingPage /> : undefined
         }
         noDataHeader={t('in-alerting:smartAlerts.mobileApp.alertList.noDataHeader')}
         noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.mobileApp.alertList.noDataDescription" />}
