@@ -14,22 +14,35 @@ import {
   SyntheticTimeThresholdUnion
 } from '@instana/types';
 
+import {
+  alertsTabDetailsFullyQualified,
+  dashboardTestAlertsTabDetailsFullyQualified,
+  syntheticsDashboard,
+  syntheticSmartAlertsPath,
+  alertsTab
+} from 'in-synthetics/navigation/paths';
+import {
+  testId as testIdMatrixParam,
+  alertCreated as alertCreatedMatrixParam,
+  alertId as alertIdMatrixParam
+} from 'in-synthetics/navigation/matrix';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/synthetics/tearsheet/AlertConfigTearSheetWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/synthetics/form/formUtils';
 import { createOrSaveAlertFromTearSheet } from 'in-alerting/smart-alerts/synthetics/components/AlertCreateOrSave';
-import { alertsTabDetailsFullyQualified, syntheticSmartAlertsDetailsPath } from 'in-synthetics/navigation/paths';
 import getAlertingUrlParameters from 'in-alerting/smart-alerts/synthetics/tearsheet/getAlertingUrlParameters';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import generateAlertConfig from 'in-alerting/smart-alerts/synthetics/data/generateAlertConfig';
 import { getHeaderTitle } from 'in-alerting/smart-alerts/synthetics/tearsheet/sharedFunctions';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { alertCreated, alertId } from 'in-synthetics/navigation/matrix';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
+import { t } from 'in-i18n';
 
 export default function AlertConfigTearSheet() {
   const location = useLocation();
@@ -63,7 +76,7 @@ function AlertConfigTearSheetContent({
 
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState<EnrichedError[]>([]);
-  const navigateToAlertConfig = useNavigationToAlertConfig();
+  const navigateToAlertConfig = useNavigationToAlertConfig(syntheticTestId);
 
   const { trackCta } = useSegmentTracking();
   return (
@@ -75,6 +88,36 @@ function AlertConfigTearSheetContent({
         form={form}
         onChange={createOnChange(setForm, form)}
         onCreate={() => {
+          if (form.get(fieldNames.syntheticTestIds).value.length === 0) {
+            addActiveDialog(
+              <ConfirmationDialog
+                header={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogHeader')}
+                description={t('in-alerting:components.alertConfirmationDialogDescription', {
+                  entityPlaceholder: t('in-alerting:smartAlerts.synthetics.advanced.alertTestsLabel')
+                })}
+                confirmButtonLabel={t('in-alerting:components.labelConfirm')}
+                confirmButtonKind="danger"
+                onClose={() => {
+                  close();
+                }}
+                onSubmit={() => {
+                  close();
+                  createOrSaveAlertFromTearSheet({
+                    form,
+                    setForm,
+                    navigateToAlertConfig,
+                    editMode,
+                    setIsSaving,
+                    setMessages,
+                    toAlertConfig,
+                    trackCta,
+                    duplicateFrom
+                  });
+                }}
+              />
+            );
+            return;
+          }
           createOrSaveAlertFromTearSheet({
             form,
             setForm,
@@ -122,18 +165,29 @@ function toAlertConfig(form: MapForm<any>): Readonly<SyntheticAlertConfig> {
   });
 }
 
-function fillAlertTabSpecificValues(location: Location, alertConfigId: string, alertConfigVersion?: number) {
-  location.pathname = alertsTabDetailsFullyQualified;
-
-  setOrDeleteMatrixKey(location, syntheticSmartAlertsDetailsPath, alertId, alertConfigId);
-  setOrDeleteMatrixKey(location, syntheticSmartAlertsDetailsPath, alertCreated, alertConfigVersion);
+function fillAlertTabSpecificValues(
+  params: Location,
+  alertConfigId: string,
+  alertsPath: string,
+  alertConfigVersion?: number,
+  syntheticTestId?: string
+) {
+  setOrDeleteMatrixKey(params, syntheticsDashboard, testIdMatrixParam, syntheticTestId);
+  setOrDeleteMatrixKey(params, alertsPath, alertIdMatrixParam, alertConfigId);
+  setOrDeleteMatrixKey(params, alertsPath, alertCreatedMatrixParam, alertConfigVersion);
 }
 
-export const useNavigationToAlertConfig = () => {
+export const useNavigationToAlertConfig = (syntheticTestId?: string) => {
   const { navigate, location } = useNavigation();
 
   return (alertConfigId: string, alertConfigVersion?: number) => {
-    fillAlertTabSpecificValues(location, alertConfigId, alertConfigVersion);
+    if (syntheticTestId) {
+      location.pathname = dashboardTestAlertsTabDetailsFullyQualified;
+      fillAlertTabSpecificValues(location, alertConfigId, alertsTab, alertConfigVersion, syntheticTestId);
+    } else {
+      location.pathname = alertsTabDetailsFullyQualified;
+      fillAlertTabSpecificValues(location, alertConfigId, syntheticSmartAlertsPath);
+    }
     return navigate(location);
   };
 };
