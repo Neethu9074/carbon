@@ -75,11 +75,17 @@ pipeline {
           gitMessage          = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (<https://github.ibm.com/instana/ui-client/commit/%h|%h>): %s'").trim()
           // https://github.ibm.com/instana/jenkins/blob/develop/vars/getBackendComponents.groovy
           backendComponents = getBackendComponents()
-              .findAll { it.isIncludedInRelease(majorReleaseVersion) && !(it.name ==~ /^ui-client.*/) }
+              .findAll { 
+                (it.isIncludedInRelease(majorReleaseVersion) && !(it.name ==~ /^ui-client.*/)) &&
+                !(env.BRANCH_NAME != 'develop' && it.onDevelopBranchOnly)
+              }
               .collect { it.name }
               .plus(['ingress', 'ingress-global', 'ingress-otlp-acceptor'])
           uiClientComponents = getBackendComponents()
-              .findAll { it.isIncludedInRelease(majorReleaseVersion) && (it.name ==~ /^ui-client.*/) }
+              .findAll {
+                (it.isIncludedInRelease(majorReleaseVersion) && (it.name ==~ /^ui-client.*/)) &&
+                !(env.BRANCH_NAME != 'develop' && it.onDevelopBranchOnly)
+              }
               .collect { it.name }
 
           currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId.take(8)} -> ${instanaUiClientVersion}"
