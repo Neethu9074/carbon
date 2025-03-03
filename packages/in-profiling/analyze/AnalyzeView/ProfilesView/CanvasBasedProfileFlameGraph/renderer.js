@@ -4,6 +4,7 @@
  */
 
 import { themes } from '@instana/design-tokens';
+
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 
 const axisFont = `10px ${themes.default.ids.font.family.option['sans-serif']}`;

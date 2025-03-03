@@ -15,13 +15,13 @@ import { timeConfig$, urlParameters as timeConfigUrlParameters } from 'in-stores
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import ApplicationState from 'in-cloudfoundry/commonComponents/ApplicationState';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { DashboardLink } from 'in-cloudfoundry/lists/components/DashboardLink';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { applicationList } from 'in-cloudfoundry/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { DashboardLink } from './components/DashboardLink';
 import { pageNames } from 'in-services/tracking/pageNames';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';

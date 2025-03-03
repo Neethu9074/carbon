@@ -10,12 +10,12 @@ import { Card } from '@instana/components';
 
 import { number, bytesZeroDecimalPlaces, percentage, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import DatastoreTable from 'in-vsphere/Dashboards/Host/tabs/DatastoreTable';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import DatastoreTable from './DatastoreTable';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: host }) {
