@@ -26,6 +26,7 @@ import { useObservable } from '@instana/hooks';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { DeleteFilterModal } from 'in-applications/analyze/components/SaveFilters/DeleteFilterModal';
 import { RenderIcon } from 'in-applications/analyze/components/SaveFilters/RenderIcon';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { setSelectedFilter } from 'in-applications/analyze/utils/filterUtils';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
@@ -78,7 +79,7 @@ export const SavedFilters = ({ setUrlState }: SavedFiltersProps): JSX.Element =>
         ? {
             groupBy: {
               groupbyTag: filter.group.tag,
-              groupbyTagEntity: filter.group.entity
+              groupbyTagEntity: filter.group.entity !== NOT_APPLICABLE ? filter.group.entity : null
             }
           }
         : {

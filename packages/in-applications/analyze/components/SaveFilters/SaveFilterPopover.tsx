@@ -19,7 +19,7 @@ import {
   CarbonForm as Form,
   CarbonLayer as Layer
 } from '@instana/components';
-import { Group, Result, SavedFilterGroup, TagFilterExpressionElementUnion } from '@instana/types';
+import { Group, Result, SavedFilter, SavedFilterGroup, TagFilterExpressionElementUnion } from '@instana/types';
 
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { selectedFilter$, setSelectedFilter } from 'in-applications/analyze/utils/filterUtils';
@@ -52,32 +52,35 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
   });
 
   useEffect(() => {
-    const subscription = selectedFilter$.subscribe(({ action, filter }: any) => {
-      const hasFiltersOrGrouping = formModel.length > 0 || Boolean(group.groupbyTag);
-      const isEditing = action === 'edit';
+    const subscription = selectedFilter$.subscribe(
+      ({ action, filter }: { action: string; filter: Partial<SavedFilter> | null }) => {
+        const hasFiltersOrGrouping = formModel.length || Boolean(group.groupbyTag);
+        const isEditing = action === 'edit';
 
-      if (isEditing) {
-        setIsEdit(true);
-        setOpen(true);
-        setIsSaveDisabled(false);
-      } else if (hasFiltersOrGrouping && action === 'click') {
-        const hasChanged = hasFilterOrGroupChanged(
-          fromBackendModel(filter.tagFilterExpression),
-          formModel,
-          group,
-          filter.group
-        );
-        setIsSaveDisabled(!hasChanged);
-      } else {
-        setIsSaveDisabled(!hasFiltersOrGrouping);
-      }
-      setFilter(
-        filter ?? {
-          id: '',
-          name: ''
+        if (isEditing) {
+          setIsEdit(true);
+          setOpen(true);
+          setIsSaveDisabled(false);
+        } else if (hasFiltersOrGrouping && action === 'click') {
+          if (!filter) return;
+          const hasChanged = hasFilterOrGroupChanged(
+            fromBackendModel(filter.tagFilterExpression),
+            formModel,
+            filter.group!,
+            group
+          );
+          setIsSaveDisabled(!hasChanged);
+        } else {
+          setIsSaveDisabled(!hasFiltersOrGrouping);
         }
-      );
-    });
+        setFilter(
+          (filter as SavedFilter) ?? {
+            id: '',
+            name: ''
+          }
+        );
+      }
+    );
 
     return () => subscription.dispose();
   }, [formModel, group]);
@@ -141,7 +144,7 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
   };
 
   const handleFilterNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFilter((prevFilter: any) => ({
+    setFilter(prevFilter => ({
       ...prevFilter,
       name: e.target.value
     }));
@@ -245,17 +248,22 @@ const displaySuccessMessage = (title: string, content: string) => {
 const hasFilterOrGroupChanged = (
   selectedTagFilterExpression: FormModelElement[],
   filterInQueryBuilder: FormModelElement[],
-  selectedGroup: Group,
-  groupInQueryBuilder: any
+  selectedGroup: SavedFilterGroup,
+  groupInQueryBuilder: Group
 ): boolean => {
-  if (!isEqual(selectedTagFilterExpression, filterInQueryBuilder)) return true;
+  const hasFilterChanged = !isEqual(selectedTagFilterExpression, filterInQueryBuilder);
+  const hasGroupChanged = hasGroupStateChanged(selectedGroup, groupInQueryBuilder);
 
-  const isGroupEmpty = !Object.keys(selectedGroup).length;
-  const isGroupQueryBuilderEmpty = groupInQueryBuilder?.tag === null;
+  return hasFilterChanged || hasGroupChanged;
+};
 
+const hasGroupStateChanged = (selectedGroup: SavedFilterGroup, groupInQueryBuilder: Group) => {
+  const isGroupEmpty = selectedGroup.tag == null;
+  const isGroupQueryBuilderEmpty = !Object.keys(groupInQueryBuilder).length;
   return !(
     (isGroupEmpty && isGroupQueryBuilderEmpty) ||
-    (selectedGroup.groupbyTag === groupInQueryBuilder?.tag &&
-      selectedGroup.groupbyTagEntity === groupInQueryBuilder?.entity)
+    (selectedGroup?.tag === groupInQueryBuilder?.groupbyTag &&
+      (selectedGroup.entity === groupInQueryBuilder?.groupbyTagEntity ||
+        (selectedGroup.entity === NOT_APPLICABLE && !groupInQueryBuilder?.groupbyTagEntity)))
   );
 };
