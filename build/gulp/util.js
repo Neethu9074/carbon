@@ -49,6 +49,7 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
   clearModule(paths.featureFlags);
 
   return {
+    urlFormat: '$unit-$tenant.$baseDomain',
     tenant: envConfig.tenant,
     tenantUnit: envConfig.tenantUnit,
     tenantUnitId: 'fake_tenantUnitId',

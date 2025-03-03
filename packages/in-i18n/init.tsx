@@ -51,7 +51,7 @@ export function init() {
         interpolation: {
           // React already escapes values
           escapeValue: false,
-          format: function(value, format) {
+          format: function (value, format) {
             if (format === 'parenthesis') return value ? `(${value})` : null;
             return value;
           }
@@ -110,7 +110,10 @@ function getLanguageBundle(language: string) {
     // Use the build revision for cache-busting purposes
     url: `/i18n/${language}.json?revision=${build.revision}`,
     maxRetries: 3,
-    treat400AsError: language === fallbackLanguage
+    treat400AsError: language === fallbackLanguage,
+    // We don't need to prefix path with TU information as this route will be
+    // handled by ingress directly
+    automaticallyApplyTuPath: false
   }).map(({ status, body }) => {
     if (status < 200 || status > 299) {
       return null;
