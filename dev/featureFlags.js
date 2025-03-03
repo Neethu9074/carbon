@@ -169,6 +169,7 @@ module.exports = {
   alertChannelPerSeverityWebsiteSaEnabled: true,
   alertChannelPerSeverityMobileAppSaEnabled: true,
   alertChannelPerSeverityLogSaEnabled: true,
+  perEntityInfraSmartAlertsEnabled: true,
   idpConfigV2Enabled: false,
   sloLiteEnabled: true,
   sloFullEnabled: true,
