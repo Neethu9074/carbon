@@ -20,6 +20,7 @@ interface ThresholdAlertPreviewProps {
   severity: number;
   renderHeadline: () => React.ReactNode;
   isTearSheet: boolean;
+  descriptionPlaceholder?: string;
 }
 
 export function ThresholdAlertPreview({
@@ -29,7 +30,8 @@ export function ThresholdAlertPreview({
   entityIconType,
   severity,
   renderHeadline,
-  isTearSheet
+  isTearSheet,
+  descriptionPlaceholder
 }: ThresholdAlertPreviewProps) {
   const alertPreviewPillLabels: { [key: number]: string } = {
     5: t('in-alerting:smartAlerts.components.smartAlertDialog.warningAlertPreviewLabel'),
@@ -43,6 +45,7 @@ export function ThresholdAlertPreview({
         form={form}
         renderHeadline={renderHeadline}
         getDescriptionPlaceholder={getDescriptionPlaceholder}
+        descriptionPlaceholder={descriptionPlaceholder}
         entityLabel={entityLabel}
         entityIconType={entityIconType}
         severity={severity}

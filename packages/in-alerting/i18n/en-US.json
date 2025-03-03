@@ -1663,7 +1663,12 @@
             "tooltipContent": "Defines the timeframe of the forecast used for alerting. "
           }
         }
-      }
+      },
+      "placeholderTitle": "Problem on {{metricName}} detected",
+      "descriptionIsHigherThan": "{{metricName}} is higher than {{value}}.",
+      "descriptionIsHigherOrEqualTo": "{{metricName}} is higher or equal to {{value}}.",
+      "descriptionIsLowerThan": "{{metricName}} is lower than {{value}}.",
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} is lower or equal to {{value}}."
     },
     "logs": {
       "alertDetails": {

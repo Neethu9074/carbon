@@ -18,6 +18,7 @@ interface AlertPropertiesProps {
   renderAlertPropertiesTitleRow: () => ReactNode;
   isTearSheet?: boolean;
   shouldDisplayAlertLevelSelection?: boolean;
+  descriptionPlaceholder?: { WARNING?: string; CRITICAL?: string };
 }
 
 export default function AlertProperties({
@@ -26,7 +27,8 @@ export default function AlertProperties({
   onChange,
   renderAlertPropertiesTitleRow,
   isTearSheet,
-  shouldDisplayAlertLevelSelection = true
+  shouldDisplayAlertLevelSelection = true,
+  descriptionPlaceholder
 }: AlertPropertiesProps): JSX.Element {
   return (
     <Sections>
@@ -38,6 +40,7 @@ export default function AlertProperties({
         getDescriptionPlaceholder={getDescriptionPlaceholder}
         onChange={onChange}
         isTearSheet={isTearSheet}
+        descriptionPlaceholder={descriptionPlaceholder?.WARNING ?? descriptionPlaceholder?.CRITICAL}
       />
     </Sections>
   );

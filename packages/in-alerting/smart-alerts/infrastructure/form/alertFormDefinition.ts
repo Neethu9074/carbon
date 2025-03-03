@@ -50,7 +50,8 @@ export interface AlertConfigHiddenFields {
 
 export default function alertFormDefinition(
   alertConfig: InfraSmartAlertConfig & VersionedConfig & AlertConfigHiddenFields,
-  editMode: boolean
+  editMode: boolean,
+  isTearSheet?: boolean
 ): MapForm<any> {
   const {
     alertChannelIds = [],
@@ -110,7 +111,7 @@ export default function alertFormDefinition(
       fieldNames.name,
       createField({
         value: name,
-        validator: titleValidator()
+        validator: isTearSheet ? titleValidator() : stringMaxLengthValidator(MAX_LABEL_LENGTH)
       })
     )
     .put(

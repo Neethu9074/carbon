@@ -19,13 +19,15 @@ interface AlertDescriptionRowProps {
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   getDescriptionPlaceholder: (form: MapForm<any>) => string;
   isTearSheet?: boolean;
+  descriptionPlaceholder?: string;
 }
 
 export default function AlertDescriptionRow({
   form,
   onChange,
   getDescriptionPlaceholder,
-  isTearSheet
+  isTearSheet,
+  descriptionPlaceholder
 }: AlertDescriptionRowProps) {
   return (
     <>
@@ -48,7 +50,7 @@ export default function AlertDescriptionRow({
                 return (field as Field<string>).setValue(e.target.value || '').setTouched(true);
               });
             }}
-            placeholder={getDescriptionPlaceholder(form)}
+            placeholder={descriptionPlaceholder ?? getDescriptionPlaceholder(form)}
             formField={form.get('description')}
           />
         </div>
@@ -67,7 +69,7 @@ export default function AlertDescriptionRow({
                 return (field as Field<string>).setValue(e.target.value || '').setTouched(true);
               });
             }}
-            placeholder={getDescriptionPlaceholder(form)}
+            placeholder={descriptionPlaceholder ?? getDescriptionPlaceholder(form)}
             formField={form.get('description')}
           />
         </AlertSection>

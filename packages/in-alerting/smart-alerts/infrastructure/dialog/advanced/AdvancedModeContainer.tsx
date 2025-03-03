@@ -5,8 +5,15 @@
  */
 
 import { MapForm } from 'formalistic';
+import { isEmpty } from 'lodash';
 import React from 'react';
 
+import {
+  useGetAlertTitle,
+  useFormattedThresholdValue,
+  generateTitle,
+  getTitlePlaceholderData
+} from 'in-alerting/smart-alerts/infrastructure/hooks/useGetAlertTitle';
 import {
   infraPredictiveDetectionEnabled,
   oneMinuteGranularityForStaticThresholdEnabled,
@@ -24,7 +31,6 @@ import {
   isCustomPayloadValidOrUntouched
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
-import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
@@ -60,8 +66,24 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
   const entityType = form.get('rule')?.get('entityType')?.value;
   const metric = form.get('rule')?.get('metricName')?.value;
   const isRegex = form.get('rule').get('regex')?.value;
+
   const tagCatalog = useTagCatalog({ ownerType: entityType, metric, regex: isRegex });
   const groupBy = form.get('groupBy').value;
+
+  const { aggregation, warningThreshold, criticalThreshold, thresholdOperatorValue, metricFormat } =
+    getTitlePlaceholderData(form);
+
+  const alertNameValue = !isEmpty(form.get('name').value) ? form.get('name').value : undefined;
+  const alertDescriptionValue = !isEmpty(form.get('description').value) ? form.get('description').value : undefined;
+
+  const alertTitle = useGetAlertTitle(entityType, metric, aggregation);
+  const alertDescription = useFormattedThresholdValue(
+    alertTitle,
+    thresholdOperatorValue(warningThreshold, criticalThreshold),
+    metricFormat,
+    warningThreshold,
+    criticalThreshold
+  );
 
   const placeholders = getAllowedPlaceholders({ groupBy: toBackendGroupBy(groupBy) });
 
@@ -160,12 +182,14 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                 <AlertProperties
                   form={form}
                   onChange={onChange}
-                  getDescriptionPlaceholder={getDescriptionPlaceholder}
+                  getDescriptionPlaceholder={() => ''}
+                  descriptionPlaceholder={alertDescriptionValue ?? alertDescription}
                   renderAlertPropertiesTitleRow={() => (
                     <AlertPropertiesTitleRow
                       form={form}
                       onChange={onChange}
-                      getTitlePlaceholder={getTitlePlaceholder}
+                      getTitlePlaceholder={() => ''}
+                      titlePlaceholder={alertNameValue ?? generateTitle(alertTitle)}
                       placeholders={placeholders}
                       placeholderTooltipContent={t(
                         'in-alerting:smartAlerts.components.smartAlertDialog.groupingPlaceholdersMissingTooltip'
@@ -176,7 +200,12 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                 />
               )}
               renderAlertPreview={() => (
-                <MultiThresholdAlertPreview form={form} getDescriptionPlaceholder={getDescriptionPlaceholder} />
+                <MultiThresholdAlertPreview
+                  form={form}
+                  getDescriptionPlaceholder={() => ''}
+                  placeholderTitle={alertNameValue ?? generateTitle(alertTitle)}
+                  placeholderDescription={alertDescriptionValue ?? alertDescription}
+                />
               )}
             />
           )

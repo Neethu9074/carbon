@@ -31,6 +31,7 @@ export interface AlertPropertiesTitleRowProps {
   placeholders?: ReadonlyArray<Readonly<Placeholder>>;
   placeholderTooltipContent?: string | undefined;
   showDisabledPlaceholder?: boolean;
+  titlePlaceholder?: string;
 }
 export default function AlertPropertiesTitleRow({
   form,
@@ -38,7 +39,8 @@ export default function AlertPropertiesTitleRow({
   getTitlePlaceholder,
   placeholders,
   placeholderTooltipContent,
-  showDisabledPlaceholder = false
+  showDisabledPlaceholder = false,
+  titlePlaceholder
 }: AlertPropertiesTitleRowProps) {
   const hasError = !form.get('name').valid && form.get('name').touched;
   return (
@@ -68,7 +70,7 @@ export default function AlertPropertiesTitleRow({
             onChange(['name'], field => (field as Field<string>).setValue(targetValue || '').setTouched(true));
           }}
           value={form.get('name').value}
-          placeholder={getTitlePlaceholder(form)}
+          placeholder={titlePlaceholder ?? getTitlePlaceholder(form)}
         />
 
         {((placeholders && placeholders.length > 0) || showDisabledPlaceholder) && (

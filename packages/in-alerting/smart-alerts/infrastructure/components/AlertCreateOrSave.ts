@@ -28,10 +28,14 @@ interface createOrSaveAlertProps {
   editMode: boolean;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;
-  toAlertConfig: (form: MapForm<any>) => Readonly<InfraAlertConfig>;
+  toAlertConfig: (
+    form: MapForm<any>,
+    placeHolderText: { alertTitle: string; alertDescription: { WARNING?: string; CRITICAL?: string } }
+  ) => Readonly<InfraAlertConfig>;
   isSimpleMode: boolean;
   trackCta: CtaTrackingFunction;
   duplicateFrom?: string;
+  placeHolderText: { alertTitle: string; alertDescription: { WARNING?: string; CRITICAL?: string } };
 }
 
 export function createOrSaveAlert({
@@ -45,7 +49,8 @@ export function createOrSaveAlert({
   toAlertConfig,
   isSimpleMode,
   trackCta,
-  duplicateFrom
+  duplicateFrom,
+  placeHolderText
 }: createOrSaveAlertProps) {
   setIsSaving(true);
 
@@ -62,7 +67,7 @@ export function createOrSaveAlert({
     return;
   }
 
-  const alertConfig: InfraAlertConfig = toAlertConfig(form);
+  const alertConfig: InfraAlertConfig = toAlertConfig(form, placeHolderText);
 
   if (editMode) {
     const updateConfig = updateAlertConfig(alertConfig, form.get('id').value);
@@ -102,10 +107,14 @@ interface createOrSaveAlertFromTearSheetProps {
   editMode: boolean;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;
-  toAlertConfig: (form: MapForm<any>) => Readonly<InfraAlertConfig>;
+  toAlertConfig: (
+    form: MapForm<any>,
+    placeHolderText: { alertTitle: string; alertDescription: { WARNING?: string; CRITICAL?: string } }
+  ) => Readonly<InfraAlertConfig>;
   isSimpleMode: boolean;
   trackCta: CtaTrackingFunction;
   duplicateFrom?: string;
+  placeHolderText: { alertTitle: string; alertDescription: { WARNING?: string; CRITICAL?: string } };
 }
 
 export function createOrSaveAlertFromTearSheet({
@@ -118,7 +127,8 @@ export function createOrSaveAlertFromTearSheet({
   toAlertConfig,
   isSimpleMode,
   trackCta,
-  duplicateFrom
+  duplicateFrom,
+  placeHolderText
 }: createOrSaveAlertFromTearSheetProps) {
   setIsSaving(true);
 
@@ -135,7 +145,7 @@ export function createOrSaveAlertFromTearSheet({
     return;
   }
 
-  const alertConfig: InfraAlertConfig = toAlertConfig(form);
+  const alertConfig: InfraAlertConfig = toAlertConfig(form, placeHolderText);
 
   if (editMode) {
     const updateConfig = updateAlertConfig(alertConfig, form.get('id').value);
