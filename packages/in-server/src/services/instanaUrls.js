@@ -5,12 +5,7 @@
  */
 
 const serverConfig = require('../serverConfig.js');
-
-// default url format for saas & operator
-const subdomainUrlFormat = '$unit-$tenant.$baseDomain';
-
-// (additional & optional) url format for on-premise operator based installations only
-const pathUrlFormat = '$baseDomain/$tenant/$unit';
+const sharedUrlUtils = require('./sharedUrlUtils.js');
 
 // request header for tenant&unit name i case using 'operatorUrlFormat'
 exports.header = {
@@ -19,19 +14,21 @@ exports.header = {
 };
 
 exports.isDefaultUrlFormat = function isDefaultUrlFormat() {
-  // TODO adjust to having a flag in config instead
-  return serverConfig.urlFormat === subdomainUrlFormat;
+  return serverConfig.urlFormat === sharedUrlUtils.subdomainUrlFormat;
 };
 
-// urlFormat requires below variables
-exports.getBaseUrl = (tenant, unit) => {
-  const url = getUrlFormat()
-    .replace('$unit', unit)
-    .replace('$tenant', tenant)
-    .replace('$baseDomain', serverConfig.clientConfig.tenantUnitDomainSuffix);
-  return `https://${url}`;
-};
+/**
+ * Path function to make sure we prefix the give path with TU specifc segments
+ * in case the TU uses path strategy to resolve TU information.
+ *
+ * Note: It's currently only used when defining the CSRF token route on
+ * node-server.
+ * Question: Do we have to use the operator header in order to get the TU info?
+ **/
+exports.prefixPathWithTuSegments = path => {
+  if (exports.isDefaultUrlFormat()) return path;
 
-function getUrlFormat() {
-  return exports.isDefaultUrlFormat() ? subdomainUrlFormat : pathUrlFormat;
-}
+  const { tenant, tenantUnit } = serverConfig.clientConfig;
+
+  return `/${tenant}/${tenantUnit}${path}`;
+};

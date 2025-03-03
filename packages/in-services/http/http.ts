@@ -14,6 +14,7 @@ import HttpRequestAbortedError from 'in-services/http/HttpRequestAbortedError';
 import createObservableResult from 'in-services/http/observableHttpResult';
 import { Response as ResponseInternal } from 'in-services/http/types';
 import HttpResponseError from 'in-services/http/HttpResponseError';
+import { formatPathWithTU } from 'in-services/formatters/url';
 import { Result } from 'in-types';
 
 export type Response<T> = ResponseInternal<T>;
@@ -39,6 +40,11 @@ interface HttpRequestOptions {
   treat400AsError?: boolean;
   maxRetries?: number;
   mapToResultObject?: boolean;
+  /**
+   * Apply TU path prefix if TU resolution is based on a path strategy. Default
+   * is true.
+   **/
+  automaticallyApplyTuPath?: boolean;
 }
 
 function http(
@@ -60,8 +66,10 @@ function http<T>({
   ignoreAbortErrors = true,
   treat400AsError = true,
   maxRetries = -1,
-  mapToResultObject = false
+  mapToResultObject = false,
+  automaticallyApplyTuPath = true
 }: HttpRequestOptions): Observable<any> {
+  url = automaticallyApplyTuPath ? formatPathWithTU(url) : url;
   url = formatUrl(url, queryParams);
   let xhr: XMLHttpRequest | undefined;
   let retryTimeout: any;
