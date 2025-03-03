@@ -26,6 +26,7 @@ import { TagCatalog, TagFilter, RuleWithThreshold, LogAlertRuleUnion } from 'in-
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { alertChannelPerSeverityLogSaEnabled } from 'in-services/featureFlags';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
@@ -50,6 +51,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
     customPayloadFields,
     tagFilterExpression,
     alertChannelIds,
+    alertChannels,
     rules
   } = alertConfig;
 
@@ -167,7 +169,11 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
         darkFrame
       >
         <div className={locals.alertChannelsWrapper}>
-          <AlertChannelsViewer alertChannelIds={alertChannelIds ?? []} />
+          <AlertChannelsViewer
+            alertChannelIds={alertChannelIds}
+            alertChannels={alertChannels}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityLogSaEnabled}
+          />
         </div>
       </ExpandableLightCard>
 

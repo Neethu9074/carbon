@@ -5,10 +5,14 @@
  */
 
 import { Field, MapForm } from 'formalistic';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Checkbox, Stack } from '@instana/components';
 
+import {
+  updateAlertChannelSelectionOnWarningThresholdFieldChange,
+  updateAlertChannelSelectionOnCriticalThresholdFieldChange
+} from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import { getMaxMetricValue } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
@@ -23,13 +27,15 @@ interface LogMultiThresholdConditionProps {
   updateForm: (form: MapForm<any>) => void;
   percentageMetric: boolean;
   metricUnitPostfix: string;
+  alertChannelPerSeverityEnabled?: boolean;
 }
 
 export default function LogMultiThresholdCondition({
   form,
   updateForm,
   percentageMetric,
-  metricUnitPostfix
+  metricUnitPostfix,
+  alertChannelPerSeverityEnabled
 }: LogMultiThresholdConditionProps) {
   const maxValue = getMaxMetricValue(percentageMetric);
   const warningThresholdValueField = form.get('threshold')?.get('warningThreshold')?.get('value');
@@ -38,6 +44,33 @@ export default function LogMultiThresholdCondition({
   const criticalThresholdValue = criticalThresholdValueField.value;
   const warningThresholdValuePresent = !isEmpty(warningThresholdValue);
   const criticalThresholdValuePresent = !isEmpty(criticalThresholdValue);
+
+  const alertChannelSelection = form.get('alertChannels').value;
+  useEffect(() => {
+    if (alertChannelPerSeverityEnabled) {
+      updateAlertChannelSelectionOnWarningThresholdFieldChange(
+        alertChannelSelection,
+        warningThresholdValuePresent,
+        criticalThresholdValuePresent,
+        form,
+        updateForm
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [warningThresholdValueField]);
+
+  useEffect(() => {
+    if (alertChannelPerSeverityEnabled) {
+      updateAlertChannelSelectionOnCriticalThresholdFieldChange(
+        alertChannelSelection,
+        warningThresholdValuePresent,
+        criticalThresholdValuePresent,
+        form,
+        updateForm
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [criticalThresholdValueField]);
 
   return (
     <>

@@ -22,6 +22,7 @@ import { ThresholdType, VersionedConfig } from 'in-types';
 export const defaultAdaptiveBaselineGranularity = 1200000;
 export const fieldNames = Object.freeze({
   alertChannelIds: 'alertChannelIds',
+  alertChannels: 'alertChannels',
   customPayloadFields: 'customPayloadFields',
   description: 'description',
   granularity: 'granularity',
@@ -46,6 +47,7 @@ export default function alertFormDefinition(
 ): MapForm<any> {
   const {
     alertChannelIds = [],
+    alertChannels = { WARNING: [], CRITICAL: [] },
     description = '',
     granularity = 600000,
     gracePeriod,
@@ -55,7 +57,7 @@ export default function alertFormDefinition(
     id = '',
     rules
   } = alertConfig;
-
+  const alertChannelList = [...new Set([...(alertChannels?.WARNING ?? []), ...(alertChannels?.CRITICAL ?? [])])];
   const form = createMapForm()
     .put(
       fieldNames.alertChannelIds,
@@ -119,17 +121,30 @@ export default function alertFormDefinition(
         rules?.[0]?.thresholds?.WARNING?.type as ThresholdType
       )
     )
-    .put('hiddenFields', createHiddenFieldsForm(editMode))
-    .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
+    .put('hiddenFields', createHiddenFieldsForm(alertChannelList, editMode))
+    .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false))
+    .put(
+      'alertChannels',
+      createField({
+        value: alertChannels ?? { WARNING: [], CRITICAL: [] }
+      })
+    );
 
   return form;
 }
 
-export function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
-  return createMapForm().put(
-    'calculateThresholdOnBackend',
-    createField({
-      value: calculateThresholdOnBackend
-    })
-  );
+export function createHiddenFieldsForm(alertChannelList: string[], calculateThresholdOnBackend = false) {
+  return createMapForm()
+    .put(
+      'calculateThresholdOnBackend',
+      createField({
+        value: calculateThresholdOnBackend
+      })
+    )
+    .put(
+      'selectedChannelList',
+      createField({
+        value: alertChannelList
+      })
+    );
 }

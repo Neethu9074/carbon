@@ -5,11 +5,15 @@
  */
 
 import { Field, MapForm } from 'formalistic';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Checkbox, Stack, SvgIcon } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
+import {
+  updateAlertChannelSelectionOnWarningThresholdFieldChange,
+  updateAlertChannelSelectionOnCriticalThresholdFieldChange
+} from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
 import {
   getMaxMetricValue,
@@ -44,6 +48,29 @@ export default function LogMultiThresholdCondition({
   const criticalThresholdValue = criticalThresholdField.value;
   const warningThresholdValuePresent = !isEmpty(warningThresholdValue);
   const criticalThresholdValuePresent = !isEmpty(criticalThresholdValue);
+  const alertChannelSelection = form.get('alertChannels').value;
+
+  useEffect(() => {
+    updateAlertChannelSelectionOnWarningThresholdFieldChange(
+      alertChannelSelection,
+      warningThresholdValuePresent,
+      criticalThresholdValuePresent,
+      form,
+      updateForm
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [warningThresholdField]);
+
+  useEffect(() => {
+    updateAlertChannelSelectionOnCriticalThresholdFieldChange(
+      alertChannelSelection,
+      warningThresholdValuePresent,
+      criticalThresholdValuePresent,
+      form,
+      updateForm
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [criticalThresholdField]);
 
   return (
     <div className={locals.gridWrapper}>

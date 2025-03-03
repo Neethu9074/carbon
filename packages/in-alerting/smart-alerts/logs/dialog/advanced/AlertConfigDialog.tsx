@@ -22,6 +22,7 @@ import { toGroupByTag } from 'in-alerting/smart-alerts/logs/dialog/advanced/Aler
 import { LogSmartAlertConfig } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { alertChannelPerSeverityLogSaEnabled } from 'in-services/featureFlags';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { alertCreated, alertId } from 'in-logging/navigation/matrix';
@@ -120,7 +121,8 @@ export function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
 
   return Object.freeze({
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
-    alertChannelIds: form.get(fieldNames.alertChannelIds).value,
+    alertChannelIds: alertChannelPerSeverityLogSaEnabled ? null : form.get(fieldNames.alertChannelIds).value,
+    alertChannels: alertChannelPerSeverityLogSaEnabled ? form.get(fieldNames.alertChannels).value : null,
     description: form.get(fieldNames.description).value || getDescriptionPlaceholder(form),
     name: form.get(fieldNames.name).value || getTitlePlaceholder(),
     id: form.get(fieldNames.id).value,

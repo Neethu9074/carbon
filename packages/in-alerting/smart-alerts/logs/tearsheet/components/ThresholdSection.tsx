@@ -12,6 +12,7 @@ import { Stack } from '@instana/components';
 import LogMultiThresholdCondition from 'in-alerting/smart-alerts/logs/tearsheet/components/LogMultiThresholdCondition';
 import EvaluationWindow from 'in-alerting/smart-alerts/components/tearSheet/EvaluationWindow';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
+import { alertChannelPerSeverityLogSaEnabled } from 'in-services/featureFlags';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
@@ -85,6 +86,7 @@ export default function ThresholdSection({
           updateForm={updateForm}
           percentageMetric={false}
           metricUnitPostfix={''}
+          alertChannelPerSeverityEnabled={alertChannelPerSeverityLogSaEnabled}
         />
       </Section>
       {/* Evaluation Window */}
