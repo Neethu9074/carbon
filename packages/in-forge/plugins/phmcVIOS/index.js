@@ -5,13 +5,11 @@
  */
 
 import metricDefinitions from 'in-forge/plugins/phmcVIOS/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/phmcVIOS/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 registerSnapshotDefinition({
   plugin: plugins.phmcVIOS,
 
-  kpiDefinitions,
   metricDefinitions,
   getIconType: () => 'phmc_console'
 });

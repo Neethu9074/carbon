@@ -5,14 +5,12 @@
  */
 
 import metricDefinitions from 'in-forge/plugins/awsApiGateway/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/awsApiGateway/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.awsApiGateway,
-  kpiDefinitions,
   metricDefinitions,
 
   getLabel(snapshot) {

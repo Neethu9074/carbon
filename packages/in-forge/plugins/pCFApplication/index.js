@@ -4,12 +4,10 @@
  */
 
 import metricDefinitions from 'in-forge/plugins/pCFApplication/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/pCFApplication/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.pCFApplication,
-  kpiDefinitions,
   metricDefinitions
 });

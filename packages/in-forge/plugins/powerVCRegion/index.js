@@ -5,13 +5,11 @@
  */
 
 import metricDefinitions from 'in-forge/plugins/powerVCRegion/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/powerVCRegion/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 registerSnapshotDefinition({
   plugin: plugins.powerVCRegion,
 
-  kpiDefinitions,
   metricDefinitions,
   getIconType: () => 'powervc'
 });

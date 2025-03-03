@@ -4,7 +4,6 @@
  */
 
 import metricDefinitions from 'in-forge/plugins/webSphereLibertyApplicationContainer/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/webSphereLibertyApplicationContainer/kpiDefinitions';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
@@ -13,7 +12,6 @@ import { t } from 'in-i18n';
 registerSnapshotDefinition({
   plugin: plugins.webSphereLibertyApplicationContainer,
 
-  kpiDefinitions,
   metricDefinitions,
   getCodeView,
   supportsCodeView,

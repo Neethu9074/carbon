@@ -4,7 +4,6 @@
  */
 
 import metricDefinitions from 'in-forge/plugins/kafkaConnectConnector/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/kafkaConnectConnector/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
@@ -12,7 +11,6 @@ import { t } from 'in-i18n';
 registerSnapshotDefinition({
   plugin: plugins.kafkaConnectConnector,
 
-  kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {
     label: t('in-forge:plugins.kafkaConnectConnector.kafkaConnector')

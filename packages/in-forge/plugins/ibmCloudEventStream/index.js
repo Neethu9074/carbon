@@ -4,7 +4,6 @@
  */
 
 import metricDefinitions from 'in-forge/plugins/ibmCloudEventStream/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/ibmCloudEventStream/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -14,6 +13,5 @@ registerSnapshotDefinition({
   technologyDescriptor: {
     label: 'IBM Event Streams'
   },
-  kpiDefinitions,
   metricDefinitions
 });
