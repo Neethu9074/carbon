@@ -140,6 +140,7 @@ export const pageNames = Object.freeze({
   slo_config: 'Service Level Objective > Configuration',
   automation_action_catalog: 'Automation > Action Catalog',
   automation_action_view: 'Automation > Action Catalog > Action details',
+  automation_action_create: 'Automation > Action Catalog > New or Edit Action',
   automation_action_history: 'Automation > Action History',
   automation_policies: 'Automation > Policies',
   automation_policy_view: 'Automation > Policies > Policy details',

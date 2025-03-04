@@ -13,7 +13,7 @@ import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/
 import { useIsNotEditableContext } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
 import { MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
-import ParameterDialog1 from 'in-automation/ActionCatalog/ParameterDialog1';
+import ParameterDialog from 'in-automation/ActionCatalog/ParameterDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ACTION_TYPE } from 'in-automation/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -138,7 +138,7 @@ export default function ParametersTable() {
 
       {/* Render the SidePanel separately */}
       {openDialog && (
-        <ParameterDialog1
+        <ParameterDialog
           setForm={setForm}
           form={form}
           isNotEditable={isNotEditable}

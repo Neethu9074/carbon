@@ -6,17 +6,7 @@
 
 import React, { Fragment } from 'react';
 
-import {
-  Link,
-  Spacer,
-  Typography,
-  Toggle,
-  IconButton,
-  TextArea,
-  Select,
-  FormGroup,
-  CarbonNumberInput
-} from '@instana/components';
+import { Link, Typography, Toggle, TextArea, Select, FormGroup, CarbonNumberInput } from '@instana/components';
 import { ActionType, Result } from '@instana/types';
 
 import {
@@ -37,22 +27,14 @@ import {
   AUTH_TRANSLATIONS,
   AUTH_TYPE
 } from 'in-automation/constants';
-// import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
-// import GenerateScriptTile from 'in-automation/ActionCatalog/GenerateScriptTile';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-// import useHasAccessToScript from 'in-automation/hooks/useHasAccessToScript';
-import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
-import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
-import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import { useIsNotEditableContext } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import useActionDetailsUrlParams from 'in-automation/ActionCatalog/useActionDetailsUrlParams';
-import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import { createTicketIdParameter } from 'in-automation/ActionCatalog/useActionForm/utils';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { ActionForm } from 'in-automation/ActionCatalog/useActionForm/types';
-import { isAction, ActionFilter, AuthenType } from 'in-automation/types';
+import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import { getAnsibleFields } from 'in-automation/utils/actionField';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -60,14 +42,11 @@ import FieldsTable from 'in-automation/ActionCatalog/FieldsTable';
 import CreatableTagSelect from 'in-components/CreatableTagSelect';
 import ScrollStep from 'in-components/StepsContainer/ScrollStep';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { ActionFilter, AuthenType } from 'in-automation/types';
 import useActionTags from 'in-automation/hooks/useActionTags';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
-import { isAIAction } from 'in-automation/utils/action';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { isLoading } from 'in-services/util/result';
-import { FetchStatus } from 'in-hooks/utils/types';
 import Code from 'in-components/form/Code/Code';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -75,41 +54,6 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Action.mless';
-
-function CopyActionLink({ action }: { action?: ActionFormEntity }) {
-  const hrefToActionDetails = useHrefToActionDetails();
-  if (!action || !role?.canConfigureAutomationActions || !isAction(action)) return null;
-
-  return (
-    <HorizontalFlexWrapper>
-      <Tooltip content={t('in-automation:duplicate')} delay={500}>
-        <Link ellipsis href={action.type === ACTION_TYPE.ANSIBLE ? undefined : hrefToActionDetails(action.id, true)}>
-          <IconButton
-            id={`copy_${action.id}`}
-            disabled={action.type === ACTION_TYPE.ANSIBLE}
-            buttonType="button"
-            kind="primaryv2"
-            type={'lib_actions_copy'}
-          />
-        </Link>
-      </Tooltip>
-    </HorizontalFlexWrapper>
-  );
-}
-
-export function ActionFormHeader({ action }: { action?: ActionFormEntity }) {
-  const { isNew } = useActionDetailsUrlParams();
-  return (
-    <HorizontalFlexWrapper className={locals.spaceBetween}>
-      <SubViewHeader>
-        {!action || isNew
-          ? t('in-automation:ActionCatalog.createANewAction')
-          : t('in-automation:ActionCatalog.configureActionEntityName', { entityName: action.name })}
-      </SubViewHeader>
-      <CopyActionLink action={action} />
-    </HorizontalFlexWrapper>
-  );
-}
 
 export function ActionFormBody({
   action,
@@ -119,8 +63,6 @@ export function ActionFormBody({
   actionFilter: 'all' | ActionFilter;
 }) {
   const { form } = useActionFormContext();
-  // const { id } = useActionDetailsUrlParams();
-  // const hasAccessToScript = useHasAccessToScript();
   const type = form.get('type').value;
 
   const showTimeoutSection = [ACTION_TYPE.SCRIPT, ACTION_TYPE.HTTP, ACTION_TYPE.ANSIBLE].includes(type);
@@ -165,51 +107,8 @@ export function ActionFormBody({
             </>
           )}
         </Col>
-
-        {/* {type === ACTION_TYPE.MANUAL && automationActionAiGenerationUnitEnabled && hasAccessToScript && (
-          <Col lg={4}>
-            <GenerateScriptTile
-              manualContent={form.get('manualContent').value}
-              actionName={form.get('name').value}
-              actionId={id}
-            />
-          </Col>
-        )} */}
       </Row>
     </LeftRightPadding>
-  );
-}
-
-export function ActionFormFooter({ submitStatus, action }: { submitStatus?: FetchStatus; action?: ActionFormEntity }) {
-  const { form } = useActionFormContext();
-
-  const { isNew, isCopy } = useActionDetailsUrlParams();
-  const navigateToActionCatalog = useNavigateToActionCatalog();
-
-  const isBuiltinAction = action?.metadata?.builtIn ?? false;
-  const canSaveAction = role?.canConfigureAutomationActions && ((isBuiltinAction && isCopy) || !isBuiltinAction);
-
-  return (
-    <>
-      <Spacer vertical="xlarge" />
-      <FormFooter>
-        <CancelButton
-          onClick={() => {
-            const view = action && isAIAction(action) ? 'ai' : 'user';
-            navigateToActionCatalog(view);
-          }}
-        />
-        {canSaveAction && (
-          <SaveButton form={form} isSaving={submitStatus === 'pending'}>
-            {submitStatus === 'pending'
-              ? t('forms.states.saving')
-              : isNew
-              ? t('forms.actions.create')
-              : t('forms.actions.save')}
-          </SaveButton>
-        )}
-      </FormFooter>
-    </>
   );
 }
 
@@ -373,7 +272,8 @@ function getHelpTextType(type: ActionType) {
 function TypeSection({ action, actionFilter }: { action?: ActionFormEntity; actionFilter: 'all' | ActionFilter }) {
   const { form, setForm } = useActionFormContext();
   const isNotEditable = useIsNotEditableContext();
-  const { isCreate } = useActionDetailsUrlParams();
+  const actionId = action && 'id' in action ? (action as any).id : undefined;
+  const { isCreate } = useActionDetailsUrlParams({ actionId, copy: false });
 
   const type = form.get('type');
 

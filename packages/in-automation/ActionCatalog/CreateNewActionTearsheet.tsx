@@ -13,7 +13,7 @@ import { Result } from '@instana/types';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
-import useActionDetailsUrlParams1 from 'in-automation/ActionCatalog/useActionDetailsUrlParams1';
+import useActionDetailsUrlParams from 'in-automation/ActionCatalog/useActionDetailsUrlParams';
 import { aiOriginatedMetadata, isAIAction, isAIActionCopy } from 'in-automation/utils/action';
 import { generateNavItems } from 'in-automation/ActionCatalog/useActionForm/validationUtils';
 import useActionForm from 'in-automation/ActionCatalog/useActionForm/useActionForm';
@@ -29,11 +29,14 @@ import useActionFilter from 'in-automation/hooks/useActionFilter';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { refresh } from 'in-automation/ActionCatalog/useActions';
+import { productAreas } from 'in-services/tracking/productAreas';
 import useAction from 'in-automation/ActionCatalog/useAction';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { hasError, isLoading } from 'in-services/util/result';
 import { saveAction, saveNewAction } from 'in-automation/api';
 import SectionLine from 'in-settings/components/SectionLine';
 import { close } from 'in-components/DialogPresenter/store';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { isNotEditable } from 'in-automation/utils/action';
 import { useSegmentTracker } from 'in-automation/tracker';
 import Form from 'in-components/form/binding/Form';
@@ -44,7 +47,7 @@ import { seconds } from 'in-services/time';
 import { t, Trans } from 'in-i18n';
 
 export default function CreateNewActionTearsheet({ actionId, copy = false }: { actionId?: string; copy?: boolean }) {
-  const { isCopy, id } = useActionDetailsUrlParams1({ actionId, copy });
+  const { isCopy, id } = useActionDetailsUrlParams({ actionId, copy });
   const action = useAction({ id, isCopy });
   const actionFilter = useActionFilter();
 
@@ -60,6 +63,7 @@ export default function CreateNewActionTearsheet({ actionId, copy = false }: { a
 
     return (
       // @ts-expect-error
+
       <Tearsheet open>
         <SettingsDetailPage>
           <SubViewHeader
@@ -80,13 +84,21 @@ export default function CreateNewActionTearsheet({ actionId, copy = false }: { a
   }
 
   return (
-    <TearSheetLoader
-      key={String(isCopy)}
-      action={action.data}
-      actionFilter={actionFilter.data!}
-      copy={copy}
-      actionId={actionId}
-    />
+    <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.automation,
+          pageRootName: pageNames.automation_action_view
+        }}
+      />
+      <TearSheetLoader
+        key={String(isCopy)}
+        action={action.data}
+        actionFilter={actionFilter.data!}
+        copy={copy}
+        actionId={actionId}
+      />
+    </>
   );
 }
 
@@ -98,7 +110,7 @@ interface TearSheetProps {
 }
 
 function TearSheetLoader({ action, actionFilter, copy, actionId }: TearSheetProps) {
-  const { isCopy } = useActionDetailsUrlParams1({ copy });
+  const { isCopy } = useActionDetailsUrlParams({ copy });
   const [form, setForm] = useActionForm({ action, actionFilter });
   const { onSubmit, result } = useOnSubmit({ actionId, copy });
 
@@ -161,34 +173,7 @@ const influencerContent = (form: ActionForm) => {
   );
 };
 
-// const generateNavItems = (form: ActionForm) => {
-//   const type = form.get('type').value;
-//   return [
-//     {
-//       label: t('in-automation:ActionCatalog.actionDetails'),
-//       scrollId: '1-action-details',
-//       title: t('in-automation:ActionCatalog.actionDetails'),
-//       content: null,
-//       valid: isMetadataValid(form)
-//     },
-//     {
-//       label: t('in-automation:ActionCatalog.actionConfiguration'),
-//       scrollId: '2-action-configuration',
-//       title: t('in-automation:ActionCatalog.actionConfiguration'),
-//       content: null,
-//       valid: isActionConfigurationValid(form, type)
-//     },
-//     {
-//       label: t('in-automation:ActionCatalog.parameterDetails'),
-//       scrollId: '3-parameter-details',
-//       title: t('in-automation:ActionCatalog.parameterDetails'),
-//       content: null,
-//       valid: true,
-//       hidden: [ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].includes(type ?? ACTION_TYPE.DOC_LINK)
-//     }
-//   ];
-// };
-const isNotEditableContext = createContext(false);
+export const isNotEditableContext = createContext(false);
 
 export function useIsNotEditableContext() {
   return useContext(isNotEditableContext);
@@ -306,7 +291,7 @@ function ActionDetailsLoader({
   copy: boolean;
   actionId?: string;
 }) {
-  const { isCopy, id } = useActionDetailsUrlParams1({ actionId, copy });
+  const { isCopy, id } = useActionDetailsUrlParams({ actionId, copy });
   const action = useAction({ id, isCopy });
   const actionFilter = useActionFilter();
 
@@ -345,15 +330,15 @@ interface ActionDetailsProps {
 }
 
 function ActionDetails({ action, actionFilter, form, setForm, copy, actionId }: ActionDetailsProps) {
-  const { isCopy } = useActionDetailsUrlParams1({ copy, actionId });
+  const { isCopy } = useActionDetailsUrlParams({ copy, actionId });
 
   return (
     <isNotEditableContext.Provider value={action ? isNotEditable(action, isCopy) : false}>
       <ActionFormContext.Provider
         value={{
-          form, // Ensure form is of type ActionForm or convertible to Item
+          form,
           rootPath: [],
-          setForm // Ensure setForm matches React.Dispatch<React.SetStateAction<ActionForm>>
+          setForm
         }}
       >
         <Form form={form} setForm={form => setForm(form as ActionForm)} onSubmit={() => {}}>
@@ -371,7 +356,7 @@ interface useOnSubmitProps {
 function useOnSubmit({ actionId, copy }: useOnSubmitProps) {
   const { createActionTrackerSegment, editActionTrackerSegment } = useSegmentTracker();
   const [result, setResult] = useState<Result<any> | null>(null);
-  const { isNew, isCopy, id } = useActionDetailsUrlParams1({ actionId, copy });
+  const { isNew, isCopy, id } = useActionDetailsUrlParams({ actionId, copy });
   const navigateToActionCatalog = useNavigateToActionCatalog();
   function onSubmit({
     form,
@@ -405,10 +390,9 @@ function useOnSubmit({ actionId, copy }: useOnSubmitProps) {
             if (hasError(result)) return;
             createActionTrackerSegment(trackerDetails);
             onSaveSuccess(result.data?.name!);
-
-            refresh();
-            navigateToActionCatalog();
             close();
+            navigateToActionCatalog();
+            refresh();
           },
           result => {
             onSaveFailure(result?.errors);
@@ -423,10 +407,10 @@ function useOnSubmit({ actionId, copy }: useOnSubmitProps) {
             if (hasError(result)) return;
             editActionTrackerSegment(trackerDetails);
             onEditSuccess(result.data?.name!);
+            close();
+            navigateToActionCatalog();
 
             refresh();
-            navigateToActionCatalog();
-            close();
           },
           result => {
             onEditFailure(result?.errors);

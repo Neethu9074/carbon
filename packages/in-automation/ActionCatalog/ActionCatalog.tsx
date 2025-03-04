@@ -21,7 +21,7 @@ import { descriptionColumn, lastModifiedColumn, nameColumn } from 'in-automation
 import useActionCatalogFilterUrlState from 'in-automation/ActionCatalog/useActionCatalogFilterUrlState';
 import useNavigateToActionDashboard from 'in-automation/navigation/hooks/useNavigateToActionDashboard';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
+import CreateNewActionTearsheet from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import { refresh, usePaginatedActions } from 'in-automation/ActionCatalog/useActions';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
@@ -71,7 +71,6 @@ export default function ActionCatalog({
   const availableTags = [...new Set(actions?.data?.flatMap(({ tags }) => tags ?? []))];
   const totalHits = paginatedActions.data?.totalHits;
 
-  const navigateToActionDetails = useNavigateToActionDetails();
   const columnDefinitions: ColumnDefinition<Action>[] = getColumnDefinitions({ isUserActions: isUserActions });
   return (
     <ServerTablePresenter<Action, ServerTablePresenterProps<Action>>
@@ -89,12 +88,8 @@ export default function ActionCatalog({
         <>
           {role?.canConfigureAutomationActions && isUserActions && (
             <>
-              <Button kind="action" onClick={() => navigateToActionDetails()} icon="lib_openclose_add_circle_outline">
-                {t('in-automation:ActionCatalog.newAction')}
-              </Button>
               <Button kind="action" onClick={() => handleButtonClick({})} icon="lib_openclose_add_circle_outline">
-                {/* {t('in-automation:ActionCatalog.newAction')} */}
-                New action (Tear sheet)
+                {t('in-automation:ActionCatalog.newAction')}
               </Button>
             </>
           )}

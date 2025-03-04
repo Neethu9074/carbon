@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { SidePanel } from '@carbon/ibm-products';
 import React from 'react';
 
 import { RadioButton, Checkbox, FormGroup } from '@instana/components';
@@ -22,16 +23,13 @@ import useParameterForm, {
 import DynamicTagBasedPayloadConfigurator from 'in-automation/components/DynamicTagBasedPayloadConfigurator';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { ActionForm, MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
+import ParameterFormContext from 'in-automation/ActionCatalog/ParameterFormContext';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
-import SaveCancel from 'in-settings/components/SaveCancel';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { ACTION_TYPE } from 'in-automation/constants';
-import Form from 'in-components/form/binding/Form';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
-import Dialog from 'in-components/Dialog/Dialog';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -43,6 +41,9 @@ export interface ParameterDialogProps {
   id?: string;
   isNotEditable: boolean;
   ticketIdParameterExist: boolean;
+  openDialog: boolean;
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  onRequestToClose: () => void;
 }
 
 export default function ParameterDialog({
@@ -50,10 +51,14 @@ export default function ParameterDialog({
   setForm,
   id,
   isNotEditable,
-  ticketIdParameterExist
+  ticketIdParameterExist,
+  openDialog,
+  setOpenDialog,
+  onRequestToClose
 }: ParameterDialogProps) {
   const actionType = form.get('type').value;
   const parameters = form.get('parameters').value;
+
   const parameter = parameters.find(parameter => parameter.id === id);
 
   const [parameterForm, setParameterForm] = useParameterForm({ parameters, id });
@@ -65,23 +70,56 @@ export default function ParameterDialog({
   // IMPORTANT: Ansible actions are a special case where we want to allow the parameters to be editable EXCEPT for the name so we override isNotEditable so that everything is editable except for the name where we will disable the input using isAnsible flag
   const parmeterIsNotEditable = (isNotEditable && !isAnsible) || !role?.canConfigureAutomationActions;
 
-  function onSubmit(parameterForm: ParameterForm) {
-    doSubmit({ parameterForm, parameter, form, setForm, id });
+  let actions = [{}];
+  if (!parmeterIsNotEditable && role?.canConfigureAutomationActions) {
+    actions = [
+      {
+        kind: 'primary',
+        label: t('in-automation:actionHistory.saveButton'),
+        onClick: () => {
+          doSubmit({ parameterForm, setParameterForm, parameter, form, setForm, id, setOpenDialog });
+        }
+      },
+      {
+        label: t('in-automation:cancel'),
+        onClick: () => {
+          if (setOpenDialog) {
+            setOpenDialog(false);
+          }
+        },
+        kind: 'secondary'
+      }
+    ];
+  } else {
+    actions = [
+      {
+        label: t('in-automation:close'),
+        onClick: () => {
+          if (setOpenDialog) {
+            setOpenDialog(false);
+          }
+        },
+        kind: 'primary'
+      }
+    ];
   }
 
   return (
-    <Dialog
-      titleIconType={id ? 'lib_actions_edit' : 'lib_openclose_add'}
+    <SidePanel
+      open={openDialog}
+      includeOverlay
+      actions={actions}
+      size="md"
+      onRequestClose={onRequestToClose}
       title={id ? t('in-automation:ActionCatalog.editParameter') : t('in-automation:ActionCatalog.addParameter')}
-      onClose={close}
-      withoutBodyPadding
     >
       <div className={locals.parameterDialog}>
-        <Form
-          form={parameterForm}
-          setForm={form => setParameterForm(form as ParameterForm)}
-          formId="action-parameter-form"
-          onSubmit={form => onSubmit(form as ParameterForm)}
+        <ParameterFormContext.Provider
+          value={{
+            form: parameterForm,
+            setForm: setParameterForm,
+            rootPath: []
+          }}
         >
           <MetaDataSection
             isNotEditable={parmeterIsNotEditable}
@@ -92,14 +130,9 @@ export default function ParameterDialog({
           {type.value === 'vault' && <VaultSection isNotEditable={parmeterIsNotEditable} />}
           {type.value === 'dynamic' && <DynamicSection isNotEditable={parmeterIsNotEditable} />}
           {type.value !== 'dynamic' && <HiddenSection isNotEditable={parmeterIsNotEditable} />}
-          <SaveCancel
-            hasSaveButton={!parmeterIsNotEditable && role?.canConfigureAutomationActions}
-            form={parameterForm}
-            onClickCancelButton={close}
-          />
-        </Form>
+        </ParameterFormContext.Provider>
       </div>
-    </Dialog>
+    </SidePanel>
   );
 }
 
@@ -346,6 +379,7 @@ function DynamicSection({ isNotEditable }: SectionProps) {
       <div>
         <DynamicTagBasedPayloadConfigurator
           value={toViewModel(value.value)}
+          inAutomation
           disabled={isNotEditable}
           onChange={(viewModel: ViewModel) =>
             setForm(form => form.updateIn(['dynamic'], item => item.setValue(toFormModel(viewModel)).setTouched(true)))
@@ -357,25 +391,33 @@ function DynamicSection({ isNotEditable }: SectionProps) {
     </FormGroup>
   );
 }
-
 function doSubmit({
   parameterForm,
+  setParameterForm,
   parameter,
   form,
   setForm,
-  id
+  id,
+  setOpenDialog
 }: {
   form: ActionForm;
   setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
   id?: string;
   parameterForm: ParameterForm;
+  setParameterForm: React.Dispatch<React.SetStateAction<ParameterForm>>;
   parameter?: MappedParameter;
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  if (!parameterForm.hierarchyValid) {
+    setParameterForm(parameterForm.setTouched(true, { recurse: true }));
+    return;
+  }
   const parameterToSubmit = getParameterFromForm(parameterForm);
   const parameters = form.get('parameters').value;
+
   const updatedParameters = parameter
     ? parameters.map(p => (p.id === id ? { id: id, value: parameterToSubmit } : p))
     : [...parameters, { id: generateUniqueShortId(), value: parameterToSubmit }];
   setForm(form => form.updateIn(['parameters'], item => item.setValue(updatedParameters).setTouched(true)));
-  close();
+  setOpenDialog(false);
 }

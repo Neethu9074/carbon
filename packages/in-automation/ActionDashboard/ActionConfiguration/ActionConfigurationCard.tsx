@@ -34,8 +34,8 @@ import {
 } from 'in-automation/constants';
 import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import { getGitOperation, getGLOperation, getJiraOperation } from 'in-automation/utils/action';
+import { useIsNotEditableContext } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import { Di } from 'in-components/HorizontalDescriptionList/HorizontalDescriptionList';
-import { useIsNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import { getAnsibleFields } from 'in-automation/utils/actionField';
 import { Nullish } from 'in-types';

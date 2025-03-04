@@ -256,6 +256,7 @@
     "editParameter": "Edit parameter",
     "noParametersConfigured": "No parameters configured",
     "required": "Value required",
+    "viewparameter": "View Parameter",
     "hiddenParam": "Hidden",
     "valueType": "Value type",
     "displayName": "Display name",
