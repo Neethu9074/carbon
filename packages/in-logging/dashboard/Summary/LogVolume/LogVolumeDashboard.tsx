@@ -12,8 +12,8 @@ import { useObservable } from '@instana/hooks';
 // eslint-disable-next-line no-restricted-imports
 import { dashboardLogVolumePath } from 'in-logging/navigation/paths';
 import { bytesToLargerUnit } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/utils';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
-import { getEntityIdView } from 'in-settings/navigation/paths';
 import { getLogVolumeReport } from 'in-logging/api/logVolume';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -33,13 +33,12 @@ const placeholderTimeConfig = { to: null, windowSize: 1, autoRefresh: false };
 
 export default function LogVolumeDashboard() {
   const timeConfig = useTimeConfig();
+  const { createHrefToPath } = useNavigation();
   const [timePeriod, setTimePeriod] = useState<TimeConfig>(placeholderTimeConfig);
 
   useEffect(() => {
     setTimePeriod(timeConfig);
   }, [timeConfig]);
-
-  const logVolumeHrefToLogginHomepage = useObservable(getEntityIdView(dashboardLogVolumePath, ''), []);
 
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
 
@@ -49,7 +48,7 @@ export default function LogVolumeDashboard() {
           text: t('in-logging:dashboard.logVolume.logVolumeIcon'),
           kind: 'subtle',
           icon: 'lib_analyze',
-          href: logVolumeHrefToLogginHomepage || ''
+          href: createHrefToPath(dashboardLogVolumePath)
         }
       : undefined;
   const currentSecondsTimestamp = Math.floor(Date.now() / 1000);

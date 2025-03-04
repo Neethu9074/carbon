@@ -92,7 +92,7 @@ describe('LogVolumeDashboard', () => {
   it('renders icon when user has logging addon', () => {
     (useObservable as jest.Mock)
       .mockReturnValueOnce({ progress: { loading: false }, data: [] })
-      .mockReturnValueOnce(true);
+      .mockReturnValueOnce({ progress: { loading: false } });
 
     (role as any).canViewLogVolume = true;
 
