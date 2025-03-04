@@ -7,10 +7,8 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-// eslint-disable-next-line no-restricted-imports
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-// eslint-disable-next-line no-restricted-imports
-import Breadcrumbs from '../Breadcrumbs';
+import Breadcrumbs from 'in-logging/dashboard/Management/Breadcrumbs';
 
 jest.mock('in-stores/navigation/hooks/useNavigation', () => ({
   useNavigation: jest.fn()

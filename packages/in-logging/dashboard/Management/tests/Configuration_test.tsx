@@ -9,9 +9,8 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-// eslint-disable-next-line no-restricted-imports
-import Management from '../Management';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import Management from 'in-logging/dashboard/Management/Management';
 import { user } from 'in-stores/user';
 
 jest.mock('@instana/hooks', () => ({

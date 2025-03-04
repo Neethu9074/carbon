@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-// eslint-disable-next-line no-restricted-imports
 import {
   dashboardManagementPath,
   dashboardDeletePath,
@@ -11,7 +10,7 @@ import {
   loggingDashboardPath,
   useGenerateLinkToLogs,
   useLinkToLogs
-} from '../paths';
+} from 'in-logging/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { TagFilterExpression, TimeConfig } from 'in-types';

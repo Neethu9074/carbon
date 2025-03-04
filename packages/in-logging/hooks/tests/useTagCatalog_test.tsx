@@ -8,8 +8,7 @@ import { renderHook } from '@testing-library/react-hooks';
 
 import { useObservable } from '@instana/hooks';
 
-// eslint-disable-next-line no-restricted-imports
-import useTagCatalog from '../useTagCatalog';
+import useTagCatalog from 'in-logging/hooks/useTagCatalog';
 import { getTagCatalog } from 'in-logging/api/catalog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 

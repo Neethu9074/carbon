@@ -9,10 +9,9 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-// eslint-disable-next-line no-restricted-imports
-import useHasLogs from '../useHasLogs';
 import { TagFilterExpression, TimeConfig } from 'in-types';
 import hasLogs from 'in-logging/subscriptions/hasLogs';
+import useHasLogs from 'in-logging/hooks/useHasLogs';
 
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()

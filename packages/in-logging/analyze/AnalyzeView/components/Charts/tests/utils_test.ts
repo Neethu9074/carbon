@@ -4,8 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
-// eslint-disable-next-line no-restricted-imports
-import { getLogsChartConfig, getMetricConfig, getNextLogLevelForChart } from '../utils';
+import {
+  getLogsChartConfig,
+  getMetricConfig,
+  getNextLogLevelForChart
+} from 'in-logging/analyze/AnalyzeView/components/Charts/utils';
 import { EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { ChartedMetric } from 'in-components/AnalyzeView/StateManagement';
 import { LogGroupItem, TagFilterExpression } from 'in-types';

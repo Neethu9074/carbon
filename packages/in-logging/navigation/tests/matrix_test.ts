@@ -8,8 +8,7 @@ import {
   orderByMatrixParameter,
   tagFilterExpressionMatrixParameter
 } from 'in-applications/navigation/matrix';
-// eslint-disable-next-line no-restricted-imports
-import { alertCreated, alertId, dataSource, logIdMatrixParameter } from '../matrix';
+import { alertCreated, alertId, dataSource, logIdMatrixParameter } from 'in-logging/navigation/matrix';
 import { logsPath } from 'in-logging/navigation/paths';
 import { emptyArray } from 'in-services/fixedObjects';
 

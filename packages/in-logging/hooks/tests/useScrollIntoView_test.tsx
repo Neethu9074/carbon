@@ -6,8 +6,7 @@
 
 import { renderHook, act } from '@testing-library/react-hooks';
 
-// eslint-disable-next-line no-restricted-imports
-import useScrollIntoView from '../useScrollIntoView';
+import useScrollIntoView from 'in-logging/hooks/useScrollIntoView';
 
 describe('useScrollIntoView - deps tests', () => {
   let scrollIntoViewMock: jest.Mock;

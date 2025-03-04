@@ -9,14 +9,12 @@ import React from 'react';
 import { IconButton, Tooltip } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-// eslint-disable-next-line no-restricted-imports
-import RetentionPeriodDashboard from './RetentionPeriod/RetentionPeriodDashboard';
 // @ts-ignore
 import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/components/Charts/LogsDistributionChartSection';
-// eslint-disable-next-line no-restricted-imports
-import LogVolumeDashboard from './LogVolume/LogVolumeDashboard';
+import RetentionPeriodDashboard from 'in-logging/dashboard/Summary/RetentionPeriod/RetentionPeriodDashboard';
 import { LoggingAnalyzeContextWrapper } from 'in-logging/analyze/AnalyzeView/LoggingAnalyzeContext';
+import LogVolumeDashboard from 'in-logging/dashboard/Summary/LogVolume/LogVolumeDashboard';
 import { loggingDashboardPath, logsPathWithDataSource } from 'in-logging/navigation/paths';
 import { dataSourceConfigurations } from 'in-logging/analyze/AnalyzeView/utils/constants';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';

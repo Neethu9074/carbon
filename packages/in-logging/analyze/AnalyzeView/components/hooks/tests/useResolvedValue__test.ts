@@ -4,9 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
-// eslint-disable-next-line no-restricted-imports
-import { just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import {
   DOCKER_SNAPSHOT_ID,
@@ -17,14 +16,14 @@ import {
   LOG_CUSTOM_KEY_APPLICATION_IDS,
   LOG_RETENTION_TIME
 } from 'in-logging/queryBuilder';
-// eslint-disable-next-line no-restricted-imports
-import { resolveInfraLabel, default as useResolvedValue } from '../useResolvedValue';
-// eslint-disable-next-line no-restricted-imports
+import {
+  resolveInfraLabel,
+  default as useResolvedValue
+} from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedValue';
+import { timestampToLocaleDate } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import getApplication from 'in-applications/subscriptions/getApplication';
-// eslint-disable-next-line no-restricted-imports
 // @ts-expect-error
 import { getLabel } from 'in-sdk/snapshot';
-import { timestampToLocaleDate } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import { Application, LogTag, Result } from 'in-types';
 import { getSnapshot } from 'in-stores/snapshot';
 import { t } from 'in-i18n';

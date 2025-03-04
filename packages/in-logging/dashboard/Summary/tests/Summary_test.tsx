@@ -8,11 +8,9 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import React from 'react';
 
-// eslint-disable-next-line no-restricted-imports
 import { useObservable } from '@instana/hooks';
 
-// eslint-disable-next-line no-restricted-imports
-import Summary from '../Summary';
+import Summary from 'in-logging/dashboard/Summary/Summary';
 import { role } from 'in-stores/user';
 
 jest.mock('@instana/hooks', () => ({

@@ -15,9 +15,8 @@ import {
   LOG_CUSTOM_KEY_APPLICATION_IDS,
   LOG_RETENTION_TIME
 } from 'in-logging/queryBuilder';
-// eslint-disable-next-line no-restricted-imports
-import getApplication from 'in-applications/subscriptions/getApplication';
 import { timestampToLocaleDate } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
+import getApplication from 'in-applications/subscriptions/getApplication';
 // @ts-expect-error
 import { getLabel } from 'in-sdk/snapshot';
 import { Application, LogTag, Result } from 'in-types';

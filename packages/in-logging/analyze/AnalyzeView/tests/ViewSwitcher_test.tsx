@@ -8,8 +8,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-// eslint-disable-next-line no-restricted-imports
-import ViewSwitcher, { getTimelineUrlKeys } from '../ViewSwitcher';
+import ViewSwitcher, { getTimelineUrlKeys } from 'in-logging/analyze/AnalyzeView/ViewSwitcher';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { Location } from 'in-stores/navigation/types';
 

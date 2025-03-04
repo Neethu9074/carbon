@@ -30,7 +30,10 @@ import {
   LOG_STREAM_NAME
 } from 'in-logging/queryBuilder';
 // eslint-disable-next-line no-restricted-imports
-import useResolvedName, { getCustomKeyLabel, tagNameResolver } from '../useResolvedName';
+import useResolvedName, {
+  getCustomKeyLabel,
+  tagNameResolver
+} from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedName';
 import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
