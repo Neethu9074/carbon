@@ -13,7 +13,13 @@ import { Result } from '@instana/types';
 
 import { BusinessFlowMap } from 'in-bizops/subscriptions/getBusinessFlowMap';
 import { Canvas } from 'in-bizops/dashboards/summary/tabs/flowMap/Canvas';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { businessProcessDashboard } from 'in-bizops/navigation/paths';
 import Node from 'in-bizops/dashboards/summary/tabs/flowMap/Node';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { bizopsFlowMapLoadMore } from 'in-bizops/tracker';
+import { Location } from 'in-stores/navigation/types';
+import { t } from 'in-i18n';
 
 const Link = ({ link }: { link: ElkExtendedEdge }) => {
   if (!link.sections) {
@@ -58,9 +64,21 @@ export default function FlowMapPresenter({ mapData }: FlowMapPresenterProps) {
     setSelectedNodeId(nodeId);
   }
 
+  const location: Location = useLocation();
+  const businessProcessName: string =
+    getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
+    t('in-bizops:dashboards.summary.pageTitle');
+  const businessProcessId: string = getMatrixParameter(location, businessProcessDashboard, 'definitionId') ?? '';
+
   // TODO:  This currently fakes the pagination so we can get design feedback.  When ready for real data,
   // we just need to make a new subscription with the clicked node as the originNodeId
-  const onPaginate = () => {
+  const onPaginate = (nodeId: string) => {
+    bizopsFlowMapLoadMore({
+      processName: businessProcessName,
+      processId: businessProcessId,
+      activityId: nodeId,
+      path: location.pathname
+    });
     mapData?.data?.graph?.edges?.forEach(() => {});
     fakeNodes = fakeNodes.concat([
       {
@@ -133,14 +151,15 @@ export default function FlowMapPresenter({ mapData }: FlowMapPresenterProps) {
   if (!positions) return null;
 
   const nodeElements = positions.children?.map(node => (
-    (
     <Node
       key={node.id}
       selectedNodeId={selectedNodeId}
       handleNodeClick={handleNodeClick}
       node={node as BizOpsElkNode}
-      onPaginate={onPaginate} />
-  )
+      onPaginate={() => {
+        onPaginate(node.id);
+      }}
+    />
   ));
   const linkElements = positions.edges?.map(edge => <Link key={`link_${edge.id}`} link={edge} />);
 

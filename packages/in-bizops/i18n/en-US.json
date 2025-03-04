@@ -141,6 +141,12 @@
       }
     },
     "flowMap": {
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "zoomReset": "Zoom reset",
+      "count": "Count",
+      "errors": "Errors",
+      "latency": "Latency",
       "tabLabel": "Flow",
       "loadMore": "Load more"
     }

@@ -531,6 +531,8 @@ export const ALERTING_CANCEL_CLICKED = 'smartalert.cancel.clicked';
 
 // Business Monitoring Tracking
 // Segment
+export const BIZOPS_FLOW_MAP_LOAD_MORE = 'bizops.flow.map.load.more';
+
 export const BIZOPS_TAB_CLICK = 'bizops.tab.click';
 export const BIZOPS_PROCESSES_LIST_SELECT = 'bizops.processes.list.select';
 export const BIZOPS_PERSPECTIVES_LIST_SELECT = 'bizops.perspectives.list.select';

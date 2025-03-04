@@ -30,15 +30,15 @@ function ProcessNode({ name, metrics, onClick }: ProcessNodeProps) {
       </div>
       <div className={local.metricsContainer}>
         <div className={local.metricContainer}>
-          <Typography variant="label-01">Count</Typography>
+          <Typography variant="label-01">{t('in-bizops:dashboards.flowMap.count')}</Typography>
           <Typography variant="body-01">{metrics.count[0][1]}</Typography>
         </div>
         <div className={local.metricContainer}>
-          <Typography variant="label-01">Errors</Typography>
+          <Typography variant="label-01">{t('in-bizops:dashboards.flowMap.errors')}</Typography>
           <Typography variant="body-01">{metrics.errors[0][1]}</Typography>
         </div>
         <div className={local.metricContainer}>
-          <Typography variant="label-01">Latency</Typography>
+          <Typography variant="label-01">{t('in-bizops:dashboards.flowMap.latency')}</Typography>
           <Typography variant="body-01">{metrics.latency[0][1]}</Typography>
         </div>
       </div>
