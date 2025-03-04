@@ -295,7 +295,6 @@ export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
 );
 export const multiCloseEnabled = isFeatureFlagEnabled('multiCloseEnabled', false);
 export const resourceOptimizationActionsEnabled = isFeatureFlagEnabled('resourceOptimizationActionsEnabled', true);
-export const eventResourceActionsEnabled = isFeatureFlagEnabled('eventResourceActionsEnabled', false);
 export const analyzeRelatedInstancesButtonEnabled = isFeatureFlagEnabled('analyzeRelatedInstancesButtonEnabled', false);
 export const maxMetricsLimitForBeeinstanaEnabled = isFeatureFlagEnabled('maxMetricsLimitForBeeinstanaEnabled', false);
 export const serverSideInfraTagSearchEnabled = isFeatureFlagEnabled('serverSideInfraTagSearchEnabled', false);

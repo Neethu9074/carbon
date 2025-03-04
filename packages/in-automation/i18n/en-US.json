@@ -13,7 +13,6 @@
   "runAction": "Run action",
   "testAction": "Test action",
   "targetAgent": "Target agent",
-  "noTargetAgent": "There is no target agent available to run this action.",
   "triggeringAgent": "{{hostname}} (triggering agent)",
   "targetAgentDescription": "An Agent encapsulates 1..* Sensors, who in turn are able to raise Events to the Instana backend. A triggering Agent contains the Sensor that raised this particular Event.",
   "chosenToRun": "Run action {{actionName}}",

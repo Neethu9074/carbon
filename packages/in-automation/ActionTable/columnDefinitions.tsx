@@ -33,9 +33,11 @@ function NameColumn({ action }: { action: Action | ScoredAction }) {
   const name = action.name;
 
   return action.type === ACTION_TYPE.EXTERNAL ? (
-    <Link ellipsis href={action.name} external>
-      <span>{name}</span>
-    </Link>
+    <Tooltip content={name} delay={500} align="topLeft">
+      <Typography noWrap variant="body-regular">
+        {name}
+      </Typography>
+    </Tooltip>
   ) : (
     <WithSubscript subscript={ACTION_TRANSLATIONS[action.type]}>
       <Link
@@ -56,7 +58,6 @@ function NameColumn({ action }: { action: Action | ScoredAction }) {
 export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
   id: 'name',
   label: t('in-automation:name'),
-  ellipsis: true,
   getContent: action => <NameColumn action={action} />,
   width: 15,
   sortable: true
