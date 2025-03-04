@@ -38,11 +38,6 @@
 
   {{#if ibmCommonEnabled }}
      <script type="text/javascript" nonce="{{nonce}}">
-      // this solution was found by re-engineering https://tags.tiqcdn.com/utag/ibm/web/prod/utag.js.
-      // At the moment this is the simplest solution to or a work around, but it was not officially documented
-      // Once the new design on cookie consent is delivered, it will be removed, and
-      // the telium cookie banner will be used instead of the current Instana privacy consent dialog box.
-      document.cookie = "notice_close=true"; // Manually closing the cookie banner since we are accepting it from the privacy dialog.
       window._ibmAnalytics = {
          "settings": {
             "name": "instana",
