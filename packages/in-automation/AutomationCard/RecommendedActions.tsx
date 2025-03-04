@@ -21,26 +21,26 @@ import useServerTableUrlState, {
 import GenerateAIActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import CreatePolicyDialog from 'in-automation/AutomationCard/CreatePolicyDialog/CreatePolicyDialog';
+import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import DetailsModal1 from 'in-automation/ResourceOptimization/DetailsModal1';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
-import { TrackingFunction, useSegmentTracker } from 'in-automation/tracker';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-// import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { ScoredAction, TriggerSpecification } from 'in-automation/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
 import { getDocLinkFromFields } from 'in-automation/utils/actionField';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { TagsFilter } from 'in-automation/components/tableFilters';
+import { useSegmentTracker } from 'in-automation/tracker';
 import { ACTION_TYPE } from 'in-automation/constants';
 import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-// import DetailsModal from 'in-automation/ResourceOptimization/DetailsModal';
 import { hasError } from 'in-services/util/result';
 import { mapData } from 'in-services/util/result';
 import { role } from 'in-stores/user';
@@ -55,7 +55,7 @@ interface RecommendedActionsTableProps extends ServerTablePresenterProps<ScoredA
   volatileId: VolatileId;
   event: Event;
   trigger: Result<TriggerSpecification>;
-  runActionTrackerSegment: TrackingFunction;
+  // runActionTrackerSegment: TrackingFunction;
 }
 
 const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps> = {
@@ -63,94 +63,204 @@ const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>
   label: '',
   sortable: false,
   width: 17,
-  getContent(action, { volatileId, event, trigger, runActionTrackerSegment }) {
-    // const agentSnapShots = useTurboAgentSnapShots();
-    const isManualExternal =
-      action?.metadata?.ai &&
-      action?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' &&
-      action.type === ACTION_TYPE.EXTERNAL;
-    if (!isManualExternal) return null;
-    if (isManualExternal) {
-      if (!role?.canRunAutomationActions) return null;
+  getContent: (action, { volatileId, event, trigger }) => (
+    <ExecuteButton action={action} volatileId={volatileId} event={event} trigger={trigger} />
+  )
+  //getContent(action, { volatileId, event, trigger, runActionTrackerSegment }) {
+  //   const { entityId } = event;
+  //   const agentSnapShots = useTurboAgentSnapShots();
+  //   const agents = agentSnapShots?.data?.online ?? [];
+  //   const isManualExternal =
+  //     action?.metadata?.ai &&
+  //     action?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' &&
+  //     action.type === ACTION_TYPE.EXTERNAL;
+  //   if (!isManualExternal) return null;
+  //   if (isManualExternal) {
+  //     if (!role?.canRunAutomationActions) return null;
 
-      return (
+  //     return (
+  //       <Button
+  //         kind="action"
+  //         icon="lib_actions_play"
+  //         onClick={e => {
+  //           stopPropagationAndPreventDefault(e);
+  //           // addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+  //           addActiveDialog(<DetailsModal1 action={action} agents={agents} targetSnapshotId={entityId} />);
+  //         }}
+  //         noAutoMargin
+  //       >
+  //         {t('in-automation:ActionCatalog.run')}
+  //       </Button>
+  //     );
+  //   }
+  //   if (!role?.canRunAutomationActions && !role?.canConfigureAutomationPolicies) return null;
+  //   return (
+  //     <HorizontalFlexWrapper className={locals.rowActions}>
+  //       {action.type === ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
+  //         <div>
+  //           <Spacer horizontal="medium" />
+  //           <Link
+  //             target="_blank"
+  //             onClick={e => {
+  //               e.stopPropagation();
+  //               runActionTrackerSegment({
+  //                 actionName: action.name,
+  //                 actionType: action.type,
+  //                 fromRecommendedActions: true,
+  //                 aiOriginated: false
+  //               });
+  //             }}
+  //             href={getDocLinkFromFields(action.fields).value}
+  //           >
+  //             {t('in-automation:ActionCatalog.launch')}{' '}
+  //             <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
+  //           </Link>
+  //         </div>
+  //       )}
+  //       {action.type !== ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
+  //         <Button
+  //           kind="action"
+  //           icon={action.type === ACTION_TYPE.MANUAL ? 'lib_views_show' : 'lib_actions_play'}
+  //           onClick={e => {
+  //             // Track manual action viewed
+  //             stopPropagationAndPreventDefault(e);
+  //             addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+  //             if (action.type === ACTION_TYPE.MANUAL) {
+  //               runActionTrackerSegment({
+  //                 actionName: action.name,
+  //                 actionType: action.type,
+  //                 fromRecommendedActions: true,
+  //                 aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
+  //               });
+  //             }
+  //           }}
+  //           noAutoMargin
+  //         >
+  //           {action.type === ACTION_TYPE.MANUAL
+  //             ? t('in-automation:ActionCatalog.view')
+  //             : t('in-automation:ActionCatalog.run')}
+  //         </Button>
+  //       )}
+  //       {role?.canConfigureAutomationPolicies && action.type !== ACTION_TYPE.EXTERNAL && (
+  //         <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
+  //           <IconButton
+  //             kind="primaryv2"
+  //             type="lib_openclose_add_circle_outline"
+  //             onClick={e => {
+  //               stopPropagationAndPreventDefault(e);
+  //               addActiveDialog(<CreatePolicyDialog trigger={trigger} action={action} event={event} />);
+  //             }}
+  //           />
+  //         </Tooltip>
+  //       )}
+  //     </HorizontalFlexWrapper>
+  //   );
+  // }
+};
+
+function ExecuteButton({
+  action,
+  volatileId,
+  event,
+  trigger
+}: {
+  action: ScoredAction;
+  volatileId: VolatileId;
+  event: Event;
+  trigger: Result<TriggerSpecification>;
+}) {
+  const { runActionTrackerSegment } = useSegmentTracker();
+  const { entityId } = event;
+  const agentSnapShots = useTurboAgentSnapShots();
+  const agents = agentSnapShots?.data?.online ?? [];
+  const isManualExternal =
+    action?.metadata?.ai &&
+    // action?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' &&
+    action.type === ACTION_TYPE.EXTERNAL;
+  if (!isManualExternal) return null;
+  if (isManualExternal) {
+    if (!role?.canRunAutomationActions) return null;
+
+    return (
+      <Button
+        kind="action"
+        icon="lib_actions_play"
+        onClick={e => {
+          stopPropagationAndPreventDefault(e);
+          // addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+          addActiveDialog(
+            <DetailsModal1 action={action} agents={agents} eventId={event?.id} targetSnapshotId={entityId} />
+          );
+        }}
+        noAutoMargin
+      >
+        {t('in-automation:ActionCatalog.run')}
+      </Button>
+    );
+  }
+  if (!role?.canRunAutomationActions && !role?.canConfigureAutomationPolicies) return null;
+  return (
+    <HorizontalFlexWrapper className={locals.rowActions}>
+      {action.type === ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
+        <div>
+          <Spacer horizontal="medium" />
+          <Link
+            target="_blank"
+            onClick={e => {
+              e.stopPropagation();
+              runActionTrackerSegment({
+                actionName: action.name,
+                actionType: action.type,
+                fromRecommendedActions: true,
+                aiOriginated: false
+              });
+            }}
+            href={getDocLinkFromFields(action.fields).value}
+          >
+            {t('in-automation:ActionCatalog.launch')}{' '}
+            <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
+          </Link>
+        </div>
+      )}
+      {action.type !== ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
         <Button
           kind="action"
-          icon="lib_actions_play"
+          icon={action.type === ACTION_TYPE.MANUAL ? 'lib_views_show' : 'lib_actions_play'}
           onClick={e => {
+            // Track manual action viewed
             stopPropagationAndPreventDefault(e);
             addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+            if (action.type === ACTION_TYPE.MANUAL) {
+              runActionTrackerSegment({
+                actionName: action.name,
+                actionType: action.type,
+                fromRecommendedActions: true,
+                aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
+              });
+            }
           }}
           noAutoMargin
         >
-          {t('in-automation:ActionCatalog.run')}
+          {action.type === ACTION_TYPE.MANUAL
+            ? t('in-automation:ActionCatalog.view')
+            : t('in-automation:ActionCatalog.run')}
         </Button>
-      );
-    }
-    if (!role?.canRunAutomationActions && !role?.canConfigureAutomationPolicies) return null;
-    return (
-      <HorizontalFlexWrapper className={locals.rowActions}>
-        {action.type === ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
-          <div>
-            <Spacer horizontal="medium" />
-            <Link
-              target="_blank"
-              onClick={e => {
-                e.stopPropagation();
-                runActionTrackerSegment({
-                  actionName: action.name,
-                  actionType: action.type,
-                  fromRecommendedActions: true,
-                  aiOriginated: false
-                });
-              }}
-              href={getDocLinkFromFields(action.fields).value}
-            >
-              {t('in-automation:ActionCatalog.launch')}{' '}
-              <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
-            </Link>
-          </div>
-        )}
-        {action.type !== ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
-          <Button
-            kind="action"
-            icon={action.type === ACTION_TYPE.MANUAL ? 'lib_views_show' : 'lib_actions_play'}
+      )}
+      {role?.canConfigureAutomationPolicies && action.type !== ACTION_TYPE.EXTERNAL && (
+        <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
+          <IconButton
+            kind="primaryv2"
+            type="lib_openclose_add_circle_outline"
             onClick={e => {
-              // Track manual action viewed
               stopPropagationAndPreventDefault(e);
-              addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
-              if (action.type === ACTION_TYPE.MANUAL) {
-                runActionTrackerSegment({
-                  actionName: action.name,
-                  actionType: action.type,
-                  fromRecommendedActions: true,
-                  aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
-                });
-              }
+              addActiveDialog(<CreatePolicyDialog trigger={trigger} action={action} event={event} />);
             }}
-            noAutoMargin
-          >
-            {action.type === ACTION_TYPE.MANUAL
-              ? t('in-automation:ActionCatalog.view')
-              : t('in-automation:ActionCatalog.run')}
-          </Button>
-        )}
-        {role?.canConfigureAutomationPolicies && action.type !== ACTION_TYPE.EXTERNAL && (
-          <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
-            <IconButton
-              kind="primaryv2"
-              type="lib_openclose_add_circle_outline"
-              onClick={e => {
-                stopPropagationAndPreventDefault(e);
-                addActiveDialog(<CreatePolicyDialog trigger={trigger} action={action} event={event} />);
-              }}
-            />
-          </Tooltip>
-        )}
-      </HorizontalFlexWrapper>
-    );
-  }
-};
+          />
+        </Tooltip>
+      )}
+    </HorizontalFlexWrapper>
+  );
+}
 
 const columnDefinitions: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>[] = [
   nameColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
@@ -275,8 +385,9 @@ export default function RecommendedActions({
     defaultOrderDirection: 'DESC',
     defaultPageSize: 7
   });
+
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
-  const { runActionTrackerSegment } = useSegmentTracker();
+  // const { runActionTrackerSegment } = useSegmentTracker();
   const availableAiEngines = [...new Set(recommendedActions.data?.map(({ aiEngine }) => aiEngine))];
   const availableTags = [...new Set(recommendedActions.data?.flatMap(({ tags }) => tags ?? []))];
 
@@ -299,7 +410,7 @@ export default function RecommendedActions({
   return (
     <ServerTablePresenter<ScoredAction, RecommendedActionsTableProps>
       columnDefinitions={columnDefinitions}
-      runActionTrackerSegment={runActionTrackerSegment}
+      // runActionTrackerSegment={runActionTrackerSegment}
       volatileId={volatileId}
       event={event}
       trigger={trigger}

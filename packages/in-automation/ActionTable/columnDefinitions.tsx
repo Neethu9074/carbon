@@ -30,8 +30,7 @@ function NameColumn({ action }: { action: Action | ScoredAction }) {
   const { viewAIGenaratedActionTrackerSegment } = useSegmentTracker();
   const { location } = useNavigation();
   const isAIActions = location.matrix[actionCatalog]?.view && location.matrix[actionCatalog]?.view === 'ai';
-  const description = action.description ?? action.name;
-  const name = action.type === ACTION_TYPE.EXTERNAL ? description : action.name;
+  const name = action.name;
 
   return action.type === ACTION_TYPE.EXTERNAL ? (
     <Link ellipsis href={action.name} external>
