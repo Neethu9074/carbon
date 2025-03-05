@@ -8,9 +8,9 @@ const fs = require('fs');
 
 const { getReportingEndpointsFromButler } = require('../reportingEndpoints.js');
 const { getTenantInfoFromUiBackend } = require('../getTenantInfo.js');
+const { getBaseUrl, getRawBaseUrl } = require('../sharedUrlUtils.js');
 const featureFlagDefinitions = require('./featureFlags');
 const serverConfig = require('../../serverConfig.js');
-const { getBaseUrl, getRawBaseUrl } = require('../sharedUrlUtils.js');
 const { logger } = require('../../logging');
 const cache = require('../loadingCache').createLoadingCache({
   ttl: serverConfig.instanactlCockroachDb.cacheExpiry || 60000
@@ -26,11 +26,7 @@ exports.getButlerBaseUrl = () => Promise.resolve(serverConfig.butlerBaseUrl);
 
 exports.getUiBackendBaseUrl = (tenant, unit) => Promise.resolve(getUiBackendBaseUrl(tenant, unit));
 
-exports.getBaseUrl = (tenant, unit) =>
-  Promise.resolve(
-    getBaseUrl,
-    serverConfig.clientConfig.tenantUnitDomainSuffix(tenant, unit, serverConfig.clientConfig)
-  );
+exports.getBaseUrl = (tenant, unit) => Promise.resolve(getBaseUrl(tenant, unit, serverConfig.clientConfig));
 
 exports.getButlerDomain = (tenant, unit) => Promise.resolve(getButlerDomain(tenant, unit));
 
