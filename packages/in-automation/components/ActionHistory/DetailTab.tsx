@@ -209,7 +209,8 @@ export default function DetailTab({
       value: (
         <Ul framed={false}>
           {(() => {
-            const hostsLimit = (metadata?.find(data => data.name === 'hostsLimit')?.value ?? '').split(',');
+            const rawValue = metadata?.find(data => data.name === 'hostsLimit')?.value ?? '';
+            const hostsLimit = rawValue ? rawValue.split(',') : [];
             return hostsLimit.length > 0 ? (
               hostsLimit.map(host => (
                 <Li
