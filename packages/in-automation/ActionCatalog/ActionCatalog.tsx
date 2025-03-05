@@ -183,7 +183,7 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
             )}
             {isUserActions && (
               <MoreMenuButton
-                disabled={isNotEditable(action, false)}
+                disabled={isNotEditable(action, false) && action.type !== ACTION_TYPE.ANSIBLE}
                 icon="lib_actions_delete"
                 onClick={() => showConfirmationDialog(action)}
               >
