@@ -22,6 +22,7 @@ import {
 import { chartColors, carbonAlert, carbonCategorical } from 'in-themes/chartColors';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
+import AlertingChart from 'in-alerting/components/Chart/AlertingChart';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { hexToRGBA } from 'in-services/formatters/color';
 import { lighten } from 'in-services/formatters/color';
@@ -166,7 +167,7 @@ function generateTimeframe(windowSize) {
 }
 
 export default {
-  title: 'Alert chart rendering'
+  component: AlertingChart
 };
 
 export function StaticThresholdWithPredictions() {

@@ -1,0 +1,26 @@
+import { Meta, Story, Controls } from '@storybook/blocks';
+import * as DropdownStories from './Dropdown.stories';
+
+<Meta of={DropdownStories} />
+
+## Dropdown
+
+An alerting area specific `Dropdown` component used select one out of many items. This component should only be used within the alerting product area. It should furthermore not be used for any navigational use cases.
+
+Check out `MoreMenu` for a ready-made solution or `Combobox` which allows custom combobox-like implementations with good default UI/UX.
+
+<Story of={DropdownStories.Default} />
+
+## Triggering onChange and handling duplicates:
+
+* When selecting the **currently selected** item, this component **ignores** to call the onChange callback.
+* When there are duplicated values, it **will not switch** to a different entry when the **value was equal**.
+
+You can test this by watching the results in Storybook's Action addon tab.
+
+<Story of={DropdownStories.OnChange} />
+
+
+### Props
+
+<Controls />

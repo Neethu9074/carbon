@@ -11,9 +11,10 @@ module.exports = {
     {
       directory: '../../storybook',
       titlePrefix: 'Getting Started',
-      files: '*.stories.mdx'
+      files: '*.mdx'
     },
-    '../../packages/**/*.(story|stories).@(js|jsx|ts|tsx|mdx)'
+    '../../packages/**/*.@(mdx)',
+    '../../packages/**/*.(story|stories).@(js|jsx|ts|tsx)'
   ],
   staticDirs: ['../public'],
   core: {

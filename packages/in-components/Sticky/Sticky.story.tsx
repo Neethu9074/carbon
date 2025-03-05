@@ -12,7 +12,7 @@ const headerLevel1 = <div style={{ height: `60px`, background: '#AA3939' }}>Head
 const headerLevel2 = <div style={{ height: `60px`, background: '#AA6C39' }}>Header Level 2</div>;
 
 export default {
-  title: 'Sticky'
+  component: Sticky
 };
 
 export function SingleHeader() {

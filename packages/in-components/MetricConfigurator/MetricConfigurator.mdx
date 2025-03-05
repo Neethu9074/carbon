@@ -1,0 +1,51 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as MetricConfiguratorStories from './MetricConfigurator.stories';
+
+## MetricConfigurator
+
+<Meta of={MetricConfiguratorStories} />
+
+export const options = [
+  {
+    metric: 'beaconCount',
+    label: 'This is intentionally a very very long name',
+    description: 'How many beacons matching a filter were recorded.',
+    aggregations: ['SUM']
+  },
+  {
+    metric: 'beaconDuration',
+    label: 'Beacon duration',
+    description: 'The recorded duration for a beacon.',
+    aggregations: ['P99', 'MEAN', 'P25']
+  },
+  {
+    metric: 'pageLoads',
+    label: 'Page loads',
+    description:
+      'How often a full page load occurred. This typically requires retrieval of an HTML document from a server (unless cached) and then the full onLoad cycle.',
+    aggregations: ['SUM']
+  }
+];
+
+export function generateOptions() {
+  let result = [];
+  for (let index = 0; index < 15000; index++) {
+    result.push({
+      metric: 'beaconDuration' + index,
+      label: 'Beacon duration ' + index,
+      description: 'The recorded duration for a beacon.',
+      aggregations: ['P99', 'MEAN', 'P25', 'MIN', 'MAX', 'P90', 'SUM', 'P50', 'P95', 'P98', 'P75']
+    });
+  }
+  return result;
+}
+
+<Canvas>
+  <Story of={MetricConfiguratorStories.Default} />
+</Canvas>
+
+export const aLotOfOptions = generateOptions();
+
+<Canvas>
+  <Story of={MetricConfiguratorStories.ExampleWith15KMetrics} />
+</Canvas>

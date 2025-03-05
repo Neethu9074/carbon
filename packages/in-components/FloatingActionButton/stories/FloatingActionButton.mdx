@@ -1,0 +1,87 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
+
+import * as FloatingActionButtonStories from './FloatingActionButton.stories';
+import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
+import EmbeddedImage from 'in-components/FloatingActionButton/stories/EmbeddedImage';
+import Clearfix from 'in-components/FloatingActionButton/stories/Clearfix';
+
+import alignment from 'in-components/FloatingActionButton/stories/assets/alignment.png';
+import expanded from 'in-components/FloatingActionButton/stories/assets/expanded.png';
+import extended from 'in-components/FloatingActionButton/stories/assets/extended.png';
+import iconOnly from 'in-components/FloatingActionButton/stories/assets/iconOnly.png';
+import layout from 'in-components/FloatingActionButton/stories/assets/layout.png';
+import placement from 'in-components/FloatingActionButton/stories/assets/placement.png';
+
+<Meta component={FloatingActionButton} />
+
+## Floating Action Button
+
+We use the Floating Action Button for primary actions that apply to a page / entity. A good example is “Create SLI” or “Add Alert”.
+
+<Canvas>
+  <Story of={FloatingActionButtonStories.Standard} />
+</Canvas>
+
+# Types
+
+## Icon-only Floating Action Button
+
+<EmbeddedImage floatRight src={iconOnly} />
+
+- has an icon
+- does not have a label
+
+<Clearfix />
+
+<Story of={FloatingActionButtonStories.WithIcon} />
+
+## Extended Floating Action Button
+
+<EmbeddedImage floatRight src={extended} />
+
+- can have an icon
+- has a text label
+
+<Clearfix />
+
+<Story of={FloatingActionButtonStories.WithIconAndText} />
+
+## Floating Action Group Button
+
+- use to group similar actions (eg. add actions)
+
+<EmbeddedImage floatRight src={iconOnly} />
+
+- Collapsed
+
+<Clearfix />
+
+<EmbeddedImage floatRight src={expanded} />
+
+- Expanded
+
+<Clearfix />
+
+# Placement
+
+## Floating Action Button Placement
+<EmbeddedImage floatRight src={layout} />
+
+- Floating Action Buttons are aligned to the bottom right with a 24 dp margin from the viewport boundaries
+- Any scrollable content needs an additional 96 dp padding at the bottom to allow scrolling past the floating action button
+
+<Clearfix />
+
+<EmbeddedImage floatRight src={alignment} />
+
+- A maximum of 2 Extended Floating Action Buttons and 1 Icon-only Floating Action Button can  be displayed at the same time
+- The right most Floating Action Button is the primary action for the current view
+
+<Clearfix />
+
+<EmbeddedImage floatRight src={placement} />
+
+- For non-scrollable content (eg. maps, canvas elements etc.) additional controls / interaction elements should not be placed in the area reserved for Floating Action Buttons. See image to the right for designated map control areas.
+
+<Clearfix />
+

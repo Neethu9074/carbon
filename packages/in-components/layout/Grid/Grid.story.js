@@ -8,7 +8,8 @@ import React from 'react';
 import { Row, Col } from 'in-components/layout/Grid';
 
 export default {
-  title: 'Grid'
+  component: Row,
+  subcomponents: { Col }
 };
 
 export function MixedGrid() {

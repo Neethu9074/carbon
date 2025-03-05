@@ -1,0 +1,22 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as TagSelectorOverlayStories from './TagSelectorOverlay.stories';
+
+<Meta of={TagSelectorOverlayStories} />
+
+## Tag Selector
+
+This overlay can be used within the query builder to allow selection of a tag by navigating through
+the TagTree.
+
+<Canvas>
+  <Story of={TagSelectorOverlayStories.Default} />
+</Canvas>
+
+## Conjunction Tag Selector
+
+This overlay can be used within the query builder to allow selection of a
+conjunction, braces or to even clear the selection.
+
+<Canvas>
+  <Story of={TagSelectorOverlayStories.ConjunctionTagSelectorOverlay} />
+</Canvas>

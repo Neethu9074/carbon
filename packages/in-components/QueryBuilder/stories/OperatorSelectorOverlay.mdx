@@ -1,0 +1,13 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as OperatorSelectorOverlayStories from './OperatorSelectorOverlay.stories';
+
+<Meta of={OperatorSelectorOverlayStories} />
+
+## Conjunction Selector
+
+This overlay can be used within the query builder to allow selection of a
+conjunction, braces or to even clear the selection.
+
+<Canvas>
+  <Story of={OperatorSelectorOverlayStories.Default} />
+</Canvas>

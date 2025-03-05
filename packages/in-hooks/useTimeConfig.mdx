@@ -1,0 +1,39 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="in-hooks/useTimeConfig" />
+
+## Accessing the Global Time Configuration
+
+You can use the `useTimeConfig` hook to access the global time configuration. It is **guaranteed** that `timeConfig` is
+available for the initial render.
+
+## Import
+
+```js
+import useTimeConfig from 'in-hooks/useTimeConfig';
+```
+
+## Best-Practice Usage
+
+```js
+import React from 'react';
+
+import useTimeConfig from 'in-hooks/useTimeConfig';
+
+function MyComponent() {
+  const timeConfig = useTimeConfig();
+
+  return (
+    …
+  )
+}
+```
+
+## FAQ
+
+### Why shouldn't we access the time configuration via `useObservable`?
+
+In the past we accessed the time configuration via `connectTo`. It is only natural to assume that `useObservable`
+should now be used. This continues to work, but usage is now discouraged. `useTimeConfig` leverages React's context
+mechanism under the hood which causes global time configuration updates to populate more efficiently (with fewer
+re-renders) through the React tree.
