@@ -10,6 +10,7 @@ import { applyResets } from 'in-stores/navigation/urlParameterResets';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
+import { formatPathWithTU } from 'in-services/formatters/url';
 import { Location } from 'in-stores/navigation/types';
 import history from 'in-stores/navigation/history';
 import { ineum } from 'in-services/tracking/ineum';
@@ -56,7 +57,7 @@ export function getModifiedUrl(currentLocation: Location, modifyLocation: Locati
   const newLocation = cloneLocation(currentLocation);
   modifyLocation(newLocation);
   applyResets(currentLocation, newLocation);
-  return '/#' + stringify(newLocation);
+  return formatPathWithTU(`/#${stringify(newLocation)}`);
 }
 
 /**

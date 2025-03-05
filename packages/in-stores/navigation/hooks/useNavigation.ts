@@ -16,6 +16,7 @@ import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import translate from 'in-stores/navigation/routing/translate';
 import { Location } from 'in-stores/navigation/types';
+import { formatPathWithTU } from 'in-services/formatters/url';
 
 interface UseNavigationResult {
   /**
@@ -92,7 +93,7 @@ function navigate(history: History, current: Location, target: Location, replace
 
 function createHref(current: Location, target: Location): string {
   applyResets(current, target);
-  return `/#${stringify(target)}`;
+  return formatPathWithTU(`/#${stringify(target)}`);
 }
 
 function goToPath(history: History, current: Location, path: string): void {

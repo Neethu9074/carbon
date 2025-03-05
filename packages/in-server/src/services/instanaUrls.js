@@ -14,7 +14,8 @@ exports.header = {
 };
 
 exports.isDefaultUrlFormat = function isDefaultUrlFormat() {
-  return serverConfig.urlFormat === sharedUrlUtils.subdomainUrlFormat;
+  const urlFormat = serverConfig.urlFormat ?? sharedUrlUtils.subdomainUrlFormat;
+  return urlFormat === sharedUrlUtils.subdomainUrlFormat;
 };
 
 /**
