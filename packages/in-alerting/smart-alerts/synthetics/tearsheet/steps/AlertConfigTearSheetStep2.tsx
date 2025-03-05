@@ -7,7 +7,10 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
+import { Spacer } from '@instana/components';
+
 import TimeThresholdPicker from 'in-alerting/smart-alerts/synthetics/tearsheet/components/TimeThresholdPicker';
+import GracePeriodWrapper from 'in-alerting/smart-alerts/components/tearSheet/GracePeriodWrapper';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { t } from 'in-i18n';
 
@@ -27,6 +30,8 @@ export default function AlertConfigTearSheetStep2({ form, updateForm }: AlertCon
       >
         <TimeThresholdPicker form={form} updateForm={updateForm} />
       </TearSheetStepTitleWrapper>
+      <Spacer size="xlarge" />
+      <GracePeriodWrapper form={form} updateForm={updateForm} />
     </div>
   );
 }

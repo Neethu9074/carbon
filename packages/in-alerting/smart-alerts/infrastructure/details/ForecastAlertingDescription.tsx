@@ -6,8 +6,8 @@
 
 import React from 'react';
 
+import { SvgIcon, Stack } from '@instana/components';
 import { ForecastingConfig } from '@instana/types';
-import { SvgIcon } from '@instana/components';
 
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { Nullish } from 'in-types';
@@ -24,21 +24,18 @@ export default function ForecastAlertingDescription({ forecastingConfig }: Forec
   }
 
   return (
-    <div className={locals.container}>
+    <Stack direction="horizontal" align="center" gap="disabled">
       <SvgIcon className={locals.icon} type="lib_openTelemetry" />
-      <div>
-        <span className={locals.label}>
-          <Trans
-            i18nKey="in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.summary"
-            values={{
-              fitTimeframe: formatTime(forecastingConfig.fitTimeframe),
-              forecastTimeframe: formatTime(forecastingConfig.forecastTimeframe)
-            }}
-          />
-        </span>
-        <p>{}</p>
+      <div className={locals.label}>
+        <Trans
+          i18nKey="in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.summary"
+          values={{
+            fitTimeframe: formatTime(forecastingConfig.fitTimeframe),
+            forecastTimeframe: formatTime(forecastingConfig.forecastTimeframe)
+          }}
+        />
       </div>
-    </div>
+    </Stack>
   );
 }
 

@@ -189,13 +189,14 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleTimeThreshold')}
         useMaxAvailableHeight={false}
-        bodyWithoutPadding
         openByDefault
         darkFrame
       >
-        <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
-        <GracePeriodDescription gracePeriod={gracePeriod} />
-        <ForecastAlertingDescription forecastingConfig={forecastingConfig} />
+        <Stack gap="large">
+          <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
+          <GracePeriodDescription gracePeriod={gracePeriod} />
+          <ForecastAlertingDescription forecastingConfig={forecastingConfig} />
+        </Stack>
       </ExpandableLightCard>
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleAlertChannels')}

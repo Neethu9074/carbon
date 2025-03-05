@@ -154,12 +154,13 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.logs.alertDetails.alertConfigurationTitleTimeThreshold')}
         useMaxAvailableHeight={false}
-        bodyWithoutPadding
         openByDefault
         darkFrame
       >
-        <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
-        <GracePeriodDescription gracePeriod={gracePeriod} />
+        <Stack gap="large">
+          <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
+          <GracePeriodDescription gracePeriod={gracePeriod} />
+        </Stack>
       </ExpandableLightCard>
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.logs.alertDetails.alertConfigurationTitleAlertChannels')}

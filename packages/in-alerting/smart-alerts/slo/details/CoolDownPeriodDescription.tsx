@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, Stack } from '@instana/components';
 
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
@@ -21,7 +21,7 @@ export default function CoolDownPeriodDescription({ coolDownPeriod }: CoolDownPe
   const formattedTimeToFailure = formatDurationAccurately(coolDownPeriod, 60000, false);
   if (!coolDownPeriod) return <></>;
   return (
-    <div className={locals.container}>
+    <Stack direction="horizontal" align="center" gap="disabled">
       <SvgIcon className={locals.icon} type="lib_datetime_timer" />
       <div>
         <span className={locals.label}>
@@ -30,6 +30,6 @@ export default function CoolDownPeriodDescription({ coolDownPeriod }: CoolDownPe
           })}
         </span>
       </div>
-    </div>
+    </Stack>
   );
 }

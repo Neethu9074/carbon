@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { ServiceLevelsAlertConfigWithMetadata } from '@instana/types';
+import { Stack } from '@instana/components';
 
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import CoolDownPeriodDescription from 'in-alerting/smart-alerts/slo/details/CoolDownPeriodDescription';
@@ -51,12 +52,13 @@ export default function AlertConfiguration({ alertConfig }: AlertConfigurationPr
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.slo.details.timeThresholdHeader')}
         useMaxAvailableHeight={false}
-        bodyWithoutPadding
         openByDefault
         darkFrame
       >
-        <TimeThresholdDescription timeThreshold={{ ...timeThreshold, type: 'violationsInSequence' }} />
-        <CoolDownPeriodDescription coolDownPeriod={timeThreshold.expiry} />
+        <Stack gap="large">
+          <TimeThresholdDescription timeThreshold={{ ...timeThreshold, type: 'violationsInSequence' }} />
+          <CoolDownPeriodDescription coolDownPeriod={timeThreshold.expiry} />
+        </Stack>
       </ExpandableLightCard>
 
       <ExpandableLightCard

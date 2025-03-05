@@ -12,6 +12,7 @@ import {
   ThresholdConfig,
   isAdaptiveBaselineConfig
 } from '@instana/types';
+import { Stack } from '@instana/components';
 
 import {
   chartViewConfig24hours,
@@ -161,12 +162,13 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.mobileApp.alertDetails.alertConfigurationTitleTimeThreshold')}
         useMaxAvailableHeight={false}
-        bodyWithoutPadding
         openByDefault
         darkFrame
       >
-        <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
-        <GracePeriodDescription gracePeriod={gracePeriod} />
+        <Stack gap="large">
+          <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
+          <GracePeriodDescription gracePeriod={gracePeriod} />
+        </Stack>
       </ExpandableLightCard>
 
       <ExpandableLightCard

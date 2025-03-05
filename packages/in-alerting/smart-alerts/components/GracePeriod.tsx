@@ -13,8 +13,6 @@ import { formatDurationAccurately } from 'in-services/formatters/date';
 import { days, minutes, hours } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/components/GracePeriod.mless';
-
 type DropdownItem = { value: string; label: string };
 interface GracePeriodProps {
   form: MapForm<any>;
@@ -33,18 +31,16 @@ export default function GracePeriod({ form, updateForm }: GracePeriodProps) {
   };
 
   return (
-    <div className={locals.dropdownContainer}>
-      <CarbonDropdown
-        id="grace-period-dropdown"
-        items={gracePeriodOptions}
-        selectedItem={gracePeriodOptions.find(option => option.value === gracePeriod?.toString())}
-        itemToString={item => (item ? item.label : '')}
-        onChange={handleGracePeriodChange}
-        size="sm"
-        label={t('in-alerting:smartAlerts.components.gracePeriod.label')}
-        titleText={t('in-alerting:smartAlerts.components.gracePeriod.description')}
-      />
-    </div>
+    <CarbonDropdown
+      id="grace-period-dropdown"
+      items={gracePeriodOptions}
+      selectedItem={gracePeriodOptions.find(option => option.value === gracePeriod?.toString())}
+      itemToString={item => (item ? item.label : '')}
+      onChange={handleGracePeriodChange}
+      size="sm"
+      label={t('in-alerting:smartAlerts.components.gracePeriod.label')}
+      titleText={''}
+    />
   );
 }
 

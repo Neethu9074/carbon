@@ -21,7 +21,6 @@ import { fromBackendModel } from 'in-components/QueryBuilder/transformation/form
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
-import { formatDurationAccurately } from 'in-services/formatters/date';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import ListTitle from 'in-components/lists/Title';
 import { days } from 'in-services/time';
@@ -33,7 +32,7 @@ export interface AlertThresholdInfosProps {
   thresholdType: string;
   failureThreshold: string;
   aggregation: string;
-  gracePeriod?: string;
+  gracePeriod?: number;
 }
 
 /**
@@ -59,9 +58,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Synth
       failureCount: timeThreshold.violationsCount
     }),
     aggregation: t('in-alerting:smartAlerts.synthetics.details.scope.perLocation.shortText'),
-    gracePeriod: t('in-alerting:smartAlerts.synthetics.details.gracePeriodValue', {
-      gracePeriodValue: formatDurationAccurately(gracePeriod, 60000, false)
-    })
+    gracePeriod: gracePeriod
   };
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(tagSuggestionTimeConfig);
   return (

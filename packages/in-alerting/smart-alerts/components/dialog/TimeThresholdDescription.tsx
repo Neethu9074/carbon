@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, Stack } from '@instana/components';
 
 import { timeThresholdLabels } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
@@ -20,13 +20,13 @@ interface TimeThresholdDescriptionProps {
 }
 export default function TimeThresholdDescription({ timeThreshold, granularity = 1 }: TimeThresholdDescriptionProps) {
   return (
-    <div className={locals.container}>
+    <Stack direction="horizontal" align="center" gap="disabled">
       <SvgIcon className={locals.icon} type={getIconType(timeThreshold.type)} />
-      <div>
-        <span className={locals.label}>{timeThresholdLabels[timeThreshold.type]}</span>
-        <p>{getDescription(timeThreshold, granularity)}</p>
-      </div>
-    </div>
+      <Stack gap="disabled">
+        <div className={locals.label}>{timeThresholdLabels[timeThreshold.type]}</div>
+        <div>{getDescription(timeThreshold, granularity)}</div>
+      </Stack>
+    </Stack>
   );
 }
 
