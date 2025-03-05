@@ -77,9 +77,9 @@ Object.keys(instana.dev.storeStates).forEach(key => {
 ## Connecting local UI client to Remote, Self-Hosted installation (Fyre)
 
 
-Here are some additional setup and troubleshooting steps for hooking up a locally-run UI client to a remote installation, such as a tenant unit hosted on IBM Fyre systems. 
+Here are some additional setup and troubleshooting steps for hooking up a locally-run UI client to a remote installation, such as a tenant unit hosted on IBM Fyre systems.
 
-This example is written given a backend that's been deployed to `instana.apps.leaps.cp.fyre.ibm.com`. Tenants are a logical grouping of 1 or more units with shared processing components. If a tenant is registered with the name `tenant0` and contains the unit `unit0`, then a k8s-hosted remote UI backend will likely be in the format `unit0-tenant0.instana.apps.leaps.cp.fyre.ibm.com`. 
+This example is written given a backend that's been deployed to `instana.apps.leaps.cp.fyre.ibm.com`. Tenants are a logical grouping of 1 or more units with shared processing components. If a tenant is registered with the name `tenant0` and contains the unit `unit0`, then a k8s-hosted remote UI backend will likely be in the format `unit0-tenant0.instana.apps.leaps.cp.fyre.ibm.com`.
 For on-prem and single unit docker envs, this format may not be used, so confirm that you have the correct unit and tenant names with the env owner.
 
 To connect a local ui-client you will need to prefix `local-instana` to the tenant units URL like this: `local-instana.unit0-tenant0.instana.apps.clusername.cp.fyre.ibm.com`.
@@ -112,7 +112,7 @@ To connect a local ui-client you will need to prefix `local-instana` to the tena
 
 ## Connecting local UI client to Heliconia environment
 
-Similar to the above case where you are connecting your locally built ui to a remote self hosted fyre environment, you can connect to the new Heliconia environment backend (eventual pink replacement).  
+Similar to the above case where you are connecting your locally built ui to a remote self hosted fyre environment, you can connect to the new Heliconia environment backend (eventual pink replacement).
 
 - Add an local-instana entry with the base domain for heliconia to your `/etc/hosts` file if it is not already there :
 ```sh
@@ -125,3 +125,8 @@ sudo sh -c 'echo "127.0.0.1 local-instana.instanatest.rocks" >> /etc/hosts'
   - Unit? `unit1`
 - Alternatively, you can select in the `Environment?` question the environment `K8s Test (heliconia)` or run `TARGET=heliconia yarn run dev` as a short cut.
 - After a minute, a window should open in your browser for `https://local-instana.instanatest.rocks:4000/`, terminal output should clear, and it should display that same url and that everything is ok (No issues found.)...(or not).
+
+## Having trouble to access Pink UI
+Sometimes, when accessing the Pink UI, you may encounter the "Ooops" screen. Try one of the following approaches to see if the issue can be resolved:
+1. Sign in directly via https://test-instana.pink.instana.rocks/auth/signIn?returnUrl=https://test-instana.pink.instana.rocks/.
+2. Run TARGET=test yarn dev in ui-client, which should bring up https://local-instana.pink.instana.rocks:4000/#/home (or you can open it manually). Use the Pink UI username and password to log in. Then in the same browser window, open https://test-instana.pink.instana.rocks/.
