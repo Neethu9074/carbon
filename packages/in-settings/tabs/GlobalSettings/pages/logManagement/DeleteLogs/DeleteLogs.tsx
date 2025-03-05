@@ -29,11 +29,11 @@ import {
 } from 'in-services/tracking/tracking';
 import { deleteLogsLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 // eslint-disable-next-line no-restricted-imports
-import { addSecondsIfValidFormat, DeleteLogsRequest } from './utils';
-// eslint-disable-next-line no-restricted-imports
 import { ConfirmSelectionPage } from './Modal/TabPages/ConfirmSelectionPage';
 // eslint-disable-next-line no-restricted-imports
 import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
+// eslint-disable-next-line no-restricted-imports
+import { addSecondsIfValidFormat, DeleteLogsRequest } from './utils';
 // eslint-disable-next-line no-restricted-imports
 import { returnNumberLogsToDeleteMock } from './Modal/mockBackEnd';
 // eslint-disable-next-line no-restricted-imports
@@ -51,12 +51,13 @@ import TimePicker from 'in-components/form/TimePicker/TimePicker';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { deleteLogsV3Enabled } from 'in-services/featureFlags';
 import { parseDateTime } from 'in-services/formatters/date';
+import { deleteLogs } from 'in-logging/api/deleteLogs';
 import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
+import { activeLocale } from 'in-i18n';
 import { user } from 'in-stores/user';
 
 import locals from './DeleteLogs.mless';
-import { deleteLogs } from 'in-logging/api/deleteLogs';
 
 export const useMock = true;
 const forceError = false;
@@ -490,6 +491,7 @@ function DeleteLogsModal({
                       disabled={isDeleting}
                       value={new Date(inputValues.endDate as string)}
                       onChange={e => setInputValues.endDate(e as string[])}
+                      locale={activeLocale}
                     />
                   </section>
                   {validationMessages.endDate && (

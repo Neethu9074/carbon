@@ -32,6 +32,7 @@ import { getMetricTemplates } from 'in-logging/api/metricTemplates';
 import TimePicker from 'in-components/form/TimePicker/TimePicker';
 import { dashboardDeletePath } from 'in-logging/navigation/paths';
 import { getTagCatalog } from 'in-logging/api/catalog';
+import { activeLocale } from 'in-i18n';
 import { Progress } from 'in-types';
 
 import locals from './SelectLogsPage.mless';
@@ -75,6 +76,7 @@ export const SelectLogsPage = ({
               hasError={!!validationMessages.startDate}
               value={new Date(inputValues.startDate as string)}
               onChange={e => setInputValues.startDate(e as string[])}
+              locale={activeLocale}
             />
           </section>
           {validationMessages.startDate && <ValidationBlock>{validationMessages.startDate}</ValidationBlock>}
@@ -97,6 +99,7 @@ export const SelectLogsPage = ({
           <span>{deleteLogsLocalisationStrings.deletionUntilDate}</span>
           <section style={{ marginTop: '0.5rem' }}>
             <CarbonDateInput
+              locale={activeLocale}
               hasError={!!validationMessages.endDate}
               value={new Date(inputValues.endDate as string)}
               onChange={e => setInputValues.endDate(e as string[])}

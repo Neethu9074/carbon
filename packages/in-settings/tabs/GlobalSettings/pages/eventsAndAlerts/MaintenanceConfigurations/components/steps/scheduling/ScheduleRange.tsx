@@ -22,7 +22,7 @@ import { getSingle } from 'in-services/settings/settings';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import { t } from 'in-i18n';
+import { t, activeLocale } from 'in-i18n';
 
 import locals from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm.mless';
 
@@ -60,6 +60,7 @@ export default function ScheduleRange({ form, setValue, setFormRRule, rrule }: S
               value={dateDisplayed}
               dateFormat="d/m/Y"
               placeholder="dd/mm/yyyy"
+              locale={activeLocale}
               //@ts-expect-error
               onChange={(v: Date[] | undefined) => {
                 if (v && v.length > 0) {
@@ -126,6 +127,7 @@ export default function ScheduleRange({ form, setValue, setFormRRule, rrule }: S
             </HorizontalFlexWrapper>
             <ErrorBoundary name="dateInput-schedule-RMW">
               <CarbonDateInput
+                locale={activeLocale}
                 value={endDateDisplayed}
                 dateFormat="d/m/Y"
                 placeholder="dd/mm/yyyy"

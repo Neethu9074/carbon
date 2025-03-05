@@ -10,7 +10,7 @@ import React from 'react';
 import { DateInput as CarbonDateInput, DateInputProps as CarbonDateInputProps } from '@instana/components';
 
 import { formatDate } from 'in-services/formatters/date';
-import { activeLanguage } from 'in-i18n';
+import { activeLocale } from 'in-i18n';
 
 const dateFormat = 'Y-m-d';
 const pattern = '\\d{4}-\\d{1,2}-\\d{1,2}';
@@ -51,7 +51,7 @@ export default function DateInput(props: DateInputProps) {
         }
       }}
       dateFormat={dateFormat}
-      locale={activeLanguage?.split('-')[0]}
+      locale={activeLocale}
       pattern={pattern}
       labelText={labelText}
       size={size}
