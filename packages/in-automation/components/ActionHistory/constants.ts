@@ -99,5 +99,9 @@ export const ACTION_FIELD_TRANSLATIONS: Record<string, string> = {
   project: t('in-automation:project'),
   summary: t('in-automation:title'),
   assignee: t('in-automation:assignee'),
-  description: t('in-automation:description')
+  description: t('in-automation:description'),
+  playbookId: t('in-automation:playbookId'),
+  playbookFileName: t('in-automation:playbookFileName'),
+  ansibleUrl: t('in-automation:ansibleUrl'),
+  hostId: t('in-automation:hostId')
 };
