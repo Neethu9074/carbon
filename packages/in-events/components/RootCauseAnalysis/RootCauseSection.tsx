@@ -22,7 +22,7 @@ import {
   SvgIcon,
   Typography
 } from '@instana/components';
-import { Snapshot, TimeConfig } from '@instana/types';
+import { TimeConfig } from '@instana/types';
 import { t, Trans } from '@instana/i18n-react';
 import { fromNow } from '@instana/format-date';
 
@@ -55,11 +55,10 @@ import locals from 'in-events/components/legacy/EventList.mless';
 interface RootCauseSectionProps {
   title: string;
   incident: EventOrMap;
-  latestSnapshot: Snapshot;
 }
 
 const RootCauseSection = forwardRef<HTMLDivElement, RootCauseSectionProps>(
-  ({ title, incident, latestSnapshot }, ref) => {
+  ({ title, incident }, ref) => {
     const [selectedRCA, setSelectedRCA] = useState(0);
 
     const rootCauseSnapshotPath = incident.hasIn(['metadata', 'rootCause', 'currentRootCause'])
@@ -264,7 +263,7 @@ const RootCauseSection = forwardRef<HTMLDivElement, RootCauseSectionProps>(
                         incidentTimeWindow={getIncidentTimeConfig(incident)}
                       />
                     )}
-                    <AssociatedEvents latestSnapshot={latestSnapshot} rootCause={rootCause} />
+                    <AssociatedEvents rootCause={rootCause} />
                     <div className={locals.accordionContent}>
                       <FeedbackComponent incident={incident} />
                     </div>
