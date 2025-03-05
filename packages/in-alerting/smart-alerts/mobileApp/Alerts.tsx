@@ -18,8 +18,6 @@ import {
 import { useGetMobileAppProps } from 'in-alerting/smart-alerts/mobileApp/hooks/useGetMobileProps';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-//@ts-expect-error Needs TS migration
-import { alertCreated, alertId } from 'in-mobile-apps/navigation/matrix';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/mobileApp/lists/ListActionHandlers';
@@ -31,6 +29,7 @@ import { AlertsProps } from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts/index
 import { sortOptions } from 'in-alerting/smart-alerts/mobileApp/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/mobileApp/lists/ScopeColumn';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
+import { alertCreated, alertId } from 'in-mobile-apps/navigation/matrix';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { NumberFormatterObject } from 'in-services/formatters/number';

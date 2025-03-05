@@ -1464,6 +1464,10 @@
         "thresholdTitle": "Threshold: When is the condition violated?",
         "payloadsLabel": "Payloads",
         "payloadsTitle": "Custom payloads"
+      },
+      "tearSheet": {
+        "createTitle": "Create a mobile app Smart Alert",
+        "editTitle": "Edit a mobile app Smart Alert"
       }
     },
     "eum": {

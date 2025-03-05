@@ -19,6 +19,7 @@ export declare const alertsTab: string;
 export declare const summaryTab: string;
 export declare const detailsPath: string;
 export declare const mobileAppPathFullyQualified: string;
+export declare const mobileAppSmartAlertsFullScreen: string;
 
 export declare const isAnalyzeView: Observable<any>;
 

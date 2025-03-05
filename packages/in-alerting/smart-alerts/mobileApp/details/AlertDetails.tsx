@@ -20,7 +20,6 @@ import {
   alertsTabListFullyQualified as listPath,
   alertsTab as alertsTabSegment
 } from 'in-mobile-apps/navigation/paths';
-//@ts-expect-error Needs TS Migration
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-mobile-apps/navigation/matrix';
 import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 //@ts-expect-error Needs TS Migration

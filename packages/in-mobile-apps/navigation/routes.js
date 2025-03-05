@@ -5,6 +5,7 @@
 
 // all the lazy loaded views. Bundle name: mobileApps
 import MobileAppDashboard from 'promise-loader?global,mobileApps!in-mobile-apps/MobileAppDashboard/MobileAppDashboard';
+import AlertConfigTearSheet from 'promise-loader?global,mobileApps!in-alerting/smart-alerts/mobileApp/TearSheet/AlertConfigTearSheet';
 import NewMobileAppFlow from 'promise-loader?global,mobileApps!in-mobile-apps/NewMobileAppFlow/NewMobileAppFlow';
 import AnalyzeView2_0 from 'promise-loader?global,mobileApps!in-mobile-apps/analyze/AnalyzeView2_0/AnalyzeView';
 import MobileAppsList from 'promise-loader?global,mobileApps!in-mobile-apps/MobileAppsList/MobileAppsList';
@@ -19,28 +20,24 @@ import {
   analyzePathFullyQualified
 } from 'in-mobile-apps/navigation/paths';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
+import { mobileAppSmartAlertsFullScreen } from 'in-mobile-apps/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default [
-  <Route
-    key="mobileAppsList"
-    path={mobileAppsPathFullyQualified}
-    children={renderAsyncRouteChildren(MobileAppsList)}
-  />,
-  <Route
-    key="mobileAppNew"
-    path={newMobileAppPathFullyQualified}
-    children={renderAsyncRouteChildren(NewMobileAppFlow)}
-  />,
-  <Route
-    key="mobileAppDashboard"
-    path={mobileAppPathFullyQualified}
-    children={renderAsyncRouteChildren(MobileAppDashboard)}
-  />,
-  <Route
-    key="mobileAppAnalyzeBeacons"
-    path={analyzePathFullyQualified}
-    children={renderAsyncRouteChildren(AnalyzeView2_0)}
-  />,
+  <Route key="mobileAppsList" path={mobileAppsPathFullyQualified}>
+    {renderAsyncRouteChildren(MobileAppsList)}
+  </Route>,
+  <Route key="mobileAppNew" path={newMobileAppPathFullyQualified}>
+    {renderAsyncRouteChildren(NewMobileAppFlow)}
+  </Route>,
+  <Route key="mobileAppDashboard" path={mobileAppPathFullyQualified}>
+    {renderAsyncRouteChildren(MobileAppDashboard)}
+  </Route>,
+  <Route key="mobileAppAnalyzeBeacons" path={analyzePathFullyQualified}>
+    {renderAsyncRouteChildren(AnalyzeView2_0)}
+  </Route>,
+  <Route key="mobileAppSmartAlertsFullScreen" path={mobileAppSmartAlertsFullScreen}>
+    {renderAsyncRouteChildren(AlertConfigTearSheet)}
+  </Route>,
   <RedirectWithHash key="redirectToMobileAppsList" from={mobileAppMonitoringPath} to={mobileAppsPathFullyQualified} />
 ];

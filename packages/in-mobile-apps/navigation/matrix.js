@@ -33,3 +33,6 @@ export const beaconTimestamp = 'beaconTimestamp';
 // alert view
 export const alertId = 'alertId';
 export const alertCreated = 'alertCreated';
+export const isDuplicateMode = 'isDuplicateMode';
+export const isEditMode = 'isEditMode';
+export const customEventName = 'customEventName';

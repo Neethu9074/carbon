@@ -85,6 +85,8 @@ export const configurationCustomGeoDetailsFullyQualified = `${configurationTabFu
 export const alertsTabListFullyQualified = `${mobileAppPathFullyQualified}${alertsTab}`;
 export const alertsTabDetailsFullyQualified = `${alertsTabListFullyQualified}/details`;
 
+export const mobileAppSmartAlertsFullScreen = '/mobileAppSmartAlerts';
+
 export function useLinkToNewMobileApp() {
   const { location, createHref } = useNavigation();
 

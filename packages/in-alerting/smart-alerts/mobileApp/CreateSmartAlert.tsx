@@ -6,23 +6,21 @@
 
 import React from 'react';
 
-import { TagCatalog, TagFilter } from '@instana/types';
 import { Button } from '@instana/components';
+import { TagFilter } from '@instana/types';
 
 import { mobileAppSmartAlertFullScreenDesignEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
-import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/mobileApp/hooks/useSmartAlertCreateUrl';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { generateAlertConfig } from 'in-alerting/smart-alerts/mobileApp/data/sharedFunctions';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
-import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
-import { getDefaultRules } from 'in-alerting/smart-alerts/eum/utils/eumCommon';
 import ViewSelectorDialog from 'in-alerting/components/Dialog/ViewSelectorDialog';
 import { alertsTabListFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { STARTS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
@@ -41,8 +39,6 @@ interface CreateSmartAlertProps {
 
 const labelNew = t('in-alerting:smartAlerts.labelNew');
 
-const implicitTagFilters = ['mobileBeacon.mobileApp.id'];
-
 export default function CreateSmartAlert({ location, mobileAppId, tagFilters, isListingPage }: CreateSmartAlertProps) {
   const customEventName = getMatrixParameter(location, '/details', 'customEventId');
 
@@ -53,7 +49,11 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters, is
   const beaconType = blueprintConfig.getBeaconType(metricName);
   const boundedAlertQueryBuilder = getQueryBuilderForBeaconType(beaconType);
 
-  const getLinkToCreateSmartAlert = ''; // TODO add new tearsheet link
+  const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({
+    mobileAppId,
+    customEventName,
+    tagFilters
+  });
 
   const tagCatalog = useTagCatalog(boundedAlertQueryBuilder.getTagCatalog);
   const { trackCta } = useSegmentTracking();
@@ -88,7 +88,11 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters, is
       icon="lib_openclose_add"
       onClick={() =>
         addActiveDialog(
-          <ViewSelectorDialog trackCta={trackCta} openOldDialog={() => addDialog()} getLinkToCreateSmartAlert="" />
+          <ViewSelectorDialog
+            trackCta={trackCta}
+            openOldDialog={() => addDialog()}
+            getLinkToCreateSmartAlert={getLinkToCreateSmartAlert}
+          />
         )
       }
       size="xl"
@@ -158,41 +162,7 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters, is
   return renderFloatingButton();
 }
 
-function generateAlertConfig(
-  mobileAppId: string,
-  tagFilters: TagFilter[],
-  tagCatalog: TagCatalog | undefined,
-  blueprintConfig: BluePrint,
-  customEventName: string | null | undefined
-) {
-  const tagFiltersWithoutImplicitFilters = tagFilters.filter(
-    ({ name }: { name: string }) => !implicitTagFilters.includes(name)
-  );
-  const tagFilterFormModel = tagCatalog
-    ? fromTagFiltersArray(tagFiltersWithoutImplicitFilters, tagCatalog as TagCatalog)
-    : [];
-  const alertType = blueprintConfig.type;
-  const metricName = blueprintConfig.defaultMetric;
-  const useBaseline = blueprintConfig.baselineEnabled;
-
-  const defaultRule = {
-    alertType,
-    operator: STARTS_WITH,
-    value: '5',
-    customEventName,
-    metricName
-  };
-
-  return {
-    tagFilterExpression: toBackendQueryModel(tagFilterFormModel),
-    rule: defaultRule,
-    mobileAppId,
-    rules: getDefaultRules(useBaseline, defaultRule),
-    calculateThresholdOnBackend: true
-  };
-}
-
-function deriveAlertType(customEventName: string | null | undefined) {
+export function deriveAlertType(customEventName: string | null | undefined) {
   if (isNotBlank(customEventName)) {
     return 'customEvent';
   }
