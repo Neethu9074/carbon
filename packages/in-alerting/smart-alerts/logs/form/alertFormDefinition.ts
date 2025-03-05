@@ -43,7 +43,8 @@ export interface AlertConfigHiddenFields {
 
 export default function alertFormDefinition(
   alertConfig: LogSmartAlertConfig & VersionedConfig & AlertConfigHiddenFields,
-  editMode: boolean
+  editMode: boolean,
+  isTearsheet?: boolean
 ): MapForm<any> {
   const {
     alertChannelIds = [],
@@ -95,7 +96,7 @@ export default function alertFormDefinition(
       fieldNames.name,
       createField({
         value: name,
-        validator: titleValidator()
+        validator: titleValidator(isTearsheet)
       })
     )
     .put(

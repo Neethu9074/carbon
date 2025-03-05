@@ -66,7 +66,7 @@ function AlertConfigTearSheetContent({
   editMode: boolean;
 }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
+  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode, true));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const duplicateFrom = alertConfig?.duplicateFrom ?? undefined;
 
