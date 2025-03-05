@@ -52,9 +52,13 @@ export function getTitlePlaceholder(form: MapForm<any>) {
       });
     }
     case 'slowness': {
+      const blueprintConfig = getBlueprintConfig(alertType);
+      const metricName = blueprintConfig!.getMetricName(rule as WebsiteAlertRule);
+      const metricLabel = blueprintConfig!.getMetricLabel(metricName as MetricName);
       const thresholdOperator = ((form.get('threshold') as MapForm<any>).get('operator') as Field<ThresholdOperator>)
         .value;
       return getSlownessSimpleHighOrLowOperatorText(
+        metricLabel,
         getAggregationText((rule as SlownessWebsiteAlertRule).aggregation),
         thresholdOperator
       );
@@ -103,13 +107,17 @@ export function getDescriptionPlaceholder(form: MapForm<any>, severity: number) 
       return getStatusCodeSimpleAboveOrBelowOperatorText(getStatusCodeLabel(statusCodeString), thresholdOperator);
     }
     case 'slowness': {
+      const blueprintConfig = getBlueprintConfig(alertType);
+      const metricName = blueprintConfig!.getMetricName(rule as WebsiteAlertRule);
+      const metricLabel = blueprintConfig!.getMetricLabel(metricName as MetricName);
+
       const slownessRule = rule as SlownessWebsiteAlertRule;
       const aggregationText = getAggregationText(slownessRule.aggregation);
       if (thresholdType === STATIC_THRESHOLD && !isMultiThresholdConfigured) {
         const thresholdValue = getThresholdValue(thresholdForm, severity);
-        return getSlownessGreaterOrLessOperatorText(aggregationText, thresholdOperator, thresholdValue);
+        return getSlownessGreaterOrLessOperatorText(metricLabel, aggregationText, thresholdOperator, thresholdValue);
       }
-      return getSlownessSimpleAboveOrBelowOperatorText(aggregationText, thresholdOperator);
+      return getSlownessSimpleAboveOrBelowOperatorText(metricLabel, aggregationText, thresholdOperator);
     }
     case 'throughput': {
       const blueprintConfig = getBlueprintConfig(alertType);
@@ -178,41 +186,54 @@ function getJSErrorText(operator: TagFilterOperator, ruleValue?: string) {
   }
 }
 
-function getSlownessSimpleHighOrLowOperatorText(aggregationText: string, operator: ThresholdOperator) {
+function getSlownessSimpleHighOrLowOperatorText(
+  metricLabel: string,
+  aggregationText: string,
+  operator: ThresholdOperator
+) {
   return isGreaterOperator(operator)
-    ? t('in-alerting:smartAlerts.eum.form.slownessSimpleHighOperatorText', { aggregationText })
-    : t('in-alerting:smartAlerts.eum.form.slownessSimpleLowOperatorText', { aggregationText });
+    ? t('in-alerting:smartAlerts.eum.form.slownessSimpleHighOperatorTextWithMetric', { metricLabel, aggregationText })
+    : t('in-alerting:smartAlerts.eum.form.slownessSimpleLowOperatorTextWithMetric', { metricLabel, aggregationText });
 }
 
-function getSlownessSimpleAboveOrBelowOperatorText(aggregationText: string, operator: ThresholdOperator) {
+function getSlownessSimpleAboveOrBelowOperatorText(
+  metricLabel: string,
+  aggregationText: string,
+  operator: ThresholdOperator
+) {
   return isGreaterOperator(operator)
-    ? t('in-alerting:smartAlerts.eum.form.slownessSimpleAboveOperatorText', { aggregationText })
-    : t('in-alerting:smartAlerts.eum.form.slownessSimpleBelowOperatorText', { aggregationText });
+    ? t('in-alerting:smartAlerts.eum.form.slownessSimpleAboveOperatorTextWithMetric', { metricLabel, aggregationText })
+    : t('in-alerting:smartAlerts.eum.form.slownessSimpleBelowOperatorTextWithMetric', { metricLabel, aggregationText });
 }
 
 function getSlownessGreaterOrLessOperatorText(
+  metricLabel: string,
   aggregationText: string,
   operator: ThresholdOperator,
   thresholdValue: number
 ) {
   switch (operator) {
     case '>':
-      return t('in-alerting:smartAlerts.eum.form.slownessGreaterOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.slownessGreaterOperatorTextWithMetric', {
+        metricLabel,
         aggregationText,
         thresholdValue
       });
     case '>=':
-      return t('in-alerting:smartAlerts.eum.form.slownessGreaterEqualsOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.slownessGreaterEqualsOperatorTextWithMetric', {
+        metricLabel,
         aggregationText,
         thresholdValue
       });
     case '<':
-      return t('in-alerting:smartAlerts.eum.form.slownessLessOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.slownessLessOperatorTextWithMetric', {
+        metricLabel,
         aggregationText,
         thresholdValue
       });
     case '<=':
-      return t('in-alerting:smartAlerts.eum.form.slownessLessEqualsOperatorText', {
+      return t('in-alerting:smartAlerts.eum.form.slownessLessEqualsOperatorTextWithMetric', {
+        metricLabel,
         aggregationText,
         thresholdValue
       });
