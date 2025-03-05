@@ -1482,6 +1482,11 @@
           "title": "Define alert properties",
           "description": "What properties do you want to set for this alert?"
         },
+        "step5": {
+          "title": "Define alert channels",
+          "description": "Where do you want to be notified for this alert?",
+          "text": "Select the recipient(s) of this alert"
+        },
         "statusCode": {
           "headline": "Automatic alerts for HTTP status codes",
           "text": "Receive an alert when matching HTTP status codes occur more often than the threshold."

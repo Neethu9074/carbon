@@ -98,7 +98,7 @@ export default function AlertConfigTearSheetStep3({
             impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
             hasTraceImpactOption
             oneMinuteGranularityAllowed={
-              thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
+              thresholdType?.type === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
             }
           />
           <Spacer size="gutter" />
