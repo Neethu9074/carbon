@@ -8,16 +8,18 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
+import { ruleMetricNameOptions as mobileAppRuleMetricNameOptions } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import CustomEventsThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/CustomEventsThresholdCondition';
+import { ruleMetricNameOptions as websiteRuleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import ThroughputThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/ThroughputThresholdCondition';
 import StatusCodeThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/StatusCodeThresholdCondition';
 import SlownessThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/SlownessThresholdCondition';
 import JsErrorsThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/JsErrorsThresholdCondition';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
 import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/AdaptiveBaselineErrorMessage';
+import CrashThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/CrashThresholdCondition';
 import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
-import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
+import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 
 export default function ThresholdSelectionInteractiveSection({
@@ -31,7 +33,8 @@ export default function ThresholdSelectionInteractiveSection({
   isPercentageMetric,
   getMetricUnitPostfix,
   thresholdType,
-  thresholdResult
+  thresholdResult,
+  AlertTypeSwitch
 }) {
   return (
     <Stack gap="small" align="start">
@@ -73,7 +76,9 @@ export default function ThresholdSelectionInteractiveSection({
             eumType={eumType}
             isPercentageMetric={isPercentageMetric}
             getMetricUnitPostfix={getMetricUnitPostfix}
-            ruleMetricNameOptions={ruleMetricNameOptions}
+            ruleMetricNameOptions={
+              eumType === websiteEum ? websiteRuleMetricNameOptions : mobileAppRuleMetricNameOptions
+            }
             onChartViewConfigChange={onChartViewConfigChange}
           />
         )}
@@ -84,11 +89,26 @@ export default function ThresholdSelectionInteractiveSection({
             blueprintConfig={blueprintConfig}
             editMode={editMode}
             eumType={eumType}
-            ruleMetricNameOptions={ruleMetricNameOptions}
+            ruleMetricNameOptions={
+              eumType === websiteEum ? websiteRuleMetricNameOptions : mobileAppRuleMetricNameOptions
+            }
             getMetricUnitPostfix={getMetricUnitPostfix}
             onChartViewConfigChange={onChartViewConfigChange}
           />
         )}
+        renderCrash={() =>
+          eumType === mobileAppEum && (
+            <CrashThresholdCondition
+              form={form}
+              blueprintConfig={blueprintConfig}
+              updateForm={updateForm}
+              editMode={editMode}
+              getMetricUnitPostfix={getMetricUnitPostfix}
+              isPercentageMetric={isPercentageMetric}
+              onChartViewConfigChange={onChartViewConfigChange}
+            />
+          )
+        }
       />
       {thresholdType === HISTORIC_BASELINE && <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />}
       {thresholdType === ADAPTIVE_BASELINE && <AdaptiveBaselineErrorMessage thresholdResult={thresholdResult} />}

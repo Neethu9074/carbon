@@ -6,8 +6,8 @@
 
 import React from 'react';
 
+import { Dropdown, Spacer, Stack } from '@instana/components';
 import { isAdaptiveBaselineConfig } from '@instana/types';
-import { Dropdown, Stack } from '@instana/components';
 
 import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/tearSheet/MultiThresholdCondition/MultiThresholdDeviationSliderForm';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
@@ -19,8 +19,10 @@ import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/use
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
+import mobileAppCreateRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
 import websiteCreateRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
+import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
@@ -52,6 +54,7 @@ export default function SlownessThresholdCondition({
   };
 
   const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
+  const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange(mobileAppCreateRuleForm);
 
   return (
     <Stack gap="medium">
@@ -90,9 +93,10 @@ export default function SlownessThresholdCondition({
         <StaticOrAdaptiveSwitch
           form={form}
           setForm={resetChartConfigSelectionWhenAdaptiveBaseline}
-          onThresholdTypeChange={websiteOnThresholdTypeChange}
+          onThresholdTypeChange={eumType === websiteEum ? websiteOnThresholdTypeChange : mobileAppOnThresholdTypeChange}
           isTearSheet
         />
+        <Spacer size="xsmall" />
         <ThresholdTypeSelection
           form={form}
           updateForm={updateForm}

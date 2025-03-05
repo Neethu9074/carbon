@@ -17,8 +17,10 @@ import MultiThresholdCondition from 'in-alerting/smart-alerts/components/tearShe
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/TearSheet/ThresholdTypeSelection';
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
+import mobileAppCreateRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
 import websiteCreateRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
+import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import Dropdown from 'in-alerting/components/Dropdown';
@@ -50,6 +52,7 @@ export default function ThroughputThresholdCondition({
   };
 
   const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
+  const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange(mobileAppCreateRuleForm);
 
   return (
     <Stack gap="medium">
@@ -83,7 +86,7 @@ export default function ThroughputThresholdCondition({
         <StaticOrAdaptiveSwitch
           form={form}
           setForm={resetChartConfigSelectionWhenAdaptiveBaseline}
-          onThresholdTypeChange={websiteOnThresholdTypeChange}
+          onThresholdTypeChange={eumType === websiteEum ? websiteOnThresholdTypeChange : mobileAppOnThresholdTypeChange}
           isTearSheet
         />
         <Spacer size="medium" />

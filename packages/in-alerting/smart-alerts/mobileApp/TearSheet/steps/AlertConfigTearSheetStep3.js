@@ -6,25 +6,21 @@
 
 import React from 'react';
 
-import { isAdaptiveBaselineConfig } from '@instana/types';
 import { Spacer } from '@instana/components';
 
 import ThresholdSelectionInteractiveSection from 'in-alerting/smart-alerts/eum/components/TearSheet/ThresholdSelectionInteractiveSection';
 import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/tearSheet/TimeThresholdConfig/TimeThresholdConfigPresenter';
-import {
-  chartViewConfig24hours,
-  chartViewConfigs as defaultChartViewConfigs
-} from 'in-alerting/components/Chart/chartViewConfig';
-import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
-import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
+import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
+import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
+import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import EvaluationGranularity from 'in-alerting/smart-alerts/components/tearSheet/EvaluationGranularity';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/tearSheet/ChartViewConfigurator';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/tearSheet/GracePeriodWrapper';
+import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
 import toAlertConfigWithRules from 'in-alerting/smart-alerts/eum/utils/thresholdChartUtil';
-import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
-import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
+import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { t } from 'in-i18n';
 
@@ -42,6 +38,7 @@ export default function AlertConfigTearSheetStep3({
 }) {
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
+
   const alertConfigWithFormModel = blueprintConfig.enrichWithDefaultThresholdValues(toAlertConfigWithRules(form));
 
   const warningThresholdField = form.get('threshold').get('warningThreshold');
@@ -51,22 +48,20 @@ export default function AlertConfigTearSheetStep3({
     ? warningThresholdField.get('type').value
     : criticalThresholdField.get('type').value;
 
-  const chartViewConfigs = isAdaptiveBaselineConfig(form.get('threshold').toJS().warningThreshold)
-    ? [chartViewConfig24hours]
-    : defaultChartViewConfigs;
+  const chartViewConfigs = defaultChartViewConfigs;
 
   return (
     <>
       <div className={locals.container60_40}>
         <div className={locals.wrapper}>
           <TearSheetStepTitleWrapper
-            headline={t('in-alerting:smartAlerts.websites.tearSheet.threshold.header')}
-            description={t('in-alerting:smartAlerts.websites.tearSheet.threshold.description')}
+            headline={t('in-alerting:smartAlerts.mobileApp.tearSheet.threshold.header')}
+            description={t('in-alerting:smartAlerts.mobileApp.tearSheet.threshold.description')}
           >
             {/* Threshold */}
             <ThresholdSelectionInteractiveSection
               form={form}
-              eumType={websiteEum}
+              eumType={mobileAppEum}
               alertType={alertType}
               updateForm={updateForm}
               editMode={editMode}
@@ -92,8 +87,8 @@ export default function AlertConfigTearSheetStep3({
         </div>
         <span className={locals.seperator} />
         <TearSheetStepTitleWrapper
-          headline={t('in-alerting:smartAlerts.websites.tearSheet.timeThreshold.title')}
-          description={t('in-alerting:smartAlerts.websites.tearSheet.timeThreshold.description')}
+          headline={t('in-alerting:smartAlerts.mobileApp.tearSheet.timeThreshold.title')}
+          description={t('in-alerting:smartAlerts.mobileApp.tearSheet.timeThreshold.description')}
           hideSpace
         >
           <TimeThresholdConfigPresenter
@@ -119,7 +114,7 @@ export default function AlertConfigTearSheetStep3({
         headerTransparent
       >
         {chartViewConfig => (
-          <WebsitesAlertingChartWithErrorMessage
+          <MobileAppAlertingChartWithErrorMessage
             alertConfigWithFormModel={alertConfigWithFormModel}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}

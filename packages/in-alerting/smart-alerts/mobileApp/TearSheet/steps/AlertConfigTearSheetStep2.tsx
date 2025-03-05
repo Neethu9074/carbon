@@ -14,7 +14,6 @@ import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/mobileA
 import { MobileAppAlertRuleUnion, ThresholdConfigUnion, ThresholdOperator, ThresholdType } from 'in-types';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 import { ScopeWrapper } from 'in-alerting/smart-alerts/components/tearSheet/CustomWrappers/Wrapper';
-import { MobileAppSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -51,7 +50,7 @@ export default function AlertConfigTearSheetStep2({
 }: AlertConfigTearSheetStep2Props) {
   const alertConfigWithFormModel = form.toJS();
 
-  const { rule, threshold, mobileAppId } = alertConfigWithFormModel as unknown as MobileAppSmartAlertConfig;
+  const { rule, threshold, mobileAppId } = alertConfigWithFormModel;
   const { metricName, alertType } = rule as MobileAppAlertRuleUnion;
 
   const validThreshold =
@@ -64,6 +63,7 @@ export default function AlertConfigTearSheetStep2({
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
   const { getTagCatalog, QueryBuilder: AlertQueryBuilder } = useMemo(
+    //@ts-expect-error TODO fix it
     () => createBoundedAlertQueryBuilder(mobileAppId, beaconType, thresholdType, tagSuggestionTimeConfig),
     [mobileAppId, beaconType, thresholdType]
   );

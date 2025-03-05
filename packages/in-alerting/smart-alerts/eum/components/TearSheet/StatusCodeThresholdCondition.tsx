@@ -8,7 +8,7 @@ import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import { isAdaptiveBaselineConfig } from '@instana/types';
-import { Stack } from '@instana/components';
+import { Spacer, Stack } from '@instana/components';
 
 import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/tearSheet/MultiThresholdCondition/MultiThresholdDeviationSliderForm';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
@@ -18,8 +18,10 @@ import { BluePrint as MobileAppBluePrint } from 'in-alerting/smart-alerts/mobile
 import { BluePrint as WebsiteBluePrint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
+import mobileAppCreateRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
 import websiteCreateRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
+import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import Dropdown from 'in-alerting/components/Dropdown';
@@ -67,6 +69,7 @@ export default function StatusCodeThresholdCondition({
     return updateForm(updatedForm);
   };
   const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
+  const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange(mobileAppCreateRuleForm);
 
   return (
     <Stack gap="medium">
@@ -84,7 +87,7 @@ export default function StatusCodeThresholdCondition({
         <Dropdown
           value={metricName}
           items={ruleMetricNameOptions.statusCode}
-          className={locals.dropdownmd}
+          className={locals.dropdownxlg}
           onChange={value => {
             updateForm(form.updateIn(['rule', 'metricName'], f => (f as Field<any>).setValue(value).setTouched(true)));
           }}
@@ -105,10 +108,10 @@ export default function StatusCodeThresholdCondition({
         <StaticOrAdaptiveSwitch
           form={form}
           setForm={resetChartConfigSelectionWhenAdaptiveBaseline}
-          onThresholdTypeChange={websiteOnThresholdTypeChange}
+          onThresholdTypeChange={eumType === websiteEum ? websiteOnThresholdTypeChange : mobileAppOnThresholdTypeChange}
           isTearSheet
         />
-
+        <Spacer size="xsmall" />
         <ThresholdTypeSelection
           form={form}
           updateForm={updateForm}

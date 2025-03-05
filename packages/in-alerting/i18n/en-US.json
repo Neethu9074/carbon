@@ -1475,6 +1475,9 @@
           "title": "Define the scope",
           "description": "Where is the condition happening?"
         },
+        "step3": {
+          "title": "Define when to get alerted"
+        },
         "statusCode": {
           "headline": "Automatic alerts for HTTP status codes",
           "text": "Receive an alert when matching HTTP status codes occur more often than the threshold."
@@ -1488,7 +1491,15 @@
           "text": "Receive an alert when selected crash metric is higher or lower than expected."
         },
         "filter": "Filter",
-        "filterDescription": "Select the services to get more precise alerts."
+        "filterDescription": "Select the services to get more precise alerts.",
+        "threshold": {
+          "header": "Set a value for the violation threshold",
+          "description": "Select a metric, violation threshold and time window to evaluate the violation."
+        },
+        "timeThreshold": {
+          "title": "Set when violations trigger alerts",
+          "description": "Specify the alert and persistence type and then set the alert trigger."
+        }
       }
     },
     "eum": {
