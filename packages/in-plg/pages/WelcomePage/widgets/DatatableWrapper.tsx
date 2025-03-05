@@ -35,6 +35,7 @@ import { DashboardTile } from 'in-plg/components/DashboardTile/DashboardTile';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import { timeConfig$ } from 'in-stores/time/config';
+import { hasError } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 import locals from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper.mless';
@@ -74,6 +75,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   )
 }))(function DatatableWrapper(props: DatatableWidgetProps) {
   let {
+    nonDeletedFavoriteCount,
     tableType,
     headers,
     getItems,
@@ -136,7 +138,10 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
       : null;
 
     const items = searchData ?? resultDataItems;
-    numberOfRegularItemsToShow = Math.max(0, maxItems ? maxItems - favIds.length : items.length);
+    numberOfRegularItemsToShow = Math.max(
+      0,
+      maxItems ? maxItems - (nonDeletedFavoriteCount ?? favIds.length) : items.length
+    );
     hasContent = items.length > 0 ? true : false;
     hits = searchData?.length ?? result?.data?.totalHits ?? result.data.length;
     if (hits) {
@@ -167,22 +172,30 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
         pinnedItemIdsByType={pinnedItemIdsByType}
         processResults={(items: any) => {
           return items && items.length > 0
-            ? items.sort(sort).map((item: any, index: number) => (
-                <Row id={`${index}`} key={index}>
-                  <Item
-                    key={item.id}
-                    type={item.type}
-                    pendingItem={item}
-                    timeConfig={timeConfig}
-                    columnDefinitions={columnDefinitions}
-                  />
-                </Row>
-              ))
+            ? removeDeletedFavoritedEntries(items, tableType)
+                .sort(sort)
+                .map((item: any, index: number) => (
+                  <Row id={`${index}`} key={index}>
+                    <Item
+                      key={item.id}
+                      type={item.type}
+                      pendingItem={item}
+                      timeConfig={timeConfig}
+                      columnDefinitions={columnDefinitions}
+                    />
+                  </Row>
+                ))
             : null;
         }}
       />
     );
     return results;
+  }
+
+  function removeDeletedFavoritedEntries(items?: any, tableType?: string) {
+    if (tableType === 'websitesWidget' || tableType === 'mobileListWidget' || tableType === 'dashboardWidget') {
+      return items.filter((item: any) => !hasError(item.result));
+    } else return items;
   }
 
   function regularItems(mainPage?: boolean, pageSize?: number) {

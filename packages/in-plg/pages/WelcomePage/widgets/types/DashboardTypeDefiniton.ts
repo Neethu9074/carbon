@@ -48,6 +48,7 @@ export interface SyntheticProps extends WidgetProps {
 }
 
 export interface DatatableWidgetProps extends InfraProps, SyntheticProps {
+  nonDeletedFavoriteCount: number;
   tableType: string;
   headers: {
     header: string;
