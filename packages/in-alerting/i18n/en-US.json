@@ -562,7 +562,7 @@
         "step3Title": "Define grouping",
         "step4Title": "Define when to get alerted",
         "alertHeadline": "Choose what you want to be alerted on",
-        "step5Title": "Define Alert properties",
+        "step5Title": "Define alert properties",
         "step6Title": "Define alert channels",
         "grouping": {
           "title": "Group calls",
@@ -1160,7 +1160,7 @@
           "title": "Define when to get alerted"
         },
         "step4": {
-          "title": "Define Alert properties",
+          "title": "Define alert properties",
           "description": "What properties do you want to set for this alert?"
         },
         "step5": {
@@ -1477,6 +1477,10 @@
         },
         "step3": {
           "title": "Define when to get alerted"
+        },
+        "step4": {
+          "title": "Define alert properties",
+          "description": "What properties do you want to set for this alert?"
         },
         "statusCode": {
           "headline": "Automatic alerts for HTTP status codes",
