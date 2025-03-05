@@ -69,7 +69,7 @@ export default function AlertConfigDialog({
         if (form.get(fieldNames.syntheticTestIds).value.length === 0) {
           addActiveDialog(
             <ConfirmationDialog
-              header={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogHeader')}
+              header={t('in-alerting:components.alertActionConfirmationDialogHeader')}
               description={t('in-alerting:components.alertConfirmationDialogDescription', {
                 entityPlaceholder: t('in-alerting:smartAlerts.synthetics.advanced.alertTestsLabel')
               })}

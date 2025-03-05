@@ -76,7 +76,7 @@ export default function AlertConfigDialog({
     if (isEmpty(form.get('applications').value)) {
       addActiveDialog(
         <ConfirmationDialog
-          header={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogHeader')}
+          header={t('in-alerting:components.alertActionConfirmationDialogHeader')}
           description={t('in-alerting:components.alertConfirmationDialogDescription', {
             entityPlaceholder: t('in-settings:productAreas.title_applications')
           })}
