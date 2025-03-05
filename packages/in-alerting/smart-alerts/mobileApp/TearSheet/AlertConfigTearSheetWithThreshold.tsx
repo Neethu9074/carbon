@@ -4,10 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
+import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
-import React from 'react';
 
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+import { stepConfigsForCarbonTearSheet } from 'in-alerting/smart-alerts/mobileApp/TearSheet/steps/TearSheetStepConfigs';
+import useAlertConfigValidation from 'in-alerting/smart-alerts/mobileApp/hooks/useAlertConfigValidation';
 import AlertingFullScreenTearSheet from 'in-alerting/components/AlertingFullScreenTearSheet';
 import { getButtonLabel } from 'in-alerting/smart-alerts/mobileApp/data/sharedFunctions';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -31,6 +33,11 @@ export interface AlertConfigTearSheetWithThresholdProps {
 
 export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTearSheetWithThresholdProps) {
   const { editMode, tearSheetTitle } = props;
+
+  const [, setTagFilterValid] = useState(true); //TODO
+  // this hook will validate each step and prevents navigation
+  const navItems = useAlertConfigValidation(stepConfigsForCarbonTearSheet);
+
   return (
     // @ts-expect-error TODO fix type error
     <AlertingFullScreenTearSheet
@@ -38,8 +45,9 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
       isTagFilterFormModelValid
       isEditMode={false}
       tearSheetTitle={tearSheetTitle}
-      stepConfigs={[]} // TODO
+      stepConfigs={navItems}
       thresholdResult={undefined}
+      setTagFilterValid={setTagFilterValid}
       handleFormSubmit={() => undefined}
       actionButtonLabel={getButtonLabel(editMode)}
       productArea={productAreas.websites_mobile_apps}

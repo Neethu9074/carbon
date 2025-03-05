@@ -163,7 +163,11 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   isRuleComplete: (alertRule: MobileAppAlertRule) => isNotBlank((alertRule as StatusCodeMobileAppAlertRule).value),
   incompleteRuleMessage: t('in-alerting:smartAlerts.mobileApp.data.statusCodeBlueprintConfigIncompleteRuleMessage'),
   getMaxMetricValue: (metricName: MetricName) => (isCustomRateMetric(metricName) ? 100 : Number.MAX_SAFE_INTEGER),
-  baselineEnabled: true
+  baselineEnabled: true,
+  tearSheet: {
+    headline: t('in-alerting:smartAlerts.mobileApp.tearSheet.statusCode.headline'),
+    text: t('in-alerting:smartAlerts.mobileApp.tearSheet.statusCode.text')
+  }
 });
 
 const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
@@ -183,7 +187,11 @@ const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
     getIncludedTags(metricName === 'views' ? availableFilterTags.viewChange : availableFilterTags.sessionStart),
   isRuleComplete: () => true,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
-  baselineEnabled: true
+  baselineEnabled: true,
+  tearSheet: {
+    headline: t('in-alerting:smartAlerts.mobileApp.tearSheet.throughput.headline'),
+    text: t('in-alerting:smartAlerts.mobileApp.tearSheet.throughput.text')
+  }
 });
 
 const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
@@ -233,7 +241,11 @@ const crashBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   isRuleComplete: () => true,
   getMaxMetricValue: (metricName: MetricName) =>
     rateMetricsForCrashBlueprint.has(metricName) ? 100 : Number.MAX_SAFE_INTEGER,
-  baselineEnabled: true
+  baselineEnabled: true,
+  tearSheet: {
+    headline: t('in-alerting:smartAlerts.mobileApp.tearSheet.crash.headline'),
+    text: t('in-alerting:smartAlerts.mobileApp.tearSheet.crash.text')
+  }
 });
 
 export const blueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([

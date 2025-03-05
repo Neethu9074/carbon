@@ -112,13 +112,15 @@ export default function ProvideCustomEvent({
       )}
       {mode !== modeAdvanced && (
         <>
-          <SelectCustomEventButton
-            form={form}
-            onValueChange={onValueChange}
-            onSelectCustomEvent={onSelectCustomEvent}
-            timeConfig={timeConfig}
-            eumType={eumType}
-          />
+          {!tearSheetView && (
+            <SelectCustomEventButton
+              form={form}
+              onValueChange={onValueChange}
+              onSelectCustomEvent={onSelectCustomEvent}
+              timeConfig={timeConfig}
+              eumType={eumType}
+            />
+          )}
           <FormGroup className={locals.customEventInputSimpleMode}>
             <Label htmlFor="custom-event-name" hasError={!field.valid && field.touched}>
               {t('in-alerting:smartAlerts.eum.customEvent.customEventLabel')}
