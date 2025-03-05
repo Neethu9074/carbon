@@ -67,8 +67,8 @@
     "management": "Management",
     "logVolume":{
       "logVolumeTitle": "Current month log volume",
-      "gb": "GB",
-      "tb": "TB",
+      "gib": "GiB",
+      "tib": "TiB",
       "logVolumeIcon": "Go to log volume"
     },
     "retentionIcon": "Change retention period",

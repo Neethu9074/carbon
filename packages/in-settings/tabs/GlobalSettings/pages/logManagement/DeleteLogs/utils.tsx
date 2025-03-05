@@ -137,14 +137,14 @@ export function addSecondsIfValidFormat(timeInputValue: string) {
 }
 
 export const bytesToLargerUnit = (bytes: number, round?: number): { amount: number; localizedUnit: string } => {
-  const TBinBytes = 1099511627776;
-  const isMoreThanTB = bytes > TBinBytes;
-  const dataUnitScale = isMoreThanTB ? 4 : 3;
+  const TiBinBytes = 1099511627776;
+  const isMoreThanTiB = bytes > TiBinBytes;
+  const dataUnitScale = isMoreThanTiB ? 4 : 3;
 
   const convertedBytes = bytes / Math.pow(1024, dataUnitScale);
   const roundedConvertedBytes = round !== undefined ? parseFloat(convertedBytes.toFixed(round)) : convertedBytes;
 
-  const localizedUnit = t(`in-logging:dashboard.logVolume.${isMoreThanTB ? 'tb' : 'gb'}`);
+  const localizedUnit = t(`in-logging:dashboard.logVolume.${isMoreThanTiB ? 'tib' : 'gib'}`);
 
   return { amount: roundedConvertedBytes, localizedUnit };
 };

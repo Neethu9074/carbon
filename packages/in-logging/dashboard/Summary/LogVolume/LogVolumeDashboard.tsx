@@ -25,8 +25,8 @@ import locals from './LogVolume.mless';
 
 const localisationStrings = {
   logVolumeTitle: t('in-logging:dashboard.logVolume.logVolumeTitle'),
-  GB: t('in-logging:dashboard.logVolume.gb'),
-  TB: t('in-logging:dashboard.logVolume.tb')
+  GB: t('in-logging:dashboard.logVolume.gib'),
+  TB: t('in-logging:dashboard.logVolume.tib')
 };
 
 const placeholderTimeConfig = { to: null, windowSize: 1, autoRefresh: false };
