@@ -515,6 +515,8 @@ export interface AdvancedModeProps {
   setInvalidCustomProperty: React.Dispatch<React.SetStateAction<Invalid>>;
   invalidTimeout: Invalid;
   setInvalidTimeout: React.Dispatch<React.SetStateAction<Invalid>>;
+  targetFilters: AssertionTargetFilter[];
+  setTargetFilters: React.Dispatch<React.SetStateAction<AssertionTargetFilter[]>>;
 }
 
 export interface SlideInConfig {
@@ -772,4 +774,13 @@ export interface TargetFilter {
   key: string;
   operator: string;
   value: string;
+}
+
+export interface AssertionTargetFilter extends TargetFilter {
+  id: string;
+  error: {
+    key: Invalid;
+    operator: Invalid;
+    value: Invalid;
+  };
 }

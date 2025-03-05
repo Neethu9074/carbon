@@ -25,6 +25,7 @@ import {
 } from 'in-synthetics/utils/constants';
 import { syntheticAdvancedCreateButtonClick, syntheticCreateAdvancedButtonClick } from 'in-synthetics/tracking/tracker';
 import getDefaultCustomProperties from 'in-synthetics/createTests/utils/getDefaultCustomProperties';
+import { getDefaultTargetFilters } from 'in-synthetics/createTests/utils/getDefaultTargetFilters';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import populateCommonAttributes from 'in-synthetics/createTests/utils/populateCommonAttributes';
 import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
@@ -103,7 +104,7 @@ const CreateSyntheticTestDialogPresenter = ({
   const [invalidTimeout, setInvalidTimeout] = useState({ invalid: false, message: '' });
   const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties(form));
   const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
-
+  const [targetFilters, setTargetFilters] = useState(getDefaultTargetFilters(form));
   /**
    * A single form is being rendered in multiple pages in the simple mode
    * It makes the form validation hard as on clicking the proceed button it has to validate only the rendered
@@ -163,6 +164,28 @@ const CreateSyntheticTestDialogPresenter = ({
       : undefined;
   };
 
+  const DNSErrorsExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
+    if (syntheticTypeField.value === 'DNSAction') {
+      const fieldsToBeValidated = ['lookup', 'lookupServerName', 'port', 'server', 'queryTime', 'serverRetries'];
+      if (
+        fieldsToBeValidated.some((fieldName: string) => {
+          const field = configForm.get(fieldName);
+          return field && !field.valid;
+        })
+      ) {
+        return true;
+      }
+      return (
+        configForm.get('targetValues') &&
+        targetFilters.some(
+          targetFilter =>
+            targetFilter.error.key.invalid || targetFilter.error.operator.invalid || targetFilter.error.value.invalid
+        )
+      );
+    }
+    return undefined;
+  };
+
   const scriptErrorExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
     return syntheticTypeField.value === 'HTTPScript' ||
       syntheticTypeField.value === 'WebpageScript' ||
@@ -207,6 +230,8 @@ const CreateSyntheticTestDialogPresenter = ({
       scriptErrorExist(configForm, syntheticTypeField) ||
       // for SSL Certificate
       SSLCertificateErrorsExist(configForm, syntheticTypeField) ||
+      // for DNS
+      DNSErrorsExist(configForm, syntheticTypeField) ||
       !syntheticTypeField.valid ||
       locationsField.value.length === 0 ||
       !frequencyField.valid ||
@@ -357,6 +382,8 @@ const CreateSyntheticTestDialogPresenter = ({
             setInvalidCustomProperty={setInvalidCustomProperty}
             invalidTimeout={invalidTimeout}
             setInvalidTimeout={setInvalidTimeout}
+            targetFilters={targetFilters}
+            setTargetFilters={setTargetFilters}
           />
         )}
       </div>

@@ -57,7 +57,9 @@ const AdvancedMode = ({
   invalidCustomProperty,
   setInvalidCustomProperty,
   invalidTimeout,
-  setInvalidTimeout
+  setInvalidTimeout,
+  targetFilters,
+  setTargetFilters
 }: AdvancedModeProps) => {
   const EMPTY = [] as SyntheticLocation[];
   const getSelectedBlueprintIndex = () => {
@@ -145,6 +147,8 @@ const AdvancedMode = ({
           <DNSActionConfiguration
             form={form}
             updateForm={updateForm}
+            targetFilters={targetFilters}
+            setTargetFilters={setTargetFilters}
             invalidTimeout={invalidTimeout}
             setInvalidTimeout={setInvalidTimeout}
           />

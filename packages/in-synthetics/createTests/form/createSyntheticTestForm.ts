@@ -12,6 +12,11 @@ import {
   browserSimpleTest,
   SSLCertificateTest
 } from 'in-synthetics/utils/constants';
+import {
+  dnsServerValidator,
+  lookupValidator,
+  responseTimeValidator
+} from 'in-synthetics/createTests/validators/dnsValidators';
 import urlValidator, {
   checkForInvalidHost,
   checkForInvalidPort
@@ -635,7 +640,12 @@ export function createDNSActionConfigurationForm(savedState?: Record<string, any
       'lookup',
       createField({
         value: savedState?.lookup ?? '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          lookupValidator
+        )
       })
     )
     .put(
@@ -649,7 +659,7 @@ export function createDNSActionConfigurationForm(savedState?: Record<string, any
       'port',
       createField({
         value: savedState?.port ?? 53,
-        validator: composeAndShortCircuitOnError(notBlankValidator, numberValidator, minValidator(1))
+        validator: composeAndShortCircuitOnError(notBlankValidator, numberValidator, checkForInvalidPort)
       })
     )
     .put(
@@ -659,7 +669,8 @@ export function createDNSActionConfigurationForm(savedState?: Record<string, any
           key: 'responseTime',
           operator: 'LESS_THAN',
           value: 120
-        }
+        },
+        validator: composeAndShortCircuitOnError(responseTimeValidator)
       })
     )
     .put(
@@ -694,14 +705,19 @@ export function createDNSActionConfigurationForm(savedState?: Record<string, any
       'server',
       createField({
         value: savedState?.server ?? '8.8.8.8',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          dnsServerValidator
+        )
       })
     )
     .put(
       'serverRetries',
       createField({
         value: savedState?.serverRetries ?? 1,
-        validator: composeAndShortCircuitOnError(numberValidator)
+        validator: composeAndShortCircuitOnError(notBlankValidator, numberValidator)
       })
     )
     .put(

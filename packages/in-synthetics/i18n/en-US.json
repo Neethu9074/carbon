@@ -229,7 +229,7 @@
             "serverHelperText": "The DNS server is the server responsible for translating the domain name into an IP address",
             "portLabel": "Port",
             "portHelperText": "The DNS server port is the network port used or communication between your device (PoP) and the DNS server, typically port 53",
-            "queryTimeLabel": "Response Time",
+            "queryTimeLabel": "Response time",
             "queryTimeHelperText": "Optimal DNS resolution time is between 20-120 ms",
             "recordTypeTitle": "Conditions (optional)",
             "recordTypeSubtitle": "These fields are optional, but when filled they all need to be true for the test to be successful.",
@@ -243,10 +243,17 @@
             "recursiveLookupLabel": "Recursive lookup",
             "dnsRadioButtonOnLabel": "On",
             "dnsRadioButtonOffLabel": "Off",
-            "transportProtocolLabel": "Transport Protocol",
+            "transportProtocolLabel": "Transport protocol",
             "acceptCNAMELabel": "Accept CNAME",
             "lookupServerNamelabel": "Lookup server name",
-            "serverRetriesLabel": "Server retries (optional)"
+            "serverRetriesLabel": "Server retries (optional)",
+            "validators": {
+              "invalidDNSLookup": "DNS lookup format not valid",
+              "invalidDNSServer": "DNS server not valid",
+              "invalidIPv4Address": "IPv4 address not valid",
+              "invalidIPv6Address": "IPv6 address not valid",
+              "invalidResolutionRecord": "Resolution record not valid"
+            }
           }
         },
         "loadMore": "Load More",

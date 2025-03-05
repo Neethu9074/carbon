@@ -29,11 +29,13 @@ import {
   Invalid,
   retriesObject,
   TargetFilter,
+  AssertionTargetFilter,
   timeoutObject
 } from 'in-synthetics/utils/constants';
 import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
 import Section, { ActionTitle, Description } from 'in-synthetics/createTests/wizard/Section';
 import { timeoutValidator } from 'in-synthetics/createTests/validators/configValidators';
+import { assertionValidator } from 'in-synthetics/createTests/validators/dnsValidators';
 import { displayRetryIntervalSlider } from 'in-synthetics/utils/sliderHelperFunctions';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -48,6 +50,8 @@ import locals from 'in-synthetics/createTests/advanced/ConfigurationSection.mles
 interface DNSActionConfigurationProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
+  targetFilters: AssertionTargetFilter[];
+  setTargetFilters: React.Dispatch<React.SetStateAction<AssertionTargetFilter[]>>;
   invalidTimeout: Invalid;
   setInvalidTimeout: React.Dispatch<React.SetStateAction<Invalid>>;
 }
@@ -55,6 +59,8 @@ interface DNSActionConfigurationProps {
 export default function DNSActionConfiguration({
   form,
   updateForm,
+  targetFilters,
+  setTargetFilters,
   invalidTimeout,
   setInvalidTimeout
 }: DNSActionConfigurationProps) {
@@ -67,26 +73,12 @@ export default function DNSActionConfiguration({
   const transportField = configForm.get('transport') as Field<string>;
   const acceptCNAMEField = configForm.get('acceptCNAME') as Field<boolean>;
   const lookupServerNameField = configForm.get('lookupServerName') as Field<boolean>;
-  const targetFiltersField = configForm.get('targetValues') as Field<TargetFilter[]>;
+  const targetFiltersField = configForm.get('targetValues') as Field<AssertionTargetFilter[]>;
   const serverRetriesField = configForm.get('serverRetries') as Field<number>;
   const timeoutField = configForm.get('timeout') as Field<string>;
   const retriesField = configForm.get('retries') as Field<number>;
   const retryIntervalField = configForm.get('retryInterval') as Field<number>;
   const markSyntheticCallField = configForm.get('markSyntheticCall') as Field<boolean>;
-
-  const getDefaultTargetFilters = () => {
-    if (targetFiltersField.value.length > 0)
-      return targetFiltersField.value.map(item => {
-        return {
-          ...item,
-          id: generateUniqueShortId()
-        };
-      });
-    else {
-      return [{ id: generateUniqueShortId(), key: '', operator: '', value: '' }];
-    }
-  };
-  const [targetFilters, setTargetFilters] = useState(getDefaultTargetFilters());
 
   const [timeout, setTimeout] = useState({
     value: timeoutField.value.replace(/\D/g, ''),
@@ -101,13 +93,27 @@ export default function DNSActionConfiguration({
         id: generateUniqueShortId(),
         key: '',
         operator: '',
-        value: ''
+        value: '',
+        error: {
+          key: {
+            invalid: false,
+            message: ''
+          },
+          operator: {
+            invalid: false,
+            message: ''
+          },
+          value: {
+            invalid: false,
+            message: ''
+          }
+        }
       }
     ];
     setTargetFilters([...updatedTargetFilters]);
     updateForm(
       form.updateIn(['configuration', 'targetValues'], (field: Item) =>
-        (field as Field<TargetFilter[]>).setValue([...updatedTargetFilters]).setTouched(false)
+        (field as Field<AssertionTargetFilter[]>).setValue([...updatedTargetFilters]).setTouched(true)
       )
     );
   }
@@ -120,7 +126,7 @@ export default function DNSActionConfiguration({
     setTargetFilters([...targetFilters]);
     updateForm(
       form.updateIn(['configuration', 'targetValues'], (field: Item) =>
-        (field as Field<TargetFilter[]>).setValue([...targetFilters]).setTouched(false)
+        (field as Field<AssertionTargetFilter[]>).setValue([...targetFilters]).setTouched(true)
       )
     );
   }
@@ -143,8 +149,10 @@ export default function DNSActionConfiguration({
             helperText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.lookupHelperText')}
             placeholder={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.lookupPlaceholder')}
             labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.lookupLabel')}
+            invalid={lookupField.touched && !lookupField.valid}
+            invalidText={lookupField.messages[0]?.message ?? ''}
           />
-          <Stack orientation="horizontal">
+          <Stack orientation="horizontal" className={locals.serverStack}>
             <TextInput
               id={generateUniqueShortId()}
               type="text"
@@ -158,6 +166,8 @@ export default function DNSActionConfiguration({
               }}
               helperText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.serverHelperText')}
               labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.serverLabel')}
+              invalid={serverField.touched && !serverField.valid}
+              invalidText={serverField.messages[0]?.message ?? ''}
             />
             <TextInput
               id={generateUniqueShortId()}
@@ -174,6 +184,8 @@ export default function DNSActionConfiguration({
               }}
               helperText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.portHelperText')}
               labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.portLabel')}
+              invalid={portField.touched && !portField.valid}
+              invalidText={portField.messages[0]?.message ?? ''}
             />
           </Stack>
           <TextInput
@@ -194,6 +206,8 @@ export default function DNSActionConfiguration({
             }}
             helperText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.queryTimeHelperText')}
             labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.queryTimeLabel')}
+            invalid={responseTimeField.touched && !responseTimeField.valid}
+            invalidText={responseTimeField.messages[0]?.message ?? ''}
           />
         </Stack>
       </div>
@@ -227,15 +241,19 @@ export default function DNSActionConfiguration({
                     targetFilters.forEach(targetFilter => {
                       if (targetFilter.id === selectedFilter.id) {
                         targetFilter.key = selectedItem!.value;
+                        const validator = assertionValidator(selectedFilter, selectedItem?.value!, 'key');
+                        targetFilter.error = validator.error;
                       }
                     });
                     setTargetFilters([...targetFilters]);
                     updateForm(
                       form.updateIn(['configuration', 'targetValues'], (field: Item) =>
-                        (field as Field<TargetFilter[]>).setValue([...targetFilters]).setTouched(true)
+                        (field as Field<AssertionTargetFilter[]>).setValue([...targetFilters]).setTouched(true)
                       )
                     );
                   }}
+                  invalid={selectedFilter.error.key.invalid}
+                  invalidText={selectedFilter.error.key.message}
                 />
                 <Dropdown
                   id="filter-operators"
@@ -248,15 +266,19 @@ export default function DNSActionConfiguration({
                     targetFilters.forEach(targetFilter => {
                       if (targetFilter.id === selectedFilter.id) {
                         targetFilter.operator = selectedItem!.value;
+                        const validator = assertionValidator(selectedFilter, selectedItem?.value!, 'operator');
+                        targetFilter.error = validator.error;
                       }
                     });
                     setTargetFilters([...targetFilters]);
                     updateForm(
                       form.updateIn(['configuration', 'targetValues'], (field: Item) =>
-                        (field as Field<TargetFilter[]>).setValue([...targetFilters]).setTouched(true)
+                        (field as Field<AssertionTargetFilter[]>).setValue([...targetFilters]).setTouched(true)
                       )
                     );
                   }}
+                  invalid={selectedFilter.error.operator.invalid}
+                  invalidText={selectedFilter.error.operator.message}
                 />
                 <TextInput
                   id={generateUniqueShortId()}
@@ -273,15 +295,19 @@ export default function DNSActionConfiguration({
                     targetFilters.forEach(targetFilter => {
                       if (targetFilter.id === selectedFilter.id) {
                         targetFilter.value = target.value;
+                        const validator = assertionValidator(selectedFilter, target?.value, 'value');
+                        targetFilter.error = validator.error;
                       }
                     });
                     setTargetFilters([...targetFilters]);
                     updateForm(
                       form.updateIn(['configuration', 'targetValues'], (field: Item) =>
-                        (field as Field<TargetFilter[]>).setValue([...targetFilters]).setTouched(true)
+                        (field as Field<AssertionTargetFilter[]>).setValue([...targetFilters]).setTouched(true)
                       )
                     );
                   }}
+                  invalid={selectedFilter.error.value.invalid}
+                  invalidText={selectedFilter.error.value.message}
                 />
                 <IconButton
                   kind="ghost"
@@ -411,6 +437,8 @@ export default function DNSActionConfiguration({
                 );
               }}
               labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.serverRetriesLabel')}
+              invalid={serverRetriesField.touched && !serverRetriesField.valid}
+              invalidText={serverRetriesField.messages[0]?.message ?? ''}
             />
           </div>
         </Stack>

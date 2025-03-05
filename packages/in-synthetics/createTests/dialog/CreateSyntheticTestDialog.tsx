@@ -8,8 +8,15 @@ import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
 
+import {
+  Code,
+  Invalid,
+  SlideInConfig,
+  SliderState,
+  TargetFilter,
+  TestTypeSelected
+} from 'in-synthetics/utils/constants';
 import CreateSyntheticTestDialogPresenter from 'in-synthetics/createTests/dialog/CreateSyntheticTestDialogPresenter';
-import { Code, SlideInConfig, SliderState, TargetFilter, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
@@ -122,7 +129,7 @@ const createSyntheticTest = (
         const updatedFilter = form
           .get('configuration')
           .get('targetValues')
-          .value.map(({ id, ...otherValues }: { id: string }) => otherValues)
+          .value.map(({ id, error, ...otherValues }: { id: string; error: Invalid }) => otherValues)
           .filter((targetValue: TargetFilter) => isNotBlank(targetValue.key));
         updatedForm = form.updateIn(['configuration', 'targetValues'], (field: Item) =>
           (field as Field<TargetFilter>).setValue(updatedFilter).setTouched(true)

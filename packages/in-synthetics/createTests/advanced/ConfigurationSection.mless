@@ -66,9 +66,18 @@
     width: 50%;
   }
 
+  .serverStack {
+    display: flex;
+    :global(.cds--text-input-wrapper) {
+      width: 100%;
+    }
+  }
+
   .queryStack {
     display: flex;
-    align-items: flex-end;
+    :global(.cds--popover-container) {
+      top: 25%;
+    }
   }
 
   .queryWidth {

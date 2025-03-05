@@ -14,6 +14,7 @@ import { createLogger } from '@instana/logger';
 import cleanConfigurationForm from 'in-synthetics/dashboards/summary/tabs/configuration/actions/cleanConfigurationForm';
 import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import { clickSyntheticMonitoringConfigurationTabEditTracker } from 'in-synthetics/tracking/tracker';
+import { getDefaultTargetFilters } from 'in-synthetics/createTests/utils/getDefaultTargetFilters';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { ConfigItem, SlideInHeader, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { updateForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
@@ -159,6 +160,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
   };
   const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties());
   const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
+  const [targetFilters, setTargetFilters] = useState(getDefaultTargetFilters(form));
 
   const formId = 'create-synthetics-test-form';
 
@@ -331,6 +333,8 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
           setInvalidCustomProperty={setInvalidCustomProperty}
           invalidTimeout={invalidTimeout}
           setInvalidTimeout={setInvalidTimeout}
+          targetFilters={targetFilters}
+          setTargetFilters={setTargetFilters}
         />
       </form>
     </DialogWithSlideInView>
