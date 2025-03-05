@@ -64,6 +64,7 @@ export function createAlertChannel(id, kind, name = '') {
       id: id || generateUniqueShortId(),
       kind: configs.email.name,
       name,
+      rbacTags: [],
       emails: []
     };
   }
@@ -72,7 +73,8 @@ export function createAlertChannel(id, kind, name = '') {
   const integration = {
     id: id || generateUniqueShortId(),
     kind,
-    name
+    name,
+    rbacTags: []
   };
 
   fullyQualified[kind].enrichAlertChannelObject(integration);

@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { Fragment, useEffect, useState } from 'react';
 import { createMapForm } from 'formalistic';
-import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { fromJS } from 'immutable';
 
-import { Button, Collapsible, Link, Message, Stack, Typography } from '@instana/components';
+import { Button, CarbonMultiSelect, Collapsible, Link, Message, Stack, Typography } from '@instana/components';
+import { Pill, Label } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { Pill } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import AlertChannelTestButton from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelTestButton';
 import { fullyQualified } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
@@ -23,11 +24,15 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { hasError, isLoading } from 'in-services/util/result';
 import SectionLine from 'in-settings/components/SectionLine';
 import FeatureFeedback from 'in-components/FeatureFeedback';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import Notification from 'in-components/form/Notification';
+import { pendingResult } from 'in-services/fixedObjects';
 import { saveAlertChannel } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
+import { getTeamsResult } from 'in-api/teams';
 import entityForm from 'in-hoc/entityForm';
 import { t, Trans } from 'in-i18n';
 
@@ -48,6 +53,21 @@ function AlertChannelModificationForm(props) {
     listPath,
     setMinHeight = false
   } = props;
+
+  const dataResult = useObservable(getTeamsResult, []) ?? pendingResult;
+  const teamsLoading = isLoading(dataResult);
+  const teamsHasErrors = hasError(dataResult);
+  const teamsList = !teamsLoading && !teamsHasErrors ? dataResult : [];
+  const teamsAssigned = entity.get('rbacTags');
+  const [selectedList, setSelectedList] = useState([]);
+  useEffect(() => {
+    const teamsSelected = teamsAssigned
+      ? teamsList.filter(item => teamsAssigned.some(team => team.get('id') == item.id))
+      : [];
+    setForm(form.put('rbacTags', teamsSelected));
+    setSelectedList(teamsSelected);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamsAssigned, teamsList]);
 
   if (!entity || !form) {
     return <LoadingIndicator />;
@@ -75,6 +95,10 @@ function AlertChannelModificationForm(props) {
 
   const alertChannelLabel = fullyQualifiedAlertChannel.label;
   const testAlertChannelLabel = fullyQualifiedAlertChannel.testAlertChannelLabel;
+  const onSelectionChanged = item => {
+    setSelectedList(item);
+    setForm(form.put('rbacTags', item));
+  };
 
   return (
     <Fragment>
@@ -134,6 +158,26 @@ function AlertChannelModificationForm(props) {
             alertChannelLabel={alertChannelLabel}
             testAlertChannelLabel={testAlertChannelLabel}
           />
+        )}
+        {rbacTeamsEnabled && (
+          <>
+            <SectionLine />
+            <Typography variant="heading-02" noMargin>
+              {t('in-settings:tabs.accessTitle')}
+            </Typography>
+            <Section>
+              <Label htmlFor="teamsSelect">{t('in-settings:tabs.accessDesc')}</Label>
+              <div id="teamsSelect" className={locals.teamsSelector}>
+                <CarbonMultiSelect
+                  label={t('in-settings:tabs.chooseTeams')}
+                  onChange={data => onSelectionChanged(data.selectedItems)}
+                  items={teamsList}
+                  selectedItems={selectedList}
+                  itemToString={item => (item ? item.tag : '')}
+                />
+              </div>
+            </Section>
+          </>
         )}
 
         {AdvancedFormSettings && (
@@ -201,6 +245,14 @@ function getConfig(alertChannel) {
 }
 
 export function save(alertChannel, form) {
+  const addRbacTags = obj => {
+    let result = obj;
+    const rbacTags = form.get('rbacTags');
+    if (rbacTags) {
+      result = { ...obj, rbacTags };
+    }
+    return result;
+  };
   createAlertChannelTracker({ alertChannelType: form.get('kind').value, alertChannelName: form.get('name').value });
   // Todo - modernize
   alertChannelCTATrackerSegment({
@@ -208,7 +260,7 @@ export function save(alertChannel, form) {
     path: '',
     channel: form.get('kind').value
   });
-  return saveAlertChannel(fromJS(getConfig(alertChannel).createEntity(alertChannel, form)));
+  return saveAlertChannel(fromJS(addRbacTags(getConfig(alertChannel).createEntity(alertChannel, form))));
 }
 
 export function createForm(alertChannel) {
