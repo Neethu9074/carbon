@@ -16,7 +16,7 @@ import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/ta
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import MobileAppBigNumberCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppBigNumberCard';
 import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
-import { latency, number, percentage, millis } from 'in-services/formatters/number';
+import { number, percentage, millis, seconds } from 'in-services/formatters/number';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
@@ -37,9 +37,17 @@ interface PerformanceProp {
 
 export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mobileAppId }: PerformanceProp) {
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
-  const tagCatalogSessionStart = useTagCatalog('sessionStart');
   const tagCatalogCrash = useTagCatalog('crash');
+  const tagCatalogPerf = useTagCatalog('perf');
   const tagFiltersForRequests = tagFilters.slice();
+  const tagFiltersForColdStart = tagFilters.slice();
+  tagFiltersForColdStart.push({
+    name: 'mobileBeacon.performanceSubtype',
+    operator: 'EQUALS',
+    stringValue: 'ast',
+    type: 'TAG_FILTER',
+    entity: 'NOT_APPLICABLE'
+  });
   tagFiltersForRequests.push({
     name: 'mobileBeacon.type',
     operator: 'EQUALS',
@@ -62,14 +70,14 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
       <KpiGridRow sizes={[4, 4, 4]}>
         <MobileAppMetricsKpiCard
           title={t('in-mobile-apps:dashboard.tabs.coldStartTimeTitle')}
-          formatter={latency.detailed}
+          formatter={seconds.fromMillisFixedDetailed}
           metricsConfig={{
             tagFilters,
             timeConfig,
             metrics: {
-              uniqueUsersOrSessions: {
-                metric: 'uniqueUsersOrSessions',
-                aggregation: 'DISTINCT_COUNT'
+              mobileColdStart: {
+                metric: 'mobileColdStart',
+                aggregation: 'P75'
               }
             }
           }}
@@ -78,28 +86,28 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             kind: 'subtle',
             icon: 'lib_analyze',
             href:
-              tagCatalogSessionStart &&
+              tagCatalogPerf &&
               getLinkToMobileAppAnalyze({
-                beaconType: 'sessionStart',
+                beaconType: 'perf',
                 formModel: translateDemocratisationTagFiltersToFormModel({
                   mobileAppLabel,
-                  tagFilters,
-                  tagCatalog: tagCatalogSessionStart
+                  tagFilters: tagFiltersForColdStart,
+                  tagCatalog: tagCatalogPerf
                 }),
                 groupBy: {
-                  groupbyTag: 'mobileBeacon.view.name'
+                  groupbyTag: 'mobileBeacon.performanceSubtype'
                 },
                 fields: [
                   {
-                    metricId: 'uniqueUsersOrSessions',
-                    aggregationId: 'DISTINCT_COUNT',
+                    metricId: 'mobileColdStart',
+                    aggregationId: 'P75',
                     type: metricType
                   }
                 ],
                 chartedMetrics: [
                   {
-                    metricId: 'uniqueUsersOrSessions',
-                    aggregationId: 'DISTINCT_COUNT'
+                    metricId: 'mobileColdStart',
+                    aggregationId: 'P75'
                   }
                 ]
               })

@@ -50,6 +50,7 @@ export const metricRenderers = {
   perf: {
     beaconCount: 'stackedBar',
     beaconDuration: 'stackedArea',
-    uniqueUsersOrSessions: 'stackedBar'
+    uniqueUsersOrSessions: 'stackedBar',
+    mobileColdStart: 'stackedArea'
   }
 };
