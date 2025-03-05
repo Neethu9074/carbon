@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import { CarbonLayer, Li, SvgIcon, Typography, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -12,15 +12,17 @@ import { t } from '@instana/i18n-react';
 import { Result } from '@instana/types';
 
 import LogVolumeGroupingConfigurator from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/workspaces/LogVolumeGroupingConfigurator';
-import { GroupingTag, TagNames, TagObject } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/types';
-import { generateQuery, getLabelByName } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/utils';
 import LogVolumeDetails from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/LogVolumeDetails';
+import { TagNames, TagObject } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/types';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
+import { generateQuery } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/utils';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getLogVolumeReport, GetVolumeReportData } from 'in-logging/api/logVolume';
+import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { dataSource } from 'in-applications/navigation/matrix';
+import useUrlState, { Options } from 'in-hooks/useUrlState';
 import Select from 'in-components/form/Select/Select';
 import { hasError } from 'in-services/util/result';
 import Label from 'in-components/form/Label';
@@ -41,30 +43,63 @@ const defaultProps = {
   }
 };
 
-const DEFAULT_TAG_NAME: TagNames = '';
+const urlStateDefinition: Options<{ timePeriod: number; groupingTag: TagNames | null }> = {
+  bind: [
+    {
+      path: '/logVolume',
+      name: 'timePeriod',
+      as: 'timePeriod',
+      initialState: 1,
+      parser: buildJsonParser(),
+      serializer: buildJsonSerializer()
+    },
+    {
+      path: '/logVolume',
+      name: 'groupingTag',
+      as: 'groupingTag',
+      initialState: '',
+      parser: buildJsonParser(),
+      serializer: buildJsonSerializer()
+    }
+  ],
+  reducer: (prevState, { timePeriod, groupingTag }) => ({
+    timePeriod: timePeriod ?? prevState.timePeriod,
+    groupingTag: groupingTag ?? prevState.groupingTag
+  })
+};
 
 export function LogVolume() {
-  const [timePeriod, setTimePeriod] = useState<number>(1);
-  const [groupingTag, setGroupingTag] = useState<TagNames>(DEFAULT_TAG_NAME);
-  const [groupingTagLabel, setGroupingTaglabel] = useState<GroupingTag>(DEFAULT_TAG_NAME);
-  const [groupValue, setGroupValue] = useState<TagObject | null>(null);
+  const [{ groupingTag, timePeriod }, setUrlState] = useUrlState(urlStateDefinition);
 
-  const result = (useObservable<Result<GetVolumeReportData>, [number, string]>(
+  const setGroupingTag = (newGroupingTag: TagNames | null) => {
+    setUrlState({
+      groupingTag: newGroupingTag === null ? '' : newGroupingTag,
+      timePeriod
+    });
+  };
+
+  const setTimePeriod = (newTimePeriod: number) => {
+    setUrlState({
+      groupingTag,
+      timePeriod: newTimePeriod
+    });
+  };
+
+  const result = (useObservable<Result<GetVolumeReportData>, [number, string | null]>(
     () => getLogVolumeReport(generateQuery(timePeriod, groupingTag)),
     [timePeriod, groupingTag]
   ) ?? { errors: [], progress: { loading: true }, data: {} }) as Result<GetVolumeReportData>;
 
   const { progress, data } = result;
 
-  const onChangeGroup = (param: TagObject | null) => {
-    const newTag = param ? param.groupbyTag : DEFAULT_TAG_NAME;
-    const newTagLabel = param ? getLabelByName(param.groupbyTag) : DEFAULT_TAG_NAME;
-    setGroupValue(param);
-    setGroupingTag(newTag);
-    setGroupingTaglabel(newTagLabel as GroupingTag);
-  };
-
   const { trackUa2GroupChanged } = useAnalyzeTracker();
+
+  const groupingConfiguratorValue = groupingTag
+    ? ({
+        groupbyTag: groupingTag as string
+      } as TagObject)
+    : null;
+
   return (
     <>
       <section className={locals.page}>
@@ -99,8 +134,12 @@ export function LogVolume() {
               </Li>
               <GroupingConfiguratorSection
                 data-testid="groupingConfiguration"
-                value={groupValue}
-                onChange={onChangeGroup}
+                value={groupingConfiguratorValue}
+                onChange={(tag: TagObject) => {
+                  if (tag?.groupbyTag) {
+                    setGroupingTag(tag.groupbyTag as TagNames);
+                  } else setGroupingTag(null);
+                }}
                 GroupingConfigurator={LogVolumeGroupingConfigurator}
                 tagFilterExpression={defaultProps.backendQueryModel || toBackendQueryModel([])}
                 tracking={{
@@ -120,11 +159,11 @@ export function LogVolume() {
               </section>
             ) : (
               <LogVolumeDetails
-                key={timePeriod + groupingTag}
+                key={`${timePeriod}-${groupingTag}`}
                 progress={progress}
                 data={data?.logVolumeUsageItems}
                 timePeriod={timePeriod}
-                groupingTag={groupingTagLabel}
+                groupingTag={'groupingTagLabel'}
               />
             )}
           </section>

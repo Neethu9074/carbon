@@ -16,8 +16,8 @@ export const DISPLAYED_RETENTION_DAYS = [30, 60, 90];
 
 export const generateQuery = (
   monthsBack: number,
-  groupingTag?: TagNames
-): { fromTs: number; toTs: number; groupingTag?: TagNames } => {
+  groupingTag?: TagNames | null
+): { fromTs: number; toTs: number; groupingTag?: TagNames | null } => {
   const now = new Date();
 
   const fromDate = new Date(now.getFullYear(), now.getMonth() - (monthsBack - 1), 1, 0, 0, 0);

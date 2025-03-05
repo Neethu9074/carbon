@@ -17,7 +17,7 @@ export interface GetLogVolumeReportParams {
   fromTs: number;
   //Pass same value as fromTs to get the current month
   toTs: number;
-  groupingTag?: string;
+  groupingTag?: string | null;
 }
 
 export interface RetentionPeriod {
