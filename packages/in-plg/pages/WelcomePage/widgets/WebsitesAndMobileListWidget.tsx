@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
+import React, { useState } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
 import { TimeConfig, EntityHealthInfo } from '@instana/types';
 import { Stack, Link, IconButton } from '@instana/components';
@@ -18,12 +18,12 @@ import MobileHealthIndicatorBehavior from 'in-mobile-apps/MobileAppDashboard/com
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
 //@ts-expect-error doesn't contain type file
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-//@ts-expect-error doesn't contain type file
-import mergeResults from 'in-plg/pages/WelcomePage/widgets/utils/mergeResults';
 import {
   mobileApp as mobileAppType,
   website as websiteType
 } from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
+//@ts-expect-error doesn't contain type file
+import mergeResults from 'in-plg/pages/WelcomePage/widgets/utils/mergeResults';
 //@ts-expect-error doesn't contain type file
 import { add, remove } from 'in-plg/pages/WelcomePage/widgets/starredItems';
 import { mobileAppMonitoringPath, useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
@@ -48,13 +48,39 @@ import { hasError, isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { role } from 'in-stores/user';
 
-function handleFavoriteClick(id: string, item: any, isFavourite: boolean) {
+type WebsiteItem = {
+  isWebsite: true;
+  website: {
+    id: string;
+    label: string;
+  };
+};
+
+type MobileAppItem = {
+  isWebsite: false;
+  mobileApp: {
+    id: string;
+    label: string;
+  };
+};
+
+type Item = WebsiteItem | MobileAppItem;
+
+function handleFavoriteClick(
+  id: string,
+  item: Item,
+  isFavourite: boolean,
+  setCurrentFavoriteWebsiteIds: React.Dispatch<React.SetStateAction<string[]>>,
+  setCurrentFavoriteMobileIds: React.Dispatch<React.SetStateAction<string[]>>
+) {
   if (!id && !item) return;
   if (isFavourite) {
     remove({
       id: id,
       type: item.isWebsite ? websiteType : mobileAppType
     });
+    const setFavorite = item.isWebsite ? setCurrentFavoriteWebsiteIds : setCurrentFavoriteMobileIds;
+    setFavorite(prevIds => prevIds.filter(favId => favId !== id));
   } else {
     add({
       id: item.isWebsite ? item.website.id : item.mobileApp.id,
@@ -88,7 +114,7 @@ function WebsiteHealthInfo({ websiteId, timeConfig }: { websiteId: string; timeC
   );
 }
 
-function getId(item: any) {
+function getId(item: Item) {
   return item.isWebsite ? item.website.id : item.mobileApp.id;
 }
 
@@ -127,6 +153,8 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
   const { createHrefToPath, goToPath } = useNavigation();
   const getLinkToWebsite = useGenerateLinkToWebsite();
   const getLinkToMobileApp = useGenerateLinkToMobileApp();
+  const [currentFavoriteWebsiteIds, setCurrentFavoriteWebsiteIds] = useState<string[]>([]);
+  const [currentFavoriteMobileIds, setCurrentFavoriteMobileIds] = useState<string[]>([]);
 
   const getHeaders = () => {
     if (type === 'website') {
@@ -262,7 +290,9 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
                 ? 'lib_actions_favorite_filled'
                 : 'lib_actions_favorite'
             }
-            onClick={() => handleFavoriteClick(id, item, isFavourite)}
+            onClick={() =>
+              handleFavoriteClick(id, item, isFavourite, setCurrentFavoriteWebsiteIds, setCurrentFavoriteMobileIds)
+            }
             iconSize="xs"
             disabled={isDisabled}
           />
@@ -315,9 +345,13 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
           }
         }
       })
-    ]).map(([mobileAppResult, metricResult]) =>
-      combineResults(mobileAppResult, metricResult, 'mobileApp', 'isMobileApp')
-    );
+    ]).map(([mobileAppResult, metricResult]) => {
+      const mobileId = mobileAppResult?.data?.id;
+      if (mobileId && !currentFavoriteMobileIds.includes(mobileId)) {
+        setCurrentFavoriteMobileIds(prevList => [...prevList, mobileId]);
+      }
+      return combineResults(mobileAppResult, metricResult, 'mobileApp', 'isMobileApp');
+    });
   }
 
   function getWebsiteById(id: string, timeConfig: TimeConfig) {
@@ -348,7 +382,13 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
           }
         }
       })
-    ]).map(([websiteResult, metricResult]) => combineResults(websiteResult, metricResult, 'website', 'isWebsite'));
+    ]).map(([websiteResult, metricResult]) => {
+      const websiteId = websiteResult?.data?.id;
+      if (websiteId && !currentFavoriteWebsiteIds.includes(websiteId)) {
+        setCurrentFavoriteWebsiteIds(prevList => [...prevList, websiteId]);
+      }
+      return combineResults(websiteResult, metricResult, 'website', 'isWebsite');
+    });
   }
 
   function combineResults(entityResult: any, metricResult: any, entityName: string, flag: string) {
@@ -377,6 +417,7 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
     return (
       <DatatableWrapper
         {...generalProps}
+        nonDeletedFavoriteCount={currentFavoriteWebsiteIds.length}
         getItems={getWebsites}
         getItem={getWebsiteById}
         tableType="websitesWidget"
@@ -400,6 +441,7 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
   return (
     <DatatableWrapper
       {...generalProps}
+      nonDeletedFavoriteCount={currentFavoriteMobileIds.length}
       getItems={getMobileApps}
       getItem={getMobileAppById}
       tableType="mobileListWidget"
