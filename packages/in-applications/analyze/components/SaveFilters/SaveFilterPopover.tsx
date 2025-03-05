@@ -27,6 +27,7 @@ import { RenderIcon } from 'in-applications/analyze/components/SaveFilters/Rende
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createFilter, updateFilter } from 'in-applications/api/filters';
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
@@ -50,6 +51,7 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
     id: '',
     name: ''
   });
+  useDisabledBodyScroll(open);
 
   useEffect(() => {
     const subscription = selectedFilter$.subscribe(
@@ -153,6 +155,8 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
   return (
     <Popover open={open} align="bottom-end" onRequestClose={handleClose}>
       <Button
+        aria-expanded={open}
+        aria-haspopup
         disabled={isSaveDisabled}
         kind="ghost"
         icon="lib_save"
@@ -170,11 +174,11 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
                 {isEdit ? t('in-applications:analyze.editFilterTitle') : t('in-applications:analyze.saveFiltersTitle')}
               </Typography>
 
-              <p className={locals.subTitle}>
+              <Typography variant="helper-text-01">
                 {isEdit
                   ? t('in-applications:analyze.editFilterDescription')
                   : t('in-applications:analyze.saveFiltersDescription')}
-              </p>
+              </Typography>
             </div>
             <div className={locals.textInputContainer}>
               <span className={locals.charactercounter}>

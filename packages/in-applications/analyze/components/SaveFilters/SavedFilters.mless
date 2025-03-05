@@ -16,5 +16,9 @@
   }
   .emptyState {
     padding: 2rem;
+    :global(.emptyStateTitle) {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
 }

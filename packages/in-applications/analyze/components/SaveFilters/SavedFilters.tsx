@@ -28,6 +28,7 @@ import { DeleteFilterModal } from 'in-applications/analyze/components/SaveFilter
 import { RenderIcon } from 'in-applications/analyze/components/SaveFilters/RenderIcon';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { setSelectedFilter } from 'in-applications/analyze/utils/filterUtils';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { getSavedFilters } from 'in-applications/api/filters';
@@ -66,7 +67,9 @@ export const SavedFilters = ({ setUrlState }: SavedFiltersProps): JSX.Element =>
     setSearchTerm(event.target.value);
   };
 
-  const handleEdit = (filter: SavedFilter) => {
+  const handleEdit = (event: React.MouseEvent, filter: SavedFilter) => {
+    //Need to test in pink in chrome
+    stopPropagationAndPreventDefault(event);
     setSelectedFilter('edit', filter);
     setIsFiltersListOpen(false);
   };
@@ -101,7 +104,7 @@ export const SavedFilters = ({ setUrlState }: SavedFiltersProps): JSX.Element =>
   const itemActions = (item: SavedFilter) => {
     return (
       <>
-        <IconButton label="edit" kind="ghost" onClick={() => handleEdit(item)}>
+        <IconButton label="edit" kind="ghost" onClick={event => handleEdit(event, item)}>
           <SvgIcon type="lib_actions_edit" size="s" />
         </IconButton>
         <IconButton label="delete" kind="ghost" onClick={() => handleDelete(item)}>
