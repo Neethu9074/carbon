@@ -34,6 +34,7 @@ import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/Custo
 import useMobileAppLabel from 'in-alerting/smart-alerts/mobileApp/hooks/useMobileAppLabel';
 import { getStatusCodeLabel } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { alertChannelPerSeverityMobileAppSaEnabled } from 'in-services/featureFlags';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
@@ -55,6 +56,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
     granularity,
     gracePeriod,
     alertChannelIds,
+    alertChannels,
     tagFilterExpression,
     mobileAppId,
     customPayloadFields
@@ -179,7 +181,11 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
         darkFrame
       >
         <div className={locals.alertChannelsWrapper}>
-          <AlertChannelsViewer alertChannelIds={alertChannelIds} />
+          <AlertChannelsViewer
+            alertChannelIds={alertChannelIds}
+            alertChannels={alertChannels}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityMobileAppSaEnabled}
+          />
         </div>
       </ExpandableLightCard>
 

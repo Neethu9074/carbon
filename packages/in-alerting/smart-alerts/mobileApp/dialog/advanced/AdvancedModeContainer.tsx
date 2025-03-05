@@ -15,6 +15,10 @@ import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+import {
+  mobileAppSmartAlertsAdaptiveBaselineEnabled,
+  alertChannelPerSeverityMobileAppSaEnabled
+} from 'in-services/featureFlags';
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import {
@@ -22,6 +26,7 @@ import {
   fieldTouchedAndInvalid
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/eum/components/ThresholdSelectionInteractiveChart';
+import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
 import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/BluePrintSelectionSection';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
@@ -41,7 +46,6 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blue
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
-import { mobileAppSmartAlertsAdaptiveBaselineEnabled } from 'in-services/featureFlags';
 import mobileAppCreateRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import useMobileApp from 'in-mobile-apps/hooks/useMobileApp';
@@ -192,13 +196,26 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           title: t('in-alerting:smartAlerts.mobileApp.advanced.alertChannelsTitle'),
           valid: true,
           content: (
-            <ConfigureAlertChannel
-              form={form}
-              onChange={onChange}
-              setSliderState={setSliderState}
-              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-              numberOfAlertChannelListRows={5}
-            />
+            <>
+              {alertChannelPerSeverityMobileAppSaEnabled ? (
+                <ConfigureAlertChannelMT
+                  form={form}
+                  onChange={onChange}
+                  updateForm={updateForm}
+                  setSliderState={setSliderState}
+                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                  numberOfAlertChannelListRows={5}
+                />
+              ) : (
+                <ConfigureAlertChannel
+                  form={form}
+                  onChange={onChange}
+                  setSliderState={setSliderState}
+                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                  numberOfAlertChannelListRows={5}
+                />
+              )}
+            </>
           )
         },
         {
