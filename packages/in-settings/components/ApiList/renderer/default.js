@@ -30,7 +30,8 @@ export default function renderDefaultList(props) {
           totalItems,
           totalFilteredItems,
           pageItems,
-          isLoading
+          isLoading,
+          pageSize
         } = _props;
         if (isLoading) {
           return <LoadingApiList {..._props} />;
@@ -51,8 +52,8 @@ export default function renderDefaultList(props) {
               <CarbonPagination
                 currentPage={page}
                 totalItems={totalFilteredItems}
-                pageSize={numPages}
-                pageSizes={[numPages]}
+                pageSize={pageSize}
+                pageSizes={[pageSize]}
                 onChange={p => setPage(p.page)}
               />
             )}
