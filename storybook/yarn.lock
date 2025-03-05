@@ -2364,9 +2364,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@instana/components@npm:5.0.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-5.0.0.tgz"
+"@instana/components@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "@instana/components@npm:5.1.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-5.1.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.45.0
     "@carbon/react": 1.72.0
@@ -2384,7 +2384,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.2
-  checksum: f0ccb4d4acc509f42890d568fdef39c5de7ed474e533d0d72ed593ab256e95d91ea2e47471c6d558b0331a967a1ae25cd5f6d9c5b07b6797ae63e97c430f1311
+  checksum: 620652260915e24830bcadbc366a3c58aaa12996b85ccc13efe27a10d358cecb67feddc147df00b36cf2097e462c6efd451d9781882e999b1bce4708419ec001
   languageName: node
   linkType: hard
 
@@ -2481,11 +2481,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@instana/legacy@npm:5.0.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-5.0.0.tgz"
+"@instana/legacy@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "@instana/legacy@npm:5.0.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-5.0.1.tgz"
   dependencies:
-    "@instana/components": ^5.0.0
+    "@instana/components": ^5.1.0
     "@instana/design-tokens": ^1.28.8
     "@instana/format-date": ^1.7.6
     "@instana/format-numbers": ^1.6.4
@@ -2497,7 +2497,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 34ad265440484591ed92a6e9ed6fd4b504d09e1a15662dae9e4e2fa6ae3cb408d240d9f22b8cd3f8a3556f0cd1788e4d958a153a8a9e6d0bfae105f76671bc42
+  checksum: c978fdb63195ac14c2dc4f5047c5dc4abff3e8f4e93666bf876603c5a62c5cd5ac88e46fcf23d3ef46a8c1c99ef0f3df91dae270c5109fe832a936885be8bf4b
   languageName: node
   linkType: hard
 
@@ -2508,20 +2508,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/playground@npm:4.0.0":
-  version: 4.0.0
-  resolution: "@instana/playground@npm:4.0.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fplayground%2F-%2F%40instana%2Fplayground-4.0.0.tgz"
+"@instana/playground@npm:4.0.1":
+  version: 4.0.1
+  resolution: "@instana/playground@npm:4.0.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fplayground%2F-%2F%40instana%2Fplayground-4.0.1.tgz"
   dependencies:
     "@carbon/layout": ^11.25.0
     "@carbon/motion": ^11.21.0
     "@carbon/themes": ^11.39.0
     "@instana/carbon-charts": ^0.5.0
-    "@instana/components": ^5.0.0
+    "@instana/components": ^5.1.0
     "@instana/design-tokens": ^1.28.8
     "@instana/hooks": ^1.12.4
     "@instana/i18n": ^1.6.4
     "@instana/ibm-products": ^0.9.1
-    "@instana/legacy": ^5.0.0
+    "@instana/legacy": ^5.0.1
     "@instana/observables": ^1.8.3
     classnames: ^2.5.1
     lodash: ^4.17.21
@@ -2530,7 +2530,7 @@ __metadata:
     react-dom: ^17.0.2
     react-is: ^18.3.1
     storybook-addon-pseudo-states: 2.1.2
-  checksum: 78f0de11320f680e6e314d0cbe0b3072278563d56d215fa76de3a29c554deb3843e6f14f6976d54f01f52a1111bec3e1058e93f0cb0eac314f360b87519c19fa
+  checksum: 981c93beee6b5afe093c198f522df0f02114518bd4933ed11d62a1aad00808bb5b0a26e241df3dba6bfb7982df4b8a7b0ca3ab0e4f079d682c84298508ee613a
   languageName: node
   linkType: hard
 
@@ -13206,7 +13206,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ui-client-storybook@workspace:."
   dependencies:
-    "@instana/playground": 4.0.0
+    "@instana/playground": 4.0.1
     "@storybook/addon-a11y": 7.6.4
     "@storybook/addon-docs": 7.6.4
     "@storybook/addon-essentials": 7.6.4
