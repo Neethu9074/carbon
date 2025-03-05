@@ -1473,6 +1473,10 @@
           "title": "Pick a template",
           "description": "Choose the issue that you want to be alerted on"
         },
+        "step2": {
+          "title": "Define the scope",
+          "description": "Where is the condition happening?"
+        },
         "statusCode": {
           "headline": "Automatic alerts for HTTP status codes",
           "text": "Receive an alert when matching HTTP status codes occur more often than the threshold."
@@ -1484,7 +1488,9 @@
         "crash": {
           "headline": "Automatic Alerts for Crashes",
           "text": "Receive an alert when selected crash metric is higher or lower than expected."
-        }
+        },
+        "filter": "Filter",
+        "filterDescription": "Select the services to get more precise alerts."
       }
     },
     "eum": {

@@ -5,6 +5,7 @@
  */
 
 import AlertConfigTearSheetStep1 from 'in-alerting/smart-alerts/mobileApp/TearSheet/steps/AlertConfigTearSheetStep1';
+import AlertConfigTearSheetStep2 from 'in-alerting/smart-alerts/mobileApp/TearSheet/steps/AlertConfigTearSheetStep2';
 import { t } from 'in-i18n';
 
 export const stepConfigsForCarbonTearSheet = [
@@ -16,5 +17,10 @@ export const stepConfigsForCarbonTearSheet = [
     ],
     description: t('in-alerting:smartAlerts.mobileApp.tearSheet.step1.description'),
     component: AlertConfigTearSheetStep1
+  },
+  {
+    title: t('in-alerting:smartAlerts.mobileApp.tearSheet.step2.title'),
+    validateIntermediately: [],
+    component: AlertConfigTearSheetStep2
   }
 ];
