@@ -117,26 +117,30 @@ router.get('/', async (req, res) => {
 
     const [statusCode, userStr] = await getCurrentUser(req);
     if (statusCode === 401) {
-      const uiClientBaseUrl = await configResolver.getBaseUrl(req.tenant, req.unit);
-      const clientConfig = await configResolver.getClientConfig(req, req.tenant, req.unit);
-      const nonce = uuidv4();
-      if (clientConfig.featureFlags?.playwithEnabled) {
-        res.status(401).send(
-          compiledRedirectTemplate({
-            signInUrl: `https://www.ibm.com/account/reg/us-en/signup?formid=urx-52153&`
-          })
-        );
-      } else {
-        res
-          .status(401)
-          .set('Content-Security-Policy', `default-src 'self'; script-src 'self' 'nonce-${nonce}'`)
-          .send(
+      try {
+        const uiClientBaseUrl = await configResolver.getBaseUrl(req.tenant, req.unit);
+        const clientConfig = await configResolver.getClientConfig(req, req.tenant, req.unit);
+        const nonce = uuidv4();
+        if (clientConfig.featureFlags?.playwithEnabled) {
+          res.status(401).send(
             compiledRedirectTemplate({
-              signInUrl: `${uiClientBaseUrl}/auth/signIn`,
-              returnUrlWithoutHash: encodeURIComponent(uiClientBaseUrl + req.originalUrl),
-              nonce
+              signInUrl: `https://www.ibm.com/account/reg/us-en/signup?formid=urx-52153&`
             })
           );
+        } else {
+          res
+            .status(401)
+            .set('Content-Security-Policy', `default-src 'self'; script-src 'self' 'nonce-${nonce}'`)
+            .send(
+              compiledRedirectTemplate({
+                signInUrl: `${uiClientBaseUrl}/auth/signIn`,
+                returnUrlWithoutHash: encodeURIComponent(uiClientBaseUrl + req.originalUrl),
+                nonce
+              })
+            );
+        }
+      } catch (err) {
+        req.log.error({ err }, 'Error when compiling the redirection template for unauthenticated users.');
       }
       return;
     } else if (statusCode === 403) {

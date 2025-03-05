@@ -16,7 +16,7 @@ exports.isUrlFormatWithPathStrategy = function isPathStrategy(urlFormat) {
 };
 
 exports.getRawBaseUrl = (tenant, unit, clientConfig) => {
-  return (clientConfig.urlFormat ?? subdomainUrlFormat)
+  return (clientConfig?.urlFormat ?? subdomainUrlFormat)
     .replace('$unit', unit)
     .replace('$tenant', tenant)
     .replace('$baseDomain', clientConfig.tenantUnitDomainSuffix);
