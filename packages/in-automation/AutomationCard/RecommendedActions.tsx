@@ -23,12 +23,12 @@ import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/t
 import CreatePolicyDialog from 'in-automation/AutomationCard/CreatePolicyDialog/CreatePolicyDialog';
 import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
+import TurboActionRunModal from 'in-automation/ResourceOptimization/TurboActionRunModal';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import DetailsModal1 from 'in-automation/ResourceOptimization/DetailsModal1';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ScoredAction, TriggerSpecification } from 'in-automation/types';
@@ -98,7 +98,7 @@ function ExecuteButton({
           stopPropagationAndPreventDefault(e);
           // addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
           addActiveDialog(
-            <DetailsModal1 action={action} agents={agents} eventId={event?.id} targetSnapshotId={entityId} />
+            <TurboActionRunModal action={action} agents={agents} eventId={event?.id} targetSnapshotId={entityId} />
           );
         }}
         noAutoMargin
