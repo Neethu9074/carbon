@@ -9,7 +9,6 @@ import React from 'react';
 
 import { SvgIcon, Button, Stack } from '@instana/components';
 
-import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import RolesSelector from 'in-settings/terms/RolesSelector';
 import Label from 'in-components/form/Label';
@@ -18,24 +17,12 @@ import { t } from 'in-i18n';
 
 import locals from './TermsPages.mless';
 
-export default function TermsPageProfile({
-  onBack,
-  onChange,
-  form,
-  hasErrorOnSave = false,
-  unsetSaveError,
-  userName,
-  userEmail,
-  pageNumber,
-  fullTermsConfigEnabled,
-  nrPages
-}) {
+export default function TermsPageProfile({ onChange, form, hasErrorOnSave = false, userName, userEmail }) {
   const isRoleMessagePresent = form.get('dynamicRole')?.valid;
 
   return (
     <div className={locals.container}>
       <div className={locals.pageContent}>
-        <TermsProgressIndicator pageNumber={pageNumber} nrPages={nrPages} />
         <h1 className={locals.heading}>{t('in-settings:termsDialog.termsPage4.heading')}</h1>
 
         <Stack>
@@ -72,12 +59,6 @@ export default function TermsPageProfile({
       </div>
 
       <FormFooter className={locals.buttons}>
-        <Button
-          onClick={() => handleBackClick(hasErrorOnSave, unsetSaveError, onBack, fullTermsConfigEnabled)}
-          kind="secondary"
-        >
-          {t('in-settings:termsDialog.back')}
-        </Button>
         <Button type="submit" disabled={isSubmitDisabled(form)}>
           {t('in-settings:termsDialog.save')}
         </Button>
@@ -106,25 +87,10 @@ function InputField({ label, value }) {
     </div>
   );
 }
-
-function handleBackClick(hasErrorOnSave, unsetSaveError, onBack, fullTermsConfigEnabled) {
-  if (hasErrorOnSave) unsetSaveError();
-  if (fullTermsConfigEnabled) {
-    onBack(2);
-  } else {
-    onBack(1);
-  }
-}
-
 TermsPageProfile.propTypes = {
-  onBack: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   hasErrorOnSave: PropTypes.bool.isRequired,
-  unsetSaveError: PropTypes.func.isRequired,
   userName: PropTypes.string,
-  userEmail: PropTypes.string,
-  pageNumber: PropTypes.number,
-  nrPages: PropTypes.number,
-  fullTermsConfigEnabled: PropTypes.bool
+  userEmail: PropTypes.string
 };

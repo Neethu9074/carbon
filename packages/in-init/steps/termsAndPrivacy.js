@@ -11,7 +11,6 @@ import { just, create } from '@instana/observables';
 import { createLogger } from '@instana/logger';
 
 import { saveTosPrivacyAgreement } from 'in-settings/api/saveTosPrivacyAgreement';
-import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import TermsDialog from 'in-settings/terms/dialog/TermsDialog';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import GlobalTheme from 'in-themes/GlobalTheme';
@@ -28,7 +27,7 @@ export function init() {
     <ErrorBoundary name="terms-and-privacy-dialog">
       <GlobalTheme>
         <ThemeProvider theme={currentTheme}>
-          <TermsDialog onSave={onSave} fullTermsConfigEnabled={fullTermsConfigEnabled} />
+          <TermsDialog onSave={onSave} />
         </ThemeProvider>
       </GlobalTheme>
     </ErrorBoundary>,

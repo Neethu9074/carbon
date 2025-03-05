@@ -5,16 +5,10 @@
     "alphaLabel": "Private preview"
   },
   "termsDialog": {
-    "back": "Back",
-    "next": "Next",
     "save": "Save",
     "dataProtectionMail": "dataprotection@instana.com",
     "cookiePolicy": "Cookie Policy",
     "privacyProductPolicy": "Privacy Product Policy",
-    "productOnboarding": "Product onboarding & success tips",
-    "productOnboardingExplanation": "to help you make the most of Instana products",
-    "marketingMessages": "Marketing messages",
-    "marketingMessagesExplanation": "related to Instana products, services and offerings",
     "marketingMessageBox": {
       "firstParagraph": "You can withdraw your marketing consent at any time by submitting an opt-out request (email to <dataProtectionMailButton />). Also you may unsubscribe from receiving marketing emails by clicking the unsubscribe link in each email.",
       "secondParagraph": "More information on our processing can be found in the Instana",
@@ -22,16 +16,6 @@
     },
     "unableToSaveText": "Sorry, we couldn't save your preferences right now. Please try again.",
     "roleNeededText": "You need to type in a role.",
-    "testingGroup": "User Testing Group",
-    "testingGroupExplanation": "to participate in optional interviews and survey with our product team",
-    "termsPage2": {
-      "heading": "Messaging"
-    },
-    "termsPage3": {
-      "heading": "Cookies",
-      "introduction": "When you use our product, Instana uses cookies and other tracking technologies (\"Cookies\"). In addition to Cookies which are necessary for the proper functioning of the product, subject to your preferences, Instana and its authorized partners may also use Cookies to analyze and optimize the product funtionality.",
-      "moreInformation": "For more information, please visit our <privacyButton /> or <cookiePolicyButton />."
-    },
     "termsPage4": {
       "heading": "Your Profile",
       "introduction": "Set up your profile so your teammates can find you easily. You will always be able to change this later in the account settings.",
