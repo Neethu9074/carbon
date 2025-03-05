@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { toggleSnapshotId, selectedSnapshotIds$ } from 'in-infrastructure/tableView/stores/selectedSnapshots';
 import ChartsForSelectedEntities from 'in-infrastructure/tableView/components/ChartsForSelectedEntities';
@@ -29,6 +29,7 @@ export default connectTo(
     plugin: plugin$
   },
   function TableWrapper({ data, plugin, selectedSnapshotIds }) {
+    const tableRef = useRef(null);
     if (!data || !data.snapshots || data.plugin !== plugin || !plugin) {
       return <LoadingIndicator />;
     }
@@ -42,6 +43,8 @@ export default connectTo(
         </div>
       );
     }
+
+    const clearTableSelection = () => tableRef?.current?.selectAll();
 
     const tableDefinition = getTableDefinition(plugin);
     const cols = tableDefinition.cols;
@@ -64,6 +67,7 @@ export default connectTo(
       <div className={block}>
         <Table
           // force dispose state when the plugin is changed
+          ref={tableRef}
           key={plugin}
           cols={cols}
           rows={rows}
@@ -71,7 +75,7 @@ export default connectTo(
           initialSortDirection={tableDefinition.initialSortDirection}
           contentBetweenHeaderAndTable={<ChartsForSelectedEntities />}
           leftHeader={<LeftHeader />}
-          rightHeader={<RightHeader />}
+          rightHeader={<RightHeader clearTableSelection={clearTableSelection} />}
           selectedRowKeys={selectedSnapshotIds}
           onRowClick={row => toggleSnapshotId(row.key, row.snapshot ? row.snapshot.get('plugin') : null)}
           maxItemsPerPage={50}

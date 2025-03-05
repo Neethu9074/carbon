@@ -5,8 +5,8 @@
 
 import React, { Fragment } from 'react';
 
+import { SvgIcon, CarbonButton, Message } from '@instana/components';
 import { just, combineLatest } from '@instana/observables';
-import { SvgIcon, Button } from '@instana/components';
 
 import MetricChartDownloadView from 'in-components/DownloadButton/components/MetricChartDownloadView';
 import { selectedSnapshots$ } from 'in-infrastructure/tableView/stores/selectedSnapshots';
@@ -22,9 +22,7 @@ import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-import './ChartsForSelectedEntities.less';
-
-const block = 'in-table-view-charts';
+import locals from './ChartsForSelectedEntities.mless';
 
 function SelectedChart({ metric, snapshots, timeConfig, labels }) {
   const definition = getMetricDefinition(snapshots[0].get('plugin'), metric);
@@ -47,26 +45,26 @@ function SelectedChart({ metric, snapshots, timeConfig, labels }) {
   }
 
   return (
-    <div className={`${block}__chart`}>
-      <h2 className={`${block}__chart-title`}>
-        <div className={`${block}__breadcrumbs`}>
+    <div className={locals.chart}>
+      <h2 className={locals.chartTitle}>
+        <div className={locals.breadcrumbs}>
           {definition.category.map((part, i) => (
             <Fragment key={i}>
               {part}
-              <SvgIcon className={`${block}__breadcrumb-separator`} type="lib_arrow_expand_right" size="xs" />
+              <SvgIcon className={locals.breadcrumbSeparator} type="lib_arrow_expand_right" size="xs" />
             </Fragment>
           ))}
           {definition.label}
         </div>
 
-        <div className={`${block}__button-panel`}>
+        <div className={locals.buttonPanel}>
           <DownloadButton>
             <MetricChartDownloadView metric={metric} label={definition.label} snapshots={snapshots} />
           </DownloadButton>
 
-          <Button onClick={() => removeMetric(metric)} kind="secondary" size="compact" className={`${block}__button`}>
+          <CarbonButton onClick={() => removeMetric(metric)} kind="secondary" size="md" className={locals.button}>
             {t('in-infrastructure:tableView.remove')}
-          </Button>
+          </CarbonButton>
         </div>
       </h2>
 
@@ -111,19 +109,19 @@ export default connectTo(
       return null;
     } else if (snapshots.length === 0 && metrics.length > 0) {
       return (
-        <div className={`${block}__incomplete-selection`}>
+        <Message type="warning" fullInlineWidth title={t('in-infrastructure:tableView.selectEntries')}>
           {t('in-infrastructure:tableView.pleaseSelectForWhichToVisualizeTheChosenMetrics', {
             plugins: getPluginName(plugin, 0)
           })}
-        </div>
+        </Message>
       );
     } else if (snapshots.length > 0 && metrics.length === 0) {
       return (
-        <div className={`${block}__incomplete-selection`}>
+        <Message type="warning" fullInlineWidth title={t('in-infrastructure:tableView.selectMetrics')}>
           {t('in-infrastructure:tableView.pleaseSelectMetricsToVisualizeForTheSelected', {
             plugins: getPluginName(plugin, snapshots.length)
           })}
-        </div>
+        </Message>
       );
     }
 
@@ -132,7 +130,7 @@ export default connectTo(
     }
 
     return (
-      <div className={block}>
+      <div className={locals.inTableViewCharts}>
         {metrics.map(metric => (
           <SelectedChart snapshots={snapshots} metric={metric} key={metric} labels={labels} timeConfig={timeConfig} />
         ))}

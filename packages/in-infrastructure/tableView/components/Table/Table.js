@@ -3,10 +3,24 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { createRef } from 'react';
 
-import { ButtonGroup, Pagination as CarbonPagination, DataTable as CarbonDataTable } from '@instana/components';
+import {
+  ButtonGroup,
+  Pagination as CarbonPagination,
+  CarbonTable,
+  CarbonTableBody,
+  CarbonTableRow,
+  CarbonTableCell,
+  CarbonTableHeader,
+  CarbonTableHead,
+  CarbonTableSelectRow,
+  CarbonTableSelectAll,
+  CarbonDataTable as DataTable,
+  DataTable as CarbonDataTable
+} from '@instana/components';
 
+import { clearSelectedSnapshots, toggleSnapshotId } from 'in-infrastructure/tableView/stores/selectedSnapshots';
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
 import { createStore } from 'in-infrastructure/tableView/components/Table/stores/content';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
@@ -23,12 +37,20 @@ const headerRightSideElement = locals.headerRight;
 export default class Table extends React.Component {
   constructor(props) {
     super(props);
+    this.selectAllRef = createRef();
+    this.selectedRows = createRef();
     this.state = {
       data: null,
-      selectedData: this.props.selectedRowKeys || [],
       pageSize: this.props.maxItemsPerPage || 10
     };
   }
+
+  // Expose selectAll function to remove table selection when pressing the button to clear the selections
+  selectAll = () => {
+    if (this.selectAllRef.current && this.selectedRows.current.length > 0) {
+      this.selectAllRef.current();
+    }
+  };
 
   componentDidMount() {
     this.newStore(this.props);
@@ -86,7 +108,6 @@ export default class Table extends React.Component {
   render() {
     const data = this.state.data;
     const cols = this.props.cols;
-    const selectedData = this.state.selectedData;
 
     if (!data || !this.store) {
       return null;
@@ -108,6 +129,7 @@ export default class Table extends React.Component {
       width: item.width,
       ellipsis: item.ellipsis
     }));
+
     let carbonRows = [];
     let carbonRow = {};
     let emptyTable = <></>;
@@ -131,6 +153,7 @@ export default class Table extends React.Component {
       for (let i = 0, length = data.rows?.length; i < length; i++) {
         carbonRow = {};
         carbonRow['id'] = data.rows[i].key;
+        carbonRow['isSelected'] = data.rows[i].rowConfig.isSelected;
         data.rows[i].columns.map((column, i) => {
           // get column header name and assign value to that
           carbonRow[carbonHeaders[i]['header']] = column.content ?? '-';
@@ -139,29 +162,35 @@ export default class Table extends React.Component {
       }
     }
 
-    const handleRowSelect = row => {
-      const selectedData = this.state.selectedData;
-      const isThere = selectedData?.some(i => i === row.id);
-      const revisedSelectedData = isThere ? selectedData?.filter(i => i !== row.id) : selectedData?.concat(row.id);
-      this.setState({ selectedData: revisedSelectedData });
-    };
-    const sortRow = sortState => {
-      let orderBy = sortState.sortHeaderKey;
-      let orderDirection = sortState.sortDirection;
-      // backend APIs as of now doesnt support NONE sort direction option, so will be
-      // changing it to ASC/DESC to maintain the current behaviour.
-      if (sortState.sortDirection === 'NONE') {
-        const colType = carbonHeaders.find(x => x.header === sortState.sortHeaderKey).type;
-        orderDirection = colType === 'string' ? 'ASC' : 'DESC';
-      } else {
-        orderDirection = sortState.sortDirection === 'ASC' ? 'DESC' : 'ASC';
-      }
-      let columnIndex = carbonHeaders.findIndex(x => x.header === orderBy);
+    const sortRow = ({ sortHeaderKey: orderBy, sortDirection }) => {
+      const column = carbonHeaders.find(x => x.header === orderBy);
+
+      if (!column) return;
+
+      const { type: colType } = column;
+      const isSortDirectionNone = sortDirection === 'NONE';
+
+      const orderDirection = isSortDirectionNone
+        ? colType === 'string'
+          ? 'ASC'
+          : 'DESC'
+        : sortDirection === 'ASC'
+        ? 'DESC'
+        : 'ASC';
+
+      const columnIndex = carbonHeaders.indexOf(column);
       this.store.setSort(columnIndex, orderDirection.toLowerCase());
+    };
+
+    const handleSelectRow = (event, row, selectRow, selectedRows) => {
+      selectRow(row.id);
+      const rowId = data.rows.findIndex(item => item.key === row.id);
+      return this.props.onRowClick(data.rows[rowId], event, selectedRows, rowId);
     };
 
     const showPagination = data.pageCount > 1 || data.page >= data.pageCount || this.props.alwaysShowPagination;
     const showHeader = this.props.leftHeader || this.props.rightHeader || showPagination;
+
     return (
       <div className={this.props.className}>
         {showHeader ? (
@@ -200,22 +229,86 @@ export default class Table extends React.Component {
         {data?.rows?.length === 0 && emptyTable}
         {/* carbon with data table render */}
         {data?.rows?.length !== 0 && (
-          <CarbonDataTable
-            headers={carbonHeaders}
-            rows={carbonRows}
-            size={'xs'}
-            sortRow={sortState => sortRow(sortState)}
-            isSearchEnabled={false}
-            isSortable
-            isSelectable
-            onSelectRow={row => handleRowSelect(row)}
-            rowSelected={selectedData}
-            onClickingRow={(row, e) => {
-              const rowId = data.rows.findIndex(x => x.key === row.id);
-              handleRowSelect(row);
-              return this.props.onRowClick(data.rows[rowId], e, data.rows, rowId);
+          <DataTable ref={this.tableRef} rows={carbonRows} headers={carbonHeaders} isSortable isSelectable>
+            {({
+              rows,
+              headers,
+              getHeaderProps,
+              getRowProps,
+              getSelectionProps,
+              getTableProps,
+              selectRow,
+              selectedRows,
+              selectAll,
+              sortBy
+            }) => {
+              this.selectedRows.current = selectedRows;
+              this.selectAllRef.current = selectAll;
+              return (
+                <CarbonTable {...getTableProps()}>
+                  <CarbonTableHead>
+                    <CarbonTableRow>
+                      <CarbonTableSelectAll
+                        {...getSelectionProps()}
+                        onSelect={e => {
+                          clearSelectedSnapshots();
+                          if (e.target.checked) {
+                            data.rows.forEach(row =>
+                              toggleSnapshotId(row.key, row.snapshot ? row.snapshot.get('plugin') : null)
+                            );
+                          }
+                          selectAll();
+                        }}
+                      />
+                      {headers.map((header, i) => (
+                        <CarbonTableHeader
+                          key={header.id}
+                          {...getHeaderProps({
+                            header
+                          })}
+                          isSortable
+                          isSortHeader={data.sortColumnIndex === i}
+                          sortDirection={header.sortDirection}
+                          onClick={() => {
+                            sortBy(header.key);
+                            sortRow({
+                              sortHeaderKey: header.key,
+                              sortDirection: header.sortDirection
+                            });
+                          }}
+                        >
+                          {header.header}
+                        </CarbonTableHeader>
+                      ))}
+                    </CarbonTableRow>
+                  </CarbonTableHead>
+                  <CarbonTableBody>
+                    {rows.map((row, i) => (
+                      <CarbonTableRow
+                        key={i}
+                        {...getRowProps({ row })}
+                        onClick={evt => handleSelectRow(evt, row, selectRow, selectedRows)}
+                      >
+                        <CarbonTableSelectRow
+                          {...getSelectionProps({ row })}
+                          checked={this.props.rows.find(item => item.snapshotId === row.id)?.isSelected}
+                          onSelect={evt => {
+                            evt.stopPropagation();
+                            handleSelectRow(evt, row, selectRow, selectedRows);
+                          }}
+                        />
+                        {row.cells.map(cell => (
+                          <CarbonTableCell key={cell.id}>
+                            <span onClick={evt => evt.stopPropagation()}>{cell.value}</span>
+                          </CarbonTableCell>
+                        ))}
+                      </CarbonTableRow>
+                    ))}
+                  </CarbonTableBody>
+                </CarbonTable>
+              );
             }}
-          />
+          </DataTable>
         )}
         {showHeader ? (
           <>
