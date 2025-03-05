@@ -72,7 +72,6 @@
       "logVolumeIcon": "Go to log volume"
     },
     "retentionIcon": "Change retention period",
-    "noData": "No data available",
     "analyzeLogs": "Analyze logs",
     "managementPage": {
       "logVolume": "Log volume",
