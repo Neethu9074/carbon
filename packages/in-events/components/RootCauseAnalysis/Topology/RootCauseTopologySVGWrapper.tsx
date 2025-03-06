@@ -73,6 +73,10 @@ export function RootCauseTopologySVGWrapper({
         setX(translateX);
         setY(translateY);
       }
+    } else {
+      // reset if unset or when not set at all.
+      setX(0);
+      setY(0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [centerAround, height, width]);
@@ -130,7 +134,12 @@ export function RootCauseTopologySVGWrapper({
           </Stack>
         </Stack>
       </CarbonTile>
-      <svg ref={svgRef} width={width} height={height} style={{ display: 'block' }}>
+      <svg
+        ref={svgRef}
+        width={width}
+        height={height}
+        style={{ display: 'block', transition: 'transform 1s ease-in-out' }}
+      >
         {defs}
         <g transform={`translate(${x},${y})scale(${k})`}>{children}</g>
       </svg>
