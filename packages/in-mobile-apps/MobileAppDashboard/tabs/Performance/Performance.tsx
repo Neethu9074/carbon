@@ -19,8 +19,8 @@ import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/Mo
 import { number, percentage, millis, seconds } from 'in-services/formatters/number';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
+import { chartColors, carbonCategorical } from 'in-themes/chartColors';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
-import { chartColors, carbonAlert } from 'in-themes/chartColors';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -51,7 +51,7 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
   tagFiltersForRequests.push({
     name: 'mobileBeacon.type',
     operator: 'EQUALS',
-    stringValue: 'httpRequest',
+    stringValue: 'perf',
     type: 'TAG_FILTER',
     entity: 'NOT_APPLICABLE'
   });
@@ -59,7 +59,7 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
   const viewInAnalytics = {
     mobileAppLabel,
     group: {
-      groupbyTag: 'mobileBeacon.http.path'
+      groupbyTag: 'mobileBeacon.performanceSubtype'
     }
   };
 
@@ -284,27 +284,28 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             timeConfig={timeConfig}
             viewInAnalytics={viewInAnalytics}
             y1={{
-              renderer: Renderer.bar,
-              formatter: percentage.detailed,
+              renderer: Renderer.stackedBar,
+              formatter: number.compact,
               labels: [t('in-mobile-apps:dashboard.tabs.androidLabel'), t('in-mobile-apps:dashboard.tabs.iosLabel')],
-              metricIds: ['calls', 'errors'],
-              colors: [carbonAlert.red60]
+              metricIds: ['androidLowMemoryCount', 'iosLowMemoryCount'],
+              colors: [carbonCategorical.purple50, carbonCategorical.red90]
             }}
             metricsConfiguration={{
               timeConfig,
               tagFilters: tagFiltersForRequests,
               metrics: {
-                errors: {
-                  metric: 'beaconErrorRate',
-                  granularity,
-                  aggregation: 'MEAN',
-                  beaconType: 'httpRequest'
-                },
-                calls: {
-                  metric: 'beaconCount',
+                androidLowMemoryCount: {
+                  metric: 'androidLowMemoryCount',
                   granularity,
                   aggregation: 'SUM',
-                  beaconType: 'httpRequest',
+                  beaconType: 'perf',
+                  omitMetricInAnalytics: true
+                },
+                iosLowMemoryCount: {
+                  metric: 'iosLowMemoryCount',
+                  granularity,
+                  aggregation: 'SUM',
+                  beaconType: 'perf',
                   omitMetricInAnalytics: true
                 }
               }
