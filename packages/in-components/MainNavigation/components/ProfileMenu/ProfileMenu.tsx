@@ -50,7 +50,6 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
     document.body.appendChild(form);
     form.submit();
   };
-
   return (
     <div className={local.profileMenu}>
       <Stack direction="vertical" gap="xsmall">
@@ -90,6 +89,20 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
           </Typography>
         </div>
         <Switcher aria-label="Switcher Container" expanded={isSideNavExpanded}>
+          <SwitcherDivider />
+          <SwitcherItem
+            data-autoid="dds--privacy-cp__link"
+            // The below function will open the cookie preferences dialog box from the "More options" button
+            // in IBM privacy banner
+            onClick={() => {
+              (window as any)._dl?.fn?.trustarc?.cookiePreferencesClick?.();
+            }}
+            aria-label={t('in-components:mainNavigation.profileMenu_privacy')}
+          >
+            <Typography variant="label-02" onDark>
+              {t('in-components:mainNavigation.profileMenu_privacy')}
+            </Typography>
+          </SwitcherItem>
           <SwitcherDivider />
           {tenantSwitcherEnabled ? (
             <SwitcherItem

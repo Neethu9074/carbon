@@ -471,6 +471,7 @@
     "profileMenu_tooltip": "Profile menu",
     "profileMenu_unitName_tenantName": "Unit name - Tenant name",
     "profileMenu_switchUnitOrTenant": "Switch unit or tenant",
+    "profileMenu_privacy": "Privacy",
     "profileMenu_logOut": "Log out"
   },
   "metricConfigurator": {
