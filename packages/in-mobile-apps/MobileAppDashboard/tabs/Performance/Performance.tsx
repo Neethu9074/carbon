@@ -16,14 +16,14 @@ import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/ta
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import MobileAppBigNumberCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppBigNumberCard';
 import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
-import { number, percentage, millis, seconds } from 'in-services/formatters/number';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
+import { number, percentage, seconds } from 'in-services/formatters/number';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
-import { chartColors, carbonCategorical } from 'in-themes/chartColors';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import { carbonCategorical } from 'in-themes/chartColors';
 import { Col, Row } from 'in-components/layout/Grid';
 import { TimeConfig, TagFilter } from 'in-types';
 import { t } from 'in-i18n';
@@ -217,26 +217,28 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             y1={{
               renderer: Renderer.integral,
               calculateStackDifferences: true,
-              formatter: millis.forcedFixedCompact,
+              formatter: seconds.fromMillisFixedDetailed,
               labels: [t('in-mobile-apps:dashboard.tabs.androidLabel'), t('in-mobile-apps:dashboard.tabs.iosLabel')],
-              metricIds: ['onLoadTime50th', 'onLoadTimeMax'],
-              colors: [chartColors.strokeColors25[2], chartColors.strokeColors100[0]]
+              metricIds: ['coldStartAndroid', 'coldStartIos'],
+              colors: [carbonCategorical.purple70, carbonCategorical.cyan50]
             }}
             metricsConfiguration={{
               timeConfig,
               tagFilters: tagFiltersForRequests,
               metrics: {
-                onLoadTime50th: {
-                  metric: 'beaconDuration',
+                coldStartAndroid: {
+                  metric: 'coldStartAndroid',
                   granularity,
-                  aggregation: 'P50',
-                  beaconType: 'httpRequest'
+                  aggregation: 'P75',
+                  beaconType: 'perf',
+                  omitMetricInAnalytics: true
                 },
-                onLoadTimeMax: {
-                  metric: 'beaconDuration',
+                coldStartIos: {
+                  metric: 'coldStartIos',
                   granularity,
-                  aggregation: 'MAX',
-                  beaconType: 'httpRequest'
+                  aggregation: 'P75',
+                  beaconType: 'perf',
+                  omitMetricInAnalytics: true
                 }
               }
             }}

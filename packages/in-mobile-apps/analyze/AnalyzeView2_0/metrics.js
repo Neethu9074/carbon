@@ -51,6 +51,8 @@ export const metricRenderers = {
     beaconCount: 'stackedBar',
     beaconDuration: 'stackedArea',
     uniqueUsersOrSessions: 'stackedBar',
-    mobileColdStart: 'stackedArea'
+    mobileColdStart: 'stackedArea',
+    coldStartAndroid: 'stackedArea',
+    coldStartIos: 'stackedArea'
   }
 };
