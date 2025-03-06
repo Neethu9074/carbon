@@ -32,13 +32,13 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
+import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import Filters from 'in-automation/components/ActionHistory/Filters';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import WithSubscript from 'in-settings/components/WithSubscript';
-import { ACTION_TRANSLATIONS } from 'in-automation/constants';
 import { formatDateTime } from 'in-services/formatters/date';
 import { deleteActionInstance } from 'in-automation/api';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -257,7 +257,7 @@ export default function ActionHistoryTable({
       id: 'problemText',
       width: 25,
       getContent(row: ActionInstance) {
-        return (
+        return row.type !== ACTION_TYPE.EXTERNAL ? (
           <Tooltip content={row.problemText} align="auto" delay={500}>
             <div
               className={classNames({
@@ -267,7 +267,7 @@ export default function ActionHistoryTable({
               <Typography variant="body-regular">{row.problemText}</Typography>
             </div>
           </Tooltip>
-        );
+        ) : null; // Returning `null` when condition is false to avoid rendering an empty element
       }
     },
     {

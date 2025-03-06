@@ -627,11 +627,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'eventResourceActionsEnabled',
-    instanaCtlKey: 'feature.event.resource.actions.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'serviceNowAdvancedEnabled',
     instanaCtlKey: 'feature.service.now.advanced.enabled',
     defaultValue: true

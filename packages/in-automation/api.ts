@@ -237,12 +237,14 @@ export function runResourceOptimizationAction({
   volatileId,
   actionName,
   createdDate,
+  eventId,
   actionInstanceId
 }: {
   volatileId: VolatileId;
   actionName: string;
   createdDate: number;
   actionInstanceId: string;
+  eventId?: string;
 }) {
   return turboSubmitActionExecution({
     action: 'turbonomic.executeAction',
@@ -250,7 +252,8 @@ export function runResourceOptimizationAction({
     args: {
       createdDate,
       actionInstanceId,
-      actionName
+      actionName,
+      eventId: eventId ?? null
     }
   });
 }
