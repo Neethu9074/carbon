@@ -22,8 +22,8 @@ import {
   TestResultMetadata,
   SyntheticDatacenter,
   GroupPermissionEntity,
-  DNSActionQueryType,
-  DNSActionFilterOperator
+  DNSQueryType,
+  DNSFilterOperator
 } from 'in-types';
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
@@ -71,7 +71,7 @@ export const DNSTransportOptions: { label: string; value: string }[] = [
   }
 ];
 
-export const DNSActionQueryTypes: { label: DNSActionQueryType; value: DNSActionQueryType }[] = [
+export const DNSQueryTypes: { label: DNSQueryType; value: DNSQueryType }[] = [
   {
     label: 'A',
     value: 'A'
@@ -90,13 +90,13 @@ export const DNSActionQueryTypes: { label: DNSActionQueryType; value: DNSActionQ
   }
 ];
 
-export const DNSActionFilterOperators: { label: string; value: DNSActionFilterOperator }[] = [
+export const DNSFilterOperators: { label: string; value: DNSFilterOperator }[] = [
   {
-    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.operatorOptionContains'),
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionContains'),
     value: 'CONTAINS'
   },
   {
-    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.operatorOptionMatches'),
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionMatches'),
     value: 'MATCHES'
   }
 ];

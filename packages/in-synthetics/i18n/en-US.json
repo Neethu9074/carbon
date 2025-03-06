@@ -141,9 +141,9 @@
           "certificateCheckLabel": "SSL Certificate",
           "certificateCheckHeadline": "SSL Certificate Check Test",
           "certificateCheckText": "SSL Certificate check testing is a method to test the expiration for a SSL certificate in a web application by checking the remaining days on a issued certificate.",
-          "dnsActionLabel": "DNS",
-          "dnsActionHeadline": "Domain Name Server",
-          "dnsActionText": "DNS test is a method to check that your device or network is properly resolving domain names and is free from issues that could cause slowdowns, errors, or security vulnerabilities."
+          "dnsLabel": "DNS",
+          "dnsHeadline": "Domain Name Server",
+          "dnsText": "DNS test is a method to check that your device or network is properly resolving domain names and is free from issues that could cause slowdowns, errors, or security vulnerabilities."
         },
         "configurationLabel": "Configuration",
         "configurationTitle": "Configuration: How will this test work?",
@@ -221,7 +221,7 @@
           "downloadZip": "Download .zip file",
           "mainFileNameHelperText": "Provide the name of the file within this .zip file that contains the test's entry point",
           "recordVideo": "Record user actions on failure",
-          "dnsAction": {
+          "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "The URL is the domain name being tested for DNS resolution",
             "lookupPlaceholder": "Your website's url",
@@ -269,7 +269,7 @@
           "apiName": "API",
           "browserName": "Browser",
           "certificateCheckName": "SSL Certificate",
-          "dnsActionName": "DNS"
+          "dnsName": "DNS"
         },
         "customProperties": {
           "property": "Property",

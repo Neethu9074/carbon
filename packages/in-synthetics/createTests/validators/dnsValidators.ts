@@ -7,7 +7,7 @@
 import { Address4, Address6 } from 'ip-address';
 import { ValidationResult } from 'formalistic';
 
-import { DNSActionFilterQueryTime } from '@instana/types';
+import { DNSFilterQueryTime } from '@instana/types';
 
 import { getErrorMessage, numberValidator } from 'in-services/validators/jsonType';
 import { AssertionTargetFilter } from 'in-synthetics/utils/constants';
@@ -25,7 +25,7 @@ export function lookupValidator(domain: string): ValidationResult {
     return [
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidDNSLookup')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidDNSLookup')
       }
     ];
   }
@@ -43,7 +43,7 @@ export function IPv4Validator(address: string): ValidationResult {
     return [
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidIPv4Address')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidIPv4Address')
       }
     ];
   }
@@ -60,7 +60,7 @@ export function IPv6Validator(address: string): ValidationResult {
     return [
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidIPv6Address')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidIPv6Address')
       }
     ];
   }
@@ -77,7 +77,7 @@ export function dnsServerValidator(server: string): ValidationResult {
     return [
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidDNSServer')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidDNSServer')
       }
     ];
   }
@@ -131,7 +131,7 @@ export function assertionValidator(
  * @param responseTimeObj - The responseTime key-operator-value to be validated.
  * @returns An array of severity-message pairs if the value is blank or is not a number.
  */
-export function responseTimeValidator(responseTimeObj: DNSActionFilterQueryTime): ValidationResult {
+export function responseTimeValidator(responseTimeObj: DNSFilterQueryTime): ValidationResult {
   const responseTimeNotBlank: ValidationResult = notBlankValidator(responseTimeObj.value);
   const responseTimeInvalid: ValidationResult = numberValidator(+responseTimeObj.value);
   if (responseTimeNotBlank) {
@@ -157,9 +157,7 @@ export function noSpaceValidator(record?: string): ValidationResult {
     return [
       {
         severity: 'error',
-        message: t(
-          'in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidResolutionRecord'
-        )
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidResolutionRecord')
       }
     ];
   }

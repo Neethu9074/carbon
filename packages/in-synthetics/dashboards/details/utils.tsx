@@ -117,7 +117,7 @@ export const getSyntheticCustomMetricLabels = (
   resultList: Result<PaginatedResult<TestResultListItem>>,
   testType: string
 ) => {
-  if (!['DNSAction', 'SSLCertificate'].includes(testType) && resultList?.data?.items?.[0]?.metrics) {
+  if (!['DNS', 'SSLCertificate'].includes(testType) && resultList?.data?.items?.[0]?.metrics) {
     return Object.keys(resultList.data.items[0].metrics).filter(metric =>
       metric.startsWith(syntheticCustomMetricPrefix)
     );

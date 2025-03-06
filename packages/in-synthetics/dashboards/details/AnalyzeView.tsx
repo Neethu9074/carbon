@@ -69,7 +69,7 @@ const AnalyzeView = () => {
   const isHTTPActionType: boolean = testType === 'HTTPAction';
   const isBrowserTest: boolean = isBrowserTestType(testType);
   const isSSLCertificate: boolean = testType === 'SSLCertificate';
-  const isDNSAction: boolean = testType === 'DNSAction';
+  const isDNS: boolean = testType === 'DNS';
   const responseSize = getMatrixParameter(location, syntheticDetailsPath, 'responseSize');
   const resultsLabel: string = getMatrixParameter(location, syntheticDetailsPath, 'resultsLabel') ?? '';
 
@@ -212,12 +212,12 @@ const AnalyzeView = () => {
                 </Col>
               </Row>
             )}
-            {!isSSLCertificate && !isDNSAction && (
+            {!isSSLCertificate && !isDNS && (
               <Row>
                 <Col lg={12}>{getTestTypeTimeline(isBrowserTest, timelineDetails, startTime, finishTime)}</Col>
               </Row>
             )}
-            {!isHTTPActionType && !isSSLCertificate && !isDNSAction && (
+            {!isHTTPActionType && !isSSLCertificate && !isDNS && (
               <Row>
                 <Col lg={12}>
                   <Logs

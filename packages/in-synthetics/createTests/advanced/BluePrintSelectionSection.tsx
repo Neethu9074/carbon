@@ -123,10 +123,10 @@ const SelectionMenu = ({
             return;
           }
           const isSSLCertificate = item.name === 'SSL Certificate';
-          const isDNSAction = item.name === 'DNS';
+          const isDNS = item.name === 'DNS';
           const getSyntheticType = () => {
             if (isSSLCertificate) return 'SSLCertificate';
-            else if (isDNSAction) return 'DNSAction';
+            else if (isDNS) return 'DNS';
             return '';
           };
 
@@ -141,7 +141,7 @@ const SelectionMenu = ({
               api: { simple: false, script: false },
               browser: { simple: false, script: false },
               ssl: { simple: isSSLCertificate },
-              dns: { simple: isDNSAction }
+              dns: { simple: isDNS }
             };
           });
           setRenderSectionsCounter(0);

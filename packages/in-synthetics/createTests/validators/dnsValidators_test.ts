@@ -32,13 +32,13 @@ describe('lookupValidator', () => {
     expect(lookupValidator('-www.google.com')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidDNSLookup')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidDNSLookup')
       }
     ]);
     expect(lookupValidator('.www.google.com')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidDNSLookup')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidDNSLookup')
       }
     ]);
   });
@@ -47,7 +47,7 @@ describe('lookupValidator', () => {
     expect(lookupValidator('google')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidDNSLookup')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidDNSLookup')
       }
     ]);
   });
@@ -56,13 +56,13 @@ describe('lookupValidator', () => {
     expect(lookupValidator('www.google.com-')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidDNSLookup')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidDNSLookup')
       }
     ]);
     expect(lookupValidator('www.google.com.')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidDNSLookup')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidDNSLookup')
       }
     ]);
   });
@@ -71,7 +71,7 @@ describe('lookupValidator', () => {
     expect(lookupValidator('www.goo$gle.com')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidDNSLookup')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidDNSLookup')
       }
     ]);
   });
@@ -81,7 +81,7 @@ describe('lookupValidator', () => {
       [
         {
           severity: 'error',
-          message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidDNSLookup')
+          message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidDNSLookup')
         }
       ]
     );
@@ -105,37 +105,37 @@ describe('dnsServerValidator', () => {
     expect(dnsServerValidator('example')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidDNSServer')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidDNSServer')
       }
     ]);
     expect(dnsServerValidator('1.1.1')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidDNSServer')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidDNSServer')
       }
     ]);
     expect(dnsServerValidator('c400:178c')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidDNSServer')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidDNSServer')
       }
     ]);
     expect(dnsServerValidator('2001:0db8:85a3:0000 :8a2e:0370:7334:1234')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidDNSServer')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidDNSServer')
       }
     ]);
     expect(dnsServerValidator('2001:0db8::85a3::8a2e:0370:7334')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidDNSServer')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidDNSServer')
       }
     ]);
     expect(dnsServerValidator('2001:0db8:85a3:0000:0000:8a2e:0370:7334:1234')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidDNSServer')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidDNSServer')
       }
     ]);
   });
@@ -154,19 +154,19 @@ describe('IPv4Validator', () => {
     expect(IPv4Validator('256.256.256.256')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidIPv4Address')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidIPv4Address')
       }
     ]);
     expect(IPv4Validator('192.168.1')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidIPv4Address')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidIPv4Address')
       }
     ]);
     expect(IPv4Validator('192.168.01.1')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidIPv4Address')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidIPv4Address')
       }
     ]);
   });
@@ -181,7 +181,7 @@ describe('IPv6Validator', () => {
     expect(IPv6Validator('2600:1408:c400:178c::test')).toStrictEqual([
       {
         severity: 'error',
-        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidIPv6Address')
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidIPv6Address')
       }
     ]);
   });
@@ -418,9 +418,7 @@ describe('assertionValidator', () => {
         },
         value: {
           invalid: true,
-          message: t(
-            'in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidResolutionRecord'
-          )
+          message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidResolutionRecord')
         }
       }
     }));
@@ -457,9 +455,7 @@ describe('noSpaceValidator', () => {
     expect(noSpaceValidator('8.8.8 .8')).toStrictEqual([
       {
         severity: 'error',
-        message: t(
-          'in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.validators.invalidResolutionRecord'
-        )
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidResolutionRecord')
       }
     ]);
   });

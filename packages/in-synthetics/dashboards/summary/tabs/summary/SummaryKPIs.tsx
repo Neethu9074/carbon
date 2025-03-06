@@ -31,7 +31,7 @@ interface SummaryKPIProps {
   tagFilters: TagFilter[];
   timeShiftConfig: TimeShift;
   isSSLCertificate: boolean;
-  isDNSAction: boolean;
+  isDNS: boolean;
   resultList: Result<PaginatedResult<TestResultListItem>>;
 }
 
@@ -40,7 +40,7 @@ export default function SummaryKPIs({
   tagFilters,
   timeShiftConfig,
   isSSLCertificate,
-  isDNSAction,
+  isDNS,
   resultList
 }: SummaryKPIProps) {
   const metricDefaults = {
@@ -214,13 +214,13 @@ export default function SummaryKPIs({
    * Construct the array containing the common charts for Summary view
    * @returns {JSX.Element[]} Array of Success Rate, Locations and Avg. Response Time charts
    */
-  const getCommonKPIsForDnsAction = () => {
-    const commonKPIsForDnsActionObj = SummaryKPIs.filter(component => component.id !== 'avgResponseSize');
-    const commonKPIsForDnsAction: JSX.Element[] = [];
-    commonKPIsForDnsActionObj.map((kpi: any) => {
-      commonKPIsForDnsAction.push(kpi.component);
+  const getCommonKPIsForDns = () => {
+    const commonKPIsForDnsObj = SummaryKPIs.filter(component => component.id !== 'avgResponseSize');
+    const commonKPIsForDns: JSX.Element[] = [];
+    commonKPIsForDnsObj.map((kpi: any) => {
+      commonKPIsForDns.push(kpi.component);
     });
-    return commonKPIsForDnsAction;
+    return commonKPIsForDns;
   };
 
   /**
@@ -242,10 +242,10 @@ export default function SummaryKPIs({
         <Row>{getSSLCertificateKPICards()}</Row>
       </>
     );
-  } else if (isDNSAction) {
+  } else if (isDNS) {
     return (
       <>
-        <Row>{getCommonKPIsForDnsAction()}</Row>;
+        <Row>{getCommonKPIsForDns()}</Row>;
       </>
     );
   } else {

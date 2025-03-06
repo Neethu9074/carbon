@@ -160,7 +160,7 @@ export default function ResultsList({ test }: ResultListProps) {
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   testType = test.data?.configuration?.syntheticType || '';
   const isSSLCertificate = testType === 'SSLCertificate';
-  const isDNSAction = testType === 'DNSAction';
+  const isDNS = testType === 'DNS';
   const locationDisplayLabels: string[] =
     getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels')?.split(',') ?? [];
   const selectedMetric = getMatrixParameter(location, syntheticsDashboard, 'selectedMetric');
@@ -187,7 +187,7 @@ export default function ResultsList({ test }: ResultListProps) {
   );
 
   let columnDefinitionsBasedOnType = columnDefinitions;
-  if (isSSLCertificate || isDNSAction) {
+  if (isSSLCertificate || isDNS) {
     columnDefinitionsBasedOnType = columnDefinitions.filter(
       columnDefinition => columnDefinition.id !== 'response_size'
     );

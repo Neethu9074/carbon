@@ -446,8 +446,8 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'syntheticDNSActionEnabled',
-    instanaCtlKey: 'feature.synthetic.dns.action.enabled',
+    uiClientKey: 'syntheticDNSEnabled',
+    instanaCtlKey: 'feature.synthetic.dns.enabled',
     defaultValue: false
   },
   {

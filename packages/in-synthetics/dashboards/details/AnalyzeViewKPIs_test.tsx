@@ -221,12 +221,12 @@ describe(AnalyzeViewKPIs, () => {
     expect(screen.queryByText('Response Size')).toBeNull();
   });
 
-  it('Render correct set of KPIs for DNSAction test', () => {
+  it('Render correct set of KPIs for DNS test', () => {
     const startTime = 1716448782519;
     const status = 0;
     const responseTime = 536;
     const responseSize = '0';
-    const testType = 'DNSAction';
+    const testType = 'DNS';
     const dummyResultList = {
       progress: { loading: false },
       errors: [],

@@ -18,11 +18,11 @@ import BrowserSimpleConfiguration from 'in-synthetics/createTests/advanced/Brows
 import BluePrintSelectionSection from 'in-synthetics/createTests/advanced/BluePrintSelectionSection';
 import AssociationsCommonSection from 'in-synthetics/createTests/wizard/AssociationsCommonSection';
 import CustomPropertiesSection from 'in-synthetics/createTests/advanced/CustomPropertiesSection';
-import DNSActionConfiguration from 'in-synthetics/createTests/advanced/DNSActionConfiguration';
 import ConfigurationSection from 'in-synthetics/createTests/advanced/ConfigurationSection';
 import ApplicationsSection from 'in-synthetics/createTests//wizard/ApplicationsSection';
 import ConfigureLocations from 'in-synthetics/createTests/advanced/ConfigureLocations';
 import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleStep';
+import DNSConfiguration from 'in-synthetics/createTests/advanced/DNSConfiguration';
 import IdentifySection from 'in-synthetics/createTests/advanced/IdentifySection';
 import ScriptsSection from 'in-synthetics/createTests/advanced/ScriptsSection';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
@@ -146,7 +146,7 @@ const AdvancedMode = ({
         );
       case 'DNS':
         return (
-          <DNSActionConfiguration
+          <DNSConfiguration
             form={form}
             updateForm={updateForm}
             targetFilters={targetFilters}

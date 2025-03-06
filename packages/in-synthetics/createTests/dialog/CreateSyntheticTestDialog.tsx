@@ -122,7 +122,7 @@ const createSyntheticTest = (
         active: true,
         ...updatedForm.toJS()
       } as SyntheticTest;
-    } else if (form.get('configuration').get('syntheticType').value === 'DNSAction') {
+    } else if (form.get('configuration').get('syntheticType').value === 'DNS') {
       if (isEmpty(form.get('configuration').get('targetValues').value)) {
         updatedForm = form.put('configuration', form.get('configuration').remove('targetValues'));
       } else {

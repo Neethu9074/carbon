@@ -85,11 +85,11 @@ describe(SummaryCharts, () => {
     expect(screen.queryByText('Response Status')).toBeNull();
   });
 
-  it('Render correct set of charts for DNSAction test', () => {
+  it('Render correct set of charts for DNS test', () => {
     render(
       <SummaryCharts
         testId={'Fy5VXstvyDZrrCjhNYXZ'}
-        testType={'DNSAction'}
+        testType={'DNS'}
         test={dummyTest}
         locationIds={'f7cEoG61DJfVyWcDnWsc,,KHphVmZqqRf9Kp2xSoud'}
         locationDisplayLabels={'test-label1,test-label2'}

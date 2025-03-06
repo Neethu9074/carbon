@@ -101,8 +101,7 @@ export function createForm(
         config = createAdvancedSSLCertificateConfigurationForm(savedState);
         break;
       case 'DNS':
-      case 'DNSAction':
-        config = createDNSActionConfigurationForm(savedState);
+        config = createDNSConfigurationForm(savedState);
     }
   }
 
@@ -627,12 +626,12 @@ export function createAdvancedSSLCertificateConfigurationForm(savedState?: Recor
     );
 }
 
-export function createDNSActionConfigurationForm(savedState?: Record<string, any>) {
+export function createDNSConfigurationForm(savedState?: Record<string, any>) {
   return createMapForm()
     .put(
       'syntheticType',
       createField({
-        value: savedState?.syntheticType ?? 'DNSAction',
+        value: savedState?.syntheticType ?? 'DNS',
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )

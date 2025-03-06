@@ -19,12 +19,12 @@ import {
   Label,
   SvgIcon
 } from '@instana/components';
-import { DNSActionFilterQueryTime } from '@instana/types';
 import { generateUniqueShortId } from '@instana/utils';
+import { DNSFilterQueryTime } from '@instana/types';
 
 import {
-  DNSActionFilterOperators,
-  DNSActionQueryTypes,
+  DNSFilterOperators,
+  DNSQueryTypes,
   DNSTransportOptions,
   Invalid,
   retriesObject,
@@ -47,7 +47,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/createTests/advanced/ConfigurationSection.mless';
 
-interface DNSActionConfigurationProps {
+interface DNSConfigurationProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   targetFilters: AssertionTargetFilter[];
@@ -56,19 +56,19 @@ interface DNSActionConfigurationProps {
   setInvalidTimeout: React.Dispatch<React.SetStateAction<Invalid>>;
 }
 
-export default function DNSActionConfiguration({
+export default function DNSConfiguration({
   form,
   updateForm,
   targetFilters,
   setTargetFilters,
   invalidTimeout,
   setInvalidTimeout
-}: DNSActionConfigurationProps) {
+}: DNSConfigurationProps) {
   const configForm = form.get('configuration') as MapForm<any>;
   const lookupField = configForm.get('lookup') as Field<string>;
   const serverField = configForm.get('server') as Field<string>;
   const portField = configForm.get('port') as Field<number>;
-  const responseTimeField = configForm.get('queryTime') as Field<DNSActionFilterQueryTime>;
+  const responseTimeField = configForm.get('queryTime') as Field<DNSFilterQueryTime>;
   const recursiveLookupsField = configForm.get('recursiveLookups') as Field<boolean>;
   const transportField = configForm.get('transport') as Field<string>;
   const acceptCNAMEField = configForm.get('acceptCNAME') as Field<boolean>;
@@ -146,9 +146,9 @@ export default function DNSActionConfiguration({
                 )
               );
             }}
-            helperText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.lookupHelperText')}
-            placeholder={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.lookupPlaceholder')}
-            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.lookupLabel')}
+            helperText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.lookupHelperText')}
+            placeholder={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.lookupPlaceholder')}
+            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.lookupLabel')}
             invalid={lookupField.touched && !lookupField.valid}
             invalidText={lookupField.messages[0]?.message ?? ''}
           />
@@ -164,8 +164,8 @@ export default function DNSActionConfiguration({
                   )
                 );
               }}
-              helperText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.serverHelperText')}
-              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.serverLabel')}
+              helperText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.serverHelperText')}
+              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.serverLabel')}
               invalid={serverField.touched && !serverField.valid}
               invalidText={serverField.messages[0]?.message ?? ''}
             />
@@ -182,8 +182,8 @@ export default function DNSActionConfiguration({
                   )
                 );
               }}
-              helperText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.portHelperText')}
-              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.portLabel')}
+              helperText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.portHelperText')}
+              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.portLabel')}
               invalid={portField.touched && !portField.valid}
               invalidText={portField.messages[0]?.message ?? ''}
             />
@@ -204,8 +204,8 @@ export default function DNSActionConfiguration({
                 )
               );
             }}
-            helperText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.queryTimeHelperText')}
-            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.queryTimeLabel')}
+            helperText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.queryTimeHelperText')}
+            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.queryTimeLabel')}
             invalid={responseTimeField.touched && !responseTimeField.valid}
             invalidText={responseTimeField.messages[0]?.message ?? ''}
           />
@@ -215,9 +215,9 @@ export default function DNSActionConfiguration({
         <Stack gap={3}>
           <Fragment>
             <h4 className={locals.headline}>
-              <span>{t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.recordTypeTitle')}</span>
+              <span>{t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.recordTypeTitle')}</span>
             </h4>
-            <p>{t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.recordTypeSubtitle')}</p>
+            <p>{t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.recordTypeSubtitle')}</p>
           </Fragment>
           {targetFilters.map(selectedFilter => {
             return (
@@ -225,7 +225,7 @@ export default function DNSActionConfiguration({
                 <Dropdown
                   id="query-types"
                   className={locals.queryWidth}
-                  items={DNSActionQueryTypes.filter(queryType => {
+                  items={DNSQueryTypes.filter(queryType => {
                     const hasAQueryType = targetFiltersField.value.some(selectedFilter => selectedFilter.key === 'A');
                     const hasAAAAQueryType = targetFiltersField.value.some(
                       selectedFilter => selectedFilter.key === 'AAAA'
@@ -234,9 +234,9 @@ export default function DNSActionConfiguration({
                       !(hasAQueryType && queryType.value === 'AAAA') && !(hasAAAAQueryType && queryType.value === 'A')
                     );
                   })}
-                  initialSelectedItem={DNSActionQueryTypes.find(queryType => queryType.value === selectedFilter.key)}
+                  initialSelectedItem={DNSQueryTypes.find(queryType => queryType.value === selectedFilter.key)}
                   label=""
-                  titleText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.recordTypeLabel')}
+                  titleText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.recordTypeLabel')}
                   type="default"
                   onChange={({ selectedItem }) => {
                     targetFilters.forEach(targetFilter => {
@@ -259,12 +259,10 @@ export default function DNSActionConfiguration({
                 <Dropdown
                   id="filter-operators"
                   className={locals.queryWidth}
-                  items={DNSActionFilterOperators}
-                  initialSelectedItem={DNSActionFilterOperators.find(
-                    operator => operator.value === selectedFilter.operator
-                  )}
+                  items={DNSFilterOperators}
+                  initialSelectedItem={DNSFilterOperators.find(operator => operator.value === selectedFilter.operator)}
                   label=""
-                  titleText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.operatorLabel')}
+                  titleText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorLabel')}
                   type="default"
                   onChange={({ selectedItem }) => {
                     targetFilters.forEach(targetFilter => {
@@ -289,12 +287,8 @@ export default function DNSActionConfiguration({
                   className={locals.queryWidth}
                   type="text"
                   value={selectedFilter.value}
-                  placeholder={t(
-                    'in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.resolutionRecordLabel'
-                  )}
-                  labelText={t(
-                    'in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.resolutionRecordLabel'
-                  )}
+                  placeholder={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.resolutionRecordLabel')}
+                  labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.resolutionRecordLabel')}
                   onChange={({ target }) => {
                     targetFilters.forEach(targetFilter => {
                       if (targetFilter.id === selectedFilter.id) {
@@ -316,7 +310,7 @@ export default function DNSActionConfiguration({
                 <IconButton
                   kind="ghost"
                   onClick={() => deleteTargetFilterRow(selectedFilter.id)}
-                  label={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.deleteButtonLabel')}
+                  label={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.deleteButtonLabel')}
                   align="top"
                 >
                   <SvgIcon type="lib_actions_delete" />
@@ -330,7 +324,7 @@ export default function DNSActionConfiguration({
             size="sm"
             renderIcon={() => <IconForButton icon="lib_openclose_add" iconSize="s" />}
           >
-            {t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.addRecordTypeLabel')}
+            {t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.addRecordTypeLabel')}
           </Button>
         </Stack>
       </div>
@@ -339,7 +333,7 @@ export default function DNSActionConfiguration({
           <RadioButtonGroup
             name="recursive-lookup"
             defaultSelected={'lookup-on'}
-            legendText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.recursiveLookupLabel')}
+            legendText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.recursiveLookupLabel')}
             valueSelected={recursiveLookupsField.value ? 1 : 0}
             onChange={value => {
               updateForm(
@@ -351,12 +345,12 @@ export default function DNSActionConfiguration({
           >
             <RadioButton
               id="lookup-on"
-              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.dnsRadioButtonOnLabel')}
+              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.dnsRadioButtonOnLabel')}
               value={1}
             />
             <RadioButton
               id="lookup-off"
-              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.dnsRadioButtonOffLabel')}
+              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.dnsRadioButtonOffLabel')}
               value={0}
             />
           </RadioButtonGroup>
@@ -373,14 +367,14 @@ export default function DNSActionConfiguration({
               }}
               initialSelectedItem={DNSTransportOptions.find(transport => transport.value === transportField.value)}
               label=""
-              titleText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.transportProtocolLabel')}
+              titleText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.transportProtocolLabel')}
               type="default"
             />
           </div>
           <RadioButtonGroup
             name="accept-cname"
             defaultSelected={'accept-cname-off'}
-            legendText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.acceptCNAMELabel')}
+            legendText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.acceptCNAMELabel')}
             valueSelected={acceptCNAMEField.value ? 1 : 0}
             onChange={value => {
               updateForm(
@@ -392,19 +386,19 @@ export default function DNSActionConfiguration({
           >
             <RadioButton
               id="accept-cname-on"
-              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.dnsRadioButtonOnLabel')}
+              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.dnsRadioButtonOnLabel')}
               value={1}
             />
             <RadioButton
               id="accept-cname-off"
-              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.dnsRadioButtonOffLabel')}
+              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.dnsRadioButtonOffLabel')}
               value={0}
             />
           </RadioButtonGroup>
           <RadioButtonGroup
             name="lookup-server-name"
             defaultSelected={'lookup-server-name-on'}
-            legendText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.lookupServerNamelabel')}
+            legendText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.lookupServerNamelabel')}
             valueSelected={lookupServerNameField.value ? 1 : 0}
             onChange={value => {
               updateForm(
@@ -417,12 +411,12 @@ export default function DNSActionConfiguration({
           >
             <RadioButton
               id="lookup-server-name-on"
-              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.dnsRadioButtonOnLabel')}
+              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.dnsRadioButtonOnLabel')}
               value={1}
             />
             <RadioButton
               id="lookup-server-name-off"
-              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.dnsRadioButtonOffLabel')}
+              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.dnsRadioButtonOffLabel')}
               value={0}
             />
           </RadioButtonGroup>
@@ -440,7 +434,7 @@ export default function DNSActionConfiguration({
                   )
                 );
               }}
-              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.serverRetriesLabel')}
+              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.serverRetriesLabel')}
               invalid={serverRetriesField.touched && !serverRetriesField.valid}
               invalidText={serverRetriesField.messages[0]?.message ?? ''}
             />

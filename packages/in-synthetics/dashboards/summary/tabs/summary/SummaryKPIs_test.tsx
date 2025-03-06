@@ -27,7 +27,7 @@ describe(SummaryKPIs, () => {
       <SummaryKPIs
         tagFilters={{} as TagFilter[]}
         isSSLCertificate={false}
-        isDNSAction={false}
+        isDNS={false}
         resultList={dummyResultList}
         timeShiftConfig={{ offset: 0 }}
         timeConfig={{ windowSize: 0, autoRefresh: false }}
@@ -48,7 +48,7 @@ describe(SummaryKPIs, () => {
       <SummaryKPIs
         tagFilters={{} as TagFilter[]}
         isSSLCertificate={false}
-        isDNSAction={false}
+        isDNS={false}
         resultList={dummyResultList}
         timeShiftConfig={{ offset: 0 }}
         timeConfig={{ windowSize: 0, autoRefresh: false }}
@@ -97,7 +97,7 @@ describe(SummaryKPIs, () => {
       <SummaryKPIs
         tagFilters={{} as TagFilter[]}
         isSSLCertificate
-        isDNSAction={false}
+        isDNS={false}
         resultList={dummySslResultList}
         timeShiftConfig={{ offset: 0 }}
         timeConfig={{ windowSize: 0, autoRefresh: false }}
@@ -113,12 +113,12 @@ describe(SummaryKPIs, () => {
     expect(screen.queryByText('Avg. Response Size')).toBeNull();
   });
 
-  it('Render correct set of KPIs for DNSAction test', () => {
+  it('Render correct set of KPIs for DNS test', () => {
     render(
       <SummaryKPIs
         tagFilters={{} as TagFilter[]}
         isSSLCertificate={false}
-        isDNSAction
+        isDNS
         resultList={dummyResultList}
         timeShiftConfig={{ offset: 0 }}
         timeConfig={{ windowSize: 0, autoRefresh: false }}

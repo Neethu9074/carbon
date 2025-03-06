@@ -36,7 +36,7 @@ const TestTypeSection = ({ test }: Props) => {
       BrowserScript: { testType: 'Browser', subTestType: 'Script' },
       WebpageAction: { testType: 'Webpage', subTestType: 'Simple' },
       WebpageScript: { testType: 'Webpage', subTestType: 'Script' },
-      DNSAction: { testType: 'DNS', subTestType: 'Simple' },
+      DNS: { testType: 'DNS', subTestType: '' },
       SSLCertificate: { testType: 'SSL Certificate', subTestType: '' },
       NotConfigured: { testType: '', subTestType: '' }
     };
