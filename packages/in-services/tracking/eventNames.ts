@@ -174,6 +174,7 @@ export const WEBSITES_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'websites.dashboard.v
 
 export const WEBSITES_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE = 'websites.alerting.event.details.goToAnalyze';
 export const WEBSITES_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG = 'websites.alerting.event.details.ViewEditConfig';
+export const APPLICATIONS_GENERATE_IMPACT_REPORT = 'applications.generate.impact.report';
 
 export const APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE = 'applications.alerting.event.details.goToAnalyze';
 export const APPLICATIONS_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG =

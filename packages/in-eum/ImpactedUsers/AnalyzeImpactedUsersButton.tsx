@@ -21,6 +21,7 @@ import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresen
 import getEumBeaconByTrace, { makeEumBeaconByTraceQuery } from 'in-eum/subscriptions/getEumBeaconByTrace';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
+import { useEumTracker } from 'in-eum/tracking/segTracker';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
@@ -38,6 +39,7 @@ export default function AnalyzeImpactedUsersButton({
   const [progress, setProgress] = useState<Progress | null>(null);
   const [errors, setErrors] = useState<Array<Error>>([]);
   const subscriptionRef = useRef<Disposable | null>(null);
+  const { applicationsEumImpactedUsers } = useEumTracker();
 
   useEffect(
     () => () => {
@@ -73,6 +75,7 @@ export default function AnalyzeImpactedUsersButton({
         onClick={e => {
           e.stopPropagation();
           onClickDownload();
+          applicationsEumImpactedUsers();
         }}
         disabled={disabled || progress?.loading}
       >
