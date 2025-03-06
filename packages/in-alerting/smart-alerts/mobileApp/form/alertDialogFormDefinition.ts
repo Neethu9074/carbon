@@ -166,7 +166,7 @@ function createHiddenFieldsForm(
     .put(
       'calculateThresholdOnBackend',
       createField({
-        value: editMode || calculateThresholdOnBackend
+        value: editMode ? true : Boolean(calculateThresholdOnBackend)
       })
     )
     .put(
