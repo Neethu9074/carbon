@@ -250,28 +250,29 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             timeConfig={timeConfig}
             viewInAnalytics={viewInAnalytics}
             y1={{
-              renderer: Renderer.barOverlapping,
+              renderer: Renderer.stackedBar,
               formatter: number.compact,
               labels: [t('in-mobile-apps:dashboard.tabs.androidLabel'), t('in-mobile-apps:dashboard.tabs.iosLabel')],
-              metricIds: ['calls', 'errors'],
-              colors: [chartColors.strokeColors100[0], chartColors.strokeColors25[1]]
+              metricIds: ['anrAndroidCount', 'anrIOSCount'],
+              colors: [carbonCategorical.teal50, carbonCategorical.purple70]
             }}
             metricsConfiguration={{
               timeConfig,
               tagFilters: tagFiltersForRequests,
               metrics: {
-                calls: {
-                  metric: 'beaconCount',
+                anrAndroidCount: {
+                  metric: 'anrAndroidCount',
                   granularity,
                   aggregation: 'SUM',
-                  beaconType: 'httpRequest',
+                  beaconType: 'perf',
                   omitMetricInAnalytics: true
                 },
-                errors: {
-                  metric: 'beaconErrorCount',
+                anrIOSCount: {
+                  metric: 'anrIOSCount',
                   granularity,
                   aggregation: 'SUM',
-                  beaconType: 'httpRequest'
+                  beaconType: 'perf',
+                  omitMetricInAnalytics: true
                 }
               }
             }}
