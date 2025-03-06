@@ -120,9 +120,7 @@ function generateAIActionForm({
           errors: result?.errors,
           type: 'script'
         });
-        setGeneratedAction(
-          error([{ message: t('in-automation:GenerateAIActionDialog.failedToGenerateAction'), code: 'SERVER' }])
-        );
+        setGeneratedAction(error(result?.errors));
       }
     );
 }

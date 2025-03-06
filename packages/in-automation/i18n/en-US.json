@@ -149,7 +149,6 @@
     "createActionAndPolicy": "Create action and policy",
     "createAction": "Create action",
     "nameExists": "An action already exists with name: {{name}}, and type: {{type}}",
-    "failedToGenerateAction": "Failed to generate action.",
     "failedToCreateActionPolicy": "Failed to create action and policy.",
     "failedToCreateAction": "Failed to create action.",
     "generateScriptDialog": {
