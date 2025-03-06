@@ -234,6 +234,7 @@ export default function DNSActionConfiguration({
                       !(hasAQueryType && queryType.value === 'AAAA') && !(hasAAAAQueryType && queryType.value === 'A')
                     );
                   })}
+                  initialSelectedItem={DNSActionQueryTypes.find(queryType => queryType.value === selectedFilter.key)}
                   label=""
                   titleText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.recordTypeLabel')}
                   type="default"
@@ -259,6 +260,9 @@ export default function DNSActionConfiguration({
                   id="filter-operators"
                   className={locals.queryWidth}
                   items={DNSActionFilterOperators}
+                  initialSelectedItem={DNSActionFilterOperators.find(
+                    operator => operator.value === selectedFilter.operator
+                  )}
                   label=""
                   titleText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.operatorLabel')}
                   type="default"
@@ -367,7 +371,7 @@ export default function DNSActionConfiguration({
                   )
                 );
               }}
-              selectedItem={DNSTransportOptions.find(transport => transport.value === transportField.value)}
+              initialSelectedItem={DNSTransportOptions.find(transport => transport.value === transportField.value)}
               label=""
               titleText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dnsAction.transportProtocolLabel')}
               type="default"

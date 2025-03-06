@@ -20,6 +20,7 @@ import { ConfigItem, SlideInHeader, TestTypeSelected } from 'in-synthetics/utils
 import { updateForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import { DNSErrorsExist } from 'in-synthetics/createTests/utils/DNSErrorExist';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { updateTest } from 'in-synthetics/api';
@@ -81,7 +82,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
       simple: syntheticType === 'SSLCertificate'
     },
     dns: {
-      simple: syntheticType === 'DNSAction'
+      simple: syntheticType === 'DNS'
     }
   });
   const [customSlideInHeaderConfig, setCustomSlideInHeaderConfig] = useState<SlideInHeader>({
@@ -237,6 +238,8 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
             (!configForm.getIn(['scripts', 'bundle']).valid || !configForm.getIn(['scripts', 'scriptFile']).valid)))) ||
       // for SSL Certificate
       SSLCertificateErrorsExist(configForm, syntheticTypeField) ||
+      // for DNS
+      DNSErrorsExist(configForm, syntheticTypeField, targetFilters) ||
       !syntheticTypeField.valid ||
       !frequencyField.valid ||
       !labelField.valid ||

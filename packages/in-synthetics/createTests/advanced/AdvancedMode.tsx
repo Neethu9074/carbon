@@ -67,8 +67,10 @@ const AdvancedMode = ({
       return 1;
     } else if (testTypeSelected.api.simple || testTypeSelected.api.script) {
       return 0;
-    } else {
+    } else if (testTypeSelected.ssl.simple) {
       return 2;
+    } else {
+      return 3;
     }
   };
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
@@ -142,7 +144,7 @@ const AdvancedMode = ({
             setInvalidTimeout={setInvalidTimeout}
           />
         );
-      case 'DNSAction':
+      case 'DNS':
         return (
           <DNSActionConfiguration
             form={form}

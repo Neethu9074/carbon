@@ -32,6 +32,7 @@ import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleM
 import WizardModeContainer from 'in-synthetics/createTests/wizard/WizardModeContainer';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import getDefaultHeaders from 'in-synthetics/createTests/utils/getDefaultHeaders';
+import { DNSErrorsExist } from 'in-synthetics/createTests/utils/DNSErrorExist';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
@@ -164,28 +165,6 @@ const CreateSyntheticTestDialogPresenter = ({
       : undefined;
   };
 
-  const DNSErrorsExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
-    if (syntheticTypeField.value === 'DNSAction') {
-      const fieldsToBeValidated = ['lookup', 'lookupServerName', 'port', 'server', 'queryTime', 'serverRetries'];
-      if (
-        fieldsToBeValidated.some((fieldName: string) => {
-          const field = configForm.get(fieldName);
-          return field && !field.valid;
-        })
-      ) {
-        return true;
-      }
-      return (
-        configForm.get('targetValues') &&
-        targetFilters.some(
-          targetFilter =>
-            targetFilter.error.key.invalid || targetFilter.error.operator.invalid || targetFilter.error.value.invalid
-        )
-      );
-    }
-    return undefined;
-  };
-
   const scriptErrorExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
     return syntheticTypeField.value === 'HTTPScript' ||
       syntheticTypeField.value === 'WebpageScript' ||
@@ -231,7 +210,7 @@ const CreateSyntheticTestDialogPresenter = ({
       // for SSL Certificate
       SSLCertificateErrorsExist(configForm, syntheticTypeField) ||
       // for DNS
-      DNSErrorsExist(configForm, syntheticTypeField) ||
+      DNSErrorsExist(configForm, syntheticTypeField, targetFilters) ||
       !syntheticTypeField.valid ||
       locationsField.value.length === 0 ||
       !frequencyField.valid ||
