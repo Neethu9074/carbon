@@ -1,0 +1,47 @@
+{
+  "alertConfig": {
+    "name": "PR-tst1",
+    "description": "Synthetic test failed for 4 consecutive times",
+    "syntheticTestIds": ["nyCmhPmVybSNJXF5KZOU"],
+    "severity": 5,
+    "tagFilterExpression": {
+      "type": "EXPRESSION",
+      "logicalOperator": "AND",
+      "elements": []
+    },
+    "rule": {
+      "alertType": "failure",
+      "metricName": "status",
+      "aggregation": "SUM"
+    },
+    "alertChannelIds": ["F0SNnbSaPwaibmMU"],
+    "gracePeriod": null,
+    "timeThreshold": {
+      "type": "violationsInSequence",
+      "violationsCount": 4
+    },
+    "customPayloadFields": [],
+    "id": "x2x-YOdfSfyM-ODChyMEkA",
+    "created": 1739957741387,
+    "initialCreated": 1739887263619,
+    "readOnly": false,
+    "enabled": true
+  },
+  "initialConfig": {
+    "enabled": true,
+    "readOnly": false,
+    "description": "",
+    "name": "",
+    "severity": 5,
+    "rule": {
+      "alertType": "failure",
+      "metricName": "status"
+    },
+    "alertChannelIds": [],
+    "syntheticTestIds": [],
+    "timeThreshold": {
+      "type": "violationsInSequence",
+      "violationsCount": 1
+    }
+  }
+}
