@@ -5,6 +5,7 @@
 
 import {
   AdaptiveBaselineData,
+  AdaptiveBaselinePredictionsData,
   AggregationType,
   ApplicationAlertRule,
   HistoricBaselineData,
@@ -77,7 +78,7 @@ interface BluePrintBase {
   readonly getExtraAnalyzeLinkTagFilterFormModel: (
     alertConfig: ApplicationSmartAlertConfig,
     timeConfig: FixedTimeConfig,
-    adaptiveBaselineInfo?: Record<string, number>
+    adaptiveBaselineInfo?: Record<string, AdaptiveBaselinePredictionsData>
   ) => FormModelElement[];
   readonly isBeta: boolean;
 }
