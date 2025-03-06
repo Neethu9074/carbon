@@ -37,14 +37,21 @@ interface PerformanceProp {
 
 export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mobileAppId }: PerformanceProp) {
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
-  const tagCatalogCrash = useTagCatalog('crash');
   const tagCatalogPerf = useTagCatalog('perf');
   const tagFiltersForRequests = tagFilters.slice();
   const tagFiltersForColdStart = tagFilters.slice();
+  const tagFiltersForAnr = tagFilters.slice();
   tagFiltersForColdStart.push({
     name: 'mobileBeacon.performanceSubtype',
     operator: 'EQUALS',
     stringValue: 'ast',
+    type: 'TAG_FILTER',
+    entity: 'NOT_APPLICABLE'
+  });
+  tagFiltersForAnr.push({
+    name: 'mobileBeacon.performanceSubtype',
+    operator: 'EQUALS',
+    stringValue: 'anr',
     type: 'TAG_FILTER',
     entity: 'NOT_APPLICABLE'
   });
@@ -116,10 +123,10 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
 
         <MobileAppBigNumberCard
           title={t('in-mobile-apps:dashboard.tabs.appNotRespondingAffectedSessionsTitle')}
-          metric={'crashAffectedSessionRate'}
+          metric={'anrAffectedSessionRate'}
           aggregation={'MEAN'}
           formatter={percentage.detailed}
-          companionMetric={'crashAffectedSessionCount'}
+          companionMetric={'anrAffectedSessionCount'}
           companionAggregation={'DISTINCT_COUNT'}
           companionFormatter={v =>
             t('in-mobile-apps:dashboard.tabs.sessionCount', {
@@ -138,26 +145,26 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             kind: 'subtle',
             icon: 'lib_analyze',
             href:
-              tagCatalogCrash &&
+              tagCatalogPerf &&
               getLinkToMobileAppAnalyze({
-                beaconType: 'crash',
+                beaconType: 'perf',
                 formModel: translateDemocratisationTagFiltersToFormModel({
                   mobileAppLabel,
-                  tagFilters,
-                  tagCatalog: tagCatalogCrash
+                  tagFilters: tagFiltersForAnr,
+                  tagCatalog: tagCatalogPerf
                 }),
                 groupBy: {
-                  groupbyTag: 'mobileBeacon.crash.groupLabel'
+                  groupbyTag: 'mobileBeacon.performanceSubtype'
                 }
               })
           }}
         />
         <MobileAppBigNumberCard
           title={t('in-mobile-apps:dashboard.tabs.appNotRespondingAffectedUsersTitle')}
-          metric={'crashAffectedUserRate'}
+          metric={'anrAffectedUserRate'}
           aggregation={'MEAN'}
           formatter={percentage.detailed}
-          companionMetric={'crashAffectedUserCount'}
+          companionMetric={'anrAffectedUserCount'}
           companionAggregation={'DISTINCT_COUNT'}
           companionFormatter={v =>
             t('in-mobile-apps:dashboard.tabs.userCount', {
@@ -176,28 +183,22 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             kind: 'subtle',
             icon: 'lib_analyze',
             href:
-              tagCatalogCrash &&
+              tagCatalogPerf &&
               getLinkToMobileAppAnalyze({
-                beaconType: 'crash',
+                beaconType: 'perf',
                 formModel: translateDemocratisationTagFiltersToFormModel({
                   mobileAppLabel,
-                  tagFilters,
-                  tagCatalog: tagCatalogCrash
+                  tagFilters: tagFiltersForAnr,
+                  tagCatalog: tagCatalogPerf
                 }),
                 groupBy: {
-                  groupbyTag: 'mobileBeacon.crash.groupLabel'
+                  groupbyTag: 'mobileBeacon.performanceSubtype'
                 },
                 fields: [
                   {
-                    metricId: 'uniqueUsersOrSessions',
-                    aggregationId: 'DISTINCT_COUNT',
+                    metricId: 'anrAffectedUserRate',
+                    aggregationId: 'SUM',
                     type: metricType
-                  }
-                ],
-                chartedMetrics: [
-                  {
-                    metricId: 'uniqueUsersOrSessions',
-                    aggregationId: 'DISTINCT_COUNT'
                   }
                 ]
               })
