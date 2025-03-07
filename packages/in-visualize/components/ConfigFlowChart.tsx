@@ -176,7 +176,8 @@ export default function ConfigFlowChart(config: string) {
       edges: edgeData
     };
     new ELK().layout(graph).then((g: ElkNode) => setPositions(g as PipeNode));
-  }, [config, edgeData, nodeData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config]);
 
   if (!positions) return null;
 
