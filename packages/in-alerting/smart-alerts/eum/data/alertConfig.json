@@ -1,0 +1,70 @@
+{
+  "website": {
+    "name": "AN SA",
+    "description": "The onLoad Time (90th) is above the expectation.",
+    "websiteId": "_h0oqf-vQLuSAh6JLu4JBw",
+    "severity": 5,
+    "triggering": false,
+    "tagFilterExpression": {
+      "type": "TAG_FILTER",
+      "name": "beacon.geo.country",
+      "stringValue": "United States",
+      "numberValue": null,
+      "booleanValue": null,
+      "key": null,
+      "value": "United States",
+      "operator": "EQUALS",
+      "entity": "NOT_APPLICABLE"
+    },
+    "rule": {
+      "alertType": "throughput",
+      "metricName": "pageLoads",
+      "aggregation": "SUM"
+    },
+    "threshold": {
+      "type": "staticThreshold",
+      "operator": ">=",
+      "value": 73,
+      "lastUpdated": 1741102388249
+    },
+    "alertChannelIds": ["WmP_rCVxFoC7FjcQ"],
+    "granularity": 600000,
+    "gracePeriod": 600000,
+    "timeThreshold": {
+      "type": "violationsInSequence",
+      "timeWindow": 600000
+    },
+    "customPayloadFields": [],
+    "id": "IiwhPMf9Sw6wurMzfdczbQ",
+    "created": 1741102388262,
+    "initialCreated": 1740996081299,
+    "readOnly": false,
+    "enabled": true,
+    "rules": [
+      {
+        "thresholdOperator": ">=",
+        "rule": {
+          "alertType": "throughput",
+          "metricName": "pageLoads",
+          "aggregation": "SUM"
+        },
+        "thresholds": {
+          "WARNING": {
+            "type": "staticThreshold",
+            "value": 73,
+            "isCheckboxSelected": true
+          },
+          "CRITICAL": {
+            "type": "staticThreshold",
+            "value": null,
+            "deviationFactor": 3,
+            "isCheckboxSelected": false
+          }
+        }
+      }
+    ],
+    "alertChannels": {
+      "WARNING": ["WmP_rCVxFoC7FjcQ"]
+    }
+  }
+}
