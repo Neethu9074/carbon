@@ -19,7 +19,8 @@ export const oTelPlugins = {
   otelProcess: 'otelProcess',
   oTelK8sPod: 'oTelK8sPod',
   oTelK8sCluster: 'oTelK8sCluster',
-  oTelK8sNode: 'oTelK8sNode'
+  oTelK8sNode: 'oTelK8sNode',
+  oTelK8sContainer: 'oTelK8sContainer'
 };
 
 export const nonServicePlugins = {
@@ -740,6 +741,7 @@ export const fullyQualifiedPlugins = {
   oTelK8sPod: 'com.instana.forge.infrastructure.custom.sensorsdk.k8s.OTelK8sPod',
   oTelK8sCluster: 'com.instana.forge.infrastructure.custom.sensorsdk.k8s.OTelK8sCluster',
   oTelK8sNode: 'com.instana.forge.infrastructure.custom.sensorsdk.k8s.OTelK8sNode',
+  oTelK8sContainer: 'com.instana.forge.infrastructure.custom.sensorsdk.k8s.OTelK8sContainer',
   otelHost: 'com.instana.forge.infrastructure.os.otelhost.OtelHost',
   otelProcess: 'com.instana.forge.infrastructure.os.otelprocess.OtelProcess',
   packet: 'com.instana.forge.hardware.virtual.Packet',

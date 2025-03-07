@@ -152,6 +152,7 @@ import './ibmInfosphereCdc';
 import './kafkaConnectTask';
 import './microsoftPurview';
 import './kubeCostPlatform';
+import './oTelK8sContainer';
 import './azureServiceBus';
 import './azureManagedHSM';
 import './ibmMqMftMonitor';

@@ -15,11 +15,13 @@ import {
 } from 'in-services/formatters/number';
 import { DISTANCE_BETWEEN_DATAPOINTS, WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/oTelJvm/constants';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
+import getOtelKubernetesContainersOfPods from 'in-subscription/getOtelKubernetesContainersOfPods';
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import getOtelKubernetesPodsOfNodes from 'in-subscription/getOtelKubernetesPodsOfNodes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Containers from 'in-forge/plugins/oTelK8sCluster/Dashboard/Containers';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { openTelemetryKubernetes } from 'in-services/featureFlags';
 import Pods from 'in-forge/plugins/oTelK8sCluster/Dashboard/Pods';
@@ -34,7 +36,8 @@ export default function OTelK8SNodeDashboard({ snapshot, timeConfig }) {
   const [activeTab, setActiveTab] = useState('summary');
   const TABS = {
     SUMMARY: 'summary',
-    PODS: 'pods'
+    PODS: 'pods',
+    CONTAINERS: 'containers'
   };
 
   const handleTabChange = tab => {
@@ -47,6 +50,30 @@ export default function OTelK8SNodeDashboard({ snapshot, timeConfig }) {
         pagination: {
           page: 1,
           pageSize: snapshot.get('podcount') || 10
+        },
+        order: {
+          by: 'id',
+          direction: 'DESC'
+        },
+        filter: {
+          nodeId: snapshot.get('id'),
+          timeConfig: {
+            to: Date.now(),
+            windowSize: minutes.toMillis(30),
+            focusedMoment: Date.now(),
+            autoRefresh: false
+          }
+        }
+      }),
+      []
+    ) ?? pendingResult;
+
+  const otelContainers =
+    useObservable(
+      getOtelKubernetesContainersOfPods({
+        pagination: {
+          page: 1,
+          pageSize: snapshot.get('containercount') || 10
         },
         order: {
           by: 'id',
@@ -221,9 +248,16 @@ export default function OTelK8SNodeDashboard({ snapshot, timeConfig }) {
       <Pods pods={otelPods?.data?.items || []} renderByDashboard />
     </div>
   );
+
+  const ContainersContent = () => (
+    <div>
+      <Containers containers={otelContainers?.data?.items || []} renderByDashboard />
+    </div>
+  );
   const CONTENT_MAP = {
     summary: SummaryContent,
-    pods: PodsContent
+    pods: PodsContent,
+    containers: ContainersContent
   };
 
   // In the main component:
@@ -249,6 +283,12 @@ export default function OTelK8SNodeDashboard({ snapshot, timeConfig }) {
             label={t('in-forge:plugins.oTelK8sNode.dashboard.pods')}
             isActive={activeTab === TABS.PODS}
             onClick={() => handleTabChange(TABS.PODS)}
+          />
+          <SecondLevelNavigationItem
+            icon="lib_kubernetes_container"
+            label={t('in-forge:plugins.oTelK8sNode.dashboard.containers')}
+            isActive={activeTab === TABS.CONTAINERS}
+            onClick={() => handleTabChange(TABS.CONTAINERS)}
           />
         </SecondLevelNavigation>
       </DashboardHeaderModule>

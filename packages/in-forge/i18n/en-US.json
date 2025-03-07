@@ -1416,6 +1416,11 @@
   "pluginName_oTelK8sNode_1": "OTel Kubernetes Node",
   "pluginName_oTelK8sNode_2": "OTel Kubernetes Node",
   "pluginName_oTelK8sNode": "OTel Kubernetes Node",
+  "pluginName_oTelK8sContainer_plural": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer_0": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer_1": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer_2": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer": "OTel Kubernetes Container",
   "pluginName_openLDAP_plural": "OpenLDAP Nodes",
   "pluginName_openLDAP_0": "OpenLDAP Nodes",
   "pluginName_openLDAP_1": "OpenLDAP Nodes",
@@ -13812,7 +13817,9 @@
         "fsresources": "Filesystem Resources",
         "fsusage": "Filesystem Usage",
         "fsavailble": "Filesystem Available",
-        "fscapacity": "Filesystem Capacity"
+        "fscapacity": "Filesystem Capacity",
+        "containers": "Containers",
+        "summary": "Summary"
       }
     },
     "oTelK8sCluster": {
@@ -13830,8 +13837,10 @@
         "summary": "Summary",
         "nodes": "Nodes",
         "pods": "Pods",
+        "containers": "Containers",
         "nodecount": "Nodes Count",
         "podcount": "Pods Count",
+        "containercount": "Containers Count",
         "name": "Name",
         "namespace": "Name space",
         "age": "Age",
@@ -13870,7 +13879,44 @@
         "fsusage": "Filesystem Usage",
         "fsavailble": "Filesystem Available",
         "fscapacity": "Filesystem Capacity",
-        "pods": "Pods"
+        "pods": "Pods",
+        "containers": "Containers"
+      }
+    },
+    "oTelK8sContainer": {
+      "platform": "Platform",
+      "address": "Address",
+      "port": "Port",
+      "kind": "Kind",
+      "type": "Type",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "runtimeDesc": "Kubernetes Runtime",
+      "runtimeVersion": "Kubernetes Version",
+      "exePath": "Executable Path",
+      "dashboard": {
+        "containeruptime": "Container Uptime",
+        "cpuresources": "CPU Resources",
+        "cpuusage": "CPU Usage",
+        "cpuutilization": "CPU Utilization",
+        "cputime": "CPU Time",
+        "cpulimitutilization": "CPU Limit Utilization",
+        "cpurequestutilization": "CPU Request Utilization",
+        "cpunodeutilization": "CPU Node Utilization",
+        "memoryresources": "Memory Resources",
+        "memoryusage": "Memory Usage",
+        "memoryavailable": "Memory Available",
+        "memorylimitutilization": "Memory Limit Utilization",
+        "memoryrequestutilization": "Memory Request Utilization",
+        "memoryrss": "Memory RSS",
+        "memoryworkingset": "Memory Working Set",
+        "memorypagefaults": "Memory Page Faults",
+        "memorymajorpagefaults": "Memory Major page Faults",
+        "fsresources": "Filesystem Resources",
+        "fsusage": "Filesystem Usage",
+        "fsavailble": "Filesystem Available",
+        "fscapacity": "Filesystem Capacity"
       }
     },
     "oTelJvm": {

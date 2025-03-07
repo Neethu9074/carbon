@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2024
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
  */
 
 import React from 'react';
@@ -10,10 +11,13 @@ import { Collapsible, Link } from '@instana/components';
 
 import { ClickableList, ClickableListItem } from 'in-sdk/components/sidebar/ClickableList';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import { formatDurationAccurately } from 'in-kubernetes/components/TimeFormatter';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { t } from 'in-i18n';
 
-export default function Nodes({ nodes, renderByDashboard }) {
+export default function Containers({ containers, renderByDashboard }) {
+  const getDashboardLink = useGetDashboardLink();
+
   const carbonHeaders = [
     {
       key: 'name',
@@ -32,13 +36,15 @@ export default function Nodes({ nodes, renderByDashboard }) {
       header: t('in-forge:plugins.oTelK8sCluster.dashboard.health')
     }
   ];
-
-  const getDashboardLink = useGetDashboardLink();
-
-  const carbonRows = nodes.map(node => ({
-    id: node.id,
-    name: <Link href={getDashboardLink(node.id, { pathname: '/physical/dashboard' })}>{node.resourceK8sNodeName}</Link>,
-    age: '-',
+  const carbonRows = containers.map(container => ({
+    id: container.id,
+    name: (
+      <Link href={getDashboardLink(container.id, { pathname: '/physical/dashboard' })}>
+        {container.resourceK8sContainerName}
+      </Link>
+    ),
+    namespace: container.resourceK8sNamespaceName,
+    age: formatDurationAccurately(new Date() - new Date(container.resourceK8sContainerName)) ?? '-',
     status: 'Ready',
     health: <HealthIndicatorPresenter openIssues={0} maxSeverity={1} tooltipLabel={'issue'} />
   }));
@@ -46,15 +52,16 @@ export default function Nodes({ nodes, renderByDashboard }) {
   if (renderByDashboard) {
     return <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} isExpanded={false} />;
   }
+
   return (
     <div>
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>{'NodeList'}</Collapsible.Header>
+        <Collapsible.Header>{'ContainerList'}</Collapsible.Header>
         <Collapsible.Content>
           <ClickableList>
-            {nodes.map(item => (
+            {containers.map(item => (
               <ClickableListItem key={item} href={getDashboardLink(item.id, { pathname: '/physical/dashboard' })}>
-                {item.resourceK8sNodeName}
+                {item.resourceK8sContainerName}
               </ClickableListItem>
             ))}
           </ClickableList>
