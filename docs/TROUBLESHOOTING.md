@@ -127,6 +127,6 @@ sudo sh -c 'echo "127.0.0.1 local-instana.instanatest.rocks" >> /etc/hosts'
 - After a minute, a window should open in your browser for `https://local-instana.instanatest.rocks:4000/`, terminal output should clear, and it should display that same url and that everything is ok (No issues found.)...(or not).
 
 ## Having trouble to access Pink UI
-Sometimes, when accessing the Pink UI, you may encounter the "Ooops" screen. Try one of the following approaches to see if the issue can be resolved:
+In rare cases, it can happen that the Ooops page is displayed because something is wrong with the current session information or the auth redirect. In these cases, the following two tips can still help you to log in and bypass the Ooops page:
 1. Sign in directly via https://test-instana.pink.instana.rocks/auth/signIn?returnUrl=https://test-instana.pink.instana.rocks/.
 2. Run TARGET=test yarn dev in ui-client, which should bring up https://local-instana.pink.instana.rocks:4000/#/home (or you can open it manually). Use the Pink UI username and password to log in. Then in the same browser window, open https://test-instana.pink.instana.rocks/.
