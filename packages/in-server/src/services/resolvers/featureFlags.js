@@ -336,6 +336,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'mobileAppDroppedBeaconsEnabled',
+    instanaCtlKey: 'feature.eum.mobile.dropped.beacons.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'eumImpactedUsersForAppAlertEnabled',
     instanaCtlKey: 'feature.eum.impacted.users.appalert.enabled',
     defaultValue: false

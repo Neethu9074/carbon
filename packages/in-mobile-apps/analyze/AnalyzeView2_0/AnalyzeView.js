@@ -211,6 +211,21 @@ const dataSourceConfigurations = {
     ungroupedView,
     fixedFields,
     defaultChartedMetrics
+  },
+  dropBeacon: {
+    metricCatalogTransformer: createMetricCatalogTransformer('dropBeacon'),
+    facetedSearchItems,
+    groupedView,
+    ungroupedView,
+    fixedFields,
+    defaultSelectableFields: [
+      {
+        type: 'metric',
+        metricId: 'uniqueUsersOrSessions',
+        aggregationId: 'DISTINCT_COUNT'
+      }
+    ],
+    defaultChartedMetrics
   }
 };
 

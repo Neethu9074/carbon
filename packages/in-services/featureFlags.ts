@@ -86,6 +86,7 @@ export const kubernetesCloudNativeExperience = isFeatureFlagEnabled('kubernetesC
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 export const mobileAppPerfBeaconEnabled = isFeatureFlagEnabled('mobileAppPerfBeaconEnabled', true);
 export const mobileAppPerformanceTabEnabled = isFeatureFlagEnabled('mobileAppPerformanceTabEnabled', true);
+export const mobileAppDroppedBeaconsEnabled = isFeatureFlagEnabled('mobileAppDroppedBeaconsEnabled', true);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
 
 export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', true);

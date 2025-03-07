@@ -50,6 +50,13 @@ export const types = {
     color: themes.g10.ids.color.option.indigo[500],
     colorType: 'blue'
   },
+  dropBeacon: {
+    short: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.droppedBeaconShort'),
+    badgeLabel: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.droppedBeaconBadgeLabel'),
+    long: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.droppedBeaconLong'),
+    color: themes.g10.ids.color.option.neutral[500],
+    colorType: 'cool-gray'
+  },
   default: {
     short: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.defaultShort'),
     badgeLabel: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.defaultBadgeLabel'),

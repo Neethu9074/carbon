@@ -12,6 +12,7 @@ import BatchIndicator from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beac
 import KeyValueHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/KeyValueHeader';
 // @ts-expect-error Could not find a declaration file for module
 import BodyHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BodyHeader';
+import { LeftHeaderProps } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/types';
 import { latencyFixed, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -21,11 +22,6 @@ import { MobileAppMonitoringBeacon } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './PerformanceBeacon.mless';
-
-interface LeftHeaderProps {
-  beacon: MobileAppMonitoringBeacon;
-  earliestTimestamp: number;
-}
 
 export const PERFORMANCE_SUBTYPES = {
   AST: 'ast',

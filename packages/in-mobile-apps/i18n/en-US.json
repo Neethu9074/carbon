@@ -5,7 +5,8 @@
     "httpRequest": "HTTP Request",
     "custom": "Custom Event",
     "crash": "Crash",
-    "perf" : "Performance"
+    "perf": "Performance",
+    "dropBeacon": "Dropped Beacon"
   },
   "analyzeView": {
     "eumTags": {
@@ -75,7 +76,8 @@
       "httpRequestHttpDeleteRawDataLabel": "HTTP Method",
       "customBeaconCountLabel": "Occurrences",
       "customBeaconDurationLabel": "Duration",
-      "crashBeaconCountLabel": "Crashes"
+      "crashBeaconCountLabel": "Crashes",
+      "droppedBeaconsLabel": "Dropped Beacons"
     },
     "quickFilterBar": {
       "mobileAppLabel": "Mobile App",
@@ -190,6 +192,9 @@
       "perfShort": "Per",
       "perfBadgeLabel": "Per",
       "perfLong": "Performance",
+      "droppedBeaconShort": "Dro",
+      "droppedBeaconBadgeLabel": "Dro",
+      "droppedBeaconLong": "Dropped Beacons",
       "defaultShort": "Undefined",
       "defaultBadgeLabel": "Undefined",
       "defaultLong": "Beacon Type not defined"
@@ -256,9 +261,9 @@
       "performanceMetricLabel": "Performance Metric",
       "startTimeLabel": "Start Time",
       "durationLabel": "Duration",
-      "appStartTimeLabel": "App start/ launch time",
+      "appStartTimeLabel": "App start or launch time",
       "lowMemoryLabel": "Low memory",
-      "appNotRespondingLabel": "App not responding / App freezing",
+      "appNotRespondingLabel": "App not responding or freezing",
       "coldStartTimeLabel": "Cold start time",
       "warmStartTimeLabel": "Warm start time",
       "hotStartTimeLabel": "Hot start time",
@@ -267,11 +272,24 @@
       "availableMemoryLabel": "Available memory",
       "maximumAvailableMemoryLabel": "Maximum available memory"
     },
+    "tabsSumDroppedBeacons": {
+      "droppedBeaconsLabel": "Dropped beacons",
+      "startTimeLabel": "Start Time",
+      "durationLabel": "Duration",
+      "beaconCountLabel": "Beacon count",
+      "httpRequestText": "Http request",
+      "viewTransitionText": "View transition",
+      "customEventText": "Custom event",
+      "httpMessage": "{{count}} HTTP beacons were dropped because the data fetching limit was reached.",
+      "customeEventMessage": "{{count}} Custom event beacons were dropped because the data fetching limit was reached.",
+      "viewMessage": "{{count}} View transitions beacons were dropped because the data fetching limit was reached.",
+      "learnMoreAboutDroppedBeacons": "To learn more visit Dropped beacons"
+    },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Retrieval Time",
       "requestLabel": "Request",
       "startTimeLabel": "Start Time",
-      "retrievalTimeLabel": "Retrieval Time",
+      "retrievalTimeLabel": "Retrieval time",
       "callDetailsHeader": "Call Details",
       "httpCallURITitle": "HTTP Call URI",
       "httpHeadersHeader": "HTTP Headers",
@@ -527,7 +545,10 @@
     "access": "Access",
     "eventName": "Event Name",
     "crash": "Crash",
-    "perf" : "Performance"
+    "perf": "Performance",
+    "beaconName": "Beacon name",
+    "beaconCount": "Beacon count",
+    "duration": "Duration"
   },
   "dataSource_sessionStart": "{{formattedCount}} Session Start",
   "dataSource_sessionStart_plural": "{{formattedCount}} Session Starts",
@@ -559,6 +580,11 @@
   "dataSource_perf_0": "{{formattedCount}} Performance",
   "dataSource_perf_1": "{{formattedCount}} Performance",
   "dataSource_perf_2": "{{formattedCount}} Performance",
+  "dataSource_dropBeacon": "{{formattedCount}} Dropped Beacons",
+  "dataSource_dropBeacon_plural": "{{formattedCount}} Dropped Beacons",
+  "dataSource_dropBeacon_0": "{{formattedCount}} Dropped Beacons",
+  "dataSource_dropBeacon_1": "{{formattedCount}} Dropped Beacons",
+  "dataSource_dropBeacon_2": "{{formattedCount}} Dropped Beacons",
   "facetedSearch": {
     "mobileApp": "Mobile App",
     "view": "View",

@@ -91,7 +91,8 @@
       "calls": "Calls",
       "traces": "Traces",
       "crashes": "Crashes",
-      "perf" : "Performance"
+      "perf" : "Performance",
+      "dropBeacon": "Dropped Beacons"
     }
   },
   "traceDetail": {

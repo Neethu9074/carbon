@@ -54,5 +54,10 @@ export const metricRenderers = {
     mobileColdStart: 'stackedArea',
     coldStartAndroid: 'stackedArea',
     coldStartIos: 'stackedArea'
+  },
+  dropBeacon: {
+    beaconCount: 'stackedBar',
+    beaconDuration: 'stackedArea',
+    uniqueUsersOrSessions: 'stackedBar'
   }
 };

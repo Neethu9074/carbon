@@ -101,9 +101,9 @@ function groupBeaconsByView(beacons) {
 
 Activity.propTypes = {
   beacons: PropTypes.array.isRequired,
-  detailId: PropTypes.string,
+  detailId: PropTypes.object,
   firstBeacon: PropTypes.object,
-  sessionStart: PropTypes.number,
+  sessionStart: PropTypes.object,
   setView: PropTypes.func,
   query: PropTypes.string,
   setQuery: PropTypes.func,

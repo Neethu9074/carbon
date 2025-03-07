@@ -31,7 +31,8 @@ export default connectTo(
       httpRequest: useTagCatalog('httpRequest'),
       custom: useTagCatalog('custom'),
       crash: useTagCatalog('crash'),
-      perf: useTagCatalog('perf')
+      perf: useTagCatalog('perf'),
+      dropBeacon: useTagCatalog('dropBeacon')
     };
 
     const hasApproximateData = props?.result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
