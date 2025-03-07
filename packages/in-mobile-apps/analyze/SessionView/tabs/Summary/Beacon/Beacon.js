@@ -8,6 +8,7 @@ import classNames from 'classnames';
 
 import { toInteractiveElement } from '@instana/components';
 
+import { PERFORMANCE_SUBTYPES } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/PerformanceBeacon';
 import ViewCrashGroupButton from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/ViewCrashGroupButton';
 import BackendTraceButton from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BackendTraceButton';
 import HeaderToggleIcon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/HeaderToggleIcon';
@@ -47,7 +48,9 @@ export default function Beacon(props) {
         >
           <Tooltip
             content={
-              expanded
+              beacon.performanceSubtype === PERFORMANCE_SUBTYPES.ANR
+                ? '' // Empty string when performanceSubtype is ANR
+                : expanded
                 ? t('in-mobile-apps:sessionView.tabsSumBeacon.showlessTooltip')
                 : t('in-mobile-apps:sessionView.tabsSumBeacon.showmoreTooltip')
             }
@@ -67,7 +70,11 @@ export default function Beacon(props) {
                 <TypeHeader beacon={beacon} />
                 <beaconRenderers.LeftHeader {...props} toggleExpanded={() => setExpanded(!expanded)} />
               </div>
-              <div className={locals.rightHeader}>
+              <div
+                className={classNames(locals.rightHeader, {
+                  [locals.disabledHeader]: beacon.performanceSubtype === PERFORMANCE_SUBTYPES.ANR
+                })}
+              >
                 <BackendTraceButton beacon={beacon} />
                 {beacon.type === 'crash' && (
                   <ViewCrashGroupButton
@@ -80,7 +87,7 @@ export default function Beacon(props) {
             </div>
           </Tooltip>
 
-          {expanded && (
+          {expanded && beacon.performanceSubtype !== PERFORMANCE_SUBTYPES.ANR && (
             <div className={locals.body}>
               <beaconRenderers.Body {...props} />
             </div>

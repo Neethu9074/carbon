@@ -187,6 +187,9 @@
       "craShort": "Cra",
       "craBadgeLabel": "Cra",
       "craLong": "Crash",
+      "perfShort": "Per",
+      "perfBadgeLabel": "Per",
+      "perfLong": "Performance",
       "defaultShort": "Undefined",
       "defaultBadgeLabel": "Undefined",
       "defaultLong": "Beacon Type not defined"
@@ -248,6 +251,21 @@
       "stackTraceLastOccurrence": "Stack Trace (Last Occurrence)",
       "stackTraceButtonCrashedThreadsStackTrace": "Crashed Threads",
       "stackTraceButtonAllThreadsStackTrace": "All Threads"
+    },
+    "tabsSumPerformanceBeacon": {
+      "performanceMetricLabel": "Performance Metric",
+      "startTimeLabel": "Start Time",
+      "durationLabel": "Duration",
+      "appStartTimeLabel": "App start/ launch time",
+      "lowMemoryLabel": "Low memory",
+      "appNotRespondingLabel": "App not responding / App freezing",
+      "coldStartTimeLabel": "Cold start time",
+      "warmStartTimeLabel": "Warm start time",
+      "hotStartTimeLabel": "Hot start time",
+      "errMsgTitle": "Error Message",
+      "usedMemoryLabel": "Used memory",
+      "availableMemoryLabel": "Available memory",
+      "maximumAvailableMemoryLabel": "Maximum available memory"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Retrieval Time",

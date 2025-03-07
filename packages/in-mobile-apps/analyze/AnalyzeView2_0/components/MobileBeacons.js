@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
+import { getLabel } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/PerformanceBeacon';
 import { FacetedSearchPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedViewTable';
 import QueryBuilderWorkspace from 'in-mobile-apps/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
@@ -209,7 +210,7 @@ const columnsPerDataSource = {
             <LinkToDetailPage
               beacon={beacon}
               getHrefToDetailId={getHrefToDetailId}
-              linkLabel={beacon.performanceSubtype}
+              linkLabel={getLabel(beacon)}
               groupLabel={groupLabel}
             />
             <BatchingIndicator

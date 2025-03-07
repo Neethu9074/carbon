@@ -224,7 +224,7 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
     httpRequest: 'lib_mobile_app_request',
     custom: 'lib_mobile_app_custom_event',
     crash: 'lib_mobile_app_crash',
-    perf: 'lib_mobile_app_session' //adding placeholder button will be hidden by FF
+    perf: 'lib_eum_performance'
   },
   infrastructure: {
     infrastructure: 'lib_infrastructure',
