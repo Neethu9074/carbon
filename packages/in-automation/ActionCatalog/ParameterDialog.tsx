@@ -104,6 +104,10 @@ export default function ParameterDialog({
     ];
   }
 
+  let sidePanelTitle = id
+    ? t('in-automation:ActionCatalog.editParameter')
+    : t('in-automation:ActionCatalog.addParameter');
+  if (parmeterIsNotEditable) sidePanelTitle = t('in-automation:ActionCatalog.viewParameter');
   return (
     <SidePanel
       open={openDialog}
@@ -111,7 +115,7 @@ export default function ParameterDialog({
       actions={actions}
       size="md"
       onRequestClose={onRequestToClose}
-      title={id ? t('in-automation:ActionCatalog.editParameter') : t('in-automation:ActionCatalog.addParameter')}
+      title={sidePanelTitle}
     >
       <div className={locals.parameterDialog}>
         <ParameterFormContext.Provider

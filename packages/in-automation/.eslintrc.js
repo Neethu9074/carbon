@@ -28,7 +28,8 @@ module.exports = {
         'in-services',
         'in-settings',
         'in-stores',
-        'in-subscription'
+        'in-subscription',
+        'in-hoc'
       ]
     }),
     'react/function-component-definition': [

@@ -325,12 +325,15 @@ export function updateActionInstanceFeedback({
   }).map(response => response.body);
 }
 
-export function getPolicies() {
+export function getPolicies(actionId?: string) {
+  let prams = {};
+  if (actionId) prams = { queryParams: { actionId: encodeURIComponent(actionId) } };
   return http<Policy[]>({
     method: 'GET',
     maxRetries: 3,
     url: policiesUrl,
-    mapToResultObject: true
+    mapToResultObject: true,
+    ...prams
   });
 }
 

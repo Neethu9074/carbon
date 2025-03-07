@@ -15,6 +15,7 @@ import { isNotEditableContext } from 'in-automation/ActionCatalog/CreateNewActio
 import useActionForm from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import ActionFormContext from 'in-automation/ActionCatalog/ActionFormContext';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
+import { isAIAction } from 'in-automation/utils/action';
 import { ACTION_TYPE } from 'in-automation/constants';
 import Form from 'in-components/form/binding/Form';
 import { Nullish } from 'in-types';
@@ -35,12 +36,13 @@ export default function ActionConfiguration({ data }: ActionConfigurationProps) 
   );
   if (!data) return null;
   const showParametersSection = ![ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].includes(data.type);
+  const isAIGeneratedAction = isAIAction(data);
 
   return (
     <isNotEditableContext.Provider value>
       <ActionFormContext.Provider value={formValue}>
         <Form form={form} setForm={() => {}} onSubmit={() => {}}>
-          <ActionDetailsCard data={data} />
+          <ActionDetailsCard data={data} isAIGeneratedAction={isAIGeneratedAction} />
           <ActionConfigurationCard data={data} />
           {showParametersSection && <ParameterDetailsCard data={data} />}
         </Form>

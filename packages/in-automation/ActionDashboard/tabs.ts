@@ -8,7 +8,7 @@ import { Action } from '@instana/types';
 
 import { actionSummaryFullyQualified, actionConfigurationFullyQualified } from 'in-automation/navigation/paths';
 import ActionConfiguration from 'in-automation/ActionDashboard/ActionConfiguration/ActionConfiguration';
-import ActionSummary from 'in-automation/ActionDashboard/ActionSummary';
+import ActionSummary from 'in-automation/ActionDashboard/ActionSummary/ActionSummary';
 import { Tab } from 'in-components/LocationAwareTabView/types';
 import { t } from 'in-i18n';
 

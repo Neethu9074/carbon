@@ -19,7 +19,6 @@ import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/t
 import { getDocLinkFromFields, getManualContentFromFields, base64ToUtf8 } from 'in-automation/utils/actionField';
 import { descriptionColumn, lastModifiedColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import useActionCatalogFilterUrlState from 'in-automation/ActionCatalog/useActionCatalogFilterUrlState';
-import useNavigateToActionDashboard from 'in-automation/navigation/hooks/useNavigateToActionDashboard';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import CreateNewActionTearsheet from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import { refresh, usePaginatedActions } from 'in-automation/ActionCatalog/useActions';
@@ -119,8 +118,6 @@ export default function ActionCatalog({
 }
 
 function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUserActions: boolean }) {
-  const navigateToActionDetails = useNavigateToActionDetails();
-  const navigsteToActionDashboard = useNavigateToActionDashboard();
   const hasAccessToScript = useHasAccessToScript();
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
@@ -187,10 +184,6 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
                 {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
               </MoreMenuButton>
             )}
-            {/* TODO: Will remove */}
-            <MoreMenuButton icon="lib_custom_dashboard" onClick={() => navigsteToActionDashboard(action.id)}>
-              Dashboard
-            </MoreMenuButton>
             {isUserActions && (
               <MoreMenuButton
                 disabled={isNotEditable(action, false) && action.type !== ACTION_TYPE.ANSIBLE}
@@ -221,7 +214,7 @@ const getColumnDefinitions = ({ isUserActions }: { isUserActions: boolean }): Co
   }
 ];
 
-function showConfirmationDialog(action: Action) {
+export function showConfirmationDialog(action: Action, callback?: Function) {
   const { id, name } = action;
   addActiveDialog(
     <ConfirmationDialog
@@ -235,17 +228,18 @@ function showConfirmationDialog(action: Action) {
       onSubmit={() => {
         close();
         // TODO: Tracker for action delete
-        onDelete(id);
+        onDelete(id, callback);
       }}
     />
   );
 }
 
-function onDelete(id: string) {
+function onDelete(id: string, callback?: Function) {
   deleteAction(id).once(
     () => {
       onDeleteSuccess();
       refresh();
+      callback?.();
     },
     error => {
       onDeleteFailed(error);

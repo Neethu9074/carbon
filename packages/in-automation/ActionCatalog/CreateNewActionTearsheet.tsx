@@ -88,7 +88,7 @@ export default function CreateNewActionTearsheet({ actionId, copy = false }: { a
       <ViewTrackingMeta
         data={{
           productArea: productAreas.automation,
-          pageRootName: pageNames.automation_action_view
+          pageRootName: pageNames.automation_action_create
         }}
       />
       <TearSheetLoader

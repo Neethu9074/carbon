@@ -522,6 +522,14 @@
     "tabs": {
       "summaryLabel": "Summary",
       "configurationLabel": "Configuration"
+    },
+    "noOfTimesRun": "Number of times run",
+    "successRate": "Success rate",
+    "avgExecutionTime": "Average execution time",
+    "lastModified": "Last modified",
+    "history": "History",
+    "summaryTab": {
+      "seconds": "seconds"
     }
   },
   "feedback": {

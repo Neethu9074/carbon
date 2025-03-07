@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import {
@@ -47,7 +48,7 @@ interface ActionDetailsCardProps {
   data: Action | Nullish | ActionFormEntity;
 }
 
-export default function ActionDetailsCard({ data }: ActionDetailsCardProps) {
+export default function ActionDetailsCard({ data }: Readonly<ActionDetailsCardProps>) {
   if (!data) return null;
   const { type } = data;
   const showTimeoutSection = [ACTION_TYPE.SCRIPT, ACTION_TYPE.HTTP, ACTION_TYPE.ANSIBLE].includes(type);
@@ -58,7 +59,7 @@ export default function ActionDetailsCard({ data }: ActionDetailsCardProps) {
         <Typography variant="heading-02">{t('in-automation:actionDashboard.ActionConfiguration')}</Typography>
       </CarbonStack>
       <CarbonRow>
-        <CarbonGrid fullWidth className={local.noHorizontalPaddings}>
+        <CarbonGrid fullWidth className={classNames(local.noHorizontalPaddings, local.customMarginY)}>
           <CarbonColumn span="100%">
             <CarbonFormGroup legendText={t('in-automation:type')}>{ACTION_TRANSLATIONS[type]}</CarbonFormGroup>
           </CarbonColumn>
