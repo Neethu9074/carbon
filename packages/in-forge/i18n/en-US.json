@@ -8181,6 +8181,7 @@
       "ebsVolumesWithCount": "EBS Volumes ({{len}})",
       "publicHostname": "Public Hostname",
       "instanceId": "Instance ID",
+      "accountId": "Account ID",
       "type": "Type",
       "availabilityZone": "Availability Zone",
       "publicIp": "Public IP",
