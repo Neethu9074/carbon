@@ -231,7 +231,7 @@
             "portHelperText": "The DNS server port is the network port used or communication between your device (PoP) and the DNS server, typically port 53",
             "queryTimeLabel": "Response time",
             "queryTimeHelperText": "Optimal DNS resolution time is between 20-120 ms",
-            "recordTypeTitle": "Conditions (optional)",
+            "recordTypeTitle": "Assertions (optional)",
             "recordTypeSubtitle": "These fields are optional, but when filled they all need to be true for the test to be successful.",
             "recordTypeLabel": "Record type",
             "operatorLabel": "Conditional",
