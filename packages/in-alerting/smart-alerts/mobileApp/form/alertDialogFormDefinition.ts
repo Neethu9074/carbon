@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { createField, createMapForm, MapForm } from 'formalistic';
+import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
@@ -17,6 +17,8 @@ import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm
 import createRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { ThresholdType, VersionedConfig } from 'in-types';
+import { isBlank } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 const severityWarning = 5;
 export const defaultAdaptiveBaselineGranularity = 1200000;
@@ -43,7 +45,8 @@ export interface AlertConfigHiddenFields {
 
 export default function alertFormDefinition(
   alertConfig: MobileAppSmartAlertConfig & VersionedConfig & AlertConfigHiddenFields,
-  editMode: boolean
+  editMode: boolean,
+  isTearSheet?: boolean
 ): MapForm<any> {
   const {
     tagFilterExpression,
@@ -113,7 +116,7 @@ export default function alertFormDefinition(
       fieldNames.name,
       createField({
         value: name,
-        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
+        validator: isTearSheet ? titleValidator() : stringMaxLengthValidator(MAX_LABEL_LENGTH)
       })
     )
     .put(
@@ -181,4 +184,27 @@ function createHiddenFieldsForm(
         value: alertChannelList
       })
     );
+}
+
+export function titleValidator(): (string?: string | null) => ValidationResult {
+  return (value?: string | null) => {
+    if (typeof value === 'string' && value.length > MAX_LABEL_LENGTH) {
+      return [
+        {
+          severity: 'error',
+          message: t('in-services:validators.valueMustBeShorterThanMaxLengthCharacters', {
+            maxLength: MAX_LABEL_LENGTH
+          })
+        }
+      ];
+    } else if (value == null || (typeof value === 'string' && isBlank(value))) {
+      return [
+        {
+          severity: 'error',
+          message: t('in-services:validators.theValueMustNotBeBlank')
+        }
+      ];
+    }
+    return null;
+  };
 }

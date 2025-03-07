@@ -5,6 +5,7 @@
  */
 
 import React, { useMemo, useState } from 'react';
+import { MapForm, Item } from 'formalistic';
 
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/mobileApp/TearSheet/AlertConfigTearSheetWithThreshold';
@@ -91,7 +92,7 @@ function AlertConfigTearSheetContent({
 }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
 
-  const [form, setForm] = useState(() => alertFormDefinition(populateRulesInConfig(alertConfig), editMode));
+  const [form, setForm] = useState(() => alertFormDefinition(populateRulesInConfig(alertConfig), editMode, true));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
 
   const [isSaving] = useState(false);
@@ -102,7 +103,7 @@ function AlertConfigTearSheetContent({
       <AlertConfigTearSheetWithThreshold
         updateForm={updateForm}
         form={form}
-        onChange={() => undefined} //TODO
+        onChange={createOnChange(updateForm, form)}
         onChartViewConfigChange={setSelectedChartViewConfigIndex}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
@@ -116,4 +117,11 @@ function AlertConfigTearSheetContent({
       />
     </>
   );
+}
+
+function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: MapForm<any>) {
+  return function onChange(path: string[], updater: (item: Item) => Item): void {
+    // @ts-expect-error ts can't determine nested fields of MapForm<any>
+    setForm(externalForm.updateIn(path, updater));
+  };
 }

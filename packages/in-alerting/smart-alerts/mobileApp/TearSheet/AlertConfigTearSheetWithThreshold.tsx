@@ -5,7 +5,7 @@
  */
 
 import React, { useMemo, useState } from 'react';
-import { MapForm } from 'formalistic';
+import { MapForm, Item } from 'formalistic';
 
 //@ts-expect-error ts migartion
 import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/synthetics/hooks/useIsTagFilterFormModelValid';
@@ -19,7 +19,7 @@ import useThresholdSuggestion from 'in-alerting/smart-alerts/eum/hooks/useThresh
 import { stepConfigsForCarbonTearSheet } from 'in-alerting/smart-alerts/mobileApp/TearSheet/steps/TearSheetStepConfigs';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/mobileApp/hooks/useAlertConfigValidation';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
-import { Item, MobileAppAlertRule, MobileAppAlertRuleUnion, ThresholdType, TimeConfig } from 'in-types';
+import { MobileAppAlertRule, MobileAppAlertRuleUnion, ThresholdType, TimeConfig } from 'in-types';
 import AlertingFullScreenTearSheet from 'in-alerting/components/AlertingFullScreenTearSheet';
 import { getButtonLabel } from 'in-alerting/smart-alerts/mobileApp/data/sharedFunctions';
 import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm';
@@ -75,18 +75,24 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
     [mobileAppId, beaconType, thresholdType]
   );
 
-  const [, setTagFilterValid] = useState(true); //TODO
-
-  // this hook will validate each step and prevents navigation
-  const navItems = useAlertConfigValidation(stepConfigsForCarbonTearSheet);
-
   const isAlertQueryValid = createIsAlertQueryValid(isQueryValid);
 
   const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isAlertQueryValid);
 
-  const isValid = blueprintConfig.isRuleComplete(rule as MobileAppAlertRule) && isTagFilterFormModelValid;
+  const [, setTagFilterValid] = useState(true);
 
   const [thresholdResult, setThresholdResult] = useState();
+
+  // this hook will validate each step and prevents navigation
+  const navItems = useAlertConfigValidation(
+    stepConfigsForCarbonTearSheet,
+    form,
+    isTagFilterFormModelValid,
+    thresholdResult,
+    updateForm
+  );
+
+  const isValid = blueprintConfig.isRuleComplete(rule as MobileAppAlertRule) && isTagFilterFormModelValid;
 
   useThresholdSuggestion(form, updateForm, setThresholdResult, createThresholdForm, {
     isValid,
@@ -96,7 +102,6 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
   });
 
   return (
-    // @ts-expect-error TODO fix type error
     <AlertingFullScreenTearSheet
       {...props}
       blueprintConfig={blueprintConfig}
