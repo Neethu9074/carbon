@@ -33,133 +33,132 @@ export interface PipeEdge extends ElkExtendedEdge {
   targets: string[];
 }
 
-export default function ConfigFlowChart(config: string) {
-  function Link({ link }: { link: ElkExtendedEdge }) {
-    const sections = link.sections![0];
-    const path = d3Path();
+function Link({ link }: { link: ElkExtendedEdge }) {
+  const sections = link.sections![0];
+  const path = d3Path();
 
-    path.moveTo(sections.startPoint.x, sections.startPoint.y);
+  path.moveTo(sections.startPoint.x, sections.startPoint.y);
 
-    if (sections.bendPoints) {
-      sections.bendPoints.forEach((b: { x: number; y: number }) => {
-        path.lineTo(b.x, b.y);
-      });
-    }
-
-    path.lineTo(sections.endPoint.x, sections.endPoint.y);
-    return <Edge path={path.toString()} markerEnd="arrow" variant="dash-sm" />;
-  }
-
-  function parseNodeData(editorValue: any) {
-    // TODO: useMemo the editor value
-    if (editorValue.config == '') {
-      return [];
-    }
-
-    const editorValueYaml: OTelConfig = YAML.parse(editorValue.config);
-    const pipelines: Pipelines = editorValueYaml.service.pipelines;
-    const nodeData: PipeNode[] = [];
-    const size = 48;
-
-    Object.entries(pipelines).forEach(([pipelineName, pipeline]) => {
-      const pipelineChildren: PipeNode[] = [];
-      Object.entries(pipeline).forEach(([type, elements]) => {
-        for (const item of elements) {
-          pipelineChildren.push({
-            id: `${pipelineName}-${type}-${item}`,
-            height: size,
-            width: size,
-            nodeType: type,
-            name: item
-          });
-        }
-      });
-
-      const pipelineEdges = calcEdges(pipelineChildren);
-
-      const pipelineNodeData = {
-        id: `${pipelineName}`,
-        height: size,
-        width: size,
-        layoutOptions: {
-          'elk.padding': '[left=25, top=25, right=25, bottom=25]',
-          'spacing.nodeNodeBetweenLayers': '50'
-        },
-        nodeType: 'pipeline',
-        name: pipelineName,
-        children: pipelineChildren,
-        edges: pipelineEdges
-      };
-      nodeData.push(pipelineNodeData);
+  if (sections.bendPoints) {
+    sections.bendPoints.forEach((b: { x: number; y: number }) => {
+      path.lineTo(b.x, b.y);
     });
-    return nodeData;
   }
 
-  function calcEdges(pipelineData: PipeNode[]) {
-    const edges: PipeEdge[] = [];
+  path.lineTo(sections.endPoint.x, sections.endPoint.y);
+  return <Edge path={path.toString()} markerEnd="arrow" variant="dash-sm" />;
+}
 
-    function addEdge(sourceNode: PipeNode, targetNode: PipeNode) {
-      edges.push({
-        id: `edge-${sourceNode.id}-${targetNode.id}`,
-        sources: [sourceNode.id],
-        targets: [targetNode.id]
-      });
-    }
-
-    function calcExporterEdges(exportersNodes: PipeNode[], lastProcessorNode: PipeNode) {
-      //connect last processor to each exporter
-      //if no exporters, return, calcReceivers will create edges to expoters
-      if (!lastProcessorNode) {
-        return;
-      }
-
-      exportersNodes.forEach(targetNode => {
-        addEdge(lastProcessorNode, targetNode);
-      });
-    }
-
-    function calcProcessorEdges(processorsNodes: PipeNode[]) {
-      for (let i = 0; i < processorsNodes.length; i++) {
-        const sourceNode = processorsNodes[i];
-        const targetNode = processorsNodes[i + 1];
-        if (!sourceNode || !targetNode) {
-          continue;
-        }
-        addEdge(sourceNode, targetNode);
-      }
-    }
-
-    function calcReceiverEdges(receiversNodes: PipeNode[], firstProcessorsNode: PipeNode, exportersNodes: PipeNode[]) {
-      //if no processors, create edges from receivers to expoters
-      if (!firstProcessorsNode) {
-        receiversNodes.forEach(sourceNode => {
-          exportersNodes.forEach(targetNode => {
-            addEdge(sourceNode, targetNode);
-          });
-        });
-      } else {
-        receiversNodes.forEach(sourceNode => {
-          addEdge(sourceNode, firstProcessorsNode);
-        });
-      }
-    }
-
-    const receiversNodes = pipelineData.filter(node => node.nodeType == 'receivers');
-    const processorsNodes = pipelineData.filter(node => node.nodeType == 'processors');
-    const exportersNodes = pipelineData.filter(node => node.nodeType == 'exporters');
-    const firstProcessorsNode = processorsNodes[0];
-    const lastProcessorsNode = processorsNodes[processorsNodes.length - 1];
-
-    calcExporterEdges(exportersNodes, lastProcessorsNode);
-    calcProcessorEdges(processorsNodes);
-    calcReceiverEdges(receiversNodes, firstProcessorsNode, exportersNodes);
-
-    return edges;
+function parseNodeData(editorValue: any) {
+  // TODO: useMemo the editor value
+  if (editorValue.config == '') {
+    return [];
   }
 
+  const editorValueYaml: OTelConfig = YAML.parse(editorValue.config);
+  const pipelines: Pipelines = editorValueYaml.service.pipelines;
+  const nodeData: PipeNode[] = [];
+  const size = 48;
+
+  Object.entries(pipelines).forEach(([pipelineName, pipeline]) => {
+    const pipelineChildren: PipeNode[] = [];
+    Object.entries(pipeline).forEach(([type, elements]) => {
+      for (const item of elements) {
+        pipelineChildren.push({
+          id: `${pipelineName}-${type}-${item}`,
+          height: size,
+          width: size,
+          nodeType: type,
+          name: item
+        });
+      }
+    });
+
+    const pipelineEdges = calcEdges(pipelineChildren);
+
+    const pipelineNodeData = {
+      id: `${pipelineName}`,
+      height: size,
+      width: size,
+      layoutOptions: {
+        'elk.padding': '[left=25, top=25, right=25, bottom=25]',
+        'spacing.nodeNodeBetweenLayers': '50'
+      },
+      nodeType: 'pipeline',
+      name: pipelineName,
+      children: pipelineChildren,
+      edges: pipelineEdges
+    };
+    nodeData.push(pipelineNodeData);
+  });
+  return nodeData;
+}
+
+function calcEdges(pipelineData: PipeNode[]) {
+  const edges: PipeEdge[] = [];
+
+  function addEdge(sourceNode: PipeNode, targetNode: PipeNode) {
+    edges.push({
+      id: `edge-${sourceNode.id}-${targetNode.id}`,
+      sources: [sourceNode.id],
+      targets: [targetNode.id]
+    });
+  }
+
+  function calcExporterEdges(exportersNodes: PipeNode[], lastProcessorNode: PipeNode) {
+    //connect last processor to each exporter
+    //if no exporters, return, calcReceivers will create edges to expoters
+    if (!lastProcessorNode) {
+      return;
+    }
+
+    exportersNodes.forEach(targetNode => {
+      addEdge(lastProcessorNode, targetNode);
+    });
+  }
+
+  function calcProcessorEdges(processorsNodes: PipeNode[]) {
+    for (let i = 0; i < processorsNodes.length; i++) {
+      const sourceNode = processorsNodes[i];
+      const targetNode = processorsNodes[i + 1];
+      if (!sourceNode || !targetNode) {
+        continue;
+      }
+      addEdge(sourceNode, targetNode);
+    }
+  }
+
+  function calcReceiverEdges(receiversNodes: PipeNode[], firstProcessorsNode: PipeNode, exportersNodes: PipeNode[]) {
+    //if no processors, create edges from receivers to expoters
+    if (!firstProcessorsNode) {
+      receiversNodes.forEach(sourceNode => {
+        exportersNodes.forEach(targetNode => {
+          addEdge(sourceNode, targetNode);
+        });
+      });
+    } else {
+      receiversNodes.forEach(sourceNode => {
+        addEdge(sourceNode, firstProcessorsNode);
+      });
+    }
+  }
+
+  const receiversNodes = pipelineData.filter(node => node.nodeType == 'receivers');
+  const processorsNodes = pipelineData.filter(node => node.nodeType == 'processors');
+  const exportersNodes = pipelineData.filter(node => node.nodeType == 'exporters');
+  const firstProcessorsNode = processorsNodes[0];
+  const lastProcessorsNode = processorsNodes[processorsNodes.length - 1];
+
+  calcExporterEdges(exportersNodes, lastProcessorsNode);
+  calcProcessorEdges(processorsNodes);
+  calcReceiverEdges(receiversNodes, firstProcessorsNode, exportersNodes);
+
+  return edges;
+}
+
+export default function ConfigFlowChart(config: string) {
   const nodeData = parseNodeData(config);
   const edgeData = calcEdges(nodeData);
-
   const [positions, setPositions] = useState<PipeNode>();
 
   useEffect(() => {
