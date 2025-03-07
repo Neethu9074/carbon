@@ -47,8 +47,8 @@ export const types = {
     short: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.perfShort'),
     badgeLabel: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.perfBadgeLabel'),
     long: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.perfLong'),
-    color: themes.g10.ids.color.option.red[500],
-    colorType: 'red'
+    color: themes.g10.ids.color.option.indigo[500],
+    colorType: 'blue'
   },
   default: {
     short: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.defaultShort'),
