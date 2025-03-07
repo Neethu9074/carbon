@@ -37,7 +37,7 @@ export default function CreateSmartAlert() {
           <Button icon="lib_alerts_create" onClick={() => handleButtonClick()}>
             {t('in-alerting:smartAlerts.addSmartAlert')}
           </Button>
-          <Button icon="lib_alerts_create" href={getLinkToCreateSmartAlert}>
+          <Button icon="lib_alerts_create" href={getLinkToCreateSmartAlert} onClick={() => trackCta(ALERTING_CREATE)}>
             {`${t('in-alerting:smartAlerts.addSmartAlert')} ${labelNew}`}
           </Button>
         </FloatingActionButtonMenu>

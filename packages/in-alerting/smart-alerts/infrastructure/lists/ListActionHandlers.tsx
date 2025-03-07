@@ -25,11 +25,11 @@ function handleEdit(config: InfraSmartAlertConfigWithMetadata) {
 }
 
 function HandleEditNew(config: InfraSmartAlertConfigWithMetadata) {
-  return <TearSheetEditActionHandler id={config.id} created={config.created} />;
+  return <TearSheetEditActionHandler id={config.id} created={config.created} alertConfig={config} />;
 }
 
 function HandleCloneNew(config: InfraSmartAlertConfigWithMetadata) {
-  return <TearSheetCloneActionHandler id={config.id} created={config.created} />;
+  return <TearSheetCloneActionHandler id={config.id} created={config.created} alertConfig={config} />;
 }
 
 function openSmartAlertDialog(config: InfraSmartAlertConfigWithMetadata, isCopy = false) {
