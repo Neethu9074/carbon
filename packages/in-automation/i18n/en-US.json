@@ -516,5 +516,9 @@
     "submitFeedback": "Submit Feedback",
     "additionalFeedbacklabel": "Provide additional feedback (optional)",
     "additionalFeedbackPlaceholder": "What did you not like about the response? What can be improved"
+  },
+  "consentForm": {
+    "consentButton": "Review consent form",
+    "consentText": "An administrator must consent to the Generative AI Assistance Preview privacy agreement to enable this feature."
   }
 }

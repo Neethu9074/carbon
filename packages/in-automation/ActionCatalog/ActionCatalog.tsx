@@ -22,10 +22,8 @@ import useActionCatalogFilterUrlState from 'in-automation/ActionCatalog/useActio
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
 import { refresh, usePaginatedActions } from 'in-automation/ActionCatalog/useActions';
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
-import useHasAccessToScript from 'in-automation/hooks/useHasAccessToScript';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -120,7 +118,6 @@ export default function ActionCatalog({
 
 function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUserActions: boolean }) {
   const navigateToActionDetails = useNavigateToActionDetails();
-  const hasAccessToScript = useHasAccessToScript();
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
   let manualContent = '';
@@ -163,7 +160,7 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
             >
               {t('in-automation:copy')}
             </MoreMenuButton>
-            {action.type === ACTION_TYPE.MANUAL && automationActionAiGenerationUnitEnabled && hasAccessToScript && (
+            {action.type === ACTION_TYPE.MANUAL && (
               <MoreMenuButton
                 icon="lib_launch_ai"
                 onClick={() => {

@@ -25,9 +25,7 @@ import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useRe
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import TurboActionRunModal from 'in-automation/ResourceOptimization/TurboActionRunModal';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -312,9 +310,6 @@ export default function RecommendedActions({
 
   const totalHits = result?.data?.totalHits;
 
-  const showOotbActions =
-    getTriggerTypeFromEvent(event) === 'builtinEvent' && (ootbRecommendedActions.data?.length ?? 0) > 0;
-
   return (
     <ServerTablePresenter<ScoredAction, RecommendedActionsTableProps>
       columnDefinitions={columnDefinitions}
@@ -339,7 +334,7 @@ export default function RecommendedActions({
       result={result}
       rightHeader={
         <Stack direction="horizontal">
-          {(showOotbActions || automationActionAiGenerationUnitEnabled) && !isLoading(trigger) && (
+          {!isLoading(trigger) && (
             <GenerateAIActionButton event={event} trigger={trigger} ootbRecommendedActions={ootbRecommendedActions} />
           )}
           <TypeFilter type={types} setType={params => setTypes({ types: params.types })} showExternal />
