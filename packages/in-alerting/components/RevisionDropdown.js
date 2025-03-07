@@ -3,65 +3,81 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useCallback } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
-import { Stack, SvgIcon, SvgIconSizes } from '@instana/components';
+import {
+  CarbonStack as Stack,
+  SvgIcon,
+  SvgIconSizes,
+  CarbonMenuButton,
+  CarbonMenuItem,
+  AutoReposition
+} from '@instana/components';
 
-import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import DropdownButton from 'in-components/Button/DropdownButton';
 import { formatDateTime } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/components/RevisionDropdown.mless';
 
 export default function RevisionDropdown({ alertConfigVersions, setRevision, alertRevision }) {
-  const options = alertConfigVersions.map(v => ({
-    value: v,
-    label: renderItemContent(v),
-    disabled: v.disabled
-  }));
+  const onClick = item => {
+    setRevision(item.created);
+  };
 
-  const selectedOption = options.find(({ value }) => value.created === alertRevision.created);
+  const renderIcon = useCallback(iconType => {
+    return iconType ? (
+      <SvgIcon className={locals.icon} type={iconType} size={SvgIconSizes.s} aria-hidden="true" />
+    ) : null;
+  }, []);
 
+  // Special case: using feature flag to turn off floating menu to
+  // force popup menu positioning to bottom-end.
   return (
-    <ComboBoxBehavior
-      value={selectedOption?.value}
-      options={options}
-      onChange={revision => {
-        setRevision(revision.created);
-      }}
-      listItemAlignment="left"
-      overlayAlignment="bottomRight"
-      disableAutomaticOptionSorting
-    >
-      {({ elementProps, isOpen }) => (
-        <DropdownButton {...elementProps} kind="primaryv2" icon="lib_actions_filter" expanded={isOpen}>
-          {t('in-alerting:components.revisionDropdownButton.buttonLabel')}
-        </DropdownButton>
-      )}
-    </ComboBoxBehavior>
+    <AutoReposition>
+      <CarbonMenuButton
+        kind="primary"
+        size="sm"
+        menuAlignment="bottom-end"
+        className={locals.menuButton}
+        label={
+          <div className={locals.title}>
+            <SvgIcon type={'lib_actions_filter'} size="xs" className={locals.filter} />
+            {t('in-alerting:components.revisionDropdownButton.buttonLabel')}
+          </div>
+        }
+      >
+        {alertConfigVersions.map(item => (
+          <CarbonMenuItem
+            key={item.created}
+            label={renderItemContent(item)}
+            disabled={item.disabled}
+            onClick={() => onClick(item)}
+            className={classNames({
+              [locals.menuitem]: true,
+              [locals.selected]: item.created === alertRevision.created
+            })}
+            renderIcon={() => renderIcon(item.iconType)}
+          />
+        ))}
+      </CarbonMenuButton>
+    </AutoReposition>
   );
 }
 
 function renderItemContent(item) {
-  const { description, created, iconType, changeSummary } = item;
+  const { description, created, changeSummary } = item;
   const { fullName: authorName } = changeSummary.author;
 
   return (
-    <div className={locals.itemContainer}>
-      <Stack direction="horizontal" gap="normal" align="center">
-        {iconType && <SvgIcon className={locals.icon} type={item.iconType} size={SvgIconSizes.s} aria-hidden="true" />}
-        <Stack gap="xxsmall">
-          <Stack direction="horizontal" gap="xlarge">
-            <div className={classNames(locals.description, locals.textPrimary)}>{description}</div>
-            <time dateTime={formatDateTime(created)} className={classNames(locals.date, locals.textSecondary)}>
-              ({formatDateTime(created)})
-            </time>
-          </Stack>
-          {authorName && <div className={classNames(locals.name, locals.textSecondary)}>{authorName}</div>}
-        </Stack>
+    <Stack gap={1} className={locals.itemContainer} title="">
+      <Stack orientation="horizontal" gap={3} className={locals.description}>
+        <div className={locals.textPrimary}>{description}</div>
+        <time dateTime={formatDateTime(created)} className={classNames(locals.date, locals.textSecondary)}>
+          ({formatDateTime(created)})
+        </time>
       </Stack>
-    </div>
+      {authorName && <div className={classNames(locals.name, locals.textSecondary)}>{authorName}</div>}
+    </Stack>
   );
 }
