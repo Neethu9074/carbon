@@ -29,11 +29,11 @@ function handleEdit(config: SyntheticAlertConfigWithMetadata) {
 }
 
 function HandleEditNew(config: SyntheticAlertConfigWithMetadata) {
-  return <TearSheetEditActionHandler id={config.id} created={config.created} />;
+  return <TearSheetEditActionHandler id={config.id} created={config.created} alertConfig={config} />;
 }
 
 function HandleCloneNew(config: SyntheticAlertConfigWithMetadata) {
-  return <TearSheetCloneActionHandler id={config.id} created={config.created} />;
+  return <TearSheetCloneActionHandler id={config.id} created={config.created} alertConfig={config} />;
 }
 
 function openSmartAlertDialog(config: SyntheticAlertConfig & VersionedConfig, isCopy = false) {
