@@ -1381,6 +1381,11 @@
   "pluginName_oTelLLM_1": "OTel LLMonitors",
   "pluginName_oTelLLM_2": "OTel LLMonitors",
   "pluginName_oTelLLM": "OTel LLMonitor",
+  "pluginName_oTelVLLM_plural": "OTel vLLM Servers",
+  "pluginName_oTelVLLM_0": "OTel vLLM Servers",
+  "pluginName_oTelVLLM_1": "OTel vLLM Servers",
+  "pluginName_oTelVLLM_2": "OTel vLLM Servers",
+  "pluginName_oTelVLLM": "OTel vLLM Server",
   "pluginName_oTelDcgm_plural": "OTel Dcgms",
   "pluginName_oTelDcgm_0": "OTel Dcgms",
   "pluginName_oTelDcgm_1": "OTel Dcgms",
@@ -13726,6 +13731,34 @@
         "totalOutputCostByService": "Total Output Cost by Service",
         "totalCountByModel": "Total Request Counts by Model",
         "totalCountByService": "Total Request Counts by Service"
+      }
+    },
+    "oTelVLLM": {
+      "oTelVLLM": "OTel vLLM",
+      "kind": "Kind",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "label_category_LLM": "LLM",
+      "llm_status": "LLM Status",
+      "model": "model",
+      "service": "service",
+      "dashboard": {
+        "tokens": "Total tokens",
+        "promptTokens": "Prompt tokens",
+        "generationTokens": "Generation tokens",
+        "runningRequests": "Running requests",
+        "waitingRequests": "Waiting requests",
+        "gpuUsage": "GPU usage",
+        "gpuCacheHitRate": "GPU KV cache hit rate",
+        "latency": "Request latency",
+        "ttft": "Time to first token",
+        "totalTokens": "Total Tokens",
+        "totalPromptTokens": "Total Prompt Tokens",
+        "totalGenerationTokens": "Total Generation Tokens",
+        "totalTokensByInstance": "Total Tokens by vLLM Instance",
+        "totalPromptTokensByInstance": "Total Prompt Tokens by vLLM Instance",
+        "totalGenerationTokensByInstance": "Total Generation Tokens by vLLM Instance"
       }
     },
     "oTelDcgm": {

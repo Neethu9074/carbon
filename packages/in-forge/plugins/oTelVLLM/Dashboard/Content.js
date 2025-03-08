@@ -1,0 +1,330 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import React from 'react';
+
+import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
+import TotalUsageBigNumber from 'in-forge/plugins/oTelVLLM/Dashboard/TotalUsageBigNumber';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import TopListByModel from 'in-forge/plugins/oTelVLLM/Dashboard/TopListByModel';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { days, hours, minutes, seconds } from 'in-services/time';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
+
+export default function OTelLLMDashboard({ snapshot, timeConfig }) {
+  const snapshotId = snapshot.get('id');
+  const metricIds = snapshot.get('metricIds');
+
+  const count = metricIds
+    .filter(metric => metric.includes('vllm.request.running.count'))
+    .sort()
+    .toArray();
+  const waitingRequests = metricIds
+    .filter(metric => metric.includes('vllm.request.waiting.count'))
+    .sort()
+    .toArray();
+  const gpuCacheUsage = metricIds
+    .filter(metric => metric.includes('vllm.gpu.cache.usage.perc'))
+    .sort()
+    .toArray();
+  const gpuCacheHitRate = metricIds
+    .filter(metric => metric.includes('vllm.gpu.cache.hit.rate'))
+    .sort()
+    .toArray();
+  const latency = metricIds
+    .filter(metric => metric.includes('vllm.request.latency'))
+    .sort()
+    .toArray();
+  const ttft = metricIds
+    .filter(metric => metric.includes('vllm.request.ttft'))
+    .sort()
+    .toArray();
+  const promptTokens = metricIds
+    .filter(metric => metric.includes('vllm.tokens.prompt.count'))
+    .sort()
+    .toArray();
+  const generationTokens = metricIds
+    .filter(metric => metric.includes('vllm.tokens.generation.count'))
+    .sort()
+    .toArray();
+  const instanceId = snapshot.get('data').get('resource.service.instance.id');
+
+  let minRollup = seconds.toMillis(10);
+  if (timeConfig.windowSize >= days.toMillis(91)) {
+    minRollup = days.toMillis(7);
+  } else if (timeConfig.windowSize >= days.toMillis(7)) {
+    minRollup = days.toMillis(1);
+  } else if (timeConfig.windowSize >= hours.toMillis(24)) {
+    minRollup = hours.toMillis(1);
+  } else if (timeConfig.windowSize >= hours.toMillis(12)) {
+    minRollup = minutes.toMillis(10);
+  } else if (timeConfig.windowSize >= hours.toMillis(6)) {
+    minRollup = minutes.toMillis(5);
+  } else if (timeConfig.windowSize >= hours.toMillis(1)) {
+    minRollup = minutes.toMillis(1);
+  } else if (timeConfig.windowSize >= minutes.toMillis(30)) {
+    minRollup = seconds.toMillis(30);
+  }
+
+  return (
+    <div>
+      <Columize>
+        <TotalUsageBigNumber
+          title={t('in-forge:plugins.oTelVLLM.dashboard.totalTokens')}
+          metricName="metrics.gauges.vllm.tokens.total.count"
+          tagFilter={instanceId}
+          formatter="number.compact"
+        />
+        <TotalUsageBigNumber
+          title={t('in-forge:plugins.oTelVLLM.dashboard.totalPromptTokens')}
+          metricName="metrics.gauges.vllm.tokens.prompt.count"
+          tagFilter={instanceId}
+          formatter="number.compact"
+        />
+        <TotalUsageBigNumber
+          title={t('in-forge:plugins.oTelVLLM.dashboard.totalGenerationTokens')}
+          metricName="metrics.gauges.vllm.tokens.generation.count"
+          tagFilter={instanceId}
+          formatter="number.compact"
+        />
+      </Columize>
+
+      <Columize>
+        <TopListByModel
+          title={t('in-forge:plugins.oTelVLLM.dashboard.totalTokensByInstance')}
+          metricName="metrics.gauges.vllm.tokens.total.count"
+          tag="metric.tag.service_name"
+          tagFilter={instanceId}
+          formatter="number.compact"
+        />
+        <TopListByModel
+          title={t('in-forge:plugins.oTelVLLM.dashboard.totalPromptTokensByInstance')}
+          metricName="metrics.gauges.vllm.tokens.prompt.count"
+          tag="metric.tag.service_name"
+          tagFilter={instanceId}
+          formatter="number.compact"
+        />
+        <TopListByModel
+          title={t('in-forge:plugins.oTelVLLM.dashboard.totalGenerationTokensByInstance')}
+          metricName="metrics.gauges.vllm.tokens.generation.count"
+          tag="metric.tag.service_name"
+          tagFilter={instanceId}
+          formatter="number.compact"
+        />
+      </Columize>
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.oTelVLLM.dashboard.promptTokens')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            minRollup={minRollup}
+            y1={{
+              min: 0,
+              formatter: number.detailed,
+              metrics: promptTokens ? promptTokens : [],
+              labels: promptTokens?.map(metric => {
+                if (metric.split('.').length > 3) {
+                  return metric
+                    .split('.')
+                    .slice(3, metric.split('.').length - 1)
+                    .join('.');
+                }
+                return t('in-forge:plugins.oTelVLLM.dashboard.promptTokens');
+              }),
+              type: 'line',
+              aggregation: 'sum'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.oTelVLLM.dashboard.generationTokens')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            minRollup={minRollup}
+            y1={{
+              min: 0,
+              formatter: number.detailed,
+              metrics: generationTokens ? generationTokens : [],
+              labels: generationTokens?.map(metric => {
+                if (metric.split('.').length > 3) {
+                  return metric
+                    .split('.')
+                    .slice(3, metric.split('.').length - 1)
+                    .join('.');
+                }
+                return t('in-forge:plugins.oTelVLLM.dashboard.generationTokens');
+              }),
+              type: 'line',
+              aggregation: 'sum'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.oTelVLLM.dashboard.runningRequests')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            minRollup={minRollup}
+            y1={{
+              min: 0,
+              formatter: number.detailed,
+              metrics: count ? count : [],
+              labels: count?.map(metric => {
+                if (metric.split('.').length > 3) {
+                  return metric
+                    .split('.')
+                    .slice(3, metric.split('.').length - 1)
+                    .join('.');
+                }
+                return t('in-forge:plugins.oTelVLLM.dashboard.runningRequests');
+              }),
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.oTelVLLM.dashboard.waitingRequests')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            minRollup={minRollup}
+            y1={{
+              min: 0,
+              formatter: number.detailed,
+              metrics: waitingRequests ? waitingRequests : [],
+              labels: waitingRequests?.map(metric => {
+                if (metric.split('.').length > 3) {
+                  return metric
+                    .split('.')
+                    .slice(3, metric.split('.').length - 1)
+                    .join('.');
+                }
+                return t('in-forge:plugins.oTelVLLM.dashboard.waitingRequests');
+              }),
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.oTelVLLM.dashboard.gpuUsage')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            minRollup={minRollup}
+            y1={{
+              min: 0,
+              formatter: number.detailed,
+              metrics: gpuCacheUsage ? gpuCacheUsage : [],
+              labels: gpuCacheUsage?.map(metric => {
+                if (metric.split('.').length > 3) {
+                  return metric
+                    .split('.')
+                    .slice(3, metric.split('.').length - 1)
+                    .join('.');
+                }
+                return t('in-forge:plugins.oTelVLLM.dashboard.gpuUsage');
+              }),
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.oTelVLLM.dashboard.gpuCacheHitRate')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            minRollup={minRollup}
+            y1={{
+              min: 0,
+              formatter: number.detailed,
+              metrics: gpuCacheHitRate ? gpuCacheHitRate : [],
+              labels: gpuCacheHitRate?.map(metric => {
+                if (metric.split('.').length > 3) {
+                  return metric
+                    .split('.')
+                    .slice(3, metric.split('.').length - 1)
+                    .join('.');
+                }
+                return t('in-forge:plugins.oTelVLLM.dashboard.gpuCacheHitRate');
+              }),
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.oTelVLLM.dashboard.latency')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            minRollup={minRollup}
+            y1={{
+              min: 0,
+              formatter: number.detailed,
+              metrics: latency ? latency : [],
+              labels: latency?.map(metric => {
+                if (metric.split('.').length > 3) {
+                  return metric
+                    .split('.')
+                    .slice(3, metric.split('.').length - 1)
+                    .join('.');
+                }
+                return t('in-forge:plugins.oTelVLLM.dashboard.latency');
+              }),
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.oTelVLLM.dashboard.ttft')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            minRollup={minRollup}
+            y1={{
+              min: 0,
+              formatter: number.detailed,
+              metrics: ttft ? ttft : [],
+              labels: ttft?.map(metric => {
+                if (metric.split('.').length > 3) {
+                  return metric
+                    .split('.')
+                    .slice(3, metric.split('.').length - 1)
+                    .join('.');
+                }
+                return t('in-forge:plugins.oTelVLLM.dashboard.ttft');
+              }),
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+      <CustomMetricsV2
+        snapshot={snapshot}
+        timeConfig={timeConfig}
+        titlePrefix={t('in-forge:plugins.oTelVLLM.oTelLLM')}
+        specs={SPECS}
+      />
+    </div>
+  );
+}
+export const SPECS = [AVAILABLE_SPECS.GAUGE, AVAILABLE_SPECS.HISTOGRAM, AVAILABLE_SPECS.SUM, AVAILABLE_SPECS.SUMMARY];

@@ -316,6 +316,7 @@ import './phmcLPAR';
 import './phmcVIOS';
 import './bpm/jbpm';
 import './oTelDcgm';
+import './oTelVLLM';
 import './oTelLLM';
 import './oTelJvm';
 import './bpm/baw';
