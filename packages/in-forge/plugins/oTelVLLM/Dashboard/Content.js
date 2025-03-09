@@ -17,42 +17,24 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
+const filterMetrics = (metricIds, keyword) =>
+  metricIds
+    .filter(metric => metric.includes(keyword))
+    .sort()
+    .toArray();
+
 export default function OTelLLMDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const metricIds = snapshot.get('metricIds');
 
-  const count = metricIds
-    .filter(metric => metric.includes('vllm.request.running.count'))
-    .sort()
-    .toArray();
-  const waitingRequests = metricIds
-    .filter(metric => metric.includes('vllm.request.waiting.count'))
-    .sort()
-    .toArray();
-  const gpuCacheUsage = metricIds
-    .filter(metric => metric.includes('vllm.gpu.cache.usage.perc'))
-    .sort()
-    .toArray();
-  const gpuCacheHitRate = metricIds
-    .filter(metric => metric.includes('vllm.gpu.cache.hit.rate'))
-    .sort()
-    .toArray();
-  const latency = metricIds
-    .filter(metric => metric.includes('vllm.request.latency'))
-    .sort()
-    .toArray();
-  const ttft = metricIds
-    .filter(metric => metric.includes('vllm.request.ttft'))
-    .sort()
-    .toArray();
-  const promptTokens = metricIds
-    .filter(metric => metric.includes('vllm.tokens.prompt.count'))
-    .sort()
-    .toArray();
-  const generationTokens = metricIds
-    .filter(metric => metric.includes('vllm.tokens.generation.count'))
-    .sort()
-    .toArray();
+  const count = filterMetrics(metricIds, 'vllm.request.running.count');
+  const waitingRequests = filterMetrics(metricIds, 'vllm.request.waiting.count');
+  const gpuCacheUsage = filterMetrics(metricIds, 'vllm.gpu.cache.usage.perc');
+  const gpuCacheHitRate = filterMetrics(metricIds, 'vllm.gpu.cache.hit.rate');
+  const latency = filterMetrics(metricIds, 'vllm.request.latency');
+  const ttft = filterMetrics(metricIds, 'vllm.request.ttft');
+  const promptTokens = filterMetrics(metricIds, 'vllm.tokens.prompt.count');
+  const generationTokens = filterMetrics(metricIds, 'vllm.tokens.generation.count');
   const instanceId = snapshot.get('data').get('resource.service.instance.id');
 
   let minRollup = seconds.toMillis(10);
@@ -127,7 +109,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               formatter: number.detailed,
-              metrics: promptTokens ? promptTokens : [],
+              metrics: promptTokens || [],
               labels: promptTokens?.map(metric => {
                 if (metric.split('.').length > 3) {
                   return metric
@@ -151,7 +133,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               formatter: number.detailed,
-              metrics: generationTokens ? generationTokens : [],
+              metrics: generationTokens || [],
               labels: generationTokens?.map(metric => {
                 if (metric.split('.').length > 3) {
                   return metric
@@ -178,7 +160,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               formatter: number.detailed,
-              metrics: count ? count : [],
+              metrics: count || [],
               labels: count?.map(metric => {
                 if (metric.split('.').length > 3) {
                   return metric
@@ -201,7 +183,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               formatter: number.detailed,
-              metrics: waitingRequests ? waitingRequests : [],
+              metrics: waitingRequests || [],
               labels: waitingRequests?.map(metric => {
                 if (metric.split('.').length > 3) {
                   return metric
@@ -227,7 +209,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               formatter: number.detailed,
-              metrics: gpuCacheUsage ? gpuCacheUsage : [],
+              metrics: gpuCacheUsage || [],
               labels: gpuCacheUsage?.map(metric => {
                 if (metric.split('.').length > 3) {
                   return metric
@@ -250,7 +232,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               formatter: number.detailed,
-              metrics: gpuCacheHitRate ? gpuCacheHitRate : [],
+              metrics: gpuCacheHitRate || [],
               labels: gpuCacheHitRate?.map(metric => {
                 if (metric.split('.').length > 3) {
                   return metric
@@ -276,7 +258,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               formatter: number.detailed,
-              metrics: latency ? latency : [],
+              metrics: latency || [],
               labels: latency?.map(metric => {
                 if (metric.split('.').length > 3) {
                   return metric
@@ -302,7 +284,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               formatter: number.detailed,
-              metrics: ttft ? ttft : [],
+              metrics: ttft || [],
               labels: ttft?.map(metric => {
                 if (metric.split('.').length > 3) {
                   return metric

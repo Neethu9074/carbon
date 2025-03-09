@@ -13739,8 +13739,8 @@
       "serviceName": "Service Name",
       "entityType": "Entity Type",
       "instanceId": "Instance ID",
-      "label_category_LLM": "LLM",
-      "llm_status": "LLM Status",
+      "label_category_VLLM": "vLLM",
+      "vllm_status": "vLLM Status",
       "model": "model",
       "service": "service",
       "dashboard": {

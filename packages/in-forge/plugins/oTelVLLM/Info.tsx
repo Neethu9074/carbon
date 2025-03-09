@@ -15,16 +15,16 @@ export default function OTelLLMInfo({ snapshot }: { snapshot: SnapshotData }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.oTelLLM.entityType')}>
+      <DescriptionItem title={t('in-forge:plugins.oTelVLLM.entityType')}>
         {data.get('resource.vllm.entity.type')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.oTelLLM.serviceName')}>
+      <DescriptionItem title={t('in-forge:plugins.oTelVLLM.serviceName')}>
         {data.get('resource.server.name')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.oTelLLM.instanceId')}>
+      <DescriptionItem title={t('in-forge:plugins.oTelVLLM.instanceId')}>
         {data.get('resource.service.instance.id')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.oTelLLM.kind')}>{data.get('kind')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.oTelVLLM.kind')}>{data.get('kind')}</DescriptionItem>
     </DescriptionList>
   );
 }
