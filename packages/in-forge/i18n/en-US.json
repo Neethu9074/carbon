@@ -13741,7 +13741,6 @@
       "instanceId": "Instance ID",
       "label_category_VLLM": "vLLM",
       "vllm_status": "vLLM Status",
-      "model": "model",
       "service": "service",
       "dashboard": {
         "tokens": "Total tokens",
