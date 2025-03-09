@@ -248,7 +248,7 @@ export default function OTelVLLMDashboard({ snapshot, timeConfig }) {
       <CustomMetricsV2
         snapshot={snapshot}
         timeConfig={timeConfig}
-        titlePrefix={t('in-forge:plugins.oTelVLLM.oTelLLM')}
+        titlePrefix={t('in-forge:plugins.oTelVLLM.oTelVLLM')}
         specs={SPECS}
       />
     </div>
