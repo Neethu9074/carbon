@@ -23,11 +23,20 @@ const filterMetrics = (metricIds, keyword) =>
     .sort()
     .toArray();
 
+const generateLabels = (metricIds, defaultLabel, index) =>
+  metricIds?.map(metric => {
+    let parts = metric.split('.');
+    if (parts.length > index) {
+      return parts.slice(index, parts.length - 1).join('.');
+    }
+    return defaultLabel;
+  });
+
 export default function OTelLLMDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const metricIds = snapshot.get('metricIds');
 
-  const count = filterMetrics(metricIds, 'vllm.request.running.count');
+  const runningRequests = filterMetrics(metricIds, 'vllm.request.running.count');
   const waitingRequests = filterMetrics(metricIds, 'vllm.request.waiting.count');
   const gpuCacheUsage = filterMetrics(metricIds, 'vllm.gpu.cache.usage.perc');
   const gpuCacheHitRate = filterMetrics(metricIds, 'vllm.gpu.cache.hit.rate');
@@ -110,15 +119,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
               min: 0,
               formatter: number.detailed,
               metrics: promptTokens || [],
-              labels: promptTokens?.map(metric => {
-                if (metric.split('.').length > 3) {
-                  return metric
-                    .split('.')
-                    .slice(3, metric.split('.').length - 1)
-                    .join('.');
-                }
-                return t('in-forge:plugins.oTelVLLM.dashboard.promptTokens');
-              }),
+              labels: generateLabels(promptTokens, t('in-forge:plugins.oTelVLLM.dashboard.promptTokens'), 4),
               type: 'line',
               aggregation: 'sum'
             }}
@@ -134,15 +135,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
               min: 0,
               formatter: number.detailed,
               metrics: generationTokens || [],
-              labels: generationTokens?.map(metric => {
-                if (metric.split('.').length > 3) {
-                  return metric
-                    .split('.')
-                    .slice(3, metric.split('.').length - 1)
-                    .join('.');
-                }
-                return t('in-forge:plugins.oTelVLLM.dashboard.generationTokens');
-              }),
+              labels: generateLabels(generationTokens, t('in-forge:plugins.oTelVLLM.dashboard.generationTokens'), 4),
               type: 'line',
               aggregation: 'sum'
             }}
@@ -160,16 +153,8 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               formatter: number.detailed,
-              metrics: count || [],
-              labels: count?.map(metric => {
-                if (metric.split('.').length > 3) {
-                  return metric
-                    .split('.')
-                    .slice(3, metric.split('.').length - 1)
-                    .join('.');
-                }
-                return t('in-forge:plugins.oTelVLLM.dashboard.runningRequests');
-              }),
+              metrics: runningRequests || [],
+              labels: generateLabels(runningRequests, t('in-forge:plugins.oTelVLLM.dashboard.runningRequests'), 4),
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -184,15 +169,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
               min: 0,
               formatter: number.detailed,
               metrics: waitingRequests || [],
-              labels: waitingRequests?.map(metric => {
-                if (metric.split('.').length > 3) {
-                  return metric
-                    .split('.')
-                    .slice(3, metric.split('.').length - 1)
-                    .join('.');
-                }
-                return t('in-forge:plugins.oTelVLLM.dashboard.waitingRequests');
-              }),
+              labels: generateLabels(waitingRequests, t('in-forge:plugins.oTelVLLM.dashboard.waitingRequests'), 4),
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -210,15 +187,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
               min: 0,
               formatter: number.detailed,
               metrics: gpuCacheUsage || [],
-              labels: gpuCacheUsage?.map(metric => {
-                if (metric.split('.').length > 3) {
-                  return metric
-                    .split('.')
-                    .slice(3, metric.split('.').length - 1)
-                    .join('.');
-                }
-                return t('in-forge:plugins.oTelVLLM.dashboard.gpuUsage');
-              }),
+              labels: generateLabels(gpuCacheUsage, t('in-forge:plugins.oTelVLLM.dashboard.gpuUsage'), 5),
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -233,15 +202,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
               min: 0,
               formatter: number.detailed,
               metrics: gpuCacheHitRate || [],
-              labels: gpuCacheHitRate?.map(metric => {
-                if (metric.split('.').length > 3) {
-                  return metric
-                    .split('.')
-                    .slice(3, metric.split('.').length - 1)
-                    .join('.');
-                }
-                return t('in-forge:plugins.oTelVLLM.dashboard.gpuCacheHitRate');
-              }),
+              labels: generateLabels(gpuCacheHitRate, t('in-forge:plugins.oTelVLLM.dashboard.gpuCacheHitRate'), 5),
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -259,15 +220,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
               min: 0,
               formatter: number.detailed,
               metrics: latency || [],
-              labels: latency?.map(metric => {
-                if (metric.split('.').length > 3) {
-                  return metric
-                    .split('.')
-                    .slice(3, metric.split('.').length - 1)
-                    .join('.');
-                }
-                return t('in-forge:plugins.oTelVLLM.dashboard.latency');
-              }),
+              labels: generateLabels(latency, t('in-forge:plugins.oTelVLLM.dashboard.latency'), 3),
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -285,15 +238,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
               min: 0,
               formatter: number.detailed,
               metrics: ttft || [],
-              labels: ttft?.map(metric => {
-                if (metric.split('.').length > 3) {
-                  return metric
-                    .split('.')
-                    .slice(3, metric.split('.').length - 1)
-                    .join('.');
-                }
-                return t('in-forge:plugins.oTelVLLM.dashboard.ttft');
-              }),
+              labels: generateLabels(ttft, t('in-forge:plugins.oTelVLLM.dashboard.ttft'), 3),
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
