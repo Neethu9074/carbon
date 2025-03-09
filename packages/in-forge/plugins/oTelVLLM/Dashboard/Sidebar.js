@@ -13,7 +13,7 @@ import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList
 import Info from 'in-forge/plugins/oTelVLLM/Info';
 import { t } from 'in-i18n';
 
-export default function OTelLLMSidebar({ snapshot }) {
+export default function OTelVLLMSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>

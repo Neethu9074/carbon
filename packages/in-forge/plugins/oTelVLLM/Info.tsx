@@ -11,7 +11,7 @@ import { DescriptionList, DescriptionItem } from '@instana/components';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 
-export default function OTelLLMInfo({ snapshot }: { snapshot: SnapshotData }) {
+export default function OTelVLLMInfo({ snapshot }: { snapshot: SnapshotData }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>

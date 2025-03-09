@@ -32,7 +32,7 @@ const generateLabels = (metricIds, defaultLabel, index) =>
     return defaultLabel;
   });
 
-export default function OTelLLMDashboard({ snapshot, timeConfig }) {
+export default function OTelVLLMDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const metricIds = snapshot.get('metricIds');
 
