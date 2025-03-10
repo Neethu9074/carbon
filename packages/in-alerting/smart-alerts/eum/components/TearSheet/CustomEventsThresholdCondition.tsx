@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
+import React, { ReactNode } from 'react';
 import { MapForm } from 'formalistic';
-import React from 'react';
 
 import { isAdaptiveBaselineConfig } from '@instana/types';
 import { Spacer } from '@instana/components';
@@ -36,6 +36,7 @@ interface CustomEventsThresholdConditionProps {
   getMetricUnitPostfix: (arg: string) => string;
   isPercentageMetric: (arg: string) => boolean;
   onChartViewConfigChange: (arg: number) => void;
+  children?: ReactNode;
 }
 
 export default function CustomEventsThresholdCondition({
@@ -46,7 +47,8 @@ export default function CustomEventsThresholdCondition({
   eumType,
   getMetricUnitPostfix,
   isPercentageMetric,
-  onChartViewConfigChange
+  onChartViewConfigChange,
+  children
 }: CustomEventsThresholdConditionProps) {
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
@@ -99,6 +101,7 @@ export default function CustomEventsThresholdCondition({
           isTearSheet
         />
         <Spacer size="xsmall" />
+        {children}
         <ThresholdTypeSelection
           form={form}
           updateForm={updateForm}

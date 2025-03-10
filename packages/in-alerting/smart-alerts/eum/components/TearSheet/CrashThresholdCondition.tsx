@@ -5,7 +5,7 @@
  */
 
 import { Field, MapForm } from 'formalistic';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { Dropdown, Spacer, Stack } from '@instana/components';
 import { isAdaptiveBaselineConfig } from '@instana/types';
@@ -35,6 +35,7 @@ interface CrashThresholdConditionProps {
   getMetricUnitPostfix: (arg: string) => string;
   isPercentageMetric: (arg: string) => boolean;
   onChartViewConfigChange: (arg: number) => void;
+  children: ReactNode;
 }
 
 export default function CrashThresholdCondition({
@@ -44,7 +45,8 @@ export default function CrashThresholdCondition({
   editMode,
   getMetricUnitPostfix,
   isPercentageMetric,
-  onChartViewConfigChange
+  onChartViewConfigChange,
+  children
 }: CrashThresholdConditionProps) {
   const metricName = form.get('rule').get('metricName').value;
 
@@ -100,6 +102,7 @@ export default function CrashThresholdCondition({
           isTearSheet
         />
         <Spacer size="xsmall" />
+        {children}
         <ThresholdTypeSelection
           form={form}
           updateForm={updateForm}

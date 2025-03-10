@@ -271,3 +271,12 @@ function fillAlertTabSpecificValues(params, mobileAppId, alertConfigId, alertCon
   setOrDeleteMatrixKey(params, alertsTab, alertIdMatrixParam, alertConfigId);
   setOrDeleteMatrixKey(params, alertsTab, alertCreatedMatrixParam, alertConfigVersion);
 }
+
+export const useNavigationToAlertConfig = () => {
+  const { navigate, location } = useNavigation();
+
+  return (alertConfigId, mobileAppId, alertConfigVersion) => {
+    fillAlertTabSpecificValues(location, mobileAppId, alertConfigId, alertConfigVersion);
+    return navigate(location);
+  };
+};

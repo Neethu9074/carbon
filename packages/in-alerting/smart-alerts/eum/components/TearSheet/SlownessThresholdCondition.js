@@ -36,7 +36,8 @@ export default function SlownessThresholdCondition({
   editMode,
   eumType,
   onChartViewConfigChange,
-  isPercentageMetric
+  isPercentageMetric,
+  children
 }) {
   const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const metricName = form.get('rule').get('metricName').value;
@@ -96,6 +97,7 @@ export default function SlownessThresholdCondition({
           onThresholdTypeChange={eumType === websiteEum ? websiteOnThresholdTypeChange : mobileAppOnThresholdTypeChange}
           isTearSheet
         />
+        {children}
         <Spacer size="xsmall" />
         <ThresholdTypeSelection
           form={form}
