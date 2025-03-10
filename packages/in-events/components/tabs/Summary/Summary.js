@@ -28,8 +28,8 @@ import {
   getEventStateBadge
 } from 'in-events/components/eventUtil';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
-import { aqmDisableConfigOnEventViewEnabled, eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
+import { aqmDisableConfigOnEventViewEnabled, eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
@@ -97,7 +97,11 @@ export default function Summary(props) {
           <IncidentContent incident={event} latestSnapshot={latestSnapshot} />
         ) : (
           <>
-            <EventDetailsKPIs event={event} isIncident={isIncident} />
+            <EventDetailsKPIs
+              event={event}
+              isIncident={isIncident}
+              isApplicationSmartAlert={isApplicationSmartAlertEvent(event)}
+            />
             <EventContent event={event} latestSnapshot={latestSnapshot} reload={reload} />
           </>
         )}

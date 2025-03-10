@@ -12,7 +12,8 @@ import {
   TimeConfig,
   TagFilterExpressionElementUnion,
   CursorPagination,
-  IngestionOffsetCursor
+  IngestionOffsetCursor,
+  JoinSource
 } from 'in-types';
 import { EXPRESSION, OPERATOR_AND } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
@@ -30,8 +31,9 @@ type MakeEumBeaconByTraceQueryProp = {
   metrics: Array<string>;
   timeConfig: TimeConfig;
   joinFilterExpression: TagFilterExpressionElementUnion;
-  distinctBy: 'beaconByTrace.userIdOrSessionId' | 'beaconByTrace.configId';
+  distinctBy: string[];
   pagination?: CursorPagination<IngestionOffsetCursor>;
+  joinSource: JoinSource;
 };
 
 export function makeEumBeaconByTraceQuery({
@@ -39,7 +41,8 @@ export function makeEumBeaconByTraceQuery({
   timeConfig,
   joinFilterExpression,
   distinctBy,
-  pagination
+  pagination,
+  joinSource
 }: MakeEumBeaconByTraceQueryProp): GetEumBeaconByTraceQuery {
   return {
     metrics,
@@ -49,7 +52,7 @@ export function makeEumBeaconByTraceQuery({
       retrievalSize: 15
     },
     order: {
-      by: 'beaconByTrace.timestamp',
+      by: 'beaconByTrace.userIdOrSessionId',
       direction: 'DESC'
     },
     tagFilterExpression: {
@@ -57,10 +60,10 @@ export function makeEumBeaconByTraceQuery({
       logicalOperator: OPERATOR_AND,
       elements: []
     },
-    distincts: [distinctBy],
+    distincts: [...distinctBy],
     joins: [
       {
-        source: 'JOIN_SOURCE_APPLICATION',
+        source: joinSource,
         type: 'JOIN_TYPE_IN',
         metric: 'beaconByTrace.truncatedBackendTraceId',
         tagFilterExpression: joinFilterExpression

@@ -99,6 +99,7 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
 
   const canCloseManually = role?.canManuallyCloseIssue;
   const pillContent = getEventStateBadge(event);
+  const isKPI = false;
 
   return (
     <>
@@ -167,6 +168,7 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
               event={event}
               eventEntity={eventEntity}
               snapshot={snapshot}
+              isKPI={isKPI}
             />
           </Col>
         </Row>

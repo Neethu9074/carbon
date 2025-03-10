@@ -164,6 +164,17 @@ export function getLinkToUnboundAnalytics(
   return urlWithoutQueryParameter(linkToApplicationAnalyze);
 }
 
+export function getEnrichedAnalyzeTagFilterFormModelImpactedTraces({ alertConfig, alertId, applicationId }) {
+  const { tagFilterExpression } = alertConfig;
+  return joinExpressions({
+    expressions: [
+      alertId ? tagFilter('impactedTrace.alertId', EQUALS, alertId) : null,
+      applicationId ? tagFilter('impactedTrace.applicationId', EQUALS, applicationId) : null,
+      fromBackendModel(tagFilterExpression)
+    ].filter(Boolean)
+  });
+}
+
 export function getEnrichedAnalyzeTagFilterFormModel({
   alertConfig,
   applicationId,
