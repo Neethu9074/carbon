@@ -13734,13 +13734,13 @@
       }
     },
     "oTelVLLM": {
-      "oTelVLLM": "OTel vLLM",
+      "oTelVLLM": "OTel vLLM server",
       "kind": "Kind",
-      "serviceName": "Service Name",
-      "entityType": "Entity Type",
+      "serviceName": "Service name",
+      "entityType": "Entity type",
       "instanceId": "Instance ID",
       "label_category_VLLM": "vLLM",
-      "vllm_status": "vLLM Status",
+      "vllm_status": "vLLM status",
       "service": "service",
       "dashboard": {
         "tokens": "Total tokens",
