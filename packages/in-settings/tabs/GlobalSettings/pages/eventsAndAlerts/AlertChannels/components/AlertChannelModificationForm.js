@@ -61,11 +61,13 @@ function AlertChannelModificationForm(props) {
   const teamsAssigned = entity.get('rbacTags');
   const [selectedList, setSelectedList] = useState([]);
   useEffect(() => {
-    const teamsSelected = teamsAssigned
-      ? teamsList.filter(item => teamsAssigned.some(team => team.get('id') == item.id))
-      : [];
-    setForm(form.put('rbacTags', teamsSelected));
-    setSelectedList(teamsSelected);
+    if (rbacTeamsEnabled && !teamsLoading && !teamsHasErrors) {
+      const teamsSelected = teamsAssigned
+        ? teamsList.filter(item => teamsAssigned.some(team => team.get('id') == item.id))
+        : [];
+      setForm(form.put('rbacTags', teamsSelected));
+      setSelectedList(teamsSelected);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamsAssigned, teamsList]);
 
