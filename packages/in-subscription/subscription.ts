@@ -42,7 +42,6 @@ export interface Options<IN, OUT> {
    * A side-effect to trigger whenever data is received from the backend.
    */
   onData?(subscribeOptions: SubscribeOptions<OUT>, data: OUT): void;
-  actionIds?: [];
 }
 
 export default function subscribe<IN, OUT>(options: Options<IN, OUT>): (parameter: IN) => Observable<OUT> {
