@@ -1,21 +1,22 @@
-[//]: # 'IBM Confidential'
-[//]: # 'PID 5737-N85, 5900-AG5'
-[//]: # 'Copyright IBM Corp. 2024'
-
-import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
+import { Meta, Story, Canvas, Controls } from '@storybook/blocks';
 
 import * as ChartingConfiguratorFormStories from './ChartingConfiguratorForm.stories';
 
 import ChartConfiguratorForm from 'in-components/ChartingConfigurator/ChartingConfiguratorForm';
 
 
-<Meta component={ChartingConfiguratorForm} />
+<Meta of={ChartingConfiguratorFormStories} />
 
 ## ChartingConfiguratorForm
 
 `ChartingConfiguratorForm` is a component for the selection of options for a chart. Used on Analyze pages.
 Note the wrapper styling, ie. the outer box and alignment, is defined in the parent GroupedChartingConfigurator component.
 
-<ArgsTable of={ChartConfiguratorForm}>
 
-<Canvas of={ChartingConfiguratorFormStories.Default} />
+<Canvas>
+  <Story of={ChartingConfiguratorFormStories.Default} />
+</Canvas>
+
+### Props
+
+<Controls />
