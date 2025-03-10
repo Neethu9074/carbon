@@ -533,8 +533,7 @@
     "summaryTab": {
       "seconds": "seconds"
     },
-    "associatedPolicies": "Associated policies",
-    "associatedPoliciesWithCount": "Associated policies ({{count}})"
+    "associatedPolicies": "Associated policies"
   },
   "feedback": {
     "contentHelpfulText": "Was this generated content helpful?",

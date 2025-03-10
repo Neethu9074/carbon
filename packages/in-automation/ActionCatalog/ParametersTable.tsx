@@ -96,7 +96,7 @@ const getColumnDefinitions = ({
 ];
 
 // Note: Ansible actions will have extra vars mapped to parameters, we don't want to allow creating new parameters, but we do want to allow editing existing ones (minus the name as this is the key in the extra vars object)
-export default function ParametersTable() {
+export default function ParametersTable({ isAnsibleParameter = false }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const { form, setForm } = useActionFormContext();
@@ -147,6 +147,7 @@ export default function ParametersTable() {
           openDialog={openDialog}
           setOpenDialog={setOpenDialog}
           onRequestToClose={handleCloseDialog}
+          isAnsibleParameter={isAnsibleParameter}
         />
       )}
     </>

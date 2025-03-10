@@ -44,6 +44,7 @@ export interface ParameterDialogProps {
   openDialog: boolean;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
   onRequestToClose: () => void;
+  isAnsibleParameter: boolean;
 }
 
 export default function ParameterDialog({
@@ -54,7 +55,8 @@ export default function ParameterDialog({
   ticketIdParameterExist,
   openDialog,
   setOpenDialog,
-  onRequestToClose
+  onRequestToClose,
+  isAnsibleParameter
 }: ParameterDialogProps) {
   const actionType = form.get('type').value;
   const parameters = form.get('parameters').value;
@@ -68,8 +70,8 @@ export default function ParameterDialog({
   const parameterName = parameterForm.get('name');
   const disableTicketIdParameter = ticketIdParameterExist && parameterName.value === 'id';
   // IMPORTANT: Ansible actions are a special case where we want to allow the parameters to be editable EXCEPT for the name so we override isNotEditable so that everything is editable except for the name where we will disable the input using isAnsible flag
-  const parmeterIsNotEditable = (isNotEditable && !isAnsible) || !role?.canConfigureAutomationActions;
-
+  const parmeterIsNotEditable =
+    (isNotEditable && !isAnsible) || !role?.canConfigureAutomationActions || isAnsibleParameter;
   let actions = [{}];
   if (!parmeterIsNotEditable && role?.canConfigureAutomationActions) {
     actions = [

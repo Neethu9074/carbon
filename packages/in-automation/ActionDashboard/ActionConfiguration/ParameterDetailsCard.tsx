@@ -26,7 +26,7 @@ export default function ActionDetailsCard({ data }: ActionDetailsCardProps) {
       <CarbonStack orientation="horizontal" className={local.titleStack}>
         <Typography variant="heading-02">{t('in-automation:actionDashboard.ParameterDetails')}</Typography>
       </CarbonStack>
-      <ParametersTable />
+      <ParametersTable isAnsibleParameter />
     </CarbonTile>
   );
 }

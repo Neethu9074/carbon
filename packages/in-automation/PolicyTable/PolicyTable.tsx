@@ -62,9 +62,14 @@ type PolicyTableEntity = Policy & { trigger: TriggerSpecification | undefined };
 interface PlociciesProps {
   actionId?: string;
   hideFilters?: boolean;
+  title?: string;
 }
 
-export default function Policies({ actionId, hideFilters = false }: Readonly<PlociciesProps>) {
+export default function Policies({
+  actionId,
+  hideFilters = false,
+  title = t('in-automation:policies.policies')
+}: Readonly<PlociciesProps>) {
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
@@ -116,17 +121,6 @@ export default function Policies({ actionId, hideFilters = false }: Readonly<Plo
   const totalHits = result.data?.totalHits;
   const isPoliciesLoading = isLoading(policies) || !totalHits;
 
-  let title = actionId
-    ? t(
-        isPoliciesLoading
-          ? 'in-automation:actionDashboard.associatedPolicies'
-          : 'in-automation:actionDashboard.associatedPoliciesWithCount',
-        { count: totalHits }
-      )
-    : t(isPoliciesLoading ? 'in-automation:policies.policies' : 'in-automation:policies.policiesWithCount', {
-        count: totalHits
-      });
-
   return (
     <ServerTablePresenter<PolicyTableEntity, ServerTablePresenterProps<PolicyTableEntity>>
       onChange={setServerTableUrlState}
@@ -134,7 +128,7 @@ export default function Policies({ actionId, hideFilters = false }: Readonly<Plo
       page={page}
       searchPlaceholder={t('in-automation:policies.searchPolicies')}
       searchMaxWidth={180}
-      cardTitle={title}
+      cardTitle={isPoliciesLoading ? title : `${title} (${totalHits})`}
       rightHeader={
         hideFilters ? null : (
           <>

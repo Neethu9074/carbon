@@ -38,7 +38,9 @@ export default function ActionSummary({ data }: Readonly<ActionSummaryProps>) {
           actionHistoryDeleteCallback={actionHistoryDeleteCallback}
         />
       )}
-      {!isAIGeneratedAction && <PolicyTable actionId={data.id} hideFilters />}
+      {!isAIGeneratedAction && (
+        <PolicyTable actionId={data.id} hideFilters title={t('in-automation:actionDashboard.associatedPolicies')} />
+      )}
     </>
   );
 }
