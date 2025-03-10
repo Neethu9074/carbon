@@ -6,6 +6,10 @@
 
 import { Field, MapForm } from 'formalistic';
 
+import { InfraAlertEvaluationType } from '@instana/types/typeDefinitions';
+import { Group } from '@instana/types';
+
+import { evaluationTypes } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/CustomOrPerEntityOption';
 import { generateGracePeriodOptions } from 'in-alerting/smart-alerts/components/GracePeriod';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
@@ -39,6 +43,10 @@ export function useInfraSmartAlertFormSideEffects(form: MapForm<any>, setForm: (
     {
       path: ['granularity'],
       effects: [requestThresholdSuggestion, resetGracePeriod]
+    },
+    {
+      path: ['evaluationType'],
+      effects: [resetGroupBy]
     }
   ];
 
@@ -48,6 +56,16 @@ export function useInfraSmartAlertFormSideEffects(form: MapForm<any>, setForm: (
     effects,
     changesToTrack: [CHANGE_TYPES.EDIT, CHANGE_TYPES.LIST_UPDATE, CHANGE_TYPES.INSERT]
   });
+}
+
+function resetGroupBy(form: MapForm<any>): MapForm<any> {
+  const evaluationType = (form.get('evaluationType') as Field<InfraAlertEvaluationType>).value;
+
+  if (evaluationType === evaluationTypes.perEntity) {
+    return form.updateIn(['groupBy'], f => (f as Field<Group[]>).setValue([]));
+  }
+
+  return form;
 }
 
 function requestThresholdSuggestion(form: MapForm<any>): MapForm<any> {

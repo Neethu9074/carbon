@@ -1618,6 +1618,22 @@
           },
           "aggregation": {
             "aggregation": "Aggregation"
+          },
+          "evaluationType" : {
+            "title": "Choose your alerting method",
+            "custom" : {
+              "title": "Custom aggregation",
+              "description": "Combines all metrics in scope into a single metric per group. Only one active issue will be tracked at a time per group."
+            },
+            "perEntity" : {
+              "title": "Per entity alerting",
+              "description": "Monitors each metric individually. You will receive an alert for every metric that violates the threshold."
+            }
+          },
+          "group" : {
+            "disabled": {
+              "tooltipInfo": "Adding Group works only with custom aggregation."
+            }
           }
         },
         "threshold": {
