@@ -23,7 +23,7 @@ export interface GetLogVolumeReportParams {
 export interface RetentionPeriod {
   retentionDays: number;
   logVolume: number;
-  logVolumeGroups: {
+  logVolumeGroups?: {
     label: string;
     logVolume: number;
   }[];

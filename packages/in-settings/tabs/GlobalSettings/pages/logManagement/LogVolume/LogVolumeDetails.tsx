@@ -38,7 +38,7 @@ export default function LogVolumeDetails({ data, timePeriod, progress, groupingT
   };
 
   if (isLoading || !data) {
-    return <Skeletons lines={timePeriod} />;
+    return <Skeletons />;
   }
 
   return (
@@ -62,10 +62,10 @@ export default function LogVolumeDetails({ data, timePeriod, progress, groupingT
   );
 }
 
-export function Skeletons({ lines }: { lines: number }) {
+export function Skeletons() {
   return (
     <div>
-      {Array(lines)
+      {Array(3)
         .fill(null)
         .map((_, i) => (
           <div key={i} className={locals.loadingMock}>
@@ -114,7 +114,7 @@ function RetentionPeriods({ retentionPeriods, expandedState, groupingTag, number
       {retentionPeriods.map(({ retentionDays, logVolume, logVolumeGroups }: RetentionPeriod) => {
         const key = `${retentionDays}-${numberOfMonth}`;
         const isExpanded = expandedState.expanded[key];
-        const hasGroups = logVolumeGroups?.length > 0;
+        const hasGroups = logVolumeGroups && logVolumeGroups.length > 0;
 
         const { amount, localizedUnit } = bytesToLargerUnit(logVolume, 2);
 
@@ -126,7 +126,7 @@ function RetentionPeriods({ retentionPeriods, expandedState, groupingTag, number
             >
               <div className={locals.retentionDays}>
                 <span className={locals.tableLabel}>
-                  {t('in-settings:tabs.logVolume.days', { context: String(retentionDays) })}
+                  {t('in-settings:tabs.logVolume.nDaysRetention', { days: String(retentionDays) })}
                 </span>
                 <span className={locals.tableGB}>
                   {amount} {localizedUnit}

@@ -12,7 +12,6 @@ import { TagNames } from './types';
 import { LogVolumeUsageItem, RetentionPeriod } from 'in-logging/api/logVolume';
 
 export const NDash = '-';
-export const DISPLAYED_RETENTION_DAYS = [30, 60, 90];
 
 export const generateQuery = (
   monthsBack: number,
@@ -48,9 +47,5 @@ export const refineRetentionPeriodData = (retentionPeriods: RetentionPeriod[]) =
     periodLengthA > periodLengthB ? 1 : -1
   );
 
-  const sortedAndFiltered = sorted.filter(({ retentionDays }) => {
-    return DISPLAYED_RETENTION_DAYS.includes(retentionDays);
-  });
-
-  return sortedAndFiltered;
+  return sorted;
 };
