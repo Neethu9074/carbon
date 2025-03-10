@@ -18,7 +18,7 @@ import {
   websitePathFullyQualified,
   newWebsitePathFullyQualified,
   analyzePathFullyQualified,
-  websiteSmartAlertsFullScreen
+  websiteSmartAlertsFullScreenFullyQualified
 } from 'in-websites/navigation/paths';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import RedirectWithHash from 'in-components/RedirectWithHash';
@@ -36,7 +36,7 @@ export default [
   <Route key="websiteAnalyzeBeacons" path={analyzePathFullyQualified}>
     {renderAsyncRouteChildren(AnalyzeView2_0)}
   </Route>,
-  <Route key="websiteFullScreenView" path={websiteSmartAlertsFullScreen}>
+  <Route key="websiteFullScreenView" path={websiteSmartAlertsFullScreenFullyQualified}>
     {renderAsyncRouteChildren(AlertConfigTearSheet)}
   </Route>,
   <RedirectWithHash key="redirectToWebsitesList" from={websiteMonitoringPath} to={websitesPathFullyQualified} />

@@ -20,12 +20,12 @@ import {
   errorId as error_id,
   tagFilters as tag_filters
 } from 'in-websites/navigation/matrix';
+import { websiteSmartAlerts, websiteSmartAlertsFullScreenFullyQualified } from 'in-websites/navigation/paths';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
 import { generateAlertConfig } from 'in-alerting/smart-alerts/websites/TearSheet/sharedFunctions';
 import { BluePrint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
-import { websiteSmartAlertsFullScreen } from 'in-websites/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -87,31 +87,29 @@ function updateCreatePathMatrixParams(
   duplicateMode?: boolean,
   editMode?: boolean
 ) {
-  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, '');
-  if (websiteId) setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, website_id, websiteId);
-  if (errorId) setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, error_id, errorId);
-  if (errorMessage) setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, error_message, errorMessage);
-  if (customEventName) setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, custom_event_name, customEventName);
-  if (tagFilters) setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, tag_filters, JSON.stringify(tagFilters));
+  setOrDeleteMatrixKey(location, websiteSmartAlerts, '');
+  if (websiteId) setOrDeleteMatrixKey(location, websiteSmartAlerts, website_id, websiteId);
+  if (errorId) setOrDeleteMatrixKey(location, websiteSmartAlerts, error_id, errorId);
+  if (errorMessage) setOrDeleteMatrixKey(location, websiteSmartAlerts, error_message, errorMessage);
+  if (customEventName) setOrDeleteMatrixKey(location, websiteSmartAlerts, custom_event_name, customEventName);
+  if (tagFilters) setOrDeleteMatrixKey(location, websiteSmartAlerts, tag_filters, JSON.stringify(tagFilters));
 
   // alert config id
-  if (alertConfigId) setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, alertId, String(alertConfigId));
+  if (alertConfigId) setOrDeleteMatrixKey(location, websiteSmartAlerts, alertId, String(alertConfigId));
 
   // alert created timestamp
-  if (alertConfigCreated)
-    setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, alertCreated, alertConfigCreated);
+  if (alertConfigCreated) setOrDeleteMatrixKey(location, websiteSmartAlerts, alertCreated, alertConfigCreated);
 
   // for duplicate mode
-  if (duplicateMode)
-    setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, isDuplicateMode, String(duplicateMode));
+  if (duplicateMode) setOrDeleteMatrixKey(location, websiteSmartAlerts, isDuplicateMode, String(duplicateMode));
 
   // for edit mode
-  if (editMode) setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, isEditMode, String(editMode));
+  if (editMode) setOrDeleteMatrixKey(location, websiteSmartAlerts, isEditMode, String(editMode));
 
   // Keep the cancelURL parameter at the end so that the URL parameters added are not mixed with the cancel URL.
-  setOrDeleteMatrixKey(location, websiteSmartAlertsFullScreen, cancelUrl, returnUrlWithParams);
+  setOrDeleteMatrixKey(location, websiteSmartAlerts, cancelUrl, returnUrlWithParams);
 
-  location.pathname = websiteSmartAlertsFullScreen;
+  location.pathname = websiteSmartAlertsFullScreenFullyQualified;
   return location;
 }
 

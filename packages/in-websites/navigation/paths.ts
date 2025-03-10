@@ -88,7 +88,8 @@ export const configurationJsStackTraceTranslation = '/jsStackTraceTranslation';
 export const configurationJsStackTraceTranslationFullyQualified = `${configurationTabFullyQualified}${configurationJsStackTraceTranslation}`;
 export const configurationAlerts = '/alerts';
 
-export const websiteSmartAlertsFullScreen = '/websiteSmartAlerts';
+export const websiteSmartAlerts = '/smartAlerts';
+export const websiteSmartAlertsFullScreenFullyQualified = `${websiteMonitoringPath}${websiteSmartAlerts}`;
 
 export const analyzeTwoParameters = createParameters(analyzePath);
 

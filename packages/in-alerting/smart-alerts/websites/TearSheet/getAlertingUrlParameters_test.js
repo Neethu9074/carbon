@@ -10,23 +10,18 @@ describe('getAlertingUrlParameters', () => {
   it('should return correct values', () => {
     // arrange
     const location = {
-      pathname: '/websiteSmartAlerts',
-      query: {
-        'timeline.ws': '86400000',
-        'timeline.to': '',
-        'timeline.fm': '',
-        'timeline.ar': 'false'
-      },
+      pathname: '/websiteMonitoring/smartAlerts',
+      query: {},
       matrix: {
-        '/websiteSmartAlerts': {
+        '/websiteMonitoring': {},
+        '/smartAlerts': {
           websiteId: '_h0oqf-vQLuSAh6JLu4JBw',
           tagFilters: '[{"name":"beacon.website.id","operator":"EQUALS","stringValue":"_h0oqf-vQLuSAh6JLu4JBw"}]',
           cancelUrl:
-            '/#/websiteMonitoring/website;websiteId=_h0oqf-vQLuSAh6JLu4JBw/alerts;orderBy=created;orderDirection=DESC;page=1;query?timeline.ws=86400000&timeline.to&timeline.fm&timeline.ar=false'
+            '/#/websiteMonitoring/website;websiteId=_h0oqf-vQLuSAh6JLu4JBw/alerts;alertId=4rctT62FR3uyz5dIl-yVqA;alertCreated=1741613795445/details'
         }
       }
     };
-
     // act
     const result = getAlertingUrlParameters(location);
     // assert
@@ -35,7 +30,7 @@ describe('getAlertingUrlParameters', () => {
     expect(result.websiteId).toBe('_h0oqf-vQLuSAh6JLu4JBw');
 
     expect(result.cancelTearSheet).toBe(
-      '/#/websiteMonitoring/website;websiteId=_h0oqf-vQLuSAh6JLu4JBw/alerts;orderBy=created;orderDirection=DESC;page=1;query?timeline.ws=86400000&timeline.to&timeline.fm&timeline.ar=false'
+      '/#/websiteMonitoring/website;websiteId=_h0oqf-vQLuSAh6JLu4JBw/alerts;alertId=4rctT62FR3uyz5dIl-yVqA;alertCreated=1741613795445/details'
     );
   });
 });

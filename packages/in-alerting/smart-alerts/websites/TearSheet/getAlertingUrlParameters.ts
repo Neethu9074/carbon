@@ -5,7 +5,7 @@
  */
 
 import { alertCreated, alertId, isDuplicateMode, isEditMode } from 'in-websites/navigation/matrix';
-import { configurationAlerts, websiteSmartAlertsFullScreen } from 'in-websites/navigation/paths';
+import { configurationAlerts, websiteSmartAlerts } from 'in-websites/navigation/paths';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
@@ -23,20 +23,20 @@ export default function getAlertingUrlParameters(location: Location): {
   errorId?: string;
   cancelTearSheet: string;
 } {
-  const editMode = getMatrixParameter(location, websiteSmartAlertsFullScreen, isEditMode) === 'true';
-  const duplicateMode = getMatrixParameter(location, websiteSmartAlertsFullScreen, isDuplicateMode) === 'true';
-  const alertConfigId = getMatrixParameter(location, websiteSmartAlertsFullScreen, alertId) ?? '';
-  const alertConfigCreated = Number(getMatrixParameter(location, websiteSmartAlertsFullScreen, alertCreated)) ?? '';
-  const websiteId = getMatrixParameter(location, websiteSmartAlertsFullScreen, 'websiteId') ?? undefined;
-  const errorId = getMatrixParameter(location, websiteSmartAlertsFullScreen, 'errorId') ?? undefined;
+  const editMode = getMatrixParameter(location, websiteSmartAlerts, isEditMode) === 'true';
+  const duplicateMode = getMatrixParameter(location, websiteSmartAlerts, isDuplicateMode) === 'true';
+  const alertConfigId = getMatrixParameter(location, websiteSmartAlerts, alertId) ?? '';
+  const alertConfigCreated = Number(getMatrixParameter(location, websiteSmartAlerts, alertCreated)) ?? '';
+  const websiteId = getMatrixParameter(location, websiteSmartAlerts, 'websiteId') ?? undefined;
+  const errorId = getMatrixParameter(location, websiteSmartAlerts, 'errorId') ?? undefined;
 
-  const tagFilters = getMatrixParameter(location, websiteSmartAlertsFullScreen, 'tagFilters') ?? undefined;
+  const tagFilters = getMatrixParameter(location, websiteSmartAlerts, 'tagFilters') ?? undefined;
 
-  const errorMessage = getMatrixParameter(location, websiteSmartAlertsFullScreen, 'errorMessage') ?? undefined;
+  const errorMessage = getMatrixParameter(location, websiteSmartAlerts, 'errorMessage') ?? undefined;
 
-  const customEventName = getMatrixParameter(location, websiteSmartAlertsFullScreen, 'customEventName') ?? undefined;
+  const customEventName = getMatrixParameter(location, websiteSmartAlerts, 'customEventName') ?? undefined;
 
-  const cancelTearSheet = getMatrixParameter(location, websiteSmartAlertsFullScreen, cancelUrl) ?? configurationAlerts;
+  const cancelTearSheet = getMatrixParameter(location, websiteSmartAlerts, cancelUrl) ?? configurationAlerts;
 
   return {
     editMode,
