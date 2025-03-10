@@ -29,21 +29,24 @@ export const isGHActionConfigurationValid = (form: ActionForm): boolean =>
   ((form.get('ticketActionType').value === 'open' &&
     isFieldValid(form.get('title')) &&
     isFieldValid(form.get('body'))) ||
-    (form.get('ticketActionType').value === 'add_comment' && isFieldValid(form.get('comment'))));
+    (form.get('ticketActionType').value === 'add_comment' && isFieldValid(form.get('comment'))) ||
+    form.get('ticketActionType').value === 'close');
 
 export const isGLActionConfigurationValid = (form: ActionForm): boolean =>
   isFieldValid(form.get('projectId')) &&
   ((form.get('ticketActionType').value === 'open' &&
     isFieldValid(form.get('title')) &&
     isFieldValid(form.get('body'))) ||
-    (form.get('ticketActionType').value === 'add_comment' && isFieldValid(form.get('comment'))));
+    (form.get('ticketActionType').value === 'add_comment' && isFieldValid(form.get('comment'))) ||
+    form.get('ticketActionType').value === 'close');
 
 export const isJiraActionConfigurationValid = (form: ActionForm): boolean =>
   isFieldValid(form.get('projectId')) &&
   ((form.get('ticketActionType').value === 'open' &&
     isFieldValid(form.get('summary')) &&
     isFieldValid(form.get('body'))) ||
-    (form.get('ticketActionType').value === 'add_comment' && isFieldValid(form.get('comment'))));
+    (form.get('ticketActionType').value === 'add_comment' && isFieldValid(form.get('comment'))) ||
+    form.get('ticketActionType').value === 'close');
 
 export const isHTTPActionConfigurationValid = (form: ActionForm): boolean =>
   isFieldValid(form.get('host')) &&
