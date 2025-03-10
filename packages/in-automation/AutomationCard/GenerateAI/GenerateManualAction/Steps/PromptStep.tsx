@@ -205,7 +205,14 @@ function GenerateButton({
   const generatedAction = useGeneratedAction();
   const promptForm = form.get('prompt');
 
-  const { generateAIClickPromptStepTrackerSegment, aiActionGenerateErrorTrackerSegment } = useSegmentTracker();
+  const handleClick = () => {
+    clickEPWTLink({
+      type: { type: 'manualActionGeneration' }
+    });
+  };
+
+  const { generateAIClickPromptStepTrackerSegment, aiActionGenerateErrorTrackerSegment, clickEPWTLink } =
+    useSegmentTracker();
   return (
     <>
       <Button
@@ -235,7 +242,7 @@ function GenerateButton({
 
       {!automationActionAiGenerationUnitEnabled && (
         <div>
-          <ConsentForm type="manualActionGeneration" />
+          <ConsentForm onClick={handleClick} />
         </div>
       )}
     </>

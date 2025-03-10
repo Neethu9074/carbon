@@ -228,6 +228,7 @@ export default function GenerateScriptStep({
 }) {
   const promptForm = form.get('prompt');
   const promptStep = promptForm.get('promptStep');
+  const { clickEPWTLink } = useSegmentTracker();
   const onChangeValue = (val: string) => {
     setForm(form => form.updateIn(['prompt', 'promptStep'], item => item.setValue(val).setTouched(true)));
     setForm(form =>
@@ -235,6 +236,12 @@ export default function GenerateScriptStep({
         item.setValue(`This action has script for  ${val}`).setTouched(true)
       )
     );
+  };
+
+  const handleClick = () => {
+    clickEPWTLink({
+      type: { type: 'scriptActionGeneration' }
+    });
   };
 
   return (
@@ -266,7 +273,7 @@ export default function GenerateScriptStep({
               </div>
               <TouchedMessages field={field} />
 
-              {!automationActionAiGenerationUnitEnabled && <ConsentForm type="scriptActionGeneration" />}
+              {!automationActionAiGenerationUnitEnabled && <ConsentForm onClick={handleClick} />}
             </FormGroup>
           ))}
         </Col>
