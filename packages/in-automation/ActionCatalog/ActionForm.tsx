@@ -45,12 +45,10 @@ import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActi
 import { createTicketIdParameter } from 'in-automation/ActionCatalog/useActionForm/utils';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import GenerateScriptTile from 'in-automation/ActionCatalog/GenerateScriptTile';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { ActionForm } from 'in-automation/ActionCatalog/useActionForm/types';
 import { useIsNotEditableContext } from 'in-automation/ActionCatalog/Action';
-import useHasAccessToScript from 'in-automation/hooks/useHasAccessToScript';
 import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
 import { isAction, ActionFilter, AuthenType } from 'in-automation/types';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
@@ -119,7 +117,6 @@ export function ActionFormBody({
 }) {
   const { form } = useActionFormContext();
   const { id } = useActionDetailsUrlParams();
-  const hasAccessToScript = useHasAccessToScript();
 
   const type = form.get('type').value;
 
@@ -153,7 +150,7 @@ export function ActionFormBody({
           )}
         </Col>
 
-        {type === ACTION_TYPE.MANUAL && automationActionAiGenerationUnitEnabled && hasAccessToScript && (
+        {type === ACTION_TYPE.MANUAL && (
           <Col lg={4}>
             <GenerateScriptTile
               manualContent={form.get('manualContent').value}

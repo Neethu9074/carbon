@@ -512,6 +512,7 @@ export const AUTOMATION_AI_GENERATE_STEP_ERROR = 'automation.ai.generate.step.er
 
 export const AUTOMATION_AI_GOOD_FEEDBACK = 'automation.ai.good.feedback';
 export const AUTOMATION_AI_BAD_FEEDBACK = 'automation.ai.bad.feedback';
+export const AUTOMATION_CLICK_EPWT_LINK = 'automation.click.epwt.link';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 

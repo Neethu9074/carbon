@@ -18,8 +18,10 @@ import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/g
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingSection from 'in-automation/AutomationCard/GenerateAI/LoadingSection';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
+import ConsentForm from 'in-automation/components/ConsentForm/ConsentForm';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import { createManualField } from 'in-automation/utils/actionField';
 import TextArea from 'in-components/form/TextArea/TextArea';
@@ -203,30 +205,47 @@ function GenerateButton({
   const generatedAction = useGeneratedAction();
   const promptForm = form.get('prompt');
 
-  const { generateAIClickPromptStepTrackerSegment, aiActionGenerateErrorTrackerSegment } = useSegmentTracker();
+  const handleClick = () => {
+    clickEPWTLink({
+      type: { type: 'manualActionGeneration' }
+    });
+  };
+
+  const { generateAIClickPromptStepTrackerSegment, aiActionGenerateErrorTrackerSegment, clickEPWTLink } =
+    useSegmentTracker();
   return (
-    <Button
-      kind="secondary"
-      disabled={
-        (!promptForm.hierarchyValid && promptForm.hierarchyTouched) || (!!generatedAction && isLoading(generatedAction))
-      }
-      onClick={() => {
-        if (!promptForm.hierarchyValid) {
-          setForm(form.updateIn(['prompt'], promptForm => promptForm.setTouched(true, { recurse: true })));
-          return;
+    <>
+      <Button
+        kind="secondary"
+        disabled={
+          (!promptForm.hierarchyValid && promptForm.hierarchyTouched) ||
+          (!!generatedAction && isLoading(generatedAction)) ||
+          !automationActionAiGenerationUnitEnabled
         }
-        generateAIActionForm({
-          form,
-          setForm,
-          event,
-          generateAIClickPromptStepTrackerSegment,
-          aiActionGenerateErrorTrackerSegment
-        });
-      }}
-      icon="lib_launch_ai"
-    >
-      {t('in-automation:GenerateAIActionDialog.generateAction')}
-    </Button>
+        onClick={() => {
+          if (!promptForm.hierarchyValid) {
+            setForm(form.updateIn(['prompt'], promptForm => promptForm.setTouched(true, { recurse: true })));
+            return;
+          }
+          generateAIActionForm({
+            form,
+            setForm,
+            event,
+            generateAIClickPromptStepTrackerSegment,
+            aiActionGenerateErrorTrackerSegment
+          });
+        }}
+        icon="lib_launch_ai"
+      >
+        {t('in-automation:GenerateAIActionDialog.generateAction')}
+      </Button>
+
+      {!automationActionAiGenerationUnitEnabled && (
+        <div>
+          <ConsentForm onClick={handleClick} />
+        </div>
+      )}
+    </>
   );
 }
 
