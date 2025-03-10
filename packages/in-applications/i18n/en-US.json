@@ -216,6 +216,7 @@
   },
   "inboundOutboundCalls": {
     "config": {
+      "selectBoundaryScope": "Select application boundary scope",
       "inbound": {
         "text": "Inbound calls"
       },
@@ -496,6 +497,7 @@
       "messaging": "MESSAGING"
     },
     "scope": {
+      "selectDownstreamServices": "Select downstream services",
       "optionNoDownStreamServices": "No downstream services",
       "optionImmediateDownstreamServices": "Immediate downstream database and messaging services",
       "optionAllDownstreamServices": "All downstream services"
