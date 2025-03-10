@@ -1618,22 +1618,6 @@
           },
           "aggregation": {
             "aggregation": "Aggregation"
-          },
-          "evaluationType" : {
-            "title": "Choose your alerting method",
-            "custom" : {
-              "title": "Custom aggregation",
-              "description": "Combines all metrics in scope into a single metric per group. Only one active issue will be tracked at a time per group."
-            },
-            "perEntity" : {
-              "title": "Per entity alerting",
-              "description": "Monitors each metric individually. You will receive an alert for every metric that violates the threshold."
-            }
-          },
-          "group" : {
-            "disabled": {
-              "tooltipInfo": "Adding Group works only with custom aggregation."
-            }
           }
         },
         "threshold": {
@@ -1703,13 +1687,6 @@
           "header": "Where do you want to be notified for this alert?",
           "description": "Select the recipient(s) of this alert"
         },
-        "scopeAlerting": {
-          "title": "Choose how you want to be alerted",
-          "customAggregation": "Custom aggregation",
-          "customAggregationDescription": "Aggregates all metrics in scope to a single metric per group. There will be at most one active issue at a time per group.",
-          "perEntityAlerting": "Per entity alerting",
-          "perEntityAlertingDescription": "Monitors each metrics individually. You will receive an alert for each individual metric that is violating the threshold."
-        },
         "scopeFilter": {
           "title": "Choose the scope of the infrastructure",
           "filter": "Filter",
@@ -1744,7 +1721,23 @@
       "descriptionIsHigherThan": "{{metricName}} is higher than {{value}}.",
       "descriptionIsHigherOrEqualTo": "{{metricName}} is higher or equal to {{value}}.",
       "descriptionIsLowerThan": "{{metricName}} is lower than {{value}}.",
-      "descriptionIsLowerThanOrEqualTo": "{{metricName}} is lower or equal to {{value}}."
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} is lower or equal to {{value}}.",
+      "evaluationType" : {
+        "title": "Choose your alerting method",
+        "custom" : {
+          "title": "Custom aggregation",
+          "description": "Combines all metrics in scope into a single metric per group. Only one active issue will be tracked at a time per group."
+        },
+        "perEntity" : {
+          "title": "Per entity alerting",
+          "description": "Monitors each metric individually. You will receive an alert for every metric that violates the threshold."
+        }
+      },
+      "group" : {
+        "disabled": {
+          "tooltipInfo": "Adding Group works only with custom aggregation."
+        }
+      }
     },
     "logs": {
       "alertDetails": {

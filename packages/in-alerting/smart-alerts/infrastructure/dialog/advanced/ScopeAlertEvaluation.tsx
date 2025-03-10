@@ -8,19 +8,21 @@ import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import { InfraAlertEvaluationType } from '@instana/types/typeDefinitions';
+import { Stack } from '@instana/components';
 
 import CustomOrPerEntityOption from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/CustomOrPerEntityOption';
 import { perEntityInfraSmartAlertsEnabled } from 'in-services/featureFlags';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import Section from 'in-components/workspace/Section';
-import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 interface Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
+  SectionWrapper?: React.FunctionComponent<any>;
 }
 
-export default function ScopeAlertEvaluation({ form, updateForm }: Props) {
+export default function ScopeAlertEvaluation({ form, updateForm, SectionWrapper = Section }: Props) {
   if (!perEntityInfraSmartAlertsEnabled) {
     return null;
   }
@@ -36,25 +38,27 @@ export default function ScopeAlertEvaluation({ form, updateForm }: Props) {
   };
 
   return (
-    <Section title={t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.evaluationType.title')}>
-      <div>
-        <Row>
-          <Col lg={6} md={6}>
-            <CustomOrPerEntityOption
-              evaluationType="CUSTOM"
-              selectedEvaluationType={evaluationType}
-              onChange={() => onEvaluationTypeChange('CUSTOM')}
-            />
-          </Col>
-          <Col lg={6} md={6}>
-            <CustomOrPerEntityOption
-              evaluationType="PER_ENTITY"
-              selectedEvaluationType={evaluationType}
-              onChange={() => onEvaluationTypeChange('PER_ENTITY')}
-            />
-          </Col>
-        </Row>
-      </div>
-    </Section>
+    <SectionWrapper
+      title={
+        <AlertTypography
+          variant="body-regular"
+          color="color900"
+          content={t('in-alerting:smartAlerts.infrastructure.evaluationType.title')}
+        />
+      }
+    >
+      <Stack direction="horizontal">
+        <CustomOrPerEntityOption
+          evaluationType="CUSTOM"
+          selectedEvaluationType={evaluationType}
+          onChange={() => onEvaluationTypeChange('CUSTOM')}
+        />
+        <CustomOrPerEntityOption
+          evaluationType="PER_ENTITY"
+          selectedEvaluationType={evaluationType}
+          onChange={() => onEvaluationTypeChange('PER_ENTITY')}
+        />
+      </Stack>
+    </SectionWrapper>
   );
 }

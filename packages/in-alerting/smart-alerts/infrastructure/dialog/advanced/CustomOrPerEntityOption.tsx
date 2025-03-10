@@ -37,16 +37,12 @@ export const evaluationTypes = {
 
   info: {
     CUSTOM: {
-      title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.evaluationType.custom.title'),
-      description: t(
-        'in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.evaluationType.custom.description'
-      )
+      title: t('in-alerting:smartAlerts.infrastructure.evaluationType.custom.title'),
+      description: t('in-alerting:smartAlerts.infrastructure.evaluationType.custom.description')
     },
     PER_ENTITY: {
-      title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.evaluationType.perEntity.title'),
-      description: t(
-        'in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.evaluationType.perEntity.description'
-      )
+      title: t('in-alerting:smartAlerts.infrastructure.evaluationType.perEntity.title'),
+      description: t('in-alerting:smartAlerts.infrastructure.evaluationType.perEntity.description')
     }
   }
 };

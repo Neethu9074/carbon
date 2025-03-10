@@ -21,7 +21,7 @@ import Section from 'in-components/workspace/Section';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-export default function ScopeGroup({ form, updateForm, tagCatalog, SectionWrapper }) {
+export default function ScopeGroup({ form, updateForm, tagCatalog, SectionWrapper = Section }) {
   const tagFilterExpression = form?.get('tagFilterExpression')?.value;
   const groupBy = form?.get('groupBy')?.value;
   const evaluationType = form.get('evaluationType').value;
@@ -54,16 +54,14 @@ export default function ScopeGroup({ form, updateForm, tagCatalog, SectionWrappe
         />
       )}
       {isPerEntityAlerting && (
-        <Section title={t('in-components:groupingConfigurator.titleGroup')} icon={'lib_group_by'}>
+        <SectionWrapper title={t('in-components:groupingConfigurator.titleGroup')} icon={'lib_group_by'}>
           <Stack gap="xsmall" direction="horizontal" align={'center'}>
             <Button kind="tertiary" size="compact" icon="lib_openclose_add" disabled>
               {t('in-components:groupingConfigurator.addGroup')}
             </Button>
             <Tooltip
               align="bottomMiddle"
-              content={t(
-                'in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.group.disabled.tooltipInfo'
-              )}
+              content={t('in-alerting:smartAlerts.infrastructure.group.disabled.tooltipInfo')}
             >
               <SvgIcon
                 type="lib_help_error_info_outline"
@@ -72,7 +70,7 @@ export default function ScopeGroup({ form, updateForm, tagCatalog, SectionWrappe
               />
             </Tooltip>
           </Stack>
-        </Section>
+        </SectionWrapper>
       )}
     </>
   );
