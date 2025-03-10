@@ -21,7 +21,6 @@ import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScore
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
-import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { ACTION_TYPE } from 'in-automation/constants';
 import { ScoredAction } from 'in-automation/types';
@@ -184,7 +183,6 @@ function ScriptSection({ action }: { action: ScoredAction }) {
         </div>
         <div className={locals.CodeWithAISlug}>
           <Code withExpandButton code={plaintextScript} lang={'bash'} softWrap />
-          <AISlugIcon />
         </div>
       </FormGroup>
     </>

@@ -14,7 +14,6 @@ import FeedbackComponent from 'in-automation/AutomationCard/GenerateAI/FeedbackC
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { base64ToUtf8 } from 'in-automation/utils/actionField';
-import AISlugIcon from 'in-automation/components/AISlugIcon';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { toHtml } from 'in-services/formatters/markdown';
 import { t } from 'in-i18n';
@@ -90,11 +89,6 @@ export default function ManualActionContent({
                 </span>
               )}
             </CopyToClipboard>
-          )}
-          {withAISlug && (
-            <div className={locals.aiSlug}>
-              <AISlugIcon />
-            </div>
           )}
         </div>
         {showFeedback && form && setForm && (
