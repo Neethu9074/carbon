@@ -104,12 +104,15 @@
   "dewPoint":"Dew Point",
   "humidity":"Humidity",
   "exhaustTemperature":"Exhaust Temperature",
-  "powerConsumption":"Power Consumption",
+  "powerConsumption":"Total Power Consumption",
   "channelUsage":"Channel Usage",
   "networkUsage":"Network Usage",
   "cryptoUsage":"Crypto Usage",
   "storageUsage":"Storage Usage",
-  "acceleratorUsage":"Accelerator Usage"
+  "acceleratorUsage":"Accelerator Usage",
+  "partitionPowerConsumption": "Total Partition",
+  "infraPowerConsumption": "Total Infrastructure",
+  "unassignedPowerConsumption": "Total Unassigned"
 
 }
 
