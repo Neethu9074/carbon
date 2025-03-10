@@ -34,6 +34,7 @@ import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 import { ACTION_TYPE, NO_FIELD_VALUE } from 'in-automation/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
+import { useSegmentTracker } from 'in-automation/tracker';
 import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
@@ -81,9 +82,10 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
   const { form } = useActionFormContext();
   const hasAccessToScript = useHasAccessToScript();
   const navigateToActionCatalog = useNavigateToActionCatalog();
+  const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
+
   const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
   if (!data || !hasPermisson) return null;
-
   const manualContent = form.get('manualContent').value;
   const type = form.get('type').value;
   // @ts-ignore
@@ -109,6 +111,12 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
               kind="ghost"
               size="sm"
               onClick={() => {
+                generateAIButtonClickTrackerSegment({
+                  type: 'script',
+                  location: 'action dashboard',
+                  actionName,
+                  actionId
+                });
                 addActiveDialog(<GenerateAIScriptActionDialog manualContent={manualContent} actionName={actionName} />);
               }}
               renderIcon={() => <SvgIcon type="lib_launch_ai" size="xs" />}

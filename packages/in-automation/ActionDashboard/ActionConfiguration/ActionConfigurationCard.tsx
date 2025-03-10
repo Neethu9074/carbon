@@ -107,7 +107,7 @@ function DocLinkSection() {
   const docLink = form.get('docLink');
 
   return docLink.map(field => (
-    <CarbonColumn key={1} span="75%">
+    <CarbonColumn span="75%">
       <CarbonFormGroup legendText={t('in-automation:ActionCatalog.docLink')}>{field.value}</CarbonFormGroup>
     </CarbonColumn>
   ));
@@ -121,17 +121,17 @@ function GithubSection() {
   return (
     <>
       {owner.map(field => (
-        <CarbonColumn key={1} sm={4}>
+        <CarbonColumn sm={4}>
           <CarbonFormGroup legendText={t('in-automation:owner')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {repo.map(field => (
-        <CarbonColumn key={1} sm={4}>
+        <CarbonColumn sm={4}>
           <CarbonFormGroup legendText={t('in-automation:repo')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {ticketActionType.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:operation')}>{getGitOperation(field.value)}</CarbonFormGroup>
         </CarbonColumn>
       ))}
@@ -149,12 +149,12 @@ function GithubOpenSection() {
   return (
     <>
       {title.map(field => (
-        <CarbonColumn key={1} sm={4}>
+        <CarbonColumn sm={4}>
           <CarbonFormGroup legendText={t('in-automation:title')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {body.map(field => (
-        <CarbonColumn key={1} span="75%">
+        <CarbonColumn span="75%">
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.githubBody')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
@@ -169,7 +169,7 @@ function TicketCloseAndCommentSection({ close = false }: { close?: boolean }) {
   const comment = form.get('comment');
 
   return comment.map(field => (
-    <CarbonColumn key={1} span="50%">
+    <CarbonColumn span="50%">
       <CarbonFormGroup
         legendText={close ? t('in-automation:ActionCatalog.commentOptional') : t('in-automation:comment')}
       >
@@ -187,12 +187,12 @@ function GitlabSection() {
   return (
     <>
       {projectId.map(field => (
-        <CarbonColumn key={1} span="25%">
+        <CarbonColumn span="25%">
           <CarbonFormGroup legendText={t('in-automation:projectId')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {ticketActionType.map(field => (
-        <CarbonColumn key={1} span="75%">
+        <CarbonColumn span="75%">
           <CarbonFormGroup legendText={t('in-automation:operation')}>{getGitOperation(field.value)}</CarbonFormGroup>
         </CarbonColumn>
       ))}
@@ -211,17 +211,17 @@ function GitlabOpenSection() {
   return (
     <>
       {title.map(field => (
-        <CarbonColumn key={1} span="25%">
+        <CarbonColumn span="25%">
           <CarbonFormGroup legendText={t('in-automation:title')}>{field.value || NO_FIELD_VALUE}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {body.map(field => (
-        <CarbonColumn key={1} span="25%">
+        <CarbonColumn span="25%">
           <CarbonFormGroup legendText={t('in-automation:description')}>{field.value || NO_FIELD_VALUE}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {issue_type.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:issueType')}>{getGLOperation(field.value)}</CarbonFormGroup>
         </CarbonColumn>
       ))}
@@ -248,14 +248,14 @@ function WebhookSection() {
   return (
     <>
       {host.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.host')}>
             {field.value || NO_FIELD_VALUE}
           </CarbonFormGroup>
         </CarbonColumn>
       ))}
       {method.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.method')}>
             {field.value || NO_FIELD_VALUE}
           </CarbonFormGroup>
@@ -264,14 +264,14 @@ function WebhookSection() {
       {renderBodyAndContentType && (
         <>
           {contentType.map(field => (
-            <CarbonColumn key={1} span="50%">
+            <CarbonColumn span="50%">
               <CarbonFormGroup legendText={t('in-automation:ActionCatalog.contentType')}>
                 {field.value || NO_FIELD_VALUE}
               </CarbonFormGroup>
             </CarbonColumn>
           ))}
           {body.map(field => (
-            <CarbonColumn key={1} span="50%">
+            <CarbonColumn span="50%">
               <CarbonFormGroup legendText={t('in-automation:ActionCatalog.body')}>
                 {field.value || NO_FIELD_VALUE}
               </CarbonFormGroup>
@@ -280,14 +280,14 @@ function WebhookSection() {
         </>
       )}
       {ignoreCertErrors.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.ignoreCertErrors')}>
             <Toggle disabled={isNotEditable} checked={field.value} />
           </CarbonFormGroup>
         </CarbonColumn>
       ))}
       {authType.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.authType')}>
             {AUTH_TRANSLATIONS[field.value] || NO_FIELD_VALUE}
           </CarbonFormGroup>
@@ -297,21 +297,21 @@ function WebhookSection() {
       {authType.value === AUTH_TYPE.BEARER_TOKEN && <BearerAuth />}
       {authType.value === AUTH_TYPE.API_KEY && <APIAuth />}
       {accept.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.accept')}>
             {field.value || NO_FIELD_VALUE}
           </CarbonFormGroup>
         </CarbonColumn>
       ))}
       {acceptLanguage.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.acceptLanguage')}>
             {field.value || NO_FIELD_VALUE}
           </CarbonFormGroup>
         </CarbonColumn>
       ))}
       {headers.map(field => (
-        <CarbonColumn key={1} span="100%">
+        <CarbonColumn span="100%">
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.additionalHeadersOptional')}>
             {field.value.length
               ? field.value.map(({ id, value: [key, val] }) => (
@@ -335,12 +335,12 @@ function BasicAuth() {
   return (
     <>
       {username.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.username')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {password.map(field => (
-        <CarbonColumn key={1} span="25%">
+        <CarbonColumn span="25%">
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.password')}>
             <Input
               className={local.authPassword}
@@ -363,7 +363,7 @@ function BearerAuth() {
   return (
     <>
       {bearerToken.map(field => (
-        <CarbonColumn key={1} sm={4}>
+        <CarbonColumn sm={4}>
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.bearerToken')}>
             {field.value || NO_FIELD_VALUE}
           </CarbonFormGroup>
@@ -382,19 +382,19 @@ function APIAuth() {
   return (
     <>
       {apiKey.map(field => (
-        <CarbonColumn key={1} sm={4}>
+        <CarbonColumn sm={4}>
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.key')}>
             {field.value || NO_FIELD_VALUE}
           </CarbonFormGroup>
         </CarbonColumn>
       ))}
       {apiKeyValue.map(field => (
-        <CarbonColumn key={1} sm={4}>
+        <CarbonColumn sm={4}>
           <CarbonFormGroup legendText={t('in-automation:value')}>{field.value || NO_FIELD_VALUE}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {apiKeyAddTo.map(field => (
-        <CarbonColumn key={1} sm={4}>
+        <CarbonColumn sm={4}>
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.apiKeyAddTo')}>
             {field.value == 'header'
               ? t('in-automation:ActionCatalog.header')
@@ -414,12 +414,12 @@ function JiraSection() {
   return (
     <>
       {project.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:project')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {ticketActionType.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:operation')}>{getJiraOperation(field.value)}</CarbonFormGroup>
         </CarbonColumn>
       ))}
@@ -439,22 +439,22 @@ function JiraOpenSection() {
   return (
     <>
       {summary.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:title')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {body.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:description')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {assignee.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:assignee')}>{field.value || NO_FIELD_VALUE}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {issue_type.map(field => (
-        <CarbonColumn key={1} span="50%">
+        <CarbonColumn span="50%">
           <CarbonFormGroup legendText={t('in-automation:issueType')}>{field.value || NO_FIELD_VALUE}</CarbonFormGroup>
         </CarbonColumn>
       ))}
@@ -468,7 +468,7 @@ function ManualSection() {
   const manualContent = form.get('manualContent');
 
   return manualContent.map(field => (
-    <CarbonColumn key={1} span="50%">
+    <CarbonColumn span="50%">
       <CarbonFormGroup legendText={t('in-automation:ActionCatalog.content')}>
         <Code code={field.value} lang="markdown" withExpandButton wrapperClassName="code-snippet-wrapper" softWrap />
       </CarbonFormGroup>
@@ -484,12 +484,12 @@ function ScriptSection() {
   return (
     <>
       {subtype.map(field => (
-        <CarbonColumn key={1} sm={4}>
+        <CarbonColumn sm={4}>
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.interpreter')}>{field.value}</CarbonFormGroup>
         </CarbonColumn>
       ))}
       {script.map(field => (
-        <CarbonColumn key={1} span="100%">
+        <CarbonColumn span="100%">
           <CarbonFormGroup legendText={t('in-automation:ActionCatalog.script')}>
             <Code code={field.value} lang="bash" withExpandButton wrapperClassName="code-snippet-wrapper" softWrap />
           </CarbonFormGroup>
@@ -504,7 +504,7 @@ function TimeoutSection() {
   const timeout = form.get('timeout');
 
   return timeout.map(field => (
-    <CarbonColumn key={1} sm={4}>
+    <CarbonColumn sm={4}>
       <CarbonFormGroup legendText={t('in-automation:ActionCatalog.timeout')}>
         {field.value || NO_FIELD_VALUE}
       </CarbonFormGroup>
@@ -521,7 +521,7 @@ function FieldsColumn({ label, fieldName }: FieldsColumnProps) {
   const { form } = useActionFormContext();
   const data = form.get(fieldName);
   return data.map(field => (
-    <CarbonColumn key={1} span="50%">
+    <CarbonColumn span="50%">
       <CarbonFormGroup legendText={label}>
         {field.value.length ? (
           <Typography component="p" variant="body-01" align="left" noMargin>

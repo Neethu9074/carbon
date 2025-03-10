@@ -482,7 +482,9 @@
   "deleteDialog": {
     "confirmRemove": "Confirm remove",
     "confirmRemoveMsg": "Are you sure you want to delete <strong>{{name}}</strong>?",
-    "delete": "Delete"
+    "delete": "Delete",
+    "pleaseConfirm": "Please Confirm",
+    "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{name}}</strong>?"
   },
   "turboActionCategories": {
     "compliance": "Compliance",
@@ -530,7 +532,9 @@
     "history": "History",
     "summaryTab": {
       "seconds": "seconds"
-    }
+    },
+    "associatedPolicies": "Associated policies",
+    "associatedPoliciesWithCount": "Associated policies ({{count}})"
   },
   "feedback": {
     "contentHelpfulText": "Was this generated content helpful?",

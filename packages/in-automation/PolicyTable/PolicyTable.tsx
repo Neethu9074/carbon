@@ -114,10 +114,18 @@ export default function Policies({ actionId, hideFilters = false }: Readonly<Plo
 
   const navigateToPolicyDetails = useNavigateToPolicyDetails();
   const totalHits = result.data?.totalHits;
-  if (actionId) {
-    const excludedColumns = ['actionName', 'actions'];
-    columnDefinition = columnDefinition.filter(column => !excludedColumns.includes(column.id));
-  }
+  const isPoliciesLoading = isLoading(policies) || !totalHits;
+
+  let title = actionId
+    ? t(
+        isPoliciesLoading
+          ? 'in-automation:actionDashboard.associatedPolicies'
+          : 'in-automation:actionDashboard.associatedPoliciesWithCount',
+        { count: totalHits }
+      )
+    : t(isPoliciesLoading ? 'in-automation:policies.policies' : 'in-automation:policies.policiesWithCount', {
+        count: totalHits
+      });
 
   return (
     <ServerTablePresenter<PolicyTableEntity, ServerTablePresenterProps<PolicyTableEntity>>
@@ -126,11 +134,7 @@ export default function Policies({ actionId, hideFilters = false }: Readonly<Plo
       page={page}
       searchPlaceholder={t('in-automation:policies.searchPolicies')}
       searchMaxWidth={180}
-      cardTitle={
-        isLoading(policies) || !totalHits
-          ? t('in-automation:policies.policies')
-          : t('in-automation:policies.policiesWithCount', { count: totalHits })
-      }
+      cardTitle={title}
       rightHeader={
         hideFilters ? null : (
           <>
@@ -154,7 +158,7 @@ export default function Policies({ actionId, hideFilters = false }: Readonly<Plo
       orderDirection={orderDirection}
       query={query}
       result={result}
-      columnDefinitions={columnDefinition}
+      columnDefinitions={getColumnDefinition(actionId)}
       noDataMessage={t('in-automation:policies.noPolicies')}
       fixedLayout
     />
@@ -191,6 +195,13 @@ function PoliciesMoreMenu({ policy }: { policy: PolicyTableEntity }) {
       </MoreMenu>
     </Stack>
   );
+}
+function getColumnDefinition(actionId?: string): ColumnDefinition<PolicyTableEntity>[] {
+  if (actionId) {
+    const excludedColumns = ['actionName', 'actions'];
+    return columnDefinition.filter(column => !excludedColumns.includes(column.id));
+  }
+  return columnDefinition;
 }
 
 let columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [

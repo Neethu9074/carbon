@@ -19,7 +19,6 @@ export interface Options<IN, OUT> {
   memoizeFor?: number | TtiGenerator<IN, OUT>;
   disposeSubscriptionOnDocumentHidden?: boolean;
   trackSubscriptionStatistics?: boolean;
-  actionIds?: [];
 }
 
 export function createResultSubscriptionFactory<IN, OUT extends Result<any>>({
@@ -27,14 +26,12 @@ export function createResultSubscriptionFactory<IN, OUT extends Result<any>>({
   mapResult,
   memoizeFor = defaultMemoize,
   disposeSubscriptionOnDocumentHidden = true,
-  trackSubscriptionStatistics = true,
-  actionIds = []
+  trackSubscriptionStatistics = true
 }: Options<IN, OUT>): (parameter: IN) => Observable<OUT> {
   return createSubscription<IN, OUT>({
     eventId,
     memoizeFor,
     disposeSubscriptionOnDocumentHidden,
-    actionIds,
     getData(subscriptionId, params) {
       return {
         subscriptionId,
