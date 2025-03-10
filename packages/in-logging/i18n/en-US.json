@@ -1,7 +1,7 @@
 {
   "logs": "Logs",
+  "logsCountSum": "Logs count (sum)",
   "sum": "sum",
-  "count": "count",
   "bar": "Bar",
   "logsOverTime": "Logs over time",
   "logsOverTime_ERROR": "Error",

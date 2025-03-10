@@ -18,23 +18,12 @@ jest.mock('@instana/hooks', () => ({
 }));
 
 jest.mock('../RetentionPeriod/RetentionPeriodDashboard', () => () => (
-  <div data-testid="retentionPeriodDashboard">Retention Period Dashboard</div>
+  <div data-testid="retentionPeriodKPI">Retention Period KPI Card</div>
 ));
-jest.mock('../LogVolume/LogVolumeDashboard', () => () => (
-  <div data-testid="logVolumeDashboard">Log Volume Dashboard</div>
+jest.mock('../LogVolume/LogVolumeDashboard', () => () => <div data-testid="logVolumeKPI">Log Volume KPI Card</div>);
+jest.mock('in-custom-dashboards/widgets/Chart/UnifiedMetricsChart', () => () => (
+  <div data-testid="logsChart">Logs Charts</div>
 ));
-jest.mock('in-logging/analyze/AnalyzeView/components/Charts/LogsDistributionChartSection', () => () => (
-  <div data-testid="logsDistributionChart">Logs Distribution Chart</div>
-));
-
-jest.mock('in-logging/dashboard/LoggingDashboardWrapper', () => {
-  return {
-    __esModule: true,
-    default: ({ children }: { children: React.ReactNode }) => (
-      <div data-testid="loggingDashboardWrapper">{children}</div>
-    )
-  };
-});
 
 describe('Summary Component', () => {
   beforeEach(() => {
@@ -46,12 +35,13 @@ describe('Summary Component', () => {
     (role as any).canViewLogs = true;
     (role as any).canViewLogVolume = true;
 
-    render(<Summary />);
+    const { container } = render(<Summary />);
 
-    expect(screen.getByTestId('loggingDashboardWrapper')).toBeInTheDocument();
-    expect(screen.getByTestId('retentionPeriodDashboard')).toBeInTheDocument();
-    expect(screen.getByTestId('logVolumeDashboard')).toBeInTheDocument();
-    expect(screen.getByTestId('logsDistributionChart')).toBeInTheDocument();
+    const stickyWrapperElement = container.querySelector('[class*="sticky-wrapper"]');
+    expect(stickyWrapperElement).toBeInTheDocument();
+    expect(screen.getByTestId('retentionPeriodKPI')).toBeInTheDocument();
+    expect(screen.getByTestId('logVolumeKPI')).toBeInTheDocument();
+    expect(screen.getAllByText('Logs Charts').length).toBe(2);
   });
 
   it('does not render LogVolumeDashboard if user does not have log volume permission', () => {
