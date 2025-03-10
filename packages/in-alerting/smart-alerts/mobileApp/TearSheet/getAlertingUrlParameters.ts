@@ -26,7 +26,7 @@ export default function getAlertingUrlParameters(location: Location) {
   const alertConfigCreated = Number(getMatrixParameter(location, mobileAppSmartAlertsFullScreen, alertCreated)) ?? '';
   const mobileAppId = getMatrixParameter(location, mobileAppSmartAlertsFullScreen, mobileApp_id) ?? undefined;
 
-  const tagFilters = getMatrixParameter(location, mobileAppSmartAlertsFullScreen, tag_filters) ?? [];
+  const tagFilters = getMatrixParameter(location, mobileAppSmartAlertsFullScreen, tag_filters) ?? undefined;
 
   const customEventName = getMatrixParameter(location, mobileAppSmartAlertsFullScreen, custom_event_name) ?? undefined;
 
@@ -38,7 +38,7 @@ export default function getAlertingUrlParameters(location: Location) {
     alertConfigId,
     alertConfigCreated,
     mobileAppId,
-    tagFilters: JSON.parse(tagFilters as TagFilter[] | any),
+    tagFilters: tagFilters ? JSON.parse(tagFilters as TagFilter[] | any) : undefined,
     customEventName,
     cancelTearSheet
   };

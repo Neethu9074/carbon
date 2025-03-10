@@ -9,7 +9,7 @@ import React from 'react';
 import {
   TearSheetEditActionHandler,
   TearSheetCloneActionHandler
-} from 'in-alerting/smart-alerts/websites/list/TearSheetActionHandlers';
+} from 'in-alerting/smart-alerts/eum/components/TearSheet/TearSheetActionHandlers';
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
@@ -17,6 +17,7 @@ import { duplicateAlertConfig } from 'in-alerting/smart-alerts/websites/details/
 import { websitesSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { eumType } from 'in-alerting/smart-alerts/websites/constants';
 
 function handleClone(config) {
   openSmartAlertDialog(config, true);
@@ -27,11 +28,15 @@ function handleEdit(config) {
 }
 
 function HandleEditNew(config) {
-  return <TearSheetEditActionHandler id={config.id} created={config.created} websiteId={config.websiteId} />;
+  return (
+    <TearSheetEditActionHandler id={config.id} created={config.created} eumId={config.websiteId} eumType={eumType} />
+  );
 }
 
 function HandleCloneNew(config) {
-  return <TearSheetCloneActionHandler id={config.id} created={config.created} websiteId={config.websiteId} />;
+  return (
+    <TearSheetCloneActionHandler id={config.id} created={config.created} eumId={config.websiteId} eumType={eumType} />
+  );
 }
 
 function openSmartAlertDialog(config, isCopy = false) {

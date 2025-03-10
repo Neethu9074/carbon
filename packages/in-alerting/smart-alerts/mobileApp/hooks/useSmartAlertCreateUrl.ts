@@ -31,7 +31,7 @@ import { Location } from 'in-stores/navigation/types';
 
 interface AlertURLProps {
   mobileAppId: string;
-  tagFilters: TagFilter[];
+  tagFilters?: TagFilter[];
   customEventName?: string | null;
   alertId?: string;
   alertConfigCreated?: number;
@@ -69,7 +69,7 @@ function updateCreatePathMatrixParams(
   location: Location,
   returnUrlWithParams: string,
   mobileAppId: string,
-  tagFilters: TagFilter[],
+  tagFilters?: TagFilter[],
   customEventName?: string | null,
   alertConfigId?: string,
   alertConfigCreated?: number,
@@ -77,9 +77,12 @@ function updateCreatePathMatrixParams(
   editMode?: boolean
 ) {
   setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, '');
-  setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, mobileApp_id, mobileAppId);
-  setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, custom_event_name, customEventName);
-  setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, tag_filters, JSON.stringify(tagFilters));
+
+  if (mobileApp_id) setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, mobileApp_id, mobileAppId);
+  if (customEventName)
+    setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, custom_event_name, customEventName);
+  if (tagFilters)
+    setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, tag_filters, JSON.stringify(tagFilters));
 
   // alert config id
   if (alertConfigId) setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, alertId, String(alertConfigId));
