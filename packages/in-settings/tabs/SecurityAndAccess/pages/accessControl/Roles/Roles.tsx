@@ -20,11 +20,13 @@ import {
 import CarbonDataTableWrapper, {
   DataTableRow
 } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+import EditRoleDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/EditRoleDialog';
 import { RolesMenuItem } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
 import useRolesOverview from 'in-settings/tabs/SecurityAndAccess/hooks/useRolesOverview';
+import { FORM_MODE } from 'in-settings/components/MapFormProvider/MapFormProvider';
 import { Role } from 'in-settings/tabs/SecurityAndAccess/api/rolesMocks';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { STATIC_GROUP_NAMES } from 'in-settings/constants';
-import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
 function createMenuItemsForRow(
@@ -76,7 +78,7 @@ export default function Roles() {
       initalSortConfig={ROLES_TABLE_ORDER}
       labelNew={t('in-settings:tabs.role.newRole')}
       loading={progress.loading}
-      onCreateNew={noop}
+      onCreateNew={() => addActiveDialog(<EditRoleDialog mode={FORM_MODE.NEW} />)}
       pageSizes={ROLES_TABLE_PAGE_SIZES}
       searchAttributes={['name']}
       searchPlaceholderText={t('in-settings:components.search')}
