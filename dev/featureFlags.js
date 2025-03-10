@@ -173,5 +173,5 @@ module.exports = {
   idpConfigV2Enabled: false,
   sloLiteEnabled: true,
   sloFullEnabled: true,
-  mobileAppSmartAlertFullScreenDesignEnabled: false
+  mobileAppSmartAlertFullScreenDesignEnabled: true
 };
