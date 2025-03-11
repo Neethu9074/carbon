@@ -106,13 +106,13 @@ describe(AnalyzeViewKPIs, () => {
         resultList={dummyResultList}
       />
     );
-    expect(screen.getByText('Start Time')).toBeVisible();
+    expect(screen.getByText('Start time')).toBeVisible();
     expect(screen.getByText('Status')).toBeVisible();
-    expect(screen.getByText('Response Time')).toBeVisible();
+    expect(screen.getByText('Response time')).toBeVisible();
     expect(screen.getByText('Requests')).toBeVisible();
-    expect(screen.getByText('Response Size')).toBeVisible();
+    expect(screen.getByText('Response size')).toBeVisible();
 
-    expect(screen.queryByText('Certificate is Signed by Public CA')).toBeNull();
+    expect(screen.queryByText('Certificate is signed by Public CA')).toBeNull();
   });
 
   it('Render correct set of KPIs for SSLCertificate test', () => {
@@ -212,13 +212,13 @@ describe(AnalyzeViewKPIs, () => {
         resultList={dummyResultList}
       />
     );
-    expect(screen.getByText('Start Time')).toBeVisible();
+    expect(screen.getByText('Start time')).toBeVisible();
     expect(screen.getByText('Status')).toBeVisible();
-    expect(screen.getByText('Response Time')).toBeVisible();
-    expect(screen.getByText('Certificate is Signed by Public CA')).toBeVisible();
+    expect(screen.getByText('Response time')).toBeVisible();
+    expect(screen.getByText('Certificate is signed by public CA')).toBeVisible();
 
     expect(screen.queryByText('Requests')).toBeNull();
-    expect(screen.queryByText('Response Size')).toBeNull();
+    expect(screen.queryByText('Response size')).toBeNull();
   });
 
   it('Render correct set of KPIs for DNS test', () => {
@@ -314,11 +314,11 @@ describe(AnalyzeViewKPIs, () => {
         resultList={dummyResultList}
       />
     );
-    expect(screen.getByText('Start Time')).toBeVisible();
+    expect(screen.getByText('Start time')).toBeVisible();
     expect(screen.getByText('Status')).toBeVisible();
-    expect(screen.getByText('Response Time')).toBeVisible();
+    expect(screen.getByText('Response time')).toBeVisible();
 
     expect(screen.queryByText('Requests')).toBeNull();
-    expect(screen.queryByText('Response Size')).toBeNull();
+    expect(screen.queryByText('Response size')).toBeNull();
   });
 });

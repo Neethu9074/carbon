@@ -13,8 +13,8 @@ describe('DeployTabSelection component', () => {
   it('Renders DeployTabSelection component correctly', () => {
     const { container } = render(<DeployTabSelection downloadKey={''} agentKey={''} syntheticAcceptorURL={''} />);
 
-    expect(screen.getByText('Synthetic PoP Commands')).toBeInTheDocument();
-    const linkElement = screen.getByText('Deploying a Self-hosted PoP');
+    expect(screen.getByText('Synthetic PoP commands')).toBeInTheDocument();
+    const linkElement = screen.getByText('Deploying a self-hosted PoP');
     expect(linkElement.getAttribute('href')).toBe('https://ibm.biz/pop_deployment');
 
     expect(container.getElementsByTagName('li').length).toBe(2);
