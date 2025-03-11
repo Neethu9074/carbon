@@ -27,7 +27,7 @@ function SuccessRateKpiCard(props: Readonly<SuccessRateCardProps>) {
       title={title}
       result={result}
       renderKpiCard={result => {
-        let kpiValue: number | undefined = result?.data?.successCount;
+        const kpiValue: number | undefined = result?.data?.successCount;
         return <KpiCard title={title} value={kpiValue} companionValue={`/${result?.data?.total}`} />;
       }}
     />

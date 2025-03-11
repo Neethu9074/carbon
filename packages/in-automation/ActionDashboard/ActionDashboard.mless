@@ -17,14 +17,14 @@
     }
   }
   .testActionButton {
-    border-left: 1px solid #e0e0e0;
+    border-left: 1px solid var(--cds-border-subtle-01);
     svg {
       stroke: var(--cds-link-primary, #0f62fe);
       stroke-width: 2px;
     }
   }
   .watsonxBtn {
-    border-right: 1px solid #e0e0e0;
+    border-right: 1px solid var(--cds-border-subtle-01);
     &:not([disabled]) svg {
       fill: var(--cds-link-primary, #0f62fe);
     }
@@ -48,7 +48,7 @@
   }
 }
 :global .code-snippet-wrapper {
-  --cds-layer: #f4f4f4;
+  --cds-layer: var(--cds-background);
   margin-bottom: 0;
   font-size: 0.75rem;
 }

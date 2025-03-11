@@ -26,7 +26,7 @@ function NoOfRunKpiCard(props: Readonly<NoOfRunKpiCardProps>) {
       title={title}
       result={result}
       renderKpiCard={result => {
-        let kpiValue: number | undefined = result?.data?.totalHits;
+        const kpiValue: number | undefined = result?.data?.totalHits;
         return <KpiCard title={title} value={kpiValue} />;
       }}
     />

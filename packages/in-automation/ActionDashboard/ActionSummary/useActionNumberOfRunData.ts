@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2025
  */
 
+import { ActionInstance, PaginatedResult, Result, TimeConfig } from '@instana/types';
 import { create, timeout } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import getActionInstances from 'in-automation/subscriptions/getActionInstances';
-import { ActionInstance, PaginatedResult, Result, TimeConfig } from 'in-types';
 import { pendingResult } from 'in-services/fixedObjects';
 
 const refreshSignal = create().emit(true);

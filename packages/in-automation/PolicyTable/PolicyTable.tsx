@@ -100,8 +100,8 @@ export default function Policies({
       return policy.trigger;
     }
 
-    // @ts-ignore
-    return triggers?.[triggerType]?.data?.find(trigger => trigger.id === policy.trigger.id);
+    const triggerData = triggers?.[triggerType]?.data as Trigger[] | undefined;
+    return triggerData?.find(trigger => trigger.id === policy.trigger.id);
   }
 
   // @ts-ignore

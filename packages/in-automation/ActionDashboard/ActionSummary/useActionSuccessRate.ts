@@ -5,11 +5,11 @@
  */
 
 import { create, timeout } from '@instana/observables';
+import { Result, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { ActionSuccessRateResult, getActionSuccessRate } from 'in-automation/subscriptions/getActionSuccessRate';
 import { pendingResult } from 'in-services/fixedObjects';
-import { Result, TimeConfig } from 'in-types';
 
 const refreshSignal = create().emit(true);
 export function actionSuccessRateRefresh() {

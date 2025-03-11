@@ -19,7 +19,6 @@ import {
   SvgIcon,
   Typography
 } from '@instana/components';
-import { Action } from '@instana/types';
 
 import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
@@ -33,16 +32,15 @@ import { getDocLinkFromFields } from 'in-automation/utils/actionField';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 import { ACTION_TYPE, NO_FIELD_VALUE } from 'in-automation/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import { useSegmentTracker } from 'in-automation/tracker';
+import { Action, Nullish } from 'in-types';
 import { role } from 'in-stores/user';
-import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import local from 'in-automation/ActionDashboard/ActionDashboard.mless';
 
 interface ActionDetailsProps {
-  data: Action | Nullish | ActionFormEntity;
+  data: Action | Nullish;
   isAIGeneratedAction: boolean;
 }
 
@@ -74,7 +72,7 @@ export default function ActionDetailsCard({ data, isAIGeneratedAction }: ActionD
 }
 
 interface ActionConfigurationActionsProps {
-  data: Nullish | ActionFormEntity | Action;
+  data: Nullish | Action;
   isAIGeneratedAction: boolean;
 }
 
@@ -88,7 +86,6 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
   if (!data || !hasPermisson) return null;
   const manualContent = form.get('manualContent').value;
   const type = form.get('type').value;
-  // @ts-ignore
   const actionId = data.id;
   const actionName = form.get('name').value;
   const isUserActions = !isAIGeneratedAction;
@@ -161,7 +158,7 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
           className={classNames(local.ghostBtn, local.testActionButton)}
           kind="ghost"
           size="sm"
-          renderIcon={() => <SvgIcon type="lib_actions_play" size="xs" color="#fff" />}
+          renderIcon={() => <SvgIcon type="lib_actions_play" size="xs" color="var(--ids-color-option-white)" />}
           onClick={testClickHandler}
         >
           {t('in-automation:testAction')}

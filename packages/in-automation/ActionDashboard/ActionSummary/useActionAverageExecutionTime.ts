@@ -5,6 +5,7 @@
  */
 
 import { create, timeout } from '@instana/observables';
+import { Result, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -12,7 +13,6 @@ import {
   getActionAverageExecutionResult
 } from 'in-automation/subscriptions/getActionAvgExecutionTime';
 import { pendingResult } from 'in-services/fixedObjects';
-import { Result, TimeConfig } from 'in-types';
 
 const refreshSignal = create().emit(true);
 export function averageExecutionTimeRefresh() {

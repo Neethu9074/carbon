@@ -28,7 +28,7 @@ function AverageExecutionKpiCard(props: Readonly<AverageExecutionKpiCardProps>) 
       title={title}
       result={result}
       renderKpiCard={result => {
-        let kpiValue: number | undefined = result?.data?.avgExecutionTime;
+        const kpiValue: number | undefined = result?.data?.avgExecutionTime;
         return (
           <KpiCard
             title={title}

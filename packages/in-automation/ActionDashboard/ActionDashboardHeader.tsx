@@ -6,12 +6,11 @@
 
 import React from 'react';
 
-import { Action, Result } from '@instana/types';
 import { CarbonTag } from '@instana/components';
 
 import { ACTION_TRANSLATIONS } from 'in-automation/constants';
 import DashboardHeader from 'in-components/DashboardHeader';
-import { Nullish } from 'in-types';
+import { Nullish, Action, Result } from 'in-types';
 import { t } from 'in-i18n';
 
 interface ActionDashboardHeaderProps {

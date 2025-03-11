@@ -9,7 +9,6 @@ import React from 'react';
 
 import { CarbonColumn, CarbonGrid, CarbonRow } from '@instana/components';
 import { formatDate, formatTime } from '@instana/format-date';
-import { Action } from '@instana/types';
 
 import AverageExecutionKpiCard from 'in-automation/ActionDashboard/ActionSummary/AverageExecutionKpiCard';
 import SuccessRateKipCard from 'in-automation/ActionDashboard/ActionSummary/SuccessRateKpiCard';
@@ -18,7 +17,7 @@ import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 import { ACTION_TYPE, NO_FIELD_VALUE } from 'in-automation/constants';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { Nullish } from 'in-types';
+import { Nullish, Action } from 'in-types';
 import { t } from 'in-i18n';
 
 import localStyles from 'in-automation/ActionDashboard/ActionSummary/ActionSummary.mless';
@@ -31,8 +30,40 @@ interface SummaryCardsProps {
 function SummaryCards({ data }: Readonly<SummaryCardsProps>) {
   const timeConfig = useTimeConfig();
   if (!data) return null;
-  const { tags, modifiedAt } = data;
-  const isFirstRowEnabled = data.type !== ACTION_TYPE.MANUAL;
+  const { id, type, tags, modifiedAt } = data;
+  const isFirstRowEnabled = ![ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].includes(type);
+  const cards = [
+    {
+      cardId: 'card-1',
+      renderCard: () => (
+        <NoOfRunKpiCard actionId={id} title={t('in-automation:actionDashboard.noOfTimesRun')} timeConfig={timeConfig} />
+      )
+    },
+    {
+      cardId: 'card-1',
+      renderCard: () => (
+        <SuccessRateKipCard
+          actionId={id}
+          title={t('in-automation:actionDashboard.successRate')}
+          timeConfig={timeConfig}
+        />
+      )
+    },
+    {
+      cardId: 'card-1',
+      renderCard: () => (
+        <AverageExecutionKpiCard
+          actionId={id}
+          title={t('in-automation:actionDashboard.avgExecutionTime')}
+          timeConfig={timeConfig}
+        />
+      )
+    },
+    {
+      cardId: 'card-1',
+      renderCard: () => <KpiCard title={t('in-automation:parameters')} value={data?.inputParameters?.length} />
+    }
+  ];
 
   return (
     <CarbonRow>
@@ -41,34 +72,12 @@ function SummaryCards({ data }: Readonly<SummaryCardsProps>) {
         className={classNames(localStyles.grid, local.noHorizontalPaddings, localStyles.customKPIStyle)}
         condensed
       >
-        {isFirstRowEnabled && (
-          <>
-            <CarbonColumn sm={6} md={4}>
-              <NoOfRunKpiCard
-                actionId={data.id}
-                title={t('in-automation:actionDashboard.noOfTimesRun')}
-                timeConfig={timeConfig}
-              />
+        {isFirstRowEnabled &&
+          cards.map(card => (
+            <CarbonColumn key={card.cardId} sm={6} md={4}>
+              {card.renderCard()}
             </CarbonColumn>
-            <CarbonColumn sm={6} md={4}>
-              <SuccessRateKipCard
-                actionId={data.id}
-                title={t('in-automation:actionDashboard.successRate')}
-                timeConfig={timeConfig}
-              />
-            </CarbonColumn>
-            <CarbonColumn sm={6} md={4}>
-              <AverageExecutionKpiCard
-                actionId={data.id}
-                title={t('in-automation:actionDashboard.avgExecutionTime')}
-                timeConfig={timeConfig}
-              />
-            </CarbonColumn>
-            <CarbonColumn sm={6} md={4}>
-              <KpiCard title={t('in-automation:parameters')} value={data?.inputParameters?.length} />
-            </CarbonColumn>
-          </>
-        )}
+          ))}
         <CarbonColumn md={8}>
           <KpiCard title={t('in-automation:tags')}>
             {tags?.length ? <DynamicTagList tags={tags} /> : NO_FIELD_VALUE}

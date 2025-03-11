@@ -33,21 +33,19 @@ const getColumnDefinitions = ({
     label: t('in-automation:ActionCatalog.displayName'),
     getContent(item) {
       return (
-        <>
-          <Tooltip content={item.value.label} align="topLeft" delay={500}>
-            <Link
-              href=""
-              ellipsis
-              onClick={e => {
-                e.preventDefault();
-                setSelectedId(item.id);
-                setOpenDialog(true);
-              }}
-            >
-              {item.value.label}
-            </Link>
-          </Tooltip>
-        </>
+        <Tooltip content={item.value.label} align="topLeft" delay={500}>
+          <Link
+            href=""
+            ellipsis
+            onClick={e => {
+              e.preventDefault();
+              setSelectedId(item.id);
+              setOpenDialog(true);
+            }}
+          >
+            {item.value.label}
+          </Link>
+        </Tooltip>
       );
     }
   },
