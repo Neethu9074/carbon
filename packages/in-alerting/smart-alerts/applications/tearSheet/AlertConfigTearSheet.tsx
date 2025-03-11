@@ -37,6 +37,8 @@ import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/applicat
 import getAlertingUrlParameters from 'in-alerting/smart-alerts/applications/tearSheet/components/getAlertingUrlParameters';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertMultiThresholdFormSideEffects';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
+//@ts-expect-error TS migration
+import { getTrackingAlertConfig } from 'in-alerting/smart-alerts/utils/segmentUtils';
 import useGetMigrationAlertConfig from 'in-alerting/smart-alerts/applications/hooks/useGetMigrationAlertConfig';
 import useGetSmartAlertConfig from 'in-alerting/smart-alerts/applications/hooks/useGetSmartAlertConfig';
 import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
@@ -48,6 +50,7 @@ import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
 import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
 
@@ -293,6 +296,7 @@ function createOrSaveAlert({
   }
 
   const alertConfig = toAlertConfig(form);
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
 
   const isEffectivelyGlobalSmartAlert = migrationMode
     ? Object.keys(alertConfig.applications).length > 1
@@ -302,9 +306,10 @@ function createOrSaveAlert({
 
   if (isEffectivelyEditMode) {
     const alertConfigApplicationId = isEffectivelyGlobalSmartAlert ? null : Object.keys(alertConfig.applications)[0];
+    const alertConfigForTracking = getTrackingAlertConfig(alertConfig, thresholdType);
     (isGlobalSmartAlert ? updateGlobalAlertConfig : updateAlertConfig)(alertConfig, form.get('id').value).once(
       config => {
-        trackCta(ALERTING_UPDATED, { ...alertConfig });
+        trackCta(ALERTING_UPDATED, { ...alertConfigForTracking, dialogMode: FULLSCREEN });
         return isEffectivelyGlobalSmartAlert
           ? navigateToGlobalAlertConfigWithoutAPDashboard(alertConfig.id)
           : alertConfigApplicationId &&
@@ -319,13 +324,20 @@ function createOrSaveAlert({
   } else {
     (isEffectivelyGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
       config => {
-        const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
+        const newConfigForTracking = getTrackingAlertConfig(config, thresholdType);
+        const newConfig = duplicateFrom
+          ? { ...newConfigForTracking, cloneFromId: duplicateFrom }
+          : newConfigForTracking;
 
         if (migrationMode && eventSpecificationId) {
-          trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_FINISHED, { ...newConfig, eventSpecificationId });
+          trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_FINISHED, {
+            ...newConfig,
+            eventSpecificationId,
+            dialogMode: FULLSCREEN
+          });
           disableMigratedCustomEventSpecification(eventSpecificationId, config.id).once();
         } else {
-          trackCta(ALERTING_SAVED, { ...newConfig });
+          trackCta(ALERTING_SAVED, { ...newConfig, dialogMode: FULLSCREEN });
         }
 
         // redirect user to details page

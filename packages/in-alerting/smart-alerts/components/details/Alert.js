@@ -22,6 +22,7 @@ import { alertCreated as alertCreatedMatrixParam } from 'in-applications/navigat
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import { getTrackingAlertConfig } from 'in-alerting/smart-alerts/utils/segmentUtils';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -70,6 +71,7 @@ export default function Alert({
   const alertConfigCreated = getMatrixParameter(location, alertsTabSegment, alertCreatedParam);
 
   const { alertConfig, alertConfigErrors } = useAlertConfig(getConfig, alertConfigId, alertConfigCreated, reload);
+  const alertConfigForTracking = getTrackingAlertConfig(alertConfig, undefined);
   const { alertConfigVersions, alertConfigVersionsErrors } = useAlertConfigVersions(
     getConfigVersions,
     alertConfigId,
@@ -118,9 +120,9 @@ export default function Alert({
               })
             );
             if (isCopy) {
-              trackCta(ALERTING_CLONE_TRIGGER, alertConfig);
+              trackCta(ALERTING_CLONE_TRIGGER, alertConfigForTracking);
             } else if (!isCopy) {
-              trackCta(ALERTING_EDIT, alertConfig);
+              trackCta(ALERTING_EDIT, alertConfigForTracking);
             }
           }}
           fullyQualifiedAlertsList={listPath}
@@ -136,9 +138,9 @@ export default function Alert({
             }
           }}
           onConfigDeleted={() => {
-            trackCta(ALERTING_DELETE_CONFIRM, alertConfig);
+            trackCta(ALERTING_DELETE_CONFIRM, alertConfigForTracking);
           }}
-          onConfigRevisionChanged={() => trackCta(ALERTING_REVISION_CHANGED, alertConfig)}
+          onConfigRevisionChanged={() => trackCta(ALERTING_REVISION_CHANGED, alertConfigForTracking)}
           renderCustomTitle={() => {
             return (
               <HorizontalFlexWrapper className={locals.titleWrapper}>
@@ -150,7 +152,7 @@ export default function Alert({
           showActionButton={showActionButton}
           allowActionButtons={isGlobalSmartAlert ? canConfigureGlobalAlertConfigs : canConfigureIndividualAlertConfigs}
           onConfigDeleteTrigger={() => {
-            trackCta(ALERTING_DELETE_TRIGGER, alertConfig);
+            trackCta(ALERTING_DELETE_TRIGGER, alertConfigForTracking);
           }}
           displayEditAction={displayEditAction}
           displayTearSheetActions={displayTearSheetActions}

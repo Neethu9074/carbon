@@ -29,13 +29,25 @@ function handleEdit(config) {
 
 function HandleEditNew(config) {
   return (
-    <TearSheetEditActionHandler id={config.id} created={config.created} eumId={config.websiteId} eumType={eumType} />
+    <TearSheetEditActionHandler
+      id={config.id}
+      created={config.created}
+      eumId={config.websiteId}
+      eumType={eumType}
+      alertConfig={config}
+    />
   );
 }
 
 function HandleCloneNew(config) {
   return (
-    <TearSheetCloneActionHandler id={config.id} created={config.created} eumId={config.websiteId} eumType={eumType} />
+    <TearSheetCloneActionHandler
+      id={config.id}
+      created={config.created}
+      eumId={config.websiteId}
+      eumType={eumType}
+      alertConfig={config}
+    />
   );
 }
 
