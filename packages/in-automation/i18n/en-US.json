@@ -518,7 +518,7 @@
     "additionalFeedbackPlaceholder": "What did you not like about the response? What can be improved"
   },
   "consentForm": {
-    "consentButton": "Review consent form",
-    "consentText": "An administrator must consent to the Generative AI Assistance Preview privacy agreement to enable this feature."
+    "consentButton": "Review agreement",
+    "consentText": "You must accept the terms in the Generative AI Assistance Preview Program Agreement to use this feature."
   }
 }
