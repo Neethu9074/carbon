@@ -5,34 +5,10 @@
 
 import React from 'react';
 
-import { useObservable } from '@instana/hooks';
-import { Tr, Td } from '@instana/legacy';
-
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { useLinkToProfiles } from 'in-components/Profiling/navigation/paths';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EntityLink from 'in-components/EntityLink/EntityLink';
-
-export default function Row({ item }) {
-  const { processSnapshotId, time, entityLabel, entityPlugin, hostSnapshotPreview } = item;
-  const linkToProfiles = useLinkToProfiles({ processSnapshotId, time });
-  if (entityLabel === null) {
-    return <RowLabelResolver item={item} />;
-  }
-
-  return (
-    <Tr size="compact">
-      <Td ellipsis="50vw">
-        <EntityLink href={linkToProfiles} plugin={entityPlugin} label={entityLabel} />
-      </Td>
-
-      <Td noWrap>
-        <HostInformation hostSnapshotPreview={hostSnapshotPreview} />
-      </Td>
-    </Tr>
-  );
-}
 
 export function HostInformation({ hostSnapshotPreview }) {
   const getDashboardLink = useGetDashboardLink();
@@ -45,21 +21,6 @@ export function HostInformation({ hostSnapshotPreview }) {
       plugin={hostSnapshotPreview.plugin}
       label={hostSnapshotPreview.label}
       href={getDashboardLink(hostSnapshotPreview.id, { pathname: '/physical/dashboard' })}
-    />
-  );
-}
-
-function RowLabelResolver({ item }) {
-  const { processSnapshotId, time } = item;
-  const snapshot = useObservable(getSnapshotVersionsObservable, [processSnapshotId, time]);
-
-  return (
-    <Row
-      item={{
-        ...item,
-        entityLabel: snapshot ? snapshot.get('label') : 'Unknown',
-        entityPlugin: snapshot ? snapshot.get('plugin') : undefined
-      }}
     />
   );
 }
