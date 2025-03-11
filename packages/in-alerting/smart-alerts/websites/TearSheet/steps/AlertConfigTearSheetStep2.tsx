@@ -7,13 +7,12 @@
 import { Item, MapForm, Field } from 'formalistic';
 import React, { useMemo } from 'react';
 
-import { Spacer, Stack } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
-import { ScopeWrapper } from 'in-alerting/smart-alerts/components/tearSheet/CustomWrappers/Wrapper';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -69,22 +68,15 @@ export default function AlertConfigTearSheetStep2({
   useRemoveInvalidTagsFromFilterExpression(getTagCatalog, tagFilterExpression, updateTagFilterExpression);
 
   return (
-    <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.websites.tearSheet.step2.description')} hideSpace>
+    <Stack gap="normal">
+      <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.websites.tearSheet.filter')} hideSpace />
       {/* Filter */}
-      <Stack gap="normal">
-        <Spacer size="small" />
-        <ScopeWrapper
-          title={t('in-alerting:smartAlerts.websites.tearSheet.filter')}
-          description={t('in-alerting:smartAlerts.websites.tearSheet.filterDescription')}
-          gap="normal"
-        >
-          <div className={locals.wrapper}>
-            <Stack direction="horizontal" gap="small">
-              <AlertFilterConfigurator QueryBuilderComponent={AlertQueryBuilder} form={form} updateForm={updateForm} />
-            </Stack>
-          </div>
-        </ScopeWrapper>
-      </Stack>
-    </TearSheetStepTitleWrapper>
+
+      <div className={locals.wrapper}>
+        <Stack direction="horizontal" gap="small">
+          <AlertFilterConfigurator QueryBuilderComponent={AlertQueryBuilder} form={form} updateForm={updateForm} />
+        </Stack>
+      </div>
+    </Stack>
   );
 }

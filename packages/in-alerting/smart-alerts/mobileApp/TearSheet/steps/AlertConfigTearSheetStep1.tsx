@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
+import React, { useMemo } from 'react';
 import { MapForm } from 'formalistic';
-import React from 'react';
 
 import SelectedBlueprintPresenter from 'in-alerting/smart-alerts/components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
@@ -20,6 +20,7 @@ import CustomEventList from 'in-alerting/smart-alerts/eum/components/CustomEvent
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import { eumType, modeSimple } from 'in-alerting/smart-alerts/mobileApp/constants';
 import {} from 'in-alerting/smart-alerts/eum/components/ProvideStatusCode';
+import { getConfig } from 'in-alerting/smart-alerts/eum/utils/eumCommon';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import Menu from 'in-alerting/smart-alerts/components/Menu';
 import { t } from 'in-i18n';
@@ -34,10 +35,14 @@ export default function AlertConfigTearSheetStep1({
   const alertType = form.get('rule').get('alertType').value;
   const blueprintConfig = getBlueprintConfig(alertType);
 
+  const blueprintConfigForTearSheet = useMemo(() => {
+    return getConfig(blueprintConfigs as any);
+  }, []);
+
   return (
     <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.mobileApp.tearSheet.step1.description')} hideSpace>
       <Menu
-        items={blueprintConfigs}
+        items={blueprintConfigForTearSheet}
         onItemClick={item => {
           updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, item.defaultMetric, false));
         }}
@@ -49,26 +54,29 @@ export default function AlertConfigTearSheetStep1({
         alertType={alertType}
         renderStatusCode={() => (
           <SelectedBlueprintPresenter
-            title={(blueprintConfig as any).tearSheet.headline}
-            description={(blueprintConfig as any).tearSheet.text}
+            title={blueprintConfig.tearSheet.headline}
+            description={blueprintConfig.tearSheet.text}
           >
             <ProvideStatusCode form={form} updateForm={updateForm} tearSheetView />
           </SelectedBlueprintPresenter>
         )}
         renderThroughput={() => (
           <SelectedBlueprintPresenter
-            title={(blueprintConfig as any).tearSheet.headline}
-            description={(blueprintConfig as any).tearSheet.text}
+            title={blueprintConfig.tearSheet.headline}
+            description={blueprintConfig.tearSheet.text}
             isBeta={false}
           />
         )}
         renderCustomEvent={() => (
-          <SelectedBlueprintPresenter title={blueprintConfig.headline ?? ''} description={blueprintConfig.text}>
+          <SelectedBlueprintPresenter
+            title={blueprintConfig.tearSheet.headline}
+            description={blueprintConfig.tearSheet.text}
+          >
             <ExpandableLightCard
               title={
                 <AlertTypography
                   variant="heading-100"
-                  content={t('in-alerting:smartAlerts.mobileApp.data.customEventBlueprintConfigName')}
+                  content={t('in-alerting:smartAlerts.mobileApp.tearSheet.customEvent.name')}
                 />
               }
               useMaxAvailableHeight={false}

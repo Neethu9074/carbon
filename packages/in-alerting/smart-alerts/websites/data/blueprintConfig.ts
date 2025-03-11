@@ -178,15 +178,8 @@ const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   getAvailableTags: (metricName: MetricName) =>
     getIncludedTags(metricName === 'onLoadTime' ? availableFilterTags.pageLoad : availableFilterTags.httpRequest),
   tearSheet: {
-    headline: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigHeadline'),
-    text: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextP'),
-    description: {
-      text1: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli1'),
-      text2: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli2'),
-      text3: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli3'),
-      text4: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli4'),
-      text5: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli5')
-    }
+    headline: t('in-alerting:smartAlerts.websites.tearSheet.slowness.headline'),
+    text: t('in-alerting:smartAlerts.websites.tearSheet.slowness.text')
   },
   baselineEnabled: true,
   defaultMetric: 'onLoadTime',
@@ -209,6 +202,11 @@ const jsErrorsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   name: t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigName'),
   headline: t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigHeadline'),
   text: t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigText'),
+  tearSheet: {
+    name: t('in-alerting:smartAlerts.websites.tearSheet.JsErrors.name'),
+    headline: t('in-alerting:smartAlerts.websites.tearSheet.JsErrors.headline'),
+    text: t('in-alerting:smartAlerts.websites.tearSheet.JsErrors.text')
+  },
   getAvailableTags: () => getIncludedTags(availableFilterTags.error),
   baselineEnabled: false,
   defaultMetric: 'errors',
@@ -310,7 +308,12 @@ const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
         tagFilter('beacon.customEvent.name', EQUALS, (alertRule as CustomEventWebsiteAlertRule).customEventName)
       ]
     }),
-  getBeaconType: () => 'custom'
+  getBeaconType: () => 'custom',
+  tearSheet: {
+    name: t('in-alerting:smartAlerts.websites.tearSheet.customEvent.name'),
+    headline: t('in-alerting:smartAlerts.websites.tearSheet.customEvent.headline'),
+    text: t('in-alerting:smartAlerts.websites.tearSheet.customEvent.text')
+  }
 });
 
 export const blueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([

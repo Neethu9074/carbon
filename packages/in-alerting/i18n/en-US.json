@@ -93,7 +93,8 @@
       "additionalCustomPayloadTitle": "Additional custom payloads ({{count}})",
       "globalCustomPayloadTitle": "Global custom payloads ({{count}})",
       "globalCustomPayloadRetrieveFailed": "Something went wrong. Could not retrieve global custom payloads.",
-      "noGlobalCustomPayloadConfigured": "No global custom payloads configured"
+      "noGlobalCustomPayloadConfigured": "No global custom payloads configured",
+      "includeAdditionalCustomPayload": "Include additional custom payloads (optional)"
     },
     "previewFor": "Preview for: ",
     "groupedViewHeader": "{{formattedCount}} Results",
@@ -1071,7 +1072,7 @@
         "jsErrorsBlueprintConfigHeadline": "Automatic Alerts for JS Errors",
         "jsErrorsBlueprintConfigText": "Receive an alert every time when matching JS Error messages occur more often than usual.",
         "jsErrorsBlueprintConfigIncompleteRuleMessage": "Please select a JS Error to see when this alert triggers",
-        "statusCodeBlueprintConfigName": "HTTP Status Codes",
+        "statusCodeBlueprintConfigName": "HTTP status codes",
         "statusCodeBlueprintConfigHeadline": "Automatic Alerts for HTTP Status Codes",
         "statusCodeBlueprintConfigText": "Receive an alert every time when matching HTTP Status Codes occur more often than usual.",
         "statusCodeBlueprintConfigIncompleteRuleMessage": "Please select a Status Code to see when this alert triggers",
@@ -1156,38 +1157,49 @@
           "description": "Choose the issue that you want to be alerted on"
         },
         "step2": {
-          "title": "Define the scope",
-          "description": "Where is the condition happening?"
+          "title": "Define the scope"
         },
         "step3": {
           "title": "Define when to get alerted"
         },
         "step4": {
           "title": "Define alert properties",
-          "description": "What properties do you want to set for this alert?"
+          "description": "What properties do you want to set for this alert"
         },
         "step5": {
           "title": "Define alert channels",
-          "description": "Where do you want to be notified for this alert?",
-          "text": "Select the recipient(s) of this alert"
+          "description": "Select where you want to be notified for this alert"
+        },
+        "slowness": {
+          "headline": "Automatic alerts for onLoad time or HTTP latency",
+          "text": "Receive an alert when the onLoad time exceeds expectations that are derived from historical data."
+        },
+        "JsErrors": {
+          "name": "JS errors",
+          "headline": "Automatic alerts for JS errors",
+          "text": "Receive an alert for a JavaScript error message."
         },
         "statusCode": {
           "headline": "Automatic alerts for HTTP status codes",
-          "text": "Receive an alert when matching HTTP status codes occur more often than the threshold."
+          "text": "Receive an alert when an HTTP status code occurs more often than usual."
         },
         "throughput": {
           "headline": "Automatic alerts for throughput",
-          "text": "Receive an alert when the number of calls is unusually high or low for selected services and endpoints of this application perspective."
+          "text": "Receive an alert when the expected number of website page loads differs significantly compared to available historic data."
         },
-        "filter": "Filter",
-        "filterDescription": "Select the services to get more precise alerts.",
+        "customEvent": {
+          "name": "Custom events",
+          "headline": "Automatic alerts for custom events",
+          "text": "Receive an alert every time a specific custom event occurs more or less often than it should."
+        },
+        "filter": "Add filters to get more precise alerts (optional)",
         "threshold": {
           "header": "Set a value for the violation threshold",
           "description": "Select a metric, violation threshold and time window to evaluate the violation."
         },
         "alertChart": {
           "title": "Alerts preview",
-          "description": "Shows how alerts would have triggered based on historical metric data."
+          "description": "See how alerts would have triggered based on historical metric data."
         },
         "timeThreshold": {
           "title": "Set when violations trigger alerts",
@@ -1475,35 +1487,37 @@
           "description": "Choose the issue that you want to be alerted on"
         },
         "step2": {
-          "title": "Define the scope",
-          "description": "Where is the condition happening?"
+          "title": "Define the scope"
         },
         "step3": {
           "title": "Define when to get alerted"
         },
         "step4": {
           "title": "Define alert properties",
-          "description": "What properties do you want to set for this alert?"
+          "description": "What properties do you want to set for this alert"
         },
         "step5": {
           "title": "Define alert channels",
-          "description": "Where do you want to be notified for this alert?",
-          "text": "Select the recipient(s) of this alert"
+          "description": "Select where you want to be notified for this alert"
         },
         "statusCode": {
           "headline": "Automatic alerts for HTTP status codes",
-          "text": "Receive an alert when matching HTTP status codes occur more often than the threshold."
+          "text": "Receive an alert when an HTTP status code occurs more often than usual."
         },
         "throughput": {
-          "headline": "Automatic Alerts for Mobile App Views",
-          "text": "Receive an alert when the number of views is unusually high or low in a Mobile App"
+          "headline": "Automatic alerts for mobile app views",
+          "text": "Receive an alert when the expected number of page views or sessions of your mobile app differs significantly compared to available historic data."
         },
         "crash": {
-          "headline": "Automatic Alerts for Crashes",
-          "text": "Receive an alert when selected crash metric is higher or lower than expected."
+          "headline": "Automatic alerts for crashes",
+          "text": "Receive an alert when a crash metric is higher or lower than expected."
         },
-        "filter": "Filter",
-        "filterDescription": "Select the services to get more precise alerts.",
+        "customEvent": {
+          "name": "Custom events",
+          "headline": "Automatic alerts for custom events",
+          "text": "Receive an alert every time a specific custom event occurs more or less often than it should."
+        },
+        "filter": "Add filters to get more precise alerts (optional)",
         "threshold": {
           "header": "Set a value for the violation threshold",
           "description": "Select a metric, violation threshold and time window to evaluate the violation."

@@ -4,9 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
-
-import { Stack } from '@instana/components';
+import React, { useMemo } from 'react';
 
 import SelectedBlueprintPresenter from 'in-alerting/smart-alerts/components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
@@ -20,6 +18,7 @@ import ProvideJsError from 'in-alerting/smart-alerts/websites/components/Provide
 import CustomEventList from 'in-alerting/smart-alerts/eum/components/CustomEventList';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import JsErrorsList from 'in-alerting/smart-alerts/websites/components/JsErrorsList';
+import { getConfig } from 'in-alerting/smart-alerts/eum/utils/eumCommon';
 import { eumType } from 'in-alerting/smart-alerts/websites/constants';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import Menu from 'in-alerting/smart-alerts/components/Menu';
@@ -28,12 +27,15 @@ import { t } from 'in-i18n';
 
 export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintConfig }) {
   const alertType = form.get('rule').get('alertType').value;
-  const alertContent = blueprintConfig?.tearSheet?.description ?? {};
+
+  const blueprintConfigForTearSheet = useMemo(() => {
+    return getConfig(blueprintConfigs);
+  }, []);
 
   return (
     <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.websites.tearSheet.step1.description')} hideSpace>
       <Menu
-        items={blueprintConfigs}
+        items={blueprintConfigForTearSheet}
         onItemClick={item => {
           updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, false));
         }}
@@ -47,21 +49,18 @@ export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintC
             title={blueprintConfig.tearSheet.headline}
             description={blueprintConfig.tearSheet.text}
             isBeta={false}
-          >
-            <Stack direction="vertical" gap="disabled">
-              {Object.entries(alertContent).map(obj => (
-                <AlertTypography content={obj[1]} variant={'body-large'} color={'color600'} noMargin key={obj[0]} />
-              ))}
-            </Stack>
-          </SelectedBlueprintPresenter>
+          />
         )}
         renderJsErrors={() => (
-          <SelectedBlueprintPresenter title={blueprintConfig.headline} description={blueprintConfig.text}>
+          <SelectedBlueprintPresenter
+            title={blueprintConfig.tearSheet.headline}
+            description={blueprintConfig.tearSheet.text}
+          >
             <ExpandableLightCard
               title={
                 <AlertTypography
                   variant="heading-100"
-                  content={t('in-alerting:smartAlerts.websites.advanced.JSErrorMessage')}
+                  content={t('in-alerting:smartAlerts.websites.tearSheet.JsErrors.name')}
                 />
               }
               useMaxAvailableHeight={false}
@@ -113,7 +112,10 @@ export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintC
           />
         )}
         renderCustomEvent={() => (
-          <SelectedBlueprintPresenter title={blueprintConfig.headline} description={blueprintConfig.text}>
+          <SelectedBlueprintPresenter
+            title={blueprintConfig.tearSheet.headline}
+            description={blueprintConfig.tearSheet.text}
+          >
             <ExpandableLightCard
               title={
                 <AlertTypography

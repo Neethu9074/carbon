@@ -20,11 +20,7 @@ export default function AlertConfigTearSheetStep5({
   onChange: (path: string[], updater: (item: Item) => Item) => void;
 }) {
   return (
-    <TearSheetStepTitleWrapper
-      headline={t('in-alerting:smartAlerts.websites.tearSheet.step5.description')}
-      description={t('in-alerting:smartAlerts.websites.tearSheet.step5.text')}
-      hideSpace
-    >
+    <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.websites.tearSheet.step5.description')} hideSpace>
       <ConfigureAlertChannel form={form} onChange={onChange} numberOfAlertChannelListRows={10} />
     </TearSheetStepTitleWrapper>
   );

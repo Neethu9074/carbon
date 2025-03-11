@@ -121,6 +121,10 @@ export interface BluePrint extends BluePrintBase {
   readonly isRuleComplete: (alertRule: MobileAppAlertRule) => boolean;
   readonly incompleteRuleMessage?: string;
   readonly getMaxMetricValue: (metricName: MetricName) => number;
+  readonly tearSheet: {
+    readonly headline: string;
+    readonly text: string;
+  };
 }
 
 const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
@@ -218,7 +222,11 @@ const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
     isNotBlank((alertRule as CustomEventMobileAppAlertRule).customEventName),
   incompleteRuleMessage: t('in-alerting:smartAlerts.mobileApp.data.customEventBlueprintConfigIncompleteRuleMessage'),
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
-  baselineEnabled: true
+  baselineEnabled: true,
+  tearSheet: {
+    headline: t('in-alerting:smartAlerts.mobileApp.tearSheet.customEvent.headline'),
+    text: t('in-alerting:smartAlerts.mobileApp.tearSheet.customEvent.text')
+  }
 });
 
 const crashBlueprintConfig: Readonly<BluePrint> = Object.freeze({
