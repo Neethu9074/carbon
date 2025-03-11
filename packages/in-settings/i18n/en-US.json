@@ -364,7 +364,7 @@
       "accessControlSectionTitle": "Access control",
       "nameFieldLabel": "Name",
       "generalDescription": "Grant access and additional permissions for each area",
-      "roleDefinitionPerUnitLegendText": "ole definition per unit",
+      "roleDefinitionPerUnitLegendText": "Role definition per unit",
       "roleDefinitionPerUnitCheckboxLabel": "Apply the selected permissions below on all units of this tenant",
       "websiteAccessToggleLabel": "Access websites",
       "websiteSectionCheckboxGroupLegendText": "Enabling permissions to access websites enables view permission by default",
