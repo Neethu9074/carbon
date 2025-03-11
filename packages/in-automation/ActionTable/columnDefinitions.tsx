@@ -26,19 +26,19 @@ import { t } from 'in-i18n';
 import locals from 'in-automation/ActionTable/columnDefinitions.mless';
 
 function NameColumn({ action }: { action: Action | ScoredAction }) {
-  const name = action.name;
+  const { name, id, type } = action;
   const hrefToActionDashboard = useHrefToActionDashboard();
   const { viewAIGenaratedActionTrackerSegment } = useSegmentTracker();
   const { location } = useNavigation();
   const isAIActions = location.matrix[actionCatalog]?.view && location.matrix[actionCatalog]?.view === 'ai';
   return (
-    <WithSubscript subscript={ACTION_TRANSLATIONS[action.type]}>
+    <WithSubscript subscript={ACTION_TRANSLATIONS[type]}>
       <Link
         className={locals.ellipsis}
-        href={hrefToActionDashboard(action.id)}
+        href={hrefToActionDashboard(id)}
         onClick={() => {
           if (isAIActions) {
-            viewAIGenaratedActionTrackerSegment({ actionName: action.name, actionType: action.type });
+            viewAIGenaratedActionTrackerSegment({ actionName: name, actionType: type });
           }
         }}
       >

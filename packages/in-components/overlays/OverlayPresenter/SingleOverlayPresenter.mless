@@ -47,7 +47,7 @@
     z-index: var(--ids-z-index-option-overlays-in-content-area);
   }
 
-  .inAutomationArea {
+  .inSidePanel {
     z-index: 100000;
   }
 

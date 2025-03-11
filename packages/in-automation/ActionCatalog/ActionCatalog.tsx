@@ -86,11 +86,9 @@ export default function ActionCatalog({
       rightHeader={
         <>
           {role?.canConfigureAutomationActions && isUserActions && (
-            <>
-              <Button kind="action" onClick={() => handleButtonClick({})} icon="lib_openclose_add_circle_outline">
-                {t('in-automation:ActionCatalog.newAction')}
-              </Button>
-            </>
+            <Button kind="action" onClick={() => handleButtonClick({})} icon="lib_openclose_add_circle_outline">
+              {t('in-automation:ActionCatalog.newAction')}
+            </Button>
           )}
           <>
             <Spacer horizontal="small" />

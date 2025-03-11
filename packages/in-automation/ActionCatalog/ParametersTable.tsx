@@ -44,7 +44,7 @@ const getColumnDefinitions = ({
                 setOpenDialog(true);
               }}
             >
-              <>{item.value.label}</>
+              {item.value.label}
             </Link>
           </Tooltip>
         </>

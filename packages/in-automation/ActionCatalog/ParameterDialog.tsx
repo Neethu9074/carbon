@@ -106,10 +106,9 @@ export default function ParameterDialog({
     ];
   }
 
-  let sidePanelTitle = id
-    ? t('in-automation:ActionCatalog.editParameter')
-    : t('in-automation:ActionCatalog.addParameter');
-  if (parmeterIsNotEditable) sidePanelTitle = t('in-automation:ActionCatalog.viewParameter');
+  const paramterType = parmeterIsNotEditable ? 'view' : id ? 'edit' : 'add';
+  const sidePanelTitle = t(`in-automation:ActionCatalog.${paramterType}Parameter`);
+
   return (
     <SidePanel
       open={openDialog}
@@ -385,7 +384,7 @@ function DynamicSection({ isNotEditable }: SectionProps) {
       <div>
         <DynamicTagBasedPayloadConfigurator
           value={toViewModel(value.value)}
-          inAutomation
+          inSidePanel
           disabled={isNotEditable}
           onChange={(viewModel: ViewModel) =>
             setForm(form => form.updateIn(['dynamic'], item => item.setValue(toFormModel(viewModel)).setTouched(true)))

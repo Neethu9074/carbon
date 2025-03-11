@@ -31,7 +31,7 @@ export default function TagBasedPayloadConfigurator({
   suggestionsAlignedLeft,
   getSuggestions,
   hideDestinationSourceTag = false,
-  inAutomation = false
+  inSidePanel = false
 }) {
   const timeConfig = useTimeConfig();
   const tagCatalogResult = useObservable(getTagCatalog({ timeConfig }), [getTagCatalog]);
@@ -65,7 +65,7 @@ export default function TagBasedPayloadConfigurator({
         }
       }}
       align="bottomLeft"
-      inAutomationArea={inAutomation}
+      inSidePanel={inSidePanel}
       withoutWrapper
     >
       {({ toggle, refSetter }) =>
@@ -124,7 +124,7 @@ TagBasedPayloadConfigurator.propTypes = {
   suggestionsAlignedLeft: rpt.bool,
   tagFilterExpression: rpt.object,
   hideDestinationSourceTag: rpt.bool,
-  inAutomation: rpt.bool
+  inSidePanel: rpt.bool
 };
 
 export function createTagBasedApplicationPayloadConfigurator({ getTagCatalog, getSuggestions }) {
