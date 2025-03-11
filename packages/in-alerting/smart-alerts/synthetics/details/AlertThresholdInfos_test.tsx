@@ -23,6 +23,6 @@ describe('in-alerting/smart-alerts/synthetics/details/AlertThresholdInfos.tsx', 
 
     expect(wrapper.find(AlertThresholdInfosPresenter).prop('thresholdTypeLabel')).toBe('Number of failure');
     expect(wrapper.find(AlertThresholdInfosPresenter).prop('metricLabel')).toBe('1 failures');
-    expect(wrapper.find(AlertThresholdInfosPresenter).prop('scopeLabel')).toBe('Per Location');
+    expect(wrapper.find(AlertThresholdInfosPresenter).prop('scopeLabel')).toBe('Per location');
   });
 });
