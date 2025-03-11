@@ -21,7 +21,7 @@ test('createForm generation with empty state', () => {
       "includeAgentMonitoringIssues": false,
       "includeK8sInfoEvents": false,
       "metric": "eventCount",
-      "metricLabel": "Event Count",
+      "metricLabel": "Event count",
     }
   `);
 });
@@ -40,7 +40,7 @@ test('createForm generation with saved state', () => {
       "includeAgentMonitoringIssues": true,
       "includeK8sInfoEvents": true,
       "metric": "eventCount",
-      "metricLabel": "Event Count",
+      "metricLabel": "Event count",
     }
   `);
 });
