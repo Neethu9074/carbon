@@ -175,7 +175,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
             ? removeDeletedFavoritedEntries(items, tableType)
                 .sort(sort)
                 .map((item: any, index: number) => (
-                  <Row id={`${index}`} key={index}>
+                  <Row id={`${tableType}-${index}`} key={index}>
                     <Item
                       key={item.id}
                       type={item.type}
