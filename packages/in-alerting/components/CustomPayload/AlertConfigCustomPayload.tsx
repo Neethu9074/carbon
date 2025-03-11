@@ -81,7 +81,7 @@ export default function AlertConfigCustomPayload({
           <AlertTypography
             variant={'heading-100'}
             color={'color900-navy'}
-            content={t('in-alerting:components.customPayload.additionalCustomPayload')}
+            content={t('in-alerting:components.customPayload.includeAdditionalCustomPayload')}
             noMargin
           />
         ) : (

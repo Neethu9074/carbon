@@ -63,6 +63,7 @@ function getValuePerDataSource(beacon, dataSource) {
     httpRequest: `${beacon.httpCallMethod} ${beacon.httpCallUrl}`,
     custom: beacon.customEventName,
     crash: beacon.errorMessage,
+    perf: beacon.performanceSubtype,
     dropBeacon: getLabel(beacon)
   }[dataSource];
 }

@@ -121,7 +121,9 @@ function leftHeaderWithSelectAll(tableActions, numberOfChannels) {
               onClick={() => tableActions.selectCheckbox.setAllOnAllPages(entitiesBeforePagination, !allSelected)}
               disabled={allSelected ? true : false}
             >
-              {t('in-settings:components.selectAll', { len: entitiesBeforePagination.length })}
+              {t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.selectAll', {
+                len: entitiesBeforePagination.length
+              })}
             </Button>
             {numberOfChannels > 0 && (
               <Button

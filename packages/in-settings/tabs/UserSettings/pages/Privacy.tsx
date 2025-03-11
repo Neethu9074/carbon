@@ -3,18 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
+import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { create } from '@instana/observables';
 
+//@ts-expect-error need ts migration
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
-import { isWalkmeScriptLoaded } from 'in-settings/terms/stores/termsAndPrivacySettingsStore';
+//@ts-expect-error need ts migration
+import termsFormDefinition from 'in-settings/terms/termsFormDefinition';
+//@ts-expect-error need ts migration
+import ApiItemView from 'in-settings/components/ApiItemView';
+import { SaveItemProps, PrivacyProps } from 'in-settings/tabs/UserSettings/pages/privacyTypes';
 import ExpandableCookieList from 'in-settings/terms/cookies/ExpandableCookieList';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import termsFormDefinition from 'in-settings/terms/termsFormDefinition';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
-import ApiItemView from 'in-settings/components/ApiItemView';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
@@ -31,8 +35,8 @@ export default function Communication() {
   );
 }
 
-function render({ form, setForm, setCanSaveItem }) {
-  const onChange = (fieldName, fieldValue) => {
+function render({ form, setForm, setCanSaveItem }: PrivacyProps) {
+  const onChange = (fieldName: string, fieldValue: string | boolean) => {
     const updatedForm = form.updateIn([fieldName], field => field.setValue(fieldValue));
     setForm(updatedForm);
     setCanSaveItem(true);
@@ -41,15 +45,20 @@ function render({ form, setForm, setCanSaveItem }) {
   return (
     <SettingsDetailPage>
       <Title title={t('in-settings:tabs.privacySettings')} />
-      <SubViewHeader>{t('in-settings:tabs.setYourPreferencesForThirdPartyServicesBelow')}</SubViewHeader>
+      <SubViewHeader>{t('in-settings:tabs.manageYourPreferences')}</SubViewHeader>
       <SectionLine />
-
-      <ExpandableCookieList form={form} onChange={(form, key, value) => onChange(key, value)} />
+      <ExpandableCookieList
+        form={form}
+        onChange={
+          //@ts-expect-error form is not used but needed
+          (form, key, value) => onChange(key, value)
+        }
+      />
     </SettingsDetailPage>
   );
 }
 
-function saveItem({ form, setMessage }) {
+function saveItem({ form, setMessage }: SaveItemProps) {
   setMessage({
     message: t('in-settings:tabs.savingPrivacySettings'),
     type: 'neutral',
@@ -58,20 +67,19 @@ function saveItem({ form, setMessage }) {
   setAndSave(
     formUserSettingsObject(form),
     () => {
-      const { walkmeAnalyticsServices } = window.instana.termsAndPrivacySettings;
-      if (walkmeAnalyticsServices && !isWalkmeScriptLoaded) {
-        window.location.reload();
-      } else {
-        setMessage({
-          text: t('in-settings:tabs.settingsSuccessfullySaved'),
-          type: 'success'
-        });
-      }
+      setMessage({
+        text: t('in-settings:tabs.settingsSuccessfullySaved'),
+        type: 'success'
+      });
+      // Reloading to remove/add AssistMe an WalkMe scripts present in index.hbs
+      window.location.reload();
     },
-    error => setMessage({ text: t('in-settings:tabs.failedToSaveSettings', { err: error.message }), type: 'error' })
+    (error: Error) =>
+      setMessage({ text: t('in-settings:tabs.failedToSaveSettings', { err: error.message }), type: 'error' })
   );
 }
 
-function enrichForm(form, { result }) {
+//@ts-expect-error form is not used but needed
+function enrichForm(form: MapForm<any>, { result }: { result: Record<string, any> }) {
   return termsFormDefinition(result.termsAndPrivacySettings);
 }

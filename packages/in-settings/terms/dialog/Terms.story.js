@@ -18,6 +18,7 @@ export default {
 const userSettings = {
   allAnalyticsServices: false,
   walkmeAnalyticsServices: false,
+  assistmeGuidanceServices: false,
   allSupportAndResearchServices: false,
   lastUpdated: 0,
   marketingMessages: false,

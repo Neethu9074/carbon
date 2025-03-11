@@ -6,40 +6,27 @@
 
 import React from 'react';
 
-import { IconButton, Tooltip } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 // @ts-ignore
 import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
-import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/components/Charts/LogsDistributionChartSection';
 import RetentionPeriodDashboard from 'in-logging/dashboard/Summary/RetentionPeriod/RetentionPeriodDashboard';
-import { LoggingAnalyzeContextWrapper } from 'in-logging/analyze/AnalyzeView/LoggingAnalyzeContext';
 import LogVolumeDashboard from 'in-logging/dashboard/Summary/LogVolume/LogVolumeDashboard';
-import { loggingDashboardPath, logsPathWithDataSource } from 'in-logging/navigation/paths';
-import { dataSourceConfigurations } from 'in-logging/analyze/AnalyzeView/utils/constants';
+import { getLogDistributionConfig, getLogVolumeConfig } from 'in-logging/dashboard/utils';
+import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
-import { getMetricTemplates } from 'in-applications/api/metricTemplates';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import StateManagement from 'in-components/AnalyzeView/StateManagement';
-import { logIdMatrixParameter } from 'in-logging/navigation/matrix';
+import { Config } from 'in-custom-dashboards/widgets/Chart/types';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { isAddonUserCached } from 'in-logging/api/licence';
-import { getTagCatalog } from 'in-logging/api/catalog';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
 
 export default function Summary() {
-  const { createHrefToPath } = useNavigation();
-  const goToLogs = createHrefToPath(logsPathWithDataSource);
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
-
-  const iconWithTooltip = role?.canViewLogs && isLoggingAddonUser && (
-    <Tooltip content={t('in-logging:dashboard.analyzeLogs')} align="leftMiddle">
-      <IconButton aria-label={'go-to-logs-link'} kind="subtle" type={'lib_analyze'} href={goToLogs} />
-    </Tooltip>
-  );
+  const timeConfig = useTimeConfig();
 
   const contentToRender = (
     <div className={locals.dashboardContainer}>
@@ -49,28 +36,20 @@ export default function Summary() {
           {role?.canViewLogVolume && isLoggingAddonUser && <LogVolumeDashboard />}
         </KpiGridRow>
       </div>
-      <StateManagement
-        path={loggingDashboardPath}
-        defaultDataSource="logs"
-        dataSourceParameter={logIdMatrixParameter}
-        getTagCatalog={getTagCatalog}
-        getMetricTemplates={getMetricTemplates}
-        dataSourceConfigurations={dataSourceConfigurations}
-      >
-        {(opts: any) => (
-          <LoggingAnalyzeContextWrapper>
-            <LogsDistributionChartSection
-              {...opts}
-              disableClose={false}
-              hideRenderer
-              showHeader
-              rightHeaderContent={iconWithTooltip}
-              isDashboard
-            />
-          </LoggingAnalyzeContextWrapper>
-        )}
-      </StateManagement>
       <CreateLogsSmartAlertFloatingButton />
+      <div className={locals.charts}>
+        <UnifiedMetricsChart
+          timeConfig={timeConfig}
+          title={t('in-logging:logsCountSum')}
+          config={getLogDistributionConfig() as Config}
+        />
+        <UnifiedMetricsChart
+          renderLegend={false}
+          timeConfig={timeConfig}
+          title={t('in-logging:dashboard.managementPage.logVolume')}
+          config={getLogVolumeConfig()}
+        />
+      </div>
     </div>
   );
 

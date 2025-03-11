@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { Information } from '@carbon/icons-react';
+import { Warning } from '@carbon/icons-react';
 import React from 'react';
 
 import { Link, CarbonStack as Stack, Typography, SvgIcon } from '@instana/components';
@@ -20,7 +20,7 @@ interface ConsentFormProps {
 export default function ConsentForm({ onClick }: ConsentFormProps) {
   return (
     <Stack gap={4} className={locals.consentContent} orientation="horizontal">
-      <Information />
+      <Warning />
       <Stack orientation="vertical">
         <Typography variant="body-regular"> {t('in-automation:consentForm.consentText')} </Typography>
         <Link

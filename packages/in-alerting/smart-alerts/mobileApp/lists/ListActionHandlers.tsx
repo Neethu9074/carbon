@@ -41,13 +41,25 @@ function openSmartAlertDialog(config: MobileAppSmartAlertConfigWithMetadata, isC
 
 function HandleEditNew(config: MobileAppSmartAlertConfigWithMetadata) {
   return (
-    <TearSheetEditActionHandler id={config.id} created={config.created} eumId={config.mobileAppId} eumType={eumType} />
+    <TearSheetEditActionHandler
+      id={config.id}
+      created={config.created}
+      eumId={config.mobileAppId}
+      eumType={eumType}
+      alertConfig={config}
+    />
   );
 }
 
 function HandleCloneNew(config: MobileAppSmartAlertConfigWithMetadata) {
   return (
-    <TearSheetCloneActionHandler id={config.id} created={config.created} eumId={config.mobileAppId} eumType={eumType} />
+    <TearSheetCloneActionHandler
+      id={config.id}
+      created={config.created}
+      eumId={config.mobileAppId}
+      eumType={eumType}
+      alertConfig={config}
+    />
   );
 }
 

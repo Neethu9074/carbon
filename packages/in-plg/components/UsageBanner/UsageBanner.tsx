@@ -20,7 +20,7 @@ import { createAsyncViewComponent } from 'in-components/routing/createAsyncCompo
 //@ts-expect-error missing typescript migration
 import { getQueuedLicensesOfEnvironmentAsResultObservable } from 'in-amp/api/account';
 import {
-  isWalkmeScriptLoaded,
+  isAssistMeScriptLoaded,
   termsAndPrivacySettingsStore$
 } from 'in-settings/terms/stores/termsAndPrivacySettingsStore';
 import { onPremLicenseInformationEnabled, playWithReleaseEnabled, playwithEnabled } from 'in-services/featureFlags';
@@ -36,7 +36,6 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { assistmeEnabled } from 'in-services/featureFlags';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
 import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip';
@@ -74,9 +73,11 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const permissionToShowInvite =
     role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled) && !isAnyIDPActive;
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
-  // The AssistMe feature will be enabled if both assistmeEnabled and walkmeAnalyticsServices are enabled, and the WalkMe script is loaded.
-  const isWalkMeEnabled =
-    assistmeEnabled && isWalkmeScriptLoaded && termsAndPrivacySettingsStore?.walkmeAnalyticsServices;
+  // The AssistMe feature will be enabled if assistmeGuidanceServices and walkmeAnalyticsServices is true and the AssistMe script is loaded.
+  const showGetAnswers =
+    termsAndPrivacySettingsStore?.walkmeAnalyticsServices &&
+    termsAndPrivacySettingsStore?.assistmeGuidanceServices &&
+    isAssistMeScriptLoaded;
 
   useEffect(() => {
     const invitedByKey = 'invitedBy';
@@ -170,9 +171,12 @@ export function UsageBanner({ message }: UsageBannerProps) {
               {t('in-plg:licenseBanner.share')}
             </CarbonButton>
           </Tooltip>
-          <div className={locals.verticalLine} />
 
-          {isWalkMeEnabled && <AssistMe />}
+          {showGetAnswers && (
+            <>
+              <div className={locals.verticalLine} /> <AssistMe />
+            </>
+          )}
         </>
       )}
     </Stack>

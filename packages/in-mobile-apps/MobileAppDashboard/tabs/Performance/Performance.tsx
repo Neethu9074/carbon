@@ -44,14 +44,14 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
   tagFiltersForColdStart.push({
     name: 'mobileBeacon.performanceSubtype',
     operator: 'EQUALS',
-    stringValue: 'ast',
+    stringValue: 'App start or launch time',
     type: 'TAG_FILTER',
     entity: 'NOT_APPLICABLE'
   });
   tagFiltersForAnr.push({
     name: 'mobileBeacon.performanceSubtype',
     operator: 'EQUALS',
-    stringValue: 'anr',
+    stringValue: 'App not responding or freezing',
     type: 'TAG_FILTER',
     entity: 'NOT_APPLICABLE'
   });

@@ -11,12 +11,15 @@ import { CreateFullPage, CreateFullPageProps, CreateFullPageStep } from '@instan
 import { Stack } from '@instana/components';
 
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+//@ts-expect-error TS migration
+import { getTrackingAlertConfigFromForm } from 'in-alerting/smart-alerts/utils/segmentUtils';
 import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData, TimeConfig } from 'in-types';
 import AlertingCarbonTearSheetContent from 'in-alerting/components/AlertingCarbonTearSheetContent';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ALERTING_CANCEL_CLICKED } from 'in-services/tracking/eventNames';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import AlertingMessage from 'in-alerting/components/AlertingMessage';
+import { FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { t } from 'in-i18n';
@@ -142,8 +145,13 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
       },
       submitButtonText: actionButtonLabel,
       onClose: () => {
+        const alertConfigForTracking = getTrackingAlertConfigFromForm(form.toJS());
         if (!isFormSubmit.current) {
-          trackCta(ALERTING_CANCEL_CLICKED, { canceledStep: stepConfigs[currentStep].title, ...form.toJS() });
+          trackCta(ALERTING_CANCEL_CLICKED, {
+            canceledStep: stepConfigs[currentStep].title,
+            ...alertConfigForTracking,
+            dialogMode: FULLSCREEN
+          });
           goToPath(cancelTearSheet.slice(2));
         }
         isFormSubmit.current = false;

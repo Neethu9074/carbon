@@ -25,9 +25,7 @@ describe('AlertConfigTearSheetStep1 : in-alerting/smart-alerts/websites/TearShee
     expect(
       screen.getByText(t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigName'))
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigName'))
-    ).toBeInTheDocument();
+    expect(screen.getByText(t('in-alerting:smartAlerts.websites.tearSheet.JsErrors.name'))).toBeInTheDocument();
     expect(
       screen.getByText(t('in-alerting:smartAlerts.websites.data.statusCodeBlueprintConfigName'))
     ).toBeInTheDocument();

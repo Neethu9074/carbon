@@ -28,9 +28,14 @@
       "afterSession": "Expires after session"
     },
     "walkme": {
-      "title": "Product user analytics and guidance",
+      "title": "In-product guidance",
+      "description": "Delivers interactive tours to simplify onboarding and highlight key features as you explore Instana.",
       "purpose": "Registers a unique ID that is used to generate statistical data on how the visitor uses the product.",
       "category": "Functional"
+    },
+    "assistme": {
+      "title": "On-demand assistance",
+      "description":"Delivers quick access to relevant articles, documentation, and community resources, helping you find answers and stay productive as you explore Instana."
     }
   },
   "roleAndAccessScope": {
@@ -359,7 +364,7 @@
       "accessControlSectionTitle": "Access control",
       "nameFieldLabel": "Name",
       "generalDescription": "Grant access and additional permissions for each area",
-      "roleDefinitionPerUnitLegendText": "ole definition per unit",
+      "roleDefinitionPerUnitLegendText": "Role definition per unit",
       "roleDefinitionPerUnitCheckboxLabel": "Apply the selected permissions below on all units of this tenant",
       "websiteAccessToggleLabel": "Access websites",
       "websiteSectionCheckboxGroupLegendText": "Enabling permissions to access websites enables view permission by default",
@@ -1477,7 +1482,7 @@
     "formatTimeAccordingToUtc": "Format time according to UTC",
     "formatNumbersInEnUsFormat": "Format numbers in en-US format",
     "privacySettings": "Privacy Settings",
-    "setYourPreferencesForThirdPartyServicesBelow": "Set your preferences for third-party services below.",
+    "manageYourPreferences": "Manage your preferences",
     "userInterface": "User Interface",
     "advanced": "Advanced",
     "preferences": "Preferences",

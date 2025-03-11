@@ -19,7 +19,6 @@ describe('AlertConfigTearSheetStep4 : in-alerting/smart-alerts/infrastructure/te
   it('should render Alert channel section', async () => {
     render(<AlertConfigTearSheetStep4 form={form} onChange={onChange} />);
     expect(screen.getByText(t('in-alerting:smartAlerts.synthetics.tearSheet.step4.header'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-alerting:smartAlerts.synthetics.tearSheet.step4.description'))).toBeInTheDocument();
     const createBtn = screen.getByRole('button', {
       name: t('in-alerting:smartAlerts.components.smartAlertDialog.createAlertChannelTitle')
     });

@@ -105,7 +105,17 @@ function download(result: CursorPaginatedResult<EumBeaconByTraceBeaconsItem>) {
 }
 
 function getCSVData(items: Array<EumBeaconByTraceBeaconsItem>): string {
-  const lines = [['ID', 'Name', 'Email', 'Country/Area', 'Subdivision', 'Config Label', 'Source']];
+  const lines = [
+    [
+      t('in-eum:csvDataColumnLabels.id'),
+      t('in-eum:csvDataColumnLabels.name'),
+      t('in-eum:csvDataColumnLabels.email'),
+      t('in-eum:csvDataColumnLabels.country'),
+      t('in-eum:csvDataColumnLabels.subdivision'),
+      t('in-eum:csvDataColumnLabels.eumCfgLabel'),
+      t('in-eum:csvDataColumnLabels.source')
+    ]
+  ];
 
   items.forEach(item => {
     lines.push([

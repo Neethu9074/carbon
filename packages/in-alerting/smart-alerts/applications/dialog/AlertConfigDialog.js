@@ -28,6 +28,7 @@ import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/e
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
 import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdUtils';
+import { getTrackingAlertConfig } from 'in-alerting/smart-alerts/utils/segmentUtils';
 import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -176,6 +177,7 @@ function createOrSaveAlert({
   }
 
   const alertConfig = toAlertConfig(form);
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
 
   const isEffectivelyGlobalSmartAlert = migrationMode
     ? Object.keys(alertConfig.applications).length > 1
@@ -188,7 +190,8 @@ function createOrSaveAlert({
       config => {
         onClose(config);
         showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
-        trackCta(ALERTING_UPDATED, { ...alertConfig, dialogMode: 'Advanced' });
+        const alertConfigForTracking = getTrackingAlertConfig(alertConfig, thresholdType);
+        trackCta(ALERTING_UPDATED, { ...alertConfigForTracking, dialogMode: 'Advanced' });
       },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
@@ -205,7 +208,10 @@ function createOrSaveAlert({
           : getLinkToAlertConfig(config.id, null, config.applicationId);
 
         showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
-        const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
+        const newConfigForTracking = getTrackingAlertConfig(config, thresholdType);
+        const newConfig = duplicateFrom
+          ? { ...newConfigForTracking, cloneFromId: duplicateFrom }
+          : newConfigForTracking;
         trackCta(ALERTING_SAVED, { ...newConfig, dialogMode: simpleMode ? 'Simple' : 'Advanced' });
       },
       error => {

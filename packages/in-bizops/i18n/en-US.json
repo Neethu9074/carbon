@@ -11,6 +11,7 @@
     "pageTitle": "Business Monitoring",
     "cardTitle": "Business Processes",
     "theId": "The process ID",
+    "theVersion": "The process version",
     "hasBeenCopied": "has been successfully copied to the clipboard",
     "activityLabel": "Activities",
     "nameLabel": "Name",

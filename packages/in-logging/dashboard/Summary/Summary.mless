@@ -6,9 +6,20 @@
 
 :local {
   .dashboardContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
     padding: 0 2rem 2rem 2rem;
   }
-  .dashboardCards {
-    padding-bottom: 2rem;
+  .charts {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    :global {
+      .carbon-card-wrapper {
+        padding: 2rem;
+      }
+    }
   }
 }

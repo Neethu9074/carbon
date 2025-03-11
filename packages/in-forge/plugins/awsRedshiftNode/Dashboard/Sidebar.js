@@ -10,6 +10,7 @@ import { Collapsible } from '@instana/components';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Info from 'in-forge/plugins/awsRedshiftNode/NodeInfo';
+import TagList from 'in-sdk/components/sidebar/TagList';
 import { t } from 'in-i18n';
 
 export default function AwsRedshiftNodeSidebar({ snapshot }) {
@@ -22,6 +23,7 @@ export default function AwsRedshiftNodeSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
+      <TagList snapshot={snapshot} />
       <ServiceInstancesList snapshot={snapshot} />
     </div>
   );

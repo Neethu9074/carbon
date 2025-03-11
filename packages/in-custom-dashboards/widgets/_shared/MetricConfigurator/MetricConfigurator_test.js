@@ -47,13 +47,13 @@ describe('in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigur
       const { getByText, getByLabelText, getByRole } = render(<MetricConfigurator form={form} />);
 
       //THEN
-      expect(getByText('Service-Level Indicators')).toBeInTheDocument();
-      expect(getByLabelText('Data Source')).toHaveValue('SLI');
+      expect(getByText('Service-Level indicators')).toBeInTheDocument();
+      expect(getByLabelText('Data source')).toHaveValue('SLI');
 
       expect(getByRole('button')).toHaveTextContent('Stans SLI');
 
       expect(getByText('SLI')).toBeInTheDocument();
-      expect(getByLabelText('Value Type')).toHaveValue('SLI');
+      expect(getByLabelText('Value type')).toHaveValue('SLI');
     });
   });
 });

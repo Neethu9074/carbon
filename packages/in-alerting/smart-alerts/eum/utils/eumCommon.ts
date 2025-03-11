@@ -5,8 +5,10 @@
  */
 
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { specificJsError, customEvent } from 'in-alerting/smart-alerts/websites/constants';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import { DAILY, WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
+import { deepCopy } from 'in-services/util/object';
 import { t } from 'in-i18n';
 
 export function getDefaultRules(useBaseline: boolean, defaultRule: any) {
@@ -43,4 +45,24 @@ export function getThresholdDescription(threshold: string): string | null {
     return t('in-alerting:smartAlerts.applications.tearSheet.threshold.thresholdDescription.staticWeekly');
   }
   return null;
+}
+
+export function getConfig(blueprintConfigs: object[]) {
+  const data = deepCopy(blueprintConfigs);
+  return data.map((config: any) => {
+    if (config.type === specificJsError) {
+      return {
+        ...config,
+        name: t('in-alerting:smartAlerts.websites.tearSheet.JsErrors.name')
+      };
+    }
+    if (config.type === customEvent) {
+      return {
+        ...config,
+        name: t('in-alerting:smartAlerts.websites.tearSheet.customEvent.name')
+      };
+    }
+
+    return config;
+  });
 }
