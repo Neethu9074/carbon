@@ -24,9 +24,9 @@ import { t } from 'in-i18n';
 import locals from './PerformanceBeacon.mless';
 
 export const PERFORMANCE_SUBTYPES = {
-  AST: 'ast',
-  OOM: 'oom',
-  ANR: 'anr'
+  AST: 'App start or launch time',
+  OOM: 'Low memory',
+  ANR: 'App not responding or freezing'
 };
 
 export function formatFileSize(fileSize: number) {
