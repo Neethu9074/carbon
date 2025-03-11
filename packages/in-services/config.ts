@@ -4,6 +4,7 @@
  */
 
 export interface ClientConfig {
+  urlFormat?: string;
   featureFlags: {
     [name: string]: boolean;
   };
