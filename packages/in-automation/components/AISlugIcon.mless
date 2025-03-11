@@ -7,7 +7,7 @@
 :local {
   .popoverContent {
     width: 22rem;
-    min-height: 28rem;
+    min-height: 10rem;
     padding: 1rem;
     border: 1px solid var(--cds-ai-border-end);
   }
@@ -59,6 +59,9 @@
   .bullet {
     display: inline-flex;
     line-height: 20px;
+    div {
+      padding-left: 0.5rem;
+    }
   }
 
   .aimodellink {
