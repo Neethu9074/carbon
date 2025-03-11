@@ -260,7 +260,11 @@ function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operat
   result.requiresKey = operatorKeyRequirement[combination] ?? false;
   result.requiresValue = operatorValueRequirement[combination] ?? true;
 
-  if (tagDefinition.type === NUMBER || tagDefinition.type === 'KEY_NUMBER_PAIR') {
+  if (
+    tagDefinition.type === NUMBER ||
+    tagDefinition.type === 'KEY_NUMBER_PAIR' ||
+    tagDefinition.type === 'FLOAT_LIST'
+  ) {
     result.valueValidators = [notUndefinedValidator, numberValidator];
     result.valueType = Number;
   } else if (tagDefinition.type === BOOLEAN) {
