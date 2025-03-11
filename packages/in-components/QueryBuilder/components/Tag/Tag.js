@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
  */
 
 /* eslint-disable react/display-name */
@@ -262,6 +263,7 @@ function KeyInput({
 
   const entity = form.get('entity')?.value;
   const name = form.get('name')?.value;
+  const availability = form.get('tagDefinition')?.value?.availability;
 
   return (
     <Input
@@ -280,6 +282,7 @@ function KeyInput({
           key: field.value,
           timeConfig,
           propose: 'KEYS',
+          availability,
           ...getSuggestionsProps
         })
       }
@@ -338,6 +341,7 @@ function ValueInput({
   const entity = form.get('entity')?.value;
   const key = form.get('key')?.value;
   const name = form.get('name')?.value;
+  const availability = form.get('tagDefinition')?.value?.availability;
 
   const inputProps = {
     placeholder: t('in-components:queryBuilder.components.tagPlaceholderValue'),
@@ -355,6 +359,7 @@ function ValueInput({
         tagName: name,
         timeConfig,
         propose: 'VALUES',
+        availability,
         ...getSuggestionsProps
       })
   };
