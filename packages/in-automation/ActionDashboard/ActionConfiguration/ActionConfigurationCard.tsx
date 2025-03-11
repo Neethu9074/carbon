@@ -107,7 +107,11 @@ function DocLinkSection() {
 
   return docLink.map(field => (
     <CarbonColumn span="75%">
-      <CarbonFormGroup legendText={t('in-automation:ActionCatalog.docLink')}>{field.value}</CarbonFormGroup>
+      <CarbonFormGroup legendText={t('in-automation:ActionCatalog.docLink')}>
+        <Link external href={field.value}>
+          {field.value}
+        </Link>
+      </CarbonFormGroup>
     </CarbonColumn>
   ));
 }
