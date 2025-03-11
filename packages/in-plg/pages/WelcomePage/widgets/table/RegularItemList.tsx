@@ -80,7 +80,7 @@ export default function RegularItemList({
     ?.filter((item: any) => (mainPage ? true : !favIds?.includes(getItemId(item, widgetName))))
     .slice(0, numSkeletonRows)
     .map((item: any, index: number) => (
-      <Row id={`${widgetName}-${index}`} key={index}>
+      <Row id={`${widgetName}-regular-${index}`} key={index}>
         {columnDefinitions?.map(({ key, getContent }: ColumnDefinitionItem) => {
           if (mainPage && key === 'favourite') return null;
           return (
