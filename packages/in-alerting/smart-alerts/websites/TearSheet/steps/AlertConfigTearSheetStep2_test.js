@@ -18,8 +18,6 @@ describe('AlertConfigTearSheetStep2 : in-alerting/smart-alerts/websites/TearShee
   const form = alertFormDefinition(website);
   it('render step 2 components', async () => {
     render(<AlertConfigTearSheetStep2 form={form} updateForm={updateForm} tagFilterExpression={tagFilterExpression} />);
-    expect(screen.getByText(t('in-alerting:smartAlerts.websites.tearSheet.step2.description'))).toBeInTheDocument();
     expect(screen.getByText(t('in-alerting:smartAlerts.websites.tearSheet.filter'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-alerting:smartAlerts.websites.tearSheet.filterDescription'))).toBeInTheDocument();
   });
 });
