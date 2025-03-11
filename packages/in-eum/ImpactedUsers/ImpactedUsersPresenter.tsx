@@ -54,7 +54,7 @@ export default function ImpactedUsersPresenter({
   const carbonHeaders: Array<{ key: string; header: string }> = [
     {
       key: 'websiteAndMobileAppName',
-      header: t('in-eum:webitesMobileAppsColumnLabel', { count: totalHits })
+      header: t('in-eum:webitesMobileAppsColumnLabel', { count: totalHits ? totalHits : 0 })
     },
     {
       key: 'impactedUsers',
