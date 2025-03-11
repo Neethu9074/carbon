@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
-import { SidePanel } from '@carbon/ibm-products';
 import React from 'react';
 
 import { RadioButton, Checkbox, FormGroup } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
+import { SidePanel } from '@instana/ibm-products';
 
 import {
   toFormModel,
