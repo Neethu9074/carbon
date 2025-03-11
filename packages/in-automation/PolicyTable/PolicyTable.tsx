@@ -160,11 +160,11 @@ export default function Policies({
 }
 
 function EventNameWithoutTriggerInfo({ entity }: { entity: Trigger }) {
-  const { name } = entity;
+  const { name, type } = entity;
 
   return (
     <Tooltip content={name} align="topLeft" delay={500}>
-      <WithSubscript subscript={entity.type === 'builtinEvent' ? 'Built-in' : ''}>
+      <WithSubscript subscript={type === 'builtinEvent' ? t('in-automation:policies.builtIn') : ''}>
         <span className={locals.ellipsis}>{name}</span>
       </WithSubscript>
     </Tooltip>

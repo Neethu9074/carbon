@@ -106,9 +106,10 @@ export default function ParameterDialog({
     ];
   }
 
-  const paramterType = parmeterIsNotEditable ? 'view' : id ? 'edit' : 'add';
-  const sidePanelTitle = t(`in-automation:ActionCatalog.${paramterType}Parameter`);
-
+  let sidePanelTitle = id
+    ? t('in-automation:ActionCatalog.editParameter')
+    : t('in-automation:ActionCatalog.addParameter');
+  if (parmeterIsNotEditable) sidePanelTitle = t('in-automation:ActionCatalog.viewParameter');
   return (
     <SidePanel
       open={openDialog}
