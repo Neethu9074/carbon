@@ -165,7 +165,7 @@ module.exports = {
   logSmartAlertFullScreenDesignEnabled: true,
   websitesSmartAlertFullScreenDesignEnabled: true,
   prometheusDeltaCountersSumEnabled: true,
-  syntheticSmartAlertFullScreenDesignEnabled: false,
+  syntheticSmartAlertFullScreenDesignEnabled: true,
   alertChannelPerSeverityWebsiteSaEnabled: true,
   alertChannelPerSeverityMobileAppSaEnabled: true,
   alertChannelPerSeverityLogSaEnabled: true,

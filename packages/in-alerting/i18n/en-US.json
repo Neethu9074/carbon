@@ -668,7 +668,8 @@
           "title": "Alert channels ({{channelCount}})",
           "description": "Select the recipient(s) of this alert",
           "searchPlaceholder": "Search",
-          "clearAll": "Clear all"
+          "clearAll": "Clear all",
+          "selectAll": "Select all ({{len}})"
         },
         "editFilters": "Edit filters",
         "invalidFilters": "Invalid filters",
@@ -1288,7 +1289,7 @@
         "alertChannelsLabel": "Alert channels",
         "alertChannelsTitle": "Who should get the alerts?",
         "scopeFilterLabel": "Scope",
-        "alertTestsLabel": "Synthetic Tests",
+        "alertTestsLabel": "Synthetic tests",
         "alertTestsTitle": "Synthetic Tests : Which synthetic tests you want to be alerted on?",
         "propertiesLabel": "Alert properties",
         "propertiesTitle": "What should alert notification include?",
@@ -1300,9 +1301,9 @@
       },
       "selectTests": {
         "selectAlertTestButtonTitle": "Add synthetic tests",
-        "selectAlertTestButton": "Add Synthetic Tests",
+        "selectAlertTestButton": "Add synthetic tests",
         "addTest": "Add {{count}} Test",
-        "alertTests": "Synthetic Tests",
+        "alertTests": "Synthetic tests",
         "noTestSelectedText": "No Synthetic Tests Selected",
         "alertTestEntityName": "synthetic test {{entityName}}",
         "testAttachedCount": "Tests Attached ({{count}})",
@@ -1330,32 +1331,31 @@
       "tearSheet": {
         "labelActionButtonEdit": "Edit",
         "labelActionButtonDuplicate": "Duplicate",
-        "createTitle": "Create a synthetic smart alert",
+        "createTitle": "Create a synthetic Smart Alert",
         "editTitle": "Edit synthetic Smart Alert",
         "scopeFilter": {
           "filter": "Filter",
           "filterDescription": "Add filters to the synthetic tests to get more precise alerts."
         },
         "steps": {
-          "step1Title": "Choose synthetic tests",
+          "step1Title": "Add synthetic tests",
           "step2Title": "Define when to get alerted",
           "step3Title": "Define alert properties",
           "step4Title": "Define alert channels"
         },
         "step1": {
-          "header": "Which synthetic tests you want to be alerted on?",
+          "header": "Select the synthetic tests that you want to be alerted on",
           "description": "Individual alerts will be sent independently for each synthetic test, per location."
         },
         "step2": {
           "sliderHeader": "Set when violations trigger alerts",
-          "sliderDescription": "Specify how many consecutive failures should occur per location before alerting."
+          "sliderDescription": "Specify how many consecutive failures occur per location before alerting."
         },
         "step3": {
-          "header": "What properties do you want to set for this alert?"
+          "header": "What properties do you want to set for this alert"
         },
         "step4": {
-          "header": "Where do you want to be notified for this alert?",
-          "description": "Select the recipient(s) of this alert"
+          "header": "Select where you want to be notified for this alert"
         }
       }
     },
