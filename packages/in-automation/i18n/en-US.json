@@ -386,7 +386,6 @@
   },
   "policies": {
     "policies": "Policies",
-    "policiesWithCount": "Policies ({{count}})",
     "newPolicy": "New policy",
     "selectEventTrigger": "Select event trigger",
     "eventTrigger": "Event trigger",
