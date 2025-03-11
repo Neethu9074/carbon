@@ -39,6 +39,12 @@
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--cds-border-subtle-00);
   }
+  .popupScriptDescription {
+    display: grid;
+    gap: 0.5rem;
+    line-height: 1.5rem;
+    padding-bottom: 1rem;
+  }
 
   .popSumTitle {
     font-size: 22px;

@@ -80,33 +80,35 @@ function AIExplainedContentManualAction() {
   return (
     <div className={locals.popOverWrapper}>
       <div className={locals.popupDescription}>
-        {t('in-events:notes.aiExplained')}
-        <div className={locals.popSumTitle}>{t('in-events:notes.summary')}</div>
-        <div>{t('in-events:notes.summaryDescription')}</div>
+        {t('in-automation:AITooltip.aiExplained')}
+        <div className={locals.popSumTitle}> {t('in-automation:AITooltip.manualSection.section1.section1Title')}</div>
+        <div>{t('in-automation:AITooltip.manualSection.section1.section1Text')}</div>
       </div>
       <div>
-        <div className={locals.dataTypesHeader}>{t('in-events:notes.dataTypes')}</div>
+        <div className={locals.dataTypesHeader}>
+          {t('in-automation:AITooltip.manualSection.section2.section2Title')}
+        </div>
         <div className={locals.bullet}>
           {'- '}
           <div style={{ paddingLeft: '.5rem' }}>
-            <Trans i18nKey={'in-events:notes.triggeringEvent'} />
+            <Trans i18nKey={t('in-automation:AITooltip.manualSection.section2.section2EventName')} />
           </div>
         </div>
         <div className={locals.bullet}>
           {'- '}
           <div style={{ paddingLeft: '.5rem' }}>
-            <Trans i18nKey={'in-events:notes.relatedEvents'} />
+            <Trans i18nKey={t('in-automation:AITooltip.manualSection.section2.section2Description')} />
           </div>
         </div>
         <div className={locals.bullet}>
           {'- '}
           <div style={{ paddingLeft: '.5rem' }}>
-            <Trans i18nKey={'in-events:notes.affectedEntities'} />
+            <Trans i18nKey={t('in-automation:AITooltip.manualSection.section2.section2Entitytype')} />
           </div>
         </div>
       </div>
       <div className={locals.aimodellink}>
-        <div>{t('in-events:notes.aiModel')}</div>
+        <div>{t('in-automation:AITooltip.manualSection.section3.AIModel')}</div>
         <Link
           linkIconType={'lib_views_external_link'}
           href="https://www.ibm.com/docs/en/watsonx/w-and-w/2.0.x?topic=models-granite-13b-chat-v2-model-card"
@@ -115,6 +117,9 @@ function AIExplainedContentManualAction() {
           ibm/granite-3-8b-instruct
         </Link>
       </div>
+      <div className={locals.aimodellink}>
+        <div>{t('in-automation:AITooltip.manualSection.section4.section4Text')}</div>
+      </div>
     </div>
   );
 }
@@ -122,34 +127,13 @@ function AIExplainedContentManualAction() {
 function AIExplainedContentScriptAction() {
   return (
     <div className={locals.popOverWrapper}>
-      <div className={locals.popupDescription}>
-        {t('in-events:notes.aiExplained')}
-        <div className={locals.popSumTitle}>{t('in-events:notes.summary')}</div>
-        <div>{t('in-events:notes.summaryDescription')}</div>
-      </div>
-      <div>
-        <div className={locals.dataTypesHeader}>{t('in-events:notes.dataTypes')}</div>
-        <div className={locals.bullet}>
-          {'- '}
-          <div style={{ paddingLeft: '.5rem' }}>
-            <Trans i18nKey={'in-events:notes.triggeringEvent'} />
-          </div>
-        </div>
-        <div className={locals.bullet}>
-          {'- '}
-          <div style={{ paddingLeft: '.5rem' }}>
-            <Trans i18nKey={'in-events:notes.relatedEvents'} />
-          </div>
-        </div>
-        <div className={locals.bullet}>
-          {'- '}
-          <div style={{ paddingLeft: '.5rem' }}>
-            <Trans i18nKey={'in-events:notes.affectedEntities'} />
-          </div>
-        </div>
+      <div className={locals.popupScriptDescription}>
+        {t('in-automation:AITooltip.aiExplained')}
+        <div className={locals.popSumTitle}> {t('in-automation:AITooltip.manualSection.section1.section1Title')}</div>
+        <div>{t('in-automation:AITooltip.scriptSection.section1.section1Text')}</div>
       </div>
       <div className={locals.aimodellink}>
-        <div>{t('in-events:notes.aiModel')}</div>
+        <div>{t('in-automation:AITooltip.manualSection.section3.AIModel')}</div>
         <Link
           linkIconType={'lib_views_external_link'}
           href="https://www.ibm.com/docs/en/watsonx/w-and-w/2.0.x?topic=models-granite-34b-code-instruct-model-card"
@@ -157,6 +141,9 @@ function AIExplainedContentScriptAction() {
         >
           ibm/granite-34b-code-instruct
         </Link>
+      </div>
+      <div className={locals.aimodellink}>
+        <div>{t('in-automation:AITooltip.scriptSection.section3.section3Text')}</div>
       </div>
     </div>
   );

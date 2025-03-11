@@ -520,5 +520,34 @@
   "consentForm": {
     "consentButton": "Review consent form",
     "consentText": "An administrator must consent to the Generative AI Assistance Preview privacy agreement to enable this feature."
+  },
+  "AITooltip": {
+    "aiExplained": "AI explained",
+    "manualSection": {
+      "section1": {
+        "section1Title": "Action generation",
+        "section1Text": "To generate a set of manual steps to diagnose or remediate the issue, we sent event information to watsonx.  The inputs used to formulate the AI prompt are initially populated from the current event, and can be modified to improve the results."
+      },
+      "section2": {
+        "section2Title": "Input prompt fields",
+        "section2EventName": "<strong>Event name.</strong> The name of the incident or event or alert.",
+        "section2Description": "<strong>Event description.</strong> The description of the incident or event.",
+        "section2Entitytype": "<strong>Event entity type.</strong> The type of entity associated with the incident or event."
+      },
+      "section3": {
+        "AIModel": "AI model"
+      },
+      "section4": {
+        "section4Text": "This is a Preview Feature. It provides suggested draft of a recommended action(s) to address an incident or event. User is responsible to determine if the output is appropriate for its needs."
+      }
+    },
+    "scriptSection": {
+      "section1": {
+        "section1Text": "To generate a script, we sent instructions from a step in a manual action to watsonx. The input step can be modified to improve the results."
+      },
+      "section3": {
+        "section3Text": "This is a Preview Feature that provides a suggested script to perform an action. User is responsible to determine if the output is appropriate for its needs."
+      }
+    }
   }
 }
