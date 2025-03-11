@@ -184,9 +184,9 @@ router.get('/', async (req, res) => {
     clientConfig.amplitudeKey = getAmplitudeKey();
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const walkmeEnabled = termsAndPrivacy.walkmeAnalyticsServices;
-    const walkmeTestEnabled = walkmeEnabled && featureFlags?.playwithTestEnabled;
+    const walkmeTestEnabled = walkmeEnabled && featureFlags.playwithTestEnabled;
     const ibmCommonEnabled = featureFlags.ibmCommonEnabled;
-    const isAssistMeEnabled = featureFlags?.assistmeEnabled && ibmCommonEnabled && walkmeEnabled;
+    const isAssistMeEnabled = ibmCommonEnabled && termsAndPrivacy.assistmeGuidanceServices && walkmeEnabled;
     res.set('Content-Security-Policy', getCsp(nonce, walkmeEnabled, ibmCommonEnabled));
     res.send(
       compiledTemplate({

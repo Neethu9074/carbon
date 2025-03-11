@@ -43,6 +43,12 @@ export default function termsFormDefinition(userSettings) {
       })
     )
     .put(
+      'assistmeGuidanceServices',
+      createField({
+        value: userSettings ? userSettings.assistmeGuidanceServices : ''
+      })
+    )
+    .put(
       'allSupportAndResearchServices',
       createField({
         value: userSettings ? userSettings.allSupportAndResearchServices : ''

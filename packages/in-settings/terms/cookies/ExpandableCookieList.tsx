@@ -3,16 +3,33 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import { ColumnizedContent, Ul, Li, Checkbox, DataTable as CarbonDataTable } from '@instana/components';
 import { KeyValue } from '@instana/components';
 
-import { cookieDefinitions } from 'in-settings/terms/cookies/cookieDefinitions';
+import {
+  ExpandableListItemProps,
+  ListItemProps,
+  ToolColumnDefinitionProps,
+  CookieColumnDefinitionProps,
+  ExpandableCookieListProps
+} from 'in-settings/terms/cookies/types';
+import { cookieDefinitions, toolDefinitions } from 'in-settings/terms/cookies/cookieDefinitions';
 import { t } from 'in-i18n';
 
-export default function ExpandableCookieList({ form, onChange }) {
+export default function ExpandableCookieList({ form, onChange }: ExpandableCookieListProps) {
+  // Automatically uncheck On-demand assistance (AssistMe) if In-product guidance
+  // (WalkMe) is unchecked
+  useEffect(() => {
+    const isCookieChecked = form.get('walkmeAnalyticsServices')?.value;
+    const isToolChecked = form.get('assistmeGuidanceServices')?.value;
+
+    if (!isCookieChecked && isToolChecked) {
+      onChange(form, 'assistmeGuidanceServices', false);
+    }
+  }, [form, onChange]);
   return (
     <Ul>
       {cookieDefinitions.map(cookie => {
@@ -27,6 +44,13 @@ export default function ExpandableCookieList({ form, onChange }) {
           </Li>
         );
       })}
+      {toolDefinitions.map(tool => {
+        return (
+          <Li borderRadius="medium" highlightOpenState={false} key={tool.key}>
+            <ColumnizedContent columnDefinitions={toolColumnDefintions} onChange={onChange} form={form} tool={tool} />
+          </Li>
+        );
+      })}
     </Ul>
   );
 }
@@ -34,22 +58,44 @@ export default function ExpandableCookieList({ form, onChange }) {
 const columnDefinitions = [
   {
     width: '4rem',
-    getContent({ form, cookie, onChange }) {
+    getContent({ form, cookie, onChange }: CookieColumnDefinitionProps) {
       return form
         .get(cookie.key)
-        .map(({ value }) => (
+        .map(({ value }: { value: boolean }) => (
           <Checkbox checked={value} onChange={() => onChange(form, cookie.key, !value)} size="large" />
         ));
     }
   },
   {
-    getContent({ cookie }) {
-      return <KeyValue label={cookie.cookieProduct} value={cookie.title} inverted />;
+    getContent({ cookie }: ExpandableListItemProps) {
+      return <KeyValue label={cookie.description} value={cookie.title} inverted />;
     }
   }
 ];
 
-function CookieTable({ cookie }) {
+const toolColumnDefintions = [
+  {
+    width: '4rem',
+    getContent({ form, tool, onChange }: ToolColumnDefinitionProps) {
+      return form.get(tool.key).map(({ value }: { value: boolean }) => (
+        <Checkbox
+          checked={value}
+          onChange={() => {
+            onChange(form, tool.key, !value);
+          }}
+          size="large"
+        />
+      ));
+    }
+  },
+  {
+    getContent({ tool }: ListItemProps) {
+      return <KeyValue label={tool.description} value={tool.title} inverted />;
+    }
+  }
+];
+
+function CookieTable({ cookie }: ExpandableListItemProps) {
   const carbonHeaders = [
     {
       key: t('in-settings:terms.category'),

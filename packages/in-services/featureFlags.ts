@@ -45,7 +45,6 @@ export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled
 export const segmentAnalyticsEnabled = isFeatureFlagEnabled('segmentAnalyticsEnabled', false);
 export const amplitudeExperimentEnabled = isFeatureFlagEnabled('amplitudeExperimentEnabled', false);
 export const ibmCommonEnabled = isFeatureFlagEnabled('ibmCommonEnabled', false);
-export const assistmeEnabled = isFeatureFlagEnabled('assistmeEnabled', false);
 export const dataUsageNotificationEnabled = isFeatureFlagEnabled('dataUsageNotificationEnabled', false);
 export const ampEnabled = isFeatureFlagEnabled('ampEnabled', true);
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');

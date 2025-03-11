@@ -137,7 +137,6 @@ module.exports = {
   maxMetricsLimitForBeeinstanaEnabled: false,
   serverSideInfraTagSearchEnabled: true,
   preAggregatedMetricsQueryEnabled: false,
-  assistmeEnabled: true,
   userProfileMenuEnabled: false,
   unitForInfraMetricsEnabled: true,
   applicationSmartAlertDialogView: true,
