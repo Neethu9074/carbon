@@ -22,7 +22,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages'
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import ConsentForm from 'in-automation/components/ConsentForm/ConsentForm';
 import { error, hasError, isLoading } from 'in-services/util/result';
-import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -208,7 +207,6 @@ function ScriptSection({
       </div>
       <div className={locals.CodeWithAISlug}>
         <CodeComponent withExpandButton linesToShow={20} code={plaintextScript} lang={'bash'} softWrap />
-        <AISlugIcon />
       </div>
       <FeedbackComponent
         trackerPayload={trackerPayload}
