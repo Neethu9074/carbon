@@ -119,8 +119,15 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
   const handleSubmit = () => {
     let errorStep = stepConfigs.findIndex(({ valid }) => !valid);
     if (errorStep >= 0) {
+      // Get the validator function for the current error step
+      const { validator } = stepConfigs[errorStep];
+      // Mark the step as invalid in the side navigation
       setStepValid(false);
+      // Trigger validation for the error step
+      validator?.();
+      // Set the current step as the one with an error
       setErrorStep(errorStep);
+      // Navigate to the error step
       setCurrentStep(errorStep);
       return;
     }
