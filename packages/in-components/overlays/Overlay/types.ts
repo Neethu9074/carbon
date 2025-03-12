@@ -43,6 +43,7 @@ export interface OverlayProps<FORWARDED_CONTENT_PROPS> {
   inContentArea?: boolean;
   /**
    * This could be used for an overlay display issue in Sidepanel because of high z-index.
+   * @deprecated - Deprecated in favour of migrating the TagBasedPayloadConfigurator to use Carbonpopover. For more details, check https://jsw.ibm.com/browse/INSTA-30708.
    * Use with care!
    */
   inSidePanel?: boolean;
