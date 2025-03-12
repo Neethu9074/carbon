@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Collapsible } from '@instana/components';
 
+import RemoteServiceAgentCorrelationComponent from 'in-sdk/components/sidebar/remoteServiceAgentCorrelation/remoteServiceAgentCorrelationComponent';
 import getTriggersForLambdaVersion from 'in-subscription/getTriggersForLambdaVersion';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SidebarSnapshotItemList from 'in-components/SidebarSnapshotItemList';
@@ -40,6 +41,8 @@ export default function AwsLambdaVersionSidebar({ snapshot }) {
       />
 
       <ServiceInstancesList snapshot={snapshot} />
+
+      <RemoteServiceAgentCorrelationComponent snapshot={snapshot} />
     </div>
   );
 }

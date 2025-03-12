@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import RemoteServiceAgentCorrelationComponent from 'in-sdk/components/sidebar/remoteServiceAgentCorrelation/remoteServiceAgentCorrelationComponent';
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -93,6 +94,8 @@ export default function AwsS3Dashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
+      <RemoteServiceAgentCorrelationComponent snapshot={snapshot} />
     </div>
   );
 }
