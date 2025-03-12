@@ -6,17 +6,16 @@
 
 import React from 'react';
 
+import { CarbonButton, Stack } from '@instana/components';
+import { NoDataEmptyState } from '@instana/ibm-products';
+import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 // @ts-expect-error file needs to be converted
 import ChartWidget from 'in-custom-dashboards/widgets/Chart/Widget';
-import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import { CarbonButton, Stack } from '@instana/components';
-import { NoDataEmptyState } from '@instana/ibm-products';
-import { useObservable } from '@instana/hooks';
-
 //@ts-expect-error file needs to be converted
 import getRawEvents from 'in-subscription/getRawEvents';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { DashboardTile } from 'in-plg/components/DashboardTile/DashboardTile';
@@ -60,7 +59,7 @@ export default function EventsChartWidget({ sectionLabel, header }: DashboardTil
 
   const viewLabel = `${t('in-plg:welcomepage.viewAll')} ${t('in-plg:welcomepage.component.eventWidget.viewAllLabel')}`;
   return (
-    <section aria-label={sectionLabel} role="region">
+    <section aria-label={sectionLabel}>
       <DashboardTile header={header} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
         <div className={locals.eventsChartWrapper}>
           <Stack distribution="spaceBetween">

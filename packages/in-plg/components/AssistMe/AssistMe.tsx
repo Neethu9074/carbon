@@ -37,7 +37,6 @@ export default function AssistMe() {
           openAssistMe();
           setIsExpanded(!isExpanded);
         }}
-        aria-controls="ibm-assist-me-shell"
         aria-expanded={isExpanded}
         renderIcon={() => <IconForButton icon="lib_help_error_help_outline" iconSize="s" />}
       >

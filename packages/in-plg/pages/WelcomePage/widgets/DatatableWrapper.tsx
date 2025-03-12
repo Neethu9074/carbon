@@ -253,7 +253,6 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
         [locals.noData]: hasNoDataTile
       })}
       aria-label={`${header}`}
-      role="region"
     >
       <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
         <DashboardTable
