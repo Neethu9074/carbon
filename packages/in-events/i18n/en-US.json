@@ -431,5 +431,10 @@
   },
   "relatedEvents": {
     "openEvent": "Open event"
+  },
+
+  "consentForm": {
+    "consentText": "You must accept the terms in the Generative AI Assistance Preview Program Agreement to use this feature.",
+    "consentButton": "Review agreement"
   }
 }
