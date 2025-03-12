@@ -72,7 +72,7 @@ function getFormatters(entity: SloEntityUnion): Formatters {
 
   if (isApplicationSloEntity(entity)) {
     return {
-      primaryFormatter: number.perSecond.compact,
+      primaryFormatter: number.perSecond.detailed,
       companionFormatter: value =>
         t('in-service-levels:sloDashboard.components.trafficKpiCard.totalTraffic', {
           value: eventFormatter(value)
