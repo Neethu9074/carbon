@@ -348,7 +348,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsProcessIdColumnEnabled',
     instanaCtlKey: 'feature.bizops.process.id.column.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'bizopsGenAIEnabled',
@@ -373,7 +373,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsVersionColumnEnabled',
     instanaCtlKey: 'feature.bizops.version.column.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
