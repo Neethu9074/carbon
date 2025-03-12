@@ -54,8 +54,8 @@ export default function ScopeGroup({ form, updateForm, tagCatalog, SectionWrappe
         />
       )}
       {isPerEntityAlerting && (
-        <SectionWrapper title={t('in-components:groupingConfigurator.titleGroup')} icon={'lib_group_by'}>
-          <Stack gap="xsmall" direction="horizontal" align={'center'}>
+        <SectionWrapper title={t('in-components:groupingConfigurator.titleGroup')} icon="lib_group_by">
+          <Stack gap="xsmall" direction="horizontal" align="center">
             <Button kind="tertiary" size="compact" icon="lib_openclose_add" disabled>
               {t('in-components:groupingConfigurator.addGroup')}
             </Button>

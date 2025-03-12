@@ -10,11 +10,16 @@ import React from 'react';
 import { InfraAlertEvaluationType } from '@instana/types/typeDefinitions';
 import { Stack } from '@instana/components';
 
-import CustomOrPerEntityOption from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/CustomOrPerEntityOption';
+import CustomOrPerEntityOption, {
+  customEvaluationType,
+  perEntityEvaluationType
+} from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/CustomOrPerEntityOption';
 import { perEntityInfraSmartAlertsEnabled } from 'in-services/featureFlags';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
+
+import locals from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAlertEvaluation.mless';
 
 interface Props {
   form: MapForm<any>;
@@ -48,16 +53,20 @@ export default function ScopeAlertEvaluation({ form, updateForm, SectionWrapper 
       }
     >
       <Stack direction="horizontal">
-        <CustomOrPerEntityOption
-          evaluationType="CUSTOM"
-          selectedEvaluationType={evaluationType}
-          onChange={() => onEvaluationTypeChange('CUSTOM')}
-        />
-        <CustomOrPerEntityOption
-          evaluationType="PER_ENTITY"
-          selectedEvaluationType={evaluationType}
-          onChange={() => onEvaluationTypeChange('PER_ENTITY')}
-        />
+        <div className={locals.alertEvaluationOption}>
+          <CustomOrPerEntityOption
+            evaluationType={customEvaluationType}
+            selectedEvaluationType={evaluationType}
+            onChange={() => onEvaluationTypeChange(customEvaluationType)}
+          />
+        </div>
+        <div className={locals.alertEvaluationOption}>
+          <CustomOrPerEntityOption
+            evaluationType={perEntityEvaluationType}
+            selectedEvaluationType={evaluationType}
+            onChange={() => onEvaluationTypeChange(perEntityEvaluationType)}
+          />
+        </div>
       </Stack>
     </SectionWrapper>
   );

@@ -31,9 +31,12 @@ export default function CustomOrPerEntityOption({ evaluationType, selectedEvalua
   );
 }
 
+export const customEvaluationType: InfraAlertEvaluationType = 'CUSTOM';
+export const perEntityEvaluationType: InfraAlertEvaluationType = 'PER_ENTITY';
+
 export const evaluationTypes = {
-  custom: 'CUSTOM',
-  perEntity: 'PER_ENTITY',
+  custom: customEvaluationType,
+  perEntity: perEntityEvaluationType,
 
   info: {
     CUSTOM: {
