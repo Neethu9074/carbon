@@ -61,8 +61,8 @@ export function createOrSaveAlertFromTearSheet({
   if (editMode) {
     const updateConfig = updateAlertConfig(alertConfig, form.get('id').value);
     updateConfig.once(
-      updatedAlertConfig => {
-        trackCta(ALERTING_UPDATED, { ...updatedAlertConfig, dialogMode: FULLSCREEN });
+      () => {
+        trackCta(ALERTING_UPDATED, { ...alertConfig, dialogMode: FULLSCREEN });
         navigateToAlertConfig(form.get('id').value);
       },
       error => {

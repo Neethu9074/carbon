@@ -76,7 +76,7 @@ export function createOrSaveAlert({
       updatedAlertConfig => {
         onClose(updatedAlertConfig);
         showSuccessMessage(updatedAlertConfig.name, editMode);
-        trackCta(ALERTING_UPDATED, { ...updatedAlertConfig, dialogMode: isSimpleMode ? SIMPLE : ADVANCED });
+        trackCta(ALERTING_UPDATED, { ...alertConfig, dialogMode: isSimpleMode ? SIMPLE : ADVANCED });
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
@@ -153,7 +153,7 @@ export function createOrSaveAlertFromTearSheet({
     const updateConfig = updateAlertConfig(alertConfig, form.get('id').value);
     updateConfig.once(
       updatedAlertConfig => {
-        trackCta(ALERTING_UPDATED, { ...updatedAlertConfig, dialogMode: FULLSCREEN });
+        trackCta(ALERTING_UPDATED, { ...alertConfig, dialogMode: FULLSCREEN });
         navigateToAlertConfig(updatedAlertConfig?.id ?? form.get('id').value, updatedAlertConfig?.created);
       },
       error => {

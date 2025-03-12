@@ -165,23 +165,23 @@ function createOrSaveAlert(
     return;
   }
 
-  const alertConfig = toAlertConfig(form);
+  const smartAlertConfig = toAlertConfig(form);
 
   if (editMode) {
-    updateAlertConfig(alertConfig, (form.get('id') as Field<string>).value).once(
+    updateAlertConfig(smartAlertConfig, (form.get('id') as Field<string>).value).once(
       alertConfig => {
         onClose(alertConfig);
         showSuccessMessage(alertConfig.name, editMode);
-        trackCta(ALERTING_UPDATED, { ...alertConfig, dialogMode: ADVANCED });
+        trackCta(ALERTING_UPDATED, { ...smartAlertConfig, dialogMode: ADVANCED });
       },
       error => {
-        logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
+        logger.error(`failed to update alertConfig: ${smartAlertConfig} ${error.message}`, error);
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
         setIsSaving(false);
       }
     );
   } else {
-    createAlertConfig(alertConfig).once(
+    createAlertConfig(smartAlertConfig).once(
       alertConfig => {
         onClose(alertConfig);
         const href = testId
@@ -195,7 +195,7 @@ function createOrSaveAlert(
         });
       },
       error => {
-        logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
+        logger.error(`failed to save alertConfig: ${smartAlertConfig} ${error.message}`, error);
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
         setIsSaving(false);
       }
