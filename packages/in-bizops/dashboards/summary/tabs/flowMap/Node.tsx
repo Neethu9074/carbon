@@ -12,6 +12,7 @@ import { CardNode } from '@instana/carbon-charts';
 
 import { BizOpsElkNode } from 'in-bizops/dashboards/summary/tabs/flowMap/FlowMapPresenter';
 import { bizopsProcessFlowMapHealthOverlayEnabled } from 'in-services/featureFlags';
+import { millis } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 import local from './Node.mless';
@@ -23,6 +24,9 @@ interface ProcessNodeProps {
 }
 
 function ProcessNode({ name, metrics, onClick }: ProcessNodeProps) {
+  const count = metrics?.count?.[0] ? metrics.count[0][1] : 0;
+  const openIssues = metrics?.openIssues?.[0] ? metrics.openIssues[0][1] : 0;
+  const latency = metrics?.latency?.[0] ? millis.compact(metrics.latency[0][1]) : '0ms';
   return (
     <CardNode className={local.container} onClick={onClick}>
       <div>
@@ -31,23 +35,19 @@ function ProcessNode({ name, metrics, onClick }: ProcessNodeProps) {
       <div className={local.metricsContainer}>
         <div className={local.metricContainer}>
           <Typography variant="label-01">{t('in-bizops:dashboards.flowMap.count')}</Typography>
-          <Typography variant="body-01">{metrics.count[0][1]}</Typography>
+          <Typography variant="body-01">{count}</Typography>
         </div>
         <div className={local.metricContainer}>
           <Typography variant="label-01">{t('in-bizops:dashboards.flowMap.errors')}</Typography>
-          <Typography variant="body-01">{metrics.errors[0][1]}</Typography>
+          <Typography variant="body-01">{openIssues}</Typography>
         </div>
         <div className={local.metricContainer}>
           <Typography variant="label-01">{t('in-bizops:dashboards.flowMap.latency')}</Typography>
-          <Typography variant="body-01">{metrics.latency[0][1]}</Typography>
+          <Typography variant="body-01">{latency}</Typography>
         </div>
       </div>
     </CardNode>
   );
-}
-
-export interface BizOpsNodeProps extends BizOpsElkNode {
-  onPaginate: () => void;
 }
 
 interface HealthOverlayProps {
@@ -78,11 +78,11 @@ interface NodeProps {
   selectedNodeId: string;
   node: BizOpsElkNode;
   handleNodeClick: (nodeId: string) => void;
-  onPaginate: () => void;
+  handlePaginateClick: (nodeId: string) => void;
 }
 
 export default function Node(props: NodeProps) {
-  const { selectedNodeId, handleNodeClick, onPaginate } = props;
+  const { selectedNodeId, handleNodeClick, handlePaginateClick } = props;
   const { x, y, width, height, id, remainingTargetCount } = props.node;
 
   const onClick = bizopsProcessFlowMapHealthOverlayEnabled ? () => handleNodeClick(id) : undefined;
@@ -99,7 +99,9 @@ export default function Node(props: NodeProps) {
           hasIconOnly
           icon="lib_openclose_add"
           iconDescription={t('in-bizops:dashboards.flowMap.loadMore')}
-          onClick={onPaginate}
+          onClick={() => {
+            handlePaginateClick(id);
+          }}
         >
           {t('in-bizops:dashboards.flowMap.loadMore')}
         </Button>

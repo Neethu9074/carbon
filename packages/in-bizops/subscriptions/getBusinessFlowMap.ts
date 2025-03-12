@@ -13,7 +13,7 @@ interface BusinessFlowMapQuery {
   processDefinitionId: string;
   timeConfig: TimeConfig;
   nodePagination: {
-    originNodeId?: number;
+    originNodeId?: string;
     maxNodes: number;
   };
 }
