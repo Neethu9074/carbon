@@ -253,7 +253,7 @@ export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
 export const PROFILE_MENU_LOGOUT_CLICK = 'profileMenu.logout.click';
 export const PROFILE_MENU_SWITCH_TENANT_OR_UNIT_CLICK = 'profileMenu.switchUnitOrTenant.click';
 export const PROFILE_MENU_USER_PROFILE_CLICK = 'profileMenu.userProfile.click';
-export const PROFILE_MENU_SAAS_CONSOLE_CLICK = 'profileMenu.saasConsole.click';
+export const PROFILE_MENU_SAAS_CONSOLE_CLICK = 'profileMenu.ibmSaasConsole.click';
 
 export const SHARE_AND_INVITE_SUBMIT = 'shareAndInvite.submit';
 export const SHARE_AND_INVITE_CLOSED = 'shareAndInvite.closed';
