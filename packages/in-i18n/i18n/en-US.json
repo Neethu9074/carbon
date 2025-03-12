@@ -20,6 +20,7 @@
       "tableLoadMoreRow": {
         "loadMore": "Load more"
       },
+      "filterTable": "Filter table",
       "dataTable": "Data table",
       "expandHeader": "Expand row",
       "expandRow": "Toggle expand row",
