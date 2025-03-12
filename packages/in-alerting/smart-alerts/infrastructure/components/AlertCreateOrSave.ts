@@ -154,7 +154,7 @@ export function createOrSaveAlertFromTearSheet({
     updateConfig.once(
       updatedAlertConfig => {
         trackCta(ALERTING_UPDATED, { ...updatedAlertConfig, dialogMode: FULLSCREEN });
-        navigateToAlertConfig(updatedAlertConfig.id, updatedAlertConfig?.created);
+        navigateToAlertConfig(updatedAlertConfig?.id ?? form.get('id').value, updatedAlertConfig?.created);
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
