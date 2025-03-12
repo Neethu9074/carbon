@@ -14,7 +14,7 @@ export default [
     formatter: number.detailed
   },
   {
-    label: t('in-kubernetes:dashboards.kubecost.idleCost'),
+    label: t('in-kubernetes:dashboards.kubecost.idle'),
     metric: 'namespaceCostGraph.__idle__.totalCost',
     formatter: number.detailed
   }

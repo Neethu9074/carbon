@@ -254,7 +254,9 @@
     },
     "kubecost": {
       "totalCost": "Total cost",
-      "total": "Total",
+      "cost" : "Cost",
+      "clusterCost": "Cluster cost",
+      "idle" : "Idle",
       "costByNameSpace": "Cost by namespace",
       "kubeCost": "Cost [Public Preview]",
       "namespaceCumulativeCost": "Cost by namespace",
@@ -268,7 +270,7 @@
       "gpuCost": "GPU",
       "cpuCost": "CPU",
       "namespace": "Namespace",
-      "idleCost": "Idle",
+      "idleCost": "Idle cost",
       "noKubecostData": "Enable cost observability and allocation with Kubecost. To configure the integration, follow these [steps][Docs].\n\n[Docs]:https://ibm.biz/kubecost"
     }
   },
