@@ -1699,11 +1699,11 @@
         "scopeFilter": {
           "title": "Choose the scope of the infrastructure",
           "filter": "Filter",
-          "filterDescription": "Add filters to the services to get more precise alerts."
+          "filterDescription": "Add filters to narrow down the scope and get more precise alerts."
         },
         "scopeGroupBy": {
-          "group": "Group",
-          "groupByDescription": "Add group to configure calls in groups. Each call within the group is configured collectively but evaluated individually."
+          "group": "Grouping",
+          "groupByDescription": "Add a group to group metric results using available grouping tags. You can use up to 5 tags."
         },
         "timeThreshold": {
           "title": "Set when violations trigger alerts",
@@ -1713,7 +1713,7 @@
           "static": "A constant threshold value is applied and it does not change over time."
         },
         "chartAlertPreview": "Alerts preview",
-        "chartAlertPreviewDescription": "Shows how alerts would have been triggered based on historical metric data.",
+        "chartAlertPreviewDescription": "See how alerts would have been triggered based on historical metric data.",
         "forecastAlerting": {
           "description": "Receive proactive alerts based on historical data and trends. This option helps you anticipate potential issues before they affect your system.",
           "historicalDataTime": {
