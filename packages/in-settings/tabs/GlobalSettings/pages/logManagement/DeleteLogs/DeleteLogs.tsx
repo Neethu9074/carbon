@@ -365,7 +365,7 @@ interface DeleteLogsModalProps {
   retryCount: number;
 }
 
-function DeleteLogsModal({
+export function DeleteLogsModal({
   setShowConfirmation,
   setIsDeleting,
   isDeleting,
@@ -388,6 +388,7 @@ function DeleteLogsModal({
       touchForm();
       return;
     }
+
     const newTimeInputValue = addSecondsIfValidFormat(inputValues.endTime as string);
     const entity: DeleteLogsRequest = {
       reason: inputValues.reason,

@@ -36,7 +36,7 @@ const DeleteButton = ({ openConfirmationDialog }: { openConfirmationDialog: () =
   </Button>
 );
 
-const CarbonDeletionTable = ({
+export const CarbonDeletionTable = ({
   result,
   openConfirmationDialog
 }: {

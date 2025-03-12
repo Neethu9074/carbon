@@ -138,7 +138,7 @@ export function addSecondsIfValidFormat(timeInputValue: string) {
 
 export const bytesToLargerUnit = (bytes: number, round?: number): { amount: number; localizedUnit: string } => {
   const TiBinBytes = 1099511627776;
-  const isMoreThanTiB = bytes > TiBinBytes;
+  const isMoreThanTiB = bytes >= TiBinBytes;
   const dataUnitScale = isMoreThanTiB ? 4 : 3;
 
   const convertedBytes = bytes / Math.pow(1024, dataUnitScale);
