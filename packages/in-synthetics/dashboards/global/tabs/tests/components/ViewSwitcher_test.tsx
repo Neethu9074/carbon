@@ -12,7 +12,7 @@ import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/
 describe('Synthetic Home ViewSwitcher', () => {
   it('Renders the Tests page title and tabs with the correct icons and names', () => {
     render(<ViewSwitcher />);
-    expect(screen.getByText('Synthetic Monitoring')).toBeInTheDocument();
+    expect(screen.getByText('Synthetic monitoring')).toBeInTheDocument();
   });
 
   it('Switches tabs checking tab icon plus label', () => {

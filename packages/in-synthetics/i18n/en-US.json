@@ -1,8 +1,8 @@
 {
   "dialog": {
     "createTest": {
-      "buttonLabel": "Add Synthetic Test",
-      "dialogTitle": "Create Synthetic Test",
+      "buttonLabel": "Add synthetic test",
+      "dialogTitle": "Create synthetic test",
       "noLocationFound": "Sorry! No locations found",
       "noApplicationsFound": "No applications found",
       "noMatchingFound": "No matching application found",
@@ -20,11 +20,11 @@
         "title": "Scheduling"
       },
       "requestStep": {
-        "title": "Specify Request",
+        "title": "Specify request",
         "subTitle": "Endpoint",
-        "labelOperation": "HTTP Method",
+        "labelOperation": "HTTP method",
         "labelUrl": "URL",
-        "popSubTitle": "Point of Presence",
+        "popSubTitle": "Point of presence",
         "uploadScriptTitle": "Upload the script",
         "failureToReadFileContent": "Failed to read file content: {{error}}",
         "emptyScriptFileError": "Empty code. Nothing to validate.",
@@ -33,24 +33,24 @@
         "managedPoPLabel": "Managed"
       },
       "basicDetails": {
-        "title": "What is the name of this API Simple (HTTP Action) test",
-        "scriptTitle": "What is the name of this API Script (HTTP Script) test",
-        "webpageActionTitle": "What is the name of this Browser Simple (Webpage Action) test",
-        "browserScriptTitle": "What is the name of this Browser Script test",
+        "title": "What is the name of this API simple (HTTP action) test",
+        "scriptTitle": "What is the name of this API script (HTTP script) test",
+        "webpageActionTitle": "What is the name of this browser simple (webpage action) test",
+        "browserScriptTitle": "What is the name of this browser script test",
         "labelName": "Name of the test",
         "labelDescription": "Description",
         "labelFrequency": "Frequency (minute)",
         "labelFrequencyHour": "Frequency (hour)",
-        "labelApplication": "Select an Application",
-        "labelApplications": "Select Applications"
+        "labelApplication": "Select an application",
+        "labelApplications": "Select applications"
       },
       "bluePrint": {
         "title": "When to use?",
         "apiSimple": {
-          "name": "API Simple",
-          "headline": "API Simple (HTTP Action)",
+          "name": "API simple",
+          "headline": "API simple (HTTP action)",
           "whenToUse": {
-            "line1": "Use an API Simple (HTTP Action) test to test a single REST API"
+            "line1": "Use an API simple (HTTP action) test to test a single REST API"
           },
           "tipsForUsing": {
             "title": "Tips for using",
@@ -61,10 +61,10 @@
           }
         },
         "apiScript": {
-          "name": "API Script",
-          "headline": "API Script (HTTP Script)",
+          "name": "API script",
+          "headline": "API script (HTTP script)",
           "whenToUse": {
-            "line1": "Use an API Script (HTTP Script) test and Node.js based script to test the sequence of multiple REST APIs"
+            "line1": "Use an API script (HTTP script) test and Node.js based script to test the sequence of multiple REST APIs"
           },
           "tipsForUsing": {
             "line1": "Step 1: Choose the type of test which you wish to create.",
@@ -74,10 +74,10 @@
           }
         },
         "browserSimple": {
-          "name": "Browser Simple",
-          "headline": "Browser Simple (Webpage Action)",
+          "name": "Browser simple",
+          "headline": "Browser simple (Webpage action)",
           "whenToUse": {
-            "line1": "Use a Browser Simple test when you want to test a single webpage for HTTP errors."
+            "line1": "Use a browser simple test when you want to test a single webpage for HTTP errors."
           },
           "tipsForUsing": {
             "line1": "Step 1: Choose the type of test which you wish to create.",
@@ -87,10 +87,10 @@
           }
         },
         "browserScript": {
-          "name": "Browser Script",
-          "headline": "Browser Script (BrowserScript)",
+          "name": "Browser script",
+          "headline": "Browser script (browser script)",
           "whenToUse": {
-            "line1": "Use a Browser Script test when you want to simulate user interactions with your web application using a JavaScript or Selenium IDE script."
+            "line1": "Use a browser script test when you want to simulate user interactions with your web application using a JavaScript or Selenium IDE script."
           },
           "tipsForUsing": {
             "line1": "Step 1: Choose the type of test which you wish to create.",
@@ -122,25 +122,25 @@
         "invalidHost": "Host format not valid"
       },
       "advancedMode": {
-        "switchModeButton": "Switch to Advanced Mode",
+        "switchModeButton": "Switch to advanced mode",
         "testTypeSection": {
-          "selectedTestTypeLightCardTitle": "Selected Test Type",
-          "rightListLabel": "Test Type",
-          "apiTypeLabel": "API Simple Test | API Script Test",
+          "selectedTestTypeLightCardTitle": "Selected test type",
+          "rightListLabel": "Test type",
+          "apiTypeLabel": "API simple test | API script test",
           "apiTypeHeadline": "What kind of synthetic test would you like to create",
-          "apiTypeText": "API tests can be used to monitor the APIs provided by web applications. API tests can be used to measure availability and response time. The Simple test allows you to ping a URL or test a single API. The Script test allows you to provide a script that can check a set of API responses, simulate complex workflows and test specific functionalities.",
+          "apiTypeText": "API tests can be used to monitor the APIs provided by web applications. API tests can be used to measure availability and response time. The simple test allows you to ping a URL or test a single API. The script test allows you to provide a script that can check a set of API responses, simulate complex workflows and test specific functionalities.",
           "selectedTestTypeButton": "Select",
-          "httpScriptTitle": "API Script Test",
-          "httpActionTitle": "API Simple Test",
+          "httpScriptTitle": "API script test",
+          "httpActionTitle": "API simple test",
           "browserTypeLabel": "Browser",
-          "browserTypeHeadline": "Browser Synthetic Tests",
+          "browserTypeHeadline": "Browser synthetic tests",
           "browserTypeText": "Browser synthetic testing is a method of monitoring web application performance by simulating user interactions with a website through a script in a web browser, providing valuable insights into issues that affect user experience and ensuring website functionality.",
-          "browserSimpleTitle": "Browser Simple Test",
-          "browserScriptTitle": "Browser Script Test",
-          "certificateCheckTitle": "SSL Certificate Check",
-          "certificateCheckLabel": "SSL Certificate",
-          "certificateCheckHeadline": "SSL Certificate Check Test",
-          "certificateCheckText": "SSL Certificate check testing is a method to test the expiration for a SSL certificate in a web application by checking the remaining days on a issued certificate.",
+          "browserSimpleTitle": "Browser simple test",
+          "browserScriptTitle": "Browser script test",
+          "certificateCheckTitle": "SSL certificate check",
+          "certificateCheckLabel": "SSL certificate",
+          "certificateCheckHeadline": "SSL certificate check test",
+          "certificateCheckText": "SSL certificate check testing is a method to test the expiration for a SSL certificate in a web application by checking the remaining days on a issued certificate.",
           "dnsLabel": "DNS",
           "dnsHeadline": "Domain Name Server",
           "dnsText": "DNS test is a method to check that your device or network is properly resolving domain names and is free from issues that could cause slowdowns, errors, or security vulnerabilities."
@@ -153,31 +153,31 @@
         "scheduleTitle": "Schedule: When will this test run?",
         "identifyLabel": "Identify",
         "identifyTitle": "Identify: What is the test going to do?",
-        "customPropertiesTitle": "Custom Properties",
+        "customPropertiesTitle": "Custom properties",
         "frequency": "This test will run every {{frequencyValue}} minutes.",
         "frequencyHours": "This test will run every {{frequencyHours}} hours.",
         "frequencyHoursAndMinutes": "This test will run every {{frequencyHours}} hours and {{frequencyMinutes}} minutes.",
         "simultaneous": "Simultaneous",
         "simultaneousDescription": "This test will run simultaneously on each location(s) selected.",
         "configStep": {
-          "allowInsecure": "Allow Insecure",
-          "expectStatusLabel": "Expect Status",
+          "allowInsecure": "Allow insecure",
+          "expectStatusLabel": "Expect status",
           "expectJSONLabel": "Expect JSON",
-          "expectMatchLabel": "Expect Match",
+          "expectMatchLabel": "Expect match",
           "expectStatusPlaceholder": "Enter expected status",
           "expectJSONPlaceholder": "Enter expected JSON",
           "expectMatchPlaceholder": "Enter expected string",
-          "addValidations": "Add Validation",
+          "addValidations": "Add validation",
           "failedToParseInputAsJson": "Failed to parse input as JSON.",
           "jsonRootMustBeAnObject": "JSON root must be an object.",
           "mustBeValidHttpReturnCode": "Status must be a valid HTTP return code.",
           "shouldBeValidRegExp": "String entered should be a valid regular expression.",
-          "followRedirect": "Follow Redirect",
+          "followRedirect": "Follow redirect",
           "header": "Header",
           "headerValue": "Value",
           "body": "Body",
-          "validationString": "Validation String",
-          "addHeader": "Add Header",
+          "validationString": "Validation string",
+          "addHeader": "Add header",
           "operation": "Operation",
           "headerNameMustBeUnique": "Header name must be unique.",
           "shouldBeValidHeaderName": "String entered must be a valid HTTP request header name.",
@@ -185,7 +185,7 @@
           "scriptLabel": "Script",
           "addscriptAction": "Add script",
           "editscriptAction": "Edit script",
-          "scriptFileName": "File Name",
+          "scriptFileName": "File name",
           "scriptNotAdded": "No script added.",
           "buttonAdd": "Add",
           "buttonBack": "Back",
@@ -201,9 +201,9 @@
           "webpageUrl": "Webpage URL",
           "browserUploadFileDescription": "You can upload either a single .js file, a .zip file of bundled .js files or a .side script recorded by SeleniumIDE.",
           "sideFileUploadedMessage": "Selenium scripts cannot be modified or validated",
-          "bundleFileNotSupportedMessage": "Unsupported file is selected. Bundles are only supported in Advanced Mode.",
+          "bundleFileNotSupportedMessage": "Unsupported file is selected. Bundles are only supported in advanced mode.",
           "timeoutFieldLabel": "Timeout",
-          "timeUnitsLabel": "Time Units",
+          "timeUnitsLabel": "Time units",
           "timeoutFieldOptionMinutes": "minutes (m)",
           "timeoutFieldOptionSeconds": "seconds (s)",
           "timeoutFieldOptionMilliseconds": "milliseconds (ms)",
@@ -211,13 +211,13 @@
           "invalidTimeoutvalue": "Invalid timeout value",
           "invalidTimeoutUnit": "Invalid timeout unit",
           "timeoutFieldDescription": "This test will fail after",
-          "retryFieldLabel": "Retry Strategy",
+          "retryFieldLabel": "Retry strategy",
           "retryFieldOptionNone": "None",
           "retryFieldOptionOnce": "Retry once",
           "retryFieldOptionTwice": "Retry twice",
-          "retryIntervalFieldLabel": "Retry Interval",
+          "retryIntervalFieldLabel": "Retry interval",
           "retryIntervalDescription": "This test will retry {{retryCount}} after {{retryIntervalValue}} {{retryIntervalUnit}}.",
-          "markSyntheticCall": "Mark Synthetic Call",
+          "markSyntheticCall": "Mark synthetic call",
           "downloadZip": "Download .zip file",
           "mainFileNameHelperText": "Provide the name of the file within this .zip file that contains the test's entry point",
           "recordVideo": "Record user actions on failure",
@@ -256,31 +256,31 @@
             }
           }
         },
-        "loadMore": "Load More",
+        "loadMore": "Load more",
         "selectTests": {
-          "addLocations": "Add {{count}} Locations",
-          "addLocation": "Add Location",
+          "addLocations": "Add {{count}} locations",
+          "addLocation": "Add location",
           "cancel": "Cancel",
-          "selectLocation": "Select Location",
+          "selectLocation": "Select location",
           "privatePoPLabel": "Private",
           "managedPoPLabel": "Managed"
         },
         "advancedBluePrint": {
           "apiName": "API",
           "browserName": "Browser",
-          "certificateCheckName": "SSL Certificate",
+          "certificateCheckName": "SSL certificate",
           "dnsName": "DNS"
         },
         "customProperties": {
           "property": "Property",
           "propertyValue": "Value",
-          "addProperty": "Add Property",
+          "addProperty": "Add property",
           "propertyNameMustBeUnique": "Property name must be unique."
         },
         "certificateCheck": {
-          "inputHostName": "Host Name",
+          "inputHostName": "Host name",
           "inputPortNumber": "Port",
-          "failureConfigLabel": "Failure Configuration",
+          "failureConfigLabel": "Failure configuration",
           "failureConfigText": "Test will fail when certificate validity has <certificateValidityDays/> days remaining until expiration."
         },
         "associationsLabel": "Associate",
@@ -335,13 +335,13 @@
       "successMessageActivate": "Successfully activated the location"
     },
     "updateTest": {
-      "dialogTitle": "Edit {{syntheticType}} Test",
+      "dialogTitle": "Edit {{syntheticType}} test",
       "buttonSave": "Save",
       "scriptSavedMessage": "Script added",
       "bundleSavedMessage": "Bundled scripts added"
     },
     "createLocation": {
-      "newLocation": "New Location",
+      "newLocation": "New location",
       "activate": "Activate",
       "done": "Done",
       "stepConfigs": {
@@ -353,7 +353,7 @@
       },
       "privateLocation": {
         "name": "Private",
-        "headline": "Private Location",
+        "headline": "Private location",
         "description": {
           "headline": "When to use",
           "htmlContent": "When you want to monitor internal facing applications or endpoints that are only accessible in your private network. These locations are set up, hosted, and managed by you."
@@ -361,37 +361,37 @@
       },
       "managedLocation": {
         "name": "Managed",
-        "headline": "Managed Location",
+        "headline": "Managed location",
         "description": {
           "headline": "When to use",
           "htmlContent": "When you want to monitor publicly accessible websites and applications. These locations are hosted and managed by Instana at datacenters around the world."
         },
         "managedDatacentersLabel": "Datacenters",
-        "datacenterCode": "Datacenter Code",
-        "datacenterName": "Datacenter Name",
+        "datacenterCode": "Datacenter code",
+        "datacenterName": "Datacenter name",
         "provider": "Provider",
-        "locationName": "Location Name",
-        "displayName": "Display Name",
+        "locationName": "Location name",
+        "displayName": "Display name",
         "locationStatus": "Status",
-        "status": "Activation Status",
+        "status": "Activation status",
         "datacentersSubtitle": "Activate an Instana managed location in one of the available datacenters. For more information, see <linkDatacenters>Using an Instana-hosted PoP</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Locations are being deployed",
           "message": "We are setting up your new locations at the following datacenters. Please be patient while we auto-deploy this for you. When this is finished, you can find your new locations in the locations tab. <strong>This deployment can take a few minutes for each selected datacenter.</strong>",
           "table": {
             "heads": {
-              "datacenterCode": "Datacenter Code",
-              "datacenterName": "Datacenter Name",
-              "locationName": "Location Name",
-              "datacenterStatus": "Activation Status"
+              "datacenterCode": "Datacenter code",
+              "datacenterName": "Datacenter name",
+              "locationName": "Location name",
+              "datacenterStatus": "Activation status"
             }
           },
-          "activateLocationLoadingMessage": "Activating Datacenters",
+          "activateLocationLoadingMessage": "Activating datacenters",
           "activationRejectedMessageSingleDatacenter": "Activation request for {{rejectedDatacentersList}} cannot be processed as it has already been activated",
           "activationRejectedMessageMultipleDatacenters": "Activation request for {{rejectedDatacentersList}} cannot be processed as they have already been activated"
         },
         "deactivateDatacenter": {
-          "title": "Deactivate Location",
+          "title": "Deactivate location",
           "deactivateMessage": "Are you sure you want to deactivate location <strong>{{locationDisplayLabel}}</strong>?<br/><br/>Deactivating a location can take a few minutes. Please be patient while we deprovision this for you. When this is finished, the location status will be Offline.<br/>",
           "warningMessage": "Deactivating is not deleting. The location will be available and can be activated again. To completely remove the managed location, delete the location once its status changes to Offline.",
           "activeStatus": "Active",
@@ -399,7 +399,7 @@
         },
         "activate": "Activate",
         "okay": "Okay",
-        "activateLocation": "Activate Location"
+        "activateLocation": "Activate location"
       },
       "validators": {
         "theValueMustNotBeEmpty": "At least one datacenter needs to be selected"
@@ -454,12 +454,12 @@
     }
   },
   "navigation": {
-    "synthetics": "Synthetic Monitoring"
+    "synthetics": "Synthetic monitoring"
   },
   "dashboard": {
     "deleted": "{{id}}-deleted",
     "testList": {
-      "mainLabel": "Synthetic Monitoring",
+      "mainLabel": "Synthetic monitoring",
       "secondaryLabels": {
         "tests": "Tests",
         "locations": "Locations",
@@ -467,13 +467,13 @@
         "credentials": "Credentials"
       },
       "popDialog": {
-        "popUpDialogTitle": "Permissions for Synthetic Monitoring",
-        "popUpDialog": "Please check the <documentationLink>document</documentationLink> for information about setting Synthetic Monitoring permissions",
+        "popUpDialogTitle": "Permissions for synthetic monitoring",
+        "popUpDialog": "Please check the <documentationLink>document</documentationLink> for information about setting synthetic monitoring permissions",
         "button": "Deploy a PoP",
         "simpleTab": "Simple",
         "redisTab": "Redis TLS",
-        "title": "Synthetic PoP Commands",
-        "subTitle": "Please use these code templates as a reference. For more information, see <documentationLink>Deploying a Self-hosted PoP</documentationLink>",
+        "title": "Synthetic PoP commands",
+        "subTitle": "Please use these code templates as a reference. For more information, see <documentationLink>Deploying a self-hosted PoP</documentationLink>",
         "simpleCode": "helm install synthetic-pop \\\n\t--repo \"https://agents.instana.io/helm\" \\\n\t--namespace <namespace> \\\n\t--create-namespace \\\n\t--set downloadKey=\"{{downloadKey}}\" \\\n\t--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n\t--set controller.clusterName=\"<yourClusterName>\" \\\n\t--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n\t--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n\t--set redis.tls.enabled=false \\\n\t--set redis.password=\"<yourPassword>\" \\\n\tsynthetic-pop",
         "redisCode": "helm install synthetic-pop \\\n\t--repo \"https://agents.instana.io/helm\" \\\n\t--namespace <namespace> \\\n\t--create-namespace \\\n\t--set downloadKey=\"{{downloadKey}}\" \\\n\t--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n\t--set controller.clusterName=\"<yourClusterName>\" \\\n\t--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n\t--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n\t--set redis.tls.enabled=true \\\n\t--set redis.tls.secretName=\"syntheticpop-redis\" \\\n\tsynthetic-pop",
         "tlsInstructions": "If you want to enable Redis TLS, you need to have your X.509 certificate-key pair (`tls.crt`, `tls.key`) and CA root certificate file (`ca.crt`).\n\nIf you do not have your key/cert files, you can also use openssl command to generate new ones, see below examples:",
@@ -499,15 +499,15 @@
       },
       "testLabel": "Name",
       "status": "Status",
-      "frequencySubText": "Every {{count}} Min",
-      "frequencySubText_plural": "Every {{count}} Mins",
+      "frequencySubText": "Every {{count}} min",
+      "frequencySubText_plural": "Every {{count}} mins",
       "pause": "Pause the test",
       "resume": "Resume the test",
       "active": "Active",
       "paused": "Paused",
       "deleted": "Deleted",
       "type": "Type",
-      "successRate": "Success Rate",
+      "successRate": "Success rate",
       "successRuns": "{{successRuns}} / {{totalRuns}} results",
       "latency": "Latency",
       "locationLabel": "Locations",
@@ -526,13 +526,13 @@
       "na": "N/A"
     },
     "locationList": {
-      "locationLiveModeDisabled": "Live Mode is not applicable in Synthetic Locations page",
-      "locationLabel": "Location Name",
-      "locationDisplayLabel": "Display Name",
+      "locationLiveModeDisabled": "Live mode is not applicable in synthetic locations page",
+      "locationLabel": "Location name",
+      "locationDisplayLabel": "Display name",
       "status": "Status",
       "type": "Type",
-      "totalTests": "No. of Tests Linked",
-      "lastRun": "Last Test Run On",
+      "totalTests": "No. of tests linked",
+      "lastRun": "Last test run on",
       "namespace": "Namespace",
       "health": "Health",
       "noHealthInfo": "NA",
@@ -546,7 +546,7 @@
       "typeToContinue": "Type {{location}} to continue",
       "deletionSuccess": "The location has been deleted",
       "cancelButton": "Cancel",
-      "deleteLocationLabel": "Delete Location",
+      "deleteLocationLabel": "Delete location",
       "success": "Success",
       "failure": "Failed",
       "popVersion": "Version",
@@ -562,24 +562,24 @@
       }
     },
     "summary": {
-      "successRate": "Success Rate",
+      "successRate": "Success rate",
       "locations": "Locations",
-      "responseTime": "Response Time",
-      "meanResponseTime": "Avg. Response Time",
-      "responseSize": "Response Size",
-      "avgResponseSize": "Avg. Response Size",
+      "responseTime": "Response time",
+      "meanResponseTime": "Avg. response time",
+      "responseSize": "Response size",
+      "avgResponseSize": "Avg. response size",
       "summaryTab": "Summary",
       "resultsTab": "Results",
-      "startTime": "Start Time",
+      "startTime": "Start time",
       "requests": "Requests",
       "widgets": {
         "failures": "Failures",
-        "responseTimes": "Response Times",
-        "averageResponseSize": "Average Response Size",
-        "responseStatus": "Response Status",
-        "networkTimings": "Network Timings",
+        "responseTimes": "Response times",
+        "averageResponseSize": "Average response size",
+        "responseStatus": "Response status",
+        "networkTimings": "Network timings",
         "blocking": "Blocking",
-        "dns": "DNS Lookup",
+        "dns": "DNS lookup",
         "sending": "Sending",
         "waiting": "Waiting",
         "receiving": "Receiving",
@@ -592,42 +592,42 @@
         "created": "Created",
         "accepted": "Accepted",
         "forbidden": "Forbidden",
-        "notFound": "Not Found",
-        "serverError": "Server Error",
-        "badRequest": "Bad Request",
-        "badGateway": "Bad Gateway",
-        "gatewayTimeout": "Gateway Timeout"
+        "notFound": "Not found",
+        "serverError": "Server error",
+        "badRequest": "Bad request",
+        "badGateway": "Bad gateway",
+        "gatewayTimeout": "Gateway timeout"
       },
       "totalRuns": "{{totalRuns}} total runs",
       "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th",
       "smartAlertsTab": "Smart Alerts",
       "configurationTab": "Configuration",
-      "isCertificateValid": "Last Run - Certificate is Signed by Public CA",
-      "resultsCertificateValid": "Certificate is Signed by Public CA",
+      "isCertificateValid": "Last run - Certificate is signed by public CA",
+      "resultsCertificateValid": "Certificate is signed by public CA",
       "certificateValid": "Yes",
       "certificateNotValid": "No",
-      "daysRemaining": "Last Run - Days Remaining",
-      "timeOfExpiry": "Last Run - Time of Expiry",
+      "daysRemaining": "Last run - Days remaining",
+      "timeOfExpiry": "Last run - Time of expiry",
       "smallerTimeFrameTitle": "No results for this time frame",
-      "smallerTimeFrameDescription": "Please select a longer time frame to see results for SSL Certificate Check tests."
+      "smallerTimeFrameDescription": "Please select a longer time frame to see results for SSL certificate check tests."
     },
     "resultsListPage": {
       "startedColumn": "Started",
       "locationColumn": "Location",
-      "responseTimeColumn": "Response Time",
-      "responseSizeColumn": "Response Size",
-      "retriesColumn": "Retry Count",
+      "responseTimeColumn": "Response time",
+      "responseSizeColumn": "Response size",
+      "retriesColumn": "Retry count",
       "title": "Results",
       "locationLabel": "Location",
       "failures": "Failures",
       "status": "Status",
       "success": "Success",
-      "daysRemaining": "Days Remaining"
+      "daysRemaining": "Days remaining"
     },
     "detailsPage": {
-      "detailLiveModeDisabled": "Live Mode is not applicable in Synthetic test result detail page",
+      "detailLiveModeDisabled": "Live mode is not applicable in synthetic test result detail page",
       "timeLineWidget": "Timeline",
-      "responseTimeChart": "Response Time",
+      "responseTimeChart": "Response time",
       "subtransactionStatus": "Status",
       "subtransactionSize": "Size",
       "subtransactionTime": "Time",
@@ -638,10 +638,10 @@
       "subtransactionSending": "Sending",
       "subtransactionWaiting": "Waiting",
       "subtransactionReceiving": "Receiving",
-      "showLessSubDetails": "Show Less",
-      "showMoreSubDetails": "Show More",
+      "showLessSubDetails": "Show less",
+      "showMoreSubDetails": "Show more",
       "failedRun": "Failed Run(Exception)",
-      "failedRunErrorTitle": "Error Message",
+      "failedRunErrorTitle": "Error message",
       "noFailedErrorMessage": "No error message",
       "stackTraceTitle": "Stacktrace",
       "noStacktrace": "No stacktrace",
@@ -662,7 +662,7 @@
         "uploadSpeed": "Upload speed",
         "downloadSpeed": "Download speed",
         "requestTitle": "Request",
-        "responseTimingTitle": "Response Timing",
+        "responseTimingTitle": "Response timing",
         "timingsPercentageOfTotalDurationName": "{{percentage}} of {{totalDurationName}}"
       },
       "logs": "Logs",
@@ -670,9 +670,9 @@
         "message": "{{component}} details not available for this test result",
         "notFound": "Not found"
       },
-      "downloadHar": "Download HAR File",
-      "downloadLog": "Download Logs",
-      "viewScreenshotsLabel": "View Screenshot(s)",
+      "downloadHar": "Download HAR file",
+      "downloadLog": "Download logs",
+      "viewScreenshotsLabel": "View screenshot(s)",
       "consoleLogsLevel": "CONSOLE",
       "consoleLogs": "Console",
       "browserLogs": "Browser",
@@ -711,24 +711,24 @@
           "request": {
             "title": "Request",
             "url": "URL",
-            "httpVersion": "HTTP Version",
-            "headerSize": "Header Size",
-            "bodySize": "Body Size",
+            "httpVersion": "HTTP version",
+            "headerSize": "Header size",
+            "bodySize": "Body size",
             "method": "Method"
           },
           "response": {
             "title": "Response",
-            "transferSize": "Transfer Size",
-            "httpVersion": "HTTP Version",
+            "transferSize": "Transfer size",
+            "httpVersion": "HTTP version",
             "redirectUrl": "Redirect URL",
-            "headerSize": "Header Size",
-            "bodySize": "Body Size",
-            "contentType": "Content Type",
-            "contentSize": "Content Size",
+            "headerSize": "Header size",
+            "bodySize": "Body size",
+            "contentType": "Content type",
+            "contentSize": "Content size",
             "status": "Status"
           },
           "timings": {
-            "title": "Response Timings",
+            "title": "Response timings",
             "receiving": "Receiving",
             "waiting": "Waiting",
             "blocking": "Blocking",
@@ -741,18 +741,18 @@
       },
       "viewScreenshots": {
         "screenshotsDialogLabel": "Screeenshot(s)",
-        "allScreenshots": "All Screenshots",
-        "allImagesButton": "All Images",
+        "allScreenshots": "All screenshots",
+        "allImagesButton": "All images",
         "imageButton": "Image",
-        "ScreenshotsLoadingMessage": "Loading Screenshots",
+        "ScreenshotsLoadingMessage": "Loading screenshots",
         "noScreenshotsAvailableMessage": "Screenshots not available for this test result"
       },
       "sslCertificate": {
-        "daysRemaining": "Days Remaining",
-        "timeOfIssue": "Time of Issue",
-        "timeOfExpiry": "Time of Expiry"
+        "daysRemaining": "Days remaining",
+        "timeOfIssue": "Time of issue",
+        "timeOfExpiry": "Time of expiry"
       },
-      "failedRunErrorTypeTitle": "Error Type",
+      "failedRunErrorTypeTitle": "Error type",
       "viewRecordingLabel": "View recording",
       "viewRecording": {
         "recordingDialogLabel": "Recording",
@@ -767,23 +767,23 @@
     "noDataAvailable": {
       "resultsTitle": "No results available",
       "resultsDescription": "There were no results retrieved for the selected time range.",
-      "testSummaryTitle": "No Synthetic tests available",
-      "testSummaryDescription": "There are no Synthetic tests retrieved from the database.",
-      "locationListTitle": "No Synthetic locations available",
-      "locationListDescription": "There are no Synthetic locations retrieved from the database.",
+      "testSummaryTitle": "No synthetic tests available",
+      "testSummaryDescription": "There are no synthetic tests retrieved from the database.",
+      "locationListTitle": "No synthetic locations available",
+      "locationListDescription": "There are no synthetic locations retrieved from the database.",
       "configurationTab": "{{component}} details are not available for this test."
     },
     "alertList": {
-      "timeThreshold": "Time Threshold",
-      "testsApplied": "Tests Applied",
-      "filterApplied": "Filter Applied",
+      "timeThreshold": "Time threshold",
+      "testsApplied": "Tests applied",
+      "filterApplied": "Filter applied",
       "violationsCount": "{{violationsCount}} failures",
       "testsCount": "{{testsCount}} tests",
-      "numberOfFailures": "Failure Alerting"
+      "numberOfFailures": "Failure alerting"
     },
     "configuration": {
-      "configurationTitle": "{{testType}} Test Configuration",
-      "testTypeTitle": "Test Type",
+      "configurationTitle": "{{testType}} test configuration",
+      "testTypeTitle": "Test type",
       "testType": "Type",
       "subType": "Subtype",
       "configSectionTitle": "Configuration",
@@ -793,13 +793,13 @@
       "header": "Header",
       "value": "Value",
       "body": "Body",
-      "validationString": "Validation String",
-      "expectStatus": "Expect Status",
-      "expectMatch": "Expect Match",
+      "validationString": "Validation string",
+      "expectStatus": "Expect status",
+      "expectMatch": "Expect match",
       "expectJSON": "Expect JSON",
-      "additionalOptionsTitle": "Additional Options",
-      "followRedirect": "Follow Redirect",
-      "allowInsecure": "Allow Insecure",
+      "additionalOptionsTitle": "Additional options",
+      "followRedirect": "Follow redirect",
+      "allowInsecure": "Allow insecure",
       "locationsTitle": "Location(s)",
       "scheduleTitle": "Schedule",
       "frequencyTitle": "Frequency",
@@ -807,13 +807,13 @@
       "frequencyPluralValue": "{{minutes}} minutes",
       "frequencySingleValue": "{{minutes}} minute",
       "identifyTitle": "Identify",
-      "customProperties": "Custom Properties",
+      "customProperties": "Custom properties",
       "identifySectionName": "Name",
       "identifySectionDescription": "Description",
-      "associatedApplication": "Associated Application",
+      "associatedApplication": "Associated application",
       "noApplicationAssociated": "No application associated",
       "configScriptTitle": "Script",
-      "configScriptFileName": "File Name",
+      "configScriptFileName": "File name",
       "noScriptFileFound": "No script file found.",
       "noCustomProperties": "No custom properties defined for this test.",
       "propertyTitle": "Property",
@@ -823,7 +823,7 @@
         "reasonTitle": "Reason for deletion",
         "typingValidationTitle": "Type {{synthetic}} to continue",
         "cancelButton": "Cancel",
-        "deleteButton": "Delete Test",
+        "deleteButton": "Delete test",
         "deleteTestBrowserRefreshInfo": "It will take some time for the test to disappear from the list of tests and may require a browser refresh."
       },
       "configurationEditAction": "Edit",
@@ -831,16 +831,16 @@
       "configurationUnsupported": "Unsupported test type.",
       "timeoutLabel": "Timeout",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
-      "retryStrategyLabel": "Retry Strategy",
+      "retryStrategyLabel": "Retry strategy",
       "retryStrategyNone": "None",
       "retryStrategyDescription": "Retry {{retryStrategy}}",
-      "retryIntervalFieldLabel": "Retry Interval",
+      "retryIntervalFieldLabel": "Retry interval",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} second",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} seconds",
-      "markSyntheticCall": "Mark Synthetic Call",
+      "markSyntheticCall": "Mark synthetic call",
       "hostname": "Hostname",
       "port": "Port",
-      "daysRemaining": "Failure Configuration",
+      "daysRemaining": "Failure configuration",
       "day": "Test will fail when certificate validity has {{daysRemainingCheck}} day remaining until expiration",
       "days": "Test will fail when certificate validity has {{daysRemainingCheck}} days remaining until expiration",
       "associations": "Associations",

@@ -37,11 +37,11 @@ describe('LocationsSection', () => {
     );
     expect(screen.getByText('Location(s)')).toBeInTheDocument();
 
-    expect(screen.getByText('Select Location')).toBeInTheDocument();
+    expect(screen.getByText('Select location')).toBeInTheDocument();
 
     expect(container.getElementsByTagName('th').length).toBe(4);
-    expect(container.getElementsByTagName('th')[0]).toHaveTextContent('Location Name');
-    expect(container.getElementsByTagName('th')[1]).toHaveTextContent('Display Name');
+    expect(container.getElementsByTagName('th')[0]).toHaveTextContent('Location name');
+    expect(container.getElementsByTagName('th')[1]).toHaveTextContent('Display name');
     expect(container.getElementsByTagName('th')[2]).toHaveTextContent('Status');
   });
 

@@ -96,10 +96,10 @@ describe('Confirmation Dialog', () => {
         initialOrderBy="datacenter_code"
       />
     );
-    expect(container.getElementsByTagName('th')[0]).toHaveTextContent('Datacenter Code');
-    expect(container.getElementsByTagName('th')[1]).toHaveTextContent('Datacenter Name');
-    expect(container.getElementsByTagName('th')[2]).toHaveTextContent('Location Name');
-    expect(container.getElementsByTagName('th')[3]).toHaveTextContent('Status');
+    expect(container.getElementsByTagName('th')[0]).toHaveTextContent('Datacenter code');
+    expect(container.getElementsByTagName('th')[1]).toHaveTextContent('Datacenter name');
+    expect(container.getElementsByTagName('th')[2]).toHaveTextContent('Location name');
+    expect(container.getElementsByTagName('th')[3]).toHaveTextContent('Activation status');
 
     const confirmationColumns = container.getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].children;
 

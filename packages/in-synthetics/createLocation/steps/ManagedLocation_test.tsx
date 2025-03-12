@@ -29,11 +29,11 @@ describe('ManagedLocation', () => {
     expect(linkElement.getAttribute('href')).toBe('https://ibm.biz/Instana-hosted_PoP');
 
     expect(container.getElementsByTagName('th').length).toBe(5);
-    expect(container.getElementsByTagName('th')[0]).toHaveTextContent('Datacenter Code');
-    expect(container.getElementsByTagName('th')[1]).toHaveTextContent('Datacenter Name');
+    expect(container.getElementsByTagName('th')[0]).toHaveTextContent('Datacenter code');
+    expect(container.getElementsByTagName('th')[1]).toHaveTextContent('Datacenter name');
     expect(container.getElementsByTagName('th')[2]).toHaveTextContent('Provider');
-    expect(container.getElementsByTagName('th')[3]).toHaveTextContent('Location Name');
-    expect(container.getElementsByTagName('th')[4]).toHaveTextContent('Status');
+    expect(container.getElementsByTagName('th')[3]).toHaveTextContent('Location name');
+    expect(container.getElementsByTagName('th')[4]).toHaveTextContent('Activation status');
   });
 
   test('renders NoDataAvailable component if no datacenters are present', () => {

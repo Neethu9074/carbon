@@ -18,12 +18,12 @@ describe('LocationList', () => {
     expect(screen.getByText('Smart Alerts')).toBeVisible();
 
     // Columns
-    expect(screen.getByText('Location Name')).toBeVisible();
-    expect(screen.getByText('Display Name')).toBeVisible();
+    expect(screen.getByText('Location name')).toBeVisible();
+    expect(screen.getByText('Display name')).toBeVisible();
     expect(screen.getByText('Status')).toBeVisible();
     expect(screen.getAllByText('Type')[1]).toBeVisible();
-    expect(screen.getByText('No. of Tests Linked')).toBeVisible();
-    expect(screen.getByText('Last Test Run On')).toBeVisible();
+    expect(screen.getByText('No. of tests linked')).toBeVisible();
+    expect(screen.getByText('Last test run on')).toBeVisible();
     expect(screen.getByText('Namespace')).toBeVisible();
     expect(screen.getByText('IP Address')).toBeVisible();
     expect(screen.getByText('Version')).toBeVisible();
