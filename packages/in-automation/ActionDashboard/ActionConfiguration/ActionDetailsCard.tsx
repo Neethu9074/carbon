@@ -25,9 +25,7 @@ import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNaviga
 import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
 import CreateNewActionTearsheet from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import { showConfirmationDialog } from 'in-automation/ActionCatalog/ActionCatalog';
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
-import useHasAccessToScript from 'in-automation/hooks/useHasAccessToScript';
 import { getDocLinkFromFields } from 'in-automation/utils/actionField';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 import { ACTION_TYPE, NO_FIELD_VALUE } from 'in-automation/constants';
@@ -78,7 +76,6 @@ interface ActionConfigurationActionsProps {
 
 function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<ActionConfigurationActionsProps>) {
   const { form } = useActionFormContext();
-  const hasAccessToScript = useHasAccessToScript();
   const navigateToActionCatalog = useNavigateToActionCatalog();
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
 
@@ -102,7 +99,7 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
     <CarbonStack orientation="horizontal">
       {role?.canConfigureAutomationActions && (
         <>
-          {type === ACTION_TYPE.MANUAL && automationActionAiGenerationUnitEnabled && hasAccessToScript && (
+          {type === ACTION_TYPE.MANUAL && (
             <CarbonButton
               className={classNames(local.ghostBtn, local.watsonxBtn)}
               kind="ghost"
