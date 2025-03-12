@@ -143,6 +143,7 @@
   "unidentifiedEntityTooltip": "There was an error retrieving information about this entity. You can visit the entity's dashboard by clicking the 'Unidentified Entity' link for more details.",
   "headerStatus": "Status",
   "eventHelpfulText": "Was this event helpful?",
+  "summaryHelpfulText": "Was this summary helpful?",
   "thankYouForYourFeedback": "Thank you for your feedback!",
   "hostOffLineEventProblemChangeTime": "Click the link below to go to the last version of the host monitored by Instana. Doing so will change the start of your time window to a point in time when the host was monitored by Instana",
   "offLineEventProblemChangeTime": "Click the link below to go to the last version of the process monitored by Instana. Doing so will change the start of your time window to a point in time when the process was monitored by Instana",

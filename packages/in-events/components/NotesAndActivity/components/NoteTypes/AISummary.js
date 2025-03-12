@@ -6,23 +6,37 @@
 
 import React, { useState } from 'react';
 
-import { SvgIcon, CarbonButton, CarbonIconButton, CarbonInlineLoading } from '@instana/components';
+import {
+  SvgIcon,
+  CarbonButton,
+  CarbonIconButton,
+  CarbonInlineLoading,
+  Typography,
+  Stack,
+  IconButton
+} from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
+import {
+  EVENT_AI_SHOW_MORE_INCIDENTS,
+  EVENT_AI_SHOW_MORE_ACTIONS,
+  EVENT_AI_SHARE_OPENED,
+  EVENT_AI_RUN_ACTION,
+  NOTES_SUMMARY_FEEDBACK_NEGATIVE,
+  NOTES_SUMMARY_FEEDBACK_POSITIVE
+} from 'in-services/tracking/eventNames';
 import {
   convertIncidentSummaryToString,
   convertActionsToString,
   convertNotesSummaryToString
 } from 'in-events/components/NotesAndActivity/components/NoteTypes/utils';
-import {
-  EVENT_AI_SHOW_MORE_INCIDENTS,
-  EVENT_AI_SHOW_MORE_ACTIONS,
-  EVENT_AI_SHARE_OPENED,
-  EVENT_AI_RUN_ACTION
-} from 'in-services/tracking/eventNames';
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useAction from 'in-automation/ActionCatalog/useAction';
+import { eventsPath } from 'in-events/navigation/paths';
 import { t } from 'in-i18n';
 
 import locals from './AISummary.mless';
@@ -127,6 +141,7 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
           <SvgIcon type="lib_actions_copy" size="xs" />
         </CarbonIconButton>
       </div>
+      <SummaryFeedbackComponent noteObj={noteObj} />
     </>
   );
 }
@@ -255,4 +270,66 @@ function handleRunActionClick(action, noteId, eventObjId) {
 // Copy text to clipboard
 function copyToClipboard(str) {
   navigator.clipboard.writeText(str);
+}
+
+//Modified from EventTable FeedbackComponents
+function SummaryFeedbackComponent({ noteObj, textVariant = 'body-regular', iconSize = 's' }) {
+  const { trackCta } = useSegmentTracking();
+  const tup = 'thumbsUp';
+  const tdown = 'thumbsDown';
+  const [feedbackState, setFeedbackState] = useState('');
+  const { location } = useNavigation();
+
+  return (
+    <Stack direction="horizontal" gap="xxsmall" distribution="start" align="center">
+      <Typography variant={textVariant} align="center">
+        {feedbackState === '' ? t('in-events:summaryHelpfulText') : t('in-events:thankYouForYourFeedback')}
+      </Typography>
+
+      <Stack direction="horizontal" align="center" gap="xxsmall">
+        <IconButton
+          kind="subtle"
+          // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
+          //TODO: Find an alternative to this (i.e. bring in a filled in thumbs up icon)
+          color={feedbackState === tup ? themes.default.ids.color.option.neutral['300'] : undefined}
+          size="compact"
+          type="lib_thumbs_up"
+          iconSize={iconSize}
+          onClick={() => {
+            const summaryFeedbackObject = {
+              summaryID: noteObj.id,
+              eventID: location.matrix[eventsPath]?.eventId
+            };
+            trackCta(NOTES_SUMMARY_FEEDBACK_POSITIVE, summaryFeedbackObject);
+            if (feedbackState === tup) {
+              setFeedbackState('');
+            } else {
+              setFeedbackState(tup);
+            }
+          }}
+        />
+        <IconButton
+          kind="subtle"
+          // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
+          //TODO: Find an alternative to this (i.e. bring in a filled in thumbs down icon)
+          color={feedbackState === tdown ? themes.default.ids.color.option.neutral['300'] : undefined}
+          size="compact"
+          iconSize={iconSize}
+          type="lib_thumbs_down"
+          onClick={() => {
+            const summaryFeedbackObject = {
+              summaryID: noteObj.id,
+              eventID: location.matrix[eventsPath]?.eventId
+            };
+            trackCta(NOTES_SUMMARY_FEEDBACK_NEGATIVE, summaryFeedbackObject);
+            if (feedbackState === tdown) {
+              setFeedbackState('');
+            } else {
+              setFeedbackState(tdown);
+            }
+          }}
+        />
+      </Stack>
+    </Stack>
+  );
 }
