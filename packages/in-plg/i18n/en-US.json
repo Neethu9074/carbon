@@ -844,5 +844,10 @@
     "done": "Done",
     "otherGoalPlaceholder": "For example, Gain visibility across my environment",
     "otherGoalToAccomplish": "What other goals are you trying to accomplish?"
+  },
+  "privacyNotification":{
+    "title": "Manage your profile",
+    "description": "View and update your profile, adjust privacy settings, and log out — all in one place.",
+    "buttonText": "Done"
   }
 }
