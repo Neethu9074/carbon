@@ -41,6 +41,10 @@ export interface OverlayContentProps extends ExternalContentProps {
 export interface OverlayProps<FORWARDED_CONTENT_PROPS> {
   autoOpen?: boolean;
   inContentArea?: boolean;
+  /**
+   * This could be used for an overlay display issue in Sidepanel because of high z-index.
+   * Use with care!
+   */
   inSidePanel?: boolean;
   behindSidebar?: boolean;
   forceConfiguredAlignment?: boolean;
@@ -96,6 +100,7 @@ export interface OverlayMounterProps {
   autoOpen?: boolean;
   withoutArrow?: boolean;
   inContentArea?: boolean;
+  /** see OverlayProps for comment */
   inSidePanel?: boolean;
   behindSidebar?: boolean;
   /** see OverlayProps for comment */
