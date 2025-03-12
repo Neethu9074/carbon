@@ -8,21 +8,18 @@ import React from 'react';
 
 import { Message, IconButton, Spacer } from '@instana/components';
 
-import TagFilterValidation from 'in-alerting/smart-alerts/applications/tearSheet/components/TagFilterValidation/TagFilterValidation';
+import { triggerScrollToInvalidItem$ } from 'in-alerting/smart-alerts/components/tearSheet/hooks/useScrollToFirstInvalidItem';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/eum/components/TearSheet/InvalidFilterMessage.mless';
+import locals from 'in-alerting/smart-alerts/components/tearSheet/TagfilterValidator/InvalidFilterMessage.mless';
 
 export default function InvalidFilterMessage({
   isTagFilterFormModelValid,
   tagFilterExpression,
   thresholdType,
-  form,
-  updateForm,
-  setStep,
-  QueryBuilder
+  setStep
 }) {
   return (
     isTagFilterFormModelValid === false &&
@@ -40,20 +37,16 @@ export default function InvalidFilterMessage({
           alignment="right"
           kind="tertiary"
           type="lib_actions_edit"
-          onClick={() =>
-            addActiveDialog(
-              <TagFilterValidation
-                form={form}
-                close={close}
-                QueryBuilder={QueryBuilder}
-                updateForm={updateForm}
-                setStep={setStep}
-              />
-            )
-          }
+          onClick={() => goToStep(setStep, 1, close)}
         />
         <Spacer size="medium" />
       </div>
     )
   );
+}
+
+function goToStep(setStep, step, close) {
+  triggerScrollToInvalidItem$.emit(true);
+  setStep(step);
+  close();
 }

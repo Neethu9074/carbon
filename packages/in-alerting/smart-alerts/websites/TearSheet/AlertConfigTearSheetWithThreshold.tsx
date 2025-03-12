@@ -13,6 +13,8 @@ import {
 } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/eum/hooks/useCalculateThresholdOnBackendSignalEmitter';
+//@ts-expect-error
+import useIsTagFilterFormModelExists from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelExists';
 // @ts-expect-error
 import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/websites/hooks/useIsTagFilterFormModelValid';
 //@ts-expect-error TS migration
@@ -23,6 +25,7 @@ import useAlertConfigValidation from 'in-alerting/smart-alerts/websites/hooks/us
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import AlertingFullScreenTearSheet from 'in-alerting/components/AlertingFullScreenTearSheet';
 import { getButtonLabel } from 'in-alerting/smart-alerts/websites/TearSheet/sharedFunctions';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { days } from 'in-services/time';
@@ -71,12 +74,18 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
 
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
-  const { isQueryValid } = useMemo(
+  const { isQueryValid, getTagCatalog } = useMemo(
     () => createBoundedAlertQueryBuilder(websiteId, beaconType, validThreshold?.type, tagSuggestionTimeConfig),
     [websiteId, beaconType, validThreshold?.type]
   );
 
   const isAlertQueryValid = createIsAlertQueryValid(isQueryValid);
+
+  const updateTagFilterExpression = (filteredTagFilterExpression: FormModelElement[]) => {
+    updateForm(form.updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression)));
+  };
+
+  useIsTagFilterFormModelExists(tagFilterExpression, getTagCatalog, updateTagFilterExpression);
 
   const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isAlertQueryValid);
 
@@ -102,8 +111,8 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
   return (
     <AlertingFullScreenTearSheet
       {...props}
+      isTagFilterFormModelValid={isTagFilterFormModelValid}
       blueprintConfig={blueprintConfig}
-      isTagFilterFormModelValid
       isEditMode={editMode}
       tearSheetTitle={tearSheetTitle}
       stepConfigs={navItems}

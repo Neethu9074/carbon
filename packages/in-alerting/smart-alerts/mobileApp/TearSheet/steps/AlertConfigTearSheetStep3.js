@@ -4,14 +4,13 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { Spacer } from '@instana/components';
 
 import ThresholdSelectionInteractiveSection from 'in-alerting/smart-alerts/eum/components/TearSheet/ThresholdSelectionInteractiveSection';
 import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/tearSheet/TimeThresholdConfig/TimeThresholdConfigPresenter';
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
-import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import EvaluationGranularity from 'in-alerting/smart-alerts/components/tearSheet/EvaluationGranularity';
@@ -57,17 +56,7 @@ export default function AlertConfigTearSheetStep3({
     ? warningThresholdField.get('type').value
     : criticalThresholdField.get('type').value;
 
-  const metricName = blueprintConfig.defaultMetric;
-  const beaconType = blueprintConfig.getBeaconType(metricName);
-  const mobileAppId = form.get('mobileAppId').value;
-
   const chartViewConfigs = defaultChartViewConfigs;
-
-  const { QueryBuilder } = useMemo(
-    () => createBoundedAlertQueryBuilder(mobileAppId, beaconType, thresholdType, tagSuggestionTimeConfig),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [mobileAppId, beaconType, thresholdType]
-  );
 
   return (
     <>
@@ -93,7 +82,6 @@ export default function AlertConfigTearSheetStep3({
               AlertTypeSwitch={AlertTypeSwitch}
               isTagFilterFormModelValid={isTagFilterFormModelValid}
               setStep={setStep}
-              QueryBuilder={QueryBuilder}
             />
             <Spacer size="normal" />
             {/* Granularity Slider */}

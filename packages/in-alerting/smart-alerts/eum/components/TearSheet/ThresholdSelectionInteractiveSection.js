@@ -13,12 +13,12 @@ import CustomEventsThresholdCondition from 'in-alerting/smart-alerts/eum/compone
 import { ruleMetricNameOptions as websiteRuleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import ThroughputThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/ThroughputThresholdCondition';
 import StatusCodeThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/StatusCodeThresholdCondition';
+import InvalidFilterMessage from 'in-alerting/smart-alerts/components/tearSheet/TagfilterValidator/InvalidFilterMessage';
 import SlownessThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/SlownessThresholdCondition';
 import JsErrorsThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/JsErrorsThresholdCondition';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
 import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/AdaptiveBaselineErrorMessage';
 import CrashThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/CrashThresholdCondition';
-import InvalidFilterMessage from 'in-alerting/smart-alerts/eum/components/TearSheet/InvalidFilterMessage';
 import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
@@ -37,8 +37,7 @@ export default function ThresholdSelectionInteractiveSection({
   thresholdResult,
   AlertTypeSwitch,
   isTagFilterFormModelValid,
-  setStep,
-  QueryBuilder
+  setStep
 }) {
   const tagFilterExpression = form.get('tagFilterExpression').value;
 
@@ -59,17 +58,12 @@ export default function ThresholdSelectionInteractiveSection({
             isPercentageMetric={isPercentageMetric}
             getMetricUnitPostfix={getMetricUnitPostfix}
           >
-            {eumType === mobileAppEum && (
-              <InvalidFilterMessage
-                isTagFilterFormModelValid={isTagFilterFormModelValid}
-                tagFilterExpression={tagFilterExpression}
-                thresholdType={thresholdType}
-                form={form}
-                updateForm={updateForm}
-                setStep={setStep}
-                QueryBuilder={QueryBuilder}
-              />
-            )}
+            <InvalidFilterMessage
+              isTagFilterFormModelValid={isTagFilterFormModelValid}
+              tagFilterExpression={tagFilterExpression}
+              thresholdType={thresholdType}
+              setStep={setStep}
+            />
           </CustomEventsThresholdCondition>
         )}
         renderSlowness={() =>
@@ -82,7 +76,14 @@ export default function ThresholdSelectionInteractiveSection({
               eumType={eumType}
               onChartViewConfigChange={onChartViewConfigChange}
               isPercentageMetric={isPercentageMetric}
-            />
+            >
+              <InvalidFilterMessage
+                isTagFilterFormModelValid={isTagFilterFormModelValid}
+                tagFilterExpression={tagFilterExpression}
+                thresholdType={thresholdType}
+                setStep={setStep}
+              />
+            </SlownessThresholdCondition>
           )
         }
         renderStatusCode={() => (
@@ -99,17 +100,12 @@ export default function ThresholdSelectionInteractiveSection({
             }
             onChartViewConfigChange={onChartViewConfigChange}
           >
-            {eumType === mobileAppEum && (
-              <InvalidFilterMessage
-                isTagFilterFormModelValid={isTagFilterFormModelValid}
-                tagFilterExpression={tagFilterExpression}
-                thresholdType={thresholdType}
-                form={form}
-                updateForm={updateForm}
-                setStep={setStep}
-                QueryBuilder={QueryBuilder}
-              />
-            )}
+            <InvalidFilterMessage
+              isTagFilterFormModelValid={isTagFilterFormModelValid}
+              tagFilterExpression={tagFilterExpression}
+              thresholdType={thresholdType}
+              setStep={setStep}
+            />
           </StatusCodeThresholdCondition>
         )}
         renderThroughput={() => (
@@ -125,17 +121,12 @@ export default function ThresholdSelectionInteractiveSection({
             getMetricUnitPostfix={getMetricUnitPostfix}
             onChartViewConfigChange={onChartViewConfigChange}
           >
-            {eumType === mobileAppEum && (
-              <InvalidFilterMessage
-                isTagFilterFormModelValid={isTagFilterFormModelValid}
-                tagFilterExpression={tagFilterExpression}
-                thresholdType={thresholdType}
-                form={form}
-                updateForm={updateForm}
-                setStep={setStep}
-                QueryBuilder={QueryBuilder}
-              />
-            )}
+            <InvalidFilterMessage
+              isTagFilterFormModelValid={isTagFilterFormModelValid}
+              tagFilterExpression={tagFilterExpression}
+              thresholdType={thresholdType}
+              setStep={setStep}
+            />
           </ThroughputThresholdCondition>
         )}
         renderCrash={() =>
@@ -153,10 +144,7 @@ export default function ThresholdSelectionInteractiveSection({
                 isTagFilterFormModelValid={isTagFilterFormModelValid}
                 tagFilterExpression={tagFilterExpression}
                 thresholdType={thresholdType}
-                form={form}
-                updateForm={updateForm}
                 setStep={setStep}
-                QueryBuilder={QueryBuilder}
               />
             </CrashThresholdCondition>
           )

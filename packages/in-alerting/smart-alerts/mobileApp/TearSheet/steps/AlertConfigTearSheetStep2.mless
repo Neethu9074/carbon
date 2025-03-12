@@ -8,4 +8,8 @@
   .wrapper {
     min-height: 20rem;
   }
+
+  .right {
+    float: right;
+  }
 }

@@ -4,13 +4,12 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { Message, Spacer, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { triggerScrollToInvalidItem$ } from 'in-alerting/smart-alerts/components/tearSheet/hooks/useScrollToFirstInvalidItem';
-import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { removeInvalidFilters } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 import AlertTypography from 'in-alerting/components/AlertTypography';
@@ -21,21 +20,23 @@ import { t } from 'in-i18n';
 
 import locals from './TagFilterValidation.mless';
 
-export default function TagFilterValidation({ form, close, QueryBuilder, updateForm, setStep }) {
+export default function TagFilterValidation({
+  form,
+  close,
+  QueryBuilder,
+  updateForm,
+  setStep,
+  queryBuilderForAlertType
+}) {
   const alertConfigWithFormModel = form.toJS();
 
-  const { rule, tagFilterExpression } = alertConfigWithFormModel;
+  const { tagFilterExpression } = alertConfigWithFormModel;
 
   const updateTagFilterExpression = filteredTagFilterExpression => {
     updateForm(form.updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression)));
   };
 
-  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
-
-  const { getTagCatalog } = useMemo(() => {
-    return getQueryBuilderForAlertType(rule?.alertType, thresholdType);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rule?.alertType, thresholdType]);
+  const { getTagCatalog } = queryBuilderForAlertType;
 
   const timeConfig = useTimeConfig();
 

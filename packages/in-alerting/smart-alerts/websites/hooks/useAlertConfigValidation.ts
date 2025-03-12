@@ -73,7 +73,11 @@ export default function useAlertConfigValidation(
     },
     {
       ...stepConfigs[2],
-      valid: isThresholdSectionValid() && form.get('threshold').hierarchyValid && isTimeThresholdSectionValid(),
+      valid:
+        isThresholdSectionValid() &&
+        form.get('threshold').hierarchyValid &&
+        isTimeThresholdSectionValid() &&
+        isTagFilterFormModelValid,
       validator: () => updateFormField(form, updateForm, ['threshold'])
     },
     {

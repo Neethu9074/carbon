@@ -10,6 +10,7 @@ import React, { useMemo } from 'react';
 import { Stack } from '@instana/components';
 
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
+import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/dialog/ClearTagFilterExpressionButton';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
@@ -73,8 +74,13 @@ export default function AlertConfigTearSheetStep2({
       {/* Filter */}
 
       <div className={locals.wrapper}>
-        <Stack direction="horizontal" gap="small">
+        <Stack direction="horizontal" gap="small" distribution="spaceBetween">
           <AlertFilterConfigurator QueryBuilderComponent={AlertQueryBuilder} form={form} updateForm={updateForm} />
+          <div className={locals.right}>
+            {(form.get('tagFilterExpression') as Field<string>).value.length > 0 && (
+              <ClearTagFilterExpressionButton form={form} updateForm={updateForm} />
+            )}
+          </div>
         </Stack>
       </div>
     </Stack>
