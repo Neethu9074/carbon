@@ -207,7 +207,6 @@ function ScriptSection({
       </div>
       <div className={locals.CodeWithAISlug}>
         <CodeComponent withExpandButton linesToShow={20} code={plaintextScript} lang={'bash'} softWrap />
-        {/* <AISlugIcon /> */}
       </div>
       <FeedbackComponent
         trackerPayload={trackerPayload}
