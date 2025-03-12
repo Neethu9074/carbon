@@ -7,7 +7,15 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, CarbonLayer, CarbonInlineLoading, IconButton, CarbonSearch, CarbonModal } from '@instana/components';
+import {
+  SvgIcon,
+  CarbonLayer,
+  CarbonInlineLoading,
+  IconButton,
+  CarbonSearch,
+  CarbonModal,
+  Stack
+} from '@instana/components';
 
 // Not using Carbon tooltip since tooltip has not been migrated
 // Using Carbon tooltip would cause mismatch in design on the page
@@ -38,7 +46,10 @@ export function OpenNotesAndActivity({ displayNotes, setDisplayNotes, event }) {
     return (
       <Tooltip content={t('in-events:notes.openNotes')}>
         <div onClick={openNotes} className={locals.closedNotesWrapper}>
-          {t('in-events:notes.notesActivity')}
+          <Stack direction="horizontal" gap="xxsmall">
+            {t('in-events:notes.notesActivity')}
+            <SvgIcon type={'lib_launch_ai'} color="currentColor" size="xs" />
+          </Stack>
           <SvgIcon type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'} size="s" />
         </div>
       </Tooltip>
