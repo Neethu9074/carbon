@@ -13,7 +13,6 @@ module.exports = {
   rules: {
     ...createImportRestrictionRule({
       enforceAbsoluteImportPaths: true,
-      paths: ['@instana/i18n-react'],
       allowedInPackages: [
         'in-alerting',
         'in-analyze',
@@ -22,14 +21,14 @@ module.exports = {
         'in-automation',
         'in-components',
         'in-events',
+        'in-hoc',
         'in-hooks',
         'in-logging',
         'in-sdk',
         'in-services',
         'in-settings',
         'in-stores',
-        'in-subscription',
-        'in-hoc'
+        'in-subscription'
       ]
     }),
     'react/function-component-definition': [
