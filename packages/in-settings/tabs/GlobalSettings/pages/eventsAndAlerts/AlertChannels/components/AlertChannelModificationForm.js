@@ -101,6 +101,7 @@ function AlertChannelModificationForm(props) {
     setSelectedList(item);
     setForm(form.put('rbacTags', item));
   };
+  const customSubmit = fullyQualifiedAlertChannel?.customSubmit;
 
   return (
     <Fragment>
@@ -161,7 +162,7 @@ function AlertChannelModificationForm(props) {
             testAlertChannelLabel={testAlertChannelLabel}
           />
         )}
-        {rbacTeamsEnabled && (
+        {rbacTeamsEnabled && !fullyQualifiedAlertChannel?.noTeams && (
           <>
             <SectionLine />
             <Typography variant="heading-02" noMargin>
@@ -198,7 +199,15 @@ function AlertChannelModificationForm(props) {
         )}
       </SettingsDetailPage>
       {renderCustomFormActions?.({ form, loading }) ?? (
-        <SubmissionButton form={form} message={message} loading={loading} isCreate={isCreate} listPath={listPath} />
+        <SubmissionButton
+          form={form}
+          message={message}
+          loading={loading}
+          isCreate={isCreate}
+          listPath={listPath}
+          customSubmit={customSubmit}
+          setForm={setForm}
+        />
       )}
     </Fragment>
   );
@@ -213,9 +222,12 @@ function getDefaultStateOfAdvancedSection(entity, form) {
     : false;
 }
 
-function SubmissionButton({ form, message, loading, isCreate, listPath }) {
+function SubmissionButton({ form, message, loading, isCreate, listPath, customSubmit, setForm }) {
+  const { bypassApiCreate, submitSaveLabel, submitCreateLabel } = customSubmit ?? {};
   const saving = loading && message === entityFormSavingMessage;
-  const saveButtonLabel = isCreate ? t('forms.actions.create') : t('forms.actions.save');
+  const saveButtonLabel = isCreate
+    ? submitCreateLabel ?? t('forms.actions.create')
+    : submitSaveLabel ?? t('forms.actions.save');
   const savingStateName = t('forms.states.saving');
 
   const { goToPath } = useNavigation();
@@ -227,16 +239,37 @@ function SubmissionButton({ form, message, loading, isCreate, listPath }) {
         <Button kind="secondary" className={locals.button} onClick={() => goToPath(listPath)}>
           {t('forms.actions.cancel')}
         </Button>
-        <Button
-          kind="primary"
-          type="submit"
-          className={locals.button}
-          disabled={(!form.hierarchyValid && form.touched) || loading || saving}
-          icon={saving ? 'lib_actions_loading' : null}
-          iconSpinning
-        >
-          {saving ? savingStateName : saveButtonLabel}
-        </Button>
+        {bypassApiCreate ? (
+          <Button
+            className={locals.button}
+            disabled={(!form.hierarchyValid && form.touched) || loading || saving}
+            icon={saving ? 'lib_actions_loading' : null}
+            iconSpinning
+            onClick={() => {
+              // We want to perform the error checking here on click
+              if (!form.hierarchyValid) {
+                setForm(form.setTouched(true, { recurse: true }));
+              }
+              // If everything passes then we want to redirect them back to listPath
+              if (form.maxSeverityOfHierarchy == 'ok') {
+                goToPath(listPath);
+              }
+            }}
+          >
+            {saving ? savingStateName : saveButtonLabel}
+          </Button>
+        ) : (
+          <Button
+            kind="primary"
+            type="submit"
+            className={locals.button}
+            disabled={(!form.hierarchyValid && form.touched) || loading || saving}
+            icon={saving ? 'lib_actions_loading' : null}
+            iconSpinning
+          >
+            {saving ? savingStateName : saveButtonLabel}
+          </Button>
+        )}
       </Stack>
     </div>
   );
