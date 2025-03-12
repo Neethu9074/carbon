@@ -13,7 +13,6 @@ import {
   CarbonSlugContent,
   CarbonTab,
   CarbonTabList,
-  CarbonTabPanels,
   CarbonTabs,
   CarbonTile,
   IconButton,
@@ -22,9 +21,9 @@ import {
   SvgIcon,
   Typography
 } from '@instana/components';
-import { TimeConfig } from '@instana/types';
 import { t, Trans } from '@instana/i18n-react';
 import { fromNow } from '@instana/format-date';
+import { TimeConfig } from '@instana/types';
 
 import {
   EVENT_RCA_SUGGESTION_HELPFUL,
@@ -34,7 +33,9 @@ import {
   EVENT_RCA_FEEDBACK_CLOSED_MANUALLY,
   EVENT_RCA_FEEDBACK_SUBMIT
 } from 'in-services/tracking/tracking';
+import getRootCauseTabSecondaryLabel from 'in-events/components/RootCauseAnalysis/utils/getRootCauseTabSecondaryLabel';
 import { ExplainabilityKeys, ProbableCauseType } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
+import getRootCauseTabLabel from 'in-events/components/RootCauseAnalysis/utils/getRootCauseTabLabel';
 import RootCauseLogsSection from 'in-events/components/RootCauseAnalysis/Logs/RootCauseLogsSection';
 import RootCauseEntityDetails from 'in-events/components/RootCauseAnalysis/RootCauseEntityDetails';
 import AssociatedEvents from 'in-events/components/RootCauseAnalysis/RootCauseAssociatedEvents';
@@ -57,228 +58,212 @@ interface RootCauseSectionProps {
   incident: EventOrMap;
 }
 
-const RootCauseSection = forwardRef<HTMLDivElement, RootCauseSectionProps>(
-  ({ title, incident }, ref) => {
-    const [selectedRCA, setSelectedRCA] = useState(0);
+const RootCauseSection = forwardRef<HTMLDivElement, RootCauseSectionProps>(({ title, incident }, ref) => {
+  const [selectedRCA, setSelectedRCA] = useState(0);
 
-    const rootCauseSnapshotPath = incident.hasIn(['metadata', 'rootCause', 'currentRootCause'])
-      ? ['metadata', 'rootCause', 'currentRootCause']
-      : ['metadata', 'rootCause'];
+  const rootCauseSnapshotPath = incident.hasIn(['metadata', 'rootCause', 'currentRootCause'])
+    ? ['metadata', 'rootCause', 'currentRootCause']
+    : ['metadata', 'rootCause'];
 
-    const failureReason = incident.getIn(['rca', 'failureReason']);
+  const failureReason = incident.getIn(['rca', 'failureReason']);
 
-    const getLinkToApplicationAnalyze = useLinkToAnalyze();
+  const getLinkToApplicationAnalyze = useLinkToAnalyze();
 
-    const rootCauseSnapshotMap = (
-      incident.getIn(rootCauseSnapshotPath, Map()) as Map<string, ProbableCauseType> | List<ProbableCauseType>
+  const rootCauseSnapshotMap = (
+    incident.getIn(rootCauseSnapshotPath, Map()) as Map<string, ProbableCauseType> | List<ProbableCauseType>
+  )
+    .sort(
+      (a: ProbableCauseType, b: ProbableCauseType) =>
+        (b.get('probFailure') as number) - (a.get('probFailure') as number)
     )
-      .sort(
-        (a: ProbableCauseType, b: ProbableCauseType) =>
-          (b.get('probFailure') as number) - (a.get('probFailure') as number)
-      )
-      .filter((rootCauseEntity: ProbableCauseType | undefined) => {
-        // Filtering out entities with no erroneous rate through the identified root cause
-        if (!rootCauseEntity) return false;
+    .filter((rootCauseEntity: ProbableCauseType | undefined) => {
+      // Filtering out entities with no erroneous rate through the identified root cause
+      if (!rootCauseEntity) return false;
 
-        const explainabilityMetadata = rootCauseEntity.get('explainability') as List<
-          Map<string, string | number | boolean>
-        >;
-        const aggreagatedInfo = explainabilityMetadata.find(service => service?.get('connectedServiceId') === 'all');
+      const explainabilityMetadata = rootCauseEntity.get('explainability') as List<
+        Map<string, string | number | boolean>
+      >;
+      const aggreagatedInfo = explainabilityMetadata.find(service => service?.get('connectedServiceId') === 'all');
 
-        if (aggreagatedInfo.get('percentageFailedThroughRC') === 0) {
-          return false;
-        }
-        return true;
-      });
+      if (aggreagatedInfo.get('percentageFailedThroughRC') === 0) {
+        return false;
+      }
+      return true;
+    });
 
-    //String in this case is snapshot ID
-    let rootCauseSnapshots: [string, ProbableCauseType][] = [];
-    if (List.isList(rootCauseSnapshotMap)) {
-      rootCauseSnapshots = rootCauseSnapshotMap
-        .map((rootCause: ProbableCauseType | undefined) => {
-          if (!rootCause) return;
-          const id = rootCause?.get('snapshotId');
+  //String in this case is snapshot ID
+  let rootCauseSnapshots: [string, ProbableCauseType][] = [];
+  if (List.isList(rootCauseSnapshotMap)) {
+    rootCauseSnapshots = rootCauseSnapshotMap
+      .map((rootCause: ProbableCauseType | undefined) => {
+        if (!rootCause) return;
+        const id = rootCause?.get('snapshotId');
 
-          return [id, rootCause];
-        })
-        .toArray() as [string, ProbableCauseType][];
-    } else if (Map.isMap(rootCauseSnapshotMap)) {
-      // legacy where we had a map of snapshot Ids with respective root cause directly
-      rootCauseSnapshots = rootCauseSnapshotMap.entrySeq().toArray() as [string, ProbableCauseType][];
-    }
+        return [id, rootCause];
+      })
+      .toArray() as [string, ProbableCauseType][];
+  } else if (Map.isMap(rootCauseSnapshotMap)) {
+    // legacy where we had a map of snapshot Ids with respective root cause directly
+    rootCauseSnapshots = rootCauseSnapshotMap.entrySeq().toArray() as [string, ProbableCauseType][];
+  }
 
-    if (rootCauseSnapshotMap.size <= 0 && rcaFailedStateEnabled) {
-      let failedTextReason;
-      let externalLink;
-      let buttonText;
-      if (failureReason) {
-        if (failureReason === 'no_calls_after_filter' || failureReason === 'no_calls') {
-          const incidentStartTime = new Date(incident.get('start') as number);
-          failedTextReason = (
-            <Trans
-              i18nKey="in-events:RCA.failureReasons.noCalls"
-              components={{
-                time_since_event_started: fromNow(incidentStartTime)
-              }}
-              parent="span"
-            />
-          );
-          externalLink = getLinkToApplicationAnalyze({});
-          buttonText = t('in-events:RCA.failureReasons.analyzePage');
-        } else if (failureReason === 'not_enough_application_impact') {
-          failedTextReason = t('in-events:RCA.failureReasons.notEnoughApplicationImpact');
-          externalLink =
-            'https://www.ibm.com/docs/en/instana-observability/current?topic=applications-application-perspectives';
-          buttonText = t('in-events:RCA.failureReasons.viewDocumentation');
-        }
-      } else {
-        failedTextReason = t('in-events:RCA.failureReasons.notSupported');
-        externalLink = 'https://www.ibm.com/docs/en/instana-observability/current?topic=ma-smart-alerts';
+  if (rootCauseSnapshotMap.size <= 0 && rcaFailedStateEnabled) {
+    let failedTextReason;
+    let externalLink;
+    let buttonText;
+    if (failureReason) {
+      if (failureReason === 'no_calls_after_filter' || failureReason === 'no_calls') {
+        const incidentStartTime = new Date(incident.get('start') as number);
+        failedTextReason = (
+          <Trans
+            i18nKey="in-events:RCA.failureReasons.noCalls"
+            components={{
+              time_since_event_started: fromNow(incidentStartTime)
+            }}
+            parent="span"
+          />
+        );
+        externalLink = getLinkToApplicationAnalyze({});
+        buttonText = t('in-events:RCA.failureReasons.analyzePage');
+      } else if (failureReason === 'not_enough_application_impact') {
+        failedTextReason = t('in-events:RCA.failureReasons.notEnoughApplicationImpact');
+        externalLink =
+          'https://www.ibm.com/docs/en/instana-observability/current?topic=applications-application-perspectives';
         buttonText = t('in-events:RCA.failureReasons.viewDocumentation');
       }
-
-      return (
-        <ProbableRootCauseCard title={title} ref={ref}>
-          <div className={locals.innerRCACard} ref={ref}>
-            <Stack>
-              <SvgIcon type="lib_carbon_empty_state" size="xxl" />
-              <div className={locals.failureTextWrapper}>
-                <Typography variant="heading-compact-02">{t('in-events:RCA.failedTitle')}</Typography>
-              </div>
-              <div className={locals.failureTextWrapper}>
-                <Typography variant="body-regular">{t('in-events:RCA.failed')}</Typography>
-              </div>
-              {failedTextReason && (
-                <div className={locals.failureTextWrapper}>
-                  <Typography variant="body-regular">{failedTextReason}</Typography>
-                </div>
-              )}
-              {buttonText && (
-                <Button
-                  icon={
-                    buttonText === t('in-events:RCA.failureReasons.viewDocumentation')
-                      ? 'lib_views_external_link'
-                      : 'lib_analyze'
-                  }
-                  kind="tertiary"
-                  href={externalLink}
-                >
-                  {buttonText}
-                </Button>
-              )}
-            </Stack>
-          </div>
-        </ProbableRootCauseCard>
-      );
-    } else if (rootCauseSnapshotMap.size <= 0 && !rcaFailedStateEnabled) {
-      return null;
+    } else {
+      failedTextReason = t('in-events:RCA.failureReasons.notSupported');
+      externalLink = 'https://www.ibm.com/docs/en/instana-observability/current?topic=ma-smart-alerts';
+      buttonText = t('in-events:RCA.failureReasons.viewDocumentation');
     }
+
     return (
-      <Row withoutSideMargin>
-        <Col xs>
-          <ProbableRootCauseCard title={title} ref={ref}>
-            <div>
-              <CarbonTabs onChange={val => setSelectedRCA(val.selectedIndex ?? 0)}>
-                <CarbonTabList aria-label="List of RCA Entities" contained>
-                  {rootCauseSnapshots.map(([rcaSnapshotID, rootCause], idx) => {
-                    if (!rootCause) return;
-
-                    const probFailureValue = rootCause.get('probFailure') as number;
-
-                    let probText: string | undefined = undefined;
-                    if (probFailureValue >= 0.7) {
-                      probText = t('in-events:RCA.highProbabilitySecondaryLabel');
-                    } else if (probFailureValue >= 0.35) {
-                      probText = t('in-events:RCA.moderateProbabilitySecondaryLabel');
-                    } else {
-                      probText = t('in-events:RCA.lowProbabilitySecondaryLevel');
-                    }
-
-                    return (
-                      <CarbonTab key={rcaSnapshotID} secondaryLabel={probText}>
-                        {idx === 0 ? t('in-events:RCA.mostLikelyCause') : t('in-events:RCA.probableCause')}
-                      </CarbonTab>
-                    );
-                  })}
-                </CarbonTabList>
-                <CarbonTabPanels>
-                  {rootCauseSnapshots.map(([rcaSnapshotID, rootCause], idx) => {
-                    if (!rootCause) return;
-
-                    return (
-                      <>
-                        <RootCauseEntityDetails
-                          relatedAPID={
-                            (incident.get('metadata') as Map<string, string>).has('app20ApplicationId')
-                              ? (incident.get('metadata') as Map<string, string>).get('app20ApplicationId')
-                              : null
-                          }
-                          rcaSnapshotID={
-                            determineEntityTypeFromEntityIDMap(rootCause.get('entityID') as Map<string, string>) ===
-                            'infrastructure'
-                              ? rcaSnapshotID
-                              : rootCause?.getIn(['entityID', 'steadyId'])
-                          }
-                          rcaEntityType={determineEntityTypeFromEntityIDMap(
-                            rootCause.get('entityID') as Map<string, string>
-                          )}
-                          entityID={rootCause.get('entityID') as Map<string, string>}
-                          explainabilityMetadata={
-                            rootCause.get('explainability') as List<Map<ExplainabilityKeys, string | number | boolean>>
-                          }
-                          probabilityScore={rootCause.get('probFailure') as number}
-                          incidentTimeWindow={getIncidentTimeConfig(incident)}
-                          triggeringEvent={incident}
-                          rootCauses={rootCauseSnapshots}
-                          key={idx}
-                        />
-                      </>
-                    );
-                  })}
-                </CarbonTabPanels>
-              </CarbonTabs>
+      <ProbableRootCauseCard title={title} ref={ref}>
+        <div className={locals.innerRCACard} ref={ref}>
+          <Stack>
+            <SvgIcon type="lib_carbon_empty_state" size="xxl" />
+            <div className={locals.failureTextWrapper}>
+              <Typography variant="heading-compact-02">{t('in-events:RCA.failedTitle')}</Typography>
             </div>
-
-            {rootCauseSnapshots.map(([rcaSnapshotID, rootCause], idx) => {
-              if (!rootCause) return;
-              if (selectedRCA === idx) {
-                return (
-                  <Stack gap="disabled">
-                    {rcaLogsEnabled && (
-                      <RootCauseLogsSection
-                        rcaSnapshotID={
-                          determineEntityTypeFromEntityIDMap(rootCause.get('entityID') as Map<string, string>) ===
-                          'infrastructure'
-                            ? rcaSnapshotID
-                            : rootCause?.getIn(['entityID', 'steadyId'])
-                        }
-                        relatedAPID={
-                          (incident.get('metadata') as Map<string, string>).has('app20ApplicationId')
-                            ? (incident.get('metadata') as Map<string, string>).get('app20ApplicationId')
-                            : null
-                        }
-                        rcaEntityType={determineEntityTypeFromEntityIDMap(
-                          rootCause.get('entityID') as Map<string, string>
-                        )}
-                        incidentTimeWindow={getIncidentTimeConfig(incident)}
-                      />
-                    )}
-                    <AssociatedEvents rootCause={rootCause} />
-                    <div className={locals.accordionContent}>
-                      <FeedbackComponent incident={incident} />
-                    </div>
-                  </Stack>
-                );
-              } else {
-                return;
-              }
-            })}
-          </ProbableRootCauseCard>
-        </Col>
-      </Row>
+            <div className={locals.failureTextWrapper}>
+              <Typography variant="body-regular">{t('in-events:RCA.failed')}</Typography>
+            </div>
+            {failedTextReason && (
+              <div className={locals.failureTextWrapper}>
+                <Typography variant="body-regular">{failedTextReason}</Typography>
+              </div>
+            )}
+            {buttonText && (
+              <Button
+                icon={
+                  buttonText === t('in-events:RCA.failureReasons.viewDocumentation')
+                    ? 'lib_views_external_link'
+                    : 'lib_analyze'
+                }
+                kind="tertiary"
+                href={externalLink}
+              >
+                {buttonText}
+              </Button>
+            )}
+          </Stack>
+        </div>
+      </ProbableRootCauseCard>
     );
+  } else if (rootCauseSnapshotMap.size <= 0 && !rcaFailedStateEnabled) {
+    return null;
   }
-);
+
+  const currentSelectionRCAID = rootCauseSnapshots[selectedRCA][0];
+  const currentSelectionRCARootCause = rootCauseSnapshots[selectedRCA][1];
+
+  return (
+    <Row withoutSideMargin>
+      <Col xs>
+        <ProbableRootCauseCard title={title} ref={ref}>
+          <div>
+            <CarbonTabs selectedIndex={selectedRCA} onChange={val => setSelectedRCA(val.selectedIndex ?? 0)}>
+              <CarbonTabList aria-label="List of RCA Entities" contained>
+                {rootCauseSnapshots.map(([rcaSnapshotID, rootCause], idx) => {
+                  if (!rootCause) return;
+
+                  return (
+                    <CarbonTab key={rcaSnapshotID} secondaryLabel={getRootCauseTabSecondaryLabel(rootCause)}>
+                      {getRootCauseTabLabel(idx)}
+                    </CarbonTab>
+                  );
+                })}
+              </CarbonTabList>
+            </CarbonTabs>
+            <RootCauseEntityDetails
+              relatedAPID={
+                (incident.get('metadata') as Map<string, string>).has('app20ApplicationId')
+                  ? (incident.get('metadata') as Map<string, string>).get('app20ApplicationId')
+                  : null
+              }
+              rcaSnapshotID={
+                determineEntityTypeFromEntityIDMap(
+                  currentSelectionRCARootCause.get('entityID') as Map<string, string>
+                ) === 'infrastructure'
+                  ? currentSelectionRCAID
+                  : currentSelectionRCARootCause?.getIn(['entityID', 'steadyId'])
+              }
+              rcaEntityType={determineEntityTypeFromEntityIDMap(
+                currentSelectionRCARootCause.get('entityID') as Map<string, string>
+              )}
+              entityID={currentSelectionRCARootCause.get('entityID') as Map<string, string>}
+              explainabilityMetadata={
+                currentSelectionRCARootCause.get('explainability') as List<
+                  Map<ExplainabilityKeys, string | number | boolean>
+                >
+              }
+              probabilityScore={currentSelectionRCARootCause.get('probFailure') as number}
+              incidentTimeWindow={getIncidentTimeConfig(incident)}
+              triggeringEvent={incident}
+              rootCauses={rootCauseSnapshots}
+              selectedRCA={selectedRCA}
+            />
+          </div>
+
+          {rootCauseSnapshots.map(([rcaSnapshotID, rootCause], idx) => {
+            if (!rootCause) return;
+            if (selectedRCA === idx) {
+              return (
+                <Stack gap="disabled">
+                  {rcaLogsEnabled && (
+                    <RootCauseLogsSection
+                      rcaSnapshotID={
+                        determineEntityTypeFromEntityIDMap(rootCause.get('entityID') as Map<string, string>) ===
+                        'infrastructure'
+                          ? rcaSnapshotID
+                          : rootCause?.getIn(['entityID', 'steadyId'])
+                      }
+                      relatedAPID={
+                        (incident.get('metadata') as Map<string, string>).has('app20ApplicationId')
+                          ? (incident.get('metadata') as Map<string, string>).get('app20ApplicationId')
+                          : null
+                      }
+                      rcaEntityType={determineEntityTypeFromEntityIDMap(
+                        rootCause.get('entityID') as Map<string, string>
+                      )}
+                      incidentTimeWindow={getIncidentTimeConfig(incident)}
+                    />
+                  )}
+                  <AssociatedEvents rootCause={rootCause} />
+                  <div className={locals.accordionContent}>
+                    <FeedbackComponent incident={incident} />
+                  </div>
+                </Stack>
+              );
+            } else {
+              return;
+            }
+          })}
+        </ProbableRootCauseCard>
+      </Col>
+    </Row>
+  );
+});
 
 interface ProbableRootCauseCardProps {
   title: string;

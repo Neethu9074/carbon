@@ -273,12 +273,9 @@
     "analyzeTraceLogs": "Analyze Trace Logs",
     "analyzeApplicationLogs": "Analyze application logs",
     "topology": {
+      "overviewTab": "Overview",
       "viewTopology": "View topology",
       "dialogTitle": "Topology",
-      "overviewTab": "Overview",
-      "rootCauseOne": "Root cause 1",
-      "rootCauseTwo": "Root cause 2",
-      "rootCauseThree": "Root cause 3",
       "failedToLoadTitle": "Failed to load topology",
       "failedToLoadDescription": "The topology data has failed to load due to an error in retrieving data. It is possible that it no longer exists due to data retention policies.",
       "legendRCA": "Root Cause Entity",

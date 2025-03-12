@@ -6,15 +6,19 @@
 
 import ELK, { ElkExtendedEdge } from 'elkjs/lib/elk.bundled';
 import React, { useEffect, useMemo, useState } from 'react';
+import { SidePanel } from '@carbon/ibm-products';
+import { isEmpty } from 'lodash';
+
+import { LoadingSkeleton } from '@instana/components';
 
 import { RootCauseTopologySVGWrapper } from 'in-events/components/RootCauseAnalysis/Topology/RootCauseTopologySVGWrapper';
 import convertRCALinksToElkLinks from 'in-events/components/RootCauseAnalysis/Topology/utils/convertRCALinksToElkLinks';
 import convertRCANodesToElkNodes from 'in-events/components/RootCauseAnalysis/Topology/utils/convertRCANodesToElkNodes';
-import { ConnectionsMap, NodesMap } from 'in-events/components/legacy/TopologyUtils';
+import { ConnectionsMap, NodesMap, RCA_TOPOLOGY_TAGS } from 'in-events/components/legacy/TopologyUtils';
+import TopologyContextMenu from 'in-events/components/RootCauseAnalysis/Topology/TopologyContextMenu';
 import { TopologyGraphNode } from 'in-events/components/RootCauseAnalysis/Topology/types';
 import TopologyNode from 'in-events/components/RootCauseAnalysis/Topology/TopologyNode';
 import TopologyLine from 'in-events/components/RootCauseAnalysis/Topology/TopologyLine';
-import { Nullish } from 'in-types';
 
 import locals from './RootCauseMap.mless';
 
@@ -23,16 +27,9 @@ interface RootCauseTopologyProps {
   nodes: NodesMap;
   width: string;
   height: string;
-  selectedRCAID: string | Nullish;
 }
 
-export default function RootCauseTopology({
-  relationships,
-  nodes,
-  width,
-  height,
-  selectedRCAID
-}: RootCauseTopologyProps) {
+export default function RootCauseTopology({ relationships, nodes, width, height }: RootCauseTopologyProps) {
   const links = convertRCALinksToElkLinks(relationships);
   const graphNodes = convertRCANodesToElkNodes(nodes);
 
@@ -47,11 +44,18 @@ export default function RootCauseTopology({
         height={height}
         algorithm={algorithm}
         setAlgorithm={setAlgorithm}
-        selectedRCAID={selectedRCAID}
       />
     </div>
   );
 }
+
+const emptyNode: TopologyGraphNode = {
+  id: 'unknown',
+  label: 'unknown',
+  entityType: 'unknown',
+  metadata: {},
+  tags: new Set<RCA_TOPOLOGY_TAGS>().add('RCA')
+};
 
 interface TopologyPresenterProps {
   nodes: TopologyGraphNode[];
@@ -60,19 +64,11 @@ interface TopologyPresenterProps {
   height: string;
   algorithm: string;
   setAlgorithm: React.Dispatch<React.SetStateAction<string>>;
-  selectedRCAID: string | Nullish;
 }
-function RootCauseTopologyPresenter({
-  nodes,
-  links,
-  width,
-  height,
-  algorithm,
-  setAlgorithm,
-  selectedRCAID
-}: TopologyPresenterProps) {
+function RootCauseTopologyPresenter({ nodes, links, width, height, algorithm, setAlgorithm }: TopologyPresenterProps) {
   const [positions, setPositions] = useState<TopologyGraphNode>();
   const [currentlyOpen, setCurrentlyOpen] = useState<string>('');
+  const currentlyOpenEntity = nodes.find(n => n.id === currentlyOpen) || emptyNode;
   const elk = useMemo(() => new ELK(), []);
 
   const graph: TopologyGraphNode = useMemo(
@@ -101,16 +97,10 @@ function RootCauseTopologyPresenter({
     elk.layout(graph).then(g => setPositions(g as TopologyGraphNode));
   }, [graph, elk]);
 
-  if (!positions) return null;
+  if (!positions) return <LoadingSkeleton />;
 
   const nodeElements = positions.children?.map(node => (
-    <TopologyNode
-      currentlyOpen={currentlyOpen}
-      setCurrentlyOpen={setCurrentlyOpen}
-      // @ts-expect-error type mismatch
-      node={node}
-      key={node.id}
-    />
+    <TopologyNode setCurrentlyOpen={setCurrentlyOpen} node={node as TopologyGraphNode} key={node.id} />
   ));
 
   const linkElements = positions.edges?.map(edge => <TopologyLine key={`link_${edge.id}`} link={edge} />);
@@ -122,31 +112,29 @@ function RootCauseTopologyPresenter({
     </defs>
   );
 
-  const getCenterAround = () => {
-    if (selectedRCAID) {
-      const foundNode = positions.children?.find(node => node.id === selectedRCAID);
-      if (foundNode && foundNode.x && foundNode.y) {
-        const { x, y } = foundNode;
-        return {
-          x,
-          y
-        };
-      }
-    }
-    return null;
-  };
-
   return (
-    <RootCauseTopologySVGWrapper
-      width={width}
-      height={height}
-      defs={defs}
-      algorithm={algorithm}
-      setAlgorithm={setAlgorithm}
-      centerAround={getCenterAround()}
-    >
-      {linkElements}
-      {nodeElements}
-    </RootCauseTopologySVGWrapper>
+    <div id="rootCauseTopologyContainer">
+      <RootCauseTopologySVGWrapper
+        width={width}
+        height={height}
+        defs={defs}
+        algorithm={algorithm}
+        setAlgorithm={setAlgorithm}
+      >
+        {linkElements}
+        {nodeElements}
+      </RootCauseTopologySVGWrapper>
+      <SidePanel
+        open={!isEmpty(currentlyOpen)}
+        slideIn
+        selectorPageContent="#rootCauseTopologyContainer"
+        onRequestClose={() => setCurrentlyOpen('')}
+        title={currentlyOpenEntity.label}
+        className={locals.topologySidePanel}
+        size="sm"
+      >
+        <TopologyContextMenu node={currentlyOpenEntity} />
+      </SidePanel>
+    </div>
   );
 }

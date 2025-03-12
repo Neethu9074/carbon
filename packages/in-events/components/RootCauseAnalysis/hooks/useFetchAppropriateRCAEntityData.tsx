@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { get, isEmpty, isNull } from 'lodash';
 import { useEffect, useState } from 'react';
 import { List, Map } from 'immutable';
 
@@ -180,12 +181,12 @@ function useFetchAppropriateRCAEntityData(
   }, [entityStackData]);
 
   return {
-    entityData: Map.isMap(entityData)
-      ? entityData
-      : entityData?.progress?.loading
+    entityData: isNull(entityData)
       ? null
-      : entityData?.data
-      ? entityData.data
+      : Map.isMap(entityData)
+      ? entityData.toJS()
+      : !get(entityData, 'progress.loading', false)! && !isEmpty(get(entityData, 'data', {}))
+      ? get(entityData, 'data')
       : null,
     entityType,
     hierarchySnapshots,
