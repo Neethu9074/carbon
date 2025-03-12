@@ -30,8 +30,9 @@ export default function TagBasedPayloadConfigurator({
   getTagCatalog,
   suggestionsAlignedLeft,
   getSuggestions,
-  hideDestinationSourceTag = false,
-  inSidePanel = false
+  // temporary solution
+  inSidePanel = false,
+  hideDestinationSourceTag = false
 }) {
   const timeConfig = useTimeConfig();
   const tagCatalogResult = useObservable(getTagCatalog({ timeConfig }), [getTagCatalog]);

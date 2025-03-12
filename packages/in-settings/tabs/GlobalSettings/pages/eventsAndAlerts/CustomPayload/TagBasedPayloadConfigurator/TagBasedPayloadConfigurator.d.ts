@@ -18,8 +18,9 @@ declare function TagBasedPayloadConfigurator<T>({
   getTagCatalog,
   suggestionsAlignedLeft,
   getSuggestions,
-  hideDestinationSourceTag,
-  inSidePanel
+  // temporary solution
+  inSidePanel,
+  hideDestinationSourceTag
 }: {
   value: T;
   disabled: boolean;
