@@ -1304,7 +1304,7 @@
         "selectAlertTestButton": "Add synthetic tests",
         "addTest": "Add {{count}} test",
         "alertTests": "Synthetic tests",
-        "noTestSelectedText": "No synthetic tests selected",
+        "noTestSelectedText": "No synthetic tests selected. To get started, click Add synthetic tests.",
         "alertTestEntityName": "synthetic test {{entityName}}",
         "testAttachedCount": "Tests attached ({{count}})",
         "testAttached": "Tests attached",
