@@ -7,3 +7,5 @@
 // Constants to use across smartAlerts
 
 export const FULLSCREEN = 'FullScreen';
+export const ADVANCED = 'Advanced';
+export const SIMPLE = 'Simple';

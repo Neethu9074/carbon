@@ -29,6 +29,7 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import AlertHistoryList from 'in-alerting/components/AlertHistoryList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { ADVANCED } from 'in-alerting/smart-alerts/data/constants';
 import AlertHeader from 'in-alerting/components/AlertHeader';
 import { close } from 'in-components/DialogPresenter/store';
 import { propTypeTimeConfig } from 'in-stores/time/config';
@@ -120,9 +121,9 @@ export default function Alert({
               })
             );
             if (isCopy) {
-              trackCta(ALERTING_CLONE_TRIGGER, alertConfigForTracking);
+              trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfigForTracking, dialogMode: ADVANCED });
             } else if (!isCopy) {
-              trackCta(ALERTING_EDIT, alertConfigForTracking);
+              trackCta(ALERTING_EDIT, { ...alertConfigForTracking, dialogMode: ADVANCED });
             }
           }}
           fullyQualifiedAlertsList={listPath}

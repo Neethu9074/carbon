@@ -32,8 +32,8 @@ export function TearSheetEditActionHandler({
     alertConfigCreated: created,
     editMode: true
   });
-  const { trackCta } = useSegmentTracking();
 
+  const { trackCta } = useSegmentTracking();
   return (
     <MoreMenuButton
       icon="lib_actions_edit"

@@ -187,8 +187,7 @@ export function createOrSaveAlertFromTearSheet({
         trackCta?.(ALERTING_UPDATED, {
           ...alertConfigForTracking,
           id: form.get('id')?.value,
-          dialogMode: FULLSCREEN,
-          pageViewType: FULLSCREEN
+          dialogMode: FULLSCREEN
         });
         navigateToAlertConfig(form.get('id').value, eumId, updatedAlertConfig?.created);
       },
@@ -208,7 +207,7 @@ export function createOrSaveAlertFromTearSheet({
         const newConfig = duplicateFrom
           ? { ...alertConfigForTracking, cloneFromId: duplicateFrom }
           : alertConfigForTracking;
-        trackCta?.(ALERTING_SAVED, { ...newConfig, pageViewType: FULLSCREEN });
+        trackCta?.(ALERTING_SAVED, { ...newConfig, dialogMode: FULLSCREEN });
         navigateToAlertConfig(createAlertConfig.id, eumId, createAlertConfig?.created);
       },
       error => {

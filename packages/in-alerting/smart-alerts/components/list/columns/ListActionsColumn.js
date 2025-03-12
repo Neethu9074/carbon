@@ -18,6 +18,7 @@ import {
 import { getTrackingAlertConfig } from 'in-alerting/smart-alerts/utils/segmentUtils';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { ADVANCED } from 'in-alerting/smart-alerts/data/constants';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import { stopPropagation } from 'in-services/util/function';
 import { playwithEnabled } from 'in-services/featureFlags';
@@ -100,7 +101,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon
               iconSpinning={isMoreMenuSaving}
               onClick={() => {
                 handleEdit(config);
-                trackCta(ALERTING_EDIT, alertConfigForTracking);
+                trackCta(ALERTING_EDIT, { ...alertConfigForTracking, dialogMode: ADVANCED });
               }}
             >
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
@@ -111,7 +112,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon
             <MoreMenuButton
               icon="lib_actions_copy"
               onClick={() => {
-                trackCta(ALERTING_CLONE_TRIGGER, alertConfigForTracking);
+                trackCta(ALERTING_CLONE_TRIGGER, { alertConfigForTracking, dialogMode: ADVANCED });
                 handleClone(config);
               }}
             >

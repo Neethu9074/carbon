@@ -16,6 +16,7 @@ import {
 } from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
+import { ADVANCED, FULLSCREEN, SIMPLE } from 'in-alerting/smart-alerts/data/constants';
 import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { InfraAlertConfig } from 'in-types';
@@ -75,7 +76,7 @@ export function createOrSaveAlert({
       updatedAlertConfig => {
         onClose(updatedAlertConfig);
         showSuccessMessage(updatedAlertConfig.name, editMode);
-        trackCta(ALERTING_UPDATED, { ...updatedAlertConfig });
+        trackCta(ALERTING_UPDATED, { ...updatedAlertConfig, dialogMode: isSimpleMode ? SIMPLE : ADVANCED });
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
@@ -90,7 +91,10 @@ export function createOrSaveAlert({
         const href = getLinkToAlertConfig(createAlertConfig.id);
         showSuccessMessage(createAlertConfig.name, editMode, false, href);
         const newConfig = duplicateFrom ? { ...createAlertConfig, cloneFromId: duplicateFrom } : createAlertConfig;
-        trackCta(ALERTING_SAVED, { ...newConfig, dialogMode: isSimpleMode ? 'Simple' : 'Advanced' });
+        trackCta(ALERTING_SAVED, {
+          ...newConfig,
+          dialogMode: ADVANCED
+        });
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
@@ -111,7 +115,6 @@ interface createOrSaveAlertFromTearSheetProps {
     form: MapForm<any>,
     placeHolderText: { alertTitle: string; alertDescription: { WARNING?: string; CRITICAL?: string } }
   ) => Readonly<InfraAlertConfig>;
-  isSimpleMode: boolean;
   trackCta: CtaTrackingFunction;
   duplicateFrom?: string;
   placeHolderText: { alertTitle: string; alertDescription: { WARNING?: string; CRITICAL?: string } };
@@ -125,7 +128,6 @@ export function createOrSaveAlertFromTearSheet({
   setIsSaving,
   setMessages,
   toAlertConfig,
-  isSimpleMode,
   trackCta,
   duplicateFrom,
   placeHolderText
@@ -151,7 +153,7 @@ export function createOrSaveAlertFromTearSheet({
     const updateConfig = updateAlertConfig(alertConfig, form.get('id').value);
     updateConfig.once(
       updatedAlertConfig => {
-        trackCta(ALERTING_UPDATED, { ...updatedAlertConfig });
+        trackCta(ALERTING_UPDATED, { ...updatedAlertConfig, dialogMode: FULLSCREEN });
         navigateToAlertConfig(updatedAlertConfig.id, updatedAlertConfig?.created);
       },
       error => {
@@ -164,7 +166,10 @@ export function createOrSaveAlertFromTearSheet({
     createConfig.once(
       createAlertConfig => {
         const newConfig = duplicateFrom ? { ...createAlertConfig, cloneFromId: duplicateFrom } : createAlertConfig;
-        trackCta(ALERTING_SAVED, { ...newConfig, dialogMode: isSimpleMode ? 'Simple' : 'Advanced' });
+        trackCta(ALERTING_SAVED, {
+          ...newConfig,
+          dialogMode: FULLSCREEN
+        });
         navigateToAlertConfig(createAlertConfig.id, createAlertConfig?.created);
       },
       error => {

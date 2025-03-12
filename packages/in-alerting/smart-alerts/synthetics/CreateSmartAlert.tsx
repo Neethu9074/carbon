@@ -15,6 +15,7 @@ import FloatingActionButtonMenu from 'in-components/FloatingActionButton/Floatin
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/synthetics/CreateSmartAlertDialog';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import ViewSelectorDialog from 'in-alerting/components/Dialog/ViewSelectorDialog';
+import { FULLSCREEN, SIMPLE } from 'in-alerting/smart-alerts/data/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
@@ -33,7 +34,7 @@ export default function CreateSmartAlert({ testId, withOutFloatingBtnMenu = fals
   const labelNew = t('in-alerting:smartAlerts.labelNew');
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({});
   const handleButtonClick = () => {
-    trackCta(ALERTING_CREATE);
+    trackCta(ALERTING_CREATE, { dialogMode: SIMPLE });
     addActiveDialog(<CreateSmartAlertDialog testId={testId} />);
   };
 
@@ -44,7 +45,11 @@ export default function CreateSmartAlert({ testId, withOutFloatingBtnMenu = fals
           <Button icon="lib_alerts_create" onClick={() => handleButtonClick()}>
             {t('in-alerting:smartAlerts.addSmartAlert')}
           </Button>
-          <Button icon="lib_alerts_create" href={getLinkToCreateSmartAlert} onClick={() => trackCta(ALERTING_CREATE)}>
+          <Button
+            icon="lib_alerts_create"
+            href={getLinkToCreateSmartAlert}
+            onClick={() => trackCta(ALERTING_CREATE, { dialogMode: FULLSCREEN })}
+          >
             {`${t('in-alerting:smartAlerts.addSmartAlert')} ${labelNew}`}
           </Button>
         </Stack>
@@ -56,7 +61,11 @@ export default function CreateSmartAlert({ testId, withOutFloatingBtnMenu = fals
           <Button icon="lib_alerts_create" onClick={() => handleButtonClick()}>
             {t('in-alerting:smartAlerts.addSmartAlert')}
           </Button>
-          <Button icon="lib_alerts_create" href={getLinkToCreateSmartAlert} onClick={() => trackCta(ALERTING_CREATE)}>
+          <Button
+            icon="lib_alerts_create"
+            href={getLinkToCreateSmartAlert}
+            onClick={() => trackCta(ALERTING_CREATE, { dialogMode: FULLSCREEN })}
+          >
             {`${t('in-alerting:smartAlerts.addSmartAlert')} ${labelNew}`}
           </Button>
         </FloatingActionButtonMenu>
@@ -85,6 +94,7 @@ export function CreateSmartAlertButton({ testId }: CreateSmartAlertProps) {
         trackCta={trackCta}
         openOldDialog={openOldDialog}
         getLinkToCreateSmartAlert={getLinkToCreateSmartAlert}
+        mode={SIMPLE}
       />
     ) : (
       <CreateSmartAlertDialog testId={testId} />

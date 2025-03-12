@@ -24,6 +24,7 @@ import { customEventId, errorId as errorIdMatrix } from 'in-websites/navigation/
 import ViewSelectorDialog from 'in-alerting/components/Dialog/ViewSelectorDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { FULLSCREEN, SIMPLE } from 'in-alerting/smart-alerts/data/constants';
 import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useWebsiteError from 'in-websites/hooks/useWebsiteError';
@@ -87,7 +88,7 @@ export default function CreateSmartAlert({
 
   const handleButtonClick = (website: Website) => {
     addDialog(website);
-    trackCta(ALERTING_CREATE);
+    trackCta(ALERTING_CREATE, { dialogMode: SIMPLE });
   };
 
   const addDialog = (website: Website) => {
@@ -118,6 +119,7 @@ export default function CreateSmartAlert({
             trackCta={trackCta}
             openOldDialog={() => addDialog(website)}
             getLinkToCreateSmartAlert={getLinkToCreateSmartAlert}
+            mode={SIMPLE}
           />
         )
       }
@@ -134,7 +136,7 @@ export default function CreateSmartAlert({
           <Button
             icon="lib_alerts_create"
             onClick={() => {
-              trackCta(ALERTING_CREATE);
+              trackCta(ALERTING_CREATE, { dialogMode: SIMPLE });
               handleButtonClick(website);
             }}
           >
@@ -143,7 +145,7 @@ export default function CreateSmartAlert({
           <Button
             icon="lib_alerts_create"
             onClick={() => {
-              trackCta(ALERTING_CREATE);
+              trackCta(ALERTING_CREATE, { dialogMode: FULLSCREEN });
             }}
             href={getLinkToCreateSmartAlert}
           >

@@ -22,6 +22,7 @@ import ViewSelectorDialog from 'in-alerting/components/Dialog/ViewSelectorDialog
 import { alertsTabListFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { FULLSCREEN, SIMPLE } from 'in-alerting/smart-alerts/data/constants';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -62,7 +63,7 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters, is
 
   const handleButtonClick = () => {
     addDialog();
-    trackCta(ALERTING_CREATE);
+    trackCta(ALERTING_CREATE, { dialogMode: SIMPLE });
   };
 
   const addDialog = () => {
@@ -92,6 +93,7 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters, is
             trackCta={trackCta}
             openOldDialog={() => addDialog()}
             getLinkToCreateSmartAlert={getLinkToCreateSmartAlert}
+            mode={SIMPLE}
           />
         )
       }
@@ -108,7 +110,7 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters, is
           <Button
             icon="lib_alerts_create"
             onClick={() => {
-              trackCta(ALERTING_CREATE);
+              trackCta(ALERTING_CREATE, { dialogMode: SIMPLE });
               handleButtonClick();
             }}
           >
@@ -117,7 +119,7 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters, is
           <Button
             icon="lib_alerts_create"
             onClick={() => {
-              trackCta(ALERTING_CREATE);
+              trackCta(ALERTING_CREATE, { dialogMode: FULLSCREEN });
             }}
             href={getLinkToCreateSmartAlert}
           >
@@ -138,7 +140,7 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters, is
     <FloatingActionButton
       icon="lib_alerts_create"
       onClick={() => {
-        trackCta(ALERTING_CREATE);
+        trackCta(ALERTING_CREATE, { dialogMode: SIMPLE });
         handleButtonClick();
       }}
       withBoxShadow
