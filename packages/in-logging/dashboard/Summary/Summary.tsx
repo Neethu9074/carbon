@@ -27,27 +27,30 @@ import locals from './Summary.mless';
 export default function Summary() {
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
   const timeConfig = useTimeConfig();
+  const showLogVolume = role?.canViewLogVolume && isLoggingAddonUser;
 
   const contentToRender = (
     <div className={locals.dashboardContainer}>
       <div className={locals.dashboardCards}>
         <KpiGridRow sizes={[3, 3]}>
           <RetentionPeriodDashboard />
-          {role?.canViewLogVolume && isLoggingAddonUser && <LogVolumeDashboard />}
+          {showLogVolume && <LogVolumeDashboard />}
         </KpiGridRow>
       </div>
       <CreateLogsSmartAlertFloatingButton />
-      <div className={locals.charts}>
-        <UnifiedMetricsChart
-          timeConfig={timeConfig}
-          title={t('in-logging:logsCountSum')}
-          config={getLogDistributionConfig() as Config}
-        />
+      {showLogVolume && (
         <UnifiedMetricsChart
           renderLegend={false}
           timeConfig={timeConfig}
           title={t('in-logging:dashboard.managementPage.logVolume')}
           config={getLogVolumeConfig()}
+        />
+      )}
+      <div className={locals.charts}>
+        <UnifiedMetricsChart
+          timeConfig={timeConfig}
+          title={t('in-logging:logsCountSum')}
+          config={getLogDistributionConfig() as Config}
         />
       </div>
     </div>
