@@ -19,16 +19,25 @@ import {
   CarbonForm as Form,
   CarbonLayer as Layer
 } from '@instana/components';
-import { Group, Result, SavedFilter, SavedFilterGroup, TagFilterExpressionElementUnion } from '@instana/types';
+import {
+  Group,
+  Result,
+  SavedFilter,
+  SavedFilterArea,
+  SavedFilterGroup,
+  TagFilterExpressionElementUnion
+} from '@instana/types';
 
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { selectedFilter$, setSelectedFilter } from 'in-applications/analyze/utils/filterUtils';
 import { RenderIcon } from 'in-applications/analyze/components/SaveFilters/RenderIcon';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { dataSourceMatrixParameter } from 'in-applications/navigation/matrix';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createFilter, updateFilter } from 'in-applications/api/filters';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { isLoading } from 'in-services/util/result';
+import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
 import locals from 'in-applications/analyze/components/SaveFilters/SaveFilterPopover.mless';
@@ -51,6 +60,8 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
     id: '',
     name: ''
   });
+  const [{ dataSource }] = useUrlState({ bind: [dataSourceMatrixParameter] });
+
   useDisabledBodyScroll(open);
 
   useEffect(() => {
@@ -116,12 +127,13 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
   };
 
   const handleSave = () => {
-    const payload = {
+    const payload: Omit<SavedFilter, 'id'> = {
       name: filter.name,
       tagFilterExpression: backendQueryModel,
       ...(includeGroup && {
         group: { tag: group.groupbyTag, entity: group.groupbyTagEntity ?? NOT_APPLICABLE } as SavedFilterGroup
-      })
+      }),
+      area: String(dataSource).toUpperCase() as SavedFilterArea
     };
 
     const apiCall$ = isEdit
