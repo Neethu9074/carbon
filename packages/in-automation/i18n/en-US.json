@@ -1,4 +1,5 @@
 {
+  "automationAction": "Automation action",
   "copy": "Copy",
   "edit": "Edit",
   "delete": "Delete",
@@ -228,6 +229,9 @@
     "1ActionDetails": "1. Action details",
     "2ActionConfiguration": "2. Action configuration",
     "3ParamaterDetails": "3. Parameter details",
+    "actionDetails": "Action details",
+    "actionConfiguration": "Action configuration",
+    "parameterDetails": "Parameter details",
     "timeout": "Timeout (optional)",
     "timeoutHelpText": "The maximum time in seconds to wait for the action to complete. If the action does not complete within the timeout, it will be terminated. This will override the timeout set in the agent configuration.",
     "host": "Host",
@@ -252,6 +256,7 @@
     "editParameter": "Edit parameter",
     "noParametersConfigured": "No parameters configured",
     "required": "Value required",
+    "viewParameter": "View parameter",
     "hiddenParam": "Hidden",
     "valueType": "Value type",
     "displayName": "Display name",
@@ -381,7 +386,6 @@
   },
   "policies": {
     "policies": "Policies",
-    "policiesWithCount": "Policies ({{count}})",
     "newPolicy": "New policy",
     "selectEventTrigger": "Select event trigger",
     "eventTrigger": "Event trigger",
@@ -477,7 +481,9 @@
   "deleteDialog": {
     "confirmRemove": "Confirm remove",
     "confirmRemoveMsg": "Are you sure you want to delete <strong>{{name}}</strong>?",
-    "delete": "Delete"
+    "delete": "Delete",
+    "pleaseConfirm": "Please Confirm",
+    "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{name}}</strong>?"
   },
   "turboActionCategories": {
     "compliance": "Compliance",
@@ -509,6 +515,24 @@
     "actionName": "Action name",
     "recommendedActionHistoryWithCount": "Resource action history ({{count}})",
     "recommendedActionHistory": "Resource action history"
+  },
+  "actionDashboard": {
+    "ActionConfiguration": "Action configuration",
+    "ActionDetails": "Action details",
+    "ParameterDetails": "Parameter details",
+    "tabs": {
+      "summaryLabel": "Summary",
+      "configurationLabel": "Configuration"
+    },
+    "noOfTimesRun": "Number of times run",
+    "successRate": "Success rate",
+    "avgExecutionTime": "Average execution time",
+    "lastModified": "Last modified",
+    "history": "History",
+    "summaryTab": {
+      "seconds": "seconds"
+    },
+    "associatedPolicies": "Associated policies"
   },
   "feedback": {
     "contentHelpfulText": "Was this generated content helpful?",

@@ -95,7 +95,6 @@ function ActionCatalogTabsCard() {
       ? 'aiGeneratedActions'
       : 'userDefinedActions';
   const [activeKey, setActiveKey] = useState<ButtonKey>(activeTab);
-
   const actions = useActions();
   const userActions = useUserActions({ actions });
   const aiActions = useAIActions({ actions });

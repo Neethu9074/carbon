@@ -41,6 +41,12 @@ export interface OverlayContentProps extends ExternalContentProps {
 export interface OverlayProps<FORWARDED_CONTENT_PROPS> {
   autoOpen?: boolean;
   inContentArea?: boolean;
+  /**
+   * This could be used for an overlay display issue in Sidepanel because of high z-index.
+   * @deprecated - Deprecated in favour of migrating the TagBasedPayloadConfigurator to use Carbonpopover. For more details, check https://jsw.ibm.com/browse/INSTA-30708.
+   * Use with care!
+   */
+  inSidePanel?: boolean;
   behindSidebar?: boolean;
   forceConfiguredAlignment?: boolean;
   wrapperStyle?: CSSProperties;
@@ -95,6 +101,8 @@ export interface OverlayMounterProps {
   autoOpen?: boolean;
   withoutArrow?: boolean;
   inContentArea?: boolean;
+  /** see OverlayProps for comment */
+  inSidePanel?: boolean;
   behindSidebar?: boolean;
   /** see OverlayProps for comment */
   fixOverlayLeftAlignment?: boolean;

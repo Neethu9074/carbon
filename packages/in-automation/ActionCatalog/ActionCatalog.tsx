@@ -20,7 +20,7 @@ import { getDocLinkFromFields, getManualContentFromFields, base64ToUtf8 } from '
 import { descriptionColumn, lastModifiedColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import useActionCatalogFilterUrlState from 'in-automation/ActionCatalog/useActionCatalogFilterUrlState';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
+import CreateNewActionTearsheet from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import { refresh, usePaginatedActions } from 'in-automation/ActionCatalog/useActions';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
@@ -70,7 +70,6 @@ export default function ActionCatalog({
   const availableTags = [...new Set(actions?.data?.flatMap(({ tags }) => tags ?? []))];
   const totalHits = paginatedActions.data?.totalHits;
 
-  const navigateToActionDetails = useNavigateToActionDetails();
   const columnDefinitions: ColumnDefinition<Action>[] = getColumnDefinitions({ isUserActions: isUserActions });
   return (
     <ServerTablePresenter<Action, ServerTablePresenterProps<Action>>
@@ -87,7 +86,7 @@ export default function ActionCatalog({
       rightHeader={
         <>
           {role?.canConfigureAutomationActions && isUserActions && (
-            <Button kind="action" onClick={() => navigateToActionDetails()} icon="lib_openclose_add_circle_outline">
+            <Button kind="action" onClick={() => handleButtonClick({})} icon="lib_openclose_add_circle_outline">
               {t('in-automation:ActionCatalog.newAction')}
             </Button>
           )}
@@ -117,7 +116,6 @@ export default function ActionCatalog({
 }
 
 function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUserActions: boolean }) {
-  const navigateToActionDetails = useNavigateToActionDetails();
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
   let manualContent = '';
@@ -146,17 +144,22 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
             {t('in-automation:test')}
           </MoreMenuButton>
         )}
+
         {role?.canConfigureAutomationActions && (
           <>
             {isUserActions && (
-              <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToActionDetails(action.id, false)}>
+              <MoreMenuButton
+                icon="lib_actions_edit "
+                disabled={action.metadata?.builtIn}
+                onClick={() => handleButtonClick({ actionId: action?.id })}
+              >
                 {t('in-automation:edit')}
               </MoreMenuButton>
             )}
             <MoreMenuButton
               disabled={action.type === ACTION_TYPE.ANSIBLE}
               icon="lib_actions_copy"
-              onClick={() => navigateToActionDetails(action.id, true)}
+              onClick={() => handleButtonClick({ actionId: action?.id, copy: true })}
             >
               {t('in-automation:copy')}
             </MoreMenuButton>
@@ -208,7 +211,7 @@ const getColumnDefinitions = ({ isUserActions }: { isUserActions: boolean }): Co
   }
 ];
 
-function showConfirmationDialog(action: Action) {
+export function showConfirmationDialog(action: Action, callback?: Function) {
   const { id, name } = action;
   addActiveDialog(
     <ConfirmationDialog
@@ -222,17 +225,18 @@ function showConfirmationDialog(action: Action) {
       onSubmit={() => {
         close();
         // TODO: Tracker for action delete
-        onDelete(id);
+        onDelete(id, callback);
       }}
     />
   );
 }
 
-function onDelete(id: string) {
+function onDelete(id: string, callback?: Function) {
   deleteAction(id).once(
     () => {
       onDeleteSuccess();
       refresh();
+      callback?.();
     },
     error => {
       onDeleteFailed(error);
@@ -263,3 +267,7 @@ function onDeleteFailed(error: Error) {
     'action-delete-error'
   );
 }
+
+const handleButtonClick = ({ actionId, copy }: { actionId?: string; copy?: boolean }) => {
+  addActiveDialog(<CreateNewActionTearsheet actionId={actionId} copy={copy} />);
+};

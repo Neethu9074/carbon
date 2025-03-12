@@ -6,12 +6,12 @@
 
 import React from 'react';
 
-import { Typography, Link } from '@instana/components';
+import { Link, Typography } from '@instana/components';
 import { formatDateTime } from '@instana/format-date';
 import { Action } from '@instana/types';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
+import useHrefToActionDashboard from 'in-automation/navigation/hooks/useHrefToActionDashboard';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
 import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -26,26 +26,19 @@ import { t } from 'in-i18n';
 import locals from 'in-automation/ActionTable/columnDefinitions.mless';
 
 function NameColumn({ action }: { action: Action | ScoredAction }) {
-  const hrefToActionDetails = useHrefToActionDetails();
+  const { name, id, type } = action;
+  const hrefToActionDashboard = useHrefToActionDashboard();
   const { viewAIGenaratedActionTrackerSegment } = useSegmentTracker();
   const { location } = useNavigation();
   const isAIActions = location.matrix[actionCatalog]?.view && location.matrix[actionCatalog]?.view === 'ai';
-  const name = action.name;
-
-  return action.type === ACTION_TYPE.EXTERNAL ? (
-    <Tooltip content={name} delay={500} align="topLeft">
-      <Typography noWrap variant="body-regular">
-        {name}
-      </Typography>
-    </Tooltip>
-  ) : (
-    <WithSubscript subscript={ACTION_TRANSLATIONS[action.type]}>
+  return (
+    <WithSubscript subscript={ACTION_TRANSLATIONS[type]}>
       <Link
         className={locals.ellipsis}
-        href={hrefToActionDetails(action.id, false)}
+        href={hrefToActionDashboard(id)}
         onClick={() => {
           if (isAIActions) {
-            viewAIGenaratedActionTrackerSegment({ actionName: action.name, actionType: action.type });
+            viewAIGenaratedActionTrackerSegment({ actionName: name, actionType: type });
           }
         }}
       >

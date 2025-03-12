@@ -8,31 +8,31 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 
-import { Li, Link, Ul, IconButton, SvgIcon, Spacer, ExpandableGroup } from '@instana/components';
-import { ActionInstance, ActorType, Field, ActionType } from '@instana/types';
+import { ExpandableGroup, IconButton, Li, Link, Spacer, SvgIcon, Ul } from '@instana/components';
+import { ActionInstance, ActionType, ActorType, Field } from '@instana/types';
 import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
   getEntityIdView,
-  securityAndAccessAccessControlUsers,
-  securityAndAccessAccessControlApiTokens
+  securityAndAccessAccessControlApiTokens,
+  securityAndAccessAccessControlUsers
 } from 'in-settings/navigation/paths';
+import useHrefToActionDashboard from 'in-automation/navigation/hooks/useHrefToActionDashboard';
+import { actionSummary, policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { ACTION_FIELD_TRANSLATIONS } from 'in-automation/components/ActionHistory/constants';
-import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
-import { Dl, Di } from 'in-components/HorizontalDescriptionList';
+import { Di, Dl } from 'in-components/HorizontalDescriptionList';
 import { base64ToUtf8 } from 'in-automation/utils/actionField';
 import { formatDateTime } from 'in-services/formatters/date';
-import { useLinkToLogs } from 'in-logging/navigation/paths';
 import CopyToClipboard from 'in-components/CopyToClipboard';
+import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { eventsPath } from 'in-events/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -70,7 +70,7 @@ export default function DetailTab({
     return createHref(path);
   }
 
-  const hrefToActionDetails = useHrefToActionDetails();
+  const hrefToActionDashboard = useHrefToActionDashboard();
 
   const {
     actionName,
@@ -177,7 +177,7 @@ export default function DetailTab({
       value: actionName,
       isLink: type !== ACTION_TYPE.EXTERNAL ? true : false,
       isObservable: true,
-      stringLink: type === ACTION_TYPE.EXTERNAL ? undefined : hrefToActionDetails(actionId),
+      stringLink: type === ACTION_TYPE.EXTERNAL ? undefined : `${hrefToActionDashboard(actionId)}${actionSummary}`,
       actionLane: inActionLane
     },
     {

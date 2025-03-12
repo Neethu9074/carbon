@@ -100,3 +100,5 @@ export const POLICY_TYPE: Record<Uppercase<TypeConfigurationType>, TypeConfigura
   AUTOMATIC: 'automatic'
 };
 export const POLICY_TYPES: TypeConfigurationType[] = Object.values(POLICY_TYPE);
+
+export const NO_FIELD_VALUE = '-';
