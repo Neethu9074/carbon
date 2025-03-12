@@ -43,8 +43,17 @@ const allowedScriptOriginsWalkMe = [
   'https://ec.walkme.com'
 ];
 
-exports.getCsp = (nonce, walkmeEnabled, ibmCommonEnabled) => {
-  if (walkmeEnabled) {
+const allowedScriptOriginsWalkMePlayBack = [
+  ...allowedScriptOriginsWalkMe,
+  'https://playback-assets.walkme.com',
+  'https://ec-playback.walkme.com',
+  'blob:'
+];
+
+exports.getCsp = (nonce, walkmeEnabled, ibmCommonEnabled, isSessionPlayBackRequired) => {
+  if (isSessionPlayBackRequired) {
+    return `script-src 'self'  'nonce-${nonce}' ${allowedScriptOriginsWalkMePlayBack.join(' ')}`;
+  } else if (walkmeEnabled) {
     return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsWalkMe.join(' ')}`;
   } else if (ibmCommonEnabled) {
     return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsIbmCommon.join(' ')}`;

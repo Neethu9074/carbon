@@ -190,7 +190,9 @@ router.get('/', async (req, res) => {
     const walkmeTestEnabled = walkmeEnabled && featureFlags.playwithTestEnabled;
     const ibmCommonEnabled = featureFlags.ibmCommonEnabled;
     const isAssistMeEnabled = ibmCommonEnabled && termsAndPrivacy.assistmeGuidanceServices && walkmeEnabled;
-    res.set('Content-Security-Policy', getCsp(nonce, walkmeEnabled, ibmCommonEnabled));
+    const isSessionPlayBackRequired =
+      walkmeEnabled && (activeLicenseInfo == 'selfService' || featureFlags?.playwithEnabled);
+    res.set('Content-Security-Policy', getCsp(nonce, walkmeEnabled, ibmCommonEnabled, isSessionPlayBackRequired));
     res.send(
       compiledTemplate({
         indexJsChecksum,
