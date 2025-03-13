@@ -146,7 +146,7 @@ export const SavedFilters = ({ dataSource, setUrlState }: SavedFiltersProps): JS
             className={locals.containedList}
             size="sm"
           >
-            {result?.data?.length === 0 ? (
+            {result?.data?.filter(item => item.area === dataSource).length === 0 ? (
               <ContainedListItem>
                 <EmptyState
                   icon="lib_carbon_empty_state_not_found"
