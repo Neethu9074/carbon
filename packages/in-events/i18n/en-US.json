@@ -359,6 +359,24 @@
     "confirmationYes": "Yes",
     "confirmationNo": "Cancel"
   },
+  "aichat": {
+    "unableToFindError": "Unable to find that information",
+    "host": "Host",
+    "name": "Name",
+    "noMatching": "No matching records found.",
+    "timestamp": "Timestamp",
+    "numCalls": "# Calls",
+    "meanLatency": "Mean latency",
+    "youMustAccept": "You must accept the terms in the Generative AI Assistance Preview Program Agreement to use this feature.",
+    "reviewAction": "Review agreement",
+    "openingAgreement": "Opening [consent form]({{href}}) in a new tab...",
+    "findingInfoFrom": "Finding that info from {{endpoint}}",
+    "noData": "No data returned from API",
+    "whatToKnow": "What do you want to know about {{category}}?",
+    "welcome": "Hello and welcome. Get started with AI by exploring the varied examples below.",
+    "apps": "Applications",
+    "infra": "Infrastructure"
+  },
   "notes": {
     "openNotes": "Open notes and activity",
     "closeNotes": "Close notes and activity",

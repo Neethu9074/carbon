@@ -552,6 +552,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'eventsAIChatEnabled',
+    instanaCtlKey: 'feature.instana.chat.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'disableEventConfigEnabled',
     instanaCtlKey: 'feature.disable.event.config.enabled',
     defaultValue: true

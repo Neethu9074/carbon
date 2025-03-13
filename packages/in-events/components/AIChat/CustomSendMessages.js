@@ -1,0 +1,186 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+import { uniqueId } from 'lodash';
+
+import {
+  AIConsentPrompt,
+  DefinedTreeQuestions,
+  handleDefinedTreeQuestions,
+  InitialLoadOptions
+} from 'in-events/components/AIChat/DefinedQuestions';
+import { sendAPIQuery, fetchAPIData, formatForTable } from 'in-events/components/AIChat/chatAPI';
+import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
+import { t } from 'in-i18n';
+
+// Params:
+// request of type MessageRequest
+// requestOptions of type CustomSendMessageOptions
+// instance of type ChatInstance
+export async function CustomSendMessages(
+  request,
+  // eslint-disable-next-line
+  requestOptions,
+  instance
+) {
+  if (automationActionAiGenerationUnitEnabled) {
+    instance.updateAssistantInputFieldVisibility(true);
+  } else {
+    instance.updateAssistantInputFieldVisibility(false);
+  }
+  function sendMessage(text) {
+    instance.messaging.addMessage(
+      {
+        output: {
+          generic: [
+            {
+              response_type: 'text',
+              text: text
+            }
+          ]
+        }
+      },
+      { silent: false }
+    );
+  }
+  function sendError(errorMessage) {
+    instance.messaging.addMessage(
+      {
+        output: {
+          generic: [
+            {
+              agent_message_type: 'inline_error',
+              response_type: 'text',
+              text: errorMessage
+            }
+          ]
+        }
+      },
+      { silent: false }
+    );
+  }
+
+  // If the input message is valid and not blank we will want to make an API call
+  const userQuery = request.input.text;
+  if (userQuery !== undefined && userQuery !== '' && !DefinedTreeQuestions.includes(userQuery)) {
+    if (!automationActionAiGenerationUnitEnabled) {
+      sendMessage(t('in-events:aichat.youMustAccept'));
+      return;
+    }
+
+    const loadingMessageId = uniqueId('aichat_');
+    instance.messaging.addMessage(
+      {
+        id: loadingMessageId,
+        output: {
+          generic: [
+            {
+              response_type: 'stream_loading'
+            }
+          ]
+        }
+      },
+      { silent: false }
+    );
+
+    sendAPIQuery(userQuery).once(
+      // On Success
+      response => {
+        instance.messaging.removeMessages([loadingMessageId]);
+        if (!response) {
+          sendError(t('in-events:aichat.noData'));
+          return;
+        }
+        if (response.error) {
+          sendError(response.error);
+          return;
+        }
+        if (response.api?.error) {
+          sendError(response.api.error);
+          return;
+        }
+        if (!response.api?.api_endpoint) {
+          sendError(t('in-events:aichat.unableToFindError'));
+          return;
+        }
+        const statusMessageId = uniqueId('aichat_');
+        instance.messaging.addMessage(
+          {
+            id: statusMessageId,
+            output: {
+              generic: [
+                {
+                  response_type: 'text',
+                  text: t('in-events:aichat.findingInfoFrom', { endpoint: response.api.api_endpoint })
+                },
+                {
+                  response_type: 'stream_loading'
+                }
+              ]
+            }
+          },
+          { silent: false }
+        );
+        fetchAPIData(response.api).once(
+          apiData => {
+            const tabular = formatForTable(apiData);
+            instance.messaging.removeMessages([statusMessageId]);
+            if (tabular.output?.generic?.[0]?.rows?.length == 0) {
+              sendMessage(t('in-events:aichat.noMatching'));
+            } else {
+              instance.messaging.addMessage(tabular, { silent: false });
+            }
+            instance.updateCSSVariables({ 'BASE-width': '700px' });
+          },
+          apiError => sendError(apiError)
+        );
+      },
+      // On Error
+      error => {
+        const responseObject = {
+          output: {
+            generic: [
+              {
+                agent_message_type: 'inline_error',
+                response_type: 'text',
+                text: error
+              }
+            ]
+          }
+        };
+        instance.messaging.addMessage(responseObject, { silent: false });
+        // ----------
+        // TODO --- update this message below to more of a "sorry this failed"
+        // type of message and then re prompt with starting over
+        // ----------
+        instance.messaging.addMessage({
+          output: {
+            generic: InitialLoadOptions
+          }
+        });
+      }
+    );
+  } else if (request.input.text === '') {
+    // First render
+    if (!automationActionAiGenerationUnitEnabled) {
+      // Needs AI consent response
+      instance.messaging.addMessage({
+        output: {
+          generic: AIConsentPrompt
+        }
+      });
+    } else {
+      // Welcome message
+      instance.messaging.addMessage({
+        output: {
+          generic: InitialLoadOptions
+        }
+      });
+    }
+  } else {
+    handleDefinedTreeQuestions(request, instance);
+  }
+}

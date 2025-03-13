@@ -32,7 +32,12 @@ export function init() {
   on(window, 'keydown').subscribe(keyEvent => {
     const targetType = keyEvent.target.tagName.toLowerCase();
     const targetRole = keyEvent.target.role?.toLowerCase();
-    if (targetType === 'input' || targetType === 'textarea' || targetRole === 'textbox') {
+    if (
+      targetType === 'input' ||
+      targetType === 'textarea' ||
+      targetType === 'cds-aichat-internal' ||
+      targetRole === 'textbox'
+    ) {
       return;
     }
 
