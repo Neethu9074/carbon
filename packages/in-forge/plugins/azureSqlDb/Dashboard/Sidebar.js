@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Collapsible } from '@instana/components';
 
+import RemoteServiceAgentCorrelationComponent from 'in-sdk/components/sidebar/remoteServiceAgentCorrelation/remoteServiceAgentCorrelationComponent';
 import TagList from 'in-sdk/components/sidebar/TagList';
 import { t } from 'in-i18n';
 import Info from '../Info';
@@ -22,6 +23,7 @@ export default function AzureSqlDbSidebarDetails({ snapshot }) {
       </Collapsible>
 
       <TagList snapshot={snapshot} />
+      <RemoteServiceAgentCorrelationComponent snapshot={snapshot} />
     </div>
   );
 }
