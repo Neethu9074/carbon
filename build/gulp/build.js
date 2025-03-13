@@ -103,7 +103,6 @@ function webpackBuild(cb) {
   config.optimization.concatenateModules = true;
   config.optimization.minimizer = [
     new TerserPlugin({
-      sourceMap: true,
       terserOptions: {
         output: {
           preamble: `/*
