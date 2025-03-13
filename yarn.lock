@@ -22099,19 +22099,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"terser@npm:^5.3.2":
-  version: 5.9.0
-  resolution: "terser@npm:5.9.0"
-  dependencies:
-    commander: ^2.20.0
-    source-map: ~0.7.2
-    source-map-support: ~0.5.20
-  bin:
-    terser: bin/terser
-  checksum: 11c1246b1991015a8881742878af779e3863fad42f626ffda957dbf28c94bf51e7994cffb9ffbec86ff3c23ab45ffa6d79d453c15e664306e35fc7b2c4eee5f4
-  languageName: node
-  linkType: hard
-
 "test-exclude@npm:^6.0.0":
   version: 6.0.0
   resolution: "test-exclude@npm:6.0.0"
@@ -22881,7 +22868,7 @@ __metadata:
     sinon-chai: ^3.3.0
     sockjs-client: ^1.6.1
     style-loader: ^3.3.1
-    terser: ^5.3.2
+    terser: ^5.26.0
     terser-webpack-plugin: ^5.3.10
     three: ^0.167.1
     transition-hook: ^1.5.2
