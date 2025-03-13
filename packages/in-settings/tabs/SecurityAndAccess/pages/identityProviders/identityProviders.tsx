@@ -68,8 +68,7 @@ const IdentityProviders = (props: IdentityProvidersProps) => {
             description,
             helpDoc,
             isActive,
-            isAnotherIdpActivated,
-            path
+            isAnotherIdpActivated
           } = idpConfig;
           return (
             isAvailableToConfigure && (
@@ -77,8 +76,7 @@ const IdentityProviders = (props: IdentityProvidersProps) => {
                 title={isAnotherIdpActivated ? disabledTitle : title}
                 renderIcon={ArrowRight}
                 key={index}
-                href={path ? `#${idpConfig.path}` : undefined}
-                onClick={() => (IdpComponent ? addActiveDialog(IdpComponent) : null)}
+                onClick={() => addActiveDialog(IdpComponent)}
                 disabled={isAnotherIdpActivated}
               >
                 <Typography variant="heading-02">{title}</Typography>

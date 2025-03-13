@@ -4,19 +4,13 @@
  * Copyright IBM Corp. 2025
  */
 
-import { createField, createMapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm, notBlankValidator, ValidationResult } from 'formalistic';
 import React from 'react';
 
 import { CarbonModal, CarbonInlineNotification, Spacer } from '@instana/components';
-import { OidcApiRequestConfig, OidcApiResponseConfig } from '@instana/types';
+import { SamlApiConfig, SamlConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import {
-  OidcMapForm,
-  secretPlaceholder,
-  defaultIdpType,
-  idpTypes
-} from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/OIDC/OIDC.types';
 import {
   DELETE_DESCRIPTIONS,
   MAP_CARBON_STATUS,
@@ -31,35 +25,57 @@ import {
   getConfigAsResultObservableInternal,
   setConfig,
   deleteConfig
-} from 'in-settings/tabs/SecurityAndAccess/api/oidc';
+} from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import useFormWithObservable from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/hooks/useObservableWithForm';
 import useNotification from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/hooks/useNotification';
-import OIDCForm from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/OIDC/OIDCForm';
+import { SamlMapForm } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Saml/Saml.types';
+import SamlForm from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Saml/SamlForm';
 import renderFallbackLoadingView from 'in-settings/components/ApiItemView/FallbackLoadingView';
-import { SETTINGS_IDENTITY_PROVIDER_OIDC_UPDATE } from 'in-services/tracking/eventNames';
+import { SETTINGS_IDENTITY_PROVIDER_SAML_UPDATE } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
 import useFormSubmission from 'in-hooks/useFormSubmission';
 import { pendingResult } from 'in-services/fixedObjects';
+import { isBlank } from 'in-services/util/string';
 import { getInvitations$ } from 'in-api/users';
 import { t, Trans } from 'in-i18n';
 
-interface OIDCDialogProps {
+interface SamlDialogProps {
   isActive: boolean;
   onFormUpdate: () => void;
 }
 
-function createForm(apiResult?: OidcApiResponseConfig): OidcMapForm {
-  const mappedIdpType = idpTypes.filter(({ key }) => key === apiResult?.idpType)[0] ?? defaultIdpType.key;
+function idpMetadataFileValidator(value: File): ValidationResult {
+  const maxFileSize = 1024 * 1024 * 2;
+  if (isBlank(value.name)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:tabs.samlForm.pleaseSelectFile')
+      }
+    ];
+  }
+  if (value.size > maxFileSize) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:tabs.IdPMetadataLargerThanTwoMega')
+      }
+    ];
+  }
+  return undefined;
+}
+
+function createForm(apiResult?: SamlConfig): SamlMapForm {
   return createMapForm({
     items: {
-      oidcSignInCallbackUrl: createField({
-        value: apiResult?.oidcSignInCallbackUrl ?? ''
+      samlSignInCallbackUrl: createField({
+        value: apiResult?.samlSignInCallbackUrl ?? ''
       }),
-      oidcSignOutCallbackUrl: createField({
-        value: apiResult?.oidcSignOutCallbackUrl ?? ''
+      samlSignOutCallbackUrl: createField({
+        value: apiResult?.samlSignOutCallbackUrl ?? ''
       }),
       spEntityId: createField({
         value: apiResult?.spEntityId ?? ''
@@ -68,71 +84,74 @@ function createForm(apiResult?: OidcApiResponseConfig): OidcMapForm {
         value: '',
         validator: apiResult?.activated ? undefined : notBlankValidator
       }),
-      discoveryUri: createField({
-        value: apiResult?.discoveryUri ?? '',
-        validator: apiResult?.activated ? undefined : notBlankValidator
+      nameIdFormat: createField({
+        value: apiResult?.nameIdFormat ?? ''
       }),
       activated: createField({
         value: !!apiResult?.activated
       }),
+      idpMetadataFile: createField({
+        value: new File([], ''),
+        validator: apiResult?.activated ? undefined : idpMetadataFileValidator
+      }),
       isDeleteEnabled: createField({
         value: false,
         validator: apiResult?.activated ? deleteConfigEnableValidator : undefined
-      }),
-      idpType: createField({
-        value: mappedIdpType.key ?? defaultIdpType.key
-      }),
-      secret: createField({
-        value: apiResult?.activated ? secretPlaceholder : '',
-        validator: apiResult?.activated ? undefined : notBlankValidator
       })
     }
   });
 }
 
-const OIDCDialog = (props: OIDCDialogProps) => {
+const SamlDialog = (props: SamlDialogProps) => {
   const { isActive, onFormUpdate } = props;
 
   const { form, setForm, loading, errorMessage } = useFormWithObservable({
     observable: getConfigAsResultObservableInternal,
     createForm: createForm
   });
+
   const [notification, setNotification] = useNotification(errorMessage);
   const invitations = useObservable(getInvitations$, []) ?? pendingResult;
   const { unstable_trackEvent } = useSegmentTracking();
-  const [oidcSubmitStatus, submitOidcConfig] = useFormSubmission<OidcApiRequestConfig, unknown>(oidcConfig =>
-    setConfig(oidcConfig)
+  const [samlSubmitStatus, submitSamlConfig] = useFormSubmission<SamlApiConfig, unknown>(samlConfig =>
+    setConfig(samlConfig)
   );
-  const [oidcDeleteStatus, deleteOidcConfig] = useFormSubmission<undefined, boolean>(deleteConfig);
-  const carbonOidcStatus = MAP_CARBON_STATUS[oidcSubmitStatus ?? ''];
-  const carbonDeleteStatus = MAP_CARBON_STATUS[oidcDeleteStatus ?? ''];
-  const oidcDescription = SAVE_DESCRIPTIONS[oidcSubmitStatus ?? ''];
-  const deleteDescription = DELETE_DESCRIPTIONS[oidcDeleteStatus ?? ''];
-  const onSaveOIDCConfig = () => {
-    const oidcConfig = form.toJS();
-    submitOidcConfig({
-      payload: oidcConfig,
-      onSuccess: () => {
-        addMessage({
-          title: t('in-settings:tabs.changesSaved'),
-          content: t('in-settings:tabs.configSuccessfullySaved'),
-          type: 'success',
-          timeout: 4000
-        });
-        unstable_trackEvent(UPDATED_OBJECT, { objectType: SETTINGS_IDENTITY_PROVIDER_OIDC_UPDATE });
-        close();
-        onFormUpdate();
-      },
-      onError: result => {
-        setNotification({
-          kind: 'error',
-          subtitle: t('in-settings:tabs.failedToSaveConfig', { err: result?.errors[0] })
-        });
-      }
-    });
+  const [samlDeleteStatus, deleteSamlConfig] = useFormSubmission<undefined, boolean>(deleteConfig);
+  const carbonSamlStatus = MAP_CARBON_STATUS[samlSubmitStatus ?? ''];
+  const carbonDeleteStatus = MAP_CARBON_STATUS[samlDeleteStatus ?? ''];
+  const samlDescription = SAVE_DESCRIPTIONS[samlSubmitStatus ?? ''];
+  const deleteDescription = DELETE_DESCRIPTIONS[samlDeleteStatus ?? ''];
+  const onSaveSamlConfig = () => {
+    const samlConfig = form.toJS();
+    const reader = new FileReader();
+    reader.readAsText(samlConfig.idpMetadataFile, 'UTF-8');
+    reader.onload = function (evt) {
+      const targetResult = evt.target?.result?.toString() ?? '';
+      const samlConfigPayload = { ...samlConfig, idpMetadata: targetResult };
+      submitSamlConfig({
+        payload: samlConfigPayload,
+        onSuccess: () => {
+          addMessage({
+            title: t('in-settings:tabs.changesSaved'),
+            content: t('in-settings:tabs.configSuccessfullySaved'),
+            type: 'success',
+            timeout: 4000
+          });
+          unstable_trackEvent(UPDATED_OBJECT, { objectType: SETTINGS_IDENTITY_PROVIDER_SAML_UPDATE });
+          close();
+          onFormUpdate();
+        },
+        onError: result => {
+          setNotification({
+            kind: 'error',
+            subtitle: t('in-settings:tabs.failedToSaveConfig', { err: result?.errors[0] })
+          });
+        }
+      });
+    };
   };
   const onDeleteRequest = () => {
-    deleteOidcConfig({
+    deleteSamlConfig({
       payload: undefined,
       onSuccess: () => {
         addMessage({
@@ -158,7 +177,7 @@ const OIDCDialog = (props: OIDCDialogProps) => {
     <CarbonModal
       size="md"
       open
-      modalHeading={t('in-settings:tabs.authenticationProviders.oidcModalHeading', {
+      modalHeading={t('in-settings:tabs.authenticationProviders.samlModalHeading', {
         context: isActive ? 'active' : ''
       })}
       danger={isActive}
@@ -178,7 +197,7 @@ const OIDCDialog = (props: OIDCDialogProps) => {
               secondaryButtonText={t('in-settings:tabs.cancel')}
               onRequestClose={close}
               onRequestSubmit={() => {
-                onSaveOIDCConfig();
+                onSaveSamlConfig();
                 close();
               }}
             >
@@ -188,16 +207,16 @@ const OIDCDialog = (props: OIDCDialogProps) => {
             </CarbonModal>
           );
         } else {
-          onSaveOIDCConfig();
+          onSaveSamlConfig();
         }
       }}
-      loadingDescription={isActive ? deleteDescription : oidcDescription}
-      loadingStatus={isActive ? carbonDeleteStatus : carbonOidcStatus}
+      loadingDescription={isActive ? deleteDescription : samlDescription}
+      loadingStatus={isActive ? carbonDeleteStatus : carbonSamlStatus}
       onSecondarySubmit={close}
       onRequestClose={close}
     >
       {loading && renderFallbackLoadingView()}
-      {!loading && !errorMessage && <OIDCForm form={form} setForm={setForm} />}
+      {!loading && !errorMessage && <SamlForm form={form} setForm={setForm} />}
       {notification && (
         <>
           <Spacer size="normal" />
@@ -214,4 +233,4 @@ const OIDCDialog = (props: OIDCDialogProps) => {
   );
 };
 
-export default OIDCDialog;
+export default SamlDialog;

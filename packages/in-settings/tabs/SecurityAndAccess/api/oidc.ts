@@ -8,6 +8,7 @@ import { create, Observable } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import http, { Response } from 'in-services/http';
 
 const refreshSignal = create().emit(true);
@@ -27,28 +28,30 @@ export function getConfigAsResultObservableInternal(): Observable<Result<OidcApi
   );
 }
 
-export function setConfig(config: OidcApiRequestConfig): Observable<Response<OidcApiResponseConfig>> {
+export function setConfig(config: OidcApiRequestConfig): Observable<Result<OidcApiResponseConfig>> {
   return http<OidcApiResponseConfig>({
     method: 'PUT',
     maxRetries: 3,
     url: `/api/settings/authentication/oidc`,
     headers: getCsrfHeader(),
-    data: config
+    data: config,
+    mapToResultObject: true
   }).map(v => {
-    refreshSignal.emit(config);
+    if (!idpConfigV2Enabled) refreshSignal.emit(config);
     return v;
   });
 }
 
-export function deleteConfig(): Observable<boolean> {
+export function deleteConfig(): Observable<Result<boolean>> {
   return http<boolean>({
     method: 'DELETE',
     maxRetries: 3,
     url: `/api/settings/authentication/oidc`,
-    headers: getCsrfHeader()
+    headers: getCsrfHeader(),
+    mapToResultObject: true
   }).map(response => {
-    refreshSignal.emit(true);
-    return response.body;
+    if (!idpConfigV2Enabled) refreshSignal.emit(true);
+    return response;
   });
 }
 

@@ -7,8 +7,8 @@ import { Result, SamlApiConfig, SamlConfig } from '@instana/types';
 import { create, Observable } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import http, { Response } from 'in-services/http';
 
 const refreshSignal = create().emit(true);
@@ -23,42 +23,43 @@ export const getConfigAsResultObservable = memoize<undefined, Result<SamlConfig>
   () => 'SamlConfig',
   60000
 );
-function getConfigAsResultObservableInternal(): Observable<Result<SamlConfig>> {
+export function getConfigAsResultObservableInternal(): Observable<Result<SamlConfig>> {
   return refreshSignal.flatMap(() =>
-    createObservable(
-      http({
-        method: 'GET',
-        maxRetries: 3,
-        url: `/api/settings/authentication/saml`
-      })
-    )
+    http({
+      method: 'GET',
+      maxRetries: 3,
+      url: '/api/settings/authentication/saml',
+      mapToResultObject: true
+    })
   );
 }
 
 // regular calls
 
-export function setConfig(config: SamlApiConfig): Observable<Response<SamlConfig>> {
+export function setConfig(config: SamlApiConfig): Observable<Result<SamlConfig>> {
   return http<SamlConfig>({
     method: 'PUT',
     maxRetries: 3,
     url: `/api/settings/authentication/saml`,
     headers: getCsrfHeader(),
-    data: config
+    data: config,
+    mapToResultObject: true
   }).map(v => {
-    refreshSignal.emit(config);
+    if (!idpConfigV2Enabled) refreshSignal.emit(config);
     return v;
   });
 }
 
-export function deleteConfig(): Observable<boolean> {
+export function deleteConfig(): Observable<Result<boolean>> {
   return http<boolean>({
     method: 'DELETE',
     maxRetries: 3,
     url: `/api/settings/authentication/saml`,
-    headers: getCsrfHeader()
+    headers: getCsrfHeader(),
+    mapToResultObject: true
   }).map(response => {
-    refreshSignal.emit(true);
-    return response.body;
+    if (!idpConfigV2Enabled) refreshSignal.emit(true);
+    return response;
   });
 }
 

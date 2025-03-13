@@ -11,15 +11,13 @@ import { CarbonInlineNotification, CarbonModal } from '@instana/components';
 import { GoogleSSOConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
+import useFormWithObservable from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/hooks/useObservableWithForm';
 import { GoogleSsoMapForm } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/GoogleSSO/GoogleSSO.types';
 import GoogleSSOForm from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/GoogleSSO/GoogleSSOForm';
 import { getConfigAsResultObservable, setConfig } from 'in-settings/tabs/SecurityAndAccess/api/googleSSO';
-import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import renderFallbackLoadingView from 'in-settings/components/ApiItemView/FallbackLoadingView';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import useFormWithObservable from 'in-settings/hooks/useObservableWithForm';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { hasError, isLoading } from 'in-services/util/result';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
 import { close } from 'in-components/DialogPresenter/store';
 import { LoadingStatus } from 'in-settings/types';
@@ -34,14 +32,13 @@ export function createForm(apiResult?: GoogleSSOConfig | undefined): GoogleSsoMa
   });
 }
 const GoogleSSODialog = () => {
-  const { form, setForm, dataFromObservable } = useFormWithObservable({
+  const { form, setForm, loading, errorMessage } = useFormWithObservable({
     observable: getConfigAsResultObservable,
     createForm: createForm
   });
   const { unstable_trackEvent } = useSegmentTracking();
   const [status, setStatus] = useState<LoadingStatus>('inactive');
   const [description, setDescription] = useState('');
-  const errors = hasError(dataFromObservable);
 
   const onSaveGoogleSSOConfig = () => {
     const googleSingleSignOnConfig = { filter: form.get('filter').value };
@@ -72,7 +69,7 @@ const GoogleSSODialog = () => {
       size="md"
       open
       modalHeading={t('in-settings:tabs.googleSSO.modalHeading')}
-      primaryButtonDisabled={!form?.hierarchyValid || !form.hierarchyTouched || errors}
+      primaryButtonDisabled={!form?.hierarchyValid || !form.hierarchyTouched || !!errorMessage}
       primaryButtonText={t('in-settings:tabs.save')}
       secondaryButtonText={t('in-settings:tabs.cancel')}
       onRequestSubmit={onSaveGoogleSSOConfig}
@@ -81,16 +78,16 @@ const GoogleSSODialog = () => {
       onSecondarySubmit={close}
       onRequestClose={close}
     >
-      {isLoading(dataFromObservable) && renderFallbackLoadingView()}
-      {errors && (
+      {loading && renderFallbackLoadingView()}
+      {errorMessage && (
         <CarbonInlineNotification
           kind="error"
           lowContrast
           title={t('in-settings:components.errorTitle')}
-          subtitle={getUniqueErrors(dataFromObservable.errors)[0]}
+          subtitle={errorMessage}
         />
       )}
-      {!errors && <GoogleSSOForm form={form} setForm={setForm} />}
+      {!errorMessage && <GoogleSSOForm form={form} setForm={setForm} />}
     </CarbonModal>
   );
 };

@@ -4,21 +4,23 @@
  * Copyright IBM Corp. 2025
  */
 
+import { ValidationResult } from 'formalistic';
 import React from 'react';
 
-import { CarbonModal, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { Error, Result } from '@instana/types';
+import { Link } from '@instana/components';
 
 import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/configuredIdPCheck';
 import GoogleSSODialog from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/GoogleSSO/GoogleSSODialog';
+import SamlDialog from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Saml/SamlDialog';
 import OIDCDialog from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/OIDC/OIDCDialog';
-import { securityAndAccessSaml, securityAndAccessLdap } from 'in-settings/navigation/paths';
+import LdapDialog from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Ldap/LdapDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
-import { ApiItemMessage, LoadingStatus } from 'in-settings/types';
+import { ApiItemMessage } from 'in-settings/types';
 import { PendingInvitation } from 'in-api/users';
 import { t, Trans } from 'in-i18n';
 
@@ -29,9 +31,8 @@ interface IdpConfiguration {
   isActive: boolean | null | undefined;
   isAvailableToConfigure: boolean;
   helpDoc?: JSX.Element;
-  IdpComponent?: JSX.Element;
+  IdpComponent: JSX.Element;
   isAnotherIdpActivated: boolean;
-  path?: string;
 }
 
 export const deleteItem = ({
@@ -39,7 +40,7 @@ export const deleteItem = ({
   deleteConfig
 }: {
   setMessage: React.Dispatch<React.SetStateAction<ApiItemMessage | null>>;
-  deleteConfig: () => Observable<boolean>;
+  deleteConfig: () => Observable<Result<boolean>>;
 }) => {
   addActiveDialog(
     <ConfirmationDialog
@@ -113,55 +114,6 @@ export const LdapHelpDoc = () => (
   />
 );
 
-interface onDeleteIdpConfigProps {
-  deleteConfig: () => Observable<boolean>;
-  setDescription: React.Dispatch<React.SetStateAction<string>>;
-  setStatus: React.Dispatch<React.SetStateAction<LoadingStatus>>;
-  onFormUpdate: () => void;
-}
-
-export function onDeleteIdpConfig({ deleteConfig, setDescription, setStatus, onFormUpdate }: onDeleteIdpConfigProps) {
-  return addActiveDialog(
-    <CarbonModal
-      open
-      onRequestClose={close}
-      size="sm"
-      danger
-      modalHeading={t('in-settings:components.confirmRemove')}
-      primaryButtonText={t('in-settings:components.removeBtn')}
-      secondaryButtonText={t('in-settings:tabs.cancel')}
-      onRequestSubmit={() => {
-        const setConfigResult$ = deleteConfig();
-        setDescription(t('in-settings:tabs.deletingConfig'));
-        setStatus('active');
-        setConfigResult$.once(
-          () => {
-            setDescription(t('in-settings:tabs.changesSaved'));
-            setStatus('finished');
-            addMessage({
-              title: t('in-settings:tabs.changesSaved'),
-              content: t('in-settings:tabs.configSuccessfullySaved'),
-              type: 'success',
-              timeout: 4000
-            });
-            close();
-            close();
-            onFormUpdate();
-          },
-          error => {
-            setDescription(t('in-settings:tabs.failedToSaveConfig', { err: error.message }));
-            setStatus('error');
-          }
-        );
-      }}
-    >
-      <span>
-        <Trans i18nKey="in-settings:tabs.deleteIDPConfirmationDescription" />
-      </span>
-    </CarbonModal>
-  );
-}
-
 export const getIdpTilesInfo = (
   isGoogleSSOAvailable: boolean,
   isSamlAvailable: boolean,
@@ -188,7 +140,7 @@ export const getIdpTilesInfo = (
     isActive: isSamlActive,
     isAvailableToConfigure: isSamlAvailable,
     helpDoc: <SamlHelpDoc />,
-    path: securityAndAccessSaml,
+    IdpComponent: <SamlDialog isActive={isSamlActive ?? false} onFormUpdate={handleFormUpdate} />,
     isAnotherIdpActivated: isAnotherIdpActivated([isOidcActive, isLdapActive]),
     disabledTitle: t('in-settings:tabs.cannotConfigureSamlIfAnotherOneIsAlreadyActive')
   },
@@ -207,8 +159,21 @@ export const getIdpTilesInfo = (
     isActive: isLdapActive,
     isAvailableToConfigure: isLdapAvailable,
     helpDoc: <LdapHelpDoc />,
-    path: securityAndAccessLdap,
+    IdpComponent: <LdapDialog isActive={isLdapActive ?? false} onFormUpdate={handleFormUpdate} />,
     isAnotherIdpActivated: isAnotherIdpActivated([isSamlActive, isOidcActive]),
     disabledTitle: t('in-settings:tabs.ldapCannotbeConfiguredWithOtherIdPActive')
   }
 ];
+
+export function deleteConfigEnableValidator(checked: boolean): ValidationResult {
+  if (!checked) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:tabs.pleaseSelect')
+      }
+    ];
+  } else {
+    return null;
+  }
+}
