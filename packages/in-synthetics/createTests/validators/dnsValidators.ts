@@ -12,6 +12,7 @@ import { DNSFilterQueryTime } from '@instana/types';
 import { getErrorMessage, numberValidator } from 'in-services/validators/jsonType';
 import { AssertionTargetFilter } from 'in-synthetics/utils/constants';
 import { notBlankValidator } from 'in-services/validators/string';
+import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 /**
@@ -87,13 +88,14 @@ export function dnsServerValidator(server: string): ValidationResult {
 /**
  * Validates the syntax of a DNS assertion.
  * @param selectedFilter - The assertion to be validated.
- * @param newValue - new input value for key/ operator/ value
+ * @param newValue - new input value for key/ operator/ value.
  * @param scenario - The scenario of the input change.
  * @returns the updated assertion with it's selectedFilter.error field filled.
  */
 export function assertionValidator(
   selectedFilter: AssertionTargetFilter,
   newValue: string,
+  queryType: string,
   scenario: string
 ): AssertionTargetFilter {
   const recordType = scenario === 'key' ? newValue : selectedFilter.key;
@@ -101,6 +103,7 @@ export function assertionValidator(
   const recordResolution = scenario === 'value' ? newValue : selectedFilter.value;
 
   const recordTypeNotBlank: ValidationResult = notBlankValidator(recordType);
+  const recordTypeNotValid: ValidationResult = recordTypeValidator(queryType, selectedFilter);
   const operatorNotBlank: ValidationResult = notBlankValidator(operator);
   const recordResolutionNotBlank: ValidationResult = notBlankValidator(recordResolution);
 
@@ -108,6 +111,8 @@ export function assertionValidator(
 
   if (recordTypeNotBlank) {
     selectedFilter.error['key'] = { invalid: true, message: recordTypeNotBlank[0].message! };
+  } else if (recordTypeNotValid) {
+    selectedFilter.error['key'] = { invalid: true, message: recordTypeNotValid[0].message! };
   } else {
     selectedFilter.error['key'] = { invalid: false, message: '' };
   }
@@ -162,5 +167,51 @@ export function noSpaceValidator(record?: string): ValidationResult {
     ];
   }
 
+  return undefined;
+}
+
+/**
+ * Validates the value of a record type.
+ * @param queryType - The selected query type of the test.
+ * @param targetFilters - The selected target filters of the test.
+ * @returns The updated target filter with targetFilter.error field of all invalid record types filled.
+ */
+export function checkQueryTypeAssertionMismatch(queryType: string, targetFilters: AssertionTargetFilter[]) {
+  const updatedTargetFilter = targetFilters.map(targetFilter => {
+    const recordTypeNotValid = recordTypeValidator(queryType, targetFilter);
+    if (recordTypeNotValid) {
+      targetFilter.error['key'] = {
+        invalid: true,
+        message: recordTypeNotValid[0].message!
+      };
+    } else {
+      targetFilter.error['key'] = { invalid: false, message: '' };
+    }
+    return targetFilter;
+  });
+  return updatedTargetFilter;
+}
+
+/**
+ * Validates the value of a record type.
+ * @param queryType - The selected query type of the test.
+ * @param targetFilter - The target filter which has to be validated.
+ * @returns An array of severity-message pairs if the target filter and query type mismatches.
+ */
+function recordTypeValidator(queryType: string, targetFilter: AssertionTargetFilter): ValidationResult {
+  if (
+    isNotBlank(targetFilter.key) &&
+    ((queryType === 'A' && targetFilter.key === 'AAAA') ||
+      (queryType === 'AAAA' && targetFilter.key === 'A') ||
+      (queryType === 'NS' && !['CNAME', 'NS'].includes(targetFilter.key)) ||
+      (queryType === 'CNAME' && targetFilter.key !== 'CNAME'))
+  ) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidRecordType')
+      }
+    ];
+  }
   return undefined;
 }

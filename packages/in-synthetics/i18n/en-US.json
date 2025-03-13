@@ -225,6 +225,7 @@
             "lookupLabel": "URL",
             "lookupHelperText": "The URL is the domain name being tested for DNS resolution",
             "lookupPlaceholder": "Your website's url",
+            "queryType": "Query type",
             "serverLabel": "DNS server",
             "serverHelperText": "The DNS server is the server responsible for translating the domain name into an IP address",
             "portLabel": "Port",
@@ -252,6 +253,7 @@
               "invalidDNSServer": "DNS server not valid",
               "invalidIPv4Address": "IPv4 address not valid",
               "invalidIPv6Address": "IPv6 address not valid",
+              "invalidRecordType": "Record type not valid",
               "invalidResolutionRecord": "Resolution record not valid"
             }
           }

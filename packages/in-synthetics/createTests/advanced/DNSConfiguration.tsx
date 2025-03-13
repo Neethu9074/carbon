@@ -30,12 +30,16 @@ import {
   retriesObject,
   TargetFilter,
   AssertionTargetFilter,
-  timeoutObject
+  timeoutObject,
+  assertionQueryTypes
 } from 'in-synthetics/utils/constants';
+import {
+  assertionValidator,
+  checkQueryTypeAssertionMismatch
+} from 'in-synthetics/createTests/validators/dnsValidators';
 import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
 import Section, { ActionTitle, Description } from 'in-synthetics/createTests/wizard/Section';
 import { timeoutValidator } from 'in-synthetics/createTests/validators/configValidators';
-import { assertionValidator } from 'in-synthetics/createTests/validators/dnsValidators';
 import { displayRetryIntervalSlider } from 'in-synthetics/utils/sliderHelperFunctions';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -66,6 +70,7 @@ export default function DNSConfiguration({
 }: DNSConfigurationProps) {
   const configForm = form.get('configuration') as MapForm<any>;
   const lookupField = configForm.get('lookup') as Field<string>;
+  const queryTypeField = configForm.get('queryType') as Field<string>;
   const serverField = configForm.get('server') as Field<string>;
   const portField = configForm.get('port') as Field<number>;
   const responseTimeField = configForm.get('queryTime') as Field<DNSFilterQueryTime>;
@@ -73,7 +78,6 @@ export default function DNSConfiguration({
   const transportField = configForm.get('transport') as Field<string>;
   const acceptCNAMEField = configForm.get('acceptCNAME') as Field<boolean>;
   const lookupServerNameField = configForm.get('lookupServerName') as Field<boolean>;
-  const targetFiltersField = configForm.get('targetValues') as Field<AssertionTargetFilter[]>;
   const serverRetriesField = configForm.get('serverRetries') as Field<number>;
   const timeoutField = configForm.get('timeout') as Field<string>;
   const retriesField = configForm.get('retries') as Field<number>;
@@ -135,23 +139,49 @@ export default function DNSConfiguration({
     <>
       <div className={locals.configContainer}>
         <Stack gap={6}>
-          <TextInput
-            id={generateUniqueShortId()}
-            type="text"
-            value={lookupField.value}
-            onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
-              updateForm(
-                form.updateIn(['configuration', 'lookup'], (field: Item) =>
-                  (field as Field<string>).setValue(target.value).setTouched(true)
-                )
-              );
-            }}
-            helperText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.lookupHelperText')}
-            placeholder={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.lookupPlaceholder')}
-            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.lookupLabel')}
-            invalid={lookupField.touched && !lookupField.valid}
-            invalidText={lookupField.messages[0]?.message ?? ''}
-          />
+          <Stack orientation="horizontal" className={locals.serverStack}>
+            <TextInput
+              id={generateUniqueShortId()}
+              type="text"
+              value={lookupField.value}
+              onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
+                updateForm(
+                  form.updateIn(['configuration', 'lookup'], (field: Item) =>
+                    (field as Field<string>).setValue(target.value).setTouched(true)
+                  )
+                );
+              }}
+              helperText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.lookupHelperText')}
+              placeholder={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.lookupPlaceholder')}
+              labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.lookupLabel')}
+              invalid={lookupField.touched && !lookupField.valid}
+              invalidText={lookupField.messages[0]?.message ?? ''}
+            />
+            <Dropdown
+              id="query-type"
+              items={DNSQueryTypes}
+              initialSelectedItem={DNSQueryTypes.find(queryType => queryType.value === queryTypeField.value)}
+              onChange={({ selectedItem }) => {
+                const updatedTargetFilters = checkQueryTypeAssertionMismatch(selectedItem?.value!, targetFilters);
+                setTargetFilters([...updatedTargetFilters]);
+                updateForm(
+                  form.updateIn(['configuration', 'targetValues'], (field: Item) =>
+                    (field as Field<AssertionTargetFilter[]>).setValue([...updatedTargetFilters]).setTouched(true)
+                  )
+                );
+                updateForm(
+                  form.updateIn(['configuration', 'queryType'], (field: Item) =>
+                    (field as Field<string>).setValue(selectedItem?.value!).setTouched(true)
+                  )
+                );
+              }}
+              label=""
+              titleText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.queryType')}
+              type="default"
+              invalid={queryTypeField.touched && !queryTypeField.valid}
+              invalidText={queryTypeField.messages[0]?.message ?? ''}
+            />
+          </Stack>
           <Stack orientation="horizontal" className={locals.serverStack}>
             <TextInput
               id={generateUniqueShortId()}
@@ -223,18 +253,23 @@ export default function DNSConfiguration({
             return (
               <Stack key={selectedFilter.id} className={locals.queryStack} orientation="horizontal" gap={6}>
                 <Dropdown
-                  id="query-types"
+                  id={generateUniqueShortId()}
                   className={locals.queryWidth}
-                  items={DNSQueryTypes.filter(queryType => {
-                    const hasAQueryType = targetFiltersField.value.some(selectedFilter => selectedFilter.key === 'A');
-                    const hasAAAAQueryType = targetFiltersField.value.some(
-                      selectedFilter => selectedFilter.key === 'AAAA'
-                    );
-                    return (
-                      !(hasAQueryType && queryType.value === 'AAAA') && !(hasAAAAQueryType && queryType.value === 'A')
-                    );
+                  items={assertionQueryTypes.filter(assertionQueryType => {
+                    if (queryTypeField.value === 'A') {
+                      return assertionQueryType.value !== 'AAAA';
+                    } else if (queryTypeField.value === 'AAAA') {
+                      return assertionQueryType.value !== 'A';
+                    } else if (queryTypeField.value === 'CNAME') {
+                      return assertionQueryType.value === 'CNAME';
+                    } else if (queryTypeField.value === 'NS') {
+                      return assertionQueryType.value === 'NS' || assertionQueryType.value === 'CNAME';
+                    }
+                    return true;
                   })}
-                  initialSelectedItem={DNSQueryTypes.find(queryType => queryType.value === selectedFilter.key)}
+                  initialSelectedItem={assertionQueryTypes.find(
+                    assertionQueryType => assertionQueryType.value === selectedFilter.key
+                  )}
                   label=""
                   titleText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.recordTypeLabel')}
                   type="default"
@@ -242,7 +277,12 @@ export default function DNSConfiguration({
                     targetFilters.forEach(targetFilter => {
                       if (targetFilter.id === selectedFilter.id) {
                         targetFilter.key = selectedItem!.value;
-                        const validator = assertionValidator(selectedFilter, selectedItem?.value!, 'key');
+                        const validator = assertionValidator(
+                          selectedFilter,
+                          selectedItem?.value!,
+                          queryTypeField.value,
+                          'key'
+                        );
                         targetFilter.error = validator.error;
                       }
                     });
@@ -257,7 +297,7 @@ export default function DNSConfiguration({
                   invalidText={selectedFilter.error.key.message}
                 />
                 <Dropdown
-                  id="filter-operators"
+                  id={generateUniqueShortId()}
                   className={locals.queryWidth}
                   items={DNSFilterOperators}
                   initialSelectedItem={DNSFilterOperators.find(operator => operator.value === selectedFilter.operator)}
@@ -268,7 +308,12 @@ export default function DNSConfiguration({
                     targetFilters.forEach(targetFilter => {
                       if (targetFilter.id === selectedFilter.id) {
                         targetFilter.operator = selectedItem!.value;
-                        const validator = assertionValidator(selectedFilter, selectedItem?.value!, 'operator');
+                        const validator = assertionValidator(
+                          selectedFilter,
+                          selectedItem?.value!,
+                          queryTypeField.value,
+                          'operator'
+                        );
                         targetFilter.error = validator.error;
                       }
                     });
@@ -293,7 +338,12 @@ export default function DNSConfiguration({
                     targetFilters.forEach(targetFilter => {
                       if (targetFilter.id === selectedFilter.id) {
                         targetFilter.value = target.value;
-                        const validator = assertionValidator(selectedFilter, target?.value, 'value');
+                        const validator = assertionValidator(
+                          selectedFilter,
+                          target?.value,
+                          queryTypeField.value,
+                          'value'
+                        );
                         targetFilter.error = validator.error;
                       }
                     });

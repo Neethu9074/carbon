@@ -71,6 +71,9 @@
     :global(.cds--text-input-wrapper) {
       width: 100%;
     }
+    :global(.cds--list-box__wrapper) {
+      width: 100%;
+    }
   }
 
   .queryStack {
