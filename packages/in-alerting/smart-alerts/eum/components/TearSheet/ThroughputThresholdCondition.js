@@ -37,6 +37,7 @@ export default function ThroughputThresholdCondition({
   ruleMetricNameOptions,
   getMetricUnitPostfix,
   onChartViewConfigChange,
+  alertChannelPerSeverityEnabled,
   children
 }) {
   const metricName = form.get('rule').get('metricName').value;
@@ -120,6 +121,7 @@ export default function ThroughputThresholdCondition({
             updateForm={updateForm}
             max={maxValue}
             metricUnitPostfix={metricUnitPostfix}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
           />
         )}
 
@@ -145,5 +147,6 @@ ThroughputThresholdCondition.propTypes = {
   ruleMetricNameOptions: PropTypes.object.isRequired,
   getMetricUnitPostfix: PropTypes.func.isRequired,
   onChartViewConfigChange: PropTypes.func.isRequired,
+  alertChannelPerSeverityEnabled: PropTypes.bool.isRequired,
   children: PropTypes.object
 };

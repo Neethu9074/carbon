@@ -37,6 +37,7 @@ export default function SlownessThresholdCondition({
   eumType,
   onChartViewConfigChange,
   isPercentageMetric,
+  alertChannelPerSeverityEnabled,
   children
 }) {
   const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
@@ -128,6 +129,7 @@ export default function SlownessThresholdCondition({
             max={maxValue}
             metricUnitPostfix={metricUnitPostfix}
             percentageMetric={percentageMetric}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
           />
         )}
 

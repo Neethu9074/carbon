@@ -37,7 +37,8 @@ export default function ThresholdSelectionInteractiveSection({
   thresholdResult,
   AlertTypeSwitch,
   isTagFilterFormModelValid,
-  setStep
+  setStep,
+  alertChannelPerSeverityEnabled = false
 }) {
   const tagFilterExpression = form.get('tagFilterExpression').value;
 
@@ -46,7 +47,12 @@ export default function ThresholdSelectionInteractiveSection({
       <AlertTypeSwitch
         alertType={alertType}
         renderJsErrors={() => (
-          <JsErrorsThresholdCondition form={form} blueprintConfig={blueprintConfig} updateForm={updateForm} />
+          <JsErrorsThresholdCondition
+            form={form}
+            blueprintConfig={blueprintConfig}
+            updateForm={updateForm}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
+          />
         )}
         renderCustomEvent={() => (
           <CustomEventsThresholdCondition
@@ -57,6 +63,7 @@ export default function ThresholdSelectionInteractiveSection({
             eumType={eumType}
             isPercentageMetric={isPercentageMetric}
             getMetricUnitPostfix={getMetricUnitPostfix}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
           >
             <InvalidFilterMessage
               isTagFilterFormModelValid={isTagFilterFormModelValid}
@@ -76,6 +83,7 @@ export default function ThresholdSelectionInteractiveSection({
               eumType={eumType}
               onChartViewConfigChange={onChartViewConfigChange}
               isPercentageMetric={isPercentageMetric}
+              alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
             >
               <InvalidFilterMessage
                 isTagFilterFormModelValid={isTagFilterFormModelValid}
@@ -99,6 +107,7 @@ export default function ThresholdSelectionInteractiveSection({
               eumType === websiteEum ? websiteRuleMetricNameOptions : mobileAppRuleMetricNameOptions
             }
             onChartViewConfigChange={onChartViewConfigChange}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
           >
             <InvalidFilterMessage
               isTagFilterFormModelValid={isTagFilterFormModelValid}
@@ -120,6 +129,7 @@ export default function ThresholdSelectionInteractiveSection({
             }
             getMetricUnitPostfix={getMetricUnitPostfix}
             onChartViewConfigChange={onChartViewConfigChange}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
           >
             <InvalidFilterMessage
               isTagFilterFormModelValid={isTagFilterFormModelValid}
