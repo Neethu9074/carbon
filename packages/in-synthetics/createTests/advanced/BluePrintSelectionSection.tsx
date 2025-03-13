@@ -122,8 +122,8 @@ const SelectionMenu = ({
           if (!item) {
             return;
           }
-          const isSSLCertificate = item.name === 'SSL Certificate';
-          const isDNS = item.name === 'DNS';
+          const isSSLCertificate = item.type === 'Certificate Check';
+          const isDNS = item.type === 'DNS';
           const getSyntheticType = () => {
             if (isSSLCertificate) return 'SSLCertificate';
             else if (isDNS) return 'DNS';
