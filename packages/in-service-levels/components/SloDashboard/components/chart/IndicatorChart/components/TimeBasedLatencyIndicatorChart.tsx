@@ -101,7 +101,7 @@ export default function TimeBasedLatencyIndicatorChart({
         granularity: result.data?.[0]?.granularity ?? granularity,
         y1: {
           metricIds: [...timeWindowsWithData.map(() => metricId), thresholdMetricId],
-          metrics: [...filteredData, thresholdMetrics],
+          metrics: [...filteredData.slice(timeWindowStartIndex), thresholdMetrics],
           labels: [...timeWindowsWithData.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
           colors: [...windowColorsWithData, themes.default.ids.color.option.red['500']],
           formatter: millis.compact,
