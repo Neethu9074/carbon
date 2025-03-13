@@ -28,7 +28,6 @@
   }
 
   .chartItemWrapper {
-    width: 11rem;
     padding-left: 1rem;
   }
 
