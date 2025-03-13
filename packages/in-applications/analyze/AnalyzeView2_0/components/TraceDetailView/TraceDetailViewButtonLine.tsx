@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
+import { CarbonButton as Button, CarbonStack as Stack, Tooltip } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { DownloadOptionsDropdown } from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView/DownloadOptionsDropdown';
@@ -16,6 +16,7 @@ import { updateLocationToAnalyze } from 'in-applications/navigation/paths';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { isTroubleshootingModeEnabled$ } from 'in-applications/isTroubleshootingModeEnabled';
 import { traceDownloadUrl } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
+import { RenderIcon } from 'in-applications/analyze/components/SaveFilters/RenderIcon';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -24,11 +25,14 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { analyzePath } from 'in-applications/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import { connection } from 'in-connection/connection';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { seconds } from 'in-services/time/time';
 import { TraceSummary } from 'in-types';
 import { role } from 'in-stores/user';
 
-import locals from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView/TraceDetailView.mless';
+// No need for a subscription, as this is not getting a response
+const retainTrace = (traceId: string) => connection.send('traceViewed', { traceId });
 
 interface TraceDetailViewButtonLineProps {
   traceId: string;
@@ -39,11 +43,30 @@ export function TraceDetailViewButtonLine({ traceId, traceSummary }: TraceDetail
   const timeConfig = useTimeConfig();
   const { location, createHref } = useNavigation();
   const { trackAnalyzeCallsOfTraceClicked, trackDownloadTraceClicked } = useApplicationTracker();
+  const [traceSaved, setTraceSaved] = useState(
+    traceSummary?.traceRetentionState === 'PERSISTING' || traceSummary?.traceRetentionState === 'PERSISTED'
+  );
 
   const isInternalVisible = useObservable(isInternalVisible$, []);
   const isTroubleshootingModeEnabled = useObservable(isTroubleshootingModeEnabled$, []);
 
   const traceIdInUrl = traceSummary?.id ?? traceId;
+
+  const retainTraceAndDisableStoring = (traceId: string) => {
+    retainTrace(traceId);
+    setTraceSaved(true);
+  };
+
+  // if a non-large trace is viewed for at least 15s store it long term
+  useEffect(() => {
+    let traceViewedTimeoutId: NodeJS.Timeout;
+    if (traceSummary?.traceRetentionState === 'EPHEMERAL') {
+      traceViewedTimeoutId = setTimeout(() => retainTraceAndDisableStoring(traceId), seconds.toMillis(15));
+    }
+    return () => {
+      clearTimeout(traceViewedTimeoutId);
+    };
+  }, [traceId, traceSummary?.traceRetentionState]);
 
   let adjustedTimeConfig = timeConfig;
   if (traceSummary) {
@@ -91,7 +114,7 @@ export function TraceDetailViewButtonLine({ traceId, traceSummary }: TraceDetail
   }
 
   return (
-    <>
+    <Stack gap={2} orientation="horizontal">
       {isTroubleshootingModeEnabled || isInternalVisible ? (
         <DownloadOptionsDropdown traceId={traceIdInUrl} traceSummary={traceSummary} />
       ) : (
@@ -100,23 +123,41 @@ export function TraceDetailViewButtonLine({ traceId, traceSummary }: TraceDetail
           kind="primary"
           target="_blank"
           href={traceDownloadUrl(traceIdInUrl, traceSummary)}
-          size="compact"
           onClick={() => trackDownloadTraceClicked({ rawTrace: false })}
         >
           {t('in-applications:linkDownload')}
         </Button>
       )}
       <Button
-        icon="lib_analyze"
         kind="secondary"
+        size="sm"
         href={createHref({ ...locationAnalyzeCallsOfThisTrace, pathname: analyzePath })}
         onClick={handleOnClickAnalyzeCall}
-        size="compact"
-        className={locals.carbonAnalyzeButton}
+        renderIcon={() => <RenderIcon size="xs" type="lib_analyze" />}
       >
         {t('in-applications:analyze.analyzeCallsOfThisTrace')}
       </Button>
-    </>
+      {traceSummary?.traceRetentionState !== 'LARGE_TRACE' && (
+        <Tooltip
+          content={
+            traceSaved
+              ? t('in-applications:analyze.storeTrace.traceSavedTooltip')
+              : t('in-applications:analyze.storeTrace.traceNotSavedTooltip')
+          }
+          align="rightMiddle"
+        >
+          <Button
+            disabled={traceSaved}
+            kind="tertiary"
+            size="sm"
+            onClick={() => retainTraceAndDisableStoring(traceIdInUrl)}
+            renderIcon={() => <RenderIcon size="xs" type="lib_save" />}
+          >
+            {t('in-applications:analyze.storeTrace.label')}
+          </Button>
+        </Tooltip>
+      )}
+    </Stack>
   );
 }
 

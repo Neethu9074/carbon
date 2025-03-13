@@ -43,8 +43,6 @@ import ErrorBoundary from 'in-components/ErrorBoundary';
 import { scrollIntoView } from 'in-services/util/dom';
 import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import { seconds } from 'in-services/time';
-import { connection } from 'in-connection';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
@@ -104,14 +102,6 @@ export default function Summary({
       subscription.dispose();
     };
   }, [selectedCall$]);
-
-  // if a trace is viewed for at least 15s store it long term
-  useEffect(() => {
-    const timeoutID = setTimeout(() => connection.send('traceViewed', { traceId }), seconds.toMillis(15));
-    return () => {
-      clearTimeout(timeoutID);
-    };
-  }, [traceId]);
 
   const numLogsToFetch = 5;
 

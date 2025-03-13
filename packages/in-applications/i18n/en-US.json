@@ -303,6 +303,11 @@
     "dataSource_traces": "{{formattedCount}} trace",
     "dataSource_traces_plural": "{{formattedCount}} traces",
     "analyzeCallsOfThisTrace": "Analyze calls of this trace",
+    "storeTrace": {
+      "label": "Store trace",
+      "traceNotSavedTooltip": "Store this trace long-term for 13 months. Automatically saved after 15 seconds.",
+      "traceSavedTooltip": "This trace has been saved and will be stored for 13 months."
+    },
     "noAvailableCustomMetrics": "No available custom metrics",
     "filters":"Filters",
     "saveFiltersTitle":"Save filters",
