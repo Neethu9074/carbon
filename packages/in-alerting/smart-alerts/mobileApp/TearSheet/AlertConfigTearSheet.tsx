@@ -27,6 +27,7 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blue
 import { getHeaderTitle } from 'in-alerting/smart-alerts/mobileApp/data/sharedFunctions';
 import { deriveAlertType } from 'in-alerting/smart-alerts/mobileApp/CreateSmartAlert';
 import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdUtils';
+import { alertChannelPerSeverityMobileAppSaEnabled } from 'in-services/featureFlags';
 import { MobileAppAlertConfig, MobileAppAlertConfigWithMetadata } from 'in-types';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -157,7 +158,8 @@ function toAlertConfig(form: MapForm<any>): Readonly<MobileAppAlertConfig> {
 
   return Object.freeze({
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
-    alertChannelIds: form.get(fieldNames.alertChannelIds).value,
+    alertChannelIds: alertChannelPerSeverityMobileAppSaEnabled ? null : form.get(fieldNames.alertChannelIds).value,
+    alertChannels: alertChannelPerSeverityMobileAppSaEnabled ? form.get(fieldNames.alertChannels).value : null,
     enabled: form.get(fieldNames.enabled).value,
     triggering: form.get(fieldNames.triggering).value,
     description: form.get(fieldNames.description).value || getDescriptionPlaceholder(form),
