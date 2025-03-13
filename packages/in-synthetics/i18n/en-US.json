@@ -852,7 +852,26 @@
       "noWebsitesAssociated": "No Websites associated",
       "associatedMobileApps": "Associated Mobile Apps",
       "noMobileAppAssociated": "No Mobile Apps associated",
-      "recordVideo": "Record user actions on failure"
+      "recordVideo": "Record user actions on failure",
+      "dns": {
+        "lookupLabel": "URL",
+        "queryTypeLabel": "Query type",
+        "serverLabel": "DNS server",
+        "portLabel": "Port",
+        "responseTimeLabel": "Response time",
+        "responseTimeDescription": "Response time is less than {{responseTime}}ms",
+        "assertionsTitle": "Assertions",
+        "recordTypeLabel": "Record type",
+        "operatorLabel": "Conditional",
+        "resolutionRecordLabel": "Resolution record",
+        "recursiveLookupLabel": "Recursive lookup",
+        "dnsRadioButtonOnLabel": "On",
+        "dnsRadioButtonOffLabel": "Off",
+        "transportProtocolLabel": "Transport protocol",
+        "acceptCNAMELabel": "Accept CNAME",
+        "lookupServerNamelabel": "Lookup server name",
+        "serverRetriesLabel": "Server retries"
+      }
     },
     "credentialList": {
       "mainLabel": "Credentials",
