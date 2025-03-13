@@ -64,6 +64,7 @@
   }
 
   .keyValue {
+    max-width: 10rem;
     margin-left: 0.25rem;
   }
 
