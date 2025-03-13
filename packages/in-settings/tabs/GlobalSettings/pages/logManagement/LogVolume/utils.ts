@@ -35,7 +35,7 @@ export function getLabelByName(name: string) {
 
 export const sortMonths = (arr: LogVolumeUsageItem[]): LogVolumeUsageItem[] => {
   const currentMonth = new Date().getMonth() + 1;
-  return structuredClone(arr).sort((a, b) => {
+  return [...arr].sort((a, b) => {
     const adjustedA = (currentMonth - a.numberOfMonth + 12) % 12;
     const adjustedB = (currentMonth - b.numberOfMonth + 12) % 12;
     return adjustedA - adjustedB;

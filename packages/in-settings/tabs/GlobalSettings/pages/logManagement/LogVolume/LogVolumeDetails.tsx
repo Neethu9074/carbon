@@ -93,7 +93,7 @@ function MonthReport({ expandedState, logVolume, numberOfMonth, retentionPeriods
           <span>{t('in-settings:maintenanceWindow.months', { context: getMonthName(numberOfMonth) })}</span>
         </div>
         <div className={locals.tableGB}>
-          <span>
+          <span data-testid={`month-${numberOfMonth}-total-volume`}>
             {amount} {localizedUnit}
           </span>
         </div>
@@ -114,7 +114,7 @@ function RetentionPeriods({ retentionPeriods, expandedState, groupingTag, number
       {retentionPeriods.map(({ retentionDays, logVolume, logVolumeGroups }: RetentionPeriod) => {
         const key = `${retentionDays}-${numberOfMonth}`;
         const isExpanded = expandedState.expanded[key];
-        const hasGroups = logVolumeGroups && logVolumeGroups.length > 0;
+        const hasGroups = logVolumeGroups && logVolumeGroups.length && logVolumeGroups.length > 0;
 
         const { amount, localizedUnit } = bytesToLargerUnit(logVolume, 2);
 
@@ -128,7 +128,7 @@ function RetentionPeriods({ retentionPeriods, expandedState, groupingTag, number
                 <span className={locals.tableLabel}>
                   {t('in-settings:tabs.logVolume.nDaysRetention', { days: String(retentionDays) })}
                 </span>
-                <span className={locals.tableGB}>
+                <span data-testid={`month-${numberOfMonth}-retentionPeriod-volume`} className={locals.tableGB}>
                   {amount} {localizedUnit}
                 </span>
                 {hasGroups && <SvgIcon type={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} size="s" />}
@@ -137,7 +137,7 @@ function RetentionPeriods({ retentionPeriods, expandedState, groupingTag, number
             {isExpanded && (
               <section>
                 {logVolumeGroups?.map(props => (
-                  <Group groupingTag={groupingTag} {...props} />
+                  <Group numberOfMonth={numberOfMonth} groupingTag={groupingTag} {...props} />
                 ))}
               </section>
             )}
@@ -148,7 +148,7 @@ function RetentionPeriods({ retentionPeriods, expandedState, groupingTag, number
   );
 }
 
-function Group({ label, logVolume, groupingTag }: GroupProps) {
+function Group({ label, logVolume, groupingTag, numberOfMonth }: GroupProps) {
   const { amount, localizedUnit } = bytesToLargerUnit(logVolume, 2);
 
   const wrapInTooltip = (el: JSX.Element) => (
@@ -168,7 +168,7 @@ function Group({ label, logVolume, groupingTag }: GroupProps) {
   return (
     <div key={label} className={locals.logVolumeCategories}>
       {hasNoLabel ? wrapInTooltip(Label) : Label}
-      <span className={locals.tableGB}>
+      <span data-testid={`month-${numberOfMonth}-group-volume`} className={locals.tableGB}>
         {amount} {localizedUnit}
       </span>
     </div>
