@@ -20,6 +20,7 @@ import {
   CarbonLayer as Layer
 } from '@instana/components';
 import {
+  DataSource,
   Group,
   Result,
   SavedFilter,
@@ -32,12 +33,10 @@ import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/t
 import { selectedFilter$, setSelectedFilter } from 'in-applications/analyze/utils/filterUtils';
 import { RenderIcon } from 'in-applications/analyze/components/SaveFilters/RenderIcon';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { dataSourceMatrixParameter } from 'in-applications/navigation/matrix';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createFilter, updateFilter } from 'in-applications/api/filters';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { isLoading } from 'in-services/util/result';
-import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
 import locals from 'in-applications/analyze/components/SaveFilters/SaveFilterPopover.mless';
@@ -46,9 +45,10 @@ interface Props {
   backendQueryModel: TagFilterExpressionElementUnion;
   formModel: FormModelElement[];
   group: Group;
+  dataSource: DataSource;
 }
 
-export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props): JSX.Element => {
+export const SaveFilterPopover = ({ backendQueryModel, dataSource, formModel, group }: Props): JSX.Element => {
   const maxLength = 75;
   const hasGroup = !!Object.keys(group).length;
   const [open, setOpen] = useState<boolean>(false);
@@ -60,21 +60,17 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
     id: '',
     name: ''
   });
-  const [{ dataSource }] = useUrlState({ bind: [dataSourceMatrixParameter] });
-
   useDisabledBodyScroll(open);
 
   useEffect(() => {
+    const hasFilters = formModel.length > 0;
     const subscription = selectedFilter$.subscribe(
       ({ action, filter }: { action: string; filter: Partial<SavedFilter> | null }) => {
-        const hasFiltersOrGrouping = formModel.length || Boolean(group.groupbyTag);
-        const isEditing = action === 'edit';
-
-        if (isEditing) {
+        if (action === 'edit') {
           setIsEdit(true);
           setOpen(true);
           setIsSaveDisabled(false);
-        } else if (hasFiltersOrGrouping && action === 'click') {
+        } else if (hasFilters && action === 'click' && filter?.area === dataSource) {
           if (!filter) return;
           const hasChanged = hasFilterOrGroupChanged(
             fromBackendModel(filter.tagFilterExpression),
@@ -84,7 +80,7 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
           );
           setIsSaveDisabled(!hasChanged);
         } else {
-          setIsSaveDisabled(!hasFiltersOrGrouping);
+          setIsSaveDisabled(!hasFilters);
         }
         setFilter(
           (filter as SavedFilter) ?? {
@@ -96,7 +92,8 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
     );
 
     return () => subscription.dispose();
-  }, [formModel, group]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formModel, group, dataSource]);
 
   useEffect(() => {
     setIncludeGroup(hasGroup);

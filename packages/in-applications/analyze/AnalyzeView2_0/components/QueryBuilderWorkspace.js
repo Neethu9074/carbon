@@ -197,6 +197,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
                     group={groupBy}
                     formModel={formModel}
                     setUrlState={props.setUrlState}
+                    dataSource={dataSource}
                   />
                 ) : (
                   <Stack direction={'horizontal'} gap={'small'}>

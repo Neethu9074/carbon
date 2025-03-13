@@ -20,7 +20,7 @@ import {
   CarbonLayer as Layer,
   CarbonEmptyState as EmptyState
 } from '@instana/components';
-import { Group, Result, SavedFilter } from '@instana/types';
+import { DataSource, Group, Result, SavedFilter } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -38,10 +38,11 @@ import { t } from 'in-i18n';
 import locals from 'in-applications/analyze/components/SaveFilters/SavedFilters.mless';
 
 interface SavedFiltersProps {
+  dataSource: DataSource;
   setUrlState: ({ groupBy, formModel }: { groupBy: Group | {}; formModel: FormModelElement[] }) => void;
 }
 
-export const SavedFilters = ({ setUrlState }: SavedFiltersProps): JSX.Element => {
+export const SavedFilters = ({ dataSource, setUrlState }: SavedFiltersProps): JSX.Element => {
   const [isFiltersListOpen, setIsFiltersListOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<SavedFilter[]>([]);
@@ -51,7 +52,7 @@ export const SavedFilters = ({ setUrlState }: SavedFiltersProps): JSX.Element =>
   useDisabledBodyScroll(isFiltersListOpen);
 
   useEffect(() => {
-    const fetchedData = result?.data ?? [];
+    const fetchedData = result?.data?.filter(item => item.area === dataSource) || [];
     if (!isLoading(result)) {
       if (searchTerm) {
         setSearchResults(
@@ -61,7 +62,7 @@ export const SavedFilters = ({ setUrlState }: SavedFiltersProps): JSX.Element =>
         setSearchResults(fetchedData);
       }
     }
-  }, [result, searchTerm]);
+  }, [result, searchTerm, dataSource]);
 
   const handleSearch = (event: { target: HTMLInputElement; type: 'change' }) => {
     setSearchTerm(event.target.value);
