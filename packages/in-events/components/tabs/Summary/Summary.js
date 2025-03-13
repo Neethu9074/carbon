@@ -91,6 +91,12 @@ export default function Summary(props) {
 
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.events,
+          pageRootName: pageNames.event
+        }}
+      />
       <div className={locals.content}>
         <DeprecatedCustomEventWarning event={event.toJS()} isIncident={isIncident} />
         {isIncident ? (
@@ -163,12 +169,6 @@ function EventContent({ event, latestSnapshot, reload }) {
 
   return (
     <>
-      <ViewTrackingMeta
-        data={{
-          productArea: productAreas.events,
-          pageRootName: pageNames.event
-        }}
-      />
       <Row withoutSideMargin>
         <Col xs>
           <Card title={t('in-events:titleDescription')} leftHeaderContent={pillContent}>
