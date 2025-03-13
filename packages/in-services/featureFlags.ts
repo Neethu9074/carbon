@@ -252,8 +252,10 @@ export const limitVisibleNestingLevelsInTraceEnabled = isFeatureFlagEnabled(
 );
 
 export const kongEnabled = isFeatureFlagEnabled('kongEnabled', false);
-// Recurrent Maintenance Window Flag
+
 export const playwithEnabled = isFeatureFlagEnabled('playwithEnabled', false);
+export const assistmeEnabled = isFeatureFlagEnabled('assistmeEnabled', false);
+// Recurrent Maintenance Window Flag
 export const recurrentMaintenanceWindowEnabled = isFeatureFlagEnabled('recurrentMaintenanceWindowsEnabled', true);
 export const recurrentMaintenanceWindowsTabsEnabled = isFeatureFlagEnabled(
   'recurrentMaintenanceWindowsTabsEnabled',
@@ -323,3 +325,4 @@ export const accessControlCarbonTable = isFeatureFlagEnabled('accessControlCarbo
 export const idpConfigV2Enabled = isFeatureFlagEnabled('idpConfigV2Enabled', false);
 export const sloLiteEnabled = isFeatureFlagEnabled('sloLiteEnabled', false);
 export const sloFullEnabled = isFeatureFlagEnabled('sloFullEnabled', true);
+export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled', true);

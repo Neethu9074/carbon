@@ -189,9 +189,10 @@ router.get('/', async (req, res) => {
     const walkmeEnabled = termsAndPrivacy.walkmeAnalyticsServices;
     const walkmeTestEnabled = walkmeEnabled && featureFlags.playwithTestEnabled;
     const ibmCommonEnabled = featureFlags.ibmCommonEnabled;
-    const isAssistMeEnabled = ibmCommonEnabled && termsAndPrivacy.assistmeGuidanceServices && walkmeEnabled;
+    const isAssistMeEnabled =
+      ibmCommonEnabled && featureFlags.assistmeEnabled && termsAndPrivacy.assistmeGuidanceServices && walkmeEnabled;
     const isSessionPlayBackRequired =
-      walkmeEnabled && (activeLicenseInfo == 'selfService' || featureFlags?.playwithEnabled);
+      walkmeEnabled && (activeLicenseInfo == 'selfService' || featureFlags.playwithEnabled);
     res.set('Content-Security-Policy', getCsp(nonce, walkmeEnabled, ibmCommonEnabled, isSessionPlayBackRequired));
     res.send(
       compiledTemplate({

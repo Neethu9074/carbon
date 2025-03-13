@@ -386,6 +386,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'assistmeEnabled',
+    instanaCtlKey: 'feature.assistme.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'kongEnabled',
     instanaCtlKey: 'feature.infrastructure.kong.enabled',
     defaultValue: false
@@ -834,6 +839,11 @@ module.exports = exports = [
   {
     uiClientKey: 'mobileAppSmartAlertFullScreenDesignEnabled',
     instanaCtlKey: 'feature.mobile.app.smart.alert.full.screen.design.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'tealiumPrivacyEnabled',
+    instanaCtlKey: 'feature.tealium.privacy.enabled',
     defaultValue: false
   }
 ];

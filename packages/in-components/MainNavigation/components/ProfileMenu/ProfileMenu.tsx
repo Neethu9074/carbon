@@ -24,9 +24,9 @@ import {
   PROFILE_MENU_USER_PROFILE_CLICK,
   PROFILE_MENU_SAAS_CONSOLE_CLICK
 } from 'in-services/tracking/tracking';
+import { tealiumPrivacyEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { userSettingsProfile } from 'in-settings/navigation/paths';
-import { tenantSwitcherEnabled } from 'in-services/featureFlags';
 import config from 'in-services/config';
 import { user } from 'in-stores/user';
 
@@ -123,20 +123,22 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
         ) : null}
         <Switcher aria-label="Switcher Container" expanded={isSideNavExpanded}>
           <SwitcherDivider />
-          <SwitcherItem
-            data-autoid="dds--privacy-cp__link"
-            // The below function will open the cookie preferences dialog box from the "More options" button
-            // in IBM privacy banner
-            onClick={() => {
-              (window as any)._dl?.fn?.trustarc?.cookiePreferencesClick?.();
-            }}
-            aria-label={t('in-components:mainNavigation.profileMenu_privacy')}
-          >
-            <Typography variant="label-02" onDark>
-              {t('in-components:mainNavigation.profileMenu_privacy')}
-            </Typography>
-          </SwitcherItem>
-          <SwitcherDivider />
+          {tealiumPrivacyEnabled ? (
+            <SwitcherItem
+              data-autoid="dds--privacy-cp__link"
+              // The below function will open the cookie preferences dialog box from the "More options" button
+              // in IBM privacy banner
+              onClick={() => {
+                (window as any)._dl?.fn?.trustarc?.cookiePreferencesClick?.();
+              }}
+              aria-label={t('in-components:mainNavigation.profileMenu_privacy')}
+            >
+              <Typography variant="label-02" onDark>
+                {t('in-components:mainNavigation.profileMenu_privacy')}
+              </Typography>
+            </SwitcherItem>
+          ) : null}
+          {tealiumPrivacyEnabled ? <SwitcherDivider /> : null}
           {tenantSwitcherEnabled ? (
             <SwitcherItem
               target="_blank"

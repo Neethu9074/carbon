@@ -11,7 +11,7 @@ import TermsDialogPresenter from 'in-settings/terms/dialog/TermsDialogPresenter'
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { user } from 'in-stores/user';
 
-export default function TermsDialog({ onSave }) {
+export default function TermsDialog({ onSave, fullTermsConfigEnabled }) {
   const [saveError, setSaveError] = useState(false);
   const [form, setForm] = useState(termsFormDefinition(window.instana.termsAndPrivacySettings));
 
@@ -34,6 +34,7 @@ export default function TermsDialog({ onSave }) {
 
   return (
     <TermsDialogPresenter
+      fullTermsConfigEnabled={fullTermsConfigEnabled}
       onSave={onSaveHandler}
       saveError={saveError}
       unsetSaveError={() => setSaveError(false)}

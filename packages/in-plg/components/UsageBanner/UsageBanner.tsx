@@ -15,9 +15,11 @@ import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
 import {
+  assistmeEnabled,
   onPremLicenseInformationEnabled,
   playWithReleaseEnabled,
   playwithEnabled,
+  tealiumPrivacyEnabled,
   userProfileMenuEnabled
 } from 'in-services/featureFlags';
 //@ts-expect-error missing typescript migration
@@ -78,8 +80,9 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const permissionToShowInvite =
     role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled) && !isAnyIDPActive;
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
-  // The AssistMe feature will be enabled if assistmeGuidanceServices and walkmeAnalyticsServices is true and the AssistMe script is loaded.
+  // The AssistMe feature will be enabled if assistmeEnabled flag is true, assistmeGuidanceServices and walkmeAnalyticsServices is true and the AssistMe script is loaded.
   const showGetAnswers =
+    assistmeEnabled &&
     termsAndPrivacySettingsStore?.walkmeAnalyticsServices &&
     termsAndPrivacySettingsStore?.assistmeGuidanceServices &&
     isAssistMeScriptLoaded;
@@ -184,7 +187,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
           )}
         </>
       )}
-      {userProfileMenuEnabled && ShowPrivacyNotification()}
+      {tealiumPrivacyEnabled && userProfileMenuEnabled && ShowPrivacyNotification()}
     </Stack>
   );
 }

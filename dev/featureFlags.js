@@ -86,6 +86,7 @@ module.exports = {
   playwithEnabled: false,
   playwithTestEnabled: false,
   playWithReleaseEnabled: false,
+  assistmeEnabled: true,
   recurrentMaintenanceWindowsEnabled: true,
   recurrentMaintenanceWindowsTabsEnabled: false,
   syntheticsFilterForMaintenanceWindowsEnabled: true,
@@ -172,5 +173,6 @@ module.exports = {
   idpConfigV2Enabled: false,
   sloLiteEnabled: true,
   sloFullEnabled: true,
-  mobileAppSmartAlertFullScreenDesignEnabled: true
+  mobileAppSmartAlertFullScreenDesignEnabled: true,
+  tealiumPrivacyEnabled: false
 };
