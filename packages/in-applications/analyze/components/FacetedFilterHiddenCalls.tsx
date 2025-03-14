@@ -4,16 +4,28 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { kebabCase } from 'lodash';
 
-import { Stack, Checkbox } from '@instana/components';
+import { CarbonStack as Stack, CarbonCheckbox as Checkbox, Tooltip, Typography } from '@instana/components';
+import { DataSource, TagFilter } from '@instana/types';
 
+// @ts-expect-error needs TS migration
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from './FacetedFilterHiddenCalls.mless';
+interface FacetedFilterHiddenCallsProps {
+  title: string;
+  formModel: TagFilter[];
+  formModelWithFacets: TagFilter[];
+  includeSynthetic: boolean;
+  includeInternal: boolean;
+  setIncludeSynthetic: (includeSynthetic: boolean) => void;
+  setIncludeInternal: (includeInternal: boolean) => void;
+  dataSource: Lowercase<DataSource>;
+  openByDefault: boolean;
+}
 
 export default function FacetedFilterHiddenCalls({
   title,
@@ -25,7 +37,7 @@ export default function FacetedFilterHiddenCalls({
   setIncludeInternal,
   dataSource,
   openByDefault
-}) {
+}: FacetedFilterHiddenCallsProps) {
   const [isSyntheticAutoEnabled, setSyntheticAutoEnabled] = useState(false);
   const [isInternalAutoEnabled, setInternalAutoEnabled] = useState(false);
 
@@ -66,7 +78,7 @@ export default function FacetedFilterHiddenCalls({
 
   return (
     <FacetedExpandableCard title={title} openByDefault={openByDefault} tag={'hiddenCalls'} dataSource={dataSource}>
-      <Stack gap="xxsmall">
+      <Stack gap={2}>
         <HiddenCallCheck
           label={t('in-applications:analyze.facetedSearch.showSyntheticCalls')}
           checked={includeSynthetic || hasIsSynthetic}
@@ -92,10 +104,24 @@ export default function FacetedFilterHiddenCalls({
   );
 }
 
-function HiddenCallCheck({ label, checked, onChange, disabled, disabledTooltipContent }) {
+interface HiddenCallCheckProps {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+  disabled: boolean;
+  disabledTooltipContent: string;
+}
+
+function HiddenCallCheck({ label, checked, onChange, disabled, disabledTooltipContent }: HiddenCallCheckProps) {
   return (
     <Tooltip content={disabled && disabledTooltipContent} align="rightMiddle" delay={1000}>
-      <Checkbox labelClassName={locals.label} label={label} checked={checked} onChange={onChange} disabled={disabled} />
+      <Checkbox
+        id={kebabCase(label)}
+        labelText={<Typography variant="label-01">{label}</Typography>}
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+      />
     </Tooltip>
   );
 }
