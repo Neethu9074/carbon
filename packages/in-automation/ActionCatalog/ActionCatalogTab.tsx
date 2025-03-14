@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Card, Spacer, Stack } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
@@ -98,6 +98,11 @@ function ActionCatalogTabsCard() {
   const actions = useActions();
   const userActions = useUserActions({ actions });
   const aiActions = useAIActions({ actions });
+
+  useEffect(() => {
+    setActiveKey(activeTab);
+  }, [activeTab]);
+
   return (
     <Row withoutSideMargin>
       <Col xs>
