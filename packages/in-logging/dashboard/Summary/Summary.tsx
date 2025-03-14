@@ -38,15 +38,15 @@ export default function Summary() {
         </KpiGridRow>
       </div>
       <CreateLogsSmartAlertFloatingButton />
-      {showLogVolume && (
-        <UnifiedMetricsChart
-          renderLegend={false}
-          timeConfig={timeConfig}
-          title={t('in-logging:dashboard.managementPage.logVolume')}
-          config={getLogVolumeConfig()}
-        />
-      )}
       <div className={locals.charts}>
+        {showLogVolume && (
+          <UnifiedMetricsChart
+            renderLegend={false}
+            timeConfig={timeConfig}
+            title={t('in-logging:dashboard.managementPage.logVolume')}
+            config={getLogVolumeConfig()}
+          />
+        )}
         <UnifiedMetricsChart
           timeConfig={timeConfig}
           title={t('in-logging:logsCountSum')}
