@@ -240,7 +240,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/indentityProviders/Ldap/Ldap'
       const updateInput = new Promise((resolve, reject) => {
         ldapTestResult.subscribe(
           data => {
-            if (data.data.testPassed == testPassed && data.data.reason === msg) {
+            if (data.testPassed == testPassed && data.reason === msg) {
               resolve();
             } else {
               reject();
@@ -250,7 +250,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/indentityProviders/Ldap/Ldap'
         );
       });
 
-      ldapTestResult.emit({ data: { testPassed: testPassed, reason: msg } });
+      ldapTestResult.emit({ testPassed: testPassed, reason: msg });
       return updateInput;
     });
 

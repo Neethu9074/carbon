@@ -18,17 +18,17 @@ import { LdapConfig, LdapTestResult } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import {
+  getConfigAsResultObservableInternal,
+  setConfigV2 as setConfig,
+  deleteConfigV2 as deleteConfig,
+  getTestResultV2 as getTestResult
+} from 'in-settings/tabs/SecurityAndAccess/api/ldap';
+import {
   MAP_CARBON_STATUS,
   SAVE_DESCRIPTIONS,
   TEST_DESCRIPTIONS,
   DELETE_DESCRIPTIONS
 } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/constants';
-import {
-  getConfigAsResultObservableInternal,
-  setConfig,
-  deleteConfig,
-  getTestResult
-} from 'in-settings/tabs/SecurityAndAccess/api/ldap';
 import {
   SETTINGS_IDENTITY_PROVIDER_LDAP_UPDATE,
   SETTINGS_IDP_LDAP_TEST_CONFIGURATION
