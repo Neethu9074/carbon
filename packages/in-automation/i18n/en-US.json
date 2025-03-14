@@ -480,9 +480,7 @@
   "deleteDialog": {
     "confirmRemove": "Confirm remove",
     "confirmRemoveMsg": "Are you sure you want to delete <strong>{{name}}</strong>?",
-    "delete": "Delete",
-    "pleaseConfirm": "Please Confirm",
-    "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{name}}</strong>?"
+    "delete": "Delete"
   },
   "turboActionCategories": {
     "compliance": "Compliance",
