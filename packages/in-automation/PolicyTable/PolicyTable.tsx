@@ -35,13 +35,13 @@ import { actionNameColumn, nameColumn } from 'in-automation/PolicyTable/columnDe
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import usePoliciesFilterUrlState from 'in-automation/Policies/usePoliciesFilterUrlState';
 import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { PolicyTypeFilter } from 'in-automation/PolicyTable/tableFilters';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { hasError, isLoading, mapData } from 'in-services/util/result';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import WithSubscript from 'in-settings/components/WithSubscript';
