@@ -365,6 +365,7 @@ function ManualSection() {
       </Label>
       <Code
         lineNumbers={!isNotEditable}
+        lineWrapping
         readOnly={isNotEditable}
         mode={'markdown'}
         value={field.value}
