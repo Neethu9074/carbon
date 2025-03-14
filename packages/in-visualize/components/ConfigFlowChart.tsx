@@ -157,9 +157,16 @@ function calcEdges(pipelineData: PipeNode[]) {
 }
 
 export default function ConfigFlowChart(config: string) {
-  const nodeData = parseNodeData(config);
-  const edgeData = calcEdges(nodeData);
   const [positions, setPositions] = useState<PipeNode>();
+  let nodeData: PipeNode[] = [];
+  let edgeData: PipeEdge[] = [];
+  try {
+    // Catching and ignoring errors here since validation errors will be handled by validation tool, prevents additional noise
+    nodeData = parseNodeData(config);
+    edgeData = calcEdges(nodeData);
+  } catch (error: unknown) {
+    /* empty */
+  }
 
   useEffect(() => {
     const graph = {
