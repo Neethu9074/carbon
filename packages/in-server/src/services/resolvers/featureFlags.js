@@ -358,7 +358,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsProcessFlowMapEnabled',
     instanaCtlKey: 'feature.bizops.process.flow.map.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'bizopsProcessFlowMapHealthOverlayEnabled',
