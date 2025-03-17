@@ -12,6 +12,11 @@ import { OidcApiRequestConfig, OidcApiResponseConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import {
+  getConfigAsResultObservableInternal,
+  setConfigV2 as setConfig,
+  deleteConfigV2 as deleteConfig
+} from 'in-settings/tabs/SecurityAndAccess/api/oidc';
+import {
   OidcMapForm,
   secretPlaceholder,
   defaultIdpType,
@@ -27,11 +32,6 @@ import {
   isAnyInvitationsPending
 } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/utils';
 import { DeleteConfigConfirmDialog } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/DeleteConfigConfirmDialog';
-import {
-  getConfigAsResultObservableInternal,
-  setConfig,
-  deleteConfig
-} from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import useFormWithObservable from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/hooks/useObservableWithForm';
 import useNotification from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/hooks/useNotification';
 import OIDCForm from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/OIDC/OIDCForm';
