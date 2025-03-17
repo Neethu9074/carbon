@@ -14,10 +14,10 @@ import {
   DataTable,
   CarbonTableBatchAction,
   CarbonTableToolbar,
-  CarbonTableToolbarSearch
+  CarbonTableToolbarSearch,
+  TableErrorRows
 } from '@instana/components';
 import { NoDataEmptyState } from '@instana/ibm-products';
-import { TableErrorRows } from '@instana/legacy';
 
 import { TableProps, ColumnDefinition, TableState } from 'in-components/tables/ServerTable/types';
 import { RowProps } from 'in-alerting/smart-alerts/components/list/SmartAlertsTableView';
