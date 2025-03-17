@@ -9,7 +9,6 @@ import { create, Observable } from '@instana/observables';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import http, { Response } from 'in-services/http';
 
 const refreshSignal = create().emit(true);
@@ -34,8 +33,17 @@ export function getConfigAsResultObservableInternal(): Observable<Result<LdapCon
 }
 
 // regular calls
+export function getTestResult(config: LdapConfig): Observable<LdapTestResult> {
+  return http<LdapTestResult>({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/settings/authentication/ldap/test`,
+    headers: getCsrfHeader(),
+    data: config
+  }).map(response => response.body);
+}
 
-export function getTestResult(config: LdapConfig): Observable<Result<LdapTestResult>> {
+export function getTestResultV2(config: LdapConfig): Observable<Result<LdapTestResult>> {
   return http<LdapTestResult>({
     method: 'POST',
     maxRetries: 3,
@@ -46,7 +54,29 @@ export function getTestResult(config: LdapConfig): Observable<Result<LdapTestRes
   });
 }
 
-export function setConfig(config: LdapConfig): Observable<Result<undefined>> {
+export function setConfig(config: LdapConfig): Observable<Response<undefined>> {
+  return http({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `/api/settings/authentication/ldap`,
+    headers: getCsrfHeader(),
+    data: config
+  });
+}
+
+export function deleteConfig(): Observable<boolean> {
+  return http<boolean>({
+    method: 'DELETE',
+    maxRetries: 3,
+    url: `/api/settings/authentication/ldap`,
+    headers: getCsrfHeader()
+  }).map(response => {
+    refreshSignal.emit(true);
+    return response.body;
+  });
+}
+
+export function setConfigV2(config: LdapConfig): Observable<Result<undefined>> {
   return http({
     method: 'PUT',
     maxRetries: 3,
@@ -57,16 +87,13 @@ export function setConfig(config: LdapConfig): Observable<Result<undefined>> {
   });
 }
 
-export function deleteConfig(): Observable<Result<boolean>> {
+export function deleteConfigV2(): Observable<Result<boolean>> {
   return http<boolean>({
     method: 'DELETE',
     maxRetries: 3,
     url: `/api/settings/authentication/ldap`,
     headers: getCsrfHeader(),
     mapToResultObject: true
-  }).map(response => {
-    if (!idpConfigV2Enabled) refreshSignal.emit(true);
-    return response;
   });
 }
 
