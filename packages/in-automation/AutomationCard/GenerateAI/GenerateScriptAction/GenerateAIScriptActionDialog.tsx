@@ -33,6 +33,7 @@ import { error, hasError, isLoading } from 'in-services/util/result';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { refresh } from 'in-automation/ActionCatalog/useActions';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import { saveNewAction } from 'in-automation/api';
@@ -202,6 +203,7 @@ export default function GenerateAIScriptActionDialog({ manualContent, actionName
             </Typography>
             <Spacer horizontal="small" />
             <PreviewPill />
+            <AISlugIcon actionType="script" />
           </>
         }
         onClose={onCancel}

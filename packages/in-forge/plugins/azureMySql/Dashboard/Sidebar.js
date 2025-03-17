@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Collapsible } from '@instana/components';
 
+import RemoteServiceAgentCorrelationComponent from 'in-sdk/components/sidebar/remoteServiceAgentCorrelation/remoteServiceAgentCorrelationComponent';
 import TagList from 'in-sdk/components/sidebar/TagList';
 import Info from 'in-forge/plugins/azureMySql/Info';
 import { t } from 'in-i18n';
@@ -23,6 +24,7 @@ export default function AzureMySqlSidebarDetails({ snapshot }) {
       </Collapsible>
 
       <TagList snapshot={snapshot} />
+      <RemoteServiceAgentCorrelationComponent snapshot={snapshot} />
     </>
   );
 }

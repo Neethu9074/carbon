@@ -6,11 +6,10 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
-import { TableEntityCounter } from '@instana/legacy';
 import { IconButton } from '@instana/components';
 import { Link } from '@instana/components';
 
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/ServerTable/internalComponents/LegacySeverityIndicatorCellContentWrapper';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { getTimeConfigAlignedToResultTime, urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
@@ -61,7 +60,6 @@ function BoundaryScopeContent({ item }) {
       <IconButton
         type={boundaryScopes.info[item.application.boundaryScope].icon}
         className={locals.iconButton}
-        alignment="left"
         align="bottom"
         isWrapperedByTooltip
         noStyling
@@ -94,7 +92,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'services', 0, 1], 0);
-      return <TableEntityCounter count={count} />;
+      return count;
     }
   },
   {

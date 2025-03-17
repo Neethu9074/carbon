@@ -6,6 +6,16 @@
 import { createMapForm, createField, MapForm, ValidationResult } from 'formalistic';
 
 import {
+  Application,
+  AvailabilitySliEntity,
+  SliConfigMetricConfiguration,
+  TagFilterExpressionElementUnion,
+  Website,
+  WebsiteEventBasedSliEntity,
+  ApplicationSliEntity
+} from '@instana/types';
+
+import {
   availabilityType,
   applicationType,
   websiteEventBased,
@@ -20,22 +30,13 @@ import {
   isWebsiteTimeBasedSliEntity,
   NewSliConfig
 } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
-import {
-  Application,
-  AvailabilitySliEntity,
-  SliConfigMetricConfiguration,
-  TagFilterExpressionElementUnion,
-  Website,
-  WebsiteEventBasedSliEntity,
-  ApplicationSliEntity
-} from 'in-types';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/SloLegacy/constants';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { numericValidator, minValidator } from 'in-services/validators/number';
-import { MonitoredEntity } from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { MonitoredEntity } from 'in-service-levels/utils/loadEntities';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { boundaryScopes } from 'in-applications/constants';

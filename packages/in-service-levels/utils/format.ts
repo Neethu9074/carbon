@@ -8,12 +8,12 @@ import { isUndefined } from 'lodash';
 
 import { getIntlNumberFormatter, NumberFormatter } from '@instana/format-numbers';
 import { MetricResult, SloEntityUnion } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { number, NumberFormatterFunction } from 'in-services/formatters/number';
 import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
 import { MetricDataPoint } from 'in-components/Chart/types';
+import { t } from 'in-i18n';
 
 interface FormatSloStatusResponse {
   sloStatus?: string;

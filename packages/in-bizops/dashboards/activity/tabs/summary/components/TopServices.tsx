@@ -14,10 +14,9 @@ import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import { businessActivityServiceListPath, businessActivitySummaryPath } from 'in-bizops/navigation/paths';
 import getActivityServices from 'in-bizops/subscriptions/getActivityServices';
+import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { Service, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
@@ -120,10 +119,7 @@ type LabelProps = {
 // Forms each row in the service chart, including the URL.
 // item is each element returned from the query made in getList
 function Label({ item }: LabelProps) {
-  const { location, createHref } = useNavigation();
-
-  location.pathname = serviceDashboard;
-  setOrDeleteMatrixKey(location, serviceDashboard, 'serviceId', item.service?.id);
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
 
   let serviceName: string;
   if (item.service?.label) {
@@ -132,5 +128,5 @@ function Label({ item }: LabelProps) {
     serviceName = t('in-bizops:lists.unnamedService');
   }
 
-  return <Link href={createHref(location)}>{serviceName}</Link>;
+  return <Link href={getLinkToServiceDashboard({ serviceId: item.service?.id })}>{serviceName}</Link>;
 }

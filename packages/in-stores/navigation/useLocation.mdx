@@ -1,0 +1,39 @@
+import { Meta } from '@storybook/blocks';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+
+<Meta component={useLocation} />
+
+## Accessing the Location / Routing State
+
+You can use the `useLocation` hook to access the location / routing state. It is **guaranteed** that `location` is
+available for the initial render.
+
+## Import
+
+```js
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+```
+
+## Best-Practice Usage
+
+```js
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import React from 'react';
+
+function MyComponent() {
+  const location = useLocation();
+
+  return (
+    …
+  )
+}
+```
+
+## FAQ
+
+### Why shouldn't we access the location via `useObservable`?
+
+In the past we accessed the location via `connectTo`. It is only natural to assume that `useObservable`
+should now be used. This continues to work, but usage is now discouraged. `useLocation` leverages React's context
+mechanism under the hood which causes global time configuration updates to populate more efficiently (with fewer
+re-renders) through the React tree. It is also the recommended default way from `react-router`.

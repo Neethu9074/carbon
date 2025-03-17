@@ -85,3 +85,10 @@ export const parameters = {
     page: DocsPage
   }
 };
+
+export default {
+  // enable rendering docs per default - this might need follow-up work
+  // when it won't pick up the typescript types properly.
+  // If we do not see much benefit, it could be disabled for the moment.
+  tags: ['autodocs']
+};

@@ -6,8 +6,7 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-// eslint-disable-next-line no-restricted-imports
-import PermissionWrapper from '../LoggingPermissionWrapper';
+import PermissionWrapper from 'in-logging/navigation/LoggingPermissionWrapper';
 import { role } from 'in-stores/user';
 
 jest.mock('in-stores/user', () => ({

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -16,7 +16,10 @@ import {
   ThresholdOperator,
   WebsiteAlertRule,
   isStaticThresholdConfig,
-  TagFilter
+  TagFilter,
+  StaticThresholdRule,
+  StaticBaselineThresholdRule,
+  AdaptiveBaselineData
 } from '@instana/types';
 
 import {
@@ -83,6 +86,7 @@ interface BluePrintBase {
   readonly getThresholdTypeOptions: () => ThresholdTypeOptions;
 
   readonly getEntityTagFilterFormModel: (alertConfig: WebsiteSmartAlertConfig) => TagFilter;
+  readonly enrichWithDefaultThresholdValues: (alertConfig: WebsiteSmartAlertConfig) => WebsiteSmartAlertConfig;
 
   readonly getRuleTagFilterFormModel: (alertRule: WebsiteAlertRule) => FormModelElement[];
   readonly getExtraAnalyzeLinkTagFilterFormModel: (
@@ -140,6 +144,7 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   getThresholdSuggestionRequest: (metricName: MetricName) =>
     isCustomRateMetric(metricName) ? getWebsiteRateMetricThresholdSuggestion : getWebsiteMetricsThresholdSuggestion,
   getThresholdTypeOptions: () => websitesThresholdTypeOptions,
+  enrichWithDefaultThresholdValues: enrichWithDefaultThresholdValuesForBaselines,
   thresholdDefaults: {
     operator: '>='
   } as const,
@@ -165,17 +170,21 @@ const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze({
         <li>${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli4')}</li>
         <li>${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli5')}</li>
       <ul>
+      <br/>
+      <p>
+      ${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextP2')}
+      </p>
     `,
-  getAvailableTags: () => getIncludedTags(availableFilterTags.pageLoad),
+  getAvailableTags: (metricName: MetricName) =>
+    getIncludedTags(metricName === 'onLoadTime' ? availableFilterTags.pageLoad : availableFilterTags.httpRequest),
+  tearSheet: {
+    headline: t('in-alerting:smartAlerts.websites.tearSheet.slowness.headline'),
+    text: t('in-alerting:smartAlerts.websites.tearSheet.slowness.text')
+  },
   baselineEnabled: true,
   defaultMetric: 'onLoadTime',
-  getMetricName: () => 'onLoadTime',
-  getMetricLabel: (_: MetricName, aggregation?: AggregationType) =>
-    aggregation
-      ? `${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel')} (${getAggregationText(
-          aggregation
-        )})`
-      : t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel'),
+  getMetricName: (alertRule: WebsiteAlertRule) => alertRule.metricName,
+  getMetricLabel: getSlownessMetricLabel,
   getMetricFormat: () => millis.forcedFixedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: (alertRule: WebsiteAlertRule) => {
@@ -183,7 +192,7 @@ const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze({
     return (alertRule as SlownessWebsiteAlertRule).aggregation;
   },
   isRuleComplete: () => true,
-  getBeaconType: () => 'pageLoad',
+  getBeaconType: (metricName: MetricName) => (metricName === 'onLoadTime' ? 'pageLoad' : 'httpRequest'),
   getExtraAnalyzeLinkTagFilterFormModel: getExtraSlownessAnalyzeLinkTagFilterFormModel
 });
 
@@ -193,6 +202,11 @@ const jsErrorsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   name: t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigName'),
   headline: t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigHeadline'),
   text: t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigText'),
+  tearSheet: {
+    name: t('in-alerting:smartAlerts.websites.tearSheet.JsErrors.name'),
+    headline: t('in-alerting:smartAlerts.websites.tearSheet.JsErrors.headline'),
+    text: t('in-alerting:smartAlerts.websites.tearSheet.JsErrors.text')
+  },
   getAvailableTags: () => getIncludedTags(availableFilterTags.error),
   baselineEnabled: false,
   defaultMetric: 'errors',
@@ -203,6 +217,7 @@ const jsErrorsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   getAggregation: (alertRule: WebsiteAlertRule) => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
   isRuleComplete: (alertRule: WebsiteAlertRule) => isNotBlank((alertRule as SpecificJsErrorsWebsiteAlertRule).value),
   incompleteRuleMessage: t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigIncompleteRuleMessage'),
+  enrichWithDefaultThresholdValues: enrichWithDefaultStaticThresholdValues,
   getRuleTagFilterFormModel: (alertRule: WebsiteAlertRule) => [
     tagFilter(
       'beacon.error.message',
@@ -238,7 +253,11 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
       (alertRule as StatusCodeWebsiteAlertRule).value
     )
   ],
-  getBeaconType: () => 'httpRequest'
+  getBeaconType: () => 'httpRequest',
+  tearSheet: {
+    headline: t('in-alerting:smartAlerts.websites.tearSheet.statusCode.headline'),
+    text: t('in-alerting:smartAlerts.websites.tearSheet.statusCode.text')
+  }
 });
 
 const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
@@ -258,7 +277,11 @@ const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   getAggregation: () => 'SUM',
   isRuleComplete: () => true,
   getBeaconType: (metricName: MetricName) => (metricName === 'pageLoads' ? 'pageLoad' : 'pageChange'),
-  impactTimeThresholdDisabled: true
+  impactTimeThresholdDisabled: true,
+  tearSheet: {
+    headline: t('in-alerting:smartAlerts.websites.tearSheet.throughput.headline'),
+    text: t('in-alerting:smartAlerts.websites.tearSheet.throughput.text')
+  }
 });
 
 const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
@@ -285,7 +308,12 @@ const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
         tagFilter('beacon.customEvent.name', EQUALS, (alertRule as CustomEventWebsiteAlertRule).customEventName)
       ]
     }),
-  getBeaconType: () => 'custom'
+  getBeaconType: () => 'custom',
+  tearSheet: {
+    name: t('in-alerting:smartAlerts.websites.tearSheet.customEvent.name'),
+    headline: t('in-alerting:smartAlerts.websites.tearSheet.customEvent.headline'),
+    text: t('in-alerting:smartAlerts.websites.tearSheet.customEvent.text')
+  }
 });
 
 export const blueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([
@@ -336,6 +364,15 @@ export function getBlueprintConfig(alertType: WebsitesAlertType): BluePrint {
   return config;
 }
 
+function getSlownessMetricLabel(metricName: MetricName, aggregation?: AggregationType) {
+  const metricLabel =
+    metricName == 'onLoadTime'
+      ? t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel')
+      : t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigHttpMetricLabel');
+
+  return aggregation ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
+}
+
 // Radio buttons need a unique string id
 // type alone is not unique when subType is defined
 export function idFromBluePrint(item: BluePrint): string {
@@ -378,4 +415,74 @@ function getExtraSlownessAnalyzeLinkTagFilterFormModel(
   }
 
   return [tagFilter('beacon.duration', toTagFilterNumberOperator(threshold.operator), value)];
+}
+
+function enrichWithDefaultStaticThresholdValues(alertConfig: WebsiteSmartAlertConfig): WebsiteSmartAlertConfig {
+  const { rules } = alertConfig;
+
+  return {
+    ...alertConfig,
+    rules: [
+      {
+        ...rules[0],
+        thresholds: {
+          ...rules[0].thresholds,
+          // as this should already be introducing the right threshold when invoked from the blueprint,
+          // using casting to the different Threshold Types here should be fine, to make TS happy, and
+          // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
+          // do not need these defaults...
+          // @ts-expect-error-error needs to be refactored
+          WARNING: {
+            ...rules[0]?.thresholds?.WARNING,
+            value: (rules[0]?.thresholds?.WARNING as StaticThresholdRule)?.value ?? null
+          },
+          // @ts-expect-error-error needs to be refactored
+          CRITICAL: {
+            ...rules[0]?.thresholds?.CRITICAL,
+            value: (rules[0]?.thresholds?.CRITICAL as StaticThresholdRule)?.value ?? null
+          }
+        }
+      },
+      ...rules.slice(1)
+    ]
+  };
+}
+
+function enrichWithDefaultThresholdValuesForBaselines(alertConfig: WebsiteSmartAlertConfig): WebsiteSmartAlertConfig {
+  const { rules } = alertConfig;
+
+  return {
+    ...alertConfig,
+    rules: [
+      {
+        ...rules[0],
+        thresholds: {
+          ...rules[0].thresholds,
+          // as this should already be introducing the right threshold when invoked from the blueprint,
+          // using casting to the different Threshold Types here should be fine, to make TS happy, and
+          // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
+          // do not need these defaults, but needs another double-check with the different use cases.
+          // @ts-expect-error-error needs to be refactored
+          WARNING: {
+            ...rules[0]?.thresholds?.WARNING,
+            value: (rules[0]?.thresholds?.WARNING as StaticThresholdRule)?.value ?? null,
+            baseline:
+              (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.baseline ??
+              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+            deviationFactor: (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.deviationFactor ?? null
+          },
+          // @ts-expect-error-error needs to be refactored
+          CRITICAL: {
+            ...rules[0]?.thresholds?.CRITICAL,
+            value: (rules[0]?.thresholds?.CRITICAL as StaticThresholdRule)?.value ?? null,
+            baseline:
+              (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.baseline ??
+              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+            deviationFactor: (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.deviationFactor ?? null
+          }
+        }
+      },
+      ...rules.slice(1)
+    ]
+  };
 }

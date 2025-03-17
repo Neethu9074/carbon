@@ -21,7 +21,9 @@ import {
   PoPInstallationProperties,
   TestResultMetadata,
   SyntheticDatacenter,
-  GroupPermissionEntity
+  GroupPermissionEntity,
+  DNSQueryType,
+  DNSFilterOperator
 } from 'in-types';
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
@@ -56,6 +58,64 @@ export const association = {
 };
 export const selectableCredentialsFilter = 'Selectable credentials';
 export const inheritedCredentialsFilter = 'Inherited credentials';
+export const syntheticCustomMetricPrefix = 'synthetic.customMetrics.';
+
+export const DNSTransportOptions: { label: string; value: string }[] = [
+  {
+    label: 'UDP',
+    value: 'UDP'
+  },
+  {
+    label: 'TCP',
+    value: 'TCP'
+  }
+];
+
+export const assertionQueryTypes: { label: DNSQueryType; value: DNSQueryType }[] = [
+  {
+    label: 'A',
+    value: 'A'
+  },
+  {
+    label: 'AAAA',
+    value: 'AAAA'
+  },
+  {
+    label: 'CNAME',
+    value: 'CNAME'
+  },
+  {
+    label: 'NS',
+    value: 'NS'
+  }
+];
+
+export const DNSQueryTypes: { label: string; value: string }[] = [
+  ...assertionQueryTypes,
+  {
+    label: 'ANY',
+    value: 'ANY'
+  },
+  {
+    label: 'ALL',
+    value: 'ALL'
+  },
+  {
+    label: 'ALL associated with assertions',
+    value: 'ALL associated with assertions'
+  }
+];
+
+export const DNSFilterOperators: { label: string; value: DNSFilterOperator }[] = [
+  {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionContains'),
+    value: 'CONTAINS'
+  },
+  {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionMatches'),
+    value: 'MATCHES'
+  }
+];
 
 export const scriptTestType = (fileExtension: string, syntheticType: string) => {
   if (fileExtension === 'js' || fileExtension === 'zip') return 'BrowserScript';
@@ -471,6 +531,8 @@ export interface AdvancedModeProps {
   setInvalidCustomProperty: React.Dispatch<React.SetStateAction<Invalid>>;
   invalidTimeout: Invalid;
   setInvalidTimeout: React.Dispatch<React.SetStateAction<Invalid>>;
+  targetFilters: AssertionTargetFilter[];
+  setTargetFilters: React.Dispatch<React.SetStateAction<AssertionTargetFilter[]>>;
 }
 
 export interface SlideInConfig {
@@ -571,6 +633,7 @@ export interface TestTypeSelected {
   api: SimpleOrScript;
   browser: SimpleOrScript;
   ssl: Simple;
+  dns: Simple;
 }
 
 export interface Invalid {
@@ -605,31 +668,43 @@ export interface ViewScreenshotsDialogProps {
   startTime: number;
 }
 
-export const timeoutObject: any = Object.freeze({
+export const timeoutObject: {
+  [key: string]: {
+    id: string;
+    label: string;
+    value: string;
+  };
+} = Object.freeze({
   minutes: {
+    id: 'minutes',
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionMinutes'),
     value: 'm'
   },
   seconds: {
+    id: 'seconds',
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionSeconds'),
     value: 's'
   },
   milliseconds: {
+    id: 'milliseconds',
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionMilliseconds'),
     value: 'ms'
   }
 });
 
-export const retriesObject: { label: string; value: number }[] = [
+export const retriesObject: { id: string; label: string; value: number }[] = [
   {
+    id: 'retry-none',
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionNone'),
     value: 0
   },
   {
+    id: 'retry-once',
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionOnce'),
     value: 1
   },
   {
+    id: 'retry-twice',
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionTwice'),
     value: 2
   }
@@ -711,3 +786,17 @@ export const dummyTestResultRecording: Result<ResultRecording> = {
     loading: true
   }
 };
+export interface TargetFilter {
+  key: string;
+  operator: string;
+  value: string;
+}
+
+export interface AssertionTargetFilter extends TargetFilter {
+  id: string;
+  error: {
+    key: Invalid;
+    operator: Invalid;
+    value: Invalid;
+  };
+}

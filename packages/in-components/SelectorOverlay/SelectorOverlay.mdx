@@ -1,0 +1,106 @@
+import { Meta, Story, Controls } from '@storybook/blocks';
+import * as SelectorOverlayStories from './SelectorOverlay.stories';
+
+<Meta of={SelectorOverlayStories} />
+
+export const options = [
+  {
+    label: 'Root Level Leaf',
+    description: 'Some description - Root Level Leaf',
+    icon: 'plugin:host'
+  },
+  {
+    label: 'Root Level Node',
+    description: 'Some description - Root Level Node',
+    icon: 'plugin:neo4j',
+    children: [
+      {
+        label: 'First Level Leaf',
+        description: 'Some description - First Level Leaf',
+        icon: 'plugin:docker'
+      },
+      {
+        label: 'First Level Node',
+        description: 'Some description - First Level Node',
+        icon: 'plugin:mule',
+        children: [
+          {
+            label: 'Second Level Leaf',
+          },
+          {
+            label: 'Second Level Node',
+            description: 'Some description',
+            icon: 'plugin:mule',
+            children: [
+              {
+                label: 'Third Level Leaf',
+                description: 'Some description - Third Level Leaf',
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+];
+
+export const optionsFilteredOnALevel = [
+  {
+    label: 'Root Level Node',
+    description: 'Some description - Root Level Node',
+    icon: 'plugin:neo4j',
+    children: [
+      {
+        label: 'First Level Node',
+        description: 'Some description - First Level Node',
+        icon: 'plugin:mule',
+        children: [
+          {
+            label: 'Second Level Leaf',
+          },
+          {
+            label: 'Second Level Node',
+            description: 'Some description',
+            icon: 'plugin:mule',
+            children: [
+              {
+                label: 'Third Level Leaf',
+                description: 'Some description - Third Level Leaf',
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+];
+
+# Selector Overlay
+
+### Props
+
+<Controls />
+
+## Default
+
+<Story of={SelectorOverlayStories.Default} />
+
+## Filtered on a specific level
+
+<Story of={SelectorOverlayStories.FilteredOnALevel} />
+
+## Filtered on a specific level but not showing the back button
+
+<Story of={SelectorOverlayStories.FilteredOnALevelWithNoBackButton} />
+
+## Loading
+
+<Story of={SelectorOverlayStories.Loading} />
+
+## Without icons
+
+<Story of={SelectorOverlayStories.NoIcons} />
+
+## Searching
+
+<Story of={SelectorOverlayStories.WithSearch} />

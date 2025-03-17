@@ -1,0 +1,35 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="in-hooks/useStableObjectInstance" />
+
+## Forcing Stable Object Instances
+
+Sometimes you may be integrating a component / hook within an area where the source state is
+updated on every render. This can cause tricky / inefficient situations, especially with React
+hooks. `useStableObjectInstance` can be used to enforce a stable object instance, i.e. an
+instance which only updates when the stable hash (`generateStableHash` from `@instana/utils`)
+changes.
+
+## Import
+
+```js
+import useStableObjectInstance from 'in-hooks/useStableObjectIntance';
+```
+
+## Best-Practice Usage
+
+```js
+import React from 'react';
+
+import useStableObjectInstance from 'in-hooks/useStableObjectIntance';
+
+function MyComponent() {
+  const stable = useStableObjectInstance({
+    changesOn: 'everyRender'
+  });
+
+  return (
+    …
+  )
+}
+```

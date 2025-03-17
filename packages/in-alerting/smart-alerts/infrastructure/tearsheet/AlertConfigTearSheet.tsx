@@ -7,6 +7,12 @@
 import { Item, MapForm, Field } from 'formalistic';
 import React, { useMemo, useState } from 'react';
 
+import {
+  useFormattedThresholdValue,
+  useGetAlertTitle,
+  generateTitle,
+  getTitlePlaceholderData
+} from 'in-alerting/smart-alerts/infrastructure/hooks/useGetAlertTitle';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/infrastructure/tearsheet/AlertConfigTearSheetWithThreshold';
 import { useInfraSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/infrastructure/form/useInfraSmartAlertFormSideEffects';
@@ -14,7 +20,6 @@ import {
   duplicateAlertConfig,
   getHeaderTitle
 } from 'in-alerting/smart-alerts/infrastructure/tearsheet/sharedFunctions';
-import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { createOrSaveAlertFromTearSheet } from 'in-alerting/smart-alerts/infrastructure/components/AlertCreateOrSave';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
@@ -70,12 +75,25 @@ function AlertConfigTearSheetContent({
   const duplicateFrom = alertConfig?.duplicateFrom ?? undefined;
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
+  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode, true));
   const updateForm = useInfraSmartAlertFormSideEffects(form, setForm);
 
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState<EnrichedError[]>([]);
   const navigateToAlertConfig = useNavigationToAlertConfig();
+
+  const { aggregation, warningThreshold, criticalThreshold, thresholdOperatorValue, metricFormat, entityType, metric } =
+    getTitlePlaceholderData(form);
+
+  const metricLabel = useGetAlertTitle(entityType, metric, aggregation);
+  const alertTitle = generateTitle(metricLabel);
+  const alertDescription = useFormattedThresholdValue(
+    metricLabel,
+    thresholdOperatorValue(warningThreshold, criticalThreshold),
+    metricFormat,
+    warningThreshold,
+    criticalThreshold
+  );
 
   const { trackCta } = useSegmentTracking();
   return (
@@ -96,9 +114,9 @@ function AlertConfigTearSheetContent({
             setIsSaving,
             setMessages,
             toAlertConfig,
-            isSimpleMode: false,
             trackCta,
-            duplicateFrom
+            duplicateFrom,
+            placeHolderText: { alertTitle, alertDescription }
           });
         }}
         editMode={editMode}
@@ -137,16 +155,21 @@ function getRuleWithThreshold(form: MapForm<any>) {
   return ruleWithThreshold;
 }
 
-function toAlertConfig(form: MapForm<any>): Readonly<InfraAlertConfig> {
+function toAlertConfig(
+  form: MapForm<any>,
+  placeHolderText: { alertTitle: string; alertDescription: { WARNING?: string; CRITICAL?: string } }
+): Readonly<InfraAlertConfig> {
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
   const ruleWithThreshold = getRuleWithThreshold(form);
+
+  const { alertTitle, alertDescription } = placeHolderText;
 
   return Object.freeze({
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
     alertChannelIds: alertChannelPerSeverityInfraSaEnabled ? null : form.get(fieldNames.alertChannelIds).value,
     alertChannels: alertChannelPerSeverityInfraSaEnabled ? form.get(fieldNames.alertChannels).value : null,
-    description: form.get(fieldNames.description).value || getDescriptionPlaceholder(),
-    name: form.get(fieldNames.name).value || getTitlePlaceholder(),
+    description: form.get(fieldNames.description).value || (alertDescription?.WARNING ?? alertDescription?.CRITICAL),
+    name: form.get(fieldNames.name).value || alertTitle,
     id: form.get(fieldNames.id).value,
     timeThreshold: form.get('timeThreshold').toJS(),
     granularity: form.get(fieldNames.granularity).value,

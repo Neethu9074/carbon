@@ -7,11 +7,9 @@
 import metricDefinitions from 'in-forge/plugins/ibmMqMftMonitor/metricDefinitions';
 // @ts-expect-error
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import kpiDefinitions from 'in-forge/plugins/ibmMqMftMonitor/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.ibmMqMftMonitor,
-  kpiDefinitions,
   metricDefinitions
 });

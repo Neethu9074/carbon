@@ -13,15 +13,14 @@ import { Result } from '@instana/types';
 import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/useGenerateAIActionForm';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { setGeneratedAction } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/PromptStep';
+import { getManualContentFromFields, getScriptFromFields, base64ToUtf8 } from 'in-automation/utils/actionField';
 import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { getManualContentFromFields, getScriptFromFields } from 'in-automation/utils/actionField';
 import { descriptionColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
-import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { ACTION_TYPE } from 'in-automation/constants';
 import { ScoredAction } from 'in-automation/types';
@@ -83,7 +82,7 @@ function onSelect({
       const script = getScriptFromFields(action.fields);
       let plaintextScript = script.value;
       if (script.encoding === 'base64') {
-        plaintextScript = atob(plaintextScript);
+        plaintextScript = base64ToUtf8(plaintextScript);
       }
 
       updatedForm = updatedForm.updateIn(['action', 'script'], item => item.setValue(plaintextScript));
@@ -93,7 +92,7 @@ function onSelect({
       const content = getManualContentFromFields(action.fields);
       let plaintextContent = content.value;
       if (content.encoding === 'base64') {
-        plaintextContent = atob(plaintextContent);
+        plaintextContent = base64ToUtf8(plaintextContent);
       }
       updatedForm = updatedForm.updateIn(['action', 'content'], item => item.setValue(plaintextContent));
       updatedForm = updatedForm.updateIn(['action', 'aiGeneratedContent'], item => item.setValue(plaintextContent));
@@ -171,7 +170,7 @@ function ScriptSection({ action }: { action: ScoredAction }) {
   const script = getScriptFromFields(action.fields);
   let plaintextScript = script.value;
   if (script.encoding === 'base64') {
-    plaintextScript = atob(plaintextScript);
+    plaintextScript = base64ToUtf8(plaintextScript);
   }
   return (
     <>
@@ -184,7 +183,6 @@ function ScriptSection({ action }: { action: ScoredAction }) {
         </div>
         <div className={locals.CodeWithAISlug}>
           <Code withExpandButton code={plaintextScript} lang={'bash'} softWrap />
-          <AISlugIcon />
         </div>
       </FormGroup>
     </>

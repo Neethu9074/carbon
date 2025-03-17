@@ -7,7 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { TableDateTime } from '@instana/legacy';
+import { formatDateTime } from '@instana/format-date';
 import { Card } from '@instana/components';
 
 import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Table/components/ViewWidthRestrictedColumn';
@@ -22,6 +22,8 @@ import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import EntityLink from 'in-components/EntityLink';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
+
+import locals from './Events.mless';
 
 const allColumns = [
   {
@@ -96,7 +98,7 @@ const allColumns = [
     id: 'time',
     label: t('in-kubernetes:dashboards.time'),
     getContent(item) {
-      return <TableDateTime>{get(item, 'time')}</TableDateTime>;
+      return <span className={locals.noWrap}>{formatDateTime(get(item, 'time'))}</span>;
     }
   }
 ];

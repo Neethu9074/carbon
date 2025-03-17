@@ -17,4 +17,5 @@ export interface WidgetProps<T> {
   timeConfig: TimeConfig;
   isInModal?: boolean;
   filterResult?: FilterResult;
+  widgetId: string;
 }

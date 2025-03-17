@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 import {
@@ -14,7 +14,8 @@ import {
   BIZOPS_CREATE_PERSPECTIVE_CLICK,
   BIZOPS_PERSPECTIVE_CREATED,
   BIZOPS_BREADCRUMB_CLICK,
-  BIZOPS_DEPLOY_AGENT_CLICK
+  BIZOPS_DEPLOY_AGENT_CLICK,
+  BIZOPS_FLOW_MAP_LOAD_MORE
 } from 'in-services/tracking/tracking';
 import { CREATED_OBJECT, CTA_CLICKED, UI_INTERACTION } from 'in-services/util/constants';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
@@ -198,4 +199,20 @@ export const bizopsDeployAgentClick = (props: bizopsDeployAgentClickProps) => {
     CTA: BIZOPS_DEPLOY_AGENT_CLICK
   };
   bizopsEventTracker(data, CTA_CLICKED);
+};
+
+// ********************************
+
+interface bizopsFlowMapLoadMoreProps extends UiInteractionProps {
+  processName: string;
+  processId: string;
+  activityId: string;
+}
+
+export const bizopsFlowMapLoadMore = (props: bizopsFlowMapLoadMoreProps) => {
+  const data = {
+    ...props,
+    action: BIZOPS_FLOW_MAP_LOAD_MORE
+  };
+  bizopsEventTracker(data, UI_INTERACTION);
 };

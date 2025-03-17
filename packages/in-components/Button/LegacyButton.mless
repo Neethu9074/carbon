@@ -1,0 +1,208 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+:local {
+  .stack > .button + .button {
+    margin-left: 0;
+  }
+
+  .button {
+    /*
+   * Workaround:
+   * We are defining the old, deprecated CSS variable
+   * until the whole Button component will have been
+   * migrated (carbonized)
+   */
+    --typography-button-font-size: 0.875rem;
+    --typography-button-font-weight: 500;
+
+    border-radius: 0; /* remove the default margin on MacOS */
+    color: var(--ids-color-option-black);
+    font-family: var(--ids-font-family-option-sans-serif);
+    font-weight: bold;
+    font-size: 0.875rem;
+    text-decoration: none;
+    border: 0;
+    margin: 0;
+    border-radius: var(--ids-border-radius-option-small);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    transition: background-color 250ms;
+    margin: 0; /* Remove the margin in Firefox and Safari */
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+
+    & + .button {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .button-noAutoMargin {
+    & + .button {
+      margin-left: 0;
+    }
+  }
+
+  .button-disabled,
+  .button-disabled:focus,
+  .button-disabled:hover {
+    cursor: not-allowed;
+    outline: 0;
+
+    svg {
+      fill: var(--ids-color-option-neutral-300) !important;
+    }
+  }
+
+  .button-primary {
+    background: var(--ids-color-option-teal-500);
+    color: var(--ids-color-option-white);
+    font-size: var(--typography-button-font-size);
+    font-weight: var(--typography-button-font-weight);
+
+    svg {
+      fill: var(--ids-color-option-white);
+    }
+
+    &:hover {
+      color: var(--ids-color-option-white);
+      background: #12978e;
+
+      svg {
+        fill: var(--ids-color-option-white);
+      }
+    }
+    &.button-disabled,
+    &.button-disabled:hover,
+    &.button-disabled:focus {
+      background: #95dada;
+    }
+  }
+
+  .button-secondary {
+    background: var(--ids-color-option-neutral-50);
+    color: var(--ids-color-option-neutral-900);
+    font-size: var(--typography-button-font-size);
+    font-weight: normal;
+    border: 0.0625rem solid var(--ids-color-option-neutral-400);
+
+    svg {
+      fill: var(--ids-color-option-neutral-900);
+    }
+
+    &:hover {
+      color: var(--ids-color-option-neutral-900);
+      background: var(--ids-color-option-neutral-100);
+
+      svg {
+        fill: var(--ids-color-option-neutral-900);
+      }
+    }
+
+    &:hover {
+      border: 0.0625rem solid var(--ids-color-option-neutral-500);
+    }
+
+    &.button-disabled,
+    &.button-disabled:hover,
+    &.button-disabled:focus {
+      color: var(--ids-color-option-neutral-400);
+      border: 0.0625rem solid #e2e4e6;
+      background: #fcfcfd;
+    }
+  }
+
+  .button-subtle {
+    background: transparent;
+    font-size: var(--typography-button-font-size);
+    font-weight: 200;
+
+    &:hover {
+      color: var(--ids-color-option-neutral-600);
+      background: var(--ids-color-option-neutral-300);
+
+      svg {
+        fill: var(--ids-color-option-neutral-600);
+      }
+    }
+
+    &.button-disabled,
+    &.button-disabled:hover,
+    &.button-disabled:focus {
+      color: rgba(98, 117, 125, 0.48);
+      background: var(--ids-color-option-white);
+    }
+
+    &.button-light {
+      color: var(--ids-color-option-neutral-600);
+
+      svg {
+        fill: var(--ids-color-option-neutral-600);
+      }
+    }
+
+    &.button-dark {
+      color: var(--ids-color-option-white);
+
+      svg {
+        fill: var(--ids-color-option-white);
+      }
+    }
+  }
+
+  .button-xl {
+    padding: 0.3rem 1rem;
+    height: 3.375rem;
+    font-size: 1rem;
+    font-weight: 600;
+
+    .button-icon {
+      margin: -0.25rem 0.5rem -0.25rem 0;
+
+      &.button-noHorizontalMargin {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .button-normal {
+    padding: 0.5rem 0.625rem;
+
+    &.button-secondary,
+    &.button-secondaryDarker,
+    &.button-fixedInline {
+      padding: 0.4375rem 0.5625rem;
+    }
+
+    .button-icon {
+      margin: -0.25rem 0.5rem -0.25rem 0;
+
+      &.button-noHorizontalMargin {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .button-compact {
+    padding: 0.25rem 0.625rem;
+    line-height: 1.15;
+
+    .button-icon {
+      margin-right: 0.5rem;
+
+      &.button-noHorizontalMargin {
+        margin-right: 0;
+      }
+    }
+  }
+}

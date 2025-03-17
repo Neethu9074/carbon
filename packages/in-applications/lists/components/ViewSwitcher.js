@@ -54,7 +54,7 @@ export default function AppViewSwitcher() {
           {applicationSubtracesEnabled && (
             <SecondLevelNavigationItem
               href={createHrefToPath(subtracesList)}
-              icon="lib_application"
+              icon="lib_application_call"
               label={t('in-applications:subtraces.labelSubtraces')}
               isActive={isSubtraceViewActive}
             />

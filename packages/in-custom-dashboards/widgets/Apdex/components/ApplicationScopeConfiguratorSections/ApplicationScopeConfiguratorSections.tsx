@@ -9,7 +9,6 @@ import React from 'react';
 
 import { ApplicationBoundaryScope } from '@instana/types';
 import { Stack, Button } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line import/no-deprecated -- Existing usage of deprecated code, this component will be removed in the future
 import { getField } from 'in-custom-dashboards/widgets/SloLegacy/form';
@@ -28,6 +27,7 @@ import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Header from 'in-components/workspace/Header';
+import { t } from 'in-i18n';
 
 interface ApplicationScopeConfiguratorProps {
   form: MapForm<any>;

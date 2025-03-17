@@ -12,6 +12,8 @@ export const viewChange = create('viewChange');
 export const httpRequest = create('httpRequest');
 export const custom = create('custom');
 export const crash = create('crash');
+export const perf = create('perf');
+export const dropBeacon = create('dropBeacon');
 
 function create(beaconType) {
   return createGroupingConfigurator({

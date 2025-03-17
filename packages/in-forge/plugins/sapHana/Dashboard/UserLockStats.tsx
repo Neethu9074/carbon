@@ -67,7 +67,10 @@ const cols = [
 ];
 
 export default function UserLockStatsList({ snapshotId, timeConfig }: UserLockStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'userLockStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'userLockStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const userLockStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: UserLockStatsRow[] = userLockStat
     ? userLockStat

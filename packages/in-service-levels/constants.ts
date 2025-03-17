@@ -11,14 +11,11 @@ import {
   SloEntityType,
   TrafficIndicatorType
 } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import { SloAggregationOptions, SloBeaconTypes } from 'in-service-levels/types';
-import { sloSyntheticsEnabled } from 'in-services/featureFlags';
 import { hasSyntheticsAccess } from 'in-stores/permission';
 import { deepFreeze } from 'in-services/util/object';
-
-export const hasSyntheticsSloAccess = sloSyntheticsEnabled && hasSyntheticsAccess;
+import { t } from 'in-i18n';
 
 export const SLO_TARGET_DECIMAL_PRECISION = 2;
 export const titleWidth = '14.7rem';
@@ -27,7 +24,7 @@ export const defaultBeaconType: SloBeaconTypes = 'httpRequest';
 export const defaultBoundaryScope: ApplicationBoundaryScope = 'ALL';
 
 export const sloEntityTypes: Readonly<SloEntityType[]> = Object.freeze(
-  hasSyntheticsSloAccess ? (['application', 'website', 'synthetic'] as const) : (['application', 'website'] as const)
+  hasSyntheticsAccess ? (['application', 'website', 'synthetic'] as const) : (['application', 'website'] as const)
 );
 
 export interface LabeledEntity {

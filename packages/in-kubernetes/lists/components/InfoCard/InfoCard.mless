@@ -5,21 +5,22 @@
  */
 
 :local {
-  .cluster {
+  .infoCard {
     margin-bottom: 2rem;
   }
 
   .tile {
     flex: 1;
     height: 11rem;
-    min-width: 230px;
+    min-width: 14.375rem;
   }
 
   .tileContent {
     padding-top: 0.5rem;
     height: 4.875rem;
 
-    p {
+    p,
+    .subtitle {
       color: var(--cds-text-secondary);
     }
   }

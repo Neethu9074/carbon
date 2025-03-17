@@ -9,13 +9,13 @@ import React from 'react';
 import { formatDate, formatTime } from '@instana/format-date';
 import { isFixedTimeWindow } from '@instana/types';
 import { KeyValue } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import SloConfigSection, {
   RowDefinition,
   SloConfigSectionData
 } from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
 import { percentage } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 interface ObjectiveSectionProps {
   data: SloConfigSectionData;

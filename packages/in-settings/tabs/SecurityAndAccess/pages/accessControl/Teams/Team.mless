@@ -9,18 +9,6 @@
     display: flex;
   }
 
-  .nameAndDescriptionCard {
-    :global(.c4p--card__footer) {
-      justify-content: right;
-    }
-    :global(.cds--text-input) {
-      background-color: var(--cds-background);
-    }
-    :global(.cds--text-area) {
-      background-color: var(--cds-background);
-    }
-  }
-
   .row {
     display: flex;
     flex-direction: row;
@@ -41,5 +29,9 @@
   .toastMessage {
     width: auto;
     margin-bottom: 0.5rem;
+  }
+
+  :global(.c4p--card__productive) {
+    height: 100%;
   }
 }

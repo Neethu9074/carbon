@@ -5,20 +5,17 @@
 
 import { Field, MapForm } from 'formalistic';
 import classNames from 'classnames';
-import { isNaN } from 'lodash';
 import React from 'react';
 
+import { CarbonNumberInput } from '@instana/components';
+
 import { ThresholdValueInputWithValidationMessageProps } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
-import {
-  getValueRoundedToDecimals,
-  getThresholdValueForPercentageMetric
-} from 'in-alerting/smart-alerts/components/utils/formatUtils';
-//@ts-expect-error TS migration
-import DebouncedInput from 'in-components/form/Input/DebouncedInput';
+import { shiftDecimalLeft, shiftDecimalRight } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { isNotBlank } from 'in-services/util/string';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/ThresholdCondition.mless';
 
+const roundDecimalPlaces = 2;
 interface ThresholdValueInputProps extends ThresholdValueInputWithValidationMessageProps {
   delay?: number;
   id?: string;
@@ -49,39 +46,45 @@ export default function ThresholdValueInput({
   getUpdatedForm,
   ...props
 }: ThresholdValueInputProps) {
-  const onValueChange = (targetValue: number | undefined) => {
-    const value = targetValue ? getThresholdValueForPercentageMetric(Math.abs(targetValue), percentageMetric) : null;
-    if ((value && value > max) || isNaN(value)) {
-      return;
-    }
+  const onValueChange = (targetValue: number | string | null) => {
+    const value = targetValue != null ? shiftDecimalLeft(targetValue, roundDecimalPlaces, percentageMetric) : null;
 
     if (updateForm) {
       const updatedForm = getUpdatedForm
-        ? getUpdatedForm(value)
-        : form.updateIn(['threshold', 'value'], f => (f as Field<number | null>).setValue(value).setTouched(true));
+        ? getUpdatedForm(value as any)
+        : form.updateIn(['threshold', 'value'], f =>
+            (f as Field<number | null>).setValue(value as any).setTouched(true)
+          );
 
       updateForm(updatedForm);
     }
   };
 
   const hasError = !thresholdField?.valid && thresholdField?.touched;
-  const value = getValueRoundedToDecimals(thresholdField?.value, percentageMetric);
+
+  const value = shiftDecimalRight(thresholdField?.value, roundDecimalPlaces, percentageMetric);
+
+  const mapOnChange = (_e: any, state?: { value: number | string | null; direction: string }) => {
+    const stateValue = state?.value ?? value ?? 0;
+    onValueChange(stateValue);
+  };
 
   return (
     <>
-      <DebouncedInput
-        delay={delay}
+      <CarbonNumberInput
         id={id}
         name={name}
         type={type}
-        min={min}
+        min={0}
         step={parseInt(step) ?? 1}
-        {...props}
-        className={classNames({ [locals.narrowControl]: isSmall, [locals.inputMd]: props.isTearSheet })}
-        onValueChange={onValueChange}
+        className={classNames({
+          [locals.narrowControl]: isSmall,
+          [locals.numberInput]: !props.isTearSheet
+        })}
         value={value ?? ''}
-        hasError={hasError}
-        pure={false}
+        invalid={hasError}
+        allowEmpty
+        onChange={mapOnChange}
       />
       {isNotBlank(metricUnitPostfix) && <span>{metricUnitPostfix}</span>}
     </>

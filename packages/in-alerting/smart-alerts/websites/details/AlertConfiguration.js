@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { isAdaptiveBaselineConfig } from '@instana/types';
+import { Stack } from '@instana/components';
 
 import {
   chartViewConfig24hours,
@@ -27,6 +28,7 @@ import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/Websi
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
+import { alertChannelPerSeverityWebsiteSaEnabled } from 'in-services/featureFlags';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
@@ -42,16 +44,20 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig }) {
   const {
-    rule: { operator, value, alertType, metricName, aggregation, customEventName },
-    threshold,
+    rules,
     timeThreshold,
     granularity,
     gracePeriod,
     alertChannelIds,
+    alertChannels,
     tagFilterExpression,
     websiteId,
     customPayloadFields
   } = alertConfig;
+
+  const { rule, thresholds, thresholdOperator } = rules[0];
+  const { value, alertType, metricName, customEventName, operator } = rule;
+  const threshold = thresholds?.WARNING ?? thresholds.CRITICAL;
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const websiteLabel = useWebsiteLabel(websiteId);
@@ -60,12 +66,11 @@ export default function AlertConfiguration({ alertConfig }) {
   const beaconType = blueprintConfig.getBeaconType(metricName);
 
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, websiteId);
-  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType, alertConfig.threshold.type).QueryBuilder;
+  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType, threshold?.type).QueryBuilder;
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
-  const thresholdType = alertConfig.threshold;
-  const chartViewConfigs = isAdaptiveBaselineConfig(thresholdType) ? [chartViewConfig24hours] : defaultChartViewConfigs;
+  const chartViewConfigs = isAdaptiveBaselineConfig(threshold) ? [chartViewConfig24hours] : defaultChartViewConfigs;
 
   return (
     <AlertDetailsCard>
@@ -78,7 +83,7 @@ export default function AlertConfiguration({ alertConfig }) {
         openByDefault
         darkFrame
       >
-        <AlertThresholdInfos threshold={threshold} rule={{ alertType, aggregation, metricName }} />
+        <AlertThresholdInfos thresholdOperator={thresholdOperator} thresholdsMap={thresholds} rule={rule} />
       </ExpandableLightCard>
 
       <ChartViewConfigurator
@@ -144,12 +149,13 @@ export default function AlertConfiguration({ alertConfig }) {
       <ExpandableLightCard
         title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleTimeThreshold')}
         useMaxAvailableHeight={false}
-        bodyWithoutPadding
         openByDefault
         darkFrame
       >
-        <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
-        <GracePeriodDescription gracePeriod={gracePeriod} />
+        <Stack gap="large">
+          <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
+          <GracePeriodDescription gracePeriod={gracePeriod} />
+        </Stack>
       </ExpandableLightCard>
 
       <ExpandableLightCard
@@ -160,7 +166,11 @@ export default function AlertConfiguration({ alertConfig }) {
         darkFrame
       >
         <div className={locals.alertChannelsWrapper}>
-          <AlertChannelsViewer alertChannelIds={alertChannelIds} />
+          <AlertChannelsViewer
+            alertChannelIds={alertChannelIds}
+            alertChannels={alertChannels}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityWebsiteSaEnabled}
+          />
         </div>
       </ExpandableLightCard>
 
@@ -171,7 +181,7 @@ export default function AlertConfiguration({ alertConfig }) {
         openByDefault
         darkFrame
       >
-        <AlertPropertyInfos alertConfig={alertConfig} />
+        <AlertPropertyInfos shouldDisplayAlertLevelSection={false} alertConfig={alertConfig} />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="WEBSITE" />
       <CustomPayloadCard

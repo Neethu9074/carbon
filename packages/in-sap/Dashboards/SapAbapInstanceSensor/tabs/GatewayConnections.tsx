@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
@@ -18,6 +19,11 @@ import { t } from 'in-i18n';
 interface GatewayConnectionRow {
   key: string;
   gatewayConnection: Map<string, object>;
+}
+
+interface GatewayConnectionRowProps {
+  snapshotId: string;
+  timeConfig: TimeConfig;
 }
 
 const cols = [
@@ -96,8 +102,11 @@ const cols = [
   }
 ];
 
-export default function GatewayConnections({ snapshotId }: SnapshotData) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'gatewayconnection'), [snapshotId]);
+export default function GatewayConnections({ snapshotId, timeConfig }: GatewayConnectionRowProps) {
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'gatewayconnection', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return null;
   }

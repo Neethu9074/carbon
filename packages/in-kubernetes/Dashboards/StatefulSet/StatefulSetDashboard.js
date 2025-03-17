@@ -11,12 +11,12 @@ import { statefulSetId as matrixStatefulSetId } from 'in-kubernetes/navigation/m
 import { WorkloadControllerBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { statefulSetDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/StatefulSet/tabs/index';
-import { useSegmentTracker } from 'in-kubernetes/tracker';
+import { useKubernetesTracker } from 'in-kubernetes/tracker';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
 export default function StatefulSetDashboard({ location }) {
-  const { k8sTabChange } = useSegmentTracker();
+  const { k8sTabChange } = useKubernetesTracker();
   return (
     <WorkloadControllerDashboard
       location={location}

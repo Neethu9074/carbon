@@ -41,6 +41,12 @@ export interface OverlayContentProps extends ExternalContentProps {
 export interface OverlayProps<FORWARDED_CONTENT_PROPS> {
   autoOpen?: boolean;
   inContentArea?: boolean;
+  /**
+   * This could be used for an overlay display issue in Sidepanel because of high z-index.
+   * @deprecated - Deprecated in favour of migrating the TagBasedPayloadConfigurator to use Carbonpopover. For more details, check https://jsw.ibm.com/browse/INSTA-30708.
+   * Use with care!
+   */
+  inSidePanel?: boolean;
   behindSidebar?: boolean;
   forceConfiguredAlignment?: boolean;
   wrapperStyle?: CSSProperties;
@@ -54,7 +60,17 @@ export interface OverlayProps<FORWARDED_CONTENT_PROPS> {
   autoClose?: boolean;
   content: React.ComponentType<OverlayContentProps & OverlayMounterContentProps & FORWARDED_CONTENT_PROPS>;
   focusOnClose?: boolean;
-
+  /**
+   * This could be used for an overlay alignment issue on small screen resolution, see
+   * "CSP TS018037439: Instana application view - screen resolution issue on SA Dialog"
+   * https://jsw.ibm.com/browse/INSTA-21973
+   *
+   * It will help to avoid cutting-off content on the left side (out-of-screen)
+   *
+   * It is only tested with align="buttonLeft"
+   * Use with care!
+   */
+  fixOverlayLeftAlignment?: boolean;
   onToggle?: (b: boolean) => void;
   onCloseSideEffect?: (e?: any) => void;
 }
@@ -85,7 +101,11 @@ export interface OverlayMounterProps {
   autoOpen?: boolean;
   withoutArrow?: boolean;
   inContentArea?: boolean;
+  /** see OverlayProps for comment */
+  inSidePanel?: boolean;
   behindSidebar?: boolean;
+  /** see OverlayProps for comment */
+  fixOverlayLeftAlignment?: boolean;
   align?: Align;
   forceConfiguredAlignment?: boolean;
 }

@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
@@ -21,6 +22,10 @@ import locals from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ComboBox.mless'
 interface TransportRequestRow {
   key: string;
   requestEntry: Map<string, object>;
+}
+interface TransportRequestProps {
+  snapshotId: string;
+  timeConfig: TimeConfig;
 }
 
 const cols = [
@@ -122,8 +127,11 @@ const cols = [
   }
 ];
 
-export default function TransportRequest({ snapshotId }: SnapshotData) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'transportRequest'), [snapshotId]);
+export default function TransportRequest({ snapshotId, timeConfig }: TransportRequestProps) {
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'transportRequest', timeConfig),
+    [snapshotId, timeConfig]
+  );
   // @ts-expect-error Module needs to be translated to TS
   const [{ logonType }, setPhase] = useState(requestStatusMap);
   const rightHeader = (

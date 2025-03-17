@@ -1,84 +1,80 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8"
-        name="viewport"
-        content="initial-scale=1">
-  <meta name="google" content="notranslate">
+  <head>
+    <meta charset="UTF-8" name="viewport" content="initial-scale=1" />
+    <meta name="google" content="notranslate" />
 
-  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="apple-touch-icon-57x57.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72x72.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="apple-touch-icon-120x120.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="152x152" href="apple-touch-icon-152x152.png" />
-  <link rel="icon" type="image/x-icon" href="favicon-32x32.png" sizes="any" />
-  <link rel="stylesheet" href="/bundle/compStyle.css"/>
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/x-icon" href="favicon-32x32.png" sizes="any" />
+    <link rel="stylesheet" href="/bundle/compStyle.css" />
 
-  <title>Instana</title>
+    <title>Instana</title>
 
-  <script>
-    window.instana = {};
-  </script>
-  <script>
-    window.instana.user = <!--#include virtual="/api/checkUserAccessPermitted" -->;
-  </script>
+    <script>
+      window.instana = {};
+    </script>
+    <script>
+      window.instana.user = <!--#include virtual="/api/checkUserAccessPermitted" -->;
+    </script>
 
-  <script>
-    window.instana.build = <!--#include virtual="build.json" -->;
-    window.instana.config = <!--#include virtual="config.json" -->;
-    window.instana.searchFields = <!--#include virtual="/api/search/fields" -->;
-    window.instana.settings = <!--#include virtual="/api/ui/settings" -->;
-    window.instana.tags = <!--#include virtual="/api/tags" -->;
-    window.instana.termsAndPrivacyAccepted = <!--#include virtual = "/api/tos-privacy-agreement/checkUserAcceptance" -->;
-    window.instana.termsAndPrivacySettings = <!--#include virtual = "/api/user-settings" -->;
-    window.instana.reportingData = <!--#include virtual = "/api/infrastructure-monitoring/monitoring-state" -->;
-    window.instana.starredItems = <!--#include virtual = "/api/starred-item" -->;
-    // de locale for testing purposes. Main difference to en-US: Decimal and thousands separator are swapped
-    // window.instana.numberLocale = {
-    //   "decimal": ",",
-    //   "thousands": ".",
-    //   "grouping": [3],
-    //   "currency": ["", "\u00a0€"]
-    // };
-  </script>
-      <!-- ibm-commons-script -->
-      <script type="text/javascript">
-        if (window.instana.config.featureFlags.ibmCommonEnabled && window.instana.termsAndPrivacySettings.walkmeAnalyticsServices ){
-          // this solution was found by re-engineering https://tags.tiqcdn.com/utag/ibm/web/prod/utag.js.
-          // At the moment this is the simplest solution to or a work around, but it was not officially documented
-          // Once the new design on cookie consent is delivered, it will be removed, and
-          // the telium cookie banner will be used instead of the current Instana privacy consent dialog box.
-          document.cookie = "notice_close=true"; // Manually closing the cookie banner since we are accepting it from the privacy dialog.
+    <script>
+      window.instana.build = <!--#include virtual="build.json" -->;
+      window.instana.config = <!--#include virtual="config.json" -->;
+      window.instana.searchFields = <!--#include virtual="/api/search/fields" -->;
+      window.instana.settings = <!--#include virtual="/api/ui/settings" -->;
+      window.instana.tags = <!--#include virtual="/api/tags" -->;
+      window.instana.termsAndPrivacyAccepted = <!--#include virtual = "/api/tos-privacy-agreement/checkUserAcceptance" -->;
+      window.instana.termsAndPrivacySettings = <!--#include virtual = "/api/user-settings" -->;
+      window.instana.reportingData = <!--#include virtual = "/api/infrastructure-monitoring/monitoring-state" -->;
+      window.instana.starredItems = <!--#include virtual = "/api/starred-item" -->;
+      // de locale for testing purposes. Main difference to en-US: Decimal and thousands separator are swapped
+      // window.instana.numberLocale = {
+      //   "decimal": ",",
+      //   "thousands": ".",
+      //   "grouping": [3],
+      //   "currency": ["", "\u00a0€"]
+      // };
+    </script>
+    <!-- ibm-commons-script -->
+    <script type="text/javascript">
+      if (window.instana.config.featureFlags.ibmCommonEnabled) {
+        // this solution was found by re-engineering https://tags.tiqcdn.com/utag/ibm/web/prod/utag.js.
+        // At the moment this is the simplest solution to or a work around, but it was not officially documented
+        // Once the new design on cookie consent is delivered, it will be removed, and
+        // the telium cookie banner will be used instead of the current Instana privacy consent dialog box.
+        document.cookie = 'notice_close=true'; // Manually closing the cookie banner since we are accepting it from the privacy dialog.
         window._ibmAnalytics = {
-         "settings": {
-            "name": "instana",
-            "isSpa": true,
-            "tealiumProfileName": "in-app-usage"
-         },
-         "trustarc": {
-            "isCookiePreferencesInstalled": true,
-      },
-         "digitalData.page.pageInfo.walkme.enabled": window.instana.termsAndPrivacySettings.walkmeAnalyticsServices,
-         "digitalData.page.pageInfo.walkme.id": "9ef25d161f0e453a8f3e4dea9390a967",
-         "digitalData.page.pageInfo.walkme.test": window.instana.termsAndPrivacySettings.walkmeAnalyticsServices && window.instana.config.featureFlags.playwithTestEnabled
-      };
-      digitalData = {
-         "page": {
-            "pageInfo": {
-               "ibm": {
-                  "siteId": "IBM_" + _ibmAnalytics.settings.name,
-               }
+          settings: {
+            name: 'instana',
+            isSpa: true,
+            tealiumProfileName: 'in-app-usage'
+          },
+          trustarc: {
+            isCookiePreferencesInstalled: true
+          },
+          'digitalData.page.pageInfo.walkme.enabled': window.instana.termsAndPrivacySettings.walkmeAnalyticsServices,
+          'digitalData.page.pageInfo.walkme.id': '9ef25d161f0e453a8f3e4dea9390a967',
+          'digitalData.page.pageInfo.walkme.test':window.instana.termsAndPrivacySettings.walkmeAnalyticsServices && window.instana.config.featureFlags.playwithTestEnabled
+        };
+        digitalData = {
+          page: {
+            pageInfo: {
+              ibm: {
+                siteId: 'IBM_' + _ibmAnalytics.settings.name
+              }
             },
-            "category": {
-               "primaryCategory": "PC110"
+            category: {
+              primaryCategory: 'PC110'
             }
-         }
-      };
-
-        }
-
-     </script>
-     <script type="text/javascript">
-      if (window.instana.config.featureFlags.ibmCommonEnabled && window.instana.termsAndPrivacySettings.walkmeAnalyticsServices) {
+          }
+        };
+      }
+    </script>
+    <script type="text/javascript">
+      if (window.instana.config.featureFlags.ibmCommonEnabled) {
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = '//1.www.s81c.com/common/stats/ibm-common.js';
@@ -87,81 +83,93 @@
       }
     </script>
 
-       <!-- Assitme script -->
-     <script type="text/javascript">
-      if (window.instana.config.featureFlags.ibmCommonEnabled && window.instana.termsAndPrivacySettings.walkmeAnalyticsServices) {
+    <!-- Assitme script -->
+    <script type="text/javascript">
+      if (
+        window.instana.config.featureFlags.ibmCommonEnabled &&
+        window.instana.termsAndPrivacySettings.assistmeGuidanceServices &&
+        window.instana.termsAndPrivacySettings.walkmeAnalyticsServices &&
+        window.instana.config.featureFlags.assistmeEnabled
+      ) {
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = 'https://ibmassistme-dev.zll1vg8lrcq.us-south.codeengine.appdomain.cloud/resources/assist-me/controller.js';
+        script.src =
+          'https://ibmassistme-dev.zll1vg8lrcq.us-south.codeengine.appdomain.cloud/resources/assist-me/controller.js';
         script.crossOrigin = 'anonymous';
         script.async = true;
         script.defer = true;
         document.head.appendChild(script);
       }
     </script>
-      <!-- Assitme script end -->
-  <script>
-    var req = new XMLHttpRequest();
-    req.open("GET", "/csrf/token");
-    req.send();
-    req.onload = () => window.instana.csrf = req.getResponseHeader("x-csrf-token");
-  </script>
-  <script>
-  if (!window.instana.user || window.instana.user.errors) {
-  window.instana.user = null;
-}
-if (!window.instana.user) {
-  setTimeout(() => {
-    document.querySelector('.in-index-centered-content').innerHTML = `
+    <!-- Assitme script end -->
+    <script>
+      var req = new XMLHttpRequest();
+      req.open('GET', '/csrf/token');
+      req.send();
+      req.onload = () => (window.instana.csrf = req.getResponseHeader('x-csrf-token'));
+    </script>
+    <script>
+      if (!window.instana.user || window.instana.user.errors) {
+        window.instana.user = null;
+      }
+      if (!window.instana.user) {
+        setTimeout(() => {
+          document.querySelector('.in-index-centered-content').innerHTML = `
 Not signed in / backend unavailable. Will retry in 3s.
 <br /><br />
 Are you using the right URL for local development, e.g. local-instana.pink.instana.rocks vs local-instana.instana.io?
 `;
-    document.querySelector('.in-index-centered-content').style = 'color: #fff; font-size: 2rem; text-align: center';
-  }, 500);
-  setTimeout(() => {
-	if (window.instana.config.featureFlags?.playwithEnabled)
-  {
-		window.location.href = '/auth/demo/autoSignIn?returnUrl=' + encodeURIComponent(window.location.href);
-	} else {
-		window.location.href = '/auth/signIn?returnUrl=' + encodeURIComponent(window.location.href);
-	}
-}, 3000);
-}
-</script>
-<script>
-  (function(s,t,a,n){s[t]||(s[t]=a,n=s[a]=function(){n.q.push(arguments)},
-  n.q=[],n.v=2,n.l=1*new Date)})(window,"InstanaEumObject","ineum");
+          document.querySelector('.in-index-centered-content').style =
+            'color: #fff; font-size: 2rem; text-align: center';
+        }, 500);
+        setTimeout(() => {
+          if (window.instana.config.featureFlags?.playwithEnabled) {
+            window.location.href = '/auth/demo/autoSignIn?returnUrl=' + encodeURIComponent(window.location.href);
+          } else {
+            window.location.href = '/auth/signIn?returnUrl=' + encodeURIComponent(window.location.href);
+          }
+        }, 3000);
+      }
+    </script>
+    <script>
+      (function (s, t, a, n) {
+        s[t] ||
+          ((s[t] = a),
+          (n = s[a] =
+            function () {
+              n.q.push(arguments);
+            }),
+          (n.q = []),
+          (n.v = 2),
+          (n.l = 1 * new Date()));
+      })(window, 'InstanaEumObject', 'ineum');
 
-  ineum('reportingUrl', 'https://eum-red-saas.instana.io');
-  ineum('key', 'qlK9j_tzQ0ae8xIhQURJYQ');
-  ineum('trackSessions');
-</script>
-<script defer crossorigin="anonymous" src="https://eum.instana.io/eum.min.js"></script>
-
-</head>
-<body>
-  <div id="main">
-    <div class="in-index-centered-content">
-      <svg class="in-index-centered-content__loading-spinner" x="0px" y="0px" viewBox="0 0 24 24">
-        <path fill="#fff" d="M12,4a8,8,0,0,0-8,8H6a6,6,0,1,1,6,6v2A8,8,0,0,0,12,4Z"/>
-      </svg>
-    </div>
-  </div>
-
-  <noscript>
-    <div class="in-index-centered-content">
-      <div class="left-side">
-        <h1 class="title">
-          JavaScript disabled
-        </h1>
-        <p class="message">
-          The Instana interface requires JavaScript. Please enable JavaScript in your browser to continue.
-        </p>
+      ineum('reportingUrl', 'https://eum-red-saas.instana.io');
+      ineum('key', 'qlK9j_tzQ0ae8xIhQURJYQ');
+      ineum('trackSessions');
+    </script>
+    <script defer crossorigin="anonymous" src="https://eum.instana.io/eum.min.js"></script>
+  </head>
+  <body>
+    <div id="main">
+      <div class="in-index-centered-content">
+        <svg class="in-index-centered-content__loading-spinner" x="0px" y="0px" viewBox="0 0 24 24">
+          <path fill="#fff" d="M12,4a8,8,0,0,0-8,8H6a6,6,0,1,1,6,6v2A8,8,0,0,0,12,4Z" />
+        </svg>
       </div>
     </div>
-  </noscript>
 
-  <script src="bundle/index.js"></script>
-</body>
+    <noscript>
+      <div class="in-index-centered-content">
+        <div class="left-side">
+          <h1 class="title">JavaScript disabled</h1>
+          <p class="message">
+            The Instana interface requires JavaScript. Please enable JavaScript in your browser to continue.
+          </p>
+        </div>
+      </div>
+    </noscript>
+
+    <script src="bundle/index.js"></script>
+  </body>
 </html>

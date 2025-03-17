@@ -9,7 +9,6 @@ import React from 'react';
 import { SvgIcon, DescriptionList, DescriptionItem, Checkbox } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
-import { serviceNowAutoCloseAndCustomPayloadsEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Label from 'in-components/form/Label';
@@ -218,19 +217,18 @@ function Form({ form, onChange }) {
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
-      {serviceNowAutoCloseAndCustomPayloadsEnabled &&
-        form.get('autoCloseIncidents').map(field => (
-          <FormGroup className={block}>
-            <Checkbox
-              label={t('in-settings:tabs.autoCloseIncidents')}
-              id="autoCloseIncidents"
-              checked={field.value}
-              onChange={e => onChange('autoCloseIncidents', e.target.checked)}
-              size="larger"
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
+      {form.get('autoCloseIncidents').map(field => (
+        <FormGroup className={block}>
+          <Checkbox
+            label={t('in-settings:tabs.autoCloseIncidents')}
+            id="autoCloseIncidents"
+            checked={field.value}
+            onChange={e => onChange('autoCloseIncidents', e.target.checked)}
+            size="larger"
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
     </fieldset>
   );
 }

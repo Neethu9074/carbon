@@ -18,7 +18,7 @@ export default function InfoCardSkeleton({ numberOfCards = 6 }: Readonly<InfoCar
   const skeletonCards = [];
 
   for (let i = 0; i < numberOfCards; i++) {
-    skeletonCards.push(<LoadingSkeleton className={locals.skeleton} />);
+    skeletonCards.push(<LoadingSkeleton key={`skeleton_${i}`} className={locals.skeleton} />);
   }
 
   return (

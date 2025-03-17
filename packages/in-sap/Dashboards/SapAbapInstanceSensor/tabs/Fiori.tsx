@@ -40,10 +40,10 @@ export default function Fiori({ data }: { data: SnapshotData }) {
           <FioriEntities snapshotId={snapshotId} />
         </Col>
       </Row>
-      <GatewayConnections snapshotId={snapshotId} />
+      <GatewayConnections snapshotId={snapshotId} timeConfig={timeConfig} />
       <FrontEndErrorLogs snapshotId={snapshotId} timeConfig={timeConfig} />
       <BackEndErrorLogs snapshotId={snapshotId} timeConfig={timeConfig} />
-      <GatewayStats snapshotId={snapshotId} />
+      <GatewayStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <FioriCallMetric snapshotId={snapshotId} timeConfig={timeConfig} />
       <FioriPageVisit snapshotId={snapshotId} timeConfig={timeConfig} />
     </Fragment>

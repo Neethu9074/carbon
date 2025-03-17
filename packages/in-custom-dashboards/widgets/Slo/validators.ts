@@ -6,7 +6,7 @@
 
 import { ValidationResult } from 'formalistic';
 
-import { t } from '@instana/i18n-react';
+import { t } from 'in-i18n';
 
 export const notBlankSloValidator = (v: any): ValidationResult => {
   if (!v) {

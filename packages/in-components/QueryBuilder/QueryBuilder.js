@@ -62,6 +62,7 @@ function QueryBuilder({
   onChange: onValidChange,
   onError,
   tracking,
+  fixOverlayLeftAlignment,
   withoutOrConjunction = false,
   withoutBrackets = false,
   useLastValidStateWhenErroneous = false,
@@ -143,6 +144,7 @@ function QueryBuilder({
       formModelIndex={0}
       renderModelIndex={0}
       focus={focus}
+      fixOverlayLeftAlignment={fixOverlayLeftAlignment}
       withoutOrConjunction={withoutOrConjunction}
       withoutBrackets={withoutBrackets}
       getTagCatalog={getTagCatalog}
@@ -197,6 +199,7 @@ function QueryBuilder({
         formModelIndex={currentFormModel.length}
         renderModelIndex={renderModel.length - 1}
         focus={focus}
+        fixOverlayLeftAlignment={fixOverlayLeftAlignment}
         trailingButton
         withoutOrConjunction={withoutOrConjunction}
         withoutBrackets={withoutBrackets}
@@ -441,6 +444,7 @@ QueryBuilder.propTypes = {
     onTagRemoved: rpt.func,
     onQueryChanged: rpt.func
   }),
+  fixOverlayLeftAlignment: rpt.bool,
   withoutOrConjunction: rpt.bool,
   withoutBrackets: rpt.bool,
   useLastValidStateWhenErroneous: rpt.bool,

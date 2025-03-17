@@ -113,7 +113,6 @@
       "beaconCount": "引標計數",
       "calls": "呼叫",
       "latency": "延遲",
-      "results": "結果",
       "beaconDuration": "引標持續時間",
       "threshold": "臨界值",
       "failureRate": "故障率",
@@ -147,8 +146,8 @@
       "event_test_plural": "{{count}} 個測試"
     },
     "deleteDialog": {
-      "pleaseConfirm": "請確認",
-      "pleaseConfirmMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？",
+      "confirmRemove": "請確認",
+      "confirmRemoveMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？",
       "delete": "刪除"
     }
   },

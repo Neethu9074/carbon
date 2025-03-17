@@ -8,7 +8,6 @@ import React from 'react';
 
 import { isSyntheticSloEntity } from '@instana/types';
 import { KeyValue } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import SloConfigSection, {
   RowDefinition,
@@ -18,6 +17,7 @@ import TagFilterQueryBuilder from 'in-service-levels/components/SloDashboard/com
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
 import { defaultSliThresholdOperator } from 'in-service-levels/constants';
 import { percentage } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 interface IndicatorSectionProps {
   data: SloConfigSectionData;

@@ -1,5 +1,6 @@
 {
   "welcomeToInstana": "Willkommen bei Instana!",
+  "home": "Startseite",
   "getStartedAndInstallYourFirstAgent": "Beginnen Sie und installieren Sie Ihren ersten Agenten.",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "Ihre Testversion ist abgelaufen",
@@ -516,6 +517,7 @@
     "foldableTileTitle": "Erste Schritte",
     "viewAll": "Alle anzeigen",
     "addMore": "Hinzufügen",
+    "create": "Erstellen",
     "collapsibleButton": {
       "showOnboardingTasks": "Onboarding-Aufgaben anzeigen",
       "hideOnboardingTasks": "Onboarding-Tasks ausblenden"
@@ -710,25 +712,22 @@
     "noData": {
       "applicationWidget": {
         "header": "Keine Anwendungen",
-        "description": "Erstellen Sie Ihre eigene Anwendungsperspektive auf die Dienste, die Sie beobachten möchten.",
-        "buttonName": "Anwendungsperspektive erstellen"
+        "description": "Erstellen Sie Ihre eigene Anwendungsperspektive für die Dienste, die Sie beobachten möchten. <br><br> Klicken Sie zunächst auf <strong>\"Anwendung hinzufügen</strong> \"."
       },
       "incidentsWidget": {
         "header": "Keine Vorfälle",
-        "description": "Vorfälle helfen Ihnen, Servicequalitätsfehler Ihrer Anwendungen zu erkennen, zu verstehen und zu untersuchen."
+        "description": "Vorfälle helfen Ihnen, Probleme in Ihren Anwendungen zu erkennen, zu verstehen und zu untersuchen. <br><br><strong>Setzen Sie einen Agenten ein</strong>, um Vorfälle zu überwachen."
       },
       "websitesWidget": {
         "header": "Keine Websites",
-        "description": "Erfassen Sie Daten von Websites, um das digitale Erlebnis Ihrer Nutzer nachzuvollziehen.",
-        "buttonName": "Website hinzufügen"
+        "description": "Sammeln Sie Website-Daten, um die digitale Erfahrung Ihrer Benutzer zu verstehen. <br><br> Klicken Sie zunächst auf <strong>\"Website hinzufügen</strong> \"."
       },
       "mobileListWidget": {
         "header": "Keine mobilen Apps",
-        "description": "Erfassen Sie Daten über mobile Apps, um das digitale Erlebnis Ihrer Nutzer nachzuvollziehen.",
-        "buttonName": "Mobile Anwendungen hinzufügen"
+        "description": "Sammeln Sie Daten über mobile Apps, um die digitale Erfahrung Ihrer Benutzer zu verstehen. <br><br> Klicken Sie zunächst auf <strong>\"Mobile App hinzufügen</strong>\"."
       },
       "infrastructureWidget": {
-        "description": "Setzen Sie einen Agenten ein, um die Details hier zu sehen. <br>Starten Sie auf der Seite <linkToAgents>Agenten</linkToAgents>.",
+        "description": "Senden Sie einen Agenten, um die Details hier zu sehen. <br><br> Beginnen Sie auf <linkToAgents>der Seite \"Agenten</linkToAgents>\".",
         "link": "Agenten",
         "hosts": {
           "header": "Keine Hosts"
@@ -751,8 +750,7 @@
       "syntheticWidget": {
         "test": {
           "header": "Keine synthetischen Tests",
-          "description": "Konfigurieren Sie synthetische Tests für die Ausführung in bestimmten fortlaufenden Intervallen.",
-          "buttonName": "Synthetischen Test hinzufügen"
+          "description": "Konfigurieren Sie synthetische Tests, um Anwendungen in kontinuierlichen Intervallen zu überwachen. <br><br> Klicken Sie zunächst auf <strong>\"Synthetischen Test hinzufügen</strong>\"."
         },
         "location": {
           "header": "Keine synthetischen Standorte",
@@ -760,18 +758,16 @@
         },
         "smartalerts": {
           "header": "Keine synthetischen Smart Alerts",
-          "description": "Konfigurieren Sie Smart Alerts für Kunststoffe, um einen Alert zu senden, wenn der Test für einen Standort fehlschlägt.",
-          "buttonName": "Synthetische Smart Alerts hinzufügen"
+          "description": "Konfigurieren Sie Smart Alerts für synthetische Warnmeldungen, um eine Warnmeldung zu senden, wenn der Test für einen Standort fehlschlägt. <br><br> Klicken Sie zunächst auf <strong>\"Synthetische Smart Alert hinzufügen</strong>\"."
         }
       },
       "eventsWidget": {
         "header": "Keine Ereignisse",
-        "description": "Möglicherweise gibt es keine Ereignisse oder Vorfälle, die angezeigt werden sollen, oder Sie müssen zunächst Daten konfigurieren."
+        "description": "Möglicherweise gibt es keine Ereignisse oder Vorfälle anzuzeigen oder Sie müssen zuerst eine Verbindung zu Daten herstellen."
       },
       "dashboardWidget": {
         "header": "Keine angepassten Dashboards",
-        "description": "Erstellen Sie Ihr eigenes angepasstes Dashboard.",
-        "buttonName": "Angepasste Statusübersicht erstellen"
+        "description": "Benutzerdefinierte Dashboards bieten eine maßgeschneiderte Ansicht der Informationen, die für Sie wichtig sind. <br><br> Klicken Sie zunächst auf <strong>\"Dashboard erstellen</strong>\"."
       }
     },
     "quickLinks": {
@@ -788,11 +784,16 @@
         "documentation": "IBM Dokumentation",
         "releaseNotes": "Releaseinformationen",
         "whatsNewLink": "Was ist neu in Instana"
+      },
+      "toolTip": {
+        "makeDefault": "Diese Aktion legt die Instana-Startseite als Ihre Standard-Landingpage fest und ersetzt jedes benutzerdefinierte Dashboard, das Sie eingerichtet haben."
       }
     },
     "ariaLabel": {
       "search": "Suchen",
-      "handleButton": "Schaltfläche 'Handle'"
+      "handleButton": "Schaltfläche 'Handle'",
+      "toolbar": "Symbolleiste für Datentabelle",
+      "tabs": "Liste der Registerkarten"
     }
   },
   "Components": {

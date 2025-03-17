@@ -18,7 +18,6 @@ const sizes = {
 };
 
 const meta: Meta<typeof TimePicker> = {
-  title: 'in-components/Form/TimePicker',
   component: TimePicker,
   args: {
     disabled: false,

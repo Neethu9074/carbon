@@ -8,7 +8,7 @@ import React, { Fragment } from 'react';
 
 import { Result, SyntheticTest } from '@instana/types';
 
-import { syntheticDNSActionEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
+import { syntheticDNSEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { association, FilterSectionProps } from 'in-synthetics/utils/constants';
 import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
 import ComboBox from 'in-components/ComboBox';
@@ -76,12 +76,12 @@ function getSyntheticTypes(result: Result<SyntheticTest[]> | undefined) {
   // result can be undefined, isLoading(Result<x>) cannot be used here
   let syntheticTypes: string[];
   if (!result?.progress?.loading) {
-    if (syntheticDNSActionEnabled) {
+    if (syntheticDNSEnabled) {
       syntheticTypes = result?.data?.map(item => item?.configuration.syntheticType ?? '') ?? [];
     } else {
       syntheticTypes =
         result?.data
-          ?.filter(item => item?.configuration.syntheticType !== 'DNSAction')
+          ?.filter(item => item?.configuration.syntheticType !== 'DNS')
           .map(item => item?.configuration.syntheticType ?? '') ?? [];
     }
 

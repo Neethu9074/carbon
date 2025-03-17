@@ -7,8 +7,7 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-// eslint-disable-next-line no-restricted-imports
-import LogIntegrations from '../LogIntegrations';
+import LogIntegrations from 'in-logging/dashboard/Management/LogIntegrations';
 import { user } from 'in-stores/user';
 
 jest.mock('in-logging/dashboard/Management/Breadcrumbs', () => () => <div>Mocked Breadcrumbs</div>);

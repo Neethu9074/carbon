@@ -25,8 +25,6 @@ import {
 import { createPageSizeAwareLogsCursorPaginationHook } from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { HeaderActionProps, LogsProps, SortDirection } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
-// eslint-disable-next-line no-restricted-imports
-import { handleLogCallsWithFilters } from '../../utils';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/Charts/ChartsPresenter';
 import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -35,6 +33,7 @@ import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessa
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedView/UngroupedViewList';
 import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import { ANALYZE_LOGGING_SORTING_CHANGED } from 'in-services/tracking/eventNames';
+import { handleLogCallsWithFilters } from 'in-logging/analyze/AnalyzeView/utils';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import getLogs from 'in-logging/subscriptions/getLogs';

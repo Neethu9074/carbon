@@ -32,14 +32,17 @@ export default function Nodes({ nodes, renderByDashboard }) {
       header: t('in-forge:plugins.oTelK8sCluster.dashboard.health')
     }
   ];
+
+  const getDashboardLink = useGetDashboardLink();
+
   const carbonRows = nodes.map(node => ({
+    id: node.id,
     name: <Link href={getDashboardLink(node.id, { pathname: '/physical/dashboard' })}>{node.resourceK8sNodeName}</Link>,
     age: '-',
     status: 'Ready',
     health: <HealthIndicatorPresenter openIssues={0} maxSeverity={1} tooltipLabel={'issue'} />
   }));
 
-  const getDashboardLink = useGetDashboardLink();
   if (renderByDashboard) {
     return <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} isExpanded={false} />;
   }

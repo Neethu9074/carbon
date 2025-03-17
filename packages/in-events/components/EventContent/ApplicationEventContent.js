@@ -13,11 +13,6 @@ import {
   alertingDialogItemPickerTimeframe as maxDurationMillis
 } from 'in-alerting/components/constants';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
-import {
-  manuallyCloseEventEnabled,
-  eumImpactedUsersForAppAlertEnabled,
-  businessObservabilityEnabled
-} from 'in-services/featureFlags';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import {
   getSmartAlertAnalyzeTimeConfig,
@@ -47,6 +42,7 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import { eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -101,8 +97,9 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
 
   const eventType = getEventType(event);
 
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const pillContent = getEventStateBadge(event);
+  const isKPI = false;
 
   return (
     <>
@@ -171,6 +168,7 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
               event={event}
               eventEntity={eventEntity}
               snapshot={snapshot}
+              isKPI={isKPI}
             />
           </Col>
         </Row>
@@ -220,13 +218,11 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
 
       {!isEndpointType && <AffectedEntitiesRow alertConfig={alertConfig} event={event} eventEntity={eventEntity} />}
       <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
-      {businessObservabilityEnabled && (
-        <ImpactedBusinessProcesses
-          eventType={eventType}
-          entityType={event?.get('entityType', undefined)}
-          entityId={event?.get('entityId', undefined)}
-        />
-      )}
+      <ImpactedBusinessProcesses
+        eventType={eventType}
+        entityType={event?.get('entityType', undefined)}
+        entityId={event?.get('entityId', undefined)}
+      />
     </>
   );
 }

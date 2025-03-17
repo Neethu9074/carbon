@@ -102,7 +102,7 @@ export default function SummaryCharts({
    * Construct the array containing the common charts for Summary view
    * @returns {JSX.Element[]} Array of Failures, Results and Response Time charts
    */
-  const getChartsForSsl = () => {
+  const getChartsForSslAndDNS = () => {
     commonCharts.splice(1, 0, resultsChart);
     return commonCharts;
   };
@@ -140,9 +140,10 @@ export default function SummaryCharts({
           </>
         );
       }
-      case 'SSLCertificate': {
-        const chartsForSsl = getChartsForSsl();
-        return <Row>{chartsForSsl}</Row>;
+      case 'SSLCertificate':
+      case 'DNS': {
+        const chartsForSslAndDNS = getChartsForSslAndDNS();
+        return <Row>{chartsForSslAndDNS}</Row>;
       }
       default: {
         const chartsForOthers = getChartsForOthers();

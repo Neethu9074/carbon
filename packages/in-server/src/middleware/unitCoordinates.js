@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+const { header, isDefaultUrlFormat } = require('../services/instanaUrls');
 const serverConfig = require('../serverConfig');
 const errorPages = require('../errorPages');
 
@@ -21,7 +22,7 @@ module.exports = exports = function enrichRequestWithTenantAndUnit(req, res, nex
 };
 
 function getTenantUnitCoordinates(req) {
-  return getFromConfig() || getFromHostname(req) || getFromQuery(req);
+  return getFromConfig() || getFromHostname(req) || getFromHeader(req) || getFromQuery(req);
 }
 
 function getFromConfig() {
@@ -39,10 +40,8 @@ function getFromConfig() {
 }
 
 function getFromHostname(req) {
-  // TODO add dynamic logic for urlFormat adjusted invironments
-  // with using different urlFormats tenant and unit information does not need to be part of hostname any longer
-  // eg.: via '$baseDomain/$tenant/$unit'
-  if (req.hostname && serverConfig.urlFormat === '$unit-$tenant.$baseDomain') {
+  // for default url format tenant&unit can be read from hostname
+  if (req.hostname && isDefaultUrlFormat()) {
     const hostname = req.hostname.toLowerCase();
     if (hostname.indexOf(serverConfig.clientConfig.tenantUnitDomainSuffix) === -1) {
       return null;
@@ -61,6 +60,17 @@ function getFromHostname(req) {
       unit: match[2]
     };
   }
+}
+
+function getFromHeader(req) {
+  // for additional on-premise url format gateway is adding tenant&unit as request header
+  if (!isDefaultUrlFormat() && req.get(header.tenant) && req.get(header.unit)) {
+    return {
+      tenant: req.get(header.tenant),
+      unit: req.get(header.unit)
+    };
+  }
+  return null;
 }
 
 function getFromQuery(req) {

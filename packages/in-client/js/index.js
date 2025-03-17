@@ -49,6 +49,9 @@ initialiseSteps([
 
   //This step is to initialise Amplitude experiment
   'initAmplitudeExperiment',
+
+  // This is for walkme session playback
+  'initWalkmeSession',
   
   // This must be the last step: Collection of performance data.
   'appInitializedMeasurement'

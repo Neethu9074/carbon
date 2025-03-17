@@ -46,10 +46,8 @@ jest.mock('in-custom-dashboards/widgets/Apdex/hooks/useTagCatalogLoader');
 jest.mock('in-applications/hooks/useTagCatalog');
 
 jest.mock('in-services/featureFlags', () => ({
-  sloEnabled: true,
-  apdexWidgetEnabled: true
+  sloFullEnabled: true
 }));
-
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
   useMemo: cb => cb()
@@ -58,6 +56,7 @@ jest.mock('react', () => ({
 describe('in-custom-dashboards/widgets/Apdex', () => {
   it('applies the adjustedTimeframe from the apdex metric subscription to the timeConfig passed to the ApdexWidget if it was provided', () => {
     // Given
+
     useApdexWidgetTimeConfig.mockReturnValueOnce({
       windowSize: hours.toMillis(2),
       autoRefresh: false
@@ -77,7 +76,10 @@ describe('in-custom-dashboards/widgets/Apdex', () => {
     ]);
 
     // When
-    const wrapper = shallow(<ApdexWidgetPresenter actions={undefined} config={{}} title="" dragHandle={undefined} />);
+    const wrapper = shallow(<ApdexWidgetPresenter actions={undefined} config={{}} title="" dragHandle={undefined} />)
+      // Render two levels because we have a wrapping component to handle conditionally rendering based on a feature flag
+      .first()
+      .shallow();
 
     // Then
     expect(wrapper.find(ApdexWidget).prop('timeConfig')).toEqual(
@@ -104,36 +106,24 @@ describe('in-custom-dashboards/widgets/Apdex', () => {
     ]);
 
     // When
-    const wrapper = shallow(<ApdexWidgetPresenter actions={undefined} config={{}} title="" dragHandle={undefined} />);
-
+    const wrapper = shallow(<ApdexWidgetPresenter actions={undefined} config={{}} title="" dragHandle={undefined} />)
+      // Render two levels because we have a wrapping component to handle conditionally rendering based on a FF
+      .first()
+      .shallow();
     // Then
     expect(wrapper.find(ApdexWidget).prop('granularity')).toEqual(minutes.toMillis(1));
   });
 
-  it('does not render anything if the sloEnabled featureFlag is not set', async () => {
+  it('does not render anything if the sloFullEnabled featureFlag is not set', async () => {
     // Given
     jest.resetModules();
     jest.doMock('in-services/featureFlags', () => ({
-      sloEnabled: false
+      sloFullEnabled: false
     }));
     const { default: WidgetPresenter } = await import('in-custom-dashboards/widgets/Apdex/ApdexWidgetPresenter');
 
     // When
-    const wrapper = shallow(<WidgetPresenter actions={undefined} config={{}} title="" dragHandle={undefined} />);
-
-    // Then
-    expect(wrapper.find(ApdexWidget).exists()).not.toBeTruthy();
-  });
-
-  it('does not render anything if the apdexWidgetEnabled featureFlag is not set', async () => {
-    // Given
-    jest.resetModules();
-    jest.doMock('in-services/featureFlags', () => ({
-      apdexWidgetEnabled: false
-    }));
-    const { default: WidgetPresenter } = await import('in-custom-dashboards/widgets/Apdex/ApdexWidgetPresenter');
-
-    // When
+    // We only render the first level because the conditional rendering based on the feature flag is at the wrapping component level
     const wrapper = shallow(<WidgetPresenter actions={undefined} config={{}} title="" dragHandle={undefined} />);
 
     // Then

@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { get, set } from 'lodash';
+
 import { create, interval, Observable } from '@instana/observables';
 import { createLogger } from '@instana/logger';
-import { get, set } from 'lodash';
 
 import { minutes } from 'in-services/time';
 import http from 'in-services/http';
@@ -47,7 +48,7 @@ export function init() {
 function getCsrfToken(): Observable<string> {
   return http({
     method: 'GET',
-    url: `/csrf/token`,
+    url: '/csrf/token',
     maxRetries: 5
   }).map(response => response.getHeader('X-CSRF-TOKEN') as string);
 }

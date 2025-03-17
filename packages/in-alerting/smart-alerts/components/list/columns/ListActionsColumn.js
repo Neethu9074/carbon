@@ -15,8 +15,10 @@ import {
   ALERTING_RESUMED,
   ALERTING_CLONE_TRIGGER
 } from 'in-services/tracking/eventNames';
+import { getTrackingAlertConfig } from 'in-alerting/smart-alerts/utils/segmentUtils';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { ADVANCED } from 'in-alerting/smart-alerts/data/constants';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import { stopPropagation } from 'in-services/util/function';
 import { playwithEnabled } from 'in-services/featureFlags';
@@ -31,7 +33,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon
   const [isSaving, setIsSaving] = useState(false);
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
   const { trackCta } = useSegmentTracking(); // For segment tracking
-
+  const alertConfigForTracking = getTrackingAlertConfig(config, undefined);
   const hasSecondaryActions = handleEdit || handleClone || handleDelete;
 
   const moreMenuIcon = icon ? icon : 'lib_menu_more_horizontal';
@@ -61,9 +63,9 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon
                 stopPropagation(e);
                 handleToggleEnabled(enabled, id, setIsSaving);
                 if (enabled) {
-                  trackCta(ALERTING_PAUSED, config);
+                  trackCta(ALERTING_PAUSED, alertConfigForTracking);
                 } else {
-                  trackCta(ALERTING_RESUMED, config);
+                  trackCta(ALERTING_RESUMED, alertConfigForTracking);
                 }
               }}
             />
@@ -99,7 +101,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon
               iconSpinning={isMoreMenuSaving}
               onClick={() => {
                 handleEdit(config);
-                trackCta(ALERTING_EDIT, config);
+                trackCta(ALERTING_EDIT, { ...alertConfigForTracking, dialogMode: ADVANCED });
               }}
             >
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
@@ -110,7 +112,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon
             <MoreMenuButton
               icon="lib_actions_copy"
               onClick={() => {
-                trackCta(ALERTING_CLONE_TRIGGER, config);
+                trackCta(ALERTING_CLONE_TRIGGER, { alertConfigForTracking, dialogMode: ADVANCED });
                 handleClone(config);
               }}
             >
@@ -123,7 +125,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon
               icon="lib_actions_delete"
               onClick={() => {
                 handleDelete(id, setIsMoreMenuSaving, name, trackCta);
-                trackCta(ALERTING_DELETE_TRIGGER, config);
+                trackCta(ALERTING_DELETE_TRIGGER, alertConfigForTracking);
               }}
             >
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}

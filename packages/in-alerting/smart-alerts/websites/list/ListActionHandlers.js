@@ -6,12 +6,18 @@
 
 import React from 'react';
 
+import {
+  TearSheetEditActionHandler,
+  TearSheetCloneActionHandler
+} from 'in-alerting/smart-alerts/eum/components/TearSheet/TearSheetActionHandlers';
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/websites/details/AlertDetails';
+import { websitesSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { eumType } from 'in-alerting/smart-alerts/websites/constants';
 
 function handleClone(config) {
   openSmartAlertDialog(config, true);
@@ -19,6 +25,30 @@ function handleClone(config) {
 
 function handleEdit(config) {
   openSmartAlertDialog(config);
+}
+
+function HandleEditNew(config) {
+  return (
+    <TearSheetEditActionHandler
+      id={config.id}
+      created={config.created}
+      eumId={config.websiteId}
+      eumType={eumType}
+      alertConfig={config}
+    />
+  );
+}
+
+function HandleCloneNew(config) {
+  return (
+    <TearSheetCloneActionHandler
+      id={config.id}
+      created={config.created}
+      eumId={config.websiteId}
+      eumType={eumType}
+      alertConfig={config}
+    />
+  );
 }
 
 function openSmartAlertDialog(config, isCopy = false) {
@@ -37,8 +67,10 @@ function openSmartAlertDialog(config, isCopy = false) {
 
 export const actionHandlers = {
   handleClone: config => handleClone(config),
+  ...(websitesSmartAlertFullScreenDesignEnabled && { handleCloneNew: config => HandleCloneNew(config) }),
   handleDelete: (id, setIsSaving, configName, trackCta) =>
     handleDelete(id, setIsSaving, configName, baseUrl.WEBSITE, trackCta),
   handleEdit: config => handleEdit(config),
+  ...(websitesSmartAlertFullScreenDesignEnabled && { handleEditNew: config => HandleEditNew(config) }),
   handleToggleEnabled: (enabled, id, setIsSaving) => handleToggleEnabled(enabled, id, setIsSaving, baseUrl.WEBSITE)
 };

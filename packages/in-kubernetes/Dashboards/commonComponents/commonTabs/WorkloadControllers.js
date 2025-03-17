@@ -19,39 +19,17 @@ import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commo
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import { timeByMillisTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import { getWorkloadData } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
-import { getMetricForFocusedMoment } from 'in-stores/metric/metric';
 import { getIcon } from 'in-kubernetes/utils';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 const msFormatter = d => (d < 0 ? t('in-kubernetes:dashboards.noActivity') : timeByMillisTwoDecimalPlaces(d));
 const matrixPrefix = 'deployment.';
-
-function getMetricValue({ snapshotId, metricName }) {
-  return getMetricForFocusedMoment({ snapshotId, metric: metricName }).map(v => v[1]);
-}
-
-let MetricValueContainer = connectTo(
-  ({ metricName, snapshotId }) => {
-    return {
-      metric: getMetricValue({
-        snapshotId,
-        metricName
-      })
-    };
-  },
-  ({ metric }) => <MetricValue value={metric} />
-);
-
-function MetricValue({ value }) {
-  return <span>{value}</span>;
-}
 
 function WorkloadLink({ item, getWorkloadControllerDashboard, clusterId }) {
   const href = getWorkloadControllerDashboard(get(item, ['workloadController', 'id']), { clusterId });
@@ -83,21 +61,35 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'online',
+    id: 'availableReplicas',
     label: t('in-kubernetes:dashboards.podsOnline'),
     optional: true,
-    sortable: false,
-    getContent({ snapshotIdForMetric }) {
-      return <MetricValueContainer snapshotId={snapshotIdForMetric} metricName={'availableReplicas'} />;
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.snapshotIdForMetric}
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={zeroDecimalPlaces}
+        />
+      );
     }
   },
   {
-    id: 'desired',
+    id: 'desiredReplicas',
     label: t('in-kubernetes:dashboards.podsDesired'),
     optional: true,
-    sortable: false,
-    getContent({ snapshotIdForMetric }) {
-      return <MetricValueContainer snapshotId={snapshotIdForMetric} metricName={'desiredReplicas'} />;
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.snapshotIdForMetric}
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={zeroDecimalPlaces}
+        />
+      );
     }
   },
   {

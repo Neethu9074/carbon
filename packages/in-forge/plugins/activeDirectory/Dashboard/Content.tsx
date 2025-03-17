@@ -563,6 +563,24 @@ export default function ActiveDirectoryDashboard({
                 timeConfig={timeConfig}
                 y1={{
                   metrics: [
+                    'stats.dhcpMetrics.conflictCheckQueueLength',
+                    'stats.dhcpMetrics.declinesPersec',
+                    'stats.dhcpMetrics.nacksPersec',
+                    'stats.dhcpMetrics.duplicatesDroppedPersec',
+                    'stats.dhcpMetrics.packetsExpiredPersec'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.dhcp.dhcpConflictCheckQueueLength'),
+                    t('in-forge:plugins.activeDirectory.dhcp.dhcpDeclinesPersec'),
+                    t('in-forge:plugins.activeDirectory.dhcp.dhcpNacksPersec'),
+                    t('in-forge:plugins.activeDirectory.dhcp.dhcpDuplicatesDroppedPersec'),
+                    t('in-forge:plugins.activeDirectory.dhcp.dhcpPacketsExpiredPersec')
+                  ],
+                  formatter: number.compact,
+                  type: 'line'
+                }}
+                y2={{
+                  metrics: [
                     'stats.dhcpMetrics.acksPerSecondPercentageIncrease',
                     'stats.dhcpMetrics.requestSecondPercentIncrease'
                   ],
@@ -571,38 +589,6 @@ export default function ActiveDirectoryDashboard({
                     t('in-forge:plugins.activeDirectory.dhcp.dhcpRequestSecondPercentIncrease')
                   ],
                   formatter: percentage.detailed,
-                  type: 'line'
-                }}
-                renderPostChartContent={PluginDashboardsMarkerLanes}
-              />
-            </Card>
-          }
-        </Columize>
-      </DashboardSection>
-
-      <DashboardSection>
-        <Columize>
-          {
-            <Card title={t('in-forge:plugins.activeDirectory.dhcpLabel')} useMaxAvailableHeight>
-              <Chart
-                snapshotId={snapshotId}
-                timeConfig={timeConfig}
-                y1={{
-                  metrics: [
-                    'stats.dhcpMetrics.conflictCheckQueueLength',
-                    'stats.dhcpMetrics.declinesPersec',
-                    'stats.dhcpMetrics.duplicatesDroppedPersec',
-                    'stats.dhcpMetrics.nacksPersec',
-                    'stats.dhcpMetrics.packetsExpiredPersec'
-                  ],
-                  labels: [
-                    t('in-forge:plugins.activeDirectory.dhcp.dhcpConflictCheckQueueLength'),
-                    t('in-forge:plugins.activeDirectory.dhcp.dhcpDeclinesPersec'),
-                    t('in-forge:plugins.activeDirectory.dhcp.dhcpDuplicatesDroppedPersec'),
-                    t('in-forge:plugins.activeDirectory.dhcp.dhcpNacksPersec'),
-                    t('in-forge:plugins.activeDirectory.dhcp.dhcpPacketsExpiredPersec')
-                  ],
-                  formatter: number.compact,
                   type: 'line'
                 }}
                 renderPostChartContent={PluginDashboardsMarkerLanes}

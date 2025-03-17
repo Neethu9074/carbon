@@ -29,11 +29,11 @@ import {
 } from 'in-services/tracking/tracking';
 import { deleteLogsLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 // eslint-disable-next-line no-restricted-imports
-import { addSecondsIfValidFormat, deleteLogs, DeleteLogsRequest } from './utils';
-// eslint-disable-next-line no-restricted-imports
 import { ConfirmSelectionPage } from './Modal/TabPages/ConfirmSelectionPage';
 // eslint-disable-next-line no-restricted-imports
 import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
+// eslint-disable-next-line no-restricted-imports
+import { addSecondsIfValidFormat, DeleteLogsRequest } from './utils';
 // eslint-disable-next-line no-restricted-imports
 import { returnNumberLogsToDeleteMock } from './Modal/mockBackEnd';
 // eslint-disable-next-line no-restricted-imports
@@ -51,8 +51,10 @@ import TimePicker from 'in-components/form/TimePicker/TimePicker';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { deleteLogsV3Enabled } from 'in-services/featureFlags';
 import { parseDateTime } from 'in-services/formatters/date';
+import { deleteLogs } from 'in-logging/api/deleteLogs';
 import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
+import { activeLocale } from 'in-i18n';
 import { user } from 'in-stores/user';
 
 import locals from './DeleteLogs.mless';
@@ -323,9 +325,9 @@ export default function DeleteLogs() {
         </Typography>
       </section>
       <Card className={locals.noPadding}>
-        <main>
+        <div>
           <DeletionTable openConfirmationDialog={openConfirmationDialog} isDeleting={isDeleting} />
-        </main>
+        </div>
       </Card>
 
       {showConfirmation &&
@@ -363,7 +365,7 @@ interface DeleteLogsModalProps {
   retryCount: number;
 }
 
-function DeleteLogsModal({
+export function DeleteLogsModal({
   setShowConfirmation,
   setIsDeleting,
   isDeleting,
@@ -386,6 +388,7 @@ function DeleteLogsModal({
       touchForm();
       return;
     }
+
     const newTimeInputValue = addSecondsIfValidFormat(inputValues.endTime as string);
     const entity: DeleteLogsRequest = {
       reason: inputValues.reason,
@@ -484,10 +487,12 @@ function DeleteLogsModal({
                   <span>{deleteLogsLocalisationStrings.deletionUntilDate}</span>
                   <section className={locals.marginLabel}>
                     <CarbonDateInput
+                      id="deletionUntilDate"
                       hasError={!!validationMessages.endDate}
                       disabled={isDeleting}
                       value={new Date(inputValues.endDate as string)}
                       onChange={e => setInputValues.endDate(e as string[])}
+                      locale={activeLocale}
                     />
                   </section>
                   {validationMessages.endDate && (

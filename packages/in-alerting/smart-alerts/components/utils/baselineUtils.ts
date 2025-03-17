@@ -12,7 +12,8 @@ import {
   Severity,
   RuleWithThreshold,
   ApplicationAlertRuleUnion,
-  AdaptiveBaselineConfig
+  AdaptiveBaselineConfig,
+  AdaptiveBaselinePredictionsData
 } from 'in-types';
 import {
   AdaptiveBaselineFetchedPredictions,
@@ -72,14 +73,16 @@ export function getAdaptiveBaselineValue(
 
 export function getApproximatedAdaptiveBaselineThresholdValue(
   threshold: RuleWithThreshold<ApplicationAlertRuleUnion> | AdaptiveBaselineConfig,
-  adaptiveBaselineInfo: Record<string, number>,
+  adaptiveBaselineInfo: Record<string, AdaptiveBaselinePredictionsData>,
   isMultiThreshold?: Boolean
 ) {
   const operator = isMultiThreshold
     ? (threshold as RuleWithThreshold<ApplicationAlertRuleUnion>).thresholdOperator
     : (threshold as AdaptiveBaselineConfig).operator;
   const isGreaterOp = operator === '>=' || operator === '>';
-  const baselineValues = Object.values(adaptiveBaselineInfo);
+  const baselineValues = Object.values(adaptiveBaselineInfo)
+    .flatMap(data => [data.warningPredictionValue, data.criticalPredictionValue])
+    .filter((value): value is number => value !== null && value !== undefined);
 
   return isGreaterOp ? Math.floor(Math.min(...baselineValues)) : Math.ceil(Math.max(...baselineValues));
 }
@@ -161,18 +164,6 @@ export function extractMultiBaselineFromResultsOrUseErrorFallback(
   }
 
   return { baseline };
-}
-
-export function extractBaselineForSeverity(
-  baseline: [number, number, number][],
-  eventSeverity: Severity
-): [number, number][] {
-  if (baseline === undefined || baseline?.length === 0) {
-    return [];
-  }
-  return baseline.map(([timestamp, warningValue, criticalValue]) => {
-    return eventSeverity === WARNING_SEVERITY ? [timestamp, warningValue] : [timestamp, criticalValue];
-  });
 }
 
 export function transformedFallbackBaseline(

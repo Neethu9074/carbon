@@ -95,7 +95,9 @@ export function CommentList({
           const date = formatDateWithActiveLanguage(new Date(note.timestamp), `${dateFormat}, ${timeFormat}`);
           const isEdited = note?.updated && note?.updated != 0;
           const iconType =
-            (!aiSum && serviceNow && 'lib_snow_icon') || (!aiSum && !serviceNow && 'lib_actions_user') || 'lib_ai_slug';
+            (!aiSum && serviceNow && 'lib_snow_icon') ||
+            (!aiSum && !serviceNow && 'lib_actions_user') ||
+            'lib_watson_x';
           const iconSize = (aiSum && 'regular') || (!aiSum && !serviceNow && 'xs') || 'sm';
           const iconViewBox = (serviceNow && '0 0 24 24') || (aiSum && '4 4 24 24') || '0 0 16 16';
           // Display the icon if its not my chat message OR if its AI Summary

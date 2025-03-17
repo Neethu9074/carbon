@@ -17,13 +17,14 @@ import locals from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPro
 
 interface MultiThresholdAlertPreviewCommonProps {
   form: MapForm<any>;
-  getDescriptionPlaceholder: (form: MapForm<any>) => string;
+  getDescriptionPlaceholder: (form: MapForm<any>, severity?: number) => string;
   isWarningDefined: boolean;
   isCriticalDefined: boolean;
   entityLabel: string;
   entityIconType: string;
   renderHeadline: () => React.ReactNode;
   isTearSheet?: boolean;
+  descriptionPlaceholder?: { WARNING?: string; CRITICAL?: string };
 }
 
 export function MultiThresholdAlertPreviewCommon({
@@ -34,7 +35,8 @@ export function MultiThresholdAlertPreviewCommon({
   entityLabel,
   entityIconType,
   renderHeadline,
-  isTearSheet = false
+  isTearSheet = false,
+  descriptionPlaceholder
 }: MultiThresholdAlertPreviewCommonProps) {
   return (
     <Stack gap="small">
@@ -53,6 +55,7 @@ export function MultiThresholdAlertPreviewCommon({
           <ThresholdAlertPreview
             form={form}
             getDescriptionPlaceholder={getDescriptionPlaceholder}
+            descriptionPlaceholder={descriptionPlaceholder?.WARNING}
             entityLabel={entityLabel}
             entityIconType={entityIconType}
             severity={5}
@@ -70,6 +73,7 @@ export function MultiThresholdAlertPreviewCommon({
           <ThresholdAlertPreview
             form={form}
             getDescriptionPlaceholder={getDescriptionPlaceholder}
+            descriptionPlaceholder={descriptionPlaceholder?.CRITICAL}
             entityLabel={entityLabel}
             entityIconType={entityIconType}
             severity={10}

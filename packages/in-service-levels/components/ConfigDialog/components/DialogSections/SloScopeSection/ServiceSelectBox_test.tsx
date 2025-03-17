@@ -9,13 +9,13 @@ import React from 'react';
 
 import { Subject, create } from '@instana/observables';
 import { Result, ServiceItem } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import ServiceSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ServiceSelectBox';
 import ComboBoxInSection from 'in-components/form/ComboBoxInSection/ComboBoxInSection';
 import getServicesOriginal from 'in-applications/subscriptions/getServices';
 import { noop, pendingResult } from 'in-services/fixedObjects';
 import { listSuccess } from 'in-services/util/result';
+import { t } from 'in-i18n';
 
 jest.mock('in-applications/subscriptions/getServices');
 

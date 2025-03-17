@@ -21,8 +21,8 @@ import { source as logs } from 'in-custom-dashboards/widgets/_shared/MetricConfi
 import { source as event } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event';
 import { source as sli } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
-import { logWidgetsEnabled, unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
+import { unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { getFormatterById } from 'in-stores/metric/formatters';
 import { getBaseUnit } from 'in-stores/metric/units';
@@ -76,11 +76,7 @@ export default function ListWidgetFormComponent({ form, onChange }) {
     [metricFormatter]
   );
 
-  const disabledDataSources = [event, sli];
-
-  if (logWidgetsEnabled) {
-    disabledDataSources.push(logs);
-  }
+  const disabledDataSources = [event, sli, logs];
 
   return (
     <>

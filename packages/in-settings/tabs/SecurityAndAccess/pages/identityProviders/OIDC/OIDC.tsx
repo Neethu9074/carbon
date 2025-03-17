@@ -92,7 +92,7 @@ export default function OIDC(props: OidcProps) {
         if (isAnyInvitationsPending(props)) {
           addActiveDialog(
             <ConfirmationDialog
-              header={t('in-settings:components.pleaseConfirm')}
+              header={t('in-settings:components.confirmRemove')}
               description={
                 <span>
                   <Trans i18nKey="in-settings:tabs.createIDPConfirmationDescription" />
@@ -472,7 +472,7 @@ function enrichForm<FORM_ITEMS extends MapFormItems>(
     .put('ownerEmail', createField({ value: '', validator: notBlankValidator }))
     .put('discoveryUri', createField({ value: discoveryUri ?? '' }))
     .put('activated', createField({ value: !!activated }))
-    .put('idpType', createField({ value: mappedIdpType }))
+    .put('idpType', createField({ value: mappedIdpType.key }))
     .put(
       'secret',
       createField({

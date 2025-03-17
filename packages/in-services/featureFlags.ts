@@ -45,7 +45,6 @@ export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled
 export const segmentAnalyticsEnabled = isFeatureFlagEnabled('segmentAnalyticsEnabled', false);
 export const amplitudeExperimentEnabled = isFeatureFlagEnabled('amplitudeExperimentEnabled', false);
 export const ibmCommonEnabled = isFeatureFlagEnabled('ibmCommonEnabled', false);
-export const assistmeEnabled = isFeatureFlagEnabled('assistmeEnabled', false);
 export const dataUsageNotificationEnabled = isFeatureFlagEnabled('dataUsageNotificationEnabled', false);
 export const ampEnabled = isFeatureFlagEnabled('ampEnabled', true);
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
@@ -57,21 +56,10 @@ export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const deleteLogsV3Enabled = isFeatureFlagEnabled('deleteLogsV3Enabled');
-export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
-export const logHomepageEnabled = isFeatureFlagEnabled('logHomepageEnabled');
-export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
-export const logRetentionPageEnabled = isFeatureFlagEnabled('logRetentionPageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
-export const carbonIconButtonEnabled = isFeatureFlagEnabled('carbonIconButtonEnabled');
-export const carbonContentSwitcherEnabled = isFeatureFlagEnabled('carbonContentSwitcherEnabled');
-export const carbonTabsEnabled = isFeatureFlagEnabled('carbonTabsEnabled');
 export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
-export const carbonPaginationEnabled = isFeatureFlagEnabled('carbonPaginationEnabled');
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
-export const carbonExpandableGroupEnabled = isFeatureFlagEnabled('carbonExpandableGroupEnabled');
-export const carbonSideNavLinksEnabled = isFeatureFlagEnabled('carbonSideNavLinksEnabled');
-export const carbonG10ThemeEnabled = isFeatureFlagEnabled('carbonG10ThemeEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
@@ -94,19 +82,10 @@ export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreE
 export const kubernetesPrometheusMetricsEnabled = isFeatureFlagEnabled('kubernetesPrometheusMetricsEnabled', false);
 export const kubernetesCloudNativeExperience = isFeatureFlagEnabled('kubernetesCloudNativeExperience', false);
 
-export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', true);
-// In self-hosted environments the feature flag had to be named differently:
-// sliChClusterAccessEnabled
-// compared to other places:
-// sliCHClusterAccessEnabled
-export const sliCHClusterAccessEnabled =
-  isFeatureFlagEnabled('sliCHClusterAccessEnabled') || isFeatureFlagEnabled('sliChClusterAccessEnabled');
-export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
-export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
-export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
-export const sloSyntheticsEnabled = isFeatureFlagEnabled('sloSyntheticsEnabled', true);
-
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
+export const mobileAppPerfBeaconEnabled = isFeatureFlagEnabled('mobileAppPerfBeaconEnabled', true);
+export const mobileAppPerformanceTabEnabled = isFeatureFlagEnabled('mobileAppPerformanceTabEnabled', true);
+export const mobileAppDroppedBeaconsEnabled = isFeatureFlagEnabled('mobileAppDroppedBeaconsEnabled', true);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
 
 export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', true);
@@ -139,8 +118,8 @@ export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticI
 // Synthetic RBAC Limited Access feature flag
 export const syntheticRbacLimitedEnabled = isFeatureFlagEnabled('syntheticRbacLimitedEnabled');
 
-// Synthetic DNSAction feature flag
-export const syntheticDNSActionEnabled = isFeatureFlagEnabled('syntheticDNSActionEnabled');
+// Synthetic DNS feature flag
+export const syntheticDNSEnabled = isFeatureFlagEnabled('syntheticDNSEnabled');
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
@@ -172,6 +151,12 @@ export const alertChannelPerSeverityInfraSaEnabled = isFeatureFlagEnabled('alert
 export const alertChannelPerSeverityApplicationSaEnabled = isFeatureFlagEnabled(
   'alertChannelPerSeverityApplicationSaEnabled'
 );
+export const alertChannelPerSeverityWebsiteSaEnabled = isFeatureFlagEnabled('alertChannelPerSeverityWebsiteSaEnabled');
+export const alertChannelPerSeverityMobileAppSaEnabled = isFeatureFlagEnabled(
+  'alertChannelPerSeverityMobileAppSaEnabled'
+);
+export const alertChannelPerSeverityLogSaEnabled = isFeatureFlagEnabled('alertChannelPerSeverityLogSaEnabled');
+export const perEntityInfraSmartAlertsEnabled = isFeatureFlagEnabled('perEntityInfraSmartAlertsEnabled');
 
 export const regexMetricSelectionEnabled = isFeatureFlagEnabled('regexMetricSelectionEnabled');
 
@@ -209,6 +194,11 @@ export const websitesSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
   'websitesSmartAlertFullScreenDesignEnabled'
 );
 
+// mobile app SA full screen design
+export const mobileAppSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
+  'mobileAppSmartAlertFullScreenDesignEnabled'
+);
+
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
 
@@ -228,11 +218,14 @@ export const hiddenSearchFieldValues = {
 // ########################################################################################
 // Business Observability and Monitoring (BizOps) flags
 // ########################################################################################
-export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
 export const bizopsProcessIdColumnEnabled = isFeatureFlagEnabled('bizopsProcessIdColumnEnabled');
 export const bizopsGenAIEnabled = isFeatureFlagEnabled('bizopsGenAIEnabled');
 export const bizopsProcessFlowMapEnabled = isFeatureFlagEnabled('bizopsProcessFlowMapEnabled');
+export const bizopsProcessFlowMapHealthOverlayEnabled = isFeatureFlagEnabled(
+  'bizopsProcessFlowMapHealthOverlayEnabled'
+);
 export const bizopsCustomDashboardEnabled = isFeatureFlagEnabled('bizopsCustomDashboardEnabled');
+export const bizopsVersionColumnEnabled = isFeatureFlagEnabled('bizopsVersionColumnEnabled');
 
 // ########################################################################################
 // Chart gap hiding
@@ -259,8 +252,10 @@ export const limitVisibleNestingLevelsInTraceEnabled = isFeatureFlagEnabled(
 );
 
 export const kongEnabled = isFeatureFlagEnabled('kongEnabled', false);
-// Recurrent Maintenance Window Flag
+
 export const playwithEnabled = isFeatureFlagEnabled('playwithEnabled', false);
+export const assistmeEnabled = isFeatureFlagEnabled('assistmeEnabled', false);
+// Recurrent Maintenance Window Flag
 export const recurrentMaintenanceWindowEnabled = isFeatureFlagEnabled('recurrentMaintenanceWindowsEnabled', true);
 export const recurrentMaintenanceWindowsTabsEnabled = isFeatureFlagEnabled(
   'recurrentMaintenanceWindowsTabsEnabled',
@@ -289,19 +284,13 @@ export const rcaFailedStateEnabled = isFeatureFlagEnabled('rcaFailedStateEnabled
 export const rcaTopologyEnabled = isFeatureFlagEnabled('rcaTopologyEnabled', false);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
-export const manuallyCloseEventEnabled = isFeatureFlagEnabled('manuallyCloseEventEnabled', true);
+export const eventsAIChatEnabled = isFeatureFlagEnabled('eventsAIChatEnabled', false);
 export const disableEventConfigEnabled = isFeatureFlagEnabled('disableEventConfigEnabled', true);
 
 export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 
-export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);
-
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
 
-export const serviceNowAutoCloseAndCustomPayloadsEnabled = isFeatureFlagEnabled(
-  'serviceNowAutoCloseAndCustomPayloadsEnabled',
-  false
-);
 export const serviceNowAdvancedEnabled = isFeatureFlagEnabled('serviceNowAdvancedEnabled', true);
 export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
   'automationActionInstanceFeedbackEnabled',
@@ -309,9 +298,6 @@ export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
 );
 export const multiCloseEnabled = isFeatureFlagEnabled('multiCloseEnabled', false);
 export const resourceOptimizationActionsEnabled = isFeatureFlagEnabled('resourceOptimizationActionsEnabled', true);
-export const eventResourceActionsEnabled = isFeatureFlagEnabled('eventResourceActionsEnabled', false);
-export const carbonStepProgressBarEnabled = isFeatureFlagEnabled('carbonStepProgressBarEnabled', false);
-export const carbonHorizontalIndicatorEnabled = isFeatureFlagEnabled('carbonHorizontalIndicatorEnabled', false);
 export const analyzeRelatedInstancesButtonEnabled = isFeatureFlagEnabled('analyzeRelatedInstancesButtonEnabled', false);
 export const maxMetricsLimitForBeeinstanaEnabled = isFeatureFlagEnabled('maxMetricsLimitForBeeinstanaEnabled', false);
 export const serverSideInfraTagSearchEnabled = isFeatureFlagEnabled('serverSideInfraTagSearchEnabled', false);
@@ -327,6 +313,7 @@ export const automationActionAiGenerationUnitEnabled = isFeatureFlagEnabled(
 );
 export const graphTabEnabled = isFeatureFlagEnabled('graphTabEnabled', true);
 export const applicationSubtracesEnabled = isFeatureFlagEnabled('applicationSubtracesEnabled', false);
+export const applicationSaveFiltersEnabled = isFeatureFlagEnabled('applicationSaveFiltersEnabled', false);
 export const customDashboardTopLevelFiltersEnabled = isFeatureFlagEnabled(
   'customDashboardTopLevelFiltersEnabled',
   false
@@ -337,3 +324,6 @@ export const openTelemetryKubernetes = isFeatureFlagEnabled('openTelemetryKubern
 export const rbacTeamsEnabled = isFeatureFlagEnabled('rbacTeamsEnabled', false);
 export const accessControlCarbonTable = isFeatureFlagEnabled('accessControlCarbonTable', false);
 export const idpConfigV2Enabled = isFeatureFlagEnabled('idpConfigV2Enabled', false);
+export const sloLiteEnabled = isFeatureFlagEnabled('sloLiteEnabled', false);
+export const sloFullEnabled = isFeatureFlagEnabled('sloFullEnabled', true);
+export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled', true);

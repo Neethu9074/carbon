@@ -88,7 +88,10 @@ const cols = [
 ];
 
 export default function SqlPlanCacheStatsList({ snapshotId, timeConfig }: SqlPlanCacheStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'sqlPlanCacheStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'sqlPlanCacheStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const sqlPlanCacheStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: SqlPlanCacheStatsRow[] = sqlPlanCacheStat
     ? sqlPlanCacheStat

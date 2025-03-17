@@ -4,10 +4,12 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { List, Map } from 'immutable';
+import { isNull } from 'lodash';
 
 import { Button, CarbonTabPanel, Link, LoadingSkeleton, Spacer, Stack, SvgIcon, Typography } from '@instana/components';
+import { Tearsheet } from '@instana/ibm-products';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { t, Trans } from '@instana/i18n-react';
@@ -30,7 +32,6 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { Application, Nullish, ServiceLabel, TimeConfig } from 'in-types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import { rcaTopologyEnabled } from 'in-services/featureFlags';
@@ -52,6 +53,7 @@ interface RootCauseEntityDetailsParams {
   incidentTimeWindow: TimeConfig;
   triggeringEvent: EventOrMap;
   rootCauses: any;
+  selectedRCA: number;
 }
 
 export default function RootCauseEntityDetails({
@@ -63,11 +65,14 @@ export default function RootCauseEntityDetails({
   relatedAPID,
   incidentTimeWindow: timeWindow,
   triggeringEvent,
-  rootCauses
+  rootCauses,
+  selectedRCA
 }: RootCauseEntityDetailsParams) {
   const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
   const { trackCta } = useSegmentTracking();
   const { location } = useNavigation();
+
+  const [isTopologyOpen, setIsTopologyOpen] = useState(false);
 
   /*
     These query state variables hold on to the necessary observable queries that will later get used by our data state variables.
@@ -278,23 +283,41 @@ export default function RootCauseEntityDetails({
                 {t('in-applications:buttonAnalyzeCalls')}
               </Button>
               {rcaTopologyEnabled && (
-                <Button
-                  kind="tertiary"
-                  icon="lib_actions_force_layout"
-                  size="compact"
-                  onClick={() =>
-                    addActiveDialog(
-                      <RootCauseTopologyDialog
-                        relatedApplicationInformation={relatedApplicationInformation}
-                        triggeringEvent={triggeringEvent}
-                        timeConfig={timeWindow}
-                        rootCauses={rootCauses}
-                      />
-                    )
-                  }
-                >
-                  {t('in-events:RCA.topology.viewTopology')}
-                </Button>
+                <>
+                  <Button
+                    kind="tertiary"
+                    icon="lib_actions_force_layout"
+                    size="compact"
+                    onClick={() => setIsTopologyOpen(true)}
+                  >
+                    {t('in-events:RCA.topology.viewTopology')}
+                  </Button>
+                  {/* @ts-expect-error */}
+                  <Tearsheet
+                    closeIconDescription="Close"
+                    title={
+                      !isNull(entityData) ? (
+                        <Stack direction="horizontal" gap="xsmall" align="center" distribution="start">
+                          <SvgIcon type={getIconForRCADisplay(rcaEntityType)} />
+                          {entityData.label}
+                        </Stack>
+                      ) : (
+                        <LoadingSkeleton />
+                      )
+                    }
+                    label={t('in-events:RCA.topology.dialogTitle')}
+                    open={isTopologyOpen}
+                    onClose={() => setIsTopologyOpen(false)}
+                  >
+                    <RootCauseTopologyDialog
+                      relatedApplicationInformation={relatedApplicationInformation}
+                      triggeringEvent={triggeringEvent}
+                      timeConfig={timeWindow}
+                      rootCauses={rootCauses}
+                      selectedRCA={selectedRCA}
+                    />
+                  </Tearsheet>
+                </>
               )}
             </Stack>
           </Stack>

@@ -5,7 +5,13 @@
 
 import React from 'react';
 
-import { PaginatedResult, Result, SliConfigurationWithLastUpdated } from '@instana/types';
+import {
+  PaginatedResult,
+  Result,
+  SliConfigurationWithLastUpdated,
+  ApplicationSliEntity,
+  SliConfiguration
+} from '@instana/types';
 import { IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
@@ -26,7 +32,6 @@ import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { ApplicationSliEntity, SliConfiguration } from 'in-types';
 import { FetchedState } from 'in-hooks/utils/types';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -162,11 +167,11 @@ const columnDefinitions: ColumnDefinition<SliConfiguration, InternalSliListProps
               onClick={() => {
                 addActiveDialog(
                   <ConfirmationDialog
-                    header={t('in-custom-dashboards:widgets.slo.sliList.pleaseConfirm')}
+                    header={t('in-custom-dashboards:widgets.slo.sliList.confirmRemove')}
                     description={
                       <span>
                         <Trans
-                          i18nKey="in-custom-dashboards:widgets.slo.sliList.pleaseConfirmMsg"
+                          i18nKey="in-custom-dashboards:widgets.slo.sliList.confirmRemoveMsg"
                           values={{ sliName: item.sliName }}
                           components={{ italic: <i />, bold: <strong /> }}
                         />

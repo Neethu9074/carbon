@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 import {
@@ -12,7 +12,10 @@ import {
   TagFilterOperator,
   ThresholdConfig,
   StatusCodeMobileAppAlertRule,
-  ThresholdOperator
+  ThresholdOperator,
+  StaticThresholdRule,
+  StaticBaselineThresholdRule,
+  AdaptiveBaselineData
 } from '@instana/types';
 
 import getMobileAppMetricThresholdSuggestion from 'in-alerting/smart-alerts/mobileApp/subscriptions/getMobileAppMetricsThresholdSuggestion';
@@ -87,6 +90,7 @@ interface BluePrintBase {
   readonly getThresholdSuggestionRequest: (metricName: MetricName) => typeof getMobileAppMetricThresholdSuggestion;
   readonly thresholdDefaults: { readonly operator: ThresholdOperator };
   readonly getThresholdTypeOptions: () => ThresholdTypeOptions;
+  readonly enrichWithDefaultThresholdValues: (alertConfig: MobileAppSmartAlertConfig) => MobileAppSmartAlertConfig;
 }
 
 export type MobileAlertType = MobileAppAlertRule['alertType'];
@@ -117,6 +121,10 @@ export interface BluePrint extends BluePrintBase {
   readonly isRuleComplete: (alertRule: MobileAppAlertRule) => boolean;
   readonly incompleteRuleMessage?: string;
   readonly getMaxMetricValue: (metricName: MetricName) => number;
+  readonly tearSheet: {
+    readonly headline: string;
+    readonly text: string;
+  };
 }
 
 const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
@@ -131,7 +139,8 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
     operator: '>=' as ThresholdOperator
   },
   getAlertsPreviewRequest: () => getMobileAppMetricAlertsPreview,
-  getThresholdSuggestionRequest: () => getMobileAppMetricThresholdSuggestion
+  getThresholdSuggestionRequest: () => getMobileAppMetricThresholdSuggestion,
+  enrichWithDefaultThresholdValues: enrichWithDefaultThresholdValuesForBaselines
 });
 
 const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
@@ -158,7 +167,11 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   isRuleComplete: (alertRule: MobileAppAlertRule) => isNotBlank((alertRule as StatusCodeMobileAppAlertRule).value),
   incompleteRuleMessage: t('in-alerting:smartAlerts.mobileApp.data.statusCodeBlueprintConfigIncompleteRuleMessage'),
   getMaxMetricValue: (metricName: MetricName) => (isCustomRateMetric(metricName) ? 100 : Number.MAX_SAFE_INTEGER),
-  baselineEnabled: true
+  baselineEnabled: true,
+  tearSheet: {
+    headline: t('in-alerting:smartAlerts.mobileApp.tearSheet.statusCode.headline'),
+    text: t('in-alerting:smartAlerts.mobileApp.tearSheet.statusCode.text')
+  }
 });
 
 const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
@@ -178,7 +191,11 @@ const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
     getIncludedTags(metricName === 'views' ? availableFilterTags.viewChange : availableFilterTags.sessionStart),
   isRuleComplete: () => true,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
-  baselineEnabled: true
+  baselineEnabled: true,
+  tearSheet: {
+    headline: t('in-alerting:smartAlerts.mobileApp.tearSheet.throughput.headline'),
+    text: t('in-alerting:smartAlerts.mobileApp.tearSheet.throughput.text')
+  }
 });
 
 const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
@@ -205,7 +222,11 @@ const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
     isNotBlank((alertRule as CustomEventMobileAppAlertRule).customEventName),
   incompleteRuleMessage: t('in-alerting:smartAlerts.mobileApp.data.customEventBlueprintConfigIncompleteRuleMessage'),
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
-  baselineEnabled: true
+  baselineEnabled: true,
+  tearSheet: {
+    headline: t('in-alerting:smartAlerts.mobileApp.tearSheet.customEvent.headline'),
+    text: t('in-alerting:smartAlerts.mobileApp.tearSheet.customEvent.text')
+  }
 });
 
 const crashBlueprintConfig: Readonly<BluePrint> = Object.freeze({
@@ -228,7 +249,11 @@ const crashBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   isRuleComplete: () => true,
   getMaxMetricValue: (metricName: MetricName) =>
     rateMetricsForCrashBlueprint.has(metricName) ? 100 : Number.MAX_SAFE_INTEGER,
-  baselineEnabled: true
+  baselineEnabled: true,
+  tearSheet: {
+    headline: t('in-alerting:smartAlerts.mobileApp.tearSheet.crash.headline'),
+    text: t('in-alerting:smartAlerts.mobileApp.tearSheet.crash.text')
+  }
 });
 
 export const blueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([
@@ -323,4 +348,45 @@ const excludedMobileAppTags: readonly string[] = Object.freeze([
 
 function getIncludedTags(tagCatalog: string[]): string[] {
   return tagCatalog.filter((tag: string) => !excludedMobileAppTags.includes(tag));
+}
+
+function enrichWithDefaultThresholdValuesForBaselines(
+  alertConfig: MobileAppSmartAlertConfig
+): MobileAppSmartAlertConfig {
+  const { rules } = alertConfig;
+
+  return {
+    ...alertConfig,
+    rules: [
+      {
+        ...rules[0],
+        thresholds: {
+          ...rules[0].thresholds,
+          // as this should already be introducing the right threshold when invoked from the blueprint,
+          // using casting to the different Threshold Types here should be fine, to make TS happy, and
+          // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
+          // do not need these defaults, but needs another double-check with the different use cases.
+          // @ts-expect-error-error needs to be refactored
+          WARNING: {
+            ...rules[0]?.thresholds?.WARNING,
+            value: (rules[0]?.thresholds?.WARNING as StaticThresholdRule)?.value ?? null,
+            baseline:
+              (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.baseline ??
+              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+            deviationFactor: (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.deviationFactor ?? null
+          },
+          // @ts-expect-error-error needs to be refactored
+          CRITICAL: {
+            ...rules[0]?.thresholds?.CRITICAL,
+            value: (rules[0]?.thresholds?.CRITICAL as StaticThresholdRule)?.value ?? null,
+            baseline:
+              (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.baseline ??
+              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+            deviationFactor: (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.deviationFactor ?? null
+          }
+        }
+      },
+      ...rules.slice(1)
+    ]
+  };
 }

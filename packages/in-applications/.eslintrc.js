@@ -18,6 +18,7 @@ module.exports = {
         'in-api',
         'in-applications',
         'in-components',
+        'in-connection',
         'in-events',
         'in-hoc',
         'in-hooks',

@@ -22,8 +22,7 @@ import {
   useLinkToServiceDashboard,
   useLinkToEndpointDashboard
 } from 'in-applications/navigation/paths';
-// eslint-disable-next-line no-restricted-imports
-import useResolvedLink, { getServiceId } from '../useResolvedLink';
+import useResolvedLink, { getServiceId } from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedLink';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { LogItem, LogTag } from 'in-types';

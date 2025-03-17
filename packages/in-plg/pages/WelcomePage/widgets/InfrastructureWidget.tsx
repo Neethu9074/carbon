@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import { List } from 'immutable';
 
-import { CarbonTabPanel, Link, IconButton, TableTabs, TableTab } from '@instana/components';
+import { CarbonTabPanel, Link, IconButton } from '@instana/components';
 import { EntityHealthInfo, TimeConfig } from '@instana/types';
 import { combineLatest, just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
@@ -20,13 +20,13 @@ import {
   SyntheticInfraColumn,
   ToggleType
 } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
-//@ts-expect-error doesn't contain type file
-import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
 import {
   host as hostType,
   container as containerType,
   process as processType
 } from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
+//@ts-expect-error doesn't contain type file
+import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
 //@ts-expect-error doesn't contain type file
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
 //@ts-expect-error doesn't contain type file
@@ -46,6 +46,8 @@ import { getZone } from 'in-stores/zone';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
+import { TableTabs } from 'in-plg/components/DashboardTable/TableTabs';
+import { TableTab } from 'in-plg/components/DashboardTable/TableTab';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';

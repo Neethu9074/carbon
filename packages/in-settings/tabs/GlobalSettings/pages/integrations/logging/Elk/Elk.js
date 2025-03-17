@@ -159,7 +159,13 @@ const Elk = () => {
           </div>
           <SectionLine />
 
-          <ElkForm form={form} onChange={onChange} areFieldsBlank={areFieldsBlank(form)} disabled={!enabled} />
+          <ElkForm
+            id={'elk-enabled'}
+            form={form}
+            onChange={onChange}
+            areFieldsBlank={areFieldsBlank(form)}
+            disabled={!enabled}
+          />
 
           <SaveCancel
             form={form}

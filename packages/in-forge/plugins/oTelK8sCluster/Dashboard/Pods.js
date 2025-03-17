@@ -38,7 +38,10 @@ export default function Pods({ pods, renderByDashboard }) {
     }
   ];
 
+  const getDashboardLink = useGetDashboardLink();
+
   const carbonRows = pods.map(pod => ({
+    id: pod.id,
     name: <Link href={getDashboardLink(pod.id, { pathname: '/physical/dashboard' })}>{pod.resourceK8sPodName}</Link>,
     namespace: pod.resourceK8sNamespaceName,
     age: formatDurationAccurately(new Date() - new Date(pod.resourceK8sPodStart_time)),
@@ -46,7 +49,6 @@ export default function Pods({ pods, renderByDashboard }) {
     health: <HealthIndicatorPresenter openIssues={0} maxSeverity={1} tooltipLabel={'issue'} />
   }));
 
-  const getDashboardLink = useGetDashboardLink();
   if (renderByDashboard) {
     return <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} isExpanded={false} />;
   }

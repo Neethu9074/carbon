@@ -36,7 +36,6 @@ import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
-import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { emptyMap } from 'in-services/fixedImmutables';
 import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -76,7 +75,7 @@ export default function WebsiteEventContent({ event, snapshot, reload }) {
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const pillContent = getEventStateBadge(event);
 
   return (

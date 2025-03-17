@@ -138,6 +138,22 @@ export default function AnalyzeViewKPIs({
   };
 
   /**
+   * Construct the array containing the DNS KPIs for Analyze view
+   * @returns {JSX.Element[]} Array of Start Time, Status, and Response Time
+   */
+  const getKPIsForDNS = () => {
+    // Remove Requests and Response Size KPIs for DNS
+    const kPIsForDnsObj = analyzeViewCommonKPIs.filter(
+      component => component.id !== 'requests' && component.id !== 'responseSize'
+    );
+    const kPIsForDns: JSX.Element[] = [];
+    kPIsForDnsObj.map((kpi: any) => {
+      kPIsForDns.push(kpi.component);
+    });
+    return kPIsForDns;
+  };
+
+  /**
    * Construct the array containing the KPIs for Analyze view
    * @returns {JSX.Element[]} Array of Start Time, Status, Response Time, Requests and Response Size KPIs
    */
@@ -149,5 +165,9 @@ export default function AnalyzeViewKPIs({
     return kPIsForOthers;
   };
 
-  return <Row>{testType === 'SSLCertificate' ? getKPIsForSsl() : getKPIsForOthers()}</Row>;
+  return (
+    <Row>
+      {testType === 'SSLCertificate' ? getKPIsForSsl() : testType === 'DNS' ? getKPIsForDNS() : getKPIsForOthers()}
+    </Row>
+  );
 }

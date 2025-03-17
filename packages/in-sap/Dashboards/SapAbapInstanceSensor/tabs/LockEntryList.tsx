@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
@@ -17,6 +18,11 @@ import { t } from 'in-i18n';
 interface LockEntryRow {
   key: string;
   lockEntry: Map<string, object>;
+}
+
+interface LockEntryRowProps {
+  snapshotId: string;
+  timeConfig: TimeConfig;
 }
 
 const cols = [
@@ -130,8 +136,11 @@ const cols = [
   }
 ];
 
-export default function LockEntryList({ snapshotId }: SnapshotData) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'lockEntryStats'), [snapshotId]);
+export default function LockEntryList({ snapshotId, timeConfig }: LockEntryRowProps) {
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'lockEntryStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const lockEntrys = data ? (data as SnapshotData).get('raw_payload') : null;
   const rows: LockEntryRow[] = lockEntrys
     ? lockEntrys.toArray().map((lockEntry: any, idx: any) => {

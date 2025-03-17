@@ -6,10 +6,11 @@
 
 import React from 'react';
 
+import { SloEntityType, ServiceLevelIndicatorType, TimeWindowType } from '@instana/types';
+
 import SliSummarySkeleton from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummarySkeleton';
 import { formatSloStatus, getValueFromSingleValueMetric } from 'in-service-levels/utils/format';
 import SloTimeTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTimeTile';
-import { SloEntityType, ServiceLevelIndicatorType, TimeWindowType } from 'in-types';
 import SloTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTile';
 import useSloFormatter from 'in-service-levels/hooks/useSloFormatter';
 import { MetricDataPoint } from 'in-components/Chart/types';

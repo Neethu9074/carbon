@@ -11,10 +11,8 @@ import convertToScopes from 'in-components/time/TimeSelectionDialogPresenter/con
 import ReleaseScope from 'in-components/time/TimeSelectionDialogPresenter/ReleaseScope';
 import { getReleasesWithDefaults } from 'in-events/subscriptions/getReleases';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
 import ServerTable from 'in-components/tables/ServerTable';
-import Pagination from 'in-components/Pagination';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -141,32 +139,18 @@ function RightHeader({ query, onChange, orderBy, orderDirection, pageSize }) {
   );
 }
 
-function renderPagination({
-  page,
-  totalItems,
-  numPages,
-  onChange,
-  query,
-  orderBy,
-  orderDirection,
-  pageSize,
-  pageSizes
-}) {
-  return carbonPaginationEnabled && totalItems > 0 ? (
-    <CarbonPagination
-      currentPage={page}
-      totalItems={totalItems}
-      pageSize={pageSize}
-      pageSizes={pageSizes ?? [pageSize]}
-      onChange={data => {
-        return onChange({ query, orderBy, orderDirection, page: data.page, pageSize, pageSizes });
-      }}
-    />
-  ) : (
-    <Pagination
-      currentPage={page}
-      numPages={numPages}
-      onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
-    />
+function renderPagination({ page, totalItems, onChange, query, orderBy, orderDirection, pageSize, pageSizes }) {
+  return (
+    totalItems > 0 && (
+      <CarbonPagination
+        currentPage={page}
+        totalItems={totalItems}
+        pageSize={pageSize}
+        pageSizes={pageSizes ?? [pageSize]}
+        onChange={data => {
+          return onChange({ query, orderBy, orderDirection, page: data.page, pageSize, pageSizes });
+        }}
+      />
+    )
   );
 }

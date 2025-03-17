@@ -37,4 +37,7 @@
   .advancedFormContainer {
     padding: 0 1rem;
   }
+  .teamsSelector {
+    max-width: 20rem;
+  }
 }

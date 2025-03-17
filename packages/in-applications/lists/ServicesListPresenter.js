@@ -6,12 +6,11 @@
 import React, { useState, useEffect } from 'react';
 import { get } from 'lodash';
 
-import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
-import { TableEntityCounter } from '@instana/legacy';
 import { Link, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/ServerTable/internalComponents/LegacySeverityIndicatorCellContentWrapper';
 import {
   createEndpointTypesUrlParameter,
   createEndpointTechnologiesUrlParameter
@@ -104,7 +103,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'applications', 0, 1], 0);
-      return <TableEntityCounter count={count} />;
+      return count;
     }
   },
   {
@@ -113,7 +112,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
-      return <TableEntityCounter count={count} />;
+      return count;
     }
   },
   {

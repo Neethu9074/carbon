@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+
 import { create } from '@instana/observables';
 
 import CanvasBasedProfileFlameGraph from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph';

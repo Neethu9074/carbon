@@ -49,17 +49,17 @@ export function getNoDataHeader(label: string) {
 export function getNoDataDescription(label: string) {
   switch (label) {
     case 'applicationWidget':
-      return t('in-plg:welcomepage.noData.applicationWidget.description');
+      return <Trans i18nKey="in-plg:welcomepage.noData.applicationWidget.description" />;
     case 'platformsWidget':
       return t('in-plg:welcomepage.noData.platformsWidget.description');
     case 'businessMonitoringWidget':
       return t('in-plg:welcomepage.noData.businessMonitoringWidget.description');
     case 'incidentsWidget':
-      return t('in-plg:welcomepage.noData.incidentsWidget.description');
+      return <Trans i18nKey="in-plg:welcomepage.noData.incidentsWidget.description" />;
     case 'websitesWidget':
-      return t('in-plg:welcomepage.noData.websitesWidget.description');
+      return <Trans i18nKey="in-plg:welcomepage.noData.websitesWidget.description" />;
     case 'mobileListWidget':
-      return t('in-plg:welcomepage.noData.mobileListWidget.description');
+      return <Trans i18nKey="in-plg:welcomepage.noData.mobileListWidget.description" />;
     case 'infrastructureWidget.host':
     case 'infrastructureWidget.docker':
     case 'infrastructureWidget.process':
@@ -76,32 +76,13 @@ export function getNoDataDescription(label: string) {
         />
       );
     case 'syntheticWidget.test':
-      return t('in-plg:welcomepage.noData.syntheticWidget.test.description');
+      return <Trans i18nKey="in-plg:welcomepage.noData.syntheticWidget.test.description" />;
     case 'syntheticWidget.location':
       return t('in-plg:welcomepage.noData.syntheticWidget.location.description');
     case 'syntheticWidget.smartalerts':
-      return t('in-plg:welcomepage.noData.syntheticWidget.smartalerts.description');
+      return <Trans i18nKey="in-plg:welcomepage.noData.syntheticWidget.smartalerts.description" />;
     case 'dashboardWidget':
-      return t('in-plg:welcomepage.noData.dashboardWidget.description');
-    default:
-      return '';
-  }
-}
-
-export function getNoDataButton(label: string) {
-  switch (label) {
-    case 'applicationWidget':
-      return t('in-plg:welcomepage.noData.applicationWidget.buttonName');
-    case 'websitesWidget':
-      return t('in-plg:welcomepage.noData.websitesWidget.buttonName');
-    case 'mobileListWidget':
-      return t('in-plg:welcomepage.noData.mobileListWidget.buttonName');
-    case 'syntheticWidget.test':
-      return t('in-plg:welcomepage.noData.syntheticWidget.test.buttonName');
-    case 'syntheticWidget.smartalerts':
-      return t('in-plg:welcomepage.noData.syntheticWidget.smartalerts.buttonName');
-    case 'dashboardWidget':
-      return t('in-plg:welcomepage.noData.dashboardWidget.buttonName');
+      return <Trans i18nKey="in-plg:welcomepage.noData.dashboardWidget.description" />;
     default:
       return '';
   }

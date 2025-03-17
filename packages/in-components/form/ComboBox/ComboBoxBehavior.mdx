@@ -1,0 +1,18 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/blocks';
+import * as ComboBoxBehaviorStories from './ComboBoxBehavior.stories';
+
+<Meta of={ComboBoxBehaviorStories} />
+
+## ComboBoxBehavior
+
+`ComboBoxBehavior` implements logic which turns any HTML element into a clickable element that triggers
+an `Overlay` in which items can be selected. `ComboBoxBehavior` can be used as a primitive to implement
+higher-level components or it can directly be used in non-reusable code to implement features.
+
+<Canvas>
+  <Story of={ComboBoxBehaviorStories.Default} />
+</Canvas>
+
+### Props
+
+<Controls />

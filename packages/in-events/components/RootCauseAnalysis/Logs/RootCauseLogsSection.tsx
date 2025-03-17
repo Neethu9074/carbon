@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { get } from 'lodash';
 import React from 'react';
 
 import { Collapsible, Typography } from '@instana/components';
@@ -83,7 +84,7 @@ export default function RootCauseLogsSection({
               containerId={rcaEntityType === 'infrastructure' ? getContainerId(entityData) : undefined}
               processContainerType={rcaEntityType === 'infrastructure' ? getProcessContainerId(entityData) : undefined}
               hostName={rcaEntityType === 'infrastructure' ? getHostFQDN(entityData) : undefined}
-              plugin={rcaEntityType === 'infrastructure' ? entityData.get('plugin') : undefined}
+              plugin={rcaEntityType === 'infrastructure' ? get(entityData, 'plugin') : undefined}
               timeConfig={incidentTimeWindow}
             />
           )}
@@ -99,25 +100,25 @@ export function isContainer(plugin: string) {
 }
 
 function getProcessContainerId(entityData: SnapshotData) {
-  const plugin = entityData && entityData.get('plugin');
-  return plugin === 'process' ? entityData.getIn(['data', 'containerType']) : undefined;
+  const plugin = get(entityData, 'plugin', '');
+  return plugin === 'process' ? get(entityData, 'data.containerType', undefined) : undefined;
 }
 
 function getContainerId(entityData: SnapshotData) {
-  const plugin = entityData && entityData.get('plugin');
+  const plugin = get(entityData, 'plugin', '');
   return plugin === 'process'
-    ? entityData.getIn(['data', 'container'])
+    ? get(entityData, 'data.container', undefined)
     : isContainer(plugin)
-    ? entityData.getIn(['data', 'id'])
+    ? get(entityData, 'data.id')
     : undefined;
 }
 
 function getProcessId(entityData: SnapshotData) {
-  const plugin = entityData && entityData.get('plugin');
-  return plugin === 'process' ? entityData.getIn(['data', 'pid']) : undefined;
+  const plugin = get(entityData, 'plugin', '');
+  return plugin === 'process' ? get(entityData, 'data.pid', undefined) : undefined;
 }
 
 function getHostFQDN(entityData: SnapshotData) {
-  const plugin = entityData && entityData.get('plugin');
-  return plugin === 'host' ? entityData.getIn(['data', 'hostname']) : undefined;
+  const plugin = get(entityData, 'plugin', '');
+  return plugin === 'host' ? get(entityData, 'data.hostname', undefined) : undefined;
 }

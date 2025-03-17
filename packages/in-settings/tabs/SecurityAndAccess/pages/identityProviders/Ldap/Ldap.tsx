@@ -101,7 +101,7 @@ export default function Ldap(props: LdapProps) {
         if (isAnyInvitationsPending(props)) {
           addActiveDialog(
             <ConfirmationDialog
-              header={t('in-settings:components.pleaseConfirm')}
+              header={t('in-settings:components.confirmRemove')}
               description={
                 <span>
                   <Trans i18nKey="in-settings:tabs.createIDPConfirmationDescription" />
@@ -398,29 +398,34 @@ function LdapForm({ form, setForm, testResultMessage, setTestResultMessage, resu
                         id: '',
                         waitingForTest: true
                       });
-                      result$.once(({ testPassed, reason }) => {
-                        const msgType = testPassed ? 'success' : 'error';
-                        setTestResultMessage({
-                          waitingForTest: false,
-                          messageProps: {
+
+                      result$.subscribe(data => {
+                        if (data.data) {
+                          const testResult = data.data;
+                          const testPassed = testResult?.testPassed;
+                          const reason = testResult?.reason;
+                          const msgType = testPassed ? 'success' : 'error';
+                          setTestResultMessage({
+                            waitingForTest: false,
+                            messageProps: {
+                              id,
+                              text: testPassed ? reason : `${t('in-settings:tabs.ldapTestFailed')} ${reason}`,
+                              type: msgType
+                            }
+                          });
+                          trackCta(SETTINGS_IDP_LDAP_TEST_CONFIGURATION, { result: msgType });
+                          setForm(form.setTouched(true, { recurse: true }));
+                        } else if (data.errors) {
+                          setTestResultMessage({
                             id,
-                            text: testPassed ? reason : `${t('in-settings:tabs.ldapTestFailed')} ${reason}`,
-                            type: msgType
-                          }
-                        });
-                        trackCta(SETTINGS_IDP_LDAP_TEST_CONFIGURATION, { result: msgType });
-                        setForm(form.setTouched(true, { recurse: true }));
-                      });
-                      result$.errors().once(e => {
-                        setTestResultMessage({
-                          id,
-                          waitingForTest: false,
-                          messageProps: {
-                            text: `${t('in-settings:tabs.ldapTestFailed')} ${e}`,
-                            type: 'error'
-                          }
-                        });
-                        setForm(form.setTouched(true, { recurse: true }));
+                            waitingForTest: false,
+                            messageProps: {
+                              text: `${t('in-settings:tabs.ldapTestFailed')} ${data.errors[0].message}`,
+                              type: 'error'
+                            }
+                          });
+                          setForm(form.setTouched(true, { recurse: true }));
+                        }
                       });
                     }}
                   >
@@ -537,6 +542,7 @@ function saveItem({ form, setMessage, unstable_trackEvent }: SaveItemPropsWithFo
       setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' });
       unstable_trackEvent(UPDATED_OBJECT, { objectType: SETTINGS_IDENTITY_PROVIDER_LDAP_UPDATE });
       scrollToResultMessage();
+      refresh();
     },
     error => {
       setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: 'error' });

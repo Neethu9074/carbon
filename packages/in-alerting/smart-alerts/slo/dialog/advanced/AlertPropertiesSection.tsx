@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { Li, Message } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import {
   AlertPreview,
@@ -22,6 +21,7 @@ import AlertLevelRow from 'in-alerting/smart-alerts/components/dialog/advanced/A
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import { percentageUpToTwoDecimalPlaces } from 'in-services/formatters/number';
 import Sections from 'in-components/workspace/Sections';
+import { t } from 'in-i18n';
 
 type OnChangeType = Parameters<typeof AlertProperties>[0]['onChange'];
 

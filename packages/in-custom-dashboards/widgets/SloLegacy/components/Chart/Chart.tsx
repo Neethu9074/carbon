@@ -24,7 +24,7 @@ import ChartMarkerLanes from 'in-custom-dashboards/widgets/SloLegacy/components/
 import { useSliFormatter } from 'in-custom-dashboards/widgets/SloLegacy/hooks/useSliFormatter';
 import { getTagCatalog as getWebsiteTagCatalog } from 'in-websites/api/tagCatalog';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
-import { sliCHClusterAccessEnabled } from 'in-services/featureFlags';
+import { sloFullEnabled } from 'in-services/featureFlags';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { MetricDataSeries } from 'in-components/Chart/types';
@@ -71,9 +71,7 @@ export default function Chart({
   const tagCatalog = useTagCatalog(tagCatalogLoader);
   const isStaticBudget = hourlyBudget === null || hourlyBudget.length === 0;
   const linkToUnboundAnalytics = useLinkToUnboundedAnalytics(sliConfig, tagCatalog);
-  const initialEvaluationTimestamp = sliCHClusterAccessEnabled
-    ? sliConfig?.lastUpdated
-    : sliConfig?.initialEvaluationTimestamp;
+  const initialEvaluationTimestamp = sloFullEnabled ? sliConfig?.lastUpdated : sliConfig?.initialEvaluationTimestamp;
 
   const showMissingDataIndicators =
     useShouldShowMissingDataIndicator({
@@ -81,7 +79,7 @@ export default function Chart({
       progress: result.progress,
       timeConfig,
       nonInteractive
-    }) && sliCHClusterAccessEnabled;
+    }) && sloFullEnabled;
 
   let metrics: MetricDataSeries[] = [consumed, hourlyBudget];
 

@@ -31,6 +31,7 @@
     "optional": "Facoltativo",
     "on": "Attivo",
     "off": "Non attivo",
+    "options": "Opzioni",
     "revisionDropdownButton": {
       "revision": "Revisione {{alertRevision}}",
       "pause": "Pausa",
@@ -238,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "Confermare",
+            "confirmRemove": "Confermare",
             "description": "La modifica dell'ambito limite determina la reimpostazione della selezione dell'applicazione.",
             "confirmButtonLabel": "Conferma"
           }
@@ -259,7 +260,7 @@
           "includeInternalCalls": "Includi chiamate interne",
           "includeSyntheticCalls": "Includi chiamate sintetiche",
           "confirmationDialog": {
-            "pleaseConfirm": "Confermare",
+            "confirmRemove": "Confermare",
             "description": "La deselezione di \"{{callType}}\" reimposterà la selezione delle applicazioni.",
             "confirmButtonLabel": "Conferma"
           }
@@ -871,6 +872,7 @@
         "timeThresholdConfigImpactEvaluationMethod": "Metodo di valutazione dell'impatto sugli utenti",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Aggrega tutte le finestre di valutazione",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcola per ogni finestra di valutazione",
+        "timeThresholdConfigImpactEvaluationMethodSelect": "Selezionare un'opzione",
         "timeThresholdConfigNumberOfViolations": "Numero di violazioni di metrica",
         "timeThresholdConfigEvaluationGranularity": "Granularità valutazione",
         "granularityTooltipText": "La granularità temporale qui impostata determinerà la frequenza con cui viene valutata la soglia.",
@@ -1264,6 +1266,25 @@
         "timeThreshold": "Soglia temporale",
         "alertingType": "Tipo di avviso",
         "noScopeConfigured": "Nessun filtro di ambito configurato"
+      },
+      "tearSheet": {
+        "createTitle": "Crea un avviso smart per i test sintetici",
+        "scopeFilter": {
+          "filter": "Filtro",
+          "filterDescription": "Aggiungere filtri ai test sintetici per ottenere avvisi più precisi."
+        },
+        "steps": {
+          "step1Title": "Scegliere i test sintetici.",
+          "step2Title": "Definire quando ricevere gli avvisi."
+        },
+        "step1": {
+          "header": "Su quali test sintetici si desidera essere ricevere un avviso?",
+          "description": "I singoli avvisi verranno inviati indipendentemente per ogni test sintetico, per ogni ubicazione."
+        },
+        "step2": {
+          "sliderHeader": "Imposta quando le violazioni attivano gli avvisi",
+          "sliderDescription": "Specificare quanti errori consecutivi devono verificarsi per ogni ubicazione prima che venga emesso un avviso."
+        }
       }
     },
     "mobileApp": {
@@ -1659,11 +1680,10 @@
         "customPayloads": {
           "label": "Payload",
           "title": "Payload personalizzato"
-        },
-        "thresholdValue": "Valore soglia"
+        }
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Fornire un numero >= 0",
+        "selectAtLeastOneThreshold": "Indicare il valore di almeno una delle soglie.",
         "noDataForSelectedGroup": "Non sono disponibili dati per la combinazione di filtri e il raggruppamento specificata."
       },
       "logCount": "Conteggio log",
@@ -1692,11 +1712,14 @@
         "scopeFilter": {
           "title": "Scegli l'ambito dei log",
           "filter": "Filtro",
-          "filterDescription": "Aggiungi filtri ai servizi per ottenere avvisi più precisi."
+          "filterDescription": "Aggiungere filtri al contenuto dei messaggi di log, ai log o a entrambi per ottenere avvisi più precisi."
+        },
+        "granularity": {
+          "description": "I log vengono valutati in finestre di {{granularity}} minuti e viene calcolato un valore di metrica per dette finestre"
         },
         "scopeGroupBy": {
           "group": "Gruppo",
-          "groupByDescription": "Aggiungi gruppo per configurare le chiamate in gruppi. Ogni chiamata all'interno del gruppo viene configurata collettivamente ma valutata singolarmente."
+          "groupByDescription": "Aggiungere i raggruppamenti ai log. Ogni voce all'interno del gruppo è configurata collettivamente ma valutata singolarmente."
         },
         "timeThreshold": {
           "title": "Imposta quando le violazioni attivano gli avvisi",
@@ -1749,7 +1772,7 @@
         "blueprintDescription_BURN_RATE": "La velocità di combustione è un valore che indica la velocità di consumo del budget degli errori rispetto alla lunghezza obiettivo dello SLO.",
         "burnRateShortWindowTitle": "Finestra di avviso breve",
         "burnRateShortWindowDescription": "Questi avvisi verranno attivati quando il tasso di errore supera la soglia più velocemente in un periodo più breve. Questo può aiutare a catturare un improvviso picco di errori o di inattività dovuto a un bug critico.",
-        "burnRateDescription": "Inviami una notifica quando la velocità di combustione è <1/> <2/>.",
+        "burnRateDescription": "Informami quando il tasso di consumo è <1/> <2/>",
         "burnRateLongWindowTitle": "Finestra di avviso lunga",
         "burnRateLongWindowDescription": "Questi avvisi verranno attivati quando il tasso di errore supera la soglia in un periodo di tempo più lungo. Questo aiuta a identificare i problemi che si sono accumulati nel tempo e che, se non affrontati, potrebbero causare problemi in futuro.",
         "burnRateShortWindowLongerThanLongWindowError": "La finestra breve non può superare la finestra lunga. Adeguare uno dei due valori.",

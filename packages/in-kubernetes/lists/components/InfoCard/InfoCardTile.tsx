@@ -21,10 +21,11 @@ interface InfoCardTileProps {
   hasWarnings?: boolean;
   isLoading?: boolean;
   tooltip?: string;
+  onClick?: () => void;
 }
 
-export default function InfoCardTile(props: InfoCardTileProps) {
-  const { title, subtitle, counter, href, isLoading, hasIssues, hasWarnings, tooltip } = props;
+export default function InfoCardTile(props: Readonly<InfoCardTileProps>) {
+  const { title, subtitle, counter, href, isLoading, hasIssues, hasWarnings, tooltip, onClick } = props;
 
   const counterWithOrWithoutTooltip = tooltip ? (
     <Tooltip content={tooltip} align="auto">
@@ -37,6 +38,7 @@ export default function InfoCardTile(props: InfoCardTileProps) {
   return (
     <CarbonClickableTile
       href={href}
+      onClick={onClick}
       className={locals.tile}
       renderIcon={() => (
         <div className={locals.icon}>
@@ -58,8 +60,10 @@ export default function InfoCardTile(props: InfoCardTileProps) {
             {!isLoading ? counterWithOrWithoutTooltip : <LoadingSkeleton className={locals.skeleton} />}
           </span>
         </Typography>
-        <Typography variant="body-02" component="p">
-          {!isLoading ? subtitle : <LoadingSkeleton className={locals.skeletonSubtitle} />}
+        <Typography variant="body-01" component="div">
+          <span className={locals.subtitle}>
+            {!isLoading ? subtitle : <LoadingSkeleton className={locals.skeletonSubtitle} />}
+          </span>
         </Typography>
       </div>
     </CarbonClickableTile>

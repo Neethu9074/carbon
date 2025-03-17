@@ -15,22 +15,26 @@ import {
   EumBeaconByTraceBeaconsItem,
   Progress,
   TagFilterExpressionElementUnion,
-  TimeConfig
+  TimeConfig,
+  JoinSource
 } from 'in-types';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import getEumBeaconByTrace, { makeEumBeaconByTraceQuery } from 'in-eum/subscriptions/getEumBeaconByTrace';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
+import { useEumTracker } from 'in-eum/tracking/segTracker';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 interface AnalyzeImpactedUsersButtonProps {
+  alertType?: string;
   disabled?: boolean;
   timeConfig?: TimeConfig | null;
   joinFilterForImpactedUsers: TagFilterExpressionElementUnion;
 }
 
 export default function AnalyzeImpactedUsersButton({
+  alertType,
   disabled,
   timeConfig,
   joinFilterForImpactedUsers
@@ -38,6 +42,7 @@ export default function AnalyzeImpactedUsersButton({
   const [progress, setProgress] = useState<Progress | null>(null);
   const [errors, setErrors] = useState<Array<Error>>([]);
   const subscriptionRef = useRef<Disposable | null>(null);
+  const { applicationsEumImpactedUsers } = useEumTracker();
 
   useEffect(
     () => () => {
@@ -48,7 +53,7 @@ export default function AnalyzeImpactedUsersButton({
   );
 
   const onClickDownload = useCallback(() => {
-    subscriptionRef.current = downloadImpactedUserBeacons(timeConfig, joinFilterForImpactedUsers)
+    subscriptionRef.current = downloadImpactedUserBeacons(timeConfig, joinFilterForImpactedUsers, alertType)
       .startWith(null)
       .subscribe(result => {
         const loading = result?.progress?.loading ?? true;
@@ -63,7 +68,7 @@ export default function AnalyzeImpactedUsersButton({
           subscriptionRef.current = null;
         }
       });
-  }, [joinFilterForImpactedUsers, timeConfig]);
+  }, [alertType, joinFilterForImpactedUsers, timeConfig]);
   return (
     <>
       {progress?.loading && <HorizontalIndicator progress={progress} />}
@@ -73,6 +78,7 @@ export default function AnalyzeImpactedUsersButton({
         onClick={e => {
           e.stopPropagation();
           onClickDownload();
+          applicationsEumImpactedUsers();
         }}
         disabled={disabled || progress?.loading}
       >
@@ -99,7 +105,17 @@ function download(result: CursorPaginatedResult<EumBeaconByTraceBeaconsItem>) {
 }
 
 function getCSVData(items: Array<EumBeaconByTraceBeaconsItem>): string {
-  const lines = [['ID', 'Name', 'Email', 'Country/Area', 'Subdivision']];
+  const lines = [
+    [
+      t('in-eum:csvDataColumnLabels.id'),
+      t('in-eum:csvDataColumnLabels.name'),
+      t('in-eum:csvDataColumnLabels.email'),
+      t('in-eum:csvDataColumnLabels.country'),
+      t('in-eum:csvDataColumnLabels.subdivision'),
+      t('in-eum:csvDataColumnLabels.eumCfgLabel'),
+      t('in-eum:csvDataColumnLabels.source')
+    ]
+  ];
 
   items.forEach(item => {
     lines.push([
@@ -107,7 +123,9 @@ function getCSVData(items: Array<EumBeaconByTraceBeaconsItem>): string {
       item.beacon.userName ?? '',
       item.beacon.userEmail ?? '',
       item.beacon.country ?? '',
-      item.beacon.subdivision ?? ''
+      item.beacon.subdivision ?? '',
+      item.beacon.eumCfgLabel ?? '',
+      item.beacon.eumSource ?? ''
     ]);
   });
 
@@ -116,8 +134,13 @@ function getCSVData(items: Array<EumBeaconByTraceBeaconsItem>): string {
 
 function downloadImpactedUserBeacons(
   timeConfig?: TimeConfig | null,
-  joinFilterForImpactedUsers?: TagFilterExpressionElementUnion
+  joinFilterForImpactedUsers?: TagFilterExpressionElementUnion,
+  alertType?: string
 ) {
+  let joinSource = 'JOIN_SOURCE_EUM_IMPACTED_TRACES' as JoinSource;
+  if (alertType === 'throughput') {
+    joinSource = 'JOIN_SOURCE_APPLICATION' as JoinSource;
+  }
   if (!timeConfig || !joinFilterForImpactedUsers) {
     return just(
       success<CursorPaginatedResult<EumBeaconByTraceBeaconsItem>>({
@@ -129,6 +152,7 @@ function downloadImpactedUserBeacons(
       })
     );
   }
+
   return getEumBeaconByTrace(
     makeEumBeaconByTraceQuery({
       metrics: [
@@ -136,15 +160,18 @@ function downloadImpactedUserBeacons(
         'beaconByTrace.user.name',
         'beaconByTrace.user.email',
         'beaconByTrace.geo.country',
-        'beaconByTrace.geo.subdivision'
+        'beaconByTrace.geo.subdivision',
+        'beaconByTrace.configId',
+        'beaconByTrace.source'
       ],
       timeConfig,
       joinFilterExpression: joinFilterForImpactedUsers,
-      distinctBy: 'beaconByTrace.userIdOrSessionId',
+      distinctBy: ['beaconByTrace.userIdOrSessionId', 'beaconByTrace.configId'],
       pagination: {
         cursor: undefined,
         retrievalSize: 200
-      }
+      },
+      joinSource: joinSource
     })
   );
 }

@@ -7,7 +7,7 @@
       "editJsonDialogPresenter": {
         "confirmBt": "Confirm",
         "dashboardAJson": "Dashboard as JSON",
-        "editDashboard": "Edit Dashboard"
+        "editDashboard": "Edit dashboard"
       }
     },
     "grid": {
@@ -26,14 +26,14 @@
         "removeEditRightUserName": "Remove editing rights for {{fullName}}.",
         "add": "Add",
         "addEditors": "Add editors",
-        "pleaseSelect": "Please Select"
+        "pleaseSelect": "Please select"
       },
       "sharingDialogPresenter": {
         "editPermissions": "Edit permissions",
         "shareMsg": "This custom dashboard has advanced access rules which cannot be represented by this dialog. You can use the \"Edit As JSON\" feature to edit these access rules.",
-        "privateDashboardDefault": "Private Dashboard (default)",
+        "privateDashboardDefault": "Private dashboard (default)",
         "privateDashboardDefaultExplain": "This dashboard is only visible to you.",
-        "publicDashboard": "Public Dashboard",
+        "publicDashboard": "Public dashboard",
         "publicDashboardExplain": "This dashboard is visible to everyone in your organization. Only you are able to make changes, but you may add editors.",
         "save": "Save",
         "cancel": "Cancel",
@@ -42,14 +42,14 @@
     },
     "widgetEditorDialog": {
       "widgetConfiguration": {
-        "widgetName": "Widget Name",
+        "widgetName": "Widget name",
         "name": "Name",
         "helpAction": "Choose an optional name for this widget that will be presented above the widget content.",
         "optional": "Optional"
       },
       "widgetEditorDialogPresenter": {
-        "editWidget": "Edit Widget",
-        "addWidget": "Add Widget",
+        "editWidget": "Edit widget",
+        "addWidget": "Add widget",
         "next": "Next",
         "confirm": "Confirm",
         "create": "Create",
@@ -63,12 +63,12 @@
       }
     },
     "customDashboard": {
-      "confirmDashboardDel": "Confirm Dashboard Deletion",
-      "delDashboard": "Delete Dashboard",
+      "confirmDashboardDel": "Confirm dashboard deletion",
+      "delDashboard": "Delete dashboard",
       "uWantDelDashboardConfig": "Are you sure you want to delete the dashboard <strong>{{title}}</strong>?",
       "failDelDashboard": "Failed to delete the dashboard.",
-      "renameDashboard": "Rename Dashboard",
-      "dashboardName": "Dashboard Name",
+      "renameDashboard": "Rename dashboard",
+      "dashboardName": "Dashboard name",
       "rename": "Rename",
       "failSaveDashboard": "Failed to save the dashboard.",
       "generatingPDFTitle": "Generating pdf",
@@ -80,16 +80,16 @@
       "dashboardNotFound": "Dashboard not found",
       "failure": "Failure",
       "dashboardNotFoundExplain": "This dashboard does not exist or you do not have access to it.",
-      "customDashboard": "Custom Dashboard",
+      "customDashboard": "Custom dashboard",
       "customDashboardOptions": "Custom Dashboard Options",
       "saveChange": "Save changes",
-      "discardChange": "Discard Changes",
-      "addWidget": "Add Widget",
-      "tvMode": "TV Mode",
-      "editName": "Edit Name",
-      "editAsJson": "Edit As JSON",
-      "viewAsJson": "View As JSON",
-      "copyAllWidgets": "Copy All Widgets",
+      "discardChange": "Discard changes",
+      "addWidget": "Add widget",
+      "tvMode": "TV mode",
+      "editName": "Edit name",
+      "editAsJson": "Edit as JSON",
+      "viewAsJson": "View as JSON",
+      "copyAllWidgets": "Copy all widgets",
       "copiedAllWidgets": "Widgets copied, use CTRL-V or CMD-V to paste on any custom dashboard",
       "duplicate": "Duplicate",
       "delete": "Delete",
@@ -132,7 +132,7 @@
       "loading": "Loading…"
     },
     "dashboardSwitcherOverlayPresenter": {
-      "createDashboard": "Create Dashboard",
+      "createDashboard": "Create dashboard",
       "builtIn": "built-in",
       "default": "default",
       "search": "Search"
@@ -142,9 +142,9 @@
     }
   },
   "widgets": {
-    "unknownEntityLabel": "Unknown Entity",
-    "unknownEntityLabel_application": "Unknown Application",
-    "unknownEntityLabel_website": "Unknown Website",
+    "unknownEntityLabel": "Unknown entity",
+    "unknownEntityLabel_application": "Unknown application",
+    "unknownEntityLabel_website": "Unknown website",
     "invalidWidgetTypeErrorMessage": "<strong>Invalid widget type</strong><br/>This widget has invalid type, you can fix it by editing the dashboard JSON or removing the widget.",
     "metricConfig": {
       "groupingConfig": {
@@ -182,7 +182,7 @@
         "metric": "Metric"
       },
       "index": {
-        "applicationsTracesAndCalls": "Applications (Traces and Calls)"
+        "applicationsTracesAndCalls": "Applications (traces and calls)"
       }
     },
     "srcEvent": {
@@ -191,8 +191,8 @@
       },
       "formComponent": {
         "metric": "Metric",
-        "eventCount": "Event Count",
-        "unnamedLog": "Unnamed Log Metric",
+        "eventCount": "Event count",
+        "unnamedLog": "Unnamed log metric",
         "aggregation": "Aggregation",
         "pleaseSelectMetric": "Please select a metric",
         "pleaseSelect": "Please select",
@@ -216,7 +216,7 @@
         "lastValueHelp": "With this toggle enabled, we'll display the aggregation for the last bucket in the time range."
       },
       "metrics": {
-        "infrastructurePlatforms": "Infrastructure & Platforms",
+        "infrastructurePlatforms": "Infrastructure & platforms",
         "comingSoon": "(coming soon)"
       },
       "typeAndMetricConfigurator": {
@@ -243,7 +243,7 @@
     },
     "srcMobileApp": {
       "formComp": {
-        "beaconType": "Beacon Type",
+        "beaconType": "Beacon type",
         "pleaseSelect": "Please select",
         "pleaseSelectDs": "Please select a data source",
         "metric": "Metric",
@@ -251,7 +251,7 @@
         "pleaseSelectMetric": "Please select a metric"
       },
       "index": {
-        "mobileAppsBeacon": "Mobile Apps (Beacons)"
+        "mobileAppsBeacon": "Mobile apps (beacons)"
       }
     },
     "srcSli": {
@@ -260,18 +260,18 @@
         "pleaseSelect": "Please select",
         "sliConfigComputeErrBudgetSliVal": "SLI configuration used to compute error budget and SLI values",
         "typeSloThreshold": "Type in your desired SLO threshold from <code>{{compact}}</code> to <code>{{detailed}}</code>.",
-        "valType": "Value Type"
+        "valType": "Value type"
       },
       "index": {
-        "srvLevelIndicator": "Service-Level Indicators"
+        "srvLevelIndicator": "Service-Level indicators"
       },
       "serviceLevelIndicators": {
-        "remainErrBudget": "Remaining Error Budget"
+        "remainErrBudget": "Remaining error budget"
       }
     },
     "srcWebSite": {
       "formComp": {
-        "beaconType": "Beacon Type",
+        "beaconType": "Beacon type",
         "pleaseSelect": "Please select",
         "metric": "Metric",
         "selectDs": "Please select a data source",
@@ -288,13 +288,13 @@
         "metric": "Metric",
         "selectMetric": "Please select a metric",
         "aggregation": "Aggregation",
-        "successRate": "Success Rate",
+        "successRate": "Success rate",
         "locations": "Locations",
-        "responseTime": "Response Time",
-        "responsesize": "Response Size"
+        "responseTime": "Response time",
+        "responsesize": "Response size"
       },
       "index": {
-        "syntheticMonitoring": "Synthetic Monitoring"
+        "syntheticMonitoring": "Synthetic monitoring"
       }
     },
     "srcLogging": {
@@ -302,7 +302,7 @@
         "logging": "Logs"
       },
       "formComponent": {
-        "onlyMetric": "The only available metric for Logs",
+        "onlyMetric": "The only available metric for logs",
         "metrics": {
           "count": "Count"
         },
@@ -321,7 +321,7 @@
       }
     },
     "metricConfigurator": {
-      "ds": "Data Source",
+      "ds": "Data source",
       "pleaseSelect": "Please select",
       "name": "Name",
       "pleaseSelectATimeShiftingConfiguration": "Please select a time shifting configuration",
@@ -343,9 +343,9 @@
       },
       "timeShiftingForm": {
         "addTimeShiftComparBadge": "Add a time shifted comparison badge",
-        "increaseColor": "Increase Color",
-        "decreaseColor": "Decrease Color",
-        "timeShift": "Time Shift"
+        "increaseColor": "Increase color",
+        "decreaseColor": "Decrease color",
+        "timeShift": "Time shift"
       },
       "thresholdForm": {
         "addThresholdColorization": "Add threshold based colorization",
@@ -356,15 +356,15 @@
         "warningValidator": "Warning threshold should be greater than critical threshold for < and <= operators.",
         "bytes": "Bytes"
       },
-      "bigNumber": "Big Number"
+      "bigNumber": "Big number"
     },
     "chart": {
       "axesConfigurator": {
-        "primaryYAxis": "Primary Y-Axis",
-        "secondaryYAxis": "Secondary Y-Axis",
+        "primaryYAxis": "Primary y-axis",
+        "secondaryYAxis": "Secondary y-axis",
         "chart": "Chart",
         "formatter": "Formatter",
-        "addSecondary": "Add secondary Y-axis",
+        "addSecondary": "Add secondary y-axis",
         "removeSecondary": "Remove",
         "min": "Min",
         "max": "Max",
@@ -394,14 +394,14 @@
       },
       "color": {
         "magenta": "Magenta",
-        "darkRed": "Dark Red",
+        "darkRed": "Dark red",
         "blue": "Blue",
         "yellow": "Yellow",
-        "lightBlue": "Light Blue",
+        "lightBlue": "Light blue",
         "green": "Green",
         "red": "Red",
         "orange": "Orange",
-        "deepPurple": "Deep Purple",
+        "deepPurple": "Deep purple",
         "cyan": "Cyan",
         "lime": "Lime",
         "pink": "Pink",
@@ -415,8 +415,8 @@
       },
       "indexChart": {
         "datasets": "Datasets",
-        "axisConfig": "Axis Configuration",
-        "potentialProblems": "Potential Problems"
+        "axisConfig": "Axis configuration",
+        "potentialProblems": "Potential problems"
       },
       "metricConfigChart": {
         "datasetTimeShift": "Dataset is time shifted",
@@ -430,10 +430,10 @@
         "datasets": "Datasets"
       },
       "timeShiftingFormChart": {
-        "timeShift": "Time Shift",
+        "timeShift": "Time shift",
         "applyTimeShiftDs": "Apply a time shift to this data series",
         "timeShiftHelpAction": "Selecting <strong>Display current values</strong> will automatically duplicate this data series onto the same axis. The first data series will have time shifting disabled, the second one will have time shifting enabled.",
-        "timeShiftDisabledWhilePPon": "To use time shift you need to turn off Potential Problems highlighting first.",
+        "timeShiftDisabledWhilePPon": "To use time shift you need to turn off potential problems highlighting first.",
         "displayCurrentValues": "Display current values"
       },
       "potentialProblems": {
@@ -450,18 +450,18 @@
       }
     },
     "demo": {
-      "pageLoads": "Page Loads",
-      "onLoadTime": "OnLoad Time"
+      "pageLoads": "Page loads",
+      "onLoadTime": "OnLoad time"
     },
     "index": {
-      "chartTimeSeries": "Chart: Time Series"
+      "chartTimeSeries": "Chart: time series"
     },
     "util": {
       "unnamMetric": "Unnamed metric"
     },
     "markdown": {
       "demo": {
-        "title": "Instana - Getting Started",
+        "title": "Instana - getting started",
         "text": "Instana is the first and only fully automated Application Performance (APM) Solution designed\nspecifically for the challenges of managing microservice and cloud-native applications.\n\nGetting started is easy\n\n1. If you don't have yet access to Instana, head over to [Instana.com](https://www.instana.com) and register for a Free Trial.\n2. Explore our ecosystem of hundreds of [supported technologies](https://www.ibm.com/docs/en/obi/current?topic=supported-technologies).\n3. Start collecting data with one of our [agents](https://ibm.biz/installing-agent).\n4. Learn [how to use Instana](https://www.ibm.com/docs/en/obi/current?topic=using-instana) for your use-cases.\n5. Read about our unique [Core Capabilities](https://www.ibm.com/docs/en/obi/current?topic=core-capabilities).\n6. Extend Instana with our [Integrations, SDK & APIs](https://ibm.biz/integrations-sdks-apis).\n\nThat's it!\n\nCan't find what you're looking for? Hop over to the [documentation](https://www.ibm.com/docs/en/obi/current)!"
       },
       "formComp": {
@@ -475,15 +475,15 @@
       "formComponent": {
         "datasets": "Datasets",
         "dragDropDatasetsReorder": "Drag and drop datasets to reorder them.",
-        "dataPresentation": "Data Presentation",
+        "dataPresentation": "Data presentation",
         "formatter": "Formatter"
       },
       "index": {
-        "chartPie": "Chart: Pie",
+        "chartPie": "Chart: pie",
         "testTitle": "Events",
         "testLegendItem1": "Incidents",
-        "testLegendItem2": "Issues: Critical",
-        "testLegendItem3": "Issues: Warning"
+        "testLegendItem2": "Issues: critical",
+        "testLegendItem3": "Issues: warning"
       }
     },
     "slo": {
@@ -507,35 +507,35 @@
         "indicatorType": "Indicator type:"
       },
       "demo": {
-        "title": "SLO Title",
-        "sliName": "Example Sli",
-        "appName": "Example Application Name"
+        "title": "SLO title",
+        "sliName": "Example SLI",
+        "appName": "Example application name"
       },
       "apConfigFormComp": {
-        "userJourneyOffering": "User Journey / Offering",
-        "appnPerspective": "Application Perspective",
-        "selectAppPerspect": "Please select an Application Perspective.",
-        "appPerspectHelpAction": "Set up user journeys / offerings by modeling them as an Application Perspective in the Applications area.",
+        "userJourneyOffering": "User journey / offering",
+        "appnPerspective": "Application perspective",
+        "selectAppPerspect": "Please select an application perspective.",
+        "appPerspectHelpAction": "Set up user journeys and offerings by modeling them as an application perspective in the applications area.",
         "rbacHint": "Applications shown may be limited by permissions.",
         "noAppPerspect": "No Application Perspectives!",
         "pleaseSelect": "Please select"
       },
       "websiteSelector": {
         "website": "Website",
-        "selectWebsite": "Please select a Website",
-        "websiteHelpAction": "Configure Websites in the Websites & Mobile Apps area.",
+        "selectWebsite": "Please select a website",
+        "websiteHelpAction": "Configure websites in the Websites & mobile apps area.",
         "rbacHint": "Websites shown may be limited by permissions.",
-        "noWebsites": "No Websites found",
+        "noWebsites": "No websites found",
         "pleaseSelect": "Please select"
       },
       "sliSelectionFormComp": {
-        "srvLevelIndicator": "Service Level Indicator",
+        "srvLevelIndicator": "Service level indicator",
         "selectASli": "Please select a SLI.",
         "noneAvailCreateOne": "None available, please create one.",
         "pleaseSelect": "Please select"
       },
       "createSliForm": {
-        "formName": "Create SLI Form",
+        "formName": "Create SLI form",
         "sliCreateSuccess": "SLI created successfully",
         "failCreateSli": "Failed to create the SLI.",
         "problemCreateSli": "There was a problem creating this SLI: \"{{sliName}}\"",
@@ -546,11 +546,11 @@
       },
       "endpointSelectBox": {
         "endpoint": "Endpoint",
-        "allEndpoints": "All Endpoints"
+        "allEndpoints": "All endpoints"
       },
       "goodBadEventsForm": {
-        "goodEvents": "Good Events",
-        "badEvents": "Bad Events",
+        "goodEvents": "Good events",
+        "badEvents": "Bad events",
         "websitesFilterLabel": "{{websiteLabel}} / {{beaconType}}"
       },
       "metricFormData": {
@@ -573,7 +573,7 @@
         "99th": "99th"
       },
       "metricsForm": {
-        "metricThreshold": "Metric & Threshold",
+        "metricThreshold": "Metric & threshold",
         "metric": "Metric",
         "aggregation": "Aggregation",
         "valThresholdNotInvalidEmpty": "The value of threshold must not be invalid or empty.",
@@ -583,46 +583,46 @@
       },
       "servicesSelectBox": {
         "service": "Service",
-        "allServices": "All Services"
+        "allServices": "All services"
       },
       "sliFormPresenter": {
-        "sliCustomization": "SLI Customization",
+        "sliCustomization": "SLI customization",
         "name": "Name",
         "sliNameNotEmpty": "The SLI name cannot be empty.",
         "sliCustomHelpAction": "Information about SLI customization and SLI types are located within our docs.",
         "sliTimeBasedOrAnEventBasedSli": "The SLI type must be either a time-based or an event-based SLI.",
         "pleaseSelect": "Please select",
         "boundary": "Boundary",
-        "hiddenCalls": "Hidden Calls",
-        "includeInternalCalls": "Include Internal Calls",
-        "includeSyntheticCalls": "Include Synthetic Calls",
+        "hiddenCalls": "Hidden calls",
+        "includeInternalCalls": "Include internal calls",
+        "includeSyntheticCalls": "Include synthetic calls",
         "type": "Type",
-        "sliEntity": "SLI Entity",
-        "beaconConfigLabel": "Beacon Configuration",
-        "beaconScopeLabel": "Beacon Scope",
-        "beaconLabel": "Unknown Beacon Type",
-        "beaconLabel_httpRequest": "HTTP Requests",
-        "beaconLabel_pageLoad": "Website Page Loads",
-        "beaconLabel_custom": "Website Custom Events",
-        "beaconFiltersLabel": "Beacon Filter",
+        "sliEntity": "SLI entity",
+        "beaconConfigLabel": "Beacon configuration",
+        "beaconScopeLabel": "Beacon scope",
+        "beaconLabel": "Unknown beacon type",
+        "beaconLabel_httpRequest": "HTTP requests",
+        "beaconLabel_pageLoad": "Website page loads",
+        "beaconLabel_custom": "Website custom events",
+        "beaconFiltersLabel": "Beacon filter",
         "beaconFiltersSubtext": "Optional"
       },
       "sliList": {
-        "serviceLevelIndicators": "Service Level Indicators",
+        "serviceLevelIndicators": "Service level indicators",
         "sliConfigDeleted": "SLI configuration was successfully deleted.",
         "failedDelSli": "Failed to delete the sli.",
-        "sliType": "SLI Type",
-        "viewCloneSliConfig": "View/Clone SLI Configuration",
-        "delSliConfig": "Delete SLI Configuration",
-        "pleaseConfirm": "Please Confirm",
-        "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{sliName}}</strong>?",
+        "sliType": "SLI type",
+        "viewCloneSliConfig": "View/Clone SLI configuration",
+        "delSliConfig": "Delete SLI configuration",
+        "confirmRemove": "Confirm remove",
+        "confirmRemoveMsg": "Are you sure you want to delete <strong>{{sliName}}</strong>?",
         "delete": "Delete",
         "eventBasedSli": "Event-based",
         "timeBasedSli": "Time-based, {{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "You are not having the required <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> permission to create or edit SLIs.",
-        "sliList": "SLI List",
+        "sliList": "SLI list",
         "createSli": "Create SLI"
       },
       "tagFilterExpressConfig": {
@@ -634,22 +634,22 @@
       "chart": {
         "spent": "Spent",
         "budget": "Budget",
-        "viewInAnalyze": "View in Analyze",
+        "viewInAnalyze": "View in analyze",
         "configType": "SLI",
         "configType_apdex": "Apdex",
         "initialEvaluation": "{{configType}} created",
         "missingDataInfo": "The time of creation for this {{configType}} is within the displayed time range. Data prior to the {{configType}} creation will be missing."
       },
       "formComponent": {
-        "sliManagement": "SLI Management",
+        "sliManagement": "SLI management",
         "editSli": "Edit SLI",
         "createSli": "Create SLI",
-        "sloConfig": "SLO Configuration",
+        "sloConfig": "SLO configuration",
         "manageSlIs": "Manage SLIs",
-        "sloTarget": "SLO Target",
-        "sloType": "SLO Type",
+        "sloTarget": "SLO target",
+        "sloType": "SLO type",
         "enterVal0to100": "Please enter a value between 0 and 100.",
-        "timeWindow": "Time Window",
+        "timeWindow": "Time window",
         "helpActionMsg1": "<strong>Fixed time interval:</strong> A time window with a defined start and duration. Eg. monthly starting 2020-01-01. The last partial time interval for the time selection from the global time picker will be displayed.",
         "helpActionMsg2": "<strong>Rolling time window:</strong> A time window with a defined duration, where the end is defined by the global time picker’s right hand date/time selection, e.g. last 2 weeks.",
         "helpActionMsg3": "<strong>Dynamic time window:</strong> The SLO is calculated for the time window selected in the global time picker.",
@@ -668,18 +668,18 @@
       "sliSummary": {
         "status": "Status",
         "target": "Target:",
-        "errorBudgetSpent": "Error Budget Spent",
-        "errorBudget": "Error Budget:",
-        "timeWindow": "Time Window",
+        "errorBudgetSpent": "Error budget spent",
+        "errorBudget": "Error budget:",
+        "timeWindow": "Time window",
         "timeWindowType": "Unknown time window",
         "timeWindowType_dynamic": "Dynamic time window",
         "timeWindowType_rolling": "Rolling time window",
         "timeWindowType_fixed": "Fixed time window"
       },
       "sliConfig": {
-        "sliName": "SLI Name",
-        "sliType": "SLI Type",
-        "badEventsFilter": "Bad Event Filters",
+        "sliName": "SLI name",
+        "sliType": "SLI type",
+        "badEventsFilter": "Bad event filters",
         "metric": "Metric"
       },
       "theTimeWindowSizeHasToBeLessOrEqualTo365Days": "The time window size has to be less or equal to 365 days.",
@@ -687,7 +687,8 @@
       "atLeastOneFilterExpressionMustBeConfigured": "At least one filter expression must be configured.",
       "timeBased": "Time-based",
       "eventBased": "Event-based",
-      "sloLegacy": "SLO legacy",
+      "sloLite": "SLO Lite",
+      "sloLegacy": "SLO Legacy",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Application",
@@ -705,76 +706,76 @@
       },
       "widgetLeftHeader": {
         "previewDataInfo": "Preview data is shown only up to 7 days in the past. The final widget will only include data since SLI creation.",
-        "liveDataInfo": "Live data is unavailable for Error Budget data"
+        "liveDataInfo": "Live data is unavailable for error budget data"
       },
       "boundaryScopeConfigurator": {
         "all": {
-          "title": "All Calls",
+          "title": "All calls",
           "description": "Calls performed within this application, by both consumers as well as internally."
         },
         "inbound": {
-          "title": "Inbound Calls",
+          "title": "Inbound calls",
           "description": "Only calls that are performed by the consumers of this application."
         }
       }
     },
     "apdex": {
-      "title": "Apdex: Chart",
+      "title": "Apdex: chart",
       "chart": {
         "metricLabel": "Apdex",
-        "viewInAnalyze": "View in Analyze",
+        "viewInAnalyze": "View in analyze",
         "noDataRetentionPeriod": "Selected time range is beyond data retention period",
         "notFoundErrorTitle": "Configured Apdex has not been found",
         "notFoundErrorDescription": "Please update the Apdex widget by selecting another Apdex configuration"
       },
       "demo": {
-        "title": "Apdex for Prod",
-        "entityLabel": "Robot Shop"
+        "title": "Apdex for prod",
+        "entityLabel": "Robot shop"
       },
       "apdexConfigInfo": {
         "tagFilterLabel": "Filter",
-        "apdexNameLabel": "Apdex Name",
-        "apdexTypeLabel": "Apdex Type",
+        "apdexNameLabel": "Apdex name",
+        "apdexTypeLabel": "Apdex type",
         "thresholdLabel": "Threshold"
       },
       "formComponent": {
-        "title": "Apdex Configuration",
-        "entityTypeTitle": "Apdex Type",
-        "manageListTitle": "Apdex Management",
-        "createApdex": "Create Apdex Configuration",
-        "editApdex": "Edit Apdex Configuration"
+        "title": "Apdex configuration",
+        "entityTypeTitle": "Apdex type",
+        "manageListTitle": "Apdex management",
+        "createApdex": "Create Apdex configuration",
+        "editApdex": "Edit Apdex configuration"
       },
       "configurationSelector": {
-        "label": "Apdex Configuration",
+        "label": "Apdex configuration",
         "selectConfig": "Please select a configuration",
         "manageConfig": "Manage Apdex",
         "noneAvailCreateOne": "None available, please create one.",
         "pleaseSelect": "Please select"
       },
       "entityTypeSelector": {
-        "type": "Unknown Type",
+        "type": "Unknown type",
         "type_website": "Website",
         "type_application": "Application"
       },
       "apdexManageList": {
-        "title": "Apdex List",
+        "title": "Apdex list",
         "deleteSuccessfulMessage": "Apdex configuration was successfully deleted.",
         "deleteFailedMessage": "Failed to delete the Apdex configuration."
       },
       "apdexList": {
-        "cardTitle": "Apdex Configuration",
+        "cardTitle": "Apdex configuration",
         "nameColumn": "Apdex configuration",
         "thresholdColumn": "Threshold",
-        "confirmDeleteHeader": "Please Confirm",
+        "confirmDeleteHeader": "Confirm remove",
         "confirmDeleteMessage": "Are you sure you want to delete {{apdex}}?",
         "editApdexTooltip": "Edit/Clone Apdex configuration",
         "deleteApdexTooltip": "Delete Apdex configuration",
         "confirmDeleteButton": "Delete",
-        "createButton": "Create Apdex Configuration"
+        "createButton": "Create Apdex configuration"
       },
       "createApdexForm": {
-        "customizationHeader": "Apdex Customization",
-        "label": "Apdex Name",
+        "customizationHeader": "Apdex customization",
+        "label": "Apdex name",
         "apdexCreateSuccessTitle": "Apdex configuration was created successfully.",
         "apdexCreateSuccessContent": "Apdex configuration \"{{apdexName}}\" has been created.",
         "apdexCreateFailedTitle": "Failed to create the Apdex configuration.",
@@ -788,7 +789,7 @@
         "editConfigNotice": "To avoid data loss, the configuration cannot be edited once it has been created; it can only be adjusted as a copy."
       },
       "createWebsiteApdexForm": {
-        "thresholdHeader": "Threshold Configuration",
+        "thresholdHeader": "Threshold configuration",
         "thresholdLabel": "Threshold",
         "ms": "ms"
       },
@@ -801,15 +802,15 @@
         "previewDataInfo": "Preview data is shown for the last 7 days. The final widget will only include data since creation of the Apdex configuration."
       },
       "applicationScopeConfigurator": {
-        "label": "Apdex Scope",
+        "label": "Apdex scope",
         "boundaryScope": "Boundary",
-        "hiddenCalls": "Hidden Calls",
-        "additionalFilters": "Additional Filter"
+        "hiddenCalls": "Hidden calls",
+        "additionalFilters": "Additional filter"
       }
     },
     "timezone": {
       "demo": {
-        "title": "Team Availability",
+        "title": "Team availability",
         "sanFrancisco": "San Francisco",
         "austin": "Austin",
         "newYorkCity": "New York City",
@@ -820,12 +821,12 @@
       "formComp": {
         "whatULikeShow": "What would you like to show?",
         "reorderTimeZones": "Reorder time zones",
-        "timeZone": "Time Zone",
+        "timeZone": "Time zone",
         "removeTimeZone": "Remove time zone",
-        "addTimeZone": "Add Time Zone"
+        "addTimeZone": "Add time zone"
       },
       "index": {
-        "timeZone": "Time Zone"
+        "timeZone": "Time zone"
       }
     },
     "topList": {
@@ -834,7 +835,7 @@
         "formatter": "Formatter"
       },
       "index": {
-        "topListLb": "Top List",
+        "topListLb": "Top list",
         "topListItem": "Item {{itemNumber}}"
       },
       "widget": {
@@ -853,11 +854,11 @@
     },
     "applicationHealth": {
       "index": {
-        "applicationHealth": "Health Overview"
+        "applicationHealth": "Health overview"
       },
       "form": {
         "validationError": "Please select an application.",
-        "header": "Select the Applications you want to monitor",
+        "header": "Select the applications you want to monitor",
         "addApplication": "Add application",
         "selectApplication": "Select application",
         "secondaryHeadingText": "Selected applications will be ordered based on the highest severity",
@@ -882,30 +883,30 @@
     },
     "table": {
       "index": {
-        "tablePreview": "Table Preview",
+        "tablePreview": "Table preview",
         "filters": "Filter(s):"
       },
       "form": {
         "title": "What would you like to show?",
-        "dataSource": "Data Source",
+        "dataSource": "Data source",
         "helpAction": "A Dynamic Focus Query (DFQ) as you would use it within the event view.",
         "query": "Query",
-        "columns": "Select Columns",
-        "pleaseSelect": "Please Select",
+        "columns": "Select columns",
+        "pleaseSelect": "Please select",
         "validators": {
           "theValueMustNotBeEmpty": "At least one column needs to be selected"
         },
         "infrastructure": {
           "entityType": "Entity type",
           "viewTable": "View full table in <analyzeInfraLink>Analyze infrastructure</analyzeInfraLink>.",
-          "tableSize": "Table Size",
-          "tableConfiguration": "Table Configuration",
-          "tableDetails": "Table Details",
-          "showResult": "Showing {{loadedItems}} of {{totalItems}} Results",
-          "loadingEntities": "Loading Entities",
+          "tableSize": "Table size",
+          "tableConfiguration": "Table configuration",
+          "tableDetails": "Table details",
+          "showResult": "Showing {{loadedItems}} of {{totalItems}} results",
+          "loadingEntities": "Loading entities",
           "datasets": "Datasets",
-          "sortBy": "Sort By",
-          "sortDirection": "Sort Direction",
+          "sortBy": "Sort by",
+          "sortDirection": "Sort direction",
           "defaultSortingSuffix": "Name",
           "validators": {
             "theValueMustBeUnique": "The selected metric with the same aggregation value has already been added. Please select a different metric or adjust the aggregation value to proceed."
@@ -923,9 +924,9 @@
       },
       "eventColumns": {
         "title": "Title",
-        "entityLabel": "On (Entity)",
-        "startedOn": "Started On",
-        "endedOn": "Ended On",
+        "entityLabel": "On (entity)",
+        "startedOn": "Started on",
+        "endedOn": "Ended on",
         "duration": "Duration"
       },
       "kubernetesEventColumns": {
@@ -947,15 +948,15 @@
     }
   },
   "duplicateDashboardDialog": {
-    "duplicateDashboard": "Duplicate Dashboard",
-    "dashboardName": "Dashboard Name",
+    "duplicateDashboard": "Duplicate dashboard",
+    "dashboardName": "Dashboard name",
     "duplicate": "Duplicate",
-    "copyShareConfig": "Copy Sharing Configuration",
+    "copyShareConfig": "Copy sharing configuration",
     "failedToCreateDashboard": "Failed to create dashboard."
   },
   "newDashboardDialog": {
-    "createNewDashboard": "Create New Dashboard",
-    "dashboardName": "Dashboard Name",
+    "createNewDashboard": "Create new dashboard",
+    "dashboardName": "Dashboard name",
     "additionalFields": "This dashboard will only be visible to you. You can choose to share it with colleagues after creation",
     "create": "Create",
     "failedToCreateDashboard": "Failed to create dashboard."

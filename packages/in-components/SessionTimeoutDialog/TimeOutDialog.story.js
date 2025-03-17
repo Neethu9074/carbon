@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
 
@@ -16,20 +16,22 @@ export default {
 };
 
 export function Default() {
-  setIdleTimeoutCounter(65000); // in millis
+  const [showModel, setShowModel] = useState(true);
+  const idleTimeoutTime = 65000;
+  const minDuration = 60000;
 
   return (
     <div>
       <p>click on button, to start the count-down</p>
       <Button
         onClick={() => {
-          setIdleTimeoutCounter(65000); // in millis
+          setIdleTimeoutCounter(idleTimeoutTime); // in millis
         }}
       >
         Counter
       </Button>
       <p>This will trigger the Session Timeout after 5 Seconds </p>
-      <SessionTimeoutDialog minDuration={60000} />
+      <SessionTimeoutDialog minDuration={minDuration} showModel={showModel} setShowModel={setShowModel} />
     </div>
   );
 }

@@ -81,7 +81,7 @@
   }
 
   .lastRow {
-    border-bottom: none;
+    border-bottom: none !important;
   }
 
   .loadMore {
@@ -91,6 +91,21 @@
     align-items: center;
     padding-top: 1rem;
     padding-bottom: 0;
+  }
+
+  .configAssertions {
+    border-bottom: 0.0625rem solid var(--ids-color-option-neutral-300);
+    padding-bottom: 1rem;
+    padding-left: 0;
+  }
+
+  .configGrid {
+    margin-top: 24px;
+  }
+  .configSubGrid {
+    :global .cds--css-grid-column {
+      margin: 0;
+    }
   }
 }
 

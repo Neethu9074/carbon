@@ -178,7 +178,7 @@ function SelectListDialogContent({
   );
 }
 
-function alertTestSelectionTableActions(
+export function alertTestSelectionTableActions(
   form: MapForm<any>,
   onChange: (path: string[], updater: (item: Item) => Item) => void
 ) {

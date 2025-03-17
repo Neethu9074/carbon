@@ -71,6 +71,8 @@ export const KEY_VALUE_PAIR = [
 
 export const KEY_NUMBER_PAIR = NUMBER;
 
+export const FLOAT_LIST = NUMBER;
+
 const ADDITIONAL_OPERATORS_BY_SOURCE_AND_TYPE: { [source: string]: { [type: string]: TagFilterOperator[] } } = {
   infrastructure: {
     STRING: [NOT_BLANK, IS_BLANK],
@@ -108,6 +110,9 @@ export function getDefaultOperators({ type, idTag = false }: { type: string; idT
   }
   if (type === 'KEY_NUMBER_PAIR') {
     return KEY_NUMBER_PAIR;
+  }
+  if (type === 'FLOAT_LIST') {
+    return FLOAT_LIST;
   }
   return emptyArray;
 }

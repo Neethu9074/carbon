@@ -115,15 +115,24 @@ const SelectionMenu = ({
     >
       <SideRadioMenu
         items={blueprintConfigs.map(x => ({ id: x.type, name: x.name }))}
+        legendHidden
+        legendText={t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.selectedTestTypeLightCardTitle')}
         onChange={type => {
           const item = blueprintConfigs.find(x => x.type === type);
           if (!item) {
             return;
           }
-          const isSSLCertificate = item.name === 'SSL Certificate';
+          const isSSLCertificate = item.type === 'Certificate Check';
+          const isDNS = item.type === 'DNS';
+          const getSyntheticType = () => {
+            if (isSSLCertificate) return 'SSLCertificate';
+            else if (isDNS) return 'DNS';
+            return '';
+          };
+
+          setCommonAttributes({ ...commonAttributes, syntheticType: getSyntheticType() });
           // Segment Tracker
           syntheticAdvancedCreateTestTypeSwitch(trackCta, item);
-          setCommonAttributes({ ...commonAttributes, syntheticType: isSSLCertificate ? 'SSLCertificate' : '' });
           setSelectedBlueprint(item as AdvancedBluePrint);
           //@ts-expect-error
           setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
@@ -131,7 +140,8 @@ const SelectionMenu = ({
               ...prevState,
               api: { simple: false, script: false },
               browser: { simple: false, script: false },
-              ssl: { simple: isSSLCertificate }
+              ssl: { simple: isSSLCertificate },
+              dns: { simple: isDNS }
             };
           });
           setRenderSectionsCounter(0);

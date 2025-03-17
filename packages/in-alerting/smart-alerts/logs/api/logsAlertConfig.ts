@@ -12,13 +12,11 @@ import {
   disableAlertConfig as disableAlertConfigApi,
   enableAlertConfig as enableAlertConfigApi
 } from 'in-alerting/smart-alerts/components/api/smartAlertConfig';
-import {
-  LogSmartAlertConfigWithMetadata,
-  LogSmartAlertConfig
-} from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
+import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
+import { LogAlertConfig } from 'in-types';
 import http from 'in-services/http';
 
 const baseUrl = apiEndpoint.LOGS;
@@ -110,7 +108,7 @@ export function restoreAlertConfigVersion(id: string, created: number): Observab
   }).map(response => response.body);
 }
 
-export function createAlertConfig(data: LogSmartAlertConfig): Observable<LogSmartAlertConfigWithMetadata> {
+export function createAlertConfig(data: LogAlertConfig): Observable<LogSmartAlertConfigWithMetadata> {
   return http<LogSmartAlertConfigWithMetadata>({
     method: 'POST',
     maxRetries: 3,
@@ -120,7 +118,7 @@ export function createAlertConfig(data: LogSmartAlertConfig): Observable<LogSmar
   }).map(response => response.body);
 }
 
-export function updateAlertConfig(data: LogSmartAlertConfig, id: string): Observable<LogSmartAlertConfigWithMetadata> {
+export function updateAlertConfig(data: LogAlertConfig, id: string): Observable<LogSmartAlertConfigWithMetadata> {
   return http<LogSmartAlertConfigWithMetadata>({
     method: 'POST',
     maxRetries: 3,

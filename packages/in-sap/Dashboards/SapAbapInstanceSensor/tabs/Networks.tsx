@@ -57,7 +57,7 @@ export default function Networks({ data }: { data: SnapshotData }) {
             y1={{
               min: 0,
               metrics: ['icminfodatastats.maxThr', 'icminfodatastats.peekThr'],
-              labels: [t('in-sap:dashboards.maxThr'), t('in-sap:dashboards.peekThr')],
+              labels: [t('in-sap:dashboards.maximum'), t('in-sap:dashboards.peek')],
               type: 'line',
               formatter: number.compact
             }}
@@ -73,7 +73,7 @@ export default function Networks({ data }: { data: SnapshotData }) {
             y1={{
               min: 0,
               metrics: ['icminfodatastats.maxConn', 'icminfodatastats.peekConn', 'icminfodatastats.curConn'],
-              labels: [t('in-sap:dashboards.maxConn'), t('in-sap:dashboards.peekConn'), t('in-sap:dashboards.curConn')],
+              labels: [t('in-sap:dashboards.maximum'), t('in-sap:dashboards.peek'), t('in-sap:dashboards.current')],
               type: 'line',
               formatter: number.compact
             }}
@@ -87,11 +87,7 @@ export default function Networks({ data }: { data: SnapshotData }) {
             y1={{
               min: 0,
               metrics: ['icminfodatastats.maxQueue', 'icminfodatastats.peekQueue', 'icminfodatastats.curQueue'],
-              labels: [
-                t('in-sap:dashboards.maxQueue'),
-                t('in-sap:dashboards.peekQueue'),
-                t('in-sap:dashboards.curQueue')
-              ],
+              labels: [t('in-sap:dashboards.maximum'), t('in-sap:dashboards.peek'), t('in-sap:dashboards.current')],
               type: 'line',
               formatter: number.compact
             }}
@@ -99,9 +95,9 @@ export default function Networks({ data }: { data: SnapshotData }) {
           />
         </DashboardSection>
       </Columize>
-      <ICMThreadList snapshotId={snapshotId} />
-      <ICMServiceList snapshotId={snapshotId} />
-      <ICMServicesList snapshotId={snapshotId} />
+      <ICMThreadList snapshotId={snapshotId} timeConfig={timeConfig} />
+      <ICMServiceList snapshotId={snapshotId} timeConfig={timeConfig} />
+      <ICMServicesList snapshotId={snapshotId} timeConfig={timeConfig} />
     </Fragment>
   );
 }

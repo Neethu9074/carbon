@@ -113,7 +113,6 @@
       "beaconCount": "Beacon-Anzahl",
       "calls": "Aufrufe",
       "latency": "Latenzzeit",
-      "results": "Ergebnisse",
       "beaconDuration": "Beacon-Dauer",
       "threshold": "Schwellenwert",
       "failureRate": "Störungsrate",
@@ -147,8 +146,8 @@
       "event_test_plural": "{{count}} Tests"
     },
     "deleteDialog": {
-      "pleaseConfirm": "Bitte bestätigen",
-      "pleaseConfirmMsg": "Möchten Sie <strong>{{name}}</strong> wirklich löschen?",
+      "confirmRemove": "Bitte bestätigen",
+      "confirmRemoveMsg": "Möchten Sie <strong>{{name}}</strong> wirklich löschen?",
       "delete": "Löschen"
     }
   },

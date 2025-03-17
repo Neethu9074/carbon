@@ -5,16 +5,17 @@
  */
 
 import { useObservable } from '@instana/hooks';
-import { t } from '@instana/i18n-react';
 
 import {
-  dashboardManagementPath,
   dashboardDeletePath,
+  dashboardManagementPath,
   dashboardSmartAlertsPath,
   loggingDashboardPath
 } from 'in-logging/navigation/paths';
+import { Config } from 'in-custom-dashboards/widgets/Chart/types';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 export function generateQueryWithWinSize(windowSize: number): any {
   const currentTimestamp = Date.now();
@@ -144,4 +145,103 @@ export const millisecondsInMonth = (year: number) => ({
 
 export function isLeapYear(year: number): boolean {
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+}
+
+export const getLogVolumeConfig = (): Config => {
+  return {
+    y1: {
+      formatter: 'bytes.compact',
+      renderer: 'stackedBar',
+      metrics: [
+        {
+          metric: 'log_volume',
+          aggregation: 'SUM',
+          label: t('in-logging:dashboard.managementPage.logVolume'),
+          source: 'LOG',
+          resultType: 'TIME_SERIES',
+          timeShift: {
+            offset: 0
+          }
+        }
+      ]
+    },
+    type: 'TIME_SERIES'
+  };
+};
+
+export function getLogDistributionConfig() {
+  return {
+    y1: {
+      outlineForColor: {
+        '#ff832b': '#ba4e00',
+        '#f1c21b': '#8e6a00'
+      },
+      metrics: [
+        {
+          metric: 'logs_distribution',
+          aggregation: 'SUM',
+          label: 'Error',
+          source: 'LOG',
+          metricTagFilterExpression: {
+            type: 'TAG_FILTER',
+            operator: 'EQUALS',
+            name: 'log.level',
+            value: 'ERROR',
+            entity: 'NOT_APPLICABLE'
+          },
+          tagFilterExpression: {
+            type: 'EXPRESSION',
+            logicalOperator: 'AND',
+            elements: []
+          }
+        },
+        {
+          metric: 'logs_distribution',
+          aggregation: 'SUM',
+          label: 'Warn',
+          source: 'LOG',
+          metricTagFilterExpression: {
+            type: 'TAG_FILTER',
+            operator: 'EQUALS',
+            name: 'log.level',
+            value: 'WARN',
+            entity: 'NOT_APPLICABLE'
+          }
+        },
+        {
+          metric: 'logs_distribution',
+          aggregation: 'SUM',
+          label: 'Info',
+          source: 'LOG',
+          metricTagFilterExpression: {
+            type: 'TAG_FILTER',
+            operator: 'EQUALS',
+            name: 'log.level',
+            value: 'INFO',
+            entity: 'NOT_APPLICABLE'
+          }
+        },
+        {
+          metric: 'logs_distribution',
+          aggregation: 'SUM',
+          label: 'Fatal',
+          source: 'LOG',
+          metricTagFilterExpression: {
+            type: 'TAG_FILTER',
+            operator: 'EQUALS',
+            name: 'log.level',
+            value: 'FATAL',
+            entity: 'NOT_APPLICABLE'
+          }
+        }
+      ],
+      colors: ['#fa4d56', '#b28600', '#1192e8', '#a56eff', '#009d9a'],
+      formatter: 'number.compact',
+      renderer: 'stackedBar'
+    },
+    y2: {
+      metrics: []
+    },
+    type: 'TIME_SERIES'
+  };
 }

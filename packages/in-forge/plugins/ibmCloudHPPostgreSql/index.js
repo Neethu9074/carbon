@@ -4,7 +4,6 @@
  */
 
 import metricDefinitions from 'in-forge/plugins/ibmCloudHPPostgreSql/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/ibmCloudHPPostgreSql/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
@@ -16,6 +15,5 @@ registerSnapshotDefinition({
     label: t('in-forge:plugins.ibmCloudHPPostgreSql.ibmCloudHPPostgreSql')
   },
 
-  kpiDefinitions,
   metricDefinitions
 });

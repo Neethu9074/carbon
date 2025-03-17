@@ -5,14 +5,14 @@
 
 import React from 'react';
 
-import { Trans } from 'in-i18n';
+import { CarbonStack as Stack, Typography } from '@instana/components';
 
-import locals from './Step.mless';
+import { Trans } from 'in-i18n';
 
 export default function Step({ stepNumber, stepTitle, content }) {
   return (
-    <div className={locals.step}>
-      <div className={locals.title}>
+    <Stack gap={4}>
+      <Typography variant="heading-02">
         {stepNumber ? (
           <Trans
             i18nKey="in-applications:forms.stepTitleWithNumber"
@@ -25,8 +25,8 @@ export default function Step({ stepNumber, stepTitle, content }) {
         ) : (
           stepTitle
         )}
-      </div>
+      </Typography>
       {content}
-    </div>
+    </Stack>
   );
 }

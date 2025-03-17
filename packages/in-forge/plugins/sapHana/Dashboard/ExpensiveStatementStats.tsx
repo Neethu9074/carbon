@@ -80,7 +80,10 @@ const cols = [
 ];
 
 export default function ExpensiveStatementStatsList({ snapshotId, timeConfig }: ExpensiveStatementStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'expensiveStatementStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'expensiveStatementStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const expensiveStatementStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: ExpensiveStatementStatsRow[] = expensiveStatementStat
     ? expensiveStatementStat

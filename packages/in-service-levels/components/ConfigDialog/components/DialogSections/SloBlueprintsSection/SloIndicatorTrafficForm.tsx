@@ -6,16 +6,16 @@
 
 import React, { useContext } from 'react';
 
-import { RadioButton, Stack, Typography, ValidationBlock } from '@instana/components';
+import { Input, RadioButton, Stack, Typography, ValidationBlock } from '@instana/components';
 import { SLIThresholdOperator } from '@instana/types';
 
 import HeadlineFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/HeadlineFormSection';
 import OperatorDropdown from 'in-service-levels/components/Shared/FormComponents/OperatorDropdown/OperatorDropdown';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import ThresholdInput from 'in-service-levels/components/Shared/ThresholdInput/ThresholdInput';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { sliThresholdOperators } from 'in-service-levels/constants';
 import { Trans, t } from 'in-i18n';
+
 import locals from './AggregationAndThresholdFormSection.mless';
 
 const operatorMapping: Record<SLIThresholdOperator, string> = { '>': 'GT', '>=': 'GTE', '<': 'LT', '<=': 'LTE' };
@@ -63,14 +63,19 @@ export default function SloIndicatorTrafficForm() {
               />
             ),
             ThresholdInput: (
-              <ThresholdInput
+              <Input
                 className={locals.thresholdInput}
                 disabled={isFormInEditMode}
                 hasError={!isThresholdFieldValid}
-                handleChange={value =>
-                  onChange(['indicator', 'threshold'], () => thresholdField.setValue(value).setTouched(true))
-                }
-                value={thresholdField.value}
+                id="threshold-traffic-input"
+                min="0"
+                onChange={e => {
+                  const newValue = e.target.value === '' ? undefined : parseInt(e.target.value);
+                  onChange(['indicator', 'threshold'], () => thresholdField.setValue(newValue).setTouched(true));
+                }}
+                onKeyDown={e => (e.key === '.' ? e.preventDefault() : null)}
+                type="number"
+                value={thresholdField.value ?? ''}
               />
             )
           }}

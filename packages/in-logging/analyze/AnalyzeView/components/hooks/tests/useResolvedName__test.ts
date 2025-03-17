@@ -30,7 +30,10 @@ import {
   LOG_STREAM_NAME
 } from 'in-logging/queryBuilder';
 // eslint-disable-next-line no-restricted-imports
-import useResolvedName, { getCustomKeyLabel, tagNameResolver } from '../useResolvedName';
+import useResolvedName, {
+  getCustomKeyLabel,
+  tagNameResolver
+} from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedName';
 import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -50,11 +53,11 @@ describe('useResolvedName - Resolved Names', () => {
     ['id.process', 'Process'],
     ['id.host', 'Host'],
     ['log.file.path', 'File'],
-    ['expiration.ts.seconds', 'Retained Until'],
-    ['id.containerd', 'Containerd Container'],
-    ['id.docker', 'Docker Container'],
-    ['id.crio', 'Crio Container'],
-    ['id.garden', 'Garden Container']
+    ['expiration.ts.seconds', 'Retained until'],
+    ['id.containerd', 'Containerd container'],
+    ['id.docker', 'Docker container'],
+    ['id.crio', 'Crio container'],
+    ['id.garden', 'Garden container']
   ]);
 
   const testCases = [

@@ -345,7 +345,7 @@
     "selectAll": "全選 ({{len}})",
     "failedToRemoveItemName": "無法移除 {{itemName}}",
     "failedToRemoveItem": "無法移除項目",
-    "pleaseConfirm": "請確認",
+    "confirmRemove": "請確認",
     "createNew": "建立新的項目",
     "deselect": "取消選取",
     "select": "選取",
@@ -356,6 +356,12 @@
     "removedEntity": "已成功移除 {{entity}}"
   },
   "tabs": {
+    "role": {
+      "deprecated": "已淘汰",
+      "newRole": "新建角色",
+      "permissionsCount": "權限",
+      "usersCount": "指派的使用者數量"
+    },
     "team": {
       "events": {
         "addCondition": "新增條件",
@@ -844,7 +850,8 @@
     "accountSettings": "帳戶設定",
     "configureAllowedEmailDomains": "配置容許的電子郵件網域",
     "savingConfig": "正在儲存配置",
-    "configSuccessfullySaved": "已順利儲存配置。",
+    "changesSaved": "已儲存變更",
+    "configSuccessfullySaved": "成功儲存配置變更。",
     "configureLdap": "配置 LDAP",
     "ldapConfiguration": "LDAP 配置",
     "url": "URL",
@@ -986,6 +993,7 @@
     "users": "使用者",
     "session": "階段作業",
     "timeouts": "逾時",
+    "sessionTimeouts": "階段作業逾時",
     "globalSettings": "廣域設定",
     "userSettings": "使用者設定",
     "securityAndAccess": "安全與存取",
@@ -1275,12 +1283,27 @@
     "accessControl": "存取控制",
     "maintenanceWindows": "維護時間",
     "customPayload": "自訂有效負載",
-    "logManagement": "日誌管理",
     "coralogix": "Coralogix",
     "elk": "ELK",
     "falconLogScale": "Falcon LogScale",
     "mezmo": "Mezmo",
     "audit": "審核",
+    "authentication": "鑑別",
+    "authenticationProviders": {
+      "title": "鑑別提供者",
+      "idp_active": "作用中",
+      "idp_inActive": "非作用中",
+      "googleSSOTileTitle": "預先配置 Google SSO",
+      "googleSSOTileDescription": "這是預先配置的身分提供者，無需在 Google SSO 上建立用戶端即可使用。",
+      "samlTileTitle": "SAML",
+      "samlTileDescription": "安全主張標記語言 (SAML)",
+      "samlTileHelpDoc": "快速入門手冊可在我們的 <activeDirectoryLink>Active Directory</activeDirectoryLink> 和 <oktaLink>Okta</oktaLink> 相關說明文件頁面中找到。",
+      "oidcTileTitle": "OIDC",
+      "oidcTileDescription": "OpenID Connect (OIDC)",
+      "ldapTileTitle": "LDAP",
+      "ldapTileDescription": "輕量型目錄存取通訊協定 (LDAP)",
+      "ldapHelpDoc": "協助及支援可在我們的<docLink>說明文件頁面</docLink>中找到。"
+    },
     "googleSSO": {
       "allowedDomains": "容許的網域",
       "configure": "Google SSO 配置",
@@ -1352,7 +1375,7 @@
     "restIncidentTableDesc": "Instana 僅會將發生事件資料傳播到 IBM Instana 中介表，而不對 ServiceNow 發生事件表進行任何進一步更新。 若要啟用事件、備註和活動的完全同步，您需要更新您的 ServiceNow 業務規則。 如需詳細資料，請參閱<documentationLink>文件</documentationLink>。",
     "serviceNowAlertChannel": "ServiceNow 應用程式警示通道",
     "serviceNowUsernameTooltip": "使用者名稱和密碼應該用於具有建立事件權限的 ServiceNow 使用者。",
-    "serviceNowDescription": "在繼續之前，確保您已安裝並配置 ServiceNow ITSM 應用程式。 您將需要 ServiceNow 使用者名稱和密碼認證才能建立警示通道。",
+    "serviceNowDescription": "在繼續之前，請確定您已安裝並配置 <Link>ServiceNow ITSM 應用程式</Link>。 您將需要 ServiceNow 使用者名稱和密碼認證才能建立警示通道。",
     "autoCloseIncidents": "自動關閉發生事件",
     "advancedIntro": "建立此警示通道將使 Instana 能夠在 ServiceNow 中建立發生事件/票證。 您可以自訂事件的更新方式。<br/><br/>",
     "eventProps": "事件傳播",

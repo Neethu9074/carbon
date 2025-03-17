@@ -32,13 +32,13 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
+import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import Filters from 'in-automation/components/ActionHistory/Filters';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import WithSubscript from 'in-settings/components/WithSubscript';
-import { ACTION_TRANSLATIONS } from 'in-automation/constants';
 import { formatDateTime } from 'in-services/formatters/date';
 import { deleteActionInstance } from 'in-automation/api';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -51,21 +51,22 @@ import locals from './ActionHistoryTable.mless';
 
 function showConfirmationDialog(
   actionInstance: ActionInstance,
-  actionHistoryInstanceDeleteTrackerSegment: TrackingFunction
+  actionHistoryInstanceDeleteTrackerSegment: TrackingFunction,
+  actionHistoryDeleteCallback?: Function
 ) {
   const { actionInstanceId = '', createdDate } = actionInstance;
   addActiveDialog(
     <ConfirmationDialog
-      header={t('in-automation:deleteDialog.pleaseConfirm')}
+      header={t('in-automation:deleteDialog.confirmRemove')}
       description={
         <Typography variant="body-regular">
-          <Trans i18nKey="in-automation:deleteDialog.pleaseConfirmMsg" values={{ name: actionInstanceId }} />
+          <Trans i18nKey="in-automation:deleteDialog.confirmRemoveMsg" values={{ name: actionInstanceId }} />
         </Typography>
       }
       confirmButtonLabel={t('in-automation:deleteDialog.delete')}
       onSubmit={() => {
         close();
-        onDelete(actionInstance, createdDate, actionHistoryInstanceDeleteTrackerSegment);
+        onDelete(actionInstance, createdDate, actionHistoryInstanceDeleteTrackerSegment, actionHistoryDeleteCallback);
       }}
     />
   );
@@ -74,7 +75,8 @@ function showConfirmationDialog(
 function onDelete(
   actionInstance: ActionInstance,
   createdDate: number,
-  actionHistoryInstanceDeleteTrackerSegment: TrackingFunction
+  actionHistoryInstanceDeleteTrackerSegment: TrackingFunction,
+  actionHistoryDeleteCallback?: Function
 ) {
   const { actionInstanceId = '' } = actionInstance;
   deleteActionInstance(actionInstanceId, createdDate).once(
@@ -88,6 +90,7 @@ function onDelete(
           metadata: actionInstance.metadata,
           actionInstanceId
         });
+        actionHistoryDeleteCallback?.();
       } else {
         onDeleteFailed();
       }
@@ -143,6 +146,7 @@ type GetActionInstanceList = {
   types: string[];
   actionStatuses: string[];
   eventId?: string;
+  actionIds?: string[];
 };
 
 export function GetActionInstanceListData({
@@ -154,7 +158,8 @@ export function GetActionInstanceListData({
   query = '',
   types = [],
   actionStatuses = [],
-  eventId
+  eventId,
+  actionIds
 }: GetActionInstanceList) {
   return refreshSignal.flatMap(() =>
     getActionInstances({
@@ -171,7 +176,8 @@ export function GetActionInstanceListData({
       timeConfig,
       types: types,
       actionStatuses: actionStatuses,
-      eventId: eventId
+      eventId: eventId,
+      actionIds
     })
   );
 }
@@ -182,6 +188,8 @@ interface ActionHistoryTableProps {
   noFilters?: boolean;
   noEvent?: boolean;
   title?: string;
+  actionIds?: string[];
+  actionHistoryDeleteCallback?: Function;
 }
 
 export default function ActionHistoryTable({
@@ -189,7 +197,9 @@ export default function ActionHistoryTable({
   customActionTypes,
   noFilters = false,
   noEvent = false,
-  title
+  title,
+  actionIds = [],
+  actionHistoryDeleteCallback
 }: ActionHistoryTableProps) {
   const { actionHistoryInstanceViewTrackerSegment, actionHistoryInstanceDeleteTrackerSegment } = useSegmentTracker();
 
@@ -257,7 +267,7 @@ export default function ActionHistoryTable({
       id: 'problemText',
       width: 25,
       getContent(row: ActionInstance) {
-        return (
+        return row.type !== ACTION_TYPE.EXTERNAL ? (
           <Tooltip content={row.problemText} align="auto" delay={500}>
             <div
               className={classNames({
@@ -267,7 +277,7 @@ export default function ActionHistoryTable({
               <Typography variant="body-regular">{row.problemText}</Typography>
             </div>
           </Tooltip>
-        );
+        ) : null; // Returning `null` when condition is false to avoid rendering an empty element
       }
     },
     {
@@ -286,19 +296,21 @@ export default function ActionHistoryTable({
       width: 5,
       getContent(row: ActionInstance) {
         return (
-          <Tooltip content={t('in-automation:actionHistory.viewTooltip', { actionName: row.actionName })} delay={500}>
-            <IconButton
-              type="lib_views_show"
-              onClick={e => {
-                stopPropagationAndPreventDefault(e);
-                addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
-                actionHistoryInstanceViewTrackerSegment({
-                  actionInstanceId: row.actionInstanceId,
-                  actionName: row.actionName
-                });
-              }}
-            />
-          </Tooltip>
+          <IconButton
+            type="lib_views_show"
+            iconDescription={t('in-automation:actionHistory.viewTooltip', { actionName: row.actionName })}
+            align="left"
+            kind="action"
+            isWrapperedByTooltip
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
+              actionHistoryInstanceViewTrackerSegment({
+                actionInstanceId: row.actionInstanceId,
+                actionName: row.actionName
+              });
+            }}
+          />
         );
       }
     }
@@ -318,7 +330,7 @@ export default function ActionHistoryTable({
             type="lib_actions_delete"
             onClick={e => {
               stopPropagationAndPreventDefault(e);
-              showConfirmationDialog(row, actionHistoryInstanceDeleteTrackerSegment);
+              showConfirmationDialog(row, actionHistoryInstanceDeleteTrackerSegment, actionHistoryDeleteCallback);
             }}
           />
         </Tooltip>
@@ -371,6 +383,7 @@ export default function ActionHistoryTable({
       searchMaxWidth={450}
       searchPlaceholder={t('in-automation:actionHistory.filter')}
       eventId={eventId}
+      actionIds={actionIds}
     />
   );
 }

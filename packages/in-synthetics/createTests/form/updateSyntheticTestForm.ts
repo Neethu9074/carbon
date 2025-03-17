@@ -11,6 +11,11 @@ import {
   HTTPMethods,
   createZipScriptConfigurationForm
 } from 'in-synthetics/createTests/form/createSyntheticTestForm';
+import {
+  lookupValidator,
+  responseTimeValidator,
+  dnsServerValidator
+} from 'in-synthetics/createTests/validators/dnsValidators';
 import urlValidator, {
   checkForInvalidHost,
   checkForInvalidPort
@@ -45,6 +50,8 @@ export function updateForm(savedState: Record<string, any>) {
       config = getScriptConfiguration();
     } else if (['HTTPAction', 'WebpageAction'].includes(savedState?.configuration?.syntheticType)) {
       config = getActionConfiguration();
+    } else if (savedState?.configuration?.syntheticType === 'DNS') {
+      config = createDNSConfigurationForm(savedState?.configuration);
     } else {
       config = createAdvancedSSLCertificateConfigurationForm(savedState?.configuration);
     }
@@ -489,5 +496,138 @@ function createAdvancedSSLCertificateConfigurationForm(configuration?: Record<st
     );
   } else {
     return sslConfig;
+  }
+}
+
+function createDNSConfigurationForm(configuration?: Record<string, any>) {
+  const dnsConfig = createMapForm()
+    .put(
+      'syntheticType',
+      createField({
+        value: configuration?.syntheticType,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'lookup',
+      createField({
+        value: configuration?.lookup,
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          lookupValidator
+        )
+      })
+    )
+    .put(
+      'lookupServerName',
+      createField({
+        value: configuration?.lookupServerName,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'port',
+      createField({
+        value: configuration?.port,
+        validator: composeAndShortCircuitOnError(notBlankValidator, numberValidator, checkForInvalidPort)
+      })
+    )
+    .put(
+      'queryTime',
+      createField({
+        value: configuration?.queryTime ?? {
+          key: 'responseTime',
+          operator: 'LESS_THAN',
+          value: 120
+        },
+        validator: composeAndShortCircuitOnError(responseTimeValidator)
+      })
+    )
+    .put(
+      'queryType',
+      createField({
+        value: configuration?.queryType,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'transport',
+      createField({
+        value: configuration?.transport,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'recursiveLookups',
+      createField({
+        value: configuration?.recursiveLookups,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'acceptCNAME',
+      createField({
+        value: configuration?.acceptCNAME,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'server',
+      createField({
+        value: configuration?.server,
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          dnsServerValidator
+        )
+      })
+    )
+    .put(
+      'serverRetries',
+      createField({
+        value: configuration?.serverRetries,
+        validator: composeAndShortCircuitOnError(notBlankValidator, numberValidator)
+      })
+    )
+    .put(
+      'targetValues',
+      createField({
+        value: configuration?.targetValues ?? []
+      })
+    )
+    .put(
+      'timeout',
+      createField({
+        value: configuration?.timeout,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'retries',
+      createField({
+        value: configuration?.retries,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+      })
+    )
+    .put(
+      'markSyntheticCall',
+      createField({
+        value: configuration?.markSyntheticCall,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    );
+  if (configuration?.retryInterval) {
+    return dnsConfig.put(
+      'retryInterval',
+      createField({
+        value: configuration?.retryInterval,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(1))
+      })
+    );
+  } else {
+    return dnsConfig;
   }
 }

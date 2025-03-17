@@ -17,7 +17,6 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { millis } from 'in-services/formatters/number';
-import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
@@ -52,7 +51,7 @@ const cols = [
       getMetricName(row: UserStatsRow) {
         return `combinedMetrics.${row.key}.totalCpuTimePerUser`;
       },
-      getContent: number.compact,
+      getContent: millis.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -61,7 +60,10 @@ const cols = [
 ];
 
 export default function CombinedMetrics({ snapshotId, timeConfig }: UserStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'combinedMetrics'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'combinedMetrics', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return null;
   }

@@ -7,8 +7,7 @@
 import { get, find } from 'lodash';
 import React from 'react';
 
-import { TableEntityCounter } from '@instana/legacy';
-import { Card } from '@instana/components';
+import { Card, TableEntityCounter } from '@instana/components';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
@@ -26,7 +25,7 @@ import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { t } from 'in-i18n';
 
-import locals from 'in-kubernetes/lists/ClusterList.mless';
+import locals from 'in-kubernetes/lists/ClusterTable/ClusterTable.mless';
 
 const pathSegment = '/namespaces';
 const matrixPrefix = 'namespace.';

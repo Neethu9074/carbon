@@ -8,6 +8,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Spacer } from '@instana/components';
+import { Result } from '@instana/types';
 
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/SloLegacy/components/OverridingFieldValidationMessage';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
@@ -19,7 +20,6 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import { isLoading } from 'in-services/util/result';
-import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
 interface ApData {

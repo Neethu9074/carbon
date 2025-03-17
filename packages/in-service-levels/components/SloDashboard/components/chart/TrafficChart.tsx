@@ -12,12 +12,8 @@ import {
   isWebsiteSloEntity,
   ServiceLevelIndicatorUnion,
   ServiceLevelObjectiveConfiguration,
-  SloEntityUnion,
-  TagFilterExpression,
-  TimeConfig,
-  UnifiedMetricConfigurationUnion
+  SloEntityUnion
 } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports -- We cant specifically allow parts of a otherwise restricted package
 import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
@@ -25,24 +21,20 @@ import {
   copyFirstBucketOfSubsequentDataSeries,
   findMinMaxMetricValues
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
-import {
-  calculateEventGraphGranularity,
-  calculateTrafficGranularity,
-  getIndexOfFirstTimeWindowWithData
-} from 'in-service-levels/utils/time';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
+import { applicationMetrics, sloMetrics, syntheticMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
+import { calculateSloGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
 import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
-import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
-import { applicationMetrics, syntheticMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import { isTrafficBlueprintIndicator } from 'in-service-levels/types';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 interface TrafficChartProps {
   automaticallySize?: boolean;
@@ -58,20 +50,16 @@ export default function TrafficChart({
   customChartSkeletonHeight
 }: TrafficChartProps) {
   const { entity, createdDate, indicator } = configuration;
-
+  const configId = configuration.id!;
   const sloZoomInAction = useSloZoomInAction();
-  const tagFilterExpression = useBasicTagFilterExpression({ entity });
-  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
-  const granularity =
-    indicator.type === 'timeBased'
-      ? calculateTrafficGranularity(timeConfig)
-      : calculateEventGraphGranularity(timeConfig);
+  const granularity = calculateSloGranularity(timeConfig);
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
     configuration,
-    timeConfig => getMetricConfig({ entity, indicator, granularity, tagFilterExpression, timeConfig }),
+    timeConfig => sloMetrics.traffic.timeSeries({ configId, timeConfig, granularity }),
     timeConfig,
-    timeWindows,
+    selectedTimeWindowType === 'SELECTED_TIME' ? [timeConfig] : timeWindows,
     granularity
   );
 
@@ -116,39 +104,6 @@ export default function TrafficChart({
       result={{ progress, errors }}
     />
   );
-}
-
-interface GetMetricConfigProps {
-  entity: SloEntityUnion;
-  indicator: ServiceLevelIndicatorUnion;
-  granularity: number;
-  tagFilterExpression: TagFilterExpression;
-  timeConfig: TimeConfig;
-}
-
-function getMetricConfig({
-  entity,
-  indicator,
-  granularity,
-  tagFilterExpression,
-  timeConfig
-}: GetMetricConfigProps): UnifiedMetricConfigurationUnion {
-  if (isApplicationSloEntity(entity)) {
-    return applicationMetrics.calls.timeSeries({ entity, tagFilterExpression, timeConfig, granularity });
-  }
-
-  if (isWebsiteSloEntity(entity)) {
-    return websiteMetrics.beaconCount.timeSeries({ entity, tagFilterExpression, timeConfig, granularity });
-  }
-
-  if (isSyntheticSloEntity(entity)) {
-    const shouldUseErroneousMetrics = isTrafficBlueprintIndicator(indicator) && indicator.trafficType === 'erroneous';
-    const metric = shouldUseErroneousMetrics ? 'erroneousTests' : 'allTests';
-
-    return syntheticMetrics[metric].timeSeries({ entity, tagFilterExpression, timeConfig, granularity });
-  }
-
-  throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
 }
 
 interface GetMetricLabel {

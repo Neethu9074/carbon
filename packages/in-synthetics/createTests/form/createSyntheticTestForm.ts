@@ -12,6 +12,11 @@ import {
   browserSimpleTest,
   SSLCertificateTest
 } from 'in-synthetics/utils/constants';
+import {
+  dnsServerValidator,
+  lookupValidator,
+  responseTimeValidator
+} from 'in-synthetics/createTests/validators/dnsValidators';
 import urlValidator, {
   checkForInvalidHost,
   checkForInvalidPort
@@ -94,6 +99,9 @@ export function createForm(
       case 'SSLCertificate':
       case SSLCertificateTest:
         config = createAdvancedSSLCertificateConfigurationForm(savedState);
+        break;
+      case 'DNS':
+        config = createDNSConfigurationForm(savedState);
     }
   }
 
@@ -593,6 +601,128 @@ export function createAdvancedSSLCertificateConfigurationForm(savedState?: Recor
       createField({
         value: savedState?.daysRemainingCheck ?? '',
         validator: composeAndShortCircuitOnError(notBlankValidator, numberValidator, minValidator(0))
+      })
+    )
+    .put(
+      'timeout',
+      createField({
+        value: savedState?.timeout ?? '0m',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'retries',
+      createField({
+        value: savedState?.retries ?? 0,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+      })
+    )
+    .put(
+      'markSyntheticCall',
+      createField({
+        value: savedState?.markSyntheticCall ?? true,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    );
+}
+
+export function createDNSConfigurationForm(savedState?: Record<string, any>) {
+  return createMapForm()
+    .put(
+      'syntheticType',
+      createField({
+        value: savedState?.syntheticType ?? 'DNS',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'lookup',
+      createField({
+        value: savedState?.lookup ?? '',
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          lookupValidator
+        )
+      })
+    )
+    .put(
+      'lookupServerName',
+      createField({
+        value: savedState?.lookupServerName ?? false,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'port',
+      createField({
+        value: savedState?.port ?? 53,
+        validator: composeAndShortCircuitOnError(notBlankValidator, numberValidator, checkForInvalidPort)
+      })
+    )
+    .put(
+      'queryTime',
+      createField({
+        value: savedState?.queryTime ?? {
+          key: 'responseTime',
+          operator: 'LESS_THAN',
+          value: 120
+        },
+        validator: composeAndShortCircuitOnError(responseTimeValidator)
+      })
+    )
+    .put(
+      'queryType',
+      createField({
+        value: savedState?.queryType ?? 'ANY',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'transport',
+      createField({
+        value: savedState?.transport ?? 'UDP',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'recursiveLookups',
+      createField({
+        value: savedState?.recursiveLookups ?? true,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'acceptCNAME',
+      createField({
+        value: savedState?.acceptCNAME ?? false,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'server',
+      createField({
+        value: savedState?.server ?? '8.8.8.8',
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          dnsServerValidator
+        )
+      })
+    )
+    .put(
+      'serverRetries',
+      createField({
+        value: savedState?.serverRetries ?? 1,
+        validator: composeAndShortCircuitOnError(notBlankValidator, numberValidator)
+      })
+    )
+    .put(
+      'targetValues',
+      createField({
+        value: savedState?.targetValues ?? []
       })
     )
     .put(

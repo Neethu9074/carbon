@@ -5,9 +5,9 @@
 
 import React from 'react';
 
+import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import getVsphereVm from 'in-vsphere/subscriptions/getVsphereVm';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import { useVspehereEntityLink } from '../navigation/paths';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

@@ -38,7 +38,6 @@ import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
-import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import EventIcon from 'in-events/components/EventIcon';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -80,7 +79,7 @@ export default function MobileEventContent({ event, snapshot, reload }: Props) {
   const chartViewConfig = createDefaultChartConfig(timeConfig);
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const pillContent = getEventStateBadge(event);
 
   return (

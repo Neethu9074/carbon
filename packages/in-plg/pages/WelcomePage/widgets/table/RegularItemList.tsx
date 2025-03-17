@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { DashboardTableRow as Row, DashboardTableCell as Cell } from '@instana/components';
+import { CarbonTableRow as Row, CarbonTableCell as Cell } from '@instana/components';
 import { TimeConfig } from '@instana/types';
 
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
@@ -80,7 +80,7 @@ export default function RegularItemList({
     ?.filter((item: any) => (mainPage ? true : !favIds?.includes(getItemId(item, widgetName))))
     .slice(0, numSkeletonRows)
     .map((item: any, index: number) => (
-      <Row id={`${index}`} key={index}>
+      <Row id={`${widgetName}-regular-${index}`} key={index}>
         {columnDefinitions?.map(({ key, getContent }: ColumnDefinitionItem) => {
           if (mainPage && key === 'favourite') return null;
           return (

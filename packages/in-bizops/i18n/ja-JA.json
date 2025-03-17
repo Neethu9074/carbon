@@ -6,6 +6,8 @@
     "count": "数"
   },
   "lists": {
+    "id": "ID",
+    "version": "バージョン",
     "pageTitle": "ビジネス・モニタリング",
     "cardTitle": "ビジネス・プロセス",
     "theId": "プロセス ID",
@@ -102,7 +104,7 @@
         "duration": "期間",
         "activityCount": "数",
         "activityErrors": "エラー",
-        "topServices": "トップ・サービス",
+        "topServices": "上位サービス",
         "activityLatency": "待ち時間",
         "viewAll": "すべてのサービスを表示"
       },

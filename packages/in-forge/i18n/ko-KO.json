@@ -1185,6 +1185,11 @@
   "pluginName_kongApigateway_1": "Kong",
   "pluginName_kongApigateway_2": "Kong",
   "pluginName_kongApigateway": "Kong",
+  "pluginName_kubeCostPlatform": "Kubecost",
+  "pluginName_kubeCostPlatform_plural": "Kubecosts",
+  "pluginName_kubeCostPlatform_0": "Kubecosts",
+  "pluginName_kubeCostPlatform_1": "Kubecosts",
+  "pluginName_kubeCostPlatform_2": "Kubecosts",
   "pluginName_kubernetesCluster_plural": "Kubernetes 클러스터",
   "pluginName_kubernetesCluster_0": "Kubernetes 클러스터",
   "pluginName_kubernetesCluster_1": "Kubernetes 클러스터",
@@ -3657,6 +3662,10 @@
       "directorySystemAgentLSA": "로컬 보안 권한",
       "directorySystemAgentNSPI": "이름 서비스 제공자",
       "securityAccountManagerLabel": "보안 계정 관리자",
+      "dhcpLabel": "DHCP(Dynamic Host Configuration Protocol)",
+      "dnsLablelDynamicUpdates": "DNS(Domain Name System) 동적 업데이트",
+      "dnsLablelQueriesAndResponses": "DNS(Domain Name System) 쿼리 및 응답",
+      "dnsLablelZoneTransfers": "DNS(Domain name system) 구역 전송",
       "directorySystemAgent": {
         "dsClientBindsPerSec": "초당 클라이언트 바인드 수",
         "dsClientNameTranslationsPerSec": "초당 클라이언트 이름 변환 수",
@@ -3701,7 +3710,7 @@
         "samDomainLocalGroupMembershipEvaluationsPerSec": "초당 도메인 로컬 그룹 멤버십 평가 수",
         "samEnumerationsPerSec": "초당 열거 수",
         "samGCEvaluationsPerSec": "초당 GC 평가 수",
-        "samGlobalGroupMembershipEvaluationsPerSec": "초당 글로컬 그룹 멤버십 평가 수",
+        "samGlobalGroupMembershipEvaluationsPerSec": "초당 글로벌 그룹 멤버십 평가 수",
         "samMachineCreationAttemptsPerSec": "초당 머신 작성 시도 수",
         "samMembershipChangesPerSec": "초당 멤버십 변경사항 수",
         "samNonTransitiveMembershipEvaluationsPerSec": "초당 비전이 멤버십 평가 수",
@@ -3712,6 +3721,30 @@
         "samTransitiveMembershipEvaluationsPerSec": "초당 전이 멤버십 평가 수",
         "samUniversalGroupMembershipEvaluationsPerSec": "초당 범용 그룹 멤버십 평가 수",
         "samUserCreationAttemptsPerSec": "초당 사용자 작성 시도 수"
+      },
+      "dhcp": {
+        "dhcpAcksPerSecondPercentageIncrease": "초당 수신확인의 백분율 증가",
+        "dhcpRequestSecondPercentIncrease": "초당 요청의 백분율 증가",
+        "dhcpConflictCheckQueueLength": "충돌 검사 큐 길이",
+        "dhcpDeclinesPersec": "초당 감소",
+        "dhcpDuplicatesDroppedPersec": "초당 중복 삭제",
+        "dhcpNacksPersec": "초당 부정적인 수신확인 수",
+        "dhcpPacketsExpiredPersec": "초당 만료된 패킷 수"
+      },
+      "dns": {
+        "dnsCachingMemory": "캐싱 메모리",
+        "dnsDynamicUpdateQueued": "동적 업데이트 큐",
+        "dnsDynamicUpdateReceived": "동적 업데이트 수신",
+        "dnsDynamicUpdateReceivedPersec": "초당 동적 업데이트 수신",
+        "dnsDynamicUpdateRejected": "동적 업데이트 거부",
+        "dnsDynamicUpdateTimeOuts": "동적 업데이트 제한시간 초과",
+        "dnsTotalQueryReceived": "받은 쿼리 총계",
+        "dnsTotalQueryReceivedPersec": "초당 수신된 총 쿼리 수",
+        "dnsTotalResponseSent": "보낸 응답 총계",
+        "dnsTotalResponseSentPersec": "초당 전송된 총 응답 수",
+        "dnsZoneTransferFailure": "구역 전송 실패",
+        "dnsZoneTransferSuccess": "구역 전송 성공",
+        "dnsZoneTransferRequestReceived": "받은 구역 전송 요청"
       }
     },
     "activeMQ": {
@@ -10840,8 +10873,10 @@
         "virtualTotal": "가상 총계",
         "computational": "계산 가능",
         "nonComputational": "비계산",
+        "realAvailable": "실제 사용 가능",
         "pageIn": "초당 페이지 인",
         "pageOut": "초당 페이지 아웃",
+        "pageScan": "초당 페이지 스캔",
         "openFiles": "파일 열기",
         "current": "현재",
         "tcpActivity": "TCP 활동",
@@ -10929,6 +10964,7 @@
       "machineId": "머신 ID",
       "bootId": "부트 ID",
       "systemId": "시스템 ID",
+      "hostId": "호스트 ID",
       "startedAt": "시작 시간",
       "interfacesWithSize": "인터페이스({{size}})",
       "cpuUsed": "사용된 CPU",
@@ -10953,8 +10989,10 @@
       "virtualTotal": "가상 총계",
       "computational": "계산 가능",
       "nonComputational": "비계산",
+      "realAvailable": "실제 사용 가능",
       "pageIn": "초당 페이지 인",
       "pageOut": "초당 페이지 아웃",
+      "pageScan": "초당 페이지 스캔",
       "load": "로드",
       "contextSwitches": "컨텍스트 전환",
       "current": "현재",
@@ -12808,6 +12846,7 @@
       "fetch": "페치",
       "produce": "생성",
       "allBrokersStateMetrics": "모든 브로커 상태 메트릭",
+      "clientMetrics": "클라이언트 메트릭",
       "averageIdleTimePercentage": "평균 유휴 시간 백분율",
       "networkProcessor": "네트워크 프로세서",
       "requestHandler": "요청 핸들러",
@@ -12957,6 +12996,9 @@
         "workerLua": "작업 프로그램 Lua VM에 할당된 바이트 수",
         "totalConnections": "총 연결 수"
       }
+    },
+    "kubecost": {
+      "label": "Kubecost"
     },
     "kubernetesCluster": {
       "noActivity": "활동 없음",
@@ -13646,6 +13688,8 @@
       "instanceId": "인스턴스 ID",
       "label_category_LLM": "LLM",
       "llm_status": "LLM 상태",
+      "model": "모델",
+      "service": "서비스",
       "dashboard": {
         "token": "모델별 토큰",
         "inputToken": "모델별 입력 토큰",

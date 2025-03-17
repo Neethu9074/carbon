@@ -238,6 +238,7 @@
     "ignoreCertErrors": "忽略憑證錯誤",
     "basicAuth": "基本鑑別",
     "bearerToken": "載送記號",
+    "authentication": "鑑別",
     "apiKeyAddTo": "新增至",
     "apiKey": "API 金鑰",
     "header": "標頭",
@@ -322,8 +323,6 @@
     "status": "狀態",
     "startTime": "開始時間",
     "endTime": "結束時間",
-    "property": "內容",
-    "value": "值",
     "actionInstanceId": "動作實例 ID",
     "event": "事件",
     "eventName": "事件名稱",
@@ -371,7 +370,8 @@
     "deleteDialog": {
       "success": "動作實例已順手刪除。",
       "failure": "無法刪除動作實例。"
-    }
+    },
+    "actionSnapshotDetails": "動作 Snapshot 詳細資料"
   },
   "actionLanes": {
     "buttonInvestigate": "調查"
@@ -472,8 +472,8 @@
     "showTasks": "顯示"
   },
   "deleteDialog": {
-    "pleaseConfirm": "請確認",
-    "pleaseConfirmMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？",
+    "confirmRemove": "請確認",
+    "confirmRemoveMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？",
     "delete": "刪除"
   },
   "turboActionCategories": {
@@ -506,5 +506,12 @@
     "actionName": "動作名稱",
     "recommendedActionHistoryWithCount": "資源動作歷程 ({{count}})",
     "recommendedActionHistory": "資源動作歷程"
+  },
+  "feedback": {
+    "contentHelpfulText": "此產生內容是否有幫助？",
+    "thankYouForYourFeedback": "謝謝您的意見！",
+    "submitFeedback": "提交意見回饋",
+    "additionalFeedbacklabel": "提供其他意見（選用）",
+    "additionalFeedbackPlaceholder": "您不喜歡回應的哪一點？ 可以改進的地方"
   }
 }

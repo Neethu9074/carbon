@@ -13,8 +13,8 @@ import { CatalogUseCase, LogTag, Result } from 'in-types';
 import { emptyObject } from 'in-services/fixedObjects';
 import { minutes } from 'in-services/time/time';
 import http from 'in-services/http';
+import { basePath } from 'in-logging/api/index';
 
-const basePath = '/api/logging/catalog';
 const DEFAULT_USE_CASE = 'FILTERING';
 
 interface GetTagCatalogParams {
@@ -43,7 +43,7 @@ function getTagCatalogInternal({
       http({
         method: 'GET',
         maxRetries: 3,
-        url: basePath,
+        url: basePath + 'catalog',
         queryParams: {
           useCase: useCase ?? DEFAULT_USE_CASE,
           includeInternalTags: forceIncludeInternalTags || includeInternalTags

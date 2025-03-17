@@ -18,7 +18,6 @@ import { dashboardTagFilters as tagFiltersTrackers } from 'in-mobile-apps/tracki
 import MobileAppContext from 'in-mobile-apps/MobileAppDashboard/components/MobileAppContext';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
-import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { mobileAppTabs, viewTabs } from 'in-mobile-apps/MobileAppDashboard/tabs/index';
 import CreateSmartAlert from 'in-alerting/smart-alerts/mobileApp/CreateSmartAlert';
@@ -26,6 +25,7 @@ import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
 import { alertsTabListFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { useTagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
 import { useMobileTracker } from 'in-mobile-apps/tracking/segTracker';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
@@ -93,8 +93,8 @@ export default function MobileAppDashboard() {
   const tagFilters = (props.tagFilters = customTagFilters.concat(implicitTagFilters));
 
   // hide the SA floating button from the alerts listing page, as the create button is now displayed alongside the table
-  const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
-  const hideButtonInTableView = displayCarbonTable ? location.pathname !== alertsTabListFullyQualified : true;
+
+  const hideButtonInTableView = smartAlertCarbonTableEnabled ? location.pathname !== alertsTabListFullyQualified : true;
 
   const showAlertButton =
     role.canConfigureMobileAppSmartAlerts &&

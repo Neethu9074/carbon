@@ -28,6 +28,7 @@ export default function Info({ snapshot }: { snapshot: any }) {
         <DescriptionItem title={t('in-forge:plugins.ec2.instanceId')}>{data.get('instance-id')}</DescriptionItem>
 
         <DescriptionItem title={t('in-forge:plugins.ec2.type')}>{data.get('instance-type')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.ec2.accountId')}>{data.get('aws-account-id')}</DescriptionItem>
 
         <DescriptionItem title={t('in-forge:plugins.ec2.availabilityZone')}>
           {data.get('availability-zone')}

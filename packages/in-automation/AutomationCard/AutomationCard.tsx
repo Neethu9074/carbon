@@ -14,12 +14,9 @@ import useScoredActions, {
   useAIRecommendedScoredActions
 } from 'in-automation/AutomationCard/useScoredActions';
 import AutomationCardButtonGroup, { useActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
-import RecommendedActionsWithHistory from 'in-automation/ResourceOptimization/RecommendedActionsWithHistory';
-import { useResourceOptimization } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
 import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
-import { eventResourceActionsEnabled } from 'in-services/featureFlags';
 import usePolicies from 'in-automation/AutomationCard/usePolicies';
 import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
@@ -75,29 +72,7 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
   );
 }
 
-function RecommendedOptimizationsRow({ event }: { event: Event }) {
-  const recommendedOptimizations = useResourceOptimization({ event, actionCategory: 'PERFORMANCE_ASSURANCE' });
-  return (
-    <Row withoutSideMargin>
-      <Col xs>
-        <Card>
-          <RecommendedActionsWithHistory recommendedActions={recommendedOptimizations} />
-        </Card>
-      </Col>
-    </Row>
-  );
-}
-
-function AutomationCardWithOptimization({ volatileId, event }: AutomationCardProps) {
-  return (
-    <>
-      <AutomationCard volatileId={volatileId} event={event} />
-      {eventResourceActionsEnabled && <RecommendedOptimizationsRow event={event} />}
-    </>
-  );
-}
-
 export default function AutomationCardWrapper({ volatileId, event }: AutomationCardProps) {
   if (!hasAutomationAccess) return null;
-  return <AutomationCardWithOptimization volatileId={volatileId} event={event} />;
+  return <AutomationCard volatileId={volatileId} event={event} />;
 }

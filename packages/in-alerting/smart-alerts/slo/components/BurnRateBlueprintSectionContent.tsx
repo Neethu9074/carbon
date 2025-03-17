@@ -21,6 +21,8 @@ import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { Trans, t } from 'in-i18n';
 
+import locals from './BurnRateBlueprintSectionContent.mless';
+
 export default function BurnRateBlueprintSectionContent() {
   const { form, onChange } = useSloAlertFormContext();
 
@@ -95,6 +97,8 @@ export default function BurnRateBlueprintSectionContent() {
             Evaluate the last
             <Stack direction="horizontal">
               <NumberInput
+                size="md"
+                className={locals.alertWindowInput}
                 invalid={
                   longTimeWindowDurationValue > maxAllowedTimeWindow ||
                   !isLongTimeWindowDurationFieldValid ||
@@ -103,9 +107,9 @@ export default function BurnRateBlueprintSectionContent() {
                 value={longTimeWindowDurationValue}
                 min={0}
                 max={1000}
-                onChange={(_: React.ChangeEvent<HTMLInputElement>, { value }: { value: number }) => {
+                onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
                   onChange(['burnRateTimeWindows', 'longTimeWindow', 'duration'], () =>
-                    longTimeWindowDurationField.setValue(value).setTouched(true)
+                    longTimeWindowDurationField.setValue(+value).setTouched(true)
                   );
                 }}
                 id="slo-alerting-burn-rate-long-window"
@@ -153,6 +157,8 @@ export default function BurnRateBlueprintSectionContent() {
             Evaluate the last
             <Stack direction="horizontal">
               <NumberInput
+                size="md"
+                className={locals.alertWindowInput}
                 invalid={
                   shortTimeWindowDurationInMilliseconds > maxAllowedTimeWindow ||
                   !isShortTimeWindowDurationFieldValid ||
@@ -161,9 +167,9 @@ export default function BurnRateBlueprintSectionContent() {
                 value={shortTimeWindowDurationValue}
                 min={0}
                 max={10000}
-                onChange={(_: React.ChangeEvent<HTMLInputElement>, { value }: { value: number }) => {
+                onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
                   onChange(['burnRateTimeWindows', 'shortTimeWindow', 'duration'], () =>
-                    shortTimeWindowDurationField.setValue(value).setTouched(true)
+                    shortTimeWindowDurationField.setValue(+value).setTouched(true)
                   );
                 }}
                 id="slo-alerting-burn-rate-short-window"
@@ -221,13 +227,16 @@ export default function BurnRateBlueprintSectionContent() {
               value={thresholdField.value}
               min={0}
               max={100}
-              onChange={(_: React.ChangeEvent<HTMLInputElement>, { value }: { value: number }) =>
-                onChange(['threshold'], () => thresholdField.setValue(value).setTouched(true))
+              onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
+                onChange(['threshold'], () => thresholdField.setValue(+value).setTouched(true))
               }
             />
-            .
           </Trans>
         </Stack>
+        {!isThresholdFieldValid &&
+          thresholdField.messages.map(({ message }, index) => (
+            <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
+          ))}
       </Stack>
     </Stack>
   );

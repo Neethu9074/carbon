@@ -21,7 +21,6 @@ import {
   CarbonSelect as Select,
   CarbonSelectItem as SelectItem
 } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 import { Progress } from '@instana/types';
 
 import {
@@ -34,9 +33,10 @@ import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
 // eslint-disable-next-line no-restricted-imports
 import { ModalNotification, NotificationState } from './ModalNotification';
 import { SETTINGS_LOG_MANAGEMENT_RETENTION_PERIOD_SUBMITTED } from 'in-services/tracking/eventNames';
-import { getEntityIdView, securityAndAccessActionLogRetention } from 'in-settings/navigation/paths';
+import { securityAndAccessActionLogRetention } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import KpiCard from 'in-components/KpiCard/KpiCard';
@@ -82,18 +82,16 @@ export default function RetentionPeriod() {
   const progress: Progress = {
     loading: isLoading
   };
-
-  const logActionHref = useObservable(getEntityIdView(securityAndAccessActionLogRetention, ''), []);
+  const { createHrefToPath } = useNavigation();
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-
     const getRetentionPeriod$ = retentionLogsGET();
 
     getRetentionPeriod$.once(response => {
       setRetentionValue(response.body.retentionDays);
       setIsLoading(false);
     });
+
     getRetentionPeriod$.errors().once(_ => {
       errorFeedback(
         setIsChangingRetention,
@@ -103,12 +101,6 @@ export default function RetentionPeriod() {
         localisationStrings.contactSupport
       );
     });
-
-    return () => {
-      if (timer) {
-        clearTimeout(timer);
-      }
-    };
   }, []);
 
   return (
@@ -134,7 +126,7 @@ export default function RetentionPeriod() {
             {localisationStrings.changeRetentionPeriod}
           </Button>
         </section>
-        <main>
+        <div>
           {!isLoading ? (
             <KpiGridRow sizes={[3]}>
               <KpiCard title={localisationStrings.currentRetentionPeriod}>
@@ -159,11 +151,13 @@ export default function RetentionPeriod() {
               <Typography data-testid="" variant={'body-regular'}>
                 {localisationStrings.historyChanges + ' '}
               </Typography>
-              <Link href={logActionHref || ''}>{localisationStrings.actionLog + ' '}</Link>
+              <Link href={createHrefToPath(securityAndAccessActionLogRetention)}>
+                {localisationStrings.actionLog + ' '}
+              </Link>
               <Typography variant={'body-regular'}>{localisationStrings.historyChanges2}</Typography>
             </section>
           )}
-        </main>
+        </div>
       </section>
       {showConfirmation && (
         <RetentionPeriodDialog
@@ -263,7 +257,7 @@ function RetentionPeriodDialog({
       primaryButtonDisabled={!canSubmit}
     >
       <Form>
-        <FormGroup legendText="">
+        <FormGroup legendText="Form">
           <Stack gap={6}>
             <Typography variant="body-regular">{localisationStrings.retentionDialogDescription}</Typography>
             <Message type="warning" title={localisationStrings.retentionDialogUserInfo} dismissible />

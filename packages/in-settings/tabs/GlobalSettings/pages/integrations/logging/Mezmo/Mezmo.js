@@ -192,6 +192,7 @@ export default function Mezmo() {
           ))}
           {form.get('instanceType').value === 'LOG_DNA_SAAS' ? (
             <MezmoSaasForm
+              id={'logdn-enabled'}
               form={form}
               onChange={onChange}
               areFieldsInvalid={areFieldsInvalid(form)}
@@ -199,6 +200,7 @@ export default function Mezmo() {
             />
           ) : (
             <IbmCloudLogMezmoForm
+              id={'logdn-enabled'}
               form={form}
               onChange={onChange}
               areFieldsInvalid={areFieldsInvalid(form)}

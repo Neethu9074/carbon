@@ -1,0 +1,114 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+import { Item, MapForm } from 'formalistic';
+import React from 'react';
+
+import { Spacer } from '@instana/components';
+
+import { MultiThresholdAlertPreviewCommon } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreviewCommon';
+import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
+import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/tearSheet/AlertProperties/AlertPropertiesTitleRow';
+import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/mobileApp/hooks/useTagBasedPayloadConfigurator';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
+import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
+import { BluePrint, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
+import AlertTypography from 'in-alerting/components/AlertTypography';
+import useMobileApp from 'in-mobile-apps/hooks/useMobileApp';
+import { t } from 'in-i18n';
+
+import locals from 'in-alerting/smart-alerts/mobileApp/TearSheet/steps/AlertConfigTearSheetStep4.mless';
+
+export default function AlertConfigTearSheetStep4({
+  form,
+  onChange,
+  updateForm,
+  blueprintConfig
+}: {
+  form: MapForm<any>;
+  onChange: (path: string[], updater: (item: Item) => Item) => void;
+  updateForm: (form: MapForm<any>) => void;
+  blueprintConfig: BluePrint;
+}) {
+  const warningThresholdField = form.get('threshold').get('warningThreshold');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
+  const isWarningDefined = warningThresholdField.get('isCheckboxSelected').value;
+  const isCriticalDefined = criticalThresholdField.get('isCheckboxSelected').value;
+  const metricName = form.get('rule').get('metricName').value;
+
+  const mobileAppId = form.get('mobileAppId')?.value;
+  const [mobileApp] = useMobileApp(mobileAppId);
+
+  const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
+
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, mobileAppId as string);
+
+  return (
+    <>
+      <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.mobileApp.tearSheet.step4.description')}>
+        <AlertPropertiesContainer
+          renderAlertProperties={() => (
+            <AlertProperties
+              form={form}
+              onChange={onChange}
+              getDescriptionPlaceholder={getDescriptionPlaceholder}
+              shouldDisplayAlertLevelSelection={false}
+              renderAlertPropertiesTitleRow={() => (
+                <AlertPropertiesTitleRow form={form} onChange={onChange} getTitlePlaceholder={getTitlePlaceholder} />
+              )}
+              isTearSheet
+            />
+          )}
+          renderAlertPreview={() => (
+            <div className={locals.columnContainer}>
+              <AlertTypography
+                variant="heading-200"
+                content={t('in-alerting:smartAlerts.applications.tearSheet.alertProperties.previewTitle')}
+              />
+              <MultiThresholdAlertPreviewCommon
+                form={form}
+                getDescriptionPlaceholder={getDescriptionPlaceholder}
+                isWarningDefined={isWarningDefined}
+                isCriticalDefined={isCriticalDefined}
+                entityLabel={mobileApp?.label ?? ''}
+                entityIconType="lib_mobile_app"
+                renderHeadline={() => (
+                  <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder(form)} />
+                )}
+                isTearSheet
+              />
+            </div>
+          )}
+          isTearSheet
+        />
+      </TearSheetStepTitleWrapper>
+      <Spacer size="large" />
+      <>
+        <AlertTypography
+          variant="heading-200"
+          color="color900"
+          content={t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.title')}
+          noMargin
+        />
+        <div className={locals.columnContainer}>
+          <Spacer size="xxsmall" />
+          <GlobalCustomPayloadCard context="MOBILE_APP" isTearSheetView />
+          <AlertConfigCustomPayload
+            form={form}
+            setForm={updateForm}
+            TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+            supportDynamicTypes
+            isTearSheet
+          />
+        </div>
+      </>
+    </>
+  );
+}

@@ -8,4 +8,8 @@
     fill: var(--ids-color-option-neutral-600);
     margin: 0 0 0 0.5rem;
   }
+  .beacon {
+    background-color: red;
+    fill: blue;
+  }
 }

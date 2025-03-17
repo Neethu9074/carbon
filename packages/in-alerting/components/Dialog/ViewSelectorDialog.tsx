@@ -9,6 +9,7 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
+import { FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { close } from 'in-components/DialogPresenter/store';
@@ -20,11 +21,13 @@ import locals from './ViewSelectorDialog.mless';
 export default function ViewSelectorDialog({
   trackCta,
   openOldDialog,
-  getLinkToCreateSmartAlert
+  getLinkToCreateSmartAlert,
+  mode
 }: {
   trackCta: CtaTrackingFunction;
   openOldDialog: VoidFunction;
   getLinkToCreateSmartAlert: string;
+  mode?: string;
 }) {
   return (
     <Dialog title={t('in-alerting:components.chooseLayoutDialog.chooseLayout')} onClose={() => close()}>
@@ -57,7 +60,7 @@ export default function ViewSelectorDialog({
           <Button
             kind="secondary"
             onClick={() => {
-              trackCta(ALERTING_CREATE);
+              trackCta(ALERTING_CREATE, { dialogMode: mode });
               close();
               openOldDialog();
             }}
@@ -67,7 +70,7 @@ export default function ViewSelectorDialog({
           <Button
             kind="primary"
             onClick={() => {
-              trackCta(ALERTING_CREATE);
+              trackCta(ALERTING_CREATE, { dialogMode: FULLSCREEN });
               close();
             }}
             href={getLinkToCreateSmartAlert}

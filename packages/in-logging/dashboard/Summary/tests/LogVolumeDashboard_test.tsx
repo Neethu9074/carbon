@@ -10,8 +10,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-// eslint-disable-next-line no-restricted-imports
-import LogVolumeDashboard from '../LogVolume/LogVolumeDashboard';
+import LogVolumeDashboard from 'in-logging/dashboard/Summary/LogVolume/LogVolumeDashboard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
 
@@ -20,15 +19,6 @@ jest.mock('@instana/hooks', () => ({
 }));
 
 jest.mock('in-hooks/useTimeConfig', () => jest.fn());
-
-jest.mock('in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/utils', () => ({
-  transformData: jest.fn(data => {
-    if (Array.isArray(data) && data.length > 0) {
-      return [{ totalVolume: { gb: data[0].totalVolume.gb } }];
-    }
-    return undefined;
-  })
-}));
 
 jest.mock('in-subscription/getUnifiedMetrics', () => jest.fn());
 
@@ -43,17 +33,27 @@ jest.mock('in-stores/user', () => ({
 describe('LogVolumeDashboard', () => {
   beforeEach(() => {
     (useTimeConfig as jest.Mock).mockReturnValue({ to: null, windowSize: 1, autoRefresh: false });
-    (useObservable as jest.Mock).mockReturnValue({ progress: { loading: false }, data: [] });
-  });
-
-  it('renders without crashing', () => {
-    render(<LogVolumeDashboard />);
-
-    expect(screen.getByText('Current month log volume')).toBeInTheDocument();
+    (useObservable as jest.Mock).mockReturnValue({ progress: { loading: false }, data: { logVolumeUsageItems: [] } });
   });
 
   it('displays log volume data when available', () => {
-    const mockLogVolumeData = [{ totalVolume: { gb: 100 } }];
+    const expectedGB = 1;
+    const GBtoBytes = expectedGB * Math.pow(1024, 3);
+
+    const mockLogVolumeData = {
+      logVolumeUsageItems: [
+        {
+          numberOfMonth: 2,
+          logVolume: GBtoBytes,
+          retentionPeriods: [
+            {
+              retentionDays: 30,
+              logVolume: GBtoBytes
+            }
+          ]
+        }
+      ]
+    };
 
     (useObservable as jest.Mock).mockReturnValue({
       progress: { loading: false },
@@ -62,13 +62,17 @@ describe('LogVolumeDashboard', () => {
 
     render(<LogVolumeDashboard />);
 
-    expect(screen.getByTestId('retentionValue')).toHaveTextContent('100');
+    expect(screen.getByTestId('retentionValue')).toHaveTextContent(String(expectedGB));
     expect(screen.getByText('Current month log volume')).toBeInTheDocument();
   });
   it('shows no data when log volume data is unavailable', () => {
+    (useObservable as jest.Mock).mockReturnValue({
+      progress: { loading: true },
+      data: undefined
+    });
     render(<LogVolumeDashboard />);
 
-    expect(screen.getByTestId('retentionValue')).toHaveTextContent('No data available');
+    expect(screen.getByRole('progressbar', { hidden: true })).toBeInTheDocument();
   });
 
   it('shows loading state when data is loading', () => {
@@ -83,8 +87,28 @@ describe('LogVolumeDashboard', () => {
   });
 
   it('renders icon when user has logging addon', () => {
+    const expectedGB = 1;
+    const GBtoBytes = expectedGB * Math.pow(1024, 3);
+
+    const mockLogVolumeData = {
+      logVolumeUsageItems: [
+        {
+          numberOfMonth: 2,
+          logVolume: GBtoBytes,
+          retentionPeriods: [
+            {
+              retentionDays: 30,
+              logVolume: GBtoBytes
+            }
+          ]
+        }
+      ]
+    };
     (useObservable as jest.Mock)
-      .mockReturnValueOnce({ progress: { loading: false }, data: [] })
+      .mockReturnValue({
+        progress: { loading: false },
+        data: mockLogVolumeData
+      })
       .mockReturnValueOnce(true);
 
     (role as any).canViewLogVolume = true;
@@ -92,13 +116,5 @@ describe('LogVolumeDashboard', () => {
     render(<LogVolumeDashboard />);
 
     expect(screen.getByText('Go to log volume')).toBeInTheDocument();
-  });
-
-  it('uses default values when result is undefined', () => {
-    (useObservable as jest.Mock).mockReturnValue(undefined);
-
-    render(<LogVolumeDashboard />);
-
-    expect(screen.getByTestId('retentionValue')).toHaveTextContent('No data available');
   });
 });

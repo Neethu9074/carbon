@@ -12,9 +12,7 @@ import { Ul, Li } from '@instana/components';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
-import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import useResizeObserver from 'in-hooks/useResizeObserver';
-import Pagination from 'in-components/Pagination';
 
 import locals from './ApplicationHealthOverview.mless';
 
@@ -24,9 +22,6 @@ const ApplicationHealthOverview = ({ applications, isPreview, timeConfig }) => {
   const [key, setKey] = useState(0);
   const { ref, height, width } = useResizeObserver();
   const numPages = applications?.length && Math.ceil(applications.length / rowsPerPage);
-  const updatePage = page => {
-    setCurrentPage(page);
-  };
 
   useEffect(() => {
     if (height && !isPreview) {
@@ -47,25 +42,20 @@ const ApplicationHealthOverview = ({ applications, isPreview, timeConfig }) => {
             }
           })}
         </Ul>
-        {numPages > 1 &&
-          (carbonPaginationEnabled ? (
-            <div key={key}>
-              <CarbonPagination
-                className={width < 500 ? locals.paginationSmallWidth : null}
-                currentPage={currentPage}
-                totalItems={applications?.length}
-                pageSize={rowsPerPage}
-                pageSizes={[rowsPerPage]}
-                onChange={data => {
-                  setCurrentPage(data.page);
-                }}
-              />
-            </div>
-          ) : (
-            <div className={locals.pagination}>
-              <Pagination currentPage={currentPage} numPages={numPages} onChange={updatePage} />
-            </div>
-          ))}
+        {numPages > 1 && (
+          <div key={key}>
+            <CarbonPagination
+              className={width < 500 ? locals.paginationSmallWidth : null}
+              currentPage={currentPage}
+              totalItems={applications?.length}
+              pageSize={rowsPerPage}
+              pageSizes={[rowsPerPage]}
+              onChange={data => {
+                setCurrentPage(data.page);
+              }}
+            />
+          </div>
+        )}
       </div>
     </section>
   );

@@ -14,7 +14,7 @@ describe('getSyntheticType()', () => {
     expect(getSyntheticType('Webpage Simple')).toBe('WebpageAction');
     expect(getSyntheticType('Webpage Script')).toBe('WebpageScript');
     expect(getSyntheticType('Browser Script')).toBe('BrowserScript');
-    expect(getSyntheticType('DNS Action')).toBe('DNSAction');
+    expect(getSyntheticType('DNS')).toBe('DNS');
     expect(getSyntheticType('Other')).toBe('Other');
   });
 });
@@ -26,7 +26,7 @@ describe('getDisplayType()', () => {
     expect(getDisplayType('WebpageAction')).toBe('Webpage Simple');
     expect(getDisplayType('WebpageScript')).toBe('Webpage Script');
     expect(getDisplayType('BrowserScript')).toBe('Browser Script');
-    expect(getDisplayType('DNSAction')).toBe('DNS Action');
+    expect(getDisplayType('DNS')).toBe('DNS');
     expect(getDisplayType('Other')).toBe('Other');
   });
 });

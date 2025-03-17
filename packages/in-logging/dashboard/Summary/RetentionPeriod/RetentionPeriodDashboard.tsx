@@ -11,8 +11,8 @@ import { useObservable } from '@instana/hooks';
 
 import { retentionLogsGET } from 'in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
 import { dashboardRetentionManagementPath } from 'in-logging/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
-import { getEntityIdView } from 'in-settings/navigation/paths';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import { role } from 'in-stores/user';
 import { Progress } from 'in-types';
@@ -30,8 +30,7 @@ export default function RetentionPeriodDashboard() {
   const progress: Progress = {
     loading: isLoading
   };
-
-  const logRetentionHrefToLogginHomepage = useObservable(getEntityIdView(dashboardRetentionManagementPath, ''), []);
+  const { createHrefToPath } = useNavigation();
 
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
 
@@ -41,7 +40,7 @@ export default function RetentionPeriodDashboard() {
           text: t('in-logging:dashboard.retentionIcon'),
           kind: 'subtle',
           icon: 'lib_actions_edit',
-          href: logRetentionHrefToLogginHomepage || ''
+          href: createHrefToPath(dashboardRetentionManagementPath)
         }
       : undefined;
 

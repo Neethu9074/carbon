@@ -25,11 +25,11 @@ function handleEdit(config: LogSmartAlertConfigWithMetadata) {
 }
 
 function HandleEditNew(config: LogSmartAlertConfigWithMetadata) {
-  return <TearSheetEditActionHandler id={config.id} created={config.created} />;
+  return <TearSheetEditActionHandler id={config.id} created={config.created} alertConfig={config} />;
 }
 
 function HandleCloneNew(config: LogSmartAlertConfigWithMetadata) {
-  return <TearSheetCloneActionHandler id={config.id} created={config.created} />;
+  return <TearSheetCloneActionHandler id={config.id} created={config.created} alertConfig={config} />;
 }
 
 function openSmartAlertDialog(config: LogSmartAlertConfigWithMetadata, isCopy = false) {

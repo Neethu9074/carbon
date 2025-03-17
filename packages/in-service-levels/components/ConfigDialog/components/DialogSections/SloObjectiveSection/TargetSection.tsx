@@ -7,7 +7,6 @@
 import React, { useContext } from 'react';
 
 import { Typography } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
@@ -16,6 +15,7 @@ import PercentageInput from 'in-service-levels/components/PercentageInput';
 import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
 import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';
+import { t } from 'in-i18n';
 
 import locals from './SloObjectiveSection.mless';
 

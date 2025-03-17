@@ -12,16 +12,16 @@ import useMonitoredEntity from 'in-custom-dashboards/widgets/SloLegacy/hooks/use
 import useTagCatalogLoader from 'in-custom-dashboards/widgets/Apdex/hooks/useTagCatalogLoader';
 import useApdexMetrics from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexMetrics';
 import ApdexWidget from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidget';
-import { isApdexWidgetEnabled } from 'in-custom-dashboards/widgets/Apdex/constants';
 import { ApdexWidgetConfiguration } from 'in-custom-dashboards/widgets/Apdex/form';
 import { widgetPreviewHeight } from 'in-custom-dashboards/widgets/Apdex';
 import { WidgetProps } from 'in-custom-dashboards/widgets/types';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { MetricDataSeries } from 'in-components/Chart/types';
+import { sloFullEnabled } from 'in-services/featureFlags';
 import { all } from 'in-hooks/utils/progress';
 import { t } from 'in-i18n';
 
-export default function ApdexWidgetPresenter({
+export default function ApdexWidgetPresenterWrapper({
   actions,
   dragHandle,
   title,
@@ -29,6 +29,28 @@ export default function ApdexWidgetPresenter({
   isInModal,
   config
 }: WidgetProps<ApdexWidgetConfiguration>) {
+  if (!sloFullEnabled) return null;
+
+  return (
+    <ApdexWidgetPresenter
+      actions={actions}
+      dragHandle={dragHandle}
+      title={title}
+      isPreview={isPreview}
+      isInModal={isInModal}
+      config={config}
+    />
+  );
+}
+
+function ApdexWidgetPresenter({
+  actions,
+  dragHandle,
+  title,
+  isPreview,
+  isInModal,
+  config
+}: Omit<WidgetProps<ApdexWidgetConfiguration>, 'timeConfig' | 'widgetId'>) {
   const originalTimeConfig = useApdexWidgetTimeConfig(isPreview);
 
   const { entityType, entityId, apdexConfigId } = config;
@@ -51,8 +73,6 @@ export default function ApdexWidgetPresenter({
   const progress = all(configProgress, entityProgress, metricProgress);
 
   const height = isPreview ? widgetPreviewHeight : undefined;
-
-  if (!isApdexWidgetEnabled) return null;
 
   return (
     <ApdexWidget

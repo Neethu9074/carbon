@@ -68,7 +68,7 @@ const columnDefinitions = [
   },
   {
     id: 'user',
-    label: t('in-sap:dashboards.userSessions'),
+    label: t('in-sap:dashboards.userLogins'),
     getContent(item, { timeConfig }) {
       return (
         <InfrastructureMetricSparkChart

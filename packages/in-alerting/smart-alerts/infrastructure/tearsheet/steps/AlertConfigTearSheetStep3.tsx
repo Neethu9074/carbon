@@ -5,15 +5,21 @@
  */
 
 import { Item, MapForm } from 'formalistic';
+import { isEmpty } from 'lodash';
 import React from 'react';
 
 import { Spacer } from '@instana/components';
 
+import {
+  generateTitle,
+  getTitlePlaceholderData,
+  useFormattedThresholdValue,
+  useGetAlertTitle
+} from 'in-alerting/smart-alerts/infrastructure/hooks/useGetAlertTitle';
 import { MultiThresholdAlertPreview } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/tearSheet/AlertProperties/AlertPropertiesTitleRow';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/infrastructure/hooks/useTagBasedPayloadConfigurator';
-import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
@@ -44,6 +50,21 @@ export default function AlertConfigTearSheetStep3({
 
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator({ metricName, entityType, regex });
 
+  const { aggregation, metric, warningThreshold, criticalThreshold, thresholdOperatorValue, metricFormat } =
+    getTitlePlaceholderData(form);
+
+  const alertNameValue = !isEmpty(form.get('name').value) ? form.get('name').value : undefined;
+  const alertDescriptionValue = !isEmpty(form.get('description').value) ? form.get('description').value : undefined;
+
+  const alertTitle = useGetAlertTitle(entityType, metric, aggregation);
+  const alertDescription = useFormattedThresholdValue(
+    alertTitle,
+    thresholdOperatorValue(warningThreshold, criticalThreshold),
+    metricFormat,
+    warningThreshold,
+    criticalThreshold
+  );
+
   return (
     <>
       <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.infrastructure.tearSheet.step3.header')}>
@@ -52,7 +73,8 @@ export default function AlertConfigTearSheetStep3({
             <AlertProperties
               form={form}
               onChange={onChange}
-              getDescriptionPlaceholder={getDescriptionPlaceholder}
+              getDescriptionPlaceholder={() => ''}
+              descriptionPlaceholder={alertDescriptionValue ?? alertDescription}
               renderAlertPropertiesTitleRow={() => (
                 <AlertPropertiesTitleRow
                   form={form}
@@ -61,7 +83,8 @@ export default function AlertConfigTearSheetStep3({
                   placeholderTooltipContent={t(
                     'in-alerting:smartAlerts.components.smartAlertDialog.groupingPlaceholdersMissingTooltip'
                   )}
-                  getTitlePlaceholder={getTitlePlaceholder}
+                  getTitlePlaceholder={() => ''}
+                  titlePlaceholder={alertNameValue ?? generateTitle(alertTitle)}
                   showDisabledPlaceholder
                 />
               )}
@@ -75,7 +98,12 @@ export default function AlertConfigTearSheetStep3({
                 variant="heading-200"
                 content={t('in-alerting:smartAlerts.applications.tearSheet.alertProperties.previewTitle')}
               />
-              <MultiThresholdAlertPreview form={form} getDescriptionPlaceholder={getDescriptionPlaceholder} />
+              <MultiThresholdAlertPreview
+                form={form}
+                getDescriptionPlaceholder={() => ''}
+                placeholderTitle={alertNameValue ?? generateTitle(alertTitle)}
+                placeholderDescription={alertDescriptionValue ?? alertDescription}
+              />
             </div>
           )}
           isTearSheet

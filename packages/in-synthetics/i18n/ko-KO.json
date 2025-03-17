@@ -140,7 +140,10 @@
           "certificateCheckTitle": "SSL 인증서 검사",
           "certificateCheckLabel": "SSL 인증서",
           "certificateCheckHeadline": "SSL 인증서 검사 테스트",
-          "certificateCheckText": "SSL 인증서 검사 테스트는 발행된 인증서의 남은 일 수를 검사하여 웹 애플리케이션에서 SSL 인증서의 만기를 테스트하는 방법입니다."
+          "certificateCheckText": "SSL 인증서 검사 테스트는 발행된 인증서의 남은 일 수를 검사하여 웹 애플리케이션에서 SSL 인증서의 만기를 테스트하는 방법입니다.",
+          "dnsActionLabel": "DNS",
+          "dnsActionHeadline": "도메인 이름 서버",
+          "dnsActionText": "DNS 테스트는 사용자의 장치나 네트워크가 도메인 이름을 제대로 해석하고 있는지, 속도 저하, 오류, 보안 취약점을 유발할 수 있는 문제가 없는지 확인하는 방법입니다."
         },
         "configurationLabel": "구성",
         "configurationTitle": "구성: 이 테스트는 어떻게 작동하나요?",
@@ -216,7 +219,8 @@
           "retryIntervalDescription": "이 테스트는 {{retryIntervalValue}} {{retryIntervalUnit}} 후에 {{retryCount}}번을 재시도합니다.",
           "markSyntheticCall": "합성 호출 표시",
           "downloadZip": ".zip 파일 다운로드",
-          "mainFileNameHelperText": "테스트의 진입점이 포함된 이 .zip 파일 안에 있는 파일 이름을 입력하십시오"
+          "mainFileNameHelperText": "테스트의 진입점이 포함된 이 .zip 파일 안에 있는 파일 이름을 입력하십시오",
+          "recordVideo": "실패 시 사용자 조치 기록"
         },
         "loadMore": "추가 로드",
         "selectTests": {
@@ -230,7 +234,8 @@
         "advancedBluePrint": {
           "apiName": "API",
           "browserName": "브라우저",
-          "certificateCheckName": "SSL 인증서"
+          "certificateCheckName": "SSL 인증서",
+          "dnsActionName": "DNS"
         },
         "customProperties": {
           "property": "특성",
@@ -413,9 +418,6 @@
         "show": "신임 정보 값 표시"
       }
     }
-  },
-  "createSmartAlert": {
-    "buttonLabel": "합성 SMART 경보 추가"
   },
   "navigation": {
     "synthetics": "합성 모니터링"
@@ -637,7 +639,6 @@
       "downloadHar": "HAR 파일 다운로드",
       "downloadLog": "로그 다운로드",
       "viewScreenshotsLabel": "스크린샷 보기",
-      "downloadVideo": "다운로드 레코딩",
       "consoleLogsLevel": "콘솔",
       "consoleLogs": "콘솔",
       "browserLogs": "브라우저",
@@ -717,7 +718,17 @@
         "timeOfIssue": "발행 시간",
         "timeOfExpiry": "만료 시간"
       },
-      "failedRunErrorTypeTitle": "오류 유형"
+      "failedRunErrorTypeTitle": "오류 유형",
+      "viewRecordingLabel": "레코딩 보기",
+      "viewRecording": {
+        "recordingDialogLabel": "레코딩",
+        "downloadRecordingButton": "레코딩 다운로드",
+        "recordingLoadingMessage": "레코딩 로드 중",
+        "noRecordingAvailableMessage": "테스트 결과에 대한 레코딩 없음"
+      },
+      "customProperties": {
+        "title": "사용자 정의 특성"
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "사용 가능한 결과가 없음",
@@ -804,7 +815,8 @@
       "associatedWebsites": "연관된 웹 사이트",
       "noWebsitesAssociated": "연관된 웹 사이트 없음",
       "associatedMobileApps": "연관된 모바일 앱",
-      "noMobileAppAssociated": "연관된 모바일 앱 없음"
+      "noMobileAppAssociated": "연관된 모바일 앱 없음",
+      "recordVideo": "실패 시 사용자 조치 기록"
     },
     "credentialList": {
       "mainLabel": "신임 정보",

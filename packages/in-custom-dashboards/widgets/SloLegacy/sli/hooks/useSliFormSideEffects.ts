@@ -5,6 +5,8 @@
 
 import { Field, Item, MapForm } from 'formalistic';
 
+import { AggregationType } from '@instana/types';
+
 import {
   applicationType,
   availabilityType,
@@ -19,7 +21,6 @@ import {
 import { createMetricsForm, addGoodBadEventsForm } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliForm';
 import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-hooks/useFormSideEffects';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/SloLegacy/constants';
-import { AggregationType } from 'in-types';
 
 const formSideEffects = [
   {

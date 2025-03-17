@@ -8,12 +8,11 @@ import React, { useState } from 'react';
 
 import {
   CustomEventMobileAppAlertRule,
-  HistoricBaselineConfig,
-  StaticThresholdConfig,
   StatusCodeMobileAppAlertRule,
   ThresholdConfig,
   isAdaptiveBaselineConfig
 } from '@instana/types';
+import { Stack } from '@instana/components';
 
 import {
   chartViewConfig24hours,
@@ -35,6 +34,7 @@ import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/Custo
 import useMobileAppLabel from 'in-alerting/smart-alerts/mobileApp/hooks/useMobileAppLabel';
 import { getStatusCodeLabel } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { alertChannelPerSeverityMobileAppSaEnabled } from 'in-services/featureFlags';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
@@ -50,12 +50,13 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig }: { alertConfig: MobileAppSmartAlertConfigWithMetadata }) {
   const {
-    rule: { alertType, metricName, aggregation },
+    rule: { alertType, metricName },
     threshold,
     timeThreshold,
     granularity,
     gracePeriod,
     alertChannelIds,
+    alertChannels,
     tagFilterExpression,
     mobileAppId,
     customPayloadFields
@@ -75,8 +76,16 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
-  const thresholdType = alertConfig.threshold;
-  const chartViewConfigs = isAdaptiveBaselineConfig(thresholdType) ? [chartViewConfig24hours] : defaultChartViewConfigs;
+  const ruleWithThreshold = alertConfig.rules[0];
+  const thresholdType = ruleWithThreshold?.thresholds?.WARNING
+    ? ruleWithThreshold.thresholds.WARNING.type
+    : ruleWithThreshold.thresholds.CRITICAL?.type;
+
+  const thresholdConfig = { operator: ruleWithThreshold.thresholdOperator, type: thresholdType } as ThresholdConfig;
+
+  const chartViewConfigs = isAdaptiveBaselineConfig(thresholdConfig)
+    ? [chartViewConfig24hours]
+    : defaultChartViewConfigs;
 
   return (
     <AlertDetailsCard>
@@ -90,8 +99,9 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
         darkFrame
       >
         <AlertThresholdInfos
-          threshold={threshold as ThresholdConfig & StaticThresholdConfig & HistoricBaselineConfig}
-          rule={{ alertType, aggregation, metricName }}
+          thresholdOperator={ruleWithThreshold.thresholdOperator}
+          thresholdsMap={ruleWithThreshold?.thresholds}
+          rule={ruleWithThreshold.rule}
         />
       </ExpandableLightCard>
 
@@ -154,12 +164,13 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.mobileApp.alertDetails.alertConfigurationTitleTimeThreshold')}
         useMaxAvailableHeight={false}
-        bodyWithoutPadding
         openByDefault
         darkFrame
       >
-        <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
-        <GracePeriodDescription gracePeriod={gracePeriod} />
+        <Stack gap="large">
+          <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
+          <GracePeriodDescription gracePeriod={gracePeriod} />
+        </Stack>
       </ExpandableLightCard>
 
       <ExpandableLightCard
@@ -170,7 +181,11 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
         darkFrame
       >
         <div className={locals.alertChannelsWrapper}>
-          <AlertChannelsViewer alertChannelIds={alertChannelIds} />
+          <AlertChannelsViewer
+            alertChannelIds={alertChannelIds}
+            alertChannels={alertChannels}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityMobileAppSaEnabled}
+          />
         </div>
       </ExpandableLightCard>
 
@@ -181,7 +196,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
         openByDefault
         darkFrame
       >
-        <AlertPropertyInfos alertConfig={alertConfig} disableTrigger={false} />
+        <AlertPropertyInfos shouldDisplayAlertLevelSection={false} alertConfig={alertConfig} disableTrigger={false} />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="MOBILE_APP" />
       <CustomPayloadCard

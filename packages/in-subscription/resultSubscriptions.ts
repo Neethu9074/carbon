@@ -32,7 +32,6 @@ export function createResultSubscriptionFactory<IN, OUT extends Result<any>>({
     eventId,
     memoizeFor,
     disposeSubscriptionOnDocumentHidden,
-
     getData(subscriptionId, params) {
       return {
         subscriptionId,

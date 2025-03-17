@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Collapsible } from '@instana/components';
 
+import RemoteServiceAgentCorrelationComponent from 'in-sdk/components/sidebar/remoteServiceAgentCorrelation/remoteServiceAgentCorrelationComponent';
 // @ts-expect-error Module needs to be translated to TS
 import TagList from 'in-sdk/components/sidebar/TagList';
 import Info from 'in-forge/plugins/azureMachineLearning/Info';
@@ -24,6 +25,7 @@ export default function AzureMachineLearningSidebarDetails({ snapshot }: { snaps
         </Collapsible.Content>
       </Collapsible>
       <TagList snapshot={snapshot} />
+      <RemoteServiceAgentCorrelationComponent snapshot={snapshot} />
     </>
   );
 }

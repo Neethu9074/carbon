@@ -8,6 +8,7 @@ import { Granularity, TagFilterExpressionElementUnion, TimeConfig } from '@insta
 
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { numberCompact } from 'in-stores/metric/formatters';
 import { line } from 'in-stores/metric/renderer';
 import { minutes } from 'in-services/time';
@@ -39,13 +40,13 @@ export function getUnifiedMetricConfig(
 }
 
 export function getChartConfig(alertConfig: LogSmartAlertConfigWithMetadata, timeConfig: TimeConfig, metricId: string) {
-  const { threshold, granularity } = alertConfig;
+  const { granularity } = alertConfig;
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
   return {
     customHeight: 182,
-    thresholdType: threshold.type,
+    thresholdType: STATIC_THRESHOLD,
     timeConfig: timeConfig,
     metricsConfiguration: {
       timeConfig: chartViewConfig.timeConfig,
@@ -58,6 +59,12 @@ export function getChartConfig(alertConfig: LogSmartAlertConfigWithMetadata, tim
         ['violations']: {
           metric: 'violations',
           aggregation: undefined
+        },
+        warningThreshold: {
+          metric: 'warningThreshold'
+        },
+        criticalThreshold: {
+          metric: 'criticalThreshold'
         }
       }
     }

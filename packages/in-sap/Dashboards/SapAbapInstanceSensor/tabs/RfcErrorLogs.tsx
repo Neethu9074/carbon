@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
@@ -17,6 +18,11 @@ import { t } from 'in-i18n';
 interface rfcErrorRow {
   key: string;
   configDetail: Map<string, object>;
+}
+
+interface RFCErrorProps {
+  snapshotId: string;
+  timeConfig: TimeConfig;
 }
 
 const cols = [
@@ -76,8 +82,11 @@ const cols = [
   }
 ];
 
-export default function RfcErrorLogs({ snapshotId }: SnapshotData) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'rfcErrorLogs'), [snapshotId]);
+export default function RfcErrorLogs({ snapshotId, timeConfig }: RFCErrorProps) {
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'rfcErrorLogs', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return null;
   }

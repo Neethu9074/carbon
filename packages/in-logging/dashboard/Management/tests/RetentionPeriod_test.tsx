@@ -9,8 +9,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-// eslint-disable-next-line no-restricted-imports
-import RetentionPeriod from '../RetentionPeriod';
+import RetentionPeriod from 'in-logging/dashboard/Management/RetentionPeriod';
 import { user } from 'in-stores/user';
 
 jest.mock('in-logging/dashboard/Management/Breadcrumbs', () => () => <div>Mocked Breadcrumbs</div>);

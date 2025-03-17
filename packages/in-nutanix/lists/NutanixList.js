@@ -6,8 +6,6 @@
 
 import React, { Fragment } from 'react';
 
-import { TableEntityCounter } from '@instana/legacy';
-
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import { timeConfig$, urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -50,14 +48,14 @@ const columnDefinitions = [
     id: 'noOfHosts',
     label: t('in-nutanix:noOfHosts'),
     getContent(item) {
-      return <TableEntityCounter count={item.noOfHosts} />;
+      return item.noOfHosts;
     }
   },
   {
     id: 'noOfVms',
     label: t('in-nutanix:noOfVms'),
     getContent(item) {
-      return <TableEntityCounter count={item.noOfVms} />;
+      return item.noOfVms;
     }
   },
   {

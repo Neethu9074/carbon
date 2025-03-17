@@ -16,7 +16,6 @@ export default function useNavigateToActionCatalog() {
   const { location, navigate } = useNavigation();
   return (viewType = 'user') => {
     location.pathname = actionCatalogFullyQualified;
-
     setOrDeleteMatrixKey(location, idParameter.path ?? '', idParameter.name, null);
     setOrDeleteMatrixKey(location, viewParameter.path ?? '', viewParameter.name, viewType);
     navigate(location);

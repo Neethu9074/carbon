@@ -96,6 +96,7 @@ export const ampAccountSettings = `${ampSettings}/account`;
 export const ampUsage = `${ampSettings}/usage`;
 export const ampTechnologies = `${ampSettings}/technologies`;
 export const ampActivationAdoption = `${ampSettings}/activationAdoption`;
+export const ampLicense = `${ampSettings}/licenses`;
 
 // current events & alerting configuration paths (after unification of alerting configuration in 2019-02)
 export const events = `/events`;

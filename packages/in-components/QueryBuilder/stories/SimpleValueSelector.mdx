@@ -1,0 +1,13 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as SimpleValueSelectorStories from './SimpleValueSelector.stories';
+
+<Meta of={SimpleValueSelectorStories} />
+
+## Conjunction Selector
+
+This overlay can be used within the query builder to allow selection of a
+conjunction, braces or to even clear the selection.
+
+<Canvas>
+  <Story of={SimpleValueSelectorStories.Default} />
+</Canvas>

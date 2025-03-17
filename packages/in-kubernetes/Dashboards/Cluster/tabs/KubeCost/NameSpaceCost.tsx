@@ -68,7 +68,7 @@ const cols = [
         return getCurrency(row);
       },
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'sum';
       }
     }
   },
@@ -86,7 +86,7 @@ const cols = [
         return getCurrency(row);
       },
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'sum';
       }
     }
   },
@@ -104,7 +104,7 @@ const cols = [
         return getCurrency(row);
       },
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'sum';
       }
     }
   },
@@ -122,7 +122,7 @@ const cols = [
         return getCurrency(row);
       },
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'sum';
       }
     }
   },
@@ -140,7 +140,7 @@ const cols = [
         return getCurrency(row);
       },
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'sum';
       }
     }
   },
@@ -158,7 +158,7 @@ const cols = [
         return getCurrency(row);
       },
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'sum';
       }
     }
   },
@@ -174,7 +174,7 @@ const cols = [
       },
       getContent: percentagePlain.detailed,
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'sum';
       }
     }
   },
@@ -192,7 +192,7 @@ const cols = [
         return getCurrency(row);
       },
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'sum';
       }
     }
   },
@@ -210,7 +210,7 @@ const cols = [
         return getCurrency(row);
       },
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'sum';
       }
     }
   },
@@ -229,14 +229,17 @@ const cols = [
         return <Badge color={colorFormatter(trendValue)}>{trendValue + '%'}</Badge>;
       },
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'sum';
       }
     }
   }
 ];
 
 export default function NamespaceCost({ currencyCode, snapshotId, timeConfig }: NamespaceProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'namespaceCostList'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'namespaceCostList', timeConfig),
+    [snapshotId, timeConfig]
+  );
 
   if (!data) {
     return null;

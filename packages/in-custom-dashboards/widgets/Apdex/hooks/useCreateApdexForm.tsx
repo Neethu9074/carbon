@@ -7,9 +7,10 @@
 import { useEffect, useState } from 'react';
 import { MapForm } from 'formalistic';
 
+import { ApdexConfiguration } from '@instana/types';
+
 import { createForm } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/form';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
-import { ApdexConfiguration } from 'in-types';
 
 export default function useCreateApdexForm(
   apdexConfig: Partial<ApdexConfiguration>,

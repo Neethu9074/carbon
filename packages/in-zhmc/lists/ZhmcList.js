@@ -5,8 +5,6 @@
 
 import React, { Fragment } from 'react';
 
-import { TableEntityCounter } from '@instana/legacy';
-
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { timeConfig$, urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import ZhmcNoDataNotification from 'in-zhmc/lists/components/ZhmcNoDataNotification';
@@ -36,21 +34,21 @@ const columnDefinitions = [
     id: 'systems',
     label: t('in-zhmc:systems'),
     getContent(item) {
-      return <TableEntityCounter count={item.systems} />;
+      return item.systems;
     }
   },
   {
     id: 'partitions',
     label: t('in-zhmc:partitions'),
     getContent(item) {
-      return <TableEntityCounter count={item.partitions} />;
+      return item.partitions;
     }
   },
   {
     id: 'adapters',
     label: t('in-zhmc:adapters'),
     getContent(item) {
-      return <TableEntityCounter count={item.adapters} />;
+      return item.adapters;
     }
   }
 ];

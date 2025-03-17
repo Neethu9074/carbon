@@ -22,7 +22,6 @@ import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicator
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import WebsiteContextIcon from 'in-websites/WebsiteDashboard/components/WebsiteContextIcon';
 import { dashboardTagFilters as tagFiltersTrackers } from 'in-websites/tracking/segTracker';
-import { smartAlertCarbonTableEnabled, carbonTableEnabled } from 'in-services/featureFlags';
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import getJsAgentVersionsInfo from 'in-websites/subscriptions/getJsAgentVersionsInfo';
@@ -36,6 +35,7 @@ import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import { alertsTabListFullyQualified } from 'in-websites/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { useTagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -135,8 +135,8 @@ export default function WebsiteDashboard() {
   const tagFilters = (props.tagFilters = customTagFilters.concat(implicitTagFilters));
 
   // hide the SA floating button from the alerts listing page, as the create button is now displayed alongside the table
-  const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
-  const hideButtonInTableView = displayCarbonTable ? location.pathname !== alertsTabListFullyQualified : true;
+
+  const hideButtonInTableView = smartAlertCarbonTableEnabled ? location.pathname !== alertsTabListFullyQualified : true;
 
   const showAlertButton =
     role.canConfigureWebsiteSmartAlerts &&

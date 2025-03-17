@@ -35,7 +35,6 @@ import LogAlertConfigButton from 'in-events/components/LogAlertConfigButton';
 import useLogEventAlertConfig from 'in-events/hooks/useLogEventAlertConfig';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
-import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
@@ -99,7 +98,7 @@ export default function LogEventContent({ event, snapshot, reload }: Props) {
     ...(windowSize && { windowSize })
   } as TimeConfig;
 
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const pillContent = getEventStateBadge(event);
 
   return (

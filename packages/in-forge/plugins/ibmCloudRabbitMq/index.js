@@ -4,7 +4,6 @@
  */
 
 import metricDefinitions from 'in-forge/plugins/ibmCloudRabbitMq/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/ibmCloudRabbitMq/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
@@ -15,6 +14,5 @@ registerSnapshotDefinition({
   technologyDescriptor: {
     label: t('in-forge:plugins.ibmCloudRabbitMq.ibmCloudRabbitMq')
   },
-  kpiDefinitions,
   metricDefinitions
 });

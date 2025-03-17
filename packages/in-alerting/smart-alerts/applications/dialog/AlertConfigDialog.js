@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -15,19 +15,20 @@ import {
   updateGlobalAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialogWithThreshold';
+import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertMultiThresholdFormSideEffects';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { useLinkToAlertConfig, useLinkToGlobalAlertConfigWithoutAPDashboard } from 'in-applications/navigation/paths';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useApplicationSmartAlertFormSideEffects';
 import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
-import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/useApplicationLabel';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
+import { populateRulesInConfig } from 'in-alerting/smart-alerts/utils/thresholdUtils';
+import { getTrackingAlertConfig } from 'in-alerting/smart-alerts/utils/segmentUtils';
 import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -76,7 +77,7 @@ export default function AlertConfigDialog({
     if (isEmpty(form.get('applications').value)) {
       addActiveDialog(
         <ConfirmationDialog
-          header={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogHeader')}
+          header={t('in-alerting:components.alertActionConfirmationDialogHeader')}
           description={t('in-alerting:components.alertConfirmationDialogDescription', {
             entityPlaceholder: t('in-settings:productAreas.title_applications')
           })}
@@ -176,6 +177,7 @@ function createOrSaveAlert({
   }
 
   const alertConfig = toAlertConfig(form);
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
 
   const isEffectivelyGlobalSmartAlert = migrationMode
     ? Object.keys(alertConfig.applications).length > 1
@@ -188,7 +190,8 @@ function createOrSaveAlert({
       config => {
         onClose(config);
         showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
-        trackCta(ALERTING_UPDATED, { ...alertConfig, dialogMode: 'Advanced' });
+        const alertConfigForTracking = getTrackingAlertConfig(alertConfig, thresholdType);
+        trackCta(ALERTING_UPDATED, { ...alertConfigForTracking, dialogMode: 'Advanced' });
       },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
@@ -205,7 +208,10 @@ function createOrSaveAlert({
           : getLinkToAlertConfig(config.id, null, config.applicationId);
 
         showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
-        const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
+        const newConfigForTracking = getTrackingAlertConfig(config, thresholdType);
+        const newConfig = duplicateFrom
+          ? { ...newConfigForTracking, cloneFromId: duplicateFrom }
+          : newConfigForTracking;
         trackCta(ALERTING_SAVED, { ...newConfig, dialogMode: simpleMode ? 'Simple' : 'Advanced' });
       },
       error => {
@@ -301,50 +307,7 @@ function fromAlertConfig(alertConfig) {
   if (alertConfig?.rules?.[0]?.rule?.alertType === 'statusCode') {
     alertConfig = mapStatusCodeConfig(alertConfig);
   }
-
-  const ruleWithThreshold = alertConfig?.rules?.[0];
-
-  // When creating the thresholdForm, both the warning and critical threshold fields are required.
-  // However, the alertConfig we receive as JSON from the backend may include either both thresholds or only one,
-  // depending on what the user configured. If only one threshold (either warning or critical) is present,
-  // we need to initialize the missing threshold with placeholder (dummy) values. The missing threshold should
-  // have the same type (e.g., STATIC_THRESHOLD, HISTORIC_BASELINE or ADAPTIVE_BASELINE) as the configured threshold.
-  if (ruleWithThreshold?.thresholds) {
-    const { WARNING, CRITICAL } = ruleWithThreshold.thresholds;
-
-    const initializeThreshold = (referenceThreshold, isCheckboxSelected) => ({
-      ...referenceThreshold,
-      value: null,
-      deviationFactor: defaultDeviationFactor,
-      isCheckboxSelected
-    });
-
-    const thresholds = {
-      // If WARNING exists, retain its values and set 'isCheckboxSelected' to true by default.
-      // Otherwise, initialize WARNING based on CRITICAL's structure with placeholder values.
-      WARNING: WARNING
-        ? { ...WARNING, isCheckboxSelected: WARNING?.isCheckboxSelected ?? true }
-        : initializeThreshold(CRITICAL, false),
-
-      // If CRITICAL exists, retain its values and set 'isCheckboxSelected' to true by default.
-      // Otherwise, initialize CRITICAL based on WARNING's structure with placeholder values.
-      CRITICAL: CRITICAL
-        ? { ...CRITICAL, isCheckboxSelected: CRITICAL?.isCheckboxSelected ?? true }
-        : initializeThreshold(WARNING, false)
-    };
-
-    return {
-      ...alertConfig,
-      rules: [
-        {
-          ...ruleWithThreshold,
-          thresholds
-        }
-      ]
-    };
-  }
-
-  return alertConfig;
+  return populateRulesInConfig(alertConfig);
 }
 
 function mapStatusCodeConfig(alertConfig) {

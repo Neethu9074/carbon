@@ -18,6 +18,7 @@ interface GroupingConfiguratorSectionProps {
   withoutIcon?: boolean;
   withOptionalMarker?: boolean;
   hasError?: boolean;
+  fixOverlayLeftAlignment?: boolean;
   additionalGetTagCatalogProps?: any;
   SectionWrapper?: React.FunctionComponent<any>;
 }

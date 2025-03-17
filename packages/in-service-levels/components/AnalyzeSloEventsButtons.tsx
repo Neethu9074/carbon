@@ -14,12 +14,12 @@ import {
   SloEntity
 } from '@instana/types';
 import { Typography, Button } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import useHrefToUnboundedAnalytics from 'in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { t } from 'in-i18n';
 
 interface AnalyzeSloCallsButtonProps {
   configuration: ServiceLevelObjectiveConfiguration;

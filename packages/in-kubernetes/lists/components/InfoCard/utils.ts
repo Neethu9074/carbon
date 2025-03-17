@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
+import { KubernetesNodeListItem, KubernetesWorkloadControllerListItem, Result, TimeConfig } from '@instana/types';
 import { combineLatest, Observable } from '@instana/observables';
 
 import {
@@ -11,12 +12,14 @@ import {
   getKubernetesPodsData,
   getWorkloadData
 } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
-import { KubernetesNodeListItem, KubernetesWorkloadControllerListItem, Result, TimeConfig } from 'in-types';
+import getKubernetesNamespaceItemCounters from 'in-kubernetes/subscriptions/getKubernetesNamespaceItemCounters';
 import getKubernetesDeployments from 'in-kubernetes/subscriptions/getKubernetesDeployments';
 
 interface Props {
+  type?: string;
   timeConfig: TimeConfig;
-  clusterId: string;
+  clusterId?: string;
+  namespaceId?: string;
 }
 
 interface AdditionalProps {
@@ -27,37 +30,37 @@ interface AdditionalProps {
 const resultTransformer = (result: Result<any>) => result?.data;
 const resultTransformerToItems = (result: Result<any>) => result?.data?.items;
 
-function getKubernetesPods({ timeConfig, clusterId, phase = 'Running' }: Props & { phase?: string }) {
-  return !clusterId
-    ? null
-    : getKubernetesPodsData({
-        timeConfig,
-        clusterId,
-        phase
-      }).map(resultTransformer);
+function getKubernetesPods({ timeConfig, clusterId, namespaceId, phase = 'Running' }: Props & { phase?: string }) {
+  return getKubernetesPodsData({
+    timeConfig,
+    clusterId,
+    namespaceId,
+    phase
+  }).map(resultTransformer);
 }
 
 function getKubernetesNodes({
   timeConfig,
   clusterId,
+  namespaceId,
   pageSize = 200,
   orderBy = 'health',
   orderDirection = 'DESC'
 }: Props & AdditionalProps) {
-  return !clusterId
-    ? null
-    : getKubernetesNodesData({
-        timeConfig,
-        clusterId,
-        pageSize,
-        orderBy,
-        orderDirection
-      }).map(resultTransformerToItems);
+  return getKubernetesNodesData({
+    timeConfig,
+    clusterId,
+    namespaceId,
+    pageSize,
+    orderBy,
+    orderDirection
+  }).map(resultTransformerToItems);
 }
 
 function getWorkloadCounters({
   timeConfig,
   clusterId,
+  namespaceId,
   pageSize = 200,
   orderBy = 'health',
   orderDirection = 'DESC',
@@ -66,27 +69,27 @@ function getWorkloadCounters({
   AdditionalProps & {
     getWorkloadControllers$?: (params: unknown) => Observable<Result<any>>;
   }) {
-  return !clusterId
-    ? null
-    : getWorkloadData({
-        timeConfig,
-        clusterId,
-        pageSize,
-        orderBy,
-        orderDirection,
-        getWorkloadControllers$
-      }).map(resultTransformerToItems);
+  return getWorkloadData({
+    timeConfig,
+    clusterId,
+    namespaceId,
+    pageSize,
+    orderBy,
+    orderDirection,
+    getWorkloadControllers$
+  }).map(resultTransformerToItems);
 }
 
-export function getKubernetesCounters({ clusterId, timeConfig }: Props) {
-  return combineLatest([
-    getKubernetesPods({ clusterId, timeConfig }),
-    getKubernetesNodes({ clusterId, timeConfig }),
-    getWorkloadCounters({ clusterId, timeConfig })
-  ])
+export function getKubernetesCounters(params: Props) {
+  const events = [getKubernetesPods(params), getKubernetesNodes(params), getWorkloadCounters(params)];
+  if (params?.namespaceId) {
+    events.push(getKubernetesNamespaceItemCounters(params).map(resultTransformer));
+  }
+  return combineLatest(events)
     .throttle(500)
-    .map(([pods, nodes, deployments]: any) => ({
+    .map(([pods, nodes, deployments, namespaces]: any) => ({
       totalRunningPods: pods?.totalHits ?? 0,
+      totalCronJobs: namespaces?.cronJobs,
       ...getNodesInfo(nodes),
       ...getDeploymentsInfo(deployments)
     }));
@@ -95,21 +98,21 @@ export function getKubernetesCounters({ clusterId, timeConfig }: Props) {
 function getNodesInfo(nodes: KubernetesNodeListItem[]) {
   if (!Array.isArray(nodes)) {
     return {
-      totalNodesIssues: 0,
+      totalUnhealthyNodes: 0,
       hasNodesWithOnlyWarnings: false
     };
   }
 
-  const totalNodesIssues = nodes.filter(
+  const totalUnhealthyNodes = nodes.filter(
     (node: KubernetesNodeListItem) => node?.entityHealthInfo?.openIssues?.length > 0
   ).length;
 
   const hasNodesWithOnlyWarnings =
     nodes.filter((node: KubernetesNodeListItem) => node?.entityHealthInfo?.maxSeverity === 5).length ===
-      totalNodesIssues && totalNodesIssues !== 0;
+      totalUnhealthyNodes && totalUnhealthyNodes !== 0;
 
   return {
-    totalNodesIssues,
+    totalUnhealthyNodes,
     hasNodesWithOnlyWarnings
   };
 }
@@ -117,22 +120,22 @@ function getNodesInfo(nodes: KubernetesNodeListItem[]) {
 function getDeploymentsInfo(deployments: KubernetesWorkloadControllerListItem[]) {
   if (!Array.isArray(deployments)) {
     return {
-      totalDeploymentsIssues: 0,
+      totalUnhealthyDeployments: 0,
       hasDeploymentsWithOnlyWarnings: false
     };
   }
 
-  const totalDeploymentsIssues = deployments.filter(
+  const totalUnhealthyDeployments = deployments.filter(
     (deployment: KubernetesWorkloadControllerListItem) => deployment?.entityHealthInfo?.openIssues?.length > 0
   ).length;
 
   const hasDeploymentsWithOnlyWarnings =
     deployments.filter(
       (deployment: KubernetesWorkloadControllerListItem) => deployment?.entityHealthInfo?.maxSeverity === 5
-    ).length === totalDeploymentsIssues && totalDeploymentsIssues !== 0;
+    ).length === totalUnhealthyDeployments && totalUnhealthyDeployments !== 0;
 
   return {
-    totalDeploymentsIssues,
+    totalUnhealthyDeployments,
     hasDeploymentsWithOnlyWarnings
   };
 }

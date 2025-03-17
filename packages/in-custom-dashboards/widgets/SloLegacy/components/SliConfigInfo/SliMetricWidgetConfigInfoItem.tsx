@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { getIntlNumberFormatter } from '@instana/format-numbers';
+import { SliConfigMetricConfiguration } from '@instana/types';
 import { StackItem } from '@instana/components';
 
 import {
@@ -18,7 +19,7 @@ import {
 import WidgetConfigInfoItem from 'in-custom-dashboards/widgets/SloLegacy/components/WidgetConfigInfo/WidgetConfigInfoItem';
 import { SliConfig, CombinedSliEntity } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/SloLegacy/constants';
-import { Nullish, SliConfigMetricConfiguration } from 'in-types';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 const thresholdFormatter = getIntlNumberFormatter();

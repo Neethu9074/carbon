@@ -1,0 +1,14 @@
+/*
+  * (c) Copyright IBM Corp. 2021
+  * (c) Copyright Instana Inc.
+*/
+
+:local {
+  .container {
+    height: calc(100vh - 184px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background: var(--cds-layer);
+    padding-bottom: 50px;
+  }
+}

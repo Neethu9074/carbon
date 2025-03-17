@@ -311,6 +311,15 @@
         "pleaseSelect": "请选择"
       }
     },
+    "srcSlo": {
+      "index": {
+        "serviceLevelsObjective": "服务级别目标 (SLO)"
+      },
+      "formComponent": {
+        "status": "状态",
+        "errorBudgetRemaining": "错误预算剩余"
+      }
+    },
     "metricConfigurator": {
       "ds": "数据源",
       "pleaseSelect": "请选择",
@@ -605,8 +614,8 @@
         "sliType": "SLI 类型",
         "viewCloneSliConfig": "查看/克隆 SLI 配置",
         "delSliConfig": "删除 SLI 配置",
-        "pleaseConfirm": "请确认",
-        "pleaseConfirmMsg": "是否确定要删除 <strong>{{sliName}}</strong>？",
+        "confirmRemove": "请确认",
+        "confirmRemoveMsg": "是否确定要删除 <strong>{{sliName}}</strong>？",
         "delete": "删除",
         "eventBasedSli": "基于事件",
         "timeBasedSli": "基于时间，{{metricNameLabel}}"

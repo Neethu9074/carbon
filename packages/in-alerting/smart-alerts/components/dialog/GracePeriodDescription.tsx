@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, Stack } from '@instana/components';
 
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { Nullish } from 'in-types';
@@ -23,7 +23,7 @@ export default function GracePeriodDescription({ gracePeriod }: GracePeriodDescr
     return null;
   }
   return (
-    <div className={locals.container}>
+    <Stack direction="horizontal" align="center" gap="disabled">
       <SvgIcon className={locals.icon} type="lib_datetime_timer" />
       <div>
         <span className={locals.label}>
@@ -35,6 +35,6 @@ export default function GracePeriodDescription({ gracePeriod }: GracePeriodDescr
           />
         </span>
       </div>
-    </div>
+    </Stack>
   );
 }

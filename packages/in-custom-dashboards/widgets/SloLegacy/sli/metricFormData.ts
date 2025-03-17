@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { AggregationType } from '@instana/types';
+
 import { MonitoringSource } from 'in-custom-dashboards/widgets/SloLegacy/constants';
 import { deepFreeze } from 'in-services/util/object';
-import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
 
 export const timeAggregationOptions = deepFreeze([

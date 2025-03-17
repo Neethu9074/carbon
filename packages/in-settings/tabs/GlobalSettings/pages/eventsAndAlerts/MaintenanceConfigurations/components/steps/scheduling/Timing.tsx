@@ -28,7 +28,7 @@ import { getSetting$ } from 'in-services/settings';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
-import { t } from 'in-i18n';
+import { t, activeLocale } from 'in-i18n';
 
 import locals from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm.mless';
 
@@ -141,6 +141,7 @@ export default function Timing({
                     <CarbonDateInput
                       id={`maintenance-start-date`}
                       placeholder="YYYY-MM-DD"
+                      locale={activeLocale}
                       value={dateDisplayed}
                       //@ts-expect-error
                       onChange={(dateArray: Date[] | undefined) => {

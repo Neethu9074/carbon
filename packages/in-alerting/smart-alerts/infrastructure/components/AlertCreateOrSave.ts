@@ -16,6 +16,7 @@ import {
 } from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
+import { ADVANCED, FULLSCREEN, SIMPLE } from 'in-alerting/smart-alerts/data/constants';
 import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { InfraAlertConfig } from 'in-types';
@@ -28,10 +29,14 @@ interface createOrSaveAlertProps {
   editMode: boolean;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;
-  toAlertConfig: (form: MapForm<any>) => Readonly<InfraAlertConfig>;
+  toAlertConfig: (
+    form: MapForm<any>,
+    placeHolderText: { alertTitle: string; alertDescription: { WARNING?: string; CRITICAL?: string } }
+  ) => Readonly<InfraAlertConfig>;
   isSimpleMode: boolean;
   trackCta: CtaTrackingFunction;
   duplicateFrom?: string;
+  placeHolderText: { alertTitle: string; alertDescription: { WARNING?: string; CRITICAL?: string } };
 }
 
 export function createOrSaveAlert({
@@ -45,7 +50,8 @@ export function createOrSaveAlert({
   toAlertConfig,
   isSimpleMode,
   trackCta,
-  duplicateFrom
+  duplicateFrom,
+  placeHolderText
 }: createOrSaveAlertProps) {
   setIsSaving(true);
 
@@ -62,7 +68,7 @@ export function createOrSaveAlert({
     return;
   }
 
-  const alertConfig: InfraAlertConfig = toAlertConfig(form);
+  const alertConfig: InfraAlertConfig = toAlertConfig(form, placeHolderText);
 
   if (editMode) {
     const updateConfig = updateAlertConfig(alertConfig, form.get('id').value);
@@ -70,7 +76,7 @@ export function createOrSaveAlert({
       updatedAlertConfig => {
         onClose(updatedAlertConfig);
         showSuccessMessage(updatedAlertConfig.name, editMode);
-        trackCta(ALERTING_UPDATED, { ...updatedAlertConfig });
+        trackCta(ALERTING_UPDATED, { ...alertConfig, dialogMode: isSimpleMode ? SIMPLE : ADVANCED });
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
@@ -85,7 +91,10 @@ export function createOrSaveAlert({
         const href = getLinkToAlertConfig(createAlertConfig.id);
         showSuccessMessage(createAlertConfig.name, editMode, false, href);
         const newConfig = duplicateFrom ? { ...createAlertConfig, cloneFromId: duplicateFrom } : createAlertConfig;
-        trackCta(ALERTING_SAVED, { ...newConfig, dialogMode: isSimpleMode ? 'Simple' : 'Advanced' });
+        trackCta(ALERTING_SAVED, {
+          ...newConfig,
+          dialogMode: ADVANCED
+        });
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
@@ -102,10 +111,13 @@ interface createOrSaveAlertFromTearSheetProps {
   editMode: boolean;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;
-  toAlertConfig: (form: MapForm<any>) => Readonly<InfraAlertConfig>;
-  isSimpleMode: boolean;
+  toAlertConfig: (
+    form: MapForm<any>,
+    placeHolderText: { alertTitle: string; alertDescription: { WARNING?: string; CRITICAL?: string } }
+  ) => Readonly<InfraAlertConfig>;
   trackCta: CtaTrackingFunction;
   duplicateFrom?: string;
+  placeHolderText: { alertTitle: string; alertDescription: { WARNING?: string; CRITICAL?: string } };
 }
 
 export function createOrSaveAlertFromTearSheet({
@@ -116,9 +128,9 @@ export function createOrSaveAlertFromTearSheet({
   setIsSaving,
   setMessages,
   toAlertConfig,
-  isSimpleMode,
   trackCta,
-  duplicateFrom
+  duplicateFrom,
+  placeHolderText
 }: createOrSaveAlertFromTearSheetProps) {
   setIsSaving(true);
 
@@ -135,14 +147,14 @@ export function createOrSaveAlertFromTearSheet({
     return;
   }
 
-  const alertConfig: InfraAlertConfig = toAlertConfig(form);
+  const alertConfig: InfraAlertConfig = toAlertConfig(form, placeHolderText);
 
   if (editMode) {
     const updateConfig = updateAlertConfig(alertConfig, form.get('id').value);
     updateConfig.once(
       updatedAlertConfig => {
-        trackCta(ALERTING_UPDATED, { ...updatedAlertConfig });
-        navigateToAlertConfig(updatedAlertConfig.id, updatedAlertConfig?.created);
+        trackCta(ALERTING_UPDATED, { ...alertConfig, dialogMode: FULLSCREEN });
+        navigateToAlertConfig(updatedAlertConfig?.id ?? form.get('id').value, updatedAlertConfig?.created);
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
@@ -154,7 +166,10 @@ export function createOrSaveAlertFromTearSheet({
     createConfig.once(
       createAlertConfig => {
         const newConfig = duplicateFrom ? { ...createAlertConfig, cloneFromId: duplicateFrom } : createAlertConfig;
-        trackCta(ALERTING_SAVED, { ...newConfig, dialogMode: isSimpleMode ? 'Simple' : 'Advanced' });
+        trackCta(ALERTING_SAVED, {
+          ...newConfig,
+          dialogMode: FULLSCREEN
+        });
         navigateToAlertConfig(createAlertConfig.id, createAlertConfig?.created);
       },
       error => {

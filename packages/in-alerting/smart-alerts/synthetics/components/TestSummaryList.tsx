@@ -10,7 +10,6 @@ import { noop } from 'lodash';
 import { PaginatedResult, Result, SyntheticTest, TestResultListItem } from '@instana/types';
 import { IconButton, Checkbox } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { TrProps } from '@instana/legacy';
 
 import {
   columnDefinitions,
@@ -24,6 +23,7 @@ import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { TrProps } from 'in-components/tables/ServerTable/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -70,15 +70,23 @@ const pageSize = 5;
 
 export default function TestSummaryList({
   tableActions,
-  hiddenIds
+  hiddenIds,
+  isTearSheet
 }: {
   tableActions: TableActions<any>;
   hiddenIds: string[];
+  isTearSheet?: boolean;
 }) {
   const [state, setState] = useState(defaultState);
 
   return (
-    <SummaryList externalState={state} setExternalState={setState} tableActions={tableActions} hiddenIds={hiddenIds} />
+    <SummaryList
+      externalState={state}
+      setExternalState={setState}
+      tableActions={tableActions}
+      hiddenIds={hiddenIds}
+      isTearSheet={isTearSheet}
+    />
   );
 }
 
@@ -86,12 +94,14 @@ export function SummaryList({
   externalState,
   setExternalState,
   tableActions,
-  hiddenIds
+  hiddenIds,
+  isTearSheet
 }: {
   externalState: StateProps;
   setExternalState: any;
   tableActions: TableActions<any>;
   hiddenIds: string[];
+  isTearSheet?: boolean;
 }) {
   const timeConfig = useTimeConfig();
 
@@ -167,7 +177,7 @@ export function SummaryList({
       }
       isSearchable
       searchPlaceholder={t('in-settings:tabs.filter')}
-      cardTitle={t('in-alerting:smartAlerts.synthetics.selectTests.alertTests')}
+      cardTitle={isTearSheet ? ' ' : t('in-alerting:smartAlerts.synthetics.selectTests.alertTests')}
       allRowsAreSelected={areAllRowsOnCurrentPageSelected(listData?.data, tableActions)}
       setSelectedStateForRows={setSelectedStateForRowsOnCurrentPage(listData?.data, tableActions)}
       shadowless

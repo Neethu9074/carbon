@@ -5,11 +5,12 @@
  */
 
 import { ListForm, MapForm } from 'formalistic';
+import { isEmpty } from 'lodash';
 
 import { CustomPayloadFieldUnion } from '@instana/types/typeDefinitions';
 
+import { isEmpty as isThresholdEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingFullScreenTearSheet';
-import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 
 export default function useAlertConfigValidation(
   stepConfigs: AlertingTearSheetStepConfigs[],
@@ -24,7 +25,7 @@ export default function useAlertConfigValidation(
     },
     {
       ...stepConfigs[1],
-      valid: !isEmpty(form?.get('threshold')?.get('value').value) && isTimeThresholdValid(form)
+      valid: isThresholdSectionValid(form) && isTimeThresholdValid(form)
     },
     {
       ...stepConfigs[2],
@@ -43,6 +44,29 @@ function isTimeThresholdValid(form: MapForm<any>) {
   return timeThresholdValid;
 }
 
+function isThresholdSectionValid(form: MapForm<any>) {
+  const warningThresholdValue = form.get('threshold')?.get('warningThreshold').get('value').value;
+  const hasWarningThreshold = !isThresholdEmpty(warningThresholdValue);
+  const criticalThresholdValue = form.get('threshold')?.get('criticalThreshold').get('value').value;
+  const hasCriticalThreshold = !isThresholdEmpty(criticalThresholdValue);
+
+  const operatorValue = form.get('threshold')?.get('operator').value ?? '>=';
+
+  if (hasWarningThreshold && hasCriticalThreshold) {
+    if ((operatorValue === '<' || operatorValue === '<=') && warningThresholdValue <= criticalThresholdValue) {
+      return false;
+    } else if ((operatorValue === '>' || operatorValue === '>=') && warningThresholdValue >= criticalThresholdValue) {
+      return false;
+    }
+  }
+
+  if (!hasWarningThreshold && !hasCriticalThreshold) {
+    return false;
+  }
+
+  return true;
+}
+
 function updateFormField(form: MapForm<any>, updateForm: (form: MapForm<any>) => void, fieldType: string) {
   return updateForm(form.updateIn([fieldType], (f: any) => f.setTouched(true, { recurse: true })));
 }
@@ -53,7 +77,10 @@ function isCustomPayloadValidOrUntouched(form: MapForm<any>): boolean {
   const customPayload = customPayloadForm.toJS() as unknown as CustomPayloadFieldUnion[];
 
   if (customPayload.length > 0) {
-    return !customPayload.some(value => value.key === '' || value.value === '' || isEmpty(value.value));
+    return !customPayload.some(
+      //@ts-expect-error
+      value => value.key === '' || isEmpty(value.key.trim()) || value.value === '' || isEmpty(value.value.trim())
+    );
   }
   return true;
 }

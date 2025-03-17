@@ -57,6 +57,7 @@ router.use('/bundle/internal.*.js', async (req, res, next) => {
 // assets directory will be populated with generated JavaScript during the build process.
 router.use(
   express.static(paths.assetDir, {
+    index: false,
     cacheControl: false,
     setHeaders(res) {
       res.setHeader('Cache-Control', cacheControlHeader);

@@ -12,11 +12,13 @@ import { getEntityHref, getEntityIdView, globalSettingsAlertingAlertChannels } f
 import { fullyQualified } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { clickAlertChannelTracker, alertChannelCTATrackerSegment } from 'in-settings/tracker';
 import PropertyInTable from 'in-settings/tabs/GlobalSettings/components/PropertyInTable';
+import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable';
 import { SETTINGS_ALERT_CHANNEL_CLICK } from 'in-services/tracking/eventNames';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -64,7 +66,7 @@ export default function AlertChannelsList({
       initialOrderBy="name"
       rightHeader={rightHeader}
       isSearchable={isSearchable}
-      searchAttributes={['name', getKind, getStringifiedParameters]}
+      searchAttributes={['name', getKind, getStringifiedParameters, getStringifiedTags]}
       extraFilters={createFilters(hiddenIds)}
       searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
@@ -91,11 +93,11 @@ export default function AlertChannelsList({
 }
 
 export function columnDefinitions(hasRowNavigation) {
-  return [
+  const columns = [
     {
       id: 'name',
       label: t('in-settings:tabs.name'),
-      width: 70,
+      width: 35,
       ellipsis: true,
       getContent(entity) {
         return (
@@ -120,7 +122,7 @@ export function columnDefinitions(hasRowNavigation) {
       id: 'properties',
       label: t('in-settings:tabs.properties'),
       sortable: false,
-      width: 30,
+      width: 35,
       getContent(entity) {
         if (!entity.properties) {
           return null;
@@ -144,6 +146,25 @@ export function columnDefinitions(hasRowNavigation) {
       }
     }
   ];
+  if (rbacTeamsEnabled) {
+    columns.push({
+      id: 'teams',
+      label: t('in-settings:tabs.teams.teamsTitle'),
+      sortable: false,
+      width: 30,
+      getContent(entity) {
+        if (!entity.rbacTags) {
+          return null;
+        }
+        return (
+          <div className={locals.allProperties}>
+            <TagsInTable tags={entity.rbacTags} />
+          </div>
+        );
+      }
+    });
+  }
+  return columns;
 }
 
 function columnDefinitionsAlertLevel(alertChannels) {
@@ -194,6 +215,11 @@ function getParameters(entity) {
     return null;
   }
   return config.getParameters();
+}
+
+function getStringifiedTags(entity) {
+  const tags = entity.rbacTags;
+  return tags && tags.length ? tags.map(item => item.displayName).join(',') : null;
 }
 
 export function getStringifiedParameters(entity) {

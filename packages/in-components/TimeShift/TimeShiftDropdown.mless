@@ -54,4 +54,15 @@
     text-wrap: wrap;
     overflow: hidden;
   }
+
+  ul:has(.menuitem) {
+    max-inline-size: unset;
+    max-height: 400px;
+    max-width: initial;
+    padding: 0;
+  }
+
+  svg.timeicon {
+    transform: unset;
+  }
 }

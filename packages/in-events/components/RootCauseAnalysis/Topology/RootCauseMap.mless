@@ -110,4 +110,14 @@
     padding: 0;
     padding-block-start: 0;
   }
+
+  .topologySidePanel {
+    :global .c4p--side-panel__title-text {
+      word-break: break-all;
+    }
+  }
+
+  .emptyStateContainer {
+    padding: 8rem;
+  }
 }

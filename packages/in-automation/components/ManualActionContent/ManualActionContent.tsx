@@ -13,7 +13,7 @@ import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/Ge
 import FeedbackComponent from 'in-automation/AutomationCard/GenerateAI/FeedbackComponent';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import AISlugIcon from 'in-automation/components/AISlugIcon';
+import { base64ToUtf8 } from 'in-automation/utils/actionField';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { toHtml } from 'in-services/formatters/markdown';
 import { t } from 'in-i18n';
@@ -51,7 +51,7 @@ export default function ManualActionContent({
 
   let plaintextContent = content.value;
   if (content.encoding === 'base64') {
-    plaintextContent = atob(plaintextContent);
+    plaintextContent = base64ToUtf8(plaintextContent);
   }
   // We trim the content because markdown-it rendering breaks if theres leading whitespace
   const htmlContent = toHtml(plaintextContent.trimStart(), { breaks: true });
@@ -89,11 +89,6 @@ export default function ManualActionContent({
                 </span>
               )}
             </CopyToClipboard>
-          )}
-          {withAISlug && (
-            <div className={locals.aiSlug}>
-              <AISlugIcon />
-            </div>
           )}
         </div>
         {showFeedback && form && setForm && (

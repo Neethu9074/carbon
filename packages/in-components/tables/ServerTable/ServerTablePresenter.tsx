@@ -18,15 +18,14 @@ import { ColumnDefinition, TableProps, TableState } from 'in-components/tables/S
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import LoadingRows from 'in-components/tables/ServerTable/internalComponents/LoadingRows';
-import { carbonPaginationEnabled, carbonTableEnabled } from 'in-services/featureFlags';
 import { ConfigureButton } from 'in-components/tables/sharedComponents/ConfigurableTh';
 import { carbonSortHandler } from 'in-components/tables/ServerTable/carbonSortHandler';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import { Nullish, PaginatedResult, Result, ResultPrecision } from 'in-types';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { noop, pendingResult } from 'in-services/fixedObjects';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { hasError, isLoading } from 'in-services/util/result';
-import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
 import locals from './ServerTablePresenter.mless';
@@ -456,23 +455,15 @@ export default function ServerTablePresenter<
       })
     ) : (
       <div className={locals.paginationWrapper}>
-        {carbonPaginationEnabled ? (
-          <CarbonPagination
-            currentPage={page}
-            totalItems={result.data.totalHits}
-            pageSize={result.data.pageSize}
-            pageSizes={pageSizes ?? [result.data.pageSize]}
-            onChange={(data: { page: number; pageSize: number }) => {
-              return onChange({ query, orderBy, orderDirection, page: data.page, pageSize: data.pageSize, pageSizes });
-            }}
-          />
-        ) : (
-          <Pagination
-            currentPage={page}
-            numPages={numPages}
-            onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
-          />
-        )}
+        <CarbonPagination
+          currentPage={page}
+          totalItems={result.data.totalHits}
+          pageSize={result.data.pageSize}
+          pageSizes={pageSizes ?? [result.data.pageSize]}
+          onChange={(data: { page: number; pageSize: number }) => {
+            return onChange({ query, orderBy, orderDirection, page: data.page, pageSize: data.pageSize, pageSizes });
+          }}
+        />
       </div>
     );
   }

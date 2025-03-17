@@ -18,16 +18,19 @@ export default function HardwareInfo({ snapshot }) {
   const memoryTotal = data.get('memory.total');
   const start = data.get('start');
   const openFilesMax = data.get('openFiles.max');
+  const cpumodal = data.get('cpu.model') != null ? 'x' + data.get('cpu.model') : data.get('cpu.model');
+  const osarch = data.get('os.arch') ? '(' + data.get('os.arch') + ')' : data.get('os.arch');
 
   return (
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.host.os')}>
-        {data.get('os.name')} {data.get('os.version')} ({data.get('os.arch')})
+        {data.get('os.name')} {data.get('os.version')} {osarch}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.host.distribution')}>{data.get('os.dist')}</DescriptionItem>
 
       <DescriptionItem title={t('in-forge:plugins.host.cpu')}>
-        {data.get('cpu.count')} x {data.get('cpu.model')}
+        {data.get('cpu.count')}
+        {cpumodal}
       </DescriptionItem>
 
       {data.get('gpu.count') && (

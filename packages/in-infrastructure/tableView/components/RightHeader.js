@@ -24,7 +24,7 @@ export default connectTo(
   {
     showAggregations: showAggregations$
   },
-  function RightHeader({ showAggregations }) {
+  function RightHeader({ showAggregations, clearTableSelection }) {
     const windowSize = useTimeWindowSize();
 
     return (
@@ -36,7 +36,15 @@ export default connectTo(
           </Tooltip>
         </label>
 
-        <Button darkTheme kind="secondary" size="compact" onClick={clearSelection}>
+        <Button
+          darkTheme
+          kind="secondary"
+          size="compact"
+          onClick={() => {
+            clearSelection();
+            clearTableSelection();
+          }}
+        >
           {t('in-infrastructure:tableView.clearSelections')}
         </Button>
       </header>

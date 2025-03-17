@@ -10,13 +10,13 @@ import { themes } from '@instana/design-tokens';
 import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import DatastoreTable from 'in-nutanix/Dashboards/Host/tabs/DatastoreTable';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { bytes, millis, percentage } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import DatastoreTable from './DatastoreTable';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: host }) {

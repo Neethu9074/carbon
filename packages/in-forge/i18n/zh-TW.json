@@ -1185,6 +1185,11 @@
   "pluginName_kongApigateway_1": "Kong",
   "pluginName_kongApigateway_2": "Kong",
   "pluginName_kongApigateway": "Kong",
+  "pluginName_kubeCostPlatform": "Kubecost",
+  "pluginName_kubeCostPlatform_plural": "Kubecost",
+  "pluginName_kubeCostPlatform_0": "Kubecost",
+  "pluginName_kubeCostPlatform_1": "Kubecost",
+  "pluginName_kubeCostPlatform_2": "Kubecost",
   "pluginName_kubernetesCluster_plural": "Kubernetes 叢集",
   "pluginName_kubernetesCluster_0": "Kubernetes 叢集",
   "pluginName_kubernetesCluster_1": "Kubernetes 叢集",
@@ -3657,6 +3662,10 @@
       "directorySystemAgentLSA": "本機安全性權限",
       "directorySystemAgentNSPI": "名稱服務提供者",
       "securityAccountManagerLabel": "安全帳戶管理程式",
+      "dhcpLabel": "動態主機配置通訊協定 (DHCP)",
+      "dnsLablelDynamicUpdates": "網域名稱系統 (DNS) 動態更新",
+      "dnsLablelQueriesAndResponses": "網域名稱系統 (DNS) 查詢和回應",
+      "dnsLablelZoneTransfers": "網域名稱系統 (DNS) 區域轉移",
       "directorySystemAgent": {
         "dsClientBindsPerSec": "每秒用戶端連結數",
         "dsClientNameTranslationsPerSec": "每秒用戶端名稱翻譯次數",
@@ -3701,7 +3710,7 @@
         "samDomainLocalGroupMembershipEvaluationsPerSec": "每秒網域本端群組成員資格評估",
         "samEnumerationsPerSec": "每秒列舉數",
         "samGCEvaluationsPerSec": "每秒 GC 評估次數",
-        "samGlobalGroupMembershipEvaluationsPerSec": "每秒的廣域群組成員資格評估",
+        "samGlobalGroupMembershipEvaluationsPerSec": "每秒廣域群組成員資格評估",
         "samMachineCreationAttemptsPerSec": "每秒機器建立嘗試次數",
         "samMembershipChangesPerSec": "每秒成員資格變更",
         "samNonTransitiveMembershipEvaluationsPerSec": "每秒非過渡成員資格評估",
@@ -3712,6 +3721,30 @@
         "samTransitiveMembershipEvaluationsPerSec": "每秒過渡的成員資格評估",
         "samUniversalGroupMembershipEvaluationsPerSec": "每秒通用群組成員資格評估",
         "samUserCreationAttemptsPerSec": "每秒使用者建立嘗試次數"
+      },
+      "dhcp": {
+        "dhcpAcksPerSecondPercentageIncrease": "每秒 ACK 的增加百分比",
+        "dhcpRequestSecondPercentIncrease": "每秒要求的增加百分比",
+        "dhcpConflictCheckQueueLength": "衝突檢查佇列長度",
+        "dhcpDeclinesPersec": "每秒拒絕次數",
+        "dhcpDuplicatesDroppedPersec": "每秒捨棄的重複項",
+        "dhcpNacksPersec": "每秒負面 ACK",
+        "dhcpPacketsExpiredPersec": "每秒過期的封包數"
+      },
+      "dns": {
+        "dnsCachingMemory": "快取記憶體",
+        "dnsDynamicUpdateQueued": "置於佇列的動態更新",
+        "dnsDynamicUpdateReceived": "接收的動態更新",
+        "dnsDynamicUpdateReceivedPersec": "每秒接收的動態更新",
+        "dnsDynamicUpdateRejected": "拒絕的動態更新",
+        "dnsDynamicUpdateTimeOuts": "動態更新逾時數",
+        "dnsTotalQueryReceived": "接收的查詢總數",
+        "dnsTotalQueryReceivedPersec": "每秒接收的查詢總數",
+        "dnsTotalResponseSent": "傳送的回應總數",
+        "dnsTotalResponseSentPersec": "每秒傳送的回應總數",
+        "dnsZoneTransferFailure": "區域傳送失敗數",
+        "dnsZoneTransferSuccess": "區域傳送成功數",
+        "dnsZoneTransferRequestReceived": "接收的區域傳送要求數"
       }
     },
     "activeMQ": {
@@ -10840,8 +10873,10 @@
         "virtualTotal": "虛擬記憶體總數",
         "computational": "可計算",
         "nonComputational": "不可計算",
+        "realAvailable": "實際可用",
         "pageIn": "每秒頁進",
         "pageOut": "每秒頁出",
+        "pageScan": "每秒掃描頁數",
         "openFiles": "開啟的檔案數",
         "current": "現行",
         "tcpActivity": "TCP 活動",
@@ -10929,6 +10964,7 @@
       "machineId": "機器 ID",
       "bootId": "開機 ID",
       "systemId": "系統 ID",
+      "hostId": "主機 ID",
       "startedAt": "開始時間",
       "interfacesWithSize": "介面 ({{size}})",
       "cpuUsed": "已用的 CPU",
@@ -10953,8 +10989,10 @@
       "virtualTotal": "虛擬記憶體總數",
       "computational": "可計算",
       "nonComputational": "不可計算",
+      "realAvailable": "實際可用",
       "pageIn": "每秒頁進",
       "pageOut": "每秒頁出",
+      "pageScan": "每秒掃描頁數",
       "load": "負載",
       "contextSwitches": "環境定義切換",
       "current": "現行",
@@ -12808,6 +12846,7 @@
       "fetch": "提取",
       "produce": "產生",
       "allBrokersStateMetrics": "所有分配管理系統狀態度量",
+      "clientMetrics": "用戶端度量",
       "averageIdleTimePercentage": "平均的閒置時間百分比",
       "networkProcessor": "網路處理器",
       "requestHandler": "要求處理程式",
@@ -12957,6 +12996,9 @@
         "workerLua": "工作者 Lua VM 中已配置的位元組數",
         "totalConnections": "連線總數"
       }
+    },
+    "kubecost": {
+      "label": "Kubecost"
     },
     "kubernetesCluster": {
       "noActivity": "無活動",
@@ -13646,6 +13688,8 @@
       "instanceId": "實例 ID",
       "label_category_LLM": "LLM",
       "llm_status": "LLM 狀態",
+      "model": "模型",
+      "service": "服務",
       "dashboard": {
         "token": "依模型的記號",
         "inputToken": "依模型的輸入記號",

@@ -6,8 +6,7 @@
 
 import React from 'react';
 
-import { TableEntityCounter } from '@instana/legacy';
-import { Card } from '@instana/components';
+import { Card, TableEntityCounter } from '@instana/components';
 
 import {
   clusterIdUrlParameter,

@@ -11,12 +11,12 @@ import { just } from '@instana/observables';
 
 import { highlightedTimeframe$, addOrDeleteHighlightedTimeframeToParams } from 'in-stores/highlightedTimeframe';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
+import ProfileMarker from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileMarker';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { formatDateTime } from 'in-services/formatters/date';
 import bucketize from 'in-services/util/bucketize';
-import ProfileMarker from './ProfileMarker';
 import { t } from 'in-i18n';
 
 import locals from './ProfilesLane.mless';
@@ -72,14 +72,13 @@ function mapClusterToMarkerLaneEvents(timeConfig, clusteredTimestamps, prevClust
   return {
     prevCluster,
     timestamp: to,
-
     from: Math.max(
       timeConfig.to - timeConfig.windowSize,
       prevCluster
         ? prevCluster[prevCluster.length - 1] + 1 // the prev cluster ends at. so +1 to not include this cluster into the prev one
-        : 0
+        : Math.trunc((to - 1000) / 10000) * 10000 // backend is sensitive to nearest 10000ms. Without truncation, response may be empty
     ),
-    to,
+    to: to + 5000, // providing backend with timespan ending at the profile results in empty responses. Adding additional "buffer" to span avoids this
     count: clusteredTimestamps.length
   };
 }

@@ -19,7 +19,8 @@ const betaConfig = {
 };
 
 export default {
-  title: 'Blue print description'
+  component: BlueprintDescription,
+  subcomponents: { BlueprintText }
 };
 export const Description = () => (
   <BlueprintDescription config={config} selectButtonDisabled={false} isSimpleMode={false} />

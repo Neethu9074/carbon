@@ -5,6 +5,6 @@
 
 export { t, Trans, SecureString } from '@instana/i18n-react';
 
-export { activeLanguage, fallbackLanguage, collationLanguage } from 'in-i18n/language';
+export { activeLanguage, fallbackLanguage, collationLanguage, activeLocale } from 'in-i18n/language';
 export { supportedLanguages } from 'in-i18n/supportedLanguages';
 export { init } from 'in-i18n/init';

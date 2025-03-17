@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { syntheticDNSEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export interface AdvancedBluePrint {
@@ -46,8 +47,21 @@ const certificateCheckBlueprint: AdvancedBluePrint = {
   testType: ''
 };
 
+const dnsBlueprint: AdvancedBluePrint = {
+  type: 'DNS',
+  name: t('in-synthetics:dialog.createTest.advancedMode.advancedBluePrint.dnsName'),
+  label: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.dnsLabel'),
+  description: {
+    headline: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.dnsHeadline'),
+    text: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.dnsText')
+  },
+  testType: ''
+};
+
 const advancedBluePrintConfig: readonly Readonly<AdvancedBluePrint>[] = Object.freeze([]);
 
 export const getAdvancedBlueprintConfig = () => {
-  return advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint, certificateCheckBlueprint);
+  return syntheticDNSEnabled
+    ? advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint, certificateCheckBlueprint, dnsBlueprint)
+    : advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint, certificateCheckBlueprint);
 };

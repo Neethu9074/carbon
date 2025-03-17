@@ -8,6 +8,7 @@
 :local {
   .container {
     padding-left: 1rem;
+    position: fixed;
   }
 
   .list {

@@ -4,13 +4,11 @@
  */
 
 import metricDefinitions from 'in-forge/plugins/aceMessageFlow/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/aceMessageFlow/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.aceMessageFlow,
 
-  kpiDefinitions,
   metricDefinitions
 });

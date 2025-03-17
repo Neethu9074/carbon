@@ -9,6 +9,9 @@
     padding: 15px 16px;
     display: flex;
     flex-direction: column;
+    border: 1px solid;
+    border-left: 0.25rem solid;
+    border-color: var(--cds-border-strong-01);
   }
   .metricsContainer {
     display: flex;
@@ -17,5 +20,15 @@
   .metricContainer {
     display: flex;
     flex-direction: column;
+  }
+
+  .paginationContainer {
+    position: absolute;
+    top: 0;
+    left: 100%;
+  }
+
+  .hidePagination {
+    display: none;
   }
 }

@@ -230,7 +230,7 @@
     "performanceConstantlyEvaluated": "在測試版期間，正在積極評估及改善效能。 請留下意見，以協助我們更充分地改善我們的 AI",
     "probableRootCauseLabel": "{{entity_type}} 有過錯：",
     "relatedEventsLabel": "關聯事件 ({{number_of_events}})",
-    "relatedMessagesAndLogsLabel": "已識別的追蹤錯誤 & 日誌",
+    "relatedMessagesAndLogsLabel": "錯誤與日誌",
     "entitiesNumber": "實體",
     "probabilityLevelText": "機率層次：",
     "highProbability": "高",
@@ -270,6 +270,7 @@
     "errorMessages": "追蹤錯誤訊息",
     "analyzeErrors": "分析錯誤",
     "analyzeTraceLogs": "分析追蹤日誌",
+    "analyzeApplicationLogs": "分析應用程式日誌",
     "topology": {
       "viewTopology": "檢視拓蹼",
       "dialogTitle": "拓蹼",

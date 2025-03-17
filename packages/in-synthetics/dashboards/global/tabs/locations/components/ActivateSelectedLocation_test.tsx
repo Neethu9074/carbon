@@ -30,17 +30,17 @@ describe(ActivateSelectedLocation, () => {
 
   it('Render correct main dialog information.', () => {
     render(<ActivateSelectedLocation datacenter={[dummySyntheticDatacenter]} onClose={onClose} />);
-    expect(screen.getByText('Activate Location')).toBeVisible();
+    expect(screen.getByText('Activate location')).toBeVisible();
     expect(screen.getByText('Datacenters')).toBeVisible();
     expect(screen.getByText('Using an Instana-hosted PoP')).toBeVisible();
   });
 
   it('Render correct column headers from table', () => {
     render(<ActivateSelectedLocation datacenter={[dummySyntheticDatacenter]} onClose={onClose} />);
-    expect(screen.getByText('Datacenter Code')).toBeVisible();
-    expect(screen.getByText('Datacenter Name')).toBeVisible();
-    expect(screen.getByText('Location Name')).toBeVisible();
-    expect(screen.getByText('Activation Status')).toBeVisible();
+    expect(screen.getByText('Datacenter code')).toBeVisible();
+    expect(screen.getByText('Datacenter name')).toBeVisible();
+    expect(screen.getByText('Location name')).toBeVisible();
+    expect(screen.getByText('Activation status')).toBeVisible();
   });
 
   it('Render correct table data', () => {

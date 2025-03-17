@@ -15,10 +15,10 @@
     }
   }
   .noPlaceholder {
-    grid-template-columns: 15% 85%;
+    grid-template-columns: 15% 1fr;
   }
   .noPlaceholderTooltip {
-    grid-template-columns: 15% 50% 30%;
+    grid-template-columns: 15% 2fr 1fr;
   }
   .btnWidth100 {
     width: 100%;

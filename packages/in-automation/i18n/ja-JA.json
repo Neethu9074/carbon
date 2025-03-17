@@ -238,6 +238,7 @@
     "ignoreCertErrors": "証明書エラーを無視する",
     "basicAuth": "基本認証",
     "bearerToken": "ベアラー・トークン",
+    "authentication": "認証",
     "apiKeyAddTo": "追加先",
     "apiKey": "API 鍵",
     "header": "ヘッダー",
@@ -322,8 +323,6 @@
     "status": "状況",
     "startTime": "開始時刻",
     "endTime": "終了時刻",
-    "property": "プロパティー",
-    "value": "値",
     "actionInstanceId": "アクション・インスタンス ID",
     "event": "イベント",
     "eventName": "イベント名",
@@ -371,7 +370,8 @@
     "deleteDialog": {
       "success": "アクション・インスタンスは正常に削除されました。",
       "failure": "アクション・インスタンスの削除に失敗しました。"
-    }
+    },
+    "actionSnapshotDetails": "アクションのスナップショットの詳細"
   },
   "actionLanes": {
     "buttonInvestigate": "調査"
@@ -472,8 +472,8 @@
     "showTasks": "表示"
   },
   "deleteDialog": {
-    "pleaseConfirm": "ご確認ください",
-    "pleaseConfirmMsg": "<strong>{{name}}</strong> を削除してよろしいですか?",
+    "confirmRemove": "ご確認ください",
+    "confirmRemoveMsg": "<strong>{{name}}</strong> を削除してよろしいですか?",
     "delete": "削除"
   },
   "turboActionCategories": {
@@ -506,5 +506,12 @@
     "actionName": "アクション名",
     "recommendedActionHistoryWithCount": "リソースのアクション履歴({{count}})",
     "recommendedActionHistory": "リソース・アクション履歴"
+  },
+  "feedback": {
+    "contentHelpfulText": "生成されたコンテンツは役に立ちましたか？",
+    "thankYouForYourFeedback": "フィードバックをありがとうございました。",
+    "submitFeedback": "フィードバックの送信",
+    "additionalFeedbacklabel": "ご意見がございましたら、お聞かせください(任意)",
+    "additionalFeedbackPlaceholder": "この応答について、どのような点が気に入らなかったのでしょうか？ 改善できる点"
   }
 }

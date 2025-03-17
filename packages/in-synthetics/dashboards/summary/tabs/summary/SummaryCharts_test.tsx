@@ -34,11 +34,15 @@ describe(SummaryCharts, () => {
       />
     );
     expect(screen.getByText('Failures')).toBeVisible();
-    expect(screen.getByText('Response Times')).toBeVisible();
-    expect(screen.getByText('Network Timings')).toBeVisible();
-    expect(screen.getByText('Average Response Size')).toBeVisible();
+    expect(screen.getByText('Response times')).toBeVisible();
+    expect(screen.getByText('Network timings')).toBeVisible();
+    expect(screen.getByText('Average response size')).toBeVisible();
     expect(screen.getByText('Results')).toBeVisible();
-    expect(screen.getByText('Response Status')).toBeVisible();
+    expect(screen.getByText('Response status')).toBeVisible();
+    // test network timings pull down
+    screen.getByText('test-label1').click();
+    screen.getByText('test-label2').click();
+    expect(screen.getByText('test-label2')).toBeVisible();
   });
 
   it('Render correct set of charts for HTTPScript test', () => {
@@ -53,12 +57,12 @@ describe(SummaryCharts, () => {
       />
     );
     expect(screen.getByText('Failures')).toBeVisible();
-    expect(screen.getByText('Response Times')).toBeVisible();
-    expect(screen.getByText('Average Response Size')).toBeVisible();
+    expect(screen.getByText('Response times')).toBeVisible();
+    expect(screen.getByText('Average response size')).toBeVisible();
     expect(screen.getByText('Results')).toBeVisible();
 
-    expect(screen.queryByText('Network Timings')).toBeNull();
-    expect(screen.queryByText('Response Status')).toBeNull();
+    expect(screen.queryByText('Network timings')).toBeNull();
+    expect(screen.queryByText('Response status')).toBeNull();
   });
 
   it('Render correct set of charts for SSLCertificate test', () => {
@@ -74,10 +78,30 @@ describe(SummaryCharts, () => {
     );
     expect(screen.getByText('Failures')).toBeVisible();
     expect(screen.getByText('Results')).toBeVisible();
-    expect(screen.getByText('Response Times')).toBeVisible();
+    expect(screen.getByText('Response times')).toBeVisible();
 
     expect(screen.queryByText('Avg. Response Size')).toBeNull();
     expect(screen.queryByText('Network Timings')).toBeNull();
     expect(screen.queryByText('Response Status')).toBeNull();
+  });
+
+  it('Render correct set of charts for DNS test', () => {
+    render(
+      <SummaryCharts
+        testId={'Fy5VXstvyDZrrCjhNYXZ'}
+        testType={'DNS'}
+        test={dummyTest}
+        locationIds={'f7cEoG61DJfVyWcDnWsc,,KHphVmZqqRf9Kp2xSoud'}
+        locationDisplayLabels={'test-label1,test-label2'}
+        timeShiftConfig={{ offset: 0 }}
+      />
+    );
+    expect(screen.getByText('Failures')).toBeVisible();
+    expect(screen.getByText('Results')).toBeVisible();
+    expect(screen.getByText('Response times')).toBeVisible();
+
+    expect(screen.queryByText('Avg. response size')).toBeNull();
+    expect(screen.queryByText('Network timings')).toBeNull();
+    expect(screen.queryByText('Response status')).toBeNull();
   });
 });

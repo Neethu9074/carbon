@@ -14,7 +14,8 @@ import {
   SliConfigurationInput,
   SliEntitySliType,
   SliEntityUnion
-} from 'in-types';
+} from '@instana/types';
+
 import { enabledApdexBeaconTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { deepFreeze } from 'in-services/util/object';
 import { t } from 'in-i18n';

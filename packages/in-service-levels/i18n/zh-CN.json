@@ -113,7 +113,6 @@
       "beaconCount": "信标计数",
       "calls": "调用数",
       "latency": "等待时间",
-      "results": "结果",
       "beaconDuration": "信标持续时间",
       "threshold": "阈值",
       "failureRate": "失败率",
@@ -147,8 +146,8 @@
       "event_test_plural": "{{count}} 测试"
     },
     "deleteDialog": {
-      "pleaseConfirm": "请确认",
-      "pleaseConfirmMsg": "确定要删除 <strong>{{name}}</strong> 吗？",
+      "confirmRemove": "请确认",
+      "confirmRemoveMsg": "确定要删除 <strong>{{name}}</strong> 吗？",
       "delete": "删除"
     }
   },

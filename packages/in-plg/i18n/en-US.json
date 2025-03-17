@@ -95,7 +95,7 @@
       "packaging": "Packaging",
       "runtime": "Runtime",
       "prerequisitesTitle": "Prerequisites",
-      "viewDeployedAgents": "View Deployed Agents",
+      "viewDeployedAgents": "View Deployed agents",
       "openAgentDashboardOptional": "Optional: After your agent deploys successfully, you can view it on the infrastructure map.",
       "downloadKey": "Download key",
       "support": "Support",
@@ -110,10 +110,10 @@
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code."
       },
       "operator": {
-        "installUsingTheOperator": "Install using the Operator",
+        "installUsingTheOperator": "Install using the operator",
         "installAnAgentOnKubernetes": "Install an agent on Kubernetes",
         "installOperatorsManually": "Step 1: Install operators manually.",
-        "theLatestOperatorWillBeInstalled": "The latest Operator will be installed, and 1.x CRDs will not be upgraded:",
+        "theLatestOperatorWillBeInstalled": "The latest operator will be installed, and 1.x CRDs will not be upgraded:",
         "enterAClusterNameAndOptionallyTheAgentZoneThatYouWantTheClusterToBePartOf": "Step 2: Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
         "configureTheCustomResourceYAMLFile": "Step 3: Configure the custom resource YAML file.",
         "followTheInstructionsInTheDocumentation": "Follow the instructions in the <documentation>documentation</documentation>.",
@@ -163,11 +163,11 @@
       "lambdaSetEnvironmentVariables": "Set the following environment variables in respective section at AWS Lambda configuration page",
       "referenceToAwsLambdaGoDocumentation": "AWS Lambda functions written in Go need to be manually instrumented in order to collect trace data. Follow the instructions of the <awsLambdaGoDoc>AWS Lambda Go documentation</awsLambdaGoDoc>.",
       "reviewPrerequisitesAndConfigureLambda": "Review the prerequisites and configure your AWS Lambda functions for native tracing.",
-      "referDocumentationForSettingUpAwsSensor": "For details on setting up the Instana AWS Sensor, refer to the <awsSensorDoc> AWS Service documentation< /awsSensorDoc>.",
+      "referDocumentationForSettingUpAwsSensor": "For details on setting up the Instana AWS sensor, refer to the <awsSensorDoc> AWS Service documentation< /awsSensorDoc>.",
       "referenceToAwsLambdaMonitoringDoc": "Alternative methods for configuring native Lambda tracing are detailed in <awsLambdaMonitoring>Monitoring AWS Lambda documentation</awsLambdaMonitoring>.",
-      "setupUpInstanaAwsSensorRunningInAwsRegion": "Set up an Instana AWS Sensor running in your AWS region",
+      "setupUpInstanaAwsSensorRunningInAwsRegion": "Set up an Instana AWS sensor running in your AWS region",
       "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Review the prerequisites and run the agent deployment code.",
-      "setIAMPermissionsAndEditTrustRelationship": "Set IAM permissions and edit the Trust Relationship",
+      "setIAMPermissionsAndEditTrustRelationship": "Set IAM permissions and edit the trust relationship",
       "selectWhereToRunAwsAgentOn": "Select where to run the AWS agent on",
       "selectApplicationRunime": "Step 1: Select the application runtime",
       "applicationRuntime": "Application runtime",
@@ -183,7 +183,7 @@
       "romanStep3": "(iii) ",
       "selectAwsRegion": "Select AWS region",
       "awsRegion": "AWS region",
-      "awsCommandLineInterfaceValue": "Provide the values and use a command similar to the one below to use the AWS Command Line Interface",
+      "awsCommandLineInterfaceValue": "Provide the values and use a command similar to the one below to use the AWS Command Line Interface (CLI)",
       "amazonResourceName": "Amazon Resource Name (ARN)",
       "setEnvVariablesInLambdaFunction": "Set the following environment variables in Lambda function.",
       "selectInstanaLambdaLayer": "Select the Instana Lambda layer with the Amazon Resource Name (ARN) below.",
@@ -193,11 +193,11 @@
       "installationMethod": "Installation method",
       "applicationDirectory": "Application directory",
       "workDirDirectoryInDocker": "This is usually set as the WORKDIR directory in Dockerfile.",
-      "lambdaFunctionName": "Lambda Function Name",
+      "lambdaFunctionName": "Lambda function name",
       "referenceToAwsLambdaRubyDocumentation": "AWS Lambda functions written in Go need to be manually instrumented in order to collect trace data. Follow the instructions of the <awsLambdaRubyDoc>AWS Lambda Ruby documentation</awsLambdaRubyDoc>.",
       "preferredMethodForEnablingTracing": "The preferred method for enabling tracing in Java-based AWS Lambda functions is by using the Instana Lambda layer with AutoTrace as outlined in the steps below.",
       "setupAwsLambdaFunctionsForNativeTracing": "Review the prerequisites and set up AWS Lambda functions for native tracing with the steps below.",
-      "useScriptAsUserDataForEc2Instance": "Use this script as User Data for the EC2 instance",
+      "useScriptAsUserDataForEc2Instance": "Use this script as user data for the EC2 instance",
       "selectAgentPackagingAndRuntime": "Select the agent packaging mode and runtime",
       "awsLambdaPythonAutotrace": "The preferred way to configure AWS Lambda functions based on Python for tracing is the Instana Lambda layer with AutoTrace.",
       "awsLambdaDotnetAutotrace": "The preferred way to configure AWS Lambda functions based on .NET Core for tracing is the Instana Lambda layer with AutoTrace.",
@@ -210,46 +210,46 @@
       "trustRelationships": "Trust relationships",
       "enterAClusterNameAndOptionallyTheAgentZone": "Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
       "awsLambdaNodeJsAutotrace": "The preferred way to configure AWS Lambda functions based on Node.js 10.x (or newer) for tracing is the Instana Lambda layer with AutoTrace.",
-      "selectAwsRegionAndLambdaHandler": "Select AWS region and enter the current lambda handler",
+      "selectAwsRegionAndLambdaHandler": "Select AWS region and enter the current Lambda handler",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Set Instana auto-wrap handler as the handler for the Lambda function.",
-      "autoWrapHandler": "Auto-wrap Handler",
+      "autoWrapHandler": "Auto-wrap handler",
       "prerequisiteLinks": {
-        "networkRequirements": "Network Requirements"
+        "networkRequirements": "Network requirements"
       },
       "documentationLinks": {
         "installAgentOnAwsEc2": "Install the agent on AWS EC2 (Windows)",
         "monitoringGo": "Monitoring Go",
-        "awsLambdaNativeTracingForRuby": "AWS Lambda Native Tracing for Ruby",
-        "awsLambdaNativeTracingForPython": "AWS Lambda Native Tracing for Python",
-        "gcrDocumentation": "Google Cloud Run Documentation",
+        "awsLambdaNativeTracingForRuby": "AWS Lambda native tracing for Ruby",
+        "awsLambdaNativeTracingForPython": "AWS Lambda native tracing for Python",
+        "gcrDocumentation": "Google Cloud run documentation",
         "gcBuildpackDocs": "Google cloud run buildpack documentation",
         "setupGcpAgent": "Set up the GCP agent",
-        "awsLambdaNativeTracingForNodeJs": "AWS Lambda Native Tracing for Node.js",
-        "instanaLambdaLayerAndManualWrapping": "Instana Lambda Layer & Manual Wrapping",
+        "awsLambdaNativeTracingForNodeJs": "AWS Lambda native tracing for Node.js",
+        "instanaLambdaLayerAndManualWrapping": "Instana Lambda layer & manual wrapping",
         "awsLambdaEnvVariables": "AWS Lambda environment variables",
         "monitoringPython": "Monitoring Python",
-        "runningStartupScript": "Running Startup Script",
+        "runningStartupScript": "Running startup script",
         "uninstallingTheHostAgent": "Uninstalling the host agent",
-        "awsLambdaNativeTracingForJava": "AWS Lambda Native Tracing for Java",
-        "awsLambdaNativeTracingForDotNet": "AWS Lambda Native Tracing for .NET Core",
-        "awsLambdaFunctions": "AWS lambda functions",
+        "awsLambdaNativeTracingForJava": "AWS Lambda native tracing for Java",
+        "awsLambdaNativeTracingForDotNet": "AWS Lambda native tracing for .NET Core",
+        "awsLambdaFunctions": "AWS Lambda functions",
         "monitoringAwsFargate": "Monitoring AWS Fargate",
         "monitoringAwsFargateJava": "Monitoring AWS Fargate (Java)",
         "configureTaskDefinition": "Configuring task definition",
         "monitoringAwsFargateDotnet": "Monitoring AWS Fargate (.Net Core)",
         "monitoringAwsFargateNodejs": "Monitoring AWS Fargate (Node.js)",
         "monitoringAwsFargatePython": "Monitoring AWS Fargate (Python)",
-        "monitoredAwsServices": "Monitored AWS services",
-        "monitoringNodejs": "Monitoring Node js",
-        "installGcrCollectors": "Install Gogle Cloud Run in-process collectors",
+        "monitoredAwsServices": "Monitored AWS Services",
+        "monitoringNodejs": "Monitoring Node .js",
+        "installGcrCollectors": "Install Google Cloud Run in-process collectors",
         "installAgentOnEc2": "Install agent on AWS EC2",
         "configurationOptions": "Configuration options",
         "monitoringGcr": "Monitoring Google Cloud Run",
         "monitoringAwsFargateRuby": "Monitoring AWS Fargate (Ruby)",
-        "awsServiceDocumentation": "AWS Service documentation",
+        "awsServiceDocumentation": "AWS Services documentation",
         "monitoringAwsLambda": "Monitoring AWS Lambda",
         "configuringAwsLambdaMonitoring": "Configuring AWS Lambda monitoring",
-        "awsLambdaNativeTracingForGo": "AWS Lambda Native Tracing for Go"
+        "awsLambdaNativeTracingForGo": "AWS Lambda native tracing for Go"
       }
     },
     "runtime": {
@@ -293,12 +293,12 @@
       "downloadInstanaMonitoringApplicationMonitoring": "Download the \"Instana Microservices and Application Monitoring \" tile from the link below",
       "vmwareTanzuNetworkLink": "VMware Tanzu network link",
       "reviewThePrerequisites": "Review the prerequisites",
-      "installingTheInstanaAgent": "Installing the Instana Agent",
+      "installingTheInstanaAgent": "Installing the Instana agent",
       "installingAndConfiguringMicroservicesApplicationsMonitoring": "Installing and configuring microservices applications monitoring",
       "addTileToOpsManagerAndConfigureIt": "Add the tile to Ops Manager and configure it",
       "addInstanaApplicationMonitoring": "Add the \"Instana Microservices Application Monitoring\" tile to your Ops Manager and apply the following to the \"Backend configuration\" tab of the tile.",
       "nameYourVmwareFoundation": "Name your VMware Tanzu foundation",
-      "assignANameToVMwareTanzuFoundation": "Assign a name to your VMware Tanzu foundation (e.g. \"prod-eu\" or \"dev01\") by accessing the Agent Zone setting in the Agent Configuration tab.",
+      "assignANameToVMwareTanzuFoundation": "Assign a name to your VMware Tanzu foundation (e.g. \"prod-eu\" or \"dev01\") by accessing the Agent zone setting in the Agent configuration tab.",
       "applyTileChanges": "Apply the tile changes",
       "applyTheChangesMadeWithinThisTile": "Apply the changes made within this tile  to all the other tiles in the Ops Manager. Tiles not selected for the 'Apply changes' step within Ops Manager will remian hidden in Instana."
     },
@@ -367,7 +367,7 @@
           "linux64BitArm": "Linux (64Bit - ARM)",
           "linux64BitAmd": "Linux (64Bit - AMD)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
-          "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC Little Endian)",
+          "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC little endian)",
           "linuxS390XJdkNotIncluded": "Linux (64Bit - s390x) JDK not included",
           "linuxS390X": "Linux (64Bit - s390x)",
           "linuxX8664": "Linux (64Bit - x86_64)",
@@ -391,7 +391,7 @@
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code.",
         "installagentOnAWSEC2": "Install agent on AWS EC2",
         "RuncommandsonAWSES2": "Run commands on AWS EC2",
-        "configurationParameters": "Configuration Parameters"
+        "configurationParameters": "Configuration parameters"
       },
       "archive": {
         "selectTheAgentPackagingMode": "Step 1: Select the agent packaging mode",
@@ -407,13 +407,13 @@
           "linux32BitArm": "Linux (32Bit - ARM)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
           "linux32BitPowerPc": "Linux (32Bit - PowerPC)",
-          "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC Little Endian)",
+          "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC little endian)",
           "linuxS390X": "Linux (s390x)"
         }
       },
       "linux_gce": {
         "installAnAgentOnLinux": "Install an agent on Linux",
-        "configurationParameters": "Configuration Parameters"
+        "configurationParameters": "Configuration parameters"
       }
     },
     "ibmi": {
@@ -434,9 +434,9 @@
     },
     "openshift": {
       "documentLinks": {
-        "installOperatorByUsingOlm": "Installing Operator by using OLM",
+        "installOperatorByUsingOlm": "Installing operator by using OLM",
         "setUpProject": "Set up a project and service account",
-        "installAgentUsingOperator": "Install agent using the Operator",
+        "installAgentUsingOperator": "Install agent using the operator",
         "configuringAgentAfterInstall": "Configuring the agent after install",
         "installUsingHelm": " Install using the Helm chart",
         "installUsingYaml": "Install using YAML"
@@ -444,7 +444,7 @@
       "instructions": {
         "operator": {
           "installOperatorsManually": "Step 1: Install operators manually.",
-          "installOperatorsManuallySubtext": "The latest Operator will be installed, and 1.x CRDs will not be upgraded:",
+          "installOperatorsManuallySubtext": "The latest operator will be installed, and 1.x CRDs will not be upgraded:",
           "enterAClusterNameAndOptionallyTheAgentZone": "Step 2: Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
           "configureCustomYamlFile": "Step 3: Configure the custom resource YAML file.",
           "configureCustomYamlFileSubtext1": "Follow the instructions in the <installOperatorDoc>documentation.</installOperatorDoc>",
@@ -464,7 +464,7 @@
       "monitoringAzureContainerApps": "Monitoring Azure Container Apps",
       "selectAzureAppServiceRuntime": "Select Azure App Service runtime.",
       "nodejs": {
-        "reviewPrerequisitesAndInstallAppService": "Review the prerequisites and Install the collector.",
+        "reviewPrerequisitesAndInstallAppService": "Review the prerequisites and install the collector.",
         "monitoringAppService": "Monitoring Azure App Service for Node.js",
         "referenceAppServiceDocumentationContent": "Review the prerequisites and follow the installation guide for installing collector. For detailed instructions, refer to the <azureAppServiceDoc>documentation</azureAppServiceDoc>.",
         "activatingAppService": "Activating the collector.",
@@ -493,10 +493,10 @@
       "installationMethod": "Installation method",
       "selectInstallationMethod": "Step 1: Select the installation method and application runtime.",
       "selectAgentPackagingMode": "Step 1: Select agent packaging mode",
-      "useScript": "Step 2: Use the following script as 'Startup Script' for the GCE instance",
+      "useScript": "Step 2: Use the following script as 'Startup script' for the GCE instance",
       "integrateInstanaInProcessCollectorForGoogle": "Step 2: Integrate the Instana in-process collector for Google Cloud Run.",
-      "setEnvironmentVariablesCloudRunServiceDefinition": "Step 3: Set the following environment variables on the Cloud Run Service Definition.",
-      "setEnvVariablesInCloudRunServiceRevision": "Set the following environment variables in the Cloud Run Service Revision."
+      "setEnvironmentVariablesCloudRunServiceDefinition": "Step 3: Set the following environment variables on the Cloud Run service definition.",
+      "setEnvVariablesInCloudRunServiceRevision": "Set the following environment variables in the Cloud Run service revision."
     },
     "macOs": {
       "downloadingTheAgent": "Downloading the agent",
@@ -517,6 +517,7 @@
     "foldableTileTitle": "Let’s get started.",
     "viewAll": "View all",
     "addMore": "Add",
+    "create": "Create",
     "collapsibleButton": {
       "showOnboardingTasks": "Show onboarding tasks",
       "hideOnboardingTasks": "Hide onboarding tasks"
@@ -594,7 +595,7 @@
         "openstack": "OpenStack",
         "openshift": "OpenShift",
         "ibmp": "IBM Power HMC",
-        "powervcRegion": "PowerVC Region",
+        "powervcRegion": "PowerVC region",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
         "gke": "Google Kubernetes Engine",
@@ -711,25 +712,22 @@
     "noData": {
       "applicationWidget": {
         "header": "No applications",
-        "description": "Create your own application perspective on the services you want to observe.",
-        "buttonName": "Create application perspective"
+        "description": "Create your own application perspective on the services you want to observe.<br><br>To get started, click <strong>Add application</strong>."
       },
       "incidentsWidget": {
         "header": "No incidents",
-        "description": "Incidents help you detect, understand, and investigate quality of service issues of your applications."
+        "description": "Incidents help you detect, understand, and investigate issues in your applications.<br><br><strong>Deploy an agent</strong> to start monitoring incidents."
       },
       "websitesWidget": {
         "header": "No websites",
-        "description": "Collect website data to understand your user's digital experience.",
-        "buttonName": "Add website"
+        "description": "Collect website data to understand your user's digital experience.<br><br>To get started, click <strong>Add website</strong>."
       },
       "mobileListWidget": {
         "header": "No mobiles apps",
-        "description": "Collect mobile app data to understand your user's digital experience.",
-        "buttonName": "Add mobile applications"
+        "description": "Collect mobile app data to understand your user's digital experience.<br><br>To get started, click <strong>Add mobile app</strong>."
       },
       "infrastructureWidget": {
-        "description": "Deploy an agent to see the details here.<br>Get started on the <linkToAgents>Agents</linkToAgents> page.",
+        "description": "Deploy an agent to see the details here.<br><br>Get started on the <linkToAgents>Agents</linkToAgents> page.",
         "link": "Agents",
         "hosts": {
           "header": "No hosts"
@@ -752,8 +750,7 @@
       "syntheticWidget": {
         "test": {
           "header": "No synthetic tests",
-          "description": "Configure synthetic tests to run at specific continuous intervals.",
-          "buttonName": "Add Synthetic test"
+          "description": "Configure synthetic tests to monitor applications continuous intervals.<br><br>To get started, click <strong>Add synthetic test</strong>."
         },
         "location": {
           "header": "No synthetic locations",
@@ -761,18 +758,16 @@
         },
         "smartalerts": {
           "header": "No synthetic Smart Alerts",
-          "description": "Configure Smart Alerts for synthetics to send an alert if the test for a location fails.",
-          "buttonName": "Add Synthetic smart alerts"
+          "description": "Configure Smart Alerts for synthetics to send an alert if the test for a location fails.<br><br>To get started, click <strong>Add synthetic Smart Alert</strong>."
         }
       },
       "eventsWidget": {
         "header": "No events",
-        "description": "There may be no events or incidents to display or you may need to set up data first."
+        "description": "There might not be any events or incidents to display or you might need to connect to data first."
       },
       "dashboardWidget": {
         "header": "No custom dashboards",
-        "description": "Create your own custom dashboard.",
-        "buttonName": "Create custom dashboard"
+        "description": "Custom dashboards provide a more tailored view of the information that's important to you.<br><br>To get started, click <strong>Create dashboard</strong>."
       }
     },
     "quickLinks": {
@@ -796,7 +791,9 @@
     },
     "ariaLabel": {
       "search": "Search",
-      "handleButton": "Handle button"
+      "handleButton": "Handle button",
+      "toolbar": "data table toolbar",
+      "tabs": "List of Tabs"
     }
   },
   "Components": {
@@ -847,5 +844,10 @@
     "done": "Done",
     "otherGoalPlaceholder": "For example, Gain visibility across my environment",
     "otherGoalToAccomplish": "What other goals are you trying to accomplish?"
+  },
+  "privacyNotification":{
+    "title": "Manage your profile",
+    "description": "View and update your profile, adjust privacy settings, and log out — all in one place.",
+    "buttonText": "Done"
   }
 }

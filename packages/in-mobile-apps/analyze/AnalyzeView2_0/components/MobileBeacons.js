@@ -7,6 +7,11 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
+import {
+  getLabel as getDroppedBeaconLabel,
+  getDurationTime
+} from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/DroppedBeacon';
+import { getLabel } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/PerformanceBeacon';
 import { FacetedSearchPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedViewTable';
 import QueryBuilderWorkspace from 'in-mobile-apps/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
@@ -17,8 +22,8 @@ import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacon
 import SessionView from 'in-mobile-apps/analyze/SessionView/SessionView';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
-import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
+import HealthDot from 'in-components/health/HealthDot';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -196,6 +201,90 @@ const columnsPerDataSource = {
       }
     },
     mobileAppColumnDefinition
+  ],
+  perf: [
+    erroneousColumnDefinition,
+    {
+      id: 'perf',
+      label: t('in-mobile-apps:mobileBeacons.perf'),
+      sortable: false,
+      getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
+        return (
+          <div className={locals.batchedLine}>
+            <LinkToDetailPage
+              beacon={beacon}
+              getHrefToDetailId={getHrefToDetailId}
+              linkLabel={getLabel(beacon)}
+              groupLabel={groupLabel}
+            />
+            <BatchingIndicator
+              batchCount={beacon.batchSize}
+              tooltipContent={t(
+                'in-mobile-apps:analyzeView.perBeaconTypeConfigs.customBatchingIndicatorTooltipContent',
+                {
+                  size: beacon.batchSize
+                }
+              )}
+              tooltipAlign="rightMiddle"
+              noTopPosition
+            />
+          </div>
+        );
+      }
+    },
+    mobileAppColumnDefinition
+  ],
+  dropBeacon: [
+    erroneousColumnDefinition,
+    {
+      id: 'dropBeacon',
+      label: t('in-mobile-apps:mobileBeacons.beaconName'),
+      sortable: false,
+      getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
+        const linkLabel = getDroppedBeaconLabel(beacon);
+        return (
+          <div className={locals.batchedLine}>
+            <LinkToDetailPage
+              beacon={beacon}
+              getHrefToDetailId={getHrefToDetailId}
+              linkLabel={linkLabel}
+              groupLabel={groupLabel}
+              noEllipsis
+            />
+            <BatchingIndicator
+              batchCount={beacon.batchSize}
+              tooltipContent={t(
+                'in-mobile-apps:analyzeView.perBeaconTypeConfigs.customBatchingIndicatorTooltipContent',
+                { size: beacon.batchSize }
+              )}
+              tooltipAlign="rightMiddle"
+              noTopPosition
+            />
+          </div>
+        );
+      }
+    },
+    mobileAppColumnDefinition,
+    {
+      id: 'beaconCount',
+      label: t('in-mobile-apps:mobileBeacons.beaconCount'),
+      sortable: false,
+      getContent({ beacon }) {
+        return <div className={locals.batchedLine}>{number.compact(beacon.rateLimitCount)}</div>;
+      },
+      widthInAbsoluteUnit: true,
+      width: '10rem'
+    },
+    {
+      id: 'duration',
+      label: t('in-mobile-apps:mobileBeacons.duration'),
+      sortable: false,
+      getContent({ beacon }) {
+        return <div className={locals.batchedLine}>{getDurationTime(beacon)}</div>;
+      },
+      widthInAbsoluteUnit: true,
+      width: '10rem'
+    }
   ]
 };
 
@@ -247,10 +336,10 @@ function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSour
   });
 }
 
-function LinkToDetailPage({ beacon, getHrefToDetailId, linkLabel, groupLabel }) {
+function LinkToDetailPage({ beacon, getHrefToDetailId, linkLabel, groupLabel, noEllipsis }) {
   return (
     <Link
-      className={locals.link}
+      className={noEllipsis ? locals.noEllipsis : locals.link}
       href={getHrefToDetailId(
         {
           sessionId: beacon.sessionId,

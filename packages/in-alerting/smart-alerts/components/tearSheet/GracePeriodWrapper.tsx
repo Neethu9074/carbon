@@ -20,8 +20,12 @@ interface GracePeriodWrapperProps {
 
 export default function GracePeriodWrapper({ form, updateForm }: GracePeriodWrapperProps) {
   return (
-    <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.components.gracePeriod.title')} hideSpace>
-      <Spacer size="xxsmall" />
+    <TearSheetStepTitleWrapper
+      headline={t('in-alerting:smartAlerts.components.gracePeriod.title')}
+      description={t('in-alerting:smartAlerts.components.gracePeriod.description')}
+      hideSpace
+    >
+      <Spacer size="normal" />
       <GracePeriod form={form} updateForm={updateForm} />
     </TearSheetStepTitleWrapper>
   );

@@ -1,0 +1,23 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+:local {
+  .svg {
+    display: block;
+  }
+
+  /*
+    We needed to expand the canvas content area to the entire width of the browser window,
+    and the height up to the tab bar since the parent component <TabView/> adds unsightly
+    padding to the canvas.
+
+    The margin is set to the exact dimensions of not needed padding in
+    packages/in-components/layout/LeftRightPadding/LeftRightPadding.mless
+  */
+  .canvas {
+    margin: -1.5rem;
+  }
+}

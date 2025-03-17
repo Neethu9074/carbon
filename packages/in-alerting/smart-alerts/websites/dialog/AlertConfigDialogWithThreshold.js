@@ -75,17 +75,19 @@ function SmartAlertConfigDialogWithQueryValidation({ alertConfigWithFormModel, b
 
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
-  const { rule, tagFilterExpression, threshold, websiteId } = alertConfigWithFormModel;
+  const { rule, tagFilterExpression, websiteId, threshold } = alertConfigWithFormModel;
   const { metricName } = rule;
   const beaconType = blueprintConfig.getBeaconType(metricName);
+
+  const validThreshold = threshold?.warningThreshold?.type ? threshold.warningThreshold : threshold?.criticalThreshold;
 
   const {
     getTagCatalog,
     QueryBuilder: AlertQueryBuilder,
     isQueryValid
   } = useMemo(
-    () => createBoundedAlertQueryBuilder(websiteId, beaconType, threshold.type, tagSuggestionTimeConfig),
-    [websiteId, beaconType, threshold.type]
+    () => createBoundedAlertQueryBuilder(websiteId, beaconType, validThreshold?.type, tagSuggestionTimeConfig),
+    [websiteId, beaconType, validThreshold?.type]
   );
   const isAlertQueryValid = createIsAlertQueryValid(isQueryValid);
 

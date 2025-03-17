@@ -311,6 +311,15 @@
         "pleaseSelect": "選択してください"
       }
     },
+    "srcSlo": {
+      "index": {
+        "serviceLevelsObjective": "サービス・レベル目標 (SLO)"
+      },
+      "formComponent": {
+        "status": "状況",
+        "errorBudgetRemaining": "残りのエラー予算"
+      }
+    },
     "metricConfigurator": {
       "ds": "データ・ソース",
       "pleaseSelect": "選択してください",
@@ -605,8 +614,8 @@
         "sliType": "SLI タイプ",
         "viewCloneSliConfig": "SLI 構成の表示/複製",
         "delSliConfig": "SLI 構成の削除",
-        "pleaseConfirm": "ご確認ください",
-        "pleaseConfirmMsg": "<strong>{{sliName}}</strong> を削除しますか?",
+        "confirmRemove": "ご確認ください",
+        "confirmRemoveMsg": "<strong>{{sliName}}</strong> を削除しますか?",
         "delete": "削除",
         "eventBasedSli": "イベント・ベース",
         "timeBasedSli": "時間ベース、{{metricNameLabel}}"
@@ -678,7 +687,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "少なくとも 1 つのフィルター式を構成する必要があります。",
       "timeBased": "時刻ベース",
       "eventBased": "イベント・ベース",
-      "sloLegacy": "SLO の遺産",
+      "sloLegacy": "SLO の旧バージョン",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "アプリケーション",

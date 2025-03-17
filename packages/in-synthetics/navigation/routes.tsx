@@ -14,6 +14,8 @@ import SmartAlertList from 'promise-loader?global,synthetics!in-synthetics/dashb
 // @ts-expect-error module need to be translated to TS
 import AnalyzeView from 'promise-loader?global,synthetics!in-synthetics/dashboards/details/AnalyzeView';
 //@ts-expect-error
+import AlertConfigTearSheet from 'promise-loader?global,synthetics!in-alerting/smart-alerts/synthetics/tearsheet/AlertConfigTearSheet';
+//@ts-expect-error
 import SyntheticSummaryDashboard from 'promise-loader?global,synthetics!in-synthetics/dashboards/summary/SyntheticSummary';
 //@ts-expect-error
 import AlertDetailsView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/AlertDetailsView';
@@ -28,10 +30,12 @@ import {
   syntheticSmartAlertsPath,
   alertsTabDetailsFullyQualified,
   dashboardTestAlertsTabDetailsFullyQualified,
-  syntheticCredentialPath
+  syntheticCredentialPath,
+  syntheticSmartAlertsFullScreen
 } from 'in-synthetics/navigation/paths';
 // @ts-expect-error module need to be translated to TS
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
+import { syntheticSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 
 export default [
   <Route key="syntheticTests" exact path={syntheticsPath}>
@@ -43,6 +47,11 @@ export default [
   <Route key="syntheticSmartAlerts" exact path={syntheticSmartAlertsPath}>
     {renderAsyncRouteChildren(SmartAlertList)}
   </Route>,
+  syntheticSmartAlertFullScreenDesignEnabled && (
+    <Route key="syntheticSmartAlert" path={syntheticSmartAlertsFullScreen}>
+      {renderAsyncRouteChildren(AlertConfigTearSheet)}
+    </Route>
+  ),
   <Route key="details" path={alertsTabDetailsFullyQualified}>
     {renderAsyncRouteChildren(AlertDetailsView)}
   </Route>,

@@ -39,25 +39,7 @@ export function getNavigationTreeForAuthentication(props: ViewProps) {
           authAvailable && {
             path: securityAndAccessIdentityProviders,
             label: t('in-settings:tabs.identityProviders'),
-            component: IdentityProviders,
-            subPages: [
-              props.isGoogleSSOAvailable && {
-                path: securityAndAccessGoogleSSO,
-                component: GoogleSSO
-              },
-              props.isSamlAvailable && {
-                path: securityAndAccessSaml,
-                component: Saml
-              },
-              props.isOidcAvailable && {
-                path: securityAndAccessOidc,
-                component: OIDC
-              },
-              props.isLdapAvailable && {
-                path: securityAndAccessLdap,
-                component: Ldap
-              }
-            ].filter(Boolean)
+            component: IdentityProviders
           },
           authAvailable &&
             (role as any).canConfigureTeams && {

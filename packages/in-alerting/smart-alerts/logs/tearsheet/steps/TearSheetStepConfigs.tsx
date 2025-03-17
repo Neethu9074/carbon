@@ -18,10 +18,7 @@ export const stepConfigsForCarbonTearSheet = [
   },
   {
     title: t('in-alerting:smartAlerts.logs.tearSheet.steps.step2Title'),
-    validateIntermediately: [
-      ['threshold', 'value'],
-      ['timeThreshold', 'timeWindow']
-    ],
+    validateIntermediately: [['threshold'], ['timeThreshold', 'timeWindow']],
     component: AlertConfigTearSheetStep2
   },
   {

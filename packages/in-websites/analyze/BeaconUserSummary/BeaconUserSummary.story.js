@@ -27,6 +27,7 @@ const metaOptions = {
   large: {
     allAnalyticsServices: false,
     walkmeAnalyticsServices: false,
+    assistmeGuidanceServices: false,
     allSupportAndResearchServices: false,
     autoRefresh: false,
     'build.date': '2022-05-02T16:37:45.081Z',

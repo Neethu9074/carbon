@@ -106,7 +106,10 @@ const cols = [
 ];
 
 export default function ServiceDetailsStatsList({ snapshotId, timeConfig }: ServiceDetailsStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'serviceDetailsStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'serviceDetailsStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const serviceDetailsStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: ServiceDetailsStatsRow[] = serviceDetailsStat
     ? serviceDetailsStat

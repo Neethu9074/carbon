@@ -7,7 +7,9 @@
 import React from 'react';
 
 import { KeyValue } from '@instana/components';
+import { Stack } from '@instana/components';
 
+import GracePeriodDescription from 'in-alerting/smart-alerts/components/dialog/GracePeriodDescription';
 import { t } from 'in-i18n';
 
 import locals from './AlertThresholdInfosPresenter.mless';
@@ -16,46 +18,33 @@ interface Props {
   thresholdTypeLabel: string;
   metricLabel: string;
   scopeLabel: string;
-  gracePeriod?: string;
+  gracePeriod?: number;
 }
 
 export const AlertThresholdInfosPresenter = ({ thresholdTypeLabel, metricLabel, scopeLabel, gracePeriod }: Props) => {
   return (
-    <div className={locals.tilesRow}>
-      <div className={locals.tile}>
+    <Stack gap="large">
+      <Stack direction="horizontal" distribution="stretch">
         <KeyValue
           label={t('in-alerting:smartAlerts.synthetics.details.alertingType')}
           value={thresholdTypeLabel}
           className={locals.keyValueExtraGap}
           multilineLabel
         />
-      </div>
-      <div className={locals.tile}>
         <KeyValue
           label={t('in-alerting:smartAlerts.synthetics.details.timeThreshold')}
           value={metricLabel}
           className={locals.keyValueExtraGap}
           multilineLabel
         />
-      </div>
-      <div className={locals.tile}>
         <KeyValue
           label={t('in-alerting:smartAlerts.details.entityTitle')}
           value={scopeLabel}
           className={locals.keyValueExtraGap}
           multilineLabel
         />
-      </div>
-      {gracePeriod && (
-        <div className={locals.tile}>
-          <KeyValue
-            label={t('in-alerting:smartAlerts.synthetics.details.gracePeriod')}
-            value={gracePeriod}
-            className={locals.keyValueExtraGap}
-            multilineLabel
-          />
-        </div>
-      )}
-    </div>
+      </Stack>
+      {gracePeriod && <GracePeriodDescription gracePeriod={gracePeriod} />}
+    </Stack>
   );
 };

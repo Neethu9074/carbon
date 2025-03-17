@@ -8,3 +8,5 @@
 export const alertId = 'alertId';
 export const alertCreated = 'alertCreated';
 export const testId = 'testId';
+export const isEditMode = 'isEditMode';
+export const isDuplicateMode = 'isDuplicateMode';

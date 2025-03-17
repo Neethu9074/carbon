@@ -5,9 +5,6 @@
 
 import { useMemo } from 'react';
 
-import { just, Observable } from '@instana/observables';
-import { useObservable } from '@instana/hooks';
-
 import {
   Result,
   AggregationType,
@@ -17,7 +14,10 @@ import {
   TimeConfig,
   TimeShift,
   UnifiedMetricConfigurationUnion
-} from 'in-types';
+} from '@instana/types';
+import { just, Observable } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
+
 import getUnifiedSloMetrics from 'in-custom-dashboards/widgets/SloLegacy/subscriptions/getUnifiedSloMetrics';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { pendingResult } from 'in-services/fixedObjects';

@@ -6,10 +6,8 @@
 
 import { LogTag } from '@instana/types';
 
-// eslint-disable-next-line no-restricted-imports
+import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
 import { LOG_LEVEL } from 'in-logging/queryBuilder';
-// eslint-disable-next-line no-restricted-imports
-import { getLogLevel } from '../logLevel';
 
 describe('getLogLevel', () => {
   it('should return undefined if no matching tag is found', () => {

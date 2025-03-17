@@ -11,10 +11,10 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { number, percentage } from 'in-services/formatters/number';
+import Processors from 'in-zhmc/Dashboards/tables/Processors';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import Processors from '../../tables/Processors';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: cpc }) {

@@ -1,0 +1,137 @@
+import tagCatalogExample from 'in-components/QueryBuilder/stories/tagCatalogExample.png';
+
+# Tag Catalog
+
+In order to work the query builder requires access to a set of tags that users
+can access. We call this a tag catalog. Components requiring a `tagCatalog`
+always refer to this structure.
+
+## Catalog Model
+
+The tag catalog is an object carrying two arrays:
+
+1. An array of tags. Each tag describes one possible filter attribute.
+   This array is almost certainly provided by the backend.
+2. An array of tree nodes describing the content of the add tag filter
+   dialog. Also provided by the backend.
+
+We separate the functional from the presentational concern in order to allow
+re-usage of the functional tag definition for consistency purposes. It also
+helps us gradually introduce the new query builder without requiring a
+complete rebuild of the existing tag definitions while supporting the old
+query builder.
+
+```typescript
+{
+  // functional concern
+  Tag[],
+
+  // presentational concern
+  tagTree: TagTreeNode[]
+}
+```
+
+Many components are expecting a function `getTagCatalog` in their
+configuration. In these cases they are always expecting a function
+which returns an observable that resolves to a result that contains
+a tag catalog. This is done to support lazy loading use cases. Example:
+
+```typescript
+
+import {just} from '@instana/observables';
+
+
+const tagCatalog = {
+  tags: Tag[],
+
+  tagTree: TagTreeNode[]
+};
+
+function getTagCatalog({timeConfig}) {
+  // Optionally use timeConfig to filter down the tag catalog. Most
+  // likely unused for now. This was added to the contract as a path
+  // forward for first-class custom tag support.
+  return just(tagCatalog);
+}
+```
+
+## Tag Model
+
+The tag model only describes the properties necessary in order to provide
+basic functionality. It does not respect any presentational/UX concerns.
+Refer to the tag tree model for those.
+
+### Type Definition
+
+```typescript
+{
+  String,
+  type: 'STRING' | 'NUMBER' | 'BOOLEAN' | 'KEY_VALUE_PAIR',
+  category: String
+
+  Boolean,       // defaults to 'false'
+  canApplyToDestination: Boolean   // defaults to 'false'
+}
+```
+
+### Example
+
+```js
+{
+  'beacon.website.name',
+  type: 'STRING',
+  category: 'WEBSITE_MONITORING'
+}
+```
+
+## Tag Tree Node Model
+
+### Type Definition
+
+```ts
+{
+  'LEVEL' | 'TAG',
+  label: String,
+  icon: String,
+  description: String,
+  tagName: String,        // Only for type=TAG
+  children: TagTreeNode[] // Only for type=LEVEL
+}
+```
+
+### Example
+
+The following code snippet shows that the definition for the
+`Kubernetes > Cluster > Label` tag could look like.
+
+<img src={tagCatalogExample} alt="Screenshot showing a tag catalog example" style={{maxWidth: '38rem', display: 'block', margin: '0 auto'}} />
+
+```js
+{
+  'LEVEL',
+  label: 'Kubernetes',
+  children: [
+    {
+      type: 'LEVEL',
+      label: 'Cluster',
+      icon: 'lib_kubernetes_cluster',
+      children: [
+        {
+          type: 'TAG',
+          label: 'Label',
+          icon: 'lib_kubernetes_label',
+          description: 'Key/Value - Defined in Kubernetes',
+          tag: 'kubernetes.cluster.label'
+        },
+        {
+          type: 'TAG',
+          label: 'Name',
+          icon: 'lib_kubernetes_label',
+          description: 'String - Cluster´s name',
+          tag: 'kubernetes.cluster.name'
+        }
+      ]
+    }
+  ]
+}
+```

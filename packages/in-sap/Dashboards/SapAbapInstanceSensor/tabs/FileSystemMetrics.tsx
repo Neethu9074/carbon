@@ -123,7 +123,10 @@ const cols = [
 ];
 
 export default function FileSystemMetrics({ snapshotId, timeConfig }: FileSystemProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'fileSystemStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'fileSystemStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return null;
   }

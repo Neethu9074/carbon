@@ -76,7 +76,7 @@ export default function AddUserButton({ members, addUsers, groupId }) {
   );
 }
 
-const AddUserDialog = withSelectableItems(function AddUserDialog({
+export const AddUserDialog = withSelectableItems(function AddUserDialog({
   onSubmit,
   members,
   selectedEntities,

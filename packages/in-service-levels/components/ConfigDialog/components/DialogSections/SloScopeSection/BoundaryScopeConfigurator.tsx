@@ -8,10 +8,10 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { ApplicationBoundaryScope } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import OptionBox from 'in-applications/components/OptionBox';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import { t } from 'in-i18n';
 
 import locals from './BoundaryScopeConfigurator.mless';
 

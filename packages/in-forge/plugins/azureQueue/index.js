@@ -3,12 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import kpiDefinitions from 'in-forge/plugins/azureQueue/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
-  plugin: plugins.azureQueue,
-
-  kpiDefinitions
+  plugin: plugins.azureQueue
 });

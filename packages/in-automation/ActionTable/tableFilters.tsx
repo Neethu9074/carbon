@@ -19,15 +19,15 @@ import { t } from 'in-i18n';
 const mapToOption = (type: ActionType): Option => ({ value: type, label: ACTION_TRANSLATIONS[type] });
 
 const baseOptions = [
-  ACTION_TYPE.DOC_LINK,
   ACTION_TYPE.SCRIPT,
   ACTION_TYPE.HTTP,
-  ACTION_TYPE.MANUAL,
   ACTION_TYPE.ANSIBLE,
   ACTION_TYPE.GITHUB,
   ACTION_TYPE.GITLAB,
   ACTION_TYPE.JIRA
 ].map(mapToOption);
+
+const DocManualOptions = [ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].map(mapToOption);
 
 const externalOption = mapToOption(ACTION_TYPE.EXTERNAL);
 
@@ -35,6 +35,7 @@ interface TypeFilterProps {
   type: string[] | undefined;
   setType: (params: { types: string[] | undefined }) => void;
   showExternal?: boolean;
+  showRunnable?: boolean;
 }
 
 function filterTypes(actionFilter: 'all' | ActionFilter, options: Option[]) {
@@ -44,9 +45,10 @@ function filterTypes(actionFilter: 'all' | ActionFilter, options: Option[]) {
     return options.filter(({ value }) => actionFilter.types.includes(value as ActionType));
   }
 }
-export function TypeFilter({ type, setType, showExternal = false }: TypeFilterProps) {
+export function TypeFilter({ type, setType, showExternal = false, showRunnable = false }: TypeFilterProps) {
   const actionFilter = useActionFilter();
   const options = [...baseOptions];
+  if (!showRunnable) options.push(...DocManualOptions);
   if (showExternal) options.push(externalOption);
   const filteredOptions =
     isLoading(actionFilter) || hasError(actionFilter)

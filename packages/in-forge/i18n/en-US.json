@@ -1185,6 +1185,11 @@
   "pluginName_kongApigateway_1": "Kongs",
   "pluginName_kongApigateway_2": "Kongs",
   "pluginName_kongApigateway": "Kong",
+  "pluginName_kubeCostPlatform": "Kubecost",
+  "pluginName_kubeCostPlatform_plural": "Kubecosts",
+  "pluginName_kubeCostPlatform_0": "Kubecosts",
+  "pluginName_kubeCostPlatform_1": "Kubecosts",
+  "pluginName_kubeCostPlatform_2": "Kubecosts",
   "pluginName_kubernetesCluster_plural": "Kubernetes Clusters",
   "pluginName_kubernetesCluster_0": "Kubernetes Clusters",
   "pluginName_kubernetesCluster_1": "Kubernetes Clusters",
@@ -1416,6 +1421,11 @@
   "pluginName_oTelK8sNode_1": "OTel Kubernetes Node",
   "pluginName_oTelK8sNode_2": "OTel Kubernetes Node",
   "pluginName_oTelK8sNode": "OTel Kubernetes Node",
+  "pluginName_oTelK8sContainer_plural": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer_0": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer_1": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer_2": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer": "OTel Kubernetes Container",
   "pluginName_openLDAP_plural": "OpenLDAP Nodes",
   "pluginName_openLDAP_0": "OpenLDAP Nodes",
   "pluginName_openLDAP_1": "OpenLDAP Nodes",
@@ -2527,6 +2537,11 @@
   "tracingTypeName_otel_0": "Calls",
   "tracingTypeName_otel_1": "Call",
   "tracingTypeName_otel_2": "Calls",
+  "tracingTypeName_otelbatchsynthetic": "Internal trigger",
+  "tracingTypeName_otelbatchsynthetic_plural": "Internal triggers",
+  "tracingTypeName_otelbatchsynthetic_0": "Internal triggers",
+  "tracingTypeName_otelbatchsynthetic_1": "Internal trigger",
+  "tracingTypeName_otelbatchsynthetic_2": "Internal triggers",
   "tracingTypeName_pdo": "PDO Call",
   "tracingTypeName_pdo_plural": "PDO Calls",
   "tracingTypeName_pdo_0": "PDO Calls",
@@ -3710,7 +3725,7 @@
         "samDomainLocalGroupMembershipEvaluationsPerSec": "Domain local group membership evaluations per second",
         "samEnumerationsPerSec": "Enumerations per second",
         "samGCEvaluationsPerSec": "GC evaluations per second",
-        "samGlobalGroupMembershipEvaluationsPerSec": "Glocal group membership evaluations per second",
+        "samGlobalGroupMembershipEvaluationsPerSec": "Global group membership evaluations per second",
         "samMachineCreationAttemptsPerSec": "Machine creation attempts per second",
         "samMembershipChangesPerSec": "Membership changes per second",
         "samNonTransitiveMembershipEvaluationsPerSec": "Non transitive membership evaluations per second",
@@ -3728,7 +3743,7 @@
         "dhcpConflictCheckQueueLength": "Conflict check queue length",
         "dhcpDeclinesPersec": "Declines per second",
         "dhcpDuplicatesDroppedPersec": "Duplicates dropped per second",
-        "dhcpNacksPersec": "Nacks per second",
+        "dhcpNacksPersec": "Negative acks per second",
         "dhcpPacketsExpiredPersec": "Packets expired per second"
       },
       "dns": {
@@ -8171,6 +8186,7 @@
       "ebsVolumesWithCount": "EBS Volumes ({{len}})",
       "publicHostname": "Public Hostname",
       "instanceId": "Instance ID",
+      "accountId": "Account ID",
       "type": "Type",
       "availabilityZone": "Availability Zone",
       "publicIp": "Public IP",
@@ -12685,7 +12701,7 @@
       "agentTlsExpired": "The Agent TLS certificate <code>{{cert}}</code> expired in <code>{{context}}</code>.",
       "agentTlsAboutToExpire": "The Agent TLS certificate <code>{{cert}}</code> is about to expire in <code>{{context}}</code> days.",
       "tlsProtocolMissingIssue": "The Agent is missing TLSv1.3 support",
-      "tmpDirectoryMissingIssue": "The /tmp directory is missing in the Agent",
+      "tmpDirectoryMissingIssue": "The <code>{{tmpDirLocation}}</code> directory is missing as seen from the Agent",
       "agentVersion": "Agent Version",
       "bootVersion": "Boot Version",
       "origin": "Origin",
@@ -12847,7 +12863,8 @@
       "allBrokersFailures": "All Brokers Failures",
       "fetch": "Fetch",
       "produce": "Produce",
-      "allBrokersStateMetrics": "All Brokers state metrics",
+      "allBrokersStateMetrics": "All Brokers State Metrics",
+      "clientMetrics": "Client Metrics",
       "averageIdleTimePercentage": "Average Idle Time Percentage",
       "networkProcessor": "Network Processor",
       "requestHandler": "Request Handler",
@@ -12997,6 +13014,9 @@
         "workerLua": "Allocated Bytes in Worker Lua VM",
         "totalConnections": "Total Connections"
       }
+    },
+    "kubecost": {
+      "label": "Kubecost"
     },
     "kubernetesCluster": {
       "noActivity": "No activity",
@@ -13830,7 +13850,9 @@
         "fsresources": "Filesystem Resources",
         "fsusage": "Filesystem Usage",
         "fsavailble": "Filesystem Available",
-        "fscapacity": "Filesystem Capacity"
+        "fscapacity": "Filesystem Capacity",
+        "containers": "Containers",
+        "summary": "Summary"
       }
     },
     "oTelK8sCluster": {
@@ -13848,8 +13870,10 @@
         "summary": "Summary",
         "nodes": "Nodes",
         "pods": "Pods",
+        "containers": "Containers",
         "nodecount": "Nodes Count",
         "podcount": "Pods Count",
+        "containercount": "Containers Count",
         "name": "Name",
         "namespace": "Name space",
         "age": "Age",
@@ -13888,7 +13912,44 @@
         "fsusage": "Filesystem Usage",
         "fsavailble": "Filesystem Available",
         "fscapacity": "Filesystem Capacity",
-        "pods": "Pods"
+        "pods": "Pods",
+        "containers": "Containers"
+      }
+    },
+    "oTelK8sContainer": {
+      "platform": "Platform",
+      "address": "Address",
+      "port": "Port",
+      "kind": "Kind",
+      "type": "Type",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "runtimeDesc": "Kubernetes Runtime",
+      "runtimeVersion": "Kubernetes Version",
+      "exePath": "Executable Path",
+      "dashboard": {
+        "containeruptime": "Container Uptime",
+        "cpuresources": "CPU Resources",
+        "cpuusage": "CPU Usage",
+        "cpuutilization": "CPU Utilization",
+        "cputime": "CPU Time",
+        "cpulimitutilization": "CPU Limit Utilization",
+        "cpurequestutilization": "CPU Request Utilization",
+        "cpunodeutilization": "CPU Node Utilization",
+        "memoryresources": "Memory Resources",
+        "memoryusage": "Memory Usage",
+        "memoryavailable": "Memory Available",
+        "memorylimitutilization": "Memory Limit Utilization",
+        "memoryrequestutilization": "Memory Request Utilization",
+        "memoryrss": "Memory RSS",
+        "memoryworkingset": "Memory Working Set",
+        "memorypagefaults": "Memory Page Faults",
+        "memorymajorpagefaults": "Memory Major page Faults",
+        "fsresources": "Filesystem Resources",
+        "fsusage": "Filesystem Usage",
+        "fsavailble": "Filesystem Available",
+        "fscapacity": "Filesystem Capacity"
       }
     },
     "oTelJvm": {
@@ -17477,6 +17538,10 @@
       "error": "Error",
       "tags": "Tags",
       "resource": "Resource"
+    },
+    "otelBatchSynthetic": {
+      "indexReturn": "Internal trigger",
+      "bodyApproximated": "Instana has detected this call, but has no specifics about its source. The timing and duration of what triggered this call is approximated."
     },
     "pdo": {
       "driver": "Driver",

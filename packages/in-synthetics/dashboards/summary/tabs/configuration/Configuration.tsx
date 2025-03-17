@@ -22,12 +22,12 @@ import Locations from 'in-synthetics/dashboards/summary/tabs/configuration/secti
 import TestType from 'in-synthetics/dashboards/summary/tabs/configuration/sections/TestType';
 import Schedule from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Schedule';
 import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Identify';
+import { syntheticDNSEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import Header from 'in-components/workspace/Header/Header';
@@ -179,7 +179,8 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
       'BrowserScript',
       'WebpageScript',
       'WebpageAction',
-      'SSLCertificate'
+      'SSLCertificate',
+      ...(syntheticDNSEnabled ? ['DNS'] : [])
     ];
 
     // Disable if test type is not in the list of supported test types.
@@ -242,6 +243,9 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
       break;
     case 'SSLCertificate':
       testType = 'Certificate Check';
+      break;
+    case 'DNS':
+      testType = 'DNS';
       break;
   }
 

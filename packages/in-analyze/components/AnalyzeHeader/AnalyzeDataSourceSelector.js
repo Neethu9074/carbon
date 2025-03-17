@@ -9,6 +9,13 @@ import classNames from 'classnames';
 import { Li, SvgIcon, Ul, PreviewPill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import {
+  infraExploreDataEnabled,
+  loggingEnabled,
+  mobileAppCrashBeaconEnabled,
+  mobileAppPerfBeaconEnabled,
+  mobileAppDroppedBeaconsEnabled
+} from 'in-services/featureFlags';
 /* eslint-enable no-restricted-imports */
 import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
 /* eslint-disable no-restricted-imports */
@@ -25,7 +32,6 @@ import {
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { infraExploreDataEnabled, loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { useLinkToAnalyze as useLinkToProfileAnalyze } from 'in-components/Profiling/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
@@ -62,7 +68,9 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
     mobileTagCatalogViewChange: useMobileTagCatalog('viewChange'),
     mobileTagCatalogHttpRequest: useMobileTagCatalog('httpRequest'),
     mobileTagCatalogCustom: useMobileTagCatalog('custom'),
-    mobileTagCatalogCrash: useMobileTagCatalog('crash')
+    mobileTagCatalogCrash: useMobileTagCatalog('crash'),
+    mobileTagCatalogPerformance: useMobileTagCatalog('perf'),
+    mobileTagCatalogDroppedBeacons: useMobileTagCatalog('dropBeacon')
   };
   const callsTagCatalog = useApplicationTagCatalog(getCallsTagCatalog);
   const tracesTagCatalog = useApplicationTagCatalog(getTracesTagCatalog);
@@ -244,6 +252,30 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
               groupBy: isGrouped ? defaultMobileAppGroupings.crash : emptyObject,
               formModel,
               beaconType: 'crash',
+              tagCatalog
+            })
+        },
+        {
+          dataSource: 'perf',
+          enabled: mobileAppPerfBeaconEnabled,
+          getHref: ({ isGrouped, formModel, mobileTagCatalogPerformance: tagCatalog }) =>
+            tagCatalog &&
+            getLinkToMobileAppAnalyze({
+              groupBy: isGrouped ? defaultMobileAppGroupings.perf : emptyObject,
+              formModel,
+              beaconType: 'perf',
+              tagCatalog
+            })
+        },
+        {
+          dataSource: 'dropBeacon',
+          enabled: mobileAppDroppedBeaconsEnabled,
+          getHref: ({ isGrouped, formModel, mobileTagCatalogDroppedBeacons: tagCatalog }) =>
+            tagCatalog &&
+            getLinkToMobileAppAnalyze({
+              groupBy: isGrouped ? defaultMobileAppGroupings.dropBeacon : emptyObject,
+              formModel,
+              beaconType: 'dropBeacon',
               tagCatalog
             })
         }

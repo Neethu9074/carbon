@@ -28,11 +28,11 @@ describe('SSLCertificateConfiguration', () => {
         setInvalidTimeout={setInvalidTimeout}
       />
     );
-    expect(screen.getByText('Host Name')).toBeInTheDocument();
+    expect(screen.getByText('Host name')).toBeInTheDocument();
     expect(screen.getByText('Port')).toBeInTheDocument();
-    expect(screen.getByText('Failure Configuration')).toBeInTheDocument();
+    expect(screen.getByText('Failure configuration')).toBeInTheDocument();
     expect(screen.getByText('Timeout')).toBeInTheDocument();
-    expect(screen.getByText('Retry Strategy')).toBeInTheDocument();
+    expect(screen.getByText('Retry strategy')).toBeInTheDocument();
   });
 
   it('Renders all new fields with their default values', () => {

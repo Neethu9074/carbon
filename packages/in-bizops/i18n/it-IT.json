@@ -6,7 +6,9 @@
     "count": "Conteggio"
   },
   "lists": {
-    "pageTitle": "Monitoraggio del business",
+    "id": "ID",
+    "version": "Versione",
+    "pageTitle": "Monitoraggio aziendale",
     "cardTitle": "Processi di business",
     "theId": "L'ID processo",
     "hasBeenCopied": "è stato copiato con successo negli appunti",
@@ -64,7 +66,7 @@
       }
     },
     "errorMessages": {
-      "tagFilterExpressionMustNotBeEmpty": "La prospettiva di business deve avere almeno un filtro",
+      "tagFilterExpressionMustNotBeEmpty": "La prospettiva aziendale deve avere almeno un filtro",
       "createOperationFailed": "Operazione di creazione non riuscita",
       "unableToCreatePerspective": "Non siamo riusciti a creare la prospettiva aziendale. Riprovare."
     },
@@ -74,7 +76,7 @@
     }
   },
   "navigation": {
-    "businessMonitoring": "Monitoraggio del business"
+    "businessMonitoring": "Monitoraggio aziendale"
   },
   "dashboards": {
     "analyzeInstances": "Analizza istanze",
@@ -84,7 +86,7 @@
       "activitiesTab": "Attività",
       "widgets": {
         "topActivities": "Attività principali",
-        "infrastructureIssuesAndChanges": "Problemi dell'infrastruttura & modifiche",
+        "infrastructureIssuesAndChanges": "Problemi dell'infrastruttura e modifiche",
         "viewAll": "Visualizza tutte le attività",
         "processCount": "Conteggio",
         "processCountTotal": "totale",
@@ -102,7 +104,7 @@
         "duration": "Durata",
         "activityCount": "Conteggio",
         "activityErrors": "Errori",
-        "topServices": "I principali servizi",
+        "topServices": "Servizi principali",
         "activityLatency": "Latenza",
         "viewAll": "Visualizza tutti i servizi"
       },

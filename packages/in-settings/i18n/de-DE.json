@@ -345,7 +345,7 @@
     "selectAll": "Alles auswählen ({{len}})",
     "failedToRemoveItemName": "{{itemName}} konnte nicht entfernt werden",
     "failedToRemoveItem": "Element konnte nicht entfernt werden",
-    "pleaseConfirm": "Bitte bestätigen",
+    "confirmRemove": "Bitte bestätigen",
     "createNew": "Neu erstellen",
     "deselect": "Abwählen",
     "select": "Wählen",
@@ -356,6 +356,12 @@
     "removedEntity": "Erfolgreich entfernt {{entity}}"
   },
   "tabs": {
+    "role": {
+      "deprecated": "nicht weiterentwickelt",
+      "newRole": "Neue Rolle",
+      "permissionsCount": "Berechtigungen",
+      "usersCount": "Anzahl der zugewiesenen Benutzer"
+    },
     "team": {
       "events": {
         "addCondition": "Bedingung hinzufügen",
@@ -844,7 +850,8 @@
     "accountSettings": "Accounteinstellungen",
     "configureAllowedEmailDomains": "Zulässige E-Mail-Domänen konfigurieren",
     "savingConfig": "Konfiguration wird gespeichert",
-    "configSuccessfullySaved": "Konfiguration wurde erfolgreich gespeichert.",
+    "changesSaved": "Änderungen gespeichert",
+    "configSuccessfullySaved": "Konfigurationsänderungen erfolgreich gespeichert.",
     "configureLdap": "LDAP konfigurieren",
     "ldapConfiguration": "LDAP-Konfiguration",
     "url": "URL",
@@ -986,6 +993,7 @@
     "users": "Benutzer",
     "session": "Sitzung",
     "timeouts": "Zeitlimitüberschreitungen",
+    "sessionTimeouts": "Sitzungs-Timeouts",
     "globalSettings": "Globale Einstellungen",
     "userSettings": "Benutzereinstellungen",
     "securityAndAccess": "Sicherheit & Zugang",
@@ -1275,12 +1283,27 @@
     "accessControl": "Zugriffssteuerung",
     "maintenanceWindows": "Wartungsfenster",
     "customPayload": "Angepasste Nutzdaten",
-    "logManagement": "Protokollverwaltung",
     "coralogix": "Coralogix",
     "elk": "ELK",
     "falconLogScale": "Falcon LogScale",
     "mezmo": "Mezmo",
     "audit": "Prüfung",
+    "authentication": "Authentifizierung",
+    "authenticationProviders": {
+      "title": "Authentifizierungsprovider",
+      "idp_active": "Aktiv",
+      "idp_inActive": "Inaktiv",
+      "googleSSOTileTitle": "Vorkonfiguriertes Google SSO",
+      "googleSSOTileDescription": "Dies ist der vorkonfigurierte Identitätsanbieter, der ohne Erstellung eines Clients auf Google SSO verwendet werden kann.",
+      "samlTileTitle": "SAML",
+      "samlTileDescription": "Security Assertion Markup Language (SAML)",
+      "samlTileHelpDoc": "Leitfäden für den Schnelleinstieg finden Sie auf unseren Dokumentationsseiten zu <activeDirectoryLink>Active Directory</activeDirectoryLink> und <oktaLink>Okta</oktaLink>.",
+      "oidcTileTitle": "OIDC",
+      "oidcTileDescription": "OpenID Connect (OIDC)",
+      "ldapTileTitle": "LDAP",
+      "ldapTileDescription": "Lightweight Directory Access Protocol (LDAP)",
+      "ldapHelpDoc": "Hilfe und Support erhalten Sie auf unseren <docLink>Dokumentationsseiten</docLink>."
+    },
     "googleSSO": {
       "allowedDomains": "Zulässige Domains",
       "configure": "Google SSO-Konfiguration",
@@ -1352,7 +1375,7 @@
     "restIncidentTableDesc": "Instana überträgt die Vorfallsdaten nur in die IBM Instana-Zwischentabelle, ohne weitere Aktualisierungen der ServiceNow. Um die vollständige Synchronisierung von Ereignissen, Notizen und Aktivitäten zu ermöglichen, müssen Sie Ihre ServiceNow aktualisieren. Weitere Informationen finden Sie in der <documentationLink>Dokumentation</documentationLink>.",
     "serviceNowAlertChannel": "ServiceNow Alert-Kanal-App",
     "serviceNowUsernameTooltip": "Benutzername und Kennwort sollten für einen ServiceNow-Benutzer mit Berechtigung zum Erstellen von Vorfällen gelten.",
-    "serviceNowDescription": "Vergewissern Sie sich, dass Sie eine ServiceNow ITSM-App installiert und konfiguriert haben, bevor Sie fortfahren. Sie benötigen die Anmeldedaten für ServiceNow (Benutzername und Passwort), um einen Benachrichtigungskanal zu erstellen.",
+    "serviceNowDescription": "Stellen Sie sicher, dass Sie eine <Link>ServiceNow ITSM-App</Link> installiert und konfiguriert haben, bevor Sie fortfahren. Sie benötigen die Anmeldedaten für ServiceNow (Benutzername und Passwort), um einen Benachrichtigungskanal zu erstellen.",
     "autoCloseIncidents": "Vorfälle automatisch schließen",
     "advancedIntro": "Wenn Sie diesen Alarmkanal erstellen, kann Instana Vorfälle/Tickets in ServiceNow erstellen. Sie können anpassen, wie die Vorfälle aktualisiert werden.<br/><br/>",
     "eventProps": "Ausbreitung von Ereignissen",

@@ -6,9 +6,9 @@
 import ComputeInstances from 'in-openstack/Dashboards/Regions/tabs/ComputeInstances';
 import { regionDashboardFullyQualified } from 'in-openstack/navigation/paths';
 import Hypervisors from 'in-openstack/Dashboards/Regions/tabs/Hypervisors';
-import Flavor from './Flavor';
+import Flavor from 'in-openstack/Dashboards/Regions/tabs/Flavor';
+import Image from 'in-openstack/Dashboards/Regions/tabs/Image';
 import { t } from 'in-i18n';
-import Image from './Image';
 
 export default [
   {

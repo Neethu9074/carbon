@@ -124,7 +124,10 @@ const cols = [
 ];
 
 export default function RFCCalls({ snapshotId, timeConfig }: RFCCallsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'rfcCalls'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'rfcCalls', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return null;
   }

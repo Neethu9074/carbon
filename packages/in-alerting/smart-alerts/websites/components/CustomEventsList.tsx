@@ -13,6 +13,7 @@ import {
   TimeConfig,
   WebsitePaginatedBeaconGroupsItem
 } from '@instana/types';
+import { CarbonLayer } from '@instana/components';
 
 import {
   getEventName,
@@ -89,7 +90,7 @@ export default function CustomEventsList({
   });
 
   return (
-    <>
+    <CarbonLayer>
       <List
         key={Math.random()}
         getCustomHeader={() => (
@@ -121,6 +122,6 @@ export default function CustomEventsList({
         }}
         isSearchable
       />
-    </>
+    </CarbonLayer>
   );
 }

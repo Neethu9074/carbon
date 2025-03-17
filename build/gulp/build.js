@@ -103,7 +103,6 @@ function webpackBuild(cb) {
   config.optimization.concatenateModules = true;
   config.optimization.minimizer = [
     new TerserPlugin({
-      sourceMap: true,
       terserOptions: {
         output: {
           preamble: `/*
@@ -143,6 +142,7 @@ function webpackBuild(cb) {
 
 function writeTryBuildServerConfigFile(cb) {
   var config = {
+    urlFormat: '$unit-$tenant.$baseDomain',
     baseUrl: 'https://local-instana.pink.instana.rocks:4000',
     uiBackendBaseUrl: 'https://test-instana.pink.instana.rocks',
     groundskeeperBaseUrl: 'http://127.0.0.1:8280',
@@ -216,6 +216,7 @@ function openTryBuildUrlInBrowser(cb) {
 
 function writeTryBuildReleaseServerConfigFile(cb) {
   var config = {
+    urlFormat: '$unit-$tenant.$baseDomain',
     baseUrl: 'https:/release-instana.release-instana.instana.rocks:4000',
     uiBackendBaseUrl: 'https://release-instana.instana.rocks',
     groundskeeperBaseUrl: 'http://127.0.0.1:8280',

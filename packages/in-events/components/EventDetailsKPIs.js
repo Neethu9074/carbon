@@ -17,7 +17,11 @@ import {
   fireCallbacksForEventAtFocusedMomentAsStream,
   getEventSeverityLabel
 } from 'in-stores/events';
+import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
+import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import { formatDurationAccurately, formatTime } from 'in-services/formatters/date';
+import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
+import { eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
 import { formatDate } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
@@ -30,13 +34,16 @@ import connectTo from 'in-hoc/connectTo';
 
 import dateTimeLocals from 'in-components/KpiCard/DateTimeKpiCard.mless';
 
-export default function EventDetailsKPIs({ event, isIncident }) {
+export default function EventDetailsKPIs({ event, isIncident, isApplicationSmartAlert }) {
   const eventType = getEventType(event);
   if (isIncident) {
     return <IncidentKPIs event={event} />;
   }
   if (eventType === EVENT_TYPES.CVE_ISSUE) {
     return <CveKPIs event={event} />;
+  }
+  if (isApplicationSmartAlert) {
+    return <ImapactedUsersEventKPIs event={event} />;
   }
   return <EventKPIs event={event} />;
 }
@@ -55,6 +62,29 @@ function EventKPIs({ event }) {
         <Duration event={event} />
       </Col>
       <Severity event={event} />
+    </Row>
+  );
+}
+
+function ImapactedUsersEventKPIs({ event }) {
+  const started = getEventType(event) === EVENT_TYPES.CHANGE ? t('in-events:titleTime') : t('in-events:headerStarted');
+  return (
+    <Row withoutSideMargin>
+      <Col xs>
+        <CarbonDateTimeKpiCard title={started} time={event.get('start')} />
+      </Col>
+      <Col xs>
+        <Ended event={event} />
+      </Col>
+      <Col xs>
+        <Duration event={event} />
+      </Col>
+      <Severity event={event} />
+      {eumImpactedUsersForAppAlertEnabled && (
+        <Col xs>
+          <ImpactedKPI event={event} />
+        </Col>
+      )}
     </Row>
   );
 }
@@ -187,6 +217,13 @@ export const Severity = connectTo(
     );
   }
 );
+
+export const ImpactedKPI = ({ event }) => {
+  const alertConfig = useApplicationEventAlertConfig(event);
+  const eventEntity = useApplicationEventEntity(event);
+
+  return <SmartAlertImpactedUsers alertConfig={alertConfig} event={event} eventEntity={eventEntity} isKPI />;
+};
 
 const CarbonDateTimeKpiCard = ({ title, time }) => (
   <KpiCard

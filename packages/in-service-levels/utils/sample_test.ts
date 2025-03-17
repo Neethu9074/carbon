@@ -10,11 +10,6 @@ import { calculateTimeConfigFromTimeWindow } from 'in-service-levels/utils/time'
 import { getErrorBudgetSampleData } from 'in-service-levels/utils/sample';
 import { hours } from 'in-services/time/time';
 
-jest.mock('in-services/featureFlags', () => ({
-  __esModule: true,
-  sloSyntheticsEnabled: true
-}));
-
 jest.mock('in-stores/permission', () => ({
   __esModule: true,
   hasSyntheticsAccess: true

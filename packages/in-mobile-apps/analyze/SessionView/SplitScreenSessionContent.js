@@ -7,6 +7,7 @@ import React from 'react';
 
 import { KeyValue } from '@instana/components';
 
+import { getLabel } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers/DroppedBeacon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -61,6 +62,8 @@ function getValuePerDataSource(beacon, dataSource) {
     viewChange: beacon.view,
     httpRequest: `${beacon.httpCallMethod} ${beacon.httpCallUrl}`,
     custom: beacon.customEventName,
-    crash: beacon.errorMessage
+    crash: beacon.errorMessage,
+    perf: beacon.performanceSubtype,
+    dropBeacon: getLabel(beacon)
   }[dataSource];
 }

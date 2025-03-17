@@ -122,6 +122,9 @@
     "filterConfirmRemoveMsg": "是否确定要移除过滤器 <strong>{{filterName}}</strong>？",
     "helpDialogTitleUsingTheSearchBar": "使用搜索栏"
   },
+  "carbonSearchBar": {
+    "search": "搜索"
+  },
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "分析此组",

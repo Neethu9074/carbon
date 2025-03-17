@@ -1,0 +1,77 @@
+import { Meta } from '@storybook/blocks';
+import * as NodeStories from './Node.stories';
+
+import EntityItemNode from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntityItemNode';
+import {
+  leafNode,
+  nodeWithKids
+} from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/stories/treeSelectionData';
+import Node from 'in-components/SelectorOverlay/Node';
+
+<Meta of={NodeStories} />
+
+# Auto-Loading Nodes: On-demand loading children
+
+<Canvas>
+  <EntityItemNode node={nodeWithKids} />
+</Canvas>
+
+as Search Result with icons:
+
+<Canvas>
+  <EntityItemNode node={leafNode} asSearchResult withIcons />
+</Canvas>
+
+## Nodes, with children
+
+### single row
+
+<Canvas>
+  <Story of={NodeStories.AutoLoadingChildrenSingleRow} />
+</Canvas>
+
+### search Result group
+
+as Search Result with icons:
+
+<Canvas>
+  <EntityItemNode node={nodeWithKids} asSearchResult withIcons />
+</Canvas>
+
+## Leaves
+
+### single row
+
+<Canvas>
+  <Story of={NodeStories.AutoLoadingLeafSingleRow} />
+</Canvas>
+
+### List group
+
+<EntityItemNode node={leafNode} asListGroup withIcons />
+
+# Regular Nodes, with children
+
+### single row item
+
+<Story of={NodeStories.StaticNodeWithChildrenSingleRow} />
+
+<Node node={nodeWithKids} asListGroup={false} />
+
+### list group
+
+<Node node={nodeWithKids} asListGroup withIcons />
+
+<Node node={nodeWithKids} asListGroup />
+
+## Leaves
+
+### single row
+
+<Story of={NodeStories.StaticNodeLeafSingleRow} />
+
+<Node node={leafNode} asListGroup={false} />
+
+### List group
+
+<Node node={leafNode} asListGroup withIcons />

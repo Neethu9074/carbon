@@ -89,6 +89,9 @@ export default connectTo(
       if (this.props.inContentArea) {
         tooltipElement.classList.add(locals.inContentArea);
       }
+      if (this.props.inSidePanel) {
+        tooltipElement.classList.add(locals.inSidePanel);
+      }
       if (this.props.behindSidebar) {
         tooltipElement.classList.add(locals.behindSidebar);
       }
@@ -118,8 +121,13 @@ export default connectTo(
       };
 
       const result = TooltipCalculator.calculate(bounds, tooltip, reference, this.props.forceConfiguredAlignment);
-      set(tooltipElement, 'left', result.left);
-      set(tooltipElement, 'right', result.right !== null ? windowWidth - result.right : null);
+
+      if (this.props.fixOverlayLeftAlignment) {
+        set(tooltipElement, 'left', result.left);
+      } else {
+        set(tooltipElement, 'left', result.left);
+        set(tooltipElement, 'right', result.right !== null ? windowWidth - result.right : null);
+      }
       if (this.props.inContentArea) {
         if (result.top != null) {
           set(tooltipElement, 'top', result.top + window.scrollY);
@@ -147,6 +155,7 @@ export default connectTo(
         delayedOpen,
         delayedClose,
         inContentArea,
+        inSidePanel,
         behindSidebar
       } = this.props;
       return (
@@ -156,6 +165,7 @@ export default connectTo(
           className={classNames({
             [locals.overlay]: true,
             [locals.inContentArea]: inContentArea,
+            [locals.inSidePanel]: inSidePanel,
             [locals.behindSidebar]: behindSidebar
           })}
           onMouseEnter={autoOpen ? delayedOpen : undefined}

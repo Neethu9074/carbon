@@ -1,0 +1,111 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+import React, { ReactElement } from 'react';
+
+import { DateFormatterInput, DateFormatterOutput, formatDateTime } from '@instana/format-date';
+import { RawEvent } from '@instana/types';
+
+import { EVENT_TYPES, getEventSeverityLabelWithEventType, getEventType } from 'in-stores/events';
+import { OnEntity, getEndValue, getStateBadge } from 'in-events/components/EventsListRow';
+import TimelineCell from 'in-events/components/EventsPage/EventsTable/TimelineCell';
+import EventIcon from 'in-events/components/EventIcon';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import { t } from 'in-i18n';
+
+interface ColumnDefinition {
+  Header: string;
+  accessor: string;
+  Cell?: (props: {
+    cell: { row: { original: RawEvent }; value: DateFormatterInput | any };
+  }) => ReactElement<any, any> | DateFormatterOutput;
+  disableSortBy?: boolean;
+  width?: number;
+  filter?: string;
+}
+
+export const severity: ColumnDefinition = {
+  Header: '',
+  accessor: 'severity',
+  Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
+    const event = cell.row.original;
+    const timeConfig = useTimeConfig();
+    return <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />;
+  },
+  width: 50,
+  disableSortBy: true
+};
+
+export const title: ColumnDefinition = {
+  Header: t('in-events:dataGridEventTable.title'),
+  accessor: 'title',
+  width: 350
+};
+
+export const on: ColumnDefinition = {
+  Header: t('in-events:dataGridEventTable.on'),
+  accessor: 'entityLabel',
+  width: 250,
+  Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
+    const event = cell.row.original;
+    return <OnEntity rawEvent={event} />;
+  },
+  disableSortBy: true
+};
+
+export const started: ColumnDefinition = {
+  Header: t('in-events:dataGridEventTable.started'),
+  accessor: 'start',
+  Cell: ({ cell: { value } }: { cell: { value: DateFormatterInput } }) => formatDateTime(value),
+  width: 250
+};
+
+export const end: ColumnDefinition = {
+  Header: t('in-events:dataGridEventTable.end'),
+  accessor: 'end',
+  Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
+    const event = cell.row.original;
+    const eventType = getEventType(event);
+    const isChangeEvent = eventType === EVENT_TYPES.CHANGE;
+    const end = event.manualCloseTimestamp || event.end || Date.now();
+    const start = event.start;
+    const headers = eventsTableColumns;
+    const endValue = getEndValue(event, isChangeEvent, end, start, headers, false) || '-';
+    return endValue;
+  },
+  width: 250
+};
+
+export const timeline: ColumnDefinition = {
+  Header: 'Timeline',
+  accessor: 'Timeline',
+  Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
+    const event = cell.row.original;
+    return <TimelineCell event={event} />;
+  },
+  disableSortBy: true
+};
+
+export const state: ColumnDefinition = {
+  Header: t('in-events:dataGridEventTable.state'),
+  accessor: 'state',
+  Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
+    const event = cell.row.original;
+    return getStateBadge(event);
+  }
+};
+
+export const eventType: ColumnDefinition = {
+  Header: 'Event type',
+  accessor: 'Event type',
+  width: 20,
+  filter: 'checkbox',
+  disableSortBy: true
+};
+
+const eventsTableColumns: ColumnDefinition[] = [severity, title, on, started, end, timeline, state, eventType];
+
+export default eventsTableColumns;

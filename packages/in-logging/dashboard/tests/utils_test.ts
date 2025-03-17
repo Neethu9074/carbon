@@ -8,9 +8,12 @@ import { renderHook } from '@testing-library/react-hooks';
 
 import { useObservable } from '@instana/hooks';
 
-// eslint-disable-next-line no-restricted-imports
-import { generateQueryWithWinSize, millisecondsInMonth, Month, useLoggingNavigationItems } from '../utils';
-// eslint-disable-next-line no-restricted-imports
+import {
+  generateQueryWithWinSize,
+  millisecondsInMonth,
+  Month,
+  useLoggingNavigationItems
+} from 'in-logging/dashboard/utils';
 import { loggingDashboardPath } from 'in-logging/navigation/paths';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';

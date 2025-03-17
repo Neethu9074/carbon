@@ -5,9 +5,10 @@
  */
 
 import React, { createContext, useState } from 'react';
-import { Map } from 'immutable';
+import { ErrorEmptyState } from '@carbon/ibm-products';
+import { get } from 'lodash';
 
-import { CarbonTab, CarbonTabList, CarbonTabs, LoadingSpinner, Typography } from '@instana/components';
+import { CarbonTab, CarbonTabList, CarbonTabs, LoadingSpinner } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -20,22 +21,24 @@ import {
   specialCaseConnectionsAndNodes
 } from 'in-events/components/legacy/TopologyUtils';
 import useFetchAppropriateRCAEntityData from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
+import getRootCauseTabSecondaryLabel from 'in-events/components/RootCauseAnalysis/utils/getRootCauseTabSecondaryLabel';
+import getRootCauseTabLabel from 'in-events/components/RootCauseAnalysis/utils/getRootCauseTabLabel';
 import RootCauseTopology from 'in-events/components/RootCauseAnalysis/Topology/RootCauseTopology';
 import { ProbableCauseType } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import RootCauseLegend from 'in-events/components/RootCauseAnalysis/Topology/RootCauseLegend';
-import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
-import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import getServiceMap from 'in-applications/subscriptions/getServiceMap';
 import { Application, Nullish, TimeConfig } from 'in-types';
-import { close } from 'in-components/DialogPresenter/store';
 import { EventOrMap } from 'in-events/types';
 import { t } from 'in-i18n';
+
+import locals from 'in-events/components/RootCauseAnalysis/Topology/RootCauseMap.mless';
 
 interface NewRootCauseTopologyDialogProps {
   relatedApplicationInformation: Application | Nullish;
   rootCauses: [string, ProbableCauseType][];
   triggeringEvent: EventOrMap;
   timeConfig: TimeConfig;
+  selectedRCA: number;
 }
 
 export const RCATopologyTimeWindowContext = createContext<TimeConfig | null>(null);
@@ -45,10 +48,10 @@ export default function RootCauseTopologyDialog({
   relatedApplicationInformation,
   rootCauses,
   triggeringEvent,
-  timeConfig
+  timeConfig,
+  selectedRCA
 }: NewRootCauseTopologyDialogProps) {
-  const [selectedTab, setSelectedTab] = useState<number>(0);
-
+  const [topologyTabs, setTopologyTabs] = useState(selectedRCA + 1);
   const firstRCAIndex = rootCauses[0];
   const secondRCAIndex = rootCauses[1];
   const thirdRCAIndex = rootCauses[2];
@@ -121,13 +124,13 @@ export default function RootCauseTopologyDialog({
   );
 
   if (!triggeringEntityData.entityData && !triggeringEntityData.loadingSnapshotData) {
-    addMessage({
-      title: t('in-events:RCA.topology.failedToLoadTitle'),
-      type: 'danger',
-      content: <Typography variant="body-regular">{t('in-events:RCA.topology.failedToLoadDescription')}</Typography>,
-      timeout: 10000
-    });
-    close();
+    return (
+      <ErrorEmptyState
+        className={locals.emptyStateContainer}
+        title={t('in-events:RCA.topology.failedToLoadTitle')}
+        subtitle={t('in-events:RCA.topology.failedToLoadDescription')}
+      />
+    );
   }
 
   if (
@@ -140,11 +143,7 @@ export default function RootCauseTopologyDialog({
     loadingSecondRCA ||
     loadingThirdRCA
   ) {
-    return (
-      <DialogWithSlideInView title={t('in-events:RCA.topology.dialogTitle')} onClose={close}>
-        <LoadingSpinner description="Loading topology" withOverlay={false} />
-      </DialogWithSlideInView>
-    );
+    return <LoadingSpinner description="Loading topology" withOverlay={false} />;
   }
 
   // Root cause data in arrays for purpose of filtering and tabs
@@ -156,9 +155,8 @@ export default function RootCauseTopologyDialog({
           return [rca.nonInfraServiceLabelInformation.id];
         } else if (rca.infraServiceLabelInformation.length > 0) {
           return rca.infraServiceLabelInformation.map(val => val.id);
-        } else if (rca.entityData && rca.entityType === 'service') {
-          if (Map.isMap(rca.entityData)) return rca.entityData.get('id');
-          return rca.entityData.id;
+        } else if (rca.entityData) {
+          return get(rca, 'entityData.id', ['UNKNOWN']);
         } else {
           return ['UNKNOWN'];
         }
@@ -198,18 +196,15 @@ export default function RootCauseTopologyDialog({
 
   const rcaFilter = (idx: number) => {
     if (idx === 0) {
-      Object.keys(nodes).forEach(nodeID => {
-        if (nodes[nodeID].tags.has('RCA')) {
-          nodes[nodeID].specialCaseVisibility = true;
-        }
-      });
+      return nodes;
     }
-    const selectedRCAIndex = rootCausesInArray[idx - 1];
+
+    const selectedRCAIndex = rootCausesInArray[idx];
 
     if (selectedRCAIndex) {
-      const { entityData, entityType } = selectedRCAIndex;
+      const { entityData } = selectedRCAIndex;
       if (entityData) {
-        const rcaID: string = entityType === 'infrastructure' ? entityData.get('id') : entityData.id;
+        const rcaID = get(entityData, 'id');
         Object.keys(nodes).forEach(nodeID => {
           if (nodeID !== rcaID && nodes[nodeID].tags.has('RCA')) {
             nodes[nodeID].specialCaseVisibility = false;
@@ -223,69 +218,28 @@ export default function RootCauseTopologyDialog({
     return nodes;
   };
 
-  const getSelectedRCAID = (tabNum: number) => {
-    if (tabNum !== 0) {
-      const selectedRCAIndex = rootCausesInArray[tabNum - 1];
-
-      if (selectedRCAIndex) {
-        const { entityData, entityType } = selectedRCAIndex;
-        if (entityData) {
-          return entityType === 'infrastructure' ? entityData.get('id') : entityData.id;
-        }
-      }
-    }
-
-    return null;
-  };
-
   return (
     <RCATopologyTimeWindowContext.Provider value={timeConfig}>
       <RCATopologyAPContext.Provider value={relatedApplicationInformation ? [relatedApplicationInformation] : []}>
-        <DialogWithSlideInView title={t('in-events:RCA.topology.dialogTitle')} onClose={close}>
-          <CarbonTabs
-            selectedIndex={selectedTab}
-            onChange={val => {
-              setSelectedTab(val.selectedIndex);
-              rcaFilter(val.selectedIndex);
-            }}
-          >
-            <CarbonTabList aria-label="Topology Selections">
-              {tabs.map(({ label }, idx) => {
-                if (idx === 0) {
-                  return <CarbonTab key={idx}>{label}</CarbonTab>;
-                } else if (rootCausesInArray[idx - 1]) {
-                  return <CarbonTab key={idx}>{label}</CarbonTab>;
-                } else {
-                  return undefined;
-                }
-              })}
-            </CarbonTabList>
-          </CarbonTabs>
-          <RootCauseTopology
-            relationships={relationships}
-            nodes={rcaFilter(selectedTab)}
-            height={'812'}
-            width={'1456'}
-            selectedRCAID={getSelectedRCAID(selectedTab)}
-          />
-          <RootCauseLegend />
-        </DialogWithSlideInView>
+        <CarbonTabs selectedIndex={topologyTabs} onChange={i => setTopologyTabs(i.selectedIndex)}>
+          <CarbonTabList aria-label="topology views" contained>
+            {/* TODO: Remove hardcoded string */}
+            <CarbonTab key={0}>{t('in-events:RCA.topology.overviewTab')}</CarbonTab>
+            {rootCauses.map(([rootCauseId, rootCause], idx) => (
+              <CarbonTab key={rootCauseId} secondaryLabel={getRootCauseTabSecondaryLabel(rootCause)}>
+                {getRootCauseTabLabel(idx)}
+              </CarbonTab>
+            ))}
+          </CarbonTabList>
+        </CarbonTabs>
+        <RootCauseTopology
+          relationships={relationships}
+          nodes={rcaFilter(topologyTabs)}
+          height={'80vh'}
+          width={'100%'}
+        />
+        <RootCauseLegend />
       </RCATopologyAPContext.Provider>
     </RCATopologyTimeWindowContext.Provider>
   );
 }
-
-const tabs = [
-  {
-    label: t('in-events:RCA.topology.overviewTab')
-  },
-  {
-    label: t('in-events:RCA.topology.rootCauseOne')
-  },
-  {
-    label: t('in-events:RCA.topology.rootCauseTwo')
-  },
-  {
-    label: t('in-events:RCA.topology.rootCauseThree')
-  }
-];

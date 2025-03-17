@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Collapsible } from '@instana/components';
 
+import RemoteServiceAgentCorrelationComponent from 'in-sdk/components/sidebar/remoteServiceAgentCorrelation/remoteServiceAgentCorrelationComponent';
 // @ts-expect-error Module needs to be translated to TS
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
@@ -25,6 +26,7 @@ export default function AzureBlobSidebarDetails({ snapshot }: { snapshot: Snapsh
       </Collapsible>
 
       <ServiceInstancesList snapshot={snapshot} />
+      <RemoteServiceAgentCorrelationComponent snapshot={snapshot} />
     </>
   );
 }

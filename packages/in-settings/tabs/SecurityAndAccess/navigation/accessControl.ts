@@ -16,6 +16,7 @@ import {
   securityAndAccessAccessControlTeamEdit,
   securityAndAccessAccessControlTeamNew,
   securityAndAccessAccessControlTeams,
+  securityAndAccessAccessControlRoles,
   securityAndAccessAccessControlUserEdit,
   securityAndAccessAccessControlUsers,
   securityAndAccessAccessLog,
@@ -38,23 +39,39 @@ import TeamsPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Te
 import UsersPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/Users';
 import TeamPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/Team';
 import AuditTrailPage from 'in-settings/tabs/SecurityAndAccess/pages/audit/AuditTrail';
+import Roles from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles';
 import { accessControlCarbonTable, rbacTeamsEnabled } from 'in-services/featureFlags';
 import { Role } from 'in-types';
 import { t } from 'in-i18n';
 
+interface NavigationTreePage {
+  idx: string;
+  path?: string;
+  label?: string;
+  component: React.ReactNode;
+  subPages?: Array<NavigationTreePage>;
+}
+
+interface NavigationTreeItem {
+  title: string;
+  pages: Array<NavigationTreePage>;
+}
+
 export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
-  const navigationTree = [];
+  const navigationTree: NavigationTreeItem[] = [];
 
   if (role.canConfigureUsers || role.canConfigureTeams || role.canConfigureApiTokens) {
-    const accessControlPages = [];
+    const accessControlPages: NavigationTreePage[] = [];
 
     if (role.canConfigureUsers) {
       accessControlPages.push({
+        idx: 'users-page',
         path: securityAndAccessAccessControlUsers,
         label: t('in-settings:tabs.users'),
         component: accessControlCarbonTable ? UsersV2 : UsersPage,
         subPages: [
           {
+            idx: 'edit-user-page',
             path: securityAndAccessAccessControlUserEdit,
             component: UserPage
           }
@@ -62,6 +79,7 @@ export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
       });
       if (!isAnyIDPActive) {
         accessControlPages.push({
+          idx: 'invites-page',
           path: securityAndAccessAccessControlInvites,
           label: t('in-settings:tabs.pendingInvitations'),
           component: accessControlCarbonTable ? InvitesV2 : InvitesPage
@@ -72,56 +90,55 @@ export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
     if (rbacTeamsEnabled) {
       if (role.canConfigureTeams) {
         accessControlPages.push({
-          path: securityAndAccessAccessControlGroups,
+          idx: 'roles-page',
+          path: securityAndAccessAccessControlRoles,
           label: t('in-settings:tabs.roles'),
-          component: accessControlCarbonTable ? GroupsV2 : GroupsPage,
-          subPages: [
-            {
-              path: securityAndAccessAccessControlGroupNew,
-              component: GroupPage
-            },
-            {
-              path: securityAndAccessAccessControlGroupEdit,
-              component: GroupPage
-            }
-          ]
-        });
-      }
-    } else {
-      if (role.canConfigureTeams) {
-        accessControlPages.push({
-          path: securityAndAccessAccessControlGroups,
-          label: t('in-settings:tabs.groups'),
-          component: accessControlCarbonTable ? GroupsV2 : GroupsPage,
-          subPages: [
-            {
-              path: securityAndAccessAccessControlGroupNew,
-              component: GroupPage
-            },
-            {
-              path: securityAndAccessAccessControlGroupEdit,
-              component: GroupPage
-            }
-          ]
+          component: Roles,
+          subPages: []
         });
       }
     }
 
+    if (role.canConfigureTeams) {
+      accessControlPages.push({
+        idx: 'groups-page',
+        path: securityAndAccessAccessControlGroups,
+        label: t('in-settings:tabs.groups'),
+        component: accessControlCarbonTable ? GroupsV2 : GroupsPage,
+        subPages: [
+          {
+            idx: 'new-group-page',
+            path: securityAndAccessAccessControlGroupNew,
+            component: GroupPage
+          },
+          {
+            idx: 'edit-group-page',
+            path: securityAndAccessAccessControlGroupEdit,
+            component: GroupPage
+          }
+        ]
+      });
+    }
+
     if (role.canConfigureApiTokens) {
       accessControlPages.push({
+        idx: 'api-token-page',
         path: securityAndAccessAccessControlApiTokens,
         label: t('in-settings:tabs.apiTokens'),
         component: ApiTokensPage,
         subPages: [
           {
+            idx: 'edit-api-token-page',
             path: securityAndAccessAccessControlApiTokenEdit,
             component: ApiTokenFormDialog
           },
           {
+            idx: 'new-api-token-page',
             path: securityAndAccessAccessControlApiTokenNew,
             component: ApiTokenFormDialog
           },
           {
+            idx: 'clone-api-token-page',
             path: securityAndAccessAccessControlApiTokenDuplicate,
             component: ApiTokenFormDialog
           }
@@ -132,15 +149,18 @@ export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
     if (rbacTeamsEnabled) {
       if (role.canConfigureTeams) {
         accessControlPages.push({
+          idx: 'teams-page',
           path: securityAndAccessAccessControlTeams,
           label: t('in-settings:tabs.teams.teamsTitle'),
           component: TeamsPage,
           subPages: [
             {
+              idx: 'new-team-page',
               path: securityAndAccessAccessControlTeamNew,
               component: TeamsPage
             },
             {
+              idx: 'edit-team-page',
               path: securityAndAccessAccessControlTeamEdit,
               component: TeamPage
             }
@@ -160,19 +180,23 @@ export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
       title: t('in-settings:tabs.audit'),
       pages: [
         {
+          idx: 'audit-page',
           path: securityAndAccessAudit,
           label: t('in-settings:tabs.auditTrail'),
           component: AuditTrailPage,
           subPages: [
             {
+              idx: 'audit-action-log-page',
               path: securityAndAccessActionLog,
               component: AuditTrailPage
             },
             {
+              idx: 'audit-action-log-retention-page',
               path: securityAndAccessActionLogRetention,
               component: AuditTrailPage
             },
             {
+              idx: 'audit-access-log-page',
               path: securityAndAccessAccessLog,
               component: AuditTrailPage
             }

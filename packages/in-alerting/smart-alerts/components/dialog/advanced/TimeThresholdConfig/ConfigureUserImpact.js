@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Toggle } from '@instana/components';
+import { Toggle, CarbonDropdown } from '@instana/components';
 
 import {
   putUsersField,
@@ -18,9 +18,7 @@ import {
 } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import AlertThresholdConfigItemContainer from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
 import { getValueRoundedToDecimals, round } from 'in-alerting/smart-alerts/components/utils/formatUtils';
-import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import DropdownButton from 'in-components/Button/DropdownButton';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -35,6 +33,27 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
   const alertByPercentageOfUsersChecked = timeThresholdForm.containsKey('userPercentage');
   const alertByNumberOfUsersChecked = timeThresholdForm.containsKey('users');
 
+  const options = [
+    {
+      label: t(
+        'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigImpactEvaluationMethodAggregated'
+      ),
+      value: ImpactMeasurementMethods.AGGREGATED
+    },
+    {
+      label: t(
+        'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigImpactEvaluationMethodPerWindow'
+      ),
+      value: ImpactMeasurementMethods.PER_WINDOW
+    }
+  ];
+
+  const onSelect = ({ selectedItem }) => {
+    onChange(['timeThreshold', 'impactMeasurementMethod'], field =>
+      field.setValue(selectedItem?.value).setTouched(true)
+    );
+  };
+
   return (
     <>
       <AlertThresholdConfigItemContainer iconType="lib_alerts_user_impacted" noIcon>
@@ -43,33 +62,21 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
         </label>
         <div className={locals.configureSingleControlWrapper}>
           <div>
-            <ComboBoxBehavior
-              disableAutomaticOptionSorting
-              value={impactMeasurementMethod}
-              options={[
-                {
-                  label: t(
-                    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigImpactEvaluationMethodAggregated'
-                  ),
-                  value: ImpactMeasurementMethods.AGGREGATED
-                },
-                {
-                  label: t(
-                    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigImpactEvaluationMethodPerWindow'
-                  ),
-                  value: ImpactMeasurementMethods.PER_WINDOW
-                }
-              ]}
-              onChange={value => {
-                onChange(['timeThreshold', 'impactMeasurementMethod'], field => field.setValue(value).setTouched(true));
-              }}
-            >
-              {({ elementProps, options, value, isOpen }) => (
-                <DropdownButton kind="secondary" expanded={isOpen} {...elementProps}>
-                  {(value && options?.find?.(opt => opt.value === value)?.label) ?? 'Please select a '}
-                </DropdownButton>
+            <CarbonDropdown
+              id="dropdown_impact"
+              hideLabel
+              label={t(
+                'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigImpactEvaluationMethodSelect'
               )}
-            </ComboBoxBehavior>
+              size="sm"
+              titleText={t(
+                'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigImpactEvaluationMethodSelect'
+              )}
+              selectedItem={impactMeasurementMethod && options?.find?.(opt => opt.value === impactMeasurementMethod)}
+              items={options}
+              itemToString={item => item?.label ?? ''}
+              onChange={onSelect}
+            />
           </div>
         </div>
       </AlertThresholdConfigItemContainer>

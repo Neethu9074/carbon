@@ -87,7 +87,7 @@ describe('AISummary', () => {
     );
     expect(wrapper.find(CarbonIconButton)).toHaveLength(2);
     expect(wrapper.find(CarbonInlineLoading)).toHaveLength(1);
-    expect(wrapper.find(SvgIcon)).toHaveLength(2);
+    expect(wrapper.find(SvgIcon)).toHaveLength(4);
     expect(wrapper.find(ShowAllButton)).toHaveLength(0);
   });
 
@@ -184,7 +184,7 @@ describe('AISummary', () => {
     );
     expect(wrapper.find(CarbonIconButton)).toHaveLength(2);
     expect(wrapper.find(CarbonInlineLoading)).toHaveLength(5);
-    expect(wrapper.find(SvgIcon)).toHaveLength(2);
+    expect(wrapper.find(SvgIcon)).toHaveLength(4);
     expect(wrapper.find(ShowAllButton)).toHaveLength(2);
   });
 
@@ -223,7 +223,7 @@ describe('AISummary', () => {
     );
     expect(wrapper.find(CarbonIconButton)).toHaveLength(2);
     expect(wrapper.find(CarbonInlineLoading)).toHaveLength(0);
-    expect(wrapper.find(SvgIcon)).toHaveLength(2);
+    expect(wrapper.find(SvgIcon)).toHaveLength(4);
     expect(wrapper.find(ShowAllButton)).toHaveLength(0);
   });
 });

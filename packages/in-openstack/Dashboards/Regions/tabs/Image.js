@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import ImageTable from '../../Table/ImageTable';
+import ImageTable from 'in-openstack/Dashboards/Table/ImageTable';
 
 export default function Image({ timeConfig, data: region }) {
   return (

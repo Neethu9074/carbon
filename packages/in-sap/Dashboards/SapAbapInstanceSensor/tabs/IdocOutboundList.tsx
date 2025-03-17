@@ -96,7 +96,10 @@ const cols = [
 ];
 
 export default function IdocOutboundMetrics({ snapshotId, timeConfig }: IdocOutBoundDetailsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'outboundDetails'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'outboundDetails', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return (
       <DashboardNotification type="info">

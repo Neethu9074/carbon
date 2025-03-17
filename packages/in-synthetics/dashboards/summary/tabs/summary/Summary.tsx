@@ -38,6 +38,7 @@ export default function Summary({ test }: SummaryProps) {
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   const testType = getMatrixParameter(location, syntheticsDashboard, 'type');
   const isSSLCertificate = testType === 'SSLCertificate';
+  const isDNS = testType === 'DNS';
   const locationDisplayLabels: string =
     getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels') ?? '';
   const locationIds: string = getMatrixParameter(location, syntheticsDashboard, 'locationIds') ?? '';
@@ -89,6 +90,7 @@ export default function Summary({ test }: SummaryProps) {
         <SummaryKPIs
           tagFilters={tagFilters}
           isSSLCertificate={isSSLCertificate}
+          isDNS={isDNS}
           resultList={resultList}
           timeShiftConfig={timeShiftConfig}
           timeConfig={timeConfig}

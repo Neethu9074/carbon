@@ -7,14 +7,13 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
-import { t } from '@instana/i18n-react';
-
 import CreateSliFormFactory from 'in-custom-dashboards/widgets/SloLegacy/sli/components/create/CreateSliFormFactory';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createSliConfiguration as cSC } from 'in-custom-dashboards/widgets/SloLegacy/sli/api';
 import { SliConfigBySliType } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { t } from 'in-i18n';
 
 jest.mock('in-custom-dashboards/widgets/SloLegacy/sli/api', () => {
   const { just } = jest.requireActual('@instana/observables');

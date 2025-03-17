@@ -7,10 +7,9 @@ import { Route, Switch } from 'react-router-dom';
 import { useRouteMatch } from 'react-router';
 import React, { Fragment } from 'react';
 
-import { combineLatest } from '@instana/observables';
 import { CarbonSideNavItems, CarbonSideNavLink, SvgIcon, Typography } from '@instana/components';
+import { combineLatest } from '@instana/observables';
 
-import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import { isViewWithRouteParam } from 'in-components/layout/SideNavigationAndContent/routing';
 import SidebarContainer from 'in-components/layout/SidebarContainer/SidebarContainer';
 import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
@@ -21,8 +20,6 @@ import { isView } from 'in-stores/navigation';
 import Footer from 'in-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
-
-import { carbonSideNavLinksEnabled } from 'in-services/featureFlags';
 
 import locals from './SideNavigationAndContent.mless';
 
@@ -64,7 +61,7 @@ export default function SideNavigationAndContent(props) {
 
   const sideNavigationHasIcons = navigationTree.find(subTree => subTree.pages.find(page => page.icon));
 
-  const SideNavRenderer = carbonSideNavLinksEnabled ? CarbonSideNavigationPane : SideNavigationPane;
+  const SideNavRenderer = CarbonSideNavigationPane;
 
   const sidebar = <SideNavRenderer navigationTree={navigationTree} hasIcons={sideNavigationHasIcons} {...props} />;
   if (stickySidebar)
@@ -124,40 +121,6 @@ const CarbonSideNavLinkWithActive = connectTo(
     };
     return <CarbonSideNavLink {...newProps} />;
   }
-);
-
-function SideNavigationPane({ navigationTree, hasIcons, ...otherProps }) {
-  const { location, createHref } = useNavigation();
-  return (
-    <Fragment>
-      {navigationTree.map((subTree, idx) => (
-        <SideNavigation title={subTree.title} key={idx}>
-          {subTree.pages.map(page => {
-            const targetNavigationLink = createHref({ ...location, pathname: page.path });
-            return (
-              <SideNavigationItemWithActiveFlag
-                href={targetNavigationLink}
-                onClick={scrollToTopSmoothly}
-                key={page.path}
-                icon={page.icon}
-                omitEmptyIcon={!hasIcons}
-                label={page.label ? page.label : page.renderLabel(otherProps)}
-                path={page.path}
-                isBeta={Boolean(page.isBeta)}
-                subPages={page.subPages}
-                {...otherProps}
-              />
-            );
-          })}
-        </SideNavigation>
-      ))}
-    </Fragment>
-  );
-}
-
-const SideNavigationItemWithActiveFlag = connectTo(
-  ({ path, subPages }) => ({ isActive: isActive(path, subPages) }),
-  SideNavigationItem
 );
 
 function isActive(path, subPages) {

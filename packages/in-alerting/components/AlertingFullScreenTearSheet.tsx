@@ -11,12 +11,16 @@ import { CreateFullPage, CreateFullPageProps, CreateFullPageStep } from '@instan
 import { Stack } from '@instana/components';
 
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+//@ts-expect-error TS migration
+import { getTrackingAlertConfigFromForm } from 'in-alerting/smart-alerts/utils/segmentUtils';
 import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData, TimeConfig } from 'in-types';
 import AlertingCarbonTearSheetContent from 'in-alerting/components/AlertingCarbonTearSheetContent';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ALERTING_CANCEL_CLICKED } from 'in-services/tracking/eventNames';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import AlertingMessage from 'in-alerting/components/AlertingMessage';
+import { FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
+import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { t } from 'in-i18n';
 
@@ -35,23 +39,26 @@ interface AlertingFullScreenTearSheetProps {
   form: MapForm<any>;
   updateForm: ((form: MapForm<any>, setForm?: (form: MapForm<any>) => void) => void) | ((form: MapForm<any>) => void);
   onChange: (path: string[], updater: (item: Item) => Item) => void;
-  onChartViewConfigChange: (arg: number) => void;
-  selectedChartViewConfigIndex: number;
+  onChartViewConfigChange?: (arg: number) => void;
+  selectedChartViewConfigIndex?: number;
   editMode: boolean;
-  timeConfig: TimeConfig;
+  timeConfig?: TimeConfig;
   onCreate?: (simpleMode: boolean) => void;
   isSaving: boolean;
   messages: EnrichedError[];
   cancelTearSheet: string;
   tearSheetTitle: string;
   isTagFilterFormModelValid?: boolean;
+  TagBasedPayloadConfigurator?: React.FunctionComponent<any>;
   stepConfigs: AlertingTearSheetStepConfigs[];
   handleFormSubmit: VoidFunction;
   isEditMode: boolean;
   setTagFilterValid?: React.Dispatch<React.SetStateAction<boolean>>;
   thresholdResult: Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData> | undefined | null;
   actionButtonLabel: string;
+  QueryBuilderComponent?: QueryBuilderComponent;
   productArea?: string;
+  blueprintConfig?: object;
 }
 
 export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTearSheetProps) {
@@ -112,8 +119,15 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
   const handleSubmit = () => {
     let errorStep = stepConfigs.findIndex(({ valid }) => !valid);
     if (errorStep >= 0) {
+      // Get the validator function for the current error step
+      const { validator } = stepConfigs[errorStep];
+      // Mark the step as invalid in the side navigation
       setStepValid(false);
+      // Trigger validation for the error step
+      validator?.();
+      // Set the current step as the one with an error
       setErrorStep(errorStep);
+      // Navigate to the error step
       setCurrentStep(errorStep);
       return;
     }
@@ -138,8 +152,13 @@ export default function AlertingFullScreenTearSheet(props: AlertingFullScreenTea
       },
       submitButtonText: actionButtonLabel,
       onClose: () => {
+        const alertConfigForTracking = getTrackingAlertConfigFromForm(form.toJS());
         if (!isFormSubmit.current) {
-          trackCta(ALERTING_CANCEL_CLICKED, { canceledStep: stepConfigs[currentStep].title, ...form.toJS() });
+          trackCta(ALERTING_CANCEL_CLICKED, {
+            canceledStep: stepConfigs[currentStep].title,
+            ...alertConfigForTracking,
+            dialogMode: FULLSCREEN
+          });
           goToPath(cancelTearSheet.slice(2));
         }
         isFormSubmit.current = false;

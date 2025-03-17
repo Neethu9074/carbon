@@ -11,9 +11,7 @@ import { just } from '@instana/observables';
 import HostScopeDefinitionSelector from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/components/HostScopeDefinitionSelector';
 import { putScopeByHostsFields } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 
-export default {
-  title: 'Host scope definition'
-};
+export default {};
 
 export const Default = () => {
   // in real example, it could be extracted from tagCatalog:

@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import React from 'react';
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { CSS } from '@dnd-kit/utilities';
 
 import { ColumnizedContent, Li, Stack, SvgIcon, toInteractiveElement, Ul, Pill } from '@instana/components';
 
@@ -98,40 +100,103 @@ export const columnDefinitions = [
   }
 ];
 
+function SortableItem({ id, content }) {
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    position: 'relative',
+    zIndex: isDragging ? 1000 : 'auto'
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      {content}
+    </div>
+  );
+}
+
 export function Reorderer({ form, onChange, children }) {
+  const [scrollTopPosition, setScrollTopPosition] = useState(0);
+  const dndScrollTopPosition = useRef(0);
+  const dialogBoxRef = useRef(null);
+
+  const updateScrollTopPosition = useCallback(() => {
+    if (dialogBoxRef.current) {
+      setScrollTopPosition(dialogBoxRef.current.scrollTop);
+    }
+  }, []);
+
+  useEffect(() => {
+    dialogBoxRef.current = document.getElementById('dialog-slide-in-view-id');
+    if (dialogBoxRef.current) {
+      dialogBoxRef.current.addEventListener('scroll', updateScrollTopPosition);
+      updateScrollTopPosition();
+    }
+
+    return () => {
+      if (dialogBoxRef.current) {
+        dialogBoxRef.current.removeEventListener('scroll', updateScrollTopPosition);
+      }
+    };
+  }, [updateScrollTopPosition]);
+
   const updateForm = useChartFormatterDragAndDropFormSideEffects(form, updatedForm => {
     onChange([], () => updatedForm);
     refreshDFQ$.emit(true);
   });
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5
+      }
+    })
+  );
+
   return (
-    <DragDropContext
-      onDragEnd={e => {
-        if (!e.destination) {
-          return;
-        }
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={() => {
+        document.getElementById('dialog-slide-in-view-id').style.overflowY = 'hidden';
+        dndScrollTopPosition.current = scrollTopPosition;
+      }}
+      onDragEnd={({ active, over }) => {
+        if (!over || active.id === over.id) return;
+
+        const { axisName: sourceDroppableId, indexInAxis: sourceIndex } = JSON.parse(active.id);
+        const { axisName: destinationDroppableId, indexInAxis: destinationDroppableIndex } = JSON.parse(over.id);
 
         updateForm(
           form.updateIn([], form => {
-            const metric = form.getIn([e.source.droppableId, metricsPath, e.source.index]);
+            const metric = form.getIn([sourceDroppableId, metricsPath, sourceIndex]);
             form = form
-              .updateIn([e.source.droppableId, metricsPath], f => f.remove(e.source.index).setTouched(true))
-              .updateIn([e.destination.droppableId, metricsPath], f =>
-                f.insert(e.destination.index, metric).setTouched(true)
+              .updateIn([sourceDroppableId, metricsPath], f => f.remove(sourceIndex).setTouched(true))
+              .updateIn([destinationDroppableId, metricsPath], f =>
+                f.insert(destinationDroppableIndex, metric).setTouched(true)
               );
 
             if (form.containsKey(formatterPath)) {
-              const formatterSource = form.getIn([e.source.droppableId, formatterPath])?.value;
-              form = form.updateIn([e.destination.droppableId, formatterPath], f =>
+              const formatterSource = form.getIn([sourceDroppableId, formatterPath])?.value;
+              form = form.updateIn([destinationDroppableId, formatterPath], f =>
                 f.setValue(formatterSource).setTouched(true)
               );
             }
             return form;
           })
         );
+
+        setTimeout(() => {
+          if (dialogBoxRef.current) {
+            dialogBoxRef.current.scrollTop = dndScrollTopPosition.current;
+            document.getElementById('dialog-slide-in-view-id').style.overflowY = 'auto';
+          }
+        }, 50);
       }}
     >
       {children}
-    </DragDropContext>
+    </DndContext>
   );
 }
 
@@ -148,6 +213,17 @@ export function MetricsForAxis({
   const axisForm = form.get(axisName);
   const metricsForm = axisForm.get(metricsPath);
 
+  const [sortableMetrics, setSortableMetrics] = useState(metricsForm);
+
+  useEffect(() => {
+    setSortableMetrics(metricsForm);
+  }, [metricsForm]);
+
+  const sortableIds = sortableMetrics.map((metric, indexInAxis) => ({
+    id: JSON.stringify({ axisName, indexInAxis }),
+    content: metric
+  }));
+
   const showHelpText = metricsForm.size === 0;
   const columnsDefinitions = columnDefinitions
     .filter(({ x }) => x !== 'colorConfigurator' || isColorConfiguratorEnabled)
@@ -159,48 +235,34 @@ export function MetricsForAxis({
 
       <TouchedMessages field={metricsForm} />
 
-      <Droppable droppableId={axisName}>
-        {provided => (
-          <Stack gap="xxsmall" ref={provided.innerRef}>
-            {metricsForm.map((metricForm, indexInAxis) => (
-              // Note: react beautiful dnd requires keys to be stable or at least stable while dragging.
-              // Usage of indexInAxis is therefore not sufficient. You can validate this by trying to drag
-              // the first (and only) metric for a y2 axis.
-              <Draggable
-                key={String(startIndex + indexInAxis)}
-                draggableId={String(startIndex + indexInAxis)}
-                index={indexInAxis}
-              >
-                {provided => (
-                  <div ref={provided.innerRef} {...provided.draggableProps}>
-                    <Ul>
-                      <Li noAlternatingBg className={locals.draggableItem}>
-                        <ColumnizedContent
-                          columnDefinitions={getFilteredColumnDefinitionsForSource(
-                            columnsDefinitions,
-                            metricForm.toJS()?.source
-                          )}
-                          axisName={axisName}
-                          metricForm={metricForm}
-                          form={form}
-                          onChange={onChange}
-                          indexInAxis={indexInAxis}
-                          index={startIndex + indexInAxis}
-                          dragHandleProps={provided.dragHandleProps}
-                          getShortMetricKey={getShortMetricKey}
-                        />
-                      </Li>
-                    </Ul>
-                  </div>
-                )}
-              </Draggable>
-            ))}
-
-            {showHelpText && <p className={locals.dragAndDropHelpText}>{helpText}</p>}
-            {provided.placeholder}
-          </Stack>
-        )}
-      </Droppable>
+      <SortableContext items={sortableIds.map(item => item.id)} strategy={verticalListSortingStrategy}>
+        {sortableIds.map(({ id, content }, indexInAxis) => (
+          <SortableItem
+            key={id}
+            id={id}
+            content={
+              <Ul>
+                <Li noAlternatingBg className={locals.draggableItem}>
+                  <ColumnizedContent
+                    columnDefinitions={getFilteredColumnDefinitionsForSource(
+                      columnsDefinitions,
+                      content.toJS()?.source
+                    )}
+                    axisName={axisName}
+                    metricForm={content}
+                    form={form}
+                    onChange={onChange}
+                    indexInAxis={indexInAxis}
+                    index={startIndex + indexInAxis}
+                    getShortMetricKey={getShortMetricKey}
+                  />
+                </Li>
+              </Ul>
+            }
+          />
+        ))}
+        {showHelpText && <p className={locals.dragAndDropHelpText}>{helpText}</p>}
+      </SortableContext>
     </Stack>
   );
 }

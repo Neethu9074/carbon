@@ -106,7 +106,10 @@ const cols = [
 ];
 
 export default function UserInfo({ snapshotId, timeConfig }: UserInfoProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'userInfo'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'userInfo', timeConfig),
+    [snapshotId, timeConfig]
+  );
   // @ts-expect-error Module needs to be translated to TS
   const [{ logonType }, setPhase] = useState(typeMap);
   const rightHeader = (

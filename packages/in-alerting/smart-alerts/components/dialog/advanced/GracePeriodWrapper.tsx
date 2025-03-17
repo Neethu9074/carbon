@@ -7,6 +7,9 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
+import { Spacer } from '@instana/components';
+
+import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import GracePeriod from 'in-alerting/smart-alerts/components/GracePeriod';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
@@ -26,7 +29,14 @@ export default function GracePeriodWrapper({ form, updateForm }: GracePeriodWrap
         <HorizontalFlexWrapper>
           <h3 className={locals.headline}>{t('in-alerting:smartAlerts.components.gracePeriod.title')}</h3>
         </HorizontalFlexWrapper>
-        <GracePeriod form={form} updateForm={updateForm} />
+        <TearSheetStepTitleWrapper
+          headline={''}
+          description={t('in-alerting:smartAlerts.components.gracePeriod.description')}
+          hideSpace
+        >
+          <Spacer size="normal" />
+          <GracePeriod form={form} updateForm={updateForm} />
+        </TearSheetStepTitleWrapper>
       </div>
     </BorderedContainer>
   );

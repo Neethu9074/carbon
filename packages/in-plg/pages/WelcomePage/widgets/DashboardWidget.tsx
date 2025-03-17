@@ -9,7 +9,6 @@ import React, { useEffect, useState } from 'react';
 import { CustomDashboard, Result, UserResult } from '@instana/types';
 import { IconButton, Link, Pill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
@@ -30,7 +29,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getCustomDashboard } from 'in-custom-dashboards/api';
-import { hasError, isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 
 export default function DashboardWidget({
@@ -44,6 +42,7 @@ export default function DashboardWidget({
   // @ts-ignore
   const users = useObservable(getUsers, []) ?? null;
   const { createHrefToPath } = useNavigation();
+  const [currentFavoriteDashboardIds, setCurrentFavoriteDashboardIds] = useState<string[]>([]);
   const getHeaders = () => {
     return [
       {
@@ -117,7 +116,7 @@ export default function DashboardWidget({
                 ? 'lib_actions_favorite_filled'
                 : 'lib_actions_favorite'
             }
-            onClick={() => handleFavoriteClick(id, item, isFavourite)}
+            onClick={() => handleFavoriteClick(id, item, isFavourite, setCurrentFavoriteDashboardIds)}
             iconSize="xs"
             disabled={isDisabled}
           />
@@ -126,10 +125,16 @@ export default function DashboardWidget({
     }
   ];
 
-  function handleFavoriteClick(id: string, item: CustomDashboard, isFavourite: boolean) {
+  function handleFavoriteClick(
+    id: string,
+    item: CustomDashboard,
+    isFavourite: boolean,
+    setCurrentFavoriteDashboardIds: React.Dispatch<React.SetStateAction<string[]>>
+  ) {
     if (!id && !item) return;
     if (isFavourite) {
       remove({ id: id, type: customDashboardType });
+      setCurrentFavoriteDashboardIds(prevIds => prevIds.filter(favId => favId !== id));
     } else {
       add({
         id: item?.id,
@@ -141,11 +146,11 @@ export default function DashboardWidget({
 
   function getItem(id: string) {
     return getCustomDashboard(id).map((dashboardResult: Result<CustomDashboard>) => {
-      if (isLoading(dashboardResult) || hasError(dashboardResult)) {
-        return just(dashboardResult);
-      } else {
-        return dashboardResult;
+      const dashboardId = dashboardResult?.data?.id;
+      if (dashboardId && !currentFavoriteDashboardIds.includes(dashboardId)) {
+        setCurrentFavoriteDashboardIds(prevList => [...prevList, dashboardId]);
       }
+      return dashboardResult;
     });
   }
 
@@ -163,6 +168,7 @@ export default function DashboardWidget({
   return (
     <DatatableWrapper
       {...generalProps}
+      nonDeletedFavoriteCount={currentFavoriteDashboardIds.length}
       query=""
       pinnedItemTypes={[customDashboardType]}
       tableType="dashboardWidget"

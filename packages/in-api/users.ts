@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Result, UserGroupRestrictions } from '@instana/types';
 import { Observable, create } from '@instana/observables';
-import { UserGroupRestrictions } from '@instana/types';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -140,15 +140,14 @@ export function removeUsersFromTenant(userIds: string[]) {
 const refreshSignalInvitations = create().emit(true);
 
 export const getInvitations$ = memoize(getInvitationsInternal, () => 'Invitations', 60000);
-function getInvitationsInternal() {
+function getInvitationsInternal(): Observable<Result<PendingInvitation[]>> {
   return refreshSignalInvitations.flatMap(() =>
-    createObservable(
-      http<InvitationResponse>({
-        method: 'GET',
-        maxRetries: 3,
-        url: `/api/settings/invitations`
-      })
-    )
+    http<PendingInvitation[]>({
+      method: 'GET',
+      maxRetries: 3,
+      url: `/api/settings/invitations`,
+      mapToResultObject: true
+    })
   );
 }
 

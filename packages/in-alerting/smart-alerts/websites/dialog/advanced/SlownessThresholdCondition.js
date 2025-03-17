@@ -6,14 +6,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForStaticThreshold';
-import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdDeviationSliderForm';
+import ThresholdValueFormGroupForMultiStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForMultiStaticThreshold';
+import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/MultiThresholdDeviationSliderForm';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import { getAggregationValue } from 'in-alerting/smart-alerts/applications/dialog/advanced/thresholdConditionUtil';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/ThresholdTypeSelection';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
-import ThresholdLabel from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdLabel';
+import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
@@ -25,16 +25,22 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
 
 export default function SlownessThresholdCondition({ form, updateForm, blueprintConfig, editMode }) {
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
   const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
-
   return (
     <>
       <ThresholdConditionFormGroup>
-        <ThresholdLabel>{blueprintConfig.getMetricLabel(metricName)}</ThresholdLabel>
+        <Dropdown
+          value={metricName}
+          items={ruleMetricNameOptions.slowness}
+          className={locals.dropdownmd}
+          onChange={value => {
+            updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
+          }}
+        />
         <Dropdown
           value={getAggregationValue(form)}
           items={getAggregationOptions(form)}
@@ -55,7 +61,7 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
       </ThresholdConditionFormGroup>
 
       {thresholdType === STATIC_THRESHOLD && (
-        <ThresholdValueFormGroupForStaticThreshold
+        <ThresholdValueFormGroupForMultiStaticThreshold
           form={form}
           updateForm={updateForm}
           maxValue={maxValue}
@@ -65,7 +71,7 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
       )}
 
       {thresholdType !== STATIC_THRESHOLD && (
-        <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
+        <MultiThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>
   );

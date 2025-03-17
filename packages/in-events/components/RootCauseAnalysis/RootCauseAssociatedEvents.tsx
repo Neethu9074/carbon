@@ -4,46 +4,61 @@
  * Copyright IBM Corp. 2024
  */
 
-import { useState, useEffect } from 'react';
-import { List } from 'immutable';
 import React from 'react';
 
 import { Typography, CarbonLayer, Collapsible } from '@instana/components';
-import { Observable, combineLatest } from '@instana/observables';
-import { themes } from '@instana/design-tokens';
-import { useObservable } from '@instana/hooks';
 
-import { EVENT_RCA_ASSOCIATED_EVENTS_CLICK, EVENT_RCA_EXPANDED_CARD } from 'in-services/tracking/tracking';
+// import EventListItem from 'in-events/components/legacy/EventListItem';
+import { ProbableCauseType } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
+//@ts-expect-error file needs to be converted
+import getRawEvents from 'in-subscription/getRawEvents';
+import EventsDatagrid from 'in-events/components/IncidentPage/EventsDatagrid/EventsDatagrid';
+import { EVENT_RCA_ASSOCIATED_EVENTS_CLICK } from 'in-services/tracking/tracking';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import EventListItem from 'in-events/components/legacy/EventListItem';
-import { LoadingIndicator } from 'in-components/LoadingIndicators';
-//@ts-expect-error
-import { getEvent } from 'in-stores/events';
-import { EventOrMap } from 'in-events/types';
-import { Snapshot } from 'in-types';
+import useCursorPagination from 'in-hooks/useCursorPagination';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import { RawEvent } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 
 interface AssociatedEventsProps {
-  associatedEvents: List<string>;
-  latestSnapshot: Snapshot;
+  rootCause: ProbableCauseType;
 }
 
-export default function AssociatedEvents({ associatedEvents, latestSnapshot }: AssociatedEventsProps) {
+export default function AssociatedEvents({ rootCause }: AssociatedEventsProps) {
   const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
   const { trackCta } = useSegmentTracking();
 
-  const [associatedEventsObservables, setAssociatedEventsObservables] = useState<Observable<EventOrMap[]> | null>(null);
-  //const [expanded, setExpanded] = useState<boolean>(false);
+  const userTimeConfig = useTimeConfig();
 
-  const associatedEventsData = useObservable(associatedEventsObservables, [associatedEventsObservables]);
+  const steadyId = rootCause.getIn(['entityID', 'steadyId']);
+  const pluginId = rootCause.getIn(['entityID', 'pluginId']);
+  const hostIdValue = rootCause.getIn(['entityID', 'host']);
 
-  useEffect(() => {
-    setAssociatedEventsObservables(combineLatest(associatedEvents.toArray().map(getEvent)));
-  }, [associatedEvents]);
-
-  if (!associatedEventsData) return <LoadingIndicator />;
+  const {
+    items: rawAssociatedEvents,
+    canLoadMore,
+    loadMore,
+    totalHits: rawAssociatedEventsCount,
+    progress: { loading: rawAssociatedEventsLoading }
+  } = useCursorPagination(
+    ({ cursor }) =>
+      getRawEvents({
+        timeConfig: userTimeConfig,
+        // TODO: enhance this query to add user changable filters
+        query: `(event.steadyId:"${steadyId}") AND (event.pluginId:"${pluginId}") AND (event.host:"${hostIdValue}") AND !event.type:prc_issue`,
+        pagination: {
+          cursor,
+          retrievalSize: 20
+        },
+        order: {
+          by: 'start',
+          direction: 'DESC'
+        }
+      }),
+    [rootCause.get('entityID')]
+  );
 
   return (
     <CarbonLayer>
@@ -56,30 +71,18 @@ export default function AssociatedEvents({ associatedEvents, latestSnapshot }: A
         <Collapsible.Header>
           <Typography variant="body-regular">
             {t('in-events:RCA.relatedEventsLabel', {
-              number_of_events: Array.isArray(associatedEventsData) ? associatedEventsData.length : 0
+              number_of_events: rawAssociatedEventsCount || 0
             })}
           </Typography>
         </Collapsible.Header>
         <Collapsible.Content>
           <div className={locals.accordionContent}>
-            {associatedEventsData?.map((_event: EventOrMap) => (
-              <div
-                onClick={() => {
-                  trackCta(EVENT_RCA_EXPANDED_CARD, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
-                }}
-              >
-                <EventListItem
-                  key={_event.get('id') as string}
-                  triggeringProblemId={
-                    associatedEventsData.length > 0 ? (associatedEventsData[0].get('id') as string) : undefined
-                  }
-                  event={_event}
-                  latestSnapshot={latestSnapshot}
-                  setBackground={themes.default.ids.color.option['deep-purple'][500]}
-                  setIconColor={themes.default.ids.color.option.white}
-                />
-              </div>
-            ))}
+            <EventsDatagrid
+              events={rawAssociatedEvents as RawEvent[]}
+              loading={rawAssociatedEventsLoading}
+              loadMore={loadMore}
+              canLoadMore={canLoadMore}
+            />
           </div>
         </Collapsible.Content>
       </Collapsible>

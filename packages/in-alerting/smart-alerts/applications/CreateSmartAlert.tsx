@@ -32,6 +32,7 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
+import { SIMPLE } from 'in-alerting/smart-alerts/data/constants';
 import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
 
@@ -166,7 +167,7 @@ function CreateSmartAlertDialog({
             startWithSimpleMode
           />
         );
-        trackCta(ALERTING_CREATE);
+        trackCta(ALERTING_CREATE, { dialogMode: SIMPLE });
       }}
     >
       {t('in-alerting:smartAlerts.applications.components.createSmartAlert')}
@@ -263,5 +264,5 @@ export function CreateSmartAlertButtonForCarbonTable({
     );
   };
 
-  return getButtonActions(trackCta, openOldDialog, createSmartAlertPath);
+  return getButtonActions(trackCta, openOldDialog, createSmartAlertPath, isGlobal);
 }

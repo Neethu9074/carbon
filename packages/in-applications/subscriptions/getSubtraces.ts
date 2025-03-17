@@ -26,7 +26,8 @@ interface GetSubtracesWithDefaultsProps {
 
 export const getSubtraces: (parameter: GetSubtracesQuery) => Observable<Result<PaginatedResult<SubtraceItem>>> =
   createResultSubscriptionFactory<GetSubtracesQuery, Result<PaginatedResult<SubtraceItem>>>({
-    eventId: 'getSubtraces'
+    eventId: 'getSubtraces',
+    memoizeFor: 1000
   });
 
 export const getSubtracesWithDefaults = ({

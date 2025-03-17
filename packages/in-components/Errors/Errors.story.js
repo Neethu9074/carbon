@@ -9,7 +9,8 @@ import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresen
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 
 export default {
-  title: 'Errors'
+  component: ErroneousResultPresenter,
+  subcomponents: { NoDataAvailable }
 };
 
 export function SingleMessage() {

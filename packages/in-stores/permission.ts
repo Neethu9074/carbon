@@ -5,7 +5,6 @@
 
 import {
   actionAutomationEnabled,
-  businessObservabilityEnabled,
   infraExploreDataEnabled,
   openstackEnabled,
   pcfEnabled,
@@ -14,13 +13,10 @@ import {
   syntheticsEnabled,
   vsphereEnabled,
   zhmcEnabled,
-  sloV2Enabled,
+  sloFullEnabled,
   powervcEnabled,
   infraSmartAlertsEnabled,
   logSmartAlertsEnabled,
-  manuallyCloseEventEnabled,
-  logVolumePageEnabled,
-  logRetentionPageEnabled,
   applicationSubtracesEnabled,
   nutanixEnabled
 } from 'in-services/featureFlags';
@@ -225,7 +221,7 @@ export const amountPlatformAccesses = (() => {
   return count;
 })();
 
-export const hasSloAccess = sloV2Enabled && (hasWebsitesAccess || hasApplicationsAccess);
+export const hasSloAccess = sloFullEnabled && (hasWebsitesAccess || hasApplicationsAccess || hasSyntheticsAccess);
 export const hasEventsAccess =
   hasWebsitesAccess ||
   hasMobileAppsAccess ||
@@ -234,8 +230,7 @@ export const hasEventsAccess =
   hasInfrastructureAccess ||
   hasSyntheticsAccess;
 
-export const hasBizOpsAccess =
-  businessObservabilityEnabled && hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS);
+export const hasBizOpsAccess = hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS);
 
 export const hasAutomationAccess =
   actionAutomationEnabled &&
@@ -301,12 +296,10 @@ function getProductAreaPermissions(): Array<AreaPermissionProps> {
     });
   }
 
-  if (businessObservabilityEnabled) {
-    areaPermissions.push({
-      value: AreaPermission.ACCESS_BIZOPS,
-      label: t('in-stores:permissionAccessBizOpsLabel')
-    });
-  }
+  areaPermissions.push({
+    value: AreaPermission.ACCESS_BIZOPS,
+    label: t('in-stores:permissionAccessBizOpsLabel')
+  });
 
   if (actionAutomationEnabled) {
     areaPermissions.push({
@@ -759,24 +752,6 @@ export function getProductPermissions(): Array<ProductPermission> {
   if (!logSmartAlertsEnabled) {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return keyForGroupApi !== Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS;
-    });
-  }
-
-  if (!logVolumePageEnabled) {
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      return keyForGroupApi !== Capability.CAN_VIEW_LOG_VOLUME;
-    });
-  }
-
-  if (!logRetentionPageEnabled) {
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      return keyForGroupApi !== Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD;
-    });
-  }
-
-  if (!manuallyCloseEventEnabled) {
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      return keyForGroupApi !== Capability.CAN_MANUALLY_CLOSE_ISSUE;
     });
   }
 

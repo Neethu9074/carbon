@@ -113,7 +113,6 @@
       "beaconCount": "Conteggio beacon",
       "calls": "Chiamate",
       "latency": "Latenza",
-      "results": "Risultati",
       "beaconDuration": "Durata beacon",
       "threshold": "Soglia",
       "failureRate": "Percentuale di errore",
@@ -147,8 +146,8 @@
       "event_test_plural": "test {{count}}"
     },
     "deleteDialog": {
-      "pleaseConfirm": "Confermare",
-      "pleaseConfirmMsg": "Si è sicuri di voler eliminare <strong>{{name}}</strong>?",
+      "confirmRemove": "Confermare",
+      "confirmRemoveMsg": "Si è sicuri di voler eliminare <strong>{{name}}</strong>?",
       "delete": "Elimina"
     }
   },

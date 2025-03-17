@@ -38,12 +38,21 @@ describe('in-alerting/smart-alerts/logs/form/formUtils', () => {
     it('returns the correct placeholder text when the threshold operator is "lower than"', () => {
       const updatedForm = {
         ...data.alertConfig,
-        threshold: {
-          type: 'staticThreshold',
-          operator: '<=',
-          value: 20,
-          lastUpdated: 0
-        }
+        rules: [
+          {
+            rule: {
+              alertType: 'logCount',
+              metricName: 'logCount'
+            },
+            thresholdOperator: '<=',
+            thresholds: {
+              WARNING: {
+                type: 'staticThreshold',
+                value: 20
+              }
+            }
+          }
+        ]
       };
 
       const form = alertFormDefinition(

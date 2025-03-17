@@ -25,12 +25,14 @@ import {
 import { NotesAndActivity, OpenNotesAndActivity } from 'in-events/components/NotesAndActivity/NotesAndActivity';
 import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
+import EventsNavItems from 'in-events/components/EventContent/EventsNavItems/EventsNavItems';
 import { eventFeedbackEnabled, notesAndActivityEnabled } from 'in-services/featureFlags';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import EventsTable from 'in-events/components/EventsPage/EventsTable/EventsTable';
 import { eventStepConfig } from 'in-events/components/feedback/eventStepConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { aqmDataGridEventTableEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -123,16 +125,20 @@ function EventTable(props) {
     onChange({ eventId, relatedEventsPage: 1 });
   }
 
-  // Use Datagrid when showing the main events table
   if (!selectedEventId) {
-    return <EventsTable {...props} items={items} onItemClicked={onItemClicked} progress={progress} disableCard />;
+    if (aqmDataGridEventTableEnabled) {
+      return <EventsTable {...props} items={items} onItemClicked={onItemClicked} progress={progress} disableCard />;
+    }
+    return <EventsList {...props} items={items} onItemClicked={onItemClicked} progress={progress} disableCard />;
   }
 
   return (
     <NavigatorSplitScreen
       {...props}
       items={items}
-      navigator={<EventsList {...props} items={items} onItemClicked={onItemClicked} />}
+      navigator={
+        <EventsNavItems {...props} items={items} onItemClicked={onItemClicked} progress={progress} disableCard />
+      }
       typeLabel="event"
       openItemIndex={findIndex(items, event => event.id === selectedEventId)}
       openItem={e => onChange({ eventId: e.id })}

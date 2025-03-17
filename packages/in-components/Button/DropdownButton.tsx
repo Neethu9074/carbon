@@ -7,7 +7,8 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Button as CarbonButton, ButtonProps, SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+
+import { LegacyButton as Button } from 'in-components/Button/LegacyButton';
 
 import locals from './DropdownButton.mless';
 

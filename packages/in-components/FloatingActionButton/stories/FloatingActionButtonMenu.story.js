@@ -6,7 +6,7 @@
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';

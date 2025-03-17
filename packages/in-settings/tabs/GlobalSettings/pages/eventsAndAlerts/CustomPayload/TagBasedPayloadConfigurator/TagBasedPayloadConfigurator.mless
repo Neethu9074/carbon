@@ -40,7 +40,6 @@
     background: transparent;
     flex: 1 1 0%;
     min-width: 5rem;
-    width: 5rem;
     max-width: max-content; // to avoid unneeded extra "gap"
 
     white-space: nowrap; // do not wrap into 2 lines, but cut overflow

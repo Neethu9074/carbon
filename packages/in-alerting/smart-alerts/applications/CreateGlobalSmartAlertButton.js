@@ -25,6 +25,7 @@ import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import FloatingActionButton from 'in-components/FloatingActionButton';
+import { ADVANCED } from 'in-alerting/smart-alerts/data/constants';
 import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { propTypeLocation } from 'in-stores/navigation';
 import { t } from 'in-i18n';
@@ -51,7 +52,7 @@ export default function CreateGlobalSmartAlertButton({ renderAsSimpleButton, loc
           }}
         />
       );
-      trackCta(ALERTING_CREATE);
+      trackCta(ALERTING_CREATE, { dialogMode: ADVANCED });
     }
   };
 

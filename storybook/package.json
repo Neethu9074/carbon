@@ -7,21 +7,20 @@
     "foundation-build-copy": "mkdir -p public/ui-foundation/build && cp -r node_modules/@instana/playground/build public/ui-foundation/"
   },
   "dependencies": {
-    "@storybook/addon-docs": "7.6.4",
-    "@storybook/addon-essentials": "7.6.4",
-    "@storybook/addon-links": "7.6.4",
-    "@storybook/addon-storyshots": "7.6.4",
-    "@storybook/react": "7.6.4",
-    "@storybook/theming": "7.6.4",
+    "@storybook/addon-docs": "8.6.0",
+    "@storybook/addon-essentials": "8.6.0",
+    "@storybook/addon-links": "8.6.0",
+    "@storybook/react": "8.6.0",
+    "@storybook/theming": "8.6.0",
     "react": "^17.0.2",
     "react-dom": "17.0.2"
   },
   "devDependencies": {
-    "@instana/playground": "3.47.0",
-    "@storybook/addon-a11y": "7.6.4",
-    "@storybook/react-webpack5": "7.6.4",
+    "@instana/playground": "4.2.0",
+    "@storybook/addon-a11y": "8.6.0",
+    "@storybook/blocks": "8.6.0",
+    "@storybook/react-webpack5": "8.6.0",
     "babel-loader": "^8.1.0",
-    "storybook": "7.6.4",
-    "webpack": "5.66.0"
+    "storybook": "8.6.0"
   }
 }

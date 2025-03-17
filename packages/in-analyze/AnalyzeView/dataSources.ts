@@ -144,7 +144,9 @@ enum EntityEnum {
   logs,
   sessionStart,
   viewChange,
-  crash
+  crash,
+  perf,
+  dropBeacon
 }
 
 type Icon = Record<string, string>;
@@ -167,7 +169,9 @@ export const entityNames = Object.freeze<Record<Entity, string>>({
   logs: t('in-analyze:analyzeView.dataSources.logs'),
   sessionStart: t('in-analyze:analyzeView.dataSources.sessionStarts'),
   viewChange: t('in-analyze:analyzeView.dataSources.viewTransitions'),
-  crash: t('in-analyze:analyzeView.dataSources.crashes')
+  crash: t('in-analyze:analyzeView.dataSources.crashes'),
+  perf: t('in-analyze:analyzeView.dataSources.perf'),
+  dropBeacon: t('in-analyze:analyzeView.dataSources.dropBeacon')
 });
 
 export const entityLabels = Object.freeze<Record<Entity, string>>({
@@ -184,7 +188,9 @@ export const entityLabels = Object.freeze<Record<Entity, string>>({
   calls: t('in-analyze:analyzeView.dataSources.calls'),
   traces: t('in-analyze:analyzeView.dataSources.traces'),
   logs: t('in-analyze:analyzeView.dataSources.logs'),
-  crash: t('in-analyze:analyzeView.dataSources.crashes')
+  crash: t('in-analyze:analyzeView.dataSources.crashes'),
+  perf: t('in-analyze:analyzeView.dataSources.perf'),
+  dropBeacon: t('in-analyze:analyzeView.dataSources.dropBeacon')
 });
 
 export const getEntityNameByType = (type: Entity): string => entityNames[type] || type;
@@ -220,7 +226,9 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
     viewChange: 'lib_mobile_app_view',
     httpRequest: 'lib_mobile_app_request',
     custom: 'lib_mobile_app_custom_event',
-    crash: 'lib_mobile_app_crash'
+    crash: 'lib_mobile_app_crash',
+    perf: 'lib_eum_performance',
+    dropBeacon: 'lib_eum_dropped_beacon'
   },
   infrastructure: {
     infrastructure: 'lib_infrastructure',

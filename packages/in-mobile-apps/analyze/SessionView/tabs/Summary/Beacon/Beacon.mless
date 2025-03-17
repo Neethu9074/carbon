@@ -71,4 +71,7 @@
     margin: 1.2rem 1rem 0 5rem;
     padding-bottom: 2rem;
   }
+  .disabledHeader {
+    color: #C6C6C6;
+  }
 }

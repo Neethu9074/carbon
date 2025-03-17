@@ -127,6 +127,8 @@ const SelectedTestType = ({
             setScriptDetails={setScriptDetails}
           />
         );
+      case 'DNS':
+        return <RenderDNSTest selectedBlueprint={selectedBlueprint} />;
       default:
         return (
           <RenderHttpTests
@@ -155,6 +157,7 @@ const SelectedTestType = ({
             if (testTypeSelected?.browser.simple) selectedBlueprint.testType = 'WebpageAction';
             if (testTypeSelected?.browser.script) selectedBlueprint.testType = 'BrowserScript';
             if (testTypeSelected?.ssl.simple) selectedBlueprint.testType = 'SSLCertificate';
+            if (testTypeSelected?.dns.simple) selectedBlueprint.testType = 'DNS';
             populateCommonAttributes();
             setRenderSectionsCounter(v => v + 1);
             setHeaders([
@@ -224,6 +227,17 @@ const RenderCertificateCheck = ({
           />
         </Col>
       </Row>
+    </>
+  );
+};
+
+const RenderDNSTest = ({ selectedBlueprint }: { selectedBlueprint: AdvancedBluePrint }) => {
+  return (
+    <>
+      <h3 className={locals.headline}>
+        <span>{selectedBlueprint.description.headline}</span>
+      </h3>
+      <DangerousHtmlPresenter className={locals.text} html={selectedBlueprint.description.text} />
     </>
   );
 };

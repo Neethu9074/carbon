@@ -4,33 +4,28 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Link, Typography } from '@instana/components';
 
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
 import { useActionFormContext } from 'in-automation/ActionCatalog/useActionForm/useActionForm';
-import { ActionForm, MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
+import { useIsNotEditableContext } from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
-import { useIsNotEditableContext } from 'in-automation/ActionCatalog/Action';
+import { MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
 import ParameterDialog from 'in-automation/ActionCatalog/ParameterDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { ACTION_TYPE } from 'in-automation/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Label from 'in-components/form/Label/Label';
 import { t } from 'in-i18n';
 
 const getColumnDefinitions = ({
-  form,
-  isNotEditable,
-  setForm,
-  ticketIdParameterExist
+  setOpenDialog,
+  setSelectedId
 }: {
-  form: ActionForm;
-  setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
-  isNotEditable: boolean;
-  ticketIdParameterExist: boolean;
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
 }): ColumnDefinition<MappedParameter>[] => [
   {
     id: 'displayName',
@@ -44,15 +39,8 @@ const getColumnDefinitions = ({
             ellipsis
             onClick={e => {
               e.preventDefault();
-              addActiveDialog(
-                <ParameterDialog
-                  id={item.id}
-                  form={form}
-                  setForm={setForm}
-                  isNotEditable={isNotEditable}
-                  ticketIdParameterExist={ticketIdParameterExist}
-                />
-              );
+              setSelectedId(item.id);
+              setOpenDialog(true);
             }}
           >
             {item.value.label}
@@ -106,40 +94,60 @@ const getColumnDefinitions = ({
 ];
 
 // Note: Ansible actions will have extra vars mapped to parameters, we don't want to allow creating new parameters, but we do want to allow editing existing ones (minus the name as this is the key in the extra vars object)
-export default function ParametersTable() {
+export default function ParametersTable({ isAnsibleParameter = false }) {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const { form, setForm } = useActionFormContext();
   const isNotEditable = useIsNotEditableContext();
 
   const type = form.get('type').value;
   const parameters = form.get('parameters').value;
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   const ticketIdParameterExist =
     (type === ACTION_TYPE.GITHUB || type === ACTION_TYPE.GITLAB || type === ACTION_TYPE.JIRA) &&
     parameters.some(param => param.value.name === 'id');
-  const columnDefinitions = getColumnDefinitions({ form, setForm, isNotEditable, ticketIdParameterExist });
+  const columnDefinitions = getColumnDefinitions({
+    setOpenDialog,
+    setSelectedId
+  });
 
   return (
-    <ServerTablePresenterWrapper
-      customAddRowLabel={t('in-automation:ActionCatalog.addParameter')}
-      columnDefinitions={columnDefinitions}
-      formKey="parameters"
-      leftHeader={<Label>{t('in-automation:ActionCatalog.parameters')}</Label>}
-      ticketIdParameterExist={ticketIdParameterExist}
-      customAddRow={
-        type === ACTION_TYPE.ANSIBLE
-          ? undefined
-          : () => {
-              addActiveDialog(
-                <ParameterDialog
-                  setForm={setForm}
-                  form={form}
-                  isNotEditable={isNotEditable}
-                  ticketIdParameterExist={ticketIdParameterExist}
-                />
-              );
-            }
-      }
-      noDataMessage={t('in-automation:ActionCatalog.noParametersConfigured')}
-    />
+    <>
+      <ServerTablePresenterWrapper
+        customAddRowLabel={t('in-automation:ActionCatalog.addParameter')}
+        columnDefinitions={columnDefinitions}
+        formKey="parameters"
+        leftHeader={<Label>{t('in-automation:ActionCatalog.parameters')}</Label>}
+        ticketIdParameterExist={ticketIdParameterExist}
+        customAddRow={
+          type === ACTION_TYPE.ANSIBLE
+            ? undefined
+            : () => {
+                setOpenDialog(true);
+                setSelectedId(null);
+              }
+        }
+        noDataMessage={t('in-automation:ActionCatalog.noParametersConfigured')}
+      />
+
+      {/* Render the SidePanel separately */}
+      {openDialog && (
+        <ParameterDialog
+          setForm={setForm}
+          form={form}
+          isNotEditable={isNotEditable}
+          id={selectedId === null ? undefined : selectedId}
+          ticketIdParameterExist={ticketIdParameterExist}
+          openDialog={openDialog}
+          setOpenDialog={setOpenDialog}
+          onRequestToClose={handleCloseDialog}
+          isAnsibleParameter={isAnsibleParameter}
+        />
+      )}
+    </>
   );
 }

@@ -6,8 +6,6 @@
 
 import React from 'react';
 
-import { TableEntityCounter } from '@instana/legacy';
-
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
@@ -42,7 +40,7 @@ const columnDefinitions = [
     id: 'noOfVms',
     label: t('in-nutanix:dashboards.virtualMachines'),
     getContent(item) {
-      return <TableEntityCounter count={item.noOfVms} />;
+      return item.noOfVms;
     }
   },
   {
@@ -50,7 +48,7 @@ const columnDefinitions = [
     label: t('in-nutanix:dashboards.noOfCpus'),
     sortable: true,
     getContent(item) {
-      return <TableEntityCounter count={item.noOfCpus} />;
+      return item.noOfCpus;
     }
   },
   {
@@ -58,7 +56,7 @@ const columnDefinitions = [
     label: t('in-nutanix:dashboards.noOfDisks'),
     sortable: true,
     getContent(item) {
-      return <TableEntityCounter count={item.noOfDisks} />;
+      return item.noOfDisks;
     }
   },
   {

@@ -7,11 +7,9 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import { createMetricWithThresholdLabel } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
 import { getDescription } from 'in-alerting/smart-alerts/components/dialog/timeThresholdDescriptionText';
 import AlertConfiguration from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
 import { alertConfig } from 'in-alerting/smart-alerts/logs/data/alertConfigData.json';
-import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 describe('AlertConfiguration : in-alerting/smart-alerts/logs/details/AlertConfiguration', () => {
@@ -30,15 +28,7 @@ describe('AlertConfiguration : in-alerting/smart-alerts/logs/details/AlertConfig
       ).toBeInTheDocument();
     }
 
-    const metricWithThresholdLabel = createMetricWithThresholdLabel(
-      t('in-alerting:smartAlerts.logs.alertDetails.metricName'),
-      alertConfig.threshold.type,
-      alertConfig.threshold.value,
-      number.forcedCompact,
-      alertConfig.threshold.operator
-    );
-
-    expect(screen.getByText(metricWithThresholdLabel)).toBeInTheDocument();
+    expect(screen.getByText(t('in-alerting:smartAlerts.details.warningThresholdLabel') + ': ≥ 20')).toBeInTheDocument();
   });
 
   it('Verify if Chart section is rendered:', () => {

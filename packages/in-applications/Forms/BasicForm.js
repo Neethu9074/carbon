@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Spacer, SvgIcon, Button } from '@instana/components';
+import { SvgIcon, CarbonButton as Button, CarbonForm as Form } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
@@ -112,31 +112,25 @@ function BasicForm({
     content = <ErroneousResultPresenter errors={entityResult.errors} />;
   } else {
     content = (
-      <form onSubmit={e => onSubmit(e, form)} className={locals.form}>
+      <Form onSubmit={e => onSubmit(e, form)} className={locals.form} aria-label="application-config-form">
         {form && renderFormContent(entityResult.data, form, (...args) => setValue(_updateForm, ...args), _updateForm)}
-
-        <Spacer vertical="normal" />
         <div className={locals.footer}>
           {onCancelHref && (
             <Button kind="subtle" size="compact" href={onCancelHref}>
               {t('in-applications:buttonCancel')}
             </Button>
           )}
-          {!onCancelHref && <div />}
-
-          {form && form.touched && (
-            <Button
-              icon={saving ? 'lib_actions_loading' : null}
-              iconSpinning
-              kind="create"
-              type="submit"
-              disabled={(!form.hierarchyValid && form.touched) || saving}
-            >
-              {saving ? savingStateName : saveButtonLabel}
-            </Button>
-          )}
+          <Button
+            icon={saving ? 'lib_actions_loading' : null}
+            iconSpinning
+            kind="primary"
+            type="submit"
+            disabled={form && (!form.hierarchyValid || !form.hierarchyTouched)}
+          >
+            {saving ? savingStateName : saveButtonLabel}
+          </Button>
         </div>
-      </form>
+      </Form>
     );
   }
 
@@ -153,8 +147,6 @@ function BasicForm({
           )}
         </div>
       )}
-
-      {title && <Spacer vertical="normal" />}
       {content}
       {success && (
         <TemporaryMessage

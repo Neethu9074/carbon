@@ -6,6 +6,7 @@
 import { Field } from 'formalistic';
 import React from 'react';
 
+import { WebsiteConfiguration } from '@instana/types';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Spacer } from '@instana/components';
@@ -16,7 +17,6 @@ import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
 import { getWebsites } from 'in-websites/api/websites';
 import Section from 'in-components/workspace/Section';
-import { WebsiteConfiguration } from 'in-types';
 import { t } from 'in-i18n';
 
 interface WebsiteSelectorProps {

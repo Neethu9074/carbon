@@ -16,9 +16,16 @@ import { t } from 'in-i18n';
 interface MultiThresholdAlertPreviewProps {
   form: MapForm<any>;
   getDescriptionPlaceholder: (form: MapForm<any>) => string;
+  placeholderTitle?: string;
+  placeholderDescription?: { WARNING?: string; CRITICAL?: string };
 }
 
-export function MultiThresholdAlertPreview({ form, getDescriptionPlaceholder }: MultiThresholdAlertPreviewProps) {
+export function MultiThresholdAlertPreview({
+  form,
+  getDescriptionPlaceholder,
+  placeholderTitle,
+  placeholderDescription
+}: MultiThresholdAlertPreviewProps) {
   const warningThresholdField = form.get('threshold').get('warningThreshold') as MapForm<any>;
   const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
   const warningThresholdValue = warningThresholdField.get('value').value;
@@ -35,11 +42,12 @@ export function MultiThresholdAlertPreview({ form, getDescriptionPlaceholder }: 
     <MultiThresholdAlertPreviewCommon
       form={form}
       getDescriptionPlaceholder={getDescriptionPlaceholder}
+      descriptionPlaceholder={placeholderDescription}
       isWarningDefined={isWarningThresholdDefined}
       isCriticalDefined={isCriticalThresholdDefined}
       entityLabel={entityLabel}
       entityIconType="lib_infrastructure"
-      renderHeadline={() => <AlertPreviewHeadline title={title} />}
+      renderHeadline={() => <AlertPreviewHeadline title={placeholderTitle ?? title} />}
     />
   );
 }

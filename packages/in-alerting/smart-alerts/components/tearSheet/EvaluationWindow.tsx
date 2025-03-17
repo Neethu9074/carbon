@@ -28,11 +28,13 @@ interface Marks {
 export default function EvaluationWindow({
   form,
   oneMinuteGranularityAllowed,
-  updateForm
+  updateForm,
+  smartAlertType
 }: {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   oneMinuteGranularityAllowed: boolean;
+  smartAlertType?: string;
 }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const granularity = form.get('granularity')?.value;
@@ -40,6 +42,7 @@ export default function EvaluationWindow({
   const marks = getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed);
   const foundMark = marks.find((i: Marks) => i.millis === granularity) ?? getDefaultMark(marks, thresholdType);
   const currentValue = foundMark.value;
+  const helperText = getgranularityDescription(currentValue, smartAlertType);
 
   return (
     <Section
@@ -64,13 +67,7 @@ export default function EvaluationWindow({
           valueLabelDisplay="off"
         />
         <Spacer size="normal" />
-        <AlertTypography
-          variant="body-small"
-          color="color600"
-          content={t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.granularity.description', {
-            granularity: currentValue
-          })}
-        />
+        <AlertTypography variant="body-small" color="color600" content={helperText} />
       </div>
     </Section>
   );
@@ -91,4 +88,15 @@ function onChangeGranularity(newGranularity: number, form: MapForm<any>, updateF
         (f as Field<number>).setValue(violations * newGranularity).setTouched(true)
       )
   );
+}
+
+function getgranularityDescription(granularity: number, smartAlertType?: string) {
+  if (smartAlertType == 'logSA') {
+    return t('in-alerting:smartAlerts.logs.tearSheet.granularity.description', {
+      granularity: granularity
+    });
+  }
+  return t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.granularity.description', {
+    granularity: granularity
+  });
 }

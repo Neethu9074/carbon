@@ -13,23 +13,23 @@ module.exports = {
       enforceAbsoluteImportPaths: true,
       allowedInPackages: [
         'in-logging',
+
+        // other teams:
+        'in-alerting',
         'in-analyze',
-        'in-api',
         'in-applications',
+        'in-custom-dashboards',
+        'in-integrations',
+
+        // shared packages
         'in-components',
-        'in-events',
-        'in-hoc',
         'in-hooks',
+        'in-sdk',
         'in-services',
         'in-settings',
         'in-stores',
         'in-subscription',
-        'in-test',
-        'in-themes',
-        'in-websites',
-        'in-custom-dashboards',
-        'in-sdk',
-        'in-alerting'
+        'in-themes'
       ]
     })
   }

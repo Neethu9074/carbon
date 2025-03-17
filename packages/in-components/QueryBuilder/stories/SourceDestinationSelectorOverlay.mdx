@@ -1,0 +1,25 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as SourceDestinationSelectorOverlayStories from './SourceDestinationSelectorOverlay.stories';
+
+<Meta of={SourceDestinationSelectorOverlayStories} />
+
+## Source/Destination Selector
+
+This overlay can be used within the query builder to allow selection of a
+source/destination for the application product area.
+
+<Canvas>
+  <Story of={SourceDestinationSelectorOverlayStories.Default} />
+</Canvas>
+
+<Canvas>
+  <Story of={SourceDestinationSelectorOverlayStories.SourceEnabledTrue} />
+</Canvas>
+
+<Canvas>
+  <Story of={SourceDestinationSelectorOverlayStories.DestinationEnabledTrue} />
+</Canvas>
+
+<Canvas>
+  <Story of={SourceDestinationSelectorOverlayStories.SourceEnabledTrueDestinationEnabledTrue} />
+</Canvas>

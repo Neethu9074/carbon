@@ -311,6 +311,15 @@
         "pleaseSelect": "Selezionare"
       }
     },
+    "srcSlo": {
+      "index": {
+        "serviceLevelsObjective": "SLO (Service-Level Objective)"
+      },
+      "formComponent": {
+        "status": "Stato",
+        "errorBudgetRemaining": "Budget di errore rimanente"
+      }
+    },
     "metricConfigurator": {
       "ds": "Origine dati",
       "pleaseSelect": "Selezionare",
@@ -605,8 +614,8 @@
         "sliType": "Tipo di SLI",
         "viewCloneSliConfig": "Visualizza/clona configurazione dello SLI",
         "delSliConfig": "Elimina configurazione dello SLI",
-        "pleaseConfirm": "Confermare",
-        "pleaseConfirmMsg": "Si è certi di voler eliminare <strong>{{sliName}}</strong>?",
+        "confirmRemove": "Confermare",
+        "confirmRemoveMsg": "Si è certi di voler eliminare <strong>{{sliName}}</strong>?",
         "delete": "Elimina",
         "eventBasedSli": "Basato sull'evento",
         "timeBasedSli": "Basato sul tempo, {{metricNameLabel}}"

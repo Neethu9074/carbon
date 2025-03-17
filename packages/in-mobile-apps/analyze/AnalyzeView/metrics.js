@@ -24,7 +24,8 @@ export const defaultMetrics = {
     { metric: 'beaconDuration', aggregation: 'MEAN' },
     { metric: 'beaconErrorRate', aggregation: 'MEAN' }
   ],
-  custom: [{ metric: 'uniqueUsersOrSessions', aggregation: 'DISTINCT_COUNT' }]
+  custom: [{ metric: 'uniqueUsersOrSessions', aggregation: 'DISTINCT_COUNT' }],
+  dropBeacon: [{ metric: 'uniqueUsersOrSessions', aggregation: 'DISTINCT_COUNT' }]
 };
 
 const resourceSizeMetrics = [
@@ -259,6 +260,13 @@ export const availableMetrics = {
     newNumberMetric({
       metric: 'beaconCount',
       label: t('in-mobile-apps:analyzeView.availableMetrics.crashBeaconCountLabel')
+    }),
+    uniqueUsersOrSessions
+  ],
+  dropBeacon: [
+    newNumberMetric({
+      metric: 'beaconCount',
+      label: t('in-mobile-apps:analyzeView.availableMetrics.droppedBeaconsLabel')
     }),
     uniqueUsersOrSessions
   ]

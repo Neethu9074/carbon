@@ -14,6 +14,7 @@ import CreateSmartAlertDialog from 'in-alerting/smart-alerts/infrastructure/Crea
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import ViewSelectorDialog from 'in-alerting/components/Dialog/ViewSelectorDialog';
+import { ADVANCED, FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -33,7 +34,7 @@ export default function CreateSmartAlert() {
           <Button
             icon="lib_alerts_create"
             onClick={() => {
-              trackCta(ALERTING_CREATE);
+              trackCta(ALERTING_CREATE, { dialogMode: ADVANCED });
               addActiveDialog(<CreateSmartAlertDialog />);
             }}
           >
@@ -42,7 +43,7 @@ export default function CreateSmartAlert() {
           <Button
             icon="lib_alerts_create"
             onClick={() => {
-              trackCta(ALERTING_CREATE);
+              trackCta(ALERTING_CREATE, { dialogMode: FULLSCREEN });
             }}
             href={getLinkToCreateSmartAlert}
           >
@@ -56,7 +57,7 @@ export default function CreateSmartAlert() {
     <FloatingActionButton
       icon="lib_alerts_create"
       onClick={() => {
-        trackCta(ALERTING_CREATE);
+        trackCta(ALERTING_CREATE, { dialogMode: ADVANCED });
         addActiveDialog(<CreateSmartAlertDialog />);
       }}
       withBoxShadow
@@ -81,6 +82,7 @@ export function CreateSmartAlertButton() {
         trackCta={trackCta}
         openOldDialog={openOldDialog}
         getLinkToCreateSmartAlert={getLinkToCreateSmartAlert}
+        mode={ADVANCED}
       />
     ) : (
       <CreateSmartAlertDialog />

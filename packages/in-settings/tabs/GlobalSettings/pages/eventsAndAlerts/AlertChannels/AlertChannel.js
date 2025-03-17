@@ -7,7 +7,7 @@ import { createMapForm } from 'formalistic';
 import { Map, fromJS } from 'immutable';
 import React, { Fragment } from 'react';
 
-import { Card, Link, SvgIcon } from '@instana/components';
+import { Card, Link, SvgIcon, Pill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import {
@@ -39,6 +39,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SectionLine from 'in-settings/components/SectionLine';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import Notification from 'in-components/form/Notification';
 import { toTitleCase } from 'in-services/util/string';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -147,6 +148,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
   }
 
   const parameters = getConfig(entity).getParameters();
+  const tags = entity.get('rbacTags');
   return (
     <SettingsDetailPage>
       <SubViewHeader>{t('in-settings:tabs.entityNameAlertChannel', { entityName: entity.get('name') })}</SubViewHeader>
@@ -227,6 +229,18 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
                     )
                   )
                 )}
+              {rbacTeamsEnabled && tags && (
+                <Di
+                  title={t('in-settings:tabs.teams.teamsTitle')}
+                  rowClassName={locals.row}
+                  ddClassName={locals.rowInnerPadding}
+                  dtClassName={locals.titleRow}
+                >
+                  {tags.map(tag => (
+                    <Pill type="blue"> {tag?.get('displayName')} </Pill>
+                  ))}
+                </Di>
+              )}
             </Dl>
           </Card>
         </Col>

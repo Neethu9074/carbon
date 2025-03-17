@@ -19,13 +19,14 @@ import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/Ch
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/logs/details/AlertThresholdInfos';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
-import { StaticThresholdConfig, TagCatalog, TagFilter, ThresholdConfigUnion } from 'in-types';
 import { AlertGrouping } from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping';
 import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
+import { TagCatalog, TagFilter, RuleWithThreshold, LogAlertRuleUnion } from 'in-types';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { alertChannelPerSeverityLogSaEnabled } from 'in-services/featureFlags';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
@@ -44,14 +45,18 @@ export type Tags = { [index: string]: any };
 export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSmartAlertConfigWithMetadata }) {
   const {
     timeThreshold,
-    threshold,
     granularity,
     gracePeriod,
     groupBy,
     customPayloadFields,
     tagFilterExpression,
-    alertChannelIds
+    alertChannelIds,
+    alertChannels,
+    rules
   } = alertConfig;
+
+  const firstRule: RuleWithThreshold<LogAlertRuleUnion> = rules[0];
+  const { thresholdOperator, thresholds: thresholdsMap } = firstRule;
   const tagCatalog = useTagCatalog('SMART_ALERTS');
   //@ts-expect-error TODO : remove expect error once typedefinition updated with this usecase.
   const groupByTagCatalog = useTagCatalog('SMART_ALERTS_GROUPING');
@@ -77,7 +82,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
         darkFrame
       >
         <AlertThresholdInfos
-          threshold={threshold as ThresholdConfigUnion & StaticThresholdConfig}
+          thresholdOperator={thresholdOperator}
+          thresholdsMap={thresholdsMap}
           metricLabel={t('in-alerting:smartAlerts.logs.alertDetails.metricName')}
         />
       </ExpandableLightCard>
@@ -148,12 +154,13 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.logs.alertDetails.alertConfigurationTitleTimeThreshold')}
         useMaxAvailableHeight={false}
-        bodyWithoutPadding
         openByDefault
         darkFrame
       >
-        <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
-        <GracePeriodDescription gracePeriod={gracePeriod} />
+        <Stack gap="large">
+          <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
+          <GracePeriodDescription gracePeriod={gracePeriod} />
+        </Stack>
       </ExpandableLightCard>
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.logs.alertDetails.alertConfigurationTitleAlertChannels')}
@@ -163,7 +170,11 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
         darkFrame
       >
         <div className={locals.alertChannelsWrapper}>
-          <AlertChannelsViewer alertChannelIds={alertChannelIds ?? []} />
+          <AlertChannelsViewer
+            alertChannelIds={alertChannelIds}
+            alertChannels={alertChannels}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityLogSaEnabled}
+          />
         </div>
       </ExpandableLightCard>
 
@@ -174,7 +185,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
         openByDefault
         darkFrame
       >
-        <AlertPropertyInfos alertConfig={alertConfig} disableTrigger />
+        <AlertPropertyInfos alertConfig={alertConfig} disableTrigger shouldDisplayAlertLevelSection={false} />
       </ExpandableLightCard>
 
       <GlobalCustomPayloadCard context="LOG" />

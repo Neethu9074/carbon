@@ -9,8 +9,7 @@ import React from 'react';
 
 //@ts-expect-error needs TS migration
 import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterMultiSelect';
-// eslint-disable-next-line no-restricted-imports
-import FacetedFilterRenderer from '../FacetedFilterRenderer';
+import FacetedFilterRenderer from 'in-logging/analyze/AnalyzeView/FacetedFilterRenderer';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 
 jest.mock('in-analyze/hooks/useAnalyzeTracker');

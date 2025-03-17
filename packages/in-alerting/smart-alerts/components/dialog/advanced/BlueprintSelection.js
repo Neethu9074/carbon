@@ -66,7 +66,10 @@ function BlueprintSelectionMenu({
   return (
     <div className={locals.container}>
       <SideRadioMenu
+        advancedMode
         items={blueprintConfigs.map(x => ({ id: idFromBluePrint(x), name: x.name }))}
+        legendHidden
+        legendText={t('in-alerting:smartAlerts.components.smartAlertDialog.selectedBlueprint')}
         onChange={id => {
           const item = blueprintConfigs.find(i => id === idFromBluePrint(i));
           setSelectButtonDisabled(false);
@@ -74,7 +77,6 @@ function BlueprintSelectionMenu({
           if (trackBlueprintChange) trackBlueprintChange(item.type);
         }}
         valueSelected={idFromBluePrint(config)}
-        advancedMode
       />
       <div className={locals.spanTwoColumns}>
         <BlueprintDescription

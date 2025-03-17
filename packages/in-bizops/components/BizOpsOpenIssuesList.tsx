@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
 import React from 'react';
@@ -12,9 +12,10 @@ import { useObservable } from '@instana/hooks';
 // @ts-expect-error Module needs to be translated to TS
 import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
 import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApplicationEntityHealthInfo';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { pendingResult } from 'in-services/fixedObjects';
 import { eventsPath } from 'in-events/navigation/paths';
 
 interface BizOpsOpenIssuesListProps {
@@ -54,6 +55,9 @@ export default function BizOpsOpenIssuesList({
     data: []
   };
 
+  // align the time config to now if it does not exist
+  let alignedTimeConfig = { ...timeConfig, ...{ to: Date.now(), focusedMoment: Date.now() } };
+
   let openResults: Result<EntityHealthInfo>[] = [];
   serviceIds.forEach(serviceId => {
     // This observable is called from within a loop, which triggers an automatic rules-of-hooks warning.
@@ -64,10 +68,10 @@ export default function BizOpsOpenIssuesList({
         applicationId: '',
         serviceId,
         endpointId: '',
-        timeConfig
+        timeConfig: timeConfig.to ? timeConfig : alignedTimeConfig
       }),
       [timeConfig]
-    );
+    ) ?? pendingResult;
     if (currentHealthResult) openResults.push(currentHealthResult);
   });
 
@@ -75,7 +79,8 @@ export default function BizOpsOpenIssuesList({
   let fullData: Event[] = [];
   openResults.forEach(result => {
     if (result.data?.openIssues) {
-      fullData = fullData.concat(result.data?.openIssues);
+      // concat arrays without duplicates
+      fullData = [...new Set([...fullData, ...result.data.openIssues])];
     }
   });
 
@@ -83,7 +88,9 @@ export default function BizOpsOpenIssuesList({
   openIssuesResult.data = fullData;
 
   // if the full data is ready to load, the component is no longer loading
-  if (openIssuesResult.data) openIssuesResult.progress.loading = false;
+  if (openIssuesResult.data?.[0]) openIssuesResult.progress.loading = false;
+
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
 
   return (
     <WithMaxWidthWhenInContentArea maxWidth="80vw">

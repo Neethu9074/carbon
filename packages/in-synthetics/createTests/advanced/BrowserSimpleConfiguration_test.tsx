@@ -10,6 +10,7 @@ import React from 'react';
 
 import { createAdvancedWebpageActionConfigurationForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import BrowserSimpleConfiguration from 'in-synthetics/createTests/advanced/BrowserSimpleConfiguration';
+import { t } from 'in-i18n';
 
 describe('BrowserSimpleConfiguration', () => {
   const form = createMapForm().put('configuration', createAdvancedWebpageActionConfigurationForm());
@@ -28,9 +29,9 @@ describe('BrowserSimpleConfiguration', () => {
     );
     expect(screen.getByText('Webpage URL')).toBeInTheDocument();
     expect(screen.getByText('Timeout')).toBeInTheDocument();
-    expect(screen.getByText('Retry Strategy')).toBeInTheDocument();
-    expect(screen.getByText('Mark Synthetic Call')).toBeInTheDocument();
-    expect(screen.getByText('Record video of user actions')).toBeInTheDocument();
+    expect(screen.getByText('Retry strategy')).toBeInTheDocument();
+    expect(screen.getByText('Mark synthetic call')).toBeInTheDocument();
+    expect(screen.getByText(t('in-synthetics:dashboard.configuration.recordVideo'))).toBeInTheDocument();
   });
 
   it('Renders all new fields with their default values', () => {
@@ -61,9 +62,11 @@ describe('BrowserSimpleConfiguration', () => {
     expect((screen.getByLabelText('Retry twice') as HTMLInputElement).checked).toBe(false);
 
     // Mark Synthetic Call
-    expect((screen.getByLabelText('Mark Synthetic Call') as HTMLInputElement).checked).toBe(true);
+    expect((screen.getByLabelText('Mark synthetic call') as HTMLInputElement).checked).toBe(true);
 
     // Record video of user actions
-    expect((screen.getByLabelText('Record video of user actions') as HTMLInputElement).checked).toBe(false);
+    expect(
+      (screen.getByLabelText(t('in-synthetics:dashboard.configuration.recordVideo')) as HTMLInputElement).checked
+    ).toBe(false);
   });
 });

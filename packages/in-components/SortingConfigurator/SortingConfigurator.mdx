@@ -1,0 +1,29 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as SortingConfiguratorStories from './SortingConfigurator.stories';
+
+## SortingConfigurator
+
+<Meta of={SortingConfiguratorStories} />
+
+export const options = [
+  {
+    value: 'suggestion_one',
+    label: 'Name'
+  },
+  {
+    value: 'suggestion_two',
+    label: (
+      <>Latency (<strong>P95</strong>)</>
+    )
+  },
+  {
+    value: 'suggestion_three',
+    label: (
+      <>Error Rate (<strong>mean</strong>)</>
+    )
+  }
+]
+
+<Canvas>
+  <Story of={SortingConfiguratorStories.Default} />
+</Canvas>

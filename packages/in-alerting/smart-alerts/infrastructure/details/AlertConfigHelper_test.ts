@@ -17,13 +17,13 @@ import { number, percentage } from 'in-services/formatters/number';
 describe('in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper', () => {
   describe('getMetricFormat', () => {
     it('returns the percentage formatter when the formatter is PERCENTAGE', () => {
-      const metricFormat = getMetricFormat('PERCENTAGE');
+      const metricFormat = getMetricFormat('PERCENTAGE', 1);
 
       expect(metricFormat).toBe(percentage);
     });
 
     it('returns the compact number formatter when the formatter is not PERCENTAGE', () => {
-      const metricFormat = getMetricFormat('NUMBER');
+      const metricFormat = getMetricFormat('NUMBER', 9);
 
       expect(metricFormat).toBe(number.forcedCompact);
     });

@@ -103,7 +103,10 @@ const cols = [
 ];
 
 export default function AggregatedCacheStatsList({ snapshotId, timeConfig }: AggregatedCacheStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'aggregatedCacheStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'aggregatedCacheStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const aggregatedCacheStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: AggregatedCacheStatsRow[] = aggregatedCacheStat
     ? aggregatedCacheStat

@@ -155,12 +155,13 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.timeThreshold.label')}
         useMaxAvailableHeight={false}
-        bodyWithoutPadding
         openByDefault
         darkFrame
       >
-        <TimeThresholdDescription timeThreshold={timeThreshold} />
-        <GracePeriodDescription gracePeriod={gracePeriod} />
+        <Stack gap="large">
+          <TimeThresholdDescription timeThreshold={timeThreshold} />
+          <GracePeriodDescription gracePeriod={gracePeriod} />
+        </Stack>
       </ExpandableLightCard>
 
       <ExpandableLightCard

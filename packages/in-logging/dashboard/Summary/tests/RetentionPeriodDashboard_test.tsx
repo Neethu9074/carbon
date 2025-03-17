@@ -10,9 +10,8 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-// eslint-disable-next-line no-restricted-imports
-import RetentionPeriodDashboard from '../RetentionPeriod/RetentionPeriodDashboard';
 import { retentionLogsGET } from 'in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
+import RetentionPeriodDashboard from 'in-logging/dashboard/Summary/RetentionPeriod/RetentionPeriodDashboard';
 
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()

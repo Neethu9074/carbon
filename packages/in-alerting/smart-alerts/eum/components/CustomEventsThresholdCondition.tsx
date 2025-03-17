@@ -7,11 +7,10 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
-import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdDeviationSliderForm';
+import ThresholdValueFormGroupForMultiStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForMultiStaticThreshold';
+import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/MultiThresholdDeviationSliderForm';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
-import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
 import { BluePrint as MobileAppBlueprint } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { BluePrint as WebsiteBlueprint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/ThresholdTypeSelection';
@@ -43,7 +42,7 @@ export default function CustomEventsThresholdCondition({
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const percentageMetric = isPercentageMetric(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type')?.value;
   const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
   return (
     <>
@@ -61,27 +60,17 @@ export default function CustomEventsThresholdCondition({
       </ThresholdConditionFormGroup>
 
       {thresholdType === STATIC_THRESHOLD && (
-        <ThresholdConditionFormGroup
-          iconType="lib_threshold"
+        <ThresholdValueFormGroupForMultiStaticThreshold
+          form={form}
+          updateForm={updateForm}
+          maxValue={maxValue}
+          percentageMetric={percentageMetric}
+          metricUnitPostfix={metricUnitPostfix}
           label={t('in-alerting:smartAlerts.eum.advanced.thresholdValue')}
-        >
-          <ThresholdValueInputWithValidationMessage
-            max={maxValue}
-            form={form}
-            updateForm={updateForm}
-            percentageMetric={percentageMetric}
-            metricUnitPostfix={metricUnitPostfix}
-          />
-          <UseSuggestedValueButton
-            form={form}
-            updateForm={updateForm}
-            metricUnitPostfix={metricUnitPostfix}
-            percentageMetric={percentageMetric}
-          />
-        </ThresholdConditionFormGroup>
+        />
       )}
       {thresholdType !== STATIC_THRESHOLD && (
-        <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
+        <MultiThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>
   );

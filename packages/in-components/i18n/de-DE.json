@@ -122,6 +122,9 @@
     "filterConfirmRemoveMsg": "Sind Sie sicher, dass Sie den Filter <strong>{{filterName}}</strong> entfernen möchten?",
     "helpDialogTitleUsingTheSearchBar": "Suchleiste verwenden"
   },
+  "carbonSearchBar": {
+    "search": "Suchen"
+  },
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "Diese Gruppe analysieren",

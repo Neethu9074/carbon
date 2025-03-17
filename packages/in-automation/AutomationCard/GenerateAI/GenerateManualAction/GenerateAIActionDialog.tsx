@@ -44,6 +44,7 @@ import { error, hasError, isLoading } from 'in-services/util/result';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import { role } from 'in-stores/user';
@@ -415,7 +416,13 @@ export default function GenerateAIActionDialog({
         }}
       />
       <DialogWithSlideInView
-        title={<Typography variant="heading-400">{t('in-automation:generateWithWatsonx')}</Typography>}
+        title={
+          <>
+            <Typography variant="heading-400">{t('in-automation:generateWithWatsonx')}</Typography>
+            <Spacer horizontal="small" />
+            <AISlugIcon actionType="manual" />
+          </>
+        }
         onClose={onCancel}
         doNotCloseOnOutsideClick
       >

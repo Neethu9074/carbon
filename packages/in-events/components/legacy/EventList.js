@@ -9,11 +9,6 @@ import { Card, Stack, Typography, Collapsible, CarbonLayer, IconButton } from '@
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
-import {
-  manuallyCloseEventEnabled,
-  eventFeedbackEnabled,
-  businessObservabilityEnabled
-} from 'in-services/featureFlags';
 import LegacyRootCauseSection from 'in-events/components/RootCauseAnalysis/Legacy/LegacyRootCauseSection';
 import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
@@ -31,6 +26,7 @@ import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import { FeedbackComponents } from 'in-events/components/EventTable';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { eventFeedbackEnabled } from 'in-services/featureFlags';
 import { toHtml } from 'in-services/formatters/markdown';
 import { rcaUIEnabled } from 'in-services/featureFlags';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -111,13 +107,11 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
       {/* Automations */}
       <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} />
       {/* Business impact */}
-      {businessObservabilityEnabled && (
-        <ImpactedBusinessProcesses
-          eventType={eventType}
-          entityType={incident?.get('entityType', undefined)}
-          entityId={incident?.get('entityId', undefined)}
-        />
-      )}
+      <ImpactedBusinessProcesses
+        eventType={eventType}
+        entityType={incident?.get('entityType', undefined)}
+        entityId={incident?.get('entityId', undefined)}
+      />
     </>
   );
 }
@@ -175,7 +169,7 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
 };
 
 const TriggeringEvent = ({ incident, triggeringEvent, latestSnapshot }) => {
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
 
   return (

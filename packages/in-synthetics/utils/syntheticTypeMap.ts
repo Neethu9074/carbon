@@ -12,7 +12,7 @@ const syntheticTypeMap = new Map<string, string>([
   ['Webpage Simple', 'WebpageAction'],
   ['Webpage Script', 'WebpageScript'],
   ['Browser Script', 'BrowserScript'],
-  ['DNS Action', 'DNSAction']
+  ['DNS', 'DNS']
 ]);
 
 export function getSyntheticType(displayType: string) {
@@ -30,3 +30,7 @@ export function getDisplayType(syntheticType: string) {
   //No display type found;
   return syntheticType;
 }
+
+export const apiSimpleTestType = 'HTTPAction';
+export const dnsTestType = 'DNS';
+export const sslCertificateTestType = 'SSLCertificate';

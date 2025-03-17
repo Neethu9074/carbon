@@ -12,7 +12,9 @@ import { useObservable } from '@instana/hooks';
 import { pendingResult } from 'in-services/fixedObjects';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
+import getOtelKubernetesContainers from 'in-subscription/getOtelKubernetesContainers';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import Containers from 'in-forge/plugins/oTelK8sCluster/Dashboard/Containers';
 import getOtelKubernetesNodes from 'in-subscription/getOtelKubernetesNodes';
 import getOtelKubernetesPods from 'in-subscription/getOtelKubernetesPods';
 import Nodes from 'in-forge/plugins/oTelK8sCluster/Dashboard/Nodes';
@@ -29,7 +31,8 @@ export default function OTelK8SClusterDashboard({ snapshot, timeConfig }) {
   const TABS = {
     SUMMARY: 'summary',
     NODES: 'nodes',
-    PODS: 'pods'
+    PODS: 'pods',
+    CONTAINERS: 'containers'
   };
 
   const handleTabChange = tab => {
@@ -83,6 +86,30 @@ export default function OTelK8SClusterDashboard({ snapshot, timeConfig }) {
       []
     ) ?? pendingResult;
 
+  const otelContainers =
+    useObservable(
+      getOtelKubernetesContainers({
+        pagination: {
+          page: 1,
+          pageSize: snapshot.get('containercount') || 10
+        },
+        order: {
+          by: 'id',
+          direction: 'DESC'
+        },
+        filter: {
+          clusterId: snapshotId,
+          timeConfig: {
+            to: Date.now(),
+            windowSize: minutes.toMillis(30),
+            focusedMoment: Date.now(),
+            autoRefresh: false
+          }
+        }
+      }),
+      []
+    ) ?? pendingResult;
+
   const SummaryContent = () => (
     <div>
       <KpiSection>
@@ -91,6 +118,9 @@ export default function OTelK8SClusterDashboard({ snapshot, timeConfig }) {
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.oTelK8sCluster.dashboard.podcount')}>
           <MetricValue initialValue={otelPods?.data?.items?.length || 0} formatter={positiveNumber} />
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.oTelK8sCluster.dashboard.containercount')}>
+          <MetricValue initialValue={otelContainers?.data?.items?.length || 0} formatter={positiveNumber} />
         </KpiKeyValue>
       </KpiSection>
       <CustomMetricsV2
@@ -114,10 +144,17 @@ export default function OTelK8SClusterDashboard({ snapshot, timeConfig }) {
     </div>
   );
 
+  const ContainersContent = () => (
+    <div>
+      <Containers containers={otelContainers?.data?.items || []} renderByDashboard />
+    </div>
+  );
+
   const CONTENT_MAP = {
     summary: SummaryContent,
     nodes: NodesContent,
-    pods: PodsContent
+    pods: PodsContent,
+    containers: ContainersContent
   };
 
   const ContentComponent = CONTENT_MAP[activeTab];
@@ -148,6 +185,12 @@ export default function OTelK8SClusterDashboard({ snapshot, timeConfig }) {
             label={t('in-forge:plugins.oTelK8sCluster.dashboard.pods')}
             isActive={activeTab === TABS.PODS}
             onClick={() => handleTabChange(TABS.PODS)}
+          />
+          <SecondLevelNavigationItem
+            icon="lib_kubernetes_container"
+            label={t('in-forge:plugins.oTelK8sCluster.dashboard.containers')}
+            isActive={activeTab === TABS.CONTAINERS}
+            onClick={() => handleTabChange(TABS.CONTAINERS)}
           />
         </SecondLevelNavigation>
       </DashboardHeaderModule>

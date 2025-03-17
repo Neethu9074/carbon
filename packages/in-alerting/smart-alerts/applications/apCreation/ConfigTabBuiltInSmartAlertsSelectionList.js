@@ -57,7 +57,7 @@ export default function ConfigTabBuiltInSmartAlertsSelectionList({
   );
 }
 
-function MainColumnContent({ config, applicationId, alertIds, onItemSelect }) {
+function MainColumnContent({ config, applicationId, alertIds, onItemSelect, index }) {
   const getLinkToAlertDetails = useLinkToAlertDetails();
   const isPartiallySelected = hasPartialEnitySelection(config.applications, applicationId);
 
@@ -66,7 +66,7 @@ function MainColumnContent({ config, applicationId, alertIds, onItemSelect }) {
       {...config}
       alertIds={alertIds}
       onItemSelect={selected => onItemSelect(selected, config.id)}
-      index={config.id}
+      index={index}
       customLabel={() => (
         <Stack gap="xxsmall">
           <Link
@@ -95,13 +95,14 @@ const columnDefinitions = [
   {
     id: 'id1',
     verticallyCenter: true,
-    getContent({ config, onItemSelect, alertIds, applicationId }) {
+    getContent({ config, onItemSelect, alertIds, applicationId, index }) {
       return (
         <MainColumnContent
           config={config}
           applicationId={applicationId}
           alertIds={alertIds}
           onItemSelect={onItemSelect}
+          index={index}
         />
       );
     }

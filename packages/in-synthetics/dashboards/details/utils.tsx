@@ -7,18 +7,18 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { TestResultListItem } from '@instana/types';
+import { PaginatedResult, Result, TestResultListItem } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 import { Link } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import BrowserTestMainSection from 'in-synthetics/dashboards/details/components/browser/BrowserTestMainSection';
+import { ResultDetailsResponse, syntheticCustomMetricPrefix } from 'in-synthetics/utils/constants';
 import { syntheticDetailsPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { ContextConfiguration } from 'in-components/DashboardHeader/DashboardHeader';
 import Timeline from 'in-synthetics/dashboards/details/components/Timeline';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { ResultDetailsResponse } from 'in-synthetics/utils/constants';
 import { Location } from 'in-stores/navigation/types';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 
@@ -112,3 +112,21 @@ export const useSyntheticContextConfiguration = () => {
   });
   return contextConfigurations;
 };
+
+export const getSyntheticCustomMetricLabels = (
+  resultList: Result<PaginatedResult<TestResultListItem>>,
+  testType: string
+) => {
+  if (!['DNS', 'SSLCertificate'].includes(testType) && resultList?.data?.items?.[0]?.metrics) {
+    return Object.keys(resultList.data.items[0].metrics).filter(metric =>
+      metric.startsWith(syntheticCustomMetricPrefix)
+    );
+  }
+  return [];
+};
+
+export function getSyntheticTagLabels(resultList: Result<PaginatedResult<TestResultListItem>>) {
+  if (resultList.data?.items[0]?.testResultCommonProperties.customTags)
+    return Object.keys(resultList.data?.items[0]?.testResultCommonProperties.customTags);
+  return [];
+}

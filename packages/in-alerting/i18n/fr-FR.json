@@ -31,6 +31,7 @@
     "optional": "Facultatif",
     "on": "Activé",
     "off": "Désactivé",
+    "options": "Options",
     "revisionDropdownButton": {
       "revision": "Révision {{alertRevision}}",
       "pause": "Suspendre",
@@ -238,7 +239,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "Veuillez confirmer",
+            "confirmRemove": "Veuillez confirmer",
             "description": "La modification de la portée des limites réinitialise la sélection des applications.",
             "confirmButtonLabel": "Confirmer"
           }
@@ -259,7 +260,7 @@
           "includeInternalCalls": "Inclure les appels internes",
           "includeSyntheticCalls": "Inclure les appels synthétiques",
           "confirmationDialog": {
-            "pleaseConfirm": "Veuillez confirmer",
+            "confirmRemove": "Veuillez confirmer",
             "description": "Si vous désélectionnez \"{{callType}}\", la sélection de l'application est réinitialisée.",
             "confirmButtonLabel": "Confirmer"
           }
@@ -871,6 +872,7 @@
         "timeThresholdConfigImpactEvaluationMethod": "Méthode d'évaluation de l'impact sur les utilisateurs",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Agréger toutes les fenêtres d'évaluation",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calculer pour chaque fenêtre d'évaluation",
+        "timeThresholdConfigImpactEvaluationMethodSelect": "Sélectionnez une option",
         "timeThresholdConfigNumberOfViolations": "Nombre de violations de métriques",
         "timeThresholdConfigEvaluationGranularity": "Granularité de l'évaluation",
         "granularityTooltipText": "La granularité temporelle définie ici détermine la fréquence d'évaluation du seuil.",
@@ -1264,6 +1266,25 @@
         "timeThreshold": "Seuil de temps",
         "alertingType": "Type d'alerte",
         "noScopeConfigured": "Aucun filtre de portée configuré"
+      },
+      "tearSheet": {
+        "createTitle": "Créer une alerte synthétique intelligente",
+        "scopeFilter": {
+          "filter": "Filtrer",
+          "filterDescription": "Ajouter des filtres aux tests synthétiques pour obtenir des alertes plus précises."
+        },
+        "steps": {
+          "step1Title": "Choisir des tests synthétiques.",
+          "step2Title": "Définir quand être alerté."
+        },
+        "step1": {
+          "header": "Sur quels tests synthétiques vous voulez être alerté ?",
+          "description": "Des alertes individuelles seront envoyées indépendamment pour chaque test synthétique, par emplacement."
+        },
+        "step2": {
+          "sliderHeader": "Définir quand les violations déclenchent des alertes",
+          "sliderDescription": "Spécifiez le nombre d'échecs consécutifs qui doivent se produire par emplacement avant d'alerter."
+        }
       }
     },
     "mobileApp": {
@@ -1659,11 +1680,10 @@
         "customPayloads": {
           "label": "Contenus",
           "title": "Charge utile personnalisée"
-        },
-        "thresholdValue": "Valeur de seuil"
+        }
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Indiquez un nombre >= 0",
+        "selectAtLeastOneThreshold": "Veuillez indiquer la valeur d'au moins un des seuils.",
         "noDataForSelectedGroup": "Aucune donnée n'est disponible pour la combinaison de filtres et de regroupements spécifiée."
       },
       "logCount": "Nombre de journaux",
@@ -1692,11 +1712,14 @@
         "scopeFilter": {
           "title": "Choisir la portée des journaux",
           "filter": "Filtrer",
-          "filterDescription": "Ajoutez des filtres aux services pour obtenir des alertes plus précises."
+          "filterDescription": "Ajoutez des filtres au contenu des messages de journal, aux journaux ou aux deux pour obtenir des alertes plus précises."
+        },
+        "granularity": {
+          "description": "Les journaux sont évalués dans des fenêtres de {{granularity}} minutes et une valeur métrique est calculée pour cette fenêtre"
         },
         "scopeGroupBy": {
           "group": "Groupe",
-          "groupByDescription": "Ajoutez un groupe pour configurer les appels dans des groupes. Chaque appel au sein du groupe est configuré collectivement mais évalué individuellement."
+          "groupByDescription": "Ajouter le regroupement aux journaux. Chaque entrée du groupe est configurée collectivement mais évaluée individuellement."
         },
         "timeThreshold": {
           "title": "Définir quand les violations déclenchent des alertes",
@@ -1749,7 +1772,7 @@
         "blueprintDescription_BURN_RATE": "Le taux de consommation est une valeur qui indique la vitesse à laquelle votre budget d'erreurs est consommé par rapport à la durée cible de votre Objectif du niveau de service (SLO).",
         "burnRateShortWindowTitle": "Fenêtre d'alerte courte",
         "burnRateShortWindowDescription": "Ces alertes seront déclenchées lorsque le taux d'erreur dépasse le seuil plus rapidement a cours d'une période plus courte. Cette solution permet de détecter un pic d'erreurs soudain ou un temps d'indisponibilité causé par un bogue critique.",
-        "burnRateDescription": "M'avertir lorsque le taux de consommation est <1/> <2/>.",
+        "burnRateDescription": "M'avertir lorsque le taux de consommation est <1/> <2/>",
         "burnRateLongWindowTitle": "Fenêtre d'alerte longue",
         "burnRateLongWindowDescription": "Ces alertes sont déclenchées lorsque le taux d'erreur dépasse le seuil au cours d'une période plus longue. Cette solution permet d'identifier les problèmes qui s'accumulent au fil du temps et qui risquent de causer des difficultés à l'avenir s'ils ne sont pas résolus.",
         "burnRateShortWindowLongerThanLongWindowError": "La fenêtre courte ne peut pas dépasser la fenêtre longue. Veuillez ajuster l'une ou l'autre des valeurs.",

@@ -28,8 +28,9 @@ import { createForm as createListFormForCustomPayloads } from 'in-alerting/compo
 import { isServiceLevelAlertConfigWithMetaData } from 'in-alerting/smart-alerts/slo/types';
 import { defaultSloAlertConfig } from 'in-alerting/smart-alerts/slo/data/sloAlertConfig';
 import { burnRateFormValidator } from 'in-alerting/smart-alerts/slo/form/validators';
-import { positiveNumberValidator } from 'in-services/validators/number';
+import { maxValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { notBlankValidator } from 'in-services/validators/string';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 
 export type SloAlertRuleFormFields = {
   alertType: Field<ServiceLevelsAlertRuleUnion['alertType']>;
@@ -205,7 +206,7 @@ export function createSloAlertForm(
       rule: createSloAlertRuleForm(alertConfig),
       threshold: createField({
         value: alertConfig.threshold.value,
-        validator: positiveNumberValidator
+        validator: composeAndShortCircuitOnError(maxValidator(100),positiveNumberValidator)
       }),
       operator: createField({
         value: alertConfig.threshold.operator,

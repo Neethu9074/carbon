@@ -61,7 +61,8 @@ export default function MobileAppTopList({
     viewChange: useTagCatalog('viewChange'),
     httpRequest: useTagCatalog('httpRequest'),
     crash: useTagCatalog('crash'),
-    custom: useTagCatalog('custom')
+    custom: useTagCatalog('custom'),
+    dropBeacon: useTagCatalog('dropBeacon')
   };
 
   return (

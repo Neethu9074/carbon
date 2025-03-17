@@ -1,0 +1,44 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import { action as storybookAction } from '@storybook/addon-actions';
+import { useState } from 'react';
+import * as MetricSelectorOverlayStories from './MetricSelectorOverlay.stories';
+
+import MetricSelectorOverlay
+  from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
+import PermanentlyVisibleOverlay from 'in-components/overlays/OverlayPresenter/stories/PermanentlyVisibleOverlay';
+
+<Meta of={MetricSelectorOverlayStories} />
+
+export const Template = args => {
+  const [query, setQuery] = useState('');
+  return (
+    <PermanentlyVisibleOverlay>
+      <MetricSelectorOverlay
+        {...args}
+        onChange={storybookAction('onChange')}
+        close={storybookAction('close')}
+        onQueryChange={setQuery}
+        query={query}
+      />
+    </PermanentlyVisibleOverlay>
+  );
+};
+
+## Metric Selector
+
+This overlay can be used within the query builder to allow selection of a metric by navigating through
+the MetricTree.
+
+<Canvas>
+  <Story of={MetricSelectorOverlayStories.Default} />
+</Canvas>
+
+export function generateEmptyResult() {
+  return { tree: [] };
+}
+
+export const emptyResult = generateEmptyResult();
+
+<Canvas>
+  <Story of={MetricSelectorOverlayStories.WithNoResults} />
+</Canvas>

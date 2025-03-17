@@ -15,21 +15,13 @@ import { createSloUrlParameter } from 'in-service-levels/navigation/urlParameter
 import { SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/types';
 import SloWidget from 'in-custom-dashboards/widgets/Slo/components/SloWidget';
 import useSloConfiguration from 'in-service-levels/hooks/useSloConfiguration';
+import { WidgetProps } from 'in-custom-dashboards/widgets/types';
+import { sloFullEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from './SloWidgetPresenter.mless';
 
-export interface SloWidgetPresenterProps {
-  actions: React.ReactNode;
-  config: SloWidgetConfiguration;
-  dragHandle: React.ReactNode;
-  isInModal?: boolean;
-  isPreview?: boolean;
-  title: string;
-  widgetId: string;
-}
-
-export default function SloWidgetPresenter({
+export default function SloWidgetPresenterWrapper({
   actions,
   config,
   dragHandle,
@@ -37,7 +29,30 @@ export default function SloWidgetPresenter({
   isPreview,
   title,
   widgetId
-}: SloWidgetPresenterProps) {
+}: WidgetProps<SloWidgetConfiguration>) {
+  if (!sloFullEnabled) return null;
+
+  return (
+    <SloWidgetPresenter
+      actions={actions}
+      config={config}
+      dragHandle={dragHandle}
+      isInModal={isInModal}
+      isPreview={isPreview}
+      title={title}
+      widgetId={widgetId}
+    />
+  );
+}
+function SloWidgetPresenter({
+  actions,
+  config,
+  dragHandle,
+  isInModal,
+  isPreview,
+  title,
+  widgetId
+}: Omit<WidgetProps<SloWidgetConfiguration>, 'timeConfig'>) {
   const [sloConfig, status] = useSloConfiguration(config.sloId);
 
   if (status === 'pending') return <LoadingSkeleton className={locals.loadingSkeleton} />;

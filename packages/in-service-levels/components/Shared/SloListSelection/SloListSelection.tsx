@@ -73,7 +73,7 @@ export default function SloListSelection({ sloIdsField, entityTypeField, onChang
     ({ id }) => !initiallySelectedIds.current.includes(id)
   );
   const filteredList = sloList.filter(({ id }) => !selectedIds.includes(id));
-  const sortedList = removeAmbiguous([
+  const sortedList = removeAmbiguous<SloData>([
     ...initiallySelectedSlos,
     ...sortedSloDataByLabel([...selectedSlosWithoutInitiallySelectedSlos, ...filteredList])
   ]);

@@ -5,13 +5,17 @@
 
 import React from 'react';
 
-import { DataTable as CarbonTable, TableSkeleton as CarbonTableSkeleton, LoadingSkeleton } from '@instana/components';
-import { TableLoadMoreRow } from '@instana/legacy';
+import {
+  DataTable as CarbonTable,
+  TableSkeleton as CarbonTableSkeleton,
+  LoadingSkeleton,
+  TableLoadMoreRow
+} from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import { getSnapshotVersionsObservable, HostInformation } from 'in-profiling/analyze/AnalyzeView/ProfiledProcesses/Row';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { useLinkToProfiles } from 'in-components/Profiling/navigation/paths';
-import { getSnapshotVersionsObservable, HostInformation } from './Row';
 import EntityLink from 'in-components/EntityLink';
 import { t } from 'in-i18n';
 
@@ -54,7 +58,13 @@ export default function ProfiledProcessesTable(props) {
       <CarbonTable loading={isLoading} isSearchEnabled={false} headers={carbonHeaders} rows={carbonRows} />
       {isLoading && <LoadingSkeleton className={locals.loadingSkeleton} />}
       {canLoadMore && (
-        <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} size="compact" cols={columnCount} />
+        <TableLoadMoreRow
+          className={locals.carbonLoadMore}
+          loadMore={loadMore}
+          label={t('in-components:tables.serverTable.cursorPaginatedTableLoadMoreRowLabel')}
+          size="compact"
+          cols={2}
+        />
       )}
     </>
   );

@@ -27,19 +27,20 @@ describe(SummaryKPIs, () => {
       <SummaryKPIs
         tagFilters={{} as TagFilter[]}
         isSSLCertificate={false}
+        isDNS={false}
         resultList={dummyResultList}
         timeShiftConfig={{ offset: 0 }}
         timeConfig={{ windowSize: 0, autoRefresh: false }}
       />
     );
-    expect(screen.getByText('Success Rate')).toBeVisible();
+    expect(screen.getByText('Success rate')).toBeVisible();
     expect(screen.getByText('Locations')).toBeVisible();
-    expect(screen.getByText('Avg. Response Time')).toBeVisible();
-    expect(screen.getByText('Avg. Response Size')).toBeVisible();
+    expect(screen.getByText('Avg. response time')).toBeVisible();
+    expect(screen.getByText('Avg. response size')).toBeVisible();
 
-    expect(screen.queryByText('Last Run - Certificate is Signed by Public CA')).toBeNull();
-    expect(screen.queryByText('Last Run - Days Remaining')).toBeNull();
-    expect(screen.queryByText('Last Run - Time of Expiry')).toBeNull();
+    expect(screen.queryByText('Last run - Certificate is signed by public CA')).toBeNull();
+    expect(screen.queryByText('Last run - Days remaining')).toBeNull();
+    expect(screen.queryByText('Last run - Time of expiry')).toBeNull();
   });
 
   it('Render correct set of KPIs for HTTPScript test', () => {
@@ -47,19 +48,20 @@ describe(SummaryKPIs, () => {
       <SummaryKPIs
         tagFilters={{} as TagFilter[]}
         isSSLCertificate={false}
+        isDNS={false}
         resultList={dummyResultList}
         timeShiftConfig={{ offset: 0 }}
         timeConfig={{ windowSize: 0, autoRefresh: false }}
       />
     );
-    expect(screen.getByText('Success Rate')).toBeVisible();
+    expect(screen.getByText('Success rate')).toBeVisible();
     expect(screen.getByText('Locations')).toBeVisible();
-    expect(screen.getByText('Avg. Response Time')).toBeVisible();
-    expect(screen.getByText('Avg. Response Size')).toBeVisible();
+    expect(screen.getByText('Avg. response time')).toBeVisible();
+    expect(screen.getByText('Avg. response size')).toBeVisible();
 
-    expect(screen.queryByText('Last Run - Certificate is Signed by Public CA')).toBeNull();
-    expect(screen.queryByText('Last Run - Days Remaining')).toBeNull();
-    expect(screen.queryByText('Last Run - Time of Expiry')).toBeNull();
+    expect(screen.queryByText('Last run - Certificate is signed by public CA')).toBeNull();
+    expect(screen.queryByText('Last run - Days remaining')).toBeNull();
+    expect(screen.queryByText('Last run - Time of expiry')).toBeNull();
   });
 
   it('Render correct set of KPIs for SSLCertificate test', () => {
@@ -95,18 +97,37 @@ describe(SummaryKPIs, () => {
       <SummaryKPIs
         tagFilters={{} as TagFilter[]}
         isSSLCertificate
+        isDNS={false}
         resultList={dummySslResultList}
         timeShiftConfig={{ offset: 0 }}
         timeConfig={{ windowSize: 0, autoRefresh: false }}
       />
     );
-    expect(screen.getByText('Success Rate')).toBeVisible();
+    expect(screen.getByText('Success rate')).toBeVisible();
     expect(screen.getByText('Locations')).toBeVisible();
-    expect(screen.getByText('Avg. Response Time')).toBeVisible();
-    expect(screen.getByText('Last Run - Certificate is Signed by Public CA')).toBeVisible();
-    expect(screen.getByText('Last Run - Days Remaining')).toBeVisible();
-    expect(screen.getByText('Last Run - Time of Expiry')).toBeVisible();
+    expect(screen.getByText('Avg. response time')).toBeVisible();
+    expect(screen.getByText('Last run - Certificate is signed by public CA')).toBeVisible();
+    expect(screen.getByText('Last run - Days remaining')).toBeVisible();
+    expect(screen.getByText('Last run - Time of expiry')).toBeVisible();
 
-    expect(screen.queryByText('Avg. Response Size')).toBeNull();
+    expect(screen.queryByText('Avg. response size')).toBeNull();
+  });
+
+  it('Render correct set of KPIs for DNS test', () => {
+    render(
+      <SummaryKPIs
+        tagFilters={{} as TagFilter[]}
+        isSSLCertificate={false}
+        isDNS
+        resultList={dummyResultList}
+        timeShiftConfig={{ offset: 0 }}
+        timeConfig={{ windowSize: 0, autoRefresh: false }}
+      />
+    );
+    expect(screen.getByText('Success rate')).toBeVisible();
+    expect(screen.getByText('Locations')).toBeVisible();
+    expect(screen.getByText('Avg. response time')).toBeVisible();
+
+    expect(screen.queryByText('Avg. response size')).toBeNull();
   });
 });

@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-// eslint-disable-next-line no-restricted-imports
 import {
   createGroupingTag,
   createTagFilter,
@@ -14,7 +13,7 @@ import {
   groupAndSortTags,
   trackFilterClick,
   trackGroupClick
-} from '../utils';
+} from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/utils';
 import {
   containerSnapshotIds,
   CRIO_SNAPSHOT_ID,

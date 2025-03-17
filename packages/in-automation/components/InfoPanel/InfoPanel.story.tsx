@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-// @ts-expect-error
+// @ts-expect-error @storybook/react only available in storybook
 import type { StoryObj } from '@storybook/react';
 
 import InfoPanel from 'in-automation/components/InfoPanel/InfoPanel';
@@ -45,18 +45,14 @@ const ct = {
   ]
 };
 
-const defaultProps = {
-  collapsible: true,
-  expanded: true,
-  stickyTitle: false,
-  content: ct,
-  ariaLabel: 'ARIA label',
-  showLabel: 'Show',
-  hideLabel: 'Hide'
-};
-
 export const Default: Story = {
   args: {
-    ...defaultProps
+    collapsible: true,
+    expanded: true,
+    stickyTitle: false,
+    content: ct,
+    ariaLabel: 'ARIA label',
+    showLabel: 'Show',
+    hideLabel: 'Hide'
   }
 };

@@ -3,12 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import kpiDefinitions from 'in-forge/plugins/kubernetesReplicaSet/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
-  plugin: plugins.kubernetesReplicaSet,
-
-  kpiDefinitions
+  plugin: plugins.kubernetesReplicaSet
 });

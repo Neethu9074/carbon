@@ -34,7 +34,6 @@ import { isMobileAppSmartAlertEvent } from 'in-events/components/eventUtil';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 // @ts-expect-error No typedef available
 import { isSloSmartAlertEvent } from 'in-events/components/eventUtil';
-import { aqmDisableConfigOnEventViewEnabled, manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import DisableEventConfigButton from 'in-events/components/tabs/Summary/DisableEventConfigButton';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
@@ -47,6 +46,7 @@ import useSloAlertConfig from 'in-alerting/smart-alerts/slo/hooks/useSloAlertCon
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
 import AnalyzeSloEventButton from 'in-events/components/AnalyzeSloEventButton';
+import { aqmDisableConfigOnEventViewEnabled } from 'in-services/featureFlags';
 import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
 import SloAlertConfigButton from 'in-events/components/SloAlertConfigButton';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -66,7 +66,7 @@ interface IncidentActionsProps {
 
 const IncidentActions = ({ incident, triggeringEvent, latestSnapshot }: IncidentActionsProps) => {
   const { location, navigate } = useNavigation();
-  const canCloseManually = manuallyCloseEventEnabled ? role?.canManuallyCloseIssue : false;
+  const canCloseManually = role?.canManuallyCloseIssue;
   const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
   const { windowSize } = useTimeConfig();
 

@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { Fragment, useEffect, useState } from 'react';
 import { createMapForm } from 'formalistic';
-import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { fromJS } from 'immutable';
 
-import { Button, Collapsible, Link, Message, Stack, Typography } from '@instana/components';
+import { Button, CarbonMultiSelect, Collapsible, Link, Message, Stack, Typography } from '@instana/components';
+import { Pill, Label } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { Pill } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import AlertChannelTestButton from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelTestButton';
 import { fullyQualified } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
@@ -23,11 +24,15 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { hasError, isLoading } from 'in-services/util/result';
 import SectionLine from 'in-settings/components/SectionLine';
 import FeatureFeedback from 'in-components/FeatureFeedback';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import Notification from 'in-components/form/Notification';
+import { pendingResult } from 'in-services/fixedObjects';
 import { saveAlertChannel } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
+import { getTeamsResult } from 'in-api/teams';
 import entityForm from 'in-hoc/entityForm';
 import { t, Trans } from 'in-i18n';
 
@@ -48,6 +53,23 @@ function AlertChannelModificationForm(props) {
     listPath,
     setMinHeight = false
   } = props;
+
+  const dataResult = useObservable(getTeamsResult, []) ?? pendingResult;
+  const teamsLoading = isLoading(dataResult);
+  const teamsHasErrors = hasError(dataResult);
+  const teamsList = !teamsLoading && !teamsHasErrors ? dataResult : [];
+  const teamsAssigned = entity.get('rbacTags');
+  const [selectedList, setSelectedList] = useState([]);
+  useEffect(() => {
+    if (rbacTeamsEnabled && !teamsLoading && !teamsHasErrors) {
+      const teamsSelected = teamsAssigned
+        ? teamsList.filter(item => teamsAssigned.some(team => team.get('id') == item.id))
+        : [];
+      setForm(form.put('rbacTags', teamsSelected));
+      setSelectedList(teamsSelected);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamsAssigned, teamsList]);
 
   if (!entity || !form) {
     return <LoadingIndicator />;
@@ -75,6 +97,11 @@ function AlertChannelModificationForm(props) {
 
   const alertChannelLabel = fullyQualifiedAlertChannel.label;
   const testAlertChannelLabel = fullyQualifiedAlertChannel.testAlertChannelLabel;
+  const onSelectionChanged = item => {
+    setSelectedList(item);
+    setForm(form.put('rbacTags', item));
+  };
+  const customSubmit = fullyQualifiedAlertChannel?.customSubmit;
 
   return (
     <Fragment>
@@ -135,6 +162,26 @@ function AlertChannelModificationForm(props) {
             testAlertChannelLabel={testAlertChannelLabel}
           />
         )}
+        {rbacTeamsEnabled && !fullyQualifiedAlertChannel?.noTeams && (
+          <>
+            <SectionLine />
+            <Typography variant="heading-02" noMargin>
+              {t('in-settings:tabs.accessTitle')}
+            </Typography>
+            <Section>
+              <Label htmlFor="teamsSelect">{t('in-settings:tabs.accessDesc')}</Label>
+              <div id="teamsSelect" className={locals.teamsSelector}>
+                <CarbonMultiSelect
+                  label={t('in-settings:tabs.chooseTeams')}
+                  onChange={data => onSelectionChanged(data.selectedItems)}
+                  items={teamsList}
+                  selectedItems={selectedList}
+                  itemToString={item => (item ? item.tag : '')}
+                />
+              </div>
+            </Section>
+          </>
+        )}
 
         {AdvancedFormSettings && (
           <Collapsible initiallyOpen={getDefaultStateOfAdvancedSection(entity, form)}>
@@ -152,7 +199,15 @@ function AlertChannelModificationForm(props) {
         )}
       </SettingsDetailPage>
       {renderCustomFormActions?.({ form, loading }) ?? (
-        <SubmissionButton form={form} message={message} loading={loading} isCreate={isCreate} listPath={listPath} />
+        <SubmissionButton
+          form={form}
+          message={message}
+          loading={loading}
+          isCreate={isCreate}
+          listPath={listPath}
+          customSubmit={customSubmit}
+          setForm={setForm}
+        />
       )}
     </Fragment>
   );
@@ -167,9 +222,12 @@ function getDefaultStateOfAdvancedSection(entity, form) {
     : false;
 }
 
-function SubmissionButton({ form, message, loading, isCreate, listPath }) {
+function SubmissionButton({ form, message, loading, isCreate, listPath, customSubmit, setForm }) {
+  const { bypassApiCreate, submitSaveLabel, submitCreateLabel } = customSubmit ?? {};
   const saving = loading && message === entityFormSavingMessage;
-  const saveButtonLabel = isCreate ? t('forms.actions.create') : t('forms.actions.save');
+  const saveButtonLabel = isCreate
+    ? submitCreateLabel ?? t('forms.actions.create')
+    : submitSaveLabel ?? t('forms.actions.save');
   const savingStateName = t('forms.states.saving');
 
   const { goToPath } = useNavigation();
@@ -181,16 +239,37 @@ function SubmissionButton({ form, message, loading, isCreate, listPath }) {
         <Button kind="secondary" className={locals.button} onClick={() => goToPath(listPath)}>
           {t('forms.actions.cancel')}
         </Button>
-        <Button
-          kind="primary"
-          type="submit"
-          className={locals.button}
-          disabled={(!form.hierarchyValid && form.touched) || loading || saving}
-          icon={saving ? 'lib_actions_loading' : null}
-          iconSpinning
-        >
-          {saving ? savingStateName : saveButtonLabel}
-        </Button>
+        {bypassApiCreate ? (
+          <Button
+            className={locals.button}
+            disabled={(!form.hierarchyValid && form.touched) || loading || saving}
+            icon={saving ? 'lib_actions_loading' : null}
+            iconSpinning
+            onClick={() => {
+              // We want to perform the error checking here on click
+              if (!form.hierarchyValid) {
+                setForm(form.setTouched(true, { recurse: true }));
+              }
+              // If everything passes then we want to redirect them back to listPath
+              if (form.maxSeverityOfHierarchy == 'ok') {
+                goToPath(listPath);
+              }
+            }}
+          >
+            {saving ? savingStateName : saveButtonLabel}
+          </Button>
+        ) : (
+          <Button
+            kind="primary"
+            type="submit"
+            className={locals.button}
+            disabled={(!form.hierarchyValid && form.touched) || loading || saving}
+            icon={saving ? 'lib_actions_loading' : null}
+            iconSpinning
+          >
+            {saving ? savingStateName : saveButtonLabel}
+          </Button>
+        )}
       </Stack>
     </div>
   );
@@ -201,6 +280,14 @@ function getConfig(alertChannel) {
 }
 
 export function save(alertChannel, form) {
+  const addRbacTags = obj => {
+    let result = obj;
+    const rbacTags = form.get('rbacTags');
+    if (rbacTags) {
+      result = { ...obj, rbacTags };
+    }
+    return result;
+  };
   createAlertChannelTracker({ alertChannelType: form.get('kind').value, alertChannelName: form.get('name').value });
   // Todo - modernize
   alertChannelCTATrackerSegment({
@@ -208,7 +295,7 @@ export function save(alertChannel, form) {
     path: '',
     channel: form.get('kind').value
   });
-  return saveAlertChannel(fromJS(getConfig(alertChannel).createEntity(alertChannel, form)));
+  return saveAlertChannel(fromJS(addRbacTags(getConfig(alertChannel).createEntity(alertChannel, form))));
 }
 
 export function createForm(alertChannel) {

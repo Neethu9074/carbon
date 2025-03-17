@@ -5,10 +5,10 @@
  */
 
 import React, { ReactNode } from 'react';
+import classNames from 'classnames';
 
+import { SvgIcon, Typography, Stack, CarbonTile } from '@instana/components';
 import { Size } from '@instana/components/types/components/SvgIcon/types';
-import { SvgIcon, Typography, Stack } from '@instana/components';
-import { CarbonTile } from '@instana/components';
 
 import locals from 'in-plg/components/DashboardTile/DashboardTile.mless';
 
@@ -30,10 +30,14 @@ export function DashboardTile({
   titleMetrics,
   dragAndDropConfigs = [],
   handleLabel
-}: DashboardTileProps) {
+}: Readonly<DashboardTileProps>) {
   return (
     <CarbonTile className={locals.dashboardtile}>
-      <div className={locals.headerWrapper}>
+      <div
+        className={classNames({
+          [locals.headerWrapper]: header !== ''
+        })}
+      >
         <Stack direction="horizontal" distribution="spaceBetween">
           <Stack direction="horizontal" align="center" gap="normal">
             {icon ? (

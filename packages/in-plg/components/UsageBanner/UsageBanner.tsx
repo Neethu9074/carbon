@@ -9,21 +9,28 @@ import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-set
 import { useHistory } from 'react-router';
 import React, { useEffect } from 'react';
 
-import { Link, SvgIcon, Stack } from '@instana/components';
+import { Link, SvgIcon, Stack, CarbonButton } from '@instana/components';
 import { Observable, create } from '@instana/observables';
-import { CarbonButton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
+import {
+  assistmeEnabled,
+  onPremLicenseInformationEnabled,
+  playWithReleaseEnabled,
+  playwithEnabled,
+  tealiumPrivacyEnabled,
+  userProfileMenuEnabled
+} from 'in-services/featureFlags';
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 //@ts-expect-error missing typescript migration
 import { getQueuedLicensesOfEnvironmentAsResultObservable } from 'in-amp/api/account';
 import {
-  isWalkmeScriptLoaded,
+  isAssistMeScriptLoaded,
   termsAndPrivacySettingsStore$
 } from 'in-settings/terms/stores/termsAndPrivacySettingsStore';
-import { onPremLicenseInformationEnabled, playWithReleaseEnabled, playwithEnabled } from 'in-services/featureFlags';
+import { ShowPrivacyNotification } from 'in-plg/components/ShowPrivacyNotification/ShowPrivacyNotification';
 import { SHARE_AND_INVITE_INVITEE_JOINED } from 'in-services/tracking/eventNames';
 import { countryCode, editionID, languageCode } from 'in-plg/utils/constants';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
@@ -36,7 +43,6 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { assistmeEnabled } from 'in-services/featureFlags';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
 import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip';
@@ -74,9 +80,12 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const permissionToShowInvite =
     role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled) && !isAnyIDPActive;
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
-  // The AssistMe feature will be enabled if both assistmeEnabled and walkmeAnalyticsServices are enabled, and the WalkMe script is loaded.
-  const isWalkMeEnabled =
-    assistmeEnabled && isWalkmeScriptLoaded && termsAndPrivacySettingsStore?.walkmeAnalyticsServices;
+  // The AssistMe feature will be enabled if assistmeEnabled flag is true, assistmeGuidanceServices and walkmeAnalyticsServices is true and the AssistMe script is loaded.
+  const showGetAnswers =
+    assistmeEnabled &&
+    termsAndPrivacySettingsStore?.walkmeAnalyticsServices &&
+    termsAndPrivacySettingsStore?.assistmeGuidanceServices &&
+    isAssistMeScriptLoaded;
 
   useEffect(() => {
     const invitedByKey = 'invitedBy';
@@ -170,11 +179,15 @@ export function UsageBanner({ message }: UsageBannerProps) {
               {t('in-plg:licenseBanner.share')}
             </CarbonButton>
           </Tooltip>
-          <div className={locals.verticalLine} />
 
-          {isWalkMeEnabled && <AssistMe />}
+          {showGetAnswers && (
+            <>
+              <div className={locals.verticalLine} /> <AssistMe />
+            </>
+          )}
         </>
       )}
+      {tealiumPrivacyEnabled && userProfileMenuEnabled && ShowPrivacyNotification()}
     </Stack>
   );
 }

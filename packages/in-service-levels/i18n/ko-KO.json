@@ -113,7 +113,6 @@
       "beaconCount": "비컨 카운트",
       "calls": "호출",
       "latency": "대기 시간",
-      "results": "결과",
       "beaconDuration": "비컨 지속 기간",
       "threshold": "임계값",
       "failureRate": "실패 비율",
@@ -147,8 +146,8 @@
       "event_test_plural": "{{count}}개 테스트"
     },
     "deleteDialog": {
-      "pleaseConfirm": "확인하십시오.",
-      "pleaseConfirmMsg": "<strong>{{name}}</strong>을(를) 삭제하시겠습니까?",
+      "confirmRemove": "확인하십시오.",
+      "confirmRemoveMsg": "<strong>{{name}}</strong>을(를) 삭제하시겠습니까?",
       "delete": "삭제"
     }
   },

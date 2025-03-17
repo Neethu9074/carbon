@@ -29,12 +29,6 @@ jest.mock('in-subscription/getUsageInfo', () => ({
   }))
 }));
 
-jest.mock('in-services/userSettings', () => ({
-  userSettings: {
-    showUserGoalSelection: true
-  }
-}));
-
 describe('in-plg/pages/UserGoalSelection', () => {
   const mockData = {
     activeLicenseType: 'selfService'
@@ -44,6 +38,11 @@ describe('in-plg/pages/UserGoalSelection', () => {
     (useObservable as jest.Mock).mockImplementation(() => mockData);
   });
   test('should show dialog if first login and trial license', () => {
+    window.instana.termsAndPrivacySettings = {
+      ...window.instana.termsAndPrivacySettings,
+      showUserGoalSelection: true
+    };
+
     act(() => {
       render(<UserGoalSelection />);
     });

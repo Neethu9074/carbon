@@ -81,8 +81,6 @@ export default function ActivityErrorsChart({ processId, activityName }: Activit
       progress: activityResponse.progress,
       data: activityResponse?.data?.items
         ? {
-            // @ts-expect-error TODO: need to refactor getBusinessActivities
-            // to return a BusinessActivityItem for metrics
             ...(activityResponse.data.items[0].metrics as MetricData)
           }
         : {}

@@ -56,7 +56,6 @@ export default function App() {
                 <ErrorBoundary name="main-navigation">
                   <CarbonUIShell />
                 </ErrorBoundary>
-
                 <div className={locals.content} role="main">
                   {/* For "Skip to main content" target */}
                   <div tabIndex={-1} id="main-content" style={{ display: 'hidden' }} />

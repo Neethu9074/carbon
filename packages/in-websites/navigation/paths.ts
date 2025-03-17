@@ -88,6 +88,9 @@ export const configurationJsStackTraceTranslation = '/jsStackTraceTranslation';
 export const configurationJsStackTraceTranslationFullyQualified = `${configurationTabFullyQualified}${configurationJsStackTraceTranslation}`;
 export const configurationAlerts = '/alerts';
 
+export const websiteSmartAlerts = '/smartAlerts';
+export const websiteSmartAlertsFullScreenFullyQualified = `${websiteMonitoringPath}${websiteSmartAlerts}`;
+
 export const analyzeTwoParameters = createParameters(analyzePath);
 
 export const useLinkToNewWebsite = () => {
@@ -380,3 +383,12 @@ function fillAlertTabSpecificValues(
   setOrDeleteMatrixKey(params, alertsTab, alertIdMatrixParam, alertConfigId);
   setOrDeleteMatrixKey(params, alertsTab, alertCreatedMatrixParam, alertConfigVersion);
 }
+
+export const useNavigationToAlertConfig = () => {
+  const { navigate, location } = useNavigation();
+
+  return (alertConfigId: string, websiteId: string, alertConfigVersion?: number) => {
+    fillAlertTabSpecificValues(location, websiteId, alertConfigId, alertConfigVersion);
+    return navigate(location);
+  };
+};

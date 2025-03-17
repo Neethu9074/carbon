@@ -106,7 +106,10 @@ const cols = [
 ];
 
 export default function SystemLogStats({ snapshotId, timeConfig }: SystemLogStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'systemLogStats'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'systemLogStats', timeConfig),
+    [snapshotId, timeConfig]
+  );
   if (!data) {
     return null;
   }

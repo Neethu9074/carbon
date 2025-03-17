@@ -4,7 +4,7 @@
       "mainNavigation": "Hauptnavigation"
     },
     "list": {
-      "loadMore": "Weitere laden",
+      "loadMore": "Mehr laden",
       "expand": "Einblenden",
       "collapse": "Ausblenden",
       "toggleExtraContent": "Zusätzlichen Inhalt ein-/ausschalten",
@@ -18,7 +18,7 @@
         "unexpectedError": "Ein unerwarteter Fehler ist aufgetreten. Aktualisieren Sie die Seite oder versuchen Sie es später erneut."
       },
       "tableLoadMoreRow": {
-        "loadMore": "Weitere laden"
+        "loadMore": "Mehr laden"
       },
       "dataTable": "Datentabelle",
       "expandHeader": "Zeile einblenden",

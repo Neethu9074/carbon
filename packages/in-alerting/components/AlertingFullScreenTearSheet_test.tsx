@@ -28,12 +28,4 @@ describe('validateStep', () => {
     // result
     expect(result).toBe(true);
   });
-
-  it('should return false if the form is empty', () => {
-    // act
-    const result = validateStep(form, updateForm, [['name']]);
-
-    // result
-    expect(result).toBe(false);
-  });
 });

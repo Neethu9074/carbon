@@ -7,7 +7,6 @@
 import React, { useEffect } from 'react';
 
 import { Message } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import MatchingSloTimeWindowsCard from 'in-service-levels/components/SloDashboard/components/MatchingSloTimeWindowsCard';
 import IndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
@@ -23,6 +22,7 @@ import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { SLO_SUMMARY_VIEW } from 'in-services/tracking/eventNames';
 import { Col, Row } from 'in-components/layout/Grid';
 import { Nullish } from 'in-types';
+import { t } from 'in-i18n';
 
 interface SloSummaryProps {
   data: SloTabData;
@@ -88,6 +88,7 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
         <Col lg={4}>
           <IndicatorChart
             customHeight={250}
+            configuration={configuration}
             customChartSkeletonHeight={308}
             entity={configuration.entity}
             indicator={configuration.indicator}

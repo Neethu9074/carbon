@@ -25,12 +25,14 @@ import {
 } from 'in-synthetics/utils/constants';
 import { syntheticAdvancedCreateButtonClick, syntheticCreateAdvancedButtonClick } from 'in-synthetics/tracking/tracker';
 import getDefaultCustomProperties from 'in-synthetics/createTests/utils/getDefaultCustomProperties';
+import { getDefaultTargetFilters } from 'in-synthetics/createTests/utils/getDefaultTargetFilters';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import populateCommonAttributes from 'in-synthetics/createTests/utils/populateCommonAttributes';
 import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import WizardModeContainer from 'in-synthetics/createTests/wizard/WizardModeContainer';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import getDefaultHeaders from 'in-synthetics/createTests/utils/getDefaultHeaders';
+import { DNSErrorsExist } from 'in-synthetics/createTests/utils/DNSErrorExist';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
@@ -103,7 +105,7 @@ const CreateSyntheticTestDialogPresenter = ({
   const [invalidTimeout, setInvalidTimeout] = useState({ invalid: false, message: '' });
   const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties(form));
   const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
-
+  const [targetFilters, setTargetFilters] = useState(getDefaultTargetFilters(form));
   /**
    * A single form is being rendered in multiple pages in the simple mode
    * It makes the form validation hard as on clicking the proceed button it has to validate only the rendered
@@ -207,6 +209,8 @@ const CreateSyntheticTestDialogPresenter = ({
       scriptErrorExist(configForm, syntheticTypeField) ||
       // for SSL Certificate
       SSLCertificateErrorsExist(configForm, syntheticTypeField) ||
+      // for DNS
+      DNSErrorsExist(configForm, syntheticTypeField, targetFilters) ||
       !syntheticTypeField.valid ||
       locationsField.value.length === 0 ||
       !frequencyField.valid ||
@@ -357,6 +361,8 @@ const CreateSyntheticTestDialogPresenter = ({
             setInvalidCustomProperty={setInvalidCustomProperty}
             invalidTimeout={invalidTimeout}
             setInvalidTimeout={setInvalidTimeout}
+            targetFilters={targetFilters}
+            setTargetFilters={setTargetFilters}
           />
         )}
       </div>

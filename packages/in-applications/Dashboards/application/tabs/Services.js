@@ -3,10 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
-
-import { TableEntityCounter } from '@instana/legacy';
+import React from 'react';
 
 import {
   applicationDashboardUrlParameters,
@@ -18,6 +16,7 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import { getServicesByApplication } from 'in-applications/subscriptions/getServicesByApplication';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
@@ -26,7 +25,6 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import getServices from 'in-applications/subscriptions/getServices';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
@@ -98,7 +96,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
-      return <TableEntityCounter count={count} />;
+      return count;
     }
   },
   {
@@ -289,7 +287,10 @@ function getTableData({
   timeConfig
 }) {
   const granularity = getSparkChartGranularity(timeConfig);
-  return getServices({
+  return getServicesByApplication({
+    // FIXME: Backend should make the applicationId mandatory
+    applicationId,
+    applicationBoundaryScope: boundaryScope,
     pagination: {
       page,
       pageSize

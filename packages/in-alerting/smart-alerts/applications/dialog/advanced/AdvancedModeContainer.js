@@ -111,7 +111,6 @@ export default function AdvancedModeContainer(props) {
                 setForm={updateForm}
                 onThresholdTypeChange={onThresholdTypeChange}
                 editMode={editMode}
-                isMultiThreshold
               />
             </LightCard>
           )}

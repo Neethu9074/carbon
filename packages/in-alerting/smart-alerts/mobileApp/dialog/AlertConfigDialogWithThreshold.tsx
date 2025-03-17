@@ -11,7 +11,7 @@ import {
   CustomPayloadFieldUnion,
   MobileAppAlertRule,
   MobileAppAlertRuleUnion,
-  ThresholdConfig,
+  ThresholdType,
   TimeConfig
 } from '@instana/types';
 
@@ -64,6 +64,7 @@ interface AlertConfigDialogWithThresholdProps {
   isSaving: boolean;
   messages: EnrichedError[];
   setIsSimpleMode: React.Dispatch<React.SetStateAction<boolean>>;
+  alertChannelPerSeverityEnabled: boolean;
 }
 
 const FORM_ID = 'smart-alert-editor';
@@ -82,7 +83,8 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     selectedChartViewConfigIndex,
     granularity,
     timeConfig,
-    setIsSimpleMode
+    setIsSimpleMode,
+    alertChannelPerSeverityEnabled
   } = props;
 
   useCalculateThresholdOnBackendSignalEmitter(form);
@@ -94,8 +96,11 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
   }, [simpleMode]);
   const alertConfigWithFormModel = form.toJS();
   const { rule, tagFilterExpression, mobileAppId, customPayloadFields, threshold } = alertConfigWithFormModel;
+
+  const validThreshold = (threshold as any)?.warningThreshold ?? (threshold as any)?.criticalThreshold;
+
   const { metricName, alertType } = rule as MobileAppAlertRuleUnion;
-  const thresholdType = (threshold as ThresholdConfig)?.type;
+  const thresholdType = validThreshold?.type as ThresholdType;
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
@@ -207,6 +212,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       granularity={granularity}
       timeConfig={timeConfig}
       isTagFilterFormModelValid={isTagFilterFormModelValid}
+      alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
     />
   );
 }

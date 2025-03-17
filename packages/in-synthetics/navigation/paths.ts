@@ -47,6 +47,8 @@ export const syntheticCredentialPath = `/syntheticCredentials`;
 export const alertsTabDetailsFullyQualified = `${syntheticSmartAlertsPath}${syntheticSmartAlertsDetailsPath}`;
 export const dashboardAlertsFullyQualified = `${syntheticsDashboard}${alertsTab}`;
 export const dashboardTestAlertsTabDetailsFullyQualified = `${dashboardAlertsFullyQualified}${syntheticSmartAlertsDetailsPath}`;
+export const syntheticSmartAlertsFullScreenPath = '/smartAlert';
+export const syntheticSmartAlertsFullScreen = `${syntheticsDashboard}${syntheticSmartAlertsFullScreenPath}`;
 
 export const isSyntheticMonitoringView = getRootPathPredicate(
   syntheticsPath,

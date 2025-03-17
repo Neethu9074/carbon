@@ -9,9 +9,10 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
-import ThresholdFields from 'in-alerting/smart-alerts/logs/tearsheet/components/ThresholdFields';
+import LogMultiThresholdCondition from 'in-alerting/smart-alerts/logs/tearsheet/components/LogMultiThresholdCondition';
 import EvaluationWindow from 'in-alerting/smart-alerts/components/tearSheet/EvaluationWindow';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
+import { alertChannelPerSeverityLogSaEnabled } from 'in-services/featureFlags';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
@@ -80,10 +81,21 @@ export default function ThresholdSection({
         }
         titleWidth="8rem"
       >
-        <ThresholdFields form={form} updateForm={updateForm} percentageMetric={false} metricUnitPostfix={''} />
+        <LogMultiThresholdCondition
+          form={form}
+          updateForm={updateForm}
+          percentageMetric={false}
+          metricUnitPostfix={''}
+          alertChannelPerSeverityEnabled={alertChannelPerSeverityLogSaEnabled}
+        />
       </Section>
       {/* Evaluation Window */}
-      <EvaluationWindow form={form} updateForm={updateForm} oneMinuteGranularityAllowed={oneMinuteGranularityAllowed} />
+      <EvaluationWindow
+        form={form}
+        updateForm={updateForm}
+        oneMinuteGranularityAllowed={oneMinuteGranularityAllowed}
+        smartAlertType="logSA"
+      />
     </Stack>
   );
 }

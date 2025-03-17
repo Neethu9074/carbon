@@ -6,8 +6,7 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-// eslint-disable-next-line no-restricted-imports
-import { CreateLogsSmartAlertFloatingButton } from '../createLogsSmartAlertFloatingButton';
+import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 import { role } from 'in-stores/user';
 
 jest.mock('in-components/FloatingActionButton/FloatingActionButtons', () => ({ children }: any) => (

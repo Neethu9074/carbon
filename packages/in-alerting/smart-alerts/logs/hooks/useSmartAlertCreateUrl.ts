@@ -8,6 +8,7 @@ import { isEmpty } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
 
+import { logSmartAlertsFullScreen, logSmartAlertsFullScreenFullyQualifiedPath } from 'in-logging/navigation/paths';
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import { alertCreated, isDuplicateMode, isEditMode, alertId } from 'in-logging/navigation/matrix';
@@ -15,7 +16,6 @@ import generateAlertConfig from 'in-alerting/smart-alerts/logs/data/generateAler
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { logSmartAlertsFullScreen } from 'in-logging/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { successObservable } from 'in-services/util/result';
 import { Location } from 'in-stores/navigation/types';
@@ -68,7 +68,7 @@ function updateCreatePathMatrixParams(
   // Keep the cancelURL parameter at the end so that the URL parameters added are not mixed with the cancel URL.
   setOrDeleteMatrixKey(location, logSmartAlertsFullScreen, cancelUrl, returnUrlWithParams);
 
-  location.pathname = logSmartAlertsFullScreen;
+  location.pathname = logSmartAlertsFullScreenFullyQualifiedPath;
   return location;
 }
 

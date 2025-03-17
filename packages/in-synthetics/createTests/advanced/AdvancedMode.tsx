@@ -22,6 +22,7 @@ import ConfigurationSection from 'in-synthetics/createTests/advanced/Configurati
 import ApplicationsSection from 'in-synthetics/createTests//wizard/ApplicationsSection';
 import ConfigureLocations from 'in-synthetics/createTests/advanced/ConfigureLocations';
 import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleStep';
+import DNSConfiguration from 'in-synthetics/createTests/advanced/DNSConfiguration';
 import IdentifySection from 'in-synthetics/createTests/advanced/IdentifySection';
 import ScriptsSection from 'in-synthetics/createTests/advanced/ScriptsSection';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
@@ -56,7 +57,9 @@ const AdvancedMode = ({
   invalidCustomProperty,
   setInvalidCustomProperty,
   invalidTimeout,
-  setInvalidTimeout
+  setInvalidTimeout,
+  targetFilters,
+  setTargetFilters
 }: AdvancedModeProps) => {
   const EMPTY = [] as SyntheticLocation[];
   const getSelectedBlueprintIndex = () => {
@@ -64,8 +67,10 @@ const AdvancedMode = ({
       return 1;
     } else if (testTypeSelected.api.simple || testTypeSelected.api.script) {
       return 0;
-    } else {
+    } else if (testTypeSelected.ssl.simple) {
       return 2;
+    } else {
+      return 3;
     }
   };
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
@@ -100,7 +105,7 @@ const AdvancedMode = ({
             setScriptDetails={setScriptDetails!}
             commonAttributes={commonAttributes}
             setCommonAttributes={setCommonAttributes}
-            isBrowser={syntheticType === 'HTTPScript' ? false : true}
+            isBrowser={syntheticType !== 'HTTPScript'}
             invalidTimeout={invalidTimeout}
             setInvalidTimeout={setInvalidTimeout}
           />
@@ -135,6 +140,17 @@ const AdvancedMode = ({
           <SSLCertificateConfiguration
             form={form}
             updateForm={updateForm}
+            invalidTimeout={invalidTimeout}
+            setInvalidTimeout={setInvalidTimeout}
+          />
+        );
+      case 'DNS':
+        return (
+          <DNSConfiguration
+            form={form}
+            updateForm={updateForm}
+            targetFilters={targetFilters}
+            setTargetFilters={setTargetFilters}
             invalidTimeout={invalidTimeout}
             setInvalidTimeout={setInvalidTimeout}
           />

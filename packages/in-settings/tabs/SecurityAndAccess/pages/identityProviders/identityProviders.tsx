@@ -5,149 +5,105 @@
  */
 
 import { ArrowRight } from '@carbon/icons-react';
-import React from 'react';
+import React, { useState } from 'react';
 
-import { CarbonClickableTile, CarbonTag, Link, Spacer, Typography } from '@instana/components';
+import { CarbonClickableTile, CarbonTag, Spacer, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import {
-  securityAndAccessGoogleSSO,
-  securityAndAccessLdap,
-  securityAndAccessOidc,
-  securityAndAccessSaml
-} from 'in-settings/navigation/paths';
+import { getIdpTilesInfo } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/utils';
 import { isGoogleSSOActive } from 'in-settings/tabs/SecurityAndAccess/api/googleSSO';
 import { isLdapActive } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
 import { isOidcActive } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import { isSamlActive } from 'in-settings/tabs/SecurityAndAccess/api/saml';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
-import { t, Trans } from 'in-i18n';
+import { t } from 'in-i18n';
 
 import locals from './identityProviders.mless';
 
-interface IdpConfiguration {
-  title: string;
-  description: string;
-  isActive: boolean;
-  isAvailableToConfigure: boolean;
-  helpDoc?: JSX.Element;
-  path: string;
-}
-
 interface IdentityProvidersProps extends ViewProps {}
 
-const useGetIsActiveIdpConfigs = () => {
+const useGetIsActiveIdpConfigs = (formUpdated: boolean) => {
   return {
-    isGoogleSSOActive: useObservable(isGoogleSSOActive(), []) as boolean,
-    isSamlActive: useObservable(isSamlActive(), []) as boolean,
-    isLdapActive: useObservable(isLdapActive(), []) as boolean,
-    isOidcActive: useObservable(isOidcActive(), []) as boolean
+    isGoogleSSOActive: useObservable(isGoogleSSOActive(), [formUpdated]),
+    isSamlActive: useObservable(isSamlActive(), [formUpdated]),
+    isLdapActive: useObservable(isLdapActive(), [formUpdated]),
+    isOidcActive: useObservable(isOidcActive(), [formUpdated])
   };
 };
 
-const SamlHelpDoc = () => (
-  <Trans
-    i18nKey="in-settings:tabs.authenticationProviders.samlTileHelpDoc"
-    components={{
-      activeDirectoryLink: (
-        <Link external href="https://ibm.biz/configuring-active-directory">
-          null
-        </Link>
-      ),
-      oktaLink: (
-        <Link external href="https://ibm.biz/integrating-okta">
-          null
-        </Link>
-      )
-    }}
-  />
-);
-const LdapHelpDoc = () => (
-  <Trans
-    i18nKey="in-settings:tabs.authenticationProviders.ldapHelpDoc"
-    components={{
-      docLink: (
-        <Link
-          external
-          href=" https://www.ibm.com/docs/en/instana-observability/current?topic=configuration-configuring-ldap"
-        >
-          null
-        </Link>
-      )
-    }}
-  />
-);
 const IdentityProviders = (props: IdentityProvidersProps) => {
-  const { isGoogleSSOActive, isSamlActive, isOidcActive, isLdapActive } = useGetIsActiveIdpConfigs();
-  const getIdpConfigurations = (): IdpConfiguration[] => [
-    {
-      title: t('in-settings:tabs.authenticationProviders.googleSSOTileTitle'),
-      description: t('in-settings:tabs.authenticationProviders.googleSSOTileDescription'),
-      isActive: isGoogleSSOActive,
-      isAvailableToConfigure: props.isGoogleSSOAvailable,
-      path: securityAndAccessGoogleSSO
-    },
-    {
-      title: t('in-settings:tabs.authenticationProviders.samlTileTitle'),
-      description: t('in-settings:tabs.authenticationProviders.samlTileDescription'),
-      isActive: isSamlActive,
-      isAvailableToConfigure: props.isSamlAvailable,
-      helpDoc: <SamlHelpDoc />,
-      path: securityAndAccessSaml
-    },
-    {
-      title: t('in-settings:tabs.authenticationProviders.oidcTileTitle'),
-      description: t('in-settings:tabs.authenticationProviders.oidcTileDescription'),
-      isActive: isOidcActive,
-      isAvailableToConfigure: props.isOidcAvailable,
-      path: securityAndAccessOidc
-    },
-    {
-      title: t('in-settings:tabs.authenticationProviders.ldapTileTitle'),
-      description: t('in-settings:tabs.authenticationProviders.ldapTileDescription'),
-      isActive: isLdapActive,
-      isAvailableToConfigure: props.isLdapAvailable,
-      helpDoc: <LdapHelpDoc />,
-      path: securityAndAccessLdap
-    }
-  ];
+  const { isGoogleSSOAvailable, isSamlAvailable, isOidcAvailable, isLdapAvailable } = props;
+
+  const [formUpdated, setFormUpdted] = useState(false);
+  const { isGoogleSSOActive, isSamlActive, isOidcActive, isLdapActive } = useGetIsActiveIdpConfigs(formUpdated);
+
+  const handleFormUpdate = () => {
+    setFormUpdted(!formUpdated);
+  };
+
+  const tilesInfo = getIdpTilesInfo(
+    isGoogleSSOAvailable,
+    isSamlAvailable,
+    isOidcAvailable,
+    isLdapAvailable,
+    isGoogleSSOActive,
+    isSamlActive,
+    isOidcActive,
+    isLdapActive,
+    handleFormUpdate
+  );
+
   return (
     <div>
       <Typography variant="heading-03">{t('in-settings:tabs.authenticationProviders.title')}</Typography>
       <Spacer vertical="normal" />
       <div className={locals.idpTileContainer}>
-        {getIdpConfigurations().map(
-          (idpConfig, index) =>
-            idpConfig.isAvailableToConfigure && (
+        {tilesInfo.map((idpConfig, index) => {
+          const {
+            isAvailableToConfigure,
+            disabledTitle,
+            title,
+            IdpComponent,
+            description,
+            helpDoc,
+            isActive,
+            isAnotherIdpActivated
+          } = idpConfig;
+          return (
+            isAvailableToConfigure && (
               <CarbonClickableTile
-                title={idpConfig.title}
+                title={isAnotherIdpActivated ? disabledTitle : title}
                 renderIcon={ArrowRight}
                 key={index}
-                href={`#${idpConfig.path}`}
+                onClick={() => addActiveDialog(IdpComponent)}
+                disabled={isAnotherIdpActivated}
               >
-                <Typography variant="heading-02">{idpConfig.title}</Typography>
+                <Typography variant="heading-02">{title}</Typography>
                 <Spacer vertical="xsmall" />
                 <Typography variant="body-01" component="p">
-                  {idpConfig.description}
+                  {description}
                 </Typography>
-                {idpConfig.helpDoc && (
+                {helpDoc && (
                   <Typography variant="body-01" component="p">
-                    {idpConfig.helpDoc}
+                    {helpDoc}
                   </Typography>
                 )}
-                <CarbonTag
-                  className={locals.idpTileContainer_tagStatus}
-                  size="md"
-                  title="Clear filter"
-                  type={idpConfig.isActive ? 'green' : 'warm-gray'}
-                >
-                  {t('in-settings:tabs.authenticationProviders.idp', {
-                    context: idpConfig.isActive ? 'active' : 'inActive'
-                  })}
-                </CarbonTag>
+                {!isAnotherIdpActivated && isActive !== undefined && (
+                  <CarbonTag
+                    className={locals.idpTileContainer_tagStatus}
+                    size="md"
+                    type={isActive ? 'green' : 'warm-gray'}
+                  >
+                    {t('in-settings:tabs.authenticationProviders.idp', {
+                      context: isActive ? 'active' : 'inActive'
+                    })}
+                  </CarbonTag>
+                )}
               </CarbonClickableTile>
             )
-        )}
+          );
+        })}
       </div>
     </div>
   );

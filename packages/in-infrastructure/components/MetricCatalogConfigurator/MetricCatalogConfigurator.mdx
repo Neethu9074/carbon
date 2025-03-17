@@ -1,0 +1,13 @@
+import { Meta, Story, Canvas, Props } from '@storybook/blocks';
+import { action as storybookAction } from '@storybook/addon-actions';
+import * as MetricCatalogConfiguratorStories from './MetricCatalogConfigurator.stories';
+
+import MetricCatalogConfigurator from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
+
+## MetricCatalogConfigurator
+
+<Meta of={MetricCatalogConfiguratorStories} />
+
+<Canvas>
+  <Story of={MetricCatalogConfiguratorStories.Default} />
+</Canvas>

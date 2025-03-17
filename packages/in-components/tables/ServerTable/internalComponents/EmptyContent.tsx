@@ -5,10 +5,12 @@
 
 import React from 'react';
 
+import { CarbonTable, CarbonTableRow, CarbonTableCell } from '@instana/components';
 import { TrSizes } from '@instana/legacy/types/components/Table/types';
-import { Tr, Td } from '@instana/legacy';
 
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+
+import locals from './EmptyContent.mless';
 
 interface EmptyContentProps {
   cols?: number;
@@ -19,14 +21,16 @@ interface EmptyContentProps {
 
 export default function EmptyContent({ cols, size, renderNoDataAvailable, noDataMessage }: EmptyContentProps) {
   return (
-    <Tr size={size}>
-      <Td colSpan={cols}>
-        {renderNoDataAvailable ? (
-          renderNoDataAvailable(noDataMessage)
-        ) : (
-          <NoDataAvailable text={noDataMessage} height={80} />
-        )}
-      </Td>
-    </Tr>
+    <CarbonTable size={size === 'compact' ? 'lg' : 'xl'} className={locals.tableBorder}>
+      <CarbonTableRow>
+        <CarbonTableCell colSpan={cols}>
+          {renderNoDataAvailable ? (
+            renderNoDataAvailable(noDataMessage)
+          ) : (
+            <NoDataAvailable text={noDataMessage} height={80} />
+          )}
+        </CarbonTableCell>
+      </CarbonTableRow>
+    </CarbonTable>
   );
 }

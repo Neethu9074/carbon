@@ -5,31 +5,28 @@
 
 import React from 'react';
 
-import { Message } from '@instana/components';
-import { Link } from '@instana/components';
+import { CarbonCallout } from '@instana/components';
 
-import { t, Trans } from 'in-i18n';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { t } from 'in-i18n';
 
 import locals from './ConfigureIdPInfoMessage.mless';
 
 export default function ConfigureIdPInfoMessage() {
+  const { goToPath } = useNavigation();
+
   return (
-    <>
-      <Message withIcon className={locals.message} inline>
-        <Trans
-          i18nKey="in-settings:tabs.configureIdPCanBeDeletedThroughAPI"
-          components={{
-            supportLink: (
-              //@ts-expect-error required prop children will be filled via i18n translation
-              <Link
-                external
-                href="https://www.ibm.com/docs/en/instana-observability/current?topic=instana-configuring-authentication"
-              />
-            )
-          }}
-          values={{ authenticationDocLink: t('in-settings:tabs.configuringAuthenticationLink') }}
-        />
-      </Message>
-    </>
+    <CarbonCallout
+      title={t('in-settings:tabs.apiTokensForDeletion')}
+      titleId="settings-idp-can-be-deleted-through-api-modal"
+      className={locals.message}
+      kind="info"
+      lowContrast
+      actionButtonLabel={t('in-settings:tabs.viewDocumentation')}
+      onActionButtonClick={() =>
+        goToPath('https://www.ibm.com/docs/en/instana-observability/current?topic=instana-configuring-authentication')
+      }
+      subtitle={t('in-settings:tabs.configureIdPCanBeDeletedThroughAPI')}
+    />
   );
 }

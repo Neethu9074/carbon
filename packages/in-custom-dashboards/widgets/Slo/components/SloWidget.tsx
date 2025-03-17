@@ -71,7 +71,12 @@ export default function SloWidget({
       {config.chartType === 'ERROR_BUDGET' ? (
         <ErrorBudgetChart configuration={sloConfig} automaticallySize={!isPreview} />
       ) : (
-        <IndicatorChart entity={sloConfig.entity} indicator={sloConfig.indicator} automaticallySize={!isPreview} />
+        <IndicatorChart
+          configuration={sloConfig}
+          entity={sloConfig.entity}
+          indicator={sloConfig.indicator}
+          automaticallySize={!isPreview}
+        />
       )}
     </SloWidgetCard>
   );

@@ -7,7 +7,7 @@
 import FormComponent from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops/FormComponent';
 import { t } from 'in-i18n';
 
-export { createForm, migrate } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops/form';
+export { createForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops/form';
 
 export const Form = FormComponent;
 

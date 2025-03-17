@@ -8,7 +8,7 @@ import { MAX_LABEL_LENGTH } from 'in-alerting/formFieldLengths';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-export function titleValidator() {
+export function titleValidator(isTearSheet) {
   return value => {
     if (typeof value === 'string' && value.length > MAX_LABEL_LENGTH) {
       return [
@@ -19,7 +19,7 @@ export function titleValidator() {
           })
         }
       ];
-    } else if (value == null || (typeof value === 'string' && isBlank(value))) {
+    } else if (isTearSheet && (value == null || (typeof value === 'string' && isBlank(value)))) {
       return [
         {
           severity: 'error',

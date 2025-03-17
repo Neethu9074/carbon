@@ -17,14 +17,14 @@ import { t, Trans } from 'in-i18n';
 
 import locals from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Mezmo/MezmoForm.mless';
 
-export default function MezmoSaasForm({ form, onChange, disabled, areFieldsInvalid }) {
+export default function MezmoSaasForm({ form, onChange, disabled, areFieldsInvalid, id }) {
   let accountId = form.get('accountId').value;
   let instanceType = 'LOG_DNA_SAAS';
   let mezmoBaseURL = form.get('baseUrl').value;
   const mezmoUrl = constructLink({}, instanceType, accountId, mezmoBaseURL);
 
   return (
-    <fieldset>
+    <fieldset id={id} aria-label={id}>
       {form.get('baseUrl').map(field => (
         <FormGroup>
           <Label htmlFor="mezmo-base-url" hasError={!field.value && field.touched}>

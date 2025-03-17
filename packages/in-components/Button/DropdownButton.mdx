@@ -1,0 +1,74 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/blocks';
+import * as DropdownButtonStories from './DropdownButton.stories';
+
+<Meta of={DropdownButtonStories} />
+
+## DropdownButton
+
+`DropdownButton` can be used to implement a button with an icon pointing either upward or downward.
+
+**Are you looking for a button with an attached overlay?** Check out `MoreMenu` for a ready-made solution or `Combobox` which allows custom combobox-like implementations with good default UI/UX.
+
+<Canvas>
+  <Story of={DropdownButtonStories.Default} />
+</Canvas>
+
+## DropdownButton Kinds
+
+**Colour**
+
+DropdownButton have colours to add context - they should still be usable without colour (some users have colour blindness), but the colour should be used to enhance the information conveyed to the user - not the source of all information.
+
+<Story of={DropdownButtonStories.AllKinds} />
+
+**Primary**
+Green - the primary action on a page, there should only be 1 on a view
+
+**PrimaryV2**
+Blue - the primary action on a page, there should only be 1 on a view
+
+**Secondary**
+Grey - there can be many secondary actions on a view
+
+**Secondary Darker**
+Darker Grey - there can be many secondary actions on a view which a grey background
+
+**Action**
+A subtle action button
+
+**Subtle**
+A more subtle button with no outline
+
+**Create**
+A green action button to create an entity
+
+**Danger**
+A ref action button to delete, remove or destroy an entity
+
+**Warning**
+An orange button which may have important or unsafe actions associated
+
+**Info**
+A dark grey button which may be used for help, support or further information about the view
+
+### Hover states
+
+Buttons have a hover state which darkens the background colour to give visual feedback to the user that this component can be interacted with.
+
+### **Disabled** **states**
+
+<Story of={DropdownButtonStories.Disabled} />
+
+All buttons have a disabled state with reduced opacity to indicate they cannot be used at this time. They should display a tooltip explaining why they can't be used.
+
+### **With Icon**
+
+<Story of={DropdownButtonStories.WithIcon} />
+
+All buttons can have an icon added to them - icons are used to add additional context beyond the text label and to enable faster recall and learning by the user
+
+### **Sizes**
+
+<Story of={DropdownButtonStories.Sizes} />
+
+All buttons have an XL and compact mode (which can be combined with icon, shown above) which changes the padding of the button.

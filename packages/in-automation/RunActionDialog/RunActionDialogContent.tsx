@@ -23,7 +23,8 @@ import {
   getGithubFields,
   getGitlabFields,
   getJiraFields,
-  getManualContentFromFields
+  getManualContentFromFields,
+  base64ToUtf8
 } from 'in-automation/utils/actionField';
 import { toViewModel } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
@@ -41,8 +42,8 @@ import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages'
 import { ResolvedDynamicParamValue, NewPolicy } from 'in-automation/types';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
-import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -88,7 +89,8 @@ export default function RunActionDialogContent({
   policy,
   isSaving = false
 }: RunActionDialogContentProps) {
-  if (!form || isSaving) return <LoadingIndicator size="xxl" />;
+  if (!form || isSaving || agentSnapShots?.progress?.loading) return <LoadingIndicator size="xxl" />;
+
   if (error && !actionInstanceId) {
     return (
       <>
@@ -186,7 +188,9 @@ function AgentSelection({
       )
     );
   }, [agentSnapShots?.data?.online]);
-  const options =
+
+  if (!hostSnapshots) return null;
+  const sortedOptions =
     hostSnapshots
       ?.map(({ hostSnapshot, agent }) => {
         const isTriggeringAgent = agent.volatileId?.host_id === volatileId.host_id;
@@ -198,12 +202,9 @@ function AgentSelection({
       })
       .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
 
-  if (policy) {
-    options.push({
-      value: TRIGGERING_AGENT,
-      label: t('in-automation:policies.triggeringAgent')
-    });
-  }
+  const options = policy
+    ? [...sortedOptions, { value: TRIGGERING_AGENT, label: t('in-automation:policies.triggeringAgent') }]
+    : sortedOptions;
 
   return (
     <>
@@ -236,12 +237,12 @@ function ScriptActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
   const script = getScriptFromFields(action.fields);
   let plaintextScript = script.value;
   if (script.encoding === 'base64') {
-    plaintextScript = atob(plaintextScript);
+    plaintextScript = base64ToUtf8(plaintextScript);
   }
   const interpreter = getInterpreterToUse(action);
   let plaintextInterpreter = interpreter.value;
   if (interpreter.encoding === 'base64') {
-    plaintextInterpreter = atob(plaintextInterpreter);
+    plaintextInterpreter = base64ToUtf8(plaintextInterpreter);
   }
   return (
     <DescriptionList inComponents>

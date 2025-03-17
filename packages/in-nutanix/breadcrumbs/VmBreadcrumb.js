@@ -6,9 +6,9 @@
 
 import React from 'react';
 
+import { useNutanixEntityLink } from 'in-nutanix/navigation/paths';
 import getNutanixVm from 'in-nutanix/subscriptions/getNutanixVm';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import { useNutanixEntityLink } from '../navigation/paths';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

@@ -345,7 +345,7 @@
     "selectAll": "Seleziona tutto ({{len}})",
     "failedToRemoveItemName": "Impossibile rimuovere {{itemName}}",
     "failedToRemoveItem": "Impossibile rimuovere l'elemento",
-    "pleaseConfirm": "Confermare",
+    "confirmRemove": "Confermare",
     "createNew": "Crea nuovo",
     "deselect": "Deseleziona",
     "select": "Seleziona",
@@ -356,6 +356,12 @@
     "removedEntity": "Rimosso con successo {{entity}}"
   },
   "tabs": {
+    "role": {
+      "deprecated": "obsoleto",
+      "newRole": "Nuovo ruolo",
+      "permissionsCount": "Autorizzazioni",
+      "usersCount": "Numero di utenti assegnati"
+    },
     "team": {
       "events": {
         "addCondition": "Aggiungi condizione",
@@ -844,7 +850,8 @@
     "accountSettings": "Impostazioni account",
     "configureAllowedEmailDomains": "Configura domini email consentiti",
     "savingConfig": "Salvataggio della configurazione",
-    "configSuccessfullySaved": "Configurazione salvata correttamente.",
+    "changesSaved": "Modifiche salvate",
+    "configSuccessfullySaved": "Modifiche alla configurazione salvate correttamente.",
     "configureLdap": "Configura LDAP",
     "ldapConfiguration": "Configurazione LDAP",
     "url": "URL",
@@ -986,6 +993,7 @@
     "users": "Utenti",
     "session": "Sessione",
     "timeouts": "Timeout",
+    "sessionTimeouts": "Timeout sessione",
     "globalSettings": "Impostazioni globali",
     "userSettings": "Impostazioni utente",
     "securityAndAccess": "Sicurezza & accesso",
@@ -1275,12 +1283,27 @@
     "accessControl": "Controllo accessi",
     "maintenanceWindows": "Finestre di manutenzione",
     "customPayload": "Payload personalizzato",
-    "logManagement": "Gestione log",
     "coralogix": "Coralogix",
     "elk": "ELK",
     "falconLogScale": "Falcon LogScale",
     "mezmo": "Mezmo",
     "audit": "Controllo",
+    "authentication": "Autenticazione",
+    "authenticationProviders": {
+      "title": "Provider di autenticazione",
+      "idp_active": "Attivo",
+      "idp_inActive": "Inattivo",
+      "googleSSOTileTitle": "SSO Google preconfigurato",
+      "googleSSOTileDescription": "Questo è il provider di identità preconfigurato che può essere utilizzato senza creare un client su SSO Google.",
+      "samlTileTitle": "SAML",
+      "samlTileDescription": "SAML (Security Assertion Markup Language)",
+      "samlTileHelpDoc": "Nelle pagine della documentazione sono disponibili delle guide rapide per <activeDirectoryLink>Active Directory</activeDirectoryLink> e <oktaLink>Okta</oktaLink>.",
+      "oidcTileTitle": "OIDC",
+      "oidcTileDescription": "OIDC (OpenID Connect)",
+      "ldapTileTitle": "LDAP",
+      "ldapTileDescription": "LDAP (Lightweight Directory Access Protocol)",
+      "ldapHelpDoc": "Aiuto e supporto sono disponibili nelle <docLink>pagine della documentazione</docLink>."
+    },
     "googleSSO": {
       "allowedDomains": "Domini consentiti",
       "configure": "Configurazione di Google SSO",
@@ -1352,7 +1375,7 @@
     "restIncidentTableDesc": "Instana propaga solo i dati degli incidenti alla tabella intermedia IBM Instana senza ulteriori aggiornamenti alla tabella degli incidenti di ServiceNow. Per abilitare la sincronizzazione completa di eventi, note e attività, è necessario aggiornare le regole di business di ServiceNow. Per i dettagli, vedi la <documentationLink>documentazione</documentationLink>.",
     "serviceNowAlertChannel": "Canale di avviso dell'app ServiceNow",
     "serviceNowUsernameTooltip": "Il nome utente e la password devono essere per un utente ServiceNow con autorizzazione per creare gli incidenti.",
-    "serviceNowDescription": "Prima di procedere, accertarsi che sia installata e configurata l'applicazione ITSM ServiceNow. Per creare un canale di avviso sono necessarie le credenziali del nome utente e della password di ServiceNow.",
+    "serviceNowDescription": "Prima di procedere, accertarsi che sia configurata e installata un'app ITSM <Link>ServiceNow</Link>. Per creare un canale di avviso sono necessarie le credenziali del nome utente e della password di ServiceNow.",
     "autoCloseIncidents": "Chiudi incidenti automaticamente",
     "advancedIntro": "La creazione di questo canale di avviso consentirà a Instana di creare incidenti/ticket in ServiceNow. È possibile personalizzare le modalità di aggiornamento degli incidenti.<br/><br/>",
     "eventProps": "Propagazione degli eventi",

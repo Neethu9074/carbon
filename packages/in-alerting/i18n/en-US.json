@@ -7,13 +7,13 @@
     "alertHeaderLabelBackToListOfAlerts": "Back to list of alerts",
     "alertHeaderAlert": "Alert",
     "alertHeaderRestoreRevisionTooltip": "Restore",
-    "alertHeaderRestoreRevisionConfirmationDialogHeader": "Please Confirm",
+    "alertHeaderRestoreRevisionConfirmationDialogHeader": "Confirm restore",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "Are you sure you want to restore the selected revision?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restore",
     "alertHeaderRestoreDeleteTooltip": "Delete",
     "alertHeaderEditTooltip": "Edit",
     "alertHeaderDuplicateTooltip": "Duplicate",
-    "alertHeaderRestoreDeleteConfirmationDialogHeader": "Please Confirm",
+    "alertHeaderRestoreDeleteConfirmationDialogHeader": "Confirm remove",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Are you sure you want to remove the alert <strong>{{alertConfigName}}</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remove",
     "alertHeaderIsNotLatestRevisionMessage": "You are looking at revision {{description}} of this alert configuration. Please <latestRevisionButton>select the latest revision</latestRevisionButton> or <restoreRevisionButton>restore from current revision</restoreRevisionButton> if you want to make changes.",
@@ -22,12 +22,12 @@
     "alertStateActive": "active",
     "alertPropertyInfosLabelTitle": "Title",
     "alertPropertyInfosLabelAlertLevel": "Alert level",
-    "alertPropertyInfosLabelTriggersIncident": "Triggers Incident",
+    "alertPropertyInfosLabelTriggersIncident": "Triggers incident",
     "alertPropertyInfosLabelDescription": "Description",
     "noChannelSelectedText": "Currently, you have not selected an alert channel and will not receive any alerts.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Additional filters",
     "groupBy": "Group by",
-    "noChannelAvailable": "No Alert channels available",
+    "noChannelAvailable": "No alert channels available",
     "optional": "Optional",
     "on": "On",
     "off": "Off",
@@ -39,7 +39,7 @@
       "delete": "Delete",
       "create": "Create",
       "restore": "Restore",
-      "buttonLabel": "Alert History"
+      "buttonLabel": "Alert history"
     },
     "chart": {
       "alertingChartLabelThreshold": "Threshold",
@@ -49,14 +49,14 @@
       "alertingChartLabelWarningThreshold": "Warning Threshold",
       "alertingChartLabelCriticalThreshold": "Critical Threshold",
       "alertingChartLabelForecast": "Forecast",
-      "alertingChartLabelUpperBound": "Upper Bound",
-      "alertingChartLabelLowerBound": "Lower Bound",
+      "alertingChartLabelUpperBound": "Upper bound",
+      "alertingChartLabelLowerBound": "Lower bound",
       "alertingChartMessageInvalidFilterQuery": "Invalid filter query.",
       "alertingChartMessageEmptyApplicationSelection": "No application selected.",
       "chartAlertsLaneErrorMessage": "Alerts could not be loaded",
       "chartAlertsLaneErrorMessageForTearSheet": "Please enter a valid 'Trigger after' number ",
       "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
-      "chartAlertsPreviewLanePresenterNoAlertsLabel": "No Alerts",
+      "chartAlertsPreviewLanePresenterNoAlertsLabel": "No alerts",
       "chartAlertsPreviewLanePresenterTooltip": "Alert: {{count}}",
       "chartAlertsPreviewLanePresenterTooltip_plural": "Alerts: {{count}}",
       "chartAlertsPreviewLanePresenterTooltip_0": "Alerts: {{count}}",
@@ -68,19 +68,20 @@
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "You are looking at a deleted alert configuration. Modifications are not possible.",
     "alertPropertyInfosWarning": "Warning",
     "alertPropertyInfosCritical": "Critical",
+    "alertActionConfirmationDialogHeader": "Confirm Action",
     "alertConfirmationDialogDescription": "There are no {{entityPlaceholder}} configured to be alerted on. Are you sure you want to continue?",
     "labelConfirm": "Confirm",
     "customPayload": {
-      "deleteRow": "Delete Row",
+      "deleteRow": "Delete row",
       "key": "Key",
       "value": "Value",
-      "unknownTypeTypeItCanNotBeEdited": "Unknown type: {{type}} - it can not be edited.",
+      "unknownTypeTypeItCanNotBeEdited": "Unknown type: {{type}} - it cannot be edited.",
       "customWithColon": "custom:",
       "valueType": "Value type",
       "static": "Static",
       "dynamic": "Dynamic",
       "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "The number of rows is restricted to {{maximumNumberOfRows}}.",
-      "addRow": "Add Row",
+      "addRow": "Add row",
       "noCustomPayloadConfigured": "No custom payloads configured",
       "keyNamesMustBeUnique": "Key names must be unique.",
       "theValueMustNotBeBlank": "The value must not be blank.",
@@ -92,16 +93,17 @@
       "additionalCustomPayloadTitle": "Additional custom payloads ({{count}})",
       "globalCustomPayloadTitle": "Global custom payloads ({{count}})",
       "globalCustomPayloadRetrieveFailed": "Something went wrong. Could not retrieve global custom payloads.",
-      "noGlobalCustomPayloadConfigured": "No global custom payloads configured"
+      "noGlobalCustomPayloadConfigured": "No global custom payloads configured",
+      "includeAdditionalCustomPayload": "Include additional custom payloads (optional)"
     },
     "previewFor": "Preview for: ",
-    "groupedViewHeader": "{{formattedCount}} Results",
-    "groupedViewHeader_plural": "{{formattedCount}} Results",
-    "groupedViewHeader_0": "{{formattedCount}} Results",
-    "groupedViewHeader_1": "{{formattedCount}} Results",
-    "groupedViewHeader_2": "{{formattedCount}} Results",
+    "groupedViewHeader": "{{formattedCount}} results",
+    "groupedViewHeader_plural": "{{formattedCount}} results",
+    "groupedViewHeader_0": "{{formattedCount}} results",
+    "groupedViewHeader_1": "{{formattedCount}} results",
+    "groupedViewHeader_2": "{{formattedCount}} results",
     "resultHeaderLoading": "Loading…",
-    "loadMore": "Load More",
+    "loadMore": "Load more",
     "chooseLayoutDialog": {
       "chooseLayout": "Choose Smart Alert layout",
       "layoutContent": "You currently have access to both layouts for creating a Smart Alert in this environment. Please select the desired layout to proceed:",
@@ -115,24 +117,24 @@
   },
   "potentialProblems": {
     "titleErrorRate": "Erroneous call rate is higher than normal",
-    "titleSlowness": "Calls (Latency {{aggregation}}) are slower than usual",
+    "titleSlowness": "Calls (latency {{aggregation}}) are slower than usual",
     "titlethroughputHigh": "Number of calls is anomalously high",
     "titlethroughputLow": "Number of calls is anomalously low",
     "buttonInvestigate": "Investigate",
     "buttonAddSmartAlert": "Add Smart Alert",
-    "titlePotentialProblem": "Potential Problem",
-    "titlePotentialProblems": "Potential Problems",
-    "titlePotentialProblemWithCount": "Potential Problem ({{count}})",
-    "titlePotentialProblemWithCount_plural": "Potential Problems ({{count}})",
-    "titlePotentialProblemWithCount_0": "Potential Problems ({{count}})",
-    "titlePotentialProblemWithCount_1": "Potential Problem ({{count}})",
-    "titlePotentialProblemWithCount_2": "Potential Problems ({{count}})",
-    "labelPotentialProblem": "Potential Problem,",
-    "labelNumbersOfPotentialProblem": "{{count}} Potential Problem",
-    "labelNumbersOfPotentialProblem_plural": "{{count}} Potential Problems",
-    "labelNumbersOfPotentialProblem_0": "{{count}} Potential Problems",
-    "labelNumbersOfPotentialProblem_1": "{{count}} Potential Problem",
-    "labelNumbersOfPotentialProblem_2": "{{count}} Potential Problems",
+    "titlePotentialProblem": "Potential problem",
+    "titlePotentialProblems": "Potential problems",
+    "titlePotentialProblemWithCount": "Potential problem ({{count}})",
+    "titlePotentialProblemWithCount_plural": "Potential problems ({{count}})",
+    "titlePotentialProblemWithCount_0": "Potential problems ({{count}})",
+    "titlePotentialProblemWithCount_1": "Potential problem ({{count}})",
+    "titlePotentialProblemWithCount_2": "Potential problems ({{count}})",
+    "labelPotentialProblem": "Potential problem,",
+    "labelNumbersOfPotentialProblem": "{{count}} potential problem",
+    "labelNumbersOfPotentialProblem_plural": "{{count}} potential problems",
+    "labelNumbersOfPotentialProblem_0": "{{count}} potential problems",
+    "labelNumbersOfPotentialProblem_1": "{{count}} potential problem",
+    "labelNumbersOfPotentialProblem_2": "{{count}} potential problems",
     "descriptionErrorIsHigherThan": "The erroneous call rate is higher than {{callRate}}%.",
     "descriptionErrorIsHigherOrEqualTo": "The erroneous call rate is higher or equal to {{callRate}}%.",
     "descriptionErrorIsLowerThan": "The erroneous call rate is lower than {{callRate}}%.",
@@ -159,12 +161,12 @@
     "addSmartAlert": "Add Smart Alert",
     "createSmartAlert": "Create Smart Alert",
     "applicationSmartAlert": "Application Smart Alert",
-    "globalApplicationSmartAlert": "Global Application Smart Alert",
+    "globalApplicationSmartAlert": "Global application Smart Alert",
     "titleNoSmartAlertsConfigured": "No Smart Alerts configured",
     "titleNoSmartAlertsConfiguredForSearchQuery": "No Smart Alert configurations found for a given search",
     "titleNoSmartAlertsCreated": "No Smart Alerts created",
     "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
-    "smartAlertsTitle": "Smart alerts",
+    "smartAlertsTitle": "Smart Alerts",
     "labelNew": "(New)",
     "alertChannelList": {
       "selectAllWarning": "Select all warning",
@@ -180,15 +182,15 @@
         "serviceNamePlaceholder": "service-name",
         "endpointNamePlaceholder": "endpoint-name",
         "evaluationSwitch": {
-          "individual": "Individual Alerts",
+          "individual": "Individual alerts",
           "optionNotAvailableForAdaptiveThreshold": "This option is not available with adaptive threshold",
           "evaluationTypePERAP": {
-            "selectionText": "for this Application Perspective",
-            "globalSelectionText": "per Application Perspective",
-            "shortText": "Per Application Perspective",
+            "selectionText": "for this application perspective",
+            "globalSelectionText": "per application perspective",
+            "shortText": "Per application perspective",
             "columnText": "aggregated",
-            "description": "Alert individually for this Application Perspective",
-            "globalDescription": "Alert individually per Application Perspective",
+            "description": "Alert individually for this application perspective",
+            "globalDescription": "Alert individually per application perspective",
             "tearSheetSelectionText": "Group by application",
             "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} application. When the latency is violated, a single alert notification is sent for this entire application perspective.",
             "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When the latency is violated, a single alert notification is sent for this entire application perspective.",
@@ -197,12 +199,12 @@
             "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} applications. When the latency is violated, a single alert notification is sent for this entire application perspective. "
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "per Service for this Application Perspective",
-            "globalSelectionText": "per Service in the context of each Application Perspective",
-            "shortText": "Per Service",
-            "columnText": "per Service",
-            "description": "Alert individually per Service for this Application Perspective",
-            "globalDescription": "Alert individually per Service in the context of each Application Perspective",
+            "selectionText": "per service for this application perspective",
+            "globalSelectionText": "per service in the context of each application perspective",
+            "shortText": "Per service",
+            "columnText": "per service",
+            "description": "Alert individually per service for this application perspective",
+            "globalDescription": "Alert individually per service in the context of each application perspective",
             "tearSheetSelectionText": "Group by service",
             "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} service - one for each service, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
             "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
@@ -211,12 +213,12 @@
             "tearSheetDescription_2": "Calls matching the filter are evaluated against the threshold of {{count}} services - one for each service, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group."
           },
           "evaluationTypePERAPENDPOINT": {
-            "selectionText": "per Endpoint for this Application Perspective",
-            "globalSelectionText": "per Endpoint in the context of each Application Perspective",
-            "shortText": "Per Endpoint",
-            "columnText": "per Endpoint",
-            "description": "Alert individually per Endpoint for this Application Perspective",
-            "globalDescription": "Alert individually per Endpoint in the context of each Application Perspective",
+            "selectionText": "per endpoint for this application perspective",
+            "globalSelectionText": "per endpoint in the context of each application perspective",
+            "shortText": "Per endpoint",
+            "columnText": "per endpoint",
+            "description": "Alert individually per endpoint for this application perspective",
+            "globalDescription": "Alert individually per endpoint in the context of each application perspective",
             "tearSheetSelectionText": "Group by endpoint",
             "tearSheetDescription": "Calls matching the filter are evaluated against the threshold of {{count}} endpoint - one for each endpoint, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
             "tearSheetDescription_plural": "Calls matching the filter are evaluated against the threshold of {{count}} endpoints - one for each endpoint, with its own threshold. When the latency is violated for a group, an alert notification is sent for that group.",
@@ -228,18 +230,18 @@
         "inboundOutboundCalls": {
           "config": {
             "inbound": {
-              "text": "Inbound Calls",
+              "text": "Inbound calls",
               "dashboard": "Only calls that are performed by the consumers of this application.",
-              "overrideDefault": "The default scope for this application is Inbound Calls only. You can change this in Configuration."
+              "overrideDefault": "The default scope for this application is inbound calls only. You can change this in Configuration."
             },
             "all": {
-              "text": "All Calls",
+              "text": "All calls",
               "dashboard": "Calls performed within this application, by both consumers as well as internally.",
-              "overrideDefault": "The default scope for this application is All Calls. You can change this in Configuration."
+              "overrideDefault": "The default scope for this application is all calls. You can change this in Configuration."
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "Please Confirm",
+            "confirmRemove": "Confirm modification",
             "description": "Modifying boundary scope would reset application selection.",
             "confirmButtonLabel": "Confirm"
           }
@@ -257,10 +259,10 @@
           }
         },
         "includeInternalOrSyntheticCalls": {
-          "includeInternalCalls": "Include Internal Calls",
-          "includeSyntheticCalls": "Include Synthetic Calls",
+          "includeInternalCalls": "Include internal calls",
+          "includeSyntheticCalls": "Include synthetic calls",
           "confirmationDialog": {
-            "pleaseConfirm": "Please Confirm",
+            "confirmRemove": "Confirm remove",
             "description": "Deselecting \"{{callType}}\" would reset application selection.",
             "confirmButtonLabel": "Confirm"
           }
@@ -278,8 +280,8 @@
           "trigger": {
             "label": "Trigger",
             "title": "Trigger: What do you want to be alerted on?",
-            "logMessageCardTitle": "Log Message",
-            "httpStatusCodesCardTitle": "HTTP Status Codes"
+            "logMessageCardTitle": "Log message",
+            "httpStatusCodesCardTitle": "HTTP status codes"
           },
           "threshold": {
             "staticOrAdaptiveTitle": "Type of threshold",
@@ -296,7 +298,7 @@
           },
           "propertiesOptional": {
             "label": "Properties",
-            "title": "Additional Alert properties"
+            "title": "Additional alert properties"
           },
           "payloadsOptional": {
             "label": "Payloads",
@@ -325,52 +327,52 @@
       },
       "blueprintConfig": {
         "slowness": {
-          "name": "Slow Calls",
-          "headline": "Automatic Alerts for Slow Calls",
-          "text": "Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual.",
+          "name": "Slow calls",
+          "headline": "Automatic alerts for slow calls",
+          "text": "Receive an alert when calls to selected services and endpoints of this application perspective are slower than usual.",
           "tearSheetHeadline": "Automatic alerts for slow calls",
           "tearSheetDescription": "Receive an alert when calls to selected services and endpoints of this application perspective are slower than the threshold."
         },
         "errors": {
-          "name": "Erroneous Calls",
-          "headline": "Automatic Alerts for Erroneous Calls",
+          "name": "Erroneous calls",
+          "headline": "Automatic alerts for erroneous calls",
           "text": "Receive an alert when the rate or count of erroneous calls for selected services and endpoints of this Application Perspective is higher than normal.",
           "tearSheetHeadline": "Automatic alerts for erroneous calls",
-          "tearSheetDescription": "Receive an alert when the rate or count of erroneous calls for selected services and endpoints of this Application Perspective exceeds the threshold value."
+          "tearSheetDescription": "Receive an alert when the rate or count of erroneous calls for selected services and endpoints of this application perspective exceeds the threshold value."
         },
         "logs": {
           "name": "Logs",
-          "headline": "Automatic Alerts for Error and Warning Logs",
+          "headline": "Automatic alerts for error and warning logs",
           "tearSheetHeadline": "Automatic alerts for error and warning logs",
           "text": "Receive an alert when the number of calls with given error and warning log messages is higher than expected.",
           "metricLabel": "Calls",
-          "incompleteRuleMessage": "Please select a Log Message to see when this alert triggers"
+          "incompleteRuleMessage": "Please select a log message to see when this alert triggers"
         },
         "statusCode": {
-          "name": "HTTP Status Codes",
-          "headline": "Automatic Alerts for HTTP Status Codes",
-          "text": "Receive an alert every time when matching HTTP Status Codes occur more often than usual.",
-          "incompleteRuleMessage": "Please select a Status Code to see when this alert triggers",
+          "name": "HTTP status codes",
+          "headline": "Automatic alerts for HTTP status codes",
+          "text": "Receive an alert every time when matching HTTP status codes occur more often than usual.",
+          "incompleteRuleMessage": "Please select a status code to see when this alert triggers",
           "tearSheetHeadline": "Automatic alerts for HTTP status codes",
           "tearSheetDescription": "Receive an alert when matching HTTP status codes occur more often than the threshold."
         },
         "throughput": {
           "name": "Throughput",
-          "headline": "Automatic Alerts for Calls Count",
-          "text": "Automatic alerts on anomalously low or high number of calls for selected services and endpoints of this Application Perspective.",
+          "headline": "Automatic alerts for calls count",
+          "text": "Automatic alerts on anomalously low or high number of calls for selected services and endpoints of this application perspective.",
           "metricLabel": "Calls",
           "tearSheetHeadline": "Automatic alerts for throughput",
           "tearSheetDescription": "Receive an alert when the number of calls is unusually high or low for selected services and endpoints of this application perspective."
         },
         "simpleMode": {
           "unexpectedDrop": {
-            "name": "Low Number of Calls",
-            "headline": "Automatic Alerts on Anomalously Low Number of Calls",
+            "name": "Low number of calls",
+            "headline": "Automatic alerts on anomalously low number of calls",
             "text": "Receive an alert when the number of calls is significantly lower than expected compared to the available past data. This might be an indication of a problem upstream of this application or a drop in the user traffic to the application."
           },
           "unexpectedlyHighNumber": {
-            "name": "High Number of Calls",
-            "headline": "Automatic Alerts on Anomalously High Number of Calls",
+            "name": "High number of calls",
+            "headline": "Automatic alerts on anomalously high number of calls",
             "text": "Receive an alert when the number of calls is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the application."
           }
         },
@@ -387,7 +389,7 @@
             "withANY": "Too many calls with messages: \"{{message}}\"",
             "default": "Too many calls with {{operatorLabel}} messages: \"{{message}}\""
           },
-          "statusCode": "Too many calls with HTTP Status Code {{statusCodeShortText}}",
+          "statusCode": "Too many calls with HTTP status code {{statusCodeShortText}}",
           "throughputHigh": "Number of calls is anomalously high",
           "throughputLow": "Number of calls is anomalously low"
         },
@@ -440,18 +442,18 @@
           "statusCodeStaticThreshold_higherEqual": "Occurrences of HTTP Status Code {{statusCodeFullText}} is higher or equal to {{thresholdValue}}.",
           "statusCodeStaticThreshold_lowerThan": "Occurrences of HTTP Status Code {{statusCodeFullText}} is lower than {{thresholdValue}}.",
           "statusCodeStaticThreshold_lowerEqual": "Occurrences of HTTP Status Code {{statusCodeFullText}} is lower or equal to {{thresholdValue}}.",
-          "statusCodeDefault_higherThan": "Occurrences of HTTP Status Code {{statusCodeFullText}} is higher than expected.",
-          "statusCodeDefault_higherEqual": "Occurrences of HTTP Status Code {{statusCodeFullText}} is higher or equal to expected.",
-          "statusCodeDefault_lowerThan": "Occurrences of HTTP Status Code {{statusCodeFullText}} is lower than expected.",
-          "statusCodeDefault_lowerEqual": "Occurrences of HTTP Status Code {{statusCodeFullText}} is lower or equal to expected.",
-          "statusCodeRateStaticThreshold_higherThan": "Rate of HTTP Status Code {{statusCodeFullText}} is higher than {{thresholdValue}}%.",
-          "statusCodeRateStaticThreshold_higherEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is higher or equal to {{thresholdValue}}%.",
-          "statusCodeRateStaticThreshold_lowerThan": "Rate of HTTP Status Code {{statusCodeFullText}} is lower than {{thresholdValue}}.%",
-          "statusCodeRateStaticThreshold_lowerEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is lower or equal to {{thresholdValue}}.%",
-          "statusCodeRateDefault_higherThan": "Rate of HTTP Status Code {{statusCodeFullText}} is higher than expected.",
-          "statusCodeRateDefault_higherEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is higher or equal to expected.",
-          "statusCodeRateDefault_lowerThan": "Rate of HTTP Status Code {{statusCodeFullText}} is lower than expected.",
-          "statusCodeRateDefault_lowerEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is lower or equal to expected.",
+          "statusCodeDefault_higherThan": "Occurrences of HTTP status code {{statusCodeFullText}} is higher than expected.",
+          "statusCodeDefault_higherEqual": "Occurrences of HTTP status code {{statusCodeFullText}} is higher or equal to expected.",
+          "statusCodeDefault_lowerThan": "Occurrences of HTTP status code {{statusCodeFullText}} is lower than expected.",
+          "statusCodeDefault_lowerEqual": "Occurrences of HTTP status code {{statusCodeFullText}} is lower or equal to expected.",
+          "statusCodeRateStaticThreshold_higherThan": "Rate of HTTP status code {{statusCodeFullText}} is higher than {{thresholdValue}}%.",
+          "statusCodeRateStaticThreshold_higherEqual": "Rate of HTTP status code {{statusCodeFullText}} is higher or equal to {{thresholdValue}}%.",
+          "statusCodeRateStaticThreshold_lowerThan": "Rate of HTTP status code {{statusCodeFullText}} is lower than {{thresholdValue}}.%",
+          "statusCodeRateStaticThreshold_lowerEqual": "Rate of HTTP status code {{statusCodeFullText}} is lower or equal to {{thresholdValue}}.%",
+          "statusCodeRateDefault_higherThan": "Rate of HTTP status code {{statusCodeFullText}} is higher than expected.",
+          "statusCodeRateDefault_higherEqual": "Rate of HTTP status code {{statusCodeFullText}} is higher or equal to expected.",
+          "statusCodeRateDefault_lowerThan": "Rate of HTTP status code {{statusCodeFullText}} is lower than expected.",
+          "statusCodeRateDefault_lowerEqual": "Rate of HTTP status code {{statusCodeFullText}} is lower or equal to expected.",
           "throughputStaticThreshold_higherThan": "The number of calls is higher than {{thresholdValue}} calls.",
           "throughputStaticThreshold_higherEqual": "The number of calls is higher or equal to {{thresholdValue}} calls.",
           "throughputStaticThreshold_lowerThan": "The number of calls is lower than {{thresholdValue}} calls.",
@@ -468,7 +470,7 @@
         "ruleLogLevelOptions": {
           "error": "Error",
           "warning": "Warning",
-          "any": "Error and Warning"
+          "any": "Error and warning"
         },
         "ruleLogMessageOperationOptions": {
           "notEmpty": "Any",
@@ -479,11 +481,11 @@
         }
       },
       "form": {
-        "ruleMetricNameOptionStatusCodeCount": "Status Code Count",
-        "ruleMetricNameOptionStatusCodeRate": "Status Code Rate",
-        "ruleMetricNameOptionErrorCount": "Error Count",
-        "ruleMetricNameOptionErrorRate": "Error Rate",
-        "ruleStatusCodeValueOptionCustom": "Custom Range",
+        "ruleMetricNameOptionStatusCodeCount": "Status code count",
+        "ruleMetricNameOptionStatusCodeRate": "Status code rate",
+        "ruleMetricNameOptionErrorCount": "Error count",
+        "ruleMetricNameOptionErrorRate": "Error rate",
+        "ruleStatusCodeValueOptionCustom": "Custom range",
         "ruleFormErrorStatusCodeStartGTEnd": "Please select an end HTTP status code that is greater or equal than the start HTTP status code",
         "ruleFormPleaseProvideALogMessage": "Please provide a log message",
         "ruleFormPleaseProvideAStartStatusCode": "Please provide a valid start HTTP status code",
@@ -497,35 +499,35 @@
         "simpleAlertStep2Headline": "Where do you want the alert to trigger?",
         "step1Title": "Step 1: Select alert",
         "step2Title": "Step 2: Select scope",
-        "step3Title": "Step 3: Select alert Channels"
+        "step3Title": "Step 3: Select alert channels"
       },
       "components": {
-        "createSmartAlert": "Add smart alert",
-        "createGlobalSmartAlert": "Add global smart alert",
+        "createSmartAlert": "Add Smart Alert",
+        "createGlobalSmartAlert": "Add global Smart Alert",
         "provideLogMessageSelectLogMessage": "Select log message",
         "provideLogMessageLogLevel": "Log level",
         "provideLogMessageErrorMessage": "Error message",
         "provideStatusCodeStatusCode": "Status code"
       },
       "inventory": {
-        "noData": "No Smart Alerts configured. Click the button below to configure your first smart alert.",
-        "noPersmissionToCreateGlobalSmartAlert": "You don't have the permission to configure smart alerts. Please contact your administrator.",
+        "noData": "No Smart Alerts configured. Click the button below to configure your first Smart Alerts.",
+        "noPersmissionToCreateGlobalSmartAlert": "You don't have the permission to configure Smart Alerts. Please contact your administrator.",
         "noPermissionGlobalSmartAlertEdit": "You don't have the permission to perform this action",
-        "labelGlobalSmartAlertsList": "Global Application Smart Alerts ({{numberOfAlerts}})",
+        "labelGlobalSmartAlertsList": "Global application Smart Alerts ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Application Smart Alerts ({{numberOfAlerts}})",
         "labelGlobalSmartAlertsTable": "Global Application Smart Alerts",
         "labelSmartAlertsTable": "Application Smart Alerts",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
-        "getSubtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}",
-        "getSubtitleForStaticDailySeasonality": "Static Daily Seasonality, {{metricLabel}}",
-        "getSubtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}",
-        "getSubtitleForAdaptiveThreshold": "Adaptive Threshold, {{metricLabel}}",
+        "getSubtitleForStaticThreshold": "Static threshold, {{metricLabel}} {{operator}} {{value}}",
+        "getSubtitleForStaticDailySeasonality": "Static daily seasonality, {{metricLabel}}",
+        "getSubtitleForStaticWeeklySeasonality": "Static weekly seasonality, {{metricLabel}}",
+        "getSubtitleForAdaptiveThreshold": "Adaptive threshold, {{metricLabel}}",
         "labelActionButtonEdit": "Edit",
         "labelNew": "(New)",
         "labelActionButtonDuplicate": "Duplicate",
         "labelActionButtonDelete": "Delete",
         "labelAlertFilters": "Filters",
-        "labelConfirm": "Please Confirm",
+        "labelConfirm": "Confirm remove",
         "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
         "labelRemove": "Remove",
         "numberOfApplicationsSelected": "{{count}} application selected",
@@ -539,16 +541,16 @@
         "noLocalAlertDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "details": {
-        "title": "Alert Details",
+        "title": "Alert details",
         "titleAlertProperties": "Alert properties",
         "applicationsServiceEndpointScopeTitle": "Selected Applications/Services/Endpoints",
-        "callsScopeTitle": "Included Calls"
+        "callsScopeTitle": "Included calls"
       },
       "apCreation": {
-        "addToAllBuiltInAlerts": "Add to all ({{numAlerts}}) Built–In Global Smart Alerts",
+        "addToAllBuiltInAlerts": "Add to all ({{numAlerts}}) built–in global Smart Alerts",
         "addToAllBuiltInAlertsSubText": "({{numDisabled}}/{{numAlerts}} alerts are currently disabled)",
-        "addToAllExplanation": "Include this Application Perspective in the scope of all the",
-        "addToAllExplanationSubText": "Built–In Global Smart Alerts",
+        "addToAllExplanation": "Include this application perspective in the scope of all the",
+        "addToAllExplanationSubText": "Built–In global Smart Alerts",
         "notAllEnitiesSelected": "Not all services/endpoints selected",
         "alertCurrentlyDisabled": "Alert currently disabled",
         "viewAlertDetails": "View alert details for configuration: {{name}}",
@@ -561,7 +563,7 @@
         "step3Title": "Define grouping",
         "step4Title": "Define when to get alerted",
         "alertHeadline": "Choose what you want to be alerted on",
-        "step5Title": "Define Alert properties",
+        "step5Title": "Define alert properties",
         "step6Title": "Define alert channels",
         "grouping": {
           "title": "Group calls",
@@ -600,14 +602,14 @@
         "inboundOutboundCalls": {
           "config": {
             "inbound": {
-              "text": "Inbound Calls",
+              "text": "Inbound calls",
               "dashboard": "For detecting issues as perceived by consumers of this application",
-              "overrideDefault": "The default scope for this application is Inbound Calls only. You can change this in Configuration."
+              "overrideDefault": "The default scope for this application is inbound calls only. You can change this in Configuration."
             },
             "all": {
-              "text": "All Calls",
+              "text": "All calls",
               "dashboard": "For detecting issues in any service or endpoint within this application.",
-              "overrideDefault": "The default scope for this application is All Calls. You can change this in Configuration."
+              "overrideDefault": "The default scope for this application is all calls. You can change this in Configuration."
             }
           }
         },
@@ -666,7 +668,8 @@
           "title": "Alert channels ({{channelCount}})",
           "description": "Select the recipient(s) of this alert",
           "searchPlaceholder": "Search",
-          "clearAll": "Clear all"
+          "clearAll": "Clear all",
+          "selectAll": "Select all ({{len}})"
         },
         "editFilters": "Edit filters",
         "invalidFilters": "Invalid filters",
@@ -809,11 +812,11 @@
         "alertChannelCreatedSuccess": "Alert channel created",
         "alertChannelCreatedSuccessDescription": "The alert channel was successfully created.",
         "alertChannelSelectTypeTitle": "Alert channel type",
-        "addChannel": "Add {{count}} Channel",
-        "addChannel_plural": "Add {{count}} Channels",
-        "addChannel_0": "Add {{count}} Channels",
-        "addChannel_1": "Add {{count}} Channels",
-        "addChannel_2": "Add {{count}} Channels",
+        "addChannel": "Add {{count}} channel",
+        "addChannel_plural": "Add {{count}} channels",
+        "addChannel_0": "Add {{count}} channels",
+        "addChannel_1": "Add {{count}} channels",
+        "addChannel_2": "Add {{count}} channels",
         "add": "Add",
         "alertPropertyInsertPlaceholderLabel": "Insert placeholder",
         "scopeConfigTitleWithApplications": "Select Applications/Services/Endpoints",
@@ -872,6 +875,7 @@
         "timeThresholdConfigImpactEvaluationMethod": "User impact evaluation method",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Aggregate across all evaluation windows",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calculate for each evaluation window",
+        "timeThresholdConfigImpactEvaluationMethodSelect": "Select an option",
         "timeThresholdConfigNumberOfViolations": "Number of metric violations",
         "timeThresholdConfigEvaluationGranularity": "Evaluation granularity",
         "granularityTooltipText": "The time granularity set here will determine the frequency at which the threshold is evaluated.",
@@ -882,7 +886,7 @@
         "timeThresholdConfigMinutes": "{{min}} min",
         "timeThresholdConfigNumberOfUsers": "# of impacted users",
         "timeThresholdConfigPercentageOfUsers": "% of impacted users",
-        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Percentage of Impacted Users",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Percentage of impacted users",
         "timeThresholdConfigOff": "off",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Please provide a number >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Please provide a number between 1% and 100%",
@@ -892,15 +896,15 @@
         "timeThresholdConfigTimeThresholdLabelTraceImpact": "When a certain amount of traces are impacted",
         "timeThresholdConfigTimeThresholdTitleViolationsInSequence": "Persistence over time",
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "Number of violations over time",
-        "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "User Impact",
-        "timeThresholdConfigTimeThresholdTitleTraceImpact": "Trace Impact",
+        "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "User impact",
+        "timeThresholdConfigTimeThresholdTitleTraceImpact": "Trace impact",
         "timeThresholdConfigNoUserSessionDetected": "No <linkToIdentifyingUsers>users</linkToIdentifyingUsers> or <linkToSessionTracking>sessions</linkToSessionTracking> detected.",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "Please configure website monitoring before using this option.",
         "alertPropertiesWarning": "Warning",
         "alertPropertiesCritical": "Critical",
         "alertPropertiesTitle": "Title",
         "alertPropertiesAlertLevel": "Alert level",
-        "alertPropertiesTriggersIncident": "Triggers Incident",
+        "alertPropertiesTriggersIncident": "Triggers incident",
         "alertPropertiesDescription": "Description",
         "warningAlertPreviewLabel": "Warning preview",
         "criticalAlertPreviewLabel": "Critical preview",
@@ -911,9 +915,9 @@
         "buttonSave": "Save",
         "buttonCreate": "Create",
         "buttonMigrate": "Migrate",
-        "selectedBlueprint": "Selected Blueprint",
-        "buttonRecalculateBaseline": "Recalculate Baseline",
-        "buttonRecalculateBaselineDisabled": "Recalculate Baseline (disabled)",
+        "selectedBlueprint": "Selected blueprint",
+        "buttonRecalculateBaseline": "Recalculate baseline",
+        "buttonRecalculateBaselineDisabled": "Recalculate baseline (disabled)",
         "sensitivitySliderLow": "low",
         "sensitivitySliderHigh": "high",
         "sensitivitySliderValueLabel": "{{count}} standard deviation",
@@ -926,32 +930,32 @@
         "warningThresholdLabel": "Warning",
         "criticalThresholdLabel": "Critical",
         "labelSensitivity": "Sensitivity",
-        "staticThresholdTypeOptionsTooltip": "A Static Daily / Weekly Threshold is a time dependent threshold based on historical data. The threshold does not change automatically and can be manually recalculated if required.",
+        "staticThresholdTypeOptionsTooltip": "A static daily / weekly threshold is a time dependent threshold based on historical data. The threshold does not change automatically and can be manually recalculated if required.",
         "thresholdTypeOptionStaticThreshold": "Static threshold",
-        "thresholdTypeOptionHistoricBaselineDaily": "Static Daily Seasonality",
-        "thresholdTypeOptionHistoricBaselineWeekly": "Static Weekly Seasonality",
-        "thresholdTypeOptionAdaptiveBaseline": "Adaptive Threshold",
+        "thresholdTypeOptionHistoricBaselineDaily": "Static daily seasonality",
+        "thresholdTypeOptionHistoricBaselineWeekly": "Static weekly seasonality",
+        "thresholdTypeOptionAdaptiveBaseline": "Adaptive threshold",
         "useSuggestedvalue": "Use suggested value",
         "loadingThresholdSuggestion": "Loading threshold suggestion",
-        "alertConfigDialogPresenterTitleEditAlert_Local": "Edit smart alert",
-        "alertConfigDialogPresenterTitleEditAlert_Global": "Edit global smart alert",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create smart alert",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Create global smart alert",
-        "alertConfigDialogPresenterTitleMigrateAlert": "Migrate to smart alert",
-        "alertConfigTearSheetEditAlert_Local": "Edit an application smart alert",
-        "alertConfigTearSheetEditAlert_Global": "Edit an application global smart alert",
-        "alertConfigTearSheetCreateNewAlert_Local": "Create an application smart alert",
-        "alertConfigTearSheetCreateNewAlert_Global": "Create an application global smart alert",
-        "alertConfigTearSheetMigrateAlert": "Migrate to application smart alert",
-        "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Switch to Advanced Mode",
+        "alertConfigDialogPresenterTitleEditAlert_Local": "Edit Smart Alert",
+        "alertConfigDialogPresenterTitleEditAlert_Global": "Edit global Smart Alert",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create Smart Alert",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Create global Smart Alert",
+        "alertConfigDialogPresenterTitleMigrateAlert": "Migrate to Smart Alert",
+        "alertConfigTearSheetEditAlert_Local": "Edit an application Smart Alert",
+        "alertConfigTearSheetEditAlert_Global": "Edit an application global Smart Alert",
+        "alertConfigTearSheetCreateNewAlert_Local": "Create an application Smart Alert",
+        "alertConfigTearSheetCreateNewAlert_Global": "Create an application global Smart Alert",
+        "alertConfigTearSheetMigrateAlert": "Migrate to application Smart Alert",
+        "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Switch to advanced mode",
         "simpleAlertConfigDialogStep3Headline": "Who should get the alerts?",
         "Loading": "Loading…",
-        "PreviewForAP": "Preview for Application Perspective:",
-        "PreviewForEndpoint": "Preview for Endpoint:",
-        "PreviewForService": "Preview for Service:",
-        "PreviewSelectLoadingEndpoints": "Loading Endpoints List",
-        "thresholdValue": "Threshold Value",
-        "migrationModeWarning": "Migrating this Custom Event to a Smart Alert will disable it. The event cannot be re-enabled afterwards."
+        "PreviewForAP": "Preview for application perspective:",
+        "PreviewForEndpoint": "Preview for endpoint:",
+        "PreviewForService": "Preview for service:",
+        "PreviewSelectLoadingEndpoints": "Loading endpoints list",
+        "thresholdValue": "Threshold value",
+        "migrationModeWarning": "Migrating this custom event to a Smart Alert will disable it. The event cannot be re-enabled afterwards."
       },
       "userInfo": {
         "linkText": "View Smart Alert",
@@ -984,13 +988,13 @@
         "aggregationTextP99": "99th"
       },
       "list": {
-        "labelConfirm": "Please Confirm",
+        "labelConfirm": "Confirm remove",
         "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
         "labelRemove": "Remove"
       },
       "gracePeriod": {
         "title": "Grace period (optional)",
-        "description": "Automatically close an issue after the violation threshold is no longer met for:",
+        "description": "Select how long an issue should stay open after the violation threshold is no longer met. Once this time elapses, the issue will automatically be closed.",
         "label": "Select",
         "summary": "Automatically close an issue after the violation threshold is no longer met <strong>for {{gracePeriodValue}}</strong>."
       },
@@ -1031,60 +1035,62 @@
         "alertChannelsLabel": "Alert channels",
         "alertChannelsTitle": "Alert channels: Who needs to be alerted?",
         "propertiesLabel": "Properties",
-        "propertiesTitle": "Additional Alert properties",
+        "propertiesTitle": "Additional alert properties",
         "thresholdValue": "Threshold value",
         "payloadsLabel": "Payloads",
         "payloadsTitle": "Custom payloads",
         "evaluationSwitch": {
           "evaluationTypePERWEBSITE": {
-            "shortText": "Per Website"
+            "shortText": "Per website"
           }
         }
       },
       "components": {
-        "errorMessage": "Error Message",
+        "errorMessage": "Error message",
         "selectJSErrorHelpText": "Select JS error message as template (optional)",
-        "selectJSErrorTitle": "Select JS Error",
+        "selectJSErrorTitle": "Select JS error",
         "noJSErrorFound": "No JS error found"
       },
       "data": {
-        "errorCount": "Error Count",
-        "specificJsErrorRate": "Error Rate",
-        "statusCodeCount": "Status Code Count",
-        "specificStatusCodeRate": "Status Code Rate",
-        "pageLoads": "Page Loads",
-        "pageTransitions": "Page Transitions",
+        "errorCount": "Error count",
+        "specificJsErrorRate": "Error rate",
+        "statusCodeCount": "Status code count",
+        "specificStatusCodeRate": "Status code rate",
+        "pageLoads": "Page loads",
+        "pageTransitions": "Page transitions",
         "slownessBlueprintConfigName": "Slowness",
-        "slownessBlueprintConfigHeadline": "Automatic Alerts for onLoad Time",
-        "slownessBlueprintConfigTextP": "OnLoad Time measures the time passed in between the user navigating to a website and being able to interact with the website.",
+        "slownessBlueprintConfigHeadline": "Automatic alerts for onLoad time or HTTP latency",
+        "slownessBlueprintConfigTextP": "OnLoad time measures the time passed in between the user navigating to a website and being able to interact with the website.",
+        "slownessBlueprintConfigTextP2": "HTTP Latency measures the time taken to complete an HTTP request in the website.",
         "slownessBlueprintConfigTextli1": "Getting all markup, replaced element content and embeds from server",
         "slownessBlueprintConfigTextli2": "Parsing the markup",
         "slownessBlueprintConfigTextli3": "Applying CSS cascade",
         "slownessBlueprintConfigTextli4": "Rendering the page",
         "slownessBlueprintConfigTextli5": "Running all scripts that need to run on page load",
-        "slownessBlueprintConfigMetricLabel": "onLoad Time",
-        "jsErrorsBlueprintConfigName": "JS Errors",
-        "jsErrorsBlueprintConfigHeadline": "Automatic Alerts for JS Errors",
-        "jsErrorsBlueprintConfigText": "Receive an alert every time when matching JS Error messages occur more often than usual.",
-        "jsErrorsBlueprintConfigIncompleteRuleMessage": "Please select a JS Error to see when this alert triggers",
-        "statusCodeBlueprintConfigName": "HTTP Status Codes",
-        "statusCodeBlueprintConfigHeadline": "Automatic Alerts for HTTP Status Codes",
-        "statusCodeBlueprintConfigText": "Receive an alert every time when matching HTTP Status Codes occur more often than usual.",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "Please select a Status Code to see when this alert triggers",
+        "slownessBlueprintConfigMetricLabel": "onLoad time",
+        "slownessBlueprintConfigHttpMetricLabel": "HTTP latency",
+        "jsErrorsBlueprintConfigName": "JS errors",
+        "jsErrorsBlueprintConfigHeadline": "Automatic alerts for JS errors",
+        "jsErrorsBlueprintConfigText": "Receive an alert every time when matching JS error messages occur more often than usual.",
+        "jsErrorsBlueprintConfigIncompleteRuleMessage": "Please select a JS error to see when this alert triggers",
+        "statusCodeBlueprintConfigName": "HTTP status codes",
+        "statusCodeBlueprintConfigHeadline": "Automatic alerts for HTTP status codes",
+        "statusCodeBlueprintConfigText": "Receive an alert every time when matching HTTP status codes occur more often than usual.",
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "Please select a status code to see when this alert triggers",
         "throughputBlueprintConfigName": "Throughput",
-        "throughputBlueprintConfigHeadline": "Automatic Alerts for Page Views",
-        "throughputBlueprintConfigText": "Automatic alerts on anomalously low or high number of Page Loads or Page Transitions for selected pages of this Website.",
-        "customEventBlueprintConfigName": "Custom Events",
-        "customEventBlueprintConfigHeadline": "Automatic Alerts for Custom Events",
+        "throughputBlueprintConfigHeadline": "Automatic alerts for page views",
+        "throughputBlueprintConfigText": "Automatic alerts on anomalously low or high number of page loads or page transitions for selected pages of this website.",
+        "customEventBlueprintConfigName": "Custom events",
+        "customEventBlueprintConfigHeadline": "Automatic alerts for custom events",
         "customEventBlueprintConfigText": "Receive an alert every time a specific custom event occurs more or less often than it should.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Please select a custom event to see when this alert triggers",
         "customEventBlueprintConfigMetricLabel": "Occurrences",
-        "simpleModeBlueprintConfigsUnexpectedDropName": "Low Number of Page Loads",
-        "simpleModeBlueprintConfigsUnexpectedDropHeadline": "Automatic Alerts on Anomalously Low Number of Page Loads",
+        "simpleModeBlueprintConfigsUnexpectedDropName": "Low number of page loads",
+        "simpleModeBlueprintConfigsUnexpectedDropHeadline": "Automatic alerts on anomalously low number of page loads",
         "simpleModeBlueprintConfigsUnexpectedDropText": "Receive an alert when the number of Page Loads is significantly lower than expected compared to the available past data.",
-        "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "High Number of Page Loads",
-        "simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline": "Automatic Alerts on Anomalously High Number of Page Loads",
-        "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "Receive an alert when the number of Page Loads is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the website."
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "High number of page loads",
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline": "Automatic alerts on anomalously high number of page loads",
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "Receive an alert when the number of page loads is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the website."
       },
       "form": {
         "errorPleaseProvideAnErrorMessage": "Please provide an error message",
@@ -1096,13 +1102,14 @@
         "ruleJsErrorsOperatorOptionContains": "Contains",
         "ruleJsErrorsOperatorOptionStartsWith": "Starts with",
         "ruleJsErrorsOperatorOptionEndWith": "Ends with",
-        "ruleMetricNameOptionSpecificJsErrorErrors": "Error Count",
-        "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "Error Rate",
-        "ruleMetricNameOptionStatusCodeHttpxxx": "Status Code Count",
-        "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "Status Code Rate",
-        "ruleMetricNameOptionSlownessOnLoadTime": "onLoad Time",
-        "ruleMetricNameOptionThroughputPageLoads": "Page Loads",
-        "ruleMetricNameOptionThroughputPageTransitions": "Page Transitions"
+        "ruleMetricNameOptionSpecificJsErrorErrors": "Error count",
+        "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "Error rate",
+        "ruleMetricNameOptionStatusCodeHttpxxx": "Status code count",
+        "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "Status code rate",
+        "ruleMetricNameOptionSlownessOnLoadTime": "onLoad time",
+        "ruleMetricNameOptionSlownessHttpLatency": "HTTP latency",
+        "ruleMetricNameOptionThroughputPageLoads": "Page loads",
+        "ruleMetricNameOptionThroughputPageTransitions": "Page transitions"
       },
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "What do you want to be alerted on?",
@@ -1113,21 +1120,21 @@
       },
       "customEvent": {
         "noCustomEventsFound": "No custom events found",
-        "searchCustomEvents": "Filter Events",
-        "customEventNameColumnLabel": "Event Name",
+        "searchCustomEvents": "Filter events",
+        "customEventNameColumnLabel": "Event name",
         "customEventOccurrencesColumnLabel": "Occurrences",
         "customEventUsersColumnLabel": "Users",
-        "customEventLabel": "Custom Event",
+        "customEventLabel": "Custom event",
         "customEventListInfoLabel": "Showing custom events that have been triggered in the last 7 days"
       },
       "list": {
         "columns": {
           "name": {
             "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
-            "subtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}",
-            "subtitleForStaticDailySeasonality": "Static Daily Seasonality, {{metricLabel}}",
-            "subtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}",
-            "subtitleForAdaptiveThreshold": "Adaptive Threshold, {{metricLabel}}"
+            "subtitleForStaticThreshold": "Static threshold, {{metricLabel}} {{operator}} {{value}}",
+            "subtitleForStaticDailySeasonality": "Static daily seasonality, {{metricLabel}}",
+            "subtitleForStaticWeeklySeasonality": "Static weekly seasonality, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "Adaptive threshold, {{metricLabel}}"
           },
           "moreFiltersWithCount": "+{{count}} more filter",
           "moreFiltersWithCount_plural": "+{{count}} more filters",
@@ -1142,6 +1149,63 @@
         },
         "noDataHeader": "No website Smart Alerts",
         "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
+      },
+      "tearSheet": {
+        "createTitle": "Create a website Smart Alert",
+        "editTitle": "Edit a website Smart Alert",
+        "step1": {
+          "title": "Pick a template",
+          "description": "Choose the issue that you want to be alerted on"
+        },
+        "step2": {
+          "title": "Define the scope"
+        },
+        "step3": {
+          "title": "Define when to get alerted"
+        },
+        "step4": {
+          "title": "Define alert properties",
+          "description": "What properties do you want to set for this alert"
+        },
+        "step5": {
+          "title": "Define alert channels",
+          "description": "Select where you want to be notified for this alert"
+        },
+        "slowness": {
+          "headline": "Automatic alerts for onLoad time or HTTP latency",
+          "text": "Receive an alert when the onLoad time exceeds expectations that are derived from historical data."
+        },
+        "JsErrors": {
+          "name": "JS errors",
+          "headline": "Automatic alerts for JS errors",
+          "text": "Receive an alert for a JavaScript error message."
+        },
+        "statusCode": {
+          "headline": "Automatic alerts for HTTP status codes",
+          "text": "Receive an alert when an HTTP status code occurs more often than usual."
+        },
+        "throughput": {
+          "headline": "Automatic alerts for throughput",
+          "text": "Receive an alert when the expected number of website page loads differs significantly compared to available historic data."
+        },
+        "customEvent": {
+          "name": "Custom events",
+          "headline": "Automatic alerts for custom events",
+          "text": "Receive an alert every time a specific custom event occurs more or less often than it should."
+        },
+        "filter": "Add filters to get more precise alerts (optional)",
+        "threshold": {
+          "header": "Set a value for the violation threshold",
+          "description": "Select a metric, violation threshold and time window to evaluate the violation."
+        },
+        "alertChart": {
+          "title": "Alerts preview",
+          "description": "See how alerts would have triggered based on historical metric data."
+        },
+        "timeThreshold": {
+          "title": "Set when violations trigger alerts",
+          "description": "Specify the alert and persistence type and then set the alert trigger."
+        }
       }
     },
     "sortOptions": {
@@ -1158,15 +1222,15 @@
       "migrateButton": "Migrate to Smart Alert",
       "migrateButtonTooltip": "Opens a Smart Alert config pre–filled with the migrated values from the current event to the best extent we can. Please double check the result carefully!",
       "markAsMigratedButton": "Mark as migrated",
-      "markAsMigratedButtonTooltip": "Marks the Event as migrated. Please use this in case you have already configured a Smart Alert which will replace this Event.",
-      "markAsMigratedButtonConfirmationTitle": "Please Confirm",
-      "markAsMigratedButtonConfirmationDescription": "Marking this Custom Event as migrated will disable it. The event cannot be re-enabled afterwards. Do you want to proceed?",
+      "markAsMigratedButtonTooltip": "Marks the event as migrated. Please use this in case you have already configured a Smart Alerts which will replace this event.",
+      "markAsMigratedButtonConfirmationTitle": "Confirm migration",
+      "markAsMigratedButtonConfirmationDescription": "Marking this custom event as migrated will disable it. The event cannot be re-enabled afterwards. Do you want to proceed?",
       "markAsMigratedButtonConfirmationConfirmLabel": "Confirm"
     },
     "enable": "Enable",
     "disable": "Disable",
     "synthetics": {
-      "addSmartAlert": "Add Synthetic Smart Alert",
+      "addSmartAlert": "Add synthetic Smart Alert",
       "dashboard": {
         "column": {
           "moreFiltersWithCount": "+{{count}} more filter",
@@ -1182,10 +1246,10 @@
         }
       },
       "alertList": {
-        "timeThreshold": "Time Threshold",
-        "filterApplied": "Filter Applied",
+        "timeThreshold": "Time threshold",
+        "filterApplied": "Filter applied",
         "violationsCount": "{{violationsCount}} failures",
-        "numberOfFailures": "Failure Alerting",
+        "numberOfFailures": "Failure alerting",
         "noDataHeader": "No synthetic Smart Alerts",
         "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
@@ -1202,116 +1266,144 @@
         "stepConfigsStep2Title": "Step 2: Scope",
         "scopeHeadline": "What is the scope?",
         "scopeDescription": "Choose where you want the condition to be applied.",
-        "stepConfigsStep3Title": "Step 3: Time Threshold",
+        "stepConfigsStep3Title": "Step 3: Time threshold",
         "stepConfigsStep5Title": "Step 5: Alert properties",
         "thresholdTitle": "How many consecutive failures should occur per location before alerting?",
         "thresholdTitleHelpText": "Failures determined in the PoP, based on retry interval configured in synthetic test creation.",
         "thresholdSubTitleHelpText": "If the specified number of failures occurs in every location, you will receive an alert for every location.",
         "slider": {
-          "failuresWithCount": "{{count}} Failure",
-          "failuresWithCount_plural": "{{count}} Failures",
-          "failuresWithCount_0": "{{count}} Failures",
-          "failuresWithCount_1": "{{count}} Failures",
-          "failuresWithCount_2": "{{count}} Failures"
+          "failuresWithCount": "{{count}} failure",
+          "failuresWithCount_plural": "{{count}} failures",
+          "failuresWithCount_0": "{{count}} failures",
+          "failuresWithCount_1": "{{count}} failures",
+          "failuresWithCount_2": "{{count}} failures"
         },
         "alertPropertiesTitlePlaceholder": "Synthetic test failed",
-        "alertPropertiesDescriptionPlaceholder": "Synthetic test failed for {{count}} consecutive time",
-        "alertPropertiesDescriptionPlaceholder_plural": "Synthetic test failed for {{count}} consecutive times",
-        "alertPropertiesDescriptionPlaceholder_0": "Synthetic test failed for {{count}} consecutive times",
-        "alertPropertiesDescriptionPlaceholder_1": "Synthetic test failed for {{count}} consecutive times",
-        "alertPropertiesDescriptionPlaceholder_2": "Synthetic test failed for {{count}} consecutive times"
+        "alertPropertiesDescriptionPlaceholder": "Synthetic test failed {{count}} consecutive time.",
+        "alertPropertiesDescriptionPlaceholder_plural": "Synthetic test failed {{count}} consecutive times.",
+        "alertPropertiesDescriptionPlaceholder_0": "Synthetic test failed {{count}} consecutive times.",
+        "alertPropertiesDescriptionPlaceholder_1": "Synthetic test failed {{count}} consecutive times.",
+        "alertPropertiesDescriptionPlaceholder_2": "Synthetic test failed {{count}} consecutive times."
       },
       "advanced": {
         "alertChannelsLabel": "Alert channels",
         "alertChannelsTitle": "Who should get the alerts?",
         "scopeFilterLabel": "Scope",
-        "alertTestsLabel": "Synthetic Tests",
-        "alertTestsTitle": "Synthetic Tests : Which synthetic tests you want to be alerted on?",
+        "alertTestsLabel": "Synthetic tests",
+        "alertTestsTitle": "Synthetic tests : Which synthetic tests you want to be alerted on?",
         "propertiesLabel": "Alert properties",
         "propertiesTitle": "What should alert notification include?",
-        "failureThreshold": "Time Threshold",
-        "failureThresholdLabel": "Time Threshold",
+        "failureThreshold": "Time threshold",
+        "failureThresholdLabel": "Time threshold",
         "failureThresholdTitle": "How many consecutive failures should occur per location before alerting?",
         "syntheticTestNamePlaceholder": "synthetic-test",
         "syntheticLocationLabelPlaceholder": "synthetic-location"
       },
       "selectTests": {
         "selectAlertTestButtonTitle": "Add synthetic tests",
-        "selectAlertTestButton": "Add Synthetic Tests",
-        "addTest": "Add {{count}} Test",
-        "alertTests": "Synthetic Tests",
-        "noTestSelectedText": "No Synthetic Tests Selected",
+        "selectAlertTestButton": "Add synthetic tests",
+        "addTest": "Add {{count}} test",
+        "alertTests": "Synthetic tests",
+        "noTestSelectedText": "No synthetic tests selected. To get started, click Add synthetic tests.",
         "alertTestEntityName": "synthetic test {{entityName}}",
-        "testAttachedCount": "Tests Attached ({{count}})",
-        "testAttached": "Tests Attached",
-        "noTestAvailable": "No Synthetic Tests available"
+        "testAttachedCount": "Tests attached ({{count}})",
+        "testAttached": "Tests attached",
+        "noTestAvailable": "No synthetic tests available"
       },
       "details": {
         "threshold": "Threshold",
         "alertConfigurationListTitleAlertConfiguration": "Alert configuration",
         "scope": {
           "perLocation": {
-            "shortText": "Per Location"
+            "shortText": "Per location"
           }
         },
-        "alertConfigurationTitleAlertTests": "Selected Tests",
+        "alertConfigurationTitleAlertTests": "Selected tests",
         "alertConfigurationTitleAlertChannels": "Alert channels",
         "alertConfigurationTitleAlertProperties": "Alert properties",
         "failureThreshold": "{{failureCount}} failures",
-        "gracePeriodValue": "{{gracePeriodValue}}",
-        "gracePeriod": "Grace period",
         "alertConfigurationTitleScope": "Scope",
         "noOfFailure": "Number of failure",
         "timeThreshold": "Time threshold",
         "alertingType": "Alerting type",
         "noScopeConfigured": "No scope filter configured"
+      },
+      "tearSheet": {
+        "labelActionButtonEdit": "Edit",
+        "labelActionButtonDuplicate": "Duplicate",
+        "createTitle": "Create a synthetic Smart Alert",
+        "editTitle": "Edit synthetic Smart Alert",
+        "scopeFilter": {
+          "filter": "Filter",
+          "filterDescription": "Add filters to the synthetic tests to get more precise alerts."
+        },
+        "steps": {
+          "step1Title": "Add synthetic tests",
+          "step2Title": "Define when to get alerted",
+          "step3Title": "Define alert properties",
+          "step4Title": "Define alert channels"
+        },
+        "step1": {
+          "header": "Select the synthetic tests that you want to be alerted on",
+          "description": "Individual alerts will be sent independently for each synthetic test, per location."
+        },
+        "step2": {
+          "sliderHeader": "Set when violations trigger alerts",
+          "sliderDescription": "Specify how many consecutive failures occur per location before alerting."
+        },
+        "step3": {
+          "header": "What properties do you want to set for this alert"
+        },
+        "step4": {
+          "header": "Select where you want to be notified for this alert"
+        }
       }
     },
     "mobileApp": {
       "data": {
-        "statusCodeCount": "Status Code Count",
-        "beaconRate": "Status Code Rate",
+        "statusCodeCount": "Status code count",
+        "beaconRate": "Status code rate",
         "views": "Views",
         "customEventBlueprintConfigMetricLabel": "Occurrences",
         "sessions": "Sessions",
-        "crashAffectedSessionRate": "Crash Affected Session Rate",
-        "crashFreeSessionRate": "Crash Free Session Rate",
-        "crashAffectedSessionCount": "Crash Affected Session Count",
-        "crashFreeSessionCount": "Crash Free Session Count",
-        "crashAffectedUserRate": "Crash Affected User Rate",
-        "crashFreeUserRate": "Crash Free User Rate",
-        "crashAffectedUserCount": "Crash Affected User Count",
-        "crashFreeUserCount": "Crash Free User Count",
-        "statusCodeBlueprintConfigName": "HTTP Status Codes",
+        "crashAffectedSessionRate": "Crash affected session rate",
+        "crashFreeSessionRate": "Crash free session rate",
+        "crashAffectedSessionCount": "Crash affected session count",
+        "crashFreeSessionCount": "Crash free session count",
+        "crashAffectedUserRate": "Crash affected user rate",
+        "crashFreeUserRate": "Crash free user rate",
+        "crashAffectedUserCount": "Crash affected user count",
+        "crashFreeUserCount": "Crash free user count",
+        "statusCodeBlueprintConfigName": "HTTP status codes",
         "throughputBlueprintConfigName": "Throughput",
-        "customEventBlueprintConfigName": "Custom Events",
+        "customEventBlueprintConfigName": "Custom events",
         "crashBlueprintConfigName": "Crashes",
-        "crashBlueprintConfigHeadline": "Automatic Alerts for Crashes",
+        "crashBlueprintConfigHeadline": "Automatic alerts for crashes",
         "crashBlueprintConfigText": "Receive an alert when selected crash metric is higher or lower than expected.",
-        "crashBlueprintSelectMetric": "Select Crash Metric",
-        "statusCodeBlueprintConfigHeadline": "Automatic Alerts for HTTP Status Codes",
-        "statusCodeBlueprintConfigText": "Receive an alert every time when matching HTTP Status Codes occur more often than usual.",
-        "throughputBlueprintConfigHeadline": "Automatic Alerts for Mobile App Views",
-        "throughputBlueprintConfigText": "Automatic alerts on an anomalously low or high number of views in a Mobile App.",
-        "customEventBlueprintConfigHeadline": "Automatic Alerts for Custom Events",
+        "crashBlueprintSelectMetric": "Select crash metric",
+        "statusCodeBlueprintConfigHeadline": "Automatic alerts for HTTP status codes",
+        "statusCodeBlueprintConfigText": "Receive an alert every time when matching HTTP status codes occur more often than usual.",
+        "throughputBlueprintConfigHeadline": "Automatic alerts for mobile app views",
+        "throughputBlueprintConfigText": "Automatic alerts on an anomalously low or high number of views in a mobile app.",
+        "customEventBlueprintConfigHeadline": "Automatic alerts for custom events",
         "customEventBlueprintConfigText": "Receive an alert every time a specific custom event occurs more or less often than it should.",
         "customEventBlueprintConfigIncompleteRuleMessage": "Please select a custom event to see when this alert triggers",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "Please select a Status Code to see when this alert triggers",
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "Please select a status code to see when this alert triggers",
         "simpleModeBlueprintConfigsViewsUnexpectedDropName": "Low Number of Views",
-        "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "Automatic Alerts on Anomalously Low Number of Views",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "Automatic alerts on anomalously low number of views",
         "simpleModeBlueprintConfigsViewsUnexpectedDropText": "Receive an alert when the number of Views is significantly lower than expected compared to the available past data.",
-        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "Low Number of Sessions",
-        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "Automatic Alerts on Anomalously Low Number of Sessions",
-        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "Receive an alert when the number of Sessions is significantly lower than expected compared to the available past data."
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "Low number of sessions",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "Automatic alerts on anomalously low number of sessions",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "Receive an alert when the number of sessions is significantly lower than expected compared to the available past data."
       },
       "alertList": {
         "columns": {
           "name": {
             "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
-            "subtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}",
-            "subtitleForStaticDailySeasonality": "Static Daily Seasonality, {{metricLabel}}",
-            "subtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}",
-            "subtitleForAdaptiveThreshold": "Adaptive Threshold, {{metricLabel}}"
+            "subtitleForStaticThreshold": "Static threshold, {{metricLabel}} {{operator}} {{value}}",
+            "subtitleForStaticDailySeasonality": "Static daily seasonality, {{metricLabel}}",
+            "subtitleForStaticWeeklySeasonality": "Static weekly seasonality, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "Adaptive threshold, {{metricLabel}}"
           }
         },
         "moreFiltersWithCount": "+{{count}} more filter",
@@ -1324,7 +1416,7 @@
         "filter_0": "Filters",
         "filter_1": "Filters",
         "filter_2": "Filters",
-        "filterApplied": "Filter Applied",
+        "filterApplied": "Filter applied",
         "noDataHeader": "No mobile app Smart Alerts",
         "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
@@ -1333,26 +1425,26 @@
         "stepConfigsStep3Title": "Step 3: Select alert channels",
         "simpleAlertConfigDialogStep1Headline": "What do you want to be alerted on?",
         "simpleAlertConfigDialogStep2Headline": "Where do you want the alert to trigger?",
-        "stepConfigsStep2Title": "Step 2: Select Scope"
+        "stepConfigsStep2Title": "Step 2: Select scope"
       },
       "alertDetails": {
         "alertConfigurationListTitleAlertConfiguration": "Alert configuration",
         "alertConfigurationTitleTrigger": "Trigger",
-        "alertConfigurationTitleHTTPStatusCode": "HTTP Status Code",
-        "alertConfigurationTitleCustomEvent": "Custom Event",
+        "alertConfigurationTitleHTTPStatusCode": "HTTP status code",
+        "alertConfigurationTitleCustomEvent": "Custom event",
         "alertConfigurationTitleScope": "Scope",
         "alertConfigurationTitleTimeThreshold": "Time threshold",
         "alertConfigurationTitleAlertChannels": "Alert channels",
         "alertConfigurationTitleAlertProperties": "Alert properties",
         "evaluationSwitch": {
           "evaluationTypePerMobileApp": {
-            "shortText": "Per Mobile App"
+            "shortText": "Per mobile app"
           }
         }
       },
       "form": {
-        "ruleMetricNameOptionStatusCodeHttpxxx": "Status Code Count",
-        "ruleMetricNameOptionBeaconRate": "Status Code Rate",
+        "ruleMetricNameOptionStatusCodeHttpxxx": "Status code count",
+        "ruleMetricNameOptionBeaconRate": "Status code rate",
         "ruleMetricNameOptionThroughputSessions": "Sessions",
         "ruleMetricNameOptionThroughputViews": "Views",
         "errorPleaseProvideCustomEventName": "Please provide a custom event name",
@@ -1363,37 +1455,85 @@
       },
       "customEvent": {
         "noCustomEventsFound": "No custom events found",
-        "searchCustomEvents": "Filter Events",
-        "customEventNameColumnLabel": "Event Name",
+        "searchCustomEvents": "Filter events",
+        "customEventNameColumnLabel": "Event name",
         "customEventOccurrencesColumnLabel": "Occurrences",
         "customEventUsersColumnLabel": "Users",
-        "customEventLabel": "Custom Event",
+        "customEventLabel": "Custom event",
         "customEventListInfoLabel": "Showing custom events that have been triggered in the last 7 days"
       },
       "advanced": {
         "triggerLabel": "Trigger",
         "triggerTitle": "Trigger: What do you want to be alerted on?",
-        "HTTPStatusCode": "HTTP Status Code",
+        "HTTPStatusCode": "HTTP status code",
         "alertChannelsLabel": "Alert channels",
         "alertChannelsTitle": "Alert channels: Who needs to be alerted?",
         "timeThresholdLabel": "Time threshold",
         "timeThresholdTitle": "Time threshold: When do you want to be alerted?",
         "propertiesLabel": "Properties",
-        "propertiesTitle": "Additional Alert properties",
+        "propertiesTitle": "Additional alert properties",
         "scopeLabel": "Scope",
         "scopeTitle": "Scope: Where is the condition happening?",
         "thresholdLabel": "Threshold",
         "thresholdTitle": "Threshold: When is the condition violated?",
         "payloadsLabel": "Payloads",
         "payloadsTitle": "Custom payloads"
+      },
+      "tearSheet": {
+        "createTitle": "Create a mobile app Smart Alert",
+        "editTitle": "Edit a mobile app Smart Alert",
+        "step1": {
+          "title": "Pick a template",
+          "description": "Choose the issue that you want to be alerted on"
+        },
+        "step2": {
+          "title": "Define the scope"
+        },
+        "step3": {
+          "title": "Define when to get alerted"
+        },
+        "step4": {
+          "title": "Define alert properties",
+          "description": "What properties do you want to set for this alert"
+        },
+        "step5": {
+          "title": "Define alert channels",
+          "description": "Select where you want to be notified for this alert"
+        },
+        "statusCode": {
+          "headline": "Automatic alerts for HTTP status codes",
+          "text": "Receive an alert when an HTTP status code occurs more often than usual."
+        },
+        "throughput": {
+          "headline": "Automatic alerts for mobile app views",
+          "text": "Receive an alert when the expected number of page views or sessions of your mobile app differs significantly compared to available historic data."
+        },
+        "crash": {
+          "headline": "Automatic alerts for crashes",
+          "text": "Receive an alert when a crash metric is higher or lower than expected."
+        },
+        "customEvent": {
+          "name": "Custom events",
+          "headline": "Automatic alerts for custom events",
+          "text": "Receive an alert every time a specific custom event occurs more or less often than it should."
+        },
+        "filter": "Add filters to get more precise alerts (optional)",
+        "threshold": {
+          "header": "Set a value for the violation threshold",
+          "description": "Select a metric, violation threshold and time window to evaluate the violation."
+        },
+        "timeThreshold": {
+          "title": "Set when violations trigger alerts",
+          "description": "Specify the alert and persistence type and then set the alert trigger."
+        }
       }
     },
     "eum": {
       "customEvent": {
-        "customEventSelectionSliderTitle": "Choose Custom Event",
-        "customEventLabel": "Custom Event",
+        "customEventSelectionSliderTitle": "Choose custom event",
+        "customEventLabel": "Custom event",
         "customEventInputPlaceholder": "Paste a custom event name or select one from the list of events",
-        "searchCustomEventButtonLabel": "Select Custom Event"
+        "searchCustomEventButtonLabel": "Select custom event"
       },
       "more": "+{{count}} more",
       "more_plural": "+{{count}} more",
@@ -1401,33 +1541,33 @@
       "more_1": "+{{count}} more",
       "more_2": "+{{count}} more",
       "viewMore": "+View More",
-      "advanced": { "thresholdValue": "Threshold Value" },
-      "components": { "provideStatusCodeStatusCode": "Status Code" },
+      "advanced": { "thresholdValue": "Threshold value" },
+      "components": { "provideStatusCodeStatusCode": "Status code" },
       "form": {
-        "anyJSErrors": "Any JS Errors",
-        "JSErrors": "JS Error(s): {{errorMessage}}",
-        "customEvents": "Custom Event: {{customEventName}}",
-        "HTTPStatusCodes": "HTTP Status Code(s): {{statusCode}}",
+        "anyJSErrors": "Any JS errors",
+        "JSErrors": "JS error(s): {{errorMessage}}",
+        "customEvents": "Custom event: {{customEventName}}",
+        "HTTPStatusCodes": "HTTP status code(s): {{statusCode}}",
         "unsupportedAlertType": "Unsupported alert type: {{alertType}}",
-        "JSErrorsHaveBeenDetected": "JS Errors have been detected.",
+        "JSErrorsHaveBeenDetected": "JS errors have been detected.",
         "unsupportedOperator": "Unsupported operator: {{operator}}",
         "JSErrorTextEquals": "JS Errors which equal \"{{ruleValue}}\" have been detected.",
         "JSErrorTextContains": "JS Errors which contain \"{{ruleValue}}\" have been detected.",
-        "JSErrorTextStartsWith": "JS Errors which start with \"{{ruleValue}}\" have been detected.",
-        "JSErrorTextEndsWith": "JS Errors which end with \"{{ruleValue}}\" have been detected.",
-        "customEventsText": "Custom Events which equal \"{{customEventName}}\" have been detected.",
-        "slownessSimpleHighOperatorText": "onLoad Time ({{aggregationText}}) is too high",
-        "slownessSimpleLowOperatorText": "onLoad Time ({{aggregationText}}) is too low",
+        "JSErrorTextStartsWith": "JS errors which start with \"{{ruleValue}}\" have been detected.",
+        "JSErrorTextEndsWith": "JS errors which end with \"{{ruleValue}}\" have been detected.",
+        "customEventsText": "Custom events which equal \"{{customEventName}}\" have been detected.",
+        "slownessSimpleHighOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) is too high",
+        "slownessSimpleLowOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) is too low",
         "throughputSimpleHighOperatorText": "Number of {{metricLabel}} is anomalously high",
         "throughputSimpleLowOperatorText": "Number of {{metricLabel}} is anomalously low",
-        "statusCodeSimpleAboveOperatorText": "Occurrences of HTTP Status Code {{statusCodeLabel}} is above the expectation.",
+        "statusCodeSimpleAboveOperatorText": "Occurrences of HTTP status code {{statusCodeLabel}} is above the expectation.",
         "statusCodeSimpleBelowOperatorText": "Occurrences of HTTP Status Code {{statusCodeLabel}} is below the expectation.",
-        "slownessSimpleAboveOperatorText": "The onLoad Time ({{aggregationText}}) is above the expectation.",
-        "slownessSimpleBelowOperatorText": "The onLoad Time ({{aggregationText}}) is below the expectation.",
-        "slownessGreaterOperatorText": "The onLoad Time ({{aggregationText}}) is greater than {{thresholdValue}} ms.",
-        "slownessGreaterEqualsOperatorText": "The onLoad Time ({{aggregationText}}) is greater or equal to {{thresholdValue}} ms.",
-        "slownessLessOperatorText": "The onLoad Time ({{aggregationText}}) is less than {{thresholdValue}} ms.",
-        "slownessLessEqualsOperatorText": "The onLoad Time ({{aggregationText}}) is less or equal to {{thresholdValue}} ms.",
+        "slownessSimpleAboveOperatorTextWithMetric": "The {{metricLabel}} ({{aggregationText}}) is above the expectation.",
+        "slownessSimpleBelowOperatorTextWithMetric": "The {{metricLabel}} ({{aggregationText}}) is below the expectation.",
+        "slownessGreaterOperatorTextWithMetric": "The {{metricLabel}} ({{aggregationText}}) is greater than {{thresholdValue}} ms.",
+        "slownessGreaterEqualsOperatorTextWithMetric": "The {{metricLabel}} ({{aggregationText}}) is greater or equal to {{thresholdValue}} ms.",
+        "slownessLessOperatorTextWithMetric": "The {{metricLabel}} ({{aggregationText}}) is less than {{thresholdValue}} ms.",
+        "slownessLessEqualsOperatorTextWithMetric": "The {{metricLabel}} ({{aggregationText}}) is less or equal to {{thresholdValue}} ms.",
         "staticThresholdHigherOperatorText": "The number of {{metricLabel}} is higher than {{thresholdValue}}.",
         "staticThresholdHigherEqualsOperatorText": "The number of {{metricLabel}} higher or equal to {{thresholdValue}}.",
         "staticThresholdLowerOperatorText": "The number of {{metricLabel}} lower than {{thresholdValue}}.",
@@ -1476,7 +1616,7 @@
           "title": "Scope: Where is the condition happening?",
           "metric": {
             "metric": "Metric",
-            "selectMetric": "Select Metric"
+            "selectMetric": "Select metric"
           },
           "aggregation": {
             "aggregation": "Aggregation"
@@ -1487,8 +1627,8 @@
           "title": "Threshold: When is the condition violated?"
         },
         "timeThreshold": {
-          "label": "Time Threshold",
-          "title": "Time Threshold: When do you want to be alerted?"
+          "label": "Time threshold",
+          "title": "Time threshold: When do you want to be alerted?"
         },
         "predictiveTrigger": {
           "title": "Forecast alerting",
@@ -1509,8 +1649,8 @@
             "subtitle": "Metric-Name"
           },
           "label": "Properties",
-          "title": "Additional Alert properties",
-          "alertPropertiesTitlePlaceholder": "Infrastructure Smart alert",
+          "title": "Additional alert properties",
+          "alertPropertiesTitlePlaceholder": "Infrastructure Smart Alert",
           "alertPropertiesDescriptionPlaceholder": "Something is going wrong in your infrastructure."
         },
         "customPayloads": {
@@ -1559,11 +1699,11 @@
         "scopeFilter": {
           "title": "Choose the scope of the infrastructure",
           "filter": "Filter",
-          "filterDescription": "Add filters to the services to get more precise alerts."
+          "filterDescription": "Add filters to narrow down the scope and get more precise alerts."
         },
         "scopeGroupBy": {
-          "group": "Group",
-          "groupByDescription": "Add group to configure calls in groups. Each call within the group is configured collectively but evaluated individually."
+          "group": "Grouping",
+          "groupByDescription": "Add a group to group metric results using available grouping tags. You can use up to 5 tags."
         },
         "timeThreshold": {
           "title": "Set when violations trigger alerts",
@@ -1573,7 +1713,7 @@
           "static": "A constant threshold value is applied and it does not change over time."
         },
         "chartAlertPreview": "Alerts preview",
-        "chartAlertPreviewDescription": "Shows how alerts would have been triggered based on historical metric data.",
+        "chartAlertPreviewDescription": "See how alerts would have been triggered based on historical metric data.",
         "forecastAlerting": {
           "description": "Receive proactive alerts based on historical data and trends. This option helps you anticipate potential issues before they affect your system.",
           "historicalDataTime": {
@@ -1585,7 +1725,12 @@
             "tooltipContent": "Defines the timeframe of the forecast used for alerting. "
           }
         }
-      }
+      },
+      "placeholderTitle": "Problem on {{metricName}} detected",
+      "descriptionIsHigherThan": "{{metricName}} is higher than {{value}}.",
+      "descriptionIsHigherOrEqualTo": "{{metricName}} is higher or equal to {{value}}.",
+      "descriptionIsLowerThan": "{{metricName}} is lower than {{value}}.",
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} is lower or equal to {{value}}."
     },
     "logs": {
       "alertDetails": {
@@ -1612,7 +1757,7 @@
         "columns": {
           "name": {
             "subtitle": {
-              "staticThresholdType": "Static Threshold",
+              "staticThresholdType": "Static threshold",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
             }
           }
@@ -1641,11 +1786,11 @@
         },
         "properties": {
           "label": "Properties",
-          "title": "Additional Alert properties",
+          "title": "Additional alert properties",
           "preview": {
-            "subtitle": "Log Count"
+            "subtitle": "Log count"
           },
-          "alertPropertiesTitlePlaceholder": "Logs smart alert",
+          "alertPropertiesTitlePlaceholder": "Logs Smart Alert",
           "descriptionPlaceholder": {
             "logsCount_higherThan": "The log count is higher than {{value}}.",
             "logsCount_higherEqual": "The log count is higher or equal to {{value}}.",
@@ -1656,18 +1801,17 @@
         "customPayloads": {
           "label": "Payloads",
           "title": "Custom payload"
-        },
-        "thresholdValue": "Threshold value"
+        }
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
+        "selectAtLeastOneThreshold": "Please provide value for at least one of the thresholds.",
         "noDataForSelectedGroup": "There is no data available for the specified filters and grouping combination."
       },
       "logCount": "Log count",
       "tearSheet": {
         "labelActionButtonEdit": "Edit",
         "labelActionButtonDuplicate": "Duplicate",
-        "createTitle": "Create a log smart alert",
+        "createTitle": "Create a log Smart Alert",
         "editTitle": "Edit log Smart Alert",
         "steps": {
           "step1Title": "Define the condition",
@@ -1689,11 +1833,14 @@
         "scopeFilter": {
           "title": "Choose the scope of the logs",
           "filter": "Filter",
-          "filterDescription": "Add filters to the services to get more precise alerts."
+          "filterDescription": "Add filters to log message content, logs, or both to get more precise alerts."
+        },
+        "granularity": {
+          "description": "Logs are evaluated in {{granularity}}-minute windows and  a metric value is calculated for that window"
         },
         "scopeGroupBy": {
           "group": "Group",
-          "groupByDescription": "Add group to configure calls in groups. Each call within the group is configured collectively but evaluated individually."
+          "groupByDescription": "Add grouping to logs. Each entry within the group is configured collectively but evaluated individually."
         },
         "timeThreshold": {
           "title": "Set when violations trigger alerts",
@@ -1734,19 +1881,19 @@
         "stepLabel_customPayload": "Custom payload",
         "stepTitle_customPayload": "Custom payload",
         "selectSloHeadline": "Select SLOs",
-        "blueprintSectionTitle": "Select Blueprint",
+        "blueprintSectionTitle": "Select blueprint",
         "blueprint_slo_not_selected": "Please, select at least one SLO to continue.",
         "blueprint": "",
         "blueprint_STATUS": "Status",
-        "blueprint_BURNED_PERCENTAGE": "Error Budget",
-        "blueprint_BURN_RATE": "Burn Rate",
+        "blueprint_BURNED_PERCENTAGE": "Error budget",
+        "blueprint_BURN_RATE": "Burn rate",
         "blueprintDescription": "",
         "blueprintDescription_STATUS": "Receive an alert when the SLO status falls below a threshold.",
         "blueprintDescription_BURNED_PERCENTAGE": "Receive an alert when a percentage of the error budget is consumed.",
         "blueprintDescription_BURN_RATE": "Burn rate is a value that indicates how fast your error budget is consumed relative to your SLO's target length.",
         "burnRateShortWindowTitle": "Short alert window",
         "burnRateShortWindowDescription": "These alerts will be triggered when the error rate exceeds the threshold faster over a shorter period. This can help capture a sudden spike of errors or downtime due to a critical bug.",
-        "burnRateDescription": "Notify me when the burn rate is <1/> <2/>.",
+        "burnRateDescription": "Notify me when the burn rate is <1/> <2/>",
         "burnRateLongWindowTitle": "Long alert window",
         "burnRateLongWindowDescription": "These alerts will be triggered when the error rate exceeds the threshold over a longer period of time. This helps identify issues building up over time that might cause problems in the future if not addressed.",
         "burnRateShortWindowLongerThanLongWindowError": "Short window cannot exceed long window. Please, adjust either of the values.",
@@ -1772,14 +1919,33 @@
       "details": {
         "alertConfigurationTitle": "Alert configuration",
         "sloHeader": "SLOs",
-        "thresholdInfo": "",
-        "thresholdInfo_BURN_RATE": "When burn rate is {{operator}} {{percentage}}",
-        "thresholdInfo_BURNED_PERCENTAGE": "When {{operator}} {{percentage}} percent of error budget is consumed",
-        "thresholdInfo_STATUS": "When SLO status is {{operator}} {{percentage}} percent",
+        "thresholdLabel": "Threshold",
+        "thresholdInfo": "{{operator}} {{percentage}}",
         "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
         "blueprintLabel": "Blueprint",
+        "blueprintInfo": "",
+        "blueprintInfo_BURN_RATE": "Burn rate",
+        "blueprintInfo_BURNED_PERCENTAGE": "Error budget consumed",
+        "blueprintInfo_STATUS": "Status",
+        "longWindowLabel": "Long window",
+        "shortWindowLabel": "Short window",
+        "timeWindowInfo_minute": "{{count}} minute",
+        "timeWindowInfo_minute_plural": "{{count}} minutes",
+        "timeWindowInfo_minute_0": "{{count}} minutes",
+        "timeWindowInfo_minute_1": "{{count}} minute",
+        "timeWindowInfo_minute_2": "{{count}} minutes",
+        "timeWindowInfo_hour": "{{count}} hour",
+        "timeWindowInfo_hour_plural": "{{count}} hours",
+        "timeWindowInfo_hour_0": "{{count}} hours",
+        "timeWindowInfo_hour_1": "{{count}} hour",
+        "timeWindowInfo_hour_2": "{{count}} hours",
+        "timeWindowInfo_day": "{{count}} day",
+        "timeWindowInfo_day_plural": "{{count}} days",
+        "timeWindowInfo_day_0": "{{count}} days",
+        "timeWindowInfo_day_1": "{{count}} day",
+        "timeWindowInfo_day_2": "{{count}} days",
         "coolDownPeriodDescription": "A minimum of {{value}} must pass for the event to conclude."
       },
       "alertList": {

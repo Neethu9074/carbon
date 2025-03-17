@@ -6,10 +6,11 @@
 import { addDays, addMonths, addWeeks, isBefore, subDays, subMonths, subWeeks } from 'date-fns';
 import { useMemo } from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 import { parseTimestamp, TimeWindowDuration } from 'in-custom-dashboards/widgets/SloLegacy/form';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { days } from 'in-services/time/time';
-import { TimeConfig } from 'in-types';
 
 interface CalculateTimeWindowConfigProps {
   timeConfig: TimeConfig;

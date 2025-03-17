@@ -8,8 +8,7 @@ import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 import { debounce } from 'lodash';
 
-import { DashboardTable, Pagination as CarbonPagination } from '@instana/components';
-import { DashboardTableRow as Row } from '@instana/components';
+import { Pagination as CarbonPagination, CarbonTableRow as Row } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
@@ -30,13 +29,13 @@ import PinnedItemList, { Item } from 'in-plg/pages/WelcomePage/widgets/table/Pin
 import connectTo from 'in-hoc/connectTo';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
 import RegularItemList from 'in-plg/pages/WelcomePage/widgets/table/RegularItemList';
+import { DashboardTable } from 'in-plg/components/DashboardTable/DashboardTable';
 import ViewAllButton from 'in-plg/pages/WelcomePage/widgets/table/ViewAllButton';
 import { DashboardTile } from 'in-plg/components/DashboardTile/DashboardTile';
-import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import { timeConfig$ } from 'in-stores/time/config';
-import Pagination from 'in-components/Pagination';
+import { hasError } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 import locals from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper.mless';
@@ -76,6 +75,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   )
 }))(function DatatableWrapper(props: DatatableWidgetProps) {
   let {
+    nonDeletedFavoriteCount,
     tableType,
     headers,
     getItems,
@@ -138,7 +138,10 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
       : null;
 
     const items = searchData ?? resultDataItems;
-    numberOfRegularItemsToShow = Math.max(0, maxItems ? maxItems - favIds.length : items.length);
+    numberOfRegularItemsToShow = Math.max(
+      0,
+      maxItems ? maxItems - (nonDeletedFavoriteCount ?? favIds.length) : items.length
+    );
     hasContent = items.length > 0 ? true : false;
     hits = searchData?.length ?? result?.data?.totalHits ?? result.data.length;
     if (hits) {
@@ -153,11 +156,11 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
     };
   }
 
+  const { header: updatedHeader = '' } = dashboardTileProps || {};
+  const hitsCount = hitsRef.current > 0 ? `(${hitsRef.current})` : '';
   dashboardTileProps = {
     ...dashboardTileProps,
-    header: dashboardTileProps
-      ? `${dashboardTileProps.header} ${hitsRef.current > 0 ? `(${hitsRef.current})` : ''}`
-      : ''
+    header: header !== '' ? `${updatedHeader} ${hitsCount}` : ''
   };
 
   function pinnedItems() {
@@ -169,22 +172,30 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
         pinnedItemIdsByType={pinnedItemIdsByType}
         processResults={(items: any) => {
           return items && items.length > 0
-            ? items.sort(sort).map((item: any, index: number) => (
-                <Row id={`${index}`} key={index}>
-                  <Item
-                    key={item.id}
-                    type={item.type}
-                    pendingItem={item}
-                    timeConfig={timeConfig}
-                    columnDefinitions={columnDefinitions}
-                  />
-                </Row>
-              ))
+            ? removeDeletedFavoritedEntries(items, tableType)
+                .sort(sort)
+                .map((item: any, index: number) => (
+                  <Row id={`${tableType}-pinned-${index}`} key={index}>
+                    <Item
+                      key={item.id}
+                      type={item.type}
+                      pendingItem={item}
+                      timeConfig={timeConfig}
+                      columnDefinitions={columnDefinitions}
+                    />
+                  </Row>
+                ))
             : null;
         }}
       />
     );
     return results;
+  }
+
+  function removeDeletedFavoritedEntries(items?: any, tableType?: string) {
+    if (tableType === 'websitesWidget' || tableType === 'mobileListWidget' || tableType === 'dashboardWidget') {
+      return items.filter((item: any) => !hasError(item.result));
+    } else return items;
   }
 
   function regularItems(mainPage?: boolean, pageSize?: number) {
@@ -232,7 +243,9 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   const updatedHeaders = mainPage ? headers.filter(obj => obj.key !== 'favourite') : null;
   const dataLoading = result?.progress?.loading;
   const showPagination = mainPage && (dataLoading || hits > pageSizes[0]);
-
+  const dashboardAddMoreLabel = t('in-plg:welcomepage.component.dashboardWidget.addButtonLabel');
+  const addMorePrefix =
+    addButtonLabel === dashboardAddMoreLabel ? t('in-plg:welcomepage.create') : t('in-plg:welcomepage.addMore');
   return (
     <section
       className={classNames({
@@ -240,7 +253,6 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
         [locals.noData]: hasNoDataTile
       })}
       aria-label={`${header}`}
-      role="region"
     >
       <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
         <DashboardTable
@@ -263,33 +275,24 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
             setQuery(searchQuery);
             setPage(1);
           }, 500)}
-          buttonName={`${t('in-plg:welcomepage.addMore')} ${addButtonLabel ?? ''}`.trim()}
+          buttonName={`${addMorePrefix} ${addButtonLabel ?? ''}`.trim()}
           toggles={dashboardTileProps.toggles}
           toggleCallback={dashboardTileProps.toggleCallback}
         />
         {viewAll && viewAllButton('viewAllButton')}
       </DashboardTile>
-      {showPagination &&
-        (carbonPaginationEnabled ? (
-          <CarbonPagination
-            currentPage={page}
-            totalItems={hitsRef.current}
-            pageSize={pageSize}
-            pageSizes={pageSizes}
-            onChange={(data: { page: number; pageSize: number }) => {
-              setPage(data?.page);
-              setPageSize(data.pageSize);
-            }}
-          />
-        ) : (
-          <Pagination
-            currentPage={page}
-            numPages={Math.ceil(hitsRef.current / pageSize)}
-            onChange={newPage => {
-              setPage(newPage);
-            }}
-          />
-        ))}
+      {showPagination && (
+        <CarbonPagination
+          currentPage={page}
+          totalItems={hitsRef.current}
+          pageSize={pageSize}
+          pageSizes={pageSizes}
+          onChange={(data: { page: number; pageSize: number }) => {
+            setPage(data?.page);
+            setPageSize(data.pageSize);
+          }}
+        />
+      )}
     </section>
   );
 });

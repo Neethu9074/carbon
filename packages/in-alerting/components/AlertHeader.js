@@ -12,12 +12,14 @@ import { Message, Spacer, Pill, IconButton, Button } from '@instana/components';
 import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
 import { ALERTING_EDIT, ALERTING_CLONE_TRIGGER } from 'in-services/tracking/eventNames';
 import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { getTrackingAlertConfig } from 'in-alerting/smart-alerts/utils/segmentUtils';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import RevisionDropdown from 'in-alerting/components/RevisionDropdown';
+import { FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
 import { playwithEnabled } from 'in-services/featureFlags';
 import AlertIcon from 'in-alerting/components/AlertIcon';
 import BackButton from 'in-components/BackButton';
@@ -50,6 +52,8 @@ export default function AlertHeader({
   isGlobalSmartAlert = false,
   hideAlertIcon = false
 }) {
+  const thresholdType = alertConfig?.threshold?.type ?? undefined;
+  const alertConfigForTracking = getTrackingAlertConfig(alertConfig, thresholdType);
   const { goToPath, createHrefToPath } = useNavigation();
   const { trackCta } = useSegmentTracking();
   const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
@@ -263,7 +267,7 @@ export default function AlertHeader({
                     data-testid="editConfigButtonTearsheet"
                     type="lib_actions_edit"
                     onClick={() => {
-                      trackCta(ALERTING_EDIT, { ...alertConfig });
+                      trackCta(ALERTING_EDIT, { ...alertConfigForTracking, dialogMode: FULLSCREEN });
                       goToPath(editSmartAlertPath.slice(2));
                     }}
                     alignment="right"
@@ -277,7 +281,7 @@ export default function AlertHeader({
                     data-testid="duplicateConfigButtonTearsheet"
                     type="lib_actions_copy"
                     onClick={() => {
-                      trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfig });
+                      trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfigForTracking, dialogMode: FULLSCREEN });
                       goToPath(duplicateSmartAlertPath.slice(2));
                     }}
                     alignment="right"

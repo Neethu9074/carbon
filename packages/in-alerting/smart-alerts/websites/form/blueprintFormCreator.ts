@@ -5,7 +5,7 @@
 
 import { Field, MapForm } from 'formalistic';
 
-import { ThresholdConfigUnion, WebsiteAlertRule, WebsiteTimeThresholdUnion } from '@instana/types';
+import { WebsiteAlertRule, WebsiteTimeThresholdUnion } from '@instana/types';
 
 // @ts-expect-error file will need to be converted to typescript
 import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils';
@@ -13,35 +13,39 @@ import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/compone
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { getBlueprintConfig, WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { createRuleWithThreshold } from 'in-alerting/smart-alerts/utils/thresholdUtils';
 import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
-import { HistoricBaselineConfig, StaticThresholdConfig } from 'in-types';
+
+type AlertThreshold = {
+  operator?: string;
+};
 
 export default function createBlueprintForm(
   form: MapForm<any>,
   alertType: WebsitesAlertType,
-  alertThreshold = {},
+  alertThreshold: AlertThreshold = {},
   isSimpleMode: boolean
 ) {
-  const threshold = (form.get('threshold') as MapForm<any>).toJS() as unknown as ThresholdConfigUnion;
   const tagFilterExpression = (form.get('tagFilterExpression') as Field<FormModelElement[]>).value;
-
+  const warningThresholdField = form.get('threshold').get('warningThreshold');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
+  const defaultOperator = alertThreshold?.operator || form.get('threshold').get('operator').value;
   const blueprintConfig = getBlueprintConfig(alertType)!;
-
-  const newThresholdForm: MapForm<any> = createThresholdForm(
-    {
-      ...threshold,
-      ...alertThreshold,
-      // In simple mode, user does not have a choice to change threshold type, so we need to set it to HISTORIC_BASELINE
-      // when user select a blueprint which has baseline enabled!
-      type: blueprintConfig.baselineEnabled ? (isSimpleMode ? HISTORIC_BASELINE : threshold.type) : STATIC_THRESHOLD
-    } as HistoricBaselineConfig | StaticThresholdConfig,
-    // while the alertType and the Type of thresholdConfig are not combined in a parent Alert Config, this is
-    // currently a too complicated typing, and will need further refactoring and improving!
-    alertType
+  const thresholdType = warningThresholdField
+    ? warningThresholdField.get('type').value
+    : criticalThresholdField.get('type').value;
+  let ruleWithThreshold = createRuleWithThreshold(
+    warningThresholdField,
+    criticalThresholdField,
+    form.get('rule'),
+    blueprintConfig.baselineEnabled,
+    defaultOperator,
+    isSimpleMode
   );
+
+  const newThresholdForm: MapForm<any> = createThresholdForm(ruleWithThreshold, alertType);
 
   const metricName = blueprintConfig.defaultMetric;
   const newRuleForm = createRuleForm({
@@ -68,7 +72,7 @@ export default function createBlueprintForm(
     timeThreshold.type === timeThresholdTypes.userImpactOfViolationsInSequence
   ) {
     // @ts-expect-error The if condition narrows the possible types here without using a typeguard
-    updatedForm = updatedForm.put('timeThreshold', createViolationsInSequenceForm(timeThreshold, threshold.type));
+    updatedForm = updatedForm.put('timeThreshold', createViolationsInSequenceForm(timeThreshold, thresholdType));
   }
 
   return updatedForm;

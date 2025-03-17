@@ -15,14 +15,14 @@ import { getCarbonTableColumnDefinitions, getSyntheticsSubtitle } from 'in-synth
 import { alertsTab, dashboardTestAlertsTabDetailsFullyQualified } from 'in-synthetics/navigation/paths';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListActionHandlers';
-import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
+import { CreateSmartAlertButton } from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import { Role, SyntheticAlertConfig, SyntheticAlertConfigWithMetadata } from 'in-types';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
-import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -31,8 +31,6 @@ import { Location } from 'in-stores/navigation/types';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
-const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
-
 export interface AlertsProps {
   testId: string;
 }
@@ -40,7 +38,6 @@ export interface AlertsProps {
 export default function Alerts({ testId }: AlertsProps) {
   const handlers = (role as Role).canConfigureGlobalSyntheticSmartAlerts ? actionHandlers : {};
   const location = useLocation();
-
   return (
     <>
       <ViewTrackingMeta
@@ -63,11 +60,9 @@ export default function Alerts({ testId }: AlertsProps) {
         extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
         carbonActionHandlers={handlers}
         getNameSubtitle={config => getSyntheticsSubtitle(config)}
-        displayCarbonTable={displayCarbonTable}
+        displayCarbonTable={smartAlertCarbonTableEnabled}
         toolBarContent={
-          role?.canConfigureGlobalSyntheticSmartAlerts ? (
-            <CreateSmartAlert testId={testId} isCarbonTableView={displayCarbonTable} />
-          ) : undefined
+          role?.canConfigureGlobalSyntheticSmartAlerts ? <CreateSmartAlertButton testId={testId} /> : undefined
         }
         noDataHeader={t('in-alerting:smartAlerts.synthetics.alertList.noDataHeader')}
         noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.synthetics.alertList.noDataDescription" />}

@@ -97,7 +97,10 @@ const cols = [
 ];
 
 export default function UserList({ snapshotId, timeConfig }: UserListProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'userList'), [snapshotId]);
+  const data = useObservable(
+    () => getRawPayloadWithTimestamp(snapshotId, 'userList', timeConfig),
+    [snapshotId, timeConfig]
+  );
   const snapshot = useObservable(getSnapshot(snapshotId, timeConfig), [snapshotId, timeConfig]);
   const [user, setUser] = useState();
 
