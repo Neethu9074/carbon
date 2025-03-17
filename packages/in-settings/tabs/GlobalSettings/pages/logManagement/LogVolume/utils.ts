@@ -33,7 +33,7 @@ export function getLabelByName(name: string) {
   return tag ? tag.label : null;
 }
 
-export const sortMonths = (arr: LogVolumeUsageItem[]): LogVolumeUsageItem[] => {
+export const sortMonths = (arr: LogVolumeUsageItem[] = []): LogVolumeUsageItem[] => {
   const currentMonth = new Date().getMonth() + 1;
   return [...arr].sort((a, b) => {
     const adjustedA = (currentMonth - a.numberOfMonth + 12) % 12;
@@ -42,8 +42,8 @@ export const sortMonths = (arr: LogVolumeUsageItem[]): LogVolumeUsageItem[] => {
   });
 };
 
-export const refineRetentionPeriodData = (retentionPeriods: RetentionPeriod[]) => {
-  const sorted = retentionPeriods.sort(({ retentionDays: periodLengthA }, { retentionDays: periodLengthB }) =>
+export const refineRetentionPeriodData = (retentionPeriods: RetentionPeriod[] = []) => {
+  const sorted = [...retentionPeriods].sort(({ retentionDays: periodLengthA }, { retentionDays: periodLengthB }) =>
     periodLengthA > periodLengthB ? 1 : -1
   );
 
