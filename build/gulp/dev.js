@@ -109,37 +109,41 @@ function startDevProxy(cb) {
   const integrationUrl = envConfig.integrationUrl;
   let websocketEndpoint = envConfig.websocketEndpoint || uiBackendUrl;
 
-  const httpProxy = {
-    '/': `http://localhost:${webpackDevServerPort}`,
-    '/waiting/': `http://localhost:${webpackDevServerPort}/waiting/`,
-    '/api/': `${uiBackendUrl}/api/`,
-    '/auth/': butlerUrl + '/auth/',
-    '/assets/': butlerUrl + '/assets/',
-    '/secured/': butlerUrl + '/secured/',
-    '/tenantSwitcher/': butlerUrl + '/tenantSwitcher/',
-    '/notifications/': 'https://instana.github.io/ui-notifications/content/',
-    '/registration/slack/': butlerUrl + '/registration/slack',
-    '/csrf/token': `${uiBackendUrl}/api/csrf/token`,
-    '/integration/': integrationUrl + '/integration/'
-  };
+  const proxy = [
+    { from: '/', type: 'http', to: `http://localhost:${webpackDevServerPort}` },
+    { from: '/waiting/', type: 'http', to: `http://localhost:${webpackDevServerPort}/waiting/` },
+    { from: '/api/', type: 'http', to: `${uiBackendUrl}/api/` },
+    { from: '/auth/', type: 'http', to: butlerUrl + '/auth/' },
+    { from: '/assets/', type: 'http', to: butlerUrl + '/assets/' },
+    { from: '/secured/', type: 'http', to: butlerUrl + '/secured/' },
+    { from: '/tenantSwitcher/', type: 'http', to: butlerUrl + '/tenantSwitcher/' },
+    { from: '/notifications/', type: 'http', to: 'https://instana.github.io/ui-notifications/content/' },
+    { from: '/registration/slack/', type: 'http', to: butlerUrl + '/registration/slack' },
+    { from: '/csrf/token', type: 'http', to: `${uiBackendUrl}/api/csrf/token` },
+    { from: '/integration/', type: 'http', to: integrationUrl + '/integration/' },
+    { from: '/api/data/', type: 'websocket', to: websocketEndpoint }
+  ];
 
   if (hotReload) {
     // webpack hot reload HTTP URL
-    httpProxy['/hot/'] = `http://127.0.0.1:${webpackDevServerPort}/hot/`;
+    proxy.push({ from: '/hot/', type: 'http', to: `http://127.0.0.1:${webpackDevServerPort}/hot/` });
   }
 
   if (envConfig.local) {
-    httpProxy['/api/checkUserAccessPermitted'] = `${uiBackendUrl}/api/checkUserAccessPermitted`;
+    proxy.push({
+      from: '/api/checkUserAccessPermitted',
+      type: 'http',
+      to: `${uiBackendUrl}/api/checkUserAccessPermitted`
+    });
   }
-
-  const websocketProxy = {
-    // Instana websocket API
-    '/api/data/': websocketEndpoint
-  };
 
   if (hotReload) {
     // webpack hot reload websocket URL
-    websocketProxy['/sockjs-node/'] = `http://127.0.0.1:${webpackDevServerPort}/sockjs-node/`;
+    proxy.push({
+      from: '/sockjs-node/',
+      type: 'websocket',
+      to: `http://127.0.0.1:${webpackDevServerPort}/sockjs-node/`
+    });
   }
 
   const config = {
@@ -150,8 +154,7 @@ function startDevProxy(cb) {
     tls: true,
     tlsCertificateFile: path.join(__dirname, '..', 'cert', 'server.crt'),
     tlsCertificateKeyFile: path.join(__dirname, '..', 'cert', 'server.key'),
-    proxy: httpProxy,
-    websocketProxy,
+    proxy,
     proxyReadTimeout: '90s'
   };
 

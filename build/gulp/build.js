@@ -192,19 +192,48 @@ function startTryBuildProxy(cb) {
     tls: true,
     tlsCertificateFile: path.join(__dirname, '..', 'cert', 'server.crt'),
     tlsCertificateKeyFile: path.join(__dirname, '..', 'cert', 'server.key'),
-    proxy: {
-      '/': 'http://127.0.0.1:3131',
-      '/api/': 'https://test-instana.pink.instana.rocks/api/',
-      '/auth/': 'https://test-instana.pink.instana.rocks/auth/',
-      '/assets/': 'https://test-instana.pink.instana.rocks/assets/',
-      '/notifications/': 'https://instana.github.io/ui-notifications/content/',
-      '/integrations/': 'https://test-instana.pink.instana.rocks/integrations/',
-      '/tos-privacy-agreement/storeUserAcceptance':
-        'https://test-instana.pink.instana.rocks/tos-privacy-agreement/storeUserAcceptance'
-    },
-    websocketProxy: {
-      '/api/data/': 'https://test-instana.pink.instana.rocks'
-    }
+    proxy: [
+      {
+        to: '/',
+        from: 'http://127.0.0.1:3131',
+        type: 'http'
+      },
+      {
+        to: '/api/',
+        from: 'https://test-instana.pink.instana.rocks/api/',
+        type: 'http'
+      },
+      {
+        to: '/auth/',
+        from: 'https://test-instana.pink.instana.rocks/auth/',
+        type: 'http'
+      },
+      {
+        to: '/assets/',
+        from: 'https://test-instana.pink.instana.rocks/assets/',
+        type: 'http'
+      },
+      {
+        to: '/notifications/',
+        from: 'https://instana.github.io/ui-notifications/content/',
+        type: 'http'
+      },
+      {
+        to: '/integrations/',
+        from: 'https://test-instana.pink.instana.rocks/integrations/',
+        type: 'http'
+      },
+      {
+        to: '/tos-privacy-agreement/storeUserAcceptance',
+        from: 'https://test-instana.pink.instana.rocks/tos-privacy-agreement/storeUserAcceptance',
+        type: 'http'
+      },
+      {
+        to: '/api/data/',
+        from: 'https://test-instana.pink.instana.rocks',
+        type: 'websocket'
+      }
+    ]
   });
   cb();
 }
@@ -257,19 +286,48 @@ function startTryBuildReleaseProxy(cb) {
     tls: true,
     tlsCertificateFile: path.join(__dirname, '..', 'cert', 'server.crt'),
     tlsCertificateKeyFile: path.join(__dirname, '..', 'cert', 'server.key'),
-    proxy: {
-      '/': 'http://127.0.0.1:3131',
-      '/api/': 'https://release-instana.instana.rocks/api/',
-      '/auth/': 'https://release-instana.instana.rocks/auth/',
-      '/assets/': 'https://release-instana.instana.rocks/assets/',
-      '/notifications/': 'https://instana.github.io/ui-notifications/content/',
-      '/integrations/': 'https://release-instana.instana.rocks/integrations/',
-      '/tos-privacy-agreement/storeUserAcceptance':
-        'https://release-instana.instana.rocks/tos-privacy-agreement/storeUserAcceptance'
-    },
-    websocketProxy: {
-      '/api/data/': 'https://release-instana.instana.rocks'
-    }
+    proxy: [
+      {
+        to: '/',
+        from: 'http://127.0.0.1:3131',
+        type: 'http'
+      },
+      {
+        to: '/api/',
+        from: 'https://release-instana.instana.rocks/api/',
+        type: 'http'
+      },
+      {
+        to: '/auth/',
+        from: 'https://release-instana.instana.rocks/auth/',
+        type: 'http'
+      },
+      {
+        to: '/assets/',
+        from: 'https://release-instana.instana.rocks/assets/',
+        type: 'http'
+      },
+      {
+        to: '/notifications/',
+        from: 'https://instana.github.io/ui-notifications/content/',
+        type: 'http'
+      },
+      {
+        to: '/integrations/',
+        from: 'https://release-instana.instana.rocks/integrations/',
+        type: 'http'
+      },
+      {
+        to: '/tos-privacy-agreement/storeUserAcceptance',
+        from: 'https://release-instana.instana.rocks/tos-privacy-agreement/storeUserAcceptance',
+        type: 'http'
+      },
+      {
+        to: '/api/data/',
+        from: 'https://release-instana.instana.rocks',
+        type: 'websocket'
+      }
+    ]
   });
   cb();
 }
