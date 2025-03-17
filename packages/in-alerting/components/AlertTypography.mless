@@ -5,6 +5,9 @@
  */
 
 :local {
+  .content {
+    word-break: auto-phrase;
+  }
   .color600 {
     color: var(--ids-color-option-neutral-600);
   }

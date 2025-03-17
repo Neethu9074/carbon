@@ -33,6 +33,7 @@ export default function AlertTypography({
     <Typography variant={variant} noMargin={noMargin}>
       <span
         className={classNames({
+          [locals.content]: true,
           [locals.color600]: color === 'color600',
           [locals.color900]: color === 'color900',
           [locals.colorNavy900]: color === 'color900-navy',
