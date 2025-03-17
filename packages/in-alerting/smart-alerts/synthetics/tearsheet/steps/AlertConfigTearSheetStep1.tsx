@@ -4,11 +4,12 @@
  * Copyright IBM Corp. 2025
  */
 
-import { MapForm, Item } from 'formalistic';
+import { MapForm, Item, Field } from 'formalistic';
 import React from 'react';
 
-import { Spacer } from '@instana/components';
+import { Spacer, Stack } from '@instana/components';
 
+import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/dialog/ClearTagFilterExpressionButton';
 import ConfigureAlertTest from 'in-alerting/smart-alerts/synthetics/tearsheet/components/ConfigureAlertTest';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 import { ScopeWrapper } from 'in-alerting/smart-alerts/components/tearSheet/CustomWrappers/Wrapper';
@@ -45,7 +46,18 @@ export default function AlertConfigTearSheetStep1({
           description={t('in-alerting:smartAlerts.synthetics.tearSheet.scopeFilter.filterDescription')}
           gap="normal"
         >
-          <AlertFilterConfigurator QueryBuilderComponent={QueryBuilderComponent} form={form} updateForm={updateForm} />
+          <Stack direction="horizontal" gap="small" distribution="spaceBetween">
+            <AlertFilterConfigurator
+              QueryBuilderComponent={QueryBuilderComponent}
+              form={form}
+              updateForm={updateForm}
+            />
+            <div>
+              {(form.get('tagFilterExpression') as Field<string>).value.length > 0 && (
+                <ClearTagFilterExpressionButton form={form} updateForm={updateForm} />
+              )}
+            </div>
+          </Stack>
         </ScopeWrapper>
       </TearSheetStepTitleWrapper>
     </div>

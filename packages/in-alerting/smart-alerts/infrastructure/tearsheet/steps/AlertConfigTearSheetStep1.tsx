@@ -78,7 +78,7 @@ export default function AlertConfigTearSheetStep1({
 
       <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.infrastructure.tearSheet.scopeFilter.title')}>
         <div>
-          <Stack direction="vertical" gap="normal">
+          <Stack gap="normal">
             <ScopeWrapper
               title={t('in-alerting:smartAlerts.infrastructure.tearSheet.scopeFilter.filter')}
               description={t('in-alerting:smartAlerts.infrastructure.tearSheet.scopeFilter.filterDescription')}
