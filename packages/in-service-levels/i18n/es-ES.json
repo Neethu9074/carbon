@@ -107,15 +107,14 @@
     "metrics": {
       "status": "Estado",
       "remainingBudget": "Restante",
-      "totalBudget": "Presupuesto de error",
-      "consumedBudget": "Presupuesto de error consumido",
-      "momentaryBudgetConsumption": "Consumo de presupuesto de error",
+      "totalBudget": "Margen de error",
+      "consumedBudget": "Presupuesto de errores consumido",
       "beaconCount": "Recuento de balizas",
       "calls": "Llamadas",
       "latency": "Latencia",
       "beaconDuration": "Duración de baliza",
       "threshold": "Umbral",
-      "failureRate": "Frecuencia de errores",
+      "failureRate": "Tasa de errores",
       "errors": "Tasa de llamadas erróneas",
       "beaconErrorRate": "Tasa de errores de baliza",
       "goodEvents": "Sucesos buenos",
@@ -146,7 +145,7 @@
       "event_test_plural": "{{count}} pruebas"
     },
     "deleteDialog": {
-      "confirmRemove": "Confírmelo",
+      "confirmRemove": "Confirmar eliminación",
       "confirmRemoveMsg": "¿Seguro que desea suprimir <strong>{{name}}</strong>?",
       "delete": "Suprimir"
     }
@@ -167,7 +166,7 @@
       "create": "Crear objetivo de nivel de servicio (SLO)",
       "edit": "Editar objetivo de nivel de servicio (SLO)"
     },
-    "selectIndicator": "Seleccionar Blueprint",
+    "selectIndicator": "Seleccionar blueprint",
     "selectEntityNavItem": "Establecer entidad",
     "selectEntityTitle": "Seleccione una entidad a la que añadir SLO:",
     "selectScopeNavItem": "Establecer ámbito",
@@ -175,8 +174,8 @@
     "selectIndicatorNavItem": "Establecer indicador",
     "beaconTypes": {
       "beaconLabel_httpRequest": "Solicitudes HTTP",
-      "beaconLabel_pageLoad": "Cargas de página de sitio web",
-      "beaconLabel_custom": "Eventos personalizados de sitio web"
+      "beaconLabel_pageLoad": "Cargas de páginas de sitio web",
+      "beaconLabel_custom": "Sucesos personalizados de sitio web"
     },
     "serviceAndEndpoint": "Servicio y punto final",
     "selectObjectiveTitle": "Establecer objetivo",
@@ -185,8 +184,8 @@
     "length": "Longitud",
     "start": "Iniciar",
     "valueMissingTime": "— min",
-    "errorBudgetPreviewTitle": "Presupuesto de error",
-    "errorBudgetPreviewTitle_eventBased": "Presupuesto de error estimado",
+    "errorBudgetPreviewTitle": "Margen de error",
+    "errorBudgetPreviewTitle_eventBased": "Margen de error estimado",
     "errorBudgetPreviewTitle_customEventBased": "$t(in-service-levels:createSloDialog.errorBudgetPreviewTitle_eventBased)",
     "estErrorBudgetMsg": "Basado en el $t(in-service-levels:general.timeWindow.size_day anterior, {\"recuento\": {{count}} })",
     "errorTimeWindowDay": "El tamaño del intervalo de tiempo debe ser inferior o igual a 31 días",
@@ -197,7 +196,7 @@
     "errorEmptyGoodFilter": "Se debe definir un filtro adecuado",
     "errorEqualTagFilter": "Los filtros adecuados y malos no deben ser idénticos",
     "nameAndTagsTitle": "Establecer detalles",
-    "sloNameLabel": "Nombre del SLO",
+    "sloNameLabel": "Nombre de SLO",
     "sloNamePlaceholder": "Especificar nombre",
     "sloNameCopyTemplate": "Copia de {{name}}",
     "tagsLabel": "Etiquetas (opcional)",
@@ -249,18 +248,18 @@
       "status": "Estado",
       "target": "Destino:",
       "errorBudgetRemaining": "Restantes:",
-      "errorBudgetSpent": "Margen de error gastado",
+      "errorBudgetSpent": "Margen de error empleado",
       "timeWindow": "Ventana de tiempo",
       "timeWindowType_dynamic": "Ventana de tiempo dinámico",
       "timeWindowType_rolling": "Ventana de tiempo de desplazable",
       "timeWindowType_fixed": "Ventana de tiempo fijo",
       "configuredTimeWindow": "Ventana de tiempo de SLO configurada:",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
-      "startTime": "Hora de inicio: {{startDay}}, {{startTime}}",
-      "matchedSLOTimeWindow": "Ventana de tiempo SLO coincidente: ",
+      "startTime": "Hora de inicio: {{startDay}} , {{startTime}}",
+      "matchedSLOTimeWindow": "Ventana de tiempo de SLO coincidente: ",
       "matchedSLOTimeWindow_plural": "Ventanas de tiempo de SLO coincidentes: ",
-      "matchedSLOTimeWindow_0": "Ventana de tiempo SLO coincidente: ",
-      "matchedSLOTimeWindow_1": "Ventana de tiempo SLO coincidente: ",
+      "matchedSLOTimeWindow_0": "Ventana de tiempo de SLO coincidente: ",
+      "matchedSLOTimeWindow_1": "Ventana de tiempo de SLO coincidente: ",
       "matchedSLOTimeWindow_2": "Ventanas de tiempo de SLO coincidentes: ",
       "noMatchedSLOTimeWindow": "No se ha encontrado ninguna ventana de tiempo",
       "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
@@ -300,8 +299,8 @@
       "name": "Nombre",
       "entity": "Entidad",
       "blueprint": "Anteproyecto",
-      "errorBudget": "Error de presupuesto restante",
-      "status": "Estado/Objetivo",
+      "errorBudget": "Margen de error restante",
+      "status": "Estado / destino",
       "tags": "Códigos"
     }
   },
@@ -331,18 +330,18 @@
     },
     "components": {
       "errorBudgetKpiCard": {
-        "remainingBudget": "Error de presupuesto restante",
+        "remainingBudget": "Margen de error restante",
         "totalBudget": "Presupuesto: {{value}}"
       },
       "sloStatusKpiCard": {
-        "target": "Objetivo SLO: {{value}}"
+        "target": "Destino de SLO: {{value}}"
       },
       "trafficKpiCard": {
         "title": "Tráfico",
         "totalTraffic": "Total: {{value}}"
       },
       "errorBudgetChart": {
-        "title": "Presupuesto de error"
+        "title": "Margen de error"
       },
       "trafficChart": {
         "title": "Tráfico"

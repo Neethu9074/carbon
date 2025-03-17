@@ -107,7 +107,7 @@
   "labelOpen": "Ouvrir",
   "labelClosed": "Fermé",
   "labelIncidentWithSeverity": "Incident {{severityLabel}} ({{stateLabel}})",
-  "labelIssueWithSeverity": "{{severityLabel}} Problème",
+  "labelIssueWithSeverity": "Problème {{severityLabel}}",
   "labelChange": "Changer",
   "labelCritical": "Critique",
   "labelWarning": "Avertissement",
@@ -143,6 +143,7 @@
   "unidentifiedEntityTooltip": "Une erreur s'est produite lors de la recherche d'informations sur cette entité. Vous pouvez consulter le tableau de bord de l'entité en cliquant sur le lien \"Entité non identifiée\" pour plus de détails.",
   "headerStatus": "Statut",
   "eventHelpfulText": "Cet événement a-t-il été utile ?",
+  "summaryHelpfulText": "Ce résumé vous a-t-il été utile?",
   "thankYouForYourFeedback": "Merci pour vos commentaires !",
   "hostOffLineEventProblemChangeTime": "Cliquez sur le lien ci-dessous pour accéder à la dernière version de l'hôte surveillé par Instana. Cela changera le début de votre fenêtre de temps à un moment où l'hôte a été surveillé par Instana.",
   "offLineEventProblemChangeTime": "Cliquez sur le lien ci-dessous pour accéder à la dernière version du processus surveillé par Instana. Cela changera le début de votre fenêtre de temps à un moment où le processus a été surveillé par Instana.",
@@ -151,7 +152,7 @@
   "tooltipCloseEventDetail": "Fermer les informations sur l'événement",
   "releaseOccurName": "Mise en production : {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> passé)",
-  "deprecatedCustomEventWarning": "<strong>Les événements personnalisés sur les types d'entité Application, Service et Noeud final sont dépréciés. À partir de mars 2025, les événements personnalisés pour ces trois types d'entité seront supprimés et vous ne recevrez plus ce {{issueOrIncident}}</strong><br/>Affichez la configuration d'événement personnalisé pour migrer en Smart Alert. <documentationLink>En savoir plus en lisant notre documentation</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>Les événements personnalisés sur les types d'entité application, service et noeud final sont dépréciés. À partir de mars 2025, les événements personnalisés pour ces trois types d'entité seront supprimés et vous ne recevrez plus ce {{issueOrIncident}}</strong><br/>Affichez la configuration d'événement personnalisé pour migrer à Smart Alert. <documentationLink>En savoir plus en lisant notre documentation</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} événements personnalisés requièrent une action",
     "message": "Les événements personnalisés dans l'application, le service et le noeud final ont été dépréciés. Vous ne pourrez plus créer ou mettre à jour ces types d'événements personnalisés à partir de <strong>mars 2025</strong>.",
@@ -159,10 +160,8 @@
     "affectedEventsLink": "Afficher les événements personnalisés affectés"
   },
   "multiClose": {
-    "itemsSelected": "élément(s) sélectionné(s)",
     "closeIncidents": "Fermer un ou des incidents",
     "closeIssues": "Fermer un ou des problèmes",
-    "cancelSelection": "Annuler",
     "incidentsCloseSuccessTitle": "Incident(s) fermé(s)",
     "issuesCloseSuccessTitle": "Problème(s) fermé(s)",
     "multipleIncidentsCloseSuccessMessage": "{{count}} incidents ont été fermés.",
@@ -220,7 +219,7 @@
     "logs": "Journaux"
   },
   "syntheticSmartAlerts": {
-    "failedStatusMetric": "Statut d'échec"
+    "failedStatusMetric": "Etat Echec"
   },
   "RCA": {
     "titlePRCA": "Cause première probable",
@@ -272,12 +271,9 @@
     "analyzeTraceLogs": "Analyser les journaux de traces",
     "analyzeApplicationLogs": "Analyser les journaux d'application",
     "topology": {
+      "overviewTab": "Présentation",
       "viewTopology": "Afficher la topologie",
       "dialogTitle": "Topologie",
-      "overviewTab": "Présentation",
-      "rootCauseOne": "Cause première 1",
-      "rootCauseTwo": "Cause première 2",
-      "rootCauseThree": "Cause première 3",
       "failedToLoadTitle": "Echec du chargement de la topologie",
       "failedToLoadDescription": "Les données topologiques n'ont pas pu être chargées en raison d'une erreur lors de l'extraction des données. Il est possible qu'elles n'existent plus en raison des règles de conservation des données.",
       "legendRCA": "Entité de cause première",
@@ -430,5 +426,9 @@
   },
   "relatedEvents": {
     "openEvent": "Ouvrir l'événement"
+  },
+  "consentForm": {
+    "consentText": "Vous devez accepter les conditions de l'Accord du programme d'aperçu de l'assistance IA générative pour utiliser cette fonctionnalité.",
+    "consentButton": "Contrat de révision"
   }
 }

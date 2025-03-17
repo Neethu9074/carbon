@@ -29,8 +29,8 @@
     "traffic": "Datenverkehr",
     "indicator": {
       "type": "Unbekannter Typ",
-      "type_eventBased": "Ereignisanzahl",
-      "type_customEventBased": "Ereignisanzahl",
+      "type_eventBased": "Ereigniszähler",
+      "type_customEventBased": "Ereigniszähler",
       "type_timeBased": "Zeit",
       "blueprint": "Unbekannter Entwurf",
       "blueprint_latency": "Latenzzeit",
@@ -109,13 +109,12 @@
       "remainingBudget": "Verbleibend",
       "totalBudget": "Fehlerbudget",
       "consumedBudget": "Fehlerbudget verbraucht",
-      "momentaryBudgetConsumption": "Fehlerbudgetverbrauch",
       "beaconCount": "Beacon-Anzahl",
       "calls": "Aufrufe",
       "latency": "Latenzzeit",
       "beaconDuration": "Beacon-Dauer",
       "threshold": "Schwellenwert",
-      "failureRate": "Störungsrate",
+      "failureRate": "Fehlerrate",
       "errors": "Rate fehlerhafter Aufrufe",
       "beaconErrorRate": "Beacon-Fehlerrate",
       "goodEvents": "Fehlerfreie Ereignisse",
@@ -146,7 +145,7 @@
       "event_test_plural": "{{count}} Tests"
     },
     "deleteDialog": {
-      "confirmRemove": "Bitte bestätigen",
+      "confirmRemove": "Entfernen bestätigen",
       "confirmRemoveMsg": "Möchten Sie <strong>{{name}}</strong> wirklich löschen?",
       "delete": "Löschen"
     }
@@ -221,7 +220,7 @@
       "eventTypeExplanation_application": "Gesamtzahl der gültigen und fehlerhaften Aufrufe",
       "eventTypeExplanation_website": "Gesamtzahl der guten und schlechten Beacons",
       "eventTypeExplanation_synthetic": "Gesamtzahl der guten und schlechten Ergebnisse",
-      "eventCount": "Ereignisanzahl",
+      "eventCount": "Ereigniszähler",
       "eventType": "Ereignistyp",
       "thresholdLabel": "Unbekannter Typ",
       "thresholdLabel_latency": "Schwellenwert (ms)",
@@ -256,7 +255,7 @@
       "timeWindowType_fixed": "Festes Zeitfenster",
       "configuredTimeWindow": "Konfiguriertes SLO-Zeitfenster:",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
-      "startTime": "Startzeit: {{startDay}} , {{startTime}}",
+      "startTime": "Startzeit: {{startDay}}, {{startTime}}",
       "matchedSLOTimeWindow": "Zeitfenster für die Anpassung der SLO: ",
       "matchedSLOTimeWindow_plural": "Übereinstimmende SLO-Zeitfenster: ",
       "matchedSLOTimeWindow_0": "Zeitfenster für die Anpassung der SLO: ",

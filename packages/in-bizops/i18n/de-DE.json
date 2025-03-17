@@ -11,6 +11,7 @@
     "pageTitle": "Business Monitoring",
     "cardTitle": "Geschäftsprozesse",
     "theId": "Die Prozess-ID",
+    "theVersion": "Die Prozessversion",
     "hasBeenCopied": "wurde erfolgreich in die Zwischenablage kopiert",
     "activityLabel": "Aktivitäten",
     "nameLabel": "Name",
@@ -104,7 +105,7 @@
         "duration": "Dauer",
         "activityCount": "Anzahl",
         "activityErrors": "Fehler",
-        "topServices": "Wichtigste Services",
+        "topServices": "Top-Services",
         "activityLatency": "Latenzzeit",
         "viewAll": "Alle Services anzeigen"
       },
@@ -141,7 +142,14 @@
       }
     },
     "flowMap": {
-      "tabLabel": "Datenfluss"
+      "zoomIn": "Vergrößern",
+      "zoomOut": "Verkleinern",
+      "zoomReset": "Zoomfaktor zurücksetzen",
+      "count": "Anzahl",
+      "errors": "Fehler",
+      "latency": "Latenzzeit",
+      "tabLabel": "Datenfluss",
+      "loadMore": "Weitere laden"
     }
   }
 }

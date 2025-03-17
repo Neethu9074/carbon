@@ -1416,6 +1416,11 @@
   "pluginName_oTelK8sNode_1": "OTel Kubernetes-Knoten",
   "pluginName_oTelK8sNode_2": "OTel Kubernetes-Knoten",
   "pluginName_oTelK8sNode": "OTel Kubernetes-Knoten",
+  "pluginName_oTelK8sContainer_plural": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer_0": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer_1": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer_2": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer": "OTel Kubernetes Container",
   "pluginName_openLDAP_plural": "OpenLDAP-Knoten",
   "pluginName_openLDAP_0": "OpenLDAP-Knoten",
   "pluginName_openLDAP_1": "OpenLDAP-Knoten",
@@ -2527,6 +2532,11 @@
   "tracingTypeName_otel_0": "Aufrufe",
   "tracingTypeName_otel_1": "Aufruf",
   "tracingTypeName_otel_2": "Aufrufe",
+  "tracingTypeName_otelbatchsynthetic": "Interner Trigger",
+  "tracingTypeName_otelbatchsynthetic_plural": "Interne Trigger",
+  "tracingTypeName_otelbatchsynthetic_0": "Interne Trigger",
+  "tracingTypeName_otelbatchsynthetic_1": "Interner Trigger",
+  "tracingTypeName_otelbatchsynthetic_2": "Interne Trigger",
   "tracingTypeName_pdo": "PDO-Aufruf",
   "tracingTypeName_pdo_plural": "PDO-Aufrufe",
   "tracingTypeName_pdo_0": "PDO-Aufrufe",
@@ -8170,6 +8180,7 @@
       "ebsVolumesWithCount": "EBS-Datenträger ({{len}})",
       "publicHostname": "Öffentlicher Hostname",
       "instanceId": "Instanz-ID",
+      "accountId": "Konto-ID",
       "type": "Typ",
       "availabilityZone": "Verfügbarkeitszone",
       "publicIp": "Öffentliche IP",
@@ -12683,7 +12694,7 @@
       "agentTlsExpired": "Das Agenten-TLS-Zertifikat <code>{{cert}}</code> ist in <code>{{context}}</code> abgelaufen.",
       "agentTlsAboutToExpire": "Das Agenten-TLS-Zertifikat <code>{{cert}}</code> läuft in <code>{{context}}</code> Tagen ab.",
       "tlsProtocolMissingIssue": "Agent verfügt nicht über Support für TLSv1.3",
-      "tmpDirectoryMissingIssue": "Das Verzeichnis /tmp fehlt im Agenten",
+      "tmpDirectoryMissingIssue": "Das <code>{{tmpDirLocation}}</code> Verzeichnis fehlt, wie vom Agenten aus gesehen",
       "agentVersion": "Agentenversion",
       "bootVersion": "Bootversion",
       "origin": "Ursprung",
@@ -13802,7 +13813,9 @@
         "fsresources": "Dateisystem-Ressourcen",
         "fsusage": "Dateisystembelegung",
         "fsavailble": "Dateisystem verfügbar",
-        "fscapacity": "Kapazität des Dateisystems"
+        "fscapacity": "Kapazität des Dateisystems",
+        "containers": "Container",
+        "summary": "Zusammenfassung"
       }
     },
     "oTelK8sCluster": {
@@ -13820,8 +13833,10 @@
         "summary": "Zusammenfassung",
         "nodes": "Knoten",
         "pods": "Pods",
+        "containers": "Container",
         "nodecount": "Knotenanzahl",
         "podcount": "Podsanzahl",
+        "containercount": "Containeranzahl",
         "name": "Name",
         "namespace": "Namensbereich",
         "age": "Alter",
@@ -13860,7 +13875,44 @@
         "fsusage": "Dateisystembelegung",
         "fsavailble": "Dateisystem verfügbar",
         "fscapacity": "Kapazität des Dateisystems",
-        "pods": "Pods"
+        "pods": "Pods",
+        "containers": "Container"
+      }
+    },
+    "oTelK8sContainer": {
+      "platform": "Plattform",
+      "address": "Adresse",
+      "port": "Port",
+      "kind": "Art",
+      "type": "Typ",
+      "serviceName": "Servicename",
+      "entityType": "Entitätstyp",
+      "instanceId": "Instanz-ID",
+      "runtimeDesc": "Kubernetes-Laufzeit",
+      "runtimeVersion": "Kubernetes-Version",
+      "exePath": "Pfad für ausführbare Datei",
+      "dashboard": {
+        "containeruptime": "Betriebszeit des Containers",
+        "cpuresources": "CPU-Ressourcen",
+        "cpuusage": "CPU-Auslastung",
+        "cpuutilization": "CPU-Auslastung",
+        "cputime": "CPU-Zeit",
+        "cpulimitutilization": "CPU-Limit-Auslastung",
+        "cpurequestutilization": "CPU-Anforderungsauslastung",
+        "cpunodeutilization": "CPU-Knotenauslastung",
+        "memoryresources": "Speicherressourcen",
+        "memoryusage": "Speicherbelegung",
+        "memoryavailable": "Verfügbarer Speicher",
+        "memorylimitutilization": "Speicherlimitauslastung",
+        "memoryrequestutilization": "Auslastung der Speicheranforderung",
+        "memoryrss": "Speicher RSS",
+        "memoryworkingset": "Arbeitsspeichergruppe",
+        "memorypagefaults": "Speicher-Seiten-Fehler",
+        "memorymajorpagefaults": "Speicher Große Seitenfehler",
+        "fsresources": "Dateisystem-Ressourcen",
+        "fsusage": "Dateisystembelegung",
+        "fsavailble": "Dateisystem verfügbar",
+        "fscapacity": "Kapazität des Dateisystems"
       }
     },
     "oTelJvm": {
@@ -17448,6 +17500,10 @@
       "error": "Fehler",
       "tags": "Tags",
       "resource": "Ressource"
+    },
+    "otelBatchSynthetic": {
+      "indexReturn": "Interner Trigger",
+      "bodyApproximated": "Instana hat diesen Aufruf erkannt, verfügt aber über keine Informationen zu seiner Quelle. Das Timing und die Dauer des Auslösers dieses Aufrufs wird näherungsweise berechnet."
     },
     "pdo": {
       "driver": "Treiber",

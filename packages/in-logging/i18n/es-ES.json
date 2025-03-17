@@ -1,7 +1,7 @@
 {
   "logs": "Registros",
+  "logsCountSum": "Recuento (suma) de registros",
   "sum": "suma",
-  "count": "count",
   "bar": "Barra",
   "logsOverTime": "Registros a lo largo del tiempo",
   "logsOverTime_ERROR": "Error",
@@ -42,12 +42,12 @@
   "tooltipEntityHealthNoIssues": "No hay ningún problema",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} problemas",
   "endOfInfiniteScroll": "No hay más registros disponibles",
-  "liveModeDisabled": "El modo activo no está soportado cuando se analizan registros",
+  "liveModeDisabled": "El modo activo no está admitido cuando se analizan registros",
   "logLevels": "Niveles de registro",
   "dockerContainer": "Contenedor de Docker",
-  "containerdContainer": "Contenedor de Containerd",
+  "containerdContainer": "Contenedor Containerd",
   "crioContainer": "Contenedor de Crio",
-  "gardenContainer": "Contenedor de Garden",
+  "gardenContainer": "Contenedor Garden",
   "error": "{{count}} error",
   "error_plural": "{{count}} errores",
   "warn": "{{count}} aviso",
@@ -67,11 +67,11 @@
     "management": "Gestión de",
     "logVolume": {
       "logVolumeTitle": "Volumen de registro del mes en curso",
-      "gb": "ES",
+      "gib": "GiB",
+      "tib": "TiB",
       "logVolumeIcon": "Ir al volumen de registro"
     },
     "retentionIcon": "Cambiar periodo de retención",
-    "noData": "No hay datos disponibles.",
     "analyzeLogs": "Analizar registros",
     "managementPage": {
       "logVolume": "Volumen de registros",

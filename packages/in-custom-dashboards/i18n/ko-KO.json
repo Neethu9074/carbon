@@ -26,7 +26,7 @@
         "removeEditRightUserName": "{{fullName}}에 대한 편집 권한 제거",
         "add": "추가",
         "addEditors": "편집자 추가",
-        "pleaseSelect": "선택하십시오."
+        "pleaseSelect": "선택"
       },
       "sharingDialogPresenter": {
         "editPermissions": "권한 편집",
@@ -83,7 +83,7 @@
       "customDashboard": "사용자 정의 대시보드",
       "customDashboardOptions": "사용자 정의 대시보드 옵션",
       "saveChange": "변경사항 저장",
-      "discardChange": "변경사항 무시",
+      "discardChange": "변경사항 취소",
       "addWidget": "위젯 추가",
       "tvMode": "TV 모드",
       "editName": "이름 편집",
@@ -243,7 +243,7 @@
     },
     "srcMobileApp": {
       "formComp": {
-        "beaconType": "비콘 유형",
+        "beaconType": "비컨 유형",
         "pleaseSelect": "선택하십시오.",
         "pleaseSelectDs": "데이터 소스를 선택하십시오.",
         "metric": "메트릭",
@@ -251,7 +251,7 @@
         "pleaseSelectMetric": "메트릭을 선택하십시오."
       },
       "index": {
-        "mobileAppsBeacon": "모바일 앱(비콘)"
+        "mobileAppsBeacon": "모바일 앱(비컨)"
       }
     },
     "srcSli": {
@@ -271,7 +271,7 @@
     },
     "srcWebSite": {
       "formComp": {
-        "beaconType": "비콘 유형",
+        "beaconType": "비컨 유형",
         "pleaseSelect": "선택하십시오.",
         "metric": "메트릭",
         "selectDs": "데이터 소스를 선택하십시오.",
@@ -401,7 +401,7 @@
         "green": "녹색",
         "red": "빨간색",
         "orange": "주황색",
-        "deepPurple": "진보라색",
+        "deepPurple": "진한 자주색",
         "cyan": "청록색",
         "lime": "라임색",
         "pink": "분홍색",
@@ -416,7 +416,7 @@
       "indexChart": {
         "datasets": "데이터 세트",
         "axisConfig": "축 구성",
-        "potentialProblems": "잠재적인 문제점"
+        "potentialProblems": "잠재적 문제점"
       },
       "metricConfigChart": {
         "datasetTimeShift": "데이터 세트가 시간 이동됨",
@@ -508,14 +508,14 @@
       },
       "demo": {
         "title": "SLO 제목",
-        "sliName": "예 Sli",
+        "sliName": "예 SLI",
         "appName": "예제 애플리케이션 이름"
       },
       "apConfigFormComp": {
         "userJourneyOffering": "사용자 과정/오퍼링",
         "appnPerspective": "애플리케이션 퍼스펙티브",
         "selectAppPerspect": "애플리케이션 퍼스펙티브를 선택하십시오.",
-        "appPerspectHelpAction": "애플리케이션 영역에서 애플리케이션 퍼스펙티브로 모델링하여 사용자 과정/오퍼링을 설정하십시오.",
+        "appPerspectHelpAction": "애플리케이션 영역에서 애플리케이션 퍼스펙티브로 모델링하여 사용자 과정 및 오퍼링을 설정하십시오.",
         "rbacHint": "표시되는 애플리케이션은 권한에 따라 제한될 수 있습니다.",
         "noAppPerspect": "애플리케이션 퍼스펙티브 없음!",
         "pleaseSelect": "선택하십시오."
@@ -599,7 +599,7 @@
         "type": "유형",
         "sliEntity": "SLI 엔티티",
         "beaconConfigLabel": "비컨 구성",
-        "beaconScopeLabel": "비콘 범위",
+        "beaconScopeLabel": "비컨 범위",
         "beaconLabel": "알 수 없는 비컨 유형",
         "beaconLabel_httpRequest": "HTTP 요청",
         "beaconLabel_pageLoad": "웹 사이트 페이지 로드",
@@ -614,7 +614,7 @@
         "sliType": "SLI 유형",
         "viewCloneSliConfig": "SLI 구성 보기/복제",
         "delSliConfig": "SLI 구성 삭제",
-        "confirmRemove": "확인하시기 바랍니다.",
+        "confirmRemove": "제거 확인",
         "confirmRemoveMsg": "<strong>{{sliName}}</strong>을(를) 삭제하시겠습니까?",
         "delete": "삭제",
         "eventBasedSli": "이벤트 기반",
@@ -670,7 +670,7 @@
         "target": "대상:",
         "errorBudgetSpent": "사용된 오류 예산",
         "errorBudget": "오류 예산:",
-        "timeWindow": "기간",
+        "timeWindow": "시간 창",
         "timeWindowType": "알 수 없는 기간",
         "timeWindowType_dynamic": "동적 시간 창",
         "timeWindowType_rolling": "롤링 시간 창",
@@ -687,6 +687,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "하나 이상의 필터 표현식을 구성해야 합니다.",
       "timeBased": "시간 기반",
       "eventBased": "이벤트 기반",
+      "sloLite": "SLO Lite",
       "sloLegacy": "SLO 레거시",
       "slo": "SLO",
       "monitoringSourceSelector": {
@@ -705,7 +706,7 @@
       },
       "widgetLeftHeader": {
         "previewDataInfo": "미리보기 데이터는 과거에 대해 7일까지만 표시됩니다. 최종 위젯에는 SLI 작성 이후의 데이터만 포함됩니다.",
-        "liveDataInfo": "오류 예산 데이터에 대해 라이브 데이터를 사용할 수 없습니다."
+        "liveDataInfo": "오류 예산 데이터에 대해 라이브 데이터를 사용할 수 없음"
       },
       "boundaryScopeConfigurator": {
         "all": {
@@ -722,7 +723,7 @@
       "title": "Apdex: 차트",
       "chart": {
         "metricLabel": "Apdex",
-        "viewInAnalyze": "분석 보기",
+        "viewInAnalyze": "분석으로 보기",
         "noDataRetentionPeriod": "선택한 시간 범위가 데이터 보존 기간을 벗어났습니다.",
         "notFoundErrorTitle": "구성된 Apdex를 찾을 수 없음",
         "notFoundErrorDescription": "다른 Apdex 구성을 선택하여 Apdex 위젯을 업데이트하십시오"
@@ -765,7 +766,7 @@
         "cardTitle": "Apdex 구성",
         "nameColumn": "Apdex 구성",
         "thresholdColumn": "임계값",
-        "confirmDeleteHeader": "확인하십시오.",
+        "confirmDeleteHeader": "제거 확인",
         "confirmDeleteMessage": "{{apdex}}을(를) 삭제하시겠습니까?",
         "editApdexTooltip": "Apdex 구성 편집",
         "deleteApdexTooltip": "Apdex 구성 삭제",
@@ -891,7 +892,7 @@
         "helpAction": "이벤트 보기 내에서 사용하는 DFQ(Dynamic Focus Query)입니다.",
         "query": "조회",
         "columns": "컬럼 선택",
-        "pleaseSelect": "선택하십시오.",
+        "pleaseSelect": "선택",
         "validators": {
           "theValueMustNotBeEmpty": "열을 하나 이상 선택해야 함"
         },
@@ -947,7 +948,7 @@
     }
   },
   "duplicateDashboardDialog": {
-    "duplicateDashboard": "대시보드 복제",
+    "duplicateDashboard": "중복 대시보드",
     "dashboardName": "대시보드 이름",
     "duplicate": "복제",
     "copyShareConfig": "공유 구성 복사",

@@ -167,7 +167,7 @@
       "referenceToAwsLambdaMonitoringDoc": "<awsLambdaMonitoring>監視 AWS Lambda 文件</awsLambdaMonitoring>中詳述配置原生 Lambda 追蹤的替代方法。",
       "setupUpInstanaAwsSensorRunningInAwsRegion": "設定在 AWS 區域中執行的 Instana AWS 感應器",
       "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "檢閱必要條件並執行代理程式部署程式碼。",
-      "setIAMPermissionsAndEditTrustRelationship": "設定 IAM 許可權並編輯信任關係",
+      "setIAMPermissionsAndEditTrustRelationship": "設定 IAM 權限並編輯信任關係",
       "selectWhereToRunAwsAgentOn": "選取執行 AWS 代理程式的位置",
       "selectApplicationRunime": "步驟 1：選取應用程式執行時期",
       "applicationRuntime": "應用程式執行時期",
@@ -183,7 +183,7 @@
       "romanStep3": "(iii) ",
       "selectAwsRegion": "選取 AWS 區域",
       "awsRegion": "AWS 地區",
-      "awsCommandLineInterfaceValue": "提供值並使用與下面類似的指令來使用 AWS 指令行介面",
+      "awsCommandLineInterfaceValue": "提供值並使用類似於下面的指令來使用 AWS 指令行介面 (CLI)",
       "amazonResourceName": "Amazon 資源名稱 (ARN)",
       "setEnvVariablesInLambdaFunction": "在 Lambda 函數中設定下列環境變數。",
       "selectInstanaLambdaLayer": "選取下方具有 Amazon 資源名稱 (ARN) 的 Instana Lambda 層。",
@@ -221,7 +221,7 @@
         "monitoringGo": "監視 Go",
         "awsLambdaNativeTracingForRuby": "AWS Lambda 的 Ruby 原生追蹤",
         "awsLambdaNativeTracingForPython": "AWS Lambda 的 Python 原生追蹤",
-        "gcrDocumentation": "Google Cloud Run 文件",
+        "gcrDocumentation": "Google Cloud 執行說明文件",
         "gcBuildpackDocs": "Google Cloud Run 建置套件說明文件",
         "setupGcpAgent": "設定 GCP 代理程式",
         "awsLambdaNativeTracingForNodeJs": "AWS Lambda 的 Node.js 原生追蹤",
@@ -231,7 +231,7 @@
         "runningStartupScript": "執行啟動 Script",
         "uninstallingTheHostAgent": "解除安裝主機代理程式",
         "awsLambdaNativeTracingForJava": "AWS Lambda 的 Java 原生追蹤",
-        "awsLambdaNativeTracingForDotNet": ".NET Core 的 AWS Lambda 原生追蹤",
+        "awsLambdaNativeTracingForDotNet": "AWS Lambda 的 .NET Core 原生追蹤",
         "awsLambdaFunctions": "AWS Lambda 函數",
         "monitoringAwsFargate": "監視 AWS Fargate",
         "monitoringAwsFargateJava": "監視 AWS Fargate (Java)",
@@ -241,12 +241,12 @@
         "monitoringAwsFargatePython": "監視 AWS Fargate (Python)",
         "monitoredAwsServices": "受監視 AWS 服務",
         "monitoringNodejs": "監視 Node.js",
-        "installGcrCollectors": "安裝 Gogle Cloud Run 處理程序收集器",
+        "installGcrCollectors": "安裝 Google Cloud Run 流程內收集器",
         "installAgentOnEc2": "在 AWS EC2 上安裝代理程式",
         "configurationOptions": "配置選項",
         "monitoringGcr": "監視 Google Cloud Run",
         "monitoringAwsFargateRuby": "監視 AWS Fargate (Ruby)",
-        "awsServiceDocumentation": "AWS 服務說明文件",
+        "awsServiceDocumentation": "AWS 服務文件",
         "monitoringAwsLambda": "監視 AWS Lambda",
         "configuringAwsLambdaMonitoring": "配置 AWS Lambda 監視",
         "awsLambdaNativeTracingForGo": "AWS Lambda 的 Go 原生追蹤"
@@ -844,5 +844,10 @@
     "done": "完成",
     "otherGoalPlaceholder": "例如，獲得我的整個環境的可見性",
     "otherGoalToAccomplish": "您還想嘗試達成哪些目標？"
+  },
+  "privacyNotification": {
+    "title": "管理您的設定檔",
+    "description": "檢視和更新您的設定檔、調整隱私設定，以及登出 - 全都在一個地方完成。",
+    "buttonText": "完成"
   }
 }

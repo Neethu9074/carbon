@@ -163,7 +163,7 @@
       "lambdaSetEnvironmentVariables": "Définissez les variables d'environnement suivantes dans la section correspondante de la page de configuration AWS Lambda.",
       "referenceToAwsLambdaGoDocumentation": "Les fonctions AWS Lambda écrites dans Go doivent être instrumentées manuellement afin de collecter des données de trace. Suivez les instructions de la <awsLambdaGoDoc>documentation AWS Lambda Go</awsLambdaGoDoc>.",
       "reviewPrerequisitesAndConfigureLambda": "Vérifiez les prérequis et configurez vos fonctions AWS Lambda pour le traçage natif.",
-      "referDocumentationForSettingUpAwsSensor": "Pour plus d'informations sur la configuration du détecteur Instana AWS, voir la documentation <awsSensor> AWS Service </awsSensorDoc>.",
+      "referDocumentationForSettingUpAwsSensor": "Pour plus d'informations sur la configuration du détecteur Instana AWS, voir la <awsSensorDoc>documentation AWS Service< /awsSensorDoc>.",
       "referenceToAwsLambdaMonitoringDoc": "D'autres méthodes de configuration de la fonction de trace Lambda native sont détaillées dans la <awsLambdaMonitoring>documentation Monitoring AWS Lambda</awsLambdaMonitoring>.",
       "setupUpInstanaAwsSensorRunningInAwsRegion": "Configuration d'un détecteur Instana AWS s'exécutant dans votre région AWS",
       "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Vérifiez les prérequis et exécutez le code de déploiement de l'agent.",
@@ -183,7 +183,7 @@
       "romanStep3": "(iii) ",
       "selectAwsRegion": "Sélectionner la région AWS",
       "awsRegion": "Région AWS",
-      "awsCommandLineInterfaceValue": "Indiquez les valeurs et utilisez une commande similaire à celle ci-dessous pour utiliser l'interface de ligne de commande AWS.",
+      "awsCommandLineInterfaceValue": "Indiquez les valeurs et utilisez une commande similaire à celle ci-dessous pour utiliser l'interface de ligne de commande AWS",
       "amazonResourceName": "Nom de ressource Amazon (ARN)",
       "setEnvVariablesInLambdaFunction": "Définissez les variables d'environnement suivantes dans la fonction Lambda.",
       "selectInstanaLambdaLayer": "Sélectionnez la couche Instana Lambda avec le nom de ressource Amazon (ARN) en dessous.",
@@ -197,7 +197,7 @@
       "referenceToAwsLambdaRubyDocumentation": "Les fonctions AWS Lambda écrites dans Go doivent être instrumentées manuellement afin de collecter des données de trace. Suivez les instructions de la <awsLambdaRubyDoc>documentation AWS Lambda Ruby</awsLambdaRubyDoc>.",
       "preferredMethodForEnablingTracing": "La méthode recommandée pour activer le traçage dans les fonctions AWS Lambda Java consiste à utiliser la couche Instana Lambda avec AutoTrace , comme indiqué dans les étapes ci-dessous.",
       "setupAwsLambdaFunctionsForNativeTracing": "Vérifiez les prérequis et configurez les fonctions AWS Lambda pour le traçage natif en suivant les étapes ci-dessous.",
-      "useScriptAsUserDataForEc2Instance": "Utilisez ce script comme données utilisateur pour l'instance EC2.",
+      "useScriptAsUserDataForEc2Instance": "Utilisez ce script comme données utilisateur pour l'instance EC2",
       "selectAgentPackagingAndRuntime": "Sélectionner le mode de conditionnement et l'environnement d'exécution de l'agent",
       "awsLambdaPythonAutotrace": "La méthode préférée pour configurer les fonctions AWS Lambda basées sur Python pour le traçage est la couche Instana Lambda avec AutoTrace.",
       "awsLambdaDotnetAutotrace": "La méthode recommandée pour configurer les fonctions AWS Lambda basées sur .NET Core pour le traçage est la couche Instana Lambda avec AutoTrace.",
@@ -210,16 +210,16 @@
       "trustRelationships": "Relations de confiance",
       "enterAClusterNameAndOptionallyTheAgentZone": "Entrez un nom de cluster et éventuellement la zone d'agent à laquelle le cluster doit appartenir.",
       "awsLambdaNodeJsAutotrace": "La méthode privilégiée pour configurer les fonctions AWS Lambda en fonction de Node.js 10.x (ou version ultérieure) pour le traçage est la couche Instana Lambda avec AutoTrace.",
-      "selectAwsRegionAndLambdaHandler": "Sélectionnez la région AWS et entrez le gestionnaire lambda en cours.",
+      "selectAwsRegionAndLambdaHandler": "Sélectionnez la région AWS et entrez le gestionnaire Lambda en cours",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Définissez le gestionnaire d'encapsulage automatique Instana comme gestionnaire de la fonction Lambda.",
       "autoWrapHandler": "Gestionnaire d'encapsulage automatique",
       "prerequisiteLinks": {
-        "networkRequirements": "Exigences réseau"
+        "networkRequirements": "Configuration requise pour le réseau"
       },
       "documentationLinks": {
         "installAgentOnAwsEc2": "Installez l'agent sur AWS EC2 (Windows)",
         "monitoringGo": "Surveillance de Go",
-        "awsLambdaNativeTracingForRuby": "AWS Lambda Native Tracing for Ruby",
+        "awsLambdaNativeTracingForRuby": "Fonction de trace AWS Lambda native Ruby",
         "awsLambdaNativeTracingForPython": "Fonction de trace AWS Lambda native pour Python",
         "gcrDocumentation": "Documentation d'exécution de Google Cloud",
         "gcBuildpackDocs": "Documentation du pack de construction d'exécution Google Cloud",
@@ -231,8 +231,8 @@
         "runningStartupScript": "Exécution du script de démarrage",
         "uninstallingTheHostAgent": "Désinstallation de l'agent hôte",
         "awsLambdaNativeTracingForJava": "Fonction de trace AWS Lambda native pour Java",
-        "awsLambdaNativeTracingForDotNet": "AWS Lambda Native Tracing pour .NET Core",
-        "awsLambdaFunctions": "Fonction AWS Lambda",
+        "awsLambdaNativeTracingForDotNet": "Fonction de trace AWS Lambda native pour .NET Core",
+        "awsLambdaFunctions": "Fonctions AWS Lambda",
         "monitoringAwsFargate": "Surveillance d'AWS Fargate",
         "monitoringAwsFargateJava": "Surveillance de AWS Fargate (Java)",
         "configureTaskDefinition": "Configuration de la définition de tâche",
@@ -240,13 +240,13 @@
         "monitoringAwsFargateNodejs": "Surveillance d'AWS Fargate (Node.js)",
         "monitoringAwsFargatePython": "Surveillance d'AWS Fargate (Python)",
         "monitoredAwsServices": "Services AWS surveillés",
-        "monitoringNodejs": "Surveillance de Node js",
+        "monitoringNodejs": "Surveillance Node.js",
         "installGcrCollectors": "Installer les collecteurs intégrés Google Cloud Run",
         "installAgentOnEc2": "Installez l'agent sur AWS EC2",
         "configurationOptions": "Options de configuration",
         "monitoringGcr": "Surveillance de Google Cloud Run",
         "monitoringAwsFargateRuby": "Surveillance de AWS Fargate (Ruby)",
-        "awsServiceDocumentation": "Documentation du service AWS",
+        "awsServiceDocumentation": "Documentation AWS Services",
         "monitoringAwsLambda": "Surveillance d'AWS Lambda",
         "configuringAwsLambdaMonitoring": "Configuration de la surveillance d'AWS Lambda",
         "awsLambdaNativeTracingForGo": "Fonction de trace AWS Lambda native pour Go"
@@ -367,7 +367,7 @@
           "linux64BitArm": "Linux (64 bits-ARM)",
           "linux64BitAmd": "Linux (64 bits - AMD)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
-          "linux64BitPowerPcLittleEndian": "Linux (64 bits-PowerPC Little Endian)",
+          "linux64BitPowerPcLittleEndian": "Linux (64 bits - PowerPC little endian)",
           "linuxS390XJdkNotIncluded": "Linux (64 bits - s390x) JDK non inclus",
           "linuxS390X": "Linux (64Bit - s390x)",
           "linuxX8664": "Linux (64Bit - x86_64)",
@@ -407,7 +407,7 @@
           "linux32BitArm": "Linux (32 bits-ARM)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
           "linux32BitPowerPc": "Linux (32Bit - PowerPC)",
-          "linux64BitPowerPcLittleEndian": "Linux (64 bits-PowerPC Little Endian)",
+          "linux64BitPowerPcLittleEndian": "Linux (64 bits - PowerPC little endian)",
           "linuxS390X": "Linux (s390x)"
         }
       },
@@ -493,7 +493,7 @@
       "installationMethod": "Méthode d'installation",
       "selectInstallationMethod": "Étape 1 : sélectionnez la méthode d'installation et l'environnement d'exécution de l'application.",
       "selectAgentPackagingMode": "Étape 1 : sélectionnez le mode de conditionnement de l'agent",
-      "useScript": "Étape 2 : utilisez le script suivant comme 'Script de démarrage' pour l'instance GCE.",
+      "useScript": "Étape 2 : utilisez le script suivant comme 'Script de démarrage' pour l'instance GCE",
       "integrateInstanaInProcessCollectorForGoogle": "Étape 2 : intégrez le collecteur de processus Instana pour Google Cloud Run.",
       "setEnvironmentVariablesCloudRunServiceDefinition": "Étape 3 : définissez les variables d'environnement suivantes dans la définition de service d'exécution de cloud.",
       "setEnvVariablesInCloudRunServiceRevision": "Définissez les variables d'environnement suivantes dans la révision du service Cloud Run."
@@ -844,5 +844,10 @@
     "done": "Terminé",
     "otherGoalPlaceholder": "Par exemple, gagner en visibilité sur mon environnement",
     "otherGoalToAccomplish": "Quels sont les autres objectifs que vous essayez d'atteindre ?"
+  },
+  "privacyNotification": {
+    "title": "Gestion de votre profil",
+    "description": "Consultez et mettez à jour votre profil, ajustez vos paramètres de confidentialité et déconnectez-vous, le tout en un seul endroit.",
+    "buttonText": "Terminé"
   }
 }

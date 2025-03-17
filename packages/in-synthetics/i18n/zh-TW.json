@@ -88,7 +88,7 @@
         },
         "browserScript": {
           "name": "瀏覽器 Script",
-          "headline": "瀏覽器 Script (BrowserScript)",
+          "headline": "瀏覽器 Script（瀏覽器 Script）",
           "whenToUse": {
             "line1": "當您想要使用 JavaScript 或 Selenium IDE Script 來模擬使用者與 Web 應用程式的互動時，請使用「瀏覽器 Script」測試。"
           },
@@ -141,9 +141,9 @@
           "certificateCheckLabel": "SSL 憑證",
           "certificateCheckHeadline": "SSL 憑證檢查測試",
           "certificateCheckText": "SSL 憑證檢查測試是一種透過檢查已發出憑證的剩餘天數來測試 Web 應用程式中 SSL 憑證有效期限的方法。",
-          "dnsActionLabel": "DNS",
-          "dnsActionHeadline": "網域名稱伺服器",
-          "dnsActionText": "DNS 測試是一種檢查您的裝置或網路是否能正確解析網域名稱，且沒有可能導致速度變慢、錯誤或安全漏洞問題的方法。"
+          "dnsLabel": "DNS",
+          "dnsHeadline": "網域名稱伺服器",
+          "dnsText": "DNS 測試是一種檢查您的裝置或網路是否能正確解析網域名稱，且沒有可能導致速度變慢、錯誤或安全漏洞問題的方法。"
         },
         "configurationLabel": "配置",
         "configurationTitle": "配置：此測試將如何運作？",
@@ -185,7 +185,7 @@
           "scriptLabel": "Script",
           "addscriptAction": "新增 Script",
           "editscriptAction": "編輯 Script",
-          "scriptFileName": "檔案名稱",
+          "scriptFileName": "檔名",
           "scriptNotAdded": "未新增任何 Script。",
           "buttonAdd": "新增",
           "buttonBack": "上一步",
@@ -217,17 +217,53 @@
           "retryFieldOptionTwice": "重試兩次",
           "retryIntervalFieldLabel": "重試間隔",
           "retryIntervalDescription": "此測試將在 {{retryIntervalValue}} {{retryIntervalUnit}} 之後重試 {{retryCount}}。",
-          "markSyntheticCall": "標示虛構呼叫",
+          "markSyntheticCall": "標示綜合呼叫",
           "downloadZip": "下載 .zip 檔案",
           "mainFileNameHelperText": "提供此 .zip 檔案中包含測試入口點的檔案的名稱",
-          "recordVideo": "記錄使用者在失敗時的動作"
+          "recordVideo": "記錄使用者在失敗時的動作",
+          "dns": {
+            "lookupLabel": "URL",
+            "lookupHelperText": "URL 是正在測試 DNS 解析的網域名稱",
+            "lookupPlaceholder": "您的網站 URL",
+            "queryType": "查詢類型",
+            "serverLabel": "DNS伺服器",
+            "serverHelperText": "DNS 伺服器是負責將網域名稱轉換為 IP 位址的伺服器",
+            "portLabel": "埠",
+            "portHelperText": "DNS 伺服器連接埠是您的裝置 (PoP) 與 DNS 伺服器之間使用或通訊的網路連接埠，通常是連接埠 53",
+            "queryTimeLabel": "回應時間",
+            "queryTimeHelperText": "最佳 DNS 解析時間介於 20-120 毫秒之間",
+            "recordTypeTitle": "斷言（選用）",
+            "recordTypeSubtitle": "這些欄位是選用的，但填寫後所有欄位都必須為 True，測試才算成功。",
+            "recordTypeLabel": "記錄類型",
+            "operatorLabel": "條件式",
+            "operatorOptionMatches": "符合",
+            "operatorOptionContains": "包含",
+            "resolutionRecordLabel": "解析記錄",
+            "deleteButtonLabel": "刪除",
+            "addRecordTypeLabel": "新增欄位",
+            "recursiveLookupLabel": "遞迴查閱",
+            "dnsRadioButtonOnLabel": "開啟",
+            "dnsRadioButtonOffLabel": "關閉",
+            "transportProtocolLabel": "傳輸通訊協定",
+            "acceptCNAMELabel": "接受 CNAME",
+            "lookupServerNamelabel": "查閱伺服器名稱",
+            "serverRetriesLabel": "伺服器重試（選用）",
+            "validators": {
+              "invalidDNSLookup": "DNS 查閱格式無效",
+              "invalidDNSServer": "DNS 伺服器無效",
+              "invalidIPv4Address": "IPv4 位址無效",
+              "invalidIPv6Address": "IPv6 位址無效",
+              "invalidRecordType": "記錄類型無效",
+              "invalidResolutionRecord": "解析記錄無效"
+            }
+          }
         },
         "loadMore": "載入更多",
         "selectTests": {
           "addLocations": "新增 {{count}} 個位置",
           "addLocation": "新增位置",
           "cancel": "取消",
-          "selectLocation": "選取位置",
+          "selectLocation": "選擇位置",
           "privatePoPLabel": "專用",
           "managedPoPLabel": "受管理"
         },
@@ -235,7 +271,7 @@
           "apiName": "API",
           "browserName": "瀏覽器",
           "certificateCheckName": "SSL 憑證",
-          "dnsActionName": "DNS"
+          "dnsName": "DNS"
         },
         "customProperties": {
           "property": "內容",
@@ -433,8 +469,8 @@
         "credentials": "認證"
       },
       "popDialog": {
-        "popUpDialogTitle": "Synthetic Monitoring 的許可權",
-        "popUpDialog": "如需設定 Synthetic Monitoring 許可權的相關資訊，請檢查<documentationLink>文件</documentationLink>",
+        "popUpDialogTitle": "綜合監視的權限",
+        "popUpDialog": "如需設定綜合監視權限的相關資訊，請查看<documentationLink>文件</documentationLink>",
         "button": "部署 PoP",
         "simpleTab": "簡式",
         "redisTab": "Redis TLS",
@@ -492,7 +528,7 @@
       "na": "N/A"
     },
     "locationList": {
-      "locationLiveModeDisabled": "即時模式不適用於虛構位置頁面",
+      "locationLiveModeDisabled": "即時模式不適用於綜合位置頁面",
       "locationLabel": "位置名稱",
       "locationDisplayLabel": "顯示名稱",
       "status": "狀態",
@@ -531,9 +567,9 @@
       "successRate": "成功率",
       "locations": "位置",
       "responseTime": "回應時間",
-      "meanResponseTime": "平均 回應時間",
+      "meanResponseTime": "平均回應時間",
       "responseSize": "回應大小",
-      "avgResponseSize": "平均 回應大小",
+      "avgResponseSize": "平均回應大小",
       "summaryTab": "摘要",
       "resultsTab": "結果",
       "startTime": "開始時間",
@@ -591,7 +627,7 @@
       "daysRemaining": "剩餘天數"
     },
     "detailsPage": {
-      "detailLiveModeDisabled": "即時模式在虛構測試結果詳細資料頁面中不適用",
+      "detailLiveModeDisabled": "即時模式不適用於綜合測試結果詳細資料頁面",
       "timeLineWidget": "時間表",
       "responseTimeChart": "回應時間",
       "subtransactionStatus": "狀態",
@@ -604,7 +640,7 @@
       "subtransactionSending": "傳送中",
       "subtransactionWaiting": "等待中",
       "subtransactionReceiving": "接收中",
-      "showLessSubDetails": "顯示更少",
+      "showLessSubDetails": "顯示簡略資訊",
       "showMoreSubDetails": "顯示更多",
       "failedRun": "執行失敗（異常狀況）",
       "failedRunErrorTitle": "錯誤訊息",
@@ -734,15 +770,15 @@
       "resultsTitle": "無可用的結果",
       "resultsDescription": "所選的時間範圍內未擷取到任何的結果。",
       "testSummaryTitle": "沒有可用的綜合測試",
-      "testSummaryDescription": "未從資料庫擷取綜合測試。",
+      "testSummaryDescription": "未從資料庫中擷取到任何綜合測試。",
       "locationListTitle": "沒有可用的綜合位置",
-      "locationListDescription": "沒有從資料庫擷取的綜合位置。",
+      "locationListDescription": "未從資料庫中擷取到任何綜合位置。",
       "configurationTab": "此測試無法使用 {{component}} 詳細資料。"
     },
     "alertList": {
       "timeThreshold": "時間臨界值",
       "testsApplied": "已套用測試",
-      "filterApplied": "已套用過濾器",
+      "filterApplied": "套用的過濾器",
       "violationsCount": "{{violationsCount}} 次失敗",
       "testsCount": "{{testsCount}} 個測試",
       "numberOfFailures": "失敗警示"
@@ -779,7 +815,7 @@
       "associatedApplication": "相關聯的應用程式",
       "noApplicationAssociated": "沒有相關聯的應用程式",
       "configScriptTitle": "Script",
-      "configScriptFileName": "檔案名稱",
+      "configScriptFileName": "檔名",
       "noScriptFileFound": "找不到 Script 檔。",
       "noCustomProperties": "未定義此測試的自訂內容。",
       "propertyTitle": "內容",
@@ -803,7 +839,7 @@
       "retryIntervalFieldLabel": "重試間隔",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} 秒",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} 秒",
-      "markSyntheticCall": "標示虛構呼叫",
+      "markSyntheticCall": "標示綜合呼叫",
       "hostname": "主機名稱",
       "port": "埠",
       "daysRemaining": "失敗配置",
@@ -816,7 +852,26 @@
       "noWebsitesAssociated": "沒有相關聯的網站",
       "associatedMobileApps": "相關聯的行動應用程式",
       "noMobileAppAssociated": "沒有相關聯的行動應用程式",
-      "recordVideo": "記錄使用者在失敗時的動作"
+      "recordVideo": "記錄使用者在失敗時的動作",
+      "dns": {
+        "lookupLabel": "URL",
+        "queryTypeLabel": "查詢類型",
+        "serverLabel": "DNS伺服器",
+        "portLabel": "埠",
+        "responseTimeLabel": "回應時間",
+        "responseTimeDescription": "回應時間小於 {{responseTime}} 毫秒",
+        "assertionsTitle": "斷言",
+        "recordTypeLabel": "記錄類型",
+        "operatorLabel": "條件式",
+        "resolutionRecordLabel": "解析記錄",
+        "recursiveLookupLabel": "遞迴查閱",
+        "dnsRadioButtonOnLabel": "開啟",
+        "dnsRadioButtonOffLabel": "關閉",
+        "transportProtocolLabel": "傳輸通訊協定",
+        "acceptCNAMELabel": "接受 CNAME",
+        "lookupServerNamelabel": "查閱伺服器名稱",
+        "serverRetriesLabel": "伺服器重試"
+      }
     },
     "credentialList": {
       "mainLabel": "認證",
