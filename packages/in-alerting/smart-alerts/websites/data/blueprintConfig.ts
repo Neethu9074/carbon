@@ -170,21 +170,21 @@ const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze({
         <li>${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli4')}</li>
         <li>${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli5')}</li>
       <ul>
-      <br/>
-      <p>
-      ${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextP2')}
-      </p>
     `,
-  getAvailableTags: (metricName: MetricName) =>
-    getIncludedTags(metricName === 'onLoadTime' ? availableFilterTags.pageLoad : availableFilterTags.httpRequest),
   tearSheet: {
     headline: t('in-alerting:smartAlerts.websites.tearSheet.slowness.headline'),
     text: t('in-alerting:smartAlerts.websites.tearSheet.slowness.text')
   },
+  getAvailableTags: () => getIncludedTags(availableFilterTags.pageLoad),
   baselineEnabled: true,
   defaultMetric: 'onLoadTime',
-  getMetricName: (alertRule: WebsiteAlertRule) => alertRule.metricName,
-  getMetricLabel: getSlownessMetricLabel,
+  getMetricName: () => 'onLoadTime',
+  getMetricLabel: (_: MetricName, aggregation?: AggregationType) =>
+    aggregation
+      ? `${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel')} (${getAggregationText(
+          aggregation
+        )})`
+      : t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel'),
   getMetricFormat: () => millis.forcedFixedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: (alertRule: WebsiteAlertRule) => {
@@ -192,7 +192,7 @@ const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze({
     return (alertRule as SlownessWebsiteAlertRule).aggregation;
   },
   isRuleComplete: () => true,
-  getBeaconType: (metricName: MetricName) => (metricName === 'onLoadTime' ? 'pageLoad' : 'httpRequest'),
+  getBeaconType: () => 'pageLoad',
   getExtraAnalyzeLinkTagFilterFormModel: getExtraSlownessAnalyzeLinkTagFilterFormModel
 });
 
@@ -362,15 +362,6 @@ export function getBlueprintConfig(alertType: WebsitesAlertType): BluePrint {
     throw new Error('Unknown alert type: ' + alertType);
   }
   return config;
-}
-
-function getSlownessMetricLabel(metricName: MetricName, aggregation?: AggregationType) {
-  const metricLabel =
-    metricName == 'onLoadTime'
-      ? t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel')
-      : t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigHttpMetricLabel');
-
-  return aggregation ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
 }
 
 // Radio buttons need a unique string id
