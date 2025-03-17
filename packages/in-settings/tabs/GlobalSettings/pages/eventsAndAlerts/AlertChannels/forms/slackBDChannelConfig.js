@@ -209,11 +209,12 @@ function Form({ form, onChange }) {
                 channel: form.get('kind').value
               });
               const baseDomain = window.instana.config.butlerDomain;
+              const id = form.get('id') ? form.get('id').value : generateUniqueShortId();
               const params = new URLSearchParams({
                 endpoint: `https://${baseDomain}`,
                 tenant: window.instana.config.tenant,
                 unit: window.instana.config.tenantUnit,
-                id: window.instana.config.tenantUnitId,
+                id: id,
                 name: form.get('name').value
               });
 
