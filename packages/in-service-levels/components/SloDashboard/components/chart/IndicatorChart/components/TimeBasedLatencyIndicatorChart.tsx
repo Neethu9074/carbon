@@ -104,7 +104,7 @@ export default function TimeBasedLatencyIndicatorChart({
           metrics: [...filteredData.slice(timeWindowStartIndex), thresholdMetrics],
           labels: [...timeWindowsWithData.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
           colors: [...windowColorsWithData, themes.default.ids.color.option.red['500']],
-          formatter: millis.detailed,
+          formatter: millis.forcedCompactOnMs,
           renderer
         },
         timeConfig,
