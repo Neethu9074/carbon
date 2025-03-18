@@ -23,15 +23,15 @@ service:
   extensions: [health_check, pprof, zpages]
   pipelines:
     traces:
-      receivers: [Totlp]
+      receivers: [otlp]
       processors: []
-      exporters: [Totlp]
+      exporters: [otlp]
     metrics:
-      receivers: [Motlp]
-      processors: [Mbatch]
-      exporters: [Motlp]
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp]
     logs:
-      receivers: [Lotlp]
-      processors: [Lbatch]
-      exporters: [Lotlp]
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp]
 
