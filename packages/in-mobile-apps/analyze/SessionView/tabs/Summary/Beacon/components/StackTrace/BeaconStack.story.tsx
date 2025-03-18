@@ -31,7 +31,8 @@ const dummyBeaconData = {
   encodedBodySize: 0,
   httpCallStatus: 0,
   rooted: false,
-  transferSize: 0
+  transferSize: 0,
+  trustDeviceTiming: false
 };
 
 const testData: Record<string, MobileAppMonitoringBeacon> = {
