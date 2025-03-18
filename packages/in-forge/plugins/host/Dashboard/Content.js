@@ -28,6 +28,7 @@ import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import GpuProcessList from 'in-forge/plugins/host/Dashboard/GpuProcessList';
 import PhysicalVolume from 'in-forge/plugins/host/Dashboard/PhysicalVolume';
 import VolumeGroups from 'in-forge/plugins/host/Dashboard/VolumeGroups';
+import DiskTable from 'in-forge/plugins/host/Dashboard/DiskTable';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import GpuTable from 'in-forge/plugins/host/Dashboard/GpuTable';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
@@ -296,6 +297,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
       )}
 
       <FilesystemsTable snapshot={snapshot} timeConfig={timeConfig} />
+      {isLinux(snapshot) && <DiskTable snapshotId={snapshot.get('id')} timeConfig={timeConfig} />}
 
       <NetworkInterfacesTable snapshot={snapshot} timeConfig={timeConfig} />
 
