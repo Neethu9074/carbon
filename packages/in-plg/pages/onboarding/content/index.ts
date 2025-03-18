@@ -28,6 +28,7 @@ import AwsEc2Windows from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Windows';
 import LinuxArchive from 'in-plg/pages/onboarding/AgentList/Linux/LinuxArchive';
 import VmwareTanzu from 'in-plg/pages/onboarding/AgentList/Vmware/VmwareTanzu';
 import AwsLambda from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/AwsLambda';
+import ZOSAutomatic from 'in-plg/pages/onboarding/AgentList/ZOS/ZOSAutomatic';
 import Openshift from 'in-plg/pages/onboarding/AgentList/Openshift/Openshift';
 import WindowsEC2 from 'in-plg/pages/onboarding/AgentList/Windows/WindowsEC2';
 import IBMiArchive from 'in-plg/pages/onboarding/AgentList/IBMi/IBMiArchive';
@@ -165,6 +166,19 @@ export function getEntriesForFreeTrial() {
         label: t('in-waiting-for-deployment:content.automaticInstallationOneLiner'),
         keyWords: 'linuxautomaticoneliner',
         Content: LinuxAutomatic
+      }
+    },
+    {
+      id: 'zos',
+      label: t('in-plg:agentDetails.zos.zos'),
+      title: 'z/OS - Automatic Installation (One-liner)',
+      pageName: 'z/OS > Automatic Installation (One-liner)', // tracking data
+      icon: 'lib_infra_host_zos',
+      category: t('in-waiting-for-deployment:content.os'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.automaticInstallationOneLiner'),
+        keyWords: 'zosautomaticoneliner',
+        Content: ZOSAutomatic
       }
     },
     {

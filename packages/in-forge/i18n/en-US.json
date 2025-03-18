@@ -10964,7 +10964,12 @@
         "servicename": "Service Name",
         "displayname": "Display Name",
         "state": "State",
-        "health": "Health"
+        "health": "Health",
+        "disk": "Disk",
+        "readAwaitTime": "Read Time",
+        "writeAwaitTime": "Write Time",
+        "avgDiscardRequestsTime": "Discard Requests Time",
+        "avgFlushRequestsTime": "Flush Requests Time"
       },
       "os": "OS",
       "distribution": "Distribution",
