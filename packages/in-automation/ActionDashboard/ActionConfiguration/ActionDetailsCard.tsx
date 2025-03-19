@@ -142,7 +142,9 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
                 label={t('in-automation:delete')}
                 kind="ghost"
                 size="sm"
-                onClick={() => showConfirmationDialog(data as Action, navigateToActionCatalog)}
+                onClick={() =>
+                  showConfirmationDialog(data as Action, { callback: navigateToActionCatalog, disableRefresh: true })
+                }
               >
                 <SvgIcon type="lib_actions_delete" size="xs" />
               </CarbonIconButton>
@@ -166,5 +168,5 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
 }
 
 const handleButtonClick = ({ actionId, copy }: { actionId?: string; copy?: boolean }) => {
-  addActiveDialog(<CreateNewActionTearsheet actionId={actionId} copy={copy} />);
+  addActiveDialog(<CreateNewActionTearsheet actionId={actionId} copy={copy} isFromDashboard />);
 };

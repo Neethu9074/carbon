@@ -46,7 +46,15 @@ import SideNav from 'in-components/SideNav';
 import { seconds } from 'in-services/time';
 import { t, Trans } from 'in-i18n';
 
-export default function CreateNewActionTearsheet({ actionId, copy = false }: { actionId?: string; copy?: boolean }) {
+export default function CreateNewActionTearsheet({
+  actionId,
+  copy = false,
+  isFromDashboard = false
+}: {
+  actionId?: string;
+  copy?: boolean;
+  isFromDashboard?: boolean;
+}) {
   const { isCopy, id } = useActionDetailsUrlParams({ actionId, copy });
   const action = useAction({ id, isCopy });
   const actionFilter = useActionFilter();
@@ -97,6 +105,7 @@ export default function CreateNewActionTearsheet({ actionId, copy = false }: { a
         actionFilter={actionFilter.data!}
         copy={copy}
         actionId={actionId}
+        isFromDashboard={isFromDashboard}
       />
     </>
   );
@@ -107,12 +116,13 @@ interface TearSheetProps {
   actionFilter: 'all' | ActionFilter;
   copy: boolean;
   actionId?: string;
+  isFromDashboard?: boolean;
 }
 
-function TearSheetLoader({ action, actionFilter, copy, actionId }: TearSheetProps) {
+function TearSheetLoader({ action, actionFilter, copy, actionId, isFromDashboard }: TearSheetProps) {
   const { isCopy } = useActionDetailsUrlParams({ copy });
   const [form, setForm] = useActionForm({ action, actionFilter });
-  const { onSubmit, result } = useOnSubmit({ actionId, copy });
+  const { onSubmit, result } = useOnSubmit({ actionId, copy, isFromDashboard });
 
   const actionButtons = [
     {
@@ -352,11 +362,13 @@ function ActionDetails({ action, actionFilter, form, setForm, copy, actionId }: 
 interface useOnSubmitProps {
   copy: boolean;
   actionId?: string;
+  isFromDashboard?: boolean;
 }
-function useOnSubmit({ actionId, copy }: useOnSubmitProps) {
+function useOnSubmit({ actionId, copy, isFromDashboard }: useOnSubmitProps) {
   const { createActionTrackerSegment, editActionTrackerSegment } = useSegmentTracker();
   const [result, setResult] = useState<Result<any> | null>(null);
   const { isNew, isCopy, id } = useActionDetailsUrlParams({ actionId, copy });
+  const isActionRefreshEnabled = !isFromDashboard;
   const navigateToActionCatalog = useNavigateToActionCatalog();
   function onSubmit({
     form,
@@ -392,7 +404,7 @@ function useOnSubmit({ actionId, copy }: useOnSubmitProps) {
             onSaveSuccess(result.data?.name!);
             close();
             navigateToActionCatalog();
-            refresh();
+            if (isActionRefreshEnabled) refresh();
           },
           result => {
             onSaveFailure(result?.errors);
@@ -409,8 +421,7 @@ function useOnSubmit({ actionId, copy }: useOnSubmitProps) {
             onEditSuccess(result.data?.name!);
             close();
             navigateToActionCatalog();
-
-            refresh();
+            if (isActionRefreshEnabled) refresh();
           },
           result => {
             onEditFailure(result?.errors);
