@@ -135,32 +135,17 @@ export async function CustomSendMessages(
             }
             instance.updateCSSVariables({ 'BASE-width': '700px' });
           },
-          apiError => sendError(apiError)
+          apiError => {
+            instance.messaging.removeMessages([statusMessageId]);
+            sendError(apiError);
+          }
         );
       },
       // On Error
       error => {
-        const responseObject = {
-          output: {
-            generic: [
-              {
-                agent_message_type: 'inline_error',
-                response_type: 'text',
-                text: error
-              }
-            ]
-          }
-        };
-        instance.messaging.addMessage(responseObject, { silent: false });
-        // ----------
-        // TODO --- update this message below to more of a "sorry this failed"
-        // type of message and then re prompt with starting over
-        // ----------
-        instance.messaging.addMessage({
-          output: {
-            generic: InitialLoadOptions
-          }
-        });
+        instance.messaging.removeMessages([loadingMessageId]);
+        const msg = error.toString ? error.toString() : JSON.stringify(error);
+        sendError(msg);
       }
     );
   } else if (request.input.text === '') {
