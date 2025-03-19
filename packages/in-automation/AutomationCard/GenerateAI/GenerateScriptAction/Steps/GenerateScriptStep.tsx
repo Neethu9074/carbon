@@ -158,7 +158,7 @@ function GenerateScriptButton({
             aiActionGenerateErrorTrackerSegment
           });
         }}
-        icon="lib_launch_ai"
+        icon="lib_generate_ai"
       >
         {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
       </Button>
