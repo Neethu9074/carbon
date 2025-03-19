@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import SharingDialogPresenter from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialogPresenter';
 import { close } from 'in-components/DialogPresenter/store';
@@ -25,6 +26,7 @@ export default function SharingDialog({ config, onSubmit }) {
       selectedUserId={selectedUserId}
       usersResult={usersResult}
       isPrivate={isPrivate(accessRules)}
+      userIsDashboardOwner={user?.id === config.ownerId}
       setPrivate={prvt => setPrivate(prvt, accessRules, setState)}
       setSelectedUserId={selectedUserId => setState({ selectedUserId, accessRules })}
       addEditor={() => addEditor(accessRules, setState, selectedUserId)}
