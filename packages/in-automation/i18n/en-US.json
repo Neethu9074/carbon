@@ -527,7 +527,7 @@
     "lastModified": "Last modified",
     "history": "History",
     "summaryTab": {
-      "seconds": "seconds"
+      "millisecond": "ms"
     },
     "associatedPolicies": "Associated policies"
   },
