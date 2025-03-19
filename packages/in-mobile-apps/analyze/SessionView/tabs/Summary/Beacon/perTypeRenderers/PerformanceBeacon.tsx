@@ -43,6 +43,17 @@ export const getLabel = (beacon: MobileAppMonitoringBeacon) => LABELS[beacon.per
 
 export const getExtraTooltipFields = () => ({});
 
+const getDurationValue = (beacon: MobileAppMonitoringBeacon) => {
+  const compact = (value: number) => latencyFixed.compact(value);
+  // Check the conditions and return the compacted value directly
+  if (beacon.coldStartTimeMs > 0) return compact(beacon.coldStartTimeMs);
+  if (beacon.warmStartTimeMs > 0) return compact(beacon.warmStartTimeMs);
+  if (beacon.hotStartTimeMs > 0) return compact(beacon.hotStartTimeMs);
+
+  // If none of the above conditions are met, return the compacted duration
+  return compact(beacon.duration);
+};
+
 export const LeftHeader: FC<LeftHeaderProps> = ({ beacon, earliestTimestamp }) => (
   <Fragment>
     <KeyValueHeader
@@ -61,7 +72,7 @@ export const LeftHeader: FC<LeftHeaderProps> = ({ beacon, earliestTimestamp }) =
     />
     <KeyValueHeader
       label={t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.durationLabel')}
-      value={latencyFixed.compact(beacon.duration)}
+      value={getDurationValue(beacon)}
     />
   </Fragment>
 );
