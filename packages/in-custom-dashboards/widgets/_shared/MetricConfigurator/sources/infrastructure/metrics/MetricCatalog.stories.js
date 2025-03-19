@@ -63,7 +63,7 @@ export const Default = props => {
     setMetric(change.metric);
     setType(change.type);
   };
-  const metricCatalogResult = metricCatalog(props['number of categories'], props['number of metrics'])
+  const metricCatalogResult = metricCatalog(props['number of categories'], props['number of metrics']);
   return (
     <div>
       <TypeAndMetricConfigurator

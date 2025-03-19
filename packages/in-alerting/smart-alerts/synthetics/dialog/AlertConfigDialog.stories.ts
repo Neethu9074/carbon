@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Default as alertconfig } from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration.story';
+import { Default as alertconfig } from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration.stories';
 import AlertConfigDialog from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
 
 export default {
