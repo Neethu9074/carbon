@@ -20,11 +20,12 @@ import slackBDChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAn
 import splunkChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/splunkChannelConfig';
 import slackChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/slackChannelConfig';
 import emailChannelConfig from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/forms/emailChannelConfig';
+import { bidirectionalSlackEnabled } from 'in-services/featureFlags';
 
 export const configs = {
   email: emailChannelConfig,
   slack: slackChannelConfig,
-  slackBD: slackBDChannelConfig,
+  ...(bidirectionalSlackEnabled && { slackBD: slackBDChannelConfig }),
   opsgenie: opsgenieChannelConfig,
   pagerduty: PagerdutyChannelConfig,
   office365: office365ChannelConfig,
@@ -47,7 +48,7 @@ export const fullyQualified = {
   [configs.opsgenie.name]: configs.opsgenie,
   [configs.pagerduty.name]: configs.pagerduty,
   [configs.slack.name]: configs.slack,
-  [configs.slackBD.name]: configs.slackBD,
+  ...(bidirectionalSlackEnabled && { [configs.slackBD.name]: slackBDChannelConfig }),
   [configs.serviceNowWebhook.name]: configs.serviceNowWebhook,
   [configs.serviceNowBD.name]: configs.serviceNowBD,
   [configs.webhook.name]: configs.webhook,
