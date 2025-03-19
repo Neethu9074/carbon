@@ -25,7 +25,7 @@ interface ProcessNodeProps {
 
 function ProcessNode({ name, metrics, onClick }: ProcessNodeProps) {
   const count = metrics?.count?.[0] ? metrics.count[0][1] : 0;
-  const openIssues = metrics?.openIssues?.[0] ? metrics.openIssues[0][1] : 0;
+  const errors = metrics?.erroneous_call_count?.[0] ? metrics.erroneous_call_count[0][1] : 0;
   const latency = metrics?.latency?.[0] ? millis.compact(metrics.latency[0][1]) : '0ms';
   return (
     <CardNode className={local.container} onClick={onClick}>
@@ -39,7 +39,7 @@ function ProcessNode({ name, metrics, onClick }: ProcessNodeProps) {
         </div>
         <div className={local.metricContainer}>
           <Typography variant="label-01">{t('in-bizops:dashboards.flowMap.errors')}</Typography>
-          <Typography variant="body-01">{openIssues}</Typography>
+          <Typography variant="body-01">{errors}</Typography>
         </div>
         <div className={local.metricContainer}>
           <Typography variant="label-01">{t('in-bizops:dashboards.flowMap.latency')}</Typography>
