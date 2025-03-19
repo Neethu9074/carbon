@@ -11,7 +11,6 @@ exports.getBaseUrl = activeResolver.getBaseUrl;
 exports.getUiBackendBaseUrl = activeResolver.getUiBackendBaseUrl;
 exports.getGroundskeeperBaseUrl = activeResolver.getGroundskeeperBaseUrl;
 exports.getButlerBaseUrl = activeResolver.getButlerBaseUrl;
-exports.getIntegrationBaseUrl = activeResolver.getIntegrationBaseUrl;
 exports.getClientConfig = (req, tenant, unit) => {
   return Promise.all([
     activeResolver.getButlerDomain(tenant, unit),

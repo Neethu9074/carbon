@@ -14,7 +14,6 @@ exports.getConfiguration = () => Promise.resolve(serverConfig.clientConfig.confi
 exports.getUiBackendBaseUrl = () => Promise.resolve(serverConfig.uiBackendBaseUrl);
 exports.getGroundskeeperBaseUrl = () => Promise.resolve(serverConfig.groundskeeperBaseUrl);
 exports.getButlerBaseUrl = () => Promise.resolve(serverConfig.butlerBaseUrl);
-exports.getIntegrationBaseUrl = () => Promise.resolve(serverConfig.integrationBaseUrl);
 
 exports.getReportingEndpoints = (req, tenant, unit) => {
   return getReportingEndpointsFromButler(req, serverConfig.butlerBaseUrl, tenant, unit);

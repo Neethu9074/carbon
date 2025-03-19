@@ -211,14 +211,14 @@ function Form({ form, onChange }) {
               const id = form.get('id') ? form.get('id').value : generateUniqueShortId();
               const integrationBaseUrl = window.instana.config.integrationBaseUrl;
               const params = new URLSearchParams({
-                endpoint: `https://${integrationBaseUrl}`,
+                endpoint: integrationBaseUrl,
                 tenant: window.instana.config.tenant,
                 unit: window.instana.config.tenantUnit,
                 id: id,
                 name: form.get('name').value
               });
 
-              const url = `https://${integrationBaseUrl}/integration/slack/bidirectional/install?${params.toString()}`;
+              const url = `${integrationBaseUrl}/integration/slack/bidirectional/install?${params.toString()}`;
 
               window.open(url, '_blank');
             }}
