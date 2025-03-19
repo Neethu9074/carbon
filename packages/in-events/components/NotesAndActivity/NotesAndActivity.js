@@ -48,7 +48,6 @@ export function OpenNotesAndActivity({ displayNotes, setDisplayNotes, event }) {
         <div onClick={openNotes} className={locals.closedNotesWrapper}>
           <Stack direction="horizontal" gap="xxsmall">
             {t('in-events:notes.notesActivity')}
-            <SvgIcon type={'lib_launch_ai'} color="currentColor" size="xs" />
           </Stack>
           <SvgIcon type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'} size="s" />
         </div>
