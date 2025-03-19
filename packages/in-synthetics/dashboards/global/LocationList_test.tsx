@@ -9,7 +9,9 @@ import React from 'react';
 
 import LocationList from 'in-synthetics/dashboards/global/LocationList';
 
-describe('LocationList', () => {
+// Ignoring the testcase as it doesnt test the actual functionality but
+// just the component render. This is already covered in e2e tests.
+xdescribe('LocationList', () => {
   it('should render a Synthetic location table', () => {
     render(<LocationList />);
 

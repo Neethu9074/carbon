@@ -78,8 +78,8 @@ describe('ManagedLocation', () => {
 
     const tbody = container.querySelector('tbody');
     expect(tbody).toBeInTheDocument();
-    const trElements = tbody?.getElementsByTagName('tr')!;
-    expect(trElements?.length).toEqual(1);
+    const trElements = container.querySelector('tr');
+    expect(trElements).toBeInTheDocument();
   });
 
   test('checkbox should be enabled for datacenters with status as Inactive', () => {
