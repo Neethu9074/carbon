@@ -92,6 +92,7 @@ export default function RunActionDialog({
       title={getTitle({ action, error, actionInstanceId, test, policy })}
       onClose={() => onClose({ error, actionInstanceId })}
       withoutBodyPadding
+      doNotCloseOnOutsideClick
     >
       <>
         <div className={locals.actionModalPadding}>
