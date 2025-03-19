@@ -208,17 +208,23 @@ function Form({ form, onChange }) {
                 path: '',
                 channel: form.get('kind').value
               });
-              const baseDomain = window.instana.config.butlerDomain;
               const id = form.get('id') ? form.get('id').value : generateUniqueShortId();
+              // ---- HACK ----
+              // If we are on PINK we need to use the global butler domain.
+              // All else is fine to use butler domain as is
+              const butlerDomain =
+                (window.instana.config.butlerDomain == 'test-instana.pink.instana.rocks' &&
+                  'globalbackend.rainbowtest.instana.rocks') ||
+                window.instana.config.butlerDomain;
               const params = new URLSearchParams({
-                endpoint: `https://${baseDomain}`,
+                endpoint: `https://${butlerDomain}`,
                 tenant: window.instana.config.tenant,
                 unit: window.instana.config.tenantUnit,
                 id: id,
                 name: form.get('name').value
               });
 
-              const url = `https://${baseDomain}/integration/slack/bidirectional/install?${params.toString()}`;
+              const url = `https://${butlerDomain}/integration/slack/bidirectional/install?${params.toString()}`;
 
               window.open(url, '_blank');
             }}
