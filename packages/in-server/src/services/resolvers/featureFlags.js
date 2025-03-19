@@ -769,17 +769,17 @@ module.exports = exports = [
   {
     uiClientKey: 'alertChannelPerSeverityWebsiteSaEnabled',
     instanaCtlKey: 'feature.alert.channel.per.severity.website.sa.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'alertChannelPerSeverityMobileAppSaEnabled',
     instanaCtlKey: 'feature.alert.channel.per.severity.mobile.app.sa.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'alertChannelPerSeverityLogSaEnabled',
     instanaCtlKey: 'feature.alert.channel.per.severity.log.sa.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'perEntityInfraSmartAlertsEnabled',
