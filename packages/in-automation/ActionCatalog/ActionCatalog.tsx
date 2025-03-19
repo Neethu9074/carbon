@@ -211,7 +211,13 @@ const getColumnDefinitions = ({ isUserActions }: { isUserActions: boolean }): Co
   }
 ];
 
-export function showConfirmationDialog(action: Action, callback?: Function) {
+export function showConfirmationDialog(
+  action: Action,
+  options?: {
+    callback?: () => void;
+    disableRefresh?: boolean;
+  }
+) {
   const { id, name } = action;
   addActiveDialog(
     <ConfirmationDialog
@@ -225,18 +231,24 @@ export function showConfirmationDialog(action: Action, callback?: Function) {
       onSubmit={() => {
         close();
         // TODO: Tracker for action delete
-        onDelete(id, callback);
+        onDelete(id, options);
       }}
     />
   );
 }
 
-function onDelete(id: string, callback?: Function) {
+function onDelete(
+  id: string,
+  options?: {
+    callback?: () => void;
+    disableRefresh?: boolean;
+  }
+) {
   deleteAction(id).once(
     () => {
       onDeleteSuccess();
-      refresh();
-      callback?.();
+      if (!options?.disableRefresh) refresh();
+      options?.callback?.();
     },
     error => {
       onDeleteFailed(error);
