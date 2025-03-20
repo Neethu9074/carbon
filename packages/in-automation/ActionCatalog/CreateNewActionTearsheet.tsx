@@ -24,16 +24,17 @@ import { ActionForm } from 'in-automation/ActionCatalog/useActionForm/types';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { ActionFormBody } from 'in-automation/ActionCatalog/ActionForm';
+import { refreshAction } from 'in-automation/ActionDashboard/useAction';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import useActionFilter from 'in-automation/hooks/useActionFilter';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { refresh } from 'in-automation/ActionCatalog/useActions';
 import { productAreas } from 'in-services/tracking/productAreas';
+import { saveAction, saveNewAction } from 'in-automation/api';
 import useAction from 'in-automation/ActionCatalog/useAction';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { hasError, isLoading } from 'in-services/util/result';
-import { saveAction, saveNewAction } from 'in-automation/api';
 import SectionLine from 'in-settings/components/SectionLine';
 import { close } from 'in-components/DialogPresenter/store';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -368,7 +369,6 @@ function useOnSubmit({ actionId, copy, isFromDashboard }: useOnSubmitProps) {
   const { createActionTrackerSegment, editActionTrackerSegment } = useSegmentTracker();
   const [result, setResult] = useState<Result<any> | null>(null);
   const { isNew, isCopy, id } = useActionDetailsUrlParams({ actionId, copy });
-  const isActionRefreshEnabled = !isFromDashboard;
   const navigateToActionCatalog = useNavigateToActionCatalog();
   function onSubmit({
     form,
@@ -404,7 +404,7 @@ function useOnSubmit({ actionId, copy, isFromDashboard }: useOnSubmitProps) {
             onSaveSuccess(result.data?.name!);
             close();
             navigateToActionCatalog();
-            if (isActionRefreshEnabled) refresh();
+            if (!isFromDashboard) refresh();
           },
           result => {
             onSaveFailure(result?.errors);
@@ -420,8 +420,12 @@ function useOnSubmit({ actionId, copy, isFromDashboard }: useOnSubmitProps) {
             editActionTrackerSegment(trackerDetails);
             onEditSuccess(result.data?.name!);
             close();
-            navigateToActionCatalog();
-            if (isActionRefreshEnabled) refresh();
+            if (isFromDashboard) {
+              refreshAction();
+            } else {
+              navigateToActionCatalog();
+              refresh();
+            }
           },
           result => {
             onEditFailure(result?.errors);
