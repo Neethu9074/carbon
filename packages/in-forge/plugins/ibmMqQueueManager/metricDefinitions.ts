@@ -48,5 +48,17 @@ export default [
     labels: [t('in-forge:plugins.ibmMqQueueManager.uncommittedMessages')],
     min: 0,
     formatter: number
+  },
+  {
+    metrics: ['clusterMetricStatus'],
+    labels: [t('in-forge:plugins.ibmMqQueueManager.clusterMetric')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['clusterSuspendIndicatorStatus'],
+    labels: [t('in-forge:plugins.ibmMqQueueManager.clusterSuspendIndicator')],
+    min: 0,
+    formatter: number
   }
 ];
