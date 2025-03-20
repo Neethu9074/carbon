@@ -173,7 +173,7 @@ export default function UsersV2() {
         tableRows={rows}
         loading={loading}
         searchPlaceholderText={t('in-settings:components.search')}
-        searchAttributes={['fullName', 'email']}
+        searchAttributes={['fullName', 'email', 'id']}
         initalSortConfig={{ key: 'fullName', direction: 'asc' }}
         onCreateNew={
           isAnyIDPActive
