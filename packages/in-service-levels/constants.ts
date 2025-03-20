@@ -31,7 +31,7 @@ export interface LabeledEntity {
   label: string;
 }
 
-export const enabledBeaconTypes = deepFreeze(['httpRequest', 'pageLoad', 'custom'] as const);
+export const enabledBeaconTypes = deepFreeze(['httpRequest'] as const);
 
 export const ServiceLevelErrors = Object.freeze({
   UNHANDLED_SLO_ENTITY_TYPE: 'unhandled SLO entity type',
