@@ -6,7 +6,8 @@
 
 import { TrashCan } from '@carbon/icons-react';
 
-import { just } from '@instana/observables';
+import { combineLatest } from '@instana/observables';
+import { RoleOverview } from '@instana/types';
 
 import {
   RolesMenuItem,
@@ -16,7 +17,7 @@ import {
   BatchActionItemProps,
   TableActions
 } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
-import { Role } from 'in-settings/tabs/SecurityAndAccess/api/rolesMocks';
+import { deleteRole } from 'in-settings/tabs/SecurityAndAccess/api/roles';
 import { deepFreeze } from 'in-services/util/object';
 import { t } from 'in-i18n';
 
@@ -43,10 +44,10 @@ export const ROLES_TABLE_HEADERS: Readonly<RolesTableHeader[]> = deepFreeze([
   }
 ] as const);
 
-export const ROLES_TABLE_ACTIONS: Readonly<TableActions<Role>> = deepFreeze({
+export const ROLES_TABLE_ACTIONS: Readonly<TableActions<RoleOverview>> = deepFreeze({
   delete: {
-    deleteEntity: ({ id: _ }: Role) => just(undefined),
-    batchDeleteEntity: (_ids: string[]) => just(undefined)
+    deleteEntity: ({ id }: RoleOverview) => deleteRole({ id }),
+    batchDeleteEntity: (ids: string[]) => combineLatest(ids.map(id => deleteRole({ id })))
   }
 } as const);
 

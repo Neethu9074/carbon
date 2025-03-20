@@ -8,11 +8,14 @@ import { createField, createMapForm, Field, MapForm, notBlankValidator } from 'f
 
 import { ProductAreaType } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { PermissionsUnion } from 'in-stores/permission';
+import { Member } from 'in-types';
 
 export type ProductAreaPermissionUnion = PermissionsUnion | ProductAreaType;
 
 export type RoleFormFields = {
+  id: Field<string | undefined>;
   name: Field<string>;
+  members: Field<Member[]>;
   applyToAllUnits: Field<boolean>;
   permissions: Field<Array<ProductAreaPermissionUnion>>;
 };
@@ -24,9 +27,15 @@ export type DefaultRoleFormFieldValues = {
 export function createRoleForm(initValues?: DefaultRoleFormFieldValues): MapForm<RoleFormFields> {
   return createMapForm<RoleFormFields>({
     items: {
+      id: createField({
+        value: initValues?.id ?? undefined
+      }),
       name: createField({
         value: initValues?.name ?? '',
         validator: notBlankValidator
+      }),
+      members: createField({
+        value: initValues?.members ?? []
       }),
       applyToAllUnits: createField({
         value: initValues?.applyToAllUnits ?? false

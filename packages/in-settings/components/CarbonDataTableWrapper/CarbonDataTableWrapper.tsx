@@ -472,14 +472,14 @@ export default function CarbonDataTableWrapper<
                         {rows.map(row => (
                           <TableRow
                             // @ts-expect-error no correct typedef for TableRow
-                            key={row.id}
+                            key={`table-row-${row.id}`}
                             {...getRowProps({
                               row
                             })}
                           >
                             {enableMultSelect && <TableSelectRow {...(getSelectionProps({ row }) as any)} />}
                             {row.cells.map(cell => (
-                              <TableCell key={cell.id}>{cell.value}</TableCell>
+                              <TableCell key={`table-cell-${cell.id}`}>{cell.value}</TableCell>
                             ))}
                             {getMenuItems(row as Omit<DataTableRow<COL_TYPE, ROW_DATA_TYPE>, 'rowData'>)?.length > 3 ? (
                               <TableCell className="cds--table-column-menu">
@@ -505,7 +505,7 @@ export default function CarbonDataTableWrapper<
                               <TableCell>
                                 {getMenuItems(row as Omit<DataTableRow<COL_TYPE, ROW_DATA_TYPE>, 'rowData'>).map(
                                   (item, index) => (
-                                    <span key={row.id}>
+                                    <span key={`table-menu-${row.id}-${index}`}>
                                       {item.actionType === 'delete' && loadingRow === row.id ? (
                                         <InlineLoading className={locals.loadingIcon} />
                                       ) : row.disabled ? (
