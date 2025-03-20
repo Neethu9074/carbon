@@ -21,6 +21,7 @@ interface SloMetricConfigGeneratorProps {
   configId: string;
   timeConfig: TimeConfig;
   granularity?: number;
+  aggregation?: AggregationType;
 }
 
 interface ApplicationMetricConfigGeneratorProps {
@@ -105,10 +106,10 @@ export const sloMetrics = deepFreeze({
       } as const)
   },
   indicator: {
-    timeSeries: ({ configId, timeConfig, granularity }: SloMetricConfigGeneratorProps) =>
+    timeSeries: ({ configId, timeConfig, granularity, aggregation }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
-        aggregation: 'MEAN',
+        aggregation: aggregation ?? 'MEAN',
         source: 'SLO',
         configId,
         resultType: 'TIME_SERIES',
