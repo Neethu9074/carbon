@@ -38,7 +38,12 @@ export function useTagFilterExpressionState({ tagCatalogResult, onChange, form, 
         disableEntitySelection
       }).isValid
     ) {
-      change = toBackendQueryModel(tagFilterExpression, false);
+      // Previously, this was using the extra parameter simplify: false,
+      // without any hint or further information why it was used.
+      // It had the disadvantage that it re-recreated the backend-model
+      // with extra unwanted or unnecessary brackets,
+      // leading to customer issue CSP TS018514676
+      change = toBackendQueryModel(tagFilterExpression);
     } else {
       change = invalidMarker;
     }
