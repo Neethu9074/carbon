@@ -4,7 +4,13 @@
  * Copyright IBM Corp. 2024
  */
 
-import { GetUnifiedMetricsQuery, Result, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
+import {
+  AggregationType,
+  GetUnifiedMetricsQuery,
+  Result,
+  ServiceLevelObjectiveConfiguration,
+  TimeConfig
+} from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
@@ -17,12 +23,14 @@ interface UseTimeBasedIndicatorMetricsParams {
   granularity: number;
   timeWindows: TimeConfig[];
   configuration: ServiceLevelObjectiveConfiguration;
+  aggregation?: AggregationType;
 }
 
 export default function useTimeBasedIndicatorMetrics({
   granularity,
   timeWindows,
-  configuration
+  configuration,
+  aggregation
 }: UseTimeBasedIndicatorMetricsParams): Result<UnifiedMetricsResult[]> {
   const hasMatchingTimeWindows = timeWindows.length > 0;
   const metricConfiguration = timeWindows.reduce<GetUnifiedMetricsQuery['metrics']>(
@@ -31,7 +39,8 @@ export default function useTimeBasedIndicatorMetrics({
       [`timeWindow${index}`]: sloMetrics.indicator.timeSeries({
         configId: configuration.id!,
         timeConfig,
-        granularity
+        granularity,
+        aggregation
       })
     }),
     {}
