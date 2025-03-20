@@ -50,7 +50,9 @@ export default function AlertHeader({
   getLinkToEditOrDuplicateSmartAlertTearSheet,
   displayDuplicateAction,
   isGlobalSmartAlert = false,
-  hideAlertIcon = false
+  hideAlertIcon = false,
+  alertDisplayMode,
+  openSelectorDialog
 }) {
   const thresholdType = alertConfig?.threshold?.type ?? undefined;
   const alertConfigForTracking = getTrackingAlertConfig(alertConfig, thresholdType);
@@ -245,7 +247,14 @@ export default function AlertHeader({
                     alignment="right"
                     kind="primaryv2"
                     type="lib_actions_edit"
-                    onClick={openDialog}
+                    onClick={() => {
+                      /* TODO add edit and duplicate action for dialog and tearSheet */
+                      if (alertDisplayMode === 'CHOICE_DIALOG') {
+                        openSelectorDialog({ isCopy: false });
+                      } else {
+                        openDialog({ isCopy: false });
+                      }
+                    }}
                   />
                 </Tooltip>
               )}
@@ -255,7 +264,15 @@ export default function AlertHeader({
                     kind="primaryv2"
                     data-testid="duplicateConfigButton"
                     type="lib_actions_copy"
-                    onClick={() => openDialog({ isCopy: true })}
+                    onClick={() => {
+                      /* TODO add edit and duplicate action for dialog and tearSheet */
+
+                      if (alertDisplayMode === 'CHOICE_DIALOG') {
+                        openSelectorDialog({ isCopy: true });
+                      } else {
+                        openDialog({ isCopy: true });
+                      }
+                    }}
                     alignment="right"
                   />
                 </Tooltip>
@@ -403,7 +420,9 @@ AlertHeader.propTypes = {
   getLinkToEditOrDuplicateSmartAlertTearSheet: PropTypes.func,
   displayDuplicateAction: PropTypes.bool,
   isGlobalSmartAlert: PropTypes.bool,
-  hideAlertIcon: PropTypes.bool
+  hideAlertIcon: PropTypes.bool,
+  openSelectorDialog: PropTypes.func,
+  alertDisplayMode: PropTypes.string
 };
 
 function openRestoreConfirmationDialog(alertRevision, doRestore) {
