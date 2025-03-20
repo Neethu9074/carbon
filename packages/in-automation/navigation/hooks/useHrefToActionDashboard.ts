@@ -5,7 +5,7 @@
  */
 
 import { actionDashboardUrlParameters } from 'in-automation/navigation/urlParameters';
-import { actionDashboardFullyQualified } from 'in-automation/navigation/paths';
+import { actionSummaryFullyQualified } from 'in-automation/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 
@@ -15,7 +15,7 @@ export default function useHrefToActionDashboard() {
   const { location, createHref } = useNavigation();
 
   return (actionId?: string) => {
-    location.pathname = actionDashboardFullyQualified;
+    location.pathname = actionSummaryFullyQualified;
     setOrDeleteMatrixKey(location, idParameter.path ?? '', idParameter.name, actionId);
     return createHref(location);
   };

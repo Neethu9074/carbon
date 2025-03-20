@@ -10,7 +10,6 @@ import { Link } from '@instana/components';
 
 import useHrefToActionDashboard from 'in-automation/navigation/hooks/useHrefToActionDashboard';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { actionSummary } from 'in-automation/navigation/paths';
 import { Trans, t } from 'in-i18n';
 
 function ActionSuccess({ name, id }: { name: string; id: string }) {
@@ -23,7 +22,7 @@ function ActionSuccess({ name, id }: { name: string; id: string }) {
       }}
       components={{
         // @ts-expect-error
-        Link: <Link external href={`${hrefToActionDashboard(id)}${actionSummary}`} />
+        Link: <Link external href={hrefToActionDashboard(id)} />
       }}
     />
   );
