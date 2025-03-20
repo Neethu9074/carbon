@@ -19,6 +19,7 @@
   "titleDescription": "Description",
   "titleTriggerEvent": "Triggering event",
   "titleRelatedEvents": "Related events ({{eventCount}})",
+  "titleAffectedIncidents": "Affected Incidents",
   "noRelatedEvents": "No related events found",
   "titleLastProcess": "Last process",
   "titleLastHost": "Last host",
@@ -447,9 +448,12 @@
   "relatedEvents": {
     "openEvent": "Open event"
   },
-
   "consentForm": {
     "consentText": "You must accept the terms in the Generative AI Assistance Preview Program Agreement to use this feature.",
     "consentButton": "Review agreement"
+  },
+  "affectedIncidents": {
+    "affectedIncident": "Affected incident",
+    "noAffectedIncidents": "No affected incidents found"
   }
 }

@@ -43,6 +43,10 @@ export function isCveIssueEvent(event) {
   return event.hasIn(['metadata', 'cve_issue']);
 }
 
+export function isPrcIssueEvent(event) {
+  return event.hasIn(['metadata', 'prcProbability']);
+}
+
 export function isIbmMqFileTransferIssueEvent(event) {
   return event.hasIn(['metadata', 'ibmMqFileTransfer']);
 }

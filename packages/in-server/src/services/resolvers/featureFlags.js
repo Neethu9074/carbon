@@ -117,7 +117,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'prcIssueEnabled',
-    instanaCtlKey: 'feature.root.cause.identification.scheduler.enabled',
+    instanaCtlKey: 'feature.root.cause.identification.tab.enabled',
     defaultValue: false
   },
   {
