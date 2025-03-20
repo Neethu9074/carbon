@@ -44,7 +44,7 @@ export default function HierarchicalLink({
   );
 
   const dashboardLink = useGetDashboardLink()(snapshotId, { pathname, timeConfig });
-  const snapshotLink = useGetLinkToSnapshotInCurrentView(snapshotId, { timeConfig: timeConfig });
+  const snapshotLink = useGetLinkToSnapshotInCurrentView(snapshotId, { timeConfig });
 
   const href = useSnapshotLink ? snapshotLink : dashboardLink;
 
