@@ -31,7 +31,6 @@ import { getActionNameExists, saveNewAction, saveNewPolicy } from 'in-automation
 import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import { refresh as refreshPolicies } from 'in-automation/AutomationCard/usePolicies';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
 import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
@@ -58,9 +57,7 @@ function getStepConfigs(hasOotbActions: boolean) {
   const actionSteps: StepConfigs = [
     {
       title: hasOotbActions
-        ? automationActionAiGenerationUnitEnabled
-          ? t('in-automation:GenerateAIActionDialog.step1Title')
-          : t('in-automation:GenerateAIActionDialog.step1TitleSelectAction')
+        ? t('in-automation:GenerateAIActionDialog.step1Title')
         : t('in-automation:GenerateAIActionDialog.step1TitleGenerateAction')
     },
     {
