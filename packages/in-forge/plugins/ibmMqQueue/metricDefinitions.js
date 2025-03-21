@@ -34,6 +34,18 @@ export default [
     formatter: number
   },
   {
+    metrics: ['triggerTypeStatus', 'triggerControlStatus', 'queueTypeStatus', 'queueUsageStatus'],
+    labels: [
+      t('in-forge:plugins.ibmMqQueue.triggerType'),
+      t('in-forge:plugins.ibmMqQueue.triggerControl'),
+      t('in-forge:plugins.ibmMqQueue.queueType'),
+      t('in-forge:plugins.ibmMqQueue.queueUsage')
+    ],
+    min: 0,
+    category: [t('in-forge:plugins.ibmMqQueue.attributes')],
+    formatter: number
+  },
+  {
     metrics: ['oldestMessage'],
     labels: [t('in-forge:plugins.ibmMqQueue.oldestMessage')],
     min: 0,
