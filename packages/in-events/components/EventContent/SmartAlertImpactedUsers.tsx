@@ -121,9 +121,9 @@ function createFilterExpressionsForAppAlert(
   let endpointId: string | undefined = eventEntity.endpointId;
 
   if (event.has('metadata')) {
+    alertId = event.getIn(['metadata', 'eventSpecificationId'], '');
     if (entityUtils.isApplicationEntity(entityType)) {
       applicationName = applicationName || event.getIn(['metadata', 'entityLabel'], '');
-      alertId = event.getIn(['metadata', 'eventSpecificationId'], '')
     } else if (entityUtils.isServiceEntity(entityType)) {
       serviceName = serviceName || event.getIn(['metadata', 'entityLabel'], '');
     } else if (entityUtils.isEndpointEntity(entityType)) {
@@ -209,6 +209,6 @@ function createFilterExpressionsForAppAlert(
           applicationId: applicationId,
         })
       );
-   
+
   }
 }
