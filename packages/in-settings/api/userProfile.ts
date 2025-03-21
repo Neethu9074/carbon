@@ -19,7 +19,7 @@ export interface User {
 const refreshSignal = create().emit(true);
 
 export const getUserInfo = memoize<void, Result<User>>(getUserInfoInternal, () => '', 6000);
-function getUserInfoInternal() {
+export function getUserInfoInternal() {
   return refreshSignal.flatMap(() => {
     return createObservable(
       http<User>({
