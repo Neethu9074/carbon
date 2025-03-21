@@ -12450,7 +12450,9 @@
       "connections": "Connections",
       "messagesIn": "Messages In",
       "messagesOut": "Messages Out",
-      "uncommittedMessages": "Uncommitted Messages"
+      "uncommittedMessages": "Uncommitted Messages",
+      "clusterStatus": "Cluster status",
+	    "clusterSuspendIndicator": "Cluster Suspend Indicator"
     },
     "ibmMqQueueUsage": {
       "dashboard": {
