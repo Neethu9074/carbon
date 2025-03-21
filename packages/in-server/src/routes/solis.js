@@ -7,7 +7,7 @@
 
 const express = require('express');
 // const { xXssProtection } = require('helmet');
-const { t } = require('@instana/i18n-react');
+// const { t } = require('@instana/i18n-react');
 
 const router = (module.exports = express.Router());
 
@@ -60,12 +60,12 @@ function generateSideNavItems() {
 
   let navItems = [];
 
-  // Home Link
+  // HomeLink
   navItems.push({
     type: 'link',
     properties: {
       icon_name: 'lib_home',
-      label: t('in-plg:home'),
+      label: 'Home',
       path: '#/home',
       is_root: true
     }
@@ -77,7 +77,7 @@ function generateSideNavItems() {
       type: 'link',
       properties: {
         icon_name: 'main-lib_website_mobile_app_inverted-websites',
-        label: t('Websites & mobile apps'),
+        label: 'Websites & mobile apps',
         path: '#/websiteMonitoring',
         is_root: false
       }
@@ -87,7 +87,7 @@ function generateSideNavItems() {
       type: 'link',
       properties: {
         icon_name: 'lib_website_inverted',
-        label: t('Websites'),
+        label: 'Websites',
         path: '#/websiteMonitoring',
         is_root: false
       }
@@ -97,7 +97,7 @@ function generateSideNavItems() {
       type: 'link',
       properties: {
         icon_name: 'lib_mobile_app_inverted',
-        label: t('Mobile apps'),
+        label: 'Mobile apps',
         path: '#/mobileAppMonitoring',
         is_root: false
       }
@@ -111,7 +111,7 @@ function generateSideNavItems() {
       type: 'link',
       properties: {
         icon_name: 'lib_bizops',
-        label: t('Business Monitoring'),
+        label: 'Business Monitoring',
         path: '#/businessPerspectives',
         is_root: false
       }
@@ -124,7 +124,7 @@ function generateSideNavItems() {
       type: 'link',
       properties: {
         icon_name: 'lib_application_invert',
-        label: t('Applications'),
+        label: 'Applications',
         path: '#/applications',
         is_root: false
       }
@@ -138,7 +138,7 @@ function generateSideNavItems() {
       type: 'menu',
       properties: {
         icon_name: 'lib_platforms_inverted',
-        label: t('Platforms'),
+        label: 'Platforms',
         is_root: false,
         links: generatePlatformItems()
       }
@@ -151,7 +151,7 @@ function generateSideNavItems() {
       type: 'link',
       properties: {
         icon_name: 'infrastructure',
-        label: t('Infrastructure'),
+        label: 'Infrastructure',
         path: '#/physical',
         is_root: false
       }
@@ -165,7 +165,7 @@ function generateSideNavItems() {
     type: 'link',
     properties: {
       icon_name: 'lib_custom_dashboard',
-      label: t('Custom dashboards'),
+      label: 'Custom dashboards',
       path: '#/customDashboards',
       is_root: false
     }
@@ -177,7 +177,7 @@ function generateSideNavItems() {
       type: 'link',
       properties: {
         icon_name: 'lib_application_logging',
-        label: t('Logs'),
+        label: 'Logs',
         path: '#/logging',
         is_root: false,
         is_disabled: !permissions.hasLoggingAccess
@@ -191,7 +191,7 @@ function generateSideNavItems() {
       type: 'link',
       properties: {
         icon_name: 'lib_synthetic',
-        label: t('Synthetic monitoring'),
+        label: 'Synthetic monitoring',
         path: '#/syntheticTests',
         is_root: false,
         is_disabled: !permissions.hasLoggingAccess
@@ -221,7 +221,7 @@ function generateSideNavItems() {
       type: 'link',
       properties: {
         icon_name: 'lib_analyze_inverted',
-        label: t('Analytics'),
+        label: 'Analytics',
         path: '#/analyze',
         is_root: false
       }
@@ -233,7 +233,7 @@ function generateSideNavItems() {
       type: 'link',
       properties: {
         icon_name: 'lib_events_cve',
-        label: t('Vulnerabilities'),
+        label: 'Vulnerabilities',
         path: '#/vulnerability-center',
         is_root: false
         // on-click
@@ -247,7 +247,7 @@ function generateSideNavItems() {
       type: 'link',
       properties: {
         icon_name: 'lib_events_inverted',
-        label: t('Events'),
+        label: 'Events',
         path: '#/events',
         is_root: false,
         badge: 5 // fetch from API call?
@@ -261,7 +261,7 @@ function generateSideNavItems() {
       type: 'link',
       properties: {
         icon_name: 'lib_automation',
-        label: t('Automation'),
+        label: 'Automation',
         path: '#/automation/actionCatalog',
         is_root: false
       }
@@ -274,7 +274,7 @@ function generateSideNavItems() {
       type: 'link',
       properties: {
         icon_name: 'lib_service_level',
-        label: t('Service levels'),
+        label: 'Service levels',
         path: '#/slo',
         is_root: false
       }
@@ -290,7 +290,7 @@ function generateSideNavItems() {
       type: 'link',
       properties: {
         icon_name: 'lib_actions_settings_inverted',
-        label: t('Settings'),
+        label: 'Settings',
         path: '#/config',
         is_root: false
       }
@@ -311,7 +311,7 @@ function generatePlatformItems() {
     platformItems.push({
       type: 'link',
       properties: {
-        label: t('Cloud Foundry'),
+        label: 'Cloud Foundry',
         path: '#/cloudfoundry/applications'
       }
     });
@@ -321,7 +321,7 @@ function generatePlatformItems() {
     platformItems.push({
       type: 'link',
       properties: {
-        label: t('IBM Power HMC'),
+        label: 'IBM Power HMC',
         path: '#/ibmp/phmcs'
       }
     });
@@ -331,7 +331,7 @@ function generatePlatformItems() {
     platformItems.push({
       type: 'link',
       properties: {
-        label: t('IBM PowerVC'),
+        label: 'IBM PowerVC',
         path: '#/powervc//regions'
       }
     });
@@ -341,7 +341,7 @@ function generatePlatformItems() {
     platformItems.push({
       type: 'link',
       properties: {
-        label: t('IBM Z HMC'),
+        label: 'IBM Z HMC',
         path: '#/ibmz/zhmcs'
       }
     });
@@ -351,7 +351,7 @@ function generatePlatformItems() {
     platformItems.push({
       type: 'link',
       properties: {
-        label: t('OpenStack'),
+        label: 'OpenStack',
         path: '#/openstack/regions'
       }
     });
@@ -361,7 +361,7 @@ function generatePlatformItems() {
     platformItems.push({
       type: 'link',
       properties: {
-        label: t('Kubernetes'),
+        label: 'Kubernetes',
         path: '#/kubernetes/clusters'
       }
     });
@@ -371,7 +371,7 @@ function generatePlatformItems() {
     platformItems.push({
       type: 'link',
       properties: {
-        label: t('Nutanix'),
+        label: 'Nutanix',
         path: '#/nutanix/datacenters'
       }
     });
@@ -381,7 +381,7 @@ function generatePlatformItems() {
     platformItems.push({
       type: 'link',
       properties: {
-        label: t('SAP'),
+        label: 'SAP',
         path: '#/sap/sapsystemslist'
       }
     });
@@ -391,7 +391,7 @@ function generatePlatformItems() {
     platformItems.push({
       type: 'link',
       properties: {
-        label: t('vSphere'),
+        label: 'vSphere',
         path: '#/vsphere/datacenters'
       }
     });
