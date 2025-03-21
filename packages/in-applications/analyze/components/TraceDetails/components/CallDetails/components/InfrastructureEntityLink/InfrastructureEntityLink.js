@@ -34,7 +34,7 @@ export default function InfrastructureEntityLink({ entity, plugin, physicalConte
     [entity]
   );
   const currentTimeConfig = useTimeConfig();
-  const resolvedTimeConfig = timeConfig || extendTimeConfigToInclude(currentTimeConfig, entity.time, false);
+  const resolvedTimeConfig = timeConfig || extendTimeConfigToInclude(currentTimeConfig, entity?.time, false);
   const isLoading = get(snapshot, ['progress', 'loading']);
   const getDashboardLink = useGetDashboardLink();
 

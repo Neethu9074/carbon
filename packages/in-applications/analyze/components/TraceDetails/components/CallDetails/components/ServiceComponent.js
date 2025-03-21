@@ -51,8 +51,8 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
 
   const timeConfig = useTimeConfig();
 
-  const sourceEntityTimeConfig = extendTimeConfigToInclude(timeConfig, sourceEntity.time, false);
-  const destinationEntityTimeConfig = extendTimeConfigToInclude(timeConfig, destinationEntity.time, false);
+  const sourceEntityTimeConfig = extendTimeConfigToInclude(timeConfig, sourceEntity?.time, false);
+  const destinationEntityTimeConfig = extendTimeConfigToInclude(timeConfig, destinationEntity?.time, false);
 
   const sourceSnapshotId = getSnapshotId(call, 'source');
   const destinationSnapshotId = getSnapshotId(call, 'destination');

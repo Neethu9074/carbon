@@ -35,7 +35,7 @@ export default function InfrastructureHierarchy({
   if (!hierarchy) {
     return <LoadingSkeleton />;
   }
-  const resolvedTimeConfig = timeConfig || extendTimeConfigToInclude(currentTimeConfig, entity.time, false);
+  const resolvedTimeConfig = timeConfig || extendTimeConfigToInclude(currentTimeConfig, entity?.time, false);
   if (hierarchy.size < 2) {
     return (
       <div>
