@@ -602,6 +602,8 @@
     "previousWeek": "Previous week",
     "dashboardHeaderButtonLive": "Live",
     "customTimeTitleTimeRange": "Time range",
+    "customTimeTimeRangeLowerValue": "Time range lower value",
+    "customTimeTimeRangeUpperValue": "Time range upper value",
     "to": "to",
     "customTimeButtonSetTime": "Set time",
     "customTimeLabelYesterday": "Yesterday",
@@ -640,7 +642,11 @@
     "timeFrameFormatterMinutes_plural": "Last {{count}} minutes",
     "timeFrameFormatterMinutes_0": "Last {{count}} minutes",
     "timeFrameFormatterMinutes_1": "Last {{count}} minutes",
-    "timeFrameFormatterMinutes_2": "Last {{count}} minutes"
+    "timeFrameFormatterMinutes_2": "Last {{count}} minutes",
+    "startDate": "Start date",
+    "startTime": "Start time",
+    "endDate": "End date",
+    "endTime": "End time"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Change selected time shift",

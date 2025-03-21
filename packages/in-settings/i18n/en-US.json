@@ -363,7 +363,10 @@
   },
   "dialogs": {
     "role": {
-      "title": "Create new role",
+      "title": "$t(in-settings:dialogs.role.title_new)",
+      "title_clone": "$t(in-settings:dialogs.role.title_new)",
+      "title_edit": "Edit role",
+      "title_new": "Create new role",
       "generalSectionTitle": "General",
       "websiteSectionTitle": "Websites",
       "mobileAppsSectionTitle": "Mobile apps",
@@ -467,7 +470,8 @@
       "accessControlConfigApiTokensHelpText": "Permits creation and configuration of API token.",
       "accessControlConfigAuthMethodsCheckboxLabel": "Configuration of authentication methods",
       "accessControlViewAuditTrailCheckboxLabel": "Access to audit trail",
-      "accessControlViewTokenAndTimeoutSettingsCheckboxLabel": "Access to token and session timeout settings"
+      "accessControlViewTokenAndTimeoutSettingsCheckboxLabel": "Access to token and session timeout settings",
+      "roleSuccessfullySaved": "Role successfully saved."
     }
   },
   "tabs": {

@@ -45,12 +45,6 @@ export default function AppViewSwitcher() {
             label={t('in-applications:labelServices')}
             isActive={isServiceViewActive}
           />
-          <SecondLevelNavigationItem
-            href={createHrefToPath(alertsList)}
-            icon="lib_alerts_alert"
-            label={t('in-applications:labelSmartAlerts')}
-            isActive={isSmartAlertsViewActive}
-          />
           {applicationSubtracesEnabled && (
             <SecondLevelNavigationItem
               href={createHrefToPath(subtracesList)}
@@ -59,6 +53,12 @@ export default function AppViewSwitcher() {
               isActive={isSubtraceViewActive}
             />
           )}
+          <SecondLevelNavigationItem
+            href={createHrefToPath(alertsList)}
+            icon="lib_alerts_alert"
+            label={t('in-applications:labelSmartAlerts')}
+            isActive={isSmartAlertsViewActive}
+          />
         </SecondLevelNavigation>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />

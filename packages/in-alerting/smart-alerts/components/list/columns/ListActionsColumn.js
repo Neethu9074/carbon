@@ -9,6 +9,10 @@ import PropTypes from 'prop-types';
 import { IconButton } from '@instana/components';
 
 import {
+  TearSheetEditActionHandler,
+  TearSheetCloneActionHandler
+} from 'in-alerting/smart-alerts/components/tearSheet/ActionHandlers/TearSheetActionHandlers';
+import {
   ALERTING_DELETE_TRIGGER,
   ALERTING_EDIT,
   ALERTING_PAUSED,
@@ -28,7 +32,16 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn.mless';
 
 export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon }) {
-  const { handleEdit, handleClone, handleToggleEnabled, handleDelete, handleEditNew, handleCloneNew } = actionHandlers;
+  const {
+    handleEdit,
+    handleClone,
+    handleToggleEnabled,
+    handleDelete,
+    handleEditNew,
+    handleCloneNew,
+    handleEditSelector,
+    handleCloneSelector
+  } = actionHandlers;
   const { builtIn, enabled, id, name } = config;
   const [isSaving, setIsSaving] = useState(false);
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
@@ -107,6 +120,9 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
             </MoreMenuButton>
           )}
+          {handleEditSelector && !builtIn && (
+            <TearSheetEditActionHandler alertConfig={config} openOldDialog={() => handleEditSelector(config)} />
+          )}
           {handleEditNew && !builtIn && handleEditNew(config)}
           {handleClone && (
             <MoreMenuButton
@@ -118,6 +134,9 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon
             >
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
             </MoreMenuButton>
+          )}
+          {handleCloneSelector && !builtIn && (
+            <TearSheetCloneActionHandler alertConfig={config} openOldDialog={() => handleCloneSelector(config)} />
           )}
           {handleCloneNew && !builtIn && handleCloneNew(config)}
           {!builtIn && handleDelete && (

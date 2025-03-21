@@ -54,4 +54,26 @@
 
     color: var(--ids-color-option-neutral-600);
   }
+
+  // This is required to offset the lack of margin that appears when hiding the label of the slider
+  .formContainer {
+    margin-top: 1rem;
+  }
+
+  // The following CSS applies the same styling as the class .cds--visually-hidden from Carbon
+  // Source code: https://github.com/carbon-design-system/carbon/blob/main/packages/styles/scss/utilities/_visually-hidden.scss
+  .labelHidden {
+    & label {
+      position: absolute;
+      overflow: hidden;
+      padding: 0;
+      border: 0;
+      margin: -1px;
+      block-size: 1px;
+      clip: rect(0, 0, 0, 0);
+      inline-size: 1px;
+      visibility: inherit;
+      white-space: nowrap;
+    }
+  }
 }

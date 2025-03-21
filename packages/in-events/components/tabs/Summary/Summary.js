@@ -14,6 +14,7 @@ import {
   isHostAvailabilityEvent,
   isAgentMonitoringIssueEvent,
   isCveIssueEvent,
+  isPrcIssueEvent,
   isApplicationSmartAlertEvent,
   isWebsiteSmartAlertEvent,
   isInfraSmartAlertEvent,
@@ -44,6 +45,7 @@ import SyntheticEventContent from 'in-events/components/EventContent/SyntheticEv
 import AffectedEntitiesPresenter from 'in-events/components/legacy/CveAffectedApplications';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
+import PrcIssueEventContent from 'in-events/components/EventContent/PrcIssueEventContent';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
@@ -158,6 +160,10 @@ function EventContent({ event, latestSnapshot, reload }) {
 
   if (isEntityCountVerificationEvent(event)) {
     return <EntityCountVerificationEventContent event={event} snapshot={snapshot} reload={reload} />;
+  }
+
+  if (isPrcIssueEvent(event)) {
+    return <PrcIssueEventContent event={event} />;
   }
 
   const eventType = getEventType(event);

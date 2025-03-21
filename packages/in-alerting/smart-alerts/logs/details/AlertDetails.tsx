@@ -72,7 +72,9 @@ export default function AlertDetails({ isLogsDashboardHeader = false }: AlertDet
             renderAlertConfiguration={renderAlertConfiguration}
             getAllowedPlaceholders={() => []}
             getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
-            displayTearSheetActions={logSmartAlertFullScreenDesignEnabled}
+            // TODO change this by checking the FF
+            displayTearSheetActions={false}
+            alertDisplayMode={logSmartAlertFullScreenDesignEnabled ? 'CHOICE_DIALOG' : null}
             isGlobalSmartAlert
             canConfigureGlobalAlertConfigs={role?.canConfigureGlobalLogSmartAlerts}
           />

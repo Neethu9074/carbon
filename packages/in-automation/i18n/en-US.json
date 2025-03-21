@@ -115,7 +115,6 @@
     "Step3Headline": "Optionally, you can create an automation policy along with the action. You can also complete this step at a later time.",
     "step1Title": "Step 1: Generate or select an action",
     "step1TitleGenerateAction": "Step 1: Generate an action",
-    "step1TitleSelectAction": "Step 1: Select an action",
     "step2Title": "Step 2: Configure action",
     "step3Title": "Step 3: Create policy (optional)",
     "policyDetails": "Policy details",
@@ -536,7 +535,7 @@
     "thankYouForYourFeedback": "Thank you for your feedback!",
     "submitFeedback": "Submit Feedback",
     "additionalFeedbacklabel": "Provide additional feedback (optional)",
-    "additionalFeedbackPlaceholder": "What did you not like about the response? What can be improved"
+    "additionalFeedbackPlaceholder": "What did you not like about the response? What can be improved?"
   },
   "consentForm": {
     "consentButton": "Review consent form",

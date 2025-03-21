@@ -23,23 +23,24 @@ export default function Presets({ onChange, closeOverlay }) {
 
   return (
     <Section title={t('in-components:time.presetsTitlePresets')}>
-      <div className={locals.presetsContainer}>
+      <ul className={locals.presetsContainer}>
         {getTimePresets().map(({ label, description, windowSize, to }) => (
-          <Preset
-            key={label}
-            label={label}
-            description={description}
-            windowSize={windowSize}
-            to={to}
-            onClick={() => {
-              const trackingPayload = formatRequestedTime(to, windowSize);
-              trackCta(TIME_WINDOW_SIZE_VIA_PICKER, trackingPayload);
-              onChange();
-              closeOverlay();
-            }}
-          />
+          <li key={label}>
+            <Preset
+              label={label}
+              description={description}
+              windowSize={windowSize}
+              to={to}
+              onClick={() => {
+                const trackingPayload = formatRequestedTime(to, windowSize);
+                trackCta(TIME_WINDOW_SIZE_VIA_PICKER, trackingPayload);
+                onChange();
+                closeOverlay();
+              }}
+            />
+          </li>
         ))}
-      </div>
+      </ul>
     </Section>
   );
 }

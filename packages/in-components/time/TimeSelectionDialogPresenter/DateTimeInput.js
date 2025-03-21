@@ -12,7 +12,14 @@ import DateInput from 'in-components/form/DateInput';
 
 import locals from './DateTimeInput.mless';
 
-export default function DateTimeInput({ form, path, setValue }) {
+export default function DateTimeInput({
+  form,
+  path,
+  setValue,
+  dateInputLabel,
+  timeInputAriaLabel,
+  hideDateInputLabel
+}) {
   const dateField = form.get(path).get('date');
   const timeField = form.get(path).get('time');
 
@@ -25,6 +32,8 @@ export default function DateTimeInput({ form, path, setValue }) {
           value={dateField.value}
           onChange={v => setValue(form, [path, 'date'], v)}
           hasError={!dateField.valid && dateField.touched}
+          labelText={dateInputLabel}
+          hideLabel={hideDateInputLabel}
         />
 
         <TimeInput
@@ -33,6 +42,7 @@ export default function DateTimeInput({ form, path, setValue }) {
           onChange={timeString => setValue(form, [path, 'time'], timeString)}
           hasError={!timeField.valid && timeField.touched}
           direction="top"
+          aria-label={timeInputAriaLabel}
         />
       </div>
       <TouchedMessages field={dateField} />

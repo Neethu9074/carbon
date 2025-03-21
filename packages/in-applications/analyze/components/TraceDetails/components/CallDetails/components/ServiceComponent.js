@@ -24,7 +24,7 @@ import ProfileInformation from 'in-applications/analyze/components/TraceDetails/
 import SpanDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SpanDetails';
 import LogsCard from 'in-logging/components/TraceDetails/components/LogDetails/LogsCard';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
-import { getResolvedTimeConfig } from 'in-applications/metrics';
+import { extendTimeConfigToInclude } from 'in-applications/metrics';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
@@ -35,7 +35,6 @@ import { t } from 'in-i18n';
 import locals from './ServiceComponent.mless';
 
 export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon }) {
-  const timeConfig = useTimeConfig();
   const sourceService = get(call, ['source', 'service']);
   const service = get(call, ['destination', 'service']);
   const endpoint = get(call, ['destination', 'endpoint']);
@@ -49,6 +48,11 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
 
   const sourceEntity = getEntity(call, 'source');
   const destinationEntity = getEntity(call, 'destination');
+
+  const timeConfig = useTimeConfig();
+
+  const sourceEntityTimeConfig = extendTimeConfigToInclude(timeConfig, sourceEntity.time, false);
+  const destinationEntityTimeConfig = extendTimeConfigToInclude(timeConfig, destinationEntity.time, false);
 
   const sourceSnapshotId = getSnapshotId(call, 'source');
   const destinationSnapshotId = getSnapshotId(call, 'destination');
@@ -114,6 +118,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                   plugin={destinationEntity && destinationEntity.plugin}
                   snapshotId={destinationSnapshotId}
                   physicalContext={destinationPhysicalContext}
+                  timeConfig={destinationEntityTimeConfig}
                 />
               </div>
             }
@@ -123,7 +128,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                 snapshotId={destinationSnapshotId}
                 calculateHierarchy
                 pathname={physicalDashboardPath}
-                timeConfig={getResolvedTimeConfig(timeConfig, destinationEntity.time)}
+                timeConfig={destinationEntityTimeConfig}
               />
             )}
           </ExpandableGroup>
@@ -239,6 +244,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                             plugin={sourceEntity && sourceEntity.plugin}
                             snapshotId={sourceSnapshotId}
                             physicalContext={sourcePhysicalContext}
+                            timeConfig={sourceEntityTimeConfig}
                           />
                         )}
                       </div>
@@ -251,7 +257,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                       entity={sourceEntity}
                       plugin={sourceEntity && sourceEntity.plugin}
                       physicalContext={sourcePhysicalContext}
-                      timeConfig={getResolvedTimeConfig(timeConfig, sourceEntity.time)}
+                      timeConfig={sourceEntityTimeConfig}
                     />
                   </ExpandableGroup>
                 )}
@@ -298,6 +304,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                     plugin={destinationEntity && destinationEntity.plugin}
                     snapshotId={destinationSnapshotId}
                     physicalContext={destinationPhysicalContext}
+                    timeConfig={destinationEntityTimeConfig}
                   />
                 </div>
               }
@@ -310,7 +317,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                   entity={destinationEntity}
                   plugin={destinationEntity && destinationEntity.plugin}
                   physicalContext={destinationPhysicalContext}
-                  timeConfig={getResolvedTimeConfig(timeConfig, destinationEntity.time)}
+                  timeConfig={destinationEntityTimeConfig}
                 />
               )}
             </ExpandableGroup>
@@ -340,6 +347,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                       plugin={destinationEntity && destinationEntity.plugin}
                       snapshotId={destinationSnapshotId}
                       physicalContext={destinationPhysicalContext}
+                      timeConfig={destinationEntityTimeConfig}
                     />
                   </div>
                 </Tooltip>

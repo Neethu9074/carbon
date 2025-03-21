@@ -140,7 +140,7 @@ const Groups = () => {
       initialOrderBy="name"
       onCreateNew={() => goToPath(securityAndAccessAccessControlGroupNew)}
       labelNew={t('in-settings:tabs.addGroup')}
-      searchAttributes={['name']}
+      searchAttributes={['name', 'id']}
       searchPlaceholder={t('in-settings:components.search')}
       onRowClick={(group: ApiGroup) => {
         goToPath(getEntityHref(securityAndAccessAccessControlGroups, group.id));

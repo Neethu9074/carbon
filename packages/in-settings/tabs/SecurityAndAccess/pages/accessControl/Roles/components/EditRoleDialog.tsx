@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useState } from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
 import {
   CarbonCheckbox,
@@ -17,6 +17,7 @@ import {
   Typography,
   ValidationBlock
 } from '@instana/components';
+import { ApiRole, CreateRole } from '@instana/types';
 
 import {
   containsAllPermissions,
@@ -28,17 +29,38 @@ import {
   DefaultRoleFormFieldValues,
   RoleFormFields
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/roleForm';
-import MapFormProvider, { FormMode, useMapFormContext } from 'in-settings/components/MapFormProvider/MapFormProvider';
+import MapFormProvider, {
+  FORM_MODE,
+  FormMode,
+  useMapFormContext
+} from 'in-settings/components/MapFormProvider/MapFormProvider';
 import { ProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { AreaPermission, Capability, LimitedAccessScope } from 'in-stores/permission';
+import { createRole, updateRole } from 'in-settings/tabs/SecurityAndAccess/api/roles';
+import { close as closeModal } from 'in-components/DialogPresenter/store';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
-import { close } from 'in-components/DialogPresenter/store';
-import { noop } from 'in-services/fixedObjects';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import useFormSubmission from 'in-hooks/useFormSubmission';
+import useDerivedState from 'in-hooks/useDerivedState';
+import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
 
 import locals from './EditRoleDialog.mless';
 
 const ROLE_FORM_ID = 'rbac-role-form';
+const ROLE_FORM_ACTIONS = Object.freeze({
+  clone: createRole,
+  edit: updateRole,
+  new: createRole
+} as const);
+
+function isNotEditModeOrHasValidId(mode: FormMode, payload: ApiRole | CreateRole): payload is ApiRole {
+  const isEditMode = mode === FORM_MODE.EDIT;
+  const hasIdProp = 'id' in payload;
+  const isValidId = hasIdProp && typeof payload.id === 'string';
+
+  return !isEditMode || isValidId;
+}
 
 interface EditRoleDialogProps {
   mode: FormMode;
@@ -46,11 +68,44 @@ interface EditRoleDialogProps {
 }
 
 export default function EditRoleDialog({ mode, formValues }: EditRoleDialogProps) {
-  const [form, setForm] = useState(createRoleForm(formValues));
+  const [form, setForm] = useDerivedState(createRoleForm(formValues));
+  const [status, submitForm] = useFormSubmission(ROLE_FORM_ACTIONS[mode]);
+
+  function onSubmit() {
+    if (!form.hierarchyValid) {
+      // In case user clicks on save button and the form is in invalid state we
+      // cancel the submission request and set the form to touched in order to
+      // show validation messages to the user.
+      return setForm(form.setTouched(true));
+    }
+
+    const payload = form.toJS();
+
+    if (!isNotEditModeOrHasValidId(mode, payload)) {
+      throw new Error('The role ID must be specified for editing.');
+    }
+
+    submitForm({
+      payload,
+      onError: () => {
+        addMessage({
+          type: 'danger',
+          content: t('in-components:error.serverErrorInfo')
+        });
+      },
+      onSuccess: () => {
+        addMessage({
+          type: 'success',
+          content: t('in-settings:dialogs.role.roleSuccessfullySaved')
+        });
+        closeModal();
+      }
+    });
+  }
 
   const navItems = [
     {
-      content: <GeneralSection />,
+      content: <GeneralSection status={status} />,
       label: t('in-settings:dialogs.role.generalSectionTitle'),
       scrollId: 'general-section',
       title: undefined,
@@ -159,12 +214,12 @@ export default function EditRoleDialog({ mode, formValues }: EditRoleDialogProps
   return (
     <MapFormProvider id={ROLE_FORM_ID} form={form} mode={mode} updateForm={setForm}>
       <CarbonModal
-        modalHeading={t('in-settings:dialogs.role.title')}
-        onRequestClose={close}
-        onRequestSubmit={noop}
-        onSecondarySubmit={close}
+        modalHeading={t('in-settings:dialogs.role.title', { context: mode })}
+        onRequestClose={closeModal}
+        onRequestSubmit={onSubmit}
+        onSecondarySubmit={closeModal}
         open
-        primaryButtonDisabled={!form.hierarchyTouched || !form.hierarchyValid}
+        primaryButtonDisabled={status === 'pending'}
         primaryButtonText={t('in-settings:tabs.save')}
         secondaryButtonText={t('in-settings:tabs.cancel')}
         size="lg"
@@ -177,14 +232,18 @@ export default function EditRoleDialog({ mode, formValues }: EditRoleDialogProps
   );
 }
 
-function GeneralSection() {
+interface SectionProps {
+  status?: FetchStatus;
+}
+
+function GeneralSection({ status }: SectionProps) {
   const { form, updateIn } = useMapFormContext<RoleFormFields>(ROLE_FORM_ID);
 
   const nameField = form.getIn(['name']);
-  const applyToAllUnitsField = form.getIn(['applyToAllUnits']);
 
   return (
     <>
+      {status === 'rejected' && <Message type="error">{t('in-components:error.serverErrorInfo')}</Message>}
       <CarbonTextInput
         id="rbac-role-name"
         invalid={form.hierarchyTouched && !nameField.valid}
@@ -199,16 +258,20 @@ function GeneralSection() {
         value={nameField.value}
       />
       <Typography variant="body-regular">{t('in-settings:dialogs.role.generalDescription')}</Typography>
-      <CarbonCheckboxGroup legendText={t('in-settings:dialogs.role.roleDefinitionPerUnitLegendText')}>
-        <CarbonCheckbox
-          checked={applyToAllUnitsField.value}
-          id="rbac-role-apply-to-all-units"
-          labelText={t('in-settings:dialogs.role.roleDefinitionPerUnitCheckboxLabel')}
-          onChange={(_e, { checked }) =>
-            updateIn(['applyToAllUnits'], applyToAllUnitsField.setValue(checked).setTouched(true))
-          }
-        />
-      </CarbonCheckboxGroup>
+      {/*
+       * Note: Role definition per unit is currently not yet supported on
+       * backend which is why we commented the related checkboxes out for now.
+       */}
+      {/* <CarbonCheckboxGroup legendText={t('in-settings:dialogs.role.roleDefinitionPerUnitLegendText')}> */}
+      {/*   <CarbonCheckbox */}
+      {/*     checked={applyToAllUnitsField.value} */}
+      {/*     id="rbac-role-apply-to-all-units" */}
+      {/*     labelText={t('in-settings:dialogs.role.roleDefinitionPerUnitCheckboxLabel')} */}
+      {/*     onChange={(_e, { checked }) => */}
+      {/*       updateIn(['applyToAllUnits'], applyToAllUnitsField.setValue(checked).setTouched(true)) */}
+      {/*     } */}
+      {/*   /> */}
+      {/* </CarbonCheckboxGroup> */}
     </>
   );
 }

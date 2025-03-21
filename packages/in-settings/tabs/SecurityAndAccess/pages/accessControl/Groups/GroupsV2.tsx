@@ -191,7 +191,7 @@ const GroupsV2 = () => {
       tableRows={rows}
       loading={loading}
       searchPlaceholderText={t('in-settings:components.search')}
-      searchAttributes={['name']}
+      searchAttributes={['name', 'id']}
       initalSortConfig={{ key: 'name', direction: 'asc' }}
       onCreateNew={() => goToPath(securityAndAccessAccessControlGroupNew)}
       labelNew={t('in-settings:tabs.addGroup')}
