@@ -782,6 +782,16 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'isSmartAlertDialogViewDefaultEnabled',
+    instanaCtlKey: 'feature.is.smart.alert.dialog.view.default.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'logSmartAlertDialogViewEnabled',
+    instanaCtlKey: 'feature.log.smart.alert.dialog.view.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'perEntityInfraSmartAlertsEnabled',
     instanaCtlKey: 'feature.per.entity.infra.smart.alerts.enabled',
     defaultValue: false

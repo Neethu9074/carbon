@@ -8,16 +8,23 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { logSmartAlertFullScreenDesignEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
+import {
+  logSmartAlertFullScreenDesignEnabled,
+  logSmartAlertDialogViewEnabled,
+  smartAlertCarbonTableEnabled
+} from 'in-services/featureFlags';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/logs/hooks/useSmartAlertCreateUrl';
+import { ADVANCED, FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/logs/CreateSmartAlertDialog';
 import ViewSelectorDialog from 'in-alerting/components/Dialog/ViewSelectorDialog';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { ADVANCED } from 'in-alerting/smart-alerts/data/constants';
 import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { t } from 'in-i18n';
+
+const alertDisplayMode = getSmartAlertDisplayMode(logSmartAlertDialogViewEnabled, logSmartAlertFullScreenDesignEnabled);
 
 export default function CreateSmartAlert() {
   const { trackCta } = useSegmentTracking();
@@ -68,28 +75,37 @@ export function CreateSmartAlertButton() {
     addActiveDialog(<CreateSmartAlertDialog />);
   };
 
-  const dialog =
-    smartAlertCarbonTableEnabled && logSmartAlertFullScreenDesignEnabled ? (
-      <ViewSelectorDialog
-        trackCta={trackCta}
-        openOldDialog={openOldDialog}
-        getLinkToCreateSmartAlert={getLinkToCreateSmartAlert}
-        mode={ADVANCED}
-      />
-    ) : (
-      <CreateSmartAlertDialog />
+  const getDialogComponent = () => {
+    if (smartAlertCarbonTableEnabled && alertDisplayMode === CHOICE_DIALOG) {
+      return (
+        <ViewSelectorDialog
+          trackCta={trackCta}
+          openOldDialog={openOldDialog}
+          getLinkToCreateSmartAlert={getLinkToCreateSmartAlert}
+          mode={ADVANCED}
+        />
+      );
+    } else {
+      trackCta(ALERTING_CREATE, { dialogMode: ADVANCED });
+      return <CreateSmartAlertDialog />;
+    }
+  };
+
+  if (alertDisplayMode === FULLSCREEN) {
+    return (
+      <Button
+        kind="primaryv2"
+        icon="lib_openclose_add"
+        href={getLinkToCreateSmartAlert}
+        onClick={() => trackCta(ALERTING_CREATE, { dialogMode: FULLSCREEN })}
+      >
+        {t('in-alerting:smartAlerts.createSmartAlert')}
+      </Button>
     );
+  }
 
   return (
-    <Button
-      kind="primaryv2"
-      icon="lib_openclose_add"
-      onClick={() => {
-        trackCta(ALERTING_CREATE, { dialogMode: ADVANCED });
-        addActiveDialog(dialog);
-      }}
-      size="xl"
-    >
+    <Button kind="primaryv2" icon="lib_openclose_add" onClick={() => addActiveDialog(getDialogComponent())} size="xl">
       {t('in-alerting:smartAlerts.createSmartAlert')}
     </Button>
   );
