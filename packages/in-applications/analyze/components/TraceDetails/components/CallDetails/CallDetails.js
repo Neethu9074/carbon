@@ -24,6 +24,7 @@ import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacon
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { hasError, isLoading } from 'in-services/util/result';
+import { formatPathWithTU } from 'in-services/formatters/url';
 import { latencyFixed } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -155,7 +156,7 @@ export default function CallDetails(props) {
 
 function ActionButtons({ traceId, callId, onClose }) {
   const { trackDownloadCallDetailsClicked } = useApplicationTracker();
-  const downloadUrl = `/api/application-monitoring/v2/analyze/traces/${encodeURIComponent(
+  const downloadUrl = `${formatPathWithTU('/api/application-monitoring/v2/analyze/traces')}/${encodeURIComponent(
     traceId
   )}/calls/${encodeURIComponent(callId)}/details?pretty`;
 

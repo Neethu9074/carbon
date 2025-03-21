@@ -26,6 +26,7 @@ import {
 import ConfigureIdPInfoMessage from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/ConfigureIdPInfoMessage';
 import DeleteConfigurationView from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/DeleteConfigurationView';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { formatPathWithTU } from 'in-services/formatters/url';
 import { t } from 'in-i18n';
 
 import locals from './Saml.mless';
@@ -100,7 +101,9 @@ const SamlForm = (props: SamlFormProps) => {
             <Button
               kind="secondary"
               icon="lib_actions_download"
-              href={`/api/settings/authentication/saml/metadata?spEntityId=${encodeURIComponent(spEntityId.value)}`}
+              href={`${formatPathWithTU('/api/settings/authentication/saml/metadata')}?spEntityId=${encodeURIComponent(
+                spEntityId.value
+              )}`}
             >
               {t('in-settings:tabs.configurationMetadata')}
             </Button>
