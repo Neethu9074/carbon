@@ -50,8 +50,8 @@ export default [
     formatter: number
   },
   {
-    metrics: ['clusterMetricStatus'],
-    labels: [t('in-forge:plugins.ibmMqQueueManager.clusterMetric')],
+    metrics: ['clusterStatusMetric'],
+    labels: [t('in-forge:plugins.ibmMqQueueManager.clusterStatus')],
     min: 0,
     formatter: number
   },
