@@ -117,7 +117,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'prcIssueEnabled',
-    instanaCtlKey: 'feature.root.cause.identification.scheduler.enabled',
+    instanaCtlKey: 'feature.root.cause.identification.tab.enabled',
     defaultValue: false
   },
   {
@@ -779,6 +779,16 @@ module.exports = exports = [
   {
     uiClientKey: 'alertChannelPerSeverityLogSaEnabled',
     instanaCtlKey: 'feature.alert.channel.per.severity.log.sa.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'isSmartAlertDialogViewDefaultEnabled',
+    instanaCtlKey: 'feature.is.smart.alert.dialog.view.default.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'logSmartAlertDialogViewEnabled',
+    instanaCtlKey: 'feature.log.smart.alert.dialog.view.enabled',
     defaultValue: true
   },
   {

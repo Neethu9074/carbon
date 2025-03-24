@@ -30,7 +30,7 @@ export default function TimeSelectionDialogPresenter(props) {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   return (
-    <section className={locals.wrapper}>
+    <div className={locals.wrapper}>
       <InlineTabNavigation tabList={tabList} activeTabIndex={activeTabIndex} onTabSelect={setActiveTabIndex} />
 
       {activeTabIndex == 0 ? (
@@ -43,6 +43,6 @@ export default function TimeSelectionDialogPresenter(props) {
       ) : (
         <Releases {...props} />
       )}
-    </section>
+    </div>
   );
 }

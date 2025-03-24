@@ -27,7 +27,7 @@ export default function ErrorBudgetChart({
   configuration,
   title
 }: ErrorBudgetChartProps) {
-  const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
 
   return (
@@ -36,7 +36,7 @@ export default function ErrorBudgetChart({
       customHeight={customHeight}
       customChartSkeletonHeight={customChartSkeletonHeight}
       timeConfig={timeConfig}
-      timeWindows={selectedTimeWindowType === 'SELECTED_TIME' ? [timeConfig] : timeWindows}
+      timeWindows={timeWindows}
       timeWindowColors={timeWindowColors}
       configuration={configuration}
       title={title}

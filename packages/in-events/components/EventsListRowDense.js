@@ -7,9 +7,9 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Tr, Td } from '@instana/legacy';
 
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
+import { Tr, Td } from 'in-events/components/legacy/Table/Table';
 import { formatDateTime } from 'in-services/formatters/date';
 import EventIcon from 'in-events/components/EventIcon';
 import { getEvent } from 'in-stores/events';

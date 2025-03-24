@@ -46,7 +46,7 @@ export const testWebsiteForm: SloForm = createMapForm({
     }),
     scope: createMapForm<SloScopeFields>({
       items: {
-        beaconType: createField({ value: 'pageLoad' }),
+        beaconType: createField({ value: 'httpRequest' }),
         boundaryScope: createField({ value: 'INBOUND' }),
         endpointId: createField({ value: '' }),
         includeInternal: createField({ value: false }),
@@ -100,7 +100,7 @@ export const testApplicationForm: SloForm = createMapForm({
     }),
     scope: createMapForm<SloScopeFields>({
       items: {
-        beaconType: createField({ value: 'pageLoad' }),
+        beaconType: createField({ value: 'httpRequest' }),
         boundaryScope: createField({ value: 'ALL' }),
         endpointId: createField({ value: 'endpoindNotEmpty' }),
         includeInternal: createField({ value: true }),

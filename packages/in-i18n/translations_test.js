@@ -346,7 +346,6 @@ function removeUiFoundationKey(unusedKeysByNamespaceMap) {
  * This function identifies unused ui-foundation keys.
  *
  * The main aim is to catch keys in ui-foundation/components.
- * Additional legacy checks have been temporary added for now which will be deprecated in the future.
  *
  */
 function verifyUiFoundationKeys(unusedKeysByNamespaceMap) {
@@ -356,16 +355,14 @@ function verifyUiFoundationKeys(unusedKeysByNamespaceMap) {
   const utf8Encoding = { encoding: 'utf8' };
 
   const uiFoundationComponent = fs.readFileSync(`${instanaPackagePath}/components/esm/index.js`, utf8Encoding);
-  const uiFoundationLegacy = fs.readFileSync(`${instanaPackagePath}/legacy/esm/index.js`, utf8Encoding);
   const uiFoundationFormatDate = fs.readFileSync(`${instanaPackagePath}/format-date/esm/apis.js`, utf8Encoding);
 
   const withoutUiFoundationKeys = keys.filter(key => {
     if (key.startsWith('components.') || key.startsWith('formatDate.')) {
       const componentExists = uiFoundationComponent.includes(`'${key}'`);
-      const legacyExists = uiFoundationLegacy.includes(`'${key}'`);
       const formatDateExists = uiFoundationFormatDate.includes(`'${key}'`);
 
-      if (!componentExists && !legacyExists && !formatDateExists) return true;
+      if (!componentExists && !formatDateExists) return true;
       else return false;
     }
     return true;

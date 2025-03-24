@@ -175,5 +175,7 @@ module.exports = {
   sloLiteEnabled: true,
   sloFullEnabled: true,
   mobileAppSmartAlertFullScreenDesignEnabled: true,
-  tealiumPrivacyEnabled: false
+  tealiumPrivacyEnabled: false,
+  isSmartAlertDialogViewDefaultEnabled: true,
+  logSmartAlertDialogViewEnabled: true
 };

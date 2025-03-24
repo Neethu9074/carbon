@@ -21,6 +21,11 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './ApiItemView.mless';
 
+/**
+ * @deprecated - ApiItemView uses some anti-patterns and should therefore no
+ * longer be used. Instead, Carbon components or MapFormProvider and hooks such
+ * as useFormSubmission, useFormSideEffects should be used.
+ **/
 export default connectTo(
   ({ getObservables }) => (getObservables ? combineResultObservables(getObservables()) : {}),
 

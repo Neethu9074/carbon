@@ -48,7 +48,11 @@ import {
 } from 'in-logging/navigation/paths';
 //@ts-expect-error needs TS migration
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import { logSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
+import { logSmartAlertFullScreenDesignEnabled, logSmartAlertDialogViewEnabled } from 'in-services/featureFlags';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
+import { FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
+
+const alertDisplayMode = getSmartAlertDisplayMode(logSmartAlertDialogViewEnabled, logSmartAlertFullScreenDesignEnabled);
 
 export default [
   <Route key="logsSmartAlertDetails" path={alertDetailsFullyQualifiedPath}>
@@ -69,7 +73,7 @@ export default [
   <Route key="loggingDashboardManagement" path={dashboardIntegrationsPath}>
     {renderAsyncRouteChildren(LogIntegrations)}
   </Route>,
-  logSmartAlertFullScreenDesignEnabled && (
+  (alertDisplayMode === FULLSCREEN || alertDisplayMode === CHOICE_DIALOG) && (
     <Route key="logSmartAlert" path={logSmartAlertsFullScreenFullyQualifiedPath} exact>
       {renderAsyncRouteChildren(AlertConfigTearSheet)}
     </Route>

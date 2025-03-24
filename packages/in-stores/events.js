@@ -233,7 +233,8 @@ export const EVENT_TYPES = {
   ISSUE_CRITICAL: 2,
   INCIDENT: 4,
   CVE_ISSUE: 5,
-  AGENT_MONITORING_ISSUE: 6
+  AGENT_MONITORING_ISSUE: 6,
+  PRC_ISSUE: 7
 };
 
 export function getIcon(eventType) {
@@ -345,6 +346,8 @@ export function getEventType(event) {
       return EVENT_TYPES.AGENT_MONITORING_ISSUE;
     case 'cve_issue':
       return EVENT_TYPES.CVE_ISSUE;
+    case 'prc_issue':
+      return EVENT_TYPES.PRC_ISSUE;
     case 'issue': {
       const severity = isImmutableObject
         ? event.getIn(['problem', 'severity'], 0)
