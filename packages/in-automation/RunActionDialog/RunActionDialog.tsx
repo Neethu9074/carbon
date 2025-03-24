@@ -587,16 +587,21 @@ function getHostLimit(executeOrNewPolicy: NewPolicy | Policy | undefined): Optio
     const param = getParameterFromName(executeOrNewPolicy, 'hostsLimit');
     if (param) {
       const hostsLimit = param.value.split(',');
-      return hostsLimit.map(host => {
+
+      return hostsLimit.flatMap(host => {
+        const options: Option[] = [];
+
         if (host === TRIGGERING_HOST_FQDN) {
-          return TRIGGERING_HOST_FQDN_OPTION;
-        } else if (host === TRIGGERING_HOST_IP) {
-          return TRIGGERING_HOST_IP_OPTION;
+          options.push(TRIGGERING_HOST_FQDN_OPTION);
         }
-        return {
-          label: host,
-          value: host
-        };
+        if (host === TRIGGERING_HOST_IP) {
+          options.push(TRIGGERING_HOST_IP_OPTION);
+        }
+        if (host !== TRIGGERING_HOST_FQDN && host !== TRIGGERING_HOST_IP) {
+          options.push({ label: host, value: host });
+        }
+
+        return options;
       });
     }
   }
@@ -622,74 +627,78 @@ function createForm({
   executePolicy
 }: CreateFormParams) {
   const executeOrNewPolicy = policy || executePolicy;
-  return createMapForm()
-    .put(
-      'targetAgent',
-      createField({
-        value: getAgent(volatileId, agentSnapShots, policy, executePolicy),
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'parameters',
-      createMapForm({
-        items: action.inputParameters?.reduce((acc, parameter) => {
-          if (shouldHideParameter(parameter)) {
-            return acc;
-          }
-          if (parameter.type === 'vault') {
-            const { found, value } = getParameterFromPolicy(executeOrNewPolicy, parameter.name);
-            const { secretKey, secretPath } = parseVaultParameter(found ? value : parameter.value);
-            return {
-              ...acc,
-              [parameter.name]: createListForm({
-                items: [
-                  createField({
-                    value: secretPath,
-                    validator: parameter.required ? notBlankValidator : undefined
-                  }),
-                  createField({
-                    value: secretKey,
-                    validator: parameter.required ? notBlankValidator : undefined
-                  })
-                ],
-                validator: listForm => {
-                  const hasEmptyFields = listForm.some(field => field.value === '');
-                  const hasNonEmptyFields = listForm.some(field => field.value !== '');
-                  if (!parameter.required && hasEmptyFields && hasNonEmptyFields) {
-                    return [
-                      {
-                        severity: 'error',
-                        message: t('in-automation:validVaultParameter')
-                      }
-                    ];
+  return (
+    createMapForm()
+      .put(
+        'targetAgent',
+        createField({
+          value: getAgent(volatileId, agentSnapShots, policy, executePolicy),
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'parameters',
+        createMapForm({
+          items: action.inputParameters?.reduce((acc, parameter) => {
+            if (shouldHideParameter(parameter)) {
+              return acc;
+            }
+            if (parameter.type === 'vault') {
+              const { found, value } = getParameterFromPolicy(executeOrNewPolicy, parameter.name);
+              const { secretKey, secretPath } = parseVaultParameter(found ? value : parameter.value);
+              return {
+                ...acc,
+                [parameter.name]: createListForm({
+                  items: [
+                    createField({
+                      value: secretPath,
+                      validator: parameter.required ? notBlankValidator : undefined
+                    }),
+                    createField({
+                      value: secretKey,
+                      validator: parameter.required ? notBlankValidator : undefined
+                    })
+                  ],
+                  validator: listForm => {
+                    const hasEmptyFields = listForm.some(field => field.value === '');
+                    const hasNonEmptyFields = listForm.some(field => field.value !== '');
+                    if (!parameter.required && hasEmptyFields && hasNonEmptyFields) {
+                      return [
+                        {
+                          severity: 'error',
+                          message: t('in-automation:validVaultParameter')
+                        }
+                      ];
+                    }
+                    return null;
                   }
-                  return null;
-                }
-              })
-            };
-          } else if (parameter.type === 'dynamic' && !policy) {
-            const { resolvedValue = '' } = resolvedDynamicParameters?.find(p => p.name === parameter.name) ?? {};
+                })
+              };
+            } else if (parameter.type === 'dynamic' && !policy) {
+              const { resolvedValue = '' } = resolvedDynamicParameters?.find(p => p.name === parameter.name) ?? {};
+              return {
+                ...acc,
+                [parameter.name]: createField({
+                  value: formatResolvedValue(resolvedValue),
+                  validator: parameter.required ? notBlankValidator : undefined
+                })
+              };
+            }
+            const { found, value } = getParameterFromPolicy(executeOrNewPolicy, parameter.name);
             return {
               ...acc,
               [parameter.name]: createField({
-                value: formatResolvedValue(resolvedValue),
+                value: found ? value : parameter.value ?? '',
                 validator: parameter.required ? notBlankValidator : undefined
               })
             };
-          }
-          const { found, value } = getParameterFromPolicy(executeOrNewPolicy, parameter.name);
-          return {
-            ...acc,
-            [parameter.name]: createField({
-              value: found ? value : parameter.value ?? '',
-              validator: parameter.required ? notBlankValidator : undefined
-            })
-          };
-        }, {})
-      })
-    )
-    .put('hostsLimit', createField({ value: getHostLimit(executeOrNewPolicy) }));
+          }, {})
+        })
+      )
+      .put('hostsLimit', createField({ value: getHostLimit(executeOrNewPolicy) }))
+      //his field helps us with keeping hostlimit options static
+      .put('hostsLimitForm', createField({ value: getHostLimit(executeOrNewPolicy) }))
+  );
 }
 
 const formatResolvedValue = (value: string) => {

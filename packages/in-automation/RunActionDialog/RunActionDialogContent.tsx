@@ -5,9 +5,9 @@
  */
 
 import { Field, ListForm, MapForm } from 'formalistic';
+import React, { useMemo, useEffect } from 'react';
 import classNames from 'classnames';
 import { fromJS } from 'immutable';
-import React from 'react';
 
 import { Typography, Spacer, Link, DescriptionList, DescriptionItem } from '@instana/components';
 import { Action, Parameter, VolatileId, DynamicFieldValue } from '@instana/types';
@@ -646,7 +646,6 @@ export const TRIGGERING_HOST_IP_OPTION = {
   value: TRIGGERING_HOST_IP,
   label: t('in-automation:policies.triggeringHostIp')
 };
-
 function AnsibleActionContent({
   action,
   resolvedDynamicParameters,
@@ -656,17 +655,63 @@ function AnsibleActionContent({
 }: Pick<RunActionDialogContentProps, 'action' | 'resolvedDynamicParameters' | 'form' | 'setForm' | 'policy'>) {
   const ip = resolvedDynamicParameters?.find(p => p.name === 'ip')?.resolvedValue ?? '[]';
   const parsedIp: string[] = safeJsonParse(ip ? ip : '[]');
-  const fqdn = resolvedDynamicParameters?.find(p => p.name === 'fqdn')?.resolvedValue;
+
+  const fqdn = resolvedDynamicParameters?.find(p => p.name === 'fqdn')?.resolvedValue ?? '[]';
   const parsedFqdn: string[] = safeJsonParse(fqdn ? fqdn : '[]');
-  const options = [...parsedIp, ...parsedFqdn]
+
+  const allOptions: Option[] = [...parsedIp, ...parsedFqdn]
     .map(host => ({ label: host, value: host }))
     .sort((a, b) => a.label.localeCompare(b.label));
+
   const hostLimitField = form?.getIn(['hostsLimit']) as Field<Option[]> | undefined;
+  // This field helps us with keeping hostlimit options static
+  const hostLimitFormField = form?.getIn(['hostsLimitForm']) as Field<Option[]> | undefined;
+  const selectedValues = hostLimitFormField?.value?.map(v => v.value);
 
+  const filteredOptions = useMemo(() => {
+    if (!selectedValues || selectedValues.length === 0) {
+      return [];
+    }
+
+    const hasFqdn = selectedValues.includes('TRIGGERING_HOST_FQDN');
+    const hasIp = selectedValues.includes('TRIGGERING_HOST_IP');
+
+    // Extract custom values (anything not FQDN or IP)
+    const customValues = selectedValues.filter(v => v !== 'TRIGGERING_HOST_FQDN' && v !== 'TRIGGERING_HOST_IP');
+
+    // Map custom values back to Option objects (in case hostLimitFormField has labels)
+    const customOptions = hostLimitFormField?.value?.filter(opt => customValues.includes(opt.value)) ?? [];
+
+    // Build dynamic options
+    let dynamicOptions: Option[] = [];
+
+    if (hasFqdn && hasIp) {
+      dynamicOptions = allOptions;
+    } else if (hasFqdn) {
+      dynamicOptions = allOptions.filter(opt => parsedFqdn?.includes(opt.value));
+    } else if (hasIp) {
+      dynamicOptions = allOptions.filter(opt => parsedIp?.includes(opt.value));
+    }
+
+    return [...customOptions, ...dynamicOptions];
+    // Have to load options only once we resolve dynamic parameters.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedValues]);
+
+  useEffect(() => {
+    if (!policy && selectedValues && selectedValues.length > 0) {
+      const updatedForm = form?.updateIn(['hostsLimit'], (field: Field<Option[]>) =>
+        field.setValue(filteredOptions).setTouched(true)
+      );
+      setForm(updatedForm);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  let policyOptions = [];
   if (policy) {
-    options.push(TRIGGERING_HOST_FQDN_OPTION, TRIGGERING_HOST_IP_OPTION);
+    policyOptions.push(TRIGGERING_HOST_FQDN_OPTION, TRIGGERING_HOST_IP_OPTION);
   }
-
   return (
     <>
       <AnsibleActionMetadata action={action} />
@@ -675,13 +720,10 @@ function AnsibleActionContent({
         <CreatableComboBox
           id={locals.hostLimit}
           isMulti
-          options={options}
+          options={policy ? policyOptions : filteredOptions}
           value={hostLimitField?.value ?? []}
           onChange={(value: Option[]) => {
-            const updatedForm = form?.updateIn(['hostsLimit'], (field: Field<Option[]>) =>
-              field.setValue(value).setTouched(true)
-            );
-            setForm(updatedForm);
+            setForm(form?.updateIn(['hostsLimit'], (field: Field<Option[]>) => field.setValue(value).setTouched(true)));
           }}
         />
         <HelpText className={locals.subTextFormField}>{t('in-automation:hostsLimitHelpText')}</HelpText>
