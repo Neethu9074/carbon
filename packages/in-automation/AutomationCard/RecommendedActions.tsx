@@ -378,6 +378,7 @@ export default function RecommendedActions({
         <Stack direction="horizontal">
           <Typography variant="body-regular">{t('in-automation:contextFor')}</Typography>
           <ComboBox
+            id="contextmenu"
             options={[
               { label: t('in-automation:triggeringEvent'), value: 'triggeringEvent' },
               ...initialSnapshots.map((item, index) => ({
@@ -388,7 +389,6 @@ export default function RecommendedActions({
                 value: item.rcaSnapshotID ?? ''
               }))
             ]}
-            id="target-agent"
             value={selectedRCA}
             isClearable={false}
             onChange={o => {
