@@ -76,6 +76,8 @@ const defaultActionType: ActionType = 'MANUAL';
 interface UseGenerateAIActionFormParams {
   trigger: Result<TriggerSpecification>;
   event: Event;
+  selectedDescription?: string | null;
+  selectedEntityType?: string | null;
 }
 
 function getEventEntity(event: Event): string {
@@ -100,12 +102,23 @@ function getEventEntity(event: Event): string {
   }
 }
 
-function createGenerateAIActionForm({ trigger, event }: UseGenerateAIActionFormParams) {
+function createGenerateAIActionForm({
+  trigger,
+  event,
+  selectedDescription,
+  selectedEntityType
+}: UseGenerateAIActionFormParams) {
   const name = event?.problem?.problemText ?? '';
-  const description = hasError(trigger) ? event?.problem?.fixSuggestion ?? '' : trigger.data!?.description ?? '';
+  const description =
+    selectedDescription && selectedDescription !== null
+      ? `Higher than expected error rate going through ${selectedDescription} in ${selectedEntityType} `
+      : hasError(trigger)
+      ? event?.problem?.fixSuggestion ?? ''
+      : trigger.data!?.description ?? '';
   const defaultActionName = `AI generated action for ${name}`;
   const defaultActionDescription = `This resolves event: ${description}`;
-  const entityType = getEventEntity(event);
+  const entityType =
+    selectedEntityType && selectedEntityType !== null ? getPluginName(selectedEntityType) ?? '' : getEventEntity(event);
 
   const form: GenerateAIActionForm = createMapForm({
     items: {
@@ -190,6 +203,11 @@ function createGenerateAIActionForm({ trigger, event }: UseGenerateAIActionFormP
   return form;
 }
 
-export default function useGenerateAIActionForm({ trigger, event }: UseGenerateAIActionFormParams) {
-  return useState(createGenerateAIActionForm({ trigger, event }));
+export default function useGenerateAIActionForm({
+  trigger,
+  event,
+  selectedDescription,
+  selectedEntityType
+}: UseGenerateAIActionFormParams) {
+  return useState(createGenerateAIActionForm({ trigger, event, selectedDescription, selectedEntityType }));
 }

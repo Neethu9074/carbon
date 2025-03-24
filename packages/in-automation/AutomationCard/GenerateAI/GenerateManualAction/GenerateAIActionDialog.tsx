@@ -382,15 +382,19 @@ interface GenerateAIActionDialogProps {
   event: Event;
   trigger: Result<TriggerSpecification>;
   ootbRecommendedActions: Result<ScoredAction[]>;
+  selectedDescription?: string | null;
+  selectedEntityType?: string | null;
 }
 
 export default function GenerateAIActionDialog({
   event,
   trigger,
-  ootbRecommendedActions
+  ootbRecommendedActions,
+  selectedDescription,
+  selectedEntityType
 }: GenerateAIActionDialogProps) {
   const [step, setStep] = useState(0);
-  const [form, setForm] = useGenerateAIActionForm({ trigger, event });
+  const [form, setForm] = useGenerateAIActionForm({ trigger, event, selectedDescription, selectedEntityType });
   const onCancel = useOnCancel(step);
   const generatedAction = useGeneratedAction();
   const { selectNextPromptStepClickTrackerSegment } = useSegmentTracker();
