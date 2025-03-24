@@ -8,12 +8,11 @@ import React from 'react';
 
 import { Progress, Error, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 
+import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
 import {
   copyFirstBucketOfSubsequentDataSeries,
-  filterMetricValuesWithinTimeWindow,
   findMinMaxMetricValues
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
-import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { calculateSloGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
@@ -60,8 +59,8 @@ export default function ControlledSloErrorBudgetChart({
   const renderer = useLineWithMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: createdDate
   });
+
   const chartMetrics = copyFirstBucketOfSubsequentDataSeries(metrics?.metrics);
-  const filteredData = filterMetricValuesWithinTimeWindow(chartMetrics, timeConfig);
   const { min, max } = findMinMaxMetricValues(chartMetrics.flat(1), { withBuffer: true });
   const timeWindowStartIndex = getIndexOfFirstTimeWindowWithData(chartMetrics, timeWindows);
   const timeWindowsWithData = timeWindows.slice(timeWindowStartIndex);
@@ -79,7 +78,7 @@ export default function ControlledSloErrorBudgetChart({
         excludedContextMenuActions: [zoomInAction.name],
         y1: {
           metricIds: timeWindowsWithData.map((_, index) => `timeWindows${index}`),
-          metrics: [...filteredData.slice(timeWindowStartIndex)],
+          metrics: chartMetrics,
           min,
           max,
           renderAllTickLabels: true,
