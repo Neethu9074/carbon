@@ -106,6 +106,8 @@
   "ansibleUrl": "Ansible url",
   "playbookFileName": "Playbook file name",
   "playbookId": "Playbook ID",
+  "triggeringEvent": "Triggering event",
+  "probableRootCause": "Probable root cause",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Action configuration",
     "actionDetails": "Action details",

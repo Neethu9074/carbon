@@ -20,6 +20,8 @@ interface UseScoredActionsParams {
   event: Event;
   trigger: Result<TriggerSpecification>;
   type: 'default' | 'watsonx';
+  selectedDescription?: string | null;
+  selectedEntityType?: string | null;
 }
 
 const refreshSignal = create().emit(true);
@@ -27,8 +29,15 @@ export function refresh() {
   timeout(1000).once(() => refreshSignal.emit(true));
 }
 
-export default function useScoredActions({ event, trigger, type }: UseScoredActionsParams) {
+export default function useScoredActions({
+  event,
+  trigger,
+  type,
+  selectedEntityType,
+  selectedDescription
+}: UseScoredActionsParams) {
   const triggerType = getTriggerTypeFromEvent(event);
+
   return (
     useObservable(() => {
       if (isLoading(trigger)) {
@@ -43,10 +52,17 @@ export default function useScoredActions({ event, trigger, type }: UseScoredActi
         } else {
           const { name, description = '', id: eventId } = trigger.data!;
           const { entityId } = event;
-          return getAllActionsWithAISuggestions(name, description, entityId, type, eventId);
+          const updatedDescription =
+            selectedDescription !== undefined && selectedDescription !== null
+              ? `Higher than expected error rate going through ${selectedDescription} in ${selectedEntityType ?? ''}`
+              : description ?? '';
+          const updatedEntityType =
+            selectedEntityType !== undefined && selectedEntityType !== null ? selectedEntityType : entityId ?? '';
+          return getAllActionsWithAISuggestions(name, updatedDescription, updatedEntityType, type, eventId);
         }
       });
-    }, [trigger.progress.loading, refreshSignal]) ?? (pendingResult as Result<ScoredAction[]>)
+    }, [trigger.progress.loading, refreshSignal, selectedDescription, selectedEntityType]) ??
+    (pendingResult as Result<ScoredAction[]>)
   );
 }
 
