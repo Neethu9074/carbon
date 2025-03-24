@@ -699,9 +699,9 @@ function AnsibleActionContent({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  let a = [];
+  let policyOptions = [];
   if (policy) {
-    a.push(TRIGGERING_HOST_FQDN_OPTION, TRIGGERING_HOST_IP_OPTION);
+    policyOptions.push(TRIGGERING_HOST_FQDN_OPTION, TRIGGERING_HOST_IP_OPTION);
   }
   return (
     <>
@@ -711,7 +711,7 @@ function AnsibleActionContent({
         <CreatableComboBox
           id={locals.hostLimit}
           isMulti
-          options={policy ? a : filteredOptions}
+          options={policy ? policyOptions : filteredOptions}
           value={hostLimitField?.value ?? []}
           onChange={(value: Option[]) => {
             setForm(form?.updateIn(['hostsLimit'], (field: Field<Option[]>) => field.setValue(value).setTouched(true)));
