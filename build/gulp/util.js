@@ -56,7 +56,7 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
     tenantUnitsCount: 2,
     tenantUnitDomainSuffix: 'pink.instana.rocks',
     butlerDomain: envConfig.butlerDomain,
-    integrationBaseUrl: 'https://slack-rainbowtest-us-west-2.instana.rocks', // for pink env
+    integrationBaseUrl: 'https://slack-rainbowtest-us-west-2.instana.rocks',
     analyticsTrackingId: 'UA-66215232-4',
     featureFlags: require(paths.featureFlags),
     configuration: { maxAllowedAlertingConfigurations: 200 },
@@ -89,7 +89,7 @@ exports.getDevModeReleaseConfig = function getDevModeReleaseConfig(envConfig) {
     tenantUnitsCount: 2,
     tenantUnitDomainSuffix: 'magenta.instana.rocks',
     butlerDomain: envConfig.butlerDomain,
-    integrationBaseUrl: 'https://slack-eu-west-1.instana.io', // for magenta env
+    integrationBaseUrl: 'https://slack-eu-west-1.instana.io',
     analyticsTrackingId: 'UA-66215232-4',
     featureFlags: require(paths.featureFlags),
     configuration: { maxAllowedAlertingConfigurations: 200 },
