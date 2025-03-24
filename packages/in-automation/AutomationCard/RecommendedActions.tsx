@@ -26,7 +26,7 @@ import CreatePolicyDialog from 'in-automation/AutomationCard/CreatePolicyDialog/
 import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import TurboActionRunModal from 'in-automation/ResourceOptimization/TurboActionRunModal';
-import { ProcessedSnapshot } from 'in-automation/AutomationCard/AutomationCardForPrc';
+import { ProcessedSnapshot } from 'in-automation/AutomationCard/AutomationCardForPRC';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -376,7 +376,7 @@ export default function RecommendedActions({
     <>
       {initialSnapshots && initialSnapshots?.length > 0 && (
         <Stack direction="horizontal">
-          <Typography variant="body-regular">Context for:</Typography>
+          <Typography variant="body-regular">{t('in-automation:contextFor')}</Typography>
           <ComboBox
             options={[
               { label: t('in-automation:triggeringEvent'), value: 'triggeringEvent' },

@@ -16,7 +16,7 @@ import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/Event
 import { CombinedEventListItemContent } from 'in-events/components/legacy/EventListItem';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import RootCauseSection from 'in-events/components/RootCauseAnalysis/RootCauseSection';
-import AutomationCardForPrc from 'in-automation/AutomationCard/AutomationCardForPrc';
+import AutomationCardForPRC from 'in-automation/AutomationCard/AutomationCardForPRC';
 import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventEntityDetails from 'in-events/components/legacy/EventEntityDetails';
@@ -107,7 +107,7 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
       {/* Automations */}
 
       {rcaUIEnabled && !rootCauseHasOldSnapshotMetadata ? (
-        <AutomationCardForPrc
+        <AutomationCardForPRC
           volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
           incident={incident}
           event={triggeringEvent?.toJS()}

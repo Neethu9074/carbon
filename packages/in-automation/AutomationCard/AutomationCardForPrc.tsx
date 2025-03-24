@@ -9,16 +9,18 @@ import { List, Map } from 'immutable';
 
 import { Card, Spacer } from '@instana/components';
 import { Event, VolatileId } from '@instana/types';
-import { TimeConfig } from '@instana/types';
 
 import useScoredActions, {
   useUserRecommendedScoredActions,
   useAIRecommendedScoredActions
 } from 'in-automation/AutomationCard/useScoredActions';
+import {
+  determineEntityTypeFromEntityIDMap,
+  getIncidentTimeConfig
+} from 'in-events/components/RootCauseAnalysis/RootCauseSection';
 import AutomationCardButtonGroup, { useActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import { ProbableCauseType } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
-import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
 import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
 import usePolicies from 'in-automation/AutomationCard/usePolicies';
@@ -26,7 +28,6 @@ import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
 import { hasAutomationAccess } from 'in-stores/permission';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
-import { minutes } from 'in-services/time/time';
 import { EventOrMap } from 'in-events/types';
 
 interface AutomationCardProps {
@@ -40,7 +41,6 @@ type RootCause = {
   getIn: (path: string[]) => any;
 };
 
-// type Snapshot = [string, RootCause];
 export type ProcessedSnapshot = {
   rcaSnapshotID: string | null;
   rcaEntityType: string;
@@ -48,7 +48,7 @@ export type ProcessedSnapshot = {
   entityData?: any; // Can be any type based on what entityData contains
 };
 
-function AutomationCardForPrc({ volatileId, event, incident }: AutomationCardProps) {
+function AutomationCardForPRC({ volatileId, event, incident }: AutomationCardProps) {
   const [selectedDescription, setSelectedDescription] = useState<string | null>(null);
   const [selectedEntityType, setSelectedEntityType] = useState<string | null>(null);
 
@@ -171,7 +171,7 @@ function AutomationCardForPrc({ volatileId, event, incident }: AutomationCardPro
 function AutomationCardWithOptimization({ volatileId, event, incident }: AutomationCardProps) {
   return (
     <>
-      <AutomationCardForPrc volatileId={volatileId} event={event} incident={incident} />
+      <AutomationCardForPRC volatileId={volatileId} event={event} incident={incident} />
     </>
   );
 }
@@ -179,23 +179,4 @@ function AutomationCardWithOptimization({ volatileId, event, incident }: Automat
 export default function AutomationCardWrapper({ volatileId, event, incident }: AutomationCardProps) {
   if (!hasAutomationAccess) return null;
   return <AutomationCardWithOptimization volatileId={volatileId} event={event} incident={incident} />;
-}
-
-function determineEntityTypeFromEntityIDMap(entityID: Map<string, string>) {
-  const pluginName = translateFullyQualifiedPluginToShortPluginName(entityID.get('pluginId'));
-
-  if (pluginName === 'application' || pluginName === 'service' || pluginName === 'endpoint') return pluginName;
-
-  return 'infrastructure';
-}
-
-function getIncidentTimeConfig(incident: EventOrMap): TimeConfig {
-  return {
-    windowSize:
-      (incident.get('end') as number) - incident.getIn(['metadata', 'triggeringTime'], 0) + minutes.toMillis(20) ||
-      (incident.get('end') as number) - (incident.get('start') as number) + minutes.toMillis(20),
-    to: incident.get('end') as number,
-    focusedMoment: incident.get('end') as number,
-    autoRefresh: false
-  };
 }

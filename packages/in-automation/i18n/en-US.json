@@ -108,6 +108,7 @@
   "playbookId": "Playbook ID",
   "triggeringEvent": "Triggering event",
   "probableRootCause": "Probable root cause",
+  "contextFor": "Context for:",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Action configuration",
     "actionDetails": "Action details",
