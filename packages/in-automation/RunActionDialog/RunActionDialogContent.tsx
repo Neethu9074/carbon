@@ -669,22 +669,31 @@ function AnsibleActionContent({
   const selectedValues = hostLimitFormField?.value?.map(v => v.value);
 
   const filteredOptions = useMemo(() => {
-    const includesFqdn = selectedValues?.includes('TRIGGERING_HOST_FQDN');
-    const includesIp = selectedValues?.includes('TRIGGERING_HOST_IP');
-    if (includesFqdn && includesIp) {
-      // If both types are selected, return allOptions
-      return allOptions;
+    if (!selectedValues || selectedValues.length === 0) {
+      return [];
     }
 
-    if (includesFqdn) {
-      return allOptions.filter(option => parsedFqdn.includes(option.value));
+    const hasFqdn = selectedValues.includes('TRIGGERING_HOST_FQDN');
+    const hasIp = selectedValues.includes('TRIGGERING_HOST_IP');
+
+    // Extract custom values (anything not FQDN or IP)
+    const customValues = selectedValues.filter(v => v !== 'TRIGGERING_HOST_FQDN' && v !== 'TRIGGERING_HOST_IP');
+
+    // Map custom values back to Option objects (in case hostLimitFormField has labels)
+    const customOptions = hostLimitFormField?.value?.filter(opt => customValues.includes(opt.value)) ?? [];
+
+    // Build dynamic options
+    let dynamicOptions: Option[] = [];
+
+    if (hasFqdn && hasIp) {
+      dynamicOptions = allOptions;
+    } else if (hasFqdn) {
+      dynamicOptions = allOptions.filter(opt => parsedFqdn?.includes(opt.value));
+    } else if (hasIp) {
+      dynamicOptions = allOptions.filter(opt => parsedIp?.includes(opt.value));
     }
 
-    if (includesIp) {
-      return allOptions.filter(option => parsedIp.includes(option.value));
-    }
-
-    return []; // default fallback if nothing selected
+    return [...customOptions, ...dynamicOptions];
     // Have to load options only once we resolve dynamic parameters.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedValues]);
