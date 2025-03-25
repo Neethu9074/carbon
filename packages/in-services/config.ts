@@ -26,13 +26,6 @@ export interface ClientConfig {
   activeLicenseType: string;
   // this is injected or set with in a build step in build/gulp/build.js
   amplitudeKey: string;
-  //mcspDetails injected or set with in build/gulp/util.js
-  mcspDetails: {
-    isMcspEnvironment?: boolean;
-    mcspSaasConsoleUrl?: string;
-    regionName?: string;
-    ownerName?: string;
-  };
 }
 
 export interface BuildInfo {
