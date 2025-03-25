@@ -16,6 +16,7 @@ import {
   TYPE_AI_SUMMARY
 } from 'in-events/components/NotesAndActivity/utils';
 import { noteNameAndTimeFormat, createDataString } from 'in-events/components/NotesAndActivity/components/utils';
+import { ExternalNote } from 'in-events/components/NotesAndActivity/components/NoteTypes/ExternalNote';
 import { AISummary } from 'in-events/components/NotesAndActivity/components/NoteTypes/AISummary';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
@@ -92,9 +93,11 @@ export function CommentList({
           const type = note.type;
           const aiSum = type === TYPE_AI_SUMMARY;
           const serviceNow = note.origin === 'ServiceNow';
+          const slack = note.origin === 'Slack';
           const date = formatDateWithActiveLanguage(new Date(note.timestamp), `${dateFormat}, ${timeFormat}`);
           const isEdited = note?.updated && note?.updated != 0;
           const iconType =
+            (!aiSum && slack && 'lib_slack_icon') ||
             (!aiSum && serviceNow && 'lib_snow_icon') ||
             (!aiSum && !serviceNow && 'lib_actions_user') ||
             'lib_watson_x';
@@ -215,13 +218,7 @@ export function ChatBubble({
           />
         )}
         {/* External Note */}
-        {extNote && (
-          <>
-            <div className={locals.bubbleContentsHeader}>{`${noteObj?.label}`}</div>
-            {`${noteObj.author}: `}
-            <div style={{ wordWrap: 'break-word' }}>{contents}</div>
-          </>
-        )}
+        {extNote && <ExternalNote noteObj={noteObj} />}
         {/* External Activity Change */}
         {extChange && (
           <>

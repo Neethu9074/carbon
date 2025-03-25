@@ -80,12 +80,11 @@ describe('ChatBubble', () => {
       />
     );
     expect(wrapper.find(`div.${locals.ext}`)).toHaveLength(1);
-    expect(wrapper.find(`div.${locals.ext}`).text()).toEqual('Ext NoteJohn Doe: Hello');
+    expect(wrapper.find(`div.${locals.ext}`).text()).toEqual('<ExternalNote />');
     expect(wrapper.find(`div.${locals.bubble}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.myBubble}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.aiGenBubble}`)).toHaveLength(0);
-    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`)).toHaveLength(1);
-    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`).text()).toEqual('Ext Note');
+    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`)).toHaveLength(0);
     expect(wrapper.find(EditDeleteOverflowMenu)).toHaveLength(0);
   });
 
