@@ -63,7 +63,7 @@ export default function Users() {
               }
         }
         labelNew={t('in-settings:tabs.inviteUser')}
-        searchAttributes={['fullName', 'email', 'id']}
+        searchAttributes={['fullName', 'email']}
         searchPlaceholder={t('in-settings:components.search')}
         customDialogMessage={isAnyIDPActive ? (entity: UserResult) => customDialogMessage(entity) : undefined}
         onRowClick={noop}
