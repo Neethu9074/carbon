@@ -399,91 +399,73 @@ function generatePlatformItems(permissions) {
 
   if (permissions.hasPCFAccess) {
     platformItems.push({
-      type: 'link',
-      properties: {
-        label: 'Cloud Foundry',
-        path: '#/cloudfoundry/applications'
-      }
+      icon_name: 'development',
+      label: 'Cloud Foundry',
+      path: '#/cloudfoundry/applications'
     });
   }
 
   if (permissions.hasPHMCAccess && !features.playwithEnabled) {
     platformItems.push({
-      type: 'link',
-      properties: {
-        label: 'IBM Power HMC',
-        path: '#/ibmp/phmcs'
-      }
+      icon_name: 'development',
+      label: 'IBM Power HMC',
+      path: '#/ibmp/phmcs'
     });
   }
 
   if (permissions.hasPowerVcAccess && !features.playwithEnabled) {
     platformItems.push({
-      type: 'link',
-      properties: {
-        label: 'IBM PowerVC',
-        path: '#/powervc/regions'
-      }
+      icon_name: 'development',
+      label: 'IBM PowerVC',
+      path: '#/powervc/regions'
     });
   }
 
   if (permissions.hasZHMCAccess && !features.playwithEnabled) {
     platformItems.push({
-      type: 'link',
-      properties: {
-        label: 'IBM Z HMC',
-        path: '#/ibmz/zhmcs'
-      }
+      icon_name: 'development',
+      label: 'IBM Z HMC',
+      path: '#/ibmz/zhmcs'
     });
   }
 
   if (permissions.hasOpenStackAccess && !features.playwithEnabled) {
     platformItems.push({
-      type: 'link',
-      properties: {
-        label: 'OpenStack',
-        path: '#/openstack/regions'
-      }
+      icon_name: 'development',
+      label: 'OpenStack',
+      path: '#/openstack/regions'
     });
   }
 
   if (permissions.hasKubernetesAccess) {
     platformItems.push({
-      type: 'link',
-      properties: {
-        label: 'Kubernetes',
-        path: '#/kubernetes/clusters'
-      }
+      icon_name: 'development',
+      label: 'Kubernetes',
+      path: '#/kubernetes/clusters'
     });
   }
 
   if (permissions.hasNutanixAccess && !features.playwithEnabled) {
     platformItems.push({
-      type: 'link',
-      properties: {
-        label: 'Nutanix',
-        path: '#/nutanix/datacenters'
-      }
+      icon_name: 'development',
+      label: 'Nutanix',
+      path: '#/nutanix/datacenters'
     });
   }
 
   if (permissions.hasSAPAccess && !features.playwithEnabled) {
     platformItems.push({
-      type: 'link',
-      properties: {
-        label: 'SAP',
-        path: '#/sap/sapsystemslist'
-      }
+      icon_name: 'development',
+      label: 'SAP',
+      path: '#/sap/sapsystemslist'
     });
   }
 
   if (permissions.hasVSphereAccess && !features.playwithEnabled) {
     platformItems.push({
-      type: 'link',
-      properties: {
-        label: 'vSphere',
-        path: '#/vsphere/datacenters'
-      }
+      icon_name: 'development',
+      label: 'vSphere',
+      path: '#/vsphere/datacenters'
     });
   }
 
