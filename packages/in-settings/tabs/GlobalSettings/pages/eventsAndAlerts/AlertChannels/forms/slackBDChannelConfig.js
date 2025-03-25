@@ -57,6 +57,9 @@ export default {
   name,
   label,
   testAPI: null,
+  isAlpha: false,
+  isBeta: true,
+  feedbackLink: 'mailto:instanafeedback@ibm.com',
   customSubmit: {
     noCreateAPI: true,
     submitSaveLabel: t('in-settings:tabs.doneButton'),
@@ -210,16 +213,15 @@ function Form({ form, onChange }) {
               });
               const id = form.get('id') ? form.get('id').value : generateUniqueShortId();
               const integrationBaseUrl = window.instana.config.integrationBaseUrl;
+              const butlerDomain = `https://${window.instana.config.butlerDomain}`;
               const params = new URLSearchParams({
-                endpoint: integrationBaseUrl,
+                endpoint: butlerDomain,
                 tenant: window.instana.config.tenant,
                 unit: window.instana.config.tenantUnit,
                 id: id,
                 name: form.get('name').value
               });
-
               const url = `${integrationBaseUrl}/integration/slack/bidirectional/install?${params.toString()}`;
-
               window.open(url, '_blank');
             }}
           >
