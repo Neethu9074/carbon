@@ -74,10 +74,10 @@ export default function YearlyFrequency({ form, setFormRRule, rrule }: YearlyFre
 
   return (
     <div>
-      <Label>{t('in-settings:maintenanceWindow.on')}</Label>
-      <Stack direction="vertical" gap="xsmall">
-        <Stack direction="horizontal" gap="xsmall">
+      <Stack direction="vertical" gap="normal">
+        <Stack direction="vertical" gap="xsmall">
           <RadioButton
+            label={t('in-settings:maintenanceWindow.specifyDate')}
             onChange={() => {
               setPosDay(undefined);
               setWeekDay(undefined);
@@ -86,79 +86,83 @@ export default function YearlyFrequency({ form, setFormRRule, rrule }: YearlyFre
             }}
             checked={onMonth}
           />
-          <ComboBox
-            options={months.map((month, idx) => ({
-              value: (idx + 1).toString(),
-              label: t('in-settings:maintenanceWindow.months', { context: month })
-            }))}
-            value={dayMonth?.toString() || null}
-            onChange={v => setSpecificMonth(parseInt((v as Option).value))}
-            isDisabled={!onMonth}
-            placeholder={t('in-settings:maintenanceWindow.month')}
-          />
-          <Input
-            type="number"
-            id="monthly-recurrence-day"
-            placeholder={t('in-settings:maintenanceWindow.dayNum')}
-            disabled={!onMonth}
-            value={dayNum || undefined}
-            onChange={v => setDayNum(v.target.valueAsNumber)}
-            className={locals.medInput}
-            min="1"
-            max="31"
-          />
+          <Stack direction="horizontal" gap="xsmall">
+            <ComboBox
+              options={months.map((month, idx) => ({
+                value: (idx + 1).toString(),
+                label: t('in-settings:maintenanceWindow.months', { context: month })
+              }))}
+              value={dayMonth?.toString() || null}
+              onChange={v => setSpecificMonth(parseInt((v as Option).value))}
+              isDisabled={!onMonth}
+              placeholder={t('in-settings:maintenanceWindow.month')}
+            />
+            <Input
+              type="number"
+              id="monthly-recurrence-day"
+              placeholder={t('in-settings:maintenanceWindow.dayNum')}
+              disabled={!onMonth}
+              value={dayNum || undefined}
+              onChange={v => setDayNum(v.target.valueAsNumber)}
+              className={locals.medInput}
+              min="1"
+              max="31"
+            />
+          </Stack>
         </Stack>
-        <Stack direction="horizontal" gap="xsmall" align="center">
+        <Stack direction="vertical" gap="xsmall">
           <RadioButton
             onChange={() => {
               setDayNum(0);
               setOnMonth(false);
             }}
-            label={t('in-settings:maintenanceWindow.the')}
+            label={t('in-settings:maintenanceWindow.specifyWeekDayMonth')}
             checked={!onMonth}
           />
-          <ComboBox
-            options={[
-              { value: '1', label: t('in-settings:maintenanceWindow.first') },
-              { value: '2', label: t('in-settings:maintenanceWindow.second') },
-              { value: '3', label: t('in-settings:maintenanceWindow.third') },
-              { value: '4', label: t('in-settings:maintenanceWindow.fourth') },
-              { value: '-1', label: t('in-settings:maintenanceWindow.last') }
-            ]}
-            value={posDay}
-            onChange={v => setPosDay((v as Option).value)}
-            isDisabled={onMonth}
-            isClearable={false}
-            placeholder={t('in-settings:maintenanceWindow.number')}
-          />
-          <ComboBox
-            options={[
-              { value: RRule.MO.weekday.toString(), label: t('in-settings:maintenanceWindow.weekdays_monday') },
-              { value: RRule.TU.weekday.toString(), label: t('in-settings:maintenanceWindow.weekdays_tuesday') },
-              { value: RRule.WE.weekday.toString(), label: t('in-settings:maintenanceWindow.weekdays_wednesday') },
-              { value: RRule.TH.weekday.toString(), label: t('in-settings:maintenanceWindow.weekdays_thursday') },
-              { value: RRule.FR.weekday.toString(), label: t('in-settings:maintenanceWindow.weekdays_friday') },
-              { value: RRule.SA.weekday.toString(), label: t('in-settings:maintenanceWindow.weekdays_saturday') },
-              { value: RRule.SU.weekday.toString(), label: t('in-settings:maintenanceWindow.weekdays_sunday') }
-            ]}
-            value={weekDay}
-            onChange={v => setWeekDay((v as Option).value)}
-            isDisabled={onMonth}
-            isClearable={false}
-            placeholder={t('in-settings:maintenanceWindow.weekday')}
-          />
-          <Label> of </Label>
-          <ComboBox
-            options={months.map((month, idx) => ({
-              value: (idx + 1).toString(),
-              label: t('in-settings:maintenanceWindow.months', { context: month })
-            }))}
-            value={dayMonth?.toString() || null}
-            onChange={v => setSpecificMonth(parseInt((v as Option).value))}
-            isClearable={false}
-            isDisabled={onMonth}
-            placeholder={t('in-settings:maintenanceWindow.month')}
-          />
+          <Stack direction="horizontal" gap="xsmall" align="center">
+            <ComboBox
+              options={[
+                { value: '1', label: t('in-settings:maintenanceWindow.first') },
+                { value: '2', label: t('in-settings:maintenanceWindow.second') },
+                { value: '3', label: t('in-settings:maintenanceWindow.third') },
+                { value: '4', label: t('in-settings:maintenanceWindow.fourth') },
+                { value: '-1', label: t('in-settings:maintenanceWindow.last') }
+              ]}
+              value={posDay}
+              onChange={v => setPosDay((v as Option).value)}
+              isDisabled={onMonth}
+              isClearable={false}
+              placeholder={t('in-settings:maintenanceWindow.number')}
+            />
+            <ComboBox
+              options={[
+                { value: RRule.MO.weekday.toString(), label: t('in-settings:maintenanceWindow.weekdays_monday') },
+                { value: RRule.TU.weekday.toString(), label: t('in-settings:maintenanceWindow.weekdays_tuesday') },
+                { value: RRule.WE.weekday.toString(), label: t('in-settings:maintenanceWindow.weekdays_wednesday') },
+                { value: RRule.TH.weekday.toString(), label: t('in-settings:maintenanceWindow.weekdays_thursday') },
+                { value: RRule.FR.weekday.toString(), label: t('in-settings:maintenanceWindow.weekdays_friday') },
+                { value: RRule.SA.weekday.toString(), label: t('in-settings:maintenanceWindow.weekdays_saturday') },
+                { value: RRule.SU.weekday.toString(), label: t('in-settings:maintenanceWindow.weekdays_sunday') }
+              ]}
+              value={weekDay}
+              onChange={v => setWeekDay((v as Option).value)}
+              isDisabled={onMonth}
+              isClearable={false}
+              placeholder={t('in-settings:maintenanceWindow.weekday')}
+            />
+            <Label> of </Label>
+            <ComboBox
+              options={months.map((month, idx) => ({
+                value: (idx + 1).toString(),
+                label: t('in-settings:maintenanceWindow.months', { context: month })
+              }))}
+              value={dayMonth?.toString() || null}
+              onChange={v => setSpecificMonth(parseInt((v as Option).value))}
+              isClearable={false}
+              isDisabled={onMonth}
+              placeholder={t('in-settings:maintenanceWindow.month')}
+            />
+          </Stack>
         </Stack>
       </Stack>
     </div>
