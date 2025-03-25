@@ -6,7 +6,7 @@
 // import i18next from 'i18next';
 
 const express = require('express');
-// const { getCurrentUser } = require('../auth');
+const { getCurrentUser } = require('../auth');
 // const { xXssProtection } = require('helmet');
 // const { t } = require('@instana/i18n-react');
 
@@ -19,37 +19,37 @@ router.get('/solis/nav', async (req, res) => {
   //     return;
   //   }
 
-  // const [statusCode, userStr] = await getCurrentUser(req);
-  // if (statusCode !== 200) {
-  //   res.sendStatus(statusCode);
-  //   return;
-  // }
-  // const user = getParsedUser(userStr);
+  const [statusCode, userStr] = await getCurrentUser(req);
+  if (statusCode !== 200) {
+    res.sendStatus(statusCode);
+    return;
+  }
+  const user = getParsedUser(userStr);
 
-  const user = {
-    //test
-    fullName: 'tester',
-    email: 'tester@ibm.com',
-    role: {
-      canViewLogs: true,
-      limitedApplicationsScope: false,
-      limitedLogsScope: false,
-      limitedBizOpsScope: false,
-      limitedWebsitesScope: false,
-      limitedKubernetesScope: false,
-      limitedMobileAppsScope: false,
-      limitedInfrastructureScope: false,
-      limitedSyntheticsScope: false,
-      limitedVsphereScope: false,
-      limitedPhmcScope: false,
-      limitedPvcScope: false,
-      limitedZhmcScope: false,
-      limitedPcfScope: false,
-      limitedOpenstackScope: false,
-      limitedAutomationScope: false,
-      limitedNutanixScope: false
-    }
-  };
+  // const user = {
+  //   //test
+  //   fullName: 'tester',
+  //   email: 'tester@ibm.com',
+  //   role: {
+  //     canViewLogs: true,
+  //     limitedApplicationsScope: false,
+  //     limitedLogsScope: false,
+  //     limitedBizOpsScope: false,
+  //     limitedWebsitesScope: false,
+  //     limitedKubernetesScope: false,
+  //     limitedMobileAppsScope: false,
+  //     limitedInfrastructureScope: false,
+  //     limitedSyntheticsScope: false,
+  //     limitedVsphereScope: false,
+  //     limitedPhmcScope: false,
+  //     limitedPvcScope: false,
+  //     limitedZhmcScope: false,
+  //     limitedPcfScope: false,
+  //     limitedOpenstackScope: false,
+  //     limitedAutomationScope: false,
+  //     limitedNutanixScope: false
+  //   }
+  // };
 
   const role = user?.role ?? {};
   // const role = user.role;
@@ -116,6 +116,7 @@ function getUserPermissions(role) {
     hasInfrastructureAnalyzeAccess,
     hasAutomationAccess: getAccess(true, 'limitedAutomationScope'), // actionAutomationEnabled && hasPermission()
     hasSyntheticsAccess,
+    hasAPlatformAccess,
     hasAnalyzeAccess:
       hasApplicationsAccess || hasWebsitesAccess || hasMobileAppsAccess || hasInfrastructureAnalyzeAccess,
     hasEventsAccess:
@@ -579,12 +580,12 @@ function getHelp() {
   return JSON.stringify(content);
 }
 
-// function getParsedUser(userStr) {
-//   let user;
-//   try {
-//     user = JSON.parse(userStr);
-//   } catch (error) {
-//     user = null;
-//   }
-//   return user;
-// }
+function getParsedUser(userStr) {
+  let user;
+  try {
+    user = JSON.parse(userStr);
+  } catch (error) {
+    user = null;
+  }
+  return user;
+}
