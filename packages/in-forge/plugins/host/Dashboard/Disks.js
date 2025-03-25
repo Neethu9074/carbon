@@ -114,7 +114,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.host.dashboard.type'),
+    title: t('in-forge:plugins.host.dashboard.diskType'),
     type: 'string',
     typeArgs: {
       getValue(row) {
