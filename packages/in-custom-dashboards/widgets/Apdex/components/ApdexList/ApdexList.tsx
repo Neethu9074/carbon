@@ -48,35 +48,38 @@ export default function ApdexList({
   const { page = 0, pageSize = 0 } = paginatedResult?.data || {};
 
   return (
-    <ServerTablePresenter<ApdexConfiguration, ServerTableApdexConfiguration>
-      result={paginatedResult}
-      getRowProps={() => ({
-        size: 'compact'
-      })}
-      page={page}
-      pageSize={pageSize}
-      query={query}
-      orderBy={orderBy}
-      orderDirection={orderDirection}
-      cardTitle={t('in-custom-dashboards:widgets.apdex.apdexList.cardTitle')}
-      onRowClick={onSelect}
-      onDelete={onDelete}
-      onEdit={onEdit}
-      onChange={onChange}
-      numSkeletonRows={3}
-      columnDefinitions={columnDefinitions}
-      rightHeader={
-        <Button
-          kind="action"
-          onClick={onCreate}
-          icon="lib_openclose_add_circle_outline"
-          className={locals.createButton}
-        >
-          {t('in-custom-dashboards:widgets.apdex.apdexList.createButton')}
-        </Button>
-      }
-      isSearchable
-    />
+    <div className={locals.apdexListWrapper}>
+      <ServerTablePresenter<ApdexConfiguration, ServerTableApdexConfiguration>
+        data-testid="ApdexList"
+        result={paginatedResult}
+        getRowProps={() => ({
+          size: 'compact'
+        })}
+        page={page}
+        pageSize={pageSize}
+        query={query}
+        orderBy={orderBy}
+        orderDirection={orderDirection}
+        cardTitle={t('in-custom-dashboards:widgets.apdex.apdexList.cardTitle')}
+        onRowClick={onSelect}
+        onDelete={onDelete}
+        onEdit={onEdit}
+        onChange={onChange}
+        numSkeletonRows={3}
+        columnDefinitions={columnDefinitions}
+        rightHeader={
+          <Button
+            kind="action"
+            onClick={onCreate}
+            icon="lib_openclose_add_circle_outline"
+            className={locals.createButton}
+          >
+            {t('in-custom-dashboards:widgets.apdex.apdexList.createButton')}
+          </Button>
+        }
+        isSearchable
+      />
+    </div>
   );
 }
 
