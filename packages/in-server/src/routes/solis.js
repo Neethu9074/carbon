@@ -40,29 +40,28 @@ function getUserPermissions(role, features) {
   const getAccess = (canField, limitedField = null) => {
     // if (!role) return false;
     if (limitedField && role[limitedField] === false) return true;
-    return role[canField] === true;
+    return role.permissions[canField] === true;
   };
 
-  // const platformPermissions = getPlatformPermissions(role);
-  // const hasAPlatformAccess = Object.values(platformPermissions).some(Boolean);
-  const hasWebsitesAccess = getAccess(true, 'limitedWebsitesScope');
-  const hasMobileAppsAccess = getAccess(true, 'limitedMobileAppsScope');
-  const hasBizOpsAccess = getAccess(true, 'limitedBizOpsScope');
-  const hasApplicationsAccess = getAccess(true, 'limitedApplicationsScope');
-  const hasInfrastructureAccess = getAccess(true, 'limitedInfrastructureScope');
-  const hasInfrastructureAnalyzeAccess = getAccess(role?.ACCESS_INFRASTRUCTURE_ANALYZE, 'limitedInfrastructureScope');
-  const hasAutomationAccess = getAccess(true, 'limitedAutomationScope') && features.actionAutomationEnabled;
-  const hasSyntheticsAccess = getAccess('canConfigureSyntheticTests', 'limitedSyntheticsScope');
+  const hasWebsitesAccess = getAccess('ACCESS_WEBSITES', 'limitedWebsitesScope');
+  const hasMobileAppsAccess = getAccess('ACCESS_MOBILE_APPS', 'limitedMobileAppsScope');
+  const hasBizOpsAccess = getAccess('ACCESS_BIZOPS', 'limitedBizOpsScope');
+  const hasApplicationsAccess = getAccess('ACCESS_APPLICATIONS', 'limitedApplicationsScope');
+  const hasInfrastructureAccess = getAccess('ACCESS_INFRASTRUCTURE', 'limitedInfrastructureScope');
+  const hasInfrastructureAnalyzeAccess = getAccess('ACCESS_INFRASTRUCTURE_ANALYZE', 'limitedInfrastructureScope');
+  const hasAutomationAccess =
+    getAccess('ACCESS_AUTOMATION', 'limitedAutomationScope') && features.actionAutomationEnabled;
+  const hasSyntheticsAccess = getAccess('ACCESS_SYNTHETICS', 'limitedSyntheticsScope') && features.syntheticsEnabled;
 
-  const hasPCFAccess = getAccess(true, 'limitedPcfScope') && features.pcfEnabled;
-  const hasPHMCAccess = getAccess(true, 'limitedPhmcScope') && features.phmcEnabled;
-  const hasPowerVcAccess = getAccess(true, 'limitedPvcScope') && features.powervcEnabled;
-  const hasZHMCAccess = getAccess(true, 'limitedZhmcScope') && features.zhmcEnabled;
-  const hasOpenStackAccess = getAccess(true, 'limitedOpenstackScope') && features.openstackEnabled;
-  const hasKubernetesAccess = getAccess(true, 'limitedKubernetesScope');
-  const hasNutanixAccess = getAccess(true, 'limitedNutanixScope') && features.nutanixEnabled;
-  const hasSAPAccess = getAccess(true, 'limitedSapScope') && features.sapEnabled;
-  const hasVSphereAccess = getAccess(true, 'limitedVsphereScope') && features.vsphereEnabled;
+  const hasPCFAccess = getAccess('ACCESS_PCF', 'limitedPcfScope') && features.pcfEnabled;
+  const hasPHMCAccess = getAccess('ACCESS_PHMC', 'limitedPhmcScope') && features.phmcEnabled;
+  const hasPowerVcAccess = getAccess('ACCESS_POWERVC', 'limitedPvcScope') && features.powervcEnabled;
+  const hasZHMCAccess = getAccess('ACCESS_ZHMC', 'limitedZhmcScope') && features.zhmcEnabled;
+  const hasOpenStackAccess = getAccess('ACCESS_OPENSTACK', 'limitedOpenstackScope') && features.openstackEnabled;
+  const hasKubernetesAccess = getAccess('ACCESS_KUBERNETES', 'limitedKubernetesScope');
+  const hasNutanixAccess = getAccess('ACCESS_NUTANIX', 'limitedNutanixScope') && features.nutanixEnabled;
+  const hasSAPAccess = getAccess('ACCESS_SAP', 'limitedSapScope') && features.sapEnabled;
+  const hasVSphereAccess = getAccess('ACCESS_VSPHERE', 'limitedVsphereScope') && features.vsphereEnabled;
   const hasAPlatformAccess =
     hasVSphereAccess ||
     hasPHMCAccess ||
