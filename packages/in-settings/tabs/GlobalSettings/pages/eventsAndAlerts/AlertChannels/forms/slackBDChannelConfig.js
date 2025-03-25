@@ -57,6 +57,9 @@ export default {
   name,
   label,
   testAPI: null,
+  isAlpha: false,
+  isBeta: true,
+  feedbackLink: 'mailto:instanafeedback@ibm.com',
   customSubmit: {
     noCreateAPI: true,
     submitSaveLabel: t('in-settings:tabs.doneButton'),
