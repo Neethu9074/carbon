@@ -7,9 +7,10 @@
   .wrapper {
     display: flex;
     align-items: center;
+    margin-left: 1rem;
   }
 
   .label {
-    color: var(--ids-color-option-neutral-500);
+    color: var(--cds-text-primary);
   }
 }

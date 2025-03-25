@@ -38,13 +38,13 @@
   }
 
   .key {
-    color: var(--ids-color-option-neutral-500);
+    color: var(--cds-text-secondary);
     margin-right: 1rem;
     white-space: nowrap;
   }
 
   .value {
-    color: var(--ids-color-option-neutral-800);
+    color: var(--cds-text-secondary);
   }
 
   .metricValueSkeleton,

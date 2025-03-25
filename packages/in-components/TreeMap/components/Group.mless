@@ -16,6 +16,7 @@
   .header {
     display: flex;
     align-items: center;
+    width: 100%;
 
     height: 2rem;
     padding: 0 0.5rem;
@@ -25,6 +26,7 @@
       background: var(--ids-color-option-neutral-400);
 
       .hoverLayer {
+        width: 100%;
         bottom: 0;
       }
 
@@ -51,14 +53,14 @@
     margin-right: 0.5rem;
 
     font-size: 0.75rem;
-    color: var(--ids-color-option-neutral-600);
+    color: var(--cds-text-primary);
     .ellipsis();
   }
 
   .value {
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--ids-color-option-neutral-600);
+    color: var(--cds-text-primary);
   }
 
   .link {
