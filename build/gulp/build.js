@@ -222,7 +222,7 @@ function writeTryBuildReleaseServerConfigFile(cb) {
     uiBackendBaseUrl: 'https://release-instana.instana.rocks',
     groundskeeperBaseUrl: 'http://127.0.0.1:8280',
     butlerBaseUrl: 'https://release-instana.instana.rocks',
-    integrationBaseUrl: 'https://local-instana.pink.instana.rocks:4000',
+    integrationBaseUrl: 'https://slack-rainbowtest-us-west-2.instana.rocks ',
     port: 3131,
     adminPort: 3132,
     bindAddress: '0.0.0.0',
