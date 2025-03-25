@@ -24,6 +24,7 @@ import { resourceOptimizationActionsEnabled, vulnerabilityCenterEnabled } from '
 import ResourceOptimizationTab from 'in-applications/Dashboards/application/tabs/ResourceOptimizations';
 //@ts-expect-error needs TS migration
 import Map from 'in-applications/Dashboards/application/tabs/Map';
+import SloDashboardList from 'in-service-levels/components/Shared/SloDashboardList/SloDashboardList';
 import LogMessagesTab from 'in-logging/components/Dashboards/components/LogMessages';
 import { hasInfrastructureAccess, hasSyntheticsAccess } from 'in-stores/permission';
 import { applicationDashboard } from 'in-applications/navigation/paths';
@@ -87,6 +88,11 @@ const getApplicationTabs = (canConfigureApplications: boolean | null | undefined
       label: t('in-applications:labelSmartAlerts'),
       path: `${applicationDashboard}/alerts`,
       component: Alerts
+    },
+    {
+      label: t('in-applications:labelServiceLevels'),
+      path: `${applicationDashboard}/slo`,
+      component: SloDashboardList
     },
     !playwithEnabled && {
       label: t('in-applications:labelConfiguration'),

@@ -26,6 +26,7 @@ module.exports = {
         'in-components',
         'in-hoc',
         'in-hooks',
+        'in-service-levels',
         'in-services',
         'in-stores',
         'in-subscription',

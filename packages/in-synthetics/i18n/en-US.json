@@ -606,6 +606,7 @@
       "configurationTab": "Configuration",
       "isCertificateValid": "Last run - Certificate is signed by public CA",
       "resultsCertificateValid": "Certificate is signed by public CA",
+      "serviceLevelsTab": "Service Levels",
       "certificateValid": "Yes",
       "certificateNotValid": "No",
       "daysRemaining": "Last run - Days remaining",

@@ -814,6 +814,7 @@
       "indexLabelPages": "Pages",
       "indexLabelAlerts": "Smart alerts",
       "indexLabelConfiguration": "Configuration",
+      "indexLabelServiceLevels":"Service Levels",
       "pagesLabelName": "Name",
       "pagesLabelPageViews": "Page views",
       "pagesLabelOnLoadTime": "onLoad time",

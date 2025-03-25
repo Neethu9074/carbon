@@ -34,11 +34,13 @@ import { t } from 'in-i18n';
 interface GetColumnDefinitionsProps {
   isMediumWidth?: boolean;
   isSmallWidth?: boolean;
+  showEntityInfo?: boolean;
 }
 
 function getColumnDefinitions({
   isMediumWidth,
-  isSmallWidth
+  isSmallWidth,
+  showEntityInfo
 }: GetColumnDefinitionsProps): ColumnDefinition<SloListItem>[] {
   const columnDefinitions: ColumnDefinition<SloListItem>[] = [
     {
@@ -94,7 +96,7 @@ function getColumnDefinitions({
 
   return columnDefinitions.filter(({ id }) => {
     // Hide blueprint column if showBluerprintCol is false
-    return id !== 'blueprint' || isSmallWidth;
+    return (id !== 'blueprint' || isSmallWidth) && (id !== 'entityType' || (showEntityInfo ?? true));
   });
 }
 
@@ -108,12 +110,21 @@ export interface SloListItem {
   metricGranularity: number;
 }
 
-interface Props {
+interface SloListProps {
   pathSegment: string;
   matrixPrefix?: string;
+  entityIds?: string;
+  isDashboard?: boolean;
+  showEntityInfo?: boolean;
 }
 
-export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
+export default function SloList({
+  pathSegment,
+  matrixPrefix = '',
+  entityIds,
+  isDashboard,
+  showEntityInfo
+}: SloListProps) {
   const isMediumWidth = useMediaQuery('(min-width: 1560px)');
   const isSmallWidth = useMediaQuery('(min-width: 1200px)');
 
@@ -142,6 +153,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
     orderDirection,
     query,
     tags,
+    entityIds,
     entityType
   });
   const [availableTags, , , tagsProgress] = useSloTags();
@@ -158,17 +170,24 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
       orderBy={orderBy}
       orderDirection={orderDirection}
       query={query}
-      columnDefinitions={getColumnDefinitions({ isMediumWidth, isSmallWidth })}
+      columnDefinitions={getColumnDefinitions({ isMediumWidth, isSmallWidth, showEntityInfo })}
       result={{
         progress,
         errors: [],
         data: result
       }}
       onChange={setServerTableState}
-      rightHeader={() => (
-        <SloListFilters tags={availableTags ?? []} selectedTags={tags} entityType={entityType} setFilter={setFilter} />
-      )}
-      tableInCard
+      rightHeader={() =>
+        !isDashboard ? (
+          <SloListFilters
+            tags={availableTags ?? []}
+            selectedTags={tags}
+            entityType={entityType}
+            setFilter={setFilter}
+          />
+        ) : null
+      }
+      tableInCard={!isDashboard}
       fixedLayout
     />
   );

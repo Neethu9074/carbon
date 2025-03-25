@@ -5,6 +5,7 @@
 
 import { playwithEnabled, syntheticRbacLimitedEnabled, websiteUserBreakdownEnabled } from 'in-services/featureFlags';
 import SyntheticMonitoring from 'in-websites/WebsiteDashboard/tabs/SyntheticMonitoring/SyntheticMonitoring';
+import SloDashboardList from 'in-service-levels/components/Shared/SloDashboardList/SloDashboardList';
 import Configuration from 'in-websites/WebsiteDashboard/tabs/Configuration/Configuration';
 import Geography from 'in-websites/WebsiteDashboard/tabs/Geography/Geography';
 import CustomEvents from 'in-websites/WebsiteDashboard/tabs/CustomEvents';
@@ -81,6 +82,12 @@ export const websiteTabs = [
     label: t('in-websites:websiteDashboard.tabs.indexLabelAlerts'),
     path: `${websitePathFullyQualified}/alerts`,
     component: Alerts
+  },
+  {
+    label: t('in-websites:websiteDashboard.tabs.indexLabelServiceLevels'),
+    path: `${websitePathFullyQualified}/slo`,
+    component: SloDashboardList,
+    websiteOnly: true
   },
   role.canConfigureEumApplications &&
     !playwithEnabled && {
