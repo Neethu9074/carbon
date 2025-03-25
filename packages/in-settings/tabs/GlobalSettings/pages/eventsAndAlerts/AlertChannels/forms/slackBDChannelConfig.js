@@ -208,16 +208,17 @@ function Form({ form, onChange }) {
                 path: '',
                 channel: form.get('kind').value
               });
-              const baseDomain = window.instana.config.butlerDomain;
+              const id = form.get('id') ? form.get('id').value : generateUniqueShortId();
+              const integrationBaseUrl = window.instana.config.integrationBaseUrl;
               const params = new URLSearchParams({
-                endpoint: `https://${baseDomain}`,
+                endpoint: integrationBaseUrl,
                 tenant: window.instana.config.tenant,
                 unit: window.instana.config.tenantUnit,
-                id: window.instana.config.tenantUnitId,
+                id: id,
                 name: form.get('name').value
               });
 
-              const url = `https://${baseDomain}/integration/slack/bidirectional/install?${params.toString()}`;
+              const url = `${integrationBaseUrl}/integration/slack/bidirectional/install?${params.toString()}`;
 
               window.open(url, '_blank');
             }}

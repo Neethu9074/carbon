@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { CarbonMenuButton, CarbonMenuItem, Stack, PreviewPill } from '@instana/components';
+import { CarbonMenuButton, CarbonMenuItem, PreviewPill } from '@instana/components';
 
 import {
   SETTINGS_ALERT_CHANNEL_ADD_CLICK,
@@ -59,12 +59,12 @@ function AlertChannelButton({ type }) {
             channel: configs[type].label
           });
         }}
-        label={
-          <Stack direction="horizontal" align="center" distribution="spaceBetween" gap="normal">
-            {configs[type].label}
+        label={configs[type].label}
+        shortcut={
+          <>
             {configs[type].isAlpha && <PreviewPill privatePreview />}
             {configs[type].isBeta && <PreviewPill />}
-          </Stack>
+          </>
         }
       />
     )

@@ -662,6 +662,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'bidirectionalSlackEnabled',
+    instanaCtlKey: 'feature.alert.channel.bidirectional.slack.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
     instanaCtlKey: 'feature.analyze.related.instances.button.enabled',
     defaultValue: false

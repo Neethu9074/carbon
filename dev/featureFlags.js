@@ -63,6 +63,7 @@ module.exports = {
   hideAppDataLegacyEventsEnabled: true,
   potentialProblemsEnabled: true,
   builtInGlobalApplicationSmartAlertsEnabled: true,
+  bidirectionalSlackEnabled: true,
   perEndpointAdaptiveBaselineEnabled: false,
   smartAlertsLogsBlueprintEnabled: true,
   syntheticsEnabled: true,
