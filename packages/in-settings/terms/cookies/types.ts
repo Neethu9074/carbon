@@ -27,25 +27,8 @@ interface Details {
   name: string;
   purpose: string;
 }
-
-export interface ListItemProps {
-  tool: ListItemDetailsProps;
-}
-
-interface ListItemDetailsProps {
-  description: string;
-  key: string;
-  title: string;
-}
-
 export interface CookieColumnDefinitionProps {
   form: MapForm<any>;
   cookie: ExpandableListItemDetailsProps;
-  onChange: (form: MapForm<any>, fieldName: string, value: string | boolean) => void;
-}
-
-export interface ToolColumnDefinitionProps {
-  form: MapForm<any>;
-  tool: ListItemDetailsProps;
   onChange: (form: MapForm<any>, fieldName: string, value: string | boolean) => void;
 }
