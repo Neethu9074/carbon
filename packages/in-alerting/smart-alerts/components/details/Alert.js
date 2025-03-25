@@ -63,8 +63,7 @@ export default function Alert({
   canConfigureGlobalAlertConfigs = false,
   canConfigureIndividualAlertConfigs = false,
   hideAlertIcon = false,
-  // TODO Change this with proper switch case
-  alertDisplayMode = 'CHOICE_DIALOG'
+  alertDisplayMode
 }) {
   const { location, navigate } = useNavigation();
   const { trackCta } = useSegmentTracking();
@@ -81,6 +80,7 @@ export default function Alert({
     alertConfigId,
     reload
   );
+
   if (alertConfigErrors?.length || alertConfigVersionsErrors?.length) {
     return <ErroneousResultPresenter errors={[...alertConfigErrors, ...alertConfigVersionsErrors]} />;
   } else if (!alertConfig || !alertConfigVersions) {
