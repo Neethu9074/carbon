@@ -7,7 +7,7 @@
 
 const express = require('express');
 const { getCurrentUser } = require('../auth');
-// const { activeResolver } = require('../services/resolvers/index');
+const { activeResolver } = require('../services/resolvers/index');
 
 // const { xXssProtection } = require('helmet');
 // const { t } = require('@instana/i18n-react');
@@ -15,11 +15,7 @@ const { getCurrentUser } = require('../auth');
 const router = (module.exports = express.Router());
 
 router.get('/solis/nav', async (req, res) => {
-  // const featureFlags = await activeResolver.getFeatureFlags(req.tenant, req.unit);
-  //   if (featureFlags.internalMonitoringUnit) {
-  //     next();
-  //     return;
-  //   }
+  const featureFlags = await activeResolver.getFeatureFlags(req.tenant, req.unit);
 
   const [statusCode, userStr] = await getCurrentUser(req);
   if (statusCode !== 200) {
@@ -28,31 +24,6 @@ router.get('/solis/nav', async (req, res) => {
   }
   const user = getParsedUser(userStr);
 
-  // const user = {
-  //   //test
-  //   fullName: 'tester',
-  //   email: 'tester@ibm.com',
-  //   role: {
-  //     canViewLogs: true,
-  //     limitedApplicationsScope: false,
-  //     limitedLogsScope: false,
-  //     limitedBizOpsScope: false,
-  //     limitedWebsitesScope: false,
-  //     limitedKubernetesScope: false,
-  //     limitedMobileAppsScope: false,
-  //     limitedInfrastructureScope: false,
-  //     limitedSyntheticsScope: false,
-  //     limitedVsphereScope: false,
-  //     limitedPhmcScope: false,
-  //     limitedPvcScope: false,
-  //     limitedZhmcScope: false,
-  //     limitedPcfScope: false,
-  //     limitedOpenstackScope: false,
-  //     limitedAutomationScope: false,
-  //     limitedNutanixScope: false
-  //   }
-  // };
-
   const role = user?.role ?? {};
   // const role = user.role;
 
@@ -60,20 +31,20 @@ router.get('/solis/nav', async (req, res) => {
   res.end(
     JSON.stringify({
       top: [],
-      side: generateSideNavItems(role)
+      side: generateSideNavItems(role, featureFlags)
     })
   );
 });
 
-// TODO: get from backend
-const getFeatureFlags = () => ({
-  playwithEnabled: false,
-  loggingEnabled: true,
-  releaseNotesEnabled: true,
-  vulnerabilityCenterEnabled: true
-});
+// // TODO: get from backend
+// const getFeatureFlags = () => ({
+//   playwithEnabled: false,
+//   loggingEnabled: true,
+//   releaseNotesEnabled: true,
+//   vulnerabilityCenterEnabled: true
+// });
 
-function getUserPermissions(role) {
+function getUserPermissions(role, features) {
   const getAccess = (canField, limitedField = null) => {
     // if (!role) return false;
     if (limitedField && role[limitedField] === false) return true;
@@ -84,20 +55,22 @@ function getUserPermissions(role) {
   // const hasAPlatformAccess = Object.values(platformPermissions).some(Boolean);
   const hasWebsitesAccess = getAccess(true, 'limitedWebsitesScope');
   const hasMobileAppsAccess = getAccess(true, 'limitedMobileAppsScope');
+  const hasBizOpsAccess = getAccess(true, 'limitedBizOpsScope');
   const hasApplicationsAccess = getAccess(true, 'limitedApplicationsScope');
   const hasInfrastructureAccess = getAccess(true, 'limitedInfrastructureScope');
   const hasInfrastructureAnalyzeAccess = getAccess(role?.ACCESS_INFRASTRUCTURE_ANALYZE, 'limitedInfrastructureScope');
+  const hasAutomationAccess = getAccess(true, 'limitedAutomationScope') && features.actionAutomationEnabled;
   const hasSyntheticsAccess = getAccess('canConfigureSyntheticTests', 'limitedSyntheticsScope');
 
-  const hasPCFAccess = getAccess(true, 'limitedPcfScope'); // && pcfEnabled;
-  const hasPHMCAccess = getAccess(true, 'limitedPhmcScope'); // && phmcEnabled;
-  const hasPowerVcAccess = getAccess(true, 'limitedPvcScope'); // && powervcEnabled;
-  const hasZHMCAccess = getAccess(true, 'limitedZhmcScope'); // && zhmcEnabled;
-  const hasOpenStackAccess = getAccess(true, 'limitedOpenstackScope'); // && openstackEnabled;
+  const hasPCFAccess = getAccess(true, 'limitedPcfScope') && features.pcfEnabled;
+  const hasPHMCAccess = getAccess(true, 'limitedPhmcScope') && features.phmcEnabled;
+  const hasPowerVcAccess = getAccess(true, 'limitedPvcScope') && features.powervcEnabled;
+  const hasZHMCAccess = getAccess(true, 'limitedZhmcScope') && features.zhmcEnabled;
+  const hasOpenStackAccess = getAccess(true, 'limitedOpenstackScope') && features.openstackEnabled;
   const hasKubernetesAccess = getAccess(true, 'limitedKubernetesScope');
-  const hasNutanixAccess = getAccess(true, 'limitedNutanixScope'); // && nutanixEnabled;
-  const hasSAPAccess = getAccess(true, 'limitedSapScope'); // && sapEnabled;
-  const hasVSphereAccess = getAccess(true, 'limitedVsphereScope'); // && vsphereEnabled;
+  const hasNutanixAccess = getAccess(true, 'limitedNutanixScope') && features.nutanixEnabled;
+  const hasSAPAccess = getAccess(true, 'limitedSapScope') && features.sapEnabled;
+  const hasVSphereAccess = getAccess(true, 'limitedVsphereScope') && features.vsphereEnabled;
   const hasAPlatformAccess =
     hasVSphereAccess ||
     hasPHMCAccess ||
@@ -112,11 +85,11 @@ function getUserPermissions(role) {
   return {
     hasWebsitesAccess,
     hasMobileAppsAccess,
-    hasBizOpsAccess: getAccess(true, 'limitedBizOpsScope'),
+    hasBizOpsAccess,
     hasApplicationsAccess,
     hasInfrastructureAccess,
     hasInfrastructureAnalyzeAccess,
-    hasAutomationAccess: getAccess(true, 'limitedAutomationScope'), // actionAutomationEnabled && hasPermission()
+    hasAutomationAccess,
     hasSyntheticsAccess,
     hasAPlatformAccess,
     hasAnalyzeAccess:
@@ -140,10 +113,10 @@ function getUserPermissions(role) {
   };
 }
 
-function generateSideNavItems(role) {
+function generateSideNavItems(role, features) {
   const permissions = getUserPermissions(role);
   // const platformPermissions = getPlatformPermissions(role);
-  const features = getFeatureFlags();
+  // const features = getFeatureFlags();
 
   let navItems = [];
 
@@ -226,7 +199,7 @@ function generateSideNavItems(role) {
         icon_name: 'lib_platforms_inverted',
         label: 'Platforms',
         is_root: false,
-        links: generatePlatformItems(permissions)
+        links: generatePlatformItems(permissions, features)
       }
     });
   }
@@ -393,10 +366,10 @@ function generateSideNavItems(role) {
   return navItems;
 }
 
-function generatePlatformItems(permissions) {
+function generatePlatformItems(permissions, features) {
   // const platformAccess = getPlatformPermissions();
   // const platformPermissions = getPlatformPermissions(role);
-  const features = getFeatureFlags();
+  // const features = getFeatureFlags();
   let platformItems = [];
 
   if (permissions.hasPCFAccess) {
