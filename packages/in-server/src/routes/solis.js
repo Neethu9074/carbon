@@ -7,6 +7,8 @@
 
 const express = require('express');
 const { getCurrentUser } = require('../auth');
+// const { activeResolver } = require('../services/resolvers/index');
+
 // const { xXssProtection } = require('helmet');
 // const { t } = require('@instana/i18n-react');
 
