@@ -257,7 +257,7 @@ function generateSideNavItems(role) {
   navItems.push({
     type: 'link',
     properties: {
-      icon_name: 'lib_custom_dashboard',
+      icon_name: 'dashboard',
       label: 'Custom dashboards',
       path: '#/customDashboards',
       is_root: false
@@ -269,7 +269,7 @@ function generateSideNavItems(role) {
     navItems.push({
       type: 'link',
       properties: {
-        icon_name: 'lib_application_logging',
+        icon_name: 'cloud--logging',
         label: 'Logs',
         path: '#/logging',
         is_root: false

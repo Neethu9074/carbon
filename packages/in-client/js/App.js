@@ -31,6 +31,7 @@ import locals from './App.mless';
 export default function App() {
   const themeOverride = getThemeOverride() ?? fallbackTheme;
   const [theme, setTheme] = useState(themeOverride);
+  window.RUNTIME_CONTEXT = 'solis';
 
   return (
     <ErrorBoundary name="app">
@@ -54,7 +55,7 @@ export default function App() {
             <ScrollTrackingWrapper>
               <GlobalTimeConfig>
                 <ErrorBoundary name="main-navigation">
-                  <CarbonUIShell />
+                  {window.RUNTIME_CONTEXT === 'solis' ? <solis-nav /> : <CarbonUIShell />}
                 </ErrorBoundary>
                 <div className={locals.content} role="main">
                   {/* For "Skip to main content" target */}

@@ -82,7 +82,12 @@
         document.head.appendChild(script);
       }
     </script>
-
+    <script type="text/javascript">
+      window.SOLIS_UI_HOST = window.SOLIS_UI_HOST || window.location.origin;
+    </script>
+    <script type="module" crossOrigin = 'anonymous'
+        src="http://localhost:3015/nav/solis-nav.es.js">
+    </script>
     <!-- Assitme script -->
     <script type="text/javascript">
       if (

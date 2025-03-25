@@ -7,7 +7,7 @@ const { get } = require('lodash');
 
 const serverConfig = require('../serverConfig.js');
 
-const allowedScriptOrigins = ['*.instana.io'];
+const allowedScriptOrigins = ['*.instana.io', 'http://localhost:3015', 'blob:http://localhost:3015'];
 
 if (isRequiringInstanaRocks()) {
   allowedScriptOrigins.push('*.instana.rocks');
@@ -56,7 +56,9 @@ exports.getCsp = (nonce, walkmeEnabled, ibmCommonEnabled, isSessionPlayBackRequi
   } else if (walkmeEnabled) {
     return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsWalkMe.join(' ')}`;
   } else if (ibmCommonEnabled) {
-    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsIbmCommon.join(' ')}`;
+    return `> script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsIbmCommon.join(
+      ' '
+    )}; img-src * data:; connect-src *`;
   } else {
     return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOrigins.join(' ')}`;
   }
