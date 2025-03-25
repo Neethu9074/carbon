@@ -6,46 +6,74 @@
 // import i18next from 'i18next';
 
 const express = require('express');
+// const { getCurrentUser } = require('../auth');
 // const { xXssProtection } = require('helmet');
 // const { t } = require('@instana/i18n-react');
 
 const router = (module.exports = express.Router());
 
-router.get('/solis/nav', (req, res) => {
+router.get('/solis/nav', async (req, res) => {
+  // const featureFlags = await activeResolver.getFeatureFlags(req.tenant, req.unit);
+  //   if (featureFlags.internalMonitoringUnit) {
+  //     next();
+  //     return;
+  //   }
+
+  // const [statusCode, userStr] = await getCurrentUser(req);
+  // if (statusCode !== 200) {
+  //   res.sendStatus(statusCode);
+  //   return;
+  // }
+  // const user = getParsedUser(userStr);
+
+  const user = {
+    //test
+    fullName: 'tester',
+    email: 'tester@ibm.com',
+    role: {
+      canViewLogs: true,
+      limitedApplicationsScope: false,
+      limitedLogsScope: false,
+      limitedBizOpsScope: false,
+      limitedWebsitesScope: false,
+      limitedKubernetesScope: false,
+      limitedMobileAppsScope: false,
+      limitedInfrastructureScope: false,
+      limitedSyntheticsScope: false,
+      limitedVsphereScope: false,
+      limitedPhmcScope: false,
+      limitedPvcScope: false,
+      limitedZhmcScope: false,
+      limitedPcfScope: false,
+      limitedOpenstackScope: false,
+      limitedAutomationScope: false,
+      limitedNutanixScope: false
+    }
+  };
+
+  const role = user?.role ?? {};
+  // const role = user.role;
+
   res.setHeader('Content-Type', 'application/json');
   res.end(
     JSON.stringify({
-      top: [],
-      side: generateSideNavItems()
+      // top: [
+      // {
+      //   id: "profileMenu-switcher",
+      //   type: "icon_button",
+      //   mode: "",
+      //   icon_name: "",
+      //   properties: {
+      //     label: "Profile menu"
+      //   }
+      // }
+      // ],
+      side: generateSideNavItems(role)
     })
   );
 });
 
-const getUserPermissions = () => ({
-  hasWebsitesAccess: true,
-  hasMobileAppsAccess: true,
-  hasBizOpsAccess: true,
-  hasApplicationsAccess: true,
-  hasInfrastructureAccess: true,
-  hasAutomationAccess: true,
-  hasAnalyzeAccess: true,
-  hasLoggingAccess: true,
-  hasSyntheticsAccess: false,
-  hasEventsAccess: true
-});
-
-const getPlatformPermissions = () => ({
-  hasPCFAccess: true,
-  hasPHMCAccess: true,
-  hasPowerVcAccess: true,
-  hasZHMCAccess: true,
-  hasOpenStackAccess: true,
-  hasKubernetesAccess: true,
-  hasNutanixAccess: true,
-  hasSAPAccess: true,
-  hasVSphereAccess: true
-});
-
+// TODO: get from backend
 const getFeatureFlags = () => ({
   playwithEnabled: false,
   loggingEnabled: true,
@@ -53,9 +81,75 @@ const getFeatureFlags = () => ({
   vulnerabilityCenterEnabled: true
 });
 
-function generateSideNavItems() {
-  const permissions = getUserPermissions();
-  const platformPermissions = getPlatformPermissions();
+function getUserPermissions(role) {
+  const getAccess = (canField, limitedField = null) => {
+    // if (!role) return false;
+    if (limitedField && role[limitedField] === false) return true;
+    return role[canField] === true;
+  };
+
+  // const platformPermissions = getPlatformPermissions(role);
+  // const hasAPlatformAccess = Object.values(platformPermissions).some(Boolean);
+  const hasWebsitesAccess = getAccess(true, 'limitedWebsitesScope');
+  const hasMobileAppsAccess = getAccess(true, 'limitedMobileAppsScope');
+  const hasApplicationsAccess = getAccess(true, 'limitedApplicationsScope');
+  const hasInfrastructureAccess = getAccess(true, 'limitedInfrastructureScope');
+  const hasInfrastructureAnalyzeAccess = getAccess(role?.ACCESS_INFRASTRUCTURE_ANALYZE, 'limitedInfrastructureScope');
+  const hasSyntheticsAccess = getAccess('canConfigureSyntheticTests', 'limitedSyntheticsScope');
+
+  const hasPCFAccess = getAccess(true, 'limitedPcfScope'); // && pcfEnabled;
+  const hasPHMCAccess = getAccess(true, 'limitedPhmcScope'); // && phmcEnabled;
+  const hasPowerVcAccess = getAccess(true, 'limitedPvcScope'); // && powervcEnabled;
+  const hasZHMCAccess = getAccess(true, 'limitedZhmcScope'); // && zhmcEnabled;
+  const hasOpenStackAccess = getAccess(true, 'limitedOpenstackScope'); // && openstackEnabled;
+  const hasKubernetesAccess = getAccess(true, 'limitedKubernetesScope');
+  const hasNutanixAccess = getAccess(true, 'limitedNutanixScope'); // && nutanixEnabled;
+  const hasSAPAccess = getAccess(true, 'limitedSapScope'); // && sapEnabled;
+  const hasVSphereAccess = getAccess(true, 'limitedVsphereScope'); // && vsphereEnabled;
+  const hasAPlatformAccess =
+    hasVSphereAccess ||
+    hasPHMCAccess ||
+    hasZHMCAccess ||
+    hasPCFAccess ||
+    hasPowerVcAccess ||
+    hasOpenStackAccess ||
+    hasKubernetesAccess ||
+    hasSAPAccess ||
+    hasNutanixAccess;
+
+  return {
+    hasWebsitesAccess,
+    hasMobileAppsAccess,
+    hasBizOpsAccess: getAccess(true, 'limitedBizOpsScope'),
+    hasApplicationsAccess,
+    hasInfrastructureAccess,
+    hasInfrastructureAnalyzeAccess,
+    hasAutomationAccess: getAccess(true, 'limitedAutomationScope'), // actionAutomationEnabled && hasPermission()
+    hasSyntheticsAccess,
+    hasAnalyzeAccess:
+      hasApplicationsAccess || hasWebsitesAccess || hasMobileAppsAccess || hasInfrastructureAnalyzeAccess,
+    hasEventsAccess:
+      hasWebsitesAccess ||
+      hasMobileAppsAccess ||
+      hasApplicationsAccess ||
+      hasAPlatformAccess ||
+      hasInfrastructureAccess ||
+      hasSyntheticsAccess,
+    hasPCFAccess,
+    hasPHMCAccess,
+    hasPowerVcAccess,
+    hasZHMCAccess,
+    hasOpenStackAccess,
+    hasKubernetesAccess,
+    hasNutanixAccess,
+    hasSAPAccess,
+    hasVSphereAccess
+  };
+}
+
+function generateSideNavItems(role) {
+  const permissions = getUserPermissions(role);
+  // const platformPermissions = getPlatformPermissions(role);
   const features = getFeatureFlags();
 
   let navItems = [];
@@ -131,16 +225,15 @@ function generateSideNavItems() {
     });
   }
 
-  const platformPermissionCount = Object.values(platformPermissions).filter(Boolean).length;
   // Platforms
-  if (platformPermissionCount > 0) {
+  if (permissions.hasAPlatformAccess) {
     navItems.push({
       type: 'menu',
       properties: {
         icon_name: 'lib_platforms_inverted',
         label: 'Platforms',
         is_root: false,
-        links: generatePlatformItems()
+        links: generatePlatformItems(permissions)
       }
     });
   }
@@ -179,8 +272,7 @@ function generateSideNavItems() {
         icon_name: 'lib_application_logging',
         label: 'Logs',
         path: '#/logging',
-        is_root: false,
-        is_disabled: !permissions.hasLoggingAccess
+        is_root: false
       }
     });
   }
@@ -193,36 +285,33 @@ function generateSideNavItems() {
         icon_name: 'lib_synthetic',
         label: 'Synthetic monitoring',
         path: '#/syntheticTests',
-        is_root: false,
-        is_disabled: !permissions.hasLoggingAccess
+        is_root: false
       }
     });
   }
 
   // Analyze
   // TODO
-  if (permissions.hasAnalyzeAccess) {
-    //todo: (!hasAnalyzeAccess && !role?.canViewLogs)
-    // let analyzePath = '';
-
-    // if (hasApplicationsAccess) {
-    // analyzePath = urlWithoutQueryParameter(getLinkToApplicationAnalyze({ dataSource: 'calls' }));
-    // } else if (hasWebsitesAccess) {
-    //   analyzePath = analyzeWebsiteHref!; // since we pass groupBy and beaconType this value is never null
-    // } else if (role?.canViewLogs) {
-    //   analyzePath = createHrefToPath(logsPathWithDataSource);
-    // } else if (hasMobileAppsAccess) {
-    //   analyzePath = getLinkToMobileAppAnalyze({ beaconType: 'sessionStart', groupBy: {} });
-    // } else if (hasInfrastructureAnalyzeAccess) {
-    //   analyzePath = getLinkToInfraEntityExplore(defaultInfraExploreViewParams);
-    // }
+  if (permissions.hasAnalyzeAccess || role?.canViewLogs) {
+    let analyzePath = '';
+    if (permissions.hasApplicationsAccess) {
+      analyzePath = '#/analyze;dataSource=calls';
+    } else if (permissions.hasWebsitesAccess) {
+      analyzePath = '#/websiteMonitoring/analyzeBeacons;beaconType=pageLoad;';
+    } else if (role?.canViewLogs) {
+      analyzePath = '#/logs;dataSource=logs';
+    } else if (permissions.hasMobileAppsAccess) {
+      analyzePath = '#/mobileAppMonitoring/analyzeBeacons;beaconType=sessionStart';
+    } else if (permissions.hasInfrastructureAnalyzeAccess) {
+      analyzePath = '#/explore;tagFilterExpression=!~;group=(groupbyTag~type~ar)~;type=all;dataSource=infrastructure';
+    }
 
     navItems.push({
       type: 'link',
       properties: {
         icon_name: 'lib_analyze_inverted',
         label: 'Analytics',
-        path: '#/analyze',
+        path: analyzePath,
         is_root: false
       }
     });
@@ -248,7 +337,7 @@ function generateSideNavItems() {
       properties: {
         icon_name: 'lib_events_inverted',
         label: 'Events',
-        path: '#/events',
+        path: '#/events;view=incident',
         is_root: false,
         badge: 5 // fetch from API call?
       }
@@ -302,12 +391,13 @@ function generateSideNavItems() {
   return navItems;
 }
 
-function generatePlatformItems() {
-  const platformAccess = getPlatformPermissions();
+function generatePlatformItems(permissions) {
+  // const platformAccess = getPlatformPermissions();
+  // const platformPermissions = getPlatformPermissions(role);
   const features = getFeatureFlags();
   let platformItems = [];
 
-  if (platformAccess.hasPCFAccess) {
+  if (permissions.hasPCFAccess) {
     platformItems.push({
       type: 'link',
       properties: {
@@ -317,7 +407,7 @@ function generatePlatformItems() {
     });
   }
 
-  if (platformAccess.hasPHMCAccess && !features.playwithEnabled) {
+  if (permissions.hasPHMCAccess && !features.playwithEnabled) {
     platformItems.push({
       type: 'link',
       properties: {
@@ -327,17 +417,17 @@ function generatePlatformItems() {
     });
   }
 
-  if (platformAccess.hasPowerVcAccess && !features.playwithEnabled) {
+  if (permissions.hasPowerVcAccess && !features.playwithEnabled) {
     platformItems.push({
       type: 'link',
       properties: {
         label: 'IBM PowerVC',
-        path: '#/powervc//regions'
+        path: '#/powervc/regions'
       }
     });
   }
 
-  if (platformAccess.hasZHMCAccess && !features.playwithEnabled) {
+  if (permissions.hasZHMCAccess && !features.playwithEnabled) {
     platformItems.push({
       type: 'link',
       properties: {
@@ -347,7 +437,7 @@ function generatePlatformItems() {
     });
   }
 
-  if (platformAccess.hasOpenStackAccess && !features.playwithEnabled) {
+  if (permissions.hasOpenStackAccess && !features.playwithEnabled) {
     platformItems.push({
       type: 'link',
       properties: {
@@ -357,7 +447,7 @@ function generatePlatformItems() {
     });
   }
 
-  if (platformAccess.hasKubernetesAccess) {
+  if (permissions.hasKubernetesAccess) {
     platformItems.push({
       type: 'link',
       properties: {
@@ -367,7 +457,7 @@ function generatePlatformItems() {
     });
   }
 
-  if (platformAccess.hasNutanixAccess && !features.playwithEnabled) {
+  if (permissions.hasNutanixAccess && !features.playwithEnabled) {
     platformItems.push({
       type: 'link',
       properties: {
@@ -377,7 +467,7 @@ function generatePlatformItems() {
     });
   }
 
-  if (platformAccess.hasSAPAccess && !features.playwithEnabled) {
+  if (permissions.hasSAPAccess && !features.playwithEnabled) {
     platformItems.push({
       type: 'link',
       properties: {
@@ -387,7 +477,7 @@ function generatePlatformItems() {
     });
   }
 
-  if (platformAccess.hasVSphereAccess && !features.playwithEnabled) {
+  if (permissions.hasVSphereAccess && !features.playwithEnabled) {
     platformItems.push({
       type: 'link',
       properties: {
@@ -440,3 +530,13 @@ function getHelp() {
   };
   return JSON.stringify(content);
 }
+
+// function getParsedUser(userStr) {
+//   let user;
+//   try {
+//     user = JSON.parse(userStr);
+//   } catch (error) {
+//     user = null;
+//   }
+//   return user;
+// }
