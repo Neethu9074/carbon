@@ -16,6 +16,7 @@ import {
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/logs/hooks/useTagBasedPayoadConfigurator';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/advanced/AdvancedModeFooter';
 import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/logs/dialog/advanced/AdvancedModeContainer';
@@ -86,6 +87,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
   const { tagFilterExpression } = alertConfigWithFormModel;
 
   const tagCatalog = useTagCatalog('SMART_ALERTS');
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator();
 
   const updateTagFilterExpression = (filteredTagFilterExpression: FormModelElement[]) => {
     updateForm(form.updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression)));
@@ -137,8 +139,8 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       footer={footer}
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
-      TagBasedPayloadConfigurator={() => <></>}
-      isDynamicCustomPayloadValid // TODO to be changed when custom payload is implemented
+      TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+      isDynamicCustomPayloadValid
       QueryBuilderComponent={() => <></>}
       AdvancedModeElement={AdvancedModeContainer}
       SimpleModeElement={SimpleModeContainer}

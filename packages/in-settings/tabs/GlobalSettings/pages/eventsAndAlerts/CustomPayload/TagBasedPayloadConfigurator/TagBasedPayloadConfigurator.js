@@ -144,6 +144,10 @@ export function createTagBasedInfraPayloadConfigurator({ getTagCatalog, getSugge
   return createTagBasedPayloadConfigurator({ getTagCatalog, getSuggestions });
 }
 
+export function createTagBasedLogPayloadConfigurator({ getTagCatalog, getSuggestions }) {
+  return createTagBasedPayloadConfigurator({ getTagCatalog, getSuggestions });
+}
+
 export function createTagBasedPayloadConfigurator({
   getTagCatalog: originalGetTagCatalog,
   getSuggestions: optionalOriginalGetSuggestions
