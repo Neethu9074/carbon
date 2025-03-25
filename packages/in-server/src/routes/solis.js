@@ -388,6 +388,15 @@ function generateSideNavItems(role) {
 
   // More
   // TODO
+  navItems.push({
+    type: 'menu',
+    properties: {
+      label: 'More',
+      is_root: false,
+      links: generateMoreItems(role)
+    }
+  });
+
   return navItems;
 }
 
@@ -488,6 +497,55 @@ function generatePlatformItems(permissions) {
   }
 
   return platformItems;
+}
+
+function generateMoreItems(role) {
+  // const features = getFeatureFlags();
+  let moreItems = [];
+
+  // tenant switch
+  // if (!features.userProfileMenuEnabled && features.tenantSwitcherEnabled) {
+  //   moreItems.push({
+  //     type: 'link',
+  //     properties: {
+  //       label: 'Tenants',
+  //       path: '`https://${config.tenantUnitDomainSuffix}/tenantSwitcher`'
+  //     }
+  //   });
+  // }
+
+  // agents
+  if (role?.canConfigureAgents) {
+    moreItems.push({
+      type: 'link',
+      properties: {
+        label: 'Agents',
+        path: '#/agents'
+      }
+    });
+  }
+
+  // release note
+
+  // doc
+  moreItems.push({
+    type: 'link',
+    properties: {
+      label: 'Documentation',
+      path: 'https://www.ibm.com/docs/en/obi/current'
+    }
+  });
+
+  // Support
+  moreItems.push({
+    type: 'link',
+    properties: {
+      label: 'Support',
+      path: 'https://www.ibm.com/mysupport/s/?language=en_US'
+    }
+  });
+
+  return moreItems;
 }
 
 router.get('/solis/about', (req, res) => {
