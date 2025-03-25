@@ -589,7 +589,7 @@ module.exports = exports = [
   {
     uiClientKey: 'zoomWidgetEnabled',
     instanaCtlKey: 'feature.zoom.widget.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonTooltipEnabled',
