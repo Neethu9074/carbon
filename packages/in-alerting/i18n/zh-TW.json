@@ -7,13 +7,13 @@
     "alertHeaderLabelBackToListOfAlerts": "回到警示清單",
     "alertHeaderAlert": "警示",
     "alertHeaderRestoreRevisionTooltip": "還原",
-    "alertHeaderRestoreRevisionConfirmationDialogHeader": "請確認",
+    "alertHeaderRestoreRevisionConfirmationDialogHeader": "確認還原",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "您確定要還原選取的修訂嗎？",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "還原",
     "alertHeaderRestoreDeleteTooltip": "刪除",
     "alertHeaderEditTooltip": "編輯",
     "alertHeaderDuplicateTooltip": "複製",
-    "alertHeaderRestoreDeleteConfirmationDialogHeader": "請確認",
+    "alertHeaderRestoreDeleteConfirmationDialogHeader": "確認移除",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "您確定要移除警示 <strong>{{alertConfigName}}</strong> 嗎？",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
     "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警示配置的修訂「{{description}}」。若您想要進行變更，請<latestRevisionButton>選取最新修訂</latestRevisionButton>或<restoreRevisionButton>從現行修訂還原</restoreRevisionButton>。",
@@ -22,7 +22,7 @@
     "alertStateActive": "作用中",
     "alertPropertyInfosLabelTitle": "標題",
     "alertPropertyInfosLabelAlertLevel": "警示層次",
-    "alertPropertyInfosLabelTriggersIncident": "觸發事故",
+    "alertPropertyInfosLabelTriggersIncident": "觸發發生事件",
     "alertPropertyInfosLabelDescription": "說明",
     "noChannelSelectedText": "目前，您尚未選取警示通道，而不會收到任何警示。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他過濾器",
@@ -56,7 +56,7 @@
       "chartAlertsLaneErrorMessage": "無法載入警示",
       "chartAlertsLaneErrorMessageForTearSheet": "請輸入有效的「觸發後」數字 ",
       "chartAlertsPreviewLanePresenterAlertsLabel": "警示",
-      "chartAlertsPreviewLanePresenterNoAlertsLabel": "無警示",
+      "chartAlertsPreviewLanePresenterNoAlertsLabel": "綠色",
       "chartAlertsPreviewLanePresenterTooltip": "警示：{{count}}",
       "chartAlertsPreviewLanePresenterTooltip_plural": "警示：{{count}}",
       "chartAlertsPreviewLanePresenterTooltip_0": "警示：{{count}}",
@@ -68,13 +68,14 @@
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "您正在查看已刪除的警示配置。不可能修改。",
     "alertPropertyInfosWarning": "警告",
     "alertPropertyInfosCritical": "重大",
+    "alertActionConfirmationDialogHeader": "確認動作",
     "alertConfirmationDialogDescription": "未配置任何要發出警示的 {{entityPlaceholder}}。 您確定要繼續嗎？",
     "labelConfirm": "確認",
     "customPayload": {
       "deleteRow": "刪除列",
       "key": "索引鍵",
       "value": "值",
-      "unknownTypeTypeItCanNotBeEdited": "不明類型：{{type}} - 無法編輯。",
+      "unknownTypeTypeItCanNotBeEdited": "未知類型：{{type}} - 無法編輯。",
       "customWithColon": "自訂：",
       "valueType": "值類型",
       "static": "靜態",
@@ -92,7 +93,8 @@
       "additionalCustomPayloadTitle": "其他自訂有效負載 ({{count}})",
       "globalCustomPayloadTitle": "廣域自訂有效負載 ({{count}})",
       "globalCustomPayloadRetrieveFailed": "發生錯誤。 無法擷取廣域自訂有效負載。",
-      "noGlobalCustomPayloadConfigured": "未配置廣域自訂有效負載"
+      "noGlobalCustomPayloadConfigured": "未配置廣域自訂有效負載",
+      "includeAdditionalCustomPayload": "包含額外的自訂有效負載（選用）"
     },
     "previewFor": "預覽： ",
     "groupedViewHeader": "{{formattedCount}} 個結果",
@@ -115,7 +117,7 @@
   },
   "potentialProblems": {
     "titleErrorRate": "錯誤呼叫率高於正常",
-    "titleSlowness": "呼叫（延遲時間 {{aggregation}}）慢於平常",
+    "titleSlowness": "呼叫（延遲 {{aggregation}}）比平常慢",
     "titlethroughputHigh": "呼叫數異常地高",
     "titlethroughputLow": "呼叫數異常地低",
     "buttonInvestigate": "調查",
@@ -127,7 +129,7 @@
     "titlePotentialProblemWithCount_0": "潛在問題 ({{count}})",
     "titlePotentialProblemWithCount_1": "潛在問題 ({{count}})",
     "titlePotentialProblemWithCount_2": "潛在問題 ({{count}})",
-    "labelPotentialProblem": "潛在問題",
+    "labelPotentialProblem": "潛在問題，",
     "labelNumbersOfPotentialProblem": "{{count}} 個潛在問題",
     "labelNumbersOfPotentialProblem_plural": "{{count}} 個潛在問題",
     "labelNumbersOfPotentialProblem_0": "{{count}} 個潛在問題",
@@ -183,12 +185,12 @@
           "individual": "個別警示",
           "optionNotAvailableForAdaptiveThreshold": "此選項無法與調適性臨界值搭配使用",
           "evaluationTypePERAP": {
-            "selectionText": "針對此「應用程式視景」",
-            "globalSelectionText": "各「應用程式視景」",
-            "shortText": "根據「應用程式視景」",
+            "selectionText": "針對此應用程式視景",
+            "globalSelectionText": "根據應用程式視景",
+            "shortText": "根據應用程式視景",
             "columnText": "聚集的",
-            "description": "針對此「應用程式視景」個別發出警示",
-            "globalDescription": "針對各「應用程式視景」個別發出警示",
+            "description": "針對此應用程式視景個別發出警示",
+            "globalDescription": "根據應用程式視景個別發出警示",
             "tearSheetSelectionText": "依應用程式分組",
             "tearSheetDescription": "與過濾器相符的呼叫會根據 {{count}} 個應用程式的臨界值進行評估。 當違反延遲時，會針對此整個應用程式視景傳送單一警示通知。",
             "tearSheetDescription_plural": "與過濾器相符的呼叫會根據 {{count}} 個應用程式的臨界值進行評估。 當違反延遲時，會針對此整個應用程式視景傳送單一警示通知。",
@@ -197,12 +199,12 @@
             "tearSheetDescription_2": "與過濾器相符的呼叫會根據 {{count}} 個應用程式的臨界值進行評估。 當違反延遲時，會針對此整個應用程式視景傳送單一警示通知。 "
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "針對此「應用程式視景」的各服務",
-            "globalSelectionText": "依每一個「應用程式視景」的環境定義中的服務",
-            "shortText": "根據「服務」",
-            "columnText": "各服務",
-            "description": "針對此「應用程式視景」的各服務個別發出警示",
-            "globalDescription": "針對每個「應用程式視景」環境定義中的各服務個別發出警示",
+            "selectionText": "對於此應用程式視景的每個服務",
+            "globalSelectionText": "每個應用程式視景環境定義中的每個服務",
+            "shortText": "根據服務",
+            "columnText": "根據服務",
+            "description": "針對此應用程式視景的每個服務個別發出警示",
+            "globalDescription": "在每個應用程式視景的環境定義中，針對每個服務個別發出警示",
             "tearSheetSelectionText": "依服務分組",
             "tearSheetDescription": "與過濾器相符的呼叫會根據 {{count}} 個服務的臨界值進行評估 - 每個服務都有一個臨界值，並有自己的臨界值。 當違反某個群組的延遲時，會針對該群組傳送警示通知。",
             "tearSheetDescription_plural": "與過濾器相符的呼叫會根據 {{count}} 個服務的臨界值進行評估 - 每個服務都有一個臨界值，並有自己的臨界值。 當違反某個群組的延遲時，會針對該群組傳送警示通知。",
@@ -211,12 +213,12 @@
             "tearSheetDescription_2": "與過濾器相符的呼叫會根據 {{count}} 個服務的臨界值進行評估 - 每個服務都有一個臨界值，並有自己的臨界值。 當違反某個群組的延遲時，會針對該群組傳送警示通知。"
           },
           "evaluationTypePERAPENDPOINT": {
-            "selectionText": "針對此應用程式視景的各服務",
-            "globalSelectionText": "每個「應用程式視景」環境定義中的各端點",
-            "shortText": "根據「端點」",
-            "columnText": "各端點",
-            "description": "針對此「應用程式視景」的各端點個別發出警示",
-            "globalDescription": "針對每個「應用程式視景」環境定義中的各端點個別發出警示",
+            "selectionText": "此應用程式視景的每個端點",
+            "globalSelectionText": "每個應用程式視景環境定義中的每個端點",
+            "shortText": "根據端點",
+            "columnText": "根據端點",
+            "description": "針對此應用程式視景的每個端點個別發出警示",
+            "globalDescription": "在每個應用程式視景的環境定義中，對每個端點個別發出警示",
             "tearSheetSelectionText": "依端點分組",
             "tearSheetDescription": "與過濾器相符的呼叫會根據 {{count}} 個端點的臨界值進行評估 - 每個端點都有一個臨界值，並有自己的臨界值。 當違反某個群組的延遲時，會針對該群組傳送警示通知。",
             "tearSheetDescription_plural": "與過濾器相符的呼叫會根據 {{count}} 個端點的臨界值進行評估 - 每個端點都有一個臨界值，並有自己的臨界值。 當違反某個群組的延遲時，會針對該群組傳送警示通知。",
@@ -230,16 +232,16 @@
             "inbound": {
               "text": "入埠呼叫",
               "dashboard": "只有此應用程式的消費者所執行的呼叫。",
-              "overrideDefault": "此應用程式的預設範圍只有「入埠呼叫」。您可以在「配置」中變更此項。"
+              "overrideDefault": "此應用程式的預設範圍僅限於入埠呼叫。 您可以在「配置」中變更此項。"
             },
             "all": {
               "text": "所有呼叫",
               "dashboard": "此應用程式內所執行的呼叫，包括消費者及內部的呼叫都是。",
-              "overrideDefault": "此應用程式的預設範圍是「所有呼叫」。您可以在「配置」中變更此項。"
+              "overrideDefault": "此應用程式的預設範圍是所有呼叫。 您可以在「配置」中變更此項。"
             }
           },
           "confirmationDialog": {
-            "confirmRemove": "請確認",
+            "confirmRemove": "確認修改",
             "description": "如果修改界限範圍，將會重設應用程式選擇。",
             "confirmButtonLabel": "確認"
           }
@@ -260,7 +262,7 @@
           "includeInternalCalls": "包含內部呼叫",
           "includeSyntheticCalls": "包含合成呼叫",
           "confirmationDialog": {
-            "confirmRemove": "請確認",
+            "confirmRemove": "確認移除",
             "description": "取消選取 \"{{callType}}\" 會重設應用程式選擇。",
             "confirmButtonLabel": "確認"
           }
@@ -327,7 +329,7 @@
         "slowness": {
           "name": "慢速呼叫",
           "headline": "慢速呼叫的自動警示",
-          "text": "當此「應用程式視景」中所選服務和端點的呼叫慢於平常時，會收到警示。",
+          "text": "當對此應用程式視景的選定服務和端點的呼叫比平常慢時會收到警示。",
           "tearSheetHeadline": "慢速呼叫的自動警示",
           "tearSheetDescription": "當對此應用程式視景的選定服務和端點的呼叫速度慢於臨界值時會接收警示。"
         },
@@ -336,7 +338,7 @@
           "headline": "錯誤呼叫的自動警示",
           "text": "當此「應用程式視景」中所選服務及端點的錯誤呼叫率或計數高於正常時，則會收到警示。",
           "tearSheetHeadline": "錯誤呼叫的自動警示",
-          "tearSheetDescription": "當此「應用程式視景」中所選取服務及端點的錯誤呼叫率或計數超出臨界值時，接收警示。"
+          "tearSheetDescription": "當此應用程式視景的選定服務和端點的錯誤呼叫率或計數超過臨界值時會收到警示。"
         },
         "logs": {
           "name": "日誌",
@@ -344,20 +346,20 @@
           "tearSheetHeadline": "錯誤和警告日誌的自動警示",
           "text": "在給定錯誤及警告日誌訊息的呼叫數高於預期時接收警示。",
           "metricLabel": "呼叫",
-          "incompleteRuleMessage": "請選取「日誌訊息」，以查看此警示的觸發時機"
+          "incompleteRuleMessage": "請選取日誌訊息以查看此警示何時觸發"
         },
         "statusCode": {
           "name": "HTTP 狀態碼",
           "headline": "HTTP 狀態碼的自動警示",
-          "text": "每當相符「HTTP 狀態碼」的出現頻率高於平常時，會收到警示。",
-          "incompleteRuleMessage": "請選取一個「狀態碼」，以查看此警示的觸發時機",
+          "text": "每次當相符的 HTTP 狀態碼比平常更頻繁地出現時都會收到警示。",
+          "incompleteRuleMessage": "請選取狀態碼以查看此警示何時觸發",
           "tearSheetHeadline": "HTTP 狀態碼的自動警示",
           "tearSheetDescription": "當符合的「HTTP 狀態碼」出現頻率超過臨界值時會接收警示。"
         },
         "throughput": {
           "name": "傳輸量",
           "headline": "呼叫計數的自動警示",
-          "text": "當此「應用程式視景」中所選服務和端點的呼叫數目異常地低或高時，會自動發出警示。",
+          "text": "針對此應用程式視景的選定服務和端點的呼叫次數異常低或高自動發出警示。",
           "metricLabel": "呼叫",
           "tearSheetHeadline": "傳輸量的自動警示",
           "tearSheetDescription": "當此應用程式視景的選定服務和端點的呼叫次數異常高或異常低時，會收到警示。"
@@ -365,12 +367,12 @@
         "simpleMode": {
           "unexpectedDrop": {
             "name": "低呼叫次數",
-            "headline": "在呼叫數異常低時自動警示",
+            "headline": "呼叫次數異常低時自動發出警示",
             "text": "對照可用的過去資料，當呼叫數明顯低於預期時，會收到警示。這可能表示此應用程式的上游有問題，或是使用者指向應用程式的資料流量下降。"
           },
           "unexpectedlyHighNumber": {
             "name": "高呼叫次數",
-            "headline": "在呼叫數異常高時自動警示",
+            "headline": "呼叫次數異常高時自動發出警示",
             "text": "對照可用的過去資料，當呼叫數明顯高於預期時，會收到警示。這可能表示出現攻擊，或者機器人程式產生太多要求給應用程式。"
           }
         },
@@ -387,7 +389,7 @@
             "withANY": "含有訊息的呼叫太多：\"{{message}}\"",
             "default": "含有 {{operatorLabel}} 訊息的呼叫太多： \"{{message}}\""
           },
-          "statusCode": "HTTP 狀態碼為 {{statusCodeShortText}} 的呼叫太多",
+          "statusCode": "HTTP 狀態碼為 {{statusCodeShortText}} 的呼叫次數過多",
           "throughputHigh": "呼叫數異常地高",
           "throughputLow": "呼叫數異常地低"
         },
@@ -444,14 +446,14 @@
           "statusCodeDefault_higherEqual": "HTTP 狀態碼 {{statusCodeFullText}} 的出現次數高於或等於預期。",
           "statusCodeDefault_lowerThan": "HTTP 狀態碼 {{statusCodeFullText}} 的出現次數低於預期。",
           "statusCodeDefault_lowerEqual": "HTTP 狀態碼 {{statusCodeFullText}} 的出現次數低於或等於預期。",
-          "statusCodeRateStaticThreshold_higherThan": "HTTP 狀態碼 {{statusCodeFullText}} 的速率高於 {{thresholdValue}}%。",
-          "statusCodeRateStaticThreshold_higherEqual": "HTTP 狀態碼 {{statusCodeFullText}} 的速率高於或等於 {{thresholdValue}}%。",
-          "statusCodeRateStaticThreshold_lowerThan": "HTTP 狀態碼 {{statusCodeFullText}} 的速率低於 {{thresholdValue}}%。",
-          "statusCodeRateStaticThreshold_lowerEqual": "HTTP 狀態碼 {{statusCodeFullText}} 的速率低於或等於 {{thresholdValue}}%。",
-          "statusCodeRateDefault_higherThan": "HTTP 狀態碼 {{statusCodeFullText}} 的速率高於預期。",
-          "statusCodeRateDefault_higherEqual": "HTTP 狀態碼 {{statusCodeFullText}} 的速率高於或等於預期。",
-          "statusCodeRateDefault_lowerThan": "HTTP 狀態碼 {{statusCodeFullText}} 的速率低於預期。",
-          "statusCodeRateDefault_lowerEqual": "HTTP 狀態碼 {{statusCodeFullText}} 的速率低於或等於預期。",
+          "statusCodeRateStaticThreshold_higherThan": "HTTP 狀態碼 {{statusCodeFullText}} 的比率高於 {{thresholdValue}}%。",
+          "statusCodeRateStaticThreshold_higherEqual": "HTTP 狀態碼 {{statusCodeFullText}} 的比率高於或等於 {{thresholdValue}}%。",
+          "statusCodeRateStaticThreshold_lowerThan": "HTTP 狀態碼 {{statusCodeFullText}} 的比率低於 {{thresholdValue}}%。",
+          "statusCodeRateStaticThreshold_lowerEqual": "HTTP 狀態碼 {{statusCodeFullText}} 的比率低於或等於 {{thresholdValue}}%。",
+          "statusCodeRateDefault_higherThan": "HTTP 狀態碼 {{statusCodeFullText}} 的比率高於預期。",
+          "statusCodeRateDefault_higherEqual": "HTTP 狀態碼 {{statusCodeFullText}} 的比率高於或等於預期。",
+          "statusCodeRateDefault_lowerThan": "HTTP 狀態碼 {{statusCodeFullText}} 的比率低於預期。",
+          "statusCodeRateDefault_lowerEqual": "HTTP 狀態碼 {{statusCodeFullText}} 的比率低於或等於預期。",
           "throughputStaticThreshold_higherThan": "呼叫數高於 {{thresholdValue}} 個呼叫。",
           "throughputStaticThreshold_higherEqual": "呼叫數高於或等於 {{thresholdValue}} 個呼叫。",
           "throughputStaticThreshold_lowerThan": "呼叫數低於 {{thresholdValue}} 個呼叫。",
@@ -508,8 +510,8 @@
         "provideStatusCodeStatusCode": "狀態碼"
       },
       "inventory": {
-        "noData": "未配置任何智慧型警示。按下面的按鈕來配置您的第一個智慧型警示。",
-        "noPersmissionToCreateGlobalSmartAlert": "您沒有配置智慧型警示的權限。請與管理者聯絡。",
+        "noData": "未配置任何智慧型警示。 按下面的按鈕來配置您的第一個智慧型警示。",
+        "noPersmissionToCreateGlobalSmartAlert": "您沒有配置智慧型警示的權限。 請與管理者聯絡。",
         "noPermissionGlobalSmartAlertEdit": "您沒有執行此動作的權限",
         "labelGlobalSmartAlertsList": "廣域智慧型警示 ({{numberOfAlerts}})",
         "labelSmartAlertsList": "應用程式智慧型警示 ({{numberOfAlerts}})",
@@ -525,7 +527,7 @@
         "labelActionButtonDuplicate": "複製",
         "labelActionButtonDelete": "刪除",
         "labelAlertFilters": "過濾器",
-        "labelConfirm": "請確認",
+        "labelConfirm": "確認移除",
         "labelConfirmRemoveConfig": "您確定要移除警示 <strong>{{configName}}</strong> 嗎？",
         "labelRemove": "移除",
         "numberOfApplicationsSelected": "已選取 {{count}} 個應用程式",
@@ -542,12 +544,12 @@
         "title": "警示詳細資料",
         "titleAlertProperties": "警示內容",
         "applicationsServiceEndpointScopeTitle": "選取的應用程式/服務/端點",
-        "callsScopeTitle": "包含的呼叫"
+        "callsScopeTitle": "包含的呼叫次數"
       },
       "apCreation": {
         "addToAllBuiltInAlerts": "新增至所有 ({{numAlerts}}) 內建廣域智慧型警示",
         "addToAllBuiltInAlertsSubText": "（{{numDisabled}}/{{numAlerts}} 個警示目前已停用）",
-        "addToAllExplanation": "將此「應用程式視景」併入到下列所有項目的範圍：",
+        "addToAllExplanation": "將此應用程式視景併入到下列所有項目的範圍：",
         "addToAllExplanationSubText": "內建廣域智慧型警示",
         "notAllEnitiesSelected": "未選取所有服務/端點",
         "alertCurrentlyDisabled": "警示目前已停用",
@@ -561,7 +563,7 @@
         "step3Title": "定義分組",
         "step4Title": "定義何時收到警示",
         "alertHeadline": "選擇您想要收到警示通知的內容",
-        "step5Title": "定義警示內容",
+        "step5Title": "定義警示屬性",
         "step6Title": "定義警示通道",
         "grouping": {
           "title": "群組呼叫",
@@ -602,12 +604,12 @@
             "inbound": {
               "text": "入埠呼叫",
               "dashboard": "用於偵測此應用程式的消費者所察覺的問題",
-              "overrideDefault": "此應用程式的預設範圍只有「入埠呼叫」。 您可以在「配置」中變更此項。"
+              "overrideDefault": "此應用程式的預設範圍僅限於入埠呼叫。 您可以在「配置」中變更此項。"
             },
             "all": {
               "text": "所有呼叫",
               "dashboard": "用於偵測此應用程式內任何服務或端點中的問題。",
-              "overrideDefault": "此應用程式的預設範圍是「所有呼叫」。 您可以在「配置」中變更此項。"
+              "overrideDefault": "此應用程式的預設範圍是所有呼叫。 您可以在「配置」中變更此項。"
             }
           }
         },
@@ -666,7 +668,8 @@
           "title": "警示通道數 ({{channelCount}})",
           "description": "選取此警示的接收者",
           "searchPlaceholder": "搜尋",
-          "clearAll": "全部清除"
+          "clearAll": "全部清除",
+          "selectAll": "全選 ({{len}})"
         },
         "editFilters": "編輯過濾器",
         "invalidFilters": "過濾器無效",
@@ -901,7 +904,7 @@
         "alertPropertiesCritical": "重大",
         "alertPropertiesTitle": "標題",
         "alertPropertiesAlertLevel": "警示層次",
-        "alertPropertiesTriggersIncident": "觸發事故",
+        "alertPropertiesTriggersIncident": "觸發發生事件",
         "alertPropertiesDescription": "說明",
         "warningAlertPreviewLabel": "警告預覽",
         "criticalAlertPreviewLabel": "重要預覽",
@@ -913,7 +916,7 @@
         "buttonCreate": "建立",
         "buttonMigrate": "移轉",
         "selectedBlueprint": "選取的藍圖",
-        "buttonRecalculateBaseline": "重新計算基準線",
+        "buttonRecalculateBaseline": "重新計算基線",
         "buttonRecalculateBaselineDisabled": "重新計算基線（已停用）",
         "sensitivitySliderLow": "低",
         "sensitivitySliderHigh": "高",
@@ -947,7 +950,7 @@
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "切換至進階模式",
         "simpleAlertConfigDialogStep3Headline": "誰應該取得警示？",
         "Loading": "載入中...",
-        "PreviewForAP": "應用程式視景預覽：",
+        "PreviewForAP": "應用程式視景的預覽：",
         "PreviewForEndpoint": "端點的預覽：",
         "PreviewForService": "服務的預覽：",
         "PreviewSelectLoadingEndpoints": "載入端點清單",
@@ -985,13 +988,13 @@
         "aggregationTextP99": "第 99 個"
       },
       "list": {
-        "labelConfirm": "請確認",
+        "labelConfirm": "確認移除",
         "labelConfirmRemoveConfig": "您確定要移除警示 <strong>{{configName}}</strong> 嗎？",
         "labelRemove": "移除"
       },
       "gracePeriod": {
         "title": "寬限期（選用）",
-        "description": "當不再符合違規臨界值後自動關閉問題：",
+        "description": "選取違規臨界值不再符合後問題應保持開放的時間。 一旦過了這段時間，該問題將自動關閉。",
         "label": "選取",
         "summary": "在不再<strong>符合 {{gracePeriodValue}}</strong> 的違規臨界值後，自動關閉問題。"
       },
@@ -1056,36 +1059,38 @@
         "pageLoads": "頁面載入",
         "pageTransitions": "頁面轉移",
         "slownessBlueprintConfigName": "緩慢",
-        "slownessBlueprintConfigHeadline": "載入時間的自動警示",
-        "slownessBlueprintConfigTextP": "「載入時間」會測量從使用者導覽至網站到能夠與網站互動所經歷的時間。",
+        "slownessBlueprintConfigHeadline": "針對 onLoad 時間或 HTTP 延遲自動發出警示",
+        "slownessBlueprintConfigTextP": "OnLoad 時間測量使用者導覽到網站和能夠與網站互動之間經過的時間。",
+        "slownessBlueprintConfigTextP2": "HTTP 延遲測量網站完成 HTTP 要求所需的時間。",
         "slownessBlueprintConfigTextli1": "正在從伺服器取得所有標記、被取代的元素內容和內含資源",
         "slownessBlueprintConfigTextli2": "正在剖析標記",
         "slownessBlueprintConfigTextli3": "正在套用 CSS 重疊顯示",
         "slownessBlueprintConfigTextli4": "正在呈現頁面",
         "slownessBlueprintConfigTextli5": "正在執行頁面載入時需要執行的所有 Script",
         "slownessBlueprintConfigMetricLabel": "載入時間",
+        "slownessBlueprintConfigHttpMetricLabel": "HTTP 延遲",
         "jsErrorsBlueprintConfigName": "JS 錯誤",
-        "jsErrorsBlueprintConfigHeadline": "JS 錯誤的自動警示",
-        "jsErrorsBlueprintConfigText": "每當相符「JS 錯誤」訊息的出現頻率高於平常時，會收到警示。",
-        "jsErrorsBlueprintConfigIncompleteRuleMessage": "請選取「JS 錯誤」，以查看此警示的觸發時機",
+        "jsErrorsBlueprintConfigHeadline": "針對 JS 錯誤自動發出警示",
+        "jsErrorsBlueprintConfigText": "每次當相符的 JS 錯誤訊息比平常更頻繁地出現時都會收到警示。",
+        "jsErrorsBlueprintConfigIncompleteRuleMessage": "請選取 JS 錯誤來查看此警示何時觸發",
         "statusCodeBlueprintConfigName": "HTTP 狀態碼",
         "statusCodeBlueprintConfigHeadline": "HTTP 狀態碼的自動警示",
-        "statusCodeBlueprintConfigText": "每當相符「HTTP 狀態碼」的出現頻率高於平常時，會收到警示。",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "請選取一個「狀態碼」，以查看此警示的觸發時機",
+        "statusCodeBlueprintConfigText": "每次當相符的 HTTP 狀態碼比平常更頻繁地出現時都會收到警示。",
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "請選取狀態碼以查看此警示何時觸發",
         "throughputBlueprintConfigName": "傳輸量",
-        "throughputBlueprintConfigHeadline": "頁面視圖的自動警示",
-        "throughputBlueprintConfigText": "當此網站中所選頁面的「頁面載入」或「頁面轉移」數目異常地低或高時，會自動發出警示。",
+        "throughputBlueprintConfigHeadline": "頁面檢視次數的自動警示",
+        "throughputBlueprintConfigText": "當此網站選定頁面的頁面載入次數或頁面轉移次數異常過低或過高時，會自動發出警示。",
         "customEventBlueprintConfigName": "自訂事件",
-        "customEventBlueprintConfigHeadline": "自訂事件的自動警示",
+        "customEventBlueprintConfigHeadline": "針對自訂事件自動發出警示",
         "customEventBlueprintConfigText": "每次特定自訂事件發生的頻率高於或低於其應有的頻率時，即會收到警示。",
         "customEventBlueprintConfigIncompleteRuleMessage": "請選取自訂事件以查看此警示的觸發時間",
         "customEventBlueprintConfigMetricLabel": "出現項目數",
         "simpleModeBlueprintConfigsUnexpectedDropName": "頁面載入次數低",
-        "simpleModeBlueprintConfigsUnexpectedDropHeadline": "在「頁面載入」數異常低時自動警示",
+        "simpleModeBlueprintConfigsUnexpectedDropHeadline": "在頁面載入次數異常低時自動發出警示",
         "simpleModeBlueprintConfigsUnexpectedDropText": "對照可用的過去資料，當「頁面載入」數明顯低於預期時，會收到警示。",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "頁面載入次數高",
-        "simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline": "在「頁面載入」數異常高時自動警示",
-        "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "對照可用的過去資料，當「頁面載入」數明顯高於預期時，會收到警示。這可能表示出現攻擊，或者機器人程式產生太多要求給網站。"
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline": "在頁面載入次數異常高時自動發出警示",
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "當頁面載入次數與可用的過去資料相比明顯高於預期時，會收到警示。 這可能表示出現攻擊，或者機器人程式產生太多要求給網站。"
       },
       "form": {
         "errorPleaseProvideAnErrorMessage": "請提供錯誤訊息",
@@ -1102,6 +1107,7 @@
         "ruleMetricNameOptionStatusCodeHttpxxx": "狀態碼計數",
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "狀態碼比率",
         "ruleMetricNameOptionSlownessOnLoadTime": "載入時間",
+        "ruleMetricNameOptionSlownessHttpLatency": "HTTP 延遲",
         "ruleMetricNameOptionThroughputPageLoads": "頁面載入",
         "ruleMetricNameOptionThroughputPageTransitions": "頁面轉移"
       },
@@ -1143,6 +1149,63 @@
         },
         "noDataHeader": "沒有網站智慧型警示",
         "noDataDescription": "首先，按一下<strong>建立智慧型警示</strong>。"
+      },
+      "tearSheet": {
+        "createTitle": "建立網站智慧型警示",
+        "editTitle": "編輯網站智慧型警示",
+        "step1": {
+          "title": "選擇一個範本",
+          "description": "選擇您要收到警示的問題"
+        },
+        "step2": {
+          "title": "定義範圍"
+        },
+        "step3": {
+          "title": "定義何時收到警示"
+        },
+        "step4": {
+          "title": "定義警示屬性",
+          "description": "您要為此警示設定哪些內容"
+        },
+        "step5": {
+          "title": "定義警示通道",
+          "description": "選取您希望接收此警示通知的位置"
+        },
+        "slowness": {
+          "headline": "針對 onLoad 時間或 HTTP 延遲自動發出警示",
+          "text": "當 onLoad 時間超出根據歷史資料得出的預期時收到警示。"
+        },
+        "JsErrors": {
+          "name": "JS 錯誤",
+          "headline": "針對 JS 錯誤自動發出警示",
+          "text": "接收 JavaScript 錯誤訊息的警示。"
+        },
+        "statusCode": {
+          "headline": "HTTP 狀態碼的自動警示",
+          "text": "當 HTTP 狀態碼比平常更頻繁地出現時收到警示。"
+        },
+        "throughput": {
+          "headline": "傳輸量的自動警示",
+          "text": "當網站頁面載入的預期次數與可用的歷史資料有顯著差異時收到警示。"
+        },
+        "customEvent": {
+          "name": "自訂事件",
+          "headline": "針對自訂事件自動發出警示",
+          "text": "每次特定自訂事件發生的頻率高於或低於其應有的頻率時，即會收到警示。"
+        },
+        "filter": "新增過濾器以取得更精確的警示（選用）",
+        "threshold": {
+          "header": "設定違規臨界值的值",
+          "description": "選取度量、違規臨界值和時間範圍來評估違規。"
+        },
+        "alertChart": {
+          "title": "警示預覽",
+          "description": "查看根據歷史度量資料觸發警示的方式。"
+        },
+        "timeThreshold": {
+          "title": "在違規觸發警示時設定",
+          "description": "指定警示及持續性類型，然後設定警示觸發程式。"
+        }
       }
     },
     "sortOptions": {
@@ -1159,9 +1222,9 @@
       "migrateButton": "移轉至智慧型警示",
       "migrateButtonTooltip": "開啟一個智慧型警示配置，其中我們已盡可能預先填入目前事件的移轉值。 請仔細檢查結果！",
       "markAsMigratedButton": "標示為已移轉",
-      "markAsMigratedButtonTooltip": "將事件標示為已移轉。如果您已配置將取代此事件的「智慧型警示」，請使用此選項。",
-      "markAsMigratedButtonConfirmationTitle": "請確認",
-      "markAsMigratedButtonConfirmationDescription": "將此「自訂事件」標示為已移轉將會停用它。 之後無法重新啟用事件。 要繼續嗎？",
+      "markAsMigratedButtonTooltip": "將事件標示為已移轉。 如果您已經配置了將取代此事件的智慧型警示，請使用此項。",
+      "markAsMigratedButtonConfirmationTitle": "確認移轉",
+      "markAsMigratedButtonConfirmationDescription": "將此自訂事件標示為已移轉會停用它。 之後無法重新啟用事件。 要繼續嗎？",
       "markAsMigratedButtonConfirmationConfirmLabel": "確認"
     },
     "enable": "啟用",
@@ -1184,7 +1247,7 @@
       },
       "alertList": {
         "timeThreshold": "時間臨界值",
-        "filterApplied": "已套用過濾器",
+        "filterApplied": "套用的過濾器",
         "violationsCount": "{{violationsCount}} 次失敗",
         "numberOfFailures": "失敗警示",
         "noDataHeader": "沒有綜合智慧型警示",
@@ -1216,18 +1279,18 @@
           "failuresWithCount_2": "{{count}} 個失敗"
         },
         "alertPropertiesTitlePlaceholder": "綜合測試失敗",
-        "alertPropertiesDescriptionPlaceholder": "連續 {{count}} 次綜合測試失敗",
-        "alertPropertiesDescriptionPlaceholder_plural": "綜合測試連續 {{count}} 次失敗",
-        "alertPropertiesDescriptionPlaceholder_0": "綜合測試連續 {{count}} 次失敗",
-        "alertPropertiesDescriptionPlaceholder_1": "綜合測試連續 {{count}} 次失敗",
-        "alertPropertiesDescriptionPlaceholder_2": "綜合測試連續 {{count}} 次失敗"
+        "alertPropertiesDescriptionPlaceholder": "綜合測試連續失敗 {{count}} 次。",
+        "alertPropertiesDescriptionPlaceholder_plural": "綜合測試連續失敗 {{count}} 次。",
+        "alertPropertiesDescriptionPlaceholder_0": "綜合測試連續失敗 {{count}} 次。",
+        "alertPropertiesDescriptionPlaceholder_1": "綜合測試連續失敗 {{count}} 次。",
+        "alertPropertiesDescriptionPlaceholder_2": "綜合測試連續失敗 {{count}} 次。"
       },
       "advanced": {
         "alertChannelsLabel": "警示通道",
         "alertChannelsTitle": "誰應該取得警示？",
         "scopeFilterLabel": "範圍",
         "alertTestsLabel": "綜合測試",
-        "alertTestsTitle": "綜合測試：您要對哪些綜合測試發出警示？",
+        "alertTestsTitle": "綜合測試：您想要收到哪些綜合測試的警示？",
         "propertiesLabel": "警示內容",
         "propertiesTitle": "警示通知應包含哪些內容？",
         "failureThreshold": "時間臨界值",
@@ -1241,26 +1304,24 @@
         "selectAlertTestButton": "新增綜合測試",
         "addTest": "新增 {{count}} 個測試",
         "alertTests": "綜合測試",
-        "noTestSelectedText": "未選取綜合測試",
+        "noTestSelectedText": "未選取任何綜合測試。 若要開始，請按一下新增綜合測試。",
         "alertTestEntityName": "綜合測試 {{entityName}}",
-        "testAttachedCount": "附加測試 ({{count}})",
+        "testAttachedCount": "附加的測試 ({{count}})",
         "testAttached": "附加的測試",
-        "noTestAvailable": "沒有可用的虛構測試"
+        "noTestAvailable": "沒有可用的綜合測試"
       },
       "details": {
         "threshold": "臨界值",
         "alertConfigurationListTitleAlertConfiguration": "警示配置",
         "scope": {
           "perLocation": {
-            "shortText": "個別位置"
+            "shortText": "每個位置"
           }
         },
         "alertConfigurationTitleAlertTests": "選取的測試",
         "alertConfigurationTitleAlertChannels": "警示通道",
         "alertConfigurationTitleAlertProperties": "警示內容",
         "failureThreshold": "{{failureCount}} 個失敗",
-        "gracePeriodValue": "{{gracePeriodValue}}",
-        "gracePeriod": "寬限期",
         "alertConfigurationTitleScope": "範圍",
         "noOfFailure": "失敗次數",
         "timeThreshold": "時間臨界值",
@@ -1268,22 +1329,33 @@
         "noScopeConfigured": "未配置範圍過濾器"
       },
       "tearSheet": {
+        "labelActionButtonEdit": "編輯",
+        "labelActionButtonDuplicate": "抄寫",
         "createTitle": "建立綜合智慧型警示",
+        "editTitle": "編輯綜合智慧型警示",
         "scopeFilter": {
           "filter": "過濾器",
           "filterDescription": "在綜合測試中新增過濾器，以獲得更精確的警示。"
         },
         "steps": {
-          "step1Title": "選擇綜合測試。",
-          "step2Title": "定義何時收到警示。"
+          "step1Title": "新增綜合測試",
+          "step2Title": "定義何時收到警示",
+          "step3Title": "定義警示屬性",
+          "step4Title": "定義警示通道"
         },
         "step1": {
-          "header": "您想要收到哪些綜合測試的警示？",
+          "header": "選取您想要收到警示的綜合測試",
           "description": "將針對每個地點的每個綜合測試獨立傳送個別警示。"
         },
         "step2": {
           "sliderHeader": "在違規觸發警示時設定",
-          "sliderDescription": "指定每個位置應該連續失敗多少次才會發出警示。"
+          "sliderDescription": "指定每個位置發生多少次連續失敗才發出警示。"
+        },
+        "step3": {
+          "header": "您要為此警示設定哪些內容"
+        },
+        "step4": {
+          "header": "選取您希望接收此警示通知的位置"
         }
       }
     },
@@ -1294,14 +1366,14 @@
         "views": "檢視表",
         "customEventBlueprintConfigMetricLabel": "出現項目數",
         "sessions": "階段作業",
-        "crashAffectedSessionRate": "損毀影響階段作業率",
-        "crashFreeSessionRate": "損毀可用階段作業率",
-        "crashAffectedSessionCount": "受損毀影響的階段作業計數",
-        "crashFreeSessionCount": "損毀可用階段作業數目",
-        "crashAffectedUserRate": "損毀影響的使用者速率",
-        "crashFreeUserRate": "損毀可用使用者速率",
-        "crashAffectedUserCount": "受損毀影響的使用者計數",
-        "crashFreeUserCount": "損毀可用使用者數目",
+        "crashAffectedSessionRate": "損毀受影響的階段作業率",
+        "crashFreeSessionRate": "損毀可用的階段作業率",
+        "crashAffectedSessionCount": "損毀受影響的階段作業計數",
+        "crashFreeSessionCount": "損毀可用的階段作業計數",
+        "crashAffectedUserRate": "損毀受影響的使用者率",
+        "crashFreeUserRate": "損毀可用的使用者率",
+        "crashAffectedUserCount": "損毀受影響的使用者計數",
+        "crashFreeUserCount": "損毀可用的使用者計數",
         "statusCodeBlueprintConfigName": "HTTP 狀態碼",
         "throughputBlueprintConfigName": "傳輸量",
         "customEventBlueprintConfigName": "自訂事件",
@@ -1310,19 +1382,19 @@
         "crashBlueprintConfigText": "當選取的損毀度量值高於或低於預期時接收警示。",
         "crashBlueprintSelectMetric": "選取損毀度量",
         "statusCodeBlueprintConfigHeadline": "HTTP 狀態碼的自動警示",
-        "statusCodeBlueprintConfigText": "每當相符「HTTP 狀態碼」的出現頻率高於平常時，會收到警示。",
-        "throughputBlueprintConfigHeadline": "行動式應用程式視圖的自動警示",
-        "throughputBlueprintConfigText": "針對行動式應用程式中異常低或高視圖數的自動警示。",
-        "customEventBlueprintConfigHeadline": "自訂事件的自動警示",
+        "statusCodeBlueprintConfigText": "每次當相符的 HTTP 狀態碼比平常更頻繁地出現時都會收到警示。",
+        "throughputBlueprintConfigHeadline": "行動式應用程式檢視的自動警示",
+        "throughputBlueprintConfigText": "當行動式應用程式的檢視數異常低或高時自動發出警示。",
+        "customEventBlueprintConfigHeadline": "針對自訂事件自動發出警示",
         "customEventBlueprintConfigText": "每次特定自訂事件發生的頻率高於或低於其應有的頻率時，即會收到警示。",
         "customEventBlueprintConfigIncompleteRuleMessage": "請選取自訂事件以查看此警示的觸發時間",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "請選取一個「狀態碼」，以查看此警示的觸發時機",
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "請選取狀態碼以查看此警示何時觸發",
         "simpleModeBlueprintConfigsViewsUnexpectedDropName": "檢視次數少",
-        "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "異常低視圖數時自動警示",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "檢視數異常低時自動發出警示",
         "simpleModeBlueprintConfigsViewsUnexpectedDropText": "與可用的過去資料相比，當「視圖」數目明顯低於預期時，接收警示。",
         "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "低階段作業數",
-        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "異常低階段作業數時自動警示",
-        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "相較於可用的過去資料，當「階段作業」數目明顯低於預期時，會收到警示。"
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "階段作業數異常低時自動發出警示",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "當階段作業數與可用的過去資料相比明顯低於預期時收到警示。"
       },
       "alertList": {
         "columns": {
@@ -1344,7 +1416,7 @@
         "filter_0": "過濾器",
         "filter_1": "過濾器",
         "filter_2": "過濾器",
-        "filterApplied": "已套用過濾器",
+        "filterApplied": "套用的過濾器",
         "noDataHeader": "沒有行動應用程式智慧型警示",
         "noDataDescription": "首先，按一下<strong>建立智慧型警示</strong>。"
       },
@@ -1406,6 +1478,54 @@
         "thresholdTitle": "臨界值：何時違反條件？",
         "payloadsLabel": "有效負載",
         "payloadsTitle": "自訂有效負載"
+      },
+      "tearSheet": {
+        "createTitle": "建立行動式應用程式智慧型警示",
+        "editTitle": "編輯行動式應用程式智慧型警示",
+        "step1": {
+          "title": "選擇一個範本",
+          "description": "選擇您要收到警示的問題"
+        },
+        "step2": {
+          "title": "定義範圍"
+        },
+        "step3": {
+          "title": "定義何時收到警示"
+        },
+        "step4": {
+          "title": "定義警示屬性",
+          "description": "您要為此警示設定哪些內容"
+        },
+        "step5": {
+          "title": "定義警示通道",
+          "description": "選取您希望接收此警示通知的位置"
+        },
+        "statusCode": {
+          "headline": "HTTP 狀態碼的自動警示",
+          "text": "當 HTTP 狀態碼比平常更頻繁地出現時收到警示。"
+        },
+        "throughput": {
+          "headline": "行動式應用程式檢視的自動警示",
+          "text": "當您的行動式應用程式的預期頁面檢視數或階段作業數與可用的歷史資料有顯著差異時，會收到警示。"
+        },
+        "crash": {
+          "headline": "損毀的自動警示",
+          "text": "當損毀度量高於或低於預期時收到警示。"
+        },
+        "customEvent": {
+          "name": "自訂事件",
+          "headline": "針對自訂事件自動發出警示",
+          "text": "每次特定自訂事件發生的頻率高於或低於其應有的頻率時，即會收到警示。"
+        },
+        "filter": "新增過濾器以取得更精確的警示（選用）",
+        "threshold": {
+          "header": "設定違規臨界值的值",
+          "description": "選取度量、違規臨界值和時間範圍來評估違規。"
+        },
+        "timeThreshold": {
+          "title": "在違規觸發警示時設定",
+          "description": "指定警示及持續性類型，然後設定警示觸發程式。"
+        }
       }
     },
     "eum": {
@@ -1433,25 +1553,25 @@
         "customEvents": "自訂事件：{{customEventName}}",
         "HTTPStatusCodes": "HTTP 狀態碼：{{statusCode}}",
         "unsupportedAlertType": "不受支援的警示類型：{{alertType}}",
-        "JSErrorsHaveBeenDetected": "偵測到 JS 錯誤。",
+        "JSErrorsHaveBeenDetected": "已偵測到 JS 錯誤。",
         "unsupportedOperator": "不支援的運算子：{{operator}}",
         "JSErrorTextEquals": "偵測到等於 \"{{ruleValue}}\" 的 JS 錯誤。",
         "JSErrorTextContains": "偵測到包含 \"{{ruleValue}}\" 的 JS 錯誤。",
-        "JSErrorTextStartsWith": "偵測到以 \"{{ruleValue}}\" 開頭的 JS 錯誤。",
-        "JSErrorTextEndsWith": "偵測到以 \"{{ruleValue}}\" 結尾的 JS 錯誤。",
+        "JSErrorTextStartsWith": "已偵測到以 \"{{ruleValue}}\" 開頭的 JS 錯誤。",
+        "JSErrorTextEndsWith": "已偵測到以 \"{{ruleValue}}\" 結尾的 JS 錯誤。",
         "customEventsText": "已偵測到等於 \"{{customEventName}}\" 的自訂事件。",
-        "slownessSimpleHighOperatorText": "載入時間 ({{aggregationText}}) 太高",
-        "slownessSimpleLowOperatorText": "載入時間 ({{aggregationText}}) 太低",
+        "slownessSimpleHighOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 過高",
+        "slownessSimpleLowOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 太低",
         "throughputSimpleHighOperatorText": "{{metricLabel}} 數目異常高",
         "throughputSimpleLowOperatorText": "{{metricLabel}} 數目異常低",
         "statusCodeSimpleAboveOperatorText": "HTTP 狀態碼 {{statusCodeLabel}} 的出現次數高於預期。",
         "statusCodeSimpleBelowOperatorText": "HTTP 狀態碼 {{statusCodeLabel}} 的出現次數低於預期。",
-        "slownessSimpleAboveOperatorText": "載入時間 ({{aggregationText}}) 高於預期。",
-        "slownessSimpleBelowOperatorText": "載入時間 ({{aggregationText}}) 低於預期。",
-        "slownessGreaterOperatorText": "載入時間 ({{aggregationText}}) 大於 {{thresholdValue}} 毫秒。",
-        "slownessGreaterEqualsOperatorText": "載入時間 ({{aggregationText}}) 大於或等於 {{thresholdValue}} 毫秒。",
-        "slownessLessOperatorText": "載入時間 ({{aggregationText}}) 小於 {{thresholdValue}} 毫秒。",
-        "slownessLessEqualsOperatorText": "載入時間 ({{aggregationText}}) 小於或等於 {{thresholdValue}} 毫秒。",
+        "slownessSimpleAboveOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 高於預期。",
+        "slownessSimpleBelowOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 低於預期。",
+        "slownessGreaterOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 大於 {{thresholdValue}} 毫秒。",
+        "slownessGreaterEqualsOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 大於或等於 {{thresholdValue}} 毫秒。",
+        "slownessLessOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 小於 {{thresholdValue}} 毫秒。",
+        "slownessLessEqualsOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 小於或等於 {{thresholdValue}} 毫秒。",
         "staticThresholdHigherOperatorText": "{{metricLabel}} 數目大於 {{thresholdValue}}。",
         "staticThresholdHigherEqualsOperatorText": "{{metricLabel}} 數目高於或等於 {{thresholdValue}}。",
         "staticThresholdLowerOperatorText": "{{metricLabel}} 數目低於 {{thresholdValue}}。",
@@ -1583,11 +1703,11 @@
         "scopeFilter": {
           "title": "選擇基礎架構的範圍",
           "filter": "過濾器",
-          "filterDescription": "向服務新增過濾器以獲得更精確的警示。"
+          "filterDescription": "新增過濾器以縮小範圍並獲得更精確的警示。"
         },
         "scopeGroupBy": {
-          "group": "群組",
-          "groupByDescription": "新增群組以配置群組呼叫。 群組中的每個呼叫會集體進行配置，但會個別進行評估。"
+          "group": "分組",
+          "groupByDescription": "使用可用的分組標籤新增一個群組來對度量結果進行分組。 您最多可以使用 5 個標籤。"
         },
         "timeThreshold": {
           "title": "在違規觸發警示時設定",
@@ -1597,7 +1717,7 @@
           "static": "會套用常數臨界值，且不會隨著時間而變更。"
         },
         "chartAlertPreview": "警示預覽",
-        "chartAlertPreviewDescription": "顯示如何根據歷程度量資料觸發警示。",
+        "chartAlertPreviewDescription": "查看如何根據歷史度量資料觸發警示。",
         "forecastAlerting": {
           "description": "接收基於歷程資料和趨勢的主動警示。 此選項可協助您在潛在問題影響您的系統之前對其進行預測。",
           "historicalDataTime": {
@@ -1609,7 +1729,12 @@
             "tooltipContent": "定義用於警示的預測時間範圍。 "
           }
         }
-      }
+      },
+      "placeholderTitle": "偵測到 {{metricName}} 上的問題",
+      "descriptionIsHigherThan": "{{metricName}} 高於 {{value}}。",
+      "descriptionIsHigherOrEqualTo": "{{metricName}} 高於或等於 {{value}}。",
+      "descriptionIsLowerThan": "{{metricName}} 低於 {{value}}。",
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} 低於或等於 {{value}}。"
     },
     "logs": {
       "alertDetails": {
@@ -1690,7 +1815,7 @@
       "tearSheet": {
         "labelActionButtonEdit": "編輯",
         "labelActionButtonDuplicate": "抄寫",
-        "createTitle": "建立日誌智慧警示",
+        "createTitle": "建立日誌智慧型警示",
         "editTitle": "編輯日誌智慧型警示",
         "steps": {
           "step1Title": "定義條件",
@@ -1798,14 +1923,33 @@
       "details": {
         "alertConfigurationTitle": "警示配置",
         "sloHeader": "SLO",
-        "thresholdInfo": "",
-        "thresholdInfo_BURN_RATE": "消耗率為 {{operator}} {{percentage}} 時",
-        "thresholdInfo_BURNED_PERCENTAGE": "當 {{operator}} 已耗用 {{percentage}} 百分比的錯誤預算時",
-        "thresholdInfo_STATUS": "當 SLO 狀態為 {{operator}} {{percentage}} 百分比時",
+        "thresholdLabel": "臨界值",
+        "thresholdInfo": "{{operator}} {{percentage}}",
         "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
         "blueprintLabel": "藍圖",
+        "blueprintInfo": "",
+        "blueprintInfo_BURN_RATE": "消耗率",
+        "blueprintInfo_BURNED_PERCENTAGE": "耗用的錯誤預算",
+        "blueprintInfo_STATUS": "狀態",
+        "longWindowLabel": "長視窗",
+        "shortWindowLabel": "短視窗",
+        "timeWindowInfo_minute": "{{count}} 分鐘",
+        "timeWindowInfo_minute_plural": "{{count}} 分鐘",
+        "timeWindowInfo_minute_0": "{{count}} 分鐘",
+        "timeWindowInfo_minute_1": "{{count}} 分鐘",
+        "timeWindowInfo_minute_2": "{{count}} 分鐘",
+        "timeWindowInfo_hour": "{{count}} 小時",
+        "timeWindowInfo_hour_plural": "{{count}} 小時",
+        "timeWindowInfo_hour_0": "{{count}} 小時",
+        "timeWindowInfo_hour_1": "{{count}} 小時",
+        "timeWindowInfo_hour_2": "{{count}} 小時",
+        "timeWindowInfo_day": "{{count}} 天",
+        "timeWindowInfo_day_plural": "{{count}} 天",
+        "timeWindowInfo_day_0": "{{count}} 天",
+        "timeWindowInfo_day_1": "{{count}} 天",
+        "timeWindowInfo_day_2": "{{count}} 天",
         "coolDownPeriodDescription": "至少必須已經過 {{value}}，事件才會結束。"
       },
       "alertList": {

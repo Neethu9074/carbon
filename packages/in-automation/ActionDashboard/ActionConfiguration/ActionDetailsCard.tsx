@@ -30,6 +30,7 @@ import { getDocLinkFromFields } from 'in-automation/utils/actionField';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 import { ACTION_TYPE, NO_FIELD_VALUE } from 'in-automation/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { isNotEditable } from 'in-automation/utils/action';
 import { useSegmentTracker } from 'in-automation/tracker';
 import { Action, Nullish } from 'in-types';
 import { role } from 'in-stores/user';
@@ -134,6 +135,7 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
                 label={t('in-automation:edit')}
                 kind="ghost"
                 size="sm"
+                disabled={data?.metadata?.builtIn}
                 onClick={() => handleButtonClick({ actionId })}
               >
                 <SvgIcon type="lib_actions_edit" size="xs" />
@@ -141,8 +143,11 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
               <CarbonIconButton
                 label={t('in-automation:delete')}
                 kind="ghost"
+                disabled={isNotEditable(data, false) && data.type !== ACTION_TYPE.ANSIBLE}
                 size="sm"
-                onClick={() => showConfirmationDialog(data as Action, navigateToActionCatalog)}
+                onClick={() =>
+                  showConfirmationDialog(data as Action, { callback: navigateToActionCatalog, disableRefresh: true })
+                }
               >
                 <SvgIcon type="lib_actions_delete" size="xs" />
               </CarbonIconButton>
@@ -166,5 +171,5 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
 }
 
 const handleButtonClick = ({ actionId, copy }: { actionId?: string; copy?: boolean }) => {
-  addActiveDialog(<CreateNewActionTearsheet actionId={actionId} copy={copy} />);
+  addActiveDialog(<CreateNewActionTearsheet actionId={actionId} copy={copy} isFromDashboard />);
 };

@@ -82,7 +82,7 @@
     "usages": {
       "allPaidUnitsAggregated": "所有付費單元（聚集）",
       "accountUsage": "帳戶使用情形",
-      "activeLicenses": "生效的授權",
+      "activeLicenses": "作用中的授權",
       "expiredLicenses": "過期的授權",
       "queuedLicenses": "佇列的授權"
     },
@@ -137,7 +137,7 @@
         "customDashboards": "自訂儀表板",
         "mobileEum": "行動式 EUM",
         "numOfApplicationPerspectives": "# 個應用程式視景",
-        "numOfReportingApplicationPerspectives": "# 個報告應用程式視景",
+        "numOfReportingApplicationPerspectives": "# 個報告 AP",
         "numOfWebsites": "# 個網站",
         "numOfAlertChannels": "# 個警示通道",
         "numOfAlerts": "# 個警示",
@@ -154,7 +154,7 @@
         "metric_websites": "網站",
         "metric_all_alerts": "所有警示",
         "metric_active_alerts": "作用中警示",
-        "metric_mobile_apps": "行動式應用程式",
+        "metric_mobile_apps": "行動應用程式",
         "metric_alert_channels": "警示通道",
         "metric_custom_dashboards": "自訂儀表板",
         "metric_releases": "版本"
@@ -162,7 +162,7 @@
       "userUsage": "使用者使用情形",
       "userSummary": "使用者摘要",
       "totalUser": "使用者總數",
-      "weeklyActiveUser": "每周作用中使用者",
+      "weeklyActiveUser": "每週活躍的使用者",
       "lastCalendarWeekTopActiveUsers": "上個行事曆週最活躍的使用者",
       "topUsersTable": {
         "noDataAvailable": "沒有可用的資料",

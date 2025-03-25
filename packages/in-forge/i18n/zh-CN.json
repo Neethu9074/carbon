@@ -1416,6 +1416,11 @@
   "pluginName_oTelK8sNode_1": "OTelKubernetes 节点",
   "pluginName_oTelK8sNode_2": "OTelKubernetes 节点",
   "pluginName_oTelK8sNode": "OTelKubernetes 节点",
+  "pluginName_oTelK8sContainer_plural": "OTel Kubernetes 容器",
+  "pluginName_oTelK8sContainer_0": "OTel Kubernetes 容器",
+  "pluginName_oTelK8sContainer_1": "OTel Kubernetes 容器",
+  "pluginName_oTelK8sContainer_2": "OTel Kubernetes 容器",
+  "pluginName_oTelK8sContainer": "OTel Kubernetes 容器",
   "pluginName_openLDAP_plural": "OpenLDAP 节点",
   "pluginName_openLDAP_0": "OpenLDAP 节点",
   "pluginName_openLDAP_1": "OpenLDAP 节点",
@@ -2527,6 +2532,11 @@
   "tracingTypeName_otel_0": "调用数",
   "tracingTypeName_otel_1": "调用",
   "tracingTypeName_otel_2": "调用数",
+  "tracingTypeName_otelbatchsynthetic": "内部触发器",
+  "tracingTypeName_otelbatchsynthetic_plural": "内部触发器",
+  "tracingTypeName_otelbatchsynthetic_0": "内部触发器",
+  "tracingTypeName_otelbatchsynthetic_1": "内部触发器",
+  "tracingTypeName_otelbatchsynthetic_2": "内部触发器",
   "tracingTypeName_pdo": "PDO 调用",
   "tracingTypeName_pdo_plural": "PDO 调用",
   "tracingTypeName_pdo_0": "PDO 调用",
@@ -8170,6 +8180,7 @@
       "ebsVolumesWithCount": "EBS 卷 ({{len}})",
       "publicHostname": "公共主机名",
       "instanceId": "实例标识",
+      "accountId": "帐户标识",
       "type": "类型",
       "availabilityZone": "可用性区域",
       "publicIp": "公用 IP",
@@ -12683,7 +12694,7 @@
       "agentTlsExpired": "代理程序 TLS 证书 <code>{{cert}}</code> 已在 <code>{{context}}</code> 到期。",
       "agentTlsAboutToExpire": "代理程序 TLS 证书 <code>{{cert}}</code> 即将在 <code>{{context}}</code> 天后到期。",
       "tlsProtocolMissingIssue": "代理程序缺少 TLSv1.3 支持",
-      "tmpDirectoryMissingIssue": "代理程序中缺少 /tmp 目录",
+      "tmpDirectoryMissingIssue": "在代理程序中可以看到，缺少 <code>{{tmpDirLocation}}</code> 目录",
       "agentVersion": "代理程序版本",
       "bootVersion": "引导版本",
       "origin": "源",
@@ -13802,7 +13813,9 @@
         "fsresources": "文件系统资源",
         "fsusage": "文件系统使用率",
         "fsavailble": "文件系统可用",
-        "fscapacity": "文件系统容量"
+        "fscapacity": "文件系统容量",
+        "containers": "容器",
+        "summary": "摘要"
       }
     },
     "oTelK8sCluster": {
@@ -13820,8 +13833,10 @@
         "summary": "摘要",
         "nodes": "节点数",
         "pods": "pod",
+        "containers": "容器",
         "nodecount": "节点计数",
         "podcount": "Pod 计数",
+        "containercount": "容器计数",
         "name": "名称",
         "namespace": "名称空间",
         "age": "持续时间",
@@ -13860,7 +13875,44 @@
         "fsusage": "文件系统使用率",
         "fsavailble": "文件系统可用",
         "fscapacity": "文件系统容量",
-        "pods": "pod"
+        "pods": "pod",
+        "containers": "容器"
+      }
+    },
+    "oTelK8sContainer": {
+      "platform": "平台",
+      "address": "地址",
+      "port": "端口",
+      "kind": "种类",
+      "type": "Type",
+      "serviceName": "服务名称",
+      "entityType": "实体类型",
+      "instanceId": "实例标识",
+      "runtimeDesc": "Kubernetes 运行时",
+      "runtimeVersion": "Kubernetes 版本",
+      "exePath": "可执行文件路径",
+      "dashboard": {
+        "containeruptime": "容器正常运行时间",
+        "cpuresources": "CPU 资源",
+        "cpuusage": "CPU 使用率",
+        "cpuutilization": "CPU 使用率",
+        "cputime": "CPU 时间",
+        "cpulimitutilization": "CPU 限值利用率",
+        "cpurequestutilization": "CPU 请求利用率",
+        "cpunodeutilization": "CPU 节点利用率",
+        "memoryresources": "内存资源",
+        "memoryusage": "内存使用率",
+        "memoryavailable": "可用内存",
+        "memorylimitutilization": "内存限制使用率",
+        "memoryrequestutilization": "内存请求利用率",
+        "memoryrss": "内存 RSS",
+        "memoryworkingset": "内存工作集",
+        "memorypagefaults": "内存页故障",
+        "memorymajorpagefaults": "内存主要页面故障",
+        "fsresources": "文件系统资源",
+        "fsusage": "文件系统使用率",
+        "fsavailble": "文件系统可用",
+        "fscapacity": "文件系统容量"
       }
     },
     "oTelJvm": {
@@ -17448,6 +17500,10 @@
       "error": "错误",
       "tags": "标记",
       "resource": "资源"
+    },
+    "otelBatchSynthetic": {
+      "indexReturn": "内部触发器",
+      "bodyApproximated": "Instana 已检测到该调用，但没有关于其来源的细节。 触发此调用的计时和持续时间是近似值。"
     },
     "pdo": {
       "driver": "驱动程序",

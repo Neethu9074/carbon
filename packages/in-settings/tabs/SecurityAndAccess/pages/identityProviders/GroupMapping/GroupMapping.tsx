@@ -324,7 +324,7 @@ export default function GroupMapping() {
 
   function searchItem(item: any, searchFields: string[], query: string) {
     for (let i = 0; i < searchFields.length; i++) {
-      if (containsIgnoreCase(item.get(searchFields[i]).value + '', query)) {
+      if (containsIgnoreCase(item.get(searchFields[i]).value + '', query ?? '')) {
         return true;
       }
     }

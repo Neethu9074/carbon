@@ -9,9 +9,9 @@ import { useParams } from 'react-router-dom';
 
 import { CarbonToastNotification } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
+import { ApiRole, UserResult } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { createLogger } from '@instana/logger';
-import { UserResult } from '@instana/types';
 
 import TeamNameDescription from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamNameDescription';
 //@ts-expect-error not migrated to typescript
@@ -24,7 +24,6 @@ import { Notification } from 'in-settings/components/CarbonDataTableWrapper/Carb
 import useRolesOverview from 'in-settings/tabs/SecurityAndAccess/hooks/useRolesOverview';
 import { securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { Role } from 'in-settings/tabs/SecurityAndAccess/api/rolesMocks';
 import { SETTINGS_TEAM_UPDATE } from 'in-services/tracking/eventNames';
 import { isLoading as isResultLoading } from 'in-services/util/result';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
@@ -38,7 +37,7 @@ const logger = createLogger('TeamDetails');
 
 /* Temporary low quality function to add user name and role name to team data,
  * to be removed when user name and role name are available through API */
-const enrichTeam = (team: ApiTeam, users: Array<UserResult>, roles: Array<Role>) => {
+const enrichTeam = (team: ApiTeam, users: Array<UserResult>, roles: Array<ApiRole>) => {
   logger.warn('Temporary function to be removed when user name and role name are available through team API');
   const newMembers = team.members.map(member => {
     let fullName = '';

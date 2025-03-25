@@ -42,7 +42,7 @@
       "title": "フェアユースポリシーは有効ではありません。"
     },
     "restrictedUsage": {
-      "accountUsage": "アカウント使用量"
+      "accountUsage": "アカウント使用"
     },
     "technologiesReportingTable": {
       "name": "名前",
@@ -81,10 +81,10 @@
     },
     "usages": {
       "allPaidUnitsAggregated": "すべての有料単位 (集計)",
-      "accountUsage": "アカウント使用量",
+      "accountUsage": "アカウント使用",
       "activeLicenses": "アクティブなライセンス",
-      "expiredLicenses": "期限切れライセンス",
-      "queuedLicenses": "待機ライセンス"
+      "expiredLicenses": "期限切れのライセンス",
+      "queuedLicenses": "キューに入れられたライセンス"
     },
     "usageCharts": {
       "standard": "Standard",
@@ -127,7 +127,7 @@
         "twoApplicationPerspectivesCreated": "2 つのアプリケーション・パースペクティブの作成",
         "oneAlertSetUpAndActivated": "1 つのアラートのセットアップとアクティブ化",
         "oneWebsiteMonitored": "1 つの Web サイトのモニター",
-        "fiveUsers": "5 ユーザー"
+        "fiveUsers": "5 人のユーザー"
       },
       "adoptionKPIs": {
         "applicationPerspective": "アプリケーション・パースペクティブ",
@@ -137,16 +137,16 @@
         "customDashboards": "カスタム・ダッシュボード",
         "mobileEum": "モバイル EUM",
         "numOfApplicationPerspectives": "AP 数",
-        "numOfReportingApplicationPerspectives": "報告 AP 数",
-        "numOfWebsites": "Web サイト数",
+        "numOfReportingApplicationPerspectives": "# レポート AP",
+        "numOfWebsites": "# Web サイト",
         "numOfAlertChannels": "# アラート・チャネル",
-        "numOfAlerts": "アラート数",
-        "numOfActiveAlerts": "アクティブ・アラート数",
-        "numOfReleases": "リリース・マーカー数 / リリース数",
-        "numOfCustomDashboards": "カスタム・ダッシュボード数",
-        "numOfMobileApps": "アプリケーション数"
+        "numOfAlerts": "# アラート",
+        "numOfActiveAlerts": "# アクティブ・アラート",
+        "numOfReleases": "# リリース・マーカー / # リリース",
+        "numOfCustomDashboards": "# カスタム・ダッシュボード",
+        "numOfMobileApps": "# アプリケーション"
       },
-      "activationChecklist": "アクティブ化チェックリスト",
+      "activationChecklist": "有効化チェックリスト",
       "productAdoption": "製品導入",
       "sparkChartMetrics": {
         "metric_applications": "アプリケーション",
@@ -154,7 +154,7 @@
         "metric_websites": "Web サイト",
         "metric_all_alerts": "すべてのアラート",
         "metric_active_alerts": "アクティブ・アラート",
-        "metric_mobile_apps": "モバイル・アプリケーション",
+        "metric_mobile_apps": "モバイル・アプリ",
         "metric_alert_channels": "アラート・チャネル",
         "metric_custom_dashboards": "カスタム・ダッシュボード",
         "metric_releases": "リリース"

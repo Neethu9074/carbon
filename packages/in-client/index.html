@@ -57,7 +57,7 @@
           },
           'digitalData.page.pageInfo.walkme.enabled': window.instana.termsAndPrivacySettings.walkmeAnalyticsServices,
           'digitalData.page.pageInfo.walkme.id': '9ef25d161f0e453a8f3e4dea9390a967',
-          'digitalData.page.pageInfo.walkme.test':window.instana.termsAndPrivacySettings.walkmeAnalyticsServices && window.instana.config.featureFlags.playwithTestEnabled
+          'digitalData.page.pageInfo.walkme.test': true
         };
         digitalData = {
           page: {
@@ -87,7 +87,6 @@
     <script type="text/javascript">
       if (
         window.instana.config.featureFlags.ibmCommonEnabled &&
-        window.instana.termsAndPrivacySettings.assistmeGuidanceServices &&
         window.instana.termsAndPrivacySettings.walkmeAnalyticsServices &&
         window.instana.config.featureFlags.assistmeEnabled
       ) {

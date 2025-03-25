@@ -69,6 +69,7 @@
     "placeholderSelect": "Select…"
   },
   "downloadBtn": {
+    "downloadAriaLabel": "Download",
     "downloadViewDownloadAsJsonLabel": "Download as JSON",
     "downloadViewDownloadCSVLabel": "Download (*.csv)",
     "downloadViewDownloadJsonLabel": "Download (*.json)",
@@ -470,12 +471,8 @@
     "profileMenu_profileLink": "Profile",
     "profileMenu_tooltip": "Profile menu",
     "profileMenu_unitName_tenantName": "Unit name - Tenant name",
-    "profileMenu_instanceName": "Instance name",
-    "profileMenu_region": "Region",
-    "profileMenu_instanceOwner": "Instance owner",
     "profileMenu_switchUnitOrTenant": "Switch unit or tenant",
     "profileMenu_privacy": "Privacy",
-    "profileMenu_saasConsole": "IBM SaaS Console",
     "profileMenu_logOut": "Log out"
   },
   "metricConfigurator": {
@@ -582,7 +579,8 @@
     "title": "Session Timeout",
     "message": "Due to inactivity you will logged out in:",
     "loggedInButton": "Stay Logged in",
-    "logOutButton": "Log out"
+    "logOutButton": "Log out",
+    "failedToUpdateSession": "Failed to update idle session"
   },
   "time": {
     "lastMinute": "Last minute",
@@ -601,6 +599,8 @@
     "previousWeek": "Previous week",
     "dashboardHeaderButtonLive": "Live",
     "customTimeTitleTimeRange": "Time range",
+    "customTimeTimeRangeLowerValue": "Time range lower value",
+    "customTimeTimeRangeUpperValue": "Time range upper value",
     "to": "to",
     "customTimeButtonSetTime": "Set time",
     "customTimeLabelYesterday": "Yesterday",
@@ -639,7 +639,11 @@
     "timeFrameFormatterMinutes_plural": "Last {{count}} minutes",
     "timeFrameFormatterMinutes_0": "Last {{count}} minutes",
     "timeFrameFormatterMinutes_1": "Last {{count}} minutes",
-    "timeFrameFormatterMinutes_2": "Last {{count}} minutes"
+    "timeFrameFormatterMinutes_2": "Last {{count}} minutes",
+    "startDate": "Start date",
+    "startTime": "Start time",
+    "endDate": "End date",
+    "endTime": "End time"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Change selected time shift",

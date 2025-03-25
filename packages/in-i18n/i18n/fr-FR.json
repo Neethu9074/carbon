@@ -20,6 +20,7 @@
       "tableLoadMoreRow": {
         "loadMore": "Charger plus"
       },
+      "filterTable": "Filtrer le tableau",
       "dataTable": "Table de données",
       "expandHeader": "Développer la ligne",
       "expandRow": "Basculer pour développer la ligne",

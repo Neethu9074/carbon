@@ -85,7 +85,7 @@ function AIExplainedContentManualAction() {
           </div>
         </div>
       </div>
-      <div className={locals.aimodellink}>
+      <div className={locals.aimodelLink}>
         <div>{t('in-automation:AITooltip.manualSection.section3.AIModel')}</div>
         <Link
           linkIconType={'lib_views_external_link'}
@@ -95,7 +95,7 @@ function AIExplainedContentManualAction() {
           ibm/granite-3-8b-instruct
         </Link>
       </div>
-      <div className={locals.aimodellink}>
+      <div className={locals.aimodelLink}>
         <div>{t('in-automation:AITooltip.manualSection.section4.section4Text')}</div>
       </div>
     </div>
@@ -110,7 +110,7 @@ function AIExplainedContentScriptAction() {
         <div className={locals.popSumTitle}> {t('in-automation:AITooltip.manualSection.section1.section1Title')}</div>
         <div>{t('in-automation:AITooltip.scriptSection.section1.section1Text')}</div>
       </div>
-      <div className={locals.aimodellink}>
+      <div className={locals.aimodelLink}>
         <div>{t('in-automation:AITooltip.manualSection.section3.AIModel')}</div>
         <Link
           linkIconType={'lib_views_external_link'}
@@ -120,7 +120,7 @@ function AIExplainedContentScriptAction() {
           ibm/granite-34b-code-instruct
         </Link>
       </div>
-      <div className={locals.aimodellink}>
+      <div className={locals.aimodelLink}>
         <div>{t('in-automation:AITooltip.scriptSection.section3.section3Text')}</div>
       </div>
     </div>

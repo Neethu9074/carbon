@@ -1,4 +1,5 @@
 {
+  "automationAction": "Acción de automatización",
   "copy": "Copiar",
   "edit": "Editar",
   "delete": "Suprimir",
@@ -85,7 +86,7 @@
   "automationPoliciesWithCount": "Políticas de automatización ({{count}})",
   "automationPolicies": "Políticas de automatización",
   "copyOf": "(Copia de) {{name}}",
-  "searchActions": "Buscar acciones",
+  "searchActions": "Acciones de búsqueda",
   "searchOptimizations": "Buscar optimizaciones",
   "hostsLimitHelpText": "Limitar la ejecución al host de destino especificado. Seleccione el valor que coincida con la forma en que se representa el sistema en el inventario de Ansible o especifique una serie que admita la sintaxis de límite de Ansible.",
   "aiEngine": "Motor de IA",
@@ -98,15 +99,18 @@
   "actionsWithCount": "Acciones ({{count}})",
   "titleUrl": "URL",
   "generateWithWatsonx": "Generar con watsonx",
-  "AISlugContent": "Se ha utilizado IA para generar este contenido",
   "createPolicyWithName": "Ver acción {{actionName}} y crear política",
   "viewActionCreatePolicy": "Ver acción y crear política",
   "titleContentReadOnly": "Contenido generado (solo lectura)",
+  "hostId": "ID de host",
+  "ansibleUrl": "URL de Ansible",
+  "playbookFileName": "Nombre de archivo del Playbook",
+  "playbookId": "ID de Playbook",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Configuración de acciones",
     "actionDetails": "Detalles de la acción",
     "Step1HeadlineSelectAction": "Comience con una acción incorporada generada por watsonx para crear una nueva acción para este suceso.",
-    "Step1HeadlinePrompt": "Genera una acción manual con watsonx basada en el nombre del suceso, la descripción y el tipo de entidad.",
+    "Step1HeadlinePrompt": "Genera una acción manual con watsonx basada en el nombre del suceso, la descripción y el tipo de entidad. Puede editar y volver a generar para ver",
     "Step2Headline": "Especifique los detalles de la acción o realice cambios antes de guardarla en el catálogo de acciones.",
     "Step3Headline": "Opcionalmente, puede crear una política de automatización junto con la acción. También puede completar este paso más adelante.",
     "step1Title": "Paso 1: Generar o seleccionar una acción",
@@ -145,7 +149,6 @@
     "createActionAndPolicy": "Crear acción y política",
     "createAction": "Crear acción",
     "nameExists": "Ya existe una acción con nombre: {{name}} y tipo: {{type}}",
-    "failedToGenerateAction": "No se ha podido generar la acción.",
     "failedToCreateActionPolicy": "No se ha podido crear la acción y la política.",
     "failedToCreateAction": "No se ha podido crear la acción.",
     "generateScriptDialog": {
@@ -184,13 +187,13 @@
   "ActionCatalog": {
     "actionCatalog": "Catálogo de acciones",
     "action": "acción",
-    "newAction": "Acción nueva",
+    "newAction": "Nueva acción",
     "createANewAction": "Crear una nueva acción",
     "configureActionEntityName": "Configurar acción: {{entityName}}",
     "lastModified": "Última modificación",
     "script": "Script",
     "interpreter": "Intérprete (opcional)",
-    "interpreterHelper": "El intérprete es el programa que ejecuta el script. Por ejemplo, bash o python. Puede ser la ruta completa del intérprete o simplemente su nombre si está en PATH. Este campo no es obligatorio si el script contiene un shebang o si utiliza el intérprete predeterminado.",
+    "interpreterHelper": "El intérprete es el programa que ejecuta el script. Por ejemplo, bash o Python. Puede ser la ruta completa del intérprete o simplemente su nombre si está en PATH. Este campo no es obligatorio si el script contiene un shebang o si utiliza el intérprete predeterminado.",
     "ansible": "Ansible",
     "github": "Problema de Github",
     "githubBody": "Cuerpo",
@@ -224,7 +227,10 @@
     "unknownAction": "Acción desconocida",
     "1ActionDetails": "1. Detalles de la acción",
     "2ActionConfiguration": "2. Configuración de acción",
-    "3ParamaterDetails": "3. Detalles de parámetro",
+    "3ParamaterDetails": "3. Detalles del parámetro",
+    "actionDetails": "Detalles de la acción",
+    "actionConfiguration": "Configuración de acciones",
+    "parameterDetails": "Detalles del parámetro",
     "timeout": "Tiempo de espera (opcional)",
     "timeoutHelpText": "Tiempo máximo en segundos que se espera a que se complete la acción. Si la acción no se completa dentro del tiempo de espera, se terminará. Esto sustituirá el tiempo de espera establecido en la configuración del agente.",
     "host": "Host",
@@ -233,14 +239,14 @@
     "acceptLanguage": "Accept-Language (opcional)",
     "theValueMustBeValidMime": "El valor debe ser un tipo MIME válido.",
     "authType": "Tipo de autorización",
-    "noAuth": "Sin autorización",
+    "noAuth": "Sin autenticación",
     "key": "Clave",
     "ignoreCertErrors": "Ignorar errores de certificado",
     "basicAuth": "Autenticación básica",
     "bearerToken": "Señal portadora",
     "authentication": "Autenticación",
     "apiKeyAddTo": "Añadir a",
-    "apiKey": "Clave de Api",
+    "apiKey": "Clave de API",
     "header": "Cabecera",
     "queryParams": "Parámetros de consulta",
     "username": "Nombre de usuario",
@@ -248,17 +254,18 @@
     "addParameter": "Añadir parámetro",
     "editParameter": "Editar parámetro",
     "noParametersConfigured": "No hay parámetros configurados",
-    "required": "Valor obligatorio",
+    "required": "Valor necesario",
+    "viewParameter": "Ver parámetro",
     "hiddenParam": "Oculto",
     "valueType": "Tipo de valor",
     "displayName": "Nombre de visualización",
     "defaultValue": "Valor predeterminado",
     "defaultValueOptional": "Valor predeterminado (opcional)",
     "parameters": "Parámetros",
-    "secretKey": "Clave secreta",
-    "secretPath": "Vía de acceso de secreto",
+    "secretKey": "Clave de secreto",
+    "secretPath": "Vía de acceso del secreto",
     "secretKeyOptional": "Clave secreta (opcional)",
-    "secretPathOptional": "Vía de acceso de secreto (opcional)",
+    "secretPathOptional": "Ruta de secreto (opcional)",
     "validName": "El nombre de parámetro no es válido: compruebe que está utilizando solo caracteres válidos y que es exclusivo.",
     "uniqueName": "Los nombres de parámetro deben ser exclusivos.",
     "parameterNameHelp": "Los nombres de parámetro solo pueden contener a-z, A-Z, _, 0-9 y no pueden empezar por un número.",
@@ -349,13 +356,13 @@
     "neutralFeedback": "Neutro",
     "satisfiedFeedback": "Estoy satisfecho",
     "verySatisfiedFeedback": "Estoy muy satisfecho",
-    "additionalFeedback": "Comentarios adicionales (opcional)",
+    "additionalFeedback": "Comentarios adicionales (opcionales)",
     "feedbackError": "Se ha producido un error al guardar los comentarios. Vuelva a intentarlo más adelante.",
     "feedbackNotSelectedError": "Seleccione una opción antes de enviar.",
     "feedbackSuccessTitle": "Comentarios enviados.",
     "feedbackSuccessMessage": "Gracias por sus comentarios.",
     "saveButton": "Guardar",
-    "ansibleJob": "Trabajo Ansible",
+    "ansibleJob": "Trabajo de Ansible",
     "hostsLimit": "Límite de hosts",
     "initiator": "Iniciador",
     "submitted": "Enviado",
@@ -378,9 +385,8 @@
   },
   "policies": {
     "policies": "Políticas",
-    "policiesWithCount": "Políticas ({{count}})",
-    "newPolicy": "Política nueva",
-    "selectEventTrigger": "Seleccionar desencadenante de evento",
+    "newPolicy": "Nueva política",
+    "selectEventTrigger": "Seleccionar desencadenante de sucesos",
     "eventTrigger": "Desencadenante de sucesos",
     "unknownPolicy": "Política desconocida",
     "policy": "Política",
@@ -405,7 +411,7 @@
     "event": "Suceso",
     "entityType": "Tipo de entidad",
     "applicationSmartAlert": "Añadir alerta inteligente",
-    "globalApplicationSmartAlert": "Aplicación global SmartAlert",
+    "globalApplicationSmartAlert": "Alerta inteligente de aplicación global",
     "infraSmartAlert": "Alerta inteligente de la infraestructura",
     "mobileAppSmartAlert": "Alerta inteligente de aplicación móvil",
     "syntheticsSmartAlert": "Alerta inteligente sintética",
@@ -413,7 +419,7 @@
     "sloSmartAlert": "Alerta inteligente de niveles de servicio",
     "docLinkAndManualCantBeAutomated": "El enlace de la documentación y las acciones manuales no se pueden automatizar.",
     "triggeringAgent": "Agente desencadenante",
-    "triggeringHostFqdn": "Nombre de dominio completo del host desencadenante",
+    "triggeringHostFqdn": "FQDN del host desencadenante",
     "triggeringHostIp": "IP del host desencadenante",
     "applyOn": "Aplicar en",
     "allAvailableEntities": "Todas las entidades disponibles",
@@ -421,7 +427,7 @@
     "dynamicFocusQuery": "Consulta de foco dinámico",
     "searchEventTriggers": "Buscar desencadenantes de sucesos",
     "searchPolicies": "Buscar políticas",
-    "manualAutomatic": "Manual, Automático",
+    "manualAutomatic": "Manual, automático",
     "policyType": "Tipo de política",
     "noPolicies": "No hay ninguna política configurada.",
     "filterApplied": "Filtro aplicado",
@@ -472,9 +478,11 @@
     "showTasks": "Mostrar"
   },
   "deleteDialog": {
-    "confirmRemove": "Confírmelo",
+    "confirmRemove": "Confirmar eliminación",
     "confirmRemoveMsg": "¿Seguro que desea suprimir <strong>{{name}}</strong>?",
-    "delete": "Suprimir"
+    "delete": "Suprimir",
+    "pleaseConfirm": "Confírmelo",
+    "pleaseConfirmMsg": "¿Seguro que desea suprimir <strong>{{name}}</strong>?"
   },
   "turboActionCategories": {
     "compliance": "Conformidad",
@@ -507,11 +515,66 @@
     "recommendedActionHistoryWithCount": "Historial de acciones de recursos ({{count}})",
     "recommendedActionHistory": "Historial de acciones de recursos"
   },
+  "actionDashboard": {
+    "ActionConfiguration": "Configuración de acciones",
+    "ActionDetails": "Detalles de la acción",
+    "ParameterDetails": "Detalles del parámetro",
+    "tabs": {
+      "summaryLabel": "Resumen",
+      "configurationLabel": "Configuración"
+    },
+    "noOfTimesRun": "Número de ejecuciones",
+    "successRate": "Índice de éxito",
+    "avgExecutionTime": "Tiempo promedio de ejecución",
+    "lastModified": "Última modificación",
+    "history": "Historial",
+    "summaryTab": {
+      "seconds": "Segundos"
+    },
+    "associatedPolicies": "Políticas asociadas"
+  },
   "feedback": {
     "contentHelpfulText": "¿Le ha resultado útil este contenido generado?",
     "thankYouForYourFeedback": "Gracias por sus comentarios.",
     "submitFeedback": "Enviar comentarios",
     "additionalFeedbacklabel": "Proporcione comentarios adicionales (opcional)",
     "additionalFeedbackPlaceholder": "¿Qué no le gustó de la respuesta? Qué se puede mejorar"
+  },
+  "consentForm": {
+    "consentButton": "Revisar formulario de consentimiento",
+    "consentText": "Un administrador debe aceptar el acuerdo de privacidad de la Vista previa de Asistencia de IA Generativa para habilitar esta función."
+  },
+  "AITooltip": {
+    "aiExplained": "IA explicada",
+    "manualSection": {
+      "section1": {
+        "section1Title": "Generación de acciones",
+        "section1Text": "Para generar un conjunto de pasos manuales para diagnosticar o solucionar el problema, enviamos información del suceso a watsonx.  Las entradas utilizadas para formular la sugerencia de IA se rellenan inicialmente a partir del suceso actual y se pueden modificar para mejorar los resultados."
+      },
+      "section2": {
+        "section2Title": "Campos de entrada obligatoria",
+        "section2EventName": "<strong>Nombre de suceso.</strong> El nombre de incidencia, suceso o alerta.",
+        "section2Description": "<strong>Descripción del suceso.</strong> La descripción de la incidencia o el suceso.",
+        "section2Entitytype": "<strong>Tipo de entidad del suceso.</strong> El tipo de entidad asociada con la incidencia o suceso."
+      },
+      "section3": {
+        "AIModel": "Modelo de IA"
+      },
+      "section4": {
+        "section4Text": "Esta es una función de vista previa. Proporciona un borrador sugerido para una acción o acciones recomendadas para abordar una incidencia o suceso. Debe determinar si el resultado es adecuado para sus necesidades."
+      }
+    },
+    "scriptSection": {
+      "section1": {
+        "section1Text": "Para generar un script, enviamos instrucciones de un paso de acción manual a watsonx. El paso se puede modificar para mejorar los resultados."
+      },
+      "section3": {
+        "section3Text": "Esta es una función de vista previa que proporciona un script sugerido para realizar una acción. Debe determinar si el resultado es adecuado para sus necesidades."
+      }
+    },
+    "preGenerated": {
+      "title": "Acciones de IA pregeneradas",
+      "text": "Seleccione de una lista de acciones que se generan previamente utilizando modelos de IA de watsonx para ayudar a diagnosticar o remediar sucesos en su sistema."
+    }
   }
 }

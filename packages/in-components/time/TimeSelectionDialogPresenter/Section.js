@@ -16,7 +16,7 @@ export default function Section({ title, light, children }) {
         [locals.lightWrapper]: light
       })}
     >
-      <h1 className={locals.header}>{title}</h1>
+      <h2 className={locals.header}>{title}</h2>
       {children}
     </div>
   );

@@ -624,7 +624,11 @@
       "failures": "Failures",
       "status": "Status",
       "success": "Success",
-      "daysRemaining": "Days remaining"
+      "daysRemaining": "Days remaining",
+      "dns": {
+        "failureType": "Failure type",
+        "na": "N/A"
+      }
     },
     "detailsPage": {
       "detailLiveModeDisabled": "Live mode is not applicable in synthetic test result detail page",

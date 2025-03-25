@@ -26,7 +26,7 @@
         "removeEditRightUserName": "Remover direitos de edição para {{fullName}}.",
         "add": "Incluir",
         "addEditors": "Incluir editores",
-        "pleaseSelect": "Selecione"
+        "pleaseSelect": "Selecionar"
       },
       "sharingDialogPresenter": {
         "editPermissions": "Editar permissões",
@@ -191,7 +191,7 @@
       },
       "formComponent": {
         "metric": "Métrica",
-        "eventCount": "Contagem de evento",
+        "eventCount": "Contagem de eventos",
         "unnamedLog": "Métrica de log não nomeada",
         "aggregation": "Agregação",
         "pleaseSelectMetric": "Selecionar uma métrica",
@@ -251,7 +251,7 @@
         "pleaseSelectMetric": "Selecionar uma métrica"
       },
       "index": {
-        "mobileAppsBeacon": "Aplicativos móveis (indicadores)"
+        "mobileAppsBeacon": "Apps móveis (indicadores)"
       }
     },
     "srcSli": {
@@ -266,7 +266,7 @@
         "srvLevelIndicator": "Indicadores de nível de serviço"
       },
       "serviceLevelIndicators": {
-        "remainErrBudget": "Margem de erro restante"
+        "remainErrBudget": "Orçamento de erro remanescente"
       }
     },
     "srcWebSite": {
@@ -288,7 +288,7 @@
         "metric": "Métrica",
         "selectMetric": "Selecionar uma métrica",
         "aggregation": "Agregação",
-        "successRate": "Taxa de sucesso",
+        "successRate": "Pontuação de sucesso",
         "locations": "Locais",
         "responseTime": "Tempo de resposta",
         "responsesize": "Tamanho da resposta"
@@ -302,7 +302,7 @@
         "logging": "Logs"
       },
       "formComponent": {
-        "onlyMetric": "A única métrica disponível para Logs",
+        "onlyMetric": "A única métrica disponível para logs",
         "metrics": {
           "count": "Contagem"
         },
@@ -321,7 +321,7 @@
       }
     },
     "metricConfigurator": {
-      "ds": "Origem de dados",
+      "ds": "Origem de Dados",
       "pleaseSelect": "Selecionar",
       "name": "Nome",
       "pleaseSelectATimeShiftingConfiguration": "Selecione uma configuração de deslocamento de tempo",
@@ -433,7 +433,7 @@
         "timeShift": "Deslocamento de tempo",
         "applyTimeShiftDs": "Aplicar deslocamento de tempo a esta série de dados",
         "timeShiftHelpAction": "A seleção de <strong>Exibir valores atuais</strong> duplicará automaticamente esta série de dados sobre o mesmo eixo. O deslocamento de tempo será desativado para a primeira série de dados e ativado para a segunda.",
-        "timeShiftDisabledWhilePPon": "Para usar o deslocamento de tempo é necessário desligar o destaque de Problemas potenciais primeiro.",
+        "timeShiftDisabledWhilePPon": "Para usar o deslocamento de tempo é necessário desativar o destaque de possíveis problemas primeiro.",
         "displayCurrentValues": "Exibir valores atuais"
       },
       "potentialProblems": {
@@ -508,24 +508,24 @@
       },
       "demo": {
         "title": "Título do SLO",
-        "sliName": "Exemplo de Sli",
+        "sliName": "Exemplo de SLI",
         "appName": "Nome do aplicativo de exemplo"
       },
       "apConfigFormComp": {
-        "userJourneyOffering": "Jornada do usuário/Oferta",
+        "userJourneyOffering": "Jornada do usuário/oferta",
         "appnPerspective": "Perspectiva de aplicativo",
-        "selectAppPerspect": "Selecione uma Perspectiva de aplicativo.",
-        "appPerspectHelpAction": "Configure as jornadas/ofertas do usuário, modelando-as como uma Perspectiva de aplicativo na área de Aplicativos.",
+        "selectAppPerspect": "Selecione uma perspectiva de aplicativo.",
+        "appPerspectHelpAction": "Configure as ofertas e as jornadas do usuário modelando-as como uma perspectiva de aplicativo na área de aplicativos.",
         "rbacHint": "Os aplicativos mostrados podem ser limitados por permissões.",
         "noAppPerspect": "Nenhuma perspectiva de aplicativo!",
         "pleaseSelect": "Selecionar"
       },
       "websiteSelector": {
         "website": "Website",
-        "selectWebsite": "Selecione um Website",
-        "websiteHelpAction": "Configure os websites na área de Websites e aplicativos móveis.",
+        "selectWebsite": "Selecione um website",
+        "websiteHelpAction": "Configure os websites na área de websites e aplicativos móveis.",
         "rbacHint": "Os websites mostrados podem ser limitados por permissões.",
-        "noWebsites": "Nenhum Website encontrado",
+        "noWebsites": "Nenhum website localizado",
         "pleaseSelect": "Selecionar"
       },
       "sliSelectionFormComp": {
@@ -573,7 +573,7 @@
         "99th": "99º"
       },
       "metricsForm": {
-        "metricThreshold": "Métrica e Limite",
+        "metricThreshold": "Métrica e limite",
         "metric": "Métrica",
         "aggregation": "Agregação",
         "valThresholdNotInvalidEmpty": "O valor do limite não deve ser inválido ou vazio.",
@@ -597,11 +597,11 @@
         "includeInternalCalls": "Incluir chamadas internas",
         "includeSyntheticCalls": "Incluir chamadas sintéticas",
         "type": "Tipo",
-        "sliEntity": "Entidade da SLI",
+        "sliEntity": "Entidade de SLI",
         "beaconConfigLabel": "Configuração do indicador",
-        "beaconScopeLabel": "Escopo de Beacon",
+        "beaconScopeLabel": "Escopo do indicador",
         "beaconLabel": "Tipo de indicador desconhecido",
-        "beaconLabel_httpRequest": "Solicitações HTTP",
+        "beaconLabel_httpRequest": "Solicitações de HTTP",
         "beaconLabel_pageLoad": "Carregamentos de páginas do website",
         "beaconLabel_custom": "Eventos customizados do website",
         "beaconFiltersLabel": "Filtro do indicador",
@@ -612,9 +612,9 @@
         "sliConfigDeleted": "A configuração de SLI foi excluída com sucesso.",
         "failedDelSli": "Falha ao excluir a SLI.",
         "sliType": "Tipo de SLI",
-        "viewCloneSliConfig": "Visualizar/Clonar configuração de SLI",
+        "viewCloneSliConfig": "Visualizar/clonar configuração de SLI",
         "delSliConfig": "Excluir configuração de SLI",
-        "confirmRemove": "Confirme",
+        "confirmRemove": "Confirmar remoção",
         "confirmRemoveMsg": "Tem certeza de que deseja excluir <strong>{{sliName}}</strong>?",
         "delete": "Excluir",
         "eventBasedSli": "Com base em evento",
@@ -622,7 +622,7 @@
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "Você não tem a permissão necessária <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> para criar ou editar SLIs.",
-        "sliList": "Lista da SLI",
+        "sliList": "Lista de SLI",
         "createSli": "Criar SLI"
       },
       "tagFilterExpressConfig": {
@@ -634,7 +634,7 @@
       "chart": {
         "spent": "Gasto",
         "budget": "Orçamento",
-        "viewInAnalyze": "Visualizar na análise",
+        "viewInAnalyze": "Visualização em análise",
         "configType": "SLI",
         "configType_apdex": "Apdex",
         "initialEvaluation": "{{configType}} criado",
@@ -644,12 +644,12 @@
         "sliManagement": "Gerenciamento de SLI",
         "editSli": "Editar SLI",
         "createSli": "Criar SLI",
-        "sloConfig": "Configuração do SLO",
+        "sloConfig": "Configuração de SLO",
         "manageSlIs": "Gerenciar SLIs",
-        "sloTarget": "SLO de destino",
+        "sloTarget": "Destino de SLO",
         "sloType": "Tipo de SLO",
         "enterVal0to100": "Insira um valor entre 0 e 100.",
-        "timeWindow": "Espaço de tempo",
+        "timeWindow": "Período de tempo",
         "helpActionMsg1": "<strong>Intervalo de tempo fixo:</strong> um espaço de tempo com um início e uma duração definidos. Por exemplo, mensal a partir de 01-01-2020. O último intervalo de tempo parcial para a seleção de tempo por meio do selecionador de tempo global será exibido.",
         "helpActionMsg2": "<strong>Espaço de tempo contínuo:</strong> um espaço de tempo com duração definida no qual o término é estabelecido pela seleção de data/hora à direita do selecionador de tempo global, por exemplo, duração de duas semanas.",
         "helpActionMsg3": "<strong>Espaço de tempo dinâmico:</strong> o SLO é calculado para o espaço de tempo selecionado no selecionador de tempo global.",
@@ -670,7 +670,7 @@
         "target": "Destino:",
         "errorBudgetSpent": "Orçamento gasto com erro",
         "errorBudget": "Orçamento com erro:",
-        "timeWindow": "Espaço de tempo",
+        "timeWindow": "Período de tempo",
         "timeWindowType": "Espaço de tempo desconhecido",
         "timeWindowType_dynamic": "Espaço de tempo dinâmico",
         "timeWindowType_rolling": "Espaço de tempo contínuo",
@@ -687,6 +687,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "Pelo menos uma expressão de filtro deve ser configurada.",
       "timeBased": "Baseado em tempo",
       "eventBased": "Baseado em evento",
+      "sloLite": "SLO Lite",
       "sloLegacy": "SLO legado",
       "slo": "SLO",
       "monitoringSourceSelector": {
@@ -705,7 +706,7 @@
       },
       "widgetLeftHeader": {
         "previewDataInfo": "Os dados de visualização são mostrados apenas até 7 dias no passado. O widget final incluirá apenas dados desde a criação do SLI.",
-        "liveDataInfo": "Os dados ativos estão indisponíveis para dados de Orçamento de Erro"
+        "liveDataInfo": "Os dados em tempo real não estão disponíveis para dados de orçamento com erro"
       },
       "boundaryScopeConfigurator": {
         "all": {
@@ -713,34 +714,34 @@
           "description": "Chamadas executadas dentro desta aplicação, tanto pelos consumidores quanto internamente."
         },
         "inbound": {
-          "title": "Chamadas de entrada",
+          "title": "Chamadas recebidas",
           "description": "Apenas chamadas executadas pelos consumidores desta aplicação."
         }
       }
     },
     "apdex": {
-      "title": "Apdex: Gráfico",
+      "title": "Apdex: gráfico",
       "chart": {
         "metricLabel": "Apdex",
-        "viewInAnalyze": "Visualizar em Análises",
+        "viewInAnalyze": "Visualização em análise",
         "noDataRetentionPeriod": "Intervalo de tempo selecionado está além do período de retenção de dados",
         "notFoundErrorTitle": "O Apdex configurado não foi localizado",
         "notFoundErrorDescription": "Atualize o widget Apdex selecionando outra configuração do Apdex"
       },
       "demo": {
-        "title": "Apdex para Produção",
-        "entityLabel": "Loja de Robô"
+        "title": "Apdex para produção",
+        "entityLabel": "Loja de robô"
       },
       "apdexConfigInfo": {
         "tagFilterLabel": "Filtro",
         "apdexNameLabel": "Nome do Apdex",
-        "apdexTypeLabel": "Tipo de Adex",
+        "apdexTypeLabel": "Tipo de Apdex",
         "thresholdLabel": "Limite"
       },
       "formComponent": {
         "title": "Configuração do Apdex",
-        "entityTypeTitle": "Tipo de Adex",
-        "manageListTitle": "Gerenciamento do Apdex",
+        "entityTypeTitle": "Tipo de Apdex",
+        "manageListTitle": "Gerenciamento de Apdex",
         "createApdex": "Criar configuração do Apdex",
         "editApdex": "Editar configuração do Apdex"
       },
@@ -765,7 +766,7 @@
         "cardTitle": "Configuração do Apdex",
         "nameColumn": "Configuração do Apdex",
         "thresholdColumn": "Limite",
-        "confirmDeleteHeader": "Confirme",
+        "confirmDeleteHeader": "Confirmar remoção",
         "confirmDeleteMessage": "Tem certeza de que deseja excluir {{apdex}}?",
         "editApdexTooltip": "Editar/clonar configuração do Apdex",
         "deleteApdexTooltip": "Excluir configuração do Apdex",
@@ -857,7 +858,7 @@
       },
       "form": {
         "validationError": "Selecione um aplicativo.",
-        "header": "Selecione os Aplicativos que você deseja monitorar",
+        "header": "Selecione os aplicativos que você deseja monitorar",
         "addApplication": "Incluir aplicativo",
         "selectApplication": "Selecionar aplicativo",
         "secondaryHeadingText": "Os aplicativos selecionados serão ordenados com base na maior gravidade",
@@ -891,7 +892,7 @@
         "helpAction": "Uma consulta de foco dinâmico (DFQ) como você usaria dentro da visualização do evento.",
         "query": "Consultar",
         "columns": "Selecionar colunas",
-        "pleaseSelect": "Selecione",
+        "pleaseSelect": "Selecionar",
         "validators": {
           "theValueMustNotBeEmpty": "Pelo menos uma coluna precisa ser selecionada"
         },
@@ -899,13 +900,13 @@
           "entityType": "Tipo de entidade",
           "viewTable": "Visualize a tabela completa em <analyzeInfraLink>Analisar infraestrutura</analyzeInfraLink>.",
           "tableSize": "Tamanho da tabela",
-          "tableConfiguration": "Configuração da tabela",
+          "tableConfiguration": "Configuração de tabela",
           "tableDetails": "Detalhes da tabela",
           "showResult": "Mostrando {{loadedItems}} de {{totalItems}} resultados",
           "loadingEntities": "Carregando entidades",
           "datasets": "Conjuntos de dados",
           "sortBy": "Classificar por",
-          "sortDirection": "Direção da classificação",
+          "sortDirection": "Direção de classificação",
           "defaultSortingSuffix": "Nome",
           "validators": {
             "theValueMustBeUnique": "A métrica selecionada com o mesmo valor de agregação já foi adicionada. Selecione uma métrica diferente ou ajuste o valor de agregação para continuar."
@@ -923,9 +924,9 @@
       },
       "eventColumns": {
         "title": "Título",
-        "entityLabel": "Em (Entidade)",
+        "entityLabel": "Em (entidade)",
         "startedOn": "Iniciado em",
-        "endedOn": "Encerrado em",
+        "endedOn": "Terminado em",
         "duration": "Duração"
       },
       "kubernetesEventColumns": {
@@ -947,7 +948,7 @@
     }
   },
   "duplicateDashboardDialog": {
-    "duplicateDashboard": "Painel duplicado",
+    "duplicateDashboard": "Duplicar painel",
     "dashboardName": "Nome do painel",
     "duplicate": "Duplicar",
     "copyShareConfig": "Copiar configuração de compartilhamento",

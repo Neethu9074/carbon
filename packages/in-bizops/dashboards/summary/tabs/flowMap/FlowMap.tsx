@@ -136,9 +136,9 @@ export function FlowMapWrapper() {
           metric: 'activities_count',
           granularity: 0
         },
-        errors: {
-          metric: 'openIssues',
-          aggregation: 'DISTINCT_COUNT',
+        erroneous_call_count: {
+          metric: 'erroneous_call_count',
+          aggregation: 'SUM',
           granularity: 0
         },
         latency: {

@@ -8,6 +8,7 @@ import React from 'react';
 
 import { CarbonContainedList, CarbonContainedListItem, CarbonFilterableMultiSelect } from '@instana/components';
 import { createLogger } from '@instana/logger';
+import { RoleOverview } from '@instana/types';
 
 import {
   TeamRoleSelectionType,
@@ -16,7 +17,6 @@ import {
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoleDialog.types';
 import { AssignRolesProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoles.types';
 import { ApiTeamRole } from 'in-settings/tabs/SecurityAndAccess/api/teams';
-import { Role } from 'in-settings/tabs/SecurityAndAccess/api/rolesMocks';
 import { t } from 'in-i18n';
 
 import locals from './AssignRoles.mless';
@@ -36,19 +36,19 @@ const defaultFilterItems = (
 };
 
 // Will be removed once backend API also returns role name besides id
-const getRoleName = (roles: Array<Role>, roleId: string) => {
+const getRoleName = (roles: Array<RoleOverview>, roleId: string) => {
   logger.warn('Temporary function to be removed when user name and role name are available through team API');
   const role = roles.find(role => role.id === roleId);
   return role ? role.name : '';
 };
 
-const createInitialSelectedItems = (roles: Array<Role>, roleIds: Array<ApiTeamRole>) => {
+const createInitialSelectedItems = (roles: Array<RoleOverview>, roleIds: Array<ApiTeamRole>) => {
   return roleIds.map(roleId => {
     return { id: roleId.roleId, text: getRoleName(roles, roleId.roleId) };
   });
 };
 
-const createMultiSelectItems = (roles: Array<Role>) => {
+const createMultiSelectItems = (roles: Array<RoleOverview>) => {
   return roles.map(role => {
     return {
       id: role.id,

@@ -200,6 +200,12 @@ export const mobileAppSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertFullScreenDesignEnabled'
 );
 
+// Dialog view default for all smart alert
+export const isSmartAlertDialogViewDefaultEnabled = isFeatureFlagEnabled('isSmartAlertDialogViewDefaultEnabled');
+
+// Dialog view for log smart alert
+export const logSmartAlertDialogViewEnabled = isFeatureFlagEnabled('logSmartAlertDialogViewEnabled');
+
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
 
@@ -327,4 +333,4 @@ export const accessControlCarbonTable = isFeatureFlagEnabled('accessControlCarbo
 export const idpConfigV2Enabled = isFeatureFlagEnabled('idpConfigV2Enabled', false);
 export const sloLiteEnabled = isFeatureFlagEnabled('sloLiteEnabled', false);
 export const sloFullEnabled = isFeatureFlagEnabled('sloFullEnabled', true);
-export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled', true);
+export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled', false);

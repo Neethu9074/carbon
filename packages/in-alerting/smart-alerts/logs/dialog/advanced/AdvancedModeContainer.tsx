@@ -52,7 +52,8 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     setSliderState,
     setCustomSlideInHeaderConfig,
     onChartViewConfigChange,
-    selectedChartViewConfigIndex
+    selectedChartViewConfigIndex,
+    TagBasedPayloadConfigurator
   } = props;
   const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const tagCatalog = useTagCatalog('SMART_ALERTS');
@@ -189,7 +190,12 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           content: (
             <>
               <GlobalCustomPayloadCard context="LOG" />
-              <AlertConfigCustomPayload form={form} setForm={updateForm} supportDynamicTypes={false} />
+              <AlertConfigCustomPayload
+                form={form}
+                setForm={updateForm}
+                TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+                supportDynamicTypes
+              />
             </>
           )
         }

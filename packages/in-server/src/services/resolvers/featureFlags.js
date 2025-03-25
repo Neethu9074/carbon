@@ -117,7 +117,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'prcIssueEnabled',
-    instanaCtlKey: 'feature.root.cause.identification.scheduler.enabled',
+    instanaCtlKey: 'feature.root.cause.identification.tab.enabled',
     defaultValue: false
   },
   {
@@ -589,7 +589,7 @@ module.exports = exports = [
   {
     uiClientKey: 'zoomWidgetEnabled',
     instanaCtlKey: 'feature.zoom.widget.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonTooltipEnabled',
@@ -774,17 +774,27 @@ module.exports = exports = [
   {
     uiClientKey: 'alertChannelPerSeverityWebsiteSaEnabled',
     instanaCtlKey: 'feature.alert.channel.per.severity.website.sa.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'alertChannelPerSeverityMobileAppSaEnabled',
     instanaCtlKey: 'feature.alert.channel.per.severity.mobile.app.sa.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'alertChannelPerSeverityLogSaEnabled',
     instanaCtlKey: 'feature.alert.channel.per.severity.log.sa.enabled',
-    defaultValue: false
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'isSmartAlertDialogViewDefaultEnabled',
+    instanaCtlKey: 'feature.is.smart.alert.dialog.view.default.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'logSmartAlertDialogViewEnabled',
+    instanaCtlKey: 'feature.log.smart.alert.dialog.view.enabled',
+    defaultValue: true
   },
   {
     uiClientKey: 'perEntityInfraSmartAlertsEnabled',

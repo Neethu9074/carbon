@@ -63,15 +63,15 @@
   "labelScope": "범위",
   "labelCustomServiceRules": "사용자 정의 서비스 규칙",
   "labelSyntheticEndpoints": "합성 엔드포인트",
-  "titleTopServices": "상위 서비스",
+  "titleTopServices": "주요 서비스",
   "titleMeanLatency": "평균 대기 시간",
   "titleErroneousCallRate": "잘못된 호출 비율",
-  "titleTopStatements": "상위 명령문",
+  "titleTopStatements": "최상위 명령문",
   "titleProcessingTime": "처리 시간",
   "titleCustomHTTPRule": "사용자 정의 HTTP 규칙",
   "titleTopEndpoints": "상위 엔드포인트",
   "titleRuleTester": "규칙 테스터",
-  "titleTotalCalls": "총 호출",
+  "titleTotalCalls": "총 호출 수",
   "titleErroneousCalls": "잘못된 호출",
   "titleAvgLatency": "평균 대기 시간",
   "titleConfigureCustomServiceRules": "사용자 정의 서비스 규칙 구성",
@@ -103,6 +103,7 @@
   "buttonConfigureEndpoints": "엔드포인트 구성",
   "buttonAnalyzeMessages": "메시지 분석",
   "buttonSave": "저장",
+  "buttonDelete": "삭제",
   "buttonAdd": "추가",
   "buttonDeleteRule": "규칙 삭제",
   "buttonAddTest": "테스트 추가",
@@ -215,6 +216,7 @@
   },
   "inboundOutboundCalls": {
     "config": {
+      "selectBoundaryScope": "애플리케이션 경계 범위 선택",
       "inbound": {
         "text": "인바운드 호출"
       },
@@ -301,7 +303,25 @@
     "dataSource_traces": "{{formattedCount}}개 추적",
     "dataSource_traces_plural": "{{formattedCount}}개 추적",
     "analyzeCallsOfThisTrace": "이 추적의 호출 분석",
-    "noAvailableCustomMetrics": "사용 가능한 사용자 정의 메트릭 없음"
+    "noAvailableCustomMetrics": "사용 가능한 사용자 정의 메트릭 없음",
+    "filters": "필터",
+    "saveFiltersTitle": "필터 저장",
+    "saveFiltersDescription": "추가한 필터를 테넌트의 모든 사용자가 사용할 수 있는 쿼리로 저장",
+    "savedFilters": "저장된 필터",
+    "filtersSavedTitle": "필터가 성공적으로 저장됨",
+    "filtersSavedMessage": "이제 테넌트의 모든 사용자가 '{{filterName}}' 필터를 사용할 수 있음",
+    "includeGroup": "그룹 포함",
+    "enterFilterName": "필터 이름 입력",
+    "editFilterTitle": "필터 이름 편집",
+    "editFilterDescription": "변경사항은 이 테넌트의 모든 사용자에게 업데이트됩니다.",
+    "filtersUpdatedTitle": "{{filterName}}이(가) 성공적으로 업데이트됨",
+    "zeroResults": "{{searchTerm}}에 대한 검색 결과 0",
+    "noSavedFilters": "아직 저장된 필터가 없음",
+    "addSomeFilters": "필터를 추가하고 저장을 클릭하면 시작됩니다.",
+    "tryAdjustingSearch": "검색어를 조정하십시오.",
+    "deleteFilterModalLabel": "필터 삭제 확인",
+    "deleteConfirmation": "<i>{{filterName}}</i> 필터를 삭제하시겠습니까? 이 테넌트의 모든 사용자에 대해 필터가 삭제됩니다.",
+    "actionCannotBeUndone": "이 조치는 실행 취소할 수 없습니다."
   },
   "creation": {
     "newAP": "새 애플리케이션 퍼스펙티브",
@@ -462,7 +482,7 @@
     "advanced": {
       "defineName": "1. 애플리케이션 퍼스펙티브에 대한 이름을 정의하십시오.",
       "apName": "애플리케이션 퍼스펙티브 이름",
-      "apNameDescription": "애플리케이션 퍼스펙티브 이름에는 조직 내에서 올바르게 설정된 정의가 있어야 합니다. 예를 들어, 환경을 모델링하려면: \"프로덕션 블루\", 서비스 세트를 모델링하려면: \"지불\" 또는 테넌트를 모델링하려면: \"ACME 고객\".",
+      "apNameDescription": "애플리케이션 퍼스펙티브 이름에는 조직 내에서 올바르게 설정된 정의가 있어야 합니다. 예를 들어, 환경을 모델링하려면 \"Production Blue\", 서비스 세트를 모델링하려면 \"Payment\", 테넌트를 모델링하려면 \"ACME Customer\"를 사용하십시오.",
       "defineUsingTags": "2. 하나 이상의 태그를 사용하여 애플리케이션 퍼스펙티브를 정의하십시오.",
       "defineUsingTagsDescription": "예를 들어, 키가 \"docker.label\"이고 값이 \"environment=Production Blue\"이거나 키가 \"call.http.params\"이고 값이 \"tenant=ACMECustomer\"인 경우입니다. 이 정의와 일치하는 서비스의 <pill-database>데이터베이스</pill-database> 서비스 또는 <pill-messaging>메시징</pill-messaging> 서비스에 대한 호출은 자동으로 포함된다는 점을 참고하십시오.",
       "defineUsingTagsContributionFilterDescription": "컨트리뷰션 필터 내의 태그는 귀하의 액세스 권한에서 상속되며 수정할 수 없습니다. 컨트리뷰션 필터를 선택한 후 구성에 더 많은 태그를 추가하십시오.",
@@ -477,6 +497,7 @@
       "messaging": "메시징"
     },
     "scope": {
+      "selectDownstreamServices": "다운스트림 서비스 선택",
       "optionNoDownStreamServices": "다운스트림 서비스 없음",
       "optionImmediateDownstreamServices": "즉각적 다운스트림 데이터베이스 및 메시지 전달 서비스",
       "optionAllDownstreamServices": "모든 다운스트림 서비스"
@@ -532,7 +553,7 @@
     "earlyRuleResultWithQuery": "이전 규칙 \"{{query}}\" 패스",
     "earlyRuleResult": "이전 규칙 패스",
     "testFailed": "테스트 실패",
-    "testPassed": "테스트 패스",
+    "testPassed": "테스트 성공",
     "noTestDefined": "테스트가 정의되지 않음",
     "allTestsPassed": "모든 테스트 패스",
     "allTestsFailed": "모든 테스트 실패",
@@ -640,8 +661,8 @@
       "summary": {
         "duplicateCalls": "중복 호출",
         "duplicateCallsDesc": "이 추적은 하나 이상의 중복 호출로 구성되어 있습니다(범위). 고유 호출: {{traceCallCountIgnoringBatchSize}} - 레코드: {{traceCallRecordCount}}. 이로 인해 호출 개수(일괄처리 포함) 및 오류 개수 값이 잘못되거나 기타 이상이 발생할 수 있습니다.",
-        "batchedIngestion": "일괄처리된 수집",
-        "traceIngestionBatchCount": "이 추적은 {{traceIngestionBatchesCount}} 일괄처리에서 처리되었습니다. 단일 호출로 병합되지 않은 범위, 부분 서비스 맵핑 또는 기타 불완전 데이터 표시와 같은 불규칙성이 발생할 수 있습니다.",
+        "batchedIngestion": "일괄 수집",
+        "traceIngestionBatchCount": "이 추적은 {{traceIngestionBatchesCount}}개 일괄처리에서 처리되었습니다. 이로 인해 여러 스팬이 단일 호출로 병합되지 않거나, 일부 서비스 맵핑이 적용되거나, 기타 불완전한 데이터가 표시되는 등의 불규칙성이 발생할 수 있습니다.",
         "subCalls": "하위 호출",
         "erroneousCalls": "잘못된 호출",
         "errorLogs": "오류 로그",
@@ -653,7 +674,7 @@
         "largeTraceLink": "이 추적은 대형이며 이 추적을 렌더링하면 브라우저 내의 성능에 문제가 발생할 수 있습니다. 수동으로 조사하려는 경우 <linkToDocs>추적을 다운로드</linkToDocs>하거나 브라우저 내에서 추적 렌더링을 시도할 수 있습니다. 이 시도의 성능을 높이기 위해 컴포넌트의 서브세트만 렌더링합니다.",
         "calls": "호출",
         "attemptToRenderTrace": "추적을 렌더링하는 시도",
-        "analyzeBeacons": "비콘 분석",
+        "analyzeBeacons": "비컨 분석",
         "adjustedTimeConfigForTrace": "선택한 추적의 모든 호출을 포함하도록 시간 범위가 조정되었습니다.",
         "adjustedTimeConfigForBeacon": "선택한 비콘을 포함하도록 시간 범위가 조정되었습니다.",
         "timeLineViewNotAvailable": "{{maximumNumberOfCallsForLargeTraceConsideration}} 이상의 추적입니다. 시간대 보기를 사용할 수 없습니다. 선택한 호출 및 해당 호출의 직계 동위 항목만 초기에 표시됩니다."

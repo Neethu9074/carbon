@@ -12,3 +12,7 @@
     }
   }
 }
+
+:global .cds--list-box__menu {
+  z-index: 3;
+}

@@ -54,7 +54,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
 
   return (
     <Fragment>
-      <KpiGridRow sizes={mobileAppCrashBeaconEnabled ? [true, true, true, true, true] : [4, 4, 4]}>
+      <KpiGridRow sizes={mobileAppCrashBeaconEnabled ? [2, 2, 2, 3, 3] : [4, 4, 4]}>
         <MobileAppBigNumberCard
           title={t('in-mobile-apps:dashboard.tabs.sessionStartsTitle')}
           metric={'sessions'}
@@ -205,59 +205,57 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
           />
         )}
         {mobileAppCrashBeaconEnabled && (
-          <Col xs>
-            <MobileAppBigNumberCard
-              title={t('in-mobile-apps:dashboard.tabs.crashAffectedUserRateTitle')}
-              metric={'crashAffectedUserRate'}
-              aggregation={'MEAN'}
-              formatter={percentage.detailed}
-              companionMetric={'crashAffectedUserCount'}
-              companionAggregation={'DISTINCT_COUNT'}
-              companionFormatter={v =>
-                t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
-                  formattedCount: number.compact(v),
-                  count: v
+          <MobileAppBigNumberCard
+            title={t('in-mobile-apps:dashboard.tabs.crashAffectedUserRateTitle')}
+            metric={'crashAffectedUserRate'}
+            aggregation={'MEAN'}
+            formatter={percentage.detailed}
+            companionMetric={'crashAffectedUserCount'}
+            companionAggregation={'DISTINCT_COUNT'}
+            companionFormatter={v =>
+              t('in-mobile-apps:dashboard.tabs.uniqueUserCount', {
+                formattedCount: number.compact(v),
+                count: v
+              })
+            }
+            comparisonColors={{
+              decreaseColor: blue.id,
+              increaseColor: blue.id
+            }}
+            tagFilters={tagFilters}
+            timeConfig={timeConfig}
+            iconAction={{
+              text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
+              kind: 'subtle',
+              icon: 'lib_analyze',
+              href:
+                tagCatalogCrash &&
+                getLinkToMobileAppAnalyze({
+                  beaconType: 'crash',
+                  formModel: translateDemocratisationTagFiltersToFormModel({
+                    mobileAppLabel,
+                    tagFilters,
+                    tagCatalog: tagCatalogCrash
+                  }),
+                  groupBy: {
+                    groupbyTag: 'mobileBeacon.crash.groupLabel'
+                  },
+                  fields: [
+                    {
+                      metricId: 'uniqueUsersOrSessions',
+                      aggregationId: 'DISTINCT_COUNT',
+                      type: metricType
+                    }
+                  ],
+                  chartedMetrics: [
+                    {
+                      metricId: 'uniqueUsersOrSessions',
+                      aggregationId: 'DISTINCT_COUNT'
+                    }
+                  ]
                 })
-              }
-              comparisonColors={{
-                decreaseColor: blue.id,
-                increaseColor: blue.id
-              }}
-              tagFilters={tagFilters}
-              timeConfig={timeConfig}
-              iconAction={{
-                text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
-                kind: 'subtle',
-                icon: 'lib_analyze',
-                href:
-                  tagCatalogCrash &&
-                  getLinkToMobileAppAnalyze({
-                    beaconType: 'crash',
-                    formModel: translateDemocratisationTagFiltersToFormModel({
-                      mobileAppLabel,
-                      tagFilters,
-                      tagCatalog: tagCatalogCrash
-                    }),
-                    groupBy: {
-                      groupbyTag: 'mobileBeacon.crash.groupLabel'
-                    },
-                    fields: [
-                      {
-                        metricId: 'uniqueUsersOrSessions',
-                        aggregationId: 'DISTINCT_COUNT',
-                        type: metricType
-                      }
-                    ],
-                    chartedMetrics: [
-                      {
-                        metricId: 'uniqueUsersOrSessions',
-                        aggregationId: 'DISTINCT_COUNT'
-                      }
-                    ]
-                  })
-              }}
-            />
-          </Col>
+            }}
+          />
         )}
       </KpiGridRow>
 

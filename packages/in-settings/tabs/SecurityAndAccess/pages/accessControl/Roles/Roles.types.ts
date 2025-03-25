@@ -4,14 +4,15 @@
  * Copyright IBM Corp. 2025
  */
 
+import { RoleOverview } from '@instana/types';
+
 import {
   DataTableHeader,
   OverflowMenuItemProps
 } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
-import { Role } from 'in-settings/tabs/SecurityAndAccess/api/rolesMocks';
 
 export interface RolesTableHeader extends DataTableHeader {
-  key: keyof Role;
+  key: keyof RoleOverview;
 }
 
 export interface RolesMenuItem extends OverflowMenuItemProps {

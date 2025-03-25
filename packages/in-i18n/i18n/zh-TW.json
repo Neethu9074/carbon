@@ -20,6 +20,7 @@
       "tableLoadMoreRow": {
         "loadMore": "載入更多"
       },
+      "filterTable": "過濾表格",
       "dataTable": "資料表",
       "expandHeader": "展開列",
       "expandRow": "切換展開列",

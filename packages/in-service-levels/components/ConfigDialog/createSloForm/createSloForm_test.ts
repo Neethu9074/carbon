@@ -177,7 +177,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       // Then
       expect(entityTypeValue).toEqual('website');
       expect(entityIdIdValue).toEqual('22222');
-      expect(beaconTypeValue).toEqual('pageLoad');
+      expect(beaconTypeValue).toEqual('httpRequest');
       expect(boundaryScopeValue).toEqual('INBOUND');
       expect(includeInternalValue).toEqual(false);
       expect(includeSyntheticValue).toEqual(false);
@@ -232,7 +232,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       // Then
       expect(entityTypeValue).toEqual('application');
       expect(entityIdIdValue).toEqual('11111');
-      expect(beaconTypeValue).toEqual('pageLoad');
+      expect(beaconTypeValue).toEqual('httpRequest');
       expect(boundaryScopeValue).toEqual('ALL');
       expect(includeInternalValue).toEqual(true);
       expect(includeSyntheticValue).toEqual(false);

@@ -11,6 +11,7 @@
     "pageTitle": "Surveillance métier",
     "cardTitle": "Processus métier",
     "theId": "ID du processus",
+    "theVersion": "La version du processus",
     "hasBeenCopied": "a été copié avec succès dans le presse-papiers",
     "activityLabel": "Activités",
     "nameLabel": "Nom",
@@ -141,7 +142,14 @@
       }
     },
     "flowMap": {
-      "tabLabel": "Flux"
+      "zoomIn": "Zoom avant",
+      "zoomOut": "Zoom arrière",
+      "zoomReset": "Réinitialisation du zoom",
+      "count": "Nombre",
+      "errors": "Erreurs",
+      "latency": "Temps d'attente",
+      "tabLabel": "Flux",
+      "loadMore": "Charger plus"
     }
   }
 }

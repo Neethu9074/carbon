@@ -7,6 +7,8 @@ import React, { ReactNode } from 'react';
 
 import { IconButton } from '@instana/components';
 
+import { t } from 'in-i18n';
+
 import './DownloadButton.less';
 
 const block = 'in-download-button';
@@ -35,7 +37,8 @@ export default class extends React.Component<Props> {
         <IconButton
           className={`${block}__icon`}
           type="lib_actions_download"
-          color="#6b8088"
+          kind="action"
+          aria-label={t('in-components:downloadBtn.downloadAriaLabel')}
           onClick={() => this.setState({ isExpanded: !isExpanded })}
         />
         {isExpanded ? <div className={`${block}__popup`}>{this.props.children}</div> : null}

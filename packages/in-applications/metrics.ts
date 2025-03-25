@@ -39,6 +39,41 @@ export function getResolvedTimeConfig(timeConfig: TimeConfig, resultOrTime: numb
   };
 }
 
+/**
+ * Extend the given time range to include a timestamp
+ * @param timeConfig time range
+ * @param timeToInclude point in time to extend the timeframe to
+ * @param extendBefore allow extending the time range to the past of timeConfig
+ * @param extendAfter allow extending the time range to the future of timeConfig
+ */
+export function extendTimeConfigToInclude(
+  timeConfig: TimeConfig,
+  timeToInclude?: number,
+  extendBefore: boolean = true,
+  extendAfter: boolean = true
+): TimeConfig {
+  const { to, windowSize } = timeConfig;
+  if (!timeToInclude || !to) {
+    return timeConfig;
+  }
+  const from = to - windowSize;
+  if (extendBefore && timeToInclude < from) {
+    return {
+      ...timeConfig,
+      windowSize: to - timeToInclude
+    };
+  }
+  if (extendAfter && to && timeToInclude > to) {
+    return {
+      ...timeConfig,
+      to: timeToInclude,
+      focusedMoment: timeToInclude,
+      windowSize: timeToInclude - from
+    };
+  }
+  return timeConfig;
+}
+
 export const getSparkChartGranularity = getChartGranularity;
 
 export function extendMetricConfigurationOnLiveMode(metricsConfiguration: MetricsConfiguration): MetricsConfiguration {

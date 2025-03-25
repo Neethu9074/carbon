@@ -20,6 +20,7 @@
       "tableLoadMoreRow": {
         "loadMore": "추가 로드"
       },
+      "filterTable": "필터 테이블",
       "dataTable": "데이터 테이블",
       "expandHeader": "행 펼치기",
       "expandRow": "행 펼치기 토글",

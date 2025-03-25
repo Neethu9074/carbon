@@ -109,7 +109,6 @@
       "remainingBudget": "剩余",
       "totalBudget": "错误预算",
       "consumedBudget": "使用的错误预算",
-      "momentaryBudgetConsumption": "错误预算消耗",
       "beaconCount": "信标计数",
       "calls": "调用数",
       "latency": "等待时间",
@@ -146,7 +145,7 @@
       "event_test_plural": "{{count}} 测试"
     },
     "deleteDialog": {
-      "confirmRemove": "请确认",
+      "confirmRemove": "确认移除",
       "confirmRemoveMsg": "确定要删除 <strong>{{name}}</strong> 吗？",
       "delete": "删除"
     }
@@ -172,11 +171,11 @@
     "selectEntityTitle": "选择要向其添加 SLO 的实体：",
     "selectScopeNavItem": "设置作用域",
     "SelectServiceandEndpoint": "选择服务和端点",
-    "selectIndicatorNavItem": "设置指示符",
+    "selectIndicatorNavItem": "设置指标",
     "beaconTypes": {
-      "beaconLabel_httpRequest": "HTTP 请求",
-      "beaconLabel_pageLoad": "Web 站点页面加载次数",
-      "beaconLabel_custom": "Web 站点定制事件数"
+      "beaconLabel_httpRequest": "HTTP 请求数",
+      "beaconLabel_pageLoad": "Web 站点页面装入",
+      "beaconLabel_custom": "Web 站点定制事件"
     },
     "serviceAndEndpoint": "服务和端点",
     "selectObjectiveTitle": "设置目标",
@@ -225,7 +224,7 @@
       "eventType": "事件类型",
       "thresholdLabel": "未知类型",
       "thresholdLabel_latency": "阈值 (ms)",
-      "thresholdLabel_availability": "出错率（百分比）",
+      "thresholdLabel_availability": "错误率 (%)",
       "setGoodCall": "设置对服务的正确调用",
       "setBadCall": "设置对服务的错误调用（可选）",
       "thresholdDescription_GT": "每分钟计数超过 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 即为表现良好的一分钟。 每分钟计数小于或等于 {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) 即为表现糟糕的一分钟。",
@@ -300,7 +299,7 @@
       "name": "名称",
       "entity": "实体",
       "blueprint": "蓝图",
-      "errorBudget": "错误预算剩余",
+      "errorBudget": "剩余错误预算",
       "status": "状态/目标",
       "tags": "标记"
     }
@@ -331,7 +330,7 @@
     },
     "components": {
       "errorBudgetKpiCard": {
-        "remainingBudget": "错误预算剩余",
+        "remainingBudget": "剩余错误预算",
         "totalBudget": "预算：{{value}}"
       },
       "sloStatusKpiCard": {

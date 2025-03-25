@@ -32,7 +32,7 @@ import Notification from 'in-components/form/Notification';
 import { pendingResult } from 'in-services/fixedObjects';
 import { saveAlertChannel } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
-import { getTeamsResult } from 'in-api/teams';
+import { getTeamsOverview } from 'in-api/teams';
 import entityForm from 'in-hoc/entityForm';
 import { t, Trans } from 'in-i18n';
 
@@ -54,10 +54,10 @@ function AlertChannelModificationForm(props) {
     setMinHeight = false
   } = props;
 
-  const dataResult = useObservable(getTeamsResult, []) ?? pendingResult;
+  const dataResult = useObservable(getTeamsOverview, []) ?? pendingResult;
   const teamsLoading = isLoading(dataResult);
   const teamsHasErrors = hasError(dataResult);
-  const teamsList = !teamsLoading && !teamsHasErrors ? dataResult : [];
+  const teamsList = !teamsLoading && !teamsHasErrors ? dataResult.data : [];
   const teamsAssigned = entity.get('rbacTags');
   const [selectedList, setSelectedList] = useState([]);
   useEffect(() => {
@@ -176,7 +176,7 @@ function AlertChannelModificationForm(props) {
                   onChange={data => onSelectionChanged(data.selectedItems)}
                   items={teamsList}
                   selectedItems={selectedList}
-                  itemToString={item => (item ? item.tag : '')}
+                  itemToString={item => (item ? item.name : '')}
                 />
               </div>
             </Section>

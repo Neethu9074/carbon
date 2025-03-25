@@ -10,6 +10,7 @@ import { Message, Stack } from '@instana/components';
 import { create } from '@instana/observables';
 
 import { getQueryBuilder, getGroupByQueryBuilder } from 'in-alerting/smart-alerts/logs/components/AlertQueryBuilder';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/logs/hooks/useTagBasedPayoadConfigurator';
 import { logsGroupbyTag, toUIGrouping } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
@@ -70,6 +71,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
     return chartTimeConfig;
   }, []);
 
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator();
   const groupingFilter = groupBy && toUIGrouping(logsGroupbyTag(groupBy));
 
   return (
@@ -191,7 +193,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
       <GlobalCustomPayloadCard context="LOG" />
       <CustomPayloadCard
         customPayloadFields={customPayloadFields}
-        TagBasedPayloadConfigurator={() => <></>}
+        TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
         openByDefault
       />
     </AlertDetailsCard>

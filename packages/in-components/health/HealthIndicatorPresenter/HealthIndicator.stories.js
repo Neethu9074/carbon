@@ -58,7 +58,8 @@ export function IconOnly() {
         <HealthIndicatorPresenter openIssues={0} maxSeverity={0} active iconOnly iconOnlySize="xxs" /> (size=xxs)
         <HealthIndicatorPresenter openIssues={0} maxSeverity={0} active iconOnly iconOnlySize="xs" /> (size=xs)
         <HealthIndicatorPresenter openIssues={0} maxSeverity={0} active iconOnly iconOnlySize="s" /> (size=s)
-        <HealthIndicatorPresenter openIssues={0} maxSeverity={0} active iconOnly iconOnlySize="regular" /> (size=regular)
+        <HealthIndicatorPresenter openIssues={0} maxSeverity={0} active iconOnly iconOnlySize="regular" />{' '}
+        (size=regular)
         <HealthIndicatorPresenter openIssues={0} maxSeverity={0} active iconOnly iconOnlySize="l" /> (size=l)
         <HealthIndicatorPresenter openIssues={0} maxSeverity={0} active iconOnly iconOnlySize="xl" /> (size=xl)
         <HealthIndicatorPresenter openIssues={0} maxSeverity={0} active iconOnly iconOnlySize="xxl" /> (size=xxl)

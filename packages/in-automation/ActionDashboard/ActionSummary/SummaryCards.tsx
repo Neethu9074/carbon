@@ -88,6 +88,7 @@ function SummaryCards({ data }: Readonly<SummaryCardsProps>) {
             title={t('in-automation:actionDashboard.lastModified')}
             value={formatDate(+modifiedAt * 1000)}
             companionValue={`at ${formatTime(+modifiedAt * 1000)}`}
+            minorClass={localStyles.customKPIMinor}
           />
         </CarbonColumn>
       </CarbonGrid>

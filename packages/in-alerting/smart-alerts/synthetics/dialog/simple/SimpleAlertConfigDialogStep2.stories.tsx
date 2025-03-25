@@ -14,13 +14,13 @@ import {
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import SimpleAlertConfigDialogStep2 from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep2';
 import { createBoundedAlertQueryBuilderFactory } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
+import { Default as AlertConfigValue } from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration.stories';
 import { tagSuggestionTimeConfig } from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialogWithThreshold';
-import { Default as AlertConfigValue } from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration.story';
 import alertFormDefinition from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
 import * as TestDataCatalog from 'in-alerting/smart-alerts/synthetics/api/tagCatalog_test.json';
 import { successObservableFactory } from 'in-services/util/result';
 
-const getTagCatalogTest = successObservableFactory((TestDataCatalog as unknown) as TagCatalog);
+const getTagCatalogTest = successObservableFactory(TestDataCatalog as unknown as TagCatalog);
 
 export default { component: SimpleAlertConfigDialogStep2 };
 

@@ -26,7 +26,7 @@
         "removeEditRightUserName": "Rimuovi autorizzazione in modifica a {{fullName}}.",
         "add": "Aggiungi",
         "addEditors": "Aggiungi editor",
-        "pleaseSelect": "Seleziona"
+        "pleaseSelect": "Selezionare"
       },
       "sharingDialogPresenter": {
         "editPermissions": "Modifica autorizzazioni",
@@ -42,13 +42,13 @@
     },
     "widgetEditorDialog": {
       "widgetConfiguration": {
-        "widgetName": "Nome del widget",
+        "widgetName": "Nome widget",
         "name": "Nome",
         "helpAction": "Scegliere un nome alternativo per questo widget che verrà riportato al di sopra del contenuto del widget.",
         "optional": "Facoltativo"
       },
       "widgetEditorDialogPresenter": {
-        "editWidget": "Modifica Widget",
+        "editWidget": "Modifica widget",
         "addWidget": "Aggiungi widget",
         "next": "Avanti",
         "confirm": "Conferma",
@@ -83,7 +83,7 @@
       "customDashboard": "Dashboard personalizzato",
       "customDashboardOptions": "Opzioni del dashboard personalizzate",
       "saveChange": "Salva le modifiche",
-      "discardChange": "Elimina modifiche",
+      "discardChange": "Ignorare le modifiche",
       "addWidget": "Aggiungi widget",
       "tvMode": "Modalità TV",
       "editName": "Modifica nome",
@@ -191,7 +191,7 @@
       },
       "formComponent": {
         "metric": "Metrica",
-        "eventCount": "Numero eventi",
+        "eventCount": "Conteggio eventi",
         "unnamedLog": "Metrica log senza nome",
         "aggregation": "Aggregazione",
         "pleaseSelectMetric": "Selezionare una metrica",
@@ -288,9 +288,9 @@
         "metric": "Metrica",
         "selectMetric": "Selezionare una metrica",
         "aggregation": "Aggregazione",
-        "successRate": "Frequenza operazioni riuscite",
+        "successRate": "Percentuale di successo",
         "locations": "Ubicazioni",
-        "responseTime": "Tempo di risposta",
+        "responseTime": "Tempo della risposta",
         "responsesize": "Dimensione risposta"
       },
       "index": {
@@ -397,7 +397,7 @@
         "darkRed": "Rosso Scuro",
         "blue": "Blu",
         "yellow": "Giallo",
-        "lightBlue": "Azzurro",
+        "lightBlue": "Blu chiaro",
         "green": "Verde",
         "red": "Rosso",
         "orange": "Arancione",
@@ -433,7 +433,7 @@
         "timeShift": "Spostamento temporale",
         "applyTimeShiftDs": "Applicare uno spostamento temporale a questa serie di dati",
         "timeShiftHelpAction": "Selezionando <strong>Visualizza i valori correnti</strong> si duplicherà automaticamente questa serie di dati sullo stesso asse. La prima serie di dati avrà lo spostamento del tempo disabilitato, la seconda avrà lo spostamento del tempo abilitato.",
-        "timeShiftDisabledWhilePPon": "Per utilizzare spostamento temporale è innanzitutto necessario disattivare l'evidenziazione dei Potenziali Problemi.",
+        "timeShiftDisabledWhilePPon": "Per utilizzare lo spostamento temporale è innanzitutto necessario disattivare l'evidenziazione dei potenziali problemi.",
         "displayCurrentValues": "Visualizza valori correnti"
       },
       "potentialProblems": {
@@ -450,7 +450,7 @@
       }
     },
     "demo": {
-      "pageLoads": "Caricamenti Pagina",
+      "pageLoads": "Caricamenti pagina",
       "onLoadTime": "Tempo OnLoad"
     },
     "index": {
@@ -479,11 +479,11 @@
         "formatter": "Programma di formattazione"
       },
       "index": {
-        "chartPie": "Grafico: A torta",
+        "chartPie": "Grafico: a torta",
         "testTitle": "Eventi",
         "testLegendItem1": "Incidenti",
-        "testLegendItem2": "Problemi: Critici",
-        "testLegendItem3": "Problemi: Avvertenza"
+        "testLegendItem2": "Problemi: critici",
+        "testLegendItem3": "Problemi: avvertenza"
       }
     },
     "slo": {
@@ -508,14 +508,14 @@
       },
       "demo": {
         "title": "Titolo SLO",
-        "sliName": "Esempio Sli",
+        "sliName": "Esempio SLI",
         "appName": "Nome applicazione di esempio"
       },
       "apConfigFormComp": {
-        "userJourneyOffering": "Percorso utente / Offerta",
-        "appnPerspective": "Prospettiva Applicazione",
-        "selectAppPerspect": "Selezionare una Prospettiva Applicazione.",
-        "appPerspectHelpAction": "Configurare i percorsi/offerte degli utenti modellandoli come una prospettiva dell'applicazione nell'area Applicazioni.",
+        "userJourneyOffering": "Percorso utente / offerta",
+        "appnPerspective": "Prospettiva applicazione",
+        "selectAppPerspect": "Selezionare una prospettiva applicazione.",
+        "appPerspectHelpAction": "Imposta i percorsi e le offerte degli utenti modellandoli come prospettiva di applicazione nell'area delle applicazioni.",
         "rbacHint": "Le applicazioni mostrate possono essere limitate dalle autorizzazioni.",
         "noAppPerspect": "Nessuna prospettiva applicazione.",
         "pleaseSelect": "Selezionare"
@@ -593,9 +593,9 @@
         "sliTimeBasedOrAnEventBasedSli": "Il tipo SLI deve essere un SLI basato sul tempo o su un evento.",
         "pleaseSelect": "Selezionare",
         "boundary": "Limite",
-        "hiddenCalls": "Chiamate Nascoste",
-        "includeInternalCalls": "Include Chiamate interne",
-        "includeSyntheticCalls": "Include Chiamate sintetiche",
+        "hiddenCalls": "Chiamate nascoste",
+        "includeInternalCalls": "Includi chiamate interne",
+        "includeSyntheticCalls": "Includi chiamate sintetiche",
         "type": "Tipo",
         "sliEntity": "Entità SLI",
         "beaconConfigLabel": "Configurazione beacon",
@@ -614,7 +614,7 @@
         "sliType": "Tipo di SLI",
         "viewCloneSliConfig": "Visualizza/clona configurazione dello SLI",
         "delSliConfig": "Elimina configurazione dello SLI",
-        "confirmRemove": "Confermare",
+        "confirmRemove": "Conferma rimozione",
         "confirmRemoveMsg": "Si è certi di voler eliminare <strong>{{sliName}}</strong>?",
         "delete": "Elimina",
         "eventBasedSli": "Basato sull'evento",
@@ -634,7 +634,7 @@
       "chart": {
         "spent": "Speso",
         "budget": "Budget",
-        "viewInAnalyze": "Visualizza in Analisi",
+        "viewInAnalyze": "Visualizza in Analizza",
         "configType": "SLI",
         "configType_apdex": "Apdex",
         "initialEvaluation": "{{configType}} creato",
@@ -687,6 +687,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "È necessario configurare almeno un'espressione filtro.",
       "timeBased": "Basato sul tempo",
       "eventBased": "Basato sull'evento",
+      "sloLite": "SLO Lite",
       "sloLegacy": "Legacy SLO",
       "slo": "SLO",
       "monitoringSourceSelector": {
@@ -765,7 +766,7 @@
         "cardTitle": "Configurazione apdex",
         "nameColumn": "Configurazione apdex",
         "thresholdColumn": "Soglia",
-        "confirmDeleteHeader": "Confermare",
+        "confirmDeleteHeader": "Conferma rimozione",
         "confirmDeleteMessage": "Si è certi di voler eliminare {{apdex}}?",
         "editApdexTooltip": "Modifica/Clona configurazione Apdex",
         "deleteApdexTooltip": "Elimina configurazione Apdex",
@@ -857,7 +858,7 @@
       },
       "form": {
         "validationError": "Selezionare un'applicazione",
-        "header": "Selezionare le applicazioni che si desidera monitorare.",
+        "header": "Selezionare le applicazioni che si desidera monitorare",
         "addApplication": "Aggiungi applicazione",
         "selectApplication": "Seleziona applicazione",
         "secondaryHeadingText": "Le applicazioni selezionate verranno ordinate in base alla maggiore severità.",
@@ -898,7 +899,7 @@
         "infrastructure": {
           "entityType": "Tipo di entità",
           "viewTable": "Visualizzare la tabella completa in <analyzeInfraLink>Analizza infrastruttura</analyzeInfraLink>.",
-          "tableSize": "Dimensione tabella",
+          "tableSize": "Dimensioni tabella",
           "tableConfiguration": "Configurazione tabella",
           "tableDetails": "Dettagli tabella",
           "showResult": "Visualizzazione di {{loadedItems}} di {{totalItems}} risultati",
@@ -924,7 +925,7 @@
       "eventColumns": {
         "title": "Titolo",
         "entityLabel": "Su (entità)",
-        "startedOn": "Iniziato il",
+        "startedOn": "Avviato il",
         "endedOn": "Terminato il",
         "duration": "Durata"
       },
@@ -950,7 +951,7 @@
     "duplicateDashboard": "Duplica dashboard",
     "dashboardName": "Nome dashboard",
     "duplicate": "Duplica",
-    "copyShareConfig": "Copia Configurazione condivisione",
+    "copyShareConfig": "Copia configurazione condivisione",
     "failedToCreateDashboard": "Impossibile creare un dashboard."
   },
   "newDashboardDialog": {

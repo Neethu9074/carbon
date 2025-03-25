@@ -8,14 +8,12 @@ import { createStore } from 'in-stores/store';
 
 export interface TermsAndPrivacyStore {
   walkmeAnalyticsServices: boolean | undefined;
-  assistmeGuidanceServices: boolean | undefined;
 }
 
 const termsAndPrivacyStore = createStore<TermsAndPrivacyStore>({
   name: 'termsAndPrivacy',
   initialValue: {
-    walkmeAnalyticsServices: window.instana.termsAndPrivacySettings?.walkmeAnalyticsServices ?? true,
-    assistmeGuidanceServices: window.instana.termsAndPrivacySettings?.assistmeGuidanceServices ?? true
+    walkmeAnalyticsServices: window.instana.termsAndPrivacySettings?.walkmeAnalyticsServices ?? false
   }
 });
 

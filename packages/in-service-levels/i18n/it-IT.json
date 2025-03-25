@@ -29,8 +29,8 @@
     "traffic": "Traffico",
     "indicator": {
       "type": "Tipo sconosciuto",
-      "type_eventBased": "Numero eventi",
-      "type_customEventBased": "Numero eventi",
+      "type_eventBased": "Conteggio eventi",
+      "type_customEventBased": "Conteggio eventi",
       "type_timeBased": "Ora",
       "blueprint": "Blueprint sconosciuto",
       "blueprint_latency": "Latenza",
@@ -108,20 +108,19 @@
       "status": "Stato",
       "remainingBudget": "Rimanente",
       "totalBudget": "Budget di errore",
-      "consumedBudget": "Budget di errore utilizzato",
-      "momentaryBudgetConsumption": "Consumo budget di errore",
+      "consumedBudget": "Budget di errori utilizzato",
       "beaconCount": "Conteggio beacon",
       "calls": "Chiamate",
       "latency": "Latenza",
       "beaconDuration": "Durata beacon",
       "threshold": "Soglia",
-      "failureRate": "Percentuale di errore",
+      "failureRate": "Frequenza errori",
       "errors": "Tasso di chiamate con errori",
       "beaconErrorRate": "Tasso di errore beacon",
       "goodEvents": "Eventi positivi",
       "badEvents": "Eventi negativi",
       "erroneousCalls": "Chiamate con errori",
-      "beaconErrorCount": "Conteggio errori beacon"
+      "beaconErrorCount": "Conteggio degli errori del beacon"
     },
     "format": {
       "unit_application": "chiamata",
@@ -146,7 +145,7 @@
       "event_test_plural": "test {{count}}"
     },
     "deleteDialog": {
-      "confirmRemove": "Confermare",
+      "confirmRemove": "Conferma rimozione",
       "confirmRemoveMsg": "Si è sicuri di voler eliminare <strong>{{name}}</strong>?",
       "delete": "Elimina"
     }
@@ -221,11 +220,11 @@
       "eventTypeExplanation_application": "Conteggio totale di chiamate valide rispetto a quelle non valide",
       "eventTypeExplanation_website": "Numero totale di beacon buoni rispetto ai negativi",
       "eventTypeExplanation_synthetic": "Numero totale di risultati buoni rispetto ai negativi",
-      "eventCount": "Numero eventi",
+      "eventCount": "Conteggio eventi",
       "eventType": "Tipo di evento",
       "thresholdLabel": "Tipo sconosciuto",
       "thresholdLabel_latency": "Soglia (ms)",
-      "thresholdLabel_availability": "Frequenza di errore (%)",
+      "thresholdLabel_availability": "Frequenza errore (%)",
       "setGoodCall": "Imposta chiamate valide a un servizio",
       "setBadCall": "Imposta chiamate non valide a un servizio (facoltativo)",
       "thresholdDescription_GT": "Un minuto buono è definito da un numero superiore a {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) per minuto. Un minuto negativo è definito da un numero inferiore o uguale a {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) per minuto.",
@@ -301,7 +300,7 @@
       "entity": "Entità",
       "blueprint": "Progetto iniziale",
       "errorBudget": "Budget di errore rimanente",
-      "status": "Stato/Destinazione",
+      "status": "Stato/destinazione",
       "tags": "Tag"
     }
   },

@@ -1,7 +1,7 @@
 {
   "affectedEntities": {
     "name": "名称",
-    "violatedCalls": "违规调用数",
+    "violatedCalls": "违规调用次数",
     "totalCallsInAlert": "警报作用域中的调用总数",
     "earliestTimestamp": "最早时间戳记"
   },
@@ -26,9 +26,9 @@
   "titleLastKnownProcess": "上次已知进程",
   "titleAnalyzeCustomEvents": "分析定制事件",
   "titleAnalyzeCrash": "分析崩溃",
-  "titleAnalyzeHTTPRequests": "分析 HTTP 请求数",
+  "titleAnalyzeHTTPRequests": "分析 HTTP 请求",
   "titleAnalyzeJsErrors": "分析 JS 错误",
-  "titleAnalyzePageLoads": "分析页面加载",
+  "titleAnalyzePageLoads": "分析页面装入",
   "titleAnalyzePageTransitions": "分析页面转换",
   "titleAnalyzeViewTransitions": "分析视图转换",
   "titleAnalyzeSessionStarts": "分析会话启动",
@@ -106,8 +106,8 @@
   "labelIncidents": "突发事件",
   "labelOpen": "打开",
   "labelClosed": "已关闭",
-  "labelIncidentWithSeverity": "{{severityLabel}} 事件 ({{stateLabel}})",
-  "labelIssueWithSeverity": "{{severityLabel}} 个问题",
+  "labelIncidentWithSeverity": "{{severityLabel}} 突发事件 ({{stateLabel}})",
+  "labelIssueWithSeverity": "{{severityLabel}} 问题",
   "labelChange": "更改",
   "labelCritical": "严重",
   "labelWarning": "警告",
@@ -123,7 +123,7 @@
   "buttonViewCustomEvent": "查看定制事件",
   "buttonViewBuiltInEvent": "查看内置事件",
   "buttonHideChanges": "隐藏更改",
-  "buttonShowChanges": "显示变更",
+  "buttonShowChanges": "显示更改",
   "buttonViewAlertConfig": "查看警报配置",
   "buttonFocusTimeToRelease": "关注版本时间",
   "buttonFollowReleaseLive": "实时关注版本",
@@ -143,6 +143,7 @@
   "unidentifiedEntityTooltip": "检索有关该实体的信息时出错。 您可以通过单击“不明实体”链接，访问该实体的仪表板，以了解更多详细信息。",
   "headerStatus": "状态",
   "eventHelpfulText": "此活动是否有帮助？",
+  "summaryHelpfulText": "此摘要是否有帮助？",
   "thankYouForYourFeedback": "谢谢您的反馈！",
   "hostOffLineEventProblemChangeTime": "单击下面的链接以转至 Instana 所监视的主机的最新版本。这样做会将时间窗口的开始时间更改为 Instana 监视该主机的时间点",
   "offLineEventProblemChangeTime": "单击下面的链接以转至 Instana 所监视的进程的最新版本。这样做会将时间窗口的开始时间更改为 Instana 监视该进程的时间点",
@@ -151,18 +152,16 @@
   "tooltipCloseEventDetail": "关闭事件详细信息",
   "releaseOccurName": "版本：{{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）",
-  "deprecatedCustomEventWarning": "<strong>不推荐使用实体类型“应用程序”、“服务”和“端点”上的定制事件。 从 2025 年 3 月起，这三种实体类型的自定义事件将被移除，您将不再收到此 {{issueOrIncident}}</strong><br/>请查看自定义事件配置，以迁移到智能警报。 <documentationLink>阅读文档中的更多信息</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>不推荐使用实体类型“应用程序”、“服务”和“端点”上的定制事件。 从 2025 年 3 月起，这三种实体类型的定制事件将被移除，您将不再收到此 {{issueOrIncident}}</strong><br/>请查看定制事件配置，以迁移到智能警报。 <documentationLink>阅读文档中的更多信息</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
-    "title": "{{deprecatedCustomEvents}} 个定制事件需要操作",
-    "message": "已弃用“应用程序”、“服务”和“端点”上的定制事件。 <strong>从 2025 年 3 月</strong>起，您将无法创建或更新这些类型的自定义事件。",
+    "title": "{{deprecatedCustomEvents}} 定制事件需要操作",
+    "message": "不推荐使用“应用程序”、“服务”和“端点”上的定制事件。 <strong>从 2025 年 3 月</strong>起，您将无法创建或更新这些类型的自定义事件。",
     "documentationLink": "<documentationLink>阅读文档中的更多信息</documentationLink>",
     "affectedEventsLink": "查看受影响的定制事件"
   },
   "multiClose": {
-    "itemsSelected": "所选项目",
     "closeIncidents": "关闭事件",
     "closeIssues": "关闭问题",
-    "cancelSelection": "取消",
     "incidentsCloseSuccessTitle": "已关闭的事件",
     "issuesCloseSuccessTitle": "已解决的问题",
     "multipleIncidentsCloseSuccessMessage": "{{count}} 事件已成功关闭。",
@@ -194,10 +193,10 @@
   "ibmMqFileTransfer": {
     "transferID": "传输标识",
     "sourceAgent": "源代理",
-    "destinationAgent": "目标代理",
+    "destinationAgent": "目标代理程序",
     "originator": "发起方",
     "status": "状态",
-    "failedFileTransfers": "失败文件传输数"
+    "failedFileTransfers": "失败的文件传输"
   },
   "navigatorSplitScreen": {
     "tooltipViewPrevious_event": "查看上一个事件（快捷键：左方向键）",
@@ -220,7 +219,7 @@
     "logs": "日志"
   },
   "syntheticSmartAlerts": {
-    "failedStatusMetric": "“已失败”状态"
+    "failedStatusMetric": "失败状态"
   },
   "RCA": {
     "titlePRCA": "可能的根本原因",
@@ -229,7 +228,7 @@
     "thankYouForYourFeedback": "谢谢您的反馈！",
     "performanceConstantlyEvaluated": "在 Beta 期间，正在积极评估和改进性能。 请留下反馈，以帮助我们更好地改进人工智能",
     "probableRootCauseLabel": "{{entity_type}} 出错：",
-    "relatedEventsLabel": "关联事件 ({{number_of_events}})",
+    "relatedEventsLabel": "关联事件（{{number_of_events}} 个）",
     "relatedMessagesAndLogsLabel": "错误和日志",
     "entitiesNumber": "实体",
     "probabilityLevelText": "概率等级：",
@@ -272,12 +271,9 @@
     "analyzeTraceLogs": "分析跟踪日志",
     "analyzeApplicationLogs": "分析应用程序日志",
     "topology": {
+      "overviewTab": "概述",
       "viewTopology": "查看拓扑",
       "dialogTitle": "拓扑",
-      "overviewTab": "概述",
-      "rootCauseOne": "根本原因 1",
-      "rootCauseTwo": "根本原因 2",
-      "rootCauseThree": "根本原因 3",
       "failedToLoadTitle": "加载拓扑失败",
       "failedToLoadDescription": "由于数据检索错误，拓扑数据加载失败。 由于数据保留政策的原因，它有可能已不复存在。",
       "legendRCA": "根本原因实体",
@@ -430,5 +426,9 @@
   },
   "relatedEvents": {
     "openEvent": "打开事件"
+  },
+  "consentForm": {
+    "consentText": "您必须接受生成式 AI 协助预览程序协议中的条款才能使用此功能。",
+    "consentButton": "查看协议"
   }
 }

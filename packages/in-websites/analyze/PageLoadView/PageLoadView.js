@@ -26,6 +26,7 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { shorten, isNotBlank } from 'in-services/util/string';
 import { hasError, isLoading } from 'in-services/util/result';
+import { formatPathWithTU } from 'in-services/formatters/url';
 import DashboardHeader from 'in-components/DashboardHeader';
 import getTabs from 'in-websites/analyze/PageLoadView/tabs';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -210,9 +211,9 @@ function renderButtonLine(props) {
       icon="lib_actions_download"
       kind="secondary"
       target="_blank"
-      href={`/api/website-monitoring/page-load;id=${encodeURIComponent(pageLoadId)};timestamp=${encodeURIComponent(
-        beaconTimestamp
-      )}?pretty`}
+      href={`${formatPathWithTU('/api/website-monitoring/page-load')};id=${encodeURIComponent(
+        pageLoadId
+      )};timestamp=${encodeURIComponent(beaconTimestamp)}?pretty`}
     >
       {t('in-websites:analyze.analyzeView.pageLoadView.buttonDownload')}
     </Button>

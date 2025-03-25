@@ -171,7 +171,6 @@ router.get('/', async (req, res) => {
       reportingData,
       starredItems,
       getLicenseInfo,
-      getEnvironmentInfo,
       clientConfig
     ] = await (subRequestPromises || initializeSubRequestPromises(req));
 
@@ -185,14 +184,11 @@ router.get('/', async (req, res) => {
     const activeLicenseInfo = JSON.parse(getLicenseInfo)?.type;
     clientConfig.activeLicenseType = activeLicenseInfo;
     clientConfig.amplitudeKey = getAmplitudeKey();
-    const environmentInfo = JSON.parse(getEnvironmentInfo);
-    clientConfig.mcspDetails = environmentInfo.mcspDetails;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const walkmeEnabled = termsAndPrivacy.walkmeAnalyticsServices;
     const walkmeTestEnabled = walkmeEnabled && featureFlags.playwithTestEnabled;
     const ibmCommonEnabled = featureFlags.ibmCommonEnabled;
-    const isAssistMeEnabled =
-      ibmCommonEnabled && featureFlags.assistmeEnabled && termsAndPrivacy.assistmeGuidanceServices && walkmeEnabled;
+    const isAssistMeEnabled = ibmCommonEnabled && featureFlags.assistmeEnabled && walkmeEnabled;
     const isSessionPlayBackRequired =
       walkmeEnabled && (activeLicenseInfo == 'selfService' || featureFlags.playwithEnabled);
     res.set('Content-Security-Policy', getCsp(nonce, walkmeEnabled, ibmCommonEnabled, isSessionPlayBackRequired));
@@ -246,7 +242,6 @@ function initializeSubRequestPromises(req) {
     getIsMonitoring(req),
     getStarredItems(req),
     getLicenseInfo(req),
-    getEnvironmentInfo(req),
     configResolver.getClientConfig(req, req.tenant, req.unit)
   ]);
 }
@@ -358,19 +353,4 @@ function getParsedUser(userStr) {
     return null;
   }
   return user;
-}
-
-/*
- * Fetches tracking data from `ui_backend`,returning records:`mcspDetails`.
- *
- * Example response:
- * - `mcspDetails`: { isMcspEnvironment: true, mcspSaasConsoleUrl: "https://mock-url.com", regionName: "Dallas Tx" }
- *
- * Note: Response is never null but may be empty if no data is available.
- */
-function getEnvironmentInfo(req) {
-  return getFromUiBackend({
-    req,
-    path: '/api/tracking/environmentInfo'
-  });
 }

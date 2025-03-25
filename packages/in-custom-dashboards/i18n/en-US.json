@@ -32,7 +32,7 @@
         "editPermissions": "Edit permissions",
         "shareMsg": "This custom dashboard has advanced access rules which cannot be represented by this dialog. You can use the \"Edit As JSON\" feature to edit these access rules.",
         "privateDashboardDefault": "Private dashboard (default)",
-        "privateDashboardDefaultExplain": "This dashboard is only visible to you.",
+        "privateDashboardDefaultExplain": "This dashboard is only visible to you. Note: this can only be changed by the dashboard owner.",
         "publicDashboard": "Public dashboard",
         "publicDashboardExplain": "This dashboard is visible to everyone in your organization. Only you are able to make changes, but you may add editors.",
         "save": "Save",

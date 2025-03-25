@@ -42,7 +42,7 @@
       "title": "La politica di utilizzo corretto non è attiva."
     },
     "restrictedUsage": {
-      "accountUsage": "Utilizzo account"
+      "accountUsage": "Utilizzo dell'account"
     },
     "technologiesReportingTable": {
       "name": "Nome",
@@ -81,7 +81,7 @@
     },
     "usages": {
       "allPaidUnitsAggregated": "Tutte le unità pagate (aggregate) (aggregate)",
-      "accountUsage": "Utilizzo account",
+      "accountUsage": "Utilizzo dell'account",
       "activeLicenses": "Licenze attive",
       "expiredLicenses": "Licenze scadute",
       "queuedLicenses": "Licenze in coda"
@@ -114,12 +114,12 @@
       }
     },
     "activationAdoption": {
-      "activationAdoption": "Attivazione e adozione",
+      "activationAdoption": "Attivazione & adozione",
       "customerAdoption": "Adozione del cliente",
       "activation": "Attivazione",
       "adoption": "Adozione",
       "activationStages": {
-        "createDate": "Data di creazione",
+        "createDate": "Crea data",
         "firstSignIn": "Primo accesso",
         "firstAgentInstalled": "1° agent installato",
         "additionalUserInvited": "Ulteriori utenti invitati",
@@ -137,30 +137,30 @@
         "customDashboards": "Dashboard personalizzati",
         "mobileEum": "EUM mobile",
         "numOfApplicationPerspectives": "N. di PA",
-        "numOfReportingApplicationPerspectives": "N. di PA che riportano",
-        "numOfWebsites": "N. di siti web",
-        "numOfAlertChannels": "N. di canali di avviso",
-        "numOfAlerts": "N. di avvisi",
-        "numOfActiveAlerts": "N. di avvisi attivi",
-        "numOfReleases": "N. Contrassegni di rilascio / N. di rilasci",
-        "numOfCustomDashboards": "N. di dashboard personalizzati",
-        "numOfMobileApps": "N. di app"
+        "numOfReportingApplicationPerspectives": "# di PA con segnalazione",
+        "numOfWebsites": "# di siti web",
+        "numOfAlertChannels": "# di canali di avviso",
+        "numOfAlerts": "# di avvisi",
+        "numOfActiveAlerts": "# di avvisi attivi",
+        "numOfReleases": "# Contrassegni di rilascio / # di rilasci",
+        "numOfCustomDashboards": "# di dashboard personalizzati",
+        "numOfMobileApps": "# di app"
       },
       "activationChecklist": "Attivazione checklist",
       "productAdoption": "Adozione prodotto",
       "sparkChartMetrics": {
         "metric_applications": "Applicazioni",
-        "metric_reportingapplications": "Applicazioni di report",
+        "metric_reportingapplications": "Applicazioni di segnalazioni",
         "metric_websites": "Siti Web",
         "metric_all_alerts": "Tutti gli avvisi",
         "metric_active_alerts": "Avvisi attivi",
-        "metric_mobile_apps": "App per dispositivi mobili",
+        "metric_mobile_apps": "App mobili",
         "metric_alert_channels": "Canali di avviso",
         "metric_custom_dashboards": "Dashboard personalizzati",
         "metric_releases": "Release"
       },
       "userUsage": "Utilizzo utente",
-      "userSummary": "Riepilogo utenti",
+      "userSummary": "Riepilogo utente",
       "totalUser": "Utenti totali",
       "weeklyActiveUser": "Utenti attivi settimanalmente",
       "lastCalendarWeekTopActiveUsers": "Utenti maggiormente attivi nell'ultima settimana di calendario",
@@ -168,7 +168,7 @@
         "noDataAvailable": "Nessun dato disponibile",
         "noTopActiveUsers": "Nessun dato sui principali utenti attivi per questo account",
         "name": "Nome",
-        "organizationRole": "Ruolo organizzativo",
+        "organizationRole": "Ruolo organizzazione",
         "daysActive": "Giorni nello stato attivo",
         "notProvided": "(non fornito)"
       }

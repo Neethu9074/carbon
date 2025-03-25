@@ -29,8 +29,8 @@
     "traffic": "トラフィック",
     "indicator": {
       "type": "不明なタイプ",
-      "type_eventBased": "イベント数",
-      "type_customEventBased": "イベント数",
+      "type_eventBased": "イベント・カウント",
+      "type_customEventBased": "イベント・カウント",
       "type_timeBased": "時刻",
       "blueprint": "不明なブループリント",
       "blueprint_latency": "待ち時間",
@@ -66,7 +66,7 @@
     "latency": "待ち時間",
     "time": "時刻",
     "entityTypes": {
-      "label": "不明なエンティティー",
+      "label": "不明なエンティティ",
       "label_application": "アプリケーション",
       "label_website": "Web サイト",
       "label_synthetic": "シンセティック・テスト"
@@ -108,14 +108,13 @@
       "status": "状況",
       "remainingBudget": "残り",
       "totalBudget": "エラー予算",
-      "consumedBudget": "消費されたエラー予算",
-      "momentaryBudgetConsumption": "エラー予算の使用量",
+      "consumedBudget": "エラー・バジェットが消費されました",
       "beaconCount": "ビーコン数",
       "calls": "呼び出し",
       "latency": "待ち時間",
       "beaconDuration": "ビーコン期間",
       "threshold": "しきい値",
-      "failureRate": "故障率",
+      "failureRate": "失敗率",
       "errors": "エラーのある呼び出し率",
       "beaconErrorRate": "ビーコン・エラー率",
       "goodEvents": "良好なイベント",
@@ -146,7 +145,7 @@
       "event_test_plural": "{{count}}テスト"
     },
     "deleteDialog": {
-      "confirmRemove": "ご確認ください",
+      "confirmRemove": "削除の確認",
       "confirmRemoveMsg": "<strong>{{name}}</strong> を削除してよろしいですか?",
       "delete": "削除"
     }
@@ -178,7 +177,7 @@
       "beaconLabel_pageLoad": "Web サイト・ページのロード",
       "beaconLabel_custom": "Web サイトのカスタム・イベント"
     },
-    "serviceAndEndpoint": "サービスおよびエンドポイント",
+    "serviceAndEndpoint": "サービス & エンドポイント",
     "selectObjectiveTitle": "目標の設定",
     "sloTarget": "SLO ターゲット",
     "timeWindow": "時間枠",
@@ -221,7 +220,7 @@
       "eventTypeExplanation_application": "良好呼び出しと不良呼び出しの合計数",
       "eventTypeExplanation_website": "正常なビーコンと異常なビーコンのそれぞれの総数",
       "eventTypeExplanation_synthetic": "正常な結果と異常な結果のそれぞれの総数",
-      "eventCount": "イベント数",
+      "eventCount": "イベント・カウント",
       "eventType": "イベント・タイプ",
       "thresholdLabel": "不明なタイプ",
       "thresholdLabel_latency": "しきい値 (ms)",
@@ -254,14 +253,14 @@
       "timeWindowType_dynamic": "動的時間枠",
       "timeWindowType_rolling": "ローリング時間枠",
       "timeWindowType_fixed": "固定時間枠",
-      "configuredTimeWindow": "構成済みの SLO 時間枠:",
+      "configuredTimeWindow": "設定 SLO 時間枠:",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
       "startTime": "開始時刻: {{startDay}}、{{startTime}}",
-      "matchedSLOTimeWindow": "一致するSLO時間枠: ",
-      "matchedSLOTimeWindow_plural": "一致する SLO 時間ウィンドウ: ",
-      "matchedSLOTimeWindow_0": "一致するSLO時間枠: ",
-      "matchedSLOTimeWindow_1": "一致するSLO時間枠: ",
-      "matchedSLOTimeWindow_2": "一致する SLO 時間ウィンドウ: ",
+      "matchedSLOTimeWindow": "一致する SLO 時間枠: ",
+      "matchedSLOTimeWindow_plural": "一致する SLO 時間枠: ",
+      "matchedSLOTimeWindow_0": "一致する SLO 時間枠: ",
+      "matchedSLOTimeWindow_1": "一致する SLO 時間枠: ",
+      "matchedSLOTimeWindow_2": "一致する SLO 時間枠: ",
       "noMatchedSLOTimeWindow": "一致する時間枠が見つかりません",
       "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
@@ -301,7 +300,7 @@
       "entity": "エンティティー",
       "blueprint": "ブループリント",
       "errorBudget": "残りのエラー予算",
-      "status": "状況/ターゲット",
+      "status": "状況 / ターゲット",
       "tags": "タグ"
     }
   },

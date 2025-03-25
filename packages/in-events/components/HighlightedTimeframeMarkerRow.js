@@ -5,9 +5,8 @@
 
 import React from 'react';
 
-import { Td, Tr } from '@instana/legacy';
-
 import ResultForTimeSelectionIndicator from 'in-components/ResultForTimeSelectionIndicator';
+import { Td, Tr } from 'in-events/components/legacy/Table/Table';
 
 import locals from './HighlightedTimeframeMarkerRow.mless';
 

@@ -11,6 +11,7 @@
     "pageTitle": "Monitoramento de negócios",
     "cardTitle": "Processos de negócios",
     "theId": "O ID do processo",
+    "theVersion": "A versão do processo",
     "hasBeenCopied": "foi copiado com sucesso para a área de transferência",
     "activityLabel": "Atividades",
     "nameLabel": "Nome",
@@ -66,7 +67,7 @@
       }
     },
     "errorMessages": {
-      "tagFilterExpressionMustNotBeEmpty": "A perspectiva de negócios deve ter pelo menos um filtro",
+      "tagFilterExpressionMustNotBeEmpty": "A perspectiva do negócio deve ter pelo menos um filtro",
       "createOperationFailed": "Falha na operação de criação",
       "unableToCreatePerspective": "Não foi possível criar sua perspectiva de negócios. Tente novamente."
     },
@@ -97,7 +98,7 @@
       }
     },
     "activity": {
-      "pageTitle": "Atividade de negócios",
+      "pageTitle": "Atividade denegócios",
       "summaryTab": "Resumo",
       "servicesTab": "Serviços",
       "widgets": {
@@ -141,7 +142,14 @@
       }
     },
     "flowMap": {
-      "tabLabel": "Fluxo"
+      "zoomIn": "Aumentar zoom",
+      "zoomOut": "Diminuir zoom",
+      "zoomReset": "Reconfigurar zoom",
+      "count": "Contagem",
+      "errors": "Erros",
+      "latency": "Latência",
+      "tabLabel": "Fluxo",
+      "loadMore": "Carregar mais"
     }
   }
 }

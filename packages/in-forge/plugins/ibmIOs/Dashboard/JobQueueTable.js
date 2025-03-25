@@ -167,7 +167,7 @@ export default connectTo(
         }
         cols={cols}
         rows={rows}
-        initialSortColumn={5}
+        initialSortColumn={4}
         initialSortDirection="desc"
         getRowDetails={getRowDetails}
       />

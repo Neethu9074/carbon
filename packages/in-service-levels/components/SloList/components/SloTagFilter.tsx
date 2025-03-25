@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect } from 'react';
+import React, { ComponentProps, useEffect } from 'react';
 
-import ComboBox, { hasMultipleValuesSelected } from 'in-components/ComboBox';
+import { CarbonFilterableMultiSelect } from '@instana/components';
+
 import { t } from 'in-i18n';
 
 export interface SloTagFilterProps {
@@ -15,7 +16,24 @@ export interface SloTagFilterProps {
   tags?: string[];
 }
 
+interface Option {
+  label: string;
+  value: string;
+}
+
+type CarbonFilterableMultiSelectProps = ComponentProps<typeof CarbonFilterableMultiSelect<Option>>;
+const sloTagFilterItems: CarbonFilterableMultiSelectProps['filterItems'] = (items, { itemToString, inputValue }) => {
+  return items.filter(item => {
+    if (!inputValue) {
+      return true;
+    }
+    return itemToString(item).toLowerCase().includes(inputValue.toLowerCase());
+  });
+};
+
 export default function SloTagFilter({ tags, value, onChange }: SloTagFilterProps) {
+  const selectedFilters = value?.length > 0 ? mapTags(value) : [];
+
   useEffect(() => {
     const validTags = tags || [];
     // Filter out tags that aren't in the available tags list
@@ -30,20 +48,17 @@ export default function SloTagFilter({ tags, value, onChange }: SloTagFilterProp
   }, [value, tags, onChange]);
 
   return (
-    <ComboBox
+    <CarbonFilterableMultiSelect
+      id="sloTagFilter"
       placeholder={t('in-service-levels:sloList.components.sloTagFilter.placeholder')}
-      options={mapTags(tags)}
-      value={value}
-      onChange={newValue => {
-        if (!newValue) {
-          onChange([]);
-        } else if (hasMultipleValuesSelected(newValue)) {
-          onChange(newValue.map(option => option.value));
-        } else {
-          onChange([newValue.value]);
-        }
+      size="sm"
+      initialSelectedItems={selectedFilters}
+      items={mapTags(tags)}
+      onChange={selected => {
+        const newValue = selected.selectedItems || [];
+        onChange(newValue.map(option => option.value));
       }}
-      isMulti
+      filterItems={sloTagFilterItems}
     />
   );
 }

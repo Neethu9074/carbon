@@ -221,8 +221,10 @@ export const Severity = connectTo(
 export const ImpactedKPI = ({ event }) => {
   const alertConfig = useApplicationEventAlertConfig(event);
   const eventEntity = useApplicationEventEntity(event);
-
-  return <SmartAlertImpactedUsers alertConfig={alertConfig} event={event} eventEntity={eventEntity} isKPI />;
+  if (alertConfig) {
+    return <SmartAlertImpactedUsers alertConfig={alertConfig} event={event} eventEntity={eventEntity} isKPI />;
+  }
+  return null;
 };
 
 const CarbonDateTimeKpiCard = ({ title, time }) => (

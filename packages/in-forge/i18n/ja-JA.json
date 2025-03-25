@@ -1416,6 +1416,11 @@
   "pluginName_oTelK8sNode_1": "OTelKubernetesノード",
   "pluginName_oTelK8sNode_2": "OTelKubernetesノード",
   "pluginName_oTelK8sNode": "OTelKubernetesノード",
+  "pluginName_oTelK8sContainer_plural": "OTel Kubernetes コンテナ",
+  "pluginName_oTelK8sContainer_0": "OTel Kubernetes コンテナ",
+  "pluginName_oTelK8sContainer_1": "OTel Kubernetes コンテナ",
+  "pluginName_oTelK8sContainer_2": "OTel Kubernetes コンテナ",
+  "pluginName_oTelK8sContainer": "OTel Kubernetes コンテナ",
   "pluginName_openLDAP_plural": "OpenLDAP ノード",
   "pluginName_openLDAP_0": "OpenLDAP ノード",
   "pluginName_openLDAP_1": "OpenLDAP ノード",
@@ -2527,6 +2532,11 @@
   "tracingTypeName_otel_0": "呼び出し",
   "tracingTypeName_otel_1": "呼び出し",
   "tracingTypeName_otel_2": "呼び出し",
+  "tracingTypeName_otelbatchsynthetic": "内部トリガー",
+  "tracingTypeName_otelbatchsynthetic_plural": "内部トリガー",
+  "tracingTypeName_otelbatchsynthetic_0": "内部トリガー",
+  "tracingTypeName_otelbatchsynthetic_1": "内部トリガー",
+  "tracingTypeName_otelbatchsynthetic_2": "内部トリガー",
   "tracingTypeName_pdo": "PDO 呼び出し",
   "tracingTypeName_pdo_plural": "PDO 呼び出し",
   "tracingTypeName_pdo_0": "PDO 呼び出し",
@@ -8170,6 +8180,7 @@
       "ebsVolumesWithCount": "EBS ボリューム数 ({{len}})",
       "publicHostname": "パブリック・ホスト名",
       "instanceId": "インスタンス ID",
+      "accountId": "アカウント ID",
       "type": "タイプ",
       "availabilityZone": "アベイラビリティー・ゾーン",
       "publicIp": "パブリック IP",
@@ -12683,7 +12694,7 @@
       "agentTlsExpired": "<code>{{context}}</code>でエージェント TLS 証明書 <code>{{cert}}</code> の有効期限が切れました。",
       "agentTlsAboutToExpire": "エージェント TLS 証明書 <code>{{cert}}</code> は、あと <code>{{context}}</code> 日で有効期限が切れます。",
       "tlsProtocolMissingIssue": "エージェントにTLSv1.3サポートがありません",
-      "tmpDirectoryMissingIssue": "エージェントで /tmp ディレクトリーが欠落している",
+      "tmpDirectoryMissingIssue": "エージェントから見ると、<code>{{tmpDirLocation}}</code> ディレクトリが欠落しています。",
       "agentVersion": "エージェントのバージョン",
       "bootVersion": "ブート・バージョン",
       "origin": "発信元",
@@ -13802,7 +13813,9 @@
         "fsresources": "ファイルシステム・リソース",
         "fsusage": "ファイルシステム使用量",
         "fsavailble": "使用可能なファイルシステム",
-        "fscapacity": "ファイルシステム容量"
+        "fscapacity": "ファイルシステム容量",
+        "containers": "コンテナー",
+        "summary": "サマリー"
       }
     },
     "oTelK8sCluster": {
@@ -13820,8 +13833,10 @@
         "summary": "サマリー",
         "nodes": "ノード",
         "pods": "ポッド数",
+        "containers": "コンテナー",
         "nodecount": "ノード数",
         "podcount": "ポッド数",
+        "containercount": "コンテナー数",
         "name": "名前",
         "namespace": "名前空間",
         "age": "年齢",
@@ -13860,7 +13875,44 @@
         "fsusage": "ファイルシステム使用量",
         "fsavailble": "使用可能なファイルシステム",
         "fscapacity": "ファイルシステム容量",
-        "pods": "ポッド数"
+        "pods": "ポッド数",
+        "containers": "コンテナー"
+      }
+    },
+    "oTelK8sContainer": {
+      "platform": "プラットフォーム",
+      "address": "アドレス",
+      "port": "ポート",
+      "kind": "種別",
+      "type": "タイプ",
+      "serviceName": "サービス名",
+      "entityType": "エンティティー・タイプ",
+      "instanceId": "インスタンス ID",
+      "runtimeDesc": "Kubernetesランタイム",
+      "runtimeVersion": "Kubernetesバージョン",
+      "exePath": "実行可能パス",
+      "dashboard": {
+        "containeruptime": "コンテナ稼働時間",
+        "cpuresources": "CPU リソース",
+        "cpuusage": "CPU 使用率",
+        "cpuutilization": "CPU 使用率",
+        "cputime": "CPU 時間",
+        "cpulimitutilization": "CPU制限使用率",
+        "cpurequestutilization": "CPU要求使用率",
+        "cpunodeutilization": "CPUノード使用率",
+        "memoryresources": "メモリー・リソース",
+        "memoryusage": "メモリー使用率",
+        "memoryavailable": "使用可能なメモリー",
+        "memorylimitutilization": "メモリー制限使用率",
+        "memoryrequestutilization": "メモリー要求使用率",
+        "memoryrss": "メモリーRSS",
+        "memoryworkingset": "メモリー・ワーキング・セット",
+        "memorypagefaults": "メモリー・ページの障害",
+        "memorymajorpagefaults": "メモリー主要ページの障害",
+        "fsresources": "ファイルシステム・リソース",
+        "fsusage": "ファイルシステム使用量",
+        "fsavailble": "使用可能なファイルシステム",
+        "fscapacity": "ファイルシステム容量"
       }
     },
     "oTelJvm": {
@@ -17448,6 +17500,10 @@
       "error": "エラー",
       "tags": "タグ",
       "resource": "リソース"
+    },
+    "otelBatchSynthetic": {
+      "indexReturn": "内部トリガー",
+      "bodyApproximated": "Instana はこの呼び出しを検出しましたが、その送信元に関する詳細はありません。 この呼び出しをトリガーしたものについてのタイミングと期間が概算されます。"
     },
     "pdo": {
       "driver": "ドライバー",

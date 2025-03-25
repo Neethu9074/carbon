@@ -37,6 +37,7 @@ import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import Logs from 'in-logging/components/TraceDetails/components/Logs';
 import { latency, number } from 'in-services/formatters/number';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
+import { formatPathWithTU } from 'in-services/formatters/url';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { loggingEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
@@ -275,7 +276,9 @@ export default function Summary({
                       <Link
                         target="_blank"
                         external
-                        href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceId)}?pretty`}
+                        href={`${formatPathWithTU(
+                          '/api/application-monitoring/analyze/traces'
+                        )};id=${encodeURIComponent(traceId)}?pretty`}
                       />
                     )
                   }}

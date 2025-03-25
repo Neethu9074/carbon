@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import { enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialogWithThreshold';
 import alertFormDefinition from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
-import { Default } from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration.story';
+import { Default } from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration.stories';
 
 export default {
   component: AlertConfigDialogWithThreshold,

@@ -80,12 +80,9 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const permissionToShowInvite =
     role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled) && !isAnyIDPActive;
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
-  // The AssistMe feature will be enabled if assistmeEnabled flag is true, assistmeGuidanceServices and walkmeAnalyticsServices is true and the AssistMe script is loaded.
+  // The AssistMe feature will be enabled if assistmeEnabled flag is true, walkmeAnalyticsServices is true and the AssistMe script is loaded.
   const showGetAnswers =
-    assistmeEnabled &&
-    termsAndPrivacySettingsStore?.walkmeAnalyticsServices &&
-    termsAndPrivacySettingsStore?.assistmeGuidanceServices &&
-    isAssistMeScriptLoaded;
+    assistmeEnabled && termsAndPrivacySettingsStore?.walkmeAnalyticsServices && isAssistMeScriptLoaded;
 
   useEffect(() => {
     const invitedByKey = 'invitedBy';

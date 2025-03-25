@@ -16,7 +16,7 @@
     flex-grow: 0;
     flex-shrink: 0;
     border-right: 1px solid #d5dfe4;
-    z-index: 125;
+    z-index: 123;
   }
 
   .dialogIndex:has(:global(.carbonDeleteModalOpen)) {

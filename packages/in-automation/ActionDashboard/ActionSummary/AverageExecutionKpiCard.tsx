@@ -33,7 +33,7 @@ function AverageExecutionKpiCard(props: Readonly<AverageExecutionKpiCardProps>) 
           <KpiCard
             title={title}
             value={kpiValue}
-            companionValue={t('in-automation:actionDashboard.summaryTab.seconds')}
+            companionValue={t('in-automation:actionDashboard.summaryTab.millisecond')}
           />
         );
       }}

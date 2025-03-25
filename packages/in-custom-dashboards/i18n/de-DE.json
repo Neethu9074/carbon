@@ -86,7 +86,7 @@
       "discardChange": "Änderungen verwerfen",
       "addWidget": "Widget hinzufügen",
       "tvMode": "TV-Modus",
-      "editName": "Name bearbeiten",
+      "editName": "Namen bearbeiten",
       "editAsJson": "Als JSON bearbeiten",
       "viewAsJson": "Als JSON anzeigen",
       "copyAllWidgets": "Alle Widgets kopieren",
@@ -191,7 +191,7 @@
       },
       "formComponent": {
         "metric": "Messwert",
-        "eventCount": "Ereignisanzahl",
+        "eventCount": "Ereigniszähler",
         "unnamedLog": "Nicht benannte Protokollmetrik",
         "aggregation": "Aggregation",
         "pleaseSelectMetric": "Wählen Sie einen Messwert aus",
@@ -515,7 +515,7 @@
         "userJourneyOffering": "User Journey/Angebot",
         "appnPerspective": "Anwendungsperspektive",
         "selectAppPerspect": "Wählen Sie eine Anwendungsperspektive aus.",
-        "appPerspectHelpAction": "Richten Sie Benutzerjourneys/Angebote ein, indem Sie sie als Anwendungsperspektive im Bereich \"Anwendungen\" modellieren.",
+        "appPerspectHelpAction": "Erstellen Sie Benutzerreisen und Angebote, indem Sie sie als Anwendungsperspektive im Anwendungsbereich modellieren.",
         "rbacHint": "Die angezeigten Anwendungen können durch Berechtigungen eingeschränkt sein.",
         "noAppPerspect": "Keine Anwendungsperspektiven!",
         "pleaseSelect": "Bitte auswählen"
@@ -573,7 +573,7 @@
         "99th": "99."
       },
       "metricsForm": {
-        "metricThreshold": "Messwert und Schwellenwert",
+        "metricThreshold": "Metrisch & Schwellenwert",
         "metric": "Messwert",
         "aggregation": "Aggregation",
         "valThresholdNotInvalidEmpty": "Der Wert des Schwellenwerts darf nicht ungültig oder leer sein.",
@@ -593,7 +593,7 @@
         "sliTimeBasedOrAnEventBasedSli": "Der SLI-Typ muss entweder zeitbasiert oder ereignisbasiert sein.",
         "pleaseSelect": "Bitte auswählen",
         "boundary": "Grenzwert",
-        "hiddenCalls": "Verborgene Aufrufe",
+        "hiddenCalls": "Verdeckte Aufrufe",
         "includeInternalCalls": "Interne Aufrufe einschließen",
         "includeSyntheticCalls": "Synthetische Aufrufe einschließen",
         "type": "Typ",
@@ -614,7 +614,7 @@
         "sliType": "SLI-Typ",
         "viewCloneSliConfig": "SLI-Konfiguration anzeigen/klonen",
         "delSliConfig": "SLI-Konfiguration löschen",
-        "confirmRemove": "Bitte bestätigen",
+        "confirmRemove": "Entfernen bestätigen",
         "confirmRemoveMsg": "Sind Sie sicher, dass Sie <strong>{{sliName}}</strong> löschen möchten?",
         "delete": "Löschen",
         "eventBasedSli": "Ereignisbasiert",
@@ -687,6 +687,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "Es muss mindestens ein Filterausdruck konfiguriert werden.",
       "timeBased": "Zeitbasiert",
       "eventBased": "Ereignisbasiert",
+      "sloLite": "SLO Lite",
       "sloLegacy": "SLO-Erbe",
       "slo": "SLO",
       "monitoringSourceSelector": {
@@ -713,7 +714,7 @@
           "description": "Aufrufe, die innerhalb dieser Anwendung sowohl von Konsumenten als auch intern ausgeführt werden."
         },
         "inbound": {
-          "title": "Eingehende Aufrufe",
+          "title": "Eingehende Anrufe",
           "description": "Nur von den Konsumenten dieser Anwendung ausgeführte Aufrufe."
         }
       }
@@ -722,7 +723,7 @@
       "title": "Apdex: Diagramm",
       "chart": {
         "metricLabel": "Apdex",
-        "viewInAnalyze": "In Analyze anzeigen",
+        "viewInAnalyze": "In Analyse anzeigen",
         "noDataRetentionPeriod": "Ausgewählter Zeitraum liegt außerhalb des Datenaufbewahrungszeitraums",
         "notFoundErrorTitle": "Konfigurierter Apdex wurde nicht gefunden",
         "notFoundErrorDescription": "Aktualisieren Sie das Apdex-Widget durch Auswahl einer anderen Apdex-Konfiguration"
@@ -765,7 +766,7 @@
         "cardTitle": "Apdex-Konfiguration",
         "nameColumn": "Apdex-Konfiguration",
         "thresholdColumn": "Schwellenwert",
-        "confirmDeleteHeader": "Bitte bestätigen",
+        "confirmDeleteHeader": "Entfernen bestätigen",
         "confirmDeleteMessage": "Möchten Sie {{apdex}} wirklich löschen?",
         "editApdexTooltip": "Apdex-Konfiguration bearbeiten/klonen",
         "deleteApdexTooltip": "Apdex-Konfiguration löschen",
@@ -890,7 +891,7 @@
         "dataSource": "Datenquelle",
         "helpAction": "Eine dynamische Fokusabfrage (DFQ), wie Sie sie innerhalb der Ereignisansicht verwenden würden.",
         "query": "Abfrage",
-        "columns": "Spalten auswählen",
+        "columns": "Ausgewählte Spalten",
         "pleaseSelect": "Bitte auswählen",
         "validators": {
           "theValueMustNotBeEmpty": "Mindestens eine Spalte muss ausgewählt werden"
