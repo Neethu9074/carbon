@@ -158,7 +158,7 @@ function generateSideNavItems(role) {
   navItems.push({
     type: 'link',
     properties: {
-      icon_name: 'lib_home',
+      icon_name: 'home',
       label: 'Home',
       path: '#/home',
       is_root: true
@@ -180,7 +180,7 @@ function generateSideNavItems(role) {
     navItems.push({
       type: 'link',
       properties: {
-        icon_name: 'lib_website_inverted',
+        icon_name: 'application--web',
         label: 'Websites',
         path: '#/websiteMonitoring',
         is_root: false
@@ -190,7 +190,7 @@ function generateSideNavItems(role) {
     navItems.push({
       type: 'link',
       properties: {
-        icon_name: 'lib_mobile_app_inverted',
+        icon_name: 'application--mobile',
         label: 'Mobile apps',
         path: '#/mobileAppMonitoring',
         is_root: false
@@ -217,7 +217,7 @@ function generateSideNavItems(role) {
     navItems.push({
       type: 'link',
       properties: {
-        icon_name: 'lib_application_invert',
+        icon_name: 'application',
         label: 'Applications',
         path: '#/applications',
         is_root: false
@@ -243,7 +243,7 @@ function generateSideNavItems(role) {
     navItems.push({
       type: 'link',
       properties: {
-        icon_name: 'infrastructure',
+        icon_name: 'layers',
         label: 'Infrastructure',
         path: '#/physical',
         is_root: false
@@ -282,7 +282,7 @@ function generateSideNavItems(role) {
     navItems.push({
       type: 'link',
       properties: {
-        icon_name: 'lib_synthetic',
+        icon_name: 'cloud--monitoring',
         label: 'Synthetic monitoring',
         path: '#/syntheticTests',
         is_root: false
@@ -321,7 +321,7 @@ function generateSideNavItems(role) {
     navItems.push({
       type: 'link',
       properties: {
-        icon_name: 'lib_events_cve',
+        icon_name: 'security',
         label: 'Vulnerabilities',
         path: '#/vulnerability-center',
         is_root: false
@@ -349,7 +349,7 @@ function generateSideNavItems(role) {
     navItems.push({
       type: 'link',
       properties: {
-        icon_name: 'lib_automation',
+        icon_name: 'workflow-automation',
         label: 'Automation',
         path: '#/automation/actionCatalog',
         is_root: false
@@ -378,7 +378,7 @@ function generateSideNavItems(role) {
     navItems.push({
       type: 'link',
       properties: {
-        icon_name: 'lib_actions_settings_inverted',
+        icon_name: 'settings',
         label: 'Settings',
         path: '#/config',
         is_root: false
