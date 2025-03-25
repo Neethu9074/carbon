@@ -228,10 +228,11 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               y1={{
                 min: 0,
                 formatter: bytes.detailed,
-                metrics: ['memory.virtualTotal', 'memory.virtualFree'],
+                metrics: ['memory.virtualTotal', 'memory.virtualFree', 'memory.virtualActive'],
                 labels: [
                   t('in-forge:plugins.host.dashboard.virtualTotal'),
-                  t('in-forge:plugins.host.dashboard.virtualFree')
+                  t('in-forge:plugins.host.dashboard.virtualFree'),
+                  t('in-forge:plugins.host.dashboard.virtualActive')
                 ],
                 type: 'line'
               }}
@@ -254,11 +255,19 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               y1={{
                 min: 0,
                 formatter: number.compact,
-                metrics: ['memory.pageIn', 'memory.pageOut', 'memory.pageScan'],
+                metrics: [
+                  'memory.pageIn',
+                  'memory.pageOut',
+                  'memory.pageScan',
+                  'memory.pageFaults',
+                  'memory.pageReclaims'
+                ],
                 labels: [
                   t('in-forge:plugins.host.dashboard.pageIn'),
                   t('in-forge:plugins.host.dashboard.pageOut'),
-                  t('in-forge:plugins.host.dashboard.pageScan')
+                  t('in-forge:plugins.host.dashboard.pageScan'),
+                  t('in-forge:plugins.host.dashboard.pageFaults'),
+                  t('in-forge:plugins.host.dashboard.pageReclaims')
                 ],
                 type: 'line'
               }}
