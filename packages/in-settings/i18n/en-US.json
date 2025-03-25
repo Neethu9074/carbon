@@ -803,6 +803,7 @@
     "mobileSmartAlert": "Mobile Smart Alert",
     "infraSmartAlert": "Infrastructure Smart Alert",
     "serviceLevelSmartAlert": "Service Level Smart Alert",
+    "logSmartAlert": "Log Smart Alert",
     "enabled": "Enabled",
     "disabled": "Disabled",
     "invalidQuery": "Invalid query",

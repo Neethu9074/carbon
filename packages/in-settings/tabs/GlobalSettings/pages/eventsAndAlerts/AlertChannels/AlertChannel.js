@@ -20,6 +20,7 @@ import {
   useAlertConfig as useApplicationsAlertConfig,
   useLinkToGlobalAlertConfigWithoutAPDashboard
 } from 'in-applications/navigation/paths';
+import { useGetAlertConfigLink as useGetLogAlertConfigLink } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
 import { useGetAlertConfigLink as useGetServiceLevelAlertConfigLink } from 'in-service-levels/navigation/path';
 import { fullyQualified } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { useGetAlertConfigLink as useGetInfraAlertConfigLink } from 'in-infrastructure/navigation/paths';
@@ -98,6 +99,7 @@ function filterAlertConfigBasedOnRoles(alertConfigResponse) {
   const canConfigureGlobalInfraSmartAlerts =
     role.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope;
   const canConfigureServiceLevelIndicators = role.canConfigureServiceLevelIndicators;
+  const canConfigureGlobalLogSmartAlerts = role.canConfigureGlobalLogSmartAlerts;
 
   return alertConfigResponse.filter(item => {
     const type = item.type;
@@ -118,6 +120,8 @@ function filterAlertConfigBasedOnRoles(alertConfigResponse) {
       return canConfigureEventsAndAlerts;
     } else if (type == 'ServiceLevelSmartAlert') {
       return canConfigureServiceLevelIndicators;
+    } else if (type == 'LogSmartAlert') {
+      return canConfigureGlobalLogSmartAlerts;
     }
 
     return false;
@@ -315,7 +319,8 @@ const typeLabels = Object.freeze({
   GlobalApplicationSmartAlert: t('in-settings:tabs.globalApplicationSmartAlert'),
   SyntheticSmartAlert: t('in-settings:tabs.syntheticSmartAlert'),
   InfraSmartAlert: t('in-settings:tabs.infraSmartAlert'),
-  ServiceLevelSmartAlert: t('in-settings:tabs.serviceLevelSmartAlert')
+  ServiceLevelSmartAlert: t('in-settings:tabs.serviceLevelSmartAlert'),
+  LogSmartAlert: t('in-settings:tabs.logSmartAlert')
 });
 
 function AlertChannelLabel({ entity }) {
@@ -327,6 +332,7 @@ function AlertChannelLabel({ entity }) {
   const websiteAlertConfigLink = useAlertConfigLink(id, entityId);
   const mobileAlertConfigLink = useGetAlertConfigLink();
   const getServiceLevelAlertConfigLink = useGetServiceLevelAlertConfigLink();
+  const getLogAlertConfigLink = useGetLogAlertConfigLink();
 
   let href;
   let href$;
@@ -344,6 +350,8 @@ function AlertChannelLabel({ entity }) {
     href = getInfraAlertConfigLink(id, entity.created);
   } else if (type === 'ServiceLevelSmartAlert') {
     href = getServiceLevelAlertConfigLink(id, entity.created);
+  } else if (type == 'LogSmartAlert') {
+    href = getLogAlertConfigLink(id, entity.created);
   } else {
     href$ = getEntityIdView(teamSettingsAlertingAlerts, id);
   }
