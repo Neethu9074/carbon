@@ -36,14 +36,6 @@ router.get('/solis/nav', async (req, res) => {
   );
 });
 
-// // TODO: get from backend
-// const getFeatureFlags = () => ({
-//   playwithEnabled: false,
-//   loggingEnabled: true,
-//   releaseNotesEnabled: true,
-//   vulnerabilityCenterEnabled: true
-// });
-
 function getUserPermissions(role, features) {
   const getAccess = (canField, limitedField = null) => {
     // if (!role) return false;
@@ -114,9 +106,7 @@ function getUserPermissions(role, features) {
 }
 
 function generateSideNavItems(role, features) {
-  const permissions = getUserPermissions(role);
-  // const platformPermissions = getPlatformPermissions(role);
-  // const features = getFeatureFlags();
+  const permissions = getUserPermissions(role, features);
 
   let navItems = [];
 
@@ -367,9 +357,6 @@ function generateSideNavItems(role, features) {
 }
 
 function generatePlatformItems(permissions, features) {
-  // const platformAccess = getPlatformPermissions();
-  // const platformPermissions = getPlatformPermissions(role);
-  // const features = getFeatureFlags();
   let platformItems = [];
 
   if (permissions.hasPCFAccess) {
@@ -448,7 +435,6 @@ function generatePlatformItems(permissions, features) {
 }
 
 function generateMoreItems(role) {
-  // const features = getFeatureFlags();
   let moreItems = [];
 
   // tenant switch
