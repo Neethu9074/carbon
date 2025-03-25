@@ -57,17 +57,7 @@ router.get('/solis/nav', async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.end(
     JSON.stringify({
-      // top: [
-      // {
-      //   id: "profileMenu-switcher",
-      //   type: "icon_button",
-      //   mode: "",
-      //   icon_name: "",
-      //   properties: {
-      //     label: "Profile menu"
-      //   }
-      // }
-      // ],
+      top: [],
       side: generateSideNavItems(role)
     })
   );
