@@ -10937,7 +10937,7 @@
         "freeSize":"Free Size",
         "disks": "Disks",
         "avgDiskTransfer": "Average Disk Transfers",
-        "busyPercent": "Busy Percent",
+        "busyPercent": "Busy",
         "diskName": "Disk Name",
         "writeTransfers": "Write Transfers",
         "transfers": "Transfers",
