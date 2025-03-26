@@ -25,7 +25,7 @@ export const policiesDetailsFullyQualified = `${policiesFullyQualified}${policie
 
 export const isAutomationView = getRootPathPredicate(automationRoot);
 
-export const actionDashboard = '/dashboard';
+export const actionDashboard = '/actionDashboard';
 export const actionDashboardFullyQualified = `${actionCatalogFullyQualified}${actionDashboard}` as const;
 
 export const actionSummary = '/summary';
