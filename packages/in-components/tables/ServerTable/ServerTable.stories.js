@@ -7,7 +7,7 @@ import React from 'react';
 
 import { just } from '@instana/observables';
 
-import ServerTablePresenterStory from 'in-components/tables/ServerTable/ServerTablePresenter.story';
+import ServerTablePresenterStory from 'in-components/tables/ServerTable/ServerTablePresenter.stories';
 import ServerTable from 'in-components/tables/ServerTable/ServerTable';
 import { success, error } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';

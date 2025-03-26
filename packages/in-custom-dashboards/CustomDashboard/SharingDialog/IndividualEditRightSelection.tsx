@@ -9,6 +9,7 @@ import { Ul, Li, ColumnizedContent, KeyValue, IconButton, Button, Select } from 
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
+import { AccessRule, Nullish, Result, UserResult } from 'in-types';
 import UserIcon from 'in-components/UserIcon/UserIcon';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
@@ -26,13 +27,13 @@ const columnDefinitions = [
     }
   },
   {
-    getContent({ user }) {
+    getContent({ user }: { user: UserResult }) {
       return <KeyValue value={user.fullName} label={user.email} inverted accentuated />;
     }
   },
   {
     width: '2rem',
-    getContent({ user, removeEditor }) {
+    getContent({ user, removeEditor }: { user: UserResult; removeEditor: (id: string) => void }) {
       return (
         <Tooltip
           content={t(
@@ -52,6 +53,16 @@ const columnDefinitions = [
   }
 ];
 
+interface IndividualEditRightSelectionProps {
+  isPrivate: boolean;
+  usersResult: Result<UserResult[]> | Nullish;
+  selectedUserId: string;
+  setSelectedUserId: (id: string) => void;
+  addEditor: () => void;
+  removeEditor: () => void;
+  accessRules: AccessRule[];
+}
+
 export default function IndividualEditRightSelection({
   isPrivate,
   usersResult,
@@ -60,7 +71,7 @@ export default function IndividualEditRightSelection({
   addEditor,
   removeEditor,
   accessRules
-}) {
+}: IndividualEditRightSelectionProps) {
   if (isPrivate) {
     return null;
   }
@@ -74,9 +85,10 @@ export default function IndividualEditRightSelection({
   }
 
   const otherUsersWithAccess = accessRules
-    .filter(({ relationType, relatedId }) => relationType === 'USER' && relatedId !== user.id)
-    .map(({ relatedId }) => getUser(usersResult.data, relatedId))
-    .filter(Boolean);
+    //@ts-expect-error id is not defined in user interface but exists so we ignore it
+    .filter(({ relationType, relatedId }) => relationType === 'USER' && relatedId !== user?.id)
+    .map(({ relatedId }) => (relatedId ? getUser(usersResult.data, relatedId) : false))
+    .filter(Boolean) as UserResult[];
 
   return (
     <div className={locals.wrapper}>
@@ -94,14 +106,21 @@ export default function IndividualEditRightSelection({
               {t('in-custom-dashboards:customDashboard.sharingDialog.individualEditRightSelect.pleaseSelect')}
             </option>
 
-            {usersResult.data
-              .filter(({ id }) => id !== user.id)
-              .sort(compareUser)
-              .map(user => (
-                <option key={user.id} value={user.id} disabled={getUser(otherUsersWithAccess, user.id)}>
-                  {user.fullName} ({user.email})
-                </option>
-              ))}
+            {usersResult?.data
+              ? usersResult.data
+                  //@ts-expect-error
+                  .filter(({ id }) => id !== user?.id)
+                  .sort(compareUser)
+                  .map(user => (
+                    <option
+                      key={user.id}
+                      value={user.id}
+                      disabled={getUser(otherUsersWithAccess, user.id) ? false : true}
+                    >
+                      {user.fullName} ({user.email})
+                    </option>
+                  ))
+              : undefined}
           </Select>
         </FormGroup>
         <Button kind="primary" disabled={isBlank(selectedUserId)} className={locals.addButton} onClick={addEditor}>
@@ -122,10 +141,11 @@ export default function IndividualEditRightSelection({
   );
 }
 
-function compareUser(a, b) {
+function compareUser(a: UserResult, b: UserResult) {
   return compareIgnoreCase(a.fullName || a.email, b.fullName || b.email);
 }
 
-function getUser(users, userId) {
+function getUser(users: UserResult[] | undefined, userId: string) {
+  if (!users) return undefined;
   return users.find(({ id }) => id === userId);
 }

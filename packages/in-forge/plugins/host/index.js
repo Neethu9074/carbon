@@ -12,6 +12,7 @@ import metricDefinitions from 'in-forge/plugins/host/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/host/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/host/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { HOST_FQDN } from 'in-logging/queryBuilder';
 import { plugins } from 'in-forge/constants';
 import 'in-forge/plugins/host/metrics';
 
@@ -76,7 +77,13 @@ registerSnapshotDefinition({
             .map(result => result.data)
             .filter(Boolean)
         }),
-        render: props => <LoggingIntegrationButtonsRenderer {...props} addMargin />,
+        render: props => (
+          <LoggingIntegrationButtonsRenderer
+            {...props}
+            tagFilter={{ name: HOST_FQDN, value: props.hostFqdn }}
+            addMargin
+          />
+        ),
         props: {
           hostFqdn,
           hostName

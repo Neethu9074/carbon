@@ -1416,6 +1416,11 @@
   "pluginName_oTelK8sNode_1": "Nodo OTel Kubernetes",
   "pluginName_oTelK8sNode_2": "Nodo OTel Kubernetes",
   "pluginName_oTelK8sNode": "Nodo OTel Kubernetes",
+  "pluginName_oTelK8sContainer_plural": "Contenedor OTel Kubernetes",
+  "pluginName_oTelK8sContainer_0": "Contenedor OTel Kubernetes",
+  "pluginName_oTelK8sContainer_1": "Contenedor OTel Kubernetes",
+  "pluginName_oTelK8sContainer_2": "Contenedor OTel Kubernetes",
+  "pluginName_oTelK8sContainer": "Contenedor OTel Kubernetes",
   "pluginName_openLDAP_plural": "Nodos OpenLDAP",
   "pluginName_openLDAP_0": "Nodos OpenLDAP",
   "pluginName_openLDAP_1": "Nodos OpenLDAP",
@@ -2527,6 +2532,11 @@
   "tracingTypeName_otel_0": "Llamadas",
   "tracingTypeName_otel_1": "Llamada",
   "tracingTypeName_otel_2": "Llamadas",
+  "tracingTypeName_otelbatchsynthetic": "Activador interno",
+  "tracingTypeName_otelbatchsynthetic_plural": "Activadores internos",
+  "tracingTypeName_otelbatchsynthetic_0": "Activadores internos",
+  "tracingTypeName_otelbatchsynthetic_1": "Activador interno",
+  "tracingTypeName_otelbatchsynthetic_2": "Activadores internos",
   "tracingTypeName_pdo": "Llamada PDO",
   "tracingTypeName_pdo_plural": "Llamadas PDO",
   "tracingTypeName_pdo_0": "Llamadas PDO",
@@ -8170,6 +8180,7 @@
       "ebsVolumesWithCount": "Volúmenes de EBS ({{len}})",
       "publicHostname": "Nombre de host público",
       "instanceId": "ID de instancia",
+      "accountId": "ID de cuenta",
       "type": "Tipo",
       "availabilityZone": "Zona de disponibilidad",
       "publicIp": "IP pública",
@@ -12683,7 +12694,7 @@
       "agentTlsExpired": "El certificado TLS de agente <code>{{cert}}</code> ha caducado el <code>{{context}}</code>.",
       "agentTlsAboutToExpire": "El certificado TLS de agente <code>{{cert}}</code> está a punto de caducar en <code>{{context}}</code> días.",
       "tlsProtocolMissingIssue": "Al agente le falta el soporte de TLSv1.3",
-      "tmpDirectoryMissingIssue": "Falta el directorio /tmp en el agente",
+      "tmpDirectoryMissingIssue": "Falta el directorio <code>{{tmpDirLocation}}</code>, según se ve desde el Agente",
       "agentVersion": "Versión del agente",
       "bootVersion": "Versión de arranque",
       "origin": "Origen",
@@ -13802,7 +13813,9 @@
         "fsresources": "Recursos del sistema de archivos",
         "fsusage": "Uso del sistema de archivos",
         "fsavailble": "Sistema de archivos disponible",
-        "fscapacity": "Capacidad del sistema de archivos"
+        "fscapacity": "Capacidad del sistema de archivos",
+        "containers": "Contenedores",
+        "summary": "Resumen"
       }
     },
     "oTelK8sCluster": {
@@ -13820,8 +13833,10 @@
         "summary": "Resumen",
         "nodes": "Nodos",
         "pods": "Pods",
+        "containers": "Contenedores",
         "nodecount": "Recuento de nodos",
         "podcount": "Recuento de pods",
+        "containercount": "Recuento de contenedores",
         "name": "Nombre",
         "namespace": "Espacio de nombres",
         "age": "Antigüedad",
@@ -13860,7 +13875,44 @@
         "fsusage": "Uso del sistema de archivos",
         "fsavailble": "Sistema de archivos disponible",
         "fscapacity": "Capacidad del sistema de archivos",
-        "pods": "Pods"
+        "pods": "Pods",
+        "containers": "Contenedores"
+      }
+    },
+    "oTelK8sContainer": {
+      "platform": "Plataforma",
+      "address": "Dirección",
+      "port": "Puerto",
+      "kind": "Tipo",
+      "type": "Tipo",
+      "serviceName": "Nombre de servicio",
+      "entityType": "Tipo de entidad",
+      "instanceId": "ID de instancia",
+      "runtimeDesc": "Tiempo de ejecución de Kubernetes",
+      "runtimeVersion": "Versión de Kubernetes",
+      "exePath": "Ruta del ejecutable",
+      "dashboard": {
+        "containeruptime": "Tiempo de actividad del contenedor",
+        "cpuresources": "Recursos de CPU",
+        "cpuusage": "Uso de CPU",
+        "cpuutilization": "Uso de CPU",
+        "cputime": "Tiempo de CPU",
+        "cpulimitutilization": "Utilización del límite de CPU",
+        "cpurequestutilization": "Utilización de solicitud de CPU",
+        "cpunodeutilization": "Utilización del nodo de CPU",
+        "memoryresources": "Recursos de memoria",
+        "memoryusage": "Uso de memoria",
+        "memoryavailable": "Memoria disponible",
+        "memorylimitutilization": "Utilización del límite de memoria",
+        "memoryrequestutilization": "Utilización de solicitud de memoria",
+        "memoryrss": "RSS de memoria",
+        "memoryworkingset": "Conjunto de trabajo de memoria",
+        "memorypagefaults": "Errores de página de memoria",
+        "memorymajorpagefaults": "Errores de página principal de memoria",
+        "fsresources": "Recursos del sistema de archivos",
+        "fsusage": "Uso del sistema de archivos",
+        "fsavailble": "Sistema de archivos disponible",
+        "fscapacity": "Capacidad del sistema de archivos"
       }
     },
     "oTelJvm": {
@@ -17448,6 +17500,10 @@
       "error": "Error",
       "tags": "Códigos",
       "resource": "Recurso"
+    },
+    "otelBatchSynthetic": {
+      "indexReturn": "Activador interno",
+      "bodyApproximated": "Instana ha detectado esta llamada, pero no tiene detalles específicos sobre su origen. La temporización y duración de lo que ha desencadenado esta llamada son aproximadas."
     },
     "pdo": {
       "driver": "Controlador",

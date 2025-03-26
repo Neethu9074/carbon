@@ -10,18 +10,20 @@ import { LoadingSkeleton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
-import { getSnapshotOrDefaultOnTimeout, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { extendTimeConfigToInclude } from 'in-applications/metrics';
+import { getSnapshotOrDefaultOnTimeout } from 'in-stores/snapshot';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { formatDateTime } from 'in-services/formatters/date';
 import { pendingResult } from 'in-services/fixedObjects';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import PluginIcon from 'in-components/PluginIcon';
 import { t } from 'in-i18n';
 
 import locals from './InfrastructureEntityLink.mless';
 
-export default function InfrastructureEntityLink({ entity, plugin, physicalContext }) {
+export default function InfrastructureEntityLink({ entity, plugin, physicalContext, timeConfig }) {
   const snapshot = useObservable(
     () =>
       entity?.id && entity?.time
@@ -31,6 +33,8 @@ export default function InfrastructureEntityLink({ entity, plugin, physicalConte
         : just(null),
     [entity]
   );
+  const currentTimeConfig = useTimeConfig();
+  const resolvedTimeConfig = timeConfig || extendTimeConfigToInclude(currentTimeConfig, entity?.time, false);
   const isLoading = get(snapshot, ['progress', 'loading']);
   const getDashboardLink = useGetDashboardLink();
 
@@ -56,18 +60,12 @@ export default function InfrastructureEntityLink({ entity, plugin, physicalConte
       plugin={plugin}
       snapshot={snapshot}
       label={entity.label || `Unknown at ${formatDateTime(entity.time)}`}
-      href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(stay =>
-        just(
-          stay
-            ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
-            : getDashboardLink(entity.id, {
-                pathname: '/physical/dashboard',
-                to: entity.time,
-                focusedMoment: entity.time,
-                autoRefresh: false
-              })
-        )
-      )}
+      href={getDashboardLink(entity.id, {
+        pathname: '/physical/dashboard',
+        to: resolvedTimeConfig.to,
+        focusedMoment: resolvedTimeConfig.focusedMoment,
+        autoRefresh: resolvedTimeConfig.autoRefresh
+      })}
     />
   );
 }

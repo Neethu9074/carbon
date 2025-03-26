@@ -109,7 +109,6 @@
       "remainingBudget": "기타",
       "totalBudget": "오류 예산",
       "consumedBudget": "소비된 오류 예산",
-      "momentaryBudgetConsumption": "오류 예산 소비",
       "beaconCount": "비컨 카운트",
       "calls": "호출",
       "latency": "대기 시간",
@@ -146,7 +145,7 @@
       "event_test_plural": "{{count}}개 테스트"
     },
     "deleteDialog": {
-      "confirmRemove": "확인하십시오.",
+      "confirmRemove": "제거 확인",
       "confirmRemoveMsg": "<strong>{{name}}</strong>을(를) 삭제하시겠습니까?",
       "delete": "삭제"
     }
@@ -164,10 +163,10 @@
     "custom": "사용자 정의",
     "customDescription": "서비스 및/또는 엔드포인트를 선택하도록 사용자 정의 필터 설정",
     "title": {
-      "create": "SLO(Service Level Objective) 생성",
+      "create": "SLO(Service Level Objective) 작성",
       "edit": "SLO(Service Level Objective) 편집"
     },
-    "selectIndicator": "청사진 선택",
+    "selectIndicator": "Blueprint 선택",
     "selectEntityNavItem": "엔티티 설정",
     "selectEntityTitle": "SLO를 추가할 엔티티 선택:",
     "selectScopeNavItem": "범위 설정",
@@ -178,10 +177,10 @@
       "beaconLabel_pageLoad": "웹 사이트 페이지 로드",
       "beaconLabel_custom": "웹 사이트 사용자 정의 이벤트"
     },
-    "serviceAndEndpoint": "서비스 엔드포인트(&E)",
+    "serviceAndEndpoint": "서비스 및 엔드포인트",
     "selectObjectiveTitle": "목표 설정",
     "sloTarget": "SLO 대상",
-    "timeWindow": "기간",
+    "timeWindow": "시간 창",
     "length": "길이",
     "start": "시작",
     "valueMissingTime": "— min",
@@ -250,7 +249,7 @@
       "target": "대상:",
       "errorBudgetRemaining": "남은 항목:",
       "errorBudgetSpent": "사용된 오류 예산",
-      "timeWindow": "기간",
+      "timeWindow": "시간 창",
       "timeWindowType_dynamic": "동적 시간 창",
       "timeWindowType_rolling": "롤링 시간 창",
       "timeWindowType_fixed": "고정 시간 창",
@@ -400,7 +399,7 @@
       "objectiveSection": {
         "title": "목표",
         "targetLabel": "대상",
-        "timeWindowLabel": "기간",
+        "timeWindowLabel": "시간 창",
         "durationLabel": "길이",
         "startDateLabel": "시작 날짜",
         "startTimeLabel": "시작 시간"

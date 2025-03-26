@@ -60,12 +60,12 @@ export default function TimeBasedLatencyIndicatorChart({
   title,
   configuration
 }: TimeBasedLatencyIndicatorChartProps) {
-  const { threshold } = indicator;
+  const { threshold, aggregation } = indicator;
   const sloZoomInAction = useSloZoomInAction();
   const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateSloGranularity(timeConfig);
-  const result = useTimeBasedIndicatorMetrics({ configuration, granularity, timeWindows });
+  const result = useTimeBasedIndicatorMetrics({ configuration, granularity, timeWindows, aggregation });
 
   const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
   const metricValues = copyFirstBucketOfSubsequentDataSeries(metrics.map(metric => metric.values as MetricDataSeries));
@@ -101,10 +101,10 @@ export default function TimeBasedLatencyIndicatorChart({
         granularity: result.data?.[0]?.granularity ?? granularity,
         y1: {
           metricIds: [...timeWindowsWithData.map(() => metricId), thresholdMetricId],
-          metrics: [...filteredData, thresholdMetrics],
+          metrics: [...filteredData.slice(timeWindowStartIndex), thresholdMetrics],
           labels: [...timeWindowsWithData.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
           colors: [...windowColorsWithData, themes.default.ids.color.option.red['500']],
-          formatter: millis.compact,
+          formatter: millis.forcedCompactOnMs,
           renderer
         },
         timeConfig,

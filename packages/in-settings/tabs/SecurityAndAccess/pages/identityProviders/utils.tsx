@@ -40,7 +40,7 @@ export const deleteItem = ({
   deleteConfig
 }: {
   setMessage: React.Dispatch<React.SetStateAction<ApiItemMessage | null>>;
-  deleteConfig: () => Observable<Result<boolean>>;
+  deleteConfig: () => Observable<boolean>;
 }) => {
   addActiveDialog(
     <ConfirmationDialog

@@ -17,6 +17,7 @@ import {
   ALERTING_CLONE_TRIGGER,
   ALERTING_REVISION_CHANGED
 } from 'in-services/tracking/eventNames';
+import { ShowSelectorDialog } from 'in-alerting/smart-alerts/components/tearSheet/ActionHandlers/TearSheetActionHandlers';
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { alertCreated as alertCreatedMatrixParam } from 'in-applications/navigation/matrix';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
@@ -61,7 +62,8 @@ export default function Alert({
   displayDuplicateAction = true,
   canConfigureGlobalAlertConfigs = false,
   canConfigureIndividualAlertConfigs = false,
-  hideAlertIcon = false
+  hideAlertIcon = false,
+  alertDisplayMode
 }) {
   const { location, navigate } = useNavigation();
   const { trackCta } = useSegmentTracking();
@@ -78,6 +80,7 @@ export default function Alert({
     alertConfigId,
     reload
   );
+
   if (alertConfigErrors?.length || alertConfigVersionsErrors?.length) {
     return <ErroneousResultPresenter errors={[...alertConfigErrors, ...alertConfigVersionsErrors]} />;
   } else if (!alertConfig || !alertConfigVersions) {
@@ -99,6 +102,19 @@ export default function Alert({
     }
   }
 
+  const openOldDialog = isCopy =>
+    addActiveDialog(
+      renderSmartAlertDialog({
+        close,
+        alertConfig,
+        setRevision,
+        isCopy,
+        detailsPath,
+        alertConfigId,
+        isGlobalSmartAlert
+      })
+    );
+
   return (
     <>
       <Title title={t('in-alerting:smartAlerts.applications.details.title')} dynamic={alertConfig.name} />
@@ -109,22 +125,22 @@ export default function Alert({
           setRevision={setRevision}
           isGlobalSmartAlert={isGlobalSmartAlert}
           openDialog={({ isCopy }) => {
-            addActiveDialog(
-              renderSmartAlertDialog({
-                close,
-                alertConfig,
-                setRevision,
-                isCopy,
-                detailsPath,
-                alertConfigId,
-                isGlobalSmartAlert
-              })
-            );
+            openOldDialog(isCopy);
             if (isCopy) {
               trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfigForTracking, dialogMode: ADVANCED });
             } else if (!isCopy) {
               trackCta(ALERTING_EDIT, { ...alertConfigForTracking, dialogMode: ADVANCED });
             }
+          }}
+          openSelectorDialog={({ isCopy }) => {
+            addActiveDialog(
+              <ShowSelectorDialog
+                isCopy={isCopy}
+                alertConfig={alertConfig}
+                alertConfigId={alertConfigId}
+                openDialog={() => openOldDialog(isCopy)}
+              />
+            );
           }}
           fullyQualifiedAlertsList={listPath}
           doEnableConfig$={enableConfig}
@@ -160,6 +176,7 @@ export default function Alert({
           getLinkToEditOrDuplicateSmartAlertTearSheet={getLinkToEditOrDuplicateSmartAlertTearSheet}
           displayDuplicateAction={displayDuplicateAction}
           hideAlertIcon={hideAlertIcon}
+          alertDisplayMode={alertDisplayMode}
         />
 
         <Row>
@@ -214,5 +231,6 @@ Alert.propTypes = {
   displayDuplicateAction: PropTypes.bool,
   canConfigureGlobalAlertConfigs: PropTypes.bool,
   canConfigureIndividualAlertConfigs: PropTypes.bool,
-  hideAlertIcon: PropTypes.bool
+  hideAlertIcon: PropTypes.bool,
+  alertDisplayMode: PropTypes.string
 };

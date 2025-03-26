@@ -11,6 +11,7 @@
     "pageTitle": "비즈니스 모니터링",
     "cardTitle": "비즈니스 프로세스",
     "theId": "프로세스 ID",
+    "theVersion": "프로세스 버전",
     "hasBeenCopied": "클립보드로 복사 완료",
     "activityLabel": "활동",
     "nameLabel": "이름",
@@ -104,7 +105,7 @@
         "duration": "지속 기간",
         "activityCount": "개수",
         "activityErrors": "오류",
-        "topServices": "상위 서비스",
+        "topServices": "주요 서비스",
         "activityLatency": "대기 시간",
         "viewAll": "모든 서비스 보기"
       },
@@ -141,7 +142,14 @@
       }
     },
     "flowMap": {
-      "tabLabel": "플로우"
+      "zoomIn": "확대",
+      "zoomOut": "축소",
+      "zoomReset": "확대/축소 재설정",
+      "count": "개수",
+      "errors": "오류",
+      "latency": "대기 시간",
+      "tabLabel": "플로우",
+      "loadMore": "추가 로드"
     }
   }
 }

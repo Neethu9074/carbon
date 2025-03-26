@@ -132,7 +132,7 @@ function SliManageListContent<S extends SliType>({
   };
 
   return (
-    <div>
+    <div className={locals.formWrapper}>
       {!role?.canConfigureServiceLevelIndicators && (
         <Message className={locals.message} withIcon>
           <Trans

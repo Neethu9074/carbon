@@ -44,7 +44,8 @@ export function List() {
                     : getPluginName(b.tags.type).localeCompare(getPluginName(a.tags.type));
                 }
                 return change.orderDirection === 'ASC' ? a.count - b.count : b.count - a.count;
-              }).map(item => ({
+              })
+              .map(item => ({
                 ...item,
                 label: getPluginName(item.tags.type)
               })),

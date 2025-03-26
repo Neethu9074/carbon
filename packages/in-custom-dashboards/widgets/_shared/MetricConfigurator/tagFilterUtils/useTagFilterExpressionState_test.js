@@ -6,10 +6,21 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import { createField, createMapForm } from 'formalistic';
 
+import {
+  fromBackendModel,
+  OPEN_BRACKET as FM_OPEN_BRACKET,
+  TAG as FM_TAG,
+  CONJUNCTION as FM_CONJUNCTION,
+  CLOSE_BRACKET as FM_CLOSE_BRACKET
+} from 'in-components/QueryBuilder/transformation/formModel';
+import {
+  EMPTY_EXPRESSION,
+  OPERATOR_OR,
+  OPERATOR_AND,
+  toBackendQueryModel
+} from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
-import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -185,6 +196,87 @@ describe('in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils
     // GIVEN
     const onChange = jest.fn();
     const backEndQueryModel = tagFilter('test.filter', 'CONTAINS', 'testValue', 'testKey');
+    let form = createMapForm({
+      items: {
+        tagFilterExpression: createField({
+          value: backEndQueryModel
+        })
+      }
+    });
+
+    // WHEN
+    const { rerender } = renderHook(useTagFilterExpressionState, {
+      initialProps: {
+        tagCatalogResult: pendingResult,
+        onChange,
+        form
+      }
+    });
+
+    form = onChange.mock.calls[0][1](form);
+
+    rerender({
+      tagCatalogResult: success({}),
+      onChange,
+      form
+    });
+
+    const onChangeCallback = onChange.mock.calls[1][1];
+    const updatedForm = onChangeCallback(form);
+
+    // THEN
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(updatedForm.get('tagFilterExpression').value).toStrictEqual(backEndQueryModel);
+  });
+
+  /*
+   * After some investigation for fixing a customer ticket
+   * https://jsw.ibm.com/browse/INSTA-26911
+   * We found this specific use case was not properly handled, and all unit test did not cover it.
+   *
+   * So, this is more an integration test, while all specific code was already covered 100% above.
+   */
+  test('returns initial tagFilterExpression after tagCatalog was loaded - using a complex backend model', () => {
+    // GIVEN
+    const onChange = jest.fn();
+
+    // for making it also more easy to read, we use this form for initialisation of the test-data:
+    const tagFilters = [
+      {
+        type: FM_OPEN_BRACKET
+      },
+      {
+        type: FM_TAG,
+        name: 'name',
+        operator: 'EQUALS',
+        value: 'a'
+      },
+      {
+        type: FM_CONJUNCTION,
+        logicalOperator: OPERATOR_OR
+      },
+      {
+        type: FM_TAG,
+        name: 'name',
+        operator: 'EQUALS',
+        value: 'b'
+      },
+      {
+        type: FM_CLOSE_BRACKET
+      },
+      {
+        type: FM_CONJUNCTION,
+        logicalOperator: OPERATOR_AND
+      },
+      {
+        type: FM_TAG,
+        name: 'name',
+        operator: 'EQUALS',
+        value: 'c'
+      }
+    ];
+    const backEndQueryModel = toBackendQueryModel(tagFilters);
+
     let form = createMapForm({
       items: {
         tagFilterExpression: createField({

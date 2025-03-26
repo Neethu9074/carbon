@@ -33,6 +33,7 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { idpConfigV2Enabled } from 'in-services/featureFlags';
+import { formatPathWithTU } from 'in-services/formatters/url';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
 import { Row, Col } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';
@@ -251,7 +252,9 @@ function Content({ file, form, setForm, setFile, setCanSaveItem, result }: Conte
                 <Button
                   kind="secondary"
                   icon="lib_actions_download"
-                  href={`/api/settings/authentication/saml/metadata?spEntityId=${encodeURIComponent(field.value)}`}
+                  href={`${formatPathWithTU(
+                    '/api/settings/authentication/saml/metadata'
+                  )}?spEntityId=${encodeURIComponent(field.value)}`}
                 >
                   {t('in-settings:tabs.configurationMetadata')}
                 </Button>

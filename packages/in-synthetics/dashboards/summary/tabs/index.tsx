@@ -7,8 +7,10 @@ import {
   syntheticsSummaryPath,
   syntheticResultsListPath,
   syntheticAlertListPath,
-  syntheticConfigurationPath
+  syntheticConfigurationPath,
+  syntheticServiceLevelsPath
 } from 'in-synthetics/navigation/paths';
+import SloDashboardList from 'in-service-levels/components/Shared/SloDashboardList/SloDashboardList';
 import Configuration from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration';
 import ResultsList from 'in-synthetics/dashboards/summary/tabs/results/ResultsList';
 import Summary from 'in-synthetics/dashboards/summary/tabs/summary/Summary';
@@ -31,6 +33,11 @@ export default [
     label: t('in-synthetics:dashboard.summary.smartAlertsTab'),
     path: `${syntheticAlertListPath}`,
     component: Alerts
+  },
+  {
+    label: t('in-synthetics:dashboard.summary.serviceLevelsTab'),
+    path: `${syntheticServiceLevelsPath}`,
+    component: SloDashboardList
   },
   role?.canViewSyntheticTests && {
     label: t('in-synthetics:dashboard.summary.configurationTab'),

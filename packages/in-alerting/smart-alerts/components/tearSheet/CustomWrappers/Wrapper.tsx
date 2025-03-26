@@ -33,8 +33,13 @@ export function ScopeWrapper({
   );
 }
 
-export function SectionWrapper({ children }: { children: ReactNode }): JSX.Element {
-  return <>{children}</>;
+export function SectionWrapper({ children, actions }: { children: ReactNode; actions?: ReactNode }): JSX.Element {
+  return (
+    <Stack direction="horizontal" gap="xxlarge" distribution="spaceBetween">
+      {children}
+      {actions && <div>{actions}</div>}
+    </Stack>
+  );
 }
 
 export function ForecastAlertingWrapper({

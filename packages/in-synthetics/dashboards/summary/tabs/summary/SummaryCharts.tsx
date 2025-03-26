@@ -74,7 +74,7 @@ export default function SummaryCharts({
 
   const resultsChart = (
     <Col xs key="results">
-      <ResultsTopList testId={testId} />
+      <ResultsTopList testId={testId} testType={testType} />
     </Col>
   );
 

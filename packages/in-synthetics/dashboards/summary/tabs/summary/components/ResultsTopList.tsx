@@ -8,8 +8,8 @@ import { get } from 'lodash';
 import moment from 'moment';
 
 import { formatDateTime, fromNow } from '@instana/format-date';
+import { SvgIcon, Tooltip } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 // @ts-expect-error Could not find a declaration file for module
@@ -18,6 +18,7 @@ import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import { syntheticResultsListPath, syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import { clickSyntheticMonitoringResultsWidgetDetailTracker } from 'in-synthetics/tracking/tracker';
+import { formatErrorMessage, getResultErrorMessage } from 'in-synthetics/dashboards/details/utils';
 import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -27,44 +28,60 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { TagFilter, TestResultListItem, TimeConfig } from 'in-types';
 import { statusTagName, testIdTagName } from 'in-synthetics/tags';
+import { syntheticDNSEnabled } from 'in-services/featureFlags';
 import { latency } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 import locals from './ResultsTopList.mless';
 
-const metrics = ['response_time', 'start_time', 'status'];
+const metrics = ['status', 'response_time', 'start_time'];
 
 const orders = [
-  { by: 'response_time', direction: 'DESC' },
   { by: 'start_time', direction: 'DESC' },
+  { by: 'response_time', direction: 'DESC' },
   { by: 'start_time', direction: 'DESC' }
 ];
 
 const labels = [
+  t('in-synthetics:dashboard.summary.widgets.failed'),
   t('in-synthetics:dashboard.summary.widgets.slowest'),
-  t('in-synthetics:dashboard.summary.widgets.latest'),
-  t('in-synthetics:dashboard.summary.widgets.failed')
+  t('in-synthetics:dashboard.summary.widgets.latest')
 ];
-const formatters = [latency.compact, fromNow, fromNow];
+const formatters = [fromNow, latency.compact, fromNow];
 const companionMetrics = [null, null, null];
 const companionFormatters = [null, null, null];
 
 interface ResultsTopListProps {
   testId: string;
+  testType: string | null | undefined;
 }
 
-export default function ResultsTopList({ testId }: ResultsTopListProps) {
+export default function ResultsTopList({ testId, testType }: ResultsTopListProps) {
   const timeConfig = useTimeConfig();
-  const colors = [null, null, themes.default.ids.color.option.red['500']];
+  const colors = [themes.default.ids.color.option.red['500'], null, null];
   const urlMatrixParamConfig = {
     paramTab: 'resultsTab',
     path: '/summary'
   };
+  const updatedMetrics = metrics.filter(item => item !== 'errors');
+
+  const TopListCardPresenterWithScroll = ({ testType, ...props }: { testType: string; props: Record<any, any> }) => {
+    return (
+      <div className={locals.topList}>
+        <TopListCardPresenter
+          {...props}
+          testType={testType}
+          useMaxAvailableHeight
+          isScrollbarVisible={syntheticDNSEnabled && testType === 'DNS'}
+        />
+      </div>
+    );
+  };
 
   return (
     <TopListWithUrlState
-      metrics={metrics}
+      metrics={updatedMetrics}
       title={t('in-synthetics:dashboard.summary.widgets.results')}
       labels={labels}
       formatters={formatters}
@@ -76,10 +93,11 @@ export default function ResultsTopList({ testId }: ResultsTopListProps) {
       testId={testId}
       renderHistoricDataIndicator
       getList={getList}
-      Renderer={TopListCardPresenter}
+      Renderer={TopListCardPresenterWithScroll}
       Label={Label}
       Metric={Metric}
       urlMatrixParamConfig={urlMatrixParamConfig}
+      testType={testType}
     />
   );
 }
@@ -88,9 +106,10 @@ type GetList = {
   testId: string;
   timeConfig: TimeConfig;
   selectedMetric: string;
+  testType: string;
 };
 
-function getList({ testId, timeConfig, selectedMetric }: GetList) {
+function getList({ testId, timeConfig, selectedMetric, testType }: GetList) {
   const baseTagFilters: TagFilter[] = [
     {
       stringValue: testId,
@@ -118,7 +137,11 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
     }
   ];
 
-  const tagFilters = [baseTagFilters, baseTagFilters, statusTagFilters];
+  const tagFilters = [statusTagFilters, baseTagFilters, baseTagFilters];
+
+  if (syntheticDNSEnabled && testType === 'DNS' && !metrics.includes('errors')) {
+    metrics.push('errors');
+  }
 
   return getTestResultList({
     pagination: {
@@ -155,9 +178,10 @@ function ViewAll({ testId, selectedMetric }: ViewAllProps) {
 type LabelProps = {
   item: TestResultListItem;
   selectedMetric: string;
+  testType: string;
 };
 
-function Label({ item, selectedMetric }: LabelProps) {
+function Label({ item, selectedMetric, testType }: LabelProps) {
   const { trackCta } = useSegmentTracking();
   const { location, createHref } = useNavigation();
   const testId = item.testResultCommonProperties.testId;
@@ -172,6 +196,7 @@ function Label({ item, selectedMetric }: LabelProps) {
     item.testResultCommonProperties?.locationId ?? ''
   );
   const resultsLabel = testLocation + AdditionalLabel({ item, selectedMetric });
+  const resultError = item?.testResultCommonProperties?.errors?.[0] ?? '';
   location.pathname = syntheticDetailsPath;
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'testId', testId);
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'id', resultId);
@@ -195,9 +220,22 @@ function Label({ item, selectedMetric }: LabelProps) {
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'locationIds', locationIds);
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'resultsLabel', resultsLabel);
   return (
-    <Link href={createHref(location)} onClick={() => clickSyntheticMonitoringResultsWidgetDetailTracker(trackCta)}>
-      {resultsLabel}
-    </Link>
+    <>
+      <div>
+        <Link href={createHref(location)} onClick={() => clickSyntheticMonitoringResultsWidgetDetailTracker(trackCta)}>
+          {resultsLabel}
+        </Link>
+      </div>
+      {syntheticDNSEnabled &&
+        testType === 'DNS' &&
+        selectedMetric === 'status' &&
+        resultError &&
+        resultError?.length > 0 && (
+          <Tooltip content={getResultErrorMessage(resultError)}>
+            <span className={locals.secText}>{formatErrorMessage(resultError)}</span>
+          </Tooltip>
+        )}
+    </>
   );
 }
 

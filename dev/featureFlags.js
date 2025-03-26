@@ -63,12 +63,13 @@ module.exports = {
   hideAppDataLegacyEventsEnabled: true,
   potentialProblemsEnabled: true,
   builtInGlobalApplicationSmartAlertsEnabled: true,
+  bidirectionalSlackEnabled: true,
   perEndpointAdaptiveBaselineEnabled: false,
   smartAlertsLogsBlueprintEnabled: true,
   syntheticsEnabled: true,
   kubernetesExploreEnabled: true,
   kubernetesPrometheusMetricsEnabled: true,
-  kubernetesCloudNativeExperience: false,
+  kubernetesCloudNativeExperience: true,
   configMigrationFeatureEnabled: true,
   actionAutomationEnabled: true,
   pluginMetricStatisticsEnabled: true,
@@ -175,5 +176,7 @@ module.exports = {
   sloLiteEnabled: true,
   sloFullEnabled: true,
   mobileAppSmartAlertFullScreenDesignEnabled: true,
-  tealiumPrivacyEnabled: false
+  tealiumPrivacyEnabled: false,
+  isSmartAlertDialogViewDefaultEnabled: true,
+  logSmartAlertDialogViewEnabled: true
 };

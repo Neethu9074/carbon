@@ -63,10 +63,10 @@
   "labelScope": "Bereich",
   "labelCustomServiceRules": "Angepasste Serviceregeln",
   "labelSyntheticEndpoints": "Synthetische Endpunkte",
-  "titleTopServices": "Wichtigste Services",
-  "titleMeanLatency": "Durchschnittliche Latenzzeit",
+  "titleTopServices": "Top-Services",
+  "titleMeanLatency": "Mittlere Latenz",
   "titleErroneousCallRate": "Rate fehlerhafter Aufrufe",
-  "titleTopStatements": "Wichtigste Anweisungen",
+  "titleTopStatements": "Die wichtigsten Anweisungen",
   "titleProcessingTime": "Verarbeitungszeit",
   "titleCustomHTTPRule": "Angepasste HTTP-Regel",
   "titleTopEndpoints": "Wichtigste Endpunkte",
@@ -75,7 +75,7 @@
   "titleErroneousCalls": "Fehlerhafte Aufrufe",
   "titleAvgLatency": "Durchschnittl. Latenzzeit",
   "titleConfigureCustomServiceRules": "Regeln für angepassten Service konfigurieren",
-  "titleCustomServiceRule": "Regel für angepassten Service",
+  "titleCustomServiceRule": "Angepasste Serviceregel",
   "titleUpdateApplicationPerspective": "Anwendungsperspektive aktualisieren",
   "titleApplicationPerspectiveConfiguration": "Konfiguration der Anwendungsperspektive",
   "titleCreateApplicationPerspective": "Anwendungsperspektive erstellen",
@@ -103,13 +103,14 @@
   "buttonConfigureEndpoints": "Endpunkte konfigurieren",
   "buttonAnalyzeMessages": "Nachrichten analysieren",
   "buttonSave": "Speichern",
+  "buttonDelete": "Löschen",
   "buttonAdd": "Hinzufügen",
   "buttonDeleteRule": "Regel löschen",
   "buttonAddTest": "Test hinzufügen",
   "buttonAddCustomHTTPRule": "Angepasste HTTP-Regel hinzufügen",
   "buttonResetToDefault": "Auf Standardwert zurücksetzen",
   "buttonAddCustomServiceRule": "Angepasste Serviceregel hinzufügen",
-  "buttonAddTag": "Tag hinzufügen",
+  "buttonAddTag": "Kennzeichen hinzufügen",
   "buttonOK": "OK",
   "buttonCreate": "Erstellen",
   "buttonCancel": "Abbrechen",
@@ -215,6 +216,7 @@
   },
   "inboundOutboundCalls": {
     "config": {
+      "selectBoundaryScope": "Wählen Sie den Umfang der Anwendungsgrenze aus",
       "inbound": {
         "text": "Eingehende Anrufe"
       },
@@ -253,7 +255,7 @@
     "types": "Typen",
     "technologies": "Technologien",
     "httpStatusCode": "HTTP-Status",
-    "hiddenCalls": "Verborgene Aufrufe",
+    "hiddenCalls": "Verdeckte Aufrufe",
     "fastQueryMode": "Schneller Abfragemodus",
     "fastQueryModeTooltip": "Der schnelle Abfragemodus ermöglicht die Abfrageausführung für eine Untergruppe von Aufrufen oder Traces, wenn die Ausführung für das vollständige Dataset zu lange dauern würde.",
     "filteredInThisTrace": "in diesem Trace gefiltert",
@@ -301,12 +303,30 @@
     "dataSource_traces": "{{formattedCount}} Trace",
     "dataSource_traces_plural": "{{formattedCount}} Traces",
     "analyzeCallsOfThisTrace": "Aufrufe dieses Trace analysieren",
-    "noAvailableCustomMetrics": "Keine benutzerdefinierten Metriken verfügbar"
+    "noAvailableCustomMetrics": "Keine benutzerdefinierten Metriken verfügbar",
+    "filters": "Filter",
+    "saveFiltersTitle": "Filter speichern",
+    "saveFiltersDescription": "Speichern Sie die Filter, die Sie hinzugefügt haben, als Abfrage, die jedem Benutzer im Mandanten zur Verfügung steht",
+    "savedFilters": "Gespeicherte Filter",
+    "filtersSavedTitle": "Filter wurden erfolgreich gespeichert",
+    "filtersSavedMessage": "Filter \"{{filterName}}\" sind jetzt für jeden Benutzer in Ihrem Mandanten verfügbar",
+    "includeGroup": "Gruppe einbeziehen",
+    "enterFilterName": "Filtername eingeben",
+    "editFilterTitle": "Filternamen bearbeiten",
+    "editFilterDescription": "Die Änderungen werden für jeden Benutzer in diesem Mandanten aktualisiert.",
+    "filtersUpdatedTitle": "{{filterName}} wurde erfolgreich aktualisiert",
+    "zeroResults": "0 Ergebnisse für {{searchTerm}}",
+    "noSavedFilters": "Noch keine gespeicherten Filter",
+    "addSomeFilters": "Fügen Sie einige Filter hinzu und klicken Sie auf \"Speichern\", um loszulegen.",
+    "tryAdjustingSearch": "Versuchen Sie, Ihre Suche anzupassen.",
+    "deleteFilterModalLabel": "Filterlöschung bestätigen",
+    "deleteConfirmation": "Sind Sie sicher, dass Sie den Filter löschen möchten <i>{{filterName}}</i>? Der Filter wird für jeden Benutzer in diesem Mandanten gelöscht.",
+    "actionCannotBeUndone": "Diese Aktion kann nicht rückgängig gemacht werden."
   },
   "creation": {
     "newAP": "Neue Anwendungsperspektive",
-    "switchSimpleMode": "Zum einfachen Modus wechseln",
-    "switchAdvancedMode": "Zum erweiterten Modus wechseln",
+    "switchSimpleMode": "In einfachen Modus wechseln",
+    "switchAdvancedMode": "In erweiterten Modus wechseln",
     "selectContributionFilter": "Beitragsfilter auswählen",
     "noContributionFilter": "Kein Beitragsfilter",
     "noContributionFilterDescription": "Sie sind Teil einer Gruppe ohne Beitragsfilter. Sie können einen AP ohne Einschränkungen erstellen.",
@@ -383,7 +403,7 @@
           "whoShouldUse": "DevOps, Operationen, SRE, Entwickler"
         },
         "httpOrRpc": {
-          "name": "Anfrageattribute",
+          "name": "Anforderungsattribute",
           "headline": "Eine Anwendung auf der Basis von Anfrageattributen (z. B. HTTP-Header, Abfrageparameter)",
           "whenToUse": {
             "header": "Sie kann hinzugefügt werden, um zwischen verschiedenen Umgebungen zu unterscheiden.",
@@ -394,7 +414,7 @@
             "methodObject": "RPC-Methode oder -Objekt",
             "footer": "Es gibt mehrere RPC-Protokolle, die mit ähnlichen Operatoren unterstützt werden."
           },
-          "whoShouldUse": "DevOps, Operationen, SRE, Entwickler, Qualitätssicherung, Support."
+          "whoShouldUse": "DevOps, Operationen, SRE, Entwickler, Qualitätssicherung, Support"
         },
         "technologyGrouping": {
           "name": "Technologie",
@@ -462,7 +482,7 @@
     "advanced": {
       "defineName": "1. Definieren Sie einen Namen für Ihre Anwendungsperspektive.",
       "apName": "Name der Anwendungsperspektive",
-      "apNameDescription": "Namen von Anwendungsperspektiven sollten in einem Unternehmen eine Definition aufweisen, die allgemein etabliert ist. Beispiel: zum Modellieren einer Umgebung: \"Production Blue\", zum Modellieren einer Gruppe von Services: \"Payment\" oder zum Modellieren eines Tenants: \"ACME Customer\".",
+      "apNameDescription": "Namen der Anwendungsperspektive sollten über eine gut etablierte Definition in einer Organisation verfügen. Zum Beispiel, um eine Umgebung zu modellieren: \"Production Blue\", um eine Reihe von Dienstleistungen zu modellieren: \"Payment\" oder um einen Mieter zu modellieren: \"ACME Customer\".",
       "defineUsingTags": "2. Definieren Sie die Anwendungsperspektive mit einem oder mehreren Tags.",
       "defineUsingTagsDescription": "Beispiel: Der Schlüssel ist \"docker.label\" und der Wert lautet \"environment=Production Blue\", oder der Schlüssel ist \"call.http.params\" und der Wert lautet \"tenant=ACMECustomer\". Beachten Sie, dass alle Aufrufe eines <pill-database>DATENBANK</pill-database> oder <pill-messaging>MESSAGING</pill-messaging>-Service von Services, die dieser Definition entsprechen, automatisch eingeschlossen werden.",
       "defineUsingTagsContributionFilterDescription": "Tags im Beitragsfilter werden von Ihrer Zugriffsberechtigung übernommen und können nicht geändert werden. Wählen Sie einen Beitragsfilter aus und fügen Sie Ihrer Konfiguration weitere Tags hinzu.",
@@ -477,6 +497,7 @@
       "messaging": "NACHRICHTENÜBERTRAGUNG"
     },
     "scope": {
+      "selectDownstreamServices": "Wählen Sie nachgelagerte Dienste aus",
       "optionNoDownStreamServices": "Keine nachgeordneten Services",
       "optionImmediateDownstreamServices": "Unmittelbar nachgeordnete Datenbank- und Messaging-Services",
       "optionAllDownstreamServices": "Alle nachgeordneten Services"
@@ -532,7 +553,7 @@
     "earlyRuleResultWithQuery": "Die frühere Regel \"{{query}}\" wurde übergeben",
     "earlyRuleResult": "Eine frühere Regel wurde übergeben",
     "testFailed": "Test fehlgeschlagen",
-    "testPassed": "Test bestanden",
+    "testPassed": "Test erfolgreich",
     "noTestDefined": "Keine Tests definiert",
     "allTestsPassed": "Alle Tests bestanden",
     "allTestsFailed": "Alle Tests fehlgeschlagen",
@@ -641,7 +662,7 @@
         "duplicateCalls": "Doppelte Aufrufe",
         "duplicateCallsDesc": "Dieser Trace besteht aus einem oder mehreren doppelten Aufrufen (Spannen). Eindeutige Aufrufe: {{traceCallCountIgnoringBatchSize}} - Datensätze: {{traceCallRecordCount}}. Dies führt zu einer falschen Aufrufanzahl (bei Batches) und falschen Fehlerzahlwerten sowie möglicherweise weiteren Unregelmäßigkeiten.",
         "batchedIngestion": "Stapelorientierte Aufnahme",
-        "traceIngestionBatchCount": "Dieser Trace wurde in {{traceIngestionBatchesCount}} verarbeitet. Dies kann zu Unregelmäßigkeiten führen, z. B. dazu, dass Spannen nicht zu einem einzelnen Aufruf zusammengeführt werden, zu einer partiellen Servicezuordnung oder zu anderen unvollständigen Daten.",
+        "traceIngestionBatchCount": "Dieser Trace wurde in {{traceIngestionBatchesCount}}-Batches verarbeitet. Dies kann zu Unregelmäßigkeiten führen, wie z. B. dass Spannen nicht zu einem einzigen Anruf zusammengefasst werden, dass die Dienstzuordnung unvollständig ist oder dass andere unvollständige Daten angezeigt werden.",
         "subCalls": "Untergeordnete Aufrufe",
         "erroneousCalls": "Fehlerhafte Aufrufe",
         "errorLogs": "Fehlerprotokolle",

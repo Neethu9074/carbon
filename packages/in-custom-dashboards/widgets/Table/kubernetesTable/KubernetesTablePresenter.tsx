@@ -7,10 +7,9 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
-import { DataTable as CarbonDataTable, Card } from '@instana/components';
+import { DataTable as CarbonDataTable, Card, TableLoadMoreRow } from '@instana/components';
 import { Disposable, on } from '@instana/observables';
 import { formatDateTime } from '@instana/format-date';
-import { TableLoadMoreRow } from '@instana/legacy';
 
 import { EventsTitle, TablePresenterProps } from 'in-custom-dashboards/widgets/Table/eventsTable/TablePresenter';
 import EntityPageMainNotification from 'in-components/EntityPageMainNotification';

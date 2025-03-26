@@ -60,7 +60,7 @@ export interface LabeledEntity {
   deleted?: boolean;
 }
 
-export type SloBeaconTypes = 'httpRequest' | 'pageLoad' | 'custom';
+export type SloBeaconTypes = 'httpRequest';
 
 export type SloAggregationOptions = Record<AggregationType, string>;
 export type TimeAggregationOptions = keyof typeof timeAggregationOptions;

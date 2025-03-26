@@ -14,7 +14,7 @@ import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWi
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import { sloMetrics } from 'in-service-levels/metrics';
 
-interface ErrorBudgetChartProps {
+interface SloErrorBudgetChartProps {
   automaticallySize?: boolean;
   customHeight?: number;
   customChartSkeletonHeight?: number;
@@ -25,7 +25,7 @@ interface ErrorBudgetChartProps {
   title?: string;
 }
 
-export default function ErrorBudgetChart({
+export default function SloErrorBudgetChart({
   automaticallySize,
   customHeight,
   customChartSkeletonHeight,
@@ -34,7 +34,7 @@ export default function ErrorBudgetChart({
   timeWindowColors,
   configuration,
   title
-}: ErrorBudgetChartProps) {
+}: SloErrorBudgetChartProps) {
   const granularity = calculateSloGranularity(timeConfig);
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
     configuration,

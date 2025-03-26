@@ -40,14 +40,41 @@ export default function CustomTime({ timeConfig, onChange }) {
 
   return (
     <Section title={t('in-components:time.customTimeTitleTimeRange')} light>
-      <form onSubmit={onSubmit}>
-        <TimeSlider form={form} setForm={setForm} from={from} to={to} />
+      <form
+        onSubmit={onSubmit}
+        aria-label={t('in-components:time.customTimeTitleTimeRange')}
+        className={locals.formContainer}
+      >
+        <TimeSlider
+          ariaLabelInput={t('in-components:time.customTimeTimeRangeLowerValue')}
+          unstable_ariaLabelInputUpper={t('in-components:time.customTimeTimeRangeUpperValue')}
+          labelText={t('in-components:time.customTimeTitleTimeRange')}
+          className={locals.labelHidden}
+          form={form}
+          setForm={setForm}
+          from={from}
+          to={to}
+        />
 
         <div className={locals.controls}>
           <div className={locals.inputs}>
-            <DateTimeInput form={form} path="from" setValue={setValue} />
+            <DateTimeInput
+              form={form}
+              path="from"
+              setValue={setValue}
+              dateInputLabel={t('in-components:time.startDate')}
+              hideDateInputLabel
+              timeInputAriaLabel={t('in-components:time.startTime')}
+            />
             <span className={locals.to}>{t('in-components:time.to')}</span>
-            <DateTimeInput form={form} path="to" setValue={setValue} />
+            <DateTimeInput
+              form={form}
+              path="to"
+              setValue={setValue}
+              dateInputLabel={t('in-components:time.endDate')}
+              hideDateInputLabel
+              timeInputAriaLabel={t('in-components:time.endTime')}
+            />
           </div>
           <Button className={locals.button} type="submit" size="compact">
             {t('in-components:time.customTimeButtonSetTime')}
@@ -61,12 +88,13 @@ export default function CustomTime({ timeConfig, onChange }) {
     </Section>
   );
 
-  function TimeSlider({ form, setForm, from, to }) {
+  function TimeSlider({ form, setForm, from, to, ...props }) {
     const [now] = useState(Date.now());
     const tickPositions = useMemo(() => getTickPositions(now), [now]);
 
     return (
       <DebouncedDistinctSlider
+        {...props}
         valueLabelFormat={val => `${formatDateShort(val)} ${formatTimeWithoutSeconds(val)}`}
         marks={tickPositions}
         min={tickPositions[0].value}

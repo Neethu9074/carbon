@@ -19,10 +19,10 @@ import {
   securityAndAccessAccessControlUsers
 } from 'in-settings/navigation/paths';
 import useHrefToActionDashboard from 'in-automation/navigation/hooks/useHrefToActionDashboard';
-import { actionSummary, policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { ACTION_FIELD_TRANSLATIONS } from 'in-automation/components/ActionHistory/constants';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -177,7 +177,7 @@ export default function DetailTab({
       value: actionName,
       isLink: type !== ACTION_TYPE.EXTERNAL ? true : false,
       isObservable: true,
-      stringLink: type === ACTION_TYPE.EXTERNAL ? undefined : `${hrefToActionDashboard(actionId)}${actionSummary}`,
+      stringLink: type === ACTION_TYPE.EXTERNAL ? undefined : hrefToActionDashboard(actionId),
       actionLane: inActionLane
     },
     {

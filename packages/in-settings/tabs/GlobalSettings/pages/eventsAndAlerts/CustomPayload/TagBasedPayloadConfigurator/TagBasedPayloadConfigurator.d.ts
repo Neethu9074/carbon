@@ -87,12 +87,28 @@ export interface GetInfraSuggestionsProps {
   tagFilterExpression: TagFilterExpressionElementUnion;
 }
 
+export interface GetLogSuggestionsProps {
+  name: string;
+  key?: string;
+  timeConfig: TimeConfig;
+  propose: TagSuggestionProposeType;
+  tagFilterExpression: TagFilterExpressionElementUnion;
+}
+
 export function createTagBasedMobileAppPayloadConfigurator({
   getTagCatalog,
   getSuggestions
 }: {
   getTagCatalog: () => Observable<Result<TagCatalog>>;
   getSuggestions?: (args: GetMobileAppSuggestionsProps) => Observable<Result<Suggestions>>;
+});
+
+export function createTagBasedLogPayloadConfigurator({
+  getTagCatalog,
+  getSuggestions
+}: {
+  getTagCatalog: () => Observable<Result<CatalogResponse>>;
+  getSuggestions?: (args: GetLogSuggestionsProps) => Observable<Result<Suggestions>>;
 });
 
 interface TagNodeLike {

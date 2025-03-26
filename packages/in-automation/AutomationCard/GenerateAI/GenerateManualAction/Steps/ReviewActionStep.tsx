@@ -12,7 +12,6 @@ import { Event, Result } from '@instana/types';
 import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/useGenerateAIActionForm';
 import SelectActionStep from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/SelectActionStep';
 import PromptStep from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/PromptStep';
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { ScoredAction } from 'in-automation/types';
 import { t } from 'in-i18n';
@@ -31,9 +30,7 @@ export default function ReviewActionStep({
   actions: Result<ScoredAction[]>;
 }) {
   const showOotbActions = getTriggerTypeFromEvent(event) === 'builtinEvent' && (actions.data?.length ?? 0) > 0;
-  const [activeKey, setActiveKey] = useState<ButtonKey>(
-    !automationActionAiGenerationUnitEnabled ? 'builtinActions' : 'generate'
-  );
+  const [activeKey, setActiveKey] = useState<ButtonKey>('generate');
   const buttonPropsList = [
     {
       text: t('in-automation:GenerateAIActionDialog.liveGeneration'),
@@ -49,7 +46,7 @@ export default function ReviewActionStep({
 
   return (
     <Stack>
-      {showOotbActions && automationActionAiGenerationUnitEnabled && (
+      {showOotbActions && (
         <>
           <Spacer size="normal" />
           <ButtonGroup buttonPropsList={buttonPropsList} activeKey={activeKey} segmented />

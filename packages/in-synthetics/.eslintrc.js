@@ -19,6 +19,7 @@ module.exports = {
         'in-components',
         'in-custom-dashboards',
         'in-hooks',
+        'in-service-levels',
         'in-services',
         'in-stores',
         'in-subscription',

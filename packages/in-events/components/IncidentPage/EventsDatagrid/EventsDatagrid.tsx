@@ -91,9 +91,9 @@ const EventsDatagrid = (props: EventsDatagridProps) => {
   const fetchMoreOnBottomReached = useCallback(
     (containerRefElement: HTMLDivElement | null) => {
       if (containerRefElement) {
-        const { scrollHeight, scrollTop } = containerRefElement;
-        if (!scrollHeight || !scrollTop) return;
-        if (scrollHeight - scrollTop <= 650 && canLoadMore && !loading) {
+        const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
+        if (!scrollHeight || !scrollTop || !clientHeight) return;
+        if (scrollTop + clientHeight + 2 >= scrollHeight && canLoadMore && !loading) {
           loadMore();
         }
       }
@@ -104,7 +104,7 @@ const EventsDatagrid = (props: EventsDatagridProps) => {
   return (
     <div
       ref={tableContainerRef}
-      style={{ height: 600, overflow: 'auto' }}
+      style={{ height: 200, overflow: 'auto', width: '100%' }}
       onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
     >
       <CarbonTable size="md">

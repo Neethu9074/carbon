@@ -1416,6 +1416,11 @@
   "pluginName_oTelK8sNode_1": "OTel Kubernetes 節點",
   "pluginName_oTelK8sNode_2": "OTel Kubernetes 節點",
   "pluginName_oTelK8sNode": "OTel Kubernetes 節點",
+  "pluginName_oTelK8sContainer_plural": "OTel Kubernetes 儲存區",
+  "pluginName_oTelK8sContainer_0": "OTel Kubernetes 儲存區",
+  "pluginName_oTelK8sContainer_1": "OTel Kubernetes 儲存區",
+  "pluginName_oTelK8sContainer_2": "OTel Kubernetes 儲存區",
+  "pluginName_oTelK8sContainer": "OTel Kubernetes 儲存區",
   "pluginName_openLDAP_plural": "OpenLDAP 節點",
   "pluginName_openLDAP_0": "OpenLDAP 節點",
   "pluginName_openLDAP_1": "OpenLDAP 節點",
@@ -2527,6 +2532,11 @@
   "tracingTypeName_otel_0": "呼叫",
   "tracingTypeName_otel_1": "呼叫",
   "tracingTypeName_otel_2": "呼叫",
+  "tracingTypeName_otelbatchsynthetic": "內部觸發程式",
+  "tracingTypeName_otelbatchsynthetic_plural": "內部觸發程式",
+  "tracingTypeName_otelbatchsynthetic_0": "內部觸發程式",
+  "tracingTypeName_otelbatchsynthetic_1": "內部觸發程式",
+  "tracingTypeName_otelbatchsynthetic_2": "內部觸發程式",
   "tracingTypeName_pdo": "PDO 呼叫",
   "tracingTypeName_pdo_plural": "PDO 呼叫",
   "tracingTypeName_pdo_0": "PDO 呼叫",
@@ -8170,6 +8180,7 @@
       "ebsVolumesWithCount": "EBS 磁區 ({{len}})",
       "publicHostname": "公用主機名稱",
       "instanceId": "實例 ID",
+      "accountId": "帳戶 ID",
       "type": "類型",
       "availabilityZone": "可用性區域",
       "publicIp": "公用 IP",
@@ -12683,7 +12694,7 @@
       "agentTlsExpired": "代理程式 TLS 憑證 <code>{{cert}}</code> 在 <code>{{context}}</code> 內過期。",
       "agentTlsAboutToExpire": "代理程式 TLS 憑證 <code>{{cert}}</code> 即將在 <code>{{context}}</code> 天後到期。",
       "tlsProtocolMissingIssue": "代理程式遺漏 TLSv1.3 支援",
-      "tmpDirectoryMissingIssue": "代理程式中遺漏 /tmp 目錄",
+      "tmpDirectoryMissingIssue": "從代理程式查看時，缺少 <code>{{tmpDirLocation}}</code> 目錄",
       "agentVersion": "代理程式版本",
       "bootVersion": "開機版本",
       "origin": "來源",
@@ -13802,7 +13813,9 @@
         "fsresources": "檔案系統資源",
         "fsusage": "檔案系統使用情形",
         "fsavailble": "可用的檔案系統",
-        "fscapacity": "檔案系統容量"
+        "fscapacity": "檔案系統容量",
+        "containers": "儲存器",
+        "summary": "摘要"
       }
     },
     "oTelK8sCluster": {
@@ -13820,8 +13833,10 @@
         "summary": "摘要",
         "nodes": "節點",
         "pods": "Pod",
+        "containers": "儲存器",
         "nodecount": "節點計數",
         "podcount": "Pod 計數",
+        "containercount": "儲存器計數",
         "name": "名稱",
         "namespace": "名稱空間",
         "age": "經歷時間",
@@ -13860,7 +13875,44 @@
         "fsusage": "檔案系統使用情形",
         "fsavailble": "可用的檔案系統",
         "fscapacity": "檔案系統容量",
-        "pods": "Pod"
+        "pods": "Pod",
+        "containers": "儲存器"
+      }
+    },
+    "oTelK8sContainer": {
+      "platform": "平台",
+      "address": "位址",
+      "port": "埠",
+      "kind": "類型",
+      "type": "類型",
+      "serviceName": "服務程式名稱",
+      "entityType": "實體類型",
+      "instanceId": "實例 ID",
+      "runtimeDesc": "Kubernetes 執行時期",
+      "runtimeVersion": "Kubernetes 版本",
+      "exePath": "執行檔路徑",
+      "dashboard": {
+        "containeruptime": "儲存區執行時間",
+        "cpuresources": "CPU 資源",
+        "cpuusage": "CPU 使用率",
+        "cpuutilization": "CPU 使用率",
+        "cputime": "CPU 時間",
+        "cpulimitutilization": "CPU 限制使用率",
+        "cpurequestutilization": "CPU 要求使用率",
+        "cpunodeutilization": "CPU 節點使用率",
+        "memoryresources": "記憶體資源",
+        "memoryusage": "記憶體用量",
+        "memoryavailable": "可用記憶體",
+        "memorylimitutilization": "記憶體限制使用率",
+        "memoryrequestutilization": "記憶體要求使用率",
+        "memoryrss": "記憶體 RSS",
+        "memoryworkingset": "記憶體工作集",
+        "memorypagefaults": "記憶體頁面錯誤",
+        "memorymajorpagefaults": "記憶體主要頁面錯誤",
+        "fsresources": "檔案系統資源",
+        "fsusage": "檔案系統使用情形",
+        "fsavailble": "可用的檔案系統",
+        "fscapacity": "檔案系統容量"
       }
     },
     "oTelJvm": {
@@ -17448,6 +17500,10 @@
       "error": "錯誤",
       "tags": "標籤",
       "resource": "Resource"
+    },
+    "otelBatchSynthetic": {
+      "indexReturn": "內部觸發程式",
+      "bodyApproximated": "Instana 偵測到此呼叫，但沒有其來源的詳細資料。 觸發此呼叫的計時及持續時間為大約值。"
     },
     "pdo": {
       "driver": "驅動程式",

@@ -1,4 +1,5 @@
 {
+  "automationAction": "Automatisierungsaktion",
   "copy": "Kopieren",
   "edit": "Bearbeiten",
   "delete": "Löschen",
@@ -83,9 +84,9 @@
   "value": "Wert",
   "type": "Typ",
   "automationPoliciesWithCount": "Automationsrichtlinien ({{count}})",
-  "automationPolicies": "Automationsrichtlinien",
+  "automationPolicies": "Automatisierungsrichtlinien",
   "copyOf": "(Kopie von) {{name}}",
-  "searchActions": "Aktionen suchen",
+  "searchActions": "Aktionen im Menü \"Suchen\"",
   "searchOptimizations": "Optimierungen der Suche",
   "hostsLimitHelpText": "Begrenzt die Ausführung auf den angegebenen Zielhost. Wählen Sie den Wert aus, der mit der Darstellung des Systems im Ansible-Bestand übereinstimmt, oder geben Sie eine Zeichenfolge ein, die von der Ansible-Grenzwertsyntax unterstützt wird.",
   "aiEngine": "KI-Engine",
@@ -98,15 +99,18 @@
   "actionsWithCount": "Aktionen ({{count}})",
   "titleUrl": "URL",
   "generateWithWatsonx": "Erzeugen mit watsonx",
-  "AISlugContent": "Zum Generieren dieses Inhalts wurde KI verwendet",
   "createPolicyWithName": "Aktion {{actionName}} anzeigen und Richtlinie erstellen",
   "viewActionCreatePolicy": "Aktion anzeigen und Richtlinie erstellen",
   "titleContentReadOnly": "Erstellter Inhalt (Nur Lesen)",
+  "hostId": "Host-ID",
+  "ansibleUrl": "Ansible URL",
+  "playbookFileName": "Dateiname des Spielbuchs",
+  "playbookId": "Playbook-ID",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Aktionskonfiguration",
     "actionDetails": "Aktionsdetails",
     "Step1HeadlineSelectAction": "Beginnen Sie mit einer eingebauten Aktion, die von watsonx erzeugt wurde, um eine neue Aktion für dieses Ereignis zu erstellen.",
-    "Step1HeadlinePrompt": "Erzeugen Sie eine manuelle Aktion mit watsonx auf der Grundlage von Ereignisname, Beschreibung und Entitätstyp.",
+    "Step1HeadlinePrompt": "Erzeugen Sie eine manuelle Aktion mit watsonx auf der Grundlage von Ereignisname, Beschreibung und Entitätstyp. Sie können es bearbeiten und erneut generieren, um zu sehen",
     "Step2Headline": "Geben Sie die Details der Aktion an oder nehmen Sie Änderungen vor, bevor Sie sie im Aktionskatalog speichern.",
     "Step3Headline": "Optional können Sie zusammen mit der Aktion auch eine Automatisierungsrichtlinie erstellen. Sie können diesen Schritt auch zu einem späteren Zeitpunkt durchführen.",
     "step1Title": "Schritt 1: Erzeugen oder Auswählen einer Aktion",
@@ -145,7 +149,6 @@
     "createActionAndPolicy": "Maßnahmen und Politik gestalten",
     "createAction": "Maßnahme erstellen",
     "nameExists": "Es existiert bereits eine Aktion mit Name: {{name}}, und Typ: {{type}}",
-    "failedToGenerateAction": "Aktion konnte nicht erzeugt werden.",
     "failedToCreateActionPolicy": "Es wurde versäumt, Maßnahmen und Strategien zu entwickeln.",
     "failedToCreateAction": "Aktion konnte nicht erstellt werden.",
     "generateScriptDialog": {
@@ -190,7 +193,7 @@
     "lastModified": "Letzte Änderung",
     "script": "Script",
     "interpreter": "Interpreter (optional)",
-    "interpreterHelper": "Der Interpreter ist das Programm, von dem das Script ausgeführt wird. Das kann zum Beispiel bash oder python sein. Die Angabe kann als vollständiger Pfad zum Interpreter erfolgen oder aber nur Name des Interpreters sein, sofern dieser in der Variablen PATH angegeben ist. Dieses Feld ist nicht erforderlich, wenn das Script mit Shebang versehen ist oder den Standardinterpreter verwendet.",
+    "interpreterHelper": "Der Interpreter ist das Programm, von dem das Script ausgeführt wird. Das kann zum Beispiel bash oder Python sein. Die Angabe kann als vollständiger Pfad zum Interpreter erfolgen oder aber nur Name des Interpreters sein, sofern dieser in der Variablen PATH angegeben ist. Dieses Feld ist nicht erforderlich, wenn das Script mit Shebang versehen ist oder den Standardinterpreter verwendet.",
     "ansible": "Ansible",
     "github": "Github-Problem",
     "githubBody": "Hauptteil",
@@ -225,6 +228,9 @@
     "1ActionDetails": "1. Aktionsdetails",
     "2ActionConfiguration": "2. Aktionskonfiguration",
     "3ParamaterDetails": "3. Parameterdetails",
+    "actionDetails": "Aktionsdetails",
+    "actionConfiguration": "Aktionskonfiguration",
+    "parameterDetails": "Parameterdetails",
     "timeout": "Zeitlimit (optional)",
     "timeoutHelpText": "Die maximale Zeit in Sekunden, die auf den Abschluss der Aktion gewartet wird. Wenn die Aktion nicht innerhalb des Zeitlimits abgeschlossen wird, wird sie beendet. Dabei wird das in der Agentenkonfiguration festgelegte Zeitlimit außer Kraft gesetzt.",
     "host": "Host",
@@ -236,7 +242,7 @@
     "noAuth": "Keine Authentifizierung",
     "key": "Schlüssel",
     "ignoreCertErrors": "Zertifikatsfehler ignorieren",
-    "basicAuth": "Grundlegende Autorisierung",
+    "basicAuth": "Basisauthentifizierung",
     "bearerToken": "Trägertoken",
     "authentication": "Authentifizierung",
     "apiKeyAddTo": "Hinzufügen zu",
@@ -249,8 +255,9 @@
     "editParameter": "Parameter bearbeiten",
     "noParametersConfigured": "Keine Parameter konfiguriert",
     "required": "Wert erforderlich",
+    "viewParameter": "Parameter anzeigen",
     "hiddenParam": "Ausgeblendet",
-    "valueType": "Werttyp",
+    "valueType": "Wertetyp",
     "displayName": "Anzeigename",
     "defaultValue": "Standardwert",
     "defaultValueOptional": "Standardwert (optional)",
@@ -313,7 +320,7 @@
     }
   },
   "actionHistory": {
-    "actionHistory": "Protokoll der Aktionen",
+    "actionHistory": "Aktionsprotokoll",
     "goToActionHistory": "Zum Aktionsprotokoll wechseln",
     "actionHistoryWithCount": "Aktionsverlauf ({{count}})",
     "noActionInstances": "Keine Daten verfügbar",
@@ -378,10 +385,9 @@
   },
   "policies": {
     "policies": "Richtlinien",
-    "policiesWithCount": "Richtlinien ({{count}})",
     "newPolicy": "Neue Richtlinie",
     "selectEventTrigger": "Ereignisauslöser auswählen",
-    "eventTrigger": "Ereignistrigger",
+    "eventTrigger": "Ereignisauslöser",
     "unknownPolicy": "Unbekannte Richtlinie",
     "policy": "Richtlinie",
     "createANewPolicy": "Neue Richtlinie erstellen",
@@ -472,9 +478,11 @@
     "showTasks": "Einblenden"
   },
   "deleteDialog": {
-    "confirmRemove": "Bitte bestätigen",
+    "confirmRemove": "Entfernen bestätigen",
     "confirmRemoveMsg": "Möchten Sie <strong>{{name}}</strong> wirklich löschen?",
-    "delete": "Löschen"
+    "delete": "Löschen",
+    "pleaseConfirm": "Bitte bestätigen",
+    "pleaseConfirmMsg": "Möchten Sie <strong>{{name}}</strong> wirklich löschen?"
   },
   "turboActionCategories": {
     "compliance": "Compliance",
@@ -507,11 +515,66 @@
     "recommendedActionHistoryWithCount": "Historie der Ressourcenaktionen ({{count}})",
     "recommendedActionHistory": "Geschichte der Ressourcenaktionen"
   },
+  "actionDashboard": {
+    "ActionConfiguration": "Aktionskonfiguration",
+    "ActionDetails": "Aktionsdetails",
+    "ParameterDetails": "Parameterdetails",
+    "tabs": {
+      "summaryLabel": "Zusammenfassung",
+      "configurationLabel": "Konfiguration"
+    },
+    "noOfTimesRun": "Anzahl der Durchläufe",
+    "successRate": "Erfolgsquote",
+    "avgExecutionTime": "Durchschnittliche Ausführungszeit",
+    "lastModified": "Letzte Änderung",
+    "history": "Verlauf",
+    "summaryTab": {
+      "seconds": "Sekunden"
+    },
+    "associatedPolicies": "Zugehörige Richtlinien"
+  },
   "feedback": {
     "contentHelpfulText": "War dieser generierte Inhalt hilfreich?",
     "thankYouForYourFeedback": "Danke für Ihr Feedback!",
     "submitFeedback": "Feedback einreichen",
     "additionalFeedbacklabel": "Zusätzliches Feedback (optional)",
     "additionalFeedbackPlaceholder": "Was hat Ihnen an der Antwort nicht gefallen? Was kann verbessert werden?"
+  },
+  "consentForm": {
+    "consentButton": "Einverständniserklärung überprüfen",
+    "consentText": "Ein Administrator muss der Datenschutzvereinbarung für die Vorschau der generativen KI-Unterstützung zustimmen, um diese Funktion zu aktivieren."
+  },
+  "AITooltip": {
+    "aiExplained": "KI erklärt",
+    "manualSection": {
+      "section1": {
+        "section1Title": "Aktionsgenerierung",
+        "section1Text": "Um eine Reihe von manuellen Schritten zur Diagnose oder Behebung des Problems zu erstellen, senden wir Ereignisinformationen an watsonx.  Die für die Formulierung der KI-Eingabeaufforderung verwendeten Eingaben werden zunächst aus dem aktuellen Ereignis übernommen und können zur Verbesserung der Ergebnisse geändert werden."
+      },
+      "section2": {
+        "section2Title": "Eingabeaufforderungsfelder",
+        "section2EventName": "<strong>Name der Veranstaltung.</strong> Der Name des Vorfalls, des Ereignisses oder der Warnung.",
+        "section2Description": "<strong>Ereignisbeschreibung.</strong> Die Beschreibung des Vorfalls oder Ereignisses.",
+        "section2Entitytype": "<strong>Typ der Veranstaltungseinheit.</strong> Die Art der mit dem Vorfall oder Ereignis verbundenen Entität."
+      },
+      "section3": {
+        "AIModel": "KI-Modell"
+      },
+      "section4": {
+        "section4Text": "Dies ist eine Vorschaufunktion. Es enthält einen Vorschlag für eine empfohlene Maßnahme oder Maßnahmen zur Bewältigung eines Vorfalls oder Ereignisses. Sie sollten feststellen, ob die Ausgabe für Ihre Bedürfnisse geeignet ist."
+      }
+    },
+    "scriptSection": {
+      "section1": {
+        "section1Text": "Um ein Skript zu erstellen, senden wir Anweisungen von einem manuellen Aktionsschritt an watsonx. Der Schritt kann geändert werden, um die Ergebnisse zu verbessern."
+      },
+      "section3": {
+        "section3Text": "Dies ist eine Vorschaufunktion, die ein vorgeschlagenes Skript für die Ausführung einer Aktion bereitstellt. Sie sollten feststellen, ob die Ausgabe für Ihre Bedürfnisse geeignet ist."
+      }
+    },
+    "preGenerated": {
+      "title": "Vorgefertigte KI-Aktionen",
+      "text": "Wählen Sie aus einer Liste von Aktionen aus, die mithilfe von KI-Modellen von watsonx vorab generiert wurden, um bei der Diagnose oder Behebung von Ereignissen in Ihrem System zu helfen."
+    }
   }
 }

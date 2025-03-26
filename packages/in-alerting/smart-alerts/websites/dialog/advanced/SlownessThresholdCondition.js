@@ -13,7 +13,7 @@ import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/d
 import { getAggregationValue } from 'in-alerting/smart-alerts/applications/dialog/advanced/thresholdConditionUtil';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/ThresholdTypeSelection';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
-import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
+import ThresholdLabel from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdLabel';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
@@ -33,14 +33,7 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
   return (
     <>
       <ThresholdConditionFormGroup>
-        <Dropdown
-          value={metricName}
-          items={ruleMetricNameOptions.slowness}
-          className={locals.dropdownmd}
-          onChange={value => {
-            updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
-          }}
-        />
+        <ThresholdLabel>{blueprintConfig.getMetricLabel(metricName)}</ThresholdLabel>
         <Dropdown
           value={getAggregationValue(form)}
           items={getAggregationOptions(form)}

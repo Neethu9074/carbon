@@ -15,7 +15,6 @@ import LogMessages, {
 import LogMessagesList from 'in-alerting/smart-alerts/applications/components/LogMessagesList';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { alertConfig } from 'in-alerting/smart-alerts/applications/data/alertConfigData.json';
-import { t } from 'in-i18n';
 
 describe('LogMessages', () => {
   const logsAlertConfig = {
@@ -35,12 +34,8 @@ describe('LogMessages', () => {
 
   it('renders correctly', () => {
     render(<LogMessages {...props} />);
-    expect(
-      screen.getByText(t('in-alerting:smartAlerts.applications.logMessages.selectLogMessageTitle'))
-    ).toBeInTheDocument();
-    expect(screen.getByText(t('in-alerting:components.optional'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-alerting:smartAlerts.applications.logMessages.levelColumn'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-alerting:smartAlerts.applications.logMessages.messageColumn'))).toBeInTheDocument();
+
+    expect(screen.getByText('Filter table')).toBeInTheDocument();
   });
 
   it('test onLogMessageSelect event', () => {

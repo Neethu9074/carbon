@@ -7,7 +7,7 @@
 import { CalendarEvent, Integration, TimePlot } from '@carbon/pictograms-react';
 import React from 'react';
 
-import { Card, IconButton } from '@instana/components';
+import { CarbonClickableTile, IconButton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -47,61 +47,52 @@ export default function Management() {
     <LoggingDashboardWrapper>
       <div className={locals.layout}>
         {shouldShowRetentionPeriod && (
-          <Card>
+          <CarbonClickableTile onClick={() => goToPath(dashboardRetentionManagementPath)}>
             <section className={locals.card}>
               <div className={locals.pictogramWrapper}>
-                <TimePlot width={56} color="#0F62FE" />
+                <TimePlot width={56} />
               </div>
-              <span>{localisationStrings.retentionPeriod}</span>
-              <p>{localisationStrings.retentionPeriodDescription}</p>
+              <div className={locals.description}>
+                <span>{localisationStrings.retentionPeriod}</span>
+                <p>{localisationStrings.retentionPeriodDescription}</p>
+              </div>
               <div className={locals.navButton}>
-                <IconButton
-                  aria-label={'logRetention-link-button'}
-                  color="#0F62FE"
-                  onClick={() => goToPath(dashboardRetentionManagementPath)}
-                  type="lib_arrow_right"
-                />
+                <IconButton color="#0F62FE" aria-label={'logRetention-link-button'} type="lib_arrow_right" />
               </div>
             </section>
-          </Card>
+          </CarbonClickableTile>
         )}
         {shouldShowLogVolume && (
-          <Card>
+          <CarbonClickableTile onClick={() => goToPath(dashboardLogVolumePath)}>
             <section className={locals.card}>
               <div className={locals.pictogramWrapper}>
-                <CalendarEvent width={56} color="#0F62FE" />
+                <CalendarEvent width={56} />
               </div>
-              <span>{localisationStrings.logVolume}</span>
-              <p>{localisationStrings.logVolumeDescription}</p>
+              <div className={locals.description}>
+                <span>{localisationStrings.logVolume}</span>
+                <p>{localisationStrings.logVolumeDescription}</p>
+              </div>
               <div className={locals.navButton}>
-                <IconButton
-                  aria-label={'logVolume-link-button'}
-                  color="#0F62FE"
-                  onClick={() => goToPath(dashboardLogVolumePath)}
-                  type="lib_arrow_right"
-                />
+                <IconButton color="#0F62FE" aria-label={'logVolume-link-button'} type="lib_arrow_right" />
               </div>
             </section>
-          </Card>
+          </CarbonClickableTile>
         )}
         {shouldShowIntegrations && (
-          <Card>
+          <CarbonClickableTile onClick={() => goToPath(dashboardIntegrationsPath)}>
             <section className={locals.card}>
               <div className={locals.pictogramWrapper}>
-                <Integration width={56} color="#0F62FE" />
+                <Integration width={56} />
               </div>
-              <span>{localisationStrings.logIntegrations}</span>
-              <p>{localisationStrings.logIntegrationsDescription}</p>
+              <div className={locals.description}>
+                <span>{localisationStrings.logIntegrations}</span>
+                <p>{localisationStrings.logIntegrationsDescription}</p>
+              </div>
               <div className={locals.navButton}>
-                <IconButton
-                  aria-label={'integration-link-button'}
-                  color="#0F62FE"
-                  onClick={() => goToPath(dashboardIntegrationsPath)}
-                  type="lib_arrow_right"
-                />
+                <IconButton color="#0F62FE" aria-label={'integration-link-button'} type="lib_arrow_right" />
               </div>
             </section>
-          </Card>
+          </CarbonClickableTile>
         )}
       </div>
     </LoggingDashboardWrapper>

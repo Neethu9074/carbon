@@ -78,6 +78,7 @@ Then execute the following snippet on your terminal.
     opening the Edit-Me page https://delivery.instana.io/ui/user_profile
   * Username should have `ibm.com` suffix
   * password is just use your API token
+    * If you do not see API Token, you can create and use an Identity token
   * ![Finding your user name and API token within Artifactory](./screenshots/artifactory-config.png)
 
 With this information, please run this in a shell:

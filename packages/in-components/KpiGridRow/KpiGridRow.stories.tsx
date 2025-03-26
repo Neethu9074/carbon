@@ -6,8 +6,8 @@
 import React, { Fragment } from 'react';
 
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
-import KpiCard from 'in-components/KpiCard/KpiCard';
 import { Col, Row } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 
 export default {
   component: KpiGridRow

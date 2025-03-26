@@ -1,7 +1,7 @@
 {
   "logs": "日志",
+  "logsCountSum": "日志计数（总和）",
   "sum": "总和",
-  "count": "计数",
   "bar": "条形图",
   "logsOverTime": "一段时间内的日志数",
   "logsOverTime_ERROR": "错误",
@@ -32,7 +32,7 @@
     "mostRecent": "最新的放在最前面",
     "oldest": "最旧的放在最前面"
   },
-  "cpuTotal": "CPU 总计",
+  "cpuTotal": "总 CPU",
   "memoryUsage": "内存使用率",
   "cluster": "集群",
   "node": "节点",
@@ -56,7 +56,7 @@
   "host": "主机",
   "fileOnHost": "于",
   "file": "文件",
-  "logExpiration": "保留到",
+  "logExpiration": "保留直至",
   "stacktraceLogMessage": "堆栈跟踪",
   "logTraceTitle": "堆栈跟踪",
   "stackTraceHeader": "堆栈跟踪消息",
@@ -67,11 +67,11 @@
     "management": "管理",
     "logVolume": {
       "logVolumeTitle": "当月日志卷",
-      "gb": "GB",
+      "gib": "GiB",
+      "tib": "TiB",
       "logVolumeIcon": "转至日志卷"
     },
     "retentionIcon": "更改保留期",
-    "noData": "无可用数据",
     "analyzeLogs": "分析日志",
     "managementPage": {
       "logVolume": "日志卷",

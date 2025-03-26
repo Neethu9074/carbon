@@ -40,7 +40,7 @@ describe('AssociationsCommonSection', () => {
     const { container } = render(
       <AssociationsCommonSection form={form} updateForm={updateForm} setSliderState={setSliderState} />
     );
-    const spanText = container.querySelector('span.cds--progress-bar__label-text');
-    expect(spanText).toBeTruthy();
+    const skeletonTableText = container.querySelector('table.cds--skeleton');
+    expect(skeletonTableText).toBeTruthy();
   });
 });

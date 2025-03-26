@@ -20,6 +20,7 @@
       "tableLoadMoreRow": {
         "loadMore": "さらにロード"
       },
+      "filterTable": "フィルター・テーブル",
       "dataTable": "データ・テーブ",
       "expandHeader": "行を展開",
       "expandRow": "行の拡張を切り替える",

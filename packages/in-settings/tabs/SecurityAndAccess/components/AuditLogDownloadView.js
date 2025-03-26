@@ -6,10 +6,11 @@
 import React from 'react';
 
 import DownloadView from 'in-components/DownloadButton/components/DownloadView';
+import { formatPathWithTU } from 'in-services/formatters/url';
 import { baseUrl } from 'in-services/config';
 
 export default function AuditLogDownloadView({ offset, query, pageSize, endpoint, download }) {
-  const linkToDownload = baseUrl + endpoint;
+  const linkToDownload = baseUrl + formatPathWithTU(endpoint ?? '');
   return (
     <DownloadView
       data

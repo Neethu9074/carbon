@@ -606,6 +606,7 @@
       "configurationTab": "Configuration",
       "isCertificateValid": "Last run - Certificate is signed by public CA",
       "resultsCertificateValid": "Certificate is signed by public CA",
+      "serviceLevelsTab": "Service Levels",
       "certificateValid": "Yes",
       "certificateNotValid": "No",
       "daysRemaining": "Last run - Days remaining",
@@ -624,7 +625,11 @@
       "failures": "Failures",
       "status": "Status",
       "success": "Success",
-      "daysRemaining": "Days remaining"
+      "daysRemaining": "Days remaining",
+      "dns": {
+        "failureType": "Failure type",
+        "na": "N/A"
+      }
     },
     "detailsPage": {
       "detailLiveModeDisabled": "Live mode is not applicable in synthetic test result detail page",

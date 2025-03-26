@@ -29,8 +29,8 @@
     "traffic": "Tráfego",
     "indicator": {
       "type": "Tipo desconhecido",
-      "type_eventBased": "Contagem de evento",
-      "type_customEventBased": "Contagem de evento",
+      "type_eventBased": "Contagem de eventos",
+      "type_customEventBased": "Contagem de eventos",
       "type_timeBased": "Hora",
       "blueprint": "Blueprint desconhecido",
       "blueprint_latency": "Latência",
@@ -73,7 +73,7 @@
     },
     "type": "Tipo",
     "selectLabel": "Seleção: {{selectedLabel}}",
-    "serviceLevelObjective": "Objetivo de Nível de Serviço",
+    "serviceLevelObjective": "Objetivo de nível de serviço",
     "timeWindow": {
       "type": "desconhecido",
       "type_fixed": "Fixo",
@@ -107,9 +107,8 @@
     "metrics": {
       "status": "Status",
       "remainingBudget": "Restante",
-      "totalBudget": "Orçamento errado",
-      "consumedBudget": "Orçamento errado consumido",
-      "momentaryBudgetConsumption": "Consumo do orçamento de erro",
+      "totalBudget": "Orçamento com erro",
+      "consumedBudget": "Orçamento de erro consumido",
       "beaconCount": "Contagem de indicadores",
       "calls": "Chamadas",
       "latency": "Latência",
@@ -146,7 +145,7 @@
       "event_test_plural": "{{count}} testes"
     },
     "deleteDialog": {
-      "confirmRemove": "Confirme",
+      "confirmRemove": "Confirmar remoção",
       "confirmRemoveMsg": "Tem certeza de que deseja excluir <strong>{{name}}</strong>?",
       "delete": "Excluir"
     }
@@ -164,7 +163,7 @@
     "custom": "Customizado",
     "customDescription": "Configurar um filtro customizado para selecionar serviços e / ou terminais",
     "title": {
-      "create": "Criar Objetivo de nível de serviço (SLO)",
+      "create": "Criar objetivo de nível de serviço (SLO)",
       "edit": "Editar objetivo de nível de serviço (SLO)"
     },
     "selectIndicator": "Selecionar blueprint",
@@ -174,19 +173,19 @@
     "SelectServiceandEndpoint": "Selecionar serviço e terminal",
     "selectIndicatorNavItem": "Configurar indicador",
     "beaconTypes": {
-      "beaconLabel_httpRequest": "Solicitações HTTP",
+      "beaconLabel_httpRequest": "Solicitações de HTTP",
       "beaconLabel_pageLoad": "Carregamentos de páginas do website",
       "beaconLabel_custom": "Eventos customizados do website"
     },
     "serviceAndEndpoint": "Serviço e terminal",
     "selectObjectiveTitle": "Configurar objetivo",
-    "sloTarget": "SLO de destino",
-    "timeWindow": "Espaço de tempo",
+    "sloTarget": "Destino de SLO",
+    "timeWindow": "Período de tempo",
     "length": "Length",
     "start": "Início",
     "valueMissingTime": "— mín",
-    "errorBudgetPreviewTitle": "Orçamento errado",
-    "errorBudgetPreviewTitle_eventBased": "Orçamento de erro estimado",
+    "errorBudgetPreviewTitle": "Orçamento com erro",
+    "errorBudgetPreviewTitle_eventBased": "Orçamento com erro estimado",
     "errorBudgetPreviewTitle_customEventBased": "$t(in-service-levels:createSloDialog.errorBudgetPreviewTitle_eventBased)",
     "estErrorBudgetMsg": "Com base nos últimos $t(in-service-levels:general.timeWindow.size_day, { \"count\": {{count}} })",
     "errorTimeWindowDay": "O tamanho do espaço de tempo deve ser menor ou igual a 31 dias",
@@ -221,11 +220,11 @@
       "eventTypeExplanation_application": "Contagem total de chamadas válidas versus inválidas",
       "eventTypeExplanation_website": "Contagem total de beacons bons e ruins",
       "eventTypeExplanation_synthetic": "Contagem total de resultados bons e ruins",
-      "eventCount": "Contagem de evento",
+      "eventCount": "Contagem de eventos",
       "eventType": "Tipo de evento",
       "thresholdLabel": "Tipo desconhecido",
       "thresholdLabel_latency": "Limite (ms)",
-      "thresholdLabel_availability": "Taxa de erros (%)",
+      "thresholdLabel_availability": "Taxa de erro (%)",
       "setGoodCall": "Configure as chamadas válidas para um serviço",
       "setBadCall": "Configure as chamadas inválidas para um serviço (opcional)",
       "thresholdDescription_GT": "Um minuto bom é definido por uma contagem de mais de {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) por minuto. Um minuto ruim é definido por uma contagem menor que ou igual a {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) por minuto.",
@@ -250,13 +249,13 @@
       "target": "Destino:",
       "errorBudgetRemaining": "Restante:",
       "errorBudgetSpent": "Orçamento gasto com erro",
-      "timeWindow": "Espaço de tempo",
+      "timeWindow": "Período de tempo",
       "timeWindowType_dynamic": "Espaço de tempo dinâmico",
       "timeWindowType_rolling": "Espaço de tempo contínuo",
       "timeWindowType_fixed": "Espaço de tempo fixo",
       "configuredTimeWindow": "Espaço de tempo de SLO configurado:",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
-      "startTime": "Horário de início: {{startDay}}, {{startTime}}",
+      "startTime": "Horário de início: {{startDay}} , {{startTime}}",
       "matchedSLOTimeWindow": "Espaço de tempo do SLO correspondente: ",
       "matchedSLOTimeWindow_plural": "Espaços de tempo de SLO correspondentes: ",
       "matchedSLOTimeWindow_0": "Espaço de tempo do SLO correspondente: ",
@@ -300,8 +299,8 @@
       "name": "Nome",
       "entity": "Entidade",
       "blueprint": "Blueprint",
-      "errorBudget": "Erro de orçamento restante",
-      "status": "Status/Destino",
+      "errorBudget": "Orçamento com erro restante",
+      "status": "Status/destino",
       "tags": "Tags"
     }
   },
@@ -331,18 +330,18 @@
     },
     "components": {
       "errorBudgetKpiCard": {
-        "remainingBudget": "Erro de orçamento restante",
+        "remainingBudget": "Orçamento com erro restante",
         "totalBudget": "Orçamento: {{value}}"
       },
       "sloStatusKpiCard": {
-        "target": "Destino SLO: {{value}}"
+        "target": "Destino de SLO: {{value}}"
       },
       "trafficKpiCard": {
         "title": "Tráfego",
         "totalTraffic": "Total: {{value}}"
       },
       "errorBudgetChart": {
-        "title": "Orçamento errado"
+        "title": "Orçamento com erro"
       },
       "trafficChart": {
         "title": "Tráfego"
@@ -400,10 +399,10 @@
       "objectiveSection": {
         "title": "Objetivo",
         "targetLabel": "Target",
-        "timeWindowLabel": "Espaço de tempo",
+        "timeWindowLabel": "Período de tempo",
         "durationLabel": "Length",
-        "startDateLabel": "Data de início",
-        "startTimeLabel": "Hora de Início"
+        "startDateLabel": "Data de Início",
+        "startTimeLabel": "Horário de início"
       }
     }
   }

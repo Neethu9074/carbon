@@ -109,13 +109,12 @@
       "remainingBudget": "剩餘",
       "totalBudget": "錯誤預算",
       "consumedBudget": "耗用的錯誤預算",
-      "momentaryBudgetConsumption": "錯誤預算消耗",
       "beaconCount": "引標計數",
       "calls": "呼叫",
       "latency": "延遲",
       "beaconDuration": "引標持續時間",
       "threshold": "臨界值",
-      "failureRate": "故障率",
+      "failureRate": "失敗率",
       "errors": "錯誤呼叫率",
       "beaconErrorRate": "引標錯誤率",
       "goodEvents": "良好事件",
@@ -146,7 +145,7 @@
       "event_test_plural": "{{count}} 個測試"
     },
     "deleteDialog": {
-      "confirmRemove": "請確認",
+      "confirmRemove": "確認移除",
       "confirmRemoveMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？",
       "delete": "刪除"
     }
@@ -196,7 +195,7 @@
     "errorBlankEntity": "請從清單中選取實體",
     "errorEmptyGoodFilter": "必須定義良好的過濾器",
     "errorEqualTagFilter": "好的和壞的過濾器不能完全相同",
-    "nameAndTagsTitle": "設定明細",
+    "nameAndTagsTitle": "設定詳細資料",
     "sloNameLabel": "SLO 名稱",
     "sloNamePlaceholder": "輸入名稱",
     "sloNameCopyTemplate": "{{name}} 的副本",

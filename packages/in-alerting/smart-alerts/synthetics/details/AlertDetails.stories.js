@@ -20,7 +20,7 @@ import {
   enableAlertConfig,
   restoreAlertConfigVersion
 } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
-import { Default as alertconfigValue } from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration.story';
+import { Default as alertconfigValue } from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration.stories';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-synthetics/navigation/matrix';
 import AlertConfiguration from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';

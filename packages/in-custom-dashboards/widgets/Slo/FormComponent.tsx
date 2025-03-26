@@ -40,7 +40,8 @@ export default function FormComponent({
       productArea: productAreas.custom_dashboard,
       pageName: pageNames.custom_dashboard
     });
-  }, [trackCta]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const entityTypeField = form.getIn(['entityType']);
   const sloIdField = form.getIn(['sloId']);

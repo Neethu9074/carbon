@@ -6,71 +6,16 @@
 import React, { useState } from 'react';
 
 import { SearchInput, Checkbox, CarbonIconButton, SvgIcon, Pagination } from '@instana/components';
-import { Th, SortableTh } from '@instana/legacy';
 
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { OrderDirection, SortComparator } from 'in-types';
 import Overlay from 'in-components/overlays/Overlay';
+import { SortComparator } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ConfigurableTh.mless';
-
-interface ConfigurableThProps<ItemType extends Object> extends Omit<ConfigurableButtonProps<ItemType>, 'children'> {
-  sortDirection: OrderDirection;
-  onClick: React.EventHandler<React.MouseEvent<Element, MouseEvent>>;
-  children: React.ReactNode;
-  width?: number | string;
-  widthInAbsoluteUnit?: boolean;
-  className?: string;
-  sortable?: boolean;
-  isSortedByThisColumn?: boolean;
-  noWrap?: boolean;
-}
-
-export default function ConfigurableTh<ItemType extends Object>(props: ConfigurableThProps<ItemType>) {
-  const {
-    isSortedByThisColumn,
-    sortDirection,
-    onClick,
-    children,
-    sortable,
-    className,
-    noWrap,
-    width,
-    widthInAbsoluteUnit
-  } = props;
-
-  const wrapContent = (content: React.ReactNode) => <ConfigureButton {...props}>{content}</ConfigureButton>;
-
-  if (sortable === false) {
-    return (
-      <Th
-        className={className}
-        noWrap={noWrap}
-        width={width}
-        widthInAbsoluteUnit={widthInAbsoluteUnit}
-        wrapContent={wrapContent}
-      >
-        {children}
-      </Th>
-    );
-  }
-
-  return (
-    <SortableTh
-      {...props}
-      isSortedByThisColumn={isSortedByThisColumn ?? false}
-      sortDirection={sortDirection}
-      onClick={onClick}
-      wrapContent={wrapContent}
-    >
-      {children}
-    </SortableTh>
-  );
-}
 
 interface ConfigurableButtonProps<ItemType extends Object> extends ContentProps<ItemType> {
   children?: React.ReactNode;

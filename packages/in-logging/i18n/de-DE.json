@@ -1,7 +1,7 @@
 {
   "logs": "Protokolle",
+  "logsCountSum": "Anzahl der Protokolle (Summe)",
   "sum": "Summe",
-  "count": "count",
   "bar": "Leiste",
   "logsOverTime": "Protokolle im Laufe der Zeit",
   "logsOverTime_ERROR": "Fehler",
@@ -21,7 +21,7 @@
   "messageParam": "Nachrichtenparameter",
   "applicationCounter": "{{count}} Anwendungen",
   "exceptionMessageHeader": "Ausnahmebedingungsnachricht",
-  "stackTrace": "Stack-Trace",
+  "stackTrace": "Stack-Trace-",
   "service": "Service",
   "stream": "Datenstrom",
   "tooltipCopyToClipboard": "In Zwischenablage kopieren",
@@ -32,7 +32,7 @@
     "mostRecent": "Neuester zuerst",
     "oldest": "Ältester zuerst"
   },
-  "cpuTotal": "CPU insgesamt",
+  "cpuTotal": "Gesamtanzahl der CPUs",
   "memoryUsage": "Speicherbelegung",
   "cluster": "Cluster",
   "node": "Knoten",
@@ -48,7 +48,7 @@
   "containerdContainer": "Containerd-Container",
   "crioContainer": "Crio-Container",
   "gardenContainer": "Garden-Container",
-  "error": "{{count}} Fehler",
+  "error": "Fehler {{count}}",
   "error_plural": "{{count}} Fehler",
   "warn": "{{count}} Warnung",
   "warn_plural": "{{count}} Warnungen",
@@ -67,11 +67,11 @@
     "management": "Management",
     "logVolume": {
       "logVolumeTitle": "Logvolumen des aktuellen Monats",
-      "gb": "GB",
+      "gib": "GiB",
+      "tib": "TiB",
       "logVolumeIcon": "Zum Log-Volumen gehen"
     },
     "retentionIcon": "Aufbewahrungszeitraum ändern",
-    "noData": "Keine Daten verfügbar",
     "analyzeLogs": "Protokolle analysieren",
     "managementPage": {
       "logVolume": "Protokolldatenvolumen",

@@ -109,7 +109,6 @@
       "remainingBudget": "Restant",
       "totalBudget": "Budget d'erreur",
       "consumedBudget": "Budget d'erreur utilisé",
-      "momentaryBudgetConsumption": "Erreur de consommation du budget",
       "beaconCount": "Nombre de balises",
       "calls": "Appels",
       "latency": "Temps d'attente",
@@ -146,7 +145,7 @@
       "event_test_plural": "{{count}} tests"
     },
     "deleteDialog": {
-      "confirmRemove": "Veuillez confirmer",
+      "confirmRemove": "Confirmer la suppression",
       "confirmRemoveMsg": "Voulez-vous vraiment supprimer <strong>{{name}}</strong> ?",
       "delete": "Supprimer"
     }
@@ -170,11 +169,11 @@
     "selectIndicator": "Sélectionner le plan directeur",
     "selectEntityNavItem": "Définir l'entité",
     "selectEntityTitle": "Sélectionnez une entité à laquelle ajouter le SLO :",
-    "selectScopeNavItem": "Définissez la portée",
+    "selectScopeNavItem": "Définir la portée",
     "SelectServiceandEndpoint": "Sélectionner un service et un noeud final",
     "selectIndicatorNavItem": "Définir l'indicateur",
     "beaconTypes": {
-      "beaconLabel_httpRequest": "Demandes HTTP",
+      "beaconLabel_httpRequest": "Requêtes HTTP",
       "beaconLabel_pageLoad": "Chargements de page de site Web",
       "beaconLabel_custom": "Evénements personnalisés de site Web"
     },
@@ -225,7 +224,7 @@
       "eventType": "Type d'événement",
       "thresholdLabel": "Type inconnu",
       "thresholdLabel_latency": "Seuil (ms)",
-      "thresholdLabel_availability": "Taux d'erreur (%)",
+      "thresholdLabel_availability": "Taux d'erreurs (%)",
       "setGoodCall": "Définir les appels corrects à un service",
       "setBadCall": "Définir les appels incorrects à un service (facultatif)",
       "thresholdDescription_GT": "Une bonne minute est définie par un nombre supérieur à {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) par minute. Une mauvaise minute est définie par un nombre inférieur ou égal à {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) par minute.",
@@ -256,7 +255,7 @@
       "timeWindowType_fixed": "Fenêtre de temps fixe",
       "configuredTimeWindow": "Fenêtre de temps d'objectif de niveau configurée :",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
-      "startTime": "Heure de début: {{startDay}}, {{startTime}}",
+      "startTime": "Heure de début : {{startDay}} , {{startTime}}",
       "matchedSLOTimeWindow": "Fenêtre de temps d'objectif de niveau de service correspondante : ",
       "matchedSLOTimeWindow_plural": "Fenêtres de temps d'objectif de niveau de service correspondantes : ",
       "matchedSLOTimeWindow_0": "Fenêtre de temps d'objectif de niveau de service correspondante : ",
@@ -295,7 +294,7 @@
         "timeWindow_rolling": "$t(in-service-levels:general.timeWindow.size, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), en continu"
       }
     },
-    "title": "Objectifs de niveau de service",
+    "title": "objectifs de niveau de service",
     "columnLabels": {
       "name": "Nom",
       "entity": "Entité",

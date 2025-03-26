@@ -783,5 +783,6 @@
     "helpButtonLabel": "Give feedback"
   },
   "labelSyntheticMonitoring": "Synthetic monitoring",
+  "labelServiceLevels": "Service Levels",
   "labelResourceOptimizations": "Optimizations"
 }

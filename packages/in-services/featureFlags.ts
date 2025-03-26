@@ -60,6 +60,7 @@ export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled')
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
 export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
+export const bidirectionalSlackEnabled = isFeatureFlagEnabled('bidirectionalSlackEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
@@ -199,6 +200,12 @@ export const mobileAppSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertFullScreenDesignEnabled'
 );
 
+// Dialog view default for all smart alert
+export const isSmartAlertDialogViewDefaultEnabled = isFeatureFlagEnabled('isSmartAlertDialogViewDefaultEnabled');
+
+// Dialog view for log smart alert
+export const logSmartAlertDialogViewEnabled = isFeatureFlagEnabled('logSmartAlertDialogViewEnabled');
+
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
 
@@ -326,4 +333,4 @@ export const accessControlCarbonTable = isFeatureFlagEnabled('accessControlCarbo
 export const idpConfigV2Enabled = isFeatureFlagEnabled('idpConfigV2Enabled', false);
 export const sloLiteEnabled = isFeatureFlagEnabled('sloLiteEnabled', false);
 export const sloFullEnabled = isFeatureFlagEnabled('sloFullEnabled', true);
-export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled', true);
+export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled', false);

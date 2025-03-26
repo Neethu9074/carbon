@@ -12,6 +12,11 @@ import { SamlApiConfig, SamlConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import {
+  getConfigAsResultObservableInternal,
+  setConfigV2 as setConfig,
+  deleteConfigV2 as deleteConfig
+} from 'in-settings/tabs/SecurityAndAccess/api/saml';
+import {
   DELETE_DESCRIPTIONS,
   MAP_CARBON_STATUS,
   SAVE_DESCRIPTIONS
@@ -21,11 +26,6 @@ import {
   isAnyInvitationsPending
 } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/utils';
 import { DeleteConfigConfirmDialog } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/DeleteConfigConfirmDialog';
-import {
-  getConfigAsResultObservableInternal,
-  setConfig,
-  deleteConfig
-} from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import useFormWithObservable from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/hooks/useObservableWithForm';
 import useNotification from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/hooks/useNotification';
 import { SamlMapForm } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Saml/Saml.types';

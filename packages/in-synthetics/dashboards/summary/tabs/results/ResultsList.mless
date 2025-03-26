@@ -14,4 +14,13 @@
     max-width: 12.5rem;
     .ellipsis();
   }
+
+  .popoverContent {
+    :global(.cds--contained-list__header) {
+      display: none;
+    }
+  }
+  .noData {
+    margin: 0.5rem;
+  }
 }

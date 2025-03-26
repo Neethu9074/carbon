@@ -7,13 +7,13 @@
     "alertHeaderLabelBackToListOfAlerts": "返回到警报列表",
     "alertHeaderAlert": "警报",
     "alertHeaderRestoreRevisionTooltip": "复原",
-    "alertHeaderRestoreRevisionConfirmationDialogHeader": "请确认",
+    "alertHeaderRestoreRevisionConfirmationDialogHeader": "确认复原",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "确定要复原所选修订吗？",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "复原",
     "alertHeaderRestoreDeleteTooltip": "删除",
     "alertHeaderEditTooltip": "编辑",
     "alertHeaderDuplicateTooltip": "复制",
-    "alertHeaderRestoreDeleteConfirmationDialogHeader": "请确认",
+    "alertHeaderRestoreDeleteConfirmationDialogHeader": "确认移除",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "确定要除去警报 <strong>{{alertConfigName}}</strong> 吗？",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
     "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警报配置的修订版 {{description}}。如果要进行更改，请<latestRevisionButton>选择最新修订版</latestRevisionButton>或<restoreRevisionButton>从当前修订版复原</restoreRevisionButton>。",
@@ -22,12 +22,12 @@
     "alertStateActive": "活动",
     "alertPropertyInfosLabelTitle": "标题",
     "alertPropertyInfosLabelAlertLevel": "警报级别",
-    "alertPropertyInfosLabelTriggersIncident": "触发事件",
+    "alertPropertyInfosLabelTriggersIncident": "触发突发事件",
     "alertPropertyInfosLabelDescription": "描述",
     "noChannelSelectedText": "当前，您尚未选择警报通道，并且不会接收任何警报。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他过滤器",
     "groupBy": "分组依据",
-    "noChannelAvailable": "没有可用的警报频道",
+    "noChannelAvailable": "没有可用的警报通道",
     "optional": "可选",
     "on": "ON",
     "off": "关闭",
@@ -56,7 +56,7 @@
       "chartAlertsLaneErrorMessage": "无法装入警告",
       "chartAlertsLaneErrorMessageForTearSheet": "请输入有效的“触发后”数字 ",
       "chartAlertsPreviewLanePresenterAlertsLabel": "警报",
-      "chartAlertsPreviewLanePresenterNoAlertsLabel": "无警报",
+      "chartAlertsPreviewLanePresenterNoAlertsLabel": "没有警报",
       "chartAlertsPreviewLanePresenterTooltip": "警报：{{count}}",
       "chartAlertsPreviewLanePresenterTooltip_plural": "警报：{{count}}",
       "chartAlertsPreviewLanePresenterTooltip_0": "警报：{{count}}",
@@ -68,13 +68,14 @@
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "您正在查看已删除的警报配置。不能修改。",
     "alertPropertyInfosWarning": "警告",
     "alertPropertyInfosCritical": "严重",
+    "alertActionConfirmationDialogHeader": "确认操作",
     "alertConfirmationDialogDescription": "未将任何 {{entityPlaceholder}} 配置为发出警报。 确定要继续吗？",
     "labelConfirm": "确认",
     "customPayload": {
       "deleteRow": "删除行",
       "key": "密钥",
       "value": "值",
-      "unknownTypeTypeItCanNotBeEdited": "未知类型：{{type}} - 无法编辑。",
+      "unknownTypeTypeItCanNotBeEdited": "未知类型：{{type}} - 无法编辑此类型。",
       "customWithColon": "定制",
       "valueType": "值类型",
       "static": "静态",
@@ -92,7 +93,8 @@
       "additionalCustomPayloadTitle": "其他定制有效内容数（{{count}} 个）",
       "globalCustomPayloadTitle": "全局定制有效内容数（{{count}} 个）",
       "globalCustomPayloadRetrieveFailed": "发生错误。 无法检索全局定制有效内容。",
-      "noGlobalCustomPayloadConfigured": "未配置全局定制有效内容"
+      "noGlobalCustomPayloadConfigured": "未配置全局定制有效内容",
+      "includeAdditionalCustomPayload": "包含额外的定制有效内容（可选）"
     },
     "previewFor": "预览： ",
     "groupedViewHeader": "{{formattedCount}} 个结果",
@@ -183,12 +185,12 @@
           "individual": "个别警报",
           "optionNotAvailableForAdaptiveThreshold": "对于自适应阈值，此选项不可用",
           "evaluationTypePERAP": {
-            "selectionText": "对于此应用程序透视图",
-            "globalSelectionText": "每个应用程序透视图",
-            "shortText": "按应用程序透视图",
+            "selectionText": "针对此应用程序透视图",
+            "globalSelectionText": "针对每个应用程序透视图",
+            "shortText": "针对每个应用程序透视图",
             "columnText": "已汇总",
             "description": "针对此应用程序透视图单独发出警报",
-            "globalDescription": "对每个应用程序透视图单独发出警报",
+            "globalDescription": "针对每个应用程序透视图单独发出警报",
             "tearSheetSelectionText": "按应用程序分组",
             "tearSheetDescription": "与过滤器匹配的调用将对照 {{count}} 个应用程序的阈值进行评估。 如果发生延迟违例，就会针对整个应用程序透视图发出警报通知。",
             "tearSheetDescription_plural": "与过滤器匹配的调用将根据 {{count}} 个应用程序的阈值进行评估。 如果发生延迟违例，就会针对整个应用程序透视图发出警报通知。",
@@ -197,10 +199,10 @@
             "tearSheetDescription_2": "与过滤器匹配的调用将根据 {{count}} 个应用程序的阈值进行评估。 如果发生延迟违例，就会针对整个应用程序透视图发出警报通知。 "
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "此应用程序透视图的每个服务",
-            "globalSelectionText": "每个应用程序透视图上下文中的每个服务",
-            "shortText": "按服务",
-            "columnText": "每个服务",
+            "selectionText": "针对此应用程序透视图的每个服务",
+            "globalSelectionText": "针对每个应用程序透视图上下文中的每个服务",
+            "shortText": "针对每个服务",
+            "columnText": "针对每个服务",
             "description": "针对此应用程序透视图的每个服务单独发出警报",
             "globalDescription": "针对每个应用程序透视图上下文中的每个服务单独发出警报",
             "tearSheetSelectionText": "按服务分组",
@@ -211,10 +213,10 @@
             "tearSheetDescription_2": "与过滤器匹配的调用将根据 {{count}} 个服务的阈值进行评估 - 每个服务一次调用而且每个服务都有自己的阈值。 当某个组发生延迟违例时，就会针对该组发送警报通知。"
           },
           "evaluationTypePERAPENDPOINT": {
-            "selectionText": "此应用程序透视图的每个端点",
-            "globalSelectionText": "每个应用程序透视图上下文中的每个端点",
-            "shortText": "按端点",
-            "columnText": "每个端点",
+            "selectionText": "针对此应用程序透视图的每个端点",
+            "globalSelectionText": "针对每个应用程序透视图上下文中的每个端点",
+            "shortText": "针对每个端点",
+            "columnText": "针对每个端点",
             "description": "针对此应用程序透视图的每个端点单独发出警报",
             "globalDescription": "针对每个应用程序透视图上下文中的每个端点单独发出警报",
             "tearSheetSelectionText": "按端点分组",
@@ -230,16 +232,16 @@
             "inbound": {
               "text": "入站调用数",
               "dashboard": "仅限此应用程序的使用者执行的调用。",
-              "overrideDefault": "此应用程序的缺省作用域仅限于“入站调用”。您可以在配置中更改此项。"
+              "overrideDefault": "此应用程序的缺省作用域仅限于“入站调用”。 您可以在配置中更改此项。"
             },
             "all": {
               "text": "所有调用",
               "dashboard": "在此应用程序中执行的调用（由使用者执行和内部执行）。",
-              "overrideDefault": "此应用程序的缺省作用域为“所有调用”。您可以在配置中更改此项。"
+              "overrideDefault": "此应用程序的缺省作用域为“所有调用”。 您可以在配置中更改此项。"
             }
           },
           "confirmationDialog": {
-            "confirmRemove": "请确认",
+            "confirmRemove": "确认修改",
             "description": "修改边界范围将重置应用程序选择。",
             "confirmButtonLabel": "确认"
           }
@@ -260,7 +262,7 @@
           "includeInternalCalls": "包含内部调用数",
           "includeSyntheticCalls": "包含合成调用数",
           "confirmationDialog": {
-            "confirmRemove": "请确认",
+            "confirmRemove": "确认移除",
             "description": "取消选择“{{callType}}”将重置应用程序选择。",
             "confirmButtonLabel": "确认"
           }
@@ -325,9 +327,9 @@
       },
       "blueprintConfig": {
         "slowness": {
-          "name": "慢速调用",
-          "headline": "慢速调用的自动警报",
-          "text": "当调用此应用程序透视图的所选服务和端点的速度低于正常速度时，接收警报。",
+          "name": "性能较差的调用",
+          "headline": "针对性能较差的调用的自动警报",
+          "text": "当调用此应用程序透视图的所选服务和端点的速度比正常速度慢时，就会收到警报。",
           "tearSheetHeadline": "针对性能较差的调用的自动警报",
           "tearSheetDescription": "当调用此应用程序透视图的所选服务和端点的速度比阈值慢时，就会收到警报。"
         },
@@ -336,28 +338,28 @@
           "headline": "错误调用的自动警报",
           "text": "当此“应用程序透视图”的所选服务和端点的错误调用速率或计数高于正常值时，将会收到警报。",
           "tearSheetHeadline": "错误调用的自动警报",
-          "tearSheetDescription": "当此应用程序透视图的所选服务和端点的错误调用速率或计数超过阈值时接收警报。"
+          "tearSheetDescription": "当此应用程序透视图的所选服务和端点的错误调用速率或计数超过阈值时，就会收到警报。"
         },
         "logs": {
           "name": "日志",
-          "headline": "错误和警告日志的自动警报",
+          "headline": "针对错误和警告日志的自动警报",
           "tearSheetHeadline": "针对错误和警告日志的自动警报",
           "text": "当出现给定错误和警告日志消息的调用数大于预期值时，将会收到警报。",
           "metricLabel": "调用数",
-          "incompleteRuleMessage": "请选择“日志消息”以查看此警报的触发时间"
+          "incompleteRuleMessage": "请选择一条日志消息以查看何时触发此警报"
         },
         "statusCode": {
           "name": "HTTP 状态码",
           "headline": "HTTP 状态码的自动警报",
-          "text": "每当匹配 HTTP 状态码的出现频率超出正常值时，接收警报。",
-          "incompleteRuleMessage": "请选择“状态码”以查看此警报的触发时间",
+          "text": "每当匹配的 HTTP 状态码出现的频率高于正常值时，就会收到警报。",
+          "incompleteRuleMessage": "请选择一个状态码以查看何时触发此警报",
           "tearSheetHeadline": "HTTP 状态码的自动警报",
           "tearSheetDescription": "当匹配的 HTTP 状态码出现的频率高于阈值时，就会收到警报。"
         },
         "throughput": {
           "name": "吞吐量",
           "headline": "调用计数的自动警报",
-          "text": "此应用程序透视图的所选服务和端点的调用数异常低或异常高时自动发出警报。",
+          "text": "此应用程序透视图的所选服务和端点的调用次数异常低或异常高时自动发出警报。",
           "metricLabel": "调用数",
           "tearSheetHeadline": "针对吞吐量的自动警报",
           "tearSheetDescription": "当针对此应用程序透视图的所选服务和端点的调用次数异常高或异常低时，就会收到警报。"
@@ -365,12 +367,12 @@
         "simpleMode": {
           "unexpectedDrop": {
             "name": "调用次数较低",
-            "headline": "调用数异常低时自动发出警报",
+            "headline": "调用次数异常低时自动发出警报",
             "text": "当与可用的过往数据相比，调用数显著低于预期时，接收警报。这可能指示此应用程序上游存在问题或应用程序的用户流量下降。"
           },
           "unexpectedlyHighNumber": {
             "name": "调用次数较高",
-            "headline": "调用数异常高时自动发出警报",
+            "headline": "调用次数异常高时自动发出警报",
             "text": "当与可用的过往数据相比，调用数显著高于预期时，接收警报。这可能指示攻击或机器人向应用程序生成过多请求。"
           }
         },
@@ -508,8 +510,8 @@
         "provideStatusCodeStatusCode": "状态码"
       },
       "inventory": {
-        "noData": "未配置智能警报。单击以下按钮来配置您的首个智能警报。",
-        "noPersmissionToCreateGlobalSmartAlert": "您无权配置智能警报。请联系您的管理员。",
+        "noData": "未配置智能警报。 单击下面的按钮，以配置您的第一个智能警报。",
+        "noPersmissionToCreateGlobalSmartAlert": "您无权配置智能警报。 请联系您的管理员。",
         "noPermissionGlobalSmartAlertEdit": "您无权执行此操作",
         "labelGlobalSmartAlertsList": "全局应用程序智能警报（{{numberOfAlerts}} 个）",
         "labelSmartAlertsList": "应用程序智能警报（{{numberOfAlerts}} 个）",
@@ -525,7 +527,7 @@
         "labelActionButtonDuplicate": "复制",
         "labelActionButtonDelete": "删除",
         "labelAlertFilters": "过滤器",
-        "labelConfirm": "请确认",
+        "labelConfirm": "确认移除",
         "labelConfirmRemoveConfig": "确定要除去警报 <strong>{{configName}}</strong> 吗？",
         "labelRemove": "移除",
         "numberOfApplicationsSelected": "已选择 {{count}} 个应用程序",
@@ -542,12 +544,12 @@
         "title": "警报详细信息",
         "titleAlertProperties": "警报属性",
         "applicationsServiceEndpointScopeTitle": "所选应用程序/服务/端点",
-        "callsScopeTitle": "包含的调用"
+        "callsScopeTitle": "包含的调用次数"
       },
       "apCreation": {
         "addToAllBuiltInAlerts": "添加到所有（{{numAlerts}} 个）内置全局智能警报",
         "addToAllBuiltInAlertsSubText": "（{{numDisabled}} 个（共 {{numAlerts}} 个）警报目前已禁用）",
-        "addToAllExplanation": "将此应用程序透视图包含在此范围中",
+        "addToAllExplanation": "在所有作用域中包含此应用程序透视图",
         "addToAllExplanationSubText": "内置全局智能警报",
         "notAllEnitiesSelected": "未选择所有服务/端点",
         "alertCurrentlyDisabled": "警报当前已禁用",
@@ -666,7 +668,8 @@
           "title": "警报频道数（{{channelCount}}  个）",
           "description": "选择该警报的收件人",
           "searchPlaceholder": "搜索",
-          "clearAll": "全部清除"
+          "clearAll": "全部清除",
+          "selectAll": "选择全部 ({{len}})"
         },
         "editFilters": "编辑过滤器",
         "invalidFilters": "无效的过滤器",
@@ -901,7 +904,7 @@
         "alertPropertiesCritical": "严重",
         "alertPropertiesTitle": "标题",
         "alertPropertiesAlertLevel": "警报级别",
-        "alertPropertiesTriggersIncident": "触发事件",
+        "alertPropertiesTriggersIncident": "触发突发事件",
         "alertPropertiesDescription": "描述",
         "warningAlertPreviewLabel": "警告阈值预览",
         "criticalAlertPreviewLabel": "关键阈值预览",
@@ -912,7 +915,7 @@
         "buttonSave": "保存",
         "buttonCreate": "创建",
         "buttonMigrate": "迁移",
-        "selectedBlueprint": "已选择蓝图",
+        "selectedBlueprint": "所选蓝图",
         "buttonRecalculateBaseline": "重新计算基线",
         "buttonRecalculateBaselineDisabled": "重新计算基线（已禁用）",
         "sensitivitySliderLow": "低",
@@ -947,7 +950,7 @@
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "切换到高级模式",
         "simpleAlertConfigDialogStep3Headline": "谁应该接收警报？",
         "Loading": "正在加载...",
-        "PreviewForAP": "应用程序透视图的预览：",
+        "PreviewForAP": "应用程序透视图预览：",
         "PreviewForEndpoint": "端点预览：",
         "PreviewForService": "服务预览：",
         "PreviewSelectLoadingEndpoints": "正在加载端点列表",
@@ -985,13 +988,13 @@
         "aggregationTextP99": "第 99 个"
       },
       "list": {
-        "labelConfirm": "请确认",
+        "labelConfirm": "确认移除",
         "labelConfirmRemoveConfig": "确定要除去警报 <strong>{{configName}}</strong> 吗？",
         "labelRemove": "除去"
       },
       "gracePeriod": {
         "title": "宽限期（可选）",
-        "description": "在不再满足违例阈值后自动关闭问题：",
+        "description": "选择在不再满足违例阈值后，问题应保持打开状态的时间。 经过此时间之后，将自动关闭该问题。",
         "label": "选择",
         "summary": "<strong>当 {{gracePeriodValue}}</strong> 不再满足违规阈值后，将自动关闭问题。"
       },
@@ -1038,7 +1041,7 @@
         "payloadsTitle": "定制有效内容",
         "evaluationSwitch": {
           "evaluationTypePERWEBSITE": {
-            "shortText": "每个 Web 站点"
+            "shortText": "按 Web 站点"
           }
         }
       },
@@ -1056,22 +1059,24 @@
         "pageLoads": "页面加载数",
         "pageTransitions": "页面转换数",
         "slownessBlueprintConfigName": "缓慢",
-        "slownessBlueprintConfigHeadline": "onLoad 时间的自动警报",
+        "slownessBlueprintConfigHeadline": "onLoad 时间或 HTTP 等待时间的自动警报",
         "slownessBlueprintConfigTextP": "OnLoad 时间可度量从用户导航至 Web 站点到能够与 Web 站点进行交互所经过的时间。",
+        "slownessBlueprintConfigTextP2": "HTTP 等待时间可度量在 Web 站点上完成一个 HTTP 请求所用的时间。",
         "slownessBlueprintConfigTextli1": "从服务器获取所有标记、替换元素内容和嵌入内容",
         "slownessBlueprintConfigTextli2": "解析标记",
         "slownessBlueprintConfigTextli3": "应用 CSS 级联",
         "slownessBlueprintConfigTextli4": "呈现页面",
         "slownessBlueprintConfigTextli5": "运行在页面加载时运行所需的所有脚本",
         "slownessBlueprintConfigMetricLabel": "onLoad 时间",
-        "jsErrorsBlueprintConfigName": "JS 错误数",
+        "slownessBlueprintConfigHttpMetricLabel": "HTTP 等待时间",
+        "jsErrorsBlueprintConfigName": "JS 错误",
         "jsErrorsBlueprintConfigHeadline": "JS 错误的自动警报",
-        "jsErrorsBlueprintConfigText": "每当匹配 JS 错误消息的出现频率超过正常值时，接收警报。",
-        "jsErrorsBlueprintConfigIncompleteRuleMessage": "请选择“JS 错误”以查看此警报的触发时间",
+        "jsErrorsBlueprintConfigText": "每当匹配 JS 错误消息的出现频率超过正常值时，就会接收警报。",
+        "jsErrorsBlueprintConfigIncompleteRuleMessage": "请选择一个 JS 错误以查看何时触发此警报",
         "statusCodeBlueprintConfigName": "HTTP 状态码",
         "statusCodeBlueprintConfigHeadline": "HTTP 状态码的自动警报",
-        "statusCodeBlueprintConfigText": "每当匹配 HTTP 状态码的出现频率超出正常值时，接收警报。",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "请选择“状态码”以查看此警报的触发时间",
+        "statusCodeBlueprintConfigText": "每当匹配的 HTTP 状态码出现的频率高于正常值时，就会收到警报。",
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "请选择一个状态码以查看何时触发此警报",
         "throughputBlueprintConfigName": "吞吐量",
         "throughputBlueprintConfigHeadline": "页面浏览量的自动警报",
         "throughputBlueprintConfigText": "针对此 Web 站点的选定页面的页面加载数或页面转换数异常低或异常高时自动发出警报。",
@@ -1080,12 +1085,12 @@
         "customEventBlueprintConfigText": "每当发生特定定制事件的频率高于或低于应有的频率时收到警报。",
         "customEventBlueprintConfigIncompleteRuleMessage": "请选择定制事件以查看何时触发此警报",
         "customEventBlueprintConfigMetricLabel": "出现次数",
-        "simpleModeBlueprintConfigsUnexpectedDropName": "页面加载次数较少",
+        "simpleModeBlueprintConfigsUnexpectedDropName": "页面加载数较低",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "页面加载数异常低时自动发出警报",
         "simpleModeBlueprintConfigsUnexpectedDropText": "当与可用的过往数据相比，页面加载数显著低于预期时，接收警报。",
-        "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "页面加载次数较多",
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "页面加载数较高",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline": "页面加载数异常高时自动发出警报",
-        "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "当与可用的过往数据相比，页面加载数显著高于预期时，接收警报。这可能指示攻击或机器人向 Web 站点生成过多请求。"
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "当与可用的过往数据相比，页面加载数显著高于预期值时，就会收到警报。 这可能指示攻击或机器人向 Web 站点生成过多请求。"
       },
       "form": {
         "errorPleaseProvideAnErrorMessage": "请提供错误消息",
@@ -1102,6 +1107,7 @@
         "ruleMetricNameOptionStatusCodeHttpxxx": "状态码计数",
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "状态码比率",
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad 时间",
+        "ruleMetricNameOptionSlownessHttpLatency": "HTTP 等待时间",
         "ruleMetricNameOptionThroughputPageLoads": "页面加载数",
         "ruleMetricNameOptionThroughputPageTransitions": "页面转换数"
       },
@@ -1114,7 +1120,7 @@
       },
       "customEvent": {
         "noCustomEventsFound": "找不到定制事件",
-        "searchCustomEvents": "过滤事件",
+        "searchCustomEvents": "针对特定容器上的",
         "customEventNameColumnLabel": "事件名称",
         "customEventOccurrencesColumnLabel": "出现次数",
         "customEventUsersColumnLabel": "用户数",
@@ -1143,6 +1149,63 @@
         },
         "noDataHeader": "无网站智能警报",
         "noDataDescription": "要开始操作，请单击<strong>创建智能警报</strong>。"
+      },
+      "tearSheet": {
+        "createTitle": "创建 Web 站点智能警报",
+        "editTitle": "编辑 Web 站点智能警报",
+        "step1": {
+          "title": "选择模板",
+          "description": "选择要针对其发出警报的问题"
+        },
+        "step2": {
+          "title": "定义作用域"
+        },
+        "step3": {
+          "title": "定义何时收到警报"
+        },
+        "step4": {
+          "title": "定义警报属性",
+          "description": "要为此警报设置哪些属性？"
+        },
+        "step5": {
+          "title": "定义警报通道",
+          "description": "选择要在何处收到此警报的通知"
+        },
+        "slowness": {
+          "headline": "onLoad 时间或 HTTP 等待时间的自动警报",
+          "text": "当 onLoad 时间超出从历史数据得出的预期值时，就会收到警报。"
+        },
+        "JsErrors": {
+          "name": "JS 错误",
+          "headline": "JS 错误的自动警报",
+          "text": "接收 JavaScript 错误消息的警报。"
+        },
+        "statusCode": {
+          "headline": "HTTP 状态码的自动警报",
+          "text": "当 HTTP 状态码的出现频率高于正常值时，就会收到警报。"
+        },
+        "throughput": {
+          "headline": "针对吞吐量的自动警报",
+          "text": "当预期的 Web 站点页面加载数与可用历史数据相比差异较大时，就会收到警报。"
+        },
+        "customEvent": {
+          "name": "定制事件",
+          "headline": "定制事件的自动警报",
+          "text": "每当发生特定定制事件的频率高于或低于应有的频率时收到警报。"
+        },
+        "filter": "添加过滤器以获取更精确的警报（可选）",
+        "threshold": {
+          "header": "设置违例阈值的值",
+          "description": "选择一个指标、违例阈值和时间窗口以评估违例情况。"
+        },
+        "alertChart": {
+          "title": "警报预览",
+          "description": "了解如何根据历史度量值数据触发警报。"
+        },
+        "timeThreshold": {
+          "title": "设置违例何时触发警报",
+          "description": "指定警报和持久存储类型，然后设置警报触发器。"
+        }
       }
     },
     "sortOptions": {
@@ -1159,9 +1222,9 @@
       "migrateButton": "迁移到智能警报",
       "migrateButtonTooltip": "打开一个智能警报配置，其中预先填充了来自当前事件的最可能准确的迁移值。 请仔细检查结果！",
       "markAsMigratedButton": "标记为已迁移",
-      "markAsMigratedButtonTooltip": "将事件标记为已迁移。如果您已配置将替换此事件的智能警报，请使用此方法。",
-      "markAsMigratedButtonConfirmationTitle": "请确认",
-      "markAsMigratedButtonConfirmationDescription": "将此定制事件标记为已迁移将禁用此事件。 在此之后无法重新启用此事件。 要继续吗？",
+      "markAsMigratedButtonTooltip": "将事件标记为“已迁移”。 如果您已配置将替换此事件的智能警报，请使用此方法。",
+      "markAsMigratedButtonConfirmationTitle": "确认迁移",
+      "markAsMigratedButtonConfirmationDescription": "将此定制事件标记为“已迁移”将禁用此事件。 在此之后无法重新启用此事件。 要继续吗？",
       "markAsMigratedButtonConfirmationConfirmLabel": "确认"
     },
     "enable": "启用",
@@ -1184,7 +1247,7 @@
       },
       "alertList": {
         "timeThreshold": "时间阈值",
-        "filterApplied": "已应用的过滤器",
+        "filterApplied": "已应用过滤器",
         "violationsCount": "{{violationsCount}} 个故障",
         "numberOfFailures": "故障警报",
         "noDataHeader": "无合成智能警报",
@@ -1209,18 +1272,18 @@
         "thresholdTitleHelpText": "根据在合成测试创建中配置的重试时间间隔，在 PoP 中确定失败。",
         "thresholdSubTitleHelpText": "如果每个位置发生指定数量的失败数，那么您将收到每个位置的警报。",
         "slider": {
-          "failuresWithCount": "{{count}} 个失败",
-          "failuresWithCount_plural": "{{count}} 个失败",
-          "failuresWithCount_0": "{{count}} 个失败",
-          "failuresWithCount_1": "{{count}} 个失败",
-          "failuresWithCount_2": "{{count}} 个失败"
+          "failuresWithCount": "{{count}} 个故障",
+          "failuresWithCount_plural": "{{count}} 个故障",
+          "failuresWithCount_0": "{{count}} 个故障",
+          "failuresWithCount_1": "{{count}} 个故障",
+          "failuresWithCount_2": "{{count}} 个故障"
         },
         "alertPropertiesTitlePlaceholder": "合成测试失败",
-        "alertPropertiesDescriptionPlaceholder": "连续 {{count}} 次合成测试失败",
-        "alertPropertiesDescriptionPlaceholder_plural": "连续 {{count}} 次合成测试失败",
-        "alertPropertiesDescriptionPlaceholder_0": "连续 {{count}} 次合成测试失败",
-        "alertPropertiesDescriptionPlaceholder_1": "连续 {{count}} 次合成测试失败",
-        "alertPropertiesDescriptionPlaceholder_2": "连续 {{count}} 次合成测试失败"
+        "alertPropertiesDescriptionPlaceholder": "合成测试连续失败 {{count}} 次。",
+        "alertPropertiesDescriptionPlaceholder_plural": "合成测试连续失败 {{count}} 次。",
+        "alertPropertiesDescriptionPlaceholder_0": "合成测试连续失败 {{count}} 次。",
+        "alertPropertiesDescriptionPlaceholder_1": "合成测试连续失败 {{count}} 次。",
+        "alertPropertiesDescriptionPlaceholder_2": "合成测试连续失败 {{count}} 次。"
       },
       "advanced": {
         "alertChannelsLabel": "警报通道",
@@ -1241,7 +1304,7 @@
         "selectAlertTestButton": "添加合成测试",
         "addTest": "添加 {{count}} 个测试",
         "alertTests": "合成测试",
-        "noTestSelectedText": "未选择合成测试",
+        "noTestSelectedText": "未选择任何合成测试。 首先，单击“添加合成测试”。",
         "alertTestEntityName": "合成测试 {{entityName}}",
         "testAttachedCount": "附加的测试（{{count}} 个）",
         "testAttached": "附加的测试",
@@ -1252,15 +1315,13 @@
         "alertConfigurationListTitleAlertConfiguration": "警报配置",
         "scope": {
           "perLocation": {
-            "shortText": "每个位置"
+            "shortText": "按位置"
           }
         },
         "alertConfigurationTitleAlertTests": "所选测试",
         "alertConfigurationTitleAlertChannels": "警报通道",
         "alertConfigurationTitleAlertProperties": "警报属性",
         "failureThreshold": "{{failureCount}} 个失败",
-        "gracePeriodValue": "{{gracePeriodValue}}",
-        "gracePeriod": "宽限期",
         "alertConfigurationTitleScope": "作用域",
         "noOfFailure": "失败数",
         "timeThreshold": "时间阈值",
@@ -1268,22 +1329,33 @@
         "noScopeConfigured": "未配置范围过滤器"
       },
       "tearSheet": {
-        "createTitle": "创建一个合成智能警报",
+        "labelActionButtonEdit": "编辑",
+        "labelActionButtonDuplicate": "复制",
+        "createTitle": "创建合成智能警报",
+        "editTitle": "编辑合成智能警报",
         "scopeFilter": {
           "filter": "过滤",
           "filterDescription": "在合成测试中添加过滤器，以获得更精确的警报。"
         },
         "steps": {
-          "step1Title": "选择合成测试。",
-          "step2Title": "定义何时收到警报。"
+          "step1Title": "添加合成测试",
+          "step2Title": "定义何时收到警报",
+          "step3Title": "定义警报属性",
+          "step4Title": "定义警报通道"
         },
         "step1": {
-          "header": "要对哪些合成测试发出警报？",
+          "header": "选择要对其发出警报的合成测试",
           "description": "将针对每个合成测试、每个位置分开发送单独的警报"
         },
         "step2": {
           "sliderHeader": "设置违例何时触发警报",
           "sliderDescription": "指定在发出警报之前每个位置应连续发生多少次故障。"
+        },
+        "step3": {
+          "header": "要为此警报设置哪些属性？"
+        },
+        "step4": {
+          "header": "选择要在何处收到此警报的通知"
         }
       }
     },
@@ -1295,13 +1367,13 @@
         "customEventBlueprintConfigMetricLabel": "出现次数",
         "sessions": "会话",
         "crashAffectedSessionRate": "崩溃影响的会话速率",
-        "crashFreeSessionRate": "崩溃可用会话速率",
+        "crashFreeSessionRate": "无崩溃时的会话速率",
         "crashAffectedSessionCount": "崩溃影响的会话计数",
-        "crashFreeSessionCount": "崩溃的可用会话计数",
+        "crashFreeSessionCount": "无崩溃时的会话计数",
         "crashAffectedUserRate": "崩溃影响的用户速率",
-        "crashFreeUserRate": "崩溃可用用户速率",
+        "crashFreeUserRate": "无崩溃时的用户速率",
         "crashAffectedUserCount": "崩溃影响的用户计数",
-        "crashFreeUserCount": "崩溃的可用用户计数",
+        "crashFreeUserCount": "无崩溃时的用户计数",
         "statusCodeBlueprintConfigName": "HTTP 状态码",
         "throughputBlueprintConfigName": "吞吐量",
         "customEventBlueprintConfigName": "定制事件",
@@ -1310,19 +1382,19 @@
         "crashBlueprintConfigText": "当所选崩溃度量值高于或低于预期时收到警报。",
         "crashBlueprintSelectMetric": "选择崩溃度量值",
         "statusCodeBlueprintConfigHeadline": "HTTP 状态码的自动警报",
-        "statusCodeBlueprintConfigText": "每当匹配 HTTP 状态码的出现频率超出正常值时，接收警报。",
+        "statusCodeBlueprintConfigText": "每当匹配的 HTTP 状态码出现的频率高于正常值时，就会收到警报。",
         "throughputBlueprintConfigHeadline": "移动应用程序视图的自动警报",
-        "throughputBlueprintConfigText": "针对移动应用程序中的异常低或高视图数自动发出警报。",
+        "throughputBlueprintConfigText": "移动应用程序中的视图数异常低或异常高时自动发出警报。",
         "customEventBlueprintConfigHeadline": "定制事件的自动警报",
         "customEventBlueprintConfigText": "每当发生特定定制事件的频率高于或低于应有的频率时收到警报。",
         "customEventBlueprintConfigIncompleteRuleMessage": "请选择定制事件以查看何时触发此警报",
-        "statusCodeBlueprintConfigIncompleteRuleMessage": "请选择“状态码”以查看此警报的触发时间",
+        "statusCodeBlueprintConfigIncompleteRuleMessage": "请选择一个状态码以查看何时触发此警报",
         "simpleModeBlueprintConfigsViewsUnexpectedDropName": "查看次数较少",
-        "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "异常低的视图数的自动警报",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "视图数异常低时自动发出警报",
         "simpleModeBlueprintConfigsViewsUnexpectedDropText": "与可用过去数据相比，当视图数显著低于预期视图数时，将收到警报。",
-        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "会话次数较少",
-        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "异常低的会话数的自动警报",
-        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "与可用过去数据相比，当会话数显著低于预期会话数时，将收到警报。"
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "会话数较低",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "会话数异常低时自动发出警报",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "与可用的过往数据相比，当会话数显著低于预期会话数时，就会收到警报。"
       },
       "alertList": {
         "columns": {
@@ -1344,7 +1416,7 @@
         "filter_0": "过滤器",
         "filter_1": "过滤器",
         "filter_2": "过滤器",
-        "filterApplied": "已应用的过滤器",
+        "filterApplied": "已应用过滤器",
         "noDataHeader": "无移动应用程序智能警报",
         "noDataDescription": "要开始操作，请单击<strong>创建智能警报</strong>。"
       },
@@ -1353,7 +1425,7 @@
         "stepConfigsStep3Title": "步骤 3：选择警报频道",
         "simpleAlertConfigDialogStep1Headline": "您希望收到关于何种内容的警报？",
         "simpleAlertConfigDialogStep2Headline": "您希望在何处触发警报？",
-        "stepConfigsStep2Title": "步骤 2：选择作用域"
+        "stepConfigsStep2Title": "步骤 2：选择范围"
       },
       "alertDetails": {
         "alertConfigurationListTitleAlertConfiguration": "警报配置",
@@ -1366,7 +1438,7 @@
         "alertConfigurationTitleAlertProperties": "警报属性",
         "evaluationSwitch": {
           "evaluationTypePerMobileApp": {
-            "shortText": "每个移动应用程序"
+            "shortText": "按移动应用程序"
           }
         }
       },
@@ -1383,7 +1455,7 @@
       },
       "customEvent": {
         "noCustomEventsFound": "找不到定制事件",
-        "searchCustomEvents": "过滤事件",
+        "searchCustomEvents": "针对特定容器上的",
         "customEventNameColumnLabel": "事件名称",
         "customEventOccurrencesColumnLabel": "出现次数",
         "customEventUsersColumnLabel": "用户数",
@@ -1406,6 +1478,54 @@
         "thresholdTitle": "阈值：何时违反条件？",
         "payloadsLabel": "有效内容",
         "payloadsTitle": "定制有效内容"
+      },
+      "tearSheet": {
+        "createTitle": "创建移动应用程序智能警报",
+        "editTitle": "编辑移动应用程序智能警报",
+        "step1": {
+          "title": "选择模板",
+          "description": "选择要针对其发出警报的问题"
+        },
+        "step2": {
+          "title": "定义作用域"
+        },
+        "step3": {
+          "title": "定义何时收到警报"
+        },
+        "step4": {
+          "title": "定义警报属性",
+          "description": "要为此警报设置哪些属性？"
+        },
+        "step5": {
+          "title": "定义警报通道",
+          "description": "选择要在何处收到此警报的通知"
+        },
+        "statusCode": {
+          "headline": "HTTP 状态码的自动警报",
+          "text": "当 HTTP 状态码的出现频率高于正常值时，就会收到警报。"
+        },
+        "throughput": {
+          "headline": "移动应用程序视图的自动警报",
+          "text": "当您的移动应用程序的预期页面浏览量或会话数与可用历史数据相比差异较大时，就会收到警报。"
+        },
+        "crash": {
+          "headline": "崩溃的自动警报",
+          "text": "当崩溃度量值高于或低于预期值时，就会收到警报。"
+        },
+        "customEvent": {
+          "name": "定制事件",
+          "headline": "定制事件的自动警报",
+          "text": "每当发生特定定制事件的频率高于或低于应有的频率时收到警报。"
+        },
+        "filter": "添加过滤器以获取更精确的警报（可选）",
+        "threshold": {
+          "header": "设置违例阈值的值",
+          "description": "选择一个指标、违例阈值和时间窗口以评估违例情况。"
+        },
+        "timeThreshold": {
+          "title": "设置违例何时触发警报",
+          "description": "指定警报和持久存储类型，然后设置警报触发器。"
+        }
       }
     },
     "eum": {
@@ -1439,19 +1559,19 @@
         "JSErrorTextContains": "检测到包含“{{ruleValue}}”的 JS 错误。",
         "JSErrorTextStartsWith": "检测到以“{{ruleValue}}”开头的 JS 错误。",
         "JSErrorTextEndsWith": "检测到以“{{ruleValue}}”结尾的 JS 错误。",
-        "customEventsText": "已检测到等于“{{customEventName}}”的定制事件。",
-        "slownessSimpleHighOperatorText": "onLoad 时间 ({{aggregationText}}) 太长",
-        "slownessSimpleLowOperatorText": "onLoad 时间 ({{aggregationText}}) 太短",
+        "customEventsText": "已检测到名称为“{{customEventName}}”的定制事件。",
+        "slownessSimpleHighOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 过高",
+        "slownessSimpleLowOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 过低",
         "throughputSimpleHighOperatorText": "{{metricLabel}} 数异常高",
         "throughputSimpleLowOperatorText": "{{metricLabel}} 数异常低",
-        "statusCodeSimpleAboveOperatorText": "HTTP 状态码 {{statusCodeLabel}} 的出现次数高于预期。",
+        "statusCodeSimpleAboveOperatorText": "HTTP 状态码 {{statusCodeLabel}} 的出现次数高于预期值。",
         "statusCodeSimpleBelowOperatorText": "HTTP 状态码 {{statusCodeLabel}} 的出现次数低于预期。",
-        "slownessSimpleAboveOperatorText": "onLoad 时间 ({{aggregationText}}) 高于预期。",
-        "slownessSimpleBelowOperatorText": "onLoad 时间 ({{aggregationText}}) 低于预期。",
-        "slownessGreaterOperatorText": "onLoad 时间 ({{aggregationText}}) 大于 {{thresholdValue}} 毫秒。",
-        "slownessGreaterEqualsOperatorText": "onLoad 时间 ({{aggregationText}}) 大于或等于 {{thresholdValue}} 毫秒。",
-        "slownessLessOperatorText": "onLoad 时间 ({{aggregationText}}) 小于 {{thresholdValue}} 毫秒。",
-        "slownessLessEqualsOperatorText": "onLoad 时间 ({{aggregationText}}) 小于或等于 {{thresholdValue}} 毫秒。",
+        "slownessSimpleAboveOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 高于预期值。",
+        "slownessSimpleBelowOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 低于预期值。",
+        "slownessGreaterOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 大于 {{thresholdValue}} 毫秒。",
+        "slownessGreaterEqualsOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 大于或等于 {{thresholdValue}} 毫秒。",
+        "slownessLessOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 小于 {{thresholdValue}} 毫秒。",
+        "slownessLessEqualsOperatorTextWithMetric": "{{metricLabel}} ({{aggregationText}}) 小于或等于 {{thresholdValue}} 毫秒。",
         "staticThresholdHigherOperatorText": "{{metricLabel}} 数大于 {{thresholdValue}}。",
         "staticThresholdHigherEqualsOperatorText": "{{metricLabel}} 数大于或等于 {{thresholdValue}}。",
         "staticThresholdLowerOperatorText": "{{metricLabel}} 数小于 {{thresholdValue}}。",
@@ -1500,7 +1620,7 @@
           "title": "作用域：这种情况在哪里发生？",
           "metric": {
             "metric": "指标",
-            "selectMetric": "选择度量"
+            "selectMetric": "选择指标"
           },
           "aggregation": {
             "aggregation": "汇总"
@@ -1583,11 +1703,11 @@
         "scopeFilter": {
           "title": "选择基础架构的范围",
           "filter": "过滤",
-          "filterDescription": "为服务添加过滤器，以获得更精确的警报。"
+          "filterDescription": "添加过滤器以缩小作用域并获得更精确的警报。"
         },
         "scopeGroupBy": {
-          "group": "组",
-          "groupByDescription": "添加组以在组中配置调用。 组内的每次调用都是集体配置的，但会单独进行评估。"
+          "group": "分组",
+          "groupByDescription": "使用可用的分组标签将组添加到组度量值结果中。 最多可使用 5 个标签。"
         },
         "timeThreshold": {
           "title": "设置违例何时触发警报",
@@ -1597,7 +1717,7 @@
           "static": "将应用常量阈值，并且该值不会随时间变化。"
         },
         "chartAlertPreview": "警报预览",
-        "chartAlertPreviewDescription": "显示如何根据历史度量值数据触发警报。",
+        "chartAlertPreviewDescription": "了解如何根据历史度量值数据触发警报。",
         "forecastAlerting": {
           "description": "根据历史数据和趋势接收主动警报。 该选项可帮助您在潜在问题影响系统之前对其进行预测。",
           "historicalDataTime": {
@@ -1609,7 +1729,12 @@
             "tooltipContent": "定义用于警报的预测时间范围。 "
           }
         }
-      }
+      },
+      "placeholderTitle": "检测到 {{metricName}} 问题",
+      "descriptionIsHigherThan": "{{metricName}} 大于 {{value}}。",
+      "descriptionIsHigherOrEqualTo": "{{metricName}} 大于或等于 {{value}}。",
+      "descriptionIsLowerThan": "{{metricName}} 小于 {{value}}。",
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} 小于或等于 {{value}}。"
     },
     "logs": {
       "alertDetails": {
@@ -1765,7 +1890,7 @@
         "blueprint": "",
         "blueprint_STATUS": "状态",
         "blueprint_BURNED_PERCENTAGE": "错误预算",
-        "blueprint_BURN_RATE": "烧损率",
+        "blueprint_BURN_RATE": "燃损率",
         "blueprintDescription": "",
         "blueprintDescription_STATUS": "当 SLO 状态低于阈值时接收警报。",
         "blueprintDescription_BURNED_PERCENTAGE": "在使用一定百分比的错误预算时接收警报。",
@@ -1798,14 +1923,33 @@
       "details": {
         "alertConfigurationTitle": "警报配置",
         "sloHeader": "SLO",
-        "thresholdInfo": "",
-        "thresholdInfo_BURN_RATE": "当烧损率为 {{operator}} {{percentage}} 时",
-        "thresholdInfo_BURNED_PERCENTAGE": "当误差预算的 {{operator}} {{percentage}}% 被消耗时",
-        "thresholdInfo_STATUS": "当 SLO 状态为 {{operator}} {{percentage}}% 时",
+        "thresholdLabel": "阈值",
+        "thresholdInfo": "{{operator}} {{percentage}}",
         "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
         "blueprintLabel": "蓝图",
+        "blueprintInfo": "",
+        "blueprintInfo_BURN_RATE": "燃损率",
+        "blueprintInfo_BURNED_PERCENTAGE": "使用的错误预算",
+        "blueprintInfo_STATUS": "状态",
+        "longWindowLabel": "长窗口",
+        "shortWindowLabel": "短窗口",
+        "timeWindowInfo_minute": "{{count}} 分钟",
+        "timeWindowInfo_minute_plural": "{{count}} 分钟",
+        "timeWindowInfo_minute_0": "{{count}} 分钟",
+        "timeWindowInfo_minute_1": "{{count}} 分钟",
+        "timeWindowInfo_minute_2": "{{count}} 分钟",
+        "timeWindowInfo_hour": "{{count}} 小时",
+        "timeWindowInfo_hour_plural": "{{count}} 小时",
+        "timeWindowInfo_hour_0": "{{count}} 小时",
+        "timeWindowInfo_hour_1": "{{count}} 小时",
+        "timeWindowInfo_hour_2": "{{count}} 小时",
+        "timeWindowInfo_day": "{{count}} 天",
+        "timeWindowInfo_day_plural": "{{count}} 天",
+        "timeWindowInfo_day_0": "{{count}} 天",
+        "timeWindowInfo_day_1": "{{count}} 天",
+        "timeWindowInfo_day_2": "{{count}} 天",
         "coolDownPeriodDescription": "必须至少要经过 {{value}}，事件才会结束。"
       },
       "alertList": {

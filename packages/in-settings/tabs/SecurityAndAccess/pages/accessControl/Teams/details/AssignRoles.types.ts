@@ -4,15 +4,16 @@
  * Copyright IBM Corp. 2025
  */
 
+import { RoleOverview } from '@instana/types';
+
 import {
   FilterableMultiSelectItemProps,
   AssignRoleDialogMapForm
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoleDialog.types';
-import { Role } from 'in-settings/tabs/SecurityAndAccess/api/rolesMocks';
 
 export interface AssignRolesProps {
   form: AssignRoleDialogMapForm;
   onSelectRoles: (index: number, selectedRoles: Array<FilterableMultiSelectItemProps>) => void;
-  roles: Array<Role>;
+  roles: Array<RoleOverview>;
   setForm: React.Dispatch<React.SetStateAction<AssignRoleDialogMapForm>>;
 }

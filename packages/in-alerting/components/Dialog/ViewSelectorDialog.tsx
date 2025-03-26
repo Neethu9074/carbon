@@ -8,26 +8,31 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+import { ALERTING_CLONE_TRIGGER, ALERTING_CREATE, ALERTING_EDIT } from 'in-services/tracking/eventNames';
+import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
 import AlertTypography from 'in-alerting/components/AlertTypography';
-import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
 import locals from './ViewSelectorDialog.mless';
 
-export default function ViewSelectorDialog({
+export default function ViewSelectorDialog<AlertConfig extends AlertConfigType>({
   trackCta,
   openOldDialog,
   getLinkToCreateSmartAlert,
-  mode
+  mode,
+  trackType,
+  alertConfig
 }: {
   trackCta: CtaTrackingFunction;
   openOldDialog: VoidFunction;
   getLinkToCreateSmartAlert: string;
   mode?: string;
+  trackType?: string;
+  alertConfig?: AlertConfig;
 }) {
   return (
     <Dialog title={t('in-alerting:components.chooseLayoutDialog.chooseLayout')} onClose={() => close()}>
@@ -60,7 +65,14 @@ export default function ViewSelectorDialog({
           <Button
             kind="secondary"
             onClick={() => {
-              trackCta(ALERTING_CREATE, { dialogMode: mode });
+              if (trackType === ALERTING_EDIT) {
+                trackCta(ALERTING_EDIT, { ...alertConfig, dialogMode: mode });
+              } else if (trackType === ALERTING_CLONE_TRIGGER) {
+                trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfig, dialogMode: mode });
+              } else {
+                trackCta(ALERTING_CREATE, { dialogMode: mode });
+              }
+
               close();
               openOldDialog();
             }}
@@ -70,7 +82,14 @@ export default function ViewSelectorDialog({
           <Button
             kind="primary"
             onClick={() => {
-              trackCta(ALERTING_CREATE, { dialogMode: FULLSCREEN });
+              if (trackType === ALERTING_EDIT) {
+                trackCta(ALERTING_EDIT, { ...alertConfig, dialogMode: FULLSCREEN });
+              } else if (trackType === ALERTING_CLONE_TRIGGER) {
+                trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfig, dialogMode: FULLSCREEN });
+              } else {
+                trackCta(ALERTING_CREATE, { dialogMode: FULLSCREEN });
+              }
+
               close();
             }}
             href={getLinkToCreateSmartAlert}

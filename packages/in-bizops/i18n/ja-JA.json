@@ -11,6 +11,7 @@
     "pageTitle": "ビジネス・モニタリング",
     "cardTitle": "ビジネス・プロセス",
     "theId": "プロセス ID",
+    "theVersion": "プロセス・バージョン",
     "hasBeenCopied": "クリップボードに正常にコピーされました",
     "activityLabel": "アクティビティー",
     "nameLabel": "名前",
@@ -104,7 +105,7 @@
         "duration": "期間",
         "activityCount": "数",
         "activityErrors": "エラー",
-        "topServices": "上位サービス",
+        "topServices": "トップ・サービス",
         "activityLatency": "待ち時間",
         "viewAll": "すべてのサービスを表示"
       },
@@ -141,7 +142,14 @@
       }
     },
     "flowMap": {
-      "tabLabel": "フロー"
+      "zoomIn": "ズームイン",
+      "zoomOut": "ズームアウト",
+      "zoomReset": "ズーム・リセット",
+      "count": "数",
+      "errors": "エラー",
+      "latency": "待ち時間",
+      "tabLabel": "フロー",
+      "loadMore": "さらにロード"
     }
   }
 }

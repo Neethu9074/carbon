@@ -299,7 +299,7 @@ const ProbableRootCauseCard = forwardRef<HTMLDivElement, ProbableRootCauseCardPr
   );
 });
 
-function determineEntityTypeFromEntityIDMap(entityID: Map<string, string>) {
+export function determineEntityTypeFromEntityIDMap(entityID: Map<string, string>) {
   const pluginName = translateFullyQualifiedPluginToShortPluginName(entityID.get('pluginId'));
 
   if (pluginName === 'application' || pluginName === 'service' || pluginName === 'endpoint') return pluginName;
@@ -307,7 +307,7 @@ function determineEntityTypeFromEntityIDMap(entityID: Map<string, string>) {
   return 'infrastructure';
 }
 
-function getIncidentTimeConfig(incident: EventOrMap): TimeConfig {
+export function getIncidentTimeConfig(incident: EventOrMap): TimeConfig {
   return {
     windowSize:
       (incident.get('end') as number) - incident.getIn(['metadata', 'triggeringTime'], 0) + minutes.toMillis(20) ||

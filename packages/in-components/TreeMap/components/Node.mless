@@ -47,12 +47,12 @@
 
   .label {
     font-size: 0.75rem;
-    color: var(--ids-color-option-neutral-600);
+    color: var(--cds-text-primary);
   }
 
   .value {
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--ids-color-option-neutral-600);
+    color: var(--cds-text-primary);
   }
 }

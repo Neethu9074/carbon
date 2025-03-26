@@ -6,10 +6,6 @@
 
 import React from 'react';
 
-import {
-  TearSheetEditActionHandler,
-  TearSheetCloneActionHandler
-} from 'in-alerting/smart-alerts/logs/lists/TearSheetActionHandlers';
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
@@ -20,17 +16,24 @@ import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 
+// TODO revert this back
+// import {
+//   TearSheetEditActionHandler,
+//   TearSheetCloneActionHandler
+// } from 'in-alerting/smart-alerts/logs/lists/TearSheetActionHandlers';
+
 function handleEdit(config: LogSmartAlertConfigWithMetadata) {
   openSmartAlertDialog(config);
 }
 
-function HandleEditNew(config: LogSmartAlertConfigWithMetadata) {
-  return <TearSheetEditActionHandler id={config.id} created={config.created} alertConfig={config} />;
-}
+// TODO add it back when FF checking is done
+// function HandleEditNew(config: LogSmartAlertConfigWithMetadata) {
+//   return <TearSheetEditActionHandler id={config.id} created={config.created} alertConfig={config} />;
+// }
 
-function HandleCloneNew(config: LogSmartAlertConfigWithMetadata) {
-  return <TearSheetCloneActionHandler id={config.id} created={config.created} alertConfig={config} />;
-}
+// function HandleCloneNew(config: LogSmartAlertConfigWithMetadata) {
+//   return <TearSheetCloneActionHandler id={config.id} created={config.created} alertConfig={config} />;
+// }
 
 function openSmartAlertDialog(config: LogSmartAlertConfigWithMetadata, isCopy = false) {
   addActiveDialog(
@@ -51,14 +54,22 @@ function handleClone(config: LogSmartAlertConfigWithMetadata) {
 }
 
 export const actionHandlers = {
-  handleEdit: (config: LogSmartAlertConfigWithMetadata) => handleEdit(config),
-  ...(logSmartAlertFullScreenDesignEnabled && {
-    handleEditNew: (config: LogSmartAlertConfigWithMetadata) => HandleEditNew(config)
+  // TODO chnage when FF for edit
+  ...(!logSmartAlertFullScreenDesignEnabled && {
+    handleEdit: (config: LogSmartAlertConfigWithMetadata) => handleEdit(config)
   }),
-  handleClone: (config: LogSmartAlertConfigWithMetadata) => handleClone(config),
   ...(logSmartAlertFullScreenDesignEnabled && {
-    handleCloneNew: (config: LogSmartAlertConfigWithMetadata) => HandleCloneNew(config)
+    handleEditSelector: (config: LogSmartAlertConfigWithMetadata) => handleEdit(config)
   }),
+  // handleEditNew: (config: LogSmartAlertConfigWithMetadata) => HandleEditNew(config),
+  // TODO chnage when FF for clone
+  ...(!logSmartAlertFullScreenDesignEnabled && {
+    handleClone: (config: LogSmartAlertConfigWithMetadata) => handleClone(config)
+  }),
+  ...(logSmartAlertFullScreenDesignEnabled && {
+    handleCloneSelector: (config: LogSmartAlertConfigWithMetadata) => handleClone(config)
+  }),
+  // handleCloneNew: (config: LogSmartAlertConfigWithMetadata) => HandleCloneNew(config)
   handleDelete: (
     id: string,
     setIsSaving: (saving: boolean) => void,

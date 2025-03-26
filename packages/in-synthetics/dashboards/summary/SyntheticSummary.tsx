@@ -59,7 +59,8 @@ const SyntheticSummaryDashboard = () => {
     location,
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
     test,
-    setReloadCount
+    setReloadCount,
+    viewPath: syntheticsDashboard
   };
 
   function trackSyntheticTabChange(tab: string) {

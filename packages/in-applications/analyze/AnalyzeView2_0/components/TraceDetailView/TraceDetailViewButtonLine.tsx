@@ -121,6 +121,7 @@ export function TraceDetailViewButtonLine({ traceId, traceSummary }: TraceDetail
         <Button
           icon="lib_actions_download"
           kind="primary"
+          size="sm"
           target="_blank"
           href={traceDownloadUrl(traceIdInUrl, traceSummary)}
           onClick={() => trackDownloadTraceClicked({ rawTrace: false })}

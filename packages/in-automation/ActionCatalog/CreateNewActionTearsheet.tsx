@@ -24,16 +24,17 @@ import { ActionForm } from 'in-automation/ActionCatalog/useActionForm/types';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { ActionFormBody } from 'in-automation/ActionCatalog/ActionForm';
+import { refreshAction } from 'in-automation/ActionDashboard/useAction';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import useActionFilter from 'in-automation/hooks/useActionFilter';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { refresh } from 'in-automation/ActionCatalog/useActions';
 import { productAreas } from 'in-services/tracking/productAreas';
+import { saveAction, saveNewAction } from 'in-automation/api';
 import useAction from 'in-automation/ActionCatalog/useAction';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { hasError, isLoading } from 'in-services/util/result';
-import { saveAction, saveNewAction } from 'in-automation/api';
 import SectionLine from 'in-settings/components/SectionLine';
 import { close } from 'in-components/DialogPresenter/store';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -46,7 +47,15 @@ import SideNav from 'in-components/SideNav';
 import { seconds } from 'in-services/time';
 import { t, Trans } from 'in-i18n';
 
-export default function CreateNewActionTearsheet({ actionId, copy = false }: { actionId?: string; copy?: boolean }) {
+export default function CreateNewActionTearsheet({
+  actionId,
+  copy = false,
+  isFromDashboard = false
+}: {
+  actionId?: string;
+  copy?: boolean;
+  isFromDashboard?: boolean;
+}) {
   const { isCopy, id } = useActionDetailsUrlParams({ actionId, copy });
   const action = useAction({ id, isCopy });
   const actionFilter = useActionFilter();
@@ -97,6 +106,7 @@ export default function CreateNewActionTearsheet({ actionId, copy = false }: { a
         actionFilter={actionFilter.data!}
         copy={copy}
         actionId={actionId}
+        isFromDashboard={isFromDashboard}
       />
     </>
   );
@@ -107,12 +117,13 @@ interface TearSheetProps {
   actionFilter: 'all' | ActionFilter;
   copy: boolean;
   actionId?: string;
+  isFromDashboard?: boolean;
 }
 
-function TearSheetLoader({ action, actionFilter, copy, actionId }: TearSheetProps) {
+function TearSheetLoader({ action, actionFilter, copy, actionId, isFromDashboard }: TearSheetProps) {
   const { isCopy } = useActionDetailsUrlParams({ copy });
   const [form, setForm] = useActionForm({ action, actionFilter });
-  const { onSubmit, result } = useOnSubmit({ actionId, copy });
+  const { onSubmit, result } = useOnSubmit({ actionId, copy, isFromDashboard });
 
   const actionButtons = [
     {
@@ -352,8 +363,9 @@ function ActionDetails({ action, actionFilter, form, setForm, copy, actionId }: 
 interface useOnSubmitProps {
   copy: boolean;
   actionId?: string;
+  isFromDashboard?: boolean;
 }
-function useOnSubmit({ actionId, copy }: useOnSubmitProps) {
+function useOnSubmit({ actionId, copy, isFromDashboard }: useOnSubmitProps) {
   const { createActionTrackerSegment, editActionTrackerSegment } = useSegmentTracker();
   const [result, setResult] = useState<Result<any> | null>(null);
   const { isNew, isCopy, id } = useActionDetailsUrlParams({ actionId, copy });
@@ -392,7 +404,7 @@ function useOnSubmit({ actionId, copy }: useOnSubmitProps) {
             onSaveSuccess(result.data?.name!);
             close();
             navigateToActionCatalog();
-            refresh();
+            if (!isFromDashboard) refresh();
           },
           result => {
             onSaveFailure(result?.errors);
@@ -408,9 +420,12 @@ function useOnSubmit({ actionId, copy }: useOnSubmitProps) {
             editActionTrackerSegment(trackerDetails);
             onEditSuccess(result.data?.name!);
             close();
-            navigateToActionCatalog();
-
-            refresh();
+            if (isFromDashboard) {
+              refreshAction();
+            } else {
+              navigateToActionCatalog();
+              refresh();
+            }
           },
           result => {
             onEditFailure(result?.errors);

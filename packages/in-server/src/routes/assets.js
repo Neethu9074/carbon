@@ -4,7 +4,6 @@
  */
 
 const express = require('express');
-
 const configEnrichment = require('../middleware/configEnrichment');
 const { activeResolver } = require('../services/resolvers/index');
 const unitCoordinates = require('../middleware/unitCoordinates');
@@ -61,6 +60,7 @@ router.use(
     cacheControl: false,
     setHeaders(res) {
       res.setHeader('Cache-Control', cacheControlHeader);
+      res.setHeader('Content-Security-Policy', `font-src 'self'; script-src 'self'`);
     }
   })
 );

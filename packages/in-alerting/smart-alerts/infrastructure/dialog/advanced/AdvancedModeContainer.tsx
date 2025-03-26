@@ -46,9 +46,17 @@ import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import StepsContainer from 'in-components/StepsContainer';
+import { MessageType } from 'in-components/MessageStack';
 import { t } from 'in-i18n';
 
-export default function AdvancedModeContainer(props: AlertConfigDialogPresenterProps & MainDialogControl) {
+interface AdvancedModeContainerProp {
+  updateForm?: (form: MapForm<any>) => void;
+  messages?: MessageType[];
+}
+
+export default function AdvancedModeContainer(
+  props: AdvancedModeContainerProp & AlertConfigDialogPresenterProps & MainDialogControl
+) {
   const {
     form,
     onChartViewConfigChange,
@@ -59,7 +67,8 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     setCustomSlideInHeaderConfig,
     setTagFilterValid,
     tagFilterValid,
-    TagBasedPayloadConfigurator
+    TagBasedPayloadConfigurator,
+    messages
   } = props;
   // For now, we support only static threshold. So taking type from warningThreshold/criticalThreshold would not change anything.
   const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
@@ -89,7 +98,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
 
   return (
     <StepsContainer
-      messages={[]}
+      messages={messages}
       navItems={[
         {
           scrollId: '1',

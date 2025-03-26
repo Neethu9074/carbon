@@ -10,12 +10,14 @@
     margin-left: 1rem;
     margin-right: 1rem;
   }
+  .customKPIMinor {
+    font-size: 1.5rem;
+  }
   .customKPIStyle {
-    :global [class*='__minor'] {
-      font-size: 1.5rem;
-    }
-    :global [class*='__companion'] {
-      padding-left: 2px;
+    :global .card-body {
+      > span > span:not(:only-child):last-child {
+        padding-left: 2px;
+      }
     }
   }
 }

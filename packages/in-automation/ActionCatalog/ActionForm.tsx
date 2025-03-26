@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 
 import { Link, Typography, Toggle, TextArea, Select, FormGroup, CarbonNumberInput } from '@instana/components';
 import { ActionType, Result } from '@instana/types';
@@ -165,6 +165,12 @@ function MetaDataSection({ actionFilter }: { actionFilter: 'all' | ActionFilter 
   const tags = form.get('tags');
 
   const filteredTags = filterTags(actionFilter, availableTags);
+
+  // This prevents the auto-focus issue when copying and editing actions, especially when changing other field values.
+  useEffect(() => {
+    setForm(form => form.updateIn(['name'], item => item.setValue(name.value)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

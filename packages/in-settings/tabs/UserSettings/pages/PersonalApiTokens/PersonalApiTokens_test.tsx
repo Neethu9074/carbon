@@ -138,19 +138,20 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
     mockGet({ amount: 0, first: token });
 
     const { getByText, getByPlaceholderText, queryByText, container } = render(<PersonalApiTokens />);
-
     expect(getByText('in-settings:tabs.personalApiTokens (1)')).toBeInTheDocument(); // headline
     expect(getByPlaceholderText('in-settings:components.search')).toBeInTheDocument(); // searchbar
     expect(getByText('in-settings:tabs.newPersonalApiToken')).toBeInTheDocument(); // add btn
+    expect(queryByText('in-settings:tabs.noPersonalApiTokens')).not.toBeInTheDocument(); // no data
+    expect(container.querySelector('div[class*="pagination"]')).not.toBeInTheDocument(); // no pagination
+
+    expect(getPersonalApiTokens).toHaveBeenCalled();
+    await waitFor(() => expect(getByText(token.name)).toBeInTheDocument());
+    expect(container.querySelector('.tableLoadingSkeletonRows-skeleton')).not.toBeInTheDocument(); // not loading
     expect(getByText('in-settings:tabs.name')).toBeInTheDocument(); // col header entityName
     expect(getByText('in-settings:tabs.token')).toBeInTheDocument(); // col header entityToken
     expect(getByText('in-settings:tabs.tokenLastUsed')).toBeInTheDocument(); // col header last used
     expect(getByText('in-settings:tabs.tokenCreated')).toBeInTheDocument(); // col header created by
-    expect(queryByText('in-settings:tabs.noPersonalApiTokens')).not.toBeInTheDocument(); // no data
-    expect(container.querySelector('.tableLoadingSkeletonRows-skeleton')).not.toBeInTheDocument(); // loading
-    expect(container.querySelector('div[class*="pagination"]')).not.toBeInTheDocument(); // no pagination
-    expect(getPersonalApiTokens).toHaveBeenCalled();
-    await waitFor(() => expect(getByText(token.name)).toBeInTheDocument());
+
     expect(getByText(token.name)).toBeInTheDocument();
     expect(getByText('my-t********************')).toBeInTheDocument();
     expect(formatDateTime).toHaveBeenCalledWith(token.createdOn);
@@ -162,14 +163,14 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
     mockGet({ amount: 0 });
 
     const { getByText, getByPlaceholderText, container } = render(<PersonalApiTokens />);
-
+    expect(container.querySelector('.tableLoadingSkeletonRows-skeleton')).not.toBeInTheDocument(); // loading
     expect(getByText('in-settings:tabs.personalApiTokens')).toBeInTheDocument(); // headline
     expect(getByPlaceholderText('in-settings:components.search')).toBeInTheDocument(); // searchbar
     expect(getByText('in-settings:tabs.newPersonalApiToken')).toBeInTheDocument(); // add btn
     expect(getByText('in-settings:tabs.name')).toBeInTheDocument(); // col header entityName
     expect(getByText('in-settings:tabs.token')).toBeInTheDocument(); // col header entityToken
     expect(getByText('in-settings:tabs.noPersonalApiTokens')).toBeInTheDocument(); // no data
-    expect(container.querySelector('.tableLoadingSkeletonRows-skeleton')).not.toBeInTheDocument(); // loading
+
     expect(container.querySelector('div[class*="pagination"]')).not.toBeInTheDocument(); // no pagination
     expect(getPersonalApiTokens).toHaveBeenCalled();
   });
@@ -182,10 +183,8 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
     expect(getByText('in-settings:tabs.personalApiTokens')).toBeInTheDocument(); // headline
     expect(getByPlaceholderText('in-settings:components.search')).toBeInTheDocument(); // searchbar
     expect(getByText('in-settings:tabs.newPersonalApiToken')).toBeInTheDocument(); // add btn
-    expect(getByText('in-settings:tabs.name')).toBeInTheDocument(); // col header entityName
-    expect(getByText('in-settings:tabs.token')).toBeInTheDocument(); // col header entityToken
-    expect(container.querySelector('.tableLoadingSkeletonRows-skeleton')).toBeInTheDocument();
     expect(getPersonalApiTokens).toHaveBeenCalled();
+    expect(container.querySelector('.tableLoadingSkeletonRows-skeleton')).not.toBeInTheDocument(); // not loading
     expect(container.querySelector('div[class*="pagination"]')).not.toBeInTheDocument();
   });
 

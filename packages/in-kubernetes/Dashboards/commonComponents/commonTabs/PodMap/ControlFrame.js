@@ -5,20 +5,21 @@
 
 import React from 'react';
 
+import { CarbonRadioButtonGroup, CarbonRadioButton } from '@instana/components';
+
 import {
   clusterGroupings,
   namespaceGroupings,
   sizeByConfigs
 } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/constants';
 import HighlightSwitch from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/HighlightSwitch';
-import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import MapListToggle from 'in-kubernetes/Dashboards/commonComponents/commonTabs/MapListToggle';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import SidebarContainer from 'in-components/layout/SidebarContainer';
 import { compareIgnoreCase } from 'in-services/util/string';
 import useUrlState from 'in-hooks/useUrlState';
 import ComboBox from 'in-components/ComboBox';
-import { Trans } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
 
 import locals from './ControlFrame.mless';
 
@@ -47,6 +48,7 @@ export default function ControlFrame(props) {
                   options={groupingOptions}
                   onChange={_grouping => setUrlState({ grouping: _grouping })}
                   isClearable={false}
+                  aria-label={t('in-kubernetes:dashboards.groupByLabel')}
                   openMenuOnFocus
                   isSearchable={false}
                 />
@@ -59,17 +61,18 @@ export default function ControlFrame(props) {
 
       <SidebarContainer
         sidebar={
-          <SideNavigation>
-            {sizeByConfigs.map(config => (
-              <SideNavigationItem
-                key={config.value}
-                label={config.label}
-                isActive={sizeMetricConfig.value === config.value}
-                omitEmptyIcon
-                onClick={() => setUrlState({ sizeMetricConfig: config })}
-              />
+          <CarbonRadioButtonGroup
+            className={locals.radiogroup}
+            legendText={t('in-kubernetes:dashboards.chooseMetric')}
+            name="size-by-configs"
+            onChange={size => setUrlState({ sizeMetricConfig: sizeByConfigs.find(item => item.value === size) })}
+            orientation="vertical"
+            valueSelected={sizeByConfigs.find(item => item.value === sizeMetricConfig.value)?.value}
+          >
+            {sizeByConfigs.map(({ id, label, value }) => (
+              <CarbonRadioButton key={id} id={id} value={value} labelText={label} />
             ))}
-          </SideNavigation>
+          </CarbonRadioButtonGroup>
         }
       >
         {render({ ...props, ...urlState })}

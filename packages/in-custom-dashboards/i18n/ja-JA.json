@@ -142,7 +142,7 @@
     }
   },
   "widgets": {
-    "unknownEntityLabel": "不明なエンティティー",
+    "unknownEntityLabel": "不明なエンティティ",
     "unknownEntityLabel_application": "不明なアプリケーション",
     "unknownEntityLabel_website": "不明な Web サイト",
     "invalidWidgetTypeErrorMessage": "<strong>無効なウィジェット・タイプ</strong><br/>このウィジェットには無効なタイプが含まれています。修正するには、ダッシュボードJSONを編集するか、ウィジェットを削除してください。",
@@ -191,8 +191,8 @@
       },
       "formComponent": {
         "metric": "メトリック",
-        "eventCount": "イベント数",
-        "unnamedLog": "名前なしログ・メトリック",
+        "eventCount": "イベント・カウント",
+        "unnamedLog": "無名のログ・メトリック",
         "aggregation": "集約",
         "pleaseSelectMetric": "メトリックを選択してください",
         "pleaseSelect": "選択してください",
@@ -216,7 +216,7 @@
         "lastValueHelp": "このトグルを有効にすると、時刻範囲内の最後のバケットの集計が表示されます。"
       },
       "metrics": {
-        "infrastructurePlatforms": "インフラストラクチャーとプラットフォーム",
+        "infrastructurePlatforms": "インフラストラクチャ & プラットフォーム",
         "comingSoon": "(近日公開)"
       },
       "typeAndMetricConfigurator": {
@@ -251,7 +251,7 @@
         "pleaseSelectMetric": "メトリックを選択してください"
       },
       "index": {
-        "mobileAppsBeacon": "モバイル・アプリケーション (ビーコン)"
+        "mobileAppsBeacon": "モバイル・アプリ (ビーコン)"
       }
     },
     "srcSli": {
@@ -302,7 +302,7 @@
         "logging": "Logs"
       },
       "formComponent": {
-        "onlyMetric": "ログで使用可能な唯一のメトリック",
+        "onlyMetric": "ログに使用可能な唯一のメトリック",
         "metrics": {
           "count": "数"
         },
@@ -345,7 +345,7 @@
         "addTimeShiftComparBadge": "タイムシフト比較バッジの追加",
         "increaseColor": "増加の色",
         "decreaseColor": "減少の色",
-        "timeShift": "タイムシフト"
+        "timeShift": "タイム・シフト"
       },
       "thresholdForm": {
         "addThresholdColorization": "しきい値を基準にした色分けの追加",
@@ -356,7 +356,7 @@
         "warningValidator": "< および <= 演算子の場合、警告しきい値はクリティカルしきい値より大きくなければなりません。",
         "bytes": "バイト数"
       },
-      "bigNumber": "重要な数値"
+      "bigNumber": "大整数"
     },
     "chart": {
       "axesConfigurator": {
@@ -397,7 +397,7 @@
         "darkRed": "濃い赤",
         "blue": "青",
         "yellow": "黄色",
-        "lightBlue": "薄い青",
+        "lightBlue": "ライト・ブルー",
         "green": "緑",
         "red": "赤",
         "orange": "オレンジ",
@@ -430,10 +430,10 @@
         "datasets": "データ・セット"
       },
       "timeShiftingFormChart": {
-        "timeShift": "タイムシフト",
+        "timeShift": "タイム・シフト",
         "applyTimeShiftDs": "このデータ系列にタイムシフトを適用",
         "timeShiftHelpAction": "<strong>「現行値の表示」</strong>を選択すると、このデータ系列が同じ軸に自動的に複製されます。 最初のデータ系列ではタイムシフトが無効になり、2 番目のデータ系列ではタイムシフトが有効になります。",
-        "timeShiftDisabledWhilePPon": "タイムシフトを使用するには、最初に潜在的な問題の強調表示をオフにする必要があります。",
+        "timeShiftDisabledWhilePPon": "タイム・シフトを使用するには、最初に潜在的な問題の強調表示をオフにする必要があります。",
         "displayCurrentValues": "現行値の表示"
       },
       "potentialProblems": {
@@ -454,7 +454,7 @@
       "onLoadTime": "OnLoad 時間"
     },
     "index": {
-      "chartTimeSeries": "グラフ: 時系列"
+      "chartTimeSeries": "チャート: 時系列"
     },
     "util": {
       "unnamMetric": "名前なしメトリック"
@@ -479,7 +479,7 @@
         "formatter": "フォーマッター"
       },
       "index": {
-        "chartPie": "グラフ: 円",
+        "chartPie": "チャート: 円",
         "testTitle": "イベント",
         "testLegendItem1": "インシデント",
         "testLegendItem2": "問題: クリティカル",
@@ -507,15 +507,15 @@
         "indicatorType": "指標タイプ："
       },
       "demo": {
-        "title": "SLO のタイトル",
-        "sliName": "サンプル SLI",
+        "title": "SLO タイトル",
+        "sliName": "例 SLI",
         "appName": "アプリケーション名の例"
       },
       "apConfigFormComp": {
-        "userJourneyOffering": "ユーザー・ジャーニー/オファリング",
+        "userJourneyOffering": "ユーザー・ジャーニー / オファリング",
         "appnPerspective": "アプリケーション・パースペクティブ",
         "selectAppPerspect": "アプリケーション・パースペクティブを選択してください。",
-        "appPerspectHelpAction": "アプリケーション領域でアプリケーションパースペクティブとしてモデル化することにより、ユーザージャーニー/オファリングを設定します。",
+        "appPerspectHelpAction": "アプリケーション領域でアプリケーションの観点としてモデリングすることにより、ユーザーの行動と提供内容を設定します。",
         "rbacHint": "表示アプリケーションは、権限に制限される場合があります。",
         "noAppPerspect": "アプリケーション・パースペクティブがありません。",
         "pleaseSelect": "選択してください"
@@ -523,7 +523,7 @@
       "websiteSelector": {
         "website": "Web サイト",
         "selectWebsite": "Web サイトを選択してください",
-        "websiteHelpAction": "ウェブサイト＆amp;でウェブサイトを設定する モバイルアプリエリア。",
+        "websiteHelpAction": "ウェブサイト＆amp; モバイル・アプリのエリアで Web サイトを設定します。",
         "rbacHint": "表示Web サイトは権限に制限される場合があります。",
         "noWebsites": "Web サイトが見つかりません",
         "pleaseSelect": "選択してください"
@@ -573,7 +573,7 @@
         "99th": "99 パーセンタイル"
       },
       "metricsForm": {
-        "metricThreshold": "メトリックおよびしきい値",
+        "metricThreshold": "メトリック & 閾値",
         "metric": "メトリック",
         "aggregation": "集約",
         "valThresholdNotInvalidEmpty": "しきい値の値は無効または空にできません。",
@@ -614,7 +614,7 @@
         "sliType": "SLI タイプ",
         "viewCloneSliConfig": "SLI 構成の表示/複製",
         "delSliConfig": "SLI 構成の削除",
-        "confirmRemove": "ご確認ください",
+        "confirmRemove": "削除の確認",
         "confirmRemoveMsg": "<strong>{{sliName}}</strong> を削除しますか?",
         "delete": "削除",
         "eventBasedSli": "イベント・ベース",
@@ -687,6 +687,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "少なくとも 1 つのフィルター式を構成する必要があります。",
       "timeBased": "時刻ベース",
       "eventBased": "イベント・ベース",
+      "sloLite": "SLO Lite",
       "sloLegacy": "SLO の旧バージョン",
       "slo": "SLO",
       "monitoringSourceSelector": {
@@ -713,13 +714,13 @@
           "description": "コンシューマーと内部の両方によって、このアプリケーション内で実行された呼び出し。"
         },
         "inbound": {
-          "title": "インバウンドの呼び出し",
+          "title": "インバウンド呼び出し",
           "description": "このアプリケーションのコンシューマーによって実行される呼び出しのみ。"
         }
       }
     },
     "apdex": {
-      "title": "Apdex: グラフ",
+      "title": "Apdex: チャート",
       "chart": {
         "metricLabel": "Apdex",
         "viewInAnalyze": "分析で表示",
@@ -765,7 +766,7 @@
         "cardTitle": "Apdex 構成",
         "nameColumn": "Apdex 構成",
         "thresholdColumn": "しきい値",
-        "confirmDeleteHeader": "ご確認ください",
+        "confirmDeleteHeader": "削除の確認",
         "confirmDeleteMessage": "{{apdex}} を削除してよろしいですか?",
         "editApdexTooltip": "Apdex 構成の編集/複製",
         "deleteApdexTooltip": "Apdex 構成の削除",
@@ -788,7 +789,7 @@
         "editConfigNotice": "データ損失を回避するために、いったん作成された構成は編集できません。構成はコピーとしてのみ調整できます。"
       },
       "createWebsiteApdexForm": {
-        "thresholdHeader": "しきい値構成",
+        "thresholdHeader": "しきい値設定",
         "thresholdLabel": "しきい値",
         "ms": "ミリ秒"
       },
@@ -853,7 +854,7 @@
     },
     "applicationHealth": {
       "index": {
-        "applicationHealth": "正常性の概要"
+        "applicationHealth": "健全性の概要"
       },
       "form": {
         "validationError": "アプリケーションを選択してください。",
@@ -898,13 +899,13 @@
         "infrastructure": {
           "entityType": "エンティティー・タイプ",
           "viewTable": "<analyzeInfraLink>「インフラストラクチャーの分析」</analyzeInfraLink> で表全体を表示します。",
-          "tableSize": "TABLE SIZE",
+          "tableSize": "テーブルのサイズ",
           "tableConfiguration": "テーブル構成",
-          "tableDetails": "テーブルの詳細",
+          "tableDetails": "表詳細",
           "showResult": "{{totalItems}} 件の結果のうち {{loadedItems}} 件を表示しています",
           "loadingEntities": "エンティティーのロード中",
           "datasets": "データ・セット",
-          "sortBy": "ソート順",
+          "sortBy": "ソート基準",
           "sortDirection": "ソート方向",
           "defaultSortingSuffix": "名前",
           "validators": {
@@ -950,11 +951,11 @@
     "duplicateDashboard": "ダッシュボードの複製",
     "dashboardName": "ダッシュボード名",
     "duplicate": "複製",
-    "copyShareConfig": "共有構成のコピー",
+    "copyShareConfig": "コピー共有設定",
     "failedToCreateDashboard": "ダッシュボードを作成できませんでした。"
   },
   "newDashboardDialog": {
-    "createNewDashboard": "新規ダッシュボードの作成",
+    "createNewDashboard": "新しいダッシュボードの作成",
     "dashboardName": "ダッシュボード名",
     "additionalFields": "このダッシュボードは、自分に対してのみ表示されます。 作成後に同僚と共有することを選択できます",
     "create": "作成",

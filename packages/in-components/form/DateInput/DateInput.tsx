@@ -22,9 +22,17 @@ export type DateInputProps = Omit<CarbonDateInputProps, 'value' | 'onChange'> & 
   onChange: DateInputOnChange;
 };
 
-export default function DateInput(props: DateInputProps) {
-  const { onChange, value, disabled, id, hasError, placeholder, labelText, size } = props;
-
+export default function DateInput({
+  onChange,
+  value,
+  disabled,
+  id,
+  hasError,
+  placeholder,
+  labelText,
+  hideLabel,
+  size
+}: DateInputProps) {
   const convertDateObj = (date: string | Date | number) => {
     return formatDate(new Date(date));
   };
@@ -54,6 +62,7 @@ export default function DateInput(props: DateInputProps) {
       locale={activeLocale}
       pattern={pattern}
       labelText={labelText}
+      hideLabel={hideLabel}
       size={size}
     />
   );

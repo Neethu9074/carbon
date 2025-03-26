@@ -13,6 +13,7 @@ import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog
 import { LogMultiThresholdAlertPreview } from 'in-alerting/smart-alerts/logs/dialog/advanced/LogMultiThresholdAlertPreview';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/tearSheet/AlertProperties/AlertPropertiesTitleRow';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/logs/hooks/useTagBasedPayoadConfigurator';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
@@ -31,6 +32,8 @@ export default function AlertConfigTearSheetStep3({
   updateForm: (form: MapForm<any>) => void;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
 }) {
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator();
+
   return (
     <>
       <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.logs.tearSheet.step3.header')}>
@@ -70,7 +73,13 @@ export default function AlertConfigTearSheetStep3({
         <div className={locals.columnContainer}>
           <Spacer size="xxsmall" />
           <GlobalCustomPayloadCard context="LOG" isTearSheetView />
-          <AlertConfigCustomPayload form={form} setForm={updateForm} supportDynamicTypes={false} isTearSheet />
+          <AlertConfigCustomPayload
+            form={form}
+            setForm={updateForm}
+            TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+            supportDynamicTypes
+            isTearSheet
+          />
         </div>
       </>
     </>

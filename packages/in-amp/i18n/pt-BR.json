@@ -17,7 +17,7 @@
       "tenant": "Locatário",
       "type": "Tipo",
       "licenseStartData": "Data de início da licença",
-      "licenseEndData": "Data de término da licença",
+      "licenseEndData": "Data de encerramento da licença",
       "licensedApmHosts": "Hosts APM licenciados",
       "licensedIqmHosts": "Hosts IQM licenciados"
     },
@@ -42,7 +42,7 @@
       "title": "A Política de Uso Justo não está ativa."
     },
     "restrictedUsage": {
-      "accountUsage": "Uso da conta"
+      "accountUsage": "Uso de conta"
     },
     "technologiesReportingTable": {
       "name": "Nome",
@@ -55,8 +55,8 @@
       "row": "Linha",
       "unit": "Unit",
       "calculation": "Cálculo",
-      "entitledNumberOfMVS": "Número de MVS autorizado",
-      "actualAverage": "Número de MVS configurado médio real",
+      "entitledNumberOfMVS": "Número autorizado de MVS",
+      "actualAverage": "Número médio real configurado de MVS",
       "onDemandNumber": "Número de MVS sob demanda",
       "dataIngestFairUseEntitlement": "Autorização de uso justo de ingestão de dados por MVS",
       "totalDataIngestFairUseEntitlement": "Total de autorizações de uso justo da ingestão de dados",
@@ -81,7 +81,7 @@
     },
     "usages": {
       "allPaidUnitsAggregated": "Todas as unidades pagas (agregadas)",
-      "accountUsage": "Uso da conta",
+      "accountUsage": "Uso de conta",
       "activeLicenses": "Licenças ativas",
       "expiredLicenses": "Licenças expiradas",
       "queuedLicenses": "Licenças enfileiradas"
@@ -139,14 +139,14 @@
         "numOfApplicationPerspectives": "Número de APs",
         "numOfReportingApplicationPerspectives": "Número de APs de relatório",
         "numOfWebsites": "Número de websites",
-        "numOfAlertChannels": "N.º de canais de alerta",
+        "numOfAlertChannels": "Número de canais de alerta",
         "numOfAlerts": "Número de alertas",
         "numOfActiveAlerts": "Número de alertas ativos",
         "numOfReleases": "Número de marcadores de liberação/número de liberações",
         "numOfCustomDashboards": "Número de painéis customizados",
         "numOfMobileApps": "Número de apps"
       },
-      "activationChecklist": "Lista de Verificação de ativação",
+      "activationChecklist": "Lista de verificação de ativação",
       "productAdoption": "Adoção do produto",
       "sparkChartMetrics": {
         "metric_applications": "Aplicativos",
@@ -154,14 +154,14 @@
         "metric_websites": "Websites",
         "metric_all_alerts": "Todos os alertas",
         "metric_active_alerts": "Alertas ativos",
-        "metric_mobile_apps": "Aplicativos móveis",
+        "metric_mobile_apps": "Apps móveis",
         "metric_alert_channels": "Canais de alerta",
         "metric_custom_dashboards": "Painéis customizados",
         "metric_releases": "Liberações"
       },
       "userUsage": "Uso do usuário",
-      "userSummary": "Resumo do usuário",
-      "totalUser": "Total do Usuário",
+      "userSummary": "Resumo do Usuário",
+      "totalUser": "Total do usuário",
       "weeklyActiveUser": "Usuário ativo semanal",
       "lastCalendarWeekTopActiveUsers": "Principais usuários ativos da última semana do calendário",
       "topUsersTable": {
@@ -169,7 +169,7 @@
         "noTopActiveUsers": "Nenhum dado de usuário ativo principal para esta conta",
         "name": "Nome",
         "organizationRole": "Função de organização",
-        "daysActive": "Dias ativos",
+        "daysActive": "Dias ativo",
         "notProvided": "(não fornecido)"
       }
     }

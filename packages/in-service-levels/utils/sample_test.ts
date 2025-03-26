@@ -6,6 +6,7 @@
 
 import { FixedTimeWindow } from '@instana/types';
 
+import { testDate } from 'in-service-levels/components/ConfigDialog/createSloForm/testData';
 import { calculateTimeConfigFromTimeWindow } from 'in-service-levels/utils/time';
 import { getErrorBudgetSampleData } from 'in-service-levels/utils/sample';
 import { hours } from 'in-services/time/time';
@@ -16,6 +17,14 @@ jest.mock('in-stores/permission', () => ({
 }));
 
 describe('in-service-levels/utils/sample', () => {
+  beforeAll(() => {
+    jest.useFakeTimers().setSystemTime(testDate);
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   describe('getErrorBudgetSampleData', () => {
     it.each`
       indicatorType   | expectedConsumedBudget | expectedRemainingBudget | expectedStatus | expectedTotalBudget
