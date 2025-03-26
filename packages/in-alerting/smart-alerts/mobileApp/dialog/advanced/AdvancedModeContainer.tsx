@@ -50,9 +50,17 @@ import mobileAppCreateRuleForm from 'in-alerting/smart-alerts/mobileApp/form/rul
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import useMobileApp from 'in-mobile-apps/hooks/useMobileApp';
 import StepsContainer from 'in-components/StepsContainer';
+import { MessageType } from 'in-components/MessageStack';
 import { t } from 'in-i18n';
 
-export default function AdvancedModeContainer(props: AlertConfigDialogPresenterProps & MainDialogControl) {
+interface AdvancedModeContainerProp {
+  updateForm?: (form: MapForm<any>) => void;
+  messages?: MessageType[];
+}
+
+export default function AdvancedModeContainer(
+  props: AdvancedModeContainerProp & AlertConfigDialogPresenterProps & MainDialogControl
+) {
   const {
     form,
     onChange,
@@ -66,7 +74,8 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     selectedChartViewConfigIndex,
     TagBasedPayloadConfigurator,
     isDynamicCustomPayloadValid,
-    thresholdResult
+    thresholdResult,
+    messages
   } = props;
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
@@ -93,7 +102,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
 
   return (
     <StepsContainer
-      messages={[]}
+      messages={messages}
       navItems={[
         {
           scrollId: '1',
