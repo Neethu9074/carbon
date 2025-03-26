@@ -28,6 +28,7 @@ import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import GpuProcessList from 'in-forge/plugins/host/Dashboard/GpuProcessList';
 import PhysicalVolume from 'in-forge/plugins/host/Dashboard/PhysicalVolume';
 import VolumeGroups from 'in-forge/plugins/host/Dashboard/VolumeGroups';
+import Disks from 'in-forge/plugins/host/Dashboard/Disks';
 import DiskTable from 'in-forge/plugins/host/Dashboard/DiskTable';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import GpuTable from 'in-forge/plugins/host/Dashboard/GpuTable';
@@ -269,6 +270,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
       )}
       {isAixOs(snapshot) && <VolumeGroups snapshot={snapshot} timeConfig={timeConfig} />}
       {isAixOs(snapshot) && <PhysicalVolume snapshot={snapshot} timeConfig={timeConfig} />}
+      {isAixOs(snapshot) && <Disks snapshot={snapshot} timeConfig={timeConfig} />}
       {supportsOpenFiles(snapshot) && (
         <DashboardSection title={t('in-forge:plugins.host.dashboard.openFiles')}>
           <Chart
