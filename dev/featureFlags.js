@@ -175,6 +175,7 @@ module.exports = {
   idpConfigV2Enabled: false,
   sloLiteEnabled: true,
   sloFullEnabled: true,
+  solisEnabled: false,
   mobileAppSmartAlertFullScreenDesignEnabled: true,
   tealiumPrivacyEnabled: false,
   isSmartAlertDialogViewDefaultEnabled: true,
