@@ -9,13 +9,28 @@ const middleware = require('i18next-http-middleware');
 
 const { getCurrentUser } = require('../auth');
 const { activeResolver } = require('../services/resolvers/index');
-const translations = require('./translations.json'); // your combined file
-const { t } = require('in-i18n');
+const translations = require('./translation.json');
 
 i18next.use(middleware.LanguageDetector).init({
-  fallbackLng: 'en-US',
+  fallbackLng: {
+    en: ['en-US'],
+    de: ['de-DE'],
+    es: ['es-ES'],
+    fr: ['fr-FR'],
+    it: ['it-IT'],
+    ja: ['ja-JA'],
+    ko: ['ko-KO'],
+    pt: ['pt-BR'],
+    zh: ['zh-CN'],
+    'zh-Hant': ['zh-TW'],
+    default: ['en-US']
+  },
+  preload: Object.keys(translations),
   resources: translations,
-  preload: Object.keys(translations) // preload all languages present
+  load: 'languageOnly',
+  returnNull: false,
+  defaultNS: 'mainNavigation',
+  ns: ['mainNavigation']
 });
 
 const router = (module.exports = express.Router());
@@ -24,6 +39,7 @@ router.use(middleware.handle(i18next));
 
 router.get('/solis/nav', async (req, res) => {
   const t = req.t;
+
   const featureFlags = await activeResolver.getFeatureFlags(req.tenant, req.unit);
 
   const [statusCode, userStr] = await getCurrentUser(req);
@@ -113,7 +129,7 @@ function getUserPermissions(role, features) {
   };
 }
 
-function generateSideNavItems(role, features) {
+function generateSideNavItems(t, role, features) {
   const permissions = getUserPermissions(role, features);
 
   let navItems = [];
@@ -123,7 +139,7 @@ function generateSideNavItems(role, features) {
     type: 'link',
     properties: {
       icon_name: 'home',
-      label: 'Home',
+      label: t('home'),
       path: '#/home',
       is_root: true
     }
@@ -136,7 +152,6 @@ function generateSideNavItems(role, features) {
       properties: {
         icon_name: 'main-lib_website_mobile_app_inverted-websites',
         label: t('viewSwitcherLabelWebsitesAndMobileApps'),
-        // label: 'Websites & mobile apps',
         path: '#/websiteMonitoring',
         is_root: false
       }
@@ -146,7 +161,7 @@ function generateSideNavItems(role, features) {
       type: 'link',
       properties: {
         icon_name: 'application--web',
-        label: 'Websites',
+        label: t('viewSwitcherLabelWebsites'),
         path: '#/websiteMonitoring',
         is_root: false
       }
@@ -156,7 +171,7 @@ function generateSideNavItems(role, features) {
       type: 'link',
       properties: {
         icon_name: 'application--mobile',
-        label: 'Mobile apps',
+        label: t('viewSwitcherLabelMobileApps'),
         path: '#/mobileAppMonitoring',
         is_root: false
       }
@@ -170,7 +185,7 @@ function generateSideNavItems(role, features) {
       type: 'link',
       properties: {
         icon_name: 'lib_bizops',
-        label: 'Business Monitoring',
+        label: t('businessMonitoring'),
         path: '#/businessPerspectives',
         is_root: false
       }
@@ -183,7 +198,7 @@ function generateSideNavItems(role, features) {
       type: 'link',
       properties: {
         icon_name: 'application',
-        label: 'Applications',
+        label: t('viewSwitcherLabelApplications'),
         path: '#/applications',
         is_root: false
       }
@@ -196,9 +211,9 @@ function generateSideNavItems(role, features) {
       type: 'menu',
       properties: {
         icon_name: 'lib_platforms_inverted',
-        label: 'Platforms',
+        label: t('viewSwitcherLabelPlatforms'),
         is_root: false,
-        links: generatePlatformItems(permissions, features)
+        links: generatePlatformItems(t, permissions, features)
       }
     });
   }
@@ -209,7 +224,7 @@ function generateSideNavItems(role, features) {
       type: 'link',
       properties: {
         icon_name: 'layers',
-        label: 'Infrastructure',
+        label: t('viewSwitcherlabelInfrastructure'),
         path: '#/physical',
         is_root: false
       }
@@ -223,7 +238,7 @@ function generateSideNavItems(role, features) {
     type: 'link',
     properties: {
       icon_name: 'dashboard',
-      label: 'Custom dashboards',
+      label: t('viewSwitcherCustomDashboards'),
       path: '#/customDashboards',
       is_root: false
     }
@@ -235,7 +250,7 @@ function generateSideNavItems(role, features) {
       type: 'link',
       properties: {
         icon_name: 'cloud--logging',
-        label: 'Logs',
+        label: t('viewSwitcherLabelLogs'),
         path: '#/logging',
         is_root: false
       }
@@ -248,7 +263,7 @@ function generateSideNavItems(role, features) {
       type: 'link',
       properties: {
         icon_name: 'cloud--monitoring',
-        label: 'Synthetic monitoring',
+        label: t('labelSyntheticMonitoring'),
         path: '#/syntheticTests',
         is_root: false
       }
@@ -275,7 +290,7 @@ function generateSideNavItems(role, features) {
       type: 'link',
       properties: {
         icon_name: 'lib_analyze_inverted',
-        label: 'Analytics',
+        label: t('viewSwitcherLabelAnalytics'),
         path: analyzePath,
         is_root: false
       }
@@ -287,7 +302,7 @@ function generateSideNavItems(role, features) {
       type: 'link',
       properties: {
         icon_name: 'security',
-        label: 'Vulnerabilities',
+        label: t('viewVulnerabilityCenter'),
         path: '#/vulnerability-center',
         is_root: false
         // on-click
@@ -301,7 +316,7 @@ function generateSideNavItems(role, features) {
       type: 'link',
       properties: {
         icon_name: 'lib_events_inverted',
-        label: 'Events',
+        label: t('viewSwitcherLabelEvents'),
         path: '#/events;view=incident',
         is_root: false,
         badge: 5 // fetch from API call?
@@ -315,7 +330,7 @@ function generateSideNavItems(role, features) {
       type: 'link',
       properties: {
         icon_name: 'workflow-automation',
-        label: 'Automation',
+        label: t('automation'),
         path: '#/automation/actionCatalog',
         is_root: false
       }
@@ -328,7 +343,7 @@ function generateSideNavItems(role, features) {
       type: 'link',
       properties: {
         icon_name: 'lib_service_level',
-        label: 'Service levels',
+        label: t('viewSwitcherLabelSlo'),
         path: '#/slo',
         is_root: false
       }
@@ -343,7 +358,7 @@ function generateSideNavItems(role, features) {
       type: 'link',
       properties: {
         icon_name: 'settings',
-        label: 'Settings',
+        label: t('viewSwitcherLabelSettings'),
         path: '#/config',
         is_root: false
       }
@@ -360,7 +375,7 @@ function generateSideNavItems(role, features) {
       type: 'link',
       properties: {
         icon_name: 'lib_actions_lock',
-        label: 'Internal',
+        label: t('viewSwitcherLabelInternal'),
         path: '#/internal',
         is_root: false
       }
@@ -372,22 +387,22 @@ function generateSideNavItems(role, features) {
   navItems.push({
     type: 'menu',
     properties: {
-      label: 'More',
+      label: t('viewSwitcherLabelMore'),
       is_root: false,
-      links: generateMoreItems(role)
+      links: generateMoreItems(t, role)
     }
   });
 
   return navItems;
 }
 
-function generatePlatformItems(permissions, features) {
+function generatePlatformItems(t, permissions, features) {
   let platformItems = [];
 
   if (permissions.hasPCFAccess) {
     platformItems.push({
       icon_name: 'development',
-      label: 'Cloud Foundry',
+      label: t('viewSwitcherLabelCloudFoundry'),
       path: '#/cloudfoundry/applications'
     });
   }
@@ -395,7 +410,7 @@ function generatePlatformItems(permissions, features) {
   if (permissions.hasPHMCAccess && !features.playwithEnabled) {
     platformItems.push({
       icon_name: 'development',
-      label: 'IBM Power HMC',
+      label: t('viewSwitcherLabelphmc'),
       path: '#/ibmp/phmcs'
     });
   }
@@ -403,7 +418,7 @@ function generatePlatformItems(permissions, features) {
   if (permissions.hasPowerVcAccess && !features.playwithEnabled) {
     platformItems.push({
       icon_name: 'development',
-      label: 'IBM PowerVC',
+      label: t('viewSwitcherLabelPowervc'),
       path: '#/powervc/regions'
     });
   }
@@ -411,7 +426,7 @@ function generatePlatformItems(permissions, features) {
   if (permissions.hasZHMCAccess && !features.playwithEnabled) {
     platformItems.push({
       icon_name: 'development',
-      label: 'IBM Z HMC',
+      label: t('viewSwitcherLabelzhmc'),
       path: '#/ibmz/zhmcs'
     });
   }
@@ -419,7 +434,7 @@ function generatePlatformItems(permissions, features) {
   if (permissions.hasOpenStackAccess && !features.playwithEnabled) {
     platformItems.push({
       icon_name: 'development',
-      label: 'OpenStack',
+      label: t('viewSwitcherLabelOpenstack'),
       path: '#/openstack/regions'
     });
   }
@@ -427,7 +442,7 @@ function generatePlatformItems(permissions, features) {
   if (permissions.hasKubernetesAccess) {
     platformItems.push({
       icon_name: 'development',
-      label: 'Kubernetes',
+      label: t('viewSwitcherLabelKubernetes'),
       path: '#/kubernetes/clusters'
     });
   }
@@ -435,7 +450,7 @@ function generatePlatformItems(permissions, features) {
   if (permissions.hasNutanixAccess && !features.playwithEnabled) {
     platformItems.push({
       icon_name: 'development',
-      label: 'Nutanix',
+      label: t('viewSwitcherLabelNutanix'),
       path: '#/nutanix/datacenters'
     });
   }
@@ -443,7 +458,7 @@ function generatePlatformItems(permissions, features) {
   if (permissions.hasSAPAccess && !features.playwithEnabled) {
     platformItems.push({
       icon_name: 'development',
-      label: 'SAP',
+      label: t('viewSwitcherLabelSap'),
       path: '#/sap/sapsystemslist'
     });
   }
@@ -451,7 +466,7 @@ function generatePlatformItems(permissions, features) {
   if (permissions.hasVSphereAccess && !features.playwithEnabled) {
     platformItems.push({
       icon_name: 'development',
-      label: 'vSphere',
+      label: t('viewSwitcherLabelvSphere'),
       path: '#/vsphere/datacenters'
     });
   }
@@ -459,7 +474,7 @@ function generatePlatformItems(permissions, features) {
   return platformItems;
 }
 
-function generateMoreItems(role) {
+function generateMoreItems(t, role) {
   let moreItems = [];
 
   // tenant switch
@@ -467,7 +482,7 @@ function generateMoreItems(role) {
   //   moreItems.push({
   //     type: 'link',
   //     properties: {
-  //       label: 'Tenants',
+  //       label: t('viewSwitcherLabelTenants'),
   //       path: '`https://${config.tenantUnitDomainSuffix}/tenantSwitcher`'
   //     }
   //   });
@@ -478,7 +493,7 @@ function generateMoreItems(role) {
     moreItems.push({
       type: 'link',
       properties: {
-        label: 'Agents',
+        label: t('viewSwitcherLabelAgents'),
         path: '#/agents'
       }
     });
@@ -490,7 +505,7 @@ function generateMoreItems(role) {
   moreItems.push({
     type: 'link',
     properties: {
-      label: 'Documentation',
+      label: t('viewSwitcherLabelDocumentation'),
       path: 'https://www.ibm.com/docs/en/obi/current'
     }
   });
@@ -499,7 +514,7 @@ function generateMoreItems(role) {
   moreItems.push({
     type: 'link',
     properties: {
-      label: 'Support',
+      label: t('viewSwitcherLabelSupport'),
       path: 'https://www.ibm.com/mysupport/s/?language=en_US'
     }
   });
@@ -524,11 +539,13 @@ function getAbout() {
 }
 
 router.get('/solis/help', (req, res) => {
+  const t = req.t;
+
   res.setHeader('Content-Type', 'application/json');
-  res.end(getHelp());
+  res.end(getHelp(t));
 });
 
-function getHelp() {
+function getHelp(t) {
   let content = {
     primary_content: {
       title: 'Opening a support case',
@@ -537,7 +554,7 @@ function getHelp() {
     },
     addtl_docs_topics: [
       {
-        label: 'Instana documentation',
+        label: t('viewSwitcherLabelDocumentation'),
         href: 'https://www.ibm.com/docs/en/instana-observability/current',
         description: 'Instana Official documentation'
       }
