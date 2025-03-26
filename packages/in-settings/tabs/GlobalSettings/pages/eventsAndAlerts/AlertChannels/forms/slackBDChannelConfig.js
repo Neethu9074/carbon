@@ -44,6 +44,9 @@ const parameters = [
     label: t('in-settings:tabs.type')
   },
   {
+    key: 'id'
+  },
+  {
     key: 'emojiRendering',
     label: t('in-settings:tabs.displayEmojis')
   },
@@ -97,6 +100,12 @@ export default {
         createField({
           value: alertChannel ? alertChannel.get('name') : '',
           validator: notBlankValidator
+        })
+      )
+      .put(
+        'id',
+        createField({
+          value: alertChannel ? alertChannel.get('id') : generateUniqueShortId()
         })
       )
       .put(
