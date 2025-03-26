@@ -44,7 +44,8 @@ const parameters = [
     label: t('in-settings:tabs.type')
   },
   {
-    key: 'id'
+    key: 'id',
+    label: t('in-settings:tabs.id')
   },
   {
     key: 'emojiRendering',

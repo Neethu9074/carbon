@@ -1230,6 +1230,7 @@
     "alertChannelName": "alert-channel-name",
     "doneButton": "Done",
     "displayEmojis": "Display emojis",
+    "id": "Id",
     "displayEmojisInfo": "Automatically convert text to emojis in Slack alerts",
     "splunk": "Splunk",
     "splunkAlertChannel": "Splunk alert channel",
