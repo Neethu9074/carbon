@@ -9,4 +9,13 @@
     margin-bottom: -0.25rem;
     fill: #ff4229;
   }
+
+  .topList {
+    height: 23rem;
+  }
+
+  .secText {
+    font-size: 0.75rem;
+    color: var(--ids-color-option-neutral-600);
+  }
 }

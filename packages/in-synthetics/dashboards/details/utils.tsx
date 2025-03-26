@@ -130,3 +130,17 @@ export function getSyntheticTagLabels(resultList: Result<PaginatedResult<TestRes
     return Object.keys(resultList.data?.items[0]?.testResultCommonProperties.customTags);
   return [];
 }
+
+export const getResultErrorMessage = (error: string) => {
+  if (error) {
+    const regex = /errorMessage=([^,}]+)/;
+    const match = RegExp(regex).exec(error);
+    return match ? match[1] : '';
+  }
+  return '';
+};
+
+export function formatErrorMessage(error: string) {
+  const errorMessage = getResultErrorMessage(error);
+  return errorMessage.length > 40 ? errorMessage.slice(0, 40) + '...' : errorMessage;
+}
