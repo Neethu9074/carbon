@@ -159,6 +159,11 @@ function Form({ form, onChange }) {
     setNewName(false);
     setIsEdit(false);
   }
+  // If we are editing we want to set generatedLinkClicked as true because
+  // there is currently nothing to authenticate until name or emoji is modified
+  if (isEdit && form.get('generatedLinkClicked').value == undefined) {
+    onChange('generatedLinkClicked', true);
+  }
   return (
     <fieldset>
       {form.get('name').map(field => (
