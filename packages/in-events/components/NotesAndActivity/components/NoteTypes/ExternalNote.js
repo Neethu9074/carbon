@@ -22,12 +22,10 @@ export function ExternalNote({ noteObj }) {
         </>
       )}
       {slack && (
-        <>
-          <div className={locals.noteTypeHeading}>
-            {`${noteObj.author}`}
-            <div className={locals.contents}>{`${contents}`}</div>
-          </div>
-        </>
+        <div className={locals.noteTypeHeading}>
+          {`${noteObj.author}`}
+          <div className={locals.contents}>{`${contents}`}</div>
+        </div>
       )}
     </>
   );

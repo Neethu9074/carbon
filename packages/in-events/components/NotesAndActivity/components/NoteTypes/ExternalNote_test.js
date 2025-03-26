@@ -49,7 +49,7 @@ describe('ExternalNote', () => {
     };
     const wrapper = shallow(<ExternalNote noteObj={noteObj} />);
     expect(wrapper.find(`div.${locals.noteTypeHeading}`)).toHaveLength(1);
-    expect(wrapper.find(`div.${locals.noteTypeHeading}`).text()).toEqual('John Doe Slack:  Hello Slack');
+    expect(wrapper.find(`div.${locals.noteTypeHeading}`).text()).toEqual('John Doe SlackHello Slack');
     expect(wrapper.find(`div.${locals.contents}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.contents}`).text()).toEqual('Hello Slack');
   });
