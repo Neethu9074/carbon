@@ -112,6 +112,7 @@
     "node": "Node",
     "groupBy": "<labelSpan>Group by</labelSpan><sizeBy/>",
     "groupByLabel": "Group by",
+    "chooseMetric": "Choose metric",
     "unknown": "Unknown",
     "value": "Value",
     "highlightUnhealthy": "Highlight unhealthy",

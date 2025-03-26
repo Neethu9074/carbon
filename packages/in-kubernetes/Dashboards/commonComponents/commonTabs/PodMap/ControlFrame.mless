@@ -17,6 +17,10 @@
     align-items: center;
   }
 
+  .radiogroup {
+    margin-left: 0.5rem;
+  }
+
   .label {
     margin-right: 0.5rem;
   }

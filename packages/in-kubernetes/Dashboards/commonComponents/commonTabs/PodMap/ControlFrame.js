@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { CarbonRadioButtonGroup, CarbonRadioButton } from '@instana/components';
+
 import {
   clusterGroupings,
   namespaceGroupings,
@@ -15,7 +17,6 @@ import MapListToggle from 'in-kubernetes/Dashboards/commonComponents/commonTabs/
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import SidebarContainer from 'in-components/layout/SidebarContainer';
 import { compareIgnoreCase } from 'in-services/util/string';
-import SideRadioMenu from 'in-components/SideRadioMenu';
 import useUrlState from 'in-hooks/useUrlState';
 import ComboBox from 'in-components/ComboBox';
 import { Trans, t } from 'in-i18n';
@@ -60,12 +61,18 @@ export default function ControlFrame(props) {
 
       <SidebarContainer
         sidebar={
-          <SideRadioMenu
-            items={sizeByConfigs.map(size => ({ id: size.value, name: size.label }))}
-            legendHidden
+          <CarbonRadioButtonGroup
+            className={locals.radiogroup}
+            legendText={t('in-kubernetes:dashboards.chooseMetric')}
+            name="size-by-configs"
             onChange={size => setUrlState({ sizeMetricConfig: sizeByConfigs.find(item => item.value === size) })}
+            orientation="vertical"
             valueSelected={sizeByConfigs.find(item => item.value === sizeMetricConfig.value)?.value}
-          />
+          >
+            {sizeByConfigs.map(({ id, label, value }) => (
+              <CarbonRadioButton key={id} id={id} value={value} labelText={label} />
+            ))}
+          </CarbonRadioButtonGroup>
         }
       >
         {render({ ...props, ...urlState })}
