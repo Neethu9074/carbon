@@ -675,7 +675,7 @@ export function createDNSConfigurationForm(savedState?: Record<string, any>) {
     .put(
       'queryType',
       createField({
-        value: savedState?.queryType ?? 'ANY',
+        value: savedState?.queryType ?? 'A',
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )

@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { Stack } from '@instana/components';
@@ -36,12 +37,20 @@ import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
 import StepsContainer from 'in-components/StepsContainer';
+import { MessageType } from 'in-components/MessageStack';
 import Sections from 'in-components/workspace/Sections';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/logs/dialog/advanced/AdvancedModeContainer.mless';
 
-export default function AdvancedModeContainer(props: AlertConfigDialogPresenterProps & MainDialogControl) {
+interface AdvancedModeContainerProp {
+  updateForm?: (form: MapForm<any>) => void;
+  messages?: MessageType[];
+}
+
+export default function AdvancedModeContainer(
+  props: AdvancedModeContainerProp & AlertConfigDialogPresenterProps & MainDialogControl
+) {
   const {
     form,
     updateForm,
@@ -53,14 +62,15 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     setCustomSlideInHeaderConfig,
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
-    TagBasedPayloadConfigurator
+    TagBasedPayloadConfigurator,
+    messages
   } = props;
   const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const tagCatalog = useTagCatalog('SMART_ALERTS');
 
   return (
     <StepsContainer
-      messages={[]}
+      messages={messages}
       navItems={[
         {
           scrollId: '1',

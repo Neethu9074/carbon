@@ -144,9 +144,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
     );
     hasContent = items.length > 0 ? true : false;
     hits = searchData?.length ?? result?.data?.totalHits ?? result.data.length;
-    if (hits) {
-      hitsRef.current = hits;
-    }
+    hitsRef.current = hits ?? 0;
     //For custom dashboard searching
     result = {
       ...result,

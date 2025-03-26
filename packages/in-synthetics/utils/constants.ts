@@ -102,7 +102,7 @@ export const DNSQueryTypes: { label: string; value: string }[] = [
   },
   {
     label: 'ALL associated with assertions',
-    value: 'ALL associated with assertions'
+    value: 'ALL_CONDITIONS'
   }
 ];
 

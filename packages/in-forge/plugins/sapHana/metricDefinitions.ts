@@ -54,6 +54,22 @@ export default [
   },
   {
     formatter: number,
+    metrics: [
+      'stats.tcpSegmentsReceived',
+      'stats.tcpSegmentsSentOut',
+      'stats.tcpSegmentsRetransmitted',
+      'stats.tcpBadSegmentsReceived'
+    ],
+    labels: [
+      t('in-forge:plugins.sapHana.tcpSegmentsReceived'),
+      t('in-forge:plugins.sapHana.tcpSegmentsSentOut'),
+      t('in-forge:plugins.sapHana.tcpSegmentsRetransmitted'),
+      t('in-forge:plugins.sapHana.tcpBadSegmentsReceived')
+    ],
+    min: 0
+  },
+  {
+    formatter: number,
     metrics: ['stats.sessionsDatabaseUsers', 'stats.sessionsApplications', 'stats.sessionsApplicationUsers'],
     labels: [
       t('in-forge:plugins.sapHana.databaseUsers'),

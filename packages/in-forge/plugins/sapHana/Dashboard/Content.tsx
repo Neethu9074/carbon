@@ -293,31 +293,56 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
           />
         </DashboardSection>
       </Columize>
-      <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.sessions')}>
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: zeroDecimalPlaces,
-            metrics: [
-              'stats.sessionsTotalCount',
-              'stats.sessionsIdleCount',
-              'stats.sessionsRunningCount',
-              'stats.sessionsBlockedCount',
-              'stats.sessionsBlockingCount'
-            ],
-            labels: [
-              t('in-forge:plugins.sapHana.dashboard.total'),
-              t('in-forge:plugins.sapHana.dashboard.idle'),
-              t('in-forge:plugins.sapHana.dashboard.running'),
-              t('in-forge:plugins.sapHana.dashboard.blocked'),
-              t('in-forge:plugins.sapHana.dashboard.blocking')
-            ],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.sessions')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              metrics: [
+                'stats.sessionsTotalCount',
+                'stats.sessionsIdleCount',
+                'stats.sessionsRunningCount',
+                'stats.sessionsBlockedCount',
+                'stats.sessionsBlockingCount'
+              ],
+              labels: [
+                t('in-forge:plugins.sapHana.dashboard.total'),
+                t('in-forge:plugins.sapHana.dashboard.idle'),
+                t('in-forge:plugins.sapHana.dashboard.running'),
+                t('in-forge:plugins.sapHana.dashboard.blocked'),
+                t('in-forge:plugins.sapHana.dashboard.blocking')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.networkUsage')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: [
+                'stats.tcpSegmentsReceived',
+                'stats.tcpSegmentsSentOut',
+                'stats.tcpSegmentsRetransmitted',
+                'stats.tcpBadSegmentsReceived'
+              ],
+              labels: [
+                t('in-forge:plugins.sapHana.dashboard.tcpSegmentsReceived'),
+                t('in-forge:plugins.sapHana.dashboard.tcpSegmentsSentOut'),
+                t('in-forge:plugins.sapHana.dashboard.tcpSegmentsRetransmitted'),
+                t('in-forge:plugins.sapHana.dashboard.tcpBadSegmentsReceived')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
       <Columize>
         <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.connections')}>
           <Chart

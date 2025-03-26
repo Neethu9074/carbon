@@ -4,6 +4,7 @@
  */
 
 import classNames from 'classnames';
+import { useRef } from 'react';
 import React from 'react';
 
 import { CarbonMenuButton } from '@instana/components';
@@ -23,6 +24,8 @@ import { integrationKey as splunkIntegrationKey } from 'in-integrations/logging/
 import { integrationKey as mezmoIntegrationKey } from 'in-integrations/logging/mezmo/consts';
 import { getIntegrationConfiguration } from 'in-integrations/logging/configurationsStore';
 import { integrationKey as elkIntegrationKey } from 'in-integrations/logging/elk/consts';
+import AnalyzeLogsButton from 'in-integrations/logging/analyzeLogs/analyzeLogsButton';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -40,12 +43,13 @@ export function getObservables() {
   };
 }
 
-export function LoggingIntegrationButtonsRenderer({ addMargin, ...props }) {
-  /*
-    Keep the list sorted alphabetically
-   */
+export function LoggingIntegrationButtonsRenderer({ addMargin, tagFilter, ...props }) {
+  const menuContainerRef = useRef(null);
+  const timeConfig = useTimeConfig();
   const { coralogixIntegration, elkIntegration, falconLogScaleIntegration, mezmoIntegration, splunkIntegration } =
     props;
+
+  // Keep the list sorted alphabetically
   const integrations = [
     showCoralogixButton(props) && coralogixIntegration && coralogixIntegration.enabled && (
       <CoralogixButton {...props} />
@@ -62,16 +66,23 @@ export function LoggingIntegrationButtonsRenderer({ addMargin, ...props }) {
     return null;
   }
 
+  integrations.unshift(<AnalyzeLogsButton tagFilter={tagFilter} timeConfig={timeConfig} />);
+
+  const integrationsWithKeys = integrations.map((item, i) => React.cloneElement(item, { key: `integration-${i}` }));
+
   return (
     <CarbonMenuButton
       className={classNames({
-        [locals.gotoLogsButton]: addMargin
+        [locals.gotoLogsButton]: addMargin,
+        [locals.divisoryLine]: true
       })}
+      ref={menuContainerRef}
+      menuTarget={menuContainerRef.current}
       size="sm"
       label={t('in-integrations:logging.goToLogs')}
       kind="tertiary"
     >
-      {integrations}
+      {integrationsWithKeys}
     </CarbonMenuButton>
   );
 }

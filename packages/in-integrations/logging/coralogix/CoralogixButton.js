@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { CarbonMenuItem, SvgIcon } from '@instana/components';
+import { CarbonMenuItem } from '@instana/components';
 
 import { integrationKey as coralogixIntegrationKey } from 'in-integrations/logging/coralogix/consts';
 import { useJumpToThirdParty } from 'in-integrations/logging/tracking';
@@ -21,9 +21,6 @@ export default function CoralogixButton(props) {
   }
   return (
     <CarbonMenuItem
-      renderIcon={() => {
-        return <SvgIcon type="lib_coralogix" />;
-      }}
       onClick={() => {
         jumpToThirdParty(coralogixIntegrationKey);
         window.open(constructCoralogixLink(integration, props), '_blank');

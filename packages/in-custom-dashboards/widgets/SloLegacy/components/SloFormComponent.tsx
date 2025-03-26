@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 
 import { Stack, Button, Select } from '@instana/components';
@@ -22,7 +22,7 @@ import {
   TimeWindowType
 } from 'in-custom-dashboards/widgets/SloLegacy/form';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/SloLegacy/components/OverridingFieldValidationMessage';
-import { SLI_MANAGEMENT_EXIT, SLI_MANAGEMENT_VIEW, SLO_WIDGET_EDIT_START } from 'in-services/tracking/eventNames';
+import { SLI_MANAGEMENT_EXIT, SLI_MANAGEMENT_VIEW } from 'in-services/tracking/eventNames';
 import MonitoringSourceSelector from 'in-custom-dashboards/widgets/SloLegacy/components/MonitoringSourceSelector';
 import ApplicationSelector from 'in-custom-dashboards/widgets/SloLegacy/components/ApplicationSelector';
 import FormComponentHeader from 'in-custom-dashboards/widgets/SloLegacy/components/FormComponentHeader';
@@ -44,7 +44,6 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import HelpAction from 'in-components/workspace/HelpAction';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { ENDED_PROCESS } from 'in-services/util/constants';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import DateInput from 'in-components/form/DateInput';
@@ -69,11 +68,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
     originalOnChange([], () => updatedForm as MapForm<any>);
   });
 
-  const { trackCta, unstable_trackEvent } = useSegmentTracking();
-
-  useEffect(() => {
-    trackCta(SLO_WIDGET_EDIT_START, undefined);
-  }, [trackCta]);
+  const { trackCta } = useSegmentTracking();
 
   const entityIdField = form.get(entityId) as Field<string>;
   const entityIdValue = entityIdField?.value;
@@ -115,9 +110,8 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
       slideOutHandler(slideOut, [showCreateFormState, setShowCreateFormState]) {
         if (showCreateFormState) return () => setShowCreateFormState(undefined);
         return () => {
-          unstable_trackEvent(ENDED_PROCESS, {
-            entityType: entityTypeValue,
-            objectType: SLI_MANAGEMENT_EXIT
+          trackCta(SLI_MANAGEMENT_EXIT, {
+            entityType: entityTypeValue
           });
           slideOut();
         };

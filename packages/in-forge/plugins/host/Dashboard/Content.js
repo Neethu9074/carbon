@@ -28,6 +28,7 @@ import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import GpuProcessList from 'in-forge/plugins/host/Dashboard/GpuProcessList';
 import PhysicalVolume from 'in-forge/plugins/host/Dashboard/PhysicalVolume';
 import VolumeGroups from 'in-forge/plugins/host/Dashboard/VolumeGroups';
+import Disks from 'in-forge/plugins/host/Dashboard/Disks';
 import DiskTable from 'in-forge/plugins/host/Dashboard/DiskTable';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import GpuTable from 'in-forge/plugins/host/Dashboard/GpuTable';
@@ -228,10 +229,11 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               y1={{
                 min: 0,
                 formatter: bytes.detailed,
-                metrics: ['memory.virtualTotal', 'memory.virtualFree'],
+                metrics: ['memory.virtualTotal', 'memory.virtualFree', 'memory.virtualActive'],
                 labels: [
                   t('in-forge:plugins.host.dashboard.virtualTotal'),
-                  t('in-forge:plugins.host.dashboard.virtualFree')
+                  t('in-forge:plugins.host.dashboard.virtualFree'),
+                  t('in-forge:plugins.host.dashboard.virtualActive')
                 ],
                 type: 'line'
               }}
@@ -254,11 +256,19 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               y1={{
                 min: 0,
                 formatter: number.compact,
-                metrics: ['memory.pageIn', 'memory.pageOut', 'memory.pageScan'],
+                metrics: [
+                  'memory.pageIn',
+                  'memory.pageOut',
+                  'memory.pageScan',
+                  'memory.pageFaults',
+                  'memory.pageReclaims'
+                ],
                 labels: [
                   t('in-forge:plugins.host.dashboard.pageIn'),
                   t('in-forge:plugins.host.dashboard.pageOut'),
-                  t('in-forge:plugins.host.dashboard.pageScan')
+                  t('in-forge:plugins.host.dashboard.pageScan'),
+                  t('in-forge:plugins.host.dashboard.pageFaults'),
+                  t('in-forge:plugins.host.dashboard.pageReclaims')
                 ],
                 type: 'line'
               }}
@@ -269,6 +279,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
       )}
       {isAixOs(snapshot) && <VolumeGroups snapshot={snapshot} timeConfig={timeConfig} />}
       {isAixOs(snapshot) && <PhysicalVolume snapshot={snapshot} timeConfig={timeConfig} />}
+      {isAixOs(snapshot) && <Disks snapshot={snapshot} timeConfig={timeConfig} />}
       {supportsOpenFiles(snapshot) && (
         <DashboardSection title={t('in-forge:plugins.host.dashboard.openFiles')}>
           <Chart

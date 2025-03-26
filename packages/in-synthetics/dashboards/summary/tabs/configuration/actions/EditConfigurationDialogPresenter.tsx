@@ -277,8 +277,10 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
       return 'Browser';
     } else if (testTypeSelected.api.simple || testTypeSelected.api.script) {
       return 'API';
-    } else {
+    } else if (testTypeSelected.ssl.simple) {
       return 'SSL Certificate';
+    } else {
+      return 'DNS';
     }
   };
 
