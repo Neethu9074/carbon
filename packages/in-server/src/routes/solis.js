@@ -328,35 +328,26 @@ function generateToolItems(t, role, permissions, features) {
 
   // CustomDashboards
   toolItems.push({
-    type: 'link',
-    properties: {
-      icon_name: 'dashboard',
-      label: t('viewSwitcherCustomDashboards'),
-      path: '#/customDashboards'
-    }
+    icon_name: 'dashboard',
+    label: t('viewSwitcherCustomDashboards'),
+    path: '#/customDashboards'
   });
 
   // Logging
   if (features.loggingEnabled) {
     toolItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'cloud--logging',
-        label: t('viewSwitcherLabelLogs'),
-        path: '#/logging'
-      }
+      icon_name: 'cloud--logging',
+      label: t('viewSwitcherLabelLogs'),
+      path: '#/logging'
     });
   }
 
   // Synthetics
   if (permissions.hasSyntheticsAccess) {
     toolItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'cloud--monitoring',
-        label: t('labelSyntheticMonitoring'),
-        path: '#/syntheticTests'
-      }
+      icon_name: 'cloud--monitoring',
+      label: t('labelSyntheticMonitoring'),
+      path: '#/syntheticTests'
     });
   }
 
@@ -376,72 +367,54 @@ function generateToolItems(t, role, permissions, features) {
     }
 
     toolItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'data-analytics',
-        label: t('viewSwitcherLabelAnalytics'),
-        path: analyzePath
-      }
+      icon_name: 'data-analytics',
+      label: t('viewSwitcherLabelAnalytics'),
+      path: analyzePath
     });
   }
   // VulnerabilityCenter
   if (features.vulnerabilityCenterEnabled) {
     toolItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'security',
-        label: t('viewVulnerabilityCenter'),
-        path: '#/vulnerability-center'
-        // on-click
-      }
+      icon_name: 'security',
+      label: t('viewVulnerabilityCenter'),
+      path: '#/vulnerability-center'
     });
   }
 
   // Incidents
   if (permissions.hasEventsAccess) {
     toolItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'warning--alt',
-        label: t('viewSwitcherLabelEvents'),
-        path: '#/events;view=incident',
-        badge: 5 // todo fetch from API call
-      }
+      icon_name: 'warning--alt',
+      label: t('viewSwitcherLabelEvents'),
+      path: '#/events;view=incident',
+      badge: 5 // todo fetch from API call
     });
   }
 
   // AutomationMenu
   if (permissions.hasAutomationAccess) {
     toolItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'workflow-automation',
-        label: t('automation'),
-        path: '#/automation/actionCatalog'
-      }
+      icon_name: 'workflow-automation',
+      label: t('automation'),
+      path: '#/automation/actionCatalog'
     });
   }
 
   // SloDashboard
   if (permissions.hasApplicationsAccess && !features.playwithEnabled) {
     toolItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'service-levels',
-        label: t('viewSwitcherLabelSlo'),
-        path: '#/slo'
-      }
+      icon_name: 'service-levels',
+      label: t('viewSwitcherLabelSlo'),
+      path: '#/slo'
     });
   }
 
   // agents
   if (role?.canConfigureAgents) {
     toolItems.push({
-      type: 'link',
-      properties: {
-        label: t('viewSwitcherLabelAgents'),
-        path: '#/agents'
-      }
+      icon_name: 'settings--services',
+      label: t('viewSwitcherLabelAgents'),
+      path: '#/agents'
     });
   }
 
@@ -454,12 +427,9 @@ function generateAdministrationItems(t, role, features) {
   // Settings
   if (!features.playwithEnabled) {
     adminItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'settings',
-        label: t('viewSwitcherLabelSettings'),
-        path: '#/config'
-      }
+      icon_name: 'settings',
+      label: t('viewSwitcherLabelSettings'),
+      path: '#/config'
     });
   }
 
@@ -470,12 +440,9 @@ function generateAdministrationItems(t, role, features) {
   //   (window.location.href.indexOf('/#/internal') != -1 || hasInternalFeatureEnabledPerLocalStorage()))
   if (features.internalMonitoringUnit || role?.canSeeExtendedInternalMonitoring) {
     adminItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'lib_actions_lock',
-        label: t('viewSwitcherLabelInternal'),
-        path: '#/internal'
-      }
+      icon_name: 'lib_actions_lock',
+      label: t('viewSwitcherLabelInternal'),
+      path: '#/internal'
     });
   }
 
