@@ -119,7 +119,7 @@ router.get('/solis/hub_content', async (req, res) => {
           });
         })
         .catch(error => {
-          throw new Error('error calling /settings/users: ' + error);
+          throw new Error('error calling /settings/users: ' + error.message);
         });
     }
 
@@ -127,7 +127,7 @@ router.get('/solis/hub_content', async (req, res) => {
     res.end(JSON.stringify(finalResponseBody));
   } catch (error) {
     res.statusCode = 500;
-    res.end(JSON.stringify(error));
+    res.end(JSON.stringify(error.message));
   }
 });
 
