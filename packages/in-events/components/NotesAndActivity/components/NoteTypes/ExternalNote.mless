@@ -7,7 +7,6 @@
 :local {
   .noteTypeHeading {
     font-weight: 700;
-    display: inline-flex;
   }
 
   .contents {

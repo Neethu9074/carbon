@@ -140,7 +140,7 @@ function Form({ form, onChange }) {
   const [disableButton, setDisableButton] = useState(true);
   const [newName, setNewName] = useState(false);
   // IF there is a name on first render we know we are in edit mode
-  const isEdit = form.get('name').value != '';
+  const [isEdit, setIsEdit] = useState(form.get('name').value != '');
 
   // If a new name is typed in AFTER the authorization button was clicked
   // for a previous entered name we want to trigger the error alerting them
@@ -148,6 +148,7 @@ function Form({ form, onChange }) {
   if (newName && form.get('generatedLinkClicked').touched) {
     onChange('generatedLinkClicked', undefined);
     setNewName(false);
+    setIsEdit(false);
   }
   return (
     <fieldset>
@@ -191,7 +192,6 @@ function Form({ form, onChange }) {
             checked={field.value}
             onToggle={() => {
               onChange('emojiRendering', !field.value);
-              setDisableButton(false);
             }}
           />
         </FormGroup>
