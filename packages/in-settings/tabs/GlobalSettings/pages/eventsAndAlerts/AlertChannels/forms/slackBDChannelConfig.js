@@ -59,7 +59,7 @@ export default {
   testAPI: null,
   isAlpha: false,
   isBeta: true,
-  feedbackLink: 'mailto:instanafeedback@ibm.com',
+  feedbackLink: 'https://your.feedback.ibm.com/jfe/form/SV_74ceKBDf54cWmAS',
   customSubmit: {
     noCreateAPI: true,
     submitSaveLabel: t('in-settings:tabs.doneButton'),
@@ -139,6 +139,8 @@ export default {
 function Form({ form, onChange }) {
   const [disableButton, setDisableButton] = useState(true);
   const [newName, setNewName] = useState(false);
+  // IF there is a name on first render we know we are in edit mode
+  const isEdit = form.get('name').value != '';
 
   // If a new name is typed in AFTER the authorization button was clicked
   // for a previous entered name we want to trigger the error alerting them
@@ -151,6 +153,8 @@ function Form({ form, onChange }) {
     <fieldset>
       {form.get('name').map(field => (
         <FormGroup className={block}>
+          <SectionHelp>{t('in-settings:tabs.slackBDDesc')}</SectionHelp>
+          <br />
           <Label htmlFor="name" hasError={!field.valid && field.touched}>
             {t('in-settings:tabs.name')}
           </Label>
@@ -202,7 +206,7 @@ function Form({ form, onChange }) {
             <SectionHelp>{t('in-settings:tabs.slackBDHelp')}</SectionHelp>
           </Label>
           <CarbonButton
-            disabled={disableButton}
+            disabled={disableButton && !isEdit}
             onClick={() => {
               onChange('generatedLinkClicked', true);
               setNewName(false);
@@ -225,7 +229,7 @@ function Form({ form, onChange }) {
               window.open(url, '_blank');
             }}
           >
-            {t('in-settings:tabs.slackBDAuth')}
+            {(isEdit && t('in-settings:tabs.slackBDReAuth')) || t('in-settings:tabs.slackBDAuth')}
           </CarbonButton>
           <TouchedMessages field={field} />
         </FormGroup>

@@ -97,7 +97,7 @@ export function CommentList({
           const date = formatDateWithActiveLanguage(new Date(note.timestamp), `${dateFormat}, ${timeFormat}`);
           const isEdited = note?.updated && note?.updated != 0;
           const iconType =
-            (!aiSum && slack && 'lib_slack_icon') ||
+            (!aiSum && slack && 'lib_actions_user') ||
             (!aiSum && serviceNow && 'lib_snow_icon') ||
             (!aiSum && !serviceNow && 'lib_actions_user') ||
             'lib_watson_x';
