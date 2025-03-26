@@ -228,7 +228,7 @@ function generateSideNavItems(t, role, features) {
   navItems.push({
     type: 'menu',
     properties: {
-      label: 'Tools',
+      label: t('viewSwitcherLabelTools'),
       links: generateToolItems(t, role, permissions, features)
     }
   });
@@ -237,7 +237,7 @@ function generateSideNavItems(t, role, features) {
   navItems.push({
     type: 'menu',
     properties: {
-      label: 'Administration',
+      label: t('viewSwitcherLabelAdministration'),
       links: generateAdministrationItems(t, role, features)
     }
   });
