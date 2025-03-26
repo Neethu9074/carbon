@@ -9525,6 +9525,11 @@
         "logSize": "Log",
         "traceSize": "Trace",
         "sessions": "Sessions",
+        "networkUsage": "Network Usage",
+        "tcpSegmentsReceived": "Recieved",
+        "tcpSegmentsSentOut": "Sent Out",
+        "tcpSegmentsRetransmitted": "Retransmitted",
+        "tcpBadSegmentsReceived": "Broken",
         "total": "Total",
         "idle": "Idle",
         "running": "Running",
@@ -9643,7 +9648,7 @@
         "userMode": "User mode",
         "deactivationTime": "Deactivation Time",
         "userId": "User ID",
-        "schedulerJobStats": "Scheduler Jobs",
+        "schedulerJobStats": "Scheduled Jobs",
         "schedulerJobName": "Job Name",
         "endTime": "End Time",
         "virtualMemory": "Virtual Memory",
@@ -9732,7 +9737,11 @@
       "currentStmtCompilationRate": "Current statement compilation rate",
       "currentUpdateTransactionRate": "Cuurent update transaction rate",
       "currentRollbackRate": "Current rollback rate",
-      "currentCommitRate": "Current commit rate"
+      "currentCommitRate": "Current commit rate",
+      "tcpSegmentsReceived": "Recieved",
+      "tcpSegmentsSentOut": "Sent Out",
+      "tcpSegmentsRetransmitted": "Retransmitted",
+      "tcpBadSegmentsReceived": "Broken"
     },
     "service": {
       "service": "Service",
