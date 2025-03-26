@@ -3,18 +3,27 @@
  * (c) Copyright Instana Inc.
  */
 
-// import i18next from 'i18next';
-
 const express = require('express');
+const i18next = require('i18next');
+const middleware = require('i18next-http-middleware');
+
 const { getCurrentUser } = require('../auth');
 const { activeResolver } = require('../services/resolvers/index');
+const translations = require('./translations.json'); // your combined file
+const { t } = require('in-i18n');
 
-// const { xXssProtection } = require('helmet');
-// const { t } = require('@instana/i18n-react');
+i18next.use(middleware.LanguageDetector).init({
+  fallbackLng: 'en-US',
+  resources: translations,
+  preload: Object.keys(translations) // preload all languages present
+});
 
 const router = (module.exports = express.Router());
 
+router.use(middleware.handle(i18next));
+
 router.get('/solis/nav', async (req, res) => {
+  const t = req.t;
   const featureFlags = await activeResolver.getFeatureFlags(req.tenant, req.unit);
 
   const [statusCode, userStr] = await getCurrentUser(req);
@@ -31,7 +40,7 @@ router.get('/solis/nav', async (req, res) => {
   res.end(
     JSON.stringify({
       top: [],
-      side: generateSideNavItems(role, featureFlags)
+      side: generateSideNavItems(t, role, featureFlags)
     })
   );
 });
@@ -126,7 +135,8 @@ function generateSideNavItems(role, features) {
       type: 'link',
       properties: {
         icon_name: 'main-lib_website_mobile_app_inverted-websites',
-        label: 'Websites & mobile apps',
+        label: t('viewSwitcherLabelWebsitesAndMobileApps'),
+        // label: 'Websites & mobile apps',
         path: '#/websiteMonitoring',
         is_root: false
       }
