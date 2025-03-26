@@ -328,7 +328,6 @@ function generateSideNavItems(role, features) {
   // TODO: add divider
 
   // Settings
-  // todo: if isInternalVisible, should be able to see "Internal"
   if (!features.playwithEnabled) {
     navItems.push({
       type: 'link',
@@ -336,6 +335,23 @@ function generateSideNavItems(role, features) {
         icon_name: 'settings',
         label: 'Settings',
         path: '#/config',
+        is_root: false
+      }
+    });
+  }
+
+  // Internal
+  // todo: if isInternalVisible, should be able to see "Internal"
+  //     internalMonitoringUnit ||
+  // (canSeeExtendedInternalMonitoring &&
+  //   (window.location.href.indexOf('/#/internal') != -1 || hasInternalFeatureEnabledPerLocalStorage()))
+  if (features.internalMonitoringUnit || role?.canSeeExtendedInternalMonitoring) {
+    navItems.push({
+      type: 'link',
+      properties: {
+        icon_name: 'lib_actions_lock',
+        label: 'Internal',
+        path: '#/internal',
         is_root: false
       }
     });
