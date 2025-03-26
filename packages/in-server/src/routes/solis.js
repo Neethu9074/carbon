@@ -150,10 +150,9 @@ function generateSideNavItems(t, role, features) {
     navItems.push({
       type: 'link',
       properties: {
-        icon_name: 'main-lib_website_mobile_app_inverted-websites',
+        icon_name: 'devices--apps',
         label: t('viewSwitcherLabelWebsitesAndMobileApps'),
-        path: '#/websiteMonitoring',
-        is_root: false
+        path: '#/websiteMonitoring'
       }
     });
   } else if (permissions.hasWebsitesAccess) {
@@ -162,8 +161,7 @@ function generateSideNavItems(t, role, features) {
       properties: {
         icon_name: 'application--web',
         label: t('viewSwitcherLabelWebsites'),
-        path: '#/websiteMonitoring',
-        is_root: false
+        path: '#/websiteMonitoring'
       }
     });
   } else if (permissions.hasMobileAppsAccess) {
@@ -172,8 +170,7 @@ function generateSideNavItems(t, role, features) {
       properties: {
         icon_name: 'application--mobile',
         label: t('viewSwitcherLabelMobileApps'),
-        path: '#/mobileAppMonitoring',
-        is_root: false
+        path: '#/mobileAppMonitoring'
       }
     });
   }
@@ -184,10 +181,9 @@ function generateSideNavItems(t, role, features) {
     navItems.push({
       type: 'link',
       properties: {
-        icon_name: 'lib_bizops',
+        icon_name: 'business-processes',
         label: t('businessMonitoring'),
-        path: '#/businessPerspectives',
-        is_root: false
+        path: '#/businessPerspectives'
       }
     });
   }
@@ -199,21 +195,7 @@ function generateSideNavItems(t, role, features) {
       properties: {
         icon_name: 'application',
         label: t('viewSwitcherLabelApplications'),
-        path: '#/applications',
-        is_root: false
-      }
-    });
-  }
-
-  // Platforms
-  if (permissions.hasAPlatformAccess) {
-    navItems.push({
-      type: 'menu',
-      properties: {
-        icon_name: 'lib_platforms_inverted',
-        label: t('viewSwitcherLabelPlatforms'),
-        is_root: false,
-        links: generatePlatformItems(t, permissions, features)
+        path: '#/applications'
       }
     });
   }
@@ -225,171 +207,37 @@ function generateSideNavItems(t, role, features) {
       properties: {
         icon_name: 'layers',
         label: t('viewSwitcherlabelInfrastructure'),
-        path: '#/physical',
-        is_root: false
+        path: '#/physical'
       }
     });
   }
 
-  // TODO: add divider
-
-  // CustomDashboards
-  navItems.push({
-    type: 'link',
-    properties: {
-      icon_name: 'dashboard',
-      label: t('viewSwitcherCustomDashboards'),
-      path: '#/customDashboards',
-      is_root: false
-    }
-  });
-
-  // Logging
-  if (features.loggingEnabled) {
+  // Platforms
+  if (permissions.hasAPlatformAccess) {
     navItems.push({
-      type: 'link',
+      type: 'menu',
       properties: {
-        icon_name: 'cloud--logging',
-        label: t('viewSwitcherLabelLogs'),
-        path: '#/logging',
-        is_root: false
+        label: t('viewSwitcherLabelPlatforms'),
+        links: generatePlatformItems(t, permissions, features)
       }
     });
   }
 
-  // Synthetics
-  if (permissions.hasSyntheticsAccess) {
-    navItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'cloud--monitoring',
-        label: t('labelSyntheticMonitoring'),
-        path: '#/syntheticTests',
-        is_root: false
-      }
-    });
-  }
-
-  // Analyze
-  // TODO
-  if (permissions.hasAnalyzeAccess || role?.canViewLogs) {
-    let analyzePath = '';
-    if (permissions.hasApplicationsAccess) {
-      analyzePath = '#/analyze;dataSource=calls';
-    } else if (permissions.hasWebsitesAccess) {
-      analyzePath = '#/websiteMonitoring/analyzeBeacons;beaconType=pageLoad;';
-    } else if (role?.canViewLogs) {
-      analyzePath = '#/logs;dataSource=logs';
-    } else if (permissions.hasMobileAppsAccess) {
-      analyzePath = '#/mobileAppMonitoring/analyzeBeacons;beaconType=sessionStart';
-    } else if (permissions.hasInfrastructureAnalyzeAccess) {
-      analyzePath = '#/explore;tagFilterExpression=!~;group=(groupbyTag~type~ar)~;type=all;dataSource=infrastructure';
-    }
-
-    navItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'lib_analyze_inverted',
-        label: t('viewSwitcherLabelAnalytics'),
-        path: analyzePath,
-        is_root: false
-      }
-    });
-  }
-  // VulnerabilityCenter
-  if (features.vulnerabilityCenterEnabled) {
-    navItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'security',
-        label: t('viewVulnerabilityCenter'),
-        path: '#/vulnerability-center',
-        is_root: false
-        // on-click
-      }
-    });
-  }
-
-  // Incidents
-  if (permissions.hasEventsAccess) {
-    navItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'lib_events_inverted',
-        label: t('viewSwitcherLabelEvents'),
-        path: '#/events;view=incident',
-        is_root: false,
-        badge: 5 // fetch from API call?
-      }
-    });
-  }
-
-  // AutomationMenu
-  if (permissions.hasAutomationAccess) {
-    navItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'workflow-automation',
-        label: t('automation'),
-        path: '#/automation/actionCatalog',
-        is_root: false
-      }
-    });
-  }
-
-  // SloDashboard
-  if (permissions.hasApplicationsAccess && !features.playwithEnabled) {
-    navItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'lib_service_level',
-        label: t('viewSwitcherLabelSlo'),
-        path: '#/slo',
-        is_root: false
-      }
-    });
-  }
-
-  // TODO: add divider
-
-  // Settings
-  if (!features.playwithEnabled) {
-    navItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'settings',
-        label: t('viewSwitcherLabelSettings'),
-        path: '#/config',
-        is_root: false
-      }
-    });
-  }
-
-  // Internal
-  // todo: use the following logic:
-  //     internalMonitoringUnit ||
-  // (canSeeExtendedInternalMonitoring &&
-  //   (window.location.href.indexOf('/#/internal') != -1 || hasInternalFeatureEnabledPerLocalStorage()))
-  if (features.internalMonitoringUnit || role?.canSeeExtendedInternalMonitoring) {
-    navItems.push({
-      type: 'link',
-      properties: {
-        icon_name: 'lib_actions_lock',
-        label: t('viewSwitcherLabelInternal'),
-        path: '#/internal',
-        is_root: false
-      }
-    });
-  }
-
-  // More
-  // TODO
+  // Tools
   navItems.push({
     type: 'menu',
     properties: {
-      label: t('viewSwitcherLabelMore'),
-      is_root: false,
-      links: generateMoreItems(t, role)
+      label: 'Tools',
+      links: generateToolItems(t, role, permissions, features)
+    }
+  });
+
+  // Administration
+  navItems.push({
+    type: 'menu',
+    properties: {
+      label: 'Administration',
+      links: generateAdministrationItems(t, role, features)
     }
   });
 
@@ -401,7 +249,7 @@ function generatePlatformItems(t, permissions, features) {
 
   if (permissions.hasPCFAccess) {
     platformItems.push({
-      icon_name: 'development',
+      icon_name: 'cloud-foundry--1',
       label: t('viewSwitcherLabelCloudFoundry'),
       path: '#/cloudfoundry/applications'
     });
@@ -409,7 +257,7 @@ function generatePlatformItems(t, permissions, features) {
 
   if (permissions.hasPHMCAccess && !features.playwithEnabled) {
     platformItems.push({
-      icon_name: 'development',
+      icon_name: 'ibm--power-with-vpc"',
       label: t('viewSwitcherLabelphmc'),
       path: '#/ibmp/phmcs'
     });
@@ -417,7 +265,7 @@ function generatePlatformItems(t, permissions, features) {
 
   if (permissions.hasPowerVcAccess && !features.playwithEnabled) {
     platformItems.push({
-      icon_name: 'development',
+      icon_name: 'ibm--power-vs',
       label: t('viewSwitcherLabelPowervc'),
       path: '#/powervc/regions'
     });
@@ -425,7 +273,7 @@ function generatePlatformItems(t, permissions, features) {
 
   if (permissions.hasZHMCAccess && !features.playwithEnabled) {
     platformItems.push({
-      icon_name: 'development',
+      icon_name: 'z--systems',
       label: t('viewSwitcherLabelzhmc'),
       path: '#/ibmz/zhmcs'
     });
@@ -433,7 +281,7 @@ function generatePlatformItems(t, permissions, features) {
 
   if (permissions.hasOpenStackAccess && !features.playwithEnabled) {
     platformItems.push({
-      icon_name: 'development',
+      icon_name: 'unknown',
       label: t('viewSwitcherLabelOpenstack'),
       path: '#/openstack/regions'
     });
@@ -441,7 +289,7 @@ function generatePlatformItems(t, permissions, features) {
 
   if (permissions.hasKubernetesAccess) {
     platformItems.push({
-      icon_name: 'development',
+      icon_name: 'kubernetes',
       label: t('viewSwitcherLabelKubernetes'),
       path: '#/kubernetes/clusters'
     });
@@ -449,7 +297,7 @@ function generatePlatformItems(t, permissions, features) {
 
   if (permissions.hasNutanixAccess && !features.playwithEnabled) {
     platformItems.push({
-      icon_name: 'development',
+      icon_name: 'unknown',
       label: t('viewSwitcherLabelNutanix'),
       path: '#/nutanix/datacenters'
     });
@@ -457,7 +305,7 @@ function generatePlatformItems(t, permissions, features) {
 
   if (permissions.hasSAPAccess && !features.playwithEnabled) {
     platformItems.push({
-      icon_name: 'development',
+      icon_name: 'unknown',
       label: t('viewSwitcherLabelSap'),
       path: '#/sap/sapsystemslist'
     });
@@ -474,23 +322,120 @@ function generatePlatformItems(t, permissions, features) {
   return platformItems;
 }
 
-function generateMoreItems(t, role) {
-  let moreItems = [];
+function generateToolItems(t, role, permissions, features) {
+  let toolItems = [];
 
-  // tenant switch
-  // if (!features.userProfileMenuEnabled && features.tenantSwitcherEnabled) {
-  //   moreItems.push({
-  //     type: 'link',
-  //     properties: {
-  //       label: t('viewSwitcherLabelTenants'),
-  //       path: '`https://${config.tenantUnitDomainSuffix}/tenantSwitcher`'
-  //     }
-  //   });
-  // }
+  // CustomDashboards
+  toolItems.push({
+    type: 'link',
+    properties: {
+      icon_name: 'dashboard',
+      label: t('viewSwitcherCustomDashboards'),
+      path: '#/customDashboards'
+    }
+  });
+
+  // Logging
+  if (features.loggingEnabled) {
+    toolItems.push({
+      type: 'link',
+      properties: {
+        icon_name: 'cloud--logging',
+        label: t('viewSwitcherLabelLogs'),
+        path: '#/logging'
+      }
+    });
+  }
+
+  // Synthetics
+  if (permissions.hasSyntheticsAccess) {
+    toolItems.push({
+      type: 'link',
+      properties: {
+        icon_name: 'cloud--monitoring',
+        label: t('labelSyntheticMonitoring'),
+        path: '#/syntheticTests'
+      }
+    });
+  }
+
+  // Analyze
+  if (permissions.hasAnalyzeAccess || role?.canViewLogs) {
+    let analyzePath = '';
+    if (permissions.hasApplicationsAccess) {
+      analyzePath = '#/analyze;dataSource=calls';
+    } else if (permissions.hasWebsitesAccess) {
+      analyzePath = '#/websiteMonitoring/analyzeBeacons;beaconType=pageLoad;';
+    } else if (role?.canViewLogs) {
+      analyzePath = '#/logs;dataSource=logs';
+    } else if (permissions.hasMobileAppsAccess) {
+      analyzePath = '#/mobileAppMonitoring/analyzeBeacons;beaconType=sessionStart';
+    } else if (permissions.hasInfrastructureAnalyzeAccess) {
+      analyzePath = '#/explore;tagFilterExpression=!~;group=(groupbyTag~type~ar)~;type=all;dataSource=infrastructure';
+    }
+
+    toolItems.push({
+      type: 'link',
+      properties: {
+        icon_name: 'data-analytics',
+        label: t('viewSwitcherLabelAnalytics'),
+        path: analyzePath
+      }
+    });
+  }
+  // VulnerabilityCenter
+  if (features.vulnerabilityCenterEnabled) {
+    toolItems.push({
+      type: 'link',
+      properties: {
+        icon_name: 'security',
+        label: t('viewVulnerabilityCenter'),
+        path: '#/vulnerability-center'
+        // on-click
+      }
+    });
+  }
+
+  // Incidents
+  if (permissions.hasEventsAccess) {
+    toolItems.push({
+      type: 'link',
+      properties: {
+        icon_name: 'warning--alt',
+        label: t('viewSwitcherLabelEvents'),
+        path: '#/events;view=incident',
+        badge: 5 // fetch from API call?
+      }
+    });
+  }
+
+  // AutomationMenu
+  if (permissions.hasAutomationAccess) {
+    toolItems.push({
+      type: 'link',
+      properties: {
+        icon_name: 'workflow-automation',
+        label: t('automation'),
+        path: '#/automation/actionCatalog'
+      }
+    });
+  }
+
+  // SloDashboard
+  if (permissions.hasApplicationsAccess && !features.playwithEnabled) {
+    toolItems.push({
+      type: 'link',
+      properties: {
+        icon_name: 'service-levels',
+        label: t('viewSwitcherLabelSlo'),
+        path: '#/slo'
+      }
+    });
+  }
 
   // agents
   if (role?.canConfigureAgents) {
-    moreItems.push({
+    toolItems.push({
       type: 'link',
       properties: {
         label: t('viewSwitcherLabelAgents'),
@@ -499,27 +444,73 @@ function generateMoreItems(t, role) {
     });
   }
 
-  // release note
+  return toolItems;
+}
 
-  // doc
-  moreItems.push({
-    type: 'link',
-    properties: {
-      label: t('viewSwitcherLabelDocumentation'),
-      path: 'https://www.ibm.com/docs/en/obi/current'
-    }
-  });
+function generateAdministrationItems(t, role, features) {
+  let adminItems = [];
 
-  // Support
-  moreItems.push({
-    type: 'link',
-    properties: {
-      label: t('viewSwitcherLabelSupport'),
-      path: 'https://www.ibm.com/mysupport/s/?language=en_US'
-    }
-  });
+  // Settings
+  if (!features.playwithEnabled) {
+    adminItems.push({
+      type: 'link',
+      properties: {
+        icon_name: 'settings',
+        label: t('viewSwitcherLabelSettings'),
+        path: '#/config'
+      }
+    });
+  }
 
-  return moreItems;
+  // Internal
+  // todo: use the following logic:
+  //     internalMonitoringUnit ||
+  // (canSeeExtendedInternalMonitoring &&
+  //   (window.location.href.indexOf('/#/internal') != -1 || hasInternalFeatureEnabledPerLocalStorage()))
+  if (features.internalMonitoringUnit || role?.canSeeExtendedInternalMonitoring) {
+    adminItems.push({
+      type: 'link',
+      properties: {
+        icon_name: 'lib_actions_lock',
+        label: t('viewSwitcherLabelInternal'),
+        path: '#/internal'
+      }
+    });
+  }
+
+  // tenant switch
+  // if (!features.userProfileMenuEnabled && features.tenantSwitcherEnabled) {
+  //   adminItems.push({
+  //     type: 'link',
+  //     properties: {
+  //       label: t('viewSwitcherLabelTenants'),
+  //       path: '`https://${config.tenantUnitDomainSuffix}/tenantSwitcher`'
+  //     }
+  //   });
+  // }
+
+  // The following menu items should be top nav
+  // // release note
+
+  // // doc
+  // moreItems.push({
+  //   type: 'link',
+  //   properties: {
+  //     label: t('viewSwitcherLabelDocumentation'),
+  //     path: 'https://www.ibm.com/docs/en/obi/current'
+  //   }
+  // });
+
+  // // Support
+  // moreItems.push({
+  //   type: 'link',
+  //   properties: {
+  //     label: t('viewSwitcherLabelSupport'),
+  //     path: 'https://www.ibm.com/mysupport/s/?language=en_US'
+  //   }
+  // });
+
+  return adminItems;
 }
 
 router.get('/solis/about', (req, res) => {
