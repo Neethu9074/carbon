@@ -65,7 +65,7 @@ function getUserPermissions(role, features) {
   const getAccess = (canField, limitedField = null) => {
     // if (!role) return false;
     if (limitedField && role[limitedField] === false) return true;
-    return role.permissions[canField] === true;
+    return role.permissions.includes(canField);
   };
 
   const hasWebsitesAccess = getAccess('ACCESS_WEBSITES', 'limitedWebsitesScope');
@@ -366,7 +366,7 @@ function generateSideNavItems(t, role, features) {
   }
 
   // Internal
-  // todo: if isInternalVisible, should be able to see "Internal"
+  // todo: use the following logic:
   //     internalMonitoringUnit ||
   // (canSeeExtendedInternalMonitoring &&
   //   (window.location.href.indexOf('/#/internal') != -1 || hasInternalFeatureEnabledPerLocalStorage()))
