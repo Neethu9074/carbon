@@ -9,6 +9,8 @@ const middleware = require('i18next-http-middleware');
 
 const { getCurrentUser } = require('../auth');
 const { activeResolver } = require('../services/resolvers/index');
+const serverConfig = require('../serverConfig');
+
 const translations = require('./translation.json');
 
 i18next.use(middleware.LanguageDetector).init({
@@ -404,7 +406,7 @@ function generateToolItems(t, role, permissions, features) {
         icon_name: 'warning--alt',
         label: t('viewSwitcherLabelEvents'),
         path: '#/events;view=incident',
-        badge: 5 // fetch from API call?
+        badge: 5 // todo fetch from API call
       }
     });
   }
@@ -478,16 +480,16 @@ function generateAdministrationItems(t, role, features) {
     });
   }
 
-  // tenant switch
-  // if (!features.userProfileMenuEnabled && features.tenantSwitcherEnabled) {
-  //   adminItems.push({
-  //     type: 'link',
-  //     properties: {
-  //       label: t('viewSwitcherLabelTenants'),
-  //       path: '`https://${config.tenantUnitDomainSuffix}/tenantSwitcher`'
-  //     }
-  //   });
-  // }
+  // Tenant switch
+  if (!features.userProfileMenuEnabled && features.tenantSwitcherEnabled) {
+    adminItems.push({
+      type: 'link',
+      properties: {
+        label: t('viewSwitcherLabelTenants'),
+        path: `https://${serverConfig.clientConfig.tenantUnitDomainSuffix}/tenantSwitcher`
+      }
+    });
+  }
 
   // The following menu items should be top nav
   // // release note
