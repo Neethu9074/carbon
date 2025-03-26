@@ -38,6 +38,99 @@ const router = (module.exports = express.Router());
 
 router.use(middleware.handle(i18next));
 
+router.get('/solis/hub_content', async (req, res) => {
+  const t = req.t;
+
+  const finalResponseBody = { title: t('Monitoring and Observability'), widgets: [] };
+
+  try {
+    const dashboardRequest = new Request(req.uiBackendBaseUrl + '/api/custom-dashboard');
+    dashboardRequest.headers.set('Authorization', req.headers.authorization);
+
+    let response = await fetch(dashboardRequest);
+    if (!response.ok) {
+      throw new Error('error calling /custom-dashboard: ' + JSON.stringify(response.body));
+    }
+
+    const responseObject = await response.json();
+    const customDashboards = responseObject.slice(0, 10);
+
+    // eslint-disable-next-line no-useless-escape
+    const eventRequest = new Request(req.uiBackendBaseUrl + '/api/events?eventTypeFilters=INCIDENT');
+    eventRequest.headers.set('Authorization', req.headers.authorization);
+    response = await fetch(eventRequest);
+    if (!response.ok) {
+      throw new Error('error calling /events: ' + JSON.stringify(response.body));
+    }
+
+    const events = await response.json();
+
+    let warningEvents = 0,
+      criticalEvents = 0;
+    const totalEvents = events.length;
+
+    for (const event of events) {
+      if (event.severity == 8) {
+        warningEvents++;
+      } else if (event.severity == 10) {
+        criticalEvents++;
+      }
+    }
+
+    finalResponseBody.widgets.push({
+      type: 'kpi_tile',
+      properties: {
+        title: t('Critical Events'),
+        tag: { type: 'high-contrast', children: t('Event') },
+        kpi: { label: t('Active/Total'), primary_value: `${criticalEvents}/${totalEvents}` }
+      },
+      href: '#/events;view=incident;orderDirection=DESC;orderBy=start;filter'
+    });
+
+    finalResponseBody.widgets.push({
+      type: 'kpi_tile',
+      properties: {
+        title: t('Warning Events'),
+        tag: { type: 'high-contrast', children: t('Event') },
+        kpi: { label: t('Active/Total'), primary_value: `${warningEvents}/${totalEvents}` }
+      },
+      href: '#/events;view=incident;orderDirection=DESC;orderBy=start;filter'
+    });
+
+    for (const dashboard of customDashboards) {
+      const ownerRequest = new Request(req.uiBackendBaseUrl + '/api/settings/users/' + dashboard.ownerId);
+      ownerRequest.headers.set('Authorization', req.headers.authorization);
+
+      await fetch(ownerRequest)
+        .then(response => response.json())
+        .then(data => {
+          const tagText = dashboard.annotations.includes('SHARED')
+            ? t('Custom Dashboard - Shared')
+            : t('Custom Dashboard');
+
+          finalResponseBody.widgets.push({
+            type: 'kpi_tile',
+            properties: {
+              title: dashboard.title,
+              tag: { type: 'cyan', children: tagText },
+              kpi: { label: t('Owner'), primary_value: data.fullName }
+            },
+            href: `#/customDashboards/view;dashboardId=${dashboard.id}`
+          });
+        })
+        .catch(error => {
+          throw new Error('error calling /settings/users: ' + error);
+        });
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(finalResponseBody));
+  } catch (error) {
+    res.statusCode = 500;
+    res.end(JSON.stringify(error));
+  }
+});
+
 router.get('/solis/nav', async (req, res) => {
   const t = req.t;
 
