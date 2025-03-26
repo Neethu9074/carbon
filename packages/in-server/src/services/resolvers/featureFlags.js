@@ -218,7 +218,7 @@ module.exports = exports = [
   {
     uiClientKey: 'kubernetesCloudNativeExperience',
     instanaCtlKey: 'feature.kubernetes.cloud.native.experience.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'kubernetesPrometheusMetricsEnabled',
