@@ -857,6 +857,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'solisEnabled',
+    instanaCtlKey: 'feature.solis.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'mobileAppSmartAlertFullScreenDesignEnabled',
     instanaCtlKey: 'feature.mobile.app.smart.alert.full.screen.design.enabled',
     defaultValue: false
