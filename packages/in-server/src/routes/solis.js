@@ -66,14 +66,17 @@ router.get('/solis/hub_content', async (req, res) => {
     const events = await response.json();
 
     let warningEvents = 0,
-      criticalEvents = 0;
-    const totalEvents = events.length;
+      criticalEvents = 0,
+      totalEvents = 0;
 
     for (const event of events) {
-      if (event.severity == 8) {
-        warningEvents++;
-      } else if (event.severity == 10) {
-        criticalEvents++;
+      if (event.state === 'open') {
+        totalEvents++;
+        if (event.severity === 8) {
+          warningEvents++;
+        } else if (event.severity === 10) {
+          criticalEvents++;
+        }
       }
     }
 
@@ -84,7 +87,7 @@ router.get('/solis/hub_content', async (req, res) => {
         tag: { type: 'high-contrast', children: t('Event') },
         kpi: { label: t('Active/Total'), primary_value: `${criticalEvents}/${totalEvents}` }
       },
-      href: '#/events;view=incident;orderDirection=DESC;orderBy=start;filter'
+      href: '#/events;orderDirection=DESC;orderBy=start;filter;view=incident?q=event.severity%3Acritical%20and%20event.state%3AOPEN'
     });
 
     finalResponseBody.widgets.push({
@@ -94,7 +97,7 @@ router.get('/solis/hub_content', async (req, res) => {
         tag: { type: 'high-contrast', children: t('Event') },
         kpi: { label: t('Active/Total'), primary_value: `${warningEvents}/${totalEvents}` }
       },
-      href: '#/events;view=incident;orderDirection=DESC;orderBy=start;filter'
+      href: '#/events;orderDirection=DESC;orderBy=start;filter;view=incident?q=event.severity%3Awarning%20and%20event.state%3AOPEN'
     });
 
     for (const dashboard of customDashboards) {
