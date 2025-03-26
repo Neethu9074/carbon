@@ -36,46 +36,52 @@
       "businessMonitoring": "Business monitoring",
       "labelSyntheticMonitoring": "Synthetic monitoring",
       "automation": "Automation",
-      "viewSwitcherLabelMore": "More"
+      "viewSwitcherLabelMore": "More",
+      "viewSwitcherLabelTools": "Tools",
+      "viewSwitcherLabelAdministration": "Administration"
     }
   },
   "de-DE": {
-    "viewSwitcherCustomDashboards": "Benutzerdefinierte Dashboards",
-    "viewSwitcherLabelWebsitesAndMobileApps": "Websites und mobile Apps",
-    "viewSwitcherLabelWebsites": "Websites",
-    "viewSwitcherLabelMobileApps": "Mobile Apps",
-    "viewSwitcherLabelApplications": "Anwendungen",
-    "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
-    "viewSwitcherLabelphmc": "IBM Power HMC",
-    "viewSwitcherLabelPowervc": "IBM PowerVC",
-    "viewSwitcherLabelzhmc": "IBM Z HMC",
-    "viewSwitcherLabelOpenstack": "OpenStack",
-    "viewSwitcherLabelKubernetes": "Kubernetes",
-    "viewSwitcherLabelNutanix": "Nutanix",
-    "viewSwitcherLabelSap": "SAP",
-    "viewSwitcherLabelvSphere": "vSphere",
-    "viewSwitcherlabelInfrastructure": "Infrastruktur",
-    "viewSwitcherLabelAnalytics": "Analyse",
-    "viewVulnerabilityCenter": "Sicherheitslücken",
-    "viewSwitcherLabelEvents": "Ereignisse",
-    "viewSwitcherLabelSlo": "Service-Levels",
-    "viewSwitcherLabelLogs": "Protokolle",
-    "viewSwitcherLabelInternal": "Intern",
-    "viewSwitcherLabelSettings": "Einstellungen",
-    "viewSwitcherLabelTenants": "Tenants",
-    "viewSwitcherLabelAgents": "Agenten",
-    "viewSwitcherLabelReleaseNotes": "Releaseinformationen",
-    "viewSwitcherLabelDocumentation": "Dokumentation",
-    "viewSwitcherLabelSupport": "Support",
-    "viewSwitcherLabelAboutInstana": "Informationen zu Instana",
-    "viewSwitcherButtonSignOut": "Abmelden",
-    "profileMenu_tooltip": "Profilmenü",
-    "viewSwitcherLabelPlatforms": "Plattformen",
-    "home": "Home",
-    "businessMonitoring": "Business Monitoring",
-    "labelSyntheticMonitoring": "Überwachung der synthetischen Transaktionen",
-    "automation": "Automation",
-    "viewSwitcherLabelMore": "Mehr"
+    "mainNavigation": {
+      "viewSwitcherCustomDashboards": "Benutzerdefinierte Dashboards",
+      "viewSwitcherLabelWebsitesAndMobileApps": "Websites und mobile Apps",
+      "viewSwitcherLabelWebsites": "Websites",
+      "viewSwitcherLabelMobileApps": "Mobile Apps",
+      "viewSwitcherLabelApplications": "Anwendungen",
+      "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
+      "viewSwitcherLabelphmc": "IBM Power HMC",
+      "viewSwitcherLabelPowervc": "IBM PowerVC",
+      "viewSwitcherLabelzhmc": "IBM Z HMC",
+      "viewSwitcherLabelOpenstack": "OpenStack",
+      "viewSwitcherLabelKubernetes": "Kubernetes",
+      "viewSwitcherLabelNutanix": "Nutanix",
+      "viewSwitcherLabelSap": "SAP",
+      "viewSwitcherLabelvSphere": "vSphere",
+      "viewSwitcherlabelInfrastructure": "Infrastruktur",
+      "viewSwitcherLabelAnalytics": "Analyse",
+      "viewVulnerabilityCenter": "Sicherheitslücken",
+      "viewSwitcherLabelEvents": "Ereignisse",
+      "viewSwitcherLabelSlo": "Service-Levels",
+      "viewSwitcherLabelLogs": "Protokolle",
+      "viewSwitcherLabelInternal": "Intern",
+      "viewSwitcherLabelSettings": "Einstellungen",
+      "viewSwitcherLabelTenants": "Tenants",
+      "viewSwitcherLabelAgents": "Agenten",
+      "viewSwitcherLabelReleaseNotes": "Releaseinformationen",
+      "viewSwitcherLabelDocumentation": "Dokumentation",
+      "viewSwitcherLabelSupport": "Support",
+      "viewSwitcherLabelAboutInstana": "Informationen zu Instana",
+      "viewSwitcherButtonSignOut": "Abmelden",
+      "profileMenu_tooltip": "Profilmenü",
+      "viewSwitcherLabelPlatforms": "Plattformen",
+      "home": "Home",
+      "businessMonitoring": "Business Monitoring",
+      "labelSyntheticMonitoring": "Überwachung der synthetischen Transaktionen",
+      "automation": "Automation",
+      "viewSwitcherLabelMore": "Mehr",
+      "viewSwitcherLabelTools": "Tools",
+      "viewSwitcherLabelAdministration": "Administration"
+    }
   },
   "es-ES": {
     "mainNavigation": {
@@ -114,7 +120,9 @@
       "businessMonitoring": "Supervisión de negocio",
       "labelSyntheticMonitoring": "Supervisión sintética",
       "automation": "Automatización",
-      "viewSwitcherLabelMore": "Más"
+      "viewSwitcherLabelMore": "Más",
+      "viewSwitcherLabelTools": "Tools",
+      "viewSwitcherLabelAdministration": "Administration"
     }
   },
   "fr-FR": {
@@ -154,9 +162,13 @@
       "businessMonitoring": "Surveillance métier",
       "labelSyntheticMonitoring": "Surveillance synthétique",
       "automation": "Automatisation",
-      "viewSwitcherLabelMore": "Plus"
-    },
-    "it-IT": {
+      "viewSwitcherLabelMore": "Plus",
+      "viewSwitcherLabelTools": "Tools",
+      "viewSwitcherLabelAdministration": "Administration"
+    }
+  },
+  "it-IT": {
+    "mainNavigation": {
       "viewSwitcherCustomDashboards": "Dashboard personalizzati",
       "viewSwitcherLabelWebsitesAndMobileApps": "Siti web e app per dispositivo mobile",
       "viewSwitcherLabelWebsites": "Siti web",
@@ -192,7 +204,9 @@
       "businessMonitoring": "Monitoraggio del business",
       "labelSyntheticMonitoring": "Monitoraggio sintetico",
       "automation": "Automazione",
-      "viewSwitcherLabelMore": "Altro"
+      "viewSwitcherLabelMore": "Altro",
+      "viewSwitcherLabelTools": "Tools",
+      "viewSwitcherLabelAdministration": "Administration"
     }
   },
   "ja-JA": {
@@ -232,7 +246,9 @@
       "businessMonitoring": "ビジネス・モニタリング",
       "labelSyntheticMonitoring": "シンセティック・モニタリング",
       "automation": "自動化",
-      "viewSwitcherLabelMore": "その他"
+      "viewSwitcherLabelMore": "その他",
+      "viewSwitcherLabelTools": "Tools",
+      "viewSwitcherLabelAdministration": "Administration"
     }
   },
   "ko-KO": {
@@ -272,7 +288,9 @@
       "businessMonitoring": "비즈니스 모니터링",
       "labelSyntheticMonitoring": "합성 모니터링",
       "automation": "자동화",
-      "viewSwitcherLabelMore": "계속"
+      "viewSwitcherLabelMore": "계속",
+      "viewSwitcherLabelTools": "Tools",
+      "viewSwitcherLabelAdministration": "Administration"
     }
   },
   "pt-BR": {
@@ -312,7 +330,9 @@
       "businessMonitoring": "Monitoramento de negócios",
       "labelSyntheticMonitoring": "Monitoramento sintético",
       "automation": "Automação",
-      "viewSwitcherLabelMore": "Mais"
+      "viewSwitcherLabelMore": "Mais",
+      "viewSwitcherLabelTools": "Tools",
+      "viewSwitcherLabelAdministration": "Administration"
     }
   },
   "zh-CN": {
@@ -352,7 +372,9 @@
       "businessMonitoring": "业务监视",
       "labelSyntheticMonitoring": "合成监视",
       "automation": "自动化",
-      "viewSwitcherLabelMore": "更多"
+      "viewSwitcherLabelMore": "更多",
+      "viewSwitcherLabelTools": "Tools",
+      "viewSwitcherLabelAdministration": "Administration"
     }
   },
   "zh-TW": {
@@ -392,7 +414,9 @@
       "businessMonitoring": "商業監視",
       "labelSyntheticMonitoring": "綜合監視",
       "automation": "自動化",
-      "viewSwitcherLabelMore": "更多"
+      "viewSwitcherLabelMore": "更多",
+      "viewSwitcherLabelTools": "Tools",
+      "viewSwitcherLabelAdministration": "Administration"
     }
   }
 }
