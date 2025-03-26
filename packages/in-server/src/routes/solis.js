@@ -9,7 +9,6 @@ const middleware = require('i18next-http-middleware');
 
 const { getCurrentUser } = require('../auth');
 const { activeResolver } = require('../services/resolvers/index');
-const serverConfig = require('../serverConfig');
 
 const translations = require('./translation.json');
 
@@ -259,7 +258,7 @@ function generatePlatformItems(t, permissions, features) {
 
   if (permissions.hasPHMCAccess && !features.playwithEnabled) {
     platformItems.push({
-      icon_name: 'ibm--power-with-vpc"',
+      icon_name: 'ibm--power-with-vpc',
       label: t('viewSwitcherLabelphmc'),
       path: '#/ibmp/phmcs'
     });
@@ -315,7 +314,7 @@ function generatePlatformItems(t, permissions, features) {
 
   if (permissions.hasVSphereAccess && !features.playwithEnabled) {
     platformItems.push({
-      icon_name: 'development',
+      icon_name: 'unknown',
       label: t('viewSwitcherLabelvSphere'),
       path: '#/vsphere/datacenters'
     });
@@ -480,16 +479,16 @@ function generateAdministrationItems(t, role, features) {
     });
   }
 
-  // Tenant switch
-  if (!features.userProfileMenuEnabled && features.tenantSwitcherEnabled) {
-    adminItems.push({
-      type: 'link',
-      properties: {
-        label: t('viewSwitcherLabelTenants'),
-        path: `https://${serverConfig.clientConfig.tenantUnitDomainSuffix}/tenantSwitcher`
-      }
-    });
-  }
+  // // Tenant switch
+  // if (!features.userProfileMenuEnabled && features.tenantSwitcherEnabled) {
+  //   adminItems.push({
+  //     type: 'link',
+  //     properties: {
+  //       label: t('viewSwitcherLabelTenants'),
+  //       path: `https://${serverConfig.clientConfig.tenantUnitDomainSuffix}/tenantSwitcher`
+  //     }
+  //   });
+  // }
 
   // The following menu items should be top nav
   // // release note
