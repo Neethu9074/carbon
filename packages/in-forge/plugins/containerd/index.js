@@ -16,6 +16,7 @@ import { isWithinKubernetes } from 'in-forge/plugins/containerd/util';
 import { containerInfoEnabled } from 'in-services/featureFlags';
 import { hasInfrastructureAccess } from 'in-stores/permission';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { CONTAINERD_ID } from 'in-logging/queryBuilder';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
@@ -34,7 +35,13 @@ registerSnapshotDefinition({
     return [
       {
         getObservables,
-        render: props => <LoggingIntegrationButtonsRenderer {...props} addMargin />,
+        render: props => (
+          <LoggingIntegrationButtonsRenderer
+            {...props}
+            tagFilter={{ name: CONTAINERD_ID, value: props.dockerContainerId }}
+            addMargin
+          />
+        ),
         props: {
           isWithinKubernetes: isWithinKubernetes(snapshot),
           dockerContainerId: snapshot.getIn(['data', 'id']),

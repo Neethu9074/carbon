@@ -7,7 +7,9 @@
     "results": "Results"
   },
   "logging": {
-    "goToLogs": "Go to logs"
+    "goToLogs": "Go to logs",
+    "integrations": "Integrations",
+    "analyzeLogs": "Instana analytics logs"
   }
 
 }
