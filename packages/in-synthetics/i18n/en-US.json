@@ -239,7 +239,7 @@
             "operatorOptionMatches": "Matches",
             "operatorOptionContains": "Contains",
             "operatorOptionIs": "Is",
-            "operatorOptionNotMatches": "Not Matches",
+            "operatorOptionNotMatches": "Not matches",
             "resolutionRecordLabel": "Resolution record",
             "deleteButtonLabel": "Delete",
             "addRecordTypeLabel": "Add field",
