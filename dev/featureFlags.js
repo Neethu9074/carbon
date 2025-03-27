@@ -15,7 +15,7 @@ module.exports = {
   bizopsProcessIdColumnEnabled: true,
   bizopsGenAIEnabled: true,
   bizopsProcessFlowMapEnabled: true,
-  bizopsProcessFlowMapHealthOverlayEnabled: false,
+  bizopsProcessFlowMapHealthOverlayEnabled: true,
   bizopsCustomDashboardEnabled: true,
   bizopsVersionColumnEnabled: true,
   containerInfoEnabled: true,

@@ -177,7 +177,7 @@ export function FlowMapWrapper() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [businessFlowMapData, newPaginateData, metricData]);
 
-  return <FlowMapPresenter mapData={mapData} addPaginateData={addPaginateData} />;
+  return <FlowMapPresenter mapData={mapData} addPaginateData={addPaginateData} timeConfig={timeConfig} />;
 }
 
 function createRawNodesEdges(rawMapData: BusinessFlowMap): [BizOpsElkNode[], ElkExtendedEdge[]] {
@@ -198,6 +198,7 @@ function createRawNodesEdges(rawMapData: BusinessFlowMap): [BizOpsElkNode[], Elk
     return {
       id: node.id,
       name: node.id,
+      endpointIds: [],
       remainingTargetCount: node.remainingTargetCount,
       metrics: {
         count: [],
@@ -220,6 +221,7 @@ function addNodeMetricData(nodes: BizOpsElkNode[], metricData: BusinessActivityI
       let newNode = { ...node };
       newNode.metrics = metricData[foundIndex].metrics;
       newNode.name = metricData[foundIndex].businessActivity?.activityName as string;
+      newNode.endpointIds = metricData[foundIndex].businessActivity?.endpointIds ?? [];
       return newNode;
     } else return node;
   });
