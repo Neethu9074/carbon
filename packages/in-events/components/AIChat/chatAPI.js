@@ -101,14 +101,18 @@ export function formatForTable(apiResponse) {
       let timestamp;
       metricKeys.forEach((key, index) => {
         if (index === 0) {
-          timestamp = entry.metrics[key][0][0];
+          timestamp = entry.metrics[key]?.[0]?.[0];
         }
-        cells.push(entry.metrics[key][0][1]);
+        cells.push(entry.metrics[key]?.[0]?.[1]);
       });
       if (countPresent) {
         cells.push(entry.count);
       }
-      cells.push(new Date(timestamp).toISOString());
+      if (timestamp) {
+        cells.push(new Date(timestamp).toISOString());
+      } else {
+        cells.push(undefined);
+      }
       response.data.rows.push({ cells });
     });
   } else {
