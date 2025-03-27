@@ -77,6 +77,8 @@ const LdapDialog = (props: LdapDialogProps) => {
   const [ldapDeleteStatus, deleteLdapConfig] = useFormSubmission<undefined, unknown>(deleteConfig);
 
   const isSubmitting = ldapSubmitStatus === 'pending';
+  const isDeleting = ldapDeleteStatus === 'pending';
+
   const isTestingConnection = testSubmitStatus === 'pending';
 
   // By mapping the options as an object, we let TS help us making sure we
@@ -106,7 +108,7 @@ const LdapDialog = (props: LdapDialogProps) => {
       onError: result => {
         setNotification({
           kind: 'error',
-          subtitle: t('in-settings:tabs.failedToSaveConfig', { err: result?.errors[0] })
+          subtitle: t('in-settings:tabs.failedToSaveConfig', { err: result?.errors[0]?.message })
         });
       }
     });
@@ -127,7 +129,10 @@ const LdapDialog = (props: LdapDialogProps) => {
         trackCta(SETTINGS_IDP_LDAP_TEST_CONFIGURATION, { result: msgType });
       },
       onError: error => {
-        setNotification({ kind: 'error', subtitle: `${t('in-settings:tabs.ldapTestFailed')} ${error}` });
+        setNotification({
+          kind: 'error',
+          subtitle: `${t('in-settings:tabs.ldapTestFailed')} ${error?.errors[0]?.message}`
+        });
       }
     });
   };
@@ -225,7 +230,7 @@ const LdapDialog = (props: LdapDialogProps) => {
               : t('in-settings:tabs.authenticationProviders.editConfiguration')}
           </Button>
         )}
-        {isSubmitting ? (
+        {isSubmitting || isDeleting ? (
           <>
             <Spacer size="normal" vertical="small" />
             <CarbonInlineLoading
@@ -235,6 +240,7 @@ const LdapDialog = (props: LdapDialogProps) => {
           </>
         ) : (
           <Button
+            data-modal-primary-focus
             kind={isEditable ? 'primary' : 'danger'}
             onClick={onRequestSubmit}
             disabled={!form.hierarchyValid || !form.hierarchyTouched}

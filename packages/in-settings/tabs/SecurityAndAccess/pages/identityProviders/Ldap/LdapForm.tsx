@@ -72,7 +72,7 @@ const LdapServerSection = ({ form, setForm }: LdapFormProps) => {
         <CarbonTextInput
           labelText={t('in-settings:tabs.url')}
           helperText={t('in-settings:tabs.urlDescription')}
-          id="ldapDomain"
+          id="ldap_url"
           value={url.value}
           onChange={e => {
             setForm(form.updateIn(['url'], f => f.setValue(e.target.value).setTouched(true)));
@@ -132,7 +132,7 @@ const LdapAuthenticationSection = ({ form, setForm }: LdapFormProps) => {
               <CarbonTextInput
                 labelText={t('in-settings:tabs.user')}
                 helperText={<Trans i18nKey="in-settings:tabs.ldapForm.userDescription" />}
-                id="ldapUser"
+                id="ldap_roUser"
                 value={roUserField.value}
                 onChange={e => {
                   setForm(form.updateIn(['roForm', 'roUser'], f => f.setValue(e.target.value).setTouched(true)));
@@ -146,7 +146,7 @@ const LdapAuthenticationSection = ({ form, setForm }: LdapFormProps) => {
               <CarbonColumn>
                 <CarbonPasswordInput
                   labelText={t('in-settings:tabs.ldapForm.passwordForReadOnlyUser')}
-                  id="ldapRoPassword"
+                  id="ldap_roPassword"
                   value={roPasswordField.value}
                   onChange={e => {
                     setForm(form.updateIn(['roForm', 'roPassword'], f => f.setValue(e.target.value).setTouched(true)));
@@ -177,7 +177,7 @@ const LdapQueriesSection = ({ form, setForm }: LdapFormProps) => {
         <CarbonTextInput
           labelText={t('in-settings:tabs.base')}
           helperText={t('in-settings:tabs.baseDescription')}
-          id="base"
+          id="ldap_base"
           value={baseField.value}
           onChange={e => {
             setForm(form.updateIn(['base'], f => f.setValue(e.target.value).setTouched(true)));
@@ -191,7 +191,7 @@ const LdapQueriesSection = ({ form, setForm }: LdapFormProps) => {
             <CarbonTextInput
               labelText={t('in-settings:tabs.groupQuery')}
               helperText={t('in-settings:tabs.groupQueryDescription')}
-              id="groupQuery"
+              id="ldap_groupQuery"
               value={groupQueryField.value}
               onChange={e => {
                 setForm(form.updateIn(['groupQuery'], f => f.setValue(e.target.value).setTouched(true)));
@@ -204,7 +204,7 @@ const LdapQueriesSection = ({ form, setForm }: LdapFormProps) => {
           <CarbonColumn>
             <CarbonTextInput
               labelText={t('in-settings:tabs.groupMemberField')}
-              id="groupMember"
+              id="ldap_groupMemberField"
               helperText={t('in-settings:tabs.groupMemberFieldDescription')}
               value={groupMemberField.value}
               onChange={e => {
@@ -221,7 +221,7 @@ const LdapQueriesSection = ({ form, setForm }: LdapFormProps) => {
             <CarbonTextInput
               labelText={t('in-settings:tabs.userQueryTemplate')}
               helperText={t('in-settings:tabs.userQueryTemplateDescription')}
-              id="userQueryTemplate"
+              id="ldap_userQueryTemplate"
               value={userQueryTemplateField.value}
               onChange={e => {
                 setForm(form.updateIn(['userQueryTemplate'], f => f.setValue(e.target.value).setTouched(true)));
@@ -235,7 +235,7 @@ const LdapQueriesSection = ({ form, setForm }: LdapFormProps) => {
             <CarbonTextInput
               labelText={t('in-settings:tabs.emailField')}
               helperText={t('in-settings:tabs.emailFieldDescription')}
-              id="emailField"
+              id="ldap_emailField"
               value={emailField.value}
               onChange={e => {
                 setForm(form.updateIn(['emailField'], f => f.setValue(e.target.value).setTouched(true)));
@@ -310,7 +310,7 @@ const InstanaAdministrationAccessSection = ({ form, setForm }: LdapFormProps) =>
             <CarbonTextInput
               labelText={t('in-settings:tabs.ldapForm.usernameAdministrationAccess')}
               helperText={t('in-settings:tabs.ldapForm.usernameAdministrationAccessDescription')}
-              id="usernameAdministrationAccess"
+              id="ldap_testUser"
               value={testUserField.value}
               onChange={e => {
                 setForm(form.updateIn(['testUser'], f => f.setValue(e.target.value).setTouched(true)));
@@ -324,7 +324,7 @@ const InstanaAdministrationAccessSection = ({ form, setForm }: LdapFormProps) =>
             <CarbonPasswordInput
               labelText={t('in-settings:tabs.ldapForm.passwordAdministrationAccess')}
               helperText={t('in-settings:tabs.ldapForm.passwordAdministrationAccessDescription')}
-              id="passwordAdministrationAccess"
+              id="ldap_testPassword"
               value={testPasswordField.value}
               onChange={e => {
                 setForm(form.updateIn(['testPassword'], f => f.setValue(e.target.value).setTouched(true)));

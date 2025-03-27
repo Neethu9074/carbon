@@ -67,7 +67,7 @@ const OIDCForm = (props: OIDCFormProps) => {
           <Typography variant="body-01">
             {t('in-settings:tabs.oidcForm.connectionIsSetupConsideringNecessarySpecifications')}
           </Typography>
-          <SpecificConfigurationSection form={form} setForm={setForm} />\{' '}
+          <SpecificConfigurationSection form={form} setForm={setForm} />
         </CarbonStack>
         <CarbonStack gap={4}>
           <Typography variant="heading-02">{t('in-settings:tabs.toYourIdentityProvider')}</Typography>

@@ -128,6 +128,7 @@ const SamlForm = (props: SamlFormProps) => {
           </Typography>
           <FileUploader
             accept={['text/xml']}
+            id="idpMetadataFile"
             buttonKind="secondary"
             buttonLabel={t('in-settings:tabs.samlForm.chooseFileUploadingInstana')}
             filenameStatus="edit"

@@ -33,6 +33,7 @@ interface IdpConfiguration {
   helpDoc?: JSX.Element;
   IdpComponent: JSX.Element;
   isAnotherIdpActivated: boolean;
+  id: string;
 }
 
 export const deleteItem = ({
@@ -132,7 +133,8 @@ export const getIdpTilesInfo = (
     isAvailableToConfigure: isGoogleSSOAvailable,
     IdpComponent: <GoogleSSODialog />,
     isAnotherIdpActivated: isAnotherIdpActivated([isOidcActive, isSamlActive, isLdapActive]),
-    disabledTitle: t('in-settings:tabs.authenticationProviders.cannotConfigureIdpIfAnotherOneIsAlreadyActive')
+    disabledTitle: t('in-settings:tabs.authenticationProviders.cannotConfigureIdpIfAnotherOneIsAlreadyActive'),
+    id: 'googleSSO'
   },
   {
     title: t('in-settings:tabs.authenticationProviders.samlTileTitle'),
@@ -142,7 +144,8 @@ export const getIdpTilesInfo = (
     helpDoc: <SamlHelpDoc />,
     IdpComponent: <SamlDialog isActive={isSamlActive ?? false} onFormUpdate={handleFormUpdate} />,
     isAnotherIdpActivated: isAnotherIdpActivated([isOidcActive, isLdapActive]),
-    disabledTitle: t('in-settings:tabs.cannotConfigureSamlIfAnotherOneIsAlreadyActive')
+    disabledTitle: t('in-settings:tabs.cannotConfigureSamlIfAnotherOneIsAlreadyActive'),
+    id: 'saml'
   },
   {
     title: t('in-settings:tabs.authenticationProviders.oidcTileTitle'),
@@ -151,7 +154,8 @@ export const getIdpTilesInfo = (
     isAvailableToConfigure: isOidcAvailable,
     IdpComponent: <OIDCDialog isActive={isOidcActive ?? false} onFormUpdate={handleFormUpdate} />,
     isAnotherIdpActivated: isAnotherIdpActivated([isSamlActive, isLdapActive]),
-    disabledTitle: t('in-settings:tabs.cannotConfigureOidcIfAnotherOneIsAlreadyActive')
+    disabledTitle: t('in-settings:tabs.cannotConfigureOidcIfAnotherOneIsAlreadyActive'),
+    id: 'oidc'
   },
   {
     title: t('in-settings:tabs.authenticationProviders.ldapTileTitle'),
@@ -161,7 +165,8 @@ export const getIdpTilesInfo = (
     helpDoc: <LdapHelpDoc />,
     IdpComponent: <LdapDialog isActive={isLdapActive ?? false} onFormUpdate={handleFormUpdate} />,
     isAnotherIdpActivated: isAnotherIdpActivated([isSamlActive, isOidcActive]),
-    disabledTitle: t('in-settings:tabs.ldapCannotbeConfiguredWithOtherIdPActive')
+    disabledTitle: t('in-settings:tabs.ldapCannotbeConfiguredWithOtherIdPActive'),
+    id: 'ldap'
   }
 ];
 
