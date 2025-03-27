@@ -74,9 +74,16 @@ interface ResourceCardListProps {
   type: Workload;
   getHrefs: (id: string, { tab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'>) => string;
   workloads: string[];
+  hasSortingEnabled: boolean;
 }
 
-export default function ResourceCardList({ subscription, type, getHrefs, workloads }: Readonly<ResourceCardListProps>) {
+export default function ResourceCardList({
+  subscription,
+  type,
+  getHrefs,
+  workloads,
+  hasSortingEnabled
+}: Readonly<ResourceCardListProps>) {
   const isClusterType = type === 'cluster';
   const urlStateDefinition = getUrlStateDefinition(isClusterType);
   const { location, navigate } = useNavigation();
@@ -152,32 +159,35 @@ export default function ResourceCardList({ subscription, type, getHrefs, workloa
               labelText=""
             />
           </div>
-          <SortingConfigurator
-            options={sortingOptions}
-            order={{
-              by: orderBy,
-              direction: orderDirection
-            }}
-            onChange={event => {
-              const hasSelectedItem = 'selectedItem' in event;
-              const selectedOrderBy = hasSelectedItem ? event.selectedItem?.value : orderBy;
-              const selectedOrderDirection = hasSelectedItem
-                ? orderDirection
-                : orderDirection === 'ASC'
-                ? 'DESC'
-                : 'ASC';
 
-              setUrlState({
-                orderBy: selectedOrderBy,
-                orderDirection: selectedOrderDirection
-              });
+          {hasSortingEnabled && (
+            <SortingConfigurator
+              options={sortingOptions}
+              order={{
+                by: orderBy,
+                direction: orderDirection
+              }}
+              onChange={event => {
+                const hasSelectedItem = 'selectedItem' in event;
+                const selectedOrderBy = hasSelectedItem ? event.selectedItem?.value : orderBy;
+                const selectedOrderDirection = hasSelectedItem
+                  ? orderDirection
+                  : orderDirection === 'ASC'
+                  ? 'DESC'
+                  : 'ASC';
 
-              kubernetesSortingChanged({
-                orderBy: selectedOrderBy,
-                orderDirection: selectedOrderDirection
-              });
-            }}
-          />
+                setUrlState({
+                  orderBy: selectedOrderBy,
+                  orderDirection: selectedOrderDirection
+                });
+
+                kubernetesSortingChanged({
+                  orderBy: selectedOrderBy,
+                  orderDirection: selectedOrderDirection
+                });
+              }}
+            />
+          )}
 
           <CarbonPopover open={!isTooltipSeen} autoAlign caret highContrast>
             <CarbonIconButton
