@@ -311,9 +311,6 @@ export default function PromptStep({
         <PreviewPill privatePreview />
         <Spacer vertical="normal" />
         <Typography variant="body-regular">{t('in-automation:GenerateAIActionDialog.Step1HeadlinePrompt')}</Typography>
-        <Typography variant="body-regular">
-          {t('in-automation:GenerateAIActionDialog.generateScriptDialog.step2Headline2')}
-        </Typography>
         <Spacer vertical="normal" />
         <PromptInputs form={form} setForm={setForm} />
         <GenerateButton form={form} setForm={setForm} event={event} />
