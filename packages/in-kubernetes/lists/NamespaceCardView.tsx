@@ -18,6 +18,7 @@ export default function NamespaceCardView() {
   return (
     <ResourceCardList
       type="namespace"
+      hasSortingEnabled={false}
       subscription={getKubernetesNamespacesSubscribeEvent}
       workloads={workloads}
       getHrefs={getNamespaceHrefs}

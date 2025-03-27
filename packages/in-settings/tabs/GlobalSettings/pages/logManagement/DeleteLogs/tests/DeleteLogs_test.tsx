@@ -15,7 +15,7 @@ import DeleteLogs, { DeleteLogsModal } from 'in-settings/tabs/GlobalSettings/pag
 describe('DeleteLogs Component', () => {
   test('renders correctly', () => {
     render(<DeleteLogs />);
-    expect(screen.getByText('Delete logs')).toBeInTheDocument();
+    expect(screen.getByText(/Instana logs/i)).toBeInTheDocument();
   });
 });
 

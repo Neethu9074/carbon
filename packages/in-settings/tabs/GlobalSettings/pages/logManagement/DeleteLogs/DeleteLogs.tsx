@@ -48,12 +48,10 @@ import { NotificationState } from './types';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import TimePicker from 'in-components/form/TimePicker/TimePicker';
-import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { deleteLogsV3Enabled } from 'in-services/featureFlags';
 import { parseDateTime } from 'in-services/formatters/date';
 import { deleteLogs } from 'in-logging/api/deleteLogs';
 import Title from 'in-components/Title/Title';
-import Label from 'in-components/form/Label';
 import { activeLocale } from 'in-i18n';
 import { user } from 'in-stores/user';
 
@@ -73,8 +71,10 @@ export default function DeleteLogs() {
     useDeleteLogsForm();
 
   useEffect(() => {
-    setLogsToDeleteValue(returnNumberLogsToDeleteMock(inputValues.startDate, inputValues.endDate));
-  }, [inputValues.startDate, inputValues.endDate]);
+    if (inputValues.startDate && inputValues.endDate) {
+      setLogsToDeleteValue(returnNumberLogsToDeleteMock(inputValues.startDate, inputValues.endDate));
+    }
+  }, [inputValues]);
 
   const { trackCta } = useSegmentTracking();
   const openConfirmationDialog = () => {
@@ -311,15 +311,14 @@ export default function DeleteLogs() {
   return (
     <>
       <Title title={deleteLogsLocalisationStrings.deleteLogs} />
-      <section className={locals.titleSection}>
-        <SubViewHeader>{deleteLogsLocalisationStrings.deleteLogs}</SubViewHeader>
-      </section>
+      {/*This H2 is required to maintain the heading hierarchy because the carbon table used below has a hardcoded H3*/}
+      <h2 className={locals.hiddenHeading} />
       <section className={locals.descriptionSection}>
         <Typography variant={'body-regular'}>
           {deleteLogsLocalisationStrings.info}
           <br />
           {deleteLogsLocalisationStrings.info2}
-          <Link external href={`${analyzeDocs.logs}#deleting-logs`} className={locals.underline}>
+          <Link externalWithIcon href={`${analyzeDocs.logs}#deleting-logs`} className={locals.underline}>
             {deleteLogsLocalisationStrings.learnMore}
           </Link>
         </Typography>
@@ -377,7 +376,6 @@ export function DeleteLogsModal({
   const { trackCta } = useSegmentTracking();
 
   const isDeleteDisabled = !canSubmit || isDeleting;
-
   const closeConfirmationDialog = () => {
     setShowConfirmation(false);
     setNotification({ show: false });
@@ -477,28 +475,28 @@ export function DeleteLogsModal({
         onSecondarySubmit={closeConfirmationDialog}
         onRequestClose={closeConfirmationDialog}
         className={locals.dialog}
+        role="dialog"
       >
         {deleteLogsLocalisationStrings.modalDescription}
         <CarbonForm>
-          <CarbonFormGroup legendText="">
+          <CarbonFormGroup legendText="" aria-label="Delete logs modal form">
             <CarbonStack gap={6}>
               <section className={locals.timeSection}>
-                <Label htmlFor="deletionUntilDate">
-                  <span>{deleteLogsLocalisationStrings.deletionUntilDate}</span>
-                  <section className={locals.marginLabel}>
-                    <CarbonDateInput
-                      id="deletionUntilDate"
-                      hasError={!!validationMessages.endDate}
-                      disabled={isDeleting}
-                      value={new Date(inputValues.endDate as string)}
-                      onChange={e => setInputValues.endDate(e as string[])}
-                      locale={activeLocale}
-                    />
-                  </section>
+                <div className={locals.untilDateInput}>
+                  <CarbonDateInput
+                    aria-labelledby="deletionUntilDateLabel"
+                    id="deletionUntilDate"
+                    hasError={!!validationMessages.endDate}
+                    disabled={isDeleting}
+                    value={new Date(inputValues.endDate as string)}
+                    onChange={e => setInputValues.endDate(e as string[])}
+                    locale={activeLocale}
+                    labelText={deleteLogsLocalisationStrings.deletionUntilDate}
+                  />
                   {validationMessages.endDate && (
                     <ValidationBlock className={locals.validationMessage}>{validationMessages.endDate}</ValidationBlock>
                   )}
-                </Label>
+                </div>
                 <TimePicker
                   id={deleteLogsLocalisationStrings.deletionUntilTime}
                   labelText={deleteLogsLocalisationStrings.deletionUntilTime}

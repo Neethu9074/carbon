@@ -15,11 +15,13 @@ interface FormGroupProps {
   className?: string;
   style?: CSSProperties;
   noFlex?: boolean;
+  ariaLabel?: string;
 }
 
-export default function FormGroup({ children, className, style, noFlex = false }: FormGroupProps) {
+export default function FormGroup({ children, className, style, noFlex = false, ariaLabel }: FormGroupProps) {
   return (
     <div
+      aria-label={ariaLabel}
       className={classNames(block, className, {
         [`${block}--flex`]: !noFlex
       })}

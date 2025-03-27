@@ -101,7 +101,8 @@ export const perspectiveColumnDefinitions: ColumnDefinition<BusinessPerspectiveI
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.healthLabel'),
     getContent(item: BusinessPerspectiveItem, { timeConfig }) {
-      const serviceIds = item.services && item.services.map(service => service.id);
+      const rawServiceIds = item.services && item.services.map(service => service.id);
+      const serviceIds = [...new Set(rawServiceIds)]; // Removes serviceId dupes
       return (
         <BizOpsHealthIndicator
           serviceIds={serviceIds}

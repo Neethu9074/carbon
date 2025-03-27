@@ -41,12 +41,8 @@
     gap: 1rem;
   }
 
-  .marginLabel {
-    margin: 0.5rem 0 0.25rem 0;
-  }
-
   .descriptionSection {
-    padding: 1rem 0;
+    padding: 0 0 1rem;
   }
 
   .noPadding {
@@ -56,11 +52,17 @@
 
   .validationMessage {
     height: 0;
-    margin: -0.125rem 0;
   }
 
   .underline {
     margin: 0 1ch;
     text-decoration: underline;
+  }
+
+  .hiddenHeading {
+    visibility: hidden;
+  }
+
+  .untilDateInput {
   }
 }

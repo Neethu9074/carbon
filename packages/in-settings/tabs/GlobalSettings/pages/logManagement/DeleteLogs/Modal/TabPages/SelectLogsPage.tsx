@@ -75,7 +75,7 @@ export const SelectLogsPage = ({
             <CarbonDateInput
               hasError={!!validationMessages.startDate}
               value={new Date(inputValues.startDate as string)}
-              onChange={e => setInputValues.startDate(e as string[])}
+              onChange={e => setInputValues.startDate?.(e as string[])}
               locale={activeLocale}
             />
           </section>
@@ -91,7 +91,7 @@ export const SelectLogsPage = ({
           value={inputValues.startTime as string}
           invalid={!!validationMessages.startTime}
           invalidText={validationMessages.startTime}
-          onChange={e => setInputValues.startTime(e)}
+          onChange={e => setInputValues.startTime?.(e)}
         />
 
         {/* End Date */}

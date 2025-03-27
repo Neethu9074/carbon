@@ -9,6 +9,8 @@ import React, { useEffect, useState } from 'react';
 import { Edge } from '@carbon/charts-react';
 import { path as d3Path } from 'd3-path';
 
+import { TimeConfig } from '@instana/types';
+
 import { BizOpsMapData } from 'in-bizops/dashboards/summary/tabs/flowMap/FlowMap';
 import { Canvas } from 'in-bizops/dashboards/summary/tabs/flowMap/Canvas';
 import Node from 'in-bizops/dashboards/summary/tabs/flowMap/Node';
@@ -34,16 +36,18 @@ const Link = ({ link }: { link: ElkExtendedEdge }) => {
 
 export interface BizOpsElkNode extends ElkNode {
   name: string;
+  endpointIds: string[];
   metrics: { [index: string]: number[][] };
   remainingTargetCount: number;
 }
 
 interface FlowMapPresenterProps {
+  timeConfig: TimeConfig;
   mapData: BizOpsMapData | undefined;
   addPaginateData: (nodeId: string) => void;
 }
 
-export default function FlowMapPresenter({ mapData, addPaginateData }: FlowMapPresenterProps) {
+export default function FlowMapPresenter({ timeConfig, mapData, addPaginateData }: FlowMapPresenterProps) {
   // positions is used to place nodes within the canvas
   const [positions, setPositions] = useState<ElkNode>();
   // Used to determine which node was clicked on by the user
@@ -78,6 +82,12 @@ export default function FlowMapPresenter({ mapData, addPaginateData }: FlowMapPr
 
   if (!positions) return null;
 
+  // If an node is selected, we need to render the overlay. Due to the painters model of rendering SVG elements,
+  // we need to move the active node to the bottom of the DOM to correctly render the overlay on top of all other nodes
+  const activeNodeIndex = positions.children?.findIndex(node => node?.id === selectedNodeId) ?? -1;
+  if (positions?.children !== undefined && positions.children.length >= 0 && activeNodeIndex >= 0)
+    positions.children?.push(positions.children.splice(activeNodeIndex, 1)[0]);
+
   const nodeElements = positions.children?.map(node => (
     <Node
       key={node.id}
@@ -85,6 +95,8 @@ export default function FlowMapPresenter({ mapData, addPaginateData }: FlowMapPr
       handleNodeClick={handleNodeClick}
       handlePaginateClick={handlePaginateClick}
       node={node as BizOpsElkNode}
+      timeConfig={timeConfig}
+      inContentArea
     />
   ));
   const linkElements = positions.edges?.map(edge => <Link key={`link_${edge.id}`} link={edge} />);
@@ -98,7 +110,7 @@ export default function FlowMapPresenter({ mapData, addPaginateData }: FlowMapPr
   );
 
   return (
-    <Canvas width="100%" height="1000" defs={defs}>
+    <Canvas width="100%" height="100vh" defs={defs}>
       {linkElements}
       {nodeElements}
     </Canvas>

@@ -7,8 +7,8 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
+import { IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { SvgIcon } from '@instana/components';
 
 import {
   DELETE_STATUS,
@@ -22,7 +22,9 @@ import {
   TableState,
   getCarbonDataRows
 } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/utils';
+import { getDesignLibraryColorBySeverity, getDesignLibrarySeverityIcon } from 'in-stores/events';
 import { DeleteLogsHistoryItem, DeleteLogsHistoryResult, Result } from 'in-types';
+import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeletionTable.mless';
 
@@ -48,13 +50,29 @@ describe('timestampToLocaleDateTime', () => {
 describe('renderIconsByStatus', () => {
   test('should return the correct icon for "done" status', () => {
     const result = renderIconsByStatus(DELETE_STATUS.done);
-    expect(result).toEqual(<SvgIcon type="lib_uncheck" size="s" color={themes.default.ids.color.option.green[500]} />);
+    expect(result).toEqual(
+      <IconButton
+        type="lib_uncheck"
+        color={themes.default.ids.color.option.green[500]}
+        iconSize={'xs'}
+        isWrapperedByTooltip
+        iconDescription={t('in-logging:tooltipEntityHealthNoIssues')}
+        enterDelayMs={500}
+      />
+    );
   });
 
   test('should return the correct icon for "failed" status', () => {
     const result = renderIconsByStatus(DELETE_STATUS.failed);
     expect(result).toEqual(
-      <SvgIcon type="lib_error_filled" size="s" color={themes.default.ids.color.option.red[500]} />
+      <IconButton
+        type={getDesignLibrarySeverityIcon(10)}
+        color={getDesignLibraryColorBySeverity(10)}
+        iconSize={'xs'}
+        isWrapperedByTooltip
+        iconDescription={t('in-logging:tooltipEntityHealthFailed')}
+        enterDelayMs={500}
+      />
     );
   });
 

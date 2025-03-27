@@ -6,34 +6,33 @@
 
 import React from 'react';
 
+import {
+  TearSheetEditActionHandler,
+  TearSheetCloneActionHandler
+} from 'in-alerting/smart-alerts/logs/lists/TearSheetActionHandlers';
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
+import { logSmartAlertFullScreenDesignEnabled, logSmartAlertDialogViewEnabled } from 'in-services/featureFlags';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { logSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
+import { DIALOG, FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-
-// TODO revert this back
-// import {
-//   TearSheetEditActionHandler,
-//   TearSheetCloneActionHandler
-// } from 'in-alerting/smart-alerts/logs/lists/TearSheetActionHandlers';
 
 function handleEdit(config: LogSmartAlertConfigWithMetadata) {
   openSmartAlertDialog(config);
 }
 
-// TODO add it back when FF checking is done
-// function HandleEditNew(config: LogSmartAlertConfigWithMetadata) {
-//   return <TearSheetEditActionHandler id={config.id} created={config.created} alertConfig={config} />;
-// }
+function HandleEditNew(config: LogSmartAlertConfigWithMetadata) {
+  return <TearSheetEditActionHandler id={config.id} created={config.created} alertConfig={config} />;
+}
 
-// function HandleCloneNew(config: LogSmartAlertConfigWithMetadata) {
-//   return <TearSheetCloneActionHandler id={config.id} created={config.created} alertConfig={config} />;
-// }
+function HandleCloneNew(config: LogSmartAlertConfigWithMetadata) {
+  return <TearSheetCloneActionHandler id={config.id} created={config.created} alertConfig={config} />;
+}
 
 function openSmartAlertDialog(config: LogSmartAlertConfigWithMetadata, isCopy = false) {
   addActiveDialog(
@@ -53,23 +52,27 @@ function handleClone(config: LogSmartAlertConfigWithMetadata) {
   openSmartAlertDialog(config, true);
 }
 
+const alertDisplayMode = getSmartAlertDisplayMode(logSmartAlertDialogViewEnabled, logSmartAlertFullScreenDesignEnabled);
+
 export const actionHandlers = {
-  // TODO chnage when FF for edit
-  ...(!logSmartAlertFullScreenDesignEnabled && {
+  ...(alertDisplayMode === DIALOG && {
     handleEdit: (config: LogSmartAlertConfigWithMetadata) => handleEdit(config)
   }),
-  ...(logSmartAlertFullScreenDesignEnabled && {
+  ...(alertDisplayMode === CHOICE_DIALOG && {
     handleEditSelector: (config: LogSmartAlertConfigWithMetadata) => handleEdit(config)
   }),
-  // handleEditNew: (config: LogSmartAlertConfigWithMetadata) => HandleEditNew(config),
-  // TODO chnage when FF for clone
-  ...(!logSmartAlertFullScreenDesignEnabled && {
+  ...(alertDisplayMode === FULLSCREEN && {
+    handleEditNew: (config: LogSmartAlertConfigWithMetadata) => HandleEditNew(config)
+  }),
+  ...(alertDisplayMode === DIALOG && {
     handleClone: (config: LogSmartAlertConfigWithMetadata) => handleClone(config)
   }),
-  ...(logSmartAlertFullScreenDesignEnabled && {
+  ...(alertDisplayMode === CHOICE_DIALOG && {
     handleCloneSelector: (config: LogSmartAlertConfigWithMetadata) => handleClone(config)
   }),
-  // handleCloneNew: (config: LogSmartAlertConfigWithMetadata) => HandleCloneNew(config)
+  ...(alertDisplayMode === FULLSCREEN && {
+    handleCloneNew: (config: LogSmartAlertConfigWithMetadata) => HandleCloneNew(config)
+  }),
   handleDelete: (
     id: string,
     setIsSaving: (saving: boolean) => void,
