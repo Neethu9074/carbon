@@ -83,6 +83,7 @@ export function formatForTable(apiResponse) {
     return emptyResult;
   }
 
+  const countPresent = first.count !== undefined;
   const metricKeys = Object.keys(first.metrics || {});
   const firstMetric = metricKeys.length > 0 ? first.metrics[metricKeys[0]]?.[0] || [] : [];
   if (firstMetric.length === 2) {
@@ -90,6 +91,9 @@ export function formatForTable(apiResponse) {
     metricKeys.forEach(key => {
       response.data.headers.push(headerAlias[key] || key);
     });
+    if (countPresent) {
+      response.data.headers.push(t('in-events:aichat.count'));
+    }
     response.data.headers.push(t('in-events:aichat.timestamp'));
     instanaApiResponse.forEach(entry => {
       const cells = [];
@@ -101,13 +105,24 @@ export function formatForTable(apiResponse) {
         }
         cells.push(entry.metrics[key][0][1]);
       });
+      if (countPresent) {
+        cells.push(entry.count);
+      }
       cells.push(new Date(timestamp).toISOString());
       response.data.rows.push({ cells });
     });
   } else {
     // No metric found, just push primary column data
+    if (countPresent) {
+      response.data.headers.push(t('in-events:aichat.count'));
+    }
     instanaApiResponse.forEach(entry => {
-      response.data.rows.push({ cells: [entry.tags?.[useTag]] });
+      let cells = [];
+      cells.push(entry.tags?.[useTag]);
+      if (countPresent) {
+        cells.push(entry.count);
+      }
+      response.data.rows.push({ cells });
     });
   }
   return {
