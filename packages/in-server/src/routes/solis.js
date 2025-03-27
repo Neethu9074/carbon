@@ -558,7 +558,7 @@ function generateToolItems(t, role, permissions, features, infraResource) {
       icon_name: 'warning--alt',
       label: t('viewSwitcherLabelEvents'),
       path: '#/events;view=incident',
-      badge: infraResource.incidentCount
+      ...(infraResource.incidentCount > 0 && { badge: infraResource.incidentCount })
     });
   }
 
@@ -652,20 +652,58 @@ function generateAdministrationItems(t, role, features) {
   return adminItems;
 }
 
-router.get('/solis/about', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.end(getAbout());
+router.get('/solis/about', async (req, res) => {
+  try {
+    // if (!req.headers.authorization) {
+    //   throw new Error("Missing Authorization token");
+    // }
+    const instanaVersion = await getInstanaVersion(req);
+
+    const aboutInfo = getAbout(instanaVersion);
+    res.json(aboutInfo);
+  } catch (err) {
+    console.error('Unexpected error in /solis/about:', err);
+    res.status(500).json({ error: 'Failed to fetch about information' });
+  }
 });
 
-function getAbout() {
-  // hardcode version, and build number for mvp
-  return JSON.stringify({
+function getAbout({ version, build_number }) {
+  return {
     description: 'Instana Observability',
-    version: '1.0.1',
-    build_number: '291',
-    docs_link: 'https://www.ibm.com/products/instana',
+    version,
+    build_number,
+    docs_link: 'https://www.ibm.com/docs/en/instana-observability/current',
     copyright_years: '2021 - 2025'
-  });
+  };
+}
+
+async function getInstanaVersion(req) {
+  const instanaVersion = {
+    version: '',
+    build_number: ''
+  };
+
+  try {
+    const url = `${req.uiBackendBaseUrl}/api/instana/version`;
+    const response = await fetch(url, {
+      headers: {
+        Authorization: req.headers.authorization
+      }
+    });
+
+    if (!response.ok) {
+      console.warn(`Instana version fetch failed with status ${response.status}`);
+      return instanaVersion;
+    }
+
+    const versionData = await response.json();
+    instanaVersion.version = versionData.branch || '';
+    instanaVersion.build_number = versionData.imageTag || '';
+  } catch (error) {
+    console.error('Error fetching Instana version:', error);
+  }
+
+  return instanaVersion;
 }
 
 router.get('/solis/help', (req, res) => {
