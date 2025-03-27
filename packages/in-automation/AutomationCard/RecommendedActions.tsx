@@ -27,6 +27,7 @@ import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useRe
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import TurboActionRunModal from 'in-automation/ResourceOptimization/TurboActionRunModal';
 import { ProcessedSnapshot } from 'in-automation/AutomationCard/AutomationCardForPRC';
+import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -335,6 +336,7 @@ export default function RecommendedActions({
     return {
       rcaEntityType: selectedSnapshot.rcaEntityType, // Get entity type
       rcaSnapshotID: selectedRCA, // Use selected RCA ID
+      entityId: selectedSnapshot?.translationEntityType,
       timeWindow // Ensure timeWindow is available in the scope
     };
   }, [selectedRCA, initialSnapshots, timeWindow]);
@@ -344,6 +346,7 @@ export default function RecommendedActions({
     data?.rcaSnapshotID ?? '',
     data?.timeWindow ?? globalTimeConfig
   );
+  const entityId = data?.entityId ?? 'process';
 
   useEffect(() => {
     if (
@@ -354,10 +357,15 @@ export default function RecommendedActions({
       setSelectedEntityType &&
       selectedRCA !== 'triggeringEvent'
     ) {
+      const entityTypeName =
+        entityType === 'infrastructure' || entityType === 'process'
+          ? translateFullyQualifiedPluginToShortPluginName(entityId) || ''
+          : entityType;
+
       setSelectedDescription(entityData.label);
-      setSelectedEntityType(entityType);
+      setSelectedEntityType(entityTypeName);
     }
-  }, [entityData, entityType, setSelectedDescription, setSelectedEntityType, selectedRCA]);
+  }, [entityData, entityType, setSelectedDescription, setSelectedEntityType, selectedRCA, entityId]);
 
   const { filteredActions, types, setTypes, aiEngine, setAiEngine, tags, setTags } = useFilters({
     recommendedActions,
