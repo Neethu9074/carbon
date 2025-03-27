@@ -130,17 +130,42 @@ export default {
             }
           }
         })
+      )
+      .put(
+        'appId',
+        createField({
+          value: alertChannel && alertChannel.get('appId')
+          // No validator, this is blank on creation but on edit we need to persist the value
+        })
+      )
+      .put(
+        'teamId',
+        createField({
+          value: alertChannel && alertChannel.get('teamId')
+          // No validator, this is blank on creation but on edit we need to persist the value
+        })
+      )
+      .put(
+        'teamName',
+        createField({
+          value: alertChannel && alertChannel.get('teamName')
+          // No validator, this is blank on creation but on edit we need to persist the value
+        })
+      )
+      .put(
+        'channelId',
+        createField({
+          value: alertChannel && alertChannel.get('channelId')
+          // No validator, this is blank on creation but on edit we need to persist the value
+        })
+      )
+      .put(
+        'channelName',
+        createField({
+          value: alertChannel && alertChannel.get('channelName')
+          // No validator, this is blank on creation but on edit we need to persist the value
+        })
       );
-  },
-
-  createEntity(alertChannel, form) {
-    return {
-      id: alertChannel ? alertChannel.get('id') : generateUniqueShortId(),
-      kind: form.get('kind').value,
-      name: form.get('name').value,
-      channel: form.get('name').value,
-      emojiRendering: form.get('emojiRendering').value
-    };
   },
 
   Form
@@ -230,15 +255,19 @@ function Form({ form, onChange }) {
                 path: '',
                 channel: form.get('kind').value
               });
-              const id = form.get('id') ? form.get('id').value : generateUniqueShortId();
               const integrationBaseUrl = window.instana.config.integrationBaseUrl;
               const butlerDomain = `https://${window.instana.config.butlerDomain}`;
               const params = new URLSearchParams({
                 endpoint: butlerDomain,
                 tenant: window.instana.config.tenant,
                 unit: window.instana.config.tenantUnit,
-                id: id,
-                name: form.get('name').value
+                id: form.get('id').value,
+                name: form.get('name').value,
+                appId: form.get('appId').value,
+                teamId: form.get('teamId').value,
+                teamName: form.get('teamName').value,
+                channelId: form.get('channelId').value,
+                channelName: form.get('channelName').value
               });
               const url = `${integrationBaseUrl}/integration/slack/bidirectional/install?${params.toString()}`;
               window.open(url, '_blank');
