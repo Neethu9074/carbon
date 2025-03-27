@@ -9,13 +9,13 @@ import { MapForm, Item, Field } from 'formalistic';
 
 import { Spacer, Stack } from '@instana/components';
 
-import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/dialog/ClearTagFilterExpressionButton';
 import {
   createBoundedAlertQueryBuilder,
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 //@ts-expect-error
 import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/synthetics/hooks/useIsTagFilterFormModelValid';
+import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/dialog/ClearTagFilterExpressionButton';
 import { tagSuggestionTimeConfig } from 'in-alerting/smart-alerts/synthetics/tearsheet/AlertConfigTearSheetWithThreshold';
 import ConfigureAlertTest from 'in-alerting/smart-alerts/synthetics/tearsheet/components/ConfigureAlertTest';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';

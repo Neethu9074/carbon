@@ -63,7 +63,7 @@ export default {
   testAPI: null,
   isAlpha: false,
   isBeta: true,
-  feedbackLink: 'mailto:instanafeedback@ibm.com',
+  feedbackLink: 'https://your.feedback.ibm.com/jfe/form/SV_74ceKBDf54cWmAS',
   customSubmit: {
     noCreateAPI: true,
     submitSaveLabel: t('in-settings:tabs.doneButton'),
@@ -101,6 +101,12 @@ export default {
         createField({
           value: alertChannel ? alertChannel.get('name') : '',
           validator: notBlankValidator
+        })
+      )
+      .put(
+        'id',
+        createField({
+          value: alertChannel ? alertChannel.get('id') : generateUniqueShortId()
         })
       )
       .put(
@@ -233,7 +239,6 @@ function Form({ form, onChange }) {
             checked={field.value}
             onToggle={() => {
               onChange('emojiRendering', !field.value);
-              setDisableButton(false);
             }}
           />
         </FormGroup>
