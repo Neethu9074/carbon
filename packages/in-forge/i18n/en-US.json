@@ -17168,7 +17168,7 @@
     },
     "dynamoDB": {
       "titleTable": "Table",
-      "titleOperation": "Operation"
+      "titleOperation": "Method"
     },
     "ehcache": {
       "titleElements": "Elements",
@@ -17421,11 +17421,11 @@
       "titleSelector": "Selector"
     },
     "kafka": {
-      "titleAccessType": "Access Type",
+      "titleAccessType": "Method",
       "titleTopic": "Topic"
     },
     "kafkastreams": {
-      "titleAccessType": "Access Type",
+      "titleAccessType": "Method",
       "titleFunction": "KSTREAM Function"
     },
     "kinesis": {
@@ -17658,7 +17658,7 @@
     "redis": {
       "connection": "Connection",
       "driver": "Driver",
-      "command": "Command",
+      "command": "Method",
       "commandsInTransaction": "Commands in Transaction",
       "key": "Key"
     },
