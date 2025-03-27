@@ -33,7 +33,9 @@ function LoggingDashboardWrapper({ children, withPadding = false }: Props) {
       permissionLabel={t('in-stores:permissionCanViewLogsLabel')}
     >
       <Sticky header={<LoggingDashboardHeader />}>
-        <section className={classNames(withPadding && locals.content)}>{children}</section>
+        <section aria-label="Content" className={classNames(withPadding && locals.content)}>
+          {children}
+        </section>
       </Sticky>
     </LoggingPermissionWrapper>
   );
@@ -50,9 +52,10 @@ const LoggingDashboardHeader = () => {
         label={t('in-components:mainNavigation.viewSwitcherLabelLogs')}
         title={t('in-components:mainNavigation.viewSwitcherLabelLogs')}
         renderButtonLine={ButtonLine}
+        ariaLabel={'Page Header'}
       />
       <DashboardHeaderModule>
-        <SecondLevelNavigation>
+        <SecondLevelNavigation aria-label={'Page tabs'}>
           {loggingNavigationItems.map(
             ({ path, label, currentTab, isTabAllowed = true }) =>
               isTabAllowed && (
