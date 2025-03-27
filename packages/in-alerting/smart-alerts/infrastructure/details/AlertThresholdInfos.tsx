@@ -17,10 +17,10 @@ import { Stack } from '@instana/components';
 
 import { AlertThresholdInfosPresenter } from 'in-alerting/smart-alerts/components/details/AlertThresholdInfosPresenter';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
-import { getFormatter, getMetricFormat } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
-import { formatMetricValue } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
+import { getMetricFormatter } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { NumberFormatter } from 'in-services/formatters/number';
+import { getMetricDefinition } from 'in-sdk/metrics';
 import { t } from 'in-i18n';
 
 interface Props {
@@ -52,7 +52,8 @@ export function ThresholdInfo({ thresholdOperator, thresholdsMap, rule }: Thresh
   const criticalThreshold = (thresholdsMap['CRITICAL'] as StaticThresholdRule)?.value;
   const humanReadableOperator = humanReadableThresholdOperator(thresholdOperator);
   const { metricName, entityType } = rule;
-  const formatter = getFormatter(entityType, metricName);
+  const metricDefinition = getMetricDefinition(entityType, metricName);
+  const formatter = metricDefinition.formatter;
   const warningThresholdLabel = t('in-alerting:smartAlerts.details.warningThresholdLabel');
   const criticalThresholdLabel = t('in-alerting:smartAlerts.details.criticalThresholdLabel');
 
@@ -60,22 +61,12 @@ export function ThresholdInfo({ thresholdOperator, thresholdsMap, rule }: Thresh
     <Stack gap="xxsmall">
       {!isEmpty(warningThreshold) && (
         <div>
-          {getFormattedThresholdValue(
-            warningThresholdLabel,
-            humanReadableOperator,
-            getMetricFormat(formatter, warningThreshold),
-            warningThreshold!
-          )}
+          {getFormattedThresholdValue(warningThresholdLabel, humanReadableOperator, formatter, warningThreshold!)}
         </div>
       )}
       {!isEmpty(criticalThreshold) && (
         <div>
-          {getFormattedThresholdValue(
-            criticalThresholdLabel,
-            humanReadableOperator,
-            getMetricFormat(formatter, criticalThreshold),
-            criticalThreshold!
-          )}
+          {getFormattedThresholdValue(criticalThresholdLabel, humanReadableOperator, formatter, criticalThreshold!)}
         </div>
       )}
     </Stack>
@@ -85,9 +76,9 @@ export function ThresholdInfo({ thresholdOperator, thresholdsMap, rule }: Thresh
 function getFormattedThresholdValue(
   thresholdLabel: string,
   humanReadableOperator: string,
-  metricFormat: NumberFormatter,
+  formatter: NumberFormatter,
   threshold: number
 ) {
-  const formattedValue = formatMetricValue(metricFormat, threshold);
+  const formattedValue = getMetricFormatter(threshold, formatter, 'compact');
   return `${thresholdLabel}: ${humanReadableOperator} ${formattedValue}`;
 }

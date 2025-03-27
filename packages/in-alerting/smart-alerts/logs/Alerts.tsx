@@ -87,8 +87,13 @@ export function getSubtitle(threshold: ThresholdConfigUnion & { value?: number }
   const subtitleElements = [t('in-alerting:smartAlerts.logs.list.columns.name.subtitle.staticThresholdType')];
 
   if (type === STATIC_THRESHOLD) {
-    const formattedValue = value ? number.forcedCompact.detailed(value) : '';
+    const formattedValue = value
+      ? value !== Math.floor(value)
+        ? number.forcedDetailed.detailed(value)
+        : number.forcedCompact.detailed(value)
+      : 0;
     const humanReadableOperator = humanReadableThresholdOperator(operator);
+
     subtitleElements.push(
       t('in-alerting:smartAlerts.logs.list.columns.name.subtitle.metricThresholdValue', {
         metricName: t('in-events:logSmartAlerts.logs'),
