@@ -14,7 +14,6 @@ import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigati
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
-//@ts-expect-error not migrated to typescript yet
 import { findFirstPermittedSecurityAndAccessPage } from 'in-settings/tabs/permissions';
 import { getNavigationTreeForAuthentication } from 'in-settings/tabs/SecurityAndAccess/navigation/authSettings';
 //@ts-expect-error not migrated to typescript yet

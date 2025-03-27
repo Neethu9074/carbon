@@ -39,7 +39,11 @@ export interface Role {
   canConfigureApplicationSmartAlerts: boolean;
   canConfigureWebsiteSmartAlerts: boolean;
   canConfigureMobileAppSmartAlerts: boolean;
+  canConfigureGlobalAlertPayload: boolean;
+  canConfigureDatabaseManagement: boolean;
   canConfigureAutomationActions: boolean;
+  canConfigureAuthenticationMethods: boolean;
+  canConfigureSessionSettings: boolean;
   canRunAutomationActions: boolean;
   canConfigureAutomationPolicies: boolean;
   canViewLogs: boolean;

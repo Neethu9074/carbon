@@ -25,7 +25,9 @@ import { productOwnerPermissions } from 'in-stores/permission';
 import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
-export function roleHasAnyGlobalPermissions() {
+export function roleHasAnyGlobalPermissions(): boolean {
+  if (!role) return false;
+
   return (
     role.canConfigureEventsAndAlerts ||
     role.canConfigureIntegrations ||
@@ -39,7 +41,9 @@ export function roleHasAnyGlobalPermissions() {
   );
 }
 
-export function roleHasAnySecurityAccessPermissions() {
+export function roleHasAnySecurityAccessPermissions(): boolean {
+  if (!role) return false;
+
   return (
     role.canConfigureUsers ||
     role.canConfigureTeams ||
@@ -50,41 +54,47 @@ export function roleHasAnySecurityAccessPermissions() {
   );
 }
 
-export function findFirstPermittedGlobalPage() {
-  if (role.canConfigureEventsAndAlerts) {
+export function findFirstPermittedGlobalPage(): string | undefined {
+  if (role?.canConfigureEventsAndAlerts) {
     return globalSettingsAlertingEvents;
   }
-  if (role.canConfigureIntegrations) {
+  if (role?.canConfigureIntegrations) {
     return globalSettingsAlertingAlertChannels;
   }
-  if (role.canConfigureMaintenanceWindows) {
+  if (role?.canConfigureMaintenanceWindows) {
     return globalSettingsAlertingMaintenanceConfigurations;
   }
-  if (role.canConfigureGlobalAlertPayload) {
+  if (role?.canConfigureGlobalAlertPayload) {
     return globalSettingsAlertingCustomPayloadConfiguration;
   }
-  if (role.canConfigureLogManagement) {
+  if (role?.canConfigureLogManagement) {
     return globalSettingsIntegrationsLoggingFalconLogScale;
   }
-  if (role.canConfigureDatabaseManagement) {
+  if (role?.canConfigureDatabaseManagement) {
     return globalSettingsIntegrationsDatabase;
   }
+
+  return undefined;
 }
 
-export function findFirstPermittedSecurityAndAccessPage(isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable) {
-  if (role.canConfigureUsers) {
+export function findFirstPermittedSecurityAndAccessPage(
+  isGoogleSSOAvailable: boolean,
+  isSamlAvailable: boolean,
+  isLdapAvailable: boolean
+): string | undefined {
+  if (role?.canConfigureUsers) {
     return securityAndAccessAccessControlUsers;
   }
-  if (role.canConfigureTeams) {
+  if (role?.canConfigureTeams) {
     return securityAndAccessAccessControlGroups;
   }
-  if (role.canConfigureApiTokens) {
+  if (role?.canConfigureApiTokens) {
     return securityAndAccessAccessControlApiTokens;
   }
-  if (role.canViewAuditLog) {
+  if (role?.canViewAuditLog) {
     return securityAndAccessActionLog;
   }
-  if (role.canConfigureAuthenticationMethods) {
+  if (role?.canConfigureAuthenticationMethods) {
     if (idpConfigV2Enabled && (isGoogleSSOAvailable || isSamlAvailable || isLdapAvailable)) {
       return securityAndAccessIdentityProviders;
     } else {
@@ -101,14 +111,16 @@ export function findFirstPermittedSecurityAndAccessPage(isGoogleSSOAvailable, is
       }
     }
   }
-  if (role.canConfigureTeams) {
+  if (role?.canConfigureTeams) {
     return securityAndAccessGroupMapping;
   }
-  if (role.canConfigureSessionSettings) {
+  if (role?.canConfigureSessionSettings) {
     return securityAndAccessTimeouts;
   }
+
+  return undefined;
 }
 
-export function hasOwnerPermission() {
+export function hasOwnerPermission(): boolean {
   return productOwnerPermissions && productOwnerPermissions.length > 0;
 }
