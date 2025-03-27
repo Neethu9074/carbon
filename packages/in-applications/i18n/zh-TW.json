@@ -303,6 +303,11 @@
     "dataSource_traces": "{{formattedCount}} 個追蹤",
     "dataSource_traces_plural": "{{formattedCount}} 個追蹤",
     "analyzeCallsOfThisTrace": "分析此追蹤的呼叫",
+    "storeTrace": {
+      "label": "儲存追蹤",
+      "traceNotSavedTooltip": "將此追蹤長期儲存 13 個月。 15 秒後自動儲存。",
+      "traceSavedTooltip": "此追蹤已儲存，並將儲存 13 個月。"
+    },
     "noAvailableCustomMetrics": "沒有可用的自訂度量",
     "filters": "過濾器",
     "saveFiltersTitle": "儲存過濾器",

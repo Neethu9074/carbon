@@ -10962,7 +10962,12 @@
         "servicename": "Nome do serviço",
         "displayname": "Nome de exibição",
         "state": "State",
-        "health": "Funcionamento"
+        "health": "Funcionamento",
+        "disk": "Disco",
+        "readAwaitTime": "Tempo de leitura",
+        "writeAwaitTime": "Tempo de gravação",
+        "avgDiscardRequestsTime": "Tempo de solicitações de descarte",
+        "avgFlushRequestsTime": "Tempo de solicitações de liberação"
       },
       "os": "S.O.",
       "distribution": "Distribuição",
@@ -12251,6 +12256,10 @@
       "maxQueueDepth": "Profundidade máxima da fila",
       "currentQueueDepth": "Profundidade atual da fila",
       "queueFullPercentage": "Porcentagem de profundidade da fila",
+      "queueType": "Tipo de fila",
+      "queueUsage": "Uso da fila",
+      "triggerType": "Tipo de acionador",
+      "triggerControl": "Controle de acionador",
       "lastGetDateTime": "Último horário de GET",
       "lastPutDateTime": "Último horário de PULL",
       "depth": "Profundidade",
@@ -12264,6 +12273,7 @@
       "openOutputCount": "Abrir contagem de saída",
       "calls": "Chamadas",
       "statistics": "Estatísticas da fila MQ",
+      "attributes": "Atributos",
       "statisticsRecord": "Index",
       "nonPersistentPutBytes": "Bytes Put não persistentes",
       "persistentPutBytes": "Bytes Put persistentes",
@@ -12438,7 +12448,9 @@
       "connections": "Conexões",
       "messagesIn": "Mensagens de entrada",
       "messagesOut": "Saída de mensagens",
-      "uncommittedMessages": "Mensagens não confirmadas"
+      "uncommittedMessages": "Mensagens não confirmadas",
+      "clusterStatus": "Status do cluster",
+      "clusterSuspendIndicator": "Indicador de suspensão de cluster"
     },
     "ibmMqQueueUsage": {
       "dashboard": {

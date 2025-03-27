@@ -106,6 +106,9 @@
   "ansibleUrl": "Ansible URL",
   "playbookFileName": "Dateiname des Spielbuchs",
   "playbookId": "Playbook-ID",
+  "triggeringEvent": "Triggerereignis",
+  "probableRootCause": "Wahrscheinliche Fehlerursache",
+  "contextFor": "Kontext für:",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Aktionskonfiguration",
     "actionDetails": "Aktionsdetails",
@@ -115,7 +118,6 @@
     "Step3Headline": "Optional können Sie zusammen mit der Aktion auch eine Automatisierungsrichtlinie erstellen. Sie können diesen Schritt auch zu einem späteren Zeitpunkt durchführen.",
     "step1Title": "Schritt 1: Erzeugen oder Auswählen einer Aktion",
     "step1TitleGenerateAction": "Schritt 1: Erzeugen einer Aktion",
-    "step1TitleSelectAction": "Schritt 1: Wählen Sie eine Aktion",
     "step2Title": "Schritt 2: Aktion konfigurieren",
     "step3Title": "Schritt 3: Richtlinie erstellen (optional)",
     "policyDetails": "Richtliniendetails",
@@ -480,9 +482,7 @@
   "deleteDialog": {
     "confirmRemove": "Entfernen bestätigen",
     "confirmRemoveMsg": "Möchten Sie <strong>{{name}}</strong> wirklich löschen?",
-    "delete": "Löschen",
-    "pleaseConfirm": "Bitte bestätigen",
-    "pleaseConfirmMsg": "Möchten Sie <strong>{{name}}</strong> wirklich löschen?"
+    "delete": "Löschen"
   },
   "turboActionCategories": {
     "compliance": "Compliance",
@@ -529,7 +529,7 @@
     "lastModified": "Letzte Änderung",
     "history": "Verlauf",
     "summaryTab": {
-      "seconds": "Sekunden"
+      "millisecond": "Millisekunden"
     },
     "associatedPolicies": "Zugehörige Richtlinien"
   },

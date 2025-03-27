@@ -303,6 +303,11 @@
     "dataSource_traces": "{{formattedCount}} di tracce",
     "dataSource_traces_plural": "{{formattedCount}} di tracce",
     "analyzeCallsOfThisTrace": "Analizza chiamate di questa traccia",
+    "storeTrace": {
+      "label": "Conservare la traccia",
+      "traceNotSavedTooltip": "Conservare questa traccia a lungo termine per 13 mesi. Salvataggio automatico dopo 15 secondi.",
+      "traceSavedTooltip": "Questa traccia è stata salvata e sarà conservata per 13 mesi."
+    },
     "noAvailableCustomMetrics": "Nessuna metrica personalizzata disponibile",
     "filters": "Filtri",
     "saveFiltersTitle": "Salva filtri",

@@ -68,6 +68,7 @@
     "placeholderSelect": "Seleccionar..."
   },
   "downloadBtn": {
+    "downloadAriaLabel": "Descargar",
     "downloadViewDownloadAsJsonLabel": "Descargar como JSON",
     "downloadViewDownloadCSVLabel": "Descargar (*.csv)",
     "downloadViewDownloadJsonLabel": "Descargar (*.json)",
@@ -105,7 +106,7 @@
     "formStateLabel": "Estado"
   },
   "searchBar": {
-    "usingTheSearchBar": "Se puede utilizar la función de búsqueda de foco dinámico de Instana para filtrar los mapas en 3D, las tablas de comparación y las vistas de incidencias. La barra de búsqueda tiene amplias prestaciones para buscar utilizando búsquedas similares y con caracteres comodín, así como operadores booleanos. Por ejemplo, la consulta\n siguiente restringe las vistas a los hosts de producción con menos de cuatro CPU:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\n Dynamic Focus aprovecha la [sintaxis de consultas de Lucene] (https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) con las siguientes diferencias con respecto al estándar Lucene:\n-**Operador predeterminado:** `AND`\n-**Restricciones de sintaxis:** se listan en la [documentación] (https://ibm.biz/dynamic-focus-syntax-constraints)\n## Interacción de barra de búsqueda.\n La barra de búsqueda soporta el rellenado automático de campos de búsqueda y resaltará la sintaxis de la consulta Lucene mientras se escribe.\nUna vez se ha escrito, la barra de búsqueda propondrá campos de búsqueda que coincidan con la entrada actual. Para aceptar los campos propuestos, pulse `RETORNO`. Pulse `CTRL + ESPACIO` para abrir la ventana emergente de cumplimentación automática.\n## Hoja de apuntes de sintaxis de consulta Lucene\n -**Búsqueda con campo:** `entity.host.cpu.count:>4`\n -**Operadores booleanos:** `entity.host.cpu.count:<4 AND entity.zone:production`\n -**Agrupamiento:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n -**Búsquedas con comodín:** `entity.type:container*`\n\nConsulte la [documentación](https://ibm.biz/filtering-dynamic-focus) para obtener más información.",
+    "usingTheSearchBar": "Se puede utilizar la función de búsqueda de foco dinámico de Instana para filtrar los mapas en 3D, las tablas de comparación y las vistas de incidencias. La barra de búsqueda tiene amplias prestaciones para buscar utilizando búsquedas similares y con caracteres comodín, así como operadores booleanos. Por ejemplo, la consulta\n siguiente restringe las vistas a los hosts de producción con menos de cuatro CPU:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\n Dynamic Focus aprovecha la [sintaxis de consultas de Lucene] (https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) con las siguientes diferencias con respecto al estándar Lucene:\n-**Operador predeterminado:** `AND`\n-**Restricciones de sintaxis:** se listan en la [documentación] (https://ibm.biz/dynamic-focus-syntax-constraints) \n## Interacción de barra de búsqueda.\n La barra de búsqueda soporta el rellenado automático de campos de búsqueda y resaltará la sintaxis de la consulta Lucene mientras se escribe.\nUna vez se ha escrito, la barra de búsqueda propondrá campos de búsqueda que coincidan con la entrada actual. Para aceptar los campos propuestos, pulse `RETORNO`. Pulse `CTRL + ESPACIO' para abrir la ventana emergente de cumplimentación automática.## Hoja de apuntes de sintaxis de consulta Lucene\n -**Búsqueda con campo:** `entity.host.cpu.count:>4`\n -**Operadores booleanos:** `entity.host.cpu.count:<4 AND entity.zone:production`\n -**Agrupamiento:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n -** Búsquedas con comodín:** `entity.type:container*`\n\nConsulte la [documentación] (https://ibm.biz/filtering-dynamic-focus) para obtener más información.",
     "filtersBtn": "Filtros",
     "filterPresetsMenuHeading": "Filtros",
     "filterPresetsSaveFilters": "Guarde los filtros para acceder fácilmente aquí",
@@ -468,12 +469,8 @@
     "profileMenu_profileLink": "Perfil",
     "profileMenu_tooltip": "Menú Perfil",
     "profileMenu_unitName_tenantName": "Nombre de la unidad - Nombre del arrendatario",
-    "profileMenu_instanceName": "Nombre de instancia",
-    "profileMenu_region": "Región",
-    "profileMenu_instanceOwner": "Propietario de instancia",
     "profileMenu_switchUnitOrTenant": "Cambiar de unidad o de arrendatario",
     "profileMenu_privacy": "Privacidad",
-    "profileMenu_saasConsole": "Consola de IBM SaaS",
     "profileMenu_logOut": "Cerrar sesión"
   },
   "metricConfigurator": {
@@ -580,7 +577,8 @@
     "title": "Tiempo de espera de sesión",
     "message": "Debido a la inactividad, se le cerrará la sesión:",
     "loggedInButton": "Continuar conectado",
-    "logOutButton": "Cerrar sesión"
+    "logOutButton": "Cerrar sesión",
+    "failedToUpdateSession": "No se ha podido actualizar la sesión inactiva"
   },
   "time": {
     "lastMinute": "Último minuto",
@@ -599,6 +597,8 @@
     "previousWeek": "Semana anterior",
     "dashboardHeaderButtonLive": "Activo",
     "customTimeTitleTimeRange": "Intervalo de tiempo",
+    "customTimeTimeRangeLowerValue": "Valor inferior de rango de tiempo",
+    "customTimeTimeRangeUpperValue": "Valor superior de rango de tiempo",
     "to": "hasta",
     "customTimeButtonSetTime": "Establecer tiempo",
     "customTimeLabelYesterday": "Ayer",
@@ -637,7 +637,11 @@
     "timeFrameFormatterMinutes_plural": "Últimos {{count}} minutos",
     "timeFrameFormatterMinutes_0": "Últimos {{count}} minutos",
     "timeFrameFormatterMinutes_1": "Últimos {{count}} minutos",
-    "timeFrameFormatterMinutes_2": "Últimos {{count}} minutos"
+    "timeFrameFormatterMinutes_2": "Últimos {{count}} minutos",
+    "startDate": "Fecha de inicio",
+    "startTime": "Hora de inicio",
+    "endDate": "Fecha de finalización",
+    "endTime": "Hora de finalización"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Cambiar salto en el tiempo seleccionado",

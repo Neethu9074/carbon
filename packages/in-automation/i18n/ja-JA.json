@@ -106,6 +106,9 @@
   "ansibleUrl": "Ansible url",
   "playbookFileName": "プレイブック・ファイル名",
   "playbookId": "プレイブック ID",
+  "triggeringEvent": "トリガー・イベント",
+  "probableRootCause": "推定根本原因",
+  "contextFor": "コンテキスト:",
   "GenerateAIActionDialog": {
     "actionConfiguration": "アクション構成",
     "actionDetails": "アクションの詳細",
@@ -115,7 +118,6 @@
     "Step3Headline": "オプションで、アクションと一緒に自動化ポリシーを作成することができます。 このステップは後で完了することもできます。",
     "step1Title": "ステップ 1: アクションの生成または選択",
     "step1TitleGenerateAction": "ステップ 1: アクションの生成",
-    "step1TitleSelectAction": "ステップ 1：アクションの選択",
     "step2Title": "ステップ 2: アクションの設定",
     "step3Title": "ステップ 3: ポリシーの作成 (オプション)",
     "policyDetails": "ポリシーの詳細",
@@ -480,9 +482,7 @@
   "deleteDialog": {
     "confirmRemove": "削除の確認",
     "confirmRemoveMsg": "<strong>{{name}}</strong> を削除してよろしいですか?",
-    "delete": "削除",
-    "pleaseConfirm": "ご確認ください",
-    "pleaseConfirmMsg": "<strong>{{name}}</strong> を削除してよろしいですか?"
+    "delete": "削除"
   },
   "turboActionCategories": {
     "compliance": "コンプライアンス",
@@ -529,7 +529,7 @@
     "lastModified": "最終変更日時",
     "history": "履歴",
     "summaryTab": {
-      "seconds": "秒"
+      "millisecond": "ミリ秒"
     },
     "associatedPolicies": "関連ポリシー"
   },
@@ -538,7 +538,7 @@
     "thankYouForYourFeedback": "フィードバックをありがとうございました。",
     "submitFeedback": "フィードバックの送信",
     "additionalFeedbacklabel": "ご意見がございましたら、お聞かせください(任意)",
-    "additionalFeedbackPlaceholder": "この応答について、どのような点が気に入らなかったのでしょうか？ 改善できる点"
+    "additionalFeedbackPlaceholder": "この応答について、どのような点が気に入らなかったのでしょうか？ どのような改善が可能ですか?"
   },
   "consentForm": {
     "consentButton": "同意書を確認する",

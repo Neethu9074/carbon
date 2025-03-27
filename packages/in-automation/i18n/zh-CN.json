@@ -106,6 +106,9 @@
   "ansibleUrl": "Ansible url",
   "playbookFileName": "运行手册文件名",
   "playbookId": "运行手册标识",
+  "triggeringEvent": "正在触发的事件",
+  "probableRootCause": "可能的根本原因",
+  "contextFor": "相关上下文：",
   "GenerateAIActionDialog": {
     "actionConfiguration": "操作配置",
     "actionDetails": "操作详细信息",
@@ -115,7 +118,6 @@
     "Step3Headline": "（可选）您可以在创建操作的同时创建自动化策略。 您也可以稍后再完成此步骤。",
     "step1Title": "步骤 1：生成或选择操作",
     "step1TitleGenerateAction": "步骤 1：生成操作",
-    "step1TitleSelectAction": "步骤 1：选择操作",
     "step2Title": "步骤 2：配置操作",
     "step3Title": "步骤 3：创建策略（可选）",
     "policyDetails": "策略详细信息",
@@ -480,9 +482,7 @@
   "deleteDialog": {
     "confirmRemove": "确认移除",
     "confirmRemoveMsg": "确定要删除 <strong>{{name}}</strong> 吗？",
-    "delete": "删除",
-    "pleaseConfirm": "请确认",
-    "pleaseConfirmMsg": "确定要删除 <strong>{{name}}</strong> 吗？"
+    "delete": "删除"
   },
   "turboActionCategories": {
     "compliance": "合规性",
@@ -529,7 +529,7 @@
     "lastModified": "上次修改时间",
     "history": "历史记录",
     "summaryTab": {
-      "seconds": "秒"
+      "millisecond": "ms"
     },
     "associatedPolicies": "已关联的策略"
   },
@@ -538,7 +538,7 @@
     "thankYouForYourFeedback": "谢谢您的反馈！",
     "submitFeedback": "提交反馈",
     "additionalFeedbacklabel": "提供额外反馈（可选）",
-    "additionalFeedbackPlaceholder": "您对回复不满意的地方是什么？ 哪些方面可以改进"
+    "additionalFeedbackPlaceholder": "您对回复不满意的地方是什么？ 哪些方面可以改进？"
   },
   "consentForm": {
     "consentButton": "查看许可表单",

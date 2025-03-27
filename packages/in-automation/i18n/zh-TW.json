@@ -106,6 +106,9 @@
   "ansibleUrl": "Ansible url",
   "playbookFileName": "Playbook 檔名",
   "playbookId": "Playbook ID",
+  "triggeringEvent": "觸發事件",
+  "probableRootCause": "可能的主要原因",
+  "contextFor": "環境定義為：",
   "GenerateAIActionDialog": {
     "actionConfiguration": "動作配置",
     "actionDetails": "動作詳細資料",
@@ -115,7 +118,6 @@
     "Step3Headline": "您可以選擇在動作中建立自動化原則。 也可以稍後再完成此步驟。",
     "step1Title": "步驟 1：產生或選取動作",
     "step1TitleGenerateAction": "步驟 1：產生動作",
-    "step1TitleSelectAction": "步驟 1：選取一個動作",
     "step2Title": "步驟 2：配置動作",
     "step3Title": "步驟 3：建立原則（選用）",
     "policyDetails": "原則詳細資料",
@@ -480,9 +482,7 @@
   "deleteDialog": {
     "confirmRemove": "確認移除",
     "confirmRemoveMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？",
-    "delete": "刪除",
-    "pleaseConfirm": "請確認",
-    "pleaseConfirmMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？"
+    "delete": "刪除"
   },
   "turboActionCategories": {
     "compliance": "合規性",
@@ -529,7 +529,7 @@
     "lastModified": "前次修改時間",
     "history": "歷程",
     "summaryTab": {
-      "seconds": "秒"
+      "millisecond": "毫秒"
     },
     "associatedPolicies": "相關聯的原則"
   },
@@ -538,7 +538,7 @@
     "thankYouForYourFeedback": "謝謝您的意見！",
     "submitFeedback": "提交意見回饋",
     "additionalFeedbacklabel": "提供其他意見（選用）",
-    "additionalFeedbackPlaceholder": "您不喜歡回應的哪一點？ 可以改進的地方"
+    "additionalFeedbackPlaceholder": "您不喜歡回應的哪一點？ 有哪些地方可以改進？"
   },
   "consentForm": {
     "consentButton": "審核同意表單",

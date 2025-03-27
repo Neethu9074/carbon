@@ -624,7 +624,11 @@
       "failures": "障害",
       "status": "状況",
       "success": "成功",
-      "daysRemaining": "残り日数"
+      "daysRemaining": "残り日数",
+      "dns": {
+        "failureType": "障害タイプ",
+        "na": "該当なし"
+      }
     },
     "detailsPage": {
       "detailLiveModeDisabled": "ライブ・モードは、合成テスト結果の詳細ページには適用されません",

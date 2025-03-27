@@ -624,7 +624,11 @@
       "failures": "失敗",
       "status": "狀態",
       "success": "成功",
-      "daysRemaining": "剩餘天數"
+      "daysRemaining": "剩餘天數",
+      "dns": {
+        "failureType": "失敗類型",
+        "na": "N/A"
+      }
     },
     "detailsPage": {
       "detailLiveModeDisabled": "即時模式不適用於綜合測試結果詳細資料頁面",

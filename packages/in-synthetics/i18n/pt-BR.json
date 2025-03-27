@@ -624,7 +624,11 @@
       "failures": "Falhas",
       "status": "Status",
       "success": "Sucesso",
-      "daysRemaining": "Dias restantes"
+      "daysRemaining": "Dias restantes",
+      "dns": {
+        "failureType": "Tipo de falha",
+        "na": "N/D"
+      }
     },
     "detailsPage": {
       "detailLiveModeDisabled": "O modo em tempo real não é aplicável na página de detalhes do resultado do teste sintético",

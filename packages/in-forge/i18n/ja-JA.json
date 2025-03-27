@@ -10962,7 +10962,12 @@
         "servicename": "サービス名",
         "displayname": "表示名",
         "state": "状態",
-        "health": "正常性"
+        "health": "正常性",
+        "disk": "ディスク",
+        "readAwaitTime": "読み取り時間",
+        "writeAwaitTime": "書き込み時間",
+        "avgDiscardRequestsTime": "廃棄リクエスト時間",
+        "avgFlushRequestsTime": "フラッシュ・リクエスト時間"
       },
       "os": "OS",
       "distribution": "分布",
@@ -12251,6 +12256,10 @@
       "maxQueueDepth": "最大キュー項目数",
       "currentQueueDepth": "現在のキュー項目数",
       "queueFullPercentage": "キュー項目数のパーセンテージ",
+      "queueType": "キュー・タイプ",
+      "queueUsage": "キューの用途",
+      "triggerType": "トリガー・タイプ",
+      "triggerControl": "トリガーのコントロール",
       "lastGetDateTime": "最終の取得時刻",
       "lastPutDateTime": "最終の書き込み時刻",
       "depth": "項目数",
@@ -12264,6 +12273,7 @@
       "openOutputCount": "オープン出力数",
       "calls": "呼び出し",
       "statistics": "MQ キュー統計",
+      "attributes": "属性",
       "statisticsRecord": "索引",
       "nonPersistentPutBytes": "非永続 Put バイト数",
       "persistentPutBytes": "永続 Put バイト数",
@@ -12438,7 +12448,9 @@
       "connections": "接続数",
       "messagesIn": "着信メッセージ数",
       "messagesOut": "発信メッセージ数",
-      "uncommittedMessages": "未コミットのメッセージ数"
+      "uncommittedMessages": "未コミットのメッセージ数",
+      "clusterStatus": "クラスター状況",
+      "clusterSuspendIndicator": "クラスター・サスペンド・インジケーター"
     },
     "ibmMqQueueUsage": {
       "dashboard": {

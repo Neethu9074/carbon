@@ -43,6 +43,9 @@
     "dropDown": {
       "selectOption": "オプションの選択"
     },
+    "infoicon": {
+      "information": "情報"
+    },
     "tabsNavigation": {
       "pageNavigation": "ページ・ナビゲーション"
     },

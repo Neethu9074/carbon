@@ -68,6 +68,7 @@
     "placeholderSelect": "Sélectionner..."
   },
   "downloadBtn": {
+    "downloadAriaLabel": "Télécharger",
     "downloadViewDownloadAsJsonLabel": "Télécharger en tant que JSON",
     "downloadViewDownloadCSVLabel": "Télécharger (*.csv)",
     "downloadViewDownloadJsonLabel": "Télécharger (*.json)",
@@ -105,7 +106,7 @@
     "formStateLabel": "État"
   },
   "searchBar": {
-    "usingTheSearchBar": "La fonctionnalité de recherche Instana Dynamic Focus peut être utilisée pour filtrer les mappes 3D, les tables de comparaison et les vues d'incident. La barre de recherche offre des possibilités étendues de recherche à l'aide de recherches approximatives, de caractères génériques et d'opérateurs booléens. Par exemple, la requête suivante\nlimite les vues aux hôtes de production dotés de moins de quatre unités centrales :\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntaxe\nDynamic Focus utilise la [syntaxe de requête lucene](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) avec les différences suivantes par rapport à la norme Lucene :\n- **L'opérateur par défaut :** `ET`\n- **les contraintes de syntaxe :**  sont répertoriés dans la [documentation](https://ibm.biz/dynamic-focus-syntax-constraints)\n## Interaction avec la barre de recherche\nLa barre de recherche prend en charge la saisie semi-automatique dans les zones de recherche et met en évidence la syntaxe de la requête lucene lors de la saisie.\nUne fois la saisie effectuée, la barre de recherche propose des zones de recherche correspondant à la saisie actuelle. Vous pouvez accepter les zones proposées en appuyant sur `RETOUR`'. Appuyez sur `CTRL + BARRE D'ESPACEMENT` pour ouvrir la fenêtre de saisie semi-automatique.\n## Fiche technique de la syntaxe de requête Lucene\n - **Recherche par zone :** `entity.host.cpu.count:>4`\n - **Opérateurs booléens :** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Regroupement :** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Recherches avec des caractères génériques :** `entity.type:container*`\n\nPour plus d'informations, voir la [documentation](https://ibm.biz/filtering-dynamic-focus).",
+    "usingTheSearchBar": "La fonctionnalité de recherche Instana Dynamic Focus peut être utilisée pour filtrer les mappes 3D, les tables de comparaison et les vues d'incident. La barre de recherche offre des possibilités étendues de recherche à l'aide de recherches approximatives, de caractères génériques et d'opérateurs booléens. Par exemple, la requête suivante\nlimite les vues aux hôtes de production dotés de moins de quatre unités centrales :\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntaxe\nDynamic Focus utilise la [syntaxe de requête lucene] (https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) avec les différences suivantes par rapport à la norme Lucene :\n- **L'opérateur par défaut :** `ET`\n- **les contraintes de syntaxe :**  sont répertoriés dans la [documentation] (https://ibm.biz/dynamic-focus-syntax-constraints)\n## Interaction avec la barre de recherche\nLa barre de recherche prend en charge la saisie semi-automatique dans les zones de recherche et met en évidence la syntaxe de la requête lucene lors de la saisie.\nUne fois la saisie effectuée, la barre de recherche propose des zones de recherche correspondant à la saisie actuelle. Vous pouvez accepter les zones proposées en appuyant sur 'RETOUR'. Appuyez sur 'CTRL + BARRE D'ESPACEMENT' pour ouvrir la fenêtre de saisie semi-automatique.## Fiche technique de la syntaxe de requête Lucene\n - **Recherche par zone :** `entity.host.cpu.count:>4`\n - **Opérateurs booléens :** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Regroupement :** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Recherches avec des caractères génériques :** `entity.type:container*`\n\nPour plus d'informations, voir la [documentation] (https://ibm.biz/filtering-dynamic-focus).",
     "filtersBtn": "Filtres",
     "filterPresetsMenuHeading": "Filtres",
     "filterPresetsSaveFilters": "Sauvegarder les filtres pour un accès facile ici",
@@ -468,12 +469,8 @@
     "profileMenu_profileLink": "Profil",
     "profileMenu_tooltip": "Menu Profil",
     "profileMenu_unitName_tenantName": "Nom de l'unité - Nom du locataire",
-    "profileMenu_instanceName": "Nom d'instance",
-    "profileMenu_region": "Région",
-    "profileMenu_instanceOwner": "Propriétaire d'instance",
     "profileMenu_switchUnitOrTenant": "Changement d'unité ou de locataire",
     "profileMenu_privacy": "Confidentialité",
-    "profileMenu_saasConsole": "Console IBM SaaS",
     "profileMenu_logOut": "Déconnexion"
   },
   "metricConfigurator": {
@@ -580,7 +577,8 @@
     "title": "Dépassement du délai d'attente de session",
     "message": "Suite à votre inactivité, vous allez être déconnecté dans :",
     "loggedInButton": "Rester connecté",
-    "logOutButton": "Déconnexion"
+    "logOutButton": "Déconnexion",
+    "failedToUpdateSession": "Échec de la mise à jour de la session inactive"
   },
   "time": {
     "lastMinute": "Dernière minute",
@@ -599,6 +597,8 @@
     "previousWeek": "Semaine précédente",
     "dashboardHeaderButtonLive": "Actif",
     "customTimeTitleTimeRange": "Intervalle",
+    "customTimeTimeRangeLowerValue": "Valeur inférieure de la plage de temps",
+    "customTimeTimeRangeUpperValue": "Valeur supérieure de la plage de temps",
     "to": "au",
     "customTimeButtonSetTime": "Définir l'heure",
     "customTimeLabelYesterday": "Hier",
@@ -637,7 +637,11 @@
     "timeFrameFormatterMinutes_plural": "{{count}} dernières minutes",
     "timeFrameFormatterMinutes_0": "{{count}} dernières minutes",
     "timeFrameFormatterMinutes_1": "{{count}} dernières minutes",
-    "timeFrameFormatterMinutes_2": "{{count}} dernières minutes"
+    "timeFrameFormatterMinutes_2": "{{count}} dernières minutes",
+    "startDate": "Date de début",
+    "startTime": "Heure de début",
+    "endDate": "Date de fin",
+    "endTime": "Heure de fin"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Modifier la rétrospective sélectionnée",

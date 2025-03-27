@@ -32,7 +32,7 @@
         "editPermissions": "Berechtigungen bearbeiten",
         "shareMsg": "Dieses angepasste Dashboard verfügt über erweiterte Zugriffsregeln, die nicht durch dieses Dialogfenster dargestellt werden können. Zum Bearbeiten dieser Zugriffsregeln können Sie die Funktion \"Als JSON bearbeiten\" verwenden.",
         "privateDashboardDefault": "Privates Dashboard (Standardeinstellung)",
-        "privateDashboardDefaultExplain": "Dieses Dashboard ist nur für Sie sichtbar.",
+        "privateDashboardDefaultExplain": "Dieses Dashboard ist nur für Sie sichtbar. Hinweis: Dies kann nur vom Eigentümer des Dashboards geändert werden.",
         "publicDashboard": "Öffentliches Dashboard",
         "publicDashboardExplain": "Dieses Dashboard ist für alle in Ihrer Organisation sichtbar. Nur Sie können Änderungen vornehmen, aber Sie können Bearbeiter hinzufügen.",
         "save": "Speichern",

@@ -19,6 +19,7 @@
   "titleDescription": "說明",
   "titleTriggerEvent": "觸發事件",
   "titleRelatedEvents": "相關的事件 ({{eventCount}})",
+  "titleAffectedIncidents": "受影響事件",
   "noRelatedEvents": "未找到相關事件",
   "titleLastProcess": "最近一個程序",
   "titleLastHost": "最後一個主機",
@@ -357,10 +358,28 @@
     "confirmationYes": "是",
     "confirmationNo": "取消"
   },
+  "aichat": {
+    "unableToFindError": "無法找到該資訊",
+    "host": "主機",
+    "name": "名稱",
+    "noMatching": "找不到相符的記錄。",
+    "timestamp": "時間戳記",
+    "numCalls": "呼叫數",
+    "meanLatency": "平均延遲時間",
+    "youMustAccept": "您必須接受 Generative AI Assistance Preview Program 協議中的條款才能使用此功能。",
+    "reviewAction": "審核協議",
+    "openingAgreement": "在新標籤開啟 [同意表單]({{href}})...",
+    "findingInfoFrom": "從 {{endpoint}} 找到該資訊。",
+    "noData": "從 API 未傳回資料",
+    "whatToKnow": "您想要瞭解有關 {{category}} 的什麼資訊？",
+    "welcome": "您好，歡迎使用。 探索以下各種範例，開始使用 AI。",
+    "apps": "應用程式",
+    "infra": "基礎架構"
+  },
   "notes": {
     "openNotes": "開啟附註和活動",
     "closeNotes": "關閉附註和活動",
-    "notesActivity": "附註和活動",
+    "notesActivity": "使用 AI 的附註和活動",
     "confirmDelete": "確認刪除",
     "you": "您 {{date}}",
     "youEdited": "您（已編輯）{{date}}",
@@ -430,5 +449,9 @@
   "consentForm": {
     "consentText": "您必須接受 Generative AI Assistance Preview Program 協議中的條款才能使用此功能。",
     "consentButton": "審核協議"
+  },
+  "affectedIncidents": {
+    "affectedIncident": "受影響事件",
+    "noAffectedIncidents": "找不到受影響的事件"
   }
 }

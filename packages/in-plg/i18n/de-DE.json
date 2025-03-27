@@ -416,6 +416,16 @@
         "configurationParameters": "Konfigurationsparameter"
       }
     },
+    "zos": {
+      "zos": "z/OS",
+      "selectTheAgentPackagingMode": "Schritt 1: Wählen Sie den Paketierungsmodus für den Agenten aus.",
+      "Packaging": "Produktpakete",
+      "dynamic": "Dynamisch",
+      "static": "Statisch",
+      "RunTheAgentDeploymentCode": "Schritt 2: Führen Sie den Code für die Agentenbereitstellung aus (aus der USS-Schicht von z/OS).",
+      "installagentOnZOS": "Installieren Sie den Agenten auf z/OS (Air-Gapped Env)",
+      "installagentOnZOS1": "Post-Agent-Installation (Überprüfung der Tracing-Voraussetzungen)"
+    },
     "ibmi": {
       "ibmi": "IBM i",
       "os": "Betriebssystem",

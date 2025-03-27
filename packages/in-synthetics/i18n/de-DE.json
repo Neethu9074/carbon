@@ -624,7 +624,11 @@
       "failures": "Fehler",
       "status": "Status",
       "success": "Erfolgreich",
-      "daysRemaining": "Verbleibende Tage"
+      "daysRemaining": "Verbleibende Tage",
+      "dns": {
+        "failureType": "Fehlertyp",
+        "na": "Nicht zutreffend"
+      }
     },
     "detailsPage": {
       "detailLiveModeDisabled": "Der Livemodus ist auf der Detailseite des Ergebnisses des synthetischen Tests nicht anwendbar.",

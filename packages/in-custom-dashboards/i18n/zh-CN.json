@@ -32,7 +32,7 @@
         "editPermissions": "编辑许可权",
         "shareMsg": "此定制仪表板具有该对话框无法表示的高级访问规则。您可以使用“以 JSON 格式编辑”功能编辑这些访问规则。",
         "privateDashboardDefault": "专用仪表板（缺省）",
-        "privateDashboardDefaultExplain": "此仪表板仅对您可见。",
+        "privateDashboardDefaultExplain": "此仪表板仅对您可见。 注意：这只能由仪表板所有者更改。",
         "publicDashboard": "公共仪表板",
         "publicDashboardExplain": "此仪表板对组织中的所有人都可见。只有您可以进行更改，但您可以添加编辑者。",
         "save": "保存",

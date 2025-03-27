@@ -416,6 +416,16 @@
         "configurationParameters": "配置參數"
       }
     },
+    "zos": {
+      "zos": "z/OS",
+      "selectTheAgentPackagingMode": "步驟 1：選取代理程式包裝模式",
+      "Packaging": "包裝",
+      "dynamic": "動態",
+      "static": "靜態",
+      "RunTheAgentDeploymentCode": "步驟 2：執行代理程式部署程式碼（來自 USS 層的 z/OS）。",
+      "installagentOnZOS": "在 z/OS（隔離環境）上安裝代理程式",
+      "installagentOnZOS1": "後置代理程式安裝（追蹤必備項目檢查）"
+    },
     "ibmi": {
       "ibmi": "IBM i",
       "os": "作業系統",

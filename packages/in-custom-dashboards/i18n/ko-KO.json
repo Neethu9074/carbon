@@ -32,7 +32,7 @@
         "editPermissions": "권한 편집",
         "shareMsg": "이 사용자 정의 대시보드에는 이 대화 상자에서 표시할 수 없는 고급 액세스 규칙이 있습니다. \"JSON으로 편집\" 기능을 사용하여 해당 액세스 규칙을 편집할 수 있습니다.",
         "privateDashboardDefault": "개인용 대시보드(기본값)",
-        "privateDashboardDefaultExplain": "이 대시보드는 사용자에게만 표시됩니다.",
+        "privateDashboardDefaultExplain": "이 대시보드는 사용자에게만 표시됩니다. 참고: 대시보드 소유자만 변경할 수 있습니다.",
         "publicDashboard": "공용 대시보드",
         "publicDashboardExplain": "이 대시보드는 조직의 모든 구성원에게 표시됩니다. 사용자만 변경사항을 작성할 수 있지만 편집자를 추가할 수 있습니다.",
         "save": "저장",

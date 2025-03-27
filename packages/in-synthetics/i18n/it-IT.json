@@ -624,7 +624,11 @@
       "failures": "Errori",
       "status": "Stato",
       "success": "Riuscito",
-      "daysRemaining": "Giorni rimanenti"
+      "daysRemaining": "Giorni rimanenti",
+      "dns": {
+        "failureType": "Tipo di guasto",
+        "na": "N/D"
+      }
     },
     "detailsPage": {
       "detailLiveModeDisabled": "La modalità attiva non è applicabile nella pagina dei dettagli del risultato del test sintetico",

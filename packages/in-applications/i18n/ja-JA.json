@@ -303,6 +303,11 @@
     "dataSource_traces": "{{formattedCount}} トレース",
     "dataSource_traces_plural": "{{formattedCount}} トレース",
     "analyzeCallsOfThisTrace": "このトレースの呼び出しの分析",
+    "storeTrace": {
+      "label": "ストア・トレース",
+      "traceNotSavedTooltip": "このトレースは 13 ヶ月間長期保存します。 15 秒後に自動的に保存されます。",
+      "traceSavedTooltip": "このトレースは保存され、13 ヶ月間保存されます。"
+    },
     "noAvailableCustomMetrics": "利用可能なカスタム・メトリクスはありません",
     "filters": "フィルター",
     "saveFiltersTitle": "フィルターを保存する",

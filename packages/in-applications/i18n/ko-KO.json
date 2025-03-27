@@ -303,6 +303,11 @@
     "dataSource_traces": "{{formattedCount}}개 추적",
     "dataSource_traces_plural": "{{formattedCount}}개 추적",
     "analyzeCallsOfThisTrace": "이 추적의 호출 분석",
+    "storeTrace": {
+      "label": "저장소 추적",
+      "traceNotSavedTooltip": "이 추적 정보를 13개월 동안 장기 보관하십시오. 15초 후에 자동으로 저장됩니다.",
+      "traceSavedTooltip": "이 추적 기록은 저장되었으며 13개월 동안 보관됩니다."
+    },
     "noAvailableCustomMetrics": "사용 가능한 사용자 정의 메트릭 없음",
     "filters": "필터",
     "saveFiltersTitle": "필터 저장",

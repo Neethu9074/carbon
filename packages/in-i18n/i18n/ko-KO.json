@@ -43,6 +43,9 @@
     "dropDown": {
       "selectOption": "옵션 선택"
     },
+    "infoicon": {
+      "information": "정보"
+    },
     "tabsNavigation": {
       "pageNavigation": "페이지 탐색"
     },
