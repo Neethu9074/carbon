@@ -9630,6 +9630,8 @@
         "entryType": "Entry Type",
         "processCpuPerc": "Process CPU",
         "processCpuTime": "Process CPU Time",
+        "serviceThreadCount" : "Thread Count",
+        "serviceActiveThreadCount" : "Active Thread Count",
         "openFileCount": "Open File Count",
         "processPhysicalMemory": "Process Physical",
         "processMemory": "Process Logical",

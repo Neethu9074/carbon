@@ -493,6 +493,16 @@ export default [
     min: 0
   },
   {
+    metrics: ['serviceDetailsStats.serviceThreadCount', 'serviceDetailsStats.serviceActiveThreadCount'],
+    labels: [
+      t('in-forge:plugins.sapHana.dashboard.serviceThreadCount'),
+      t('in-forge:plugins.sapHana.dashboard.serviceActiveThreadCount')
+    ],
+    category: [t('in-forge:plugins.sapHana.dashboard.serviceDetailsStats')],
+    formatter: number.compact,
+    min: 0
+  },
+  {
     metrics: ['archiveLogBackupStats.backupSize'],
     labels: [t('in-forge:plugins.sapHana.dashboard.backupSize')],
     category: [t('in-forge:plugins.sapHana.dashboard.archiveLogBackupStats')],
