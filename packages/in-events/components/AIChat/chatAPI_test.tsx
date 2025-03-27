@@ -94,5 +94,6 @@ describe('formatForTable', () => {
     expect(fmt.output.generic[0].rows[0].cells[0]).toBe(firstLabel);
     expect(fmt.output.generic[0].rows[0].cells[1]).toBe(123);
     expect(fmt.output.generic[0].rows[0].cells[2]).toBe(456);
+    expect(fmt.output.generic[0].rows[0].cells[3]).toBe('2025-03-26T23:08:00.000Z');
   });
 });

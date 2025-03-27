@@ -144,6 +144,26 @@ function EventViewComponent(props) {
       customSendMessage: CustomSendMessages
     }
   };
+  // Table sort for AI Chat
+  function customSortRow(lhs, rhs, collator) {
+    const nlhs = Number(lhs);
+    const nrhs = Number(rhs);
+    if (!Number.isNaN(nlhs) && !Number.isNaN(nrhs)) {
+      return nlhs - nrhs;
+    }
+    return collator.compare(lhs, rhs);
+  }
+  function setCustomSortRow() {
+    const tables = document.querySelector('cds-aichat-internal').shadowRoot.querySelectorAll('cds-aichat-table');
+    // NodeList needs to be [] to iterate
+    [...tables].forEach(elm => {
+      const table = elm.shadowRoot.querySelector('cds-table');
+      if (table && !table.hasCustomSort) {
+        table.customSortRow = customSortRow;
+        table.hasCustomSort = true;
+      }
+    });
+  }
 
   const fetchEvents = useCallback(
     ({ cursor }) => {
@@ -225,7 +245,19 @@ function EventViewComponent(props) {
       {eventsAIChatEnabled && (
         <ChatContainer
           config={config}
-          onBeforeRender={() => {}}
+          onBeforeRender={instance => {
+            instance.on({
+              type: 'receive',
+              handler: msg => {
+                if (msg.data?.output?.generic?.[0]?.response_type === 'table') {
+                  // Wait for table to display
+                  setTimeout(() => {
+                    setCustomSortRow();
+                  }, 500);
+                }
+              }
+            });
+          }}
           renderUserDefinedResponse={({ messageItem }, instance) => {
             if (!messageItem) {
               return;

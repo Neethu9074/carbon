@@ -87,10 +87,10 @@ export function formatForTable(apiResponse) {
   const firstMetric = metricKeys.length > 0 ? first.metrics[metricKeys[0]]?.[0] || [] : [];
   if (firstMetric.length === 2) {
     // [timestamp, metric] format
-    response.data.headers.push(t('in-events:aichat.timestamp'));
     metricKeys.forEach(key => {
       response.data.headers.push(headerAlias[key] || key);
     });
+    response.data.headers.push(t('in-events:aichat.timestamp'));
     instanaApiResponse.forEach(entry => {
       const cells = [];
       cells.push(entry.name || entry.tags?.[useTag]);
