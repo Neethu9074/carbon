@@ -135,28 +135,101 @@ router.get('/solis/hub_content', async (req, res) => {
 });
 
 router.get('/solis/nav', async (req, res) => {
-  const t = req.t;
+  try {
+    const t = req.t;
+    // Get feature flags
+    const featureFlags = await activeResolver.getFeatureFlags(req.tenant, req.unit);
 
-  const featureFlags = await activeResolver.getFeatureFlags(req.tenant, req.unit);
+    // Get user permission
+    const [userStatusCode, userStr] = await getCurrentUser(req);
+    if (userStatusCode !== 200) {
+      return res.sendStatus(userStatusCode);
+    }
+    const user = getParsedUser(userStr);
+    const role = user?.role ?? {};
+    // const role = user.role;
 
-  const [statusCode, userStr] = await getCurrentUser(req);
-  if (statusCode !== 200) {
-    res.sendStatus(statusCode);
-    return;
-  }
-  const user = getParsedUser(userStr);
+    // Get infra resource: host count
+    const infraResource = {
+      hasEntities: false,
+      hostCount: 0,
+      // serverlessCount: 0,
+      incidentCount: 0
+    };
+    const [statusCodeHost, hostData] = await getHostCount(req);
+    if (statusCodeHost === 200 && hostData && typeof hostData.hostCount === 'number') {
+      infraResource.hasEntities = !!hostData.hasEntities;
+      infraResource.hostCount = hostData.hostCount;
+    }
 
-  const role = user?.role ?? {};
-  // const role = user.role;
+    // Get infra resource: incidents count
+    const [incidentStatusCode, openIncidentCount] = await getIncidentCount(req);
+    if (incidentStatusCode === 200 && typeof openIncidentCount === 'number') {
+      infraResource.incidentCount = openIncidentCount;
+    }
 
-  res.setHeader('Content-Type', 'application/json');
-  res.end(
-    JSON.stringify({
+    const navItems = {
       top: [],
-      side: generateSideNavItems(t, role, featureFlags)
-    })
-  );
+      side: generateSideNavItems(t, role, featureFlags, infraResource)
+    };
+
+    res.status(200).json(navItems);
+  } catch (error) {
+    console.error('Error getting navigation:', error);
+    res.sendStatus(500);
+  }
 });
+
+async function getHostCount(req) {
+  try {
+    const url = `${req.uiBackendBaseUrl}/api/infrastructure-monitoring/monitoring-state`;
+    const hostCountRequest = new Request(url, {
+      headers: {
+        Authorization: req.headers.authorization
+      }
+    });
+
+    const response = await fetch(hostCountRequest);
+    const status = response.status;
+    let hostCount = null;
+
+    if (response.ok) {
+      hostCount = await response.json();
+    }
+
+    return [status, hostCount];
+  } catch (error) {
+    console.error('Error fetching host data:', error);
+    return [500, null];
+  }
+}
+
+async function getIncidentCount(req) {
+  try {
+    const url = `${req.uiBackendBaseUrl}/api/events?eventTypeFilters=INCIDENT`; // double check if this is the right data
+    const incidentRequest = new Request(url, {
+      headers: {
+        Authorization: req.headers.authorization
+      }
+    });
+
+    const response = await fetch(incidentRequest);
+    const status = response.status;
+    let count = 0;
+    if (response.ok) {
+      const events = await response.json();
+      for (const event of events) {
+        if (event.state === 'open') {
+          count++;
+        }
+      }
+    }
+    return [status, count];
+  } catch (error) {
+    console.error('Error fetching incident data:', error);
+    return [500, null];
+  }
+}
 
 function getUserPermissions(role, features) {
   const getAccess = (canField, limitedField = null) => {
@@ -226,7 +299,7 @@ function getUserPermissions(role, features) {
   };
 }
 
-function generateSideNavItems(t, role, features) {
+function generateSideNavItems(t, role, features, infraResource) {
   const permissions = getUserPermissions(role, features);
 
   let navItems = [];
@@ -275,12 +348,14 @@ function generateSideNavItems(t, role, features) {
   // BizOps, having issue with hostCount
   // hostCount ==0, path is '/businessProcesses'
   if (permissions.hasBizOpsAccess) {
+    const bizOpsPath = infraResource.hostCount === 0 ? '#/businessProcesses' : '#/businessPerspectives';
+
     navItems.push({
       type: 'link',
       properties: {
         icon_name: 'business-processes',
         label: t('businessMonitoring'),
-        path: '#/businessPerspectives'
+        path: bizOpsPath
       }
     });
   }
@@ -325,7 +400,7 @@ function generateSideNavItems(t, role, features) {
     type: 'menu',
     properties: {
       label: t('viewSwitcherLabelTools'),
-      links: generateToolItems(t, role, permissions, features)
+      links: generateToolItems(t, role, permissions, features, infraResource)
     }
   });
 
@@ -419,7 +494,7 @@ function generatePlatformItems(t, permissions, features) {
   return platformItems;
 }
 
-function generateToolItems(t, role, permissions, features) {
+function generateToolItems(t, role, permissions, features, infraResource) {
   let toolItems = [];
 
   // CustomDashboards
@@ -483,7 +558,7 @@ function generateToolItems(t, role, permissions, features) {
       icon_name: 'warning--alt',
       label: t('viewSwitcherLabelEvents'),
       path: '#/events;view=incident',
-      badge: 5 // todo fetch from API call
+      badge: infraResource.incidentCount
     });
   }
 
