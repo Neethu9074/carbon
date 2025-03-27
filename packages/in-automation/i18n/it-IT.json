@@ -106,6 +106,9 @@
   "ansibleUrl": "Ansible url",
   "playbookFileName": "Nome file Playbook",
   "playbookId": "ID Playbook",
+  "triggeringEvent": "Evento di attivazione",
+  "probableRootCause": "Causa principale probabile",
+  "contextFor": "Contesto per:",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Configurazione azione",
     "actionDetails": "Dettagli dell'azione",
@@ -115,7 +118,6 @@
     "Step3Headline": "Facoltativamente, è possibile creare una politica di automazione insieme all'azione. È possibile completare questo passo anche in un secondo momento.",
     "step1Title": "Passo 1: Generare o selezionare un'azione",
     "step1TitleGenerateAction": "Passo 1: Generare un'azione",
-    "step1TitleSelectAction": "Passo 1: Selezionare un'azione",
     "step2Title": "Passo 2: Configurare l'azione",
     "step3Title": "Passo 3: Creare una politica (facoltativo)",
     "policyDetails": "Dettagli politica",
@@ -480,9 +482,7 @@
   "deleteDialog": {
     "confirmRemove": "Conferma rimozione",
     "confirmRemoveMsg": "Si è sicuri di voler eliminare <strong>{{name}}</strong>?",
-    "delete": "Elimina",
-    "pleaseConfirm": "Confermare",
-    "pleaseConfirmMsg": "Si è sicuri di voler eliminare <strong>{{name}}</strong>?"
+    "delete": "Elimina"
   },
   "turboActionCategories": {
     "compliance": "Conformità",
@@ -529,7 +529,7 @@
     "lastModified": "Ultima modifica",
     "history": "Cronologia",
     "summaryTab": {
-      "seconds": "secondi"
+      "millisecond": "ms"
     },
     "associatedPolicies": "Politiche associate"
   },
@@ -538,7 +538,7 @@
     "thankYouForYourFeedback": "Grazie per il tuo feedback!",
     "submitFeedback": "Invia feedback",
     "additionalFeedbacklabel": "Fornire un ulteriore feedback (facoltativo)",
-    "additionalFeedbackPlaceholder": "Cosa non è piaciuto della risposta? Cosa si può migliorare"
+    "additionalFeedbackPlaceholder": "Cosa non è piaciuto della risposta? Cosa si può migliorare?"
   },
   "consentForm": {
     "consentButton": "Riesaminare il modulo di consenso",

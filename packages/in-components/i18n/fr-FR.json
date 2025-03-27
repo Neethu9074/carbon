@@ -68,6 +68,7 @@
     "placeholderSelect": "Sélectionner..."
   },
   "downloadBtn": {
+    "downloadAriaLabel": "Télécharger",
     "downloadViewDownloadAsJsonLabel": "Télécharger en tant que JSON",
     "downloadViewDownloadCSVLabel": "Télécharger (*.csv)",
     "downloadViewDownloadJsonLabel": "Télécharger (*.json)",
@@ -468,12 +469,8 @@
     "profileMenu_profileLink": "Profil",
     "profileMenu_tooltip": "Menu Profil",
     "profileMenu_unitName_tenantName": "Nom de l'unité - Nom du locataire",
-    "profileMenu_instanceName": "Nom d'instance",
-    "profileMenu_region": "Région",
-    "profileMenu_instanceOwner": "Propriétaire d'instance",
     "profileMenu_switchUnitOrTenant": "Changement d'unité ou de locataire",
     "profileMenu_privacy": "Confidentialité",
-    "profileMenu_saasConsole": "Console IBM SaaS",
     "profileMenu_logOut": "Déconnexion"
   },
   "metricConfigurator": {
@@ -580,7 +577,8 @@
     "title": "Dépassement du délai d'attente de session",
     "message": "Suite à votre inactivité, vous allez être déconnecté dans :",
     "loggedInButton": "Rester connecté",
-    "logOutButton": "Déconnexion"
+    "logOutButton": "Déconnexion",
+    "failedToUpdateSession": "Échec de la mise à jour de la session inactive"
   },
   "time": {
     "lastMinute": "Dernière minute",
@@ -599,6 +597,8 @@
     "previousWeek": "Semaine précédente",
     "dashboardHeaderButtonLive": "Actif",
     "customTimeTitleTimeRange": "Intervalle",
+    "customTimeTimeRangeLowerValue": "Valeur inférieure de la plage de temps",
+    "customTimeTimeRangeUpperValue": "Valeur supérieure de la plage de temps",
     "to": "au",
     "customTimeButtonSetTime": "Définir l'heure",
     "customTimeLabelYesterday": "Hier",
@@ -637,7 +637,11 @@
     "timeFrameFormatterMinutes_plural": "{{count}} dernières minutes",
     "timeFrameFormatterMinutes_0": "{{count}} dernières minutes",
     "timeFrameFormatterMinutes_1": "{{count}} dernières minutes",
-    "timeFrameFormatterMinutes_2": "{{count}} dernières minutes"
+    "timeFrameFormatterMinutes_2": "{{count}} dernières minutes",
+    "startDate": "Date de début",
+    "startTime": "Heure de début",
+    "endDate": "Date de fin",
+    "endTime": "Heure de fin"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Modifier la rétrospective sélectionnée",

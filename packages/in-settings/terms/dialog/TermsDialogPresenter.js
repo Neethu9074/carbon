@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import TermsPageMessaging from 'in-settings/terms/dialog/TermsPageMessaging';
 import TermsPageCookies from 'in-settings/terms/dialog/TermsPageCookies';
 import TermsPageProfile from 'in-settings/terms/dialog/TermsPageProfile';
+import { tealiumPrivacyEnabled } from 'in-services/featureFlags';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
@@ -26,32 +27,12 @@ export default function TermsDialogPresenter({
 }) {
   const [pageNumber, setPageNumber] = useState(1);
 
-  const nrPages = fullTermsConfigEnabled ? 3 : 2;
+  const nrPages = tealiumPrivacyEnabled ? 0 : fullTermsConfigEnabled ? 3 : 2;
 
   return (
     <Dialog title={t('in-settings:terms.preferences')} doNotCloseOnOutsideClick withoutBodyPadding>
       <form onSubmit={e => onSave(e, form)} className={locals.dialogContent}>
-        {pageNumber === 1 && (
-          <TermsPageMessaging
-            onNext={setPageNumber}
-            onChange={onChange}
-            form={form}
-            nrPages={nrPages}
-            fullTermsConfigEnabled={fullTermsConfigEnabled}
-          />
-        )}
-
-        {fullTermsConfigEnabled && pageNumber === 2 && (
-          <TermsPageCookies
-            onBack={setPageNumber}
-            onNext={setPageNumber}
-            onChange={onChange}
-            form={form}
-            nrPages={nrPages}
-          />
-        )}
-
-        {!fullTermsConfigEnabled && pageNumber === 2 && (
+        {tealiumPrivacyEnabled ? (
           <TermsPageProfile
             onBack={setPageNumber}
             onChange={onChange}
@@ -64,21 +45,58 @@ export default function TermsDialogPresenter({
             userName={userName}
             userEmail={userEmail}
           />
-        )}
+        ) : (
+          <>
+            {pageNumber === 1 && (
+              <TermsPageMessaging
+                onNext={setPageNumber}
+                onChange={onChange}
+                form={form}
+                nrPages={nrPages}
+                fullTermsConfigEnabled={fullTermsConfigEnabled}
+              />
+            )}
 
-        {pageNumber === 3 && (
-          <TermsPageProfile
-            onBack={setPageNumber}
-            onChange={onChange}
-            form={form}
-            pageNumber={3}
-            fullTermsConfigEnabled={fullTermsConfigEnabled}
-            hasErrorOnSave={saveError}
-            unsetSaveError={unsetSaveError}
-            nrPages={nrPages}
-            userName={userName}
-            userEmail={userEmail}
-          />
+            {fullTermsConfigEnabled && pageNumber === 2 && (
+              <TermsPageCookies
+                onBack={setPageNumber}
+                onNext={setPageNumber}
+                onChange={onChange}
+                form={form}
+                nrPages={nrPages}
+              />
+            )}
+
+            {!fullTermsConfigEnabled && pageNumber === 2 && (
+              <TermsPageProfile
+                onBack={setPageNumber}
+                onChange={onChange}
+                form={form}
+                pageNumber={2}
+                hasErrorOnSave={saveError}
+                fullTermsConfigEnabled={fullTermsConfigEnabled}
+                nrPages={nrPages}
+                unsetSaveError={unsetSaveError}
+                userName={userName}
+                userEmail={userEmail}
+              />
+            )}
+
+            {pageNumber === 3 && (
+              <TermsPageProfile
+                onBack={setPageNumber}
+                onChange={onChange}
+                form={form}
+                pageNumber={3}
+                fullTermsConfigEnabled={fullTermsConfigEnabled}
+                hasErrorOnSave={saveError}
+                unsetSaveError={unsetSaveError}
+                nrPages={nrPages}
+                userName={userName}
+                userEmail={userEmail}
+              />
+            )}
+          </>
         )}
       </form>
     </Dialog>

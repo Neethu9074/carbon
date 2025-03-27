@@ -21,8 +21,8 @@ import { CreateSloDialogMode, SloForm } from 'in-service-levels/components/Confi
 import { UnstableTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import useHandleSloForm, { UseHandleSloFormProps } from 'in-service-levels/hooks/useHandleSloForm';
-import { CREATED_OBJECT, ENDED_PROCESS, UPDATED_OBJECT } from 'in-services/util/constants';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
+import { CREATED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import { close as closeDialog } from 'in-components/DialogPresenter/store';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import ConfigDialog from 'in-service-levels/components/ConfigDialog';
@@ -73,7 +73,8 @@ export default function CreateSloDialog({ configuration, mode, trackingMeta }: C
       },
       undefined
     );
-  }, [trackingMeta, trackCta]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const title =
     mode === 'EDIT'
@@ -87,15 +88,10 @@ export default function CreateSloDialog({ configuration, mode, trackingMeta }: C
         <ConfigDialog
           title={title}
           onClose={() => {
-            unstable_trackEvent(
-              ENDED_PROCESS,
-              {
-                productArea: trackingMeta.productArea,
-                pageName: trackingMeta.pageName,
-                objectType: SLO_CONFIG_DIALOG_CLOSE
-              },
-              undefined
-            );
+            trackCta(SLO_CONFIG_DIALOG_CLOSE, {
+              productArea: trackingMeta.productArea,
+              pageName: trackingMeta.pageName
+            });
             closeDialog();
           }}
           isSaving={submitStatus === 'pending'}

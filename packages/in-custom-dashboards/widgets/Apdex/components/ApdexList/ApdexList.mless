@@ -17,4 +17,7 @@
   .createButton {
     margin-right: 0.5rem;
   }
+  .apdexListWrapper {
+    padding: 0 1rem;
+  }
 }

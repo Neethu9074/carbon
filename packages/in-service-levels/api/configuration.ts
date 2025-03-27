@@ -30,6 +30,7 @@ export interface GetAllSloConfigurationsArguments {
   query?: string;
   tags?: string[];
   entityType?: SloEntityType;
+  entityIds?: string;
   orderBy?: string;
   orderDirection?: OrderDirection;
 }
@@ -42,6 +43,7 @@ function getAllSloConfigurationsInternal({
   tags,
   query,
   entityType,
+  entityIds,
   orderBy
 }: GetAllSloConfigurationsArguments = {}) {
   return refreshSignal.flatMap(() =>
@@ -58,6 +60,7 @@ function getAllSloConfigurationsInternal({
         tag: tags,
         query,
         entityType,
+        entityIds,
         orderBy
       }
     })

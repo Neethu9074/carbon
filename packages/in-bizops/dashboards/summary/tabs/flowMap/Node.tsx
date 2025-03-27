@@ -13,6 +13,7 @@ import { CardNode } from '@instana/carbon-charts';
 import { BizOpsElkNode } from 'in-bizops/dashboards/summary/tabs/flowMap/FlowMapPresenter';
 import { bizopsProcessFlowMapHealthOverlayEnabled } from 'in-services/featureFlags';
 import { millis } from 'in-services/formatters/number';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
 import local from './Node.mless';
@@ -29,9 +30,11 @@ function ProcessNode({ name, metrics, onClick }: ProcessNodeProps) {
   const latency = metrics?.latency?.[0] ? millis.compact(metrics.latency[0][1]) : '0ms';
   return (
     <CardNode className={local.container} onClick={onClick}>
-      <div>
-        <Typography variant="heading-compact-02">{name}</Typography>
-      </div>
+      <Tooltip content={name} align="topLeft">
+        <div className={local.nodeName}>
+          <Typography variant="heading-compact-02">{name}</Typography>
+        </div>
+      </Tooltip>
       <div className={local.metricsContainer}>
         <div className={local.metricContainer}>
           <Typography variant="label-01">{t('in-bizops:dashboards.flowMap.count')}</Typography>

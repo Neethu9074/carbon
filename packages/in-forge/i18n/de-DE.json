@@ -10962,7 +10962,12 @@
         "servicename": "Servicename",
         "displayname": "Anzeigename",
         "state": "Status",
-        "health": "Status"
+        "health": "Status",
+        "disk": "Plattenspeicher",
+        "readAwaitTime": "Lesezeit",
+        "writeAwaitTime": "Schreibzeit",
+        "avgDiscardRequestsTime": "Ablehnungsanträge Zeit",
+        "avgFlushRequestsTime": "Flush-Anforderungen Zeit"
       },
       "os": "Betriebssystem",
       "distribution": "Verteilung",
@@ -12251,6 +12256,10 @@
       "maxQueueDepth": "Max. Warteschlangenlänge",
       "currentQueueDepth": "Aktuelle Warteschlangenlänge",
       "queueFullPercentage": "Prozentsatz der Warteschlangenlänge",
+      "queueType": "Queue Type",
+      "queueUsage": "Warteschlangenverwendung",
+      "triggerType": "Triggertyp",
+      "triggerControl": "Auslösersteuerung",
       "lastGetDateTime": "Uhrzeit des letzten Abrufs",
       "lastPutDateTime": "Uhrzeit des letzten Einreihens",
       "depth": "Tiefe",
@@ -12264,6 +12273,7 @@
       "openOutputCount": "Anzahl der offenen Ausgaben",
       "calls": "Aufrufe",
       "statistics": "MQ-Warteschlangenstatistik",
+      "attributes": "Attribute",
       "statisticsRecord": "Index",
       "nonPersistentPutBytes": "Nicht persistent eingereihte Byte",
       "persistentPutBytes": "Persistent eingereihte Byte",
@@ -12438,7 +12448,9 @@
       "connections": "Verbindungen",
       "messagesIn": "Eingehende Nachrichten",
       "messagesOut": "Ausgehende Nachrichten",
-      "uncommittedMessages": "Nicht festgeschriebene Nachrichten"
+      "uncommittedMessages": "Nicht festgeschriebene Nachrichten",
+      "clusterStatus": "Clusterstatus",
+      "clusterSuspendIndicator": "Cluster-Suspend-Indikator"
     },
     "ibmMqQueueUsage": {
       "dashboard": {

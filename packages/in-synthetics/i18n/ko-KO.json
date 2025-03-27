@@ -624,7 +624,11 @@
       "failures": "실패",
       "status": "상태",
       "success": "성공",
-      "daysRemaining": "남은 기간(일)"
+      "daysRemaining": "남은 기간(일)",
+      "dns": {
+        "failureType": "실패 유형",
+        "na": "해당사항 없음"
+      }
     },
     "detailsPage": {
       "detailLiveModeDisabled": "합성 테스트 결과 세부사항 페이지에서는 라이브 모드를 적용할 수 없음",

@@ -32,7 +32,7 @@
         "editPermissions": "アクセス権の編集",
         "shareMsg": "このカスタム・ダッシュボードには、このダイアログでは表現できない高度なアクセス・ルールがあります。 「JSON として編集」機能を使用すると、これらのアクセス・ルールを編集できます。",
         "privateDashboardDefault": "プライベート・ダッシュボード (デフォルト)",
-        "privateDashboardDefaultExplain": "このダッシュボードは、自分に対してのみ表示されます。",
+        "privateDashboardDefaultExplain": "このダッシュボードは、自分に対してのみ表示されます。 注: これはダッシュボードの所有者のみが変更できます。",
         "publicDashboard": "パブリック・ダッシュボード",
         "publicDashboardExplain": "このダッシュボードは、組織内のすべてのユーザーに対して表示されます。 変更できるのは自分のみですが、編集者を追加できます。",
         "save": "保存",

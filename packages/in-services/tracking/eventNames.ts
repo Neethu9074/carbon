@@ -114,6 +114,7 @@ export const KUBERNETES_SEARCH_QUERY_CHANGED = 'kubernetes.search.query.changed'
 export const KUBERNETES_SEARCH_BAR_CLEARED = 'kubernetes.search.bar.cleared';
 export const KUBERNETES_SORTING_CHANGED = 'kubernetes.sorting.changed';
 export const KUBERNETES_CARD_CLICKED = 'kubernetes.card.clicked';
+export const KUBERNETES_POD_VIEW_CHANGED = 'kubernetes.pod.view.changed';
 
 export const MAP_GROUPING_CHANGED = 'map.grouping.change';
 export const MAP_METRICS_AGGREGATION = 'map.metrics.aggregation';
@@ -411,7 +412,6 @@ export const ACTION_LANES_SELECTED = 'action.lanes.selected';
 export const ACTION_LANES_DIALOG_CLOSED = 'action.lanes.dialog.closed';
 
 // SLI Widget and SLI Management
-export const SLO_WIDGET_EDIT_START = 'slo.widget.edit.start';
 export const SLI_MANAGEMENT_VIEW = 'sli.v2.management.view';
 export const SLI_MANAGEMENT_EXIT = 'sli.v2.management.exit';
 export const SLI_MANAGEMENT_CREATE_START = 'sli.v2.management.create.start';
@@ -425,7 +425,6 @@ export const SLO2_WIDGET_EDIT_START = 'slo2.widget.edit.start';
 export const SLO2_BIG_NUMBER_WIDGET_EDIT_START = 'slo2.bigNumber.widget.edit.start';
 
 // Service Levels
-export const SLO_LIST_VIEW = 'slo.list.view';
 export const SLO_SUMMARY_VIEW = 'slo.summary.view';
 export const SLO_CONFIG_VIEW = 'slo.config.view';
 export const SLO_CONFIG_DIALOG_OPEN = 'slo.config.dialog.open';

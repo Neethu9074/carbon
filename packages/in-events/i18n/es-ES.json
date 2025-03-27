@@ -19,6 +19,7 @@
   "titleDescription": "Descripción",
   "titleTriggerEvent": "Suceso activador",
   "titleRelatedEvents": "Sucesos relacionados ({{eventCount}})",
+  "titleAffectedIncidents": "Incidencias afectadas",
   "noRelatedEvents": "No se han encontrado sucesos relacionados",
   "titleLastProcess": "Último proceso",
   "titleLastHost": "Último host",
@@ -357,10 +358,28 @@
     "confirmationYes": "Sí",
     "confirmationNo": "Cancelar"
   },
+  "aichat": {
+    "unableToFindError": "No se ha podido encontrar esa información",
+    "host": "Host",
+    "name": "Nombre",
+    "noMatching": "No se han encontrado registros coincidentes.",
+    "timestamp": "Indicación de fecha y hora",
+    "numCalls": "Núm. de llamadas",
+    "meanLatency": "Latencia media",
+    "youMustAccept": "Debe aceptar los términos del Acuerdo del Programa de Vista Previa de Asistencia de IA Generativa para utilizar esta función.",
+    "reviewAction": "Revisar acuerdo",
+    "openingAgreement": "Abriendo [formulario de consentimiento]({{href}}) en una nueva pestaña...",
+    "findingInfoFrom": "Buscando esa información en {{endpoint}}",
+    "noData": "La API no ha devuelto datos",
+    "whatToKnow": "¿Qué quiere saber sobre {{category}}?",
+    "welcome": "Hola y bienvenidos. Iníciese en la IA explorando los variados ejemplos que se ofrecen a continuación.",
+    "apps": "Aplicaciones",
+    "infra": "Infraestructura"
+  },
   "notes": {
     "openNotes": "Abrir notas y actividad",
     "closeNotes": "Cerrar notas y actividad",
-    "notesActivity": "Notas y actividad",
+    "notesActivity": "Notas y actividad con IA",
     "confirmDelete": "Confirmar supresión",
     "you": "Usted {{date}}",
     "youEdited": "Usted (editado) {{date}}",
@@ -430,5 +449,9 @@
   "consentForm": {
     "consentText": "Debe aceptar los términos del Acuerdo del Programa de Vista Previa de Asistencia de IA Generativa para utilizar esta función.",
     "consentButton": "Revisar acuerdo"
+  },
+  "affectedIncidents": {
+    "affectedIncident": "Incidencia afectada",
+    "noAffectedIncidents": "No se han encontrado incidencias afectadas"
   }
 }

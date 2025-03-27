@@ -24,6 +24,7 @@ module.exports = {
         'in-hooks',
         'in-mobile-apps',
         'in-sdk',
+        'in-service-levels',
         'in-services',
         'in-settings',
         'in-stores',

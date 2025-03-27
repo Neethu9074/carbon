@@ -32,7 +32,7 @@
         "editPermissions": "編輯許可權",
         "shareMsg": "此自訂儀表板具有進階存取規則，但此對話框無法呈現這些規則。您可以使用「以 JSON 型式編輯」特性來編輯這些存取規則。",
         "privateDashboardDefault": "專用儀表板（預設值）",
-        "privateDashboardDefaultExplain": "只有您可看見此儀表板。",
+        "privateDashboardDefaultExplain": "只有您可看見此儀表板。 附註：此項只能由儀表板擁有者變更。",
         "publicDashboard": "公用儀表板",
         "publicDashboardExplain": "您組織中的每個人都可看見此儀表板。只有您能夠進行變更，但您可以新增編輯者。",
         "save": "儲存",

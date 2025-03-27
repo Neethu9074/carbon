@@ -157,6 +157,8 @@ export default function ServiceDetailsStatsList({ snapshotId, timeConfig }: Serv
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
+        </Columize>
+        <Columize>
           <DashboardSection>
             <Chart
               snapshotId={snapshotId}
@@ -173,6 +175,26 @@ export default function ServiceDetailsStatsList({ snapshotId, timeConfig }: Serv
                 ],
                 type: 'line',
                 formatter: bytesTwoDecimalPlaces
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+          <DashboardSection>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: [
+                  `serviceDetailsStats.${row.key}.serviceThreadCount`,
+                  `serviceDetailsStats.${row.key}.serviceActiveThreadCount`
+                ],
+                labels: [
+                  t('in-forge:plugins.sapHana.dashboard.serviceThreadCount'),
+                  t('in-forge:plugins.sapHana.dashboard.serviceActiveThreadCount')
+                ],
+                type: 'line',
+                formatter: number.compact
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />

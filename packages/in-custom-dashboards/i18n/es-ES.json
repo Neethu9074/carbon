@@ -32,7 +32,7 @@
         "editPermissions": "Editar permisos",
         "shareMsg": "Este panel de control personalizado tiene reglas de acceso avanzadas que no se pueden representar mediante este diálogo. Puede utilizar la característica \"Editar como JSON\" para editar estas reglas de acceso.",
         "privateDashboardDefault": "Panel de control privado (predeterminado)",
-        "privateDashboardDefaultExplain": "Este panel de control solo lo puede visualizar usted.",
+        "privateDashboardDefaultExplain": "Este panel de control solo lo puede visualizar usted. Nota: esto solo lo puede cambiar el propietario del panel de control.",
         "publicDashboard": "Panel de control público",
         "publicDashboardExplain": "Este panel de control lo puede visualizar cualquier usuario de su organización. Solo usted puede realizar cambios, pero puede añadir editores.",
         "save": "Guardar",

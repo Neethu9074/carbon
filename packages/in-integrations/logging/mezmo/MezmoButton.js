@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { CarbonMenuItem, SvgIcon } from '@instana/components';
+import { CarbonMenuItem } from '@instana/components';
 
 import { integrationKey as mezmoIntegrationKey } from 'in-integrations/logging/mezmo/consts';
 import { constructLink } from 'in-integrations/logging/mezmo/LinkConstruction';
@@ -24,9 +24,6 @@ export default function MezmoButton(props) {
   return (
     <CarbonMenuItem
       label={t('in-settings:tabs.mezmo')}
-      renderIcon={() => {
-        return <SvgIcon type="lib_mezmo" />;
-      }}
       onClick={() => {
         window.open(
           constructLink(

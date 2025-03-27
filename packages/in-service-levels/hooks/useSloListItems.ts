@@ -26,6 +26,7 @@ export default function useSloListItems({
   query,
   tags,
   entityType,
+  entityIds,
   orderBy,
   orderDirection
 }: GetAllSloConfigurationsArguments): FetchedState<PaginatedResult<SloListItem>> {
@@ -36,6 +37,7 @@ export default function useSloListItems({
     query,
     tags,
     entityType,
+    entityIds,
     orderBy,
     orderDirection
   });

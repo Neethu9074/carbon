@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { CarbonMenuItem, SvgIcon } from '@instana/components';
+import { CarbonMenuItem } from '@instana/components';
 
 import { integrationKey as splunkIntegrationKey } from 'in-integrations/logging/splunk/consts';
 import { useJumpToThirdParty } from 'in-integrations/logging/tracking';
@@ -23,9 +23,6 @@ export default function SplunkButton(props) {
   return (
     <CarbonMenuItem
       label="Splunk"
-      renderIcon={() => {
-        return <SvgIcon type="lib_splunk" />;
-      }}
       onClick={() => {
         window.open(constructSplunkLink(integration, props), '_blank');
         jumpToThirdParty(splunkIntegrationKey);

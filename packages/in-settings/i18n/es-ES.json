@@ -44,14 +44,9 @@
       "afterSession": "Caduca después de la sesión"
     },
     "walkme": {
-      "title": "Guía en el producto",
-      "description": "Ofrece recorridos interactivos para simplificar la incorporación y resaltar las características clave a medida que explora Instana.",
+      "title": "Análisis y orientación de usuarios de productos",
       "purpose": "Registra un identificador único que se utiliza para generar datos estadísticos sobre el uso que hace el visitante del producto.",
       "category": "Funcional"
-    },
-    "assistme": {
-      "title": "Asistencia a petición",
-      "description": "Proporciona acceso rápido a artículos, documentación y recursos comunitarios relevantes, lo que le ayuda a encontrar respuestas y a mantener la productividad mientras explora Instana."
     }
   },
   "roleAndAccessScope": {
@@ -351,6 +346,7 @@
     "failedToRemoveItemName": "No se ha podido eliminar {{itemName}}",
     "failedToRemoveItem": "No se ha podido eliminar elemento",
     "confirmRemove": "Confirmar eliminación",
+    "confirmSave": "Confirmar guardar",
     "createNew": "Crear nuevo",
     "deselect": "Deseleccionar",
     "select": "Select",
@@ -362,7 +358,10 @@
   },
   "dialogs": {
     "role": {
-      "title": "Crear un rol nuevo",
+      "title": "$t(in-settings:dialogs.role.title_new)",
+      "title_clone": "$t(in-settings:dialogs.role.title_new)",
+      "title_edit": "Editar rol",
+      "title_new": "Crear un rol nuevo",
       "generalSectionTitle": "General",
       "websiteSectionTitle": "Sitios web",
       "mobileAppsSectionTitle": "Apps móviles",
@@ -466,7 +465,8 @@
       "accessControlConfigApiTokensHelpText": "Permite la creación y configuración de señal de API.",
       "accessControlConfigAuthMethodsCheckboxLabel": "Configuración de métodos de autenticación",
       "accessControlViewAuditTrailCheckboxLabel": "Acceso al seguimiento de auditoría",
-      "accessControlViewTokenAndTimeoutSettingsCheckboxLabel": "Acceso a valores de tiempo de espera de señal y sesión"
+      "accessControlViewTokenAndTimeoutSettingsCheckboxLabel": "Acceso a valores de tiempo de espera de señal y sesión",
+      "roleSuccessfullySaved": "El rol se ha guardado correctamente."
     }
   },
   "tabs": {
@@ -981,8 +981,8 @@
     "configureLdap": "Configurar LDAP",
     "ldapConfiguration": "configuración de LDAP",
     "url": "URL",
-    "urlDescription": "URL del servidor LDAP, por ejemplo: ldap://host:389 or ldaps://host:636",
-    "user": "Usuario",
+    "urlDescription": "El nombre de dominio o la dirección IP del directorio de LDAP y el número de puerto de LDAP, por ejemplo: ldap://host:389 si es LDAP o ldaps://host:636 si es LDAPS",
+    "user": "Usuario de LDAP de solo lectura",
     "userDescription": "El DN de LDAP del usuario de solo lectura. Necesita tener suficientes derechos para listar grupos mediante group_query.",
     "actor": "Actor",
     "actorName": "Nombre",
@@ -995,18 +995,19 @@
     "anonymous": "El usuario de sólo lectura tiene acceso anónimo a LDAP",
     "base": "Base",
     "baseDescription": "La base para consultas, por ejemplo: (dc=instana,dc=com)",
-    "groupQuery": "Consulta de grupo",
-    "groupQueryDescription": "La consulta para listar un grupo o un conjunto de grupos con miembros que tienen acceso a Instana, por ejemplo: (ou=Instana)",
+    "groupQuery": "Consulta de grupos de LDAP",
+    "groupQueryDescription": "La consulta para listar un grupo o un conjunto de grupos con miembros que tienen acceso a Instana, por ejemplo: (ou=Instana), cn=INSTANA",
     "member": "miembro",
-    "groupMemberField": "Campo Miembro de grupo",
+    "groupMemberField": "Correlación de miembros del grupo de LDAP",
     "groupMemberFieldDescription": "El nombre del atributo que contiene los DN de los usuarios listados mediante group_query, por ejemplo: uniqueMember",
-    "userQueryTemplate": "Plantilla de consulta de usuario",
+    "userQueryTemplate": "Consulta de usuario",
     "userQueryTemplateDescription": "Plantilla para consultar el usuario, por ejemplo: (uid=%s)",
     "mail": "correo",
-    "emailField": "Campo de correo electrónico",
-    "emailFieldDescription": "El nombre del atributo donde se encuentra la dirección de correo electrónico de los usuarios, por ejemplo: mail",
+    "emailField": "Correlación de correos electrónicos",
+    "emailFieldDescription": "El nombre del atributo para asignar la dirección de correo electrónico de los usuarios, por ejemplo: mail",
     "ldapUserAccount": "Cuenta de usuario de LDAP",
-    "ldapsAcceptAnyCA": "Confiar en cualquier entidad emisora de certificados mientras se utiliza LDAPS",
+    "ldapsAcceptAnyCA": "Confiar en cualquier entidad emisora de certificados mientras utiliza ldaps",
+    "ldapsAcceptAnyCAHelperText": "Cuando está activado, se confía en cualquier entidad emisora de certificados mientras se utiliza LDAP. Es obligatorio para autoridades no fiables o certificados autofirmados.",
     "username": "Nombre de usuario",
     "usernameDescription": "El usuario que debe estar relacionado en Instana como usuario propietario. Un inicio de sesión se intenta como una prueba antes de guardar los valores, las credenciales no se almacenan.",
     "usernamePasswordDescription": "La contraseña de LDAP del usuario",
@@ -1440,12 +1441,20 @@
       "ldapHelpDoc": "En nuestras <docLink>páginas de documentación</docLink> encontrará ayuda y asistencia.",
       "oidcModalHeading": "Configurar autenticación - OIDC",
       "oidcModalHeading_active": "configuración de OIDC",
+      "samlModalHeading": "Configurar autenticación - SAML",
+      "samlModalHeading_active": "Configuración de SAML",
+      "ldapModalHeading": "Configurar autenticación - LDAP",
+      "ldapModalHeading_active": "configuración de LDAP",
       "emailToRecieveAdminstrationAccess": "Enviar correo electrónico para recibir acceso de administración a Instana automáticamente",
       "emailFromIdentityProviderMustBeEntered": "Después de activar {{idpConfig}}, no tendrá otra forma de iniciar sesión en Instana. Debe especificar aquí una dirección de correo electrónico de sus cuentas de proveedor de identidad para que se le pueda asignar acceso de administración a Instana.",
       "deleteActiveConfiguration": "Eliminar configuración activa",
-      "administratorsWillBeAbletoLogin": "Una vez que elimine la configuración activa, solo los administradores podrán iniciar sesión con su contraseña de Instana, hasta que se configure una nueva autenticación.",
+      "everyUserWillBeAbletoLogin": "Una vez suprimida la configuración activa, todos los usuarios podrán iniciar sesión con su contraseña de Instana, hasta que se configure una nueva autenticación.",
       "actionCannotBeUndone": "Entiendo que esta acción no se puede deshacer.",
-      "cannotConfigureIdpIfAnotherOneIsAlreadyActive": "Google SSO no es configurable siempre y cuando tenga otra configuración activa de proveedor de identidad. Elimine primero la configuración de IdP activa."
+      "cannotConfigureIdpIfAnotherOneIsAlreadyActive": "Google SSO no es configurable siempre y cuando tenga otra configuración activa de proveedor de identidad. Elimine primero la configuración de IdP activa.",
+      "idpIsActive": "{{idpConfig}} está activa. Para cambiar el proveedor de identidad (IdP), suprima la configuración activa actual.",
+      "failedToSaveConfig": "failedToSaveConfig",
+      "failedToDeleteConfig": "failedToDeleteConfig",
+      "editConfiguration": "Editar configuración"
     },
     "googleSSO": {
       "allowedDomains": "Dominios permitidos",
@@ -1465,8 +1474,37 @@
       "clientId": "ID de cliente",
       "identifierAssignedToOIDCApplication": "Este es el identificador que se asigna a la aplicación OIDC en su proveedor de identidad",
       "useDiscoveryURLOfOIDCConfiguration": "Utilice un URL de descubrimiento de su configuración de OIDC e Instana lo obtendrá automáticamente.",
-      "tokenToVerifyAuthenticity": "Instana utiliza la señal para verificar la autenticidad de la respuesta del proveedor de identidad",
-      "OIDCIsActive": "OIDC está activo. Para cambiar el proveedor de identidad (IdP), suprima la configuración activa actual."
+      "tokenToVerifyAuthenticity": "Instana utiliza la señal para verificar la autenticidad de la respuesta del proveedor de identidad"
+    },
+    "samlForm": {
+      "instanaUsesTenantNameToConnectIdP": "De forma predeterminada, Instana utiliza su nombre de arrendatario para conectar su IdP.",
+      "setupType": "Tipo de configuración",
+      "setupTypeAutomatic": "Automático",
+      "setupTypeManual": "Manual",
+      "setupDescription_automatic": "Descargue el archivo de metadatos de Instana y cárguelo en su proveedor de identidad para la configuración automática. Utilice la configuración manual si su proveedor de identidad no permite cargar metadatos de Instana.",
+      "setupDescription_manual": "La configuración manual es útil si su proveedor de identidad no permite la carga de metadatos de Instana. Cree manualmente una aplicación SAML en su proveedor de identidad especificando los metadatos de Instana necesarios.",
+      "chooseFileUploadingInstana": "Elija el archivo que desea cargar en Instana",
+      "instanaMetadataValues": "Los valores de metadatos de Instana necesarios para conectar su proveedor de identidad a Instana son los siguientes:",
+      "downloadIdentityProviderMetadata": "Descargue los metadatos del proveedor de identidad emitidos por su proveedor de identidad y cárguelos en Instana.",
+      "maxFileSize": "El tamaño máximo del archivo es 2 MB. Solo se admiten archivos de texto/xml.",
+      "pleaseSelectFile": "Seleccione un archivo para subir."
+    },
+    "ldapForm": {
+      "ldapServer": "Servidor de LDAP",
+      "ldapAuthentication": "Autenticación LDAP",
+      "ldapQueries": "Consultas de LDAP",
+      "optionalSettings": "Valores opcionales",
+      "userDescription": "El DN de LDAP del usuario de solo lectura, por ejemplo: cn=admin,dc=example,dc=com<br/>El usuario de solo lectura debe tener derechos suficientes para listar grupos mediante group_query",
+      "instanaAdministrationaccess": "Acceso a la administración de Instana",
+      "authenticateReadOnlyAccessToLdap": "Autenticar el acceso de solo lectura a LDAP",
+      "passwordForReadOnlyUser": "Contraseña para usuario de solo lectura",
+      "instanaAdministrationaccessDescription": "Una vez activado LDAP, no tendrá otra forma de iniciar sesión en Instana. Aquí se debe especificar una cuenta de usuario de LDAP para que pueda asignarse al grupo de propietarios en Instana para el acceso de administración.<br/>Utilice el atributo LDAP de la cuenta alineado con la plantilla de búsqueda de consulta de usuario.",
+      "usernameAdministrationAccess": "Nombre de usuario de LDAP para asignar acceso de administración a Instana",
+      "usernameAdministrationAccessDescription": "Por ejemplo: einstein",
+      "passwordAdministrationAccess": "Contraseña",
+      "passwordAdministrationAccessDescription": "Contraseña de LDAP del usuario",
+      "testConnection": "Probar conexión",
+      "testConnectionDescription": "Se intenta un inicio de sesión como prueba cuando se hace clic para guardar, las credenciales no se almacenan. También puede probar la conexión manualmente antes de guardarla."
     },
     "toYourIdentityProvider": "A su proveedor de identidad",
     "fromYourIdentityProvider": "Desde su proveedor de identidad",
@@ -1646,7 +1684,8 @@
     "dateUntil": "Fecha hasta",
     "occurences": "Apariciones",
     "on": "Activar",
-    "the": "Los 2",
+    "specifyDate": "Especificar una fecha",
+    "specifyWeekDayMonth": "Especifique una semana, un día y un mes",
     "number": "Número",
     "first": "primero",
     "second": "segundo",

@@ -12,7 +12,7 @@ import { t } from 'in-i18n';
 export const MAP_CARBON_STATUS: Record<FetchStatus | '', Parameters<typeof CarbonInlineLoading>[0]['status']> =
   Object.freeze({
     resolved: 'finished',
-    rejected: 'error',
+    rejected: undefined,
     pending: 'active',
     '': 'inactive'
   });

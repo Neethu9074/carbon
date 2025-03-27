@@ -7,10 +7,11 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { SvgIcon, Button, Stack } from '@instana/components';
+import { SvgIcon, Button, Stack, CarbonCheckbox } from '@instana/components';
 
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
+import { tealiumPrivacyEnabled } from 'in-services/featureFlags';
 import RolesSelector from 'in-settings/terms/RolesSelector';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -46,6 +47,21 @@ export default function TermsPageProfile({
           <InputField label={t('in-settings:termsDialog.termsPage4.email')} value={userEmail} />
 
           <RolesSelector form={form} onChange={(fieldName, value) => onChange(form, fieldName, value)} />
+          {tealiumPrivacyEnabled &&
+            fullTermsConfigEnabled &&
+            form
+              .get('testingGroup')
+              .map(({ value }) => (
+                <CarbonCheckbox
+                  id="user-testing-group"
+                  labelText={t('in-settings:tabs.userTestingGroup')}
+                  hideLabel
+                  className={locals.profileCheckbox}
+                  helperText={t('in-settings:tabs.profileCheckboxText')}
+                  checked={value}
+                  onChange={() => onChange(form, 'testingGroup', !value)}
+                />
+              ))}
         </Stack>
 
         <div
@@ -72,12 +88,14 @@ export default function TermsPageProfile({
       </div>
 
       <FormFooter className={locals.buttons}>
-        <Button
-          onClick={() => handleBackClick(hasErrorOnSave, unsetSaveError, onBack, fullTermsConfigEnabled)}
-          kind="secondary"
-        >
-          {t('in-settings:termsDialog.back')}
-        </Button>
+        {!tealiumPrivacyEnabled ? (
+          <Button
+            onClick={() => handleBackClick(hasErrorOnSave, unsetSaveError, onBack, fullTermsConfigEnabled)}
+            kind="secondary"
+          >
+            {t('in-settings:termsDialog.back')}
+          </Button>
+        ) : null}
         <Button type="submit" disabled={isSubmitDisabled(form)}>
           {t('in-settings:termsDialog.save')}
         </Button>

@@ -624,7 +624,11 @@
       "failures": "Echecs",
       "status": "Statut",
       "success": "Succès",
-      "daysRemaining": "Jours restants"
+      "daysRemaining": "Jours restants",
+      "dns": {
+        "failureType": "Type d'incident",
+        "na": "Non disponible"
+      }
     },
     "detailsPage": {
       "detailLiveModeDisabled": "Le mode interactif n'est pas applicable dans la page de détails des résultats de test synthétique",

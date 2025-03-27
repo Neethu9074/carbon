@@ -8,4 +8,7 @@
   .gotoLogsButton {
     margin-right: 0.5rem;
   }
+  .divisoryLine ul > li:not(:last-child) {
+    border-bottom: 1px solid var(--ids-color-option-neutral-400);
+  }
 }

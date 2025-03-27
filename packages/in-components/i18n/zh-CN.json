@@ -68,6 +68,7 @@
     "placeholderSelect": "选择…"
   },
   "downloadBtn": {
+    "downloadAriaLabel": "下载",
     "downloadViewDownloadAsJsonLabel": "以 JSON 格式下载",
     "downloadViewDownloadCSVLabel": "下载 (*.csv)",
     "downloadViewDownloadJsonLabel": "下载 (*.json)",
@@ -468,12 +469,8 @@
     "profileMenu_profileLink": "概要文件",
     "profileMenu_tooltip": "概要文件菜单",
     "profileMenu_unitName_tenantName": "单位名称 - 租户名称",
-    "profileMenu_instanceName": "实例名称",
-    "profileMenu_region": "区域",
-    "profileMenu_instanceOwner": "实例所有者",
     "profileMenu_switchUnitOrTenant": "切换单位或租户",
     "profileMenu_privacy": "隐私",
-    "profileMenu_saasConsole": "IBM SaaS 控制台",
     "profileMenu_logOut": "注销"
   },
   "metricConfigurator": {
@@ -580,7 +577,8 @@
     "title": "会话超时",
     "message": "由于未活动，您将退出登录：",
     "loggedInButton": "保持登录",
-    "logOutButton": "注销"
+    "logOutButton": "注销",
+    "failedToUpdateSession": "更新空闲会话失败"
   },
   "time": {
     "lastMinute": "最近 1 分钟",
@@ -599,6 +597,8 @@
     "previousWeek": "前一周",
     "dashboardHeaderButtonLive": "实时",
     "customTimeTitleTimeRange": "时间范围",
+    "customTimeTimeRangeLowerValue": "时间范围下限值",
+    "customTimeTimeRangeUpperValue": "时间范围上限值",
     "to": "至",
     "customTimeButtonSetTime": "设置时间",
     "customTimeLabelYesterday": "昨天",
@@ -637,7 +637,11 @@
     "timeFrameFormatterMinutes_plural": "最近 {{count}} 分钟",
     "timeFrameFormatterMinutes_0": "最近 {{count}} 分钟",
     "timeFrameFormatterMinutes_1": "最近 {{count}} 分钟",
-    "timeFrameFormatterMinutes_2": "最近 {{count}} 分钟"
+    "timeFrameFormatterMinutes_2": "最近 {{count}} 分钟",
+    "startDate": "开始日期",
+    "startTime": "开始时间",
+    "endDate": "结束日期",
+    "endTime": "结束时间"
   },
   "timeShift": {
     "changeSelectedTimeShift": "更改所选时移",

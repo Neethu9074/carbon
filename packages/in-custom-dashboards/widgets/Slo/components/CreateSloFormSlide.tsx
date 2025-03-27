@@ -24,9 +24,9 @@ import { UnstableTrackingFunction, useSegmentTracking } from 'in-services/tracki
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { resetChildrenScrollPosition } from 'in-custom-dashboards/widgets/Slo/utils/slideInView';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
-import { CREATED_OBJECT, ENDED_PROCESS, UPDATED_OBJECT } from 'in-services/util/constants';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { CreateSloFormSlideState } from 'in-custom-dashboards/widgets/Slo/types';
+import { CREATED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import useHandleSloForm from 'in-service-levels/hooks/useHandleSloForm';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -53,7 +53,7 @@ interface CreateSloFormSlideProps extends SlideInViewContentProps<CreateSloFormS
 export default function CreateSloFormSlide({ slideOut, subSlideState, onCreationSuccessful }: CreateSloFormSlideProps) {
   const { form, setForm, updateForm, submitStatus, doSubmit, resetForm } = useHandleSloForm({ mode: FORM_MODE });
   const { ref: wrapperRef } = useResizeObserver<HTMLDivElement>();
-  const { unstable_trackEvent } = useSegmentTracking();
+  const { trackCta, unstable_trackEvent } = useSegmentTracking();
   // Because the SlideInView together with a StepsContainer is causing some
   // trouble we have to dynamically calculate the height of the form body
   const parentElement = wrapperRef.current?.parentElement;
@@ -64,15 +64,10 @@ export default function CreateSloFormSlide({ slideOut, subSlideState, onCreation
     slideOut();
     resetChildrenScrollPosition(parentElement);
     resetForm();
-    unstable_trackEvent(
-      ENDED_PROCESS,
-      {
-        productArea: productAreas.custom_dashboard,
-        pageName: pageNames.custom_dashboard,
-        objectType: SLO_CONFIG_DIALOG_CLOSE
-      },
-      undefined
-    );
+    trackCta(SLO_CONFIG_DIALOG_CLOSE, {
+      productArea: productAreas.custom_dashboard,
+      pageName: pageNames.custom_dashboard
+    });
   };
 
   useEffect(() => {

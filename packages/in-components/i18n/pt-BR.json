@@ -68,6 +68,7 @@
     "placeholderSelect": "Selecionar..."
   },
   "downloadBtn": {
+    "downloadAriaLabel": "Download",
     "downloadViewDownloadAsJsonLabel": "Fazer download como JSON",
     "downloadViewDownloadCSVLabel": "Fazer download (*.csv)",
     "downloadViewDownloadJsonLabel": "Fazer download (*.json)",
@@ -468,12 +469,8 @@
     "profileMenu_profileLink": "Perfil",
     "profileMenu_tooltip": "Menu de perfil",
     "profileMenu_unitName_tenantName": "Nome da unidade - Nome do locatário",
-    "profileMenu_instanceName": "Nome da instância",
-    "profileMenu_region": "Região",
-    "profileMenu_instanceOwner": "Proprietário da instância",
     "profileMenu_switchUnitOrTenant": "Alternar unidade ou locatário",
     "profileMenu_privacy": "Privacidade",
-    "profileMenu_saasConsole": "IBM SaaS Console",
     "profileMenu_logOut": "Efetuar logout"
   },
   "metricConfigurator": {
@@ -580,7 +577,8 @@
     "title": "Tempo limite de sessão",
     "message": "Devido à inatividade, você será desconectado:",
     "loggedInButton": "Permanecer conectado",
-    "logOutButton": "Efetuar logout"
+    "logOutButton": "Efetuar logout",
+    "failedToUpdateSession": "Falha ao atualizar a sessão inativa"
   },
   "time": {
     "lastMinute": "Último minuto",
@@ -599,6 +597,8 @@
     "previousWeek": "Semana anterior",
     "dashboardHeaderButtonLive": "Em tempo real",
     "customTimeTitleTimeRange": "Intervalo de tempo",
+    "customTimeTimeRangeLowerValue": "Valor inferior de intervalo de tempo",
+    "customTimeTimeRangeUpperValue": "Valor superior de intervalo de tempo",
     "to": "até",
     "customTimeButtonSetTime": "Configurar horário",
     "customTimeLabelYesterday": "Ontem",
@@ -637,7 +637,11 @@
     "timeFrameFormatterMinutes_plural": "Últimos {{count}} minutos",
     "timeFrameFormatterMinutes_0": "Últimos {{count}} minutos",
     "timeFrameFormatterMinutes_1": "Últimos {{count}} minutos",
-    "timeFrameFormatterMinutes_2": "Últimos {{count}} minutos"
+    "timeFrameFormatterMinutes_2": "Últimos {{count}} minutos",
+    "startDate": "Data de Início",
+    "startTime": "Horário de início",
+    "endDate": "Data de encerramento",
+    "endTime": "Horário de encerramento"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Mudar deslocamento de tempo selecionado",

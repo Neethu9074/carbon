@@ -41,6 +41,7 @@ import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/m
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { getResultErrorMessage } from 'in-synthetics/dashboards/details/utils';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -163,14 +164,6 @@ const daysRemainingColumnContent = (item: TestResultListItem) => {
 const FailureTypePopover = ({ resultItem }: { resultItem: TestResultListItem }) => {
   const [openFailurePopover, setOpenFailurePopover] = useState(false);
   const errors = resultItem?.testResultCommonProperties?.errors ?? [];
-  const getErrorMessage = (error: string) => {
-    if (error) {
-      const regex = /errorMessage=([^,}]+)/;
-      const match = RegExp(regex).exec(error);
-      return match ? match[1] : '';
-    }
-    return '';
-  };
 
   const handleFailureListClose = () => {
     setOpenFailurePopover(false);
@@ -183,7 +176,7 @@ const FailureTypePopover = ({ resultItem }: { resultItem: TestResultListItem }) 
   return errors && errors?.length > 0 ? (
     <span>
       <Tag size="md" type="blue">
-        {getErrorMessage(errors[0])}
+        {getResultErrorMessage(errors[0])}
       </Tag>
       {errors.length > 1 && (
         <Popover open={openFailurePopover} align="bottom-end" onRequestClose={handleFailureListClose}>
@@ -194,7 +187,7 @@ const FailureTypePopover = ({ resultItem }: { resultItem: TestResultListItem }) 
             <Tile>
               <ContainedList label={''} size="sm" kind="disclosed">
                 {errors.slice(1).map((error: string) => (
-                  <ContainedListItem key={generateUniqueShortId()}>{getErrorMessage(error)}</ContainedListItem>
+                  <ContainedListItem key={generateUniqueShortId()}>{getResultErrorMessage(error)}</ContainedListItem>
                 ))}
               </ContainedList>
             </Tile>

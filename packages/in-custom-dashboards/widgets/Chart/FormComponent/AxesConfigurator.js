@@ -26,9 +26,10 @@ import locals from './AxesConfigurator.mless';
 
 export default function AxesConfigurator({ form, onChange, getShortMetricKey, withUnit }) {
   const [showSecondaryAxis, setShowSecondaryAxis] = useState(form.getIn(['y2', 'metrics']).size > 0);
+  const [activeInfo, setActiveInfo] = useState(null);
 
   return (
-    <Reorderer form={form} onChange={onChange}>
+    <Reorderer form={form} onChange={onChange} activeInfo={activeInfo} setActiveInfo={setActiveInfo}>
       <div
         className={classNames(locals.wrapper, {
           [locals.dualAxis]: showSecondaryAxis
@@ -44,6 +45,7 @@ export default function AxesConfigurator({ form, onChange, getShortMetricKey, wi
           startIndex={0}
           getShortMetricKey={getShortMetricKey}
           withUnit={withUnit}
+          activeInfo={activeInfo}
         />
 
         {showSecondaryAxis && (
@@ -58,6 +60,7 @@ export default function AxesConfigurator({ form, onChange, getShortMetricKey, wi
             setShowSecondaryAxis={setShowSecondaryAxis}
             showSecondaryAxis={showSecondaryAxis}
             withUnit={withUnit}
+            activeInfo={activeInfo}
           />
         )}
       </div>
@@ -81,7 +84,8 @@ function AxisConfigurator({
   startIndex,
   getShortMetricKey,
   isSecondary,
-  withUnit = false
+  withUnit = false,
+  activeInfo
 }) {
   const axisForm = form.get(axisName);
   const isAxisRemovable = isSecondary && axisForm.get('metrics').size === 0;
@@ -285,6 +289,7 @@ function AxisConfigurator({
             startIndex={startIndex}
             getShortMetricKey={getShortMetricKey}
             withUnitPill={withUnit}
+            activeInfo={activeInfo}
           />
         </Stack>
       </Li>

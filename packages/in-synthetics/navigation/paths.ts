@@ -31,6 +31,7 @@ const summaryTab = '/summary';
 export const resultsTab = '/results';
 export const alertsTab = '/alerts';
 const configurationTab = '/configuration';
+const serviceLevelsTab = '/slo';
 
 export const syntheticsPath = '/syntheticTests';
 export const syntheticLocationPath = '/syntheticLocations';
@@ -39,6 +40,7 @@ export const syntheticAlertListPath = `${syntheticsDashboard}${alertsTab}`;
 export const syntheticsSummaryPath = `${syntheticsDashboard}${summaryTab}`;
 export const syntheticResultsListPath = `${syntheticsDashboard}${resultsTab}`;
 export const syntheticConfigurationPath = `${syntheticsDashboard}${configurationTab}`;
+export const syntheticServiceLevelsPath = `${syntheticsDashboard}${serviceLevelsTab}`;
 export const syntheticDetailsPath = `/syntheticDetails`;
 export const syntheticSmartAlertsPath = '/syntheticSmartAlerts';
 export const syntheticSmartAlertsDetailsPath = '/details';

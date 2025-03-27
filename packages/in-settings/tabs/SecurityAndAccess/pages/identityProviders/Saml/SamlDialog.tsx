@@ -117,10 +117,12 @@ const SamlDialog = (props: SamlDialogProps) => {
     setConfig(samlConfig)
   );
   const [samlDeleteStatus, deleteSamlConfig] = useFormSubmission<undefined, boolean>(deleteConfig);
+
   const carbonSamlStatus = MAP_CARBON_STATUS[samlSubmitStatus ?? ''];
   const carbonDeleteStatus = MAP_CARBON_STATUS[samlDeleteStatus ?? ''];
   const samlDescription = SAVE_DESCRIPTIONS[samlSubmitStatus ?? ''];
   const deleteDescription = DELETE_DESCRIPTIONS[samlDeleteStatus ?? ''];
+
   const onSaveSamlConfig = () => {
     const samlConfig = form.toJS();
     const reader = new FileReader();
@@ -144,7 +146,7 @@ const SamlDialog = (props: SamlDialogProps) => {
         onError: result => {
           setNotification({
             kind: 'error',
-            subtitle: t('in-settings:tabs.failedToSaveConfig', { err: result?.errors[0] })
+            subtitle: t('in-settings:tabs.failedToSaveConfig', { err: result?.errors[0]?.message })
           });
         }
       });
@@ -167,7 +169,9 @@ const SamlDialog = (props: SamlDialogProps) => {
       onError: result => {
         setNotification({
           kind: 'error',
-          subtitle: t('in-settings:tabs.authenticationProviders.failedToDeleteConfig', { err: result?.errors[0] })
+          subtitle: t('in-settings:tabs.authenticationProviders.failedToDeleteConfig', {
+            err: result?.errors[0]?.message
+          })
         });
       }
     });

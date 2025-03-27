@@ -43,6 +43,9 @@
     "dropDown": {
       "selectOption": "Selezionare un'opzione"
     },
+    "infoicon": {
+      "information": "Informazioni"
+    },
     "tabsNavigation": {
       "pageNavigation": "Navigazione pagina"
     },

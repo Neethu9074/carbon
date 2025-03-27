@@ -102,7 +102,7 @@ export const DNSQueryTypes: { label: string; value: string }[] = [
   },
   {
     label: 'ALL associated with assertions',
-    value: 'ALL associated with assertions'
+    value: 'ALL_CONDITIONS'
   }
 ];
 
@@ -114,6 +114,14 @@ export const DNSFilterOperators: { label: string; value: DNSFilterOperator }[] =
   {
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionMatches'),
     value: 'MATCHES'
+  },
+  {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionIs'),
+    value: 'IS'
+  },
+  {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionNotMatches'),
+    value: 'NOT_MATCHES'
   }
 ];
 

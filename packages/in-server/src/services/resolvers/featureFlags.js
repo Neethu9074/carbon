@@ -218,7 +218,7 @@ module.exports = exports = [
   {
     uiClientKey: 'kubernetesCloudNativeExperience',
     instanaCtlKey: 'feature.kubernetes.cloud.native.experience.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'kubernetesPrometheusMetricsEnabled',
@@ -664,7 +664,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bidirectionalSlackEnabled',
     instanaCtlKey: 'feature.alert.channel.bidirectional.slack.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
@@ -855,6 +855,11 @@ module.exports = exports = [
     uiClientKey: 'sloFullEnabled',
     instanaCtlKey: 'feature.slo.full.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'solisEnabled',
+    instanaCtlKey: 'feature.solis.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'mobileAppSmartAlertFullScreenDesignEnabled',

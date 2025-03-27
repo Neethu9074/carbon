@@ -19,6 +19,7 @@
   "titleDescription": "Descrição",
   "titleTriggerEvent": "Evento acionador",
   "titleRelatedEvents": "Eventos relacionados ({{eventCount}})",
+  "titleAffectedIncidents": "Incidentes afetados",
   "noRelatedEvents": "Não foram localizados eventos relacionados",
   "titleLastProcess": "Último processo",
   "titleLastHost": "Último host",
@@ -357,10 +358,28 @@
     "confirmationYes": "True",
     "confirmationNo": "Cancelar"
   },
+  "aichat": {
+    "unableToFindError": "Não é possível localizar essas informações",
+    "host": "Host",
+    "name": "Nome",
+    "noMatching": "Nenhum registro correspondente localizado.",
+    "timestamp": "Registro de data e hora",
+    "numCalls": "Nº de chamadas",
+    "meanLatency": "Latência média",
+    "youMustAccept": "Você deve aceitar os termos do Contrato do programa de visualização de assistência de IA generativa para usar esse recurso.",
+    "reviewAction": "Revisar contrato",
+    "openingAgreement": "Abrir o [formulário de consentimento]({{href}}) em uma nova guia...",
+    "findingInfoFrom": "Localizando essas informações no {{endpoint}}",
+    "noData": "Nenhum dado retornado da API",
+    "whatToKnow": "O que você deseja saber sobre {{category}}?",
+    "welcome": "Olá e seja bem-vindo. Comece a usar a IA explorando os diversos exemplos abaixo.",
+    "apps": "Aplicativos",
+    "infra": "Infraestrutura"
+  },
   "notes": {
     "openNotes": "Abrir notas e atividades",
     "closeNotes": "Fechar notas e atividades",
-    "notesActivity": "Notas e atividades",
+    "notesActivity": "Notas e atividades com IA",
     "confirmDelete": "Confirmar exclusão",
     "you": "Você {{date}}",
     "youEdited": "Você (editado) {{date}}",
@@ -430,5 +449,9 @@
   "consentForm": {
     "consentText": "Você deve aceitar os termos do Contrato do programa de visualização de assistência de IA generativa para usar esse recurso.",
     "consentButton": "Revisar contrato"
+  },
+  "affectedIncidents": {
+    "affectedIncident": "Incidente afetado",
+    "noAffectedIncidents": "Nenhum incidente afetado foi localizado"
   }
 }

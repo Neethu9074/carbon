@@ -303,6 +303,11 @@
     "dataSource_traces": "{{formattedCount}} 个跟踪",
     "dataSource_traces_plural": "{{formattedCount}} 个跟踪",
     "analyzeCallsOfThisTrace": "分析此跟踪的调用",
+    "storeTrace": {
+      "label": "存储跟踪",
+      "traceNotSavedTooltip": "将此跟踪信息长期保存 13 个月。 15 秒后自动保存。",
+      "traceSavedTooltip": "该跟踪信息已被保存，并将保存 13 个月。"
+    },
     "noAvailableCustomMetrics": "没有可用的自定义指标",
     "filters": "过滤器",
     "saveFiltersTitle": "保存过滤器",

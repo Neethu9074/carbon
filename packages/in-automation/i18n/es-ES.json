@@ -106,6 +106,9 @@
   "ansibleUrl": "URL de Ansible",
   "playbookFileName": "Nombre de archivo del Playbook",
   "playbookId": "ID de Playbook",
+  "triggeringEvent": "Suceso activador",
+  "probableRootCause": "Causa principal probable",
+  "contextFor": "Contexto para:",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Configuración de acciones",
     "actionDetails": "Detalles de la acción",
@@ -115,7 +118,6 @@
     "Step3Headline": "Opcionalmente, puede crear una política de automatización junto con la acción. También puede completar este paso más adelante.",
     "step1Title": "Paso 1: Generar o seleccionar una acción",
     "step1TitleGenerateAction": "Paso 1: Generar una acción",
-    "step1TitleSelectAction": "Paso 1: Seleccionar una acción",
     "step2Title": "Paso 2: Configurar la acción",
     "step3Title": "Paso 3: Crear política (opcional)",
     "policyDetails": "Detalles de la política",
@@ -480,9 +482,7 @@
   "deleteDialog": {
     "confirmRemove": "Confirmar eliminación",
     "confirmRemoveMsg": "¿Seguro que desea suprimir <strong>{{name}}</strong>?",
-    "delete": "Suprimir",
-    "pleaseConfirm": "Confírmelo",
-    "pleaseConfirmMsg": "¿Seguro que desea suprimir <strong>{{name}}</strong>?"
+    "delete": "Suprimir"
   },
   "turboActionCategories": {
     "compliance": "Conformidad",
@@ -529,7 +529,7 @@
     "lastModified": "Última modificación",
     "history": "Historial",
     "summaryTab": {
-      "seconds": "Segundos"
+      "millisecond": "ms"
     },
     "associatedPolicies": "Políticas asociadas"
   },
@@ -538,7 +538,7 @@
     "thankYouForYourFeedback": "Gracias por sus comentarios.",
     "submitFeedback": "Enviar comentarios",
     "additionalFeedbacklabel": "Proporcione comentarios adicionales (opcional)",
-    "additionalFeedbackPlaceholder": "¿Qué no le gustó de la respuesta? Qué se puede mejorar"
+    "additionalFeedbackPlaceholder": "¿Qué no le gustó de la respuesta? ¿Qué se puede mejorar?"
   },
   "consentForm": {
     "consentButton": "Revisar formulario de consentimiento",

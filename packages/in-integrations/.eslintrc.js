@@ -26,7 +26,8 @@ module.exports = {
         'in-hooks',
         'in-hoc',
         'in-stores',
-        'in-subscription'
+        'in-subscription',
+        'in-logging'
       ]
     })
   }

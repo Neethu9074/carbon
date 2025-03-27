@@ -116,6 +116,7 @@ export const GARDEN_ID = 'garden.containerId';
 export const containerSnapshotIds = [DOCKER_SNAPSHOT_ID, CRIO_SNAPSHOT_ID, CONTAINERD_SNAPSHOT_ID, GARDEN_SNAPSHOT_ID];
 export const containerIds = [CONTAINERD_ID, DOCKER_ID, CRIO_ID, GARDEN_ID];
 export const SPAN_STACK_TRACE = 'span.stacktrace';
+export const HOST_FQDN = 'host.fqdn';
 
 export const kubernetesEntitySnapshotIds = [
   KUBERNETES_CLUSTER_SNAPSHOT_ID,

@@ -31,4 +31,11 @@
   .hidePagination {
     display: none;
   }
+
+  .nodeName h2 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 225px;
+  }
 }

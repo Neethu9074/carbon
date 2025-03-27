@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Spacer, Toggle } from '@instana/components';
+import { CarbonToggle } from '@instana/components';
 
 import { t } from 'in-i18n';
 
@@ -16,9 +16,14 @@ export default function HighlightSwitch(props) {
 
   return (
     <div className={locals.wrapper}>
-      <span className={locals.label}>{t('in-kubernetes:dashboards.highlightUnhealthy')}</span>
-      <Spacer horizontal="xxsmall" />
-      <Toggle checked={showHealth} onToggle={e => setShowHealth(e)} />
+      <CarbonToggle
+        id="highlight-unhealthy"
+        size="sm"
+        hideLabel
+        toggled={showHealth}
+        labelText={t('in-kubernetes:dashboards.highlightUnhealthy')}
+        onToggle={e => setShowHealth(e)}
+      />
     </div>
   );
 }

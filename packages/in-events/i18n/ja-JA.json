@@ -19,6 +19,7 @@
   "titleDescription": "説明",
   "titleTriggerEvent": "トリガー・イベント",
   "titleRelatedEvents": "関連イベント ({{eventCount}})",
+  "titleAffectedIncidents": "該当インシデント",
   "noRelatedEvents": "関連イベントは見つかりませんでした",
   "titleLastProcess": "最後のプロセス",
   "titleLastHost": "最後のホスト",
@@ -357,10 +358,28 @@
     "confirmationYes": "はい",
     "confirmationNo": "キャンセル"
   },
+  "aichat": {
+    "unableToFindError": "その情報が見つかりません",
+    "host": "ホスト",
+    "name": "名前",
+    "noMatching": "一致するレコードは見つかりませんでした。",
+    "timestamp": "タイムスタンプ",
+    "numCalls": "# Calls",
+    "meanLatency": "平均待ち時間",
+    "youMustAccept": "この機能を使用するには、生成 AI アシスタンス・プレビュー・プログラム契約の条件に同意する必要があります。",
+    "reviewAction": "レビュー契約",
+    "openingAgreement": "新しいタブで [consent form]({{href}}) を開きます...",
+    "findingInfoFrom": "{{endpoint}} からの情報を見つける",
+    "noData": "API から返されたデータがない",
+    "whatToKnow": "{{category}} について知りたいですか?",
+    "welcome": "こんにちは、ようこそ。 以下のさまざまな例を通じて AI を始めましょう。",
+    "apps": "アプリケーション",
+    "infra": "インフラストラクチャー"
+  },
   "notes": {
     "openNotes": "注釈およびアクティビティーを開く",
     "closeNotes": "注釈およびアクティビティーを閉じる",
-    "notesActivity": "注釈およびアクティビティー",
+    "notesActivity": "AI によるメモとアクティビティ",
     "confirmDelete": "削除の確認",
     "you": "{{date}} は",
     "youEdited": "あなた (edited) {{date}}",
@@ -430,5 +449,9 @@
   "consentForm": {
     "consentText": "この機能を使用するには、生成 AI アシスタンス・プレビュー・プログラム契約の条件に同意する必要があります。",
     "consentButton": "レビュー契約"
+  },
+  "affectedIncidents": {
+    "affectedIncident": "影響を受けたインシデント",
+    "noAffectedIncidents": "影響を受けたインシデントは見つからなかった"
   }
 }

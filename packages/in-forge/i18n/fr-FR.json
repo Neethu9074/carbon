@@ -10962,7 +10962,12 @@
         "servicename": "Nom du service",
         "displayname": "Nom d'affichage",
         "state": "Etat",
-        "health": "Intégrité"
+        "health": "Intégrité",
+        "disk": "Disque",
+        "readAwaitTime": "Temps de lecture",
+        "writeAwaitTime": "Temps d'écriture",
+        "avgDiscardRequestsTime": "Délai de rejet des demandes",
+        "avgFlushRequestsTime": "Délai de vidage des demandes"
       },
       "os": "SE",
       "distribution": "Distribution",
@@ -12251,6 +12256,10 @@
       "maxQueueDepth": "Longueur max de file d'attente",
       "currentQueueDepth": "Longueur de file d'attente actuelle",
       "queueFullPercentage": "Pourcentage du nombre de lignes de la file d'attente",
+      "queueType": "Type de file d'attente",
+      "queueUsage": "Utilisation de la file d'attente",
+      "triggerType": "Type de déclencheur",
+      "triggerControl": "Commande de déclenchement",
       "lastGetDateTime": "Heure de la dernière extraction",
       "lastPutDateTime": "Heure de la dernière insertion",
       "depth": "Longueur",
@@ -12264,6 +12273,7 @@
       "openOutputCount": "Nombre de sorties ouvertes",
       "calls": "Appels",
       "statistics": "Statistiques de file d'attente MQ",
+      "attributes": "Attributs",
       "statisticsRecord": "Index",
       "nonPersistentPutBytes": "Octets d'insertion non persistants",
       "persistentPutBytes": "Octets d'insertion persistants",
@@ -12438,7 +12448,9 @@
       "connections": "Connexions",
       "messagesIn": "Messages entrants",
       "messagesOut": "Messages sortants",
-      "uncommittedMessages": "Messages non validés"
+      "uncommittedMessages": "Messages non validés",
+      "clusterStatus": "Statut du cluster",
+      "clusterSuspendIndicator": "Indicateur d'interruption de cluster"
     },
     "ibmMqQueueUsage": {
       "dashboard": {

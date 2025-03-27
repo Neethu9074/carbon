@@ -416,6 +416,16 @@
         "configurationParameters": "구성 매개변수"
       }
     },
+    "zos": {
+      "zos": "z/OS",
+      "selectTheAgentPackagingMode": "1단계: 에이전트 패키징 모드 선택",
+      "Packaging": "패키징",
+      "dynamic": "동적",
+      "static": "정적",
+      "RunTheAgentDeploymentCode": "2단계: 에이전트 배치 코드를 실행하십시오(z/OS의 USS 계층에서).",
+      "installagentOnZOS": "z/OS(에어 갭 환경)에 에이전트 설치",
+      "installagentOnZOS1": "에이전트 설치 후(추적 전제조건 확인)"
+    },
     "ibmi": {
       "ibmi": "IBM i",
       "os": "OS",

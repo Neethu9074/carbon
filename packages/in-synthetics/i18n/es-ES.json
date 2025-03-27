@@ -624,7 +624,11 @@
       "failures": "Anomalías",
       "status": "Estado",
       "success": "Éxito",
-      "daysRemaining": "Días restantes"
+      "daysRemaining": "Días restantes",
+      "dns": {
+        "failureType": "Tipo de anomalía",
+        "na": "N/A"
+      }
     },
     "detailsPage": {
       "detailLiveModeDisabled": "El modo activo no es aplicable en la página de detalles del resultado de la prueba sintética",

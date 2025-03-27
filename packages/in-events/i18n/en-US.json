@@ -364,6 +364,7 @@
     "unableToFindError": "Unable to find that information",
     "host": "Host",
     "name": "Name",
+    "count": "Count",
     "noMatching": "No matching records found.",
     "timestamp": "Timestamp",
     "numCalls": "# Calls",

@@ -42,52 +42,94 @@ export function fetchAPIData(chatPayload) {
 }
 
 export function formatForTable(apiResponse) {
-  const instanaApiResponse = apiResponse.items;
-  const finalResponseRowList = [];
-  const response = {
-    response_type: 'table',
-    data: {
-      headers: [t('in-events:aichat.name')],
-      rows: []
-    }
-  };
+  // Human readable column names
   const headerAlias = {
+    'label.kubernetesNode': t('in-events:aichat.host'),
     'latency.mean': t('in-events:aichat.meanLatency'),
     'calls.sum': t('in-events:aichat.numCalls')
   };
-  if (instanaApiResponse.length === 0) {
-    // Return empty table
-  } else if (instanaApiResponse[0].tags?.['label.kubernetesNode']) {
-    response.data.headers = [t('in-events:aichat.host')];
-    instanaApiResponse.forEach(entry => {
-      response.data.rows.push({ cells: [entry.tags?.['label.kubernetesNode']] });
-    });
-  } else {
-    const metricOptions = Object.keys(instanaApiResponse[0].metrics || {});
-    const metric = metricOptions.length > 0 ? metricOptions[0] : undefined;
-    // Fall back to metric property name table header if alias does not exist
-    if (metric) {
-      response.data.headers.push(t('in-events:aichat.timestamp'));
-      response.data.headers.push(headerAlias[metric] || metric);
+  const emptyResult = {
+    output: {
+      generic: [
+        {
+          response_type: 'table',
+          headers: [],
+          rows: []
+        }
+      ]
     }
+  };
+  const response = {
+    response_type: 'table',
+    data: {
+      headers: [],
+      rows: []
+    }
+  };
+  const instanaApiResponse = apiResponse.items;
+  if (!instanaApiResponse || instanaApiResponse.length === 0) {
+    return emptyResult;
+  }
+
+  const first = instanaApiResponse[0];
+  const potentialTags = (Object.keys(first.tags || {}) || []).filter(x => /^label\..*|.*\.name$/.test(x));
+  let useTag = potentialTags.length > 0 ? potentialTags[0] : null;
+  if (first.name) {
+    response.data.headers.push(t('in-events:aichat.name'));
+  } else if (useTag) {
+    response.data.headers.push(headerAlias[useTag] || useTag);
+  } else {
+    // No primary column found
+    return emptyResult;
+  }
+
+  const countPresent = first.count !== undefined;
+  const metricKeys = Object.keys(first.metrics || {});
+  const firstMetric = metricKeys.length > 0 ? first.metrics[metricKeys[0]]?.[0] || [] : [];
+  if (firstMetric.length === 2) {
+    // [timestamp, metric] format
+    metricKeys.forEach(key => {
+      response.data.headers.push(headerAlias[key] || key);
+    });
+    if (countPresent) {
+      response.data.headers.push(t('in-events:aichat.count'));
+    }
+    response.data.headers.push(t('in-events:aichat.timestamp'));
     instanaApiResponse.forEach(entry => {
       const cells = [];
-      let name =
-        entry.name ||
-        entry.tags?.['label.ibmMqQueue'] ||
-        entry.tags?.['ibmmq.queue.name'] ||
-        entry.tags?.['label.jvmRuntimePlatform'];
-      cells.push(name);
-      if (metric && 'metrics' in entry) {
-        const timestamp = entry.metrics[metric][0][0];
-        cells.push(new Date(timestamp).toISOString());
-        cells.push(String(entry.metrics[metric][0][1]));
+      cells.push(entry.name || entry.tags?.[useTag]);
+      let timestamp;
+      metricKeys.forEach((key, index) => {
+        if (index === 0) {
+          timestamp = entry.metrics[key]?.[0]?.[0];
+        }
+        cells.push(entry.metrics[key]?.[0]?.[1]);
+      });
+      if (countPresent) {
+        cells.push(entry.count);
       }
-      finalResponseRowList.push({ cells });
+      if (timestamp) {
+        cells.push(new Date(timestamp).toISOString());
+      } else {
+        cells.push(undefined);
+      }
+      response.data.rows.push({ cells });
     });
-    response.data.rows = finalResponseRowList;
+  } else {
+    // No metric found, just push primary column data
+    if (countPresent) {
+      response.data.headers.push(t('in-events:aichat.count'));
+    }
+    instanaApiResponse.forEach(entry => {
+      let cells = [];
+      cells.push(entry.tags?.[useTag]);
+      if (countPresent) {
+        cells.push(entry.count);
+      }
+      response.data.rows.push({ cells });
+    });
   }
-  const responseObject = {
+  return {
     output: {
       generic: [
         {
@@ -98,5 +140,4 @@ export function formatForTable(apiResponse) {
       ]
     }
   };
-  return responseObject;
 }

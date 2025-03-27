@@ -10962,7 +10962,12 @@
         "servicename": "서비스 이름",
         "displayname": "표시 이름",
         "state": "상태",
-        "health": "상태"
+        "health": "상태",
+        "disk": "디스크",
+        "readAwaitTime": "읽기 시간",
+        "writeAwaitTime": "쓰기 시간",
+        "avgDiscardRequestsTime": "요청 취소 시간",
+        "avgFlushRequestsTime": "요청 비우기 시간"
       },
       "os": "OS",
       "distribution": "분배",
@@ -12251,6 +12256,10 @@
       "maxQueueDepth": "최대 큐 용량",
       "currentQueueDepth": "현재 큐 용량",
       "queueFullPercentage": "큐 깊이 백분율",
+      "queueType": "큐 유형",
+      "queueUsage": "큐 사용량",
+      "triggerType": "트리거 유형",
+      "triggerControl": "트리거 제어",
       "lastGetDateTime": "마지막 가져오기 시간",
       "lastPutDateTime": "마지막 넣기 시간",
       "depth": "용량",
@@ -12264,6 +12273,7 @@
       "openOutputCount": "출력 열기 수",
       "calls": "호출",
       "statistics": "MQ 큐 통계",
+      "attributes": "속성",
       "statisticsRecord": "색인",
       "nonPersistentPutBytes": "비지속적 넣기 바이트",
       "persistentPutBytes": "지속적 넣기 바이트",
@@ -12438,7 +12448,9 @@
       "connections": "연결",
       "messagesIn": "수신 메시지",
       "messagesOut": "발신 메시지",
-      "uncommittedMessages": "커미트되지 않은 메시지"
+      "uncommittedMessages": "커미트되지 않은 메시지",
+      "clusterStatus": "클러스터 상태",
+      "clusterSuspendIndicator": "클러스터 일시중단 표시기"
     },
     "ibmMqQueueUsage": {
       "dashboard": {

@@ -34,6 +34,10 @@ export default function Info({ snapshot }) {
         {data.get('queueDefaultBinding')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.usage')}>{data.get('queueUsage')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.triggerType')}>{data.get('triggerType')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.triggerControl')}>
+        {data.get('triggerControl')}
+      </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.monitoring')}>
         {data.get('queueMonitoring')}
       </DescriptionItem>

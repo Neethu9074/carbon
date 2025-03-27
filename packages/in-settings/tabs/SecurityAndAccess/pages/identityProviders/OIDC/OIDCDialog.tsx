@@ -104,10 +104,12 @@ const OIDCDialog = (props: OIDCDialogProps) => {
     setConfig(oidcConfig)
   );
   const [oidcDeleteStatus, deleteOidcConfig] = useFormSubmission<undefined, boolean>(deleteConfig);
+
   const carbonOidcStatus = MAP_CARBON_STATUS[oidcSubmitStatus ?? ''];
   const carbonDeleteStatus = MAP_CARBON_STATUS[oidcDeleteStatus ?? ''];
   const oidcDescription = SAVE_DESCRIPTIONS[oidcSubmitStatus ?? ''];
   const deleteDescription = DELETE_DESCRIPTIONS[oidcDeleteStatus ?? ''];
+
   const onSaveOIDCConfig = () => {
     const oidcConfig = form.toJS();
     submitOidcConfig({
@@ -126,11 +128,12 @@ const OIDCDialog = (props: OIDCDialogProps) => {
       onError: result => {
         setNotification({
           kind: 'error',
-          subtitle: t('in-settings:tabs.failedToSaveConfig', { err: result?.errors[0] })
+          subtitle: t('in-settings:tabs.failedToSaveConfig', { err: result?.errors[0]?.message })
         });
       }
     });
   };
+
   const onDeleteRequest = () => {
     deleteOidcConfig({
       payload: undefined,
@@ -148,7 +151,9 @@ const OIDCDialog = (props: OIDCDialogProps) => {
       onError: result => {
         setNotification({
           kind: 'error',
-          subtitle: t('in-settings:tabs.authenticationProviders.failedToDeleteConfig', { err: result?.errors[0] })
+          subtitle: t('in-settings:tabs.authenticationProviders.failedToDeleteConfig', {
+            err: result?.errors[0]?.message
+          })
         });
       }
     });
@@ -162,7 +167,7 @@ const OIDCDialog = (props: OIDCDialogProps) => {
         context: isActive ? 'active' : ''
       })}
       danger={isActive}
-      primaryButtonDisabled={!form?.hierarchyValid || !form.hierarchyTouched || !!errorMessage}
+      primaryButtonDisabled={!form.hierarchyValid || !form.hierarchyTouched || !!errorMessage}
       primaryButtonText={isActive ? t('in-settings:components.delete') : t('in-settings:tabs.save')}
       secondaryButtonText={t('in-settings:tabs.cancel')}
       onRequestSubmit={() => {

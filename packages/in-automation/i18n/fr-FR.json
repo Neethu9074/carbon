@@ -106,6 +106,9 @@
   "ansibleUrl": "URL Ansible",
   "playbookFileName": "Nom du fichier Playbook",
   "playbookId": "Identifiant du playbook",
+  "triggeringEvent": "Événement déclencheur",
+  "probableRootCause": "Cause première probable",
+  "contextFor": "Contexte pour :",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Configuration d'action",
     "actionDetails": "Détails de l'action",
@@ -115,7 +118,6 @@
     "Step3Headline": "(Facultatif) Vous pouvez créer une politique d'automatisation en même temps que l'action. Vous pouvez également effectuer cette étape ultérieurement.",
     "step1Title": "Étape 1 : Générer ou sélectionner une action",
     "step1TitleGenerateAction": "Étape 1 : Générer une action",
-    "step1TitleSelectAction": "Étape 1 : Sélectionner une action",
     "step2Title": "Étape 2 : Configurer l'action",
     "step3Title": "Étape 3 : Créer une politique (facultatif)",
     "policyDetails": "Détails de la politique",
@@ -480,9 +482,7 @@
   "deleteDialog": {
     "confirmRemove": "Confirmer la suppression",
     "confirmRemoveMsg": "Voulez-vous vraiment supprimer <strong>{{name}}</strong> ?",
-    "delete": "Supprimer",
-    "pleaseConfirm": "Veuillez confirmer",
-    "pleaseConfirmMsg": "Voulez-vous vraiment supprimer <strong>{{name}}</strong> ?"
+    "delete": "Supprimer"
   },
   "turboActionCategories": {
     "compliance": "Conformité",
@@ -529,7 +529,7 @@
     "lastModified": "Dernière modification",
     "history": "Historique",
     "summaryTab": {
-      "seconds": "secondes"
+      "millisecond": "ms"
     },
     "associatedPolicies": "Politiques associées"
   },
@@ -538,7 +538,7 @@
     "thankYouForYourFeedback": "Merci pour vos commentaires !",
     "submitFeedback": "Envoyer les commentaires",
     "additionalFeedbacklabel": "Fournir des commentaires supplémentaires (facultatif)",
-    "additionalFeedbackPlaceholder": "Qu'est-ce qui ne vous a pas plu dans la réponse ? Ce qui peut être amélioré"
+    "additionalFeedbackPlaceholder": "Qu'est-ce qui ne vous a pas plu dans la réponse ? Qu'est-ce qui peut être amélioré ?"
   },
   "consentForm": {
     "consentButton": "Formulaire de consentement",

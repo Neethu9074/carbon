@@ -28,6 +28,7 @@ import GeneralPage from 'in-settings/tabs/UserSettings/pages/General';
 import Privacy from 'in-settings/tabs/UserSettings/pages/Privacy';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
+import { tealiumPrivacyEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { role } from 'in-stores/user';
@@ -52,6 +53,14 @@ const navigationTree = showPassword => {
         }
       ]
     : [];
+  const preferences = tealiumPrivacyEnabled
+    ? []
+    : [
+        {
+          title: t('in-settings:tabs.preferences'),
+          pages: getPreferencesRoutes(fullTermsConfigEnabled)
+        }
+      ];
   return [
     {
       title: t('in-settings:tabs.userInterface'),
@@ -68,10 +77,7 @@ const navigationTree = showPassword => {
         }
       ]
     },
-    {
-      title: t('in-settings:tabs.preferences'),
-      pages: getPreferencesRoutes(fullTermsConfigEnabled)
-    },
+    ...preferences,
     {
       title: t('in-settings:tabs.personalSettings'),
       pages: [

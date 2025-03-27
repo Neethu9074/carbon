@@ -32,7 +32,7 @@
         "editPermissions": "Modifica autorizzazioni",
         "shareMsg": "Questo dashboard personalizzato presenta regole di accesso avanzate che non possono essere rappresentate da questa finestra di dialogo. È possibile utilizzare la funzione \"Modifica come JSON\" per modificare queste regole di accesso.",
         "privateDashboardDefault": "Dashboard privato (predefinito)",
-        "privateDashboardDefaultExplain": "Questo dashboard è visibile solo all'utente corrente.",
+        "privateDashboardDefaultExplain": "Questo dashboard è visibile solo all'utente corrente. Nota: questa impostazione può essere modificata solo dal proprietario del dashboard.",
         "publicDashboard": "Dashboard pubblico",
         "publicDashboardExplain": "Questo dashboard è visibile a tutti gli utenti dell'organizzazione. Solo l'utente corrente potrà apportarvi modifiche, ma è possibile aggiungervi editor.",
         "save": "Salva",

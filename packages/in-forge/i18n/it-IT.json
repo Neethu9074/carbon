@@ -10962,7 +10962,12 @@
         "servicename": "Nome del servizio",
         "displayname": "Nome di visualizzazione",
         "state": "Stato",
-        "health": "Integrità"
+        "health": "Integrità",
+        "disk": "Disco",
+        "readAwaitTime": "Tempo lettura",
+        "writeAwaitTime": "Tempo scrittura",
+        "avgDiscardRequestsTime": "Tempo di scarto delle richieste",
+        "avgFlushRequestsTime": "Tempo di scarico delle richieste"
       },
       "os": "Sistema operativo",
       "distribution": "Distribuzione",
@@ -12251,6 +12256,10 @@
       "maxQueueDepth": "Profondità massima della coda",
       "currentQueueDepth": "Profondità corrente della coda",
       "queueFullPercentage": "Percentuale profondità Coda",
+      "queueType": "Tipo di coda",
+      "queueUsage": "Utilizzo coda",
+      "triggerType": "Tipo trigger",
+      "triggerControl": "Controllo trigger",
       "lastGetDateTime": "Ora ultima acquisizione",
       "lastPutDateTime": "Ora ultima immissione",
       "depth": "Profondità",
@@ -12264,6 +12273,7 @@
       "openOutputCount": "Numero output aperti",
       "calls": "Chiamate",
       "statistics": "Statistiche coda MQ",
+      "attributes": "Attributi",
       "statisticsRecord": "Indice",
       "nonPersistentPutBytes": "Byte di put non persistenti",
       "persistentPutBytes": "Byte di put persistenti",
@@ -12438,7 +12448,9 @@
       "connections": "Connessioni",
       "messagesIn": "Messaggi in ingresso",
       "messagesOut": "Messaggi in uscita",
-      "uncommittedMessages": "Messaggi senza commit"
+      "uncommittedMessages": "Messaggi senza commit",
+      "clusterStatus": "Stato cluster",
+      "clusterSuspendIndicator": "Indicatore di sospensione del cluster"
     },
     "ibmMqQueueUsage": {
       "dashboard": {
