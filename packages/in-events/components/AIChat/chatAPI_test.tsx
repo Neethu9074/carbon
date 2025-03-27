@@ -8,6 +8,27 @@
 import { formatForTable } from 'in-events/components/AIChat/chatAPI';
 
 const DATA = {
+  parse: {
+    items: [
+      {
+        snapshotId: 'VaxDbMS49-pE67cnSvYXy0QxPaA',
+        label: 'instana-agent/controller-manager-5cd6df6d96-75bwg',
+        plugin: 'kubernetesPod',
+        time: 1742765760000,
+        metrics: {
+          'cpuRequests.MEAN': [[1743057172000, 0.199999880616829]]
+        },
+        tags: {
+          'label.kubernetesPod': 'instana-agent/controller-manager-5cd6df6d96-75bwg',
+          'id.kubernetesPod': 'VaxDbMS49-pE67cnSvYXy0QxPaA'
+        },
+        entityHealthInfo: {
+          maxSeverity: 0.0,
+          openIssues: []
+        }
+      }
+    ]
+  },
   showCount: {
     items: [
       {
@@ -161,5 +182,11 @@ describe('formatForTable', () => {
     const firstLabel = 'aap-gateway-operator-controller-manager';
     expect(fmt.output.generic[0].rows[0].cells[0]).toBe(firstLabel);
     expect(fmt.output.generic[0].rows[0].cells[1]).toBe(987);
+  });
+  it('parses correctly', () => {
+    const fmt = formatForTable(DATA.parse);
+    const firstLabel = 'instana-agent/controller-manager-5cd6df6d96-75bwg';
+    expect(fmt.output.generic[0].rows[0].cells[0]).toBe(firstLabel);
+    expect(fmt.output.generic[0].rows[0].cells[1]).toBe(0.199999880616829);
   });
 });
