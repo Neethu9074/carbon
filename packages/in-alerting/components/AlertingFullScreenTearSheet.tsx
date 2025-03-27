@@ -20,7 +20,6 @@ import { ALERTING_CANCEL_CLICKED } from 'in-services/tracking/eventNames';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import AlertingMessage from 'in-alerting/components/AlertingMessage';
 import { FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
-import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { t } from 'in-i18n';
 
@@ -49,14 +48,12 @@ interface AlertingFullScreenTearSheetProps {
   cancelTearSheet: string;
   tearSheetTitle: string;
   isTagFilterFormModelValid?: boolean;
-  TagBasedPayloadConfigurator?: React.FunctionComponent<any>;
   stepConfigs: AlertingTearSheetStepConfigs[];
   handleFormSubmit: VoidFunction;
   isEditMode: boolean;
   setTagFilterValid?: React.Dispatch<React.SetStateAction<boolean>>;
   thresholdResult: Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData> | undefined | null;
   actionButtonLabel: string;
-  QueryBuilderComponent?: QueryBuilderComponent;
   productArea?: string;
   blueprintConfig?: object;
 }

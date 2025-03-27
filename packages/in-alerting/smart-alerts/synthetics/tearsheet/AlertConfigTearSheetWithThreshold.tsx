@@ -5,17 +5,10 @@
  */
 
 import { Item, MapForm } from 'formalistic';
-import React, { useMemo } from 'react';
+import React, { useState } from 'react';
 
-import {
-  createBoundedAlertQueryBuilder,
-  createIsAlertQueryValid
-} from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
-//@ts-expect-error
-import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/synthetics/hooks/useIsTagFilterFormModelValid';
 import { stepConfigsForCarbonTearSheet } from 'in-alerting/smart-alerts/synthetics/tearsheet/steps/TearSheetStepConfigs';
-import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/synthetics/hooks/useTagBasedPayloadConfigurator';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/synthetics/hooks/useAlertConfigValidation';
 import AlertingFullScreenTearSheet from 'in-alerting/components/AlertingFullScreenTearSheet';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -44,20 +37,9 @@ export const tagSuggestionTimeConfig = {
 
 export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTearSheetWithThresholdProps) {
   const { form, updateForm, editMode, onCreate, tearSheetTitle } = props;
+  const [tagFilterValid, setTagFilterValid] = useState(true);
 
-  const { QueryBuilder: AlertQueryBuilder, isQueryValid } = useMemo(
-    () => createBoundedAlertQueryBuilder(tagSuggestionTimeConfig),
-    []
-  );
-  const alertConfigWithFormModel = form.toJS();
-  const { tagFilterExpression } = alertConfigWithFormModel;
-  const isAlertQueryValid = createIsAlertQueryValid(isQueryValid);
-
-  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isAlertQueryValid);
-
-  const navItems = useAlertConfigValidation(stepConfigsForCarbonTearSheet, form, isTagFilterFormModelValid, updateForm);
-
-  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(tagSuggestionTimeConfig);
+  const navItems = useAlertConfigValidation(stepConfigsForCarbonTearSheet, form, tagFilterValid, updateForm);
 
   return (
     <AlertingFullScreenTearSheet
@@ -66,10 +48,9 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
       tearSheetTitle={tearSheetTitle}
       stepConfigs={navItems}
       thresholdResult={null}
+      setTagFilterValid={setTagFilterValid}
       handleFormSubmit={() => handleFormSubmit(onCreate)}
       actionButtonLabel={getButtonLabel(editMode)}
-      QueryBuilderComponent={AlertQueryBuilder}
-      TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
       productArea={productAreas.synthetic_monitoring}
     />
   );
