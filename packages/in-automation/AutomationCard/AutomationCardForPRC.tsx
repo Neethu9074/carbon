@@ -45,6 +45,7 @@ export type ProcessedSnapshot = {
   rcaSnapshotID: string | null;
   rcaEntityType: string;
   rootCause: RootCause;
+  translationEntityType?: string;
   entityData?: any; // Can be any type based on what entityData contains
 };
 
@@ -104,6 +105,7 @@ function AutomationCardForPRC({ volatileId, event, incident }: AutomationCardPro
 
       const entityID = rootCause.get('entityID') as Map<string, string>;
       const entityType = determineEntityTypeFromEntityIDMap(entityID);
+      const translationEntityType = rootCause?.getIn(['entityID', 'pluginId']);
       const finalRcaSnapshotID =
         entityType === 'infrastructure' ? rcaSnapshotID : rootCause?.getIn(['entityID', 'steadyId']);
 
@@ -111,6 +113,7 @@ function AutomationCardForPRC({ volatileId, event, incident }: AutomationCardPro
         rcaSnapshotID: finalRcaSnapshotID,
         rcaEntityType: entityType,
         rootCause,
+        translationEntityType: translationEntityType,
         type: 'rootcause',
         entityData: null // Will be updated after fetching
       };
