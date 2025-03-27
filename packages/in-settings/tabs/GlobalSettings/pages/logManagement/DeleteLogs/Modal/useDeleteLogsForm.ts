@@ -8,10 +8,11 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 import { useState } from 'react';
 
 // eslint-disable-next-line no-restricted-imports
-import { returnFirstDeleteableDate } from './mockBackEnd';
+import { DeleteLogsFormFields, InputValues, ValidationMessages } from './modalTypes';
 // eslint-disable-next-line no-restricted-imports
-import { DeleteLogsFormFields } from './modalTypes';
+import { returnFirstDeleteableDate } from './mockBackEnd';
 import { formatDate, formatTimeWithoutSeconds } from 'in-services/formatters/date';
+import { deleteLogsV3Enabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 const localisationStrings = {
@@ -24,6 +25,39 @@ const localisationStrings = {
 
 const getInitialFormState = () => {
   const form = createMapForm<any>();
+
+  if (deleteLogsV3Enabled) {
+    form
+      .put(
+        'deletionStartDate',
+        createField({
+          value: formatDate(returnFirstDeleteableDate()),
+          validator: value => {
+            const inputDate = new Date(value as string);
+            inputDate.setHours(0, 0, 0, 0);
+
+            return inputDate >= returnFirstDeleteableDate()
+              ? null
+              : [{ severity: 'error', message: ' The date cant be prior to first log deleteable' }];
+          }
+        })
+      )
+      .put(
+        'deletionStartTime',
+        createField({
+          value: formatTimeWithoutSeconds(new Date()),
+          validator: value => {
+            const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/;
+            if (!regex.test(value as string)) {
+              return [{ severity: 'error', message: localisationStrings.correctTimeFormat }];
+            }
+
+            return null;
+          }
+        })
+      );
+  }
+
   return form
     .put(
       'validation',
@@ -39,34 +73,6 @@ const getInitialFormState = () => {
         value: '',
         validator: value =>
           value !== '' ? null : [{ severity: 'error', message: localisationStrings.reasonValidationMessage }]
-      })
-    )
-    .put(
-      'deletionStartDate',
-      createField({
-        value: formatDate(returnFirstDeleteableDate()),
-        validator: value => {
-          const inputDate = new Date(value as string);
-          inputDate.setHours(0, 0, 0, 0);
-
-          return inputDate >= returnFirstDeleteableDate()
-            ? null
-            : [{ severity: 'error', message: ' The date cant be prior to first log deleteable' }];
-        }
-      })
-    )
-    .put(
-      'deletionStartTime',
-      createField({
-        value: formatTimeWithoutSeconds(new Date()),
-        validator: value => {
-          const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/;
-          if (!regex.test(value as string)) {
-            return [{ severity: 'error', message: localisationStrings.correctTimeFormat }];
-          }
-
-          return null;
-        }
       })
     )
     .put(
@@ -101,7 +107,9 @@ const getInitialFormState = () => {
       })
     );
 };
+
 export default function useDeleteLogsForm() {
+  let canGoNextStep = false;
   const [form, setForm] = useState(getInitialFormState());
 
   const updateField = (name: DeleteLogsFormFields, value: string) => {
@@ -119,11 +127,9 @@ export default function useDeleteLogsForm() {
 
   const getFieldValue = (name: DeleteLogsFormFields) => form.get(name).value;
 
-  const inputValues = {
+  let inputValues: InputValues = {
     reason: getFieldValue('reason'),
-    startDate: formatDate(getFieldValue('deletionStartDate')),
-    endDate: formatDate(getFieldValue('deletionEndDate')),
-    startTime: getFieldValue('deletionStartTime'),
+    endDate: getFieldValue('deletionEndDate'),
     endTime: getFieldValue('deletionEndTime'),
     validation: getFieldValue('validation')
   };
@@ -137,25 +143,38 @@ export default function useDeleteLogsForm() {
     return fieldData.messages[0]?.message;
   };
 
-  const validationMessages = {
+  let validationMessages: ValidationMessages = {
     reason: getValidationMessage('reason'),
-    startDate: getValidationMessage('deletionStartDate'),
     endDate: getValidationMessage('deletionEndDate'),
-    startTime: getValidationMessage('deletionStartTime', _ =>
-      getValidationTime(inputValues.startDate as string, inputValues.startTime as string)
-    ),
     endTime: getValidationMessage('deletionEndTime', _ =>
       getValidationTime(inputValues.endDate as string, inputValues.endTime as string)
     ),
     validation: getValidationMessage('validation')
   };
 
-  const canSubmit = form.hierarchyValid && !validationMessages.startTime && !validationMessages.endTime;
-  const canGoNextStep =
-    !validationMessages.startTime &&
-    !validationMessages.endTime &&
-    !validationMessages.endDate &&
-    !validationMessages.startDate;
+  if (deleteLogsV3Enabled) {
+    inputValues = {
+      ...inputValues,
+      startDate: formatDate(getFieldValue('deletionStartDate')),
+      startTime: getFieldValue('deletionStartTime')
+    };
+
+    validationMessages = {
+      ...validationMessages,
+      startDate: getValidationMessage('deletionStartDate'),
+      startTime: getValidationMessage('deletionStartTime', _ =>
+        getValidationTime(inputValues.startDate as string, inputValues.startTime as string)
+      )
+    };
+
+    canGoNextStep =
+      !validationMessages.startTime &&
+      !validationMessages.endTime &&
+      !validationMessages.endDate &&
+      !validationMessages.startDate;
+  }
+
+  const canSubmit = form.hierarchyValid;
 
   const resetForm = () => setForm(getInitialFormState());
   const touchForm = () => setForm(form.setTouched(true, { recurse: true }));

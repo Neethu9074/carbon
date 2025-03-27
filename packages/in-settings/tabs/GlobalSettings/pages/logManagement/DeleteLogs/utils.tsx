@@ -8,11 +8,12 @@ import { format } from 'date-fns';
 import React from 'react';
 
 import { DeleteLogsHistoryItem, DeleteLogsHistoryResult, Result } from '@instana/types';
-import { LoadingSkeleton, SvgIcon } from '@instana/components';
+import { IconButton, LoadingSkeleton } from '@instana/components';
 import { DateFormatterOutput } from '@instana/format-date';
 import { themes } from '@instana/design-tokens';
 
 import { deletionTableLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
+import { getDesignLibraryColorBySeverity, getDesignLibrarySeverityIcon } from 'in-stores/events';
 import { siPrefixCompact } from 'in-stores/metric/formatters';
 import { hasError, isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
@@ -43,11 +44,37 @@ export const timestampToLocaleDateTime = (timestamp: number) => {
 
 export const renderIconsByStatus = (status: string) => {
   const icons: Record<string, JSX.Element> = {
-    [DELETE_STATUS.done]: <SvgIcon type="lib_uncheck" size="s" color={themes.default.ids.color.option.green[500]} />,
-    [DELETE_STATUS.failed]: (
-      <SvgIcon type="lib_error_filled" size="s" color={themes.default.ids.color.option.red[500]} />
+    [DELETE_STATUS.done]: (
+      <IconButton
+        type="lib_uncheck"
+        color={themes.default.ids.color.option.green[500]}
+        iconSize={'xs'}
+        isWrapperedByTooltip
+        iconDescription={t('in-logging:tooltipEntityHealthNoIssues')}
+        enterDelayMs={500}
+      />
     ),
-    [DELETE_STATUS.inProgress]: <div className={locals.spinner} />
+    [DELETE_STATUS.failed]: (
+      <IconButton
+        type={getDesignLibrarySeverityIcon(10)}
+        color={getDesignLibraryColorBySeverity(10)}
+        iconSize={'xs'}
+        isWrapperedByTooltip
+        iconDescription={t('in-logging:tooltipEntityHealthFailed')}
+        enterDelayMs={500}
+      />
+    ),
+
+    [DELETE_STATUS.inProgress]: (
+      <IconButton
+        type={'lib_actions_loading'}
+        iconSize={'xs'}
+        isWrapperedByTooltip
+        iconSpinning
+        iconDescription={t('in-logging:tooltipEntityHealthInProgress')}
+        enterDelayMs={500}
+      />
+    )
   };
   return icons[status] || null;
 };

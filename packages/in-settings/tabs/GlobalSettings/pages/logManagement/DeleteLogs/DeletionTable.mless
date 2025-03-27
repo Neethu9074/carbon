@@ -46,6 +46,9 @@
 
   .deleteLogsTableCard {
     padding: 0;
+    :global .cds--data-table-content {
+      overflow-x: visible !important;
+    }
   }
 
   .emptyTable {
