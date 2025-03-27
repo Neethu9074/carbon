@@ -22,12 +22,12 @@ import { t } from 'in-i18n';
 import local from './Node.mless';
 
 interface ProcessNodeProps {
-  id: string;
+  name: string;
   metrics: { [index: string]: number[][] };
   onClick: (() => void) | undefined;
 }
 
-function ProcessNode({ id, metrics, onClick }: ProcessNodeProps) {
+function ProcessNode({ name, metrics, onClick }: ProcessNodeProps) {
   // Populate card with fetched metrics
   const count = metrics?.count?.[0] ? metrics.count[0][1] : 0;
   const errors = metrics?.erroneous_call_count?.[0] ? metrics.erroneous_call_count[0][1] : 0;
@@ -42,9 +42,9 @@ function ProcessNode({ id, metrics, onClick }: ProcessNodeProps) {
 
   return (
     <CardNode className={local.container} style={{ borderColor: cardColor }} onClick={onClickHealthAware}>
-      <Tooltip content={id} align="topLeft">
+      <Tooltip content={name} align="topLeft">
         <div className={local.nodeName}>
-          <Typography variant="heading-compact-02">{id}</Typography>
+          <Typography variant="heading-compact-02">{name}</Typography>
         </div>
       </Tooltip>
       <div className={local.metricsContainer}>

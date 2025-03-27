@@ -7,9 +7,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 
-import { tagSuggestionTimeConfig } from 'in-alerting/smart-alerts/synthetics/tearsheet/AlertConfigTearSheetWithThreshold';
 import AlertConfigTearSheetStep1 from 'in-alerting/smart-alerts/synthetics/tearsheet/steps/AlertConfigTearSheetStep1';
-import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 import alertFormDefinition from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
 import { initialConfig } from 'in-alerting/smart-alerts/synthetics/data/alertConfig.json';
 import { t } from 'in-i18n';
@@ -17,8 +15,8 @@ import { t } from 'in-i18n';
 describe('AlertConfigTearSheetStep1 : in-alerting/smart-alerts/infrastructure/tearsheet/steps/AlertConfigTearSheetStep1', () => {
   const onChange = jest.fn();
   const updateForm = jest.fn();
+  const setTagFilterValid = jest.fn();
   const form = alertFormDefinition(initialConfig);
-  const { QueryBuilder: AlertQueryBuilder } = createBoundedAlertQueryBuilder(tagSuggestionTimeConfig);
 
   it('should render step 1 components', async () => {
     render(
@@ -26,7 +24,7 @@ describe('AlertConfigTearSheetStep1 : in-alerting/smart-alerts/infrastructure/te
         form={form}
         updateForm={updateForm}
         onChange={onChange}
-        QueryBuilderComponent={AlertQueryBuilder}
+        setTagFilterValid={setTagFilterValid}
       />
     );
     expect(screen.getByText(t('in-alerting:smartAlerts.synthetics.tearSheet.step1.header'))).toBeInTheDocument();
@@ -47,7 +45,7 @@ describe('AlertConfigTearSheetStep1 : in-alerting/smart-alerts/infrastructure/te
         form={form}
         updateForm={updateForm}
         onChange={onChange}
-        QueryBuilderComponent={AlertQueryBuilder}
+        setTagFilterValid={setTagFilterValid}
       />
     );
     const addTestButton = screen.getByRole('button', {

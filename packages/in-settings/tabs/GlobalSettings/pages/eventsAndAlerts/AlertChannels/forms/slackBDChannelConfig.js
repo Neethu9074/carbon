@@ -116,6 +116,12 @@ export default {
         })
       )
       .put(
+        'id',
+        createField({
+          value: alertChannel ? alertChannel.get('id') : generateUniqueShortId()
+        })
+      )
+      .put(
         'generatedLinkClicked',
         createField({
           value: alertChannel ? alertChannel.get('generatedLinkClicked') : false,
@@ -190,6 +196,7 @@ function Form({ form, onChange }) {
   if (isEdit && form.get('generatedLinkClicked').value == undefined) {
     onChange('generatedLinkClicked', true);
   }
+
   return (
     <fieldset>
       {form.get('name').map(field => (

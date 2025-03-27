@@ -15,6 +15,8 @@ import {
 } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/tearSheet/AlertProperties/AlertPropertiesTitleRow';
+import { tagSuggestionTimeConfig } from 'in-alerting/smart-alerts/synthetics/tearsheet/AlertConfigTearSheetWithThreshold';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/synthetics/hooks/useTagBasedPayloadConfigurator';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/synthetics/form/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { allowedPlaceholders } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
@@ -27,14 +29,14 @@ import { t } from 'in-i18n';
 export default function AlertConfigTearSheetStep3({
   form,
   onChange,
-  updateForm,
-  TagBasedPayloadConfigurator
+  updateForm
 }: {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
-  TagBasedPayloadConfigurator: React.ReactNode;
 }) {
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(tagSuggestionTimeConfig);
+
   return (
     <>
       <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.synthetics.tearSheet.step3.header')}>
