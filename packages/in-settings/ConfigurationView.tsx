@@ -14,9 +14,11 @@ import { isAvailable as isOidcAvailable } from 'in-settings/tabs/SecurityAndAcce
 import { roleHasAnyGlobalPermissions } from 'in-settings/tabs/permissions';
 import legacyRedirects from 'in-settings/navigation/legacy-redirects';
 import TabView from 'in-components/LocationAwareTabView/TabView';
+// @ts-expect-error needs TS migration
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import DashboardHeader from 'in-components/DashboardHeader';
 import getTabs from 'in-settings/tabs/index';
+// @ts-expect-error needs TS migration
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

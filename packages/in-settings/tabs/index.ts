@@ -6,12 +6,16 @@
 import { roleHasAnyGlobalPermissions, roleHasAnySecurityAccessPermissions } from 'in-settings/tabs/permissions';
 import { userSettings, globalSettings, ampSettings, securityAndAccess } from 'in-settings/navigation/paths';
 import SecurityAndAccess from 'in-settings/tabs/SecurityAndAccess/View';
+// @ts-expect-error needs TS migration
 import GlobalSettings from 'in-settings/tabs/GlobalSettings/View';
+// @ts-expect-error needs TS migration
 import UserSettings from 'in-settings/tabs/UserSettings/View';
 import { ampEnabled } from 'in-services/featureFlags';
+// @ts-expect-error needs TS migration
 import AmpSettings from 'in-settings/tabs/AMP/View';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
+import TabView from 'in-components/LocationAwareTabView/TabView';
 
 const globalTab = {
   label: t('in-settings:tabs.globalSettings'),
@@ -37,13 +41,15 @@ const ampTab = {
   component: AmpSettings
 };
 
-export default function getTabs() {
-  const ampTabVisible = ampEnabled && role.canViewAccountAndBillingInformation;
+type TabsArray = Parameters<typeof TabView>[0]['tabs'];
+
+export default function getTabs(): TabsArray {
+  const ampTabVisible = ampEnabled && role?.canViewAccountAndBillingInformation;
 
   return [
     roleHasAnyGlobalPermissions() && globalTab,
     userTab,
     roleHasAnySecurityAccessPermissions() && securityAndAccessTab,
     ampTabVisible && ampTab
-  ].filter(Boolean);
+  ].filter(Boolean) as TabsArray;
 }
