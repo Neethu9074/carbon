@@ -26,11 +26,11 @@ import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresen
 import { getTrackingAlertConfig } from 'in-alerting/smart-alerts/utils/segmentUtils';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { ADVANCED, FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import AlertHistoryList from 'in-alerting/components/AlertHistoryList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { ADVANCED } from 'in-alerting/smart-alerts/data/constants';
 import AlertHeader from 'in-alerting/components/AlertHeader';
 import { close } from 'in-components/DialogPresenter/store';
 import { propTypeTimeConfig } from 'in-stores/time/config';
@@ -65,7 +65,7 @@ export default function Alert({
   hideAlertIcon = false,
   alertDisplayMode
 }) {
-  const { location, navigate } = useNavigation();
+  const { goToPath, location, navigate } = useNavigation();
   const { trackCta } = useSegmentTracking();
 
   const [reload, triggerReload] = useState();
@@ -141,6 +141,14 @@ export default function Alert({
                 openDialog={() => openOldDialog(isCopy)}
               />
             );
+          }}
+          openTearSheet={({ isCopy, gotoPath }) => {
+            if (isCopy) {
+              trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfigForTracking, dialogMode: FULLSCREEN });
+            } else if (!isCopy) {
+              trackCta(ALERTING_EDIT, { ...alertConfigForTracking, dialogMode: FULLSCREEN });
+            }
+            goToPath(gotoPath.slice(2));
           }}
           fullyQualifiedAlertsList={listPath}
           doEnableConfig$={enableConfig}
