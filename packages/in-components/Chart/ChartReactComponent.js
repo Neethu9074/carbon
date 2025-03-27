@@ -219,6 +219,7 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
                 setExportWidgetId={setExportWidgetId}
                 setShouldExportWidget={setShouldExportWidget}
                 setTooltipRef={setTooltipRef}
+                trackCta={trackCta}
                 isHighlightedOnDisabledChart$={isHighlightedOnDisabledChart$}
               />
             )}
