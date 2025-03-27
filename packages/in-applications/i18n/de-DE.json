@@ -303,6 +303,11 @@
     "dataSource_traces": "{{formattedCount}} Trace",
     "dataSource_traces_plural": "{{formattedCount}} Traces",
     "analyzeCallsOfThisTrace": "Aufrufe dieses Trace analysieren",
+    "storeTrace": {
+      "label": "Spur speichern",
+      "traceNotSavedTooltip": "Diese Spur kann 13 Monate lang aufbewahrt werden. Wird nach 15 Sekunden automatisch gespeichert.",
+      "traceSavedTooltip": "Diese Spur wurde gespeichert und wird 13 Monate lang aufbewahrt."
+    },
     "noAvailableCustomMetrics": "Keine benutzerdefinierten Metriken verfügbar",
     "filters": "Filter",
     "saveFiltersTitle": "Filter speichern",

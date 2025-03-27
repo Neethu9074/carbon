@@ -10962,7 +10962,12 @@
         "servicename": "服務程式名稱",
         "displayname": "顯示名稱",
         "state": "狀態",
-        "health": "性能"
+        "health": "性能",
+        "disk": "磁碟",
+        "readAwaitTime": "讀取時間",
+        "writeAwaitTime": "寫入時間",
+        "avgDiscardRequestsTime": "捨棄要求時間",
+        "avgFlushRequestsTime": "清除要求時間"
       },
       "os": "作業系統",
       "distribution": "分佈",
@@ -12251,6 +12256,10 @@
       "maxQueueDepth": "佇列深度上限",
       "currentQueueDepth": "現行佇列深度",
       "queueFullPercentage": "佇列深度百分比",
+      "queueType": "佇列類型",
+      "queueUsage": "佇列使用情形",
+      "triggerType": "觸發類型",
+      "triggerControl": "觸發控制",
       "lastGetDateTime": "前次取得時間",
       "lastPutDateTime": "前次放置時間",
       "depth": "深度",
@@ -12264,6 +12273,7 @@
       "openOutputCount": "開啟輸出計數",
       "calls": "呼叫",
       "statistics": "MQ 佇列統計資料",
+      "attributes": "屬性",
       "statisticsRecord": "索引",
       "nonPersistentPutBytes": "非持續性放置位元組數",
       "persistentPutBytes": "持續放置位元組數",
@@ -12438,7 +12448,9 @@
       "connections": "連線",
       "messagesIn": "輸入的訊息",
       "messagesOut": "輸出的訊息",
-      "uncommittedMessages": "未確定的訊息數"
+      "uncommittedMessages": "未確定的訊息數",
+      "clusterStatus": "叢集狀態",
+      "clusterSuspendIndicator": "叢集暫停指示器"
     },
     "ibmMqQueueUsage": {
       "dashboard": {

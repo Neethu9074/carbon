@@ -19,6 +19,7 @@
   "titleDescription": "설명",
   "titleTriggerEvent": "트리거링 이벤트",
   "titleRelatedEvents": "관련 이벤트({{eventCount}})",
+  "titleAffectedIncidents": "영향을 받는 인시던트",
   "noRelatedEvents": "관련 이벤트를 찾을 수 없음",
   "titleLastProcess": "마지막 프로세스",
   "titleLastHost": "마지막 호스트",
@@ -357,10 +358,28 @@
     "confirmationYes": "예",
     "confirmationNo": "취소"
   },
+  "aichat": {
+    "unableToFindError": "해당 정보를 찾을 수 없음",
+    "host": "호스트",
+    "name": "이름",
+    "noMatching": "일치하는 레코드를 찾을 수 없습니다.",
+    "timestamp": "시간소인",
+    "numCalls": "호출 수",
+    "meanLatency": "평균 대기 시간",
+    "youMustAccept": "이 기능을 사용하려면 Generative AI Assistance Preview Program 계약의 약관에 동의해야 합니다.",
+    "reviewAction": "계약 검토",
+    "openingAgreement": "새 탭에서 [동의 양식]({{href}})을 여는 중...",
+    "findingInfoFrom": "{{endpoint}}에서 해당 정보를 찾는 중",
+    "noData": "API에서 리턴된 데이터 없음",
+    "whatToKnow": "{{category}}에 대해 무엇을 알고 싶으십니까?",
+    "welcome": "안녕하세요, 환영합니다. 아래의 다양한 예제를 살펴보고 AI를 시작하십시오.",
+    "apps": "애플리케이션",
+    "infra": "인프라"
+  },
   "notes": {
     "openNotes": "참고사항 및 활동 열기",
     "closeNotes": "참고사항 및 활동 닫기",
-    "notesActivity": "참고사항 및 활동",
+    "notesActivity": "AI를 활용한 참고사항 및 활동",
     "confirmDelete": "삭제 확인",
     "you": "사용자 {{date}}",
     "youEdited": "사용자(편집됨) {{date}}",
@@ -430,5 +449,9 @@
   "consentForm": {
     "consentText": "이 기능을 사용하려면 Generative AI Assistance Preview Program 계약의 약관에 동의해야 합니다.",
     "consentButton": "계약 검토"
+  },
+  "affectedIncidents": {
+    "affectedIncident": "영향을 받는 인시던트",
+    "noAffectedIncidents": "영향을 받는 인시던트를 찾을 수 없음"
   }
 }

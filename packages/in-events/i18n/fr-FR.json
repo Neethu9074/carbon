@@ -19,6 +19,7 @@
   "titleDescription": "Description",
   "titleTriggerEvent": "Événement déclencheur",
   "titleRelatedEvents": "Événements associés ({{eventCount}})",
+  "titleAffectedIncidents": "Incidents concernés",
   "noRelatedEvents": "Aucun événement connexe n'a été trouvé",
   "titleLastProcess": "Dernier processus",
   "titleLastHost": "Dernier hôte",
@@ -357,10 +358,28 @@
     "confirmationYes": "Oui",
     "confirmationNo": "Annuler"
   },
+  "aichat": {
+    "unableToFindError": "Impossible de trouver cette information",
+    "host": "Hôte",
+    "name": "Nom",
+    "noMatching": "Aucun enregistrement correspondant trouvé.",
+    "timestamp": "Horodatage",
+    "numCalls": "Nbre d'appels",
+    "meanLatency": "Temps d'attente moyen",
+    "youMustAccept": "Vous devez accepter les conditions de l'Accord du programme d'aperçu de l'assistance IA générative pour utiliser cette fonctionnalité.",
+    "reviewAction": "Contrat de révision",
+    "openingAgreement": "Ouvrir [formulaire de consentement]({{href}}) dans un nouvel onglet...",
+    "findingInfoFrom": "Recherche de cette information à partir de {{endpoint}}",
+    "noData": "Aucune donnée renvoyée par l'API",
+    "whatToKnow": "Que voulez-vous savoir sur {{category}} ?",
+    "welcome": "Bonjour et bienvenue. Commencez à vous familiariser avec l'IA en explorant les divers exemples ci-dessous.",
+    "apps": "Applications",
+    "infra": "Infrastructure"
+  },
   "notes": {
     "openNotes": "Ouvrir les notes et l'activité",
     "closeNotes": "Fermer les notes et l'activité",
-    "notesActivity": "Notes et activité",
+    "notesActivity": "Notes et activités avec l'IA",
     "confirmDelete": "Confirmer la suppression",
     "you": "Vous {{date}}",
     "youEdited": "Vous (avez modifié) {{date}}",
@@ -430,5 +449,9 @@
   "consentForm": {
     "consentText": "Vous devez accepter les conditions de l'Accord du programme d'aperçu de l'assistance IA générative pour utiliser cette fonctionnalité.",
     "consentButton": "Contrat de révision"
+  },
+  "affectedIncidents": {
+    "affectedIncident": "Incident concerné",
+    "noAffectedIncidents": "Aucun incident n'a été détecté"
   }
 }

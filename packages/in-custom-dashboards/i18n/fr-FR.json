@@ -32,7 +32,7 @@
         "editPermissions": "Modifier les autorisations",
         "shareMsg": "Ce tableau de bord personnalisé a des règles d'accès avancées qui ne peuvent pas être représentées par cette boîte de dialogue. Vous pouvez utiliser la fonction \"Modifier en tant que JSON \" pour modifier ces règles d'accès.",
         "privateDashboardDefault": "Tableau de bord privé (par défaut)",
-        "privateDashboardDefaultExplain": "Vous seul pouvez voir ce tableau de bord.",
+        "privateDashboardDefaultExplain": "Vous seul pouvez voir ce tableau de bord. Remarque : ce paramètre ne peut être modifié que par le propriétaire du tableau de bord.",
         "publicDashboard": "Tableau de bord public",
         "publicDashboardExplain": "Ce tableau de bord est visible de tous les membres de votre organisation. Vous seul pouvez effectuer des modifications ; vous pouvez ajouter des éditeurs.",
         "save": "Sauvegarder",

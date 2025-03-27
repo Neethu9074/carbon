@@ -416,6 +416,16 @@
         "configurationParameters": "構成パラメーター"
       }
     },
+    "zos": {
+      "zos": "z/OS",
+      "selectTheAgentPackagingMode": "ステップ 1: エージェント・パッケージ化モードの選択",
+      "Packaging": "パッケージ化",
+      "dynamic": "動的",
+      "static": "静的",
+      "RunTheAgentDeploymentCode": "ステップ 2: エージェント・デプロイメント・コードを実行します (z/OS の USS レイヤから)。",
+      "installagentOnZOS": "z/OS にエージェントをインストールします (Air-Gapped Env)",
+      "installagentOnZOS1": "エージェント・インストール後 (トレース前提条件チェック)"
+    },
     "ibmi": {
       "ibmi": "IBM i",
       "os": "OS",

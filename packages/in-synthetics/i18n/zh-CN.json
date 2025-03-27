@@ -624,7 +624,11 @@
       "failures": "失败次数",
       "status": "状态",
       "success": "成功",
-      "daysRemaining": "剩余天数"
+      "daysRemaining": "剩余天数",
+      "dns": {
+        "failureType": "故障类型",
+        "na": "不适用"
+      }
     },
     "detailsPage": {
       "detailLiveModeDisabled": "\"实时方式\"在\"合成测试结果详细信息\"页面中不适用",

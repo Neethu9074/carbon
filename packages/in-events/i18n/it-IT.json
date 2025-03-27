@@ -19,6 +19,7 @@
   "titleDescription": "Descrizione",
   "titleTriggerEvent": "Evento di attivazione",
   "titleRelatedEvents": "Eventi correlati ({{eventCount}})",
+  "titleAffectedIncidents": "Incidenti interessati",
   "noRelatedEvents": "Non sono stati trovati eventi correlati",
   "titleLastProcess": "Ultimo processo",
   "titleLastHost": "Ultimo host",
@@ -357,10 +358,28 @@
     "confirmationYes": "Sì",
     "confirmationNo": "Annulla"
   },
+  "aichat": {
+    "unableToFindError": "Impossibile trovare queste informazioni",
+    "host": "Host",
+    "name": "Nome",
+    "noMatching": "Nessun record corrispondente trovato.",
+    "timestamp": "Data/Ora",
+    "numCalls": "# Chiamate",
+    "meanLatency": "Latenza media",
+    "youMustAccept": "Per utilizzare questa funzione è necessario accettare i termini dell'Accordo del programma di anteprima dell'assistenza AI generativa.",
+    "reviewAction": "Rivedere l'accordo",
+    "openingAgreement": "Aprire [modulo di consenso]({{href}}) in una nuova scheda...",
+    "findingInfoFrom": "Trovare queste informazioni da {{endpoint}}",
+    "noData": "Nessun dato restituito dall'API",
+    "whatToKnow": "Cosa si desidera sapere su {{category}}?",
+    "welcome": "Salve e benvenuti. Iniziate a lavorare con l'AI esplorando i vari esempi che seguono.",
+    "apps": "Applicazioni",
+    "infra": "Infrastruttura"
+  },
   "notes": {
     "openNotes": "Apri note e attività",
     "closeNotes": "Chiudi note e attività",
-    "notesActivity": "Note e attività",
+    "notesActivity": "Note e attività con l'AI",
     "confirmDelete": "Conferma eliminazione",
     "you": "Tu {{date}}",
     "youEdited": "Hai (modificato) {{date}}",
@@ -430,5 +449,9 @@
   "consentForm": {
     "consentText": "Per utilizzare questa funzione è necessario accettare i termini dell'Accordo del programma di anteprima dell'assistenza AI generativa.",
     "consentButton": "Rivedere l'accordo"
+  },
+  "affectedIncidents": {
+    "affectedIncident": "Incidente correlato",
+    "noAffectedIncidents": "Non sono stati rilevati incidenti correlati"
   }
 }

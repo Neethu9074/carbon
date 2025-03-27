@@ -68,6 +68,7 @@
     "placeholderSelect": "선택…"
   },
   "downloadBtn": {
+    "downloadAriaLabel": "다운로드",
     "downloadViewDownloadAsJsonLabel": "JSON으로 다운로드",
     "downloadViewDownloadCSVLabel": "다운로드(*.csv)",
     "downloadViewDownloadJsonLabel": "다운로드(*.json)",
@@ -468,12 +469,8 @@
     "profileMenu_profileLink": "프로파일",
     "profileMenu_tooltip": "프로파일 메뉴",
     "profileMenu_unitName_tenantName": "단위 이름 - 테넌트 이름",
-    "profileMenu_instanceName": "인스턴스 이름",
-    "profileMenu_region": "지역",
-    "profileMenu_instanceOwner": "인스턴스 소유자",
     "profileMenu_switchUnitOrTenant": "단위 또는 테넌트 전환",
     "profileMenu_privacy": "개인정보 보호",
-    "profileMenu_saasConsole": "IBM SaaS 콘솔",
     "profileMenu_logOut": "로그아웃"
   },
   "metricConfigurator": {
@@ -580,7 +577,8 @@
     "title": "세션 제한시간",
     "message": "활동이 없어 로그아웃됩니다.",
     "loggedInButton": "로그인 상태 유지",
-    "logOutButton": "로그아웃"
+    "logOutButton": "로그아웃",
+    "failedToUpdateSession": "유휴 세션 업데이트 실패"
   },
   "time": {
     "lastMinute": "지난 1분",
@@ -599,6 +597,8 @@
     "previousWeek": "이전 주",
     "dashboardHeaderButtonLive": "라이브",
     "customTimeTitleTimeRange": "시간 범위",
+    "customTimeTimeRangeLowerValue": "시간 범위 하한 값",
+    "customTimeTimeRangeUpperValue": "시간 범위 상한 값",
     "to": "-",
     "customTimeButtonSetTime": "시간 설정",
     "customTimeLabelYesterday": "어제",
@@ -637,7 +637,11 @@
     "timeFrameFormatterMinutes_plural": "지난 {{count}}분",
     "timeFrameFormatterMinutes_0": "지난 {{count}}분",
     "timeFrameFormatterMinutes_1": "지난 {{count}}분",
-    "timeFrameFormatterMinutes_2": "지난 {{count}}분"
+    "timeFrameFormatterMinutes_2": "지난 {{count}}분",
+    "startDate": "시작 날짜",
+    "startTime": "시작 시간",
+    "endDate": "종료 날짜",
+    "endTime": "종료 시간"
   },
   "timeShift": {
     "changeSelectedTimeShift": "선택한 시간 이동 변경",

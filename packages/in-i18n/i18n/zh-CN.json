@@ -43,6 +43,9 @@
     "dropDown": {
       "selectOption": "选择选项"
     },
+    "infoicon": {
+      "information": "信息"
+    },
     "tabsNavigation": {
       "pageNavigation": "页面导航"
     },

@@ -44,14 +44,9 @@
       "afterSession": "在会话后到期"
     },
     "walkme": {
-      "title": "产品内指导",
-      "description": "提供互动式导览，在您探索 Instana 时，简化入门流程并突出显示主要功能。",
+      "title": "产品用户分析和指导",
       "purpose": "注册一个唯一标识，用于生成访客如何使用产品的统计数据。",
       "category": "功能"
-    },
-    "assistme": {
-      "title": "按需援助",
-      "description": "快速访问相关文章、文档和社区资源，帮助您在探索 Instana 时找到答案并保持高效率工作。"
     }
   },
   "roleAndAccessScope": {
@@ -351,6 +346,7 @@
     "failedToRemoveItemName": "无法移除 {{itemName}}",
     "failedToRemoveItem": "无法移除项",
     "confirmRemove": "确认移除",
+    "confirmSave": "确认保存",
     "createNew": "新建",
     "deselect": "取消选择",
     "select": "选择",
@@ -362,7 +358,10 @@
   },
   "dialogs": {
     "role": {
-      "title": "新建角色",
+      "title": "$t(in-settings:dialogs.role.title_new)",
+      "title_clone": "$t(in-settings:dialogs.role.title_new)",
+      "title_edit": "编辑角色",
+      "title_new": "新建角色",
       "generalSectionTitle": "通用",
       "websiteSectionTitle": "Web 站点",
       "mobileAppsSectionTitle": "移动应用程序",
@@ -466,7 +465,8 @@
       "accessControlConfigApiTokensHelpText": "允许创建和配置 API 令牌。",
       "accessControlConfigAuthMethodsCheckboxLabel": "配置认证方法",
       "accessControlViewAuditTrailCheckboxLabel": "访问审计跟踪",
-      "accessControlViewTokenAndTimeoutSettingsCheckboxLabel": "访问令牌和会话超时设置"
+      "accessControlViewTokenAndTimeoutSettingsCheckboxLabel": "访问令牌和会话超时设置",
+      "roleSuccessfullySaved": "角色已成功保存。"
     }
   },
   "tabs": {
@@ -981,8 +981,8 @@
     "configureLdap": "配置 LDAP",
     "ldapConfiguration": "LDAP 配置",
     "url": "URL",
-    "urlDescription": "LDAP 服务器 URL，例如： ldap://host:389 或 ldaps://host:636",
-    "user": "用户",
+    "urlDescription": "LDAP 目录域名或 IP 地址以及 LDAP 端口号，例如：如果是 LDAP，则为 ldap://host:389；如果是 LDAPS，则为 ldaps://host:636",
+    "user": "LDAP 只读用户",
     "userDescription": "这是来自只读用户的 LDAP DN。 它需要有足够的权限才能通过 group_query 列出组",
     "actor": "参与人员",
     "actorName": "名称",
@@ -995,18 +995,19 @@
     "anonymous": "只读用户对 LDAP 具有匿名访问权",
     "base": "基本",
     "baseDescription": "查询的基础，例如：(dc=instana,dc=com)",
-    "groupQuery": "组查询",
-    "groupQueryDescription": "用于列示其成员有权访问 Instana 的一个组或一系列组的查询，例如：(ou=Instana)",
+    "groupQuery": "LDAP 组查询",
+    "groupQueryDescription": "该查询用于列出一个组或一个组集合，其中成员具有 Instana 访问权限，例如：(ou=Instana), cn=INSTANA",
     "member": "成员",
-    "groupMemberField": "组成员字段",
-    "groupMemberFieldDescription": "包含通过 group_query 列示的用户 DN 的属性的名称，例如：uniqueMember",
-    "userQueryTemplate": "用户查询模板",
+    "groupMemberField": "LDAP 组成员映射",
+    "groupMemberFieldDescription": "包含通过 group_query 列出的用户 DN 的属性名称，例如：uniqueMember",
+    "userQueryTemplate": "用户查询",
     "userQueryTemplateDescription": "用于查询用户的模板，例如：(uid=%s)",
     "mail": "邮件",
-    "emailField": "电子邮件字段",
-    "emailFieldDescription": "用于查找用户电子邮件地址的属性的名称，例如：mail",
+    "emailField": "电子邮件映射",
+    "emailFieldDescription": "映射用户电子邮件地址的属性名称，例如：mail",
     "ldapUserAccount": "LDAP 用户帐户",
-    "ldapsAcceptAnyCA": "使用 LDAPS 时信任任何认证中心",
+    "ldapsAcceptAnyCA": "使用 ldaps 时信任任何认证中心",
+    "ldapsAcceptAnyCAHelperText": "启用后，在使用 LDAP 时可信任任何认证中心。 不受信任的授权机构或自签名证书需要使用它。",
     "username": "用户名",
     "usernameDescription": "要作为所有者用户在 Instana 中相关的用户。 在保存设置之前，作为测试进行尝试登录，但不会保存凭证。",
     "usernamePasswordDescription": "用户的 LDAP 密码",
@@ -1440,12 +1441,20 @@
       "ldapHelpDoc": "可在<docLink>文档页面</docLink>获得帮助和支持。",
       "oidcModalHeading": "配置认证 - OIDC",
       "oidcModalHeading_active": "OIDC 配置",
+      "samlModalHeading": "配置认证 - SAML",
+      "samlModalHeading_active": "SAML 配置",
+      "ldapModalHeading": "配置认证 - LDAP",
+      "ldapModalHeading_active": "LDAP 配置",
       "emailToRecieveAdminstrationAccess": "用于自动接收 Instana 管理访问权的电子邮件",
       "emailFromIdentityProviderMustBeEntered": "激活 {{idpConfig}} 后，您将无法通过其他方式登录 Instana。 必须在此处输入您的身份提供者帐户的电子邮件地址，以便向其分配 Instana 的管理访问权。",
       "deleteActiveConfiguration": "删除活动配置",
-      "administratorsWillBeAbletoLogin": "删除活动配置后，只有管理员才能使用其 Instana 密码登录，直到配置新的认证。",
+      "everyUserWillBeAbletoLogin": "删除活动配置后，每个用户都可以使用 Instana 密码登录，直到配置了新的认证。",
       "actionCannotBeUndone": "我知道此操作无法撤销。",
-      "cannotConfigureIdpIfAnotherOneIsAlreadyActive": "只要您具有其他活动身份提供者配置，Google SSO 便不可配置。 请先移除活动的 IdP 配置。"
+      "cannotConfigureIdpIfAnotherOneIsAlreadyActive": "只要您具有其他活动身份提供者配置，Google SSO 便不可配置。 请先移除活动的 IdP 配置。",
+      "idpIsActive": "{{idpConfig}} 已激活。 要更改身份提供者 (IdP)，请删除当前活动配置。",
+      "failedToSaveConfig": "failedToSaveConfig",
+      "failedToDeleteConfig": "failedToDeleteConfig",
+      "editConfiguration": "编辑配置"
     },
     "googleSSO": {
       "allowedDomains": "允许的域",
@@ -1465,8 +1474,37 @@
       "clientId": "客户机标识",
       "identifierAssignedToOIDCApplication": "这是分配给身份提供者的 OIDC 应用程序的标识",
       "useDiscoveryURLOfOIDCConfiguration": "使用 OIDC 配置的发现 URL，Instana 将自动访存该 URL。",
-      "tokenToVerifyAuthenticity": "Instana 使用令牌来验证身份提供者响应的真实性",
-      "OIDCIsActive": "OIDC 处于活动状态。 要更改身份提供者 (IdP)，请删除当前活动配置。"
+      "tokenToVerifyAuthenticity": "Instana 使用令牌来验证身份提供者响应的真实性"
+    },
+    "samlForm": {
+      "instanaUsesTenantNameToConnectIdP": "缺省情况下，Instana 使用您的租户名称连接您的 IdP。",
+      "setupType": "安装类型",
+      "setupTypeAutomatic": "自动",
+      "setupTypeManual": "手动",
+      "setupDescription_automatic": "下载 Instana 元数据文件，并将其上传到身份提供者进行自动设置。 如果身份提供者不允许上传 Instana 元数据，请使用手动设置。",
+      "setupDescription_manual": "如果身份提供者不允许上传 Instana 元数据，手动设置会很有帮助。 输入所需的 Instana 元数据，在身份提供者上手动创建 SAML 应用程序。",
+      "chooseFileUploadingInstana": "选择要上传到 Instana 的文件",
+      "instanaMetadataValues": "将身份提供者连接到 Instana 所需的 Instana 元数据值如下：",
+      "downloadIdentityProviderMetadata": "下载身份提供者发布的身份提供者元数据，并将其上传到 Instana。",
+      "maxFileSize": "最大文件大小为 2 MB。 仅支持文本/xml 文件。",
+      "pleaseSelectFile": "请选择要上传的文件。"
+    },
+    "ldapForm": {
+      "ldapServer": "LDAP 服务器",
+      "ldapAuthentication": "LDAP 认证",
+      "ldapQueries": "LDAP 查询",
+      "optionalSettings": "可选设置",
+      "userDescription": "只读用户的 LDAP DN，例如：cn=admin,dc=example,dc=com<br/>只读用户需要拥有足够权限以通过 group_query 列出组",
+      "instanaAdministrationaccess": "Instana 管理访问权限",
+      "authenticateReadOnlyAccessToLdap": "对 LDAP 进行只读访问验证",
+      "passwordForReadOnlyUser": "只读用户的密码",
+      "instanaAdministrationaccessDescription": "激活 LDAP 后，就没有其他登录 Instana 的方法了。 必须在此处输入 LDAP 用户账户，以便将其分配给 Instana 中的所有者组，用于管理访问权限。<br/>使用与用户查询搜索模板一致的账户 LDAP 属性。",
+      "usernameAdministrationAccess": "为 Instana 分配管理访问权限的 LDAP 用户名",
+      "usernameAdministrationAccessDescription": "例如：einstein",
+      "passwordAdministrationAccess": "密码",
+      "passwordAdministrationAccessDescription": "用户的 LDAP 密码",
+      "testConnection": "测试连接",
+      "testConnectionDescription": "单击保存时，会尝试登录进行测试，但不会存储凭证。 您也可以在保存前手动测试连接。"
     },
     "toYourIdentityProvider": "到您的身份提供者",
     "fromYourIdentityProvider": "来自您的身份提供者",
@@ -1646,7 +1684,8 @@
     "dateUntil": "截止日期",
     "occurences": "出现次数",
     "on": "ON",
-    "the": "该",
+    "specifyDate": "指定日期",
+    "specifyWeekDayMonth": "指定星期、日期和月份",
     "number": "编号",
     "first": "第一",
     "second": "第二",

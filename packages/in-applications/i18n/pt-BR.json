@@ -303,6 +303,11 @@
     "dataSource_traces": "{{formattedCount}} rastreio",
     "dataSource_traces_plural": "{{formattedCount}} rastreios",
     "analyzeCallsOfThisTrace": "Analisar as chamadas deste rastreio",
+    "storeTrace": {
+      "label": "Armazenar rastreio",
+      "traceNotSavedTooltip": "Armazene esse rastreio a longo prazo por 13 meses. Salvo automaticamente após 15 segundos.",
+      "traceSavedTooltip": "Esse rastreio foi salvo e será armazenado por 13 meses."
+    },
     "noAvailableCustomMetrics": "Não há métricas customizadas disponíveis",
     "filters": "Filtros",
     "saveFiltersTitle": "Salvar filtros",

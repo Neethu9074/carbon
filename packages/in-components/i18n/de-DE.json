@@ -68,6 +68,7 @@
     "placeholderSelect": "Auswählen …"
   },
   "downloadBtn": {
+    "downloadAriaLabel": "Herunterladen",
     "downloadViewDownloadAsJsonLabel": "Als JSON herunterladen",
     "downloadViewDownloadCSVLabel": "Herunterladen (*.csv)",
     "downloadViewDownloadJsonLabel": "Herunterladen (*.json)",
@@ -468,12 +469,8 @@
     "profileMenu_profileLink": "Profil",
     "profileMenu_tooltip": "Profilmenü",
     "profileMenu_unitName_tenantName": "Einheitenname - Nutzername",
-    "profileMenu_instanceName": "Instanzname",
-    "profileMenu_region": "Bereich",
-    "profileMenu_instanceOwner": "Instanzeigner",
     "profileMenu_switchUnitOrTenant": "Einheit oder Nutzer wechseln",
     "profileMenu_privacy": "Datenschutz",
-    "profileMenu_saasConsole": "IBM SaaS-Konsole",
     "profileMenu_logOut": "Abmelden"
   },
   "metricConfigurator": {
@@ -580,7 +577,8 @@
     "title": "Sitzungszeitlimit",
     "message": "Aufgrund von Inaktivität werden Sie ausgeloggt:",
     "loggedInButton": "Angemeldet bleiben",
-    "logOutButton": "Abmelden"
+    "logOutButton": "Abmelden",
+    "failedToUpdateSession": "Untätige Sitzung konnte nicht aktualisiert werden"
   },
   "time": {
     "lastMinute": "Letzte Minute",
@@ -599,6 +597,8 @@
     "previousWeek": "Vorherige Woche",
     "dashboardHeaderButtonLive": "Live",
     "customTimeTitleTimeRange": "Zeitbereich",
+    "customTimeTimeRangeLowerValue": "Zeitbereich unterer Wert",
+    "customTimeTimeRangeUpperValue": "Zeitbereich oberer Wert",
     "to": "bis",
     "customTimeButtonSetTime": "Zeit festlegen",
     "customTimeLabelYesterday": "Gestern",
@@ -637,7 +637,11 @@
     "timeFrameFormatterMinutes_plural": "Letzte {{count}} Minuten",
     "timeFrameFormatterMinutes_0": "Letzte {{count}} Minuten",
     "timeFrameFormatterMinutes_1": "Letzte {{count}} Minuten",
-    "timeFrameFormatterMinutes_2": "Letzte {{count}} Minuten"
+    "timeFrameFormatterMinutes_2": "Letzte {{count}} Minuten",
+    "startDate": "Startdatum",
+    "startTime": "Startzeit",
+    "endDate": "Enddatum",
+    "endTime": "Endzeit"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Ausgewählte Zeitverschiebung ändern",

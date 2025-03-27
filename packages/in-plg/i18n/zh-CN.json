@@ -416,6 +416,16 @@
         "configurationParameters": "配置参数"
       }
     },
+    "zos": {
+      "zos": "z/OS",
+      "selectTheAgentPackagingMode": "步骤 1：选择代理程序打包方式",
+      "Packaging": "打包",
+      "dynamic": "动态",
+      "static": "静态",
+      "RunTheAgentDeploymentCode": "第 2 步：运行代理部署代码（来自 z/OS 的 USS 层）。",
+      "installagentOnZOS": "在 z/OS（气隙式环境）上安装代理",
+      "installagentOnZOS1": "安装代理后（跟踪先决条件检查）"
+    },
     "ibmi": {
       "ibmi": "IBM i",
       "os": "操作系统",

@@ -68,6 +68,7 @@
     "placeholderSelect": "選取…"
   },
   "downloadBtn": {
+    "downloadAriaLabel": "下載",
     "downloadViewDownloadAsJsonLabel": "下載成 JSON",
     "downloadViewDownloadCSVLabel": "下載 (*.csv)",
     "downloadViewDownloadJsonLabel": "下載 (*.json)",
@@ -468,12 +469,8 @@
     "profileMenu_profileLink": "設定",
     "profileMenu_tooltip": "設定檔功能表",
     "profileMenu_unitName_tenantName": "單位名稱 - 租戶名稱",
-    "profileMenu_instanceName": "實例名稱",
-    "profileMenu_region": "地區",
-    "profileMenu_instanceOwner": "實例擁有者",
     "profileMenu_switchUnitOrTenant": "切換單位或租戶",
     "profileMenu_privacy": "隱私權",
-    "profileMenu_saasConsole": "IBM SaaS 主控台",
     "profileMenu_logOut": "登出"
   },
   "metricConfigurator": {
@@ -580,7 +577,8 @@
     "title": "階段作業逾時",
     "message": "由於閒置，您將在以下位置登出：",
     "loggedInButton": "保持已登入狀態",
-    "logOutButton": "登出"
+    "logOutButton": "登出",
+    "failedToUpdateSession": "無法更新閒置階段作業"
   },
   "time": {
     "lastMinute": "前一分鐘",
@@ -599,6 +597,8 @@
     "previousWeek": "前一週",
     "dashboardHeaderButtonLive": "即時",
     "customTimeTitleTimeRange": "時間範圍",
+    "customTimeTimeRangeLowerValue": "時間範圍下限值",
+    "customTimeTimeRangeUpperValue": "時間範圍上限值",
     "to": "到",
     "customTimeButtonSetTime": "設定時間",
     "customTimeLabelYesterday": "昨天",
@@ -637,7 +637,11 @@
     "timeFrameFormatterMinutes_plural": "過去 {{count}} 分鐘",
     "timeFrameFormatterMinutes_0": "過去 {{count}} 分鐘",
     "timeFrameFormatterMinutes_1": "過去 {{count}} 分鐘",
-    "timeFrameFormatterMinutes_2": "過去 {{count}} 分鐘"
+    "timeFrameFormatterMinutes_2": "過去 {{count}} 分鐘",
+    "startDate": "開始日期",
+    "startTime": "開始時間",
+    "endDate": "結束日期",
+    "endTime": "結束時間"
   },
   "timeShift": {
     "changeSelectedTimeShift": "變更選取的時間偏移",

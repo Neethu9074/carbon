@@ -43,6 +43,9 @@
     "dropDown": {
       "selectOption": "選取選項"
     },
+    "infoicon": {
+      "information": "資訊"
+    },
     "tabsNavigation": {
       "pageNavigation": "頁面導覽"
     },

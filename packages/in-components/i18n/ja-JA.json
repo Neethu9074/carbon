@@ -68,6 +68,7 @@
     "placeholderSelect": "選択…"
   },
   "downloadBtn": {
+    "downloadAriaLabel": "ダウンロード",
     "downloadViewDownloadAsJsonLabel": "JSON としてダウンロード",
     "downloadViewDownloadCSVLabel": "ダウンロード (*.csv)",
     "downloadViewDownloadJsonLabel": "ダウンロード (*.json)",
@@ -468,12 +469,8 @@
     "profileMenu_profileLink": "プロファイル",
     "profileMenu_tooltip": "プロファイル・メニュー",
     "profileMenu_unitName_tenantName": "ユニット名 - テナント名",
-    "profileMenu_instanceName": "インスタンス名",
-    "profileMenu_region": "リージョン",
-    "profileMenu_instanceOwner": "インスタンス所有者",
     "profileMenu_switchUnitOrTenant": "スイッチ・ユニットまたはテナント",
     "profileMenu_privacy": "プライバシー",
-    "profileMenu_saasConsole": "IBM SaaS コンソール",
     "profileMenu_logOut": "ログアウト"
   },
   "metricConfigurator": {
@@ -580,7 +577,8 @@
     "title": "セッション・タイムアウト",
     "message": "操作を行わなかったため、ログアウトされます:",
     "loggedInButton": "ログインしたままにする",
-    "logOutButton": "ログアウト"
+    "logOutButton": "ログアウト",
+    "failedToUpdateSession": "アイドル・セッションの更新に失敗しました"
   },
   "time": {
     "lastMinute": "過去 1 分間",
@@ -599,6 +597,8 @@
     "previousWeek": "先週",
     "dashboardHeaderButtonLive": "稼働中",
     "customTimeTitleTimeRange": "時刻範囲",
+    "customTimeTimeRangeLowerValue": "タイム・レンジ下限値",
+    "customTimeTimeRangeUpperValue": "タイム・レンジ上限値",
     "to": "から",
     "customTimeButtonSetTime": "時刻の設定",
     "customTimeLabelYesterday": "昨日",
@@ -637,7 +637,11 @@
     "timeFrameFormatterMinutes_plural": "過去 {{count}} 分間",
     "timeFrameFormatterMinutes_0": "過去 {{count}} 分間",
     "timeFrameFormatterMinutes_1": "過去 {{count}} 分間",
-    "timeFrameFormatterMinutes_2": "過去 {{count}} 分間"
+    "timeFrameFormatterMinutes_2": "過去 {{count}} 分間",
+    "startDate": "開始日",
+    "startTime": "開始時刻",
+    "endDate": "終了日",
+    "endTime": "終了時刻"
   },
   "timeShift": {
     "changeSelectedTimeShift": "選択したタイムシフトの変更",

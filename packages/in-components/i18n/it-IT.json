@@ -68,6 +68,7 @@
     "placeholderSelect": "Seleziona…"
   },
   "downloadBtn": {
+    "downloadAriaLabel": "Scarica",
     "downloadViewDownloadAsJsonLabel": "Scarica come JSON",
     "downloadViewDownloadCSVLabel": "Scarica (*.csv)",
     "downloadViewDownloadJsonLabel": "Scarica (*.json)",
@@ -468,12 +469,8 @@
     "profileMenu_profileLink": "Profilo",
     "profileMenu_tooltip": "Menu profilo",
     "profileMenu_unitName_tenantName": "Nome unità - Nome tenant",
-    "profileMenu_instanceName": "Nome istanza",
-    "profileMenu_region": "Regione",
-    "profileMenu_instanceOwner": "Proprietario dell'istanza",
     "profileMenu_switchUnitOrTenant": "Cambia unità o tenant",
     "profileMenu_privacy": "Privacy",
-    "profileMenu_saasConsole": "Console IBM SaaS",
     "profileMenu_logOut": "Disconnetti"
   },
   "metricConfigurator": {
@@ -580,7 +577,8 @@
     "title": "Timeout sessione",
     "message": "A causa dell'inattività, l'utente verrà disconnesso:",
     "loggedInButton": "Resta collegato",
-    "logOutButton": "Disconnetti"
+    "logOutButton": "Disconnetti",
+    "failedToUpdateSession": "Impossibile aggiornare la sessione inattiva"
   },
   "time": {
     "lastMinute": "Ultimo minuto",
@@ -599,6 +597,8 @@
     "previousWeek": "Settimana precedente",
     "dashboardHeaderButtonLive": "Tempo reale",
     "customTimeTitleTimeRange": "Intervallo di tempo",
+    "customTimeTimeRangeLowerValue": "Intervallo di tempo valore inferiore",
+    "customTimeTimeRangeUpperValue": "Intervallo di tempo valore superiore",
     "to": "a",
     "customTimeButtonSetTime": "Imposta ora",
     "customTimeLabelYesterday": "Ieri",
@@ -637,7 +637,11 @@
     "timeFrameFormatterMinutes_plural": "Ultimi {{count}} minuti",
     "timeFrameFormatterMinutes_0": "Ultimi {{count}} minuti",
     "timeFrameFormatterMinutes_1": "Ultimi {{count}} minuti",
-    "timeFrameFormatterMinutes_2": "Ultimi {{count}} minuti"
+    "timeFrameFormatterMinutes_2": "Ultimi {{count}} minuti",
+    "startDate": "Data di inizio",
+    "startTime": "Ora di inizio",
+    "endDate": "Data di fine",
+    "endTime": "Ora di fine"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Modifica spostamento temporale selezionato",

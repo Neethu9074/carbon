@@ -32,7 +32,7 @@
         "editPermissions": "Editar permissões",
         "shareMsg": "Este painel customizado tem regras avançadas de acesso que não podem ser representadas por este diálogo. É possível usar o recurso \"Editar como JSON\" para editar essas regras de acesso.",
         "privateDashboardDefault": "Painel privado (padrão)",
-        "privateDashboardDefaultExplain": "Este painel está visível somente para você.",
+        "privateDashboardDefaultExplain": "Este painel está visível somente para você. Observação: isso pode ser mudado apenas pelo proprietário do painel.",
         "publicDashboard": "Painel público",
         "publicDashboardExplain": "Este painel está visível para todos em sua organização. Somente você tem autorização para fazer mudanças, mas é possível incluir editores.",
         "save": "Salvar",

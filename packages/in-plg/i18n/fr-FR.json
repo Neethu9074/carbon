@@ -416,6 +416,16 @@
         "configurationParameters": "Paramètres de configuration"
       }
     },
+    "zos": {
+      "zos": "z/OS",
+      "selectTheAgentPackagingMode": "Étape 1 : sélectionnez le mode de package de l'agent",
+      "Packaging": "Package",
+      "dynamic": "Dynamique",
+      "static": "Statique",
+      "RunTheAgentDeploymentCode": "Étape 2 : exécutez le code de déploiement d'agent (à partir de la couche USS de z/OS).",
+      "installagentOnZOS": "Installer un agent sur z/OS (environnement physiquement isolé)",
+      "installagentOnZOS1": "Post-installation de l'agent (vérification des prérequis de traçage)"
+    },
     "ibmi": {
       "ibmi": "IBM i",
       "os": "OS",

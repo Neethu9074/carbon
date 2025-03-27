@@ -19,6 +19,7 @@
   "titleDescription": "Beschreibung",
   "titleTriggerEvent": "Triggerereignis",
   "titleRelatedEvents": "Zugehörige Ereignisse ({{eventCount}})",
+  "titleAffectedIncidents": "Betroffene Vorfälle",
   "noRelatedEvents": "Keine verwandten Ereignisse gefunden",
   "titleLastProcess": "Letzter Prozess",
   "titleLastHost": "Letzter Host",
@@ -357,10 +358,28 @@
     "confirmationYes": "Ja",
     "confirmationNo": "Abbrechen"
   },
+  "aichat": {
+    "unableToFindError": "Diese Information kann nicht gefunden werden",
+    "host": "Host",
+    "name": "Name",
+    "noMatching": "Keine übereinstimmenden Datensätze gefunden.",
+    "timestamp": "Zeitmarke",
+    "numCalls": "Anzahl der Aufrufe",
+    "meanLatency": "Mittlere Latenz",
+    "youMustAccept": "Sie müssen die Bedingungen der Vereinbarung zum Vorschauprogramm für generative KI-Unterstützung akzeptieren, um diese Funktion nutzen zu können.",
+    "reviewAction": "Vereinbarung überprüfen",
+    "openingAgreement": "Öffnen der [Einwilligungserklärung] ({{href}}) in einer neuen Registerkarte...",
+    "findingInfoFrom": "Diese Informationen finden Sie bei {{endpoint}}",
+    "noData": "Keine Daten von API zurückgegeben",
+    "whatToKnow": "Was möchten Sie über {{category}} wissen?",
+    "welcome": "Hallo und willkommen. Machen Sie den Anfang mit KI, indem Sie die verschiedenen Beispiele unten erkunden.",
+    "apps": "Anwendungen",
+    "infra": "Infrastruktur"
+  },
   "notes": {
     "openNotes": "Notizen und Aktivität öffnen",
     "closeNotes": "Notizen und Aktivität schließen",
-    "notesActivity": "Anmerkungen und Aktivität",
+    "notesActivity": "Notizen und Aktivitäten mit KI",
     "confirmDelete": "Löschen bestätigen",
     "you": "Sie {{date}}",
     "youEdited": "Sie (bearbeitet) {{date}}",
@@ -430,5 +449,9 @@
   "consentForm": {
     "consentText": "Sie müssen die Bedingungen der Vereinbarung zum Vorschauprogramm für generative KI-Unterstützung akzeptieren, um diese Funktion nutzen zu können.",
     "consentButton": "Vereinbarung überprüfen"
+  },
+  "affectedIncidents": {
+    "affectedIncident": "Betroffenes Ereignis",
+    "noAffectedIncidents": "Keine betroffenen Vorfälle gefunden"
   }
 }

@@ -19,6 +19,7 @@
   "titleDescription": "描述",
   "titleTriggerEvent": "正在触发的事件",
   "titleRelatedEvents": "相关事件数（{{eventCount}} 个）",
+  "titleAffectedIncidents": "受影响事件",
   "noRelatedEvents": "未找到相关事件",
   "titleLastProcess": "上一个进程",
   "titleLastHost": "上一个主机",
@@ -357,10 +358,28 @@
     "confirmationYes": "是",
     "confirmationNo": "取消"
   },
+  "aichat": {
+    "unableToFindError": "无法找到该信息",
+    "host": "主机",
+    "name": "名称",
+    "noMatching": "找不到匹配的记录。",
+    "timestamp": "时间戳记",
+    "numCalls": "调用数",
+    "meanLatency": "平均等待时间",
+    "youMustAccept": "您必须接受生成式 AI 协助预览程序协议中的条款才能使用此功能。",
+    "reviewAction": "查看协议",
+    "openingAgreement": "在新选项卡中打开 [同意书]({{href}})...",
+    "findingInfoFrom": "从 {{endpoint}} 查找该信息",
+    "noData": "API 未返回数据",
+    "whatToKnow": "关于 {{category}}，您想了解什么？",
+    "welcome": "您好，欢迎！ 探索下面的各种示例，开始使用 AI。",
+    "apps": "应用程序",
+    "infra": "基础架构"
+  },
   "notes": {
     "openNotes": "打开注释和活动",
     "closeNotes": "关闭注释和活动",
-    "notesActivity": "注释和活动",
+    "notesActivity": "AI 相关笔记和活动",
     "confirmDelete": "确认删除",
     "you": "您的 {{date}}",
     "youEdited": "您（已编辑）{{date}}",
@@ -430,5 +449,9 @@
   "consentForm": {
     "consentText": "您必须接受生成式 AI 协助预览程序协议中的条款才能使用此功能。",
     "consentButton": "查看协议"
+  },
+  "affectedIncidents": {
+    "affectedIncident": "受影响事件",
+    "noAffectedIncidents": "未发现受影响事件"
   }
 }
