@@ -619,7 +619,7 @@ function generateAdministrationItems(t, role, features) {
   // todo: update the check with (window.location.href.indexOf('/#/internal') != -1 || hasInternalFeatureEnabledPerLocalStorage()
   if (features.internalMonitoringUnit || role?.canSeeExtendedInternalMonitoring) {
     adminItems.push({
-      icon_name: 'lib_actions_lock',
+      icon_name: 'locked',
       label: t('in-server:mainNavigation.viewSwitcherLabelInternal'),
       path: '#/internal'
     });
