@@ -87,7 +87,7 @@ function checkChecksumAndSend(req, res, checksumToCheck, fileToSend) {
     res.sendStatus(404);
     return;
   }
-
+  res.setHeader('Content-Security-Policy', `font-src 'self'; script-src 'self'`);
   res.sendFile(fileToSend, sendFilesConfig, err => {
     if (err) {
       req.log.error({ err }, 'Failed to send file. Cannot complete request.');
