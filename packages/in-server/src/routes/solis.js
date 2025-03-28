@@ -162,13 +162,11 @@ router.get('/solis/nav', async (req, res) => {
     }
     const user = getParsedUser(userStr);
     const role = user?.role ?? {};
-    // const role = user.role;
 
     // Get infra resource: host count
     const infraResource = {
       hasEntities: false,
       hostCount: 0,
-      // serverlessCount: 0,
       incidentCount: 0
     };
     const [statusCodeHost, hostData] = await getHostCount(req);
@@ -360,8 +358,7 @@ function generateSideNavItems(t, role, features, infraResource) {
     });
   }
 
-  // BizOps, having issue with hostCount
-  // hostCount ==0, path is '/businessProcesses'
+  // BizOps
   if (permissions.hasBizOpsAccess) {
     const bizOpsPath = infraResource.hostCount === 0 ? '#/businessProcesses' : '#/businessPerspectives';
 
@@ -620,10 +617,7 @@ function generateAdministrationItems(t, role, features) {
   }
 
   // Internal
-  // todo: use the following logic:
-  //     internalMonitoringUnit ||
-  // (canSeeExtendedInternalMonitoring &&
-  //   (window.location.href.indexOf('/#/internal') != -1 || hasInternalFeatureEnabledPerLocalStorage()))
+  // todo: update the check with (window.location.href.indexOf('/#/internal') != -1 || hasInternalFeatureEnabledPerLocalStorage()
   if (features.internalMonitoringUnit || role?.canSeeExtendedInternalMonitoring) {
     adminItems.push({
       icon_name: 'lib_actions_lock',
@@ -631,47 +625,11 @@ function generateAdministrationItems(t, role, features) {
       path: '#/internal'
     });
   }
-
-  // // Tenant switch
-  // if (!features.userProfileMenuEnabled && features.tenantSwitcherEnabled) {
-  //   adminItems.push({
-  //     type: 'link',
-  //     properties: {
-  //       label: t('in-server:mainNavigation.viewSwitcherLabelTenants'),
-  //       path: `https://${serverConfig.clientConfig.tenantUnitDomainSuffix}/tenantSwitcher`
-  //     }
-  //   });
-  // }
-
-  // The following menu items should be top nav
-  // // release note
-
-  // // doc
-  // moreItems.push({
-  //   type: 'link',
-  //   properties: {
-  //     label: t('in-server:mainNavigation.viewSwitcherLabelDocumentation'),
-  //     path: 'https://www.ibm.com/docs/en/obi/current'
-  //   }
-  // });
-
-  // // Support
-  // moreItems.push({
-  //   type: 'link',
-  //   properties: {
-  //     label: t('in-server:mainNavigation.viewSwitcherLabelSupport'),
-  //     path: 'https://www.ibm.com/mysupport/s/?language=en_US'
-  //   }
-  // });
-
   return adminItems;
 }
 
 router.get('/solis/about', async (req, res) => {
   try {
-    // if (!req.headers.authorization) {
-    //   throw new Error("Missing Authorization token");
-    // }
     const instanaVersion = await getInstanaVersion(req);
 
     const aboutInfo = getAbout(instanaVersion);
