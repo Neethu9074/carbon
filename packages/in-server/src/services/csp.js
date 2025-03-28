@@ -7,7 +7,7 @@ const { get } = require('lodash');
 
 const serverConfig = require('../serverConfig.js');
 
-const allowedScriptOrigins = ['*.instana.io', 'http://localhost:3015', 'blob:http://localhost:3015'];
+const allowedScriptOrigins = ['*.instana.io'];
 
 if (isRequiringInstanaRocks()) {
   allowedScriptOrigins.push('*.instana.rocks');
@@ -50,15 +50,17 @@ const allowedScriptOriginsWalkMePlayBack = [
   'blob:'
 ];
 
-exports.getCsp = (nonce, walkmeEnabled, ibmCommonEnabled, isSessionPlayBackRequired) => {
+exports.getCsp = (nonce, walkmeEnabled, ibmCommonEnabled, isSessionPlayBackRequired, solisEnabled) => {
   if (isSessionPlayBackRequired) {
     return `script-src 'self'  'nonce-${nonce}' ${allowedScriptOriginsWalkMePlayBack.join(' ')}`;
+  } else if (solisEnabled) {
+    return `> script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsIbmCommon.join(
+      ' '
+    )} 'http://localhost:3015' 'blob:http://localhost:3015'; img-src * data:; connect-src *`; //For local testing only
   } else if (walkmeEnabled) {
     return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsWalkMe.join(' ')}`;
   } else if (ibmCommonEnabled) {
-    return `> script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsIbmCommon.join(
-      ' '
-    )}; img-src * data:; connect-src *`;
+    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsIbmCommon.join(' ')}`;
   } else {
     return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOrigins.join(' ')}`;
   }

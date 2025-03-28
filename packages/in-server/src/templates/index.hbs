@@ -71,9 +71,17 @@
      </script>
      <script nonce="{{nonce}}"src="//1.www.s81c.com/common/stats/ibm-common.js" type="text/javascript" async="async"></script>
   {{/if}}
-  <script type="module" crossorigin="anonymous"
-    src="http://localhost:3015/nav/solis-nav.es.js">
-  </script>
+
+  {{#if solisEnabled }}
+    <script async type="module" nonce="{{nonce}}" src="{{solisUiHost}}/login/solis-login.es.js">
+    </script>
+    <script async type="module" nonce="{{nonce}}" src="{{solisUiHost}}/nav/solis-nav.es.js">
+    </script>
+    <script async type="module" nonce="{{nonce}}" src="{{solisUiHost}}/teaser/solis-teaser.es.js">
+    </script>
+
+  {{/if}}
+
   {{#if isAssistMeEnabled }}
     <script type="text/javascript" crossorigin="anonymous" nonce="{{nonce}}"
     async defer src="https://www.ibm.com/resources/assist-me/controller.js">
