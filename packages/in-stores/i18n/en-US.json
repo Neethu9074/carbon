@@ -184,7 +184,12 @@
     "unit_microsecond": "Microsecond",
     "unit_milisecond": "Millisecond",
     "unit_second": "Second",
-    "unit_persecond": "Per Second"
+    "unit_persecond": "Per second",
+
+    "metricGroup_numeric": "Numeric",
+    "metricGroup_dataSize": "Data size",
+    "metricGroup_timeUnits": "Time",
+    "metricGroup_rates": "Rate"
   },
 
   "search": {

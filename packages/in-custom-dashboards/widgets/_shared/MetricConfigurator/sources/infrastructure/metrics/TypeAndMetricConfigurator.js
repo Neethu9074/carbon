@@ -10,8 +10,8 @@ import { SvgIcon, Message, Spacer, Select } from '@instana/components';
 
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import DropdownButton from 'in-components/Button/DropdownButton';
+import { allUnitGroups } from 'in-stores/metric/units';
 import Overlay from 'in-components/overlays/Overlay';
-import { allUnits } from 'in-stores/metric/units';
 import { t } from 'in-i18n';
 
 import locals from './TypeAndMetricConfigurator.mless';
@@ -56,10 +56,14 @@ export default function TypeAndMetricConfigurator({
               disabled={!!props?.preSelectedUnit}
             >
               <>
-                {Object.values(allUnits).map(({ id: value, label }) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
+                {Object.values(allUnitGroups).map(({ id, label, units }) => (
+                  <optgroup id={id} label={label}>
+                    {Object.values(units).map(({ id: value, label }) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </optgroup>
                 ))}
               </>
             </Select>
