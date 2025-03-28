@@ -214,7 +214,7 @@ function Form({ form, onChange }) {
             value={field.value}
             onChange={e => {
               onChange('name', e.target.value);
-              setDisableButton(true);
+              setDisableButton(false);
               setNewName(true);
             }}
             hasError={!field.valid && field.touched}
