@@ -15,10 +15,7 @@ import {
   CUSTOM_DASHBOARD_DOWNLOAD_PDF_LAYOUT,
   CUSTOM_DASHBOARD_DOWNLOAD_PDF_ORIENTATION
 } from 'in-services/tracking/tracking';
-import {
-  filterExcludedNodes,
-  generateImagesFromNodes
-} from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/utils';
+import { sanitizeNode, generateImagesFromNodes } from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/utils';
 import { actions, initialState, pdfReducer } from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/reducer';
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -61,7 +58,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node }: Pr
       await nodeToImage({
         node,
         options: {
-          filter: filterExcludedNodes
+          filter: sanitizeNode
         }
       }).then(imageUrl => dispatch({ type: setImagesUrls, payload: [imageUrl] })),
     [setImagesUrls]
