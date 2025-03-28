@@ -27,10 +27,17 @@ export default function StickySidebarContainer(props: StickySidebarContainerProp
         xs={sidebarWidth + 1}
         className={locals.sideBarSticky}
         style={{ '--topOffset': topOffset }}
+        ariaLabel={'Page menu'}
       >
         {sidebar}
       </Col>
-      <Col lg={12 - sidebarWidth} md={11 - sidebarWidth} xs={11 - sidebarWidth} className={locals.rightColumn}>
+      <Col
+        ariaLabel="Content"
+        lg={12 - sidebarWidth}
+        md={11 - sidebarWidth}
+        xs={11 - sidebarWidth}
+        className={locals.rightColumn}
+      >
         {children}
       </Col>
     </Row>

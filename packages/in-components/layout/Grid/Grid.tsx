@@ -30,6 +30,7 @@ export interface ColProps {
   className?: string;
   style?: Record<string, string | number>;
   preserveVerticalGutter?: boolean;
+  ariaLabel?: string;
 }
 
 export const Row = ({
@@ -69,7 +70,8 @@ export const Col = ({
   children,
   className,
   style,
-  preserveVerticalGutter
+  preserveVerticalGutter,
+  ariaLabel
 }: ColProps) => {
   return (
     <div
@@ -91,6 +93,7 @@ export const Col = ({
         [locals['xs--auto-preserve-vertical']]: xs === true && preserveVerticalGutter
       })}
       style={style}
+      aria-label={ariaLabel}
     >
       {children}
     </div>

@@ -35,12 +35,12 @@ export default function Breadcrumbs() {
   const { createHrefToPath, matchLocation } = useNavigation();
 
   return (
-    <div className={locals.crumbs}>
+    <section className={locals.crumbs} aria-label="Page Navigation">
       <Link href={createHrefToPath(loggingDashboardPath)}>{localisationStrings.logs}</Link>
       <span>/</span>
       <Link href={createHrefToPath(dashboardManagementPath)}>{localisationStrings.management}</Link>
       <span>/</span>
       <Link>{locationLabels.find(location => matchLocation(location.path))?.label}</Link>
-    </div>
+    </section>
   );
 }

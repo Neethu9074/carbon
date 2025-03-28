@@ -141,6 +141,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
       >
         <MigratedTenantBanner />
         <Title title={title} dynamic={labelForTitle ?? (typeof label === 'string' ? label : null)} />
+
         <div className={locals.firstLine}>
           <div className={locals.leftContent}>
             {contextConfigurations &&
