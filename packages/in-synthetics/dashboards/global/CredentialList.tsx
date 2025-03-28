@@ -6,8 +6,9 @@
 
 import React from 'react';
 
-import { OrderDirection, PaginatedResult, Result, SyntheticCredential, TagFilterExpression } from '@instana/types';
+import { OrderDirection, TagFilterExpression } from '@instana/types';
 
+import { getAllSyntheticCredentialsForEntitySelectionWithDefaults } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import CreateCredentialsButton from 'in-synthetics/dashboards/global/tabs/tests/components/CreateCredentialsButton';
@@ -53,9 +54,12 @@ export default function CredentialList() {
     matrixPrefix
   });
   syntheticSwitchCredentialTab(trackCta);
-  const rightHeader = ({ result }: { result: Result<PaginatedResult<SyntheticCredential>> }) => {
-    const credentialNames: string[] = [];
-    result.data?.items?.map(credential => credentialNames.push(credential.credentialName));
+  const credentialNames: string[] = [];
+  const rightHeader = () => {
+    const syntheticCredentials = getAllSyntheticCredentialsForEntitySelectionWithDefaults({ timeConfig });
+    syntheticCredentials.subscribe(results => {
+      results.data?.map(credential => credentialNames.push(credential.name));
+    });
     return role?.canConfigureSyntheticCredentials && <CreateCredentialsButton credentialNames={credentialNames} />;
   };
 
