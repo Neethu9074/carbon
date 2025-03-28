@@ -12,6 +12,7 @@ import { t } from 'in-i18n';
 export default function WebApiSpanDetailView({ span }) {
   const binding = span.getIn(['data', 'wcf', 'binding']);
   const error = span.getIn(['data', 'wcf', 'error']);
+  const status = span.getIn(['data', 'wcf', 'status']);
 
   return (
     <div>
@@ -20,8 +21,19 @@ export default function WebApiSpanDetailView({ span }) {
         <Di title={t('in-forge:tracing.wcf.action')}>{span.getIn(['data', 'wcf', 'svcmethod'])}</Di>
         <Di title={t('in-forge:tracing.wcf.binding')}>{binding ? binding : 'unknown'}</Di>
         <Di title={t('in-forge:tracing.wcf.url')}>{span.getIn(['data', 'wcf', 'localaddress'])}</Di>
+        {status != null && (
+          <Di title={t('in-forge:tracing.wcf.titleStatusCode')}>
+            {status}
+            {wcfStatusCodes[status] != null && ` – ${wcfStatusCodes[status]}`}
+          </Di>
+        )}
         <ErrorDescriptionItem error={error} />
       </Dl>
     </div>
   );
 }
+
+const wcfStatusCodes = {
+  200: t('in-forge:tracing.wcf.statusCode200'),
+  500: t('in-forge:tracing.wcf.statusCode500')
+};

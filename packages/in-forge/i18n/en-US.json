@@ -17821,7 +17821,10 @@
       "serviceClass": "Service-Class",
       "action": "Action",
       "binding": "Binding",
-      "url": "Url"
+      "url": "Url",
+      "titleStatusCode": "Status Code",
+      "statusCode200": "OK",
+      "statusCode500": "Internal Server Error"
     },
     "wcfclient": {
       "url": "Url",
