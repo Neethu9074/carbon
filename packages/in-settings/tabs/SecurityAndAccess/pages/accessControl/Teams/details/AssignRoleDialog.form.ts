@@ -8,13 +8,14 @@ import { createField, createListForm, createMapForm, ValidationResult } from 'fo
 import { isEqual } from 'lodash';
 
 import {
-  TeamRoleSelectionType,
-  AssignRoleDialogFormItems
+  AssignRoleDialogFormItems,
+  TeamRoleIds,
+  TeamRoleSelectionType
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoleDialog.types';
-import { ApiTeamMember, ApiTeamRole } from 'in-settings/tabs/SecurityAndAccess/api/teams';
+import { ApiTeamMember as TeamMember, ApiTeamRole as TeamRole } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { t } from 'in-i18n';
 
-const getRoleSelectionType = (members: Array<ApiTeamMember>, roleIds: Array<ApiTeamRole> | undefined) => {
+const getRoleSelectionType = (members: Array<TeamMember>, roleIds: TeamRoleIds) => {
   // If only one member exists or all members have the same role => SAME_ROLE_FOR_ALL_MEMBERS otherwise => INDIVIDUAL
   if (members?.length === 1 || members.every(member => isEqual(member.roleIds, members[0]?.roleIds)) || roleIds) {
     return TeamRoleSelectionType.SAME_ROLE_FOR_ALL_MEMBERS;
@@ -45,7 +46,7 @@ const roleAssignmentFormValidator = ({ members }: AssignRoleDialogFormItems): Va
   return [];
 };
 
-const rolesValidator = (roleIds: Array<ApiTeamRole>): ValidationResult => {
+const rolesValidator = (roleIds: Array<TeamRole>): ValidationResult => {
   // At least one role needs to be selected
   if (roleIds.length === 0) {
     return [
@@ -59,7 +60,16 @@ const rolesValidator = (roleIds: Array<ApiTeamRole>): ValidationResult => {
   }
 };
 
-const buildListFormItems = (members: Array<ApiTeamMember>, roleIds: Array<ApiTeamRole> | undefined) => {
+const getRoleIds = (roleIds: TeamRoleIds, globalRoleIds: TeamRoleIds) => {
+  if (globalRoleIds) {
+    return globalRoleIds;
+  } else if (roleIds) {
+    return roleIds;
+  }
+  return [];
+};
+
+const buildListFormItems = (members: Array<TeamMember>, roleIds: TeamRoleIds) => {
   return members.map(member => {
     return createMapForm({
       items: {
@@ -70,7 +80,7 @@ const buildListFormItems = (members: Array<ApiTeamMember>, roleIds: Array<ApiTea
           value: member.fullName
         }),
         roleIds: createField({
-          value: roleIds ?? member.roleIds,
+          value: getRoleIds(member.roleIds, roleIds),
           validator: rolesValidator
         })
       }
@@ -78,7 +88,7 @@ const buildListFormItems = (members: Array<ApiTeamMember>, roleIds: Array<ApiTea
   });
 };
 
-export const createForm = (members: Array<ApiTeamMember>, roleIds: Array<ApiTeamRole> | undefined = undefined) => {
+export const createForm = (members: Array<TeamMember>, roleIds: TeamRoleIds = undefined) => {
   return createMapForm({
     items: {
       roleSelectionType: createField({

@@ -15,13 +15,13 @@ import {
 } from '@instana/components';
 import { createLogger } from '@instana/logger';
 
-import { ApiTeamRole } from 'in-settings/tabs/SecurityAndAccess/api/teams';
+import { ApiTeamRole as TeamRole } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { t } from 'in-i18n';
 
 import locals from './RoleView.mless';
 
 interface RoleViewProps {
-  roles: Array<ApiTeamRole>;
+  roles: Array<TeamRole>;
 }
 
 const logger = createLogger('TeamRoleView');
@@ -30,7 +30,7 @@ const RoleView = ({ roles }: RoleViewProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Will be removed once backend API also returns role name besides id
-  const getRoleName = (role: ApiTeamRole & { roleName?: string }) => {
+  const getRoleName = (role: TeamRole & { roleName?: string }) => {
     logger.warn('Temporary function to be removed when user name and role name are available through team API');
     if (role.roleName) {
       return role.roleName;
@@ -45,7 +45,7 @@ const RoleView = ({ roles }: RoleViewProps) => {
   return (
     <CarbonPopover open={isOpen} caret={false}>
       <CarbonTag type="high-contrast" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
-        {roles?.length === 1 ? getRoleName(roles[0]) : roles?.length}
+        {roles?.length === 1 ? getRoleName(roles[0]) : t('in-settings:tabs.teams.rolesTag', { count: roles?.length })}
       </CarbonTag>
       <CarbonPopoverContent>
         <div>

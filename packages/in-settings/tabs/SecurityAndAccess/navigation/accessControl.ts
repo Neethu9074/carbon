@@ -30,6 +30,7 @@ import GroupPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Gr
 import UserPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/User';
 import ApiTokenFormDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/ApiTokens/ApiTokenFormDialog';
 import ApiTokensPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/ApiTokens/ApiTokens';
+import TeamDetailsPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/TeamDetails';
 import InvitesPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/Invites';
 import InvitesV2 from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/InvitesV2';
 import UsersV2 from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/Users/UsersV2';
@@ -37,7 +38,6 @@ import GroupsPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/G
 import GroupsV2 from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/GroupsV2';
 import TeamsPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/Teams';
 import UsersPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/Users';
-import TeamPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/Team';
 import AuditTrailPage from 'in-settings/tabs/SecurityAndAccess/pages/audit/AuditTrail';
 import Roles from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles';
 import { accessControlCarbonTable, rbacTeamsEnabled } from 'in-services/featureFlags';
@@ -162,7 +162,7 @@ export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
             {
               idx: 'edit-team-page',
               path: securityAndAccessAccessControlTeamEdit,
-              component: TeamPage
+              component: TeamDetailsPage
             }
           ]
         });

@@ -6,17 +6,10 @@
 
 import { ReactNode } from 'react';
 
-import { ApiTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
-
-export interface TeamRowData extends Omit<ApiTeam, 'scope'> {
-  memberCount: number;
-  scope: string;
-}
-
 export interface TeamRow<ROW_DATA> {
   id: string;
-  memberCount: ReactNode;
+  name: ReactNode;
   rowData: ROW_DATA;
   scope: ReactNode;
-  tag: ReactNode;
+  usersCount: ReactNode;
 }

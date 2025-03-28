@@ -10,8 +10,8 @@ import { CarbonForm, CarbonTag, CarbonTextArea, CarbonTextInput } from '@instana
 import { useObservable } from '@instana/hooks';
 import { TeamTag } from '@instana/types';
 
+import { ApiTeam as Team } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { getTagsResult } from 'in-settings/tabs/SecurityAndAccess/api/tags';
-import { ApiTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
@@ -19,7 +19,7 @@ import locals from './TeamForm.mless';
 
 interface TeamFormProps {
   setValid: (isValid: boolean) => void;
-  setTeamData: (team: Partial<ApiTeam>) => void;
+  setTeamData: (team: Partial<Team>) => void;
   name?: string;
   originalName?: string;
   description?: string;
@@ -43,16 +43,14 @@ const TeamForm = ({
       // Team name is required
       setNameValidationMessage(t('in-settings:tabs.teams.nameRequired'));
       setValid(false);
-    } else {
+    } else if (originalName !== teamName && tags?.some(tag => tag.displayName === teamName)) {
       // Check if team name already exists as tag
-      if (originalName !== teamName && tags && tags.some(tag => tag.displayName === teamName)) {
-        setNameValidationMessage(t('in-settings:tabs.teams.nameAlreadyExists'));
-        setValid(false);
-      } else {
-        // Valid
-        setNameValidationMessage('');
-        setValid(true);
-      }
+      setNameValidationMessage(t('in-settings:tabs.teams.nameAlreadyExists'));
+      setValid(false);
+    } else {
+      // Valid
+      setNameValidationMessage('');
+      setValid(true);
     }
   };
 

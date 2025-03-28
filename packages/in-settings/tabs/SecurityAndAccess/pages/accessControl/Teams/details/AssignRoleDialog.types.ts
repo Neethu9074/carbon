@@ -7,13 +7,13 @@
 import { Field, ListForm, MapForm, MapFormItems } from 'formalistic';
 import React from 'react';
 
+import { ApiTeam as Team, ApiTeamRole as TeamRole } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { Notification } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
-import { ApiTeam, ApiTeamRole } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 
 export interface AssignRoleDialogProps {
   onSubmit: (members: Array<any>) => void;
   setMessage?: React.Dispatch<React.SetStateAction<Notification | undefined>>;
-  team: ApiTeam;
+  team: Team;
 }
 
 export enum TeamRoleSelectionType {
@@ -37,8 +37,10 @@ export interface AssignRoleDialogFormItems extends MapFormItems {
     MapForm<{
       userId: Field<string>;
       fullName: Field<string | undefined>;
-      roleIds: Field<Array<ApiTeamRole>>;
+      roleIds: Field<Array<TeamRole>>;
     }>[]
   >;
 }
+
 export type AssignRoleDialogMapForm = MapForm<AssignRoleDialogFormItems>;
+export type TeamRoleIds = Array<TeamRole> | undefined;

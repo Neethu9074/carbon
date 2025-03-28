@@ -10,7 +10,7 @@ import { CarbonModal } from '@instana/components';
 
 import TeamForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamForm';
 import { Notification } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
-import { ApiTeam, saveTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
+import { ApiTeam as Team, saveTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SETTINGS_TEAM_CREATE } from 'in-services/tracking/eventNames';
 import { close } from 'in-components/DialogPresenter/store';
@@ -34,7 +34,7 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
     scope: {}
   });
 
-  const setTeamData = ({ tag, info }: Partial<ApiTeam>) => {
+  const setTeamData = ({ tag, info }: Partial<Team>) => {
     setTeam(previous => {
       return {
         ...previous,

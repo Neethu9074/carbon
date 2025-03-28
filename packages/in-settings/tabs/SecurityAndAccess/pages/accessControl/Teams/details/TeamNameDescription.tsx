@@ -11,7 +11,7 @@ import { CarbonInlineLoading } from '@instana/components';
 import TeamNameDescriptionCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamNameDescriptionCard';
 import TeamForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamForm';
 import { Notification } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
-import { ApiTeam, deleteTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
+import { ApiTeam as Team, deleteTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { close } from 'in-components/DialogPresenter/store';
@@ -19,14 +19,14 @@ import { t } from 'in-i18n';
 
 interface TeamNameDescriptionProps {
   isLoading: boolean;
-  team: ApiTeam;
+  team: Team;
   setMessage: (message: Notification) => void;
-  setTeamData: (team: Partial<ApiTeam>) => void;
-  saveTeam: (data: ApiTeam) => void;
+  setTeamData: (team: Partial<Team>) => void;
+  saveTeam: (data: Team) => void;
 }
 
 const TeamNameDescription = ({ isLoading, team, setMessage, setTeamData, saveTeam }: TeamNameDescriptionProps) => {
-  const [editTeam, setEditTeam] = useState<ApiTeam>(team);
+  const [editTeam, setEditTeam] = useState<Team>(team);
   const [isValid, setIsValid] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -35,18 +35,21 @@ const TeamNameDescription = ({ isLoading, team, setMessage, setTeamData, saveTea
   const deleteTeamHandler = () => {
     // Close confirmation dialog
     close();
-    deleteTeam(team?.id).once(
-      () => {
-        goToPath(`${securityAndAccessAccessControlTeams}`);
-      },
-      error => {
-        setMessage({
-          kind: 'error',
-          title: t('in-settings:components.failedToRemoveItem'),
-          subtitle: `(${team.id}): ${error.message}`
-        });
-      }
-    );
+
+    if (team?.id) {
+      deleteTeam(team.id).once(
+        () => {
+          goToPath(`${securityAndAccessAccessControlTeams}`);
+        },
+        error => {
+          setMessage({
+            kind: 'error',
+            title: t('in-settings:components.failedToRemoveItem'),
+            subtitle: `(${team.id}): ${error.message}`
+          });
+        }
+      );
+    }
   };
 
   const saveNameDescriptionHandler = () => {
@@ -73,7 +76,7 @@ const TeamNameDescription = ({ isLoading, team, setMessage, setTeamData, saveTea
     setIsEditMode(previous => !previous);
   };
 
-  const setNameDescription = ({ tag, info }: Partial<ApiTeam>) => {
+  const setNameDescription = ({ tag, info }: Partial<Team>) => {
     setEditTeam(previous => {
       return {
         ...previous,

@@ -13,13 +13,20 @@ import { ApiRole, UserResult } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { createLogger } from '@instana/logger';
 
+import {
+  ApiTeam as Team,
+  ApiTeamRole as TeamRole,
+  ApiTeamMember as TeamMember,
+  getTeam,
+  saveTeam
+} from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import TeamNameDescription from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamNameDescription';
+import TeamMemberCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamMemberCard';
+import TeamScopeCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamScopeCard';
 //@ts-expect-error not migrated to typescript
 import Header from 'in-settings/components/ApiItemView/Header';
-import TeamMember from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamMember';
+import { MOCK_TEAM } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/Team.mocks';
 import TeamTagUse from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamTagUse';
-import TeamScope from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamScope';
-import { ApiTeam, ApiTeamRole, getTeam, saveTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { Notification } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
 import useRolesOverview from 'in-settings/tabs/SecurityAndAccess/hooks/useRolesOverview';
 import { securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
@@ -31,54 +38,59 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { getUsersResult } from 'in-api/users';
 import { t } from 'in-i18n';
 
-import locals from './Team.mless';
+import locals from './TeamDetails.mless';
 
 const logger = createLogger('TeamDetails');
 
 /* Temporary low quality function to add user name and role name to team data,
  * to be removed when user name and role name are available through API */
-const enrichTeam = (team: ApiTeam, users: Array<UserResult>, roles: Array<ApiRole>) => {
+const enrichTeam = (team: Team, users: Array<UserResult>, roles: Array<ApiRole>) => {
   logger.warn('Temporary function to be removed when user name and role name are available through team API');
-  const newMembers = team.members.map(member => {
-    let fullName = '';
-    let newRoleIds: ApiTeamRole[] = [];
-    if (users?.length > 0) {
-      const user = users.find(user => user.id === member.userId);
-      if (user) {
-        fullName = user?.fullName;
-      }
-    }
-
-    if (roles?.length > 0) {
-      newRoleIds = member.roleIds.map(roleId => {
-        let roleName = '';
-        const role = roles.find(role => role.id === roleId.roleId);
-        if (role) {
-          roleName = role.name;
+  let newMembers: TeamMember[] = [];
+  if (team?.members) {
+    newMembers = team.members.map(member => {
+      let fullName = '';
+      let newRoleIds: TeamRole[] = [];
+      if (users?.length > 0) {
+        const user = users.find(user => user.id === member.userId);
+        if (user) {
+          fullName = user?.fullName;
         }
+      }
 
-        return {
-          roleId: roleId.roleId,
-          roleName: roleName
-        };
-      });
-    }
+      if (roles?.length > 0 && member?.roleIds) {
+        newRoleIds = member.roleIds.map(roleId => {
+          let roleName = '';
+          const role = roles.find(role => role.id === roleId.roleId);
+          if (role) {
+            roleName = role.name;
+          }
 
-    return {
-      ...member,
-      fullName: fullName,
-      roleIds: newRoleIds
-    };
-  });
+          return {
+            roleId: roleId.roleId,
+            roleName: roleName,
+            viaIdP: roleId.viaIdP
+          };
+        });
+      }
+
+      return {
+        ...member,
+        fullName: fullName,
+        roleIds: newRoleIds
+      };
+    });
+  }
+
   return {
     ...team,
     members: newMembers
   };
 };
 
-const Team = () => {
-  const [isLoading, setLoading] = useState(true);
-  const [team, setTeam] = useState<ApiTeam>({
+const TeamDetails = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [team, setTeam] = useState<Team>({
     id: '',
     tag: '',
     info: {
@@ -108,7 +120,7 @@ const Team = () => {
           //@ts-expect-error user API types have not been fixed yet, enrichTeam is only temporarily
           enrichTeam(teamData, isResultLoading(usersResult) ? [] : usersResult, rolesProgress?.loading ? [] : rolesData)
         );
-        setLoading(false);
+        setIsLoading(false);
       },
       error => {
         setNotification({
@@ -120,7 +132,7 @@ const Team = () => {
     );
   }, [teamId, rolesData, usersResult, rolesProgress]);
 
-  const setTeamData = ({ tag = '', info = undefined, members = undefined }: Partial<ApiTeam>) => {
+  const setTeamData = ({ tag = '', info = undefined, members = undefined }: Partial<Team>) => {
     setTeam(previous => {
       return {
         ...previous,
@@ -132,7 +144,7 @@ const Team = () => {
   };
 
   // Update team
-  const saveTeamHandler = (data: ApiTeam) => {
+  const saveTeamHandler = (data: Team) => {
     saveTeam(data).once(
       savedTeam => {
         //setTeam(savedTeam.body);
@@ -178,14 +190,14 @@ const Team = () => {
 
       <div className={locals.row}>
         <div className={locals.column}>
-          <TeamMember
+          <TeamMemberCard
             isLoading={
               isLoading ||
               team?.members.some(
                 m =>
                   m?.fullName === undefined ||
                   m?.fullName === '' ||
-                  m.roleIds.some(r => r?.roleName === undefined || r?.roleName === '')
+                  m?.roleIds?.some(r => r?.roleName === undefined || r?.roleName === '')
               )
             }
             team={team}
@@ -194,7 +206,7 @@ const Team = () => {
           />
         </div>
         <div className={locals.column}>
-          <TeamScope isLoading={isLoading} />
+          <TeamScopeCard isLoading={isLoading} team={MOCK_TEAM} />
         </div>
       </div>
 
@@ -203,4 +215,4 @@ const Team = () => {
   );
 };
 
-export default Team;
+export default TeamDetails;

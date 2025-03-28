@@ -21,23 +21,23 @@ import { UserResult } from '@instana/types';
 //@ts-expect-error not a typescript component yet
 import { AddUserDialog } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/AddUserButton';
 import { AssignRoleDialog } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoleDialog';
+import { ApiTeam as Team, ApiTeamMember as TeamMember } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import RoleView from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/RoleView';
 import { getEntityIdView, securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
-import { ApiTeam, ApiTeamMember } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { Trans, t } from 'in-i18n';
 
-import locals from './TeamMember.mless';
+import locals from './TeamMemberCard.mless';
 
-interface TeamMemberProps {
+interface TeamMemberCardProps {
   isLoading: boolean;
-  team: ApiTeam;
-  setTeamData: (team: Partial<ApiTeam>) => void;
-  saveTeam: (data: ApiTeam) => void;
+  team: Team;
+  setTeamData: (team: Partial<Team>) => void;
+  saveTeam: (data: Team) => void;
 }
 
-const TeamMember = ({ isLoading, team, setTeamData, saveTeam }: TeamMemberProps) => {
+const TeamMemberCard = ({ isLoading, team, setTeamData, saveTeam }: TeamMemberCardProps) => {
   const addMembers = (users: Array<UserResult>) => {
     const userIds = users.map(user => {
       return { fullName: user.fullName, userId: user.id, roleIds: [{ roleId: '-1', viaIdP: false }] };
@@ -65,7 +65,7 @@ const TeamMember = ({ isLoading, team, setTeamData, saveTeam }: TeamMemberProps)
     close();
   };
 
-  const removeMember = (member: ApiTeamMember) => {
+  const removeMember = (member: TeamMember) => {
     const teamData = {
       ...team,
       members: team.members.filter(m => m.userId !== member.userId)
@@ -79,7 +79,7 @@ const TeamMember = ({ isLoading, team, setTeamData, saveTeam }: TeamMemberProps)
     close();
   };
 
-  const assignRoles = (members: Array<ApiTeamMember>) => {
+  const assignRoles = (members: Array<TeamMember>) => {
     // Update members with role assignment
     setTeamData({ members });
 
@@ -173,4 +173,4 @@ const TeamMember = ({ isLoading, team, setTeamData, saveTeam }: TeamMemberProps)
   );
 };
 
-export default TeamMember;
+export default TeamMemberCard;

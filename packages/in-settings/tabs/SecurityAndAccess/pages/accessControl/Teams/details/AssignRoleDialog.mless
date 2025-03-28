@@ -11,5 +11,6 @@
 
   .assignRolesWrapper {
     margin-top: 1rem;
+    min-height: 18rem;
   }
 }

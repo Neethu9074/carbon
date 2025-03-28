@@ -16,7 +16,7 @@ import {
   FilterableMultiSelectItemExtraProps
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoleDialog.types';
 import { AssignRolesProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoles.types';
-import { ApiTeamRole } from 'in-settings/tabs/SecurityAndAccess/api/teams';
+import { ApiTeamRole as TeamRole } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { t } from 'in-i18n';
 
 import locals from './AssignRoles.mless';
@@ -42,7 +42,7 @@ const getRoleName = (roles: Array<RoleOverview>, roleId: string) => {
   return role ? role.name : '';
 };
 
-const createInitialSelectedItems = (roles: Array<RoleOverview>, roleIds: Array<ApiTeamRole>) => {
+const createInitialSelectedItems = (roles: Array<RoleOverview>, roleIds: Array<TeamRole>) => {
   return roleIds.map(roleId => {
     return { id: roleId.roleId, text: getRoleName(roles, roleId.roleId) };
   });
