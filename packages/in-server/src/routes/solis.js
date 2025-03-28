@@ -12,7 +12,7 @@ const middleware = require('i18next-http-middleware');
 const { getCurrentUser } = require('../auth');
 const { activeResolver } = require('../services/resolvers/index');
 
-const i18nPath = path.join(__dirname, 'i18n');
+const i18nPath = path.join(__dirname, 'translations');
 const namespace = 'in-server';
 const translations = {};
 
