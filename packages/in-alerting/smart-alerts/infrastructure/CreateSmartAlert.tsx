@@ -11,57 +11,49 @@ import { Button } from '@instana/components';
 import { infraSmartAlertFullScreenDesignEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/infrastructure/CreateSmartAlertDialog';
-import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import ViewSelectorDialog from 'in-alerting/components/Dialog/ViewSelectorDialog';
-import { ADVANCED, FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { ADVANCED } from 'in-alerting/smart-alerts/data/constants';
 import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { t } from 'in-i18n';
-
-const labelNew = t('in-alerting:smartAlerts.labelNew');
 
 export default function CreateSmartAlert() {
   const { trackCta } = useSegmentTracking();
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({});
 
+  const openCreateSmartAlertDialog = () => {
+    addActiveDialog(<CreateSmartAlertDialog />);
+  };
+
+  const handleFloatingButtonClick = () => {
+    trackCta(ALERTING_CREATE, { dialogMode: ADVANCED });
+    openCreateSmartAlertDialog();
+  };
+
   if (infraSmartAlertFullScreenDesignEnabled) {
     return (
-      <FloatingActionButtons>
-        <FloatingActionButtonMenu>
-          <Button
-            icon="lib_alerts_create"
-            onClick={() => {
-              trackCta(ALERTING_CREATE, { dialogMode: ADVANCED });
-              addActiveDialog(<CreateSmartAlertDialog />);
-            }}
-          >
-            {t('in-alerting:smartAlerts.addSmartAlert')}
-          </Button>
-          <Button
-            icon="lib_alerts_create"
-            onClick={() => {
-              trackCta(ALERTING_CREATE, { dialogMode: FULLSCREEN });
-            }}
-            href={getLinkToCreateSmartAlert}
-          >
-            {`${t('in-alerting:smartAlerts.addSmartAlert')} ${labelNew}`}
-          </Button>
-        </FloatingActionButtonMenu>
-      </FloatingActionButtons>
+      <FloatingActionButton
+        icon="lib_alerts_create"
+        onClick={() =>
+          addActiveDialog(
+            <ViewSelectorDialog
+              trackCta={trackCta}
+              openOldDialog={openCreateSmartAlertDialog}
+              getLinkToCreateSmartAlert={getLinkToCreateSmartAlert}
+              mode={ADVANCED}
+            />
+          )
+        }
+        withBoxShadow
+      >
+        {t('in-alerting:smartAlerts.addSmartAlert')}
+      </FloatingActionButton>
     );
   }
   return (
-    <FloatingActionButton
-      icon="lib_alerts_create"
-      onClick={() => {
-        trackCta(ALERTING_CREATE, { dialogMode: ADVANCED });
-        addActiveDialog(<CreateSmartAlertDialog />);
-      }}
-      withBoxShadow
-    >
+    <FloatingActionButton icon="lib_alerts_create" onClick={handleFloatingButtonClick} withBoxShadow>
       {t('in-alerting:smartAlerts.addSmartAlert')}
     </FloatingActionButton>
   );
