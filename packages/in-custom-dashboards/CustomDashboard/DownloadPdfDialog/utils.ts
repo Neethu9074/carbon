@@ -8,10 +8,16 @@ import { ActionsTypes, PdfAction } from 'in-custom-dashboards/CustomDashboard/Do
 import { nodeToImage } from 'in-services/util/nodeToImage';
 import { t } from 'in-i18n';
 
-export const filterExcludedNodes = (node: Node) => {
+export const sanitizeNode = (node: Node) => {
   if (!(node instanceof HTMLElement)) {
     return true;
   }
+
+  // Strip out href from <a> tags
+  if (node.tagName === 'A') {
+    node.removeAttribute('href');
+  }
+
   // List of classes to exclude from the image generation
   const elementsToExclude = ['search-input', 'view-full-table', 'show-results', 'legend-arrow', 'hidden'];
   return !elementsToExclude.some(cls => node.classList.contains(cls));
@@ -28,7 +34,7 @@ export async function generateImagesFromNodes(
       const image = await nodeToImage({
         node,
         options: {
-          filter: filterExcludedNodes
+          filter: sanitizeNode
         }
       });
       dispatch({
