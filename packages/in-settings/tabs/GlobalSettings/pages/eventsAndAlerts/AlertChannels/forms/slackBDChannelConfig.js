@@ -274,7 +274,8 @@ function Form({ form, onChange }) {
                 teamId: form.get('teamId').value,
                 teamName: form.get('teamName').value,
                 channelId: form.get('channelId').value,
-                channelName: form.get('channelName').value
+                channelName: form.get('channelName').value,
+                emoji: form.get('emojiRendering').value
               });
               const url = `${integrationBaseUrl}/integration/slack/bidirectional/install?${params.toString()}`;
               window.open(url, '_blank');
