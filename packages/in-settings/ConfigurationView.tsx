@@ -13,12 +13,17 @@ import { isAvailable as isLdapAvailable } from 'in-settings/tabs/SecurityAndAcce
 import { isAvailable as isOidcAvailable } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import { roleHasAnyGlobalPermissions } from 'in-settings/tabs/permissions';
 import legacyRedirects from 'in-settings/navigation/legacy-redirects';
-import TabView from 'in-components/LocationAwareTabView/TabView';
+import TabView, { TabViewProps } from 'in-components/LocationAwareTabView/TabView';
+// @ts-expect-error needs TS migration
 import RedirectWithHash from 'in-components/RedirectWithHash';
-import DashboardHeader from 'in-components/DashboardHeader';
+import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import getTabs from 'in-settings/tabs/index';
+// @ts-expect-error needs TS migration
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
+
+interface ConfigurationViewProps<TAB_PROPS extends {}, EXTENSION_PROPS extends {}>
+  extends Pick<TabViewProps<unknown, TAB_PROPS, EXTENSION_PROPS>, 'location' | 'props'> {}
 
 export default connectTo(
   {
@@ -27,7 +32,9 @@ export default connectTo(
     isLdapAvailable: isLdapAvailable(),
     isOidcAvailable: isOidcAvailable()
   },
-  function ConfigurationView(props) {
+  function ConfigurationView<TAB_PROPS extends {}, EXTENSION_PROPS extends {}>(
+    props: ConfigurationViewProps<TAB_PROPS, EXTENSION_PROPS>
+  ) {
     const { location } = props;
     if (location.pathname && location.pathname === settingsBasePath) {
       // in-components/AppHeader/components/AccountMenu/components/Menu (and possibly old bookmarks) just points to
@@ -53,7 +60,7 @@ export default connectTo(
   }
 );
 
-function Header(props) {
+function Header(props: Omit<DashboardHeaderProps, 'title' | 'icon' | 'label' | 'renderTimeSelection'>) {
   return (
     <DashboardHeader
       {...props}
@@ -65,12 +72,16 @@ function Header(props) {
   );
 }
 
-function createLegacyRedirect(legacyRedirect, match, props) {
-  const params = {};
-  const substitutions = legacyRedirect.params || {};
-  Object.keys(match.params).forEach(p => {
-    const key = substitutions[p] || p;
-    params[key] = match.params[p];
+function createLegacyRedirect<TAB_PROPS extends {}, EXTENSION_PROPS extends {}>(
+  legacyRedirect: (typeof legacyRedirects)[number],
+  match: ReturnType<typeof matchPath>,
+  props: ConfigurationViewProps<TAB_PROPS, EXTENSION_PROPS>
+) {
+  const params: Record<string, string | undefined> = {};
+  const substitutions = legacyRedirect.params ?? {};
+  Object.keys(match?.params ?? {}).forEach(p => {
+    const key = p in substitutions ? substitutions[p as keyof typeof substitutions] : p;
+    params[key] = match?.params[p] ?? undefined;
   });
   const to = generatePath(legacyRedirect.to, params);
   return <RedirectWithHash props={props} to={to} />;

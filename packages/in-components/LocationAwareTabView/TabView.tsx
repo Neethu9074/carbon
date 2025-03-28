@@ -24,7 +24,7 @@ export type TabFilterPredicate<TabData, T extends Tab<TabData, any>> = (
   result: Result<TabData> | Nullish
 ) => (tab: T) => boolean;
 
-interface TabViewProps<TabData, TabProps extends {}, ExtensionProps extends {}> {
+export interface TabViewProps<TabData, TabProps extends {}, ExtensionProps extends {}> {
   result$?: Observable<Result<TabData>>;
   tabs: Tab<TabData, TabProps & ExtensionProps>[];
   location: Location;
