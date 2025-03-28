@@ -4,13 +4,28 @@
  */
 
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const i18next = require('i18next');
 const middleware = require('i18next-http-middleware');
 
 const { getCurrentUser } = require('../auth');
 const { activeResolver } = require('../services/resolvers/index');
 
-const translations = require('./translation.json');
+const i18nPath = path.join(__dirname, 'i18n');
+const namespace = 'in-server';
+const translations = {};
+
+fs.readdirSync(i18nPath).forEach(file => {
+  if (file.endsWith('.json')) {
+    const langCode = path.basename(file, '.json');
+    const content = require(path.join(i18nPath, file));
+
+    translations[langCode] = {
+      [namespace]: content
+    };
+  }
+});
 
 i18next.use(middleware.LanguageDetector).init({
   fallbackLng: {
@@ -30,8 +45,8 @@ i18next.use(middleware.LanguageDetector).init({
   resources: translations,
   load: 'languageOnly',
   returnNull: false,
-  defaultNS: 'mainNavigation',
-  ns: ['mainNavigation']
+  defaultNS: namespace,
+  ns: [namespace]
 });
 
 const router = (module.exports = express.Router());
@@ -41,7 +56,7 @@ router.use(middleware.handle(i18next));
 router.get('/solis/hub_content', async (req, res) => {
   const t = req.t;
 
-  const finalResponseBody = { title: t('Monitoring and Observability'), widgets: [] };
+  const finalResponseBody = { title: t('in-server:mainNavigation.monitoringObservability'), widgets: [] };
 
   try {
     const dashboardRequest = new Request(req.uiBackendBaseUrl + '/api/custom-dashboard');
@@ -83,9 +98,9 @@ router.get('/solis/hub_content', async (req, res) => {
     finalResponseBody.widgets.push({
       type: 'kpi_tile',
       properties: {
-        title: t('Critical Events'),
-        tag: { type: 'high-contrast', children: t('Event') },
-        kpi: { label: t('Active/Total'), primary_value: `${criticalEvents}/${totalEvents}` }
+        title: t('in-server:mainNavigation.criticalEvents'),
+        tag: { type: 'high-contrast', children: t('in-server:mainNavigation.event') },
+        kpi: { label: t('in-server:mainNavigation.activeTotal'), primary_value: `${criticalEvents}/${totalEvents}` }
       },
       href: '#/events;orderDirection=DESC;orderBy=start;filter;view=incident?q=event.severity%3Acritical%20and%20event.state%3AOPEN'
     });
@@ -93,9 +108,9 @@ router.get('/solis/hub_content', async (req, res) => {
     finalResponseBody.widgets.push({
       type: 'kpi_tile',
       properties: {
-        title: t('Warning Events'),
-        tag: { type: 'high-contrast', children: t('Event') },
-        kpi: { label: t('Active/Total'), primary_value: `${warningEvents}/${totalEvents}` }
+        title: t('in-server:mainNavigation.warningEvents'),
+        tag: { type: 'high-contrast', children: t('in-server:mainNavigation.event') },
+        kpi: { label: t('in-server:mainNavigation.activeTotal'), primary_value: `${warningEvents}/${totalEvents}` }
       },
       href: '#/events;orderDirection=DESC;orderBy=start;filter;view=incident?q=event.severity%3Awarning%20and%20event.state%3AOPEN'
     });
@@ -108,15 +123,15 @@ router.get('/solis/hub_content', async (req, res) => {
         .then(response => response.json())
         .then(data => {
           const tagText = dashboard.annotations.includes('SHARED')
-            ? t('Custom Dashboard - Shared')
-            : t('Custom Dashboard');
+            ? t('in-server:mainNavigation.sharedCustomerDashboard')
+            : t('in-server:mainNavigation.customerDashboard');
 
           finalResponseBody.widgets.push({
             type: 'kpi_tile',
             properties: {
               title: dashboard.title,
               tag: { type: 'cyan', children: tagText },
-              kpi: { label: t('Owner'), primary_value: data.fullName }
+              kpi: { label: t('in-server:mainNavigation.owner'), primary_value: data.fullName }
             },
             href: `#/customDashboards/view;dashboardId=${dashboard.id}`
           });
@@ -309,7 +324,7 @@ function generateSideNavItems(t, role, features, infraResource) {
     type: 'link',
     properties: {
       icon_name: 'home',
-      label: t('home'),
+      label: t('in-server:mainNavigation.home'),
       path: '#/home',
       is_root: true
     }
@@ -321,7 +336,7 @@ function generateSideNavItems(t, role, features, infraResource) {
       type: 'link',
       properties: {
         icon_name: 'devices--apps',
-        label: t('viewSwitcherLabelWebsitesAndMobileApps'),
+        label: t('in-server:mainNavigation.viewSwitcherLabelWebsitesAndMobileApps'),
         path: '#/websiteMonitoring'
       }
     });
@@ -330,7 +345,7 @@ function generateSideNavItems(t, role, features, infraResource) {
       type: 'link',
       properties: {
         icon_name: 'application--web',
-        label: t('viewSwitcherLabelWebsites'),
+        label: t('in-server:mainNavigation.viewSwitcherLabelWebsites'),
         path: '#/websiteMonitoring'
       }
     });
@@ -339,7 +354,7 @@ function generateSideNavItems(t, role, features, infraResource) {
       type: 'link',
       properties: {
         icon_name: 'application--mobile',
-        label: t('viewSwitcherLabelMobileApps'),
+        label: t('in-server:mainNavigation.viewSwitcherLabelMobileApps'),
         path: '#/mobileAppMonitoring'
       }
     });
@@ -354,7 +369,7 @@ function generateSideNavItems(t, role, features, infraResource) {
       type: 'link',
       properties: {
         icon_name: 'business-processes',
-        label: t('businessMonitoring'),
+        label: t('in-server:mainNavigation.businessMonitoring'),
         path: bizOpsPath
       }
     });
@@ -366,7 +381,7 @@ function generateSideNavItems(t, role, features, infraResource) {
       type: 'link',
       properties: {
         icon_name: 'application',
-        label: t('viewSwitcherLabelApplications'),
+        label: t('in-server:mainNavigation.viewSwitcherLabelApplications'),
         path: '#/applications'
       }
     });
@@ -378,7 +393,7 @@ function generateSideNavItems(t, role, features, infraResource) {
       type: 'link',
       properties: {
         icon_name: 'layers',
-        label: t('viewSwitcherlabelInfrastructure'),
+        label: t('in-server:mainNavigation.viewSwitcherlabelInfrastructure'),
         path: '#/physical'
       }
     });
@@ -389,7 +404,7 @@ function generateSideNavItems(t, role, features, infraResource) {
     navItems.push({
       type: 'menu',
       properties: {
-        label: t('viewSwitcherLabelPlatforms'),
+        label: t('in-server:mainNavigation.viewSwitcherLabelPlatforms'),
         links: generatePlatformItems(t, permissions, features)
       }
     });
@@ -399,7 +414,7 @@ function generateSideNavItems(t, role, features, infraResource) {
   navItems.push({
     type: 'menu',
     properties: {
-      label: t('viewSwitcherLabelTools'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelTools'),
       links: generateToolItems(t, role, permissions, features, infraResource)
     }
   });
@@ -408,7 +423,7 @@ function generateSideNavItems(t, role, features, infraResource) {
   navItems.push({
     type: 'menu',
     properties: {
-      label: t('viewSwitcherLabelAdministration'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelAdministration'),
       links: generateAdministrationItems(t, role, features)
     }
   });
@@ -422,7 +437,7 @@ function generatePlatformItems(t, permissions, features) {
   if (permissions.hasPCFAccess) {
     platformItems.push({
       icon_name: 'cloud-foundry--1',
-      label: t('viewSwitcherLabelCloudFoundry'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelCloudFoundry'),
       path: '#/cloudfoundry/applications'
     });
   }
@@ -430,7 +445,7 @@ function generatePlatformItems(t, permissions, features) {
   if (permissions.hasPHMCAccess && !features.playwithEnabled) {
     platformItems.push({
       icon_name: 'ibm--power-with-vpc',
-      label: t('viewSwitcherLabelphmc'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelphmc'),
       path: '#/ibmp/phmcs'
     });
   }
@@ -438,7 +453,7 @@ function generatePlatformItems(t, permissions, features) {
   if (permissions.hasPowerVcAccess && !features.playwithEnabled) {
     platformItems.push({
       icon_name: 'ibm--power-vs',
-      label: t('viewSwitcherLabelPowervc'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelPowervc'),
       path: '#/powervc/regions'
     });
   }
@@ -446,7 +461,7 @@ function generatePlatformItems(t, permissions, features) {
   if (permissions.hasZHMCAccess && !features.playwithEnabled) {
     platformItems.push({
       icon_name: 'z--systems',
-      label: t('viewSwitcherLabelzhmc'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelzhmc'),
       path: '#/ibmz/zhmcs'
     });
   }
@@ -454,7 +469,7 @@ function generatePlatformItems(t, permissions, features) {
   if (permissions.hasOpenStackAccess && !features.playwithEnabled) {
     platformItems.push({
       icon_name: 'unknown',
-      label: t('viewSwitcherLabelOpenstack'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelOpenstack'),
       path: '#/openstack/regions'
     });
   }
@@ -462,7 +477,7 @@ function generatePlatformItems(t, permissions, features) {
   if (permissions.hasKubernetesAccess) {
     platformItems.push({
       icon_name: 'kubernetes',
-      label: t('viewSwitcherLabelKubernetes'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelKubernetes'),
       path: '#/kubernetes/clusters'
     });
   }
@@ -470,7 +485,7 @@ function generatePlatformItems(t, permissions, features) {
   if (permissions.hasNutanixAccess && !features.playwithEnabled) {
     platformItems.push({
       icon_name: 'unknown',
-      label: t('viewSwitcherLabelNutanix'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelNutanix'),
       path: '#/nutanix/datacenters'
     });
   }
@@ -478,7 +493,7 @@ function generatePlatformItems(t, permissions, features) {
   if (permissions.hasSAPAccess && !features.playwithEnabled) {
     platformItems.push({
       icon_name: 'unknown',
-      label: t('viewSwitcherLabelSap'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelSap'),
       path: '#/sap/sapsystemslist'
     });
   }
@@ -486,7 +501,7 @@ function generatePlatformItems(t, permissions, features) {
   if (permissions.hasVSphereAccess && !features.playwithEnabled) {
     platformItems.push({
       icon_name: 'unknown',
-      label: t('viewSwitcherLabelvSphere'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelvSphere'),
       path: '#/vsphere/datacenters'
     });
   }
@@ -500,7 +515,7 @@ function generateToolItems(t, role, permissions, features, infraResource) {
   // CustomDashboards
   toolItems.push({
     icon_name: 'dashboard',
-    label: t('viewSwitcherCustomDashboards'),
+    label: t('in-server:mainNavigation.viewSwitcherCustomDashboards'),
     path: '#/customDashboards'
   });
 
@@ -508,7 +523,7 @@ function generateToolItems(t, role, permissions, features, infraResource) {
   if (features.loggingEnabled) {
     toolItems.push({
       icon_name: 'cloud--logging',
-      label: t('viewSwitcherLabelLogs'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelLogs'),
       path: '#/logging'
     });
   }
@@ -517,7 +532,7 @@ function generateToolItems(t, role, permissions, features, infraResource) {
   if (permissions.hasSyntheticsAccess) {
     toolItems.push({
       icon_name: 'cloud--monitoring',
-      label: t('labelSyntheticMonitoring'),
+      label: t('in-server:mainNavigation.labelSyntheticMonitoring'),
       path: '#/syntheticTests'
     });
   }
@@ -539,7 +554,7 @@ function generateToolItems(t, role, permissions, features, infraResource) {
 
     toolItems.push({
       icon_name: 'data-analytics',
-      label: t('viewSwitcherLabelAnalytics'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelAnalytics'),
       path: analyzePath
     });
   }
@@ -547,7 +562,7 @@ function generateToolItems(t, role, permissions, features, infraResource) {
   if (features.vulnerabilityCenterEnabled) {
     toolItems.push({
       icon_name: 'security',
-      label: t('viewVulnerabilityCenter'),
+      label: t('in-server:mainNavigation.viewVulnerabilityCenter'),
       path: '#/vulnerability-center'
     });
   }
@@ -556,7 +571,7 @@ function generateToolItems(t, role, permissions, features, infraResource) {
   if (permissions.hasEventsAccess) {
     toolItems.push({
       icon_name: 'warning--alt',
-      label: t('viewSwitcherLabelEvents'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelEvents'),
       path: '#/events;view=incident',
       ...(infraResource.incidentCount > 0 && { badge: infraResource.incidentCount })
     });
@@ -566,7 +581,7 @@ function generateToolItems(t, role, permissions, features, infraResource) {
   if (permissions.hasAutomationAccess) {
     toolItems.push({
       icon_name: 'workflow-automation',
-      label: t('automation'),
+      label: t('in-server:mainNavigation.automation'),
       path: '#/automation/actionCatalog'
     });
   }
@@ -575,7 +590,7 @@ function generateToolItems(t, role, permissions, features, infraResource) {
   if (permissions.hasApplicationsAccess && !features.playwithEnabled) {
     toolItems.push({
       icon_name: 'service-levels',
-      label: t('viewSwitcherLabelSlo'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelSlo'),
       path: '#/slo'
     });
   }
@@ -584,7 +599,7 @@ function generateToolItems(t, role, permissions, features, infraResource) {
   if (role?.canConfigureAgents) {
     toolItems.push({
       icon_name: 'settings--services',
-      label: t('viewSwitcherLabelAgents'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelAgents'),
       path: '#/agents'
     });
   }
@@ -599,7 +614,7 @@ function generateAdministrationItems(t, role, features) {
   if (!features.playwithEnabled) {
     adminItems.push({
       icon_name: 'settings',
-      label: t('viewSwitcherLabelSettings'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelSettings'),
       path: '#/config'
     });
   }
@@ -612,7 +627,7 @@ function generateAdministrationItems(t, role, features) {
   if (features.internalMonitoringUnit || role?.canSeeExtendedInternalMonitoring) {
     adminItems.push({
       icon_name: 'lib_actions_lock',
-      label: t('viewSwitcherLabelInternal'),
+      label: t('in-server:mainNavigation.viewSwitcherLabelInternal'),
       path: '#/internal'
     });
   }
@@ -622,7 +637,7 @@ function generateAdministrationItems(t, role, features) {
   //   adminItems.push({
   //     type: 'link',
   //     properties: {
-  //       label: t('viewSwitcherLabelTenants'),
+  //       label: t('in-server:mainNavigation.viewSwitcherLabelTenants'),
   //       path: `https://${serverConfig.clientConfig.tenantUnitDomainSuffix}/tenantSwitcher`
   //     }
   //   });
@@ -635,7 +650,7 @@ function generateAdministrationItems(t, role, features) {
   // moreItems.push({
   //   type: 'link',
   //   properties: {
-  //     label: t('viewSwitcherLabelDocumentation'),
+  //     label: t('in-server:mainNavigation.viewSwitcherLabelDocumentation'),
   //     path: 'https://www.ibm.com/docs/en/obi/current'
   //   }
   // });
@@ -644,7 +659,7 @@ function generateAdministrationItems(t, role, features) {
   // moreItems.push({
   //   type: 'link',
   //   properties: {
-  //     label: t('viewSwitcherLabelSupport'),
+  //     label: t('in-server:mainNavigation.viewSwitcherLabelSupport'),
   //     path: 'https://www.ibm.com/mysupport/s/?language=en_US'
   //   }
   // });
@@ -722,7 +737,7 @@ function getHelp(t) {
     },
     addtl_docs_topics: [
       {
-        label: t('viewSwitcherLabelDocumentation'),
+        label: t('in-server:mainNavigation.viewSwitcherLabelDocumentation'),
         href: 'https://www.ibm.com/docs/en/instana-observability/current',
         description: 'Instana Official documentation'
       }
