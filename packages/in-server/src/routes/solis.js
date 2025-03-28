@@ -400,6 +400,7 @@ function generateSideNavItems(t, role, features, infraResource) {
     navItems.push({
       type: 'menu',
       properties: {
+        icon_name: 'platforms',
         label: t('in-server:mainNavigation.viewSwitcherLabelPlatforms'),
         links: generatePlatformItems(t, permissions, features)
       }
