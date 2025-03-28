@@ -246,7 +246,6 @@ async function getIncidentCount(req) {
 
 function getUserPermissions(role, features) {
   const getAccess = (canField, limitedField = null) => {
-    // if (!role) return false;
     if (limitedField && role[limitedField] === false) return true;
     return role.permissions.includes(canField);
   };
