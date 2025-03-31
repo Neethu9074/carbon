@@ -278,7 +278,7 @@ module.exports = exports = [
   {
     uiClientKey: 'deprecateAppDataLegacyEventsEnabled',
     instanaCtlKey: 'feature.deprecate.app.data.legacy.events.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'disallowAppDataLegacyEventsEnabled',
@@ -288,7 +288,7 @@ module.exports = exports = [
   {
     uiClientKey: 'hideAppDataLegacyEventsEnabled',
     instanaCtlKey: 'feature.hide.app.data.legacy.events.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'perEndpointAdaptiveBaselineEnabled',
