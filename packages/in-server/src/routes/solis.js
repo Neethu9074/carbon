@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -10,7 +10,7 @@ const i18next = require('i18next');
 const middleware = require('i18next-http-middleware');
 
 const { getCurrentUser } = require('../auth');
-const { activeResolver } = require('../services/resolvers/index');
+const { activeResolver } = require('../services/resolvers');
 
 const i18nPath = path.join(__dirname, 'translations');
 const namespace = 'in-server';
