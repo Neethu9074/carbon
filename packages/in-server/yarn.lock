@@ -2257,7 +2257,7 @@ human-signals@^2.1.0:
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
   integrity sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
 
-i18next-http-middleware@^3.7.1:
+i18next-http-middleware@3.7.1:
   version "3.7.1"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/i18next-http-middleware/-/i18next-http-middleware-3.7.1.tgz#2c748be8f16d04c1cfe4a0003db31d7684d7625f"
   integrity sha512-nVTSGB1P4Gad5PFQYf3xVUOzJ4tVSQYD8Rs0luyWkjEMwqdqAcZ9CqIzqYwVLgB5/BKr1COI0oAei5dlYzmGbg==
