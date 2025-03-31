@@ -20,6 +20,7 @@ import {
 // eslint-disable-next-line no-restricted-imports
 import { NDash, refineRetentionPeriodData, sortMonths } from './utils';
 import { bytesToLargerUnit, getMonthName } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/utils';
+import { localisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/LogVolume';
 import { LogVolumeUsageItem, RetentionPeriod } from 'in-logging/api/logVolume';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -42,7 +43,7 @@ export default function LogVolumeDetails({ data, timePeriod, progress, groupingT
   }
 
   return (
-    <>
+    <section aria-label={localisationStrings.content}>
       {sortMonths(data)
         .slice(0, timePeriod)
         .map((item: LogVolumeUsageItem, index: number) => {
@@ -58,7 +59,7 @@ export default function LogVolumeDetails({ data, timePeriod, progress, groupingT
             />
           );
         })}
-    </>
+    </section>
   );
 }
 
@@ -81,16 +82,17 @@ function MonthReport({ expandedState, logVolume, numberOfMonth, retentionPeriods
   const { amount, localizedUnit } = bytesToLargerUnit(logVolume, 2);
 
   const refinedRetentionPeriodData = refineRetentionPeriodData(retentionPeriods);
+  const monthString = t('in-settings:maintenanceWindow.months', { context: getMonthName(numberOfMonth) });
 
   if (refinedRetentionPeriodData.length === 0) {
     return null;
   }
 
   return (
-    <div className={locals.LogVolumeDetailsContainer}>
+    <div role="grid" aria-label={monthString} className={locals.LogVolumeDetailsContainer}>
       <Li className={locals.LogVolumeDetails}>
         <div className={locals.tableLabel}>
-          <span>{t('in-settings:maintenanceWindow.months', { context: getMonthName(numberOfMonth) })}</span>
+          <h2>{monthString}</h2>
         </div>
         <div className={locals.tableGB}>
           <span data-testid={`month-${numberOfMonth}-total-volume`}>

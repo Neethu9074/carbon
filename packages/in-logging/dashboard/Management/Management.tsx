@@ -45,15 +45,20 @@ export default function Management() {
 
   return (
     <LoggingDashboardWrapper>
+      <h2 className={locals.hiddenHeading}>Management</h2>
       <div className={locals.layout}>
         {shouldShowRetentionPeriod && (
-          <CarbonClickableTile onClick={() => goToPath(dashboardRetentionManagementPath)}>
+          <CarbonClickableTile
+            aria-label={localisationStrings.retentionPeriod}
+            role="tabpanel"
+            onClick={() => goToPath(dashboardRetentionManagementPath)}
+          >
             <section className={locals.card}>
               <div className={locals.pictogramWrapper}>
                 <TimePlot width={56} />
               </div>
               <div className={locals.description}>
-                <span>{localisationStrings.retentionPeriod}</span>
+                <h3>{localisationStrings.retentionPeriod}</h3>
                 <p>{localisationStrings.retentionPeriodDescription}</p>
               </div>
               <div className={locals.navButton}>
@@ -63,13 +68,17 @@ export default function Management() {
           </CarbonClickableTile>
         )}
         {shouldShowLogVolume && (
-          <CarbonClickableTile onClick={() => goToPath(dashboardLogVolumePath)}>
+          <CarbonClickableTile
+            aria-label={localisationStrings.logVolume}
+            role="tabpanel"
+            onClick={() => goToPath(dashboardLogVolumePath)}
+          >
             <section className={locals.card}>
               <div className={locals.pictogramWrapper}>
                 <CalendarEvent width={56} />
               </div>
               <div className={locals.description}>
-                <span>{localisationStrings.logVolume}</span>
+                <h3>{localisationStrings.logVolume}</h3>
                 <p>{localisationStrings.logVolumeDescription}</p>
               </div>
               <div className={locals.navButton}>
@@ -79,13 +88,17 @@ export default function Management() {
           </CarbonClickableTile>
         )}
         {shouldShowIntegrations && (
-          <CarbonClickableTile onClick={() => goToPath(dashboardIntegrationsPath)}>
+          <CarbonClickableTile
+            aria-label={localisationStrings.logIntegrations}
+            role="tabpanel"
+            onClick={() => goToPath(dashboardIntegrationsPath)}
+          >
             <section className={locals.card}>
               <div className={locals.pictogramWrapper}>
                 <Integration width={56} />
               </div>
               <div className={locals.description}>
-                <span>{localisationStrings.logIntegrations}</span>
+                <h3>{localisationStrings.logIntegrations}</h3>
                 <p>{localisationStrings.logIntegrationsDescription}</p>
               </div>
               <div className={locals.navButton}>

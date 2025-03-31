@@ -1,4 +1,9 @@
 :local {
+  .hiddenHeading {
+    visibility: hidden;
+    height: 0;
+  }
+
   .content {
     margin: 0 2rem;
   }

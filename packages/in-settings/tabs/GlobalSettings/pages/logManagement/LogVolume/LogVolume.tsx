@@ -30,9 +30,11 @@ import Title from 'in-components/Title';
 
 import locals from './LogVolume.mless';
 
-const localisationStrings = {
+export const localisationStrings = {
   logVolume: t('in-settings:tabs.logVolume.logVolume'),
-  timeRange: t('in-settings:tabs.logVolume.timeRange')
+  timeRange: t('in-settings:tabs.logVolume.timeRange'),
+  timeRangeAndGroup: t('in-settings:tabs.logVolume.timeRangeAndGroup'),
+  content: t('in-settings:tabs.logVolume.content')
 };
 
 const defaultProps = {
@@ -108,7 +110,7 @@ export function LogVolume() {
           <SubViewHeader>{localisationStrings.logVolume}</SubViewHeader>
         </section>
         <div>
-          <section>
+          <section aria-label={localisationStrings.timeRangeAndGroup}>
             <Ul>
               <Li>
                 <CarbonLayer>
