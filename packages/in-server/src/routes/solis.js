@@ -116,31 +116,41 @@ router.get('/solis/hub_content', async (req, res) => {
       href: '#/events;orderDirection=DESC;orderBy=start;filter;view=incident?q=event.severity%3Awarning%20and%20event.state%3AOPEN'
     });
 
-    for (const dashboard of customDashboards) {
-      const ownerRequest = new Request(req.uiBackendBaseUrl + '/api/settings/users/' + dashboard.ownerId);
-      ownerRequest.headers.set('Authorization', req.headers.authorization);
+    await Promise.all(
+      customDashboards.map(dashboard => {
+        return new Promise((resolve, reject) => {
+          const ownerRequest = new Request(req.uiBackendBaseUrl + '/api/settings/users/' + dashboard.ownerId);
+          ownerRequest.headers.set('Authorization', req.headers.authorization);
 
-      await fetch(ownerRequest)
-        .then(response => response.json())
-        .then(data => {
-          const tagText = dashboard.annotations.includes('SHARED')
-            ? t('in-server:mainNavigation.sharedCustomerDashboard')
-            : t('in-server:mainNavigation.customerDashboard');
+          fetch(ownerRequest)
+            .then(response => response.json())
+            .then(data => {
+              const tagText = dashboard.annotations.includes('SHARED')
+                ? t('in-server:mainNavigation.sharedCustomerDashboard')
+                : t('in-server:mainNavigation.customerDashboard');
 
-          finalResponseBody.widgets.push({
-            type: 'kpi_tile',
-            properties: {
-              title: dashboard.title,
-              tag: { type: 'cyan', children: tagText },
-              kpi: { label: t('in-server:mainNavigation.owner'), primary_value: data.fullName }
-            },
-            href: `#/customDashboards/view;dashboardId=${dashboard.id}`
-          });
-        })
-        .catch(error => {
-          throw new Error('error calling /settings/users: ' + error.message);
+              resolve({
+                type: 'kpi_tile',
+                properties: {
+                  title: dashboard.title,
+                  tag: { type: 'cyan', children: tagText },
+                  kpi: { label: t('in-server:mainNavigation.owner'), primary_value: data.fullName }
+                },
+                href: `#/customDashboards/view;dashboardId=${dashboard.id}`
+              });
+            })
+            .catch(error => {
+              reject(error);
+            });
         });
-    }
+      })
+    )
+      .then(values => {
+        finalResponseBody.widgets.push(...values);
+      })
+      .catch(error => {
+        throw new Error('error calling /settings/users: ' + error.message);
+      });
 
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(finalResponseBody));
