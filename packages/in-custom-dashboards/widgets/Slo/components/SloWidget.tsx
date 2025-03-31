@@ -15,6 +15,7 @@ import ErrorBudgetChart from 'in-service-levels/components/SloDashboard/componen
 import SloChartSummary from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummary';
 import SloWidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/components/SloWidgetLeftHeader';
 import useSloWidgetMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloWidgetMetrics';
+import useOverlappingTimeWindows from 'in-service-levels/hooks/useOverlappingTimeWindows';
 import SloWidgetCard from 'in-custom-dashboards/widgets/Slo/components/SloWidgetCard';
 import { SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/types';
 import { getValueFromSingleValueMetric } from 'in-service-levels/utils/format';
@@ -48,6 +49,12 @@ export default function SloWidget({
   const metricRemaining = getValueFromSingleValueMetric(remainingBudget?.values as MetricDataPoint[]);
   const metricSli = getValueFromSingleValueMetric(sloStatus?.values as MetricDataPoint[]);
 
+  const [timeWindows] = useOverlappingTimeWindows({ sloConfigId: sloConfig.id, timeConfig });
+  const currentTimeWindow = timeWindows?.[timeWindows?.length - 1];
+  const currentTimeWindowStart = currentTimeWindow
+    ? (currentTimeWindow.to ?? Date.now()) - currentTimeWindow.windowSize
+    : undefined;
+
   return (
     <SloWidgetCard
       isInModal={isInModal}
@@ -58,7 +65,7 @@ export default function SloWidget({
       <SloChartSummary
         totalBudget={totalBudget?.values as MetricDataPoint[]}
         remainingBudget={remainingBudget?.values as MetricDataPoint[]}
-        fromTimestamp={sloConfig.timeWindow.type === 'fixed' ? sloConfig.timeWindow.startTimestamp : Date.now()}
+        fromTimestamp={currentTimeWindowStart}
         indicatorType={sloConfig.indicator.type}
         metricRemaining={metricRemaining}
         metricSli={metricSli}

@@ -23,7 +23,7 @@ import locals from './SloChartSummary.mless';
 interface SloChartSummaryProps {
   remainingBudget?: MetricDataPoint[];
   totalBudget?: MetricDataPoint[];
-  fromTimestamp: number;
+  fromTimestamp?: number;
   indicatorType?: ServiceLevelIndicatorType;
   metricRemaining?: number;
   metricSli?: number;
