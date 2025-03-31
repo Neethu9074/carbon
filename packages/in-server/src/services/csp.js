@@ -50,9 +50,13 @@ const allowedScriptOriginsWalkMePlayBack = [
   'blob:'
 ];
 
-exports.getCsp = (nonce, walkmeEnabled, ibmCommonEnabled, isSessionPlayBackRequired) => {
+exports.getCsp = (nonce, walkmeEnabled, ibmCommonEnabled, isSessionPlayBackRequired, solisEnabled) => {
   if (isSessionPlayBackRequired) {
     return `script-src 'self'  'nonce-${nonce}' ${allowedScriptOriginsWalkMePlayBack.join(' ')}`;
+  } else if (solisEnabled) {
+    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsIbmCommon.join(
+      ' '
+    )} 'http://localhost:3015' 'blob:http://localhost:3015'; img-src * data:; connect-src *`; //For local testing only
   } else if (walkmeEnabled) {
     return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsWalkMe.join(' ')}`;
   } else if (ibmCommonEnabled) {

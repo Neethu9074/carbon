@@ -20,6 +20,7 @@ export interface ClientConfig {
   agentEndpointPort?: string;
   agentInstallDomain?: string;
   butlerDomain?: string;
+  solisUiHost?: string;
   integrationBaseUrl?: string;
   serverlessEndpoint?: string;
   websiteScriptSource?: string;

@@ -9,9 +9,9 @@ import { ThemeProvider, getThemeOverride, setThemeOverride } from '@instana/comp
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
 import SessionTimeoutContainer from 'in-components/SessionTimeoutDialog/SessionTimeoutContainer';
+import { playwithEnabled, timeOutSessionEnabled, solisEnabled } from 'in-services/featureFlags';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
 import CarbonUIShell from 'in-components/MainNavigation/components/CarbonUIShell';
-import { playwithEnabled, timeOutSessionEnabled } from 'in-services/featureFlags';
 import LocationStateProvider from 'in-stores/navigation/LocationStateProvider';
 import ScrollTrackingWrapper from 'in-components/ScrollTrackingWrapper';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
@@ -31,6 +31,7 @@ import locals from './App.mless';
 export default function App() {
   const themeOverride = getThemeOverride() ?? fallbackTheme;
   const [theme, setTheme] = useState(themeOverride);
+  window.RUNTIME_CONTEXT = solisEnabled ? 'solis' : 'standalone';
 
   return (
     <ErrorBoundary name="app">
@@ -54,7 +55,7 @@ export default function App() {
             <ScrollTrackingWrapper>
               <GlobalTimeConfig>
                 <ErrorBoundary name="main-navigation">
-                  <CarbonUIShell />
+                  {window.RUNTIME_CONTEXT === 'solis' ? <solis-nav /> : <CarbonUIShell />}
                 </ErrorBoundary>
                 <div className={locals.content} role="main">
                   {/* For "Skip to main content" target */}

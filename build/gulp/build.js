@@ -164,6 +164,7 @@ function writeTryBuildServerConfigFile(cb) {
     clientConfig: buildUtil.getDevModeConfig({
       uiBackendUrl: 'https://test-instana.pink.instana.rocks',
       butlerUrl: 'https://test-instana.pink.instana.rocks',
+      solisUiHost: 'http://localhost:3015',
       tenant: 'instana',
       tenantUnit: 'test',
       tenantUnitId: 'fake_tenantUnitId',
@@ -238,6 +239,7 @@ function writeTryBuildReleaseServerConfigFile(cb) {
     clientConfig: buildUtil.getDevModeReleaseConfig({
       uiBackendUrl: 'https://release-instana.instana.rocks',
       butlerUrl: 'https://release-instana.instana.rocks',
+      solisUiHost: 'http://localhost:3015',
       tenant: 'instana',
       tenantUnit: 'release',
       tenantUnitId: 'fake_tenantUnitId',

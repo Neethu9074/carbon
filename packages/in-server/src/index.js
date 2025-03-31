@@ -26,6 +26,8 @@ const assetRoutes = require('./routes/assets');
 const errorPages = require('./errorPages.js');
 const csrfRoutes = require('./routes/csrf');
 const pingRoutes = require('./routes/ping');
+const solisRoutes = require('./routes/solis');
+
 const { logger } = require('./logging');
 
 const adminServer = require('./admin');
@@ -92,6 +94,7 @@ app.use(waitingRoutes);
 app.use(configEnrichment);
 app.use(pingRoutes);
 app.use(productRoutes);
+app.use(solisRoutes);
 
 app.use((req, res) => errorPages.send404(req, res));
 

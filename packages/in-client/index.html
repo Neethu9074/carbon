@@ -82,7 +82,21 @@
         document.head.appendChild(script);
       }
     </script>
+    <script type="text/javascript" crossorigin="anonymous" nonce="{{nonce}}">
+      if (window.instana.config.featureFlags.solisEnabled) {
+        // const solisUiHost = window.instana.config.solisUiHost || window.location.origin; // Default value if not set by config.js
+        const solisUiHost = "http://localhost:3015"; //local test only
 
+        const mfes = ["login", "nav", "teaser"];
+
+        mfes.forEach((mfe) => {
+          const script = document.createElement("script");
+          script.type = "module";
+          script.src = `${solisUiHost}/${mfe}/solis-${mfe}.es.js`;
+          document.head.appendChild(script);
+        });
+      }
+    </script>
     <!-- Assitme script -->
     <script type="text/javascript">
       if (
