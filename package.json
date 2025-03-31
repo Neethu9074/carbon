@@ -13,7 +13,7 @@
     "test:typecheck": "tsc --pretty --project tsconfig.json",
     "test:lint": "eslint --ext '.js,.jsx,.ts,.tsx' gulpfile.js packages",
     "test:lint:quiet": "eslint --ext '.js,.jsx,.ts,.tsx' --quiet gulpfile.js packages",
-    "test:unit": "IS_TEST=true gulp prepareTestExecution && IS_TEST=true node --max-old-space-size=4096 ./node_modules/.bin/jest --testTimeout 6000 --reporters jest-simple-dot-reporter --all --ci",
+    "test:unit": "IS_TEST=true gulp prepareTestExecution && IS_TEST=true node --max-old-space-size=4096 ./node_modules/.bin/jest --testTimeout 6000 --reporters jest-simple-dot-reporter --all --cig",
     "test:storybook": "cd storybook && yarn && cd .. && IS_TEST=true gulp prepareTestExecution && IS_TEST=true node --max-old-space-size=4096 ./node_modules/.bin/jest --roots storybook --roots packages --testTimeout 6000 --reporters jest-simple-dot-reporter --all --ci",
     "test:storybook:watch": "yarn test:storybook --watch",
     "test:compression": "ls target/assets/bundle | grep \".js\" | grep -v \".js.map\" | grep -v \".json\" | xargs -I _ terser ./target/assets/bundle/_ -o /dev/null",

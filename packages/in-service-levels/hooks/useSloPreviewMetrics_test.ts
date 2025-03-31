@@ -29,22 +29,6 @@ describe('in-service-levels/hooks/useSloPreviewMetrics', () => {
     // Then
     expect(getUnifiedMetrics).toHaveBeenCalledWith({
       metrics: {
-        consumedBudget: {
-          aggregation: 'MEAN',
-          config: configFromTheForm,
-          metric: 'CONSUMED_ERROR_BUDGET_CHART',
-          resultType: 'SINGLE_NUMBER',
-          source: 'SLO_PREVIEW',
-          timeConfig: {
-            autoRefresh: false,
-            focusedMoment: null,
-            to: null,
-            windowSize: 3600000
-          },
-          timeShift: {
-            offset: 0
-          }
-        },
         errorBudgetRemaining: {
           aggregation: 'MEAN',
           config: configFromTheForm,
@@ -82,6 +66,22 @@ describe('in-service-levels/hooks/useSloPreviewMetrics', () => {
           aggregation: 'MEAN',
           config: configFromTheForm,
           metric: 'STATUS',
+          resultType: 'SINGLE_NUMBER',
+          source: 'SLO_PREVIEW',
+          timeConfig: {
+            autoRefresh: false,
+            focusedMoment: null,
+            to: null,
+            windowSize: 3600000
+          },
+          timeShift: {
+            offset: 0
+          }
+        },
+        totalBudget: {
+          aggregation: 'MEAN',
+          config: configFromTheForm,
+          metric: 'TOTAL_ERROR_BUDGET',
           resultType: 'SINGLE_NUMBER',
           source: 'SLO_PREVIEW',
           timeConfig: {

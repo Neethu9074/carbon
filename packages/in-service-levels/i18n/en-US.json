@@ -108,7 +108,6 @@
       "status": "Status",
       "remainingBudget": "Remaining",
       "totalBudget": "Error budget",
-      "consumedBudget": "Error budget consumed",
       "beaconCount": "Beacon count",
       "calls": "Calls",
       "latency": "Latency",
