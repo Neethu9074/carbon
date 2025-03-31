@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2025
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
  */
 
 const express = require('express');
