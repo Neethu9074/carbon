@@ -7,7 +7,15 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, CarbonButton, CarbonInlineLoading, HelpText, PreviewPill, Typography } from '@instana/components';
+import {
+  SvgIcon,
+  CarbonButton,
+  CarbonInlineLoading,
+  HelpText,
+  PreviewPill,
+  Typography,
+  Link
+} from '@instana/components';
 
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPopover';
@@ -127,7 +135,13 @@ export function QuickActions(props) {
         {displayQuickStart && (
           <>
             <div className={locals.quickActionsHeader}>
-              {t('in-events:notes.summarizeIncident')} <PreviewPill privatePreview />
+              {t('in-events:notes.summarizeIncident')}
+              <PreviewPill privatePreview />
+              <div className={locals.feedbackWrapper}>
+                <Link href="https://your.feedback.ibm.com/jfe/form/SV_5je3oKfjA0NZM0e" externalWithIcon>
+                  {t('in-events:notes.feedback')}
+                </Link>
+              </div>
             </div>
             {automationActionAiGenerationUnitEnabled && (
               <div className={locals.quickActionsDescription}>{t('in-events:notes.summarizeIncidentDescription')}</div>
