@@ -27,13 +27,13 @@ describe('in-service-levels/utils/sample', () => {
 
   describe('getErrorBudgetSampleData', () => {
     it.each`
-      indicatorType   | expectedConsumedBudget | expectedRemainingBudget | expectedStatus | expectedTotalBudget
-      ${undefined}    | ${50.39999999999999}   | ${285.6}                | ${0.85}        | ${336}
-      ${'eventBased'} | ${50.39999999999999}   | ${285.6}                | ${0.85}        | ${336}
-      ${'timeBased'}  | ${302.3999999999999}   | ${1713.6000000000001}   | ${0.85}        | ${2016}
+      indicatorType   | expectedRemainingBudget | expectedStatus | expectedTotalBudget
+      ${undefined}    | ${285.6}                | ${0.85}        | ${336}
+      ${'eventBased'} | ${285.6}                | ${0.85}        | ${336}
+      ${'timeBased'}  | ${1713.6000000000001}   | ${0.85}        | ${2016}
     `(
       'returns correct error budget for $indicatorType indicator type',
-      ({ indicatorType, expectedConsumedBudget, expectedRemainingBudget, expectedStatus, expectedTotalBudget }) => {
+      ({ indicatorType, expectedRemainingBudget, expectedStatus, expectedTotalBudget }) => {
         // Given
         const amountSelectedEntities = 2;
         const sloTarget = 0.8;
@@ -47,7 +47,7 @@ describe('in-service-levels/utils/sample', () => {
         const granularity = hours.toMillis(1);
 
         // When
-        const { status, totalErrorBudget, remainingErrorBudget, consumedErrorBudget } = getErrorBudgetSampleData(
+        const { status, totalErrorBudget, remainingErrorBudget } = getErrorBudgetSampleData(
           { entityIds: Array(amountSelectedEntities).fill(''), indicatorType, sloTarget, timeWindow },
           timeConfig,
           granularity
@@ -57,7 +57,6 @@ describe('in-service-levels/utils/sample', () => {
         expect(status).toBe(expectedStatus);
         expect(totalErrorBudget).toBe(expectedTotalBudget);
         expect(remainingErrorBudget).toBe(expectedRemainingBudget);
-        expect(consumedErrorBudget).toBe(expectedConsumedBudget);
       }
     );
   });

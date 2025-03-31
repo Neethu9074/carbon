@@ -42,10 +42,11 @@ export default function SloWidget({
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const [metricResult, status, , progress] = useSloWidgetMetrics(sloConfig, timeConfig);
 
-  const remainingBudgetNumber = metricResult?.find(metric => metric.id === 'remainingBudgetNumber');
-  const statusMetric = metricResult?.find(metric => metric.id === 'statusMetric');
-  const metricRemaining = getValueFromSingleValueMetric(remainingBudgetNumber?.values as MetricDataPoint[]);
-  const metricSli = getValueFromSingleValueMetric(statusMetric?.values as MetricDataPoint[]);
+  const remainingBudget = metricResult?.find(metric => metric.id === 'remainingBudget');
+  const sloStatus = metricResult?.find(metric => metric.id === 'sloStatus');
+  const totalBudget = metricResult?.find(metric => metric.id === 'totalBudget');
+  const metricRemaining = getValueFromSingleValueMetric(remainingBudget?.values as MetricDataPoint[]);
+  const metricSli = getValueFromSingleValueMetric(sloStatus?.values as MetricDataPoint[]);
 
   return (
     <SloWidgetCard
@@ -55,7 +56,8 @@ export default function SloWidget({
       rightHeaderContent={<ContextAwareSloWidgetRightHeader actions={actions} dragHandle={dragHandle} />}
     >
       <SloChartSummary
-        budgetSingleNumber={remainingBudgetNumber?.values as MetricDataPoint[]}
+        totalBudget={totalBudget?.values as MetricDataPoint[]}
+        remainingBudget={remainingBudget?.values as MetricDataPoint[]}
         fromTimestamp={sloConfig.timeWindow.type === 'fixed' ? sloConfig.timeWindow.startTimestamp : Date.now()}
         indicatorType={sloConfig.indicator.type}
         metricRemaining={metricRemaining}
@@ -64,7 +66,7 @@ export default function SloWidget({
         objectiveDurationUnit={sloConfig.timeWindow.durationUnit}
         sloEntityType={sloConfig.entity.type}
         status={status}
-        statusSingleNumber={statusMetric?.values as MetricDataPoint[]}
+        sloStatus={sloStatus?.values as MetricDataPoint[]}
         target={sloConfig.target}
         timeWindowType={sloConfig.timeWindow.type}
       />

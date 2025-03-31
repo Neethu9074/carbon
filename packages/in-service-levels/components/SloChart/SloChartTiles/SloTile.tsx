@@ -14,14 +14,14 @@ import locals from './SloTile.mless';
 interface SloTileProps {
   title: string;
   value?: string;
-  budget?: string;
-  budgetTitle?: string;
+  companionValue?: string;
+  companionTitle?: string;
   compact?: boolean;
-  budgetSpent?: boolean;
+  spent?: boolean;
 }
 
-export default function SloTile({ compact, title, value, budgetTitle, budget, budgetSpent }: SloTileProps) {
-  const valuesPresent = value !== undefined && budget !== undefined;
+export default function SloTile({ compact, title, value, companionTitle, companionValue, spent }: SloTileProps) {
+  const valuesPresent = value !== undefined && companionValue !== undefined;
 
   if (compact) {
     return (
@@ -31,16 +31,16 @@ export default function SloTile({ compact, title, value, budgetTitle, budget, bu
           <span
             className={classNames({
               [locals.value]: true,
-              [locals.budgetAvailable]: valuesPresent && !budgetSpent,
-              [locals.budgetSpent]: valuesPresent && budgetSpent
+              [locals.budgetAvailable]: valuesPresent && !spent,
+              [locals.budgetSpent]: valuesPresent && spent
             })}
           >
             {value ?? valueMissingPlaceholder}
           </span>
         </div>
         <div className={locals.targetInfo}>
-          <span>{budgetTitle}</span>
-          <span className={locals.targetInfoValue}>{budget ?? valueMissingPlaceholder}</span>
+          <span>{spent}</span>
+          <span className={locals.targetInfoValue}>{companionValue ?? valueMissingPlaceholder}</span>
         </div>
       </div>
     );
@@ -52,16 +52,17 @@ export default function SloTile({ compact, title, value, budgetTitle, budget, bu
       <div
         className={classNames({
           [locals.value]: true,
-          [locals.budgetAvailable]: valuesPresent && !budgetSpent,
-          [locals.budgetSpent]: valuesPresent && budgetSpent
+          [locals.budgetAvailable]: valuesPresent && !spent,
+          [locals.budgetSpent]: valuesPresent && spent
         })}
       >
         <span>{value ?? valueMissingPlaceholder}</span>
       </div>
 
-      {budgetTitle && (
+      {companionTitle && (
         <div className={locals.targetInfo}>
-          <span>{budgetTitle}</span> <span className={locals.leftSpace}>{budget ?? valueMissingPlaceholder}</span>
+          <span>{companionTitle}</span>{' '}
+          <span className={locals.leftSpace}>{companionValue ?? valueMissingPlaceholder}</span>
         </div>
       )}
     </div>

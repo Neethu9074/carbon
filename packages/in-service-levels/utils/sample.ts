@@ -19,7 +19,6 @@ interface ErrorBudgetSampleConfig {
 }
 
 interface ErrorBudgetSampleData {
-  consumedErrorBudget: number;
   remainingErrorBudget: number;
   status: number;
   totalErrorBudget: number;
@@ -41,7 +40,6 @@ export function getErrorBudgetSampleData(
     const remainingErrorBudget = totalErrorBudget - consumedErrorBudget;
 
     return {
-      consumedErrorBudget,
       remainingErrorBudget,
       status,
       totalErrorBudget
@@ -53,7 +51,6 @@ export function getErrorBudgetSampleData(
   const remainingErrorBudget = totalErrorBudget - consumedErrorBudget;
 
   return {
-    consumedErrorBudget,
     remainingErrorBudget,
     status,
     totalErrorBudget

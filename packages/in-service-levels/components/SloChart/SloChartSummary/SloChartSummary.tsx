@@ -21,15 +21,15 @@ import { t } from 'in-i18n';
 import locals from './SloChartSummary.mless';
 
 interface SloChartSummaryProps {
-  budgetSingleNumber?: MetricDataPoint[];
-  consumedBudgetSingleNumber?: MetricDataPoint[];
+  remainingBudget?: MetricDataPoint[];
+  totalBudget?: MetricDataPoint[];
   fromTimestamp: number;
   indicatorType?: ServiceLevelIndicatorType;
   metricRemaining?: number;
   metricSli?: number;
   objectiveDuration: number;
   objectiveDurationUnit: string;
-  statusSingleNumber?: MetricDataPoint[];
+  sloStatus?: MetricDataPoint[];
   sloEntityType?: SloEntityType;
   status?: FetchStatus;
   target?: number;
@@ -37,8 +37,8 @@ interface SloChartSummaryProps {
 }
 
 function SloChartSummary({
-  budgetSingleNumber,
-  consumedBudgetSingleNumber,
+  remainingBudget,
+  totalBudget,
   fromTimestamp,
   indicatorType,
   metricRemaining,
@@ -47,16 +47,16 @@ function SloChartSummary({
   objectiveDurationUnit,
   sloEntityType,
   status,
-  statusSingleNumber,
+  sloStatus,
   target,
   timeWindowType
 }: SloChartSummaryProps) {
   const isCompact = !useMediaQuery('(min-width: 1300px)');
   const sliFormatter = useSloFormatter({ indicatorType, sloEntityType });
 
-  const budget = getValueFromSingleValueMetric(budgetSingleNumber);
-  const consumedBudget = getValueFromSingleValueMetric(consumedBudgetSingleNumber);
-  const statusNumber = getValueFromSingleValueMetric(statusSingleNumber);
+  const totalBudgetValue = getValueFromSingleValueMetric(totalBudget);
+  const remainingBudgetValue = getValueFromSingleValueMetric(remainingBudget);
+  const sloStatusValue = getValueFromSingleValueMetric(sloStatus);
 
   if (status === 'pending') return <SliSummarySkeleton compact={isCompact} />;
 
@@ -64,8 +64,8 @@ function SloChartSummary({
     target !== null && target !== undefined && metricSli !== null && metricSli !== undefined && metricSli < target;
   const budgetSpent = metricRemaining !== null && metricRemaining !== undefined && metricRemaining <= 0;
 
-  const { sloStatus, sloTarget } = formatSloStatus({
-    status: statusNumber,
+  const { sloStatus: formattedSloStatus, sloTarget } = formatSloStatus({
+    status: sloStatusValue,
     target
   });
 
@@ -73,18 +73,18 @@ function SloChartSummary({
     <div className={isCompact ? locals.listContainer : locals.tilesContainer}>
       <SloTile
         title={t('in-service-levels:sloChart.sloChartSummary.status')}
-        value={sloStatus}
-        budgetTitle={t('in-service-levels:sloChart.sloChartSummary.target')}
-        budget={sloTarget}
-        budgetSpent={sloSpent}
+        value={formattedSloStatus}
+        companionTitle={t('in-service-levels:sloChart.sloChartSummary.target')}
+        companionValue={sloTarget}
+        spent={sloSpent}
         compact={isCompact}
       />
       <SloTile
-        title={t('in-service-levels:sloChart.sloChartSummary.errorBudgetSpent')}
-        value={consumedBudget !== undefined ? sliFormatter(consumedBudget) : undefined}
-        budgetTitle={t('in-service-levels:sloChart.sloChartSummary.errorBudgetRemaining')}
-        budget={budget !== undefined ? sliFormatter(budget) : undefined}
-        budgetSpent={budgetSpent}
+        title={t('in-service-levels:sloChart.sloChartSummary.errorBudgetRemaining')}
+        value={remainingBudgetValue !== undefined ? sliFormatter(remainingBudgetValue) : undefined}
+        companionTitle={t('in-service-levels:sloChart.sloChartSummary.errorBudgetTotal')}
+        companionValue={totalBudgetValue !== undefined ? sliFormatter(totalBudgetValue) : undefined}
+        spent={budgetSpent}
         compact={isCompact}
       />
       <SloTimeTile

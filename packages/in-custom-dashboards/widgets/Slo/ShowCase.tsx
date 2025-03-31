@@ -68,7 +68,8 @@ export default function ShowCase() {
         progress={finishedProgress}
       >
         <SloChartSummary
-          budgetSingleNumber={[[0, totalErrorBudget]]}
+          remainingBudget={[[0, remainingErrorBudget]]}
+          totalBudget={[[0, totalErrorBudget]]}
           fromTimestamp={timeWindow.startTimestamp}
           indicatorType={showCaseSloConfig.indicator.type}
           metricRemaining={remainingErrorBudget}
@@ -77,7 +78,7 @@ export default function ShowCase() {
           objectiveDurationUnit={showCaseSloConfig.timeWindow.durationUnit}
           sloEntityType={showCaseSloConfig.entity.type}
           status="resolved"
-          statusSingleNumber={[[0, truncatedStatus]]}
+          sloStatus={[[0, truncatedStatus]]}
           target={showCaseSloConfig.target}
           timeWindowType={showCaseSloConfig.timeWindow.type}
         />
