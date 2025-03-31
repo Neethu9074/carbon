@@ -34,6 +34,7 @@ import { CustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/Cus
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
 import { activeDialogs$, addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { sanitizeNode } from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/utils';
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -384,7 +385,12 @@ export default function CustomDashboardLoader(props) {
       );
 
       const imagesUrls = [
-        await nodeToImage({ node: nodeToExport }).finally(() => {
+        await nodeToImage({
+          node: nodeToExport,
+          options: {
+            filter: sanitizeNode
+          }
+        }).finally(() => {
           setExportWidgetId(null);
           setTooltipRef(null);
         })
