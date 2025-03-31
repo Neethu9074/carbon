@@ -18,12 +18,14 @@
 
   .messageExpanded {
     span {
-      word-break: keep-all;
+      word-break: break-word;
       white-space: pre-wrap;
     }
   }
 
   .collapsedMessage {
+    white-space: pre-wrap;
+    word-break: break-word;
     .ellipsis();
   }
 
