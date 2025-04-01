@@ -69,7 +69,6 @@ export const SavedFilters = ({ dataSource, setUrlState }: SavedFiltersProps): JS
   };
 
   const handleEdit = (event: React.MouseEvent, filter: SavedFilter) => {
-    //Need to test in pink in chrome
     stopPropagationAndPreventDefault(event);
     setSelectedFilter('edit', filter);
     setIsFiltersListOpen(false);

@@ -69,7 +69,6 @@ export const SaveFilterPopover = ({ backendQueryModel, dataSource, formModel, gr
         if (action === 'edit') {
           setIsEdit(true);
           setOpen(true);
-          setIsSaveDisabled(false);
         } else if (hasFilters && action === 'click' && filter?.area === dataSource) {
           if (!filter) return;
           const hasChanged = hasFilterOrGroupChanged(
@@ -105,6 +104,7 @@ export const SaveFilterPopover = ({ backendQueryModel, dataSource, formModel, gr
       id: '',
       name: ''
     });
+    setInvalidText('');
     setOpen(false);
     setIsEdit(false);
   };
