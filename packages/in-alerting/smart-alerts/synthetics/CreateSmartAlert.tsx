@@ -9,13 +9,18 @@ import React from 'react';
 import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
 
-import { syntheticSmartAlertFullScreenDesignEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
+import {
+  syntheticSmartAlertFullScreenDesignEnabled,
+  syntheticSmartAlertDialogViewEnabled,
+  smartAlertCarbonTableEnabled
+} from 'in-services/featureFlags';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/synthetics/hooks/useSmartAlertCreateUrl';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/synthetics/CreateSmartAlertDialog';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import { FULLSCREEN, SIMPLE, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import ViewSelectorDialog from 'in-alerting/components/Dialog/ViewSelectorDialog';
-import { FULLSCREEN, SIMPLE } from 'in-alerting/smart-alerts/data/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
@@ -28,6 +33,11 @@ export interface CreateSmartAlertProps {
   isCarbonTableView?: boolean;
   withOutFloatingBtnMenu?: boolean;
 }
+
+const alertDisplayMode = getSmartAlertDisplayMode(
+  syntheticSmartAlertDialogViewEnabled,
+  syntheticSmartAlertFullScreenDesignEnabled
+);
 
 export default function CreateSmartAlert({ testId, withOutFloatingBtnMenu = false }: CreateSmartAlertProps) {
   const { trackCta } = useSegmentTracking();
@@ -88,20 +98,37 @@ export function CreateSmartAlertButton({ testId }: CreateSmartAlertProps) {
     addActiveDialog(<CreateSmartAlertDialog testId={testId} />);
   };
 
-  const dialog =
-    smartAlertCarbonTableEnabled && syntheticSmartAlertFullScreenDesignEnabled ? (
-      <ViewSelectorDialog
-        trackCta={trackCta}
-        openOldDialog={openOldDialog}
-        getLinkToCreateSmartAlert={getLinkToCreateSmartAlert}
-        mode={SIMPLE}
-      />
-    ) : (
-      <CreateSmartAlertDialog testId={testId} />
+  const getDialogComponent = () => {
+    if (smartAlertCarbonTableEnabled && alertDisplayMode === CHOICE_DIALOG) {
+      return (
+        <ViewSelectorDialog
+          trackCta={trackCta}
+          openOldDialog={openOldDialog}
+          getLinkToCreateSmartAlert={getLinkToCreateSmartAlert}
+          mode={SIMPLE}
+        />
+      );
+    } else {
+      trackCta(ALERTING_CREATE, { dialogMode: SIMPLE });
+      return <CreateSmartAlertDialog testId={testId} />;
+    }
+  };
+
+  if (alertDisplayMode === FULLSCREEN) {
+    return (
+      <Button
+        kind="primaryv2"
+        icon="lib_openclose_add"
+        href={getLinkToCreateSmartAlert}
+        onClick={() => trackCta(ALERTING_CREATE, { dialogMode: FULLSCREEN })}
+      >
+        {t('in-alerting:smartAlerts.createSmartAlert')}
+      </Button>
     );
+  }
 
   return (
-    <Button kind="primaryv2" icon="lib_openclose_add" onClick={() => addActiveDialog(dialog)} size="xl">
+    <Button kind="primaryv2" icon="lib_openclose_add" onClick={() => addActiveDialog(getDialogComponent())} size="xl">
       {t('in-alerting:smartAlerts.createSmartAlert')}
     </Button>
   );

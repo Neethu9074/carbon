@@ -35,7 +35,17 @@ import {
 } from 'in-synthetics/navigation/paths';
 // @ts-expect-error module need to be translated to TS
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import { syntheticSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
+import {
+  syntheticSmartAlertFullScreenDesignEnabled,
+  syntheticSmartAlertDialogViewEnabled
+} from 'in-services/featureFlags';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
+import { FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
+
+const alertDisplayMode = getSmartAlertDisplayMode(
+  syntheticSmartAlertDialogViewEnabled,
+  syntheticSmartAlertFullScreenDesignEnabled
+);
 
 export default [
   <Route key="syntheticTests" exact path={syntheticsPath}>
@@ -47,7 +57,7 @@ export default [
   <Route key="syntheticSmartAlerts" exact path={syntheticSmartAlertsPath}>
     {renderAsyncRouteChildren(SmartAlertList)}
   </Route>,
-  syntheticSmartAlertFullScreenDesignEnabled && (
+  (alertDisplayMode === FULLSCREEN || alertDisplayMode === CHOICE_DIALOG) && (
     <Route key="syntheticSmartAlert" path={syntheticSmartAlertsFullScreen}>
       {renderAsyncRouteChildren(AlertConfigTearSheet)}
     </Route>

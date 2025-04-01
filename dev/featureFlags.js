@@ -180,5 +180,6 @@ module.exports = {
   mobileAppSmartAlertFullScreenDesignEnabled: true,
   tealiumPrivacyEnabled: false,
   isSmartAlertDialogViewDefaultEnabled: true,
-  logSmartAlertDialogViewEnabled: true
+  logSmartAlertDialogViewEnabled: true,
+  syntheticSmartAlertDialogViewEnabled: true
 };

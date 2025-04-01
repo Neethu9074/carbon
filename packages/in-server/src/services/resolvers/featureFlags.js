@@ -802,6 +802,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'syntheticSmartAlertDialogViewEnabled',
+    instanaCtlKey: 'feature.synthetic.smart.alert.dialog.view.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'perEntityInfraSmartAlertsEnabled',
     instanaCtlKey: 'feature.per.entity.infra.smart.alerts.enabled',
     defaultValue: false
