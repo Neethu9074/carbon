@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { OrderDirection, TagFilterExpression } from '@instana/types';
+import { useObservable } from '@instana/hooks';
 
 import { getAllSyntheticCredentialsForEntitySelectionWithDefaults } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
 // @ts-expect-error
@@ -55,11 +56,12 @@ export default function CredentialList() {
   });
   syntheticSwitchCredentialTab(trackCta);
   const credentialNames: string[] = [];
+  const credentialList = useObservable(
+    () => getAllSyntheticCredentialsForEntitySelectionWithDefaults({ timeConfig }),
+    []
+  );
+  credentialList?.data?.map(credential => credentialNames.push(credential.name));
   const rightHeader = () => {
-    const syntheticCredentials = getAllSyntheticCredentialsForEntitySelectionWithDefaults({ timeConfig });
-    syntheticCredentials.subscribe(results => {
-      results.data?.map(credential => credentialNames.push(credential.name));
-    });
     return role?.canConfigureSyntheticCredentials && <CreateCredentialsButton credentialNames={credentialNames} />;
   };
 
