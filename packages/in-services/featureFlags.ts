@@ -122,6 +122,9 @@ export const syntheticRbacLimitedEnabled = isFeatureFlagEnabled('syntheticRbacLi
 // Synthetic DNS feature flag
 export const syntheticDNSEnabled = isFeatureFlagEnabled('syntheticDNSEnabled');
 
+// Synthetic runNow feature flag
+export const syntheticRunNowEnabled = isFeatureFlagEnabled('syntheticRunNowEnabled');
+
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertsAdaptiveBaselineEnabled'

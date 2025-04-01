@@ -120,6 +120,7 @@ module.exports = {
   syntheticInstanaHostedPoPEnabled: true,
   syntheticRbacLimitedEnabled: true,
   syntheticDNSEnabled: true,
+  syntheticRunNowEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,
