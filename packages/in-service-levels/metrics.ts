@@ -260,13 +260,13 @@ export const sloPreviewMetrics = deepFreeze({
       } as const)
   },
 
-  consumedBudget: {
-    label: t('in-service-levels:general.metrics.consumedBudget'),
+  totalBudget: {
+    label: t('in-service-levels:general.metrics.totalBudget'),
     singleNumber: ({ config, timeConfig }: SloPreviewConfigGeneratorProps) =>
       ({
         aggregation: 'MEAN',
         config,
-        metric: 'CONSUMED_ERROR_BUDGET_CHART',
+        metric: 'TOTAL_ERROR_BUDGET',
         resultType: 'SINGLE_NUMBER',
         source: 'SLO_PREVIEW',
         timeConfig,

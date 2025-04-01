@@ -68,8 +68,8 @@ describe('in-service-levels/components/SloChart/SloChartSummary/SloChartSummary'
   it('should have budgetSpent set to false for all SloTiles if slo is not set', () => {
     const wrapper = shallow(<SloChartSummary {...defaultProps} />);
 
-    expect(wrapper.find(SloTile).first().prop('budgetSpent')).toEqual(false);
-    expect(wrapper.find(SloTile).last().prop('budgetSpent')).toEqual(false);
+    expect(wrapper.find(SloTile).first().prop('spent')).toEqual(false);
+    expect(wrapper.find(SloTile).last().prop('spent')).toEqual(false);
   });
 
   it.each`
@@ -85,13 +85,11 @@ describe('in-service-levels/components/SloChart/SloChartSummary/SloChartSummary'
     ({ expectedTarget, expectedStatus, target, statusSingleNumber }) => {
       mockedUseSloFormatter.mockReturnValueOnce(() => 'foo');
 
-      const wrapper = shallow(
-        <SloChartSummary {...defaultProps} target={target} statusSingleNumber={statusSingleNumber} />
-      );
+      const wrapper = shallow(<SloChartSummary {...defaultProps} target={target} sloStatus={statusSingleNumber} />);
 
       expect(wrapper.find(SloTile).first().prop('value')).toEqual(expectedStatus);
 
-      expect(wrapper.find(SloTile).first().prop('budget')).toEqual(expectedTarget);
+      expect(wrapper.find(SloTile).first().prop('companionValue')).toEqual(expectedTarget);
     }
   );
 
@@ -99,7 +97,7 @@ describe('in-service-levels/components/SloChart/SloChartSummary/SloChartSummary'
     mockedUseSloFormatter.mockReturnValueOnce(() => 'foo');
 
     const wrapper = shallow(<SloChartSummary {...defaultProps} target={3} metricSli={1} />);
-    expect(wrapper.find(SloTile).first().prop('budgetSpent')).toEqual(true);
+    expect(wrapper.find(SloTile).first().prop('spent')).toEqual(true);
   });
 
   it('should have value set to undefined on second SloTile if slo and metricSli are given', () => {
@@ -113,13 +111,13 @@ describe('in-service-levels/components/SloChart/SloChartSummary/SloChartSummary'
     mockedUseSloFormatter.mockReturnValueOnce(() => 'foo');
 
     const wrapper = shallow(<SloChartSummary {...defaultProps} target={3} metricSli={1} />);
-    expect(wrapper.find(SloTile).last().prop('budgetSpent')).toEqual(false);
+    expect(wrapper.find(SloTile).last().prop('spent')).toEqual(false);
   });
 
   it('should render correctly if metricSpent is set', () => {
     mockedUseSloFormatter.mockReturnValueOnce(() => '1min');
 
-    const wrapper = shallow(<SloChartSummary {...defaultProps} consumedBudgetSingleNumber={[[1, 2]]} />);
+    const wrapper = shallow(<SloChartSummary {...defaultProps} remainingBudget={[[1, 2]]} />);
 
     expect(wrapper.find(SloTile).last().prop('value')).toEqual('1min');
   });
@@ -127,15 +125,15 @@ describe('in-service-levels/components/SloChart/SloChartSummary/SloChartSummary'
   it('should render correctly if there is some budget given', () => {
     mockedUseSloFormatter.mockReturnValueOnce(() => '1min');
 
-    const wrapper = shallow(<SloChartSummary {...defaultProps} budgetSingleNumber={[[1, 2]]} />);
+    const wrapper = shallow(<SloChartSummary {...defaultProps} totalBudget={[[1, 2]]} />);
 
-    expect(wrapper.find(SloTile).last().prop('budget')).toEqual('1min');
+    expect(wrapper.find(SloTile).last().prop('companionValue')).toEqual('1min');
   });
 
   it('should render correctly if no remaining budget is available', () => {
     const wrapper = shallow(<SloChartSummary {...defaultProps} metricRemaining={0} />);
 
-    expect(wrapper.find(SloTile).last().prop('budgetSpent')).toEqual(true);
+    expect(wrapper.find(SloTile).last().prop('spent')).toEqual(true);
   });
 
   it('should render correct label if time window type is rolling', () => {

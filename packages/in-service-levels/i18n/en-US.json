@@ -108,7 +108,6 @@
       "status": "Status",
       "remainingBudget": "Remaining",
       "totalBudget": "Error budget",
-      "consumedBudget": "Error budget consumed",
       "beaconCount": "Beacon count",
       "calls": "Calls",
       "latency": "Latency",
@@ -247,8 +246,8 @@
     "sloChartSummary": {
       "status": "Status",
       "target": "Target:",
-      "errorBudgetRemaining": "Remaining:",
-      "errorBudgetSpent": "Error budget spent",
+      "errorBudgetTotal": "Total:",
+      "errorBudgetRemaining": "Error budget remaining",
       "timeWindow": "Time window",
       "timeWindowType_dynamic": "Dynamic time window",
       "timeWindowType_rolling": "Rolling time window",
