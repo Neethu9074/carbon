@@ -71,8 +71,8 @@ const CreateCredentialDialog = ({ credentialNames, onClose }: Props) => {
     result$.once(
       _result => {
         showCreateSuccessMessage('credential');
-        window.location.reload();
         onClose();
+        window.location.reload();
       },
       error => {
         showCreateErrorMessage(deserializeErrorMessage(error.message), 'credential');
