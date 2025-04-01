@@ -62,7 +62,7 @@ export default function CredentialList() {
   );
   credentialList?.data?.map(credential => credentialNames.push(credential.name));
   const rightHeader = () => {
-    return role?.canConfigureSyntheticCredentials && <CreateCredentialsButton credentialNames={credentialNames} />;
+    return role?.canConfigureSyntheticCredentials && <CreateCredentialsButton />;
   };
 
   return (
