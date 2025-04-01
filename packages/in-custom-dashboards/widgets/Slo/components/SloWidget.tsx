@@ -15,6 +15,7 @@ import ErrorBudgetChart from 'in-service-levels/components/SloDashboard/componen
 import SloChartSummary from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummary';
 import SloWidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/components/SloWidgetLeftHeader';
 import useSloWidgetMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloWidgetMetrics';
+import useOverlappingTimeWindows from 'in-service-levels/hooks/useOverlappingTimeWindows';
 import SloWidgetCard from 'in-custom-dashboards/widgets/Slo/components/SloWidgetCard';
 import { SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/types';
 import { getValueFromSingleValueMetric } from 'in-service-levels/utils/format';
@@ -42,10 +43,17 @@ export default function SloWidget({
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const [metricResult, status, , progress] = useSloWidgetMetrics(sloConfig, timeConfig);
 
-  const remainingBudgetNumber = metricResult?.find(metric => metric.id === 'remainingBudgetNumber');
-  const statusMetric = metricResult?.find(metric => metric.id === 'statusMetric');
-  const metricRemaining = getValueFromSingleValueMetric(remainingBudgetNumber?.values as MetricDataPoint[]);
-  const metricSli = getValueFromSingleValueMetric(statusMetric?.values as MetricDataPoint[]);
+  const remainingBudget = metricResult?.find(metric => metric.id === 'remainingBudget');
+  const sloStatus = metricResult?.find(metric => metric.id === 'sloStatus');
+  const totalBudget = metricResult?.find(metric => metric.id === 'totalBudget');
+  const metricRemaining = getValueFromSingleValueMetric(remainingBudget?.values as MetricDataPoint[]);
+  const metricSli = getValueFromSingleValueMetric(sloStatus?.values as MetricDataPoint[]);
+
+  const [timeWindows] = useOverlappingTimeWindows({ sloConfigId: sloConfig.id, timeConfig });
+  const currentTimeWindow = timeWindows?.[timeWindows.length - 1];
+  const currentTimeWindowStart = currentTimeWindow
+    ? (currentTimeWindow.to ?? Date.now()) - currentTimeWindow.windowSize
+    : undefined;
 
   return (
     <SloWidgetCard
@@ -55,8 +63,9 @@ export default function SloWidget({
       rightHeaderContent={<ContextAwareSloWidgetRightHeader actions={actions} dragHandle={dragHandle} />}
     >
       <SloChartSummary
-        budgetSingleNumber={remainingBudgetNumber?.values as MetricDataPoint[]}
-        fromTimestamp={sloConfig.timeWindow.type === 'fixed' ? sloConfig.timeWindow.startTimestamp : Date.now()}
+        totalBudget={totalBudget?.values as MetricDataPoint[]}
+        remainingBudget={remainingBudget?.values as MetricDataPoint[]}
+        fromTimestamp={currentTimeWindowStart}
         indicatorType={sloConfig.indicator.type}
         metricRemaining={metricRemaining}
         metricSli={metricSli}
@@ -64,7 +73,7 @@ export default function SloWidget({
         objectiveDurationUnit={sloConfig.timeWindow.durationUnit}
         sloEntityType={sloConfig.entity.type}
         status={status}
-        statusSingleNumber={statusMetric?.values as MetricDataPoint[]}
+        sloStatus={sloStatus?.values as MetricDataPoint[]}
         target={sloConfig.target}
         timeWindowType={sloConfig.timeWindow.type}
       />

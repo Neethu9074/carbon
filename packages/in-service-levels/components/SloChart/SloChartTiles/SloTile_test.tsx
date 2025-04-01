@@ -18,7 +18,7 @@ describe('in-custom-dashboards/widgets/SloLegacy/components/widget/tiles/SloTile
     const value = undefined;
 
     // When
-    const wrapper = shallow(<SloTile title="" budgetTitle="" value={value} budget="something" />);
+    const wrapper = shallow(<SloTile title="" companionTitle="" value={value} companionValue="something" />);
 
     // Then
     expect(wrapper.find(`.${locals.value}`).text()).toContain(valueMissingPlaceholder);
@@ -32,7 +32,7 @@ describe('in-custom-dashboards/widgets/SloLegacy/components/widget/tiles/SloTile
 
     // When
     const wrapper = shallow(
-      <SloTile title="" budgetTitle="" value={value} budget={budget} budgetSpent={budgetSpent} />
+      <SloTile title="" companionTitle="" value={value} companionValue={budget} spent={budgetSpent} />
     );
 
     // Then
@@ -48,7 +48,7 @@ describe('in-custom-dashboards/widgets/SloLegacy/components/widget/tiles/SloTile
 
     // When
     const wrapper = shallow(
-      <SloTile title="" budgetTitle="" value={value} budget={budget} budgetSpent={budgetSpent} />
+      <SloTile title="" companionTitle="" value={value} companionValue={budget} spent={budgetSpent} />
     );
 
     // Then
@@ -64,7 +64,7 @@ describe('in-custom-dashboards/widgets/SloLegacy/components/widget/tiles/SloTile
 
     // When
     const wrapper = shallow(
-      <SloTile title="" budgetTitle="" value={value} budget={budget} budgetSpent={budgetSpent} />
+      <SloTile title="" companionTitle="" value={value} companionValue={budget} spent={budgetSpent} />
     );
 
     // Then
@@ -80,7 +80,7 @@ describe('in-custom-dashboards/widgets/SloLegacy/components/widget/tiles/SloTile
 
     // When
     const wrapper = shallow(
-      <SloTile title="" budgetTitle="" value={value} budget={budget} budgetSpent={budgetSpent} />
+      <SloTile title="" companionTitle="" value={value} companionValue={budget} spent={budgetSpent} />
     );
 
     // Then
@@ -94,7 +94,7 @@ describe('in-custom-dashboards/widgets/SloLegacy/components/widget/tiles/SloTile
 
     // When
     const wrapper = shallow(
-      <SloTile title="" budgetTitle="" value="something" budget="somethingElse" compact={compact} />
+      <SloTile title="" companionTitle="" value="something" companionValue="somethingElse" compact={compact} />
     );
 
     // Then
