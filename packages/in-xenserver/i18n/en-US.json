@@ -1,0 +1,26 @@
+{
+    "xenserver": "XenServer",
+    "noMonitoringDataFound": "No monitoring data found",
+    "hostName": "Host name",
+    "noOfVms": "Number of virutal machines",
+    "summary": "Summary",
+    "host": "Host",
+    "hosts": "Hosts",
+    "dashboards":{
+        "address": "IP address",
+        "cpuCount": "CPU count",
+        "bytesRx": "Bytes rx",
+        "bytesTx": "Bytes tx",
+        "network" : "Network",
+        "memoryTotal":"Total memory",
+        "memoryFree": "Free memory",
+        "memoryUsage": "Memory usage",
+        "cpuAvg": "Average CPU",
+        "poolTaskCount": "Pool task count",
+        "poolSessionCount": "Pool session count",
+        "xapiMemoryUsage": "XAPI memory usage",
+        "xapiFreeMemory": "XAPI free memory",
+        "xapiLiveMemory": "XAPI live memory",
+        "xapiAllocation": "XAPI allocation"
+    }
+}
