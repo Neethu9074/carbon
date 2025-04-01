@@ -139,6 +139,7 @@ export default function Alert({
                 alertConfig={alertConfig}
                 alertConfigId={alertConfigId}
                 openDialog={() => openOldDialog(isCopy)}
+                useSmartAlertCreateUrl={getLinkToEditOrDuplicateSmartAlertTearSheet}
               />
             );
           }}

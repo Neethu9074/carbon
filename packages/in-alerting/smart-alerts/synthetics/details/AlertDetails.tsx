@@ -86,7 +86,9 @@ export default function AlertDetails(props: AlertDetailsProps) {
       )}
       getAllowedPlaceholders={() => allowedPlaceholders}
       getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
-      displayTearSheetActions={syntheticSmartAlertFullScreenDesignEnabled}
+      // TODO change this by checking the FF
+      displayTearSheetActions={false}
+      alertDisplayMode={syntheticSmartAlertFullScreenDesignEnabled ? 'CHOICE_DIALOG' : null}
       isGlobalSmartAlert
       canConfigureGlobalAlertConfigs={role?.canConfigureGlobalSyntheticSmartAlerts}
     />

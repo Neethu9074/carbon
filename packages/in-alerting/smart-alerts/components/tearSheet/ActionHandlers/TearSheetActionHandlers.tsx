@@ -6,8 +6,7 @@
 
 import React from 'react';
 
-import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/logs/hooks/useSmartAlertCreateUrl';
-import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
+import { AlertConfigType, AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 //@ts-expect-error TS migration
 import { MoreMenuButton } from 'in-components/MoreMenu';
 import { ALERTING_EDIT, ALERTING_CLONE_TRIGGER } from 'in-services/tracking/eventNames';
@@ -22,10 +21,12 @@ import locals from './TearSheetActionHandlers.mless';
 
 export function TearSheetEditActionHandler<AlertConfig extends AlertConfigType>({
   alertConfig,
-  openOldDialog
+  openOldDialog,
+  useSmartAlertCreateUrl
 }: {
   alertConfig: AlertConfig;
   openOldDialog: VoidFunction;
+  useSmartAlertCreateUrl: (args: AlertURLProps) => string;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({
     alertId: alertConfig.id,
@@ -59,10 +60,12 @@ export function TearSheetEditActionHandler<AlertConfig extends AlertConfigType>(
 
 export function TearSheetCloneActionHandler<AlertConfig extends AlertConfigType>({
   alertConfig,
-  openOldDialog
+  openOldDialog,
+  useSmartAlertCreateUrl
 }: {
   alertConfig: AlertConfig;
   openOldDialog: VoidFunction;
+  useSmartAlertCreateUrl: (args: AlertURLProps) => string;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({
     alertId: alertConfig.id,
@@ -98,12 +101,14 @@ export function ShowSelectorDialog<AlertConfig extends AlertConfigType>({
   isCopy,
   alertConfig,
   alertConfigId,
-  openDialog
+  openDialog,
+  useSmartAlertCreateUrl
 }: {
   isCopy: boolean;
   alertConfig: AlertConfig;
   alertConfigId: string;
   openDialog: VoidFunction;
+  useSmartAlertCreateUrl: (args: AlertURLProps) => string;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({
     alertId: alertConfig.id,

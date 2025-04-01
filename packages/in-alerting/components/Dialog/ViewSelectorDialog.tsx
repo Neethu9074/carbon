@@ -29,7 +29,8 @@ export default function ViewSelectorDialog<AlertConfig extends AlertConfigType>(
 }: {
   trackCta: CtaTrackingFunction;
   openOldDialog: VoidFunction;
-  getLinkToCreateSmartAlert: string;
+  // TODO make getLinkToCreateSmartAlert mandate, after its implemented in all areas
+  getLinkToCreateSmartAlert?: string;
   mode?: string;
   trackType?: string;
   alertConfig?: AlertConfig;

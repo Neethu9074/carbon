@@ -18,6 +18,7 @@ import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/compone
 import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
+import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/logs/hooks/useSmartAlertCreateUrl';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/logs/lists/ListActionHandlers';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
@@ -63,6 +64,7 @@ export default function Alerts({ isLogsDashboardHeader = false }) {
             toolBarContent={role?.canConfigureGlobalLogSmartAlerts ? <CreateSmartAlert isListingPage /> : undefined}
             noDataHeader={t('in-alerting:smartAlerts.logs.list.noDataHeader')}
             noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.logs.list.noDataDescription" />}
+            useSmartAlertCreateUrl={useSmartAlertCreateUrl}
           />
           <Footer />
         </div>

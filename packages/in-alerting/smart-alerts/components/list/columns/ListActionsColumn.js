@@ -31,7 +31,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn.mless';
 
-export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon }) {
+export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon, useSmartAlertCreateUrl }) {
   const {
     handleEdit,
     handleClone,
@@ -121,7 +121,11 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon
             </MoreMenuButton>
           )}
           {handleEditSelector && !builtIn && (
-            <TearSheetEditActionHandler alertConfig={config} openOldDialog={() => handleEditSelector(config)} />
+            <TearSheetEditActionHandler
+              alertConfig={config}
+              openOldDialog={() => handleEditSelector(config)}
+              useSmartAlertCreateUrl={useSmartAlertCreateUrl}
+            />
           )}
           {handleEditNew && !builtIn && handleEditNew(config)}
           {handleClone && (
@@ -136,7 +140,11 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon
             </MoreMenuButton>
           )}
           {handleCloneSelector && !builtIn && (
-            <TearSheetCloneActionHandler alertConfig={config} openOldDialog={() => handleCloneSelector(config)} />
+            <TearSheetCloneActionHandler
+              alertConfig={config}
+              openOldDialog={() => handleCloneSelector(config)}
+              useSmartAlertCreateUrl={useSmartAlertCreateUrl}
+            />
           )}
           {handleCloneNew && !builtIn && handleCloneNew(config)}
           {!builtIn && handleDelete && (
@@ -183,5 +191,7 @@ ListActionsColumn.propTypes = {
     handleToggleEnabled: PropTypes.func,
     handleDelete: PropTypes.func
   }),
-  icon: PropTypes.string
+  icon: PropTypes.string,
+  // TODO make useSmartAlertCreateUrl required after its implemented in all SAs
+  useSmartAlertCreateUrl: PropTypes.func
 };
