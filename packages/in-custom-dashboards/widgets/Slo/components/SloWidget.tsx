@@ -50,7 +50,7 @@ export default function SloWidget({
   const metricSli = getValueFromSingleValueMetric(sloStatus?.values as MetricDataPoint[]);
 
   const [timeWindows] = useOverlappingTimeWindows({ sloConfigId: sloConfig.id, timeConfig });
-  const currentTimeWindow = timeWindows?.[timeWindows?.length - 1];
+  const currentTimeWindow = timeWindows?.[timeWindows.length - 1];
   const currentTimeWindowStart = currentTimeWindow
     ? (currentTimeWindow.to ?? Date.now()) - currentTimeWindow.windowSize
     : undefined;
