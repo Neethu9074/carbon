@@ -24,14 +24,16 @@ export function TearSheetEditActionHandler<AlertConfig extends AlertConfigType>(
   openOldDialog,
   useSmartAlertCreateUrl
 }: {
-  alertConfig: AlertConfig;
+  alertConfig: AlertConfig & { websiteId?: string; mobileAppId?: string };
   openOldDialog: VoidFunction;
   useSmartAlertCreateUrl: (args: AlertURLProps) => string;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({
     alertId: alertConfig.id,
     alertConfigCreated: alertConfig.created,
-    editMode: true
+    editMode: true,
+    ...(alertConfig?.websiteId && { websiteId: alertConfig?.websiteId }),
+    ...(alertConfig?.mobileAppId && { mobileAppId: alertConfig?.mobileAppId })
   });
   const { trackCta } = useSegmentTracking();
 
@@ -63,14 +65,16 @@ export function TearSheetCloneActionHandler<AlertConfig extends AlertConfigType>
   openOldDialog,
   useSmartAlertCreateUrl
 }: {
-  alertConfig: AlertConfig;
+  alertConfig: AlertConfig & { websiteId?: string; mobileAppId?: string };
   openOldDialog: VoidFunction;
   useSmartAlertCreateUrl: (args: AlertURLProps) => string;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({
     alertId: alertConfig.id,
     alertConfigCreated: alertConfig.created,
-    duplicateMode: true
+    duplicateMode: true,
+    ...(alertConfig?.websiteId && { websiteId: alertConfig?.websiteId }),
+    ...(alertConfig?.mobileAppId && { mobileAppId: alertConfig?.mobileAppId })
   });
   const { trackCta } = useSegmentTracking();
 
@@ -105,7 +109,7 @@ export function ShowSelectorDialog<AlertConfig extends AlertConfigType>({
   useSmartAlertCreateUrl
 }: {
   isCopy: boolean;
-  alertConfig: AlertConfig;
+  alertConfig: AlertConfig & { websiteId?: string; mobileAppId?: string };
   alertConfigId: string;
   openDialog: VoidFunction;
   useSmartAlertCreateUrl: (args: AlertURLProps) => string;
@@ -113,6 +117,8 @@ export function ShowSelectorDialog<AlertConfig extends AlertConfigType>({
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({
     alertId: alertConfig.id,
     alertConfigCreated: alertConfig.created,
+    ...(alertConfig?.websiteId && { websiteId: alertConfig?.websiteId }),
+    ...(alertConfig?.mobileAppId && { mobileAppId: alertConfig?.mobileAppId }),
     ...(isCopy && { duplicateMode: isCopy }),
     ...(!isCopy && alertConfigId && { editMode: true })
   });

@@ -20,12 +20,13 @@ import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/compone
 import { STATIC_THRESHOLD, ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/websites/hooks/useSmartAlertCreateUrl';
+import AlertBaseList, { AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/websites/list/ListActionHandlers';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
-import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert';
 import { sortOptions } from 'in-alerting/smart-alerts/components/list/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/websites/list/ScopeColumn';
@@ -84,6 +85,7 @@ export default function Alerts({ websiteId, websiteLabel }: { websiteId: string;
         }
         noDataHeader={t('in-alerting:smartAlerts.websites.list.noDataHeader')}
         noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.websites.list.noDataDescription" />}
+        useSmartAlertCreateUrl={useSmartAlertCreateUrl as (args: AlertURLProps & { websiteId?: string }) => string}
       />
 
       <Footer />

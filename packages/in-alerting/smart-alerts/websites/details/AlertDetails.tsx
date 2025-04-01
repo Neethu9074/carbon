@@ -66,7 +66,9 @@ export default function AlertDetails(props: AlertDetailsProps) {
       )}
       canConfigureIndividualAlertConfigs={role?.canConfigureWebsiteSmartAlerts}
       getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
-      displayTearSheetActions={websitesSmartAlertFullScreenDesignEnabled}
+      // TODO chnage with FF
+      displayTearSheetActions={false}
+      alertDisplayMode={websitesSmartAlertFullScreenDesignEnabled ? 'CHOICE_DIALOG' : null}
     />
   );
 }
