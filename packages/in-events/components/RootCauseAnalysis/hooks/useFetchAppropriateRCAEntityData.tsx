@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
-import { get, isEmpty, isNull } from 'lodash';
-import { useEffect, useState } from 'react';
-import { List, Map } from 'immutable';
+// import { useEffect, useState } from 'react';
+import { List } from 'immutable';
+import { get, isNull } from 'lodash';
 
-import { combineLatest, Observable } from '@instana/observables';
+import { Observable, combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -17,195 +17,255 @@ import {
   getStackForInfrastructure,
   getStackForService
 } from 'in-components/Stack/subscriptions/getStack';
+import { QualifiedRCAEntityTypes } from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
+import createSnapshotObservable from 'in-events/components/RootCauseAnalysis/utils/modifiedSnapshot';
+import { Application, Endpoint, Result, ServiceLabel, Snapshot, Stack, TimeConfig } from 'in-types';
 //@ts-expect-error
-import { SnapshotData, getPhysicalHierarchy, getSnapshotVersions } from 'in-stores/snapshot';
+import { getPhysicalHierarchy, getSnapshotVersions } from 'in-stores/snapshot';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import createSnapshotObservable from 'in-subscription/snapshot';
-import { Endpoint, ServiceLabel, TimeConfig } from 'in-types';
+
+export const NoAppropriateRCAEntityData = {
+  entityData: null,
+  hierarchySnapshots: null,
+  entityStackData: null,
+  infraServiceLabelInformation: [],
+  nonInfraServiceLabelInformation: null,
+  loadingStackData: false,
+  loadingSnapshotData: false
+};
+
+const useFetchRCAInfra = (
+  entityType: QualifiedRCAEntityTypes | '',
+  id: string,
+  timeWindow: TimeConfig
+): RCAEntityDataType => {
+  const shouldRun = entityType === 'infrastructure' || entityType === 'process';
+
+  // 10:00 -- 10:15   || 10:00 -- 10:30
+
+  // 1. run this to get the new time window
+  const newTimeWindow = useObservable<TimeConfig | null, any[]>(
+    shouldRun
+      ? getSnapshotVersions(id).map((versions: List<string>) => {
+          if (List.isList(versions) && versions.size > 0) {
+            const versionsJS: { to: number; from: number }[] = versions.toJS();
+            const { to, from } = versionsJS[versionsJS.length - 1];
+            return {
+              windowSize: (to || Date.now()) - from,
+              to,
+              focusedMoment: to,
+              autoRefresh: false
+            };
+          }
+          return null;
+        })
+      : null,
+    [id, shouldRun]
+  );
+  // 2. when we get data from 1. run the following 3
+  const observableResult = useObservable(
+    newTimeWindow && shouldRun
+      ? combineLatest([
+          createSnapshotObservable({
+            snapshotId: id,
+            timeConfig: newTimeWindow
+          }),
+          getStackForInfrastructure({
+            id: id,
+            timeConfig: newTimeWindow
+          }) as Observable<Result<Stack>>,
+          getPhysicalHierarchy({
+            snapshotId: id,
+            timeConfig: newTimeWindow
+          }).map(d => d.toJS()) as Observable<string[]>
+        ])
+      : null,
+    [id, newTimeWindow, shouldRun]
+  );
+
+  const stack = observableResult?.[1];
+  const entity = observableResult?.[0];
+  const hierarchySnapshotIds = observableResult?.[2];
+
+  const hierarchySnapshots = useObservable(
+    shouldRun && hierarchySnapshotIds && newTimeWindow
+      ? combineLatest(
+          hierarchySnapshotIds.map(i =>
+            createSnapshotObservable({
+              snapshotId: i,
+              timeConfig: newTimeWindow || timeWindow
+            })
+          )
+        )
+      : null,
+    [id, newTimeWindow, hierarchySnapshotIds, shouldRun]
+  );
+
+  let infraServiceLabelInformation = null;
+  if (stack?.data?.application) {
+    const serviceAppGroup = stack.data.application.groups.find(item => item.type === 'service' && item.itemCount > 0);
+    if (serviceAppGroup?.items) {
+      infraServiceLabelInformation = serviceAppGroup.items;
+    }
+  }
+
+  return {
+    entityData: entity || null,
+    entityType,
+    hierarchySnapshots: hierarchySnapshots,
+    entityStackData: stack?.data || null,
+    infraServiceLabelInformation,
+    nonInfraServiceLabelInformation: null,
+    loadingStackData: stack?.progress.loading || false,
+    loadingSnapshotData: isNull(entity)
+  };
+};
+
+const useFetchRCAEndpoint = (
+  entityType: QualifiedRCAEntityTypes | '',
+  id: string,
+  timeWindow: TimeConfig
+): RCAEntityDataType => {
+  const shouldRun = entityType === 'endpoint';
+
+  const results = useObservable(
+    shouldRun
+      ? combineLatest([
+          getEndpointInfo({ id }),
+          getStackForEndpoint({ id, timeConfig: timeWindow }) as Observable<Result<Stack>>
+        ])
+      : null,
+    [id, timeWindow, shouldRun]
+  );
+
+  const entity = results?.[0];
+  const stack = results?.[1];
+
+  const nonInfraServiceLabelInformation = useObservable(
+    shouldRun
+      ? () => {
+          if (entity?.data?.serviceId) {
+            return getServiceLabel({
+              id: entity.data.serviceId
+            });
+          }
+          return null;
+        }
+      : null,
+    [entity, shouldRun]
+  );
+
+  return {
+    entityData: get(entity, 'data', null),
+    entityType,
+    hierarchySnapshots: null,
+    entityStackData: get(stack, 'data', null),
+    nonInfraServiceLabelInformation: get(nonInfraServiceLabelInformation, 'data', null),
+    loadingStackData: get(stack, 'progress.loading', false),
+    loadingSnapshotData: get(entity, 'progress.loading', false),
+    infraServiceLabelInformation: []
+  };
+};
+
+const useFetchRCAService = (
+  entityType: QualifiedRCAEntityTypes | '',
+  id: string,
+  timeWindow: TimeConfig
+): RCAEntityDataType => {
+  const shouldRun = entityType === 'service';
+
+  const results = useObservable(
+    shouldRun
+      ? combineLatest([
+          getServiceLabel({ id }) as Observable<Result<ServiceLabel>>,
+          getStackForService({ id, timeConfig: timeWindow }) as Observable<Result<Stack>>
+        ])
+      : null,
+    [id, timeWindow, shouldRun]
+  );
+
+  const entity = results?.[0];
+  const stack = results?.[1];
+
+  return {
+    entityData: get(entity, 'data', null),
+    entityType,
+    hierarchySnapshots: null,
+    entityStackData: get(stack, 'data', null),
+    infraServiceLabelInformation: [],
+    nonInfraServiceLabelInformation: null,
+    loadingStackData: get(stack, 'progress.loading', false),
+    loadingSnapshotData: get(stack, 'progress.loading', false)
+  };
+};
+
+const useFetchRCASA = (
+  entityType: QualifiedRCAEntityTypes | '',
+  id: string,
+  timeWindow: TimeConfig
+): RCAEntityDataType => {
+  const shouldRun = entityType === 'application';
+
+  const results = useObservable(
+    shouldRun
+      ? combineLatest([
+          getApplication({ id }) as Observable<Result<Application>>,
+          getStackForApplication({ id, timeConfig: timeWindow }) as Observable<Result<Stack>>
+        ])
+      : null,
+    [id, timeWindow, shouldRun]
+  );
+
+  const entity = results?.[0];
+  const stack = results?.[1];
+
+  return {
+    entityData: get(entity, 'data', null),
+    entityType,
+    hierarchySnapshots: null,
+    entityStackData: get(stack, 'data', null),
+    infraServiceLabelInformation: [],
+    nonInfraServiceLabelInformation: null,
+    loadingStackData: get(stack, 'progress.loading', false),
+    loadingSnapshotData: get(entity, 'progress.loading', false)
+  };
+};
 
 function useFetchAppropriateRCAEntityData(
-  entityType: string,
+  entityType: QualifiedRCAEntityTypes | '',
   id: string,
   incomingTimeWindow: TimeConfig
 ): RCAEntityDataType {
-  // Generic query observable variable that gets information on a given endpoint/servce/infra/app set by the useEffect below
-  const [query, setQuery] = useState<
-    Observable<SnapshotData> | Observable<Endpoint | undefined> | Observable<ServiceLabel | undefined> | null
-  >(null);
+  const dataForInfra = useFetchRCAInfra(entityType, id, incomingTimeWindow);
+  const dataForEndpoint = useFetchRCAEndpoint(entityType, id, incomingTimeWindow);
+  const dataForService = useFetchRCAService(entityType, id, incomingTimeWindow);
+  const dataForSA = useFetchRCASA(entityType, id, incomingTimeWindow);
 
-  const [loadingSnapshotData, setLoadingSnapshotData] = useState(true);
-  const [loadingStackData, setLoadingStackData] = useState(true);
-
-  // Time window variable used for generating links to analyze page and sending query for entity, can be re-set by our infra query
-  const [timeWindowForHierarchyQuery, setTimeWindowForHierarchyQuery] = useState(incomingTimeWindow);
-
-  // Service query observable variable that gets service label information that a given entity belongs to
-  const [serviceQuery, setServiceQuery] = useState<Observable<ServiceLabel | undefined> | null>(null);
-
-  const [infraServiceLabelInformation, setInfraServiceLabelInfromation] = useState<ServiceLabel[]>([]);
-
-  // Holds the result of our service label observable
-  const nonInfraServiceLabelInformation = useObservable(serviceQuery, [serviceQuery]) ?? null;
-
-  // Used only for infra entities to set physical hierarchy query
-  const [hierarchyQuery, setHierarchyQuery] = useState<Observable<List<string>> | null>(null);
-
-  // Used to make a app stack query for infrastructure entities
-  const [stackQuery, setStackQuery] = useState<Observable<any> | null>(null);
-
-  // This useEffect sets the entity query state variables + necessary infrastructure query variables
-  useEffect(() => {
-    if (entityType === 'infrastructure' || entityType === 'process') {
-      // Need to get snapshot versions first and then retrieve appropriate snapshot
-      setQuery(
-        getSnapshotVersions(id).map((versions: List<string>) => {
-          if (List.isList(versions)) {
-            const snapVersions = versions.toJS();
-            if (snapVersions.length > 0) {
-              const { to, from } = snapVersions[snapVersions.length - 1];
-
-              const timeConfigFromSnapVersion = {
-                windowSize: (to || Date.now()) - from,
-                to,
-                focusedMoment: to
-              } as TimeConfig;
-              setTimeWindowForHierarchyQuery(timeConfigFromSnapVersion);
-              setHierarchyQuery(getPhysicalHierarchy({ snapshotId: id, timeConfig: timeConfigFromSnapVersion }));
-              setQuery(
-                createSnapshotObservable({
-                  snapshotId: id,
-                  timeConfig: timeConfigFromSnapVersion
-                }) as Observable<SnapshotData>
-              );
-              setStackQuery(getStackForInfrastructure({ id: id, timeConfig: timeConfigFromSnapVersion }));
-            } else {
-              setLoadingSnapshotData(false);
-              setLoadingStackData(false);
-            }
-          }
-        })
-      );
-    } else if (entityType === 'endpoint') {
-      setQuery(
-        getEndpointInfo({ id })
-          .map(data => data)
-          .throttle(250)
-      );
-      setStackQuery(getStackForEndpoint({ id: id, timeConfig: incomingTimeWindow })); // FYI: no infra data
-    } else if (entityType === 'service') {
-      setQuery(
-        getServiceLabel({ id })
-          .map(data => data)
-          .throttle(250)
-      );
-      setStackQuery(getStackForService({ id: id, timeConfig: incomingTimeWindow }));
-    } else if (entityType === 'application') {
-      setQuery(
-        getApplication({ id })
-          .map(data => data)
-          .throttle(250)
-      );
-      setStackQuery(getStackForApplication({ id: id, timeConfig: incomingTimeWindow }));
-    }
-    setLoadingStackData(true);
-    setLoadingSnapshotData(true);
-  }, [id, entityType, incomingTimeWindow]);
-
-  // Holds the result of our entity observable
-  const entityData = useObservable(query, [query]) ?? null;
-
-  // Holds the result of our physical hierarchy query
-  const hierarchySnapshots = useObservable(() => {
-    if (hierarchyQuery) {
-      return hierarchyQuery.flatMap(item =>
-        combineLatest(
-          item
-            .toArray()
-            //            .filter(idToCheck => id !== idToCheck) //filter out selected entity to avoid duplication for hosts
-            .map(
-              id =>
-                createSnapshotObservable({
-                  snapshotId: id,
-                  timeConfig: timeWindowForHierarchyQuery
-                }) as Observable<SnapshotData>
-            )
-        )
-      );
-    } else {
-      return null;
-    }
-  }, [timeWindowForHierarchyQuery, hierarchyQuery]);
-
-  // Holds the result of our infra entity stack query
-  const entityStackData = useObservable(stackQuery, [stackQuery]) ?? null;
-
-  // This useEffect will set the service label query variable
-  useEffect(() => {
-    if (
-      !serviceQuery &&
-      entityType !== 'infrastructure' &&
-      entityType !== 'process' &&
-      entityData &&
-      entityData.data &&
-      entityData.data.serviceId
-    ) {
-      setServiceQuery(
-        getServiceLabel({ id: entityData.data.serviceId })
-          .map(data => data.data)
-          .throttle(250)
-      );
-    } else if (
-      !serviceQuery &&
-      (entityType === 'infrastructure' || entityType === 'process') &&
-      entityStackData &&
-      !entityStackData.progress.loading &&
-      entityStackData.data
-    ) {
-      entityStackData.data.application.groups.map((appStackItem: any) => {
-        if (appStackItem.type === 'service' && appStackItem.itemCount >= 1) {
-          setInfraServiceLabelInfromation(appStackItem.items);
-        }
-      });
-    }
-  }, [entityData, id, serviceQuery, entityType, entityStackData]);
-
-  useEffect(() => {
-    if ((entityData && entityData.progress && !entityData.progress.loading) || Map.isMap(entityData))
-      setLoadingSnapshotData(false);
-  }, [entityData]);
-
-  useEffect(() => {
-    if (entityStackData && entityStackData.progress && !entityStackData.progress.loading) setLoadingStackData(false);
-  }, [entityStackData]);
-
+  if (entityType === 'infrastructure' || entityType === 'process') {
+    return dataForInfra;
+  } else if (entityType === 'endpoint') {
+    return dataForEndpoint;
+  } else if (entityType === 'service') {
+    return dataForService;
+  } else if (entityType === 'application') {
+    return dataForSA;
+  }
   return {
-    entityData: isNull(entityData)
-      ? null
-      : Map.isMap(entityData)
-      ? entityData.toJS()
-      : !get(entityData, 'progress.loading', false)! && !isEmpty(get(entityData, 'data', {}))
-      ? get(entityData, 'data')
-      : null,
-    entityType,
-    hierarchySnapshots,
-    entityStackData,
-    infraServiceLabelInformation,
-    nonInfraServiceLabelInformation,
-    loadingStackData,
-    loadingSnapshotData
+    ...NoAppropriateRCAEntityData,
+    entityType
   };
 }
 
 export default useFetchAppropriateRCAEntityData;
 
 export interface RCAEntityDataType {
-  entityData: SnapshotData | null;
-  entityType: string;
-  hierarchySnapshots: SnapshotData[] | null | undefined;
-  entityStackData: any;
-  infraServiceLabelInformation: ServiceLabel[];
+  entityData: Snapshot | Endpoint | ServiceLabel | Application | null;
+  entityType: QualifiedRCAEntityTypes | '';
+  hierarchySnapshots: Snapshot[] | null | undefined;
+  entityStackData: Stack | null;
+  infraServiceLabelInformation: ServiceLabel[] | null | undefined;
   nonInfraServiceLabelInformation: ServiceLabel | null;
   loadingStackData: boolean;
   loadingSnapshotData: boolean;

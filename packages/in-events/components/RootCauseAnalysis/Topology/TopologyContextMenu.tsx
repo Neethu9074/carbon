@@ -20,6 +20,7 @@ import {
 import { createTagFilterExpressionForAnalysisOfApplicationSA } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 //@ts-expect-error
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
+import { QualifiedRCAEntityTypes } from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import getHealthInfoQueryParams from 'in-events/components/RootCauseAnalysis/Topology/utils/getHealthInfoQueryParams';
 import convertEventToRawEvent from 'in-events/components/RootCauseAnalysis/Topology/utils/convertEventToRawEvent';
 import { getAPMetricsObservable, getLegacyAPMetricsObservable } from 'in-events/components/legacy/TopologyUtils';
@@ -113,14 +114,13 @@ function getIssueLabel(count: number): string {
 }
 
 const TopologyContextMenu = ({ node }: TopologyContextMenuProps) => {
-  const { entityType, id, metadata } = node;
+  const { entityType, id } = node;
   const timeConfig = useContext(RCATopologyTimeWindowContext) as TimeConfig;
   const relatedAP = useContext(RCATopologyAPContext)[0];
 
   // TODO: convert the data conversion to a hook
   const filterFormModel = createTagFilterExpressionForAnalysisOfApplicationSA(
-    entityType,
-    metadata.data,
+    entityType as QualifiedRCAEntityTypes,
     id,
     null,
     relatedAP ? relatedAP.label : null,
@@ -147,7 +147,7 @@ const TopologyContextMenu = ({ node }: TopologyContextMenuProps) => {
   const technologies = get(node, 'metadata.data.technologies', []);
 
   const healthInfoQuery =
-    node?.entityType === 'infrastructure'
+    node?.entityType === 'infrastructure' || node?.entityType === 'process'
       ? getEntityHealthInfo({ snapshotId: node?.id, timeConfig })
       : getApplicationEntityHealthInfo(getHealthInfoQueryParams(entityType, id, timeConfig));
 

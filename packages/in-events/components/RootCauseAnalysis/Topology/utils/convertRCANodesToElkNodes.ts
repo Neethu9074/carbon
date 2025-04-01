@@ -4,17 +4,10 @@
  * Copyright IBM Corp. 2025
  */
 
-import { ElkNode } from 'elkjs/lib/elk-api';
 import { get } from 'lodash';
 
-import { NodesMap, RCA_TOPOLOGY_TAGS } from 'in-events/components/legacy/TopologyUtils';
-
-interface GraphNode extends ElkNode {
-  entityType: string;
-  label: string;
-  metadata: any;
-  tags: Set<RCA_TOPOLOGY_TAGS>;
-}
+import { TopologyGraphNode } from 'in-events/components/RootCauseAnalysis/Topology/types';
+import { NodesMap } from 'in-events/components/legacy/TopologyUtils';
 
 const nodeSize = 52;
 
@@ -27,7 +20,7 @@ const nodePriorities = {
   default: '4'
 };
 
-const convertRCANodesToElkNodes = (nodes: NodesMap): GraphNode[] => {
+const convertRCANodesToElkNodes = (nodes: NodesMap): TopologyGraphNode[] => {
   return Object.values(nodes).map(node => {
     const { id, entityType, label, tags } = node;
 

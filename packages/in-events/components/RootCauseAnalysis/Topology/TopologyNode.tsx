@@ -52,7 +52,7 @@ const TopologyNode = ({ node, setCurrentlyOpen }: TopologyNodeProps) => {
   const isTE = tags.has('TRIGGERING');
 
   const healthInfoQuery =
-    node?.entityType === 'infrastructure'
+    node?.entityType === 'infrastructure' || node?.entityType === 'process'
       ? getEntityHealthInfo({ snapshotId: node?.id, timeConfig }).map(result => ({
           openIssues: get(result, 'data.openIssues', []).length,
           maxSeverity: get(result, 'data.maxSeverity', 'UNKNOWN')
@@ -65,7 +65,7 @@ const TopologyNode = ({ node, setCurrentlyOpen }: TopologyNodeProps) => {
   const healthInfo = useObservable(healthInfoQuery, []);
 
   return (
-    <foreignObject transform={`translate(${x}, ${y})`} height={height} width={width} style={{ overflow: 'visible' }}>
+    <foreignObject x={x} y={y} height={height} width={width} style={{ overflow: 'visible' }}>
       <div className={locals.healthIcon}>
         <HealthIcon severity={healthInfo?.maxSeverity} iconSize="xs" />
       </div>
@@ -77,6 +77,7 @@ const TopologyNode = ({ node, setCurrentlyOpen }: TopologyNodeProps) => {
           id={id}
           onClick={() => setCurrentlyOpen(id)}
           className={classNames({
+            [locals.NodeBase]: true,
             [locals.rootCauseEntityNode]: isRootCause,
             [locals.triggeringEntityNode]: isTE,
             [locals.regularNode]: !isRootCause && !isTE

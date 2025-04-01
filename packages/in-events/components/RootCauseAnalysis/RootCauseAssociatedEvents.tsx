@@ -8,12 +8,11 @@ import React from 'react';
 
 import { Typography, CarbonLayer, Collapsible } from '@instana/components';
 
-// import EventListItem from 'in-events/components/legacy/EventListItem';
-import { ProbableCauseType } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 //@ts-expect-error file needs to be converted
 import getRawEvents from 'in-subscription/getRawEvents';
 import EventsDatagrid from 'in-events/components/IncidentPage/EventsDatagrid/EventsDatagrid';
 import { EVENT_RCA_ASSOCIATED_EVENTS_CLICK } from 'in-services/tracking/tracking';
+import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -23,7 +22,7 @@ import { t } from 'in-i18n';
 import locals from 'in-events/components/legacy/EventList.mless';
 
 interface AssociatedEventsProps {
-  rootCause: ProbableCauseType;
+  rootCause: RootCause;
 }
 
 export default function AssociatedEvents({ rootCause }: AssociatedEventsProps) {
@@ -32,9 +31,9 @@ export default function AssociatedEvents({ rootCause }: AssociatedEventsProps) {
 
   const userTimeConfig = useTimeConfig();
 
-  const steadyId = rootCause.getIn(['entityID', 'steadyId']);
-  const pluginId = rootCause.getIn(['entityID', 'pluginId']);
-  const hostIdValue = rootCause.getIn(['entityID', 'host']);
+  const steadyId = rootCause.entityID.steadyId;
+  const pluginId = rootCause.entityID.pluginId;
+  const hostIdValue = rootCause.entityID.host;
 
   const {
     items: rawAssociatedEvents,
@@ -57,7 +56,7 @@ export default function AssociatedEvents({ rootCause }: AssociatedEventsProps) {
           direction: 'DESC'
         }
       }),
-    [rootCause.get('entityID')]
+    [rootCause.entityID]
   );
 
   return (

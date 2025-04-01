@@ -85,7 +85,7 @@ function RootCauseTopologyPresenter({ nodes, links, width, height, algorithm, se
       },
       children: nodes,
       edges: links,
-      entityType: '',
+      entityType: 'unknown',
       metadata: undefined,
       label: '',
       tags: new Set()

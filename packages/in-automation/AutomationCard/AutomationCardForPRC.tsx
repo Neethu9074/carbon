@@ -7,19 +7,18 @@
 import React, { useState } from 'react';
 import { List, Map } from 'immutable';
 
+import { EntityId, Event, VolatileId } from '@instana/types';
 import { Card, Spacer } from '@instana/components';
-import { Event, VolatileId } from '@instana/types';
 
+import determineEntityTypeFromEntityIDMap, {
+  QualifiedRCAEntityTypes
+} from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import useScoredActions, {
   useUserRecommendedScoredActions,
   useAIRecommendedScoredActions
 } from 'in-automation/AutomationCard/useScoredActions';
-import {
-  determineEntityTypeFromEntityIDMap,
-  getIncidentTimeConfig
-} from 'in-events/components/RootCauseAnalysis/RootCauseSection';
 import AutomationCardButtonGroup, { useActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
-import { ProbableCauseType } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
+import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
 import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
@@ -43,7 +42,7 @@ type RootCause = {
 
 export type ProcessedSnapshot = {
   rcaSnapshotID: string | null;
-  rcaEntityType: string;
+  rcaEntityType: QualifiedRCAEntityTypes;
   rootCause: RootCause;
   translationEntityType?: string;
   entityData?: any; // Can be any type based on what entityData contains
@@ -58,13 +57,10 @@ function AutomationCardForPRC({ volatileId, event, incident }: AutomationCardPro
     : ['metadata', 'rootCause'];
 
   const rootCauseSnapshotMap = (
-    incident?.getIn(rootCauseSnapshotPath, Map()) as Map<string, ProbableCauseType> | List<ProbableCauseType>
+    incident?.getIn(rootCauseSnapshotPath, Map()) as Map<string, RootCause> | List<RootCause>
   )
-    .sort(
-      (a: ProbableCauseType, b: ProbableCauseType) =>
-        (b.get('probFailure') as number) - (a.get('probFailure') as number)
-    )
-    .filter((rootCauseEntity: ProbableCauseType | undefined) => {
+    .sort((a: RootCause, b: RootCause) => (b.get('probFailure') as number) - (a.get('probFailure') as number))
+    .filter((rootCauseEntity: RootCause | undefined) => {
       // Filtering out entities with no erroneous rate through the identified root cause
       if (!rootCauseEntity) return false;
 
@@ -80,19 +76,19 @@ function AutomationCardForPRC({ volatileId, event, incident }: AutomationCardPro
     });
 
   //String in this case is snapshot ID
-  let rootCauseSnapshots: [string, ProbableCauseType][] = [];
+  let rootCauseSnapshots: [string, RootCause][] = [];
   if (List.isList(rootCauseSnapshotMap)) {
     rootCauseSnapshots = rootCauseSnapshotMap
-      .map((rootCause: ProbableCauseType | undefined) => {
+      .map((rootCause: RootCause | undefined) => {
         if (!rootCause) return;
         const id = rootCause?.get('snapshotId');
 
         return [id, rootCause];
       })
-      .toArray() as [string, ProbableCauseType][];
+      .toArray() as [string, RootCause][];
   } else if (Map.isMap(rootCauseSnapshotMap)) {
     // legacy where we had a map of snapshot Ids with respective root cause directly
-    rootCauseSnapshots = rootCauseSnapshotMap.entrySeq().toArray() as [string, ProbableCauseType][];
+    rootCauseSnapshots = rootCauseSnapshotMap.entrySeq().toArray() as [string, RootCause][];
   }
 
   // then in my rootcause Snapshots, store it in a value both values
@@ -104,7 +100,7 @@ function AutomationCardForPRC({ volatileId, event, incident }: AutomationCardPro
       if (!rootCause) return null;
 
       const entityID = rootCause.get('entityID') as Map<string, string>;
-      const entityType = determineEntityTypeFromEntityIDMap(entityID);
+      const entityType = determineEntityTypeFromEntityIDMap(entityID.toJS() as EntityId);
       const translationEntityType = rootCause?.getIn(['entityID', 'pluginId']);
       const finalRcaSnapshotID =
         entityType === 'infrastructure' ? rcaSnapshotID : rootCause?.getIn(['entityID', 'steadyId']);

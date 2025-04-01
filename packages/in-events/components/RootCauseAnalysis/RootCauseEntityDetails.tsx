@@ -4,9 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { ReactElement, useState } from 'react';
-import { List, Map } from 'immutable';
-import { isNull } from 'lodash';
+import React, { ReactElement, useContext, useMemo, useState } from 'react';
+import { get, isNull } from 'lodash';
 
 import { Button, CarbonTabPanel, Link, LoadingSkeleton, Spacer, Stack, SvgIcon, Typography } from '@instana/components';
 import { Tearsheet } from '@instana/ibm-products';
@@ -15,22 +14,25 @@ import { useObservable } from '@instana/hooks';
 import { t, Trans } from '@instana/i18n-react';
 
 import {
-  ExplainabilityKeys,
-  ExplainabilityValues,
   extractAggregatedErrorRateFromExplainability,
   getIconForRCADisplay,
   isServiceLabelValidToDisplayInRCA,
   useGenerateLinkToDashboard,
   useGenerateLinkToAnalyzePage
 } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
-import useFetchAppropriateRCAEntityData from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
+import determineEntityTypeFromEntityIDMap from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
+import { RCAEntityDataType } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
 import RootCauseTopologyDialog from 'in-events/components/RootCauseAnalysis/Topology/RootCauseTopologyDialog';
+import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hooks/SelectedRootCauseContext';
+import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
+import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
+import { Application, EntityId, Event, Nullish, ServiceLabel, Snapshot, TimeConfig } from 'in-types';
 import { EVENT_RCA_ANALYZE_CLICK, EVENT_RCA_ENTITY_CLICK } from 'in-services/tracking/tracking';
 import AIProbabilityBadge from 'in-events/components/RootCauseAnalysis/AIProbabilityBadge';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
+import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { Application, Nullish, ServiceLabel, TimeConfig } from 'in-types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
@@ -38,60 +40,51 @@ import { rcaTopologyEnabled } from 'in-services/featureFlags';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { setTimeConfig } from 'in-stores/time/config';
-import { SnapshotData } from 'in-stores/snapshot';
-import { EventOrMap } from 'in-events/types';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 
 interface RootCauseEntityDetailsParams {
-  rcaSnapshotID: string;
-  rcaEntityType: string;
-  entityID: Map<string, string>;
-  explainabilityMetadata: List<Map<ExplainabilityKeys, ExplainabilityValues[ExplainabilityKeys]>>;
-  probabilityScore: number;
-  relatedAPID: string | null;
-  incidentTimeWindow: TimeConfig;
-  triggeringEvent: EventOrMap;
-  rootCauses: any;
-  selectedRCA: number;
+  incident: Event;
+  rootCauses: RootCause[];
 }
 
-export default function RootCauseEntityDetails({
-  rcaSnapshotID,
-  rcaEntityType,
-  entityID,
-  explainabilityMetadata,
-  probabilityScore,
-  relatedAPID,
-  incidentTimeWindow: timeWindow,
-  triggeringEvent,
-  rootCauses,
-  selectedRCA
-}: RootCauseEntityDetailsParams) {
+export default function RootCauseEntityDetails({ incident, rootCauses }: RootCauseEntityDetailsParams) {
+  const { selectedRootCause: rootCauseTab } = useContext(SelectedRootCauseContext);
+  const selectedRootCause = rootCauses[rootCauseTab];
   const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
   const { trackCta } = useSegmentTracking();
   const { location } = useNavigation();
 
   const [isTopologyOpen, setIsTopologyOpen] = useState(false);
 
+  const rcaEntityType = determineEntityTypeFromEntityIDMap(selectedRootCause.entityID);
+  const rcaSnapshotID =
+    rcaEntityType === 'infrastructure' || rcaEntityType === 'process'
+      ? selectedRootCause.snapshotId
+      : selectedRootCause.entityID.steadyId;
+
+  const incidentTimeWindow = useMemo(() => getIncidentTimeConfig(incident), [incident]);
+
   /*
     These query state variables hold on to the necessary observable queries that will later get used by our data state variables.
     These can be dynamic based on the given type of entity hence why they are state vars
   */
 
+  const { rootCauses: rootcausesdata } = useContext(RootCauseDataContext);
+
   const {
     entityData,
-    entityStackData,
     hierarchySnapshots,
     infraServiceLabelInformation,
     nonInfraServiceLabelInformation,
-    loadingSnapshotData
-  } = useFetchAppropriateRCAEntityData(rcaEntityType, rcaSnapshotID, timeWindow);
-
+    loadingSnapshotData,
+    loadingStackData
+  } = rootcausesdata[rootCauseTab];
   /*
     These are data variables that maintain the result of the above query variables
   */
 
+  const relatedAPID = get(incident, 'metadata.app20ApplicationId', null);
   // Holds the result of our related application perspective observable
   const relatedApplicationInformation = useObservable(
     relatedAPID
@@ -99,7 +92,7 @@ export default function RootCauseEntityDetails({
           .map(data => data.data)
           .throttle(250)
       : null,
-    [rcaSnapshotID]
+    [relatedAPID || '']
   );
 
   /*
@@ -112,7 +105,7 @@ export default function RootCauseEntityDetails({
     rcaSnapshotID,
     relatedApplicationInformation,
     entityData,
-    timeWindow,
+    incidentTimeWindow,
     nonInfraServiceLabelInformation
   );
   // Generate links to dashboard page for given entity
@@ -121,7 +114,7 @@ export default function RootCauseEntityDetails({
     rcaSnapshotID,
     location,
     relatedAPID,
-    timeWindow
+    incidentTimeWindow
   );
 
   // If no snapshot ID just don't display RCA
@@ -136,7 +129,7 @@ export default function RootCauseEntityDetails({
               entityID={rcaSnapshotID}
               entityType={rcaEntityType}
               relatedApplicationInformation={relatedApplicationInformation}
-              timeWindow={timeWindow}
+              timeWindow={incidentTimeWindow}
             />
           </div>
         </CarbonTabPanel>
@@ -153,20 +146,15 @@ export default function RootCauseEntityDetails({
 
   // Aggregated error percentage of calls going through our root cause entity
   const rcaErrorPercent = extractAggregatedErrorRateFromExplainability(
-    explainabilityMetadata,
+    selectedRootCause.explainability,
     'percentageFailedThroughRC'
   );
 
   // Aggregated error percentage of calls from same services above not going through root cause entity
   const notThroughRCAErrorPercent = extractAggregatedErrorRateFromExplainability(
-    explainabilityMetadata,
+    selectedRootCause.explainability,
     'percentageFailedNotThroughRC'
   );
-
-  const entityTypeName =
-    rcaEntityType === 'infrastructure' || rcaEntityType === 'process'
-      ? translateFullyQualifiedPluginToShortPluginName(entityID.get('pluginId')) || ''
-      : rcaEntityType;
 
   return (
     <>
@@ -178,31 +166,32 @@ export default function RootCauseEntityDetails({
                 {entityData !== null && rcaEntityType !== 'infrastructure' && rcaEntityType !== 'process' && (
                   <EntityPath
                     relatedApplicationInformation={relatedApplicationInformation}
-                    entityInformation={entityData}
+                    entityInformation={entityData as Snapshot}
                     serviceLabelInformation={nonInfraServiceLabelInformation}
                     entityType={rcaEntityType}
                     originalID={rcaSnapshotID}
-                    timeWindow={timeWindow}
+                    timeWindow={incidentTimeWindow}
                   />
                 )}
                 {entityData !== null &&
                   hierarchySnapshots &&
-                  !entityStackData?.progress.loading &&
+                  !loadingStackData &&
                   (rcaEntityType === 'infrastructure' || rcaEntityType === 'process') && (
                     <InfrastructureVisualHierarchy
                       relatedApplicationInformation={relatedApplicationInformation}
                       hierarchySnapshots={hierarchySnapshots}
-                      entityInformation={entityData}
+                      entityInformation={entityData as Snapshot}
                       serviceLabelInformation={infraServiceLabelInformation}
-                      entityId={entityID}
+                      entityId={selectedRootCause.entityID}
                       entityType={rcaEntityType}
                       originalID={rcaSnapshotID}
-                      timeWindow={timeWindow}
+                      timeWindow={incidentTimeWindow}
                     />
                   )}
                 {(loadingSnapshotData ||
-                  ((rcaEntityType === 'infrastructure' || rcaEntityType === 'process') &&
-                    entityStackData?.progress.loading)) && <LoadingSkeleton className={locals.loadingEntity} />}
+                  ((rcaEntityType === 'infrastructure' || rcaEntityType === 'process') && loadingStackData)) && (
+                  <LoadingSkeleton className={locals.loadingEntity} />
+                )}
 
                 {!loadingSnapshotData && !entityData && (
                   <>
@@ -212,16 +201,16 @@ export default function RootCauseEntityDetails({
                           entityID={rcaSnapshotID}
                           entityType={rcaEntityType}
                           relatedApplicationInformation={relatedApplicationInformation}
-                          timeWindow={timeWindow}
+                          timeWindow={incidentTimeWindow}
                         />
                       </div>
                     </CarbonTabPanel>
                   </>
                 )}
               </Stack>
-              <AIProbabilityBadge probabilityScore={probabilityScore} loading={entityData === null} />
+              <AIProbabilityBadge probabilityScore={selectedRootCause.probFailure} loading={entityData === null} />
             </Stack>
-            {explainabilityMetadata && (
+            {!isNull(selectedRootCause.explainability) && (
               <Stack gap="xsmall">
                 <Typography variant="body-bold">{t('in-events:RCA.evidence')}</Typography>
                 <Stack direction="horizontal" distribution="spaceBetween">
@@ -235,15 +224,15 @@ export default function RootCauseEntityDetails({
                           linkToEntity: <Link href={linkToEntityDashboard} />,
                           entityIcon: (
                             <SvgIcon
-                              type={getIconForRCADisplay(rcaEntityType, entityTypeName)}
+                              type={getIconForRCADisplay(rcaEntityType, rcaEntityType)}
                               color={themes.default.cds.link.primary}
                               size="xs"
                             />
                           )
                         }}
                         values={{
-                          root_cause_entity_type: entityTypeName,
-                          root_cause_entity_name: Map.isMap(entityData) ? entityData?.get('label') : entityData?.label,
+                          root_cause_entity_type: rcaEntityType,
+                          root_cause_entity_name: entityData?.label,
                           rca_error_percent: rcaErrorPercent.toFixed(2)
                         }}
                         parent="span"
@@ -253,12 +242,12 @@ export default function RootCauseEntityDetails({
                   <div className={locals.evidenceContainer}>
                     <FailedText
                       notThroughRCAErrorPercent={notThroughRCAErrorPercent}
-                      rootCauseEntityType={entityTypeName}
-                      rootCauseEntityName={Map.isMap(entityData) ? entityData?.get('label') : entityData?.label}
+                      rootCauseEntityType={rcaEntityType}
+                      rootCauseEntityName={entityData.label || ''}
                       linkToEntity={linkToEntityDashboard}
                       entityIcon={
                         <SvgIcon
-                          type={getIconForRCADisplay(rcaEntityType, entityTypeName)}
+                          type={getIconForRCADisplay(rcaEntityType, rcaEntityType)}
                           color={themes.default.cds.link.primary}
                           size="xs"
                         />
@@ -311,10 +300,9 @@ export default function RootCauseEntityDetails({
                   >
                     <RootCauseTopologyDialog
                       relatedApplicationInformation={relatedApplicationInformation}
-                      triggeringEvent={triggeringEvent}
-                      timeConfig={timeWindow}
+                      incident={incident}
+                      timeConfig={incidentTimeWindow}
                       rootCauses={rootCauses}
-                      selectedRCA={selectedRCA}
                     />
                   </Tearsheet>
                 </>
@@ -362,7 +350,7 @@ function FailedText({
 
 interface EntityPathProps {
   relatedApplicationInformation: Application | null | undefined;
-  entityInformation: SnapshotData;
+  entityInformation: RCAEntityDataType['entityData'];
   originalID: string;
   serviceLabelInformation: ServiceLabel | null | undefined;
   entityType: string;
@@ -385,7 +373,7 @@ function EntityPath({
   // Pulling out labels
   const relatedAPlabel = relatedApplicationInformation?.label;
   const relatedServiceLabel = serviceLabelInformation?.label;
-  const entityLabel = Map.isMap(entityInformation) ? entityInformation?.get('label') : entityInformation?.label;
+  const entityLabel = entityInformation?.label;
 
   // Pulling out IDs for service and APs
   const relatedAPID = relatedApplicationInformation ? relatedApplicationInformation.id : null;
@@ -489,11 +477,11 @@ function UnknownEntityPath({
 
 interface InfrastructureVisualHierarchyProps {
   relatedApplicationInformation: Application | null | undefined;
-  entityInformation: SnapshotData;
+  entityInformation: Snapshot;
   originalID: string;
-  hierarchySnapshots: SnapshotData[] | null | undefined;
+  hierarchySnapshots: Snapshot[] | null | undefined;
   serviceLabelInformation: ServiceLabel[] | null | undefined;
-  entityId: Map<string, string>;
+  entityId: EntityId;
   entityType: string;
   timeWindow: TimeConfig;
 }
@@ -503,7 +491,7 @@ interface RelevantSnapshotData {
   id: string;
 }
 
-function InfrastructureVisualHierarchy({
+const InfrastructureVisualHierarchy = ({
   relatedApplicationInformation,
   hierarchySnapshots,
   entityInformation,
@@ -512,7 +500,7 @@ function InfrastructureVisualHierarchy({
   entityId,
   entityType,
   timeWindow
-}: InfrastructureVisualHierarchyProps) {
+}: InfrastructureVisualHierarchyProps) => {
   const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
   const { trackCta } = useSegmentTracking();
 
@@ -528,9 +516,9 @@ function InfrastructureVisualHierarchy({
   // Pulling out labels
   hierarchySnapshots?.forEach(snapshot => {
     const relevantSnapshotData = {
-      label: snapshot.get('label'),
-      pluginType: snapshot.get('plugin'),
-      id: snapshot.get('id')
+      label: snapshot.label as string,
+      pluginType: snapshot.plugin as string,
+      id: snapshot.id as string
     };
     if (relevantSnapshotData.pluginType === 'host') {
       hostDataFromHierarchy = relevantSnapshotData;
@@ -567,7 +555,7 @@ function InfrastructureVisualHierarchy({
   };
 
   const relatedAPlabel = relatedApplicationInformation?.label;
-  const entityLabel = Map.isMap(entityInformation) ? entityInformation?.get('label') : entityInformation?.label;
+  const entityLabel = entityInformation?.label;
 
   // Pulling out IDs for service and APs
   const relatedAPID = relatedApplicationInformation ? relatedApplicationInformation.id : null;
@@ -580,7 +568,7 @@ function InfrastructureVisualHierarchy({
   // Generate links to dashboards
   const linkToEntity = useGenerateLinkToDashboard(entityType, originalID, location, relatedAPID, timeWindow);
 
-  const pluginToShortPluginName = translateFullyQualifiedPluginToShortPluginName(entityId.get('pluginId')) || 'entity';
+  const pluginToShortPluginName = translateFullyQualifiedPluginToShortPluginName(entityId.pluginId) || 'entity';
   return (
     <Stack gap="xsmall">
       <Stack gap="xsmall">
@@ -683,7 +671,7 @@ function InfrastructureVisualHierarchy({
       )}
     </Stack>
   );
-}
+};
 
 interface InfraEntityDisplayProps {
   entityType: string;

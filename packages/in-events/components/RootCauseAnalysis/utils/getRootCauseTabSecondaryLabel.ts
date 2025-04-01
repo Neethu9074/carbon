@@ -4,13 +4,16 @@
  * Copyright IBM Corp. 2025
  */
 
+import { get, isEmpty, isNull } from 'lodash';
+
 import { t } from '@instana/i18n-react';
 
-import { ProbableCauseType } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
+import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
 
-const getRootCauseTabSecondaryLabel = (rootCause: ProbableCauseType) => {
-  if (!rootCause) return '';
-  const probFailureValue = rootCause.get('probFailure') as number;
+const getRootCauseTabSecondaryLabel = (rootCause: RootCause) => {
+  if (isNull(rootCause) || isEmpty(rootCause)) return '';
+
+  const probFailureValue = get(rootCause, 'probFailure', 0);
   let probText: string | undefined = undefined;
   if (probFailureValue >= 0.7) {
     probText = t('in-events:RCA.highProbabilitySecondaryLabel');

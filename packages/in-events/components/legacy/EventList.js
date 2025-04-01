@@ -97,12 +97,7 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
       )}
 
       {rcaUIEnabled && !rootCauseHasOldSnapshotMetadata && (
-        <RootCauseSection
-          title={t('in-events:RCA.titlePRCA')}
-          incident={incident}
-          latestSnapshot={latestSnapshot}
-          ref={rcaSectionRef}
-        />
+        <RootCauseSection incident={incident} rcaRef={rcaSectionRef} />
       )}
       {/* Automations */}
 

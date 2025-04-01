@@ -4,14 +4,16 @@
  * Copyright IBM Corp. 2024
  */
 
-import { List, Map } from 'immutable';
+import { get, isEmpty, isNull } from 'lodash';
 
-import { Application, ServiceLabel, TimeConfig } from '@instana/types';
+import { Application, Endpoint, ServiceLabel, Snapshot, TimeConfig } from '@instana/types';
 
+import { QualifiedRCAEntityTypes } from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { APPLICATION, ENDPOINT, SERVICE, entityTypes, operators } from 'in-analyze/applicationFilter';
 import { GetLinkToAnalyzeProps, useLinkToAnalyze } from 'in-applications/navigation/paths';
 import { Location, MatrixParameters, Parameters } from 'in-stores/navigation/types';
+import { Explainability } from 'in-events/components/RootCauseAnalysis/utils/types';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
@@ -22,40 +24,6 @@ import { Nullish } from 'in-types';
 const endpointIDURLParameter = 'endpointId';
 const serviceIDURLParameter = 'serviceId';
 const appIDURLParameter = 'appId';
-
-// ====== Relevant Types ======
-
-export type ExplainabilityKeys =
-  | 'percentageFailedNotThroughRC'
-  | 'numCallsInAggregationNotThroughRC'
-  | 'incoming'
-  | 'relevantSnapshotID'
-  | 'numCallsInAggregationThroughRC'
-  | 'connectedServiceId'
-  | 'percentageFailedThroughRC';
-
-export interface ExplainabilityValues {
-  percentageFailedNotThroughRC: number;
-  numCallsInAggregationNotThroughRC: number;
-  incoming: boolean;
-  relevantSnapshotID: string;
-  numCallsInAggregationThroughRC: number;
-  connectedServiceId: string;
-  percentageFailedThroughRC: number;
-}
-
-// Typescript Probable Root Cause Reference
-export type ProbableCauseSnapshotKeys = 'entityID' | 'explainability' | 'probFailure' | 'events' | 'snapshotId';
-
-export interface ProbableCauseSnapshotValues {
-  entityID: Map<string, string>;
-  explainability: List<Map<ExplainabilityKeys, ExplainabilityValues[ExplainabilityKeys]>>;
-  probFailure: number;
-  events: List<string>;
-  snapshotId?: string;
-}
-
-export type ProbableCauseType = Map<ProbableCauseSnapshotKeys, ProbableCauseSnapshotValues[ProbableCauseSnapshotKeys]>;
 
 // ====== Functions for generating links to analyze page for RCA Entities ======
 
@@ -70,17 +38,14 @@ export type ProbableCauseType = Map<ProbableCauseSnapshotKeys, ProbableCauseSnap
  * @returns string containing the URL of the generated analysis page for the given entity OR null if one could not be generated
  * */
 export function useGenerateLinkToAnalyzePage(
-  entityType: string,
+  entityType: QualifiedRCAEntityTypes,
   originalID: string,
   relatedApplicationInformation: Application | null | undefined,
-  entityInformation: SnapshotData | null,
+  entityInformation: Snapshot | Endpoint | ServiceLabel | null,
   incidentTimeWindow: TimeConfig,
   serviceLabelInformation: ServiceLabel | null
 ): string | undefined {
   const getLinkToApplicationAnalyze = useLinkToAnalyze();
-
-  //Convert entity information to json if it comes in as a map in case of getSnapshot
-  if (entityInformation && Map.isMap(entityInformation)) entityInformation = entityInformation.toJS();
 
   const applicationAnalyzeOptions: Partial<GetLinkToAnalyzeProps> = {
     boundaryScope: 'ALL',
@@ -93,11 +58,10 @@ export function useGenerateLinkToAnalyzePage(
   if (relatedApplicationInformation && entityInformation) {
     tagFilterFormModel = createTagFilterExpressionForAnalysisOfApplicationSA(
       entityType,
-      entityInformation,
       originalID,
       serviceLabelInformation,
       relatedApplicationInformation.label,
-      entityType === 'endpoint' ? entityInformation?.label : undefined
+      entityType === 'endpoint' ? get(entityInformation, 'label', null) : null
     );
   } else if (entityInformation) {
     tagFilterFormModel = createTagFilterExpressionForAnalysis(
@@ -121,8 +85,7 @@ export function useGenerateLinkToAnalyzePage(
 }
 
 export function createTagFilterExpressionForAnalysisOfApplicationSA(
-  entityType: string,
-  entityInformation: SnapshotData,
+  entityType: QualifiedRCAEntityTypes,
   definitiveEntityID: string,
   serviceLabelInformation: ServiceLabel | null,
   applicationLabel: string | null,
@@ -148,8 +111,7 @@ export function createTagFilterExpressionForAnalysisOfApplicationSA(
   addValueToTagFilterExpressionIfItExists('service.name', serviceLabelInformation?.label);
 
   // Todo: cleanup after rca rework in backend that differentiates between process and infra
-  const isInfrastructureAProcess =
-    entityInformation && entityInformation.plugin && entityInformation.plugin === 'process';
+  const isInfrastructureAProcess = entityType === 'process';
 
   addValueToTagFilterExpressionIfItExists(
     'host.snapshotId',
@@ -196,7 +158,7 @@ export function createTagFilterExpressionForAnalysis(
     entityInformation && entityInformation.plugin && entityInformation.plugin === 'process';
 
   // for endpoints with no AP context, we do not want to add the host.snapshotId or the process.snapshotId
-  if (entityType === 'infrastructure') {
+  if (entityType === 'infrastructure' || entityType === 'process') {
     addValueToTagFilterExpressionIfItExists('host.snapshotId', originalID, !isInfrastructureAProcess);
     addValueToTagFilterExpressionIfItExists('process.snapshotId', originalID, isInfrastructureAProcess);
   }
@@ -311,19 +273,18 @@ function buildMatrixParam(
  * */
 
 export function extractAggregatedErrorRateFromExplainability(
-  explainabilityMetadata: List<Map<ExplainabilityKeys, ExplainabilityValues[ExplainabilityKeys]>>,
-  error_rate_key: ExplainabilityKeys
+  explainabilityMetadata: Explainability[],
+  error_rate_key: keyof Explainability
 ) {
-  if (!explainabilityMetadata) return 0;
+  if (isEmpty(explainabilityMetadata) || isNull(explainabilityMetadata)) return 0;
 
-  const aggreagatedInfo = explainabilityMetadata.find(service => service?.get('connectedServiceId') === 'all');
-  let errorPercentage = aggreagatedInfo.get(error_rate_key) as number;
+  const aggreagatedInfo = explainabilityMetadata.find(e => e.connectedServiceId === 'all');
+  const errorPercentage = get(aggreagatedInfo, error_rate_key, -1);
 
-  if (typeof errorPercentage === 'number') {
-    errorPercentage = errorPercentage * 100;
-    return errorPercentage;
-  } else {
+  if (typeof errorPercentage === 'boolean' || typeof errorPercentage === 'string' || errorPercentage < 0) {
     return NaN;
+  } else {
+    return errorPercentage * 100;
   }
 }
 

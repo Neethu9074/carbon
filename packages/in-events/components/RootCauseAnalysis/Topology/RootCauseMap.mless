@@ -5,12 +5,16 @@
  */
 
 :local {
+  .menuItemText {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
   .wrapper {
     position: relative;
-
     width: 100%;
     height: 100%;
-    background: var(--ids-color-option-neutral-50);
     overflow: hidden;
   }
 
@@ -62,7 +66,7 @@
   }
   .healthIcon {
     position: absolute;
-    left: 3rem;
+    left: 3.2rem;
     cursor: pointer;
   }
   .legendRCA {

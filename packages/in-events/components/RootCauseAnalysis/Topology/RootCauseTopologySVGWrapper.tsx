@@ -19,6 +19,8 @@ import {
 
 import { t } from 'in-i18n';
 
+import locals from 'in-events/components/RootCauseAnalysis/Topology/RootCauseMap.mless';
+
 interface RootCauseTopologySVGWrapperProps {
   defs: ReactNode;
   children: ReactNode;
@@ -77,18 +79,30 @@ export function RootCauseTopologySVGWrapper({
               renderIcon={() => <SvgIcon size="s" type="lib_context_guide_downstream" />}
             >
               <CarbonOverflowMenuItem
-                disabled={algorithm === 'layered'}
-                itemText="Layered"
+                itemText={
+                  <div className={locals.menuItemText}>
+                    Layered
+                    {algorithm === 'layered' && <SvgIcon type="lib_check" size="xs" />}
+                  </div>
+                }
                 onClick={() => setAlgorithm('layered')}
               />
               <CarbonOverflowMenuItem
-                disabled={algorithm === 'mtree'}
-                itemText="Tree"
+                itemText={
+                  <div className={locals.menuItemText}>
+                    Tree
+                    {algorithm === 'mrtree' && <SvgIcon type="lib_check" size="xs" />}
+                  </div>
+                }
                 onClick={() => setAlgorithm('mrtree')}
               />
               <CarbonOverflowMenuItem
-                disabled={algorithm === 'force'}
-                itemText="Force"
+                itemText={
+                  <div className={locals.menuItemText}>
+                    Force
+                    {algorithm === 'force' && <SvgIcon type="lib_check" size="xs" />}
+                  </div>
+                }
                 onClick={() => setAlgorithm('force')}
               />
             </CarbonOverflowMenu>
