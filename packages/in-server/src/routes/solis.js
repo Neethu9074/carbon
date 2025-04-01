@@ -144,9 +144,9 @@ const createEventWidgets = async req => {
     totalEvents = 0;
 
   for (const event of events) {
-    if (event.state === 'open') {
+    if (event.state === 'open' && event.type === 'incident') {
       totalEvents++;
-      if (event.severity === 8) {
+      if (event.severity === 5) {
         warningEvents++;
       } else if (event.severity === 10) {
         criticalEvents++;
