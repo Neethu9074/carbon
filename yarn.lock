@@ -3353,9 +3353,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/ibm-products@npm:0.11.0":
-  version: 0.11.0
-  resolution: "@instana/ibm-products@npm:0.11.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fibm-products%2F-%2F%40instana%2Fibm-products-0.11.0.tgz"
+"@instana/ibm-products@npm:0.11.1":
+  version: 0.11.1
+  resolution: "@instana/ibm-products@npm:0.11.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fibm-products%2F-%2F%40instana%2Fibm-products-0.11.1.tgz"
   dependencies:
     "@carbon/ibm-products": 2.55.0
     "@carbon/react": 1.72.0
@@ -3363,7 +3363,7 @@ __metadata:
   peerDependencies:
     react: ^17.0.2
     react-dom: ^17.0.2
-  checksum: 277b3ea97aeb371b6052836edd7a56b9535a3ac45742513566ea701356cf290d0dedea72b478f0ea4d31c4036822d07de14dbf424052d43486b3631e247c3914
+  checksum: 40f9ae27fd1424103c601c04bda9d7f48499d8f6c0d38428376a197f7f5b7cee997c276acc2a12a5ef81d73e229135b2260e63efd19940be18dc09172866917a
   languageName: node
   linkType: hard
 
@@ -22653,7 +22653,7 @@ __metadata:
     "@instana/hooks": 1.12.4
     "@instana/i18n": ^1.6.4
     "@instana/i18n-react": 1.7.2
-    "@instana/ibm-products": 0.11.0
+    "@instana/ibm-products": 0.11.1
     "@instana/import-sort-style-simon": 1.4.0
     "@instana/logger": ^1.3.1
     "@instana/observables": ^1.8.3
