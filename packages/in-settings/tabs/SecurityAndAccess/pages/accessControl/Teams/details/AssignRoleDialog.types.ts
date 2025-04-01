@@ -8,7 +8,7 @@ import { Field, ListForm, MapForm, MapFormItems } from 'formalistic';
 import React from 'react';
 
 import { ApiTeam as Team, ApiTeamRole as TeamRole } from 'in-settings/tabs/SecurityAndAccess/api/teams';
-import { Notification } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+import { Notification } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 
 export interface AssignRoleDialogProps {
   onSubmit: (members: Array<any>) => void;

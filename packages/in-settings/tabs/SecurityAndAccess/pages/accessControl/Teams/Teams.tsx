@@ -18,10 +18,10 @@ import {
   TEAMS_TABLE_PAGE_SIZES,
   TEAMS_TABLE_ORDER
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/Teams.constants';
-import CarbonDataTableWrapper, {
+import MultiSelectDataTable, {
   DataTableRow,
   Notification
-} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+} from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import CreateTeamDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/CreateTeamDialog';
 import { getEntityIdView, securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
 import { TeamRow } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/Teams.types';
@@ -82,7 +82,7 @@ const Teams = () => {
     : undefined;
 
   return (
-    <CarbonDataTableWrapper
+    <MultiSelectDataTable
       boundedPath="/teams"
       getBatchActionItems={() => TEAMS_TABLE_BATCH_ACTIONS}
       getEntityName={({ name }) => t('in-settings:tabs.teams.teamWithName', { name: name })}

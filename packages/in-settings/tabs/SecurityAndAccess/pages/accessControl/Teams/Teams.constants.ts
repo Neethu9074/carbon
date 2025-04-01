@@ -12,7 +12,7 @@ import {
   BatchActionItemProps,
   DataTableHeader,
   TableActions
-} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+} from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import { deleteTeam, deleteTeams } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { deepFreeze } from 'in-services/util/object';
 import config from 'in-services/config';

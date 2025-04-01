@@ -33,17 +33,24 @@ jest.mock('@instana/hooks');
 
 jest.mock('in-settings/hooks/useAuthOverview');
 
-const usersMockData = [
-  {
-    id: '43',
-    email: 'rick@example.com',
-    fullName: 'Rick E',
-    groupCount: 17,
-    lastLoggedIn: 0,
-    tfaEnabled: true
-  }
-];
-const res = usersMockData[0];
+const usersMockData = {
+  data: [
+    {
+      id: '43',
+      email: 'rick@example.com',
+      fullName: 'Rick E',
+      groupCount: 17,
+      lastLoggedIn: 0,
+      tfaEnabled: true
+    }
+  ],
+  errors: [],
+  progress: {
+    loading: false
+  },
+  time: 1718845213876
+};
+const res = usersMockData.data[0];
 
 describe('in-settings/tabs/SecurityAndAccess/pages/Users/Users', () => {
   beforeEach(() => {

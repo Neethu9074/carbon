@@ -10,7 +10,7 @@ import { CarbonInlineLoading } from '@instana/components';
 
 import TeamNameDescriptionCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamNameDescriptionCard';
 import TeamForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamForm';
-import { Notification } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+import { Notification } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import { ApiTeam as Team, deleteTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';

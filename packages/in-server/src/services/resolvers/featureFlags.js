@@ -839,7 +839,7 @@ module.exports = exports = [
   {
     uiClientKey: 'accessControlCarbonTable',
     instanaCtlKey: 'feature.accessControl.carbonTable.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'websitesSmartAlertFullScreenDesignEnabled',

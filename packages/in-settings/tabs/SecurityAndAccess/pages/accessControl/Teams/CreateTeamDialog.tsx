@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import { CarbonModal } from '@instana/components';
 
 import TeamForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamForm';
-import { Notification } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+import { Notification } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import { ApiTeam as Team, saveTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SETTINGS_TEAM_CREATE } from 'in-services/tracking/eventNames';

@@ -162,7 +162,7 @@ module.exports = {
   openTelemetryKubernetesEnabled: true,
   dataUsageNotificationEnabled: false,
   rbacTeamsEnabled: false,
-  accessControlCarbonTable: false,
+  accessControlCarbonTable: true,
   prcIssueEnabled: true,
   logSmartAlertFullScreenDesignEnabled: true,
   websitesSmartAlertFullScreenDesignEnabled: true,

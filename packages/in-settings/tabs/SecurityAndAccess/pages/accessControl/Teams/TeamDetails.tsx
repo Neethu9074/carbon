@@ -27,7 +27,7 @@ import TeamScopeCard from 'in-settings/tabs/SecurityAndAccess/pages/accessContro
 import Header from 'in-settings/components/ApiItemView/Header';
 import { MOCK_TEAM } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/Team.mocks';
 import TeamTagUse from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamTagUse';
-import { Notification } from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+import { Notification } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import useRolesOverview from 'in-settings/tabs/SecurityAndAccess/hooks/useRolesOverview';
 import { securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';

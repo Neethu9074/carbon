@@ -13,10 +13,7 @@ import {
   RolesMenuItem,
   RolesTableHeader
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
-import {
-  BatchActionItemProps,
-  TableActions
-} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+import { BatchActionItemProps, TableActions } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import { deleteRole } from 'in-settings/tabs/SecurityAndAccess/api/roles';
 import { deepFreeze } from 'in-services/util/object';
 import { t } from 'in-i18n';

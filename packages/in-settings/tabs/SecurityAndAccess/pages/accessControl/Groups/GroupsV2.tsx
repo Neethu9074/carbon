@@ -6,7 +6,7 @@
 import { TrashCan } from '@carbon/icons-react';
 import React from 'react';
 
-import { ApiGroup, PermissionSet, Result } from '@instana/types';
+import { ApiGroup, PermissionSet } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
@@ -15,10 +15,10 @@ import {
   securityAndAccessAccessControlGroups,
   securityAndAccessAccessControlGroupNew
 } from 'in-settings/navigation/paths';
-import CarbonDataTableWrapper, {
+import MultiSelectDataTable, {
   DataTableRow,
   Notification
-} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+} from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import { ProductAreaPermissionMap } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { ScopeRoles } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { deleteGroup, deleteGroups, getGroups } from 'in-settings/tabs/SecurityAndAccess/api/groups';
@@ -95,22 +95,25 @@ const getBatchActionItems = () => {
     }
   ];
 };
-const GroupsV2 = () => {
-  const { goToPath } = useNavigation();
-  const showTenantInfo = useTenantUnitsInfo();
-  const dataTableResult = useObservable(getGroups, []) ?? pendingResult;
-  const hasErrors = hasError(dataTableResult as Readonly<Result<ApiGroup[]>>);
-  const errorMessage = hasErrors
-    ? ({
-        title: t('in-settings:components.errorFailedToLoadData'),
-        subtitle: (dataTableResult as Readonly<Result<ApiGroup[]>>).errors[0].message,
-        kind: 'error'
-      } as Notification)
-    : null;
-  const loading = isLoading(dataTableResult as Result<ApiGroup>);
-  const entities = !loading && !hasErrors ? (dataTableResult as ApiGroup[]) : [];
-  const pageSizes = [20, 50];
-  const rows: Array<RowObject<GroupData>> = entities?.map((group: ApiGroup) => ({
+
+const createMenuItemsForRow = (
+  groups: ApiGroup[],
+  row: Omit<DataTableRow<RowObject<ApiGroup>[], ApiGroup>, 'rowData'>
+) => {
+  const group = groups.filter(item => item.id === row.id)[0];
+  return [
+    {
+      actionType: 'delete',
+      icon: <TrashCan />,
+      isDisabledMenuItem: row.disabled,
+      label: Object.values<string>(STATIC_GROUP_NAMES).includes(group.name)
+        ? t('in-settings:tabs.groupDeleteTooltip', { context: group.name })
+        : t('in-settings:components.deleteEntity', { entity: group.name })
+    }
+  ];
+};
+const createTableRows = (groups: ApiGroup[] = []): Array<RowObject<GroupData>> => {
+  return groups?.map((group: ApiGroup) => ({
     name: <Link href={getEntityIdView(securityAndAccessAccessControlGroups, group.id)}>{group.name}</Link>,
     members: group.members.length,
     access: determineAccess(group.permissionSet),
@@ -118,6 +121,23 @@ const GroupsV2 = () => {
     rowData: { ...group, members: group.members.length, access: determineAccess(group.permissionSet) },
     disabled: isDisabledDelete(group.name)
   }));
+};
+
+const GroupsV2 = () => {
+  const { goToPath } = useNavigation();
+  const showTenantInfo = useTenantUnitsInfo();
+  const dataTableResult = useObservable(getGroups, []) ?? pendingResult;
+  const hasErrors = hasError(dataTableResult);
+  const loading = isLoading(dataTableResult);
+  const errorMessage: Notification | undefined = hasErrors
+    ? {
+        title: t('in-settings:components.errorFailedToLoadData'),
+        subtitle: dataTableResult.errors[0].message,
+        kind: 'error'
+      }
+    : undefined;
+  const groups = dataTableResult?.data ?? [];
+  const pageSizes = [20, 50];
 
   const accessColumnHeadLabel = !showTenantInfo
     ? t('in-settings:tabs.access')
@@ -125,19 +145,6 @@ const GroupsV2 = () => {
 
   const headers = getHeaders(accessColumnHeadLabel);
 
-  const getMenuItems = (row: Omit<DataTableRow<RowObject<GroupData>[], GroupData>, 'rowData'>) => {
-    const group = entities.filter(item => item.id === row.id)[0];
-    return [
-      {
-        actionType: 'delete',
-        icon: <TrashCan />,
-        isDisabledMenuItem: row.disabled,
-        label: Object.values<string>(STATIC_GROUP_NAMES).includes(group.name)
-          ? t('in-settings:tabs.groupDeleteTooltip', { context: group.name })
-          : t('in-settings:components.deleteEntity', { entity: group.name })
-      }
-    ];
-  };
   const getDialogMessage = (groups: GroupData | GroupData[], isBatchDelete: boolean) => {
     const isBatchDeletable = isBatchDeletableGroupsArray(groups, isBatchDelete);
 
@@ -185,17 +192,17 @@ const GroupsV2 = () => {
   };
 
   return (
-    <CarbonDataTableWrapper
+    <MultiSelectDataTable
       title={t('in-settings:tabs.groups')}
       tableHeaders={headers}
-      tableRows={rows}
+      tableRows={createTableRows(dataTableResult.data)}
       loading={loading}
       searchPlaceholderText={t('in-settings:components.search')}
       searchAttributes={['name']}
       initalSortConfig={{ key: 'name', direction: 'asc' }}
       onCreateNew={() => goToPath(securityAndAccessAccessControlGroupNew)}
       labelNew={t('in-settings:tabs.addGroup')}
-      getMenuItems={getMenuItems}
+      getMenuItems={row => createMenuItemsForRow(groups, row)}
       getBatchActionItems={getBatchActionItems}
       boundedPath="/groups"
       pageSizes={pageSizes}

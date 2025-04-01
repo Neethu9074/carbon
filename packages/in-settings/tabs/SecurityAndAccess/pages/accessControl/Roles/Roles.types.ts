@@ -9,7 +9,7 @@ import { RoleOverview } from '@instana/types';
 import {
   DataTableHeader,
   OverflowMenuItemProps
-} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+} from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 
 export interface RolesTableHeader extends DataTableHeader {
   key: keyof RoleOverview;

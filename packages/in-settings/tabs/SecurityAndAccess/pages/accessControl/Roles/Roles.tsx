@@ -18,9 +18,7 @@ import {
   ROLES_TABLE_PAGE_SIZES,
   ROLES_TABLE_ORDER
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.constants';
-import CarbonDataTableWrapper, {
-  DataTableRow
-} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+import MultiSelectDataTable, { DataTableRow } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import EditRoleDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/EditRoleDialog';
 import { RolesMenuItem } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
 import useRolesOverview from 'in-settings/tabs/SecurityAndAccess/hooks/useRolesOverview';
@@ -68,7 +66,7 @@ export default function Roles() {
   const roles = data ?? [];
 
   return (
-    <CarbonDataTableWrapper
+    <MultiSelectDataTable
       boundedPath="/roles"
       customBatchDeleteMessage={undefined}
       customDialogMessage={undefined}

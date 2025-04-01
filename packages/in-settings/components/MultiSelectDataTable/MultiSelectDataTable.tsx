@@ -45,7 +45,7 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import useUrlState from 'in-hooks/useUrlState';
 
-import locals from './CarbonDataTableWrapper.mless';
+import locals from './MultiSelectDataTable.mless';
 
 export interface Notification {
   readonly key?: string;
@@ -110,7 +110,7 @@ type TableRows<ROW_OBJECT_TYPE extends Object, ROW_DATA_TYPE extends Object> = O
 > &
   ROW_OBJECT_TYPE;
 
-interface CarbonDataTableWrapperProps<
+interface MultiSelectDataTableProps<
   ROW_OBJECT_TYPE extends Object,
   ROW_DATA_TYPE extends Record<string, any>,
   COL_TYPE extends any[]
@@ -139,11 +139,11 @@ interface CarbonDataTableWrapperProps<
 
 const logger = createLogger('SettingsList');
 
-export default function CarbonDataTableWrapper<
+export default function MultiSelectDataTable<
   ROW_OBJECT_TYPE extends Object,
   ROW_DATA_TYPE extends Record<string, any>,
   COL_TYPE extends any[]
->(props: CarbonDataTableWrapperProps<ROW_OBJECT_TYPE, ROW_DATA_TYPE, COL_TYPE>) {
+>(props: MultiSelectDataTableProps<ROW_OBJECT_TYPE, ROW_DATA_TYPE, COL_TYPE>) {
   const {
     title,
     tableHeaders,

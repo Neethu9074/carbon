@@ -13,10 +13,10 @@ import { Link, Message, MessageTypes, Spacer, Typography } from '@instana/compon
 import { useObservable } from '@instana/hooks';
 
 import { MessageContentModernDesign } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
-import CarbonDataTableWrapper, {
+import MultiSelectDataTable, {
   DataTableRow,
   Notification
-} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+} from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { getUsersResult, removeUserFromTenant, removeUsersFromTenant, UserResult } from 'in-api/users';
@@ -70,6 +70,20 @@ interface RowObject<ROW_DATA> {
   tfaEnabled: JSX.Element;
 }
 
+const createMenuItemsForRow = (
+  users: UserResult[],
+  row: Omit<DataTableRow<RowObject<UserResult>[], UserResult>, 'rowData'>
+) => {
+  const user = users.filter(item => item.id === row.id)[0];
+  const { fullName } = user;
+  return [
+    {
+      actionType: 'delete',
+      icon: <TrashCan />,
+      label: t('in-settings:components.deleteEntity', { entity: fullName })
+    }
+  ];
+};
 export default function UsersV2() {
   const [authOverview] = useAuthOverview();
   const { defaultLogin } = authOverview ?? {};
@@ -88,8 +102,8 @@ export default function UsersV2() {
         kind: 'error'
       } as Notification)
     : null;
-  const entities = !loading && !hasErrors ? (dataTableResult as UserResult[]) : [];
-  const rows: Array<RowObject<UserResult>> = entities?.map((user: UserResult) => ({
+  const users = dataTableResult?.data ?? [];
+  const rows: Array<RowObject<UserResult>> = users?.map((user: UserResult) => ({
     fullName: (
       <HorizontalFlexWrapper>
         <UserAvatar />
@@ -144,18 +158,6 @@ export default function UsersV2() {
     );
   }
 
-  const getMenuItems = (row: Omit<DataTableRow<RowObject<UserResult>[], UserResult>, 'rowData'>) => {
-    const user = entities.filter(item => item.id === row.id)[0];
-    const { fullName } = user;
-    return [
-      {
-        actionType: 'delete',
-        icon: <TrashCan />,
-        label: t('in-settings:components.deleteEntity', { entity: fullName })
-      }
-    ];
-  };
-
   const getBatchActionItems = () => {
     return [
       {
@@ -169,7 +171,7 @@ export default function UsersV2() {
   return (
     <>
       {!defaultLogin && <CustomUserListInfo />}
-      <CarbonDataTableWrapper
+      <MultiSelectDataTable
         title={t('in-settings:tabs.users')}
         tableHeaders={headers}
         tableRows={rows}
@@ -186,7 +188,7 @@ export default function UsersV2() {
             : undefined
         }
         labelNew={t('in-settings:tabs.inviteUser')}
-        getMenuItems={getMenuItems}
+        getMenuItems={row => createMenuItemsForRow(users, row)}
         getBatchActionItems={getBatchActionItems}
         boundedPath="/users"
         pageSizes={pageSizes}

@@ -71,7 +71,8 @@ export function deleteTeams(ids: string[]) {
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${basePath}/delete`,
-    data: ids
+    data: ids,
+    treat400AsError: true
   }).map(v => {
     refreshSignal.emit(ids);
     return v;
