@@ -19,7 +19,6 @@ import LdapDialog from 'in-settings/tabs/SecurityAndAccess/pages/identityProvide
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
 import { ApiItemMessage } from 'in-settings/types';
 import { PendingInvitation } from 'in-api/users';
 import { t, Trans } from 'in-i18n';
@@ -79,7 +78,7 @@ interface IsAnyInvitationsPendingProps {
 }
 
 export function isAnyInvitationsPending({ invitations }: IsAnyInvitationsPendingProps) {
-  return disableInvitesWithIdpEnabled && (invitations?.data ?? []).length > 0;
+  return (invitations?.data ?? []).length > 0;
 }
 
 export const SamlHelpDoc = () => (

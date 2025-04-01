@@ -7,11 +7,14 @@
 import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 
+import { AuthenticationOverview } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import Users from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/Users/UsersV2';
+import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
+import useAuthOverview from 'in-settings/hooks/useAuthOverview';
+import { success } from 'in-services/util/result';
 
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()
@@ -26,12 +29,9 @@ jest.mock('in-i18n', () => ({
 jest.mock('in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/InviteUserDialog');
 jest.mock('in-components/DialogPresenter/store');
 
-jest.mock('in-services/featureFlags', () => ({
-  disableInvitesWithIdpEnabled: true
-}));
 jest.mock('@instana/hooks');
 
-jest.mock('in-settings/hooks/useIsAnyIdPActive');
+jest.mock('in-settings/hooks/useAuthOverview');
 
 const usersMockData = [
   {
@@ -50,6 +50,14 @@ describe('in-settings/tabs/SecurityAndAccess/pages/Users/Users', () => {
     (useObservable as jest.Mock).mockImplementation(() => usersMockData);
     // @ts-expect-error
     addActiveDialog.mockClear();
+
+    (useAuthOverview as jest.Mock).mockReturnValue(
+      resultToFetchedStateResponse(
+        success<AuthenticationOverview>({
+          defaultLogin: true
+        })
+      )
+    );
   });
   it('should render a table with the expected user', async () => {
     const { getByPlaceholderText, getByText } = render(<Users />);
@@ -100,9 +108,14 @@ describe('in-settings/tabs/SecurityAndAccess/pages/Users/Users', () => {
     jest.clearAllMocks();
   });
 
-  it('should show invite user button if featureFlag is enabled and none of the IDP is activated', () => {
-    // @ts-expect-error
-    useIsAnyIdPActive.mockReturnValue(false);
+  it('should show invite user button if defaultLogin is set to true', () => {
+    (useAuthOverview as jest.Mock).mockReturnValue(
+      resultToFetchedStateResponse(
+        success<AuthenticationOverview>({
+          defaultLogin: true
+        })
+      )
+    );
 
     const { getByText, queryByText, container } = render(<Users />);
 
@@ -118,9 +131,14 @@ describe('in-settings/tabs/SecurityAndAccess/pages/Users/Users', () => {
     expect(addActiveDialog).toHaveBeenCalledTimes(1);
   });
 
-  it('should hide invite user button if featureFlag is enabled and any of the IDP is activated', async () => {
-    // @ts-expect-error
-    useIsAnyIdPActive.mockReturnValue(true);
+  it('should hide invite user button if defaultLogin is false', async () => {
+    (useAuthOverview as jest.Mock).mockReturnValue(
+      resultToFetchedStateResponse(
+        success<AuthenticationOverview>({
+          defaultLogin: false
+        })
+      )
+    );
 
     const { queryByText, container } = render(<Users />);
     expect(queryByText('in-settings:tabs.inviteUser')).not.toBeInTheDocument();

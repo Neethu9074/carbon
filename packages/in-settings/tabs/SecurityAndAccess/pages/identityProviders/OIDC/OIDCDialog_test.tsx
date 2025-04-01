@@ -21,9 +21,6 @@ jest.mock('in-api/users');
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()
 }));
-jest.mock('in-services/featureFlags', () => ({
-  disableInvitesWithIdpEnabled: true
-}));
 jest.mock('in-components/DialogPresenter/store');
 
 const oidcActiveResponse: OidcApiResponseConfig = {

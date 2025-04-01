@@ -577,11 +577,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'disableInvitesWithIdpEnabled',
-    instanaCtlKey: 'feature.disable.invites.with.idp.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'multiGroupTimeSeriesEnabled',
     instanaCtlKey: 'feature.multigroup.timeseries.enabled',
     defaultValue: false

@@ -115,7 +115,6 @@ module.exports = {
   regexMetricSelectionEnabled: true,
   autoFormatterTimeSeriesEnabled: true,
   multiGroupTimeSeriesEnabled: true,
-  disableInvitesWithIdpEnabled: false,
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
   syntheticRbacLimitedEnabled: true,

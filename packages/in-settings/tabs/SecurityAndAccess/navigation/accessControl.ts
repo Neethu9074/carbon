@@ -41,6 +41,7 @@ import UsersPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Us
 import AuditTrailPage from 'in-settings/tabs/SecurityAndAccess/pages/audit/AuditTrail';
 import Roles from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles';
 import { accessControlCarbonTable, rbacTeamsEnabled } from 'in-services/featureFlags';
+import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
 import { Role } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -57,10 +58,14 @@ interface NavigationTreeItem {
   pages: Array<NavigationTreePage>;
 }
 
-export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
+interface GetNavigationTreeForRoleProps extends ViewProps {
+  role?: Role;
+}
+
+export function getNavigationTreeForRole({ role, defaultLogin }: GetNavigationTreeForRoleProps) {
   const navigationTree: NavigationTreeItem[] = [];
 
-  if (role.canConfigureUsers || role.canConfigureTeams || role.canConfigureApiTokens) {
+  if (role?.canConfigureUsers || role?.canConfigureTeams || role?.canConfigureApiTokens) {
     const accessControlPages: NavigationTreePage[] = [];
 
     if (role.canConfigureUsers) {
@@ -77,7 +82,7 @@ export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
           }
         ]
       });
-      if (!isAnyIDPActive) {
+      if (defaultLogin) {
         accessControlPages.push({
           idx: 'invites-page',
           path: securityAndAccessAccessControlInvites,
@@ -175,7 +180,7 @@ export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
     });
   }
 
-  if (role.canViewAuditLog) {
+  if (role?.canViewAuditLog) {
     navigationTree.push({
       title: t('in-settings:tabs.audit'),
       pages: [

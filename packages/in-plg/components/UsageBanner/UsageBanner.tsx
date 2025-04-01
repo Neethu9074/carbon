@@ -41,8 +41,8 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
-import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
 import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip';
@@ -76,9 +76,9 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const needToShowReminder = isRemainingDaysLimited && isPaidLicenseUsage && noQueuedLicense;
   const termsAndPrivacySettingsStore = useObservable(termsAndPrivacySettingsStore$, []);
 
-  const isAnyIDPActive = useIsAnyIdPActive();
-  const permissionToShowInvite =
-    role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled) && !isAnyIDPActive;
+  const invitePermissions = role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled);
+  const [authOverview] = useAuthOverview({ preventRequest: !invitePermissions });
+  const permissionToShowInvite = invitePermissions && authOverview?.defaultLogin;
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
   // The AssistMe feature will be enabled if assistmeEnabled flag is true, walkmeAnalyticsServices is true and the AssistMe script is loaded.
   const showGetAnswers =

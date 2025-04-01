@@ -24,7 +24,7 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 import { getEntityIdView, securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
+import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import { hasError, isLoading } from 'in-services/util/result';
 import { USER_INVITE } from 'in-services/tracking/tracking';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -71,7 +71,9 @@ interface RowObject<ROW_DATA> {
 }
 
 export default function UsersV2() {
-  const isAnyIDPActive = useIsAnyIdPActive();
+  const [authOverview] = useAuthOverview();
+  const { defaultLogin } = authOverview ?? {};
+
   const { trackCta } = useSegmentTracking();
   const pageSizes = [20, 50];
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
@@ -166,7 +168,7 @@ export default function UsersV2() {
 
   return (
     <>
-      {isAnyIDPActive && <CustomUserListInfo />}
+      {!defaultLogin && <CustomUserListInfo />}
       <CarbonDataTableWrapper
         title={t('in-settings:tabs.users')}
         tableHeaders={headers}
@@ -176,12 +178,12 @@ export default function UsersV2() {
         searchAttributes={['fullName', 'email']}
         initalSortConfig={{ key: 'fullName', direction: 'asc' }}
         onCreateNew={
-          isAnyIDPActive
-            ? undefined
-            : () => {
+          defaultLogin
+            ? () => {
                 trackCta(USER_INVITE);
                 addActiveDialog(<DeferredShareAndInviteDialogBox inviteOnly permissionToShowInvite />);
               }
+            : undefined
         }
         labelNew={t('in-settings:tabs.inviteUser')}
         getMenuItems={getMenuItems}
@@ -189,9 +191,9 @@ export default function UsersV2() {
         boundedPath="/users"
         pageSizes={pageSizes}
         tableActions={tableActions}
-        customDialogMessage={isAnyIDPActive ? (entity: UserResult) => customDialogMessage(entity) : undefined}
+        customDialogMessage={!defaultLogin ? (entity: UserResult) => customDialogMessage(entity) : undefined}
         getEntityName={({ fullName }: UserResult) => t('in-settings:tabs.userWithName', { name: fullName })}
-        customBatchDeleteMessage={isAnyIDPActive ? (users: UserResult[]) => customBatchDeleteMessage(users) : undefined}
+        customBatchDeleteMessage={!defaultLogin ? (users: UserResult[]) => customBatchDeleteMessage(users) : undefined}
         message={errorMessage}
       />
     </>

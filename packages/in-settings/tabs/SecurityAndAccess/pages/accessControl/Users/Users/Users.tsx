@@ -18,14 +18,15 @@ import { getUsersAsResultObservable, removeUserFromTenant, UserResult } from 'in
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
+import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import { USER_INVITE } from 'in-services/tracking/tracking';
 import UserIcon from 'in-components/UserIcon/UserIcon';
 import { noop } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
 
 export default function Users() {
-  const isAnyIDPActive = useIsAnyIdPActive();
+  const [authOverview] = useAuthOverview();
+  const { defaultLogin } = authOverview ?? {};
   const { trackCta } = useSegmentTracking();
 
   function customDialogMessage({ fullName }: UserResult) {
@@ -45,7 +46,7 @@ export default function Users() {
 
   return (
     <>
-      {isAnyIDPActive && <CustomUserListInfo />}{' '}
+      {!defaultLogin && <CustomUserListInfo />}{' '}
       <List
         title={t('in-settings:tabs.users')}
         getHeader={defaultHeaderWithCount(t('in-settings:tabs.users'))}
@@ -55,17 +56,17 @@ export default function Users() {
         loadEntities={loadEntities}
         initialOrderBy="fullName"
         onCreateNew={
-          isAnyIDPActive
-            ? undefined
-            : () => {
+          defaultLogin
+            ? () => {
                 trackCta(USER_INVITE);
                 addActiveDialog(<DeferredShareAndInviteDialogBox inviteOnly permissionToShowInvite />);
               }
+            : undefined
         }
         labelNew={t('in-settings:tabs.inviteUser')}
         searchAttributes={['fullName', 'email']}
         searchPlaceholder={t('in-settings:components.search')}
-        customDialogMessage={isAnyIDPActive ? (entity: UserResult) => customDialogMessage(entity) : undefined}
+        customDialogMessage={!defaultLogin ? (entity: UserResult) => customDialogMessage(entity) : undefined}
         onRowClick={noop}
         boundedPath="/users"
       />
