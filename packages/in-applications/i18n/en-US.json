@@ -600,7 +600,7 @@
       "descriptionOperatorsCreationEnabled": "AND operators take precedence and are evaluated before OR operators if not grouped in brackets",
       "descriptionPrepareToMonitor": "We are preparing everything to monitor your application perspective <bold>{{decodedLabel}}</bold>.",
       "prepareToMonitorUnauthorized": "You don't have permissions to view the application perspective <bold>{{decodedLabel}}</bold>. To get permissions, please contact your group administrator.",
-      "descriptionRemoveApplicationPerspective": "If you no longer wish to monitor the application perspective <strong>{{application}}</strong>, please use the button below to remove it. Removing an application perspective may take up to a few minutes.",
+      "descriptionRemoveApplicationPerspective": "If you no longer wish to monitor the application perspective <strong>{{application}}</strong>, please use the button below to remove it. Removing an application perspective may take up to a few minutes, during which time it will be still visible on the list of applications.",
       "stepTitleDefineApplicationName": "Define a name for your application perspective.",
       "stepTitleApplicationName": "Name for your application perspective.",
       "stepTitleDefineTags": "Define the application perspective using one or more tags.",
