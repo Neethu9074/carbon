@@ -872,6 +872,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'sloBurnRateEnabled',
+    instanaCtlKey: 'feature.slo.burnRate.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'mobileAppSmartAlertFullScreenDesignEnabled',
     instanaCtlKey: 'feature.mobile.app.smart.alert.full.screen.design.enabled',
     defaultValue: false

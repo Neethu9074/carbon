@@ -177,6 +177,7 @@ module.exports = {
   sloLiteEnabled: true,
   sloFullEnabled: true,
   solisEnabled: false,
+  sloBurnRateEnabled: false,
   mobileAppSmartAlertFullScreenDesignEnabled: true,
   tealiumPrivacyEnabled: false,
   isSmartAlertDialogViewDefaultEnabled: true,

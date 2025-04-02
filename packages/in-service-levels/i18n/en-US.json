@@ -107,6 +107,7 @@
     "metrics": {
       "status": "Status",
       "remainingBudget": "Remaining",
+      "burnRate": "Burn Rate",
       "totalBudget": "Error budget",
       "beaconCount": "Beacon count",
       "calls": "Calls",
@@ -339,11 +340,17 @@
         "title": "Traffic",
         "totalTraffic": "Total: {{value}}"
       },
+      "burnRateKpiCard": {
+        "burnRateInfo":"Burn Rate over the selected SLO Time Window"
+      },
       "errorBudgetChart": {
         "title": "Error budget"
       },
       "trafficChart": {
         "title": "Traffic"
+      },
+      "burnRateChart": {
+        "title": "Burn Rate"
       },
       "indicatorChart": {
         "title": "Indicator",
