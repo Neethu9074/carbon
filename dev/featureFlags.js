@@ -180,5 +180,6 @@ module.exports = {
   tealiumPrivacyEnabled: false,
   isSmartAlertDialogViewDefaultEnabled: true,
   logSmartAlertDialogViewEnabled: true,
-  syntheticSmartAlertDialogViewEnabled: true
+  syntheticSmartAlertDialogViewEnabled: true,
+  infraSmartAlertDialogViewEnabled: true
 };

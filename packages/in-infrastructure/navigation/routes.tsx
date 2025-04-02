@@ -31,14 +31,25 @@ import {
   infraSmartAlerts,
   infraSmartAlertsFullScreen
 } from 'in-stores/navigation/paths/mainPaths';
+import {
+  infraSmartAlertsEnabled,
+  infraSmartAlertDialogViewEnabled,
+  infraSmartAlertFullScreenDesignEnabled
+} from 'in-services/featureFlags';
 // @ts-expect-error module need to be translated to TS
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 // @ts-expect-error module need to be translated to TS
 import { infraExplorePath } from 'in-infrastructure/navigation/paths';
-import { infraSmartAlertsEnabled, infraSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import { infraAlertDetailsFullyQualifiedPath } from 'in-stores/navigation/paths/mainPaths';
+import { FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { role } from 'in-stores/user';
+
+const alertDisplayMode = getSmartAlertDisplayMode(
+  infraSmartAlertDialogViewEnabled,
+  infraSmartAlertFullScreenDesignEnabled
+);
 
 const infrastructureRoutes = [
   <Route key="infraPhysical" path={physicalPath}>
@@ -53,7 +64,7 @@ const infrastructureRoutes = [
       {renderAsyncRouteChildren(SmartAlertView)}
     </Route>
   ),
-  infraSmartAlertFullScreenDesignEnabled && !role?.limitedInfrastructureScope && (
+  (alertDisplayMode === FULLSCREEN || alertDisplayMode === CHOICE_DIALOG) && !role?.limitedInfrastructureScope && (
     <Route key="infraSmartAlert" path={infraSmartAlertsFullScreen}>
       {renderAsyncRouteChildren(AlertConfigTearSheet)}
     </Route>

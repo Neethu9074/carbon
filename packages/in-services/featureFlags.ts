@@ -210,6 +210,9 @@ export const logSmartAlertDialogViewEnabled = isFeatureFlagEnabled('logSmartAler
 // Dialog view for synthetic smart alert
 export const syntheticSmartAlertDialogViewEnabled = isFeatureFlagEnabled('syntheticSmartAlertDialogViewEnabled');
 
+// Dialog view for Infra smart alert
+export const infraSmartAlertDialogViewEnabled = isFeatureFlagEnabled('infraSmartAlertDialogViewEnabled');
+
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
 
