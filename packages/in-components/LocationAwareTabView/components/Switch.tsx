@@ -8,6 +8,7 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
 import { Result, Error } from '@instana/types';
+import { useObservable } from '@instana/hooks';
 
 import DashboardErroneousResultPresenter from 'in-components/DashboardErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
@@ -18,6 +19,7 @@ import ErrorBoundary from 'in-components/ErrorBoundary';
 import { Location } from 'in-stores/navigation/types';
 import Title from 'in-components/Title';
 import { Nullish } from 'in-types';
+import { notesAndActivity, setNotesAndActivity, notesAndActivity$ } from 'in-stores/notesAndActivity';
 
 import locals from './Switch.mless';
 
@@ -97,8 +99,9 @@ function ViewWrapper<TabData, TabProps extends {}>({
     </div>
   );
 
+  const notesActivityOpened = useObservable(() => notesAndActivity$, []);
   if (!tab.isFullWidth) {
-    content = <LeftRightPadding>{content}</LeftRightPadding>;
+    content = <LeftRightPadding className={notesActivityOpened && locals.notesOpenedPadding}>{content}</LeftRightPadding>;
   }
 
   return (

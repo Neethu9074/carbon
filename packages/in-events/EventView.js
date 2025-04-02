@@ -215,6 +215,7 @@ function EventViewComponent(props) {
     filter,
     ...spreadTimeConfig(staticTimeConfigToUseForTable, timeConfig)
   ]);
+  
   return (
     <Sticky
       header={
