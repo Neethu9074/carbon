@@ -394,6 +394,7 @@
     "cancel": "Cancel",
     "sureYouWantToDelete": "Are you sure you want to delete this note? It will be permanently removed for all users.",
     "actionUndone": "This action cannot be undone.",
+    "feedback": "Feedback",
     "summarizeIncident": "Summarize this incident?",
     "summarizeIncidentDescription": "Try summarizing this incident, to help you and your team gain a quick understanding of what has happened.",
     "generateSummary": "Generate a summary",
