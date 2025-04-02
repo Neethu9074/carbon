@@ -156,6 +156,7 @@ function Grid({
           <div
             key={widget.id}
             className={locals.widget}
+            data-type={widget.type}
             id={getWidgetId(widget.id)}
             style={disabledTransitions ? disabledTransitionStyle : undefined}
           >

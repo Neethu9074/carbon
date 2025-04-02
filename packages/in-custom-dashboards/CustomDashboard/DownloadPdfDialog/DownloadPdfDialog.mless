@@ -22,26 +22,4 @@
       }
     }
   }
-
-  .stacked {
-    :global {
-      .search-input,
-      .view-full-table,
-      .show-results,
-      .legend-arrow,
-      .legend-dot,
-      .legend-label,
-      .hidden {
-        display: none;
-      }
-
-      .legend-value {
-        display: block;
-      }
-
-      .legend-container {
-        height: auto;
-      }
-    }
-  }
 }

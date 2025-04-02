@@ -23,10 +23,12 @@ import {
   CUSTOM_DASHBOARD_ADD_WIDGET_DUPLICATE,
   CUSTOM_DASHBOARD_DOWNLOAD_PDF_START
 } from 'in-services/tracking/tracking';
-import ExportWidgetContainer from 'in-custom-dashboards/CustomDashboard/ExportWidgetContainer/ExportWidgetContainer';
 import { dashboardIdUrlParameter, dashboardTopLevelFilterUrlParameter } from 'in-custom-dashboards/navigation/url';
+import PdfHeader from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/components/PdfHeader/PdfHeader';
+import PdfWidgetContainer from 'in-custom-dashboards/CustomDashboard/PdfWidgetContainer/PdfWidgetContainer';
 import WidgetEditorDialog from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
+import { sanitizeNode, getPdfHeader } from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/utils';
 import DownloadPdfDialog from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/DownloadPdfDialog';
 import ZoomWidgetDialog from 'in-custom-dashboards/CustomDashboard/ZoomWidgetDialog/ZoomWidgetDialog';
 import EditAsJsonDialog from 'in-custom-dashboards/CustomDashboard/EditAsJsonDialog/EditAsJsonDialog';
@@ -34,7 +36,6 @@ import { CustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/Cus
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
 import { activeDialogs$, addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { sanitizeNode } from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/utils';
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -70,7 +71,8 @@ export default function CustomDashboardLoader(props) {
   const [shouldExportWidget, setShouldExportWidget] = useState(false);
   const [downloadDashboard, setDownloadDashboard] = useState(false);
   const [tooltipRef, setTooltipRef] = useState(null);
-  const exportWidgetContainerRef = useRef(null);
+  const pdfWidgetContainerRef = useRef(null);
+  const pdfHeader = useRef(null);
 
   const activeDialogs = useObservable(activeDialogs$, []) ?? [];
 
@@ -167,12 +169,9 @@ export default function CustomDashboardLoader(props) {
         topLevelFilters={topLevelFilters}
         onTopLevelFiltersChange={onTopLevelFiltersChange}
       />
+      <PdfHeader ref={pdfHeader} />
       {exportWidget && (
-        <ExportWidgetContainer
-          widget={exportWidget}
-          ref={exportWidgetContainerRef}
-          setIsReadyToExport={setIsReadyToExport}
-        />
+        <PdfWidgetContainer widget={exportWidget} ref={pdfWidgetContainerRef} setIsReadyToExport={setIsReadyToExport} />
       )}
     </CustomDashboardContext.Provider>
   );
@@ -364,7 +363,8 @@ export default function CustomDashboardLoader(props) {
     const widget = find(config.widgets, eachWidget => id === eachWidget.id);
     const widgetType = widget?.type;
     const widgetNode = document.getElementById(getWidgetId(id));
-    const nodeToExport = exportWidgetContainerRef?.current?.firstChild;
+    const nodeToExport = pdfWidgetContainerRef?.current?.firstChild;
+    const header = pdfHeader?.current?.firstChild;
     const orientation = ['chart', 'apdex', 'histogram', 'slo', 'slo2'].includes(widgetType) ? 'l' : 'p';
 
     if (nodeToExport) {
@@ -384,11 +384,12 @@ export default function CustomDashboardLoader(props) {
         'custom-dashboard-pdf-generation'
       );
 
+      const headerUrl = await getPdfHeader({ node: header });
       const imagesUrls = [
         await nodeToImage({
           node: nodeToExport,
           options: {
-            filter: sanitizeNode
+            filter: node => sanitizeNode(node, widgetType)
           }
         }).finally(() => {
           setExportWidgetId(null);
@@ -399,6 +400,7 @@ export default function CustomDashboardLoader(props) {
       imagesToPdf({
         imageScale: 2,
         imagesUrls,
+        headerUrl,
         filename: id,
         shouldFitPdf: true,
         pdfSettings: {
@@ -422,6 +424,7 @@ export default function CustomDashboardLoader(props) {
 
   function onPDFDashboardDownload(customDashboardId) {
     const node = document.querySelector('.react-grid-layout');
+    const header = pdfHeader?.current?.firstChild;
 
     if (!node) {
       setDownloadDashboard(false);
@@ -436,6 +439,7 @@ export default function CustomDashboardLoader(props) {
           close();
         }}
         node={node}
+        header={header}
       />
     );
   }

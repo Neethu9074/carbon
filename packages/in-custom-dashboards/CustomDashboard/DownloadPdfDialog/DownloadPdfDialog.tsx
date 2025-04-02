@@ -15,7 +15,11 @@ import {
   CUSTOM_DASHBOARD_DOWNLOAD_PDF_LAYOUT,
   CUSTOM_DASHBOARD_DOWNLOAD_PDF_ORIENTATION
 } from 'in-services/tracking/tracking';
-import { sanitizeNode, generateImagesFromNodes } from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/utils';
+import {
+  sanitizeNode,
+  generateImagesFromNodes,
+  getPdfHeader
+} from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/utils';
 import { actions, initialState, pdfReducer } from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/reducer';
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -34,23 +38,26 @@ import locals from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/Downl
 
 interface Props {
   node: HTMLElement;
+  header?: HTMLElement;
   customDashboardId: string;
   close: () => void;
 }
 
-export default function DownloadPdfDialog({ customDashboardId, close, node }: Props) {
+export default function DownloadPdfDialog({ customDashboardId, close, node, header }: Readonly<Props>) {
   const [state, dispatch] = useReducer(pdfReducer, initialState);
   const { trackCta } = useSegmentTracking();
 
   const {
     imagesUrls,
+    headerUrl,
     isGenerating: { value, text },
     orientation,
     pdf,
     shouldFitPdf,
     stackedWidgets
   } = state;
-  const { setIsGenerating, setPdf, setImagesUrls, setStackedWidgets, setOrientation, setShouldFitPdf } = actions;
+  const { setIsGenerating, setPdf, setHeaderUrl, setImagesUrls, setStackedWidgets, setOrientation, setShouldFitPdf } =
+    actions;
   const pdfBlob = pdf ? URL.createObjectURL(pdf.output('blob')) : '';
 
   const getImagesUrls = useMemo(
@@ -58,7 +65,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node }: Pr
       await nodeToImage({
         node,
         options: {
-          filter: sanitizeNode
+          filter: node => sanitizeNode(node)
         }
       }).then(imageUrl => dispatch({ type: setImagesUrls, payload: [imageUrl] })),
     [setImagesUrls]
@@ -76,18 +83,28 @@ export default function DownloadPdfDialog({ customDashboardId, close, node }: Pr
     dispatch({ type: setPdf, payload: null });
     dispatch({ type: setIsGenerating, payload: { value: true } });
 
+    // Generate pdf header image
+    // Header url will be available in headerUrl variable.
+    if (header) {
+      getPdfHeader({
+        node: header,
+        dispatch: (headerUrl: string) => dispatch({ type: setHeaderUrl, payload: headerUrl })
+      });
+    }
+
     if (stackedWidgets) {
       getImagesFromNodes([...node.childNodes] as HTMLElement[]);
     } else {
       getImagesUrls(node);
     }
-  }, [getImagesFromNodes, getImagesUrls, node, setIsGenerating, setPdf, stackedWidgets]);
+  }, [getImagesFromNodes, getImagesUrls, header, node, setHeaderUrl, setIsGenerating, setPdf, stackedWidgets]);
 
   const createPdf = useCallback(
-    (imagesUrls, customDashboardId) =>
+    (imagesUrls, headerUrl, customDashboardId) =>
       imagesToPdf({
         imageScale: stackedWidgets ? 1 : 2,
         imagesUrls,
+        headerUrl,
         filename: customDashboardId,
         shouldFitPdf,
         shouldDownloadAfterGeneration: false,
@@ -108,10 +125,10 @@ export default function DownloadPdfDialog({ customDashboardId, close, node }: Pr
       if (!imagesUrls || imagesUrls.length === 0) {
         generateImageFromNode();
       } else {
-        createPdf(imagesUrls, customDashboardId);
+        createPdf(imagesUrls, headerUrl, customDashboardId);
       }
     }
-  }, [value, node, imagesUrls, stackedWidgets, generateImageFromNode, createPdf, customDashboardId]);
+  }, [value, node, imagesUrls, stackedWidgets, generateImageFromNode, createPdf, customDashboardId, headerUrl]);
 
   return (
     <Dialog

@@ -75,7 +75,9 @@
       "generatingPDFTitle": "Generating pdf",
       "generatingPDFContent": "Please wait while the pdf is being generated.",
       "generatedPDFTitle": "Pdf Generated",
-      "generatedPDFContent": "The pdf download will start shortly."
+      "generatedPDFContent": "The pdf download will start shortly.",
+      "timeRange": "Time range",
+      "widgetNotAvailableToBeExported": "This widget is not available to be exported."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Dashboard not found",

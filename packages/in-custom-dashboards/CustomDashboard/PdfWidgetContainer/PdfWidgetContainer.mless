@@ -11,9 +11,12 @@
   .content {
     width: 8.27in;
     height: auto;
-    overflow: hidden;
     display: block;
     object-fit: contain;
+  }
+
+  .iframe {
+    margin-left: 1rem;
   }
 
   .container {
@@ -31,37 +34,9 @@
     display: block;
     box-sizing: border-box;
 
-    :global {
-      .search-input,
-      .view-full-table,
-      .show-results,
-      .legend-arrow,
-      .legend-dot,
-      .legend-label,
-      .hidden {
-        display: none;
-      }
-
-      .legend-value {
-        display: block;
-      }
-
-      .legend-container {
-        height: auto;
-      }
-    }
-
     &.timeseries,
     &.histogram {
       max-width: 14in;
-
-      :global {
-        .legend-arrow,
-        .legend-dot,
-        .legend-label {
-          display: block;
-        }
-      }
     }
 
     &.slo,

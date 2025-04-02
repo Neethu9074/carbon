@@ -10,6 +10,7 @@ type ImageType = 'jpeg' | 'png';
 
 export interface ImagesToPdfProps {
   imagesUrls: string[];
+  headerUrl?: string;
   filename?: string;
   format?: ImageType;
   imageScale: number;
@@ -21,6 +22,7 @@ export interface ImagesToPdfProps {
 interface Props extends Omit<ImagesToPdfProps, 'imagesUrls'> {
   pdf: jsPDF;
   images: HTMLImageElement[];
+  headerImage?: HTMLImageElement | null;
   shouldFitPdf: boolean;
 }
 
@@ -39,6 +41,7 @@ export const imagesToPdf = ({
   format = defaultFormat,
   pdfSettings,
   imagesUrls,
+  headerUrl,
   imageScale,
   shouldFitPdf,
   shouldDownloadAfterGeneration
@@ -51,12 +54,15 @@ export const imagesToPdf = ({
     pdf: jsPDF;
   }>(resolve => {
     const pdf = new jsPDF({ ...defaultPdfSettings, ...pdfSettings });
+    const imagesUrlsToGenerateImage = [...(headerUrl ? [headerUrl] : []), ...imagesUrls];
 
     // Get all urls and create an image for each.
-    generateImagesFromUrl(imagesUrls).then(images => {
+    generateImagesFromUrl(imagesUrlsToGenerateImage).then(images => {
+      const headerImage = headerUrl ? images.shift() : null;
       const pdfGenerated = generatePdfOnImageLoad({
         pdf,
         images,
+        headerImage,
         imageScale,
         format,
         filename,
@@ -73,6 +79,7 @@ export const imagesToPdf = ({
 function generatePdfOnImageLoad({
   pdf,
   images,
+  headerImage,
   imageScale,
   format = defaultFormat,
   filename,
@@ -83,6 +90,7 @@ function generatePdfOnImageLoad({
   const options = {
     format,
     images,
+    headerImage,
     imageScale,
     pdf
   };
@@ -110,7 +118,6 @@ function loadImage(imageUrl: string): Promise<HTMLImageElement> {
     img.onload = () => resolve(img);
     img.onerror = () => reject(new Error(`Failed to load image from URL: ${imageUrl}`));
     img.src = imageUrl;
-    document.getElementById('image')?.appendChild(img);
   });
 }
 
@@ -122,17 +129,20 @@ async function generateImagesFromUrl(imagesUrls: string[]): Promise<HTMLImageEle
 interface FunctionProps {
   format: ImageType;
   images: HTMLImageElement[];
+  headerImage?: HTMLImageElement | null;
   pdf: jsPDF;
 }
 
 export function fitContentInPdf({
   images,
   imageScale,
+  headerImage,
   format,
   pdf
 }: FunctionProps & { imageScale: ImagesToPdfProps['imageScale'] }) {
   const pdfWidth = pdf.internal.pageSize.getWidth();
   const pdfHeight = pdf.internal.pageSize.getHeight();
+  const headerHeight = headerImage ? (headerImage.height * pdfWidth) / headerImage.width : 0;
   const image = images[0];
   const originalImageWidth = image.width / imageScale;
   const originalImageHeight = image.height / imageScale;
@@ -151,34 +161,40 @@ export function fitContentInPdf({
       height = originalImageHeight * scaleFactor;
     }
 
-    pdf.addImage(image.src, format, 0, 0, width, height, '', 'FAST');
+    addHeader({ headerImage, pdf, format, pdfWidth, headerHeight });
+    pdf.addImage(image.src, format, 0, headerHeight, width, height, '', 'FAST');
   }
 }
 
-export function handleMultiplePages({ images, format, pdf }: FunctionProps) {
+export function handleMultiplePages({ images, headerImage, format, pdf }: FunctionProps) {
   const pdfWidth = pdf.internal.pageSize.getWidth();
   const pdfHeight = pdf.internal.pageSize.getHeight();
   const image = images[0];
+  const headerHeight = headerImage ? (headerImage.height * pdfWidth) / headerImage.width : 0;
 
   const imgHeight = (image.height * pdfWidth) / image.width;
   let heightLeft = imgHeight;
-  let position = 0;
+  let position = headerHeight;
+
+  addHeader({ headerImage, pdf, format, pdfWidth, headerHeight });
 
   pdf.addImage(image.src, format, 0, position, pdfWidth, imgHeight, '', 'FAST');
-  heightLeft -= pdfHeight;
+  heightLeft -= pdfHeight - headerHeight;
 
   // Add pages if needed and move to the next position for new page
-  while (heightLeft > 0) {
-    position = imgHeight - heightLeft;
+  while (heightLeft > 0 && headerImage) {
     pdf.addPage();
-    pdf.addImage(image.src, format, 0, -position, pdfWidth, imgHeight, '', 'FAST');
-    heightLeft -= pdfHeight;
+    position = heightLeft - imgHeight + headerHeight;
+    pdf.addImage(image.src, format, 0, position, pdfWidth, imgHeight, '', 'FAST');
+    addHeader({ headerImage, pdf, format, pdfWidth, headerHeight });
+    heightLeft -= pdfHeight - headerHeight;
   }
 }
 
-export function stackItemsInPdf({ images, pdf, format }: FunctionProps) {
+export function stackItemsInPdf({ images, pdf, headerImage, format }: FunctionProps) {
   const pdfWidth = pdf.internal.pageSize.getWidth();
-  const pdfHeight = pdf.internal.pageSize.getHeight();
+  const headerHeight = headerImage ? (headerImage.height * pdfWidth) / headerImage.width : 0;
+  const pdfHeight = pdf.internal.pageSize.getHeight() - headerHeight;
   let position = 0;
 
   for (const image of images) {
@@ -202,10 +218,27 @@ export function stackItemsInPdf({ images, pdf, format }: FunctionProps) {
     // Check if the image fits vertically on the current page and add a new page
     if (position + imgHeight > pdfHeight) {
       pdf.addPage();
-      position = 0;
+      position = headerHeight;
     }
 
     pdf.addImage(image.src, format, 0, position, imgWidth, imgHeight, '', 'FAST');
+    addHeader({ headerImage, pdf, format, pdfWidth, headerHeight });
     position += imgHeight;
   }
+}
+
+interface HeaderProps extends Omit<FunctionProps, 'images'> {
+  format: ImageType;
+  pdfWidth: number;
+  headerHeight: number;
+  headerImage?: HTMLImageElement | null;
+  pdf: jsPDF;
+}
+
+function addHeader({ headerImage, pdf, format, pdfWidth, headerHeight }: HeaderProps) {
+  if (headerImage) {
+    pdf.addImage(headerImage.src, format, 0, 0, pdfWidth, headerHeight, '', 'FAST');
+  }
+
+  return null;
 }
