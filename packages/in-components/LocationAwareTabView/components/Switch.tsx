@@ -102,7 +102,7 @@ function ViewWrapper<TabData, TabProps extends {}>({
   const notesActivityOpened = useObservable(() => notesAndActivity$, []);
   if (!tab.isFullWidth) {
     content = (
-      <LeftRightPadding className={notesActivityOpened && locals.notesOpenedPadding}>{content}</LeftRightPadding>
+      <LeftRightPadding className={notesActivityOpened && false && locals.notesOpenedPadding}>{content}</LeftRightPadding>
     );
   }
 

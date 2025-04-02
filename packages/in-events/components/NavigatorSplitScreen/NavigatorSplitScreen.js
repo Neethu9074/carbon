@@ -5,18 +5,19 @@
 
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
-
+import { useObservable } from '@instana/hooks';
 import { IconButton } from '@instana/components';
 
 import { findNextIndexToOpen, findPrevIndexToOpen } from 'in-events/components/NavigatorSplitScreen/FindIndex.js';
 import { leftArrowId, rightArrowId } from 'in-components/AnalyzeView/SplitScreenList/elementIds';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
-import { setNotesAndActivity } from 'in-stores/notesAndActivity';
+import { setNotesAndActivity, notesAndActivity$ } from 'in-stores/notesAndActivity';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
+import { SidePanel } from '@carbon/ibm-products';
 
 import locals from './NavigatorSplitScreen.mless';
 
@@ -57,8 +58,10 @@ function NavigatorSplitScreen({
   const hasNext = openItemIndex < nextOpenItemIndex;
   const hasPrev = openItemIndex > prevOpenItemIndex;
 
+  const notesActivityOpened = useObservable(() => notesAndActivity$, []);
+
   return (
-    <div className={locals.navigatorSplitScreen}>
+    <div className={locals.navigatorSplitScreen} id="testingID">
       {expanded && (
         <div className={locals.navigator}>
           <Sticky
@@ -162,8 +165,10 @@ function NavigatorSplitScreen({
       )}
 
       <SideEffectOnPropertyChange expanded={expanded} sideEffect={refreshWindowSizeDependingState} />
+      <SideEffectOnPropertyChange expanded={notesActivityOpened} sideEffect={refreshWindowSizeDependingState} />
 
       <div
+        // id="testingID"
         className={classNames({
           [locals.detailView]: true,
           [locals.useFullWidth]: !expanded,
@@ -171,7 +176,21 @@ function NavigatorSplitScreen({
         })}
       >
         {children}
+        
       </div>
+      <SidePanel
+          open={notesActivityOpened}
+          slideIn
+          selectorPageContent="#testingID"
+          onRequestClose={() => {
+            setNotesAndActivity(false)
+            refreshWindowSizeDependingState()
+          }}
+          title={'currentlyOpenEntity'}
+          size="sm"
+        >
+          {'test'}
+        </SidePanel>
     </div>
   );
 }

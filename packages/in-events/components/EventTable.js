@@ -219,13 +219,13 @@ const IncidentHeader = ({ event, timeConfig }) => {
               align="left"
               size="normal"
             />
-            {notesAndActivityEnabled && (
+            {/* {notesAndActivityEnabled && (
               <NotesAndActivity
                 event={event}
                 displayNotes={notesActivityOpened}
                 setDisplayNotes={setNotesAndActivity}
               />
-            )}
+            )} */}
           </Stack>
         </Stack>
       </Stack>
