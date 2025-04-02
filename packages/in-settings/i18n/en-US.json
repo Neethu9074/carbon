@@ -1107,7 +1107,9 @@
       "nameHint": "Enter your first name (given name) and last name (family name) without a comma.",
       "saving": "Saving new name",
       "saved": "Saved new name",
-      "failed": "Failed to save new name"
+      "failed": "Failed to save new name",
+      "savedProfile": "Saved profile settings"
+
     },
     "twoFactorAuthentication": "Two-factor authentication",
     "twoFactorAuthenticationIsCurrentlyDisabledForThisUser": "Two-factor authentication is currently disabled for this user.",
