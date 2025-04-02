@@ -83,7 +83,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref, g
           renderFormContent={(appConfig, form, setValue, updateForm) => {
             return (
               <>
-                <Typography variant="label-01" component="legend">
+                <Typography variant="label-01">
                   {t('in-applications:forms.newApplication.helpApplicationPerspectives')}
                 </Typography>
                 <Steps

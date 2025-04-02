@@ -48,7 +48,7 @@ export default function RemoveSection({ application }) {
   return (
     <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
       <Card title={t('in-applications:titleRemoveApplicationPerspective')}>
-        <Form onSubmit={e => remove(e)} aria-label="application-deletion-form">
+        <Form onSubmit={e => remove(e)} aria-label={t('in-applications:titleRemoveApplicationPerspective')}>
           <Stack gap={4}>
             <Typography variant="label-01">
               <Trans
