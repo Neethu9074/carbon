@@ -30,7 +30,6 @@ import {
 } from 'in-events/components/eventUtil';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
-import { aqmDisableConfigOnEventViewEnabled, eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
@@ -39,7 +38,6 @@ import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/Tr
 import IncidentContent from 'in-events/components/tabs/Summary/IncidentDetailPage/IncidentContent';
 import DisableEventConfigButton from 'in-events/components/tabs/Summary/DisableEventConfigButton';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
-import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import SyntheticEventContent from 'in-events/components/EventContent/SyntheticEventContent';
 import AffectedEntitiesPresenter from 'in-events/components/legacy/CveAffectedApplications';
@@ -59,6 +57,7 @@ import SloEventContent from 'in-events/components/EventContent/SloEventContent';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import { aqmDisableConfigOnEventViewEnabled } from 'in-services/featureFlags';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
@@ -201,13 +200,6 @@ function EventContent({ event, latestSnapshot, reload }) {
           </Card>
         </Col>
       </Row>
-      {eumImpactedUsersForAppAlertEnabled && (
-        <Row withoutSideMargin>
-          <Col xs>
-            <SmartAlertImpactedUsers event={event} snapshot={snapshot} />
-          </Col>
-        </Row>
-      )}
       {isEntityVerificationEvent(event) || isHostAvailabilityEvent(event) ? (
         <Row withoutSideMargin>
           <Col xs>
