@@ -81,9 +81,10 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
 
   const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
-  if (!data || !hasPermisson) return null;
+
   const manualContent = form.get('manualContent').value;
   const type = form.get('type').value;
+  if (!data || (!hasPermisson && type !== ACTION_TYPE.MANUAL)) return null;
   const actionId = data.id;
   const actionName = form.get('name').value;
   const isUserActions = !isAIGeneratedAction;
@@ -98,27 +99,27 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
 
   return (
     <CarbonStack orientation="horizontal">
+      {type === ACTION_TYPE.MANUAL && (
+        <CarbonButton
+          className={classNames(local.ghostBtn, local.watsonxBtn)}
+          kind="ghost"
+          size="sm"
+          onClick={() => {
+            generateAIButtonClickTrackerSegment({
+              type: 'script',
+              location: 'action dashboard',
+              actionName,
+              actionId
+            });
+            addActiveDialog(<GenerateAIScriptActionDialog manualContent={manualContent} actionName={actionName} />);
+          }}
+          renderIcon={() => <SvgIcon type="lib_launch_ai" size="xs" />}
+        >
+          {t('in-automation:generateWithWatsonx')}
+        </CarbonButton>
+      )}
       {role?.canConfigureAutomationActions && (
         <>
-          {type === ACTION_TYPE.MANUAL && (
-            <CarbonButton
-              className={classNames(local.ghostBtn, local.watsonxBtn)}
-              kind="ghost"
-              size="sm"
-              onClick={() => {
-                generateAIButtonClickTrackerSegment({
-                  type: 'script',
-                  location: 'action dashboard',
-                  actionName,
-                  actionId
-                });
-                addActiveDialog(<GenerateAIScriptActionDialog manualContent={manualContent} actionName={actionName} />);
-              }}
-              renderIcon={() => <SvgIcon type="lib_launch_ai" size="xs" />}
-            >
-              {t('in-automation:generateWithWatsonx')}
-            </CarbonButton>
-          )}
           {type !== ACTION_TYPE.ANSIBLE && (
             <CarbonIconButton
               label={t('in-automation:copy')}
