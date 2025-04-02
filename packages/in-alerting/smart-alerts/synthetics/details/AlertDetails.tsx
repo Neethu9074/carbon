@@ -35,6 +35,7 @@ import AlertConfiguration from 'in-alerting/smart-alerts/synthetics/details/Aler
 import AlertConfigDialog from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
 import { syntheticSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import { Location } from 'in-stores/navigation/types';
@@ -88,7 +89,7 @@ export default function AlertDetails(props: AlertDetailsProps) {
       getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
       // TODO change this by checking the FF
       displayTearSheetActions={false}
-      alertDisplayMode={syntheticSmartAlertFullScreenDesignEnabled ? 'CHOICE_DIALOG' : null}
+      alertDisplayMode={syntheticSmartAlertFullScreenDesignEnabled ? CHOICE_DIALOG : null}
       isGlobalSmartAlert
       canConfigureGlobalAlertConfigs={role?.canConfigureGlobalSyntheticSmartAlerts}
     />

@@ -22,6 +22,7 @@ import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/compone
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
+import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
 import { actionHandlers } from 'in-alerting/smart-alerts/infrastructure/lists/ListActionHandlers';
 import { CreateSmartAlertButton } from 'in-alerting/smart-alerts/infrastructure/CreateSmartAlert';
 import { MetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
@@ -75,6 +76,7 @@ export default function Alerts() {
           toolBarContent={role?.canConfigureGlobalInfraSmartAlerts ? <CreateSmartAlertButton /> : undefined}
           noDataHeader={t('in-alerting:smartAlerts.infrastructure.list.noDataHeader')}
           noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.infrastructure.list.noDataDescription" />}
+          useSmartAlertCreateUrl={useSmartAlertCreateUrl}
         />
       </div>
       <Footer />

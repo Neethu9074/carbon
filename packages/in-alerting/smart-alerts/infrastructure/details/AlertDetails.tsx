@@ -33,6 +33,7 @@ import AlertConfiguration from 'in-alerting/smart-alerts/infrastructure/details/
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { infraSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
+import { CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
@@ -64,7 +65,8 @@ export default function AlertDetails() {
         getAllowedPlaceholders={getAllowedPlaceholders}
         getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
         canConfigureGlobalAlertConfigs={role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope}
-        displayTearSheetActions={infraSmartAlertFullScreenDesignEnabled}
+        displayTearSheetActions={false}
+        alertDisplayMode={infraSmartAlertFullScreenDesignEnabled ? CHOICE_DIALOG : null}
         hideAlertIcon
         isGlobalSmartAlert
       />
