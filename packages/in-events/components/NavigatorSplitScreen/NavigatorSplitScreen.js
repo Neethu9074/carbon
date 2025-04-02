@@ -12,14 +12,11 @@ import { findNextIndexToOpen, findPrevIndexToOpen } from 'in-events/components/N
 import { leftArrowId, rightArrowId } from 'in-components/AnalyzeView/SplitScreenList/elementIds';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
+import { setNotesAndActivity } from 'in-stores/notesAndActivity';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
-
-import { useObservable } from '@instana/hooks';
-import { notesAndActivity, setNotesAndActivity, notesAndActivity$ } from 'in-stores/notesAndActivity';
-import { NotesAndActivity, NotesAndActivityOpenHeader } from 'in-events/components/NotesAndActivity/NotesAndActivity';
 
 import locals from './NavigatorSplitScreen.mless';
 
@@ -48,8 +45,7 @@ function NavigatorSplitScreen({
   progress,
   children,
   screenWidth,
-  resultPrecisionDetails,
-  event
+  resultPrecisionDetails
 }) {
   const [expanded, setExpanded] = useState(getInitialState(screenWidth));
   useEffect(() => {
@@ -60,8 +56,6 @@ function NavigatorSplitScreen({
   const prevOpenItemIndex = findPrevIndexToOpen(openItemIndex, items);
   const hasNext = openItemIndex < nextOpenItemIndex;
   const hasPrev = openItemIndex > prevOpenItemIndex;
-
-  const notesActivityOpened = useObservable(() => notesAndActivity$, []);
 
   return (
     <div className={locals.navigatorSplitScreen}>
@@ -153,8 +147,8 @@ function NavigatorSplitScreen({
                   type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
                   aria-label={t('in-events:navigatorSplitScreen.tooltipOpenSidebar')}
                   onClick={() => {
-                    setExpanded(!expanded)
-                    setNotesAndActivity(false)
+                    setExpanded(!expanded);
+                    setNotesAndActivity(false);
                   }}
                   iconSize="s"
                   isWrapperedByTooltip
@@ -178,30 +172,6 @@ function NavigatorSplitScreen({
       >
         {children}
       </div>
-
-
-
-      {/* {notesActivityOpened && (
-        <div className={locals.toggleBars}>
-          <Sticky
-            contentWidth={'400rem'}
-            header={
-              <div className={locals.toggleWrapper}>
-                <NotesAndActivity event={event.data} displayNotes={notesActivityOpened} setDisplayNotes={setNotesAndActivity}/>
-              </div>
-            }
-          />
-        </div>
-      )}
-
-      <SideEffectOnPropertyChange notesActivityOpened={notesActivityOpened} sideEffect={refreshWindowSizeDependingState} /> */}
-
-      
-      {/* {notesActivityOpened && event.progress.loading == false && notesActivityOpened &&
-        <div>
-          <NotesAndActivity event={event.data} displayNotes={notesActivityOpened} setDisplayNotes={setNotesAndActivity}/>
-        </div>
-      } */}
     </div>
   );
 }

@@ -14,12 +14,12 @@ import DashboardErroneousResultPresenter from 'in-components/DashboardErroneousR
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { Tab } from 'in-components/LocationAwareTabView/types';
+import { notesAndActivity$ } from 'in-stores/notesAndActivity';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { Location } from 'in-stores/navigation/types';
 import Title from 'in-components/Title';
 import { Nullish } from 'in-types';
-import { notesAndActivity, setNotesAndActivity, notesAndActivity$ } from 'in-stores/notesAndActivity';
 
 import locals from './Switch.mless';
 
@@ -101,7 +101,9 @@ function ViewWrapper<TabData, TabProps extends {}>({
 
   const notesActivityOpened = useObservable(() => notesAndActivity$, []);
   if (!tab.isFullWidth) {
-    content = <LeftRightPadding className={notesActivityOpened && locals.notesOpenedPadding}>{content}</LeftRightPadding>;
+    content = (
+      <LeftRightPadding className={notesActivityOpened && locals.notesOpenedPadding}>{content}</LeftRightPadding>
+    );
   }
 
   return (

@@ -32,10 +32,6 @@
     z-index: 1;
   }
 
-  .navigationWrapper {
-    display: inline-flex;
-  }
-
   .eventsDashboardHeader {
     // I wanted to target .firstLine in dashboardHeader but since it's not scss,
     // I'm not able to override it's styles. This is currently the best way and will be removed

@@ -8,8 +8,9 @@ import { findIndex } from 'lodash';
 
 import { Stack, Typography, Pill, IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { on } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { on } from '@instana/observables';
+
 import {
   EVENT_FEEDBACK_NEGATIVE,
   EVENT_FEEDBACK_POSITIVE,
@@ -28,6 +29,7 @@ import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'i
 import EventsNavItems from 'in-events/components/EventContent/EventsNavItems/EventsNavItems';
 import { eventFeedbackEnabled, notesAndActivityEnabled } from 'in-services/featureFlags';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
+import { setNotesAndActivity, notesAndActivity$ } from 'in-stores/notesAndActivity';
 import EventsTable from 'in-events/components/EventsPage/EventsTable/EventsTable';
 import { eventStepConfig } from 'in-events/components/feedback/eventStepConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -49,9 +51,6 @@ import { eventId } from 'in-events/navigation/matrix';
 import { isLoading } from 'in-services/util/result';
 import tabs from 'in-events/components/tabs/index';
 import { t } from 'in-i18n';
-
-import { notesAndActivity, setNotesAndActivity, notesAndActivity$ } from 'in-stores/notesAndActivity';
-import { pendingResult } from 'in-services/fixedObjects';
 
 import locals from './EventTable.mless';
 
@@ -119,11 +118,6 @@ function EventTable(props) {
     return null;
   }
 
-  // const notesActivityOpened = useObservable(() => notesAndActivity$, []);
-  const eventResult = useObservable(() => eventObservable, [eventObservable]) ?? (eventObservable ? pendingResult : null);
-  // console.log('notesActivityOpened', notesActivityOpened)
-  console.log('eventResult', eventResult)
-
   function onItemClicked(eventId) {
     if (isApplicationDirect) {
       setOrDeleteMatrixKey(location, eventsPath, 'view', 'cve_issue');
@@ -141,7 +135,6 @@ function EventTable(props) {
   }
 
   return (
-    // <div className={locals.navigationWrapper}>
     <NavigatorSplitScreen
       {...props}
       items={items}
@@ -152,14 +145,9 @@ function EventTable(props) {
       openItemIndex={findIndex(items, event => event.id === selectedEventId)}
       openItem={e => onChange({ eventId: e.id })}
       resultCountLimit={eventResponseLimit}
-      event={eventResult}
     >
       <TabView HeaderComponent={Header} location={location} tabs={tabs} result$={eventObservable} props={props} />
     </NavigatorSplitScreen>
-    // {notesAndActivityEnabled && eventResult?.progress?.loading == false && notesActivityOpened && (
-    //   <NotesAndActivity event={eventResult.data} displayNotes={notesActivityOpened} setDisplayNotes={setNotesAndActivity} />
-    // )}
-    // </div>
   );
 }
 
@@ -202,9 +190,7 @@ function Header(props) {
 const IncidentHeader = ({ event, timeConfig }) => {
   const { location, createHref } = useNavigation();
   setOrDeleteMatrixKey(location, eventsPath, eventId, null);
-  // const [displayNotes, setDisplayNotes] = useState(false);
   const notesActivityOpened = useObservable(() => notesAndActivity$, []);
-  console.log('notesActivityOpened incidentHeader', notesActivityOpened)
 
   return (
     <LeftRightPadding className={locals.incidentHeader}>
@@ -218,7 +204,11 @@ const IncidentHeader = ({ event, timeConfig }) => {
           </Stack>
           <Stack align="center" direction="horizontal">
             {notesAndActivityEnabled && notesActivityOpened == false && (
-              <OpenNotesAndActivity event={event} displayNotes={notesActivityOpened} setDisplayNotes={setNotesAndActivity} />
+              <OpenNotesAndActivity
+                event={event}
+                displayNotes={notesActivityOpened}
+                setDisplayNotes={setNotesAndActivity}
+              />
             )}
             <IconButton
               href={createHref(location)}
@@ -230,7 +220,11 @@ const IncidentHeader = ({ event, timeConfig }) => {
               size="normal"
             />
             {notesAndActivityEnabled && (
-              <NotesAndActivity event={event} displayNotes={notesActivityOpened} setDisplayNotes={setNotesAndActivity} />
+              <NotesAndActivity
+                event={event}
+                displayNotes={notesActivityOpened}
+                setDisplayNotes={setNotesAndActivity}
+              />
             )}
           </Stack>
         </Stack>
