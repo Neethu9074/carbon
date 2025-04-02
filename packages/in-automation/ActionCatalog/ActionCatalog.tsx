@@ -126,43 +126,15 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
       manualContent = base64ToUtf8(content.value);
     }
   }
-  if (!hasPermisson) return null;
-  return (
-    <Stack align="end">
-      <MoreMenu kind="subtle">
-        {role?.canRunAutomationActions && action.type !== ACTION_TYPE.MANUAL && (
-          <MoreMenuButton
-            icon="lib_actions_play"
-            onClick={() => {
-              if (action.type === ACTION_TYPE.DOC_LINK) {
-                window.open(getDocLinkFromFields(action.fields).value, '_blank')?.focus();
-              } else {
-                addActiveDialog(<RunActionDialog test action={action} volatileId={{}} />);
-              }
-            }}
-          >
-            {t('in-automation:test')}
-          </MoreMenuButton>
-        )}
+  if (!hasPermisson && action.type !== ACTION_TYPE.MANUAL) {
+    return null;
+  }
 
-        {role?.canConfigureAutomationActions && (
-          <>
-            {isUserActions && (
-              <MoreMenuButton
-                icon="lib_actions_edit "
-                disabled={action.metadata?.builtIn}
-                onClick={() => handleButtonClick({ actionId: action?.id })}
-              >
-                {t('in-automation:edit')}
-              </MoreMenuButton>
-            )}
-            <MoreMenuButton
-              disabled={action.type === ACTION_TYPE.ANSIBLE}
-              icon="lib_actions_copy"
-              onClick={() => handleButtonClick({ actionId: action?.id, copy: true })}
-            >
-              {t('in-automation:copy')}
-            </MoreMenuButton>
+  return (
+    <>
+      {!hasPermisson && action.type === ACTION_TYPE.MANUAL && (
+        <Stack align="end">
+          <MoreMenu kind="subtle">
             {action.type === ACTION_TYPE.MANUAL && (
               <MoreMenuButton
                 icon="lib_launch_ai"
@@ -181,7 +153,64 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
                 {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
               </MoreMenuButton>
             )}
-            {isUserActions && (
+          </MoreMenu>
+        </Stack>
+      )}
+      {hasPermisson && (
+        <Stack align="end">
+          <MoreMenu kind="subtle">
+            {role?.canRunAutomationActions && action.type !== ACTION_TYPE.MANUAL && (
+              <MoreMenuButton
+                icon="lib_actions_play"
+                onClick={() => {
+                  if (action.type === ACTION_TYPE.DOC_LINK) {
+                    window.open(getDocLinkFromFields(action.fields).value, '_blank')?.focus();
+                  } else {
+                    addActiveDialog(<RunActionDialog test action={action} volatileId={{}} />);
+                  }
+                }}
+              >
+                {t('in-automation:test')}
+              </MoreMenuButton>
+            )}
+
+            {role?.canConfigureAutomationActions && isUserActions && (
+              <MoreMenuButton
+                icon="lib_actions_edit "
+                disabled={action.metadata?.builtIn}
+                onClick={() => handleButtonClick({ actionId: action?.id })}
+              >
+                {t('in-automation:edit')}
+              </MoreMenuButton>
+            )}
+            {role?.canConfigureAutomationActions && (
+              <MoreMenuButton
+                disabled={action.type === ACTION_TYPE.ANSIBLE}
+                icon="lib_actions_copy"
+                onClick={() => handleButtonClick({ actionId: action?.id, copy: true })}
+              >
+                {t('in-automation:copy')}
+              </MoreMenuButton>
+            )}
+            {action.type === ACTION_TYPE.MANUAL && (
+              <MoreMenuButton
+                icon="lib_launch_ai"
+                onClick={() => {
+                  generateAIButtonClickTrackerSegment({
+                    type: 'script',
+                    location: 'action catalog',
+                    actionName: action.name,
+                    actionId: action?.id
+                  });
+                  addActiveDialog(
+                    <GenerateAIScriptActionDialog manualContent={manualContent} actionName={action.name} />
+                  );
+                }}
+              >
+                {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
+              </MoreMenuButton>
+            )}
+            {isUserActions && role?.canConfigureAutomationActions && (
               <MoreMenuButton
                 disabled={isNotEditable(action, false) && action.type !== ACTION_TYPE.ANSIBLE}
                 icon="lib_actions_delete"
@@ -190,10 +219,10 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
                 {t('in-automation:delete')}
               </MoreMenuButton>
             )}
-          </>
-        )}
-      </MoreMenu>
-    </Stack>
+          </MoreMenu>
+        </Stack>
+      )}
+    </>
   );
 }
 
