@@ -849,7 +849,7 @@ module.exports = exports = [
   {
     uiClientKey: 'idpConfigV2Enabled',
     instanaCtlKey: 'feature.idp.config.v2.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'sloLiteEnabled',
