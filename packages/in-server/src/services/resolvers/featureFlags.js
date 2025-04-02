@@ -549,7 +549,7 @@ module.exports = exports = [
   {
     uiClientKey: 'incidentSummarizationEnabled',
     instanaCtlKey: 'feature.incident.ai.summarization.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'eventsAIChatEnabled',
