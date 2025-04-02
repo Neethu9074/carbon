@@ -26,7 +26,7 @@ export default function CustomDashboardsHeader() {
               color={themes.default.ids.color.option.neutral['700']}
               aria-label={t('in-plg:welcomepage.component.dashboardWidget.label')}
             />
-            <Typography variant="heading-04" noMargin>
+            <Typography variant="heading-04" component="h1" noMargin>
               {t('in-plg:welcomepage.component.dashboardWidget.label')}
             </Typography>
           </Stack>

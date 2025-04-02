@@ -2,7 +2,10 @@
   "csvExporterButton": {
     "label": "Export to CSV"
   },
-
+  "pageStructure":{
+    "headerAriaLabel": "Page header",
+    "contentAriaLabel": "Content"
+  },
   "fileInputButton": {
     "label": {
       "chooseSingle": "Choose file…",

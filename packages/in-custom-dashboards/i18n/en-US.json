@@ -3,6 +3,7 @@
     "copyOf": "Copy of {{title}}"
   },
   "customDashboard": {
+    "customDashboardsTitle": "Custom dashboards",
     "editJsonDialog": {
       "editJsonDialogPresenter": {
         "confirmBt": "Confirm",
