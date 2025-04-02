@@ -122,7 +122,6 @@ function BasicForm({
           )}
           <Button
             icon={saving ? 'lib_actions_loading' : null}
-            iconSpinning
             kind="primary"
             type="submit"
             disabled={form && (!form.hierarchyValid || !form.hierarchyTouched)}

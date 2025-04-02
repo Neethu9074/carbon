@@ -6,7 +6,15 @@
 import React, { useState, useEffect } from 'react';
 import { get } from 'lodash';
 
-import { Card, CarbonButton as Button, Typography, CarbonStack as Stack, Checkbox, Message } from '@instana/components';
+import {
+  Card,
+  CarbonButton as Button,
+  Typography,
+  CarbonStack as Stack,
+  Checkbox,
+  Message,
+  CarbonForm as Form
+} from '@instana/components';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { RenderIcon } from 'in-applications/analyze/components/SaveFilters/RenderIcon';
@@ -40,31 +48,33 @@ export default function RemoveSection({ application }) {
   return (
     <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
       <Card title={t('in-applications:titleRemoveApplicationPerspective')}>
-        <Stack gap={4}>
-          <Typography variant="label-01">
-            <Trans
-              i18nKey="in-applications:forms.newApplication.descriptionRemoveApplicationPerspective"
-              values={{ application: application.label }}
+        <Form onSubmit={e => remove(e)} aria-label="application-deletion-form">
+          <Stack gap={4}>
+            <Typography variant="label-01">
+              <Trans
+                i18nKey="in-applications:forms.newApplication.descriptionRemoveApplicationPerspective"
+                values={{ application: application.label }}
+              />
+            </Typography>
+            <Checkbox
+              label={t('in-applications:forms.understandCheckboxResetToDefaultRule')}
+              checked={checkboxChecked}
+              onChange={onTickChange}
+              disabled={loading}
             />
-          </Typography>
-          <Checkbox
-            label={t('in-applications:forms.understandCheckboxResetToDefaultRule')}
-            checked={checkboxChecked}
-            onChange={onTickChange}
-            disabled={loading}
-          />
-          {error && <Message type="error">{error}</Message>}
-          <div className={locals.footer}>
-            <Button
-              kind="danger"
-              disabled={loading || !checkboxChecked}
-              onClick={remove}
-              renderIcon={() => <RenderIcon type="lib_actions_delete" size="xs" />}
-            >
-              {t('in-applications:buttonRemoveApplicationPerspective')}
-            </Button>
-          </div>
-        </Stack>
+            {error && <Message type="error">{error}</Message>}
+            <div className={locals.footer}>
+              <Button
+                kind="danger"
+                type="submit"
+                disabled={loading || !checkboxChecked}
+                renderIcon={() => <RenderIcon type="lib_actions_delete" size="xs" />}
+              >
+                {t('in-applications:buttonRemoveApplicationPerspective')}
+              </Button>
+            </div>
+          </Stack>
+        </Form>
       </Card>
     </MaxWidthFullscreenContainer>
   );

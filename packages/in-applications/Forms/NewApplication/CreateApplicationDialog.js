@@ -12,7 +12,6 @@ import {
   Pill,
   Typography,
   CarbonTextInput as TextInput,
-  CarbonFormGroup as FormGroup,
   CarbonStack as Stack
 } from '@instana/components';
 import { just } from '@instana/observables';
@@ -83,7 +82,10 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref, g
           getInitialForm={getInitialForm}
           renderFormContent={(appConfig, form, setValue, updateForm) => {
             return (
-              <FormGroup legendText={t('in-applications:forms.newApplication.helpApplicationPerspectives')}>
+              <>
+                <Typography variant="label-01" component="legend">
+                  {t('in-applications:forms.newApplication.helpApplicationPerspectives')}
+                </Typography>
                 <Steps
                   steps={[
                     {
@@ -209,7 +211,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref, g
                       : null
                   ].filter(Boolean)}
                 />
-              </FormGroup>
+              </>
             );
           }}
         />
