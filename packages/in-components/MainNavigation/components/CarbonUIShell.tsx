@@ -43,7 +43,8 @@ import {
   hasSloAccess,
   hasInfrastructureAnalyzeAccess,
   hasAutomationAccess,
-  hasNutanixAccess
+  hasNutanixAccess,
+  hasXenServerAccess
 } from 'in-stores/permission';
 import {
   loggingEnabled,
@@ -110,6 +111,7 @@ import { isVulnerabilityView, vulnerabilityRoot } from 'in-vulnerability-center/
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { actionCatalogFullyQualified, isAutomationView } from 'in-automation/navigation/paths';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
+import { xenserver, xenserverHostListFullyQualified } from 'in-xenserver/navigation/paths';
 import ProfileMenu from 'in-components/MainNavigation/components/ProfileMenu/ProfileMenu';
 import { nutanixClusterListFullyQualified, nutanix } from 'in-nutanix/navigation/paths';
 import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/paths';
@@ -374,6 +376,16 @@ function platformsContent(
         label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}
         href={createHrefToPath(datacenterListFullyQualified)}
         isActive={matchLocation(vsphere)}
+      />
+    ) : null,
+    hasXenServerAccess && !playwithEnabled ? (
+      <MenuItem
+        {...optionalProps}
+        id="main-nav-xenserver"
+        key="main-nav-xenserver"
+        label={t('in-components:mainNavigation.viewSwitcherLabelXenServer')}
+        href={createHrefToPath(xenserverHostListFullyQualified)}
+        isActive={matchLocation(xenserver)}
       />
     ) : null
   ];

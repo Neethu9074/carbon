@@ -149,7 +149,9 @@ export const pageNames = Object.freeze({
   nutanix_vm: 'Nutanix VM',
   nutanix_host: 'Nutanix Host',
   nutanix_clusters: 'Nutanix Clusters',
-  nutanix: 'Nutanix'
+  nutanix: 'Nutanix',
+  xenserver: 'XenServer',
+  xenserver_host: 'XenServer Host'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
 export type PageName = (typeof pageNames)[PageNameKeys];

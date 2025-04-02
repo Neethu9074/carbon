@@ -26,7 +26,8 @@ import {
   hasSAPAccess,
   hasSloAccess,
   hasAutomationAccess,
-  hasNutanixAccess
+  hasNutanixAccess,
+  hasXenServerAccess
 } from 'in-stores/permission';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
@@ -47,6 +48,7 @@ import LandingPage from 'in-client/js/LandingPage/LandingPage';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
 import profilingRoutes from 'in-profiling/navigation/routes';
 import openstackRoutes from 'in-openstack/navigation/routes';
+import xenserverRoutes from 'in-xenserver/navigation/routes';
 import sloRoutes from 'in-service-levels/navigation/routes';
 import loggingRoutes from 'in-logging/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
@@ -88,6 +90,7 @@ export default (
     {hasVSphereAccess && vsphereRoutes}
     {hasOpenStackAccess && openstackRoutes}
     {hasSAPAccess && sapRoutes}
+    {hasXenServerAccess && xenserverRoutes}
     {hasZHMCAccess && zhmcRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {hasMobileAppsAccess && mobileAppMonitoringRoutes}

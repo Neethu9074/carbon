@@ -51,6 +51,7 @@ export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const phmcEnabled = isFeatureFlagEnabled('phmcEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
 export const openstackEnabled = isFeatureFlagEnabled('openstackEnabled');
+export const xenserverEnabled = isFeatureFlagEnabled('xenserverEnabled');
 export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');

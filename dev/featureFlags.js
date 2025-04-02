@@ -147,6 +147,7 @@ module.exports = {
   graphViewFromInfraMapEnabled: true,
   extrapolateMissingStackedAreaValues: true,
   nutanixEnabled: true,
+  xenserverEnabled: true,
   automationActionAiGenerationUnitEnabled: true,
   disableEventConfigEnabled: true,
   graphTabEnabled: true,
