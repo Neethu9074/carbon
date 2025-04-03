@@ -21,7 +21,7 @@ import {
   CUSTOM_DASHBOARD_ZOOM_WIDGET_START,
   CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH,
   CUSTOM_DASHBOARD_ADD_WIDGET_DUPLICATE,
-  CUSTOM_DASHBOARD_DOWNLOAD_PDF_START
+  DOWNLOAD_PDF_START
 } from 'in-services/tracking/tracking';
 import { dashboardIdUrlParameter, dashboardTopLevelFilterUrlParameter } from 'in-custom-dashboards/navigation/url';
 import PdfHeader from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/components/PdfHeader/PdfHeader';
@@ -158,7 +158,7 @@ export default function CustomDashboardLoader(props) {
         onDiscardChanges={onDiscardChanges}
         onPDFDashboardDownload={() => {
           setDownloadDashboard(true);
-          trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_START, { customDashboardId: dashboardId });
+          trackCta(DOWNLOAD_PDF_START, { customDashboardId: dashboardId });
           onPDFDashboardDownload(dashboardId);
         }}
         onShare={onShare}

@@ -21,12 +21,12 @@ import {
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
 import { CustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/CustomDashboardContext';
 import { customDashboardsExportPdfWidget, zoomWidgetEnabled } from 'in-services/featureFlags';
-import { CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF } from 'in-services/tracking/tracking';
 import { useFastQueryConfig } from 'in-custom-dashboards/hooks/useFastQueryConfig';
 import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
 import { gridGutter } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ViewLogsButton } from 'in-logging/components/ViewLogsButton';
+import { DOWNLOAD_PDF_WIDGET } from 'in-services/tracking/tracking';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import ErrorBoundary from 'in-components/ErrorBoundary';
@@ -138,7 +138,7 @@ function Grid({
             onRemoveWidget={onRemoveWidget}
             setExportWidgetId={setExportWidgetId}
             setShouldExportWidget={value => {
-              trackCta(CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF, { widgetId: widget.id });
+              trackCta(DOWNLOAD_PDF_WIDGET, { widgetId: widget.id });
               setShouldExportWidget(value);
             }}
             isDraggable={isDraggable}
