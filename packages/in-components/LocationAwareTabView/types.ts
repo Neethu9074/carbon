@@ -5,9 +5,11 @@
  */
 
 import React from 'react';
+
+import { Result } from '@instana/types';
+
 import { Location } from 'in-stores/navigation/types';
 import { Nullish } from 'in-types';
-import { Result } from '@instana/types';
 
 export interface Tab<TabData, TabProps extends {}> {
   label: string;
@@ -25,6 +27,11 @@ export interface Tab<TabData, TabProps extends {}> {
   isFullWidth?: boolean;
   hideTabLabelWhenAlone?: boolean;
   isInternal?: boolean;
+  /**
+   * optional react component to be rendered on top without wrapping and adding additional
+   * padding of styling
+   */
+  topBanner?: React.FunctionComponent;
 }
 
 export interface TabHeaderProps<TabData, TabProps extends {}> {

@@ -15,12 +15,14 @@ import Configuration from 'in-applications/Dashboards/application/tabs/Configura
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
 //@ts-expect-error needs TS migration
 import Summary from 'in-applications/Dashboards/application/tabs/Summary/Summary';
+import { resourceOptimizationActionsEnabled, vulnerabilityCenterEnabled, solisEnabled } from 'in-services/featureFlags';
+import ResourceOptimizationTabBanner from 'in-applications/Dashboards/application/tabs/ResourceOptimizationTabBanner';
 //@ts-expect-error needs TS migration
 import Services from 'in-applications/Dashboards/application/tabs/Services';
+import CveVulnerabilitiesTabBanner from 'in-applications/Dashboards/application/tabs/CveVulnerabilitiesTabBanner';
 //@ts-expect-error needs TS migration
 import Alerts from 'in-applications/Dashboards/application/tabs/Alerts';
 import SyntheticsList from 'in-applications/Dashboards/application/tabs/SyntheticsMonitoring/SyntheticsList';
-import { resourceOptimizationActionsEnabled, vulnerabilityCenterEnabled } from 'in-services/featureFlags';
 import ResourceOptimizationTab from 'in-applications/Dashboards/application/tabs/ResourceOptimizations';
 //@ts-expect-error needs TS migration
 import Map from 'in-applications/Dashboards/application/tabs/Map';
@@ -77,11 +79,13 @@ const getApplicationTabs = (canConfigureApplications: boolean | null | undefined
     vulnerabilityCenterEnabled && {
       label: t('in-events:labelCveIssue'),
       path: `${applicationDashboard}/CveVulnerabilities`,
+      topBanner: solisEnabled && CveVulnerabilitiesTabBanner,
       component: CveVulnerabilities
     },
     resourceOptimizationActionsEnabled && {
       label: t('in-applications:labelResourceOptimizations'),
       path: `${applicationDashboard}/resourceOptimizations`,
+      topBanner: solisEnabled && ResourceOptimizationTabBanner,
       component: ResourceOptimizationTab
     },
     {

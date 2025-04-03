@@ -26,6 +26,7 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConcertBanner from 'in-vulnerability-center/components/ConcertBanner';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import getRawCVEEvents from 'in-subscription/getRawCVEEvents';
+import { solisEnabled } from 'in-services/featureFlags';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/fixedObjects';
@@ -79,7 +80,9 @@ export default function AffectedCvePresenter({ location }) {
   const cveEventsResult = useObservable(fetchCVEEvents({ cursor: null }), [timeConfig, orderBy, orderDirection]);
 
   if (isLoading(cveEventsResult)) {
-    return (
+    return solisEnabled ? (
+      <TableSkeleton />
+    ) : (
       <>
         <ConcertBanner expanded="showVulnerabilityInfoPanel" />
         <TableSkeleton />
@@ -96,7 +99,7 @@ export default function AffectedCvePresenter({ location }) {
 
   return (
     <Stack gap="large">
-      <ConcertBanner expanded="showVulnerabilityInfoPanel" />
+      {!solisEnabled && <ConcertBanner expanded="showVulnerabilityInfoPanel" />}
       <ServerTableWithUrlState
         get={fetchCVEEvents}
         timeConfig={timeConfig}

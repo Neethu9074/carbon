@@ -29,6 +29,7 @@ import { fixedTimestamp } from 'in-test/util/generateMetrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { boundaryScopes } from 'in-applications/constants';
+import { solisEnabled } from 'in-services/featureFlags';
 import { chartColors } from 'in-themes/chartColors';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
@@ -123,49 +124,51 @@ export default function ResourceOptimizationTab({
 
   return (
     <div className={locals.contentContainer}>
-      <InfoPanel
-        expanded="showResourceActionInfoPanel"
-        content={{
-          title: t('in-applications:infoBanner.title'),
-          columns: [
-            {
-              title: t('in-applications:infoBanner.tryLabel'),
-              text: t('in-applications:infoBanner.tryText'),
-              link: {
-                url: 'https://www.ibm.com/account/reg/us-en/signup?formid=urx-52198&launch=Instana',
-                label: t('in-applications:infoBanner.tryButtonLabel'),
-                trackKey: AUTOMATION_TURBO_TRY_CLICK
+      {!solisEnabled && (
+        <InfoPanel
+          expanded="showResourceActionInfoPanel"
+          content={{
+            title: t('in-applications:infoBanner.title'),
+            columns: [
+              {
+                title: t('in-applications:infoBanner.tryLabel'),
+                text: t('in-applications:infoBanner.tryText'),
+                link: {
+                  url: 'https://www.ibm.com/account/reg/us-en/signup?formid=urx-52198&launch=Instana',
+                  label: t('in-applications:infoBanner.tryButtonLabel'),
+                  trackKey: AUTOMATION_TURBO_TRY_CLICK
+                }
+              },
+              {
+                title: t('in-applications:infoBanner.learnLabel'),
+                text: t('in-applications:infoBanner.learnText'),
+                link: {
+                  url: 'https://www.ibm.com/products/instana/automated-resource-optimization',
+                  label: t('in-applications:infoBanner.learnButtonLabel')
+                }
+              },
+              {
+                title: t('in-applications:infoBanner.connectLabel'),
+                text: t('in-applications:infoBanner.connectText'),
+                link: {
+                  url: 'https://www.ibm.com/account/reg/us-en/signup?formid=MAIL-automateinstana',
+                  label: t('in-applications:infoBanner.connectButtonLabel'),
+                  trackKey: AUTOMATION_TURBO_BUY_CLICK
+                }
+              },
+              {
+                title: t('in-applications:infoBanner.helpLabel'),
+                text: t('in-applications:infoBanner.helpText'),
+                link: {
+                  url: 'https://your.feedback.ibm.com/jfe/form/SV_eLsdmgUrNwcTrpQ',
+                  label: t('in-applications:infoBanner.helpButtonLabel'),
+                  trackKey: AUTOMATION_TURBO_SUPPORT_CLICK
+                }
               }
-            },
-            {
-              title: t('in-applications:infoBanner.learnLabel'),
-              text: t('in-applications:infoBanner.learnText'),
-              link: {
-                url: 'https://www.ibm.com/products/instana/automated-resource-optimization',
-                label: t('in-applications:infoBanner.learnButtonLabel')
-              }
-            },
-            {
-              title: t('in-applications:infoBanner.connectLabel'),
-              text: t('in-applications:infoBanner.connectText'),
-              link: {
-                url: 'https://www.ibm.com/account/reg/us-en/signup?formid=MAIL-automateinstana',
-                label: t('in-applications:infoBanner.connectButtonLabel'),
-                trackKey: AUTOMATION_TURBO_BUY_CLICK
-              }
-            },
-            {
-              title: t('in-applications:infoBanner.helpLabel'),
-              text: t('in-applications:infoBanner.helpText'),
-              link: {
-                url: 'https://your.feedback.ibm.com/jfe/form/SV_eLsdmgUrNwcTrpQ',
-                label: t('in-applications:infoBanner.helpButtonLabel'),
-                trackKey: AUTOMATION_TURBO_SUPPORT_CLICK
-              }
-            }
-          ]
-        }}
-      />
+            ]
+          }}
+        />
+      )}
       <div className={locals.charts}>
         <div className={locals.categoriesChart}>
           <ResultAwareChart
