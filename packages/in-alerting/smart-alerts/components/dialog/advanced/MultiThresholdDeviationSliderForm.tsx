@@ -6,6 +6,7 @@
 
 import { Field, MapForm } from 'formalistic';
 import React, { useEffect } from 'react';
+import classNames from 'classnames';
 
 import { Checkbox, Stack } from '@instana/components';
 
@@ -106,7 +107,7 @@ export function MultiThresholdDeviationSliderForm({
       isTearSheet={isTearSheet}
       isMultiThreshold
     >
-      <div className={locals.multiThresholdContainer}>
+      <div className={classNames({ [locals.multiThresholdContainer]: true, [locals.topSpace]: !isTearSheet })}>
         <Stack gap="small">
           <Checkbox
             label={t('in-alerting:smartAlerts.components.smartAlertDialog.warningThresholdLabel')}

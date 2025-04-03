@@ -7,7 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Spacer } from '@instana/components';
+import { Spacer, Message } from '@instana/components';
 
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartViewConfiguratorWithEntitySelection';
@@ -89,7 +89,7 @@ export default function AlertConfigTearSheetStep4(props) {
           </div>
 
           <div className={classNames({ [locals.container]: true, [locals.alignStart]: true })} id="selectType">
-            <span className={locals.longLabel}>
+            <span className={locals.label}>
               <AlertTypography
                 variant="body-regular"
                 color="color900"
@@ -107,6 +107,21 @@ export default function AlertConfigTearSheetStep4(props) {
               editMode={editMode}
             />
           </div>
+
+          {/* Error message for erroneous BP  */}
+          {alertType === 'errors' && thresholdType === ADAPTIVE_BASELINE && (
+            <>
+              <Spacer vertical="xsmall" />
+              <Message
+                className={classNames({
+                  [locals.topMargin]: true
+                })}
+                withIcon
+                fullInlineWidth
+                description={t('in-alerting:smartAlerts.applications.advanced.staticOrAdaptiveSwitch.description')}
+              />
+            </>
+          )}
 
           {isTagFilterFormModelValid === false && tagFilterExpression && thresholdType === ADAPTIVE_BASELINE && (
             <InvalidFilterMessage

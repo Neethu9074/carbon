@@ -1,13 +1,13 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
 import { Field, MapForm } from 'formalistic';
 import React, { useEffect } from 'react';
 
-import { Checkbox, Stack } from '@instana/components';
+import { Checkbox, Spacer, Stack } from '@instana/components';
 
 import {
   updateAlertChannelSelectionOnWarningThresholdFieldChange,
@@ -16,10 +16,11 @@ import {
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
+import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForMultiStaticThreshold.mless';
+import locals from './ThresholdValueFormGroupForMultiStaticThreshold.mless';
 
 interface ThresholdValueFormGroupForMultiStaticThresholdProps {
   form: MapForm<any>;
@@ -50,8 +51,10 @@ export default function ThresholdValueFormGroupForMultiStaticThreshold({
   const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
   const warningThresholdCheckBoxField = warningThresholdField.get('isCheckboxSelected');
   const criticalThresholdCheckBoxField = criticalThresholdField.get('isCheckboxSelected');
-  const warningThresholdValuePresent = warningThresholdCheckBoxField?.value;
-  const criticalThresholdValuePresent = criticalThresholdCheckBoxField?.value;
+  const warningThresholdValue = warningThresholdField.get('value').value;
+  const criticalThresholdValue = criticalThresholdField.get('value').value;
+  const warningThresholdValuePresent = !isEmpty(warningThresholdValue);
+  const criticalThresholdValuePresent = !isEmpty(criticalThresholdValue);
   const alertChannelSelection = form.get('alertChannels').value;
 
   useEffect(() => {
@@ -76,11 +79,26 @@ export default function ThresholdValueFormGroupForMultiStaticThreshold({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [criticalThresholdCheckBoxField]);
 
+  const UseSuggestionButton = (
+    <UseSuggestedValueButton
+      form={form}
+      updateForm={updateForm}
+      metricUnitPostfix={metricUnitPostfix}
+      percentageMetric={percentageMetric}
+      thresholdField={warningThresholdField.get('value')}
+      isMultiThreshold
+      isGlobalSmartAlert={isGlobalSmartAlert}
+      getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
+    />
+  );
+
   return (
     <ThresholdConditionFormGroup iconType="lib_threshold" label={label} isTearSheet={isTearSheet} showLabel={showLabel}>
-      <div className={locals.multiThresholdContainer}>
-        <Stack>
-          <div className={locals.multiThresholdFieldContainer}>
+      <Stack direction="vertical" gap="normal">
+        <Spacer size="normal" />
+        <Stack direction="horizontal" gap="normal" align="center">
+          {/*warning threshold */}
+          <div className={locals.checkboxWidth}>
             <Checkbox
               label={t('in-alerting:smartAlerts.components.smartAlertDialog.warningThresholdLabel')}
               size="large"
@@ -89,32 +107,37 @@ export default function ThresholdValueFormGroupForMultiStaticThreshold({
                 updateForm(updatedThresholdCheckboxSelection(warningThresholdValuePresent, 'warningThreshold'))
               }
             />
-            <ThresholdValueInputWithValidationMessage
-              max={maxValue}
-              form={form}
-              updateForm={updateForm}
-              percentageMetric={percentageMetric}
-              metricUnitPostfix={metricUnitPostfix}
-              isSmall={hasSmallInputField}
-              isTearSheet={isTearSheet}
-              thresholdField={warningThresholdField.get('value')}
-              getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
-              isMultiThreshold
-              id="warningThreshold"
-            />
-
-            <UseSuggestedValueButton
-              form={form}
-              updateForm={updateForm}
-              metricUnitPostfix={metricUnitPostfix}
-              percentageMetric={percentageMetric}
-              thresholdField={warningThresholdField.get('value')}
-              isMultiThreshold
-              isGlobalSmartAlert={isGlobalSmartAlert}
-              getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
-            />
           </div>
-          <div className={locals.multiThresholdFieldContainer}>
+          <ThresholdValueInputWithValidationMessage
+            max={maxValue}
+            form={form}
+            updateForm={updateForm}
+            percentageMetric={percentageMetric}
+            metricUnitPostfix={metricUnitPostfix}
+            isSmall={hasSmallInputField && !isTearSheet}
+            isTearSheet={isTearSheet}
+            thresholdField={warningThresholdField.get('value')}
+            getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
+            isMultiThreshold
+            id="warningThreshold"
+          />
+          {/* suggestion button for dialog view*/}
+          {!isTearSheet && UseSuggestionButton}
+        </Stack>
+        {/* suggestion button for tearSheet view*/}
+        {isTearSheet && (
+          <Stack direction="horizontal" gap="normal" align="center">
+            <div className={locals.leftSpace}>
+              <Spacer horizontal="large" />
+            </div>
+
+            {UseSuggestionButton}
+          </Stack>
+        )}
+
+        {/* critical threshold */}
+        <Stack direction="horizontal" gap="normal" align="center">
+          <div className={locals.checkboxWidth}>
             <Checkbox
               label={t('in-alerting:smartAlerts.components.smartAlertDialog.criticalThresholdLabel')}
               size="large"
@@ -123,24 +146,28 @@ export default function ThresholdValueFormGroupForMultiStaticThreshold({
                 updateForm(updatedThresholdCheckboxSelection(criticalThresholdValuePresent, 'criticalThreshold'))
               }
             />
-            <ThresholdValueInputWithValidationMessage
-              max={maxValue}
-              form={form}
-              updateForm={updateForm}
-              percentageMetric={percentageMetric}
-              metricUnitPostfix={metricUnitPostfix}
-              isSmall={hasSmallInputField}
-              isTearSheet={isTearSheet}
-              thresholdField={criticalThresholdField.get('value')}
-              getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'criticalThreshold')}
-              isMultiThreshold
-              id="criticalThreshold"
-            />
           </div>
-          <TouchedMessages field={form.get('threshold')} />
-          <span>{t('in-alerting:smartAlerts.components.smartAlertDialog.multiThresholdAlertNotificationInfo')}</span>
+          <ThresholdValueInputWithValidationMessage
+            max={maxValue}
+            form={form}
+            updateForm={updateForm}
+            percentageMetric={percentageMetric}
+            metricUnitPostfix={metricUnitPostfix}
+            isSmall={hasSmallInputField}
+            isTearSheet={isTearSheet}
+            thresholdField={criticalThresholdField.get('value')}
+            getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'criticalThreshold')}
+            isMultiThreshold
+            id="criticalThreshold"
+          />
         </Stack>
-      </div>
+        {/* Validation message if critical threshold is > warning threshold */}
+        <TouchedMessages field={form.get('threshold')} />
+
+        {/* Info message */}
+        <span>{t('in-alerting:smartAlerts.components.smartAlertDialog.multiThresholdAlertNotificationInfo')}</span>
+        <Spacer size="normal" />
+      </Stack>
     </ThresholdConditionFormGroup>
   );
 

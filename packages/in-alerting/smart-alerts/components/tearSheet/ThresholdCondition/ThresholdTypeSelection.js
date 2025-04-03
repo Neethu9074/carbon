@@ -46,34 +46,36 @@ export default function ThresholdTypeSelection({
       {options.length > 1 && (
         <div className={locals.container}>
           <span className={locals.label} />
-          <Stack direction="vertical" gap="small" align="start">
-            <Select
-              data-testid="thresholdType"
-              value={thresholdComboBoxValue}
-              items={options}
-              onChange={e => {
-                onThresholdTypeChange(e.target.value, form, updateForm, noop, editMode);
-              }}
-              useFullWidth
-              wrapperClassName={locals.fullWidth}
-            >
-              {options.map(items => {
-                return (
-                  <option key={items.value} value={items.value}>
-                    {items.label}
-                  </option>
-                );
-              })}
-            </Select>
-            <AlertTypography
-              variant="body-small"
-              color="color700"
-              content={getThresholdDescription(seasonality ?? thresholdType)}
-            />
+          <Stack direction="horizontal" gap="small" align="start">
+            <Stack direction="vertical" gap="small" align="start">
+              <Select
+                data-testid="thresholdType"
+                value={thresholdComboBoxValue}
+                items={options}
+                onChange={e => {
+                  onThresholdTypeChange(e.target.value, form, updateForm, noop, editMode);
+                }}
+                useFullWidth
+                wrapperClassName={locals.fullWidth}
+              >
+                {options.map(items => {
+                  return (
+                    <option key={items.value} value={items.value}>
+                      {items.label}
+                    </option>
+                  );
+                })}
+              </Select>
+              <AlertTypography
+                variant="body-small"
+                color="color700"
+                content={getThresholdDescription(seasonality ?? thresholdType)}
+              />
+            </Stack>
+            {thresholdType === HISTORIC_BASELINE && (
+              <RecalculateMultiThresholdBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
+            )}
           </Stack>
-          {thresholdType === HISTORIC_BASELINE && (
-            <RecalculateMultiThresholdBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
-          )}
         </div>
       )}
     </>
