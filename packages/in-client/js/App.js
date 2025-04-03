@@ -10,8 +10,8 @@ import { ThemeProvider, getThemeOverride, setThemeOverride } from '@instana/comp
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
 import SessionTimeoutContainer from 'in-components/SessionTimeoutDialog/SessionTimeoutContainer';
 import { playwithEnabled, timeOutSessionEnabled, solisEnabled } from 'in-services/featureFlags';
+import CarbonUIShell from 'in-components/MainNavigation/components/CarbonUIShell/CarbonUIShell';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
-import CarbonUIShell from 'in-components/MainNavigation/components/CarbonUIShell';
 import LocationStateProvider from 'in-stores/navigation/LocationStateProvider';
 import ScrollTrackingWrapper from 'in-components/ScrollTrackingWrapper';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
