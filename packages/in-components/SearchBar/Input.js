@@ -24,7 +24,7 @@ import connectTo from 'in-hoc/connectTo';
 import 'in-components/SearchBar/searchTokenDefinitions.less';
 import './Input.less';
 
-const { isSpace, isCtrl, isReturn, isTab, isArrowUp, isArrowDown, isArrowLeft, isArrowRight, isEscape } = keyCodes;
+const { isSpace, isCtrl, isReturn, isArrowUp, isArrowDown, isArrowLeft, isArrowRight, isEscape } = keyCodes;
 const blockEndClass = 'cm-custom-block--end';
 const blockHighlightedClass = 'cm-custom-block--end--highlighted';
 const block = 'in-searchbar-input';
@@ -96,7 +96,7 @@ const SearchBarInput = connectTo(
         }
 
         // send allowed navigation keys to the suggestions component
-        if (isReturn(event) || isTab(event) || isArrowDown(event) || isArrowUp(event)) {
+        if (isReturn(event) || isArrowDown(event) || isArrowUp(event)) {
           event.preventDefault();
           this.state.eventEmitter.emit('keyDown', event);
         }
