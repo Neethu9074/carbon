@@ -36,7 +36,6 @@ const getCustomDashboards = async req => {
   const responseObject = await response.json();
 
   if (!response.ok) {
-    console.log(response);
     throw new Error('error calling /custom-dashboard: ' + JSON.stringify(responseObject));
   }
 
@@ -52,7 +51,15 @@ const createCustomDashboardWidgets = async (req, customDashboards) => {
         const ownerRequest = createRequest(req, '/api/settings/users/' + dashboard.ownerId);
 
         fetch(ownerRequest)
-          .then(response => response.json())
+          .then(async response => {
+            const responseObject = await response.json();
+
+            if (!response.ok) {
+              throw new Error('error calling /settings/users: ' + JSON.stringify(responseObject));
+            }
+
+            return responseObject;
+          })
           .then(data => {
             const tagText = dashboard.annotations.includes('SHARED')
               ? t('in-server:mainNavigation.sharedCustomerDashboard')
