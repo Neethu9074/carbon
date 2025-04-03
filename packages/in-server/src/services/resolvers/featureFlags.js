@@ -91,6 +91,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'xenserverEnabled',
+    instanaCtlKey: 'feature.xenserver.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'zhmcEnabled',
     instanaCtlKey: 'feature.zhmc.enabled',
     defaultValue: false
