@@ -13,7 +13,7 @@ describe('in-services/formatters/url', () => {
   describe('formatPathWithTU', () => {
     it('does NOT prefix the given path with TU segments if urlFormat is not defined', () => {
       // Given
-      config.urlFormat = undefined;
+      config.urlFormatPathStyle = undefined;
       config.tenant = 'acme';
       config.tenantUnit = 'one';
       const path = '/foo/bar';
@@ -25,7 +25,7 @@ describe('in-services/formatters/url', () => {
 
     it('does NOT prefix the given path with TU segments if urlFormat is subdomain format', () => {
       // Given
-      config.urlFormat = '$unit-$tenant.$baseDomain';
+      config.urlFormatPathStyle = false;
       config.tenant = 'acme';
       config.tenantUnit = 'one';
       const path = '/foo/bar';
@@ -37,7 +37,7 @@ describe('in-services/formatters/url', () => {
 
     it('prefixes the given path with TU segments if urlFormat is path format and the path starts with a "/"', () => {
       // Given
-      config.urlFormat = '$baseDomain/$tenant/$unit';
+      config.urlFormatPathStyle = true;
       config.tenant = 'acme';
       config.tenantUnit = 'one';
       const path = '/foo/bar';
@@ -49,7 +49,7 @@ describe('in-services/formatters/url', () => {
 
     it('prefixes the given path with TU segments if urlFormat is path format and the path does NOT start with a "/"', () => {
       // Given
-      config.urlFormat = '$baseDomain/$tenant/$unit';
+      config.urlFormatPathStyle = true;
       config.tenant = 'acme';
       config.tenantUnit = 'one';
       const path = 'foo/bar';
@@ -61,7 +61,7 @@ describe('in-services/formatters/url', () => {
 
     it('does NOT prefix the given path with TU segments if urlFormat is path format and the path starts with a schema like "any://"', () => {
       // Given
-      config.urlFormat = '$baseDomain/$tenant/$unit';
+      config.urlFormatPathStyle = true;
       config.tenant = 'acme';
       config.tenantUnit = 'one';
       const path = 'any://acme.fun/foo/bar';
@@ -73,7 +73,7 @@ describe('in-services/formatters/url', () => {
 
     it('does NOT prefix the given path with TU segments if urlFormat is path format and the path starts with a relative schema "//"', () => {
       // Given
-      config.urlFormat = '$baseDomain/$tenant/$unit';
+      config.urlFormatPathStyle = true;
       config.tenant = 'acme';
       config.tenantUnit = 'one';
       const path = '//acme.fun/foo/bar';

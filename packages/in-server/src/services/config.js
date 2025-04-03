@@ -4,7 +4,6 @@
  */
 
 const { activeResolver } = require('./resolvers/index');
-const { subdomainUrlFormat } = require('./sharedUrlUtils');
 const serverConfig = require('../serverConfig.js');
 
 exports.getBaseUrl = activeResolver.getBaseUrl;
@@ -20,7 +19,7 @@ exports.getClientConfig = (req, tenant, unit) => {
     activeResolver.getTenantInfo(req, tenant, unit)
   ]).then(([butlerDomain, featureFlags, configuration, reportingEndpoints, internalIds]) => ({
     butlerDomain,
-    urlFormat: serverConfig.urlFormat ?? subdomainUrlFormat,
+    urlFormatPathStyle: serverConfig.urlFormatPathStyle,
     tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
     region: serverConfig.clientConfig.region,
     instanaRegion: serverConfig.clientConfig.instanaRegion,
