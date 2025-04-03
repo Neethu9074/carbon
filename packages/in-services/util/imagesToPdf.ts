@@ -141,8 +141,8 @@ export function fitContentInPdf({
   pdf
 }: FunctionProps & { imageScale: ImagesToPdfProps['imageScale'] }) {
   const pdfWidth = pdf.internal.pageSize.getWidth();
-  const pdfHeight = pdf.internal.pageSize.getHeight();
   const headerHeight = headerImage ? (headerImage.height * pdfWidth) / headerImage.width : 0;
+  const pdfHeight = pdf.internal.pageSize.getHeight() - headerHeight;
   const image = images[0];
   const originalImageWidth = image.width / imageScale;
   const originalImageHeight = image.height / imageScale;
