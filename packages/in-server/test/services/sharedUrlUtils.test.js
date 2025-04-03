@@ -12,10 +12,9 @@ const serverConfig = require('../../src/serverConfig');
 describe('in-server/src/services/sharedUrlUtils', () => {
   describe('getBaseUrl', () => {
     it('must resolve default url format', async () => {
-      const urlFormat = '$unit-$tenant.$baseDomain';
-      serverConfig.urlFormat = urlFormat;
+      serverConfig.urlFormatPathStyle = false;
       serverConfig.clientConfig = {
-        urlFormat,
+        urlFormatPathStyle: false,
         tenantUnitDomainSuffix: 'instana.rocks'
       };
 
@@ -24,10 +23,9 @@ describe('in-server/src/services/sharedUrlUtils', () => {
     });
 
     it('must resolve custom url format', async () => {
-      const urlFormat = '$baseDomain/$tenant/$unit';
-      serverConfig.urlFormat = urlFormat;
+      serverConfig.urlFormatPathStyle = true;
       serverConfig.clientConfig = {
-        urlFormat,
+        urlFormatPathStyle: true,
         tenantUnitDomainSuffix: 'instana.rocks'
       };
 

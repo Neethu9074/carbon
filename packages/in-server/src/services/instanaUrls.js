@@ -5,7 +5,6 @@
  */
 
 const serverConfig = require('../serverConfig.js');
-const sharedUrlUtils = require('./sharedUrlUtils.js');
 
 // request header for tenant&unit name i case using 'operatorUrlFormat'
 exports.header = {
@@ -14,8 +13,7 @@ exports.header = {
 };
 
 exports.isDefaultUrlFormat = function isDefaultUrlFormat() {
-  const urlFormat = serverConfig.urlFormat ?? sharedUrlUtils.subdomainUrlFormat;
-  return urlFormat === sharedUrlUtils.subdomainUrlFormat;
+  return !serverConfig.urlFormatPathStyle;
 };
 
 /**
