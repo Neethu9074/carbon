@@ -189,7 +189,7 @@ router.get('/', async (req, res) => {
     const walkmeTestEnabled = walkmeEnabled && featureFlags.playwithTestEnabled;
     const ibmCommonEnabled = featureFlags.ibmCommonEnabled;
     const solisEnabled = featureFlags.solisEnabled;
-    const solisUiHost = clientConfig.solisUiHost;
+    const solisUiHost = clientConfig.solisUiHost ?? '';
     const isAssistMeEnabled = ibmCommonEnabled && featureFlags.assistmeEnabled && walkmeEnabled;
     const isSessionPlayBackRequired =
       walkmeEnabled && (activeLicenseInfo == 'selfService' || featureFlags.playwithEnabled);
