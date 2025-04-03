@@ -133,9 +133,9 @@ export function getSyntheticTagLabels(resultList: Result<PaginatedResult<TestRes
 
 export const getResultErrorMessage = (error: string) => {
   if (error) {
-    const regex = /errorMessage=([^,}]+)/;
-    const match = RegExp(regex).exec(error);
-    return match ? match[1] : '';
+    let start: number = error.search('errorMessage=');
+    let len: number = error?.length;
+    return error.slice(start + 'errorMessage='.length, len - 1);
   }
   return '';
 };
