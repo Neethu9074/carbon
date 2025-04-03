@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2025
  */
 
-import { TeamScopeArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/TeamScopeOverview.types';
+import { ScopeArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/ScopeOverview.types';
 import { t } from 'in-i18n';
 
-export const TEAM_SCOPE_AREAS: Array<TeamScopeArea> = [
+export const SCOPE_AREAS: Array<ScopeArea> = [
   {
     id: 'websites-mobile-apps',
     title: t('in-settings:tabs.teams.scopeWebsitesAndMobileApps'),
@@ -59,6 +59,16 @@ export const TEAM_SCOPE_AREAS: Array<TeamScopeArea> = [
     }
   },
   {
+    id: 'custom-dashboards',
+    title: t('in-settings:tabs.teams.scopeCustomDashboards'),
+    subtitle: () => {
+      return t('in-settings:tabs.teams.scopeCustomDashboardsSubtitle', { count: 0 });
+    },
+    items: () => {
+      return [{ id: 'dashboards', items: [] }];
+    }
+  },
+  {
     id: 'synthetic-monitoring',
     title: t('in-settings:tabs.teams.scopeSyntheticMonitoring'),
     subtitle: scope => {
@@ -79,16 +89,6 @@ export const TEAM_SCOPE_AREAS: Array<TeamScopeArea> = [
     }
   },
   {
-    id: 'automations',
-    title: t('in-settings:tabs.teams.scopeAutomations'),
-    subtitle: () => {
-      return t('in-settings:tabs.teams.scopeAutomationsSubtitle', { count: 0 });
-    },
-    items: () => {
-      return [{ id: 'automations', items: [] }];
-    }
-  },
-  {
     id: 'alert-channels',
     title: t('in-settings:tabs.teams.scopeAlertChannels'),
     subtitle: () => {
@@ -99,13 +99,13 @@ export const TEAM_SCOPE_AREAS: Array<TeamScopeArea> = [
     }
   },
   {
-    id: 'custom-dashboards',
-    title: t('in-settings:tabs.teams.scopeCustomDashboards'),
+    id: 'automations',
+    title: t('in-settings:tabs.teams.scopeAutomations'),
     subtitle: () => {
-      return t('in-settings:tabs.teams.scopeCustomDashboardsSubtitle', { count: 0 });
+      return t('in-settings:tabs.teams.scopeAutomationsSubtitle', { count: 0 });
     },
     items: () => {
-      return [{ id: 'dashboards', items: [] }];
+      return [{ id: 'automations', items: [] }];
     }
   }
 ];

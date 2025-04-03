@@ -10,8 +10,11 @@ import React from 'react';
 import { CarbonInlineLoading, Typography } from '@instana/components';
 import { ProductiveCard } from '@instana/ibm-products';
 
-import TeamScopeOverview from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/TeamScopeOverview';
+import ScopeOverview from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/ScopeOverview';
+import ScopeDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/ScopeDialog';
+import { FORM_MODE } from 'in-settings/components/MapFormProvider/MapFormProvider';
 import { ApiTeam as Team } from 'in-settings/tabs/SecurityAndAccess/api/teams';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import config from 'in-services/config';
 import { t } from 'in-i18n';
 
@@ -28,7 +31,9 @@ const TeamScopeCard = ({ isLoading, team }: TeamScopeCardProps) => {
           icon: Edit,
           iconDescription: t('in-settings:tabs.teams.edit'),
           id: '1',
-          onClick: () => {}
+          onClick: () => {
+            addActiveDialog(<ScopeDialog mode={FORM_MODE.NEW} />);
+          }
         }
       ]}
       title={t('in-settings:tabs.teams.teamScope')}
@@ -42,7 +47,7 @@ const TeamScopeCard = ({ isLoading, team }: TeamScopeCardProps) => {
           <Typography variant="body-01">{t('in-settings:tabs.teams.teamScopeNotDefinedMessage')}</Typography>
         </>
       )}
-      {!isLoading && team?.scope && <TeamScopeOverview team={team} />}
+      {!isLoading && team?.scope && <ScopeOverview team={team} />}
     </ProductiveCard>
   );
 };

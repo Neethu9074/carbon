@@ -13,15 +13,15 @@ import {
   CarbonContainedListItem
 } from '@instana/components';
 
-import { TeamScopeOverviewProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/TeamScopeOverview.types';
-import { TEAM_SCOPE_AREAS } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/TeamScopeOverview.constants';
+import { ScopeOverviewProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/ScopeOverview.types';
+import { SCOPE_AREAS } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/ScopeOverview.constants';
 
-import locals from './TeamScopeOverview.mless';
+import locals from './ScopeOverview.mless';
 
-const TeamScopeOverview = ({ team }: TeamScopeOverviewProps) => {
+const ScopeOverview = ({ team }: ScopeOverviewProps) => {
   return (
     <CarbonAccordion>
-      {TEAM_SCOPE_AREAS.map(area => {
+      {SCOPE_AREAS.map(area => {
         return (
           <CarbonAccordionItem
             key={area.id}
@@ -56,4 +56,4 @@ const TeamScopeOverview = ({ team }: TeamScopeOverviewProps) => {
   );
 };
 
-export default TeamScopeOverview;
+export default ScopeOverview;

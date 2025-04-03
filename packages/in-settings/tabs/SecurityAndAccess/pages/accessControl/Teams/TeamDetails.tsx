@@ -8,8 +8,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { CarbonToastNotification } from '@instana/components';
+import { RoleOverview, UserResult } from '@instana/types';
 import { generateUniqueShortId } from '@instana/utils';
-import { ApiRole, UserResult } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { createLogger } from '@instana/logger';
 
@@ -44,7 +44,7 @@ const logger = createLogger('TeamDetails');
 
 /* Temporary low quality function to add user name and role name to team data,
  * to be removed when user name and role name are available through API */
-const enrichTeam = (team: Team, users: Array<UserResult>, roles: Array<ApiRole>) => {
+const enrichTeam = (team: Team, users: Array<UserResult>, roles: Array<RoleOverview> | undefined) => {
   logger.warn('Temporary function to be removed when user name and role name are available through team API');
   let newMembers: TeamMember[] = [];
   if (team?.members) {
@@ -58,7 +58,7 @@ const enrichTeam = (team: Team, users: Array<UserResult>, roles: Array<ApiRole>)
         }
       }
 
-      if (roles?.length > 0 && member?.roleIds) {
+      if (roles && roles?.length > 0 && member?.roleIds) {
         newRoleIds = member.roleIds.map(roleId => {
           let roleName = '';
           const role = roles.find(role => role.id === roleId.roleId);
@@ -117,8 +117,11 @@ const TeamDetails = () => {
       teamData => {
         //setTeam(teamData);
         setTeam(
-          //@ts-expect-error user API types have not been fixed yet, enrichTeam is only temporarily
-          enrichTeam(teamData, isResultLoading(usersResult) ? [] : usersResult, rolesProgress?.loading ? [] : rolesData)
+          enrichTeam(
+            teamData,
+            isResultLoading(usersResult) ? [] : usersResult.data,
+            rolesProgress?.loading ? [] : rolesData
+          )
         );
         setIsLoading(false);
       },
@@ -151,8 +154,7 @@ const TeamDetails = () => {
         setTeam(
           enrichTeam(
             savedTeam.body,
-            //@ts-expect-error user API types have not been fixed yet, enrichTeam is only temporarily
-            isResultLoading(usersResult) ? [] : usersResult,
+            isResultLoading(usersResult) ? [] : usersResult.data,
             rolesProgress?.loading ? [] : rolesData
           )
         );
