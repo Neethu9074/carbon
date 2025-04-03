@@ -29,6 +29,7 @@ import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog
 import AlertConfiguration from 'in-alerting/smart-alerts/mobileApp/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
 import { mobileAppSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
+import { CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { Nullish, VersionedConfig } from 'in-types';
 import { role } from 'in-stores/user';
 
@@ -61,7 +62,9 @@ export default function AlertDetails(props: AlertDetailsProps) {
       showActionButton
       canConfigureIndividualAlertConfigs={role?.canConfigureMobileAppSmartAlerts}
       getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
-      displayTearSheetActions={mobileAppSmartAlertFullScreenDesignEnabled}
+      // TODO chnage with FF
+      displayTearSheetActions={false}
+      alertDisplayMode={mobileAppSmartAlertFullScreenDesignEnabled ? CHOICE_DIALOG : null}
     />
   );
 }

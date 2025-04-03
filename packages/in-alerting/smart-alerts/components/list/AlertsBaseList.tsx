@@ -43,7 +43,6 @@ export interface AlertURLProps {
   alertConfigCreated?: number;
   duplicateMode?: boolean;
   editMode?: boolean;
-  websiteId?: string;
 }
 
 interface AlertBaseListProps<AlertConfig extends AlertConfigType> {

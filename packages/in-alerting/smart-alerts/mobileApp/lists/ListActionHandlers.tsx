@@ -6,10 +6,10 @@
 
 import React from 'react';
 
-import {
-  TearSheetEditActionHandler,
-  TearSheetCloneActionHandler
-} from 'in-alerting/smart-alerts/eum/components/TearSheet/TearSheetActionHandlers';
+// import {
+//   TearSheetEditActionHandler,
+//   TearSheetCloneActionHandler
+// } from 'in-alerting/smart-alerts/eum/components/TearSheet/TearSheetActionHandlers';
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
@@ -19,7 +19,8 @@ import { mobileAppSmartAlertFullScreenDesignEnabled } from 'in-services/featureF
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { eumType } from 'in-alerting/smart-alerts/mobileApp/constants';
+
+// import { eumType } from 'in-alerting/smart-alerts/mobileApp/constants';
 
 function handleEdit(config: MobileAppSmartAlertConfigWithMetadata) {
   openSmartAlertDialog(config);
@@ -39,45 +40,55 @@ function openSmartAlertDialog(config: MobileAppSmartAlertConfigWithMetadata, isC
   );
 }
 
-function HandleEditNew(config: MobileAppSmartAlertConfigWithMetadata) {
-  return (
-    <TearSheetEditActionHandler
-      id={config.id}
-      created={config.created}
-      eumId={config.mobileAppId}
-      eumType={eumType}
-      alertConfig={config}
-    />
-  );
-}
+// function HandleEditNew(config: MobileAppSmartAlertConfigWithMetadata) {
+//   return (
+//     <TearSheetEditActionHandler
+//       id={config.id}
+//       created={config.created}
+//       eumId={config.mobileAppId}
+//       eumType={eumType}
+//       alertConfig={config}
+//     />
+//   );
+// }
 
-function HandleCloneNew(config: MobileAppSmartAlertConfigWithMetadata) {
-  return (
-    <TearSheetCloneActionHandler
-      id={config.id}
-      created={config.created}
-      eumId={config.mobileAppId}
-      eumType={eumType}
-      alertConfig={config}
-    />
-  );
-}
+// function HandleCloneNew(config: MobileAppSmartAlertConfigWithMetadata) {
+//   return (
+//     <TearSheetCloneActionHandler
+//       id={config.id}
+//       created={config.created}
+//       eumId={config.mobileAppId}
+//       eumType={eumType}
+//       alertConfig={config}
+//     />
+//   );
+// }
 
 export const actionHandlers = {
-  handleClone: (config: MobileAppSmartAlertConfigWithMetadata) => handleClone(config),
-  ...(mobileAppSmartAlertFullScreenDesignEnabled && {
-    handleCloneNew: (config: MobileAppSmartAlertConfigWithMetadata) => HandleCloneNew(config)
+  ...(!mobileAppSmartAlertFullScreenDesignEnabled && {
+    handleClone: (config: MobileAppSmartAlertConfigWithMetadata) => handleClone(config)
   }),
+  ...(mobileAppSmartAlertFullScreenDesignEnabled && {
+    handleCloneSelector: (config: MobileAppSmartAlertConfigWithMetadata) => handleClone(config)
+  }),
+  // ...(mobileAppSmartAlertFullScreenDesignEnabled && {
+  //   handleCloneNew: (config: MobileAppSmartAlertConfigWithMetadata) => HandleCloneNew(config)
+  // }),
   handleDelete: (
     id: string,
     setIsSaving: (saving: boolean) => void,
     configName: string,
     trackCta: CtaTrackingFunction
   ) => handleDelete(id, setIsSaving, configName, baseUrl.MOBILEAPP, trackCta),
-  handleEdit: (config: MobileAppSmartAlertConfigWithMetadata) => handleEdit(config),
-  ...(mobileAppSmartAlertFullScreenDesignEnabled && {
-    handleEditNew: (config: MobileAppSmartAlertConfigWithMetadata) => HandleEditNew(config)
+  ...(!mobileAppSmartAlertFullScreenDesignEnabled && {
+    handleEdit: (config: MobileAppSmartAlertConfigWithMetadata) => handleEdit(config)
   }),
+  ...(mobileAppSmartAlertFullScreenDesignEnabled && {
+    handleEditSelector: (config: MobileAppSmartAlertConfigWithMetadata) => handleEdit(config)
+  }),
+  // ...(mobileAppSmartAlertFullScreenDesignEnabled && {
+  //   handleEditNew: (config: MobileAppSmartAlertConfigWithMetadata) => HandleEditNew(config)
+  // }),
   handleToggleEnabled: (enabled: boolean, id: string, setIsSaving: (arg: boolean) => void) =>
     handleToggleEnabled(enabled, id, setIsSaving, baseUrl.MOBILEAPP)
 };
