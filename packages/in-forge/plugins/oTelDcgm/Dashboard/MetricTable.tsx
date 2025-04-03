@@ -16,77 +16,31 @@ import { t } from 'in-i18n';
 
 interface Row {
   gpu: string;
-  namespace: string;
-  pod: string;
-  container: string;
+  instances: string[];
   keyName: string;
   key: string;
   snapshotId: string;
   timeConfig: TimeConfig;
 }
 
-export default function GPUUtilTable({
+export default function MetricTable({
   snapshot,
   timeConfig,
   metric,
   keyName,
+  formatter,
   title,
-  formatter
+  colHeader
 }: Readonly<{
   snapshot: SnapshotData;
   timeConfig: TimeConfig;
-  metric: [];
+  metric: any[];
   keyName: string;
-  title: string;
   formatter: (v: number) => string;
+  title: string;
+  colHeader: string;
 }>) {
   const snapshotId = snapshot.get('id') as string;
-
-  const rows = metric.map(metric => {
-    const { containerKey, gpu, namespace, pod, container } = parseMetricIdentifier(metric, keyName);
-    return {
-      key: containerKey,
-      name: containerKey,
-      keyName: keyName,
-      gpu,
-      namespace,
-      pod,
-      container,
-      timeConfig,
-      snapshot,
-      snapshotId
-    };
-  });
-
-  const containerCol = {
-    title: t('in-forge:plugins.oTelDcgm.container.containerName'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: Row) {
-        return row.container;
-      }
-    }
-  };
-
-  const podCol = {
-    title: t('in-forge:plugins.oTelDcgm.container.podName'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: Row) {
-        return row.pod;
-      }
-    }
-  };
-
-  const namespaceCol = {
-    title: t('in-forge:plugins.oTelDcgm.container.namespaceName'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: Row) {
-        return row.namespace;
-      }
-    }
-  };
 
   const gpuNumberCol = {
     title: t('in-forge:plugins.oTelDcgm.container.gpuNumber'),
@@ -99,7 +53,7 @@ export default function GPUUtilTable({
   };
 
   const metricCol = {
-    title: title,
+    title: colHeader,
     type: 'metric',
     typeArgs: {
       getSnapshotId(row: Row) {
@@ -118,6 +72,26 @@ export default function GPUUtilTable({
     }
   };
 
+  function extractGPUNumber(str: string): string | null {
+    const match = RegExp(`^${keyName}\\.(\\d+) \\(IID \\d+\\)(_container=(.*)_pod=(.*)_namespace=(.*))?$`).exec(str);
+    if (match) {
+      return match[1];
+    }
+    return null;
+  }
+
+  function generateLabels(metrics: string[], defaultLabel: string) {
+    return metrics.map((metric: string) => {
+      const match = RegExp(`^${keyName}\\.(\\d+) \\((IID \\d+)\\)(_container=(.*)_pod=(.*)_namespace=(.*))?$`).exec(
+        metric
+      );
+      if (match) {
+        return match[2]; // The first captured group (the first number after "DCGM_FI_DEV_GPU_TEMP.")
+      }
+      return defaultLabel;
+    });
+  }
+
   function getRowDetails(row: Row) {
     return (
       <Chart
@@ -126,30 +100,34 @@ export default function GPUUtilTable({
         y1={{
           min: 0,
           formatter: formatter,
-          metrics: [`${row.keyName}.${row.key}`],
-          labels: [title],
+          metrics: row.instances,
+          labels: generateLabels(row.instances, 'IID unknown'),
           type: 'line'
         }}
       />
     );
   }
 
+  const gpus = Array.from(new Set(metric.map(extractGPUNumber).filter(gpu => gpu != null)));
+  const instancePattern = RegExp(`^${keyName}\\.\\d+ \\(IID \\d+\\)(_container=(.*)_pod=(.*)_namespace=(.*))?$`);
+  const rows = gpus.map(gpu => {
+    return {
+      key: `${gpu}`,
+      name: `${gpu}`,
+      keyName: keyName,
+      gpu,
+      formatter: formatter,
+      instances: metric.filter(m => instancePattern.test(m)),
+      timeConfig,
+      snapshot,
+      snapshotId
+    };
+  });
+
   if (rows.length === 0) {
     return null;
   }
-  const cols = [containerCol, podCol, namespaceCol, gpuNumberCol, metricCol];
+  const cols = [gpuNumberCol, metricCol];
 
   return <Table withoutPadding cardTitle={title} cols={cols} rows={rows} getRowDetails={getRowDetails} />;
-}
-
-function parseMetricIdentifier(metric: string, key: string) {
-  const trimmedMetric = metric.replace(key + '.', '');
-  const match = /^(\d+(?: \(IID \d+\))?)_container=(.*)_pod=(.*)_namespace=(.*)$/.exec(trimmedMetric);
-
-  if (match) {
-    const [, gpu, container, pod, namespace] = match;
-    return { containerKey: trimmedMetric, gpu, namespace, pod, container };
-  } else {
-    return { containerKey: '', gpu: '', namespace: '', pod: '', container: '' };
-  }
 }

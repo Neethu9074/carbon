@@ -13847,22 +13847,27 @@
       "DCGM_FI_DEV_FB_FREE": "DCGM GPU FB FREE",
       "dashboard": {
         "gpuTemp": "GPU Temperature (Celsius)",
+        "gpuTempInstance": "GPU Temperature (Celsius) Details",
         "powerUsage": "GPU Power Usage (W)",
+        "powerUsageInstance": "GPU Power Usage (W) Details",
         "smClocks": "GPU SM Clocks (HZ)",
+        "smClocksInstance": "GPU SM Clocks (HZ) Details",
         "memoryClocks": "GPU Memory Clocks (HZ)",
+        "memoryClocksInstance": "GPU Memory Clocks (HZ) Details",
         "gpuUtil": "GPU Utilization",
+        "gpuUtilInstance": "GPU Utilization Details",
         "memoryCpyUtil": "GPU Memory Cpy Utilization",
+        "memoryCpyUtilInstance": "GPU Memory Cpy Utilization Details",
         "frambufferMemUsed": "GPU Framebuffer Memory Used",
-        "frambufferMemFree": "GPU Framebuffer Memory Free"
+        "frambufferMemUsedInstance": "GPU Framebuffer Memory Used Details",
+        "frambufferMemFree": "GPU Framebuffer Memory Free",
+        "frambufferMemFreeInstance": "GPU Framebuffer Memory Free Details"
       },
       "container": {
         "containerName": "Container Name",
         "podName": "Pod Name",
         "namespaceName": "Namespace",
-        "gpuNumber": "GUP Number",
-        "gpuUtil": "GPU Utilization Details",
-        "memoryCpyUtil": "GPU Memory Cpy Utilization Details",
-        "util": "Utilization"
+        "gpuNumber": "GPU Number"
       }
     },
     "oTelK8sPod": {
