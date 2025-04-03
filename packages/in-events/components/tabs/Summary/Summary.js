@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -33,6 +33,7 @@ import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
+import { aqmDisableConfigOnEventViewEnabled, businessObservabilityEnabled } from 'in-services/featureFlags';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import IncidentContent from 'in-events/components/tabs/Summary/IncidentDetailPage/IncidentContent';
@@ -57,7 +58,6 @@ import SloEventContent from 'in-events/components/EventContent/SloEventContent';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
-import { aqmDisableConfigOnEventViewEnabled } from 'in-services/featureFlags';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
@@ -243,11 +243,13 @@ function EventContent({ event, latestSnapshot, reload }) {
       {isIssue && hasEventSpec && (
         <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
       )}
-      <ImpactedBusinessProcesses
-        eventType={eventType}
-        entityType={event?.get('entityType', undefined)}
-        entityId={event?.get('entityId', undefined)}
-      />
+      {businessObservabilityEnabled && (
+        <ImpactedBusinessProcesses
+          eventType={eventType}
+          entityType={event?.get('entityType', undefined)}
+          entityId={event?.get('entityId', undefined)}
+        />
+      )}
       {isCveIssueEvent(event) && snapshot?.get('id') && (
         <AffectedEntitiesPresenter id={snapshot?.get('id')} timeConfig={timeConfig} />
       )}
