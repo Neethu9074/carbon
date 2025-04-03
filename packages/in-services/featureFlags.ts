@@ -145,6 +145,8 @@ export const customDashboardsExportPdfEntireDashboard = isFeatureFlagEnabled(
 
 export const customDashboardsFastQueryModeEnabled = isFeatureFlagEnabled('customDashboardsFastQueryModeEnabled', false);
 
+export const infraDashboardExportPdfEnabled = isFeatureFlagEnabled('infraDashboardExportPdfEnabled');
+
 // Infrastructure Smart Alerts
 export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');
 export const infraPredictiveDetectionEnabled = isFeatureFlagEnabled('infraPredictiveDetectionEnabled');

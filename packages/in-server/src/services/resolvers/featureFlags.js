@@ -502,6 +502,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'infraDashboardExportPdfEnabled',
+    instanaCtlKey: 'feature.infra.dashboard.export.pdf.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'infraSmartAlertsEnabled',
     instanaCtlKey: 'feature.infra.smart.alerts.enabled',
     defaultValue: true
