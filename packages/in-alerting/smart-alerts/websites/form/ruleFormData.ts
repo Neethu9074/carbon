@@ -35,7 +35,8 @@ export const ruleMetricNameOptions = Object.freeze({
     }
   ],
   slowness: [
-    { value: 'onLoadTime', label: t('in-alerting:smartAlerts.websites.form.ruleMetricNameOptionSlownessOnLoadTime') }
+    { value: 'onLoadTime', label: t('in-alerting:smartAlerts.websites.form.ruleMetricNameOptionSlownessOnLoadTime') },
+    { value: 'httpLatency', label: t('in-alerting:smartAlerts.websites.form.ruleMetricNameOptionSlownessHttpLatency') }
   ],
   throughput: [
     { value: 'pageLoads', label: t('in-alerting:smartAlerts.websites.form.ruleMetricNameOptionThroughputPageLoads') },
