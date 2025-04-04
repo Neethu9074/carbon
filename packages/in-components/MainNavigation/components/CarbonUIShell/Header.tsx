@@ -10,9 +10,15 @@ import NotificationBarSticky from 'promise-loader?global!in-components/Sticky/No
 import NewPlayWithHeader from 'promise-loader?global!in-plg/Demo/NewPlayWithHeader';
 import React from 'react';
 
-import { CarbonHeaderGlobalAction as HeaderGlobalAction } from '@instana/components';
+import { CarbonStack, CarbonHeaderGlobalAction as HeaderGlobalAction } from '@instana/components';
 
-import { playwithEnabled, playWithReleaseEnabled, userProfileMenuEnabled } from 'in-services/featureFlags';
+import {
+  playwithEnabled,
+  playWithReleaseEnabled,
+  tealiumPrivacyEnabled,
+  userProfileMenuEnabled
+} from 'in-services/featureFlags';
+import { ShowPrivacyNotification } from 'in-plg/components/ShowPrivacyNotification/ShowPrivacyNotification';
 import AsyncComponent from 'in-components/AsyncComponent';
 import UserIcon from 'in-components/UserIcon/UserIcon';
 import { t } from 'in-i18n';
@@ -30,18 +36,21 @@ export default function Header({ expanded, onClickSideNavExpand }: HeaderContent
       {playwithEnabled || playWithReleaseEnabled ? <AsyncComponent component={NewPlayWithHeader} /> : null}
       <AsyncComponent component={NotificationBarSticky} />
       {userProfileMenuEnabled && !playwithEnabled && (
-        <div id="profileMenu-switcher">
-          <HeaderGlobalAction
-            onClick={onClickSideNavExpand}
-            aria-label={t('in-components:mainNavigation.profileMenu_tooltip')}
-            aria-expanded={expanded}
-            isActive={expanded}
-            aria-haspopup="true"
-            tooltipAlignment="end"
-          >
-            <UserIcon size="s" color="var(--cds-icon-secondary)" className={local.userIcon} />
-          </HeaderGlobalAction>
-        </div>
+        <CarbonStack>
+          <div id="profileMenu-switcher">
+            <HeaderGlobalAction
+              onClick={onClickSideNavExpand}
+              aria-label={t('in-components:mainNavigation.profileMenu_tooltip')}
+              aria-expanded={expanded}
+              isActive={expanded}
+              aria-haspopup="true"
+              tooltipAlignment="end"
+            >
+              <UserIcon size="s" color="var(--cds-icon-secondary)" className={local.userIcon} />
+            </HeaderGlobalAction>
+          </div>
+          {tealiumPrivacyEnabled && ShowPrivacyNotification()}
+        </CarbonStack>
       )}
     </>
   );

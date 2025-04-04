@@ -5,18 +5,15 @@
  */
 
 :local {
-  .title {
-    color: var(--ids-color-option-white);
-    font-weight: bold;
-    font-size: 1rem;
+  .content {
+    padding: 1.5rem 1rem 1rem;
   }
-  .description {
-    color: var(--ids-color-option-white);
-    font-size: 0.875rem;
+  .toggleTipButton {
+    margin-inline-start: 13rem;
   }
-  .notification {
-    margin-top: 2rem;
-    margin-left: 17.5rem;
-    position: absolute;
+  :global(.shell-wrapper .cds--header .cds--btn) {
+    &.toggleTipButton {
+      height: auto;
+    }
   }
 }

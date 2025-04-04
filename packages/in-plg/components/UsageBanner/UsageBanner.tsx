@@ -20,7 +20,6 @@ import {
   playWithReleaseEnabled,
   playwithEnabled,
   tealiumPrivacyEnabled,
-  userProfileMenuEnabled,
   walkmeToolEnabled
 } from 'in-services/featureFlags';
 //@ts-expect-error missing typescript migration
@@ -31,7 +30,6 @@ import {
   isAssistMeScriptLoaded,
   termsAndPrivacySettingsStore$
 } from 'in-settings/terms/stores/termsAndPrivacySettingsStore';
-import { ShowPrivacyNotification } from 'in-plg/components/ShowPrivacyNotification/ShowPrivacyNotification';
 import { SHARE_AND_INVITE_INVITEE_JOINED } from 'in-services/tracking/eventNames';
 import { countryCode, editionID, languageCode } from 'in-plg/utils/constants';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
@@ -187,7 +185,6 @@ export function UsageBanner({ message }: UsageBannerProps) {
           )}
         </>
       )}
-      {tealiumPrivacyEnabled && userProfileMenuEnabled && ShowPrivacyNotification()}
     </Stack>
   );
 }
