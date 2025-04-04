@@ -3,6 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const serverConfig = require('../serverConfig');
+
 export const solisHubRoute = async (req, res) => {
   const t = req.t;
   const finalResponseBody = { title: t('in-server:mainNavigation.monitoringObservability'), widgets: [] };
@@ -23,14 +27,15 @@ export const solisHubRoute = async (req, res) => {
   }
 };
 
-const createRequest = (req, path) => {
-  const newRequest = new Request(req.uiBackendBaseUrl + path);
-  newRequest.headers.set('Authorization', req.headers.authorization);
-
-  return newRequest;
+export const createRequest = (req, path) => {
+  return new Request(req.uiBackendBaseUrl + path, {
+    headers: {
+      Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
+    }
+  });
 };
 
-const getCustomDashboards = async req => {
+export const getCustomDashboards = async req => {
   const dashboardRequest = createRequest(req, '/api/custom-dashboard');
   const response = await fetch(dashboardRequest);
   const responseObject = await response.json();
@@ -40,6 +45,33 @@ const getCustomDashboards = async req => {
   }
 
   return responseObject.slice(0, 10);
+};
+
+export const getEventNumbers = async req => {
+  const eventRequest = createRequest(req, '/api/events?eventTypeFilters=INCIDENT');
+  const response = await fetch(eventRequest);
+  const events = await response.json();
+
+  if (!response.ok) {
+    throw new Error('error calling /events: ' + JSON.stringify(events));
+  }
+
+  let warningEvents = 0,
+    criticalEvents = 0,
+    totalEvents = 0;
+
+  for (const event of events) {
+    if (event.state === 'open' && event.type === 'incident') {
+      totalEvents++;
+      if (event.severity === 5) {
+        warningEvents++;
+      } else if (event.severity === 10) {
+        criticalEvents++;
+      }
+    }
+  }
+
+  return [totalEvents, warningEvents, criticalEvents];
 };
 
 const createCustomDashboardWidgets = async (req, customDashboards) => {
@@ -91,28 +123,7 @@ const createCustomDashboardWidgets = async (req, customDashboards) => {
 
 const createEventWidgets = async req => {
   const t = req.t;
-  const eventRequest = createRequest(req, '/api/events?eventTypeFilters=INCIDENT');
-  const response = await fetch(eventRequest);
-  const events = await response.json();
-
-  if (!response.ok) {
-    throw new Error('error calling /events: ' + JSON.stringify(events));
-  }
-
-  let warningEvents = 0,
-    criticalEvents = 0,
-    totalEvents = 0;
-
-  for (const event of events) {
-    if (event.state === 'open' && event.type === 'incident') {
-      totalEvents++;
-      if (event.severity === 5) {
-        warningEvents++;
-      } else if (event.severity === 10) {
-        criticalEvents++;
-      }
-    }
-  }
+  const [totalEvents, warningEvents, criticalEvents] = await getEventNumbers(req);
 
   return [
     {
