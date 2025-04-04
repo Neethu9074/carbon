@@ -6,11 +6,12 @@
 
 import React, { useState } from 'react';
 
-import { Card, Stack, SvgIcon, Tooltip, Typography, ButtonGroup } from '@instana/components';
+import { Card, Stack, SvgIcon, Typography, ButtonGroup } from '@instana/components';
 
 // @ts-expect-error File needs to be migrated to typescript
 import UsageChart from 'in-amp/components/UsageChart';
 import { carbonAlert } from 'in-themes/chartColors';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t, Trans } from 'in-i18n';
 
 const BUCKET30DAYS = 'bucket30Days';
@@ -82,6 +83,7 @@ const RetentionAddonChart = ({
               )
             }
             align="auto"
+            legacy
           >
             <SvgIcon type="lib_help_error_info_outline" size="s" color="#172429" />
           </Tooltip>
