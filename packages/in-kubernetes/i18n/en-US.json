@@ -253,6 +253,9 @@
       "endpointsDescription": "There were no endpoints retrieved for the selected time range."
     },
     "kubecost": {
+      "costByDeployment": "Cost by deployment",
+      "deploymentCumulativeCost": "Cost by deployment",
+      "deployment": "Deployment",
       "totalCost": "Total cost",
       "total": "Total",
       "costByNameSpace": "Cost by namespace",
