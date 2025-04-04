@@ -20,7 +20,8 @@ import {
   playWithReleaseEnabled,
   playwithEnabled,
   tealiumPrivacyEnabled,
-  userProfileMenuEnabled
+  userProfileMenuEnabled,
+  walkmeToolEnabled
 } from 'in-services/featureFlags';
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
@@ -80,9 +81,11 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const [authOverview] = useAuthOverview({ preventRequest: !invitePermissions });
   const permissionToShowInvite = invitePermissions && authOverview?.defaultLogin;
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
-  // The AssistMe feature will be enabled if assistmeEnabled flag is true, walkmeAnalyticsServices is true and the AssistMe script is loaded.
-  const showGetAnswers =
-    assistmeEnabled && termsAndPrivacySettingsStore?.walkmeAnalyticsServices && isAssistMeScriptLoaded;
+  const isWalkMeEnabled = tealiumPrivacyEnabled
+    ? walkmeToolEnabled
+    : termsAndPrivacySettingsStore?.walkmeAnalyticsServices;
+  // The AssistMe feature will be enabled if assistmeEnabled flag is true, walkme is loaded and the AssistMe script is loaded.
+  const showGetAnswers = isWalkMeEnabled && assistmeEnabled && isAssistMeScriptLoaded;
 
   useEffect(() => {
     const invitedByKey = 'invitedBy';

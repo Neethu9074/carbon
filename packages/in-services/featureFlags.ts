@@ -273,6 +273,7 @@ export const kongEnabled = isFeatureFlagEnabled('kongEnabled', false);
 
 export const playwithEnabled = isFeatureFlagEnabled('playwithEnabled', false);
 export const assistmeEnabled = isFeatureFlagEnabled('assistmeEnabled', false);
+export const walkmeToolEnabled = isFeatureFlagEnabled('walkmeToolEnabled', false);
 // Recurrent Maintenance Window Flag
 export const recurrentMaintenanceWindowEnabled = isFeatureFlagEnabled('recurrentMaintenanceWindowsEnabled', true);
 export const recurrentMaintenanceWindowsTabsEnabled = isFeatureFlagEnabled(

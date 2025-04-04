@@ -185,7 +185,9 @@ router.get('/', async (req, res) => {
     clientConfig.activeLicenseType = activeLicenseInfo;
     clientConfig.amplitudeKey = getAmplitudeKey();
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
-    const walkmeEnabled = termsAndPrivacy.walkmeAnalyticsServices;
+    const walkmeEnabled = featureFlags.tealiumPrivacyEnabled
+      ? featureFlags.walkmeToolEnabled
+      : termsAndPrivacy.walkmeAnalyticsServices;
     const walkmeTestEnabled = walkmeEnabled && featureFlags.playwithTestEnabled;
     const ibmCommonEnabled = featureFlags.ibmCommonEnabled;
     const solisEnabled = featureFlags.solisEnabled;

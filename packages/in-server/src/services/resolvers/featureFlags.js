@@ -401,6 +401,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'walkmeToolEnabled',
+    instanaCtlKey: 'feature.walkme.tool.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'kongEnabled',
     instanaCtlKey: 'feature.infrastructure.kong.enabled',
     defaultValue: false

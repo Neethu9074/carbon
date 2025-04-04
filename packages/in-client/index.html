@@ -55,7 +55,7 @@
           trustarc: {
             isCookiePreferencesInstalled: true
           },
-          'digitalData.page.pageInfo.walkme.enabled': window.instana.termsAndPrivacySettings.walkmeAnalyticsServices,
+          'digitalData.page.pageInfo.walkme.enabled': window.instana.config.featureFlags.tealiumPrivacyEnabled ? window.instana.config.featureFlags.walkmeToolEnabled : window.instana.termsAndPrivacySettings.walkmeAnalyticsServices,
           'digitalData.page.pageInfo.walkme.id': '9ef25d161f0e453a8f3e4dea9390a967',
           'digitalData.page.pageInfo.walkme.test': true
         };
@@ -100,9 +100,10 @@
     </script>
     <!-- Assitme script -->
     <script type="text/javascript">
+      const isWalkMeEnabled =  window.instana.config.featureFlags.tealiumPrivacyEnabled ? window.instana.config.featureFlags.walkmeToolEnabled : window.instana.termsAndPrivacySettings.walkmeAnalyticsServices;
       if (
         window.instana.config.featureFlags.ibmCommonEnabled &&
-        window.instana.termsAndPrivacySettings.walkmeAnalyticsServices &&
+        isWalkMeEnabled &&
         window.instana.config.featureFlags.assistmeEnabled
       ) {
         var script = document.createElement('script');
