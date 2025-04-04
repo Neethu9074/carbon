@@ -25,11 +25,14 @@ const PdfHeader = forwardRef(({ hidden = true }: Props, ref: React.LegacyRef<HTM
   const timeConfig = useTimeConfig();
   const currentTime = timeConfig.to ?? Date.now();
   const adjustedTimeConfig = getAdjustedTimeConfigToIncludeTimestamp(timeConfig, currentTime, getChartGranularity);
-  const fromTime = currentTime - adjustedTimeConfig.windowSize;
-  const timeFrom = `${formatDate(fromTime)}, ${formatTimeWithoutSeconds(fromTime)}`;
-  const timeTo = `${formatDate(adjustedTimeConfig.to)}, ${formatTimeWithoutSeconds(adjustedTimeConfig.to)}`;
+  const timeFrom = currentTime - adjustedTimeConfig.windowSize;
+  const timeFromFormatted = `${formatDate(timeFrom)}, ${formatTimeWithoutSeconds(timeFrom)}`;
+
+  const timeTo = adjustedTimeConfig.to ?? currentTime;
+  const timeToFormatted = `${formatDate(timeTo)}, ${formatTimeWithoutSeconds(timeTo)}`;
+
   const timeZone = new Date().toLocaleDateString('default', { day: '2-digit', timeZoneName: 'short' }).slice(4);
-  const timestampWithTimezone = `${timeFrom} ${timeConfig.to ? 'to ' + timeTo : ''} ${timeZone}`;
+  const timeRangeWithTimezone = `${timeFromFormatted} to ${timeToFormatted} ${timeZone}`;
 
   return (
     <div
@@ -55,7 +58,7 @@ const PdfHeader = forwardRef(({ hidden = true }: Props, ref: React.LegacyRef<HTM
                   {formatDurationAccurately(timeConfig.windowSize)}
                 </Typography>
                 <Typography variant="body-02" align="right">
-                  {timestampWithTimezone}
+                  {timeRangeWithTimezone}
                 </Typography>
               </Stack>
             </div>
