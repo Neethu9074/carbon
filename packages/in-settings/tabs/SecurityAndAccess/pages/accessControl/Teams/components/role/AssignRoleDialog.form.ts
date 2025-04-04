@@ -11,7 +11,7 @@ import {
   AssignRoleDialogFormItems,
   TeamRoleIds,
   TeamRoleSelectionType
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoleDialog.types';
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoleDialog.types';
 import { ApiTeamMember as TeamMember, ApiTeamRole as TeamRole } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { t } from 'in-i18n';
 

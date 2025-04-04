@@ -13,9 +13,9 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Trans, t } from 'in-i18n';
 
-import locals from './TeamNameDescriptionCard.mless';
+import locals from './NameDescriptionCard.mless';
 
-interface TeamNameDescriptionCardProps {
+interface NameDescriptionCardProps {
   isEditMode: boolean;
   isValid: boolean;
   title: string;
@@ -26,7 +26,7 @@ interface TeamNameDescriptionCardProps {
   cancelHandler: () => void;
 }
 
-const TeamNameDescriptionCard = ({
+const NameDescriptionCard = ({
   isEditMode,
   isValid,
   title,
@@ -36,7 +36,7 @@ const TeamNameDescriptionCard = ({
   saveHandler,
   cancelHandler,
   children
-}: PropsWithChildren<TeamNameDescriptionCardProps>) => {
+}: PropsWithChildren<NameDescriptionCardProps>) => {
   const actions = [
     {
       icon: TrashCan,
@@ -94,4 +94,4 @@ const TeamNameDescriptionCard = ({
   }
 };
 
-export default TeamNameDescriptionCard;
+export default NameDescriptionCard;

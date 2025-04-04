@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import ScopeSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/ScopeSection';
+import ScopeSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeSection';
 import { Trans, t } from 'in-i18n';
 
 export const SCOPE_FORM_ID = 'rbac-scope-form';

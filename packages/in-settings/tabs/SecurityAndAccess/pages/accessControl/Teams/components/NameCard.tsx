@@ -8,8 +8,8 @@ import React, { useState } from 'react';
 
 import { CarbonInlineLoading } from '@instana/components';
 
-import TeamNameDescriptionCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamNameDescriptionCard';
-import TeamForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamForm';
+import NameDescriptionCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/name/NameDescriptionCard';
+import NameForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/name/NameForm';
 import { Notification } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import { ApiTeam as Team, deleteTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
@@ -17,7 +17,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
 
-interface TeamNameDescriptionProps {
+interface NameCardProps {
   isLoading: boolean;
   team: Team;
   setMessage: (message: Notification) => void;
@@ -25,7 +25,7 @@ interface TeamNameDescriptionProps {
   saveTeam: (data: Team) => void;
 }
 
-const TeamNameDescription = ({ isLoading, team, setMessage, setTeamData, saveTeam }: TeamNameDescriptionProps) => {
+const NameCard = ({ isLoading, team, setMessage, setTeamData, saveTeam }: NameCardProps) => {
   const [editTeam, setEditTeam] = useState<Team>(team);
   const [isValid, setIsValid] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -87,7 +87,7 @@ const TeamNameDescription = ({ isLoading, team, setMessage, setTeamData, saveTea
   };
 
   return (
-    <TeamNameDescriptionCard
+    <NameDescriptionCard
       cancelHandler={cancelEditHandler}
       deleteHandler={deleteTeamHandler}
       editHandler={() => {
@@ -102,7 +102,7 @@ const TeamNameDescription = ({ isLoading, team, setMessage, setTeamData, saveTea
     >
       {isLoading && <CarbonInlineLoading />}
       {!isLoading && (
-        <TeamForm
+        <NameForm
           description={isEditMode ? editTeam?.info?.description : team?.info?.description}
           editable={isEditMode}
           name={isEditMode ? editTeam?.tag : team?.tag}
@@ -111,8 +111,8 @@ const TeamNameDescription = ({ isLoading, team, setMessage, setTeamData, saveTea
           {...(isEditMode ? { originalName: team.tag } : {})}
         />
       )}
-    </TeamNameDescriptionCard>
+    </NameDescriptionCard>
   );
 };
 
-export default TeamNameDescription;
+export default NameCard;

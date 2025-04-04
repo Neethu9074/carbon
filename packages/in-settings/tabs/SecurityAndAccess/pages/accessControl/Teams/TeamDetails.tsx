@@ -20,13 +20,13 @@ import {
   getTeam,
   saveTeam
 } from 'in-settings/tabs/SecurityAndAccess/api/teams';
-import TeamNameDescription from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamNameDescription';
-import TeamMemberCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamMemberCard';
-import TeamScopeCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamScopeCard';
+import { MOCK_TEAM } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/Team.mocks';
 //@ts-expect-error not migrated to typescript
 import Header from 'in-settings/components/ApiItemView/Header';
-import { MOCK_TEAM } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/Team.mocks';
-import TeamTagUse from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamTagUse';
+import TagUseCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/TagUseCard';
+import MemberCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/MemberCard';
+import ScopeCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/ScopeCard';
+import NameCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/NameCard';
 import { Notification } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import useRolesOverview from 'in-settings/tabs/SecurityAndAccess/hooks/useRolesOverview';
 import { securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
@@ -182,7 +182,7 @@ const TeamDetails = () => {
         parentViewName={t('in-settings:tabs.teams.teamsTitle')}
       />
       {message && <CarbonToastNotification className={locals.toastMessage} lowContrast {...message} />}
-      <TeamNameDescription
+      <NameCard
         isLoading={isLoading}
         team={team}
         setMessage={setNotification}
@@ -192,7 +192,7 @@ const TeamDetails = () => {
 
       <div className={locals.row}>
         <div className={locals.column}>
-          <TeamMemberCard
+          <MemberCard
             isLoading={
               isLoading ||
               team?.members.some(
@@ -208,11 +208,11 @@ const TeamDetails = () => {
           />
         </div>
         <div className={locals.column}>
-          <TeamScopeCard isLoading={isLoading} team={MOCK_TEAM} />
+          <ScopeCard isLoading={isLoading} team={MOCK_TEAM} />
         </div>
       </div>
 
-      <TeamTagUse isLoading={isLoading} />
+      <TagUseCard isLoading={isLoading} />
     </div>
   );
 };

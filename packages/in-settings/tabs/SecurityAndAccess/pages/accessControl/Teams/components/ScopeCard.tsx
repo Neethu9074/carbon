@@ -10,20 +10,20 @@ import React from 'react';
 import { CarbonInlineLoading, Typography } from '@instana/components';
 import { ProductiveCard } from '@instana/ibm-products';
 
-import ScopeOverview from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/ScopeOverview';
-import ScopeDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/ScopeDialog';
+import ScopeOverview from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeOverview';
+import ScopeDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog';
 import { FORM_MODE } from 'in-settings/components/MapFormProvider/MapFormProvider';
 import { ApiTeam as Team } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import config from 'in-services/config';
 import { t } from 'in-i18n';
 
-interface TeamScopeCardProps {
+interface ScopeCardProps {
   team: Team;
   isLoading: boolean;
 }
 
-const TeamScopeCard = ({ isLoading, team }: TeamScopeCardProps) => {
+const ScopeCard = ({ isLoading, team }: ScopeCardProps) => {
   return (
     <ProductiveCard
       actionIcons={[
@@ -52,4 +52,4 @@ const TeamScopeCard = ({ isLoading, team }: TeamScopeCardProps) => {
   );
 };
 
-export default TeamScopeCard;
+export default ScopeCard;

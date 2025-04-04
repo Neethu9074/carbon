@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { ScopeArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/ScopeOverview.types';
+import { ScopeArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeOverview.types';
 import { t } from 'in-i18n';
 
 export const SCOPE_AREAS: Array<ScopeArea> = [

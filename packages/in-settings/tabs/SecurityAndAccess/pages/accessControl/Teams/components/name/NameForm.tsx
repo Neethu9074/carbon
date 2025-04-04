@@ -15,9 +15,9 @@ import { getTagsResult } from 'in-settings/tabs/SecurityAndAccess/api/tags';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
-import locals from './TeamForm.mless';
+import locals from './NameForm.mless';
 
-interface TeamFormProps {
+interface NameFormProps {
   setValid: (isValid: boolean) => void;
   setTeamData: (team: Partial<Team>) => void;
   name?: string;
@@ -26,14 +26,14 @@ interface TeamFormProps {
   editable?: boolean;
 }
 
-const TeamForm = ({
+const NameForm = ({
   setValid,
   setTeamData,
   editable = false,
   name = '',
   originalName = '',
   description = ''
-}: TeamFormProps) => {
+}: NameFormProps) => {
   const [nameValidationMessage, setNameValidationMessage] = useState('');
   const tagsResult = useObservable(getTagsResult, []) ?? pendingResult;
   const tags: Array<TeamTag> = tagsResult?.data;
@@ -101,4 +101,4 @@ const TeamForm = ({
   );
 };
 
-export default TeamForm;
+export default NameForm;

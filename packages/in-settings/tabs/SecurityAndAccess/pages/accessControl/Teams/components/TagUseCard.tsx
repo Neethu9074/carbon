@@ -11,11 +11,11 @@ import { ProductiveCard } from '@instana/ibm-products';
 
 import { t } from 'in-i18n';
 
-interface TeamTagUseProps {
+interface TagUseProps {
   isLoading: boolean;
 }
 
-const TeamTagUse = ({ isLoading }: TeamTagUseProps) => {
+const TagUse = ({ isLoading }: TagUseProps) => {
   return (
     <ProductiveCard title={t('in-settings:tabs.teams.teamTagUsedOn')}>
       {isLoading && <CarbonInlineLoading />}
@@ -29,4 +29,4 @@ const TeamTagUse = ({ isLoading }: TeamTagUseProps) => {
   );
 };
 
-export default TeamTagUse;
+export default TagUse;

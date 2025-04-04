@@ -13,8 +13,8 @@ import {
   CarbonContainedListItem
 } from '@instana/components';
 
-import { ScopeOverviewProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/ScopeOverview.types';
-import { SCOPE_AREAS } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/ScopeOverview.constants';
+import { ScopeOverviewProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeOverview.types';
+import { SCOPE_AREAS } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeOverview.constants';
 
 import locals from './ScopeOverview.mless';
 

@@ -14,8 +14,8 @@ import {
   TeamRoleSelectionType,
   FilterableMultiSelectItemProps,
   FilterableMultiSelectItemExtraProps
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoleDialog.types';
-import { AssignRolesProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoles.types';
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoleDialog.types';
+import { AssignRolesProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoles.types';
 import { ApiTeamRole as TeamRole } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { t } from 'in-i18n';
 

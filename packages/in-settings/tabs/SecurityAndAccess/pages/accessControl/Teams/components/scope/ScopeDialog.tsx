@@ -12,7 +12,7 @@ import {
   SCOPE_FORM_ACTIONS,
   SCOPE_FORM_ID,
   SCOPE_NAV_ITEMS
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/ScopeDialog.constants';
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.constants';
 import {
   createRoleForm,
   DefaultRoleFormFieldValues

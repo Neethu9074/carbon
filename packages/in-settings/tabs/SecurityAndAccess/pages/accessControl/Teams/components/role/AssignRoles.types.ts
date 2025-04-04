@@ -9,7 +9,7 @@ import { RoleOverview } from '@instana/types';
 import {
   FilterableMultiSelectItemProps,
   AssignRoleDialogMapForm
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoleDialog.types';
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoleDialog.types';
 
 export interface AssignRolesProps {
   form: AssignRoleDialogMapForm;

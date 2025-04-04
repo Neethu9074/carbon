@@ -17,12 +17,12 @@ import {
   SCOPE_TABLE_ORDER,
   SCOPE_TABLE_PAGE_SIZES,
   SCOPE_TYPE
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/ScopeSection.constants';
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeSection.constants';
 import {
   ScopeItemResult,
   ScopeItemRow,
   ScopeSectionProps
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/scope/ScopeSection.types';
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeSection.types';
 import MultiSelectDataTable, { DataTableRow } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import config from 'in-services/config';
 

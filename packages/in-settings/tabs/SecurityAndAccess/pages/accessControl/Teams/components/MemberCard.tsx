@@ -20,24 +20,24 @@ import { UserResult } from '@instana/types';
 
 //@ts-expect-error not a typescript component yet
 import { AddUserDialog } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/AddUserButton';
-import { AssignRoleDialog } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoleDialog';
+import { AssignRoleDialog } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoleDialog';
+import RoleView from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/RoleView';
 import { ApiTeam as Team, ApiTeamMember as TeamMember } from 'in-settings/tabs/SecurityAndAccess/api/teams';
-import RoleView from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/RoleView';
 import { getEntityIdView, securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { Trans, t } from 'in-i18n';
 
-import locals from './TeamMemberCard.mless';
+import locals from './MemberCard.mless';
 
-interface TeamMemberCardProps {
+interface MemberCardProps {
   isLoading: boolean;
   team: Team;
   setTeamData: (team: Partial<Team>) => void;
   saveTeam: (data: Team) => void;
 }
 
-const TeamMemberCard = ({ isLoading, team, setTeamData, saveTeam }: TeamMemberCardProps) => {
+const MemberCard = ({ isLoading, team, setTeamData, saveTeam }: MemberCardProps) => {
   const addMembers = (users: Array<UserResult>) => {
     const userIds = users.map(user => {
       return { fullName: user.fullName, userId: user.id, roleIds: [{ roleId: '-1', viaIdP: false }] };
@@ -173,4 +173,4 @@ const TeamMemberCard = ({ isLoading, team, setTeamData, saveTeam }: TeamMemberCa
   );
 };
 
-export default TeamMemberCard;
+export default MemberCard;

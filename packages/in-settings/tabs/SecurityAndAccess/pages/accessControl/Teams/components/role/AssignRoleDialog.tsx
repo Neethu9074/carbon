@@ -19,9 +19,9 @@ import {
   AssignRoleDialogProps,
   TeamRoleSelectionType,
   FilterableMultiSelectItemProps
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoleDialog.types';
-import { createForm } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoleDialog.form';
-import { AssignRoles } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/AssignRoles';
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoleDialog.types';
+import { createForm } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoleDialog.form';
+import { AssignRoles } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoles';
 import useRolesOverview from 'in-settings/tabs/SecurityAndAccess/hooks/useRolesOverview';
 import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
