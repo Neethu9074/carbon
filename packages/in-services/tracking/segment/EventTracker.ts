@@ -12,8 +12,6 @@ import {
   productTitle,
   ut30
 } from 'in-services/util/constants';
-//@ts-expect-error
-import { Segment } from 'in-services/tracking/segment/SegmentInit';
 import { getLicenseTypeForSegment } from 'in-services/util/segmentLicenseType';
 import { EventTrackerProps } from 'in-services/tracking/segment/types';
 import { config } from 'in-services/config';
@@ -22,11 +20,9 @@ import { user } from 'in-stores/user';
 let productPlanType: string;
 let userId: string;
 
-const segment = Segment();
-
 export const eventTracker = ({ data, segmentEventName }: EventTrackerProps) => {
   try {
-    if (!segment) {
+    if (!window.analytics) {
       return;
     }
 
@@ -58,7 +54,7 @@ export const eventTracker = ({ data, segmentEventName }: EventTrackerProps) => {
       roles: [userSelfDefinedRole],
       'user.bluemixId': userId
     };
-    segment.track(segmentEventName, segmentProperties);
+    window.analytics.track(segmentEventName, segmentProperties);
   } catch (e) {
     //ignore
   }

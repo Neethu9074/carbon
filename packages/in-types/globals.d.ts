@@ -87,6 +87,11 @@ interface ReportingData {
   hostCount: number;
   serverlessCount: number;
 }
+interface Analytics {
+  page<T = Record<string, any>>(eventName: string, properties?: T): void;
+  track<T = Record<string, any>>(eventName: string, properties?: T): void;
+  identify<T = Record<string, any>>(userId: string, traits?: T): void;
+}
 declare interface InstanaGlobals {
   reportingData?: ReportingData;
   user?: User;
@@ -106,5 +111,6 @@ declare global {
 
   interface Window {
     instana: InstanaGlobals;
+    analytics: Analytics;
   }
 }

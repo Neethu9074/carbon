@@ -3988,22 +3988,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lukeed/csprng@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@lukeed/csprng@npm:1.1.0"
-  checksum: 926f5f7fc629470ca9a8af355bfcd0271d34535f7be3890f69902432bddc3262029bb5dbe9025542cf6c9883d878692eef2815fc2f3ba5b92e9da1f9eba2e51b
-  languageName: node
-  linkType: hard
-
-"@lukeed/uuid@npm:^2.0.0":
-  version: 2.0.1
-  resolution: "@lukeed/uuid@npm:2.0.1"
-  dependencies:
-    "@lukeed/csprng": ^1.1.0
-  checksum: f5e71e4da852dbff49b93cad27d5a2f61c2241e307bbe89b3b54b889ecb7927f2487246467f90ebb6cbdb7e0ac2a213e2e58b1182cb7990cef6e049aa7c39e7b
-  languageName: node
-  linkType: hard
-
 "@microsoft/fetch-event-source@npm:^2.0.1":
   version: 2.0.1
   resolution: "@microsoft/fetch-event-source@npm:2.0.1"
@@ -4152,82 +4136,6 @@ __metadata:
   version: 1.0.0-next.25
   resolution: "@polka/url@npm:1.0.0-next.25"
   checksum: 4ab1d7a37163139c0e7bfc9d1e3f6a2a0db91a78b9f0a21f571d6aec2cdaeaacced744d47886c117aa7579aa5694b303fe3e0bd1922bb9cb3ce6bf7c2dc09801
-  languageName: node
-  linkType: hard
-
-"@segment/analytics-core@npm:1.8.0":
-  version: 1.8.0
-  resolution: "@segment/analytics-core@npm:1.8.0"
-  dependencies:
-    "@lukeed/uuid": ^2.0.0
-    "@segment/analytics-generic-utils": 1.2.0
-    dset: ^3.1.4
-    tslib: ^2.4.1
-  checksum: c8e2a98670658d6400d8e517e141aff6eff581a12a4015ce8ff906185d148cf9dad79cc5bfb5376195794cc0c964a9c9ca79d36f3d4b49affeb7344251dcde1f
-  languageName: node
-  linkType: hard
-
-"@segment/analytics-generic-utils@npm:1.2.0":
-  version: 1.2.0
-  resolution: "@segment/analytics-generic-utils@npm:1.2.0"
-  dependencies:
-    tslib: ^2.4.1
-  checksum: f36aa093722e4f51dddd4dfa37164bd082175bb0c0960096f9b03073c482e96a17012bc99782259a9d3787e52a48f03ab3447902c6c635654a8ce544892073e5
-  languageName: node
-  linkType: hard
-
-"@segment/analytics-next@npm:^1.74.0":
-  version: 1.74.0
-  resolution: "@segment/analytics-next@npm:1.74.0"
-  dependencies:
-    "@lukeed/uuid": ^2.0.0
-    "@segment/analytics-core": 1.8.0
-    "@segment/analytics-generic-utils": 1.2.0
-    "@segment/analytics.js-video-plugins": ^0.2.1
-    "@segment/facade": ^3.4.9
-    dset: ^3.1.4
-    js-cookie: 3.0.1
-    node-fetch: ^2.6.7
-    tslib: ^2.4.1
-    unfetch: ^4.1.0
-  checksum: 8677611dbcbb27004700e1bb4aee73b39d3be87b6719f20a28e36d1d76e6dd10c41ffd96fbda4e06da55a95c4453275710fc4dda6705ed97b540cfd3b9180c84
-  languageName: node
-  linkType: hard
-
-"@segment/analytics.js-video-plugins@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "@segment/analytics.js-video-plugins@npm:0.2.1"
-  dependencies:
-    unfetch: ^3.1.1
-  checksum: 284b42bb05569366ac4a7c51c90d64bcea64315b2dd330ff8b58c63fa11949443b3d2f7e92d2e3c118495e9018352249183f7d3fb05e4b904148302536d385ba
-  languageName: node
-  linkType: hard
-
-"@segment/facade@npm:^3.4.9":
-  version: 3.4.10
-  resolution: "@segment/facade@npm:3.4.10"
-  dependencies:
-    "@segment/isodate-traverse": ^1.1.1
-    inherits: ^2.0.4
-    new-date: ^1.0.3
-    obj-case: 0.2.1
-  checksum: 5d10861f586ecebe3a71b25c9f37b3c922298188965047efcfd5b7e6f7147dc6967c3760726c43db99f33ef285191498e0726fc8d2556d5bdd82312a5f647ef2
-  languageName: node
-  linkType: hard
-
-"@segment/isodate-traverse@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "@segment/isodate-traverse@npm:1.1.1"
-  dependencies:
-    "@segment/isodate": ^1.0.3
-  checksum: 06f783623c74a7a2310bdcca50355a1f7b9cbb7a1d77f0c7408def29bd0a355dbc2ff31516d025b7cd6baebfdca7d771fb62899f446366f86cd6d34cae9a7000
-  languageName: node
-  linkType: hard
-
-"@segment/isodate@npm:1.0.3, @segment/isodate@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "@segment/isodate@npm:1.0.3"
-  checksum: 31faf12e83fa6ab5ba7dfd5600dfaf8d224a00ab24f3a2d3d9ba7f4ecdc1683a55c00fc9246585361aa5cb67c6d7846e1d5497cc3bcca58c105902b79c91c34a
   languageName: node
   linkType: hard
 
@@ -10170,13 +10078,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dset@npm:^3.1.4":
-  version: 3.1.4
-  resolution: "dset@npm:3.1.4"
-  checksum: 9a7677e9ffd3c13ad850f7cf367aa94b39984006510e84c3c09b7b88bba0a5b3b7196d85a99d0c4cae4e47d67bdeca43dc1834a41d80f31bcdc86dd26121ecec
-  languageName: node
-  linkType: hard
-
 "duplexer3@npm:^0.1.4":
   version: 0.1.4
   resolution: "duplexer3@npm:0.1.4"
@@ -15448,13 +15349,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-cookie@npm:3.0.1":
-  version: 3.0.1
-  resolution: "js-cookie@npm:3.0.1"
-  checksum: bb48de67e2a6bd1ae3dfd6b2d5a167c33dd0c5a37e909206161eb0358c98f17cb55acd55827a58e9eea3630d89444e7479f7938ef4420dda443218b8c434a4c3
-  languageName: node
-  linkType: hard
-
 "js-cookie@npm:^3.0.5":
   version: 3.0.5
   resolution: "js-cookie@npm:3.0.5"
@@ -17209,15 +17103,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"new-date@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "new-date@npm:1.0.3"
-  dependencies:
-    "@segment/isodate": 1.0.3
-  checksum: 5bc778542276f5d947b77654f10ad796c7502b184bd7f9b87749064a3f69a5cb5631acfceb234b433b3408cfe151de34ee484d5751d1fd87a74d6ec1e7e1ac9c
-  languageName: node
-  linkType: hard
-
 "next-tick@npm:~1.0.0":
   version: 1.0.0
   resolution: "next-tick@npm:1.0.0"
@@ -17261,20 +17146,6 @@ __metadata:
   dependencies:
     minimatch: ^3.0.2
   checksum: 29de9560e52cdac8d3f794d38d782f6799e13d4d11aaf96d3da8c28458e1c5e33bb5f8edfb42dc34172ec5516c50c5b8850c9e1526542616757a969267263328
-  languageName: node
-  linkType: hard
-
-"node-fetch@npm:^2.6.7":
-  version: 2.7.0
-  resolution: "node-fetch@npm:2.7.0"
-  dependencies:
-    whatwg-url: ^5.0.0
-  peerDependencies:
-    encoding: ^0.1.0
-  peerDependenciesMeta:
-    encoding:
-      optional: true
-  checksum: d76d2f5edb451a3f05b15115ec89fc6be39de37c6089f1b6368df03b91e1633fd379a7e01b7ab05089a25034b2023d959b47e59759cb38d88341b2459e89d6e5
   languageName: node
   linkType: hard
 
@@ -17500,13 +17371,6 @@ __metadata:
   version: 2.2.7
   resolution: "nwsapi@npm:2.2.7"
   checksum: cab25f7983acec7e23490fec3ef7be608041b460504229770e3bfcf9977c41d6fe58f518994d3bd9aa3a101f501089a3d4a63536f4ff8ae4b8c4ca23bdbfda4e
-  languageName: node
-  linkType: hard
-
-"obj-case@npm:0.2.1":
-  version: 0.2.1
-  resolution: "obj-case@npm:0.2.1"
-  checksum: 2726b29d054027c52c6ac1a18531c3f995fcc313047847c7f7357889a56cf07bd88bef459bd4645c139fa56f9432c282806e0f1c7ab444d6cbdb662e39073e36
   languageName: node
   linkType: hard
 
@@ -22326,13 +22190,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tr46@npm:~0.0.3":
-  version: 0.0.3
-  resolution: "tr46@npm:0.0.3"
-  checksum: 726321c5eaf41b5002e17ffbd1fb7245999a073e8979085dacd47c4b4e8068ff5777142fc6726d6ca1fd2ff16921b48788b87225cbc57c72636f6efa8efbffe3
-  languageName: node
-  linkType: hard
-
 "transition-hook@npm:^1.5.2":
   version: 1.5.2
   resolution: "transition-hook@npm:1.5.2"
@@ -22663,7 +22520,6 @@ __metadata:
     "@instana/utils": ^1.5.4
     "@lezer/common": ^1.0.2
     "@lezer/generator": ^1.5.0
-    "@segment/analytics-next": ^1.74.0
     "@tanstack/react-table": ^8.21.2
     "@tanstack/react-virtual": ^3.13.0
     "@testing-library/jest-dom": ^5.16.3
@@ -22913,20 +22769,6 @@ __metadata:
   version: 4.1.0
   resolution: "unfetch@npm:4.1.0"
   checksum: 8a0fee1e0f6ad8b3a2966fa199d07716affc3682d8e1c2c0cc138e5e5d2a2e0627d8c3321a4529a79e8a58332955bf80ac6c018f1dcc6de652026a7c3257d726
-  languageName: node
-  linkType: hard
-
-"unfetch@npm:^3.1.1":
-  version: 3.1.2
-  resolution: "unfetch@npm:3.1.2"
-  checksum: 5529f0021c51ffa52b5eb36b7b7824f5cbb2167c4a7a09365d071af7534a87a7968a93f1d71f8cdb1aab930af5692af10f53521100999021a05bfb738ff859ab
-  languageName: node
-  linkType: hard
-
-"unfetch@npm:^4.1.0":
-  version: 4.2.0
-  resolution: "unfetch@npm:4.2.0"
-  checksum: 6a4b2557e1d921eaa80c4425ce27a404945ec26491ed06e62598f333996a91a44c7908cb26dc7c2746d735762b13276cf4aa41829b4c8f438dde63add3045d7a
   languageName: node
   linkType: hard
 
@@ -23517,13 +23359,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webidl-conversions@npm:^3.0.0":
-  version: 3.0.1
-  resolution: "webidl-conversions@npm:3.0.1"
-  checksum: c92a0a6ab95314bde9c32e1d0a6dfac83b578f8fa5f21e675bc2706ed6981bc26b7eb7e6a1fab158e5ce4adf9caa4a0aee49a52505d4d13c7be545f15021b17c
-  languageName: node
-  linkType: hard
-
 "webidl-conversions@npm:^7.0.0":
   version: 7.0.0
   resolution: "webidl-conversions@npm:7.0.0"
@@ -23723,16 +23558,6 @@ __metadata:
     tr46: ^3.0.0
     webidl-conversions: ^7.0.0
   checksum: ed4826aaa57e66bb3488a4b25c9cd476c46ba96052747388b5801f137dd740b73fde91ad207d96baf9f17fbcc80fc1a477ad65181b5eb5fa718d27c69501d7af
-  languageName: node
-  linkType: hard
-
-"whatwg-url@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "whatwg-url@npm:5.0.0"
-  dependencies:
-    tr46: ~0.0.3
-    webidl-conversions: ^3.0.0
-  checksum: b8daed4ad3356cc4899048a15b2c143a9aed0dfae1f611ebd55073310c7b910f522ad75d727346ad64203d7e6c79ef25eafd465f4d12775ca44b90fa82ed9e2c
   languageName: node
   linkType: hard
 

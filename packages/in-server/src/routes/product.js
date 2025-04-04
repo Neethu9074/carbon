@@ -185,6 +185,7 @@ router.get('/', async (req, res) => {
     clientConfig.activeLicenseType = activeLicenseInfo;
     clientConfig.amplitudeKey = getAmplitudeKey();
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
+    const segmentKeyValue = clientConfig.segmentKey;
     const walkmeEnabled = featureFlags.tealiumPrivacyEnabled
       ? featureFlags.walkmeToolEnabled
       : termsAndPrivacy.walkmeAnalyticsServices;
@@ -195,6 +196,7 @@ router.get('/', async (req, res) => {
     const isAssistMeEnabled = ibmCommonEnabled && featureFlags.assistmeEnabled && walkmeEnabled;
     const isSessionPlayBackRequired =
       walkmeEnabled && (activeLicenseInfo == 'selfService' || featureFlags.playwithEnabled);
+    const segmentAnalyticsEnabled = featureFlags.segmentAnalyticsEnabled;
     res.set(
       'Content-Security-Policy',
       getCsp(nonce, walkmeEnabled, ibmCommonEnabled, isSessionPlayBackRequired, solisEnabled)
@@ -230,7 +232,9 @@ router.get('/', async (req, res) => {
         isAssistMeEnabled,
         walkmeEnabled,
         walkmeTestEnabled,
-        ibmCommonEnabled
+        ibmCommonEnabled,
+        segmentKeyValue,
+        segmentAnalyticsEnabled
       })
     );
   } catch (err) {

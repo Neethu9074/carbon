@@ -49,9 +49,11 @@
             "isSpa": true,
             "tealiumProfileName": "in-app-usage"
          },
-          "trustarc": {
-            "isCookiePreferencesInstalled": true,
-      },
+         trustarc: {
+            isCookiePreferencesInstalled: true
+          },
+         "digitalData.page.pageInfo.segment.enabled": {{segmentAnalyticsEnabled}},
+         "digitalData.page.pageInfo.segment.key": "{{segmentKeyValue}}",
          "digitalData.page.pageInfo.walkme.enabled": {{walkmeEnabled}},
          "digitalData.page.pageInfo.walkme.id": "9ef25d161f0e453a8f3e4dea9390a967",
          "digitalData.page.pageInfo.walkme.test": {{walkmeTestEnabled}},
@@ -70,8 +72,7 @@
       };
      </script>
      <script nonce="{{nonce}}"src="//1.www.s81c.com/common/stats/ibm-common.js" type="text/javascript" async="async"></script>
-  {{/if}}
-
+{{/if}}
   {{#if solisEnabled }}
     <script async type="module" nonce="{{nonce}}" src="{{solisUiHost}}/solis_hub/ui/login/solis-login.es.js">
     </script>
