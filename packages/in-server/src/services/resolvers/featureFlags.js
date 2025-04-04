@@ -827,6 +827,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'websitesSmartAlertDialogViewEnabled',
+    instanaCtlKey: 'feature.websites.smart.alert.dialog.view.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'perEntityInfraSmartAlertsEnabled',
     instanaCtlKey: 'feature.per.entity.infra.smart.alerts.enabled',
     defaultValue: false

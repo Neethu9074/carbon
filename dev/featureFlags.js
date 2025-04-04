@@ -186,5 +186,6 @@ module.exports = {
   isSmartAlertDialogViewDefaultEnabled: true,
   logSmartAlertDialogViewEnabled: true,
   syntheticSmartAlertDialogViewEnabled: true,
-  infraSmartAlertDialogViewEnabled: true
+  infraSmartAlertDialogViewEnabled: true,
+  websitesSmartAlertDialogViewEnabled: true
 };
