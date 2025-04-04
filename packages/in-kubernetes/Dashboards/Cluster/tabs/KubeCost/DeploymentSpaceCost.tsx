@@ -50,7 +50,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: DeploymentCostRow) {
-        return row.deploymentCostList.get('deployment');
+        return row.deploymentCostList.get('controller');
       }
     }
   },
