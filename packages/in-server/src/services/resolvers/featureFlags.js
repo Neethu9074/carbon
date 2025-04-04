@@ -356,33 +356,13 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'bizopsProcessIdColumnEnabled',
-    instanaCtlKey: 'feature.bizops.process.id.column.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'bizopsGenAIEnabled',
     instanaCtlKey: 'feature.bizops.genAI.enabled',
     defaultValue: false
   },
   {
-    uiClientKey: 'bizopsProcessFlowMapEnabled',
-    instanaCtlKey: 'feature.bizops.process.flow.map.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'bizopsProcessFlowMapHealthOverlayEnabled',
     instanaCtlKey: 'feature.bizops.process.flow.map.health.overlay.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'bizopsCustomDashboardEnabled',
-    instanaCtlKey: 'feature.bizops.custom.dashboard.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'bizopsVersionColumnEnabled',
-    instanaCtlKey: 'feature.bizops.version.column.enabled',
     defaultValue: true
   },
   {
