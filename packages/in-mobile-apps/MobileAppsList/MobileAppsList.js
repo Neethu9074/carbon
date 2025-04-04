@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Card, Link, Button } from '@instana/components';
+import { Link, Button } from '@instana/components';
 
 import MobileHealthIndicatorBehavior from 'in-mobile-apps/MobileAppDashboard/components/MobileHealthIndicatorBehavior/MobileHealthIndicatorBehavior';
 import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/ServerTable/internalComponents/LegacySeverityIndicatorCellContentWrapper';
@@ -168,7 +168,7 @@ export default connectTo(
   function MobileAppsList({ timeConfig }) {
     return (
       <Sticky header={<ViewSwitcher />}>
-        <LeftRightPadding>
+        <LeftRightPadding className={locals.wrapper}>
           <Title title={t('in-mobile-apps:appsList.mobileAppsTitle')} />
           <ViewTrackingMeta
             data={{
@@ -180,13 +180,11 @@ export default connectTo(
             getHasDataToRender={getHasDataToRender}
             FallbackComponent={MobileAppsNoDataNotification}
           >
-            <Card hasMarginBottom>
-              <ServerTableWithUrlState
-                get={getTableData}
-                timeConfig={timeConfig}
-                rightHeader={role.canConfigureMobileAppMonitoring ? RightHeader : null}
-              />
-            </Card>
+            <ServerTableWithUrlState
+              get={getTableData}
+              timeConfig={timeConfig}
+              rightHeader={role.canConfigureMobileAppMonitoring ? RightHeader : null}
+            />
           </WithEmptyStateFallback>
         </LeftRightPadding>
         <Footer />
