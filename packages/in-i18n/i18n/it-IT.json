@@ -20,6 +20,7 @@
       "tableLoadMoreRow": {
         "loadMore": "Carica altro"
       },
+      "filterTable": "Filtra tabella",
       "dataTable": "Tabella dati",
       "expandHeader": "Espandi riga",
       "expandRow": "Attiva/disattiva espansione riga",
@@ -41,6 +42,9 @@
     },
     "dropDown": {
       "selectOption": "Selezionare un'opzione"
+    },
+    "infoicon": {
+      "information": "Informazioni"
     },
     "tabsNavigation": {
       "pageNavigation": "Navigazione pagina"

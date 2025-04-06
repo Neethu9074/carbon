@@ -42,7 +42,7 @@
         "labelFrequency": "Fréquence (minutes)",
         "labelFrequencyHour": "Fréquence (heure)",
         "labelApplication": "Sélectionner une application",
-        "labelApplications": "Sélection d'applications"
+        "labelApplications": "Sélectionner des applications"
       },
       "bluePrint": {
         "title": "Quand l'utiliser ?",
@@ -64,7 +64,7 @@
           "name": "Script d'API",
           "headline": "Script d'API (script HTTP)",
           "whenToUse": {
-            "line1": "Utilisez un test de script HTTP et un script reposant sur Node.js pour tester la séquence de plusieurs API REST"
+            "line1": "Utilisez un test de script API (script HTTP) et un script reposant sur Node.js pour tester la séquence de plusieurs API REST"
           },
           "tipsForUsing": {
             "line1": "Etape 1: choisissez le type de test à créer.",
@@ -88,7 +88,7 @@
         },
         "browserScript": {
           "name": "Script de navigateur",
-          "headline": "Script de navigateur (BrowserScript)",
+          "headline": "Script de navigateur (browser script)",
           "whenToUse": {
             "line1": "Utilisez un test de script de navigateur lorsque vous souhaitez simuler des interactions utilisateur avec votre application Web à l'aide d'un script JavaScript ou Selenium IDE."
           },
@@ -141,9 +141,9 @@
           "certificateCheckLabel": "Certificat SSL",
           "certificateCheckHeadline": "Test de vérification de certificat SSL",
           "certificateCheckText": "Le test de vérification de certificat SSL est une méthode permettant de tester l'expiration d'un certificat SSL dans une application Web en vérifiant les jours restants d'un certificat émis.",
-          "dnsActionLabel": "DNS",
-          "dnsActionHeadline": "Serveur de noms de domaine",
-          "dnsActionText": "Le test DNS est une méthode permettant de vérifier que votre appareil ou réseau résout correctement les noms de domaine et ne présente pas de problèmes susceptibles de provoquer des ralentissements, des erreurs ou des failles de sécurité."
+          "dnsLabel": "DNS",
+          "dnsHeadline": "Serveur de noms de domaine",
+          "dnsText": "Le test DNS est une méthode permettant de vérifier que votre appareil ou réseau résout correctement les noms de domaine et ne présente pas de problèmes susceptibles de provoquer des ralentissements, des erreurs ou des failles de sécurité."
         },
         "configurationLabel": "Configuration",
         "configurationTitle": "Configuration : Comment ce test fonctionnera-t-il ?",
@@ -185,7 +185,7 @@
           "scriptLabel": "Script",
           "addscriptAction": "Ajouter un script",
           "editscriptAction": "Modifier le script",
-          "scriptFileName": "Nom du fichier",
+          "scriptFileName": "Nom de fichier",
           "scriptNotAdded": "Aucun script n'a été ajouté.",
           "buttonAdd": "Ajouter",
           "buttonBack": "Précédent",
@@ -203,7 +203,7 @@
           "sideFileUploadedMessage": "Les scripts Selenium ne peuvent pas être modifiés ou validés",
           "bundleFileNotSupportedMessage": "Un fichier non pris en charge est sélectionné. Les bundles sont uniquement pris en charge en mode avancé.",
           "timeoutFieldLabel": "Dépassements du délai d'attente",
-          "timeUnitsLabel": "Unités de temps",
+          "timeUnitsLabel": "Unité de temps",
           "timeoutFieldOptionMinutes": "minutes (m)",
           "timeoutFieldOptionSeconds": "secondes (s)",
           "timeoutFieldOptionMilliseconds": "millisecondes (ms)",
@@ -215,12 +215,48 @@
           "retryFieldOptionNone": "Aucun",
           "retryFieldOptionOnce": "Réessayer une fois",
           "retryFieldOptionTwice": "Réessayer deux fois",
-          "retryIntervalFieldLabel": "Intervalle entre les nouvelles tentatives",
+          "retryIntervalFieldLabel": "Intervalle avant nouvelles tentatives",
           "retryIntervalDescription": "Ce test réessaiera {{retryCount}} après {{retryIntervalValue}} {{retryIntervalUnit}}.",
           "markSyntheticCall": "Marquer l'appel synthétique",
           "downloadZip": "Téléchargez le fichier .zip",
           "mainFileNameHelperText": "Fournir le nom du fichier dans ce fichier .zip qui contient le point d'entrée du test",
-          "recordVideo": "Enregistrement des actions de l'utilisateur en cas d'échec"
+          "recordVideo": "Enregistrement des actions de l'utilisateur en cas d'échec",
+          "dns": {
+            "lookupLabel": "URL",
+            "lookupHelperText": "URL est le nom de domaine testé pour la résolution DNS",
+            "lookupPlaceholder": "L'URL de votre site web",
+            "queryType": "Type de requête",
+            "serverLabel": "Serveur DNS",
+            "serverHelperText": "Le serveur DNS est le serveur chargé de traduire le nom de domaine en adresse IP",
+            "portLabel": "Port",
+            "portHelperText": "Le port du serveur DNS est le port réseau utilisé ou la communication entre votre appareil (PoP) et le serveur DNS, généralement le port 53",
+            "queryTimeLabel": "Temps de réponse",
+            "queryTimeHelperText": "Le temps de résolution DNS optimal est compris entre 20 et 120 ms",
+            "recordTypeTitle": "Affirmations (facultatif)",
+            "recordTypeSubtitle": "Ces zones sont facultatives, mais lorsqu'elles sont renseignées, elles doivent tous être remplies pour que le test soit réussi.",
+            "recordTypeLabel": "Type d'enregistrement",
+            "operatorLabel": "Conditionnel",
+            "operatorOptionMatches": "Correspond",
+            "operatorOptionContains": "Contient",
+            "resolutionRecordLabel": "Compte rendu de la résolution",
+            "deleteButtonLabel": "Supprimer",
+            "addRecordTypeLabel": "Ajouter une zone",
+            "recursiveLookupLabel": "Recherche récursive",
+            "dnsRadioButtonOnLabel": "Activé",
+            "dnsRadioButtonOffLabel": "Désactivé",
+            "transportProtocolLabel": "Protocole de transport",
+            "acceptCNAMELabel": "Accepter CNAME",
+            "lookupServerNamelabel": "Recherche du nom du serveur",
+            "serverRetriesLabel": "Nouvelles tentatives du serveur (facultatif)",
+            "validators": {
+              "invalidDNSLookup": "Format de recherche DNS non valide",
+              "invalidDNSServer": "Serveur DNS non valide",
+              "invalidIPv4Address": "Adresse IPv4 non valide",
+              "invalidIPv6Address": "Adresse IPv6 non valide",
+              "invalidRecordType": "Type d'enregistrement non valide",
+              "invalidResolutionRecord": "Enregistrement de la résolution non valide"
+            }
+          }
         },
         "loadMore": "Charger plus",
         "selectTests": {
@@ -235,7 +271,7 @@
           "apiName": "API",
           "browserName": "Navigateur",
           "certificateCheckName": "Certificat SSL",
-          "dnsActionName": "DNS"
+          "dnsName": "DNS"
         },
         "customProperties": {
           "property": "Propriété",
@@ -244,7 +280,7 @@
           "propertyNameMustBeUnique": "Le nom de la propriété doit être unique."
         },
         "certificateCheck": {
-          "inputHostName": "Host Name",
+          "inputHostName": "Nom d'hôte",
           "inputPortNumber": "Port",
           "failureConfigLabel": "Configuration d'échec",
           "failureConfigText": "Le test échoue lorsque la validité du certificat n'est plus que de <certificateValidityDays/> jours."
@@ -334,10 +370,10 @@
         },
         "managedDatacentersLabel": "Centres de données",
         "datacenterCode": "Code du centre de données",
-        "datacenterName": "Nom du centre de données",
+        "datacenterName": "Nom de centre de données",
         "provider": "Fournisseur",
         "locationName": "Nom de l'emplacement",
-        "displayName": "Nom d'affichage",
+        "displayName": "Afficher le nom",
         "locationStatus": "Statut",
         "status": "Statut d'activation",
         "datacentersSubtitle": "Activez un emplacement géré Instana dans l'un des centres de données disponibles. Pour plus d'informations, voir <linkDatacenters>Utilisation d'un PoP hébergé par Instana</linkDatacenters>.",
@@ -347,7 +383,7 @@
           "table": {
             "heads": {
               "datacenterCode": "Code du centre de données",
-              "datacenterName": "Nom du centre de données",
+              "datacenterName": "Nom de centre de données",
               "locationName": "Nom de l'emplacement",
               "datacenterStatus": "Statut d'activation"
             }
@@ -494,7 +530,7 @@
     "locationList": {
       "locationLiveModeDisabled": "Le mode interactif n'est pas applicable dans la page Emplacements synthétiques",
       "locationLabel": "Nom de l'emplacement",
-      "locationDisplayLabel": "Nom d'affichage",
+      "locationDisplayLabel": "Afficher le nom",
       "status": "Statut",
       "type": "Type",
       "totalTests": "Nbre de tests liés",
@@ -512,7 +548,7 @@
       "typeToContinue": "Entrez {{location}} pour continuer",
       "deletionSuccess": "L'emplacement a été supprimé",
       "cancelButton": "Annuler",
-      "deleteLocationLabel": "Supprimer un emplacement",
+      "deleteLocationLabel": "Supprimer l'emplacement",
       "success": "Succès",
       "failure": "Échec",
       "popVersion": "Version",
@@ -531,9 +567,9 @@
       "successRate": "Taux de réussite",
       "locations": "Emplacements",
       "responseTime": "Temps de réponse",
-      "meanResponseTime": "moyen Temps de réponse",
+      "meanResponseTime": "Temps de réponse moyen",
       "responseSize": "Taille de la réponse",
-      "avgResponseSize": "moyen Taille de la réponse",
+      "avgResponseSize": "Taille moyenne des réponses",
       "summaryTab": "Récapitulatif",
       "resultsTab": "Résultats",
       "startTime": "Heure de début",
@@ -545,7 +581,7 @@
         "responseStatus": "Statut de la réponse",
         "networkTimings": "Délais de réseau",
         "blocking": "Blocage",
-        "dns": "Recherche DNS",
+        "dns": "Recherche DNS de",
         "sending": "Envoi",
         "waiting": "En attente",
         "receiving": "Réception",
@@ -559,10 +595,10 @@
         "accepted": "Accepté",
         "forbidden": "Interdit",
         "notFound": "Non trouvé",
-        "serverError": "Erreur du serveur",
-        "badRequest": "Demande incorrecte",
+        "serverError": "Erreur de serveur",
+        "badRequest": "Mauvaise demande",
         "badGateway": "Passerelle incorrecte",
-        "gatewayTimeout": "Délai d'attente de la passerelle"
+        "gatewayTimeout": "Délai d'attente de passerelle"
       },
       "totalRuns": "Nombre total d'exécutions {{totalRuns}}",
       "meanLatencyFor90th": "{{meanLatencyDetail}} pour 90e",
@@ -588,7 +624,11 @@
       "failures": "Echecs",
       "status": "Statut",
       "success": "Succès",
-      "daysRemaining": "Jours restants"
+      "daysRemaining": "Jours restants",
+      "dns": {
+        "failureType": "Type d'incident",
+        "na": "Non disponible"
+      }
     },
     "detailsPage": {
       "detailLiveModeDisabled": "Le mode interactif n'est pas applicable dans la page de détails des résultats de test synthétique",
@@ -637,7 +677,7 @@
         "notFound": "Non trouvé"
       },
       "downloadHar": "Télécharger le fichier HAR",
-      "downloadLog": "Journaux de téléchargement",
+      "downloadLog": "Téléchargez les journaux",
       "viewScreenshotsLabel": "Afficher la ou les captures d'écran",
       "consoleLogsLevel": "Console",
       "consoleLogs": "Console",
@@ -776,10 +816,10 @@
       "customProperties": "Propriétés personnalisées",
       "identifySectionName": "Nom",
       "identifySectionDescription": "Description",
-      "associatedApplication": "Application associée",
+      "associatedApplication": "les applications associées",
       "noApplicationAssociated": "Aucune application associée",
       "configScriptTitle": "Script",
-      "configScriptFileName": "Nom du fichier",
+      "configScriptFileName": "Nom de fichier",
       "noScriptFileFound": "Aucun fichier script trouvé.",
       "noCustomProperties": "Aucune propriété personnalisée définie pour ce test.",
       "propertyTitle": "Propriété",
@@ -800,7 +840,7 @@
       "retryStrategyLabel": "Stratégie de relance",
       "retryStrategyNone": "Aucun",
       "retryStrategyDescription": "Réessayez {{retryStrategy}}.",
-      "retryIntervalFieldLabel": "Intervalle entre les nouvelles tentatives",
+      "retryIntervalFieldLabel": "Intervalle avant nouvelles tentatives",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} seconde",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} secondes",
       "markSyntheticCall": "Marquer l'appel synthétique",
@@ -816,7 +856,26 @@
       "noWebsitesAssociated": "Aucun site Web associé",
       "associatedMobileApps": "Applications mobiles associées",
       "noMobileAppAssociated": "Aucune application mobile associée",
-      "recordVideo": "Enregistrement des actions de l'utilisateur en cas d'échec"
+      "recordVideo": "Enregistrement des actions de l'utilisateur en cas d'échec",
+      "dns": {
+        "lookupLabel": "URL",
+        "queryTypeLabel": "Type de requête",
+        "serverLabel": "Serveur DNS",
+        "portLabel": "Port",
+        "responseTimeLabel": "Temps de réponse",
+        "responseTimeDescription": "Le temps de réponse est inférieur à {{responseTime}} ms",
+        "assertionsTitle": "Assertions",
+        "recordTypeLabel": "Type d'enregistrement",
+        "operatorLabel": "Conditionnel",
+        "resolutionRecordLabel": "Compte rendu de la résolution",
+        "recursiveLookupLabel": "Recherche récursive",
+        "dnsRadioButtonOnLabel": "Activé",
+        "dnsRadioButtonOffLabel": "Désactivé",
+        "transportProtocolLabel": "Protocole de transport",
+        "acceptCNAMELabel": "Accepter CNAME",
+        "lookupServerNamelabel": "Recherche du nom du serveur",
+        "serverRetriesLabel": "Nouvelles tentatives du serveur"
+      }
     },
     "credentialList": {
       "mainLabel": "Données d'identification",

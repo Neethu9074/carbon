@@ -19,6 +19,7 @@
   "titleDescription": "Beschreibung",
   "titleTriggerEvent": "Triggerereignis",
   "titleRelatedEvents": "Zugehörige Ereignisse ({{eventCount}})",
+  "titleAffectedIncidents": "Betroffene Vorfälle",
   "noRelatedEvents": "Keine verwandten Ereignisse gefunden",
   "titleLastProcess": "Letzter Prozess",
   "titleLastHost": "Letzter Host",
@@ -143,6 +144,7 @@
   "unidentifiedEntityTooltip": "Es ist ein Fehler beim Abrufen von Informationen über diese Entität aufgetreten. Sie können das Dashboard der Entität besuchen, indem Sie auf den Link 'Unidentifizierte Entität' klicken, um weitere Einzelheiten zu erfahren.",
   "headerStatus": "Status",
   "eventHelpfulText": "War dieses Ereignis hilfreich?",
+  "summaryHelpfulText": "War diese Zusammenfassung hilfreich?",
   "thankYouForYourFeedback": "Danke für Ihr Feedback!",
   "hostOffLineEventProblemChangeTime": "Klicken Sie auf den Link unten, um zur letzten Version des Hosts zu gelangen, der von Instana überwacht wird. Dadurch ändert sich der Start Ihres Zeitfensters in einen Zeitpunkt, zu dem der Host von Instana überwacht wurde",
   "offLineEventProblemChangeTime": "Klicken Sie auf den Link unten, um zur letzten Version des Prozesses zu gelangen, der von Instana überwacht wird. Dadurch ändert sich der Start Ihres Zeitfensters in einen Zeitpunkt, zu dem der Prozess von Instana überwacht wurde",
@@ -159,10 +161,8 @@
     "affectedEventsLink": "Betroffene angepasste Ereignisse anzeigen"
   },
   "multiClose": {
-    "itemsSelected": "ausgewählte(r) Artikel",
     "closeIncidents": "Vorfall(e) schließen",
     "closeIssues": "Problem(e) schließen",
-    "cancelSelection": "Abbrechen",
     "incidentsCloseSuccessTitle": "Geschlossene(r) Vorfall(e)",
     "issuesCloseSuccessTitle": "Geschlossene Ausgabe(n)",
     "multipleIncidentsCloseSuccessMessage": "{{count}} Vorfälle wurden erfolgreich abgeschlossen.",
@@ -272,12 +272,9 @@
     "analyzeTraceLogs": "Analysieren von Trace-Protokollen",
     "analyzeApplicationLogs": "Analyse der Anwendungsprotokolle",
     "topology": {
+      "overviewTab": "Übersicht",
       "viewTopology": "Topologie anzeigen",
       "dialogTitle": "Topologie",
-      "overviewTab": "Übersicht",
-      "rootCauseOne": "Grundlegende Ursache 1",
-      "rootCauseTwo": "Grundlegende Ursache 2",
-      "rootCauseThree": "Grundlegende Ursache 3",
       "failedToLoadTitle": "Topologie konnte nicht geladen werden",
       "failedToLoadDescription": "Das Laden der Topologiedaten ist aufgrund eines Fehlers beim Abrufen der Daten fehlgeschlagen. Es ist möglich, dass sie aufgrund von Datenaufbewahrungsrichtlinien nicht mehr existiert.",
       "legendRCA": "Grundlegende Ursache Entität",
@@ -361,10 +358,28 @@
     "confirmationYes": "Ja",
     "confirmationNo": "Abbrechen"
   },
+  "aichat": {
+    "unableToFindError": "Diese Information kann nicht gefunden werden",
+    "host": "Host",
+    "name": "Name",
+    "noMatching": "Keine übereinstimmenden Datensätze gefunden.",
+    "timestamp": "Zeitmarke",
+    "numCalls": "Anzahl der Aufrufe",
+    "meanLatency": "Mittlere Latenz",
+    "youMustAccept": "Sie müssen die Bedingungen der Vereinbarung zum Vorschauprogramm für generative KI-Unterstützung akzeptieren, um diese Funktion nutzen zu können.",
+    "reviewAction": "Vereinbarung überprüfen",
+    "openingAgreement": "Öffnen der [Einwilligungserklärung] ({{href}}) in einer neuen Registerkarte...",
+    "findingInfoFrom": "Diese Informationen finden Sie bei {{endpoint}}",
+    "noData": "Keine Daten von API zurückgegeben",
+    "whatToKnow": "Was möchten Sie über {{category}} wissen?",
+    "welcome": "Hallo und willkommen. Machen Sie den Anfang mit KI, indem Sie die verschiedenen Beispiele unten erkunden.",
+    "apps": "Anwendungen",
+    "infra": "Infrastruktur"
+  },
   "notes": {
     "openNotes": "Notizen und Aktivität öffnen",
     "closeNotes": "Notizen und Aktivität schließen",
-    "notesActivity": "Anmerkungen und Aktivität",
+    "notesActivity": "Notizen und Aktivitäten mit KI",
     "confirmDelete": "Löschen bestätigen",
     "you": "Sie {{date}}",
     "youEdited": "Sie (bearbeitet) {{date}}",
@@ -430,5 +445,13 @@
   },
   "relatedEvents": {
     "openEvent": "Offene Veranstaltung"
+  },
+  "consentForm": {
+    "consentText": "Sie müssen die Bedingungen der Vereinbarung zum Vorschauprogramm für generative KI-Unterstützung akzeptieren, um diese Funktion nutzen zu können.",
+    "consentButton": "Vereinbarung überprüfen"
+  },
+  "affectedIncidents": {
+    "affectedIncident": "Betroffenes Ereignis",
+    "noAffectedIncidents": "Keine betroffenen Vorfälle gefunden"
   }
 }

@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Collapsible } from '@instana/components';
 
+import RemoteServiceAgentCorrelationComponent from 'in-sdk/components/sidebar/remoteServiceAgentCorrelation/remoteServiceAgentCorrelationComponent';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import Info from 'in-forge/plugins/awsRedshiftCluster/Info';
@@ -31,6 +32,7 @@ export default function AwsRedshiftClusterSidebar({ snapshot }) {
       <TagList snapshot={snapshot} />
       <ClusterMemberList snapshotId={snapshotId} />
       <ServiceInstancesList snapshot={snapshot} />
+      <RemoteServiceAgentCorrelationComponent snapshot={snapshot} />
     </div>
   );
 }

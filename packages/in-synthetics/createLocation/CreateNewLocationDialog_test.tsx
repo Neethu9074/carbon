@@ -30,12 +30,12 @@ describe('Synthetic New Location Dialog', () => {
         setSimpleModeStep={setSimpleModeStep}
       />
     );
-    expect(screen.getByText('New Location')).toBeInTheDocument();
+    expect(screen.getByText('New location')).toBeInTheDocument();
   });
 
   it('Renders PrivateLocation component correctly', () => {
     const { container } = render(<DeployTabSelection downloadKey={''} agentKey={''} syntheticAcceptorURL={''} />);
-    expect(screen.getByText('Synthetic PoP Commands')).toBeInTheDocument();
+    expect(screen.getByText('Synthetic PoP commands')).toBeInTheDocument();
     expect(container.getElementsByTagName('li').length).toBe(2);
     expect(container.getElementsByTagName('li')[0]).toHaveTextContent('Simple');
     expect(container.getElementsByTagName('li')[1]).toHaveTextContent('Redis TLS');
@@ -59,10 +59,10 @@ describe('Synthetic New Location Dialog', () => {
     expect(screen.getByText('Datacenters')).toBeInTheDocument();
 
     expect(container.getElementsByTagName('th').length).toBe(5);
-    expect(container.getElementsByTagName('th')[0]).toHaveTextContent('Datacenter Code');
-    expect(container.getElementsByTagName('th')[1]).toHaveTextContent('Datacenter Name');
+    expect(container.getElementsByTagName('th')[0]).toHaveTextContent('Datacenter code');
+    expect(container.getElementsByTagName('th')[1]).toHaveTextContent('Datacenter name');
     expect(container.getElementsByTagName('th')[2]).toHaveTextContent('Provider');
-    expect(container.getElementsByTagName('th')[3]).toHaveTextContent('Location Name');
-    expect(container.getElementsByTagName('th')[4]).toHaveTextContent('Status');
+    expect(container.getElementsByTagName('th')[3]).toHaveTextContent('Location name');
+    expect(container.getElementsByTagName('th')[4]).toHaveTextContent('Activation status');
   });
 });

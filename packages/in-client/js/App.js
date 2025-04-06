@@ -3,15 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
-import { ThemeProvider, getThemeOverride, setThemeOverride } from '@instana/components';
+import { ThemeProvider } from '@instana/components';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
 import SessionTimeoutContainer from 'in-components/SessionTimeoutDialog/SessionTimeoutContainer';
+import { playwithEnabled, timeOutSessionEnabled, solisEnabled } from 'in-services/featureFlags';
+import CarbonUIShell from 'in-components/MainNavigation/components/CarbonUIShell/CarbonUIShell';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
-import CarbonUIShell from 'in-components/MainNavigation/components/CarbonUIShell';
-import { playwithEnabled, timeOutSessionEnabled } from 'in-services/featureFlags';
 import LocationStateProvider from 'in-stores/navigation/LocationStateProvider';
 import ScrollTrackingWrapper from 'in-components/ScrollTrackingWrapper';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
@@ -21,16 +21,14 @@ import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
-import { fallbackTheme } from 'in-themes/SwitchTheme';
 import routes from 'in-client/js/routes/mainRoutes';
-import { SwitchTheme } from 'in-themes/SwitchTheme';
 import GlobalTheme from 'in-themes/GlobalTheme';
 
 import locals from './App.mless';
 
 export default function App() {
-  const themeOverride = getThemeOverride() ?? fallbackTheme;
-  const [theme, setTheme] = useState(themeOverride);
+  window.RUNTIME_CONTEXT = solisEnabled ? 'solis' : 'standalone';
+  const fallbackTheme = 'g10';
 
   return (
     <ErrorBoundary name="app">
@@ -43,20 +41,12 @@ export default function App() {
           // TODO investigate for usages and decide if it can be completely be removed.
         }
         <GlobalTheme>
-          <SwitchTheme
-            theme={theme}
-            setOverride={theme => {
-              setThemeOverride(theme);
-              setTheme(theme);
-            }}
-          />
-          <ThemeProvider theme={theme ?? fallbackTheme}>
+          <ThemeProvider theme={fallbackTheme}>
             <ScrollTrackingWrapper>
               <GlobalTimeConfig>
                 <ErrorBoundary name="main-navigation">
-                  <CarbonUIShell />
+                  {window.RUNTIME_CONTEXT === 'solis' ? <solis-nav /> : <CarbonUIShell />}
                 </ErrorBoundary>
-
                 <div className={locals.content} role="main">
                   {/* For "Skip to main content" target */}
                   <div tabIndex={-1} id="main-content" style={{ display: 'hidden' }} />

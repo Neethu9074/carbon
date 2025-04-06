@@ -4,10 +4,16 @@
  */
 
 import { createField, createMapForm } from 'formalistic';
-import React, { Fragment } from 'react';
-import classNames from 'classnames';
+import React from 'react';
 
-import { Card, Message, Spacer, Pill } from '@instana/components';
+import {
+  Card,
+  Message,
+  Pill,
+  Typography,
+  CarbonTextInput as TextInput,
+  CarbonStack as Stack
+} from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
@@ -18,27 +24,22 @@ import {
 } from 'in-api/applicationConfigs';
 import { hasPermissionToAddBuiltInSmartAlerts } from 'in-alerting/smart-alerts/applications/apCreation/BuiltInGlobalSmartAlertsPermissionWrapper';
 import ConfigTabBuiltInSmartAlertsSelectionList from 'in-alerting/smart-alerts/applications/apCreation/ConfigTabBuiltInSmartAlertsSelectionList';
-import InboundOrAllCallsChoiceVertical from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceVertical';
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import ContributionFilterDropdown from 'in-applications/creation/components/ContributionFilterDropdown';
+import { DownstreamScopeSelector } from 'in-applications/Forms/shared/DownstreamScopeSelector';
+import { BoundaryScopeSelector } from 'in-applications/Forms/shared/BoundaryScopeSelector';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
-import DescriptionText from 'in-components/form/DescriptionText';
-import TouchedMessages from 'in-components/form/TouchedMessages';
-import OptionBox from 'in-applications/components/OptionBox';
 import Steps from 'in-applications/Forms/components/Steps';
 import { getColor } from 'in-applications/endpointTypes';
 import BasicForm from 'in-applications/Forms/BasicForm';
-import FormGroup from 'in-components/form/FormGroup';
-import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';
 import { noop } from 'in-services/fixedObjects';
-import Input from 'in-components/form/Input';
-import Label from 'in-components/form/Label';
 import { t, Trans } from 'in-i18n';
 
 import locals from './CreateApplicationDialog.mless';
 
+// FIXME: this is only used in AP config... we should make it re-usable for creation as well
 export default function CreateApplicationDialog({ applicationId, onCancelHref, getOnSavePath }) {
   const { trackApplicationSubmitted } = useApplicationTracker();
   return (
@@ -81,78 +82,75 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref, g
           getInitialForm={getInitialForm}
           renderFormContent={(appConfig, form, setValue, updateForm) => {
             return (
-              <Fragment>
-                <HelpText>{t('in-applications:forms.newApplication.helpApplicationPerspectives')}</HelpText>
+              <>
+                <Typography variant="label-01">
+                  {t('in-applications:forms.newApplication.helpApplicationPerspectives')}
+                </Typography>
                 <Steps
                   steps={[
                     {
                       stepTitle: t('in-applications:forms.newApplication.stepTitleDefineApplicationName'),
                       content: form.get('label').map(field => (
-                        <FormGroup>
-                          <Label htmlFor="label" hasError={!field.valid && field.touched}>
-                            {t('in-applications:creation.simple.step3.apName')}
-                          </Label>
-                          <Input
-                            type="text"
+                        <Stack>
+                          <Typography variant="label-01">
+                            {t('in-applications:forms.newApplication.descriptionApplicationName')}
+                          </Typography>
+                          <TextInput
                             id="label"
-                            value={field.value}
-                            onChange={e => setValue(['label'], e.target.value, form)}
-                            autoComplete="off"
-                            hasError={!field.valid && field.touched}
-                            autoFocus
-                          />
-                          <TouchedMessages field={field} />
-
-                          {applicationId && (
-                            <HelpText>
+                            labelText={t('in-applications:creation.simple.step3.apName')}
+                            helperText={
                               <Trans
                                 i18nKey="in-applications:forms.newApplication.helpRenameApplication"
                                 components={{ italic: <em /> }}
                               />
-                            </HelpText>
-                          )}
-
-                          <DescriptionText className={locals.applicationNameText}>
-                            {t('in-applications:forms.newApplication.descriptionApplicationName')}
-                          </DescriptionText>
-                        </FormGroup>
+                            }
+                            value={field.value}
+                            onChange={e => setValue(['label'], e.target.value, form)}
+                            invalid={field.touched && !field.valid}
+                            invalidText={field.messages?.[0]?.message}
+                          />
+                        </Stack>
                       ))
                     },
                     {
                       stepTitle: t('in-applications:forms.newApplication.stepTitleDefineTags'),
                       content: (
-                        <Fragment>
-                          <DescriptionText>
+                        <Stack>
+                          <Typography variant="label-01">
                             <Trans
                               i18nKey="in-applications:forms.newApplication.descriptionTags"
                               components={{
-                                pillDatabase: <Pill color={getColor('DATABASE')} kind="light" />,
-                                pillMessage: <Pill color={getColor('MESSAGING')} kind="light" />
+                                pillDatabase: (
+                                  <Pill color={getColor('DATABASE')}>
+                                    {t('in-applications:creation.advanced.database')}
+                                  </Pill>
+                                ),
+                                pillMessage: (
+                                  <Pill color={getColor('MESSAGING')}>
+                                    {t('in-applications:creation.advanced.messaging')}
+                                  </Pill>
+                                )
                               }}
                             />
-                            <br />
-                            <br />
-                            <strong>
-                              {t('in-applications:forms.newApplication.descriptionOperatorsCreationEnabled')}
-                            </strong>
-                          </DescriptionText>
+                          </Typography>
+                          <Typography variant="heading-compact-01">
+                            {t('in-applications:forms.newApplication.descriptionOperatorsCreationEnabled')}
+                          </Typography>
                           {applicationId && appConfig.groupId && !appConfig.contributionFilter && (
-                            <>
-                              <Message small>
-                                <Trans i18nKey="in-applications:forms.newApplication.warningMessageForContributionFilter" />
-                              </Message>
-                              <Spacer vertical="xsmall" />
-                            </>
+                            <Message
+                              description={t(
+                                'in-applications:forms.newApplication.warningMessageForContributionFilter'
+                              )}
+                            />
                           )}
                           {appConfig.contributionFilter != null && (
-                            <div className={locals.contributionFilter}>
-                              <ContributionFilterDropdown
-                                form={form}
-                                updateForm={noop}
-                                userRestrictedApplications={createUserRestrictedApplication(appConfig)}
-                                className={locals.contributionFilterDropdownItem}
-                              />
-                            </div>
+                            <ContributionFilterDropdown
+                              form={form}
+                              updateForm={noop}
+                              userRestrictedApplications={createUserRestrictedApplication(appConfig)}
+                              disabled={false}
+                              className={locals.contributionFilterDropdownItem}
+                            />
                           )}
                           <div className={locals.queryBuilder}>
                             <CreateApplicationQueryBuilder
@@ -165,65 +163,31 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref, g
                               }
                             />
                           </div>
-                        </Fragment>
+                        </Stack>
                       )
                     },
                     {
                       stepTitle: t('in-applications:forms.newApplication.stepTitleDownstreamServices'),
-                      content: form.get('scope').map(field => (
-                        <FormGroup>
-                          <OptionBox
-                            className={classNames({
-                              [locals.optionBox]: true,
-                              [locals.optionBoxUnchecked]: field.value !== 'INCLUDE_NO_DOWNSTREAM'
-                            })}
-                            title={t('in-applications:forms.newApplication.optionNoDownstreamServices')}
-                            asRadioButton
-                            checked={field.value == 'INCLUDE_NO_DOWNSTREAM'}
-                            onChange={() => setValue(['scope'], 'INCLUDE_NO_DOWNSTREAM', form)}
+                      content: form
+                        .get('scope')
+                        .map(field => (
+                          <DownstreamScopeSelector
+                            formField={field}
+                            onChange={value => setValue(['scope'], value, form)}
+                            maxScope={getMaxScope(appConfig)}
                           />
-                          {getMaxScope(appConfig) !== 'INCLUDE_NO_DOWNSTREAM' && (
-                            <OptionBox
-                              className={classNames({
-                                [locals.optionBox]: true,
-                                [locals.optionBoxUnchecked]:
-                                  field.value !== 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'
-                              })}
-                              title={t('in-applications:forms.newApplication.optionImmediateDownstreamServices')}
-                              asRadioButton
-                              checked={field.value == 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'}
-                              onChange={() =>
-                                setValue(['scope'], 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING', form)
-                              }
-                            />
-                          )}
-                          {getMaxScope(appConfig) === 'INCLUDE_ALL_DOWNSTREAM' && (
-                            <OptionBox
-                              className={classNames({
-                                [locals.optionBox]: true,
-                                [locals.optionBoxUnchecked]: field.value !== 'INCLUDE_ALL_DOWNSTREAM'
-                              })}
-                              title={t('in-applications:forms.newApplication.optionAllDownstreamServices')}
-                              asRadioButton
-                              checked={field.value == 'INCLUDE_ALL_DOWNSTREAM'}
-                              onChange={() => setValue(['scope'], 'INCLUDE_ALL_DOWNSTREAM', form)}
-                            />
-                          )}
-                        </FormGroup>
-                      ))
+                        ))
                     },
                     {
                       stepTitle: t('in-applications:forms.newApplication.stepTitleApplicationScope'),
-                      content: form.get('boundaryScope').map(field => {
-                        return (
-                          <FormGroup>
-                            <InboundOrAllCallsChoiceVertical
-                              boundaryScope={field.value}
-                              onBoundaryStateChange={value => setValue(['boundaryScope'], value.boundaryScope, form)}
-                            />
-                          </FormGroup>
-                        );
-                      })
+                      content: form
+                        .get('boundaryScope')
+                        .map(field => (
+                          <BoundaryScopeSelector
+                            formField={field}
+                            onChange={value => setValue(['boundaryScope'], value, form)}
+                          />
+                        ))
                     },
                     hasPermissionToAddBuiltInSmartAlerts()
                       ? {
@@ -247,7 +211,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref, g
                       : null
                   ].filter(Boolean)}
                 />
-              </Fragment>
+              </>
             );
           }}
         />

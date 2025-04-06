@@ -4,7 +4,6 @@
  */
 
 const express = require('express');
-
 const configEnrichment = require('../middleware/configEnrichment');
 const { activeResolver } = require('../services/resolvers/index');
 const unitCoordinates = require('../middleware/unitCoordinates');
@@ -57,9 +56,11 @@ router.use('/bundle/internal.*.js', async (req, res, next) => {
 // assets directory will be populated with generated JavaScript during the build process.
 router.use(
   express.static(paths.assetDir, {
+    index: false,
     cacheControl: false,
     setHeaders(res) {
       res.setHeader('Cache-Control', cacheControlHeader);
+      res.setHeader('Content-Security-Policy', `font-src 'self'; script-src 'self'`);
     }
   })
 );
@@ -86,7 +87,7 @@ function checkChecksumAndSend(req, res, checksumToCheck, fileToSend) {
     res.sendStatus(404);
     return;
   }
-
+  res.setHeader('Content-Security-Policy', `font-src 'self'; script-src 'self'`);
   res.sendFile(fileToSend, sendFilesConfig, err => {
     if (err) {
       req.log.error({ err }, 'Failed to send file. Cannot complete request.');

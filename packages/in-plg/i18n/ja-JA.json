@@ -110,10 +110,10 @@
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。"
       },
       "operator": {
-        "installUsingTheOperator": "Operator を使用したインストール",
+        "installUsingTheOperator": "オペレータを使用したインストール",
         "installAnAgentOnKubernetes": "Kubernetes へのエージェントのインストール",
         "installOperatorsManually": "ステップ 1: オペレーターを手動でインストールします。",
-        "theLatestOperatorWillBeInstalled": "最新の Operator がインストールされ、1.x CRD はアップグレードされません。",
+        "theLatestOperatorWillBeInstalled": "最新のオペレータがインストールされ、1.x CRD はアップグレードされません。",
         "enterAClusterNameAndOptionallyTheAgentZoneThatYouWantTheClusterToBePartOf": "ステップ 2: クラスター名を入力し、オプションで、クラスターを含めるエージェント・ゾーンを入力します。",
         "configureTheCustomResourceYAMLFile": "ステップ 3: カスタム・リソース YAML ファイルを構成します。",
         "followTheInstructionsInTheDocumentation": "<documentation>資料</documentation> の指示に従ってください。",
@@ -163,9 +163,9 @@
       "lambdaSetEnvironmentVariables": "AWS Lambda 構成ページの各セクションで、以下の環境変数を設定します",
       "referenceToAwsLambdaGoDocumentation": "トレース・データを収集するには、Go で作成された AWS Lambda 関数を手動でインスツルメントする必要があります。 <awsLambdaGoDoc>AWS Lambda Go の資料</awsLambdaGoDoc>の説明に従ってください。",
       "reviewPrerequisitesAndConfigureLambda": "前提条件を確認し、ネイティブ・トレース用に AWS Lambda 関数を構成します。",
-      "referDocumentationForSettingUpAwsSensor": "Instana AWS センサーのセットアップについて詳しくは、<awsSensorDoc> AWS Service documentation< /awsSensorDoc> を参照してください。",
+      "referDocumentationForSettingUpAwsSensor": "Instana AWS センサーのセットアップの詳細については、<awsSensorDoc> AWS サービス・ドキュメンテーション < /awsSensorDoc> を参照してください。",
       "referenceToAwsLambdaMonitoringDoc": "ネイティブ Lambda トレースを構成するための代替方法について詳しくは、<awsLambdaMonitoring>Monitoring AWS Lambda の資料</awsLambdaMonitoring>を参照してください。",
-      "setupUpInstanaAwsSensorRunningInAwsRegion": "AWS 領域で実行される Instana AWS センサーのセットアップ",
+      "setupUpInstanaAwsSensorRunningInAwsRegion": "AWS 領域で実行される Instana AWS センサーを設定します",
       "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "前提条件を確認し、エージェント・デプロイメント・コードを実行します。",
       "setIAMPermissionsAndEditTrustRelationship": "IAM 許可の設定と信頼関係の編集",
       "selectWhereToRunAwsAgentOn": "AWS エージェントを実行する場所を選択します",
@@ -183,7 +183,7 @@
       "romanStep3": "(iii) ",
       "selectAwsRegion": "AWS リージョンを選択します",
       "awsRegion": "AWS リージョン",
-      "awsCommandLineInterfaceValue": "値を指定し、以下のようなコマンドを使用して AWS コマンド・ライン・インターフェースを使用します",
+      "awsCommandLineInterfaceValue": "値を入力し、AWS Command Line Interface (CLI) を使用するには、次のようなコマンドを使用します",
       "amazonResourceName": "Amazon リソース名 (ARN)",
       "setEnvVariablesInLambdaFunction": "Lambda 関数で以下の環境変数を設定します。",
       "selectInstanaLambdaLayer": "以下の Amazon リソース名 (ARN) を持つ Instana Lambda レイヤーを選択します。",
@@ -193,7 +193,7 @@
       "installationMethod": "インストール方法",
       "applicationDirectory": "アプリケーション・ディレクトリー",
       "workDirDirectoryInDocker": "これは通常、Dockerfile 内の WORKDIR ディレクトリーとして設定されます。",
-      "lambdaFunctionName": "ラムダ関数名",
+      "lambdaFunctionName": "Lambda 関数名",
       "referenceToAwsLambdaRubyDocumentation": "トレース・データを収集するには、Go で作成された AWS Lambda 関数を手動でインスツルメントする必要があります。 <awsLambdaRubyDoc>AWS Lambda Ruby の資料</awsLambdaRubyDoc>の説明に従ってください。",
       "preferredMethodForEnablingTracing": "Java ベースの AWS Lambda 関数でトレースを有効にするために推奨される方法は、以下のステップで概説するように、Instana Lambda レイヤーを AutoTrace とともに使用することです。",
       "setupAwsLambdaFunctionsForNativeTracing": "以下のステップを実行して、前提条件を確認し、ネイティブ・トレース用の AWS Lambda 関数をセットアップします。",
@@ -210,7 +210,7 @@
       "trustRelationships": "信頼関係",
       "enterAClusterNameAndOptionallyTheAgentZone": "クラスター名を入力し、オプションで、クラスターをその一部にするエージェント・ゾーンを入力します。",
       "awsLambdaNodeJsAutotrace": "Node.js 10.x (以降) ベースの AWS Lambda 関数をトレースの対象として構成する方法として推奨されているのは、Instana Lambda レイヤーと AutoTrace です。",
-      "selectAwsRegionAndLambdaHandler": "AWS 領域を選択し、現在のラムダ・ハンドラーを入力します",
+      "selectAwsRegionAndLambdaHandler": "AWS 領域を選択し、現在の Lambda ハンドラーを入力します",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Instana 自動ラップ・ハンドラーを Lambda 関数のハンドラーとして設定します。",
       "autoWrapHandler": "自動折り返しハンドラー",
       "prerequisiteLinks": {
@@ -228,10 +228,10 @@
         "instanaLambdaLayerAndManualWrapping": "Instana Lambda レイヤー & 手動ラッピング",
         "awsLambdaEnvVariables": "AWS Lambda の環境変数",
         "monitoringPython": "Python のモニター",
-        "runningStartupScript": "始動スクリプトの実行",
+        "runningStartupScript": "起動スクリプト実行中",
         "uninstallingTheHostAgent": "ホスト・エージェントのアンインストール",
         "awsLambdaNativeTracingForJava": "Java 用の AWS Lambda ネイティブ・トレース",
-        "awsLambdaNativeTracingForDotNet": ".NET Core用AWS Lambda Native Tracing",
+        "awsLambdaNativeTracingForDotNet": ".NET Core 用 AWS Lambda ネイティブ・トレース",
         "awsLambdaFunctions": "AWS Lambda 関数",
         "monitoringAwsFargate": "AWS Fargate のモニター",
         "monitoringAwsFargateJava": "AWS Fargate (Java) のモニター",
@@ -240,13 +240,13 @@
         "monitoringAwsFargateNodejs": "AWS Fargate (Node.js) のモニター",
         "monitoringAwsFargatePython": "AWS Fargate のモニター (Python)",
         "monitoredAwsServices": "モニター対象の AWS サービス",
-        "monitoringNodejs": "モニター・ノード js",
-        "installGcrCollectors": "Gogle Cloud Run プロセス内コレクターのインストール",
+        "monitoringNodejs": "Node.js の監視",
+        "installGcrCollectors": "Google Cloud をインストールするイン・プロセス・コレクターを実行する",
         "installAgentOnEc2": "AWS EC2 へのエージェントのインストール",
         "configurationOptions": "構成オプション",
         "monitoringGcr": "Google Cloud Run のモニタリング",
         "monitoringAwsFargateRuby": "AWS Fargate (Ruby) のモニター",
-        "awsServiceDocumentation": "AWS サービスの資料",
+        "awsServiceDocumentation": "AWS サービスに関する文書",
         "monitoringAwsLambda": "AWS Lambda のモニター",
         "configuringAwsLambdaMonitoring": "AWS Lambda モニターの構成",
         "awsLambdaNativeTracingForGo": "Go 用の AWS Lambda ネイティブ・トレース"
@@ -367,7 +367,7 @@
           "linux64BitArm": "Linux (64 ビット - ARM)",
           "linux64BitAmd": "Linux (64Bit - AMD)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
-          "linux64BitPowerPcLittleEndian": "Linux (64 ビット - PowerPC リトル・エンディアン)",
+          "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC little endian)",
           "linuxS390XJdkNotIncluded": "Linux (64Bit - s390x) JDK は含まれません",
           "linuxS390X": "Linux (64Bit - s390x)",
           "linuxX8664": "Linux (64Bit - x86_64)",
@@ -407,7 +407,7 @@
           "linux32BitArm": "Linux (32 ビット - ARM)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
           "linux32BitPowerPc": "Linux (32Bit - PowerPC)",
-          "linux64BitPowerPcLittleEndian": "Linux (64 ビット - PowerPC リトル・エンディアン)",
+          "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC little endian)",
           "linuxS390X": "Linux (s390x)"
         }
       },
@@ -415,6 +415,16 @@
         "installAnAgentOnLinux": "Linux にエージェントのインストール",
         "configurationParameters": "構成パラメーター"
       }
+    },
+    "zos": {
+      "zos": "z/OS",
+      "selectTheAgentPackagingMode": "ステップ 1: エージェント・パッケージ化モードの選択",
+      "Packaging": "パッケージ化",
+      "dynamic": "動的",
+      "static": "静的",
+      "RunTheAgentDeploymentCode": "ステップ 2: エージェント・デプロイメント・コードを実行します (z/OS の USS レイヤから)。",
+      "installagentOnZOS": "z/OS にエージェントをインストールします (Air-Gapped Env)",
+      "installagentOnZOS1": "エージェント・インストール後 (トレース前提条件チェック)"
     },
     "ibmi": {
       "ibmi": "IBM i",
@@ -434,9 +444,9 @@
     },
     "openshift": {
       "documentLinks": {
-        "installOperatorByUsingOlm": "OLM を使用した Operator のインストール",
+        "installOperatorByUsingOlm": "OLM を使用したオペレーターのインストール",
         "setUpProject": "プロジェクトおよびサービス・アカウントのセットアップ",
-        "installAgentUsingOperator": "Operator を使用したエージェントのインストール",
+        "installAgentUsingOperator": "オペレーターを使用したエージェントのインストール",
         "configuringAgentAfterInstall": "インストール後のエージェントの構成",
         "installUsingHelm": " Helm チャートを使用したインストール",
         "installUsingYaml": "YAML を使用したインストール"
@@ -444,7 +454,7 @@
       "instructions": {
         "operator": {
           "installOperatorsManually": "ステップ 1: オペレーターを手動でインストールします。",
-          "installOperatorsManuallySubtext": "最新の Operator がインストールされ、1.x CRD はアップグレードされません。",
+          "installOperatorsManuallySubtext": "最新のオペレータがインストールされ、1.x CRD はアップグレードされません。",
           "enterAClusterNameAndOptionallyTheAgentZone": "ステップ 2: クラスター名を入力し、オプションで、クラスターを含めるエージェント・ゾーンを入力します。",
           "configureCustomYamlFile": "ステップ 3: カスタム・リソース YAML ファイルを構成します。",
           "configureCustomYamlFileSubtext1": "<installOperatorDoc>資料</installOperatorDoc> の指示に従ってください",
@@ -495,8 +505,8 @@
       "selectAgentPackagingMode": "ステップ 1: エージェント・パッケージ化モードの選択",
       "useScript": "ステップ 2: GCE インスタンスの「始動スクリプト」として以下のスクリプトを使用する",
       "integrateInstanaInProcessCollectorForGoogle": "ステップ 2: Google Cloud Run 用の Instana プロセス内コレクターを統合します。",
-      "setEnvironmentVariablesCloudRunServiceDefinition": "ステップ 3: クラウド実行サービス定義で以下の環境変数を設定します。",
-      "setEnvVariablesInCloudRunServiceRevision": "「クラウド実行サービスの改訂」で以下の環境変数を設定します。"
+      "setEnvironmentVariablesCloudRunServiceDefinition": "ステップ 3: Cloud Run サービス定義に次の環境変数を設定します。",
+      "setEnvVariablesInCloudRunServiceRevision": "Cloud Run サービスのリビジョンで次の環境変数を設定します。"
     },
     "macOs": {
       "downloadingTheAgent": "エージェントのダウンロード",
@@ -844,5 +854,10 @@
     "done": "完了",
     "otherGoalPlaceholder": "例えば、自分の環境全体を可視化する",
     "otherGoalToAccomplish": "他に達成しようとしている目標を達成しようとしていますか?"
+  },
+  "privacyNotification": {
+    "title": "プロファイルの管理",
+    "description": "プロフィールを表示および更新したり、プライバシー設定を調整したり、ログアウトしたりするなど、すべてを 1 ヶ所で行うことができます。",
+    "buttonText": "完了"
   }
 }

@@ -56,6 +56,8 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
     tenantUnitsCount: 2,
     tenantUnitDomainSuffix: 'pink.instana.rocks',
     butlerDomain: envConfig.butlerDomain,
+    solisUiHost: envConfig.solisUiHost,
+    integrationBaseUrl: 'https://slack-rainbowtest-us-west-2.instana.rocks',
     analyticsTrackingId: 'UA-66215232-4',
     featureFlags: require(paths.featureFlags),
     configuration: { maxAllowedAlertingConfigurations: 200 },
@@ -66,7 +68,14 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
     serverlessEndpoint: 'https://serverless-pink-saas.instana.rocks',
     mobileEndpoint: 'https://pink.instana.rocks/mobile/',
     websiteEndpoint: 'https://eum-pink-saas.instana.rocks',
-    websiteScriptSource: 'https://eum.instana.io/eum.min.js'
+    websiteScriptSource: 'https://eum.instana.io/eum.min.js',
+    // mcspDetails is used to simulate (MCSP) environment details for testing and UI display in pink env.
+    mcspDetails: {
+      isMcspEnvironment: false,
+      mcspSaasConsoleUrl: 'https://mock-url.com',
+      regionName: 'fake region',
+      ownerName: 'firstName lastName'
+    }
   };
 };
 
@@ -81,6 +90,8 @@ exports.getDevModeReleaseConfig = function getDevModeReleaseConfig(envConfig) {
     tenantUnitsCount: 2,
     tenantUnitDomainSuffix: 'magenta.instana.rocks',
     butlerDomain: envConfig.butlerDomain,
+    solisUiHost: envConfig.solisUiHost,
+    integrationBaseUrl: 'https://slack-eu-west-1.instana.io',
     analyticsTrackingId: 'UA-66215232-4',
     featureFlags: require(paths.featureFlags),
     configuration: { maxAllowedAlertingConfigurations: 200 },

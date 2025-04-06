@@ -14,7 +14,6 @@ import CreatableTagSelect from 'in-components/CreatableTagSelect/CreatableTagSel
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import useActionTags from 'in-automation/hooks/useActionTags';
-import AISlugIcon from 'in-automation/components/AISlugIcon';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import TextArea from 'in-components/form/TextArea/TextArea';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
@@ -189,10 +188,8 @@ function ScriptSection({
           value={field.value}
           onChange={value => setForm(form => form.updateIn(['script'], item => item.setValue(value).setTouched(true)))}
         />
-        {field.touched && field.value !== originalValue ? (
+        {field.touched && field.value !== originalValue && (
           <IconButton kind="primaryv2" type="lib_actions_revert" onClick={restore} alignment="right" />
-        ) : (
-          <AISlugIcon />
         )}
       </div>
       <TouchedMessages field={field} />
@@ -229,10 +226,8 @@ function ManualSection({
           lineWrapping
           onChange={value => setForm(form => form.updateIn(['content'], item => item.setValue(value).setTouched(true)))}
         />
-        {field.touched && field.value !== originalValue ? (
+        {field.touched && field.value !== originalValue && (
           <IconButton kind="primaryv2" type="lib_actions_revert" onClick={restore} alignment="right" />
-        ) : (
-          <AISlugIcon />
         )}
       </div>
       <TouchedMessages field={field} />

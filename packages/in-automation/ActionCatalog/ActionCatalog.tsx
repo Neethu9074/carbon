@@ -20,12 +20,10 @@ import { getDocLinkFromFields, getManualContentFromFields, base64ToUtf8 } from '
 import { descriptionColumn, lastModifiedColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import useActionCatalogFilterUrlState from 'in-automation/ActionCatalog/useActionCatalogFilterUrlState';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
+import CreateNewActionTearsheet from 'in-automation/ActionCatalog/CreateNewActionTearsheet';
 import { refresh, usePaginatedActions } from 'in-automation/ActionCatalog/useActions';
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
-import useHasAccessToScript from 'in-automation/hooks/useHasAccessToScript';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -72,7 +70,6 @@ export default function ActionCatalog({
   const availableTags = [...new Set(actions?.data?.flatMap(({ tags }) => tags ?? []))];
   const totalHits = paginatedActions.data?.totalHits;
 
-  const navigateToActionDetails = useNavigateToActionDetails();
   const columnDefinitions: ColumnDefinition<Action>[] = getColumnDefinitions({ isUserActions: isUserActions });
   return (
     <ServerTablePresenter<Action, ServerTablePresenterProps<Action>>
@@ -89,7 +86,7 @@ export default function ActionCatalog({
       rightHeader={
         <>
           {role?.canConfigureAutomationActions && isUserActions && (
-            <Button kind="action" onClick={() => navigateToActionDetails()} icon="lib_openclose_add_circle_outline">
+            <Button kind="action" onClick={() => handleButtonClick({})} icon="lib_openclose_add_circle_outline">
               {t('in-automation:ActionCatalog.newAction')}
             </Button>
           )}
@@ -119,8 +116,6 @@ export default function ActionCatalog({
 }
 
 function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUserActions: boolean }) {
-  const navigateToActionDetails = useNavigateToActionDetails();
-  const hasAccessToScript = useHasAccessToScript();
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
   let manualContent = '';
@@ -131,39 +126,16 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
       manualContent = base64ToUtf8(content.value);
     }
   }
-  if (!hasPermisson) return null;
+  if (!hasPermisson && action.type !== ACTION_TYPE.MANUAL) {
+    return null;
+  }
+
   return (
-    <Stack align="end">
-      <MoreMenu kind="subtle">
-        {role?.canRunAutomationActions && action.type !== ACTION_TYPE.MANUAL && (
-          <MoreMenuButton
-            icon="lib_actions_play"
-            onClick={() => {
-              if (action.type === ACTION_TYPE.DOC_LINK) {
-                window.open(getDocLinkFromFields(action.fields).value, '_blank')?.focus();
-              } else {
-                addActiveDialog(<RunActionDialog test action={action} volatileId={{}} />);
-              }
-            }}
-          >
-            {t('in-automation:test')}
-          </MoreMenuButton>
-        )}
-        {role?.canConfigureAutomationActions && (
-          <>
-            {isUserActions && (
-              <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToActionDetails(action.id, false)}>
-                {t('in-automation:edit')}
-              </MoreMenuButton>
-            )}
-            <MoreMenuButton
-              disabled={action.type === ACTION_TYPE.ANSIBLE}
-              icon="lib_actions_copy"
-              onClick={() => navigateToActionDetails(action.id, true)}
-            >
-              {t('in-automation:copy')}
-            </MoreMenuButton>
-            {action.type === ACTION_TYPE.MANUAL && automationActionAiGenerationUnitEnabled && hasAccessToScript && (
+    <>
+      {!hasPermisson && action.type === ACTION_TYPE.MANUAL && (
+        <Stack align="end">
+          <MoreMenu kind="subtle">
+            {action.type === ACTION_TYPE.MANUAL && (
               <MoreMenuButton
                 icon="lib_launch_ai"
                 onClick={() => {
@@ -181,7 +153,64 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
                 {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
               </MoreMenuButton>
             )}
-            {isUserActions && (
+          </MoreMenu>
+        </Stack>
+      )}
+      {hasPermisson && (
+        <Stack align="end">
+          <MoreMenu kind="subtle">
+            {role?.canRunAutomationActions && action.type !== ACTION_TYPE.MANUAL && (
+              <MoreMenuButton
+                icon="lib_actions_play"
+                onClick={() => {
+                  if (action.type === ACTION_TYPE.DOC_LINK) {
+                    window.open(getDocLinkFromFields(action.fields).value, '_blank')?.focus();
+                  } else {
+                    addActiveDialog(<RunActionDialog test action={action} volatileId={{}} />);
+                  }
+                }}
+              >
+                {t('in-automation:test')}
+              </MoreMenuButton>
+            )}
+
+            {role?.canConfigureAutomationActions && isUserActions && (
+              <MoreMenuButton
+                icon="lib_actions_edit "
+                disabled={action.metadata?.builtIn}
+                onClick={() => handleButtonClick({ actionId: action?.id })}
+              >
+                {t('in-automation:edit')}
+              </MoreMenuButton>
+            )}
+            {role?.canConfigureAutomationActions && (
+              <MoreMenuButton
+                disabled={action.type === ACTION_TYPE.ANSIBLE}
+                icon="lib_actions_copy"
+                onClick={() => handleButtonClick({ actionId: action?.id, copy: true })}
+              >
+                {t('in-automation:copy')}
+              </MoreMenuButton>
+            )}
+            {action.type === ACTION_TYPE.MANUAL && (
+              <MoreMenuButton
+                icon="lib_launch_ai"
+                onClick={() => {
+                  generateAIButtonClickTrackerSegment({
+                    type: 'script',
+                    location: 'action catalog',
+                    actionName: action.name,
+                    actionId: action?.id
+                  });
+                  addActiveDialog(
+                    <GenerateAIScriptActionDialog manualContent={manualContent} actionName={action.name} />
+                  );
+                }}
+              >
+                {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
+              </MoreMenuButton>
+            )}
+            {isUserActions && role?.canConfigureAutomationActions && (
               <MoreMenuButton
                 disabled={isNotEditable(action, false) && action.type !== ACTION_TYPE.ANSIBLE}
                 icon="lib_actions_delete"
@@ -190,10 +219,10 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
                 {t('in-automation:delete')}
               </MoreMenuButton>
             )}
-          </>
-        )}
-      </MoreMenu>
-    </Stack>
+          </MoreMenu>
+        </Stack>
+      )}
+    </>
   );
 }
 
@@ -211,7 +240,13 @@ const getColumnDefinitions = ({ isUserActions }: { isUserActions: boolean }): Co
   }
 ];
 
-function showConfirmationDialog(action: Action) {
+export function showConfirmationDialog(
+  action: Action,
+  options?: {
+    callback?: () => void;
+    disableRefresh?: boolean;
+  }
+) {
   const { id, name } = action;
   addActiveDialog(
     <ConfirmationDialog
@@ -225,17 +260,24 @@ function showConfirmationDialog(action: Action) {
       onSubmit={() => {
         close();
         // TODO: Tracker for action delete
-        onDelete(id);
+        onDelete(id, options);
       }}
     />
   );
 }
 
-function onDelete(id: string) {
+function onDelete(
+  id: string,
+  options?: {
+    callback?: () => void;
+    disableRefresh?: boolean;
+  }
+) {
   deleteAction(id).once(
     () => {
       onDeleteSuccess();
-      refresh();
+      if (!options?.disableRefresh) refresh();
+      options?.callback?.();
     },
     error => {
       onDeleteFailed(error);
@@ -266,3 +308,7 @@ function onDeleteFailed(error: Error) {
     'action-delete-error'
   );
 }
+
+const handleButtonClick = ({ actionId, copy }: { actionId?: string; copy?: boolean }) => {
+  addActiveDialog(<CreateNewActionTearsheet actionId={actionId} copy={copy} />);
+};

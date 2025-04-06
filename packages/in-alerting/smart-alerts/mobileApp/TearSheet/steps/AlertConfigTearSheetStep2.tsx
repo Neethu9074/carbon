@@ -7,13 +7,13 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React, { useMemo } from 'react';
 
-import { Spacer, Stack } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
+import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/dialog/ClearTagFilterExpressionButton';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { MobileAppAlertRuleUnion, ThresholdConfigUnion, ThresholdOperator, ThresholdType } from 'in-types';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
-import { ScopeWrapper } from 'in-alerting/smart-alerts/components/tearSheet/CustomWrappers/Wrapper';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -77,23 +77,20 @@ export default function AlertConfigTearSheetStep2({
   useRemoveInvalidTagsFromFilterExpression(getTagCatalog, tagFilterExpression, updateTagFilterExpression);
 
   return (
-    <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.mobileApp.tearSheet.step2.description')} hideSpace>
+    <Stack gap="normal">
+      <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.mobileApp.tearSheet.filter')} hideSpace />
       {/* Filter */}
-      <Stack direction="vertical" gap="normal">
-        <Spacer size="small" />
 
-        <ScopeWrapper
-          title={t('in-alerting:smartAlerts.mobileApp.tearSheet.filter')}
-          description={t('in-alerting:smartAlerts.mobileApp.tearSheet.filterDescription')}
-          gap="normal"
-        >
-          <div className={locals.wrapper}>
-            <Stack direction="horizontal" gap="small">
-              <AlertFilterConfigurator QueryBuilderComponent={AlertQueryBuilder} form={form} updateForm={updateForm} />
-            </Stack>
+      <div className={locals.wrapper}>
+        <Stack direction="horizontal" gap="small" distribution="spaceBetween">
+          <AlertFilterConfigurator QueryBuilderComponent={AlertQueryBuilder} form={form} updateForm={updateForm} />
+          <div className={locals.right}>
+            {(form.get('tagFilterExpression') as Field<string>).value.length > 0 && (
+              <ClearTagFilterExpressionButton form={form} updateForm={updateForm} />
+            )}
           </div>
-        </ScopeWrapper>
-      </Stack>
-    </TearSheetStepTitleWrapper>
+        </Stack>
+      </div>
+    </Stack>
   );
 }

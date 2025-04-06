@@ -42,12 +42,14 @@ export default function SelectTimeThreshold({ form, updateForm, hasTraceImpactOp
   return (
     <>
       <div className={locals.triggerAlertContainer}>
-        <AlertTypography
-          variant={'body-regular'}
-          color={'color900'}
-          content={t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.triggerAlert')}
-          noMargin
-        />
+        <span className={locals.label}>
+          <AlertTypography
+            variant="body-regular"
+            color="color900"
+            content={t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.triggerAlert')}
+            noMargin
+          />
+        </span>
         <Select
           name="timeThresholdTriggerAlert"
           id="timeThresholdTypeTriggerAlert"
@@ -68,12 +70,14 @@ export default function SelectTimeThreshold({ form, updateForm, hasTraceImpactOp
       </div>
       {currenttimeThreshold != traceImpact && (
         <div className={locals.triggerAlertContainer}>
-          <AlertTypography
-            variant={'body-regular'}
-            color={'color900'}
-            content={t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.persistenceType')}
-            noMargin
-          />
+          <span className={locals.label}>
+            <AlertTypography
+              variant="body-regular"
+              color="color900"
+              content={t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.persistenceType')}
+              noMargin
+            />
+          </span>
           <Select
             name="timeThresholdPersistenceType"
             id="timeThresholdTypePersistenceType"

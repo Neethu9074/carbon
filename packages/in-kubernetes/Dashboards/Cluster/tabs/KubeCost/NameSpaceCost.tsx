@@ -15,6 +15,7 @@ import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 // @ts-expect-error needs TS migration
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import { percentagePlain } from 'in-services/formatters/number';
+import CsvExporter from 'in-components/CsvExporter/CsvExporter';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
@@ -29,6 +30,10 @@ interface NamespaceProps {
   currencyCode: string;
   snapshotId: string;
   timeConfig: TimeConfig;
+}
+interface CSVExportProps {
+  csvHeaders: Record<string, any>[];
+  csvData: Record<string, any>[];
 }
 
 export const colorFormatter = function Color(value: object | undefined | null) {
@@ -267,6 +272,7 @@ export default function NamespaceCost({ currencyCode, snapshotId, timeConfig }: 
       rows={rows}
       initialSortColumn={9}
       initialSortDirection="desc"
+      CSVExportButton={CSVExportButton}
     />
   );
 }
@@ -274,3 +280,23 @@ export default function NamespaceCost({ currencyCode, snapshotId, timeConfig }: 
 function getCurrency(value: NamespaceCostRow) {
   return `${currencyType} ${value}`;
 }
+const CSVExportButton = ({ csvHeaders, csvData }: CSVExportProps) => {
+  const headers: string[] = [];
+  const cols: string[][] = [];
+  csvHeaders.forEach((csvHeader: Record<string, any>) => headers.push(csvHeader.header));
+  csvData.forEach((row: Record<string, any>) => {
+    const arr: string[] = [];
+    headers.map((header: any) => {
+      if (header === t('in-kubernetes:dashboards.kubecost.namespace')) {
+        return arr.push(row['id']);
+      } else if (header === t('in-kubernetes:dashboards.kubecost.trend')) {
+        return arr.push(row[header]?.props?.children ? row[header].props.children : ' ');
+      } else {
+        return arr.push(row[header]);
+      }
+    });
+    cols.push(arr);
+  });
+
+  return <CsvExporter headers={headers} data={cols} fileName="namespace_cost.csv" />;
+};

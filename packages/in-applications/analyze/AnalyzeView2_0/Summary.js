@@ -37,14 +37,13 @@ import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import Logs from 'in-logging/components/TraceDetails/components/Logs';
 import { latency, number } from 'in-services/formatters/number';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
+import { formatPathWithTU } from 'in-services/formatters/url';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { loggingEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { scrollIntoView } from 'in-services/util/dom';
 import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import { seconds } from 'in-services/time';
-import { connection } from 'in-connection';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
@@ -104,14 +103,6 @@ export default function Summary({
       subscription.dispose();
     };
   }, [selectedCall$]);
-
-  // if a trace is viewed for at least 15s store it long term
-  useEffect(() => {
-    const timeoutID = setTimeout(() => connection.send('traceViewed', { traceId }), seconds.toMillis(15));
-    return () => {
-      clearTimeout(timeoutID);
-    };
-  }, [traceId]);
 
   const numLogsToFetch = 5;
 
@@ -285,7 +276,9 @@ export default function Summary({
                       <Link
                         target="_blank"
                         external
-                        href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceId)}?pretty`}
+                        href={`${formatPathWithTU(
+                          '/api/application-monitoring/analyze/traces'
+                        )};id=${encodeURIComponent(traceId)}?pretty`}
                       />
                     )
                   }}

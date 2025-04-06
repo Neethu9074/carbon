@@ -19,6 +19,7 @@ export default function useSloConfigurations({
   query,
   tags,
   entityType,
+  entityIds,
   orderBy,
   orderDirection
 }: GetAllSloConfigurationsArguments): FetchedState<PaginatedResult<ServiceLevelObjectiveConfiguration>> {
@@ -31,6 +32,7 @@ export default function useSloConfigurations({
         query,
         tags,
         entityType,
+        entityIds,
         orderBy,
         orderDirection
       }),

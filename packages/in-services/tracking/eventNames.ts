@@ -22,13 +22,13 @@ export const CUSTOM_DASHBOARD_DELETE_WIDGET = 'custom.dashboard.delete.widget';
 export const CUSTOM_DASHBOARD_VIEW_WIDGET = 'custom.dashboard.view.widget';
 export const CUSTOM_DASHBOARD_ZOOM_WIDGET_START = 'custom.dashboard.zoom.widget.start';
 export const CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH = 'custom.dashboard.zoom.widget.finish';
-export const CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF = 'custom.dashboard.widget.download.pdf';
-export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_START = 'custom.dashboard.download.pdf.start';
-export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_FINISH = 'custom.dashboard.download.pdf.finish';
-export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_ORIENTATION = 'custom.dashboard.download.pdf.orientation';
-export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_LAYOUT = 'custom.dashboard.download.pdf.layout';
-export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_DISPLAY = 'custom.dashboard.download.pdf.display';
-export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_GENERATE_PREVIEW = 'custom.dashboard.download.pdf.generate.preview';
+export const DOWNLOAD_PDF_WIDGET = 'download.pdf.widget';
+export const DOWNLOAD_PDF_START = 'download.pdf.start';
+export const DOWNLOAD_PDF_FINISH = 'download.pdf.finish';
+export const DOWNLOAD_PDF_ORIENTATION = 'download.pdf.orientation';
+export const DOWNLOAD_PDF_LAYOUT = 'download.pdf.layout';
+export const DOWNLOAD_PDF_DISPLAY = 'download.pdf.display';
+export const DOWNLOAD_PDF_GENERATE_PREVIEW = 'download.pdf.generate.preview';
 
 export const ANALYZE_VIEW_SELECTED = 'analyze.view.selected';
 export const ANALYZE_CALL_CLICK = 'analyze.call.click';
@@ -114,6 +114,7 @@ export const KUBERNETES_SEARCH_QUERY_CHANGED = 'kubernetes.search.query.changed'
 export const KUBERNETES_SEARCH_BAR_CLEARED = 'kubernetes.search.bar.cleared';
 export const KUBERNETES_SORTING_CHANGED = 'kubernetes.sorting.changed';
 export const KUBERNETES_CARD_CLICKED = 'kubernetes.card.clicked';
+export const KUBERNETES_POD_VIEW_CHANGED = 'kubernetes.pod.view.changed';
 
 export const MAP_GROUPING_CHANGED = 'map.grouping.change';
 export const MAP_METRICS_AGGREGATION = 'map.metrics.aggregation';
@@ -253,6 +254,7 @@ export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
 export const PROFILE_MENU_LOGOUT_CLICK = 'profileMenu.logout.click';
 export const PROFILE_MENU_SWITCH_TENANT_OR_UNIT_CLICK = 'profileMenu.switchUnitOrTenant.click';
 export const PROFILE_MENU_USER_PROFILE_CLICK = 'profileMenu.userProfile.click';
+export const PROFILE_MENU_SAAS_CONSOLE_CLICK = 'profileMenu.ibmSaasConsole.click';
 
 export const SHARE_AND_INVITE_SUBMIT = 'shareAndInvite.submit';
 export const SHARE_AND_INVITE_CLOSED = 'shareAndInvite.closed';
@@ -410,7 +412,6 @@ export const ACTION_LANES_SELECTED = 'action.lanes.selected';
 export const ACTION_LANES_DIALOG_CLOSED = 'action.lanes.dialog.closed';
 
 // SLI Widget and SLI Management
-export const SLO_WIDGET_EDIT_START = 'slo.widget.edit.start';
 export const SLI_MANAGEMENT_VIEW = 'sli.v2.management.view';
 export const SLI_MANAGEMENT_EXIT = 'sli.v2.management.exit';
 export const SLI_MANAGEMENT_CREATE_START = 'sli.v2.management.create.start';
@@ -424,7 +425,6 @@ export const SLO2_WIDGET_EDIT_START = 'slo2.widget.edit.start';
 export const SLO2_BIG_NUMBER_WIDGET_EDIT_START = 'slo2.bigNumber.widget.edit.start';
 
 // Service Levels
-export const SLO_LIST_VIEW = 'slo.list.view';
 export const SLO_SUMMARY_VIEW = 'slo.summary.view';
 export const SLO_CONFIG_VIEW = 'slo.config.view';
 export const SLO_CONFIG_DIALOG_OPEN = 'slo.config.dialog.open';
@@ -512,6 +512,7 @@ export const AUTOMATION_AI_GENERATE_STEP_ERROR = 'automation.ai.generate.step.er
 
 export const AUTOMATION_AI_GOOD_FEEDBACK = 'automation.ai.good.feedback';
 export const AUTOMATION_AI_BAD_FEEDBACK = 'automation.ai.bad.feedback';
+export const AUTOMATION_CLICK_EPWT_LINK = 'automation.click.epwt.link';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 
@@ -613,6 +614,10 @@ export const EVENT_AI_SHARE_OPENED = 'event.ai.share.opened';
 export const EVENT_AI_SHARE_SUBMIT = 'event.ai.share.submit';
 export const EVENT_AI_RUN_ACTION = 'event.ai.run.action';
 export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
+
+// Notes and Activity Summary Feedback Tracking
+export const NOTES_SUMMARY_FEEDBACK_POSITIVE = 'notes.summary.feedback.positive';
+export const NOTES_SUMMARY_FEEDBACK_NEGATIVE = 'notes.summary.feedback.negative';
 
 // Flow Map Tracking (services and endpoints)
 export const FLOW_MAP_CLICK = 'flowmap.click';

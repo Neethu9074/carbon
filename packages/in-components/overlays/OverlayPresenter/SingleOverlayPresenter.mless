@@ -47,6 +47,23 @@
     z-index: var(--ids-z-index-option-overlays-in-content-area);
   }
 
+
+  // temporary solution and workaround for
+  // the problem of the overlay is not visible,
+  // because the side panel has already z-index=9000,
+  // and the Overlay will be rendered in a separate
+  // DOM element, where the z-index is set to 81** by a CSS variable,, so the SidePanel will overlays
+  // this Overlay
+  //
+  // a different solution would have been to put the
+  // z-index of every Overlay to the top,
+  // but this is done only in this use case, until
+  // a better solution will be implemented.
+  // INSTA-30708: replacing with Carbon PopoOver
+  .inSidePanel {
+    z-index: 10000;
+  }
+
   .behindSidebar {
     z-index: var(--ids-z-index-option-overlays-behind-sidebar);
   }

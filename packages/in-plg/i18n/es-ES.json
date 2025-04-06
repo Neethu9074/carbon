@@ -110,7 +110,7 @@
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Paso 2: Revise los requisitos previos y ejecute el código de despliegue del agente."
       },
       "operator": {
-        "installUsingTheOperator": "Instalación utilizando el operador",
+        "installUsingTheOperator": "Instalar mediante el operador",
         "installAnAgentOnKubernetes": "Instalar un agente en Kubernetes",
         "installOperatorsManually": "Paso 1: Instale los operadores manualmente.",
         "theLatestOperatorWillBeInstalled": "Se instalará el operador más reciente y no se actualizarán las CRD de 1.x:",
@@ -163,9 +163,9 @@
       "lambdaSetEnvironmentVariables": "Establezca las siguientes variables de entorno en la sección correspondiente de la página de configuración de AWS Lambda",
       "referenceToAwsLambdaGoDocumentation": "Las funciones de AWS Lambda escritas en Go se deben instrumentar manualmente para recopilar datos de rastreo. Siga las instrucciones de la <awsLambdaGoDoc>Documentación de AWS Lambda Go</awsLambdaGoDoc>.",
       "reviewPrerequisitesAndConfigureLambda": "Revise los requisitos previos y configure las funciones de AWS Lambda para el rastreo nativo.",
-      "referDocumentationForSettingUpAwsSensor": "Para obtener detalles sobre cómo configurar el sensor AWS de Instana, consulte la <awsSensorDoc> Documentación del servicio AWS< /awsSensorDoc>.",
+      "referDocumentationForSettingUpAwsSensor": "Para obtener información sobre cómo configurar el sensor AWS de Instana, consulte la <awsSensorDoc> documentación del Servicio AWS< /awsSensorDoc>.",
       "referenceToAwsLambdaMonitoringDoc": "Los métodos alternativos para configurar el rastreo de Lambda nativo se detallan en la <awsLambdaMonitoring>documentación de supervisión de AWS Lambda</awsLambdaMonitoring>.",
-      "setupUpInstanaAwsSensorRunningInAwsRegion": "Configure un sensor de Instana AWS que se ejecute en su región de AWS",
+      "setupUpInstanaAwsSensorRunningInAwsRegion": "Configure un sensor de AWS que se ejecute en su región de AWS",
       "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Revise los requisitos previos y ejecute el código de despliegue del agente.",
       "setIAMPermissionsAndEditTrustRelationship": "Establecer permisos de IAM y editar la relación de confianza",
       "selectWhereToRunAwsAgentOn": "Seleccione dónde ejecutar el agente de AWS",
@@ -183,7 +183,7 @@
       "romanStep3": "(iii) ",
       "selectAwsRegion": "Seleccione la región de AWS",
       "awsRegion": "Región de AWS",
-      "awsCommandLineInterfaceValue": "Proporcione los valores y utilice un mandato similar al siguiente para utilizar la interfaz de línea de mandatos de AWS",
+      "awsCommandLineInterfaceValue": "Proporcione los valores y utilice un mandato similar al siguiente para utilizar la interfaz de línea de mandatos (CLI) de AWS",
       "amazonResourceName": "Nombre de recurso de Amazon (ARN)",
       "setEnvVariablesInLambdaFunction": "Establezca las variables de entorno siguientes en la función Lambda.",
       "selectInstanaLambdaLayer": "Seleccione la capa de Instana Lambda con el nombre de recurso de Amazon (ARN) a continuación.",
@@ -210,7 +210,7 @@
       "trustRelationships": "Relaciones de confianza",
       "enterAClusterNameAndOptionallyTheAgentZone": "Especifique un nombre de clúster y, opcionalmente, la zona de agente de la que desea que forme parte el clúster.",
       "awsLambdaNodeJsAutotrace": "El modo preferido para configurar las funciones AWS Lambda basándose en Node.js 10.x (o más reciente) para el rastreo es el nivel de Instana Lambda con AutoTrace.",
-      "selectAwsRegionAndLambdaHandler": "Seleccione la región de AWS y especifique el manejador lambda actual",
+      "selectAwsRegionAndLambdaHandler": "Seleccione la región de AWS y especifique el manejador de Lambda actual",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Establezca el manejador de ajuste automático de Instana como manejador para la función Lambda.",
       "autoWrapHandler": "Manejador de ajuste automático",
       "prerequisiteLinks": {
@@ -240,13 +240,13 @@
         "monitoringAwsFargateNodejs": "Supervisión de AWS Fargate (Node.js)",
         "monitoringAwsFargatePython": "Supervisión de AWS Fargate (Python)",
         "monitoredAwsServices": "Servicios AWS supervisados",
-        "monitoringNodejs": "Js del nodo de supervisión",
+        "monitoringNodejs": "Supervisión de Node .js",
         "installGcrCollectors": "Instalar recopiladores en curso de Google Cloud Run",
         "installAgentOnEc2": "Instalar agente en AWS EC2",
         "configurationOptions": "Opciones de configuración",
         "monitoringGcr": "Supervisión de Google Cloud Run",
         "monitoringAwsFargateRuby": "Supervisión de AWS Fargate (Ruby)",
-        "awsServiceDocumentation": "Documentación del servicio AWS",
+        "awsServiceDocumentation": "Documentación de Servicios AWS",
         "monitoringAwsLambda": "Supervisión de AWS Lambda",
         "configuringAwsLambdaMonitoring": "Configuración de la supervisión de AWS Lambda",
         "awsLambdaNativeTracingForGo": "Rastreo de AWS Lambda nativo para Go"
@@ -416,6 +416,16 @@
         "configurationParameters": "Parámetros de configuración"
       }
     },
+    "zos": {
+      "zos": "z/OS",
+      "selectTheAgentPackagingMode": "Paso 1: Seleccione la modalidad de empaquetado del agente",
+      "Packaging": "Empaquetando",
+      "dynamic": "Dinámico",
+      "static": "Estático",
+      "RunTheAgentDeploymentCode": "Paso 2: Ejecutar el código de despliegue del agente (desde la capa USS de z/OS).",
+      "installagentOnZOS": "Instalar agente en z/OS (entorno aislado)",
+      "installagentOnZOS1": "Después de la instalación del agente (comprobación de requisitos previos de seguimiento)"
+    },
     "ibmi": {
       "ibmi": "IBM i",
       "os": "SO",
@@ -434,9 +444,9 @@
     },
     "openshift": {
       "documentLinks": {
-        "installOperatorByUsingOlm": "Instalación del operador utilizando OLM",
+        "installOperatorByUsingOlm": "Instalando operador mediante OLM",
         "setUpProject": "Configurar un proyecto y una cuenta de servicio",
-        "installAgentUsingOperator": "Instalar el agente utilizando el operador",
+        "installAgentUsingOperator": "Instalar agente mediante el operador",
         "configuringAgentAfterInstall": "Configuración del agente después de la instalación",
         "installUsingHelm": " Instalar utilizando el gráfico Helm",
         "installUsingYaml": "Instalar utilizando YAML"
@@ -844,5 +854,10 @@
     "done": "Hecho",
     "otherGoalPlaceholder": "Por ejemplo, Obtener visibilidad en todo mi entorno",
     "otherGoalToAccomplish": "¿Qué otros objetivos intenta alcanzar?"
+  },
+  "privacyNotification": {
+    "title": "Gestión del perfil",
+    "description": "Vea y actualice su perfil, ajuste la configuración de privacidad y cierre sesión, todo en un solo lugar.",
+    "buttonText": "Hecho"
   }
 }

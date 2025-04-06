@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { create } from '@instana/observables';
+import { Observable, create } from '@instana/observables';
 import { Result } from '@instana/types';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -19,7 +19,7 @@ export interface User {
 const refreshSignal = create().emit(true);
 
 export const getUserInfo = memoize<void, Result<User>>(getUserInfoInternal, () => '', 6000);
-function getUserInfoInternal() {
+export function getUserInfoInternal() {
   return refreshSignal.flatMap(() => {
     return createObservable(
       http<User>({
@@ -31,7 +31,7 @@ function getUserInfoInternal() {
   });
 }
 
-export function updateUserName(fullName: string) {
+export function updateUserName(fullName: any): Observable<Result<void>> {
   return http<void>({
     method: 'PUT',
     headers: getCsrfHeader(),
@@ -39,9 +39,11 @@ export function updateUserName(fullName: string) {
     url: '/api/user-settings/profile',
     data: {
       fullName
-    }
+    },
+    treat400AsError: true,
+    mapToResultObject: true
   }).map(res => {
-    if (res.status !== 204) throw new Error('failed to update');
     refreshSignal.emit(true);
+    return res;
   });
 }

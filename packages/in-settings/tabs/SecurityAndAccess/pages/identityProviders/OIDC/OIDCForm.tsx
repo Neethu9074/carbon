@@ -27,72 +27,18 @@ const OIDCForm = (props: OIDCFormProps) => {
   const isActive = form.get('activated').value;
   const ownerEmailField = form.get('ownerEmail');
   const secretField = form.get('secret');
-  const isDeleteEnabled = form.get('isDeleteEnabled').value;
-  const idpType = form.get('idpType');
-  const clientId = form.get('spEntityId');
-  const discoveryUri = form.get('discoveryUri');
-
-  const onChangeDeleteEnabled = (isDeleteEnabled: boolean) => {
-    setForm(form.updateIn(['isDeleteEnabled'], f => f.setValue(isDeleteEnabled).setTouched(true)));
-  };
-
-  const getSpecificConfigurationField = () => (
-    <CarbonRadioButtonGroup
-      legendText={
-        isActive
-          ? t('in-settings:tabs.oidcForm.configurationSelected')
-          : t('in-settings:tabs.oidcForm.selectIfSpecificConfigurationRequired')
-      }
-      onChange={e => {
-        setForm(form.updateIn(['idpType'], f => f.setValue(e as string).setTouched(true)));
-      }}
-      name="configuration-radio-menu"
-      valueSelected={idpType.value}
-      readOnly={isActive}
-    >
-      {idpTypes.map(({ key, label }) => (
-        <CarbonRadioButton key={key} id={key} value={key} labelText={label} />
-      ))}
-    </CarbonRadioButtonGroup>
-  );
-
-  const getDiscoveryUriField = () => (
-    <CarbonTextInput
-      labelText={t('in-settings:tabs.discoveryURL')}
-      id="discoveryUri"
-      value={discoveryUri.value}
-      onChange={e => {
-        setForm(form.updateIn(['discoveryUri'], f => f.setValue(e.target.value).setTouched(true)));
-      }}
-      invalid={!discoveryUri.valid && discoveryUri.touched}
-      readOnly={isActive}
-    />
-  );
-
-  const getClientIdField = () => (
-    <CarbonTextInput
-      labelText={t('in-settings:tabs.oidcForm.clientId')}
-      helperText={t('in-settings:tabs.oidcForm.identifierAssignedToOIDCApplication')}
-      id="spEntityId"
-      value={clientId.value}
-      onChange={e => {
-        setForm(form.updateIn(['spEntityId'], f => f.setValue(e.target.value).setTouched(true)));
-      }}
-      readOnly={isActive}
-      invalid={!clientId.valid && clientId.touched}
-      invalidText={clientId.messages[0]?.message}
-    />
-  );
 
   const getReadOnlyForm = () => (
     <CarbonStack gap={6}>
-      <Typography variant="body-01">{t('in-settings:tabs.oidcForm.OIDCIsActive')}</Typography>
+      <Typography variant="body-01">
+        {t('in-settings:tabs.authenticationProviders.idpIsActive', { idpConfig: 'OIDC' })}
+      </Typography>
       <CarbonStack gap={4}>
-        {getSpecificConfigurationField()}
-        {getClientIdField()}
-        {getDiscoveryUriField()}
+        <SpecificConfigurationSection form={form} setForm={setForm} />
+        <ClientIdSection form={form} setForm={setForm} />
+        <DiscoveryUriSection form={form} setForm={setForm} />
       </CarbonStack>
-      {DeleteConfigurationView({ isDeleteEnabled: isDeleteEnabled, setIsDeleteEnabled: onChangeDeleteEnabled })}
+      <DeleteConfigurationView form={form} setForm={setForm} />
     </CarbonStack>
   );
 
@@ -116,18 +62,19 @@ const OIDCForm = (props: OIDCFormProps) => {
             onChange={e => setForm(form.updateIn(['ownerEmail'], f => f.setValue(e.target.value).setTouched(true)))}
             autoComplete="off"
             invalid={!ownerEmailField.valid && ownerEmailField.touched}
+            invalidText={ownerEmailField.messages[0]?.message}
           />
           <Typography variant="body-01">
             {t('in-settings:tabs.oidcForm.connectionIsSetupConsideringNecessarySpecifications')}
           </Typography>
-          {getSpecificConfigurationField()}
+          <SpecificConfigurationSection form={form} setForm={setForm} />
         </CarbonStack>
         <CarbonStack gap={4}>
           <Typography variant="heading-02">{t('in-settings:tabs.toYourIdentityProvider')}</Typography>
           <Typography variant="body-01">
             {t('in-settings:tabs.oidcForm.createOIDCClientOnYourIdentityProvider')}
           </Typography>
-          {getClientIdField()}
+          <ClientIdSection form={form} setForm={setForm} />
           <Typography variant="label-01">{t('in-settings:tabs.redirectUrl')}</Typography>
           <Code code={form.get('oidcSignInCallbackUrl').map(field => field.value)} lang="bash" softWrap />
           <Typography variant="label-01">{t('in-settings:tabs.endSessionUrl')}</Typography>
@@ -136,7 +83,7 @@ const OIDCForm = (props: OIDCFormProps) => {
         <CarbonStack gap={4}>
           <Typography variant="heading-02">{t('in-settings:tabs.fromYourIdentityProvider')}</Typography>
           <Typography variant="body-01">{t('in-settings:tabs.oidcForm.useDiscoveryURLOfOIDCConfiguration')}</Typography>
-          {getDiscoveryUriField()}
+          <DiscoveryUriSection form={form} setForm={setForm} />
           <CarbonPasswordInput
             labelText={t('in-settings:tabs.secret')}
             helperText={t('in-settings:tabs.oidcForm.tokenToVerifyAuthenticity')}
@@ -146,6 +93,7 @@ const OIDCForm = (props: OIDCFormProps) => {
               setForm(form.updateIn(['secret'], f => f.setValue(e.target.value).setTouched(true)));
             }}
             invalid={!secretField.valid && secretField.touched}
+            invalidText={secretField.messages[0]?.message}
           />
         </CarbonStack>
       </CarbonStack>
@@ -154,3 +102,67 @@ const OIDCForm = (props: OIDCFormProps) => {
 };
 
 export default OIDCForm;
+
+const SpecificConfigurationSection = ({ form, setForm }: OIDCFormProps) => {
+  const idpType = form.get('idpType');
+  const isActive = form.get('activated').value;
+
+  return (
+    <CarbonRadioButtonGroup
+      legendText={
+        isActive
+          ? t('in-settings:tabs.oidcForm.configurationSelected')
+          : t('in-settings:tabs.oidcForm.selectIfSpecificConfigurationRequired')
+      }
+      onChange={e => {
+        setForm(form.updateIn(['idpType'], f => f.setValue(e as string).setTouched(true)));
+      }}
+      name="configuration-radio-menu"
+      valueSelected={idpType.value}
+      readOnly={isActive}
+    >
+      {idpTypes.map(({ key, label }) => (
+        <CarbonRadioButton key={key} id={key} value={key} labelText={label} />
+      ))}
+    </CarbonRadioButtonGroup>
+  );
+};
+
+const DiscoveryUriSection = ({ form, setForm }: OIDCFormProps) => {
+  const discoveryUri = form.get('discoveryUri');
+  const isActive = form.get('activated').value;
+
+  return (
+    <CarbonTextInput
+      labelText={t('in-settings:tabs.discoveryURL')}
+      id="discoveryUri"
+      value={discoveryUri.value}
+      onChange={e => {
+        setForm(form.updateIn(['discoveryUri'], f => f.setValue(e.target.value).setTouched(true)));
+      }}
+      invalid={!discoveryUri.valid && discoveryUri.touched}
+      invalidText={discoveryUri.messages[0]?.message}
+      readOnly={isActive}
+    />
+  );
+};
+
+const ClientIdSection = ({ form, setForm }: OIDCFormProps) => {
+  const clientId = form.get('spEntityId');
+  const isActive = form.get('activated').value;
+
+  return (
+    <CarbonTextInput
+      labelText={t('in-settings:tabs.oidcForm.clientId')}
+      helperText={t('in-settings:tabs.oidcForm.identifierAssignedToOIDCApplication')}
+      id="spEntityId"
+      value={clientId.value}
+      onChange={e => {
+        setForm(form.updateIn(['spEntityId'], f => f.setValue(e.target.value).setTouched(true)));
+      }}
+      readOnly={isActive}
+      invalid={!clientId.valid && clientId.touched}
+      invalidText={clientId.messages[0]?.message}
+    />
+  );
+};

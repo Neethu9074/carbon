@@ -11,7 +11,7 @@ import { TimeConfig } from '@instana/types';
 import { just } from '@instana/observables';
 
 // @ts-ignore
-import { getEnrichedAnalyzeTagFilterFormModel } from 'in-events/components/AnalyzeApplicationEventButton';
+import {  getEnrichedAnalyzeTagFilterFormModel, getEnrichedAnalyzeTagFilterFormModelImpactedTraces } from 'in-events/components/AnalyzeApplicationEventButton';
 import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { joinExpressions, FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -32,13 +32,15 @@ export interface SmartAlertImpactedUsersProps {
   snapshot?: SnapshotData;
   alertConfig?: ApplicationSmartAlertConfig;
   eventEntity?: any;
+  isKPI: boolean;
 }
 
 export default function SmartAlertImpactedUsers({
   event,
   alertConfig,
   snapshot,
-  eventEntity
+  eventEntity,
+  isKPI
 }: SmartAlertImpactedUsersProps) {
   const [entityType, timeConfig] = useMemo(
     () => [event.get('entityType'), getImpactedTimeConfigFromEvent(event)],
@@ -77,12 +79,15 @@ export default function SmartAlertImpactedUsers({
 
   return (
     <ImpactedUsers
+      alertType = {alertConfig?.rule.alertType}
       timeConfig={timeConfig}
       joinFilterForImpactedUsers={filterExpressions.impacted}
       joinFilterForTotalUsers={filterExpressions.total}
+      isKPI={isKPI}
     />
   );
 }
+
 
 function getImpactedTimeConfigFromEvent(event: EventOrMap): TimeConfig {
   const now = Date.now();
@@ -110,11 +115,13 @@ function createFilterExpressionsForAppAlert(
   let serviceName: string | undefined = undefined;
   let endpointName: string | undefined = undefined;
   let applicationId: string | undefined = eventEntity.applicationId;
+  let alertId: string | undefined = eventEntity.alertId;
   let applicationName: string | undefined = eventEntity.applicationName;
   let serviceId: string | undefined = eventEntity.serviceId;
   let endpointId: string | undefined = eventEntity.endpointId;
 
   if (event.has('metadata')) {
+    alertId = event.getIn(['metadata', 'eventSpecificationId'], '');
     if (entityUtils.isApplicationEntity(entityType)) {
       applicationName = applicationName || event.getIn(['metadata', 'entityLabel'], '');
     } else if (entityUtils.isServiceEntity(entityType)) {
@@ -180,17 +187,28 @@ function createFilterExpressionsForAppAlert(
   }
 
   function getQueryModelForAppAlertFromAlertConfig(excludeViolationRelatedFilters: boolean) {
-    return toBackendQueryModel(
-      getEnrichedAnalyzeTagFilterFormModel({
-        alertConfig,
-        applicationId: applicationId,
-        applicationName: applicationName,
-        serviceId: serviceId,
-        endpointId: endpointId,
-        timeConfig: timeConfig,
-        excludeViolationRelatedFilters,
-        adaptiveBaselineInfo
-      })
-    );
+    if (alertConfig?.rule.alertType === 'throughput'){
+      return toBackendQueryModel(
+        getEnrichedAnalyzeTagFilterFormModel({
+          alertConfig,
+          applicationId: applicationId,
+          applicationName: applicationName,
+          serviceId: serviceId,
+          endpointId: endpointId,
+          timeConfig: timeConfig,
+          excludeViolationRelatedFilters,
+          adaptiveBaselineInfo
+        })
+      );
+    }
+ 
+      return toBackendQueryModel(
+        getEnrichedAnalyzeTagFilterFormModelImpactedTraces({
+          alertConfig,
+          alertId: alertId,
+          applicationId: applicationId,
+        })
+      );
+
   }
 }

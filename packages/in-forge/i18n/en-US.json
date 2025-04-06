@@ -1386,6 +1386,11 @@
   "pluginName_oTelLLM_1": "OTel LLMonitors",
   "pluginName_oTelLLM_2": "OTel LLMonitors",
   "pluginName_oTelLLM": "OTel LLMonitor",
+  "pluginName_oTelVLLM_plural": "OTel vLLM Servers",
+  "pluginName_oTelVLLM_0": "OTel vLLM Servers",
+  "pluginName_oTelVLLM_1": "OTel vLLM Servers",
+  "pluginName_oTelVLLM_2": "OTel vLLM Servers",
+  "pluginName_oTelVLLM": "OTel vLLM Server",
   "pluginName_oTelDcgm_plural": "OTel Dcgms",
   "pluginName_oTelDcgm_0": "OTel Dcgms",
   "pluginName_oTelDcgm_1": "OTel Dcgms",
@@ -1869,6 +1874,16 @@
   "pluginName_nutanixDatacenter_1": "Nutanix Datacenters",
   "pluginName_nutanixDatacenter_2": "Nutanix Datacenters",
   "pluginName_nutanixDatacenter": "Nutanix Datacenter",
+  "pluginName_xenServerHost_plural": "XenServer Hosts",
+  "pluginName_xenServerHost_0": "XenServer Hosts",
+  "pluginName_xenServerHost_1": "XenServer Hosts",
+  "pluginName_xenServerHost_2": "XenServer Hosts",
+  "pluginName_xenServerHost": "XenServer Host",
+  "pluginName_xenServerVM_plural": "XenServer VMs",
+  "pluginName_xenServerVM_0": "XenServer VMs",
+  "pluginName_xenServerVM_1": "XenServer VMs",
+  "pluginName_xenServerVM_2": "XenServer VMs",
+  "pluginName_xenServerVM": "XenServer VM",
   "tracingTypeName_ace": "IBM ACE",
   "tracingTypeName_actioncontroller": "ActionController",
   "tracingTypeName_actioncontroller_plural": "ActionController Calls",
@@ -9525,6 +9540,11 @@
         "logSize": "Log",
         "traceSize": "Trace",
         "sessions": "Sessions",
+        "networkUsage": "Network Usage",
+        "tcpSegmentsReceived": "Recieved",
+        "tcpSegmentsSentOut": "Sent Out",
+        "tcpSegmentsRetransmitted": "Retransmitted",
+        "tcpBadSegmentsReceived": "Broken",
         "total": "Total",
         "idle": "Idle",
         "running": "Running",
@@ -9620,6 +9640,8 @@
         "entryType": "Entry Type",
         "processCpuPerc": "Process CPU",
         "processCpuTime": "Process CPU Time",
+        "serviceThreadCount" : "Thread Count",
+        "serviceActiveThreadCount" : "Active Thread Count",
         "openFileCount": "Open File Count",
         "processPhysicalMemory": "Process Physical",
         "processMemory": "Process Logical",
@@ -9643,7 +9665,7 @@
         "userMode": "User mode",
         "deactivationTime": "Deactivation Time",
         "userId": "User ID",
-        "schedulerJobStats": "Scheduler Jobs",
+        "schedulerJobStats": "Scheduled Jobs",
         "schedulerJobName": "Job Name",
         "endTime": "End Time",
         "virtualMemory": "Virtual Memory",
@@ -9732,7 +9754,11 @@
       "currentStmtCompilationRate": "Current statement compilation rate",
       "currentUpdateTransactionRate": "Cuurent update transaction rate",
       "currentRollbackRate": "Current rollback rate",
-      "currentCommitRate": "Current commit rate"
+      "currentCommitRate": "Current commit rate",
+      "tcpSegmentsReceived": "Recieved",
+      "tcpSegmentsSentOut": "Sent Out",
+      "tcpSegmentsRetransmitted": "Retransmitted",
+      "tcpBadSegmentsReceived": "Broken"
     },
     "service": {
       "service": "Service",
@@ -10884,12 +10910,15 @@
         "virtualFree": "Virtual free",
         "virtualUsed": "Virtual used",
         "virtualTotal": "Virtual total",
+        "virtualActive": "Virtual active",
         "computational": "Computational",
         "nonComputational": "Non computational",
         "realAvailable": "Real available",
         "pageIn": "Page-in per second",
         "pageOut": "Page-out per second",
         "pageScan": "Page-scan per second",
+        "pageFaults": "Page-faults per second",
+        "pageReclaims": "Page-reclaims per second",
         "openFiles": "Open Files",
         "current": "Current",
         "tcpActivity": "TCP Activity",
@@ -10935,6 +10964,18 @@
         "totalSize":"Total Size",
         "usedSize":"Used Size",
         "freeSize":"Free Size",
+        "disks": "Disks",
+        "avgDiskTransfer": "Average Disk Transfers",
+        "busyPercent": "Busy",
+        "diskName": "Disk Name",
+        "writeTransfers": "Write Transfers",
+        "transfers": "Transfers",
+        "serviceQueueFull": "Service Queue Full",
+        "transferRate": "Transfer Rate",
+        "readTransfers": "Read Transfers",
+        "diskReads": "Disk Reads",
+        "diskWrites": "Disk Writes",
+        "diskType": "Type",
         "volumeGrpState": "Volume Group state",
         "encoder": "Encoder",
         "decoder": "Decoder",
@@ -10964,7 +11005,12 @@
         "servicename": "Service Name",
         "displayname": "Display Name",
         "state": "State",
-        "health": "Health"
+        "health": "Health",
+        "disk": "Disk",
+        "readAwaitTime": "Read Time",
+        "writeAwaitTime": "Write Time",
+        "avgDiscardRequestsTime": "Discard Requests Time",
+        "avgFlushRequestsTime": "Flush Requests Time"
       },
       "os": "OS",
       "distribution": "Distribution",
@@ -11000,12 +11046,15 @@
       "virtualFree": "Virtual free",
       "virtualUsed": "Virtual used",
       "virtualTotal": "Virtual total",
+      "virtualActive": "Virtual active",
       "computational": "Computational",
       "nonComputational": "Non computational",
       "realAvailable": "Real available",
       "pageIn": "Page-in per second",
       "pageOut": "Page-out per second",
       "pageScan": "Page-scan per second",
+      "pageFaults": "Page-faults per second",
+      "pageReclaims": "Page-reclaims per second",
       "load": "Load",
       "contextSwitches": "Context Switches",
       "current": "Current",
@@ -12253,6 +12302,8 @@
       "maxQueueDepth": "Max Queue Depth",
       "currentQueueDepth": "Current Queue Depth",
       "queueFullPercentage": "Queue Depth Percentage",
+      "triggerType": "Trigger Type",
+      "triggerControl": "Trigger Control",
       "lastGetDateTime": "Last Get Time",
       "lastPutDateTime": "Last Put Time",
       "depth": "Depth",
@@ -12440,7 +12491,9 @@
       "connections": "Connections",
       "messagesIn": "Messages In",
       "messagesOut": "Messages Out",
-      "uncommittedMessages": "Uncommitted Messages"
+      "uncommittedMessages": "Uncommitted Messages",
+      "clusterStatus": "Cluster status",
+	    "clusterSuspendIndicator": "Cluster Suspend Indicator"
     },
     "ibmMqQueueUsage": {
       "dashboard": {
@@ -13748,6 +13801,33 @@
         "totalCountByService": "Total Request Counts by Service"
       }
     },
+    "oTelVLLM": {
+      "oTelVLLM": "OTel vLLM server",
+      "kind": "Kind",
+      "serviceName": "Service name",
+      "entityType": "Entity type",
+      "instanceId": "Instance ID",
+      "label_category_VLLM": "vLLM",
+      "vllm_status": "vLLM status",
+      "service": "service",
+      "dashboard": {
+        "tokens": "Total tokens",
+        "promptTokens": "Prompt tokens",
+        "generationTokens": "Generation tokens",
+        "runningRequests": "Running requests",
+        "waitingRequests": "Waiting requests",
+        "gpuUsage": "GPU usage",
+        "gpuCacheHitRate": "GPU KV cache hit rate",
+        "latency": "Request latency",
+        "ttft": "Time to first token",
+        "totalTokens": "Total Tokens",
+        "totalPromptTokens": "Total Prompt Tokens",
+        "totalGenerationTokens": "Total Generation Tokens",
+        "totalTokensByInstance": "Total Tokens by vLLM Instance",
+        "totalPromptTokensByInstance": "Total Prompt Tokens by vLLM Instance",
+        "totalGenerationTokensByInstance": "Total Generation Tokens by vLLM Instance"
+      }
+    },
     "oTelDcgm": {
       "oTelDcgm": "OTel Dcgm",
       "address": "Address",
@@ -13767,22 +13847,27 @@
       "DCGM_FI_DEV_FB_FREE": "DCGM GPU FB FREE",
       "dashboard": {
         "gpuTemp": "GPU Temperature (Celsius)",
+        "gpuTempInstance": "GPU Temperature (Celsius) Details",
         "powerUsage": "GPU Power Usage (W)",
+        "powerUsageInstance": "GPU Power Usage (W) Details",
         "smClocks": "GPU SM Clocks (HZ)",
+        "smClocksInstance": "GPU SM Clocks (HZ) Details",
         "memoryClocks": "GPU Memory Clocks (HZ)",
+        "memoryClocksInstance": "GPU Memory Clocks (HZ) Details",
         "gpuUtil": "GPU Utilization",
+        "gpuUtilInstance": "GPU Utilization Details",
         "memoryCpyUtil": "GPU Memory Cpy Utilization",
+        "memoryCpyUtilInstance": "GPU Memory Cpy Utilization Details",
         "frambufferMemUsed": "GPU Framebuffer Memory Used",
-        "frambufferMemFree": "GPU Framebuffer Memory Free"
+        "frambufferMemUsedInstance": "GPU Framebuffer Memory Used Details",
+        "frambufferMemFree": "GPU Framebuffer Memory Free",
+        "frambufferMemFreeInstance": "GPU Framebuffer Memory Free Details"
       },
       "container": {
         "containerName": "Container Name",
         "podName": "Pod Name",
         "namespaceName": "Namespace",
-        "gpuNumber": "GUP Number",
-        "gpuUtil": "GPU Utilization Details",
-        "memoryCpyUtil": "GPU Memory Cpy Utilization Details",
-        "util": "Utilization"
+        "gpuNumber": "GPU Number"
       }
     },
     "oTelK8sPod": {
@@ -17098,7 +17183,7 @@
     },
     "dynamoDB": {
       "titleTable": "Table",
-      "titleOperation": "Operation"
+      "titleOperation": "Method"
     },
     "ehcache": {
       "titleElements": "Elements",
@@ -17351,11 +17436,11 @@
       "titleSelector": "Selector"
     },
     "kafka": {
-      "titleAccessType": "Access Type",
+      "titleAccessType": "Method",
       "titleTopic": "Topic"
     },
     "kafkastreams": {
-      "titleAccessType": "Access Type",
+      "titleAccessType": "Method",
       "titleFunction": "KSTREAM Function"
     },
     "kinesis": {
@@ -17588,7 +17673,7 @@
     "redis": {
       "connection": "Connection",
       "driver": "Driver",
-      "command": "Command",
+      "command": "Method",
       "commandsInTransaction": "Commands in Transaction",
       "key": "Key"
     },
@@ -17751,7 +17836,10 @@
       "serviceClass": "Service-Class",
       "action": "Action",
       "binding": "Binding",
-      "url": "Url"
+      "url": "Url",
+      "titleStatusCode": "Status Code",
+      "statusCode200": "OK",
+      "statusCode500": "Internal Server Error"
     },
     "wcfclient": {
       "url": "Url",

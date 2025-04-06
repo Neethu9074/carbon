@@ -62,7 +62,7 @@
   "labelSaving": "Sauvegarde en cours...",
   "labelScope": "Portée",
   "labelCustomServiceRules": "Règles de service personnalisées",
-  "labelSyntheticEndpoints": "Noeuds finaux synthétiques",
+  "labelSyntheticEndpoints": "Nœuds finaux synthétiques",
   "titleTopServices": "Principaux services",
   "titleMeanLatency": "Temps d'attente moyen",
   "titleErroneousCallRate": "Taux d'appels erronés",
@@ -93,7 +93,7 @@
   "buttonInspectIssue_1": "Inspecter {{count}} problème",
   "buttonInspectIssue_2": "Inspecter {{count}} problèmes",
   "buttonAnalyzeCalls": "Analyser les appels",
-  "buttonAnalyzeServices": "Analyser les services",
+  "buttonAnalyzeServices": "Services d'analyse",
   "buttonAnalyzeEndpoints": "Analyser les noeuds finaux",
   "buttonClear": "Effacer",
   "buttonCluster": "Cluster",
@@ -103,13 +103,14 @@
   "buttonConfigureEndpoints": "Configurer les noeuds finaux",
   "buttonAnalyzeMessages": "Analyser les messages",
   "buttonSave": "Sauvegarder",
+  "buttonDelete": "Supprimer",
   "buttonAdd": "Ajouter",
   "buttonDeleteRule": "Supprimer la règle",
   "buttonAddTest": "Ajouter un test",
   "buttonAddCustomHTTPRule": "Ajouter une règle HTTP personnalisée",
   "buttonResetToDefault": "Rétablir les valeurs par défaut",
   "buttonAddCustomServiceRule": "Ajouter une règle de service personnalisée",
-  "buttonAddTag": "Ajouter une étiquette",
+  "buttonAddTag": "Ajouter une balise",
   "buttonOK": "OK",
   "buttonCreate": "Créer",
   "buttonCancel": "Annuler",
@@ -215,6 +216,7 @@
   },
   "inboundOutboundCalls": {
     "config": {
+      "selectBoundaryScope": "Sélectionner le périmètre de l'application",
       "inbound": {
         "text": "Appels entrants"
       },
@@ -301,7 +303,30 @@
     "dataSource_traces": "{{formattedCount}} trace",
     "dataSource_traces_plural": "{{formattedCount}} traces",
     "analyzeCallsOfThisTrace": "Analyser les appels de cette trace",
-    "noAvailableCustomMetrics": "Pas de métriques personnalisées disponibles"
+    "storeTrace": {
+      "label": "Stocker la trace",
+      "traceNotSavedTooltip": "Stocker cette trace à long terme pendant 13 mois. Automatiquement sauvegardée après 15 secondes.",
+      "traceSavedTooltip": "Cette trace a été sauvegardée et sera conservée pendant 13 mois."
+    },
+    "noAvailableCustomMetrics": "Pas de métriques personnalisées disponibles",
+    "filters": "Filtres",
+    "saveFiltersTitle": "Sauvegarder les filtres",
+    "saveFiltersDescription": "Enregistrez les filtres que vous avez ajoutés sous forme de requête accessible à tous les utilisateurs du tenant",
+    "savedFilters": "Filtres sauvegardés",
+    "filtersSavedTitle": "Les filtres ont été enregistrés avec succès",
+    "filtersSavedMessage": "Les filtres '{{filterName}}' sont désormais disponibles pour tous les utilisateurs de votre locataire",
+    "includeGroup": "Inclure un groupe",
+    "enterFilterName": "Entrez le nom du filtre",
+    "editFilterTitle": "Editer le nom de filtre",
+    "editFilterDescription": "Les modifications seront mises à jour pour chaque utilisateur de ce tenant.",
+    "filtersUpdatedTitle": "{{filterName}} a été mis à jour avec succès",
+    "zeroResults": "0 résultat(s) pour {{searchTerm}}",
+    "noSavedFilters": "Aucun filtre enregistré pour le moment",
+    "addSomeFilters": "Ajoutez quelques filtres et cliquez sur Enregistrer pour commencer.",
+    "tryAdjustingSearch": "Essayez d'ajuster vos critères de recherche.",
+    "deleteFilterModalLabel": "Confirmer la suppression du filtre",
+    "deleteConfirmation": "Êtes-vous sûr de vouloir supprimer le filtre <i>{{filterName}}</i> ? Le filtre sera supprimé pour tous les utilisateurs de ce tenant.",
+    "actionCannotBeUndone": "Cette action ne peut pas être annulée."
   },
   "creation": {
     "newAP": "Nouvelle perspective d'application",
@@ -380,7 +405,7 @@
             "labels": "Libellés",
             "footer": "Les étiquettes sont disponibles pour Kubernetes, OpenShift, Docker, Cloud Foundry, Marathon et Nomad."
           },
-          "whoShouldUse": "Opérations, Opérations, SRE, Développeur"
+          "whoShouldUse": "DevOps, Opérations, SRE, Développeur"
         },
         "httpOrRpc": {
           "name": "Attributs de la demande",
@@ -394,7 +419,7 @@
             "methodObject": "Méthode RPC ou objet",
             "footer": "Plusieurs protocoles RPC sont pris en charge par des opérateurs similaires."
           },
-          "whoShouldUse": "Opérations, Opérations, SRE, Développeur, AQ, Support"
+          "whoShouldUse": "DevOps, Opérations, SRE, Développeur, AQ, Support"
         },
         "technologyGrouping": {
           "name": "Technologie",
@@ -439,7 +464,7 @@
         "cloud": "Cloud",
         "host": "Hôte",
         "http": "HTTP",
-        "customTag": "Étiquette personnalisée",
+        "customTag": "balise personnalisée",
         "kubernetes": "Kubernetes",
         "orchestration": "Orchestration",
         "httpHeader": "En-tête HTTP",
@@ -467,16 +492,17 @@
       "defineUsingTagsDescription": "Par exemple, la clé est \"docker.label\" et la valeur est \"environment=Production bleue\", ou la clé est \" call.http.params\" et la valeur est \"tenant=ACMECustomer\". Notez que tout appel à un <pill-database>BASE DE DONNÉES</pill-database> service ou <pill-messaging>MESSAGERIE</pill-messaging> service des services correspondant à cette définition sera automatiquement inclus.",
       "defineUsingTagsContributionFilterDescription": "Les balises du filtre de contribution sont héritées de votre droit d'accès et ne peuvent pas être modifiées. Choisissez un filtre de contribution, puis ajoutez d'autres balises à votre configuration.",
       "andOperatorsPrecedenceBrackets": "Les opérateurs AND prévalent et sont évalués avant les opérateurs OR s'ils ne sont pas regroupés entre parenthèses.",
-      "downstreamCalls": "3. Stockez les appels de services en aval.",
+      "downstreamCalls": "3. Stockez les appels de services en aval",
       "downstreamCallsDescription": "Choisissez les services en aval à inclure dans la perspective d'application.",
-      "defaultDashboardView": "4. Sélectionnez la vue de tableau de bord par défaut.",
-      "builtInSmartAlertsScope": "5. Portée des alertes intelligentes intégrées",
-      "builtInSmartAlertsScopeDescription": "Choisir quelles alertes intelligentes globales intégrées doivent inclure cela/une partie de cela dans leur portée",
+      "defaultDashboardView": "4. Sélectionnez la vue de tableau de bord par défaut",
+      "builtInSmartAlertsScope": "5. Portée des Smart Alerts intégrées",
+      "builtInSmartAlertsScopeDescription": "Choisir quelles Smart Alerts globales intégrées doivent inclure cela/une partie de cela dans leur portée",
       "clear": "Effacer",
       "database": "BASE DE DONNÉES",
       "messaging": "MESSAGERIE"
     },
     "scope": {
+      "selectDownstreamServices": "Sélectionner les services en aval",
       "optionNoDownStreamServices": "Aucun service en aval",
       "optionImmediateDownstreamServices": "Services immédiats de base de données et de messagerie en aval",
       "optionAllDownstreamServices": "Tous les services en aval"
@@ -495,7 +521,7 @@
     "erroneousCallCount": "{{formattedCount}} appel erroné au total",
     "erroneousCallCount_plural": "{{formattedCount}} appels erronés au total",
     "meanLatencyFor90th": "{{meanLatencyDetail}} pour 90e",
-    "infrastructureIssuesChanges": "Problèmes et modifications d'infrastructure",
+    "infrastructureIssuesChanges": "Problèmes et changements d'infrastructure",
     "unknownTime": "Inconnu à {{entityTime}}",
     "infrastructure": {
       "inEntity": "in<icon /><entityLink>{{entityLabel}}</entityLink>",
@@ -532,7 +558,7 @@
     "earlyRuleResultWithQuery": "A réussi une règle antérieure \"{{query}}\"",
     "earlyRuleResult": "A réussi une règle antérieure",
     "testFailed": "Le test a échoué",
-    "testPassed": "Le test a abouti",
+    "testPassed": "Test réussi",
     "noTestDefined": "Aucune test défini",
     "allTestsPassed": "Tous les tests ont abouti",
     "allTestsFailed": "Tous les tests ont abouti",
@@ -615,7 +641,7 @@
     "showServicesScope": "Affichage des services <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity>",
     "showApplicationsScopeWithApplicationLabel": "Affichage des applications <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity> dans le contexte de <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "showServicesScopeWithServiceLabel": "Affichage des services <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity> dans le contexte de <linkToApplication>{{applicationLabel}}</linkToApplication>",
-    "titleNoService": "Encore aucun service",
+    "titleNoService": "Aucun service pour le moment",
     "servicesNoData": "Aucun appel de service n'est disponible pour la période sélectionnée Pour plus d'informations sur le traitement des incidents, consultez la [documentation] [Docs].\n\n[Documentation]:https://ibm.biz/not-seeing-any-services"
   },
   "endpointTypes": {
@@ -641,7 +667,7 @@
         "duplicateCalls": "Appels en double",
         "duplicateCallsDesc": "Cette trace est constituée d'un ou de plusieurs appels en double (spans). Appels uniques : {{traceCallCountIgnoringBatchSize}} - Enregistrements : {{traceCallRecordCount}}. Cela génère des valeurs incorrectes de nombre d'appels (avec des lots) et de nombre d'erreurs, ainsi que d'autres irrégularités possibles.",
         "batchedIngestion": "Ingestion par lots",
-        "traceIngestionBatchCount": "Cette trace a été traitée dans des lots {{traceIngestionBatchesCount}}. Cela peut entraîner des irrégularités telles que des plages qui ne sont pas fusionnées dans un seul appel, un mappage de service partiel ou d'autres données incomplètes.",
+        "traceIngestionBatchCount": "Cette trace a été traitée dans {{traceIngestionBatchesCount}} lots. Cela peut entraîner des irrégularités telles que des spans qui ne sont pas fusionnés dans un seul appel, un mappage de service partiel ou d'autres données incomplètes.",
         "subCalls": "Sous-appels",
         "erroneousCalls": "Appels erronés",
         "errorLogs": "Journaux des erreurs",

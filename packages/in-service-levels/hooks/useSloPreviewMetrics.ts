@@ -45,13 +45,13 @@ export default function useSloPreviewMetrics(form: SloForm): FetchedState<Metric
     timeConfig
   });
 
-  const consumedBudgetSingleNumberMetrics = sloPreviewMetrics.consumedBudget.singleNumber({
+  const totalBudgetSingleNumberMetrics = sloPreviewMetrics.totalBudget.singleNumber({
     config: configToPassToApi,
     timeConfig
   });
 
   const metrics = {
-    consumedBudget: consumedBudgetSingleNumberMetrics,
+    totalBudget: totalBudgetSingleNumberMetrics,
     errorBudgetRemaining: remainingBudgetMetrics,
     remainingBudgetNumber: remainingBudgetSingleNumberMetrics,
     statusMetric: statusMetrics

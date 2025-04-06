@@ -32,7 +32,7 @@
         "editPermissions": "Editar permisos",
         "shareMsg": "Este panel de control personalizado tiene reglas de acceso avanzadas que no se pueden representar mediante este diálogo. Puede utilizar la característica \"Editar como JSON\" para editar estas reglas de acceso.",
         "privateDashboardDefault": "Panel de control privado (predeterminado)",
-        "privateDashboardDefaultExplain": "Este panel de control solo lo puede visualizar usted.",
+        "privateDashboardDefaultExplain": "Este panel de control solo lo puede visualizar usted. Nota: esto solo lo puede cambiar el propietario del panel de control.",
         "publicDashboard": "Panel de control público",
         "publicDashboardExplain": "Este panel de control lo puede visualizar cualquier usuario de su organización. Solo usted puede realizar cambios, pero puede añadir editores.",
         "save": "Guardar",
@@ -68,7 +68,7 @@
       "uWantDelDashboardConfig": "¿Está seguro de que desea suprimir el panel de control <strong>{{title}}</strong>?",
       "failDelDashboard": "Error al suprimir el panel de control.",
       "renameDashboard": "Renombrar panel de control",
-      "dashboardName": "Nombre del panel de control",
+      "dashboardName": "Nombre de panel de control",
       "rename": "Renombrar",
       "failSaveDashboard": "No se ha podido guardar el panel de control.",
       "generatingPDFTitle": "Generar pdf",
@@ -83,9 +83,9 @@
       "customDashboard": "Panel de control personalizado",
       "customDashboardOptions": "Opciones personalizadas del panel de control",
       "saveChange": "Guardar cambios",
-      "discardChange": "Descartar cambios",
+      "discardChange": "Descartar los cambios",
       "addWidget": "Añadir widget",
-      "tvMode": "Modo de TV",
+      "tvMode": "Modo TV",
       "editName": "Editar nombre",
       "editAsJson": "Editar como JSON",
       "viewAsJson": "Ver como JSON",
@@ -251,7 +251,7 @@
         "pleaseSelectMetric": "Seleccione una métrica"
       },
       "index": {
-        "mobileAppsBeacon": "Aplicaciones móviles (Balizas)"
+        "mobileAppsBeacon": "Aplicaciones para móviles (balizas)"
       }
     },
     "srcSli": {
@@ -288,7 +288,7 @@
         "metric": "Métrica",
         "selectMetric": "Seleccione una métrica",
         "aggregation": "Agregación",
-        "successRate": "Tasa de éxito",
+        "successRate": "Índice de éxito",
         "locations": "Ubicaciones",
         "responseTime": "Tiempo de respuesta",
         "responsesize": "Tamaño de respuesta"
@@ -302,7 +302,7 @@
         "logging": "Registros"
       },
       "formComponent": {
-        "onlyMetric": "La única métrica disponible para los registros",
+        "onlyMetric": "La única métrica disponible para registros",
         "metrics": {
           "count": "Count"
         },
@@ -344,7 +344,7 @@
       "timeShiftingForm": {
         "addTimeShiftComparBadge": "Añadir un identificador de comparación con salto en el tiempo",
         "increaseColor": "Aumentar color",
-        "decreaseColor": "Reducir color",
+        "decreaseColor": "Disminuir color",
         "timeShift": "Salto en el tiempo"
       },
       "thresholdForm": {
@@ -360,11 +360,11 @@
     },
     "chart": {
       "axesConfigurator": {
-        "primaryYAxis": "Eje Y primario",
-        "secondaryYAxis": "Eje Y secundario",
+        "primaryYAxis": "Eje y principal",
+        "secondaryYAxis": "Eje y secundario",
         "chart": "Gráfico",
         "formatter": "Formateador",
-        "addSecondary": "Añadir eje Y secundario",
+        "addSecondary": "Añadir eje y secundario",
         "removeSecondary": "Eliminar",
         "min": "Mín",
         "max": "Máx",
@@ -451,10 +451,10 @@
     },
     "demo": {
       "pageLoads": "Cargas de páginas",
-      "onLoadTime": "Tiempo de carga"
+      "onLoadTime": "Tiempo de OnLoad"
     },
     "index": {
-      "chartTimeSeries": "Gráfico: Serie temporal"
+      "chartTimeSeries": "Gráfico: serie temporal"
     },
     "util": {
       "unnamMetric": "Métrica sin nombre"
@@ -479,11 +479,11 @@
         "formatter": "Formateador"
       },
       "index": {
-        "chartPie": "Gráfico: Circular",
+        "chartPie": "Gráfico: circular",
         "testTitle": "Sucesos",
         "testLegendItem1": "Incidencias",
-        "testLegendItem2": "Problemas: Crítico",
-        "testLegendItem3": "Problemas: Aviso"
+        "testLegendItem2": "Problemas: crítico",
+        "testLegendItem3": "Problemas: aviso"
       }
     },
     "slo": {
@@ -508,14 +508,14 @@
       },
       "demo": {
         "title": "Título de SLO",
-        "sliName": "Ejemplo de Sli",
+        "sliName": "Ejemplo de SLI",
         "appName": "Ejemplo de nombre de aplicación"
       },
       "apConfigFormComp": {
-        "userJourneyOffering": "Trayecto del usuario / Oferta",
+        "userJourneyOffering": "Trayecto del usuario / oferta",
         "appnPerspective": "Perspectiva de aplicación",
         "selectAppPerspect": "Seleccione una perspectiva de aplicación.",
-        "appPerspectHelpAction": "Configure visitas guiadas y ofertas de usuario planificándolas como una Perspectiva de aplicación en el área Aplicaciones.",
+        "appPerspectHelpAction": "Configure los recorridos y las ofertas de los usuarios modelándolos como una perspectiva de aplicación en el área de aplicaciones.",
         "rbacHint": "Las aplicaciones que se muestran pueden estar limitadas por permisos.",
         "noAppPerspect": "¡No hay perspectivas de aplicación!",
         "pleaseSelect": "Seleccione"
@@ -573,7 +573,7 @@
         "99th": "99º"
       },
       "metricsForm": {
-        "metricThreshold": "Métrica y Umbral",
+        "metricThreshold": "Métrico y umbral",
         "metric": "Métrica",
         "aggregation": "Agregación",
         "valThresholdNotInvalidEmpty": "El valor del umbral no debe estar vacío o ser no válido.",
@@ -602,8 +602,8 @@
         "beaconScopeLabel": "Ámbito de baliza",
         "beaconLabel": "Tipo de baliza desconocido",
         "beaconLabel_httpRequest": "Solicitudes HTTP",
-        "beaconLabel_pageLoad": "Cargas de página de sitio web",
-        "beaconLabel_custom": "Eventos personalizados de sitio web",
+        "beaconLabel_pageLoad": "Cargas de páginas de sitio web",
+        "beaconLabel_custom": "Sucesos personalizados de sitio web",
         "beaconFiltersLabel": "Filtro de baliza",
         "beaconFiltersSubtext": "Opcional"
       },
@@ -614,7 +614,7 @@
         "sliType": "Tipo de SLI",
         "viewCloneSliConfig": "Ver/Clonar configuración de SLI",
         "delSliConfig": "Suprimir configuración de SLI",
-        "confirmRemove": "Confírmelo",
+        "confirmRemove": "Confirmar eliminación",
         "confirmRemoveMsg": "¿Seguro que desea suprimir <strong>{{sliName}}</strong>?",
         "delete": "Suprimir",
         "eventBasedSli": "Basada en sucesos",
@@ -634,7 +634,7 @@
       "chart": {
         "spent": "Gastado",
         "budget": "Presupuesto",
-        "viewInAnalyze": "Ver en Analizar",
+        "viewInAnalyze": "Ver en análisis",
         "configType": "SLI",
         "configType_apdex": "Apdex",
         "initialEvaluation": "{{configType}} creado",
@@ -668,7 +668,7 @@
       "sliSummary": {
         "status": "Estado",
         "target": "Destino:",
-        "errorBudgetSpent": "Margen de error gastado",
+        "errorBudgetSpent": "Margen de error empleado",
         "errorBudget": "Margen de error:",
         "timeWindow": "Ventana de tiempo",
         "timeWindowType": "Ventana de tiempo desconocida",
@@ -687,7 +687,8 @@
       "atLeastOneFilterExpressionMustBeConfigured": "Al menos una expresión de filtro debe estar configurada.",
       "timeBased": "Basado en tiempo",
       "eventBased": "Basada en sucesos",
-      "sloLegacy": "Legado de SLO",
+      "sloLite": "SLO Lite",
+      "sloLegacy": "SLO Legacy",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Aplicación",
@@ -705,7 +706,7 @@
       },
       "widgetLeftHeader": {
         "previewDataInfo": "Los datos de vista previa muestran solo un máximo de 7 días en el pasado. El widget final solo incluirá datos desde la creación de SLI.",
-        "liveDataInfo": "Los datos activos no están disponibles para los datos de presupuesto de error"
+        "liveDataInfo": "Los datos activos no están disponibles para los datos de margen de error"
       },
       "boundaryScopeConfigurator": {
         "all": {
@@ -719,17 +720,17 @@
       }
     },
     "apdex": {
-      "title": "Apdex: Gráfico",
+      "title": "Apdex: gráfico",
       "chart": {
         "metricLabel": "Apdex",
-        "viewInAnalyze": "Ver en Analizar",
+        "viewInAnalyze": "Ver en análisis",
         "noDataRetentionPeriod": "El rango de tiempo seleccionado supera el periodo de retención de datos",
         "notFoundErrorTitle": "No se ha encontrado el Apdex configurado",
         "notFoundErrorDescription": "Actualice el widget Apdex seleccionando otra configuración de Apdex"
       },
       "demo": {
-        "title": "Apdex for Prod",
-        "entityLabel": "Robot Shop"
+        "title": "Apdex para prod",
+        "entityLabel": "Robot shop"
       },
       "apdexConfigInfo": {
         "tagFilterLabel": "Filtro",
@@ -765,7 +766,7 @@
         "cardTitle": "Configuración de Apdex",
         "nameColumn": "Configuración de Apdex",
         "thresholdColumn": "Umbral",
-        "confirmDeleteHeader": "Confírmelo",
+        "confirmDeleteHeader": "Confirmar eliminación",
         "confirmDeleteMessage": "¿Está seguro de que desea suprimir {{apdex}}?",
         "editApdexTooltip": "Editar/clonar configuración de Apdex",
         "deleteApdexTooltip": "Suprimir configuración de Apdex",
@@ -853,7 +854,7 @@
     },
     "applicationHealth": {
       "index": {
-        "applicationHealth": "Visión general de salud"
+        "applicationHealth": "Visión general del estado"
       },
       "form": {
         "validationError": "Seleccione una aplicación.",
@@ -899,8 +900,8 @@
           "entityType": "Tipo de entidad",
           "viewTable": "Ver la tabla completa en <analyzeInfraLink>Analizar infraestructura</analyzeInfraLink>.",
           "tableSize": "Tamaño de tabla",
-          "tableConfiguration": "Configuración de tablas",
-          "tableDetails": "Detalles de la tabla",
+          "tableConfiguration": "Configuración de la tabla",
+          "tableDetails": "Detalles de tabla",
           "showResult": "Mostrando {{loadedItems}} de {{totalItems}} resultados",
           "loadingEntities": "Cargando entidades",
           "datasets": "Conjuntos de datos",
@@ -924,8 +925,8 @@
       "eventColumns": {
         "title": "Título",
         "entityLabel": "Activado (entidad)",
-        "startedOn": "Se inició el",
-        "endedOn": "Finalizó el",
+        "startedOn": "Iniciado el",
+        "endedOn": "Finalizado el",
         "duration": "Duración"
       },
       "kubernetesEventColumns": {
@@ -948,14 +949,14 @@
   },
   "duplicateDashboardDialog": {
     "duplicateDashboard": "Panel de control duplicado",
-    "dashboardName": "Nombre del panel de control",
+    "dashboardName": "Nombre de panel de control",
     "duplicate": "Duplicar",
     "copyShareConfig": "Copiar configuración de compartición",
     "failedToCreateDashboard": "La creación del panel de control ha fallado."
   },
   "newDashboardDialog": {
     "createNewDashboard": "Crear nuevo panel de control",
-    "dashboardName": "Nombre del panel de control",
+    "dashboardName": "Nombre de panel de control",
     "additionalFields": "Este panel de control solo lo puede visualizar usted. Puede optar por compartirlo con sus compañeros después de crearlo",
     "create": "Crear",
     "failedToCreateDashboard": "La creación del panel de control ha fallado."

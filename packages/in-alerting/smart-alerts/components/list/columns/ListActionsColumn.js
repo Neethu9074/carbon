@@ -9,14 +9,20 @@ import PropTypes from 'prop-types';
 import { IconButton } from '@instana/components';
 
 import {
+  TearSheetEditActionHandler,
+  TearSheetCloneActionHandler
+} from 'in-alerting/smart-alerts/components/tearSheet/ActionHandlers/TearSheetActionHandlers';
+import {
   ALERTING_DELETE_TRIGGER,
   ALERTING_EDIT,
   ALERTING_PAUSED,
   ALERTING_RESUMED,
   ALERTING_CLONE_TRIGGER
 } from 'in-services/tracking/eventNames';
+import { getTrackingAlertConfig } from 'in-alerting/smart-alerts/utils/segmentUtils';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { ADVANCED } from 'in-alerting/smart-alerts/data/constants';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import { stopPropagation } from 'in-services/util/function';
 import { playwithEnabled } from 'in-services/featureFlags';
@@ -25,13 +31,22 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn.mless';
 
-export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon }) {
-  const { handleEdit, handleClone, handleToggleEnabled, handleDelete, handleEditNew, handleCloneNew } = actionHandlers;
+export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon, useSmartAlertCreateUrl }) {
+  const {
+    handleEdit,
+    handleClone,
+    handleToggleEnabled,
+    handleDelete,
+    handleEditNew,
+    handleCloneNew,
+    handleEditSelector,
+    handleCloneSelector
+  } = actionHandlers;
   const { builtIn, enabled, id, name } = config;
   const [isSaving, setIsSaving] = useState(false);
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
   const { trackCta } = useSegmentTracking(); // For segment tracking
-
+  const alertConfigForTracking = getTrackingAlertConfig(config, undefined);
   const hasSecondaryActions = handleEdit || handleClone || handleDelete;
 
   const moreMenuIcon = icon ? icon : 'lib_menu_more_horizontal';
@@ -61,9 +76,9 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon
                 stopPropagation(e);
                 handleToggleEnabled(enabled, id, setIsSaving);
                 if (enabled) {
-                  trackCta(ALERTING_PAUSED, config);
+                  trackCta(ALERTING_PAUSED, alertConfigForTracking);
                 } else {
-                  trackCta(ALERTING_RESUMED, config);
+                  trackCta(ALERTING_RESUMED, alertConfigForTracking);
                 }
               }}
             />
@@ -99,23 +114,37 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon
               iconSpinning={isMoreMenuSaving}
               onClick={() => {
                 handleEdit(config);
-                trackCta(ALERTING_EDIT, config);
+                trackCta(ALERTING_EDIT, { ...alertConfigForTracking, dialogMode: ADVANCED });
               }}
             >
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
             </MoreMenuButton>
+          )}
+          {handleEditSelector && !builtIn && (
+            <TearSheetEditActionHandler
+              alertConfig={config}
+              openOldDialog={() => handleEditSelector(config)}
+              useSmartAlertCreateUrl={useSmartAlertCreateUrl}
+            />
           )}
           {handleEditNew && !builtIn && handleEditNew(config)}
           {handleClone && (
             <MoreMenuButton
               icon="lib_actions_copy"
               onClick={() => {
-                trackCta(ALERTING_CLONE_TRIGGER, config);
+                trackCta(ALERTING_CLONE_TRIGGER, { alertConfigForTracking, dialogMode: ADVANCED });
                 handleClone(config);
               }}
             >
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
             </MoreMenuButton>
+          )}
+          {handleCloneSelector && !builtIn && (
+            <TearSheetCloneActionHandler
+              alertConfig={config}
+              openOldDialog={() => handleCloneSelector(config)}
+              useSmartAlertCreateUrl={useSmartAlertCreateUrl}
+            />
           )}
           {handleCloneNew && !builtIn && handleCloneNew(config)}
           {!builtIn && handleDelete && (
@@ -123,7 +152,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon
               icon="lib_actions_delete"
               onClick={() => {
                 handleDelete(id, setIsMoreMenuSaving, name, trackCta);
-                trackCta(ALERTING_DELETE_TRIGGER, config);
+                trackCta(ALERTING_DELETE_TRIGGER, alertConfigForTracking);
               }}
             >
               {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}
@@ -162,5 +191,7 @@ ListActionsColumn.propTypes = {
     handleToggleEnabled: PropTypes.func,
     handleDelete: PropTypes.func
   }),
-  icon: PropTypes.string
+  icon: PropTypes.string,
+  // TODO make useSmartAlertCreateUrl required after its implemented in all SAs
+  useSmartAlertCreateUrl: PropTypes.func
 };

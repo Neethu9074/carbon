@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Collapsible } from '@instana/components';
 
+import RemoteServiceAgentCorrelationComponent from 'in-sdk/components/sidebar/remoteServiceAgentCorrelation/remoteServiceAgentCorrelationComponent';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Info from 'in-forge/plugins/awsMskBroker/Info';
 import { t } from 'in-i18n';
@@ -21,6 +22,7 @@ export default function AwsRdsSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
       <ServiceInstancesList snapshot={snapshot} />
+      <RemoteServiceAgentCorrelationComponent snapshot={snapshot} />
     </div>
   );
 }

@@ -11,7 +11,8 @@ import {
   dnsServerValidator,
   assertionValidator,
   responseTimeValidator,
-  noSpaceValidator
+  noSpaceValidator,
+  checkQueryTypeAssertionMismatch
 } from 'in-synthetics/createTests/validators/dnsValidators';
 import { getErrorMessage } from 'in-services/validators/jsonType';
 import { t } from 'in-i18n';
@@ -212,6 +213,7 @@ describe('assertionValidator', () => {
           }
         },
         '8.8.8.1',
+        'ANY',
         'value'
       )
     ).toStrictEqual({
@@ -259,6 +261,7 @@ describe('assertionValidator', () => {
           }
         },
         'CONTAINS',
+        'ANY',
         'operator'
       )
     ).toStrictEqual({
@@ -306,6 +309,7 @@ describe('assertionValidator', () => {
           }
         },
         'A',
+        'ANY',
         'key'
       )
     ).toStrictEqual({
@@ -353,6 +357,7 @@ describe('assertionValidator', () => {
           }
         },
         '8.8.8.8',
+        'ANY',
         'value'
       )
     ).toStrictEqual({
@@ -400,6 +405,7 @@ describe('assertionValidator', () => {
           }
         },
         '8.8.8 .8',
+        'ANY',
         'value'
       )
     ).toStrictEqual({
@@ -419,6 +425,54 @@ describe('assertionValidator', () => {
         value: {
           invalid: true,
           message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidResolutionRecord')
+        }
+      }
+    }));
+
+  test('validates the DNS assertion and return updated assertion if query type and selected record type mismatches', () =>
+    expect(
+      assertionValidator(
+        {
+          id: 'qrV2-UbYk0BfCFEc',
+          key: 'AAAA',
+          operator: 'CONTAINS',
+          value: 'abc',
+          error: {
+            key: {
+              invalid: false,
+              message: ''
+            },
+            operator: {
+              invalid: false,
+              message: ''
+            },
+            value: {
+              invalid: false,
+              message: ''
+            }
+          }
+        },
+        'AAAA',
+        'A',
+        'key'
+      )
+    ).toStrictEqual({
+      id: 'qrV2-UbYk0BfCFEc',
+      key: 'AAAA',
+      operator: 'CONTAINS',
+      value: 'abc',
+      error: {
+        key: {
+          invalid: true,
+          message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidRecordType')
+        },
+        operator: {
+          invalid: false,
+          message: ''
+        },
+        value: {
+          invalid: false,
+          message: ''
         }
       }
     }));
@@ -456,6 +510,463 @@ describe('noSpaceValidator', () => {
       {
         severity: 'error',
         message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidResolutionRecord')
+      }
+    ]);
+  });
+});
+
+describe('checkQueryTypeAssertionMismatch', () => {
+  test('validates all record typed and return  undefined if none of the record types and selected query type mismatches', () => {
+    expect(
+      checkQueryTypeAssertionMismatch('A', [
+        {
+          id: 'qrV2-UbYk0BfCFEc',
+          key: 'A',
+          operator: 'CONTAINS',
+          value: '8.8.8.8',
+          error: {
+            key: {
+              invalid: false,
+              message: ''
+            },
+            operator: {
+              invalid: false,
+              message: ''
+            },
+            value: {
+              invalid: false,
+              message: ''
+            }
+          }
+        }
+      ])
+    ).toStrictEqual([
+      {
+        id: 'qrV2-UbYk0BfCFEc',
+        key: 'A',
+        operator: 'CONTAINS',
+        value: '8.8.8.8',
+        error: {
+          key: {
+            invalid: false,
+            message: ''
+          },
+          operator: {
+            invalid: false,
+            message: ''
+          },
+          value: {
+            invalid: false,
+            message: ''
+          }
+        }
+      }
+    ]);
+    expect(
+      checkQueryTypeAssertionMismatch('ANY', [
+        {
+          id: 'qrV2-UbYk0BfCFEc',
+          key: 'AAAA',
+          operator: 'CONTAINS',
+          value: 'abc',
+          error: {
+            key: {
+              invalid: false,
+              message: ''
+            },
+            operator: {
+              invalid: false,
+              message: ''
+            },
+            value: {
+              invalid: false,
+              message: ''
+            }
+          }
+        }
+      ])
+    ).toStrictEqual([
+      {
+        id: 'qrV2-UbYk0BfCFEc',
+        key: 'AAAA',
+        operator: 'CONTAINS',
+        value: 'abc',
+        error: {
+          key: {
+            invalid: false,
+            message: ''
+          },
+          operator: {
+            invalid: false,
+            message: ''
+          },
+          value: {
+            invalid: false,
+            message: ''
+          }
+        }
+      }
+    ]);
+    expect(
+      checkQueryTypeAssertionMismatch('NS', [
+        {
+          id: 'qrV2-UbYk0BfCFEc',
+          key: 'CNAME',
+          operator: 'CONTAINS',
+          value: '8.8.8.8',
+          error: {
+            key: {
+              invalid: false,
+              message: ''
+            },
+            operator: {
+              invalid: false,
+              message: ''
+            },
+            value: {
+              invalid: false,
+              message: ''
+            }
+          }
+        }
+      ])
+    ).toStrictEqual([
+      {
+        id: 'qrV2-UbYk0BfCFEc',
+        key: 'CNAME',
+        operator: 'CONTAINS',
+        value: '8.8.8.8',
+        error: {
+          key: {
+            invalid: false,
+            message: ''
+          },
+          operator: {
+            invalid: false,
+            message: ''
+          },
+          value: {
+            invalid: false,
+            message: ''
+          }
+        }
+      }
+    ]);
+    expect(
+      checkQueryTypeAssertionMismatch('CNAME', [
+        {
+          id: 'qrV2-UbYk0BfCFEc',
+          key: 'CNAME',
+          operator: 'CONTAINS',
+          value: '8.8.8.8',
+          error: {
+            key: {
+              invalid: false,
+              message: ''
+            },
+            operator: {
+              invalid: false,
+              message: ''
+            },
+            value: {
+              invalid: false,
+              message: ''
+            }
+          }
+        }
+      ])
+    ).toStrictEqual([
+      {
+        id: 'qrV2-UbYk0BfCFEc',
+        key: 'CNAME',
+        operator: 'CONTAINS',
+        value: '8.8.8.8',
+        error: {
+          key: {
+            invalid: false,
+            message: ''
+          },
+          operator: {
+            invalid: false,
+            message: ''
+          },
+          value: {
+            invalid: false,
+            message: ''
+          }
+        }
+      }
+    ]);
+    expect(
+      checkQueryTypeAssertionMismatch('ALL', [
+        {
+          id: 'qrV2-UbYk0BfCFEc',
+          key: 'CNAME',
+          operator: 'CONTAINS',
+          value: '8.8.8.8',
+          error: {
+            key: {
+              invalid: false,
+              message: ''
+            },
+            operator: {
+              invalid: false,
+              message: ''
+            },
+            value: {
+              invalid: false,
+              message: ''
+            }
+          }
+        }
+      ])
+    ).toStrictEqual([
+      {
+        id: 'qrV2-UbYk0BfCFEc',
+        key: 'CNAME',
+        operator: 'CONTAINS',
+        value: '8.8.8.8',
+        error: {
+          key: {
+            invalid: false,
+            message: ''
+          },
+          operator: {
+            invalid: false,
+            message: ''
+          },
+          value: {
+            invalid: false,
+            message: ''
+          }
+        }
+      }
+    ]);
+    expect(
+      checkQueryTypeAssertionMismatch('CNAME', [
+        {
+          id: 'qrV2-UbYk0BfCFEc',
+          key: '',
+          operator: '',
+          value: '',
+          error: {
+            key: {
+              invalid: false,
+              message: ''
+            },
+            operator: {
+              invalid: false,
+              message: ''
+            },
+            value: {
+              invalid: false,
+              message: ''
+            }
+          }
+        }
+      ])
+    ).toStrictEqual([
+      {
+        id: 'qrV2-UbYk0BfCFEc',
+        key: '',
+        operator: '',
+        value: '',
+        error: {
+          key: {
+            invalid: false,
+            message: ''
+          },
+          operator: {
+            invalid: false,
+            message: ''
+          },
+          value: {
+            invalid: false,
+            message: ''
+          }
+        }
+      }
+    ]);
+  });
+  test('validates all record typed and return  an error message if any of the record types and selected query type mismatches', () => {
+    expect(
+      checkQueryTypeAssertionMismatch('AAAA', [
+        {
+          id: 'qrV2-UbYk0BfCFEc',
+          key: 'A',
+          operator: 'CONTAINS',
+          value: '8.8.8.8',
+          error: {
+            key: {
+              invalid: false,
+              message: ''
+            },
+            operator: {
+              invalid: false,
+              message: ''
+            },
+            value: {
+              invalid: false,
+              message: ''
+            }
+          }
+        }
+      ])
+    ).toStrictEqual([
+      {
+        id: 'qrV2-UbYk0BfCFEc',
+        key: 'A',
+        operator: 'CONTAINS',
+        value: '8.8.8.8',
+        error: {
+          key: {
+            invalid: true,
+            message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidRecordType')
+          },
+          operator: {
+            invalid: false,
+            message: ''
+          },
+          value: {
+            invalid: false,
+            message: ''
+          }
+        }
+      }
+    ]);
+    expect(
+      checkQueryTypeAssertionMismatch('A', [
+        {
+          id: 'qrV2-UbYk0BfCFEc',
+          key: 'AAAA',
+          operator: 'CONTAINS',
+          value: 'abc',
+          error: {
+            key: {
+              invalid: false,
+              message: ''
+            },
+            operator: {
+              invalid: false,
+              message: ''
+            },
+            value: {
+              invalid: false,
+              message: ''
+            }
+          }
+        }
+      ])
+    ).toStrictEqual([
+      {
+        id: 'qrV2-UbYk0BfCFEc',
+        key: 'AAAA',
+        operator: 'CONTAINS',
+        value: 'abc',
+        error: {
+          key: {
+            invalid: true,
+            message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidRecordType')
+          },
+          operator: {
+            invalid: false,
+            message: ''
+          },
+          value: {
+            invalid: false,
+            message: ''
+          }
+        }
+      }
+    ]);
+    expect(
+      checkQueryTypeAssertionMismatch('CNAME', [
+        {
+          id: 'qrV2-UbYk0BfCFEc',
+          key: 'A',
+          operator: 'CONTAINS',
+          value: '8.8.8.8',
+          error: {
+            key: {
+              invalid: false,
+              message: ''
+            },
+            operator: {
+              invalid: false,
+              message: ''
+            },
+            value: {
+              invalid: false,
+              message: ''
+            }
+          }
+        }
+      ])
+    ).toStrictEqual([
+      {
+        id: 'qrV2-UbYk0BfCFEc',
+        key: 'A',
+        operator: 'CONTAINS',
+        value: '8.8.8.8',
+        error: {
+          key: {
+            invalid: true,
+            message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidRecordType')
+          },
+          operator: {
+            invalid: false,
+            message: ''
+          },
+          value: {
+            invalid: false,
+            message: ''
+          }
+        }
+      }
+    ]);
+    expect(
+      checkQueryTypeAssertionMismatch('NS', [
+        {
+          id: 'qrV2-UbYk0BfCFEc',
+          key: 'A',
+          operator: 'CONTAINS',
+          value: '8.8.8.8',
+          error: {
+            key: {
+              invalid: false,
+              message: ''
+            },
+            operator: {
+              invalid: false,
+              message: ''
+            },
+            value: {
+              invalid: false,
+              message: ''
+            }
+          }
+        }
+      ])
+    ).toStrictEqual([
+      {
+        id: 'qrV2-UbYk0BfCFEc',
+        key: 'A',
+        operator: 'CONTAINS',
+        value: '8.8.8.8',
+        error: {
+          key: {
+            invalid: true,
+            message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidRecordType')
+          },
+          operator: {
+            invalid: false,
+            message: ''
+          },
+          value: {
+            invalid: false,
+            message: ''
+          }
+        }
       }
     ]);
   });

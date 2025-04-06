@@ -906,5 +906,15 @@ export default [
     category: [t('in-sap:dashboards.updateError')],
     min: 0,
     formatter: number.compact
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('sapMetricsStats', 'totalDBLatency', t('in-sap:dashboards.total')),
+      getDynamicMetricMatch('sapMetricsStats', 'avgDBLatency', t('in-sap:dashboards.average'))
+    ],
+    labels: [t('in-sap:dashboards.total'), t('in-sap:dashboards.average')],
+    category: [t('in-sap:dashboards.databaseLatency')],
+    min: 0,
+    formatter: millis.detailed
   }
 ];

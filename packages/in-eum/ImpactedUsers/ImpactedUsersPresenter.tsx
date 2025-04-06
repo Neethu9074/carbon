@@ -6,7 +6,7 @@
 
 import React, { useMemo } from 'react';
 
-import { Card, HorizontalIndicator, Li, LoadingSkeleton, Ul } from '@instana/components';
+import { Card, DataTable, HorizontalIndicator, LoadingSkeleton, Spacer } from '@instana/components';
 import { getIntlNumberFormatter } from '@instana/format-numbers';
 
 import {
@@ -16,13 +16,12 @@ import {
   estimateTotalCount
 } from 'in-eum/hooks/useImpactedUsers';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
-import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
-import { EumBeaconByTraceBeacon, TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
-import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import AnalyzeImpactedUsersButton from 'in-eum/ImpactedUsers/AnalyzeImpactedUsersButton';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
+import { TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
 import { Col, Row } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard';
 import { hours } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -31,22 +30,61 @@ import locals from './ImpactedUsersPresenter.mless';
 const countFormatter = getIntlNumberFormatter();
 
 interface ImpactedUsersPresenterProps {
+  alertType?: string;
   timeConfig: TimeConfig;
   metricImpacts: ImpactedUsersMetricsResult;
   downloadProp: {
     joinFilterForImpactedUsers: TagFilterExpressionElementUnion;
   };
+  isKPI: boolean;
 }
 
 export default function ImpactedUsersPresenter({
+  alertType,
   timeConfig,
   metricImpacts,
-  downloadProp
+  downloadProp,
+  isKPI
 }: Readonly<ImpactedUsersPresenterProps>) {
   const { impacted, total, websitesOrMobiles } = metricImpacts;
 
   const overallStatus = useMemo(() => calculateOverallStatus(metricImpacts), [metricImpacts]);
+  const totalHits = websitesOrMobiles?.data?.totalHits;
 
+  const carbonHeaders: Array<{ key: string; header: string }> = [
+    {
+      key: 'websiteAndMobileAppName',
+      header: t('in-eum:webitesMobileAppsColumnLabel', { count: totalHits ? totalHits : 0 })
+    },
+    {
+      key: 'impactedUsers',
+      header: t('in-eum:titleImpactedUsers')
+    }
+  ];
+
+  const carbonRows =
+    websitesOrMobiles?.data?.items?.map(it => ({
+      id: it.result.eumCfgId,
+      websiteAndMobileAppName: it.result.eumCfgLabel,
+      impactedUsers: it.result.impactedUsers
+    })) || [];
+
+  if (isKPI) {
+    return (
+      <KpiCard
+        title={t('in-eum:titleImpactedUsers')}
+        value={
+          overallStatus?.impacted?.hasData === undefined ? (
+            <LoadingSkeleton className={locals.skeleton} />
+          ) : (
+            `${overallStatus?.impacted?.hasData ? overallStatus.impacted.value : '-'}` +
+            `${overallStatus?.total?.hasData ? ` / ${overallStatus.total.value}` : ''}`
+          )
+        }
+        raw
+      />
+    );
+  }
   return (
     <>
       {overallStatus.pending && <HorizontalIndicator progress={overallStatus.progress} />}
@@ -81,29 +119,28 @@ export default function ImpactedUsersPresenter({
             ) : (
               <>{overallStatus.total.hasData ? ` / ${overallStatus.total.value}` : ''}</>
             )}
+            <Spacer horizontal="xxsmall" />
+            <span className={locals.DescriptionText}>{t('in-eum:countTextImpactedUsers')}</span>
           </Col>
-          {websitesOrMobiles?.progress?.loading && <LoadingSkeleton className={locals.skeleton} />}
-          {!!websitesOrMobiles?.data?.items?.length && (
-            <Col className={locals.container}>
-              <span className={locals.label}>{t('in-eum:entityInfoLabelOfWebsiteOrMobile')}</span>
-              <Ul framed={false}>
-                {websitesOrMobiles.data.items.map(it => (
-                  <Li key={it.beacon.eumCfgId} size="compact" className={locals.compactLi}>
-                    <EumScopePath beacon={it.beacon} />
-                  </Li>
-                ))}
-              </Ul>
-            </Col>
-          )}
+        </Row>
+        <Row withoutSideMargin>
+          <Col>
+            <DataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+          </Col>
         </Row>
         <Row withoutSideMargin>
           <Col>
             <AnalyzeImpactedUsersButton
+              alertType={alertType}
               disabled={
                 overallStatus.pending ||
-                !(overallStatus.impacted.hasData && overallStatus.impacted.value && overallStatus.adjustedTimeConfig)
+                !(
+                  overallStatus.impacted.hasData &&
+                  overallStatus.impacted.value &&
+                  overallStatus.timeForTraceEstimation
+                )
               }
-              timeConfig={overallStatus.adjustedTimeConfig}
+              timeConfig={overallStatus.timeForTraceEstimation}
               {...downloadProp}
             />
           </Col>
@@ -134,14 +171,4 @@ function explainTheEstimation(overallStatus: OverallStatusType, timeConfig: Time
   }
 
   return t('in-eum:approximateDataIndicator.tooManyCalls');
-}
-
-function EumScopePath({ beacon }: { beacon?: EumBeaconByTraceBeacon }) {
-  if (beacon?.eumSource === 'web') {
-    return <WebsiteScopePath websiteId={beacon.eumCfgId} websiteName={beacon.eumCfgLabel} showDashboardLinks />;
-  } else if (beacon?.eumSource === 'mobile') {
-    return <MobileAppScopePath mobileAppId={beacon.eumCfgId} mobileAppName={beacon.eumCfgLabel} showDashboardLinks />;
-  }
-
-  return <></>;
 }

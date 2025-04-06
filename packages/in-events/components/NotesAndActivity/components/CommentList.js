@@ -16,6 +16,7 @@ import {
   TYPE_AI_SUMMARY
 } from 'in-events/components/NotesAndActivity/utils';
 import { noteNameAndTimeFormat, createDataString } from 'in-events/components/NotesAndActivity/components/utils';
+import { ExternalNote } from 'in-events/components/NotesAndActivity/components/NoteTypes/ExternalNote';
 import { AISummary } from 'in-events/components/NotesAndActivity/components/NoteTypes/AISummary';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
@@ -92,12 +93,16 @@ export function CommentList({
           const type = note.type;
           const aiSum = type === TYPE_AI_SUMMARY;
           const serviceNow = note.origin === 'ServiceNow';
+          const slack = note.origin === 'Slack';
           const date = formatDateWithActiveLanguage(new Date(note.timestamp), `${dateFormat}, ${timeFormat}`);
           const isEdited = note?.updated && note?.updated != 0;
           const iconType =
-            (!aiSum && serviceNow && 'lib_snow_icon') || (!aiSum && !serviceNow && 'lib_actions_user') || 'lib_ai_slug';
+            (!aiSum && slack && 'lib_slack_icon') ||
+            (!aiSum && serviceNow && 'lib_snow_icon') ||
+            (!aiSum && !serviceNow && 'lib_actions_user') ||
+            'lib_watson_x';
           const iconSize = (aiSum && 'regular') || (!aiSum && !serviceNow && 'xs') || 'sm';
-          const iconViewBox = (serviceNow && '0 0 24 24') || (aiSum && '4 4 24 24') || '0 0 16 16';
+          const iconViewBox = (serviceNow && '0 0 24 24') || ((aiSum || slack) && '4 4 24 24') || '0 0 16 16';
           // Display the icon if its not my chat message OR if its AI Summary
           const displayIcon = !myBubble || aiSum;
           return (
@@ -114,7 +119,7 @@ export function CommentList({
                     size={iconSize}
                     viewBox={iconViewBox}
                     className={classNames({
-                      [locals.userIcon]: !aiSum && !serviceNow,
+                      [locals.userIcon]: !aiSum && !serviceNow && !slack,
                       [locals.snowIcon]: serviceNow,
                       [locals.aiIcon]: aiSum && !serviceNow
                     })}
@@ -213,13 +218,7 @@ export function ChatBubble({
           />
         )}
         {/* External Note */}
-        {extNote && (
-          <>
-            <div className={locals.bubbleContentsHeader}>{`${noteObj?.label}`}</div>
-            {`${noteObj.author}: `}
-            <div style={{ wordWrap: 'break-word' }}>{contents}</div>
-          </>
-        )}
+        {extNote && <ExternalNote noteObj={noteObj} />}
         {/* External Activity Change */}
         {extChange && (
           <>

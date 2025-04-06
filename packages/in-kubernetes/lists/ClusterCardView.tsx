@@ -17,6 +17,7 @@ export default function ClusterCardView() {
   return (
     <ResourceCardList
       type="cluster"
+      hasSortingEnabled
       subscription={getKubernetesClustersWithDefaults}
       getHrefs={getClusterHrefs}
       workloads={workloads}

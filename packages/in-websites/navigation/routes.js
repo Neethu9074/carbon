@@ -18,10 +18,21 @@ import {
   websitePathFullyQualified,
   newWebsitePathFullyQualified,
   analyzePathFullyQualified,
-  websiteSmartAlertsFullScreen
+  websiteSmartAlertsFullScreenFullyQualified
 } from 'in-websites/navigation/paths';
+import {
+  websitesSmartAlertFullScreenDesignEnabled,
+  websitesSmartAlertDialogViewEnabled
+} from 'in-services/featureFlags';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
+import { FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import RedirectWithHash from 'in-components/RedirectWithHash';
+
+const alertDisplayMode = getSmartAlertDisplayMode(
+  websitesSmartAlertDialogViewEnabled,
+  websitesSmartAlertFullScreenDesignEnabled
+);
 
 export default [
   <Route key="websitesList" path={websitesPathFullyQualified}>
@@ -36,8 +47,10 @@ export default [
   <Route key="websiteAnalyzeBeacons" path={analyzePathFullyQualified}>
     {renderAsyncRouteChildren(AnalyzeView2_0)}
   </Route>,
-  <Route key="websiteFullScreenView" path={websiteSmartAlertsFullScreen}>
-    {renderAsyncRouteChildren(AlertConfigTearSheet)}
-  </Route>,
+  (alertDisplayMode === FULLSCREEN || alertDisplayMode === CHOICE_DIALOG) && (
+    <Route key="websiteFullScreenView" path={websiteSmartAlertsFullScreenFullyQualified}>
+      {renderAsyncRouteChildren(AlertConfigTearSheet)}
+    </Route>
+  ),
   <RedirectWithHash key="redirectToWebsitesList" from={websiteMonitoringPath} to={websitesPathFullyQualified} />
 ];

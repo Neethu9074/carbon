@@ -24,13 +24,13 @@ import { metricConfigurationPath } from 'in-custom-dashboards/widgets/_shared/us
 import { hasApplicationMetrics } from 'in-custom-dashboards/widgets/_shared/hasApplicationMetrics';
 import downloadPDFAction from 'in-components/Chart/components/ContextMenu/actions/downloadPDF';
 import useResultData from 'in-custom-dashboards/widgets/Histogram/hooks/useResultData';
-import { CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF } from 'in-services/tracking/tracking';
 import WidgetCardHeader from 'in-components/WidgetCardHeader/WidgetCardHeader';
 import { HistogramConfig } from 'in-custom-dashboards/widgets/Histogram/form';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import HistogramChart from 'in-components/HistogramChart/HistogramChart';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
+import { DOWNLOAD_PDF_WIDGET } from 'in-services/tracking/tracking';
 import { UnifiedMetricConfigurationUnion } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -89,7 +89,7 @@ export default function HistogramWidgetCard({
         const cardNode = ref.current;
         const widgetNode = cardNode?.closest('[id^="widget-"]') as HTMLElement;
         const widgetId = widgetNode?.id.replace(/^widget-/, '') || '';
-        trackCta(CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF, { widgetId });
+        trackCta(DOWNLOAD_PDF_WIDGET, { widgetId });
         setTooltipRef(tooltip);
         setShouldExportWidget(true);
         downloadPDFAction.onClick({ widgetId, setExportWidgetId });

@@ -6,26 +6,32 @@
 import React, { useMemo, useCallback } from 'react';
 import { get, isEmpty } from 'lodash';
 
+import { ChatContainer } from '@instana/ai-chat';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { Stack } from '@instana/components';
 
+// This function returns a React component for user defined responses.
 import {
   eventIdUrlParameter,
   orderDirectionParameter,
   orderByUrlParameter,
   filterParameter
 } from 'in-events/navigation/urlParameters';
+// This function hooks up to your back-end.
+import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
+import EditableOptions from 'in-events/components/AIChat/EditableOptions';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { spreadTimeConfig, concatQueries } from 'in-events/utils';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { eventsAIChatEnabled } from 'in-services/featureFlags';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import getRawCVEEvents from 'in-subscription/getRawCVEEvents';
 import ViewSwitcher from 'in-events/components/ViewSwitcher';
@@ -131,6 +137,34 @@ function EventViewComponent(props) {
     onChange
   } = props;
 
+  // Configuration to be passed to the AI Chat
+  const config = {
+    messaging: {
+      disablePDFViewer: true,
+      customSendMessage: CustomSendMessages
+    }
+  };
+  // Table sort for AI Chat
+  function customSortRow(lhs, rhs, collator) {
+    const nlhs = Number(lhs);
+    const nrhs = Number(rhs);
+    if (!Number.isNaN(nlhs) && !Number.isNaN(nrhs)) {
+      return nlhs - nrhs;
+    }
+    return collator.compare(lhs, rhs);
+  }
+  function setCustomSortRow() {
+    const tables = document.querySelector('cds-aichat-internal').shadowRoot.querySelectorAll('cds-aichat-table');
+    // NodeList needs to be [] to iterate
+    [...tables].forEach(elm => {
+      const table = elm.shadowRoot.querySelector('cds-table');
+      if (table && !table.hasCustomSort) {
+        table.customSortRow = customSortRow;
+        table.hasCustomSort = true;
+      }
+    });
+  }
+
   const fetchEvents = useCallback(
     ({ cursor }) => {
       // Combine filters and query if present
@@ -207,6 +241,35 @@ function EventViewComponent(props) {
             <EventTable {...props} {...tableProps} eventType={eventType} />
           </Stack>
         </LeftRightPadding>
+      )}
+      {eventsAIChatEnabled && (
+        <ChatContainer
+          config={config}
+          onBeforeRender={instance => {
+            instance.on({
+              type: 'receive',
+              handler: msg => {
+                if (msg.data?.output?.generic?.[0]?.response_type === 'table') {
+                  // Wait for table to display
+                  setTimeout(() => {
+                    setCustomSortRow();
+                  }, 500);
+                }
+              }
+            });
+          }}
+          renderUserDefinedResponse={({ messageItem }, instance) => {
+            if (!messageItem) {
+              return;
+            }
+            switch (messageItem.user_defined?.user_defined_type) {
+              case `editable_options`:
+                return <EditableOptions messageItem={messageItem} instance={instance} />;
+              default:
+                return undefined;
+            }
+          }}
+        />
       )}
     </Sticky>
   );

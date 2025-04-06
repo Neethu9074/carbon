@@ -12,12 +12,11 @@ import React from 'react';
 import { DateFormatterOutput } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
 import { Spacer } from '@instana/components';
-import { Result } from '@instana/types';
 
-import CarbonDataTableWrapper, {
+import MultiSelectDataTable, {
   DataTableRow,
   Notification
-} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+} from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { getPendingInvitationsAsObservable, PendingInvitation, revokeInvitation } from 'in-api/users';
@@ -87,24 +86,23 @@ const customDialogMessage = ({ email }: FormattedInvitation) => {
   );
 };
 
-const InvitesV2 = () => {
-  const { trackCta } = useSegmentTracking();
+const createMenuItemsForRow = (
+  invites: PendingInvitation[],
+  row: Omit<DataTableRow<RowObject<FormattedInvitation>[], FormattedInvitation>, 'rowData'>
+) => {
+  const invite = invites?.filter(item => item.id === row.id)[0];
+  const { email } = invite;
+  return [
+    {
+      actionType: 'delete',
+      icon: <TrashCan />,
+      label: t('in-settings:tabs.revokeInvitationForUserWithEmail', { email: email, tenant: config.tenant })
+    }
+  ];
+};
 
-  const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
-  const dataTableResult = useObservable(getPendingInvitationsAsObservable, []) ?? pendingResult;
-  const loading = isLoading(dataTableResult as Result<PendingInvitation[]>);
-  const hasErrors = hasError(dataTableResult as Readonly<Result<any>>);
-  const errorMessage = hasErrors
-    ? ({
-        title: t('in-settings:components.errorFailedToLoadData'),
-        subtitle: (dataTableResult as Readonly<Result<PendingInvitation[]>>).errors[0].message,
-        kind: 'error'
-      } as Notification)
-    : null;
-  const entities = !loading && !hasErrors ? (dataTableResult as PendingInvitation[]) : [];
-  const pageSizes = [20, 50];
-
-  const rows: Array<RowObject<FormattedInvitation>> = entities?.map((invite: PendingInvitation) => ({
+const createTableRows = (invites: PendingInvitation[] = []): Array<RowObject<FormattedInvitation>> => {
+  return invites.map((invite: PendingInvitation) => ({
     email: (
       <HorizontalFlexWrapper>
         <UserAvatar />
@@ -124,24 +122,29 @@ const InvitesV2 = () => {
       expireAt: formatDateTime(new Date(invite.expireAt))
     }
   }));
+};
 
-  const getMenuItems = (row: Omit<DataTableRow<RowObject<FormattedInvitation>[], FormattedInvitation>, 'rowData'>) => {
-    const invite = entities.filter(item => item.id === row.id)[0];
-    const { email } = invite;
-    return [
-      {
-        actionType: 'delete',
-        icon: <TrashCan />,
-        label: t('in-settings:tabs.revokeInvitationForUserWithEmail', { email: email, tenant: config.tenant })
+const InvitesV2 = () => {
+  const { trackCta } = useSegmentTracking();
+
+  const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
+  const dataTableResult = useObservable(getPendingInvitationsAsObservable, []) ?? pendingResult;
+  const loading = isLoading(dataTableResult);
+  const hasErrors = hasError(dataTableResult);
+  const errorMessage: Notification | undefined = hasErrors
+    ? {
+        title: t('in-settings:components.errorFailedToLoadData'),
+        subtitle: dataTableResult.errors[0].message,
+        kind: 'error'
       }
-    ];
-  };
+    : undefined;
+  const pageSizes = [20, 50];
 
   return (
-    <CarbonDataTableWrapper
+    <MultiSelectDataTable
       title={t('in-settings:tabs.pendingInvitations')}
       tableHeaders={headers}
-      tableRows={rows}
+      tableRows={createTableRows(dataTableResult.data)}
       loading={loading}
       searchPlaceholderText={t('in-settings:components.search')}
       searchAttributes={['email', 'groupName', 'invitedBy']}
@@ -151,7 +154,7 @@ const InvitesV2 = () => {
         addActiveDialog(<DeferredShareAndInviteDialogBox inviteOnly permissionToShowInvite />);
       }}
       labelNew={t('in-settings:tabs.inviteUser')}
-      getMenuItems={getMenuItems}
+      getMenuItems={row => createMenuItemsForRow(dataTableResult.data, row)}
       boundedPath="/invites"
       pageSizes={pageSizes}
       enableMultSelect={false}

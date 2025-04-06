@@ -14,6 +14,8 @@ import {
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+//@ts-expect-error
+import useIsTagFilterFormModelExists from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelExists';
 //@ts-expect-error TS migration
 import useThresholdSuggestion from 'in-alerting/smart-alerts/eum/hooks/useThresholdSuggestion';
 import { stepConfigsForCarbonTearSheet } from 'in-alerting/smart-alerts/mobileApp/TearSheet/steps/TearSheetStepConfigs';
@@ -22,6 +24,7 @@ import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileA
 import { MobileAppAlertRule, MobileAppAlertRuleUnion, ThresholdType, TimeConfig } from 'in-types';
 import AlertingFullScreenTearSheet from 'in-alerting/components/AlertingFullScreenTearSheet';
 import { getButtonLabel } from 'in-alerting/smart-alerts/mobileApp/data/sharedFunctions';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { days } from 'in-services/time';
@@ -51,7 +54,7 @@ export interface AlertConfigTearSheetWithThresholdProps {
 }
 
 export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTearSheetWithThresholdProps) {
-  const { editMode, tearSheetTitle, form, updateForm } = props;
+  const { editMode, tearSheetTitle, form, updateForm, onCreate } = props;
 
   const alertConfigWithFormModel = form.toJS();
   const { rule, tagFilterExpression, mobileAppId, threshold } = alertConfigWithFormModel;
@@ -64,7 +67,7 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
-  const { isQueryValid } = useMemo(
+  const { isQueryValid, getTagCatalog } = useMemo(
     () =>
       createBoundedAlertQueryBuilder(
         mobileAppId as string | undefined,
@@ -76,6 +79,12 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
   );
 
   const isAlertQueryValid = createIsAlertQueryValid(isQueryValid);
+
+  const updateTagFilterExpression = (filteredTagFilterExpression: FormModelElement[]) => {
+    updateForm(form.updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression)));
+  };
+
+  useIsTagFilterFormModelExists(tagFilterExpression, getTagCatalog, updateTagFilterExpression);
 
   const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isAlertQueryValid);
 
@@ -105,15 +114,19 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
     <AlertingFullScreenTearSheet
       {...props}
       blueprintConfig={blueprintConfig}
-      isTagFilterFormModelValid
-      isEditMode={false}
+      isTagFilterFormModelValid={isTagFilterFormModelValid}
+      isEditMode={editMode}
       tearSheetTitle={tearSheetTitle}
       stepConfigs={navItems}
       thresholdResult={thresholdResult}
       setTagFilterValid={setTagFilterValid}
-      handleFormSubmit={() => undefined}
+      handleFormSubmit={() => handleFormSubmit(onCreate)}
       actionButtonLabel={getButtonLabel(editMode)}
       productArea={productAreas.websites_mobile_apps}
     />
   );
+}
+
+function handleFormSubmit(onCreate: (simpleMode: boolean) => void): void {
+  onCreate(true);
 }

@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { OrderDirection, PaginatedResult, Result, SyntheticCredential, TagFilterExpression } from '@instana/types';
+import { OrderDirection, TagFilterExpression } from '@instana/types';
 
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -53,10 +53,8 @@ export default function CredentialList() {
     matrixPrefix
   });
   syntheticSwitchCredentialTab(trackCta);
-  const rightHeader = ({ result }: { result: Result<PaginatedResult<SyntheticCredential>> }) => {
-    const credentialNames: string[] = [];
-    result.data?.items?.map(credential => credentialNames.push(credential.credentialName));
-    return role?.canConfigureSyntheticCredentials && <CreateCredentialsButton credentialNames={credentialNames} />;
+  const rightHeader = () => {
+    return role?.canConfigureSyntheticCredentials && <CreateCredentialsButton />;
   };
 
   return (

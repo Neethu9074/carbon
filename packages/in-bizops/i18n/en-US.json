@@ -8,9 +8,10 @@
   "lists": {
     "id": "ID",
     "version": "Version",
-    "pageTitle": "Business Monitoring",
-    "cardTitle": "Business Processes",
+    "pageTitle": "Business monitoring",
+    "cardTitle": "Business processes",
     "theId": "The process ID",
+    "theVersion": "The process version",
     "hasBeenCopied": "has been successfully copied to the clipboard",
     "activityLabel": "Activities",
     "nameLabel": "Name",
@@ -20,8 +21,8 @@
     "healthLabel": "Health",
     "startLabel": "Started",
     "latencyLabel": "Latency",
-    "unnamedActivity": "(Unnamed Activity) {{activityType}}",
-    "unnamedService": "(Unnamed Service)"
+    "unnamedActivity": "(Unnamed activity) {{activityType}}",
+    "unnamedService": "(Unnamed service)"
   },
   "customDashboards": {
     "activityCountMetric": "Activities count",
@@ -40,7 +41,7 @@
   "perspectives": {
     "newPerspective": "Create perspective",
     "lists": {
-      "perspectives": "Business Perspectives",
+      "perspectives": "Business perspectives",
       "descriptionLabel": "Description",
       "numberProcessesLabel": "Number of processes"
     },
@@ -52,7 +53,7 @@
       "loadingStateLabel": "Loading processes"
     },
     "dialog": {
-      "title": "New Business Perspective",
+      "title": "New business perspective",
       "stepOne": {
         "progressBarTitle": "Step 1: Filter business processes to build your business perspective",
         "headline": "Filter business processes to build your business perspective",
@@ -66,7 +67,7 @@
       }
     },
     "errorMessages": {
-      "tagFilterExpressionMustNotBeEmpty": "The Business Perspective must have at least one filter",
+      "tagFilterExpressionMustNotBeEmpty": "The business perspective must have at least one filter",
       "createOperationFailed": "Create operation failed",
       "unableToCreatePerspective": "We were unable to create your business perspective. Please try again."
     },
@@ -76,35 +77,35 @@
     }
   },
   "navigation": {
-    "businessMonitoring": "Business Monitoring"
+    "businessMonitoring": "Business monitoring"
   },
   "dashboards": {
-    "analyzeInstances": "Analyze Instances",
+    "analyzeInstances": "Analyze instances",
     "summary": {
-      "pageTitle": "Business Process",
+      "pageTitle": "Business process",
       "summaryTab": "Summary",
       "activitiesTab": "Activities",
       "widgets": {
-        "topActivities": "Top Activities",
-        "infrastructureIssuesAndChanges": "Infrastructure Issues & Changes",
+        "topActivities": "Top activities",
+        "infrastructureIssuesAndChanges": "Infrastructure issues & changes",
         "viewAll": "View all activities",
         "processCount": "Count",
         "processCountTotal": "total",
         "processErrors": "Errors",
         "processLatency": "Latency",
         "processCalls": "Calls",
-        "processErroneous" : "Erroneous Call Rate"
+        "processErroneous" : "Erroneous call rate"
       }
     },
     "activity": {
-      "pageTitle": "Business Activity",
+      "pageTitle": "Business activity",
       "summaryTab": "Summary",
       "servicesTab": "Services",
       "widgets": {
         "duration": "Duration",
         "activityCount": "Count",
         "activityErrors": "Errors",
-        "topServices": "Top Services",
+        "topServices": "Top services",
         "activityLatency": "Latency",
         "viewAll": "View all services"
       },

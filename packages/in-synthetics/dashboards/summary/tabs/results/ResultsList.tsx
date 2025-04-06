@@ -3,11 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useState } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
+import {
+  CarbonPopover as Popover,
+  CarbonPopoverContent as PopoverContent,
+  CarbonTag as Tag,
+  CarbonTile as Tile,
+  CarbonContainedList as ContainedList,
+  CarbonContainedListItem as ContainedListItem
+} from '@instana/components';
 import { OrderDirection, TagFilter, TagFilterExpression, TestResultListItem, TimeConfig } from '@instana/types';
 import { formatDateTime, fromNow } from '@instana/format-date';
+import { generateUniqueShortId } from '@instana/utils';
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error Could not find declaration type
@@ -32,11 +41,13 @@ import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/m
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { getResultErrorMessage } from 'in-synthetics/dashboards/details/utils';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { syntheticDNSEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
@@ -150,6 +161,45 @@ const daysRemainingColumnContent = (item: TestResultListItem) => {
   return <span className={locals.metricLabel}>{daysRemaining}</span>;
 };
 
+const FailureTypePopover = ({ resultItem }: { resultItem: TestResultListItem }) => {
+  const [openFailurePopover, setOpenFailurePopover] = useState(false);
+  const errors = resultItem?.testResultCommonProperties?.errors ?? [];
+
+  const handleFailureListClose = () => {
+    setOpenFailurePopover(false);
+  };
+
+  const handleFailureListOpen = () => {
+    setOpenFailurePopover(true);
+  };
+
+  return errors && errors?.length > 0 ? (
+    <span>
+      <Tag size="md" type="blue">
+        {getResultErrorMessage(errors[0])}
+      </Tag>
+      {errors.length > 1 && (
+        <Popover open={openFailurePopover} align="bottom-end" onRequestClose={handleFailureListClose}>
+          <Tag size="md" type="gray" onClick={handleFailureListOpen}>
+            {`${errors.length - 1} +`}
+          </Tag>
+          <PopoverContent className={locals.popoverContent}>
+            <Tile>
+              <ContainedList label={''} size="sm" kind="disclosed">
+                {errors.slice(1).map((error: string) => (
+                  <ContainedListItem key={generateUniqueShortId()}>{getResultErrorMessage(error)}</ContainedListItem>
+                ))}
+              </ContainedList>
+            </Tile>
+          </PopoverContent>
+        </Popover>
+      )}
+    </span>
+  ) : (
+    <span className={locals.noData}>{t('in-synthetics:dashboard.resultsListPage.dns.na')}</span>
+  );
+};
+
 interface ResultListProps {
   test: TestResponse;
 }
@@ -197,6 +247,15 @@ export default function ResultsList({ test }: ResultListProps) {
         sortable: false,
         label: t('in-synthetics:dashboard.resultsListPage.daysRemaining'),
         getContent: daysRemainingColumnContent
+      });
+    }
+    if (syntheticDNSEnabled && isDNS) {
+      columnDefinitionsBasedOnType.push({
+        id: 'failure_type',
+        sortable: false,
+        width: 25,
+        label: t('in-synthetics:dashboard.resultsListPage.dns.failureType'),
+        getContent: item => <FailureTypePopover resultItem={item} />
       });
     }
   }
@@ -256,6 +315,9 @@ function getSynthTableData({
 }: GetList) {
   if (testType === 'SSLCertificate') {
     metrics.push('custom_metrics');
+    metrics.splice(metrics.indexOf('response_size'), 1);
+  } else if (testType === 'DNS') {
+    metrics.push('errors');
     metrics.splice(metrics.indexOf('response_size'), 1);
   }
   let baseTagFilters: TagFilter[] = [

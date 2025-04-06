@@ -85,6 +85,7 @@ export default function ThresholdValueInput({
         invalid={hasError}
         allowEmpty
         onChange={mapOnChange}
+        size="sm"
       />
       {isNotBlank(metricUnitPostfix) && <span>{metricUnitPostfix}</span>}
     </>

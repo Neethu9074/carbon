@@ -6,10 +6,10 @@
 
 import React from 'react';
 
-import {
-  TearSheetEditActionHandler,
-  TearSheetCloneActionHandler
-} from 'in-alerting/smart-alerts/infrastructure/lists/TearSheetActionHandlers';
+// import {
+//   TearSheetEditActionHandler,
+//   TearSheetCloneActionHandler
+// } from 'in-alerting/smart-alerts/infrastructure/lists/TearSheetActionHandlers';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AlertConfigDialog';
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
@@ -24,13 +24,13 @@ function handleEdit(config: InfraSmartAlertConfigWithMetadata) {
   openSmartAlertDialog(config);
 }
 
-function HandleEditNew(config: InfraSmartAlertConfigWithMetadata) {
-  return <TearSheetEditActionHandler id={config.id} created={config.created} alertConfig={config} />;
-}
+// function HandleEditNew(config: InfraSmartAlertConfigWithMetadata) {
+//   return <TearSheetEditActionHandler id={config.id} created={config.created} alertConfig={config} />;
+// }
 
-function HandleCloneNew(config: InfraSmartAlertConfigWithMetadata) {
-  return <TearSheetCloneActionHandler id={config.id} created={config.created} alertConfig={config} />;
-}
+// function HandleCloneNew(config: InfraSmartAlertConfigWithMetadata) {
+//   return <TearSheetCloneActionHandler id={config.id} created={config.created} alertConfig={config} />;
+// }
 
 function openSmartAlertDialog(config: InfraSmartAlertConfigWithMetadata, isCopy = false) {
   addActiveDialog(
@@ -47,13 +47,23 @@ function openSmartAlertDialog(config: InfraSmartAlertConfigWithMetadata, isCopy 
 }
 
 export const actionHandlers = {
-  handleEdit: (config: InfraSmartAlertConfigWithMetadata) => handleEdit(config),
-  ...(infraSmartAlertFullScreenDesignEnabled && {
-    handleEditNew: (config: InfraSmartAlertConfigWithMetadata) => HandleEditNew(config)
+  ...(!infraSmartAlertFullScreenDesignEnabled && {
+    handleEdit: (config: InfraSmartAlertConfigWithMetadata) => handleEdit(config)
   }),
-  handleClone: (config: InfraSmartAlertConfigWithMetadata) => handleClone(config),
+  // ...(infraSmartAlertFullScreenDesignEnabled && {
+  //   handleEditNew: (config: InfraSmartAlertConfigWithMetadata) => HandleEditNew(config)
+  // }),
   ...(infraSmartAlertFullScreenDesignEnabled && {
-    handleCloneNew: (config: InfraSmartAlertConfigWithMetadata) => HandleCloneNew(config)
+    handleEditSelector: (config: InfraSmartAlertConfigWithMetadata) => handleEdit(config)
+  }),
+  ...(!infraSmartAlertFullScreenDesignEnabled && {
+    handleClone: (config: InfraSmartAlertConfigWithMetadata) => handleClone(config)
+  }),
+  // ...(infraSmartAlertFullScreenDesignEnabled && {
+  //   handleCloneNew: (config: InfraSmartAlertConfigWithMetadata) => HandleCloneNew(config)
+  // }),
+  ...(infraSmartAlertFullScreenDesignEnabled && {
+    handleCloneSelector: (config: InfraSmartAlertConfigWithMetadata) => handleClone(config)
   }),
   handleDelete: (
     id: string,

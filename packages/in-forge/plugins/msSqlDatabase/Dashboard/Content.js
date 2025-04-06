@@ -12,7 +12,8 @@ import {
   bytesTwoDecimalPlaces,
   msZeroDecimalPlaces,
   msTwoDecimalPlaces,
-  percentagePlainTwoDecimalPlaces
+  percentagePlainTwoDecimalPlaces,
+  number
 } from 'in-services/formatters/number';
 import DBmarlinNotificationMessage from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotificationMessage';
 import TopQueriesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/TopQueriesTable';
@@ -100,8 +101,8 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
             metrics: ['perfcounters.databases._total.write_transactions_sec'],
             labels: [t('in-forge:plugins.msSqlDatabase.writeTransactions')],
             type: 'line',
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
@@ -123,8 +124,8 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
               t('in-forge:plugins.msSqlDatabase.killConnectionErrors')
             ],
             type: 'line',
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />

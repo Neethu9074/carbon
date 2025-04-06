@@ -22,9 +22,9 @@
       "requestStep": {
         "title": "요청 지정",
         "subTitle": "엔드포인트",
-        "labelOperation": "HTTP 메소드",
+        "labelOperation": "HTTP 메소드(HTTP method)",
         "labelUrl": "URL",
-        "popSubTitle": "접속 위치",
+        "popSubTitle": "인식 위치",
         "uploadScriptTitle": "스크립트 업로드",
         "failureToReadFileContent": "파일 컨텐츠 읽기 실패: {{error}}",
         "emptyScriptFileError": "코드가 비어 있습니다. 유효성을 검증할 항목이 없습니다.",
@@ -34,14 +34,14 @@
       },
       "basicDetails": {
         "title": "이 API 단순(HTTP 조치) 테스트의 이름",
-        "scriptTitle": "이 API 스크립트(HTTP Script) 테스트의 이름",
+        "scriptTitle": "이 API 스크립트(HTTP 스크립트) 테스트의 이름",
         "webpageActionTitle": "이 브라우저 단순(웹 페이지 조치) 테스트의 이름은 무엇입니까?",
         "browserScriptTitle": "이 브라우저 스크립트 테스트의 이름은 무엇입니까?",
         "labelName": "테스트 이름",
         "labelDescription": "설명",
         "labelFrequency": "빈도(분)",
         "labelFrequencyHour": "빈도(시간)",
-        "labelApplication": "애플리케이션을 선택하십시오",
+        "labelApplication": "애플리케이션 선택",
         "labelApplications": "애플리케이션 선택"
       },
       "bluePrint": {
@@ -88,7 +88,7 @@
         },
         "browserScript": {
           "name": "브라우저 스크립트",
-          "headline": "브라우저 스크립트(BrowserScript)",
+          "headline": "브라우저 스크립트",
           "whenToUse": {
             "line1": "JavaScript 또는 Selenium IDE 스크립트를 사용하여 웹 애플리케이션과의 사용자 상호작용을 시뮬레이션하려면 브라우저 스크립트 테스트를 사용하십시오."
           },
@@ -125,7 +125,7 @@
         "switchModeButton": "고급 모드로 전환",
         "testTypeSection": {
           "selectedTestTypeLightCardTitle": "선택된 테스트 유형",
-          "rightListLabel": "테스트 유형",
+          "rightListLabel": "검정 유형",
           "apiTypeLabel": "API 단순 테스트 | API 스크립트 테스트",
           "apiTypeHeadline": "작성하려는 합성 테스트 종류",
           "apiTypeText": "API 테스트를 사용하여 웹 애플리케이션에서 제공하는 API를 모니터링할 수 있습니다. API 테스트를 사용하여 가용성 및 응답 시간을 측정할 수 있습니다. 간단한 테스트를 사용하면 URL을 ping하거나 단일 API를 테스트할 수 있습니다. 스크립트 테스트를 사용하면 API 응답 세트를 확인하고 복잡한 워크플로우를 시뮬레이션하고 특정 기능을 테스트할 수 있는 스크립트를 제공할 수 있습니다.",
@@ -141,9 +141,9 @@
           "certificateCheckLabel": "SSL 인증서",
           "certificateCheckHeadline": "SSL 인증서 검사 테스트",
           "certificateCheckText": "SSL 인증서 검사 테스트는 발행된 인증서의 남은 일 수를 검사하여 웹 애플리케이션에서 SSL 인증서의 만기를 테스트하는 방법입니다.",
-          "dnsActionLabel": "DNS",
-          "dnsActionHeadline": "도메인 이름 서버",
-          "dnsActionText": "DNS 테스트는 사용자의 장치나 네트워크가 도메인 이름을 제대로 해석하고 있는지, 속도 저하, 오류, 보안 취약점을 유발할 수 있는 문제가 없는지 확인하는 방법입니다."
+          "dnsLabel": "DNS",
+          "dnsHeadline": "도메인 이름 서버",
+          "dnsText": "DNS 테스트는 사용자의 장치나 네트워크가 도메인 이름을 제대로 해석하고 있는지, 속도 저하, 오류, 보안 취약점을 유발할 수 있는 문제가 없는지 확인하는 방법입니다."
         },
         "configurationLabel": "구성",
         "configurationTitle": "구성: 이 테스트는 어떻게 작동하나요?",
@@ -220,14 +220,50 @@
           "markSyntheticCall": "합성 호출 표시",
           "downloadZip": ".zip 파일 다운로드",
           "mainFileNameHelperText": "테스트의 진입점이 포함된 이 .zip 파일 안에 있는 파일 이름을 입력하십시오",
-          "recordVideo": "실패 시 사용자 조치 기록"
+          "recordVideo": "실패 시 사용자 조치 기록",
+          "dns": {
+            "lookupLabel": "URL",
+            "lookupHelperText": "URL은 DNS 확인을 위해 테스트 중인 도메인 이름입니다.",
+            "lookupPlaceholder": "웹 사이트의 URL",
+            "queryType": "쿼리 유형",
+            "serverLabel": "DNS 서버",
+            "serverHelperText": "DNS 서버는 도메인 이름을 IP 주소로 변환하는 서버입니다.",
+            "portLabel": "포트",
+            "portHelperText": "DNS 서버 포트는 장치(PoP)와 DNS 서버 간의 통신에 사용되는 네트워크 포트이며, 일반적으로 포트 53입니다.",
+            "queryTimeLabel": "응답 시간",
+            "queryTimeHelperText": "최적의 DNS 확인 시간은 20-120밀리초 사이입니다",
+            "recordTypeTitle": "어설쎤(선택사항)",
+            "recordTypeSubtitle": "이 필드는 선택사항이지만, 입력된 모든 필드가 참이어야 테스트가 성공합니다.",
+            "recordTypeLabel": "레코드 유형",
+            "operatorLabel": "조건부",
+            "operatorOptionMatches": "Matches",
+            "operatorOptionContains": "포함",
+            "resolutionRecordLabel": "해결 레코드",
+            "deleteButtonLabel": "삭제",
+            "addRecordTypeLabel": "필드 추가",
+            "recursiveLookupLabel": "반복 검색",
+            "dnsRadioButtonOnLabel": "On",
+            "dnsRadioButtonOffLabel": "해제",
+            "transportProtocolLabel": "전송 프로토콜",
+            "acceptCNAMELabel": "CNAME 수락",
+            "lookupServerNamelabel": "서버 이름 조회",
+            "serverRetriesLabel": "서버 재시도 수(선택사항)",
+            "validators": {
+              "invalidDNSLookup": "DNS 검색 형식이 올바르지 않음",
+              "invalidDNSServer": "DNS 서버가 유효하지 않음",
+              "invalidIPv4Address": "IPv4 주소가 올바르지 않음",
+              "invalidIPv6Address": "IPv6 주소가 올바르지 않음",
+              "invalidRecordType": "레코드 유형이 올바르지 않음",
+              "invalidResolutionRecord": "해결 레코드가 올바르지 않음"
+            }
+          }
         },
         "loadMore": "추가 로드",
         "selectTests": {
           "addLocations": "{{count}}개 위치 추가",
           "addLocation": "위치 추가",
           "cancel": "취소",
-          "selectLocation": "위치 선택",
+          "selectLocation": "위치를 선택하십시오.",
           "privatePoPLabel": "개인용",
           "managedPoPLabel": "관리형"
         },
@@ -235,7 +271,7 @@
           "apiName": "API",
           "browserName": "브라우저",
           "certificateCheckName": "SSL 인증서",
-          "dnsActionName": "DNS"
+          "dnsName": "DNS"
         },
         "customProperties": {
           "property": "특성",
@@ -562,7 +598,7 @@
         "serverError": "서버 오류",
         "badRequest": "잘못된 요청",
         "badGateway": "잘못된 게이트웨이",
-        "gatewayTimeout": "게이트웨이 시간 초과"
+        "gatewayTimeout": "게이트웨이 시간초과"
       },
       "totalRuns": "{{totalRuns}}개의 총 실행",
       "meanLatencyFor90th": "90번째: {{meanLatencyDetail}}",
@@ -588,7 +624,11 @@
       "failures": "실패",
       "status": "상태",
       "success": "성공",
-      "daysRemaining": "남은 일 수"
+      "daysRemaining": "남은 기간(일)",
+      "dns": {
+        "failureType": "실패 유형",
+        "na": "해당사항 없음"
+      }
     },
     "detailsPage": {
       "detailLiveModeDisabled": "합성 테스트 결과 세부사항 페이지에서는 라이브 모드를 적용할 수 없음",
@@ -605,7 +645,7 @@
       "subtransactionWaiting": "대기",
       "subtransactionReceiving": "수신",
       "showLessSubDetails": "간략히 보기",
-      "showMoreSubDetails": "자세히 보기",
+      "showMoreSubDetails": "자세히 표시",
       "failedRun": "실패한 실행(예외)",
       "failedRunErrorTitle": "오류 메시지",
       "noFailedErrorMessage": "오류 메시지 없음",
@@ -714,7 +754,7 @@
         "noScreenshotsAvailableMessage": "이 테스트 결과에 대해 스크린샷을 사용할 수 없습니다."
       },
       "sslCertificate": {
-        "daysRemaining": "남은 일 수",
+        "daysRemaining": "남은 기간(일)",
         "timeOfIssue": "발행 시간",
         "timeOfExpiry": "만료 시간"
       },
@@ -749,7 +789,7 @@
     },
     "configuration": {
       "configurationTitle": "{{testType}} 테스트 구성",
-      "testTypeTitle": "테스트 유형",
+      "testTypeTitle": "검정 유형",
       "testType": "유형",
       "subType": "하위 유형",
       "configSectionTitle": "구성",
@@ -816,7 +856,26 @@
       "noWebsitesAssociated": "연관된 웹 사이트 없음",
       "associatedMobileApps": "연관된 모바일 앱",
       "noMobileAppAssociated": "연관된 모바일 앱 없음",
-      "recordVideo": "실패 시 사용자 조치 기록"
+      "recordVideo": "실패 시 사용자 조치 기록",
+      "dns": {
+        "lookupLabel": "URL",
+        "queryTypeLabel": "쿼리 유형",
+        "serverLabel": "DNS 서버",
+        "portLabel": "포트",
+        "responseTimeLabel": "응답 시간",
+        "responseTimeDescription": "응답 시간은 {{responseTime}}ms 미만임",
+        "assertionsTitle": "어설션",
+        "recordTypeLabel": "레코드 유형",
+        "operatorLabel": "조건부",
+        "resolutionRecordLabel": "해결 레코드",
+        "recursiveLookupLabel": "반복 검색",
+        "dnsRadioButtonOnLabel": "On",
+        "dnsRadioButtonOffLabel": "해제",
+        "transportProtocolLabel": "전송 프로토콜",
+        "acceptCNAMELabel": "CNAME 수락",
+        "lookupServerNamelabel": "서버 이름 조회",
+        "serverRetriesLabel": "서버 재시도 수"
+      }
     },
     "credentialList": {
       "mainLabel": "신임 정보",

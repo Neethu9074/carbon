@@ -16,8 +16,8 @@ import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/ta
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import MobileAppBigNumberCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppBigNumberCard';
 import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
+import { number, percentage, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
-import { number, percentage, seconds } from 'in-services/formatters/number';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -44,14 +44,14 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
   tagFiltersForColdStart.push({
     name: 'mobileBeacon.performanceSubtype',
     operator: 'EQUALS',
-    stringValue: 'ast',
+    stringValue: 'App start or launch time',
     type: 'TAG_FILTER',
     entity: 'NOT_APPLICABLE'
   });
   tagFiltersForAnr.push({
     name: 'mobileBeacon.performanceSubtype',
     operator: 'EQUALS',
-    stringValue: 'anr',
+    stringValue: 'App not responding or freezing',
     type: 'TAG_FILTER',
     entity: 'NOT_APPLICABLE'
   });
@@ -77,7 +77,7 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
       <KpiGridRow sizes={[4, 4, 4]}>
         <MobileAppMetricsKpiCard
           title={t('in-mobile-apps:dashboard.tabs.coldStartTimeTitle')}
-          formatter={seconds.fromMillisFixedDetailed}
+          formatter={millisToTwoDecimalSeconds}
           metricsConfig={{
             tagFilters,
             timeConfig,
@@ -217,7 +217,7 @@ export default function Performance({ tagFilters, timeConfig, mobileAppLabel, mo
             y1={{
               renderer: Renderer.integral,
               calculateStackDifferences: true,
-              formatter: seconds.fromMillisFixedDetailed,
+              formatter: millisToTwoDecimalSeconds,
               labels: [t('in-mobile-apps:dashboard.tabs.androidLabel'), t('in-mobile-apps:dashboard.tabs.iosLabel')],
               metricIds: ['coldStartAndroid', 'coldStartIos'],
               colors: [carbonCategorical.purple70, carbonCategorical.cyan50]

@@ -4,47 +4,49 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useContext, useMemo } from 'react';
+import { get } from 'lodash';
 
 import { Collapsible, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import useFetchAppropriateRCAEntityData from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
 import RootCauseContextDashboard from 'in-events/components/RootCauseAnalysis/Logs/RootCauseContextDashboard';
+import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hooks/SelectedRootCauseContext';
+import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
+import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
 import { EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import { TimeConfig } from 'in-types';
+import { Endpoint, Event } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 
 interface RootCauseLogsSectionProps {
-  rcaEntityType: string;
-  rcaSnapshotID: string;
-  incidentTimeWindow: TimeConfig;
-  relatedAPID: string | null;
+  incident: Event;
 }
 
-export default function RootCauseLogsSection({
-  rcaEntityType,
-  rcaSnapshotID,
-  incidentTimeWindow,
-  relatedAPID
-}: RootCauseLogsSectionProps) {
+const RootCauseLogsSection = ({ incident }: RootCauseLogsSectionProps) => {
+  const { selectedRootCause } = useContext(SelectedRootCauseContext);
   const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
   const { trackCta } = useSegmentTracking();
+
+  const incidentTimeWindow = useMemo(() => getIncidentTimeConfig(incident), [incident]);
+
+  const { rootCauses } = useContext(RootCauseDataContext);
 
   const {
     entityData,
     nonInfraServiceLabelInformation,
     infraServiceLabelInformation,
     loadingSnapshotData,
-    loadingStackData
-  } = useFetchAppropriateRCAEntityData(rcaEntityType, rcaSnapshotID, incidentTimeWindow);
+    loadingStackData,
+    entityType: rcaEntityType
+  } = rootCauses[selectedRootCause];
 
+  const relatedAPID = get(incident, 'metadata.app20ApplicationId', null);
   // Holds the result of our related application perspective observable
   const relatedApplicationInformation = useObservable(
     relatedAPID
@@ -55,7 +57,7 @@ export default function RootCauseLogsSection({
     [relatedAPID]
   );
 
-  if (!entityData && (loadingSnapshotData || loadingStackData)) return <LoadingIndicator />;
+  if (loadingStackData || loadingSnapshotData) return <LoadingIndicator />;
 
   return (
     <Collapsible
@@ -69,21 +71,21 @@ export default function RootCauseLogsSection({
       </Collapsible.Header>
       <Collapsible.Content>
         <div className={locals.accordionContent}>
-          {entityData && (
+          {entityData && infraServiceLabelInformation && nonInfraServiceLabelInformation && (
             <RootCauseContextDashboard
               applicationBoundaryScope="ALL"
-              serviceId={nonInfraServiceLabelInformation?.id || infraServiceLabelInformation[0]?.id}
-              serviceName={nonInfraServiceLabelInformation?.label || infraServiceLabelInformation[0]?.label}
+              serviceId={nonInfraServiceLabelInformation?.id || infraServiceLabelInformation?.[0]?.id}
+              serviceName={nonInfraServiceLabelInformation?.label || infraServiceLabelInformation?.[0]?.label}
               applicationId={relatedApplicationInformation?.id}
               applicationName={relatedApplicationInformation?.label}
               rcaEntityType={rcaEntityType}
-              endpointId={rcaEntityType === 'endpoint' ? entityData.steadyId : undefined}
-              endpointName={rcaEntityType === 'endpoint' ? entityData.label : undefined}
-              processId={rcaEntityType === 'infrastructure' ? getProcessId(entityData) : undefined}
+              endpointId={rcaEntityType === 'endpoint' ? (entityData as Endpoint).id : undefined}
+              endpointName={rcaEntityType === 'endpoint' ? (entityData as Endpoint).label : undefined}
+              processId={rcaEntityType === 'infrastructure' ? getProcessId(entityData as SnapshotData) : undefined}
               containerId={rcaEntityType === 'infrastructure' ? getContainerId(entityData) : undefined}
               processContainerType={rcaEntityType === 'infrastructure' ? getProcessContainerId(entityData) : undefined}
               hostName={rcaEntityType === 'infrastructure' ? getHostFQDN(entityData) : undefined}
-              plugin={rcaEntityType === 'infrastructure' ? entityData.get('plugin') : undefined}
+              plugin={rcaEntityType === 'infrastructure' ? get(entityData, 'plugin') : undefined}
               timeConfig={incidentTimeWindow}
             />
           )}
@@ -91,7 +93,9 @@ export default function RootCauseLogsSection({
       </Collapsible.Content>
     </Collapsible>
   );
-}
+};
+
+export default RootCauseLogsSection;
 
 export function isContainer(plugin: string) {
   const containerPlugins = ['docker', 'crio', 'garden', 'containerd', 'awsEcsContainer', 'podman'];
@@ -99,25 +103,25 @@ export function isContainer(plugin: string) {
 }
 
 function getProcessContainerId(entityData: SnapshotData) {
-  const plugin = entityData && entityData.get('plugin');
-  return plugin === 'process' ? entityData.getIn(['data', 'containerType']) : undefined;
+  const plugin = get(entityData, 'plugin', '');
+  return plugin === 'process' ? get(entityData, 'data.containerType', undefined) : undefined;
 }
 
 function getContainerId(entityData: SnapshotData) {
-  const plugin = entityData && entityData.get('plugin');
+  const plugin = get(entityData, 'plugin', '');
   return plugin === 'process'
-    ? entityData.getIn(['data', 'container'])
+    ? get(entityData, 'data.container', undefined)
     : isContainer(plugin)
-    ? entityData.getIn(['data', 'id'])
+    ? get(entityData, 'data.id')
     : undefined;
 }
 
 function getProcessId(entityData: SnapshotData) {
-  const plugin = entityData && entityData.get('plugin');
-  return plugin === 'process' ? entityData.getIn(['data', 'pid']) : undefined;
+  const plugin = get(entityData, 'plugin', '');
+  return plugin === 'process' ? get(entityData, 'data.pid', undefined) : undefined;
 }
 
 function getHostFQDN(entityData: SnapshotData) {
-  const plugin = entityData && entityData.get('plugin');
-  return plugin === 'host' ? entityData.getIn(['data', 'hostname']) : undefined;
+  const plugin = get(entityData, 'plugin', '');
+  return plugin === 'host' ? get(entityData, 'data.hostname', undefined) : undefined;
 }

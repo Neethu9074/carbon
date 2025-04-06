@@ -21,15 +21,14 @@ import GoogleSSO from 'in-settings/tabs/SecurityAndAccess/pages/identityProvider
 import Saml from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Saml/Saml';
 import OIDC from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/OIDC/OIDC';
 import Ldap from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/Ldap/Ldap';
+import { isAnyIdpAvailable, isIdpAvailable } from 'in-settings/utils/idp';
 import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
 import { idpConfigV2Enabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export function getNavigationTreeForAuthentication(props: ViewProps) {
-  const authAvailable =
-    (role as any).canConfigureAuthenticationMethods &&
-    (props.isGoogleSSOAvailable || props.isSamlAvailable || props.isLdapAvailable || props.isOidcAvailable);
+export function getNavigationTreeForAuthentication({ sso, ldap, oidc, saml }: ViewProps) {
+  const authAvailable = (role as any).canConfigureAuthenticationMethods && isAnyIdpAvailable({ sso, ldap, oidc, saml });
 
   if (idpConfigV2Enabled) {
     return [
@@ -39,25 +38,7 @@ export function getNavigationTreeForAuthentication(props: ViewProps) {
           authAvailable && {
             path: securityAndAccessIdentityProviders,
             label: t('in-settings:tabs.identityProviders'),
-            component: IdentityProviders,
-            subPages: [
-              props.isGoogleSSOAvailable && {
-                path: securityAndAccessGoogleSSO,
-                component: GoogleSSO
-              },
-              props.isSamlAvailable && {
-                path: securityAndAccessSaml,
-                component: Saml
-              },
-              props.isOidcAvailable && {
-                path: securityAndAccessOidc,
-                component: OIDC
-              },
-              props.isLdapAvailable && {
-                path: securityAndAccessLdap,
-                component: Ldap
-              }
-            ].filter(Boolean)
+            component: IdentityProviders
           },
           authAvailable &&
             (role as any).canConfigureTeams && {
@@ -79,22 +60,22 @@ export function getNavigationTreeForAuthentication(props: ViewProps) {
       authAvailable && {
         title: t('in-settings:tabs.identityProviders'),
         pages: [
-          props.isGoogleSSOAvailable && {
+          isIdpAvailable(sso) && {
             path: securityAndAccessGoogleSSO,
             label: t('in-settings:tabs.googleSSO.idpTitle'),
             component: GoogleSSO
           },
-          props.isSamlAvailable && {
+          isIdpAvailable(saml) && {
             path: securityAndAccessSaml,
             label: t('in-settings:tabs.saml'),
             component: Saml
           },
-          props.isOidcAvailable && {
+          isIdpAvailable(oidc) && {
             path: securityAndAccessOidc,
             label: t('in-settings:tabs.oidc'),
             component: OIDC
           },
-          props.isLdapAvailable && {
+          isIdpAvailable(ldap) && {
             path: securityAndAccessLdap,
             label: t('in-settings:tabs.ldap'),
             component: Ldap

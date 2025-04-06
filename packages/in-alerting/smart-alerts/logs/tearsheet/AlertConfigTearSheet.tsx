@@ -93,7 +93,6 @@ function AlertConfigTearSheetContent({
             setIsSaving,
             setMessages,
             toAlertConfig,
-            isSimpleMode: false,
             trackCta,
             duplicateFrom
           });

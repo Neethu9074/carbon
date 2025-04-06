@@ -20,6 +20,7 @@
       "tableLoadMoreRow": {
         "loadMore": "추가 로드"
       },
+      "filterTable": "필터 테이블",
       "dataTable": "데이터 테이블",
       "expandHeader": "행 펼치기",
       "expandRow": "행 펼치기 토글",
@@ -41,6 +42,9 @@
     },
     "dropDown": {
       "selectOption": "옵션 선택"
+    },
+    "infoicon": {
+      "information": "정보"
     },
     "tabsNavigation": {
       "pageNavigation": "페이지 탐색"

@@ -27,4 +27,23 @@
   .descriptionText {
     max-width: 50rem;
   }
+  .samlForm {
+    &_fileContainer {
+      :global .cds--btn ~ .cds--file-container {
+        display: none;
+      }
+    }
+    &_selectedFile {
+      max-inline-size: none;
+      p {
+        margin-bottom: 0;
+      }
+      :global .cds--file__selected-file {
+        max-inline-size: none;
+        p {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
 }

@@ -5,12 +5,17 @@
  */
 
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
-import React, { useState } from 'react';
+import React from 'react';
 
-import { CarbonModal, CarbonInlineNotification } from '@instana/components';
-import { OidcApiResponseConfig } from '@instana/types';
+import { CarbonModal, CarbonInlineNotification, Spacer } from '@instana/components';
+import { OidcApiRequestConfig, OidcApiResponseConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
+import {
+  getConfigAsResultObservableInternal,
+  setConfigV2 as setConfig,
+  deleteConfigV2 as deleteConfig
+} from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import {
   OidcMapForm,
   secretPlaceholder,
@@ -18,26 +23,26 @@ import {
   idpTypes
 } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/OIDC/OIDC.types';
 import {
-  isAnyInvitationsPending,
-  onDeleteIdpConfig
-} from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/utils';
+  DELETE_DESCRIPTIONS,
+  MAP_CARBON_STATUS,
+  SAVE_DESCRIPTIONS
+} from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/constants';
 import {
-  getConfigAsResultObservableInternal,
-  setConfig,
-  deleteConfig
-} from 'in-settings/tabs/SecurityAndAccess/api/oidc';
-import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
+  deleteConfigEnableValidator,
+  isAnyInvitationsPending
+} from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/utils';
+import { DeleteConfigConfirmDialog } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/DeleteConfigConfirmDialog';
+import useFormWithObservable from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/hooks/useObservableWithForm';
+import useNotification from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/hooks/useNotification';
 import OIDCForm from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/OIDC/OIDCForm';
 import renderFallbackLoadingView from 'in-settings/components/ApiItemView/FallbackLoadingView';
 import { SETTINGS_IDENTITY_PROVIDER_OIDC_UPDATE } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import useFormWithObservable from 'in-settings/hooks/useObservableWithForm';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { isLoading, hasError } from 'in-services/util/result';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
+import useFormSubmission from 'in-hooks/useFormSubmission';
 import { pendingResult } from 'in-services/fixedObjects';
-import { LoadingStatus } from 'in-settings/types';
 import { getInvitations$ } from 'in-api/users';
 import { t, Trans } from 'in-i18n';
 
@@ -64,41 +69,22 @@ function createForm(apiResult?: OidcApiResponseConfig): OidcMapForm {
         validator: apiResult?.activated ? undefined : notBlankValidator
       }),
       discoveryUri: createField({
-        value: apiResult?.discoveryUri ?? ''
+        value: apiResult?.discoveryUri ?? '',
+        validator: apiResult?.activated ? undefined : notBlankValidator
       }),
       activated: createField({
         value: !!apiResult?.activated
       }),
       isDeleteEnabled: createField({
         value: false,
-        validator: apiResult?.activated
-          ? value =>
-              value
-                ? null
-                : [
-                    {
-                      severity: 'error'
-                    }
-                  ]
-          : undefined
+        validator: apiResult?.activated ? deleteConfigEnableValidator : undefined
       }),
       idpType: createField({
         value: mappedIdpType.key ?? defaultIdpType.key
       }),
       secret: createField({
         value: apiResult?.activated ? secretPlaceholder : '',
-        validator: apiResult?.activated
-          ? undefined
-          : str => {
-              if (!str || str.trim().length === 0 || str === secretPlaceholder) {
-                return [
-                  {
-                    severity: 'error'
-                  }
-                ];
-              }
-              return null;
-            }
+        validator: apiResult?.activated ? undefined : notBlankValidator
       })
     }
   });
@@ -107,25 +93,28 @@ function createForm(apiResult?: OidcApiResponseConfig): OidcMapForm {
 const OIDCDialog = (props: OIDCDialogProps) => {
   const { isActive, onFormUpdate } = props;
 
-  const { form, setForm, dataFromObservable } = useFormWithObservable({
+  const { form, setForm, loading, errorMessage } = useFormWithObservable({
     observable: getConfigAsResultObservableInternal,
     createForm: createForm
   });
+  const [notification, setNotification] = useNotification(errorMessage);
   const invitations = useObservable(getInvitations$, []) ?? pendingResult;
   const { unstable_trackEvent } = useSegmentTracking();
-  const [status, setStatus] = useState<LoadingStatus>('inactive');
-  const [description, setDescription] = useState('');
-  const errors = hasError(dataFromObservable);
+  const [oidcSubmitStatus, submitOidcConfig] = useFormSubmission<OidcApiRequestConfig, unknown>(oidcConfig =>
+    setConfig(oidcConfig)
+  );
+  const [oidcDeleteStatus, deleteOidcConfig] = useFormSubmission<undefined, boolean>(deleteConfig);
+
+  const carbonOidcStatus = MAP_CARBON_STATUS[oidcSubmitStatus ?? ''];
+  const carbonDeleteStatus = MAP_CARBON_STATUS[oidcDeleteStatus ?? ''];
+  const oidcDescription = SAVE_DESCRIPTIONS[oidcSubmitStatus ?? ''];
+  const deleteDescription = DELETE_DESCRIPTIONS[oidcDeleteStatus ?? ''];
 
   const onSaveOIDCConfig = () => {
     const oidcConfig = form.toJS();
-    const setConfigResult$ = setConfig(oidcConfig);
-    setDescription(t('in-settings:tabs.savingConfig'));
-    setStatus('active');
-    setConfigResult$.once(
-      () => {
-        setDescription(t('in-settings:tabs.changesSaved'));
-        setStatus('finished');
+    submitOidcConfig({
+      payload: oidcConfig,
+      onSuccess: () => {
         addMessage({
           title: t('in-settings:tabs.changesSaved'),
           content: t('in-settings:tabs.configSuccessfullySaved'),
@@ -136,15 +125,38 @@ const OIDCDialog = (props: OIDCDialogProps) => {
         close();
         onFormUpdate();
       },
-      error => {
-        setDescription(t('in-settings:tabs.failedToSaveConfig', { err: error.message }));
-        setStatus('error');
+      onError: result => {
+        setNotification({
+          kind: 'error',
+          subtitle: t('in-settings:tabs.failedToSaveConfig', { err: result?.errors[0]?.message })
+        });
       }
-    );
+    });
   };
 
-  const onDeleteOIDCConfig = () => {
-    return onDeleteIdpConfig({ deleteConfig, setDescription, setStatus, onFormUpdate });
+  const onDeleteRequest = () => {
+    deleteOidcConfig({
+      payload: undefined,
+      onSuccess: () => {
+        addMessage({
+          title: t('in-settings:tabs.changesSaved'),
+          content: t('in-settings:tabs.configSuccessfullySaved'),
+          type: 'success',
+          timeout: 4000
+        });
+        close();
+        close();
+        onFormUpdate();
+      },
+      onError: result => {
+        setNotification({
+          kind: 'error',
+          subtitle: t('in-settings:tabs.authenticationProviders.failedToDeleteConfig', {
+            err: result?.errors[0]?.message
+          })
+        });
+      }
+    });
   };
 
   return (
@@ -155,19 +167,19 @@ const OIDCDialog = (props: OIDCDialogProps) => {
         context: isActive ? 'active' : ''
       })}
       danger={isActive}
-      primaryButtonDisabled={!form?.hierarchyValid || !form.hierarchyTouched || errors}
-      primaryButtonText={isActive ? 'Delete' : t('in-settings:tabs.save')}
+      primaryButtonDisabled={!form.hierarchyValid || !form.hierarchyTouched || !!errorMessage}
+      primaryButtonText={isActive ? t('in-settings:components.delete') : t('in-settings:tabs.save')}
       secondaryButtonText={t('in-settings:tabs.cancel')}
       onRequestSubmit={() => {
         if (isActive) {
-          onDeleteOIDCConfig();
+          return addActiveDialog(<DeleteConfigConfirmDialog onRequestSubmit={onDeleteRequest} />);
         } else if (isAnyInvitationsPending({ invitations })) {
           return addActiveDialog(
             <CarbonModal
               open
               size="sm"
-              modalHeading={t('in-settings:components.confirmRemove')}
-              primaryButtonText={t('in-components:dialog.confirmationDialogLabelConfirm')}
+              modalHeading={t('in-settings:components.confirmSave')}
+              primaryButtonText={t('forms.actions.save')}
               secondaryButtonText={t('in-settings:tabs.cancel')}
               onRequestClose={close}
               onRequestSubmit={() => {
@@ -184,21 +196,25 @@ const OIDCDialog = (props: OIDCDialogProps) => {
           onSaveOIDCConfig();
         }
       }}
-      loadingDescription={description}
-      loadingStatus={status}
+      loadingDescription={isActive ? deleteDescription : oidcDescription}
+      loadingStatus={isActive ? carbonDeleteStatus : carbonOidcStatus}
       onSecondarySubmit={close}
       onRequestClose={close}
     >
-      {isLoading(dataFromObservable) && renderFallbackLoadingView()}
-      {errors && (
-        <CarbonInlineNotification
-          kind="error"
-          lowContrast
-          title={t('in-settings:components.errorTitle')}
-          subtitle={getUniqueErrors(dataFromObservable.errors)[0]}
-        />
+      {loading && renderFallbackLoadingView()}
+      {!loading && !errorMessage && <OIDCForm form={form} setForm={setForm} />}
+      {notification && (
+        <>
+          <Spacer size="normal" />
+          <CarbonInlineNotification
+            kind={notification.kind}
+            lowContrast
+            title={notification.kind === 'error' ? t('in-settings:components.errorTitle') : ''}
+            subtitle={notification.subtitle}
+            hideCloseButton
+          />
+        </>
       )}
-      {!errors && <OIDCForm form={form} setForm={setForm} />}
     </CarbonModal>
   );
 };

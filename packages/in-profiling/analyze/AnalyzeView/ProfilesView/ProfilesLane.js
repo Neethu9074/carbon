@@ -72,14 +72,13 @@ function mapClusterToMarkerLaneEvents(timeConfig, clusteredTimestamps, prevClust
   return {
     prevCluster,
     timestamp: to,
-
     from: Math.max(
       timeConfig.to - timeConfig.windowSize,
       prevCluster
         ? prevCluster[prevCluster.length - 1] + 1 // the prev cluster ends at. so +1 to not include this cluster into the prev one
-        : 0
+        : Math.trunc((to - 1000) / 10000) * 10000 // backend is sensitive to nearest 10000ms. Without truncation, response may be empty
     ),
-    to,
+    to: to + 5000, // providing backend with timespan ending at the profile results in empty responses. Adding additional "buffer" to span avoids this
     count: clusteredTimestamps.length
   };
 }

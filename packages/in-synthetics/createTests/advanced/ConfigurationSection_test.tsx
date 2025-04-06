@@ -55,15 +55,15 @@ describe('ConfigurationSection', () => {
     expect(screen.getByText('Operation')).toBeInTheDocument();
     expect(screen.getByText('URL')).toBeInTheDocument();
     expect(screen.getByText('Header')).toBeInTheDocument();
-    expect(screen.getByText('Add Header')).toBeInTheDocument();
-    expect(screen.getByText('Validation String')).toBeInTheDocument();
-    expect(screen.getByTitle('Expect Status')).toBeInTheDocument();
-    expect(screen.getByText('Add Validation')).toBeInTheDocument();
+    expect(screen.getByText('Add header')).toBeInTheDocument();
+    expect(screen.getByText('Validation string')).toBeInTheDocument();
+    expect(screen.getByTitle('Expect status')).toBeInTheDocument();
+    expect(screen.getByText('Add validation')).toBeInTheDocument();
     expect(screen.getByText('Timeout')).toBeInTheDocument();
-    expect(screen.getByText('Retry Strategy')).toBeInTheDocument();
-    expect(screen.getByText('Follow Redirect')).toBeInTheDocument();
-    expect(screen.getByText('Allow Insecure')).toBeInTheDocument();
-    expect(screen.getByText('Mark Synthetic Call')).toBeInTheDocument();
+    expect(screen.getByText('Retry strategy')).toBeInTheDocument();
+    expect(screen.getByText('Follow redirect')).toBeInTheDocument();
+    expect(screen.getByText('Allow insecure')).toBeInTheDocument();
+    expect(screen.getByText('Mark synthetic call')).toBeInTheDocument();
   });
 
   it('Renders all new fields with their default values', async () => {
@@ -104,12 +104,12 @@ describe('ConfigurationSection', () => {
     expect(inputElements[2]).toHaveValue('');
     expect(
       screen.getByRole('button', {
-        name: 'Add Header'
+        name: 'Add header'
       })
     ).toBeTruthy();
     expect(
       screen.getByRole('button', {
-        name: 'Add Header'
+        name: 'Add header'
       })
     ).not.toBeDisabled();
 
@@ -117,7 +117,7 @@ describe('ConfigurationSection', () => {
     expect(inputElements[3]).toHaveValue('');
 
     // Expect Status/ Expect JSON/ Expect Match
-    expect(selectElements[1]).toHaveValue('Expect Status');
+    expect(selectElements[1]).toHaveValue('Expect status');
     expect(inputElements[4]).toHaveValue('200');
 
     await userEvent.click(selectElements[1]);
@@ -125,16 +125,16 @@ describe('ConfigurationSection', () => {
     expect(selectElements[1]).toHaveValue('Expect JSON');
 
     await userEvent.click(selectElements[1]);
-    await userEvent.click(screen.getByRole('option', { name: 'Expect Match' }));
-    expect(selectElements[1]).toHaveValue('Expect Match');
+    await userEvent.click(screen.getByRole('option', { name: 'Expect match' }));
+    expect(selectElements[1]).toHaveValue('Expect match');
     expect(
       screen.getByRole('button', {
-        name: 'Add Validation'
+        name: 'Add validation'
       })
     ).toBeTruthy();
     expect(
       screen.getByRole('button', {
-        name: 'Add Validation'
+        name: 'Add validation'
       })
     ).not.toBeDisabled();
 
@@ -149,12 +149,12 @@ describe('ConfigurationSection', () => {
     expect((screen.getByLabelText('Retry twice') as HTMLInputElement).checked).toBe(false);
 
     // Follow Redirect
-    expect((screen.getByLabelText('Follow Redirect') as HTMLInputElement).checked).toBe(true);
+    expect((screen.getByLabelText('Follow redirect') as HTMLInputElement).checked).toBe(true);
 
     // Allow Insecure
-    expect((screen.getByLabelText('Allow Insecure') as HTMLInputElement).checked).toBe(true);
+    expect((screen.getByLabelText('Allow insecure') as HTMLInputElement).checked).toBe(true);
 
     // Mark Synthetic Call
-    expect((screen.getByLabelText('Mark Synthetic Call') as HTMLInputElement).checked).toBe(true);
+    expect((screen.getByLabelText('Mark synthetic call') as HTMLInputElement).checked).toBe(true);
   });
 });

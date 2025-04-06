@@ -14,6 +14,9 @@ jest.mock('dom-to-image', () => ({
 const format = 'png';
 const pdfWidth = 841.89;
 const pdfHeigth = 595.28;
+const headerImage = new Image();
+headerImage.src = 'headerImage';
+
 const pdf: any = {
   addImage: jest.fn(),
   addPage: jest.fn(),
@@ -31,12 +34,16 @@ const pdf: any = {
 describe('handleMultiplePages', () => {
   it('should generate pdf with multiple pages', async () => {
     const images = generateImages(1, 3720, 6000);
-    handleMultiplePages({ images, format, pdf });
+    headerImage.onload = jest.fn(() => {
+      headerImage.height = 50;
 
-    // It should have three pages generated.
-    // One is added by default and two calls performed for addPage.
-    expect(pdf.addPage).toHaveBeenCalledTimes(2);
-    expect(pdf.addImage).toHaveBeenCalledTimes(3);
+      handleMultiplePages({ images, format, pdf, headerImage });
+
+      // It should have three pages generated.
+      // One is added by default and two calls performed for addPage.
+      expect(pdf.addPage).toHaveBeenCalledTimes(2);
+      expect(pdf.addImage).toHaveBeenCalledTimes(3);
+    });
   });
 });
 

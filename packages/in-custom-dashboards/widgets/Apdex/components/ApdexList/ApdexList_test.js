@@ -37,9 +37,10 @@ describe('in-custom-dashboards/widgets/Apdex/components/ApdexList/ApdexList_test
     const wrapper = shallow(
       <ApdexList fetchedConfigState={apdexResult} onChange={noop} onSelect={noop} onEdit={noop} onDelete={noop} />
     );
+    const ApdexTable = wrapper.find('[data-testid="ApdexList"]');
 
     // Then
-    expect(wrapper.first().prop('result')).toMatchObject({
+    expect(ApdexTable.prop('result')).toMatchObject({
       errors: [],
       progress: {
         loading: false
@@ -51,8 +52,8 @@ describe('in-custom-dashboards/widgets/Apdex/components/ApdexList/ApdexList_test
         totalHits: 2
       }
     });
-    expect(wrapper.first().prop('page')).toEqual(1);
-    expect(wrapper.first().prop('pageSize')).toEqual(2);
+    expect(ApdexTable.prop('page')).toEqual(1);
+    expect(ApdexTable.prop('pageSize')).toEqual(2);
   });
 
   it('renders the ServerTablePresenter with the correct column definitions', () => {
@@ -63,9 +64,10 @@ describe('in-custom-dashboards/widgets/Apdex/components/ApdexList/ApdexList_test
     const wrapper = shallow(
       <ApdexList fetchedConfigState={apdexResult} onChange={noop} onSelect={noop} onEdit={noop} onDelete={noop} />
     );
+    const ApdexTable = wrapper.find('[data-testid="ApdexList"]');
 
     // Then
-    expect(wrapper.first().prop('columnDefinitions')).toMatchObject([
+    expect(ApdexTable.prop('columnDefinitions')).toMatchObject([
       { id: 'name', sortable: true, label: t('in-custom-dashboards:widgets.apdex.apdexList.nameColumn') },
       { id: 'threshold', sortable: false, label: t('in-custom-dashboards:widgets.apdex.apdexList.thresholdColumn') },
       { id: 'edit', label: '', sortable: false, width: '1' },

@@ -41,9 +41,9 @@ export default function SloConfigPreview() {
 
   const [metricResult, status, errors, progress] = useSloPreviewMetrics(form);
 
-  const consumedBudgetNumber = metricResult?.find(metric => metric.id === 'consumedBudget');
+  const totalBudgetNumber = metricResult?.find(metric => metric.id === 'totalBudget');
   const errorBudgetRemaining = metricResult?.find(metric => metric.id === 'errorBudgetRemaining');
-  const remainingBudgetNumber = metricResult?.find(metric => metric.id === 'remainingBudgetNumber');
+  const remainingBudgetNumber = metricResult?.find(metric => metric.id === 'remainingBudget');
   const statusMetric = metricResult?.find(metric => metric.id === 'statusMetric');
 
   const fromTimestamp = parseDateTime(`${objectiveDate} ${objectiveTime}`).getTime();
@@ -52,15 +52,15 @@ export default function SloConfigPreview() {
     <Card leftHeaderContent={<PreviewChartLeftHeader status={status} />}>
       <HorizontalIndicator progress={progress} />
       <SloChartSummary
-        budgetSingleNumber={remainingBudgetNumber?.values as MetricDataPoint[]}
-        consumedBudgetSingleNumber={consumedBudgetNumber?.values as MetricDataPoint[]}
+        remainingBudget={totalBudgetNumber?.values as MetricDataPoint[]}
+        totalBudget={remainingBudgetNumber?.values as MetricDataPoint[]}
         fromTimestamp={fromTimestamp}
         indicatorType={indicatorType}
         objectiveDuration={objectiveDuration}
         objectiveDurationUnit={objectiveDurationUnit}
         sloEntityType={sloEntityType}
         status={status}
-        statusSingleNumber={statusMetric?.values as MetricDataPoint[]}
+        sloStatus={statusMetric?.values as MetricDataPoint[]}
         target={target}
         timeWindowType={timeWindowType}
       />

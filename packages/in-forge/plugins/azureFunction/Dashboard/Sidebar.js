@@ -8,6 +8,7 @@ import React, { Fragment } from 'react';
 
 import { Collapsible } from '@instana/components';
 
+import RemoteServiceAgentCorrelationComponent from 'in-sdk/components/sidebar/remoteServiceAgentCorrelation/remoteServiceAgentCorrelationComponent';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import { t } from 'in-i18n';
 import Info from '../Info';
@@ -23,6 +24,7 @@ export default function AzureFunctionSidebarDetails({ snapshot }) {
       </Collapsible>
 
       <ServiceInstancesList snapshot={snapshot} />
+      <RemoteServiceAgentCorrelationComponent snapshot={snapshot} />
     </>
   );
 }

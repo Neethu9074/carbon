@@ -33,8 +33,8 @@
         "managedPoPLabel": "Verwaltete -Instanz"
       },
       "basicDetails": {
-        "title": "Wie lautet der Name dieses einfachen API-Tests (HTTP-Aktionstest)?",
-        "scriptTitle": "Wie lautet der Name dieses API-Script-Tests (HTTP-Script-Test)?",
+        "title": "Wie lautet der Name dieses einfachen API-Tests (HTTP-Aktion)?",
+        "scriptTitle": "Wie lautet der Name dieses API-Script-Tests (HTTP-Script)?",
         "webpageActionTitle": "Wie lautet der Name dieses Browser-Simple-Tests (Webseitenaktion)?",
         "browserScriptTitle": "Wie lautet der Name dieses Browser-Script-Tests?",
         "labelName": "Name des Tests",
@@ -50,7 +50,7 @@
           "name": "Einfache API",
           "headline": "Einfache API (HTTP-Aktion)",
           "whenToUse": {
-            "line1": "API-Simple-Test (HTTP-Aktionstest) verwenden, um eine einzelne REST-API zu testen"
+            "line1": "API-Simple-Test (HTTP-Aktion) verwenden, um eine einzelne REST-API zu testen"
           },
           "tipsForUsing": {
             "title": "Verwendungstipps",
@@ -64,7 +64,7 @@
           "name": "API-Script",
           "headline": "API-Script (HTTP-Script)",
           "whenToUse": {
-            "line1": "API-Script-Test (HTTP-Script-Test) und Node.js-basiertes Script verwenden, um die Folge mehrerer REST-APIs zu testen"
+            "line1": "API-Script-Test (HTTP-Script) und Node.js-basiertes Script verwenden, um die Folge mehrerer REST-APIs zu testen"
           },
           "tipsForUsing": {
             "line1": "Schritt 1: Wählen Sie den Typ des Tests aus, der erstellt werden soll.",
@@ -74,7 +74,7 @@
           }
         },
         "browserSimple": {
-          "name": "Browser Simple",
+          "name": "Browser einfach",
           "headline": "Browser Simple (Webseitenaktion)",
           "whenToUse": {
             "line1": "Verwenden Sie einen Simple-Browser-Test, wenn Sie eine einzelne Webseite auf HTTP-Fehler testen möchten."
@@ -88,7 +88,7 @@
         },
         "browserScript": {
           "name": "Browser-Script",
-          "headline": "Browser-Script (BrowserScript)",
+          "headline": "Browserskript (Browserskript)",
           "whenToUse": {
             "line1": "Verwenden Sie einen Browser-Script-Test, wenn Sie Benutzerinteraktionen mit Ihrer Webanwendung mithilfe eines JavaScript- oder Selenium-IDE-Scripts simulieren möchten."
           },
@@ -122,7 +122,7 @@
         "invalidHost": "Hostformat ungültig"
       },
       "advancedMode": {
-        "switchModeButton": "Zum erweiterten Modus wechseln",
+        "switchModeButton": "In erweiterten Modus wechseln",
         "testTypeSection": {
           "selectedTestTypeLightCardTitle": "Ausgewählter Testtyp",
           "rightListLabel": "Testtyp",
@@ -141,9 +141,9 @@
           "certificateCheckLabel": "SSL-Zertifikat",
           "certificateCheckHeadline": "Test der SSL-Zertifikatsprüfung",
           "certificateCheckText": "Der Test der SSL-Zertifikatsprüfung ist eine Methode zum Testen des Ablaufs eines SSL-Zertifikats in einer Webanwendung, indem die verbleibenden Tage eines ausgestellten Zertifikats überprüft werden.",
-          "dnsActionLabel": "DNS",
-          "dnsActionHeadline": "Domänennamens-Server",
-          "dnsActionText": "Der DNS-Test ist eine Methode, mit der Sie überprüfen können, ob Ihr Gerät oder Netzwerk Domainnamen ordnungsgemäß auflöst und frei von Problemen ist, die zu Verlangsamungen, Fehlern oder Sicherheitslücken führen könnten."
+          "dnsLabel": "DNS",
+          "dnsHeadline": "Domänennamens-Server",
+          "dnsText": "Der DNS-Test ist eine Methode, mit der Sie überprüfen können, ob Ihr Gerät oder Netzwerk Domainnamen ordnungsgemäß auflöst und frei von Problemen ist, die zu Verlangsamungen, Fehlern oder Sicherheitslücken führen könnten."
         },
         "configurationLabel": "Konfiguration",
         "configurationTitle": "Konfiguration: Wie funktioniert dieser Test?",
@@ -153,7 +153,7 @@
         "scheduleTitle": "Zeitplan: Wann wird dieser Test ausgeführt?",
         "identifyLabel": "Identifizieren",
         "identifyTitle": "Ermitteln: Was wird der Test tun?",
-        "customPropertiesTitle": "Angepasste Eigenschaften",
+        "customPropertiesTitle": "Benutzerdefinierte Eigenschaften",
         "frequency": "Dieser Test wird alle {{frequencyValue}} Minuten ausgeführt.",
         "frequencyHours": "Dieser Test wird alle {{frequencyHours}} Stunden ausgeführt.",
         "frequencyHoursAndMinutes": "Dieser Test wird alle {{frequencyHours}} Stunden und {{frequencyMinutes}} Minuten ausgeführt.",
@@ -220,14 +220,50 @@
           "markSyntheticCall": "Synthetischen Aufruf markieren",
           "downloadZip": "ZIP-Datei herunterladen",
           "mainFileNameHelperText": "Geben Sie den Namen der Datei in dieser ZIP-Datei an, die den Einstiegspunkt des Tests enthält",
-          "recordVideo": "Benutzeraktionen bei Fehlern aufzeichnen"
+          "recordVideo": "Benutzeraktionen bei Fehlern aufzeichnen",
+          "dns": {
+            "lookupLabel": "URL",
+            "lookupHelperText": "Die E-Mail-Adresse URL ist der Domainname, der auf DNS-Auflösung getestet wird",
+            "lookupPlaceholder": "URL Ihrer Website",
+            "queryType": "Abfragetyp",
+            "serverLabel": "DNS-Server",
+            "serverHelperText": "Der DNS-Server ist der Server, der für die Übersetzung des Domainnamens in eine IP-Adresse verantwortlich ist",
+            "portLabel": "Port",
+            "portHelperText": "Der DNS-Server-Port ist der Netzwerk-Port, der für die Kommunikation zwischen Ihrem Gerät (PoP) und dem DNS-Server verwendet wird, in der Regel Port 53",
+            "queryTimeLabel": "Antwortzeit",
+            "queryTimeHelperText": "Die optimale DNS-Auflösungszeit liegt zwischen 20 und 120 ms",
+            "recordTypeTitle": "Behauptungen (optional)",
+            "recordTypeSubtitle": "Diese Felder sind optional, aber wenn sie ausgefüllt werden, müssen sie alle wahr sein, damit der Test erfolgreich ist.",
+            "recordTypeLabel": "Datensatztyp",
+            "operatorLabel": "Bedingt",
+            "operatorOptionMatches": "Übereinstimmungen",
+            "operatorOptionContains": "Enthält",
+            "resolutionRecordLabel": "Beschlussprotokoll",
+            "deleteButtonLabel": "Löschen",
+            "addRecordTypeLabel": "Feld hinzufügen",
+            "recursiveLookupLabel": "Rekursiver Abruf",
+            "dnsRadioButtonOnLabel": "Ein",
+            "dnsRadioButtonOffLabel": "Aus",
+            "transportProtocolLabel": "Transportprotokoll",
+            "acceptCNAMELabel": "CNAME akzeptieren",
+            "lookupServerNamelabel": "Servername suchen",
+            "serverRetriesLabel": "Server-Wiederholungen (optional)",
+            "validators": {
+              "invalidDNSLookup": "DNS-Abfrageformat ungültig",
+              "invalidDNSServer": "DNS-Server ungültig",
+              "invalidIPv4Address": "IPv4-Adresse ungültig",
+              "invalidIPv6Address": "IPv6-Adresse ungültig",
+              "invalidRecordType": "Datensatztyp ungültig",
+              "invalidResolutionRecord": "Aufzeichnungsbeleg ungültig"
+            }
+          }
         },
-        "loadMore": "Mehr laden",
+        "loadMore": "Weitere laden",
         "selectTests": {
           "addLocations": "{{count}} Positionen hinzufügen",
           "addLocation": "Position hinzufügen",
           "cancel": "Abbrechen",
-          "selectLocation": "Position auswählen",
+          "selectLocation": "Standort auswählen",
           "privatePoPLabel": "Private",
           "managedPoPLabel": "Verwaltete -Instanz"
         },
@@ -235,7 +271,7 @@
           "apiName": "API",
           "browserName": "Browser",
           "certificateCheckName": "SSL-Zertifikat",
-          "dnsActionName": "DNS"
+          "dnsName": "DNS"
         },
         "customProperties": {
           "property": "Eigenschaft",
@@ -334,7 +370,7 @@
         },
         "managedDatacentersLabel": "Rechenzentren",
         "datacenterCode": "Rechenzentrumscode",
-        "datacenterName": "Rechenzentrumsname",
+        "datacenterName": "Name des Rechenzentrums",
         "provider": "Provider",
         "locationName": "Standortname",
         "displayName": "Anzeigename",
@@ -347,7 +383,7 @@
           "table": {
             "heads": {
               "datacenterCode": "Rechenzentrumscode",
-              "datacenterName": "Rechenzentrumsname",
+              "datacenterName": "Name des Rechenzentrums",
               "locationName": "Standortname",
               "datacenterStatus": "Aktivierungsstatus"
             }
@@ -512,7 +548,7 @@
       "typeToContinue": "Geben Sie zum Fortfahren {{location}} ein",
       "deletionSuccess": "Die Position wurde gelöscht",
       "cancelButton": "Abbrechen",
-      "deleteLocationLabel": "Standort löschen",
+      "deleteLocationLabel": "Position löschen",
       "success": "Erfolgreich",
       "failure": "Fehlgeschlagen",
       "popVersion": "Version",
@@ -533,7 +569,7 @@
       "responseTime": "Antwortzeit",
       "meanResponseTime": "Durchschn. Antwortzeit",
       "responseSize": "Antwortgröße",
-      "avgResponseSize": "Durchschn. Antwortgröße",
+      "avgResponseSize": "Durchschnittliche Antwortgröße",
       "summaryTab": "Zusammenfassung",
       "resultsTab": "Ergebnisse",
       "startTime": "Startzeit",
@@ -545,7 +581,7 @@
         "responseStatus": "Antwortstatus",
         "networkTimings": "Netzablauftimings",
         "blocking": "Blockierend",
-        "dns": "DNS-Suchfunktion",
+        "dns": "DNS-Lookup",
         "sending": "Senden",
         "waiting": "Wartend",
         "receiving": "Empfangen",
@@ -562,7 +598,7 @@
         "serverError": "Serverfehler",
         "badRequest": "Ungültige Anforderung",
         "badGateway": "Fehlerhaftes Gateway",
-        "gatewayTimeout": "Gateway-Zeitlimitüberschreitung"
+        "gatewayTimeout": "Gateway timeout"
       },
       "totalRuns": "{{totalRuns}} Ausführungen insgesamt",
       "meanLatencyFor90th": "{{meanLatencyDetail}} für 90.",
@@ -582,13 +618,17 @@
       "locationColumn": "Standort",
       "responseTimeColumn": "Antwortzeit",
       "responseSizeColumn": "Antwortgröße",
-      "retriesColumn": "Anzahl der Wiederholungen",
+      "retriesColumn": "Wiederholungszähler",
       "title": "Ergebnisse",
       "locationLabel": "Position",
       "failures": "Fehler",
       "status": "Status",
       "success": "Erfolgreich",
-      "daysRemaining": "Verbleibende Tage"
+      "daysRemaining": "Verbleibende Tage",
+      "dns": {
+        "failureType": "Fehlertyp",
+        "na": "Nicht zutreffend"
+      }
     },
     "detailsPage": {
       "detailLiveModeDisabled": "Der Livemodus ist auf der Detailseite des Ergebnisses des synthetischen Tests nicht anwendbar.",
@@ -684,7 +724,7 @@
           },
           "response": {
             "title": "Antwort",
-            "transferSize": "Übertragungsvolumen",
+            "transferSize": "Übertragungsgröße",
             "httpVersion": "HTTP-Version",
             "redirectUrl": "Umleitungs-URL",
             "headerSize": "Headergröße",
@@ -718,7 +758,7 @@
         "timeOfIssue": "Zeitpunkt der Ausgabe",
         "timeOfExpiry": "Ablaufdatum"
       },
-      "failedRunErrorTypeTitle": "Fehlertyp",
+      "failedRunErrorTypeTitle": "Fehlertyp:",
       "viewRecordingLabel": "Aufzeichnung ansehen",
       "viewRecording": {
         "recordingDialogLabel": "Aufzeichnung",
@@ -773,7 +813,7 @@
       "frequencyPluralValue": "{{minutes}} Minuten",
       "frequencySingleValue": "{{minutes}} Minute",
       "identifyTitle": "Identifizieren",
-      "customProperties": "Angepasste Eigenschaften",
+      "customProperties": "Benutzerdefinierte Eigenschaften",
       "identifySectionName": "Name",
       "identifySectionDescription": "Beschreibung",
       "associatedApplication": "Zugeordnete Anwendung",
@@ -816,7 +856,26 @@
       "noWebsitesAssociated": "Keine zugeordneten Websites",
       "associatedMobileApps": "Zugeordnete Mobile Apps",
       "noMobileAppAssociated": "Keine zugeordneten Mobile Apps",
-      "recordVideo": "Benutzeraktionen bei Fehlern aufzeichnen"
+      "recordVideo": "Benutzeraktionen bei Fehlern aufzeichnen",
+      "dns": {
+        "lookupLabel": "URL",
+        "queryTypeLabel": "Abfragetyp",
+        "serverLabel": "DNS-Server",
+        "portLabel": "Port",
+        "responseTimeLabel": "Antwortzeit",
+        "responseTimeDescription": "Die Antwortzeit beträgt weniger als {{responseTime}} ms",
+        "assertionsTitle": "Zusicherungen",
+        "recordTypeLabel": "Datensatztyp",
+        "operatorLabel": "Bedingt",
+        "resolutionRecordLabel": "Beschlussprotokoll",
+        "recursiveLookupLabel": "Rekursiver Abruf",
+        "dnsRadioButtonOnLabel": "Ein",
+        "dnsRadioButtonOffLabel": "Aus",
+        "transportProtocolLabel": "Transportprotokoll",
+        "acceptCNAMELabel": "CNAME akzeptieren",
+        "lookupServerNamelabel": "Servername suchen",
+        "serverRetriesLabel": "Server-Wiederholungen"
+      }
     },
     "credentialList": {
       "mainLabel": "Berechtigungsnachweise",

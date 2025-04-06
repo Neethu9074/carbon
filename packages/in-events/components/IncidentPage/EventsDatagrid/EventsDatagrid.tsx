@@ -40,16 +40,18 @@ interface EventsDatagridProps {
   loading: boolean;
   loadMore: () => void;
   canLoadMore: boolean;
+  showExpand?: boolean;
+  headers?: string[];
 }
 
 const EventsDatagrid = (props: EventsDatagridProps) => {
-  const { events, loading, canLoadMore, loadMore } = props;
+  const { events, loading, canLoadMore, loadMore, showExpand = true, headers } = props;
 
   // ref needed for tracking scrolling position
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
   // need columns as memo and data as state to avoid rerenders
-  const columns = useEventTableColumns();
+  const columns = useEventTableColumns(headers);
   const [data, setData] = useState(events);
 
   // capture expand state
@@ -89,9 +91,9 @@ const EventsDatagrid = (props: EventsDatagridProps) => {
   const fetchMoreOnBottomReached = useCallback(
     (containerRefElement: HTMLDivElement | null) => {
       if (containerRefElement) {
-        const { scrollHeight, scrollTop } = containerRefElement;
-        if (!scrollHeight || !scrollTop) return;
-        if (scrollHeight - scrollTop <= 650 && canLoadMore && !loading) {
+        const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
+        if (!scrollHeight || !scrollTop || !clientHeight) return;
+        if (scrollTop + clientHeight + 2 >= scrollHeight && canLoadMore && !loading) {
           loadMore();
         }
       }
@@ -102,14 +104,14 @@ const EventsDatagrid = (props: EventsDatagridProps) => {
   return (
     <div
       ref={tableContainerRef}
-      style={{ height: 600, overflow: 'auto' }}
+      style={{ height: 200, overflow: 'auto', width: '100%' }}
       onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
     >
       <CarbonTable size="md">
         <CarbonTableHead>
           {table.getHeaderGroups().map(headerGroup => (
             <CarbonTableRow key={headerGroup.id}>
-              <CarbonTableExpandHeader aria-label="expand row" ariaLabel="expand row" />
+              {showExpand && <CarbonTableExpandHeader aria-label="expand row" ariaLabel="expand row" />}
               {headerGroup.headers.map(header => (
                 <CarbonTableHeader key={header.id} style={{ width: header.getSize() }}>
                   {flexRender(header.column.columnDef.header, header.getContext())}
@@ -126,33 +128,46 @@ const EventsDatagrid = (props: EventsDatagridProps) => {
           )}
           {virtualRows.map(vrow => {
             const row = rows[vrow.index];
-            return (
-              <Fragment key={row.id}>
-                <CarbonTableExpandRow
-                  aria-label="row expanded"
-                  key={row.id}
-                  onExpand={() => {
-                    const isRowExpanded = !!expanded[row.id];
-                    if (isRowExpanded) {
-                      const newExpansionState = { ...expanded, [row.id]: false };
+
+            if (showExpand) {
+              return (
+                <Fragment key={row.id}>
+                  <CarbonTableExpandRow
+                    aria-label="row expanded"
+                    key={row.id}
+                    onExpand={() => {
+                      const isRowExpanded = !!expanded[row.id];
+                      if (isRowExpanded) {
+                        const newExpansionState = { ...expanded, [row.id]: false };
+                        setExpanded(newExpansionState);
+                        return;
+                      }
+                      const newExpansionState = { ...expanded, [row.id]: true };
                       setExpanded(newExpansionState);
-                      return;
-                    }
-                    const newExpansionState = { ...expanded, [row.id]: true };
-                    setExpanded(newExpansionState);
-                  }}
-                  isExpanded={!!expanded[row.id]}
-                >
-                  {row.getVisibleCells().map(cell => (
-                    <CarbonTableCell key={cell.id} style={{ width: cell.column.getSize() }}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </CarbonTableCell>
-                  ))}
-                </CarbonTableExpandRow>
-                <CarbonTableExpandedRow colSpan={columns.length + 1}>
-                  {expanded?.[row.id] ? <EventExpandedComponent event={row.original} /> : <></>}
-                </CarbonTableExpandedRow>
-              </Fragment>
+                    }}
+                    isExpanded={!!expanded[row.id]}
+                  >
+                    {row.getVisibleCells().map(cell => (
+                      <CarbonTableCell key={cell.id} style={{ width: cell.column.getSize() }}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </CarbonTableCell>
+                    ))}
+                  </CarbonTableExpandRow>
+                  <CarbonTableExpandedRow colSpan={columns.length + 1}>
+                    {expanded?.[row.id] ? <EventExpandedComponent event={row.original} /> : <></>}
+                  </CarbonTableExpandedRow>
+                </Fragment>
+              );
+            }
+
+            return (
+              <CarbonTableRow key={row.id}>
+                {row.getVisibleCells().map(cell => (
+                  <CarbonTableCell key={cell.id} style={{ width: cell.column.getSize() }}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </CarbonTableCell>
+                ))}
+              </CarbonTableRow>
             );
           })}
           {paddingBottom > 0 && (

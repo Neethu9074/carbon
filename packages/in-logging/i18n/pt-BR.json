@@ -1,7 +1,7 @@
 {
   "logs": "Logs",
+  "logsCountSum": "Contagem de logs (soma)",
   "sum": "soma",
-  "count": "count",
   "bar": "Barra",
   "logsOverTime": "Logs ao longo do tempo",
   "logsOverTime_ERROR": "Erro",
@@ -32,8 +32,8 @@
     "mostRecent": "Mais recente primeiro",
     "oldest": "Mais antigo primeiro"
   },
-  "cpuTotal": "Total da CPU",
-  "memoryUsage": "Uso de memória",
+  "cpuTotal": "Total de CPU",
+  "memoryUsage": "Uso da memória",
   "cluster": "Agrupamento",
   "node": "Nó",
   "namespace": "Namespace",
@@ -48,10 +48,10 @@
   "containerdContainer": "Contêiner Containerd",
   "crioContainer": "Contêiner Crio",
   "gardenContainer": "Contêiner do Garden",
-  "error": "{{count}} Erro",
-  "error_plural": "{{count}} Erros",
-  "warn": "{{count}} Aviso",
-  "warn_plural": "{{count}} Avisos",
+  "error": "{{count}} erro",
+  "error_plural": "{{count}} erros",
+  "warn": "{{count}} aviso",
+  "warn_plural": "{{count}} avisos",
   "process": "Processo",
   "host": "Host",
   "fileOnHost": "em",
@@ -67,11 +67,11 @@
     "management": "Gerenciamento",
     "logVolume": {
       "logVolumeTitle": "Volume de logs do mês atual",
-      "gb": "GB",
+      "gib": "GiB",
+      "tib": "TiB",
       "logVolumeIcon": "Acessar o volume de log"
     },
     "retentionIcon": "Mudar período de retenção",
-    "noData": "Dados não disponíveis",
     "analyzeLogs": "Analisar logs",
     "managementPage": {
       "logVolume": "Volume de log",

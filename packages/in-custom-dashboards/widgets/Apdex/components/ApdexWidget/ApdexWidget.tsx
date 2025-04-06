@@ -104,14 +104,16 @@ export default function ApdexWidget({
           height={height}
         />
         {showMissingDataIndicators && (
-          <Message
-            title={t('in-custom-dashboards:widgets.slo.chart.missingDataInfo', {
-              configType: t('in-custom-dashboards:widgets.slo.chart.configType', { context: 'apdex' })
-            })}
-            withIcon
-            dismissible
-            small
-          />
+          <div>
+            <Message
+              title={t('in-custom-dashboards:widgets.slo.chart.missingDataInfo', {
+                configType: t('in-custom-dashboards:widgets.slo.chart.configType', { context: 'apdex' })
+              })}
+              withIcon
+              dismissible
+              small
+            />
+          </div>
         )}
       </div>
     </WidgetCard>

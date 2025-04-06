@@ -6,12 +6,13 @@
 
 import { TrashCan } from '@carbon/icons-react';
 
+import { TeamOverview } from '@instana/types';
+
 import {
   BatchActionItemProps,
   DataTableHeader,
   TableActions
-} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
-import { TeamRowData } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/Teams.types';
+} from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import { deleteTeam, deleteTeams } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { deepFreeze } from 'in-services/util/object';
 import config from 'in-services/config';
@@ -19,15 +20,15 @@ import { t } from 'in-i18n';
 
 export const TEAMS_TABLE_PAGE_SIZES = Object.freeze([10, 20, 50] as const);
 
-export const TEAMS_TABLE_ORDER = Object.freeze({ key: 'tag', direction: 'asc' });
+export const TEAMS_TABLE_ORDER = Object.freeze({ key: 'name', direction: 'asc' });
 
 export const TEAMS_TABLE_HEADERS: Readonly<DataTableHeader[]> = deepFreeze([
   {
-    key: 'tag',
+    key: 'name',
     header: t('in-settings:tabs.name')
   },
   {
-    key: 'memberCount',
+    key: 'usersCount',
     header: t('in-settings:tabs.numberOfMembers')
   },
   {
@@ -36,7 +37,7 @@ export const TEAMS_TABLE_HEADERS: Readonly<DataTableHeader[]> = deepFreeze([
   }
 ] as const);
 
-export const TEAMS_TABLE_ACTIONS: TableActions<TeamRowData> = deepFreeze({
+export const TEAMS_TABLE_ACTIONS: TableActions<TeamOverview> = deepFreeze({
   delete: {
     deleteEntity: entity => deleteTeam(entity.id),
     batchDeleteEntity: selectedIds => deleteTeams(selectedIds)

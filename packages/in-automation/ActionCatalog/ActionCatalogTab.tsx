@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Card, Spacer, Stack } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
@@ -95,10 +95,14 @@ function ActionCatalogTabsCard() {
       ? 'aiGeneratedActions'
       : 'userDefinedActions';
   const [activeKey, setActiveKey] = useState<ButtonKey>(activeTab);
-
   const actions = useActions();
   const userActions = useUserActions({ actions });
   const aiActions = useAIActions({ actions });
+
+  useEffect(() => {
+    setActiveKey(activeTab);
+  }, [activeTab]);
+
   return (
     <Row withoutSideMargin>
       <Col xs>
@@ -110,7 +114,7 @@ function ActionCatalogTabsCard() {
               userCreatedActionsCount={userActions?.data?.length}
               aiGeneratedActionsCount={aiActions?.data?.length}
             />
-            {activeKey === 'aiGeneratedActions' && <AISlugIcon />}
+            {activeKey === 'aiGeneratedActions' && <AISlugIcon actionType="aiGenerated" align="left-start" />}
           </Stack>
           <Spacer vertical="small" />
           {activeKey === 'userDefinedActions' && <ActionCatalog actions={userActions} actionsType="user" />}

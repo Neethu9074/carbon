@@ -11,11 +11,13 @@ import {
   TearSheetCloneActionHandler
 } from 'in-alerting/smart-alerts/logs/lists/TearSheetActionHandlers';
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
+import { logSmartAlertFullScreenDesignEnabled, logSmartAlertDialogViewEnabled } from 'in-services/featureFlags';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { logSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
+import { DIALOG, FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -50,13 +52,25 @@ function handleClone(config: LogSmartAlertConfigWithMetadata) {
   openSmartAlertDialog(config, true);
 }
 
+const alertDisplayMode = getSmartAlertDisplayMode(logSmartAlertDialogViewEnabled, logSmartAlertFullScreenDesignEnabled);
+
 export const actionHandlers = {
-  handleEdit: (config: LogSmartAlertConfigWithMetadata) => handleEdit(config),
-  ...(logSmartAlertFullScreenDesignEnabled && {
+  ...(alertDisplayMode === DIALOG && {
+    handleEdit: (config: LogSmartAlertConfigWithMetadata) => handleEdit(config)
+  }),
+  ...(alertDisplayMode === CHOICE_DIALOG && {
+    handleEditSelector: (config: LogSmartAlertConfigWithMetadata) => handleEdit(config)
+  }),
+  ...(alertDisplayMode === FULLSCREEN && {
     handleEditNew: (config: LogSmartAlertConfigWithMetadata) => HandleEditNew(config)
   }),
-  handleClone: (config: LogSmartAlertConfigWithMetadata) => handleClone(config),
-  ...(logSmartAlertFullScreenDesignEnabled && {
+  ...(alertDisplayMode === DIALOG && {
+    handleClone: (config: LogSmartAlertConfigWithMetadata) => handleClone(config)
+  }),
+  ...(alertDisplayMode === CHOICE_DIALOG && {
+    handleCloneSelector: (config: LogSmartAlertConfigWithMetadata) => handleClone(config)
+  }),
+  ...(alertDisplayMode === FULLSCREEN && {
     handleCloneNew: (config: LogSmartAlertConfigWithMetadata) => HandleCloneNew(config)
   }),
   handleDelete: (

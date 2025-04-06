@@ -24,9 +24,9 @@ import { t } from 'in-i18n';
 import locals from './PerformanceBeacon.mless';
 
 export const PERFORMANCE_SUBTYPES = {
-  AST: 'ast',
-  OOM: 'oom',
-  ANR: 'anr'
+  AST: 'App start or launch time',
+  OOM: 'Low memory',
+  ANR: 'App not responding or freezing'
 };
 
 export function formatFileSize(fileSize: number) {
@@ -42,6 +42,17 @@ const LABELS = {
 export const getLabel = (beacon: MobileAppMonitoringBeacon) => LABELS[beacon.performanceSubtype] || null;
 
 export const getExtraTooltipFields = () => ({});
+
+const getDurationValue = (beacon: MobileAppMonitoringBeacon) => {
+  const compact = (value: number) => latencyFixed.compact(value);
+  // Check the conditions and return the compacted value directly
+  if (beacon.coldStartTimeMs > 0) return compact(beacon.coldStartTimeMs);
+  if (beacon.warmStartTimeMs > 0) return compact(beacon.warmStartTimeMs);
+  if (beacon.hotStartTimeMs > 0) return compact(beacon.hotStartTimeMs);
+
+  // If none of the above conditions are met, return the compacted duration
+  return compact(beacon.duration);
+};
 
 export const LeftHeader: FC<LeftHeaderProps> = ({ beacon, earliestTimestamp }) => (
   <Fragment>
@@ -61,7 +72,7 @@ export const LeftHeader: FC<LeftHeaderProps> = ({ beacon, earliestTimestamp }) =
     />
     <KeyValueHeader
       label={t('in-mobile-apps:sessionView.tabsSumPerformanceBeacon.durationLabel')}
-      value={latencyFixed.compact(beacon.duration)}
+      value={getDurationValue(beacon)}
     />
   </Fragment>
 );

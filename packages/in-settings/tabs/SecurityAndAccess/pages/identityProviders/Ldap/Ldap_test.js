@@ -26,9 +26,6 @@ jest.mock('react-i18next', () => ({
   // eslint-disable-next-line react/display-name
   Trans: () => <></>
 }));
-jest.mock('in-services/featureFlags', () => ({
-  disableInvitesWithIdpEnabled: true
-}));
 jest.mock('in-components/DialogPresenter/store');
 
 const mockEndpoints = () => {

@@ -1,6 +1,6 @@
 {
   "welcomeToInstana": "Willkommen bei Instana!",
-  "home": "Startseite",
+  "home": "Ausgangsverzeichnis",
   "getStartedAndInstallYourFirstAgent": "Beginnen Sie und installieren Sie Ihren ersten Agenten.",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "Ihre Testversion ist abgelaufen",
@@ -163,7 +163,7 @@
       "lambdaSetEnvironmentVariables": "Legen Sie die folgenden Umgebungsvariablen im entsprechenden Abschnitt auf der Lambda-Konfigurationsseite von AWS fest",
       "referenceToAwsLambdaGoDocumentation": "AWS Lambda-Funktionen, die in Go geschrieben wurden, müssen manuell instrumentiert werden, um Tracedaten zu erfassen. Befolgen Sie die Anweisungen in der <awsLambdaGoDoc>Dokumentation zu AWS Lambda Go</awsLambdaGoDoc>.",
       "reviewPrerequisitesAndConfigureLambda": "Überprüfen Sie die Voraussetzungen und konfigurieren Sie Ihre AWS-Lambda-Funktionen für natives Tracing.",
-      "referDocumentationForSettingUpAwsSensor": "Details zum Einrichten des Instana AWS-Sensors finden Sie in der Dokumentation zum <awsSensorDoc > AWS-Service </awsSensorDoc>.",
+      "referDocumentationForSettingUpAwsSensor": "Details zum Einrichten des Instana AWS-Sensors finden Sie in der Dokumentation zum <awsSensorDoc> AWS-Service /awsSensorDoc>.",
       "referenceToAwsLambdaMonitoringDoc": "Informationen zu alternativen Methoden für die Konfiguration der nativen Lambda-Traceerstellung finden Sie in der <awsLambdaMonitoring>Dokumentation zu AWS Lambda</awsLambdaMonitoring>.",
       "setupUpInstanaAwsSensorRunningInAwsRegion": "Instanza AWS-Sensor einrichten, der in Ihrer AWS-Region ausgeführt wird",
       "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Überprüfen Sie die Voraussetzungen und führen Sie den Agentenimplementierungscode aus.",
@@ -183,7 +183,7 @@
       "romanStep3": "(iii) ",
       "selectAwsRegion": "AWS-Region auswählen",
       "awsRegion": "AWS-Region",
-      "awsCommandLineInterfaceValue": "Geben Sie die Werte an und verwenden Sie einen Befehl ähnlich dem folgenden, um die AWS-Befehlszeilenschnittstelle zu verwenden",
+      "awsCommandLineInterfaceValue": "Geben Sie die Werte an und verwenden Sie einen Befehl, der dem folgenden ähnelt, um die AWS-Befehlszeilenschnittstelle (CLI) zu verwenden",
       "amazonResourceName": "Amazon Resource Name (ARN)",
       "setEnvVariablesInLambdaFunction": "Legen Sie die folgenden Umgebungsvariablen in der Lambda-Funktion fest.",
       "selectInstanaLambdaLayer": "Wählen Sie die Instana-Lambda-Schicht mit dem Amazon Resource Name (ARN) unten aus.",
@@ -240,13 +240,13 @@
         "monitoringAwsFargateNodejs": "AWS Fargate überwachen (Node.js)",
         "monitoringAwsFargatePython": "AWS Fargate überwachen (Python)",
         "monitoredAwsServices": "Überwachte AWS-Services",
-        "monitoringNodejs": "Überwachungsknoten js",
-        "installGcrCollectors": "Gogle Cloud Run-In-Process-Collectors installieren",
+        "monitoringNodejs": "Überwachungsknoten .js",
+        "installGcrCollectors": "Installieren Sie Google Cloud Führen Sie In-Process-Kollektoren aus",
         "installAgentOnEc2": "Agenten unter AWS EC2",
         "configurationOptions": "Konfigurationsoptionen",
         "monitoringGcr": "Google Cloud Run überwachen",
         "monitoringAwsFargateRuby": "AWS Fargate (Ruby) überwachen",
-        "awsServiceDocumentation": "AWS Servicedokumentation",
+        "awsServiceDocumentation": "AWS Leistungsbeschreibung",
         "monitoringAwsLambda": "AWS Lambda überwachen",
         "configuringAwsLambdaMonitoring": "AWS-Lambda-Überwachung konfigurieren",
         "awsLambdaNativeTracingForGo": "Lokales AWS Lambda-Tracing für Go"
@@ -367,7 +367,7 @@
           "linux64BitArm": "Linux (64 Bit - ARM)",
           "linux64BitAmd": "Linux (64Bit - AMD)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
-          "linux64BitPowerPcLittleEndian": "Linux (64 Bit - PowerPC Little Endian)",
+          "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC little endian)",
           "linuxS390XJdkNotIncluded": "Linux (64Bit - s390x) JDK nicht enthalten",
           "linuxS390X": "Linux (64Bit - s390x)",
           "linuxX8664": "Linux (64Bit - x86_64)",
@@ -407,7 +407,7 @@
           "linux32BitArm": "Linux (32 Bit - ARM)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
           "linux32BitPowerPc": "Linux (32Bit - PowerPC)",
-          "linux64BitPowerPcLittleEndian": "Linux (64 Bit - PowerPC Little Endian)",
+          "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC little endian)",
           "linuxS390X": "Linux (s390x)"
         }
       },
@@ -415,6 +415,16 @@
         "installAnAgentOnLinux": "Agenten unter Linux installieren",
         "configurationParameters": "Konfigurationsparameter"
       }
+    },
+    "zos": {
+      "zos": "z/OS",
+      "selectTheAgentPackagingMode": "Schritt 1: Wählen Sie den Paketierungsmodus für den Agenten aus.",
+      "Packaging": "Produktpakete",
+      "dynamic": "Dynamisch",
+      "static": "Statisch",
+      "RunTheAgentDeploymentCode": "Schritt 2: Führen Sie den Code für die Agentenbereitstellung aus (aus der USS-Schicht von z/OS).",
+      "installagentOnZOS": "Installieren Sie den Agenten auf z/OS (Air-Gapped Env)",
+      "installagentOnZOS1": "Post-Agent-Installation (Überprüfung der Tracing-Voraussetzungen)"
     },
     "ibmi": {
       "ibmi": "IBM i",
@@ -844,5 +854,10 @@
     "done": "Erledigt",
     "otherGoalPlaceholder": "Zum Beispiel: Mehr Transparenz in meiner Umgebung",
     "otherGoalToAccomplish": "Welche anderen Ziele versuchen Sie zu erreichen?"
+  },
+  "privacyNotification": {
+    "title": "Profil verwalten",
+    "description": "Sie können Ihr Profil anzeigen und aktualisieren, Ihre Datenschutzeinstellungen anpassen und sich abmelden – alles an einem Ort.",
+    "buttonText": "Erledigt"
   }
 }

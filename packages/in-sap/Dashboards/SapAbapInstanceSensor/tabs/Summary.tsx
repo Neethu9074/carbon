@@ -37,6 +37,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
   const getLinkToUser = useNavigateToTab('/userInformation');
   const getLinkToRFC = useNavigateToTab('/rfc');
   const getLinkToWorkload = useNavigateToTab('/workload');
+  const getLinkToTransactional = useNavigateToTab('/sapSecurityInsights');
   const getLinkToDiagnostics = useNavigateToTab('/diagnostics');
   const getLinkToNetworks = useNavigateToTab('/sapNetworks');
   const getLinkToMemory = useNavigateToTab('/memory');
@@ -127,29 +128,6 @@ export default function Summary({ data }: { data: SnapshotData }) {
         </Col>
       </Row>
       <Columize>
-        <DashboardSection title={t('in-sap:dashboards.totalcpuUtilization')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            primaryContextMenuAction="showStatistics"
-            additionalContextMenuButtons={[
-              {
-                name: 'showStatistics',
-                icon: 'lib_sap_abapTransaction',
-                label: t('in-sap:dashboards.viewCPUDetails'),
-                getHref$: () => just(getLinkToWorkload())
-              }
-            ]}
-            y1={{
-              min: 0,
-              metrics: ['cpuMetricStats.totalUtilization'],
-              labels: [t('in-sap:abapsensor.metrics.total')],
-              type: 'line',
-              formatter: percentagePlain.detailed
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
         <DashboardSection title={t('in-sap:dashboards.workProcessState')}>
           <Chart
             snapshotId={snapshotId}
@@ -183,6 +161,64 @@ export default function Summary({ data }: { data: SnapshotData }) {
               ],
               type: 'line',
               formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-sap:abapsensor.metrics.backgroundJobCounts')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: t('in-sap:dashboards.viewJobDetails'),
+                getHref$: () => just(getLinkToWorkload())
+              }
+            ]}
+            y1={{
+              min: 0,
+              metrics: [
+                'sapMetricsStats.jobCount',
+                'sapMetricsStats.runningJobCount',
+                'sapMetricsStats.releasedJobCount',
+                'sapMetricsStats.successJobCount',
+                'sapMetricsStats.cancelledJobCount'
+              ],
+              labels: [
+                t('in-sap:abapsensor.metrics.total'),
+                t('in-sap:dashboards.runningJobs'),
+                t('in-sap:dashboards.releasedJobs'),
+                t('in-sap:dashboards.finishedJobs'),
+                t('in-sap:dashboards.abortedOrCancelledJob')
+              ],
+              type: 'line',
+              formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-sap:dashboards.totalcpuUtilization')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: t('in-sap:dashboards.viewCPUDetails'),
+                getHref$: () => just(getLinkToWorkload())
+              }
+            ]}
+            y1={{
+              min: 0,
+              metrics: ['cpuMetricStats.totalUtilization'],
+              labels: [t('in-sap:abapsensor.metrics.total')],
+              type: 'line',
+              formatter: percentagePlain.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -229,7 +265,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title={t('in-sap:abapsensor.metrics.backgroundJobCounts')}>
+        <DashboardSection title={t('in-sap:dashboards.databaseLatency')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -238,28 +274,16 @@ export default function Summary({ data }: { data: SnapshotData }) {
               {
                 name: 'showStatistics',
                 icon: 'lib_sap_abapTransaction',
-                label: t('in-sap:dashboards.viewJobDetails'),
-                getHref$: () => just(getLinkToWorkload())
+                label: t('in-sap:dashboards.viewDBDetails'),
+                getHref$: () => just(getLinkToTransactional())
               }
             ]}
             y1={{
               min: 0,
-              metrics: [
-                'sapMetricsStats.jobCount',
-                'sapMetricsStats.runningJobCount',
-                'sapMetricsStats.releasedJobCount',
-                'sapMetricsStats.successJobCount',
-                'sapMetricsStats.cancelledJobCount'
-              ],
-              labels: [
-                t('in-sap:abapsensor.metrics.total'),
-                t('in-sap:dashboards.runningJobs'),
-                t('in-sap:dashboards.releasedJobs'),
-                t('in-sap:dashboards.finishedJobs'),
-                t('in-sap:dashboards.abortedOrCancelledJob')
-              ],
+              metrics: ['sapMetricsStats.totalDBLatency', 'sapMetricsStats.avgDBLatency'],
+              labels: [t('in-sap:dashboards.total'), t('in-sap:dashboards.average')],
               type: 'line',
-              formatter: number.compact
+              formatter: millis.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />

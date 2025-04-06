@@ -36,7 +36,9 @@ export default function ThroughputThresholdCondition({
   eumType,
   ruleMetricNameOptions,
   getMetricUnitPostfix,
-  onChartViewConfigChange
+  onChartViewConfigChange,
+  alertChannelPerSeverityEnabled,
+  children
 }) {
   const metricName = form.get('rule').get('metricName').value;
   const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
@@ -90,6 +92,7 @@ export default function ThroughputThresholdCondition({
           isTearSheet
         />
         <Spacer size="medium" />
+        {children}
         <ThresholdTypeSelection
           form={form}
           updateForm={updateForm}
@@ -118,6 +121,7 @@ export default function ThroughputThresholdCondition({
             updateForm={updateForm}
             max={maxValue}
             metricUnitPostfix={metricUnitPostfix}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
           />
         )}
 
@@ -142,5 +146,7 @@ ThroughputThresholdCondition.propTypes = {
   eumType: PropTypes.string.isRequired,
   ruleMetricNameOptions: PropTypes.object.isRequired,
   getMetricUnitPostfix: PropTypes.func.isRequired,
-  onChartViewConfigChange: PropTypes.func.isRequired
+  onChartViewConfigChange: PropTypes.func.isRequired,
+  alertChannelPerSeverityEnabled: PropTypes.bool.isRequired,
+  children: PropTypes.object
 };

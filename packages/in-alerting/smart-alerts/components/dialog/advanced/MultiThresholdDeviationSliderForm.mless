@@ -12,7 +12,9 @@
     padding: 0 1.2rem;
   }
   .multiThresholdContainer {
-    padding: 1rem 0;
     width: 100%;
+  }
+  .topSpace {
+    padding: 1rem 0;
   }
 }

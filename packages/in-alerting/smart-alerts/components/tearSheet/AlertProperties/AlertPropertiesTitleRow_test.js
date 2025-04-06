@@ -8,9 +8,8 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import AlertPropertiesTitleRow, {
-  insertPlaceholderText
-} from 'in-alerting/smart-alerts/components/tearSheet/AlertProperties/AlertPropertiesTitleRow';
+import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/tearSheet/AlertProperties/AlertPropertiesTitleRow';
+import { insertPlaceholderText } from 'in-alerting/smart-alerts/utils/alertPropertiesTitleUtils';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { alertConfig } from 'in-alerting/smart-alerts/applications/data/alertConfigData.json';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';

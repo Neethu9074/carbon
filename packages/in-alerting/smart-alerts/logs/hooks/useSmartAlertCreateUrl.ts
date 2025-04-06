@@ -13,6 +13,7 @@ import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/f
 import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import { alertCreated, isDuplicateMode, isEditMode, alertId } from 'in-logging/navigation/matrix';
 import generateAlertConfig from 'in-alerting/smart-alerts/logs/data/generateAlertConfig';
+import { AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -20,13 +21,6 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { successObservable } from 'in-services/util/result';
 import { Location } from 'in-stores/navigation/types';
 import { Result } from 'in-types';
-
-interface AlertURLProps {
-  alertId?: string;
-  alertConfigCreated?: number;
-  duplicateMode?: boolean;
-  editMode?: boolean;
-}
 
 export function useSmartAlertCreateUrl({ alertId, alertConfigCreated, duplicateMode, editMode }: AlertURLProps) {
   const { createHref, location } = useNavigation();

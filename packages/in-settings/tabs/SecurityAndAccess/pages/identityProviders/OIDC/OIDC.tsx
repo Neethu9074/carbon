@@ -472,7 +472,7 @@ function enrichForm<FORM_ITEMS extends MapFormItems>(
     .put('ownerEmail', createField({ value: '', validator: notBlankValidator }))
     .put('discoveryUri', createField({ value: discoveryUri ?? '' }))
     .put('activated', createField({ value: !!activated }))
-    .put('idpType', createField({ value: mappedIdpType }))
+    .put('idpType', createField({ value: mappedIdpType.key }))
     .put(
       'secret',
       createField({

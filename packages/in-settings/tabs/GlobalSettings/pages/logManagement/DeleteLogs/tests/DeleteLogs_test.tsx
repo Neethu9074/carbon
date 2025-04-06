@@ -1,0 +1,111 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import React from 'react';
+
+import { deleteLogsLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
+import DeleteLogs, { DeleteLogsModal } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogs';
+
+//Lets wait to test this until we have final version (delete Logs v2 vs v3)
+describe('DeleteLogs Component', () => {
+  test('renders correctly', () => {
+    render(<DeleteLogs />);
+    expect(screen.getByText(/Instana logs/i)).toBeInTheDocument();
+  });
+});
+
+describe('DeleteLogsModal Component', () => {
+  let mockSetShowConfirmation: jest.Mock;
+  let mockSetIsDeleting: jest.Mock;
+  let mockSetRetryCount: jest.Mock;
+
+  beforeEach(() => {
+    mockSetShowConfirmation = jest.fn();
+    mockSetIsDeleting = jest.fn();
+    mockSetRetryCount = jest.fn();
+  });
+
+  test('renders modal with correct elements', () => {
+    render(
+      <DeleteLogsModal
+        setShowConfirmation={mockSetShowConfirmation}
+        setIsDeleting={mockSetIsDeleting}
+        isDeleting={false}
+        setRetryCount={mockSetRetryCount}
+        retryCount={0}
+      />
+    );
+
+    expect(screen.getByText(deleteLogsLocalisationStrings.confirmDeletion)).toBeInTheDocument();
+    expect(screen.getByText(deleteLogsLocalisationStrings.modalDescription)).toBeInTheDocument();
+    expect(screen.getByLabelText(deleteLogsLocalisationStrings.deletionUntilDate)).toBeInTheDocument();
+    expect(screen.getByLabelText(deleteLogsLocalisationStrings.deletionUntilTime)).toBeInTheDocument();
+    expect(screen.getByLabelText(deleteLogsLocalisationStrings.deletionReason)).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'danger ' + deleteLogsLocalisationStrings.deleteLogs })
+    ).toBeInTheDocument();
+  });
+
+  test('allows user to type in inputs', () => {
+    render(
+      <DeleteLogsModal
+        setShowConfirmation={mockSetShowConfirmation}
+        setIsDeleting={mockSetIsDeleting}
+        isDeleting={false}
+        setRetryCount={mockSetRetryCount}
+        retryCount={0}
+      />
+    );
+
+    const reasonInput = screen.getByLabelText(deleteLogsLocalisationStrings.deletionReason);
+    fireEvent.change(reasonInput, { target: { value: 'Testing reason' } });
+    expect(reasonInput).toHaveValue('Testing reason');
+  });
+
+  test('calls handleSubmit when delete button is clicked', async () => {
+    render(
+      <DeleteLogsModal
+        setShowConfirmation={mockSetShowConfirmation}
+        setIsDeleting={mockSetIsDeleting}
+        isDeleting={false}
+        setRetryCount={mockSetRetryCount}
+        retryCount={0}
+      />
+    );
+
+    const reasonInput = screen.getByLabelText(deleteLogsLocalisationStrings.deletionReason);
+    await userEvent.type(reasonInput, 'Test reason');
+
+    const validationInput = screen.getByLabelText(deleteLogsLocalisationStrings.typeValidation);
+    await userEvent.type(validationInput, 'LOGS');
+
+    const deleteButton = screen.getByRole('button', { name: 'danger ' + deleteLogsLocalisationStrings.deleteLogs });
+    await userEvent.click(deleteButton);
+
+    await waitFor(() => {
+      expect(mockSetIsDeleting).toHaveBeenCalledWith(true);
+    });
+  });
+
+  test('closes modal when cancel button is clicked', () => {
+    render(
+      <DeleteLogsModal
+        setShowConfirmation={mockSetShowConfirmation}
+        setIsDeleting={mockSetIsDeleting}
+        isDeleting={false}
+        setRetryCount={mockSetRetryCount}
+        retryCount={0}
+      />
+    );
+
+    const cancelButton = screen.getByRole('button', { name: deleteLogsLocalisationStrings.cancel });
+    fireEvent.click(cancelButton);
+
+    expect(mockSetShowConfirmation).toHaveBeenCalledWith(false);
+  });
+});

@@ -112,8 +112,18 @@ export default function Environmental({ timeConfig, data: cpc }: EnvironmentalPr
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: ['envPowerConsumptionWatts'],
-                labels: [t('in-zhmc:powerConsumption')],
+                metrics: [
+                  'envPowerConsumptionWatts',
+                  'partitionPowerConsumption',
+                  'infraPowerConsumption',
+                  'unassignedPowerConsumption'
+                ],
+                labels: [
+                  t('in-zhmc:powerConsumption'),
+                  t('in-zhmc:partitionPowerConsumption'),
+                  t('in-zhmc:infraPowerConsumption'),
+                  t('in-zhmc:unassignedPowerConsumption')
+                ],
                 formatter: number.detailed,
                 type: 'line'
               }}

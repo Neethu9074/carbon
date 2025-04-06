@@ -31,6 +31,7 @@ import buildQueryString from 'in-events/components/IncidentPage/RelatedEvents/ut
 import issueFilters from 'in-events/components/IncidentPage/RelatedEvents/configs/EventIssueFilters';
 import { DatagridActions } from 'in-events/components/EventsPage/EventsTable/DatagridActions';
 import parseQuery from 'in-events/components/util/dataGridEventsTableUtil';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { multiCloseEnabled } from 'in-services/featureFlags';
 import { useLocalStorage } from 'in-services/localStorage';
 import { Location } from 'in-stores/navigation/types';
@@ -211,7 +212,23 @@ const EventsTable = (props: EventsTableProps) => {
           label:
             eventType === 'incident' ? t('in-events:multiClose.closeIncidents') : t('in-events:multiClose.closeIssues'),
           renderIcon: null,
-          onClick: () => closeSelectedEvents(eventType, Object.keys(selectedRows), toggleAllRowsSelected)
+          onClick: () => {
+            if (Object.keys(selectedRows).length > 100) {
+              addMessage({
+                title:
+                  eventType === 'incident'
+                    ? t('in-events:multiClose.multiCloseIncidentsLimitReached')
+                    : t('in-events:multiClose.multiCloseIssuesLimitReached'),
+                type: 'danger',
+                content:
+                  eventType === 'incident'
+                    ? t('in-events:multiClose.multiCloseIncidentsLimitReachedDescription')
+                    : t('in-events:multiClose.multiCloseIssuesLimitReachedDescription')
+              });
+            } else {
+              closeSelectedEvents(eventType, Object.keys(selectedRows), toggleAllRowsSelected);
+            }
+          }
         }
       ],
       // @ts-expect-error

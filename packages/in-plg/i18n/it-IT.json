@@ -183,7 +183,7 @@
       "romanStep3": "(iii) ",
       "selectAwsRegion": "Selezionare la regione AWS",
       "awsRegion": "Regione AWS",
-      "awsCommandLineInterfaceValue": "Fornire i valori e utilizzare un comando simile a quello riportato di seguito per utilizzare la CLI (Command Line Interface) AWS",
+      "awsCommandLineInterfaceValue": "Fornire i valori e utilizzare un comando simile a quello riportato di seguito per utilizzare l'interfaccia della riga di comando ( AWS, CLI)",
       "amazonResourceName": "ARN (Amazon Resource Name)",
       "setEnvVariablesInLambdaFunction": "Impostare le seguenti variabili d'ambiente nella funzione Lambda.",
       "selectInstanaLambdaLayer": "Selezionare il livello Lambda di Instana con l'ARN (Amazon Resource Name - Nome risorsa Amazon) riportato di seguito.",
@@ -220,18 +220,18 @@
         "installAgentOnAwsEc2": "Installare l'agent su AWS EC2 (Windows)",
         "monitoringGo": "Monitoraggio di Go",
         "awsLambdaNativeTracingForRuby": "AWS Lambda Native Tracing for Ruby",
-        "awsLambdaNativeTracingForPython": "AWS Lambda Native Tracing for Python",
+        "awsLambdaNativeTracingForPython": "AWS Lambda native tracing for Python",
         "gcrDocumentation": "Documentazione di esecuzione di Google Cloud",
         "gcBuildpackDocs": "Documentazione del buildpack di esecuzione di Google Cloud",
         "setupGcpAgent": "Impostare l'agent GCP",
-        "awsLambdaNativeTracingForNodeJs": "AWS Lambda Native Tracing for Node.js",
+        "awsLambdaNativeTracingForNodeJs": "AWS Lambda native tracing for Node.js",
         "instanaLambdaLayerAndManualWrapping": "Livello Lambda di Instana & wrapping manuale",
         "awsLambdaEnvVariables": "Variabili d'ambiente Lambda AWS",
         "monitoringPython": "Monitoraggio di Python",
         "runningStartupScript": "Esecuzione dello script di avvio",
         "uninstallingTheHostAgent": "Disinstallazione dell'agent host",
-        "awsLambdaNativeTracingForJava": "AWS Lambda Native Tracing for Java",
-        "awsLambdaNativeTracingForDotNet": "Traccia nativa Lambda AWS per .NET Core",
+        "awsLambdaNativeTracingForJava": "AWS Lambda native tracing for Java",
+        "awsLambdaNativeTracingForDotNet": "AWS Lambda native tracing for .NET Core",
         "awsLambdaFunctions": "Funzioni lambda AWS",
         "monitoringAwsFargate": "Monitoraggio di AWS Fargate",
         "monitoringAwsFargateJava": "Monitoraggio di AWS Fargate (Java)",
@@ -240,16 +240,16 @@
         "monitoringAwsFargateNodejs": "Monitoraggio di AWS Fargate (Node.js)",
         "monitoringAwsFargatePython": "Monitoraggio di AWS Fargate (Python)",
         "monitoredAwsServices": "Servizi AWS monitorati",
-        "monitoringNodejs": "Monitoraggio di Node js",
-        "installGcrCollectors": "Installare programmi di raccolta in-process dell'esecuzione di Google Cloud",
+        "monitoringNodejs": "Monitoraggio Node.js",
+        "installGcrCollectors": "Installare programmi di raccolta in-process dell'esecuzione Google Cloud",
         "installAgentOnEc2": "Installare l'agent su AWS EC2",
         "configurationOptions": "Opzioni di configurazione",
         "monitoringGcr": "Monitoraggio dell'esecuzione di Google Cloud",
         "monitoringAwsFargateRuby": "Monitoraggio di AWS Fargate (Ruby)",
-        "awsServiceDocumentation": "Documentazione del servizio AWS",
+        "awsServiceDocumentation": "AWS Documentazione sui servizi",
         "monitoringAwsLambda": "Monitoraggio di Lambda AWS",
         "configuringAwsLambdaMonitoring": "Configurazione del monitoraggio di Lambda AWS",
-        "awsLambdaNativeTracingForGo": "AWS Lambda Native Tracing for Go"
+        "awsLambdaNativeTracingForGo": "AWS Lambda native tracing for Go"
       }
     },
     "runtime": {
@@ -367,7 +367,7 @@
           "linux64BitArm": "Linux (64 bit - ARM)",
           "linux64BitAmd": "Linux (64Bit - AMD)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
-          "linux64BitPowerPcLittleEndian": "Linux (64 bit - PowerPC Little Endian)",
+          "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC little endian)",
           "linuxS390XJdkNotIncluded": "Linux (64Bit - s390x) JDK non incluso",
           "linuxS390X": "Linux (64Bit - s390x)",
           "linuxX8664": "Linux (64Bit - x86_64)",
@@ -407,7 +407,7 @@
           "linux32BitArm": "Linux (32 bit - ARM)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
           "linux32BitPowerPc": "Linux (32Bit - PowerPC)",
-          "linux64BitPowerPcLittleEndian": "Linux (64 bit - PowerPC Little Endian)",
+          "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC little endian)",
           "linuxS390X": "Linux (s390x)"
         }
       },
@@ -415,6 +415,16 @@
         "installAnAgentOnLinux": "Installare un agent su Linux",
         "configurationParameters": "Parametri di configurazione"
       }
+    },
+    "zos": {
+      "zos": "z/OS",
+      "selectTheAgentPackagingMode": "Passo 1: selezionare la modalità di impacchettamento dell'agent",
+      "Packaging": "Impacchettamento",
+      "dynamic": "Dinamico",
+      "static": "Statico",
+      "RunTheAgentDeploymentCode": "Passo 2: eseguire il codice di distribuzione dell'agent (dal livello USS di z/OS).",
+      "installagentOnZOS": "Installare l'agent su z/OS (Air-Gapped Env)",
+      "installagentOnZOS1": "Installazione successiva all'agent (controllo dei prerequisiti del tracciamento)"
     },
     "ibmi": {
       "ibmi": "IBM i",
@@ -844,5 +854,10 @@
     "done": "Fine",
     "otherGoalPlaceholder": "Ad esempio, ottenere visibilità sul mio ambiente",
     "otherGoalToAccomplish": "Quali altri obiettivi state cercando di raggiungere?"
+  },
+  "privacyNotification": {
+    "title": "Gestisci il tuo profilo",
+    "description": "Visualizza e aggiorna il tuo profilo, regola le impostazioni sulla privacy ed esci, tutto in un unico posto.",
+    "buttonText": "Fine"
   }
 }

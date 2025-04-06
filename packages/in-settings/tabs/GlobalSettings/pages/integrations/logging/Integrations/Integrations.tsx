@@ -128,59 +128,57 @@ export default function LogIntegrations() {
 
   return (
     <>
-      <section>
-        <Title title="Log Integrations" />
-        <section className={locals.titleSection}>
-          <SubViewHeaderComponent>{localisationStrings.logIntegrations}</SubViewHeaderComponent>
-          <Typography variant="body-regular">{localisationStrings.logIntegrationsDescription}</Typography>
-        </section>
-        <div className={locals.marginRight}>
-          <Stack direction="horizontal" gap="large" wrap>
-            {integrations &&
-              integrations.map((integration: Integration) => {
-                return (
-                  <div
-                    key={`div-${integration.label}`}
-                    onClick={e => onClick(e, integration.path)}
-                    className={locals.cardDiv}
+      <Title title="Log Integrations" />
+      <section className={locals.titleSection} aria-label="Page header">
+        <SubViewHeaderComponent>{localisationStrings.logIntegrations}</SubViewHeaderComponent>
+        <Typography variant="body-regular">{localisationStrings.logIntegrationsDescription}</Typography>
+      </section>
+      <section className={locals.marginRight} aria-label="Content">
+        <Stack direction="horizontal" gap="large" wrap>
+          {integrations &&
+            integrations.map((integration: Integration) => {
+              return (
+                <div
+                  key={`div-${integration.label}`}
+                  onClick={e => onClick(e, integration.path)}
+                  className={locals.cardDiv}
+                >
+                  <Card
+                    key={`card-${integration.label}`}
+                    headerClassName={locals.cardHeader}
+                    title={integration.label}
+                    bodyClassName={locals.cardBody}
+                    className={locals.card}
                   >
-                    <Card
-                      key={`card-${integration.label}`}
-                      headerClassName={locals.cardHeader}
-                      title={integration.label}
-                      bodyClassName={locals.cardBody}
-                      className={locals.card}
-                    >
-                      <div className={locals.cardFooter}>
-                        {loading ? (
-                          <LoadingSkeleton className={locals.skeleton} />
-                        ) : !integration.baseUrl && !integration.url && integration?.isConfigurable ? (
-                          <div className={locals.configureIntegration}>{localisationStrings.configureIntegrations}</div>
-                        ) : (
-                          <span>
-                            <Toggle
-                              className={locals.toggle}
-                              labelA={
-                                !integration.url && !integration.baseUrl
-                                  ? localisationStrings.disabled
-                                  : localisationStrings.off
-                              }
-                              labelB={localisationStrings.on}
-                              key={`toggle-${integration.label}`}
-                              disabled={!integration.url && !integration.baseUrl && !!integration.isConfigurable}
-                              onToggle={e => onToggle(e, integration)}
-                              checked={integration.enabled ?? false}
-                              id={integration.label}
-                            />{' '}
-                          </span>
-                        )}
-                      </div>
-                    </Card>
-                  </div>
-                );
-              })}
-          </Stack>
-        </div>
+                    <div className={locals.cardFooter}>
+                      {loading ? (
+                        <LoadingSkeleton className={locals.skeleton} />
+                      ) : !integration.baseUrl && !integration.url && integration?.isConfigurable ? (
+                        <div className={locals.configureIntegration}>{localisationStrings.configureIntegrations}</div>
+                      ) : (
+                        <span>
+                          <Toggle
+                            className={locals.toggle}
+                            labelA={
+                              !integration.url && !integration.baseUrl
+                                ? localisationStrings.disabled
+                                : localisationStrings.off
+                            }
+                            labelB={localisationStrings.on}
+                            key={`toggle-${integration.label}`}
+                            disabled={!integration.url && !integration.baseUrl && !!integration.isConfigurable}
+                            onToggle={e => onToggle(e, integration)}
+                            checked={integration.enabled ?? false}
+                            id={integration.label}
+                          />{' '}
+                        </span>
+                      )}
+                    </div>
+                  </Card>
+                </div>
+              );
+            })}
+        </Stack>
       </section>
     </>
   );

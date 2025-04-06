@@ -7,7 +7,6 @@ import { Result, SamlApiConfig, SamlConfig } from '@instana/types';
 import { create, Observable } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import http, { Response } from 'in-services/http';
 
@@ -23,20 +22,18 @@ export const getConfigAsResultObservable = memoize<undefined, Result<SamlConfig>
   () => 'SamlConfig',
   60000
 );
-function getConfigAsResultObservableInternal(): Observable<Result<SamlConfig>> {
+export function getConfigAsResultObservableInternal(): Observable<Result<SamlConfig>> {
   return refreshSignal.flatMap(() =>
-    createObservable(
-      http({
-        method: 'GET',
-        maxRetries: 3,
-        url: `/api/settings/authentication/saml`
-      })
-    )
+    http({
+      method: 'GET',
+      maxRetries: 3,
+      url: '/api/settings/authentication/saml',
+      mapToResultObject: true
+    })
   );
 }
 
 // regular calls
-
 export function setConfig(config: SamlApiConfig): Observable<Response<SamlConfig>> {
   return http<SamlConfig>({
     method: 'PUT',
@@ -59,6 +56,27 @@ export function deleteConfig(): Observable<boolean> {
   }).map(response => {
     refreshSignal.emit(true);
     return response.body;
+  });
+}
+
+export function setConfigV2(config: SamlApiConfig): Observable<Result<SamlConfig>> {
+  return http<SamlConfig>({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `/api/settings/authentication/saml`,
+    headers: getCsrfHeader(),
+    data: config,
+    mapToResultObject: true
+  });
+}
+
+export function deleteConfigV2(): Observable<Result<boolean>> {
+  return http<boolean>({
+    method: 'DELETE',
+    maxRetries: 3,
+    url: `/api/settings/authentication/saml`,
+    headers: getCsrfHeader(),
+    mapToResultObject: true
   });
 }
 

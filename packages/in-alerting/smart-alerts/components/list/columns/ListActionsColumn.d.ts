@@ -11,6 +11,13 @@ export type ListActionsColumnProps = {
   isLoading: boolean;
   actionHandlers: ActionHandlers;
   icon?: string;
+  useSmartAlertCreateUrl?: (args: AlertURLProps) => string;
 };
 
-export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon }: ListActionsColumnProps);
+export function ListActionsColumn({
+  config,
+  isLoading,
+  actionHandlers = {},
+  icon,
+  useSmartAlertCreateUrl
+}: ListActionsColumnProps);

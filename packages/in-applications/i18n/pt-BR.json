@@ -42,13 +42,13 @@
   "labelOffline": "Off-line",
   "labelOnline": "On-line",
   "labelChanges": "Mudanças",
-  "labelViewEvents": "Eventos de visualização",
+  "labelViewEvents": "Visualizar eventos",
   "labelOverTime": "Ao longo do tempo",
   "labelErrors": "Erros",
   "labelDistribution": "Distribuição",
   "labelUnmonitored": "Não monitorado",
   "labelErroneousCallCount": "Contagem de chamadas errôneas",
-  "labelLogLevel": "Nível de log",
+  "labelLogLevel": "Nível de Registro",
   "labelCount": "Contagem",
   "labelFlow": "Fluxo",
   "labelEndpoint": "Terminal",
@@ -73,16 +73,16 @@
   "titleRuleTester": "Testador de regra",
   "titleTotalCalls": "Total de chamadas",
   "titleErroneousCalls": "Chamadas errôneas",
-  "titleAvgLatency": "Média de Latência",
+  "titleAvgLatency": "Latência média",
   "titleConfigureCustomServiceRules": "Configurar regras de serviço customizado",
   "titleCustomServiceRule": "Regra de serviço customizado",
   "titleUpdateApplicationPerspective": "Atualizar perspectiva de aplicativo",
-  "titleApplicationPerspectiveConfiguration": "Configuração da perspectiva do aplicativo",
+  "titleApplicationPerspectiveConfiguration": "Configuração de perspectiva de aplicativo",
   "titleCreateApplicationPerspective": "Criar perspectiva de aplicativo",
   "titleRemoveApplicationPerspective": "Remover perspectiva de aplicativo",
-  "titleCustomSyntheticRule": "Regra sintética customizada",
+  "titleCustomSyntheticRule": "Customizar regra sintética",
   "titleConfigureSyntheticEndpoints": "Configurar terminais sintéticos",
-  "titleNoApplicationPerspectives": "Ainda sem perspectiva de aplicativo",
+  "titleNoApplicationPerspectives": "Ainda não há perspectivas de aplicativos",
   "titleConfigure": "Configurar",
   "buttonGoToDashboard": "Acessar painel",
   "buttonGoToFlow": "Acessar fluxo",
@@ -103,10 +103,11 @@
   "buttonConfigureEndpoints": "Configurar terminais",
   "buttonAnalyzeMessages": "Analisar mensagens",
   "buttonSave": "Salvar",
+  "buttonDelete": "Excluir",
   "buttonAdd": "Incluir",
   "buttonDeleteRule": "Excluir regra",
   "buttonAddTest": "Incluir teste",
-  "buttonAddCustomHTTPRule": "Incluir regra HTTP customizada",
+  "buttonAddCustomHTTPRule": "Incluir regra de HTTP customizado",
   "buttonResetToDefault": "Reconfigurar para padrão",
   "buttonAddCustomServiceRule": "Incluir regra de serviço customizado",
   "buttonAddTag": "Incluir tag",
@@ -118,7 +119,7 @@
   "buttonAddSyntheticEndpointRule": "Incluir regra de terminal sintético",
   "buttonShowAllApplications": "Mostrar todos os aplicativos",
   "buttonShowAllServices": "Mostrar todos os serviços",
-  "buttonConfigureServices": "Configurar serviços",
+  "buttonConfigureServices": "Configurar os serviços",
   "helpOptional": "(opcional)",
   "messageSuccessfullySaved": "Salvo com sucesso.",
   "messageErrorOccurred": "Ocorreu um erro, tente novamente.",
@@ -126,16 +127,16 @@
   "linkViewAllApplications": "Visualizar todos os aplicativos",
   "linkViewAllServices": "Visualizar todos os serviços",
   "linkViewAllEndpoints": "Visualizar todos os terminais",
-  "lineViewInAnalyze": "Visualizar na análise",
+  "lineViewInAnalyze": "Visualização em análise",
   "placeholderType": "Tipo…",
   "placeholderTechnology": "Tecnologia…",
   "Rendering": "Renderização",
   "loadingData": "Carregando dados",
   "UnexpectedErrorOccurred": "Ocorreu um erro inesperado",
-  "callsLiveModeDisabled": "O modo em tempo real não é suportado ao analisar chamadas",
-  "tracesLiveModeDisabled": "O modo ativo não é suportado ao analisar rastreios",
+  "callsLiveModeDisabled": "O modo em tempo real não é suportado na análise de chamadas",
+  "tracesLiveModeDisabled": "O modo em tempo real não é suportado na análise de rastreios",
   "applicationMap": {
-    "webglNotSupportedTitle": "Navegador não suporta WebGL",
+    "webglNotSupportedTitle": "O navegador não suporta WebGL",
     "webglNotSupported": "A interface com o usuário da Instana contém componentes 3D que são renderizados usando uma tecnologia chamada WebGL. Infelizmente, essa tecnologia ainda não está disponível em todas as plataformas. Alguns navegadores, especialmente aqueles em versões mais antigas, não suportam a WebGL. Recomendamos utilizar a mais nova geração de navegadores de atualização automática: Chrome, Firefox, Safari 8 ou MS Edge.\n\nFazemos nosso melhor para suportar todas as combinações de plataforma e navegador. No entanto, é possível que nosso uso da WebGL contenha erros. É possível usar um [teste on-line](https://get.webgl.org/) para verificar se a sua plataforma suporta WebGL.\n\nSe o teste on-line afirmar que sua plataforma suporta a WebGL, mas o Mapa 3D da Instana continuar inoperante, [entre em contato conosco](https://support.instana.com/hc/en-us/requests/new).\n\nPara obter mais informações sobre resolução de problemas, consulte a [tabela de compatibilidade da WebGL](http://caniuse.com/#feat=webgl) ou o [website da WebGL](http://webgl.org/).",
     "webglNotInitializedTitle": "A WebGL não pode ser inicializada",
     "webglNotInitialized": "Seu navegador suporta a WebGL, mas ela não pode ser inicializada. Isso pode acontecer por algumas razões do navegador e do hardware. Algumas possíveis razões são:\n\n - muitas guias abertas\n - falta de um GPU dedicado ou um GPU ocupado\n - incompatibilidade de navegador/hardware\n\nPara obter mais informações sobre resolução de problemas, consulte o [site de teste da WebGL](https://get.webgl.org/) ou a [documentação oficial da WebGL](https://www.khronos.org/webgl/wiki/FAQ).",
@@ -215,6 +216,7 @@
   },
   "inboundOutboundCalls": {
     "config": {
+      "selectBoundaryScope": "Selecionar escopo do limite do aplicativo",
       "inbound": {
         "text": "Chamadas recebidas"
       },
@@ -234,7 +236,7 @@
       "labelLatency": "Latência"
     },
     "erroneous": "Errôneo",
-    "resetUnsupportedTracesFilterContainingOrConjunction": "O filtro foi limpo porque o operador lógico OR não é suportado em Analisar rastreios.",
+    "resetUnsupportedTracesFilterContainingOrConjunction": "O filtro foi limpo porque o operador lógico OR não é suportado na análise de rastreios.",
     "facetedSearch": {
       "showOnlyErroneous": "Apenas errôneo",
       "showSyntheticCalls": "Mostrar chamadas sintéticas",
@@ -246,7 +248,7 @@
       "erroneous_Erroneous": "Errôneo"
     },
     "latency": "Latência",
-    "traceLatency": "Latência de rastreio",
+    "traceLatency": "Rastrear latência",
     "applications": "Aplicativos",
     "services": "Serviços",
     "endpoints": "Terminais",
@@ -293,15 +295,38 @@
     "typeTrace_1": "rastreio",
     "typeTrace_2": "rastreios",
     "containsErrors": "Contém erros",
-    "noErrors": "Sem erros",
+    "noErrors": "Nenhum erro",
     "calls": "Chamadas",
     "none": "Nenhum",
-    "dataSource_calls": "{{formattedCount}} Chamada",
-    "dataSource_calls_plural": "{{formattedCount}} Chamadas",
-    "dataSource_traces": "{{formattedCount}} Rastreio",
-    "dataSource_traces_plural": "{{formattedCount}} Rastreios",
+    "dataSource_calls": "{{formattedCount}} chamada",
+    "dataSource_calls_plural": "{{formattedCount}} chamadas",
+    "dataSource_traces": "{{formattedCount}} rastreio",
+    "dataSource_traces_plural": "{{formattedCount}} rastreios",
     "analyzeCallsOfThisTrace": "Analisar as chamadas deste rastreio",
-    "noAvailableCustomMetrics": "Não há métricas customizadas disponíveis"
+    "storeTrace": {
+      "label": "Armazenar rastreio",
+      "traceNotSavedTooltip": "Armazene esse rastreio a longo prazo por 13 meses. Salvo automaticamente após 15 segundos.",
+      "traceSavedTooltip": "Esse rastreio foi salvo e será armazenado por 13 meses."
+    },
+    "noAvailableCustomMetrics": "Não há métricas customizadas disponíveis",
+    "filters": "Filtros",
+    "saveFiltersTitle": "Salvar filtros",
+    "saveFiltersDescription": "Salve os filtros que você incluiu como uma consulta que ficará disponível para todos os usuários do locatário",
+    "savedFilters": "Filtros salvos",
+    "filtersSavedTitle": "Os filtros foram salvos com sucesso",
+    "filtersSavedMessage": "Os filtros '{{filterName}}' agora estão disponíveis para todos os usuários do seu locatário",
+    "includeGroup": "Incluir grupo",
+    "enterFilterName": "Inserir nome do filtro",
+    "editFilterTitle": "Editar nome do filtro",
+    "editFilterDescription": "As mudanças serão atualizadas para todos os usuários desse locatário.",
+    "filtersUpdatedTitle": "{{filterName}} foi atualizado com sucesso",
+    "zeroResults": "0 resultados para {{searchTerm}}",
+    "noSavedFilters": "Ainda não há filtros salvos",
+    "addSomeFilters": "Inclua alguns filtros e clique em salvar para começar.",
+    "tryAdjustingSearch": "Tente ajustar a sua procura.",
+    "deleteFilterModalLabel": "Confirmar exclusão do filtro",
+    "deleteConfirmation": "Tem certeza de que deseja excluir o filtro <i>{{filterName}}</i> ? O filtro será excluído para todos os usuários desse locatário.",
+    "actionCannotBeUndone": "Essa ação não pode ser desfeita"
   },
   "creation": {
     "newAP": "Nova perspectiva de aplicativo",
@@ -311,18 +336,18 @@
     "noContributionFilter": "Nenhum filtro de contribuição",
     "noContributionFilterDescription": "Você faz parte de um grupo que não tem nenhum filtro de contribuição. Você pode criar um AP sem limitações.",
     "simple": {
-      "step1Title": "Etapa 1: selecionar modelo",
+      "step1Title": "Etapa 1: selecionar o modelo",
       "step1": {
         "headline": "Que tipo de aplicativo você gostaria de modelar?"
       },
-      "step2Title": "Etapa 2: especificar aplicativo",
+      "step2Title": "Etapa 2: especificar o aplicativo",
       "step2": {
         "headline": "Especifique sua perspectiva de aplicativo",
         "includeDownstreamServices": "Quais serviços de recebimento de dados você gostaria de incluir?"
       },
       "step3Title": "Etapa 3: fornecer detalhes",
       "step3": {
-        "headline": "Qual é o nome desta Perspectiva de aplicativo?",
+        "headline": "Qual é o nome dessa perspectiva de aplicativo?",
         "apName": "Nome da perspectiva de aplicativo",
         "inboundAllCalls": "Você está interessado somente nas chamadas para este aplicativo ou também nas chamadas internas?"
       },
@@ -334,7 +359,7 @@
           "name": "Serviços ou terminais",
           "headline": "Uma coleta de serviços ou terminais",
           "whenToUse": "Se os serviços ou terminais forem bem conhecidos e o grupo não for mudar em breve. Geralmente, esse é um aplicativo pelo qual uma equipe específica é responsável ou que fornece uma única função (por exemplo, Aplicativo de pagamento). Essa é a abordagem mais simples.",
-          "whoShouldUse": "DevOps, Operações, SRE, Desenvolvedor, QA, Suporte, Proprietário de negócios."
+          "whoShouldUse": "DevOps, operações, SRE, desenvolvedor, QA, suporte, proprietário de negócios."
         },
         "userJourney": {
           "name": "Uma jornada crítica do usuário",
@@ -343,7 +368,7 @@
             "userJourneyDescribes": "Uma jornada crítica do usuário descreve um conjunto de interações que um usuário tem com um serviço para obter algum resultado final.",
             "otherTerms": "Outros termos para uma jornada do usuário são caso de uso de negócios ou transação comercial. A identificação de jornadas do usuário é o primeiro passo do uso de SLI/SLO da Instana. Portanto, selecione o serviço ou terminais que formam a jornada crítica do usuário para monitorar."
           },
-          "whoShouldUse": "DevOps, Operações, SRE, Proprietário de negócios."
+          "whoShouldUse": "DevOps, operações, SRE, proprietário de negócios."
         },
         "location": {
           "name": "Ambiente ou região",
@@ -380,21 +405,21 @@
             "labels": "Rótulos",
             "footer": "As tags estão disponíveis para: Kubernetes, OpenShift, Docker, Cloud Foundry, Marathon e Nomad."
           },
-          "whoShouldUse": "DevOps, Operações, SRE, Desenvolvedor"
+          "whoShouldUse": "DevOps, operações, SRE, desenvolvedor"
         },
         "httpOrRpc": {
           "name": "Atributos de solicitação",
           "headline": "Um aplicativo baseado em atributos de solicitação (por exemplo, cabeçalhos HTTP, parâmetros de consulta)",
           "whenToUse": {
             "header": "Ele pode ser incluído para distinguir entre ambientes diferentes.",
-            "headers": "Cabeçalhos HTTP, incluindo cabeçalhos X",
+            "headers": "Cabeçalhos HTTP, incluindo x-headers",
             "statusCodes": "Status do código de retorno HTTP",
             "urlPortions": "Partes da URL",
             "reqParams": "Parâmetros de solicitação",
             "methodObject": "Método ou objeto RPC",
             "footer": "Existem vários protocolos RPC suportados usando operadores semelhantes."
           },
-          "whoShouldUse": "DevOps, Operações, SRE, Desenvolvedor, QA, Suporte"
+          "whoShouldUse": "DevOps, operações, SRE, desenvolvedor, QA, suporte"
         },
         "technologyGrouping": {
           "name": "Tecnologia",
@@ -405,7 +430,7 @@
             "javaName": "Nome do aplicativo Java",
             "scriptingName": "Um nome de aplicativo de script"
           },
-          "whoShouldUse": "Operações, SRE, Desenvolvedor, QA, Suporte, Proprietário de negócios"
+          "whoShouldUse": "Operações, SRE, desenvolvedor, QA, suporte, proprietário de negócios"
         },
         "custom": {
           "name": "Tags de customização",
@@ -420,7 +445,7 @@
             "containerLabels": "Etiquetas do contêiner",
             "footer": "Este blueprint os agrupa para facilitar a localização."
           },
-          "whoShouldUse": "DevOps, Desenvolvedor, QA"
+          "whoShouldUse": "DevOps, desenvolvedor, QA"
         },
         "tipsForUsingItems": {
           "sourcePerspective": "Use \"Nenhum serviço de recebimento de dados\" e \"Chamadas de entrada\" para a perspectiva da origem.",
@@ -442,9 +467,9 @@
         "customTag": "Tag de customização",
         "kubernetes": "Kubernetes",
         "orchestration": "Orquestração",
-        "httpHeader": "Cabeçalho de HTTP",
+        "httpHeader": "Cabeçalho HTTP",
         "httpUrl": "URL HTTP",
-        "httpMisc": "HTTP variada",
+        "httpMisc": "HTTP diversos",
         "rpc": "RPC",
         "database": "Banco de dados",
         "technology": "Tecnologia",
@@ -455,28 +480,29 @@
       },
       "liveList": {
         "matchedServicesLastHour": "Serviços correspondidos na última hora",
-        "addFiltersToBuild": "Incluir filtros para construir sua Perspectiva de aplicativo",
+        "addFiltersToBuild": "Inclua filtros para criar sua perspectiva de aplicativo",
         "queryIsInvalid": "Sua consulta é inválida"
       }
     },
     "advanced": {
-      "defineName": "1. Defina um nome para sua Perspectiva de aplicativo.",
+      "defineName": "1. Defina um nome para sua perspectiva de aplicativo.",
       "apName": "Nome da perspectiva de aplicativo",
-      "apNameDescription": "Os nomes de Perspectiva de aplicativo devem ter uma definição bem estabelecida dentro de uma organização. Por exemplo, para modelar um ambiente: \"Produção azul\", para modelar um conjunto de serviços: \"Pagamento\" ou para modelar um locatário: \"Cliente ACME\".",
-      "defineUsingTags": "2. Defina a Perspectiva de aplicativo usando uma ou mais tags.",
+      "apNameDescription": "Os nomes de perspectiva de aplicativo devem ter uma definição bem estabelecida dentro de uma organização. Por exemplo, para modelar um ambiente: \"Produção Blue\", para modelar um conjunto de serviços: \"Pagamento\", ou para modelar um locatário: \"Cliente ACME\".",
+      "defineUsingTags": "2. Defina a perspectiva de aplicativo usando uma ou mais tags.",
       "defineUsingTagsDescription": "Por exemplo, quando a chave for \"docker.label\" e o valor for \"environment=Production Blue\" ou quando a chave for \"call.http.params\" e o valor for \"tenant=ACMECustomer\". Observe que qualquer chamada para um <pill-database>BANCO DE DADOS</pill-database> serviço ou <pill-messaging>SISTEMA DE MENSAGENS</pill-messaging> serviço de serviços que correspondem a esta definição serão incluídos automaticamente.",
       "defineUsingTagsContributionFilterDescription": "As tags no filtro de contribuição são herdadas de seu direito de acesso e não podem ser modificadas. Escolha um filtro de contribuição e, em seguida, inclua mais tags na configuração.",
       "andOperatorsPrecedenceBrackets": "Os operadores AND terão precedência e serão avaliados antes dos operadores OR se não agrupados entre colchetes",
       "downstreamCalls": "3. Armazene chamadas de serviços de recebimento de dados",
-      "downstreamCallsDescription": "Escolha quais serviços de recebimento de dados incluir na Perspectiva de aplicativo.",
-      "defaultDashboardView": "4. Selecione a visualização Painel padrão",
-      "builtInSmartAlertsScope": "5. Escopo integrado de Alertas inteligentes",
-      "builtInSmartAlertsScopeDescription": "Escolha quais Alertas inteligentes globais integrados devem incluir isso/parte disso em seu escopo",
+      "downstreamCallsDescription": "Escolha os serviços de recebimento de dados a serem incluídos na perspectiva de aplicativo.",
+      "defaultDashboardView": "4. Selecione a visualização de painel padrão",
+      "builtInSmartAlertsScope": "5. Escopo de alertas inteligentes integrados",
+      "builtInSmartAlertsScopeDescription": "Escolha quais alertas inteligentes globais integrados devem incluir isso/parte disso em seu escopo",
       "clear": "Limpar",
       "database": "BANCO DE DADOS",
       "messaging": "SISTEMA DE MENSAGENS"
     },
     "scope": {
+      "selectDownstreamServices": "Selecionar serviços de recebimento de dados",
       "optionNoDownStreamServices": "Nenhum serviço de recebimento de dados",
       "optionImmediateDownstreamServices": "Banco de dados de recebimento de dados imediato e serviços de sistema de mensagens",
       "optionAllDownstreamServices": "Todos os serviços de recebimento de dados"
@@ -495,7 +521,7 @@
     "erroneousCallCount": "{{formattedCount}} total de chamadas errôneas",
     "erroneousCallCount_plural": "{{formattedCount}} total de chamadas errôneas",
     "meanLatencyFor90th": "{{meanLatencyDetail}} para 90º",
-    "infrastructureIssuesChanges": "Problemas de infraestrutura e mudanças",
+    "infrastructureIssuesChanges": "Problemas e mudanças de infraestrutura",
     "unknownTime": "Desconhecido em {{entityTime}}",
     "infrastructure": {
       "inEntity": "entrada<icon /><entityLink>{{entityLabel}}</entityLink>",
@@ -531,14 +557,14 @@
     "errorBlankValue": "O valor não deve ficar em branco.",
     "earlyRuleResultWithQuery": "Aprovou uma regra anterior \"{{query}}\"",
     "earlyRuleResult": "Aprovou uma regra anterior",
-    "testFailed": "Falha no teste",
+    "testFailed": "Teste com falha",
     "testPassed": "Teste aprovado",
     "noTestDefined": "Nenhum teste definido",
     "allTestsPassed": "Todos os testes aprovados",
     "allTestsFailed": "Todos os testes com falha",
     "testResultWithNumber": "<failTag>Testes com falha: {{numFailedTests}}</failTag><passTag>, aprovado: {{numSucceededTests}} de {{resultLength}}</passTag>",
     "rulePathTemplate": "Modelo de caminho",
-    "ruleFirstPathSegment": "Primeiro segmento de caminho",
+    "ruleFirstPathSegment": "Primeiro segmento do caminho",
     "ruleRouteId": "ID de rota",
     "unspecified": "Não especificado",
     "titleConfigureEndpointMapping": "Configurar mapeamento de terminal",
@@ -641,7 +667,7 @@
         "duplicateCalls": "Chamadas duplicadas",
         "duplicateCallsDesc": "Esse rastreio consiste em uma ou mais chamadas duplicadas (spans). Chamadas exclusivas: {{traceCallCountIgnoringBatchSize}}- Registros: {{traceCallRecordCount}}. Isso leva à contagem incorreta de chamadas (com lotes), valores de contagem de erros e, talvez, outras irregularidades.",
         "batchedIngestion": "Ingestão em lote",
-        "traceIngestionBatchCount": "Esse rastreio foi processado em {{traceIngestionBatchesCount}} lotes. Isso pode causar irregularidades, tais como spans que não são mesclados em uma única Chamada, mapeamento parcial de Serviço ou exibição de outros dados incompletos.",
+        "traceIngestionBatchCount": "Este rastreio foi processado em {{traceIngestionBatchesCount}} lotes. Isso pode causar irregularidades, como o fato de os períodos não serem mesclados em uma única chamada, mapeamento parcial de serviços ou outros dados incompletos.",
         "subCalls": "Subchamadas",
         "erroneousCalls": "Chamadas errôneas",
         "errorLogs": "Logs de erro",

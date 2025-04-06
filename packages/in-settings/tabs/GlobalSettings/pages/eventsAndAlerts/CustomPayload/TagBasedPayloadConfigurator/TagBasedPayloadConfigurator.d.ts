@@ -18,6 +18,8 @@ declare function TagBasedPayloadConfigurator<T>({
   getTagCatalog,
   suggestionsAlignedLeft,
   getSuggestions,
+  // temporary solution
+  inSidePanel,
   hideDestinationSourceTag
 }: {
   value: T;
@@ -30,6 +32,7 @@ declare function TagBasedPayloadConfigurator<T>({
     args: GetTagSuggestionsProps | GetWebsiteSuggestionsProps
   ) => Observable<Result<TagSuggestions | Suggestions>>;
   hideDestinationSourceTag?: boolean;
+  inSidePanel?: boolean;
 }): JSX.Element;
 
 export function createTagBasedPayloadConfigurator({
@@ -84,12 +87,28 @@ export interface GetInfraSuggestionsProps {
   tagFilterExpression: TagFilterExpressionElementUnion;
 }
 
+export interface GetLogSuggestionsProps {
+  name: string;
+  key?: string;
+  timeConfig: TimeConfig;
+  propose: TagSuggestionProposeType;
+  tagFilterExpression: TagFilterExpressionElementUnion;
+}
+
 export function createTagBasedMobileAppPayloadConfigurator({
   getTagCatalog,
   getSuggestions
 }: {
   getTagCatalog: () => Observable<Result<TagCatalog>>;
   getSuggestions?: (args: GetMobileAppSuggestionsProps) => Observable<Result<Suggestions>>;
+});
+
+export function createTagBasedLogPayloadConfigurator({
+  getTagCatalog,
+  getSuggestions
+}: {
+  getTagCatalog: () => Observable<Result<CatalogResponse>>;
+  getSuggestions?: (args: GetLogSuggestionsProps) => Observable<Result<Suggestions>>;
 });
 
 interface TagNodeLike {

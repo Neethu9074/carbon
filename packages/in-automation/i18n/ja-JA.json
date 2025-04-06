@@ -1,4 +1,5 @@
 {
+  "automationAction": "自動化アクション",
   "copy": "コピー",
   "edit": "編集",
   "delete": "削除",
@@ -52,7 +53,7 @@
   "ownerInfo": "所有者/組織: {{owner}}",
   "repoInfo": "リポジトリー: {{repo}}",
   "operationInfo": "操作: {{ticketType}}",
-  "projectIdInfo": "プロジェクト ID: {{projectId}}",
+  "projectIdInfo": "プロジェクトID: {{projectId}}",
   "owner": "所有者/組織",
   "repo": "リポジトリー",
   "operation": "操作",
@@ -98,20 +99,25 @@
   "actionsWithCount": "アクション({{count}})",
   "titleUrl": "URL",
   "generateWithWatsonx": "watsonx で生成",
-  "AISlugContent": "このコンテンツを生成するためにAIが使用されました",
   "createPolicyWithName": "アクション {{actionName}} の表示およびポリシーの作成",
   "viewActionCreatePolicy": "アクションの表示およびポリシーの作成",
   "titleContentReadOnly": "生成されたコンテンツ (読み取り専用)",
+  "hostId": "ホスト ID",
+  "ansibleUrl": "Ansible url",
+  "playbookFileName": "プレイブック・ファイル名",
+  "playbookId": "プレイブック ID",
+  "triggeringEvent": "トリガー・イベント",
+  "probableRootCause": "推定根本原因",
+  "contextFor": "コンテキスト:",
   "GenerateAIActionDialog": {
     "actionConfiguration": "アクション構成",
     "actionDetails": "アクションの詳細",
     "Step1HeadlineSelectAction": "watsonx によって生成された組み込みアクションから、このイベント用の新しいアクションを作成します。",
-    "Step1HeadlinePrompt": "イベント名、説明、エンティティ・タイプに基づいて、watsonx で手動アクションを生成します。",
+    "Step1HeadlinePrompt": "イベント名、説明、エンティティ・タイプに基づいて、watsonx で手動アクションを生成します。 編集して再度生成すれば確認できます",
     "Step2Headline": "アクション・カタログに保存する前に、アクションの詳細を指定したり、変更を加えたりします。",
     "Step3Headline": "オプションで、アクションと一緒に自動化ポリシーを作成することができます。 このステップは後で完了することもできます。",
     "step1Title": "ステップ 1: アクションの生成または選択",
     "step1TitleGenerateAction": "ステップ 1: アクションの生成",
-    "step1TitleSelectAction": "ステップ 1：アクションの選択",
     "step2Title": "ステップ 2: アクションの設定",
     "step3Title": "ステップ 3: ポリシーの作成 (オプション)",
     "policyDetails": "ポリシーの詳細",
@@ -145,7 +151,6 @@
     "createActionAndPolicy": "アクションとポリシーを作成する",
     "createAction": "アクション作成",
     "nameExists": "アクションはすでに次の名前で存在します: {{name}}、およびタイプ: {{type}}",
-    "failedToGenerateAction": "アクションの生成に失敗しました。",
     "failedToCreateActionPolicy": "アクションとポリシーの生成に失敗しました。",
     "failedToCreateAction": "アクションの作成に失敗しました。",
     "generateScriptDialog": {
@@ -168,7 +173,7 @@
     "Step1Headline": "推奨アクションを表示し、このイベントの自動化ポリシーを作成します。",
     "Step2Headline": "新規自動化ポリシーを作成するための詳細を指定します。",
     "step1Title": "ステップ1: 推奨アクションの表示",
-    "step2Title": "ステップ2: ポリシーの作成",
+    "step2Title": "ステップ 2: ポリシー作成",
     "actionDetails": "アクションの詳細",
     "policy": {
       "success": {
@@ -196,7 +201,7 @@
     "githubBody": "Body",
     "gitlab": "Gitlab の問題",
     "jira": "Jira タスク",
-    "docLink": "資料へのリンク",
+    "docLink": "ドキュメンテーションへのリンク",
     "addRow": "行の追加",
     "showsUpInTheListOfActions": "アクションのリストに表示されます。 固有で、かつ意味のあるものでなければなりません。",
     "showsUpInTheActionDescription": "アクションの説明内に表示されます。 できるだけ分かりやすいものにする必要があります。",
@@ -220,11 +225,14 @@
     "contentTypeDescription": "本文のメディア・タイプ。",
     "contentType": "Content-Type (オプション)",
     "noAdditionalHeadersConfigured": "追加ヘッダーが構成されていません",
-    "additionalHeadersOptional": "追加ヘッダー (オプション)",
+    "additionalHeadersOptional": "追加 headers (オプション)",
     "unknownAction": "不明なアクション",
     "1ActionDetails": "1. アクションの詳細",
-    "2ActionConfiguration": "2. アクション構成",
+    "2ActionConfiguration": "2. アクションの構成",
     "3ParamaterDetails": "3. パラメーターの詳細",
+    "actionDetails": "アクションの詳細",
+    "actionConfiguration": "アクション構成",
+    "parameterDetails": "パラメーターの詳細",
     "timeout": "タイムアウト (オプション)",
     "timeoutHelpText": "アクションの完了を待機する最大時間 (秒)。 タイムアウト時間内にアクションが完了しない場合、アクションは終了します。 これにより、エージェント構成で設定されたタイムアウトがオーバーライドされます。",
     "host": "ホスト",
@@ -236,11 +244,11 @@
     "noAuth": "認証なし",
     "key": "キー",
     "ignoreCertErrors": "証明書エラーを無視する",
-    "basicAuth": "基本認証",
+    "basicAuth": "ベーシック認証",
     "bearerToken": "ベアラー・トークン",
     "authentication": "認証",
     "apiKeyAddTo": "追加先",
-    "apiKey": "API 鍵",
+    "apiKey": "API キー",
     "header": "ヘッダー",
     "queryParams": "照会パラメーター",
     "username": "ユーザー名",
@@ -248,17 +256,18 @@
     "addParameter": "パラメーターの追加",
     "editParameter": "パラメーターの編集",
     "noParametersConfigured": "パラメーターが構成されていません",
-    "required": "値が必要です",
+    "required": "値は必須",
+    "viewParameter": "パラメーターの表示",
     "hiddenParam": "非表示",
-    "valueType": "値タイプ",
+    "valueType": "値のタイプ",
     "displayName": "表示名",
     "defaultValue": "デフォルト値",
-    "defaultValueOptional": "デフォルト値(オプション)",
+    "defaultValueOptional": "デフォルト値 (オプション)",
     "parameters": "パラメーター",
     "secretKey": "秘密鍵",
     "secretPath": "秘密パス",
-    "secretKeyOptional": "秘密鍵(オプション)",
-    "secretPathOptional": "秘密パス(オプション)",
+    "secretKeyOptional": "秘密鍵 (オプション)",
+    "secretPathOptional": "秘密パス (オプション)",
     "validName": "パラメーター名が無効です。有効な文字のみを使用していること、および固有の文字を使用していることを確認してください。",
     "uniqueName": "パラメーター名は固有でなければなりません。",
     "parameterNameHelp": "パラメーター名に含めることができるのはaからz、AからZ、_、0から9のみです。また、数字から始めることはできません。",
@@ -364,7 +373,7 @@
     "taskUrl": "タスク URL",
     "output": "出力",
     "user": "ユーザー",
-    "apiToken": "API トークン",
+    "apiToken": "APIトークン",
     "viewTooltip": "アクション・インスタンス「{{actionName}}」の表示",
     "deleteTooltip": "アクション・インスタンス「{{actionName}}」の削除",
     "deleteDialog": {
@@ -378,13 +387,12 @@
   },
   "policies": {
     "policies": "ポリシー",
-    "policiesWithCount": "ポリシー ({{count}})",
     "newPolicy": "新規ポリシー",
     "selectEventTrigger": "イベント・トリガーの選択",
     "eventTrigger": "イベント・トリガー",
     "unknownPolicy": "不明なポリシー",
     "policy": "policy",
-    "createANewPolicy": "新規ポリシーの作成",
+    "createANewPolicy": "新規ポリシーを作成します。",
     "configurePolicyEntityName": "ポリシーの構成: {{entityName}}",
     "1PolicyDetails": "1. ポリシーの詳細",
     "2TriggerConfiguration": "2. トリガー構成",
@@ -417,14 +425,14 @@
     "triggeringHostIp": "トリガー・ホスト IP",
     "applyOn": "適用対象",
     "allAvailableEntities": "使用可能なすべてのエンティティー",
-    "selectedEntitiesOnly": "選択されているエンティティー (ダイナミック・フォーカス・クエリー)",
+    "selectedEntitiesOnly": "選択されたエンティティー (ダイナミック・フォーカス・クエリー)",
     "dynamicFocusQuery": "ダイナミック・フォーカス・クエリー",
     "searchEventTriggers": "イベント・トリガーの検索",
-    "searchPolicies": "検索ポリシー",
+    "searchPolicies": "ポリシーの検索",
     "manualAutomatic": "手動、自動",
     "policyType": "ポリシー・タイプ",
     "noPolicies": "ポリシーが構成されていません。",
-    "filterApplied": "適用されているフィルター",
+    "filterApplied": "フィルターを適用済み",
     "createDialog": {
       "success": {
         "title": "ポリシーが正常に作成されました。",
@@ -472,7 +480,7 @@
     "showTasks": "表示"
   },
   "deleteDialog": {
-    "confirmRemove": "ご確認ください",
+    "confirmRemove": "削除の確認",
     "confirmRemoveMsg": "<strong>{{name}}</strong> を削除してよろしいですか?",
     "delete": "削除"
   },
@@ -507,11 +515,66 @@
     "recommendedActionHistoryWithCount": "リソースのアクション履歴({{count}})",
     "recommendedActionHistory": "リソース・アクション履歴"
   },
+  "actionDashboard": {
+    "ActionConfiguration": "アクション構成",
+    "ActionDetails": "アクションの詳細",
+    "ParameterDetails": "パラメーターの詳細",
+    "tabs": {
+      "summaryLabel": "サマリー",
+      "configurationLabel": "構成"
+    },
+    "noOfTimesRun": "実行回数",
+    "successRate": "成功率",
+    "avgExecutionTime": "平均実行時間",
+    "lastModified": "最終変更日時",
+    "history": "履歴",
+    "summaryTab": {
+      "millisecond": "ミリ秒"
+    },
+    "associatedPolicies": "関連ポリシー"
+  },
   "feedback": {
     "contentHelpfulText": "生成されたコンテンツは役に立ちましたか？",
     "thankYouForYourFeedback": "フィードバックをありがとうございました。",
     "submitFeedback": "フィードバックの送信",
     "additionalFeedbacklabel": "ご意見がございましたら、お聞かせください(任意)",
-    "additionalFeedbackPlaceholder": "この応答について、どのような点が気に入らなかったのでしょうか？ 改善できる点"
+    "additionalFeedbackPlaceholder": "この応答について、どのような点が気に入らなかったのでしょうか？ どのような改善が可能ですか?"
+  },
+  "consentForm": {
+    "consentButton": "同意書を確認する",
+    "consentText": "この機能を有効にするには、管理者は生成 AI アシスタンス・プレビューのプライバシー契約に同意する必要があります。"
+  },
+  "AITooltip": {
+    "aiExplained": "AI の説明",
+    "manualSection": {
+      "section1": {
+        "section1Title": "アクション生成",
+        "section1Text": "問題を診断または修復するための一連の手動手順を生成するために、watsonx にイベント情報を送信します。  AI プロンプトを作成するために使用される入力データは、最初は現在のイベントから自動的に入力され、結果を改善するために修正することができます。"
+      },
+      "section2": {
+        "section2Title": "入力プロンプト・フィールド",
+        "section2EventName": "<strong>イベント名。</strong> インシデント、イベント、またはアラートの名前。",
+        "section2Description": "<strong>イベントの説明。</strong> インシデントまたはイベントの説明。",
+        "section2Entitytype": "<strong>イベント・エンティティ・タイプ。</strong> インシデントまたはイベントに関連するエンティティの種類。"
+      },
+      "section3": {
+        "AIModel": "AI モデル"
+      },
+      "section4": {
+        "section4Text": "これはプレビュー機能です。 インシデントまたはイベントに対処するために推奨されるアクションまたはアクションの提案ドラフトを提供します。 出力がニーズに適しているかどうかを判断します。"
+      }
+    },
+    "scriptSection": {
+      "section1": {
+        "section1Text": "スクリプトを生成するために、手動アクション・ステップから watsonx に指示を送信します。 このステップは、結果を改善するために修正することができます。"
+      },
+      "section3": {
+        "section3Text": "これは、アクションを実行するためのスクリプトの候補を表示するプレビュー機能です。 出力がニーズに適しているかどうかを判断します。"
+      }
+    },
+    "preGenerated": {
+      "title": "事前生成 AI アクション",
+      "text": "watsonx から事前に生成された AI モデルを使用して、システム内のイベントの診断や修復に役立つアクションのリストから選択します。"
+    }
   }
 }

@@ -7,10 +7,19 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, CarbonButton, CarbonInlineLoading, HelpText, PreviewPill } from '@instana/components';
+import {
+  SvgIcon,
+  CarbonButton,
+  CarbonInlineLoading,
+  HelpText,
+  PreviewPill,
+  Typography,
+  Link
+} from '@instana/components';
 
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPopover';
+import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { EVENT_AI_GENERATE_SUBMIT } from 'in-services/tracking/eventNames';
 import { generateJournalSummary } from 'in-stores/events';
 import { t } from 'in-i18n';
@@ -41,28 +50,32 @@ export function QuickActions(props) {
     setShowTimeoutMessage(false);
   }
 
-  return (
-    <div
-      className={classNames({
-        [locals.quickActionWrapper]: true,
-        [locals.extraPadding]: !displayQuickStart,
-        [locals.transitionDown]: displayQuickStart
-      })}
-    >
-      {displayQuickStart && (
-        <div>
-          <AIPopover />
-        </div>
-      )}
+  function consentSection() {
+    return (
+      <div className={locals.consentWrapper}>
+        <Typography variant="legal-02"> {t('in-events:consentForm.consentText')} </Typography>
+        <CarbonButton
+          kind="tertiary"
+          size={'sm'}
+          className={locals.actionsButton}
+          target="_blank"
+          onClick={e => {
+            e.stopPropagation();
+          }}
+          renderIcon={() => {
+            return <SvgIcon type={'lib_views_external_link'} color="currentColor" size="xs" />;
+          }}
+          href="https://early-access.ibm.com/software/support/trial/cst/welcomepage.wss?siteId=2175&tabId=6106&w=1&_gl=1*a8q9zh*_ga*NDA2OTcyMzgyLjE3MTEzODYwOTA.*_ga_FYECCCS21D*MTc0MTM0MzI4NS41MS4xLjE3NDEzNDM5NjUuMC4wLjA"
+        >
+          <div className={locals.quickActionButtonContents}>{t('in-events:consentForm.consentButton')}</div>
+        </CarbonButton>
+      </div>
+    );
+  }
+
+  function quickActionsContent() {
+    return (
       <div>
-        {displayQuickStart && (
-          <>
-            <div className={locals.quickActionsHeader}>
-              {t('in-events:notes.summarizeIncident')} <PreviewPill privatePreview />
-            </div>
-            <div className={locals.quickActionsDescription}>{t('in-events:notes.summarizeIncidentDescription')}</div>
-          </>
-        )}
         <CarbonButton
           kind={'tertiary'}
           className={locals.actionsButton}
@@ -101,6 +114,41 @@ export function QuickActions(props) {
           <div className={locals.quickActionButtonContents}>{t('in-events:notes.generateSummary')}</div>
         </CarbonButton>
         {showTimeoutMessage && <HelpText>{t('in-events:notes.waitAFewMins')}</HelpText>}
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={classNames({
+        [locals.quickActionWrapper]: true,
+        [locals.extraPadding]: !displayQuickStart,
+        [locals.transitionDown]: displayQuickStart
+      })}
+    >
+      {displayQuickStart && (
+        <div>
+          <AIPopover />
+        </div>
+      )}
+      <div>
+        {displayQuickStart && (
+          <>
+            <div className={locals.quickActionsHeader}>
+              {t('in-events:notes.summarizeIncident')}
+              <PreviewPill privatePreview />
+              <div className={locals.feedbackWrapper}>
+                <Link href="https://your.feedback.ibm.com/jfe/form/SV_5je3oKfjA0NZM0e" externalWithIcon>
+                  {t('in-events:notes.feedback')}
+                </Link>
+              </div>
+            </div>
+            {automationActionAiGenerationUnitEnabled && (
+              <div className={locals.quickActionsDescription}>{t('in-events:notes.summarizeIncidentDescription')}</div>
+            )}
+          </>
+        )}
+        {automationActionAiGenerationUnitEnabled ? quickActionsContent() : consentSection()}
       </div>
     </div>
   );

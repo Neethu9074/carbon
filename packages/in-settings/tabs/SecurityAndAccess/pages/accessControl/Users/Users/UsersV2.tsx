@@ -13,10 +13,10 @@ import { Link, Message, MessageTypes, Spacer, Typography } from '@instana/compon
 import { useObservable } from '@instana/hooks';
 
 import { MessageContentModernDesign } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
-import CarbonDataTableWrapper, {
+import MultiSelectDataTable, {
   DataTableRow,
   Notification
-} from 'in-settings/components/CarbonDataTableWrapper/CarbonDataTableWrapper';
+} from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { getUsersResult, removeUserFromTenant, removeUsersFromTenant, UserResult } from 'in-api/users';
@@ -24,7 +24,7 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 import { getEntityIdView, securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
+import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import { hasError, isLoading } from 'in-services/util/result';
 import { USER_INVITE } from 'in-services/tracking/tracking';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -70,8 +70,24 @@ interface RowObject<ROW_DATA> {
   tfaEnabled: JSX.Element;
 }
 
+const createMenuItemsForRow = (
+  users: UserResult[],
+  row: Omit<DataTableRow<RowObject<UserResult>[], UserResult>, 'rowData'>
+) => {
+  const user = users.filter(item => item.id === row.id)[0];
+  const { fullName } = user;
+  return [
+    {
+      actionType: 'delete',
+      icon: <TrashCan />,
+      label: t('in-settings:components.deleteEntity', { entity: fullName })
+    }
+  ];
+};
 export default function UsersV2() {
-  const isAnyIDPActive = useIsAnyIdPActive();
+  const [authOverview] = useAuthOverview();
+  const { defaultLogin } = authOverview ?? {};
+
   const { trackCta } = useSegmentTracking();
   const pageSizes = [20, 50];
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
@@ -86,8 +102,8 @@ export default function UsersV2() {
         kind: 'error'
       } as Notification)
     : null;
-  const entities = !loading && !hasErrors ? (dataTableResult as UserResult[]) : [];
-  const rows: Array<RowObject<UserResult>> = entities?.map((user: UserResult) => ({
+  const users = dataTableResult?.data ?? [];
+  const rows: Array<RowObject<UserResult>> = users?.map((user: UserResult) => ({
     fullName: (
       <HorizontalFlexWrapper>
         <UserAvatar />
@@ -142,18 +158,6 @@ export default function UsersV2() {
     );
   }
 
-  const getMenuItems = (row: Omit<DataTableRow<RowObject<UserResult>[], UserResult>, 'rowData'>) => {
-    const user = entities.filter(item => item.id === row.id)[0];
-    const { fullName } = user;
-    return [
-      {
-        actionType: 'delete',
-        icon: <TrashCan />,
-        label: t('in-settings:components.deleteEntity', { entity: fullName })
-      }
-    ];
-  };
-
   const getBatchActionItems = () => {
     return [
       {
@@ -166,8 +170,8 @@ export default function UsersV2() {
 
   return (
     <>
-      {isAnyIDPActive && <CustomUserListInfo />}
-      <CarbonDataTableWrapper
+      {!defaultLogin && <CustomUserListInfo />}
+      <MultiSelectDataTable
         title={t('in-settings:tabs.users')}
         tableHeaders={headers}
         tableRows={rows}
@@ -176,22 +180,22 @@ export default function UsersV2() {
         searchAttributes={['fullName', 'email']}
         initalSortConfig={{ key: 'fullName', direction: 'asc' }}
         onCreateNew={
-          isAnyIDPActive
-            ? undefined
-            : () => {
+          defaultLogin
+            ? () => {
                 trackCta(USER_INVITE);
                 addActiveDialog(<DeferredShareAndInviteDialogBox inviteOnly permissionToShowInvite />);
               }
+            : undefined
         }
         labelNew={t('in-settings:tabs.inviteUser')}
-        getMenuItems={getMenuItems}
+        getMenuItems={row => createMenuItemsForRow(users, row)}
         getBatchActionItems={getBatchActionItems}
         boundedPath="/users"
         pageSizes={pageSizes}
         tableActions={tableActions}
-        customDialogMessage={isAnyIDPActive ? (entity: UserResult) => customDialogMessage(entity) : undefined}
+        customDialogMessage={!defaultLogin ? (entity: UserResult) => customDialogMessage(entity) : undefined}
         getEntityName={({ fullName }: UserResult) => t('in-settings:tabs.userWithName', { name: fullName })}
-        customBatchDeleteMessage={isAnyIDPActive ? (users: UserResult[]) => customBatchDeleteMessage(users) : undefined}
+        customBatchDeleteMessage={!defaultLogin ? (users: UserResult[]) => customBatchDeleteMessage(users) : undefined}
         message={errorMessage}
       />
     </>

@@ -42,6 +42,12 @@ function createStaticThresholdForm(threshold?: StaticThresholdRule, editMode: bo
       createField({
         value: threshold?.value ?? null
       }).setTouched(editMode ? !isEmpty(threshold?.value) : false)
+    )
+    .put(
+      'isCheckboxSelected',
+      createField({
+        value: (threshold as any)?.isCheckboxSelected
+      }).setTouched((threshold as any)?.isCheckboxSelected)
     );
 }
 

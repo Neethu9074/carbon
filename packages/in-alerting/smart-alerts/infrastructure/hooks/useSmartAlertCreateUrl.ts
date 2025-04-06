@@ -12,6 +12,7 @@ import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infr
 import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
 import { alertCreated, isDuplicateMode, isEditMode, alertId } from 'in-infrastructure/navigation/matrix';
 import generateAlertConfig from 'in-alerting/smart-alerts/infrastructure/data/generateAlertConfig';
+import { AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { infraSmartAlertsFullScreen } from 'in-stores/navigation/paths/mainPaths';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -20,13 +21,6 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { successObservable } from 'in-services/util/result';
 import { Location } from 'in-stores/navigation/types';
 import { Result } from 'in-types';
-
-interface AlertURLProps {
-  alertId?: string;
-  alertConfigCreated?: number;
-  duplicateMode?: boolean;
-  editMode?: boolean;
-}
 
 export function useSmartAlertCreateUrl({ alertId, alertConfigCreated, duplicateMode, editMode }: AlertURLProps) {
   const { createHref, location } = useNavigation();

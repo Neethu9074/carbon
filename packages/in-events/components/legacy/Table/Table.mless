@@ -1,0 +1,117 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+:local {
+  .table {
+    width: 100%;
+    background: var(--ids-color-option-white);
+    border-radius: var(--ids-border-radius-option-small);
+    border-collapse: initial;
+  }
+
+  .tableRow {
+    color: var(--ids-color-option-neutral-900);
+    font-size: 0.875rem;
+    background: var(--ids-color-option-white);
+
+    &:nth-child(even) {
+      background: var(--ids-color-option-neutral-50);
+    }
+
+    &.tableRowDepth2 {
+      & > td:first-child {
+        padding-left: 3.375rem;
+      }
+    }
+    &.tableRowActive > .tableTd {
+      background: var(--cds-background);
+    }
+
+    &.tableRowDull {
+      opacity: 0.5;
+    }
+
+    &.tableRowSelected:nth-child(even) {
+      background: var(--ids-color-option-neutral-50);
+    }
+
+    &.tableRowSelected:nth-child(odd) {
+      background: var(--ids-color-option-white);
+    }
+  }
+  .tableRowClickable:hover {
+    background: var(--cds-background) !important;
+    cursor: pointer;
+  }
+
+  .tableRowRegular {
+    & > .tableTd,
+    & > .tableTh {
+      padding-top: 1.125rem;
+      padding-bottom: 1.125rem;
+    }
+  }
+
+  .tableRowCompact {
+    & > .tableTd,
+    & > .tableTh {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+  }
+
+  .tableRowMinimal {
+    & > .tableTd,
+    & > .tableTh {
+      padding: 0;
+      padding-left: 1rem;
+    }
+  }
+
+  .tableTd {
+    position: relative;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
+
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    vertical-align: middle;
+
+    &:first-child {
+      border-left: 1px solid var(--ids-color-option-neutral-300);
+    }
+    &:last-child {
+      border-right: 1px solid var(--ids-color-option-neutral-300);
+    }
+
+    &.tableTdNoWrap {
+      white-space: nowrap;
+    }
+
+    &.tableTdEllipsis {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    &.tableTdActive {
+      font-weight: bold;
+    }
+  }
+
+  .tableDateTime {
+    white-space: nowrap;
+  }
+
+  .tableUseMinimumHorizontalSpace {
+    /**
+    * For verification that this works across browsers:
+    * https://codesandbox.io/s/naughty-platform-e48qx?file=/index.html
+   */
+    width: 0.3125rem;
+    white-space: nowrap;
+  }
+}

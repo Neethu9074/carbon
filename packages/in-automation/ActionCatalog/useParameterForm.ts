@@ -10,9 +10,9 @@ import { useState, useContext } from 'react';
 import { Parameter } from '@instana/types';
 
 import { needsTagAndSecondKeyMayNotBeMissingValidator } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
+import ParameterFormContext from 'in-automation/ActionCatalog/ParameterFormContext';
 import { MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import { FormContext } from 'in-components/form/binding/FormContext';
 import { notBlankValidator } from 'in-services/validators/string';
 import { safeParseJSON } from 'in-automation/utils/json';
 import { t } from 'in-i18n';
@@ -59,19 +59,19 @@ export default function useParameterForm({ parameters, id }: UseParameterFormPar
   return [form, updateForm] as const;
 }
 
-interface ParameterFormContext {
+interface ParameterFormContextProps {
   form: ParameterForm;
   setForm: React.Dispatch<React.SetStateAction<ParameterForm>>;
 }
 
 export function useParameterFormContext() {
-  const context = useContext(FormContext);
+  const context = useContext(ParameterFormContext);
 
   if (context === undefined) {
     throw new Error('Must be used inside Form');
   }
 
-  return context as ParameterFormContext;
+  return context as ParameterFormContextProps;
 }
 
 function createForm({ parameters, form, id }: { parameters: MappedParameter[]; id?: string; form?: ParameterForm }) {

@@ -33,10 +33,10 @@
         "managedPoPLabel": "gerenciado"
       },
       "basicDetails": {
-        "title": "Qual é o nome deste teste de API Simple (HTTP Action)",
-        "scriptTitle": "Qual é o nome deste teste de API Script (HTTP Script)",
-        "webpageActionTitle": "Qual é o nome deste teste Simples de Navegador (ação da página da web)",
-        "browserScriptTitle": "Qual é o nome deste teste de Script de Navegador",
+        "title": "Qual é o nome desse teste de API simples (ação HTTP)",
+        "scriptTitle": "Qual é o nome desse teste de script de API (script HTTP)",
+        "webpageActionTitle": "Qual é o nome desse teste simples do navegador (ação da página da web)",
+        "browserScriptTitle": "Qual é o nome desse teste de script do navegador?",
         "labelName": "Nome do teste",
         "labelDescription": "Descrição",
         "labelFrequency": "Frequência (minuto)",
@@ -47,10 +47,10 @@
       "bluePrint": {
         "title": "Quando usar?",
         "apiSimple": {
-          "name": "API Simple",
-          "headline": "API Simple (HTTP Action)",
+          "name": "API simples",
+          "headline": "API simples (ação HTTP)",
           "whenToUse": {
-            "line1": "Use um teste Simples de API (ação HTTP) para testar uma única API de REST"
+            "line1": "Use um teste de API simples (ação HTTP) para testar uma única API de REST"
           },
           "tipsForUsing": {
             "title": "Dicas para usar",
@@ -61,10 +61,10 @@
           }
         },
         "apiScript": {
-          "name": "API Script",
-          "headline": "API Script (HTTP Script)",
+          "name": "Script de API",
+          "headline": "Script de API (script HTTP)",
           "whenToUse": {
-            "line1": "Use um teste de Script de API (script HTTP) e o script baseado em Node.js para testar a sequência de diversas APIs de REST"
+            "line1": "Use um teste de script de API (script HTTP) e um script com base em Node.js para testar a sequência de múltiplas APIs de REST"
           },
           "tipsForUsing": {
             "line1": "Etapa 1: escolha o tipo de teste que deseja criar.",
@@ -74,10 +74,10 @@
           }
         },
         "browserSimple": {
-          "name": "Simples de Navegador",
-          "headline": "Simples de Navegador (ação da página da web)",
+          "name": "Navegador simples",
+          "headline": "Navegador simples (ação da página da web)",
           "whenToUse": {
-            "line1": "Use um teste Simples de Navegador quando desejar testar uma única página da web quanto a erros de HTTP."
+            "line1": "Use um teste de navegador simples quando desejar testar uma única página da web quanto a erros de HTTP."
           },
           "tipsForUsing": {
             "line1": "Etapa 1: escolha o tipo de teste que deseja criar.",
@@ -87,10 +87,10 @@
           }
         },
         "browserScript": {
-          "name": "Script de Navegador",
-          "headline": "Script de Navegador (BrowserScript)",
+          "name": "Script do navegador",
+          "headline": "Script do navegador (script do navegador)",
           "whenToUse": {
-            "line1": "Use um teste de Script de Navegador quando desejar simular interações do usuário com seu aplicativo da web usando um script IDE JavaScript ou Selenium."
+            "line1": "Use um teste de script de navegador quando desejar simular as interações do usuário com seu aplicativo da web usando um script JavaScript ou do Selenium."
           },
           "tipsForUsing": {
             "line1": "Etapa 1: escolha o tipo de teste que deseja criar.",
@@ -126,24 +126,24 @@
         "testTypeSection": {
           "selectedTestTypeLightCardTitle": "Tipo de teste selecionado",
           "rightListLabel": "Tipo de teste",
-          "apiTypeLabel": "Teste de API Simple | Teste de API Script",
+          "apiTypeLabel": "Teste de API simples | Teste de script de API",
           "apiTypeHeadline": "Qual tipo de teste sintético você gostaria de criar",
-          "apiTypeText": "Os testes de API podem ser usados para monitorar as APIs fornecidas por aplicativos da web. Os testes de API podem ser usados para medir a disponibilidade e o tempo de resposta. O teste Simples permite executar ping em uma URL ou testar uma única API. O teste de Script permite fornecer um script que pode verificar um conjunto de respostas de API, simular fluxos de trabalho complexos e testar funcionalidades específicas.",
+          "apiTypeText": "Os testes de API podem ser usados para monitorar as APIs fornecidas por aplicativos da web. Os testes de API podem ser usados para medir a disponibilidade e o tempo de resposta. O teste simples permite que você faça ping em uma URL ou teste uma única API. O teste de script permite que você forneça um script que possa verificar um conjunto de respostas de API, simular fluxos de trabalho complexos e testar funcionalidades específicas.",
           "selectedTestTypeButton": "Selecionar",
-          "httpScriptTitle": "Teste de API Script",
-          "httpActionTitle": "Teste de API Simple",
+          "httpScriptTitle": "Teste de script de API",
+          "httpActionTitle": "Teste de API simples",
           "browserTypeLabel": "Navegador",
-          "browserTypeHeadline": "Testes sintéticos do navegador",
+          "browserTypeHeadline": "Testes sintéticos de navegador",
           "browserTypeText": "O teste sintético do navegador é um método de monitoramento do desempenho do aplicativo da web ao simular as interações do usuário com um website por meio de um script em um navegador da web, fornecer insights valiosos sobre os problemas que afetam a experiência do usuário e assegurar a funcionalidade do website.",
-          "browserSimpleTitle": "Teste Simples de Navegador",
-          "browserScriptTitle": "Teste de Script de Navegador",
+          "browserSimpleTitle": "Teste de navegador simples",
+          "browserScriptTitle": "Teste de script de navegador",
           "certificateCheckTitle": "Verificação de certificado SSL",
           "certificateCheckLabel": "Certificado SSL",
-          "certificateCheckHeadline": "Teste de cerificação de certificado SSL",
-          "certificateCheckText": "O teste de verificação de certificado SSL é um método para testar a expiração de um certificado SSL em um aplicativo da Web verificando os dias restantes em um certificado emitido.",
-          "dnsActionLabel": "DNS",
-          "dnsActionHeadline": "Servidor de Nomes de Domínios",
-          "dnsActionText": "O teste de DNS é um método para verificar se o seu dispositivo ou rede está resolvendo corretamente os nomes de domínio e se não há problemas que possam causar lentidão, erros ou vulnerabilidades de segurança."
+          "certificateCheckHeadline": "Teste de verificação de certificado SSL",
+          "certificateCheckText": "O teste de verificação de certificado SSL é um método para testar a expiração de um certificado SSL em um aplicativo da web, verificando os dias restantes em um certificado emitido.",
+          "dnsLabel": "DNS",
+          "dnsHeadline": "Servidor de Nomes de Domínios",
+          "dnsText": "O teste de DNS é um método para verificar se o seu dispositivo ou rede está resolvendo corretamente os nomes de domínio e se não há problemas que possam causar lentidão, erros ou vulnerabilidades de segurança."
         },
         "configurationLabel": "Configuração",
         "configurationTitle": "Configuração: como esse teste funcionará?",
@@ -201,7 +201,7 @@
           "webpageUrl": "URL da página da web",
           "browserUploadFileDescription": "É possível fazer upload de um único arquivo .js, um arquivo zip de arquivos .js agrupados ou um script .side gravado pelo SeleniumIDE.",
           "sideFileUploadedMessage": "Os scripts Selenium não podem ser modificados ou validados",
-          "bundleFileNotSupportedMessage": "O arquivo não suportado é selecionado. Os pacotes configuráveis são suportados apenas no modo avançado.",
+          "bundleFileNotSupportedMessage": "O arquivo não suportado é selecionado. Os pacotes configuráveis são suportados somente no modo avançado.",
           "timeoutFieldLabel": "Tempo limite",
           "timeUnitsLabel": "Unidades de tempo",
           "timeoutFieldOptionMinutes": "minutos (m)",
@@ -215,12 +215,48 @@
           "retryFieldOptionNone": "Nenhum",
           "retryFieldOptionOnce": "Tentar novamente uma vez",
           "retryFieldOptionTwice": "Tentar novamente duas vezes",
-          "retryIntervalFieldLabel": "Intervalo de novas tentativas",
+          "retryIntervalFieldLabel": "Intervalo para novas tentativas",
           "retryIntervalDescription": "Este teste tentará novamente {{retryCount}} após {{retryIntervalValue}} {{retryIntervalUnit}}.",
           "markSyntheticCall": "Marcar chamada sintética",
           "downloadZip": "Fazer download do arquivo zip",
           "mainFileNameHelperText": "Forneça o nome do arquivo dentro desse arquivo zip que contém o ponto de entrada do teste",
-          "recordVideo": "Registre as ações do usuário em caso de falha"
+          "recordVideo": "Registre as ações do usuário em caso de falha",
+          "dns": {
+            "lookupLabel": "URL",
+            "lookupHelperText": "A URL é o nome de domínio que está sendo testado para resolução de DNS",
+            "lookupPlaceholder": "A URL do seu website",
+            "queryType": "Tipo de consulta",
+            "serverLabel": "Servidor DNS",
+            "serverHelperText": "O servidor DNS é o servidor responsável por traduzir o nome de domínio em um endereço IP",
+            "portLabel": "Porta",
+            "portHelperText": "A porta do servidor DNS é a porta de rede usada para a comunicação entre seu dispositivo (PoP) e o servidor DNS, normalmente a porta 53",
+            "queryTimeLabel": "Tempo de resposta",
+            "queryTimeHelperText": "O tempo ideal de resolução de DNS é entre 20 e 120 ms",
+            "recordTypeTitle": "Asserções (opcional)",
+            "recordTypeSubtitle": "Esses campos são opcionais, mas, quando preenchidos, todos precisam ser verdadeiros para que o teste seja bem-sucedido.",
+            "recordTypeLabel": "Tipo de registro",
+            "operatorLabel": "Condicional",
+            "operatorOptionMatches": "Correspondências",
+            "operatorOptionContains": "Contém",
+            "resolutionRecordLabel": "Registro de resolução",
+            "deleteButtonLabel": "Excluir",
+            "addRecordTypeLabel": "Incluir campo",
+            "recursiveLookupLabel": "Consulta recursiva",
+            "dnsRadioButtonOnLabel": "ON",
+            "dnsRadioButtonOffLabel": "Desligado",
+            "transportProtocolLabel": "Protocolo de transporte",
+            "acceptCNAMELabel": "Aceitar CNAME",
+            "lookupServerNamelabel": "Nome do servidor de consulta",
+            "serverRetriesLabel": "Novas tentativas do servidor (opcional)",
+            "validators": {
+              "invalidDNSLookup": "Formato de consulta de DNS inválido",
+              "invalidDNSServer": "Servidor DNS inválido",
+              "invalidIPv4Address": "Endereço IPv4 inválido",
+              "invalidIPv6Address": "Endereço IPv6 inválido",
+              "invalidRecordType": "Tipo de registro não válido",
+              "invalidResolutionRecord": "Registro de resolução não válido"
+            }
+          }
         },
         "loadMore": "Carregar mais",
         "selectTests": {
@@ -235,12 +271,12 @@
           "apiName": "API",
           "browserName": "Navegador",
           "certificateCheckName": "Certificado SSL",
-          "dnsActionName": "DNS"
+          "dnsName": "DNS"
         },
         "customProperties": {
           "property": "Propriedade",
           "propertyValue": "Valor",
-          "addProperty": "Incluir Propriedade",
+          "addProperty": "Incluir propriedade",
           "propertyNameMustBeUnique": "O nome da propriedade deve ser exclusivo."
         },
         "certificateCheck": {
@@ -319,7 +355,7 @@
       },
       "privateLocation": {
         "name": "Privado",
-        "headline": "Localização privada",
+        "headline": "Local privado",
         "description": {
           "headline": "Quando usar",
           "htmlContent": "Quando você deseja monitorar aplicativos ou terminais internos que são acessíveis apenas em sua rede privativa. Esses locais são configurados, hospedados e gerenciados por você."
@@ -339,7 +375,7 @@
         "locationName": "Nome do local",
         "displayName": "Nome de exibição",
         "locationStatus": "Status",
-        "status": "Status da ativação",
+        "status": "Status de ativação",
         "datacentersSubtitle": "Ative um local gerenciado pela Instana em um dos data centers disponíveis. Para obter mais informações, consulte <linkDatacenters>Usando um PoP hospedado pelo Instana</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Os locais estão sendo implementados",
@@ -349,7 +385,7 @@
               "datacenterCode": "Código do data center",
               "datacenterName": "Nome do data center",
               "locationName": "Nome do local",
-              "datacenterStatus": "Status da ativação"
+              "datacenterStatus": "Status de ativação"
             }
           },
           "activateLocationLoadingMessage": "Ativando data centers",
@@ -433,8 +469,8 @@
         "credentials": "Credenciais"
       },
       "popDialog": {
-        "popUpDialogTitle": "Permissões para monitoramento sintético",
-        "popUpDialog": "Verifique o <documentationLink>documento</documentationLink> para obter informações sobre como configurar permissões de monitoramento sintético",
+        "popUpDialogTitle": "Permissões para o monitoramento sintético",
+        "popUpDialog": "Verifique o <documentationLink>documento</documentationLink> para obter informações sobre como configurar as permissões de monitoramento sintético",
         "button": "Implementar um PoP",
         "simpleTab": "Simples",
         "redisTab": "Redis TLS",
@@ -473,7 +509,7 @@
       "paused": "Pausar",
       "deleted": "Excluídas",
       "type": "Tipo",
-      "successRate": "Taxa de sucesso",
+      "successRate": "Pontuação de sucesso",
       "successRuns": "{{successRuns}} / {{totalRuns}} resultados",
       "latency": "Latência",
       "locationLabel": "Locais",
@@ -492,7 +528,7 @@
       "na": "N/D"
     },
     "locationList": {
-      "locationLiveModeDisabled": "O Modo Ativo não é aplicável na página Locais do Synthetic",
+      "locationLiveModeDisabled": "O modo em tempo real não é aplicável na página de locais sintéticos",
       "locationLabel": "Nome do local",
       "locationDisplayLabel": "Nome de exibição",
       "status": "Status",
@@ -512,7 +548,7 @@
       "typeToContinue": "Digite {{location}} para continuar",
       "deletionSuccess": "A localização foi excluída",
       "cancelButton": "Cancelar",
-      "deleteLocationLabel": "Excluir localização",
+      "deleteLocationLabel": "Excluir local",
       "success": "Sucesso",
       "failure": "Com falha",
       "popVersion": "Versão",
@@ -528,24 +564,24 @@
       }
     },
     "summary": {
-      "successRate": "Taxa de sucesso",
+      "successRate": "Pontuação de sucesso",
       "locations": "Locais",
       "responseTime": "Tempo de resposta",
-      "meanResponseTime": "Média de Tempo de resposta",
+      "meanResponseTime": "Tempo médio de resposta",
       "responseSize": "Tamanho da resposta",
-      "avgResponseSize": "Média de Tamanho da resposta",
+      "avgResponseSize": "Tamanho médio da resposta",
       "summaryTab": "Resumo",
       "resultsTab": "Resultados",
-      "startTime": "Horário de Início",
+      "startTime": "Horário de início",
       "requests": "Solicitações",
       "widgets": {
         "failures": "Falhas",
         "responseTimes": "Tempos de resposta",
-        "averageResponseSize": "Média de tamanho de resposta",
+        "averageResponseSize": "Tamanho médio da resposta",
         "responseStatus": "Status da resposta",
         "networkTimings": "Sincronizações de rede",
         "blocking": "Bloqueio",
-        "dns": "Consulta de DNS",
+        "dns": "Consulta de DNS do",
         "sending": "Enviando",
         "waiting": "Esperando",
         "receiving": "Recebimento",
@@ -558,9 +594,9 @@
         "created": "Criado em",
         "accepted": "Aceito",
         "forbidden": "Proibido",
-        "notFound": "Não localizado",
-        "serverError": "Erro do servidor",
-        "badRequest": "Solicitação ruim",
+        "notFound": "Não localizadas",
+        "serverError": "Erro de servidor",
+        "badRequest": "Solicitação inválida",
         "badGateway": "Gateway ruim",
         "gatewayTimeout": "Tempo limite do gateway"
       },
@@ -572,8 +608,8 @@
       "resultsCertificateValid": "O certificado é assinado pela CA pública",
       "certificateValid": "True",
       "certificateNotValid": "Não",
-      "daysRemaining": "Última execução: dias restantes",
-      "timeOfExpiry": "Última execução - Horário de expiração",
+      "daysRemaining": "Última execução - dias restantes",
+      "timeOfExpiry": "Última execução - horário de expiração",
       "smallerTimeFrameTitle": "Não há nenhum resultado para este período de tempo",
       "smallerTimeFrameDescription": "Selecione um prazo mais longo para consultar os resultados para testes de verificação de certificado SSL."
     },
@@ -588,10 +624,14 @@
       "failures": "Falhas",
       "status": "Status",
       "success": "Sucesso",
-      "daysRemaining": "Dias restantes"
+      "daysRemaining": "Dias restantes",
+      "dns": {
+        "failureType": "Tipo de falha",
+        "na": "N/D"
+      }
     },
     "detailsPage": {
-      "detailLiveModeDisabled": "O Modo Ativo não é aplicável na página de detalhes do resultado de teste do Synthetic",
+      "detailLiveModeDisabled": "O modo em tempo real não é aplicável na página de detalhes do resultado do teste sintético",
       "timeLineWidget": "Linha de tempo",
       "responseTimeChart": "Tempo de resposta",
       "subtransactionStatus": "Status",
@@ -689,7 +729,7 @@
             "redirectUrl": "URL de redirecionamento",
             "headerSize": "Tamanho do cabeçalho",
             "bodySize": "Tamanho do corpo",
-            "contentType": "Tipo de Conteúdo",
+            "contentType": "Tipo de conteúdo",
             "contentSize": "Tamanho do conteúdo",
             "status": "Status"
           },
@@ -733,7 +773,7 @@
     "noDataAvailable": {
       "resultsTitle": "Nenhum resultado disponível",
       "resultsDescription": "Não houve resultados recuperados para o intervalo de tempo selecionado.",
-      "testSummaryTitle": "Nenhum teste sintético disponível",
+      "testSummaryTitle": "Não há testes sintéticos disponíveis",
       "testSummaryDescription": "Não há testes sintéticos recuperados do banco de dados.",
       "locationListTitle": "Nenhum local sintético disponível",
       "locationListDescription": "Não há locais sintéticos recuperados do banco de dados.",
@@ -800,7 +840,7 @@
       "retryStrategyLabel": "Estratégia de nova tentativa",
       "retryStrategyNone": "Nenhum",
       "retryStrategyDescription": "Tente novamente {{retryStrategy}}",
-      "retryIntervalFieldLabel": "Intervalo de novas tentativas",
+      "retryIntervalFieldLabel": "Intervalo para novas tentativas",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} segundo",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} segundos",
       "markSyntheticCall": "Marcar chamada sintética",
@@ -816,7 +856,26 @@
       "noWebsitesAssociated": "Nenhum site associado",
       "associatedMobileApps": "Aplicativos móveis associados",
       "noMobileAppAssociated": "Nenhum aplicativo móvel associado",
-      "recordVideo": "Registre as ações do usuário em caso de falha"
+      "recordVideo": "Registre as ações do usuário em caso de falha",
+      "dns": {
+        "lookupLabel": "URL",
+        "queryTypeLabel": "Tipo de consulta",
+        "serverLabel": "Servidor DNS",
+        "portLabel": "Porta",
+        "responseTimeLabel": "Tempo de resposta",
+        "responseTimeDescription": "O tempo de resposta é menor que {{responseTime}} ms",
+        "assertionsTitle": "Asserções",
+        "recordTypeLabel": "Tipo de registro",
+        "operatorLabel": "Condicional",
+        "resolutionRecordLabel": "Registro de resolução",
+        "recursiveLookupLabel": "Consulta recursiva",
+        "dnsRadioButtonOnLabel": "ON",
+        "dnsRadioButtonOffLabel": "Desligado",
+        "transportProtocolLabel": "Protocolo de transporte",
+        "acceptCNAMELabel": "Aceitar CNAME",
+        "lookupServerNamelabel": "Nome do servidor de consulta",
+        "serverRetriesLabel": "Novas tentativas do servidor"
+      }
     },
     "credentialList": {
       "mainLabel": "Credenciais",

@@ -5,6 +5,7 @@
 
 import {
   actionAutomationEnabled,
+  businessObservabilityEnabled,
   infraExploreDataEnabled,
   openstackEnabled,
   pcfEnabled,
@@ -18,7 +19,8 @@ import {
   infraSmartAlertsEnabled,
   logSmartAlertsEnabled,
   applicationSubtracesEnabled,
-  nutanixEnabled
+  nutanixEnabled,
+  xenserverEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -39,7 +41,8 @@ export const LimitedAccessScope = Object.freeze({
   LIMITED_OPENSTACK_SCOPE: 'LIMITED_OPENSTACK_SCOPE',
   LIMITED_SAP_SCOPE: 'LIMITED_SAP_SCOPE',
   LIMITED_AUTOMATION_SCOPE: 'LIMITED_AUTOMATION_SCOPE',
-  LIMITED_NUTANIX_SCOPE: 'LIMITED_NUTANIX_SCOPE'
+  LIMITED_NUTANIX_SCOPE: 'LIMITED_NUTANIX_SCOPE',
+  LIMITED_XENSERVER_SCOPE: 'LIMITED_XENSERVER_SCOPE'
 } as const);
 export type LimitedAccessScopeType = keyof typeof LimitedAccessScope;
 export const LimitedAccessScopes = Object.freeze(Object.values(LimitedAccessScope));
@@ -61,7 +64,8 @@ export const AreaPermission = Object.freeze({
   ACCESS_SAP: 'ACCESS_SAP',
   ACCESS_BIZOPS: 'ACCESS_BIZOPS',
   ACCESS_AUTOMATION: 'ACCESS_AUTOMATION',
-  ACCESS_NUTANIX: 'ACCESS_NUTANIX'
+  ACCESS_NUTANIX: 'ACCESS_NUTANIX',
+  ACCESS_XENSERVER: 'ACCESS_XENSERVER'
 } as const);
 export type AreaPermissionType = keyof typeof AreaPermission;
 export const AreaPermissions = Object.freeze(Object.values(AreaPermission));
@@ -190,6 +194,8 @@ export const hasSAPAccess =
   hasPermission(LimitedAccessScope.LIMITED_SAP_SCOPE, AreaPermission.ACCESS_SAP) && sapEnabled;
 export const hasNutanixAccess =
   hasPermission(LimitedAccessScope.LIMITED_NUTANIX_SCOPE, AreaPermission.ACCESS_NUTANIX) && nutanixEnabled;
+export const hasXenServerAccess =
+  hasPermission(LimitedAccessScope.LIMITED_XENSERVER_SCOPE, AreaPermission.ACCESS_XENSERVER) && xenserverEnabled;
 export const hasAPlatformAccess =
   hasVSphereAccess ||
   hasPHMCAccess ||
@@ -199,7 +205,8 @@ export const hasAPlatformAccess =
   hasOpenStackAccess ||
   hasKubernetesAccess ||
   hasSAPAccess ||
-  hasNutanixAccess;
+  hasNutanixAccess ||
+  hasXenServerAccess;
 
 export const hasCanCreateHeapDump =
   hasInfrastructureAccess && permissions.includes(InfrastructureCapability.CAN_CREATE_HEAP_DUMP);
@@ -218,6 +225,7 @@ export const amountPlatformAccesses = (() => {
   if (hasKubernetesAccess) count++;
   if (hasSAPAccess) count++;
   if (hasNutanixAccess) count++;
+  if (hasXenServerAccess) count++;
   return count;
 })();
 
@@ -230,7 +238,8 @@ export const hasEventsAccess =
   hasInfrastructureAccess ||
   hasSyntheticsAccess;
 
-export const hasBizOpsAccess = hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS);
+export const hasBizOpsAccess =
+  businessObservabilityEnabled && hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS);
 
 export const hasAutomationAccess =
   actionAutomationEnabled &&
@@ -296,10 +305,12 @@ function getProductAreaPermissions(): Array<AreaPermissionProps> {
     });
   }
 
-  areaPermissions.push({
-    value: AreaPermission.ACCESS_BIZOPS,
-    label: t('in-stores:permissionAccessBizOpsLabel')
-  });
+  if (businessObservabilityEnabled) {
+    areaPermissions.push({
+      value: AreaPermission.ACCESS_BIZOPS,
+      label: t('in-stores:permissionAccessBizOpsLabel')
+    });
+  }
 
   if (actionAutomationEnabled) {
     areaPermissions.push({

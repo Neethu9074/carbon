@@ -1,8 +1,8 @@
 {
   "dialog": {
     "createTest": {
-      "buttonLabel": "シンセティック・テストの追加",
-      "dialogTitle": "シンセティック・テストの作成",
+      "buttonLabel": "合成テストの追加",
+      "dialogTitle": "合成テストの作成",
       "noLocationFound": "申し訳ありませんアプリケーションが見つかりません",
       "noApplicationsFound": "アプリケーションが見つかりません",
       "noMatchingFound": "一致するアプリケーションが見つかりません",
@@ -74,7 +74,7 @@
           }
         },
         "browserSimple": {
-          "name": "ブラウザー (シンプル)",
+          "name": "ブラウザー・シンプル",
           "headline": "ブラウザー・シンプル (Web ページ・アクション)",
           "whenToUse": {
             "line1": "HTTP エラーについて単一の Web ページをテストする場合は、ブラウザー単純テストを使用します。"
@@ -88,7 +88,7 @@
         },
         "browserScript": {
           "name": "ブラウザー・スクリプト",
-          "headline": "ブラウザー・スクリプト (BrowserScript)",
+          "headline": "ブラウザ・スクリプト (ブラウザ・スクリプト)",
           "whenToUse": {
             "line1": "JavaScript または Selenium IDE スクリプトを使用して Web アプリケーションとのユーザー対話をシミュレートする場合は、ブラウザー・スクリプト・テストを使用します。"
           },
@@ -128,22 +128,22 @@
           "rightListLabel": "テスト・タイプ",
           "apiTypeLabel": "API シンプル・テスト | API スクリプト・テスト",
           "apiTypeHeadline": "どのような種類のシンセティック・テストを作成しますか",
-          "apiTypeText": "API テストを使用して、Web アプリケーションによって提供される API をモニターできます。 API テストを使用して、可用性と応答時間を測定できます。 単純テストでは、URL を ping するか、単一の API をテストすることができます。 「スクリプト」テストでは、API 応答のセットの検査、複雑なワークフローのシミュレート、および特定の機能のテストを行うことができるスクリプトを提供できます。",
+          "apiTypeText": "API テストを使用して、Web アプリケーションによって提供される API をモニターできます。 API テストを使用して、可用性と応答時間を測定できます。 単純テストでは、URL を ping するか、単一の API をテストすることができます。 スクリプト・テストでは、API 応答のセットの検査、複雑なワークフローのシミュレート、および特定の機能のテストを行うことができるスクリプトを提供できます。",
           "selectedTestTypeButton": "選択",
           "httpScriptTitle": "API スクリプト・テスト",
           "httpActionTitle": "API シンプル・テスト",
           "browserTypeLabel": "ブラウザー",
-          "browserTypeHeadline": "ブラウザー・シンセティック・テスト",
+          "browserTypeHeadline": "ブラウザー合成テスト",
           "browserTypeText": "ブラウザー・シンセティック・テストは、Web ブラウザーでスクリプトを使用して Web サイトとのユーザー対話をシミュレートすることにより、Web アプリケーションのパフォーマンスをモニターする方法です。これにより、ユーザー・エクスペリエンスに影響を与える問題に関する貴重な洞察を提供し、Web サイトの機能を確保します。",
           "browserSimpleTitle": "ブラウザー単純テスト",
           "browserScriptTitle": "ブラウザー・スクリプト・テスト",
-          "certificateCheckTitle": "SSL証明書の確認",
-          "certificateCheckLabel": "SSL 証明書",
-          "certificateCheckHeadline": "SSL証明書の確認テスト",
-          "certificateCheckText": "SSL証明書の確認テストは、発行された証明書の残り日数を確認することによって、WebアプリケーションでSSL証明書の有効期限をテストする方法です。",
-          "dnsActionLabel": "DNS",
-          "dnsActionHeadline": "ドメイン・ネーム・サービス",
-          "dnsActionText": "DNS テストは、デバイスやネットワークがドメイン名を適切に解決し、速度低下、エラー、セキュリティ上の脆弱性につながる問題がないことを確認する方法です。"
+          "certificateCheckTitle": "SSL 証明書の確認",
+          "certificateCheckLabel": "SSL認証",
+          "certificateCheckHeadline": "SSL 証明書の確認テスト",
+          "certificateCheckText": "SSL 証明書の確認テストは、発行された証明書の残り日数を確認することによって、Web アプリケーションでSSL証明書の有効期限をテストする方法です。",
+          "dnsLabel": "DNS",
+          "dnsHeadline": "ドメイン・ネーム・サービス",
+          "dnsText": "DNS テストは、デバイスやネットワークがドメイン名を適切に解決し、速度低下、エラー、セキュリティ上の脆弱性につながる問題がないことを確認する方法です。"
         },
         "configurationLabel": "構成",
         "configurationTitle": "構成: このテストはどのように機能しますか?",
@@ -163,7 +163,7 @@
           "allowInsecure": "非セキュアを許可",
           "expectStatusLabel": "予期される状況",
           "expectJSONLabel": "JSON を予期",
-          "expectMatchLabel": "一致を予期",
+          "expectMatchLabel": "期待一致",
           "expectStatusPlaceholder": "予期される状況の入力",
           "expectJSONPlaceholder": "予期される JSON の入力",
           "expectMatchPlaceholder": "予期されるストリングの入力",
@@ -217,10 +217,46 @@
           "retryFieldOptionTwice": "2 回再試行",
           "retryIntervalFieldLabel": "再試行間隔",
           "retryIntervalDescription": "このテストは、{{retryIntervalValue}} {{retryIntervalUnit}}の後に {{retryCount}} を再試行します。",
-          "markSyntheticCall": "マーク・シンセティック・コール",
+          "markSyntheticCall": "マーク合成コール",
           "downloadZip": ".zip ファイルをダウンロードする",
           "mainFileNameHelperText": "この .zip ファイル内の、テストのエントリー・ポイントを含むファイル名を指定してください",
-          "recordVideo": "失敗時にユーザーアクションを記録する"
+          "recordVideo": "失敗時にユーザーアクションを記録する",
+          "dns": {
+            "lookupLabel": "URL",
+            "lookupHelperText": "URL は、DNS 解決のためにテストされているドメイン名です",
+            "lookupPlaceholder": "お客様のウェブサイトの URL",
+            "queryType": "照会タイプ",
+            "serverLabel": "DNSサーバー",
+            "serverHelperText": "DNS サーバーは、ドメイン名を IP アドレスに変換する役割を担うサーバーです",
+            "portLabel": "ポート",
+            "portHelperText": "DNS サーバー・ポートは、使用されるネットワーク・ポートまたはデバイス (PoP) と DNS サーバ (通常はポート 53) 間の通信です",
+            "queryTimeLabel": "応答時間",
+            "queryTimeHelperText": "最適な DNS 解決時間は 20～120 ミリ秒です",
+            "recordTypeTitle": "アサーション (オプション)",
+            "recordTypeSubtitle": "これらのフィールドは任意ですが、記入する場合は、テストを成功させるにはすべて「true」にする必要があります。",
+            "recordTypeLabel": "レコード・タイプ",
+            "operatorLabel": "条件",
+            "operatorOptionMatches": "一致",
+            "operatorOptionContains": "次を含む",
+            "resolutionRecordLabel": "解像度記録",
+            "deleteButtonLabel": "削除",
+            "addRecordTypeLabel": "フィールドの追加",
+            "recursiveLookupLabel": "再帰的ルックアップ",
+            "dnsRadioButtonOnLabel": "オン",
+            "dnsRadioButtonOffLabel": "オフ",
+            "transportProtocolLabel": "トランスポート・プロトコル",
+            "acceptCNAMELabel": "CNAME を受け入れる",
+            "lookupServerNamelabel": "サーバー名を検索",
+            "serverRetriesLabel": "サーバー再試行 (オプション)",
+            "validators": {
+              "invalidDNSLookup": "DNS 参照形式が有効ではありません",
+              "invalidDNSServer": "DNS サーバーが無効です",
+              "invalidIPv4Address": "IPv4 アドレスが有効ではありません",
+              "invalidIPv6Address": "IPv6 アドレスが有効ではありません",
+              "invalidRecordType": "無効なレコード・タイプ",
+              "invalidResolutionRecord": "解像度レコードが無効"
+            }
+          }
         },
         "loadMore": "さらにロード",
         "selectTests": {
@@ -234,8 +270,8 @@
         "advancedBluePrint": {
           "apiName": "API",
           "browserName": "ブラウザー",
-          "certificateCheckName": "SSL 証明書",
-          "dnsActionName": "DNS"
+          "certificateCheckName": "SSL認証",
+          "dnsName": "DNS"
         },
         "customProperties": {
           "property": "プロパティー",
@@ -339,7 +375,7 @@
         "locationName": "ロケーション名",
         "displayName": "表示名",
         "locationStatus": "状況",
-        "status": "アクティブ化ステータス",
+        "status": "アクティベーションの状況",
         "datacentersSubtitle": "使用可能なデータ・センターのいずれかで Instana 管理ロケーションをアクティブ化します。 詳しくは、<linkDatacenters>Instana でホストされる PoP</linkDatacenters> を参照してください。 ",
         "confirmationDialog": {
           "headline": "ロケーションをデプロイしています",
@@ -349,7 +385,7 @@
               "datacenterCode": "データ・センター・コード",
               "datacenterName": "データ・センター名",
               "locationName": "ロケーション名",
-              "datacenterStatus": "アクティブ化ステータス"
+              "datacenterStatus": "アクティベーションの状況"
             }
           },
           "activateLocationLoadingMessage": "データ・センターのアクティブ化",
@@ -433,12 +469,12 @@
         "credentials": "資格情報"
       },
       "popDialog": {
-        "popUpDialogTitle": "シンセティック・モニターのための権限",
-        "popUpDialog": "シンセティック・モニターの権限の設定については、<documentationLink>資料</documentationLink>を参照してください",
+        "popUpDialogTitle": "合成モニタリングのための権限",
+        "popUpDialog": "合成モニタリングの権限の設定については、<documentationLink>ドキュメント</documentationLink>を参照してください",
         "button": "PoPのデプロイ",
         "simpleTab": "シンプル",
         "redisTab": "Redis TLS",
-        "title": "シンセティック PoP コマンド",
+        "title": "合成 PoP コマンド",
         "subTitle": "以下のコード・テンプレートを参考に使用してください。 詳しくは、<documentationLink>自己ホスト型 PoP を参照してください</documentationLink>",
         "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\" \\\nsynthetic-pop",
         "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
@@ -492,7 +528,7 @@
       "na": "該当なし"
     },
     "locationList": {
-      "locationLiveModeDisabled": "ライブ・モードは「シンセティック・ロケーション」ページには適用されません",
+      "locationLiveModeDisabled": "ライブ・モードは「合成ロケーション」ページには適用されません",
       "locationLabel": "ロケーション名",
       "locationDisplayLabel": "表示名",
       "status": "状況",
@@ -531,9 +567,9 @@
       "successRate": "成功率",
       "locations": "ロケーション",
       "responseTime": "応答時間",
-      "meanResponseTime": "平均 応答時間",
+      "meanResponseTime": "平均応答時間",
       "responseSize": "応答サイズ",
-      "avgResponseSize": "平均 応答サイズ",
+      "avgResponseSize": "平均回答サイズ",
       "summaryTab": "サマリー",
       "resultsTab": "結果",
       "startTime": "開始時刻",
@@ -541,7 +577,7 @@
       "widgets": {
         "failures": "障害",
         "responseTimes": "応答時間",
-        "averageResponseSize": "平均の応答サイズ",
+        "averageResponseSize": "平均応答サイズ",
         "responseStatus": "応答状況",
         "networkTimings": "ネットワーク時間",
         "blocking": "ブロッキング",
@@ -558,24 +594,24 @@
         "created": "作成日",
         "accepted": "受け入れ済み",
         "forbidden": "Forbidden",
-        "notFound": "未検出",
+        "notFound": "見つかりませんでした",
         "serverError": "サーバー・エラー",
-        "badRequest": "Bad Request",
-        "badGateway": "Bad Gateway",
-        "gatewayTimeout": "ゲートウェイタイムアウト"
+        "badRequest": "誤った要求",
+        "badGateway": "不正なゲートウェイ",
+        "gatewayTimeout": "ゲートウェイ・タイムアウト"
       },
       "totalRuns": "{{totalRuns}}の合計実行数",
       "meanLatencyFor90th": "90 パーセンタイルでは {{meanLatencyDetail}}",
       "smartAlertsTab": "スマート・アラート",
       "configurationTab": "構成",
-      "isCertificateValid": "最後の実行-証明書はパブリック CA によって署名される",
+      "isCertificateValid": "最後の実行 - 証明書はパブリック CA によって署名される",
       "resultsCertificateValid": "証明書はパブリック CA によって署名される",
       "certificateValid": "はい",
       "certificateNotValid": "いいえ",
       "daysRemaining": "前回の実行 - 残り日数",
       "timeOfExpiry": "最後の実行 - 有効期限",
       "smallerTimeFrameTitle": "この時間枠の結果はありません",
-      "smallerTimeFrameDescription": "SSL証明書確認テストの結果を確認するには、より長い時間枠を選択してください。"
+      "smallerTimeFrameDescription": "SSL 証明書確認テストの結果を確認するには、より長い時間枠を選択します。"
     },
     "resultsListPage": {
       "startedColumn": "開始済み",
@@ -588,10 +624,14 @@
       "failures": "障害",
       "status": "状況",
       "success": "成功",
-      "daysRemaining": "残り日数"
+      "daysRemaining": "残り日数",
+      "dns": {
+        "failureType": "障害タイプ",
+        "na": "該当なし"
+      }
     },
     "detailsPage": {
-      "detailLiveModeDisabled": "ライブ・モードは、シンセティック・テスト結果の詳細ページには適用されません",
+      "detailLiveModeDisabled": "ライブ・モードは、合成テスト結果の詳細ページには適用されません",
       "timeLineWidget": "タイムライン",
       "responseTimeChart": "応答時間",
       "subtransactionStatus": "状況",
@@ -604,7 +644,7 @@
       "subtransactionSending": "送信",
       "subtransactionWaiting": "待機",
       "subtransactionReceiving": "受信",
-      "showLessSubDetails": "簡略表示",
+      "showLessSubDetails": "少なく表示",
       "showMoreSubDetails": "さらに表示",
       "failedRun": "失敗した実行 (例外)",
       "failedRunErrorTitle": "エラー・メッセージ",
@@ -678,7 +718,7 @@
             "title": "要求",
             "url": "URL",
             "httpVersion": "HTTP バージョン",
-            "headerSize": "ヘッダーのサイズ",
+            "headerSize": "ヘッダー・サイズ",
             "bodySize": "本文のサイズ",
             "method": "メソッド"
           },
@@ -687,7 +727,7 @@
             "transferSize": "転送サイズ",
             "httpVersion": "HTTP バージョン",
             "redirectUrl": "リダイレクト URI",
-            "headerSize": "ヘッダーのサイズ",
+            "headerSize": "ヘッダー・サイズ",
             "bodySize": "本文のサイズ",
             "contentType": "コンテンツ・タイプ",
             "contentSize": "コンテンツ・サイズ",
@@ -733,19 +773,19 @@
     "noDataAvailable": {
       "resultsTitle": "表示可能な結果はありません",
       "resultsDescription": "選択した時刻範囲について、取得された結果はありませんでした。",
-      "testSummaryTitle": "使用可能なシンセティック・テストがありません",
-      "testSummaryDescription": "データベースから取得されたシンセティック・テストはありません。",
-      "locationListTitle": "使用可能なシンセティック・ロケーションがありません",
-      "locationListDescription": "データベースから取得されたシンセティック・ロケーションがありません。",
+      "testSummaryTitle": "合成テストは利用できません",
+      "testSummaryDescription": "データベースから取得された合成テストはありません。",
+      "locationListTitle": "使用可能な合成ロケーションがありません",
+      "locationListDescription": "データベースから取得された合成ロケーションがありません。",
       "configurationTab": "{{component}}の詳細はこのテストには使用できません。"
     },
     "alertList": {
       "timeThreshold": "時間しきい値",
-      "testsApplied": "適用されているテスト",
-      "filterApplied": "適用されているフィルター",
+      "testsApplied": "適用されるテスト",
+      "filterApplied": "フィルターを適用済み",
       "violationsCount": "{{violationsCount}}件の障害",
       "testsCount": "{{testsCount}}個のテスト",
-      "numberOfFailures": "障害アラート"
+      "numberOfFailures": "失敗アラート"
     },
     "configuration": {
       "configurationTitle": "{{testType}} テスト構成",
@@ -761,9 +801,9 @@
       "body": "Body",
       "validationString": "検証ストリング",
       "expectStatus": "予期される状況",
-      "expectMatch": "一致を予期",
+      "expectMatch": "期待一致",
       "expectJSON": "JSON を予期",
-      "additionalOptionsTitle": "追加オプション",
+      "additionalOptionsTitle": "追加のオプション",
       "followRedirect": "リダイレクトに従う",
       "allowInsecure": "非セキュアを許可",
       "locationsTitle": "ロケーション",
@@ -789,7 +829,7 @@
         "reasonTitle": "削除の理由",
         "typingValidationTitle": "続行するには {{synthetic}} を入力してください",
         "cancelButton": "キャンセル",
-        "deleteButton": "テストの削除",
+        "deleteButton": "テストを削除",
         "deleteTestBrowserRefreshInfo": "テストのリストからテストが表示されなくなるまでに時間がかかり、ブラウザーの最新表示が必要になる場合があります。"
       },
       "configurationEditAction": "編集",
@@ -803,7 +843,7 @@
       "retryIntervalFieldLabel": "再試行間隔",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} 秒",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} 秒",
-      "markSyntheticCall": "マーク・シンセティック・コール",
+      "markSyntheticCall": "マーク合成コール",
       "hostname": "ホスト名",
       "port": "ポート",
       "daysRemaining": "失敗構成",
@@ -816,7 +856,26 @@
       "noWebsitesAssociated": "関連サイトなし",
       "associatedMobileApps": "関連モバイル・アプリ",
       "noMobileAppAssociated": "モバイル・アプリは関連なし",
-      "recordVideo": "失敗時にユーザーアクションを記録する"
+      "recordVideo": "失敗時にユーザーアクションを記録する",
+      "dns": {
+        "lookupLabel": "URL",
+        "queryTypeLabel": "照会タイプ",
+        "serverLabel": "DNSサーバー",
+        "portLabel": "ポート",
+        "responseTimeLabel": "応答時間",
+        "responseTimeDescription": "応答時間は {{responseTime}} ミリ秒未満です",
+        "assertionsTitle": "アサーション",
+        "recordTypeLabel": "レコード・タイプ",
+        "operatorLabel": "条件",
+        "resolutionRecordLabel": "解像度記録",
+        "recursiveLookupLabel": "再帰的ルックアップ",
+        "dnsRadioButtonOnLabel": "オン",
+        "dnsRadioButtonOffLabel": "オフ",
+        "transportProtocolLabel": "トランスポート・プロトコル",
+        "acceptCNAMELabel": "CNAME を受け入れる",
+        "lookupServerNamelabel": "サーバー名を検索",
+        "serverRetriesLabel": "サーバー再試行"
+      }
     },
     "credentialList": {
       "mainLabel": "資格情報",

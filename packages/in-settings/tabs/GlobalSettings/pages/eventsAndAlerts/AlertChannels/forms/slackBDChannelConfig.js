@@ -1,0 +1,291 @@
+/*
+ * (c) Copyright IBM Corp. 2025
+ * (c) Copyright Instana Inc.
+ */
+
+import { createMapForm, createField } from 'formalistic';
+import React, { useState } from 'react';
+
+import {
+  DescriptionList,
+  DescriptionItem,
+  Stack,
+  Toggle,
+  Typography,
+  CarbonButton,
+  InfoIcon
+} from '@instana/components';
+import { generateUniqueShortId } from '@instana/utils';
+
+import { SETTINGS_ALERT_CHANNEL_CREATE } from 'in-services/tracking/eventNames';
+import { alertChannelCTATrackerSegment } from 'in-settings/tracker';
+import { notBlankValidator } from 'in-services/validators/string';
+import TouchedMessages from 'in-components/form/TouchedMessages';
+import SectionHelp from 'in-settings/components/SectionHelp';
+import FormGroup from 'in-settings/components/FormGroup';
+import Input from 'in-components/form/Input';
+import Label from 'in-components/form/Label';
+import { t } from 'in-i18n';
+
+import './Forms.less';
+
+const block = 'in-alert-channel-config-form';
+
+const name = 'BIDIRECTIONAL_SLACK';
+const label = t('in-settings:tabs.slackBD');
+
+const parameters = [
+  {
+    key: 'name',
+    label: t('in-settings:tabs.name')
+  },
+  {
+    key: 'kind',
+    label: t('in-settings:tabs.type')
+  },
+  {
+    key: 'id',
+    label: t('in-settings:tabs.id')
+  },
+  {
+    key: 'emojiRendering',
+    label: t('in-settings:tabs.displayEmojis')
+  },
+  {
+    key: 'generatedLinkClicked',
+    label: t('in-settings:tabs.type')
+  }
+];
+
+export default {
+  name,
+  label,
+  testAPI: null,
+  isAlpha: false,
+  isBeta: true,
+  feedbackLink: 'https://your.feedback.ibm.com/jfe/form/SV_74ceKBDf54cWmAS',
+  customSubmit: {
+    noCreateAPI: true,
+    submitSaveLabel: t('in-settings:tabs.doneButton'),
+    submitCreateLabel: t('in-settings:tabs.doneButton')
+  },
+  noTeams: true, //TODO: review behavior when teams tagging is present and enable when design is finalized
+  getParameters() {
+    return parameters;
+  },
+
+  enrichAlertChannelObject(alertChannel) {
+    alertChannel.emojiRendering = false;
+  },
+
+  createDetails(alertChannel) {
+    return (
+      <DescriptionList inComponents>
+        <DescriptionItem inComponents title={t('in-settings:tabs.displayEmojis')}>
+          {alertChannel.get('emojiRendering')}
+        </DescriptionItem>
+      </DescriptionList>
+    );
+  },
+
+  createForm(alertChannel) {
+    return createMapForm()
+      .put(
+        'kind',
+        createField({
+          value: name
+        })
+      )
+      .put(
+        'name',
+        createField({
+          value: alertChannel ? alertChannel.get('name') : '',
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'id',
+        createField({
+          value: alertChannel ? alertChannel.get('id') : generateUniqueShortId()
+        })
+      )
+      .put(
+        'emojiRendering',
+        createField({
+          value: alertChannel ? alertChannel.get('emojiRendering') : false
+        })
+      )
+      .put(
+        'id',
+        createField({
+          value: alertChannel ? alertChannel.get('id') : generateUniqueShortId()
+        })
+      )
+      .put(
+        'generatedLinkClicked',
+        createField({
+          value: alertChannel ? alertChannel.get('generatedLinkClicked') : false,
+          validator: val => {
+            if (val == null || val == false) {
+              return [
+                {
+                  severity: 'error',
+                  message: t('in-settings:tabs.setupError')
+                }
+              ];
+            }
+          }
+        })
+      )
+      .put(
+        'appId',
+        createField({
+          value: alertChannel && alertChannel.get('appId')
+          // No validator, this is blank on creation but on edit we need to persist the value
+        })
+      )
+      .put(
+        'teamId',
+        createField({
+          value: alertChannel && alertChannel.get('teamId')
+          // No validator, this is blank on creation but on edit we need to persist the value
+        })
+      )
+      .put(
+        'teamName',
+        createField({
+          value: alertChannel && alertChannel.get('teamName')
+          // No validator, this is blank on creation but on edit we need to persist the value
+        })
+      )
+      .put(
+        'channelId',
+        createField({
+          value: alertChannel && alertChannel.get('channelId')
+          // No validator, this is blank on creation but on edit we need to persist the value
+        })
+      )
+      .put(
+        'channelName',
+        createField({
+          value: alertChannel && alertChannel.get('channelName')
+          // No validator, this is blank on creation but on edit we need to persist the value
+        })
+      );
+  },
+
+  Form
+};
+
+function Form({ form, onChange }) {
+  const [disableButton, setDisableButton] = useState(true);
+  const [newName, setNewName] = useState(false);
+  // IF there is a name on first render we know we are in edit mode
+  const [isEdit, setIsEdit] = useState(form.get('name').value != '');
+
+  // If a new name is typed in AFTER the authorization button was clicked
+  // for a previous entered name we want to trigger the error alerting them
+  // they still need to reauthorize and click the button a second time.
+  if (newName && form.get('generatedLinkClicked').touched) {
+    onChange('generatedLinkClicked', undefined);
+    setNewName(false);
+    setIsEdit(false);
+  }
+  // If we are editing we want to set generatedLinkClicked as true because
+  // there is currently nothing to authenticate until name or emoji is modified
+  if (isEdit && form.get('generatedLinkClicked').value == undefined) {
+    onChange('generatedLinkClicked', true);
+  }
+
+  return (
+    <fieldset>
+      {form.get('name').map(field => (
+        <FormGroup className={block}>
+          <SectionHelp>{t('in-settings:tabs.slackBDDesc')}</SectionHelp>
+          <br />
+          <Label htmlFor="name" hasError={!field.valid && field.touched}>
+            {t('in-settings:tabs.name')}
+          </Label>
+          <Input
+            id="name"
+            className={`${block}__input`}
+            type="text"
+            placeholder={t('in-settings:tabs.slackBDAlertChannel')}
+            value={field.value}
+            onChange={e => {
+              onChange('name', e.target.value);
+              setDisableButton(false);
+              setNewName(true);
+            }}
+            hasError={!field.valid && field.touched}
+            maxLength={256}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+
+      {form.get('emojiRendering').map(field => (
+        <FormGroup>
+          <Toggle
+            id="global-alert-slack-emoji"
+            labelA={t('in-services:formatters.no')}
+            labelB={t('in-services:formatters.yes')}
+            labelText={
+              <Stack direction="horizontal" gap="xsmall">
+                <Typography variant="body-regular">{t('in-settings:tabs.displayEmojis')}</Typography>
+                <InfoIcon description={t('in-settings:tabs.displayEmojisInfo')} align={'right'} />
+              </Stack>
+            }
+            checked={field.value}
+            onToggle={() => {
+              onChange('emojiRendering', !field.value);
+            }}
+          />
+        </FormGroup>
+      ))}
+
+      {form.get('generatedLinkClicked').map(field => (
+        <FormGroup>
+          <Label htmlFor="generatedLinkClicked" hasError={!field.valid && field.touched}>
+            <Stack direction="horizontal" gap="xsmall">
+              {t('in-settings:tabs.setup')}
+            </Stack>
+            <SectionHelp>{t('in-settings:tabs.slackBDHelp')}</SectionHelp>
+          </Label>
+          <CarbonButton
+            disabled={disableButton && !isEdit}
+            onClick={() => {
+              onChange('generatedLinkClicked', true);
+              setNewName(false);
+              alertChannelCTATrackerSegment({
+                EVENT_NAME: SETTINGS_ALERT_CHANNEL_CREATE,
+                path: '',
+                channel: form.get('kind').value
+              });
+              const integrationBaseUrl = window.instana.config.integrationBaseUrl;
+              const butlerDomain = `https://${window.instana.config.butlerDomain}`;
+              const params = new URLSearchParams({
+                endpoint: butlerDomain,
+                tenant: window.instana.config.tenant,
+                unit: window.instana.config.tenantUnit,
+                id: form.get('id').value,
+                name: form.get('name').value,
+                appId: form.get('appId').value,
+                teamId: form.get('teamId').value,
+                teamName: form.get('teamName').value,
+                channelId: form.get('channelId').value,
+                channelName: form.get('channelName').value,
+                emoji: form.get('emojiRendering').value
+              });
+              const url = `${integrationBaseUrl}/integration/slack/bidirectional/install?${params.toString()}`;
+              window.open(url, '_blank');
+            }}
+          >
+            {(isEdit && t('in-settings:tabs.slackBDReAuth')) || t('in-settings:tabs.slackBDAuth')}
+          </CarbonButton>
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+    </fieldset>
+  );
+}

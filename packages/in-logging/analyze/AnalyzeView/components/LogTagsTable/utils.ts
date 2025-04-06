@@ -120,7 +120,7 @@ export function createGroupingTag(name?: string, key?: string): GroupingTag {
 }
 
 export function filterTag(tag: LogTag): boolean {
-  return !restrictedTags.has(tag.name || '') && !restrictedTags.has(tag.key || '');
+  return !restrictedTags.has(tag.name || '');
 }
 
 export const getSnapshotId = (tag: LogTag, item: LogItem) => {

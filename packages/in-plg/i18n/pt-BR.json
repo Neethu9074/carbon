@@ -113,7 +113,7 @@
         "installUsingTheOperator": "Instalar usando o operador",
         "installAnAgentOnKubernetes": "Instale um agente no Kubernetes",
         "installOperatorsManually": "Etapa 1: instale os operadores manualmente.",
-        "theLatestOperatorWillBeInstalled": "O operador mais recente será instalado e os CRDs 1.x não serão atualizados:",
+        "theLatestOperatorWillBeInstalled": "O operador mais recente será instalado e os CRDs  1.x não serão atualizados:",
         "enterAClusterNameAndOptionallyTheAgentZoneThatYouWantTheClusterToBePartOf": "Etapa 2: insira um nome do cluster e, opcionalmente, a zona do agente da qual você deseja que o cluster faça parte.",
         "configureTheCustomResourceYAMLFile": "Etapa 3: configure o arquivo YAML de recurso customizado.",
         "followTheInstructionsInTheDocumentation": "Siga as instruções na <documentation>documentação</documentation>.",
@@ -163,11 +163,11 @@
       "lambdaSetEnvironmentVariables": "Configure as variáveis de ambiente a seguir na respectiva seção na página de configuração do AWS Lambda",
       "referenceToAwsLambdaGoDocumentation": "As funções AWS Lambda gravadas no Go precisam ser instrumentadas manualmente para coletarem dados de rastreio. Siga as instruções da <awsLambdaGoDoc>Documentação do AWS</awsLambdaGoDoc>.",
       "reviewPrerequisitesAndConfigureLambda": "Revise os pré-requisitos e configure suas funções do AWS Lambda para rastreio nativo.",
-      "referDocumentationForSettingUpAwsSensor": "Para obter detalhes sobre como configurar o Instana AWS Sensor, consulte o <awsSensorDoc> Documentação da AWS Service< /awsSensorDoc>.",
+      "referDocumentationForSettingUpAwsSensor": "Para obter detalhes sobre como configurar o sensor Instana AWS, consulte a documentação do <awsSensorDoc> AWS Service< /awsSensorDoc>.",
       "referenceToAwsLambdaMonitoringDoc": "Métodos alternativos para configurar o rastreio do Lambda nativo são detalhados na documentação <awsLambdaMonitoring>Monitorando o AWS Lambda</awsLambdaMonitoring>.",
-      "setupUpInstanaAwsSensorRunningInAwsRegion": "Configure um Instana AWS Sensor em execução em sua região AWS",
+      "setupUpInstanaAwsSensorRunningInAwsRegion": "Configure um sensor Instana AWS em execução em sua região AWS",
       "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Revise os pré-requisitos e execute o código de implementação do agente.",
-      "setIAMPermissionsAndEditTrustRelationship": "Configure permissões do IAM e edite o Relacionamento confiável",
+      "setIAMPermissionsAndEditTrustRelationship": "Configure as permissões do IAM e edite o relacionamento confiável",
       "selectWhereToRunAwsAgentOn": "Selecione onde executar o agente AWS",
       "selectApplicationRunime": "Etapa 1: selecione o tempo de execução do aplicativo",
       "applicationRuntime": "Tempo de execução do aplicativo",
@@ -183,7 +183,7 @@
       "romanStep3": "(iii) ",
       "selectAwsRegion": "Selecione a região AWS",
       "awsRegion": "Região AWS",
-      "awsCommandLineInterfaceValue": "Forneça os valores e use um comando semelhante ao abaixo para usar a interface da linha de comandos da AWS",
+      "awsCommandLineInterfaceValue": "Forneça os valores e use um comando semelhante ao abaixo para usar a interface de linha de comandos (CLI) da AWS",
       "amazonResourceName": "Amazon Resource Name (ARN)",
       "setEnvVariablesInLambdaFunction": "Configure as variáveis de ambiente a seguir na função Lambda.",
       "selectInstanaLambdaLayer": "Selecione a camada Lambda do Instana com o Amazon Resource Name (ARN) abaixo.",
@@ -197,7 +197,7 @@
       "referenceToAwsLambdaRubyDocumentation": "As funções AWS Lambda gravadas no Go precisam ser instrumentadas manualmente para coletarem dados de rastreio. Siga as instruções da <awsLambdaRubyDoc>Documentação do AWS Lambda Ruby</awsLambdaRubyDoc>.",
       "preferredMethodForEnablingTracing": "O método preferencial para ativar o rastreio em funções Lambda da AWS baseadas em Java é usar a camada Lambda do Instana com AutoTrace, conforme descrito nas etapas abaixo.",
       "setupAwsLambdaFunctionsForNativeTracing": "Revise os pré-requisitos e configure as funções Lambda da AWS para rastreio nativo com as etapas abaixo.",
-      "useScriptAsUserDataForEc2Instance": "Use este script como Dados do usuário para a instância do EC2",
+      "useScriptAsUserDataForEc2Instance": "Use esse script como dados de usuário para a instância do EC2",
       "selectAgentPackagingAndRuntime": "Selecione o modo de empacotamento e o tempo de execução do agente",
       "awsLambdaPythonAutotrace": "A maneira preferencial de configurar funções AWS Lambda com base em Python para rastreio é a camada Lambda da Instana com AutoTrace.",
       "awsLambdaDotnetAutotrace": "A maneira preferencial de configurar as funções do AWS Lambda com base no .NET Core para rastreio é a camada do Instana Lambda com AutoTrace.",
@@ -214,7 +214,7 @@
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Configure o manipulador de agrupamento automático do Instana como o manipulador para a função Lambda.",
       "autoWrapHandler": "Manipulador de agrupamento automático",
       "prerequisiteLinks": {
-        "networkRequirements": "Requisitos da Rede"
+        "networkRequirements": "Requisitos de rede"
       },
       "documentationLinks": {
         "installAgentOnAwsEc2": "Instale o agente no AWS EC2 (Windows)",
@@ -231,22 +231,22 @@
         "runningStartupScript": "Executando o script de inicialização",
         "uninstallingTheHostAgent": "Desinstalando o agente do host",
         "awsLambdaNativeTracingForJava": "Rastreio nativo do AWS Lambda para Java",
-        "awsLambdaNativeTracingForDotNet": "AWS Lambda Native Tracing para .NET Core",
-        "awsLambdaFunctions": "Funções Lambda da AWS",
+        "awsLambdaNativeTracingForDotNet": "Rastreio nativo do AWS Lambda para .NET Core",
+        "awsLambdaFunctions": "Funções do AWS Lambda",
         "monitoringAwsFargate": "Monitorando o AWS Fargate",
         "monitoringAwsFargateJava": "Monitorando o AWS Fargate (Java)",
         "configureTaskDefinition": "Configurando a definição de tarefa",
         "monitoringAwsFargateDotnet": "Monitorando o AWS Fargate (.Net Core)",
         "monitoringAwsFargateNodejs": "Monitorando o AWS Fargate (Node.js)",
         "monitoringAwsFargatePython": "Monitorando o AWS Fargate (Python)",
-        "monitoredAwsServices": "Serviços monitorados da AWS",
+        "monitoredAwsServices": "Serviços monitorados do AWS",
         "monitoringNodejs": "Monitorando o Node.js",
-        "installGcrCollectors": "Instalar coletores em processo do Gogle Cloud Run",
+        "installGcrCollectors": "Instalar coletores em processo do Google Cloud Run",
         "installAgentOnEc2": "Instalar agente no AWS EC2",
         "configurationOptions": "Opções de configuração",
         "monitoringGcr": "Monitorando o Google Cloud Run",
         "monitoringAwsFargateRuby": "Monitorando o AWS Fargate (Ruby)",
-        "awsServiceDocumentation": "Documentação da AWS Service",
+        "awsServiceDocumentation": "Documentação do AWS Services",
         "monitoringAwsLambda": "Monitorando o AWS Lambda",
         "configuringAwsLambdaMonitoring": "Configurando o monitoramento de Lambda da AWS",
         "awsLambdaNativeTracingForGo": "Rastreio nativo do AWS Lambda para Go"
@@ -298,7 +298,7 @@
       "addTileToOpsManagerAndConfigureIt": "Inclua o ladrilho no Ops Manager e configure-o",
       "addInstanaApplicationMonitoring": "Inclua o ladrilho \"Instana Microservices Application Monitoring\" em seu Ops Manager e aplique o seguinte à guia \"Configuração de backend\" do ladrilho.",
       "nameYourVmwareFoundation": "Nomeie sua base do VMware Tanzu",
-      "assignANameToVMwareTanzuFoundation": "Designe um nome à sua base do VMware Tanzu (por exemplo, \"prod-eu\" ou \"dev01\") acessando a configuração de Zona do agente na guia Configuração do agente.",
+      "assignANameToVMwareTanzuFoundation": "Designe um nome ao seu VMware Tanzu base (por exemplo, \"prod-eu\" ou \"dev01\") ao acessar a configuração da zona do agente na guia Configuração do agente.",
       "applyTileChanges": "Aplicar as mudanças de ladrilho",
       "applyTheChangesMadeWithinThisTile": "Aplique as mudanças feitas dentro desse ladrilho a todos os outros ladrilhos no Ops Manager. Os ladrilhos não selecionados para a etapa 'Aplicar mudanças' dentro do Ops Manager permanecerão ocultos no Instana."
     },
@@ -367,7 +367,7 @@
           "linux64BitArm": "Linux (64 bits - ARM)",
           "linux64BitAmd": "Linux (64 Bits - AMD)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
-          "linux64BitPowerPcLittleEndian": "Linux (64 bits - PowerPC Little Endian)",
+          "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC little endian)",
           "linuxS390XJdkNotIncluded": "Linux (64Bit - s390x) JDK não incluído",
           "linuxS390X": "Linux (64Bit - s390x)",
           "linuxX8664": "Linux (64Bit - x86_64)",
@@ -407,7 +407,7 @@
           "linux32BitArm": "Linux (32 bits - ARM)",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
           "linux32BitPowerPc": "Linux (32Bit - PowerPC)",
-          "linux64BitPowerPcLittleEndian": "Linux (64 bits - PowerPC Little Endian)",
+          "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC little endian)",
           "linuxS390X": "Linux (s390x)"
         }
       },
@@ -415,6 +415,16 @@
         "installAnAgentOnLinux": "Instalar um agente no Linux",
         "configurationParameters": "Parâmetros de configuração"
       }
+    },
+    "zos": {
+      "zos": "z/OS",
+      "selectTheAgentPackagingMode": "Etapa 1: selecione o modo de empacotamento do agente",
+      "Packaging": "Pacote",
+      "dynamic": "Dinâmico",
+      "static": "Estático",
+      "RunTheAgentDeploymentCode": "Etapa 2: execute o código de implementação do agente (da camada USS do z/OS).",
+      "installagentOnZOS": "Instalar o agente no z/OS (ambiente fisicamente isolado)",
+      "installagentOnZOS1": "Pós-instalação do agente (verificação de pré-requisitos de rastreio)"
     },
     "ibmi": {
       "ibmi": "IBM i",
@@ -444,7 +454,7 @@
       "instructions": {
         "operator": {
           "installOperatorsManually": "Etapa 1: instale os operadores manualmente.",
-          "installOperatorsManuallySubtext": "O operador mais recente será instalado e os CRDs 1.x não serão atualizados:",
+          "installOperatorsManuallySubtext": "O operador mais recente será instalado e os CRDs  1.x não serão atualizados:",
           "enterAClusterNameAndOptionallyTheAgentZone": "Etapa 2: insira um nome do cluster e, opcionalmente, a zona do agente da qual você deseja que o cluster faça parte.",
           "configureCustomYamlFile": "Etapa 3: configure o arquivo YAML de recurso customizado.",
           "configureCustomYamlFileSubtext1": "Siga as instruções na <installOperatorDoc>documentação.</installOperatorDoc>",
@@ -844,5 +854,10 @@
     "done": "Concluído",
     "otherGoalPlaceholder": "Por exemplo, Ganhar visibilidade em meu ambiente",
     "otherGoalToAccomplish": "Que outras metas você está tentando alcançar?"
+  },
+  "privacyNotification": {
+    "title": "Gerenciar seu perfil",
+    "description": "Visualize e atualize seu perfil, ajuste as configurações de privacidade e efetue logout - tudo em um só lugar.",
+    "buttonText": "Concluído"
   }
 }

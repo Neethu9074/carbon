@@ -31,7 +31,6 @@ import { getActionNameExists, saveNewAction, saveNewPolicy } from 'in-automation
 import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import { refresh as refreshPolicies } from 'in-automation/AutomationCard/usePolicies';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
 import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
@@ -44,6 +43,7 @@ import { error, hasError, isLoading } from 'in-services/util/result';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import { role } from 'in-stores/user';
@@ -57,9 +57,7 @@ function getStepConfigs(hasOotbActions: boolean) {
   const actionSteps: StepConfigs = [
     {
       title: hasOotbActions
-        ? automationActionAiGenerationUnitEnabled
-          ? t('in-automation:GenerateAIActionDialog.step1Title')
-          : t('in-automation:GenerateAIActionDialog.step1TitleSelectAction')
+        ? t('in-automation:GenerateAIActionDialog.step1Title')
         : t('in-automation:GenerateAIActionDialog.step1TitleGenerateAction')
     },
     {
@@ -384,15 +382,19 @@ interface GenerateAIActionDialogProps {
   event: Event;
   trigger: Result<TriggerSpecification>;
   ootbRecommendedActions: Result<ScoredAction[]>;
+  selectedDescription?: string | null;
+  selectedEntityType?: string | null;
 }
 
 export default function GenerateAIActionDialog({
   event,
   trigger,
-  ootbRecommendedActions
+  ootbRecommendedActions,
+  selectedDescription,
+  selectedEntityType
 }: GenerateAIActionDialogProps) {
   const [step, setStep] = useState(0);
-  const [form, setForm] = useGenerateAIActionForm({ trigger, event });
+  const [form, setForm] = useGenerateAIActionForm({ trigger, event, selectedDescription, selectedEntityType });
   const onCancel = useOnCancel(step);
   const generatedAction = useGeneratedAction();
   const { selectNextPromptStepClickTrackerSegment } = useSegmentTracker();
@@ -415,7 +417,13 @@ export default function GenerateAIActionDialog({
         }}
       />
       <DialogWithSlideInView
-        title={<Typography variant="heading-400">{t('in-automation:generateWithWatsonx')}</Typography>}
+        title={
+          <>
+            <Typography variant="heading-400">{t('in-automation:generateWithWatsonx')}</Typography>
+            <Spacer horizontal="small" />
+            <AISlugIcon actionType="manual" />
+          </>
+        }
         onClose={onCancel}
         doNotCloseOnOutsideClick
       >

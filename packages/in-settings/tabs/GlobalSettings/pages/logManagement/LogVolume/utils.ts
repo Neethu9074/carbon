@@ -12,7 +12,6 @@ import { TagNames } from './types';
 import { LogVolumeUsageItem, RetentionPeriod } from 'in-logging/api/logVolume';
 
 export const NDash = '-';
-export const DISPLAYED_RETENTION_DAYS = [30, 60, 90];
 
 export const generateQuery = (
   monthsBack: number,
@@ -34,23 +33,19 @@ export function getLabelByName(name: string) {
   return tag ? tag.label : null;
 }
 
-export const sortMonths = (arr: LogVolumeUsageItem[]): LogVolumeUsageItem[] => {
+export const sortMonths = (arr: LogVolumeUsageItem[] = []): LogVolumeUsageItem[] => {
   const currentMonth = new Date().getMonth() + 1;
-  return structuredClone(arr).sort((a, b) => {
+  return [...arr].sort((a, b) => {
     const adjustedA = (currentMonth - a.numberOfMonth + 12) % 12;
     const adjustedB = (currentMonth - b.numberOfMonth + 12) % 12;
     return adjustedA - adjustedB;
   });
 };
 
-export const refineRetentionPeriodData = (retentionPeriods: RetentionPeriod[]) => {
-  const sorted = retentionPeriods.sort(({ retentionDays: periodLengthA }, { retentionDays: periodLengthB }) =>
+export const refineRetentionPeriodData = (retentionPeriods: RetentionPeriod[] = []) => {
+  const sorted = [...retentionPeriods].sort(({ retentionDays: periodLengthA }, { retentionDays: periodLengthB }) =>
     periodLengthA > periodLengthB ? 1 : -1
   );
 
-  const sortedAndFiltered = sorted.filter(({ retentionDays }) => {
-    return DISPLAYED_RETENTION_DAYS.includes(retentionDays);
-  });
-
-  return sortedAndFiltered;
+  return sorted;
 };

@@ -25,6 +25,12 @@ export interface Unit {
   converter: ConversionFn;
 }
 
+export interface UnitGroup {
+  id: string;
+  label: string;
+  units: Unit[];
+}
+
 export const number: Unit = {
   id: 'number',
   label: t('in-stores:metric.unit_number'),
@@ -108,6 +114,32 @@ export const perSecond: Unit = {
   baseUnit: 'RATE',
   converter: NO_CONVERSION
 };
+
+export const numericGroup: UnitGroup = {
+  id: 'values',
+  label: t('in-stores:metric.metricGroup_numeric'),
+  units: [number, percentage, percentage100]
+};
+
+export const dataSizeGroup: UnitGroup = {
+  id: 'dataSizes',
+  label: t('in-stores:metric.metricGroup_dataSize'),
+  units: [bits, byte, kiloByte, megaByte, gigaByte]
+};
+
+export const timeUnitsGroup: UnitGroup = {
+  id: 'timeUnits',
+  label: t('in-stores:metric.metricGroup_timeUnits'),
+  units: [microSecond, miliSecond, second]
+};
+
+export const rateGroup: UnitGroup = {
+  id: 'rates',
+  label: t('in-stores:metric.metricGroup_rates'),
+  units: [perSecond]
+};
+
+export const allUnitGroups: UnitGroup[] = [numericGroup, dataSizeGroup, timeUnitsGroup, rateGroup];
 
 export const allUnits: UnitsMapping = {
   number: number,

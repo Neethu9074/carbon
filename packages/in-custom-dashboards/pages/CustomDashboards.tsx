@@ -14,6 +14,8 @@ import { getWidget } from 'in-plg/pages/WelcomePage/PageContent';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
+import Title from 'in-components/Title/Title';
+import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/pages/CustomDashboards.mless';
 
@@ -32,6 +34,7 @@ export default function CustomDashboards() {
 
   return (
     <>
+      <Title title={t('in-custom-dashboards:customDashboard.customDashboardsTitle')} />
       <ViewTrackingMeta
         data={{
           productArea: productAreas.custom_dashboard,
@@ -41,10 +44,12 @@ export default function CustomDashboards() {
       />
       <div className={locals.container}>
         <ThemeProvider theme="g10">
-          <CustomDashboardsHeader />
-          <div className={locals.content}>
+          <section aria-label={t('in-components:pageStructure.headerAriaLabel')}>
+            <CustomDashboardsHeader />
+          </section>
+          <section aria-label={t('in-components:pageStructure.contentAriaLabel')} className={locals.content}>
             <DashboardWidget dashboardTileProps={dashboardTileProps} maxItems={null} viewAll={false} mainPage />
-          </div>
+          </section>
         </ThemeProvider>
       </div>
     </>

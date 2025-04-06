@@ -15,6 +15,7 @@ import {
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import CreateSmartAlert, { CreateSmartAlertButton } from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import { alertsTabDetailsFullyQualified, syntheticSmartAlertsPath } from 'in-synthetics/navigation/paths';
+import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/synthetics/hooks/useSmartAlertCreateUrl';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListActionHandlers';
@@ -68,6 +69,7 @@ export default function SmartAlertList() {
           toolBarContent={role?.canConfigureGlobalSyntheticSmartAlerts ? <CreateSmartAlertButton /> : undefined}
           noDataHeader={t('in-alerting:smartAlerts.synthetics.alertList.noDataHeader')}
           noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.synthetics.alertList.noDataDescription" />}
+          useSmartAlertCreateUrl={useSmartAlertCreateUrl}
         />
         <Spacer size="gutter" />
       </LeftRightPadding>

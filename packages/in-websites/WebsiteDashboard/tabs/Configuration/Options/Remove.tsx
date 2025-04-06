@@ -10,6 +10,11 @@ import { get } from 'lodash';
 import { Card, Button } from '@instana/components';
 import { Disposable } from '@instana/observables';
 
+//@ts-expect-error no declaration file found
+// eslint-disable-next-line no-restricted-imports
+import { remove } from 'in-plg/pages/WelcomePage/widgets/starredItems';
+// eslint-disable-next-line no-restricted-imports
+import { website } from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
 import { websitesPathFullyQualified } from 'in-websites/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -72,6 +77,7 @@ const Remove = (props: Props) => {
     }));
 
     removeWebsiteTracker({ websiteName: websiteLabel });
+    remove({ id: websiteId, type: website });
 
     subscriptionRef.current = combineDataAndError(removeWebsite(websiteId)).once(({ error }) => {
       if (error) {

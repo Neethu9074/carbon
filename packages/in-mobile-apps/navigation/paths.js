@@ -85,7 +85,8 @@ export const configurationCustomGeoDetailsFullyQualified = `${configurationTabFu
 export const alertsTabListFullyQualified = `${mobileAppPathFullyQualified}${alertsTab}`;
 export const alertsTabDetailsFullyQualified = `${alertsTabListFullyQualified}/details`;
 
-export const mobileAppSmartAlertsFullScreen = '/mobileAppSmartAlerts';
+export const mobileAppSmartAlerts = '/smartAlerts';
+export const mobileAppSmartAlertsFullScreenFullyQualified = `${mobileAppMonitoringPath}${mobileAppSmartAlerts}`;
 
 export function useLinkToNewMobileApp() {
   const { location, createHref } = useNavigation();
@@ -271,3 +272,12 @@ function fillAlertTabSpecificValues(params, mobileAppId, alertConfigId, alertCon
   setOrDeleteMatrixKey(params, alertsTab, alertIdMatrixParam, alertConfigId);
   setOrDeleteMatrixKey(params, alertsTab, alertCreatedMatrixParam, alertConfigVersion);
 }
+
+export const useNavigationToAlertConfig = () => {
+  const { navigate, location } = useNavigation();
+
+  return (alertConfigId, mobileAppId, alertConfigVersion) => {
+    fillAlertTabSpecificValues(location, mobileAppId, alertConfigId, alertConfigVersion);
+    return navigate(location);
+  };
+};

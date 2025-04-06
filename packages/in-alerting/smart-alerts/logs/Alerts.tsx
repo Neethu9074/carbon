@@ -18,14 +18,15 @@ import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/compone
 import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
+import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/logs/hooks/useSmartAlertCreateUrl';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/logs/lists/ListActionHandlers';
-import { CreateSmartAlertButton } from 'in-alerting/smart-alerts/logs/CreateSmartAlert';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import LogsAlertsTabHeader from 'in-alerting/smart-alerts/logs/LogsAlertsTabHeader';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import CreateSmartAlert from 'in-alerting/smart-alerts/logs/CreateSmartAlert';
 import { sortOptions } from 'in-alerting/smart-alerts/logs/lists/constants';
 import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import ScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
@@ -60,9 +61,10 @@ export default function Alerts({ isLogsDashboardHeader = false }) {
             carbonActionHandlers={handlers}
             getNameSubtitle={() => getLogSubtitle(t('in-alerting:smartAlerts.logs.logCount'))}
             displayCarbonTable={smartAlertCarbonTableEnabled}
-            toolBarContent={role?.canConfigureGlobalLogSmartAlerts ? <CreateSmartAlertButton /> : undefined}
+            toolBarContent={role?.canConfigureGlobalLogSmartAlerts ? <CreateSmartAlert isListingPage /> : undefined}
             noDataHeader={t('in-alerting:smartAlerts.logs.list.noDataHeader')}
             noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.logs.list.noDataDescription" />}
+            useSmartAlertCreateUrl={useSmartAlertCreateUrl}
           />
           <Footer />
         </div>
@@ -87,8 +89,13 @@ export function getSubtitle(threshold: ThresholdConfigUnion & { value?: number }
   const subtitleElements = [t('in-alerting:smartAlerts.logs.list.columns.name.subtitle.staticThresholdType')];
 
   if (type === STATIC_THRESHOLD) {
-    const formattedValue = value ? number.forcedCompact.detailed(value) : '';
+    const formattedValue = value
+      ? value !== Math.floor(value)
+        ? number.forcedDetailed.detailed(value)
+        : number.forcedCompact.detailed(value)
+      : 0;
     const humanReadableOperator = humanReadableThresholdOperator(operator);
+
     subtitleElements.push(
       t('in-alerting:smartAlerts.logs.list.columns.name.subtitle.metricThresholdValue', {
         metricName: t('in-events:logSmartAlerts.logs'),

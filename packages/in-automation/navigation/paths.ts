@@ -24,3 +24,12 @@ export const policiesDetails = '/details';
 export const policiesDetailsFullyQualified = `${policiesFullyQualified}${policiesDetails}` as const;
 
 export const isAutomationView = getRootPathPredicate(automationRoot);
+
+export const actionDashboard = '/actionDashboard';
+export const actionDashboardFullyQualified = `${actionCatalogFullyQualified}${actionDashboard}` as const;
+
+export const actionSummary = '/summary';
+export const actionSummaryFullyQualified = `${actionDashboardFullyQualified}${actionSummary}` as const;
+
+export const actionConfiguration = '/configuration';
+export const actionConfigurationFullyQualified = `${actionDashboardFullyQualified}${actionConfiguration}` as const;

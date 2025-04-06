@@ -20,7 +20,12 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/eum/components/TearSheet/ThresholdCondition.mless';
 
-export default function JsErrorsThresholdCondition({ form, blueprintConfig, updateForm }) {
+export default function JsErrorsThresholdCondition({
+  form,
+  blueprintConfig,
+  updateForm,
+  alertChannelPerSeverityEnabled
+}) {
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const percentageMetric = isPercentageMetric(metricName);
@@ -70,6 +75,7 @@ export default function JsErrorsThresholdCondition({ form, blueprintConfig, upda
             metricUnitPostfix={metricUnitPostfix}
             percentageMetric={percentageMetric}
             label={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
           />
         </div>
       </Section>
@@ -80,5 +86,6 @@ export default function JsErrorsThresholdCondition({ form, blueprintConfig, upda
 JsErrorsThresholdCondition.propTypes = {
   blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
-  updateForm: PropTypes.func.isRequired
+  updateForm: PropTypes.func.isRequired,
+  alertChannelPerSeverityEnabled: PropTypes.bool.isRequired
 };

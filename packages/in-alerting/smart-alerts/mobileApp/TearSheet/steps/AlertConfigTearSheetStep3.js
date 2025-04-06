@@ -10,6 +10,10 @@ import { Spacer } from '@instana/components';
 
 import ThresholdSelectionInteractiveSection from 'in-alerting/smart-alerts/eum/components/TearSheet/ThresholdSelectionInteractiveSection';
 import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/tearSheet/TimeThresholdConfig/TimeThresholdConfigPresenter';
+import {
+  oneMinuteGranularityForStaticThresholdEnabled,
+  alertChannelPerSeverityMobileAppSaEnabled
+} from 'in-services/featureFlags';
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
@@ -19,12 +23,17 @@ import GracePeriodWrapper from 'in-alerting/smart-alerts/components/tearSheet/Gr
 import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
 import toAlertConfigWithRules from 'in-alerting/smart-alerts/eum/utils/thresholdChartUtil';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
-import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { days } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
 import locals from './AlertConfigTearSheetStep3.mless';
+
+export const tagSuggestionTimeConfig = {
+  windowSize: days.toMillis(1),
+  autoRefresh: true
+};
 
 export default function AlertConfigTearSheetStep3({
   form,
@@ -34,7 +43,9 @@ export default function AlertConfigTearSheetStep3({
   onChange,
   selectedChartViewConfigIndex,
   thresholdResult,
-  blueprintConfig
+  blueprintConfig,
+  isTagFilterFormModelValid,
+  setStep
 }) {
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
@@ -72,6 +83,9 @@ export default function AlertConfigTearSheetStep3({
               thresholdType={thresholdType}
               thresholdResult={thresholdResult}
               AlertTypeSwitch={AlertTypeSwitch}
+              isTagFilterFormModelValid={isTagFilterFormModelValid}
+              setStep={setStep}
+              alertChannelPerSeverityEnabled={alertChannelPerSeverityMobileAppSaEnabled}
             />
             <Spacer size="normal" />
             {/* Granularity Slider */}

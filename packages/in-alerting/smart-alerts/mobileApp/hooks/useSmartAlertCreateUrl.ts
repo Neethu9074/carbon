@@ -18,10 +18,10 @@ import {
   tagFilters as tag_filters,
   mobileAppId as mobileApp_id
 } from 'in-mobile-apps/navigation/matrix';
+import { mobileAppSmartAlertsFullScreenFullyQualified, mobileAppSmartAlerts } from 'in-mobile-apps/navigation/paths';
 import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
 import { generateAlertConfig } from 'in-alerting/smart-alerts/mobileApp/data/sharedFunctions';
 import { BluePrint } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
-import { mobileAppSmartAlertsFullScreen } from 'in-mobile-apps/navigation/paths';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -31,7 +31,7 @@ import { Location } from 'in-stores/navigation/types';
 
 interface AlertURLProps {
   mobileAppId: string;
-  tagFilters: TagFilter[];
+  tagFilters?: TagFilter[];
   customEventName?: string | null;
   alertId?: string;
   alertConfigCreated?: number;
@@ -69,36 +69,34 @@ function updateCreatePathMatrixParams(
   location: Location,
   returnUrlWithParams: string,
   mobileAppId: string,
-  tagFilters: TagFilter[],
+  tagFilters?: TagFilter[],
   customEventName?: string | null,
   alertConfigId?: string,
   alertConfigCreated?: number,
   duplicateMode?: boolean,
   editMode?: boolean
 ) {
-  setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, '');
-  setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, mobileApp_id, mobileAppId);
-  setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, custom_event_name, customEventName);
-  setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, tag_filters, JSON.stringify(tagFilters));
+  setOrDeleteMatrixKey(location, mobileAppSmartAlerts, '');
+  if (mobileApp_id) setOrDeleteMatrixKey(location, mobileAppSmartAlerts, mobileApp_id, mobileAppId);
+  if (customEventName) setOrDeleteMatrixKey(location, mobileAppSmartAlerts, custom_event_name, customEventName);
+  if (tagFilters) setOrDeleteMatrixKey(location, mobileAppSmartAlerts, tag_filters, JSON.stringify(tagFilters));
 
   // alert config id
-  if (alertConfigId) setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, alertId, String(alertConfigId));
+  if (alertConfigId) setOrDeleteMatrixKey(location, mobileAppSmartAlerts, alertId, String(alertConfigId));
 
   // alert created timestamp
-  if (alertConfigCreated)
-    setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, alertCreated, alertConfigCreated);
+  if (alertConfigCreated) setOrDeleteMatrixKey(location, mobileAppSmartAlerts, alertCreated, alertConfigCreated);
 
   // for duplicate mode
-  if (duplicateMode)
-    setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, isDuplicateMode, String(duplicateMode));
+  if (duplicateMode) setOrDeleteMatrixKey(location, mobileAppSmartAlerts, isDuplicateMode, String(duplicateMode));
 
   // for edit mode
-  if (editMode) setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, isEditMode, String(editMode));
+  if (editMode) setOrDeleteMatrixKey(location, mobileAppSmartAlerts, isEditMode, String(editMode));
 
   // Keep the cancelURL parameter at the end so that the URL parameters added are not mixed with the cancel URL.
-  setOrDeleteMatrixKey(location, mobileAppSmartAlertsFullScreen, cancelUrl, returnUrlWithParams);
+  setOrDeleteMatrixKey(location, mobileAppSmartAlerts, cancelUrl, returnUrlWithParams);
 
-  location.pathname = mobileAppSmartAlertsFullScreen;
+  location.pathname = mobileAppSmartAlertsFullScreenFullyQualified;
   return location;
 }
 

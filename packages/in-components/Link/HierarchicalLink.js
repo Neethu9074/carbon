@@ -37,14 +37,14 @@ export default function HierarchicalLink({
   const snapshotId = snapshot.get('id');
   const timeConfig = useObservable(
     () =>
-      shouldStayInCurrentTimeModeForNavigationToSnapshot({ snapshotId, timeConfig: originalTimeConfig }).map(
-        stay => stay && originalTimeConfig
+      shouldStayInCurrentTimeModeForNavigationToSnapshot({ snapshotId, timeConfig: originalTimeConfig }).map(stay =>
+        stay ? originalTimeConfig : undefined
       ),
     [snapshotId, originalTimeConfig]
   );
 
   const dashboardLink = useGetDashboardLink()(snapshotId, { pathname, timeConfig });
-  const snapshotLink = useGetLinkToSnapshotInCurrentView(snapshotId, { timeConfig: timeConfig });
+  const snapshotLink = useGetLinkToSnapshotInCurrentView(snapshotId, { timeConfig });
 
   const href = useSnapshotLink ? snapshotLink : dashboardLink;
 

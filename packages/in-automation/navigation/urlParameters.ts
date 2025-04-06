@@ -4,7 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
-import { actionDetails, policies, policiesDetails, actionCatalog } from 'in-automation/navigation/paths';
+import {
+  actionDetails,
+  policies,
+  policiesDetails,
+  actionCatalog,
+  actionDashboard
+} from 'in-automation/navigation/paths';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { ParameterDefinition } from 'in-stores/navigation/types';
 
@@ -78,3 +84,7 @@ export function createTabTypeUrlParameter(pathSegment: string, matrixPrefix: str
     as: 'view'
   };
 }
+
+export const actionDashboardUrlParameters = {
+  id: createIdUrlParameter(actionDashboard)
+};

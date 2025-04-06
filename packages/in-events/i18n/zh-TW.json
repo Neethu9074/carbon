@@ -19,6 +19,7 @@
   "titleDescription": "說明",
   "titleTriggerEvent": "觸發事件",
   "titleRelatedEvents": "相關的事件 ({{eventCount}})",
+  "titleAffectedIncidents": "受影響事件",
   "noRelatedEvents": "未找到相關事件",
   "titleLastProcess": "最近一個程序",
   "titleLastHost": "最後一個主機",
@@ -84,7 +85,7 @@
   "ended": "已結束：",
   "stateActive": "作用中",
   "stateClosedByInstana": "由 Instana 關閉",
-  "stateManuallyClosed": "手動關閉",
+  "stateManuallyClosed": "已手動關閉",
   "markerServiceImpact": "服務影響",
   "incidentHeader": "'事故：{{incidentName}} - {{label}}（{{eventsLength}} 個事件）",
   "incidentHeader_plural": "'事故：{{incidentName}} - {{label}}（{{eventsLength}} 個事件）",
@@ -106,7 +107,7 @@
   "labelIncidents": "事故",
   "labelOpen": "開啟",
   "labelClosed": "已關閉",
-  "labelIncidentWithSeverity": "{{severityLabel}} 事件 ({{stateLabel}})",
+  "labelIncidentWithSeverity": "{{severityLabel}} 發生事件 ({{stateLabel}})",
   "labelIssueWithSeverity": "{{severityLabel}} 問題",
   "labelChange": "變更",
   "labelCritical": "重大",
@@ -143,6 +144,7 @@
   "unidentifiedEntityTooltip": "擷取此實體的相關資訊時發生了錯誤。 您可以透過按一下「未識別的實體」連結來存取該實體的儀表板以了解更多詳細資料。",
   "headerStatus": "狀態",
   "eventHelpfulText": "此事件是否能提供協助？",
+  "summaryHelpfulText": "此摘要是否有幫助？",
   "thankYouForYourFeedback": "謝謝您的意見！",
   "hostOffLineEventProblemChangeTime": "按下方的鏈結，以移至 Instana 所監視之主機的最近一個版本。這樣做會將您時間範圍的開始時間變更為 Instana 監視主機的那個時間點",
   "offLineEventProblemChangeTime": "按下方的鏈結，以移至 Instana 所監視之程序的最近一個版本。這樣做會將您時間範圍的開始時間變更為 Instana 監視程序的那個時間點",
@@ -151,7 +153,7 @@
   "tooltipCloseEventDetail": "關閉事件詳細資料",
   "releaseOccurName": "版本：{{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）",
-  "deprecatedCustomEventWarning": "<strong>實體類型「應用程式」、「服務」及「端點」上的「自訂事件」已淘汰。 自 2025 年 3 月起，這三種實體類型的自訂事件將被移除，您將不再收到此 {{issueOrIncident}}</strong><br/>檢視自訂事件配置來移轉至 Smart Alert。 <documentationLink>進一步閱讀我們的文件</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>實體類型「應用程式」、「服務」及「端點」上的「自訂事件」已淘汰。 自 2025 年 3 月起，這三種實體類型的自訂事件將被移除，您將不再收到此 {{issueOrIncident}}</strong><br/>檢視自訂事件配置以移轉到智慧型警示。 <documentationLink>進一步閱讀我們的文件</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} 自訂事件需要動作",
     "message": "「應用程式」、「服務」及「端點」上的自訂事件已淘汰。 自 <strong>2025 年 3 月</strong>起，您將無法建立或更新這些自訂事件類型。",
@@ -159,10 +161,8 @@
     "affectedEventsLink": "檢視受影響的自訂事件"
   },
   "multiClose": {
-    "itemsSelected": "已選取項目",
     "closeIncidents": "關閉事件",
     "closeIssues": "關閉問題",
-    "cancelSelection": "取消",
     "incidentsCloseSuccessTitle": "事件已關閉",
     "issuesCloseSuccessTitle": "問題已關閉",
     "multipleIncidentsCloseSuccessMessage": "{{count}} 個事件已成功關閉。",
@@ -224,12 +224,12 @@
   },
   "RCA": {
     "titlePRCA": "可能的主要原因",
-    "AIGenBadgeText": "AI 產生",
+    "AIGenBadgeText": "AI 生成的",
     "suggestionHelpfulText": "這個建議有用嗎？",
     "thankYouForYourFeedback": "謝謝您的意見！",
     "performanceConstantlyEvaluated": "在測試版期間，正在積極評估及改善效能。 請留下意見，以協助我們更充分地改善我們的 AI",
     "probableRootCauseLabel": "{{entity_type}} 有過錯：",
-    "relatedEventsLabel": "關聯事件 ({{number_of_events}})",
+    "relatedEventsLabel": "相關聯的事件 ({{number_of_events}})",
     "relatedMessagesAndLogsLabel": "錯誤與日誌",
     "entitiesNumber": "實體",
     "probabilityLevelText": "機率層次：",
@@ -272,12 +272,9 @@
     "analyzeTraceLogs": "分析追蹤日誌",
     "analyzeApplicationLogs": "分析應用程式日誌",
     "topology": {
+      "overviewTab": "概觀",
       "viewTopology": "檢視拓蹼",
       "dialogTitle": "拓蹼",
-      "overviewTab": "概觀",
-      "rootCauseOne": "根本原因 1",
-      "rootCauseTwo": "根本原因 2",
-      "rootCauseThree": "根本原因 3",
       "failedToLoadTitle": "載入拓撲失敗",
       "failedToLoadDescription": "由於擷取資料時發生錯誤，拓撲資料載入失敗。 由於資料保留原則，有可能已經不存在。",
       "legendRCA": "根本原因實體",
@@ -361,10 +358,28 @@
     "confirmationYes": "是",
     "confirmationNo": "取消"
   },
+  "aichat": {
+    "unableToFindError": "無法找到該資訊",
+    "host": "主機",
+    "name": "名稱",
+    "noMatching": "找不到相符的記錄。",
+    "timestamp": "時間戳記",
+    "numCalls": "呼叫數",
+    "meanLatency": "平均延遲時間",
+    "youMustAccept": "您必須接受 Generative AI Assistance Preview Program 協議中的條款才能使用此功能。",
+    "reviewAction": "審核協議",
+    "openingAgreement": "在新標籤開啟 [同意表單]({{href}})...",
+    "findingInfoFrom": "從 {{endpoint}} 找到該資訊。",
+    "noData": "從 API 未傳回資料",
+    "whatToKnow": "您想要瞭解有關 {{category}} 的什麼資訊？",
+    "welcome": "您好，歡迎使用。 探索以下各種範例，開始使用 AI。",
+    "apps": "應用程式",
+    "infra": "基礎架構"
+  },
   "notes": {
     "openNotes": "開啟附註和活動",
     "closeNotes": "關閉附註和活動",
-    "notesActivity": "附註和活動",
+    "notesActivity": "使用 AI 的附註和活動",
     "confirmDelete": "確認刪除",
     "you": "您 {{date}}",
     "youEdited": "您（已編輯）{{date}}",
@@ -430,5 +445,13 @@
   },
   "relatedEvents": {
     "openEvent": "開啟事件"
+  },
+  "consentForm": {
+    "consentText": "您必須接受 Generative AI Assistance Preview Program 協議中的條款才能使用此功能。",
+    "consentButton": "審核協議"
+  },
+  "affectedIncidents": {
+    "affectedIncident": "受影響事件",
+    "noAffectedIncidents": "找不到受影響的事件"
   }
 }

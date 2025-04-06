@@ -23,6 +23,7 @@ import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/component
 import { isDialogAndTearSheetEnabled } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { alertsList, alertsTabListFullyQualified } from 'in-applications/navigation/paths';
+import { ADVANCED, FULLSCREEN, SIMPLE } from 'in-alerting/smart-alerts/data/constants';
 import ViewSelectorDialog from 'in-alerting/components/Dialog/ViewSelectorDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
@@ -76,9 +77,12 @@ export default function CreateSmartAlertButton({
       href={createSmartAlertPath}
       onClick={() => {
         if (isMigrate) {
-          trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_STARTED, { eventSpecificationId });
+          trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_STARTED, {
+            eventSpecificationId,
+            dialogMode: FULLSCREEN
+          });
         } else {
-          trackCta(ALERTING_CREATE);
+          trackCta(ALERTING_CREATE, { dialogMode: FULLSCREEN });
         }
       }}
     >
@@ -111,13 +115,14 @@ export function CreateSmartAlertButtonForCarbonTable({ isGlobal }: { isGlobal: b
     );
   };
 
-  return getButtonActions(trackCta, openOldDialog, createSmartAlertPath);
+  return getButtonActions(trackCta, openOldDialog, createSmartAlertPath, isGlobal);
 }
 
 export function getButtonActions(
   trackCta: CtaTrackingFunction,
   openOldDialog: VoidFunction,
-  createSmartAlertPath: string
+  createSmartAlertPath: string,
+  isGlobal: boolean
 ) {
   if (smartAlertCarbonTableEnabled && showDialogAndTearSheetButton) {
     return (
@@ -130,6 +135,7 @@ export function getButtonActions(
               trackCta={trackCta}
               openOldDialog={openOldDialog}
               getLinkToCreateSmartAlert={createSmartAlertPath}
+              mode={isGlobal ? ADVANCED : SIMPLE}
             />
           )
         }
@@ -144,7 +150,7 @@ export function getButtonActions(
         kind="primaryv2"
         icon="lib_openclose_add"
         href={createSmartAlertPath}
-        onClick={() => trackCta(ALERTING_CREATE)}
+        onClick={() => trackCta(ALERTING_CREATE, { dialogMode: FULLSCREEN })}
         size="xl"
       >
         {t('in-alerting:smartAlerts.createSmartAlert')}
@@ -157,7 +163,7 @@ export function getButtonActions(
       icon="lib_openclose_add"
       onClick={() => {
         openOldDialog();
-        trackCta(ALERTING_CREATE);
+        trackCta(ALERTING_CREATE, { dialogMode: isGlobal ? ADVANCED : SIMPLE });
       }}
       size="xl"
     >

@@ -144,9 +144,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
     );
     hasContent = items.length > 0 ? true : false;
     hits = searchData?.length ?? result?.data?.totalHits ?? result.data.length;
-    if (hits) {
-      hitsRef.current = hits;
-    }
+    hitsRef.current = hits ?? 0;
     //For custom dashboard searching
     result = {
       ...result,
@@ -175,7 +173,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
             ? removeDeletedFavoritedEntries(items, tableType)
                 .sort(sort)
                 .map((item: any, index: number) => (
-                  <Row id={`${index}`} key={index}>
+                  <Row id={`${tableType}-pinned-${index}`} key={index}>
                     <Item
                       key={item.id}
                       type={item.type}
@@ -253,7 +251,6 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
         [locals.noData]: hasNoDataTile
       })}
       aria-label={`${header}`}
-      role="region"
     >
       <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
         <DashboardTable

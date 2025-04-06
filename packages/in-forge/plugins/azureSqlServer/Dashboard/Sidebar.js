@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import RemoteServiceAgentCorrelationComponent from 'in-sdk/components/sidebar/remoteServiceAgentCorrelation/remoteServiceAgentCorrelationComponent';
 import TagList from 'in-sdk/components/sidebar/TagList';
 import Info from '../Info';
 
@@ -13,6 +14,7 @@ export default function AzureSqlServerSidebarDetails({ snapshot }) {
     <div>
       <Info snapshot={snapshot} />
       <TagList snapshot={snapshot} />
+      <RemoteServiceAgentCorrelationComponent snapshot={snapshot} />
     </div>
   );
 }

@@ -15,9 +15,12 @@ import {
 } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 //@ts-expect-error TS migration
 import { DebouncedSensitivitySlider } from 'in-alerting/smart-alerts/components/dialog/advanced/SensitivitySlider';
+import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import { getFormValueOrDefault } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { t } from 'in-i18n';
+
+import locals from 'in-alerting/smart-alerts/components/tearSheet/MultiThresholdCondition/MultiThresholdDeviationSliderForm.mless';
 
 interface MultiThresholdDeviationSliderFormProps {
   form: MapForm<any>;
@@ -96,6 +99,10 @@ export function MultiThresholdDeviationSliderForm({
 
   return (
     <Stack gap="small">
+      {/* threshold dropdown */}
+      <div className={locals.smallDropDown}>
+        <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
+      </div>
       <Checkbox
         label={t('in-alerting:smartAlerts.components.smartAlertDialog.warningThresholdLabel')}
         size="large"

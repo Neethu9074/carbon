@@ -1,7 +1,7 @@
 {
   "general": {
     "addButtonLabel": "Add",
-    "addButtonLabel_slo": "Add Service Level Objective",
+    "addButtonLabel_slo": "Add service level objective",
     "addButtonLabel_smartAlert": "Add Smart Alert",
     "aggregation": "Aggregation",
     "availability": "Availability",
@@ -29,8 +29,8 @@
     "traffic": "Traffic",
     "indicator": {
       "type": "Unknown type",
-      "type_eventBased": "Event Count",
-      "type_customEventBased": "Event Count",
+      "type_eventBased": "Event count",
+      "type_customEventBased": "Event count",
       "type_timeBased": "Time",
       "blueprint": "Unknown blueprint",
       "blueprint_latency": "Latency",
@@ -66,14 +66,14 @@
     "latency": "Latency",
     "time": "Time",
     "entityTypes": {
-      "label": "Unknown Entity",
+      "label": "Unknown entity",
       "label_application": "Application",
       "label_website": "Website",
       "label_synthetic": "Synthetic Tests"
     },
     "type": "Type",
     "selectLabel": "Selection: {{selectedLabel}}",
-    "serviceLevelObjective": "Service Level Objective",
+    "serviceLevelObjective": "Service level objective",
     "timeWindow": {
       "type": "unknown",
       "type_fixed": "Fixed",
@@ -107,20 +107,20 @@
     "metrics": {
       "status": "Status",
       "remainingBudget": "Remaining",
-      "totalBudget": "Error Budget",
-      "consumedBudget": "Error Budget Consumed",
-      "beaconCount": "Beacon Count",
+      "burnRate": "Burn Rate",
+      "totalBudget": "Error budget",
+      "beaconCount": "Beacon count",
       "calls": "Calls",
       "latency": "Latency",
-      "beaconDuration": "Beacon Duration",
+      "beaconDuration": "Beacon duration",
       "threshold": "Threshold",
-      "failureRate": "Failure Rate",
-      "errors": "Erroneous Call Rate",
-      "beaconErrorRate": "Beacon Error Rate",
-      "goodEvents": "Good Events",
-      "badEvents": "Bad Events",
-      "erroneousCalls": "Erroneous Calls",
-      "beaconErrorCount": "Beacon Error Count"
+      "failureRate": "Failure rate",
+      "errors": "Erroneous call rate",
+      "beaconErrorRate": "Beacon error rate",
+      "goodEvents": "Good events",
+      "badEvents": "Bad events",
+      "erroneousCalls": "Erroneous calls",
+      "beaconErrorCount": "Beacon error count"
     },
     "format": {
       "unit_application": "call",
@@ -159,33 +159,33 @@
     }
   },
   "createSloDialog": {
-    "customFilter": "Custom Filter",
+    "customFilter": "Custom filter",
     "custom": "Custom",
     "customDescription": "Set a custom filter to select services and/or endpoints",
     "title": {
-      "create": "Create Service Level Objective (SLO)",
-      "edit": "Edit Service Level Objective (SLO)"
+      "create": "Create service level objective (SLO)",
+      "edit": "Edit service level objective (SLO)"
     },
-    "selectIndicator": "Select Blueprint",
-    "selectEntityNavItem": "Set Entity",
+    "selectIndicator": "Select blueprint",
+    "selectEntityNavItem": "Set entity",
     "selectEntityTitle": "Select an entity to add SLO to:",
-    "selectScopeNavItem": "Set Scope",
-    "SelectServiceandEndpoint": "Select Service and Endpoint",
-    "selectIndicatorNavItem": "Set Indicator",
+    "selectScopeNavItem": "Set scope",
+    "SelectServiceandEndpoint": "Select service and endpoint",
+    "selectIndicatorNavItem": "Set indicator",
     "beaconTypes": {
-      "beaconLabel_httpRequest": "HTTP Requests",
-      "beaconLabel_pageLoad": "Website Page Loads",
-      "beaconLabel_custom": "Website Custom Events"
+      "beaconLabel_httpRequest": "HTTP requests",
+      "beaconLabel_pageLoad": "Website page loads",
+      "beaconLabel_custom": "Website custom events"
     },
-    "serviceAndEndpoint": "Service & Endpoint",
-    "selectObjectiveTitle": "Set Objective",
-    "sloTarget": "SLO Target",
-    "timeWindow": "Time Window",
+    "serviceAndEndpoint": "Service & endpoint",
+    "selectObjectiveTitle": "Set objective",
+    "sloTarget": "SLO target",
+    "timeWindow": "Time window",
     "length": "Length",
     "start": "Start",
     "valueMissingTime": "— min",
-    "errorBudgetPreviewTitle": "Error Budget",
-    "errorBudgetPreviewTitle_eventBased": "Estimated Error Budget",
+    "errorBudgetPreviewTitle": "Error budget",
+    "errorBudgetPreviewTitle_eventBased": "Estimated error budget",
     "errorBudgetPreviewTitle_customEventBased": "$t(in-service-levels:createSloDialog.errorBudgetPreviewTitle_eventBased)",
     "estErrorBudgetMsg": "Based on the past $t(in-service-levels:general.timeWindow.size_day, { \"count\": {{count}} })",
     "errorTimeWindowDay": "The time window size has to be less or equal to 31 days",
@@ -195,8 +195,8 @@
     "errorBlankEntity": "Please select an entity from the list",
     "errorEmptyGoodFilter": "A good filter must be defined",
     "errorEqualTagFilter": "Good and bad filters must not be identical",
-    "nameAndTagsTitle": "Set Details",
-    "sloNameLabel": "SLO Name",
+    "nameAndTagsTitle": "Set details",
+    "sloNameLabel": "SLO name",
     "sloNamePlaceholder": "Enter name",
     "sloNameCopyTemplate": "Copy of {{name}}",
     "tagsLabel": "Tags (optional)",
@@ -220,11 +220,11 @@
       "eventTypeExplanation_application": "Total count of good vs bad calls",
       "eventTypeExplanation_website": "Total count of good vs bad beacons",
       "eventTypeExplanation_synthetic": "Total count of good vs bad results",
-      "eventCount": "Event Count",
-      "eventType": "Event Type",
+      "eventCount": "Event count",
+      "eventType": "Event type",
       "thresholdLabel": "Unknown type",
       "thresholdLabel_latency": "Threshold (ms)",
-      "thresholdLabel_availability": "Error Rate (%)",
+      "thresholdLabel_availability": "Error rate (%)",
       "setGoodCall": "Set the good calls to a service",
       "setBadCall": "Set the bad calls to a service (Optional)",
       "thresholdDescription_GT": "A good minute is defined by a count of more than {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) per minute. A bad minute is defined by a count of less than or equal to {{thresholdValue}} $t(in-service-levels:general.format.unit, { \"context\": \"{{entityType}}\", \"count\": {{thresholdValue}} }) per minute.",
@@ -247,20 +247,20 @@
     "sloChartSummary": {
       "status": "Status",
       "target": "Target:",
-      "errorBudgetRemaining": "Remaining:",
-      "errorBudgetSpent": "Error Budget Spent",
-      "timeWindow": "Time Window",
+      "errorBudgetTotal": "Total:",
+      "errorBudgetRemaining": "Error budget remaining",
+      "timeWindow": "Time window",
       "timeWindowType_dynamic": "Dynamic time window",
       "timeWindowType_rolling": "Rolling time window",
       "timeWindowType_fixed": "Fixed time window",
-      "configuredTimeWindow": "Configured SLO Time Window:",
+      "configuredTimeWindow": "Configured SLO time window:",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
-      "startTime": "Start Time: {{startDay}} , {{startTime}}",
-      "matchedSLOTimeWindow": "Matching SLO Time Window: ",
-      "matchedSLOTimeWindow_plural": "Matching SLO Time Windows: ",
-      "matchedSLOTimeWindow_0": "Matching SLO Time Window: ",
-      "matchedSLOTimeWindow_1": "Matching SLO Time Window: ",
-      "matchedSLOTimeWindow_2": "Matching SLO Time Windows: ",
+      "startTime": "Start time: {{startDay}} , {{startTime}}",
+      "matchedSLOTimeWindow": "Matching SLO time window: ",
+      "matchedSLOTimeWindow_plural": "Matching SLO time windows: ",
+      "matchedSLOTimeWindow_0": "Matching SLO time window: ",
+      "matchedSLOTimeWindow_1": "Matching SLO time window: ",
+      "matchedSLOTimeWindow_2": "Matching SLO time windows: ",
       "noMatchedSLOTimeWindow": "No matching time window found",
       "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
@@ -277,7 +277,7 @@
         "tooltip": "{{context}} SLO"
       },
       "entityTypeFilter": {
-        "placeholder": "Entity Type"
+        "placeholder": "Entity type"
       },
       "sloTagFilter": {
         "placeholder": "Tag",
@@ -294,13 +294,13 @@
         "timeWindow_rolling": "$t(in-service-levels:general.timeWindow.size, {\"context\":\"{{durationUnit}}\", \"count\":{{duration}}}), rolling"
       }
     },
-    "title": "Service Level Objectives",
+    "title": "Service level objectives",
     "columnLabels": {
       "name": "Name",
       "entity": "Entity",
       "blueprint": "Blueprint",
-      "errorBudget": "Error Budget Remaining",
-      "status": "Status / Target",
+      "errorBudget": "Error budget remaining",
+      "status": "Status / target",
       "tags": "Tags"
     }
   },
@@ -324,27 +324,33 @@
       "smartAlertsLabel": "Smart Alerts"
     },
     "timeWindowSelection": {
-      "timeWindow": "Unknown Selection",
-      "timeWindow_SELECTED_TIME": "Selected Time",
-      "timeWindow_SLO_TIME_WINDOW": "SLO Time Window"
+      "timeWindow": "Unknown selection",
+      "timeWindow_SELECTED_TIME": "Selected time",
+      "timeWindow_SLO_TIME_WINDOW": "SLO time window"
     },
     "components": {
       "errorBudgetKpiCard": {
-        "remainingBudget": "Error Budget Remaining",
+        "remainingBudget": "Error budget remaining",
         "totalBudget": "Budget: {{value}}"
       },
       "sloStatusKpiCard": {
-        "target": "SLO Target: {{value}}"
+        "target": "SLO target: {{value}}"
       },
       "trafficKpiCard": {
         "title": "Traffic",
         "totalTraffic": "Total: {{value}}"
       },
+      "burnRateKpiCard": {
+        "burnRateInfo":"Burn Rate over the selected SLO Time Window"
+      },
       "errorBudgetChart": {
-        "title": "Error Budget"
+        "title": "Error budget"
       },
       "trafficChart": {
         "title": "Traffic"
+      },
+      "burnRateChart": {
+        "title": "Burn Rate"
       },
       "indicatorChart": {
         "title": "Indicator",
@@ -375,9 +381,9 @@
         "apHiddenCallsSynthetic_true": "Does include synthetic calls",
         "apHiddenCallsSynthetic_false": "Does not include synthetic calls",
         "apServiceLabel": "Service",
-        "apAllServices": "All Services",
+        "apAllServices": "All services",
         "apEndpointLabel": "Endpoint",
-        "apAllEndpoints": "All Endpoints",
+        "apAllEndpoints": "All endpoints",
         "eumBeaconTypeLabel": "Beacon type",
         "customFilterLabel": "Custom filter"
       },
@@ -399,10 +405,10 @@
       "objectiveSection": {
         "title": "Objective",
         "targetLabel": "Target",
-        "timeWindowLabel": "Time Window",
+        "timeWindowLabel": "Time window",
         "durationLabel": "Length",
-        "startDateLabel": "Start Date",
-        "startTimeLabel": "Start Time"
+        "startDateLabel": "Start date",
+        "startTimeLabel": "Start time"
       }
     }
   }

@@ -39,8 +39,8 @@ import { ActionFilter, Authen, AuthenType, isApiKeyAuth, isBasicAuth, isBearerAu
 import { ActionForm, MappedHeader, MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
 import { ACTION_TYPE, ADD_COMMENT, EPIC, ISSUE, OPEN } from 'in-automation/constants';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import ActionFormContext from 'in-automation/ActionCatalog/ActionFormContext';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
-import { FormContext } from 'in-components/form/binding/FormContext';
 import { notBlankValidator } from 'in-services/validators/string';
 import { safeParseJSON } from 'in-automation/utils/json';
 
@@ -701,17 +701,16 @@ export default function useActionForm({ action, actionFilter }: UseActionFormPar
   return [form, updateForm] as const;
 }
 
-interface ActionFormContext {
+interface ActionFormContextOutput {
   form: ActionForm;
   setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
 }
 
 export function useActionFormContext() {
-  const context = useContext(FormContext);
-
+  const context = useContext(ActionFormContext);
   if (context === undefined) {
     throw new Error('Must be used inside Form');
   }
 
-  return context as ActionFormContext;
+  return context as ActionFormContextOutput;
 }

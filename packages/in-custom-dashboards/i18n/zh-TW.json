@@ -32,7 +32,7 @@
         "editPermissions": "編輯許可權",
         "shareMsg": "此自訂儀表板具有進階存取規則，但此對話框無法呈現這些規則。您可以使用「以 JSON 型式編輯」特性來編輯這些存取規則。",
         "privateDashboardDefault": "專用儀表板（預設值）",
-        "privateDashboardDefaultExplain": "只有您可看見此儀表板。",
+        "privateDashboardDefaultExplain": "只有您可看見此儀表板。 附註：此項只能由儀表板擁有者變更。",
         "publicDashboard": "公用儀表板",
         "publicDashboardExplain": "您組織中的每個人都可看見此儀表板。只有您能夠進行變更，但您可以新增編輯者。",
         "save": "儲存",
@@ -87,8 +87,8 @@
       "addWidget": "新增小組件",
       "tvMode": "TV 模式",
       "editName": "編輯名稱",
-      "editAsJson": "以 JSON 型式編輯",
-      "viewAsJson": "以 JSON 型式檢視",
+      "editAsJson": "以 JSON 形式編輯",
+      "viewAsJson": "以 JSON 檢視",
       "copyAllWidgets": "複製所有小組件",
       "copiedAllWidgets": "已複製的小組件，使用 CTRL-V 或 CMD-V 貼到任何自訂儀表板上",
       "duplicate": "複製",
@@ -216,7 +216,7 @@
         "lastValueHelp": "啟用此切換後，我們將顯示時間範圍內最後一個儲存區的聚集。"
       },
       "metrics": {
-        "infrastructurePlatforms": "基礎架構和平台",
+        "infrastructurePlatforms": "基礎架構與平台",
         "comingSoon": "（即將推出）"
       },
       "typeAndMetricConfigurator": {
@@ -345,7 +345,7 @@
         "addTimeShiftComparBadge": "新增時間遷移比較識別證",
         "increaseColor": "增加顏色",
         "decreaseColor": "減少顏色",
-        "timeShift": "時間遷移"
+        "timeShift": "時間轉移"
       },
       "thresholdForm": {
         "addThresholdColorization": "新增基於臨界值的著色",
@@ -397,7 +397,7 @@
         "darkRed": "暗紅色",
         "blue": "藍色",
         "yellow": "黃色",
-        "lightBlue": "淺藍色",
+        "lightBlue": "淺藍",
         "green": "綠色",
         "red": "紅色",
         "orange": "橙色",
@@ -430,7 +430,7 @@
         "datasets": "資料集"
       },
       "timeShiftingFormChart": {
-        "timeShift": "時間遷移",
+        "timeShift": "時間轉移",
         "applyTimeShiftDs": "將時間遷移套用至這個資料系列",
         "timeShiftHelpAction": "如果選取<strong>顯示現行值</strong>，會自動將此資料系列複製到相同軸上。第一個資料系列將停用時間遷移，第二個資料系列將啟用時間遷移。",
         "timeShiftDisabledWhilePPon": "若要使用時間遷移，您需要先關閉強調顯示的「潛在問題」。",
@@ -451,7 +451,7 @@
     },
     "demo": {
       "pageLoads": "頁面載入",
-      "onLoadTime": "載入時間"
+      "onLoadTime": "OnLoad 時間"
     },
     "index": {
       "chartTimeSeries": "圖表：時間序列"
@@ -515,7 +515,7 @@
         "userJourneyOffering": "使用者旅程 / 供應項目",
         "appnPerspective": "應用程式視景",
         "selectAppPerspect": "請選取應用程式視景。",
-        "appPerspectHelpAction": "將使用者旅程/供應項目建模為「應用程式」區域中的「應用程式視景」，以設定使用者旅程/供應項目。",
+        "appPerspectHelpAction": "透過在應用程式區域中將使用者旅程和供應項目建模為應用程式視景來設定它們。",
         "rbacHint": "所顯示的應用程式可能受到權限限制。",
         "noAppPerspect": "無應用程式視景！",
         "pleaseSelect": "請選取"
@@ -573,7 +573,7 @@
         "99th": "第 99 個"
       },
       "metricsForm": {
-        "metricThreshold": "度量和臨界值",
+        "metricThreshold": "度量與臨界值",
         "metric": "度量",
         "aggregation": "聚集",
         "valThresholdNotInvalidEmpty": "臨界值不得無效或空的。",
@@ -593,14 +593,14 @@
         "sliTimeBasedOrAnEventBasedSli": "SLI 類型必須是時間型或事件型 SLI。",
         "pleaseSelect": "請選取",
         "boundary": "界限",
-        "hiddenCalls": "隱藏的呼叫",
+        "hiddenCalls": "隱藏呼叫",
         "includeInternalCalls": "包含內部呼叫",
         "includeSyntheticCalls": "包含合成呼叫",
         "type": "類型",
         "sliEntity": "SLI 實體",
         "beaconConfigLabel": "引標配置",
         "beaconScopeLabel": "引標範圍",
-        "beaconLabel": "不明信號類型",
+        "beaconLabel": "不明引標類型",
         "beaconLabel_httpRequest": "HTTP 要求",
         "beaconLabel_pageLoad": "網站頁面載入",
         "beaconLabel_custom": "網站自訂事件",
@@ -614,7 +614,7 @@
         "sliType": "SLI 類型",
         "viewCloneSliConfig": "檢視/複製 SLI 配置",
         "delSliConfig": "刪除 SLI 配置",
-        "confirmRemove": "請確認",
+        "confirmRemove": "確認移除",
         "confirmRemoveMsg": "您確定要刪除 <strong>{{sliName}}</strong> 嗎？",
         "delete": "刪除",
         "eventBasedSli": "事件型",
@@ -687,6 +687,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "至少需要配置一個過濾表示式。",
       "timeBased": "時間型",
       "eventBased": "事件型",
+      "sloLite": "SLO Lite",
       "sloLegacy": "SLO 舊版",
       "slo": "SLO",
       "monitoringSourceSelector": {
@@ -722,7 +723,7 @@
       "title": "Apdex：圖表",
       "chart": {
         "metricLabel": "Apdex",
-        "viewInAnalyze": "分析時檢視",
+        "viewInAnalyze": "在分析中檢視",
         "noDataRetentionPeriod": "選取的時間範圍超出資料保留期間",
         "notFoundErrorTitle": "找不到已配置的 Apdex",
         "notFoundErrorDescription": "請選取另一個 Apdex 配置來更新 Apdex 小組件"
@@ -765,7 +766,7 @@
         "cardTitle": "Apdex 配置",
         "nameColumn": "Apdex 配置",
         "thresholdColumn": "臨界值",
-        "confirmDeleteHeader": "請確認",
+        "confirmDeleteHeader": "確認移除",
         "confirmDeleteMessage": "您確定要刪除 {{apdex}} 嗎？",
         "editApdexTooltip": "編輯/複製 Apdex 配置",
         "deleteApdexTooltip": "刪除 Apdex 配置",
@@ -901,10 +902,10 @@
           "tableSize": "表格大小",
           "tableConfiguration": "表格配置",
           "tableDetails": "表格詳細資料",
-          "showResult": "顯示 {{loadedItems}} 個結果，共 {{totalItems}} 個結果",
+          "showResult": "顯示 {{loadedItems}} / {{totalItems}} 個結果",
           "loadingEntities": "載入實體",
           "datasets": "資料集",
-          "sortBy": "排序依據",
+          "sortBy": "排序方式",
           "sortDirection": "排序方向",
           "defaultSortingSuffix": "名稱",
           "validators": {
@@ -924,8 +925,8 @@
       "eventColumns": {
         "title": "標題",
         "entityLabel": "開啟（實體）",
-        "startedOn": "開始日期",
-        "endedOn": "結束日期",
+        "startedOn": "啟動於",
+        "endedOn": "結束於",
         "duration": "持續時間"
       },
       "kubernetesEventColumns": {
@@ -954,7 +955,7 @@
     "failedToCreateDashboard": "無法建立儀表板。"
   },
   "newDashboardDialog": {
-    "createNewDashboard": "建立新儀表板",
+    "createNewDashboard": "建立新的儀表板",
     "dashboardName": "儀表板名稱",
     "additionalFields": "只有您可看見此儀表板。在建立之後，您可以選擇分享給同事",
     "create": "建立",

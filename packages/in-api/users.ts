@@ -10,7 +10,6 @@ import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
-import { errorWithData } from 'in-services/util/result';
 import { Response } from 'in-services/http/types';
 import http from 'in-services/http';
 
@@ -65,21 +64,18 @@ export const getUsersResult = memoize(
   () => 'UsersResult',
   60000
 );
+function getUsersDataAndErrorResult(): Observable<Result<UserResult[]>> {
+  return http<UserResult[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/settings/users`,
+    mapToResultObject: true,
+    treat400AsError: true
+  });
+}
 
 export function getUsers() {
   return getUsersInternal().map(response => response.body);
-}
-const emptyUsersOnError$ = create().emit(undefined);
-
-export function getUsersDataAndErrorResult() {
-  return refreshSignalUsers.flatMap(() => {
-    const usersRequest = getUsersInternal();
-    const success$ = usersRequest.map(response => response.body);
-    usersRequest.errors().subscribe(err => {
-      emptyUsersOnError$.emit(errorWithData([err], []));
-    });
-    return success$.merge(emptyUsersOnError$);
-  });
 }
 
 function getUsersInternal() {
@@ -124,13 +120,13 @@ export function removeUserFromTenant(userId: string) {
 }
 
 export function removeUsersFromTenant(userIds: string[]) {
-  const basePath = '/api/settings/users';
   return http<void>({
-    method: 'DELETE',
+    method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: basePath,
-    data: userIds
+    url: '/api/settings/users/delete',
+    data: userIds,
+    treat400AsError: true
   }).map(v => {
     refreshSignalUsers.emit(true);
     return v;
@@ -162,29 +158,18 @@ function getPendingInvitationsInternal(): Observable<PendingInvitation[]> {
   );
 }
 
-function getPendingInvitationsRequest(): Observable<Response<PendingInvitation[]>> {
+function getPendingInvitationsInternalObservable(): Observable<Result<PendingInvitation[]>> {
   return http<PendingInvitation[]>({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/settings/invitations`
-  });
-}
-
-const emptyInvitesOnError$ = create().emit(undefined);
-
-function getPendingInvitationsInternalObservable() {
-  return refreshSignalInvitations.flatMap(() => {
-    const pendingInvitationRequest = getPendingInvitationsRequest();
-    const success$ = pendingInvitationRequest.map(response => response.body);
-    pendingInvitationRequest.errors().subscribe(err => {
-      emptyInvitesOnError$.emit(errorWithData([err], []));
-    });
-    return success$.merge(emptyInvitesOnError$);
+    url: `/api/settings/invitations`,
+    mapToResultObject: true,
+    treat400AsError: true
   });
 }
 
 export const getPendingInvitationsAsObservable = memoize(
-  getPendingInvitationsInternalObservable,
+  () => refreshSignalInvitations.flatMap(() => getPendingInvitationsInternalObservable()),
   () => 'PendingInvitations',
   60000
 );

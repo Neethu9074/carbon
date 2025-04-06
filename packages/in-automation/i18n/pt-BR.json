@@ -1,4 +1,5 @@
 {
+  "automationAction": "Ação de automação",
   "copy": "Copiar",
   "edit": "Editar",
   "delete": "Excluir",
@@ -57,7 +58,7 @@
   "repo": "Repository",
   "operation": "Operação",
   "issueType": "Tipo de problema",
-  "projectId": "ID do Projeto",
+  "projectId": "ID do projeto",
   "project": "Projeto",
   "title": "Título",
   "labels": "Rótulos (opcional)",
@@ -98,20 +99,25 @@
   "actionsWithCount": "Ações ({{count}})",
   "titleUrl": "URL",
   "generateWithWatsonx": "Gerar com watsonx",
-  "AISlugContent": "A IA foi usada para gerar este conteúdo",
   "createPolicyWithName": "Visualizar ação {{actionName}} e criar política",
   "viewActionCreatePolicy": "Visualizar ação e criar política",
   "titleContentReadOnly": "Conteúdo gerado (somente leitura)",
+  "hostId": "ID do host",
+  "ansibleUrl": "URL do Ansible",
+  "playbookFileName": "Nome do arquivo do playbook",
+  "playbookId": "ID do playbook",
+  "triggeringEvent": "Evento acionador",
+  "probableRootCause": "Causa raiz provável",
+  "contextFor": "Contexto para:",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Configuração da ação",
     "actionDetails": "Detalhes da ação",
     "Step1HeadlineSelectAction": "Comece com uma ação integrada gerada pelo watsonx  para criar uma nova ação para esse evento.",
-    "Step1HeadlinePrompt": "Gere uma ação manual com o watsonx com base no nome do evento, na descrição e no tipo de entidade.",
+    "Step1HeadlinePrompt": "Gere uma ação manual com o watsonx com base no nome do evento, na descrição e no tipo de entidade. É possível editar e gerar novamente para ver",
     "Step2Headline": "Especifique os detalhes da ação ou mude antes de salvá-la no catálogo de ações.",
     "Step3Headline": "Opcionalmente, é possível criar uma política de automação junto com a ação. Também é possível concluir essa etapa em um momento posterior.",
     "step1Title": "Etapa 1: gerar ou selecionar uma ação",
     "step1TitleGenerateAction": "Etapa 1: gerar uma ação",
-    "step1TitleSelectAction": "Etapa 1: selecionar uma ação",
     "step2Title": "Etapa 2: configurar a ação",
     "step3Title": "Etapa 3: criar política (opcional)",
     "policyDetails": "Detalhes da política",
@@ -145,7 +151,6 @@
     "createActionAndPolicy": "Criar ações e políticas",
     "createAction": "Criar ação",
     "nameExists": "Já existe uma ação com o nome: {{name}} e o tipo: {{type}}",
-    "failedToGenerateAction": "Falha ao gerar a ação.",
     "failedToCreateActionPolicy": "Falha ao criar ações e políticas.",
     "failedToCreateAction": "Falha ao criar a ação.",
     "generateScriptDialog": {
@@ -187,7 +192,7 @@
     "newAction": "Nova ação",
     "createANewAction": "Criar uma nova ação",
     "configureActionEntityName": "Configurar ação: {{entityName}}",
-    "lastModified": "Modificado pela Última Vez",
+    "lastModified": "Última modificação",
     "script": "Script",
     "interpreter": "Interpretador (opcional)",
     "interpreterHelper": "O interpretador é o programa que executará o script. Por exemplo, Bash ou Python. Este pode ser o caminho completo para o interpretador ou apenas o nome do intérprete se ele estiver no PATH. Este campo não será necessário se o script tiver um shebang, ou se o script usar o interpretador padrão.",
@@ -225,6 +230,9 @@
     "1ActionDetails": "1. Detalhes da ação",
     "2ActionConfiguration": "2. Configuração de ação",
     "3ParamaterDetails": "3. Detalhes do parâmetro",
+    "actionDetails": "Detalhes da ação",
+    "actionConfiguration": "Configuração da ação",
+    "parameterDetails": "Detalhes do parâmetro",
     "timeout": "Tempo limite (opcional)",
     "timeoutHelpText": "O tempo máximo em segundos para aguardar a ação ser concluída. Se a ação não for concluída dentro do tempo limite, ela será finalizada. Isso substituirá o tempo limite definido na configuração do agente.",
     "host": "Host",
@@ -237,7 +245,7 @@
     "key": "Chave",
     "ignoreCertErrors": "Ignorar erros de certificado",
     "basicAuth": "Autenticação básica",
-    "bearerToken": "Token de Acesso",
+    "bearerToken": "Token de acesso",
     "authentication": "Autenticação",
     "apiKeyAddTo": "Incluir em",
     "apiKey": "Chave de API",
@@ -248,15 +256,16 @@
     "addParameter": "Incluir parâmetro",
     "editParameter": "Editar parâmetro",
     "noParametersConfigured": "Nenhum parâmetro configurado",
-    "required": "Valor obrigatório",
+    "required": "Valor requerido",
+    "viewParameter": "Visualizar parâmetro",
     "hiddenParam": "Oculto",
     "valueType": "Tipo de valor",
     "displayName": "Nome de exibição",
-    "defaultValue": "Valor padrão",
+    "defaultValue": "Valor Padrão",
     "defaultValueOptional": "Valor padrão (opcional)",
     "parameters": "Parâmetros",
     "secretKey": "Chave secreta",
-    "secretPath": "Caminho do segredo",
+    "secretPath": "Caminho secreto",
     "secretKeyOptional": "Chave secreta (opcional)",
     "secretPathOptional": "Caminho do segredo (opcional)",
     "validName": "O nome do parâmetro não é válido: verifique se você está usando somente caracteres válidos e se ele é exclusivo.",
@@ -283,7 +292,7 @@
     "task": "Tarefa",
     "bug": "Erro",
     "improvement": "Melhoria",
-    "newFeature": "Novo Recurso",
+    "newFeature": "Novo recurso",
     "view": "Visualizar",
     "content": "Conteúdo",
     "mustHaveRequiredTag": "A ação deve conter pelo menos uma das tags a seguir: {{tags}}",
@@ -313,7 +322,7 @@
     }
   },
   "actionHistory": {
-    "actionHistory": "Histórico de ações",
+    "actionHistory": "Histórico da Ação",
     "goToActionHistory": "Acessar histórico de ações",
     "actionHistoryWithCount": "Histórico de ações ({{count}})",
     "noActionInstances": "Dados não disponíveis",
@@ -321,12 +330,12 @@
     "name": "Nome",
     "type": "Tipo",
     "status": "Status",
-    "startTime": "Hora de Início",
+    "startTime": "Horário de início",
     "endTime": "Horário de encerramento",
     "actionInstanceId": "ID da instância de ação",
     "event": "Evento",
     "eventName": "Nome do evento",
-    "returnCode": "Códigos de retorno",
+    "returnCode": "Código de retorno",
     "errorMessage": "Mensagem de erro",
     "risk": "Risco",
     "action": "Ação",
@@ -336,7 +345,7 @@
     "failed": "Com falha",
     "unknown": "Desconhecido",
     "inProgress": "Em andamento",
-    "viewLog": "Visualizar Log",
+    "viewLog": "Visualizar log",
     "displayName": "Nome de exibição",
     "noParams": "Não há nenhum parâmetro disponível",
     "inputParameters": "Parâmetros de entrada",
@@ -378,7 +387,6 @@
   },
   "policies": {
     "policies": "Políticas",
-    "policiesWithCount": "Políticas ({{count}})",
     "newPolicy": "Nova política",
     "selectEventTrigger": "Selecionar acionador de evento",
     "eventTrigger": "Acionador de evento",
@@ -405,7 +413,7 @@
     "event": "Evento",
     "entityType": "Tipo de entidade",
     "applicationSmartAlert": "Alerta inteligente de aplicativos",
-    "globalApplicationSmartAlert": "Alerta inteligente global de aplicativo",
+    "globalApplicationSmartAlert": "Alerta inteligente de aplicativo global",
     "infraSmartAlert": "Alerta inteligente de infraestrutura",
     "mobileAppSmartAlert": "Alerta inteligente de aplicativo móvel",
     "syntheticsSmartAlert": "Alerta inteligente sintético",
@@ -472,7 +480,7 @@
     "showTasks": "Mostrar"
   },
   "deleteDialog": {
-    "confirmRemove": "Confirme",
+    "confirmRemove": "Confirmar remoção",
     "confirmRemoveMsg": "Tem certeza de que deseja excluir <strong>{{name}}</strong>?",
     "delete": "Excluir"
   },
@@ -507,11 +515,66 @@
     "recommendedActionHistoryWithCount": "Histórico de ações de recursos ({{count}})",
     "recommendedActionHistory": "Histórico de ações de recursos"
   },
+  "actionDashboard": {
+    "ActionConfiguration": "Configuração da ação",
+    "ActionDetails": "Detalhes da ação",
+    "ParameterDetails": "Detalhes do parâmetro",
+    "tabs": {
+      "summaryLabel": "Resumo",
+      "configurationLabel": "Configuração"
+    },
+    "noOfTimesRun": "Número de vezes de execução",
+    "successRate": "Pontuação de sucesso",
+    "avgExecutionTime": "Tempo médio de execução",
+    "lastModified": "Última modificação",
+    "history": "Histórico",
+    "summaryTab": {
+      "millisecond": "ms"
+    },
+    "associatedPolicies": "Políticas associadas"
+  },
   "feedback": {
     "contentHelpfulText": "Esse conteúdo gerado foi útil?",
     "thankYouForYourFeedback": "Obrigado por seu feedback.",
     "submitFeedback": "Enviar feedback",
     "additionalFeedbacklabel": "Fornecer feedback adicional (opcional)",
-    "additionalFeedbackPlaceholder": "O que você não gostou na resposta? O que pode ser melhorado"
+    "additionalFeedbackPlaceholder": "O que você não gostou na resposta? O que pode ser melhorado?"
+  },
+  "consentForm": {
+    "consentButton": "Revisar o formulário de consentimento",
+    "consentText": "Um administrador deve concordar com o contrato de privacidade de visualização de assistência de IA generativa para ativar esse recurso."
+  },
+  "AITooltip": {
+    "aiExplained": "IA explicada",
+    "manualSection": {
+      "section1": {
+        "section1Title": "Geração de ação",
+        "section1Text": "Para gerar um conjunto de etapas manuais para diagnosticar ou corrigir o problema, enviamos as informações do evento para o watsonx.  As entradas usadas para formular o prompt de IA são inicialmente preenchidas a partir do evento atual e podem ser modificadas para melhorar os resultados."
+      },
+      "section2": {
+        "section2Title": "Campos de prompt de entrada",
+        "section2EventName": "<strong>Nome do evento.</strong> O nome do incidente, evento ou alerta.",
+        "section2Description": "<strong>Descrição do evento.</strong> A descrição do incidente ou evento.",
+        "section2Entitytype": "<strong>Tipo de entidade do evento.</strong> O tipo de entidade associada ao incidente ou evento."
+      },
+      "section3": {
+        "AIModel": "Modelo de IA"
+      },
+      "section4": {
+        "section4Text": "Esse é um recurso de visualização. Ele fornece um esboço sugerido para uma ação ou ações recomendadas para tratar de um incidente ou evento. Você deve determinar se a saída é adequada às suas necessidades."
+      }
+    },
+    "scriptSection": {
+      "section1": {
+        "section1Text": "Para gerar um script, enviamos instruções de uma etapa de ação manual para o watsonx. A etapa pode ser modificada para melhorar os resultados."
+      },
+      "section3": {
+        "section3Text": "Este é um recurso de visualização que fornece um script sugerido para executar uma ação. Você deve determinar se a saída é adequada às suas necessidades."
+      }
+    },
+    "preGenerated": {
+      "title": "Ações de IA pré-geradas",
+      "text": "Selecione em uma lista de ações que são pré-geradas usando modelos de IA do watsonx para ajudar a diagnosticar ou corrigir eventos em seu sistema."
+    }
   }
 }

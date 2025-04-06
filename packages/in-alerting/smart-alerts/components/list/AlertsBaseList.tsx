@@ -38,6 +38,13 @@ export type ActionHandlers<AlertConfig extends AlertConfigType> = {
   ) => void;
 };
 
+export interface AlertURLProps {
+  alertId?: string;
+  alertConfigCreated?: number;
+  duplicateMode?: boolean;
+  editMode?: boolean;
+}
+
 interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
   getAlertConfigs: () => Observable<Result<AlertConfig[]>>;
   extraColumnDefinitions: ColumnDefinition<AlertConfig>[];
@@ -56,6 +63,7 @@ interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
   displayCarbonTable?: boolean;
   toolBarContent?: JSX.Element;
   isSelectable?: boolean;
+  useSmartAlertCreateUrl?: (args: AlertURLProps) => string;
 }
 
 export interface AlertConfigType {
@@ -95,21 +103,24 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
   toolBarContent = undefined,
   isSelectable = false,
   noDataHeader,
-  noDataDescription
+  noDataDescription,
+  useSmartAlertCreateUrl
 }: AlertBaseListProps<AlertConfig>) {
   const columnDef = createColumnDefinition(
     extraColumnDefinitions,
     actionHandlers,
     getSubtitle,
     renderName,
-    hideAlertIcon
+    hideAlertIcon,
+    useSmartAlertCreateUrl
   );
 
   const columnDefForTable = createTableColumnDefinition(
     extraCarbonTableColumnDefinitions,
     getNameSubtitle,
     carbonActionHandlers,
-    createRowLinkLocation
+    createRowLinkLocation,
+    useSmartAlertCreateUrl
   );
 
   return (
@@ -156,7 +167,8 @@ function createColumnDefinition<AlertConfig extends AlertConfigType>(
   actionHandlers: ActionHandlers<AlertConfig> | undefined,
   getSubtitle?: ((config: AlertConfig) => string) | ((config: AlertConfig) => JSX.Element),
   renderName?: ((config: AlertConfig) => string) | ((config: AlertConfig) => ReactNode),
-  hideAlertIcon?: boolean
+  hideAlertIcon?: boolean,
+  useSmartAlertCreateUrl?: (args: AlertURLProps) => string
 ) {
   const nameColumn: ColumnDefinition<AlertConfig> = {
     id: 'name',
@@ -177,7 +189,12 @@ function createColumnDefinition<AlertConfig extends AlertConfigType>(
       id: 'actions',
       label: 'Action',
       getContent: (config: AlertConfig) => (
-        <ListActionsColumn config={config} actionHandlers={actionHandlers} isLoading={false} />
+        <ListActionsColumn
+          config={config}
+          actionHandlers={actionHandlers}
+          isLoading={false}
+          useSmartAlertCreateUrl={useSmartAlertCreateUrl}
+        />
       )
     };
     return [nameColumn, ...extraColumnDefinitions, actionsColumn];
@@ -204,7 +221,8 @@ function createTableColumnDefinition<AlertConfig extends AlertConfigType>(
   extraCarbonTableColumnDefinitions?: ServerTableColumnDefinition<AlertConfig>[],
   getNameSubtitle?: ((config: AlertConfig) => string) | ((config: AlertConfig) => JSX.Element),
   carbonActionHandlers?: ActionHandlers<AlertConfig>,
-  createRowLinkLocation?: (config: AlertConfig, location: Location) => Location
+  createRowLinkLocation?: (config: AlertConfig, location: Location) => Location,
+  useSmartAlertCreateUrl?: (args: AlertURLProps) => string
 ) {
   const nameColumn: ColumnDefinition<AlertConfig> = {
     id: 'name',
@@ -230,6 +248,7 @@ function createTableColumnDefinition<AlertConfig extends AlertConfigType>(
           actionHandlers={carbonActionHandlers}
           isLoading={false}
           icon={'lib_menu_more_vertical'}
+          useSmartAlertCreateUrl={useSmartAlertCreateUrl}
         />
       ),
       sortable: false

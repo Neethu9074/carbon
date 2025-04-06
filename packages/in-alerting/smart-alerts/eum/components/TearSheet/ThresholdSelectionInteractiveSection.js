@@ -13,6 +13,7 @@ import CustomEventsThresholdCondition from 'in-alerting/smart-alerts/eum/compone
 import { ruleMetricNameOptions as websiteRuleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import ThroughputThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/ThroughputThresholdCondition';
 import StatusCodeThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/StatusCodeThresholdCondition';
+import InvalidFilterMessage from 'in-alerting/smart-alerts/components/tearSheet/TagfilterValidator/InvalidFilterMessage';
 import SlownessThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/SlownessThresholdCondition';
 import JsErrorsThresholdCondition from 'in-alerting/smart-alerts/eum/components/TearSheet/JsErrorsThresholdCondition';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
@@ -34,14 +35,24 @@ export default function ThresholdSelectionInteractiveSection({
   getMetricUnitPostfix,
   thresholdType,
   thresholdResult,
-  AlertTypeSwitch
+  AlertTypeSwitch,
+  isTagFilterFormModelValid,
+  setStep,
+  alertChannelPerSeverityEnabled = false
 }) {
+  const tagFilterExpression = form.get('tagFilterExpression').value;
+
   return (
     <Stack gap="small" align="start">
       <AlertTypeSwitch
         alertType={alertType}
         renderJsErrors={() => (
-          <JsErrorsThresholdCondition form={form} blueprintConfig={blueprintConfig} updateForm={updateForm} />
+          <JsErrorsThresholdCondition
+            form={form}
+            blueprintConfig={blueprintConfig}
+            updateForm={updateForm}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
+          />
         )}
         renderCustomEvent={() => (
           <CustomEventsThresholdCondition
@@ -52,7 +63,15 @@ export default function ThresholdSelectionInteractiveSection({
             eumType={eumType}
             isPercentageMetric={isPercentageMetric}
             getMetricUnitPostfix={getMetricUnitPostfix}
-          />
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
+          >
+            <InvalidFilterMessage
+              isTagFilterFormModelValid={isTagFilterFormModelValid}
+              tagFilterExpression={tagFilterExpression}
+              thresholdType={thresholdType}
+              setStep={setStep}
+            />
+          </CustomEventsThresholdCondition>
         )}
         renderSlowness={() =>
           eumType === websiteEum && (
@@ -64,7 +83,15 @@ export default function ThresholdSelectionInteractiveSection({
               eumType={eumType}
               onChartViewConfigChange={onChartViewConfigChange}
               isPercentageMetric={isPercentageMetric}
-            />
+              alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
+            >
+              <InvalidFilterMessage
+                isTagFilterFormModelValid={isTagFilterFormModelValid}
+                tagFilterExpression={tagFilterExpression}
+                thresholdType={thresholdType}
+                setStep={setStep}
+              />
+            </SlownessThresholdCondition>
           )
         }
         renderStatusCode={() => (
@@ -80,7 +107,15 @@ export default function ThresholdSelectionInteractiveSection({
               eumType === websiteEum ? websiteRuleMetricNameOptions : mobileAppRuleMetricNameOptions
             }
             onChartViewConfigChange={onChartViewConfigChange}
-          />
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
+          >
+            <InvalidFilterMessage
+              isTagFilterFormModelValid={isTagFilterFormModelValid}
+              tagFilterExpression={tagFilterExpression}
+              thresholdType={thresholdType}
+              setStep={setStep}
+            />
+          </StatusCodeThresholdCondition>
         )}
         renderThroughput={() => (
           <ThroughputThresholdCondition
@@ -94,7 +129,15 @@ export default function ThresholdSelectionInteractiveSection({
             }
             getMetricUnitPostfix={getMetricUnitPostfix}
             onChartViewConfigChange={onChartViewConfigChange}
-          />
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
+          >
+            <InvalidFilterMessage
+              isTagFilterFormModelValid={isTagFilterFormModelValid}
+              tagFilterExpression={tagFilterExpression}
+              thresholdType={thresholdType}
+              setStep={setStep}
+            />
+          </ThroughputThresholdCondition>
         )}
         renderCrash={() =>
           eumType === mobileAppEum && (
@@ -106,7 +149,14 @@ export default function ThresholdSelectionInteractiveSection({
               getMetricUnitPostfix={getMetricUnitPostfix}
               isPercentageMetric={isPercentageMetric}
               onChartViewConfigChange={onChartViewConfigChange}
-            />
+            >
+              <InvalidFilterMessage
+                isTagFilterFormModelValid={isTagFilterFormModelValid}
+                tagFilterExpression={tagFilterExpression}
+                thresholdType={thresholdType}
+                setStep={setStep}
+              />
+            </CrashThresholdCondition>
           )
         }
       />

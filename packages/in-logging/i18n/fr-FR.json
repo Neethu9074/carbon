@@ -1,7 +1,7 @@
 {
   "logs": "Journaux",
+  "logsCountSum": "Nombre de logs (somme)",
   "sum": "somme",
-  "count": "nombre",
   "bar": "Barre",
   "logsOverTime": "Journaux au fil du temps",
   "logsOverTime_ERROR": "Erreur",
@@ -21,7 +21,7 @@
   "messageParam": "Paramètre du message",
   "applicationCounter": "{{count}} applications",
   "exceptionMessageHeader": "Message d'exception",
-  "stackTrace": "StackTrace",
+  "stackTrace": "Trace de pile",
   "service": "Service",
   "stream": "Flux",
   "tooltipCopyToClipboard": "Copier dans le presse-papiers",
@@ -32,7 +32,7 @@
     "mostRecent": "Le plus récent en premier",
     "oldest": "Les plus anciens en premier"
   },
-  "cpuTotal": "Total UC",
+  "cpuTotal": "Nombre total d'UC",
   "memoryUsage": "Utilisation de la mémoire",
   "cluster": "Cluster",
   "node": "Noeud",
@@ -67,11 +67,11 @@
     "management": "Gestion",
     "logVolume": {
       "logVolumeTitle": "Volume journal du mois en cours",
-      "gb": "Go",
+      "gib": "GiB",
+      "tib": "TiB",
       "logVolumeIcon": "Aller au volume journal"
     },
     "retentionIcon": "Modifier la durée de conservation",
-    "noData": "Aucune donnée disponible",
     "analyzeLogs": "Analyser les journaux",
     "managementPage": {
       "logVolume": "Volume de journal",

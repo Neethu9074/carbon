@@ -189,6 +189,13 @@ const AnalyzeView = () => {
               timelineDetails={timelineDetails}
               resultList={resultList}
             />
+            {getTestResultListStatus(resultList) !== 1 && (
+              <Row>
+                <Col xs>
+                  <FailedRun resultList={resultList} testType={testType} />
+                </Col>
+              </Row>
+            )}
             {isSSLCertificate &&
               get(resultList.data?.items[0], ['metrics', 'synthetic.customMetrics.validTo', 0, 1]) && (
                 <Row>
@@ -202,13 +209,6 @@ const AnalyzeView = () => {
               <Row>
                 <Col xs>
                   <CustomPropertiesSection resultList={resultList} testType={testType} />
-                </Col>
-              </Row>
-            )}
-            {getTestResultListStatus(resultList) !== 1 && (
-              <Row>
-                <Col xs>
-                  <FailedRun resultList={resultList} testType={testType} />
                 </Col>
               </Row>
             )}

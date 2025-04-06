@@ -58,6 +58,7 @@
     background: #e6e6e6;
     padding: 1.25rem;
 
+    h2,
     span {
       font-size: 1.5rem;
       font-weight: 500;

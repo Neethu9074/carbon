@@ -4,10 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 
 import { Button, IconButton, Spacer, Stack, Typography, Link, SvgIcon } from '@instana/components';
 import { Event, Result, VolatileId } from '@instana/types';
+import { TimeConfig } from '@instana/types';
 
 import {
   aiEngineColumn,
@@ -18,16 +19,17 @@ import {
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import useFetchAppropriateRCAEntityData from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
 import GenerateAIActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import CreatePolicyDialog from 'in-automation/AutomationCard/CreatePolicyDialog/CreatePolicyDialog';
 import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import TurboActionRunModal from 'in-automation/ResourceOptimization/TurboActionRunModal';
+import { ProcessedSnapshot } from 'in-automation/AutomationCard/AutomationCardForPRC';
+import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -36,11 +38,13 @@ import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
 import { getDocLinkFromFields } from 'in-automation/utils/actionField';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import { useSegmentTracker } from 'in-automation/tracker';
 import { ACTION_TYPE } from 'in-automation/constants';
 import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hasError } from 'in-services/util/result';
 import { mapData } from 'in-services/util/result';
 import { role } from 'in-stores/user';
@@ -82,93 +86,95 @@ function ExecuteButton({
   const { entityId } = event;
   const agentSnapShots = useTurboAgentSnapShots();
   const agents = agentSnapShots?.data?.online ?? [];
-  const isManualExternal =
-    action?.metadata?.ai &&
-    // action?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' &&
-    action.type === ACTION_TYPE.EXTERNAL;
-  if (!isManualExternal) return null;
-  if (isManualExternal) {
-    if (!role?.canRunAutomationActions) return null;
-
-    return (
-      <Button
-        kind="action"
-        icon="lib_actions_play"
-        onClick={e => {
-          stopPropagationAndPreventDefault(e);
-          // addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
-          addActiveDialog(
-            <TurboActionRunModal action={action} agents={agents} eventId={event?.id} targetSnapshotId={entityId} />
-          );
-        }}
-        noAutoMargin
-      >
-        {t('in-automation:ActionCatalog.run')}
-      </Button>
-    );
-  }
   if (!role?.canRunAutomationActions && !role?.canConfigureAutomationPolicies) return null;
-  return (
-    <HorizontalFlexWrapper className={locals.rowActions}>
-      {action.type === ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
-        <div>
-          <Spacer horizontal="medium" />
-          <Link
-            target="_blank"
-            onClick={e => {
-              e.stopPropagation();
-              runActionTrackerSegment({
-                actionName: action.name,
-                actionType: action.type,
-                fromRecommendedActions: true,
-                aiOriginated: false
-              });
-            }}
-            href={getDocLinkFromFields(action.fields).value}
-          >
-            {t('in-automation:ActionCatalog.launch')}{' '}
-            <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
-          </Link>
-        </div>
-      )}
-      {action.type !== ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
+  if (action.type === ACTION_TYPE.EXTERNAL) {
+    const isManualExternal = action?.metadata?.ai;
+
+    if (!isManualExternal) return null;
+    if (isManualExternal) {
+      if (!role?.canRunAutomationActions) return null;
+
+      return (
         <Button
           kind="action"
-          icon={action.type === ACTION_TYPE.MANUAL ? 'lib_views_show' : 'lib_actions_play'}
+          icon="lib_actions_play"
           onClick={e => {
-            // Track manual action viewed
             stopPropagationAndPreventDefault(e);
-            addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
-            if (action.type === ACTION_TYPE.MANUAL) {
-              runActionTrackerSegment({
-                actionName: action.name,
-                actionType: action.type,
-                fromRecommendedActions: true,
-                aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
-              });
-            }
+            addActiveDialog(
+              <TurboActionRunModal action={action} agents={agents} eventId={event?.id} targetSnapshotId={entityId} />
+            );
           }}
           noAutoMargin
         >
-          {action.type === ACTION_TYPE.MANUAL
-            ? t('in-automation:ActionCatalog.view')
-            : t('in-automation:ActionCatalog.run')}
+          {t('in-automation:ActionCatalog.run')}
         </Button>
-      )}
-      {role?.canConfigureAutomationPolicies && action.type !== ACTION_TYPE.EXTERNAL && (
-        <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
-          <IconButton
-            kind="primaryv2"
-            type="lib_openclose_add_circle_outline"
+      );
+    }
+  }
+  if (action.type !== ACTION_TYPE.EXTERNAL) {
+    return (
+      <HorizontalFlexWrapper className={locals.rowActions}>
+        {action.type === ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
+          <div>
+            <Spacer horizontal="medium" />
+            <Link
+              target="_blank"
+              onClick={e => {
+                e.stopPropagation();
+                runActionTrackerSegment({
+                  actionName: action.name,
+                  actionType: action.type,
+                  fromRecommendedActions: true,
+                  aiOriginated: false
+                });
+              }}
+              href={getDocLinkFromFields(action.fields).value}
+            >
+              {t('in-automation:ActionCatalog.launch')}{' '}
+              <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
+            </Link>
+          </div>
+        )}
+        {action.type !== ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
+          <Button
+            kind="action"
+            icon={action.type === ACTION_TYPE.MANUAL ? 'lib_views_show' : 'lib_actions_play'}
             onClick={e => {
+              // Track manual action viewed
               stopPropagationAndPreventDefault(e);
-              addActiveDialog(<CreatePolicyDialog trigger={trigger} action={action} event={event} />);
+              addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+              if (action.type === ACTION_TYPE.MANUAL) {
+                runActionTrackerSegment({
+                  actionName: action.name,
+                  actionType: action.type,
+                  fromRecommendedActions: true,
+                  aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
+                });
+              }
             }}
-          />
-        </Tooltip>
-      )}
-    </HorizontalFlexWrapper>
-  );
+            noAutoMargin
+          >
+            {action.type === ACTION_TYPE.MANUAL
+              ? t('in-automation:ActionCatalog.view')
+              : t('in-automation:ActionCatalog.run')}
+          </Button>
+        )}
+        {role?.canConfigureAutomationPolicies && action.type !== ACTION_TYPE.EXTERNAL && (
+          <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
+            <IconButton
+              kind="primaryv2"
+              type="lib_openclose_add_circle_outline"
+              onClick={e => {
+                stopPropagationAndPreventDefault(e);
+                addActiveDialog(<CreatePolicyDialog trigger={trigger} action={action} event={event} />);
+              }}
+            />
+          </Tooltip>
+        )}
+      </HorizontalFlexWrapper>
+    );
+  }
+  return null;
 }
 
 const columnDefinitions: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>[] = [
@@ -183,11 +189,15 @@ const columnDefinitions: ColumnDefinition<ScoredAction, RecommendedActionsTableP
 function GenerateAIActionButton({
   event,
   trigger,
-  ootbRecommendedActions
+  ootbRecommendedActions,
+  selectedDescription,
+  selectedEntityType
 }: {
   event: Event;
   trigger: Result<TriggerSpecification>;
   ootbRecommendedActions: Result<ScoredAction[]>;
+  selectedDescription?: string | null;
+  selectedEntityType?: string | null;
 }) {
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const name = hasError(trigger) ? event?.problem?.problemText ?? '' : trigger.data!?.name;
@@ -201,7 +211,13 @@ function GenerateAIActionButton({
           type: 'manual'
         });
         addActiveDialog(
-          <GenerateAIActionDialog event={event} trigger={trigger} ootbRecommendedActions={ootbRecommendedActions} />
+          <GenerateAIActionDialog
+            event={event}
+            trigger={trigger}
+            ootbRecommendedActions={ootbRecommendedActions}
+            selectedDescription={selectedDescription}
+            selectedEntityType={selectedEntityType}
+          />
         );
       }}
       icon="lib_launch_ai"
@@ -278,6 +294,12 @@ interface RecommendedActionsProps {
   recommendedActions: Result<ScoredAction[]>;
   trigger: Result<TriggerSpecification>;
   ootbRecommendedActions: Result<ScoredAction[]>;
+  initialSnapshots?: ProcessedSnapshot[];
+  timeWindow?: TimeConfig;
+  setSelectedDescription?: (a: string | null) => void;
+  setSelectedEntityType?: (a: string | null) => void;
+  selectedDescription?: string | null;
+  selectedEntityType?: string | null;
 }
 
 export default function RecommendedActions({
@@ -285,8 +307,16 @@ export default function RecommendedActions({
   event,
   recommendedActions,
   trigger,
-  ootbRecommendedActions
+  ootbRecommendedActions,
+  initialSnapshots,
+  timeWindow,
+  setSelectedDescription,
+  setSelectedEntityType,
+  selectedDescription,
+  selectedEntityType
 }: RecommendedActionsProps) {
+  const globalTimeConfig = useTimeConfig();
+  const [selectedRCA, setSelectedRCA] = useState<string>('triggeringEvent');
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
@@ -298,6 +328,44 @@ export default function RecommendedActions({
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
   const availableAiEngines = [...new Set(recommendedActions.data?.map(({ aiEngine }) => aiEngine))];
   const availableTags = [...new Set(recommendedActions.data?.flatMap(({ tags }) => tags ?? []))];
+  const data = useMemo(() => {
+    const selectedSnapshot = initialSnapshots?.find(snapshot => snapshot.rcaSnapshotID === selectedRCA);
+
+    if (!selectedSnapshot) return null; // Return null if no matching RCA is found
+
+    return {
+      rcaEntityType: selectedSnapshot.rcaEntityType, // Get entity type
+      rcaSnapshotID: selectedRCA, // Use selected RCA ID
+      entityId: selectedSnapshot?.translationEntityType,
+      timeWindow // Ensure timeWindow is available in the scope
+    };
+  }, [selectedRCA, initialSnapshots, timeWindow]);
+
+  const { entityData, entityType } = useFetchAppropriateRCAEntityData(
+    data?.rcaEntityType ?? '', // Pass null if data is not available
+    data?.rcaSnapshotID ?? '',
+    data?.timeWindow ?? globalTimeConfig
+  );
+  const entityId = data?.entityId ?? 'process';
+
+  useEffect(() => {
+    if (
+      entityData &&
+      entityType &&
+      entityData.label &&
+      setSelectedDescription &&
+      setSelectedEntityType &&
+      selectedRCA !== 'triggeringEvent'
+    ) {
+      const entityTypeName =
+        entityType === 'infrastructure' || entityType === 'process'
+          ? translateFullyQualifiedPluginToShortPluginName(entityId) || ''
+          : entityType;
+
+      setSelectedDescription(entityData.label);
+      setSelectedEntityType(entityTypeName);
+    }
+  }, [entityData, entityType, setSelectedDescription, setSelectedEntityType, selectedRCA, entityId]);
 
   const { filteredActions, types, setTypes, aiEngine, setAiEngine, tags, setTags } = useFilters({
     recommendedActions,
@@ -312,43 +380,78 @@ export default function RecommendedActions({
 
   const totalHits = result?.data?.totalHits;
 
-  const showOotbActions =
-    getTriggerTypeFromEvent(event) === 'builtinEvent' && (ootbRecommendedActions.data?.length ?? 0) > 0;
-
   return (
-    <ServerTablePresenter<ScoredAction, RecommendedActionsTableProps>
-      columnDefinitions={columnDefinitions}
-      volatileId={volatileId}
-      event={event}
-      trigger={trigger}
-      fixedLayout
-      leftHeader={
-        <Typography variant="heading-300">
-          {result?.progress.loading
-            ? t('in-automation:recommendedActions')
-            : t('in-automation:recommendedActionsWithCount', { count: totalHits })}
-        </Typography>
-      }
-      onChange={setServerTableUrlState}
-      orderBy={orderBy}
-      orderDirection={orderDirection}
-      searchMaxWidth={180}
-      page={page}
-      pageSize={pageSize}
-      query={query}
-      result={result}
-      rightHeader={
+    <>
+      {initialSnapshots && initialSnapshots?.length > 0 && (
         <Stack direction="horizontal">
-          {(showOotbActions || automationActionAiGenerationUnitEnabled) && !isLoading(trigger) && (
-            <GenerateAIActionButton event={event} trigger={trigger} ootbRecommendedActions={ootbRecommendedActions} />
-          )}
-          <TypeFilter type={types} setType={params => setTypes({ types: params.types })} showExternal />
-          <AiEngineFilter availableAiEngines={availableAiEngines} aiEngine={aiEngine} setAiEngine={setAiEngine} />
-          <TagsFilter availableTags={availableTags} tags={tags} setTags={setTags} />
-          <Spacer horizontal="small" />
+          <Typography variant="body-regular">{t('in-automation:contextFor')}</Typography>
+          <ComboBox
+            id="contextmenu"
+            options={[
+              { label: t('in-automation:triggeringEvent'), value: 'triggeringEvent' },
+              ...initialSnapshots.map((item, index) => ({
+                label:
+                  initialSnapshots.length === 1
+                    ? t('in-automation:probableRootCause')
+                    : `${t('in-automation:probableRootCause')} ${index + 1}`,
+                value: item.rcaSnapshotID ?? ''
+              }))
+            ]}
+            value={selectedRCA}
+            isClearable={false}
+            onChange={o => {
+              if ((o as Option).value === 'triggeringEvent') {
+                setSelectedDescription?.(null);
+                setSelectedEntityType?.(null);
+                setSelectedRCA((o as Option).value);
+              } else {
+                setSelectedRCA((o as Option).value);
+              }
+            }}
+          />
         </Stack>
-      }
-      searchPlaceholder={t('in-automation:searchActions')}
-    />
+      )}
+      <ServerTablePresenter<ScoredAction, RecommendedActionsTableProps>
+        columnDefinitions={columnDefinitions}
+        // runActionTrackerSegment={runActionTrackerSegment}
+        volatileId={volatileId}
+        event={event}
+        trigger={trigger}
+        fixedLayout
+        leftHeader={
+          <Typography variant="heading-300">
+            {result?.progress.loading
+              ? t('in-automation:recommendedActions')
+              : t('in-automation:recommendedActionsWithCount', { count: totalHits })}
+          </Typography>
+        }
+        onChange={setServerTableUrlState}
+        orderBy={orderBy}
+        orderDirection={orderDirection}
+        searchMaxWidth={180}
+        page={page}
+        pageSize={pageSize}
+        query={query}
+        result={result}
+        rightHeader={
+          <Stack direction="horizontal">
+            {!isLoading(trigger) && (
+              <GenerateAIActionButton
+                event={event}
+                trigger={trigger}
+                ootbRecommendedActions={ootbRecommendedActions}
+                selectedDescription={selectedDescription}
+                selectedEntityType={selectedEntityType}
+              />
+            )}
+            <TypeFilter type={types} setType={params => setTypes({ types: params.types })} />
+            <AiEngineFilter availableAiEngines={availableAiEngines} aiEngine={aiEngine} setAiEngine={setAiEngine} />
+            <TagsFilter availableTags={availableTags} tags={tags} setTags={setTags} />
+            <Spacer horizontal="small" />
+          </Stack>
+        }
+        searchPlaceholder={t('in-automation:searchActions')}
+      />
+    </>
   );
 }

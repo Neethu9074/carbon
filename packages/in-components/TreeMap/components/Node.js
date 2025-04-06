@@ -60,6 +60,7 @@ export default function Node({ node, nodeProps = {} }) {
         content={nodeProps.renderTooltip(node, showMetricValue)}
         align="mousePosition"
         forceTheme
+        overwriteBlock
       >
         {content}
       </Tooltip>

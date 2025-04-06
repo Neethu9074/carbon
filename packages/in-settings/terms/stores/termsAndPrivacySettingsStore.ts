@@ -26,6 +26,6 @@ export function updateTermsAndPrivacySettings(data: TermsAndPrivacyStore) {
   return null;
 }
 
-export const isWalkmeScriptLoaded = Array.from(document.scripts).some(script =>
+export const isAssistMeScriptLoaded = Array.from(document.scripts).some(script =>
   script.src.includes('assist-me/controller.js')
 );

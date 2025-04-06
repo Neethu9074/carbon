@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -14,6 +14,7 @@ import {
   isHostAvailabilityEvent,
   isAgentMonitoringIssueEvent,
   isCveIssueEvent,
+  isPrcIssueEvent,
   isApplicationSmartAlertEvent,
   isWebsiteSmartAlertEvent,
   isInfraSmartAlertEvent,
@@ -28,22 +29,22 @@ import {
   getEventStateBadge
 } from 'in-events/components/eventUtil';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
-import { aqmDisableConfigOnEventViewEnabled, eumImpactedUsersForAppAlertEnabled } from 'in-services/featureFlags';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
+import { aqmDisableConfigOnEventViewEnabled, businessObservabilityEnabled } from 'in-services/featureFlags';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import IncidentContent from 'in-events/components/tabs/Summary/IncidentDetailPage/IncidentContent';
 import DisableEventConfigButton from 'in-events/components/tabs/Summary/DisableEventConfigButton';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
-import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import SyntheticEventContent from 'in-events/components/EventContent/SyntheticEventContent';
 import AffectedEntitiesPresenter from 'in-events/components/legacy/CveAffectedApplications';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
+import PrcIssueEventContent from 'in-events/components/EventContent/PrcIssueEventContent';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
@@ -91,13 +92,23 @@ export default function Summary(props) {
 
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.events,
+          pageRootName: pageNames.event
+        }}
+      />
       <div className={locals.content}>
         <DeprecatedCustomEventWarning event={event.toJS()} isIncident={isIncident} />
         {isIncident ? (
           <IncidentContent incident={event} latestSnapshot={latestSnapshot} />
         ) : (
           <>
-            <EventDetailsKPIs event={event} isIncident={isIncident} />
+            <EventDetailsKPIs
+              event={event}
+              isIncident={isIncident}
+              isApplicationSmartAlert={isApplicationSmartAlertEvent(event)}
+            />
             <EventContent event={event} latestSnapshot={latestSnapshot} reload={reload} />
           </>
         )}
@@ -150,6 +161,10 @@ function EventContent({ event, latestSnapshot, reload }) {
     return <EntityCountVerificationEventContent event={event} snapshot={snapshot} reload={reload} />;
   }
 
+  if (isPrcIssueEvent(event)) {
+    return <PrcIssueEventContent event={event} />;
+  }
+
   const eventType = getEventType(event);
   const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
   const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
@@ -159,12 +174,6 @@ function EventContent({ event, latestSnapshot, reload }) {
 
   return (
     <>
-      <ViewTrackingMeta
-        data={{
-          productArea: productAreas.events,
-          pageRootName: pageNames.event
-        }}
-      />
       <Row withoutSideMargin>
         <Col xs>
           <Card title={t('in-events:titleDescription')} leftHeaderContent={pillContent}>
@@ -191,13 +200,6 @@ function EventContent({ event, latestSnapshot, reload }) {
           </Card>
         </Col>
       </Row>
-      {eumImpactedUsersForAppAlertEnabled && (
-        <Row withoutSideMargin>
-          <Col xs>
-            <SmartAlertImpactedUsers event={event} snapshot={snapshot} />
-          </Col>
-        </Row>
-      )}
       {isEntityVerificationEvent(event) || isHostAvailabilityEvent(event) ? (
         <Row withoutSideMargin>
           <Col xs>
@@ -241,11 +243,13 @@ function EventContent({ event, latestSnapshot, reload }) {
       {isIssue && hasEventSpec && (
         <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
       )}
-      <ImpactedBusinessProcesses
-        eventType={eventType}
-        entityType={event?.get('entityType', undefined)}
-        entityId={event?.get('entityId', undefined)}
-      />
+      {businessObservabilityEnabled && (
+        <ImpactedBusinessProcesses
+          eventType={eventType}
+          entityType={event?.get('entityType', undefined)}
+          entityId={event?.get('entityId', undefined)}
+        />
+      )}
       {isCveIssueEvent(event) && snapshot?.get('id') && (
         <AffectedEntitiesPresenter id={snapshot?.get('id')} timeConfig={timeConfig} />
       )}

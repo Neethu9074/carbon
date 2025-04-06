@@ -6,9 +6,9 @@
 import React from 'react';
 
 import { CarbonTable, CarbonTableRow, CarbonTableCell } from '@instana/components';
-import { TrSizes } from '@instana/legacy/types/components/Table/types';
 
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import { TrSizes } from 'in-components/tables/ServerTable/types';
 
 import locals from './EmptyContent.mless';
 

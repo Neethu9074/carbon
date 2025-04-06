@@ -5,13 +5,14 @@
  */
 
 import React, { useContext } from 'react';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 
-import { CarbonMenuItemDivider, Stack } from '@instana/components';
+import { CarbonMenuItemDivider, Collapsible, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior/ApplicationEntityHealthIndicatorBehavior';
+// import EventsDatagrid from 'in-events/components/IncidentPage/EventsDatagrid/EventsDatagrid';
+import getEntityHealthInfo from 'in-kubernetes/subscriptions/getEntityHealthInfo';
 import {
   RCATopologyAPContext,
   RCATopologyTimeWindowContext
@@ -19,31 +20,25 @@ import {
 import { createTagFilterExpressionForAnalysisOfApplicationSA } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 //@ts-expect-error
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
+import { QualifiedRCAEntityTypes } from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import getHealthInfoQueryParams from 'in-events/components/RootCauseAnalysis/Topology/utils/getHealthInfoQueryParams';
+import convertEventToRawEvent from 'in-events/components/RootCauseAnalysis/Topology/utils/convertEventToRawEvent';
 import { getAPMetricsObservable, getLegacyAPMetricsObservable } from 'in-events/components/legacy/TopologyUtils';
+import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApplicationEntityHealthInfo';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
-//@ts-expect-error
-import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
+import EventsDatagrid from 'in-events/components/IncidentPage/EventsDatagrid/EventsDatagrid';
 import { TopologyGraphNode } from 'in-events/components/RootCauseAnalysis/Topology/types';
 import { meanLatency, number, percentage } from 'in-services/formatters/number';
 import { getSparkChartGranularity } from 'in-applications/metrics';
+import { EntityHealthInfo, Result, TimeConfig } from 'in-types';
 import BadgeList from 'in-components/BadgeList/BadgeList';
 import { getColor } from 'in-applications/endpointTypes';
 import SparkChart from 'in-components/SparkChart';
-import { TimeConfig } from 'in-types';
 
 import locals from './RootCauseMap.mless';
 
 interface TopologyContextMenuProps {
   node: TopologyGraphNode;
-  healthInfo:
-    | {
-        openIssues: number | undefined;
-        maxSeverity: number | undefined;
-      }
-    | null
-    | undefined;
 }
 
 interface SparkChartWithMetricProps {
@@ -108,14 +103,24 @@ function MetricDisplay({ metricResult }: { metricResult: any }) {
   );
 }
 
-const TopologyContextMenu = ({ node, healthInfo }: TopologyContextMenuProps) => {
-  const { entityType, id, metadata } = node;
+function getIssueLabel(count: number): string {
+  if (count === 0) {
+    return t('in-components:health.noIssues');
+  }
+
+  return t('in-components:health.openIssues', {
+    count
+  });
+}
+
+const TopologyContextMenu = ({ node }: TopologyContextMenuProps) => {
+  const { entityType, id } = node;
   const timeConfig = useContext(RCATopologyTimeWindowContext) as TimeConfig;
   const relatedAP = useContext(RCATopologyAPContext)[0];
 
+  // TODO: convert the data conversion to a hook
   const filterFormModel = createTagFilterExpressionForAnalysisOfApplicationSA(
-    entityType,
-    metadata.data,
+    entityType as QualifiedRCAEntityTypes,
     id,
     null,
     relatedAP ? relatedAP.label : null,
@@ -141,6 +146,13 @@ const TopologyContextMenu = ({ node, healthInfo }: TopologyContextMenuProps) => 
   const badgeTypes = get(node, 'metadata.data.endpointTypes', []);
   const technologies = get(node, 'metadata.data.technologies', []);
 
+  const healthInfoQuery =
+    node?.entityType === 'infrastructure' || node?.entityType === 'process'
+      ? getEntityHealthInfo({ snapshotId: node?.id, timeConfig })
+      : getApplicationEntityHealthInfo(getHealthInfoQueryParams(entityType, id, timeConfig));
+
+  const healthInfo = useObservable<Result<EntityHealthInfo>, any[]>(healthInfoQuery, [node]);
+
   return (
     <React.Fragment>
       <div className={locals.popoverMainContentTopology}>
@@ -153,29 +165,21 @@ const TopologyContextMenu = ({ node, healthInfo }: TopologyContextMenuProps) => 
         </Stack>
       </div>
       <CarbonMenuItemDivider />
-      <div className={locals.popoverFooterTopology}>
-        <Stack direction="horizontal" gap="small">
-          {node.entityType !== 'infrastructure' && (
-            <ApplicationEntityHealthIndicatorBehavior
-              maxSeverity={healthInfo?.maxSeverity}
-              openIssues={healthInfo?.openIssues}
-              timeConfig={timeConfig}
-              applicationId={entityType === 'application' ? id : ''}
-              serviceId={entityType === 'service' ? id : undefined}
-              endpointId={entityType === 'endpoint' ? id : undefined}
-              IndicatorPresenter={HealthIndicatorButtonPresenter}
+      <Collapsible initiallyOpen={!isEmpty(healthInfo?.data?.openIssues)}>
+        <Collapsible.Header>{getIssueLabel(healthInfo?.data?.openIssues.length || 0)}</Collapsible.Header>
+        <Collapsible.Content>
+          {!isEmpty(healthInfo?.data?.openIssues) && (
+            <EventsDatagrid
+              headers={['severity', 'title']}
+              events={convertEventToRawEvent(healthInfo?.data?.openIssues) || []}
+              loading={healthInfo?.progress.loading || false}
+              canLoadMore={false}
+              loadMore={() => {}}
+              showExpand={false}
             />
           )}
-
-          {entityType === 'infrastructure' && (
-            <EntityHealthIndicator
-              IndicatorPresenter={(props: any) => <HealthIndicatorButtonPresenter size="normal" {...props} />}
-              snapshotId={id}
-              timeConfig={timeConfig}
-            />
-          )}
-        </Stack>
-      </div>
+        </Collapsible.Content>
+      </Collapsible>
     </React.Fragment>
   );
 };

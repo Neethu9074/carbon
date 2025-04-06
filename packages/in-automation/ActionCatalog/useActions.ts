@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
+import { create, timeout } from '@instana/observables';
 import { Action, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { create } from '@instana/observables';
 
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { error, hasError, isLoading, success } from 'in-services/util/result';
@@ -18,7 +18,7 @@ import { getActions } from 'in-automation/api';
 
 const refreshSignal = create().emit(true);
 export function refresh() {
-  refreshSignal.emit(true);
+  timeout(1000).once(() => refreshSignal.emit(true));
 }
 
 export default function useActions() {

@@ -6,23 +6,17 @@
 
 import { useMemo } from 'react';
 
-import { actionDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
-import useUrlState from 'in-hooks/useUrlState';
-
-export default function useActionDetailsUrlParams() {
-  const [{ id, op }] = useUrlState<{ id?: string; op: 'copy' | null }>({
-    bind: [actionDetailsUrlParameters.id, actionDetailsUrlParameters.op]
-  });
-
+export default function useActionDetailsUrlParams1({ actionId, copy = false }: { actionId?: string; copy: boolean }) {
   return useMemo(() => {
-    const isCopy = op === 'copy';
-    const isCreate = !id;
+    const isCopy = copy;
+    const isCreate = !actionId;
     const isNew = isCreate || isCopy;
+
     return {
-      id: id ?? null,
+      id: actionId ?? null,
       isNew,
       isCreate,
       isCopy
     };
-  }, [id, op]);
+  }, [actionId, copy]);
 }

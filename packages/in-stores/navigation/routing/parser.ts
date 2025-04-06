@@ -16,7 +16,7 @@ export function parseUrl(href: string, removeHash: boolean = false) {
   href = href || '/';
 
   if (removeHash) {
-    href = href.replace('/#', '');
+    href = href.replace(/^[/\w]*\/#/, '');
   }
 
   let location = parseQueryParameters(href);

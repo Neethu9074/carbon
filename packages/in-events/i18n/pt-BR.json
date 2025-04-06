@@ -19,6 +19,7 @@
   "titleDescription": "Descrição",
   "titleTriggerEvent": "Evento acionador",
   "titleRelatedEvents": "Eventos relacionados ({{eventCount}})",
+  "titleAffectedIncidents": "Incidentes afetados",
   "noRelatedEvents": "Não foram localizados eventos relacionados",
   "titleLastProcess": "Último processo",
   "titleLastHost": "Último host",
@@ -106,8 +107,8 @@
   "labelIncidents": "Incidentes",
   "labelOpen": "Abrir",
   "labelClosed": "Fechado",
-  "labelIncidentWithSeverity": "{{severityLabel}} Incidente ({{stateLabel}})",
-  "labelIssueWithSeverity": "{{severityLabel}} Problema",
+  "labelIncidentWithSeverity": "Incidente {{severityLabel}} ({{stateLabel}})",
+  "labelIssueWithSeverity": "Problema {{severityLabel}}",
   "labelChange": "Mudança",
   "labelCritical": "Crítico",
   "labelWarning": "Aviso",
@@ -143,6 +144,7 @@
   "unidentifiedEntityTooltip": "Ocorreu um erro ao recuperar as informações sobre essa entidade. É possível acessar o painel da entidade clicando no link \"Entidade não identificada\" para obter detalhes adicionais.",
   "headerStatus": "Status",
   "eventHelpfulText": "Este evento foi útil?",
+  "summaryHelpfulText": "Este resumo foi útil?",
   "thankYouForYourFeedback": "Obrigado por seu feedback.",
   "hostOffLineEventProblemChangeTime": "Clique no link abaixo para acessar a última versão do host monitorado por Instana. Fazer isso mudará o início de seu espaço de tempo para um momento no qual o host foi monitorado por Instana",
   "offLineEventProblemChangeTime": "Clique no link abaixo para acessar a última versão do processo monitorado pelo Instana. Isso mudará o início do seu espaço de tempo para um momento no qual o processo foi monitorado pelo Instana",
@@ -151,18 +153,16 @@
   "tooltipCloseEventDetail": "Fechar detalhe do evento",
   "releaseOccurName": "Liberação: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> atrás)",
-  "deprecatedCustomEventWarning": "<strong>Os eventos customizados nos tipos de entidade Aplicativo, Serviço e Terminal foram descontinuados. A partir de março de 2025, os eventos customizados para esses três tipos de entidade serão removidos e você não receberá mais essa configuração {{issueOrIncident}}</strong><br/>Visualizar evento customizado para migrar para o Smart Alert. <documentationLink>Leia mais em nossa documentação</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>Os eventos customizados nos tipos de entidade Aplicativo, Serviço e Terminal foram descontinuados. A partir de março de 2025, os eventos customizados para esses três tipos de entidade serão removidos e você não receberá mais esse {{issueOrIncident}}</strong><br/>Visualize a configuração de evento customizado para migrar para o alerta inteligente. <documentationLink>Leia mais em nossa documentação</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
-    "title": "{{deprecatedCustomEvents}} eventos customizados requerem ação",
+    "title": "Os eventos customizados {{deprecatedCustomEvents}} requerem ação",
     "message": "Os eventos customizados no aplicativo, serviço e terminal foram descontinuados. Não será possível criar ou atualizar esses tipos de eventos customizados a partir de <strong>março de 2025</strong>.",
     "documentationLink": "<documentationLink>Leia mais em nossa documentação</documentationLink>",
     "affectedEventsLink": "Visualizar eventos customizados afetados"
   },
   "multiClose": {
-    "itemsSelected": "item(ns) selecionado(s)",
     "closeIncidents": "Encerrar incidente(s)",
     "closeIssues": "Encerrar problema(s)",
-    "cancelSelection": "Cancelar",
     "incidentsCloseSuccessTitle": "Incidente(s) encerrado(s)",
     "issuesCloseSuccessTitle": "Problema(s) encerrado(s)",
     "multipleIncidentsCloseSuccessMessage": "Foram encerrados {{count}} incidentes com sucesso.",
@@ -224,7 +224,7 @@
   },
   "RCA": {
     "titlePRCA": "Causa raiz provável",
-    "AIGenBadgeText": "Gerados por IA",
+    "AIGenBadgeText": "Gerado por IA",
     "suggestionHelpfulText": "Esta sugestão foi útil?",
     "thankYouForYourFeedback": "Obrigado por seu feedback.",
     "performanceConstantlyEvaluated": "O desempenho está sendo ativamente avaliado e melhorado durante o Beta. Deixe o seu feedback para nos ajudar a melhorar nossa IA",
@@ -270,14 +270,11 @@
     "errorMessages": "Rastrear mensagens de erro",
     "analyzeErrors": "Analisar erros",
     "analyzeTraceLogs": "Analisar registros de rastreio",
-    "analyzeApplicationLogs": "Analisar logs de aplicativos",
+    "analyzeApplicationLogs": "Analisar logs de aplicativo",
     "topology": {
+      "overviewTab": "Visão geral",
       "viewTopology": "Visualizar topologia",
       "dialogTitle": "Topologia",
-      "overviewTab": "Visão geral",
-      "rootCauseOne": "Causa raiz 1",
-      "rootCauseTwo": "Causa raiz 2",
-      "rootCauseThree": "Causa raiz 3",
       "failedToLoadTitle": "Falha ao carregar a topologia",
       "failedToLoadDescription": "Os dados da topologia não foram carregados devido a um erro na recuperação de dados. É possível que isto não exista mais devido às políticas de retenção de dados.",
       "legendRCA": "Entidade de causa raiz",
@@ -361,10 +358,28 @@
     "confirmationYes": "True",
     "confirmationNo": "Cancelar"
   },
+  "aichat": {
+    "unableToFindError": "Não é possível localizar essas informações",
+    "host": "Host",
+    "name": "Nome",
+    "noMatching": "Nenhum registro correspondente localizado.",
+    "timestamp": "Registro de data e hora",
+    "numCalls": "Nº de chamadas",
+    "meanLatency": "Latência média",
+    "youMustAccept": "Você deve aceitar os termos do Contrato do programa de visualização de assistência de IA generativa para usar esse recurso.",
+    "reviewAction": "Revisar contrato",
+    "openingAgreement": "Abrir o [formulário de consentimento]({{href}}) em uma nova guia...",
+    "findingInfoFrom": "Localizando essas informações no {{endpoint}}",
+    "noData": "Nenhum dado retornado da API",
+    "whatToKnow": "O que você deseja saber sobre {{category}}?",
+    "welcome": "Olá e seja bem-vindo. Comece a usar a IA explorando os diversos exemplos abaixo.",
+    "apps": "Aplicativos",
+    "infra": "Infraestrutura"
+  },
   "notes": {
     "openNotes": "Abrir notas e atividades",
     "closeNotes": "Fechar notas e atividades",
-    "notesActivity": "Notas e atividades",
+    "notesActivity": "Notas e atividades com IA",
     "confirmDelete": "Confirmar exclusão",
     "you": "Você {{date}}",
     "youEdited": "Você (editado) {{date}}",
@@ -430,5 +445,13 @@
   },
   "relatedEvents": {
     "openEvent": "Abrir evento"
+  },
+  "consentForm": {
+    "consentText": "Você deve aceitar os termos do Contrato do programa de visualização de assistência de IA generativa para usar esse recurso.",
+    "consentButton": "Revisar contrato"
+  },
+  "affectedIncidents": {
+    "affectedIncident": "Incidente afetado",
+    "noAffectedIncidents": "Nenhum incidente afetado foi localizado"
   }
 }

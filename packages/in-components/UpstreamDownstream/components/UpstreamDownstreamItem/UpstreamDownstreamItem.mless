@@ -28,7 +28,7 @@
   }
 
   .chartItemWrapper {
-    width: 11rem;
+    max-width: 18rem;
     padding-left: 1rem;
   }
 

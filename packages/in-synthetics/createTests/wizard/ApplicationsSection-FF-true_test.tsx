@@ -45,8 +45,7 @@ describe('ApplicationsSection when syntheticRbacLimitedEnabled is true', () => {
     } as unknown as Result<GroupPermissionEntity[]>;
     render(<ApplicationsSection form={form} updateForm={updateForm} applications={applications} />);
 
-    expect(screen.getByText('Select Applications')).toBeInTheDocument();
-    screen.debug();
+    expect(screen.getByText('Select applications')).toBeInTheDocument();
     expect(document.querySelectorAll('input[type="checkbox"].cds--checkbox')).toHaveLength(2);
     expect(screen.getByText('mehtest500')).toBeInTheDocument();
     expect(screen.getByText("Marat's test AP without calls")).toBeInTheDocument();

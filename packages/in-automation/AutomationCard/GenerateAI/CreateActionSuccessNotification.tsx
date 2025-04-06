@@ -8,12 +8,12 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
-import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
+import useHrefToActionDashboard from 'in-automation/navigation/hooks/useHrefToActionDashboard';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { Trans, t } from 'in-i18n';
 
 function ActionSuccess({ name, id }: { name: string; id: string }) {
-  const hrefToActionDetails = useHrefToActionDetails();
+  const hrefToActionDashboard = useHrefToActionDashboard();
   return (
     <Trans
       i18nKey={'in-automation:GenerateAIActionDialog.action.success.content'}
@@ -22,7 +22,7 @@ function ActionSuccess({ name, id }: { name: string; id: string }) {
       }}
       components={{
         // @ts-expect-error
-        Link: <Link external href={hrefToActionDetails(id)} />
+        Link: <Link external href={hrefToActionDashboard(id)} />
       }}
     />
   );

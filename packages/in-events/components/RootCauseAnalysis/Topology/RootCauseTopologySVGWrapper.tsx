@@ -5,13 +5,21 @@
  */
 
 import React, { useState, useEffect, useRef, ReactNode } from 'react';
-import { ZoomBehavior, zoom as d3Zoom, zoomIdentity } from 'd3-zoom';
+import { ZoomBehavior, zoom as d3Zoom } from 'd3-zoom';
 import { select as d3Select } from 'd3-selection';
 
-import { CarbonIconButton, CarbonTile, MoreMenu, MoreMenuButton, Stack, SvgIcon } from '@instana/components';
+import {
+  CarbonIconButton,
+  CarbonOverflowMenu,
+  CarbonOverflowMenuItem,
+  CarbonTile,
+  Stack,
+  SvgIcon
+} from '@instana/components';
 
-import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
+
+import locals from 'in-events/components/RootCauseAnalysis/Topology/RootCauseMap.mless';
 
 interface RootCauseTopologySVGWrapperProps {
   defs: ReactNode;
@@ -20,12 +28,6 @@ interface RootCauseTopologySVGWrapperProps {
   height: string;
   algorithm: string;
   setAlgorithm: React.Dispatch<React.SetStateAction<string>>;
-  centerAround?:
-    | {
-        x: number;
-        y: number;
-      }
-    | Nullish;
 }
 
 export function RootCauseTopologySVGWrapper({
@@ -34,8 +36,7 @@ export function RootCauseTopologySVGWrapper({
   width,
   height,
   algorithm,
-  setAlgorithm,
-  centerAround
+  setAlgorithm
 }: RootCauseTopologySVGWrapperProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const zoomRef = useRef<ZoomBehavior<SVGSVGElement, unknown> | null>(null);
@@ -59,28 +60,6 @@ export function RootCauseTopologySVGWrapper({
     };
   }, []);
 
-  useEffect(() => {
-    if (centerAround && centerAround.x && centerAround.y) {
-      const widthNum = parseInt(width);
-      const heightNum = parseInt(height);
-      if (widthNum && heightNum) {
-        const translateX = widthNum / 2 - centerAround.x;
-        const translateY = heightNum / 2 - centerAround.y;
-
-        const newTransform = zoomIdentity.translate(translateX, translateY).scale(k);
-        //@ts-expect-error
-        if (zoomRef.current?.transform) d3Select(svgRef.current).call(zoomRef.current?.transform, newTransform);
-        setX(translateX);
-        setY(translateY);
-      }
-    } else {
-      // reset if unset or when not set at all.
-      setX(0);
-      setY(0);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [centerAround, height, width]);
-
   const handleZoomIn = () => {
     setK(k + 0.15);
   };
@@ -94,23 +73,39 @@ export function RootCauseTopologySVGWrapper({
       <CarbonTile>
         <Stack direction="horizontal" distribution="spaceBetween">
           <Stack direction="horizontal">
-            <MoreMenu
-              direction="bottom"
-              aria-label="tree kind"
-              icon="lib_context_guide_downstream"
-              kind="subtle"
-              size="compact"
+            <CarbonOverflowMenu
+              aria-label="tree-kind"
+              align="bottom"
+              renderIcon={() => <SvgIcon size="s" type="lib_context_guide_downstream" />}
             >
-              <MoreMenuButton disabled={algorithm === 'layered'} onClick={() => setAlgorithm('layered')}>
-                {'Layered'}
-              </MoreMenuButton>
-              <MoreMenuButton disabled={algorithm === 'mrtree'} onClick={() => setAlgorithm('mrtree')}>
-                {'Tree'}
-              </MoreMenuButton>
-              <MoreMenuButton disabled={algorithm === 'force'} onClick={() => setAlgorithm('force')}>
-                {'force'}
-              </MoreMenuButton>
-            </MoreMenu>
+              <CarbonOverflowMenuItem
+                itemText={
+                  <div className={locals.menuItemText}>
+                    Layered
+                    {algorithm === 'layered' && <SvgIcon type="lib_check" size="xs" />}
+                  </div>
+                }
+                onClick={() => setAlgorithm('layered')}
+              />
+              <CarbonOverflowMenuItem
+                itemText={
+                  <div className={locals.menuItemText}>
+                    Tree
+                    {algorithm === 'mrtree' && <SvgIcon type="lib_check" size="xs" />}
+                  </div>
+                }
+                onClick={() => setAlgorithm('mrtree')}
+              />
+              <CarbonOverflowMenuItem
+                itemText={
+                  <div className={locals.menuItemText}>
+                    Force
+                    {algorithm === 'force' && <SvgIcon type="lib_check" size="xs" />}
+                  </div>
+                }
+                onClick={() => setAlgorithm('force')}
+              />
+            </CarbonOverflowMenu>
           </Stack>
           <Stack direction="horizontal">
             <CarbonIconButton

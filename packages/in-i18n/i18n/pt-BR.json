@@ -20,6 +20,7 @@
       "tableLoadMoreRow": {
         "loadMore": "Carregar mais"
       },
+      "filterTable": "Filtrar tabela",
       "dataTable": "Tabela de dados",
       "expandHeader": "Expandir linha",
       "expandRow": "Alternar linha de expansão",
@@ -41,6 +42,9 @@
     },
     "dropDown": {
       "selectOption": "Selecionar a opção"
+    },
+    "infoicon": {
+      "information": "Informações"
     },
     "tabsNavigation": {
       "pageNavigation": "Navegação de página"

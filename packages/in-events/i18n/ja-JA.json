@@ -19,6 +19,7 @@
   "titleDescription": "説明",
   "titleTriggerEvent": "トリガー・イベント",
   "titleRelatedEvents": "関連イベント ({{eventCount}})",
+  "titleAffectedIncidents": "該当インシデント",
   "noRelatedEvents": "関連イベントは見つかりませんでした",
   "titleLastProcess": "最後のプロセス",
   "titleLastHost": "最後のホスト",
@@ -26,8 +27,8 @@
   "titleLastKnownProcess": "最後に認識されたプロセス",
   "titleAnalyzeCustomEvents": "カスタム・イベントの分析",
   "titleAnalyzeCrash": "クラッシュの分析",
-  "titleAnalyzeHTTPRequests": "HTTP 要求の分析",
-  "titleAnalyzeJsErrors": "JS エラーの分析",
+  "titleAnalyzeHTTPRequests": "HTTP要求の分析",
+  "titleAnalyzeJsErrors": "JSエラーの分析",
   "titleAnalyzePageLoads": "ページ・ロードの分析",
   "titleAnalyzePageTransitions": "ページ遷移の分析",
   "titleAnalyzeViewTransitions": "ビュー遷移の分析",
@@ -143,6 +144,7 @@
   "unidentifiedEntityTooltip": "このエンティティに関する情報の取得にエラーが発生しました。 詳細については、「Unidentified Entity」リンクをクリックして、エンティティのダッシュボードにアクセスしてください。",
   "headerStatus": "状況",
   "eventHelpfulText": "このイベントは役に立ちましたか?",
+  "summaryHelpfulText": "この要約は役に立ちましたか?",
   "thankYouForYourFeedback": "フィードバックをありがとうございました。",
   "hostOffLineEventProblemChangeTime": "以下のリンクをクリックすると、Instana によってモニターされていたホストの最後のバージョンに移動します。 これにより、時間枠の開始が、Instana によってホストがモニターされていた時点に変更されます",
   "offLineEventProblemChangeTime": "以下のリンクをクリックすると、Instana によってモニターされていたプロセスの最後のバージョンに移動します。 これにより、時間枠の開始が、Instana によってプロセスがモニターされていた時点に変更されます",
@@ -151,18 +153,16 @@
   "tooltipCloseEventDetail": "イベントの詳細を閉じる",
   "releaseOccurName": "リリース: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前)",
-  "deprecatedCustomEventWarning": "<strong>エンティティー・タイプ「アプリケーション」、「サービス」、および「エンドポイント」のカスタム・イベントは非推奨になりました。 2025 年 3 月以降、これらの 3 つのエンティティー・タイプのカスタム・イベントは削除され、スマート・アラートに移行するため、この {{issueOrIncident}}</strong><br/> ビュー・カスタム・イベント設定を受け取ることはできません。 <documentationLink>詳しくは資料をご覧ください</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>エンティティー・タイプのアプリケーション、サービス、およびエンドポイントのカスタム・イベントは非推奨になりました。 2025 年 3 月以降、これらの 3 つのエンティティー・タイプのカスタム・イベントは削除され、スマート・アラートに移行するため、この {{issueOrIncident}}</strong><br/> ビュー・カスタム・イベント設定を受け取ることはできません。 <documentationLink>詳しくは資料をご覧ください</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
-    "title": "{{deprecatedCustomEvents}}カスタム・イベントにはアクションが必要です",
+    "title": "{{deprecatedCustomEvents}} カスタム・イベントにはアクションが必要です",
     "message": "アプリケーション、サービス、およびエンドポイントのカスタム・イベントは推奨されません。 <strong>2025 年 3 月</strong>以降、これらのタイプのカスタム・イベントを作成または更新することはできません。",
     "documentationLink": "<documentationLink>詳しくは資料をご覧ください</documentationLink>",
     "affectedEventsLink": "影響を受けるカスタム・イベントの表示"
   },
   "multiClose": {
-    "itemsSelected": "項目が選択されました",
     "closeIncidents": "インシデントのクローズ",
     "closeIssues": "問題のクローズ",
-    "cancelSelection": "キャンセル",
     "incidentsCloseSuccessTitle": "インシデントはクローズされました",
     "issuesCloseSuccessTitle": "問題はクローズされました",
     "multipleIncidentsCloseSuccessMessage": "{{count}}インシデントが正常にクローズされました。",
@@ -197,7 +197,7 @@
     "destinationAgent": "宛先エージェント",
     "originator": "オリジネーター",
     "status": "状況",
-    "failedFileTransfers": "失敗したファイル転送数"
+    "failedFileTransfers": "ファイル転送失敗"
   },
   "navigatorSplitScreen": {
     "tooltipViewPrevious_event": "前のイベントを表示 (ショートカット: 左矢印キー)",
@@ -223,14 +223,14 @@
     "failedStatusMetric": "失敗状況"
   },
   "RCA": {
-    "titlePRCA": "考えられる根本原因",
+    "titlePRCA": "推定根本原因",
     "AIGenBadgeText": "AI 生成",
     "suggestionHelpfulText": "この提案は役に立ちましたか?",
     "thankYouForYourFeedback": "フィードバックをありがとうございました。",
     "performanceConstantlyEvaluated": "パフォーマンスは、ベータ期間中に積極的に評価され、改善されています。 AIの改善に役立つフィードバックをお寄せください",
     "probableRootCauseLabel": "{{entity_type}} の過失:",
     "relatedEventsLabel": "関連イベント ({{number_of_events}})",
-    "relatedMessagesAndLogsLabel": "エラーとログ",
+    "relatedMessagesAndLogsLabel": "エラー & ログ",
     "entitiesNumber": "エンティティー",
     "probabilityLevelText": "確率レベル:",
     "highProbability": "HIGH",
@@ -247,7 +247,7 @@
     "evidenceTextNotFailedLower": "<linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> を経由しない同じエンティティからのコールは誤りである。",
     "evidenceTextNotFailedHigher": "<linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> を経由しない同じエンティティからの呼び出しは、エラー率が高くなります: {{non_rca_error_rate}}%。",
     "evidenceTextNotFailedSame": "<linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> を経由しない同じエンティティからの呼び出しは、エラー率が次のようになります: {{non_rca_error_rate}}%。",
-    "reEvaluateRootCause": "推定される根本原因を再評価する",
+    "reEvaluateRootCause": "考えられる根本原因を再評価します",
     "mostLikelyCause": "最も考えられる原因",
     "probableCause": "考えられる原因",
     "highProbabilitySecondaryLabel": "高",
@@ -272,12 +272,9 @@
     "analyzeTraceLogs": "トレース・ログの分析",
     "analyzeApplicationLogs": "アプリケーション・ログを分析する",
     "topology": {
+      "overviewTab": "概要",
       "viewTopology": "トポロジーの表示",
       "dialogTitle": "トポロジー",
-      "overviewTab": "概要",
-      "rootCauseOne": "根本原因1",
-      "rootCauseTwo": "根本原因2",
-      "rootCauseThree": "根本原因3",
       "failedToLoadTitle": "トポロジーのロードに失敗しました",
       "failedToLoadDescription": "データ取得エラーにより、トポロジー・データのロードに失敗しました。 データ保持ポリシーにより、もう存在していない可能性があります。",
       "legendRCA": "根本原因エンティティー",
@@ -361,10 +358,28 @@
     "confirmationYes": "はい",
     "confirmationNo": "キャンセル"
   },
+  "aichat": {
+    "unableToFindError": "その情報が見つかりません",
+    "host": "ホスト",
+    "name": "名前",
+    "noMatching": "一致するレコードは見つかりませんでした。",
+    "timestamp": "タイムスタンプ",
+    "numCalls": "# Calls",
+    "meanLatency": "平均待ち時間",
+    "youMustAccept": "この機能を使用するには、生成 AI アシスタンス・プレビュー・プログラム契約の条件に同意する必要があります。",
+    "reviewAction": "レビュー契約",
+    "openingAgreement": "新しいタブで [consent form]({{href}}) を開きます...",
+    "findingInfoFrom": "{{endpoint}} からの情報を見つける",
+    "noData": "API から返されたデータがない",
+    "whatToKnow": "{{category}} について知りたいですか?",
+    "welcome": "こんにちは、ようこそ。 以下のさまざまな例を通じて AI を始めましょう。",
+    "apps": "アプリケーション",
+    "infra": "インフラストラクチャー"
+  },
   "notes": {
     "openNotes": "注釈およびアクティビティーを開く",
     "closeNotes": "注釈およびアクティビティーを閉じる",
-    "notesActivity": "注釈およびアクティビティー",
+    "notesActivity": "AI によるメモとアクティビティ",
     "confirmDelete": "削除の確認",
     "you": "{{date}} は",
     "youEdited": "あなた (edited) {{date}}",
@@ -430,5 +445,13 @@
   },
   "relatedEvents": {
     "openEvent": "オープン・イベント"
+  },
+  "consentForm": {
+    "consentText": "この機能を使用するには、生成 AI アシスタンス・プレビュー・プログラム契約の条件に同意する必要があります。",
+    "consentButton": "レビュー契約"
+  },
+  "affectedIncidents": {
+    "affectedIncident": "影響を受けたインシデント",
+    "noAffectedIncidents": "影響を受けたインシデントは見つからなかった"
   }
 }

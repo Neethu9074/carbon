@@ -65,7 +65,8 @@ export default function FormComponent({
       },
       undefined
     );
-  }, [trackCta]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const entityTypeField = form.getIn(['entityType']);
   const configIdField = form.getIn(['configId']);

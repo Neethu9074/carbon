@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create, Observable } from '@instana/observables';
 import { LdapConfig, LdapTestResult, Result } from '@instana/types';
+import { create, Observable } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -20,7 +20,7 @@ export function refresh() {
 
 export const getConfigAsResultObservableNotMemoized = getConfigAsResultObservableInternal;
 export const getConfigAsResultObservable = memoize(getConfigAsResultObservableInternal, () => 'LdapConfig', 60000);
-function getConfigAsResultObservableInternal(): Observable<Result<LdapConfig>> {
+export function getConfigAsResultObservableInternal(): Observable<Result<LdapConfig>> {
   return refreshSignal.flatMap(() =>
     createObservable(
       http({
@@ -33,7 +33,6 @@ function getConfigAsResultObservableInternal(): Observable<Result<LdapConfig>> {
 }
 
 // regular calls
-
 export function getTestResult(config: LdapConfig): Observable<LdapTestResult> {
   return http<LdapTestResult>({
     method: 'POST',
@@ -42,6 +41,17 @@ export function getTestResult(config: LdapConfig): Observable<LdapTestResult> {
     headers: getCsrfHeader(),
     data: config
   }).map(response => response.body);
+}
+
+export function getTestResultV2(config: LdapConfig): Observable<Result<LdapTestResult>> {
+  return http<LdapTestResult>({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/settings/authentication/ldap/test`,
+    headers: getCsrfHeader(),
+    data: config,
+    mapToResultObject: true
+  });
 }
 
 export function setConfig(config: LdapConfig): Observable<Response<undefined>> {
@@ -63,6 +73,27 @@ export function deleteConfig(): Observable<boolean> {
   }).map(response => {
     refreshSignal.emit(true);
     return response.body;
+  });
+}
+
+export function setConfigV2(config: LdapConfig): Observable<Result<undefined>> {
+  return http({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `/api/settings/authentication/ldap`,
+    headers: getCsrfHeader(),
+    data: config,
+    mapToResultObject: true
+  });
+}
+
+export function deleteConfigV2(): Observable<Result<boolean>> {
+  return http<boolean>({
+    method: 'DELETE',
+    maxRetries: 3,
+    url: `/api/settings/authentication/ldap`,
+    headers: getCsrfHeader(),
+    mapToResultObject: true
   });
 }
 

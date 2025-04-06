@@ -85,7 +85,6 @@ export const DashboardTable = React.forwardRef<any, DashboardTableProps>(functio
               {hasAddMore && hasAddPermission && (
                 <CarbonButton
                   iconDescription="lib_openclose_add"
-                  aria-label={buttonName}
                   size="lg"
                   kind="ghost"
                   onClick={addMore}

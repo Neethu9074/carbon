@@ -1416,6 +1416,11 @@
   "pluginName_oTelK8sNode_1": "OTel Kubernetes 노드",
   "pluginName_oTelK8sNode_2": "OTel Kubernetes 노드",
   "pluginName_oTelK8sNode": "OTel Kubernetes 노드",
+  "pluginName_oTelK8sContainer_plural": "OTel Kubernetes 컨테이너",
+  "pluginName_oTelK8sContainer_0": "OTel Kubernetes 컨테이너",
+  "pluginName_oTelK8sContainer_1": "OTel Kubernetes 컨테이너",
+  "pluginName_oTelK8sContainer_2": "OTel Kubernetes 컨테이너",
+  "pluginName_oTelK8sContainer": "OTel Kubernetes 컨테이너",
   "pluginName_openLDAP_plural": "OpenLDAP 노드",
   "pluginName_openLDAP_0": "OpenLDAP 노드",
   "pluginName_openLDAP_1": "OpenLDAP 노드",
@@ -2527,6 +2532,11 @@
   "tracingTypeName_otel_0": "호출",
   "tracingTypeName_otel_1": "호출",
   "tracingTypeName_otel_2": "호출",
+  "tracingTypeName_otelbatchsynthetic": "내부 트리거",
+  "tracingTypeName_otelbatchsynthetic_plural": "내부 트리거",
+  "tracingTypeName_otelbatchsynthetic_0": "내부 트리거",
+  "tracingTypeName_otelbatchsynthetic_1": "내부 트리거",
+  "tracingTypeName_otelbatchsynthetic_2": "내부 트리거",
   "tracingTypeName_pdo": "PDO 호출",
   "tracingTypeName_pdo_plural": "PDO 호출",
   "tracingTypeName_pdo_0": "PDO 호출",
@@ -8170,6 +8180,7 @@
       "ebsVolumesWithCount": "EBS 볼륨({{len}})",
       "publicHostname": "공용 호스트 이름",
       "instanceId": "인스턴스 ID",
+      "accountId": "계정 ID",
       "type": "유형",
       "availabilityZone": "가용성 구역",
       "publicIp": "공인 IP",
@@ -10951,7 +10962,12 @@
         "servicename": "서비스 이름",
         "displayname": "표시 이름",
         "state": "상태",
-        "health": "상태"
+        "health": "상태",
+        "disk": "디스크",
+        "readAwaitTime": "읽기 시간",
+        "writeAwaitTime": "쓰기 시간",
+        "avgDiscardRequestsTime": "요청 취소 시간",
+        "avgFlushRequestsTime": "요청 비우기 시간"
       },
       "os": "OS",
       "distribution": "분배",
@@ -12240,6 +12256,10 @@
       "maxQueueDepth": "최대 큐 용량",
       "currentQueueDepth": "현재 큐 용량",
       "queueFullPercentage": "큐 깊이 백분율",
+      "queueType": "큐 유형",
+      "queueUsage": "큐 사용량",
+      "triggerType": "트리거 유형",
+      "triggerControl": "트리거 제어",
       "lastGetDateTime": "마지막 가져오기 시간",
       "lastPutDateTime": "마지막 넣기 시간",
       "depth": "용량",
@@ -12253,6 +12273,7 @@
       "openOutputCount": "출력 열기 수",
       "calls": "호출",
       "statistics": "MQ 큐 통계",
+      "attributes": "속성",
       "statisticsRecord": "색인",
       "nonPersistentPutBytes": "비지속적 넣기 바이트",
       "persistentPutBytes": "지속적 넣기 바이트",
@@ -12427,7 +12448,9 @@
       "connections": "연결",
       "messagesIn": "수신 메시지",
       "messagesOut": "발신 메시지",
-      "uncommittedMessages": "커미트되지 않은 메시지"
+      "uncommittedMessages": "커미트되지 않은 메시지",
+      "clusterStatus": "클러스터 상태",
+      "clusterSuspendIndicator": "클러스터 일시중단 표시기"
     },
     "ibmMqQueueUsage": {
       "dashboard": {
@@ -12683,7 +12706,7 @@
       "agentTlsExpired": "에이전트 TLS 인증서 <code>{{cert}}</code>이(가) <code>{{context}}</code>에 만료되었습니다.",
       "agentTlsAboutToExpire": "에이전트 TLS 인증서 <code>{{cert}}</code>이(가) <code>{{context}}</code>일 후에 만료됩니다.",
       "tlsProtocolMissingIssue": "에이전트에서 TLSv1.3 지원이 누락되었습니다.",
-      "tmpDirectoryMissingIssue": "/tmp 디렉토리가 에이전트에서 누락됨",
+      "tmpDirectoryMissingIssue": "에이전트에 표시된 대로 <code>{{tmpDirLocation}}</code> 디렉토리가 누락되었습니다.",
       "agentVersion": "에이전트 버전",
       "bootVersion": "부트 버전",
       "origin": "오리진",
@@ -13802,7 +13825,9 @@
         "fsresources": "파일 시스템 리소스",
         "fsusage": "파일 시스템 사용량",
         "fsavailble": "파일 시스템 사용 가능",
-        "fscapacity": "파일 시스템 용량"
+        "fscapacity": "파일 시스템 용량",
+        "containers": "컨테이너",
+        "summary": "요약"
       }
     },
     "oTelK8sCluster": {
@@ -13820,8 +13845,10 @@
         "summary": "요약",
         "nodes": "노드",
         "pods": "팟(Pod)",
+        "containers": "컨테이너",
         "nodecount": "노드 수",
         "podcount": "팟(Pod) 수",
+        "containercount": "컨테이너 개수",
         "name": "이름",
         "namespace": "네임스페이스",
         "age": "연령",
@@ -13860,7 +13887,44 @@
         "fsusage": "파일 시스템 사용량",
         "fsavailble": "파일 시스템 사용 가능",
         "fscapacity": "파일 시스템 용량",
-        "pods": "팟(Pod)"
+        "pods": "팟(Pod)",
+        "containers": "컨테이너"
+      }
+    },
+    "oTelK8sContainer": {
+      "platform": "플랫폼",
+      "address": "주소",
+      "port": "포트",
+      "kind": "유형",
+      "type": "유형",
+      "serviceName": "서비스 이름",
+      "entityType": "엔티티 유형",
+      "instanceId": "인스턴스 ID",
+      "runtimeDesc": "Kubernetes 런타임",
+      "runtimeVersion": "Kubernetes 버전",
+      "exePath": "실행 파일 경로",
+      "dashboard": {
+        "containeruptime": "컨테이너 가동 시간",
+        "cpuresources": "CPU 리소스",
+        "cpuusage": "CPU 사용량",
+        "cpuutilization": "CPU 이용률",
+        "cputime": "CPU 시간",
+        "cpulimitutilization": "CPU 제한 활용률",
+        "cpurequestutilization": "CPU 요청 활용률",
+        "cpunodeutilization": "CPU 노드 활용률",
+        "memoryresources": "메모리 리소스",
+        "memoryusage": "메모리 사용량",
+        "memoryavailable": "사용 가능한 메모리",
+        "memorylimitutilization": "메모리 제한 활용률",
+        "memoryrequestutilization": "메모리 요청 활용률",
+        "memoryrss": "메모리 RSS",
+        "memoryworkingset": "메모리 작업 세트",
+        "memorypagefaults": "메모리 페이지 오류",
+        "memorymajorpagefaults": "메모리 주요 페이지 오류",
+        "fsresources": "파일 시스템 리소스",
+        "fsusage": "파일 시스템 사용량",
+        "fsavailble": "파일 시스템 사용 가능",
+        "fscapacity": "파일 시스템 용량"
       }
     },
     "oTelJvm": {
@@ -17448,6 +17512,10 @@
       "error": "오류",
       "tags": "태그",
       "resource": "자원"
+    },
+    "otelBatchSynthetic": {
+      "indexReturn": "내부 트리거",
+      "bodyApproximated": "Instana에서 이 호출을 발견했지만 해당 소스에 대한 자세한 내용은 없습니다. 이 호출을 트리거한 항목의 타이밍 및 기간은 근사치입니다."
     },
     "pdo": {
       "driver": "드라이버",

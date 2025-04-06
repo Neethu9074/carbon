@@ -71,7 +71,7 @@ export const DNSTransportOptions: { label: string; value: string }[] = [
   }
 ];
 
-export const DNSQueryTypes: { label: DNSQueryType; value: DNSQueryType }[] = [
+export const assertionQueryTypes: { label: DNSQueryType; value: DNSQueryType }[] = [
   {
     label: 'A',
     value: 'A'
@@ -90,6 +90,22 @@ export const DNSQueryTypes: { label: DNSQueryType; value: DNSQueryType }[] = [
   }
 ];
 
+export const DNSQueryTypes: { label: string; value: string }[] = [
+  ...assertionQueryTypes,
+  {
+    label: 'ANY',
+    value: 'ANY'
+  },
+  {
+    label: 'ALL',
+    value: 'ALL'
+  },
+  {
+    label: 'ALL associated with assertions',
+    value: 'ALL_CONDITIONS'
+  }
+];
+
 export const DNSFilterOperators: { label: string; value: DNSFilterOperator }[] = [
   {
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionContains'),
@@ -98,6 +114,14 @@ export const DNSFilterOperators: { label: string; value: DNSFilterOperator }[] =
   {
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionMatches'),
     value: 'MATCHES'
+  },
+  {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionIs'),
+    value: 'IS'
+  },
+  {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionNotMatches'),
+    value: 'NOT_MATCHES'
   }
 ];
 

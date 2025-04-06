@@ -32,7 +32,7 @@
         "editPermissions": "编辑许可权",
         "shareMsg": "此定制仪表板具有该对话框无法表示的高级访问规则。您可以使用“以 JSON 格式编辑”功能编辑这些访问规则。",
         "privateDashboardDefault": "专用仪表板（缺省）",
-        "privateDashboardDefaultExplain": "此仪表板仅对您可见。",
+        "privateDashboardDefaultExplain": "此仪表板仅对您可见。 注意：这只能由仪表板所有者更改。",
         "publicDashboard": "公共仪表板",
         "publicDashboardExplain": "此仪表板对组织中的所有人都可见。只有您可以进行更改，但您可以添加编辑者。",
         "save": "保存",
@@ -83,12 +83,12 @@
       "customDashboard": "定制仪表板",
       "customDashboardOptions": "定制仪表板选项",
       "saveChange": "保存更改",
-      "discardChange": "放弃更改",
+      "discardChange": "丢弃更改",
       "addWidget": "添加窗口小部件",
       "tvMode": "TV 方式",
       "editName": "编辑名称",
-      "editAsJson": "以 JSON 格式编辑",
-      "viewAsJson": "以 JSON 格式查看",
+      "editAsJson": "以 JSON 形式编辑",
+      "viewAsJson": "以 JSON 形式查看",
       "copyAllWidgets": "复制所有窗口小部件",
       "copiedAllWidgets": "已复制窗口小部件，使用 CTRL-V 或 CMD-V 在任何定制仪表板上粘贴",
       "duplicate": "复制",
@@ -192,7 +192,7 @@
       "formComponent": {
         "metric": "指标",
         "eventCount": "事件计数",
-        "unnamedLog": "未命名的日志度量",
+        "unnamedLog": "未命名的日志度量值",
         "aggregation": "汇总",
         "pleaseSelectMetric": "请选择指标",
         "pleaseSelect": "请选择",
@@ -216,7 +216,7 @@
         "lastValueHelp": "启用此切换按钮后，我们将显示时间范围内最后一个存储区的汇总信息。"
       },
       "metrics": {
-        "infrastructurePlatforms": "基础架构和平台",
+        "infrastructurePlatforms": "基础设施和平台",
         "comingSoon": "（即将推出）"
       },
       "typeAndMetricConfigurator": {
@@ -263,10 +263,10 @@
         "valType": "值类型"
       },
       "index": {
-        "srvLevelIndicator": "服务级别指示符"
+        "srvLevelIndicator": "服务级别指标"
       },
       "serviceLevelIndicators": {
-        "remainErrBudget": "其余错误预算"
+        "remainErrBudget": "剩余错误预算"
       }
     },
     "srcWebSite": {
@@ -302,7 +302,7 @@
         "logging": "日志"
       },
       "formComponent": {
-        "onlyMetric": "日志的唯一可用度量",
+        "onlyMetric": "日志的唯一可用度量值",
         "metrics": {
           "count": "计数"
         },
@@ -509,13 +509,13 @@
       "demo": {
         "title": "SLO 标题",
         "sliName": "示例 SLI",
-        "appName": "应用程序名称示例"
+        "appName": "示例应用程序名称"
       },
       "apConfigFormComp": {
-        "userJourneyOffering": "用户旅程/产品",
+        "userJourneyOffering": "用户教程/产品",
         "appnPerspective": "应用程序透视图",
         "selectAppPerspect": "请选择应用程序透视图。",
-        "appPerspectHelpAction": "通过在“应用程序”区域中将用户教程/产品建模为应用程序透视图来设置用户教程/产品。",
+        "appPerspectHelpAction": "通过在\"应用程序\"区域中将用户教程和产品建模为应用程序透视图来设置用户教程和产品。",
         "rbacHint": "显示的应用程序可能受许可权限制。",
         "noAppPerspect": "无应用程序透视图！",
         "pleaseSelect": "请选择"
@@ -529,7 +529,7 @@
         "pleaseSelect": "请选择"
       },
       "sliSelectionFormComp": {
-        "srvLevelIndicator": "服务级别指示符",
+        "srvLevelIndicator": "服务级别指标",
         "selectASli": "请选择 SLI。",
         "noneAvailCreateOne": "无可用 SLI，请创建一个 SLI。",
         "pleaseSelect": "请选择"
@@ -573,7 +573,7 @@
         "99th": "第 99 个"
       },
       "metricsForm": {
-        "metricThreshold": "指标和阈值",
+        "metricThreshold": "度量值和阈值",
         "metric": "指标",
         "aggregation": "汇总",
         "valThresholdNotInvalidEmpty": "阈值不能为无效值或为空。",
@@ -601,20 +601,20 @@
         "beaconConfigLabel": "信标配置",
         "beaconScopeLabel": "信标作用域",
         "beaconLabel": "未知信标类型",
-        "beaconLabel_httpRequest": "HTTP 请求",
-        "beaconLabel_pageLoad": "Web 站点页面加载次数",
-        "beaconLabel_custom": "Web 站点定制事件数",
+        "beaconLabel_httpRequest": "HTTP 请求数",
+        "beaconLabel_pageLoad": "Web 站点页面装入",
+        "beaconLabel_custom": "Web 站点定制事件",
         "beaconFiltersLabel": "信标过滤器",
         "beaconFiltersSubtext": "可选"
       },
       "sliList": {
-        "serviceLevelIndicators": "服务级别指示符",
+        "serviceLevelIndicators": "服务级别指标",
         "sliConfigDeleted": "已成功删除 SLI 配置。",
         "failedDelSli": "无法删除 SLI。",
         "sliType": "SLI 类型",
         "viewCloneSliConfig": "查看/克隆 SLI 配置",
         "delSliConfig": "删除 SLI 配置",
-        "confirmRemove": "请确认",
+        "confirmRemove": "确认移除",
         "confirmRemoveMsg": "是否确定要删除 <strong>{{sliName}}</strong>？",
         "delete": "删除",
         "eventBasedSli": "基于事件",
@@ -679,7 +679,7 @@
       "sliConfig": {
         "sliName": "SLI 名称",
         "sliType": "SLI 类型",
-        "badEventsFilter": "事件过滤器错误",
+        "badEventsFilter": "错误事件过滤器",
         "metric": "指标"
       },
       "theTimeWindowSizeHasToBeLessOrEqualTo365Days": "时间窗口大小必须小于或等于 365 天。",
@@ -687,6 +687,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "必须至少配置一个过滤表达式。",
       "timeBased": "基于时间",
       "eventBased": "基于事件",
+      "sloLite": "SLO Lite",
       "sloLegacy": "SLO 原有项",
       "slo": "SLO",
       "monitoringSourceSelector": {
@@ -722,7 +723,7 @@
       "title": "Apdex：图表",
       "chart": {
         "metricLabel": "Apdex",
-        "viewInAnalyze": "在分析中查看",
+        "viewInAnalyze": "查看分析",
         "noDataRetentionPeriod": "所选时间范围超出数据保留期",
         "notFoundErrorTitle": "找不到已配置的 Apdex",
         "notFoundErrorDescription": "请通过选择其他 Apdex 配置来更新 Apdex 窗口小部件"
@@ -765,7 +766,7 @@
         "cardTitle": "Apdex 配置",
         "nameColumn": "Apdex 配置",
         "thresholdColumn": "阈值",
-        "confirmDeleteHeader": "请确认",
+        "confirmDeleteHeader": "确认移除",
         "confirmDeleteMessage": "确定要将 {{apdex}} 删除吗？",
         "editApdexTooltip": "编辑/克隆 Apdex 配置",
         "deleteApdexTooltip": "删除 Apdex 配置",
@@ -803,7 +804,7 @@
       "applicationScopeConfigurator": {
         "label": "Apdex 作用域",
         "boundaryScope": "边界",
-        "hiddenCalls": "隐藏调用数",
+        "hiddenCalls": "隐藏的调用",
         "additionalFilters": "其他过滤器"
       }
     },
@@ -853,7 +854,7 @@
     },
     "applicationHealth": {
       "index": {
-        "applicationHealth": "运行概况"
+        "applicationHealth": "运行状况概述"
       },
       "form": {
         "validationError": "请选择应用程序。",
@@ -924,7 +925,7 @@
       "eventColumns": {
         "title": "标题",
         "entityLabel": "开启（实体）",
-        "startedOn": "开始时间",
+        "startedOn": "启动时间",
         "endedOn": "结束时间",
         "duration": "持续时间"
       },

@@ -1,11 +1,12 @@
 {
+  "automationAction": "自动化操作",
   "copy": "副本",
   "edit": "编辑",
   "delete": "删除",
   "test": "测试",
   "cancel": "取消",
-  "recommendedActionsWithCount": "建议的操作 ({{count}})",
-  "recommendedActions": "建议的操作",
+  "recommendedActionsWithCount": "建议的操作（{{count}} 个）",
+  "recommendedActions": "建议的操作数",
   "recommendedOptimizationsWithCount": "建议的资源操作 ({{count}})",
   "recommendedOptimizations": "建议的资源操作",
   "actionName": "操作名称",
@@ -98,20 +99,25 @@
   "actionsWithCount": "操作 ({{count}})",
   "titleUrl": "URL",
   "generateWithWatsonx": "使用 watsonx 生成",
-  "AISlugContent": "使用 AI 生成了此内容",
   "createPolicyWithName": "查看操作 {{actionName}} 并创建策略",
   "viewActionCreatePolicy": "查看操作并创建策略",
   "titleContentReadOnly": "生成的内容（只读）",
+  "hostId": "主机标识",
+  "ansibleUrl": "Ansible url",
+  "playbookFileName": "运行手册文件名",
+  "playbookId": "运行手册标识",
+  "triggeringEvent": "正在触发的事件",
+  "probableRootCause": "可能的根本原因",
+  "contextFor": "相关上下文：",
   "GenerateAIActionDialog": {
     "actionConfiguration": "操作配置",
     "actionDetails": "操作详细信息",
     "Step1HeadlineSelectAction": "从 watsonx 生成的内置操作开始，为该事件创建一个新操作。",
-    "Step1HeadlinePrompt": "根据事件名称、描述和实体类型，使用 watsonx 生成手动操作。",
+    "Step1HeadlinePrompt": "根据事件名称、描述和实体类型，使用 watsonx 生成手动操作。 您可以编辑并重新生成，以查看",
     "Step2Headline": "在保存到操作目录之前，指定操作详细信息或进行更改。",
     "Step3Headline": "（可选）您可以在创建操作的同时创建自动化策略。 您也可以稍后再完成此步骤。",
     "step1Title": "步骤 1：生成或选择操作",
     "step1TitleGenerateAction": "步骤 1：生成操作",
-    "step1TitleSelectAction": "步骤 1：选择操作",
     "step2Title": "步骤 2：配置操作",
     "step3Title": "步骤 3：创建策略（可选）",
     "policyDetails": "策略详细信息",
@@ -145,7 +151,6 @@
     "createActionAndPolicy": "创建操作和策略",
     "createAction": "创建操作",
     "nameExists": "已存在名称为 {{name}} 且类型为 {{type}} 的操作",
-    "failedToGenerateAction": "生成操作失败。",
     "failedToCreateActionPolicy": "创建操作和策略失败。",
     "failedToCreateAction": "创建操作失败。",
     "generateScriptDialog": {
@@ -187,10 +192,10 @@
     "newAction": "新建操作",
     "createANewAction": "创建新操作",
     "configureActionEntityName": "配置操作：{{entityName}}",
-    "lastModified": "最近一次修改日期",
+    "lastModified": "上次修改时间",
     "script": "脚本",
     "interpreter": "解释器（可选）",
-    "interpreterHelper": "解释器是将执行脚本的程序。 例如，bash 或 python。 这可以是解释器的完整路径；也可以只是解释器的名称（如果它在 PATH 中）。 如果脚本具有 shebang，或者如果脚本使用缺省解释器，那么不需要此字段。",
+    "interpreterHelper": "解释器是将执行脚本的程序。 例如，bash 或 Python。 这可以是解释器的完整路径；也可以只是解释器的名称（如果它在 PATH 中）。 如果脚本具有 shebang，或者如果脚本使用缺省解释器，那么不需要此字段。",
     "ansible": "Ansible",
     "github": "Github 问题",
     "githubBody": "正文",
@@ -225,6 +230,9 @@
     "1ActionDetails": "1. 操作详细信息",
     "2ActionConfiguration": "2. 操作配置",
     "3ParamaterDetails": "3. 参数详细信息",
+    "actionDetails": "操作详细信息",
+    "actionConfiguration": "操作配置",
+    "parameterDetails": "参数详细信息",
     "timeout": "时区（可选）",
     "timeoutHelpText": "等待操作完成的最长时间（以秒计）。 如果操作未在超时内完成，那么将终止该操作。 这将覆盖代理程序配置中设置的超时。",
     "host": "主机",
@@ -232,8 +240,8 @@
     "accept": "Accept（可选）",
     "acceptLanguage": "Accept-Language（可选）",
     "theValueMustBeValidMime": "该值必须是有效的 MIME 类型。",
-    "authType": "权限类型",
-    "noAuth": "无权限",
+    "authType": "授权类型",
+    "noAuth": "无认证",
     "key": "键",
     "ignoreCertErrors": "忽略证书错误",
     "basicAuth": "基本认证",
@@ -249,6 +257,7 @@
     "editParameter": "编辑参数",
     "noParametersConfigured": "未配置参数",
     "required": "值为必需",
+    "viewParameter": "查看参数",
     "hiddenParam": "隐藏",
     "valueType": "值类型",
     "displayName": "显示名称",
@@ -256,7 +265,7 @@
     "defaultValueOptional": "缺省值（可选）",
     "parameters": "参数",
     "secretKey": "私钥",
-    "secretPath": "私钥路径",
+    "secretPath": "密钥路径",
     "secretKeyOptional": "密钥（可选）",
     "secretPathOptional": "私钥路径（可选）",
     "validName": "参数名称无效：请检查以确保仅使用有效且唯一的字符。",
@@ -265,7 +274,7 @@
     "validUrl": "文档链接无效。",
     "noLabelsConfigured": "未添加任何标签。",
     "addLabels": "添加标签",
-    "addAssignees": "添加受托人",
+    "addAssignees": "添加被分配者",
     "noAssigneesConfigured": "未添加任何受托人",
     "commentOptional": "注释（可选）",
     "gitBodyHelptext": "这是问题的内容。",
@@ -283,7 +292,7 @@
     "task": "任务",
     "bug": "错误",
     "improvement": "改进",
-    "newFeature": "新建功能部件",
+    "newFeature": "新特征",
     "view": "视图",
     "content": "内容",
     "mustHaveRequiredTag": "操作必须至少包含以下其中一个标记：{{tags}}",
@@ -315,7 +324,7 @@
   "actionHistory": {
     "actionHistory": "操作历史记录",
     "goToActionHistory": "转至“操作历史记录”",
-    "actionHistoryWithCount": "操作历史记录 ({{count}})",
+    "actionHistoryWithCount": "操作历史记录（{{count}} 个）",
     "noActionInstances": "无可用数据",
     "external": "外部",
     "name": "名称",
@@ -378,8 +387,7 @@
   },
   "policies": {
     "policies": "策略",
-    "policiesWithCount": "策略（{{count}} 个）",
-    "newPolicy": "新策略",
+    "newPolicy": "新建策略",
     "selectEventTrigger": "选择事件触发器",
     "eventTrigger": "事件触发器",
     "unknownPolicy": "未知策略",
@@ -397,7 +405,7 @@
     "addEventTrigger": "添加事件触发器",
     "action": "操作",
     "atLeastOneOfTheTwoMustBeSelected": "必须至少选择这两个选项中的一个。",
-    "noActionConfigured": "未配置任何操作",
+    "noActionConfigured": "未配置操作",
     "noEventTriggerConfigured": "未配置事件触发器",
     "configure": "配置",
     "builtIn": "内置",
@@ -424,7 +432,7 @@
     "manualAutomatic": "手动，自动",
     "policyType": "策略类型",
     "noPolicies": "未配置任何策略。",
-    "filterApplied": "已应用的过滤器",
+    "filterApplied": "已应用过滤器",
     "createDialog": {
       "success": {
         "title": "已成功创建策略。",
@@ -472,7 +480,7 @@
     "showTasks": "显示"
   },
   "deleteDialog": {
-    "confirmRemove": "请确认",
+    "confirmRemove": "确认移除",
     "confirmRemoveMsg": "确定要删除 <strong>{{name}}</strong> 吗？",
     "delete": "删除"
   },
@@ -507,11 +515,66 @@
     "recommendedActionHistoryWithCount": "资源行动历史记录{{count}})",
     "recommendedActionHistory": "资源行动历史"
   },
+  "actionDashboard": {
+    "ActionConfiguration": "操作配置",
+    "ActionDetails": "操作详细信息",
+    "ParameterDetails": "参数详细信息",
+    "tabs": {
+      "summaryLabel": "摘要",
+      "configurationLabel": "配置"
+    },
+    "noOfTimesRun": "运行次数",
+    "successRate": "成功率",
+    "avgExecutionTime": "平均执行时间",
+    "lastModified": "上次修改时间",
+    "history": "历史记录",
+    "summaryTab": {
+      "millisecond": "ms"
+    },
+    "associatedPolicies": "已关联的策略"
+  },
   "feedback": {
     "contentHelpfulText": "这些生成的内容是否有帮助？",
     "thankYouForYourFeedback": "谢谢您的反馈！",
     "submitFeedback": "提交反馈",
     "additionalFeedbacklabel": "提供额外反馈（可选）",
-    "additionalFeedbackPlaceholder": "您对回复不满意的地方是什么？ 哪些方面可以改进"
+    "additionalFeedbackPlaceholder": "您对回复不满意的地方是什么？ 哪些方面可以改进？"
+  },
+  "consentForm": {
+    "consentButton": "查看许可表单",
+    "consentText": "管理员必须同意生成式 AI 辅助预览隐私协议才能启用此功能。"
+  },
+  "AITooltip": {
+    "aiExplained": "AI 解释",
+    "manualSection": {
+      "section1": {
+        "section1Title": "操作生成",
+        "section1Text": "要生成一系列手动步骤来诊断或修复该问题，请将事件信息发送至 watsonx。  用于制订 AI 提示的输入最初是根据当前事件填充的，可以进行修改以改进结果。"
+      },
+      "section2": {
+        "section2Title": "输入提示字段",
+        "section2EventName": "<strong>事件名称。</strong> 突发事件、事件或警报的名称。",
+        "section2Description": "<strong>事件描述。</strong> 突发事件或事件的描述。",
+        "section2Entitytype": "<strong>事件实体类型。</strong> 与突发事件或事件相关的实体类型。"
+      },
+      "section3": {
+        "AIModel": "AI 模型"
+      },
+      "section4": {
+        "section4Text": "这是一个预览功能。 它提供了一个或多个推荐操作的建议草案，以解决某一突发事件或事件。 您应该确定输出是否满足您的需求。"
+      }
+    },
+    "scriptSection": {
+      "section1": {
+        "section1Text": "要生成脚本，我们将手动操作步骤的指令发送至 watsonx。 可以修改该步骤来改进结果。"
+      },
+      "section3": {
+        "section3Text": "这是一个预览功能，其提供了用于执行操作的建议脚本。 您应该确定输出是否满足您的需求。"
+      }
+    },
+    "preGenerated": {
+      "title": "预生成的 AI 操作",
+      "text": "从使用 watsonx AI 模型预生成的操作列表中进行选择，以帮助诊断或修复系统中的事件。"
+    }
   }
 }

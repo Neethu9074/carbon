@@ -24,6 +24,8 @@ import {
   updateAlertConfig as websiteUpdateAlertConfig,
   createAlertConfig as webisteCreateAlertConfig
 } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
+//@ts-expect-error TS migration
+import { getTrackingAlertConfig } from 'in-alerting/smart-alerts/utils/segmentUtils';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
@@ -76,7 +78,8 @@ export function createOrSaveAlert({
   }
 
   const alertConfig: MobileAppAlertConfig | WebsiteAlertConfig = toAlertConfig(form);
-
+  const thresholdType = form.get('threshold')?.get('warningThreshold')?.get('type')?.value;
+  const alertConfigForTracking = getTrackingAlertConfig(alertConfig, thresholdType);
   if (editMode) {
     const updateConfig =
       eumType === websiteEum
@@ -86,7 +89,7 @@ export function createOrSaveAlert({
       updatedAlertConfig => {
         onClose(updatedAlertConfig);
         showSuccessMessage(updatedAlertConfig.name, editMode);
-        trackCta?.(ALERTING_UPDATED, { ...updatedAlertConfig, dialogMode: 'Advanced' });
+        trackCta?.(ALERTING_UPDATED, { ...alertConfigForTracking, id: form.get('id')?.value, dialogMode: 'Advanced' });
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
@@ -112,7 +115,9 @@ export function createOrSaveAlert({
                 (createAlertConfig as MobileAppSmartAlertConfigWithMetadata).mobileAppId
               );
         showSuccessMessage(createAlertConfig.name, editMode, false, href);
-        const newConfig = duplicateFrom ? { ...createAlertConfig, cloneFromId: duplicateFrom } : createAlertConfig;
+        const newConfig = duplicateFrom
+          ? { ...alertConfigForTracking, cloneFromId: duplicateFrom }
+          : alertConfigForTracking;
         trackCta?.(ALERTING_SAVED, { ...newConfig, dialogMode: isSimpleMode ? 'Simple' : 'Advanced' });
       },
       error => {
@@ -169,6 +174,9 @@ export function createOrSaveAlertFromTearSheet({
       ? (alertConfig as WebsiteAlertConfig).websiteId
       : (alertConfig as MobileAppAlertConfig).mobileAppId;
 
+  const thresholdType = form.get('threshold')?.get('warningThreshold')?.get('type')?.value;
+  const alertConfigForTracking = getTrackingAlertConfig(alertConfig, thresholdType);
+
   if (editMode) {
     const updateConfig =
       eumType === websiteEum
@@ -176,7 +184,11 @@ export function createOrSaveAlertFromTearSheet({
         : mobileUpdateAlertConfig(alertConfig as MobileAppSmartAlertConfigWithMetadata, form.get('id').value);
     updateConfig.once(
       updatedAlertConfig => {
-        trackCta?.(ALERTING_UPDATED, { ...updatedAlertConfig, pageViewType: FULLSCREEN });
+        trackCta?.(ALERTING_UPDATED, {
+          ...alertConfigForTracking,
+          id: form.get('id')?.value,
+          dialogMode: FULLSCREEN
+        });
         navigateToAlertConfig(form.get('id').value, eumId, updatedAlertConfig?.created);
       },
       error => {
@@ -192,8 +204,10 @@ export function createOrSaveAlertFromTearSheet({
 
     createConfig.once(
       createAlertConfig => {
-        const newConfig = duplicateFrom ? { ...createAlertConfig, cloneFromId: duplicateFrom } : createAlertConfig;
-        trackCta?.(ALERTING_SAVED, { ...newConfig, pageViewType: FULLSCREEN });
+        const newConfig = duplicateFrom
+          ? { ...alertConfigForTracking, cloneFromId: duplicateFrom }
+          : alertConfigForTracking;
+        trackCta?.(ALERTING_SAVED, { ...newConfig, dialogMode: FULLSCREEN });
         navigateToAlertConfig(createAlertConfig.id, eumId, createAlertConfig?.created);
       },
       error => {

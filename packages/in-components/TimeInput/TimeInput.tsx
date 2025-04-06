@@ -18,13 +18,15 @@ import { timeFormat } from 'in-services/formatters/date';
 import locals from './TimeInput.mless';
 
 interface TimeInputProps {
+  /** Defines aria-label to the input */
+  ['aria-label']?: string;
   onChange: (time: string) => void;
   value: string;
   hasError?: boolean;
   id?: string;
   disabled?: boolean;
   fullWidth?: boolean;
-  /** default value is 'buttom' if not specified */
+  /** default value is 'bottom' if not specified */
   direction?: 'top' | 'bottom';
 }
 
@@ -45,12 +47,15 @@ export default function TimeInput({
   id,
   fullWidth,
   disabled,
-  direction = 'bottom'
+  direction = 'bottom',
+  ...props
 }: TimeInputProps) {
   // Here we receive the value in HH:mm:ss format, either based on timeInput or the slider.
   // But we need to display this value in HH:mm format.
   const [time, setTime] = useState(() => formatInputTime(value, timeInputFormat));
   const [invalid, setInvalid] = useState(true);
+
+  const { 'aria-label': ariaLabel } = props;
 
   const handleTimeChange = (newValue: string) => {
     const timeInvalid = timeValidator(newValue, timeInputFormat) !== null;
@@ -68,6 +73,7 @@ export default function TimeInput({
 
   return (
     <CarbonComboBox
+      aria-label={ariaLabel}
       disabled={disabled}
       allowCustomValue
       items={timeOptions}
@@ -83,7 +89,9 @@ export default function TimeInput({
       id={id ?? uniqueId('timeinput_')}
       pattern="[0-9]{2}:[0-9]{2}"
       maxLength={5}
-      className={classNames(locals.carbonTimeCombo, !fullWidth && locals.stdWidth)}
+      className={classNames(locals.carbonTimeCombo, {
+        [locals.stdWidth]: !fullWidth
+      })}
       size="sm"
       downshiftProps={{ highlightedIndex: getNearestNextItem() }}
       direction={direction}

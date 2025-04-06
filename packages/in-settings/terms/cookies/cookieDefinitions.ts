@@ -9,7 +9,7 @@ export const cookieDefinitions = [
   {
     key: 'walkmeAnalyticsServices',
     title: t('in-settings:cookies.walkme.title'),
-    cookieProduct: 'WalkMe',
+    description: 'WalkMe',
     details: [
       {
         category: t('in-settings:cookies.walkme.category'),

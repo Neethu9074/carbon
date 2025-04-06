@@ -1,13 +1,15 @@
 {
   "landing": {
-    "loadingData": "Loading Data",
+    "loadingData": "Loading data",
     "noEntitiesFound": "No entities found",
     "noEntitiesFoundFor": "No entities found for {{landingQueryCount}}",
     "noMatchingEntitiesFoundTitle": "No matching entities found",
     "results": "Results"
   },
   "logging": {
-    "goToLogs": "Go To Logs"
+    "goToLogs": "Go to logs",
+    "integrations": "Integrations",
+    "analyzeLogs": "Instana analytics logs"
   }
 
 }

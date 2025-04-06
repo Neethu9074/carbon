@@ -12,10 +12,12 @@
   .listItem {
     align-items: stretch;
     :global .li-actions {
-      padding: 0.125rem 0;
-      display: flex;
       justify-content: flex-start;
       align-items: flex-start;
+      button {
+        margin: 0;
+      }
+
       svg {
         margin: 0.25rem 0.3125rem;
       }
@@ -30,12 +32,6 @@
     margin: 0.4rem 1rem 0.4rem 0;
   }
 
-  .copyButtonWrapper,
-  .centeredCopyButtonWrapper {
-    display: flex;
-    padding: 0.0625rem;
-  }
-
   .squareHover:before {
     border-radius: var(--ids-border-radius-option-small) !important;
   }
@@ -44,7 +40,9 @@
   }
 
   .centeredCopyButtonWrapper {
-    align-items: center;
+    margin-top: 4px;
+    display: flex;
+    align-items: flex-start;
     height: 100%;
   }
 

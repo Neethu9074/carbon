@@ -46,7 +46,7 @@ export default function SloConfigSample() {
   const timeWindow = formToTimeWindow(form);
   const sloTimeConfig = calculateTimeConfigFromTimeWindow(timeWindow);
 
-  const { status, totalErrorBudget, remainingErrorBudget, consumedErrorBudget } = getErrorBudgetSampleData(
+  const { status, totalErrorBudget, remainingErrorBudget } = getErrorBudgetSampleData(
     {
       entityIds,
       indicatorType,
@@ -65,22 +65,22 @@ export default function SloConfigSample() {
   );
 
   const budgetSingleNumber: MetricDataPoint[] = [[0, remainingErrorBudget]];
-  const consumedBudgetSingleNumber: MetricDataPoint[] = [[0, consumedErrorBudget]];
+  const totalBudgetSingleNumber: MetricDataPoint[] = [[0, totalErrorBudget]];
   const statusSingleNumber: MetricDataPoint[] = [[0, status]];
 
   return (
     <Card leftHeaderContent={<PreviewChartLeftHeader status="resolved" />}>
       <HorizontalIndicator progress={finishedProgress} />
       <SloChartSummary
-        budgetSingleNumber={budgetSingleNumber}
-        consumedBudgetSingleNumber={consumedBudgetSingleNumber}
+        remainingBudget={budgetSingleNumber}
+        totalBudget={totalBudgetSingleNumber}
         fromTimestamp={fromTimestamp}
         indicatorType={indicatorType}
         objectiveDuration={objectiveDuration}
         objectiveDurationUnit={objectiveDurationUnit}
         sloEntityType={sloEntityType}
         status="resolved"
-        statusSingleNumber={statusSingleNumber}
+        sloStatus={statusSingleNumber}
         target={target}
         timeWindowType={timeWindowType}
       />

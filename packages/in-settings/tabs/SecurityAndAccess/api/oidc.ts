@@ -52,6 +52,27 @@ export function deleteConfig(): Observable<boolean> {
   });
 }
 
+export function setConfigV2(config: OidcApiRequestConfig): Observable<Result<OidcApiResponseConfig>> {
+  return http<OidcApiResponseConfig>({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `/api/settings/authentication/oidc`,
+    headers: getCsrfHeader(),
+    data: config,
+    mapToResultObject: true
+  });
+}
+
+export function deleteConfigV2(): Observable<Result<boolean>> {
+  return http<boolean>({
+    method: 'DELETE',
+    maxRetries: 3,
+    url: `/api/settings/authentication/oidc`,
+    headers: getCsrfHeader(),
+    mapToResultObject: true
+  });
+}
+
 function isAvailableQuery(): Observable<Response<boolean>> {
   return http({
     method: 'GET',

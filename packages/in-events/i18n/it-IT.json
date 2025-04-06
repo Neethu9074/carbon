@@ -2,8 +2,8 @@
   "affectedEntities": {
     "name": "Nome",
     "violatedCalls": "Chiamate violate",
-    "totalCallsInAlert": "Chiamate Totali nell'ambito Allarme",
-    "earliestTimestamp": "Prima data/ora"
+    "totalCallsInAlert": "Chiamate totali nell'ambito avviso",
+    "earliestTimestamp": "Data/ora meno recente"
   },
   "affectedApplications": {
     "noAffectedApplications": "Non sono state trovate applicazioni interessate.",
@@ -19,17 +19,18 @@
   "titleDescription": "Descrizione",
   "titleTriggerEvent": "Evento di attivazione",
   "titleRelatedEvents": "Eventi correlati ({{eventCount}})",
+  "titleAffectedIncidents": "Incidenti interessati",
   "noRelatedEvents": "Non sono stati trovati eventi correlati",
   "titleLastProcess": "Ultimo processo",
   "titleLastHost": "Ultimo host",
-  "titleLastKnownHost": "Ultimo host noto",
-  "titleLastKnownProcess": "Ultimo processo noto",
+  "titleLastKnownHost": "Ultimo host conosciuto",
+  "titleLastKnownProcess": "Ultimo processo conosciuto",
   "titleAnalyzeCustomEvents": "Analizza eventi personalizzati",
   "titleAnalyzeCrash": "Analizza arresti anomali",
-  "titleAnalyzeHTTPRequests": "Analizza richieste HTTP",
+  "titleAnalyzeHTTPRequests": "Analizza le richieste HTTP",
   "titleAnalyzeJsErrors": "Analizza errori JS",
   "titleAnalyzePageLoads": "Analizza caricamenti pagina",
-  "titleAnalyzePageTransitions": "Analizzare transizioni pagina",
+  "titleAnalyzePageTransitions": "Analizza transizioni pagina",
   "titleAnalyzeViewTransitions": "Analizza transizioni vista",
   "titleAnalyzeSessionStarts": "Analizza avvii di sessione",
   "titleAnalyzeLoadTime": "Analisi del tempo di caricamento",
@@ -106,7 +107,7 @@
   "labelIncidents": "Incidenti",
   "labelOpen": "Aperto",
   "labelClosed": "Chiuso",
-  "labelIncidentWithSeverity": "Incidente {{severityLabel}} ({{stateLabel}})",
+  "labelIncidentWithSeverity": "{{severityLabel}} incident ({{stateLabel}})",
   "labelIssueWithSeverity": "{{severityLabel}} problema",
   "labelChange": "Modifica",
   "labelCritical": "Critici",
@@ -124,7 +125,7 @@
   "buttonViewBuiltInEvent": "Visualizza evento integrato",
   "buttonHideChanges": "Nascondi modifiche",
   "buttonShowChanges": "Mostra modifiche",
-  "buttonViewAlertConfig": "Visualizza configurazione di modifica",
+  "buttonViewAlertConfig": "Visualizza configurazione degli avvisi",
   "buttonFocusTimeToRelease": "Definisci orario del release",
   "buttonFollowReleaseLive": "Segui release in tempo reale",
   "linkViewLastProcess": "Visualizza ultimo processo",
@@ -143,6 +144,7 @@
   "unidentifiedEntityTooltip": "Si è verificato un errore durante il richiamo delle informazioni su questa entità. Per maggiori dettagli, è possibile visitare il dashboard dell'entità facendo clic sul link \"Entità non identificata\".",
   "headerStatus": "Stato",
   "eventHelpfulText": "Questo evento è stato utile?",
+  "summaryHelpfulText": "Questo riepilogo è stato utile?",
   "thankYouForYourFeedback": "Grazie per il tuo feedback!",
   "hostOffLineEventProblemChangeTime": "Fare clic sul link sottostante per passare all'ultima versione dell'host monitorato da Instana. In questo modo si cambierà l'inizio della finestra temporale ad un momento in cui l'host è stato monitorato da Instana",
   "offLineEventProblemChangeTime": "Fare clic sul link sottostante per passare all'ultima versione del processo monitorato da Instana. In questo modo si cambierà l'inizio della finestra temporale ad un momento in cui il processo è stato monitorato da Instana",
@@ -151,7 +153,7 @@
   "tooltipCloseEventDetail": "Chiudi dettaglio evento",
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> fa)",
-  "deprecatedCustomEventWarning": "<strong>Gli eventi personalizzati sui tipi di entità Applicazione, Servizio ed Endpoint sono obsoleti. A partire da marzo 2025, gli Eventi personalizzati per questi tre tipi di entità saranno rimossi e non si riceverà più questo {{issueOrIncident}}</strong><br/> Visualizza la configurazione degli Eventi personalizzati per migrare a Smart Alert. <documentationLink>Ulteriori informazioni sono disponibili nella documentazione</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>Gli eventi personalizzati sui tipi di entità applicazione, servizio ed endpoint sono obsoleti. A partire da marzo 2025, gli eventi personalizzati per questi tre tipi di entità saranno rimossi e non si riceverà più questo {{issueOrIncident}}</strong><br/> Visualizza la configurazione degli eventi personalizzati per migrare a Smart Alert. <documentationLink>Ulteriori informazioni sono disponibili nella documentazione</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} eventi personalizzati richiedono un'azione",
     "message": "Eventi personalizzati sull'applicazione, sul servizio e sull'endpoint sono obsoleti. A partire da <strong>marzo 2025</strong> non sarà più possibile creare o aggiornare questi tipi di eventi personalizzati.",
@@ -159,10 +161,8 @@
     "affectedEventsLink": "Visualizza gli eventi personalizzati interessati"
   },
   "multiClose": {
-    "itemsSelected": "articolo/i selezionato/i",
     "closeIncidents": "Chiudi incidenti",
     "closeIssues": "Chiudi il problema",
-    "cancelSelection": "Annulla",
     "incidentsCloseSuccessTitle": "Incidente/i chiuso/i",
     "issuesCloseSuccessTitle": "Problema/i chiuso/i",
     "multipleIncidentsCloseSuccessMessage": "Gli incidenti {{count}} sono stati chiusi con successo.",
@@ -220,7 +220,7 @@
     "logs": "Log"
   },
   "syntheticSmartAlerts": {
-    "failedStatusMetric": "Stato di Esito negativo"
+    "failedStatusMetric": "Stato non riuscito"
   },
   "RCA": {
     "titlePRCA": "Causa principale probabile",
@@ -230,7 +230,7 @@
     "performanceConstantlyEvaluated": "Le prestazioni vengono attivamente valutate e migliorate durante la fase Beta. Lascia un feedback per aiutarci a migliorare la nostra AI",
     "probableRootCauseLabel": "{{entity_type}} in errore:",
     "relatedEventsLabel": "Eventi associati ({{number_of_events}})",
-    "relatedMessagesAndLogsLabel": "Errori e log",
+    "relatedMessagesAndLogsLabel": "Errori & log",
     "entitiesNumber": "Entità",
     "probabilityLevelText": "Livello di probabilità:",
     "highProbability": "ALTO",
@@ -272,12 +272,9 @@
     "analyzeTraceLogs": "Analizza log di traccia",
     "analyzeApplicationLogs": "Analizzare i log delle applicazioni",
     "topology": {
+      "overviewTab": "Panoramica",
       "viewTopology": "Visualizza topologia",
       "dialogTitle": "Topologia",
-      "overviewTab": "Panoramica",
-      "rootCauseOne": "Causa principale 1",
-      "rootCauseTwo": "Causa principale 2",
-      "rootCauseThree": "Causa principale 3",
       "failedToLoadTitle": "Impossibile caricare la topologia",
       "failedToLoadDescription": "Il caricamento dei dati della topologia non è riuscito a causa di un errore nel recupero dei dati. È possibile che non esista più a causa delle politiche di conservazione dei dati.",
       "legendRCA": "Entità della causa principale",
@@ -361,10 +358,28 @@
     "confirmationYes": "Sì",
     "confirmationNo": "Annulla"
   },
+  "aichat": {
+    "unableToFindError": "Impossibile trovare queste informazioni",
+    "host": "Host",
+    "name": "Nome",
+    "noMatching": "Nessun record corrispondente trovato.",
+    "timestamp": "Data/Ora",
+    "numCalls": "# Chiamate",
+    "meanLatency": "Latenza media",
+    "youMustAccept": "Per utilizzare questa funzione è necessario accettare i termini dell'Accordo del programma di anteprima dell'assistenza AI generativa.",
+    "reviewAction": "Rivedere l'accordo",
+    "openingAgreement": "Aprire [modulo di consenso]({{href}}) in una nuova scheda...",
+    "findingInfoFrom": "Trovare queste informazioni da {{endpoint}}",
+    "noData": "Nessun dato restituito dall'API",
+    "whatToKnow": "Cosa si desidera sapere su {{category}}?",
+    "welcome": "Salve e benvenuti. Iniziate a lavorare con l'AI esplorando i vari esempi che seguono.",
+    "apps": "Applicazioni",
+    "infra": "Infrastruttura"
+  },
   "notes": {
     "openNotes": "Apri note e attività",
     "closeNotes": "Chiudi note e attività",
-    "notesActivity": "Note e attività",
+    "notesActivity": "Note e attività con l'AI",
     "confirmDelete": "Conferma eliminazione",
     "you": "Tu {{date}}",
     "youEdited": "Hai (modificato) {{date}}",
@@ -430,5 +445,13 @@
   },
   "relatedEvents": {
     "openEvent": "Evento aperto"
+  },
+  "consentForm": {
+    "consentText": "Per utilizzare questa funzione è necessario accettare i termini dell'Accordo del programma di anteprima dell'assistenza AI generativa.",
+    "consentButton": "Rivedere l'accordo"
+  },
+  "affectedIncidents": {
+    "affectedIncident": "Incidente correlato",
+    "noAffectedIncidents": "Non sono stati rilevati incidenti correlati"
   }
 }

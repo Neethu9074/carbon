@@ -23,10 +23,10 @@ import * as operatorKeyRequirement from 'in-components/QueryBuilder/tagFilter/op
 import { getAllowedOperators } from 'in-components/QueryBuilder/tagFilter/typeToOperatorsMapping';
 import { EQUALS, NOT_EMPTY, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { stringMaxLengthValidator, notBlankValidator } from 'in-services/validators/string';
+import { NUMBER, BOOLEAN, FLOAT_LIST } from 'in-components/QueryBuilder/tagFilter/types';
 import { STRING_MAX_LENGTH } from 'in-components/QueryBuilder/tagFilter/constraints';
 import { SOURCE, DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import { NUMBER, BOOLEAN } from 'in-components/QueryBuilder/tagFilter/types';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { buildEnumValidator } from 'in-services/validators/enum';
@@ -260,7 +260,7 @@ function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operat
   result.requiresKey = operatorKeyRequirement[combination] ?? false;
   result.requiresValue = operatorValueRequirement[combination] ?? true;
 
-  if (tagDefinition.type === NUMBER || tagDefinition.type === 'KEY_NUMBER_PAIR') {
+  if (tagDefinition.type === NUMBER || tagDefinition.type === 'KEY_NUMBER_PAIR' || tagDefinition.type === FLOAT_LIST) {
     result.valueValidators = [notUndefinedValidator, numberValidator];
     result.valueType = Number;
   } else if (tagDefinition.type === BOOLEAN) {

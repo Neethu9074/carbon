@@ -244,6 +244,9 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
     case 'SSLCertificate':
       testType = 'Certificate Check';
       break;
+    case 'DNS':
+      testType = 'DNS';
+      break;
   }
 
   return (

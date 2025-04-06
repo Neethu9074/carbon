@@ -24,6 +24,7 @@ export const productAreas = Object.freeze({
   ibmpower: 'Platforms - IBM Power HMC',
   nutanix: 'Platforms - Nutanix',
   sap: 'Platforms - SAP',
+  xenserver: 'Platforms - XenServer',
   custom_dashboard: 'Custom Dashboard',
   agents: 'Agents',
   power_vc: 'PowerVC',

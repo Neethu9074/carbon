@@ -5,9 +5,9 @@
 
 import { expect } from 'chai';
 
+import { STRING, NUMBER, BOOLEAN, KEY_VALUE_PAIR, FLOAT_LIST } from 'in-components/QueryBuilder/tagFilter/types';
 import { createTagForm, changeName, changeOperator } from 'in-components/QueryBuilder/validation/tagForm';
 import { EQUALS, IS_BLANK, CONTAINS, GREATER_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
-import { STRING, NUMBER, BOOLEAN, KEY_VALUE_PAIR } from 'in-components/QueryBuilder/tagFilter/types';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { deepFreeze } from 'in-services/util/object';
 
@@ -34,6 +34,10 @@ const tagCatalog = deepFreeze({
     {
       name: 'meta',
       type: KEY_VALUE_PAIR
+    },
+    {
+      name: 'customMetricVals',
+      type: FLOAT_LIST
     }
   ]
 });
@@ -143,5 +147,14 @@ describe('in-components/QueryBuilder/validation/tagForm', () => {
     expect(changedForm.hierarchyValid).to.equal(true);
     expect(changedForm.get('tagDefinition').value.name).to.equal('application');
     expect(changedForm.get('tagDefinition').value.type).to.equal(STRING);
+  });
+
+  it('should create and validate a tag form for a float list tag', () => {
+    const form = createTagForm(tagCatalog, {
+      name: 'customMetricVals',
+      operator: EQUALS,
+      value: 7.6
+    });
+    expect(form.hierarchyValid).to.equal(true);
   });
 });

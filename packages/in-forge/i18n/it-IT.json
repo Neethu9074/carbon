@@ -1416,6 +1416,11 @@
   "pluginName_oTelK8sNode_1": "Nodo Kubernetes OTel",
   "pluginName_oTelK8sNode_2": "Nodo Kubernetes OTel",
   "pluginName_oTelK8sNode": "Nodo Kubernetes OTel",
+  "pluginName_oTelK8sContainer_plural": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer_0": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer_1": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer_2": "OTel Kubernetes Container",
+  "pluginName_oTelK8sContainer": "OTel Kubernetes Container",
   "pluginName_openLDAP_plural": "Nodi OpenLDAP",
   "pluginName_openLDAP_0": "Nodi OpenLDAP",
   "pluginName_openLDAP_1": "Nodi OpenLDAP",
@@ -2527,6 +2532,11 @@
   "tracingTypeName_otel_0": "Chiamate",
   "tracingTypeName_otel_1": "Chiamata",
   "tracingTypeName_otel_2": "Chiamate",
+  "tracingTypeName_otelbatchsynthetic": "Trigger interno",
+  "tracingTypeName_otelbatchsynthetic_plural": "Trigger interni",
+  "tracingTypeName_otelbatchsynthetic_0": "Trigger interni",
+  "tracingTypeName_otelbatchsynthetic_1": "Trigger interno",
+  "tracingTypeName_otelbatchsynthetic_2": "Trigger interni",
   "tracingTypeName_pdo": "Chiamata PDO",
   "tracingTypeName_pdo_plural": "Chiamate PDO",
   "tracingTypeName_pdo_0": "Chiamate PDO",
@@ -8170,6 +8180,7 @@
       "ebsVolumesWithCount": "Volumi EBS ({{len}})",
       "publicHostname": "Nome host pubblico",
       "instanceId": "ID istanza",
+      "accountId": "ID account",
       "type": "Tipo",
       "availabilityZone": "Zona di disponibilità",
       "publicIp": "IP pubblico",
@@ -10951,7 +10962,12 @@
         "servicename": "Nome del servizio",
         "displayname": "Nome di visualizzazione",
         "state": "Stato",
-        "health": "Integrità"
+        "health": "Integrità",
+        "disk": "Disco",
+        "readAwaitTime": "Tempo lettura",
+        "writeAwaitTime": "Tempo scrittura",
+        "avgDiscardRequestsTime": "Tempo di scarto delle richieste",
+        "avgFlushRequestsTime": "Tempo di scarico delle richieste"
       },
       "os": "Sistema operativo",
       "distribution": "Distribuzione",
@@ -12240,6 +12256,10 @@
       "maxQueueDepth": "Profondità massima della coda",
       "currentQueueDepth": "Profondità corrente della coda",
       "queueFullPercentage": "Percentuale profondità Coda",
+      "queueType": "Tipo di coda",
+      "queueUsage": "Utilizzo coda",
+      "triggerType": "Tipo trigger",
+      "triggerControl": "Controllo trigger",
       "lastGetDateTime": "Ora ultima acquisizione",
       "lastPutDateTime": "Ora ultima immissione",
       "depth": "Profondità",
@@ -12253,6 +12273,7 @@
       "openOutputCount": "Numero output aperti",
       "calls": "Chiamate",
       "statistics": "Statistiche coda MQ",
+      "attributes": "Attributi",
       "statisticsRecord": "Indice",
       "nonPersistentPutBytes": "Byte di put non persistenti",
       "persistentPutBytes": "Byte di put persistenti",
@@ -12427,7 +12448,9 @@
       "connections": "Connessioni",
       "messagesIn": "Messaggi in ingresso",
       "messagesOut": "Messaggi in uscita",
-      "uncommittedMessages": "Messaggi senza commit"
+      "uncommittedMessages": "Messaggi senza commit",
+      "clusterStatus": "Stato cluster",
+      "clusterSuspendIndicator": "Indicatore di sospensione del cluster"
     },
     "ibmMqQueueUsage": {
       "dashboard": {
@@ -12683,7 +12706,7 @@
       "agentTlsExpired": "Il certificato TLS dell'agent <code>{{cert}}</code> è scaduto in <code>{{context}}</code>.",
       "agentTlsAboutToExpire": "Il certificato TLS dell'agent <code>{{cert}}</code> sta per scadere tra <code>{{context}}</code> giorni.",
       "tlsProtocolMissingIssue": "All'agent manca il supporto TLSv1.3",
-      "tmpDirectoryMissingIssue": "La directory /tmp manca nell'agent",
+      "tmpDirectoryMissingIssue": "La direcory <code>{{tmpDirLocation}}</code> è mancante come si vede dall'Agent",
       "agentVersion": "Versione agent",
       "bootVersion": "Versione di avvio",
       "origin": "Origine",
@@ -13802,7 +13825,9 @@
         "fsresources": "Risorse del filesystem",
         "fsusage": "Utilizzo file system",
         "fsavailble": "Filesystem disponibile",
-        "fscapacity": "Capacità del filesystem"
+        "fscapacity": "Capacità del filesystem",
+        "containers": "Contenitori",
+        "summary": "Riepilogo"
       }
     },
     "oTelK8sCluster": {
@@ -13820,8 +13845,10 @@
         "summary": "Riepilogo",
         "nodes": "Nodi",
         "pods": "Pod",
+        "containers": "Contenitori",
         "nodecount": "Numero dei nodi",
         "podcount": "Numero dei pod",
+        "containercount": "Conteggio container",
         "name": "Nome",
         "namespace": "Spazio dei nomi",
         "age": "Età",
@@ -13860,7 +13887,44 @@
         "fsusage": "Utilizzo file system",
         "fsavailble": "Filesystem disponibile",
         "fscapacity": "Capacità del filesystem",
-        "pods": "Pod"
+        "pods": "Pod",
+        "containers": "Contenitori"
+      }
+    },
+    "oTelK8sContainer": {
+      "platform": "Piattaforma",
+      "address": "Indirizzo",
+      "port": "Porta",
+      "kind": "Tipo",
+      "type": "Immettere",
+      "serviceName": "Nome del servizio",
+      "entityType": "Tipo di entità",
+      "instanceId": "ID istanza",
+      "runtimeDesc": "Runtime Kubernetes",
+      "runtimeVersion": "Versione Kubernetes",
+      "exePath": "Percorso eseguibile",
+      "dashboard": {
+        "containeruptime": "Tempo di attività dei container",
+        "cpuresources": "Risorse CPU",
+        "cpuusage": "Utilizzo CPU",
+        "cpuutilization": "Utilizzo della CPU",
+        "cputime": "Tempo CPU",
+        "cpulimitutilization": "Utilizzo del limite della CPU",
+        "cpurequestutilization": "Utilizzo della richiesta della CPU",
+        "cpunodeutilization": "Utilizzo del nodo CPU",
+        "memoryresources": "Risorse di memoria",
+        "memoryusage": "Utilizzo della memoria",
+        "memoryavailable": "Memoria disponibile",
+        "memorylimitutilization": "Utilizzo del limite di memoria",
+        "memoryrequestutilization": "Utilizzo delle richieste di memoria",
+        "memoryrss": "Memoria RSS",
+        "memoryworkingset": "Impostazione di lavoro della memoria",
+        "memorypagefaults": "Errori della pagina di memoria",
+        "memorymajorpagefaults": "Memoria Errori della pagina principale",
+        "fsresources": "Risorse del filesystem",
+        "fsusage": "Utilizzo file system",
+        "fsavailble": "Filesystem disponibile",
+        "fscapacity": "Capacità del filesystem"
       }
     },
     "oTelJvm": {
@@ -17448,6 +17512,10 @@
       "error": "Errore",
       "tags": "Tag",
       "resource": "Risorsa"
+    },
+    "otelBatchSynthetic": {
+      "indexReturn": "Trigger interno",
+      "bodyApproximated": "Instana ha rilevato questa chiamata, ma non ha dettagli sulla sua origine. La tempistica e la durata di ciò che ha attivato questa chiamata è approssimata."
     },
     "pdo": {
       "driver": "Driver",

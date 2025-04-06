@@ -14,14 +14,11 @@ import {
   Result,
   StaticThresholdData
 } from '@instana/types';
-import { useObservable } from '@instana/hooks';
 
-import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingFullScreenTearSheet';
 import { fieldTouchedAndInvalid } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { BluePrint } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { Nullish } from 'in-types';
 
 export default function useAlertConfigValidation(
   stepConfigs: AlertingTearSheetStepConfigs[],
@@ -36,8 +33,6 @@ export default function useAlertConfigValidation(
   const isStatusCodeBluePrint = blueprintConfig.type === 'statusCode';
   const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const ruleComplete = blueprintConfig?.isRuleComplete((ruleForm as any).toJS());
-
-  const isCalculatingThreshold = useObservable(thresholdOrBaselineLoadingSignal$, []);
 
   function isThresholdSectionValid() {
     if (fieldTouchedAndInvalid(form.get('threshold'))) {
@@ -88,11 +83,7 @@ export default function useAlertConfigValidation(
     },
     {
       ...stepConfigs[3],
-      valid:
-        isThresholdSectionValid() &&
-        form.get('threshold').hierarchyValid &&
-        isTimeThresholdSectionValid() &&
-        !isChartReady(isCalculatingThreshold, isEmpty(form.get('applications').value))
+      valid: isThresholdSectionValid() && form.get('threshold').hierarchyValid && isTimeThresholdSectionValid()
     },
     {
       ...stepConfigs[4],
@@ -119,14 +110,4 @@ function isCustomPayloadValidOrUntouched(form: MapForm<any>): boolean {
 
 function updateFormField(form: MapForm<any>, updateForm: (form: MapForm<any>) => void, fieldType: string) {
   return updateForm(form.updateIn([fieldType], (f: any) => f.setTouched(true, { recurse: true })));
-}
-
-/*
- * If any application is selected, the threshold is calculated, and until the chart is loaded, the user cannot proceed to the next step.
- */
-function isChartReady(isCalculatingThreshold: boolean | Nullish, isApplicationsSelected: boolean): boolean | Nullish {
-  if (!isApplicationsSelected) {
-    return isCalculatingThreshold;
-  }
-  return false;
 }

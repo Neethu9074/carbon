@@ -11,7 +11,6 @@ import { generateUniqueShortId } from '@instana/utils';
 import {
   Application,
   ContextGuideGroup,
-  DomainSpecificStack,
   ExtendedService,
   Filter,
   Item,
@@ -21,6 +20,7 @@ import {
   TagFilterExpressionElementUnion,
   TimeConfig
 } from 'in-types';
+import { QualifiedRCAEntityTypes } from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import { RCAEntityDataType } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
@@ -68,7 +68,7 @@ export interface nodeInfo {
   data: any;
   specialCaseVisibility: boolean;
   tags: Set<RCA_TOPOLOGY_TAGS>;
-  entityType: RCA_TOPOLOGY_ENTITY_TYPE_TAGS;
+  entityType: QualifiedRCAEntityTypes | RCA_TOPOLOGY_ENTITY_TYPE_TAGS;
   [index: string]: any;
 }
 
@@ -104,11 +104,11 @@ export function determineEntityTypeFromEntityIDMap(plugin: string) {
 
 export function extractServicesFromStackQuery(entity: RCAEntityDataType) {
   const { entityStackData, entityType } = entity;
-  if (!entityStackData || !entityStackData.data) return undefined;
+  if (!entityStackData) return undefined;
 
-  if (entityType === 'service') return [entity.entityData as Item];
+  if (entityType === 'service') return [entity.entityData] as Item[];
 
-  const appData = entityStackData.data.application as DomainSpecificStack;
+  const appData = entityStackData.application;
 
   if (appData && appData.groups && appData.groups.length > 0) {
     const serviceGroup = appData.groups.filter((appGroup: ContextGuideGroup) => appGroup.type === 'service');
@@ -129,7 +129,7 @@ export function extractServicesFromStackQuery(entity: RCAEntityDataType) {
 export function getServiceToServiceConnections(
   applicationServiceMap: ServiceMap,
   triggeringEntityServices: Item[],
-  rootCauseServices: Set<string>
+  rootCauseServices: string[]
 ) {
   const { connections, services } = applicationServiceMap;
 
@@ -208,7 +208,7 @@ export function constructConnectionsMap(
   };
 
   // Then go through each root cause and build familal connections between services (for now - TODO: add rest of infra family)
-  rootCausesInArray.map(rootCause => {
+  rootCausesInArray.forEach(RCAData => {
     const {
       entityData,
       infraServiceLabelInformation,
@@ -216,22 +216,19 @@ export function constructConnectionsMap(
       entityStackData,
       entityType,
       hierarchySnapshots
-    } = rootCause;
+    } = RCAData;
 
     let nodeLevel = NODE_LEVEL[entityType] || 100; // use node level to determine if node should go in from or to
 
-    if (!entityData) return;
     let entityDataObject = entityData;
-
-    if (Map.isMap(entityDataObject)) entityDataObject = entityDataObject.toJS();
 
     let relevantServicesToAdd = [];
     if (nonInfraServiceLabelInformation) {
       relevantServicesToAdd.push(nonInfraServiceLabelInformation);
     } else if (infraServiceLabelInformation && infraServiceLabelInformation.length > 0) {
       relevantServicesToAdd.push(...infraServiceLabelInformation);
-    } else if (entityStackData?.data) {
-      const rcaServices = extractServicesFromStackQuery(rootCause);
+    } else if (entityStackData) {
+      const rcaServices = extractServicesFromStackQuery(RCAData);
       if (rcaServices && rcaServices.length > 0) {
         relevantServicesToAdd.push(...rcaServices);
       } else {
@@ -239,15 +236,17 @@ export function constructConnectionsMap(
       }
     }
 
-    let entityThatServiceShouldConnectTo = entityDataObject; // in the case of infra entities we need to connect the service to the top level infra entity
+    let entityThatServiceShouldConnectToRCA = entityDataObject; // in the case of infra entities we need to connect the service to the top level infra entity
 
-    if (entityType === 'infrastructure' && hierarchySnapshots && hierarchySnapshots.length > 0) {
+    if (
+      (entityType === 'infrastructure' || entityType === 'process') &&
+      hierarchySnapshots &&
+      hierarchySnapshots.length > 0
+    ) {
       let firstInHierarchy = hierarchySnapshots[0];
 
-      if (Map.isMap(hierarchySnapshots[0])) firstInHierarchy = hierarchySnapshots[0].toJS();
-
-      if (firstInHierarchy.id !== entityDataObject.id) {
-        entityThatServiceShouldConnectTo = firstInHierarchy;
+      if (firstInHierarchy.id !== entityDataObject?.id) {
+        entityThatServiceShouldConnectToRCA = firstInHierarchy;
       }
     }
 
@@ -255,33 +254,36 @@ export function constructConnectionsMap(
       relevantServicesToAdd.forEach(relevantService => {
         let fromID, toID;
         if (nodeLevel > NODE_LEVEL.service) {
-          fromID = relevantService.id;
-          toID = entityThatServiceShouldConnectTo.id;
+          fromID = relevantService?.id;
+          toID = entityThatServiceShouldConnectToRCA?.id;
         } else {
-          fromID = entityThatServiceShouldConnectTo.id;
-          toID = relevantService.id;
+          fromID = entityThatServiceShouldConnectToRCA?.id;
+          toID = relevantService?.id;
         }
 
         constructedConnections.push({
-          from: fromID,
-          to: toID,
+          from: fromID || '',
+          to: toID || '',
           connectionType: 'family'
         });
       });
     }
 
-    if (entityType === 'infrastructure' && hierarchySnapshots && hierarchySnapshots.length > 0) {
+    if (
+      (entityType === 'infrastructure' || entityType === 'process') &&
+      hierarchySnapshots &&
+      hierarchySnapshots.length > 0
+    ) {
       let prev = hierarchySnapshots[0];
       hierarchySnapshots.map(snapshot => {
         let data = snapshot;
-        if (Map.isMap(data)) data = snapshot.toJS();
 
         if (data.id === prev.id) return;
 
-        if (!findIfConnectionAlreadyExists(prev.id, data.id)) {
+        if (!findIfConnectionAlreadyExists(prev.id || '', data.id || '')) {
           constructedConnections.push({
-            from: prev.id,
-            to: data.id,
+            from: prev.id || '',
+            to: data.id || '',
             connectionType: 'physical'
           });
         }
@@ -300,22 +302,17 @@ export function constructConnectionsMap(
 
   let triggeringEntityObject = triggeringEntitySnapshot;
 
-  if (Map.isMap(triggeringEntityObject)) triggeringEntityObject = triggeringEntitySnapshot?.toJS();
-
   let entityThatServiceShouldConnectTo = triggeringEntityObject;
 
   if (
-    triggeringEntityType === 'infrastructure' &&
+    (triggeringEntityType === 'infrastructure' || triggeringEntityType === 'process') &&
     triggeringEntityHierarchySnapshots &&
     triggeringEntityHierarchySnapshots.length > 0 &&
     triggeringEntityObject
   ) {
     let firstInHierarchy = triggeringEntityHierarchySnapshots[0];
 
-    if (Map.isMap(triggeringEntityHierarchySnapshots[0]))
-      firstInHierarchy = triggeringEntityHierarchySnapshots[0].toJS();
-
-    if (firstInHierarchy.id !== triggeringEntityObject.id && !nodeFilters?.includes(triggeringEntityObject.id)) {
+    if (firstInHierarchy.id !== triggeringEntityObject.id && !nodeFilters?.includes(triggeringEntityObject.id || '')) {
       entityThatServiceShouldConnectTo = firstInHierarchy;
     }
   }
@@ -330,8 +327,8 @@ export function constructConnectionsMap(
       toID = serviceItem.id;
     }
     constructedConnections.push({
-      from: fromID,
-      to: toID,
+      from: fromID || '',
+      to: toID || '',
       connectionType: 'family'
     });
   });
@@ -352,7 +349,7 @@ export function constructConnectionsMap(
  * {id, data, specialCaseVisibility, entityType, tags}
  *
  * @param serviceToServiceConnections - ServiceMap of filtered connections and services from ServiceMap query call
- * @param rootCausesInArray - RCAEntityDataType[] containing all of our RCA data obtained via useFetchAppropriateRCAEntityData
+ * @param RCAData - RCAEntityDataType containing all of our RCA data obtained via useFetchAppropriateRCAEntityData
  * @param triggeringEntityData - RCAEntityDataType containing Triggering Entity data obtained via useFetchAppropriateRCAEntityData
  * @param triggeringEntityServices - Item[] containing TE service infromation obtained from stack query of TE
  * @returns {NodesMap} Map of nodes in the format of {id, data, specialCaseVisibility, entityType, tags}[]
@@ -399,7 +396,7 @@ export function constructNodesMap(
   }
 
   // then we go through each root cause
-  rootCausesInArray.map(rootCause => {
+  rootCausesInArray.forEach(RCAData => {
     const {
       entityData,
       entityType,
@@ -407,7 +404,7 @@ export function constructNodesMap(
       nonInfraServiceLabelInformation,
       entityStackData,
       hierarchySnapshots
-    } = rootCause;
+    } = RCAData;
 
     // get familial connection - aka service for now
     const relevantServicesToAdd = [];
@@ -418,8 +415,8 @@ export function constructNodesMap(
         services.find(mapService => mapService.id === service.id)
       );
       relevantServicesToAdd.push(...filteredInfraServices);
-    } else if (entityStackData.data) {
-      const rcaServices = extractServicesFromStackQuery(rootCause);
+    } else if (entityStackData) {
+      const rcaServices = extractServicesFromStackQuery(RCAData);
       if (rcaServices && rcaServices.length > 0) {
         relevantServicesToAdd.push(...rcaServices);
       } else {
@@ -430,18 +427,13 @@ export function constructNodesMap(
       }
     }
 
-    if (!entityData) return;
-
     let entityDataObject = entityData;
-
-    if (Map.isMap(entityDataObject)) entityDataObject = entityData.toJS();
-
     // first add RCA Node
-    if (constructedNodes[entityDataObject.id]) {
-      constructedNodes[entityDataObject.id].tags.add('RCA');
+    if (constructedNodes[entityDataObject?.id || '']) {
+      constructedNodes[entityDataObject?.id || ''].tags.add('RCA');
     } else {
       addValueToConstructedNode(
-        entityDataObject.id,
+        entityDataObject?.id || '',
         entityDataObject,
         true,
         entityType as RCA_TOPOLOGY_ENTITY_TYPE_TAGS,
@@ -452,12 +444,12 @@ export function constructNodesMap(
     // then add service nodes
     if (relevantServicesToAdd.length > 0) {
       relevantServicesToAdd.forEach(relevantServiceToAdd => {
-        if (constructedNodes[relevantServiceToAdd.id]) {
-          constructedNodes[relevantServiceToAdd.id].tags.add('service');
-          constructedNodes[relevantServiceToAdd.id].tags.add('SPECIAL_RELATION');
+        if (constructedNodes[relevantServiceToAdd?.id as string]) {
+          constructedNodes[relevantServiceToAdd?.id as string].tags.add('service');
+          constructedNodes[relevantServiceToAdd?.id as string].tags.add('SPECIAL_RELATION');
         } else {
           addValueToConstructedNode(
-            relevantServiceToAdd.id,
+            relevantServiceToAdd?.id as string,
             relevantServiceToAdd,
             true,
             'service',
@@ -469,14 +461,18 @@ export function constructNodesMap(
 
     // then if infra add family
 
-    if (entityType === 'infrastructure' && hierarchySnapshots && hierarchySnapshots.length > 0) {
+    if (
+      (entityType === 'infrastructure' || entityType === 'process') &&
+      hierarchySnapshots &&
+      hierarchySnapshots.length > 0
+    ) {
       hierarchySnapshots.forEach(hierarchyEntity => {
-        const entityObject = Map.isMap(hierarchyEntity) ? hierarchyEntity.toJS() : hierarchyEntity;
-        if (constructedNodes[entityObject.id]) {
-          constructedNodes[entityObject.id].tags.add('SPECIAL_RELATION');
+        const entityObject = hierarchyEntity;
+        if (constructedNodes[entityObject.id as string]) {
+          constructedNodes[entityObject.id as string].tags.add('SPECIAL_RELATION');
         } else {
           addValueToConstructedNode(
-            entityObject.id,
+            entityObject.id as string,
             entityObject,
             true,
             'infrastructure',
@@ -491,14 +487,12 @@ export function constructNodesMap(
 
   if (triggeringEntitySnapshot) {
     let triggeringEntitySnapshotObject = triggeringEntitySnapshot;
-    if (Map.isMap(triggeringEntitySnapshotObject))
-      triggeringEntitySnapshotObject = triggeringEntitySnapshotObject.toJS();
 
-    if (constructedNodes[triggeringEntitySnapshotObject.id]) {
-      constructedNodes[triggeringEntitySnapshotObject.id].tags.add('TRIGGERING');
+    if (constructedNodes[triggeringEntitySnapshotObject.id as string]) {
+      constructedNodes[triggeringEntitySnapshotObject.id as string].tags.add('TRIGGERING');
     } else {
       addValueToConstructedNode(
-        triggeringEntitySnapshotObject.id,
+        triggeringEntitySnapshotObject.id as string,
         triggeringEntitySnapshotObject,
         true,
         triggeringEntityType as RCA_TOPOLOGY_ENTITY_TYPE_TAGS,
@@ -517,17 +511,17 @@ export function constructNodesMap(
   }
 
   if (
-    triggeringEntityType === 'infrastructure' &&
+    (triggeringEntityType === 'infrastructure' || triggeringEntityType === 'process') &&
     triggeringEntityHierarchySnapshots &&
     triggeringEntityHierarchySnapshots.length > 0
   ) {
     triggeringEntityHierarchySnapshots.forEach(hierarchyEntity => {
-      const entityObject = Map.isMap(hierarchyEntity) ? hierarchyEntity.toJS() : hierarchyEntity;
-      if (constructedNodes[entityObject.id]) {
-        constructedNodes[entityObject.id].tags.add('SPECIAL_RELATION');
+      const entityObject = hierarchyEntity;
+      if (constructedNodes[entityObject.id as string]) {
+        constructedNodes[entityObject.id as string].tags.add('SPECIAL_RELATION');
       } else {
         addValueToConstructedNode(
-          entityObject.id,
+          entityObject.id as string,
           entityObject,
           true,
           'infrastructure',
@@ -569,6 +563,7 @@ export function getFilterForServiceRelationships(
     useLongTermDataOnly: false,
     timeConfig
   };
+
   if (appID) {
     return {
       ...basicFilter,
@@ -591,7 +586,10 @@ export function getFilterForServiceRelationships(
       ...basicFilter,
       endpoint: rcaEntityChoice.entityType === 'endpoint' ? rcaEntityChoice.entityData.id : undefined,
       service: rcaEntityChoice.entityType === 'service' ? rcaEntityChoice.entityData.id : undefined,
-      label: rcaEntityChoice.entityType === 'infrastructure' ? rcaEntityChoice.entityData.get('label') : undefined
+      label:
+        rcaEntityChoice.entityType === 'infrastructure' || rcaEntityChoice.entityType === 'process'
+          ? rcaEntityChoice.entityData?.label
+          : undefined
     };
   }
   // may god help us if we reach this point
@@ -909,7 +907,11 @@ export function specialCaseConnectionsAndNodes(
   nodeIDs.forEach(nodeID => {
     const node = nodesMapWithSpecialCases[nodeID];
 
-    if (node && node.entityType === 'infrastructure' && (node.tags.has('RCA') || node.tags.has('TRIGGERING'))) {
+    if (
+      node &&
+      (node.entityType === 'infrastructure' || node.entityType === 'process') &&
+      (node.tags.has('RCA') || node.tags.has('TRIGGERING'))
+    ) {
       let connectionToAnotherInfraEntity = false;
       // Determine if RCA/Triggering is in the middle of the hierarchy
       relationshipsWithSpecialCases.map(relationship => {
@@ -918,7 +920,11 @@ export function specialCaseConnectionsAndNodes(
         const toNodeID = relationship.to;
         const fromNode = nodesMapWithSpecialCases[fromNodeID];
 
-        if (toNodeID === nodeID && fromNode && fromNode.entityType === 'infrastructure')
+        if (
+          toNodeID === nodeID &&
+          fromNode &&
+          (fromNode.entityType === 'infrastructure' || fromNode.entityType === 'process')
+        )
           connectionToAnotherInfraEntity = true;
       });
 

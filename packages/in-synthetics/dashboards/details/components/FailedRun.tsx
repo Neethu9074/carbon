@@ -26,6 +26,7 @@ export default function FailedRun({ resultList, testType }: FailedRunProps) {
   let stacktraceMsg: string;
   let errorType: string;
   const isSSLCertificate: boolean = testType === 'SSLCertificate';
+  const isDNS: boolean = testType === 'DNS';
   const isScriptTest = ['HTTPScript', 'BrowserScript', 'WebpageScript'].includes(testType);
 
   if (Array.isArray(resultList.data) && !resultList.data.length) {
@@ -41,9 +42,10 @@ export default function FailedRun({ resultList, testType }: FailedRunProps) {
     let end: number = getErrors(resultList).search('stackTrace=');
     let len: number = getErrors(resultList)?.length;
     errorType = getErrors(resultList).slice(errorTypeStart + 'errorType='.length, start - '  '.length);
-    errMsg = !isSSLCertificate
-      ? getErrors(resultList).slice(start + 'errorMessage='.length, end - '  '.length)
-      : getErrors(resultList).slice(start + 'errorMessage='.length, len - 1);
+    errMsg =
+      !isSSLCertificate && !isDNS
+        ? getErrors(resultList).slice(start + 'errorMessage='.length, end - '  '.length)
+        : getErrors(resultList).slice(start + 'errorMessage='.length, len - 1);
     stacktraceMsg = isScriptTest
       ? getErrors(resultList).slice(end + 'stacktrace='.length, len - '}'.length)
       : undefined;

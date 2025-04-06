@@ -1,0 +1,20 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+import React from 'react';
+
+import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
+import DashboardHeader from 'in-components/DashboardHeader';
+import { t } from 'in-i18n';
+
+export default function XenServerViewSwitcher() {
+  return (
+    <>
+      <DashboardHeader icon="lib_xenserver" label={t('in-xenserver:xenserver')} title={t('in-xenserver:xenserver')} />
+      <DashboardHeaderShadowModule />
+    </>
+  );
+}

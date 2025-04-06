@@ -204,7 +204,7 @@ export default function SummaryKPIs({
   const getCommonKPIsForSsl = () => {
     const commonKPIsForSslObj = SummaryKPIs.filter(component => component.id !== 'avgResponseSize');
     const commonKPIsForSsl: JSX.Element[] = [];
-    commonKPIsForSslObj.map((kpi: any) => {
+    commonKPIsForSslObj.forEach((kpi: any) => {
       commonKPIsForSsl.push(kpi.component);
     });
     return commonKPIsForSsl;
@@ -217,7 +217,7 @@ export default function SummaryKPIs({
   const getCommonKPIsForDns = () => {
     const commonKPIsForDnsObj = SummaryKPIs.filter(component => component.id !== 'avgResponseSize');
     const commonKPIsForDns: JSX.Element[] = [];
-    commonKPIsForDnsObj.map((kpi: any) => {
+    commonKPIsForDnsObj.forEach((kpi: any) => {
       commonKPIsForDns.push(kpi.component);
     });
     return commonKPIsForDns;
@@ -229,7 +229,7 @@ export default function SummaryKPIs({
    */
   const getCommonKPIsForOthers = () => {
     const commonKPIsForOthers: JSX.Element[] = [];
-    SummaryKPIs.map((kpi: { component: JSX.Element }) => {
+    SummaryKPIs.forEach((kpi: { component: JSX.Element }) => {
       commonKPIsForOthers.push(kpi.component);
     });
     return commonKPIsForOthers;
@@ -243,11 +243,7 @@ export default function SummaryKPIs({
       </>
     );
   } else if (isDNS) {
-    return (
-      <>
-        <Row>{getCommonKPIsForDns()}</Row>;
-      </>
-    );
+    return <Row>{getCommonKPIsForDns()}</Row>;
   } else {
     return <Row>{getCommonKPIsForOthers()}</Row>;
   }

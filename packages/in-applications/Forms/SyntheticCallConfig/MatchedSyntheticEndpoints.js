@@ -11,9 +11,9 @@ import {
   Link,
   DataTable as CarbonDataTable,
   TableSkeleton as CarbonTableSkeleton,
-  LoadingSkeleton
+  LoadingSkeleton,
+  TableLoadMoreRow
 } from '@instana/components';
-import { TableLoadMoreRow } from '@instana/legacy';
 
 import { OPERATOR_OR, createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';

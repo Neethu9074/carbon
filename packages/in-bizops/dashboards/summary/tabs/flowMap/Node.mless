@@ -11,12 +11,13 @@
     flex-direction: column;
     border: 1px solid;
     border-left: 0.25rem solid;
-    border-color: var(--cds-border-strong-01);
   }
+
   .metricsContainer {
     display: flex;
     justify-content: space-between;
   }
+
   .metricContainer {
     display: flex;
     flex-direction: column;
@@ -30,5 +31,16 @@
 
   .hidePagination {
     display: none;
+  }
+
+  .nodeName h2 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 225px;
+  }
+
+  .carbonPopover {
+    width: 100%;
   }
 }

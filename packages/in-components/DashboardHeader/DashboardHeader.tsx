@@ -63,6 +63,7 @@ export interface DashboardHeaderProps {
   onHeaderClick?: (params: any) => any;
   liveModeDisabled?: boolean;
   liveModeDisabledTooltip?: string;
+  ariaLabel?: string;
 }
 
 const isNotLastElement = (index: number, array: any[]) => {
@@ -84,7 +85,8 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     isBeta = false,
     onHeaderClick = () => {},
     liveModeDisabled = false,
-    liveModeDisabledTooltip
+    liveModeDisabledTooltip,
+    ariaLabel
   } = props;
   let {
     label,
@@ -128,16 +130,18 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
   };
   return (
     <>
-      <header
+      <section
         className={classNames(
           locals.dashboardHeader,
           locals[theme],
           className,
           withBorderBottom && locals.borderBottom
         )}
+        aria-label={ariaLabel}
       >
         <MigratedTenantBanner />
         <Title title={title} dynamic={labelForTitle ?? (typeof label === 'string' ? label : null)} />
+
         <div className={locals.firstLine}>
           <div className={locals.leftContent}>
             {contextConfigurations &&
@@ -205,7 +209,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
             </div>
           </div>
         )}
-      </header>
+      </section>
     </>
   );
 }

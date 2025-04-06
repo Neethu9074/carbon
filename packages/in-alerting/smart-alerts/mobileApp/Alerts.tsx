@@ -20,10 +20,11 @@ import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/compone
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/mobileApp/hooks/useSmartAlertCreateUrl';
+import AlertBaseList, { AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { actionHandlers } from 'in-alerting/smart-alerts/mobileApp/lists/ListActionHandlers';
 import { alertsTabDetailsFullyQualified, alertsTab } from 'in-mobile-apps/navigation/paths';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
-import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import CreateSmartAlert from 'in-alerting/smart-alerts/mobileApp/CreateSmartAlert';
 import { AlertsProps } from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts/index';
 import { sortOptions } from 'in-alerting/smart-alerts/mobileApp/lists/constants';
@@ -74,6 +75,7 @@ export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
         }
         noDataHeader={t('in-alerting:smartAlerts.mobileApp.alertList.noDataHeader')}
         noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.mobileApp.alertList.noDataDescription" />}
+        useSmartAlertCreateUrl={useSmartAlertCreateUrl as (args: AlertURLProps & { mobileAppId?: string }) => string}
       />
     </>
   );

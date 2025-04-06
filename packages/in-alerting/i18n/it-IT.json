@@ -7,13 +7,13 @@
     "alertHeaderLabelBackToListOfAlerts": "Torna all'elenco degli avvisi",
     "alertHeaderAlert": "Avviso",
     "alertHeaderRestoreRevisionTooltip": "Ripristina",
-    "alertHeaderRestoreRevisionConfirmationDialogHeader": "Confermare",
+    "alertHeaderRestoreRevisionConfirmationDialogHeader": "Conferma ripristino",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "Sicuri di voler ripristinare la revisione selezionata?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Ripristina",
     "alertHeaderRestoreDeleteTooltip": "Elimina",
     "alertHeaderEditTooltip": "Modifica",
     "alertHeaderDuplicateTooltip": "Duplica",
-    "alertHeaderRestoreDeleteConfirmationDialogHeader": "Confermare",
+    "alertHeaderRestoreDeleteConfirmationDialogHeader": "Conferma rimozione",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Si è sicuri di voler rimuovere l'avviso <strong>{{alertConfigName}}</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Rimuovi",
     "alertHeaderIsNotLatestRevisionMessage": "Si sta esaminando la revisione {{description}} di questa configurazione dell'avviso. Selezionare <latestRevisionButton>la revisione più recente</latestRevisionButton> o <restoreRevisionButton>eseguire il ripristino dalla revisione corrente</restoreRevisionButton> se si desidera apportare modifiche.",
@@ -22,7 +22,7 @@
     "alertStateActive": "attivo",
     "alertPropertyInfosLabelTitle": "Titolo",
     "alertPropertyInfosLabelAlertLevel": "Livello di avviso",
-    "alertPropertyInfosLabelTriggersIncident": "Attiva incidente",
+    "alertPropertyInfosLabelTriggersIncident": "Attiva incident",
     "alertPropertyInfosLabelDescription": "Descrizione",
     "noChannelSelectedText": "Attualmente, non è stato selezionato un canale di avviso e non verrà ricevuto alcun avviso.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtri aggiuntivi",
@@ -39,7 +39,7 @@
       "delete": "Elimina",
       "create": "Crea",
       "restore": "Ripristina",
-      "buttonLabel": "Cronologia avvisi"
+      "buttonLabel": "Cronologia degli avvisi"
     },
     "chart": {
       "alertingChartLabelThreshold": "Soglia",
@@ -68,13 +68,14 @@
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "Si sta esaminando una configurazione dell'avviso eliminata. Non sono possibili modifiche.",
     "alertPropertyInfosWarning": "Avvertenza",
     "alertPropertyInfosCritical": "Critico",
+    "alertActionConfirmationDialogHeader": "Conferma azione",
     "alertConfirmationDialogDescription": "Nessun {{entityPlaceholder}} configurato su cui ricevere un avviso. Si è certi di voler proseguire?",
     "labelConfirm": "Conferma",
     "customPayload": {
       "deleteRow": "Elimina riga",
       "key": "Chiave",
       "value": "Valore",
-      "unknownTypeTypeItCanNotBeEdited": "Tipo sconosciuto: {{type}} - impossibile modificare.",
+      "unknownTypeTypeItCanNotBeEdited": "Tipo sconosciuto: {{type}} - non può essere modificato.",
       "customWithColon": "personalizzato:",
       "valueType": "Tipo di valore",
       "static": "Statico",
@@ -92,7 +93,8 @@
       "additionalCustomPayloadTitle": "Payload personalizzati aggiuntivi ({{count}})",
       "globalCustomPayloadTitle": "Payload personalizzati globali ({{count}})",
       "globalCustomPayloadRetrieveFailed": "Si è verificato un errore. Impossibile richiamare i payload personalizzati globali.",
-      "noGlobalCustomPayloadConfigured": "Nessun payload personalizzato globale configurato"
+      "noGlobalCustomPayloadConfigured": "Nessun payload personalizzato globale configurato",
+      "includeAdditionalCustomPayload": "Includere ulteriori carichi utili personalizzati (opzionale)"
     },
     "previewFor": "Anteprima per: ",
     "groupedViewHeader": "{{formattedCount}} risultati",
@@ -159,12 +161,12 @@
     "addSmartAlert": "Aggiungi avviso smart",
     "createSmartAlert": "Crea avviso smart",
     "applicationSmartAlert": "Avviso smart dell'applicazione",
-    "globalApplicationSmartAlert": "Avviso smart dell'applicazione globale",
+    "globalApplicationSmartAlert": "Applicazione globale Avvisi Smart",
     "titleNoSmartAlertsConfigured": "Non è stato configurato nessun avviso smart",
     "titleNoSmartAlertsConfiguredForSearchQuery": "Non sono state rilevate configurazioni dell'avviso smart per una determinata ricerca",
     "titleNoSmartAlertsCreated": "Non è stato creato nessun avviso smart",
     "titleCopyOf": "(Copia di) {{smartAlertTitle}}",
-    "smartAlertsTitle": "Smart Alert",
+    "smartAlertsTitle": "Avvisi smart",
     "labelNew": "(Nuovo)",
     "alertChannelList": {
       "selectAllWarning": "Selezionare tutti gli avvisi",
@@ -183,12 +185,12 @@
           "individual": "Avvisi singoli",
           "optionNotAvailableForAdaptiveThreshold": "Questa opzione non è disponibile con la soglia adattiva",
           "evaluationTypePERAP": {
-            "selectionText": "per questa prospettiva applicazione",
-            "globalSelectionText": "Per prospettiva applicazione",
+            "selectionText": "per questa prospettiva dell'applicazione",
+            "globalSelectionText": "Per prospettiva dell'applicazione",
             "shortText": "Per prospettiva dell'applicazione",
             "columnText": "aggregati",
-            "description": "Avvisa individualmente per questa prospettiva applicazione",
-            "globalDescription": "Avvisa individualmente per questa prospettiva applicazione",
+            "description": "Avvisa individualmente per questa prospettiva dell'applicazione",
+            "globalDescription": "Avvisa individualmente per questa prospettiva dell'applicazione",
             "tearSheetSelectionText": "Raggruppa per applicazione",
             "tearSheetDescription": "Le chiamate che corrispondono al filtro vengono valutate rispetto alla soglia di {{count}} applicazione. Quando la latenza viene violata, viene inviata una singola notifica di avviso per l'intera prospettiva applicativa.",
             "tearSheetDescription_plural": "Le chiamate che corrispondono al filtro vengono valutate rispetto alla soglia di {{count}} applicazioni. Quando la latenza viene violata, viene inviata una singola notifica di avviso per l'intera prospettiva applicativa.",
@@ -197,12 +199,12 @@
             "tearSheetDescription_2": "Le chiamate che corrispondono al filtro vengono valutate rispetto alla soglia di {{count}} applicazioni. Quando la latenza viene violata, viene inviata una singola notifica di avviso per l'intera prospettiva applicativa. "
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "per servizio per questa prospettiva applicazione",
-            "globalSelectionText": "per servizio nel contesto di ogni prospettiva applicazione",
+            "selectionText": "per servizio per questa prospettiva dell'applicazione",
+            "globalSelectionText": "per servizio nel contesto di ogni prospettiva dell'applicazione",
             "shortText": "Per servizio",
             "columnText": "per servizio",
-            "description": "Avvisa individualmente per questa prospettiva applicazione",
-            "globalDescription": "Avvisa individualmente per questa prospettiva applicazione",
+            "description": "Avvisa individualmente per questa prospettiva dell'applicazione",
+            "globalDescription": "Avvisare individualmente per ogni servizio nel contesto di ogni prospettiva di applicazione",
             "tearSheetSelectionText": "Raggruppa per servizio",
             "tearSheetDescription": "Le chiamate che corrispondono al filtro vengono valutate rispetto alla soglia di {{count}} servizio, uno per ogni servizio, con la propria soglia. Quando la latenza viene violata per un gruppo, viene inviata una notifica di avviso per quel gruppo.",
             "tearSheetDescription_plural": "Le chiamate che corrispondono al filtro vengono valutate rispetto alla soglia di {{count}} servizi, una per ogni servizio, con la propria soglia. Quando la latenza viene violata per un gruppo, viene inviata una notifica di avviso per quel gruppo.",
@@ -211,12 +213,12 @@
             "tearSheetDescription_2": "Le chiamate che corrispondono al filtro vengono valutate rispetto alla soglia di {{count}} servizi, una per ogni servizio, con la propria soglia. Quando la latenza viene violata per un gruppo, viene inviata una notifica di avviso per quel gruppo."
           },
           "evaluationTypePERAPENDPOINT": {
-            "selectionText": "per endpoint per questa prospettiva applicazione",
-            "globalSelectionText": "per endpoint nel contesto di ogni prospettiva applicazione",
+            "selectionText": "per endpoint per questa prospettiva di applicazione",
+            "globalSelectionText": "per endpoint nel contesto di ogni prospettiva di applicazione",
             "shortText": "Per endpoint",
-            "columnText": "per endpoint",
-            "description": "Avvisa individualmente per endpoint per questa prospettiva applicazione",
-            "globalDescription": "Avvisa individualmente per endpoint nel contesto di ogni prospettiva applicazione.",
+            "columnText": "Per endpoint",
+            "description": "Avvisa individualmente per endpoint per questa prospettiva di applicazione",
+            "globalDescription": "Avvisa individualmente per endpoint nel contesto di ogni prospettiva di applicazione",
             "tearSheetSelectionText": "Raggruppa per endpoint",
             "tearSheetDescription": "Le chiamate che corrispondono al filtro vengono valutate rispetto alla soglia di {{count}} endpoint, una per ogni endpoint, con la propria soglia. Quando la latenza viene violata per un gruppo, viene inviata una notifica di avviso per quel gruppo.",
             "tearSheetDescription_plural": "Le chiamate che corrispondono al filtro vengono valutate rispetto alla soglia di {{count}} endpoint, una per ogni endpoint, con la propria soglia. Quando la latenza viene violata per un gruppo, viene inviata una notifica di avviso per quel gruppo.",
@@ -239,7 +241,7 @@
             }
           },
           "confirmationDialog": {
-            "confirmRemove": "Confermare",
+            "confirmRemove": "Conferma modifica",
             "description": "La modifica dell'ambito limite determina la reimpostazione della selezione dell'applicazione.",
             "confirmButtonLabel": "Conferma"
           }
@@ -260,7 +262,7 @@
           "includeInternalCalls": "Includi chiamate interne",
           "includeSyntheticCalls": "Includi chiamate sintetiche",
           "confirmationDialog": {
-            "confirmRemove": "Confermare",
+            "confirmRemove": "Conferma rimozione",
             "description": "La deselezione di \"{{callType}}\" reimposterà la selezione delle applicazioni.",
             "confirmButtonLabel": "Conferma"
           }
@@ -327,16 +329,16 @@
         "slowness": {
           "name": "Chiamate lente",
           "headline": "Avviso automatico per le chiamate lente",
-          "text": "Ricevere un avviso quando le chiamate agli endpoint ed ai servizi selezionati di questa Prospettiva Applicazione sono più lente rispetto al solito.",
+          "text": "Ricevere un avviso quando le chiamate agli endpoint ed ai servizi selezionati di questa Prospettiva di applicazione sono più lente rispetto al solito.",
           "tearSheetHeadline": "Avviso automatico per le chiamate lente",
           "tearSheetDescription": "Ricevere un avviso quando le chiamate ai servizi e agli endpoint selezionati di questa prospettiva applicativa sono più lente della soglia."
         },
         "errors": {
           "name": "Chiamate con errori",
-          "headline": "Avvisi automatici per le chiamate con errori",
+          "headline": "Avvisi automatici per chiamate con errori",
           "text": "Ricevere un avviso quando la percentuale o il conteggio delle chiamate errate per i servizi e gli endpoint selezionati di questa prospettiva dell'applicazione è superiore al normale.",
           "tearSheetHeadline": "Avvisi automatici per chiamate con errori",
-          "tearSheetDescription": "Ricevere un avviso quando la percentuale o il conteggio delle chiamate con errori per i servizi e gli endpoint selezionati di questa prospettiva dell'applicazione supera il valore della soglia."
+          "tearSheetDescription": "Ricevere un avviso quando la percentuale o il conteggio delle chiamate con errori per i servizi e gli endpoint selezionati di questa prospettiva di applicazione supera il valore della soglia."
         },
         "logs": {
           "name": "Log",
@@ -348,7 +350,7 @@
         },
         "statusCode": {
           "name": "Codici di stato HTTP",
-          "headline": "Avvisi automatici per i codici di stato HTTP",
+          "headline": "Avvisi automatici per codici di stato HTTP",
           "text": "Ricevere un avviso ogni volta che i codici di stato HTTP corrispondenti si verificano più spesso del solito.",
           "incompleteRuleMessage": "Selezionare un codice di stato da visualizzare quando viene attivato questo avviso",
           "tearSheetHeadline": "Avvisi automatici per codici di stato HTTP",
@@ -357,7 +359,7 @@
         "throughput": {
           "name": "Velocità di trasmissione",
           "headline": "Avvisi automatici per il conteggio di chiamate",
-          "text": "Avvisi automatici in caso di numero di chiamate insolitamente alto o basso per gli endpoint ed i servizi selezionati di questa Prospettiva Applicazione.",
+          "text": "Avvisi automatici in caso di numero di chiamate insolitamente alto o basso per gli endpoint ed i servizi selezionati di questa prospettiva di applicazione.",
           "metricLabel": "Chiamate",
           "tearSheetHeadline": "Avvisi automatici per la velocità effettiva",
           "tearSheetDescription": "Ricevi un avviso quando il numero di chiamate è insolitamente alto o basso per i servizi e gli endpoint selezionati di questa prospettiva applicativa."
@@ -440,8 +442,8 @@
           "statusCodeStaticThreshold_higherEqual": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è maggiore o uguale a {{thresholdValue}}.",
           "statusCodeStaticThreshold_lowerThan": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è minore di {{thresholdValue}}.",
           "statusCodeStaticThreshold_lowerEqual": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è minore o uguale a {{thresholdValue}}.",
-          "statusCodeDefault_higherThan": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è maggiore del previsto.",
-          "statusCodeDefault_higherEqual": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è maggiore o uguale a quello previsto.",
+          "statusCodeDefault_higherThan": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è superiore del previsto.",
+          "statusCodeDefault_higherEqual": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è superiore o uguale a quello previsto.",
           "statusCodeDefault_lowerThan": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è minore di quello previsto.",
           "statusCodeDefault_lowerEqual": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è minore o uguale a quello previsto.",
           "statusCodeRateStaticThreshold_higherThan": "La frequenza del codice di stato HTTP {{statusCodeFullText}} è superiore a {{thresholdValue}}%.",
@@ -508,10 +510,10 @@
         "provideStatusCodeStatusCode": "Codice di stato"
       },
       "inventory": {
-        "noData": "Non è stato configurato nessun avviso smart. Fare clic sul pulsante indicato di seguito per configurare il primo avviso smart.",
+        "noData": "Non è stato configurato nessun avviso smart. Fai clic sul pulsante qui sotto per configurare i tuoi primi avvisi smart.",
         "noPersmissionToCreateGlobalSmartAlert": "Non si dispone dell'autorizzazione per configurare gli avvisi smart. Contattare l'amministratore.",
         "noPermissionGlobalSmartAlertEdit": "Non si dispone dell'autorizzazione per eseguire questa azione",
-        "labelGlobalSmartAlertsList": "Avvisi smart applicazione globali ({{numberOfAlerts}})",
+        "labelGlobalSmartAlertsList": "Avvisi smart di applicazione globali ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Avvisi smart applicazione ({{numberOfAlerts}})",
         "labelGlobalSmartAlertsTable": "Applicazione globale Avvisi Smart",
         "labelSmartAlertsTable": "Avvisi Smart per le applicazioni",
@@ -525,7 +527,7 @@
         "labelActionButtonDuplicate": "Duplica",
         "labelActionButtonDelete": "Elimina",
         "labelAlertFilters": "Filtri",
-        "labelConfirm": "Confermare",
+        "labelConfirm": "Conferma rimozione",
         "labelConfirmRemoveConfig": "Si è sicuri di voler rimuovere l'avviso <strong>{{configName}}</strong>?",
         "labelRemove": "Rimuovi",
         "numberOfApplicationsSelected": "{{count}} applicazioni selezionate",
@@ -547,7 +549,7 @@
       "apCreation": {
         "addToAllBuiltInAlerts": "Aggiungi tutti i gli avvisi smart ({{numAlerts}}) globali incorporati",
         "addToAllBuiltInAlertsSubText": "({{numDisabled}}/{{numAlerts}} avvisi sono attualmente disabilitati)",
-        "addToAllExplanation": "Includere questa Prospettiva Applicazione nell'ambito di tutti gli",
+        "addToAllExplanation": "Includere questa prospettiva di applicazione nell'ambito di tutti gli",
         "addToAllExplanationSubText": "Avvisi smart globali incorporati",
         "notAllEnitiesSelected": "Non tutti i servizi/endpoint sono selezionati",
         "alertCurrentlyDisabled": "Avviso attualmente disabilitato",
@@ -561,7 +563,7 @@
         "step3Title": "Definisci raggruppamento",
         "step4Title": "Definisci quando ricevere un avviso",
         "alertHeadline": "Scegli su cosa vuoi essere avvisato",
-        "step5Title": "Definisci proprietà degli avvisi",
+        "step5Title": "Definisci le proprietà degli avvisi",
         "step6Title": "Definisci i canali di avviso",
         "grouping": {
           "title": "Chiamate di gruppo",
@@ -666,7 +668,8 @@
           "title": "Canali di avviso ({{channelCount}})",
           "description": "Selezionare il/i destinatario/i di questo avviso",
           "searchPlaceholder": "Ricerca",
-          "clearAll": "Cancella tutto"
+          "clearAll": "Cancella tutto",
+          "selectAll": "Seleziona tutto ({{len}})"
         },
         "editFilters": "Modifica filtri",
         "invalidFilters": "Filtri non validi",
@@ -811,9 +814,9 @@
         "alertChannelSelectTypeTitle": "Tipo di canale di avviso",
         "addChannel": "Aggiungi {{count}} canale",
         "addChannel_plural": "Aggiungi {{count}} canali",
-        "addChannel_0": "Aggiungi {{count}} Canali",
-        "addChannel_1": "Aggiungi {{count}} Canali",
-        "addChannel_2": "Aggiungi {{count}} Canali",
+        "addChannel_0": "Aggiungi {{count}} canali",
+        "addChannel_1": "Aggiungi {{count}} canali",
+        "addChannel_2": "Aggiungi {{count}} canali",
         "add": "Aggiungi",
         "alertPropertyInsertPlaceholderLabel": "Inserisci segnaposto",
         "scopeConfigTitleWithApplications": "Selezionare applicazioni/servizi/endpoint",
@@ -901,7 +904,7 @@
         "alertPropertiesCritical": "Critico",
         "alertPropertiesTitle": "Titolo",
         "alertPropertiesAlertLevel": "Livello di avviso",
-        "alertPropertiesTriggersIncident": "Attiva incidente",
+        "alertPropertiesTriggersIncident": "Attiva incident",
         "alertPropertiesDescription": "Descrizione",
         "warningAlertPreviewLabel": "Anteprima di avviso",
         "criticalAlertPreviewLabel": "Anteprima critica",
@@ -940,15 +943,15 @@
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Crea avviso smart globale",
         "alertConfigDialogPresenterTitleMigrateAlert": "Migra ad avviso smart",
         "alertConfigTearSheetEditAlert_Local": "Modifica un avviso smart di applicazione",
-        "alertConfigTearSheetEditAlert_Global": "Modifica un avviso smart globale di applicazione",
+        "alertConfigTearSheetEditAlert_Global": "Modifica un avviso smart di applicazione globale",
         "alertConfigTearSheetCreateNewAlert_Local": "Crea un avviso smart di applicazione",
-        "alertConfigTearSheetCreateNewAlert_Global": "Crea un avviso smart globale di applicazione",
+        "alertConfigTearSheetCreateNewAlert_Global": "Crea un avviso smart di applicazione globale",
         "alertConfigTearSheetMigrateAlert": "Migra a avviso smart di applicazione",
-        "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Passa alla modalità avanzata",
+        "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Passa a modalità avanzata",
         "simpleAlertConfigDialogStep3Headline": "Chi deve ricevere gli avvisi?",
         "Loading": "Caricamento…",
-        "PreviewForAP": "Anteprima per la prospettiva applicazione",
-        "PreviewForEndpoint": "Anteprima dell'Endpoint:",
+        "PreviewForAP": "Anteprima per la prospettiva di applicazione",
+        "PreviewForEndpoint": "Anteprima per l'endpoint:",
         "PreviewForService": "Anteprima per il servizio:",
         "PreviewSelectLoadingEndpoints": "Caricamento dell'elenco di endpoint",
         "thresholdValue": "Valore soglia",
@@ -985,13 +988,13 @@
         "aggregationTextP99": "99esimo"
       },
       "list": {
-        "labelConfirm": "Confermare",
+        "labelConfirm": "Conferma rimozione",
         "labelConfirmRemoveConfig": "Si è sicuri di voler rimuovere l'avviso <strong>{{configName}}</strong>?",
         "labelRemove": "Rimuovi"
       },
       "gracePeriod": {
         "title": "Periodo di tolleranza (facoltativo)",
-        "description": "Chiudere automaticamente un problema dopo che la soglia di violazione non è più possibile se:",
+        "description": "Selezionare per quanto tempo un problema deve rimanere aperto dopo che la soglia di violazione non è più soddisfatta. Trascorso questo tempo, la questione verrà automaticamente chiusa.",
         "label": "Seleziona",
         "summary": "Chiudere automaticamente un problema dopo che la soglia di violazione non è più soddisfatta <strong>per {{gracePeriodValue}}</strong>."
       },
@@ -1067,13 +1070,13 @@
         "jsErrorsBlueprintConfigName": "Errori JS",
         "jsErrorsBlueprintConfigHeadline": "Avvisi automatici per gli errori JS",
         "jsErrorsBlueprintConfigText": "Ricevere un avviso ogni volta che i messaggi di errore JS corrispondenti si verificano più spesso del solito.",
-        "jsErrorsBlueprintConfigIncompleteRuleMessage": "Selezionare un errore JS da visualizzare quando viee attivato questo avviso",
+        "jsErrorsBlueprintConfigIncompleteRuleMessage": "Selezionare un errore JS da visualizzare quando viene attivato questo avviso",
         "statusCodeBlueprintConfigName": "Codici di stato HTTP",
-        "statusCodeBlueprintConfigHeadline": "Avvisi automatici per i codici di stato HTTP",
+        "statusCodeBlueprintConfigHeadline": "Avvisi automatici per codici di stato HTTP",
         "statusCodeBlueprintConfigText": "Ricevere un avviso ogni volta che i codici di stato HTTP corrispondenti si verificano più spesso del solito.",
         "statusCodeBlueprintConfigIncompleteRuleMessage": "Selezionare un codice di stato da visualizzare quando viene attivato questo avviso",
         "throughputBlueprintConfigName": "Velocità di trasmissione",
-        "throughputBlueprintConfigHeadline": "Avvisi automatici per le visualizzazioni pagina",
+        "throughputBlueprintConfigHeadline": "Avvisi automatici per visualizzazioni pagina",
         "throughputBlueprintConfigText": "Avvisi automatici in caso di numero insolitamente alto o basso di caricamenti pagina o transizioni pagina per le pagine selezionate di questo sito web.",
         "customEventBlueprintConfigName": "Eventi personalizzati",
         "customEventBlueprintConfigHeadline": "Avvisi automatici per gli eventi personalizzati",
@@ -1085,7 +1088,7 @@
         "simpleModeBlueprintConfigsUnexpectedDropText": "Ricevere un avviso quando il numero di caricamenti pagina è sensibilmente più basso del previsto in confronto ai dati precedenti disponibili.",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "Elevato numero di pagine caricate",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline": "Avvisi automatici in caso di numero di caricamenti pagina inaspettatamente alto",
-        "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "Ricevere un avviso quando il numero di caricamenti pagina è sensibilmente più alto del previsto in confronto ai dati precedenti disponibili. Questo potrebbe indicare un attacco o un bot che genera un numero troppo elevato di richieste al sito web."
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "Ricevere un avviso quando il numero di caricamenti pagina è sensibilmente più alto del previsto in confronto ai dati precedenti disponibili. Questo potrebbe indicare un attacco o un bot che genera un numero troppo elevato di richieste al sito Web."
       },
       "form": {
         "errorPleaseProvideAnErrorMessage": "Fornire un messaggio di errore",
@@ -1143,6 +1146,63 @@
         },
         "noDataHeader": "Nessun sito web Avvisi Smart",
         "noDataDescription": "Per iniziare, fare clic su <strong>Crea Avviso Smart</strong>."
+      },
+      "tearSheet": {
+        "createTitle": "Crea un sito web Avvisi smart",
+        "editTitle": "Modifica un sito web Avvisi smart",
+        "step1": {
+          "title": "Scegli un modello",
+          "description": "Scegliere il problema per cui si desidera essere avvisati"
+        },
+        "step2": {
+          "title": "Definire l'ambito"
+        },
+        "step3": {
+          "title": "Definisci quando ricevere un avviso"
+        },
+        "step4": {
+          "title": "Definisci le proprietà degli avvisi",
+          "description": "Quali proprietà si desidera impostare per questo avviso"
+        },
+        "step5": {
+          "title": "Definisci i canali di avviso",
+          "description": "Seleziona dove si desidera essere avvisato per questo allarme"
+        },
+        "slowness": {
+          "headline": "Avvisi automatici per tempo di connessione onLoad o latenza HTTP",
+          "text": "Ricevi un avviso quando il tempo di funzionamento dell' onLoad supera le aspettative derivate dai dati storici."
+        },
+        "JsErrors": {
+          "name": "Errori JS",
+          "headline": "Avvisi automatici per gli errori JS",
+          "text": "Ricevere un avviso per un messaggio di errore di tipo JavaScript."
+        },
+        "statusCode": {
+          "headline": "Avvisi automatici per codici di stato HTTP",
+          "text": "Ricevi un avviso quando un codice di stato HTTP si verifica più spesso del solito."
+        },
+        "throughput": {
+          "headline": "Avvisi automatici per la velocità effettiva",
+          "text": "Ricevi un avviso quando il numero previsto di caricamenti di pagine del sito web differisce in modo significativo rispetto ai dati storici disponibili."
+        },
+        "customEvent": {
+          "name": "Eventi personalizzati",
+          "headline": "Avvisi automatici per gli eventi personalizzati",
+          "text": "Ricevi un avviso ogni volta che si verifica uno specifico evento personalizzato con una frequenza maggiore o minore di quella prevista."
+        },
+        "filter": "Aggiungere filtri per ottenere avvisi più precisi (opzionale)",
+        "threshold": {
+          "header": "Impostare un valore per la soglia di violazione",
+          "description": "Selezionare una metrica, una soglia di violazione e una finestra temporale per valutare la violazione."
+        },
+        "alertChart": {
+          "title": "Anteprima avvisi",
+          "description": "Mostra come si sarebbero attivati gli allarmi in base ai dati metrici storici."
+        },
+        "timeThreshold": {
+          "title": "Imposta quando le violazioni attivano gli avvisi",
+          "description": "Specificare il tipo di avviso e di persistenza, quindi impostare il trigger di avviso."
+        }
       }
     },
     "sortOptions": {
@@ -1159,8 +1219,8 @@
       "migrateButton": "Migra ad avviso smart",
       "migrateButtonTooltip": "Apre una configurazione di Smart Alert precompilata con i valori migrati dall'evento corrente, per quanto possibile. Ricontrollare il risultato con attenzione!",
       "markAsMigratedButton": "Contrassegna come migrato",
-      "markAsMigratedButtonTooltip": "Contrassegnare l'evento come migrato. Utilizzare nel caso in cui sia già stato configurato un avviso smart che sostituirà questo evento.",
-      "markAsMigratedButtonConfirmationTitle": "Confermare",
+      "markAsMigratedButtonTooltip": "Contrassegnare l'evento come migrato. Utilizzare questo nel caso in cui sia già stato configurato un avviso smart che sostituirà questo evento.",
+      "markAsMigratedButtonConfirmationTitle": "Conferma migrazione",
       "markAsMigratedButtonConfirmationDescription": "Contrassegnando questo evento personalizzato come migrato verrà disabilitato. L'evento non può essere abilitato di nuovo successivamente. Desideri procedere?",
       "markAsMigratedButtonConfirmationConfirmLabel": "Conferma"
     },
@@ -1216,11 +1276,11 @@
           "failuresWithCount_2": "{{count}} malfunzionamenti"
         },
         "alertPropertiesTitlePlaceholder": "Test sintetico non riuscito",
-        "alertPropertiesDescriptionPlaceholder": "Test sintetico non riuscito per {{count}} volta consecutiva",
-        "alertPropertiesDescriptionPlaceholder_plural": "Test sintetico non riuscito per {{count}} volte consecutive",
-        "alertPropertiesDescriptionPlaceholder_0": "Test sintetico non riuscito per {{count}} volte consecutive",
-        "alertPropertiesDescriptionPlaceholder_1": "Test sintetico non riuscito per {{count}} volte consecutive",
-        "alertPropertiesDescriptionPlaceholder_2": "Test sintetico non riuscito per {{count}} volte consecutive"
+        "alertPropertiesDescriptionPlaceholder": "Test sintetico non riuscito per {{count}} volta consecutiva.",
+        "alertPropertiesDescriptionPlaceholder_plural": "Test sintetico non riuscito {{count}} volte consecutive.",
+        "alertPropertiesDescriptionPlaceholder_0": "Test sintetico non riuscito {{count}} volte consecutive.",
+        "alertPropertiesDescriptionPlaceholder_1": "Test sintetico non riuscito {{count}} volte consecutive.",
+        "alertPropertiesDescriptionPlaceholder_2": "Test sintetico non riuscito {{count}} volte consecutive."
       },
       "advanced": {
         "alertChannelsLabel": "Canali di avviso",
@@ -1241,7 +1301,7 @@
         "selectAlertTestButton": "Aggiungi test sintetici",
         "addTest": "Aggiungi test {{count}}",
         "alertTests": "Test sintetici",
-        "noTestSelectedText": "Nessun test sintetico selezionato",
+        "noTestSelectedText": "Nessun test sintetico selezionato. Per iniziare, fare clic su Aggiungi test sintetici.",
         "alertTestEntityName": "test sintetico {{entityName}}",
         "testAttachedCount": "Test collegati ({{count}})",
         "testAttached": "Test collegati",
@@ -1252,15 +1312,13 @@
         "alertConfigurationListTitleAlertConfiguration": "Configurazione dell'avviso",
         "scope": {
           "perLocation": {
-            "shortText": "Per ciascuna ubicazione"
+            "shortText": "Per ubicazione"
           }
         },
         "alertConfigurationTitleAlertTests": "Test selezionati",
         "alertConfigurationTitleAlertChannels": "Canali di avviso",
         "alertConfigurationTitleAlertProperties": "Proprietà avviso",
         "failureThreshold": "{{failureCount}} errori",
-        "gracePeriodValue": "{{gracePeriodValue}}",
-        "gracePeriod": "Periodo di tolleranza",
         "alertConfigurationTitleScope": "Ambito",
         "noOfFailure": "Numero di errori",
         "timeThreshold": "Soglia temporale",
@@ -1268,22 +1326,33 @@
         "noScopeConfigured": "Nessun filtro di ambito configurato"
       },
       "tearSheet": {
+        "labelActionButtonEdit": "Modifica",
+        "labelActionButtonDuplicate": "Duplica",
         "createTitle": "Crea un avviso smart per i test sintetici",
+        "editTitle": "Modifica avviso smart sintetico",
         "scopeFilter": {
           "filter": "Filtro",
           "filterDescription": "Aggiungere filtri ai test sintetici per ottenere avvisi più precisi."
         },
         "steps": {
-          "step1Title": "Scegliere i test sintetici.",
-          "step2Title": "Definire quando ricevere gli avvisi."
+          "step1Title": "Aggiungi test sintetici",
+          "step2Title": "Definisci quando ricevere un avviso",
+          "step3Title": "Definisci le proprietà degli avvisi",
+          "step4Title": "Definisci i canali di avviso"
         },
         "step1": {
-          "header": "Su quali test sintetici si desidera essere ricevere un avviso?",
+          "header": "Selezionare i test sintetici per i quali si desidera ricevere un avviso",
           "description": "I singoli avvisi verranno inviati indipendentemente per ogni test sintetico, per ogni ubicazione."
         },
         "step2": {
           "sliderHeader": "Imposta quando le violazioni attivano gli avvisi",
-          "sliderDescription": "Specificare quanti errori consecutivi devono verificarsi per ogni ubicazione prima che venga emesso un avviso."
+          "sliderDescription": "Specificare quanti guasti consecutivi si verificano per posizione prima di attivare l'allarme."
+        },
+        "step3": {
+          "header": "Quali proprietà si desidera impostare per questo avviso"
+        },
+        "step4": {
+          "header": "Seleziona dove si desidera essere avvisato per questo allarme"
         }
       }
     },
@@ -1302,14 +1371,14 @@
         "crashFreeUserRate": "Tasso utenti senza arresti anomali",
         "crashAffectedUserCount": "Conteggio utenti interessati da arresto anomalo",
         "crashFreeUserCount": "Conteggio utenti liberi da arresti anomali",
-        "statusCodeBlueprintConfigName": "Codici stato HTTP",
+        "statusCodeBlueprintConfigName": "Codici di stato HTTP",
         "throughputBlueprintConfigName": "Velocità di trasmissione",
         "customEventBlueprintConfigName": "Eventi personalizzati",
         "crashBlueprintConfigName": "Arresti anomali",
         "crashBlueprintConfigHeadline": "Avvisi automatici per arresti anomali",
         "crashBlueprintConfigText": "Ricevere un avviso quando la metrica di arresto anomalo selezionata è superiore o inferiore al previsto.",
         "crashBlueprintSelectMetric": "Seleziona metrica di arresto anomalo",
-        "statusCodeBlueprintConfigHeadline": "Avvisi automatici per i codici di stato HTTP",
+        "statusCodeBlueprintConfigHeadline": "Avvisi automatici per codici di stato HTTP",
         "statusCodeBlueprintConfigText": "Ricevere un avviso ogni volta che i codici di stato HTTP corrispondenti si verificano più spesso del solito.",
         "throughputBlueprintConfigHeadline": "Avvisi automatici per le visualizzazioni nelle app per dispositivi mobili",
         "throughputBlueprintConfigText": "Avvisi automatici in caso di numero insolitamente basso o elevato di visualizzazioni in un'app per dispositivi mobili.",
@@ -1406,6 +1475,54 @@
         "thresholdTitle": "Soglia: quando viene violata la condizione?",
         "payloadsLabel": "Payload",
         "payloadsTitle": "Payload personalizzati"
+      },
+      "tearSheet": {
+        "createTitle": "Creare un'app mobile avviso smart",
+        "editTitle": "Modifica un'app mobile avviso smart",
+        "step1": {
+          "title": "Scegli un modello",
+          "description": "Scegliere il problema per cui si desidera essere avvisati"
+        },
+        "step2": {
+          "title": "Definire l'ambito"
+        },
+        "step3": {
+          "title": "Definisci quando ricevere un avviso"
+        },
+        "step4": {
+          "title": "Definisci le proprietà degli avvisi",
+          "description": "Quali proprietà si desidera impostare per questo avviso"
+        },
+        "step5": {
+          "title": "Definisci i canali di avviso",
+          "description": "Seleziona dove si desidera essere avvisato per questo allarme"
+        },
+        "statusCode": {
+          "headline": "Avvisi automatici per codici di stato HTTP",
+          "text": "Ricevi un avviso quando un codice di stato HTTP si verifica più spesso del solito."
+        },
+        "throughput": {
+          "headline": "Avvisi automatici per le visualizzazioni nelle app per dispositivi mobili",
+          "text": "Ricevi un avviso quando il numero previsto di visualizzazioni di pagina o sessioni della tua app mobile differisce in modo significativo rispetto ai dati storici disponibili."
+        },
+        "crash": {
+          "headline": "Avvisi automatici per arresti anomali",
+          "text": "Ricevi un avviso quando un parametro di crash è superiore o inferiore al previsto."
+        },
+        "customEvent": {
+          "name": "Eventi personalizzati",
+          "headline": "Avvisi automatici per gli eventi personalizzati",
+          "text": "Ricevi un avviso ogni volta che si verifica uno specifico evento personalizzato con una frequenza maggiore o minore di quella prevista."
+        },
+        "filter": "Aggiungere filtri per ottenere avvisi più precisi (opzionale)",
+        "threshold": {
+          "header": "Impostare un valore per la soglia di violazione",
+          "description": "Selezionare una metrica, una soglia di violazione e una finestra temporale per valutare la violazione."
+        },
+        "timeThreshold": {
+          "title": "Imposta quando le violazioni attivano gli avvisi",
+          "description": "Specificare il tipo di avviso e di persistenza, quindi impostare il trigger di avviso."
+        }
       }
     },
     "eum": {
@@ -1425,7 +1542,7 @@
         "thresholdValue": "Valore soglia"
       },
       "components": {
-        "provideStatusCodeStatusCode": "Codice stato"
+        "provideStatusCodeStatusCode": "Codice di stato"
       },
       "form": {
         "anyJSErrors": "Qualsiasi errore JS",
@@ -1500,7 +1617,7 @@
           "title": "Ambito: dove si sta verificando la condizione?",
           "metric": {
             "metric": "Metrica",
-            "selectMetric": "Seleziona metrica"
+            "selectMetric": "Selezionare metrica"
           },
           "aggregation": {
             "aggregation": "Aggregazione"
@@ -1512,7 +1629,7 @@
         },
         "timeThreshold": {
           "label": "Soglia temporale",
-          "title": "Soglia temporale: quando si desidera ricevere l'avviso?"
+          "title": "Soglia temporale: Quando si desidera ricevere gli avvisi?"
         },
         "predictiveTrigger": {
           "title": "Previsioni di allerta",
@@ -1534,7 +1651,7 @@
           },
           "label": "Proprietà",
           "title": "Proprietà aggiuntive degli avvisi",
-          "alertPropertiesTitlePlaceholder": "Avviso intelligente dell'infrastruttura",
+          "alertPropertiesTitlePlaceholder": "Infrastruttura Smart Alert",
           "alertPropertiesDescriptionPlaceholder": "Si sta verificando qualche problema nell'infrastruttura."
         },
         "customPayloads": {
@@ -1583,11 +1700,11 @@
         "scopeFilter": {
           "title": "Scegliere l'ambito dell'infrastruttura",
           "filter": "Filtro",
-          "filterDescription": "Aggiungi filtri ai servizi per ottenere avvisi più precisi."
+          "filterDescription": "Aggiungi filtri per restringere l'ambito e ottenere avvisi più precisi."
         },
         "scopeGroupBy": {
-          "group": "Gruppo",
-          "groupByDescription": "Aggiungi gruppo per configurare le chiamate in gruppi. Ogni chiamata all'interno del gruppo viene configurata collettivamente ma valutata singolarmente."
+          "group": "Raggruppamento",
+          "groupByDescription": "Aggiungere un gruppo ai risultati metrici del gruppo utilizzando i tag di raggruppamento disponibili. È possibile utilizzare fino a 5 tag."
         },
         "timeThreshold": {
           "title": "Imposta quando le violazioni attivano gli avvisi",
@@ -1597,7 +1714,7 @@
           "static": "Viene applicato un valore di soglia costante che non cambia nel tempo."
         },
         "chartAlertPreview": "Anteprima avvisi",
-        "chartAlertPreviewDescription": "Mostra come sarebbero stati attivati gli avvisi in base ai dati metrici storici.",
+        "chartAlertPreviewDescription": "Mostra come sarebbero stati attivati gli allarmi in base ai dati metrici storici.",
         "forecastAlerting": {
           "description": "Ricevere avvisi proattivi basati su dati storici e tendenze. Questa opzione consente di anticipare i potenziali problemi prima che si ripercuotano sul sistema.",
           "historicalDataTime": {
@@ -1609,7 +1726,12 @@
             "tooltipContent": "Definisce l'orizzonte temporale della previsione utilizzata per gli avvisi. "
           }
         }
-      }
+      },
+      "placeholderTitle": "Rilevato problema su {{metricName}}",
+      "descriptionIsHigherThan": "{{metricName}} è superiore a {{value}}.",
+      "descriptionIsHigherOrEqualTo": "{{metricName}} è maggiore o uguale a {{value}}.",
+      "descriptionIsLowerThan": "{{metricName}} è inferiore a {{value}}.",
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} è inferiore o uguale a {{value}}."
     },
     "logs": {
       "alertDetails": {
@@ -1667,7 +1789,7 @@
           "label": "Proprietà",
           "title": "Proprietà aggiuntive degli avvisi",
           "preview": {
-            "subtitle": "Conteggio dei log"
+            "subtitle": "Conteggio log"
           },
           "alertPropertiesTitlePlaceholder": "Avviso smart dei log",
           "descriptionPlaceholder": {
@@ -1798,14 +1920,33 @@
       "details": {
         "alertConfigurationTitle": "Configurazione dell'avviso",
         "sloHeader": "SLO",
-        "thresholdInfo": "",
-        "thresholdInfo_BURN_RATE": "Quando la velocità di combustione è {{operator}} {{percentage}}",
-        "thresholdInfo_BURNED_PERCENTAGE": "Quando {{operator}} {{percentage}} percento del budget degli errori è stato consumato",
-        "thresholdInfo_STATUS": "Quando lo stato SLO è {{operator}} {{percentage}} percento",
+        "thresholdLabel": "Soglia",
+        "thresholdInfo": "{{operator}} {{percentage}}",
         "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
         "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
         "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
         "blueprintLabel": "Progetto iniziale",
+        "blueprintInfo": "",
+        "blueprintInfo_BURN_RATE": "Velocità di combustione",
+        "blueprintInfo_BURNED_PERCENTAGE": "Budget di errori utilizzato",
+        "blueprintInfo_STATUS": "Stato",
+        "longWindowLabel": "Finestra lunga",
+        "shortWindowLabel": "Finestra corta",
+        "timeWindowInfo_minute": "{{count}} minuto",
+        "timeWindowInfo_minute_plural": "{{count}} minuti",
+        "timeWindowInfo_minute_0": "{{count}} minuti",
+        "timeWindowInfo_minute_1": "{{count}} minuto",
+        "timeWindowInfo_minute_2": "{{count}} minuti",
+        "timeWindowInfo_hour": "{{count}} ora",
+        "timeWindowInfo_hour_plural": "{{count}} ore",
+        "timeWindowInfo_hour_0": "{{count}} ore",
+        "timeWindowInfo_hour_1": "{{count}} ora",
+        "timeWindowInfo_hour_2": "{{count}} ore",
+        "timeWindowInfo_day": "{{count}} giorno",
+        "timeWindowInfo_day_plural": "{{count}} giorni",
+        "timeWindowInfo_day_0": "{{count}} giorni",
+        "timeWindowInfo_day_1": "{{count}} giorno",
+        "timeWindowInfo_day_2": "{{count}} giorni",
         "coolDownPeriodDescription": "Deve trascorrere un tempo minimo di {{value}} perché l'evento si concluda."
       },
       "alertList": {

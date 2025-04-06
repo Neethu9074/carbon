@@ -36,7 +36,13 @@ export default function Group({ group, groupProps = {}, nodeProps }) {
 
   if (groupProps.renderTooltip) {
     headerContent = (
-      <Tooltip themeStyle="light" content={groupProps.renderTooltip(group, showMetricValue)} align="mousePosition">
+      <Tooltip
+        themeStyle="light"
+        content={groupProps.renderTooltip(group, showMetricValue)}
+        align="mousePosition"
+        forceTheme
+        overwriteBlock
+      >
         {headerContent}
       </Tooltip>
     );
@@ -44,10 +50,10 @@ export default function Group({ group, groupProps = {}, nodeProps }) {
 
   return (
     <div style={{ top: group.y0, left: group.x0, width, height }} className={locals.group}>
+      {headerContent}
       {group.children.map(node => (
         <Node key={node.data.id} node={node} nodeProps={nodeProps} />
       ))}
-      {headerContent}
     </div>
   );
 }

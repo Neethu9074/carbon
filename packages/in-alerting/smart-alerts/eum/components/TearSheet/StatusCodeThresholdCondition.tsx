@@ -5,7 +5,7 @@
  */
 
 import { Field, MapForm } from 'formalistic';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { isAdaptiveBaselineConfig } from '@instana/types';
 import { Spacer, Stack } from '@instana/components';
@@ -42,6 +42,8 @@ interface StatusCodeThresholdConditionProps {
     statusCode: Option[];
   };
   onChartViewConfigChange: (arg: number) => void;
+  alertChannelPerSeverityEnabled: boolean;
+  children?: ReactNode;
 }
 
 export default function StatusCodeThresholdCondition({
@@ -53,7 +55,9 @@ export default function StatusCodeThresholdCondition({
   getMetricUnitPostfix,
   isPercentageMetric,
   ruleMetricNameOptions,
-  onChartViewConfigChange
+  onChartViewConfigChange,
+  alertChannelPerSeverityEnabled,
+  children
 }: StatusCodeThresholdConditionProps) {
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
@@ -112,6 +116,7 @@ export default function StatusCodeThresholdCondition({
           isTearSheet
         />
         <Spacer size="xsmall" />
+        {children}
         <ThresholdTypeSelection
           form={form}
           updateForm={updateForm}
@@ -140,6 +145,7 @@ export default function StatusCodeThresholdCondition({
             max={maxValue}
             metricUnitPostfix={metricUnitPostfix}
             percentageMetric={percentageMetric}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
           />
         )}
 

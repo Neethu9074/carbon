@@ -9,15 +9,16 @@ import React, { useEffect, useMemo, useReducer, useCallback } from 'react';
 import { Stack, StackItem, RadioButton, Button, Checkbox } from '@instana/components';
 
 import {
-  CUSTOM_DASHBOARD_DOWNLOAD_PDF_DISPLAY,
-  CUSTOM_DASHBOARD_DOWNLOAD_PDF_FINISH,
-  CUSTOM_DASHBOARD_DOWNLOAD_PDF_GENERATE_PREVIEW,
-  CUSTOM_DASHBOARD_DOWNLOAD_PDF_LAYOUT,
-  CUSTOM_DASHBOARD_DOWNLOAD_PDF_ORIENTATION
+  DOWNLOAD_PDF_DISPLAY,
+  DOWNLOAD_PDF_FINISH,
+  DOWNLOAD_PDF_GENERATE_PREVIEW,
+  DOWNLOAD_PDF_LAYOUT,
+  DOWNLOAD_PDF_ORIENTATION
 } from 'in-services/tracking/tracking';
 import {
-  filterExcludedNodes,
-  generateImagesFromNodes
+  sanitizeNode,
+  generateImagesFromNodes,
+  getPdfHeader
 } from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/utils';
 import { actions, initialState, pdfReducer } from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/reducer';
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
@@ -37,23 +38,26 @@ import locals from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/Downl
 
 interface Props {
   node: HTMLElement;
+  header?: HTMLElement;
   customDashboardId: string;
   close: () => void;
 }
 
-export default function DownloadPdfDialog({ customDashboardId, close, node }: Props) {
+export default function DownloadPdfDialog({ customDashboardId, close, node, header }: Readonly<Props>) {
   const [state, dispatch] = useReducer(pdfReducer, initialState);
   const { trackCta } = useSegmentTracking();
 
   const {
     imagesUrls,
+    headerUrl,
     isGenerating: { value, text },
     orientation,
     pdf,
     shouldFitPdf,
     stackedWidgets
   } = state;
-  const { setIsGenerating, setPdf, setImagesUrls, setStackedWidgets, setOrientation, setShouldFitPdf } = actions;
+  const { setIsGenerating, setPdf, setHeaderUrl, setImagesUrls, setStackedWidgets, setOrientation, setShouldFitPdf } =
+    actions;
   const pdfBlob = pdf ? URL.createObjectURL(pdf.output('blob')) : '';
 
   const getImagesUrls = useMemo(
@@ -61,7 +65,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node }: Pr
       await nodeToImage({
         node,
         options: {
-          filter: filterExcludedNodes
+          filter: node => sanitizeNode(node)
         }
       }).then(imageUrl => dispatch({ type: setImagesUrls, payload: [imageUrl] })),
     [setImagesUrls]
@@ -79,18 +83,28 @@ export default function DownloadPdfDialog({ customDashboardId, close, node }: Pr
     dispatch({ type: setPdf, payload: null });
     dispatch({ type: setIsGenerating, payload: { value: true } });
 
+    // Generate pdf header image
+    // Header url will be available in headerUrl variable.
+    if (header) {
+      getPdfHeader({
+        node: header,
+        dispatch: (headerUrl: string) => dispatch({ type: setHeaderUrl, payload: headerUrl })
+      });
+    }
+
     if (stackedWidgets) {
       getImagesFromNodes([...node.childNodes] as HTMLElement[]);
     } else {
       getImagesUrls(node);
     }
-  }, [getImagesFromNodes, getImagesUrls, node, setIsGenerating, setPdf, stackedWidgets]);
+  }, [getImagesFromNodes, getImagesUrls, header, node, setHeaderUrl, setIsGenerating, setPdf, stackedWidgets]);
 
   const createPdf = useCallback(
-    (imagesUrls, customDashboardId) =>
+    (imagesUrls, headerUrl, customDashboardId) =>
       imagesToPdf({
         imageScale: stackedWidgets ? 1 : 2,
         imagesUrls,
+        headerUrl,
         filename: customDashboardId,
         shouldFitPdf,
         shouldDownloadAfterGeneration: false,
@@ -111,10 +125,10 @@ export default function DownloadPdfDialog({ customDashboardId, close, node }: Pr
       if (!imagesUrls || imagesUrls.length === 0) {
         generateImageFromNode();
       } else {
-        createPdf(imagesUrls, customDashboardId);
+        createPdf(imagesUrls, headerUrl, customDashboardId);
       }
     }
-  }, [value, node, imagesUrls, stackedWidgets, generateImageFromNode, createPdf, customDashboardId]);
+  }, [value, node, imagesUrls, stackedWidgets, generateImageFromNode, createPdf, customDashboardId, headerUrl]);
 
   return (
     <Dialog
@@ -138,7 +152,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node }: Pr
                         dispatch({ type: setPdf, payload: null });
                         dispatch({ type: setIsGenerating, payload: { value: false } });
                         dispatch({ type: setOrientation, payload: 'landscape' });
-                        trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_ORIENTATION, { orientation: 'landscape' });
+                        trackCta(DOWNLOAD_PDF_ORIENTATION, { orientation: 'landscape' });
                       }}
                     />
                     <RadioButton
@@ -149,7 +163,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node }: Pr
                         dispatch({ type: setPdf, payload: null });
                         dispatch({ type: setIsGenerating, payload: { value: false } });
                         dispatch({ type: setOrientation, payload: 'portrait' });
-                        trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_ORIENTATION, { orientation: 'portrait' });
+                        trackCta(DOWNLOAD_PDF_ORIENTATION, { orientation: 'portrait' });
                       }}
                     />
                   </Stack>
@@ -171,7 +185,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node }: Pr
                         dispatch({ type: setIsGenerating, payload: { value: false } });
                         dispatch({ type: setStackedWidgets, payload: false });
                         dispatch({ type: setImagesUrls, payload: null });
-                        trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_LAYOUT, { shouldFitPdf: true });
+                        trackCta(DOWNLOAD_PDF_LAYOUT, { shouldFitPdf: true });
                       }}
                     />
                     <RadioButton
@@ -182,7 +196,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node }: Pr
                       onChange={() => {
                         dispatch({ type: setPdf, payload: null });
                         dispatch({ type: setShouldFitPdf, payload: false });
-                        trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_LAYOUT, { shouldFitPdf: false, multiplePages: true });
+                        trackCta(DOWNLOAD_PDF_LAYOUT, { shouldFitPdf: false, multiplePages: true });
                       }}
                     />
                   </Stack>
@@ -204,7 +218,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node }: Pr
                         dispatch({ type: setShouldFitPdf, payload: stackedWidgets });
                         dispatch({ type: setImagesUrls, payload: null });
                         dispatch({ type: setStackedWidgets, payload: !stackedWidgets });
-                        trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_DISPLAY, { stackedWidgets: !stackedWidgets });
+                        trackCta(DOWNLOAD_PDF_DISPLAY, { stackedWidgets: !stackedWidgets });
                       }}
                     />
                   </Stack>
@@ -225,7 +239,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node }: Pr
                 iconSpinning={value}
                 onClick={() => {
                   dispatch({ type: setIsGenerating, payload: { value: true } });
-                  trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_GENERATE_PREVIEW, { isGenerating: true });
+                  trackCta(DOWNLOAD_PDF_GENERATE_PREVIEW, { isGenerating: true });
                 }}
               >
                 {text}
@@ -242,7 +256,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node }: Pr
           disabled={!(pdf && pdfBlob)}
           onClick={() => {
             pdf?.save(`${customDashboardId}.pdf`);
-            trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_FINISH, { customDashboardId });
+            trackCta(DOWNLOAD_PDF_FINISH, { customDashboardId });
             close();
           }}
         >

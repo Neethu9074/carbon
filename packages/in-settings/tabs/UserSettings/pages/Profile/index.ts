@@ -4,6 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-import Profile from 'in-settings/tabs/UserSettings/pages/Profile/Profile';
+import ProfileNew from 'in-settings/tabs/UserSettings/pages/Profile/ProfileNew';
 
-export default Profile;
+export default ProfileNew;

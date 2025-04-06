@@ -21,6 +21,7 @@ interface SloMetricConfigGeneratorProps {
   configId: string;
   timeConfig: TimeConfig;
   granularity?: number;
+  aggregation?: AggregationType;
 }
 
 interface ApplicationMetricConfigGeneratorProps {
@@ -105,10 +106,10 @@ export const sloMetrics = deepFreeze({
       } as const)
   },
   indicator: {
-    timeSeries: ({ configId, timeConfig, granularity }: SloMetricConfigGeneratorProps) =>
+    timeSeries: ({ configId, timeConfig, granularity, aggregation }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
-        aggregation: 'MEAN',
+        aggregation: aggregation ?? 'MEAN',
         source: 'SLO',
         configId,
         resultType: 'TIME_SERIES',
@@ -152,6 +153,30 @@ export const sloMetrics = deepFreeze({
         resultType: 'SINGLE_NUMBER',
         metric: 'TRAFFIC_PER_SECOND',
         timeConfig
+      } as const)
+  },
+  burnRate: {
+    label: t('in-service-levels:general.metrics.burnRate'),
+    singleNumber: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+      ({
+        timeShift: { offset: 0 },
+        aggregation: 'MEAN',
+        source: 'SLO',
+        configId,
+        resultType: 'SINGLE_NUMBER',
+        metric: 'BURN_RATE',
+        timeConfig
+      } as const),
+    timeSeries: ({ configId, timeConfig, granularity }: SloMetricConfigGeneratorProps) =>
+      ({
+        timeShift: { offset: 0 },
+        aggregation: 'MEAN',
+        source: 'SLO',
+        configId,
+        resultType: 'TIME_SERIES',
+        metric: 'ERROR_BURN_RATE_CHART',
+        timeConfig,
+        granularity: granularity ?? calculateSloGranularity(timeConfig)
       } as const)
   }
 });
@@ -259,13 +284,13 @@ export const sloPreviewMetrics = deepFreeze({
       } as const)
   },
 
-  consumedBudget: {
-    label: t('in-service-levels:general.metrics.consumedBudget'),
+  totalBudget: {
+    label: t('in-service-levels:general.metrics.totalBudget'),
     singleNumber: ({ config, timeConfig }: SloPreviewConfigGeneratorProps) =>
       ({
         aggregation: 'MEAN',
         config,
-        metric: 'CONSUMED_ERROR_BUDGET_CHART',
+        metric: 'TOTAL_ERROR_BUDGET',
         resultType: 'SINGLE_NUMBER',
         source: 'SLO_PREVIEW',
         timeConfig,

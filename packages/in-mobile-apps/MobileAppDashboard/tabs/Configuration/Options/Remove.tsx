@@ -10,8 +10,13 @@ import get from 'lodash/get';
 import { Card, Button } from '@instana/components';
 import { Disposable } from '@instana/observables';
 
+//@ts-expect-error no declaration file found
+// eslint-disable-next-line no-restricted-imports
+import { remove } from 'in-plg/pages/WelcomePage/widgets/starredItems';
 // @ts-expect-error needs migration to TS
 import HelpParagraph from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/HelpParagraph';
+// eslint-disable-next-line no-restricted-imports
+import { mobileApp } from 'in-plg/pages/WelcomePage/widgets/starredItems/types';
 // @ts-expect-error needs migration to TS
 import { mobileAppsPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -75,6 +80,7 @@ const Remove = (props: Props) => {
     removeMobileAppTracker({
       mobileAppName: props.mobileAppLabel
     });
+    remove({ id: mobileAppId, type: mobileApp });
 
     subscriptionRef.current = combineDataAndError(removeMobileApp(mobileAppId)).once(({ error }) => {
       if (error) {

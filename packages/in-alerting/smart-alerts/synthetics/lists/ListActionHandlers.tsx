@@ -6,10 +6,10 @@
 
 import React from 'react';
 
-import {
-  TearSheetEditActionHandler,
-  TearSheetCloneActionHandler
-} from 'in-alerting/smart-alerts/synthetics/lists/TearSheetActionHandlers';
+// import {
+//   TearSheetEditActionHandler,
+//   TearSheetCloneActionHandler
+// } from 'in-alerting/smart-alerts/synthetics/lists/TearSheetActionHandlers';
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
@@ -28,13 +28,13 @@ function handleEdit(config: SyntheticAlertConfigWithMetadata) {
   openSmartAlertDialog(config);
 }
 
-function HandleEditNew(config: SyntheticAlertConfigWithMetadata) {
-  return <TearSheetEditActionHandler id={config.id} created={config.created} alertConfig={config} />;
-}
+// function HandleEditNew(config: SyntheticAlertConfigWithMetadata) {
+//   return <TearSheetEditActionHandler id={config.id} created={config.created} alertConfig={config} />;
+// }
 
-function HandleCloneNew(config: SyntheticAlertConfigWithMetadata) {
-  return <TearSheetCloneActionHandler id={config.id} created={config.created} alertConfig={config} />;
-}
+// function HandleCloneNew(config: SyntheticAlertConfigWithMetadata) {
+//   return <TearSheetCloneActionHandler id={config.id} created={config.created} alertConfig={config} />;
+// }
 
 function openSmartAlertDialog(config: SyntheticAlertConfig & VersionedConfig, isCopy = false) {
   addActiveDialog(
@@ -51,15 +51,21 @@ function openSmartAlertDialog(config: SyntheticAlertConfig & VersionedConfig, is
 }
 
 export const actionHandlers: ActionHandlers<SyntheticAlertConfigWithMetadata> = {
-  handleClone: config => handleClone(config),
+  ...(!syntheticSmartAlertFullScreenDesignEnabled && { handleClone: config => handleClone(config) }),
   ...(syntheticSmartAlertFullScreenDesignEnabled && {
-    handleCloneNew: (config: SyntheticAlertConfigWithMetadata) => HandleCloneNew(config)
+    handleEditSelector: (config: SyntheticAlertConfigWithMetadata) => handleEdit(config)
   }),
+  // ...(syntheticSmartAlertFullScreenDesignEnabled && {
+  //   handleCloneNew: (config: SyntheticAlertConfigWithMetadata) => HandleCloneNew(config)
+  // }),
   handleDelete: (id, setIsSaving, configName, trackCta) =>
     handleDelete(id, setIsSaving, configName, baseUrl.SYNTHETICS, trackCta),
-  handleEdit: config => handleEdit(config),
+  ...(!syntheticSmartAlertFullScreenDesignEnabled && { handleEdit: config => handleEdit(config) }),
+  // ...(syntheticSmartAlertFullScreenDesignEnabled && {
+  //   handleEditNew: (config: SyntheticAlertConfigWithMetadata) => HandleEditNew(config)
+  // }),
   ...(syntheticSmartAlertFullScreenDesignEnabled && {
-    handleEditNew: (config: SyntheticAlertConfigWithMetadata) => HandleEditNew(config)
+    handleCloneSelector: (config: SyntheticAlertConfigWithMetadata) => handleClone(config)
   }),
   handleToggleEnabled: (enabled, id, setIsSaving) => handleToggleEnabled(enabled, id, setIsSaving, baseUrl.SYNTHETICS)
 };

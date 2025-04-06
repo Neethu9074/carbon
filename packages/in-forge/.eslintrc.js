@@ -25,6 +25,7 @@ module.exports = {
         'in-zhmc',
         'in-custom-dashboards',
         'in-nutanix',
+        'in-xenserver',
         'in-bizops',
         'in-websites',
         'in-vsphere',

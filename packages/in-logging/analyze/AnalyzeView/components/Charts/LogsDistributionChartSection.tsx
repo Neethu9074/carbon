@@ -37,7 +37,7 @@ import { t } from 'in-i18n';
 import locals from 'in-logging/analyze/AnalyzeView/components/LogsDistributionChartSection.mless';
 
 const placeholderTimeConfig = { to: null, windowSize: 1, autoRefresh: false };
-const title = `${t('in-logging:logs')} ${t('in-logging:count')} (${t('in-logging:sum')})`;
+const title = t('in-logging:logsCountSum');
 
 export default function LogsDistributionChartSection(props: LogsDistributionChartSectionProps) {
   const { chartedMetrics, dataSource, onChartedMetricsChange, tracking, hideRenderer, disableClose, isDashboard } =

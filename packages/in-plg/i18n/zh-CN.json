@@ -183,7 +183,7 @@
       "romanStep3": "(iii) ",
       "selectAwsRegion": "选择 AWS 区域",
       "awsRegion": "AWS 区域",
-      "awsCommandLineInterfaceValue": "提供值并使用类似于以下命令的命令来使用 AWS 命令行界面",
+      "awsCommandLineInterfaceValue": "提供值并使用类似于以下命令的命令来使用 AWS 命令行界面 (CLI)",
       "amazonResourceName": "Amazon 资源名称 (ARN)",
       "setEnvVariablesInLambdaFunction": "在 Lambda 函数中设置以下环境变量。",
       "selectInstanaLambdaLayer": "选择具有以下 Amazon 资源名称 (ARN) 的 Instana Lambda 层。",
@@ -210,11 +210,11 @@
       "trustRelationships": "信任关系",
       "enterAClusterNameAndOptionallyTheAgentZone": "输入集群名称以及（可选）您希望该集群所属的代理程序区域。",
       "awsLambdaNodeJsAutotrace": "基于 Node.js 10.x（或更新版本）配置 AWS Lambda 函数以进行跟踪的首选方法是带有 AutoTrace 的 Instana Lambda 层。",
-      "selectAwsRegionAndLambdaHandler": "选择 AWS 区域并输入当前的 lambda 处理程序",
+      "selectAwsRegionAndLambdaHandler": "选择 AWS 区域并输入当前的 Lambda 处理程序",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "将 Instana 自动打包处理程序设置为 Lambda 函数的处理程序。",
       "autoWrapHandler": "自动合并处理程序",
       "prerequisiteLinks": {
-        "networkRequirements": "网络需求"
+        "networkRequirements": "网络要求"
       },
       "documentationLinks": {
         "installAgentOnAwsEc2": "在 AWS EC2 (Windows) 上安装代理程序",
@@ -225,14 +225,14 @@
         "gcBuildpackDocs": "Google Cloud Run buildpack 文档",
         "setupGcpAgent": "设置 GCP 代理程序",
         "awsLambdaNativeTracingForNodeJs": "AWS Lambda Native Tracing for Node.js",
-        "instanaLambdaLayerAndManualWrapping": "Instana Lambda 层 & 手动包装",
+        "instanaLambdaLayerAndManualWrapping": "Instana Lambda 层和手动包装",
         "awsLambdaEnvVariables": "AWS Lambda 环境变量",
         "monitoringPython": "监视 Python",
         "runningStartupScript": "运行启动脚本",
         "uninstallingTheHostAgent": "卸载主机代理程序",
         "awsLambdaNativeTracingForJava": "AWS Lambda Native Tracing for Java",
         "awsLambdaNativeTracingForDotNet": "AWS Lambda Native Tracing for .NET Core",
-        "awsLambdaFunctions": "AWS lambda 功能",
+        "awsLambdaFunctions": "AWS Lambda 功能",
         "monitoringAwsFargate": "监视 AWS Fargate",
         "monitoringAwsFargateJava": "监视 AWS Fargate (Java)",
         "configureTaskDefinition": "配置任务定义",
@@ -240,8 +240,8 @@
         "monitoringAwsFargateNodejs": "监视 AWS Fargate (Node.js)",
         "monitoringAwsFargatePython": "监视 AWS Fargate (Python)",
         "monitoredAwsServices": "受监视的 AWS 服务",
-        "monitoringNodejs": "监视节点 js",
-        "installGcrCollectors": "安装 Gogle Cloud Run 进程内收集器",
+        "monitoringNodejs": "监视节点 .js",
+        "installGcrCollectors": "安装 Google Cloud Run 进程内收集器",
         "installAgentOnEc2": "在 AWS EC2 上安装代理程序",
         "configurationOptions": "配置选项",
         "monitoringGcr": "监视 Google Cloud Run",
@@ -298,7 +298,7 @@
       "addTileToOpsManagerAndConfigureIt": "将磁贴添加到 Ops Manager 并对其进行配置",
       "addInstanaApplicationMonitoring": "将“Instana Microservices Application Monitoring”磁贴添加到 Ops Manager，并将以下内容应用于该磁贴的“后端配置”选项卡。",
       "nameYourVmwareFoundation": "命名 VMware Tanzu Foundation",
-      "assignANameToVMwareTanzuFoundation": "通过访问“代理程序配置”选项卡中的“代理程序区域”设置，为 VMware Tanzu Foundation（例如，“prod-eu”或“dev01”）分配名称。",
+      "assignANameToVMwareTanzuFoundation": "通过访问\"代理程序配置\"选项卡中的\"代理程序区域\"设置，为 VMware Tanzu Foundation（例如，\"prod-eu\"或\"dev01\"）分配名称。",
       "applyTileChanges": "应用磁贴更改",
       "applyTheChangesMadeWithinThisTile": "将此磁贴中所作的更改应用于 Ops Manager 中的所有其他磁贴。 未针对 Ops Manager 中的“应用更改”步骤选择的磁贴将在 Instana 中隐藏。"
     },
@@ -367,7 +367,7 @@
           "linux64BitArm": "Linux（64 位 - ARM）",
           "linux64BitAmd": "Linux（64 位 - AMD）",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
-          "linux64BitPowerPcLittleEndian": "Linux（64 位 - PowerPC Little Endian）",
+          "linux64BitPowerPcLittleEndian": "Linux（64 位 - PowerPC 小尾数法）",
           "linuxS390XJdkNotIncluded": "Linux（64 位 - s390x），不包括 JDK",
           "linuxS390X": "Linux (64Bit - s390x)",
           "linuxX8664": "Linux (64Bit - x86_64)",
@@ -407,7 +407,7 @@
           "linux32BitArm": "Linux（32 位 - ARM）",
           "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
           "linux32BitPowerPc": "Linux (32Bit - PowerPC)",
-          "linux64BitPowerPcLittleEndian": "Linux（64 位 - PowerPC Little Endian）",
+          "linux64BitPowerPcLittleEndian": "Linux（64 位 - PowerPC 小尾数法）",
           "linuxS390X": "Linux (s390x)"
         }
       },
@@ -415,6 +415,16 @@
         "installAnAgentOnLinux": "在 Linux 上安装代理程序",
         "configurationParameters": "配置参数"
       }
+    },
+    "zos": {
+      "zos": "z/OS",
+      "selectTheAgentPackagingMode": "步骤 1：选择代理程序打包方式",
+      "Packaging": "打包",
+      "dynamic": "动态",
+      "static": "静态",
+      "RunTheAgentDeploymentCode": "第 2 步：运行代理部署代码（来自 z/OS 的 USS 层）。",
+      "installagentOnZOS": "在 z/OS（气隙式环境）上安装代理",
+      "installagentOnZOS1": "安装代理后（跟踪先决条件检查）"
     },
     "ibmi": {
       "ibmi": "IBM i",
@@ -493,9 +503,9 @@
       "installationMethod": "安装方法",
       "selectInstallationMethod": "步骤 1：选择安装方法和应用程序运行时。",
       "selectAgentPackagingMode": "步骤 1：选择代理程序打包方式",
-      "useScript": "步骤 2：将以下脚本用作 GCE 实例的“启动脚本”",
+      "useScript": "步骤 2：将以下脚本用作 GCE 实例的\"启动脚本\"",
       "integrateInstanaInProcessCollectorForGoogle": "步骤 2：集成 Instana 进程内收集器以用于 Google Cloud Run。",
-      "setEnvironmentVariablesCloudRunServiceDefinition": "步骤 3：在“Cloud Run Service 定义”上设置以下环境变量。",
+      "setEnvironmentVariablesCloudRunServiceDefinition": "步骤 3：在\"Cloud Run Service 定义\"上设置以下环境变量。",
       "setEnvVariablesInCloudRunServiceRevision": "在 Cloud Run Service Revision 中设置以下环境变量。"
     },
     "macOs": {
@@ -844,5 +854,10 @@
     "done": "完成",
     "otherGoalPlaceholder": "例如，获得整个环境的可视性",
     "otherGoalToAccomplish": "您还想实现哪些其他目标？"
+  },
+  "privacyNotification": {
+    "title": "管理您的概要文件",
+    "description": "在同一个位置查看和更新您的概要文件、调整隐私设置和注销。",
+    "buttonText": "完成"
   }
 }

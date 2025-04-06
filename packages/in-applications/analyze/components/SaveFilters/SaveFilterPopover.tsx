@@ -19,7 +19,15 @@ import {
   CarbonForm as Form,
   CarbonLayer as Layer
 } from '@instana/components';
-import { Group, Result, SavedFilter, SavedFilterGroup, TagFilterExpressionElementUnion } from '@instana/types';
+import {
+  DataSource,
+  Group,
+  Result,
+  SavedFilter,
+  SavedFilterArea,
+  SavedFilterGroup,
+  TagFilterExpressionElementUnion
+} from '@instana/types';
 
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { selectedFilter$, setSelectedFilter } from 'in-applications/analyze/utils/filterUtils';
@@ -37,9 +45,10 @@ interface Props {
   backendQueryModel: TagFilterExpressionElementUnion;
   formModel: FormModelElement[];
   group: Group;
+  dataSource: DataSource;
 }
 
-export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props): JSX.Element => {
+export const SaveFilterPopover = ({ backendQueryModel, dataSource, formModel, group }: Props): JSX.Element => {
   const maxLength = 75;
   const hasGroup = !!Object.keys(group).length;
   const [open, setOpen] = useState<boolean>(false);
@@ -54,16 +63,13 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
   useDisabledBodyScroll(open);
 
   useEffect(() => {
+    const hasFilters = formModel.length > 0;
     const subscription = selectedFilter$.subscribe(
       ({ action, filter }: { action: string; filter: Partial<SavedFilter> | null }) => {
-        const hasFiltersOrGrouping = formModel.length || Boolean(group.groupbyTag);
-        const isEditing = action === 'edit';
-
-        if (isEditing) {
+        if (action === 'edit') {
           setIsEdit(true);
           setOpen(true);
-          setIsSaveDisabled(false);
-        } else if (hasFiltersOrGrouping && action === 'click') {
+        } else if (hasFilters && action === 'click' && filter?.area === dataSource) {
           if (!filter) return;
           const hasChanged = hasFilterOrGroupChanged(
             fromBackendModel(filter.tagFilterExpression),
@@ -73,7 +79,7 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
           );
           setIsSaveDisabled(!hasChanged);
         } else {
-          setIsSaveDisabled(!hasFiltersOrGrouping);
+          setIsSaveDisabled(!hasFilters);
         }
         setFilter(
           (filter as SavedFilter) ?? {
@@ -85,7 +91,8 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
     );
 
     return () => subscription.dispose();
-  }, [formModel, group]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formModel, group, dataSource]);
 
   useEffect(() => {
     setIncludeGroup(hasGroup);
@@ -97,6 +104,7 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
       id: '',
       name: ''
     });
+    setInvalidText('');
     setOpen(false);
     setIsEdit(false);
   };
@@ -116,12 +124,13 @@ export const SaveFilterPopover = ({ backendQueryModel, formModel, group }: Props
   };
 
   const handleSave = () => {
-    const payload = {
+    const payload: Omit<SavedFilter, 'id'> = {
       name: filter.name,
       tagFilterExpression: backendQueryModel,
       ...(includeGroup && {
         group: { tag: group.groupbyTag, entity: group.groupbyTagEntity ?? NOT_APPLICABLE } as SavedFilterGroup
-      })
+      }),
+      area: String(dataSource).toUpperCase() as SavedFilterArea
     };
 
     const apiCall$ = isEdit

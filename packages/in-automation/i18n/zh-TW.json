@@ -1,4 +1,5 @@
 {
+  "automationAction": "自動化動作",
   "copy": "複製",
   "edit": "編輯",
   "delete": "刪除",
@@ -98,20 +99,25 @@
   "actionsWithCount": "動作 ({{count}})",
   "titleUrl": "URL",
   "generateWithWatsonx": "透過 watsonx 生成",
-  "AISlugContent": "已使用 AI 來產生此內容",
   "createPolicyWithName": "檢視動作 {{actionName}} 並建立原則",
   "viewActionCreatePolicy": "檢視動作並建立原則",
   "titleContentReadOnly": "產生的內容（唯讀）",
+  "hostId": "主機 ID",
+  "ansibleUrl": "Ansible url",
+  "playbookFileName": "Playbook 檔名",
+  "playbookId": "Playbook ID",
+  "triggeringEvent": "觸發事件",
+  "probableRootCause": "可能的主要原因",
+  "contextFor": "環境定義為：",
   "GenerateAIActionDialog": {
     "actionConfiguration": "動作配置",
     "actionDetails": "動作詳細資料",
     "Step1HeadlineSelectAction": "從 watsonx 產生的內建動作開始，為這個事件建立新的動作。",
-    "Step1HeadlinePrompt": "根據事件名稱、說明和實體類型，使用 watsonx 產生手動動作。",
+    "Step1HeadlinePrompt": "根據事件名稱、說明和實體類型，使用 watsonx 產生手動動作。 您可以編輯並再次產生以查看",
     "Step2Headline": "在將其儲存到動作型錄之前，指定動作詳細資料或進行變更。",
     "Step3Headline": "您可以選擇在動作中建立自動化原則。 也可以稍後再完成此步驟。",
     "step1Title": "步驟 1：產生或選取動作",
     "step1TitleGenerateAction": "步驟 1：產生動作",
-    "step1TitleSelectAction": "步驟 1：選取一個動作",
     "step2Title": "步驟 2：配置動作",
     "step3Title": "步驟 3：建立原則（選用）",
     "policyDetails": "原則詳細資料",
@@ -145,7 +151,6 @@
     "createActionAndPolicy": "建立動作和原則",
     "createAction": "建立動作",
     "nameExists": "已存在一個動作，名稱為：{{name}}，且類型為：{{type}}",
-    "failedToGenerateAction": "產生動作失敗。",
     "failedToCreateActionPolicy": "無法建立動作和原則。",
     "failedToCreateAction": "建立動作失敗。",
     "generateScriptDialog": {
@@ -190,7 +195,7 @@
     "lastModified": "前次修改時間",
     "script": "Script",
     "interpreter": "直譯器 (選用)",
-    "interpreterHelper": "直譯器是將執行 Script 的程式。 例如，bash 或 python。 這可以是直譯器的完整路徑，也可以只是直譯器的名稱（如果它位於 PATH 中）。 如果 Script 具有 shebang，或 Script 使用預設直譯器，則不需要此欄位。",
+    "interpreterHelper": "直譯器是將執行 Script 的程式。 例如，bash 或 Python。 這可以是直譯器的完整路徑，也可以只是直譯器的名稱（如果它位於 PATH 中）。 如果 Script 具有 shebang，或 Script 使用預設直譯器，則不需要此欄位。",
     "ansible": "Ansible",
     "github": "Github 問題",
     "githubBody": "內文",
@@ -225,6 +230,9 @@
     "1ActionDetails": "1. 動作詳細資料",
     "2ActionConfiguration": "2. 動作配置",
     "3ParamaterDetails": "3. 參數詳細資料",
+    "actionDetails": "動作詳細資料",
+    "actionConfiguration": "動作配置",
+    "parameterDetails": "參數詳細資料",
     "timeout": "逾時（選用）",
     "timeoutHelpText": "等待動作完成的時間上限（以秒為單位）。 如果動作未在逾時內完成，則會終止。 這將置換代理程式配置中所設定的逾時。",
     "host": "主機",
@@ -249,6 +257,7 @@
     "editParameter": "編輯參數",
     "noParametersConfigured": "未配置任何參數",
     "required": "值為必要項目",
+    "viewParameter": "檢視參數",
     "hiddenParam": "隱藏",
     "valueType": "值類型",
     "displayName": "顯示名稱",
@@ -283,7 +292,7 @@
     "task": "作業",
     "bug": "錯誤",
     "improvement": "改善",
-    "newFeature": "新增特性",
+    "newFeature": "新增功能",
     "view": "檢視",
     "content": "内容",
     "mustHaveRequiredTag": "動作必須包含以下標籤中的至少一個：{{tags}}",
@@ -378,7 +387,6 @@
   },
   "policies": {
     "policies": "原則",
-    "policiesWithCount": "原則 ({{count}})",
     "newPolicy": "新建原則",
     "selectEventTrigger": "選取事件觸發程式",
     "eventTrigger": "事件觸發程式",
@@ -424,7 +432,7 @@
     "manualAutomatic": "手動，自動",
     "policyType": "原則類型",
     "noPolicies": "未配置任何原則。",
-    "filterApplied": "已套用過濾器",
+    "filterApplied": "套用的過濾器",
     "createDialog": {
       "success": {
         "title": "已順利建立原則。",
@@ -472,7 +480,7 @@
     "showTasks": "顯示"
   },
   "deleteDialog": {
-    "confirmRemove": "請確認",
+    "confirmRemove": "確認移除",
     "confirmRemoveMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？",
     "delete": "刪除"
   },
@@ -507,11 +515,66 @@
     "recommendedActionHistoryWithCount": "資源動作歷程 ({{count}})",
     "recommendedActionHistory": "資源動作歷程"
   },
+  "actionDashboard": {
+    "ActionConfiguration": "動作配置",
+    "ActionDetails": "動作詳細資料",
+    "ParameterDetails": "參數詳細資料",
+    "tabs": {
+      "summaryLabel": "摘要",
+      "configurationLabel": "配置"
+    },
+    "noOfTimesRun": "執行次數",
+    "successRate": "成功率",
+    "avgExecutionTime": "平均執行時間",
+    "lastModified": "前次修改時間",
+    "history": "歷程",
+    "summaryTab": {
+      "millisecond": "毫秒"
+    },
+    "associatedPolicies": "相關聯的原則"
+  },
   "feedback": {
     "contentHelpfulText": "此產生內容是否有幫助？",
     "thankYouForYourFeedback": "謝謝您的意見！",
     "submitFeedback": "提交意見回饋",
     "additionalFeedbacklabel": "提供其他意見（選用）",
-    "additionalFeedbackPlaceholder": "您不喜歡回應的哪一點？ 可以改進的地方"
+    "additionalFeedbackPlaceholder": "您不喜歡回應的哪一點？ 有哪些地方可以改進？"
+  },
+  "consentForm": {
+    "consentButton": "審核同意表單",
+    "consentText": "管理者必須同意 Generative AI Assistance Preview 隱私權協議才能啟用此功能。"
+  },
+  "AITooltip": {
+    "aiExplained": "AI 說明",
+    "manualSection": {
+      "section1": {
+        "section1Title": "動作產生",
+        "section1Text": "為了產生一組手動步驟來診斷或修復問題，我們會將事件資訊傳送至 watsonx。  用於制定 AI 提示的輸入資料最初是從現行的事件中移入，並且可以進行修改以改善結果。"
+      },
+      "section2": {
+        "section2Title": "輸入提示欄位",
+        "section2EventName": "<strong>事件名稱。</strong> 發生事件、事件或警示的名稱。",
+        "section2Description": "<strong>活動說明。</strong> 發生事件或事件的說明。",
+        "section2Entitytype": "<strong>事件實體類型。</strong> 與發生事件或事件相關聯的實體類型。"
+      },
+      "section3": {
+        "AIModel": "AI 模型"
+      },
+      "section4": {
+        "section4Text": "這是預覽功能。 它為解決某個發生事件或事件的建議動作提供了建議的草案。 您應該確定輸出是否符合您的需求。"
+      }
+    },
+    "scriptSection": {
+      "section1": {
+        "section1Text": "為了產生 Script，我們會將手動動作步驟的指示傳送到 watsonx。 可以修改步驟來改善結果。"
+      },
+      "section3": {
+        "section3Text": "這是一個預覽功能，它提供了執行動作的建議 Script。 您應該確定輸出是否符合您的需求。"
+      }
+    },
+    "preGenerated": {
+      "title": "預先產生的 AI 動作",
+      "text": "從使用 watsonx 的 AI 模型預先產生的動作清單中進行選取，以協助診斷或修復系統中的事件。"
+    }
   }
 }

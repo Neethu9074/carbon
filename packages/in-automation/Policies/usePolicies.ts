@@ -21,8 +21,10 @@ export function refresh() {
   refreshSignal.emit(true);
 }
 
-export default function usePolicies() {
-  return useObservable(refreshSignal.flatMap(getPolicies), []) ?? (pendingResult as Result<Policy[]>);
+export default function usePolicies(actionId?: string) {
+  return (
+    useObservable(() => refreshSignal.flatMap(() => getPolicies(actionId)), []) ?? (pendingResult as Result<Policy[]>)
+  );
 }
 
 export interface UsePaginatedPoliciesParams {

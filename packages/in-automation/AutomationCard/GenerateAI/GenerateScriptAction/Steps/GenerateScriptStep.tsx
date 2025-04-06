@@ -17,10 +17,11 @@ import FeedbackComponent from 'in-automation/AutomationCard/GenerateAI/FeedbackC
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingSection from 'in-automation/AutomationCard/GenerateAI/LoadingSection';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
+import ConsentForm from 'in-automation/components/ConsentForm/ConsentForm';
 import { error, hasError, isLoading } from 'in-services/util/result';
-import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -136,28 +137,32 @@ function GenerateScriptButton({
   const promptForm = form.get('prompt');
   const { aiActionScriptGenerateAIButtonTrackerSegment, aiActionGenerateErrorTrackerSegment } = useSegmentTracker();
   return (
-    <Button
-      kind="secondary"
-      className={locals.generateScriptButton}
-      disabled={
-        (!promptForm.hierarchyValid && promptForm.hierarchyTouched) || (!!generatedAction && isLoading(generatedAction))
-      }
-      onClick={() => {
-        if (!promptForm.hierarchyValid) {
-          setForm(form.updateIn(['prompt'], promptForm => promptForm.setTouched(true, { recurse: true })));
-          return;
+    <>
+      <Button
+        kind="secondary"
+        className={locals.generateScriptButton}
+        disabled={
+          (!promptForm.hierarchyValid && promptForm.hierarchyTouched) ||
+          (!!generatedAction && isLoading(generatedAction)) ||
+          !automationActionAiGenerationUnitEnabled
         }
-        generateAIActionForm({
-          form,
-          setForm,
-          aiActionScriptGenerateAIButtonTrackerSegment,
-          aiActionGenerateErrorTrackerSegment
-        });
-      }}
-      icon="lib_launch_ai"
-    >
-      {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
-    </Button>
+        onClick={() => {
+          if (!promptForm.hierarchyValid) {
+            setForm(form.updateIn(['prompt'], promptForm => promptForm.setTouched(true, { recurse: true })));
+            return;
+          }
+          generateAIActionForm({
+            form,
+            setForm,
+            aiActionScriptGenerateAIButtonTrackerSegment,
+            aiActionGenerateErrorTrackerSegment
+          });
+        }}
+        icon="lib_generate_ai"
+      >
+        {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
+      </Button>
+    </>
   );
 }
 
@@ -202,7 +207,6 @@ function ScriptSection({
       </div>
       <div className={locals.CodeWithAISlug}>
         <CodeComponent withExpandButton linesToShow={20} code={plaintextScript} lang={'bash'} softWrap />
-        <AISlugIcon />
       </div>
       <FeedbackComponent
         trackerPayload={trackerPayload}
@@ -222,6 +226,7 @@ export default function GenerateScriptStep({
 }) {
   const promptForm = form.get('prompt');
   const promptStep = promptForm.get('promptStep');
+  const { clickEPWTLink } = useSegmentTracker();
   const onChangeValue = (val: string) => {
     setForm(form => form.updateIn(['prompt', 'promptStep'], item => item.setValue(val).setTouched(true)));
     setForm(form =>
@@ -229,6 +234,12 @@ export default function GenerateScriptStep({
         item.setValue(`This action has script for  ${val}`).setTouched(true)
       )
     );
+  };
+
+  const handleClick = () => {
+    clickEPWTLink({
+      type: { type: 'scriptActionGeneration' }
+    });
   };
 
   return (
@@ -259,6 +270,8 @@ export default function GenerateScriptStep({
                 <GenerateScriptButton form={form} setForm={setForm} />
               </div>
               <TouchedMessages field={field} />
+
+              {!automationActionAiGenerationUnitEnabled && <ConsentForm onClick={handleClick} />}
             </FormGroup>
           ))}
         </Col>

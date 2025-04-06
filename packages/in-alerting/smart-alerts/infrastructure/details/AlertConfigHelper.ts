@@ -12,6 +12,7 @@ import {
   percentage
 } from 'in-services/formatters/number';
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
+import { formatMetricValue } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getMetricDefinition, MetricDefinition } from 'in-sdk/metrics/metrics';
 import { deepFreeze } from 'in-services/util/object';
@@ -61,4 +62,21 @@ export function getMetricUnitPostfix(formatter: string) {
     default:
       return '';
   }
+}
+
+export function getMetricFormatter(value: number, formatter: NumberFormatterObject, type: string) {
+  const formatterName = getFormatterType(formatter?.detailed);
+  const isPercentage = formatterName === 'PERCENTAGE';
+  const isNumber = formatterName === 'NUMBER';
+  const hasDecimals = value !== Math.floor(value);
+
+  if (hasDecimals) {
+    if (isPercentage) {
+      return formatMetricValue(percentage, value);
+    } else if (isNumber) {
+      return formatMetricValue(number.forcedDetailed, value);
+    }
+  }
+
+  return type === 'compact' ? formatter.compact?.(value) : formatter.detailed?.(value);
 }

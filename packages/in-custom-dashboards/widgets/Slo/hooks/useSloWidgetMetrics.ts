@@ -29,9 +29,12 @@ export default function useSloWidgetMetrics(
     timeConfig
   });
 
+  const totalBudegtSingleNumberMetrics = sloMetrics.totalBudget.singleNumber({ timeConfig, configId: sloConfig.id! });
+
   const metrics = {
-    remainingBudgetNumber: remainingBudgetSingleNumberMetrics,
-    statusMetric: statusMetrics
+    remainingBudget: remainingBudgetSingleNumberMetrics,
+    sloStatus: statusMetrics,
+    totalBudget: totalBudegtSingleNumberMetrics
   };
 
   const result: Result<MetricResult[]> =

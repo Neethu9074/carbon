@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { CarbonMenuItem, SvgIcon } from '@instana/components';
+import { CarbonMenuItem } from '@instana/components';
 
 import { integrationKey as falconLogScaleIntegrationKey } from 'in-integrations/logging/falconLogScale/consts';
 import { formatDurationAccurately } from 'in-services/formatters/date';
@@ -23,9 +23,6 @@ export default function FalconLogScaleButton(props) {
 
   return (
     <CarbonMenuItem
-      renderIcon={() => {
-        return <SvgIcon type="lib_humio" />;
-      }}
       label="Falcon Log Scale"
       onClick={() => {
         jumpToThirdParty(falconLogScaleIntegrationKey);

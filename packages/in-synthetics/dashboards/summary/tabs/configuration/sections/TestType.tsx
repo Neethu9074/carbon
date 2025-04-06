@@ -20,7 +20,7 @@ interface Props {
 }
 
 type SyntheticMapping = {
-  testType: 'API' | 'Browser' | 'Webpage' | 'DNS' | 'SSL Certificate' | '';
+  testType: 'API' | 'Browser' | 'Webpage' | 'Domain Name Server' | 'SSL Certificate' | '';
   subTestType: 'Simple' | 'Script' | '';
 };
 
@@ -36,7 +36,7 @@ const TestTypeSection = ({ test }: Props) => {
       BrowserScript: { testType: 'Browser', subTestType: 'Script' },
       WebpageAction: { testType: 'Webpage', subTestType: 'Simple' },
       WebpageScript: { testType: 'Webpage', subTestType: 'Script' },
-      DNS: { testType: 'DNS', subTestType: '' },
+      DNS: { testType: 'Domain Name Server', subTestType: '' },
       SSLCertificate: { testType: 'SSL Certificate', subTestType: '' },
       NotConfigured: { testType: '', subTestType: '' }
     };
@@ -66,7 +66,7 @@ const TestTypeSection = ({ test }: Props) => {
             value={mapSyntheticType(configuration.syntheticType).testType}
           />
         </Col>
-        {configuration.syntheticType != 'SSLCertificate' && (
+        {!['SSLCertificate', 'DNS'].includes(configuration.syntheticType) && (
           <Col xs={3}>
             <KeyValue
               label={t('in-synthetics:dashboard.configuration.subType')}

@@ -25,6 +25,7 @@ import { useSegmentTracking, CtaTrackingFunction } from 'in-services/tracking/us
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { ADVANCED, SIMPLE } from 'in-alerting/smart-alerts/data/constants';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t } from 'in-i18n';
 
@@ -164,23 +165,23 @@ function createOrSaveAlert(
     return;
   }
 
-  const alertConfig = toAlertConfig(form);
+  const smartAlertConfig = toAlertConfig(form);
 
   if (editMode) {
-    updateAlertConfig(alertConfig, (form.get('id') as Field<string>).value).once(
+    updateAlertConfig(smartAlertConfig, (form.get('id') as Field<string>).value).once(
       alertConfig => {
         onClose(alertConfig);
         showSuccessMessage(alertConfig.name, editMode);
-        trackCta(ALERTING_UPDATED, { ...alertConfig });
+        trackCta(ALERTING_UPDATED, { ...smartAlertConfig, dialogMode: ADVANCED });
       },
       error => {
-        logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
+        logger.error(`failed to update alertConfig: ${smartAlertConfig} ${error.message}`, error);
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
         setIsSaving(false);
       }
     );
   } else {
-    createAlertConfig(alertConfig).once(
+    createAlertConfig(smartAlertConfig).once(
       alertConfig => {
         onClose(alertConfig);
         const href = testId
@@ -188,10 +189,13 @@ function createOrSaveAlert(
           : getLinkToGlobalAlertConfig(alertConfig?.id);
         showSuccessMessage(alertConfig.name, editMode, false, href);
         const newConfig = duplicateFrom ? { ...alertConfig, cloneFromId: duplicateFrom } : alertConfig;
-        trackCta(ALERTING_SAVED, { ...newConfig, dialogMode: simpleMode ? 'Simple' : 'Advanced' });
+        trackCta(ALERTING_SAVED, {
+          ...newConfig,
+          dialogMode: simpleMode ? SIMPLE : ADVANCED
+        });
       },
       error => {
-        logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
+        logger.error(`failed to save alertConfig: ${smartAlertConfig} ${error.message}`, error);
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
         setIsSaving(false);
       }

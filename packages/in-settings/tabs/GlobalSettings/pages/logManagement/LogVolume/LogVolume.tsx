@@ -12,10 +12,10 @@ import { t } from '@instana/i18n-react';
 import { Result } from '@instana/types';
 
 import LogVolumeGroupingConfigurator from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/workspaces/LogVolumeGroupingConfigurator';
+import { generateQuery, getLabelByName } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/utils';
 import LogVolumeDetails from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/LogVolumeDetails';
 import { TagNames, TagObject } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/types';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
-import { generateQuery } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/utils';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getLogVolumeReport, GetVolumeReportData } from 'in-logging/api/logVolume';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
@@ -30,9 +30,11 @@ import Title from 'in-components/Title';
 
 import locals from './LogVolume.mless';
 
-const localisationStrings = {
+export const localisationStrings = {
   logVolume: t('in-settings:tabs.logVolume.logVolume'),
-  timeRange: t('in-settings:tabs.logVolume.timeRange')
+  timeRange: t('in-settings:tabs.logVolume.timeRange'),
+  timeRangeAndGroup: t('in-settings:tabs.logVolume.timeRangeAndGroup'),
+  content: t('in-settings:tabs.logVolume.content')
 };
 
 const defaultProps = {
@@ -108,7 +110,7 @@ export function LogVolume() {
           <SubViewHeader>{localisationStrings.logVolume}</SubViewHeader>
         </section>
         <div>
-          <section>
+          <section aria-label={localisationStrings.timeRangeAndGroup}>
             <Ul>
               <Li>
                 <CarbonLayer>
@@ -163,7 +165,7 @@ export function LogVolume() {
                 progress={progress}
                 data={data?.logVolumeUsageItems}
                 timePeriod={timePeriod}
-                groupingTag={'groupingTagLabel'}
+                groupingTag={groupingTag ? getLabelByName(groupingTag) ?? '' : ''}
               />
             )}
           </section>

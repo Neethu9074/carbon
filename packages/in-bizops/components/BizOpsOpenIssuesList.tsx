@@ -1,25 +1,28 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
 import React from 'react';
 
 import { EntityHealthInfo, Result, TimeConfig, Event } from '@instana/types';
+import { combineLatest, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error Module needs to be translated to TS
 import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
 import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApplicationEntityHealthInfo';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { pendingResult } from 'in-services/fixedObjects';
 import { eventsPath } from 'in-events/navigation/paths';
-import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 
 interface BizOpsOpenIssuesListProps {
   inContentArea: boolean;
-  serviceIds: string[];
+  serviceIds?: string[];
+  endpointIds?: string[];
   close: any;
   timeConfig: TimeConfig;
 }
@@ -28,11 +31,15 @@ interface BizOpsOpenIssuesListProps {
 export default function BizOpsOpenIssuesList({
   inContentArea,
   serviceIds,
+  endpointIds,
   close,
   timeConfig
 }: BizOpsOpenIssuesListProps) {
-  const additionalDFQFilter = getAdditionalFilters({ serviceIds });
-  const eventsViewFilteredByOrQuery = getEventsViewFilteredByOrQuery(serviceIds);
+  const hasServiceId = Boolean(serviceIds?.length);
+  const hasEndpointId = Boolean(endpointIds?.length);
+
+  const additionalDFQFilter = getAdditionalFilters({ hasServiceId, hasEndpointId });
+  const eventsViewFilteredByOrQuery = getEventsViewFilteredByOrQuery({ serviceIds, endpointIds });
 
   interface maxWidthContentProps {
     children: React.ReactNode;
@@ -54,28 +61,45 @@ export default function BizOpsOpenIssuesList({
     data: []
   };
 
-  let openResults: Result<EntityHealthInfo>[] = [];
-  serviceIds.forEach(serviceId => {
-    // This observable is called from within a loop, which triggers an automatic rules-of-hooks warning.
-    // Since these serviceIds will always be in the same order when rendered in this component, this is fine.
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const currentHealthResult = useObservable(
+  // align the time config to now if it does not exist
+  let alignedTimeConfig = { ...timeConfig, ...{ to: Date.now(), focusedMoment: Date.now() } };
+
+  let observableList$: Observable<Result<EntityHealthInfo>>[] = [];
+
+  serviceIds?.forEach(serviceId => {
+    observableList$.push(
       getApplicationEntityHealthInfo({
         applicationId: '',
         serviceId,
         endpointId: '',
-        timeConfig
-      }),
-      [timeConfig]
+        timeConfig: timeConfig.to ? timeConfig : alignedTimeConfig
+      })
     );
-    if (currentHealthResult) openResults.push(currentHealthResult);
   });
+
+  endpointIds?.forEach(endpointId => {
+    observableList$.push(
+      getApplicationEntityHealthInfo({
+        applicationId: '',
+        serviceId: '',
+        endpointId,
+        timeConfig: timeConfig.to ? timeConfig : alignedTimeConfig
+      })
+    );
+  });
+
+  const openResults: Result<EntityHealthInfo>[] = useObservable(combineLatest(observableList$), [
+    timeConfig,
+    serviceIds,
+    endpointIds
+  ]) ?? [pendingResult];
 
   // Aggregate the results from each serviceID, these need to be in the same object to be passed into OpenIssuesListPresenter
   let fullData: Event[] = [];
   openResults.forEach(result => {
     if (result.data?.openIssues) {
-      fullData = fullData.concat(result.data?.openIssues);
+      // concat arrays without duplicates
+      fullData = [...new Set([...fullData, ...result.data.openIssues])];
     }
   });
 
@@ -83,7 +107,7 @@ export default function BizOpsOpenIssuesList({
   openIssuesResult.data = fullData;
 
   // if the full data is ready to load, the component is no longer loading
-  if (openIssuesResult.data) openIssuesResult.progress.loading = false;
+  if (openIssuesResult.data?.[0]) openIssuesResult.progress.loading = false;
 
   const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
 
@@ -116,7 +140,12 @@ export default function BizOpsOpenIssuesList({
   );
 }
 
-function getEventsViewFilteredByOrQuery(serviceIds: string[]) {
+interface GetEventsViewProps {
+  serviceIds?: string[];
+  endpointIds?: string[];
+}
+
+function getEventsViewFilteredByOrQuery({ serviceIds, endpointIds }: GetEventsViewProps) {
   let query = '';
 
   if (serviceIds) {
@@ -129,6 +158,18 @@ function getEventsViewFilteredByOrQuery(serviceIds: string[]) {
     });
     query.trim();
     query += ') entity.selfType:service';
+  }
+
+  if (endpointIds) {
+    query += '(';
+    endpointIds.forEach((id, index) => {
+      query += `entity.endpoint.id:"${id}"`;
+      if (index < endpointIds.length - 1) {
+        query += ' OR ';
+      }
+    });
+    query.trim();
+    query += ') entity.selfType:endpoint';
   }
 
   return query;
@@ -147,14 +188,23 @@ function useLinkToEventsViewFilteredByOr(query: string) {
   return createHref(location);
 }
 
-interface BizOpsAdditionalFiltersProps {
-  serviceIds: string[];
+interface GetAdditionalFiltersProps {
+  hasServiceId: boolean;
+  hasEndpointId: boolean;
 }
 
-function getAdditionalFilters({ serviceIds }: BizOpsAdditionalFiltersProps) {
+function getAdditionalFilters({ hasServiceId, hasEndpointId }: GetAdditionalFiltersProps) {
+  // There is a bug currently which lead to all events are hidden in the event view.
+  // A user wouldn't be able then to investigate further because there is no event to click on.
+  // Till that is solved, we disable this filter.
+  // const dfq = `event.state:open`;
   const dfq = '';
 
-  if (serviceIds) {
+  if (hasEndpointId) {
+    return `entity.selfType:endpoint ${dfq}`;
+  }
+
+  if (hasServiceId) {
     return `entity.selfType:service ${dfq}`;
   }
 

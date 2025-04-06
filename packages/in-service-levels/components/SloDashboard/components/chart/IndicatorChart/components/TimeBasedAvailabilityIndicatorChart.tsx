@@ -104,7 +104,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
           colors: [...windowColorsWithData, themes.default.ids.color.option.red['500']],
           formatter: percentage.detailed,
           labels: [...timeWindowsWithData.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
-          metrics: [...normalizedData, thresholdMetrics],
+          metrics: [...normalizedData.slice(timeWindowStartIndex), thresholdMetrics],
           metricIds: [...timeWindowsWithData.map(() => metricId), thresholdMetricId],
           renderer
         },

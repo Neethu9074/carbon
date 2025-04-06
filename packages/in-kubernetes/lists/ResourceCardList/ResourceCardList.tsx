@@ -5,6 +5,7 @@
  */
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
+
 import {
   Stack,
   Spacer,
@@ -73,9 +74,16 @@ interface ResourceCardListProps {
   type: Workload;
   getHrefs: (id: string, { tab, tabMatrix, timeConfig, clusterId }: BaseProps & Pick<IdsProps, 'clusterId'>) => string;
   workloads: string[];
+  hasSortingEnabled: boolean;
 }
 
-export default function ResourceCardList({ subscription, type, getHrefs, workloads }: Readonly<ResourceCardListProps>) {
+export default function ResourceCardList({
+  subscription,
+  type,
+  getHrefs,
+  workloads,
+  hasSortingEnabled
+}: Readonly<ResourceCardListProps>) {
   const isClusterType = type === 'cluster';
   const urlStateDefinition = getUrlStateDefinition(isClusterType);
   const { location, navigate } = useNavigation();
@@ -84,6 +92,7 @@ export default function ResourceCardList({ subscription, type, getHrefs, workloa
   const [isTooltipSeen, setIsTooltipSeen] = useLocalStorage('k8sClusterNamespaceTooltipSeen', false);
   const [{ orderBy, orderDirection }, setUrlState] = useUrlState(urlStateDefinition);
   const [itemsAdditionalInfo, setItemsAdditionalInfo] = useState<ItemAdditionalInfo>({});
+
   const {
     debouncedQuery,
     isLoadingData,
@@ -96,9 +105,10 @@ export default function ResourceCardList({ subscription, type, getHrefs, workloa
     items
   } = useInfiniteSearch({ subscription, urlStateDefinition });
 
-  const sortedItems = useMemo(
-    () => items?.sort(sortBy({ orderBy, orderDirection, itemsAdditionalInfo })),
-    [items, itemsAdditionalInfo, orderBy, orderDirection]
+  // Sort the indices instead of the whole array of objects, to improve performance.
+  const sortedIndexes = useMemo(
+    () => sortByIndex(itemsAdditionalInfo, orderBy, orderDirection, items),
+    [items, orderBy, orderDirection, itemsAdditionalInfo]
   );
 
   const handleAdditionInfo = (id: string, data: KubernetesCountersProps) => {
@@ -149,32 +159,35 @@ export default function ResourceCardList({ subscription, type, getHrefs, workloa
               labelText=""
             />
           </div>
-          <SortingConfigurator
-            options={sortingOptions}
-            order={{
-              by: orderBy,
-              direction: orderDirection
-            }}
-            onChange={event => {
-              const hasSelectedItem = 'selectedItem' in event;
-              const selectedOrderBy = hasSelectedItem ? event.selectedItem?.value : orderBy;
-              const selectedOrderDirection = hasSelectedItem
-                ? orderDirection
-                : orderDirection === 'ASC'
-                ? 'DESC'
-                : 'ASC';
 
-              setUrlState({
-                orderBy: selectedOrderBy,
-                orderDirection: selectedOrderDirection
-              });
+          {hasSortingEnabled && (
+            <SortingConfigurator
+              options={sortingOptions}
+              order={{
+                by: orderBy,
+                direction: orderDirection
+              }}
+              onChange={event => {
+                const hasSelectedItem = 'selectedItem' in event;
+                const selectedOrderBy = hasSelectedItem ? event.selectedItem?.value : orderBy;
+                const selectedOrderDirection = hasSelectedItem
+                  ? orderDirection
+                  : orderDirection === 'ASC'
+                  ? 'DESC'
+                  : 'ASC';
 
-              kubernetesSortingChanged({
-                orderBy: selectedOrderBy,
-                orderDirection: selectedOrderDirection
-              });
-            }}
-          />
+                setUrlState({
+                  orderBy: selectedOrderBy,
+                  orderDirection: selectedOrderDirection
+                });
+
+                kubernetesSortingChanged({
+                  orderBy: selectedOrderBy,
+                  orderDirection: selectedOrderDirection
+                });
+              }}
+            />
+          )}
 
           <CarbonPopover open={!isTooltipSeen} autoAlign caret highContrast>
             <CarbonIconButton
@@ -220,11 +233,11 @@ export default function ResourceCardList({ subscription, type, getHrefs, workloa
         </>
       )}
 
-      {sortedItems?.map(({ id, ...props }: KubernetesClusterListItem | KubernetesNamespaceListItem, index: number) => (
+      {sortedIndexes?.map(index => (
         <InfoCard
-          key={`${id}_${index}`}
+          key={`${items?.[index].id}_${index}`}
           type={type}
-          data={props}
+          data={items?.[index]}
           onDataFetched={handleAdditionInfo}
           getHrefs={getHrefs}
           workloads={workloads}
@@ -236,4 +249,35 @@ export default function ResourceCardList({ subscription, type, getHrefs, workloa
       {canLoadMore && <InfoCardSkeleton numberOfCards={workloads.length} />}
     </>
   );
+}
+
+export function sortByIndex(
+  itemsAdditionalInfo: ItemAdditionalInfo,
+  orderBy: string,
+  orderDirection: string,
+  items?: KubernetesClusterListItem[] | KubernetesNamespaceListItem[]
+) {
+  // Sometimes the itemsAdditionalInfo is not fully loaded (items are still not visible in the viewport)
+  // and the user triggers to fetch more data, preventing sorting to happen.
+  // This threshold will trigger the sorting if 90% of data is available.
+  const threshold = 0.9;
+
+  if (!items) return [];
+
+  const indices = [...items].map((_, index) => index);
+
+  const enoughDataAvailable = Object.keys(itemsAdditionalInfo).length >= Math.floor(items.length * threshold);
+
+  return !enoughDataAvailable
+    ? indices
+    : indices.sort((current, next) => {
+        const sorted = sortBy({ orderBy, orderDirection, itemsAdditionalInfo })(items[current], items[next]);
+
+        // If has the same value, sort by name
+        if (sorted === 0) {
+          return sortBy({ orderBy: 'name', orderDirection: 'ASC', itemsAdditionalInfo })(items[current], items[next]);
+        }
+
+        return sorted;
+      });
 }

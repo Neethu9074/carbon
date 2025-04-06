@@ -23,6 +23,7 @@ import {
   restoreAlertConfigVersion
 } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/logs/hooks/useSmartAlertCreateUrl';
+import { logSmartAlertFullScreenDesignEnabled, logSmartAlertDialogViewEnabled } from 'in-services/featureFlags';
 import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
@@ -30,11 +31,11 @@ import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-l
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfigDialog from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import AlertConfiguration from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LogsAlertsTabHeader from 'in-alerting/smart-alerts/logs/LogsAlertsTabHeader';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
-import { logSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
@@ -43,11 +44,14 @@ interface AlertDetailsProps {
   isLogsDashboardHeader?: boolean;
 }
 
+const alertDisplayMode = getSmartAlertDisplayMode(logSmartAlertDialogViewEnabled, logSmartAlertFullScreenDesignEnabled);
+
 export default function AlertDetails({ isLogsDashboardHeader = false }: AlertDetailsProps) {
   const timeConfig = useTimeConfig();
   const Header = isLogsDashboardHeader ? LoggingDashboardWrapper : LogsAlertsTabHeader;
   const listPath = isLogsDashboardHeader ? dashboardAlertsListPath : alertListPath;
   const detailsPath = isLogsDashboardHeader ? dashboardAlertsdetailsPath : detailsPagePath;
+
   return (
     <>
       <Header>
@@ -72,7 +76,7 @@ export default function AlertDetails({ isLogsDashboardHeader = false }: AlertDet
             renderAlertConfiguration={renderAlertConfiguration}
             getAllowedPlaceholders={() => []}
             getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
-            displayTearSheetActions={logSmartAlertFullScreenDesignEnabled}
+            alertDisplayMode={alertDisplayMode}
             isGlobalSmartAlert
             canConfigureGlobalAlertConfigs={role?.canConfigureGlobalLogSmartAlerts}
           />

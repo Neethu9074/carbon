@@ -14,11 +14,14 @@ import {
   SSLCertificateConfiguration,
   BrowserScriptConfiguration,
   WebpageActionConfiguration,
-  WebpageScriptConfiguration
+  WebpageScriptConfiguration,
+  DNSConfiguration
 } from '@instana/types';
 import { Card, KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import { DNSAdditionalProperties } from 'in-synthetics/dashboards/summary/tabs/configuration/sections/DNSAdditionalProperties';
+import { DNSAssertions } from 'in-synthetics/dashboards/summary/tabs/configuration/sections/DNSAssertions';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
@@ -325,6 +328,63 @@ const renderSSLCertificateTestTypeContent = (configuration: SSLCertificateConfig
   return content;
 };
 
+const renderDNSTestTypeContent = (configuration: DNSConfiguration) => {
+  const content = [
+    <Row key={'dnsLookup'}>
+      <Col xs={3}>
+        <KeyValue label={t('in-synthetics:dashboard.configuration.dns.lookupLabel')} value={configuration.lookup} />
+      </Col>
+      <Col xs={3}>
+        <KeyValue
+          label={t('in-synthetics:dashboard.configuration.dns.queryTypeLabel')}
+          value={configuration.queryType}
+        />
+      </Col>
+    </Row>,
+    <Row key={'server'} className={locals.configRow}>
+      <Col xs={3}>
+        <KeyValue
+          label={t('in-synthetics:dashboard.configuration.dns.serverLabel')}
+          value={<div className={locals.urlConfig}>{configuration.server}</div>}
+        />
+      </Col>
+      <Col xs={3}>
+        <KeyValue label={t('in-synthetics:dashboard.configuration.dns.portLabel')} value={configuration.port} />
+      </Col>
+    </Row>,
+    <Row key={'responseTime'} className={locals.configRow}>
+      <Col xs={3}>
+        <KeyValue
+          label={t('in-synthetics:dashboard.configuration.dns.responseTimeLabel')}
+          value={t('in-synthetics:dashboard.configuration.dns.responseTimeDescription', {
+            responseTime: configuration.queryTime?.value
+          })}
+        />
+      </Col>
+    </Row>,
+    configuration.targetValues && configuration.targetValues?.length > 0 && (
+      <Row key={'assertions'} className={locals.configRow}>
+        <DNSAssertions assertions={configuration.targetValues} />
+      </Row>
+    ),
+    <Row key={'moreProperties'} className={locals.configRow}>
+      <DNSAdditionalProperties configuration={configuration} />
+    </Row>,
+    showTimeoutAndRetryOptions(configuration),
+    <Row key={'additionalOptions'}>
+      <LightCard
+        className={locals.lastConfigRow}
+        title={t('in-synthetics:dashboard.configuration.additionalOptionsTitle')}
+        darkFrame
+        useMaxAvailableHeight
+      >
+        {showAdditionalOptions(configuration)}
+      </LightCard>
+    </Row>
+  ];
+  return content;
+};
+
 const ConfigSection = ({ test }: Props) => {
   const { configuration } = test;
   let content = null;
@@ -342,6 +402,9 @@ const ConfigSection = ({ test }: Props) => {
     case 'BrowserScript':
     case 'WebpageScript':
       content = renderScriptTestTypeContent(configuration as HttpScriptConfiguration);
+      break;
+    case 'DNS':
+      content = renderDNSTestTypeContent(configuration as DNSConfiguration);
       break;
     default:
       content = (

@@ -24,7 +24,7 @@
         "subTitle": "端点",
         "labelOperation": "HTTP 方法",
         "labelUrl": "URL",
-        "popSubTitle": "接入点",
+        "popSubTitle": "存在点",
         "uploadScriptTitle": "上载脚本",
         "failureToReadFileContent": "未能读取文件内容：{{error}}",
         "emptyScriptFileError": "空代码。 没有要验证的内容。",
@@ -128,7 +128,7 @@
           "rightListLabel": "测试类型",
           "apiTypeLabel": "API 简单测试 | API 脚本测试",
           "apiTypeHeadline": "您想创建什么样的合成测试",
-          "apiTypeText": "API 测试可用于监视 Web 应用程序提供的 API。 API 测试可用于度量可用性和响应时间。 简单测试允许您对 URL 执行 ping 操作或测试单个 API。 “脚本”测试允许您提供可以检查一组 API 响应、模拟复杂工作流程以及测试特定功能的脚本。",
+          "apiTypeText": "API 测试可用于监视 Web 应用程序提供的 API。 API 测试可用于度量可用性和响应时间。 简单测试允许您对 URL 执行 ping 操作或测试单个 API。 脚本测试允许您提供可以检查一组 API 响应、模拟复杂工作进程以及测试特定功能的脚本。",
           "selectedTestTypeButton": "选择",
           "httpScriptTitle": "API 脚本测试",
           "httpActionTitle": "API 简单测试",
@@ -141,9 +141,9 @@
           "certificateCheckLabel": "SSL 证书",
           "certificateCheckHeadline": "SSL 证书检查测试",
           "certificateCheckText": "SSL 证书检查测试是一种方法，用于通过检查已颁发证书的剩余天数，测试 Web 应用程序中 SSL 证书的到期时间。",
-          "dnsActionLabel": "DNS",
-          "dnsActionHeadline": "域名服务器",
-          "dnsActionText": "DNS 测试作为一种方法，用于检查您的设备或网络是否正确解析域名，以及是否存在可能导致速度降低、错误或安全漏洞的问题。"
+          "dnsLabel": "DNS",
+          "dnsHeadline": "域名服务器",
+          "dnsText": "DNS 测试作为一种方法，用于检查您的设备或网络是否正确解析域名，以及是否存在可能导致速度降低、错误或安全漏洞的问题。"
         },
         "configurationLabel": "配置",
         "configurationTitle": "配置：此测试将如何工作？",
@@ -177,7 +177,7 @@
           "headerValue": "值",
           "body": "正文",
           "validationString": "验证字符串",
-          "addHeader": "添加头",
+          "addHeader": "添加标题",
           "operation": "操作",
           "headerNameMustBeUnique": "头名称必须唯一。",
           "shouldBeValidHeaderName": "输入的字符串必须是有效的 HTTP 请求头名称。",
@@ -220,7 +220,43 @@
           "markSyntheticCall": "标记合成调用",
           "downloadZip": "下载 .zip 文件",
           "mainFileNameHelperText": "请提供此 .zip 文件中包含测试入口点的文件名",
-          "recordVideo": "记录用户在发生故障时的操作"
+          "recordVideo": "记录用户在发生故障时的操作",
+          "dns": {
+            "lookupLabel": "URL",
+            "lookupHelperText": "URL 是正在测试 DNS 解析的域名",
+            "lookupPlaceholder": "Web 站点的 url",
+            "queryType": "查询类型",
+            "serverLabel": "DNS 服务器",
+            "serverHelperText": "DNS 服务器是指负责将域名转换为 IP 地址的服务器",
+            "portLabel": "端口",
+            "portHelperText": "DNS 服务器端口是指您的设备 (PoP) 与 DNS 服务器之间使用的网络端口或通信端口，通常为端口 53",
+            "queryTimeLabel": "响应时间",
+            "queryTimeHelperText": "最佳 DNS 解析时间在 20-120 毫秒之间",
+            "recordTypeTitle": "断言（可选）",
+            "recordTypeSubtitle": "这些字段是可选的，但填写时必须全部为 true，测试才能成功。",
+            "recordTypeLabel": "记录类型",
+            "operatorLabel": "条件性",
+            "operatorOptionMatches": "匹配项",
+            "operatorOptionContains": "包含",
+            "resolutionRecordLabel": "解析记录",
+            "deleteButtonLabel": "删除",
+            "addRecordTypeLabel": "添加字段",
+            "recursiveLookupLabel": "递归查找",
+            "dnsRadioButtonOnLabel": "ON",
+            "dnsRadioButtonOffLabel": "关闭",
+            "transportProtocolLabel": "传输协议",
+            "acceptCNAMELabel": "接受 CNAME",
+            "lookupServerNamelabel": "查询服务器名称",
+            "serverRetriesLabel": "服务器重试次数（可选）",
+            "validators": {
+              "invalidDNSLookup": "DNS 查找格式无效",
+              "invalidDNSServer": "DNS 服务器无效",
+              "invalidIPv4Address": "IPv4 地址无效",
+              "invalidIPv6Address": "IPv6 地址无效",
+              "invalidRecordType": "记录类型无效",
+              "invalidResolutionRecord": "解析记录无效"
+            }
+          }
         },
         "loadMore": "加载更多",
         "selectTests": {
@@ -235,7 +271,7 @@
           "apiName": "API",
           "browserName": "浏览器",
           "certificateCheckName": "SSL 证书",
-          "dnsActionName": "DNS"
+          "dnsName": "DNS"
         },
         "customProperties": {
           "property": "属性",
@@ -246,7 +282,7 @@
         "certificateCheck": {
           "inputHostName": "主机名",
           "inputPortNumber": "端口",
-          "failureConfigLabel": "失败配置",
+          "failureConfigLabel": "故障配置",
           "failureConfigText": "当证书有效期距离到期日期还剩 <certificateValidityDays/> 天时，测试将失败。"
         },
         "associationsLabel": "关联",
@@ -433,7 +469,7 @@
         "credentials": "凭证"
       },
       "popDialog": {
-        "popUpDialogTitle": "用于合成监视的许可权",
+        "popUpDialogTitle": "合成监视许可权",
         "popUpDialog": "请检查<documentationLink>文档</documentationLink>以获取有关设置合成监视许可权的信息",
         "button": "部署 PoP",
         "simpleTab": "简单",
@@ -531,9 +567,9 @@
       "successRate": "成功率",
       "locations": "位置",
       "responseTime": "响应时间",
-      "meanResponseTime": "传播至 响应时间",
+      "meanResponseTime": "平均响应时间",
       "responseSize": "响应大小",
-      "avgResponseSize": "传播至 响应大小",
+      "avgResponseSize": "平均响应大小",
       "summaryTab": "摘要",
       "resultsTab": "结果",
       "startTime": "开始时间",
@@ -558,7 +594,7 @@
         "created": "已创建",
         "accepted": "已接受",
         "forbidden": "被禁止",
-        "notFound": "未找到",
+        "notFound": "找不到",
         "serverError": "服务器错误",
         "badRequest": "错误请求",
         "badGateway": "错误网关",
@@ -573,9 +609,9 @@
       "certificateValid": "是",
       "certificateNotValid": "False",
       "daysRemaining": "上次运行 - 剩余天数",
-      "timeOfExpiry": "上次运行 - 距离到期的时间",
+      "timeOfExpiry": "上次运行 - 到期时间",
       "smallerTimeFrameTitle": "没有针对此时间范围的结果",
-      "smallerTimeFrameDescription": "请选择较长的时间范围以查看 SSL 证书检查测试的结果。"
+      "smallerTimeFrameDescription": "请选择较长的时间作用域以查看 SSL 证书检查测试的结果。"
     },
     "resultsListPage": {
       "startedColumn": "已启动",
@@ -588,10 +624,14 @@
       "failures": "失败次数",
       "status": "状态",
       "success": "成功",
-      "daysRemaining": "剩余天数"
+      "daysRemaining": "剩余天数",
+      "dns": {
+        "failureType": "故障类型",
+        "na": "不适用"
+      }
     },
     "detailsPage": {
-      "detailLiveModeDisabled": "“实时方式”在“合成测试结果详细信息”页面中不适用",
+      "detailLiveModeDisabled": "\"实时方式\"在\"合成测试结果详细信息\"页面中不适用",
       "timeLineWidget": "时间线",
       "responseTimeChart": "响应时间",
       "subtransactionStatus": "状态",
@@ -604,7 +644,7 @@
       "subtransactionSending": "正在发送",
       "subtransactionWaiting": "正在等待",
       "subtransactionReceiving": "正在接收",
-      "showLessSubDetails": "显示更少",
+      "showLessSubDetails": "显示更少内容",
       "showMoreSubDetails": "显示更多",
       "failedRun": "运行失败（异常）",
       "failedRunErrorTitle": "错误消息",
@@ -694,7 +734,7 @@
             "status": "状态"
           },
           "timings": {
-            "title": "响应时间",
+            "title": "响应计时",
             "receiving": "正在接收",
             "waiting": "正在等待",
             "blocking": "阻止",
@@ -736,13 +776,13 @@
       "testSummaryTitle": "没有可用的合成测试",
       "testSummaryDescription": "未从数据库检索到任何合成测试。",
       "locationListTitle": "没有可用的合成位置",
-      "locationListDescription": "没有从数据库中检索到合成位置。",
+      "locationListDescription": "未从数据库检索到任何合成位置。",
       "configurationTab": "{{component}} 详细信息不可用于此测试。"
     },
     "alertList": {
       "timeThreshold": "时间阈值",
       "testsApplied": "已应用的测试",
-      "filterApplied": "已应用的过滤器",
+      "filterApplied": "已应用过滤器",
       "violationsCount": "{{violationsCount}} 个故障",
       "testsCount": "{{testsCount}} 个测试",
       "numberOfFailures": "故障警报"
@@ -763,7 +803,7 @@
       "expectStatus": "期望状态",
       "expectMatch": "期望匹配",
       "expectJSON": "期望 JSON",
-      "additionalOptionsTitle": "其他选项",
+      "additionalOptionsTitle": "附加选项",
       "followRedirect": "遵循重定向",
       "allowInsecure": "允许不安全",
       "locationsTitle": "位置",
@@ -776,7 +816,7 @@
       "customProperties": "定制属性",
       "identifySectionName": "名称",
       "identifySectionDescription": "描述",
-      "associatedApplication": "已关联应用程序",
+      "associatedApplication": "关联应用程序",
       "noApplicationAssociated": "未关联任何应用程序",
       "configScriptTitle": "脚本",
       "configScriptFileName": "文件名",
@@ -806,7 +846,7 @@
       "markSyntheticCall": "标记合成调用",
       "hostname": "主机名",
       "port": "端口",
-      "daysRemaining": "失败配置",
+      "daysRemaining": "故障配置",
       "day": "当证书有效期距到期还有 {{daysRemainingCheck}} 天时，测试将失败",
       "days": "当证书有效期距到期还有 {{daysRemainingCheck}} 天时，测试将失败",
       "associations": "关联",
@@ -816,7 +856,26 @@
       "noWebsitesAssociated": "无关联的网站",
       "associatedMobileApps": "关联的移动应用",
       "noMobileAppAssociated": "无关联的移动应用",
-      "recordVideo": "记录用户在发生故障时的操作"
+      "recordVideo": "记录用户在发生故障时的操作",
+      "dns": {
+        "lookupLabel": "URL",
+        "queryTypeLabel": "查询类型",
+        "serverLabel": "DNS 服务器",
+        "portLabel": "端口",
+        "responseTimeLabel": "响应时间",
+        "responseTimeDescription": "响应时间小于 {{responseTime}} 毫秒",
+        "assertionsTitle": "断言",
+        "recordTypeLabel": "记录类型",
+        "operatorLabel": "条件性",
+        "resolutionRecordLabel": "解析记录",
+        "recursiveLookupLabel": "递归查找",
+        "dnsRadioButtonOnLabel": "ON",
+        "dnsRadioButtonOffLabel": "关闭",
+        "transportProtocolLabel": "传输协议",
+        "acceptCNAMELabel": "接受 CNAME",
+        "lookupServerNamelabel": "查询服务器名称",
+        "serverRetriesLabel": "服务器重试次数"
+      }
     },
     "credentialList": {
       "mainLabel": "凭证",

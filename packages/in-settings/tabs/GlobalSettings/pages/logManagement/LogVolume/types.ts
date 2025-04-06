@@ -56,4 +56,5 @@ export interface GroupProps {
   label: string;
   logVolume: number;
   groupingTag: GroupingTag;
+  numberOfMonth: number;
 }

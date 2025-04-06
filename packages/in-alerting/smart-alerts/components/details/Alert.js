@@ -17,13 +17,16 @@ import {
   ALERTING_CLONE_TRIGGER,
   ALERTING_REVISION_CHANGED
 } from 'in-services/tracking/eventNames';
+import { ShowSelectorDialog } from 'in-alerting/smart-alerts/components/tearSheet/ActionHandlers/TearSheetActionHandlers';
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { alertCreated as alertCreatedMatrixParam } from 'in-applications/navigation/matrix';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import { getTrackingAlertConfig } from 'in-alerting/smart-alerts/utils/segmentUtils';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { ADVANCED, FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import AlertHistoryList from 'in-alerting/components/AlertHistoryList';
@@ -59,9 +62,10 @@ export default function Alert({
   displayDuplicateAction = true,
   canConfigureGlobalAlertConfigs = false,
   canConfigureIndividualAlertConfigs = false,
-  hideAlertIcon = false
+  hideAlertIcon = false,
+  alertDisplayMode
 }) {
-  const { location, navigate } = useNavigation();
+  const { goToPath, location, navigate } = useNavigation();
   const { trackCta } = useSegmentTracking();
 
   const [reload, triggerReload] = useState();
@@ -70,11 +74,13 @@ export default function Alert({
   const alertConfigCreated = getMatrixParameter(location, alertsTabSegment, alertCreatedParam);
 
   const { alertConfig, alertConfigErrors } = useAlertConfig(getConfig, alertConfigId, alertConfigCreated, reload);
+  const alertConfigForTracking = getTrackingAlertConfig(alertConfig, undefined);
   const { alertConfigVersions, alertConfigVersionsErrors } = useAlertConfigVersions(
     getConfigVersions,
     alertConfigId,
     reload
   );
+
   if (alertConfigErrors?.length || alertConfigVersionsErrors?.length) {
     return <ErroneousResultPresenter errors={[...alertConfigErrors, ...alertConfigVersionsErrors]} />;
   } else if (!alertConfig || !alertConfigVersions) {
@@ -96,6 +102,19 @@ export default function Alert({
     }
   }
 
+  const openOldDialog = isCopy =>
+    addActiveDialog(
+      renderSmartAlertDialog({
+        close,
+        alertConfig,
+        setRevision,
+        isCopy,
+        detailsPath,
+        alertConfigId,
+        isGlobalSmartAlert
+      })
+    );
+
   return (
     <>
       <Title title={t('in-alerting:smartAlerts.applications.details.title')} dynamic={alertConfig.name} />
@@ -106,22 +125,31 @@ export default function Alert({
           setRevision={setRevision}
           isGlobalSmartAlert={isGlobalSmartAlert}
           openDialog={({ isCopy }) => {
-            addActiveDialog(
-              renderSmartAlertDialog({
-                close,
-                alertConfig,
-                setRevision,
-                isCopy,
-                detailsPath,
-                alertConfigId,
-                isGlobalSmartAlert
-              })
-            );
+            openOldDialog(isCopy);
             if (isCopy) {
-              trackCta(ALERTING_CLONE_TRIGGER, alertConfig);
+              trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfigForTracking, dialogMode: ADVANCED });
             } else if (!isCopy) {
-              trackCta(ALERTING_EDIT, alertConfig);
+              trackCta(ALERTING_EDIT, { ...alertConfigForTracking, dialogMode: ADVANCED });
             }
+          }}
+          openSelectorDialog={({ isCopy }) => {
+            addActiveDialog(
+              <ShowSelectorDialog
+                isCopy={isCopy}
+                alertConfig={alertConfig}
+                alertConfigId={alertConfigId}
+                openDialog={() => openOldDialog(isCopy)}
+                useSmartAlertCreateUrl={getLinkToEditOrDuplicateSmartAlertTearSheet}
+              />
+            );
+          }}
+          openTearSheet={({ isCopy, gotoPath }) => {
+            if (isCopy) {
+              trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfigForTracking, dialogMode: FULLSCREEN });
+            } else if (!isCopy) {
+              trackCta(ALERTING_EDIT, { ...alertConfigForTracking, dialogMode: FULLSCREEN });
+            }
+            goToPath(gotoPath.slice(2));
           }}
           fullyQualifiedAlertsList={listPath}
           doEnableConfig$={enableConfig}
@@ -136,9 +164,9 @@ export default function Alert({
             }
           }}
           onConfigDeleted={() => {
-            trackCta(ALERTING_DELETE_CONFIRM, alertConfig);
+            trackCta(ALERTING_DELETE_CONFIRM, alertConfigForTracking);
           }}
-          onConfigRevisionChanged={() => trackCta(ALERTING_REVISION_CHANGED, alertConfig)}
+          onConfigRevisionChanged={() => trackCta(ALERTING_REVISION_CHANGED, alertConfigForTracking)}
           renderCustomTitle={() => {
             return (
               <HorizontalFlexWrapper className={locals.titleWrapper}>
@@ -150,13 +178,14 @@ export default function Alert({
           showActionButton={showActionButton}
           allowActionButtons={isGlobalSmartAlert ? canConfigureGlobalAlertConfigs : canConfigureIndividualAlertConfigs}
           onConfigDeleteTrigger={() => {
-            trackCta(ALERTING_DELETE_TRIGGER, alertConfig);
+            trackCta(ALERTING_DELETE_TRIGGER, alertConfigForTracking);
           }}
           displayEditAction={displayEditAction}
           displayTearSheetActions={displayTearSheetActions}
           getLinkToEditOrDuplicateSmartAlertTearSheet={getLinkToEditOrDuplicateSmartAlertTearSheet}
           displayDuplicateAction={displayDuplicateAction}
           hideAlertIcon={hideAlertIcon}
+          alertDisplayMode={alertDisplayMode}
         />
 
         <Row>
@@ -211,5 +240,6 @@ Alert.propTypes = {
   displayDuplicateAction: PropTypes.bool,
   canConfigureGlobalAlertConfigs: PropTypes.bool,
   canConfigureIndividualAlertConfigs: PropTypes.bool,
-  hideAlertIcon: PropTypes.bool
+  hideAlertIcon: PropTypes.bool,
+  alertDisplayMode: PropTypes.string
 };

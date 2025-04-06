@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, DragOverlay } from '@dnd-kit/core';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { CSS } from '@dnd-kit/utilities';
@@ -100,13 +100,18 @@ export const columnDefinitions = [
   }
 ];
 
-function SortableItem({ id, content }) {
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({ id });
+function SortableItem({ id, content, data, activeInfo }) {
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({ id, data });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     position: 'relative',
-    zIndex: isDragging ? 1000 : 'auto'
+    zIndex: isDragging && !activeInfo ? 1000 : 'auto',
+    // If activeInfo is being used to track current item being dragged then we want to hide the real box with 0 opacity.
+    // This is because DragOverlay will generate a duplicate box that looks the same to drag
+    // We're doing this to prevent a weird bug where if we drag the real sortable item into an empty sortable context
+    // then it will immediately refresh the container and then appear in the previously empty sortable context
+    opacity: isDragging && activeInfo && activeInfo.id === id ? 0 : 1
   };
 
   return (
@@ -116,7 +121,7 @@ function SortableItem({ id, content }) {
   );
 }
 
-export function Reorderer({ form, onChange, children }) {
+export function Reorderer({ form, onChange, children, activeInfo, setActiveInfo }) {
   const [scrollTopPosition, setScrollTopPosition] = useState(0);
   const dndScrollTopPosition = useRef(0);
   const dialogBoxRef = useRef(null);
@@ -158,15 +163,20 @@ export function Reorderer({ form, onChange, children }) {
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
-      onDragStart={() => {
+      onDragStart={event => {
         document.getElementById('dialog-slide-in-view-id').style.overflowY = 'hidden';
         dndScrollTopPosition.current = scrollTopPosition;
+        // Used for multiple Sortable Contexts such as when we have two axis' and we can place the metric between the two
+        if (setActiveInfo) setActiveInfo(event.active);
       }}
       onDragEnd={({ active, over }) => {
         if (!over || active.id === over.id) return;
+        if (setActiveInfo) setActiveInfo(null);
 
         const { axisName: sourceDroppableId, indexInAxis: sourceIndex } = JSON.parse(active.id);
         const { axisName: destinationDroppableId, indexInAxis: destinationDroppableIndex } = JSON.parse(over.id);
+
+        if (sourceIndex === -1) return;
 
         updateForm(
           form.updateIn([], form => {
@@ -196,6 +206,22 @@ export function Reorderer({ form, onChange, children }) {
       }}
     >
       {children}
+      {/* Used mainly for when we have two axis' that we need to switch between. If we don't use this
+      then we have a weird bug where the draggable content just disappears for a second and then reappears. */}
+      {activeInfo && activeInfo.id && activeInfo.data && activeInfo.data.current && (
+        <DragOverlay>
+          <SortableItem
+            id={activeInfo.id}
+            content={
+              <Ul>
+                <Li noAlternatingBg className={locals.draggableItem}>
+                  <ColumnizedContent {...activeInfo.data.current} />
+                </Li>
+              </Ul>
+            }
+          />
+        </DragOverlay>
+      )}
     </DndContext>
   );
 }
@@ -208,6 +234,7 @@ export function MetricsForAxis({
   getShortMetricKey,
   isColorConfiguratorEnabled = true,
   withUnitPill = false,
+  activeInfo,
   helpText = t('in-custom-dashboards:widgets.formCompChart.metricReorderingChart.dragDropDataset2Axes')
 }) {
   const axisForm = form.get(axisName);
@@ -236,34 +263,53 @@ export function MetricsForAxis({
       <TouchedMessages field={metricsForm} />
 
       <SortableContext items={sortableIds.map(item => item.id)} strategy={verticalListSortingStrategy}>
-        {sortableIds.map(({ id, content }, indexInAxis) => (
-          <SortableItem
-            key={id}
-            id={id}
-            content={
-              <Ul>
-                <Li noAlternatingBg className={locals.draggableItem}>
-                  <ColumnizedContent
-                    columnDefinitions={getFilteredColumnDefinitionsForSource(
-                      columnsDefinitions,
-                      content.toJS()?.source
-                    )}
-                    axisName={axisName}
-                    metricForm={content}
-                    form={form}
-                    onChange={onChange}
-                    indexInAxis={indexInAxis}
-                    index={startIndex + indexInAxis}
-                    getShortMetricKey={getShortMetricKey}
-                  />
-                </Li>
-              </Ul>
-            }
-          />
-        ))}
-        {showHelpText && <p className={locals.dragAndDropHelpText}>{helpText}</p>}
+        {!showHelpText ? (
+          sortableIds.map(({ id, content }, indexInAxis) => {
+            const columnizedContentProps = {
+              columnDefinitions: getFilteredColumnDefinitionsForSource(columnsDefinitions, content.toJS()?.source),
+              axisName,
+              metricForm: content,
+              form,
+              onChange,
+              indexInAxis,
+              index: startIndex + indexInAxis,
+              getShortMetricKey
+            };
+
+            return (
+              <SortableItem
+                key={id}
+                id={id}
+                data={columnizedContentProps} //This is specifically to render this when its being dragged
+                activeInfo={activeInfo}
+                content={
+                  <Ul>
+                    <Li noAlternatingBg className={locals.draggableItem}>
+                      <ColumnizedContent {...columnizedContentProps} />
+                    </Li>
+                  </Ul>
+                }
+              />
+            );
+          })
+        ) : (
+          <Placeholder helpText={helpText} axisName={axisName} />
+        )}
       </SortableContext>
     </Stack>
+  );
+}
+
+function Placeholder({ helpText, axisName }) {
+  const placeholderId = JSON.stringify({ axisName, indexInAxis: -1 });
+
+  return (
+    <SortableItem
+      key={placeholderId}
+      id={placeholderId}
+      isPlaceholder
+      content={<p className={locals.dragAndDropHelpText}>{helpText}</p>}
+    />
   );
 }
 

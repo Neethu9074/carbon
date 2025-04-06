@@ -20,6 +20,7 @@
       "tableLoadMoreRow": {
         "loadMore": "加载更多"
       },
+      "filterTable": "过滤器表",
       "dataTable": "数据表",
       "expandHeader": "展开行",
       "expandRow": "切换展开行",
@@ -41,6 +42,9 @@
     },
     "dropDown": {
       "selectOption": "选择选项"
+    },
+    "infoicon": {
+      "information": "信息"
     },
     "tabsNavigation": {
       "pageNavigation": "页面导航"

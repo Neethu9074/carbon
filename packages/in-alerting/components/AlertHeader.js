@@ -10,11 +10,10 @@ import PropTypes from 'prop-types';
 import { Message, Spacer, Pill, IconButton, Button } from '@instana/components';
 
 import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
-import { ALERTING_EDIT, ALERTING_CLONE_TRIGGER } from 'in-services/tracking/eventNames';
 import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import RevisionDropdown from 'in-alerting/components/RevisionDropdown';
@@ -48,14 +47,17 @@ export default function AlertHeader({
   getLinkToEditOrDuplicateSmartAlertTearSheet,
   displayDuplicateAction,
   isGlobalSmartAlert = false,
-  hideAlertIcon = false
+  hideAlertIcon = false,
+  alertDisplayMode,
+  openSelectorDialog,
+  openTearSheet
 }) {
   const { goToPath, createHrefToPath } = useNavigation();
-  const { trackCta } = useSegmentTracking();
   const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
 
+  //TODO remove displayTearSheetActions , once its implemented in all SA
   const duplicateSmartAlertPath =
-    displayTearSheetActions &&
+    (displayTearSheetActions || alertDisplayMode === FULLSCREEN || alertDisplayMode === CHOICE_DIALOG) &&
     getLinkToEditOrDuplicateSmartAlertTearSheet({
       isGlobal: isGlobalSmartAlert,
       alertId: alertConfig.id,
@@ -74,8 +76,9 @@ export default function AlertHeader({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
 
+  //TODO remove displayTearSheetActions , once its implemented in all SA
   const editSmartAlertPath =
-    displayTearSheetActions &&
+    (displayTearSheetActions || alertDisplayMode === FULLSCREEN || alertDisplayMode === CHOICE_DIALOG) &&
     getLinkToEditOrDuplicateSmartAlertTearSheet({
       isGlobal: isGlobalSmartAlert,
       alertId: alertConfig.id,
@@ -241,7 +244,15 @@ export default function AlertHeader({
                     alignment="right"
                     kind="primaryv2"
                     type="lib_actions_edit"
-                    onClick={openDialog}
+                    onClick={() => {
+                      if (alertDisplayMode === CHOICE_DIALOG) {
+                        openSelectorDialog({ isCopy: false });
+                      } else if (alertDisplayMode === FULLSCREEN) {
+                        openTearSheet({ isCopy: false, gotoPath: editSmartAlertPath });
+                      } else {
+                        openDialog({ isCopy: false });
+                      }
+                    }}
                   />
                 </Tooltip>
               )}
@@ -251,11 +262,21 @@ export default function AlertHeader({
                     kind="primaryv2"
                     data-testid="duplicateConfigButton"
                     type="lib_actions_copy"
-                    onClick={() => openDialog({ isCopy: true })}
+                    onClick={() => {
+                      if (alertDisplayMode === CHOICE_DIALOG) {
+                        openSelectorDialog({ isCopy: true });
+                      } else if (alertDisplayMode === FULLSCREEN) {
+                        openTearSheet({ isCopy: true, gotoPath: duplicateSmartAlertPath });
+                      } else {
+                        openDialog({ isCopy: true });
+                      }
+                    }}
                     alignment="right"
                   />
                 </Tooltip>
               )}
+
+              {/* TODO : Remove this once all the smart alerts are implemented with selector dialogs */}
               {!alertConfig?.builtIn && displayTearSheetActions && (
                 <Tooltip content={getButtonName(t('in-alerting:components.alertHeaderEditTooltip'))} delay={500}>
                   <IconButton
@@ -263,8 +284,7 @@ export default function AlertHeader({
                     data-testid="editConfigButtonTearsheet"
                     type="lib_actions_edit"
                     onClick={() => {
-                      trackCta(ALERTING_EDIT, { ...alertConfig });
-                      goToPath(editSmartAlertPath.slice(2));
+                      openTearSheet({ isCopy: false, gotoPath: editSmartAlertPath });
                     }}
                     alignment="right"
                   />
@@ -277,13 +297,13 @@ export default function AlertHeader({
                     data-testid="duplicateConfigButtonTearsheet"
                     type="lib_actions_copy"
                     onClick={() => {
-                      trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfig });
-                      goToPath(duplicateSmartAlertPath.slice(2));
+                      openTearSheet({ isCopy: true, gotoPath: duplicateSmartAlertPath });
                     }}
                     alignment="right"
                   />
                 </Tooltip>
               )}
+
               {!alertConfig?.builtIn && (
                 <Tooltip content={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')} delay={500}>
                   <IconButton
@@ -399,7 +419,10 @@ AlertHeader.propTypes = {
   getLinkToEditOrDuplicateSmartAlertTearSheet: PropTypes.func,
   displayDuplicateAction: PropTypes.bool,
   isGlobalSmartAlert: PropTypes.bool,
-  hideAlertIcon: PropTypes.bool
+  hideAlertIcon: PropTypes.bool,
+  openSelectorDialog: PropTypes.func,
+  alertDisplayMode: PropTypes.string,
+  openTearSheet: PropTypes.func
 };
 
 function openRestoreConfirmationDialog(alertRevision, doRestore) {

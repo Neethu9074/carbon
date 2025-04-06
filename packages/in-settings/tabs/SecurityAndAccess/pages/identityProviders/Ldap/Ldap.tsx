@@ -537,6 +537,7 @@ function saveItem({ form, setMessage, unstable_trackEvent }: SaveItemPropsWithFo
       setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' });
       unstable_trackEvent(UPDATED_OBJECT, { objectType: SETTINGS_IDENTITY_PROVIDER_LDAP_UPDATE });
       scrollToResultMessage();
+      refresh();
     },
     error => {
       setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: 'error' });

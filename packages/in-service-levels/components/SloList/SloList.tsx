@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 
@@ -20,10 +20,8 @@ import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useSe
 import SloListFilters from 'in-service-levels/components/SloList/components/SloListFilters';
 import useSloListFilterUrlState from 'in-service-levels/hooks/useSloListFilterUrlState';
 import SloActions from 'in-service-levels/components/SloList/components/SloActions';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import useSloListItems from 'in-service-levels/hooks/useSloListItems';
-import { SLO_LIST_VIEW } from 'in-services/tracking/eventNames';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import useSloTags from 'in-service-levels/hooks/useSloTags';
 import { LabeledEntity } from 'in-service-levels/types';
@@ -34,11 +32,13 @@ import { t } from 'in-i18n';
 interface GetColumnDefinitionsProps {
   isMediumWidth?: boolean;
   isSmallWidth?: boolean;
+  showEntityInfo?: boolean;
 }
 
 function getColumnDefinitions({
   isMediumWidth,
-  isSmallWidth
+  isSmallWidth,
+  showEntityInfo
 }: GetColumnDefinitionsProps): ColumnDefinition<SloListItem>[] {
   const columnDefinitions: ColumnDefinition<SloListItem>[] = [
     {
@@ -94,7 +94,7 @@ function getColumnDefinitions({
 
   return columnDefinitions.filter(({ id }) => {
     // Hide blueprint column if showBluerprintCol is false
-    return id !== 'blueprint' || isSmallWidth;
+    return (id !== 'blueprint' || isSmallWidth) && (id !== 'entityType' || (showEntityInfo ?? true));
   });
 }
 
@@ -108,20 +108,23 @@ export interface SloListItem {
   metricGranularity: number;
 }
 
-interface Props {
+interface SloListProps {
   pathSegment: string;
   matrixPrefix?: string;
+  entityIds?: string;
+  isDashboard?: boolean;
+  showEntityInfo?: boolean;
 }
 
-export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
+export default function SloList({
+  pathSegment,
+  matrixPrefix = '',
+  entityIds,
+  isDashboard,
+  showEntityInfo
+}: SloListProps) {
   const isMediumWidth = useMediaQuery('(min-width: 1560px)');
   const isSmallWidth = useMediaQuery('(min-width: 1200px)');
-
-  const { trackCta } = useSegmentTracking();
-
-  useEffect(() => {
-    trackCta(SLO_LIST_VIEW, undefined);
-  }, [trackCta]);
 
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = useServerTableUrlState({
     pathSegment,
@@ -142,6 +145,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
     orderDirection,
     query,
     tags,
+    entityIds,
     entityType
   });
   const [availableTags, , , tagsProgress] = useSloTags();
@@ -158,17 +162,24 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
       orderBy={orderBy}
       orderDirection={orderDirection}
       query={query}
-      columnDefinitions={getColumnDefinitions({ isMediumWidth, isSmallWidth })}
+      columnDefinitions={getColumnDefinitions({ isMediumWidth, isSmallWidth, showEntityInfo })}
       result={{
         progress,
         errors: [],
         data: result
       }}
       onChange={setServerTableState}
-      rightHeader={() => (
-        <SloListFilters tags={availableTags ?? []} selectedTags={tags} entityType={entityType} setFilter={setFilter} />
-      )}
-      tableInCard
+      rightHeader={() =>
+        !isDashboard ? (
+          <SloListFilters
+            tags={availableTags ?? []}
+            selectedTags={tags}
+            entityType={entityType}
+            setFilter={setFilter}
+          />
+        ) : null
+      }
+      tableInCard={!isDashboard}
       fixedLayout
     />
   );

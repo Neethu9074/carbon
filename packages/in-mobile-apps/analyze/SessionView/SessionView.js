@@ -25,6 +25,7 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import getTabs from 'in-mobile-apps/analyze/SessionView/tabs';
+import { formatPathWithTU } from 'in-services/formatters/url';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -165,9 +166,9 @@ function renderButtonLine({ sessionLabel, detailId, sessionId, beaconTimestamp }
       icon="lib_actions_download"
       kind="secondary"
       target="_blank"
-      href={`/api/mobile-app-monitoring/session;id=${encodeURIComponent(sessionId)};timestamp=${encodeURIComponent(
-        beaconTimestamp
-      )}?pretty`}
+      href={`${formatPathWithTU('/api/mobile-app-monitoring/session')};id=${encodeURIComponent(
+        sessionId
+      )};timestamp=${encodeURIComponent(beaconTimestamp)}?pretty`}
     >
       {t('in-mobile-apps:sessionView.downloadBtn')}
     </Button>

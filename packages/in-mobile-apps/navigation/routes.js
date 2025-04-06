@@ -19,8 +19,8 @@ import {
   newMobileAppPathFullyQualified,
   analyzePathFullyQualified
 } from 'in-mobile-apps/navigation/paths';
+import { mobileAppSmartAlertsFullScreenFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import { mobileAppSmartAlertsFullScreen } from 'in-mobile-apps/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default [
@@ -36,7 +36,7 @@ export default [
   <Route key="mobileAppAnalyzeBeacons" path={analyzePathFullyQualified}>
     {renderAsyncRouteChildren(AnalyzeView2_0)}
   </Route>,
-  <Route key="mobileAppSmartAlertsFullScreen" path={mobileAppSmartAlertsFullScreen}>
+  <Route key="mobileAppSmartAlertsFullScreenFullyQualified" path={mobileAppSmartAlertsFullScreenFullyQualified}>
     {renderAsyncRouteChildren(AlertConfigTearSheet)}
   </Route>,
   <RedirectWithHash key="redirectToMobileAppsList" from={mobileAppMonitoringPath} to={mobileAppsPathFullyQualified} />

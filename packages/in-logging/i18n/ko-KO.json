@@ -1,7 +1,7 @@
 {
   "logs": "로그",
+  "logsCountSum": "로그 수(합계)",
   "sum": "합계",
-  "count": "수",
   "bar": "막대",
   "logsOverTime": "시간 경과에 따른 로그",
   "logsOverTime_ERROR": "오류",
@@ -32,7 +32,7 @@
     "mostRecent": "가장 최근 항목 먼저",
     "oldest": "가장 이전 항목 먼저"
   },
-  "cpuTotal": "전체 CPU",
+  "cpuTotal": "CPU 총계",
   "memoryUsage": "메모리 사용량",
   "cluster": "클러스터",
   "node": "노드",
@@ -67,11 +67,11 @@
     "management": "관리",
     "logVolume": {
       "logVolumeTitle": "현재 월별 로그 볼륨",
-      "gb": "GB",
+      "gib": "GiB",
+      "tib": "TiB",
       "logVolumeIcon": "로그 볼륨으로 이동"
     },
     "retentionIcon": "보존 기간 변경",
-    "noData": "사용 가능한 데이터 없음",
     "analyzeLogs": "로그 분석",
     "managementPage": {
       "logVolume": "로그 볼륨",

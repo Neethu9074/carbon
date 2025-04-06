@@ -13,6 +13,7 @@ import locals from './GroupedChartingConfigurator.mless';
 const baseArgs = {
   onChange: () => {},
   dataSource: 'logs',
+  hideRenderer: true,
   unifiedMetricsSource: 'LOGS',
   value: {
     metricId: 'logs_distribution',
@@ -26,12 +27,14 @@ const meta = {
 
 export default meta;
 
-export const AllSelections = {
+export const Default = {
   component: ChartingConfiguratorForm,
   decorators: [
     Story => (
-      <div className={locals.wrapper}>
-        <Story />
+      <div style={{ width: '100%' }}>
+        <div className={locals.wrapper}>
+          <Story />
+        </div>
       </div>
     )
   ],
@@ -42,59 +45,17 @@ export const AllSelections = {
       metrics: [
         {
           metricId: 'logs_distribution',
-          label: 'Logs',
+          label: 'Logs and counts',
           formatter: 'number.compact',
           aggregations: [
             {
               id: 'SUM',
               label: 'sum',
-              renderers: [
-                {
-                  id: 'bar',
-                  label: 'Bar'
-                },
-                {
-                  id: 'bar',
-                  label: 'bar2'
-                }
-              ]
+              renderers: [{ id: 'template1', label: 'renderer' }]
             },
             {
               id: 'MEDIAN',
-              label: 'xyz',
-              renderers: [
-                {
-                  id: 'bar',
-                  label: 'Bar'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          metricId: 'logs_distribution',
-          label: 'Logs 2',
-          formatter: 'number.compact',
-          aggregations: [
-            {
-              id: 'SUM',
-              label: 'sum',
-              renderers: [
-                {
-                  id: 'bar',
-                  label: 'Bar'
-                }
-              ]
-            },
-            {
-              id: 'MEDIAN',
-              label: 'xyz',
-              renderers: [
-                {
-                  id: 'bar',
-                  label: 'Bar'
-                }
-              ]
+              label: 'median'
             }
           ]
         }
@@ -114,6 +75,7 @@ export const RendererSelection = {
   ],
   args: {
     ...baseArgs,
+    hideRenderer: false,
     options: {
       templates: [],
       metrics: [
@@ -131,14 +93,14 @@ export const RendererSelection = {
                   label: 'Bar'
                 },
                 {
-                  id: 'bar',
-                  label: 'bar2'
+                  id: 'pie',
+                  label: 'Pie'
                 }
               ]
             },
             {
               id: 'MEDIAN',
-              label: 'xyz',
+              label: 'median',
               renderers: [
                 {
                   id: 'bar',
@@ -165,7 +127,7 @@ export const RendererSelection = {
             },
             {
               id: 'MEDIAN',
-              label: 'xyz',
+              label: 'median',
               renderers: [
                 {
                   id: 'bar',
@@ -180,7 +142,7 @@ export const RendererSelection = {
   }
 };
 
-export const SingleMetric = {
+export const CustomMetric = {
   component: ChartingConfiguratorForm,
   decorators: [
     Story => (
@@ -198,51 +160,12 @@ export const SingleMetric = {
           metricId: 'logs_distribution',
           label: 'Logs',
           formatter: 'number.compact',
+          customMetric: true,
+          secondLevelMetricId: 'custom metric',
           aggregations: [
             {
               id: 'SUM',
               label: 'sum',
-              renderers: [
-                {
-                  id: 'bar',
-                  label: 'Bar'
-                },
-                {
-                  id: 'bar',
-                  label: 'bar2'
-                }
-              ]
-            },
-            {
-              id: 'MEDIAN',
-              label: 'xyz',
-              renderers: [
-                {
-                  id: 'bar',
-                  label: 'Bar'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          metricId: 'logs_distribution',
-          label: 'Logs 2',
-          formatter: 'number.compact',
-          aggregations: [
-            {
-              id: 'SUM',
-              label: 'sum',
-              renderers: [
-                {
-                  id: 'bar',
-                  label: 'Bar'
-                }
-              ]
-            },
-            {
-              id: 'MEDIAN',
-              label: 'xyz',
               renderers: [
                 {
                   id: 'bar',
@@ -279,12 +202,7 @@ export const SingleAggregationMetric = {
             {
               id: 'SUM',
               label: 'sum',
-              renderers: [
-                {
-                  id: 'bar',
-                  label: 'Bar'
-                }
-              ]
+              renderers: []
             }
           ]
         }
@@ -328,7 +246,7 @@ export const WithTemplates = {
             },
             {
               id: 'MEDIAN',
-              label: 'xyz',
+              label: 'median',
               renderers: [
                 {
                   id: 'bar',
@@ -355,7 +273,7 @@ export const WithTemplates = {
             },
             {
               id: 'MEDIAN',
-              label: 'xyz',
+              label: 'median',
               renderers: [
                 {
                   id: 'bar',

@@ -51,7 +51,8 @@ import locals from './ActionHistoryTable.mless';
 
 function showConfirmationDialog(
   actionInstance: ActionInstance,
-  actionHistoryInstanceDeleteTrackerSegment: TrackingFunction
+  actionHistoryInstanceDeleteTrackerSegment: TrackingFunction,
+  actionHistoryDeleteCallback?: Function
 ) {
   const { actionInstanceId = '', createdDate } = actionInstance;
   addActiveDialog(
@@ -65,7 +66,7 @@ function showConfirmationDialog(
       confirmButtonLabel={t('in-automation:deleteDialog.delete')}
       onSubmit={() => {
         close();
-        onDelete(actionInstance, createdDate, actionHistoryInstanceDeleteTrackerSegment);
+        onDelete(actionInstance, createdDate, actionHistoryInstanceDeleteTrackerSegment, actionHistoryDeleteCallback);
       }}
     />
   );
@@ -74,7 +75,8 @@ function showConfirmationDialog(
 function onDelete(
   actionInstance: ActionInstance,
   createdDate: number,
-  actionHistoryInstanceDeleteTrackerSegment: TrackingFunction
+  actionHistoryInstanceDeleteTrackerSegment: TrackingFunction,
+  actionHistoryDeleteCallback?: Function
 ) {
   const { actionInstanceId = '' } = actionInstance;
   deleteActionInstance(actionInstanceId, createdDate).once(
@@ -88,6 +90,7 @@ function onDelete(
           metadata: actionInstance.metadata,
           actionInstanceId
         });
+        actionHistoryDeleteCallback?.();
       } else {
         onDeleteFailed();
       }
@@ -143,6 +146,7 @@ type GetActionInstanceList = {
   types: string[];
   actionStatuses: string[];
   eventId?: string;
+  actionIds?: string[];
 };
 
 export function GetActionInstanceListData({
@@ -154,7 +158,8 @@ export function GetActionInstanceListData({
   query = '',
   types = [],
   actionStatuses = [],
-  eventId
+  eventId,
+  actionIds
 }: GetActionInstanceList) {
   return refreshSignal.flatMap(() =>
     getActionInstances({
@@ -171,7 +176,8 @@ export function GetActionInstanceListData({
       timeConfig,
       types: types,
       actionStatuses: actionStatuses,
-      eventId: eventId
+      eventId: eventId,
+      actionIds
     })
   );
 }
@@ -182,6 +188,8 @@ interface ActionHistoryTableProps {
   noFilters?: boolean;
   noEvent?: boolean;
   title?: string;
+  actionIds?: string[];
+  actionHistoryDeleteCallback?: Function;
 }
 
 export default function ActionHistoryTable({
@@ -189,7 +197,9 @@ export default function ActionHistoryTable({
   customActionTypes,
   noFilters = false,
   noEvent = false,
-  title
+  title,
+  actionIds = [],
+  actionHistoryDeleteCallback
 }: ActionHistoryTableProps) {
   const { actionHistoryInstanceViewTrackerSegment, actionHistoryInstanceDeleteTrackerSegment } = useSegmentTracker();
 
@@ -320,7 +330,7 @@ export default function ActionHistoryTable({
             type="lib_actions_delete"
             onClick={e => {
               stopPropagationAndPreventDefault(e);
-              showConfirmationDialog(row, actionHistoryInstanceDeleteTrackerSegment);
+              showConfirmationDialog(row, actionHistoryInstanceDeleteTrackerSegment, actionHistoryDeleteCallback);
             }}
           />
         </Tooltip>
@@ -373,6 +383,7 @@ export default function ActionHistoryTable({
       searchMaxWidth={450}
       searchPlaceholder={t('in-automation:actionHistory.filter')}
       eventId={eventId}
+      actionIds={actionIds}
     />
   );
 }

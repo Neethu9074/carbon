@@ -7,7 +7,7 @@
       "editJsonDialogPresenter": {
         "confirmBt": "Confirmer",
         "dashboardAJson": "Tableau de bord en tant que JSON",
-        "editDashboard": "Modifier le tableau de bord"
+        "editDashboard": "Editer le tableau de bord"
       }
     },
     "grid": {
@@ -26,13 +26,13 @@
         "removeEditRightUserName": "Retirez les droits de modification de {{fullName}}.",
         "add": "Ajouter",
         "addEditors": "Ajouter des éditeurs",
-        "pleaseSelect": "Sélectionnez"
+        "pleaseSelect": "Effectuez une sélection"
       },
       "sharingDialogPresenter": {
         "editPermissions": "Modifier les autorisations",
         "shareMsg": "Ce tableau de bord personnalisé a des règles d'accès avancées qui ne peuvent pas être représentées par cette boîte de dialogue. Vous pouvez utiliser la fonction \"Modifier en tant que JSON \" pour modifier ces règles d'accès.",
         "privateDashboardDefault": "Tableau de bord privé (par défaut)",
-        "privateDashboardDefaultExplain": "Vous seul pouvez voir ce tableau de bord.",
+        "privateDashboardDefaultExplain": "Vous seul pouvez voir ce tableau de bord. Remarque : ce paramètre ne peut être modifié que par le propriétaire du tableau de bord.",
         "publicDashboard": "Tableau de bord public",
         "publicDashboardExplain": "Ce tableau de bord est visible de tous les membres de votre organisation. Vous seul pouvez effectuer des modifications ; vous pouvez ajouter des éditeurs.",
         "save": "Sauvegarder",
@@ -42,13 +42,13 @@
     },
     "widgetEditorDialog": {
       "widgetConfiguration": {
-        "widgetName": "Nom du widget",
+        "widgetName": "Nom de widget",
         "name": "Nom",
         "helpAction": "Choisissez un nom facultatif pour ce widget, qui figurera au-dessus du contenu du widget.",
         "optional": "Facultatif"
       },
       "widgetEditorDialogPresenter": {
-        "editWidget": "Modifier le widget",
+        "editWidget": "Editer un widget",
         "addWidget": "Ajouter un widget",
         "next": "Suivant",
         "confirm": "Confirmer",
@@ -83,11 +83,11 @@
       "customDashboard": "Tableau de bord personnalisé",
       "customDashboardOptions": "Options du tableau de bord personnalisé",
       "saveChange": "Sauvegarder les modifications",
-      "discardChange": "Supprimer les modifications",
+      "discardChange": "Annuler les modifications",
       "addWidget": "Ajouter un widget",
       "tvMode": "Mode TV",
-      "editName": "Modifier le nom",
-      "editAsJson": "Modifier en tant que JSON",
+      "editName": "Editer le nom",
+      "editAsJson": "Editer en tant que JSON",
       "viewAsJson": "Afficher en tant que JSON",
       "copyAllWidgets": "Copier tous les widgets",
       "copiedAllWidgets": "Widgets copiés. Utilisez CTRL-V ou CMD-V pour les coller dans n'importe quel tableau de bord personnalisé.",
@@ -290,7 +290,7 @@
         "aggregation": "Agrégation",
         "successRate": "Taux de réussite",
         "locations": "Emplacements",
-        "responseTime": "Délai de réponse",
+        "responseTime": "Temps de réponse",
         "responsesize": "Taille de la réponse"
       },
       "index": {
@@ -321,7 +321,7 @@
       }
     },
     "metricConfigurator": {
-      "ds": "Source de donnée",
+      "ds": "Source de données",
       "pleaseSelect": "Effectuez une sélection",
       "name": "Nom",
       "pleaseSelectATimeShiftingConfiguration": "Sélectionnez une configuration de rétrospective",
@@ -345,7 +345,7 @@
         "addTimeShiftComparBadge": "Ajouter un badge de comparaison rétrospective",
         "increaseColor": "Augmenter la couleur",
         "decreaseColor": "Réduire la couleur",
-        "timeShift": "Rétrospective"
+        "timeShift": "Décalage horaire"
       },
       "thresholdForm": {
         "addThresholdColorization": "Ajouter une colorisation basée sur un seuil",
@@ -430,7 +430,7 @@
         "datasets": "Ensembles de données"
       },
       "timeShiftingFormChart": {
-        "timeShift": "Rétrospective",
+        "timeShift": "Décalage horaire",
         "applyTimeShiftDs": "Appliquer une rétrospective à cette série de données",
         "timeShiftHelpAction": "Si vous sélectionnez <strong>Afficher les valeurs en cours</strong> , vous dupliquez automatiquement cette série de données sur le même axe. La rétrospective de la première série de données sera désactivée et elle sera activée pour la seconde.",
         "timeShiftDisabledWhilePPon": "Pour utiliser le décalage horaire, vous devez d'abord désactiver la mise en évidence des problèmes potentiels.",
@@ -451,7 +451,7 @@
     },
     "demo": {
       "pageLoads": "Chargements de page",
-      "onLoadTime": "Durée de chargement"
+      "onLoadTime": "Délai OnLoad"
     },
     "index": {
       "chartTimeSeries": "Graphique : série chronologique"
@@ -515,7 +515,7 @@
         "userJourneyOffering": "Processus utilisateur/offre",
         "appnPerspective": "Perspective d'application",
         "selectAppPerspect": "Sélectionnez une perspective d'application.",
-        "appPerspectHelpAction": "Configurez des démarches/offres d'utilisateur en les modélisant en tant que perspective d'application dans la zone Applications.",
+        "appPerspectHelpAction": "Configurez des démarches/offres d'utilisateur en les modélisant en tant que perspective d'application dans la zone applications.",
         "rbacHint": "Les applications affichées peuvent être limitées par droits d'accès.",
         "noAppPerspect": "Aucune perspective d'application.",
         "pleaseSelect": "Effectuez une sélection"
@@ -601,7 +601,7 @@
         "beaconConfigLabel": "Configuration de balise",
         "beaconScopeLabel": "Portée de l'alarme",
         "beaconLabel": "Type de balise inconnu",
-        "beaconLabel_httpRequest": "Demandes HTTP",
+        "beaconLabel_httpRequest": "Requêtes HTTP",
         "beaconLabel_pageLoad": "Chargements de page de site Web",
         "beaconLabel_custom": "Evénements personnalisés de site Web",
         "beaconFiltersLabel": "Filtre de balises",
@@ -614,7 +614,7 @@
         "sliType": "Type de SLI",
         "viewCloneSliConfig": "Afficher/Cloner la configuration SLI",
         "delSliConfig": "Supprimer la configuration SLI",
-        "confirmRemove": "Veuillez confirmer",
+        "confirmRemove": "Confirmer la suppression",
         "confirmRemoveMsg": "Voulez-vous vraiment supprimer <strong>{{sliName}}</strong> ?",
         "delete": "Supprimer",
         "eventBasedSli": "En fonction des événements",
@@ -687,6 +687,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "Vous devez configurer au moins une expression de filtre.",
       "timeBased": "En fonction du temps",
       "eventBased": "En fonction des événements",
+      "sloLite": "SLO Lite",
       "sloLegacy": "Objectifs du niveau de service existants",
       "slo": "SLO",
       "monitoringSourceSelector": {
@@ -705,7 +706,7 @@
       },
       "widgetLeftHeader": {
         "previewDataInfo": "Les données d'aperçu ne remontent que jusqu'à 7 jours. Le widget final inclura uniquement les données depuis la création de SLI.",
-        "liveDataInfo": "Les données réelles ne sont pas disponibles pour les données de budget d'erreurs."
+        "liveDataInfo": "Les données réelles ne sont pas disponibles pour les données de budget d'erreurs"
       },
       "boundaryScopeConfigurator": {
         "all": {
@@ -765,7 +766,7 @@
         "cardTitle": "Configuration d'Apdex",
         "nameColumn": "Configuration d'Apdex",
         "thresholdColumn": "Seuil",
-        "confirmDeleteHeader": "Veuillez confirmer",
+        "confirmDeleteHeader": "Confirmer la suppression",
         "confirmDeleteMessage": "Voulez-vous vraiment supprimer {{apdex}} ?",
         "editApdexTooltip": "Modifier/cloner la configuration d'Apdex",
         "deleteApdexTooltip": "Supprimer la configuration d'Apdex",
@@ -857,7 +858,7 @@
       },
       "form": {
         "validationError": "Sélectionnez une application.",
-        "header": "Sélectionnez les applications que vous voulez surveiller.",
+        "header": "Sélectionnez les applications que vous voulez surveiller",
         "addApplication": "Ajouter une application",
         "selectApplication": "Sélectionner une application",
         "secondaryHeadingText": "Les applications sélectionnées seront classées en fonction de leur degré de gravité.",
@@ -887,21 +888,21 @@
       },
       "form": {
         "title": "Que voulez-vous afficher ?",
-        "dataSource": "Source de donnée",
+        "dataSource": "Source de données",
         "helpAction": "Une requête Dynamic Focus Query (DFQ)  comme vous l'utiliseriez dans la vue des événements.",
         "query": "Requête",
-        "columns": "Sélection des colonnes",
-        "pleaseSelect": "Sélectionnez",
+        "columns": "Sélectionner des colonnes",
+        "pleaseSelect": "Effectuez une sélection",
         "validators": {
           "theValueMustNotBeEmpty": "Au moins une colonne doit être sélectionnée"
         },
         "infrastructure": {
           "entityType": "Type d'entité",
           "viewTable": "Affichez le tableau complet dans <analyzeInfraLink>Analyser l'infrastructure</analyzeInfraLink>.",
-          "tableSize": "Taille de table",
+          "tableSize": "Taille de la table",
           "tableConfiguration": "Configuration des tables",
-          "tableDetails": "Détails de table",
-          "showResult": "Affichage de {{loadedItems}} sur {{totalItems}} résultats",
+          "tableDetails": "Détails de la table",
+          "showResult": "Affichage de {{loadedItems}} résultats sur {{totalItems}}",
           "loadingEntities": "Chargement des entités",
           "datasets": "Ensembles de données",
           "sortBy": "Trier par",
