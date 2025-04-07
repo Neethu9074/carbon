@@ -19,9 +19,20 @@ import {
   newMobileAppPathFullyQualified,
   analyzePathFullyQualified
 } from 'in-mobile-apps/navigation/paths';
+import {
+  mobileAppSmartAlertFullScreenDesignEnabled,
+  mobileAppSmartAlertDialogViewEnabled
+} from 'in-services/featureFlags';
 import { mobileAppSmartAlertsFullScreenFullyQualified } from 'in-mobile-apps/navigation/paths';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
+import { FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import RedirectWithHash from 'in-components/RedirectWithHash';
+
+const alertDisplayMode = getSmartAlertDisplayMode(
+  mobileAppSmartAlertDialogViewEnabled,
+  mobileAppSmartAlertFullScreenDesignEnabled
+);
 
 export default [
   <Route key="mobileAppsList" path={mobileAppsPathFullyQualified}>
@@ -36,8 +47,10 @@ export default [
   <Route key="mobileAppAnalyzeBeacons" path={analyzePathFullyQualified}>
     {renderAsyncRouteChildren(AnalyzeView2_0)}
   </Route>,
-  <Route key="mobileAppSmartAlertsFullScreenFullyQualified" path={mobileAppSmartAlertsFullScreenFullyQualified}>
-    {renderAsyncRouteChildren(AlertConfigTearSheet)}
-  </Route>,
+  (alertDisplayMode === FULLSCREEN || alertDisplayMode === CHOICE_DIALOG) && (
+    <Route key="mobileAppSmartAlertsFullScreenFullyQualified" path={mobileAppSmartAlertsFullScreenFullyQualified}>
+      {renderAsyncRouteChildren(AlertConfigTearSheet)}
+    </Route>
+  ),
   <RedirectWithHash key="redirectToMobileAppsList" from={mobileAppMonitoringPath} to={mobileAppsPathFullyQualified} />
 ];

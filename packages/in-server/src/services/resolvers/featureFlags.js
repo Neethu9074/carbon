@@ -887,6 +887,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'mobileAppSmartAlertDialogViewEnabled',
+    instanaCtlKey: 'feature.mobile.app.smart.alert.dialog.view.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'tealiumPrivacyEnabled',
     instanaCtlKey: 'feature.tealium.privacy.enabled',
     defaultValue: false

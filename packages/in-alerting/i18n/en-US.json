@@ -167,7 +167,6 @@
     "titleNoSmartAlertsCreated": "No Smart Alerts created",
     "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
     "smartAlertsTitle": "Smart Alerts",
-    "labelNew": "(New)",
     "alertChannelList": {
       "selectAllWarning": "Select all warning",
       "selectAllCritical": "Select all critical",
