@@ -20,10 +20,10 @@ import {
   getTeam,
   saveTeam
 } from 'in-settings/tabs/SecurityAndAccess/api/teams';
+import TagUsedOnCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/tagUsedOnCard/TagUsedOnCard';
 import { MOCK_TEAM } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/Team.mocks';
 //@ts-expect-error not migrated to typescript
 import Header from 'in-settings/components/ApiItemView/Header';
-import TagUseCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/TagUseCard';
 import MemberCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/MemberCard';
 import ScopeCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/ScopeCard';
 import NameCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/NameCard';
@@ -97,7 +97,8 @@ const TeamDetails = () => {
       description: ''
     },
     members: [],
-    scope: {}
+    scope: {},
+    teamTagUsed: { alertChannels: 0, customDashboards: 0 }
   });
   const [message, setMessage] = useState<Notification>();
   const { unstable_trackEvent } = useSegmentTracking();
@@ -212,7 +213,7 @@ const TeamDetails = () => {
         </div>
       </div>
 
-      <TagUseCard isLoading={isLoading} />
+      <TagUsedOnCard isLoading={isLoading} teamTagUsed={MOCK_TEAM.teamTagUsed} />
     </div>
   );
 };

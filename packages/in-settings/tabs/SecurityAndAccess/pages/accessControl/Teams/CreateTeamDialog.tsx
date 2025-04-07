@@ -31,7 +31,8 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
       description: ''
     },
     members: [],
-    scope: {}
+    scope: {},
+    teamTagUsed: { alertChannels: 0, customDashboards: 0 }
   });
 
   const setTeamData = ({ tag, info }: Partial<Team>) => {

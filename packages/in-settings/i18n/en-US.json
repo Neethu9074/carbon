@@ -725,7 +725,9 @@
       "teamSuccessfullySaved": "Team successfully saved.",
       "teamTagUsedOn": "Team tag used on",
       "teamTagUsedOnEntitiesMessage": "Entities are displayed on this list as team members operate (create or delete).",
-      "teamsTitle": "Teams"
+      "teamsTitle": "Teams",
+      "teamTagUsedOnAlertChannels": "Alert channels",
+      "teamTagUsedOnCustomDashboards": "Custom dashboards"
     },
     "auditTrail": "Audit trail",
     "failedToSaveConfig": "Failed to save config: {{err}}",
