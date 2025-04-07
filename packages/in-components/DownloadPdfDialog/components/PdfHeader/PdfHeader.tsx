@@ -4,25 +4,22 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { forwardRef } from 'react';
-import classNames from 'classnames';
+import React from 'react';
 
 import { formatDate, formatTimeWithoutSeconds, formatDurationAccurately } from '@instana/format-date';
 import { Typography, Stack } from '@instana/components';
 
+import { usePdfContext } from 'in-components/DownloadPdfDialog/context/PdfContext';
 import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
-import locals from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/components/PdfHeader/PdfHeader.mless';
+import locals from 'in-components/DownloadPdfDialog/components/PdfHeader/PdfHeader.mless';
 
-interface Props {
-  hidden?: boolean;
-}
-
-const PdfHeader = forwardRef(({ hidden = true }: Props, ref: React.LegacyRef<HTMLDivElement>) => {
+export default function PdfHeader() {
   const timeConfig = useTimeConfig();
+  const { pdfHeaderRef } = usePdfContext();
   const currentTime = timeConfig.to ?? Date.now();
   const adjustedTimeConfig = getAdjustedTimeConfigToIncludeTimestamp(timeConfig, currentTime, getChartGranularity);
   const timeFrom = currentTime - adjustedTimeConfig.windowSize;
@@ -35,15 +32,8 @@ const PdfHeader = forwardRef(({ hidden = true }: Props, ref: React.LegacyRef<HTM
   const timeRangeWithTimezone = `${timeFromFormatted} to ${timeToFormatted} ${timeZone}`;
 
   return (
-    <div
-      ref={ref}
-      id="pdf-header"
-      className={classNames({
-        [locals.pdfHeader]: true,
-        [locals.hidden]: hidden
-      })}
-    >
-      <div>
+    <div className={locals.pdfHeader}>
+      <div ref={pdfHeaderRef}>
         <div className={locals.header}>
           <div className={locals.logo}>
             <Typography variant="heading-03">
@@ -67,8 +57,4 @@ const PdfHeader = forwardRef(({ hidden = true }: Props, ref: React.LegacyRef<HTM
       </div>
     </div>
   );
-});
-
-PdfHeader.displayName = 'PdfHeader';
-
-export default PdfHeader;
+}

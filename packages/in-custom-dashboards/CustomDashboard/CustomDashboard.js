@@ -24,7 +24,6 @@ import {
   DOWNLOAD_PDF_START
 } from 'in-services/tracking/tracking';
 import { dashboardIdUrlParameter, dashboardTopLevelFilterUrlParameter } from 'in-custom-dashboards/navigation/url';
-import PdfHeader from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/components/PdfHeader/PdfHeader';
 import PdfWidgetContainer from 'in-custom-dashboards/CustomDashboard/PdfWidgetContainer/PdfWidgetContainer';
 import WidgetEditorDialog from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
@@ -37,6 +36,7 @@ import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/Custo
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
 import { activeDialogs$, addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
+import { usePdfContext } from 'in-components/DownloadPdfDialog/context/PdfContext';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
@@ -72,7 +72,7 @@ export default function CustomDashboardLoader(props) {
   const [downloadDashboard, setDownloadDashboard] = useState(false);
   const [tooltipRef, setTooltipRef] = useState(null);
   const pdfWidgetContainerRef = useRef(null);
-  const pdfHeader = useRef(null);
+  const { pdfHeaderRef } = usePdfContext();
 
   const activeDialogs = useObservable(activeDialogs$, []) ?? [];
 
@@ -169,7 +169,6 @@ export default function CustomDashboardLoader(props) {
         topLevelFilters={topLevelFilters}
         onTopLevelFiltersChange={onTopLevelFiltersChange}
       />
-      <PdfHeader ref={pdfHeader} />
       {exportWidget && (
         <PdfWidgetContainer widget={exportWidget} ref={pdfWidgetContainerRef} setIsReadyToExport={setIsReadyToExport} />
       )}
@@ -364,7 +363,6 @@ export default function CustomDashboardLoader(props) {
     const widgetType = widget?.type;
     const widgetNode = document.getElementById(getWidgetId(id));
     const nodeToExport = pdfWidgetContainerRef?.current?.firstChild;
-    const header = pdfHeader?.current?.firstChild;
     const orientation = ['chart', 'apdex', 'histogram', 'slo', 'slo2'].includes(widgetType) ? 'l' : 'p';
 
     if (nodeToExport) {
@@ -384,7 +382,7 @@ export default function CustomDashboardLoader(props) {
         'custom-dashboard-pdf-generation'
       );
 
-      const headerUrl = await getPdfHeader({ node: header });
+      const headerUrl = await getPdfHeader({ node: pdfHeaderRef.current });
       const imagesUrls = [
         await nodeToImage({
           node: nodeToExport,
@@ -424,7 +422,6 @@ export default function CustomDashboardLoader(props) {
 
   function onPDFDashboardDownload(customDashboardId) {
     const node = document.querySelector('.react-grid-layout');
-    const header = pdfHeader?.current?.firstChild;
 
     if (!node) {
       setDownloadDashboard(false);
@@ -439,7 +436,7 @@ export default function CustomDashboardLoader(props) {
           close();
         }}
         node={node}
-        header={header}
+        header={pdfHeaderRef.current}
       />
     );
   }
