@@ -8,7 +8,6 @@ import { fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
 
 import FailureTypePopover from 'in-synthetics/dashboards/summary/tabs/results/FailureTypePopover';
-import { getResultErrorMessage } from 'in-synthetics/dashboards/details/utils';
 
 const dummyDNSCustomMetricsWithoutErrors = {
   metrics: {
@@ -62,19 +61,13 @@ const dummyDNSCustomMetricsWithTwoErrors = {
     ]
   }
 };
-jest.mock('in-synthetics/dashboards/details/utils', () => ({
-  getResultErrorMessage: jest.fn()
-}));
-const mockedGetResultErrorMessage = getResultErrorMessage as jest.Mock;
+
 describe(FailureTypePopover, () => {
   it('should render a N/A if success', () => {
     render(<FailureTypePopover resultItem={dummyDNSCustomMetricsWithoutErrors} />);
     expect(screen.getByText('N/A')).toBeVisible();
   });
   it('Should correctly render extracted error messages when single error is present', () => {
-    mockedGetResultErrorMessage.mockReturnValueOnce(
-      dummyDNSCustomMetricsWithOneError.testResultCommonProperties.errors
-    );
     const { container } = render(<FailureTypePopover resultItem={dummyDNSCustomMetricsWithOneError} />);
     const failureTypeTags = container.getElementsByClassName('cds--tag__label');
     expect(failureTypeTags.length).toBe(1);
@@ -83,7 +76,6 @@ describe(FailureTypePopover, () => {
     );
   });
   it('Should correctly render extracted error messages when multiple errors are present', () => {
-    mockedGetResultErrorMessage.mockReturnValue(dummyDNSCustomMetricsWithTwoErrors.testResultCommonProperties.errors);
     const { container } = render(<FailureTypePopover resultItem={dummyDNSCustomMetricsWithTwoErrors} />);
 
     const failureTypeTags = container.getElementsByClassName('cds--tag__label');
