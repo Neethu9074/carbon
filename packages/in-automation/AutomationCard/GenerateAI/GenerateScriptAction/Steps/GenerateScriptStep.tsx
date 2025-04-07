@@ -86,7 +86,7 @@ function generateAIActionForm({
       {
         id: '0',
         interpreter: 'BASH' as const,
-        task: promptStep.value
+        task: promptStep.value.trim()
       }
     ]
   };
