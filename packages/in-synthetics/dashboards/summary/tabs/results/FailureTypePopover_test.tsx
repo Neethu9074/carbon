@@ -21,7 +21,7 @@ const dummyDNSCustomMetricsWithoutErrors = {
     locationDisplayLabel: 'DemoPoP1(Fyre)',
     locationId: 'RtmxRMdmlakWX497YeZN',
     testId: 'CmIJOrkyB2bHTifXyvqe',
-    testName: 'api-simple-demo-test'
+    testName: 'dns-demo-test'
   }
 };
 const dummyDNSCustomMetricsWithOneError = {
