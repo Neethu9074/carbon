@@ -24,8 +24,4 @@
   .stickToBottom {
     padding-bottom: 0;
   }
-
-  .notesOpenedPadding {
-    padding-right: 26rem;
-  }
 }

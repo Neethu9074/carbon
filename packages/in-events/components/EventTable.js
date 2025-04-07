@@ -8,7 +8,6 @@ import { findIndex } from 'lodash';
 
 import { Stack, Typography, Pill, IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { useObservable } from '@instana/hooks';
 import { on } from '@instana/observables';
 
 import {
@@ -29,7 +28,6 @@ import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'i
 import EventsNavItems from 'in-events/components/EventContent/EventsNavItems/EventsNavItems';
 import { eventFeedbackEnabled, notesAndActivityEnabled } from 'in-services/featureFlags';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
-import { setNotesAndActivity, notesAndActivity$ } from 'in-stores/notesAndActivity';
 import EventsTable from 'in-events/components/EventsPage/EventsTable/EventsTable';
 import { eventStepConfig } from 'in-events/components/feedback/eventStepConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -190,7 +188,7 @@ function Header(props) {
 const IncidentHeader = ({ event, timeConfig }) => {
   const { location, createHref } = useNavigation();
   setOrDeleteMatrixKey(location, eventsPath, eventId, null);
-  const notesActivityOpened = useObservable(() => notesAndActivity$, []);
+  const [displayNotes, setDisplayNotes] = useState(false);
 
   return (
     <LeftRightPadding className={locals.incidentHeader}>
@@ -203,12 +201,8 @@ const IncidentHeader = ({ event, timeConfig }) => {
             </Typography>
           </Stack>
           <Stack align="center" direction="horizontal">
-            {notesAndActivityEnabled && notesActivityOpened == false && (
-              <OpenNotesAndActivity
-                event={event}
-                displayNotes={notesActivityOpened}
-                setDisplayNotes={setNotesAndActivity}
-              />
+            {notesAndActivityEnabled && (
+              <OpenNotesAndActivity event={event} displayNotes={displayNotes} setDisplayNotes={setDisplayNotes} />
             )}
             <IconButton
               href={createHref(location)}
@@ -219,13 +213,9 @@ const IncidentHeader = ({ event, timeConfig }) => {
               align="left"
               size="normal"
             />
-            {/* {notesAndActivityEnabled && (
-              <NotesAndActivity
-                event={event}
-                displayNotes={notesActivityOpened}
-                setDisplayNotes={setNotesAndActivity}
-              />
-            )} */}
+            {notesAndActivityEnabled && (
+              <NotesAndActivity event={event} displayNotes={displayNotes} setDisplayNotes={setDisplayNotes} />
+            )}
           </Stack>
         </Stack>
       </Stack>

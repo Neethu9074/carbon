@@ -73,7 +73,7 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
 
   if (!triggeringEvent) return <LoadingIndicator />;
   return (
-    <>
+    <div id="eventListContainer">
       {/* Event Details KPIs */}
       <EventDetailsKPIs event={incident} isIncident />
 
@@ -117,7 +117,7 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
         entityType={incident?.get('entityType', undefined)}
         entityId={incident?.get('entityId', undefined)}
       />
-    </>
+    </div>
   );
 }
 

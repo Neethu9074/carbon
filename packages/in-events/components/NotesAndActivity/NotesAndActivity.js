@@ -4,18 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
+import { SidePanel } from '@carbon/ibm-products';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import {
-  SvgIcon,
-  CarbonLayer,
-  CarbonInlineLoading,
-  IconButton,
-  CarbonSearch,
-  CarbonModal,
-  Stack
-} from '@instana/components';
+import { SvgIcon, CarbonInlineLoading, IconButton, CarbonSearch, CarbonModal, Stack } from '@instana/components';
 
 // Not using Carbon tooltip since tooltip has not been migrated
 // Using Carbon tooltip would cause mismatch in design on the page
@@ -88,19 +81,24 @@ export function NotesAndActivity(props) {
     return null;
   }
 
-  if (!displayNotes) {
-    return <></>;
-  }
-
   const emptyList = notes?.length === 0;
   const filteredNotes = filterSearchNotes(notes, searchInput.toLowerCase());
 
   return (
-    <>
-      <CarbonLayer>
-        <div className={locals.headerWrapper}>
-          <div className={locals.notesTitle}>{t('in-events:notes.notesActivity')}</div>
-          <div className={locals.tagIconWrapper}>
+    <div id="NotesAndActivityWrapper">
+      <SidePanel
+        className={locals.sidePanelContainer}
+        open={displayNotes}
+        slideIn
+        animateTitle
+        selectorPageContent="#eventListContainer"
+        onRequestClose={() => {
+          setDisplayNotes(false);
+        }}
+        title={t('in-events:notes.notesActivity')}
+        size={(stretchOverlay && 'lg') || 'md'}
+        subtitle={
+          <>
             <IconButton
               kind="action"
               onClick={() => {
@@ -120,26 +118,12 @@ export function NotesAndActivity(props) {
               size="compact"
               className={locals.notesIcon}
             />
-            <Tooltip content={t('in-events:notes.closeNotes')}>
-              <IconButton
-                kind="action"
-                onClick={() => {
-                  setSearchInput('');
-                  setOpenSearch(false);
-                  setDisplayNotes(!displayNotes);
-                  handleTracking(incidentId, EVENT_SIDE_PANEL_CLICK);
-                }}
-                type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'}
-                size="compact"
-                className={locals.notesIcon}
-              />
-            </Tooltip>
-          </div>
-        </div>
+          </>
+        }
+      >
         <div
           className={classNames({
-            [locals.notes]: true,
-            [locals.stretch]: stretchOverlay
+            [locals.notesInPanel]: true
           })}
         >
           {loading ? (
@@ -186,7 +170,7 @@ export function NotesAndActivity(props) {
             </>
           )}
         </div>
-      </CarbonLayer>
+      </SidePanel>
       {/* Danger modal for deleting a note */}
       <div className={classNames({ carbonDeleteModalOpen: needOverlay })}>
         <CarbonModal
@@ -225,7 +209,7 @@ export function NotesAndActivity(props) {
         incidentId={incidentId}
         problemText={problemText}
       />
-    </>
+    </div>
   );
 }
 

@@ -5,40 +5,16 @@
  */
 
 :local {
-  .headerWrapper {
-    display: flex;
-    justify-content: space-between;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 28px;
-    color: var(--cds-text-primary);
-    padding-left: 0.5rem;
-    gap: 0.5rem;
-  }
-
-  .notes {
+  .notesInPanel {
     position: fixed;
-    display: flex;
-    flex-direction: column;
-    width: 26rem;
-    margin-top: 0.75rem;
-    height: calc(100% - 14.5rem);
-    right: 0;
-    border: 1px solid var(--ids-color-option-neutral-300);
-    background-color: var(--cds-layer-01);
+    height: calc(100% - 4rem);
+    display: inline-grid;
+    width: 100%;
   }
 
-  .notesTitle {
-    margin-right: 3rem;
-  }
-
-  .stretch {
-    width: 40rem;
-  }
-
-  .tagIconWrapper {
-    display: inline-flex;
-    gap: 0.5rem;
+  .sidePanelContainer {
+    top: 11rem;
+    height: calc(100% - 11rem);
   }
 
   .closedNotesWrapper {
@@ -72,5 +48,24 @@
 
   .emptyInfo {
     line-height: 1rem;
+  }
+
+  :global(#NotesAndActivityWrapper .c4p--side-panel .c4p--side-panel__inner-content) {
+    padding: 0px;
+  }
+
+  :global(#NotesAndActivityWrapper .c4p--side-panel .c4p--side-panel__inner-content--no-animated-title) {
+    padding-top: 0px;
+  }
+
+  :global(#NotesAndActivityWrapper .c4p--side-panel .c4p--side-panel__subtitle-text) {
+    padding-bottom: 0px;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  :global(#NotesAndActivityWrapper .c4p--side-panel .c4p--side-panel__title-text) {
+    padding-right: 7rem;
   }
 }
