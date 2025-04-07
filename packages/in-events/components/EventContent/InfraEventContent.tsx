@@ -16,8 +16,11 @@ import {
 import InfraAlertChartWrapper, {
   useGetMetricLabel
 } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
+import { getChartTimeConfigByEvent, getFromOfEvent, getToOfEvent, minEventEntityWindowSize } from 'in-events/timeframe';
+import { InfraAggregatedEntitiesTablePresenter } from 'in-events/components/EventContent/InfraAggregatedEntities';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
+import { adjustTimestamp, getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
@@ -28,7 +31,6 @@ import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/e
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import AnalyzeInfraEventButton from 'in-events/components/AnalyzeInfraEventButton';
-import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import InfraAlertConfigButton from 'in-events/components/InfraAlertConfigButton';
 import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
@@ -43,7 +45,6 @@ import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { emptyList, emptyMap } from 'in-services/fixedImmutables';
-import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
 import { deepCopy } from 'in-services/util/object';
@@ -85,6 +86,7 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
+  const [ruleWithThreshold] = alertConfig.rules ?? [];
   const alertConfigWithGroupingExpression = {
     ...alertConfig,
     tagFilterExpression: {
@@ -114,69 +116,85 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
     <>
       <Row withoutSideMargin>
         <Col xs>
-          <Card title={t('in-events:titleDescription')} leftHeaderContent={pillContent}>
-            <HorizontalFlexWrapper>
-              <PluginIcon className={locals.icon} size="s" plugin={entityType as string} />
-              {t('in-events:infraSmartAlerts.pseudoAggregatedEntityLabel', { entityName: entityName })}
-            </HorizontalFlexWrapper>
+          <Card title={t('in-events:titleDescription')} leftHeaderContent={pillContent} className={locals.cardPadding}>
+            <div className={locals.withPadding}>
+              <HorizontalFlexWrapper>
+                <PluginIcon className={locals.icon} size="s" plugin={entityType as string} />
+                {t('in-events:infraSmartAlerts.pseudoAggregatedEntityLabel', { entityName: entityName })}
+              </HorizontalFlexWrapper>
 
-            <ProblemDescription fixSuggestion={fixSuggestion} />
-            {canCloseManually && hasManualCloseFields(event) ? (
-              <div>
-                <ManualCloseDescription event={event} />
-                {hasInfrastructureAnalyzeAccess && (
-                  <DescriptionButtons>
-                    <InfraAlertConfigButton alertConfig={alertConfig} />
-                    <TriggeredIncidentButton event={event} />
-                    <AnalyzeInfraEventButton
-                      alertConfig={alertConfigWithGroupingExpression}
-                      timeConfig={getSmartAlertAnalyzeTimeConfig(event as EventOrMap, alertConfig)}
-                    />
-                  </DescriptionButtons>
+              <ProblemDescription fixSuggestion={fixSuggestion} />
+            </div>
+            {alertConfig.evaluationType === 'CUSTOM' && (
+              <InfraAggregatedEntitiesTablePresenter
+                tagFilterFormModel={tagFilterFormModel}
+                timeConfig={getTimeConfigForAggregatedEntitiesTable(
+                  event as EventOrMap,
+                  alertConfigWithGroupingExpression.granularity
                 )}
-              </div>
-            ) : (
-              <div>
-                {hasInfrastructureAnalyzeAccess ? (
-                  <DescriptionButtons>
-                    {canCloseManually && (
-                      <ManualCloseIssueButton
-                        event={event}
-                        reload={reload}
-                        iconComponent={
-                          <EventIcon
-                            event={event}
-                            tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)}
-                          />
-                        }
-                      />
-                    )}
-                    <TriggeredIncidentButton event={event} />
-                    <InfraAlertConfigButton alertConfig={alertConfig} />
-                    <AnalyzeInfraEventButton
-                      alertConfig={alertConfigWithGroupingExpression}
-                      timeConfig={getSmartAlertAnalyzeTimeConfig(event as EventOrMap, alertConfig)}
-                    />
-                  </DescriptionButtons>
-                ) : (
-                  <div>
-                    {canCloseManually && (
-                      <ManualCloseIssueButton
-                        event={event}
-                        reload={reload}
-                        iconComponent={
-                          <EventIcon
-                            event={event}
-                            tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)}
-                          />
-                        }
-                      />
-                    )}
-                    <TriggeredIncidentButton event={event} />
-                  </div>
-                )}
-              </div>
+                ruleWithThreshold={ruleWithThreshold}
+                tagFilterExpression={alertConfigWithGroupingExpression.tagFilterExpression}
+                metricLabel={metricLabel}
+              />
             )}
+            <div className={locals.withPadding}>
+              {canCloseManually && hasManualCloseFields(event) ? (
+                <div>
+                  <ManualCloseDescription event={event} />
+                  {hasInfrastructureAnalyzeAccess && (
+                    <DescriptionButtons>
+                      <InfraAlertConfigButton alertConfig={alertConfig} />
+                      <TriggeredIncidentButton event={event} />
+                      <AnalyzeInfraEventButton
+                        alertConfig={alertConfigWithGroupingExpression}
+                        timeConfig={getSmartAlertAnalyzeTimeConfig(event as EventOrMap, alertConfig)}
+                      />
+                    </DescriptionButtons>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  {hasInfrastructureAnalyzeAccess ? (
+                    <DescriptionButtons>
+                      {canCloseManually && (
+                        <ManualCloseIssueButton
+                          event={event}
+                          reload={reload}
+                          iconComponent={
+                            <EventIcon
+                              event={event}
+                              tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)}
+                            />
+                          }
+                        />
+                      )}
+                      <TriggeredIncidentButton event={event} />
+                      <InfraAlertConfigButton alertConfig={alertConfig} />
+                      <AnalyzeInfraEventButton
+                        alertConfig={alertConfigWithGroupingExpression}
+                        timeConfig={getSmartAlertAnalyzeTimeConfig(event as EventOrMap, alertConfig)}
+                      />
+                    </DescriptionButtons>
+                  ) : (
+                    <div>
+                      {canCloseManually && (
+                        <ManualCloseIssueButton
+                          event={event}
+                          reload={reload}
+                          iconComponent={
+                            <EventIcon
+                              event={event}
+                              tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)}
+                            />
+                          }
+                        />
+                      )}
+                      <TriggeredIncidentButton event={event} />
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </Card>
         </Col>
       </Row>
@@ -221,4 +239,17 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
       />
     </>
   );
+}
+
+function getTimeConfigForAggregatedEntitiesTable(event: EventOrMap, granularity: number): TimeConfig | undefined {
+  const from = getFromOfEvent(event);
+  if (!from) return undefined;
+  const toForWs = adjustTimestamp(getToOfEvent(event) || Date.now(), granularity);
+
+  return {
+    to: toForWs,
+    focusedMoment: toForWs,
+    windowSize: Math.max(minEventEntityWindowSize, toForWs - from),
+    autoRefresh: false
+  };
 }
