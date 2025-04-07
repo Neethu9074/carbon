@@ -30,6 +30,7 @@ import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-w
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { websitesSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
+import { CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
@@ -68,7 +69,7 @@ export default function AlertDetails(props: AlertDetailsProps) {
       getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
       // TODO chnage with FF
       displayTearSheetActions={false}
-      alertDisplayMode={websitesSmartAlertFullScreenDesignEnabled ? 'CHOICE_DIALOG' : null}
+      alertDisplayMode={websitesSmartAlertFullScreenDesignEnabled ? CHOICE_DIALOG : null}
     />
   );
 }
