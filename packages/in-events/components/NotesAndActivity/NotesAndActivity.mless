@@ -7,9 +7,9 @@
 :local {
   .notesInPanel {
     position: fixed;
+    display: inline-flex;
+    flex-direction: column;
     height: calc(100% - 4rem);
-    display: inline-grid;
-    width: 100%;
   }
 
   .sidePanelContainer {

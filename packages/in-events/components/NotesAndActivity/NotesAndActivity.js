@@ -121,16 +121,16 @@ export function NotesAndActivity(props) {
           </>
         }
       >
-        <div
-          className={classNames({
-            [locals.notesInPanel]: true
-          })}
-        >
-          {loading ? (
-            <div className={locals.loading}>
-              <CarbonInlineLoading />
-            </div>
-          ) : (
+        {loading ? (
+          <div className={locals.loading}>
+            <CarbonInlineLoading />
+          </div>
+        ) : (
+          <div
+            className={classNames({
+              [locals.notesInPanel]: true
+            })}
+          >
             <>
               {openSearch && (
                 <CarbonSearch
@@ -168,8 +168,8 @@ export function NotesAndActivity(props) {
                 setEditNoteId={setEditNoteId}
               />
             </>
-          )}
-        </div>
+          </div>
+        )}
       </SidePanel>
       {/* Danger modal for deleting a note */}
       <div className={classNames({ carbonDeleteModalOpen: needOverlay })}>

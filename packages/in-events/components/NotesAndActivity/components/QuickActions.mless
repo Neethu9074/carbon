@@ -19,7 +19,8 @@
   // This is used for transitional effects when scrolling
   .transitionDown {
     margin-top: -2.5rem;
-    padding-top: 3.75rem;
+    padding-top: 2.5rem;
+    padding-bottom: 0.5rem;
     transition: margin-top linear 0.25s;
     gap: 0.5rem;
   }
@@ -27,7 +28,8 @@
   // This is used for transitional effects when scrolling
   .extraPadding {
     padding-left: 3.125rem;
-    padding-top: 5rem;
+    padding-top: 4rem;
+    padding-bottom: 0.5rem;
     margin-top: -3.75rem;
     transition: margin-top linear 0.25s;
   }
