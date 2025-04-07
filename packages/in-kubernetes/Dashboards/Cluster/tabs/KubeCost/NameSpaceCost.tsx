@@ -281,18 +281,20 @@ function getCurrency(value: NamespaceCostRow) {
   return `${currencyType} ${value}`;
 }
 const CSVExportButton = ({ csvHeaders, csvData }: CSVExportProps) => {
-  const headers: string[] = [];
+  const headers: string[] = csvHeaders.map(csvHeader => csvHeader.header);
   const cols: string[][] = [];
-  csvHeaders.forEach((csvHeader: Record<string, any>) => headers.push(csvHeader.header));
+
+  const namespaceHeader = t('in-kubernetes:dashboards.kubecost.namespace');
+  const trendHeader = t('in-kubernetes:dashboards.kubecost.trend');
+
   csvData.forEach((row: Record<string, any>) => {
-    const arr: string[] = [];
-    headers.map((header: any) => {
-      if (header === t('in-kubernetes:dashboards.kubecost.namespace')) {
-        return arr.push(row['id']);
-      } else if (header === t('in-kubernetes:dashboards.kubecost.trend')) {
-        return arr.push(row[header]?.props?.children ? row[header].props.children : ' ');
+    const arr: string[] = headers.map(header => {
+      if (header === namespaceHeader) {
+        return row.id;
+      } else if (header === trendHeader) {
+        return row[header]?.props?.children ?? ' ';
       } else {
-        return arr.push(row[header]);
+        return row[header];
       }
     });
     cols.push(arr);
