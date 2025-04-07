@@ -4,13 +4,13 @@
  * Copyright IBM Corp. 2025
  */
 
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
 
 import FailureTypePopover from 'in-synthetics/dashboards/summary/tabs/results/FailureTypePopover';
 import { getResultErrorMessage } from 'in-synthetics/dashboards/details/utils';
 
-const dummyDNSCustomMetrics = {
+const dummyDNSCustomMetricsWithoutErrors = {
   metrics: {
     response_size: [[1716448782519, 57427]],
     start_time: [[1716448782519, 1716448782519]],
@@ -25,7 +25,7 @@ const dummyDNSCustomMetrics = {
     testName: 'api-simple-demo-test'
   }
 };
-const dummyDNSCustomMetrics1 = {
+const dummyDNSCustomMetricsWithOneError = {
   metrics: {
     response_size: [[1716448782519, 57427]],
     start_time: [[1716448782519, 1716448782519]],
@@ -38,10 +38,12 @@ const dummyDNSCustomMetrics1 = {
     locationId: 'RtmxRMdmlakWX497YeZN',
     testId: 'CmIJOrkyB2bHTifXyvqe',
     testName: 'api-simple-demo-test',
-    errors: ['error1']
+    errors: [
+      '{timeStamp=1743842474084, errorType=Exception, errorMessage=Resolution DNS query failed: SERVFAIL (Server failed to complete the DNS request)}'
+    ]
   }
 };
-const dummyDNSCustomMetrics2 = {
+const dummyDNSCustomMetricsWithTwoErrors = {
   metrics: {
     response_size: [[1716448782519, 57427]],
     start_time: [[1716448782519, 1716448782519]],
@@ -54,32 +56,48 @@ const dummyDNSCustomMetrics2 = {
     locationId: 'RtmxRMdmlakWX497YeZN',
     testId: 'CmIJOrkyB2bHTifXyvqe',
     testName: 'api-simple-demo-test',
-    errors: ['error1', 'error2', 'error3']
+    errors: [
+      '{timeStamp=1743842474084, errorType=Exception, errorMessage=Resolution DNS query failed: SERVFAIL (Server failed to complete the DNS request)}',
+      '{timeStamp=1743842474084, errorType=Assertion, errorMessage=No exact match found for CNAME: e7817.dscx.akamaiedge.net}'
+    ]
   }
 };
 jest.mock('in-synthetics/dashboards/details/utils', () => ({
   getResultErrorMessage: jest.fn()
 }));
 const mockedGetResultErrorMessage = getResultErrorMessage as jest.Mock;
-describe('FailureTypePopover', () => {
+describe(FailureTypePopover, () => {
   it('should render a N/A if success', () => {
-    render(<FailureTypePopover resultItem={dummyDNSCustomMetrics} />);
+    render(<FailureTypePopover resultItem={dummyDNSCustomMetricsWithoutErrors} />);
     expect(screen.getByText('N/A')).toBeVisible();
   });
-  it('should render error message if one error', () => {
-    mockedGetResultErrorMessage.mockReturnValueOnce('Error Message 1');
-    const { container } = render(<FailureTypePopover resultItem={dummyDNSCustomMetrics1} />);
-    expect(container.getElementsByClassName('cds--tag__label').length).toBeGreaterThanOrEqual(1);
-    expect(container.getElementsByClassName('cds--tag__label')[0]).toHaveTextContent('Error Message 1');
+  it('Should correctly render extracted error messages when single error is present', () => {
+    mockedGetResultErrorMessage.mockReturnValueOnce(
+      dummyDNSCustomMetricsWithOneError.testResultCommonProperties.errors
+    );
+    const { container } = render(<FailureTypePopover resultItem={dummyDNSCustomMetricsWithOneError} />);
+    const failureTypeTags = container.getElementsByClassName('cds--tag__label');
+    expect(failureTypeTags.length).toBe(1);
+    expect(failureTypeTags[0].innerHTML).toContain(
+      'Resolution DNS query failed: SERVFAIL (Server failed to complete the DNS request)'
+    );
   });
-  it('should render error message on buttons if more than one error', () => {
-    mockedGetResultErrorMessage.mockReturnValueOnce('Error Message 1');
-    mockedGetResultErrorMessage.mockReturnValueOnce('Error Message 1');
-    mockedGetResultErrorMessage.mockReturnValueOnce('Error Message 2');
-    mockedGetResultErrorMessage.mockReturnValueOnce('Error Message 3');
-    const { container } = render(<FailureTypePopover resultItem={dummyDNSCustomMetrics2} />);
-    expect(container.getElementsByClassName('cds--tag__label').length).toBeGreaterThan(1);
-    expect(container.getElementsByClassName('cds--tag__label')[0]).toHaveTextContent('Error Message 1');
-    expect(container.getElementsByClassName('cds--contained-list-item')[1]).toHaveTextContent('Error Message 2');
+  it('Should correctly render extracted error messages when multiple errors are present', () => {
+    mockedGetResultErrorMessage.mockReturnValue(dummyDNSCustomMetricsWithTwoErrors.testResultCommonProperties.errors);
+    const { container } = render(<FailureTypePopover resultItem={dummyDNSCustomMetricsWithTwoErrors} />);
+
+    const failureTypeTags = container.getElementsByClassName('cds--tag__label');
+    expect(failureTypeTags.length).toBe(2);
+    expect(failureTypeTags[0]).toHaveTextContent(
+      'Resolution DNS query failed: SERVFAIL (Server failed to complete the DNS request)'
+    );
+
+    expect(failureTypeTags[1]).toHaveTextContent('1 +');
+    fireEvent.click(failureTypeTags[1]);
+    expect(
+      within(screen.getByRole('list')).getByText(content =>
+        content.includes('No exact match found for CNAME: e7817.dscx.akamaiedge.net')
+      )
+    ).toBeInTheDocument();
   });
 });
