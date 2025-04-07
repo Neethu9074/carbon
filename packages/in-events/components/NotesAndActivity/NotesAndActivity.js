@@ -51,7 +51,7 @@ export function OpenNotesAndActivity({ displayNotes, setDisplayNotes, event }) {
 }
 
 export function NotesAndActivity(props) {
-  const { event, displayNotes, setDisplayNotes } = props;
+  const { event, displayNotes, setDisplayNotes, targetID } = props;
   // Extract the notes from the event
   const notes = getNotes(event);
   const incidentId = event?.get('id');
@@ -91,7 +91,7 @@ export function NotesAndActivity(props) {
         open={displayNotes}
         slideIn
         animateTitle
-        selectorPageContent="#eventListContainer"
+        selectorPageContent={targetID}
         onRequestClose={() => {
           setDisplayNotes(false);
         }}
@@ -182,7 +182,7 @@ export function NotesAndActivity(props) {
           onRequestSubmit={() => {
             setTimeout(() => {
               setNeedOverlay(false);
-            }, 500);
+            }, 250);
             handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId, editNoteId);
           }}
           onRequestClose={() => {
@@ -191,7 +191,7 @@ export function NotesAndActivity(props) {
             // Once faded we no longer need the overlay
             setTimeout(() => {
               setNeedOverlay(false);
-            }, 500);
+            }, 250);
             setEditNoteId(false);
           }}
         >
