@@ -28,6 +28,7 @@ import {
 import { CustomPropertiesSection } from 'in-synthetics/dashboards/details/components/CustomPropertiesSection';
 import SSLCertificateDetails from 'in-synthetics/dashboards/details/components/SSLCertificateDetails';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
+import { DNSTestDetails } from 'in-synthetics/dashboards/details/components/DNSTestDetails';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import getTestResultListStatus from 'in-synthetics/subscriptions/getTestResultListStatus';
 import { startTimeTagName, testIdTagName, testResultIdTagName } from 'in-synthetics/tags';
@@ -47,6 +48,7 @@ import Logs from 'in-synthetics/dashboards/details/components/Logs';
 import { getValidFormat } from 'in-synthetics/utils/getValidFormat';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
+import { syntheticDNSEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
@@ -209,6 +211,13 @@ const AnalyzeView = () => {
               <Row>
                 <Col xs>
                   <CustomPropertiesSection resultList={resultList} testType={testType} />
+                </Col>
+              </Row>
+            )}
+            {syntheticDNSEnabled && isDNS && resultList.data?.items[0]?.testResultCommonProperties?.ismDetails && (
+              <Row>
+                <Col xs>
+                  <DNSTestDetails resultList={resultList} />
                 </Col>
               </Row>
             )}
