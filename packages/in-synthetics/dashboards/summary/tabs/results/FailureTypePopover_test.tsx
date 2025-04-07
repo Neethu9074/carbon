@@ -36,7 +36,7 @@ const dummyDNSCustomMetricsWithOneError = {
     locationDisplayLabel: 'DemoPoP1(Fyre)',
     locationId: 'RtmxRMdmlakWX497YeZN',
     testId: 'CmIJOrkyB2bHTifXyvqe',
-    testName: 'api-simple-demo-test',
+    testName: 'dns-demo-test',
     errors: [
       '{timeStamp=1743842474084, errorType=Exception, errorMessage=Resolution DNS query failed: SERVFAIL (Server failed to complete the DNS request)}'
     ]
