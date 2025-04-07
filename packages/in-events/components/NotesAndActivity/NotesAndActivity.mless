@@ -58,6 +58,7 @@
     padding-top: 0px;
   }
 
+  // Using this to position the expand and search buttons next to the close button
   :global(#NotesAndActivityWrapper .c4p--side-panel .c4p--side-panel__subtitle-text) {
     padding-bottom: 0px;
     position: absolute;
@@ -65,6 +66,8 @@
     right: 0;
   }
 
+  // Needed so that the header cannot continue too far right (different languages)
+  // Because we are positioning additional buttons in the top right corner
   :global(#NotesAndActivityWrapper .c4p--side-panel .c4p--side-panel__title-text) {
     padding-right: 7rem;
   }
