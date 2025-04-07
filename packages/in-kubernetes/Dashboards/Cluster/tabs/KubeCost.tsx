@@ -18,8 +18,8 @@ import DeploymentCost from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost/Deplo
 import TotalCostList from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost/TotalCostList';
 import NamespaceCost from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost/NameSpaceCost';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { twoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import { productAreas } from 'in-services/tracking/productAreas';
-import { twoDecimalPlaces } from 'in-services/formatters/number';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -74,7 +74,7 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
             <MetricValue
               snapshotId={namespaceEndpoints.data.id}
               metric={'clusterEfficiency.workloadEfficiency'}
-              formatter={(d: number) => `${twoDecimalPlaces(d)} ${namespaceEndpoints.data.currencyCode}`}
+              formatter={percentage.detailed}
             />
           </KpiCard>
           <KpiCard title={t('in-kubernetes:dashboards.kubecost.estimatedMonthlySavings')}>
