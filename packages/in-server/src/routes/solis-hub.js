@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2025
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
  */
 
 import { createRequire } from 'module';
@@ -28,10 +29,11 @@ export const solisHubRoute = async (req, res) => {
 };
 
 export const createRequest = (req, path) => {
+  const cookieName = serverConfig.cookie.name;
+  const cookie = `${cookieName}=${req.cookies[cookieName]}`;
+
   return new Request(req.uiBackendBaseUrl + path, {
-    headers: {
-      Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
-    }
+    headers: { Cookie: cookie }
   });
 };
 
