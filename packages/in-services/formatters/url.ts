@@ -4,9 +4,6 @@
  * Copyright IBM Corp. 2025
  */
 
-// @ts-expect-error no type definitions available
-// eslint-disable-next-line no-restricted-imports
-import { pathUrlFormat } from 'in-server/src/services/sharedUrlUtils';
 import { config } from 'in-services/config';
 
 /**
@@ -19,9 +16,8 @@ export function formatPathWithTU(path: string) {
   // does not start with a schema (http://) or relative schema pattern ("//")
   // and the URL format uses path strategy.
   const isRelativePath = !!path.match(/^(?:(?!\/\/)(?![a-z]+:\/\/))/);
-  const isPathStrategy = config.urlFormat === pathUrlFormat;
 
-  if (isPathStrategy && isRelativePath) {
+  if (config.urlFormatPathStyle && isRelativePath) {
     const delimiter = !path.startsWith('/') ? `/` : '';
     return `/${config.tenant}/${config.tenantUnit}${delimiter}${path}`;
   }
