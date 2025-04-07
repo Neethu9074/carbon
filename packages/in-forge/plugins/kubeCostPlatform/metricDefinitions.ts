@@ -86,13 +86,13 @@ export default [
   },
   {
     formatter: number,
-    metrics: ['clusterCost.totalCost'],
+    metrics: ['clusterDetails.totalCost'],
     labels: [t('in-kubernetes:dashboards.kubecost.totalClusterCost')],
     min: 0
   },
   {
     formatter: percentage,
-    metrics: ['clusterEfficiency.workloadEfficiency'],
+    metrics: ['clusterDetails.workloadEfficiency'],
     labels: [t('in-kubernetes:dashboards.kubecost.workloadEfficiency')],
     min: 0
   },

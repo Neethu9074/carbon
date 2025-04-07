@@ -66,14 +66,14 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
           <KpiCard title={t('in-kubernetes:dashboards.kubecost.totalClusterCost')}>
             <MetricValue
               snapshotId={namespaceEndpoints.data.id}
-              metric={'clusterCost.totalCost'}
+              metric={'clusterDetails.totalCost'}
               formatter={(d: number) => `${twoDecimalPlaces(d)} ${namespaceEndpoints.data.currencyCode}`}
             />
           </KpiCard>
           <KpiCard title={t('in-kubernetes:dashboards.kubecost.workloadEfficiency')}>
             <MetricValue
               snapshotId={namespaceEndpoints.data.id}
-              metric={'clusterEfficiency.workloadEfficiency'}
+              metric={'clusterDetails.workloadEfficiency'}
               formatter={percentage.detailed}
             />
           </KpiCard>
