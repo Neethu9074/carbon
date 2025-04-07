@@ -19,11 +19,15 @@ import TotalCostList from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost/TotalC
 import NamespaceCost from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost/NameSpaceCost';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { productAreas } from 'in-services/tracking/productAreas';
+import { twoDecimalPlaces } from 'in-services/formatters/number';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { pageNames } from 'in-services/tracking/pageNames';
 import ArticleContent from 'in-components/ArticleContent';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
+import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
 interface SummaryProps {
@@ -48,7 +52,6 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
   if (loading) {
     return <LoadingIndicator />;
   }
-
   return (
     !loading &&
     (namespaceEndpoints.data ? (
@@ -59,6 +62,29 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
             pageRootName: pageNames.cluster_cost
           }}
         />
+        <KpiGridRow sizes={[3, 3, 3, 3]}>
+          <KpiCard title={t('in-kubernetes:dashboards.kubecost.totalClusterCost')}>
+            <MetricValue
+              snapshotId={namespaceEndpoints.data.id}
+              metric={'clusterCost.totalCost'}
+              formatter={(d: number) => `${twoDecimalPlaces(d)} ${namespaceEndpoints.data.currencyCode}`}
+            />
+          </KpiCard>
+          <KpiCard title={t('in-kubernetes:dashboards.kubecost.workloadEfficiency')}>
+            <MetricValue
+              snapshotId={namespaceEndpoints.data.id}
+              metric={'clusterEfficiency.workloadEfficiency'}
+              formatter={(d: number) => `${twoDecimalPlaces(d)} ${namespaceEndpoints.data.currencyCode}`}
+            />
+          </KpiCard>
+          <KpiCard title={t('in-kubernetes:dashboards.kubecost.estimatedMonthlySavings')}>
+            <MetricValue
+              snapshotId={namespaceEndpoints.data.id}
+              metric={'clusterTotalMonthlySavings.totalMonthlySavings'}
+              formatter={(d: number) => `${twoDecimalPlaces(d)} ${namespaceEndpoints.data.currencyCode}`}
+            />
+          </KpiCard>
+        </KpiGridRow>
         <Row>
           <Col lg={12}>
             <TotalCostList

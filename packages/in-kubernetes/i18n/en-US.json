@@ -276,6 +276,9 @@
       "cpuCost": "CPU",
       "namespace": "Namespace",
       "idleCost": "Idle cost",
+      "totalClusterCost": "Total cluster cost (last 14 days)",
+      "workloadEfficiency": "Workload efficiency",
+      "estimatedMonthlySavings": "Esitimated monthly savings",
       "noKubecostData": "Enable cost observability and allocation with Kubecost. To configure the integration, follow these [steps][Docs].\n\n[Docs]:https://ibm.biz/kubecost"
     }
   },
