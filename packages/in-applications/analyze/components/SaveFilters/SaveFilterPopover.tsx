@@ -29,12 +29,12 @@ import {
   TagFilterExpressionElementUnion
 } from '@instana/types';
 
+import { clickedFilter$, setClickedFilter, cleanTagFilterExpression } from 'in-applications/analyze/utils/filterUtils';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { selectedFilter$, setSelectedFilter } from 'in-applications/analyze/utils/filterUtils';
 import { RenderIcon } from 'in-applications/analyze/components/SaveFilters/RenderIcon';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createFilter, updateFilter } from 'in-applications/api/filters';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
@@ -46,9 +46,20 @@ interface Props {
   formModel: FormModelElement[];
   group: Group;
   dataSource: DataSource;
+  filterToEdit?: SavedFilter | null;
+  result: Result<SavedFilter[]>;
+  setFilterToEdit: (filter: SavedFilter | null) => void;
 }
 
-export const SaveFilterPopover = ({ backendQueryModel, dataSource, formModel, group }: Props): JSX.Element => {
+export const SaveFilterPopover = ({
+  backendQueryModel,
+  dataSource,
+  filterToEdit,
+  formModel,
+  group,
+  result,
+  setFilterToEdit
+}: Props): JSX.Element => {
   const maxLength = 75;
   const hasGroup = !!Object.keys(group).length;
   const [open, setOpen] = useState<boolean>(false);
@@ -60,50 +71,57 @@ export const SaveFilterPopover = ({ backendQueryModel, dataSource, formModel, gr
     id: '',
     name: ''
   });
+  const [savedFilters, setSavedFilters] = useState<SavedFilter[]>();
   useDisabledBodyScroll(open);
 
   useEffect(() => {
+    if (!isLoading(result) && result.data) {
+      setSavedFilters(result.data);
+    }
+  }, [result]);
+
+  useEffect(() => {
+    if (filterToEdit?.id) {
+      setOpen(true);
+      setIsEdit(true);
+      setFilter(filterToEdit);
+    }
+  }, [filterToEdit]);
+
+  useEffect(() => {
     const hasFilters = formModel.length > 0;
-    const subscription = selectedFilter$.subscribe(
-      ({ action, filter }: { action: string; filter: Partial<SavedFilter> | null }) => {
-        if (action === 'edit') {
-          setIsEdit(true);
-          setOpen(true);
-        } else if (hasFilters && action === 'click' && filter?.area === dataSource) {
-          if (!filter) return;
-          const hasChanged = hasFilterOrGroupChanged(
-            fromBackendModel(filter.tagFilterExpression),
-            formModel,
-            filter.group!,
-            group
-          );
-          setIsSaveDisabled(!hasChanged);
-        } else {
-          setIsSaveDisabled(!hasFilters);
-        }
-        setFilter(
-          (filter as SavedFilter) ?? {
-            id: '',
-            name: ''
-          }
-        );
+    const subscription = clickedFilter$.subscribe((filter: Partial<SavedFilter> | null) => {
+      if (!filter || filter.area !== dataSource || !hasFilters) {
+        setIsSaveDisabled(!hasFilters);
+        return;
       }
-    );
+
+      const isItemDeleted = savedFilters?.findIndex((item: SavedFilter) => item.id === filter.id) === -1;
+      const hasChanged = hasFilterOrGroupChanged(
+        fromBackendModel(filter.tagFilterExpression),
+        formModel,
+        filter.group!,
+        group
+      );
+      setIsSaveDisabled(!(hasChanged || isItemDeleted));
+    });
 
     return () => subscription.dispose();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formModel, group, dataSource]);
+  }, [formModel, group, dataSource, savedFilters]);
 
   useEffect(() => {
     setIncludeGroup(hasGroup);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [group]);
 
+  useEffect(() => {
+    if (formModel.length === 0) {
+      setClickedFilter(null);
+    }
+  }, [formModel]);
+
   const handleClose = () => {
-    setSelectedFilter('', {
-      id: '',
-      name: ''
-    });
+    setFilterToEdit(null);
     setInvalidText('');
     setOpen(false);
     setIsEdit(false);
@@ -112,6 +130,18 @@ export const SaveFilterPopover = ({ backendQueryModel, dataSource, formModel, gr
   const handleResponse = (response: Result<any>) => {
     if (response.data !== undefined) {
       handleClose();
+      if (!isEdit) {
+        setClickedFilter({
+          ...response.data,
+          ...{
+            group: response.data.group ?? {
+              tag: null,
+              secondLevelKey: null,
+              entity: NOT_APPLICABLE
+            }
+          }
+        });
+      }
       displaySuccessMessage(
         isEdit
           ? t('in-applications:analyze.filtersUpdatedTitle', { filterName: filter.name })
@@ -137,7 +167,7 @@ export const SaveFilterPopover = ({ backendQueryModel, dataSource, formModel, gr
       ? updateFilter({ filterId: filter.id, payload: { ...payload, id: filter.id } })
       : createFilter(payload);
 
-    apiCall$.subscribe((response: Result<any>) => {
+    apiCall$.subscribe((response: Result<SavedFilter>) => {
       if (!isLoading(response)) {
         handleResponse(response);
       }
@@ -145,7 +175,7 @@ export const SaveFilterPopover = ({ backendQueryModel, dataSource, formModel, gr
   };
 
   const handleSaveButtonClick = () => {
-    setSelectedFilter('', {
+    setFilter({
       id: '',
       name: ''
     });
@@ -264,7 +294,10 @@ const hasFilterOrGroupChanged = (
   selectedGroup: SavedFilterGroup,
   groupInQueryBuilder: Group
 ): boolean => {
-  const hasFilterChanged = !isEqual(selectedTagFilterExpression, filterInQueryBuilder);
+  const hasFilterChanged = !isEqual(
+    cleanTagFilterExpression(selectedTagFilterExpression),
+    cleanTagFilterExpression(filterInQueryBuilder)
+  );
   const hasGroupChanged = hasGroupStateChanged(selectedGroup, groupInQueryBuilder);
 
   return hasFilterChanged || hasGroupChanged;
