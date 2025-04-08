@@ -74,6 +74,6 @@ describe('ActionConfiguration', () => {
   it('renders AIScriptActionDialo when type is ACTION_TYPE.MANUALL', () => {
     mockData.type = ACTION_TYPE.MANUAL;
     render(<ActionConfiguration data={mockData} />);
-    expect(screen.getByText('Generate with watsonx')).toBeInTheDocument();
+    expect(screen.getByText('Generate script')).toBeInTheDocument();
   });
 });
