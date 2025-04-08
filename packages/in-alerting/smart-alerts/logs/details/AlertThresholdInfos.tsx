@@ -27,7 +27,6 @@ export const AlertThresholdInfos = ({ thresholdOperator, thresholdsMap, metricLa
       thresholdTypeLabel={t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionStaticThreshold')}
       metricLabel={metricLabel}
       threshold={<ThresholdInfo thresholdsMap={thresholdsMap} thresholdOperator={thresholdOperator} />}
-      scopeLabel={''}
     />
   );
 };

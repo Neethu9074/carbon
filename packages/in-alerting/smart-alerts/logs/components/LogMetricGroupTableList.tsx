@@ -14,6 +14,7 @@ import { setDefaultMetrics } from 'in-alerting/smart-alerts/logs/components/LogC
 import GroupTableList from 'in-alerting/smart-alerts/aggregated/components/GroupTableList';
 import { CatalogResponse } from 'in-logging/api/catalog';
 import { State } from 'in-hooks/useCursorPagination';
+import { LogGroupItem } from 'in-types';
 
 interface LogMetricGroupTableListProps extends State<any, any> {
   groupBy: Group[];
@@ -61,13 +62,13 @@ export default function LogMetricGroupTableList(props: LogMetricGroupTableListPr
   });
 
   return (
-    <GroupTableList
+    <GroupTableList<LogGroupItem>
       {...props}
       isLoading={isLoading}
       hasErrors={hasErrors}
       columnDefinitions={columnDefinitions}
       retrievalSize={retrievalSize}
-      setSelectedMetricGroup={setSelectedMetricGroup}
+      setSelectedMetricGroup={(item: LogGroupItem) => setSelectedMetricGroup(item.label)}
       loadMore={loadMore}
     />
   );
