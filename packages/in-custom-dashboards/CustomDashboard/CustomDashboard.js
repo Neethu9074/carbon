@@ -23,7 +23,11 @@ import {
   CUSTOM_DASHBOARD_ADD_WIDGET_DUPLICATE,
   DOWNLOAD_PDF_START
 } from 'in-services/tracking/tracking';
-import { dashboardIdUrlParameter, dashboardTopLevelFilterUrlParameter } from 'in-custom-dashboards/navigation/url';
+import {
+  customDashboardsPath,
+  dashboardIdUrlParameter,
+  dashboardTopLevelFilterUrlParameter
+} from 'in-custom-dashboards/navigation/url';
 import PdfWidgetContainer from 'in-custom-dashboards/CustomDashboard/PdfWidgetContainer/PdfWidgetContainer';
 import WidgetEditorDialog from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
@@ -46,7 +50,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getTrackingMeta } from 'in-custom-dashboards/tracker';
 import { nodeToImage } from 'in-services/util/nodeToImage';
 import { imagesToPdf } from 'in-services/util/imagesToPdf';
-import { welcomePage } from 'in-plg/navigation/paths';
 import widgets from 'in-custom-dashboards/widgets';
 import { deepCopy } from 'in-services/util/object';
 import Prompt from 'in-components/Dialog/Prompt';
@@ -302,7 +305,7 @@ export default function CustomDashboardLoader(props) {
               );
               return;
             }
-            const targetLocation = { ...location, pathname: welcomePage };
+            const targetLocation = { ...location, pathname: customDashboardsPath };
             navigate(targetLocation);
           });
         }}
