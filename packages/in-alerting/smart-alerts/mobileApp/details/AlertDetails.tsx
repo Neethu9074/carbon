@@ -21,6 +21,10 @@ import {
   alertsTab as alertsTabSegment
 } from 'in-mobile-apps/navigation/paths';
 import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/mobileApp/hooks/useSmartAlertCreateUrl';
+import {
+  mobileAppSmartAlertFullScreenDesignEnabled,
+  mobileAppSmartAlertDialogViewEnabled
+} from 'in-services/featureFlags';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-mobile-apps/navigation/matrix';
 import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 //@ts-expect-error Needs TS Migration
@@ -28,11 +32,15 @@ import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/mobileApp/details/AlertConfiguration';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
-import { mobileAppSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
-import { CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { Nullish, VersionedConfig } from 'in-types';
 import { role } from 'in-stores/user';
+
+const alertDisplayMode = getSmartAlertDisplayMode(
+  mobileAppSmartAlertDialogViewEnabled,
+  mobileAppSmartAlertFullScreenDesignEnabled
+);
 
 export interface AlertDetailsProps {
   mobileAppId: string;
@@ -63,10 +71,8 @@ export default function AlertDetails(props: AlertDetailsProps) {
       showActionButton
       canConfigureIndividualAlertConfigs={role?.canConfigureMobileAppSmartAlerts}
       getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
-      // TODO chnage with FF
-      displayTearSheetActions={false}
-      alertDisplayMode={mobileAppSmartAlertFullScreenDesignEnabled ? CHOICE_DIALOG : null}
       getAllowedPlaceholders={() => severityPlaceholderList}
+      alertDisplayMode={alertDisplayMode}
     />
   );
 }
