@@ -38,6 +38,13 @@
     font-weight: 600;
     font-size: 14px;
     padding-bottom: 0.75rem;
+    display: inline-flex;
+    align-items: baseline;
+    width: 100%;
+  }
+
+  .feedbackWrapper {
+    margin-left: auto;
   }
 
   .quickActionsDescription {

@@ -55,7 +55,9 @@
           trustarc: {
             isCookiePreferencesInstalled: true
           },
-          'digitalData.page.pageInfo.walkme.enabled': window.instana.termsAndPrivacySettings.walkmeAnalyticsServices,
+          'digitalData.page.pageInfo.segment.enabled': window.instana.config.featureFlags.segmentAnalyticsEnabled ,
+          'digitalData.page.pageInfo.segment.key': 'K8GUn26weHMSk0fXYVNyiKtDPHmzr9Fj',
+          'digitalData.page.pageInfo.walkme.enabled': window.instana.config.featureFlags.tealiumPrivacyEnabled ? window.instana.config.featureFlags.walkmeToolEnabled : window.instana.termsAndPrivacySettings.walkmeAnalyticsServices,
           'digitalData.page.pageInfo.walkme.id': '9ef25d161f0e453a8f3e4dea9390a967',
           'digitalData.page.pageInfo.walkme.test': true
         };
@@ -82,6 +84,7 @@
         document.head.appendChild(script);
       }
     </script>
+    <!-- Solis scripts -->
     <script type="text/javascript" crossorigin="anonymous" nonce="{{nonce}}">
       if (window.instana.config.featureFlags.solisEnabled) {
         // const solisUiHost = window.instana.config.solisUiHost || window.location.origin; // Default value if not set by config.js
@@ -99,9 +102,10 @@
     </script>
     <!-- Assitme script -->
     <script type="text/javascript">
+      const isWalkMeEnabled =  window.instana.config.featureFlags.tealiumPrivacyEnabled ? window.instana.config.featureFlags.walkmeToolEnabled : window.instana.termsAndPrivacySettings.walkmeAnalyticsServices;
       if (
         window.instana.config.featureFlags.ibmCommonEnabled &&
-        window.instana.termsAndPrivacySettings.walkmeAnalyticsServices &&
+        isWalkMeEnabled &&
         window.instana.config.featureFlags.assistmeEnabled
       ) {
         var script = document.createElement('script');

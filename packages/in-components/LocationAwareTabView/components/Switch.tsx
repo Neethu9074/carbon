@@ -78,6 +78,9 @@ function ViewWrapper<TabData, TabProps extends {}>({
   location,
   props
 }: ViewWrapperProps<TabData, TabProps>) {
+  // uppercasing for treating it as a react component
+  const { topBanner: TopBanner } = tab;
+
   let content = (
     <div
       className={classNames({
@@ -104,7 +107,10 @@ function ViewWrapper<TabData, TabProps extends {}>({
   return (
     <Fragment>
       <Title title={tab.label} />
-      <ErrorBoundary name="dashboard content">{content}</ErrorBoundary>
+      <ErrorBoundary name="dashboard content">
+        {TopBanner && <TopBanner />}
+        {content}
+      </ErrorBoundary>
     </Fragment>
   );
 }

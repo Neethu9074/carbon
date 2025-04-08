@@ -13,10 +13,10 @@ import globalHighlightAction from 'in-components/Chart/components/ContextMenu/ac
 import downloadJSONAction from 'in-components/Chart/components/ContextMenu/actions/downloadJSON';
 import downloadCSVAction from 'in-components/Chart/components/ContextMenu/actions/downloadCSV';
 import downloadPDFAction from 'in-components/Chart/components/ContextMenu/actions/downloadPDF';
-import { CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF } from 'in-services/tracking/tracking';
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { customDashboardsExportPdfWidget } from 'in-services/featureFlags';
+import { DOWNLOAD_PDF_WIDGET } from 'in-services/tracking/tracking';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { minutes } from 'in-services/time';
@@ -75,7 +75,7 @@ export default class extends React.Component {
           setShouldExportWidget(true);
           const widgetNode = chartWrapper.closest('[id^="widget-"]');
           const widgetId = widgetNode?.id.replace(/^widget-/, '') || '';
-          trackCta(CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF, { widgetId });
+          trackCta(DOWNLOAD_PDF_WIDGET, { widgetId });
           downloadPDFAction.onClick({ widgetId, setExportWidgetId });
         }
       });

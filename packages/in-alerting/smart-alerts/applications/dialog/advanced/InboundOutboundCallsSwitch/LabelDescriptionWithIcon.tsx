@@ -32,12 +32,13 @@ export default function LabelDescriptionWithIcon({
   tooltipContent
 }: LabelDescriptionWithIconProps) {
   return (
-    <Stack align="start" direction="horizontal" gap="xsmall">
-      {/* display icon */}
-      {icon && <SvgIcon type={icon} className={locals.icon} />}
-
+    <Stack align="start" gap="xxsmall">
       {/* display content */}
+
       <div className={locals.content}>
+        {/* display icon */}
+        {icon && <SvgIcon type={icon} className={locals.icon} />}
+
         <AlertTypography variant="body-bold" color="color900" content={label} />
 
         {/* If checkbox/ radiobtn is disabled */}
@@ -53,10 +54,10 @@ export default function LabelDescriptionWithIcon({
             </Tooltip>
           </span>
         )}
-        <Spacer vertical="xsmall" />
-        <AlertTypography variant="body-small" color="color600" content={description} />
-        {children}
       </div>
+      <Spacer vertical="xxsmall" />
+      <AlertTypography variant="body-small" color="color600" content={description} />
+      {children}
     </Stack>
   );
 }

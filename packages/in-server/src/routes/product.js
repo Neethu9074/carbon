@@ -171,6 +171,7 @@ router.get('/', async (req, res) => {
       reportingData,
       starredItems,
       getLicenseInfo,
+      getEnvironmentInfo,
       clientConfig
     ] = await (subRequestPromises || initializeSubRequestPromises(req));
 
@@ -184,15 +185,21 @@ router.get('/', async (req, res) => {
     const activeLicenseInfo = JSON.parse(getLicenseInfo)?.type;
     clientConfig.activeLicenseType = activeLicenseInfo;
     clientConfig.amplitudeKey = getAmplitudeKey();
+    const environmentInfo = await getEnvironmentInfo;
+    clientConfig.mcspDetails = environmentInfo.mcspDetails;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
-    const walkmeEnabled = termsAndPrivacy.walkmeAnalyticsServices;
+    const segmentKeyValue = clientConfig.segmentKey;
+    const walkmeEnabled = featureFlags.tealiumPrivacyEnabled
+      ? featureFlags.walkmeToolEnabled
+      : termsAndPrivacy.walkmeAnalyticsServices;
     const walkmeTestEnabled = walkmeEnabled && featureFlags.playwithTestEnabled;
     const ibmCommonEnabled = featureFlags.ibmCommonEnabled;
     const solisEnabled = featureFlags.solisEnabled;
-    const solisUiHost = clientConfig.solisUiHost;
+    const solisUiHost = clientConfig.solisUiHost ?? '';
     const isAssistMeEnabled = ibmCommonEnabled && featureFlags.assistmeEnabled && walkmeEnabled;
     const isSessionPlayBackRequired =
       walkmeEnabled && (activeLicenseInfo == 'selfService' || featureFlags.playwithEnabled);
+    const segmentAnalyticsEnabled = featureFlags.segmentAnalyticsEnabled;
     res.set(
       'Content-Security-Policy',
       getCsp(nonce, walkmeEnabled, ibmCommonEnabled, isSessionPlayBackRequired, solisEnabled)
@@ -228,7 +235,9 @@ router.get('/', async (req, res) => {
         isAssistMeEnabled,
         walkmeEnabled,
         walkmeTestEnabled,
-        ibmCommonEnabled
+        ibmCommonEnabled,
+        segmentKeyValue,
+        segmentAnalyticsEnabled
       })
     );
   } catch (err) {
@@ -249,6 +258,7 @@ function initializeSubRequestPromises(req) {
     getIsMonitoring(req),
     getStarredItems(req),
     getLicenseInfo(req),
+    getEnvironmentInfo(req),
     configResolver.getClientConfig(req, req.tenant, req.unit)
   ]);
 }
@@ -360,4 +370,26 @@ function getParsedUser(userStr) {
     return null;
   }
   return user;
+}
+
+/*
+ * Fetches tracking data from `ui_backend`,returning records:`mcspDetails`.
+ *
+ * Example response:
+ * - `mcspDetails`: { isMcspEnvironment: true, mcspSaasConsoleUrl: "https://mock-url.com", regionName: "Dallas Tx" }
+ *
+ * Note: Response is never null but may be empty if no data is available.
+ */
+async function getEnvironmentInfo(req) {
+  try {
+    const response = await getFromUiBackend({
+      req,
+      path: '/api/tracking/environmentInfo'
+    });
+    return response;
+  } catch (e) {
+    // Catch any errors during the fetch operation and log them
+    console.error('Error fetching environment info:', e);
+    return {};
+  }
 }

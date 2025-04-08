@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Stack, ThemeProvider } from '@instana/components';
 
@@ -14,11 +14,11 @@ import useGetAccountActivation, {
 import { Activation } from 'in-plg/pages/WelcomePage/widgets/types/AccountInfoTypeDefinition';
 import WelcomeHeader from 'in-plg/components/WelcomeHeader/WelcomeHeader';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { playwithEnabled, solisEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
 import PageContent from 'in-plg/pages/WelcomePage/PageContent';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { playwithEnabled } from 'in-services/featureFlags';
 import config from 'in-services/config';
 
 import locals from 'in-plg/pages/WelcomePage/WelcomePage.mless';
@@ -27,6 +27,13 @@ export default function WelcomePage() {
   const { location } = useNavigation();
   const activation = useGetAccountActivation();
   const currentTenantUnit = `${config.tenant}#${config.tenantUnit}`;
+
+  const [randomNumber, setRandomNumber] = useState(0);
+
+  // Temporary. In the future, which teaser is loaded depends on which products are already integrated with Instana.
+  useEffect(() => {
+    setRandomNumber(Math.random());
+  }, []);
 
   return (
     <div className={locals.container}>
@@ -46,6 +53,16 @@ export default function WelcomePage() {
           <PageContent />
         </Stack>
       </ThemeProvider>
+      {solisEnabled &&
+        (randomNumber < 0.5 ? (
+          // @ts-expect-error TS2304: Cannot find name solis
+          // component is loaded from a script in ui-client/packages/in-client/index.html
+          <solis-teaser product="turbonomic" type="pop-up" variation="optimizations" />
+        ) : (
+          // @ts-expect-error TS2304: Cannot find name solis
+          // component is loaded from a script in ui-client/packages/in-client/index.html
+          <solis-teaser product="concert" type="pop-up" variation="vulnerabilities" />
+        ))}
     </div>
   );
 }

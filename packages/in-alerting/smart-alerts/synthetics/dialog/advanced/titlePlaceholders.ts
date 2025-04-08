@@ -5,6 +5,7 @@
  */
 
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+import { severityPlaceholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { t } from 'in-i18n';
 
 export interface Placeholder {
@@ -27,7 +28,8 @@ const syntheticLocationLabelPlaceholder: Readonly<Placeholder> = Object.freeze({
  */
 export const allowedPlaceholders: ReadonlyArray<Readonly<Placeholder>> = Object.freeze([
   syntheticTestNamePlaceholder,
-  syntheticLocationLabelPlaceholder
+  syntheticLocationLabelPlaceholder,
+  severityPlaceholder
 ]);
 
 export function replaceTitlePlaceholdersWithMarkup(configName: string) {

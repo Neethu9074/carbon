@@ -163,28 +163,17 @@ const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze({
       <p>
       ${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextP')}
       </p>
-      <ul>
-        <li>${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli1')}</li>
-        <li>${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli2')}</li>
-        <li>${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli3')}</li>
-        <li>${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli4')}</li>
-        <li>${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli5')}</li>
-      <ul>
     `,
+  getAvailableTags: (metricName: MetricName) =>
+    getIncludedTags(metricName === 'onLoadTime' ? availableFilterTags.pageLoad : availableFilterTags.httpRequest),
   tearSheet: {
     headline: t('in-alerting:smartAlerts.websites.tearSheet.slowness.headline'),
     text: t('in-alerting:smartAlerts.websites.tearSheet.slowness.text')
   },
-  getAvailableTags: () => getIncludedTags(availableFilterTags.pageLoad),
   baselineEnabled: true,
   defaultMetric: 'onLoadTime',
-  getMetricName: () => 'onLoadTime',
-  getMetricLabel: (_: MetricName, aggregation?: AggregationType) =>
-    aggregation
-      ? `${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel')} (${getAggregationText(
-          aggregation
-        )})`
-      : t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel'),
+  getMetricName: (alertRule: WebsiteAlertRule) => alertRule.metricName,
+  getMetricLabel: getSlownessMetricLabel,
   getMetricFormat: () => millis.forcedFixedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: (alertRule: WebsiteAlertRule) => {
@@ -192,7 +181,7 @@ const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze({
     return (alertRule as SlownessWebsiteAlertRule).aggregation;
   },
   isRuleComplete: () => true,
-  getBeaconType: () => 'pageLoad',
+  getBeaconType: (metricName: MetricName) => (metricName === 'onLoadTime' ? 'pageLoad' : 'httpRequest'),
   getExtraAnalyzeLinkTagFilterFormModel: getExtraSlownessAnalyzeLinkTagFilterFormModel
 });
 
@@ -362,6 +351,15 @@ export function getBlueprintConfig(alertType: WebsitesAlertType): BluePrint {
     throw new Error('Unknown alert type: ' + alertType);
   }
   return config;
+}
+
+function getSlownessMetricLabel(metricName: MetricName, aggregation?: AggregationType) {
+  const metricLabel =
+    metricName == 'onLoadTime'
+      ? t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel')
+      : t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigHttpMetricLabel');
+
+  return aggregation ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
 }
 
 // Radio buttons need a unique string id

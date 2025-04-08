@@ -82,7 +82,7 @@ export default class Table extends React.Component {
 
     const supportsRowDetails = this.props.getRowDetails != null;
     const toggleRowDetails = supportsRowDetails ? this.store.toggleExpanded : null;
-
+    const CSVExportButton = this.props.CSVExportButton;
     const showPagination = data.pageCount > 1 || data.page >= data.pageCount || this.props.alwaysShowPagination;
     const header = (
       <div className={locals.headerExtensions}>
@@ -168,7 +168,13 @@ export default class Table extends React.Component {
 
     return (
       <div className={locals.tableContainer}>
-        <Card title={this.props.cardTitle} header={header} withoutPadding={this.props.withoutPadding}>
+        <Card
+          title={this.props.cardTitle}
+          header={header}
+          withoutPadding={this.props.withoutPadding}
+          // rightHeaderContent renders the optional CSVExportButton
+          rightHeaderContent={CSVExportButton && <CSVExportButton csvHeaders={carbonHeaders} csvData={carbonRows} />}
+        >
           {this.props.explanation}
           <CarbonDataTable
             headers={carbonHeaders}

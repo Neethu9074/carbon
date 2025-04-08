@@ -383,33 +383,37 @@ export default function RecommendedActions({
   return (
     <>
       {initialSnapshots && initialSnapshots?.length > 0 && (
-        <Stack direction="horizontal">
-          <Typography variant="body-regular">{t('in-automation:contextFor')}</Typography>
-          <ComboBox
-            id="contextmenu"
-            options={[
-              { label: t('in-automation:triggeringEvent'), value: 'triggeringEvent' },
-              ...initialSnapshots.map((item, index) => ({
-                label:
-                  initialSnapshots.length === 1
-                    ? t('in-automation:probableRootCause')
-                    : `${t('in-automation:probableRootCause')} ${index + 1}`,
-                value: item.rcaSnapshotID ?? ''
-              }))
-            ]}
-            value={selectedRCA}
-            isClearable={false}
-            onChange={o => {
-              if ((o as Option).value === 'triggeringEvent') {
-                setSelectedDescription?.(null);
-                setSelectedEntityType?.(null);
-                setSelectedRCA((o as Option).value);
-              } else {
-                setSelectedRCA((o as Option).value);
-              }
-            }}
-          />
-        </Stack>
+        <>
+          <Spacer vertical="small" />
+          <Stack direction="horizontal">
+            <Typography variant="body-regular">{t('in-automation:contextFor')}</Typography>
+            <ComboBox
+              id="contextmenu"
+              options={[
+                { label: t('in-automation:triggeringEvent'), value: 'triggeringEvent' },
+                ...initialSnapshots.map((item, index) => ({
+                  label:
+                    initialSnapshots.length === 1
+                      ? t('in-automation:probableRootCause')
+                      : `${t('in-automation:probableRootCause')} ${index + 1}`,
+                  value: item.rcaSnapshotID ?? ''
+                }))
+              ]}
+              value={selectedRCA}
+              isClearable={false}
+              onChange={o => {
+                if ((o as Option).value === 'triggeringEvent') {
+                  setSelectedDescription?.(null);
+                  setSelectedEntityType?.(null);
+                  setSelectedRCA((o as Option).value);
+                } else {
+                  setSelectedRCA((o as Option).value);
+                }
+              }}
+            />
+          </Stack>
+          <Spacer vertical="small" />
+        </>
       )}
       <ServerTablePresenter<ScoredAction, RecommendedActionsTableProps>
         columnDefinitions={columnDefinitions}

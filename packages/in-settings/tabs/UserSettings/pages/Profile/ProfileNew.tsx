@@ -24,6 +24,7 @@ import DescriptionText from 'in-components/form/DescriptionText/DescriptionText'
 import { saveUserSettingsAsObservable } from 'in-settings/api/userSettings';
 import { getUserInfo, updateUserName } from 'in-settings/api/userProfile';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import SubViewHeader from 'in-settings/components/SubViewHeader';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { UserSettings } from 'in-services/userSettings/globals';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -139,23 +140,26 @@ export default function ProfileNew() {
   }
 
   return (
-    <MapFormProvider id={PROFILE_FORM_ID} form={form} mode="edit" updateForm={setForm}>
-      <div className={locals.background}>
+    <div className={locals.background}>
+      <SubViewHeader>{t('in-settings:tabs.profile.pageName')}</SubViewHeader>
+      <MapFormProvider id={PROFILE_FORM_ID} form={form} mode="edit" updateForm={setForm}>
         <CarbonLayer>
           <EmailField />
           <NameField />
           {tealiumPrivacyEnabled && <RoleField />}
           {tealiumPrivacyEnabled && <CheckboxField />}
         </CarbonLayer>
-      </div>
-      <FormFooter className={locals.footer}>
-        <SaveButton
-          onClick={onSubmit}
-          disabled={!form.hierarchyTouched || (statusName || statusSettings) === 'pending'}
-          form={form}
-        />
-      </FormFooter>
-    </MapFormProvider>
+        <CarbonLayer>
+          <FormFooter className={locals.footer}>
+            <SaveButton
+              onClick={onSubmit}
+              disabled={!form.hierarchyTouched || (statusName || statusSettings) === 'pending'}
+              form={form}
+            />
+          </FormFooter>
+        </CarbonLayer>
+      </MapFormProvider>
+    </div>
   );
 }
 

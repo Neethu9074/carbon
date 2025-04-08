@@ -147,13 +147,19 @@ export function ListWidgetRenderer({
     customDashboardsFastQueryModeEnabled && hasApplicationMetrics(config)
       ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
       : t('in-components:approximateDataIndicator.dataRetention');
+
+  const isFormattingFn = typeof config.formatter === 'function';
+  // experimental support for formatter functions, additional:
+  // Warning! Atm. this could break easily won't be supported except for the use case of OtelLLM !
+  const formatter = isFormattingFn ? config.formatter : getFormatter(config.formatter);
+
   return (
     <TopListCardPresenter
       title={title}
       result={result}
       getItemsFromResult={result => result.data}
       getMetricValueFromItem={(_, item) => item.values?.[0]?.[1]}
-      selectedMetricFormatter={metricValue => getFormatter(config.formatter)(metricValue)}
+      selectedMetricFormatter={formatter}
       selectedMetricColor={isErroneous ? themes.default.ids.color.option.red['500'] : null}
       Label={Label}
       Metric={Metric}

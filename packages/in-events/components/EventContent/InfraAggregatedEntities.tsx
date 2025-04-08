@@ -1,0 +1,339 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+import React, { useState } from 'react';
+import { noop } from 'lodash';
+
+import { Collapsible, Link, LoadingSkeleton, Message, Stack } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+
+import {
+  AggregationType,
+  Cursor,
+  Cursorific,
+  EntityHealthInfo,
+  Error,
+  GenericInfraAlertRule,
+  Order,
+  Progress,
+  Result,
+  RuleWithThreshold,
+  TagFilterExpressionElementUnion,
+  TimeConfig
+} from 'in-types';
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/ServerTable/internalComponents/LegacySeverityIndicatorCellContentWrapper';
+// @ts-expect-error no typedef available
+import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
+import { getMetrics } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+//@ts-expect-error
+import { getMetricsColumn } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
+//@ts-expect-error
+import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
+import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
+import useMetricMetadatas, { Metadatas } from 'in-infrastructure/hooks/useMetricMetadatas';
+import { getEntitiesData } from 'in-events/components/util/getEntitiesForAggregatedEntity';
+import { getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
+import { getLinkToUnboundAnalytics } from 'in-events/components/AnalyzeInfraEventButton';
+import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import EntityLink, { SnapshotMap } from 'in-components/EntityLink/EntityLink';
+import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
+import useCursorPagination from 'in-hooks/useCursorPagination';
+import { getSnapshot } from 'in-stores/snapshot/snapshot';
+import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
+import { t } from 'in-i18n';
+
+import locals from 'in-events/components/EventContent/InfraEventContent.mless';
+
+const retrievalSize = 5;
+interface AggregatedEntitiesProps {
+  tagFilterFormModel: FormModelElement[];
+  timeConfig: TimeConfig;
+  ruleWithThreshold: RuleWithThreshold<GenericInfraAlertRule>;
+  tagFilterExpression: TagFilterExpressionElementUnion;
+  metricLabel: string;
+}
+interface EntityItem {
+  snapshotId: string;
+  label: string;
+  plugin: string;
+  time: number;
+  metrics: Record<string, [number, number][]>;
+  entityHealthInfo: EntityHealthInfo;
+}
+export function InfraAggregatedEntitiesTablePresenter({
+  tagFilterFormModel,
+  timeConfig,
+  ruleWithThreshold,
+  tagFilterExpression,
+  metricLabel
+}: Omit<AggregatedEntitiesProps, 'timeConfig'> & {
+  timeConfig: TimeConfig | undefined;
+}) {
+  if (!timeConfig) {
+    return (
+      <Message type="error" small withIcon fullInlineWidth>
+        {t('in-events:infraSmartAlerts.aggregatedEntityEvent.invalidTimeConfigError')}
+      </Message>
+    );
+  }
+  return InfraAggregatedEntities({
+    tagFilterFormModel,
+    timeConfig,
+    ruleWithThreshold,
+    tagFilterExpression,
+    metricLabel
+  });
+}
+
+function InfraAggregatedEntities({
+  tagFilterFormModel,
+  timeConfig,
+  ruleWithThreshold,
+  tagFilterExpression,
+  metricLabel
+}: AggregatedEntitiesProps) {
+  const { rule, thresholdOperator } = ruleWithThreshold;
+
+  const { metricName, entityType, aggregation, crossSeriesAggregation, regex } = rule || {};
+
+  const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, regex, metricLabel);
+  const kpiDefinitions = getKpiDefinitions(entityType);
+  const metricMetadatas = useMetricMetadatas({ type: entityType, queries: [metrics[0].metric], kpiDefinitions });
+  const id = getMetricKey(metricName, aggregation, crossSeriesAggregation);
+  const order: Order = { by: id, direction: isGreaterOperator(thresholdOperator) ? 'DESC' : 'ASC' };
+  const adjustedGranularityForChart: number = getGranularity(timeConfig);
+
+  const [isOpen, setIsOpen] = useState(true);
+
+  const updateIsOpenState = () => {
+    setIsOpen(prevState => !prevState);
+  };
+
+  const result = useCursorPagination(
+    () =>
+      getEntitiesData({
+        timeConfig,
+        granularity: adjustedGranularityForChart,
+        backendQueryModel: tagFilterFormModel,
+        metric: metricName,
+        retrievalSize,
+        id,
+        aggregation,
+        crossSeriesAggregation,
+        order,
+        type: entityType,
+        tagFilterExpression,
+        regex
+      }),
+    []
+  );
+
+  if (result.progress.loading) {
+    return <LoadingSkeleton className={locals.aggregatedEntityListSkeleton} />;
+  }
+
+  return (
+    <Collapsible initiallyOpen={isOpen}>
+      <Collapsible.Header isOpen={isOpen} toggle={updateIsOpenState}>
+        {t('in-events:infraSmartAlerts.aggregatedEntityEvent.titleAggregatedEntityList', {
+          totalEntityCount: result.totalHits
+        })}
+      </Collapsible.Header>
+      <Collapsible.Content isOpen={isOpen}>
+        <div className={locals.collapsibleContent}>
+          <AggregatedEntitiesTable
+            items={result.items}
+            timeConfig={timeConfig}
+            metricMetadatas={metricMetadatas}
+            metricName={metricName}
+            totalHits={result.totalHits}
+            progress={result.progress}
+            canLoadMore={result.totalHits !== undefined && result.totalHits > retrievalSize}
+            label={metricLabel}
+            aggregation={aggregation}
+            crossSeriesAggregation={crossSeriesAggregation}
+            rule={rule}
+            tagFilterExpression={tagFilterExpression}
+            granularity={adjustedGranularityForChart}
+            errors={result.errors}
+            order={order}
+          />
+        </div>
+      </Collapsible.Content>
+    </Collapsible>
+  );
+}
+
+interface AggregatedEntitiesTableProps {
+  items: Cursorific<Cursor>[];
+  timeConfig: TimeConfig;
+  metricMetadatas: Result<Metadatas>;
+  metricName: string;
+  totalHits?: number;
+  progress: Progress;
+  canLoadMore: boolean;
+  label: string;
+  aggregation: AggregationType;
+  crossSeriesAggregation: AggregationType;
+  rule: GenericInfraAlertRule;
+  tagFilterExpression: TagFilterExpressionElementUnion;
+  granularity: number;
+  errors: Error[];
+  order: Order;
+}
+
+const AggregatedEntitiesTable: React.FC<AggregatedEntitiesTableProps> = ({
+  items,
+  timeConfig,
+  metricMetadatas,
+  metricName,
+  totalHits,
+  progress,
+  canLoadMore,
+  label,
+  aggregation,
+  crossSeriesAggregation,
+  rule,
+  tagFilterExpression,
+  granularity,
+  errors,
+  order
+}) => {
+  const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
+
+  const linkToUA = getLinkToUnboundAnalytics(
+    rule,
+    tagFilterExpression,
+    getLinkToInfraEntityExplore,
+    timeConfig,
+    [],
+    order
+  );
+
+  const columnDefinitions = getColumnDefinitions(
+    timeConfig,
+    granularity,
+    metricMetadatas,
+    metricName,
+    aggregation,
+    crossSeriesAggregation,
+    label
+  );
+
+  return (
+    <>
+      <CursorPaginatedTable
+        columnDefinitions={columnDefinitions}
+        numSkeletonRows={3}
+        totalHits={totalHits}
+        progress={progress}
+        items={items}
+        isSearchable={false}
+        defaultPageSize={5}
+        onRowClick={noop}
+        size="compact"
+        errors={errors}
+      />
+      {canLoadMore && (
+        <Stack align="center">
+          <Link href={linkToUA}>
+            {t('in-events:infraSmartAlerts.aggregatedEntityEvent.viewAllEntitiesInScope', { count: totalHits })}
+          </Link>
+        </Stack>
+      )}
+    </>
+  );
+};
+
+function getColumnDefinitions(
+  timeConfig: TimeConfig,
+  granularity: number,
+  metricMetadatas: Result<Metadatas>,
+  metric: string,
+  aggregation: AggregationType,
+  crossSeriesAggregation: AggregationType,
+  label: string
+) {
+  const nameColumn = {
+    id: 'label',
+    label: t('in-infrastructure:explore.name'),
+    sortable: false,
+    getContent(item: EntityItem) {
+      return <NameColumnPresenter item={item} timeConfig={timeConfig} />;
+    }
+  };
+
+  const metricsColumnWithoutSorting = getMetricsColumn({
+    metrics: [{ metric, aggregation, crossSeriesAggregation, regex: false, label: label }],
+    metricMetadatas,
+    timeConfig,
+    granularity,
+    isTableMode: true
+  }).map((metricColumn: object) => {
+    return {
+      ...metricColumn,
+      sortable: false
+    };
+  });
+
+  const healthColumn = {
+    id: 'Health',
+    label: t('in-infrastructure:explore.health'),
+    sortable: false,
+    getContent(item: EntityItem) {
+      return (
+        <EntityHealthIndicator
+          openIssues={item.entityHealthInfo?.openIssues?.length ?? 0}
+          maxSeverity={item.entityHealthInfo?.maxSeverity ?? 0}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={timeConfig}
+          snapshotId={item.snapshotId}
+          inContentArea
+        />
+      );
+    }
+  };
+
+  return [nameColumn, ...metricsColumnWithoutSorting, healthColumn];
+}
+
+interface NameColumnPresenterProps {
+  item: EntityItem;
+  timeConfig: TimeConfig;
+}
+
+const NameColumnPresenter: React.FC<NameColumnPresenterProps> = ({ item, timeConfig }) => {
+  const getDashboardLink = useGetDashboardLink();
+  const snapshot = useObservable(
+    () => getSnapshot(item.snapshotId).map(snapshot => (snapshot as SnapshotMap) ?? undefined),
+    [item.snapshotId]
+  );
+
+  const timeForEntityDashboard = timeConfig
+    ? timeConfig.to && timeConfig.to > item.time
+      ? item.time
+      : timeConfig.to
+    : undefined;
+
+  return (
+    <SeverityIndicatorCellContentWrapper severity={item.entityHealthInfo?.maxSeverity}>
+      <EntityLink
+        label={item.label}
+        plugin={item.plugin}
+        snapshot={snapshot ?? undefined}
+        href={getDashboardLink(item.snapshotId, {
+          pathname: physicalDashboardPath,
+          to: timeForEntityDashboard ?? undefined,
+          focusedMoment: timeForEntityDashboard ?? undefined,
+          windowSize: timeConfig.windowSize
+        })}
+      />
+    </SeverityIndicatorCellContentWrapper>
+  );
+};

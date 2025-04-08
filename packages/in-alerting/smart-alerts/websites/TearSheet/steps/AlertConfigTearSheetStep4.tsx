@@ -13,11 +13,13 @@ import { MultiThresholdAlertPreviewCommon } from 'in-alerting/smart-alerts/compo
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/tearSheet/AlertProperties/AlertPropertiesTitleRow';
 import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
+import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
@@ -49,6 +51,7 @@ export default function AlertConfigTearSheetStep4({
   const beaconType = blueprintConfig.getBeaconType(metricName);
 
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, websiteId);
+  const name = form.get('name').value;
 
   return (
     <>
@@ -63,7 +66,12 @@ export default function AlertConfigTearSheetStep4({
               getPreviewTitlePlaceholder={getTitlePlaceholder}
               shouldDisplayAlertLevelSelection={false}
               renderAlertPropertiesTitleRow={() => (
-                <AlertPropertiesTitleRow form={form} onChange={onChange} getTitlePlaceholder={getTitlePlaceholder} />
+                <AlertPropertiesTitleRow
+                  form={form}
+                  onChange={onChange}
+                  getTitlePlaceholder={getTitlePlaceholder}
+                  placeholders={severityPlaceholderList}
+                />
               )}
               isTearSheet
             />
@@ -83,7 +91,13 @@ export default function AlertConfigTearSheetStep4({
                 entityLabel={websiteLabel ?? ''}
                 entityIconType="lib_website"
                 renderHeadline={() => (
-                  <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder(form)} />
+                  <AlertPreviewHeadline
+                    title={
+                      name
+                        ? replacePlaceholdersWithMarkup(severityPlaceholderList, name, ({ name }) => name)
+                        : getTitlePlaceholder(form)
+                    }
+                  />
                 )}
                 isTearSheet
               />

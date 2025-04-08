@@ -228,7 +228,7 @@ export default function UsageCharts({
                 <Typography variant="heading-300" noMargin>
                   {t('in-amp:components.usageCharts.dataUsage')}
                 </Typography>
-                <Tooltip content={t('in-amp:components.usageCharts.dataUsageHelperText')} align="auto">
+                <Tooltip content={t('in-amp:components.usageCharts.dataUsageHelperText')} align="auto" legacy>
                   <SvgIcon type="lib_help_error_info_outline" size="s" color="#172429" />
                 </Tooltip>
               </Stack>
@@ -266,7 +266,7 @@ export default function UsageCharts({
                       <Typography variant="heading-300" noMargin>
                         {t('in-amp:components.usageCharts.syntheticPops')}
                       </Typography>
-                      <Tooltip content={t('in-amp:components.usageCharts.syntheticsHelperText')} align="auto">
+                      <Tooltip content={t('in-amp:components.usageCharts.syntheticsHelperText')} align="auto" legacy>
                         <SvgIcon type="lib_help_error_info_outline" size="s" color="#172429" />
                       </Tooltip>
                     </Stack>

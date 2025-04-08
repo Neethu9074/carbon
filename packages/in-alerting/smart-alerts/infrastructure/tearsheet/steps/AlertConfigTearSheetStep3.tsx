@@ -103,6 +103,7 @@ export default function AlertConfigTearSheetStep3({
                 getDescriptionPlaceholder={() => ''}
                 placeholderTitle={alertNameValue ?? generateTitle(alertTitle)}
                 placeholderDescription={alertDescriptionValue ?? alertDescription}
+                allowedPlaceholders={placeholders}
               />
             </div>
           )}

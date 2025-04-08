@@ -9,8 +9,6 @@ import { Experiment } from '@amplitude/experiment-js-client';
 
 import { createLogger } from '@instana/logger';
 
-// @ts-expect-error file needs to be migrated
-import { Segment } from 'in-services/tracking/segment/SegmentInit';
 import { amplitudeExperimentEnabled } from 'in-services/featureFlags';
 import { customRealmName } from 'in-services/util/constants';
 import { user } from 'in-stores/user';
@@ -18,6 +16,9 @@ import { user } from 'in-stores/user';
 /** Initialize the experiment client and implement an exposure tracking provider with segment */
 export function createExperimentClient(): ExperimentClient | undefined {
   if (!amplitudeExperimentEnabled) {
+    return;
+  }
+  if (!window.analytics) {
     return;
   }
   //@ts-expect-error atm config is not defined
@@ -28,8 +29,7 @@ export function createExperimentClient(): ExperimentClient | undefined {
     automaticExposureTracking: true,
     exposureTrackingProvider: {
       track: (exposure: Exposure) => {
-        const segment = Segment();
-        segment?.track('Amplitude Experiment Exposure', exposure);
+        window.analytics.track('Amplitude Experiment Exposure', exposure);
       }
     }
   });
@@ -44,6 +44,9 @@ const startExperiment = () => {
 
   if (!apiKey) return;
   if (!user) return;
+  if (!window.analytics) {
+    return;
+  }
 
   const exp = createExperimentClient();
 

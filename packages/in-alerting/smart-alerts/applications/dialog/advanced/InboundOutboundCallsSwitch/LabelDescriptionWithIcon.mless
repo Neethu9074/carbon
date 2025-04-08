@@ -8,13 +8,15 @@
   .icon {
     width: 1.5rem;
     height: 1.5rem;
-    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     fill: var(--ids-color-option-neutral-700);
   }
 
   .content {
-    margin-left: 0.5rem;
+    display: flex;
+    align-items: flex-start;
   }
+
   .notSupported {
     display: inline-flex;
     margin: 0 0 0 5px;

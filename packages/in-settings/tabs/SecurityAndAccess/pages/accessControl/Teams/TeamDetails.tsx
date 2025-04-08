@@ -8,8 +8,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { CarbonToastNotification } from '@instana/components';
+import { RoleOverview, UserResult } from '@instana/types';
 import { generateUniqueShortId } from '@instana/utils';
-import { ApiRole, UserResult } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { createLogger } from '@instana/logger';
 
@@ -20,13 +20,13 @@ import {
   getTeam,
   saveTeam
 } from 'in-settings/tabs/SecurityAndAccess/api/teams';
-import TeamNameDescription from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamNameDescription';
-import TeamMemberCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamMemberCard';
-import TeamScopeCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamScopeCard';
+import TagUsedOnCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/tagUsedOnCard/TagUsedOnCard';
+import { MOCK_TEAM } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/Team.mocks';
 //@ts-expect-error not migrated to typescript
 import Header from 'in-settings/components/ApiItemView/Header';
-import { MOCK_TEAM } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/Team.mocks';
-import TeamTagUse from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamTagUse';
+import MemberCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/MemberCard';
+import ScopeCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/ScopeCard';
+import NameCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/NameCard';
 import { Notification } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import useRolesOverview from 'in-settings/tabs/SecurityAndAccess/hooks/useRolesOverview';
 import { securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
@@ -44,7 +44,7 @@ const logger = createLogger('TeamDetails');
 
 /* Temporary low quality function to add user name and role name to team data,
  * to be removed when user name and role name are available through API */
-const enrichTeam = (team: Team, users: Array<UserResult>, roles: Array<ApiRole>) => {
+const enrichTeam = (team: Team, users: Array<UserResult>, roles: Array<RoleOverview> | undefined) => {
   logger.warn('Temporary function to be removed when user name and role name are available through team API');
   let newMembers: TeamMember[] = [];
   if (team?.members) {
@@ -58,7 +58,7 @@ const enrichTeam = (team: Team, users: Array<UserResult>, roles: Array<ApiRole>)
         }
       }
 
-      if (roles?.length > 0 && member?.roleIds) {
+      if (roles && roles?.length > 0 && member?.roleIds) {
         newRoleIds = member.roleIds.map(roleId => {
           let roleName = '';
           const role = roles.find(role => role.id === roleId.roleId);
@@ -97,7 +97,8 @@ const TeamDetails = () => {
       description: ''
     },
     members: [],
-    scope: {}
+    scope: {},
+    teamTagUsed: { alertChannels: 0, customDashboards: 0 }
   });
   const [message, setMessage] = useState<Notification>();
   const { unstable_trackEvent } = useSegmentTracking();
@@ -117,8 +118,11 @@ const TeamDetails = () => {
       teamData => {
         //setTeam(teamData);
         setTeam(
-          //@ts-expect-error user API types have not been fixed yet, enrichTeam is only temporarily
-          enrichTeam(teamData, isResultLoading(usersResult) ? [] : usersResult, rolesProgress?.loading ? [] : rolesData)
+          enrichTeam(
+            teamData,
+            isResultLoading(usersResult) ? [] : usersResult.data,
+            rolesProgress?.loading ? [] : rolesData
+          )
         );
         setIsLoading(false);
       },
@@ -151,8 +155,7 @@ const TeamDetails = () => {
         setTeam(
           enrichTeam(
             savedTeam.body,
-            //@ts-expect-error user API types have not been fixed yet, enrichTeam is only temporarily
-            isResultLoading(usersResult) ? [] : usersResult,
+            isResultLoading(usersResult) ? [] : usersResult.data,
             rolesProgress?.loading ? [] : rolesData
           )
         );
@@ -180,7 +183,7 @@ const TeamDetails = () => {
         parentViewName={t('in-settings:tabs.teams.teamsTitle')}
       />
       {message && <CarbonToastNotification className={locals.toastMessage} lowContrast {...message} />}
-      <TeamNameDescription
+      <NameCard
         isLoading={isLoading}
         team={team}
         setMessage={setNotification}
@@ -190,7 +193,7 @@ const TeamDetails = () => {
 
       <div className={locals.row}>
         <div className={locals.column}>
-          <TeamMemberCard
+          <MemberCard
             isLoading={
               isLoading ||
               team?.members.some(
@@ -206,11 +209,11 @@ const TeamDetails = () => {
           />
         </div>
         <div className={locals.column}>
-          <TeamScopeCard isLoading={isLoading} team={MOCK_TEAM} />
+          <ScopeCard isLoading={isLoading} team={MOCK_TEAM} />
         </div>
       </div>
 
-      <TeamTagUse isLoading={isLoading} />
+      <TagUsedOnCard isLoading={isLoading} teamTagUsed={MOCK_TEAM.teamTagUsed} />
     </div>
   );
 };

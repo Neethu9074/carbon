@@ -105,6 +105,6 @@
   }
 
   .tearSheetLabel {
-    width: 6.06rem;
+    width: 6rem;
   }
 }

@@ -16,6 +16,7 @@ interface TableProps {
   showExpandAll?: boolean;
   initialSortDirection?: string;
   distanceBetweenDatapointsInMillis?: number;
+  CSVExportButton?: (props: { csvHeaders: Record<string, any>[]; csvData: Record<string, any>[] }) => React.ReactNode;
 }
 
 declare function TableComponent(props: TableProps): JSX.Element;

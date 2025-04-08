@@ -8,6 +8,7 @@
     align-items: normal;
   }
   .optionBox {
+    width: 60rem;
     &.optionBox {
       border: none;
       border-radius: 0;

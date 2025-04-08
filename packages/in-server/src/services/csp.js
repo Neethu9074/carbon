@@ -33,7 +33,9 @@ const allowedScriptOriginsIbmCommon = [
   'https://www.ibm.com',
   'https://1.www.s81c.com/',
   'https://www-api.ibm.com',
-  'https://tags.tiqcdn.com'
+  'https://tags.tiqcdn.com',
+  'https://cloud.ibm.com',
+  'https://cdn.segment.com'
 ];
 
 const allowedScriptOriginsWalkMe = [

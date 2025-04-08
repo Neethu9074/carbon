@@ -25,18 +25,23 @@ import {
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-infrastructure/navigation/matrix';
 import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import { infraSmartAlertFullScreenDesignEnabled, infraSmartAlertDialogViewEnabled } from 'in-services/featureFlags';
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import AlertConfigDialog from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AlertConfigDialog';
 import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import AlertConfiguration from 'in-alerting/smart-alerts/infrastructure/details/AlertConfiguration';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import { infraSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
-import { CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
+
+const alertDisplayMode = getSmartAlertDisplayMode(
+  infraSmartAlertDialogViewEnabled,
+  infraSmartAlertFullScreenDesignEnabled
+);
 
 export default function AlertDetails() {
   const timeConfig = useTimeConfig();
@@ -65,8 +70,7 @@ export default function AlertDetails() {
         getAllowedPlaceholders={getAllowedPlaceholders}
         getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
         canConfigureGlobalAlertConfigs={role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope}
-        displayTearSheetActions={false}
-        alertDisplayMode={infraSmartAlertFullScreenDesignEnabled ? CHOICE_DIALOG : null}
+        alertDisplayMode={alertDisplayMode}
         hideAlertIcon
         isGlobalSmartAlert
       />

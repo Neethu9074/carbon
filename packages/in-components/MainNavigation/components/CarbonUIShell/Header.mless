@@ -1,0 +1,32 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+:local {
+  :global(.shell-wrapper .cds--side-nav__navigation .cds--tag--blue) {
+    --cds-tag-background-blue: #0043ce;
+    --cds-tag-color-blue: #d0e2ff;
+  }
+
+  :global(#profileMenu-switcher) {
+    button {
+      padding: 0;
+      svg {
+        top: 0;
+        bottom: 0;
+      }
+    }
+  }
+
+  .userIcon {
+    button {
+      padding: 0;
+      svg {
+        top: 0;
+        bottom: 0;
+      }
+    }
+  }
+}

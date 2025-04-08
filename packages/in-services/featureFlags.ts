@@ -145,6 +145,8 @@ export const customDashboardsExportPdfEntireDashboard = isFeatureFlagEnabled(
 
 export const customDashboardsFastQueryModeEnabled = isFeatureFlagEnabled('customDashboardsFastQueryModeEnabled', false);
 
+export const infraDashboardExportPdfEnabled = isFeatureFlagEnabled('infraDashboardExportPdfEnabled');
+
 // Infrastructure Smart Alerts
 export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');
 export const infraPredictiveDetectionEnabled = isFeatureFlagEnabled('infraPredictiveDetectionEnabled');
@@ -214,6 +216,12 @@ export const syntheticSmartAlertDialogViewEnabled = isFeatureFlagEnabled('synthe
 // Dialog view for Infra smart alert
 export const infraSmartAlertDialogViewEnabled = isFeatureFlagEnabled('infraSmartAlertDialogViewEnabled');
 
+// Dialog view for log smart alert
+export const websitesSmartAlertDialogViewEnabled = isFeatureFlagEnabled('websitesSmartAlertDialogViewEnabled');
+
+// Dialog view for MobileApp smart alert
+export const mobileAppSmartAlertDialogViewEnabled = isFeatureFlagEnabled('mobileAppSmartAlertDialogViewEnabled');
+
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
 
@@ -233,14 +241,11 @@ export const hiddenSearchFieldValues = {
 // ########################################################################################
 // Business Observability and Monitoring (BizOps) flags
 // ########################################################################################
-export const bizopsProcessIdColumnEnabled = isFeatureFlagEnabled('bizopsProcessIdColumnEnabled');
+export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
 export const bizopsGenAIEnabled = isFeatureFlagEnabled('bizopsGenAIEnabled');
-export const bizopsProcessFlowMapEnabled = isFeatureFlagEnabled('bizopsProcessFlowMapEnabled');
 export const bizopsProcessFlowMapHealthOverlayEnabled = isFeatureFlagEnabled(
   'bizopsProcessFlowMapHealthOverlayEnabled'
 );
-export const bizopsCustomDashboardEnabled = isFeatureFlagEnabled('bizopsCustomDashboardEnabled');
-export const bizopsVersionColumnEnabled = isFeatureFlagEnabled('bizopsVersionColumnEnabled');
 
 // ########################################################################################
 // Chart gap hiding
@@ -270,6 +275,7 @@ export const kongEnabled = isFeatureFlagEnabled('kongEnabled', false);
 
 export const playwithEnabled = isFeatureFlagEnabled('playwithEnabled', false);
 export const assistmeEnabled = isFeatureFlagEnabled('assistmeEnabled', false);
+export const walkmeToolEnabled = isFeatureFlagEnabled('walkmeToolEnabled', false);
 // Recurrent Maintenance Window Flag
 export const recurrentMaintenanceWindowEnabled = isFeatureFlagEnabled('recurrentMaintenanceWindowsEnabled', true);
 export const recurrentMaintenanceWindowsTabsEnabled = isFeatureFlagEnabled(
@@ -341,5 +347,6 @@ export const accessControlCarbonTable = isFeatureFlagEnabled('accessControlCarbo
 export const idpConfigV2Enabled = isFeatureFlagEnabled('idpConfigV2Enabled', true);
 export const sloLiteEnabled = isFeatureFlagEnabled('sloLiteEnabled', false);
 export const sloFullEnabled = isFeatureFlagEnabled('sloFullEnabled', true);
+export const sloBurnRateEnabled = isFeatureFlagEnabled('sloBurnRateEnabled', false);
 export const solisEnabled = isFeatureFlagEnabled('solisEnabled', false);
 export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled', false);

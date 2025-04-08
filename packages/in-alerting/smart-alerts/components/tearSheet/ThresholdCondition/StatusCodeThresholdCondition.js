@@ -9,7 +9,7 @@ import React from 'react';
 
 import { Spacer } from '@instana/components';
 
-import ThresholdValueFormGroupForMultiStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForMultiStaticThreshold';
+import ThresholdValueFormGroupForMultiStaticThreshold from 'in-alerting/smart-alerts/components/ThresholdValueFormGroupForMultiStaticThreshold';
 import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/MultiThresholdDeviationSliderForm';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/ThresholdTypeSelection';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';

@@ -16,7 +16,6 @@ import {
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
-import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { t } from 'in-i18n';
 
@@ -51,10 +50,8 @@ export default function ThresholdValueFormGroupForMultiStaticThreshold({
   const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
   const warningThresholdCheckBoxField = warningThresholdField.get('isCheckboxSelected');
   const criticalThresholdCheckBoxField = criticalThresholdField.get('isCheckboxSelected');
-  const warningThresholdValue = warningThresholdField.get('value').value;
-  const criticalThresholdValue = criticalThresholdField.get('value').value;
-  const warningThresholdValuePresent = !isEmpty(warningThresholdValue);
-  const criticalThresholdValuePresent = !isEmpty(criticalThresholdValue);
+  const warningThresholdValuePresent = warningThresholdCheckBoxField?.value;
+  const criticalThresholdValuePresent = criticalThresholdCheckBoxField?.value;
   const alertChannelSelection = form.get('alertChannels').value;
 
   useEffect(() => {
@@ -115,7 +112,6 @@ export default function ThresholdValueFormGroupForMultiStaticThreshold({
               isMultiThreshold
               isGlobalSmartAlert={isGlobalSmartAlert}
               getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
-              isTearSheet={isTearSheet}
             />
           </div>
           <div className={locals.multiThresholdFieldContainer}>

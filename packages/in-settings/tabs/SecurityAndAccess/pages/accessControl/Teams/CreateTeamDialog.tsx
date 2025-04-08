@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 
 import { CarbonModal } from '@instana/components';
 
-import TeamForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/details/TeamForm';
+import NameForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/name/NameForm';
 import { Notification } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import { ApiTeam as Team, saveTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -31,7 +31,8 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
       description: ''
     },
     members: [],
-    scope: {}
+    scope: {},
+    teamTagUsed: { alertChannels: 0, customDashboards: 0 }
   });
 
   const setTeamData = ({ tag, info }: Partial<Team>) => {
@@ -85,7 +86,7 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
       secondaryButtonText={t('in-settings:tabs.cancel')}
       size="sm"
     >
-      <TeamForm
+      <NameForm
         description={team.info.description}
         editable
         name={team.tag}

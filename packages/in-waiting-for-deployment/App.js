@@ -3,14 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
-import { ThemeProvider, setThemeOverride, getThemeOverride } from '@instana/components';
+import { ThemeProvider } from '@instana/components';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
 import OnboardingWidgetPresenterV2 from 'in-plg/pages/onboarding/OnboardingWidgetPresenterV2';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
-import { SwitchTheme, fallbackTheme } from 'in-themes/SwitchTheme';
 import useResultFromApiPing from 'in-hooks/useResultFromApiPing';
 import createTracker from 'in-waiting-for-deployment/tracker';
 import DialogPresenter from 'in-components/DialogPresenter';
@@ -19,22 +18,13 @@ import config, { baseUrl } from 'in-services/config';
 import GlobalTheme from 'in-themes/GlobalTheme';
 
 const trackingService = createTracker('onboarding');
+const fallbackTheme = 'g10';
 
 export default function App() {
-  const themeOverride = getThemeOverride() ?? fallbackTheme;
-  const [theme, setTheme] = useState(themeOverride);
-
   return (
     <ErrorBoundary name="app">
       <GlobalTheme>
-        <SwitchTheme
-          theme={theme}
-          setOverride={theme => {
-            setThemeOverride(theme);
-            setTheme(theme);
-          }}
-        />
-        <ThemeProvider theme={theme ?? fallbackTheme}>
+        <ThemeProvider theme={fallbackTheme}>
           <DialogPresenter />
           <FullViewOnboardingWidget Renderer={Renderer} />
           <TooltipPresenter />

@@ -17,7 +17,6 @@ import { getTrackingAlertConfig } from 'in-alerting/smart-alerts/utils/segmentUt
 //@ts-expect-error TS migration
 import { MoreMenuButton } from 'in-components/MoreMenu';
 import { ALERTING_EDIT, ALERTING_CLONE_TRIGGER } from 'in-services/tracking/eventNames';
-import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
@@ -57,14 +56,14 @@ export function TearSheetEditActionHandler({
   return (
     <MoreMenuButton
       icon="lib_actions_edit"
-      title={getButtonName(t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit'))}
+      title={t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
       href={eumType === websiteEum ? getWebsiteLinkToCreateSmartAlert : getMobileAppLinkToCreateSmartAlert}
       className={locals.button}
       onClick={() => {
         trackCta(ALERTING_EDIT, { ...alertConfigForTracking, dialogMode: FULLSCREEN });
       }}
     >
-      {getButtonName(t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit'))}
+      {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
     </MoreMenuButton>
   );
 }
@@ -101,14 +100,14 @@ export function TearSheetCloneActionHandler({
   return (
     <MoreMenuButton
       icon="lib_actions_copy"
-      title={getButtonName(t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate'))}
+      title={t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
       href={eumType === websiteEum ? getWebsiteLinkToCreateSmartAlert : getMobileAppLinkToCreateSmartAlert}
       className={locals.button}
       onClick={() => {
         trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfigForTracking, dialogMode: FULLSCREEN });
       }}
     >
-      {getButtonName(t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate'))}
+      {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
     </MoreMenuButton>
   );
 }

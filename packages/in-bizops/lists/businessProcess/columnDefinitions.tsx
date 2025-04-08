@@ -23,7 +23,6 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { businessPerspectiveDashboard, businessProcessDashboard, summaryTab } from 'in-bizops/navigation/paths';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
-import { bizopsProcessIdColumnEnabled, bizopsVersionColumnEnabled } from 'in-services/featureFlags';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -93,6 +92,78 @@ let processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpListProps>
     getContent: (item: BusinessProcessItem) => <BusinessProcessNameColumnContent item={item} />
   },
   {
+    id: 'version',
+    sortable: false,
+    defaultOrderDirection: 'DESC',
+    label: t('in-bizops:lists.version'),
+    width: '10rem',
+    getContent(item: BusinessProcessItem) {
+      return (
+        <CarbonToggletip autoAlign>
+          <CarbonToggletipButton>
+            <div className={locals.ellipsis}>
+              <Typography variant="label-02">{item.businessProcess.snapshotName}</Typography>
+            </div>
+          </CarbonToggletipButton>
+          <CarbonToggletipContent>
+            {item.businessProcess.snapshotName}
+            <CarbonToggletipActions>
+              <CopyToClipboardButton
+                kind="primary"
+                size="compact"
+                getText={() => {
+                  return item.businessProcess.snapshotName ?? '';
+                }}
+                successText={
+                  t('in-bizops:lists.theVersion') +
+                  " '" +
+                  item.businessProcess.snapshotName +
+                  "' " +
+                  t('in-bizops:lists.hasBeenCopied')
+                }
+              />
+            </CarbonToggletipActions>
+          </CarbonToggletipContent>
+        </CarbonToggletip>
+      );
+    }
+  },
+  {
+    id: 'process_id',
+    sortable: true,
+    defaultOrderDirection: 'DESC',
+    label: t('in-bizops:lists.id'),
+    width: '10rem',
+    getContent(item: BusinessProcessItem) {
+      return (
+        <CarbonToggletip autoAlign>
+          <CarbonToggletipButton>
+            <div className={locals.ellipsis}>
+              <Typography variant="label-02">{item.businessProcess.definitionId}</Typography>
+            </div>
+          </CarbonToggletipButton>
+          <CarbonToggletipContent>
+            {item.businessProcess.definitionId}
+            <CarbonToggletipActions>
+              <CopyToClipboardButton
+                kind="primary"
+                size="compact"
+                getText={() => item.businessProcess.definitionId}
+                successText={
+                  t('in-bizops:lists.theId') +
+                  " '" +
+                  item.businessProcess.definitionId +
+                  "' " +
+                  t('in-bizops:lists.hasBeenCopied')
+                }
+              />
+            </CarbonToggletipActions>
+          </CarbonToggletipContent>
+        </CarbonToggletip>
+      );
+    }
+  },
+  {
     id: 'started_processes',
     sortable: true,
     defaultOrderDirection: 'DESC',
@@ -141,85 +212,5 @@ let processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpListProps>
     }
   }
 ];
-
-if (bizopsProcessIdColumnEnabled) {
-  const processId: ColumnDefinition<BusinessProcessItem, bpListProps> = {
-    id: 'process_id',
-    sortable: true,
-    defaultOrderDirection: 'DESC',
-    label: t('in-bizops:lists.id'),
-    width: '10rem',
-    getContent(item: BusinessProcessItem) {
-      return (
-        <CarbonToggletip autoAlign>
-          <CarbonToggletipButton>
-            <div className={locals.ellipsis}>
-              <Typography variant="label-02">{item.businessProcess.definitionId}</Typography>
-            </div>
-          </CarbonToggletipButton>
-          <CarbonToggletipContent>
-            {item.businessProcess.definitionId}
-            <CarbonToggletipActions>
-              <CopyToClipboardButton
-                kind="primary"
-                size="compact"
-                getText={() => item.businessProcess.definitionId}
-                successText={
-                  t('in-bizops:lists.theId') +
-                  " '" +
-                  item.businessProcess.definitionId +
-                  "' " +
-                  t('in-bizops:lists.hasBeenCopied')
-                }
-              />
-            </CarbonToggletipActions>
-          </CarbonToggletipContent>
-        </CarbonToggletip>
-      );
-    }
-  };
-  processColumnDefinitions.splice(1, 0, processId);
-}
-
-if (bizopsVersionColumnEnabled) {
-  const version: ColumnDefinition<BusinessProcessItem, bpListProps> = {
-    id: 'version',
-    sortable: false,
-    defaultOrderDirection: 'DESC',
-    label: t('in-bizops:lists.version'),
-    width: '10rem',
-    getContent(item: BusinessProcessItem) {
-      return (
-        <CarbonToggletip autoAlign>
-          <CarbonToggletipButton>
-            <div className={locals.ellipsis}>
-              <Typography variant="label-02">{item.businessProcess.snapshotName}</Typography>
-            </div>
-          </CarbonToggletipButton>
-          <CarbonToggletipContent>
-            {item.businessProcess.snapshotName}
-            <CarbonToggletipActions>
-              <CopyToClipboardButton
-                kind="primary"
-                size="compact"
-                getText={() => {
-                  return item.businessProcess.snapshotName ?? '';
-                }}
-                successText={
-                  t('in-bizops:lists.theVersion') +
-                  " '" +
-                  item.businessProcess.snapshotName +
-                  "' " +
-                  t('in-bizops:lists.hasBeenCopied')
-                }
-              />
-            </CarbonToggletipActions>
-          </CarbonToggletipContent>
-        </CarbonToggletip>
-      );
-    }
-  };
-  processColumnDefinitions.splice(1, 0, version);
-}
 
 export { processColumnDefinitions };

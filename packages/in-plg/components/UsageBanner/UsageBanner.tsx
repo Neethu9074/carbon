@@ -20,7 +20,7 @@ import {
   playWithReleaseEnabled,
   playwithEnabled,
   tealiumPrivacyEnabled,
-  userProfileMenuEnabled
+  walkmeToolEnabled
 } from 'in-services/featureFlags';
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
@@ -30,7 +30,6 @@ import {
   isAssistMeScriptLoaded,
   termsAndPrivacySettingsStore$
 } from 'in-settings/terms/stores/termsAndPrivacySettingsStore';
-import { ShowPrivacyNotification } from 'in-plg/components/ShowPrivacyNotification/ShowPrivacyNotification';
 import { SHARE_AND_INVITE_INVITEE_JOINED } from 'in-services/tracking/eventNames';
 import { countryCode, editionID, languageCode } from 'in-plg/utils/constants';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
@@ -80,9 +79,11 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const [authOverview] = useAuthOverview({ preventRequest: !invitePermissions });
   const permissionToShowInvite = invitePermissions && authOverview?.defaultLogin;
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
-  // The AssistMe feature will be enabled if assistmeEnabled flag is true, walkmeAnalyticsServices is true and the AssistMe script is loaded.
-  const showGetAnswers =
-    assistmeEnabled && termsAndPrivacySettingsStore?.walkmeAnalyticsServices && isAssistMeScriptLoaded;
+  const isWalkMeEnabled = tealiumPrivacyEnabled
+    ? walkmeToolEnabled
+    : termsAndPrivacySettingsStore?.walkmeAnalyticsServices;
+  // The AssistMe feature will be enabled if assistmeEnabled flag is true, walkme is loaded and the AssistMe script is loaded.
+  const showGetAnswers = isWalkMeEnabled && assistmeEnabled && isAssistMeScriptLoaded;
 
   useEffect(() => {
     const invitedByKey = 'invitedBy';
@@ -184,7 +185,6 @@ export function UsageBanner({ message }: UsageBannerProps) {
           )}
         </>
       )}
-      {tealiumPrivacyEnabled && userProfileMenuEnabled && ShowPrivacyNotification()}
     </Stack>
   );
 }

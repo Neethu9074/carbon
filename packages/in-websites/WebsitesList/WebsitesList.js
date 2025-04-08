@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Link, Card, Button } from '@instana/components';
+import { Link, Button } from '@instana/components';
 
 import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/ServerTable/internalComponents/LegacySeverityIndicatorCellContentWrapper';
 import {
@@ -148,7 +148,7 @@ export default connectTo(
   function WebsitesList({ timeConfig }) {
     return (
       <Sticky header={<ViewSwitcher isWebsites />}>
-        <LeftRightPadding>
+        <LeftRightPadding className={locals.wrapper}>
           <Title title={t('in-websites:websitesList.websitesListTitleWebsites')} />
           <ViewTrackingMeta
             data={{
@@ -160,9 +160,7 @@ export default connectTo(
             getHasDataToRender={getHasDataToRender}
             FallbackComponent={WebsitesNoDataNotification}
           >
-            <Card hasMarginBottom>
-              <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={RightHeader} />
-            </Card>
+            <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={RightHeader} />
           </WithEmptyStateFallback>
         </LeftRightPadding>
         <Footer />

@@ -7,15 +7,26 @@
 import { create } from '@instana/observables';
 import { SavedFilter } from '@instana/types';
 
-export const selectedFilter$ = create<{ action: string; filter: Partial<SavedFilter> | null }>();
-selectedFilter$.emit({ action: '', filter: null });
-export const setSelectedFilter = (action: string, filter: Partial<SavedFilter>) => {
-  selectedFilter$.emit({
-    action: action,
-    filter: filter
-  });
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+
+export const clickedFilter$ = create<Partial<SavedFilter> | null>();
+clickedFilter$.emit(null);
+
+export const setClickedFilter = (filter: Partial<SavedFilter> | null) => {
+  clickedFilter$.emit(filter);
 };
 
-export const clearSelectedFilter = () => {
-  selectedFilter$.emit({ action: '', filter: null });
+export const cleanTagFilterExpression = (data: FormModelElement[]) => {
+  return data.map((item: FormModelElement) => {
+    return item.type === 'TAG_FILTER'
+      ? {
+          name: item.name,
+          operator: item.operator,
+          value: item.value,
+          entity: item.entity ?? NOT_APPLICABLE,
+          type: item.type
+        }
+      : item;
+  });
 };

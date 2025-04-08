@@ -17,6 +17,7 @@ import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/logs/hooks/
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
+import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
@@ -44,7 +45,12 @@ export default function AlertConfigTearSheetStep3({
               onChange={onChange}
               getDescriptionPlaceholder={getDescriptionPlaceholder}
               renderAlertPropertiesTitleRow={() => (
-                <AlertPropertiesTitleRow form={form} onChange={onChange} getTitlePlaceholder={getTitlePlaceholder} />
+                <AlertPropertiesTitleRow
+                  form={form}
+                  onChange={onChange}
+                  getTitlePlaceholder={getTitlePlaceholder}
+                  placeholders={severityPlaceholderList}
+                />
               )}
               shouldDisplayAlertLevelSelection={false}
               isTearSheet

@@ -21,7 +21,8 @@ import { t } from '@instana/i18n-react';
 import {
   PROFILE_MENU_LOGOUT_CLICK,
   PROFILE_MENU_SWITCH_TENANT_OR_UNIT_CLICK,
-  PROFILE_MENU_USER_PROFILE_CLICK
+  PROFILE_MENU_USER_PROFILE_CLICK,
+  PROFILE_MENU_SAAS_CONSOLE_CLICK
 } from 'in-services/tracking/tracking';
 import { tealiumPrivacyEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -39,6 +40,12 @@ interface ProfileMenuProps {
 export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }: ProfileMenuProps): JSX.Element {
   const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
   const { trackCta } = useSegmentTracking();
+  const activeLicenseType = config.activeLicenseType;
+  const { isMcspEnvironment, mcspSaasConsoleUrl, regionName, ownerName } = config.mcspDetails ?? {};
+  //// Show MCSP menu items only if the environment is MCSP
+  // and the active license type is either 'hostBasedPaid' or 'payPerUse'.
+  const shouldShowMcspMenuItems =
+    isMcspEnvironment && (activeLicenseType === 'hostBasedPaid' || activeLicenseType === 'payPerUse');
 
   const signOut = (event: MouseEvent) => {
     event.preventDefault();
@@ -80,7 +87,9 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
         <div className={local.profileMenu_unitTenantSection}>
           <Typography variant="label-01" onDark>
             <label className={local.profileMenu_label}>
-              {t('in-components:mainNavigation.profileMenu_unitName_tenantName')}
+              {shouldShowMcspMenuItems
+                ? t('in-components:mainNavigation.profileMenu_instanceName')
+                : t('in-components:mainNavigation.profileMenu_unitName_tenantName')}
             </label>
           </Typography>
           <Spacer vertical="small" />
@@ -88,6 +97,30 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
             {config.tenantUnit} - {config.tenant}
           </Typography>
         </div>
+        {shouldShowMcspMenuItems ? (
+          <div className={local.profileMenu_unitTenantSection}>
+            <Typography variant="label-01" onDark>
+              <label className={local.profileMenu_label}>{t('in-components:mainNavigation.profileMenu_region')}</label>
+            </Typography>
+            <Spacer vertical="small" />
+            <Typography variant="label-02" onDark>
+              {regionName}
+            </Typography>
+          </div>
+        ) : null}
+        {shouldShowMcspMenuItems ? (
+          <div className={local.profileMenu_unitTenantSection}>
+            <Typography variant="label-01" onDark>
+              <label className={local.profileMenu_label}>
+                {t('in-components:mainNavigation.profileMenu_instanceOwner')}
+              </label>
+            </Typography>
+            <Spacer vertical="small" />
+            <Typography variant="label-02" onDark>
+              {ownerName}
+            </Typography>
+          </div>
+        ) : null}
         <Switcher aria-label="Switcher Container" expanded={isSideNavExpanded}>
           <SwitcherDivider />
           {tealiumPrivacyEnabled ? (
@@ -125,6 +158,24 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
             </SwitcherItem>
           ) : null}
           {tenantSwitcherEnabled && <SwitcherDivider />}
+          {shouldShowMcspMenuItems ? (
+            <SwitcherItem
+              href={mcspSaasConsoleUrl}
+              onClick={() => {
+                trackCta(PROFILE_MENU_SAAS_CONSOLE_CLICK); // Add tracking for SaaS Console click
+                onClickSideNavExpand?.(); // Ensure side nav expands if needed
+              }}
+              aria-label={t('in-components:mainNavigation.profileMenu_saasConsole')}
+            >
+              <Stack direction="horizontal" gap="xsmall" align="center">
+                <SvgIcon type="lib_actions_settings" size="xs" color="white" />
+                <Typography variant="body-compact-01" onDark>
+                  {t('in-components:mainNavigation.profileMenu_saasConsole')}
+                </Typography>
+              </Stack>
+            </SwitcherItem>
+          ) : null}
+          {shouldShowMcspMenuItems && <SwitcherDivider />}
           <SwitcherItem href="#" onClick={signOut} aria-label={t('in-components:mainNavigation.profileMenu_logOut')}>
             <Stack direction="horizontal" gap="xsmall" align="center">
               <SvgIcon type="lib_log_out" size="xs" color="white" />

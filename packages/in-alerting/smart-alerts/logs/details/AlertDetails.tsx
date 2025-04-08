@@ -29,6 +29,7 @@ import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/create
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
+import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfigDialog from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
 import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
@@ -74,7 +75,7 @@ export default function AlertDetails({ isLogsDashboardHeader = false }: AlertDet
             restoreConfig={restoreAlertConfigVersion}
             renderSmartAlertDialog={(props: SmartAlertDialogWrapperProps) => <SmartAlertDialogWrapper {...props} />}
             renderAlertConfiguration={renderAlertConfiguration}
-            getAllowedPlaceholders={() => []}
+            getAllowedPlaceholders={() => severityPlaceholderList}
             getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
             alertDisplayMode={alertDisplayMode}
             isGlobalSmartAlert

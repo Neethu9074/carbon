@@ -12,6 +12,7 @@ import { themes } from '@instana/design-tokens';
 
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
 import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
+import { insertPlaceholderText } from 'in-alerting/smart-alerts/utils/alertPropertiesTitleUtils';
 //@ts-expect-error TS migrate
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -97,35 +98,4 @@ export default function AlertPropertiesTitleRow({
       </Stack>
     </AlertSection>
   );
-}
-
-function insertPlaceholderText(
-  value: string,
-  placeholderString: string,
-  onChange: (path: string[], updater: (item: Item) => Item) => void
-) {
-  return () => {
-    const textarea = document.getElementById('name');
-
-    if (!textarea) {
-      return;
-    }
-
-    var selectionStart = (textarea as any).selectionStart;
-    var selectionEnd = (textarea as any).selectionEnd;
-
-    const tilSelectionStart = value.substring(0, selectionStart);
-    const fromSelectionEnd = value.substring(selectionEnd);
-    const newValue = tilSelectionStart + placeholderString + fromSelectionEnd;
-
-    // we need to set the new value manually (before calling on change and update the form) to be
-    // able to place the cursor right after the inserted placeholder
-    (textarea as any).value = newValue;
-
-    const newCursorPosition = selectionStart + placeholderString.length;
-    (textarea as any).setSelectionRange(newCursorPosition, newCursorPosition);
-    setTimeout(() => textarea.focus(), 0);
-
-    onChange(['name'], (field: Item) => (field as Field<string>).setValue(newValue).setTouched(true));
-  };
 }

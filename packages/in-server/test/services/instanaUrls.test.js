@@ -20,7 +20,7 @@ describe('in-server/src/services/instanaUrls', () => {
   describe('isDefaultUrlFormat', () => {
     it('must verify default url format', async () => {
       // Given
-      serverConfig.urlFormat = '$unit-$tenant.$baseDomain';
+      serverConfig.urlFormatPathStyle = false;
 
       // When
       const result = await isDefaultUrlFormat();
@@ -31,7 +31,7 @@ describe('in-server/src/services/instanaUrls', () => {
 
     it('must verify custom url format', async () => {
       // Given
-      serverConfig.urlFormat = '$baseDomain/$tenant/$unit';
+      serverConfig.urlFormatPathStyle = true;
 
       // When
       const result = await isDefaultUrlFormat();
@@ -44,7 +44,7 @@ describe('in-server/src/services/instanaUrls', () => {
   describe('prefixPathWithTuSegments', () => {
     it('must prefix the given path with TU segments if urlFormat is path format', () => {
       // Given
-      serverConfig.urlFormat = '$baseDomain/$tenant/$unit';
+      serverConfig.urlFormatPathStyle = true;
       serverConfig.clientConfig = { tenant: 'acme', tenantUnit: 'one' };
       const path = '/foo/bar';
 
@@ -57,7 +57,7 @@ describe('in-server/src/services/instanaUrls', () => {
 
     it('must NOT prefix the given path with TU segments if urlFormat is subdomain format', () => {
       // Given
-      serverConfig.urlFormat = '$unit-$tenant.$baseDomain';
+      serverConfig.urlFormatPathStyle = false;
       serverConfig.clientConfig = { tenant: 'acme', tenantUnit: 'one' };
       const path = '/foo/bar';
 

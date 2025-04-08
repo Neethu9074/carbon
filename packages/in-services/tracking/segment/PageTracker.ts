@@ -7,8 +7,6 @@
 import { useEffect } from 'react';
 
 import { productCode, productCodeType, productPlatformTitle, productTitle, ut30 } from 'in-services/util/constants';
-//@ts-expect-error
-import { Segment } from 'in-services/tracking/segment/SegmentInit';
 import { getLicenseTypeForSegment } from 'in-services/util/segmentLicenseType';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { PageTrackerProps } from 'in-services/tracking/segment/types';
@@ -19,14 +17,13 @@ import { user } from 'in-stores/user';
 let productPlanType: string;
 let userId: string;
 
-const segment = Segment();
 const usePageTracker = ({ productArea, pageRootName }: PageTrackerProps) => {
   const location = useLocation();
   useEffect(() => {
     if (!(productArea && pageRootName)) {
       return;
     }
-    if (!segment) {
+    if (!window.analytics) {
       return;
     }
 
@@ -42,7 +39,7 @@ const usePageTracker = ({ productArea, pageRootName }: PageTrackerProps) => {
     productPlanType = getLicenseTypeForSegment(activeLicenseType);
     // @ts-expect-error not types available...
     userId = customRealmName + '-' + user?.id;
-    segment.page('Page Viewed', {
+    window.analytics.page('Page Viewed', {
       UT30: ut30,
       instanceId: tenantUnitId,
       instanceName: tenantUnit,

@@ -214,6 +214,7 @@ export default function AdvancedModeContainer(
                   getDescriptionPlaceholder={() => ''}
                   placeholderTitle={alertNameValue ?? generateTitle(alertTitle)}
                   placeholderDescription={alertDescriptionValue ?? alertDescription}
+                  allowedPlaceholders={placeholders}
                 />
               )}
             />

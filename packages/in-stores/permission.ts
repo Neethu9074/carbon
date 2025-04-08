@@ -5,6 +5,7 @@
 
 import {
   actionAutomationEnabled,
+  businessObservabilityEnabled,
   infraExploreDataEnabled,
   openstackEnabled,
   pcfEnabled,
@@ -237,7 +238,8 @@ export const hasEventsAccess =
   hasInfrastructureAccess ||
   hasSyntheticsAccess;
 
-export const hasBizOpsAccess = hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS);
+export const hasBizOpsAccess =
+  businessObservabilityEnabled && hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS);
 
 export const hasAutomationAccess =
   actionAutomationEnabled &&
@@ -303,10 +305,12 @@ function getProductAreaPermissions(): Array<AreaPermissionProps> {
     });
   }
 
-  areaPermissions.push({
-    value: AreaPermission.ACCESS_BIZOPS,
-    label: t('in-stores:permissionAccessBizOpsLabel')
-  });
+  if (businessObservabilityEnabled) {
+    areaPermissions.push({
+      value: AreaPermission.ACCESS_BIZOPS,
+      label: t('in-stores:permissionAccessBizOpsLabel')
+    });
+  }
 
   if (actionAutomationEnabled) {
     areaPermissions.push({

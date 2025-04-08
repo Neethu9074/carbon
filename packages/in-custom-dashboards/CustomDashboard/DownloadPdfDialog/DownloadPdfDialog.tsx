@@ -9,11 +9,11 @@ import React, { useEffect, useMemo, useReducer, useCallback } from 'react';
 import { Stack, StackItem, RadioButton, Button, Checkbox } from '@instana/components';
 
 import {
-  CUSTOM_DASHBOARD_DOWNLOAD_PDF_DISPLAY,
-  CUSTOM_DASHBOARD_DOWNLOAD_PDF_FINISH,
-  CUSTOM_DASHBOARD_DOWNLOAD_PDF_GENERATE_PREVIEW,
-  CUSTOM_DASHBOARD_DOWNLOAD_PDF_LAYOUT,
-  CUSTOM_DASHBOARD_DOWNLOAD_PDF_ORIENTATION
+  DOWNLOAD_PDF_DISPLAY,
+  DOWNLOAD_PDF_FINISH,
+  DOWNLOAD_PDF_GENERATE_PREVIEW,
+  DOWNLOAD_PDF_LAYOUT,
+  DOWNLOAD_PDF_ORIENTATION
 } from 'in-services/tracking/tracking';
 import {
   sanitizeNode,
@@ -152,7 +152,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node, head
                         dispatch({ type: setPdf, payload: null });
                         dispatch({ type: setIsGenerating, payload: { value: false } });
                         dispatch({ type: setOrientation, payload: 'landscape' });
-                        trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_ORIENTATION, { orientation: 'landscape' });
+                        trackCta(DOWNLOAD_PDF_ORIENTATION, { orientation: 'landscape' });
                       }}
                     />
                     <RadioButton
@@ -163,7 +163,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node, head
                         dispatch({ type: setPdf, payload: null });
                         dispatch({ type: setIsGenerating, payload: { value: false } });
                         dispatch({ type: setOrientation, payload: 'portrait' });
-                        trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_ORIENTATION, { orientation: 'portrait' });
+                        trackCta(DOWNLOAD_PDF_ORIENTATION, { orientation: 'portrait' });
                       }}
                     />
                   </Stack>
@@ -185,7 +185,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node, head
                         dispatch({ type: setIsGenerating, payload: { value: false } });
                         dispatch({ type: setStackedWidgets, payload: false });
                         dispatch({ type: setImagesUrls, payload: null });
-                        trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_LAYOUT, { shouldFitPdf: true });
+                        trackCta(DOWNLOAD_PDF_LAYOUT, { shouldFitPdf: true });
                       }}
                     />
                     <RadioButton
@@ -196,7 +196,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node, head
                       onChange={() => {
                         dispatch({ type: setPdf, payload: null });
                         dispatch({ type: setShouldFitPdf, payload: false });
-                        trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_LAYOUT, { shouldFitPdf: false, multiplePages: true });
+                        trackCta(DOWNLOAD_PDF_LAYOUT, { shouldFitPdf: false, multiplePages: true });
                       }}
                     />
                   </Stack>
@@ -218,7 +218,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node, head
                         dispatch({ type: setShouldFitPdf, payload: stackedWidgets });
                         dispatch({ type: setImagesUrls, payload: null });
                         dispatch({ type: setStackedWidgets, payload: !stackedWidgets });
-                        trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_DISPLAY, { stackedWidgets: !stackedWidgets });
+                        trackCta(DOWNLOAD_PDF_DISPLAY, { stackedWidgets: !stackedWidgets });
                       }}
                     />
                   </Stack>
@@ -239,7 +239,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node, head
                 iconSpinning={value}
                 onClick={() => {
                   dispatch({ type: setIsGenerating, payload: { value: true } });
-                  trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_GENERATE_PREVIEW, { isGenerating: true });
+                  trackCta(DOWNLOAD_PDF_GENERATE_PREVIEW, { isGenerating: true });
                 }}
               >
                 {text}
@@ -256,7 +256,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node, head
           disabled={!(pdf && pdfBlob)}
           onClick={() => {
             pdf?.save(`${customDashboardId}.pdf`);
-            trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_FINISH, { customDashboardId });
+            trackCta(DOWNLOAD_PDF_FINISH, { customDashboardId });
             close();
           }}
         >

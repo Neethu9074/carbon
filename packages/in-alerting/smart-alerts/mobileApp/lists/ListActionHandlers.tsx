@@ -10,16 +10,26 @@ import {
   TearSheetEditActionHandler,
   TearSheetCloneActionHandler
 } from 'in-alerting/smart-alerts/eum/components/TearSheet/TearSheetActionHandlers';
+import {
+  mobileAppSmartAlertFullScreenDesignEnabled,
+  mobileAppSmartAlertDialogViewEnabled
+} from 'in-services/featureFlags';
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { mobileAppSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
+import { DIALOG, FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { eumType } from 'in-alerting/smart-alerts/mobileApp/constants';
+
+const alertDisplayMode = getSmartAlertDisplayMode(
+  mobileAppSmartAlertDialogViewEnabled,
+  mobileAppSmartAlertFullScreenDesignEnabled
+);
 
 function handleEdit(config: MobileAppSmartAlertConfigWithMetadata) {
   openSmartAlertDialog(config);
@@ -64,8 +74,13 @@ function HandleCloneNew(config: MobileAppSmartAlertConfigWithMetadata) {
 }
 
 export const actionHandlers = {
-  handleClone: (config: MobileAppSmartAlertConfigWithMetadata) => handleClone(config),
-  ...(mobileAppSmartAlertFullScreenDesignEnabled && {
+  ...(alertDisplayMode === DIALOG && {
+    handleClone: (config: MobileAppSmartAlertConfigWithMetadata) => handleClone(config)
+  }),
+  ...(alertDisplayMode === CHOICE_DIALOG && {
+    handleCloneSelector: (config: MobileAppSmartAlertConfigWithMetadata) => handleClone(config)
+  }),
+  ...(alertDisplayMode === FULLSCREEN && {
     handleCloneNew: (config: MobileAppSmartAlertConfigWithMetadata) => HandleCloneNew(config)
   }),
   handleDelete: (
@@ -74,8 +89,13 @@ export const actionHandlers = {
     configName: string,
     trackCta: CtaTrackingFunction
   ) => handleDelete(id, setIsSaving, configName, baseUrl.MOBILEAPP, trackCta),
-  handleEdit: (config: MobileAppSmartAlertConfigWithMetadata) => handleEdit(config),
-  ...(mobileAppSmartAlertFullScreenDesignEnabled && {
+  ...(alertDisplayMode === DIALOG && {
+    handleEdit: (config: MobileAppSmartAlertConfigWithMetadata) => handleEdit(config)
+  }),
+  ...(alertDisplayMode === CHOICE_DIALOG && {
+    handleEditSelector: (config: MobileAppSmartAlertConfigWithMetadata) => handleEdit(config)
+  }),
+  ...(alertDisplayMode === FULLSCREEN && {
     handleEditNew: (config: MobileAppSmartAlertConfigWithMetadata) => HandleEditNew(config)
   }),
   handleToggleEnabled: (enabled: boolean, id: string, setIsSaving: (arg: boolean) => void) =>

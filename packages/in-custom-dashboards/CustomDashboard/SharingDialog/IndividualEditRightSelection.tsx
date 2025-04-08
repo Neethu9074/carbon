@@ -112,11 +112,7 @@ export default function IndividualEditRightSelection({
                   .filter(({ id }) => id !== user?.id)
                   .sort(compareUser)
                   .map(user => (
-                    <option
-                      key={user.id}
-                      value={user.id}
-                      disabled={getUser(otherUsersWithAccess, user.id) ? false : true}
-                    >
+                    <option key={user.id} value={user.id} disabled={!!getUser(otherUsersWithAccess, user.id)}>
                       {user.fullName} ({user.email})
                     </option>
                   ))

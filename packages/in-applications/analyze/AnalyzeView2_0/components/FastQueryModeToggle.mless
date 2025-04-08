@@ -9,5 +9,9 @@
     align-items: center;
     padding-left: 0.75rem;
     color: var(--ids-color-option-neutral-600);
+    :global(.cds--toggle__label) {
+      display: flex;
+      align-items: center;
+    }
   }
 }

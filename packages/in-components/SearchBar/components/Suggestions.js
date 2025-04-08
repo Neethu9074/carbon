@@ -24,7 +24,7 @@ import { emptyArray } from 'in-services/fixedObjects';
 
 import './Suggestions.less';
 
-const { isArrowDown, isArrowUp, isReturn, isTab } = keyCodes;
+const { isArrowDown, isArrowUp, isReturn } = keyCodes;
 const block = 'in-search-suggestions';
 export default class extends React.Component {
   static displayName = 'Suggestion';
@@ -112,7 +112,7 @@ export default class extends React.Component {
         this.onArrowDown();
       } else if (isArrowUp(keyEvent)) {
         this.onArrowUp();
-      } else if (isReturn(keyEvent) || isTab(keyEvent)) {
+      } else if (isReturn(keyEvent)) {
         this.onReturn();
       }
     });

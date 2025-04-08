@@ -24,6 +24,7 @@ import { websiteSmartAlerts, websiteSmartAlertsFullScreenFullyQualified } from '
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
 import { generateAlertConfig } from 'in-alerting/smart-alerts/websites/TearSheet/sharedFunctions';
+import { AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { BluePrint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -32,16 +33,12 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { successObservable } from 'in-services/util/result';
 import { Location } from 'in-stores/navigation/types';
 
-interface AlertURLProps {
+interface WebsiteAlertURLProps extends AlertURLProps {
   websiteId: string;
   tagFilters?: TagFilter[];
   errorMessage?: string;
   customEventName?: string;
   errorId?: string;
-  alertId?: string;
-  alertConfigCreated?: number;
-  duplicateMode?: boolean;
-  editMode?: boolean;
 }
 
 export function useSmartAlertCreateUrl({
@@ -54,7 +51,7 @@ export function useSmartAlertCreateUrl({
   customEventName,
   errorId,
   tagFilters
-}: AlertURLProps) {
+}: WebsiteAlertURLProps) {
   const { createHref, location } = useNavigation();
   const currentLocation = useLocation();
   const returnUrlWithParams = createHref(currentLocation);

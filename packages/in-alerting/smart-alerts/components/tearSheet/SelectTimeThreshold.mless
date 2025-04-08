@@ -16,4 +16,8 @@
   .width80 {
     width: 80%;
   }
+  .label {
+    width: 5rem;
+    word-wrap: break-word;
+  }
 }

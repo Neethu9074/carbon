@@ -154,6 +154,30 @@ export const sloMetrics = deepFreeze({
         metric: 'TRAFFIC_PER_SECOND',
         timeConfig
       } as const)
+  },
+  burnRate: {
+    label: t('in-service-levels:general.metrics.burnRate'),
+    singleNumber: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+      ({
+        timeShift: { offset: 0 },
+        aggregation: 'MEAN',
+        source: 'SLO',
+        configId,
+        resultType: 'SINGLE_NUMBER',
+        metric: 'BURN_RATE',
+        timeConfig
+      } as const),
+    timeSeries: ({ configId, timeConfig, granularity }: SloMetricConfigGeneratorProps) =>
+      ({
+        timeShift: { offset: 0 },
+        aggregation: 'MEAN',
+        source: 'SLO',
+        configId,
+        resultType: 'TIME_SERIES',
+        metric: 'ERROR_BURN_RATE_CHART',
+        timeConfig,
+        granularity: granularity ?? calculateSloGranularity(timeConfig)
+      } as const)
   }
 });
 
