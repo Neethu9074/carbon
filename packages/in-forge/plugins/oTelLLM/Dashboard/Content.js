@@ -18,6 +18,7 @@ import { number, millis, scale } from 'in-services/formatters/number';
 import { days, hours, minutes, seconds } from 'in-services/time';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import EntityLink from 'in-components/EntityLink';
+import { getSingle } from 'in-services/settings';
 import { t } from 'in-i18n';
 
 export default function OTelLLMDashboard({ snapshot, timeConfig }) {
@@ -87,6 +88,14 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
   const getDashboardLink = useGetDashboardLink();
 
   const instanceId = snapshot.get('data').get('resource.service.instance.id');
+  const currency = snapshot.get('data').get('resource.currency');
+
+  // optionally, this could be extracted into a separate function
+  const cost = {
+    // later: think about moving the number formatting into the formatCost function
+    compact: d => formatCost(scale.compact(d), currency),
+    detailed: d => formatCost(scale.detailed(d), currency)
+  };
 
   let minRollup = seconds.toMillis(10);
   if (timeConfig.windowSize >= days.toMillis(91)) {
@@ -209,19 +218,19 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           title={t('in-forge:plugins.oTelLLM.dashboard.totalCost')}
           metricName="metrics.gauges.llm.usage.cost"
           tagFilter={instanceId}
-          formatter="scale.compact"
+          formatter={cost.compact}
         />
         <TotalUsageBigNumber
           title={t('in-forge:plugins.oTelLLM.dashboard.totalInputCost')}
           metricName="metrics.gauges.llm.usage.input_cost"
           tagFilter={instanceId}
-          formatter="scale.compact"
+          formatter={cost.compact}
         />
         <TotalUsageBigNumber
           title={t('in-forge:plugins.oTelLLM.dashboard.totalOutputCost')}
           metricName="metrics.gauges.llm.usage.output_cost"
           tagFilter={instanceId}
-          formatter="scale.compact"
+          formatter={cost.compact}
         />
       </Columize>
 
@@ -231,21 +240,21 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           metricName="metrics.gauges.llm.usage.cost"
           tag="metric.tag.model_id"
           tagFilter={instanceId}
-          formatter="scale.compact"
+          formatter={cost.compact}
         />
         <TopListByModel
           title={t('in-forge:plugins.oTelLLM.dashboard.totalInputCostByModel')}
           metricName="metrics.gauges.llm.usage.input_cost"
           tag="metric.tag.model_id"
           tagFilter={instanceId}
-          formatter="scale.compact"
+          formatter={cost.compact}
         />
         <TopListByModel
           title={t('in-forge:plugins.oTelLLM.dashboard.totalOutputCostByModel')}
           metricName="metrics.gauges.llm.usage.output_cost"
           tag="metric.tag.model_id"
           tagFilter={instanceId}
-          formatter="scale.compact"
+          formatter={cost.compact}
         />
       </Columize>
 
@@ -255,21 +264,21 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           metricName="metrics.gauges.llm.service.usage.cost"
           tag="metric.tag.service_name"
           tagFilter={instanceId}
-          formatter="scale.compact"
+          formatter={cost.compact}
         />
         <TopListByModel
           title={t('in-forge:plugins.oTelLLM.dashboard.totalInputCostByService')}
           metricName="metrics.gauges.llm.service.usage.input_cost"
           tag="metric.tag.service_name"
           tagFilter={instanceId}
-          formatter="scale.compact"
+          formatter={cost.compact}
         />
         <TopListByModel
           title={t('in-forge:plugins.oTelLLM.dashboard.totalOutputCostByService')}
           metricName="metrics.gauges.llm.service.usage.output_cost"
           tag="metric.tag.service_name"
           tagFilter={instanceId}
-          formatter="scale.compact"
+          formatter={cost.compact}
         />
       </Columize>
 
@@ -439,7 +448,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             minRollup={minRollup}
             y1={{
               min: 0,
-              formatter: scale.detailed,
+              formatter: cost.detailed,
               metrics: costs ? costs : [],
               labels: costs?.map(metric => {
                 if (metric.split('.').length > 3) {
@@ -460,7 +469,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             minRollup={minRollup}
             y1={{
               min: 0,
-              formatter: scale.detailed,
+              formatter: cost.detailed,
               metrics: inputCosts ? inputCosts : [],
               labels: inputCosts?.map(metric => {
                 if (metric.split('.').length > 3) {
@@ -481,7 +490,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             minRollup={minRollup}
             y1={{
               min: 0,
-              formatter: scale.detailed,
+              formatter: cost.detailed,
               metrics: outputCosts ? outputCosts : [],
               labels: outputCosts?.map(metric => {
                 if (metric.split('.').length > 3) {
@@ -505,7 +514,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             minRollup={minRollup}
             y1={{
               min: 0,
-              formatter: scale.detailed,
+              formatter: cost.detailed,
               metrics: serviceCosts ? serviceCosts : [],
               labels: serviceCosts?.map(metric => {
                 if (metric.split('.').length > 4) {
@@ -526,7 +535,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             minRollup={minRollup}
             y1={{
               min: 0,
-              formatter: scale.detailed,
+              formatter: cost.detailed,
               metrics: serviceInputCosts ? serviceInputCosts : [],
               labels: serviceInputCosts?.map(metric => {
                 if (metric.split('.').length > 4) {
@@ -547,7 +556,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             minRollup={minRollup}
             y1={{
               min: 0,
-              formatter: scale.detailed,
+              formatter: cost.detailed,
               metrics: serviceOutputCosts ? serviceOutputCosts : [],
               labels: serviceOutputCosts?.map(metric => {
                 if (metric.split('.').length > 4) {
@@ -636,4 +645,31 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
       </Columize>
     </div>
   );
+}
+
+const isLocaleAware = !getSingle('formatNumbersAccordingToEnUs') && window.instana.numberLocale;
+
+/**
+ * Helper to create a formatter that also supports rendering the currency symbol.
+ *
+ * For the moment it was implemented here to support KubeCost getting shipped to customers, and not get blocked by missing
+ * cost-formatter.
+ *
+ * Long term goal: fully support by our formatting and visualisation framework...
+ */
+function formatCost(value, currency) {
+  try {
+    const locale = isLocaleAware ? navigator.language : 'en-US';
+    const numberFormat = new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency,
+      currencyDisplay: 'symbol',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+      useGrouping: false
+    });
+    return numberFormat.format(0).replace(/\d+/g, value).trim();
+  } catch {
+    return value;
+  }
 }
