@@ -34,12 +34,12 @@ export default function Summary({ currencyCode, snapshotId, timeConfig }: Deploy
   );
 
   if (!data) {
-    return getSpecificErrorNotification('Kubecost is not retrieving data');
+    return getSpecificErrorNotification(t('in-kubernetes:dashboards.kubecost.notRetrievingData'));
   }
   const deploymentData = (data as SnapshotData).get('raw_payload', []);
 
   if (!deploymentData) {
-    return getSpecificErrorNotification('Kubecost is not retrieving deployments information');
+    return getSpecificErrorNotification(t('in-kubernetes:dashboards.kubecost.deploymentInfoNotRetrieving'));
   }
 
   let metricArr: string[] = [];

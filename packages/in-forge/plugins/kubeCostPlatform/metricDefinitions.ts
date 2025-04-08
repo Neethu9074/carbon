@@ -70,7 +70,7 @@ export default [
       t('in-kubernetes:dashboards.kubecost.ramCost'),
       t('in-kubernetes:dashboards.kubecost.totalCost')
     ],
-    category: [t('in-kubernetes:dashboards.kubecost.deploymentCumulativeCost')],
+    category: [t('in-kubernetes:dashboards.kubecost.costByDeployment')],
     min: 0,
     formatter: number
   },
@@ -80,7 +80,7 @@ export default [
       getDynamicMetricMatch('deploymentCostList', 'totalEfficiency', t('in-kubernetes:dashboards.kubecost.deployment'))
     ],
     labels: [t('in-kubernetes:dashboards.kubecost.trend'), t('in-kubernetes:dashboards.kubecost.totalEfficiency')],
-    category: [t('in-kubernetes:dashboards.kubecost.deploymentCumulativeCost')],
+    category: [t('in-kubernetes:dashboards.kubecost.costByDeployment')],
     min: 0,
     formatter: percentage
   },

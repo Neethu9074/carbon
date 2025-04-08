@@ -266,7 +266,7 @@ export default function DeploymentCost({ currencyCode, snapshotId, timeConfig }:
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-kubernetes:dashboards.kubecost.deploymentCumulativeCost')}
+      cardTitle={t('in-kubernetes:dashboards.kubecost.costByDeployment')}
       cols={cols}
       rows={rows}
       initialSortColumn={9}
