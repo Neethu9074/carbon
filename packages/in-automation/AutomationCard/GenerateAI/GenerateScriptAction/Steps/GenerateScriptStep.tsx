@@ -109,8 +109,12 @@ function generateAIActionForm({
         });
         setForm(form =>
           form
-            .updateIn(['action', 'script'], item => item.setValue(res.data?.content!))
-            .updateIn(['action', 'aiGeneratedContent'], item => item.setValue(res.data?.content!))
+            .updateIn(['action', 'script'], item =>
+              item.setValue(res.data?.content?.replace(/\bHere['’]s\b/gi, 'Here is a') ?? '')
+            )
+            .updateIn(['action', 'aiGeneratedContent'], item =>
+              item.setValue(res.data?.content?.replace(/\bHere['’]s\b/gi, 'Here is a') ?? '')
+            )
             .updateIn(['action', 'description'], item => item.setValue(promptStep.value).setTouched(true))
             .updateIn(['action', 'feedbackState'], item => item.setValue('').setTouched(true))
         );
