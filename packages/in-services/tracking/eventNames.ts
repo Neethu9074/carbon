@@ -489,6 +489,7 @@ export const AUTOMATION_POLICY_EDIT = 'automation.policy.edit';
 export const AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK = 'automation.recommended.actions.tab.click';
 export const AUTOMATION_CREATE_POLICY_FROM_RECOMMENDED_ACTIONS = 'automation.create.policy.from.recommended.actions';
 export const AUTOMATION_TEST_ACTION_RUN = 'automation.test.action.run';
+export const AUTOMATION_EXPORT_SCRIPT = 'automation.export.script';
 export const AUTOMATION_CREATE_AI_ACTION_POLICY = 'automation.create.ai.action.policy';
 export const AUTOMATION_CLICK_AI_GENERATED_ACTIONS_TAB = 'automation.click.ai.generated.actions.tab';
 export const AUTOMATION_COPY_AI_GENERATED_ACTION = 'automation.copy.ai.generated.action';

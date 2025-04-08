@@ -617,3 +617,14 @@ export function getActionFilter() {
     mapToResultObject: true
   });
 }
+
+export function getGitops(data: any) {
+  return http<any>({
+    method: 'POST',
+    maxRetries: 3,
+    url: `${automationAPIBase}/gitops`,
+    mapToResultObject: true,
+    headers: getCsrfHeader(),
+    data: data
+  });
+}

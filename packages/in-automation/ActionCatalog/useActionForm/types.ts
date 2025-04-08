@@ -57,6 +57,8 @@ type ActionFormItems = {
   issue_type: Field<string>;
   assignee: Field<string>;
   summary: Field<string>;
+  git_url: Field<string>;
+  scriptFromUrl: Field<string>;
 };
 
 export type ActionForm = MapForm<ActionFormItems>;

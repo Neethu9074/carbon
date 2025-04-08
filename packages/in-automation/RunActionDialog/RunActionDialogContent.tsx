@@ -24,6 +24,7 @@ import {
   getGitlabFields,
   getJiraFields,
   getManualContentFromFields,
+  getGitLinkFromFields,
   base64ToUtf8
 } from 'in-automation/utils/actionField';
 import { toViewModel } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
@@ -235,33 +236,50 @@ function AgentSelection({
 
 function ScriptActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const script = getScriptFromFields(action.fields);
-  let plaintextScript = script.value;
-  if (script.encoding === 'base64') {
-    plaintextScript = base64ToUtf8(plaintextScript);
+  const gitUrl = getGitLinkFromFields(action.fields);
+  if (gitUrl.value === '') {
+    let plaintextScript = script.value;
+    if (script.encoding === 'base64') {
+      plaintextScript = base64ToUtf8(plaintextScript);
+    }
+    const interpreter = getInterpreterToUse(action);
+    let plaintextInterpreter = interpreter.value;
+    if (interpreter.encoding === 'base64') {
+      plaintextInterpreter = base64ToUtf8(plaintextInterpreter);
+    }
+    return (
+      <DescriptionList inComponents>
+        <DescriptionItem
+          inComponents
+          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+          title={t('in-automation:titleInterpreter')}
+        >
+          {plaintextInterpreter}
+        </DescriptionItem>
+        <DescriptionItem
+          inComponents
+          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+          title={t('in-automation:titleScriptContent')}
+        >
+          <Code withExpandButton withoutCopyButton code={plaintextScript} lang={'bash'} softWrap />
+        </DescriptionItem>
+      </DescriptionList>
+    );
+  } else {
+    return (
+      <DescriptionList inComponents>
+        <DescriptionItem
+          inComponents
+          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+          title={t('in-automation:titleScriptContent')}
+        >
+          <Link external href={gitUrl.value}>
+            {gitUrl.value}
+          </Link>
+        </DescriptionItem>
+      </DescriptionList>
+    );
   }
-  const interpreter = getInterpreterToUse(action);
-  let plaintextInterpreter = interpreter.value;
-  if (interpreter.encoding === 'base64') {
-    plaintextInterpreter = base64ToUtf8(plaintextInterpreter);
-  }
-  return (
-    <DescriptionList inComponents>
-      <DescriptionItem
-        inComponents
-        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-        title={t('in-automation:titleInterpreter')}
-      >
-        {plaintextInterpreter}
-      </DescriptionItem>
-      <DescriptionItem
-        inComponents
-        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-        title={t('in-automation:titleScriptContent')}
-      >
-        <Code withExpandButton withoutCopyButton code={plaintextScript} lang={'bash'} softWrap />
-      </DescriptionItem>
-    </DescriptionList>
-  );
 }
 
 export function MetadataActionContent({

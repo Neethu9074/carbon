@@ -16,6 +16,7 @@ import {
   getManualContentFromFields,
   getInterpreterFromFields,
   getScriptFromFields,
+  getGitLinkFromFields,
   getTimeoutFromFields,
   getWebhookFields,
   getGithubOpenTicketFields,
@@ -23,6 +24,7 @@ import {
   getGithubFields,
   getGitlabFields,
   getGitlabOpenTicketFields,
+  getGitTypeFromFields,
   getJiraFields,
   getJiraOpenTicketFields,
   base64ToUtf8
@@ -88,6 +90,8 @@ function createActionFormFromForm(form: ActionForm, actionFilter: 'all' | Action
   const apiKeyField = form.get('apiKey');
   const apiKeyValueField = form.get('apiKeyValue');
   const apiKeyAddToField = form.get('apiKeyAddTo');
+  const gitUrlField = form.get('git_url');
+  const scriptFromUrlField = form.get('scriptFromUrl');
 
   const validatorWrapper = <VALUE_TYPE>(
     types: ActionType | ActionType[],
@@ -140,7 +144,10 @@ function createActionFormFromForm(form: ActionForm, actionFilter: 'all' | Action
       }),
       script: createField({
         value: scriptField.value,
-        validator: validatorWrapper(ACTION_TYPE.SCRIPT, notBlankValidator),
+        validator: validatorWrapper(
+          ACTION_TYPE.SCRIPT,
+          scriptFromUrlField.value === 'script' ? notBlankValidator : undefined
+        ),
         touched: scriptField.touched
       }),
       subtype: createField({
@@ -303,6 +310,21 @@ function createActionFormFromForm(form: ActionForm, actionFilter: 'all' | Action
         value: apiKeyAddToField.value,
         validator: validatorWrapper(ACTION_TYPE.HTTP, authTypeField.value === 'apiKey' ? notBlankValidator : undefined),
         touched: apiKeyAddToField.touched
+      }),
+      git_url: createField({
+        value: gitUrlField.value,
+        validator: validatorWrapper(
+          ACTION_TYPE.SCRIPT,
+          scriptFromUrlField.value !== 'script'
+            ? composeAndShortCircuitOnError(notBlankValidator, urlValidator)
+            : undefined
+        ),
+        touched: gitUrlField.touched
+      }),
+      scriptFromUrl: createField({
+        value: scriptFromUrlField.value,
+        validator: validatorWrapper(ACTION_TYPE.SCRIPT, notBlankValidator),
+        touched: scriptFromUrlField.touched
       })
     }
   });
@@ -322,6 +344,8 @@ function createActionFormFromAction(action: ActionFormEntity, actionFilter: 'all
     contentText = base64ToUtf8(contentText);
   }
   const script = getScriptFromFields(action.fields);
+  const git_url = getGitLinkFromFields(action.fields);
+  const scriptFromUrl = getGitTypeFromFields(action.fields);
   const interpreter = getInterpreterFromFields(action.fields);
   let plaintextInterpreter = interpreter.value;
   let plaintextScript = script.value;
@@ -391,7 +415,10 @@ function createActionFormFromAction(action: ActionFormEntity, actionFilter: 'all
       }),
       script: createField({
         value: plaintextScript,
-        validator: validatorWrapper(ACTION_TYPE.SCRIPT, notBlankValidator)
+        validator: validatorWrapper(
+          ACTION_TYPE.SCRIPT,
+          scriptFromUrl.value === 'script' ? notBlankValidator : undefined
+        )
       }),
       subtype: createField({
         value: plaintextInterpreter
@@ -511,6 +538,18 @@ function createActionFormFromAction(action: ActionFormEntity, actionFilter: 'all
       apiKeyAddTo: createField({
         value: isApiKeyAuth(authen) ? authen.apiKeyAddTo ?? 'header' : '',
         validator: validatorWrapper(ACTION_TYPE.HTTP, isApiKeyAuth(authen) ? notBlankValidator : undefined)
+      }),
+      git_url: createField({
+        value: git_url.value ?? '',
+        validator: validatorWrapper(
+          ACTION_TYPE.SCRIPT,
+          scriptFromUrl.value !== 'script' ? composeAndShortCircuitOnError(notBlankValidator, urlValidator) : undefined
+        )
+      }),
+
+      scriptFromUrl: createField({
+        value: scriptFromUrl.value,
+        validator: validatorWrapper(ACTION_TYPE.SCRIPT, notBlankValidator)
       })
     }
   });
@@ -562,6 +601,10 @@ function createDefaultActionForm(actionFilter: 'all' | ActionFilter): ActionForm
       }),
       script: createField({
         value: '',
+        validator: validatorWrapper(ACTION_TYPE.SCRIPT, notBlankValidator)
+      }),
+      scriptFromUrl: createField({
+        value: 'script',
         validator: validatorWrapper(ACTION_TYPE.SCRIPT, notBlankValidator)
       }),
       subtype: createField({
@@ -664,6 +707,9 @@ function createDefaultActionForm(actionFilter: 'all' | ActionFilter): ActionForm
       }),
       apiKeyAddTo: createField({
         value: 'header'
+      }),
+      git_url: createField({
+        value: ''
       })
     }
   });

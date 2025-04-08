@@ -15,6 +15,7 @@ import {
   AUTOMATION_OPTIMIZATION_RUN_CLICK,
   AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK,
   AUTOMATION_TEST_ACTION_RUN,
+  AUTOMATION_EXPORT_SCRIPT,
   AUTOMATION_GENERATE_AI_BUTTON_CLICK,
   AUTOMATION_CLICK_AI_GENERATED_ACTIONS_TAB,
   AUTOMATION_VIEW_AI_GENERATED_ACTION,
@@ -43,6 +44,7 @@ export function useSegmentTracker(): {
   runActionTrackerSegment: TrackingFunction;
   runOptimizationTrackerSegment: TrackingFunction;
   testActionTrackerSegment: TrackingFunction;
+  exportScriptToExternalSource: TrackingFunction;
   createPolicyTrackerSegment: TrackingFunction;
   editPolicyTrackerSegment: TrackingFunction;
   actionHistoryTrackerSegment: TrackingFunction;
@@ -85,6 +87,10 @@ export function useSegmentTracker(): {
 
   function testActionTrackerSegment(customData?: Object): void {
     unstable_trackEvent(STARTED_PROCESS, { processType: AUTOMATION_TEST_ACTION_RUN }, customData);
+  }
+
+  function exportScriptToExternalSource(customData?: Object): void {
+    unstable_trackEvent(STARTED_PROCESS, { processType: AUTOMATION_EXPORT_SCRIPT }, customData);
   }
 
   function createPolicyTrackerSegment(customData?: Object): void {
@@ -176,6 +182,7 @@ export function useSegmentTracker(): {
     runActionTrackerSegment,
     runOptimizationTrackerSegment,
     testActionTrackerSegment,
+    exportScriptToExternalSource,
     createPolicyTrackerSegment,
     editPolicyTrackerSegment,
     actionHistoryTrackerSegment,
