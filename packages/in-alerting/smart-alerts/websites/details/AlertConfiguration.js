@@ -15,6 +15,7 @@ import {
 } from 'in-alerting/components/Chart/chartViewConfig';
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
+import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
@@ -22,6 +23,7 @@ import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details
 import GracePeriodDescription from 'in-alerting/smart-alerts/components/dialog/GracePeriodDescription';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/websites/details/AlertThresholdInfos';
+import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
@@ -181,7 +183,11 @@ export default function AlertConfiguration({ alertConfig }) {
         openByDefault
         darkFrame
       >
-        <AlertPropertyInfos shouldDisplayAlertLevelSection={false} alertConfig={alertConfig} />
+        <AlertPropertyInfos
+          shouldDisplayAlertLevelSection={false}
+          alertConfig={alertConfig}
+          renderCustomTitle={() => replacePlaceholdersWithMarkup(severityPlaceholderList, alertConfig.name)}
+        />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="WEBSITE" />
       <CustomPayloadCard

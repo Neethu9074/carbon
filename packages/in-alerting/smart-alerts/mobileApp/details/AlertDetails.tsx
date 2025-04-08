@@ -25,6 +25,7 @@ import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-m
 import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 //@ts-expect-error Needs TS Migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
+import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/mobileApp/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
@@ -65,6 +66,7 @@ export default function AlertDetails(props: AlertDetailsProps) {
       // TODO chnage with FF
       displayTearSheetActions={false}
       alertDisplayMode={mobileAppSmartAlertFullScreenDesignEnabled ? CHOICE_DIALOG : null}
+      getAllowedPlaceholders={() => severityPlaceholderList}
     />
   );
 }

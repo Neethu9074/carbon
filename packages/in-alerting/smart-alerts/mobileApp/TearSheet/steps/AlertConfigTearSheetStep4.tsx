@@ -14,10 +14,12 @@ import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/tearSheet/AlertProperties/AlertPropertiesTitleRow';
 import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/mobileApp/hooks/useTagBasedPayloadConfigurator';
+import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
+import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { BluePrint, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import AlertTypography from 'in-alerting/components/AlertTypography';
@@ -49,6 +51,7 @@ export default function AlertConfigTearSheetStep4({
   const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, mobileAppId as string);
+  const name = form.get('name').value;
 
   return (
     <>
@@ -61,7 +64,12 @@ export default function AlertConfigTearSheetStep4({
               getDescriptionPlaceholder={getDescriptionPlaceholder}
               shouldDisplayAlertLevelSelection={false}
               renderAlertPropertiesTitleRow={() => (
-                <AlertPropertiesTitleRow form={form} onChange={onChange} getTitlePlaceholder={getTitlePlaceholder} />
+                <AlertPropertiesTitleRow
+                  form={form}
+                  onChange={onChange}
+                  getTitlePlaceholder={getTitlePlaceholder}
+                  placeholders={severityPlaceholderList}
+                />
               )}
               isTearSheet
             />
@@ -80,7 +88,13 @@ export default function AlertConfigTearSheetStep4({
                 entityLabel={mobileApp?.label ?? ''}
                 entityIconType="lib_mobile_app"
                 renderHeadline={() => (
-                  <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder(form)} />
+                  <AlertPreviewHeadline
+                    title={
+                      name
+                        ? replacePlaceholdersWithMarkup(severityPlaceholderList, name, ({ name }) => name)
+                        : getTitlePlaceholder(form)
+                    }
+                  />
                 )}
                 isTearSheet
               />

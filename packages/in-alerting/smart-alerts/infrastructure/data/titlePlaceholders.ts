@@ -5,12 +5,14 @@
  */
 
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+import { severityPlaceholder } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 
 export function getAllowedPlaceholders({ groupBy }: { groupBy: string[] }) {
-  return groupBy?.map((groupbyTag: string) => ({
+  const groupByPlaceholders = groupBy?.map((groupbyTag: string) => ({
     name: groupbyTag,
     template: '${' + groupbyTag + '}'
   }));
+  return [...groupByPlaceholders, severityPlaceholder];
 }
 
 export function replaceTitlePlaceholdersWithMarkup(alertConfig: { groupBy: string[]; name: string }) {

@@ -9,6 +9,8 @@ import React from 'react';
 
 import { MultiThresholdAlertPreviewCommon } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreviewCommon';
 import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { t } from 'in-i18n';
@@ -18,13 +20,15 @@ interface MultiThresholdAlertPreviewProps {
   getDescriptionPlaceholder: (form: MapForm<any>) => string;
   placeholderTitle?: string;
   placeholderDescription?: { WARNING?: string; CRITICAL?: string };
+  allowedPlaceholders?: ReadonlyArray<Readonly<Placeholder>>;
 }
 
 export function MultiThresholdAlertPreview({
   form,
   getDescriptionPlaceholder,
   placeholderTitle,
-  placeholderDescription
+  placeholderDescription,
+  allowedPlaceholders
 }: MultiThresholdAlertPreviewProps) {
   const warningThresholdField = form.get('threshold').get('warningThreshold') as MapForm<any>;
   const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
@@ -36,7 +40,10 @@ export function MultiThresholdAlertPreview({
   const entityLabel = metricLabel
     ? metricLabel
     : t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.properties.preview.subtitle');
-  const title = form.get('name').value || getTitlePlaceholder();
+  const name = form.get('name').value;
+  const titleWithReplacedPlaceholders = name
+    ? replacePlaceholdersWithMarkup(allowedPlaceholders ?? [], name, ({ name }) => name)
+    : placeholderTitle || getTitlePlaceholder();
 
   return (
     <MultiThresholdAlertPreviewCommon
@@ -47,7 +54,7 @@ export function MultiThresholdAlertPreview({
       isCriticalDefined={isCriticalThresholdDefined}
       entityLabel={entityLabel}
       entityIconType="lib_infrastructure"
-      renderHeadline={() => <AlertPreviewHeadline title={placeholderTitle ?? title} />}
+      renderHeadline={() => <AlertPreviewHeadline title={titleWithReplacedPlaceholders} />}
     />
   );
 }
