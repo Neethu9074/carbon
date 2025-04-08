@@ -63,21 +63,45 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
           }}
         />
         <KpiGridRow sizes={[3, 3, 3, 3]}>
-          <KpiCard title={t('in-kubernetes:dashboards.kubecost.totalClusterCost')}>
+          <KpiCard
+            title={t('in-kubernetes:dashboards.kubecost.totalClusterCost')}
+            noTooltipOnTitle
+            iconAction={{
+              icon: 'lib_help_error_info_outline',
+              text: t('in-kubernetes:dashboards.kubecost.totalClusterCostTooltipinfo'),
+              kind: 'subtle'
+            }}
+          >
             <MetricValue
               snapshotId={namespaceEndpoints.data.id}
               metric={'clusterDetails.totalCost'}
               formatter={(d: number) => `${twoDecimalPlaces(d)} ${namespaceEndpoints.data.currencyCode}`}
             />
           </KpiCard>
-          <KpiCard title={t('in-kubernetes:dashboards.kubecost.workloadEfficiency')}>
+          <KpiCard
+            title={t('in-kubernetes:dashboards.kubecost.workloadEfficiency')}
+            noTooltipOnTitle
+            iconAction={{
+              icon: 'lib_help_error_info_outline',
+              text: t('in-kubernetes:dashboards.kubecost.workloadEfficiencyTooltipinfo'),
+              kind: 'subtle'
+            }}
+          >
             <MetricValue
               snapshotId={namespaceEndpoints.data.id}
               metric={'clusterDetails.workloadEfficiency'}
               formatter={percentage.detailed}
             />
           </KpiCard>
-          <KpiCard title={t('in-kubernetes:dashboards.kubecost.estimatedMonthlySavings')}>
+          <KpiCard
+            title={t('in-kubernetes:dashboards.kubecost.estimatedMonthlySavings')}
+            noTooltipOnTitle
+            iconAction={{
+              icon: 'lib_help_error_info_outline',
+              text: t('in-kubernetes:dashboards.kubecost.estimatedMonthlySavingsTooltipinfo'),
+              kind: 'subtle'
+            }}
+          >
             <MetricValue
               snapshotId={namespaceEndpoints.data.id}
               metric={'clusterTotalMonthlySavings.totalMonthlySavings'}

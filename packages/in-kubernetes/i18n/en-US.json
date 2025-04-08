@@ -279,7 +279,10 @@
       "totalClusterCost": "Total cluster cost (last 14 days)",
       "workloadEfficiency": "Workload efficiency",
       "estimatedMonthlySavings": "Esitimated monthly savings",
-      "noKubecostData": "Enable cost observability and allocation with Kubecost. To configure the integration, follow these [steps][Docs].\n\n[Docs]:https://ibm.biz/kubecost"
+      "noKubecostData": "Enable cost observability and allocation with Kubecost. To configure the integration, follow these [steps][Docs].\n\n[Docs]:https://ibm.biz/kubecost",
+      "totalClusterCostTooltipinfo": "The total cost of your cluster for the time frame selected. Note: if you have less than 14 days of data, you will see that figure till a full 14 day cycle has elapsed.",
+      "workloadEfficiencyTooltipinfo": "The average efficiency of each workload over the chosen window. Workload efficiency is the costweighted ratio of RAM and CPU usage to configured RAM and CPU requests.",
+      "estimatedMonthlySavingsTooltipinfo": "The estimated monthly savings available for your cluster, as determined using historical data from the time frame selected."
     }
   },
   "cloudNative": {
