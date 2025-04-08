@@ -31,7 +31,6 @@ function NameColumn({ action }: { action: Action | ScoredAction }) {
   const { viewAIGenaratedActionTrackerSegment } = useSegmentTracker();
   const { location } = useNavigation();
   const isAIActions = location.matrix[actionCatalog]?.view && location.matrix[actionCatalog]?.view === 'ai';
-
   return (
     <WithSubscript subscript={ACTION_TRANSLATIONS[type]}>
       <Link
