@@ -19,6 +19,11 @@
     z-index: 123;
   }
 
+  .navigatorSplitScreen:has(:global(.carbonDeleteModalOpen)) {
+    z-index: calc(var(--ids-z-index-option-dialog) - 6);
+    position: absolute;
+  }
+
   .dialogIndex:has(:global(.carbonDeleteModalOpen)) {
     z-index: calc(var(--ids-z-index-option-dialog) - 6);
   }
