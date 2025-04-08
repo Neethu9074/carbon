@@ -39,6 +39,7 @@
     padding-left: 2rem;
     padding-right: 2rem;
     padding-top: 10rem;
+    height: 100%;
   }
 
   .emptyHeader {

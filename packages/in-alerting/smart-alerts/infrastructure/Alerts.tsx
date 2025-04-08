@@ -21,8 +21,8 @@ import {
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
-import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
+import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import { actionHandlers } from 'in-alerting/smart-alerts/infrastructure/lists/ListActionHandlers';
 import CreateSmartAlert from 'in-alerting/smart-alerts/infrastructure/CreateSmartAlert';
 import { MetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
