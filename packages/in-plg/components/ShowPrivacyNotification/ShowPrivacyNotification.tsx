@@ -45,7 +45,12 @@ export const ShowPrivacyNotification = () => {
               {t('in-plg:privacyNotification.description')}
             </Typography>
           </CarbonStack>
-          <CarbonButton size="sm" onClick={handleButtonClick} className={locals.toggleTipButton}>
+          <CarbonButton
+            data-testid="doneButton"
+            size="sm"
+            onClick={handleButtonClick}
+            className={locals.toggleTipButton}
+          >
             {t('in-plg:privacyNotification.buttonText')}
           </CarbonButton>
         </CarbonStack>
