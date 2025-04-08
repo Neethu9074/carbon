@@ -9541,7 +9541,7 @@
         "traceSize": "Trace",
         "sessions": "Sessions",
         "networkUsage": "Network Usage",
-        "tcpSegmentsReceived": "Recieved",
+        "tcpSegmentsReceived": "Received",
         "tcpSegmentsSentOut": "Sent Out",
         "tcpSegmentsRetransmitted": "Retransmitted",
         "tcpBadSegmentsReceived": "Broken",
@@ -9609,6 +9609,7 @@
         "cpuTimeSpent": "CPU Time",
         "totalCpuUserTime": "User",
         "totalCpuSystemTime": "System",
+        "totalCpuWaitIOTime": "Wait I/O",
         "swapMemory": "Swap Memory Usage",
         "totalSize": "Total Size",
         "usedSize": "Used Size",
@@ -9755,10 +9756,11 @@
       "currentUpdateTransactionRate": "Cuurent update transaction rate",
       "currentRollbackRate": "Current rollback rate",
       "currentCommitRate": "Current commit rate",
-      "tcpSegmentsReceived": "Recieved",
+      "tcpSegmentsReceived": "Received",
       "tcpSegmentsSentOut": "Sent Out",
       "tcpSegmentsRetransmitted": "Retransmitted",
-      "tcpBadSegmentsReceived": "Broken"
+      "tcpBadSegmentsReceived": "Broken",
+      "upTime": "Up Time"
     },
     "service": {
       "service": "Service",

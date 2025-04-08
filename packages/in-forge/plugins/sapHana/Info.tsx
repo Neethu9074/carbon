@@ -21,6 +21,7 @@ export default function Info({ snapshot }: { snapshot: SnapshotData }) {
       <DescriptionItem title={t('in-forge:plugins.sapHana.hostActiveStatus')}>
         {data.get('hostActiveStatus')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapHana.upTime')}>{data.get('upTime')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.sapHana.systemId')}>{data.get('instanceId')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.sapHana.databaseName')}>{data.get('name')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.sapHana.instanceNumber')}>

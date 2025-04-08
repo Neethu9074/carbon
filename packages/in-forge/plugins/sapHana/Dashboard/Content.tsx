@@ -86,10 +86,16 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
             timeConfig={timeConfig}
             y1={{
               formatter: millis.detailed,
-              metrics: ['stats.totalCpuUserTime', 'stats.totalCpuSystemTime', 'stats.totalCpuIdleTime'],
+              metrics: [
+                'stats.totalCpuUserTime',
+                'stats.totalCpuSystemTime',
+                'stats.totalCpuIdleTime',
+                'stats.totalCpuWaitIOTime'
+              ],
               labels: [
                 t('in-forge:plugins.sapHana.dashboard.totalCpuUserTime'),
                 t('in-forge:plugins.sapHana.dashboard.totalCpuSystemTime'),
+                t('in-forge:plugins.sapHana.dashboard.totalCpuWaitIOTime'),
                 t('in-forge:plugins.sapHana.dashboard.idle')
               ],
               type: 'line'
