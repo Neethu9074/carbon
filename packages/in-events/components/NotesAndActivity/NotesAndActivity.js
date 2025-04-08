@@ -90,10 +90,10 @@ export function NotesAndActivity(props) {
         className={locals.sidePanelContainer}
         open={displayNotes}
         slideIn
-        animateTitle
         selectorPageContent={targetID}
         onRequestClose={() => {
           setDisplayNotes(false);
+          setSearchInput('');
         }}
         title={t('in-events:notes.notesActivity')}
         size={(stretchOverlay && 'lg') || 'md'}
@@ -134,6 +134,7 @@ export function NotesAndActivity(props) {
             <>
               {openSearch && (
                 <CarbonSearch
+                  className={locals.searchBar}
                   placeholder={t('in-events:notes.searchNotes')}
                   labelText={t('in-events:notes.searchNotes')}
                   onChange={e => {
