@@ -6,7 +6,16 @@
 
 import React, { Fragment, useEffect } from 'react';
 
-import { Link, Typography, Toggle, TextArea, Select, FormGroup, CarbonNumberInput } from '@instana/components';
+import {
+  Link,
+  Typography,
+  Toggle,
+  TextArea,
+  Select,
+  FormGroup,
+  CarbonNumberInput,
+  RadioButton
+} from '@instana/components';
 import { ActionType, Result } from '@instana/types';
 
 import {
@@ -391,47 +400,114 @@ function ScriptSection() {
   const { form, setForm } = useActionFormContext();
   const isNotEditable = useIsNotEditableContext();
   const script = form.get('script');
+  const scriptFromUrl = form.get('scriptFromUrl').value;
   const subtype = form.get('subtype');
+  const git_url = form.get('git_url');
 
   return (
     <>
-      {subtype.map(field => (
-        <FormGroup>
-          <Label htmlFor="action-subtype" hasError={!field.valid && field.touched}>
-            {t('in-automation:ActionCatalog.interpreter')}
-          </Label>
-          <Input
-            id="action-subtype"
-            type="text"
-            disabled={isNotEditable}
-            value={field.value}
-            onChange={e =>
-              setForm(form => form.updateIn(['subtype'], item => item.setValue(e.target.value).setTouched(true)))
-            }
-            hasError={!field.valid && field.touched}
-            maxLength={256}
-          />
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.interpreterHelper')}</HelpText>
-        </FormGroup>
-      ))}
-      {script.map(field => (
-        <FormGroup>
-          <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
-            {t('in-automation:ActionCatalog.script')}
-          </Label>
-          <Code
-            readOnly={isNotEditable}
-            lineNumbers
-            mode={'shell'}
-            value={field.value}
-            onChange={value =>
-              setForm(form => form.updateIn(['script'], item => item.setValue(value).setTouched(true)))
-            }
-          />
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-        </FormGroup>
-      ))}
+      <FormGroup>
+        <Label htmlFor="parameter-type">{t('in-automation:ActionCatalog.sourceOfTheScript')}</Label>
+        <Row>
+          <Col md={2} xs={3}>
+            <RadioButton
+              checked={scriptFromUrl === 'script'}
+              disabled={isNotEditable}
+              label={t('in-automation:ActionCatalog.internal')}
+              onChange={() =>
+                setForm(form => form.updateIn(['scriptFromUrl'], item => item.setValue('script').setTouched(true)))
+              }
+            />
+          </Col>
+          <Col md={2} xs={3}>
+            <RadioButton
+              checked={scriptFromUrl === 'github'}
+              disabled={isNotEditable}
+              label={t('in-automation:ActionCatalog.fromGithub')}
+              onChange={() =>
+                setForm(form => form.updateIn(['scriptFromUrl'], item => item.setValue('github').setTouched(true)))
+              }
+            />
+          </Col>
+          <Col md={2} xs={3}>
+            <RadioButton
+              checked={scriptFromUrl === 'gitlab'}
+              disabled={isNotEditable}
+              label={t('in-automation:ActionCatalog.fromGitlab')}
+              onChange={() =>
+                setForm(form => form.updateIn(['scriptFromUrl'], item => item.setValue('gitlab').setTouched(true)))
+              }
+            />
+          </Col>
+        </Row>
+      </FormGroup>
+
+      {scriptFromUrl === 'script' && (
+        <>
+          {subtype.map(field => (
+            <FormGroup>
+              <Label htmlFor="action-subtype" hasError={!field.valid && field.touched}>
+                {t('in-automation:ActionCatalog.interpreter')}
+              </Label>
+              <Input
+                id="action-subtype"
+                type="text"
+                disabled={isNotEditable}
+                value={field.value}
+                onChange={e =>
+                  setForm(form => form.updateIn(['subtype'], item => item.setValue(e.target.value).setTouched(true)))
+                }
+                hasError={!field.valid && field.touched}
+                maxLength={256}
+              />
+              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              <HelpText className={locals.subTextFormField}>
+                {t('in-automation:ActionCatalog.interpreterHelper')}
+              </HelpText>
+            </FormGroup>
+          ))}
+          {script.map(field => (
+            <FormGroup>
+              <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
+                {t('in-automation:ActionCatalog.script')}
+              </Label>
+              <Code
+                readOnly={isNotEditable}
+                lineNumbers
+                mode={'shell'}
+                value={field.value}
+                onChange={value =>
+                  setForm(form => form.updateIn(['script'], item => item.setValue(value).setTouched(true)))
+                }
+              />
+              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+            </FormGroup>
+          ))}
+        </>
+      )}
+      {scriptFromUrl !== 'script' &&
+        git_url.map(field => (
+          <FormGroup>
+            <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
+              {t('in-automation:ActionCatalog.scriptURL')}
+            </Label>
+            <Input
+              id="action-script"
+              type="text"
+              disabled={isNotEditable}
+              value={field.value}
+              onChange={e =>
+                setForm(form => form.updateIn(['git_url'], item => item.setValue(e.target.value).setTouched(true)))
+              }
+              hasError={!field.valid && field.touched}
+              maxLength={256}
+            />
+            <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+            <HelpText className={locals.subTextFormField}>
+              {t('in-automation:ActionCatalog.scriptUrlHelpText')}
+            </HelpText>
+          </FormGroup>
+        ))}
     </>
   );
 }

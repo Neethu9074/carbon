@@ -4,7 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import { notBlankValidator, ValidationMessage } from 'formalistic';
+import React, { useState, useMemo } from 'react';
 
 import { Typography, Spacer, PreviewPill } from '@instana/components';
 import { Result } from '@instana/types';
@@ -24,12 +25,14 @@ import SelectManualStep from 'in-automation/AutomationCard/GenerateAI/GenerateSc
 import { CloseDialogConfirmation } from 'in-automation/AutomationCard/GenerateAI/CloseDialogConfirmation';
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
+import useOnExport from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useOnExport';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { close, addActiveDialog } from 'in-components/DialogPresenter/store';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { error, hasError, isLoading } from 'in-services/util/result';
+import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { refresh } from 'in-automation/ActionCatalog/useActions';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -75,10 +78,12 @@ function onClose() {
 function useOnSubmit() {
   const { createActionTrackerSegment, AIActionContentModifiedTrackerSegment } = useSegmentTracker();
   const [result, setResult] = useState<Result<any> | null>(null);
+
   const navigateToActionCatalog = useNavigateToActionCatalog();
   function onSubmit({ form }: { form: GenerateAIScriptActionForm }) {
     const actionScript = form.get('action').get('script').value;
     const aiGeneratedScript = form.get('action').get('aiGeneratedContent').value;
+
     const userChangedAIGeneratedContent = actionScript !== aiGeneratedScript;
 
     function trackAction() {
@@ -173,16 +178,162 @@ function onStepChange(
   return true;
 }
 
+function RenderCustomAction({
+  step,
+  form,
+  isSaving,
+  isPRCreating,
+  submit,
+  setResultUrl
+}: {
+  step: number;
+  form: GenerateAIScriptActionForm;
+  isSaving: boolean;
+  isPRCreating: boolean;
+  submit: (form: GenerateAIScriptActionForm) => void;
+  setResultUrl: React.Dispatch<React.SetStateAction<Result<any> | null>>;
+}) {
+  const { exportScriptToExternalSource } = useSegmentTracker();
+  const exportForm = form.get('export');
+  const content = exportForm.get('content');
+  const exportType = exportForm.get('exportType');
+  const agent = exportForm.get('agent');
+  const repository = exportForm.get('repository');
+  const branch = exportForm.get('branch');
+  const message = exportForm.get('message');
+  const base = exportForm.get('base');
+  const filePath = exportForm.get('file_path');
+
+  const data = useMemo(() => {
+    if (!agent.value || !branch.value || exportType.value === 'internal') return null;
+
+    const parameters = [
+      {
+        name: exportType.value === 'github' ? 'repository' : 'projectId',
+        value: repository.value
+      },
+      {
+        name: 'branch',
+        value: branch.value.value
+      },
+      {
+        name: 'file_path',
+        value: filePath.value
+      },
+      ...(base.value !== '' && base.value !== null ? [{ name: 'base', value: base.value }] : []),
+      {
+        name: 'content',
+        value: content.value
+      },
+      {
+        name: 'message',
+        value: message.value
+      }
+    ];
+
+    return {
+      hostId: agent.value,
+      type: exportType.value,
+      operation: 'upload_content',
+      parameters
+    };
+  }, [
+    agent.value,
+    exportType.value,
+    repository.value,
+    branch.value,
+    filePath.value,
+    base.value,
+    content.value,
+    message.value
+  ]);
+
+  const exportFormValid = useMemo(() => {
+    if (!agent.value || !branch.value || exportType.value === 'internal') return false;
+
+    const allErrors: ValidationMessage[] = [
+      ...(notBlankValidator(exportType.value) || []),
+      ...(notBlankValidator(agent.value) || []),
+      ...(notBlankValidator(repository.value) || []),
+      ...(notBlankValidator(branch.value?.value) || []),
+      ...(notBlankValidator(message.value) || []),
+      ...(notBlankValidator(content.value) || []),
+      ...(notBlankValidator(base.value) || []),
+      ...(notBlankValidator(filePath.value) || [])
+    ];
+
+    return allErrors.length === 0;
+  }, [
+    agent.value,
+    exportType.value,
+    repository.value,
+    branch.value,
+    filePath.value,
+    base.value,
+    content.value,
+    message.value
+  ]);
+
+  const { onExport } = useOnExport();
+  switch (step) {
+    case 2:
+      return () => (
+        <>
+          {exportType.value === 'internal' && (
+            <SaveButton
+              type="submit"
+              kind="primary"
+              form={form.get('action')}
+              disabled={!form.hierarchyValid}
+              isSaving={isSaving}
+              onClick={() => submit(form)}
+            >
+              {t('in-automation:GenerateAIActionDialog.createAction')}
+            </SaveButton>
+          )}
+          {(exportType.value === 'github' || exportType.value === 'gitlab') && (
+            <SaveButton
+              type="submit"
+              kind="primary"
+              form={form}
+              isSaving={isPRCreating}
+              disabled={!exportFormValid}
+              onClick={() => {
+                if (!exportFormValid) {
+                  return;
+                }
+                exportScriptToExternalSource({
+                  data: data
+                });
+                onExport({
+                  exportForm,
+                  data,
+                  setResultUrl
+                });
+              }}
+            >
+              {t('in-automation:GenerateAIActionDialog.exportToGit.export')}
+            </SaveButton>
+          )}
+        </>
+      );
+    default:
+      return undefined;
+  }
+}
+
 export default function GenerateAIScriptActionDialog({ manualContent, actionName }: GenerateAIScriptActionDialogProps) {
   const [step, setStep] = useState(0);
-
+  const [resultUrl, setResultUrl] = useState<Result<any> | null>(null);
   const [form, setForm] = useGenerateAIScriptActionForm();
   const { result, onSubmit } = useOnSubmit();
+
   const onCancel = useOnCancel(step);
   const { aiActionScriptSelectStepNextTrackerSegment, aiActionScriptGenerateStepNextClickTrackerSegment } =
     useSegmentTracker();
 
   const isSaving = (result && isLoading(result)) ?? false;
+  const isPRCreating = (resultUrl && isLoading(resultUrl)) ?? false;
   const onCreate = () => {
     onSubmit({ form });
   };
@@ -212,6 +363,14 @@ export default function GenerateAIScriptActionDialog({ manualContent, actionName
         <LeftRightPadding className={locals.dialog}>
           <SimpleModePageNavigation
             form={form}
+            renderCustomSaveAction={RenderCustomAction({
+              step,
+              form,
+              isSaving,
+              submit: form => onSubmit({ form }),
+              setResultUrl,
+              isPRCreating
+            })}
             formId="generateScriptForm"
             onCreate={onCreate}
             updateForm={setForm}
@@ -242,7 +401,15 @@ export default function GenerateAIScriptActionDialog({ manualContent, actionName
                 case 1:
                   return <GenerateScriptStep form={form} setForm={setForm} />;
                 case 2:
-                  return <CopyActionStepScriptAction form={form} setForm={setForm} result={result} />;
+                  return (
+                    <CopyActionStepScriptAction
+                      form={form}
+                      setForm={setForm}
+                      result={result}
+                      resultUrl={resultUrl}
+                      setResultUrl={setResultUrl}
+                    />
+                  );
                 default:
                   return null;
               }

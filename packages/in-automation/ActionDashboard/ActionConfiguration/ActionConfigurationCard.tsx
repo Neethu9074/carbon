@@ -483,6 +483,24 @@ function ScriptSection() {
   const { form } = useActionFormContext();
   const script = form.get('script');
   const subtype = form.get('subtype');
+  const scriptFromUrl = form.get('scriptFromUrl');
+  const gitURL = form.get('git_url');
+
+  if (scriptFromUrl.value === 'github' || scriptFromUrl.value === 'gitlab') {
+    return (
+      <>
+        {gitURL.map(field => (
+          <CarbonColumn sm={4}>
+            <CarbonFormGroup legendText={t('in-automation:ActionCatalog.scriptURL')}>
+              <Link external href={field.value}>
+                {field.value}
+              </Link>
+            </CarbonFormGroup>
+          </CarbonColumn>
+        ))}
+      </>
+    );
+  }
 
   return (
     <>
