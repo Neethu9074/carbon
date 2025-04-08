@@ -30,10 +30,10 @@ import {
 } from 'in-events/components/eventUtil';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
-import { aqmDisableConfigOnEventViewEnabled, businessObservabilityEnabled } from 'in-services/featureFlags';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
+import { aqmDisableConfigOnEventViewEnabled, businessObservabilityEnabled } from 'in-services/featureFlags';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import IncidentContent from 'in-events/components/tabs/Summary/IncidentDetailPage/IncidentContent';
@@ -98,7 +98,7 @@ export default function Summary(props) {
           pageRootName: pageNames.event
         }}
       />
-      <div className={locals.content}>
+      <div className={locals.content} id="eventSummaryContainer">
         <DeprecatedCustomEventWarning event={event.toJS()} isIncident={isIncident} />
         {isIncident ? (
           <IncidentContent incident={event} latestSnapshot={latestSnapshot} />

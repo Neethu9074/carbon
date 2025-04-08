@@ -10,8 +10,8 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import LegacyRootCauseSection from 'in-events/components/RootCauseAnalysis/Legacy/LegacyRootCauseSection';
-import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import { eventFeedbackEnabled, businessObservabilityEnabled } from 'in-services/featureFlags';
+import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
 import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/EventListItem';
 import { CombinedEventListItemContent } from 'in-events/components/legacy/EventListItem';
@@ -73,7 +73,7 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
 
   if (!triggeringEvent) return <LoadingIndicator />;
   return (
-    <div id="eventListContainer">
+    <>
       {/* Event Details KPIs */}
       <EventDetailsKPIs event={incident} isIncident />
 
@@ -119,7 +119,7 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
           entityId={incident?.get('entityId', undefined)}
         />
       )}
-    </div>
+    </>
   );
 }
 

@@ -218,7 +218,7 @@ const IncidentHeader = ({ event, timeConfig }) => {
                 event={event}
                 displayNotes={displayNotes}
                 setDisplayNotes={setDisplayNotes}
-                targetID="#eventListContainer"
+                targetID="#eventSummaryContainer"
               />
             )}
           </Stack>
