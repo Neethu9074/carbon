@@ -4,11 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
 const serverConfig = require('../serverConfig');
 
-export const solisHubRoute = async (req, res) => {
+const solisHubRoute = async (req, res) => {
   const t = req.t;
   const finalResponseBody = { title: t('in-server:mainNavigation.monitoringObservability'), widgets: [] };
 
@@ -28,7 +26,7 @@ export const solisHubRoute = async (req, res) => {
   }
 };
 
-export const createRequest = (req, path) => {
+const createRequest = (req, path) => {
   const cookieName = serverConfig.cookie.name;
   const cookie = `${cookieName}=${req.cookies[cookieName]}`;
 
@@ -37,7 +35,7 @@ export const createRequest = (req, path) => {
   });
 };
 
-export const getCustomDashboards = async req => {
+const getCustomDashboards = async req => {
   const dashboardRequest = createRequest(req, '/api/custom-dashboard');
   const response = await fetch(dashboardRequest);
   const responseObject = await response.json();
@@ -49,7 +47,7 @@ export const getCustomDashboards = async req => {
   return responseObject.slice(0, 10);
 };
 
-export const getEventNumbers = async req => {
+const getEventNumbers = async req => {
   const eventRequest = createRequest(req, '/api/events?eventTypeFilters=INCIDENT');
   const response = await fetch(eventRequest);
   const events = await response.json();
@@ -147,4 +145,11 @@ const createEventWidgets = async req => {
       href: '#/events;orderDirection=DESC;orderBy=start;filter;view=incident?q=event.severity%3Awarning%20and%20event.state%3AOPEN'
     }
   ];
+};
+
+module.exports = {
+  solisHubRoute,
+  createRequest,
+  getCustomDashboards,
+  getEventNumbers
 };
