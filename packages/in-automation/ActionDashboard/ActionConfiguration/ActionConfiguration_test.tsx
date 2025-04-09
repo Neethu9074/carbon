@@ -12,6 +12,10 @@ import ActionConfiguration from 'in-automation/ActionDashboard/ActionConfigurati
 import { ACTION_TYPE } from 'in-automation/constants';
 import { ActionType } from 'in-types';
 
+jest.mock('in-services/featureFlags', () => ({
+  actionAiGenerationEnabled: true
+}));
+
 const mockData = {
   type: ACTION_TYPE.SCRIPT,
   id: 'testId',
