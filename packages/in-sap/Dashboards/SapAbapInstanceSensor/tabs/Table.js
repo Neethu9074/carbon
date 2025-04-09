@@ -6,20 +6,15 @@
 
 import React from 'react';
 
-import { Card, DataTable as CarbonDataTable, Pagination as CarbonPagination } from '@instana/components';
-import { ButtonGroup } from '@instana/components';
+import { ButtonGroup, Pagination as CarbonPagination, DataTable as CarbonDataTable, Card } from '@instana/components';
 
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
 import { createStore } from 'in-sdk/components/dashboard/Table/stores/content';
-import Row from 'in-sdk/components/dashboard/Table/components/Row';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { shallowEquals } from 'in-services/util/object';
 import { t } from 'in-i18n';
 
-import locals from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Table.mless';
-
-const cellElement = locals.cell;
-const expandedCellElement = `${cellElement} ${locals.expanded}`;
+import locals from './Table.mless';
 
 export default class Table extends React.Component {
   constructor(props) {
@@ -88,62 +83,8 @@ export default class Table extends React.Component {
 
     const supportsRowDetails = this.props.getRowDetails != null;
     const toggleRowDetails = supportsRowDetails ? this.store.toggleExpanded : null;
-    const colCount = supportsRowDetails ? cols.length + 1 : cols.length;
-    const rows = [];
-
-    if (data.rows.length === 0) {
-      let title = `${t('in-sap:dashboards.no')}${t('in-sap:dashboards.dataAvailable')}`;
-      if (typeof this.props.cardTitle === 'string') {
-        title = `${t('in-sap:dashboards.no')}${this.props.cardTitle}${t('in-sap:dashboards.dataAvailable')}`;
-      } else {
-        title = `${t('in-sap:dashboards.no')}${this.props.cardTitle.props['title']}${t(
-          'in-sap:dashboards.dataAvailable'
-        )}`;
-      }
-      rows.push(
-        <tr key="no-data">
-          <td colSpan={colCount} className={cellElement}>
-            <NoDataAvailable text={title} />
-          </td>
-        </tr>
-      );
-    } else {
-      for (let i = 0, length = data.rows.length; i < length; i++) {
-        const rowData = data.rows[i];
-
-        let onClick;
-        if (this.props.onRowClick) {
-          onClick = (row, e, rowIndex) => this.props.onRowClick(row, e, data.rows, rowIndex);
-        }
-
-        const selected = rowData.rowConfig.isSelected;
-
-        rows.push(
-          <Row
-            key={rowData.key}
-            row={rowData}
-            cellClassName={cellElement}
-            toggleRowDetails={toggleRowDetails}
-            rowIndex={i}
-            onClick={onClick}
-            selected={selected}
-          />
-        );
-
-        if (rowData.expanded) {
-          rows.push(
-            <tr key={`${rowData.key}--expanded`}>
-              <td className={expandedCellElement} colSpan={colCount}>
-                {this.props.getRowDetails(rowData.rowConfig)}
-              </td>
-            </tr>
-          );
-        }
-      }
-    }
-
+    const CSVExportButton = this.props.CSVExportButton;
     const showPagination = data.pageCount > 1 || data.page >= data.pageCount || this.props.alwaysShowPagination;
-
     const header = (
       <div className={locals.headerExtensions}>
         {this.props.rightHeader}
@@ -180,39 +121,62 @@ export default class Table extends React.Component {
       isSortable: true,
       sortDirection: data.sortColumnIndex === i ? data.sortDirection.toUpperCase() : 'NONE'
     }));
-    let carbonRows = [];
-    let carbonRow = {};
-    let title = `${t('in-sap:dashboards.no')}${t('in-sap:dashboards.dataAvailable')}`;
 
     if (data.rows.length === 0) {
-      if (typeof this.props.cardTitle === 'string') {
-        title = `${t('in-sap:dashboards.no')}${this.props.cardTitle}${t('in-sap:dashboards.dataAvailable')}`;
-      } else {
-        title = `${t('in-sap:dashboards.no')}${this.props.cardTitle.props['title']}${t(
-          'in-sap:dashboards.dataAvailable'
-        )}`;
-      }
-    } else {
-      for (let i = 0, length = data.rows.length; i < length; i++) {
-        carbonRow = {};
-        carbonRow['id'] = data.rows[i].key || String(i);
-        data.rows[i].columns.map((column, i) => {
-          // get column header name and assign value to that
-          carbonRow[carbonHeaders[i]['header']] = column.content ?? '-';
-        });
-        if (this.props.getRowDetails != undefined) {
-          carbonRow['expanded'] = this.props.getRowDetails(data.rows[i].rowConfig);
-        }
-        carbonRows.push(carbonRow);
-      }
+      return (
+        <div className={locals.tableContainer}>
+          <Card title={this.props.cardTitle} header={header} withoutPadding={this.props.withoutPadding}>
+            {this.props.explanation}
+            <div className={locals.emptyTable}>
+              <CarbonDataTable
+                headers={carbonHeaders}
+                rows={[]}
+                filterRows={value => {
+                  this.setState({ filter: value?.target?.value });
+                  this.store.setFilter(value?.target?.value);
+                }}
+                searchText={this.state.filter}
+              />
+              <EmptyContent
+                cols={cols?.length}
+                size="compact"
+                renderNoDataAvailable={() => (
+                  <NoDataAvailable text={t('in-sdk:dashboard.table.tableNoData')} height={80} />
+                )}
+                noDataMessage={t('in-sdk:dashboard.table.tableNoData')}
+              />
+            </div>
+          </Card>
+        </div>
+      );
     }
+
+    const carbonRows = data.rows.map((row, i) => {
+      const carbonRow = {
+        id: row.key ?? String(i)
+      };
+      row.columns.map((column, i) => {
+        // get column header name and assign value to that
+        carbonRow[carbonHeaders[i].header] = column.content ?? '-';
+      });
+      // optionally, make rows expandable
+      if (this.props.getRowDetails) {
+        carbonRow.isExpanded = row?.expanded;
+        carbonRow.expanded = this.props.getRowDetails(row.rowConfig, this.props.distanceBetweenDatapointsInMillis);
+      }
+      return carbonRow;
+    });
+
     return (
       <div className={locals.tableContainer}>
         <Card
-          title={this.props.cardTitle === '' ? null : this.props.cardTitle}
-          header={this.props.cardTitle === '' ? null : header}
-          withoutPadding={this.props.cardTitle === '' ? null : this.props.withoutPadding}
+          title={this.props.cardTitle}
+          header={header}
+          withoutPadding={this.props.withoutPadding}
+          // rightHeaderContent renders the optional CSVExportButton
+          rightHeaderContent={CSVExportButton && <CSVExportButton csvHeaders={carbonHeaders} csvData={carbonRows} />}
         >
+          {this.props.explanation}
           <CarbonDataTable
             headers={carbonHeaders}
             rows={carbonRows}
@@ -221,7 +185,7 @@ export default class Table extends React.Component {
               this.store.setFilter(value?.target?.value);
             }}
             sortRow={sortState => {
-              let orderBy = sortState.sortHeaderKey;
+              const orderBy = sortState.sortHeaderKey;
               let orderDirection = sortState.sortDirection;
               // backend APIs as of now doesnt support NONE sort direction option, so will be
               // changing it to ASC to maintain the current behaviour.
@@ -230,33 +194,25 @@ export default class Table extends React.Component {
               } else if (sortState.sortDirection === 'ASC') {
                 orderDirection = 'DESC';
               }
-              let columnIndex = carbonHeaders.findIndex(x => x.header === orderBy);
+              const columnIndex = carbonHeaders.findIndex(x => x.header === orderBy);
 
               this.store.setSort(columnIndex, orderDirection.toLowerCase());
             }}
             searchText={this.state.filter}
+            isExpandable={this.props.getRowDetails}
+            onClickExpandRow={toggleRowDetails}
             isSearchEnabled
-            isExpandable={this.props.getRowDetails !== undefined ? true : false}
           />
-          {showPagination ? (
+          {showPagination && (
             <CarbonPagination
-              currentPage={(data.page || 0) + 1}
+              currentPage={(data.page ?? 0) + 1}
               totalItems={data.totalFilteredRowCount ?? this.props.rows?.length}
-              pageSize={this.store.maxItemsPerPage ?? 10}
-              pageSizes={[this.store.maxItemsPerPage ?? 10]}
+              pageSize={this.props.maxItemsPerPage ?? 10}
+              pageSizes={[this.props.maxItemsPerPage ?? 10]}
               onChange={p => this.store.setPage(p.page - 1)}
             />
-          ) : null}
-          {data.rows.length === 0 && (
-            <div className={locals.emptyTable}>
-              <EmptyContent
-                cols={cols?.length}
-                size="compact"
-                renderNoDataAvailable={() => <NoDataAvailable text={title} height={80} />}
-                noDataMessage={title}
-              />
-            </div>
           )}
+          {this.props.bottomContent && <div className={locals.bottomContent}>{this.props.bottomContent}</div>}
         </Card>
       </div>
     );
