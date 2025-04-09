@@ -61,6 +61,8 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
           <Col lg={12}>
             <TotalCostList
               currencyCode={namespaceEndpoints.data.currencyCode}
+              url={namespaceEndpoints.data.url}
+              clusterId={cluster.label}
               snapshotId={namespaceEndpoints.data.id}
               timeConfig={timeConfig}
             />

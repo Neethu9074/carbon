@@ -260,7 +260,7 @@
       "clusterCost": "Cluster cost",
       "idle": "Idle",
       "costByNameSpace": "Cost by namespace",
-      "kubeCost": "Cost [Public Preview]",
+      "kubeCost": "Cost",
       "namespaceCumulativeCost": "Cost by namespace",
       "trend": "Trend %",
       "ramCost": "RAM",
@@ -273,6 +273,8 @@
       "cpuCost": "CPU",
       "namespace": "Namespace",
       "idleCost": "Idle cost",
+      "viewInKubeCost": "View in Kubecost",
+      "coreCountByCluster": "vCPU",
       "noKubecostData": "Enable cost observability and allocation with Kubecost. To configure the integration, follow these [steps][Docs].\n\n[Docs]:https://ibm.biz/kubecost"
     }
   },

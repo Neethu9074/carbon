@@ -7,8 +7,8 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Li, Link } from '@instana/components';
 import { TimeConfig } from '@instana/types';
-import { Li } from '@instana/components';
 
 // @ts-expect-error needs TS migration
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -24,11 +24,13 @@ import { t } from 'in-i18n';
 
 interface NameSpaceStatsProps {
   currencyCode: string;
+  url: string;
+  clusterId: string;
   snapshotId: string;
   timeConfig: TimeConfig;
 }
 
-export default function Summary({ currencyCode, snapshotId, timeConfig }: NameSpaceStatsProps) {
+export default function Summary({ currencyCode, url, clusterId, snapshotId, timeConfig }: NameSpaceStatsProps) {
   const data = useObservable(
     () => getRawPayloadWithTimestamp(snapshotId, 'namespaceCostGraph', timeConfig),
     [snapshotId, timeConfig]
@@ -37,6 +39,8 @@ export default function Summary({ currencyCode, snapshotId, timeConfig }: NameSp
   if (!data) {
     return getSpecificErrorNotification('Kubecost is not retrieving data');
   }
+
+  const kubecostClusterUrl = url + '/monitor:clusters:inspect?clusterId=' + clusterId;
   const namespaceData = (data as SnapshotData).get('raw_payload', []);
 
   if (!namespaceData) {
@@ -56,7 +60,14 @@ export default function Summary({ currencyCode, snapshotId, timeConfig }: NameSp
 
   return (
     <>
-      <DashboardSection title={t('in-kubernetes:dashboards.kubecost.cost')}>
+      <DashboardSection
+        title={t('in-kubernetes:dashboards.kubecost.cost')}
+        button={
+          <Link externalWithIcon href={kubecostClusterUrl}>
+            {t('in-kubernetes:dashboards.kubecost.viewInKubeCost')}
+          </Link>
+        }
+      >
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}

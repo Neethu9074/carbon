@@ -44,5 +44,11 @@ export default [
     category: [t('in-kubernetes:dashboards.kubecost.namespaceCumulativeCost')],
     min: 0,
     formatter: percentage
+  },
+  {
+    formatter: number,
+    metrics: ['coreCountStats.coreCountByCluster'],
+    labels: [t('in-kubernetes:dashboards.kubecost.coreCountByCluster')],
+    min: 0
   }
 ];
