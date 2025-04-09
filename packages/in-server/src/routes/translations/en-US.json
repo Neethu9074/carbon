@@ -1,11 +1,11 @@
 {
     "mainNavigation": {
-      "monitoringObservability": "Monitoring and Observability",
+      "monitoringObservability": "Monitoring and observability",
       "criticalEvents": "Critical Events",
       "warningEvents": "Warning Events",
-      "event": "event",
+      "incident": "Incident",
       "activeTotal": "Active/Total",
-      "sharedCustomerDashboard": "Custom Dashboard - Shared",
+      "shared": "Shared",
       "customerDashboard": "Custom Dashboard",
       "owner": "Owner",
       "viewSwitcherCustomDashboards": "Custom dashboards",

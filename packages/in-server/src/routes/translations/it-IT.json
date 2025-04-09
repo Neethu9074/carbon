@@ -1,5 +1,13 @@
 {
     "mainNavigation": {
+      "monitoringObservability": "Monitoraggio e osservabilità",
+      "criticalEvents": "eventi critici",
+      "warningEvents": "eventi di avviso",
+      "incident": "Incidente",
+      "activeTotal": "attivo/totale",
+      "shared": "condiviso",
+      "customerDashboard": "dashboard personalizzata",
+      "owner": "proprietario",
       "viewSwitcherCustomDashboards": "Dashboard personalizzati",
       "viewSwitcherLabelWebsitesAndMobileApps": "Siti web e app per dispositivo mobile",
       "viewSwitcherLabelWebsites": "Siti web",

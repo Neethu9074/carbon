@@ -1,5 +1,13 @@
 {
     "mainNavigation": {
+      "monitoringObservability": "監控和可觀察性",
+      "criticalEvents": "關鍵事件",
+      "warningEvents": "警告事件",
+      "incident": "事件",
+      "activeTotal": "活動/總計",
+      "shared": "共享",
+      "customerDashboard": "自訂儀表板",
+      "owner": "所有者",
       "viewSwitcherCustomDashboards": "自訂儀表板",
       "viewSwitcherLabelWebsitesAndMobileApps": "網站與行動應用程式",
       "viewSwitcherLabelWebsites": "網站",
