@@ -98,7 +98,7 @@ export default function Summary(props) {
           pageRootName: pageNames.event
         }}
       />
-      <div className={locals.content}>
+      <div className={locals.content} id="eventSummaryContainer">
         <DeprecatedCustomEventWarning event={event.toJS()} isIncident={isIncident} />
         {isIncident ? (
           <IncidentContent incident={event} latestSnapshot={latestSnapshot} />

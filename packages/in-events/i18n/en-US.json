@@ -390,7 +390,6 @@
   },
   "notes": {
     "openNotes": "Open notes and activity",
-    "closeNotes": "Close notes and activity",
     "notesActivity": "Notes and activity with AI",
     "confirmDelete": "Confirm deletion",
     "you": "You {{date}}",
