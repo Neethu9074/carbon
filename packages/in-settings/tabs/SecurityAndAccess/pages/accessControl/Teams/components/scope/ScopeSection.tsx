@@ -46,7 +46,7 @@ const createMenuItemsForRow = (
 const ScopeSection = ({ limitedAccessSwitchLabel, tableAddLabel, tableTitle }: ScopeSectionProps) => {
   const [scopeType, setScopeType] = useState<string>(SCOPE_TYPE.ENTIRE_UNIT);
   return (
-    <>
+    <div className={locals.scopeSection}>
       <CarbonContentSwitcher
         className={locals.scopeTypeContentSwitcher}
         selectedIndex={scopeType === SCOPE_TYPE.ENTIRE_UNIT ? 0 : 1}
@@ -88,7 +88,7 @@ const ScopeSection = ({ limitedAccessSwitchLabel, tableAddLabel, tableTitle }: S
           title={tableTitle}
         />
       )}
-    </>
+    </div>
   );
 };
 
