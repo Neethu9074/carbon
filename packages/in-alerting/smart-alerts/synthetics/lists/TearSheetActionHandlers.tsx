@@ -10,7 +10,6 @@ import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/synthetics/hook
 //@ts-expect-error TS migration
 import { MoreMenuButton } from 'in-components/MoreMenu';
 import { ALERTING_EDIT, ALERTING_CLONE_TRIGGER } from 'in-services/tracking/eventNames';
-import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { FULLSCREEN } from 'in-alerting/smart-alerts/data/constants';
 import { SyntheticAlertConfigWithMetadata } from 'in-types';
@@ -38,14 +37,14 @@ export function TearSheetEditActionHandler({
   return (
     <MoreMenuButton
       icon="lib_actions_edit"
-      title={getButtonName(t('in-alerting:smartAlerts.synthetics.tearSheet.labelActionButtonEdit'))}
+      title={t('in-alerting:smartAlerts.synthetics.tearSheet.labelActionButtonEdit')}
       href={getLinkToCreateSmartAlert}
       className={locals.button}
       onClick={() => {
         trackCta(ALERTING_EDIT, { ...alertConfig, dialogMode: FULLSCREEN });
       }}
     >
-      {getButtonName(t('in-alerting:smartAlerts.synthetics.tearSheet.labelActionButtonEdit'))}
+      {t('in-alerting:smartAlerts.synthetics.tearSheet.labelActionButtonEdit')}
     </MoreMenuButton>
   );
 }
@@ -70,14 +69,14 @@ export function TearSheetCloneActionHandler({
   return (
     <MoreMenuButton
       icon="lib_actions_copy"
-      title={getButtonName(t('in-alerting:smartAlerts.synthetics.tearSheet.labelActionButtonDuplicate'))}
+      title={t('in-alerting:smartAlerts.synthetics.tearSheet.labelActionButtonDuplicate')}
       href={getLinkToCreateSmartAlert}
       className={locals.button}
       onClick={() => {
         trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfig, dialogMode: FULLSCREEN });
       }}
     >
-      {getButtonName(t('in-alerting:smartAlerts.synthetics.tearSheet.labelActionButtonDuplicate'))}
+      {t('in-alerting:smartAlerts.synthetics.tearSheet.labelActionButtonDuplicate')}
     </MoreMenuButton>
   );
 }
