@@ -9,8 +9,8 @@ import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeade
 import { getViewStructure } from 'in-infrastructure/perspectives/viewStructureStore';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import NotMonitoringMap from 'in-map/components/NotMonitoringMap';
+import MapSidebar from 'in-map/components/MapSidebar/MapSidebar';
 import Controls from 'in-map/components/MapOverlayControls';
-import MapSidebar from 'in-map/components/MapSidebar';
 import MapNotes from 'in-map/components/MapNotes';
 import Map from 'in-map/Map';
 
