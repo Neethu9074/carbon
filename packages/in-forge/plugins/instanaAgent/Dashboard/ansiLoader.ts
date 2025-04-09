@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-/* global require:false */
-
 import { create, Observable } from '@instana/observables';
 
 let cachedAnsiConverter: any;

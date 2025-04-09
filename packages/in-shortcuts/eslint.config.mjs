@@ -4,14 +4,17 @@
  * Copyright IBM Corp. 2025
  */
 
-/* eslint-env node */
+/* eslint-disable no-restricted-imports */
+import { createImportRestrictionRule } from '../../build/linting/restrictedImportRule.js';
+import baseConfig from '../../eslint.config.mjs';
 
-const { createImportRestrictionRule } = require('../../build/linting/restrictedImportRule');
-
-module.exports = {
-  rules: {
-    ...createImportRestrictionRule({
-      enforceAbsoluteImportPaths: true
-    })
+export default [
+  ...baseConfig,
+  {
+    rules: {
+      ...createImportRestrictionRule({
+        enforceAbsoluteImportPaths: true
+      })
+    }
   }
-};
+];

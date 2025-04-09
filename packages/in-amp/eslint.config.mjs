@@ -3,16 +3,19 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env node */
+/* eslint-disable no-restricted-imports */
+import { createImportRestrictionRule } from '../../build/linting/restrictedImportRule.js';
+import baseConfig from '../../eslint.config.mjs';
 
-const { createImportRestrictionRule } = require('../../build/linting/restrictedImportRule');
+export default [
+  ...baseConfig,
+  {
+    rules: {
+      ...createImportRestrictionRule({
+        enforceAbsoluteImportPaths: true,
 
-module.exports = {
-  rules: {
-    ...createImportRestrictionRule({
-      enforceAbsoluteImportPaths: true,
-
-      allowedInPackages: ['in-amp', 'in-components', 'in-hooks', 'in-services', 'in-settings', 'in-stores', 'in-themes']
-    })
+        allowedInPackages: ['in-amp', 'in-components', 'in-hooks', 'in-services', 'in-settings', 'in-stores', 'in-themes']
+      })
+    }
   }
-};
+];

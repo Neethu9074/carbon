@@ -4,33 +4,36 @@
  * Copyright IBM Corp. 2025
  */
 
-/* eslint-env node */
+/* eslint-disable no-restricted-imports */
+import { createImportRestrictionRule } from '../../build/linting/restrictedImportRule.js';
+import baseConfig from '../../eslint.config.mjs';
 
-const { createImportRestrictionRule } = require('../../build/linting/restrictedImportRule');
+export default [
+  ...baseConfig,
+  {
+    rules: {
+      ...createImportRestrictionRule({
+        enforceAbsoluteImportPaths: true,
 
-module.exports = {
-  rules: {
-    ...createImportRestrictionRule({
-      enforceAbsoluteImportPaths: true,
+        allowedInPackages: [
+          // current package
+          'in-profiling',
 
-      allowedInPackages: [
-        // current package
-        'in-profiling',
+          // dependency on another team/area
+          'in-analyze',
+          'in-infrastructure',
 
-        // dependency on another team/area
-        'in-analyze',
-        'in-infrastructure',
-
-        // shared package
-        'in-components',
-        'in-hoc',
-        'in-hooks',
-        'in-forge',
-        'in-sdk',
-        'in-services',
-        'in-stores',
-        'in-subscription'
-      ]
-    })
+          // shared package
+          'in-components',
+          'in-hoc',
+          'in-hooks',
+          'in-forge',
+          'in-sdk',
+          'in-services',
+          'in-stores',
+          'in-subscription'
+        ]
+      })
+    }
   }
-};
+];

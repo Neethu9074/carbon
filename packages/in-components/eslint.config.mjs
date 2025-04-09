@@ -4,54 +4,57 @@
  * Copyright IBM Corp. 2025
  */
 
-/* eslint-env node */
+/* eslint-disable no-restricted-imports */
+import { createImportRestrictionRule } from '../../build/linting/restrictedImportRule.js';
+import baseConfig from '../../eslint.config.mjs';
 
-const { createImportRestrictionRule } = require('../../build/linting/restrictedImportRule');
+export default [
+  ...baseConfig,
+  {
+    rules: {
+      ...createImportRestrictionRule({
+        enforceAbsoluteImportPaths: true,
 
-module.exports = {
-  rules: {
-    ...createImportRestrictionRule({
-      enforceAbsoluteImportPaths: true,
+        patterns: [
+          // this would be a public part of that package,
+          // but it should not be depending on this package.
+          '!in-cloudfoundry/navigation'
+        ],
 
-      patterns: [
-        // this would be a public part of that package,
-        // but it should not be depending on this package.
-        '!in-cloudfoundry/navigation'
-      ],
+        allowedInPackages: [
+          // current package
+          'in-components',
 
-      allowedInPackages: [
-        // current package
-        'in-components',
+          // unwanted dependencies, that will need refactoring
+          'in-alerting',
+          'in-analyze',
+          'in-api',
+          'in-applications',
+          'in-client',
+          'in-custom-dashboards',
+          'in-events',
+          'in-infrastructure',
+          'in-kubernetes',
+          'in-logging',
+          'in-plg',
+          'in-settings',
+          'in-synthetics',
+          'in-vsphere',
 
-        // unwanted dependencies, that will need refactoring
-        'in-alerting',
-        'in-analyze',
-        'in-api',
-        'in-applications',
-        'in-client',
-        'in-custom-dashboards',
-        'in-events',
-        'in-infrastructure',
-        'in-kubernetes',
-        'in-logging',
-        'in-plg',
-        'in-settings',
-        'in-synthetics',
-        'in-vsphere',
+          // shared packages
+          'in-services',
+          'in-test',
 
-        // shared packages
-        'in-services',
-        'in-test',
-
-        'in-stores',
-        'in-sdk',
-        'in-hooks',
-        'in-hoc', // only 'in-hoc/connectTo'
-        'in-subscription',
-        'in-map',
-        'in-themes',
-        'in-forge'
-      ]
-    })
+          'in-stores',
+          'in-sdk',
+          'in-hooks',
+          'in-hoc', // only 'in-hoc/connectTo'
+          'in-subscription',
+          'in-map',
+          'in-themes',
+          'in-forge'
+        ]
+      })
+    }
   }
-};
+];

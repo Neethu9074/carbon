@@ -4,37 +4,40 @@
  * Copyright IBM Corp. 2025
  */
 
-/* eslint-env node */
+/* eslint-disable no-restricted-imports */
+import { createImportRestrictionRule } from '../../build/linting/restrictedImportRule.js';
+import baseConfig from '../../eslint.config.mjs';
 
-const { createImportRestrictionRule } = require('../../build/linting/restrictedImportRule');
+export default [
+  ...baseConfig,
+  {
+    rules: {
+      ...createImportRestrictionRule({
+        enforceAbsoluteImportPaths: true,
 
-module.exports = {
-  rules: {
-    ...createImportRestrictionRule({
-      enforceAbsoluteImportPaths: true,
+        allowedInPackages: [
+          // current package
+          'in-bizops',
 
-      allowedInPackages: [
-        // current package
-        'in-bizops',
+          // cross-team dependencies
+          'in-applications',
+          'in-custom-dashboards',
+          'in-events',
+          'in-kubernetes',
+          'in-infrastructure',
 
-        // cross-team dependencies
-        'in-applications',
-        'in-custom-dashboards',
-        'in-events',
-        'in-kubernetes',
-        'in-infrastructure',
-
-        // shared packages
-        'in-components',
-        'in-api',
-        'in-services',
-        'in-subscription',
-        'in-stores',
-        'in-themes',
-        'in-hoc',
-        'in-hooks',
-        'in-test'
-      ]
-    })
+          // shared packages
+          'in-components',
+          'in-api',
+          'in-services',
+          'in-subscription',
+          'in-stores',
+          'in-themes',
+          'in-hoc',
+          'in-hooks',
+          'in-test'
+        ]
+      })
+    }
   }
-};
+];

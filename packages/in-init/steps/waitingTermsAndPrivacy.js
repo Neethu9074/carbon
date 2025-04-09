@@ -3,12 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-/* global require:false */
+import ReactDOM from 'react-dom';
+import React from 'react';
 
 import { just, create } from '@instana/observables';
 import { createLogger } from '@instana/logger';
-import ReactDOM from 'react-dom';
-import React from 'react';
 
 import FullViewWrapper from 'in-waiting-for-deployment/components/FullViewWrapper';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';

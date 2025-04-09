@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env node */
-
 /**
  * Use this function to configure an extension to the import restriction rule.
  * This is useful to enforce/restrict package-dependencies which may then lead

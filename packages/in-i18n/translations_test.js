@@ -3,9 +3,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
-/* eslint-disable header/header */
 
-/* eslint-env node, jest */
 
 const { Parser } = require('i18next-scanner');
 const { difference, get, unset } = require('lodash');

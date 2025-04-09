@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* global module: false */
+/* eslint no-redeclare: ["off", { "builtinGlobals": true }] */
 
 import { Router } from 'react-router-dom';
 import ReactDOM from 'react-dom';
@@ -21,7 +21,7 @@ ReactDOM.render(
 
 if (__HOT_RELOAD__ && module.hot) {
   module.hot.accept('in-client/js/App', () => {
-    /* global require: false */
+
     const NextApp = require('in-client/js/App').default;
     ReactDOM.render(
       <Router history={history}>

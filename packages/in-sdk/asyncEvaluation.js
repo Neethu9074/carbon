@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* global require:false */
+
 
 let infraPluginsEvaluated = false;
 export function ensureInfraPluginsAreEvaluated() {

@@ -4,21 +4,24 @@
  * Copyright IBM Corp. 2024
  */
 
-/* eslint-env node */
+import baseConfig from '../../../../eslint.config.mjs';
 
-module.exports = {
-  rules: {
-    'no-restricted-imports': [
-      'error',
-      {
-        paths: [
-          {
-            name: 'in-alerting/smart-alerts/slo/form/SloAlertFormProvider',
-            importNames: ['sloAlertFormContext'],
-            message: "Please use 'useSloAlertFormContext' hook instead"
-          }
-        ]
-      }
-    ]
+export default [
+  ...baseConfig,
+  {
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'in-alerting/smart-alerts/slo/form/SloAlertFormProvider',
+              importNames: ['sloAlertFormContext'],
+              message: "Please use 'useSloAlertFormContext' hook instead"
+            }
+          ]
+        }
+      ]
+    }
   }
-};
+];

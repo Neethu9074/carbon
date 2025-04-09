@@ -4,45 +4,48 @@
  * Copyright IBM Corp. 2025
  */
 
-/* eslint-env node */
+/* eslint-disable no-restricted-imports */
+import { createImportRestrictionRule } from '../../build/linting/restrictedImportRule.js';
+import baseConfig from '../../eslint.config.mjs';
 
-const { createImportRestrictionRule } = require('../../build/linting/restrictedImportRule');
+export default [
+  ...baseConfig,
+  {
+    rules: {
+      ...createImportRestrictionRule({
+        enforceAbsoluteImportPaths: true,
 
-module.exports = {
-  rules: {
-    ...createImportRestrictionRule({
-      enforceAbsoluteImportPaths: true,
+        patterns: [
+          // this section contains public exports like public paths, routes, etc.
+          '!in-mobile-apps/navigation'
+        ],
 
-      patterns: [
-        // this section contains public exports like public paths, routes, etc.
-        '!in-mobile-apps/navigation'
-      ],
+        allowedInPackages: [
+          // current package
+          'in-websites',
 
-      allowedInPackages: [
-        // current package
-        'in-websites',
+          // shared packages
+          'in-components',
+          'in-hoc',
+          'in-hooks',
+          'in-service-levels',
+          'in-services',
+          'in-stores',
+          'in-subscription',
+          'in-test',
+          'in-themes',
 
-        // shared packages
-        'in-components',
-        'in-hoc',
-        'in-hooks',
-        'in-service-levels',
-        'in-services',
-        'in-stores',
-        'in-subscription',
-        'in-test',
-        'in-themes',
-        'in-custom-dashboards',
+          // unwanted dependencies, that will need refactoring
+          'in-alerting',
+          'in-applications',
+          'in-custom-dashboards',
+          'in-settings',
 
-        // unwanted dependencies, that will need refactoring
-        'in-alerting',
-        'in-applications',
-        'in-settings',
-
-        'in-analyze',
-        'in-map',
-        'in-synthetics'
-      ]
-    })
+          'in-analyze',
+          'in-map',
+          'in-synthetics'
+        ]
+      })
+    }
   }
-};
+];

@@ -3,23 +3,26 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env node */
+/* eslint-disable no-restricted-imports */
+import { createImportRestrictionRule } from '../../build/linting/restrictedImportRule.js';
+import baseConfig from '../../eslint.config.mjs';
 
-const { createImportRestrictionRule } = require('../../build/linting/restrictedImportRule');
-
-module.exports = {
-  env: {
-    node: true
+export default [
+  ...baseConfig,
+  {
+    ignores: [
+      'node_modules',
+      '.yarn'
+    ]
   },
-  parserOptions: {
-    ecmaVersion: 2017
-  },
-  rules: {
-    'no-console': 0,
-    'new-cap': 0,
-    strict: 0,
-    ...createImportRestrictionRule({
-      allowedInPackages: []
-    })
+  {
+    rules: {
+      'no-console': 0,
+      'new-cap': 0,
+      strict: 0,
+      ...createImportRestrictionRule({
+        allowedInPackages: []
+      })
+    }
   }
-};
+];

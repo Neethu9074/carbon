@@ -4,52 +4,55 @@
  * Copyright IBM Corp. 2025
  */
 
-/* eslint-env node */
+/* eslint-disable no-restricted-imports */
+import { createImportRestrictionRule } from '../../build/linting/restrictedImportRule.js';
+import baseConfig from '../../eslint.config.mjs';
 
-const { createImportRestrictionRule } = require('../../build/linting/restrictedImportRule');
+export default [
+  ...baseConfig,
+  {
+    rules: {
+      ...createImportRestrictionRule({
+        enforceAbsoluteImportPaths: false,
 
-module.exports = {
-  rules: {
-    ...createImportRestrictionRule({
-      enforceAbsoluteImportPaths: false,
+        allowedInPackages: [
+          // current package
+          'in-forge',
 
-      allowedInPackages: [
-        // current package
-        'in-forge',
+          // unwanted dependencies, that will need refactoring
+          'in-applications',
 
-        // unwanted dependencies, that will need refactoring
-        'in-applications',
+          'in-infrastructure',
+          'in-kubernetes',
+          'in-zhmc',
+          'in-custom-dashboards',
+          'in-nutanix',
+          'in-xenserver',
+          'in-windowshypervisor',
+          'in-bizops',
+          'in-websites',
+          'in-vsphere',
+          'in-sap',
+          'in-powervc',
+          'in-phmc',
+          'in-cloudfoundry',
+          'in-openstack',
+          'in-integrations',
+          'in-logging',
+          'in-automation',
 
-        'in-infrastructure',
-        'in-kubernetes',
-        'in-zhmc',
-        'in-custom-dashboards',
-        'in-nutanix',
-        'in-xenserver',
-        'in-windowshypervisor',
-        'in-bizops',
-        'in-websites',
-        'in-vsphere',
-        'in-sap',
-        'in-powervc',
-        'in-phmc',
-        'in-cloudfoundry',
-        'in-openstack',
-        'in-integrations',
-        'in-logging',
-        'in-automation',
-
-        // shared packages
-        'in-components',
-        'in-themes',
-        'in-services',
-        'in-test',
-        'in-stores',
-        'in-sdk',
-        'in-hooks',
-        'in-subscription',
-        'in-hoc'
-      ]
-    })
+          // shared packages
+          'in-components',
+          'in-themes',
+          'in-services',
+          'in-test',
+          'in-stores',
+          'in-sdk',
+          'in-hooks',
+          'in-subscription',
+          'in-hoc'
+        ]
+      })
+    }
   }
-};
+];

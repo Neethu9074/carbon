@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-/* global require:false */
+
 var _dateFns = require('date-fns');
 
 var _i18nReact = require('@instana/i18n-react');
