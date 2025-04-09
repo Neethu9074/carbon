@@ -103,5 +103,7 @@ export const ACTION_FIELD_TRANSLATIONS: Record<string, string> = {
   playbookId: t('in-automation:playbookId'),
   playbookFileName: t('in-automation:playbookFileName'),
   ansibleUrl: t('in-automation:ansibleUrl'),
-  hostId: t('in-automation:hostId')
+  hostId: t('in-automation:hostId'),
+  git_type: t('in-automation:gitType'),
+  git_url: t('in-automation:gitUrl')
 };

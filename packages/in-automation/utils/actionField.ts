@@ -28,6 +28,10 @@ export const getInterpreterFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.subtype ?? { value: '', encoding: 'base64', name: 'subtype' };
 export const getDocLinkFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.URL ?? { value: '', encoding: 'UTF8', name: 'URL' };
+export const getGitLinkFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.git_url ?? { value: '', encoding: 'ascii', name: 'git_url' };
+export const getGitTypeFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.git_type ?? { value: 'script', encoding: 'ascii', name: 'git_type' };
 export const getBodyFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.body ?? { value: '', encoding: 'ascii', name: 'body' };
 export const getHeaderFromFields = (fields: Field[] | undefined): Field =>
@@ -262,6 +266,32 @@ export function createScriptFields({
       description: 'script content',
       encoding: 'base64',
       name: 'script_ssh'
+    },
+    { ...createTimeoutField(timeout) }
+  ];
+}
+
+export function createGitUrlFields({
+  value,
+  type,
+  timeout
+}: {
+  value: string;
+  type: string;
+  timeout: string;
+}): Field[] {
+  return [
+    {
+      value: type,
+      description: 'git type',
+      encoding: 'ascii',
+      name: 'git_type'
+    },
+    {
+      value,
+      description: 'git url',
+      encoding: 'ascii',
+      name: 'git_url'
     },
     { ...createTimeoutField(timeout) }
   ];

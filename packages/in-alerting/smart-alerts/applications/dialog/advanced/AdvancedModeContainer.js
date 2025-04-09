@@ -12,6 +12,7 @@ import {
   oneMinuteGranularityForStaticThresholdEnabled
 } from 'in-services/featureFlags';
 import InboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
+import { placeholdersByEvaluationTypeAndSeverity } from 'in-alerting/smart-alerts/applications/inventory/getAlertTitleWithPlaceholderHighlighting';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
@@ -30,7 +31,6 @@ import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/di
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { blueprintConfigs, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
-import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { ThresholdSection } from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdSection';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
@@ -238,7 +238,7 @@ export default function AdvancedModeContainer(props) {
                 <AlertPropertiesTitleRow
                   form={form}
                   onChange={onChange}
-                  placeholders={placeholdersByEvaluationType[evaluationType]}
+                  placeholders={placeholdersByEvaluationTypeAndSeverity(evaluationType)}
                   getTitlePlaceholder={getTitlePlaceholder}
                 />
               )}

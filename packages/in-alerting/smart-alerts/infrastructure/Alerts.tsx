@@ -24,7 +24,7 @@ import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/infrastru
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
 import { actionHandlers } from 'in-alerting/smart-alerts/infrastructure/lists/ListActionHandlers';
-import { CreateSmartAlertButton } from 'in-alerting/smart-alerts/infrastructure/CreateSmartAlert';
+import CreateSmartAlert from 'in-alerting/smart-alerts/infrastructure/CreateSmartAlert';
 import { MetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
 import { sortOptions } from 'in-alerting/smart-alerts/infrastructure/lists/constants';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
@@ -73,7 +73,7 @@ export default function Alerts() {
           extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
           carbonActionHandlers={handlers}
           getNameSubtitle={(config: InfraSmartAlertConfigWithMetadata) => getNameSubtitle(config)}
-          toolBarContent={role?.canConfigureGlobalInfraSmartAlerts ? <CreateSmartAlertButton /> : undefined}
+          toolBarContent={role?.canConfigureGlobalInfraSmartAlerts ? <CreateSmartAlert isListingPage /> : undefined}
           noDataHeader={t('in-alerting:smartAlerts.infrastructure.list.noDataHeader')}
           noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.infrastructure.list.noDataDescription" />}
           useSmartAlertCreateUrl={useSmartAlertCreateUrl}

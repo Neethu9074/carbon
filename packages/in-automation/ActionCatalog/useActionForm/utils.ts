@@ -16,7 +16,8 @@ import {
   createTimeoutField,
   createGithubFields,
   createGitlabFields,
-  createJiraFields
+  createJiraFields,
+  createGitUrlFields
 } from 'in-automation/utils/actionField';
 import { ActionForm, MappedParameter } from 'in-automation/ActionCatalog/useActionForm/types';
 import { ACTION_TYPE, OPEN, CLOSE, ADD_COMMENT, AUTH_TYPE } from 'in-automation/constants';
@@ -81,7 +82,13 @@ export function getActionFromForm(form: ActionForm, action?: ActionFormEntity): 
     case 'SCRIPT': {
       const value = form.get('script').value;
       const subtype = form.get('subtype').value;
-      fields.push(...createScriptFields({ value, subtype, timeout }));
+      const scriptFromUrl = form.get('scriptFromUrl').value;
+      const git_url = form.get('git_url').value;
+      if (scriptFromUrl === 'script') {
+        fields.push(...createScriptFields({ value, subtype, timeout }));
+      } else {
+        fields.push(...createGitUrlFields({ value: git_url, type: scriptFromUrl, timeout }));
+      }
       break;
     }
     case 'HTTP': {

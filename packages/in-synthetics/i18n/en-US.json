@@ -771,6 +771,14 @@
       },
       "customProperties": {
         "title": "Custom properties"
+      },
+      "dns": {
+        "title": "Test details",
+        "description": "DNS result for query type {{queryType}}",
+        "name": "Name",
+        "ttl": "TTL",
+        "data": "Data",
+        "noRecordsFound": "No records found"
       }
     },
     "noDataAvailable": {

@@ -3,20 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
-import {
-  CarbonPopover as Popover,
-  CarbonPopoverContent as PopoverContent,
-  CarbonTag as Tag,
-  CarbonTile as Tile,
-  CarbonContainedList as ContainedList,
-  CarbonContainedListItem as ContainedListItem
-} from '@instana/components';
 import { OrderDirection, TagFilter, TagFilterExpression, TestResultListItem, TimeConfig } from '@instana/types';
 import { formatDateTime, fromNow } from '@instana/format-date';
-import { generateUniqueShortId } from '@instana/utils';
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error Could not find declaration type
@@ -33,6 +24,7 @@ import {
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { bytesTwoDecimalPlaces, timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
 import { clickSyntheticMonitoringResultsListDetailTracker } from 'in-synthetics/tracking/tracker';
+import FailureTypePopover from 'in-synthetics/dashboards/summary/tabs/results/FailureTypePopover';
 import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import ResultFilters from 'in-synthetics/dashboards/summary/tabs/results/ResultFilters';
@@ -41,7 +33,6 @@ import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/m
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { getResultErrorMessage } from 'in-synthetics/dashboards/details/utils';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -159,45 +150,6 @@ let columnDefinitions: ColumnDefinition<TestResultListItem>[] = [
 const daysRemainingColumnContent = (item: TestResultListItem) => {
   const daysRemaining = get(item, ['metrics', 'synthetic.customMetrics.daysRemaining', 0, 1]);
   return <span className={locals.metricLabel}>{daysRemaining}</span>;
-};
-
-const FailureTypePopover = ({ resultItem }: { resultItem: TestResultListItem }) => {
-  const [openFailurePopover, setOpenFailurePopover] = useState(false);
-  const errors = resultItem?.testResultCommonProperties?.errors ?? [];
-
-  const handleFailureListClose = () => {
-    setOpenFailurePopover(false);
-  };
-
-  const handleFailureListOpen = () => {
-    setOpenFailurePopover(true);
-  };
-
-  return errors && errors?.length > 0 ? (
-    <span>
-      <Tag size="md" type="blue">
-        {getResultErrorMessage(errors[0])}
-      </Tag>
-      {errors.length > 1 && (
-        <Popover open={openFailurePopover} align="bottom-end" onRequestClose={handleFailureListClose}>
-          <Tag size="md" type="gray" onClick={handleFailureListOpen}>
-            {`${errors.length - 1} +`}
-          </Tag>
-          <PopoverContent className={locals.popoverContent}>
-            <Tile>
-              <ContainedList label={''} size="sm" kind="disclosed">
-                {errors.slice(1).map((error: string) => (
-                  <ContainedListItem key={generateUniqueShortId()}>{getResultErrorMessage(error)}</ContainedListItem>
-                ))}
-              </ContainedList>
-            </Tile>
-          </PopoverContent>
-        </Popover>
-      )}
-    </span>
-  ) : (
-    <span className={locals.noData}>{t('in-synthetics:dashboard.resultsListPage.dns.na')}</span>
-  );
 };
 
 interface ResultListProps {

@@ -219,6 +219,9 @@ export const infraSmartAlertDialogViewEnabled = isFeatureFlagEnabled('infraSmart
 // Dialog view for log smart alert
 export const websitesSmartAlertDialogViewEnabled = isFeatureFlagEnabled('websitesSmartAlertDialogViewEnabled');
 
+// Dialog view for MobileApp smart alert
+export const mobileAppSmartAlertDialogViewEnabled = isFeatureFlagEnabled('mobileAppSmartAlertDialogViewEnabled');
+
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
 

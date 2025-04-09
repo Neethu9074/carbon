@@ -16,6 +16,16 @@ import { User } from 'in-types';
 
 const basePath = '/api/settings/rbac/teams';
 
+export interface TeamTagUsed {
+  websites?: number;
+  applications?: number;
+  syntheticTests?: number;
+  syntheticCredentials?: number;
+  alertChannels: number;
+  customDashboards: number;
+  mobileApps?: number;
+}
+
 /**
  * Extended model for a Team role until type from backend has roleName
  * @property {string} roleName - name of the role
@@ -39,6 +49,7 @@ export interface ApiTeamMember extends Omit<TeamMember, 'roleIds'> {
  */
 export interface ApiTeam extends Omit<Team, 'members'> {
   readonly members: Array<ApiTeamMember>;
+  readonly teamTagUsed: TeamTagUsed;
 }
 
 export function getTeam(id: string): Observable<ApiTeam> {

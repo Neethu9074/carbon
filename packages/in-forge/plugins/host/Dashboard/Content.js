@@ -28,12 +28,12 @@ import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import GpuProcessList from 'in-forge/plugins/host/Dashboard/GpuProcessList';
 import PhysicalVolume from 'in-forge/plugins/host/Dashboard/PhysicalVolume';
 import VolumeGroups from 'in-forge/plugins/host/Dashboard/VolumeGroups';
-import Disks from 'in-forge/plugins/host/Dashboard/Disks';
 import DiskTable from 'in-forge/plugins/host/Dashboard/DiskTable';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import GpuTable from 'in-forge/plugins/host/Dashboard/GpuTable';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import Disks from 'in-forge/plugins/host/Dashboard/Disks';
 import MetricValue from 'in-components/MetricValue';
 import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
@@ -43,6 +43,7 @@ import locals from './Content.mless';
 
 export default function HostDashboard({ snapshot, timeConfig }) {
   const gpuInfoAvailable = snapshot.getIn(['data', 'gpu.count']);
+
   var memoryUsedMetrics = ['memory.used'];
   var memoryUsedMetricsLabels = [t('in-forge:plugins.host.dashboard.used')];
   if (isAixOs(snapshot)) {
@@ -76,28 +77,76 @@ export default function HostDashboard({ snapshot, timeConfig }) {
 
       <Columize>
         <DashboardSection title={t('in-forge:plugins.host.dashboard.cpuUsage')}>
-          <Chart
-            snapshotId={snapshot.get('id')}
-            snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
-            hasActionlane
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              max: 1,
-              formatter: percentageZeroDecimalPlaces,
-              metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
-              labels: [
-                t('in-forge:plugins.host.dashboard.user'),
-                t('in-forge:plugins.host.dashboard.system'),
-                t('in-forge:plugins.host.dashboard.wait'),
-                t('in-forge:plugins.host.dashboard.nice'),
-                t('in-forge:plugins.host.dashboard.steal')
-              ],
-              type: 'stackedArea'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
+          {isAixOs(snapshot) && (
+            <Chart
+              snapshotId={snapshot.get('id')}
+              snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+              hasActionlane
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                max: 1,
+                formatter: percentageZeroDecimalPlaces,
+                metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.hypv', 'cpu.used', 'cpu.idle'],
+                labels: [
+                  t('in-forge:plugins.host.dashboard.user'),
+                  t('in-forge:plugins.host.dashboard.system'),
+                  t('in-forge:plugins.host.dashboard.wait'),
+                  t('in-forge:plugins.host.dashboard.hypv'),
+                  t('in-forge:plugins.host.dashboard.used'),
+                  t('in-forge:plugins.host.dashboard.idle')
+                ],
+                type: 'stackedArea'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          )}
+
+          {!isAixOs(snapshot) && (
+            <Chart
+              snapshotId={snapshot.get('id')}
+              snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+              hasActionlane
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                max: 1,
+                formatter: percentageZeroDecimalPlaces,
+                metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
+                labels: [
+                  t('in-forge:plugins.host.dashboard.user'),
+                  t('in-forge:plugins.host.dashboard.system'),
+                  t('in-forge:plugins.host.dashboard.wait'),
+                  t('in-forge:plugins.host.dashboard.nice'),
+                  t('in-forge:plugins.host.dashboard.steal')
+                ],
+                type: 'stackedArea'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          )}
         </DashboardSection>
+
+        {isAixOs(snapshot) && (
+          <DashboardSection title={t('in-forge:plugins.host.dashboard.cpuEvents')}>
+            <Chart
+              snapshotId={snapshot.get('id')}
+              snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+              hasActionlane
+              timeConfig={timeConfig}
+              y1={{
+                formatter: number.compact,
+                metrics: ['cpu.contextSwitches', 'cpu.deviceInterrupts'],
+                labels: [
+                  t('in-forge:plugins.host.dashboard.aixContextSwitches'),
+                  t('in-forge:plugins.host.dashboard.aixDeviceInterrupts')
+                ],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        )}
 
         {isLinux(snapshot) && (
           <DashboardSection title={t('in-forge:plugins.host.dashboard.contextSwitches')}>

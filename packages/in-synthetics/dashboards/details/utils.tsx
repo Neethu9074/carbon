@@ -144,3 +144,77 @@ export function formatErrorMessage(error: string) {
   const errorMessage = getResultErrorMessage(error);
   return errorMessage.length > 40 ? errorMessage.slice(0, 40) + '...' : errorMessage;
 }
+
+/**
+ * Parses a string of custom DNS metrics into an array of objects.
+ * Each object represents a metric with key-value pairs,
+ * Handles nested braces as well.
+ *
+ * @param customMetrics - The raw custom metrics string, potentially containing nested `{}` structures.
+ * @returns An array of parsed metric objects, or undefined if parsing fails.
+ */
+export const parseDNSCustomMetrics = (customMetrics: string) => {
+  try {
+    const customMetricsArray = [];
+    let customMetricElement = '',
+      braceDepth = 0;
+
+    for (const element of customMetrics) {
+      const char = element;
+      if (char === '{') {
+        if (braceDepth === 0) customMetricElement = '';
+        braceDepth++;
+      }
+
+      if (braceDepth > 0) customMetricElement += char;
+
+      if (char === '}') {
+        braceDepth--;
+        if (braceDepth === 0) {
+          customMetricsArray.push(customMetricElement);
+        }
+      }
+    }
+
+    return customMetricsArray.map(customMetric => {
+      const customMetricsObject: Record<string, string> = {};
+      let key = '',
+        value = '',
+        token = '',
+        depth = 0,
+        readingKey = true;
+
+      for (let i = 1; i < customMetric.length - 1; i++) {
+        const char = customMetric[i];
+
+        if (char === '=' && readingKey) {
+          key = token.trim();
+          token = '';
+          readingKey = false;
+          continue;
+        }
+
+        if (char === ',' && depth === 0) {
+          value = token.trim();
+          customMetricsObject[key] = value;
+          token = '';
+          readingKey = true;
+          continue;
+        }
+
+        if (char === '{') depth++;
+        if (char === '}') depth--;
+
+        token += char;
+      }
+
+      if (!readingKey) {
+        customMetricsObject[key] = token.trim();
+      }
+
+      return customMetricsObject;
+    });
+  } catch {
+    return undefined;
+  }
+};

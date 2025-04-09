@@ -12,7 +12,7 @@ import {
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
-import { TimeConfig, GenericInfraAlertRule, TagFilterExpressionElementUnion } from 'in-types';
+import { TimeConfig, GenericInfraAlertRule, TagFilterExpressionElementUnion, Order } from 'in-types';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { Grouping } from 'in-custom-dashboards/widgets/Table/types';
@@ -41,10 +41,15 @@ export function getLinkToUnboundAnalytics(
   tagFilterExpression: TagFilterExpressionElementUnion,
   getLinkToInfraEntityExplore: (getLinkToExploreProps: GetLinkToExploreProps) => string,
   timeConfig?: TimeConfig,
-  groupByArray?: Partial<Grouping[]>
+  groupByArray?: Partial<Grouping[]>,
+  order?: Order
 ): string {
   const { metricName, aggregation, entityType, crossSeriesAggregation } = rule;
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+  const orderForInfraExplore = order ?? {
+    by: `${metricName}.${aggregation}`,
+    direction: 'DESC'
+  };
 
   return urlWithoutQueryParameter(
     getLinkToInfraEntityExplore({
@@ -54,7 +59,8 @@ export function getLinkToUnboundAnalytics(
       metrics: [
         {
           metric: metricName,
-          aggregation
+          aggregation,
+          crossSeriesAggregation
         }
       ],
       chartedMetrics: [
@@ -64,10 +70,7 @@ export function getLinkToUnboundAnalytics(
           crossSeriesAggregation: crossSeriesAggregation
         }
       ],
-      order: {
-        by: `${metricName}.${aggregation}`,
-        direction: 'DESC'
-      },
+      order: orderForInfraExplore,
       groupBy: groupByArray ?? [],
       fromEventPage: true
     })

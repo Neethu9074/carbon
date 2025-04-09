@@ -16,11 +16,6 @@ interface TableProps {
   showExpandAll?: boolean;
   initialSortDirection?: string;
   distanceBetweenDatapointsInMillis?: number;
-  /**
-   * The actual data required for the CSVExporter is sourced from the Table file.
-   * This optional property will be rendered inside of he top-right header.
-   * Ideally it could be a Button
-   */
   CSVExportButton?: (props: { csvHeaders: Record<string, any>[]; csvData: Record<string, any>[] }) => React.ReactNode;
 }
 

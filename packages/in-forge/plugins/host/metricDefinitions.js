@@ -19,7 +19,9 @@ const availableCpuMetricSuffixes = {
   sys: t('in-forge:plugins.host.system'),
   wait: t('in-forge:plugins.host.wait'),
   nice: t('in-forge:plugins.host.nice'),
-  steal: t('in-forge:plugins.host.steal')
+  steal: t('in-forge:plugins.host.steal'),
+  used: t('in-forge:plugins.host.used'),
+  idle: t('in-forge:plugins.host.idle')
 };
 
 function getMaxFilesystemCapacity(snapshot, match) {
@@ -144,14 +146,23 @@ export default [
     formatter: number
   },
   {
-    metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal', 'cpu.used'],
+    metrics: ['cpu.contextSwitches', 'cpu.deviceInterrupts'],
+    labels: [t('in-forge:plugins.host.aixContextSwitches'), t('in-forge:plugins.host.aixDeviceInterrupts')],
+    category: [t('in-forge:plugins.host.cpu')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal', 'cpu.used', 'cpu.idle', 'cpu.hypv'],
     labels: [
       t('in-forge:plugins.host.user'),
       t('in-forge:plugins.host.system'),
       t('in-forge:plugins.host.wait'),
       t('in-forge:plugins.host.nice'),
       t('in-forge:plugins.host.steal'),
-      t('in-forge:plugins.host.used')
+      t('in-forge:plugins.host.used'),
+      t('in-forge:plugins.host.idle'),
+      t('in-forge:plugins.host.hypv')
     ],
     category: [t('in-forge:plugins.host.cpu')],
     min: 0,

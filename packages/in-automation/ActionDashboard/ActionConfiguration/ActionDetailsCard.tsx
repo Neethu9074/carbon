@@ -115,7 +115,7 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
           }}
           renderIcon={() => <SvgIcon type="lib_launch_ai" size="xs" />}
         >
-          {t('in-automation:generateWithWatsonx')}
+          {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
         </CarbonButton>
       )}
       {role?.canConfigureAutomationActions && (

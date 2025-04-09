@@ -62,7 +62,7 @@ export default function SyntheticsAlertProperties(props: AlertPropertiesProp) {
   );
 }
 
-function getAlertTitle(nameField: Field<string>) {
+export function getAlertTitle(nameField: Field<string>) {
   return nameField?.value
     ? replacePlaceholdersWithMarkup(allowedPlaceholders, nameField?.value ?? '', ({ name }) => name)
     : getTitlePlaceholder();

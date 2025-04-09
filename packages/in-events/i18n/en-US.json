@@ -220,7 +220,12 @@
     }
   },
   "infraSmartAlerts": {
-    "pseudoAggregatedEntityLabel": "{{entityName}} (aggregated)"
+    "pseudoAggregatedEntityLabel": "{{entityName}} (aggregated)",
+    "aggregatedEntityEvent": {
+      "titleAggregatedEntityList": "Aggregated list of Infrastructures ({{totalEntityCount}})",
+      "viewAllEntitiesInScope": "View all ({{count}}) entities",
+      "invalidTimeConfigError": "Could not derive time config from event"
+    }
   },
   "logSmartAlerts": {
     "logs": "Logs"

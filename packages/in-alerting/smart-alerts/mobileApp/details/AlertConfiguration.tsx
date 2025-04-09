@@ -20,6 +20,7 @@ import {
 } from 'in-alerting/components/Chart/chartViewConfig';
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/mobileApp/hooks/useTagBasedPayloadConfigurator';
+import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
@@ -28,6 +29,7 @@ import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileA
 import GracePeriodDescription from 'in-alerting/smart-alerts/components/dialog/GracePeriodDescription';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/mobileApp/details/AlertThresholdInfos';
+import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
@@ -196,7 +198,12 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
         openByDefault
         darkFrame
       >
-        <AlertPropertyInfos shouldDisplayAlertLevelSection={false} alertConfig={alertConfig} disableTrigger={false} />
+        <AlertPropertyInfos
+          shouldDisplayAlertLevelSection={false}
+          alertConfig={alertConfig}
+          disableTrigger={false}
+          renderCustomTitle={() => replacePlaceholdersWithMarkup(severityPlaceholderList, alertConfig.name)}
+        />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="MOBILE_APP" />
       <CustomPayloadCard

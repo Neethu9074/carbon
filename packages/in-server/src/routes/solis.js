@@ -12,6 +12,7 @@ const middleware = require('i18next-http-middleware');
 
 const { getCurrentUser } = require('../auth');
 const { activeResolver } = require('../services/resolvers');
+const { solisHubRoute } = require('./solis-hub');
 
 const i18nPath = path.join(__dirname, 'translations');
 const namespace = 'in-server';
@@ -54,101 +55,7 @@ const router = (module.exports = express.Router());
 
 router.use(middleware.handle(i18next));
 
-router.get('/solis/hub_content', async (req, res) => {
-  const t = req.t;
-
-  const finalResponseBody = { title: t('in-server:mainNavigation.monitoringObservability'), widgets: [] };
-
-  try {
-    const dashboardRequest = new Request(req.uiBackendBaseUrl + '/api/custom-dashboard');
-    dashboardRequest.headers.set('Authorization', req.headers.authorization);
-
-    let response = await fetch(dashboardRequest);
-    if (!response.ok) {
-      throw new Error('error calling /custom-dashboard: ' + JSON.stringify(response.body));
-    }
-
-    const responseObject = await response.json();
-    const customDashboards = responseObject.slice(0, 10);
-
-    // eslint-disable-next-line no-useless-escape
-    const eventRequest = new Request(req.uiBackendBaseUrl + '/api/events?eventTypeFilters=INCIDENT');
-    eventRequest.headers.set('Authorization', req.headers.authorization);
-    response = await fetch(eventRequest);
-    if (!response.ok) {
-      throw new Error('error calling /events: ' + JSON.stringify(response.body));
-    }
-
-    const events = await response.json();
-
-    let warningEvents = 0,
-      criticalEvents = 0,
-      totalEvents = 0;
-
-    for (const event of events) {
-      if (event.state === 'open') {
-        totalEvents++;
-        if (event.severity === 8) {
-          warningEvents++;
-        } else if (event.severity === 10) {
-          criticalEvents++;
-        }
-      }
-    }
-
-    finalResponseBody.widgets.push({
-      type: 'kpi_tile',
-      properties: {
-        title: t('in-server:mainNavigation.criticalEvents'),
-        tag: { type: 'high-contrast', children: t('in-server:mainNavigation.event') },
-        kpi: { label: t('in-server:mainNavigation.activeTotal'), primary_value: `${criticalEvents}/${totalEvents}` }
-      },
-      href: '#/events;orderDirection=DESC;orderBy=start;filter;view=incident?q=event.severity%3Acritical%20and%20event.state%3AOPEN'
-    });
-
-    finalResponseBody.widgets.push({
-      type: 'kpi_tile',
-      properties: {
-        title: t('in-server:mainNavigation.warningEvents'),
-        tag: { type: 'high-contrast', children: t('in-server:mainNavigation.event') },
-        kpi: { label: t('in-server:mainNavigation.activeTotal'), primary_value: `${warningEvents}/${totalEvents}` }
-      },
-      href: '#/events;orderDirection=DESC;orderBy=start;filter;view=incident?q=event.severity%3Awarning%20and%20event.state%3AOPEN'
-    });
-
-    for (const dashboard of customDashboards) {
-      const ownerRequest = new Request(req.uiBackendBaseUrl + '/api/settings/users/' + dashboard.ownerId);
-      ownerRequest.headers.set('Authorization', req.headers.authorization);
-
-      await fetch(ownerRequest)
-        .then(response => response.json())
-        .then(data => {
-          const tagText = dashboard.annotations.includes('SHARED')
-            ? t('in-server:mainNavigation.sharedCustomerDashboard')
-            : t('in-server:mainNavigation.customerDashboard');
-
-          finalResponseBody.widgets.push({
-            type: 'kpi_tile',
-            properties: {
-              title: dashboard.title,
-              tag: { type: 'cyan', children: tagText },
-              kpi: { label: t('in-server:mainNavigation.owner'), primary_value: data.fullName }
-            },
-            href: `#/customDashboards/view;dashboardId=${dashboard.id}`
-          });
-        })
-        .catch(error => {
-          throw new Error('error calling /settings/users: ' + error.message);
-        });
-    }
-
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(finalResponseBody));
-  } catch (error) {
-    res.statusCode = 500;
-    res.end(JSON.stringify(error.message));
-  }
-});
+router.get('/solis/hub_content', solisHubRoute);
 
 router.get('/solis/nav', async (req, res) => {
   try {

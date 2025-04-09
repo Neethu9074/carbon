@@ -11,7 +11,7 @@
 
   .dialog {
     width: 80vw;
-    height: 40vw;
+    height: 46vw;
     overflow-y: auto;
   }
 
@@ -84,6 +84,7 @@
       height: calc(400px - 2.5rem);
       // Editor background
       background-color: var(--cds-layer);
+      min-width: 450px;
     }
     @media (max-width: 1500px) and (min-height: 600px) {
       :global .CodeMirror {

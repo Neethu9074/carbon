@@ -9,9 +9,9 @@ import React, { ReactNode } from 'react';
 import { InfraMetricConfiguration, UnifiedMetricConfigurationUnion } from '@instana/types';
 
 import { Config, ConfigWithCompanionMetric } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
+import { getFormatter, FormatterFn } from 'in-stores/metric/formatters';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { getFormatter } from 'in-stores/metric/formatters';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export interface BigNumberProps {
@@ -21,7 +21,7 @@ export interface BigNumberProps {
   actions?: ReactNode;
   dragHandle?: ReactNode;
   isPreview?: boolean;
-  formatter?: string;
+  formatter?: string | FormatterFn;
   metricName: string;
   tagFilter: string;
 }
@@ -38,8 +38,12 @@ export default function TotalUsageBigNumber({
   const timeConfig = useTimeConfig();
   const timeShiftConfig = useTimeShiftConfig();
 
+  const isFormatterFn = typeof formatter === 'function';
+  const formatterFn: FormatterFn = isFormatterFn ? (formatter as FormatterFn) : getFormatter(formatter);
+
   const config: Config<InfraMetricConfiguration> = {
-    formatter: formatter,
+    // For later: Here, formatter function is not supported in Config:
+    formatter: !isFormatterFn ? formatter : undefined,
     metricConfiguration: {
       aggregation: 'SUM',
       metric: metricName,
@@ -59,6 +63,7 @@ export default function TotalUsageBigNumber({
       resultType: 'SINGLE_NUMBER'
     }
   };
+
   return (
     <BigNumberKpiCard
       config={config}
@@ -66,7 +71,7 @@ export default function TotalUsageBigNumber({
       actions={actions}
       dragHandle={dragHandle}
       useMaxAvailableHeight={!isPreview}
-      formatter={getFormatter(config.formatter)}
+      formatter={formatterFn}
     />
   );
 }

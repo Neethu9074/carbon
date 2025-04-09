@@ -183,5 +183,6 @@ module.exports = {
   logSmartAlertDialogViewEnabled: true,
   syntheticSmartAlertDialogViewEnabled: true,
   infraSmartAlertDialogViewEnabled: true,
-  websitesSmartAlertDialogViewEnabled: true
+  websitesSmartAlertDialogViewEnabled: true,
+  mobileAppSmartAlertDialogViewEnabled: true
 };

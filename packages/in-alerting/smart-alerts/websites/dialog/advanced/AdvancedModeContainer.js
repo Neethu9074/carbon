@@ -19,20 +19,22 @@ import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/eum/com
 import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
 import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import { HISTORIC_BASELINE, ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/websites/dialog/advanced/BluePrintSelectionSection';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
 import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/AdaptiveBaselineErrorMessage';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
+import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/dialog/advanced/TimeThresholdConfig';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
-import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
+import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
@@ -83,6 +85,7 @@ export default function AdvancedModeContainer(props) {
     return updateForm(updatedForm);
   };
 
+  const name = form.get('name').value;
   return (
     <StepsContainer
       messages={messages}
@@ -239,6 +242,7 @@ export default function AdvancedModeContainer(props) {
                       form={form}
                       onChange={onChange}
                       getTitlePlaceholder={getTitlePlaceholder}
+                      placeholders={severityPlaceholderList}
                     />
                   )}
                 />
@@ -252,7 +256,13 @@ export default function AdvancedModeContainer(props) {
                   entityLabel={websiteLabel}
                   entityIconType="lib_website"
                   renderHeadline={() => (
-                    <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder(form)} />
+                    <AlertPreviewHeadline
+                      title={
+                        name
+                          ? replacePlaceholdersWithMarkup(severityPlaceholderList, name, ({ name }) => name)
+                          : getTitlePlaceholder(form)
+                      }
+                    />
                   )}
                   isTearSheet={false}
                 />

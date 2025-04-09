@@ -9,6 +9,8 @@ import React from 'react';
 
 import { MultiThresholdAlertPreviewCommon } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreviewCommon';
 import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
+import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import { t } from 'in-i18n';
@@ -26,7 +28,7 @@ export function LogMultiThresholdAlertPreview({ form, getDescriptionPlaceholder 
   const isWarningThresholdDefined = !isEmpty(warningThresholdValue);
   const isCriticalThresholdDefined = !isEmpty(criticalThresholdValue);
   const entityLabel = t('in-alerting:smartAlerts.logs.advancedModeContainer.properties.preview.subtitle');
-  const title = form.get('name').value || getTitlePlaceholder();
+  const name = form.get('name').value;
 
   return (
     <MultiThresholdAlertPreviewCommon
@@ -36,7 +38,15 @@ export function LogMultiThresholdAlertPreview({ form, getDescriptionPlaceholder 
       isCriticalDefined={isCriticalThresholdDefined}
       entityLabel={entityLabel}
       entityIconType="lib_application_logging"
-      renderHeadline={() => <AlertPreviewHeadline title={title} />}
+      renderHeadline={() => (
+        <AlertPreviewHeadline
+          title={
+            name
+              ? replacePlaceholdersWithMarkup(severityPlaceholderList, name, ({ name }) => name)
+              : getTitlePlaceholder()
+          }
+        />
+      )}
     />
   );
 }

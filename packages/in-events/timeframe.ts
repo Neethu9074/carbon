@@ -9,7 +9,7 @@ import { minutes } from 'in-services/time';
 import { TimeConfig } from 'in-types';
 
 const chartOffset = minutes.toMillis(5);
-const minEventEntityWindowSize = minutes.toMillis(3);
+export const minEventEntityWindowSize = minutes.toMillis(3);
 
 export function getChartTimeConfigByEvent(
   event: EventMap,
@@ -76,7 +76,7 @@ export function getTimeConfigFromEventForSnapshotRetrieval(event: EventOrMap): T
   };
 }
 
-function getFromOfEvent(event: EventOrMap): number {
+export function getFromOfEvent(event: EventOrMap): number {
   let from;
   if (typeof event.getIn === 'function') {
     from = event.getIn(['metadata', 'triggeringTime']);
@@ -90,7 +90,7 @@ function getFromOfEvent(event: EventOrMap): number {
   return from;
 }
 
-function getToOfEvent(event: EventOrMap): number | null {
+export function getToOfEvent(event: EventOrMap): number | null {
   return typeof event.get === 'function'
     ? (event.get('state') as string) === 'closed'
       ? (event.get('end') as number)

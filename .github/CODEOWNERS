@@ -91,7 +91,7 @@ packages/in-forge/plugins/hBase                                 @Instana-IBM-Git
 # Only AIX host is owned by @instana/power-and-z
 packages/in-forge/plugins/host                                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware @instana/power-and-z
 packages/in-forge/plugins/httpd                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-tracers-middleware
-packages/in-forge/plugins/hyperv*                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/windowsHypervisor*                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/ibmApiConnect*                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/ibmCloudClinicalData                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/ibmCloudCloudant                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
@@ -235,6 +235,7 @@ packages/in-internal/thisUnit/Metrics                      @Instana-IBM-GitHub-E
 packages/in-internal/thisUnit/SnapshotVersions             @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-internal/thisUnit/WsApiTester                  @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-kubernetes                                     @Instana-IBM-GitHub-Enterprise @instana/eng-k8s @instana/eng-ui
+packages/in-kubernetes/Dashboards/ArgoCD                   @Instana-IBM-GitHub-Enterprise @instana/ai-observability @instana/eng-k8s @instana/eng-ui
 
 # Logging specific areas
 packages/in-logging                 @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
@@ -262,7 +263,7 @@ packages/in-sdk/metrics                                                         
 packages/in-server                                                                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-nutanix                                                                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 packages/in-xenserver                                                                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
-packages/in-hyperv                                                                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
+packages/in-windowshypervisor                                                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 
 # enable sensors team to update aws iam permissions
 packages/in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor.tsx                       @Instana-IBM-GitHub-Enterprise @instana/eng-plg @instana/eng-ui @instana/eng-sensors

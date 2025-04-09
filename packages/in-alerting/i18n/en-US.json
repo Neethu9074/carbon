@@ -167,13 +167,15 @@
     "titleNoSmartAlertsCreated": "No Smart Alerts created",
     "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
     "smartAlertsTitle": "Smart Alerts",
-    "labelNew": "(New)",
     "alertChannelList": {
       "selectAllWarning": "Select all warning",
       "selectAllCritical": "Select all critical",
       "alertLevel": "Alert Level",
       "critical": "Critical",
       "warning": "Warning"
+    },
+    "placeholder": {
+      "severity": "severity"
     },
     "applications": {
       "alertConfiguration": "Alert configuration",
@@ -911,7 +913,7 @@
         "alertPreviewMissingThresholdInfo": "No preview available. Please select at least one threshold value to see the preview.",
         "alertPropertiesAlertProperties": "Alert properties",
         "alertPreviewDefaultTitle": "Notification title",
-        "groupingPlaceholdersMissingTooltip": "Configure group(s) to access placeholder options",
+        "groupingPlaceholdersMissingTooltip": "To include more placeholders, configure grouping(s)",
         "buttonSave": "Save",
         "buttonCreate": "Create",
         "buttonMigrate": "Migrate",

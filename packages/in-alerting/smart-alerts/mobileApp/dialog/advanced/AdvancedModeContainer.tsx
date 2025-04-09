@@ -29,18 +29,20 @@ import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/eum/com
 import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
 import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/BluePrintSelectionSection';
+import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
+import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/TimeThresholdConfig';
 import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
-import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
+import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
@@ -99,6 +101,8 @@ export default function AdvancedModeContainer(
     }
     return updateForm?.(updatedForm);
   };
+
+  const name = form.get('name').value;
 
   return (
     <StepsContainer
@@ -245,6 +249,7 @@ export default function AdvancedModeContainer(
                       form={form}
                       onChange={onChange}
                       getTitlePlaceholder={getTitlePlaceholder}
+                      placeholders={severityPlaceholderList}
                     />
                   )}
                 />
@@ -258,7 +263,13 @@ export default function AdvancedModeContainer(
                   entityLabel={mobileApp?.label ?? ''}
                   entityIconType="lib_mobile_app"
                   renderHeadline={() => (
-                    <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder(form)} />
+                    <AlertPreviewHeadline
+                      title={
+                        name
+                          ? replacePlaceholdersWithMarkup(severityPlaceholderList, name, ({ name }) => name)
+                          : getTitlePlaceholder(form)
+                      }
+                    />
                   )}
                   isTearSheet={false}
                 />

@@ -5,16 +5,16 @@
 
 import React from 'react';
 
+import { placeholdersByEvaluationTypeAndSeverity } from 'in-alerting/smart-alerts/applications/inventory/getAlertTitleWithPlaceholderHighlighting';
 import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
-import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { t } from 'in-i18n';
 
 export default function ApplicationAlertPreviewHeadline({ form, isTearSheet }) {
   const manuallyChangedTitle = form.get('name').value;
   const evaluationType = form.get('evaluationType').value;
-  const placeholders = placeholdersByEvaluationType[evaluationType];
+  const placeholders = placeholdersByEvaluationTypeAndSeverity(evaluationType);
 
   const titleWithReplacedPlaceholders = replacePlaceholdersWithMarkup(
     placeholders,

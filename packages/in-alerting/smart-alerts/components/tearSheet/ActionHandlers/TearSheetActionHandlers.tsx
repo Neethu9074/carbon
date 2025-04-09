@@ -22,11 +22,13 @@ import locals from './TearSheetActionHandlers.mless';
 export function TearSheetEditActionHandler<AlertConfig extends AlertConfigType>({
   alertConfig,
   openOldDialog,
-  useSmartAlertCreateUrl
+  useSmartAlertCreateUrl,
+  closeMenu
 }: {
   alertConfig: AlertConfig & { websiteId?: string; mobileAppId?: string };
   openOldDialog: VoidFunction;
   useSmartAlertCreateUrl: (args: AlertURLProps) => string;
+  closeMenu?: () => void;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({
     alertId: alertConfig.id,
@@ -42,7 +44,7 @@ export function TearSheetEditActionHandler<AlertConfig extends AlertConfigType>(
       icon="lib_actions_edit"
       title={t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
       className={locals.button}
-      onClick={() =>
+      onClick={() => {
         addActiveDialog(
           <ViewSelectorDialog
             trackCta={trackCta}
@@ -52,8 +54,9 @@ export function TearSheetEditActionHandler<AlertConfig extends AlertConfigType>(
             trackType={ALERTING_EDIT}
             alertConfig={alertConfig}
           />
-        )
-      }
+        );
+        closeMenu?.();
+      }}
     >
       {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
     </MoreMenuButton>
@@ -63,11 +66,13 @@ export function TearSheetEditActionHandler<AlertConfig extends AlertConfigType>(
 export function TearSheetCloneActionHandler<AlertConfig extends AlertConfigType>({
   alertConfig,
   openOldDialog,
-  useSmartAlertCreateUrl
+  useSmartAlertCreateUrl,
+  closeMenu
 }: {
   alertConfig: AlertConfig & { websiteId?: string; mobileAppId?: string };
   openOldDialog: VoidFunction;
   useSmartAlertCreateUrl: (args: AlertURLProps) => string;
+  closeMenu?: () => void;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({
     alertId: alertConfig.id,
@@ -83,7 +88,7 @@ export function TearSheetCloneActionHandler<AlertConfig extends AlertConfigType>
       icon="lib_actions_copy"
       title={getButtonName(t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate'))}
       className={locals.button}
-      onClick={() =>
+      onClick={() => {
         addActiveDialog(
           <ViewSelectorDialog
             trackCta={trackCta}
@@ -93,8 +98,9 @@ export function TearSheetCloneActionHandler<AlertConfig extends AlertConfigType>
             trackType={ALERTING_CLONE_TRIGGER}
             alertConfig={alertConfig}
           />
-        )
-      }
+        );
+        closeMenu?.();
+      }}
     >
       {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
     </MoreMenuButton>

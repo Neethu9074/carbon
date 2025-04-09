@@ -60,7 +60,7 @@ export default function SessionTimeoutDialog(props: {
       onRequestSubmit={() => {
         http({
           method: 'GET',
-          url: '/api/checkUserAccessPermitted gg'
+          url: '/api/checkUserAccessPermitted'
         }).once(
           () => {
             // Todo : later, remove it when we get an in-time update from the server.

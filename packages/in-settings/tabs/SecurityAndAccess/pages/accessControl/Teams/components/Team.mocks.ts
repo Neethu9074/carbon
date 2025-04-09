@@ -159,6 +159,11 @@ const MOCK_SCOPE = {
   ]
 };
 
+const MOCK_TEAMTAG_USAGE = {
+  alertChannels: 2,
+  customDashboards: 100
+};
+
 export const MOCK_TEAM: ApiTeam = {
   id: 'Oxzg-a28TUGWLZ7Z2AwkgA',
   tag: 'andreas test',
@@ -167,6 +172,7 @@ export const MOCK_TEAM: ApiTeam = {
   },
   //@ts-expect-error data type not yet final
   scope: MOCK_SCOPE,
+  teamTagUsed: MOCK_TEAMTAG_USAGE,
   members: [
     {
       userId: '63eb0ff0b35b6c0001dfc7e5',

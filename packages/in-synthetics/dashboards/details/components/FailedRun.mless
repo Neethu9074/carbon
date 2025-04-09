@@ -7,6 +7,9 @@
 :local {
   .failedTitle {
     color: #ff4229;
+    :global(.card-header) {
+      padding-bottom: 0;
+    }
   }
 
   .errorMessageHeader {
