@@ -64,6 +64,12 @@
     padding-top: 0px;
   }
 
+  // Remove border-left color modification once the left hand panel gets converted to also using the Side Panel
+  :global(#NotesAndActivityWrapper .c4p--side-panel.c4p--side-panel--right-placement) {
+    box-shadow: none;
+    border-left: 1px solid #d5dfe4;
+  }
+
   // Using this to position the expand and search buttons next to the close button
   :global(#NotesAndActivityWrapper .c4p--side-panel .c4p--side-panel__subtitle-text) {
     padding-bottom: 0px;
