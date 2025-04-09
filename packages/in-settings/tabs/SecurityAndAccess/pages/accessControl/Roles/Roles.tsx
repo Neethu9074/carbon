@@ -26,6 +26,8 @@ import { FORM_MODE } from 'in-settings/components/MapFormProvider/MapFormProvide
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { STATIC_GROUP_NAMES } from 'in-settings/constants';
 import { t } from 'in-i18n';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { securityAndAccessAccessControlRoleEdit } from 'in-settings/navigation/paths';
 
 function createMenuItemsForRow(
   loadedRoles: RoleOverview[],
@@ -47,13 +49,16 @@ function createMenuItemsForRow(
   ];
 }
 
-function createTableRowsForRoles(roles: RoleOverview[]): Array<Omit<DataTableRow<[], RoleOverview>, 'cells'>> {
+function createTableRowsForRoles(
+  roles: RoleOverview[],
+  createHref: ReturnType<typeof useNavigation>['createHrefToPath']
+): Array<Omit<DataTableRow<[], RoleOverview>, 'cells'>> {
   return roles.map(role => ({
     ...role,
     disabled: false,
     isLimited: role.isLimited ? t('in-settings:tabs.limitedAccess') : t('in-settings:tabs.accessAll'),
     name: (
-      <Link href={undefined}>
+      <Link href={createHref(securityAndAccessAccessControlRoleEdit, { id: role.id })}>
         {role.name} {role.hasScope ? <Pill>{t('in-settings:tabs.role.deprecated')}</Pill> : null}
       </Link>
     ),
@@ -63,6 +68,8 @@ function createTableRowsForRoles(roles: RoleOverview[]): Array<Omit<DataTableRow
 
 export default function Roles() {
   const [data, , , progress] = useRolesOverview();
+  const { createHrefToPath } = useNavigation();
+
   const roles = data ?? [];
 
   return (
@@ -82,7 +89,7 @@ export default function Roles() {
       searchPlaceholderText={t('in-settings:components.search')}
       tableActions={ROLES_TABLE_ACTIONS}
       tableHeaders={ROLES_TABLE_HEADERS}
-      tableRows={createTableRowsForRoles(roles)}
+      tableRows={createTableRowsForRoles(roles, createHrefToPath)}
       title={t('in-settings:tabs.roles')}
     />
   );

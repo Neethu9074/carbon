@@ -11,6 +11,7 @@ import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { minutes } from 'in-services/time/time';
 import http from 'in-services/http/http';
+import { ApiRoleWithPermissions } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
 
 const API_BASE_PATH_ROLES = '/api/settings/rbac/roles';
 
@@ -20,9 +21,9 @@ interface GetRoleInternalProps {
   id: string;
 }
 
-function getRoleInternal({ id }: GetRoleInternalProps): Observable<Result<ApiRole>> {
+function getRoleInternal({ id }: GetRoleInternalProps): Observable<Result<ApiRoleWithPermissions>> {
   return refreshSignal.flatMap(() =>
-    http<ApiRole>({
+    http<ApiRoleWithPermissions>({
       mapToResultObject: true,
       maxRetries: 3,
       method: 'GET',
@@ -32,7 +33,7 @@ function getRoleInternal({ id }: GetRoleInternalProps): Observable<Result<ApiRol
   );
 }
 
-export const getRole = memoize<GetRoleInternalProps, Result<ApiRole>>(
+export const getRole = memoize<GetRoleInternalProps, Result<ApiRoleWithPermissions>>(
   getRoleInternal,
   ({ id }) => id,
   minutes.toMillis(1)
