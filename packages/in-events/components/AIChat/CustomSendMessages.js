@@ -10,7 +10,8 @@ import {
   AIConsentPrompt,
   DefinedTreeQuestions,
   handleDefinedTreeQuestions,
-  InitialLoadOptions
+  InitialLoadOptions,
+  technologyOptions
 } from 'in-events/components/AIChat/DefinedQuestions';
 import { sendAPIQuery, fetchAPIData, formatForTable } from 'in-events/components/AIChat/chatAPI';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
@@ -31,7 +32,7 @@ export async function CustomSendMessages(
   } else {
     instance.updateAssistantInputFieldVisibility(false);
   }
-  function sendMessage(text) {
+  function sendMessage(text, restart) {
     instance.messaging.addMessage(
       {
         output: {
@@ -39,7 +40,8 @@ export async function CustomSendMessages(
             {
               response_type: 'text',
               text: text
-            }
+            },
+            restart && technologyOptions
           ]
         }
       },
@@ -55,7 +57,8 @@ export async function CustomSendMessages(
               agent_message_type: 'inline_error',
               response_type: 'text',
               text: errorMessage
-            }
+            },
+            technologyOptions
           ]
         }
       },
@@ -67,7 +70,7 @@ export async function CustomSendMessages(
   const userQuery = request.input.text;
   if (userQuery !== undefined && userQuery !== '' && !DefinedTreeQuestions.includes(userQuery)) {
     if (!automationActionAiGenerationUnitEnabled) {
-      sendMessage(t('in-events:aichat.youMustAccept'));
+      sendMessage(t('in-events:aichat.youMustAccept'), false);
       return;
     }
 
@@ -129,9 +132,10 @@ export async function CustomSendMessages(
             const tabular = formatForTable(apiData);
             instance.messaging.removeMessages([statusMessageId]);
             if (tabular.output?.generic?.[0]?.rows?.length == 0) {
-              sendMessage(t('in-events:aichat.noMatching'));
+              sendMessage(t('in-events:aichat.noMatching'), true);
             } else {
               instance.messaging.addMessage(tabular, { silent: false });
+              sendMessage(t('in-events:aichat.anyOtherQs'), true);
             }
             instance.updateCSSVariables({ 'BASE-width': '700px' });
           },

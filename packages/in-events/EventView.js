@@ -255,6 +255,7 @@ function EventViewComponent(props) {
                     setCustomSortRow();
                   }, 500);
                 }
+                instance.off({ type: 'receive' });
               }
             });
             // HACK -- To keep the greeting message from popping up we add a LONG delay.
