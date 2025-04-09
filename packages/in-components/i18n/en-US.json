@@ -4,7 +4,8 @@
   },
   "pageStructure":{
     "headerAriaLabel": "Page header",
-    "contentAriaLabel": "Content"
+    "contentAriaLabel": "Content",
+    "filterAriaLabel": "Filter"
   },
   "fileInputButton": {
     "label": {

@@ -150,7 +150,7 @@ export default function CustomDashboardPresenter(props) {
                 {loadingSection}
                 {errorSection}
                 {config && (
-                  <div className={locals.wrapper}>
+                  <section aria-label={t('in-components:pageStructure.contentAriaLabel')} className={locals.wrapper}>
                     <FilterContext.Provider value={topLevelFilters}>
                       <Grid
                         width={width}
@@ -167,7 +167,7 @@ export default function CustomDashboardPresenter(props) {
                         isDraggable={editable}
                       />
                     </FilterContext.Provider>
-                  </div>
+                  </section>
                 )}
               </Sticky>
             )}
