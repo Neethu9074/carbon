@@ -30,6 +30,7 @@ import { ProcessedSnapshot } from 'in-automation/AutomationCard/AutomationCardFo
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -38,6 +39,7 @@ import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
 import { getDocLinkFromFields } from 'in-automation/utils/actionField';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { actionAiGenerationEnabled } from 'in-services/featureFlags';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import { useSegmentTracker } from 'in-automation/tracker';
@@ -324,6 +326,8 @@ export default function RecommendedActions({
     defaultOrderDirection: 'DESC',
     defaultPageSize: 7
   });
+  const showOotbActions =
+    getTriggerTypeFromEvent(event) === 'builtinEvent' && (ootbRecommendedActions.data?.length ?? 0) > 0;
 
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
   const availableAiEngines = [...new Set(recommendedActions.data?.map(({ aiEngine }) => aiEngine))];
@@ -417,7 +421,6 @@ export default function RecommendedActions({
       )}
       <ServerTablePresenter<ScoredAction, RecommendedActionsTableProps>
         columnDefinitions={columnDefinitions}
-        // runActionTrackerSegment={runActionTrackerSegment}
         volatileId={volatileId}
         event={event}
         trigger={trigger}
@@ -439,7 +442,7 @@ export default function RecommendedActions({
         result={result}
         rightHeader={
           <Stack direction="horizontal">
-            {!isLoading(trigger) && (
+            {(showOotbActions || actionAiGenerationEnabled) && !isLoading(trigger) && (
               <GenerateAIActionButton
                 event={event}
                 trigger={trigger}

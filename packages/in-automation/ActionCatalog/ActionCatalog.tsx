@@ -28,6 +28,7 @@ import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
+import { actionAiGenerationEnabled } from 'in-services/featureFlags';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
@@ -132,7 +133,7 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
 
   return (
     <>
-      {!hasPermisson && action.type === ACTION_TYPE.MANUAL && (
+      {!hasPermisson && action.type === ACTION_TYPE.MANUAL && actionAiGenerationEnabled && (
         <Stack align="end">
           <MoreMenu kind="subtle">
             {action.type === ACTION_TYPE.MANUAL && (
@@ -192,7 +193,7 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
                 {t('in-automation:copy')}
               </MoreMenuButton>
             )}
-            {action.type === ACTION_TYPE.MANUAL && (
+            {action.type === ACTION_TYPE.MANUAL && actionAiGenerationEnabled && (
               <MoreMenuButton
                 icon="lib_launch_ai"
                 onClick={() => {

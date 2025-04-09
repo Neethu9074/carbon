@@ -30,6 +30,7 @@ import { getDocLinkFromFields } from 'in-automation/utils/actionField';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 import { ACTION_TYPE, NO_FIELD_VALUE } from 'in-automation/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { actionAiGenerationEnabled } from 'in-services/featureFlags';
 import { isNotEditable } from 'in-automation/utils/action';
 import { useSegmentTracker } from 'in-automation/tracker';
 import { Action, Nullish } from 'in-types';
@@ -99,7 +100,7 @@ function ActionConfigurationActions({ data, isAIGeneratedAction }: Readonly<Acti
 
   return (
     <CarbonStack orientation="horizontal">
-      {type === ACTION_TYPE.MANUAL && (
+      {type === ACTION_TYPE.MANUAL && actionAiGenerationEnabled && (
         <CarbonButton
           className={classNames(local.ghostBtn, local.watsonxBtn)}
           kind="ghost"

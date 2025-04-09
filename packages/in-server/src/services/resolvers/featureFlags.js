@@ -727,6 +727,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'actionAiGenerationEnabled',
+    instanaCtlKey: 'feature.action.ai.generation.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'graphTabEnabled',
     instanaCtlKey: 'feature.graph.tab.enabled',
     defaultValue: true
