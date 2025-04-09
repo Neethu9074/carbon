@@ -1,23 +1,20 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
 import React from 'react';
 
-import { DataTable as CarbonDataTable } from '@instana/components';
-
 import TotalUsageBigNumber from 'in-forge/plugins/oTelLLM/Dashboard/TotalUsageBigNumber';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import AnalyticsTable from 'in-forge/plugins/oTelLLM/Dashboard/AnalyticsTable';
 import TopListByModel from 'in-forge/plugins/oTelLLM/Dashboard/TopListByModel';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, millis, scale } from 'in-services/formatters/number';
 import { days, hours, minutes, seconds } from 'in-services/time';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import EntityLink from 'in-components/EntityLink';
 import { getSingle } from 'in-services/settings';
 import { t } from 'in-i18n';
 
@@ -85,7 +82,6 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
     .filter(metric => metric.includes('llm.service.request.count'))
     .sort()
     .toArray();
-  const getDashboardLink = useGetDashboardLink();
 
   const instanceId = snapshot.get('data').get('resource.service.instance.id');
   const currency = snapshot.get('data').get('resource.currency');
@@ -113,34 +109,6 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
   } else if (timeConfig.windowSize >= minutes.toMillis(30)) {
     minRollup = seconds.toMillis(30);
   }
-
-  const carbonHeaders = [
-    {
-      key: 'llmonitor_agent',
-      header: t('in-forge:plugins.oTelLLM.dashboard.llmonitor_agent')
-    },
-    {
-      key: 'details',
-      header: t('in-forge:plugins.oTelLLM.dashboard.details')
-    }
-  ];
-
-  const carbonRows = [
-    {
-      key: '1',
-      ['llmonitor_agent']: 'LLM',
-      ['details']: (
-        <EntityLink
-          label={'Calls'}
-          href={getDashboardLink(snapshot.get('id'), {
-            pathname: '#/analyze;dataSource=calls',
-            to: timeConfig.to,
-            focusedMoment: timeConfig.to
-          })}
-        />
-      )
-    }
-  ];
 
   return (
     <div>
@@ -638,11 +606,8 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       </Columize>
-      <Columize>
-        <DashboardSection title={t('in-forge:plugins.oTelLLM.dashboard.analytics')}>
-          <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} isExpanded={false} />
-        </DashboardSection>
-      </Columize>
+
+      <AnalyticsTable services={serviceCount} title={t('in-forge:plugins.oTelLLM.dashboard.analytics')} />
     </div>
   );
 }
