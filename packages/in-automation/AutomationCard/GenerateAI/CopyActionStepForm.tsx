@@ -5,7 +5,7 @@
  */
 
 import { Field as FormField, MapForm } from 'formalistic';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Spacer, Typography, IconButton, ValidationBlock, RadioButton, Stack } from '@instana/components';
 import { ActionType, Result } from '@instana/types';
@@ -64,7 +64,8 @@ export default function CopyActionStepForm({
   setExportForm,
   actionNameExists,
   clearActionNameExists,
-  setResultUrl
+  setResultUrl,
+  isAnsibleScript
 }: {
   form: ActionForm;
   setForm: (setValueFunc: (value: ActionForm) => ActionForm) => void;
@@ -73,6 +74,7 @@ export default function CopyActionStepForm({
   actionNameExists?: null | boolean;
   clearActionNameExists?: () => void;
   setResultUrl?: React.Dispatch<React.SetStateAction<Result<any> | null>>;
+  isAnsibleScript?: boolean;
 }) {
   const name = form.get('name');
   const description = form.get('description');
@@ -81,6 +83,11 @@ export default function CopyActionStepForm({
   const availableTags = useActionTags();
   const exportType = exportForm?.get('exportType');
 
+  useEffect(() => {
+    if (isAnsibleScript && setExportForm) {
+      setExportForm(form => form.updateIn(['exportType'], item => item.setValue('github').setTouched(true)));
+    }
+  }, [isAnsibleScript, setExportForm]);
   return (
     <Row>
       <Col lg={7}>
@@ -94,20 +101,22 @@ export default function CopyActionStepForm({
                 </Typography>
                 <Spacer vertical="small" />
                 <Stack direction="horizontal">
-                  <RadioButton
-                    key="internal"
-                    label={t('in-automation:GenerateAIActionDialog.generateScriptDialog.createActionOption')}
-                    checked={field.value === 'internal'}
-                    onChange={() => {
-                      setExportForm(form =>
-                        form
-                          .updateIn(['exportType'], item => item.setValue('internal').setTouched(true))
-                          .updateIn(['agent'], item => item.setValue('').setTouched(true))
-                          .updateIn(['repository'], item => item.setValue('').setTouched(true))
-                      );
-                      setResultUrl?.(null);
-                    }}
-                  />
+                  {!isAnsibleScript && (
+                    <RadioButton
+                      key="internal"
+                      label={t('in-automation:GenerateAIActionDialog.generateScriptDialog.createActionOption')}
+                      checked={field.value === 'internal'}
+                      onChange={() => {
+                        setExportForm(form =>
+                          form
+                            .updateIn(['exportType'], item => item.setValue('internal').setTouched(true))
+                            .updateIn(['agent'], item => item.setValue('').setTouched(true))
+                            .updateIn(['repository'], item => item.setValue('').setTouched(true))
+                        );
+                        setResultUrl?.(null);
+                      }}
+                    />
+                  )}
                   <RadioButton
                     key="github"
                     label={t('in-automation:GenerateAIActionDialog.generateScriptDialog.toGithub')}

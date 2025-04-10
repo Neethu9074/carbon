@@ -109,4 +109,14 @@
   .generateScriptStep {
     margin-bottom: 4rem;
   }
+  .interpreterTypeAvailable {
+    :global .CodeMirror {
+      min-width: 450px;
+    }
+    @media (max-width: 1500px) and (min-height: 600px) {
+      :global .CodeMirror {
+        height: calc(220px - 2.5rem);
+      }
+    }
+  }
 }

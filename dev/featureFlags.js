@@ -184,5 +184,6 @@ module.exports = {
   syntheticSmartAlertDialogViewEnabled: true,
   infraSmartAlertDialogViewEnabled: true,
   websitesSmartAlertDialogViewEnabled: true,
-  mobileAppSmartAlertDialogViewEnabled: true
+  mobileAppSmartAlertDialogViewEnabled: true,
+  ansibleScriptGenerationEnabled: true
 };

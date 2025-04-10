@@ -6,10 +6,10 @@
 
 import React from 'react';
 
-import { Typography, Spacer, Button } from '@instana/components';
+import { Typography, Spacer, Button, RadioButton, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
-
+import classNames from 'classnames';
 import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
@@ -17,12 +17,13 @@ import FeedbackComponent from 'in-automation/AutomationCard/GenerateAI/FeedbackC
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingSection from 'in-automation/AutomationCard/GenerateAI/LoadingSection';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
+import { automationActionAiGenerationUnitEnabled, ansibleScriptGenerationEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import ConsentForm from 'in-automation/components/ConsentForm/ConsentForm';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import yaml from 'js-yaml';
 import FormGroup from 'in-settings/components/FormGroup';
 import { pendingResult } from 'in-services/fixedObjects';
 import Code from 'in-components/form/Code/Code';
@@ -80,12 +81,13 @@ function generateAIActionForm({
   const promptForm = form.get('prompt');
 
   const promptStep = promptForm.get('promptStep');
+  const interpreter = promptForm.get('interpreterType');
   const generateAIScriptActionPayload = {
     actionType: 'SCRIPT' as const,
     tasks: [
       {
         id: '0',
-        interpreter: 'BASH' as const,
+        interpreter: interpreter.value,
         task: promptStep.value.trim()
       }
     ]
@@ -210,6 +212,7 @@ function ScriptSection({
         </Typography>
       </div>
       <div className={locals.CodeWithAISlug}>
+        {/* {        <CodeComponent showLineNumbers={false} code={yaml.safeDump(plaintextScript.toJS())} lang="yaml" />} */}
         <CodeComponent withExpandButton linesToShow={20} code={plaintextScript} lang={'bash'} softWrap />
       </div>
       <FeedbackComponent
@@ -230,6 +233,7 @@ export default function GenerateScriptStep({
 }) {
   const promptForm = form.get('prompt');
   const promptStep = promptForm.get('promptStep');
+  const interpreterType = promptForm.get('interpreterType');
   const { clickEPWTLink } = useSegmentTracker();
   const onChangeValue = (val: string) => {
     setForm(form => form.updateIn(['prompt', 'promptStep'], item => item.setValue(val).setTouched(true)));
@@ -262,6 +266,55 @@ export default function GenerateScriptStep({
         <Col lg={6}>
           <Spacer vertical="normal" />
 
+          {ansibleScriptGenerationEnabled && (
+            <>
+              {interpreterType.map(field => (
+                <div>
+                  <Typography variant="body-regular" noMargin>
+                    Select interpreter for script generation
+                  </Typography>
+                  <Spacer vertical="small" />
+                  <Stack direction="horizontal">
+                    <RadioButton
+                      key="Bash"
+                      label="Bash"
+                      checked={field.value === 'BASH'}
+                      onChange={() => {
+                        setForm(form =>
+                          form.updateIn(['prompt', 'interpreterType'], item => item.setValue('BASH').setTouched(true))
+                        );
+                      }}
+                    />
+                    <RadioButton
+                      key="Powershell"
+                      label="Powershell"
+                      checked={field.value === 'POWERSHELL'}
+                      onChange={() => {
+                        setForm(form =>
+                          form.updateIn(['prompt', 'interpreterType'], item =>
+                            item.setValue('POWERSHELL').setTouched(true)
+                          )
+                        );
+                      }}
+                    />
+                    <RadioButton
+                      key="Ansible"
+                      label="Ansible"
+                      checked={field.value === 'ANSIBLE'}
+                      onChange={() => {
+                        setForm(form =>
+                          form.updateIn(['prompt', 'interpreterType'], item =>
+                            item.setValue('ANSIBLE').setTouched(true)
+                          )
+                        );
+                      }}
+                    />
+                  </Stack>
+                </div>
+              ))}
+            </>
+          )}
+
           {promptStep.map(field => (
             <FormGroup>
               <div className={locals.header}>
@@ -269,7 +322,12 @@ export default function GenerateScriptStep({
                   {t('in-automation:GenerateAIActionDialog.generateScriptDialog.promptTitle')}
                 </Typography>
               </div>
-              <div className={locals.promptCode}>
+              <div
+                className={classNames({
+                  [locals.promptCode]: true,
+                  [locals.interpreterTypeAvailable]: ansibleScriptGenerationEnabled
+                })}
+              >
                 <Code mode="markdown" lineWrapping value={field.value} onChange={onChangeValue} />
                 <GenerateScriptButton form={form} setForm={setForm} />
               </div>
@@ -287,3 +345,31 @@ export default function GenerateScriptStep({
     </>
   );
 }
+
+// import { Card } from '@instana/components';
+// import yaml from 'js-yaml';
+// import React from 'react';
+
+// import { getRawPayload } from 'in-stores/snapshot';
+// import connectTo from 'in-hoc/connectTo';
+// import Code from 'in-components/Code';
+// import { t } from 'in-i18n';
+
+// export default connectTo(
+//   ({ snapshotId }) => {
+//     return {
+//       spec: getRawPayload(snapshotId, 'spec')
+//     };
+//   },
+//   function SpecList({ spec }) {
+//     if (!spec || spec.length === 0) {
+//       return null;
+//     }
+
+//     return (
+//       <Card title={t('in-kubernetes:dashboards.spec')}>
+//         <Code showLineNumbers={false} code={yaml.safeDump(spec.toJS())} lang="yaml" />
+//       </Card>
+//     );
+//   }
+// );

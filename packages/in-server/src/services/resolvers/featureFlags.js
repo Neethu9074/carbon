@@ -727,6 +727,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'actionAiGenerationEnabled',
+    instanaCtlKey: 'feature.action.ai.generation.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'graphTabEnabled',
     instanaCtlKey: 'feature.graph.tab.enabled',
     defaultValue: true
@@ -894,6 +899,11 @@ module.exports = exports = [
   {
     uiClientKey: 'tealiumPrivacyEnabled',
     instanaCtlKey: 'feature.tealium.privacy.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'ansibleScriptGenerationEnabled',
+    instanaCtlKey: 'feature.automation.ansible.script.generation.enabled',
     defaultValue: false
   }
 ];
