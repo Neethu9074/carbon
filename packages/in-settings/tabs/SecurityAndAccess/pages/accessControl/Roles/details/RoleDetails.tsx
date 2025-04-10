@@ -27,7 +27,6 @@ import { containsSomePermissions } from 'in-settings/tabs/SecurityAndAccess/page
 import { ProductAreaPermissionUnion } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/roleForm';
 import PermissionList from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/PermissionList';
 import EditRoleDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/EditRoleDialog';
-import { ProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import useChildUniqueItemCount from 'in-settings/tabs/SecurityAndAccess/hooks/useChildUniqueItemCount';
 import { AreaPermission, Capability, LimitedAccessScope } from 'in-stores/permission';
 import useRoleDetails from 'in-settings/tabs/SecurityAndAccess/hooks/useRoleDetails';
@@ -163,14 +162,14 @@ export default function RoleDetails() {
               />
               <PermissionAccordionItem
                 availablePermissions={[
-                  ProductArea.PCF,
-                  ProductArea.PHMC,
-                  ProductArea.POWERVC,
-                  ProductArea.OPENSTACK,
-                  ProductArea.KUBERNETES,
-                  ProductArea.NUTANIX,
-                  ProductArea.SAP,
-                  ProductArea.VSPHERE
+                  LimitedAccessScope.LIMITED_PCF_SCOPE,
+                  LimitedAccessScope.LIMITED_PHMC_SCOPE,
+                  LimitedAccessScope.LIMITED_POWERVC_SCOPE,
+                  LimitedAccessScope.LIMITED_OPENSTACK_SCOPE,
+                  LimitedAccessScope.LIMITED_KUBERNETES_SCOPE,
+                  LimitedAccessScope.LIMITED_NUTANIX_SCOPE,
+                  LimitedAccessScope.LIMITED_SAP_SCOPE,
+                  LimitedAccessScope.LIMITED_VSPHERE_SCOPE
                 ]}
                 enabledPermissions={permissions}
                 label={t('in-settings:dialogs.role.platformsSectionTitle')}

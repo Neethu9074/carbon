@@ -34,7 +34,6 @@ import MapFormProvider, {
   FormMode,
   useMapFormContext
 } from 'in-settings/components/MapFormProvider/MapFormProvider';
-import { ProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { AreaPermission, Capability, LimitedAccessScope } from 'in-stores/permission';
 import { createRole, updateRole } from 'in-settings/tabs/SecurityAndAccess/api/roles';
 import { close as closeModal } from 'in-components/DialogPresenter/store';
@@ -632,128 +631,128 @@ function PlatformsSection() {
       className={locals.checkboxGroup}
     >
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [ProductArea.PCF])}
+        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_PCF_SCOPE])}
         id="rbac-role-platforms-cloud-foundry"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
-          context: ProductArea.PCF
+          context: LimitedAccessScope.LIMITED_PCF_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
             currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [ProductArea.PCF],
-            permissionsToRemoveOnDisabled: [ProductArea.PCF],
+            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_PCF_SCOPE],
+            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_PCF_SCOPE],
             enabled
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [ProductArea.PHMC])}
+        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_PHMC_SCOPE])}
         id="rbac-role-platforms-power-hmc"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
-          context: ProductArea.PHMC
+          context: LimitedAccessScope.LIMITED_PHMC_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
             currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [ProductArea.PHMC],
-            permissionsToRemoveOnDisabled: [ProductArea.PHMC],
+            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_PHMC_SCOPE],
+            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_PHMC_SCOPE],
             enabled
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [ProductArea.POWERVC])}
+        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_POWERVC_SCOPE])}
         id="rbac-role-platforms-powervc"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
-          context: ProductArea.POWERVC
+          context: LimitedAccessScope.LIMITED_POWERVC_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
             currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [ProductArea.POWERVC],
-            permissionsToRemoveOnDisabled: [ProductArea.POWERVC],
+            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_POWERVC_SCOPE],
+            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_POWERVC_SCOPE],
             enabled
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [ProductArea.OPENSTACK])}
+        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_OPENSTACK_SCOPE])}
         id="rbac-role-platforms-openstack"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
-          context: ProductArea.OPENSTACK
+          context: LimitedAccessScope.LIMITED_OPENSTACK_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
             currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [ProductArea.OPENSTACK],
-            permissionsToRemoveOnDisabled: [ProductArea.OPENSTACK],
+            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_OPENSTACK_SCOPE],
+            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_OPENSTACK_SCOPE],
             enabled
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [ProductArea.KUBERNETES])}
+        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_KUBERNETES_SCOPE])}
         id="rbac-role-platforms-kubernetes"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
-          context: ProductArea.KUBERNETES
+          context: LimitedAccessScope.LIMITED_KUBERNETES_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
             currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [ProductArea.KUBERNETES],
-            permissionsToRemoveOnDisabled: [ProductArea.KUBERNETES],
+            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_KUBERNETES_SCOPE],
+            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_KUBERNETES_SCOPE],
             enabled
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [ProductArea.NUTANIX])}
+        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_NUTANIX_SCOPE])}
         id="rbac-role-platforms-nutanix"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
-          context: ProductArea.NUTANIX
+          context: LimitedAccessScope.LIMITED_NUTANIX_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
             currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [ProductArea.NUTANIX],
-            permissionsToRemoveOnDisabled: [ProductArea.NUTANIX],
+            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_NUTANIX_SCOPE],
+            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_NUTANIX_SCOPE],
             enabled
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [ProductArea.SAP])}
+        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_SAP_SCOPE])}
         id="rbac-role-platforms-sap"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
-          context: ProductArea.SAP
+          context: LimitedAccessScope.LIMITED_SAP_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
             currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [ProductArea.SAP],
-            permissionsToRemoveOnDisabled: [ProductArea.SAP],
+            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_SAP_SCOPE],
+            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_SAP_SCOPE],
             enabled
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [ProductArea.VSPHERE])}
+        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_VSPHERE_SCOPE])}
         id="rbac-role-platforms-vsphere"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
-          context: ProductArea.VSPHERE
+          context: LimitedAccessScope.LIMITED_VSPHERE_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
             currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [ProductArea.VSPHERE],
-            permissionsToRemoveOnDisabled: [ProductArea.VSPHERE],
+            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_VSPHERE_SCOPE],
+            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_VSPHERE_SCOPE],
             enabled
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
