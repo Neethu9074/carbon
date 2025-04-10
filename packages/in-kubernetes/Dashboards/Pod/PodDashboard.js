@@ -23,6 +23,7 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
+import { LOG_KUBERNETES_POD_NAME } from 'in-logging/queryBuilder';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -163,12 +164,18 @@ function renderButtonLine({ podId, timeConfig, result }) {
   );
 }
 
-function renderButtonLineSecondary({ timeConfig, podId, result, kubernetesTimeShiftSelectTracker }) {
+function renderButtonLineSecondary(props) {
+  const { timeConfig, podId, result, kubernetesTimeShiftSelectTracker } = props;
   const podName = result?.data?.label;
 
   return (
     <>
-      <LoggingIntegrationButtons addMargin kubernetesPodName={podName} timeConfig={timeConfig} />
+      <LoggingIntegrationButtons
+        addMargin
+        tagFilter={{ name: LOG_KUBERNETES_POD_NAME, value: podName }}
+        kubernetesPodName={podName}
+        timeConfig={timeConfig}
+      />
       {beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled && (
         <TimeShiftDropdown
           onChange={offset =>
