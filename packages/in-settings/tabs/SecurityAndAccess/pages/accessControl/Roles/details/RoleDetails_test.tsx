@@ -67,7 +67,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/details/R
     const { getByText } = render(<RoleDetails />);
     const websitesSection = getByText('Websites', { selector });
     const mobileAppsSection = getByText('Mobile apps', { selector });
-    const businessMonitoringSection = getByText('Business monitoring', { selector });
+    const businessProcessesSection = getByText('Business processes', { selector });
     const applicationsSection = getByText('Applications', { selector });
     const platformsSection = getByText('Platforms', { selector });
     const infrastructureSection = getByText('Infrastructure', { selector });
@@ -83,7 +83,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/details/R
     // Then
     expect(websitesSection).toBeTruthy();
     expect(mobileAppsSection).toBeTruthy();
-    expect(businessMonitoringSection).toBeTruthy();
+    expect(businessProcessesSection).toBeTruthy();
     expect(applicationsSection).toBeTruthy();
     expect(platformsSection).toBeTruthy();
     expect(infrastructureSection).toBeTruthy();

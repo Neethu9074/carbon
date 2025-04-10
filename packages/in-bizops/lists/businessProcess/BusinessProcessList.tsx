@@ -123,7 +123,6 @@ export default function BizOpsList() {
             <CustomServerTableWithUrlState
               get={getBusinessProcessListData}
               timeConfig={timeConfig}
-              cardTitle={t('in-bizops:lists.cardTitle')}
               queryTagFilter={queryTagFilter}
               tagCatalog={tagCatalog?.data}
             />
@@ -131,7 +130,6 @@ export default function BizOpsList() {
             <ServerTableWithUrlState
               get={getBusinessProcessListData}
               timeConfig={timeConfig}
-              cardTitle={t('in-bizops:lists.cardTitle')}
               queryTagFilter={queryTagFilter}
               tagCatalog={tagCatalog?.data}
             />

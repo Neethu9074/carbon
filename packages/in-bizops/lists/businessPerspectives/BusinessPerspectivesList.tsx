@@ -94,7 +94,6 @@ export default function BusinessPerspectivesList() {
           <ServerTableWithUrlState
             get={getBusinessPerspectivesListData}
             timeConfig={timeConfig}
-            cardTitle={t('in-bizops:perspectives.lists.perspectives')}
             rightHeader={NewPerspectiveButton}
           />
         </LeftRightPadding>
