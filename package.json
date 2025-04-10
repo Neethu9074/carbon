@@ -25,7 +25,7 @@
     "start": "yarn dev",
     "dev:watch": "HOT_RELOAD=true yarn dev",
     "storybook": "BUILD_DEV=true NODE_ENV=development gulp prepareTestExecution && cd storybook && yarn install && yarn run foundation-build-copy && DEV_TOOLS=eval STORYBOOK=true BUILD_DEV=true NODE_ENV=development node --max-old-space-size=4096 node_modules/.bin/storybook dev -p 9001 -c config --no-version-updates",
-    "storybookBuild": "gulp prepareTestExecution && cd storybook && yarn install && yarn run foundation-build-copy && node --max-old-space-size=4096 node_modules/.bin/storybook build -c config -o ../storybookTarget",
+    "storybookBuild": "gulp prepareTestExecution && cd storybook && echo yarn install && echo Temporary disabled, see INSTA-32629 : yarn run foundation-build-copy && echo node --max-old-space-size=4096 node_modules/.bin/storybook build -c config -o ../storybookTarget",
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --write \"packages/**/*.{js,ts,tsx,less,mless,css}\"",
     "postinstall": "./build/postInstall"
