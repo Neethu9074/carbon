@@ -56,14 +56,13 @@ export default function Alert({
   renderAlertConfiguration,
   showActionButton = true,
   getAllowedPlaceholders = () => [],
-  displayEditAction = true,
   displayTearSheetActions = false,
   getLinkToEditOrDuplicateSmartAlertTearSheet,
-  displayDuplicateAction = true,
   canConfigureGlobalAlertConfigs = false,
   canConfigureIndividualAlertConfigs = false,
   hideAlertIcon = false,
-  alertDisplayMode
+  alertDisplayMode,
+  urlParams
 }) {
   const { goToPath, location, navigate } = useNavigation();
   const { trackCta } = useSegmentTracking();
@@ -140,6 +139,7 @@ export default function Alert({
                 alertConfigId={alertConfigId}
                 openDialog={() => openOldDialog(isCopy)}
                 useSmartAlertCreateUrl={getLinkToEditOrDuplicateSmartAlertTearSheet}
+                urlParams={urlParams}
               />
             );
           }}
@@ -180,10 +180,8 @@ export default function Alert({
           onConfigDeleteTrigger={() => {
             trackCta(ALERTING_DELETE_TRIGGER, alertConfigForTracking);
           }}
-          displayEditAction={displayEditAction}
           displayTearSheetActions={displayTearSheetActions}
           getLinkToEditOrDuplicateSmartAlertTearSheet={getLinkToEditOrDuplicateSmartAlertTearSheet}
-          displayDuplicateAction={displayDuplicateAction}
           hideAlertIcon={hideAlertIcon}
           alertDisplayMode={alertDisplayMode}
         />
@@ -234,12 +232,11 @@ Alert.propTypes = {
   }).isRequired,
   showActionButton: PropTypes.bool,
   getAllowedPlaceholders: PropTypes.func,
-  displayEditAction: PropTypes.bool,
   displayTearSheetActions: PropTypes.bool,
   getLinkToEditOrDuplicateSmartAlertTearSheet: PropTypes.func,
-  displayDuplicateAction: PropTypes.bool,
   canConfigureGlobalAlertConfigs: PropTypes.bool,
   canConfigureIndividualAlertConfigs: PropTypes.bool,
   hideAlertIcon: PropTypes.bool,
-  alertDisplayMode: PropTypes.string
+  alertDisplayMode: PropTypes.string,
+  urlParams: PropTypes.object
 };

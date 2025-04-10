@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { AlertConfigType, AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
+import { UrlProps } from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn';
 //@ts-expect-error TS migration
 import { MoreMenuButton } from 'in-components/MoreMenu';
 import { ALERTING_EDIT, ALERTING_CLONE_TRIGGER } from 'in-services/tracking/eventNames';
@@ -23,19 +24,20 @@ export function TearSheetEditActionHandler<AlertConfig extends AlertConfigType>(
   alertConfig,
   openOldDialog,
   useSmartAlertCreateUrl,
+  urlParams,
   closeMenu
 }: {
   alertConfig: AlertConfig & { websiteId?: string; mobileAppId?: string };
   openOldDialog: VoidFunction;
   useSmartAlertCreateUrl: (args: AlertURLProps) => string;
   closeMenu?: () => void;
+  urlParams: UrlProps;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({
     alertId: alertConfig.id,
     alertConfigCreated: alertConfig.created,
-    editMode: true,
-    ...(alertConfig?.websiteId && { websiteId: alertConfig?.websiteId }),
-    ...(alertConfig?.mobileAppId && { mobileAppId: alertConfig?.mobileAppId })
+    ...(urlParams?.isGlobal && { isGlobal: urlParams.isGlobal }),
+    editMode: true
   });
   const { trackCta } = useSegmentTracking();
 
@@ -67,19 +69,20 @@ export function TearSheetCloneActionHandler<AlertConfig extends AlertConfigType>
   alertConfig,
   openOldDialog,
   useSmartAlertCreateUrl,
-  closeMenu
+  closeMenu,
+  urlParams
 }: {
   alertConfig: AlertConfig & { websiteId?: string; mobileAppId?: string };
   openOldDialog: VoidFunction;
   useSmartAlertCreateUrl: (args: AlertURLProps) => string;
   closeMenu?: () => void;
+  urlParams: UrlProps;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({
     alertId: alertConfig.id,
     alertConfigCreated: alertConfig.created,
-    duplicateMode: true,
-    ...(alertConfig?.websiteId && { websiteId: alertConfig?.websiteId }),
-    ...(alertConfig?.mobileAppId && { mobileAppId: alertConfig?.mobileAppId })
+    ...(urlParams?.isGlobal && { isGlobal: urlParams.isGlobal }),
+    duplicateMode: true
   });
   const { trackCta } = useSegmentTracking();
 
@@ -112,19 +115,20 @@ export function ShowSelectorDialog<AlertConfig extends AlertConfigType>({
   alertConfig,
   alertConfigId,
   openDialog,
-  useSmartAlertCreateUrl
+  useSmartAlertCreateUrl,
+  urlParams
 }: {
   isCopy: boolean;
   alertConfig: AlertConfig & { websiteId?: string; mobileAppId?: string };
   alertConfigId: string;
   openDialog: VoidFunction;
   useSmartAlertCreateUrl: (args: AlertURLProps) => string;
+  urlParams: UrlProps;
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({
     alertId: alertConfig.id,
     alertConfigCreated: alertConfig.created,
-    ...(alertConfig?.websiteId && { websiteId: alertConfig?.websiteId }),
-    ...(alertConfig?.mobileAppId && { mobileAppId: alertConfig?.mobileAppId }),
+    ...(urlParams?.isGlobal && { isGlobal: urlParams.isGlobal }),
     ...(isCopy && { duplicateMode: isCopy }),
     ...(!isCopy && alertConfigId && { editMode: true })
   });

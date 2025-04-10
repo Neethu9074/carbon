@@ -155,12 +155,12 @@ export function getEntityNameAsSubtitle(config, isGlobalSmartAlertConfig) {
   }
   const { applicationIds } = config;
   const label = t('in-alerting:smartAlerts.applications.inventory.numberOfApplicationsSelected', {
-    count: applicationIds.length
+    count: applicationIds?.length
   });
   return <ListSubtitle label={label} icon={'lib_application'} />;
 }
 
-export function createTableColumnDefinition(configsCategory, trackCta) {
+export function createTableColumnDefinition(configsCategory, trackCta, useSmartAlertCreateUrl, urlParams) {
   const isGlobalSmartAlertConfig = isCategoryGlobal(configsCategory);
   const showActionButtons = isGlobalSmartAlertConfig
     ? role.canConfigureGlobalApplicationSmartAlerts
@@ -208,6 +208,8 @@ export function createTableColumnDefinition(configsCategory, trackCta) {
             isLoading={loading}
             actionHandlers={actionHandlers(isGlobalSmartAlertConfig, trackCta)}
             icon={'lib_menu_more_vertical'}
+            useSmartAlertCreateUrl={useSmartAlertCreateUrl}
+            urlParams={urlParams}
           />
         )
       );

@@ -16,6 +16,7 @@ import {
   createTableColumnDefinition
 } from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
 import { getAllGlobalAlertConfigsRelatedToApplicationId } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
+import { useSmartAlertCreateUrl as useSmartAlertEditUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { categoryLocal, isCategoryGlobal, sortOptions } from 'in-alerting/smart-alerts/components/list/constants';
 import SmartAlertsTableWithUrlState from 'in-alerting/smart-alerts/components/list/SmartAlertsTableWithUrlState';
 import SmartAlertsListWithUrlState from 'in-alerting/smart-alerts/components/list/SmartAlertsListWithUrlState';
@@ -35,12 +36,16 @@ import { t, Trans } from 'in-i18n';
 export default function Alerts({ applicationId, boundaryScope, location, data }) {
   const [configsCategory, setConfigsCategory] = useUrlBasedCategory(categoryLocal);
   const { trackCta } = useSegmentTracking();
+  const getLinkToEditSmartAlert = useSmartAlertEditUrl();
+  const urlParams = {
+    isGlobal: isCategoryGlobal(configsCategory)
+  };
 
   return (
     <>
       {smartAlertCarbonTableEnabled ? (
         <SmartAlertsTableWithUrlState
-          columnDefinitions={createTableColumnDefinition(configsCategory, trackCta)}
+          columnDefinitions={createTableColumnDefinition(configsCategory, trackCta, getLinkToEditSmartAlert, urlParams)}
           getLocalAlertConfigsFetchFunction={() => getAllAlertConfigs(applicationId, { asObservable: true })}
           getGlobalAlertConfigFetchFunction={() =>
             getAllGlobalAlertConfigsRelatedToApplicationId(applicationId, { asObservable: true })
