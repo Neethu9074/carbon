@@ -19,6 +19,7 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn/Ce
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { twoDecimalPlaces } from 'in-services/formatters/number';
+import ArticleContent from 'in-components/ArticleContent';
 import { t } from 'in-i18n';
 
 interface DeploymentStatsProps {
@@ -81,7 +82,7 @@ function getSpecificErrorNotification(value: string) {
         <EntityPageMainNotification
           icon="lib_missing_data"
           title={value}
-          explanation={() => t('in-kubernetes:dashboards.kubecost.noKubecostData')}
+          explanation={() => <ArticleContent markdownContent={t('in-kubernetes:dashboards.kubecost.noKubecostData')} />}
         />
       </CenterAlignmentColumn>
     </Li>
