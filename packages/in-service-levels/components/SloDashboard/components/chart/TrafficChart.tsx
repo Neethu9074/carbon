@@ -55,13 +55,13 @@ export default function TrafficChart({
   const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateSloGranularity(timeConfig);
-  const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
-    configuration,
-    timeConfig => sloMetrics.traffic.timeSeries({ configId, timeConfig, granularity }),
+  const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics({
+    sloConfig: configuration,
+    getMetricConfigForTimeConfig: timeConfig => sloMetrics.traffic.timeSeries({ configId, timeConfig, granularity }),
     timeConfig,
     timeWindows,
     granularity
-  );
+  });
 
   const label = getMetricLabels({ entity, indicator });
   const renderer = useLineWithMissingDataIndicatorRenderer({

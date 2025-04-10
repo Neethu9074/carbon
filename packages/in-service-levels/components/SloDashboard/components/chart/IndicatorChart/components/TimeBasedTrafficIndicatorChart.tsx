@@ -66,7 +66,7 @@ export default function TimeBasedTrafficIndicatorChart({
   const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateSloGranularity(timeConfig);
-  const result = useTimeBasedIndicatorMetrics({ configuration, granularity, timeWindows });
+  const result = useTimeBasedIndicatorMetrics({ configuration, granularity, timeWindows, timeConfig });
 
   const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
   const metricValues = copyFirstBucketOfSubsequentDataSeries(metrics.map(metric => metric.values as MetricDataSeries));

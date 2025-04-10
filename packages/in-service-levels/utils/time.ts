@@ -247,3 +247,23 @@ export function getMaxTimeWindowDurationValue(unit: DurationUnitType): number {
       return 12;
   }
 }
+
+export function adjustTimeWindowsToTimeConfig(timeConfig: TimeConfig, timeWindows: TimeConfig[]): TimeConfig[] {
+  const now = new Date().getTime();
+  const timeConfigStart = (timeConfig.to ?? now) - timeConfig.windowSize;
+  const timeConfigEnd = timeConfig.to ?? now;
+
+  return timeWindows.map(timeWindow => {
+    const timeWindowStart = (timeWindow.to ?? now) - timeWindow.windowSize;
+    const timeWindowEnd = timeWindow.to ?? now;
+
+    const adjustedStart = timeWindowStart < timeConfigStart ? timeConfigStart : timeWindowStart;
+    const adjustedEnd = timeWindowEnd > timeConfigEnd ? timeConfigEnd : timeWindowEnd;
+
+    return {
+      ...timeWindow,
+      to: adjustedEnd,
+      windowSize: adjustedEnd - adjustedStart
+    };
+  });
+}

@@ -36,9 +36,9 @@ export default function SloBurnRateChart({
   title
 }: SloBurnRateChartPeops) {
   const granularity = calculateSloGranularity(timeConfig);
-  const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
-    configuration,
-    timeConfig =>
+  const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics({
+    sloConfig: configuration,
+    getMetricConfigForTimeConfig: timeConfig =>
       sloMetrics.burnRate.timeSeries({
         configId: configuration.id!,
         timeConfig,
@@ -47,7 +47,7 @@ export default function SloBurnRateChart({
     timeConfig,
     timeWindows,
     granularity
-  );
+  });
 
   const metricsWithGranularity = metricResult
     ? { ...metricResult, granularity: metricResult?.granularity ?? granularity }

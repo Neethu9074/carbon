@@ -65,7 +65,7 @@ export default function TimeBasedLatencyIndicatorChart({
   const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateSloGranularity(timeConfig);
-  const result = useTimeBasedIndicatorMetrics({ configuration, granularity, timeWindows, aggregation });
+  const result = useTimeBasedIndicatorMetrics({ configuration, granularity, timeWindows, aggregation, timeConfig });
 
   const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
   const metricValues = copyFirstBucketOfSubsequentDataSeries(metrics.map(metric => metric.values as MetricDataSeries));
