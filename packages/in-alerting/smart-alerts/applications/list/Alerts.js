@@ -60,6 +60,7 @@ export default function Alerts({ applicationId, boundaryScope, location, data })
                 location={location}
                 boundaryScope={boundaryScope}
                 defaultBoundaryScope={data?.boundaryScope}
+                buttonName={t('in-alerting:smartAlerts.createSmartAlert')}
               />
             )
           }
