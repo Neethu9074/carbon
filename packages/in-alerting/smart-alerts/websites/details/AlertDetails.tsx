@@ -24,19 +24,26 @@ import {
 import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/websites/hooks/useSmartAlertCreateUrl';
 //@ts-expect-error TS migration
 import AlertConfiguration from 'in-alerting/smart-alerts/websites/details/AlertConfiguration';
+import {
+  websitesSmartAlertFullScreenDesignEnabled,
+  websitesSmartAlertDialogViewEnabled
+} from 'in-services/featureFlags';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-websites/navigation/matrix';
 //@ts-expect-error TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { severityPlaceholderList } from 'in-alerting/smart-alerts/utils/commonPlaceholderConstants';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
-import { websitesSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
-import { CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 const endpointConfig = { asObservable: true };
+const alertDisplayMode = getSmartAlertDisplayMode(
+  websitesSmartAlertDialogViewEnabled,
+  websitesSmartAlertFullScreenDesignEnabled
+);
 
 interface AlertDetailsProps {
   timeConfig: TimeConfig;
@@ -68,10 +75,8 @@ export default function AlertDetails(props: AlertDetailsProps) {
       )}
       canConfigureIndividualAlertConfigs={role?.canConfigureWebsiteSmartAlerts}
       getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
-      // TODO chnage with FF
-      displayTearSheetActions={false}
-      alertDisplayMode={websitesSmartAlertFullScreenDesignEnabled ? CHOICE_DIALOG : null}
       getAllowedPlaceholders={() => severityPlaceholderList}
+      alertDisplayMode={alertDisplayMode}
     />
   );
 }

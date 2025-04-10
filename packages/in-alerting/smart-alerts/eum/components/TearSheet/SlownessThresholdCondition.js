@@ -87,7 +87,7 @@ export default function SlownessThresholdCondition({
           <AlertTypography
             variant="body-regular"
             color="color900"
-            content={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
+            content={t('in-alerting:smartAlerts.websites.advanced.thresholdType')}
           />
         }
         titleWidth="8rem"

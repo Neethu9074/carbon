@@ -6,17 +6,28 @@
 
 import React from 'react';
 
-// import {
-//   TearSheetEditActionHandler,
-//   TearSheetCloneActionHandler
-// } from 'in-alerting/smart-alerts/eum/components/TearSheet/TearSheetActionHandlers';
+import {
+  TearSheetEditActionHandler,
+  TearSheetCloneActionHandler
+} from 'in-alerting/smart-alerts/eum/components/TearSheet/TearSheetActionHandlers';
+import {
+  websitesSmartAlertFullScreenDesignEnabled,
+  websitesSmartAlertDialogViewEnabled
+} from 'in-services/featureFlags';
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/websites/details/AlertDetails';
-import { websitesSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
+import { DIALOG, FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { eumType } from 'in-alerting/smart-alerts/websites/constants';
+
+const alertDisplayMode = getSmartAlertDisplayMode(
+  websitesSmartAlertDialogViewEnabled,
+  websitesSmartAlertFullScreenDesignEnabled
+);
 
 function handleClone(config) {
   openSmartAlertDialog(config, true);
@@ -26,29 +37,29 @@ function handleEdit(config) {
   openSmartAlertDialog(config);
 }
 
-// function HandleEditNew(config) {
-//   return (
-//     <TearSheetEditActionHandler
-//       id={config.id}
-//       created={config.created}
-//       eumId={config.websiteId}
-//       eumType={eumType}
-//       alertConfig={config}
-//     />
-//   );
-// }
+function HandleEditNew(config) {
+  return (
+    <TearSheetEditActionHandler
+      id={config.id}
+      created={config.created}
+      eumId={config.websiteId}
+      eumType={eumType}
+      alertConfig={config}
+    />
+  );
+}
 
-// function HandleCloneNew(config) {
-//   return (
-//     <TearSheetCloneActionHandler
-//       id={config.id}
-//       created={config.created}
-//       eumId={config.websiteId}
-//       eumType={eumType}
-//       alertConfig={config}
-//     />
-//   );
-// }
+function HandleCloneNew(config) {
+  return (
+    <TearSheetCloneActionHandler
+      id={config.id}
+      created={config.created}
+      eumId={config.websiteId}
+      eumType={eumType}
+      alertConfig={config}
+    />
+  );
+}
 
 function openSmartAlertDialog(config, isCopy = false) {
   addActiveDialog(
@@ -65,16 +76,16 @@ function openSmartAlertDialog(config, isCopy = false) {
 }
 
 export const actionHandlers = {
-  ...(!websitesSmartAlertFullScreenDesignEnabled && { handleClone: config => handleClone(config) }),
-  // ...(websitesSmartAlertFullScreenDesignEnabled && { handleCloneNew: config => HandleCloneNew(config) }),
-  ...(websitesSmartAlertFullScreenDesignEnabled && {
+  ...(alertDisplayMode === DIALOG && { handleClone: config => handleClone(config) }),
+  ...(alertDisplayMode === FULLSCREEN && { handleCloneNew: config => HandleCloneNew(config) }),
+  ...(alertDisplayMode === CHOICE_DIALOG && {
     handleEditSelector: config => handleEdit(config)
   }),
   handleDelete: (id, setIsSaving, configName, trackCta) =>
     handleDelete(id, setIsSaving, configName, baseUrl.WEBSITE, trackCta),
-  ...(!websitesSmartAlertFullScreenDesignEnabled && { handleEdit: config => handleEdit(config) }),
-  // ...(websitesSmartAlertFullScreenDesignEnabled && { handleEditNew: config => HandleEditNew(config) }),
-  ...(websitesSmartAlertFullScreenDesignEnabled && {
+  ...(alertDisplayMode === DIALOG && { handleEdit: config => handleEdit(config) }),
+  ...(alertDisplayMode === FULLSCREEN && { handleEditNew: config => HandleEditNew(config) }),
+  ...(alertDisplayMode === CHOICE_DIALOG && {
     handleCloneSelector: config => handleClone(config)
   }),
   handleToggleEnabled: (enabled, id, setIsSaving) => handleToggleEnabled(enabled, id, setIsSaving, baseUrl.WEBSITE)
