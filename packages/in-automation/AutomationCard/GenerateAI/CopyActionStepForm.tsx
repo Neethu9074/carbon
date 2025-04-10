@@ -142,84 +142,84 @@ export default function CopyActionStepForm({
           </>
         )}
 
-        {type.value === ACTION_TYPE.MANUAL ||
-          (type.value === ACTION_TYPE.SCRIPT && exportType && exportType.value === 'internal' && (
-            <>
-              <Typography variant="heading-02">{t('in-automation:GenerateAIActionDialog.actionDetails')}</Typography>
-              {name.map(field => (
-                <FormGroup>
-                  <Label htmlFor="action-name" hasError={(!field.valid && field.touched) || actionNameExists}>
-                    {t('in-automation:name')}
-                  </Label>
-                  <Input
-                    id="action-name"
-                    type="text"
-                    value={field.value}
-                    onChange={e => {
-                      setForm(form => form.updateIn(['name'], item => item.setValue(e.target.value).setTouched(true)));
-                      if (clearActionNameExists) clearActionNameExists();
-                    }}
-                    hasError={(!field.valid && field.touched) || (actionNameExists ?? false)}
-                    maxLength={256}
-                    autoFocus
-                  />
-                  <TouchedMessages field={field} />
-                  {actionNameExists && (
-                    <ValidationBlock>
-                      {t('in-automation:GenerateAIActionDialog.nameExists', { name: name.value, type: type.value })}
-                    </ValidationBlock>
-                  )}
-                  <HelpText>{t('in-automation:ActionCatalog.showsUpInTheListOfActions')}</HelpText>
-                </FormGroup>
-              ))}
-              {description.map(field => (
-                <FormGroup>
-                  <Label htmlFor="action-description" hasError={!field.valid && field.touched}>
-                    {t('in-automation:description')}
-                  </Label>
-                  <TextArea
-                    id="action-description"
-                    value={field.value}
-                    onChange={e =>
-                      setForm(form =>
-                        form.updateIn(['description'], item =>
-                          item.setValue((e.target as HTMLTextAreaElement).value).setTouched(true)
-                        )
+        {(type.value === ACTION_TYPE.MANUAL ||
+          (type.value === ACTION_TYPE.SCRIPT && exportType && exportType.value === 'internal')) && (
+          <>
+            <Typography variant="heading-02">{t('in-automation:GenerateAIActionDialog.actionDetails')}</Typography>
+            {name.map(field => (
+              <FormGroup>
+                <Label htmlFor="action-name" hasError={(!field.valid && field.touched) || actionNameExists}>
+                  {t('in-automation:name')}
+                </Label>
+                <Input
+                  id="action-name"
+                  type="text"
+                  value={field.value}
+                  onChange={e => {
+                    setForm(form => form.updateIn(['name'], item => item.setValue(e.target.value).setTouched(true)));
+                    if (clearActionNameExists) clearActionNameExists();
+                  }}
+                  hasError={(!field.valid && field.touched) || (actionNameExists ?? false)}
+                  maxLength={256}
+                  autoFocus
+                />
+                <TouchedMessages field={field} />
+                {actionNameExists && (
+                  <ValidationBlock>
+                    {t('in-automation:GenerateAIActionDialog.nameExists', { name: name.value, type: type.value })}
+                  </ValidationBlock>
+                )}
+                <HelpText>{t('in-automation:ActionCatalog.showsUpInTheListOfActions')}</HelpText>
+              </FormGroup>
+            ))}
+            {description.map(field => (
+              <FormGroup>
+                <Label htmlFor="action-description" hasError={!field.valid && field.touched}>
+                  {t('in-automation:description')}
+                </Label>
+                <TextArea
+                  id="action-description"
+                  value={field.value}
+                  onChange={e =>
+                    setForm(form =>
+                      form.updateIn(['description'], item =>
+                        item.setValue((e.target as HTMLTextAreaElement).value).setTouched(true)
                       )
-                    }
-                    hasError={!field.valid && field.touched}
-                  />
-                  <TouchedMessages field={field} />
-                  <HelpText>{t('in-automation:ActionCatalog.showsUpInTheActionDescription')}</HelpText>
-                </FormGroup>
-              ))}
-              {tags.map(field => (
-                <FormGroup>
-                  <Label htmlFor="action-tags" hasError={!field.valid && field.touched}>
-                    {t('in-automation:tagsLabel')}
-                  </Label>
-                  <CreatableTagSelect
-                    id="action-tags"
-                    isLoading={isLoading(availableTags)}
-                    tags={availableTags.data}
-                    value={field.value}
-                    onChange={tags =>
-                      setForm(form => form.updateIn(['tags'], item => item.setValue(tags).setTouched(true)))
-                    }
-                  />
-                </FormGroup>
-              ))}
-              <Typography variant="heading-02">
-                {t('in-automation:GenerateAIActionDialog.actionConfiguration')}
-              </Typography>
-              {type.map(field => (
-                <FormGroup>
-                  <Label htmlFor="action-type">{t('in-automation:type')}</Label>
-                  <Typography variant="body-regular">{ACTION_TRANSLATIONS[field.value]}</Typography>
-                </FormGroup>
-              ))}
-            </>
-          ))}
+                    )
+                  }
+                  hasError={!field.valid && field.touched}
+                />
+                <TouchedMessages field={field} />
+                <HelpText>{t('in-automation:ActionCatalog.showsUpInTheActionDescription')}</HelpText>
+              </FormGroup>
+            ))}
+            {tags.map(field => (
+              <FormGroup>
+                <Label htmlFor="action-tags" hasError={!field.valid && field.touched}>
+                  {t('in-automation:tagsLabel')}
+                </Label>
+                <CreatableTagSelect
+                  id="action-tags"
+                  isLoading={isLoading(availableTags)}
+                  tags={availableTags.data}
+                  value={field.value}
+                  onChange={tags =>
+                    setForm(form => form.updateIn(['tags'], item => item.setValue(tags).setTouched(true)))
+                  }
+                />
+              </FormGroup>
+            ))}
+            <Typography variant="heading-02">
+              {t('in-automation:GenerateAIActionDialog.actionConfiguration')}
+            </Typography>
+            {type.map(field => (
+              <FormGroup>
+                <Label htmlFor="action-type">{t('in-automation:type')}</Label>
+                <Typography variant="body-regular">{ACTION_TRANSLATIONS[field.value]}</Typography>
+              </FormGroup>
+            ))}
+          </>
+        )}
 
         {type.value === ACTION_TYPE.SCRIPT &&
           exportForm &&
