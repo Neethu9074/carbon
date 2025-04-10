@@ -100,6 +100,12 @@
 
   .noResults {
     background-color: var(--cds-layer);
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: var(--ids-font-size-option-body-regular);
   }
   .step2Description {
     display: flex;

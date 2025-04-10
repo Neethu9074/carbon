@@ -69,19 +69,19 @@ function AIExplainedContentManualAction() {
         <div className={locals.bullet}>
           {'- '}
           <div>
-            <Trans i18nKey={t('in-automation:AITooltip.manualSection.section2.section2EventName')} />
+            <Trans i18nKey="in-automation:AITooltip.manualSection.section2.section2EventName" />
           </div>
         </div>
         <div className={locals.bullet}>
           {'- '}
           <div>
-            <Trans i18nKey={t('in-automation:AITooltip.manualSection.section2.section2Description')} />
+            <Trans i18nKey="in-automation:AITooltip.manualSection.section2.section2Description" />
           </div>
         </div>
         <div className={locals.bullet}>
           {'- '}
           <div>
-            <Trans i18nKey={t('in-automation:AITooltip.manualSection.section2.section2Entitytype')} />
+            <Trans i18nKey="in-automation:AITooltip.manualSection.section2.section2Entitytype" />
           </div>
         </div>
       </div>
