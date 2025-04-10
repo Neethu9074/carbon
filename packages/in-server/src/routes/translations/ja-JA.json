@@ -1,5 +1,13 @@
 {
     "mainNavigation": {
+      "monitoringObservability": "監視と観測可能性",
+      "criticalEvents": "重大なイベント",
+      "warningEvents": "警告イベント",
+      "incident": "事件",
+      "activeTotal": "アクティブ/合計",
+      "shared": "共有",
+      "customerDashboard": "カスタムダッシュボード",
+      "owner": "所有者",
       "viewSwitcherCustomDashboards": "カスタム・ダッシュボード",
       "viewSwitcherLabelWebsitesAndMobileApps": "Webサイトおよびモバイル・アプリ",
       "viewSwitcherLabelWebsites": "Web サイト",

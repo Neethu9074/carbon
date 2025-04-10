@@ -15,6 +15,7 @@ import {
   editActionsColumnDefinition,
   createTableColumnDefinition
 } from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
+import { useSmartAlertCreateUrl as useSmartAlertEditUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { CreateSmartAlertButtonForCarbonTable } from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getAllGlobalAlertConfigs } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
@@ -34,12 +35,16 @@ import { t, Trans } from 'in-i18n';
 export default function GlobalInventorySmartAlertsList({ onNoData }) {
   const [configsCategory, setConfigsCategory] = useUrlBasedCategory(categoryLocal);
   const { trackCta } = useSegmentTracking();
+  const getLinkToEditSmartAlert = useSmartAlertEditUrl();
+  const urlParams = {
+    isGlobal: isCategoryGlobal(configsCategory)
+  };
 
   return (
     <>
       {smartAlertCarbonTableEnabled ? (
         <SmartAlertsTableWithUrlState
-          columnDefinitions={createTableColumnDefinition(configsCategory, trackCta)}
+          columnDefinitions={createTableColumnDefinition(configsCategory, trackCta, getLinkToEditSmartAlert, urlParams)}
           getLocalAlertConfigsFetchFunction={() =>
             getAllAlertConfigsForAllApplications([], {
               asObservable: true
@@ -58,7 +63,12 @@ export default function GlobalInventorySmartAlertsList({ onNoData }) {
           }
           isSelectable={false}
           toolBarContent={
-            role.canConfigureGlobalApplicationSmartAlerts && <CreateSmartAlertButtonForCarbonTable isGlobal />
+            role.canConfigureGlobalApplicationSmartAlerts && (
+              <CreateSmartAlertButtonForCarbonTable
+                isGlobal
+                buttonName={t('in-alerting:smartAlerts.createSmartAlert')}
+              />
+            )
           }
           noDataHeader={
             isCategoryGlobal(configsCategory)

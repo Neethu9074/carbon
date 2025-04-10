@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
+import React, { useState } from 'react';
 import { Map } from 'immutable';
-import React from 'react';
 
 import { Card } from '@instana/components';
 
@@ -69,6 +69,8 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
   const aggregation = event.getIn(['metadata', 'smartAlertInfo', 'metricAggregation'], '');
   const metricName = event.getIn(['metadata', 'smartAlertInfo', 'metricName'], '');
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
+
+  const [aggregatedEntitiesOpen, setAggregatedEntitiesOpen] = useState(true);
 
   if (!alertConfig) {
     return <LoadingIndicator size="xxxl" />;
@@ -135,6 +137,8 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
                 ruleWithThreshold={ruleWithThreshold}
                 tagFilterExpression={alertConfigWithGroupingExpression.tagFilterExpression}
                 metricLabel={metricLabel}
+                aggregatedEntitiesOpen={aggregatedEntitiesOpen}
+                setAggregatedEntitiesOpen={setAggregatedEntitiesOpen}
               />
             )}
             <div className={locals.withPadding}>

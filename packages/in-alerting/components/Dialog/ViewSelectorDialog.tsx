@@ -8,6 +8,8 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+//@ts-expect-error TS migration
+import { getTrackingAlertConfig } from 'in-alerting/smart-alerts/utils/segmentUtils';
 import { ALERTING_CLONE_TRIGGER, ALERTING_CREATE, ALERTING_EDIT } from 'in-services/tracking/eventNames';
 import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
@@ -35,6 +37,7 @@ export default function ViewSelectorDialog<AlertConfig extends AlertConfigType>(
   trackType?: string;
   alertConfig?: AlertConfig;
 }) {
+  const alertConfigForTracking = getTrackingAlertConfig(alertConfig, undefined);
   return (
     <Dialog title={t('in-alerting:components.chooseLayoutDialog.chooseLayout')} onClose={() => close()}>
       <div className={locals.wrapper}>
@@ -67,9 +70,9 @@ export default function ViewSelectorDialog<AlertConfig extends AlertConfigType>(
             kind="secondary"
             onClick={() => {
               if (trackType === ALERTING_EDIT) {
-                trackCta(ALERTING_EDIT, { ...alertConfig, dialogMode: mode });
+                trackCta(ALERTING_EDIT, { ...alertConfigForTracking, dialogMode: mode });
               } else if (trackType === ALERTING_CLONE_TRIGGER) {
-                trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfig, dialogMode: mode });
+                trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfigForTracking, dialogMode: mode });
               } else {
                 trackCta(ALERTING_CREATE, { dialogMode: mode });
               }
@@ -84,9 +87,9 @@ export default function ViewSelectorDialog<AlertConfig extends AlertConfigType>(
             kind="primary"
             onClick={() => {
               if (trackType === ALERTING_EDIT) {
-                trackCta(ALERTING_EDIT, { ...alertConfig, dialogMode: FULLSCREEN });
+                trackCta(ALERTING_EDIT, { ...alertConfigForTracking, dialogMode: FULLSCREEN });
               } else if (trackType === ALERTING_CLONE_TRIGGER) {
-                trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfig, dialogMode: FULLSCREEN });
+                trackCta(ALERTING_CLONE_TRIGGER, { ...alertConfigForTracking, dialogMode: FULLSCREEN });
               } else {
                 trackCta(ALERTING_CREATE, { dialogMode: FULLSCREEN });
               }

@@ -169,7 +169,6 @@ export default function RequestQueue({ snapshotId, timeConfig }: RequestQueuePro
         initialSortColumn={0}
         initialSortDirection="asc"
         getRowDetails={getDetails}
-        showHeader={false}
       />
     </DashboardSection>
   );

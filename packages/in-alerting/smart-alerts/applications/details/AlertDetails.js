@@ -44,12 +44,18 @@ import {
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/applications/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { role } from 'in-stores/user';
 
 const endpointConfig = { asObservable: true };
+
+const alertDisplayMode = getSmartAlertDisplayMode(
+  applicationSmartAlertDialogView,
+  applicationSmartAlertFullScreenDesignEnabled
+);
 
 export default function AlertDetails(props) {
   const { location } = props;
@@ -59,6 +65,9 @@ export default function AlertDetails(props) {
 }
 
 function GlobalAlertDetails(props) {
+  const urlParams = {
+    isGlobal: true
+  };
   return (
     <Alert
       {...props}
@@ -84,15 +93,17 @@ function GlobalAlertDetails(props) {
       canConfigureGlobalAlertConfigs={role.canConfigureGlobalApplicationSmartAlerts}
       canConfigureIndividualAlertConfigs={role.canConfigureApplicationSmartAlerts}
       isGlobalSmartAlert
-      displayTearSheetActions={applicationSmartAlertFullScreenDesignEnabled}
-      displayEditAction={applicationSmartAlertDialogView}
-      displayDuplicateAction={applicationSmartAlertDialogView}
       getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl()}
+      alertDisplayMode={alertDisplayMode}
+      urlParams={urlParams}
     />
   );
 }
 
 function IndividualAlertDetails(props) {
+  const urlParams = {
+    isGlobal: false
+  };
   return (
     <Alert
       {...props}
@@ -114,10 +125,9 @@ function IndividualAlertDetails(props) {
       renderAlertConfiguration={renderAlertConfiguration}
       canConfigureGlobalAlertConfigs={role.canConfigureGlobalApplicationSmartAlerts}
       canConfigureIndividualAlertConfigs={role.canConfigureApplicationSmartAlerts}
-      displayTearSheetActions={applicationSmartAlertFullScreenDesignEnabled}
-      displayEditAction={applicationSmartAlertDialogView}
-      displayDuplicateAction={applicationSmartAlertDialogView}
       getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl()}
+      alertDisplayMode={alertDisplayMode}
+      urlParams={urlParams}
     />
   );
 }

@@ -605,8 +605,6 @@
     "statusOther": "OTHER",
     "statusUpdate": "UPDATE",
     "rfcQueueName": "RFC queue name",
-    "no" : "No ",
-    "dataAvailable" : " Data available",
     "usage" : "Usage",
     "root":"root",
     "other" : "other",

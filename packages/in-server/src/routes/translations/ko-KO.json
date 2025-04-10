@@ -1,5 +1,13 @@
 {
     "mainNavigation": {
+      "monitoringObservability": "모니터링 및 관찰",
+      "criticalEvents": "중요 이벤트",
+      "warningEvents": "경고 이벤트",
+      "incident": "사건",
+      "activeTotal": "활성/전체",
+      "shared": "공유",
+      "customerDashboard": "사용자 정의 대시보드",
+      "owner": "소유자",
       "viewSwitcherCustomDashboards": "사용자 정의 대시보드",
       "viewSwitcherLabelWebsitesAndMobileApps": "웹 사이트 및 모바일 앱",
       "viewSwitcherLabelWebsites": "웹 사이트",

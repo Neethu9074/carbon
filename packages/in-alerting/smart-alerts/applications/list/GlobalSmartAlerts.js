@@ -11,6 +11,7 @@ import { just } from '@instana/observables';
 import GlobalInventorySmartAlertsList from 'in-alerting/smart-alerts/applications/inventory/GlobalInventorySmartAlertsList';
 import SmartAlertsNoDataNotification from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsNoDataNotification';
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
+import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import AlertDetails from 'in-alerting/smart-alerts/applications/details/AlertDetails';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
@@ -58,9 +59,14 @@ export default function GlobalSmartAlerts({ location }) {
           )}
         </WithEmptyStateFallback>
       </LeftRightPadding>
+
       {role.canConfigureGlobalApplicationSmartAlerts &&
         ((location?.pathname === alertsTabDetails && smartAlertCarbonTableEnabled) ||
-          !smartAlertCarbonTableEnabled) && <CreateGlobalSmartAlertButton location={location} />}
+          !smartAlertCarbonTableEnabled) && (
+          <FloatingActionButtons>
+            <CreateGlobalSmartAlertButton renderAsSimpleButton />
+          </FloatingActionButtons>
+        )}
     </Sticky>
   );
 }

@@ -28,7 +28,7 @@ export default function ConfigDialog({
   onSave
 }: React.PropsWithChildren<ConfigDialogProps>) {
   return (
-    <Dialog title={title} onClose={onClose} withoutBodyPadding showOverflow>
+    <Dialog title={title} onClose={onClose} withoutBodyPadding showOverflow doNotCloseOnOutsideClick>
       <div role="form" className={locals.dialogBody}>
         {children}
       </div>

@@ -185,7 +185,7 @@ router.get('/', async (req, res) => {
     const activeLicenseInfo = JSON.parse(getLicenseInfo)?.type;
     clientConfig.activeLicenseType = activeLicenseInfo;
     clientConfig.amplitudeKey = getAmplitudeKey();
-    const environmentInfo = await getEnvironmentInfo;
+    const environmentInfo = JSON.parse(getEnvironmentInfo);
     clientConfig.mcspDetails = environmentInfo.mcspDetails;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const segmentKeyValue = clientConfig.segmentKey;
@@ -390,6 +390,6 @@ async function getEnvironmentInfo(req) {
   } catch (e) {
     // Catch any errors during the fetch operation and log them
     console.error('Error fetching environment info:', e);
-    return {};
+    return '{}';
   }
 }

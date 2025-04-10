@@ -140,9 +140,9 @@ export const getResultErrorMessage = (error: string) => {
   return '';
 };
 
-export function formatErrorMessage(error: string) {
+export function formatErrorMessage(error: string, index: number) {
   const errorMessage = getResultErrorMessage(error);
-  return errorMessage.length > 40 ? errorMessage.slice(0, 40) + '...' : errorMessage;
+  return errorMessage.length > 40 ? errorMessage.slice(0, index) + '...' : errorMessage;
 }
 
 /**

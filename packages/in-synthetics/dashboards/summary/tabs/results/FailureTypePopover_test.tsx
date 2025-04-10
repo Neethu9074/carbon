@@ -71,18 +71,14 @@ describe(FailureTypePopover, () => {
     const { container } = render(<FailureTypePopover resultItem={dummyDNSCustomMetricsWithOneError} />);
     const failureTypeTags = container.getElementsByClassName('cds--tag__label');
     expect(failureTypeTags.length).toBe(1);
-    expect(failureTypeTags[0].innerHTML).toContain(
-      'Resolution DNS query failed: SERVFAIL (Server failed to complete the DNS request)'
-    );
+    expect(failureTypeTags[0].innerHTML).toContain('Resolution DNS query failed: SERVFA...');
   });
   it('Should correctly render extracted error messages when multiple errors are present', () => {
     const { container } = render(<FailureTypePopover resultItem={dummyDNSCustomMetricsWithTwoErrors} />);
 
     const failureTypeTags = container.getElementsByClassName('cds--tag__label');
     expect(failureTypeTags.length).toBe(2);
-    expect(failureTypeTags[0]).toHaveTextContent(
-      'Resolution DNS query failed: SERVFAIL (Server failed to complete the DNS request)'
-    );
+    expect(failureTypeTags[0]).toHaveTextContent('Resolution DNS query failed: SERVFA...');
 
     expect(failureTypeTags[1]).toHaveTextContent('1 +');
     fireEvent.click(failureTypeTags[1]);

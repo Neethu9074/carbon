@@ -185,5 +185,6 @@ module.exports = {
   infraSmartAlertDialogViewEnabled: true,
   websitesSmartAlertDialogViewEnabled: true,
   mobileAppSmartAlertDialogViewEnabled: true,
-  ansibleScriptGenerationEnabled: true
+  ansibleScriptGenerationEnabled: true,
+  actionAiGenerationEnabled: true
 };

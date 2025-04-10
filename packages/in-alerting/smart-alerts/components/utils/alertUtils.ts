@@ -39,7 +39,7 @@ export function isDialogAndTearSheetEnabled() {
   }
   return false;
 }
-
+// TODO : Remove this function once all the SA dialog/tearsheet FF checking implementation are Done.
 export function getButtonName(label: string) {
   const multipleActionAvailable = isDialogAndTearSheetEnabled();
   const labelNew = t('in-alerting:smartAlerts.applications.inventory.labelNew');

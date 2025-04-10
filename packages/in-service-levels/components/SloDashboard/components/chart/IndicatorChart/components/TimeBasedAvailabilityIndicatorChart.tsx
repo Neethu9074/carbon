@@ -67,7 +67,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
   const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateSloGranularity(timeConfig);
-  const result = useTimeBasedIndicatorMetrics({ configuration, granularity, timeWindows });
+  const result = useTimeBasedIndicatorMetrics({ configuration, granularity, timeWindows, timeConfig });
   const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
   const metricValues = copyFirstBucketOfSubsequentDataSeries(metrics.map(metric => metric.values as MetricDataSeries));
   const thresholdMetrics: MetricDataSeries = metricValues.flat(1).map(([timestamp]) => [timestamp, threshold]);

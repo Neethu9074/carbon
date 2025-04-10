@@ -199,7 +199,7 @@ const TestSummaryList = () => {
           <FloatingActionButtonMenu>
             {role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
 
-            {role?.canConfigureGlobalSyntheticSmartAlerts && <CreateSmartAlert />}
+            {role?.canConfigureGlobalSyntheticSmartAlerts && <CreateSmartAlert isFloatingMenu />}
           </FloatingActionButtonMenu>
         </FloatingActionButtons>
       )}

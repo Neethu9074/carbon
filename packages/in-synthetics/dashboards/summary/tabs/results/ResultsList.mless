@@ -23,4 +23,17 @@
   .noData {
     margin: 0.5rem;
   }
+
+  .failureType {
+    :global(.carbonTooltipPopoverWrapper) {
+      display: contents;
+    }
+  }
+
+  .errorTag {
+    max-width: none;
+    white-space: normal;
+    text-overflow: unset;
+    overflow: visible;
+  }
 }

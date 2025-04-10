@@ -235,6 +235,7 @@ packages/in-internal/thisUnit/Metrics                      @Instana-IBM-GitHub-E
 packages/in-internal/thisUnit/SnapshotVersions             @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-internal/thisUnit/WsApiTester                  @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-kubernetes                                     @Instana-IBM-GitHub-Enterprise @instana/eng-k8s @instana/eng-ui
+packages/in-kubernetes/Dashboards/Cluster/tabs/KubeCost    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-k8s @instana/eng-enterprise-apps
 packages/in-kubernetes/Dashboards/ArgoCD                   @Instana-IBM-GitHub-Enterprise @instana/ai-observability @instana/eng-k8s @instana/eng-ui
 
 # Logging specific areas

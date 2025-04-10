@@ -43,7 +43,7 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay, inci
         onRequestClose={() => {
           setTimeout(() => {
             setNeedOverlay(false);
-          }, 500);
+          }, 250);
           setTextSummary(summary);
           setShareOpen(false);
           setManualInput(false);

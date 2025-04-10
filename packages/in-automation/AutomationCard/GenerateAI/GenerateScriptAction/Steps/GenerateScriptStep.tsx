@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Typography, Spacer, Button, RadioButton, Stack } from '@instana/components';
+import { Typography, Spacer, Button, RadioButton, Stack, Link } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 import classNames from 'classnames';
@@ -16,7 +16,6 @@ import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/g
 import FeedbackComponent from 'in-automation/AutomationCard/GenerateAI/FeedbackComponent';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingSection from 'in-automation/AutomationCard/GenerateAI/LoadingSection';
-import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { automationActionAiGenerationUnitEnabled, ansibleScriptGenerationEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
@@ -52,17 +51,11 @@ function EmptySection() {
           {t('in-automation:GenerateAIActionDialog.generateScriptDialog.titleGeneratedCodeReadOnly')}
         </Typography>
       </div>
-      <NoDataAvailable
-        height={400}
-        className={locals.noResults}
-        title={t('in-automation:GenerateAIActionDialog.noResultsYet')}
-        // @ts-expect-error
-        text={
-          <LeftRightPadding>
-            <Trans i18nKey="in-automation:GenerateAIActionDialog.generateScriptDialog.noDataAvailableLive" />
-          </LeftRightPadding>
-        }
-      />
+      <div className={locals.noResults}>
+        <LeftRightPadding>
+          <Trans i18nKey="in-automation:GenerateAIActionDialog.generateScriptDialog.noDataAvailableLive" />
+        </LeftRightPadding>
+      </div>
     </FormGroup>
   );
 }
@@ -166,7 +159,7 @@ function GenerateScriptButton({
         }}
         icon="lib_generate_ai"
       >
-        {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
+        {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateButton')}
       </Button>
     </>
   );
@@ -257,8 +250,20 @@ export default function GenerateScriptStep({
         <Typography variant="body-regular">
           {t('in-automation:GenerateAIActionDialog.generateScriptDialog.step2Headline1')}
         </Typography>
-        <Typography variant="body-regular">
-          {t('in-automation:GenerateAIActionDialog.generateScriptDialog.step2Headline2')}
+
+        <Typography variant={'body-regular'}>
+          <Trans
+            i18nKey="in-automation:GenerateAIActionDialog.generateScriptDialog.step2Headline2"
+            components={{
+              Link: (
+                // @ts-expect-error
+                <Link
+                  external
+                  href="https://www.ibm.com/docs/en/instana-observability/current?topic=ma-intelligent-remediation-live-action-generation-watsonx-public-preview"
+                />
+              )
+            }}
+          />
         </Typography>
       </div>
       <Spacer vertical="large" />

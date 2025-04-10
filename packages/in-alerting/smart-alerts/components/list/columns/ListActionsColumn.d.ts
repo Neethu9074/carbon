@@ -6,12 +6,17 @@
 
 import { ActionHandlers, AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 
+export interface UrlProps {
+  isGlobal?: boolean;
+}
+
 export type ListActionsColumnProps = {
   config: AlertConfigType;
   isLoading: boolean;
   actionHandlers: ActionHandlers;
   icon?: string;
   useSmartAlertCreateUrl?: (args: AlertURLProps) => string;
+  urlParams?: UrlProps;
 };
 
 export function ListActionsColumn({
@@ -19,5 +24,6 @@ export function ListActionsColumn({
   isLoading,
   actionHandlers = {},
   icon,
-  useSmartAlertCreateUrl
+  useSmartAlertCreateUrl,
+  urlParams
 }: ListActionsColumnProps);

@@ -31,4 +31,10 @@
   .withPadding {
     padding: 0 1rem;
   }
+
+  .aggregatedEntitiesAccordian {
+    :global .cds--accordion__content {
+      padding-inline: 1rem;
+    }
+  }
 }

@@ -42,10 +42,8 @@ export default function AlertHeader({
   showActionButton,
   allowActionButtons = true,
   onConfigDeleteTrigger,
-  displayEditAction,
   displayTearSheetActions,
   getLinkToEditOrDuplicateSmartAlertTearSheet,
-  displayDuplicateAction,
   isGlobalSmartAlert = false,
   hideAlertIcon = false,
   alertDisplayMode,
@@ -237,44 +235,48 @@ export default function AlertHeader({
                   alignment="right"
                 />
               </Tooltip>
-              {displayEditAction && (
-                <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip')} delay={500}>
-                  <IconButton
-                    data-testid="editConfigButton"
-                    alignment="right"
-                    kind="primaryv2"
-                    type="lib_actions_edit"
-                    onClick={() => {
-                      if (alertDisplayMode === CHOICE_DIALOG) {
-                        openSelectorDialog({ isCopy: false });
-                      } else if (alertDisplayMode === FULLSCREEN) {
-                        openTearSheet({ isCopy: false, gotoPath: editSmartAlertPath });
-                      } else {
-                        openDialog({ isCopy: false });
-                      }
-                    }}
-                  />
-                </Tooltip>
-              )}
-              {displayDuplicateAction && (
-                <Tooltip content={t('in-alerting:components.alertHeaderDuplicateTooltip')} delay={500}>
-                  <IconButton
-                    kind="primaryv2"
-                    data-testid="duplicateConfigButton"
-                    type="lib_actions_copy"
-                    onClick={() => {
-                      if (alertDisplayMode === CHOICE_DIALOG) {
-                        openSelectorDialog({ isCopy: true });
-                      } else if (alertDisplayMode === FULLSCREEN) {
-                        openTearSheet({ isCopy: true, gotoPath: duplicateSmartAlertPath });
-                      } else {
-                        openDialog({ isCopy: true });
-                      }
-                    }}
-                    alignment="right"
-                  />
-                </Tooltip>
-              )}
+
+              <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip')} delay={500}>
+                <IconButton
+                  data-testid="editConfigButton"
+                  alignment="right"
+                  kind="primaryv2"
+                  type="lib_actions_edit"
+                  onClick={() => {
+                    if (alertConfig?.builtIn) {
+                      return openDialog({ isCopy: false });
+                    }
+                    if (alertDisplayMode === CHOICE_DIALOG) {
+                      return openSelectorDialog({ isCopy: false });
+                    }
+                    if (alertDisplayMode === FULLSCREEN) {
+                      return openTearSheet({ isCopy: false, gotoPath: editSmartAlertPath });
+                    }
+                    return openDialog({ isCopy: false });
+                  }}
+                />
+              </Tooltip>
+
+              <Tooltip content={t('in-alerting:components.alertHeaderDuplicateTooltip')} delay={500}>
+                <IconButton
+                  kind="primaryv2"
+                  data-testid="duplicateConfigButton"
+                  type="lib_actions_copy"
+                  onClick={() => {
+                    if (alertConfig?.builtIn) {
+                      return openDialog({ isCopy: true });
+                    }
+                    if (alertDisplayMode === CHOICE_DIALOG) {
+                      return openSelectorDialog({ isCopy: true });
+                    }
+                    if (alertDisplayMode === FULLSCREEN) {
+                      return openTearSheet({ isCopy: true, gotoPath: duplicateSmartAlertPath });
+                    }
+                    return openDialog({ isCopy: true });
+                  }}
+                  alignment="right"
+                />
+              </Tooltip>
 
               {/* TODO : Remove this once all the smart alerts are implemented with selector dialogs */}
               {!alertConfig?.builtIn && displayTearSheetActions && (
@@ -414,10 +416,8 @@ AlertHeader.propTypes = {
   showActionButton: PropTypes.bool,
   allowActionButtons: PropTypes.bool,
   onConfigDeleteTrigger: PropTypes.func,
-  displayEditAction: PropTypes.bool,
   displayTearSheetActions: PropTypes.bool,
   getLinkToEditOrDuplicateSmartAlertTearSheet: PropTypes.func,
-  displayDuplicateAction: PropTypes.bool,
   isGlobalSmartAlert: PropTypes.bool,
   hideAlertIcon: PropTypes.bool,
   openSelectorDialog: PropTypes.func,

@@ -13,6 +13,7 @@ import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/Ge
 import SelectActionStep from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/SelectActionStep';
 import PromptStep from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/PromptStep';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
+import { actionAiGenerationEnabled } from 'in-services/featureFlags';
 import { ScoredAction } from 'in-automation/types';
 import { t } from 'in-i18n';
 
@@ -43,17 +44,23 @@ export default function ReviewActionStep({
       onClick: () => setActiveKey('builtinActions')
     }
   ];
-
-  return (
-    <Stack>
-      {showOotbActions && (
-        <>
-          <Spacer size="normal" />
-          <ButtonGroup buttonPropsList={buttonPropsList} activeKey={activeKey} segmented />
-        </>
-      )}
-      {activeKey === 'builtinActions' && <SelectActionStep actions={actions} setForm={setForm} />}
-      {activeKey === 'generate' && <PromptStep form={form} setForm={setForm} event={event} />}
-    </Stack>
-  );
+  if (!actionAiGenerationEnabled && !showOotbActions!) return null;
+  if (actionAiGenerationEnabled) {
+    // this flag is true for all saas regions and false for self hosted
+    return (
+      <Stack>
+        {showOotbActions && (
+          <>
+            <Spacer size="normal" />
+            <ButtonGroup buttonPropsList={buttonPropsList} activeKey={activeKey} segmented />
+          </>
+        )}
+        {activeKey === 'builtinActions' && <SelectActionStep actions={actions} setForm={setForm} />}
+        {activeKey === 'generate' && <PromptStep form={form} setForm={setForm} event={event} />}
+      </Stack>
+    );
+  } else {
+    //for self hosted envs , if it has OOTB actions, we should show.
+    return <Stack>{showOotbActions && <SelectActionStep actions={actions} setForm={setForm} />}</Stack>;
+  }
 }

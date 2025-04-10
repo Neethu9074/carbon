@@ -332,6 +332,7 @@ export const automationActionAiGenerationUnitEnabled = isFeatureFlagEnabled(
   'automationActionAiGenerationUnitEnabled',
   false
 );
+export const actionAiGenerationEnabled = isFeatureFlagEnabled('actionAiGenerationEnabled', false);
 export const graphTabEnabled = isFeatureFlagEnabled('graphTabEnabled', true);
 export const applicationSubtracesEnabled = isFeatureFlagEnabled('applicationSubtracesEnabled', false);
 export const applicationSaveFiltersEnabled = isFeatureFlagEnabled('applicationSaveFiltersEnabled', false);

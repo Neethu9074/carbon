@@ -8,14 +8,15 @@ import React from 'react';
 import { Link } from '@instana/components';
 
 import { useGoToGraph } from 'in-stores/navigation/paths/dashboardPaths';
+import { graphViewFromInfraMapEnabled } from 'in-services/featureFlags';
 import { getLabel, getShowZoneInSidebarHeader } from 'in-sdk/snapshot';
 import ZoneTag from 'in-map/components/MapSidebar/components/ZoneTag';
 import { shorten } from 'in-services/util/string';
 import PluginIcon from 'in-components/PluginIcon';
 import { getPluginName } from 'in-sdk/pluginName';
+import { t } from 'in-i18n';
 
 import locals from './SidebarHeader.mless';
-import { graphViewFromInfraMapEnabled } from 'in-services/featureFlags';
 
 export default function SidebarHeader({ snapshot }) {
   const plugin = snapshot.get('plugin');
@@ -42,7 +43,7 @@ export default function SidebarHeader({ snapshot }) {
 function Icon({ snapshot, graphHref }) {
   if (graphViewFromInfraMapEnabled) {
     return (
-      <Link href={graphHref}>
+      <Link href={graphHref} aria-label={t('in-map:accessibility.entityGraph')}>
         <PluginIcon className={locals.entityIcon} snapshot={snapshot} />
       </Link>
     );

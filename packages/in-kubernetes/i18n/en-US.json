@@ -255,12 +255,14 @@
       "endpointsDescription": "There were no endpoints retrieved for the selected time range."
     },
     "kubecost": {
+      "costByDeployment": "Cost by deployment",
+      "deployment": "Deployment",
       "totalCost": "Total cost",
       "cost": "Cost",
       "clusterCost": "Cluster cost",
       "idle": "Idle",
       "costByNameSpace": "Cost by namespace",
-      "kubeCost": "Cost [Public Preview]",
+      "kubeCost": "Cost",
       "namespaceCumulativeCost": "Cost by namespace",
       "trend": "Trend %",
       "ramCost": "RAM",
@@ -273,7 +275,17 @@
       "cpuCost": "CPU",
       "namespace": "Namespace",
       "idleCost": "Idle cost",
-      "noKubecostData": "Enable cost observability and allocation with Kubecost. To configure the integration, follow these [steps][Docs].\n\n[Docs]:https://ibm.biz/kubecost"
+      "viewInKubeCost": "View in Kubecost",
+      "coreCountByCluster": "vCPU",
+      "noKubecostData": "Enable cost observability and allocation with Kubecost. To configure the integration, follow these [steps][Docs].\n\n[Docs]:https://ibm.biz/kubecost",
+      "totalClusterCost": "Total cluster cost (last 14 days)",
+      "workloadEfficiency": "Workload efficiency",
+      "estimatedMonthlySavings": "Estimated monthly savings",
+      "totalClusterCostTooltipinfo": "The total cost of your cluster for the time frame selected. Note: if you have less than 14 days of data, you will see that figure till a full 14 day cycle has elapsed.",
+      "workloadEfficiencyTooltipinfo": "The average efficiency of each workload over the chosen window. Workload efficiency is the costweighted ratio of RAM and CPU usage to configured RAM and CPU requests.",
+      "estimatedMonthlySavingsTooltipinfo": "The estimated monthly savings available for your cluster, as determined using historical data from the time frame selected.",
+      "deploymentInfoNotRetrieving": "Kubecost is not retrieving deployments information",
+      "notRetrievingData": "Kubecost is not retrieving data"
     }
   },
   "cloudNative": {

@@ -7,12 +7,12 @@
 import React, { useMemo } from 'react';
 
 import { Stack } from '@instana/components';
+import { t } from '@instana/i18n-react';
 
 import QueryBuilder, { isQueryValid } from 'in-custom-dashboards/CustomDashboard/FilterContext/UnifiedQueryBuilder';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import useUnifiedTagCatalog from 'in-custom-dashboards/hooks/useUnifiedTagCatalog';
-import Sections from 'in-components/workspace/Sections';
 import { TagCatalog } from 'in-types';
 
 import locals from 'in-custom-dashboards/CustomDashboard/FilterContext/TopLevelFilterBar.mless';
@@ -30,21 +30,19 @@ export default function TopLevelFilterBar({ topLevelFilters, onTopLevelFiltersCh
   );
 
   return (
-    <div className={locals.topLevelFilterBar}>
+    <section aria-label={t('in-components:pageStructure.filterAriaLabel')} className={locals.topLevelFilterBar}>
       <Stack gap="xsmall">
-        <Sections>
-          <QueryBuilderSection
-            value={topLevelFilters}
-            QueryBuilder={QueryBuilder}
-            tagCatalog={unifiedTagCatalog}
-            onChange={onTopLevelFiltersChange}
-            useLastValidStateWhenErroneous
-            withTechnicalPreview
-            hasError={!isValid}
-          />
-        </Sections>
+        <QueryBuilderSection
+          value={topLevelFilters}
+          QueryBuilder={QueryBuilder}
+          tagCatalog={unifiedTagCatalog}
+          onChange={onTopLevelFiltersChange}
+          useLastValidStateWhenErroneous
+          withTechnicalPreview
+          hasError={!isValid}
+        />
       </Stack>
-    </div>
+    </section>
   );
 
   function isTopLevelFilterValid(topLevelFilters: FormModelElement[], tagCatalog: TagCatalog | undefined) {

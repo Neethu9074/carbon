@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button, Spacer, Typography, PreviewPill } from '@instana/components';
+import { Button, Spacer, Typography, PreviewPill, Link } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Event, Result } from '@instana/types';
 
@@ -17,7 +17,6 @@ import ManualActionContent from 'in-automation/components/ManualActionContent/Ma
 import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingSection from 'in-automation/AutomationCard/GenerateAI/LoadingSection';
-import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
@@ -257,16 +256,11 @@ function EmptySection() {
           {t('in-automation:titleContentReadOnly')}
         </Typography>
       </div>
-      <NoDataAvailable
-        height={500}
-        title={t('in-automation:GenerateAIActionDialog.noResultsYet')}
-        // @ts-expect-error
-        text={
-          <LeftRightPadding>
-            <Trans i18nKey="in-automation:GenerateAIActionDialog.noDataAvailableLive" />
-          </LeftRightPadding>
-        }
-      />
+      <div className={locals.noDataWrapper}>
+        <LeftRightPadding>
+          <Trans i18nKey="in-automation:GenerateAIActionDialog.noDataAvailableLive" />
+        </LeftRightPadding>
+      </div>
     </FormGroup>
   );
 }
@@ -310,7 +304,22 @@ export default function PromptStep({
         <Spacer vertical="normal" />
         <PreviewPill privatePreview />
         <Spacer vertical="normal" />
-        <Typography variant="body-regular">{t('in-automation:GenerateAIActionDialog.Step1HeadlinePrompt')}</Typography>
+
+        <Typography variant={'body-regular'}>
+          <Trans
+            i18nKey="in-automation:GenerateAIActionDialog.Step1HeadlinePrompt"
+            components={{
+              Link: (
+                // @ts-expect-error
+                <Link
+                  external
+                  href="https://www.ibm.com/docs/en/instana-observability/current?topic=ma-intelligent-remediation-live-action-generation-watsonx-public-preview"
+                />
+              )
+            }}
+          />
+        </Typography>
+
         <Spacer vertical="normal" />
         <PromptInputs form={form} setForm={setForm} />
         <GenerateButton form={form} setForm={setForm} event={event} />

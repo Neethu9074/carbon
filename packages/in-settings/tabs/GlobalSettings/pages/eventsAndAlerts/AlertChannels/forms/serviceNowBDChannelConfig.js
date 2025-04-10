@@ -56,7 +56,7 @@ export default {
   isBeta: true,
   testAPI: null,
   active: serviceNowAdvancedEnabled,
-  feedbackLink: 'mailto:instanafeedback@ibm.com',
+  feedbackLink: 'https://your.feedback.ibm.com/jfe/form/SV_1X4s0aRWYgXE1Fk',
 
   getParameters() {
     return parameters;

@@ -24,11 +24,17 @@ import TearSheetButtonWithLink from 'in-alerting/smart-alerts/applications/compo
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
-import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
+import { DIALOG, FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { ALERTING_DELETE_CONFIRM } from 'in-services/tracking/eventNames';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t, Trans } from 'in-i18n';
+
+const alertDisplayMode = getSmartAlertDisplayMode(
+  applicationSmartAlertDialogView,
+  applicationSmartAlertFullScreenDesignEnabled
+);
 
 function handleDelete(id, setIsSaving, configName, isGlobalSmartAlertConfig, trackCta) {
   const deleteConfig = isGlobalSmartAlertConfig ? deleteGlobalAlertConfig : deleteAlertConfig;
@@ -103,13 +109,16 @@ function openSmartAlertDialog(config, isGlobalSmartAlertConfig, isCopy = false) 
 
 export function actionHandlers(isGlobalSmartAlertConfig, trackCta) {
   const editAction = {
-    ...(applicationSmartAlertFullScreenDesignEnabled && {
+    ...(alertDisplayMode === FULLSCREEN && {
       handleEditNew: function (config) {
-        const { created, id } = config;
+        const { created, id, builtIn } = config;
+        if (builtIn) {
+          handleEdit(config, isGlobalSmartAlertConfig);
+        }
         return (
           <TearSheetButtonWithLink
             buttonIcon="lib_actions_edit"
-            buttonName={getButtonName(t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit'))}
+            buttonName={t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
             isGlobal={isGlobalSmartAlertConfig}
             alertId={id}
             alertConfigCreated={created}
@@ -119,7 +128,10 @@ export function actionHandlers(isGlobalSmartAlertConfig, trackCta) {
         );
       }
     }),
-    ...(applicationSmartAlertDialogView && {
+    ...(alertDisplayMode === CHOICE_DIALOG && {
+      handleEditSelector: config => handleEdit(config, isGlobalSmartAlertConfig)
+    }),
+    ...(alertDisplayMode === DIALOG && {
       handleEdit: function (config) {
         handleEdit(config, isGlobalSmartAlertConfig);
       }
@@ -127,13 +139,16 @@ export function actionHandlers(isGlobalSmartAlertConfig, trackCta) {
   };
 
   const duplicateAction = {
-    ...(applicationSmartAlertFullScreenDesignEnabled && {
+    ...(alertDisplayMode === FULLSCREEN && {
       handleCloneNew: function (config) {
-        const { created, id } = config;
+        const { created, id, builtIn } = config;
+        if (builtIn) {
+          handleClone(config, isGlobalSmartAlertConfig);
+        }
         return (
           <TearSheetButtonWithLink
             buttonIcon="lib_actions_copy"
-            buttonName={getButtonName(t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate'))}
+            buttonName={t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
             isGlobal={isGlobalSmartAlertConfig}
             alertId={id}
             alertConfigCreated={created}
@@ -143,7 +158,10 @@ export function actionHandlers(isGlobalSmartAlertConfig, trackCta) {
         );
       }
     }),
-    ...(applicationSmartAlertDialogView && {
+    ...(alertDisplayMode === CHOICE_DIALOG && {
+      handleCloneSelector: config => handleClone(config, isGlobalSmartAlertConfig)
+    }),
+    ...(alertDisplayMode === DIALOG && {
       handleClone: function (config) {
         handleClone(config, isGlobalSmartAlertConfig);
       }

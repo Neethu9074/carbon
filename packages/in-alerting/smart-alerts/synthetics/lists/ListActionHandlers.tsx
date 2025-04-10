@@ -6,19 +6,29 @@
 
 import React from 'react';
 
-// import {
-//   TearSheetEditActionHandler,
-//   TearSheetCloneActionHandler
-// } from 'in-alerting/smart-alerts/synthetics/lists/TearSheetActionHandlers';
+import {
+  TearSheetEditActionHandler,
+  TearSheetCloneActionHandler
+} from 'in-alerting/smart-alerts/synthetics/lists/TearSheetActionHandlers';
+import {
+  syntheticSmartAlertFullScreenDesignEnabled,
+  syntheticSmartAlertDialogViewEnabled
+} from 'in-services/featureFlags';
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
 import { SyntheticAlertConfig, SyntheticAlertConfigWithMetadata, VersionedConfig } from 'in-types';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
+import { DIALOG, FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { ActionHandlers } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
-import { syntheticSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+
+const alertDisplayMode = getSmartAlertDisplayMode(
+  syntheticSmartAlertDialogViewEnabled,
+  syntheticSmartAlertFullScreenDesignEnabled
+);
 
 function handleClone(config: SyntheticAlertConfigWithMetadata) {
   openSmartAlertDialog(config, true);
@@ -28,13 +38,13 @@ function handleEdit(config: SyntheticAlertConfigWithMetadata) {
   openSmartAlertDialog(config);
 }
 
-// function HandleEditNew(config: SyntheticAlertConfigWithMetadata) {
-//   return <TearSheetEditActionHandler id={config.id} created={config.created} alertConfig={config} />;
-// }
+function HandleEditNew(config: SyntheticAlertConfigWithMetadata) {
+  return <TearSheetEditActionHandler id={config.id} created={config.created} alertConfig={config} />;
+}
 
-// function HandleCloneNew(config: SyntheticAlertConfigWithMetadata) {
-//   return <TearSheetCloneActionHandler id={config.id} created={config.created} alertConfig={config} />;
-// }
+function HandleCloneNew(config: SyntheticAlertConfigWithMetadata) {
+  return <TearSheetCloneActionHandler id={config.id} created={config.created} alertConfig={config} />;
+}
 
 function openSmartAlertDialog(config: SyntheticAlertConfig & VersionedConfig, isCopy = false) {
   addActiveDialog(
@@ -51,20 +61,20 @@ function openSmartAlertDialog(config: SyntheticAlertConfig & VersionedConfig, is
 }
 
 export const actionHandlers: ActionHandlers<SyntheticAlertConfigWithMetadata> = {
-  ...(!syntheticSmartAlertFullScreenDesignEnabled && { handleClone: config => handleClone(config) }),
-  ...(syntheticSmartAlertFullScreenDesignEnabled && {
+  ...(alertDisplayMode === DIALOG && { handleClone: config => handleClone(config) }),
+  ...(alertDisplayMode === CHOICE_DIALOG && {
     handleEditSelector: (config: SyntheticAlertConfigWithMetadata) => handleEdit(config)
   }),
-  // ...(syntheticSmartAlertFullScreenDesignEnabled && {
-  //   handleCloneNew: (config: SyntheticAlertConfigWithMetadata) => HandleCloneNew(config)
-  // }),
+  ...(alertDisplayMode === FULLSCREEN && {
+    handleCloneNew: (config: SyntheticAlertConfigWithMetadata) => HandleCloneNew(config)
+  }),
   handleDelete: (id, setIsSaving, configName, trackCta) =>
     handleDelete(id, setIsSaving, configName, baseUrl.SYNTHETICS, trackCta),
-  ...(!syntheticSmartAlertFullScreenDesignEnabled && { handleEdit: config => handleEdit(config) }),
-  // ...(syntheticSmartAlertFullScreenDesignEnabled && {
-  //   handleEditNew: (config: SyntheticAlertConfigWithMetadata) => HandleEditNew(config)
-  // }),
-  ...(syntheticSmartAlertFullScreenDesignEnabled && {
+  ...(alertDisplayMode === DIALOG && { handleEdit: config => handleEdit(config) }),
+  ...(alertDisplayMode === FULLSCREEN && {
+    handleEditNew: (config: SyntheticAlertConfigWithMetadata) => HandleEditNew(config)
+  }),
+  ...(alertDisplayMode === CHOICE_DIALOG && {
     handleCloneSelector: (config: SyntheticAlertConfigWithMetadata) => handleClone(config)
   }),
   handleToggleEnabled: (enabled, id, setIsSaving) => handleToggleEnabled(enabled, id, setIsSaving, baseUrl.SYNTHETICS)

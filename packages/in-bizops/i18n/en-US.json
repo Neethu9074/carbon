@@ -1,6 +1,6 @@
 {
-  "labelBizOps": "Processes",
-  "labelPerspectives": "Perspectives",
+  "labelBizOps": "Business processes",
+  "labelPerspectives": "Business perspectives",
   "labelPerspective": "Perspective",
   "components": {
     "count": "Count"
@@ -8,8 +8,7 @@
   "lists": {
     "id": "ID",
     "version": "Version",
-    "pageTitle": "Business monitoring",
-    "cardTitle": "Business processes",
+    "pageTitle": "Business processes",
     "theId": "The process ID",
     "theVersion": "The process version",
     "hasBeenCopied": "has been successfully copied to the clipboard",
@@ -39,9 +38,8 @@
     "documentation": "documentation."
   },
   "perspectives": {
-    "newPerspective": "Create perspective",
+    "newPerspective": "Create",
     "lists": {
-      "perspectives": "Business perspectives",
       "descriptionLabel": "Description",
       "numberProcessesLabel": "Number of processes"
     },
@@ -77,7 +75,7 @@
     }
   },
   "navigation": {
-    "businessMonitoring": "Business monitoring"
+    "businessMonitoring": "Business processes"
   },
   "dashboards": {
     "analyzeInstances": "Analyze instances",

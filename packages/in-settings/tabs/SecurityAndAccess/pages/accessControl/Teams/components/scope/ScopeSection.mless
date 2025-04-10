@@ -9,7 +9,9 @@
     width: 50%;
   }
 
-  :global(.cds--data-table-header) {
-    display: none;
+  .scopeSection {
+    :global(.cds--data-table-header) {
+      display: none;
+    }
   }
 }
