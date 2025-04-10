@@ -150,6 +150,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
               aria-label={t('in-components:mainNavigation.profileMenu_switchUnitOrTenant')}
             >
               <Stack direction="horizontal" gap="xsmall" align="center">
+                <span className="cds--visually-hidden">{t('in-components:accessibility.opensNewTab')}</span>
                 <SvgIcon type="lib_views_external_link" size="xs" color="white" />
                 <Typography variant="label-02" onDark>
                   {t('in-components:mainNavigation.profileMenu_switchUnitOrTenant')}

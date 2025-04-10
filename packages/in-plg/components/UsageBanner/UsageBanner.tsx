@@ -9,7 +9,7 @@ import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-set
 import { useHistory } from 'react-router';
 import React, { useEffect } from 'react';
 
-import { Link, SvgIcon, Stack, CarbonButton } from '@instana/components';
+import { Link, SvgIcon, Stack, CarbonButton, Tooltip } from '@instana/components';
 import { Observable, create } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
@@ -44,7 +44,6 @@ import memoize from 'in-services/util/memoizingObservableGenerator';
 import useAuthOverview from 'in-settings/hooks/useAuthOverview';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
 import { isLoading } from 'in-services/util/result';
-import Tooltip from 'in-components/Tooltip';
 import { role, user } from 'in-stores/user';
 import http from 'in-services/http/http';
 import { Trans, t } from 'in-i18n';
@@ -112,7 +111,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
       )}
       {onPremLicenseInformationEnabled && (
         <>
-          <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
+          <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')} themeStyle="light">
             <CarbonButton
               id="shareButton"
               kind="ghost"
@@ -164,7 +163,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
               {t('in-plg:licenseBanner.buyNow')}
             </CarbonButton>
           )}
-          <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
+          <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')} themeStyle="light">
             <CarbonButton
               id="shareButton"
               kind="ghost"
