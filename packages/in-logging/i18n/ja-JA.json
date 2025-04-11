@@ -40,6 +40,8 @@
   "deployment": "デプロイメント",
   "pod": "ポッド",
   "tooltipEntityHealthNoIssues": "問題なし",
+  "tooltipEntityHealthInProgress": "進行中",
+  "tooltipEntityHealthFailed": "失敗",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} 個の問題",
   "endOfInfiniteScroll": "ログはこれ以上ありません",
   "liveModeDisabled": "ログの分析時にライブ・モードはサポートされません",

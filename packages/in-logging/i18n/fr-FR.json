@@ -40,6 +40,8 @@
   "deployment": "Déploiement",
   "pod": "Pod",
   "tooltipEntityHealthNoIssues": "Aucun problème",
+  "tooltipEntityHealthInProgress": "En cours",
+  "tooltipEntityHealthFailed": "Échec",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} problèmes",
   "endOfInfiniteScroll": "Aucun autre journal disponible",
   "liveModeDisabled": "Le mode actif n'est pas pris en charge lors de l'analyse des journaux",

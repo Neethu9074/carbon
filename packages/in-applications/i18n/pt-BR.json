@@ -600,7 +600,7 @@
       "descriptionOperatorsCreationEnabled": "Operadores AND têm precedência e são avaliados antes de operadores OR, caso não estejam agrupados entre colchetes",
       "descriptionPrepareToMonitor": "Estamos preparando tudo para monitorar sua perspectiva de aplicativo <bold>{{decodedLabel}}</bold>.",
       "prepareToMonitorUnauthorized": "Você não tem permissões para visualizar a perspectiva do aplicativo <bold>{{decodedLabel}}</bold>. Para obter permissões, entre em contato com o administrador do grupo.",
-      "descriptionRemoveApplicationPerspective": "Caso não queira mais monitorar a perspectiva de aplicativo <strong>{{application}}</strong>, use o botão abaixo para removê-la. A remoção de uma perspectiva de aplicativo pode levar alguns minutos.",
+      "descriptionRemoveApplicationPerspective": "Para não monitorar mais a perspectiva de aplicativo <strong>{{application}}</strong>, use o botão abaixo para removê-la. A remoção de uma perspectiva de aplicativo pode levar até alguns minutos, durante os quais ela ainda estará visível na lista de aplicativos.",
       "stepTitleDefineApplicationName": "Defina um nome para sua perspectiva de aplicativo.",
       "stepTitleApplicationName": "Nome para a sua perspectiva de aplicativo.",
       "stepTitleDefineTags": "Defina a perspectiva de aplicativo usando uma ou mais tags.",
@@ -783,5 +783,6 @@
     "helpButtonLabel": "Forneça um feedback"
   },
   "labelSyntheticMonitoring": "Monitoramento sintético",
+  "labelServiceLevels": "Níveis de serviço",
   "labelResourceOptimizations": "Otimizações"
 }

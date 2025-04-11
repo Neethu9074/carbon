@@ -2,6 +2,10 @@
   "csvExporterButton": {
     "label": "Exportar para CSV"
   },
+  "pageStructure": {
+    "headerAriaLabel": "Cabeçalho da página",
+    "contentAriaLabel": "Conteúdo"
+  },
   "fileInputButton": {
     "label": {
       "chooseSingle": "Escolher arquivo…",
@@ -106,7 +110,7 @@
     "formStateLabel": "Estado"
   },
   "searchBar": {
-    "usingTheSearchBar": "A funcionalidade de procura Dynamic Focus da Instana pode ser usada para filtrar mapas 3D, tabelas de comparação e visualizações de incidentes. A barra de procura tem capacidades extensas para procurar usando buscas difusas e curingas, bem como operadores booleanos. Por exemplo, a consulta a\nseguir restringe as visualizações para hosts de produção com menos de quatro CPUs:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## O Syntax\nDynamic Focus alavanca a [sintaxe de consulta lucene](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) com as seguintes diferenças do padrão Lucene:\n- **Operador padrão:** `AND`.\n- **Restrições de sintaxe:** são listadas na [documentação](https://ibm.biz/dynamic-focus-syntax-constraints)\n## Interação da barra de procura\n A barra de procura suporta a conclusão automática dos campos de procura e a sintaxe destaca a consulta lucene enquanto você digita.\nDurante a digitação, a barra de procura proporá campos de procura que correspondam à entrada atual. É possível aceitar os campos propostos pressionando `RETORNAR`. Pressione `CTRL+ESPAÇO` para abrir o pop-up de conclusão automática.\n## Folha de dicas de sintaxe da consulta Lucene\n - **Procura em campos:** `entity.host.cpu.count:>4`\n - **Operadores booleanos:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Agrupamento:** `(entity.host.cpu.count:<4 AND entity.zone:production)OR entity.host.cpu.count:>4`\n - **Procuras com curinga:** `entity.type:container*`\n\nConsulte a [documentação](https://ibm.biz/filtering-dynamic-focus) para obter informações adicionais.",
+    "usingTheSearchBar": "A funcionalidade de procura Dynamic Focus da Instana pode ser usada para filtrar mapas 3D, tabelas de comparação e visualizações de incidentes. A barra de procura tem capacidades extensas para procurar usando buscas difusas e curingas, bem como operadores booleanos. Por exemplo, a consulta a\nseguir restringe as visualizações para hosts de produção com menos de quatro CPUs:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## O Syntax\nDynamic Focus alavanca a [sintaxe de consulta lucene](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) com as seguintes diferenças do padrão Lucene:\n- ** Operador padrão:** `AND`.\n- ** Restrições de sintaxe:** são listadas na [documentação](https://ibm.biz/dynamic-focus-syntax-constraints)\n##Interação da barra de procura\n A barra de procura suporta a conclusão automática dos campos de procura e a sintaxe destaca a consulta lucene enquanto você digita.\nDurante a digitação, a barra de procura proporá campos de procura que correspondam à entrada atual. É possível aceitar os campos propostos pressionando `RETORNAR`. Pressione `CTRL+ESPAÇO` para abrir o pop-up de conclusão automática.## Folha de dicas de sintaxe da consulta Lucene\n - **Procura em campos:** `entity.host.cpu.count:>4`\n - **Operadores booleanos:** `entity.host.cpu.count:<4 AND entity.zone:production`\n -**Agrupamento:** `(entity.host.cpu.count:<4 AND entity.zone:production)OR entity.host.cpu.count:>4`\n - **Procuras com curinga:** `entity.type:container*`\n\nConsulte a [documentação](https://ibm.biz/filtering-dynamic-focus) para obter informações adicionais.",
     "filtersBtn": "Filtros",
     "filterPresetsMenuHeading": "Filtros",
     "filterPresetsSaveFilters": "Salvar filtros para fácil acesso aqui",
@@ -458,6 +462,7 @@
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
+    "viewSwitcherLabelXenServer": "XenServer",
     "viewSwitcherLabelzhmc": "HMC do IBM Z",
     "viewSwitcherLabelPlatforms": "Plataformas",
     "viewSwitcherButtonSignOut": "Sair",
@@ -469,7 +474,11 @@
     "profileMenu_profileLink": "Perfil",
     "profileMenu_tooltip": "Menu de perfil",
     "profileMenu_unitName_tenantName": "Nome da unidade - Nome do locatário",
+    "profileMenu_instanceName": "Nome da instância",
+    "profileMenu_region": "Região",
+    "profileMenu_instanceOwner": "Proprietário da instância",
     "profileMenu_switchUnitOrTenant": "Alternar unidade ou locatário",
+    "profileMenu_saasConsole": "IBM SaaS Console",
     "profileMenu_privacy": "Privacidade",
     "profileMenu_logOut": "Efetuar logout"
   },

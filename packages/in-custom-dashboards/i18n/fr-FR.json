@@ -3,6 +3,7 @@
     "copyOf": "Copie de {{title}}"
   },
   "customDashboard": {
+    "customDashboardsTitle": "Tableaux de bord personnalisés",
     "editJsonDialog": {
       "editJsonDialogPresenter": {
         "confirmBt": "Confirmer",
@@ -74,7 +75,9 @@
       "generatingPDFTitle": "Génération du PDF",
       "generatingPDFContent": "Veuillez patienter pendant que le PDF est en cours de génération.",
       "generatedPDFTitle": "PDF généré",
-      "generatedPDFContent": "Le téléchargement du PDF va bientôt commencer."
+      "generatedPDFContent": "Le téléchargement du PDF va bientôt commencer.",
+      "timeRange": "Intervalle",
+      "widgetNotAvailableToBeExported": "Ce widget ne peut pas être exporté."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Tableau de bord introuvable",

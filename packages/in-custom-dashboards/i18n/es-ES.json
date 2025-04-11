@@ -3,6 +3,7 @@
     "copyOf": "Copia de {{title}}"
   },
   "customDashboard": {
+    "customDashboardsTitle": "Paneles de control personalizados",
     "editJsonDialog": {
       "editJsonDialogPresenter": {
         "confirmBt": "Confirmar",
@@ -74,7 +75,9 @@
       "generatingPDFTitle": "Generar pdf",
       "generatingPDFContent": "Espere mientras se genera el pdf.",
       "generatedPDFTitle": "Pdf generado",
-      "generatedPDFContent": "La descarga del pdf comenzará en breve."
+      "generatedPDFContent": "La descarga del pdf comenzará en breve.",
+      "timeRange": "Intervalo de tiempo",
+      "widgetNotAvailableToBeExported": "Este widget no se puede exportar."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "No se ha encontrado el panel de control",

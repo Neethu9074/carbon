@@ -181,7 +181,11 @@
     "unit_microsecond": "마이크로초",
     "unit_milisecond": "밀리초",
     "unit_second": "초",
-    "unit_persecond": "초당"
+    "unit_persecond": "초당",
+    "metricGroup_numeric": "숫자",
+    "metricGroup_dataSize": "데이터 크기",
+    "metricGroup_timeUnits": "시간",
+    "metricGroup_rates": "비율"
   },
   "search": {
     "queryInvalidLuceneQuery": "Lucene 조회가 올바르지 않습니다.",

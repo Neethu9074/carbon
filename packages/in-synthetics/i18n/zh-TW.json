@@ -238,6 +238,8 @@
             "operatorLabel": "條件式",
             "operatorOptionMatches": "符合",
             "operatorOptionContains": "包含",
+            "operatorOptionIs": "是",
+            "operatorOptionNotMatches": "不相符",
             "resolutionRecordLabel": "解析記錄",
             "deleteButtonLabel": "刪除",
             "addRecordTypeLabel": "新增欄位",
@@ -606,6 +608,7 @@
       "configurationTab": "配置",
       "isCertificateValid": "上次執行 - 憑證由公開 CA 簽署",
       "resultsCertificateValid": "憑證由公開 CA 簽署",
+      "serviceLevelsTab": "服務水準",
       "certificateValid": "是",
       "certificateNotValid": "否",
       "daysRemaining": "前次執行 - 剩餘天數",
@@ -768,6 +771,14 @@
       },
       "customProperties": {
         "title": "自訂內容"
+      },
+      "dns": {
+        "title": "測試詳細資料",
+        "description": "查詢類型 {{queryType}} 的 DNS 結果",
+        "name": "名稱",
+        "ttl": "TTL",
+        "data": "日期",
+        "noRecordsFound": "找不到記錄"
       }
     },
     "noDataAvailable": {

@@ -107,8 +107,8 @@
     "metrics": {
       "status": "状況",
       "remainingBudget": "残り",
+      "burnRate": "燃焼率",
       "totalBudget": "エラー予算",
-      "consumedBudget": "エラー・バジェットが消費されました",
       "beaconCount": "ビーコン数",
       "calls": "呼び出し",
       "latency": "待ち時間",
@@ -247,8 +247,8 @@
     "sloChartSummary": {
       "status": "状況",
       "target": "ターゲット:",
-      "errorBudgetRemaining": "残る:",
-      "errorBudgetSpent": "消費済みエラー・バジェット",
+      "errorBudgetTotal": "合計:",
+      "errorBudgetRemaining": "残りのエラー予算",
       "timeWindow": "時間枠",
       "timeWindowType_dynamic": "動的時間枠",
       "timeWindowType_rolling": "ローリング時間枠",
@@ -340,11 +340,17 @@
         "title": "トラフィック",
         "totalTraffic": "合計: {{value}}"
       },
+      "burnRateKpiCard": {
+        "burnRateInfo": "選択したSLO時間枠における燃焼率"
+      },
       "errorBudgetChart": {
         "title": "エラー予算"
       },
       "trafficChart": {
         "title": "トラフィック"
+      },
+      "burnRateChart": {
+        "title": "燃焼率"
       },
       "indicatorChart": {
         "title": "インディケーター",

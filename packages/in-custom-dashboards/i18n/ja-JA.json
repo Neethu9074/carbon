@@ -3,6 +3,7 @@
     "copyOf": "{{title}} のコピー"
   },
   "customDashboard": {
+    "customDashboardsTitle": "カスタム・ダッシュボード",
     "editJsonDialog": {
       "editJsonDialogPresenter": {
         "confirmBt": "確認",
@@ -74,7 +75,9 @@
       "generatingPDFTitle": "PDF の作成",
       "generatingPDFContent": "PDF が生成されるまでお待ちください。",
       "generatedPDFTitle": "作成済み PDF",
-      "generatedPDFContent": "PDF のダウンロードはまもなく開始されます。"
+      "generatedPDFContent": "PDF のダウンロードはまもなく開始されます。",
+      "timeRange": "時刻範囲",
+      "widgetNotAvailableToBeExported": "このウィジェットはエクスポートできません。"
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "ダッシュボードが見つかりません",
@@ -688,7 +691,7 @@
       "timeBased": "時刻ベース",
       "eventBased": "イベント・ベース",
       "sloLite": "SLO Lite",
-      "sloLegacy": "SLO の旧バージョン",
+      "sloLegacy": "SLO レガシー",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "アプリケーション",

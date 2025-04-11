@@ -112,6 +112,7 @@
     "node": "节点",
     "groupBy": "<labelSpan>分组依据</labelSpan><sizeBy/>",
     "groupByLabel": "分组依据",
+    "chooseMetric": "选择指标",
     "unknown": "未知",
     "value": "值",
     "highlightUnhealthy": "突出显示不正常项",
@@ -259,7 +260,7 @@
       "clusterCost": "集群成本",
       "idle": "空闲",
       "costByNameSpace": "按名称空间划分的成本",
-      "kubeCost": "成本 [公开预览］",
+      "kubeCost": "开销",
       "namespaceCumulativeCost": "按名称空间划分的成本",
       "trend": "趋势百分比",
       "ramCost": "RAM",
@@ -272,6 +273,8 @@
       "cpuCost": "CPU",
       "namespace": "名称空间",
       "idleCost": "闲置成本",
+      "viewInKubeCost": "在 Kubecost 中查看",
+      "coreCountByCluster": "vCPU",
       "noKubecostData": "利用 Kubecost 实现成本可观察性和分配。 要配置集成，请遵循以下[步骤][文档]。\n\n[文档]:https://ibm.biz/kubecost"
     }
   },

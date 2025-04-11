@@ -42,7 +42,7 @@
   "titleDuration": "Durée",
   "titleSeverity": "Gravité",
   "titleOpenEvents": "Événements ouverts",
-  "titleEvent": "Événement",
+  "titleEvent": "Evénements",
   "titleReported": "Signalé",
   "titleState": "Etat",
   "titleCvssScore": "Score CVSS",
@@ -189,7 +189,11 @@
     "noSuccessfulIncidentCloseDescription": "Sur {{total_incidents}} incident(s), aucun n'a été clôturé avec succès, tandis que {{number_incidents_failed_closed}} a(ont) échoué. Pour plus de détails, consultez la liste suivante : ",
     "multiFailedCloseIssuesDescription": "Sur {{total_issues}} problème(s), {{number_issues_succesfully_closed}} a/ont été fermé(s) et {{number_issues_failed_closed}} n'a/ont pas pu être fermé(s). Pour plus de détails, consultez la liste suivante : ",
     "singleFailedCloseIssueDescription": "Sur {{total_issues}} problème(s), 1 a été fermé, mais {{number_issues_failed_closed}} n'a/ont pas pu être fermé. Pour plus de détails, consultez la liste suivante : ",
-    "noSuccessfulIssueCloseDescription": "Sur {{total_issues}} problème(s), aucun n'a été clôturé avec succès, tandis que {{number_issues_failed_closed}} a(ont) échoué. Pour plus de détails, consultez la liste suivante : "
+    "noSuccessfulIssueCloseDescription": "Sur {{total_issues}} problème(s), aucun n'a été clôturé avec succès, tandis que {{number_issues_failed_closed}} a(ont) échoué. Pour plus de détails, consultez la liste suivante : ",
+    "multiCloseIssuesLimitReached": "Des problèmes n'ont pas pu être fermés",
+    "multiCloseIncidentsLimitReached": "Des incidents n'ont pas pu être fermés",
+    "multiCloseIssuesLimitReachedDescription": "Seuls 100 problèmes peuvent être fermés simultanément. Réessayez avec moins de problèmes.",
+    "multiCloseIncidentsLimitReachedDescription": "Seuls 100 incidents peuvent être fermés simultanément. Réessayez avec moins d'incidents."
   },
   "ibmMqFileTransfer": {
     "transferID": "ID de transfert",
@@ -214,7 +218,12 @@
     }
   },
   "infraSmartAlerts": {
-    "pseudoAggregatedEntityLabel": "{{entityName}} (agrégé)"
+    "pseudoAggregatedEntityLabel": "{{entityName}} (agrégé)",
+    "aggregatedEntityEvent": {
+      "titleAggregatedEntityList": "Liste agrégée des infrastructures ({{totalEntityCount}})",
+      "viewAllEntitiesInScope": "Afficher toutes les entités ({{count}})",
+      "invalidTimeConfigError": "Impossible de dériver la configuration de l'heure depuis l'événement"
+    }
   },
   "logSmartAlerts": {
     "logs": "Journaux"
@@ -362,6 +371,7 @@
     "unableToFindError": "Impossible de trouver cette information",
     "host": "Hôte",
     "name": "Nom",
+    "count": "Nombre",
     "noMatching": "Aucun enregistrement correspondant trouvé.",
     "timestamp": "Horodatage",
     "numCalls": "Nbre d'appels",
@@ -391,6 +401,7 @@
     "cancel": "Annuler",
     "sureYouWantToDelete": "Etes-vous sûr de vouloir supprimer cette remarque ? Elle sera définitivement supprimée pour tous les utilisateurs.",
     "actionUndone": "Cette action ne peut pas être annulée.",
+    "feedback": "Retour d'informations",
     "summarizeIncident": "Résumez cet incident ?",
     "summarizeIncidentDescription": "Essayez de résumer cet incident pour vous aider, vous et votre équipe, à comprendre rapidement ce qui s'est passé.",
     "generateSummary": "Générer un récapitulatif",

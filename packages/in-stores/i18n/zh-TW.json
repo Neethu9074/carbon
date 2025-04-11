@@ -181,7 +181,11 @@
     "unit_microsecond": "微秒",
     "unit_milisecond": "毫秒",
     "unit_second": "秒",
-    "unit_persecond": "每秒"
+    "unit_persecond": "每秒",
+    "metricGroup_numeric": "數字",
+    "metricGroup_dataSize": "資料大小",
+    "metricGroup_timeUnits": "時間",
+    "metricGroup_rates": "比率"
   },
   "search": {
     "queryInvalidLuceneQuery": "無效的 Lucene 查詢。",
