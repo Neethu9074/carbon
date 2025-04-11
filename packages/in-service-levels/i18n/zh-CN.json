@@ -107,8 +107,8 @@
     "metrics": {
       "status": "状态",
       "remainingBudget": "剩余",
+      "burnRate": "烧损率",
       "totalBudget": "错误预算",
-      "consumedBudget": "使用的错误预算",
       "beaconCount": "信标计数",
       "calls": "调用数",
       "latency": "等待时间",
@@ -247,8 +247,8 @@
     "sloChartSummary": {
       "status": "状态",
       "target": "目标：",
-      "errorBudgetRemaining": "剩余：",
-      "errorBudgetSpent": "已花费的错误预算",
+      "errorBudgetTotal": "总数：",
+      "errorBudgetRemaining": "剩余错误预算",
       "timeWindow": "时间窗口",
       "timeWindowType_dynamic": "动态时间窗口",
       "timeWindowType_rolling": "滚动时间窗口",
@@ -340,11 +340,17 @@
         "title": "流量",
         "totalTraffic": "总计：{{value}}"
       },
+      "burnRateKpiCard": {
+        "burnRateInfo": "所选 SLO 时间窗口内的烧损率"
+      },
       "errorBudgetChart": {
         "title": "错误预算"
       },
       "trafficChart": {
         "title": "流量"
+      },
+      "burnRateChart": {
+        "title": "烧损率"
       },
       "indicatorChart": {
         "title": "指标",

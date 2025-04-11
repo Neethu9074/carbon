@@ -119,7 +119,7 @@
   "labelIssues": "問題",
   "labelMonitoringIssues": "モニタリングの問題",
   "labelCveIssue": "脆弱性",
-  "labelPrcIssue": "推定根本原因",
+  "labelPrcIssue": "考えられる根本原因",
   "labelAll": "すべて",
   "buttonViewCustomEvent": "カスタム・イベントの表示",
   "buttonViewBuiltInEvent": "組み込みイベントを表示",
@@ -189,7 +189,11 @@
     "noSuccessfulIncidentCloseDescription": "{{total_incidents}}件のインシデントのうち、正常にクローズされたものはなく、{{number_incidents_failed_closed}}件は失敗しました。 詳しくは、以下のトピックを参照してください: ",
     "multiFailedCloseIssuesDescription": "{{total_issues}}件のうち、{{number_issues_succesfully_closed}}件は正常にクローズされましたが、{{number_issues_failed_closed}}件は失敗しました。 詳しくは、以下のトピックを参照してください: ",
     "singleFailedCloseIssueDescription": "{{total_issues}}件のうち、1件は正常にクローズされましたが、{{number_issues_failed_closed}}件は失敗しました。 詳しくは、以下のトピックを参照してください: ",
-    "noSuccessfulIssueCloseDescription": "{{total_issues}}件の問題のうち、正常にクローズされたものはなく、{{number_issues_failed_closed}}件は失敗しました。 詳しくは、以下のトピックを参照してください: "
+    "noSuccessfulIssueCloseDescription": "{{total_issues}}件の問題のうち、正常にクローズされたものはなく、{{number_issues_failed_closed}}件は失敗しました。 詳しくは、以下のトピックを参照してください: ",
+    "multiCloseIssuesLimitReached": "問題をクローズできませんでした",
+    "multiCloseIncidentsLimitReached": "インシデントをクローズできませんでした",
+    "multiCloseIssuesLimitReachedDescription": "一度にクローズできる問題は100件のみです。 問題を減らして再度お試しください。",
+    "multiCloseIncidentsLimitReachedDescription": "一度にクローズできるインシデントは100件のみです。 インシデントを減らして再度お試しください。"
   },
   "ibmMqFileTransfer": {
     "transferID": "転送 ID",
@@ -214,7 +218,12 @@
     }
   },
   "infraSmartAlerts": {
-    "pseudoAggregatedEntityLabel": "{{entityName}} (集約)"
+    "pseudoAggregatedEntityLabel": "{{entityName}} (集約)",
+    "aggregatedEntityEvent": {
+      "titleAggregatedEntityList": "インフラストラクチャー ({{totalEntityCount}}) の集約リスト",
+      "viewAllEntitiesInScope": "({{count}}) 個のエンティティーすべてを表示",
+      "invalidTimeConfigError": "イベントから時間の構成情報を取得できませんでした"
+    }
   },
   "logSmartAlerts": {
     "logs": "Logs"
@@ -362,6 +371,7 @@
     "unableToFindError": "その情報が見つかりません",
     "host": "ホスト",
     "name": "名前",
+    "count": "数",
     "noMatching": "一致するレコードは見つかりませんでした。",
     "timestamp": "タイムスタンプ",
     "numCalls": "# Calls",
@@ -391,6 +401,7 @@
     "cancel": "キャンセル",
     "sureYouWantToDelete": "このメモを削除してよろしいですか? すべてのユーザーに対して永久に削除されます。",
     "actionUndone": "この操作は元に戻せません。",
+    "feedback": "フィードバック",
     "summarizeIncident": "この事件を要約しますか。",
     "summarizeIncidentDescription": "あなたやあなたのチームが、何が起こったのかを素早く理解するために、この出来事を要約してみてください。",
     "generateSummary": "要約の作成",

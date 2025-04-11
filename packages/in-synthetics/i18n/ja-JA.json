@@ -238,6 +238,8 @@
             "operatorLabel": "条件",
             "operatorOptionMatches": "一致",
             "operatorOptionContains": "次を含む",
+            "operatorOptionIs": "次と一致",
+            "operatorOptionNotMatches": "マッチしない",
             "resolutionRecordLabel": "解像度記録",
             "deleteButtonLabel": "削除",
             "addRecordTypeLabel": "フィールドの追加",
@@ -606,6 +608,7 @@
       "configurationTab": "構成",
       "isCertificateValid": "最後の実行 - 証明書はパブリック CA によって署名される",
       "resultsCertificateValid": "証明書はパブリック CA によって署名される",
+      "serviceLevelsTab": "サービス・レベル",
       "certificateValid": "はい",
       "certificateNotValid": "いいえ",
       "daysRemaining": "前回の実行 - 残り日数",
@@ -768,6 +771,14 @@
       },
       "customProperties": {
         "title": "カスタム・プロパティー"
+      },
+      "dns": {
+        "title": "テストの詳細",
+        "description": "照会タイプ{{queryType}}のDNS結果",
+        "name": "名前",
+        "ttl": "TTL",
+        "data": "データ",
+        "noRecordsFound": "レコードが見つかりません"
       }
     },
     "noDataAvailable": {

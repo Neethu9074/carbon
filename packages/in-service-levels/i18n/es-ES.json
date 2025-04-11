@@ -107,8 +107,8 @@
     "metrics": {
       "status": "Estado",
       "remainingBudget": "Restante",
+      "burnRate": "Tasa de consumo",
       "totalBudget": "Margen de error",
-      "consumedBudget": "Presupuesto de errores consumido",
       "beaconCount": "Recuento de balizas",
       "calls": "Llamadas",
       "latency": "Latencia",
@@ -247,8 +247,8 @@
     "sloChartSummary": {
       "status": "Estado",
       "target": "Destino:",
-      "errorBudgetRemaining": "Restantes:",
-      "errorBudgetSpent": "Margen de error empleado",
+      "errorBudgetTotal": "Total:",
+      "errorBudgetRemaining": "Margen de error restante",
       "timeWindow": "Ventana de tiempo",
       "timeWindowType_dynamic": "Ventana de tiempo dinámico",
       "timeWindowType_rolling": "Ventana de tiempo de desplazable",
@@ -340,11 +340,17 @@
         "title": "Tráfico",
         "totalTraffic": "Total: {{value}}"
       },
+      "burnRateKpiCard": {
+        "burnRateInfo": "Tasa de consumo durante la ventana de tiempo SLO seleccionada"
+      },
       "errorBudgetChart": {
         "title": "Margen de error"
       },
       "trafficChart": {
         "title": "Tráfico"
+      },
+      "burnRateChart": {
+        "title": "Tasa de consumo"
       },
       "indicatorChart": {
         "title": "Indicador",

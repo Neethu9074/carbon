@@ -181,7 +181,11 @@
     "unit_microsecond": "Microsecondo",
     "unit_milisecond": "Millisecondo",
     "unit_second": "Secondo",
-    "unit_persecond": "Al secondo"
+    "unit_persecond": "Al secondo",
+    "metricGroup_numeric": "Numerico",
+    "metricGroup_dataSize": "Dimensione dati",
+    "metricGroup_timeUnits": "Ora",
+    "metricGroup_rates": "Percentuale"
   },
   "search": {
     "queryInvalidLuceneQuery": "Query Lucene non valida.",

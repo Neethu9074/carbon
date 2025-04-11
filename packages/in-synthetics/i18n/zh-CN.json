@@ -238,6 +238,8 @@
             "operatorLabel": "条件性",
             "operatorOptionMatches": "匹配项",
             "operatorOptionContains": "包含",
+            "operatorOptionIs": "是",
+            "operatorOptionNotMatches": "无匹配项",
             "resolutionRecordLabel": "解析记录",
             "deleteButtonLabel": "删除",
             "addRecordTypeLabel": "添加字段",
@@ -606,6 +608,7 @@
       "configurationTab": "配置",
       "isCertificateValid": "上次运行 - 证书由公共 CA 签署",
       "resultsCertificateValid": "证书由公共 CA 签署",
+      "serviceLevelsTab": "服务级别",
       "certificateValid": "是",
       "certificateNotValid": "False",
       "daysRemaining": "上次运行 - 剩余天数",
@@ -768,6 +771,14 @@
       },
       "customProperties": {
         "title": "定制属性"
+      },
+      "dns": {
+        "title": "测试详细信息",
+        "description": "查询类型 {{queryType}} 的 DNS 结果",
+        "name": "名称",
+        "ttl": "TTL",
+        "data": "数据",
+        "noRecordsFound": "找不到记录"
       }
     },
     "noDataAvailable": {

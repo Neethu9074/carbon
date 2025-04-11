@@ -40,6 +40,8 @@
   "deployment": "배치",
   "pod": "팟(Pod)",
   "tooltipEntityHealthNoIssues": "문제 없음",
+  "tooltipEntityHealthInProgress": "진행 중",
+  "tooltipEntityHealthFailed": "실패함",
   "tooltipEntityHealthIssues": "{{numberOfIssues}}개의 문제",
   "endOfInfiniteScroll": "사용 가능한 로그가 더 이상 없음",
   "liveModeDisabled": "로그 분석 시 라이브 모드가 지원되지 않음",

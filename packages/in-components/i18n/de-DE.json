@@ -2,6 +2,10 @@
   "csvExporterButton": {
     "label": "In CSV exportieren"
   },
+  "pageStructure": {
+    "headerAriaLabel": "Seitenheader",
+    "contentAriaLabel": "Inhalt"
+  },
   "fileInputButton": {
     "label": {
       "chooseSingle": "Datei auswählen ...",
@@ -458,6 +462,7 @@
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
+    "viewSwitcherLabelXenServer": "XenServer",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "Plattformen",
     "viewSwitcherButtonSignOut": "Abmelden",
@@ -469,7 +474,11 @@
     "profileMenu_profileLink": "Profil",
     "profileMenu_tooltip": "Profilmenü",
     "profileMenu_unitName_tenantName": "Einheitenname - Nutzername",
+    "profileMenu_instanceName": "Instanzname",
+    "profileMenu_region": "Bereich",
+    "profileMenu_instanceOwner": "Instanzeigner",
     "profileMenu_switchUnitOrTenant": "Einheit oder Nutzer wechseln",
+    "profileMenu_saasConsole": "IBM SaaS-Konsole",
     "profileMenu_privacy": "Datenschutz",
     "profileMenu_logOut": "Abmelden"
   },

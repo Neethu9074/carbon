@@ -600,7 +600,7 @@
       "descriptionOperatorsCreationEnabled": "AND 運算子會優先採用，並在 OR 運算子之前先評估（前提是未以方括弧分組）",
       "descriptionPrepareToMonitor": "我們正在準備一切，以監視您的應用程式視景 <bold>{{decodedLabel}}</bold>。",
       "prepareToMonitorUnauthorized": "您無權檢視應用程式視景 <bold>{{decodedLabel}}</bold>。 若要取得許可權，請聯絡您的群組管理者。",
-      "descriptionRemoveApplicationPerspective": "如果您再也不想監視應用程式視景 <strong>{{application}}</strong>，請使用下方的按鈕來移除它。移除應用程式視景可能需要最多幾分鐘。",
+      "descriptionRemoveApplicationPerspective": "如果您再也不想監視應用程式視景 <strong>{{application}}</strong>，請使用下方的按鈕來移除它。 移除應用程式視景可能需要幾分鐘的時間，在這段時間內，應用程式清單上仍會顯示該應用程式。",
       "stepTitleDefineApplicationName": "定義您「應用程式視景」的名稱。",
       "stepTitleApplicationName": "應用程式視景的名稱。",
       "stepTitleDefineTags": "使用一或多個標籤來定義「應用程式視景」。",
@@ -783,5 +783,6 @@
     "helpButtonLabel": "提供意見回饋"
   },
   "labelSyntheticMonitoring": "綜合監視",
+  "labelServiceLevels": "服務水準",
   "labelResourceOptimizations": "最佳化"
 }

@@ -600,7 +600,7 @@
       "descriptionOperatorsCreationEnabled": "大括弧でグループ化されていない場合、AND 演算子が優先され、OR 演算子より前に評価されます",
       "descriptionPrepareToMonitor": "アプリケーション・パースペクティブ <bold>{{decodedLabel}}</bold> をモニターするための全準備をしています。",
       "prepareToMonitorUnauthorized": "アプリケーション・パースペクティブ<bold>{{decodedLabel}}</bold>を表示する権限がありません。 権限を取得するには、グループ管理者に連絡を取ってください。",
-      "descriptionRemoveApplicationPerspective": "アプリケーション・パースペクティブ <strong>{{application}}</strong> をモニターしなくなった場合は、下のボタンを使用して削除してください。 アプリケーション・パースペクティブの削除には最大で数分かかる場合があります。",
+      "descriptionRemoveApplicationPerspective": "アプリケーション・パースペクティブ <strong>{{application}}</strong> をこれ以上モニターしない場合は、下のボタンを使用して削除してください。 アプリケーション・パースペクティブの削除には最大で数分かかることがあり、その間もアプリケーションのリストには表示されたままになります。",
       "stepTitleDefineApplicationName": "アプリケーション・パースペクティブの名前を定義します。",
       "stepTitleApplicationName": "アプリケーション・パースペクティブの名前。",
       "stepTitleDefineTags": "1 つ以上のタグを使用してアプリケーション・パースペクティブを定義します。",
@@ -783,5 +783,6 @@
     "helpButtonLabel": "フィードバックの送信"
   },
   "labelSyntheticMonitoring": "シンセティック・モニタリング",
+  "labelServiceLevels": "サービス・レベル",
   "labelResourceOptimizations": "最適化"
 }

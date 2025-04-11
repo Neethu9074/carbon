@@ -600,7 +600,7 @@
       "descriptionOperatorsCreationEnabled": "Les opérateurs AND sont prioritaires et sont évalués avant les opérateurs OU s'ils ne sont pas regroupés entre crochets",
       "descriptionPrepareToMonitor": "Nous nous occupons de tout préparer pour la surveillance de votre perspective d'application <bold>{{decodedLabel}}</bold>.",
       "prepareToMonitorUnauthorized": "Vous ne disposez pas des droits nécessaires pour afficher la perspective d'application <bold>{{decodedLabel}}</bold>. Pour obtenir des droits, contactez votre administrateur de groupe.",
-      "descriptionRemoveApplicationPerspective": "Si vous ne souhaitez plus surveiller la perspective d'application <strong>{{application}}</strong>, cliquez sur le bouton ci-dessous pour la retirer. Le retrait d'une perspective d'application peut prendre plusieurs minutes.",
+      "descriptionRemoveApplicationPerspective": "Si vous ne souhaitez plus surveiller la perspective d'application <strong>{{application}}</strong>, utilisez le bouton ci-dessous pour la retirer. Le retrait d'une perspective d'application peut prendre quelques minutes, pendant lesquelles la perspective d'application reste visible dans la liste des applications.",
       "stepTitleDefineApplicationName": "Définissez un nom pour votre perspective d'application.",
       "stepTitleApplicationName": "Nom de votre perspective d'application.",
       "stepTitleDefineTags": "Définissez la perspective d'application à l'aide d'une ou de plusieurs étiquettes.",
@@ -783,5 +783,6 @@
     "helpButtonLabel": "Commentaires"
   },
   "labelSyntheticMonitoring": "Surveillance synthétique",
+  "labelServiceLevels": "Niveaux de Service",
   "labelResourceOptimizations": "Optimisations"
 }

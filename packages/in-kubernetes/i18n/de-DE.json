@@ -112,6 +112,7 @@
     "node": "Knoten",
     "groupBy": "<labelSpan>Gruppieren nach</labelSpan><sizeBy/>",
     "groupByLabel": "Gruppieren nach",
+    "chooseMetric": "Messwert auswählen",
     "unknown": "Unbekannt",
     "value": "Wert",
     "highlightUnhealthy": "Nicht einwandfreie hervorheben",
@@ -259,7 +260,7 @@
       "clusterCost": "Cluster-Kosten",
       "idle": "Idle",
       "costByNameSpace": "Kosten nach Namespace",
-      "kubeCost": "Kosten [Öffentliche Vorschau]",
+      "kubeCost": "Kosten",
       "namespaceCumulativeCost": "Kosten nach Namespace",
       "trend": "Tendenz in %",
       "ramCost": "RAM",
@@ -272,6 +273,8 @@
       "cpuCost": "CPU",
       "namespace": "Namensbereich",
       "idleCost": "Leerkosten",
+      "viewInKubeCost": "Ansicht in Kubecost",
+      "coreCountByCluster": "vCPU",
       "noKubecostData": "Ermöglichung der Kostenbeobachtung und -zuweisung mit Kubecost. Um die Integration zu konfigurieren, folgen Sie diesen [Schritten][Docs].\n\n[Docs] :https://ibm.biz/kubecost"
     }
   },

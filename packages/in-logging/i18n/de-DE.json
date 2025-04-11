@@ -40,6 +40,8 @@
   "deployment": "Implementierung",
   "pod": "Pod",
   "tooltipEntityHealthNoIssues": "Keine Probleme",
+  "tooltipEntityHealthInProgress": "In Bearbeitung",
+  "tooltipEntityHealthFailed": "Fehlgeschlagen",
   "tooltipEntityHealthIssues": "{{numberOfIssues}}-Probleme",
   "endOfInfiniteScroll": "Keine weiteren Protokolle verfügbar",
   "liveModeDisabled": "Bei der Analyse von Protokollen wird der Livemodus nicht unterstützt",

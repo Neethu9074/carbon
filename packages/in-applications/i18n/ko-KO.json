@@ -600,7 +600,7 @@
       "descriptionOperatorsCreationEnabled": "AND 연산자는 우선권을 가지며 대괄호로 그룹화되지 않은 경우 OR 연산자 전에 평가됩니다.",
       "descriptionPrepareToMonitor": "애플리케이션 퍼스펙티브 <bold>{{decodedLabel}}</bold>을(를) 모니터하는 데 필요한 모든 항목을 준비하고 있습니다.",
       "prepareToMonitorUnauthorized": "<bold>{{decodedLabel}}</bold> 애플리케이션 퍼스펙티브를 볼 수 있는 권한이 없습니다. 권한을 얻으려면 그룹 관리자에게 문의하십시오.",
-      "descriptionRemoveApplicationPerspective": "더 이상 애플리케이션 퍼스펙티브 <strong>{{application}}</strong>을(를) 모니터하지 않으려는 경우 아래 단추를 사용하여 제거하십시오. 애플리케이션 퍼스펙티브 제거는 최대 몇 분이 소요될 수 있습니다.",
+      "descriptionRemoveApplicationPerspective": "애플리케이션 퍼스펙티브 <strong>{{application}}</strong>을(를) 더 이상 모니터하지 않으려면 아래 단추를 사용하여 제거하십시오. 애플리케이션 퍼스펙티브를 제거하는 데 최대 몇 분이 소요될 수 있으며, 이 기간 동안은 애플리케이션 목록에 계속 표시됩니다.",
       "stepTitleDefineApplicationName": "애플리케이션 퍼스펙티브에 대한 이름을 정의하십시오.",
       "stepTitleApplicationName": "애플리케이션 퍼스펙티브의 이름입니다.",
       "stepTitleDefineTags": "하나 이상의 태그를 사용하여 애플리케이션 퍼스펙티브를 정의하십시오.",
@@ -783,5 +783,6 @@
     "helpButtonLabel": "피드백 제공"
   },
   "labelSyntheticMonitoring": "합성 모니터링",
+  "labelServiceLevels": "서비스 레벨",
   "labelResourceOptimizations": "최적화"
 }

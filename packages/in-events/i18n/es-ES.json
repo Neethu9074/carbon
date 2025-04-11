@@ -42,7 +42,7 @@
   "titleDuration": "Duración",
   "titleSeverity": "Gravedad",
   "titleOpenEvents": "Sucesos abiertos",
-  "titleEvent": "Suceso",
+  "titleEvent": "Sucesos",
   "titleReported": "Notificado",
   "titleState": "Estado",
   "titleCvssScore": "Puntuación CVSS",
@@ -189,7 +189,11 @@
     "noSuccessfulIncidentCloseDescription": "De {{total_incidents}} incidencia(s), ninguna se ha cerrado correctamente, mientras que {{number_incidents_failed_closed}} no se han podido cerrar. Para más detalles, consulte la siguiente lista: ",
     "multiFailedCloseIssuesDescription": "De {{total_issues}} problema(s), {{number_issues_succesfully_closed}} se han cerrado correctamente, pero {{number_issues_failed_closed}} no se han podido cerrar. Para más detalles, consulte la siguiente lista: ",
     "singleFailedCloseIssueDescription": "De {{total_issues}} incidencia(s), 1 se ha cerrado correctamente, pero {{number_issues_failed_closed}} no se han podido cerrar. Para más detalles, consulte la siguiente lista: ",
-    "noSuccessfulIssueCloseDescription": "De {{total_issues}} incidencia(s), ninguna se cerró correctamente, mientras que {{number_issues_failed_closed}} no se han podido cerrar correctamente. Para más detalles, consulte la siguiente lista: "
+    "noSuccessfulIssueCloseDescription": "De {{total_issues}} incidencia(s), ninguna se cerró correctamente, mientras que {{number_issues_failed_closed}} no se han podido cerrar correctamente. Para más detalles, consulte la siguiente lista: ",
+    "multiCloseIssuesLimitReached": "Los problemas no se han podido cerrar",
+    "multiCloseIncidentsLimitReached": "Las incidencias no se han podido cerrar",
+    "multiCloseIssuesLimitReachedDescription": "Solo se pueden cerrar 100 problemas a la vez. Inténtalo de nuevo con menos problemas.",
+    "multiCloseIncidentsLimitReachedDescription": "Solo se pueden cerrar 100 incidencias a la vez. Vuelva a intentarlo con menos incidencias."
   },
   "ibmMqFileTransfer": {
     "transferID": "ID de transferencia",
@@ -214,7 +218,12 @@
     }
   },
   "infraSmartAlerts": {
-    "pseudoAggregatedEntityLabel": "{{entityName}} (agregado)"
+    "pseudoAggregatedEntityLabel": "{{entityName}} (agregado)",
+    "aggregatedEntityEvent": {
+      "titleAggregatedEntityList": "Lista agregada de infraestructuras ({{totalEntityCount}})",
+      "viewAllEntitiesInScope": "Ver todas las entidades ({{count}})",
+      "invalidTimeConfigError": "No se ha podido derivar la configuración horaria del suceso"
+    }
   },
   "logSmartAlerts": {
     "logs": "Registros"
@@ -362,6 +371,7 @@
     "unableToFindError": "No se ha podido encontrar esa información",
     "host": "Host",
     "name": "Nombre",
+    "count": "Count",
     "noMatching": "No se han encontrado registros coincidentes.",
     "timestamp": "Indicación de fecha y hora",
     "numCalls": "Núm. de llamadas",
@@ -391,6 +401,7 @@
     "cancel": "Cancelar",
     "sureYouWantToDelete": "¿Está seguro de que desea suprimir esta nota? Se eliminará de forma permanente para todos los usuarios.",
     "actionUndone": "Esta acción no se puede deshacer.",
+    "feedback": "Comentarios",
     "summarizeIncident": "¿Resumir esta incidencia?",
     "summarizeIncidentDescription": "Intente resumir esta incidencia para ayudarle a usted y a su equipo a entender rápidamente lo que ha ocurrido.",
     "generateSummary": "Generar un resumen",

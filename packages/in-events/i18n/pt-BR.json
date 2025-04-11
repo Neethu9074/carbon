@@ -42,7 +42,7 @@
   "titleDuration": "Duração",
   "titleSeverity": "Gravidade",
   "titleOpenEvents": "Eventos abertos",
-  "titleEvent": "Evento",
+  "titleEvent": "Eventos",
   "titleReported": "Relatado",
   "titleState": "State",
   "titleCvssScore": "Pontuação CVSS",
@@ -119,7 +119,7 @@
   "labelIssues": "Problemas",
   "labelMonitoringIssues": "Problemas de monitoramento",
   "labelCveIssue": "Vulnerabilidades",
-  "labelPrcIssue": "Causas raiz prováveis",
+  "labelPrcIssue": "Causas raízes prováveis",
   "labelAll": "Todos",
   "buttonViewCustomEvent": "Visualizar evento customizado",
   "buttonViewBuiltInEvent": "Visualizar evento integrado",
@@ -189,7 +189,11 @@
     "noSuccessfulIncidentCloseDescription": "Dos {{total_incidents}} incidentes, nenhum foi encerrado com sucesso, enquanto {{number_incidents_failed_closed}} falhou. Para obter detalhes adicionais, consulte a lista a seguir: ",
     "multiFailedCloseIssuesDescription": "Dos {{total_issues}} problemas, {{number_issues_succesfully_closed}} foram encerrados com sucesso, mas {{number_issues_failed_closed}} falharam. Para obter detalhes adicionais, consulte a lista a seguir: ",
     "singleFailedCloseIssueDescription": "De {{total_issues}} problema(s), 1 foi encerrado com sucesso, mas {{number_issues_failed_closed}} falharam. Para obter detalhes adicionais, consulte a lista a seguir: ",
-    "noSuccessfulIssueCloseDescription": "Dos {{total_issues}} problemas, nenhum foi fechado com sucesso, enquanto {{number_issues_failed_closed}} falhou. Para obter detalhes adicionais, consulte a lista a seguir: "
+    "noSuccessfulIssueCloseDescription": "Dos {{total_issues}} problemas, nenhum foi fechado com sucesso, enquanto {{number_issues_failed_closed}} falhou. Para obter detalhes adicionais, consulte a lista a seguir: ",
+    "multiCloseIssuesLimitReached": "Os problemas não foram encerrados",
+    "multiCloseIncidentsLimitReached": "Os incidentes não foram encerrados",
+    "multiCloseIssuesLimitReachedDescription": "Apenas 100 problemas podem ser encerrados por vez. Tente novamente com menos problemas.",
+    "multiCloseIncidentsLimitReachedDescription": "Apenas 100 incidentes podem ser encerrados por vez. Tente novamente com menos incidentes."
   },
   "ibmMqFileTransfer": {
     "transferID": "ID da transferência",
@@ -214,7 +218,12 @@
     }
   },
   "infraSmartAlerts": {
-    "pseudoAggregatedEntityLabel": "{{entityName}} (agregado)"
+    "pseudoAggregatedEntityLabel": "{{entityName}} (agregado)",
+    "aggregatedEntityEvent": {
+      "titleAggregatedEntityList": "Lista agregada de infraestruturas ({{totalEntityCount}})",
+      "viewAllEntitiesInScope": "Visualizar todas as ({{count}}) entidades",
+      "invalidTimeConfigError": "Não foi possível derivar a configuração do evento"
+    }
   },
   "logSmartAlerts": {
     "logs": "Logs"
@@ -362,6 +371,7 @@
     "unableToFindError": "Não é possível localizar essas informações",
     "host": "Host",
     "name": "Nome",
+    "count": "Contagem",
     "noMatching": "Nenhum registro correspondente localizado.",
     "timestamp": "Registro de data e hora",
     "numCalls": "Nº de chamadas",
@@ -391,6 +401,7 @@
     "cancel": "Cancelar",
     "sureYouWantToDelete": "Tem certeza de que deseja excluir esta nota? Será removido permanentemente para todos os usuários.",
     "actionUndone": "Essa ação não pode ser desfeita",
+    "feedback": "Feedback",
     "summarizeIncident": "Deseja resumir esse incidente?",
     "summarizeIncidentDescription": "Tente resumir esse incidente para ajudar você e sua equipe a entender rapidamente o que aconteceu.",
     "generateSummary": "Gerar um resumo",

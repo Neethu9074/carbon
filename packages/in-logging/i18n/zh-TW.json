@@ -40,6 +40,8 @@
   "deployment": "部署",
   "pod": "Pod",
   "tooltipEntityHealthNoIssues": "沒有問題",
+  "tooltipEntityHealthInProgress": "進行中",
+  "tooltipEntityHealthFailed": "失敗",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} 個問題",
   "endOfInfiniteScroll": "沒有其他可用的日誌",
   "liveModeDisabled": "分析日誌時不支援即時模式",

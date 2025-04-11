@@ -238,6 +238,8 @@
             "operatorLabel": "Conditionnel",
             "operatorOptionMatches": "Correspond",
             "operatorOptionContains": "Contient",
+            "operatorOptionIs": "Désigne",
+            "operatorOptionNotMatches": "Ne correspond pas à",
             "resolutionRecordLabel": "Compte rendu de la résolution",
             "deleteButtonLabel": "Supprimer",
             "addRecordTypeLabel": "Ajouter une zone",
@@ -606,6 +608,7 @@
       "configurationTab": "Configuration",
       "isCertificateValid": "Dernière exécution - Le certificat est signé par l'autorité de certification publique",
       "resultsCertificateValid": "Le certificat est signé par une autorité de certification publique",
+      "serviceLevelsTab": "Niveaux de Service",
       "certificateValid": "Oui",
       "certificateNotValid": "Non",
       "daysRemaining": "Dernière exécution - Jours restants",
@@ -768,6 +771,14 @@
       },
       "customProperties": {
         "title": "Propriétés personnalisées"
+      },
+      "dns": {
+        "title": "Détails du test",
+        "description": "Résultat du DNS pour le type de requête {{queryType}}",
+        "name": "Nom",
+        "ttl": "TTL",
+        "data": "Données",
+        "noRecordsFound": "Aucun enregistrement trouvé"
       }
     },
     "noDataAvailable": {

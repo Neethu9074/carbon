@@ -189,7 +189,11 @@
     "noSuccessfulIncidentCloseDescription": "在 {{total_incidents}} 個事件中，沒有一個成功關閉，同時有 {{number_incidents_failed_closed}} 個失敗。 如需更多詳細資料，請參閱以下清單： ",
     "multiFailedCloseIssuesDescription": "在 {{total_issues}} 個問題中，{{number_issues_succesfully_closed}} 個已成功關閉，但{{number_issues_failed_closed}} 個失敗。 如需更多詳細資料，請參閱以下清單： ",
     "singleFailedCloseIssueDescription": "在 {{total_issues}} 個問題中，1 個問題已成功關閉，但 {{number_issues_failed_closed}} 個問題失敗。 如需更多詳細資料，請參閱以下清單： ",
-    "noSuccessfulIssueCloseDescription": "在 {{total_issues}} 個問題中，沒有一個成功關閉，同時有 {{number_issues_failed_closed}} 個失敗。 如需更多詳細資料，請參閱以下清單： "
+    "noSuccessfulIssueCloseDescription": "在 {{total_issues}} 個問題中，沒有一個成功關閉，同時有 {{number_issues_failed_closed}} 個失敗。 如需更多詳細資料，請參閱以下清單： ",
+    "multiCloseIssuesLimitReached": "問題無法關閉",
+    "multiCloseIncidentsLimitReached": "無法關閉的事件",
+    "multiCloseIssuesLimitReachedDescription": "一次只能關閉 100 個問題。 問題較少時再試一次。",
+    "multiCloseIncidentsLimitReachedDescription": "一次只能關閉 100 個事件。 事件較少時再試一次。"
   },
   "ibmMqFileTransfer": {
     "transferID": "傳送 ID",
@@ -214,7 +218,12 @@
     }
   },
   "infraSmartAlerts": {
-    "pseudoAggregatedEntityLabel": "{{entityName}}（已聚集）"
+    "pseudoAggregatedEntityLabel": "{{entityName}}（已聚集）",
+    "aggregatedEntityEvent": {
+      "titleAggregatedEntityList": "基礎架構聚集清單 ({{totalEntityCount}})",
+      "viewAllEntitiesInScope": "檢視所有 ({{count}}) 實體",
+      "invalidTimeConfigError": "無法從事件衍生時間配置"
+    }
   },
   "logSmartAlerts": {
     "logs": "日誌"
@@ -362,6 +371,7 @@
     "unableToFindError": "無法找到該資訊",
     "host": "主機",
     "name": "名稱",
+    "count": "計數",
     "noMatching": "找不到相符的記錄。",
     "timestamp": "時間戳記",
     "numCalls": "呼叫數",
@@ -391,6 +401,7 @@
     "cancel": "取消",
     "sureYouWantToDelete": "您確定要刪除此附註嗎？ 它將對所有使用者永久移除。",
     "actionUndone": "這個動作無法復原。",
+    "feedback": "意見",
     "summarizeIncident": "總結此事件？",
     "summarizeIncidentDescription": "嘗試總結此事件，以幫助您和您的團隊快速了解發生了什麼。",
     "generateSummary": "產生摘要",

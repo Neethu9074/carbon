@@ -3,6 +3,7 @@
     "copyOf": "Kopie von {{title}}"
   },
   "customDashboard": {
+    "customDashboardsTitle": "Benutzerdefinierte Dashboards",
     "editJsonDialog": {
       "editJsonDialogPresenter": {
         "confirmBt": "Bestätigen",
@@ -74,7 +75,9 @@
       "generatingPDFTitle": "Pdf generieren",
       "generatingPDFContent": "Bitte warten Sie, während die PDF-Datei erstellt wird.",
       "generatedPDFTitle": "PDF Generiert",
-      "generatedPDFContent": "Der PDF-Download wird in Kürze beginnen."
+      "generatedPDFContent": "Der PDF-Download wird in Kürze beginnen.",
+      "timeRange": "Zeitbereich",
+      "widgetNotAvailableToBeExported": "Dieses Widget kann nicht exportiert werden."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Dashboard nicht gefunden",
