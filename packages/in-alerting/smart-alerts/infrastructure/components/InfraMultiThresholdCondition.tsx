@@ -7,6 +7,7 @@
 import { Field, MapForm } from 'formalistic';
 import React, { useEffect } from 'react';
 
+import { InfraAlertEvaluationType } from '@instana/types/typeDefinitions';
 import { Checkbox, Stack, SvgIcon } from '@instana/components';
 
 import {
@@ -42,6 +43,8 @@ export default function InfraMultiThresholdCondition({
   groupBy
 }: InfraMultiThresholdConditionProps) {
   const maxValue = getMaxMetricValue(percentageMetric);
+  const evaluationType = (form.get('evaluationType') as Field<InfraAlertEvaluationType>).value;
+  const isPerEntityEvaluation = evaluationType === 'PER_ENTITY';
   const thresholdType = getThresholdTypeOptions();
   const warningThresholdField = form.get('threshold').get('warningThreshold').get('value');
   const criticalThresholdField = form.get('threshold').get('criticalThreshold').get('value');
@@ -102,7 +105,7 @@ export default function InfraMultiThresholdCondition({
           id="warningThreshold"
         />
 
-        {!groupBy?.length && (
+        {(!groupBy?.length || isPerEntityEvaluation) && (
           <UseSuggestedValueButton
             form={form}
             updateForm={updateForm}

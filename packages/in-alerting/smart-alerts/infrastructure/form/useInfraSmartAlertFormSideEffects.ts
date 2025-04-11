@@ -46,7 +46,7 @@ export function useInfraSmartAlertFormSideEffects(form: MapForm<any>, setForm: (
     },
     {
       path: ['evaluationType'],
-      effects: [resetGroupBy]
+      effects: [resetGroupBy, resetCalculateThresholdOnBackend]
     }
   ];
 
@@ -70,6 +70,10 @@ function resetGroupBy(form: MapForm<any>): MapForm<any> {
 
 function requestThresholdSuggestion(form: MapForm<any>): MapForm<any> {
   return form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => (f as Field<boolean>).setValue(true));
+}
+
+function resetCalculateThresholdOnBackend(form: MapForm<any>): MapForm<any> {
+  return form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => (f as Field<boolean>).setValue(false));
 }
 
 function resetThreshold(form: MapForm<any>): MapForm<any> {
