@@ -33,6 +33,7 @@ export default function createRuleForm(rule: MobileAppAlertRule): MapForm<any> {
     case 'customEvent':
       return extendForCustomEvent(baseForm, rule as CustomEventMobileAppAlertRule);
   }
+  throw new Error(`Unhandled alert type: ${alertType}`);
 }
 
 function createBaseForm(rule: MobileAppAlertRule): MapForm<any> {
