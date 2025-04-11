@@ -7,6 +7,7 @@ import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
 import { themes } from '@instana/design-tokens';
+import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import { convertToCallLogs } from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/utils';
@@ -16,9 +17,8 @@ import LogIndicator from 'in-applications/analyze/components/TraceDetails/compon
 import { useLogsInCallsContext } from 'in-logging/components/TraceDetails/LogsInCallsContext';
 import { filterOtelLogs } from 'in-logging/components/TraceDetails/utils';
 import Tooltip from 'in-components/Tooltip';
-import connectTo from 'in-hoc/connectTo';
 
-import locals from './CallFrame.mless';
+import locals from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/CallFrame.mless';
 
 export const FRAME_HEIGHT = 24;
 
@@ -29,15 +29,32 @@ function callIsInServiceEndpoint(call, serviceEndpoint) {
     return serviceEndpoint.service.id == call.service.id && serviceEndpoint.endpoint.id == call.endpoint.id;
   }
 }
-
-const CallFrame = forwardRef(function CallFrame(props, ref) {
+export default forwardRef(function CallFrame(props, ref) {
   const { items: loggingLogItems } = useLogsInCallsContext();
-  const { callFrame, xScale, isUnhighlighted, getColor, onCallClicked, isFakeRoot, isOpened } = props;
+  const { callFrame, xScale, getColor, onCallClicked, isFakeRoot, hoveredServiceEndpoint$, openedCallId, openedCall$ } =
+    props;
   const { label, errorCount, depth, x, dx, totalDuration, traceStart, children } = callFrame;
   const top = FRAME_HEIGHT * depth;
   const left = xScale.getRange(x);
   const width = xScale.getRange(x + dx) - left;
 
+  const isUnhighlighted = useObservable(
+    hoveredServiceEndpoint$
+      ? hoveredServiceEndpoint$
+          .map(
+            hoveredServiceEndpoint =>
+              hoveredServiceEndpoint && !callIsInServiceEndpoint(callFrame, hoveredServiceEndpoint)
+          )
+          .distinct()
+      : false,
+    [hoveredServiceEndpoint$]
+  );
+  const isOpened = useObservable(
+    openedCallId != null
+      ? just(callFrame.id === openedCallId)
+      : openedCall$?.map(openedCall => openedCall && callFrame.id === openedCall).distinct(),
+    [openedCall$, openedCallId, callFrame]
+  );
   const nonSpanLogs = convertToCallLogs(loggingLogItems.filter(filterOtelLogs(callFrame)));
   const spanLogs = children?.filter(subCall => subCall.model === 'LOG') ?? [];
 
@@ -100,21 +117,3 @@ function LogIndicators(props) {
 function getTooltipContent(log) {
   return <LogTooltipContent log={log} />;
 }
-
-export default connectTo(
-  props => ({
-    isUnhighlighted: props.hoveredServiceEndpoint$
-      ? props.hoveredServiceEndpoint$
-          .map(
-            hoveredServiceEndpoint =>
-              hoveredServiceEndpoint && !callIsInServiceEndpoint(props.callFrame, hoveredServiceEndpoint)
-          )
-          .distinct()
-      : false,
-    isOpened:
-      props.openedCallId != null
-        ? just(props.callFrame.id === props.openedCallId)
-        : props.openedCall$?.map(openedCall => openedCall && props.callFrame.id === openedCall).distinct()
-  }),
-  CallFrame
-);
