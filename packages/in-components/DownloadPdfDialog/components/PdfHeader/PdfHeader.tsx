@@ -32,11 +32,11 @@ export default function PdfHeader() {
   const timeRangeWithTimezone = `${timeFromFormatted} to ${timeToFormatted} ${timeZone}`;
 
   return (
-    <div className={locals.pdfHeader}>
+    <div className={locals.pdfHeader} aria-hidden="true">
       <div ref={pdfHeaderRef}>
         <div className={locals.header}>
           <div className={locals.logo}>
-            <Typography variant="heading-03">
+            <Typography variant="heading-03" component="div">
               IBM <strong>Instana</strong>
             </Typography>
           </div>
