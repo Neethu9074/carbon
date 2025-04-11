@@ -105,7 +105,7 @@ export default function InfraMultiThresholdCondition({
           id="warningThreshold"
         />
 
-        {(!groupBy?.length || isPerEntityEvaluation) && (
+        {!isPerEntityEvaluation && !groupBy?.length && (
           <UseSuggestedValueButton
             form={form}
             updateForm={updateForm}

@@ -46,7 +46,7 @@ export function useInfraSmartAlertFormSideEffects(form: MapForm<any>, setForm: (
     },
     {
       path: ['evaluationType'],
-      effects: [resetGroupBy, resetCalculateThresholdOnBackend]
+      effects: [resetGroupBy, resetThreshold, resetCalculateThresholdOnBackend]
     }
   ];
 
