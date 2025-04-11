@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Card, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -30,10 +30,10 @@ import {
 } from 'in-events/components/eventUtil';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
-import { aqmDisableConfigOnEventViewEnabled, businessObservabilityEnabled } from 'in-services/featureFlags';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
+import { aqmDisableConfigOnEventViewEnabled, businessObservabilityEnabled } from 'in-services/featureFlags';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import IncidentContent from 'in-events/components/tabs/Summary/IncidentDetailPage/IncidentContent';
@@ -52,6 +52,7 @@ import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProc
 import MobileEventContent from 'in-events/components/EventContent/MobileEventContent';
 import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
+import { getEventType, getEventTrackingType, EVENT_TYPES } from 'in-stores/events';
 import CveIssueDescription from 'in-events/components/legacy/CveIssueDescription';
 import LogsEventContent from 'in-events/components/EventContent/LogEventContent';
 import SloEventContent from 'in-events/components/EventContent/SloEventContent';
@@ -60,18 +61,19 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import { productAreas } from 'in-services/tracking/productAreas';
-import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { getEventType, EVENT_TYPES } from 'in-stores/events';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
-import { pageNames } from 'in-services/tracking/pageNames';
 import EventChart from 'in-events/components/EventChart';
 import { emptyList } from 'in-services/fixedImmutables';
+import { eventsPath } from 'in-events/navigation/paths';
 import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
+import { eventsPageTracker } from 'in-stores/events';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -82,22 +84,28 @@ export default function Summary(props) {
   const expiredSnapshotId = getSnapshotId(event, isEntityVerificationEvent(event));
   const expiredSnapshotVersions = useObservable(getSnapshotVersionsObservable, [expiredSnapshotId]);
   const latestSnapshot = expiredSnapshotVersions && getLatestSnapshot(expiredSnapshotVersions.toArray());
+  const eventType = getEventType(event);
+  const isIncident = eventType === EVENT_TYPES.INCIDENT;
+  const location = useLocation();
+
+  useEffect(() => {
+    // make sure that tracking is enabled. This is done because tab changes should not c
+    const tracking = getMatrixParameter(location, eventsPath, 'track');
+    // if the url is marked to ignore tracking (from ViewSwitcher) then don't send a PageView as this
+    // causes duplicate PageViews that don't reflect reality
+    if (selectedEventId !== undefined && tracking !== 'false') {
+      const configType = event.getIn(['metadata', 'eventConfigurationType']);
+      eventsPageTracker(productAreas.event, getEventTrackingType(event), props.location, configType);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event]);
 
   if (!event || selectedEventId !== event.get('id')) {
     return <LoadingIndicator size="xxxl" style={{ height: '200px' }} />;
   }
 
-  const eventType = getEventType(event);
-  const isIncident = eventType === EVENT_TYPES.INCIDENT;
-
   return (
     <>
-      <ViewTrackingMeta
-        data={{
-          productArea: productAreas.events,
-          pageRootName: pageNames.event
-        }}
-      />
       <div className={locals.content}>
         <DeprecatedCustomEventWarning event={event.toJS()} isIncident={isIncident} />
         {isIncident ? (

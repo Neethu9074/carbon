@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useEffect } from 'react';
 import { isNull } from 'lodash';
-import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -16,8 +16,10 @@ import {
   prcIssueEnabled
 } from 'in-services/featureFlags';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { getParentPage, eventsPageTracker } from 'in-stores/events';
+import { productAreas } from 'in-services/tracking/productAreas';
 import * as eventTypeLabels from 'in-events/eventTypeLabels';
 import { eventsPath } from 'in-events/navigation/paths';
 import { eventId } from 'in-events/navigation/matrix';
@@ -73,6 +75,11 @@ export default function ViewSwitcher({ selectedEventType = null, onChange }) {
   const isInternalVisible = useObservable(isInternalVisible$, [isInternalVisible$]);
   const { location, navigate } = useNavigation();
 
+  useEffect(() => {
+    eventsPageTracker(productAreas.events, getParentPage(getMatrixParameter(location, eventsPath, 'view')), location);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedEventType]);
+
   const tabs = generateEventTypes(isInternalVisible);
 
   return (
@@ -88,6 +95,9 @@ export default function ViewSwitcher({ selectedEventType = null, onChange }) {
                 filter: ''
               });
               setOrDeleteMatrixKey(location, eventsPath, eventId, null);
+              // clicking tab should not cause any Event view page to duplicate segment page views
+              // hence we add a url parameter to allow the Summary page tracker to not duplicate page views
+              setOrDeleteMatrixKey(location, eventsPath, 'track', false);
               if (id === 'all') {
                 setOrDeleteMatrixKey(location, eventsPath, 'view', null);
               } else {
