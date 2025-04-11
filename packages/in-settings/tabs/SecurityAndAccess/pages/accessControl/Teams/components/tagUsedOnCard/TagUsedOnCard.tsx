@@ -31,11 +31,11 @@ const TagUsedOnCard = ({ isLoading, teamTagUsed }: TagUsedOnCardProps) => {
       {!isLoading && isEmptyTagInUse && <NoTagUsedOn />}
       {!isLoading && !isEmptyTagInUse && (
         <div className={locals.entityTile}>
-          {TEAMTAG_USED_ENTITIES.map((teamTagUsedEntity, index) => {
+          {TEAMTAG_USED_ENTITIES.map(teamTagUsedEntity => {
             const { title, id } = teamTagUsedEntity;
             return (
-              <CarbonLayer>
-                <CarbonClickableTile title={title} renderIcon={ArrowRight} key={index} id={id}>
+              <CarbonLayer key={id}>
+                <CarbonClickableTile title={title} renderIcon={ArrowRight} id={id}>
                   <Typography variant="body-01" component="p">
                     {title}
                   </Typography>

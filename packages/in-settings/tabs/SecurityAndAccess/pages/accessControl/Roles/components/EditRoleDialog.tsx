@@ -36,9 +36,12 @@ import MapFormProvider, {
 } from 'in-settings/components/MapFormProvider/MapFormProvider';
 import { AreaPermission, Capability, LimitedAccessScope } from 'in-stores/permission';
 import { createRole, updateRole } from 'in-settings/tabs/SecurityAndAccess/api/roles';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { CREATED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import { close as closeModal } from 'in-components/DialogPresenter/store';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { SETTINGS_ROLE_SUBMIT } from 'in-services/tracking/eventNames';
 import useFormSubmission from 'in-hooks/useFormSubmission';
 import useDerivedState from 'in-hooks/useDerivedState';
 import { FetchStatus } from 'in-hooks/utils/types';
@@ -69,6 +72,7 @@ interface EditRoleDialogProps {
 export default function EditRoleDialog({ mode, formValues }: EditRoleDialogProps) {
   const [form, setForm] = useDerivedState(createRoleForm(formValues));
   const [status, submitForm] = useFormSubmission(ROLE_FORM_ACTIONS[mode]);
+  const { unstable_trackEvent } = useSegmentTracking();
 
   function onSubmit() {
     if (!form.hierarchyValid) {
@@ -93,10 +97,16 @@ export default function EditRoleDialog({ mode, formValues }: EditRoleDialogProps
         });
       },
       onSuccess: () => {
+        const { permissions, ...customData } = payload;
         addMessage({
           type: 'success',
           content: t('in-settings:dialogs.role.roleSuccessfullySaved')
         });
+        unstable_trackEvent(
+          mode === FORM_MODE.EDIT ? UPDATED_OBJECT : CREATED_OBJECT,
+          { objectType: SETTINGS_ROLE_SUBMIT },
+          customData
+        );
         closeModal();
       }
     });
