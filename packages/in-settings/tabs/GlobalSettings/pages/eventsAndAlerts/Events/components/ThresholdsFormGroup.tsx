@@ -117,7 +117,7 @@ export function ThresholdsFormGroup({
       )}
 
       {!isPercentileMetric && (
-        <Col lg={hideTimeWindow ? reducedColSizeForFitIntoRow : defaultColSize}>
+        <Col lg={defaultColSize}>
           {(form.get('aggregation') as Field<string>).map(field => (
             <FormGroup>
               <Label htmlFor="event-aggregation" hasError={!field.valid && field.touched}>
