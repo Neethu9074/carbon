@@ -23,7 +23,7 @@ import {
   SyntheticDatacenter,
   GroupPermissionEntity,
   DNSQueryType,
-  DNSFilterOperator
+  SyntheticTestFilterOperator
 } from 'in-types';
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
@@ -106,7 +106,7 @@ export const DNSQueryTypes: { label: string; value: string }[] = [
   }
 ];
 
-export const DNSFilterOperators: { label: string; value: DNSFilterOperator }[] = [
+export const DNSFilterOperators: { label: string; value: SyntheticTestFilterOperator }[] = [
   {
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionContains'),
     value: 'CONTAINS'
