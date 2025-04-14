@@ -46,7 +46,7 @@ export function useInfraSmartAlertFormSideEffects(form: MapForm<any>, setForm: (
     },
     {
       path: ['evaluationType'],
-      effects: [resetGroupBy, resetThreshold, resetCalculateThresholdOnBackend]
+      effects: [resetGroupBy, resetThreshold, resetOrRequestThresholdSuggestion]
     }
   ];
 
@@ -72,8 +72,14 @@ function requestThresholdSuggestion(form: MapForm<any>): MapForm<any> {
   return form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => (f as Field<boolean>).setValue(true));
 }
 
-function resetCalculateThresholdOnBackend(form: MapForm<any>): MapForm<any> {
-  return form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => (f as Field<boolean>).setValue(false));
+function resetOrRequestThresholdSuggestion(form: MapForm<any>): MapForm<any> {
+  const evaluationType = (form.get('evaluationType') as Field<InfraAlertEvaluationType>).value;
+
+  if (evaluationType === evaluationTypes.perEntity) {
+    return form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => (f as Field<boolean>).setValue(false));
+  }
+
+  return requestThresholdSuggestion(form);
 }
 
 function resetThreshold(form: MapForm<any>): MapForm<any> {
