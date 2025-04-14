@@ -135,7 +135,6 @@ export async function CustomSendMessages(
               sendMessage(t('in-events:aichat.noMatching'), true);
             } else {
               instance.messaging.addMessage(tabular, { silent: false });
-              sendMessage(t('in-events:aichat.anyOtherQs'), true);
             }
             instance.updateCSSVariables({ 'BASE-width': '700px' });
           },
