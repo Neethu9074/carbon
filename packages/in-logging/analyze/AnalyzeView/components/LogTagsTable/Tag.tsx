@@ -34,7 +34,6 @@ import useResolvedName from 'in-logging/analyze/AnalyzeView/components/hooks/use
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedLink';
 import { ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -51,7 +50,6 @@ export function Actions({
   item
 }: GetContentType) {
   const { trackCta } = useSegmentTracking();
-  const { location, navigate } = useNavigation();
 
   const iconColor = 'var(--ids-color-option-neutral-900)';
   const value = !longValues.includes(uniqueTagName) ? tag.stringValue || '' : tag.longValue || 0;
@@ -65,10 +63,9 @@ export function Actions({
             color={iconColor}
             iconSize={'xs'}
             type="lib_group_by"
+            href={getHrefToGroupedView(createGroupingTag(tag.name, tag.key))}
             onClick={() => {
-              location.pathname += getHrefToGroupedView(createGroupingTag(tag.name, tag.key));
               trackGroupClick(trackCta, resolvedValue);
-              navigate(location);
             }}
           />
         </Tooltip>
@@ -80,10 +77,9 @@ export function Actions({
             color={iconColor}
             iconSize={'xs'}
             type="lib_actions_filter"
+            href={onSelectTagHref(createTagFilter(value, item.tags, tag.name, tag.key) as TagFilter)}
             onClick={() => {
-              location.pathname += onSelectTagHref(createTagFilter(value, item.tags, tag.name, tag.key) as TagFilter);
               trackFilterClick(trackCta, tag, value);
-              navigate(location);
             }}
           />
         </Tooltip>
