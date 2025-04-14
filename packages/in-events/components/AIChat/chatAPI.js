@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { technologyOptions } from 'in-events/components/AIChat/DefinedQuestions';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
@@ -55,7 +56,12 @@ export function formatForTable(apiResponse) {
           response_type: 'table',
           headers: [],
           rows: []
-        }
+        },
+        {
+          response_type: 'text',
+          text: t('in-events:aichat.anyOtherQs')
+        },
+        technologyOptions
       ]
     }
   };
@@ -136,7 +142,12 @@ export function formatForTable(apiResponse) {
           response_type: response.response_type,
           headers: response.data.headers,
           rows: response.data.rows
-        }
+        },
+        {
+          response_type: 'text',
+          text: t('in-events:aichat.anyOtherQs')
+        },
+        technologyOptions
       ]
     }
   };
