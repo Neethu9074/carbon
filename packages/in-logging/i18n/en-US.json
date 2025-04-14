@@ -81,7 +81,9 @@
       "logIntegrations": "Log integrations",
       "logIntegrationsDescription": "Connect your log management solutions and configure them to meet your needs.",
       "retentionPeriod": "Retention period",
-      "retentionPeriodDescription": "Changing the retention period affects the time that logs are retained and available in Applications, Dashboards, and Analytics, and has an impact on cost and billing."
+      "retentionPeriodDescription": "Changing the retention period affects the time that logs are retained and available in Applications, Dashboards, and Analytics, and has an impact on cost and billing.",
+      "patternRecognition": "Log pattern recognition",
+      "patternRecognitionDescription": "AI functionality that discover recurrent patterns in your logs. Patterns provide a high level overview of your logs and help decrease the time to resolve on trouble shooting."
     }
   }
 }

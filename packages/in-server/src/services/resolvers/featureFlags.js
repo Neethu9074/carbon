@@ -236,6 +236,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'patternRecognitionEnabled',
+    instanaCtlKey: 'feature.pattern.recognition.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'deleteLogsV3Enabled',
     instanaCtlKey: 'feature.delete.logs.v3.enabled',
     defaultValue: false

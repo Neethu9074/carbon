@@ -50,6 +50,7 @@ module.exports = {
   ibmCommonEnabled: true,
   loggingEnabled: true,
   deleteLogsV3Enabled: false,
+  patternRecognitionEnabled: false,
   notesAndActivityEnabled: true,
   carbonTooltipEnabled: true,
   pseudoLanguageEnabled: true,
