@@ -14,7 +14,8 @@ import {
   loggingEnabled,
   mobileAppCrashBeaconEnabled,
   mobileAppPerfBeaconEnabled,
-  mobileAppDroppedBeaconsEnabled
+  mobileAppDroppedBeaconsEnabled,
+  analyzeSubtracesEnabled
 } from 'in-services/featureFlags';
 /* eslint-enable no-restricted-imports */
 import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
@@ -118,6 +119,20 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
               formModel,
               tagCatalog,
               groupBy: isGrouped ? defaultApplicationGroupings.traces : emptyObject,
+              setOnClickNotificationMessage
+            })
+        },
+        {
+          dataSource: 'subtraces',
+          enabled: analyzeSubtracesEnabled,
+          //need to change the catalog after the backend is ready
+          getHref: ({ formModel, tracesTagCatalog: tagCatalog, setOnClickNotificationMessage }) =>
+            tagCatalog &&
+            getLinkToApplicationAnalyze({
+              dataSource: 'subtraces',
+              formModel,
+              tagCatalog,
+              groupBy: emptyObject,
               setOnClickNotificationMessage
             })
         }

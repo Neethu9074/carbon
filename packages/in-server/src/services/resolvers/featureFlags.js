@@ -747,6 +747,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'analyzeSubtracesEnabled',
+    instanaCtlKey: 'feature.analyze.subtraces.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'applicationSaveFiltersEnabled',
     instanaCtlKey: 'feature.application.save.filters.enabled',
     defaultValue: false

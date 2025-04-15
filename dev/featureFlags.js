@@ -152,6 +152,7 @@ module.exports = {
   disableEventConfigEnabled: true,
   graphTabEnabled: true,
   applicationSubtracesEnabled: true,
+  analyzeSubtracesEnabled: false,
   applicationSaveFiltersEnabled: true,
   customDashboardTopLevelFiltersEnabled: true,
   infraSmartAlertFullScreenDesignEnabled: true,
