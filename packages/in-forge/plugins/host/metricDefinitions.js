@@ -152,6 +152,29 @@ export default [
     min: 0,
     formatter: number
   },
+
+  {
+    metrics: [
+      'cpu.systemCalls',
+      'cpu.systemWrites',
+      'cpu.nonBlockReads',
+      'cpu.nonBlockWrites',
+      'cpu.logicalBlockReads',
+      'cpu.logicalBlockWrites'
+    ],
+    labels: [
+      t('in-forge:plugins.host.systemCalls'),
+      t('in-forge:plugins.host.systemWrites'),
+      t('in-forge:plugins.host.nonBlockReads'),
+      t('in-forge:plugins.host.nonBlockWrites'),
+      t('in-forge:plugins.host.logicalBlockReads'),
+      t('in-forge:plugins.host.logicalBlockWrites')
+    ],
+    category: [t('in-forge:plugins.host.cpu')],
+    min: 0,
+    formatter: number
+  },
+
   {
     metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal', 'cpu.used', 'cpu.idle', 'cpu.hypv'],
     labels: [

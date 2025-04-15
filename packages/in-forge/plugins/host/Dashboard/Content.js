@@ -326,6 +326,37 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           )}
         </DashboardSection>
       )}
+
+      {isAixOs(snapshot) && (
+        <DashboardSection title={t('in-forge:plugins.host.dashboard.systemEvents')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: [
+                'cpu.systemCalls',
+                'cpu.systemWrites',
+                'cpu.nonBlockReads',
+                'cpu.nonBlockWrites',
+                'cpu.logicalBlockReads',
+                'cpu.logicalBlockWrites'
+              ],
+              labels: [
+                t('in-forge:plugins.host.dashboard.systemCalls'),
+                t('in-forge:plugins.host.dashboard.systemWrites'),
+                t('in-forge:plugins.host.dashboard.nonBlockReads'),
+                t('in-forge:plugins.host.dashboard.nonBlockWrites'),
+                t('in-forge:plugins.host.dashboard.logicalBlockReads'),
+                t('in-forge:plugins.host.dashboard.logicalBlockWrites')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      )}
+
       {isAixOs(snapshot) && <VolumeGroups snapshot={snapshot} timeConfig={timeConfig} />}
       {isAixOs(snapshot) && <PhysicalVolume snapshot={snapshot} timeConfig={timeConfig} />}
       {isAixOs(snapshot) && <Disks snapshot={snapshot} timeConfig={timeConfig} />}
