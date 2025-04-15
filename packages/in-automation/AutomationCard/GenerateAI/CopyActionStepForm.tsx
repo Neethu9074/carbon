@@ -28,8 +28,6 @@ import { t } from 'in-i18n';
 
 import locals from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog.mless';
 
-// import { Result } from '@instana/types';
-
 type ActionFormItems = {
   name: FormField<string>;
   description: FormField<string>;
@@ -66,7 +64,8 @@ export default function CopyActionStepForm({
   setExportForm,
   actionNameExists,
   clearActionNameExists,
-  setResultUrl
+  setResultUrl,
+  isAnsibleScript
 }: {
   form: ActionForm;
   setForm: (setValueFunc: (value: ActionForm) => ActionForm) => void;
@@ -75,6 +74,7 @@ export default function CopyActionStepForm({
   actionNameExists?: null | boolean;
   clearActionNameExists?: () => void;
   setResultUrl?: React.Dispatch<React.SetStateAction<Result<any> | null>>;
+  isAnsibleScript?: boolean;
 }) {
   const name = form.get('name');
   const description = form.get('description');
@@ -96,20 +96,22 @@ export default function CopyActionStepForm({
                 </Typography>
                 <Spacer vertical="small" />
                 <Stack direction="horizontal">
-                  <RadioButton
-                    key="internal"
-                    label={t('in-automation:GenerateAIActionDialog.generateScriptDialog.createActionOption')}
-                    checked={field.value === 'internal'}
-                    onChange={() => {
-                      setExportForm(form =>
-                        form
-                          .updateIn(['exportType'], item => item.setValue('internal').setTouched(true))
-                          .updateIn(['agent'], item => item.setValue('').setTouched(true))
-                          .updateIn(['repository'], item => item.setValue('').setTouched(true))
-                      );
-                      setResultUrl?.(null);
-                    }}
-                  />
+                  {!isAnsibleScript && (
+                    <RadioButton
+                      key="internal"
+                      label={t('in-automation:GenerateAIActionDialog.generateScriptDialog.createActionOption')}
+                      checked={field.value === 'internal'}
+                      onChange={() => {
+                        setExportForm(form =>
+                          form
+                            .updateIn(['exportType'], item => item.setValue('internal').setTouched(true))
+                            .updateIn(['agent'], item => item.setValue('').setTouched(true))
+                            .updateIn(['repository'], item => item.setValue('').setTouched(true))
+                        );
+                        setResultUrl?.(null);
+                      }}
+                    />
+                  )}
                   <RadioButton
                     key="github"
                     label={t('in-automation:GenerateAIActionDialog.generateScriptDialog.toGithub')}

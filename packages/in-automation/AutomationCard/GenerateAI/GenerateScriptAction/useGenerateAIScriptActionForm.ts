@@ -7,7 +7,7 @@
 import { Field as FormField, MapForm, createField, createMapForm, notBlankValidator } from 'formalistic';
 import { useState } from 'react';
 
-import { ActionType, Field } from '@instana/types';
+import { ActionType, Field, GeneratedActionInterpreter } from '@instana/types';
 
 import { createScriptFields, createGitUrlFields } from 'in-automation/utils/actionField';
 import { Option } from 'in-components/ComboBox/ComboBox';
@@ -19,6 +19,7 @@ type GenerateAIScriptActionFormItems = {
     selectedManualStep: FormField<string>;
     selectedManualStepID: FormField<string>;
     promptStep: FormField<string>;
+    interpreterType: FormField<GeneratedActionInterpreter>;
   }>;
   action: MapForm<{
     name: FormField<string>;
@@ -92,6 +93,10 @@ function createGenerateAIActionForm() {
           }),
           promptStep: createField({
             value: '',
+            validator: notBlankValidator
+          }),
+          interpreterType: createField({
+            value: 'BASH' as GeneratedActionInterpreter,
             validator: notBlankValidator
           })
         }

@@ -28,6 +28,8 @@ export default function CopyActionStep({
 }) {
   const actionForm = form.get('action');
   const exportForm = form.get('export');
+  const promptForm = form.get('prompt');
+  const interpreterType = promptForm.get('interpreterType');
 
   return (
     <div>
@@ -46,6 +48,7 @@ export default function CopyActionStep({
         setExportForm={exportForm => setForm(form => form.updateIn(['export'], exportForm))}
         setForm={actionForm => setForm(form => form.updateIn(['action'], actionForm))}
         setResultUrl={setResultUrl}
+        isAnsibleScript={interpreterType.value === 'ANSIBLE'}
       />
     </div>
   );
