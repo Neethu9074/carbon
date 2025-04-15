@@ -12,7 +12,7 @@ const middleware = require('i18next-http-middleware');
 
 const { getCurrentUser } = require('../auth');
 const { activeResolver } = require('../services/resolvers');
-const { solisHubRoute } = require('./solis-hub');
+const { solisHubRoute, createRequest } = require('./solis-hub');
 
 const i18nPath = path.join(__dirname, 'translations');
 const namespace = 'in-server';
@@ -103,12 +103,7 @@ router.get('/solis/nav', async (req, res) => {
 
 async function getHostCount(req) {
   try {
-    const url = `${req.uiBackendBaseUrl}/api/infrastructure-monitoring/monitoring-state`;
-    const hostCountRequest = new Request(url, {
-      headers: {
-        Authorization: req.headers.authorization
-      }
-    });
+    const hostCountRequest = createRequest(req, '/api/infrastructure-monitoring/monitoring-state');
 
     const response = await fetch(hostCountRequest);
     const status = response.status;
@@ -127,12 +122,7 @@ async function getHostCount(req) {
 
 async function getIncidentCount(req) {
   try {
-    const url = `${req.uiBackendBaseUrl}/api/events?eventTypeFilters=INCIDENT`; // double check if this is the right data
-    const incidentRequest = new Request(url, {
-      headers: {
-        Authorization: req.headers.authorization
-      }
-    });
+    const incidentRequest = createRequest(req, '/api/events?eventTypeFilters=INCIDENT');
 
     const response = await fetch(incidentRequest);
     const status = response.status;
@@ -553,7 +543,7 @@ function getAbout({ version, build_number }) {
     description: 'Instana Observability',
     version,
     build_number,
-    docs_link: 'https://www.ibm.com/docs/en/instana-observability/current',
+    docs_link: 'https://www.ibm.com/docs/en/instana-observability',
     copyright_years: '2021 - 2025'
   };
 }
@@ -565,12 +555,8 @@ async function getInstanaVersion(req) {
   };
 
   try {
-    const url = `${req.uiBackendBaseUrl}/api/instana/version`;
-    const response = await fetch(url, {
-      headers: {
-        Authorization: req.headers.authorization
-      }
-    });
+    const versionRequest = createRequest(req, '/api/instana/version');
+    const response = await fetch(versionRequest);
 
     if (!response.ok) {
       console.warn(`Instana version fetch failed with status ${response.status}`);
@@ -599,17 +585,17 @@ function getHelp(t) {
     primary_content: {
       title: 'Opening a support case',
       description: 'To open a support case.',
-      learn_more_href: 'https://www.ibm.com/docs/en/instana-observability/current?topic=support-opening-case'
+      learn_more_href: 'https://www.ibm.com/mysupport/s/?language=en_US'
     },
     addtl_docs_topics: [
       {
         label: t('in-server:mainNavigation.viewSwitcherLabelDocumentation'),
-        href: 'https://www.ibm.com/docs/en/instana-observability/current',
+        href: 'https://www.ibm.com/docs/en/instana-observability',
         description: 'Instana Official documentation'
       }
     ],
-    feature_request_href: 'https://www.ibm.com/mysupport/s/?language=en_US',
-    contact_support_href: 'https://ideas.ibm.com/products/6922406837448488098'
+    contact_support_href: 'https://www.ibm.com/mysupport/s/?language=en_US',
+    feature_request_href: 'https://ideas.ibm.com/products/6922406837448488098'
   };
   return JSON.stringify(content);
 }
