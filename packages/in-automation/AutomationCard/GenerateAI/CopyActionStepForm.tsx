@@ -143,7 +143,8 @@ export default function CopyActionStepForm({
         )}
 
         {(type.value === ACTION_TYPE.MANUAL ||
-          (type.value === ACTION_TYPE.SCRIPT && exportType && exportType.value === 'internal')) && (
+          (type.value === ACTION_TYPE.SCRIPT && exportType && exportType.value === 'internal') ||
+          (type.value === ACTION_TYPE.SCRIPT && !exportType)) && (
           <>
             <Typography variant="heading-02">{t('in-automation:GenerateAIActionDialog.actionDetails')}</Typography>
             {name.map(field => (
