@@ -194,11 +194,13 @@ router.get('/', async (req, res) => {
       : termsAndPrivacy.walkmeAnalyticsServices;
     const walkmeTestEnabled = walkmeEnabled && featureFlags.playwithTestEnabled;
     const ibmCommonEnabled = featureFlags.ibmCommonEnabled;
+    const tealiumPrivacyEnabled = featureFlags.tealiumPrivacyEnabled;
     const solisEnabled = featureFlags.solisEnabled;
     const solisUiHost = clientConfig.solisUiHost ?? '';
     const isAssistMeEnabled = ibmCommonEnabled && featureFlags.assistmeEnabled && walkmeEnabled;
     const isSessionPlayBackRequired =
       walkmeEnabled && (activeLicenseInfo == 'selfService' || featureFlags.playwithEnabled);
+    const noticeCloseCookieDomainName = clientConfig.butlerDomain;
     const segmentAnalyticsEnabled = featureFlags.segmentAnalyticsEnabled;
     res.set(
       'Content-Security-Policy',
@@ -236,6 +238,8 @@ router.get('/', async (req, res) => {
         walkmeEnabled,
         walkmeTestEnabled,
         ibmCommonEnabled,
+        noticeCloseCookieDomainName,
+        tealiumPrivacyEnabled,
         segmentKeyValue,
         segmentAnalyticsEnabled
       })
