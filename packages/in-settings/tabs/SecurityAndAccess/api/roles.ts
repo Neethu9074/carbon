@@ -7,11 +7,12 @@
 import { Result, RoleOverview, ApiRole, CreateRole } from '@instana/types';
 import { create, Observable } from '@instana/observables';
 
+import { ApiRoleWithPermissions } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
+import { translateRoleResult, translateRolesResult } from 'in-settings/utils/i18n';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { minutes } from 'in-services/time/time';
 import http from 'in-services/http/http';
-import { ApiRoleWithPermissions } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
 
 const API_BASE_PATH_ROLES = '/api/settings/rbac/roles';
 
@@ -29,7 +30,7 @@ function getRoleInternal({ id }: GetRoleInternalProps): Observable<Result<ApiRol
       method: 'GET',
       url: `${API_BASE_PATH_ROLES}/${encodeURI(id)}`,
       treat400AsError: true
-    })
+    }).map(translateRoleResult)
   );
 }
 
@@ -46,7 +47,7 @@ function getRolesOverviewInternal(): Observable<Result<RoleOverview[]>> {
       maxRetries: 3,
       method: 'GET',
       url: `${API_BASE_PATH_ROLES}/overview`
-    })
+    }).map(translateRolesResult)
   );
 }
 

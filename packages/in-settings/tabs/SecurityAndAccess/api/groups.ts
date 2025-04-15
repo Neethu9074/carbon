@@ -6,6 +6,12 @@
 import { ApiGroup, ApplicationNameExists, GroupReference, Result, SearchResult } from '@instana/types';
 import { Observable, create } from '@instana/observables';
 
+import {
+  translateRolesResponse,
+  translateRolesResult,
+  translateStaticRoleName,
+  translateStaticRolesByNameKey
+} from 'in-settings/utils/i18n';
 import { syntheticViewCapabilities } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -40,7 +46,7 @@ function getGroupWithIdpFlagAsResultObservableInternal(groupId: string) {
         maxRetries: 3,
         url: `${basePath}/${groupId}/group-with-idp-mapping`
       }).map(r => {
-        const groupWithRoles = r.body.groupWithRoles;
+        const groupWithRoles = translateStaticRoleName({ role: r.body.groupWithRoles, nameKey: 'name' });
         const idpFlagMap = new Map(Object.entries(r.body.idpFlagMap));
         return {
           ...r,
@@ -64,7 +70,7 @@ function getGroupsResultInternal(): Observable<Result<ApiGroup[]>> {
     url: basePath,
     mapToResultObject: true,
     treat400AsError: true
-  });
+  }).map(translateRolesResult);
 }
 
 export const getGroups = memoize(
@@ -82,7 +88,7 @@ function getGroupsAsResultObservableInternal(_arg: undefined) {
         method: 'GET',
         maxRetries: 3,
         url: basePath
-      })
+      }).map(translateRolesResponse)
     )
   );
 }
@@ -91,11 +97,11 @@ export const getGroupAsResultObservable = memoize(getGroupAsResultObservableInte
 function getGroupAsResultObservableInternal(groupId: string): Observable<Result<ApiGroup[]>> {
   return refreshSignalTeams.flatMap(() =>
     createObservable(
-      http({
+      http<ApiGroup[]>({
         method: 'GET',
         maxRetries: 3,
         url: `${basePath}/${groupId}`
-      })
+      }).map(translateRolesResponse)
     )
   );
 }
@@ -104,13 +110,21 @@ export const getGroupsOfASingleUser = memoize(getGroupsOfASingleUserInternal, em
 function getGroupsOfASingleUserInternal(email: string) {
   return refreshSignalTeams.flatMap(() =>
     createObservable(
-      http({
+      http<ApiGroup[]>({
         method: 'GET',
         maxRetries: 3,
         url: `${basePath}/user/${email}`
-      })
+      }).map(translateRolesResponse)
     )
   );
+}
+
+interface IdpGroup {
+  groupId: string;
+  groupName: string;
+  groupSize: number;
+  joinedViaIdpMapping?: boolean;
+  limited?: boolean;
 }
 
 export const getStrippedGroupsWithIdpFlagAsResultObservable = (userId: string) =>
@@ -122,10 +136,20 @@ export const getStrippedGroupsWithIdpFlagAsResultObservable = (userId: string) =
 function getStrippedGroupsWithIdpFlagAsResultObservableInternal(userId: string) {
   return refreshSignalTeams.flatMap(() =>
     createObservable(
-      http({
+      http<IdpGroup[]>({
         method: 'GET',
         maxRetries: 3,
         url: `${basePath}/user/${userId}/idp-mapping`
+      }).map(response => {
+        if (!response.body) return response;
+
+        return {
+          ...response,
+          body: translateStaticRolesByNameKey({
+            roles: response.body,
+            nameKey: 'groupName'
+          })
+        };
       })
     )
   );
@@ -140,7 +164,7 @@ function getStrippedGroupsAsResultObservableInternal(_arg: undefined) {
         method: 'GET',
         maxRetries: 3,
         url: `${basePath}/stripped`
-      })
+      }).map(translateRolesResponse)
     )
   );
 }

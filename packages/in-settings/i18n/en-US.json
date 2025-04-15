@@ -2,7 +2,10 @@
   "general": {
     "all": "All",
     "loadMore": "Load more",
-    "alphaLabel": "Private preview"
+    "alphaLabel": "Private preview",
+    "staticRole": "{{context}}",
+    "staticRole_Owner": "Owner",
+    "staticRole_Default": "Default"
   },
   "termsDialog": {
     "back": "Back",
