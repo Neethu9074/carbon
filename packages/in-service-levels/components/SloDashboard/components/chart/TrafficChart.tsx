@@ -91,7 +91,6 @@ export default function TrafficChart({
           metricIds: timeWindowsWithData.map((_, index) => `timeWindows${index}`),
           min: Math.max(0, min),
           max,
-          renderAllTickLabels: true,
           labels: timeWindowsWithData.map(() => label),
           colors: windowColorsWithData,
           formatter: number.compact,
