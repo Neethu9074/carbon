@@ -1,6 +1,7 @@
 version: 0.2
 
 env:
+  shell: bash
   variables:
     CODEBUILD_PROJECT_NAME: 'ui-client'
     VERSIONING_ARTIFACT_NAME: 'ui-client'
