@@ -375,6 +375,7 @@
     "name": "Name",
     "count": "Count",
     "noMatching": "No matching records found.",
+    "anyOtherQs": "Any other questions we can answer?",
     "timestamp": "Timestamp",
     "numCalls": "# Calls",
     "meanLatency": "Mean latency",

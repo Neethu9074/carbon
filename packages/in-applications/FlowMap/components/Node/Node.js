@@ -6,31 +6,30 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
 import EntityInformation from 'in-applications/FlowMap/components/Node/components/EntityInformation';
 import ScreenPositionWrapper from 'in-applications/FlowMap/components/Node/ScreenPositionWrapper';
 import { ServiceLink, EndpointLink } from 'in-applications/FlowMap/components/Node/EntityLinks';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from './Node.mless';
 
-export default connectTo(
-  props => ({
-    nodeData: props.node.events$.on('data'),
-    childList: props.node.events$.on('children'),
-    isHeatMapEnabled: props.node.events$.on('heatMapColor')
-  }),
-  function Node(props) {
-    const { childList } = props;
-
-    return (
-      <ScreenPositionWrapper {...props}>
-        {childList && childList.size > 0 ? <EndpointListNode {...props} /> : <ServiceNode {...props} />}
-      </ScreenPositionWrapper>
-    );
-  }
-);
+export default function Node(props) {
+  const { node } = props;
+  const nodeData = useObservable(node.events$.on('data'), [node]);
+  const childList = useObservable(node.events$.on('children'), [node]);
+  const isHeatMapEnabled = useObservable(node.events$.on('heatMapColor'), [node]);
+  return (
+    <ScreenPositionWrapper {...props}>
+      {childList && childList.size > 0 ? (
+        <EndpointListNode childList={childList} nodeData={nodeData} isHeatMapEnabled={isHeatMapEnabled} {...props} />
+      ) : (
+        <ServiceNode childList={childList} nodeData={nodeData} isHeatMapEnabled={isHeatMapEnabled} {...props} />
+      )}
+    </ScreenPositionWrapper>
+  );
+}
 
 function ServiceNode(props) {
   return (

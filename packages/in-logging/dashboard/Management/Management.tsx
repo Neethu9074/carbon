@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { CalendarEvent, Integration, TimePlot } from '@carbon/pictograms-react';
+import { CalendarEvent, Integration, TimePlot, AnalyzesData } from '@carbon/pictograms-react';
 import React from 'react';
 
 import { CarbonClickableTile, IconButton } from '@instana/components';
@@ -13,10 +13,12 @@ import { useObservable } from '@instana/hooks';
 import {
   dashboardIntegrationsPath,
   dashboardLogVolumePath,
+  dashboardPatternRecognitionPath,
   dashboardRetentionManagementPath
 } from 'in-logging/navigation/paths';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { patternRecognitionEnabled } from 'in-services/featureFlags';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import RestrictedAccessMessage from 'in-components/rbac';
 import { user } from 'in-stores/user';
@@ -30,7 +32,9 @@ const localisationStrings = {
   logIntegrations: t('in-logging:dashboard.managementPage.logIntegrations'),
   logIntegrationsDescription: t('in-logging:dashboard.managementPage.logIntegrationsDescription'),
   retentionPeriod: t('in-logging:dashboard.managementPage.retentionPeriod'),
-  retentionPeriodDescription: t('in-logging:dashboard.managementPage.retentionPeriodDescription')
+  retentionPeriodDescription: t('in-logging:dashboard.managementPage.retentionPeriodDescription'),
+  patternRecognition: t('in-logging:dashboard.managementPage.patternRecognition'),
+  patternRecognitionDescription: t('in-logging:dashboard.managementPage.patternRecognitionDescription')
 };
 
 export default function Management() {
@@ -40,7 +44,7 @@ export default function Management() {
   const shouldShowRetentionPeriod = isLoggingAddonUser && user?.role?.canConfigureLogRetentionPeriod;
   const shouldShowLogVolume = isLoggingAddonUser && user?.role?.canViewLogVolume;
   const shouldShowIntegrations = user?.role?.canConfigureLogManagement;
-
+  const shouldShowPatterRecognition = patternRecognitionEnabled;
   if (!shouldShowRetentionPeriod && !shouldShowLogVolume && !shouldShowIntegrations) return <RestrictedAccessMessage />;
 
   return (
@@ -103,6 +107,26 @@ export default function Management() {
               </div>
               <div className={locals.navButton}>
                 <IconButton color="#0F62FE" aria-label={'integration-link-button'} type="lib_arrow_right" />
+              </div>
+            </section>
+          </CarbonClickableTile>
+        )}
+        {shouldShowPatterRecognition && (
+          <CarbonClickableTile
+            aria-label={localisationStrings.patternRecognition}
+            role="tabpanel"
+            onClick={() => goToPath(dashboardPatternRecognitionPath)}
+          >
+            <section className={locals.card}>
+              <div className={locals.pictogramWrapper}>
+                <AnalyzesData width={56} />
+              </div>
+              <div className={locals.description}>
+                <h3>{localisationStrings.patternRecognition}</h3>
+                <p>{localisationStrings.patternRecognitionDescription}</p>
+              </div>
+              <div className={locals.navButton}>
+                <IconButton color="#0F62FE" aria-label={'patternRecognition-link-button'} type="lib_arrow_right" />
               </div>
             </section>
           </CarbonClickableTile>

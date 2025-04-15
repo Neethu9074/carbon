@@ -11,7 +11,10 @@ import {
   LatencyBlueprintIndicator,
   SLIThresholdOperator,
   ServiceLevelIndicatorUnion,
-  TrafficBlueprintIndicator
+  TrafficBlueprintIndicator,
+  SyntheticTest,
+  Application,
+  Website
 } from '@instana/types';
 
 import { SloTimeWindowTypes, sliThresholdOperators, timeAggregationOptions } from 'in-service-levels/constants';
@@ -64,6 +67,8 @@ export type SloBeaconTypes = 'httpRequest';
 
 export type SloAggregationOptions = Record<AggregationType, string>;
 export type TimeAggregationOptions = keyof typeof timeAggregationOptions;
+
+export type SloMonitoredEntity = Application | Website | SyntheticTest;
 
 export function isSliThresholdOperator(operator: string): operator is SLIThresholdOperator {
   return sliThresholdOperators.includes(operator as SLIThresholdOperator);

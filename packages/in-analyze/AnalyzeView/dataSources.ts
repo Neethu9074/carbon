@@ -141,6 +141,7 @@ enum EntityEnum {
   infrastructure,
   calls,
   traces,
+  subtraces,
   logs,
   sessionStart,
   viewChange,
@@ -166,6 +167,7 @@ export const entityNames = Object.freeze<Record<Entity, string>>({
   infrastructure: t('in-analyze:analyzeView.dataSources.infrastructure'),
   calls: t('in-analyze:analyzeView.dataSources.calls'),
   traces: t('in-analyze:analyzeView.dataSources.traces'),
+  subtraces: t('in-analyze:analyzeView.dataSources.subtraces'),
   logs: t('in-analyze:analyzeView.dataSources.logs'),
   sessionStart: t('in-analyze:analyzeView.dataSources.sessionStarts'),
   viewChange: t('in-analyze:analyzeView.dataSources.viewTransitions'),
@@ -187,6 +189,7 @@ export const entityLabels = Object.freeze<Record<Entity, string>>({
   infrastructure: t('in-analyze:analyzeView.dataSources.infrastructure'),
   calls: t('in-analyze:analyzeView.dataSources.calls'),
   traces: t('in-analyze:analyzeView.dataSources.traces'),
+  subtraces: t('in-analyze:analyzeView.dataSources.subtraces'),
   logs: t('in-analyze:analyzeView.dataSources.logs'),
   crash: t('in-analyze:analyzeView.dataSources.crashes'),
   perf: t('in-analyze:analyzeView.dataSources.perf'),
@@ -209,6 +212,7 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
   application: {
     traces: 'lib_application_trace',
     calls: 'lib_application_call',
+    subtraces: 'lib_application_call',
     callsUQB: 'lib_application_call',
     tracesUQB: 'lib_application_trace',
     logs: 'lib_application_logging'

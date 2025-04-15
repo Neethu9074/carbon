@@ -15,7 +15,7 @@ import SloTableSelectionSkeleton from 'in-service-levels/components/Shared/SloTa
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { t } from 'in-i18n';
 
-import locals from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelection.mless';
+import locals from './SloTableSelection.mless';
 
 interface ColumnDataBase {
   id: string;

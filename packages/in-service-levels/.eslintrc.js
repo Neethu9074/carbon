@@ -39,6 +39,6 @@ module.exports = {
       }
     ],
     'react/no-multi-comp': ['error', { ignoreStateless: true }],
-    'import/prefer-default-export': ['error', { target: 'single' }]
+    'no-duplicate-imports': 'error'
   }
 };

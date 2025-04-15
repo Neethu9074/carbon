@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import Input from 'in-components/form/Input/Input';
+import { Input } from '@instana/components';
 
 interface ThresholdInputProps {
   disabled?: boolean;

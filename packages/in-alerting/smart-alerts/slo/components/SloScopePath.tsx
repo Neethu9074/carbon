@@ -9,7 +9,7 @@ import React from 'react';
 import { TimeConfig, BoundaryScope } from '@instana/types';
 import { SvgIconSizes } from '@instana/components';
 
-import useHrefToSloDashboard from 'in-service-levels/navigation/hooks/useHrefToSloDashboard';
+import useGetHrefToSloDashboard from 'in-service-levels/navigation/hooks/useGetHrefToSloDashboard';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import ScopePath, { ScopeEntryType } from 'in-alerting/components/ScopePath';
 import { useLinkToWebsite } from 'in-websites/navigation/paths';
@@ -37,7 +37,7 @@ export default function SloScopePath({
   iconSize,
   noBottomMargin
 }: Props) {
-  const getObjectiveDashboard = useHrefToSloDashboard();
+  const getObjectiveDashboard = useGetHrefToSloDashboard();
   const getApplicationDashboard = useLinkToApplicationDashboard();
   const websiteDashboardHref = useLinkToWebsite(entityId, {
     timeConfig

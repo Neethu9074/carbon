@@ -6,14 +6,13 @@
 
 import React, { useContext } from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack, ValidationBlock } from '@instana/components';
 
 import SloIndicatorTypeSelectorFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorTypeSelectorFormSection';
 import CustomFiltersFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/CustomFiltersFormSection';
 import HeadlineFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/HeadlineFormSection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
-import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 
 export default function SloIndicatorCustomForm() {
   const { form } = useContext(SloFormContext);

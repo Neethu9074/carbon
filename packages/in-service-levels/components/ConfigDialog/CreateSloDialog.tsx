@@ -16,16 +16,16 @@ import {
   SLO_CONFIG_DIALOG_OPEN
 } from 'in-services/tracking/eventNames';
 import SloFormStepsContainer from 'in-service-levels/components/ConfigDialog/components/SloFormStepsContainer';
+import { CreateSloDialogMode, SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { formToSloConfiguration } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
-import { CreateSloDialogMode, SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { UnstableTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import useHandleSloForm, { UseHandleSloFormProps } from 'in-service-levels/hooks/useHandleSloForm';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
+import ConfigDialog from 'in-service-levels/components/ConfigDialog/ConfigDialog';
 import { CREATED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import { close as closeDialog } from 'in-components/DialogPresenter/store';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import ConfigDialog from 'in-service-levels/components/ConfigDialog';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { ProductArea } from 'in-services/tracking/productAreas';
 import { PageName } from 'in-services/tracking/pageNames';

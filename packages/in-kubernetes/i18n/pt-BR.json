@@ -112,6 +112,7 @@
     "node": "Nó",
     "groupBy": "<labelSpan>Agrupar por</labelSpan><sizeBy/>",
     "groupByLabel": "Agrupar por",
+    "chooseMetric": "Escolher métrica",
     "unknown": "Desconhecido",
     "value": "Valor",
     "highlightUnhealthy": "Destacar fora de funcionamento",
@@ -259,7 +260,7 @@
       "clusterCost": "Custo do cluster",
       "idle": "Inativo",
       "costByNameSpace": "Custo por namespace",
-      "kubeCost": "Custo [Visualização pública]",
+      "kubeCost": "Custo",
       "namespaceCumulativeCost": "Custo por namespace",
       "trend": "% de tendência",
       "ramCost": "RAM",
@@ -272,6 +273,8 @@
       "cpuCost": "CPU",
       "namespace": "Namespace",
       "idleCost": "Custo ocioso",
+      "viewInKubeCost": "Visualizar em Kubecost",
+      "coreCountByCluster": "vCPU",
       "noKubecostData": "Habilite a observabilidade e a alocação de custos com o Kubecost. Para configurar a integração, siga estas [etapas][Docs].\n\n[Docs]:https://ibm.biz/kubecost"
     }
   },

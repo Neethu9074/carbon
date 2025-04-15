@@ -40,6 +40,8 @@
   "deployment": "Despliegue",
   "pod": "Pod",
   "tooltipEntityHealthNoIssues": "No hay ningún problema",
+  "tooltipEntityHealthInProgress": "En curso",
+  "tooltipEntityHealthFailed": "Fallidas",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} problemas",
   "endOfInfiniteScroll": "No hay más registros disponibles",
   "liveModeDisabled": "El modo activo no está admitido cuando se analizan registros",

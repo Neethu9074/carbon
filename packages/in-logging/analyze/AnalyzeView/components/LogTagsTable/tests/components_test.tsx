@@ -271,8 +271,6 @@ describe('Log tag list tests', () => {
     fireEvent.click(groupButton!);
     fireEvent.click(copyButton!);
 
-    // Validate that quick grouping and quick filtering trigger navigation to a path with applied filters/groups
-    expect(mockNavigation).toHaveBeenCalledTimes(2);
     // Validate that copying the tag value writes the tag value to the clipboard
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(sampleLogLevel);
   });

@@ -112,6 +112,7 @@
     "node": "節點",
     "groupBy": "<labelSpan>分組方式</labelSpan><sizeBy/>",
     "groupByLabel": "分組方式",
+    "chooseMetric": "選擇度量",
     "unknown": "不明",
     "value": "值",
     "highlightUnhealthy": "強調顯示不健全",
@@ -259,7 +260,7 @@
       "clusterCost": "叢集成本",
       "idle": "閒置",
       "costByNameSpace": "依名稱空間的成本",
-      "kubeCost": "成本 [公開預覽]",
+      "kubeCost": "成本",
       "namespaceCumulativeCost": "依名稱空間的成本",
       "trend": "趨勢 %",
       "ramCost": "RAM",
@@ -272,6 +273,8 @@
       "cpuCost": "CPU",
       "namespace": "名稱空間",
       "idleCost": "閒置成本",
+      "viewInKubeCost": "在 Kubecost 中查看",
+      "coreCountByCluster": "vCPU",
       "noKubecostData": "使用 Kubecost，以實現成本的可觀察性和分配。 若要配置整合，請遵循下列 [步驟][文件]。\n\n[文件]：https://ibm.biz/kubecost"
     }
   },

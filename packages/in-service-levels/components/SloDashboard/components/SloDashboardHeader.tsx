@@ -12,7 +12,7 @@ import { Result } from '@instana/types';
 
 import AnalyzeSloEventsButtons from 'in-service-levels/components/AnalyzeSloEventsButtons';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
-import DashboardHeader from 'in-components/DashboardHeader';
+import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 

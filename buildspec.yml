@@ -1,6 +1,7 @@
 version: 0.2
 
 env:
+  shell: bash
   variables:
     CODEBUILD_PROJECT_NAME: 'ui-client'
     VERSIONING_ARTIFACT_NAME: 'ui-client'
@@ -30,7 +31,12 @@ phases:
       - export GIT_BRANCH="$(./build/ci-shared-tools/scripts/git/getBranch.js)"
       - export COMMIT_AUTHOR="$(./build/ci-shared-tools/scripts/git/getCommitAuthor.js)"
       - export BUILD_URL="https://us-west-2.console.aws.amazon.com/codesuite/codebuild/projects/ui-client/build/$CODEBUILD_BUILD_ID/log?region=us-west-2"
-      - INSTANA_CONTAINER_TAG="$(./build/ci-shared-tools/scripts/componentVersioning/getVersion.js ui-client $GIT_BRANCH $EXTERNAL_CONTAINER_TAG_OVERWRITE)" && export INSTANA_CONTAINER_TAG
+      - INSTANA_CONTAINER_TAG=$EXTERNAL_CONTAINER_TAG_OVERWRITE && export INSTANA_CONTAINER_TAG
+      - |
+        if [[ -z $EXTERNAL_CONTAINER_TAG_OVERWRITE ]]; then
+          echo "The EXTERNAL_CONTAINER_TAG_OVERWRITE var (instanaUiClientVersion) is not set. Most likely the Setup stage was skipped. Please start the build from the Jenkins UI."
+          exit 1
+        fi
       # Alias the value for the Node.js build process
       - export COM_INSTANA_IMAGE_TAG="$INSTANA_CONTAINER_TAG"
       # Set up the correct Node.js version

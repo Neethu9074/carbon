@@ -181,7 +181,11 @@
     "unit_microsecond": "微秒",
     "unit_milisecond": "毫秒",
     "unit_second": "第二",
-    "unit_persecond": "每秒"
+    "unit_persecond": "每秒",
+    "metricGroup_numeric": "数值",
+    "metricGroup_dataSize": "数据大小",
+    "metricGroup_timeUnits": "时间",
+    "metricGroup_rates": "比率"
   },
   "search": {
     "queryInvalidLuceneQuery": "Lucene 查询无效。",

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import Input from 'in-components/form/Input';
+import { Input } from '@instana/components';
 
 interface PercentageInputProps {
   id: string;

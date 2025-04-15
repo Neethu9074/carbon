@@ -8,7 +8,7 @@ import React from 'react';
 
 import { SloEntityType } from '@instana/types';
 
-import ComboBox, { hasMultipleValuesSelected, Option } from 'in-components/ComboBox';
+import ComboBox, { hasMultipleValuesSelected, Option } from 'in-components/ComboBox/ComboBox';
 import { sloEntityTypes } from 'in-service-levels/constants';
 import { t } from 'in-i18n';
 

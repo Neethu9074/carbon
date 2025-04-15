@@ -42,7 +42,7 @@
   "titleDuration": "Dauer",
   "titleSeverity": "Schweregrad",
   "titleOpenEvents": "Offene Ereignisse",
-  "titleEvent": "Ereignis",
+  "titleEvent": "Ereignisse",
   "titleReported": "Berichtet",
   "titleState": "Status",
   "titleCvssScore": "CVSS-Wert",
@@ -189,7 +189,11 @@
     "noSuccessfulIncidentCloseDescription": "Von {{total_incidents}} Vorfällen wurde keiner erfolgreich abgeschlossen, während {{number_incidents_failed_closed}} scheiterten. Weitere Einzelheiten finden Sie in der folgenden Liste: ",
     "multiFailedCloseIssuesDescription": "Von {{total_issues}} Problem(e) wurden {{number_issues_succesfully_closed}} erfolgreich geschlossen, aber {{number_issues_failed_closed}} nicht. Weitere Einzelheiten finden Sie in der folgenden Liste: ",
     "singleFailedCloseIssueDescription": "Von {{total_issues}} Problem(e) wurde 1 erfolgreich geschlossen, aber {{number_issues_failed_closed}} ist fehlgeschlagen. Weitere Einzelheiten finden Sie in der folgenden Liste: ",
-    "noSuccessfulIssueCloseDescription": "Von {{total_issues}} Problemen wurde keines erfolgreich abgeschlossen, während {{number_issues_failed_closed}} fehlschlugen. Weitere Einzelheiten finden Sie in der folgenden Liste: "
+    "noSuccessfulIssueCloseDescription": "Von {{total_issues}} Problemen wurde keines erfolgreich abgeschlossen, während {{number_issues_failed_closed}} fehlschlugen. Weitere Einzelheiten finden Sie in der folgenden Liste: ",
+    "multiCloseIssuesLimitReached": "Ausgaben konnten nicht geschlossen werden",
+    "multiCloseIncidentsLimitReached": "Nicht abgeschlossene Vorfälle",
+    "multiCloseIssuesLimitReachedDescription": "Es können immer nur 100 Ausgaben gleichzeitig abgeschlossen werden. Versuchen Sie es noch einmal mit weniger Problemen.",
+    "multiCloseIncidentsLimitReachedDescription": "Es können jeweils nur 100 Vorfälle abgeschlossen werden. Versuchen Sie es noch einmal mit weniger Vorfällen."
   },
   "ibmMqFileTransfer": {
     "transferID": "Übertragungs-ID",
@@ -214,7 +218,12 @@
     }
   },
   "infraSmartAlerts": {
-    "pseudoAggregatedEntityLabel": "{{entityName}} (aggregiert)"
+    "pseudoAggregatedEntityLabel": "{{entityName}} (aggregiert)",
+    "aggregatedEntityEvent": {
+      "titleAggregatedEntityList": "Aggregierte Liste der Infrastrukturen ({{totalEntityCount}})",
+      "viewAllEntitiesInScope": "Alle ({{count}}) Einrichtungen anzeigen",
+      "invalidTimeConfigError": "Konnte die Zeitkonfiguration nicht vom Ereignis ableiten"
+    }
   },
   "logSmartAlerts": {
     "logs": "Protokolle"
@@ -362,6 +371,7 @@
     "unableToFindError": "Diese Information kann nicht gefunden werden",
     "host": "Host",
     "name": "Name",
+    "count": "Anzahl",
     "noMatching": "Keine übereinstimmenden Datensätze gefunden.",
     "timestamp": "Zeitmarke",
     "numCalls": "Anzahl der Aufrufe",
@@ -391,6 +401,7 @@
     "cancel": "Abbrechen",
     "sureYouWantToDelete": "Möchten Sie diese Anmerkung wirklich löschen? Sie wird für alle Nutzer dauerhaft entfernt.",
     "actionUndone": "Diese Aktion kann nicht rückgängig gemacht werden.",
+    "feedback": "Feedback",
     "summarizeIncident": "Fassen Sie diesen Vorfall zusammen?",
     "summarizeIncidentDescription": "Versuchen Sie, diesen Vorfall zusammenzufassen, damit Sie und Ihr Team schnell verstehen, was passiert ist.",
     "generateSummary": "Eine Zusammenfassung generieren",

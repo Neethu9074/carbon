@@ -3,6 +3,7 @@
     "copyOf": "{{title}} 副本"
   },
   "customDashboard": {
+    "customDashboardsTitle": "自訂儀表板",
     "editJsonDialog": {
       "editJsonDialogPresenter": {
         "confirmBt": "確認",
@@ -74,7 +75,9 @@
       "generatingPDFTitle": "正在產生 pdf",
       "generatingPDFContent": "正在產生 pdf，請稍候。",
       "generatedPDFTitle": "已產生 PDF",
-      "generatedPDFContent": "pdf 下載即將開始。"
+      "generatedPDFContent": "pdf 下載即將開始。",
+      "timeRange": "時間範圍",
+      "widgetNotAvailableToBeExported": "此小組件無法匯出。"
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "儀表板找不到",

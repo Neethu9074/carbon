@@ -4,20 +4,19 @@
  * Copyright IBM Corp. 2025
  */
 
-import { SloEntityUnion, SyntheticTest, Application, Result, Website } from '@instana/types';
+import { SloEntityUnion, Result } from '@instana/types';
 import { just, Observable } from '@instana/observables';
 
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { getFilteredSyntheticTests } from 'in-synthetics/api';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
-import { mapData } from 'in-services/util/result';
+import { SloMonitoredEntity } from 'in-service-levels/types';
+import { mapData, error } from 'in-services/util/result';
 import { isBlank } from 'in-services/util/string';
-import { error } from 'in-services/util/result';
 
 type LoadSyntheticEntityParams = { entityType: 'synthetic'; entityIds: string[]; entityId?: never };
 type LoadApplicationWebsiteParams = { entityType: 'application' | 'website'; entityId: string; entityIds?: never };
 type LoadEntityByTypeAndIdParams = LoadSyntheticEntityParams | LoadApplicationWebsiteParams;
-export type MonitoredEntity = Application | Website | SyntheticTest;
 
 export function loadEntities(entity: SloEntityUnion) {
   const { type: entityType } = entity;
@@ -38,23 +37,23 @@ export function loadEntityByTypeAndId({
   entityType,
   entityId,
   entityIds
-}: LoadSyntheticEntityParams): Observable<Result<MonitoredEntity[]>>;
+}: LoadSyntheticEntityParams): Observable<Result<SloMonitoredEntity[]>>;
 export function loadEntityByTypeAndId({
   entityType,
   entityId,
   entityIds
-}: LoadApplicationWebsiteParams): Observable<Result<MonitoredEntity>>;
+}: LoadApplicationWebsiteParams): Observable<Result<SloMonitoredEntity>>;
 export function loadEntityByTypeAndId({
   entityType,
   entityId,
   entityIds
-}: LoadEntityByTypeAndIdParams): Observable<Result<MonitoredEntity>> | Observable<Result<MonitoredEntity[]>> {
+}: LoadEntityByTypeAndIdParams): Observable<Result<SloMonitoredEntity>> | Observable<Result<SloMonitoredEntity[]>> {
   if (isBlank(entityType)) {
-    return just(error<MonitoredEntity>([{ code: 'CLIENT', message: 'EntityType cannot be blank' }]));
+    return just(error<SloMonitoredEntity>([{ code: 'CLIENT', message: 'EntityType cannot be blank' }]));
   }
 
   if (entityType !== 'synthetic' && isBlank(entityId)) {
-    return just(error<MonitoredEntity>([{ code: 'CLIENT', message: 'EntityId cannot be blank' }]));
+    return just(error<SloMonitoredEntity>([{ code: 'CLIENT', message: 'EntityId cannot be blank' }]));
   }
 
   switch (entityType) {

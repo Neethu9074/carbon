@@ -14,7 +14,7 @@ import SloScopeSection from 'in-service-levels/components/ConfigDialog/component
 import SloFormPreview from 'in-service-levels/components/ConfigDialog/components/DialogSections/PreviewSection/SloFormPreview';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
-import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { NavItem } from 'in-components/SideNav/SideNav';
 import { t } from 'in-i18n';

@@ -189,7 +189,11 @@
     "noSuccessfulIncidentCloseDescription": "{{total_incidents}}개의 인시던트 중 성공적으로 닫힌 인시던트는 없고, {{number_incidents_failed_closed}}개는 실패했습니다. 자세한 내용은 다음 목록 참조: ",
     "multiFailedCloseIssuesDescription": "{{total_issues}}개 문제 중 {{number_issues_succesfully_closed}}개가 성공적으로 닫혔지만, {{number_issues_failed_closed}}개는 실패했습니다. 자세한 내용은 다음 목록 참조: ",
     "singleFailedCloseIssueDescription": "{{total_issues}}개 문제 중 1개는 성공적으로 닫혔지만 {{number_issues_failed_closed}}개는 실패했습니다. 자세한 내용은 다음 목록 참조: ",
-    "noSuccessfulIssueCloseDescription": "{{total_issues}}개의 문제 중 성공적으로 닫힌 문제는 없고, {{number_issues_failed_closed}}개는 실패했습니다. 자세한 내용은 다음 목록 참조: "
+    "noSuccessfulIssueCloseDescription": "{{total_issues}}개의 문제 중 성공적으로 닫힌 문제는 없고, {{number_issues_failed_closed}}개는 실패했습니다. 자세한 내용은 다음 목록 참조: ",
+    "multiCloseIssuesLimitReached": "문제 닫기 실패",
+    "multiCloseIncidentsLimitReached": "인시던트 닫기 실패",
+    "multiCloseIssuesLimitReachedDescription": "한 번에 100개의 문제만 종료할 수 있습니다. 문제를 줄여서 다시 시도하십시오.",
+    "multiCloseIncidentsLimitReachedDescription": "한 번에 100건의 인시던트만 종료할 수 있습니다. 인시던트 수를 줄여서 다시 시도하십시오."
   },
   "ibmMqFileTransfer": {
     "transferID": "전송 ID",
@@ -214,7 +218,12 @@
     }
   },
   "infraSmartAlerts": {
-    "pseudoAggregatedEntityLabel": "{{entityName}}(집계됨)"
+    "pseudoAggregatedEntityLabel": "{{entityName}}(집계됨)",
+    "aggregatedEntityEvent": {
+      "titleAggregatedEntityList": "인프라 통합 목록({{totalEntityCount}}개)",
+      "viewAllEntitiesInScope": "엔티티 모두 보기({{count}}개)",
+      "invalidTimeConfigError": "이벤트에서 시간 구성을 도출할 수 없음"
+    }
   },
   "logSmartAlerts": {
     "logs": "로그"
@@ -362,6 +371,7 @@
     "unableToFindError": "해당 정보를 찾을 수 없음",
     "host": "호스트",
     "name": "이름",
+    "count": "개수",
     "noMatching": "일치하는 레코드를 찾을 수 없습니다.",
     "timestamp": "시간소인",
     "numCalls": "호출 수",
@@ -391,6 +401,7 @@
     "cancel": "취소",
     "sureYouWantToDelete": "이 참고를 삭제하시겠습니까? 모든 사용자에 대해 영구적으로 제거됩니다.",
     "actionUndone": "이 조치는 실행 취소할 수 없습니다.",
+    "feedback": "피드백",
     "summarizeIncident": "이 사건을 요약해 주시겠습니까?",
     "summarizeIncidentDescription": "이 사건을 요약하여 여러분과 여러분의 팀이 무슨 일이 일어났는지 빠르게 이해할 수 있도록 하세요.",
     "generateSummary": "요약 생성",

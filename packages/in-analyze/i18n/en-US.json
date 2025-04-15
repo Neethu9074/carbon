@@ -69,6 +69,7 @@
       "callAnalytics": "Call analytics",
       "call": "Call",
       "applications": "Applications",
+      "subtraces": "Subtraces",
       "websites": "Websites",
       "mobileApps": "Mobile apps",
       "infrastructure": "Infrastructure",
@@ -91,7 +92,7 @@
       "calls": "Calls",
       "traces": "Traces",
       "crashes": "Crashes",
-      "perf" : "Performance",
+      "perf": "Performance",
       "dropBeacon": "Dropped beacons"
     }
   },
@@ -170,10 +171,10 @@
         "networkTime": "Network time",
         "waitingTime": "Waiting time",
         "latency": "Latency",
-        "findSQL" : "Find SQL in {{type}}",
-        "sumOfLatencies":"Sum of latencies",
-        "elapsedTime" : "Elapsed time",
-        "batchTooltip":"Total {{type}} for {{batchCount}} batched calls."
+        "findSQL": "Find SQL in {{type}}",
+        "sumOfLatencies": "Sum of latencies",
+        "elapsedTime": "Elapsed time",
+        "batchTooltip": "Total {{type}} for {{batchCount}} batched calls."
       },
       "callTree": {
         "expandButtonForRow": "Expand all sub calls",
@@ -289,7 +290,7 @@
     "labelNetwork": "Network",
     "labelSelf": "Self",
     "labelWaiting": "Waiting",
-    "labelElapsed":"Elapsed",
+    "labelElapsed": "Elapsed",
     "labelService": "Service",
     "labelEndpoint": "Endpoint",
     "labelAggregatedTime": "Aggregated time",

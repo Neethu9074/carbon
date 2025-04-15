@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Typography, Button } from '@instana/components';
 
-import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';

@@ -9,17 +9,17 @@ import React from 'react';
 import { Link } from '@instana/components';
 
 import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/ServerTable/internalComponents/LegacySeverityIndicatorCellContentWrapper';
-import useHrefToSloDashboard from 'in-service-levels/navigation/hooks/useHrefToSloDashboard';
+import useGetHrefToSloDashboard from 'in-service-levels/navigation/hooks/useGetHrefToSloDashboard';
 import { SloListItem } from 'in-service-levels/components/SloList/SloList';
 import { calculateSeverity } from 'in-service-levels/utils/math';
-import Tooltip from 'in-components/Tooltip';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 
 interface Props {
   item: SloListItem;
 }
 
 export default function SloNameColumnContent({ item }: Props) {
-  const hrefToSloDashboard = useHrefToSloDashboard();
+  const hrefToSloDashboard = useGetHrefToSloDashboard();
 
   const { configuration, status } = item;
   const { name, target, id } = configuration;

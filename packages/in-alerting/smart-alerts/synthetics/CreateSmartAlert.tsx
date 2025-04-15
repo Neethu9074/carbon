@@ -79,7 +79,9 @@ export default function CreateSmartAlert({ testId, isListingPage, isFloatingMenu
         })}
         {...(isListingPage && { size: 'xl' })}
       >
-        {t('in-alerting:smartAlerts.synthetics.addSmartAlert')}
+        {isListingPage
+          ? t('in-alerting:smartAlerts.createSmartAlert')
+          : t('in-alerting:smartAlerts.synthetics.addSmartAlert')}
       </Button>
     );
   }

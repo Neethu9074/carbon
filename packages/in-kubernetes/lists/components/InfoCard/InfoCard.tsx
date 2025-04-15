@@ -137,7 +137,6 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
         icon={isClusterType ? `lib_${clusterDistribution}` : `lib_kubernetes_namespace`}
         href={resourceHref}
         version={version}
-        {...data}
       />
       <Stack direction="horizontal">
         {shouldDisplayUnhealthyNodes && (

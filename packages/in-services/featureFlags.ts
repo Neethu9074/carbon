@@ -57,6 +57,7 @@ export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const deleteLogsV3Enabled = isFeatureFlagEnabled('deleteLogsV3Enabled');
+export const patternRecognitionEnabled = isFeatureFlagEnabled('patternRecognitionEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
 export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
@@ -335,6 +336,7 @@ export const automationActionAiGenerationUnitEnabled = isFeatureFlagEnabled(
 export const actionAiGenerationEnabled = isFeatureFlagEnabled('actionAiGenerationEnabled', false);
 export const graphTabEnabled = isFeatureFlagEnabled('graphTabEnabled', true);
 export const applicationSubtracesEnabled = isFeatureFlagEnabled('applicationSubtracesEnabled', false);
+export const analyzeSubtracesEnabled = isFeatureFlagEnabled('analyzeSubtracesEnabled', false);
 export const applicationSaveFiltersEnabled = isFeatureFlagEnabled('applicationSaveFiltersEnabled', false);
 export const customDashboardTopLevelFiltersEnabled = isFeatureFlagEnabled(
   'customDashboardTopLevelFiltersEnabled',

@@ -40,6 +40,8 @@
   "deployment": "Implementação",
   "pod": "Pod",
   "tooltipEntityHealthNoIssues": "Nenhum problema",
+  "tooltipEntityHealthInProgress": "Em andamento",
+  "tooltipEntityHealthFailed": "Com falha",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} problemas",
   "endOfInfiniteScroll": "Não há mais logs disponíveis",
   "liveModeDisabled": "O modo em tempo real não é suportado ao analisar logs",
