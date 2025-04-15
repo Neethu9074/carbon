@@ -12,7 +12,7 @@ import { Stack, Typography, RadioButton } from '@instana/components';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { t } from 'in-i18n';
 
-import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorTypeSelector.mless';
+import locals from './SloIndicatorTypeSelector.mless';
 
 export default function SloIndicatorTypeSelectorFormSection() {
   const { form, mode, onChange } = useContext(SloFormContext);

@@ -16,8 +16,8 @@ import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/synthetics/hook
 import { alertsTab, dashboardTestAlertsTabDetailsFullyQualified } from 'in-synthetics/navigation/paths';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListActionHandlers';
-import { CreateSmartAlertButton } from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import { Role, SyntheticAlertConfig, SyntheticAlertConfigWithMetadata } from 'in-types';
+import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
@@ -63,7 +63,7 @@ export default function Alerts({ testId }: AlertsProps) {
         getNameSubtitle={config => getSyntheticsSubtitle(config)}
         displayCarbonTable={smartAlertCarbonTableEnabled}
         toolBarContent={
-          role?.canConfigureGlobalSyntheticSmartAlerts ? <CreateSmartAlertButton testId={testId} /> : undefined
+          role?.canConfigureGlobalSyntheticSmartAlerts ? <CreateSmartAlert testId={testId} isListingPage /> : undefined
         }
         noDataHeader={t('in-alerting:smartAlerts.synthetics.alertList.noDataHeader')}
         noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.synthetics.alertList.noDataDescription" />}

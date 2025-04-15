@@ -8,12 +8,12 @@ import React from 'react';
 
 import { SloEntityUnion } from '@instana/types';
 
-import { QueryBuilderComponent as QueryBuilderComponentType } from 'in-components/QueryBuilder';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import type { QueryBuilderComponent } from 'in-components/QueryBuilder';
 
 interface QueryBuilderFilterProps {
   entity: SloEntityUnion;
-  QueryBuilderComponent: QueryBuilderComponentType;
+  QueryBuilderComponent: QueryBuilderComponent;
 }
 
 export default function QueryBuilderFilter({ entity, QueryBuilderComponent }: QueryBuilderFilterProps) {

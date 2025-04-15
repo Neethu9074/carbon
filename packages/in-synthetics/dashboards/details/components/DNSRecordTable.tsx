@@ -46,7 +46,7 @@ export const DNSRecordTable = ({ records }: DNSRecordTableProps) => {
   const headers = [
     {
       key: 'name',
-      header: t('in-synthetics:dashboard.detailsPage.dns.name')
+      header: t('in-synthetics:dashboard.detailsPage.dns.domainName')
     },
     {
       key: 'ttl',

@@ -6,7 +6,7 @@
 
 import React, { useContext, useState } from 'react';
 
-import { Typography, SearchInput } from '@instana/components';
+import { Typography, SearchInput, ValidationBlock } from '@instana/components';
 import { Website } from '@instana/types';
 
 import SloEntityTable, {
@@ -16,7 +16,6 @@ import SloEntityTable, {
 import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
-import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import useWebsiteEntities from 'in-service-levels/hooks/useWebsiteEntities';
 import Sections from 'in-components/workspace/Sections/Sections';
 import { finishedProgress } from 'in-services/fixedObjects';

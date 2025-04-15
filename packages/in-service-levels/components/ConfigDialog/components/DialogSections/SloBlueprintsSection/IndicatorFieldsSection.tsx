@@ -6,7 +6,7 @@
 
 import React, { PropsWithChildren } from 'react';
 
-import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/AggregationAndThresholdFormSection.mless';
+import locals from './AggregationAndThresholdFormSection.mless';
 
 export default function IndicatorFieldsSection({ children }: PropsWithChildren<{}>) {
   return <div className={locals.grid}>{children}</div>;

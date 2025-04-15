@@ -181,7 +181,11 @@
     "unit_microsecond": "マイクロ秒",
     "unit_milisecond": "ミリ秒",
     "unit_second": "秒",
-    "unit_persecond": "1 秒当たり"
+    "unit_persecond": "1秒あたり",
+    "metricGroup_numeric": "数値",
+    "metricGroup_dataSize": "データ・サイズ",
+    "metricGroup_timeUnits": "時刻",
+    "metricGroup_rates": "レート"
   },
   "search": {
     "queryInvalidLuceneQuery": "lucene 照会が無効です。",

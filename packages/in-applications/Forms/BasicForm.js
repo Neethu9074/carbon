@@ -48,6 +48,7 @@ function BasicForm({
   generalHelpText,
   onCancelHref,
   form,
+  ariaLabel,
   savingStateName = t('in-applications:labelSaving'),
   saveButtonLabel = t('in-applications:buttonSave')
 }) {
@@ -112,7 +113,7 @@ function BasicForm({
     content = <ErroneousResultPresenter errors={entityResult.errors} />;
   } else {
     content = (
-      <Form onSubmit={e => onSubmit(e, form)} className={locals.form} aria-label="application-config-form">
+      <Form onSubmit={e => onSubmit(e, form)} className={locals.form} aria-label={ariaLabel}>
         {form && renderFormContent(entityResult.data, form, (...args) => setValue(_updateForm, ...args), _updateForm)}
         <div className={locals.footer}>
           {onCancelHref && (

@@ -236,6 +236,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'patternRecognitionEnabled',
+    instanaCtlKey: 'feature.pattern.recognition.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'deleteLogsV3Enabled',
     instanaCtlKey: 'feature.delete.logs.v3.enabled',
     defaultValue: false
@@ -727,6 +732,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'actionAiGenerationEnabled',
+    instanaCtlKey: 'feature.action.ai.generation.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'graphTabEnabled',
     instanaCtlKey: 'feature.graph.tab.enabled',
     defaultValue: true
@@ -734,6 +744,11 @@ module.exports = exports = [
   {
     uiClientKey: 'applicationSubtracesEnabled',
     instanaCtlKey: 'feature.application.subtraces.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'analyzeSubtracesEnabled',
+    instanaCtlKey: 'feature.analyze.subtraces.enabled',
     defaultValue: false
   },
   {

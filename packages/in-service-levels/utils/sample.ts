@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-/* eslint-disable import/prefer-default-export */
-
 import { ServiceLevelIndicatorType, TimeConfig, TimeWindow } from '@instana/types';
 
 import { calculateAvailableErrorBudget, truncFloat } from 'in-service-levels/utils/math';

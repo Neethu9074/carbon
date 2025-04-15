@@ -27,10 +27,6 @@ export const sloEntityTypes: Readonly<SloEntityType[]> = Object.freeze(
   hasSyntheticsAccess ? (['application', 'website', 'synthetic'] as const) : (['application', 'website'] as const)
 );
 
-export interface LabeledEntity {
-  label: string;
-}
-
 export const enabledBeaconTypes = deepFreeze(['httpRequest'] as const);
 
 export const ServiceLevelErrors = Object.freeze({

@@ -6,18 +6,16 @@
 
 import React, { useContext } from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack, Input, ValidationBlock } from '@instana/components';
 
 import SloDialogSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/Shared/SloDialogSection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
-import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import CreatableTagSelect from 'in-components/CreatableTagSelect';
 import Sections from 'in-components/workspace/Sections/Sections';
 import useSloTags from 'in-service-levels/hooks/useSloTags';
 import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';
-import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
 import locals from './SloNameAndTagsSection.mless';

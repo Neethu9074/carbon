@@ -37,13 +37,14 @@ export function CloseDialogConfirmation({ step, onClose, dialogHeader }: CloseDi
       }
       description={
         <>
-          <Typography variant="heading-200" noWrap noMargin>
-            {t('in-automation:GenerateAIActionDialog.closeDialogDescription')}
+          <Typography variant="heading-300" noWrap noMargin>
+            {t('in-automation:GenerateAIActionDialog.confirmCancel')}
           </Typography>
-          <Spacer vertical="medium" />
-          <Typography variant="body-regular" noWrap noMargin>
+          <Spacer vertical="small" />
+          <Typography variant="body-regular">
             {t('in-automation:GenerateAIActionDialog.closeDialogSubDescription')}
           </Typography>
+          <Spacer vertical="medium" />
         </>
       }
       confirmButtonLabel={t('in-automation:GenerateAIActionDialog.confirmButtonLabel')}

@@ -7,10 +7,10 @@
 import { FULLSCREEN, DIALOG, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { isSmartAlertDialogViewDefaultEnabled } from 'in-services/featureFlags';
 
-export function getSmartAlertDisplayMode(dialogViewFF: boolean, tearsheetViewFF: boolean) {
-  if (dialogViewFF && tearsheetViewFF) return CHOICE_DIALOG;
+export function getSmartAlertDisplayMode(dialogViewFF: boolean, tearSheetViewFF: boolean): string {
+  if (dialogViewFF && tearSheetViewFF) return CHOICE_DIALOG;
   if (dialogViewFF) return DIALOG;
-  if (tearsheetViewFF) return FULLSCREEN;
+  if (tearSheetViewFF) return FULLSCREEN;
 
   return !isSmartAlertDialogViewDefaultEnabled ? FULLSCREEN : DIALOG;
 }

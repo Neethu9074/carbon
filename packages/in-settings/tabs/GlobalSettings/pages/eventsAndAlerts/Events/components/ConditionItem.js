@@ -43,7 +43,7 @@ export function ConditionItem({
       {builtInDataSourceSelected && (
         <>
           <Row withoutTopMargin>
-            <Col lg={compactLayout ? (isNotDynamic ? 6 : 2) : 12}>
+            <Col lg={compactLayout ? (isNotDynamic ? 5 : 5) : 12}>
               {entityType && (
                 <FormGroup>
                   <Label htmlFor="event-metricName" hasError={!metricNameField.valid && metricNameField.touched}>

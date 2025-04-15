@@ -10,7 +10,7 @@ import { IconButton, Stack, Typography, Button, CarbonTextArea } from '@instana/
 
 import { ActionForm } from 'in-automation/AutomationCard/GenerateAI/CopyActionStepForm';
 import { useSegmentTracker } from 'in-automation/tracker';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog.mless';
 
@@ -93,6 +93,13 @@ export default function FeedbackComponent({
           </Button>
         </Stack>
       )}
+      <Typography variant="body-regular">
+        {typeof trackerPayload.prompt === 'object' && trackerPayload.prompt?.eventDescription ? (
+          <Trans i18nKey="in-automation:feedback.manualActionTip" />
+        ) : (
+          <Trans i18nKey="in-automation:feedback.scriptTip" />
+        )}
+      </Typography>
     </>
   );
 }

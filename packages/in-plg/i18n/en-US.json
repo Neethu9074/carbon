@@ -630,7 +630,7 @@
         "viewAllLabel": "platforms"
       },
       "bizopsWidget": {
-        "label": "Business monitoring",
+        "label": "Business processes",
         "name": "Name",
         "activities": "Activities",
         "started": "Started",

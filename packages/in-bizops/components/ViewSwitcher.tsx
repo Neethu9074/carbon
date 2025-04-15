@@ -40,20 +40,20 @@ export default function ViewSwitcher() {
       <DashboardHeaderModule theme={themes.light}>
         <SecondLevelNavigation>
           <SecondLevelNavigationItem
+            href={createHrefToPath(paths.businessProcessPath)}
+            label={t('in-bizops:labelBizOps')}
+            isActive={isProcessesActive && !isPerspectivesActive}
+            onClick={() => {
+              bizopsTabClick({ path: location.pathname, tab: 'Processes' });
+            }}
+          />
+          <SecondLevelNavigationItem
             href={createHrefToPath(paths.businessPerspectivesPath)}
             label={t('in-bizops:labelPerspectives')}
             isActive={isPerspectivesActive && !isProcessesActive}
             isDisabled={perspectivesDisabled}
             onClick={() => {
               bizopsTabClick({ path: location.pathname, tab: 'Perspectives' });
-            }}
-          />
-          <SecondLevelNavigationItem
-            href={createHrefToPath(paths.businessProcessPath)}
-            label={t('in-bizops:labelBizOps')}
-            isActive={isProcessesActive && !isPerspectivesActive}
-            onClick={() => {
-              bizopsTabClick({ path: location.pathname, tab: 'Processes' });
             }}
           />
         </SecondLevelNavigation>

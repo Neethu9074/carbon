@@ -2,6 +2,10 @@
   "csvExporterButton": {
     "label": "导出为 CSV"
   },
+  "pageStructure": {
+    "headerAriaLabel": "页眉",
+    "contentAriaLabel": "内容"
+  },
   "fileInputButton": {
     "label": {
       "chooseSingle": "选择文件...",
@@ -458,6 +462,7 @@
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
+    "viewSwitcherLabelXenServer": "XenServer",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "平台",
     "viewSwitcherButtonSignOut": "注销",
@@ -469,7 +474,11 @@
     "profileMenu_profileLink": "概要文件",
     "profileMenu_tooltip": "概要文件菜单",
     "profileMenu_unitName_tenantName": "单位名称 - 租户名称",
+    "profileMenu_instanceName": "实例名称",
+    "profileMenu_region": "区域",
+    "profileMenu_instanceOwner": "实例所有者",
     "profileMenu_switchUnitOrTenant": "切换单位或租户",
+    "profileMenu_saasConsole": "IBM SaaS 控制台",
     "profileMenu_privacy": "隐私",
     "profileMenu_logOut": "注销"
   },

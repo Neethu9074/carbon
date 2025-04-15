@@ -48,7 +48,8 @@
 
   .removeBackground {
     :global {
-      .li-nestedContent {
+      .li-nestedContent,
+      .li-itemContentExpanded {
         background: white !important;
       }
     }

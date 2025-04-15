@@ -5,9 +5,10 @@
 
 import React from 'react';
 
-import { CarbonTag } from '@instana/components';
+import { CarbonTag, keyCodes } from '@instana/components';
 
 import { selectedSnapshotId, setSelectedSnapshotId } from 'in-stores/snapshot';
+import { setMapSidebarFocused } from 'in-map/components/MapSidebar/focus';
 import createStickyNote from 'in-map/components/stickyNotes/StickyNote';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
@@ -24,6 +25,9 @@ export default createStickyNote(
       };
     },
     function Group({ snapshot, id }) {
+      const snapshotId = snapshot?.get('id');
+      const { isReturn } = keyCodes;
+
       let label;
       if (snapshot) {
         label = getLabel(snapshot);
@@ -33,8 +37,23 @@ export default createStickyNote(
         return null;
       }
 
+      const handleClick = () => {
+        setSelectedSnapshotId(id);
+      };
+
+      const handleKeyDown = e => {
+        if (!isReturn(e)) return;
+        setMapSidebarFocused(true);
+      };
+
       return (
-        <CarbonTag size="sm" className={locals.inStickyNoteButton} onClick={() => setSelectedSnapshotId(id)}>
+        <CarbonTag
+          size="sm"
+          className={locals.inStickyNoteButton}
+          onClick={handleClick}
+          onKeyDown={handleKeyDown}
+          id={snapshotId}
+        >
           {label}
         </CarbonTag>
       );

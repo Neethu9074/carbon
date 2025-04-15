@@ -35,23 +35,27 @@
       starredItems: {{{starredItems}}}
     };
   </script>
+  <!-- This is a temparory script to remove the notice_close cookie from users' browser to display the telium banner.
+ It will be removed in R296. -->
+  {{#if tealiumPrivacyEnabled }}
+    <script nonce="{{nonce}}">
+      document.addEventListener("DOMContentLoaded", function () {
+        if (!localStorage.getItem('noticeCloseCookieDeleted') && document.cookie.includes('notice_close')) {
+          document.cookie = `notice_close=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain={{noticeCloseCookieDomainName}}; secure`;
+          localStorage.setItem('noticeCloseCookieDeleted', 'true');
+        }
+      });
+    </script>
+  {{/if}}
 
   {{#if ibmCommonEnabled }}
      <script type="text/javascript" nonce="{{nonce}}">
-      // this solution was found by re-engineering https://tags.tiqcdn.com/utag/ibm/web/prod/utag.js.
-      // At the moment this is the simplest solution to or a work around, but it was not officially documented
-      // Once the new design on cookie consent is delivered, it will be removed, and
-      // the telium cookie banner will be used instead of the current Instana privacy consent dialog box.
-      document.cookie = "notice_close=true"; // Manually closing the cookie banner since we are accepting it from the privacy dialog.
       window._ibmAnalytics = {
          "settings": {
             "name": "instana",
             "isSpa": true,
             "tealiumProfileName": "in-app-usage"
          },
-         trustarc: {
-            isCookiePreferencesInstalled: true
-          },
          "digitalData.page.pageInfo.segment.enabled": {{segmentAnalyticsEnabled}},
          "digitalData.page.pageInfo.segment.key": "{{segmentKeyValue}}",
          "digitalData.page.pageInfo.walkme.enabled": {{walkmeEnabled}},

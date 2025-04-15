@@ -5,40 +5,17 @@
  */
 
 :local {
-  .headerWrapper {
-    display: flex;
-    justify-content: space-between;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 28px;
-    color: var(--cds-text-primary);
-    padding-left: 0.5rem;
-    gap: 0.5rem;
-  }
-
-  .notes {
+  .notesInPanel {
     position: fixed;
-    display: flex;
-    flex-direction: column;
-    width: 26rem;
-    margin-top: 0.75rem;
-    height: calc(100% - 14.5rem);
-    right: 0;
-    border: 1px solid var(--ids-color-option-neutral-300);
-    background-color: var(--cds-layer-01);
-  }
-
-  .notesTitle {
-    margin-right: 3rem;
-  }
-
-  .stretch {
-    width: 40rem;
-  }
-
-  .tagIconWrapper {
     display: inline-flex;
-    gap: 0.5rem;
+    flex-direction: column;
+    height: calc(100% - 4rem);
+    width: 100%;
+  }
+
+  .sidePanelContainer {
+    top: 11rem;
+    height: calc(100% - 11rem);
   }
 
   .closedNotesWrapper {
@@ -55,6 +32,10 @@
     z-index: 100;
   }
 
+  .searchBar {
+    margin-bottom: 1rem;
+  }
+
   .loading {
     padding: 80% 0px 0px 50%;
   }
@@ -63,6 +44,7 @@
     padding-left: 2rem;
     padding-right: 2rem;
     padding-top: 10rem;
+    height: 100%;
   }
 
   .emptyHeader {
@@ -72,5 +54,33 @@
 
   .emptyInfo {
     line-height: 1rem;
+  }
+
+  :global(#NotesAndActivityWrapper .c4p--side-panel .c4p--side-panel__inner-content) {
+    padding: 0px;
+  }
+
+  :global(#NotesAndActivityWrapper .c4p--side-panel .c4p--side-panel__inner-content--no-animated-title) {
+    padding-top: 0px;
+  }
+
+  // Remove border-left color modification once the left hand panel gets converted to also using the Side Panel
+  :global(#NotesAndActivityWrapper .c4p--side-panel.c4p--side-panel--right-placement) {
+    box-shadow: none;
+    border-left: 1px solid #d5dfe4;
+  }
+
+  // Using this to position the expand and search buttons next to the close button
+  :global(#NotesAndActivityWrapper .c4p--side-panel .c4p--side-panel__subtitle-text) {
+    padding-bottom: 0px;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  // Needed so that the header cannot continue too far right (different languages)
+  // Because we are positioning additional buttons in the top right corner
+  :global(#NotesAndActivityWrapper .c4p--side-panel .c4p--side-panel__title-text) {
+    padding-right: 7rem;
   }
 }

@@ -35,7 +35,8 @@ function NameColumn({ action }: { action: Action | ScoredAction }) {
     <WithSubscript subscript={ACTION_TRANSLATIONS[type]}>
       <Link
         className={locals.ellipsis}
-        href={hrefToActionDashboard(id)}
+        // @ts-ignore-error ignore added for turbo url
+        href={type !== ACTION_TYPE.EXTERNAL ? hrefToActionDashboard(id) : action.metadata?.ai[0]?.actionDetailsURL}
         onClick={() => {
           if (isAIActions) {
             viewAIGenaratedActionTrackerSegment({ actionName: name, actionType: type });

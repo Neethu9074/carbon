@@ -8,10 +8,8 @@ import React, { useContext } from 'react';
 
 import { Stack, Typography } from '@instana/components';
 
-import {
-  ClearableTagFilterQueryBuilder,
-  TagFilterQueryBuilder
-} from 'in-service-levels/components/Shared/TagFilterQueryBuilder';
+import ClearableTagFilterQueryBuilder from 'in-service-levels/components/Shared/TagFilterQueryBuilder/ClearableTagFilterQueryBuilder';
+import TagFilterQueryBuilder from 'in-service-levels/components/Shared/TagFilterQueryBuilder/TagFilterQueryBuilder';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { t } from 'in-i18n';
 

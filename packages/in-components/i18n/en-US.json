@@ -1,10 +1,14 @@
 {
+  "accessibility": {
+    "opensNewTab": "Opens in a new tab"
+  },
   "csvExporterButton": {
     "label": "Export to CSV"
   },
-  "pageStructure":{
+  "pageStructure": {
     "headerAriaLabel": "Page header",
-    "contentAriaLabel": "Content"
+    "contentAriaLabel": "Content",
+    "filterAriaLabel": "Filter"
   },
   "fileInputButton": {
     "label": {

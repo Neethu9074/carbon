@@ -101,7 +101,7 @@ describe(DNSRecordTable, () => {
     expect(dnsRecordTable.getElementsByTagName('tr')).toHaveLength(2);
 
     expect(dnsRecordTable.getElementsByTagName('th')).toHaveLength(3);
-    expect(dnsRecordTable.getElementsByTagName('th')[0]).toHaveTextContent('Name');
+    expect(dnsRecordTable.getElementsByTagName('th')[0]).toHaveTextContent('Domain name');
     expect(dnsRecordTable.getElementsByTagName('th')[1]).toHaveTextContent('TTL');
     expect(dnsRecordTable.getElementsByTagName('th')[2]).toHaveTextContent('Data');
 
@@ -117,7 +117,7 @@ describe(DNSRecordTable, () => {
     expect(dnsRecordTable.getElementsByTagName('tr')).toHaveLength(2);
 
     expect(dnsRecordTable.getElementsByTagName('th')).toHaveLength(3);
-    expect(dnsRecordTable.getElementsByTagName('th')[0]).toHaveTextContent('Name');
+    expect(dnsRecordTable.getElementsByTagName('th')[0]).toHaveTextContent('Domain name');
     expect(dnsRecordTable.getElementsByTagName('th')[1]).toHaveTextContent('TTL');
     expect(dnsRecordTable.getElementsByTagName('th')[2]).toHaveTextContent('Data');
 

@@ -31,6 +31,7 @@
       height: 400px;
       // Editor background
       background-color: var(--cds-layer);
+      min-width: 450px;
     }
     @media (max-width: 1500px) and (min-height: 600px) {
       :global .CodeMirror {
@@ -63,7 +64,19 @@
     background-color: var(--cds-layer);
   }
 
+  .exportSection {
+    min-height: 500px;
+  }
   .feedbackTextarea {
     width: 300px;
+  }
+  .noDataWrapper {
+    height: 500px;
+    background: var(--ids-color-option-neutral-50);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: var(--ids-font-size-option-body-regular);
   }
 }

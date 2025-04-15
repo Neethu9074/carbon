@@ -7,7 +7,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Field, Item } from 'formalistic';
 
-import { HorizontalIndicator, Typography, SearchInput } from '@instana/components';
+import { HorizontalIndicator, Typography, SearchInput, ValidationBlock } from '@instana/components';
 import { Progress } from '@instana/components/types/util/dataRetrieval';
 import { PaginatedResult, SloEntityType } from '@instana/types';
 
@@ -15,7 +15,6 @@ import SloTableHeader from 'in-service-levels/components/ConfigDialog/components
 import SloTableSelection from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelection';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import usePaginatedSloList, { SloData } from 'in-service-levels/hooks/usePaginatedSloList';
-import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import useSelectedIds from 'in-service-levels/hooks/useSelectedIds';
 import Sections from 'in-components/workspace/Sections/Sections';
 import { removeAmbiguous } from 'in-service-levels/utils/array';

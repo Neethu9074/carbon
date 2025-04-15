@@ -1039,6 +1039,7 @@
         "propertiesLabel": "Properties",
         "propertiesTitle": "Additional alert properties",
         "thresholdValue": "Threshold value",
+        "thresholdType": "Threshold Type",
         "payloadsLabel": "Payloads",
         "payloadsTitle": "Custom payloads",
         "evaluationSwitch": {

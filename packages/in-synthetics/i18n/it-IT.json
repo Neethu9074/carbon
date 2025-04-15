@@ -238,6 +238,8 @@
             "operatorLabel": "Condizionale",
             "operatorOptionMatches": "Corrispondenze",
             "operatorOptionContains": "Contiene",
+            "operatorOptionIs": "È",
+            "operatorOptionNotMatches": "Non corrisponde",
             "resolutionRecordLabel": "Record di risoluzione",
             "deleteButtonLabel": "Elimina",
             "addRecordTypeLabel": "Aggiungi campo",
@@ -606,6 +608,7 @@
       "configurationTab": "Configurazione",
       "isCertificateValid": "Ultima esecuzione - Il certificato è firmato da CA pubblica",
       "resultsCertificateValid": "Il certificato è firmato da CA pubblica",
+      "serviceLevelsTab": "Livelli di Servizio",
       "certificateValid": "Sì",
       "certificateNotValid": "No",
       "daysRemaining": "Ultima esecuzione - Giorni rimanenti",
@@ -768,6 +771,14 @@
       },
       "customProperties": {
         "title": "Proprietà personalizzate"
+      },
+      "dns": {
+        "title": "Dettagli di test",
+        "description": "Risultato DNS per il tipo di query {{queryType}}",
+        "name": "Nome",
+        "ttl": "TTL",
+        "data": "Dati",
+        "noRecordsFound": "Nessun record trovato"
       }
     },
     "noDataAvailable": {

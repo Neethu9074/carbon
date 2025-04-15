@@ -43,8 +43,9 @@ interface UseNavigationResult {
    * Creates a href string
    * that can be used to trigger a navigation to the target location state via default browser means, like <a/> elements.
    * @param path The target pathname
+   * @param params Optional parameters to be replaced on the path
    */
-  createHrefToPath: (path: string) => string;
+  createHrefToPath: (path: string, params?: Record<string, string>) => string;
 
   /**
    * Navigate to the provided path.
@@ -69,7 +70,7 @@ export function useNavigation(): UseNavigationResult {
       location: cloneLocation(location),
       navigate: (target: Location, replace?: boolean) => navigate(history, location, target, replace),
       createHref: (target: Location) => createHref(location, target),
-      createHrefToPath: (pathname: string) => createHrefToPath(location, pathname),
+      createHrefToPath: (pathname, params) => createHrefToPath(location, pathname, params),
       goToPath: (path: string) => goToPath(history, location, path),
       matchLocation: (...args: IsViewArg[]) => matchLocation(location, ...args)
     }),
@@ -102,10 +103,14 @@ function goToPath(history: History, current: Location, path: string): void {
   navigate(history, current, target);
 }
 
-function createHrefToPath(current: Location, path: string): string {
+function substitutePathParams(path: string, params: Record<string, string>): string {
+  return Object.keys(params).reduce((lastPath, paramKey) => lastPath.replace(`:${paramKey}`, params[paramKey]), path);
+}
+
+function createHrefToPath(current: Location, path: string, params?: Record<string, string>): string {
   const target = cloneLocation(current);
   removeDFQueryFromLocationWhenChangingArea(target, path);
-  target.pathname = path;
+  target.pathname = params ? substitutePathParams(path, params) : path;
   return createHref(current, target);
 }
 

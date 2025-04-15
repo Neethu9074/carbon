@@ -24,8 +24,8 @@ interface TearSheetLinkProps {
   isGlobal: boolean;
   alertId: string;
   alertConfigCreated: number;
-  duplicateMode?: string;
-  editMode?: string;
+  duplicateMode?: boolean;
+  editMode?: boolean;
   alertConfig?: AlertConfigType;
 }
 

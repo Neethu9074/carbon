@@ -15,27 +15,27 @@ import tabs, {
   isApplicationSloTabData,
   SloTabData
 } from 'in-service-levels/components/SloDashboard/tabs';
+import SloMetaInfoHeader from 'in-service-levels/components/SloDashboard/components/SloMetaInfoHeader/SloMetaInfoHeader';
 import { defaultServiceLevelObjectiveUrlParameters, SloUrlState } from 'in-service-levels/navigation/urlParameters';
 import SloTimeWindowProvider from 'in-service-levels/components/SloDashboard/components/SloTimeWindowProvider';
 import SloDashboardHeader from 'in-service-levels/components/SloDashboard/components/SloDashboardHeader';
-import SloMetaInfoHeader from 'in-service-levels/components/SloDashboard/components/SloMetaInfoHeader';
 import { serviceLevelsObjectiveSummaryFullyQualified } from 'in-service-levels/navigation/path';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAlertDialog';
-import { loadEntities, MonitoredEntity } from 'in-service-levels/utils/loadEntities';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
+import { LabeledEntity, SloMonitoredEntity } from 'in-service-levels/types';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import { getSloConfiguration } from 'in-service-levels/api/configuration';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { loadEntities } from 'in-service-levels/utils/loadEntities';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { hasError, isLoading } from 'in-services/util/result';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
-import { LabeledEntity } from 'in-service-levels/types';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
 import { all } from 'in-hooks/utils/progress';
@@ -127,7 +127,7 @@ function getData(sloId: string): Observable<Result<SloTabData | ApplicationSloTa
 
       const { entity } = result.data!;
       const observables: Array<
-        Observable<Result<ServiceLevelObjectiveConfiguration | MonitoredEntity | MonitoredEntity[]>>
+        Observable<Result<ServiceLevelObjectiveConfiguration | SloMonitoredEntity | SloMonitoredEntity[]>>
       > = [createResultWithIdentifier(just(result), ResultIdentifier.CONFIG)];
 
       observables.push(createResultWithIdentifier(loadEntities(entity), ResultIdentifier.ENTITY));

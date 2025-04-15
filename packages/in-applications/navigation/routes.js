@@ -37,9 +37,20 @@ import {
   subtracesList,
   subtraceDashboard
 } from 'in-applications/navigation/paths';
-import { applicationSmartAlertFullScreenDesignEnabled, applicationSubtracesEnabled } from 'in-services/featureFlags';
+import {
+  applicationSmartAlertFullScreenDesignEnabled,
+  applicationSubtracesEnabled,
+  applicationSmartAlertDialogView
+} from 'in-services/featureFlags';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
+import { FULLSCREEN, CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { role } from 'in-stores/user';
+
+const alertDisplayMode = getSmartAlertDisplayMode(
+  applicationSmartAlertDialogView,
+  applicationSmartAlertFullScreenDesignEnabled
+);
 
 export default function applicationRoutes() {
   const appRoutes = [];
@@ -57,7 +68,7 @@ export default function applicationRoutes() {
     );
   }
   appRoutes.push([
-    applicationSmartAlertFullScreenDesignEnabled && (
+    (alertDisplayMode === FULLSCREEN || alertDisplayMode === CHOICE_DIALOG) && (
       <Route exact path={[smartAlertPath]} key="applicationPerspectiveSmartAlerts">
         {renderAsyncRouteChildren(AlertConfigTearSheet)}
       </Route>

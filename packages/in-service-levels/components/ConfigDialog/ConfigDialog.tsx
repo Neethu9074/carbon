@@ -7,8 +7,7 @@
 import React from 'react';
 
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
-import { Props } from 'in-components/Dialog/Dialog';
-import Dialog from 'in-components/Dialog/Dialog';
+import Dialog, { Props } from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
 import locals from './ConfigDialog.mless';
@@ -28,7 +27,7 @@ export default function ConfigDialog({
   onSave
 }: React.PropsWithChildren<ConfigDialogProps>) {
   return (
-    <Dialog title={title} onClose={onClose} withoutBodyPadding showOverflow>
+    <Dialog title={title} onClose={onClose} withoutBodyPadding showOverflow doNotCloseOnOutsideClick>
       <div role="form" className={locals.dialogBody}>
         {children}
       </div>

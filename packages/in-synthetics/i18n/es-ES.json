@@ -238,6 +238,8 @@
             "operatorLabel": "Condicional",
             "operatorOptionMatches": "Coincidencias",
             "operatorOptionContains": "Contiene",
+            "operatorOptionIs": "Es",
+            "operatorOptionNotMatches": "No coincide",
             "resolutionRecordLabel": "Registro de resolución",
             "deleteButtonLabel": "Suprimir",
             "addRecordTypeLabel": "Añadir campo",
@@ -606,6 +608,7 @@
       "configurationTab": "Configuración",
       "isCertificateValid": "Última ejecución: el certificado está firmado por una CA pública",
       "resultsCertificateValid": "El certificado está firmado por una CA pública",
+      "serviceLevelsTab": "Niveles de servicio",
       "certificateValid": "Sí",
       "certificateNotValid": "No",
       "daysRemaining": "Última ejecución: días restantes",
@@ -768,6 +771,14 @@
       },
       "customProperties": {
         "title": "Propiedades personalizadas"
+      },
+      "dns": {
+        "title": "Detalles de la prueba",
+        "description": "Resultado de DNS para el tipo de consulta {{queryType}}",
+        "name": "Nombre",
+        "ttl": "TTL",
+        "data": "Data",
+        "noRecordsFound": "No se han encontrado registros"
       }
     },
     "noDataAvailable": {

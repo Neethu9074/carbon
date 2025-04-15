@@ -36,9 +36,9 @@ import { MonitoringSource } from 'in-custom-dashboards/widgets/SloLegacy/constan
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { numericValidator, minValidator } from 'in-services/validators/number';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { MonitoredEntity } from 'in-service-levels/utils/loadEntities';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
+import { SloMonitoredEntity } from 'in-service-levels/types';
 import { boundaryScopes } from 'in-applications/constants';
 import { t } from 'in-i18n';
 
@@ -108,7 +108,7 @@ export function createForm(
   entityType: MonitoringSource,
   sliConfig: Partial<SliConfig<CombinedSliEntity>>,
   entityId: string,
-  entity: MonitoredEntity
+  entity: SloMonitoredEntity
 ): MapForm<any> {
   const { id, sliName, sliEntity, metricConfiguration } = sliConfig;
 

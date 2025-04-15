@@ -12,12 +12,12 @@ import {
   setSessionSettings
 } from 'in-settings/tabs/SecurityAndAccess/api/sessionSettings';
 import { getSessionSettingsAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/sessionSettings';
+import ApiItemView from 'in-settings/components/ApiItemView';
 import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
 import { SETTINGS_SESSION_TIMEOUT_UPDATE } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import ApiItemView from 'in-settings/components/ApiItemView';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
 import { days, minutes, hours } from 'in-services/time';
 import FormGroup from 'in-components/form/FormGroup';
@@ -102,7 +102,7 @@ function TokenLifeTimeSlider({ form, setForm }) {
 }
 
 function IdleTimeSlider({ form, setForm }) {
-  const min = minutes.toMillis(1);
+  const min = minutes.toMillis(15);
   const max = hours.toMillis(8);
   const formatTime = formatDurationAccurately;
   const labeledTicks = [min, hours.toMillis(1), max].map(value => ({

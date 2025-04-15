@@ -107,8 +107,8 @@
     "metrics": {
       "status": "狀態",
       "remainingBudget": "剩餘",
+      "burnRate": "消耗率",
       "totalBudget": "錯誤預算",
-      "consumedBudget": "耗用的錯誤預算",
       "beaconCount": "引標計數",
       "calls": "呼叫",
       "latency": "延遲",
@@ -247,8 +247,8 @@
     "sloChartSummary": {
       "status": "狀態",
       "target": "目標：",
-      "errorBudgetRemaining": "剩餘：",
-      "errorBudgetSpent": "所耗費的錯誤預算",
+      "errorBudgetTotal": "總計：",
+      "errorBudgetRemaining": "剩餘的錯誤預算",
       "timeWindow": "時間範圍",
       "timeWindowType_dynamic": "動態時間範圍",
       "timeWindowType_rolling": "輪詢時間範圍",
@@ -340,11 +340,17 @@
         "title": "資料流量",
         "totalTraffic": "總計：{{value}}"
       },
+      "burnRateKpiCard": {
+        "burnRateInfo": "所選取 SLO 時間視窗的消耗率"
+      },
       "errorBudgetChart": {
         "title": "錯誤預算"
       },
       "trafficChart": {
         "title": "資料流量"
+      },
+      "burnRateChart": {
+        "title": "消耗率"
       },
       "indicatorChart": {
         "title": "指標",

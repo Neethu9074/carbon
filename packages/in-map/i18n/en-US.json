@@ -1,4 +1,8 @@
 {
+  "accessibility": {
+    "details": "Details",
+    "entityGraph": "Entity graph"
+  },
   "metrics_CPU": "CPU",
   "metrics_Load": "Load",
   "metrics_Usage": "Usage",

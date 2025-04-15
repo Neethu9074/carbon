@@ -8,8 +8,8 @@ import React from 'react';
 
 import { Stack, StackItem, Button } from '@instana/components';
 
+import TagFilterQueryBuilder from 'in-service-levels/components/Shared/TagFilterQueryBuilder/TagFilterQueryBuilder';
 import { TagFilterQueryBuilderProps } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/types';
-import { TagFilterQueryBuilder } from 'in-service-levels/components/Shared/TagFilterQueryBuilder';
 import { t } from 'in-i18n';
 
 export default function ClearableTagFilterQueryBuilder({ value, onChange, ...props }: TagFilterQueryBuilderProps) {

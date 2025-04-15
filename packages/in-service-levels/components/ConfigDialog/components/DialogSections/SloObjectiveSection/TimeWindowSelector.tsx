@@ -6,20 +6,17 @@
 
 import React, { useContext } from 'react';
 
+import { Stack, SvgIcon, Select, Input, ValidationBlock } from '@instana/components';
 import { DurationUnitType, TimeWindowType } from '@instana/types';
-import { Stack, SvgIcon } from '@instana/components';
-import { Select } from '@instana/components';
 
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
-import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import { getMaxTimeWindowDurationValue } from 'in-service-levels/utils/time';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import DateInput from 'in-components/form/DateInput/DateInput';
 import TimeInput from 'in-components/TimeInput/TimeInput';
 import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';
-import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
 import locals from './SloObjectiveSection.mless';

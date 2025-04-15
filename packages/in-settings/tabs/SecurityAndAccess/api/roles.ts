@@ -7,6 +7,8 @@
 import { Result, RoleOverview, ApiRole, CreateRole } from '@instana/types';
 import { create, Observable } from '@instana/observables';
 
+import { ApiRoleWithPermissions } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
+import { translateRoleResult, translateRolesResult } from 'in-settings/utils/i18n';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { minutes } from 'in-services/time/time';
@@ -20,19 +22,19 @@ interface GetRoleInternalProps {
   id: string;
 }
 
-function getRoleInternal({ id }: GetRoleInternalProps): Observable<Result<ApiRole>> {
+function getRoleInternal({ id }: GetRoleInternalProps): Observable<Result<ApiRoleWithPermissions>> {
   return refreshSignal.flatMap(() =>
-    http<ApiRole>({
+    http<ApiRoleWithPermissions>({
       mapToResultObject: true,
       maxRetries: 3,
       method: 'GET',
       url: `${API_BASE_PATH_ROLES}/${encodeURI(id)}`,
       treat400AsError: true
-    })
+    }).map(translateRoleResult)
   );
 }
 
-export const getRole = memoize<GetRoleInternalProps, Result<ApiRole>>(
+export const getRole = memoize<GetRoleInternalProps, Result<ApiRoleWithPermissions>>(
   getRoleInternal,
   ({ id }) => id,
   minutes.toMillis(1)
@@ -45,7 +47,7 @@ function getRolesOverviewInternal(): Observable<Result<RoleOverview[]>> {
       maxRetries: 3,
       method: 'GET',
       url: `${API_BASE_PATH_ROLES}/overview`
-    })
+    }).map(translateRolesResult)
   );
 }
 

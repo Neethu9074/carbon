@@ -42,16 +42,15 @@ import locals from './CreateApplicationDialog.mless';
 // FIXME: this is only used in AP config... we should make it re-usable for creation as well
 export default function CreateApplicationDialog({ applicationId, onCancelHref, getOnSavePath }) {
   const { trackApplicationSubmitted } = useApplicationTracker();
+  const title = applicationId
+    ? t('in-applications:titleUpdateApplicationPerspective')
+    : t('in-applications:titleCreateApplicationPerspective');
+
   return (
     <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
-      <Card
-        title={
-          applicationId
-            ? t('in-applications:titleUpdateApplicationPerspective')
-            : t('in-applications:titleCreateApplicationPerspective')
-        }
-      >
+      <Card title={title}>
         <BasicForm
+          ariaLabel={title}
           saveButtonLabel={applicationId ? t('in-applications:buttonSave') : t('in-applications:buttonCreate')}
           onCancelHref={onCancelHref}
           getOnSavePath={getOnSavePath}

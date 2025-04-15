@@ -55,7 +55,7 @@ export default function CreateSmartAlert({ isListingPage }: { isListingPage?: bo
 
   if (smartAlertCarbonTableEnabled && isListingPage) {
     return (
-      <Button kind="primaryv2" icon="lib_openclose_add" onClick={handleButtonClick}>
+      <Button kind="primaryv2" icon="lib_openclose_add" onClick={handleButtonClick} size="xl">
         {t('in-alerting:smartAlerts.createSmartAlert')}
       </Button>
     );

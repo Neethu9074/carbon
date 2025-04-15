@@ -10,8 +10,8 @@ import { Stack } from '@instana/components';
 
 import ErrorBudgetInfo from 'in-service-levels/components/SloList/components/ErrorBudgetInfo';
 import { SloListItem } from 'in-service-levels/components/SloList/SloList';
+import SparkChart from 'in-components/SparkChart/SparkChartReactComponent';
 import { minutes, number } from 'in-services/formatters/number';
-import SparkChart from 'in-components/SparkChart';
 
 interface SloErrorBudgetColumnContentProps {
   item: SloListItem;

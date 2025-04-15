@@ -112,6 +112,7 @@
     "node": "노드",
     "groupBy": "<labelSpan>그룹화 기준</labelSpan><sizeBy/>",
     "groupByLabel": "그룹별",
+    "chooseMetric": "메트릭 선택",
     "unknown": "알 수 없음",
     "value": "값",
     "highlightUnhealthy": "비정상 강조표시",
@@ -259,7 +260,7 @@
       "clusterCost": "클러스터 비용",
       "idle": "유휴",
       "costByNameSpace": "네임스페이스별 비용",
-      "kubeCost": "비용[공개 미리보기]",
+      "kubeCost": "비용",
       "namespaceCumulativeCost": "네임스페이스별 비용",
       "trend": "추세 %",
       "ramCost": "RAM",
@@ -272,6 +273,8 @@
       "cpuCost": "CPU",
       "namespace": "네임스페이스",
       "idleCost": "대기 비용",
+      "viewInKubeCost": "Kubecost에서 보기",
+      "coreCountByCluster": "vCPU",
       "noKubecostData": "Kubecost와 함께 비용 가시성 및 할당을 사용으로 설정하십시오. 통합을 구성하려면 다음 [단계][Docs]를 따르십시오.\n\n[Docs]:https://ibm.biz/kubecost"
     }
   },

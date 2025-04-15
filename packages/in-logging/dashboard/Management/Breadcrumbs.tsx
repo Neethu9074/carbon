@@ -13,7 +13,8 @@ import {
   dashboardIntegrationsPath,
   dashboardLogVolumePath,
   dashboardRetentionManagementPath,
-  loggingDashboardPath
+  loggingDashboardPath,
+  dashboardPatternRecognitionPath
 } from 'in-logging/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { t } from 'in-i18n';
@@ -28,7 +29,8 @@ const localisationStrings = {
 const locationLabels = [
   { path: dashboardLogVolumePath, label: t('in-logging:dashboard.managementPage.logVolume') },
   { path: dashboardIntegrationsPath, label: t('in-logging:dashboard.managementPage.logIntegrations') },
-  { path: dashboardRetentionManagementPath, label: t('in-logging:dashboard.managementPage.retentionPeriod') }
+  { path: dashboardRetentionManagementPath, label: t('in-logging:dashboard.managementPage.retentionPeriod') },
+  { path: dashboardPatternRecognitionPath, label: t('in-logging:dashboard.managementPage.patternRecognition') }
 ];
 
 export default function Breadcrumbs() {

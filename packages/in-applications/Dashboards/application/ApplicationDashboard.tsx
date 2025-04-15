@@ -28,8 +28,8 @@ import { ScopeRoles } from 'in-settings/tabs/SecurityAndAccess/pages/accessContr
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
+import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
-import { useVulnerabilityTracker } from 'in-events/useVulnerabilityTracker';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
@@ -37,6 +37,7 @@ import { useApplicationTracker } from 'in-applications/hooks/useApplicationTrack
 import getApplicationTabs from 'in-applications/Dashboards/application/tabs/index';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
+import { useVulnerabilityTracker } from 'in-events/useVulnerabilityTracker';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -176,7 +177,9 @@ function renderButtonLine(props: ButtonLineProps) {
   const { applicationId, timeConfig, boundaryScope, location, result } = props;
   const isGlobalAlertConfig = getMatrixParameter(location, alertsList, alertsCategory) === categoryGlobal;
   const addSmartAlertButton = isGlobalAlertConfig ? (
-    <CreateGlobalSmartAlertButton location={location} />
+    <FloatingActionButtons>
+      <CreateGlobalSmartAlertButton location={location} renderAsSimpleButton />
+    </FloatingActionButtons>
   ) : (
     <CreateSmartAlert
       applicationId={applicationId}

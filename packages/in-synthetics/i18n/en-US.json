@@ -775,7 +775,7 @@
       "dns": {
         "title": "Test details",
         "description": "DNS result for query type {{queryType}}",
-        "name": "Name",
+        "domainName": "Domain name",
         "ttl": "TTL",
         "data": "Data",
         "noRecordsFound": "No records found"

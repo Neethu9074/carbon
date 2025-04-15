@@ -21,6 +21,7 @@ import {
   isEditMode
 } from 'in-applications/navigation/matrix';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/components/list/constants';
+import { AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -30,19 +31,15 @@ import { smartAlertPath } from 'in-applications/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
 import {} from 'in-applications/navigation/matrix';
 
-interface AlertURLProps {
+interface ApplicationAlertURLProps extends AlertURLProps {
   isGlobal: boolean;
   migration?: boolean;
   boundaryScope?: string;
-  alertId?: string;
-  alertConfigCreated?: number;
   serviceId?: string;
   applicationId?: string;
   endpointId?: string;
   eventSpecificationId?: string;
   potentialProblem?: string;
-  duplicateMode?: string;
-  editMode?: string;
 }
 
 export function useSmartAlertCreateUrl(): ({
@@ -58,7 +55,7 @@ export function useSmartAlertCreateUrl(): ({
   potentialProblem,
   duplicateMode,
   editMode
-}: AlertURLProps) => string {
+}: ApplicationAlertURLProps) => string {
   const { createHref, location } = useNavigation();
   const currentLocation = useLocation();
 
@@ -76,7 +73,7 @@ export function useSmartAlertCreateUrl(): ({
       potentialProblem,
       duplicateMode,
       editMode
-    }: AlertURLProps) => {
+    }: ApplicationAlertURLProps) => {
       const returnUrlWithParams = createHref(currentLocation);
       const clonedLocation = cloneLocation(location);
       updateCreatePathMetrixParams(
@@ -116,8 +113,8 @@ function updateCreatePathMetrixParams(
   endpointId?: string,
   eventSpecificationId?: string,
   potentialProblem?: string,
-  duplicateMode?: string,
-  editMode?: string
+  duplicateMode?: boolean,
+  editMode?: boolean
 ) {
   const configsCategory = isGlobal ? categoryGlobal : categoryLocal;
 

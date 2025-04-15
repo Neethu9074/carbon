@@ -44,5 +44,68 @@ export default [
     category: [t('in-kubernetes:dashboards.kubecost.namespaceCumulativeCost')],
     min: 0,
     formatter: percentage
+  },
+  {
+    formatter: number,
+    metrics: ['coreCountStats.coreCountByCluster'],
+    labels: [t('in-kubernetes:dashboards.kubecost.coreCountByCluster')],
+    min: 0
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('deploymentCostList', 'cpuCost', t('in-kubernetes:dashboards.kubecost.deployment')),
+      getDynamicMetricMatch('deploymentCostList', 'gpuCost', t('in-kubernetes:dashboards.kubecost.deployment')),
+      getDynamicMetricMatch('deploymentCostList', 'networkCost', t('in-kubernetes:dashboards.kubecost.deployment')),
+      getDynamicMetricMatch('deploymentCostList', 'pvCost', t('in-kubernetes:dashboards.kubecost.deployment')),
+      getDynamicMetricMatch(
+        'deploymentCostList',
+        'loadBalancerCost',
+        t('in-kubernetes:dashboards.kubecost.deployment')
+      ),
+      getDynamicMetricMatch('deploymentCostList', 'sharedCost', t('in-kubernetes:dashboards.kubecost.deployment')),
+      getDynamicMetricMatch('deploymentCostList', 'ramCost', t('in-kubernetes:dashboards.kubecost.deployment')),
+      getDynamicMetricMatch('deploymentCostList', 'totalCost', t('in-kubernetes:dashboards.kubecost.deployment'))
+    ],
+    labels: [
+      t('in-kubernetes:dashboards.kubecost.cpuCost'),
+      t('in-kubernetes:dashboards.kubecost.gpuCost'),
+      t('in-kubernetes:dashboards.kubecost.networkCost'),
+      t('in-kubernetes:dashboards.kubecost.pvCost'),
+      t('in-kubernetes:dashboards.kubecost.loadBalancerCost'),
+      t('in-kubernetes:dashboards.kubecost.sharedCost'),
+      t('in-kubernetes:dashboards.kubecost.ramCost'),
+      t('in-kubernetes:dashboards.kubecost.totalCost')
+    ],
+    category: [t('in-kubernetes:dashboards.kubecost.costByDeployment')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('deploymentCostList', 'trend', t('in-kubernetes:dashboards.kubecost.deployment')),
+      getDynamicMetricMatch('deploymentCostList', 'totalEfficiency', t('in-kubernetes:dashboards.kubecost.deployment'))
+    ],
+    labels: [t('in-kubernetes:dashboards.kubecost.trend'), t('in-kubernetes:dashboards.kubecost.totalEfficiency')],
+    category: [t('in-kubernetes:dashboards.kubecost.costByDeployment')],
+    min: 0,
+    formatter: percentage
+  },
+  {
+    formatter: number,
+    metrics: ['clusterDetails.totalCost'],
+    labels: [t('in-kubernetes:dashboards.kubecost.totalClusterCost')],
+    min: 0
+  },
+  {
+    formatter: percentage,
+    metrics: ['clusterDetails.workloadEfficiency'],
+    labels: [t('in-kubernetes:dashboards.kubecost.workloadEfficiency')],
+    min: 0
+  },
+  {
+    formatter: number,
+    metrics: ['clusterTotalMonthlySavings.totalMonthlySavings'],
+    labels: [t('in-kubernetes:dashboards.kubecost.estimatedMonthlySavings')],
+    min: 0
   }
 ];

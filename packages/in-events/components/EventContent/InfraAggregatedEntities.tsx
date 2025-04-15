@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useState } from 'react';
 import { noop } from 'lodash';
+import React from 'react';
 
-import { Collapsible, Link, LoadingSkeleton, Message, Stack } from '@instana/components';
+import { CarbonAccordion, CarbonAccordionItem, Link, LoadingSkeleton, Message, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -57,6 +57,8 @@ interface AggregatedEntitiesProps {
   ruleWithThreshold: RuleWithThreshold<GenericInfraAlertRule>;
   tagFilterExpression: TagFilterExpressionElementUnion;
   metricLabel: string;
+  aggregatedEntitiesOpen: boolean;
+  setAggregatedEntitiesOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 interface EntityItem {
   snapshotId: string;
@@ -71,7 +73,9 @@ export function InfraAggregatedEntitiesTablePresenter({
   timeConfig,
   ruleWithThreshold,
   tagFilterExpression,
-  metricLabel
+  metricLabel,
+  aggregatedEntitiesOpen,
+  setAggregatedEntitiesOpen
 }: Omit<AggregatedEntitiesProps, 'timeConfig'> & {
   timeConfig: TimeConfig | undefined;
 }) {
@@ -87,7 +91,9 @@ export function InfraAggregatedEntitiesTablePresenter({
     timeConfig,
     ruleWithThreshold,
     tagFilterExpression,
-    metricLabel
+    metricLabel,
+    aggregatedEntitiesOpen,
+    setAggregatedEntitiesOpen
   });
 }
 
@@ -96,7 +102,9 @@ function InfraAggregatedEntities({
   timeConfig,
   ruleWithThreshold,
   tagFilterExpression,
-  metricLabel
+  metricLabel,
+  aggregatedEntitiesOpen,
+  setAggregatedEntitiesOpen
 }: AggregatedEntitiesProps) {
   const { rule, thresholdOperator } = ruleWithThreshold;
 
@@ -108,12 +116,6 @@ function InfraAggregatedEntities({
   const id = getMetricKey(metricName, aggregation, crossSeriesAggregation);
   const order: Order = { by: id, direction: isGreaterOperator(thresholdOperator) ? 'DESC' : 'ASC' };
   const adjustedGranularityForChart: number = getGranularity(timeConfig);
-
-  const [isOpen, setIsOpen] = useState(true);
-
-  const updateIsOpenState = () => {
-    setIsOpen(prevState => !prevState);
-  };
 
   const result = useCursorPagination(
     () =>
@@ -138,35 +140,42 @@ function InfraAggregatedEntities({
     return <LoadingSkeleton className={locals.aggregatedEntityListSkeleton} />;
   }
 
+  if (result.items.length === 0 && result.errors.length > 0) {
+    return (
+      <Message type="error" small withIcon fullInlineWidth>
+        {result.errors[0].message}
+      </Message>
+    );
+  }
+
   return (
-    <Collapsible initiallyOpen={isOpen}>
-      <Collapsible.Header isOpen={isOpen} toggle={updateIsOpenState}>
-        {t('in-events:infraSmartAlerts.aggregatedEntityEvent.titleAggregatedEntityList', {
+    <CarbonAccordion className={locals.aggregatedEntitiesAccordian}>
+      <CarbonAccordionItem
+        open={aggregatedEntitiesOpen}
+        title={t('in-events:infraSmartAlerts.aggregatedEntityEvent.titleAggregatedEntityList', {
           totalEntityCount: result.totalHits
         })}
-      </Collapsible.Header>
-      <Collapsible.Content isOpen={isOpen}>
-        <div className={locals.collapsibleContent}>
-          <AggregatedEntitiesTable
-            items={result.items}
-            timeConfig={timeConfig}
-            metricMetadatas={metricMetadatas}
-            metricName={metricName}
-            totalHits={result.totalHits}
-            progress={result.progress}
-            canLoadMore={result.totalHits !== undefined && result.totalHits > retrievalSize}
-            label={metricLabel}
-            aggregation={aggregation}
-            crossSeriesAggregation={crossSeriesAggregation}
-            rule={rule}
-            tagFilterExpression={tagFilterExpression}
-            granularity={adjustedGranularityForChart}
-            errors={result.errors}
-            order={order}
-          />
-        </div>
-      </Collapsible.Content>
-    </Collapsible>
+        onHeadingClick={({ isOpen }) => setAggregatedEntitiesOpen(isOpen)}
+      >
+        <AggregatedEntitiesTable
+          items={result.items}
+          timeConfig={timeConfig}
+          metricMetadatas={metricMetadatas}
+          metricName={metricName}
+          totalHits={result.totalHits}
+          progress={result.progress}
+          canLoadMore={result.totalHits !== undefined && result.totalHits > retrievalSize}
+          label={metricLabel}
+          aggregation={aggregation}
+          crossSeriesAggregation={crossSeriesAggregation}
+          rule={rule}
+          tagFilterExpression={tagFilterExpression}
+          granularity={adjustedGranularityForChart}
+          errors={result.errors}
+          order={order}
+        />
+      </CarbonAccordionItem>
+    </CarbonAccordion>
   );
 }
 

@@ -4,18 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
+import { SidePanel } from '@carbon/ibm-products';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import {
-  SvgIcon,
-  CarbonLayer,
-  CarbonInlineLoading,
-  IconButton,
-  CarbonSearch,
-  CarbonModal,
-  Stack
-} from '@instana/components';
+import { SvgIcon, CarbonInlineLoading, IconButton, CarbonSearch, CarbonModal, Stack } from '@instana/components';
 
 // Not using Carbon tooltip since tooltip has not been migrated
 // Using Carbon tooltip would cause mismatch in design on the page
@@ -58,7 +51,7 @@ export function OpenNotesAndActivity({ displayNotes, setDisplayNotes, event }) {
 }
 
 export function NotesAndActivity(props) {
-  const { event, displayNotes, setDisplayNotes } = props;
+  const { event, displayNotes, setDisplayNotes, targetID } = props;
   // Extract the notes from the event
   const notes = getNotes(event);
   const incidentId = event?.get('id');
@@ -88,19 +81,24 @@ export function NotesAndActivity(props) {
     return null;
   }
 
-  if (!displayNotes) {
-    return <></>;
-  }
-
   const emptyList = notes?.length === 0;
   const filteredNotes = filterSearchNotes(notes, searchInput.toLowerCase());
 
   return (
-    <>
-      <CarbonLayer>
-        <div className={locals.headerWrapper}>
-          <div className={locals.notesTitle}>{t('in-events:notes.notesActivity')}</div>
-          <div className={locals.tagIconWrapper}>
+    <div id="NotesAndActivityWrapper">
+      <SidePanel
+        className={locals.sidePanelContainer}
+        open={displayNotes}
+        slideIn
+        selectorPageContent={targetID}
+        onRequestClose={() => {
+          setDisplayNotes(false);
+          setSearchInput('');
+        }}
+        title={t('in-events:notes.notesActivity')}
+        size={(stretchOverlay && 'lg') || 'md'}
+        subtitle={
+          <>
             <IconButton
               kind="action"
               onClick={() => {
@@ -120,36 +118,23 @@ export function NotesAndActivity(props) {
               size="compact"
               className={locals.notesIcon}
             />
-            <Tooltip content={t('in-events:notes.closeNotes')}>
-              <IconButton
-                kind="action"
-                onClick={() => {
-                  setSearchInput('');
-                  setOpenSearch(false);
-                  setDisplayNotes(!displayNotes);
-                  handleTracking(incidentId, EVENT_SIDE_PANEL_CLICK);
-                }}
-                type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'}
-                size="compact"
-                className={locals.notesIcon}
-              />
-            </Tooltip>
+          </>
+        }
+      >
+        {loading ? (
+          <div className={locals.loading}>
+            <CarbonInlineLoading />
           </div>
-        </div>
-        <div
-          className={classNames({
-            [locals.notes]: true,
-            [locals.stretch]: stretchOverlay
-          })}
-        >
-          {loading ? (
-            <div className={locals.loading}>
-              <CarbonInlineLoading />
-            </div>
-          ) : (
+        ) : (
+          <div
+            className={classNames({
+              [locals.notesInPanel]: true
+            })}
+          >
             <>
               {openSearch && (
                 <CarbonSearch
+                  className={locals.searchBar}
                   placeholder={t('in-events:notes.searchNotes')}
                   labelText={t('in-events:notes.searchNotes')}
                   onChange={e => {
@@ -184,9 +169,9 @@ export function NotesAndActivity(props) {
                 setEditNoteId={setEditNoteId}
               />
             </>
-          )}
-        </div>
-      </CarbonLayer>
+          </div>
+        )}
+      </SidePanel>
       {/* Danger modal for deleting a note */}
       <div className={classNames({ carbonDeleteModalOpen: needOverlay })}>
         <CarbonModal
@@ -198,7 +183,7 @@ export function NotesAndActivity(props) {
           onRequestSubmit={() => {
             setTimeout(() => {
               setNeedOverlay(false);
-            }, 500);
+            }, 250);
             handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId, editNoteId);
           }}
           onRequestClose={() => {
@@ -207,7 +192,7 @@ export function NotesAndActivity(props) {
             // Once faded we no longer need the overlay
             setTimeout(() => {
               setNeedOverlay(false);
-            }, 500);
+            }, 250);
             setEditNoteId(false);
           }}
         >
@@ -225,7 +210,7 @@ export function NotesAndActivity(props) {
         incidentId={incidentId}
         problemText={problemText}
       />
-    </>
+    </div>
   );
 }
 

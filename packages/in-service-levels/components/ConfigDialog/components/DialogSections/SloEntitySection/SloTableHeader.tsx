@@ -6,7 +6,7 @@
 
 import React, { ReactNode } from 'react';
 
-import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader.mless';
+import locals from './SloTableHeader.mless';
 
 interface SloTableHeaderProps {
   children: ReactNode;

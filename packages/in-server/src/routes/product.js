@@ -185,7 +185,7 @@ router.get('/', async (req, res) => {
     const activeLicenseInfo = JSON.parse(getLicenseInfo)?.type;
     clientConfig.activeLicenseType = activeLicenseInfo;
     clientConfig.amplitudeKey = getAmplitudeKey();
-    const environmentInfo = await getEnvironmentInfo;
+    const environmentInfo = JSON.parse(getEnvironmentInfo);
     clientConfig.mcspDetails = environmentInfo.mcspDetails;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const segmentKeyValue = clientConfig.segmentKey;
@@ -194,11 +194,13 @@ router.get('/', async (req, res) => {
       : termsAndPrivacy.walkmeAnalyticsServices;
     const walkmeTestEnabled = walkmeEnabled && featureFlags.playwithTestEnabled;
     const ibmCommonEnabled = featureFlags.ibmCommonEnabled;
+    const tealiumPrivacyEnabled = featureFlags.tealiumPrivacyEnabled;
     const solisEnabled = featureFlags.solisEnabled;
     const solisUiHost = clientConfig.solisUiHost ?? '';
     const isAssistMeEnabled = ibmCommonEnabled && featureFlags.assistmeEnabled && walkmeEnabled;
     const isSessionPlayBackRequired =
       walkmeEnabled && (activeLicenseInfo == 'selfService' || featureFlags.playwithEnabled);
+    const noticeCloseCookieDomainName = clientConfig.butlerDomain;
     const segmentAnalyticsEnabled = featureFlags.segmentAnalyticsEnabled;
     res.set(
       'Content-Security-Policy',
@@ -236,6 +238,8 @@ router.get('/', async (req, res) => {
         walkmeEnabled,
         walkmeTestEnabled,
         ibmCommonEnabled,
+        noticeCloseCookieDomainName,
+        tealiumPrivacyEnabled,
         segmentKeyValue,
         segmentAnalyticsEnabled
       })
@@ -390,6 +394,6 @@ async function getEnvironmentInfo(req) {
   } catch (e) {
     // Catch any errors during the fetch operation and log them
     console.error('Error fetching environment info:', e);
-    return {};
+    return '{}';
   }
 }

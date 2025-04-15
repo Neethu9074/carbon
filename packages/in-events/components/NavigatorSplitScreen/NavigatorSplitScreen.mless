@@ -19,6 +19,14 @@
     z-index: 123;
   }
 
+  // TODO Remove this once layering is updated to full Carbon
+  // This is for Modal layer and keeping the under page from scrolling up into header
+  .navigatorSplitScreen:has(:global(.carbonDeleteModalOpen)) {
+    position: absolute;
+  }
+
+  // TODO Remove this once layering is updated to full Carbon
+  // This is for Modal layer
   .dialogIndex:has(:global(.carbonDeleteModalOpen)) {
     z-index: calc(var(--ids-z-index-option-dialog) - 6);
   }

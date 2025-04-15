@@ -24,7 +24,7 @@ export type DefaultRoleFormFieldValues = {
   [key in keyof RoleFormFields]: RoleFormFields[key]['value'];
 };
 
-export function createRoleForm(initValues?: DefaultRoleFormFieldValues): MapForm<RoleFormFields> {
+export function createRoleForm(initValues?: Partial<DefaultRoleFormFieldValues>): MapForm<RoleFormFields> {
   return createMapForm<RoleFormFields>({
     items: {
       id: createField({

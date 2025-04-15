@@ -107,8 +107,8 @@
     "metrics": {
       "status": "상태",
       "remainingBudget": "기타",
+      "burnRate": "소모율",
       "totalBudget": "오류 예산",
-      "consumedBudget": "소비된 오류 예산",
       "beaconCount": "비컨 카운트",
       "calls": "호출",
       "latency": "대기 시간",
@@ -247,8 +247,8 @@
     "sloChartSummary": {
       "status": "상태",
       "target": "대상:",
-      "errorBudgetRemaining": "남은 항목:",
-      "errorBudgetSpent": "사용된 오류 예산",
+      "errorBudgetTotal": "총계:",
+      "errorBudgetRemaining": "남은 예산 오류",
       "timeWindow": "시간 창",
       "timeWindowType_dynamic": "동적 시간 창",
       "timeWindowType_rolling": "롤링 시간 창",
@@ -340,11 +340,17 @@
         "title": "트래픽",
         "totalTraffic": "총계: {{value}}"
       },
+      "burnRateKpiCard": {
+        "burnRateInfo": "선택한 SLO 기간 동안의 소모율"
+      },
       "errorBudgetChart": {
         "title": "오류 예산"
       },
       "trafficChart": {
         "title": "트래픽"
+      },
+      "burnRateChart": {
+        "title": "소모율"
       },
       "indicatorChart": {
         "title": "표시기",

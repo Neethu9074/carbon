@@ -50,6 +50,7 @@ module.exports = {
   ibmCommonEnabled: true,
   loggingEnabled: true,
   deleteLogsV3Enabled: false,
+  patternRecognitionEnabled: false,
   notesAndActivityEnabled: true,
   carbonTooltipEnabled: true,
   pseudoLanguageEnabled: true,
@@ -151,6 +152,7 @@ module.exports = {
   disableEventConfigEnabled: true,
   graphTabEnabled: true,
   applicationSubtracesEnabled: true,
+  analyzeSubtracesEnabled: false,
   applicationSaveFiltersEnabled: true,
   customDashboardTopLevelFiltersEnabled: true,
   infraSmartAlertFullScreenDesignEnabled: true,
@@ -184,5 +186,6 @@ module.exports = {
   syntheticSmartAlertDialogViewEnabled: true,
   infraSmartAlertDialogViewEnabled: true,
   websitesSmartAlertDialogViewEnabled: true,
+  actionAiGenerationEnabled: true,
   mobileAppSmartAlertDialogViewEnabled: true
 };

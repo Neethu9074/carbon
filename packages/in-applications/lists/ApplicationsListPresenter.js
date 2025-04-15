@@ -255,7 +255,7 @@ export default function ApplicationsListPresenter({
             <CreateApplication icon="lib_openclose_add_box" kind="primaryv2" location={location} />
           )}
 
-          {role.canConfigureGlobalApplicationSmartAlerts && <CreateGlobalSmartAlertButton renderAsSimpleButton />}
+          {role.canConfigureGlobalApplicationSmartAlerts && <CreateGlobalSmartAlertButton />}
         </FloatingActionButtonMenu>
       </FloatingActionButtons>
     </Sticky>

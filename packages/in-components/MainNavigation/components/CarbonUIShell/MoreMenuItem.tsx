@@ -8,7 +8,7 @@
 import AboutInstanaDialog from 'promise-loader?global!in-components/AboutInstanaDialog';
 import React from 'react';
 
-import { MenuItem, SideNavMenu, SvgIcon } from '@instana/components';
+import { MenuItem, SideNavMenu, SvgIcon, CarbonSideNavLink } from '@instana/components';
 
 import { tenantSwitcherEnabled, userProfileMenuEnabled, releaseNotesEnabled } from 'in-services/featureFlags';
 // @ts-expect-error no declaration file
@@ -39,23 +39,28 @@ export default function MoreMenuItem({ isSideNavExpanded }: MoreMenuItemProps) {
   const { matchLocation, createHrefToPath } = useNavigation();
 
   const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
+  const shouldRenderTenantSwitcher = !userProfileMenuEnabled && tenantSwitcherEnabled;
 
   return (
     <SideNavMenu
       isSideNavExpanded={isSideNavExpanded}
-      renderIcon={() => <SvgIcon color="white" size="s" type="lib_menu_additional_resources" />}
+      renderIcon={() => <SvgIcon size="s" type="lib_menu_additional_resources" />}
       title={t('in-components:mainNavigation.viewSwitcherLabelMore')}
     >
-      {!userProfileMenuEnabled && tenantSwitcherEnabled ? (
-        <MenuItem
+      {shouldRenderTenantSwitcher && (
+        <CarbonSideNavLink
+          target="_blank"
+          className={local.externalLink}
           id="main-nav-tenants"
           key="main-nav-tenants"
-          label={t('in-components:mainNavigation.viewSwitcherLabelTenants')}
-          openInNewTab
           href={tenantSwitcherLink}
-        />
-      ) : null}
-      {role?.canConfigureAgents ? (
+          renderIcon={() => <SvgIcon size="xs" type="lib_views_external_link" />}
+        >
+          <span className="cds--visually-hidden">{t('in-components:accessibility.opensNewTab')}</span>
+          <span>{t('in-components:mainNavigation.viewSwitcherLabelTenants')}</span>
+        </CarbonSideNavLink>
+      )}
+      {role?.canConfigureAgents && (
         <MenuItem
           id="main-nav-agents"
           key="main-nav-agents"
@@ -63,8 +68,8 @@ export default function MoreMenuItem({ isSideNavExpanded }: MoreMenuItemProps) {
           href={createHrefToPath(agentsPath)}
           isActive={matchLocation(agentsPath)}
         />
-      ) : null}
-      {releaseNotesEnabled ? (
+      )}
+      {releaseNotesEnabled && (
         <MenuItem
           id="main-nav-release-notes"
           key="main-nav-release-notes"
@@ -73,21 +78,29 @@ export default function MoreMenuItem({ isSideNavExpanded }: MoreMenuItemProps) {
           }}
           label={t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes')}
         />
-      ) : null}
-      <MenuItem
+      )}
+      <CarbonSideNavLink
+        target="_blank"
+        className={local.externalLink}
         id="main-nav-documentation"
         key="main-nav-documentation"
-        label={t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}
-        openInNewTab
         href="https://www.ibm.com/docs/en/obi/current"
-      />
-      <MenuItem
+        renderIcon={() => <SvgIcon size="xs" type="lib_views_external_link" />}
+      >
+        <span className="cds--visually-hidden">{t('in-components:accessibility.opensNewTab')}</span>
+        <span>{t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}</span>
+      </CarbonSideNavLink>
+      <CarbonSideNavLink
+        target="_blank"
+        className={local.externalLink}
         id="main-nav-support"
         key="main-nav-support"
-        label={t('in-components:mainNavigation.viewSwitcherLabelSupport')}
-        openInNewTab
         href="https://www.ibm.com/mysupport/s/?language=en_US"
-      />
+        renderIcon={() => <SvgIcon size="xs" type="lib_views_external_link" />}
+      >
+        <span className="cds--visually-hidden">{t('in-components:accessibility.opensNewTab')}</span>
+        <span>{t('in-components:mainNavigation.viewSwitcherLabelSupport')}</span>
+      </CarbonSideNavLink>
       <MenuItem
         id="main-nav-about"
         key="main-nav-about"

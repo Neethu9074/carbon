@@ -8,7 +8,6 @@
     position: fixed;
     top: 6rem;
     right: 1.25rem;
-
-    z-index: var(--ids-z-index-option-message-flyout);
+    z-index: 6001;
   }
 }

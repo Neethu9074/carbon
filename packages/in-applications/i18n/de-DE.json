@@ -600,7 +600,7 @@
       "descriptionOperatorsCreationEnabled": "UND-Operatoren haben Vorrang und werden vor ODER-Operatoren ausgewertet, wenn diese nicht in eckigen Klammern gruppiert sind.",
       "descriptionPrepareToMonitor": "Wir bereiten alles für die Überwachung Ihrer Anwendungsperspektive <bold>{{decodedLabel}}</bold> vor.",
       "prepareToMonitorUnauthorized": "Sie haben keine Berechtigungen zum Anzeigen der Anwendungsperspektive <bold>{{decodedLabel}}</bold>. Wenden Sie sich an Ihren Gruppenadministrator, um Berechtigungen zu erhalten.",
-      "descriptionRemoveApplicationPerspective": "Wenn Sie die Anwendungsperspektive <strong>{{application}}</strong> nicht mehr überwachen möchten, verwenden Sie die Schaltfläche unten, um sie zu entfernen. Das Entfernen einer Anwendungsperspektive kann bis zu einigen Minuten dauern.",
+      "descriptionRemoveApplicationPerspective": "Wenn Sie die Anwendungsperspektive nicht mehr überwachen möchten <strong>{{application}}</strong> nicht mehr überwachen möchten, verwenden Sie bitte die Schaltfläche unten, um sie zu entfernen. Das Entfernen einer Anwendungsperspektive kann bis zu einigen Minuten dauern. Während dieser Zeit ist sie in der Liste der Anwendungen weiterhin sichtbar.",
       "stepTitleDefineApplicationName": "Definieren Sie einen Namen für Ihre Anwendungsperspektive.",
       "stepTitleApplicationName": "Der Name für Ihre Anwendungsperspektive.",
       "stepTitleDefineTags": "Definieren Sie die Anwendungsperspektive mit mindestens einem Tag.",
@@ -783,5 +783,6 @@
     "helpButtonLabel": "Feedback geben"
   },
   "labelSyntheticMonitoring": "Überwachung der synthetischen Transaktionen",
+  "labelServiceLevels": "Service-Level",
   "labelResourceOptimizations": "Optimierungen"
 }

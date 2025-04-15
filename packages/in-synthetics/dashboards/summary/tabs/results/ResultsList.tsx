@@ -152,6 +152,10 @@ const daysRemainingColumnContent = (item: TestResultListItem) => {
   return <span className={locals.metricLabel}>{daysRemaining}</span>;
 };
 
+function renderFailurePopover(item: TestResultListItem) {
+  return <FailureTypePopover resultItem={item} />;
+}
+
 interface ResultListProps {
   test: TestResponse;
 }
@@ -188,6 +192,14 @@ export default function ResultsList({ test }: ResultListProps) {
     />
   );
 
+  const failureTypecolumn = {
+    id: 'failure_type',
+    sortable: false,
+    width: 25,
+    label: t('in-synthetics:dashboard.resultsListPage.dns.failureType'),
+    getContent: (item: TestResultListItem) => renderFailurePopover(item)
+  };
+
   let columnDefinitionsBasedOnType = columnDefinitions;
   if (isSSLCertificate || isDNS) {
     columnDefinitionsBasedOnType = columnDefinitions.filter(
@@ -202,13 +214,7 @@ export default function ResultsList({ test }: ResultListProps) {
       });
     }
     if (syntheticDNSEnabled && isDNS) {
-      columnDefinitionsBasedOnType.push({
-        id: 'failure_type',
-        sortable: false,
-        width: 25,
-        label: t('in-synthetics:dashboard.resultsListPage.dns.failureType'),
-        getContent: item => <FailureTypePopover resultItem={item} />
-      });
+      columnDefinitionsBasedOnType.push(failureTypecolumn);
     }
   }
 

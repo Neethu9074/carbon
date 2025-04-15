@@ -257,6 +257,10 @@ function EventViewComponent(props) {
                 }
               }
             });
+            // HACK -- To keep the greeting message from popping up we add a LONG delay.
+            // TODO -- Update this once aichat packages version bumps where new function
+            // allows you to cancel all together
+            instance.showLauncherGreetingMessage(100000000000000, 'desktop');
           }}
           renderUserDefinedResponse={({ messageItem }, instance) => {
             if (!messageItem) {

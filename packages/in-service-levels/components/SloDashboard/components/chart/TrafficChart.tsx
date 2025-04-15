@@ -15,13 +15,12 @@ import {
   SloEntityUnion
 } from '@instana/types';
 
-// eslint-disable-next-line no-restricted-imports -- We cant specifically allow parts of a otherwise restricted package
 import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
 import {
   copyFirstBucketOfSubsequentDataSeries,
   findMinMaxMetricValues
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
-import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
+import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/SloDashboardMarkerLanes';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { applicationMetrics, sloMetrics, syntheticMetrics, websiteMetrics } from 'in-service-levels/metrics';
@@ -55,13 +54,13 @@ export default function TrafficChart({
   const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateSloGranularity(timeConfig);
-  const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
-    configuration,
-    timeConfig => sloMetrics.traffic.timeSeries({ configId, timeConfig, granularity }),
+  const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics({
+    sloConfig: configuration,
+    getMetricConfigForTimeConfig: timeConfig => sloMetrics.traffic.timeSeries({ configId, timeConfig, granularity }),
     timeConfig,
     timeWindows,
     granularity
-  );
+  });
 
   const label = getMetricLabels({ entity, indicator });
   const renderer = useLineWithMissingDataIndicatorRenderer({
@@ -91,7 +90,6 @@ export default function TrafficChart({
           metricIds: timeWindowsWithData.map((_, index) => `timeWindows${index}`),
           min: Math.max(0, min),
           max,
-          renderAllTickLabels: true,
           labels: timeWindowsWithData.map(() => label),
           colors: windowColorsWithData,
           formatter: number.compact,

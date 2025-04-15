@@ -3,6 +3,7 @@
     "copyOf": "{{title}} 副本"
   },
   "customDashboard": {
+    "customDashboardsTitle": "定制仪表板",
     "editJsonDialog": {
       "editJsonDialogPresenter": {
         "confirmBt": "确认",
@@ -74,7 +75,9 @@
       "generatingPDFTitle": "正在生成 pdf",
       "generatingPDFContent": "请稍候，正在生成 PDF 文件。",
       "generatedPDFTitle": "已生成 PDF",
-      "generatedPDFContent": "pdf 下载即将开始。"
+      "generatedPDFContent": "pdf 下载即将开始。",
+      "timeRange": "时间范围",
+      "widgetNotAvailableToBeExported": "此窗口小部件无法导出。"
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "仪表板找不到",

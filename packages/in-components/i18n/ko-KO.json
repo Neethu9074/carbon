@@ -2,6 +2,10 @@
   "csvExporterButton": {
     "label": "CSV로 내보내기"
   },
+  "pageStructure": {
+    "headerAriaLabel": "페이지 헤더",
+    "contentAriaLabel": "컨텐츠"
+  },
   "fileInputButton": {
     "label": {
       "chooseSingle": "파일 선택…",
@@ -458,6 +462,7 @@
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
+    "viewSwitcherLabelXenServer": "XenServer",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "플랫폼",
     "viewSwitcherButtonSignOut": "로그아웃",
@@ -469,7 +474,11 @@
     "profileMenu_profileLink": "프로파일",
     "profileMenu_tooltip": "프로파일 메뉴",
     "profileMenu_unitName_tenantName": "단위 이름 - 테넌트 이름",
+    "profileMenu_instanceName": "인스턴스 이름",
+    "profileMenu_region": "지역",
+    "profileMenu_instanceOwner": "인스턴스 소유자",
     "profileMenu_switchUnitOrTenant": "단위 또는 테넌트 전환",
+    "profileMenu_saasConsole": "IBM SaaS 콘솔",
     "profileMenu_privacy": "개인정보 보호",
     "profileMenu_logOut": "로그아웃"
   },

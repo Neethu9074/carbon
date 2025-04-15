@@ -81,7 +81,6 @@ export default function ControlledSloErrorBudgetChart({
           metrics: chartMetrics,
           min,
           max,
-          renderAllTickLabels: true,
           labels: timeWindowsWithData.map(() => sloMetrics.remainingBudget.label),
           colors: windowColorsWithData,
           renderer,

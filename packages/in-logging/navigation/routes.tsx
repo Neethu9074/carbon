@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+//@ts-expect-error needs TS migration
+import PatternRecognition from 'promise-loader?global,logging!in-logging/dashboard/Management/PatternRecognition';
 //@ts-expect-error
 import DashboardSmartAlertDetailsView from 'promise-loader?global,logging!in-logging/dashboard/SmartAlerts/SmartAlertDetails';
 //@ts-expect-error
@@ -44,7 +46,8 @@ import {
   dashboardRetentionManagementPath,
   dashboardLogVolumePath,
   dashboardIntegrationsPath,
-  logSmartAlertsFullScreenFullyQualifiedPath
+  logSmartAlertsFullScreenFullyQualifiedPath,
+  dashboardPatternRecognitionPath
 } from 'in-logging/navigation/paths';
 //@ts-expect-error needs TS migration
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
@@ -72,6 +75,9 @@ export default [
   </Route>,
   <Route key="loggingDashboardManagement" path={dashboardIntegrationsPath}>
     {renderAsyncRouteChildren(LogIntegrations)}
+  </Route>,
+  <Route key="loggingDashboardManagement" path={dashboardPatternRecognitionPath}>
+    {renderAsyncRouteChildren(PatternRecognition)}
   </Route>,
   (alertDisplayMode === FULLSCREEN || alertDisplayMode === CHOICE_DIALOG) && (
     <Route key="logSmartAlert" path={logSmartAlertsFullScreenFullyQualifiedPath} exact>

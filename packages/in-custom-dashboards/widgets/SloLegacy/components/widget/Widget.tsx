@@ -19,7 +19,7 @@ import { SliType } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
 import { TimeWindowType } from 'in-custom-dashboards/widgets/SloLegacy/form';
 import { widgetPreviewHeight } from 'in-custom-dashboards/widgets/SloLegacy';
 import { findMetric } from 'in-custom-dashboards/widgets/SloLegacy/metric';
-import { MonitoredEntity } from 'in-service-levels/utils/loadEntities';
+import { SloMonitoredEntity } from 'in-service-levels/types';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { FetchStatus } from 'in-hooks/utils/types';
 
@@ -28,7 +28,7 @@ import locals from './Widget.mless';
 interface WidgetProps {
   title: string;
   entityType: SliType;
-  entity?: MonitoredEntity;
+  entity?: SloMonitoredEntity;
   sliConfiguration?: SliConfigurationWithLastUpdated;
 
   slo: number;

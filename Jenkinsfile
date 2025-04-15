@@ -36,7 +36,7 @@ void setBuildStatus(String message, String state) {
 }
 
 pipeline {
-  agent any
+  agent { label 'worker' }
   options {
     ansiColor('xterm')
   }

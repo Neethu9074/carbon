@@ -238,6 +238,8 @@
             "operatorLabel": "조건부",
             "operatorOptionMatches": "Matches",
             "operatorOptionContains": "포함",
+            "operatorOptionIs": "=",
+            "operatorOptionNotMatches": "일치하지 않음",
             "resolutionRecordLabel": "해결 레코드",
             "deleteButtonLabel": "삭제",
             "addRecordTypeLabel": "필드 추가",
@@ -606,6 +608,7 @@
       "configurationTab": "구성",
       "isCertificateValid": "마지막 실행 - 인증서가 공용 CA에 의해 서명됨",
       "resultsCertificateValid": "공인 CA가 서명한 인증서",
+      "serviceLevelsTab": "서비스 레벨",
       "certificateValid": "예",
       "certificateNotValid": "아니오",
       "daysRemaining": "마지막 실행 - 남은 일 수",
@@ -768,6 +771,14 @@
       },
       "customProperties": {
         "title": "사용자 정의 특성"
+      },
+      "dns": {
+        "title": "테스트 세부 정보",
+        "description": "쿼리 유형 {{queryType}}에 대한 DNS 결과",
+        "name": "이름",
+        "ttl": "TTL",
+        "data": "데이터",
+        "noRecordsFound": "레코드를 찾을 수 없음"
       }
     },
     "noDataAvailable": {

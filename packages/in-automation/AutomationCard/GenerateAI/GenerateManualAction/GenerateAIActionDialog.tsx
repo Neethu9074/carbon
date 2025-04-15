@@ -39,6 +39,7 @@ import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { ScoredAction, TriggerSpecification } from 'in-automation/types';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
+import { actionAiGenerationEnabled } from 'in-services/featureFlags';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -421,7 +422,8 @@ export default function GenerateAIActionDialog({
           <>
             <Typography variant="heading-400">{t('in-automation:generateWithWatsonx')}</Typography>
             <Spacer horizontal="small" />
-            <AISlugIcon actionType="manual" />
+            {actionAiGenerationEnabled && <AISlugIcon actionType="manual" />}
+            {!actionAiGenerationEnabled && <AISlugIcon actionType="aiGenerated" />}
           </>
         }
         onClose={onCancel}

@@ -206,7 +206,12 @@ const IncidentHeader = ({ event, timeConfig }) => {
               size="normal"
             />
             {notesAndActivityEnabled && (
-              <NotesAndActivity event={event} displayNotes={displayNotes} setDisplayNotes={setDisplayNotes} />
+              <NotesAndActivity
+                event={event}
+                displayNotes={displayNotes}
+                setDisplayNotes={setDisplayNotes}
+                targetID="#eventSummaryContainer"
+              />
             )}
           </Stack>
         </Stack>

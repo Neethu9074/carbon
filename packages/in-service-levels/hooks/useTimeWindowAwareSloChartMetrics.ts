@@ -18,6 +18,7 @@ import { useObservable } from '@instana/hooks';
 import { calculateSloReferenceChartGranularity } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
+import { adjustTimeWindowsToTimeConfig } from 'in-service-levels/utils/time';
 import { hasError, isLoading, success } from 'in-services/util/result';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { FetchedState } from 'in-hooks/utils/types';
@@ -28,15 +29,24 @@ export interface ResultAwareChartMetrics {
   adjustedTimeframe?: AdjustedTimeframe;
 }
 
-export default function useTimeWindowAwareSloChartMetrics(
-  sloConfig: ServiceLevelObjectiveConfiguration,
-  getMetricConfigForTimeConfig: (timeConfig: TimeConfig) => UnifiedMetricConfigurationUnion,
-  selectedTimeConfig: TimeConfig,
-  timeWindows: TimeConfig[],
-  granularity?: number
-): FetchedState<ResultAwareChartMetrics> {
+interface UseTimeWindowAwareSloChartMetricsParams {
+  sloConfig: ServiceLevelObjectiveConfiguration;
+  getMetricConfigForTimeConfig: (timeConfig: TimeConfig) => UnifiedMetricConfigurationUnion;
+  timeConfig: TimeConfig;
+  timeWindows: TimeConfig[];
+  granularity?: number;
+}
+
+export default function useTimeWindowAwareSloChartMetrics({
+  sloConfig,
+  getMetricConfigForTimeConfig,
+  timeConfig,
+  timeWindows,
+  granularity
+}: UseTimeWindowAwareSloChartMetricsParams): FetchedState<ResultAwareChartMetrics> {
   const { id } = sloConfig;
-  const metricConfigs: { [index: string]: UnifiedMetricConfigurationUnion } = timeWindows.reduce(
+  const adjustedTimeWindows = adjustTimeWindowsToTimeConfig(timeConfig, timeWindows);
+  const metricConfigs: { [index: string]: UnifiedMetricConfigurationUnion } = adjustedTimeWindows.reduce(
     (previous, timeConfig, index) =>
       ({
         ...previous,
@@ -49,7 +59,7 @@ export default function useTimeWindowAwareSloChartMetrics(
 
   const result = useObservable(
     () => getUnifiedMetrics({ metrics: metricConfigs }),
-    [id, generateStableHash(timeWindows), generateStableHash(metricConfigs)]
+    [id, generateStableHash(adjustedTimeWindows), generateStableHash(metricConfigs)]
   );
 
   if (!result || isLoading(result) || hasError(result)) {
@@ -60,7 +70,7 @@ export default function useTimeWindowAwareSloChartMetrics(
   const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
   const mappedData: ResultAwareChartMetrics = {
     metrics: metrics.map(metric => metric.values as MetricDataSeries) ?? [],
-    granularity: granularity ?? getMetricGranularity(selectedTimeConfig, metricConfigs, result.data),
+    granularity: granularity ?? getMetricGranularity(timeConfig, metricConfigs, result.data),
     adjustedTimeframe: metrics?.[0]?.adjustedTimeframe
   };
 

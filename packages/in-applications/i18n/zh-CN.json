@@ -600,7 +600,7 @@
       "descriptionOperatorsCreationEnabled": "AND 运算符优先，并先于 OR 运算符进行求值（如果未分组到方括号中）",
       "descriptionPrepareToMonitor": "一切准备就绪，可监视应用程序透视图 <bold>{{decodedLabel}}</bold>。",
       "prepareToMonitorUnauthorized": "您不具有查看应用程序透视图 <bold>{{decodedLabel}}</bold> 的许可权。 要获取许可权，请与组管理员联系。",
-      "descriptionRemoveApplicationPerspective": "如果您不再希望监视应用程序透视图 <strong>{{application}}</strong>，请使用下面的按钮将其删除。删除应用程序透视图可能需要花费几分钟时间。",
+      "descriptionRemoveApplicationPerspective": "如果您不再希望监视应用程序透视图 <strong>{{application}}</strong>，请使用下面的按钮将其删除。 删除应用程序透视图可能需要几分钟时间，在此期间，应用程序列表中仍可看到该透视图。",
       "stepTitleDefineApplicationName": "为您的应用程序定义名称。",
       "stepTitleApplicationName": "应用程序透视图的名称。",
       "stepTitleDefineTags": "使用一个或多个标记类定义应用程序透视图。",
@@ -783,5 +783,6 @@
     "helpButtonLabel": "提供反馈"
   },
   "labelSyntheticMonitoring": "合成监视",
+  "labelServiceLevels": "服务级别",
   "labelResourceOptimizations": "优化"
 }

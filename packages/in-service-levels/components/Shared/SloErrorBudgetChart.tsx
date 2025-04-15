@@ -8,7 +8,7 @@ import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 
-import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
+import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes/SloDashboardMarkerLanes';
 import ControlledSloErrorBudgetChart from 'in-service-levels/components/Shared/ControlledSloErrorBudgetChart';
 import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
@@ -36,9 +36,9 @@ export default function SloErrorBudgetChart({
   title
 }: SloErrorBudgetChartProps) {
   const granularity = calculateSloGranularity(timeConfig);
-  const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
-    configuration,
-    timeConfig =>
+  const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics({
+    sloConfig: configuration,
+    getMetricConfigForTimeConfig: timeConfig =>
       sloMetrics.remainingBudget.timeSeries({
         configId: configuration.id!,
         timeConfig,
@@ -47,7 +47,7 @@ export default function SloErrorBudgetChart({
     timeConfig,
     timeWindows,
     granularity
-  );
+  });
 
   const metricsWithGranularity = metricResult
     ? { ...metricResult, granularity: metricResult?.granularity ?? granularity }

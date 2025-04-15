@@ -238,6 +238,8 @@
             "operatorLabel": "Bedingt",
             "operatorOptionMatches": "Übereinstimmungen",
             "operatorOptionContains": "Enthält",
+            "operatorOptionIs": "Ist",
+            "operatorOptionNotMatches": "Keine Treffer",
             "resolutionRecordLabel": "Beschlussprotokoll",
             "deleteButtonLabel": "Löschen",
             "addRecordTypeLabel": "Feld hinzufügen",
@@ -606,6 +608,7 @@
       "configurationTab": "Konfiguration",
       "isCertificateValid": "Letzter Lauf - Zertifikat wird von öffentlicher CA signiert",
       "resultsCertificateValid": "Das Zertifikat ist von einer öffentlichen CA signiert",
+      "serviceLevelsTab": "Service-Level",
       "certificateValid": "Ja",
       "certificateNotValid": "Nein",
       "daysRemaining": "Letzte Ausführung - Tage verbleibend",
@@ -768,6 +771,14 @@
       },
       "customProperties": {
         "title": "Benutzerdefinierte Eigenschaften"
+      },
+      "dns": {
+        "title": "Testdetails",
+        "description": "DNS-Ergebnis für Abfragetyp {{queryType}}",
+        "name": "Name",
+        "ttl": "TTL",
+        "data": "Daten",
+        "noRecordsFound": "Keine Datensätze gefunden"
       }
     },
     "noDataAvailable": {

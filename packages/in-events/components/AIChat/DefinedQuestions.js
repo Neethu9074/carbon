@@ -38,70 +38,72 @@ export const AIConsentPrompt = [
   }
 ];
 
+export const technologyOptions = {
+  response_type: 'user_defined',
+  user_defined: {
+    user_defined_type: 'editable_options',
+    options: [
+      {
+        key: 'apps',
+        value: t('in-events:aichat.apps')
+      },
+      {
+        key: 'infra',
+        value: t('in-events:aichat.infra')
+      }
+    ],
+    /* nl2api chat model currently only supports English, should not be translated */
+    infra: [
+      {
+        key: 'DB2',
+        value: 'Show total number of failed queries to db2 database with host name ABC'
+      },
+      {
+        key: 'JVM Runtime',
+        value:
+          'Get the total number of runnable threads, new threads, and threads in timed-waiting for all JVMs running on namespace XYZ.'
+      },
+      {
+        key: 'IBM MQ',
+        value: 'Show top 3 queues with highest queue depth for last 60 minutes group by queue name.'
+      },
+      {
+        key: 'K8s Deployment',
+        value:
+          'What is the sum of aggregated cpu requests for kubernetes deployment APP-1 in namespace NAMESPACE-1 for last 2 hours?'
+      },
+      {
+        key: 'K8s pod',
+        value: 'What is the count of pods for deployments labeled as environment=envABC in the namespace nameXYZ?'
+      }
+    ],
+    apps: [
+      {
+        key: 'Slow calls',
+        value: 'Show me calls with high latency for service <service-name> in app <app-name>'
+      },
+      {
+        key: 'Erroneous calls',
+        value: 'Show me erroneous calls for service <service-a>'
+      },
+      {
+        key: 'HTTP status codes',
+        value: 'Show me calls with status code 5XX received by <service-a>'
+      },
+      {
+        key: 'Throughput',
+        value: 'Show me calls which spiked in last <duration> minutes in <service-a> '
+      }
+    ]
+  }
+};
+
 export const InitialLoadOptions = [
   {
     response_type: 'text',
     text: WELCOME_TEXT
   },
-  {
-    response_type: 'user_defined',
-    user_defined: {
-      user_defined_type: 'editable_options',
-      options: [
-        {
-          key: 'apps',
-          value: t('in-events:aichat.apps')
-        },
-        {
-          key: 'infra',
-          value: t('in-events:aichat.infra')
-        }
-      ],
-      /* nl2api chat model currently only supports English, should not be translated */
-      infra: [
-        {
-          key: 'DB2',
-          value: 'Show total number of failed queries to db2 database with host name ABC'
-        },
-        {
-          key: 'JVM Runtime',
-          value:
-            'Get the total number of runnable threads, new threads, and threads in timed-waiting for all JVMs running on namespace XYZ.'
-        },
-        {
-          key: 'IBM MQ',
-          value: 'Show top 3 queues with highest queue depth for last 60 minutes group by queue name.'
-        },
-        {
-          key: 'K8s Deployment',
-          value:
-            'What is the sum of aggregated cpu requests for kubernetes deployment APP-1 in namespace NAMESPACE-1 for last 2 hours?'
-        },
-        {
-          key: 'K8s pod',
-          value: 'What is the count of pods for deployments labeled as environment=envABC in the namespace nameXYZ?'
-        }
-      ],
-      apps: [
-        {
-          key: 'Slow calls',
-          value: 'Show me calls with high latency for service <service-name> in app <app-name>'
-        },
-        {
-          key: 'Erroneous calls',
-          value: 'Show me erroneous calls for service <service-a>'
-        },
-        {
-          key: 'HTTP status codes',
-          value: 'Show me calls with status code 5XX received by <service-a>'
-        },
-        {
-          key: 'Throughput',
-          value: 'Show me calls which spiked in last <duration> minutes in <service-a> '
-        }
-      ]
-    }
-  }
+  technologyOptions
 ];
 
 export function handleDefinedTreeQuestions(request, instance) {

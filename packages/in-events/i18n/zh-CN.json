@@ -189,7 +189,11 @@
     "noSuccessfulIncidentCloseDescription": "在 {{total_incidents}} 个突发事件中，没有成功关闭任何一个突发事件，而 {{number_incidents_failed_closed}} 个突发事件关闭失败。 更多详情，请参阅以下列表： ",
     "multiFailedCloseIssuesDescription": "在 {{total_issues}} 问题中，{{number_issues_succesfully_closed}} 成功关闭，但 {{number_issues_failed_closed}} 未能关闭。 更多详情，请参阅以下列表： ",
     "singleFailedCloseIssueDescription": "在 {{total_issues}} 问题中，1 个已成功关闭，但 {{number_issues_failed_closed}} 未能关闭。 更多详情，请参阅以下列表： ",
-    "noSuccessfulIssueCloseDescription": "在 {{total_issues}} 个问题中，没有成功关闭任何一个问题，而 {{number_issues_failed_closed}} 个问题关闭失败。 更多详情，请参阅以下列表： "
+    "noSuccessfulIssueCloseDescription": "在 {{total_issues}} 个问题中，没有成功关闭任何一个问题，而 {{number_issues_failed_closed}} 个问题关闭失败。 更多详情，请参阅以下列表： ",
+    "multiCloseIssuesLimitReached": "问题未能关闭",
+    "multiCloseIncidentsLimitReached": "事件未能关闭",
+    "multiCloseIssuesLimitReachedDescription": "一次只能关闭 100 个问题。 减少问题，再试一次。",
+    "multiCloseIncidentsLimitReachedDescription": "一次只能关闭 100 个事件。 减少事件，再试一次。"
   },
   "ibmMqFileTransfer": {
     "transferID": "传输标识",
@@ -214,7 +218,12 @@
     }
   },
   "infraSmartAlerts": {
-    "pseudoAggregatedEntityLabel": "{{entityName}}（已聚集）"
+    "pseudoAggregatedEntityLabel": "{{entityName}}（已聚集）",
+    "aggregatedEntityEvent": {
+      "titleAggregatedEntityList": "基础架构汇总列表 ({{totalEntityCount}})",
+      "viewAllEntitiesInScope": "查看所有 ({{count}}) 个实体",
+      "invalidTimeConfigError": "无法从事件中导出时间配置"
+    }
   },
   "logSmartAlerts": {
     "logs": "日志"
@@ -362,6 +371,7 @@
     "unableToFindError": "无法找到该信息",
     "host": "主机",
     "name": "名称",
+    "count": "计数",
     "noMatching": "找不到匹配的记录。",
     "timestamp": "时间戳记",
     "numCalls": "调用数",
@@ -391,6 +401,7 @@
     "cancel": "取消",
     "sureYouWantToDelete": "确定要删除此注释吗？ 所有用户都会将其永久移除。",
     "actionUndone": "此操作不可撤销。",
+    "feedback": "反馈",
     "summarizeIncident": "总结一下此次突发事件？",
     "summarizeIncidentDescription": "尝试总结此次突发事件，帮助您和您的团队快速了解发生了什么。",
     "generateSummary": "生成总结",

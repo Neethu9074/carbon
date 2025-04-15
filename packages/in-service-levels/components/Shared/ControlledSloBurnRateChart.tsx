@@ -80,7 +80,6 @@ export default function ControlledSloBurnRateChart({
           metrics: chartMetrics,
           min,
           max,
-          renderAllTickLabels: true,
           labels: timeWindowsWithData.map(() => sloMetrics.burnRate.label),
           colors: windowColorsWithData,
           renderer,

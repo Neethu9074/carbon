@@ -107,8 +107,8 @@
     "metrics": {
       "status": "Status",
       "remainingBudget": "Verbleibend",
+      "burnRate": "Verbrennungsrate",
       "totalBudget": "Fehlerbudget",
-      "consumedBudget": "Fehlerbudget verbraucht",
       "beaconCount": "Beacon-Anzahl",
       "calls": "Aufrufe",
       "latency": "Latenzzeit",
@@ -247,8 +247,8 @@
     "sloChartSummary": {
       "status": "Status",
       "target": "Ziel:",
-      "errorBudgetRemaining": "Verbleibend:",
-      "errorBudgetSpent": "Ausgegebenes Fehlerbudget",
+      "errorBudgetTotal": "Gesamt:",
+      "errorBudgetRemaining": "Verbleibendes Fehlerbudget",
       "timeWindow": "Zeitfenster",
       "timeWindowType_dynamic": "Dynamisches Zeitfenster",
       "timeWindowType_rolling": "Rotierendes Zeitfenster",
@@ -340,11 +340,17 @@
         "title": "Datenverkehr",
         "totalTraffic": "Gesamt: {{value}}"
       },
+      "burnRateKpiCard": {
+        "burnRateInfo": "Verbrennungsrate über das ausgewählte SLO-Zeitfenster"
+      },
       "errorBudgetChart": {
         "title": "Fehlerbudget"
       },
       "trafficChart": {
         "title": "Datenverkehr"
+      },
+      "burnRateChart": {
+        "title": "Verbrennungsrate"
       },
       "indicatorChart": {
         "title": "Anzeiger",

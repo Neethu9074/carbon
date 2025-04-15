@@ -107,8 +107,8 @@
     "metrics": {
       "status": "Statut",
       "remainingBudget": "Restant",
+      "burnRate": "Taux de consommation",
       "totalBudget": "Budget d'erreur",
-      "consumedBudget": "Budget d'erreur utilisé",
       "beaconCount": "Nombre de balises",
       "calls": "Appels",
       "latency": "Temps d'attente",
@@ -247,8 +247,8 @@
     "sloChartSummary": {
       "status": "Statut",
       "target": "Cible :",
-      "errorBudgetRemaining": "Restant :",
-      "errorBudgetSpent": "Budget d'erreurs dépensé",
+      "errorBudgetTotal": "Total :",
+      "errorBudgetRemaining": "Erreur budget restant",
       "timeWindow": "Fenêtre de temps",
       "timeWindowType_dynamic": "Fenêtre de temps dynamique",
       "timeWindowType_rolling": "Fenêtre de temps glissante",
@@ -340,11 +340,17 @@
         "title": "Trafic",
         "totalTraffic": "Total : {{value}}"
       },
+      "burnRateKpiCard": {
+        "burnRateInfo": "Taux de consommation dans la fenêtre temporelle d'objectif de niveau de service sélectionnée"
+      },
       "errorBudgetChart": {
         "title": "Budget d'erreur"
       },
       "trafficChart": {
         "title": "Trafic"
+      },
+      "burnRateChart": {
+        "title": "Taux de consommation"
       },
       "indicatorChart": {
         "title": "Indicateur",

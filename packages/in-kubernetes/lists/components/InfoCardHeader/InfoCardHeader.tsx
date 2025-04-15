@@ -19,6 +19,7 @@ import { clusterBadgeName } from 'in-kubernetes/clusterDistributions';
 import { getIndicatorPresenter } from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 // @ts-expect-error
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
+import ArgoCDCluster from 'in-kubernetes/Dashboards/ArgoCD/ArgoCDCluster';
 import { plugin } from 'in-applications/navigation/matrix';
 import BadgeList from 'in-components/BadgeList/BadgeList';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -46,7 +47,6 @@ export default function InfoCardHeader({
   version
 }: Readonly<InfoCardHeaderProps>) {
   const timeConfig = useTimeConfig();
-
   return (
     <div id={id} className={locals.container}>
       <Stack direction="horizontal" align="center">
@@ -74,6 +74,7 @@ export default function InfoCardHeader({
           })}
         />
         <EntityHealthIndicator IndicatorPresenter={IndicatorPresenter} snapshotId={id} timeConfig={timeConfig} />
+        <ArgoCDCluster snapshotId={id} timeConfig={timeConfig} />
       </Stack>
     </div>
   );

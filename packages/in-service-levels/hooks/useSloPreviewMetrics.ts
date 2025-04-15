@@ -12,7 +12,7 @@ import { useObservable } from '@instana/hooks';
 
 import { formToSloConfiguration } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { sloPreviewMetrics } from 'in-service-levels/metrics';
 import { pendingResult } from 'in-services/fixedObjects';

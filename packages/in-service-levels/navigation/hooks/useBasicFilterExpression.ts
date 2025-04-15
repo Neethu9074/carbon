@@ -31,7 +31,7 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { alwaysNull } from 'in-services/fixedStreams';
 
-export interface UseBasicTagFilterExpressionProps {
+interface UseBasicTagFilterExpressionProps {
   entity: ApplicationSloEntity | WebsiteSloEntity | SyntheticSloEntity;
   withLabels?: boolean;
 }

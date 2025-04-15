@@ -8,10 +8,9 @@ import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
-import { ButtonGroup } from '@instana/components';
-import { Stack } from '@instana/components';
+import { ButtonGroup, Stack } from '@instana/components';
 
-import SloDashboardMetaInfo from 'in-service-levels/components/SloDashboard/components/SloDashboardMetaInfo';
+import SloDashboardMetaInfo from 'in-service-levels/components/SloDashboard/components/SloDashboardMetaInfo/SloDashboardMetaInfo';
 import AdditionalDashboardHeader from 'in-components/AdditionalDashboardHeader/AdditionalDashboardHeader';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import tabs from 'in-service-levels/components/SloDashboard/tabs';

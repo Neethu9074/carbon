@@ -39,7 +39,7 @@ export default function AnalyzeLogsButton({ timeConfig, tagFilter }: AnalyzeLogs
 
   return (
     <>
-      {hasLogs && (
+      {hasLogs && tagFilter && (
         <CarbonMenuItem label={t('in-integrations:logging.analyzeLogs')} onClick={() => goToPath(hostRef.slice(2))} />
       )}
       <li className={locals.integrations}>{t('in-integrations:logging.integrations')}</li>

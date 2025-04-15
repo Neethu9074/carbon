@@ -26,16 +26,19 @@ import {
   getAllVersionsOfAlertConfig
 } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/synthetics/hooks/useSmartAlertCreateUrl';
+import {
+  syntheticSmartAlertFullScreenDesignEnabled,
+  syntheticSmartAlertDialogViewEnabled
+} from 'in-services/featureFlags';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-synthetics/navigation/matrix';
 import { allowedPlaceholders } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration';
+import { getSmartAlertDisplayMode } from 'in-alerting/smart-alerts/utils/smartAlertViewUtils';
 import AlertConfigDialog from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
-import { syntheticSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { CHOICE_DIALOG } from 'in-alerting/smart-alerts/data/constants';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import { Location } from 'in-stores/navigation/types';
@@ -51,6 +54,11 @@ export interface AlertDetailsProps {
   timeConfig: TimeConfig;
   isMainPage: boolean;
 }
+
+const alertDisplayMode = getSmartAlertDisplayMode(
+  syntheticSmartAlertDialogViewEnabled,
+  syntheticSmartAlertFullScreenDesignEnabled
+);
 
 export default function AlertDetails(props: AlertDetailsProps) {
   const { isMainPage, testId } = props;
@@ -87,9 +95,7 @@ export default function AlertDetails(props: AlertDetailsProps) {
       )}
       getAllowedPlaceholders={() => allowedPlaceholders}
       getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
-      // TODO change this by checking the FF
-      displayTearSheetActions={false}
-      alertDisplayMode={syntheticSmartAlertFullScreenDesignEnabled ? CHOICE_DIALOG : null}
+      alertDisplayMode={alertDisplayMode}
       isGlobalSmartAlert
       canConfigureGlobalAlertConfigs={role?.canConfigureGlobalSyntheticSmartAlerts}
     />

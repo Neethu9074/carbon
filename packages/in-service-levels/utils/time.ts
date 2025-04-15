@@ -54,56 +54,6 @@ export function applyAdjustedTimeframe(timeConfig: TimeConfig, adjustedTimeframe
   };
 }
 
-export function calculateTrafficGranularity(timeConfig: TimeConfig) {
-  const oneDay = days.toMillis(1);
-  const twoDays = days.toMillis(2);
-  const oneHour = hours.toMillis(1);
-
-  if (timeConfig.windowSize <= oneHour) {
-    return minutes.toMillis(1);
-  }
-
-  if (timeConfig.windowSize <= oneDay) {
-    return minutes.toMillis(5);
-  }
-
-  if (timeConfig.windowSize <= twoDays) {
-    return minutes.toMillis(10);
-  }
-
-  return hours.toMillis(1);
-}
-
-export function calculateEventGraphGranularity(timeConfig: TimeConfig) {
-  const oneHour = hours.toMillis(1);
-  const sixHours = hours.toMillis(6);
-  const oneDay = days.toMillis(1);
-  const twoDays = days.toMillis(2);
-  const oneWeek = days.toMillis(7);
-
-  if (timeConfig.windowSize <= oneHour) {
-    return minutes.toMillis(1);
-  }
-
-  if (timeConfig.windowSize <= sixHours) {
-    return minutes.toMillis(5);
-  }
-
-  if (timeConfig.windowSize < oneDay) {
-    return minutes.toMillis(10);
-  }
-
-  if (timeConfig.windowSize <= twoDays) {
-    return hours.toMillis(1);
-  }
-
-  if (timeConfig.windowSize <= oneWeek) {
-    return hours.toMillis(2);
-  }
-
-  return days.toMillis(1);
-}
-
 export function calculateSloGranularity(timeConfig: TimeConfig, minGranularity = minutes.toMillis(1)): number {
   const now = new Date().getTime();
   const toOrNow = timeConfig.to ?? now;
@@ -134,12 +84,14 @@ export function calculateTimeRemaining(
   return calculateTimeRemainingFromWithinTimeWindow(selectedTimeConfig, timeWindows[0]);
 }
 
+// exported for testing purposes
 export function calculateTimeRemainingFromNow(timeConfig: TimeConfig): number {
   const now = new Date().getTime();
   const to = timeConfig.to ?? now;
   return to - now;
 }
 
+// exported for testing purposes
 export function calculateTimeRemainingFromWithinTimeWindow(timeConfig: TimeConfig, timeWindow: TimeConfig): number {
   const now = new Date().getTime();
   const selectedTo = timeConfig.to ?? now;
@@ -202,6 +154,13 @@ export function toFixedTimeConfig(from: number, to: number): TimeConfig {
   };
 }
 
+function calculateWindowSize(timeWindow: TimeWindow): number {
+  const now = Date.now();
+  const addition = getAddForTimeWindowUnit(timeWindow.durationUnit);
+  const futureDate = addition(now, timeWindow.duration);
+  return futureDate.getTime() - now;
+}
+
 export function calculateTimeConfigFromTimeWindow(timeWindow: TimeWindow, timeConfig?: TimeConfig): TimeConfig {
   const now = Date.now();
   const baseTimeConfig = timeConfig ?? getTimeConfigAtMoment(now);
@@ -229,13 +188,6 @@ export function calculateTimeConfigFromTimeWindow(timeWindow: TimeWindow, timeCo
   throw new Error(ServiceLevelErrors.UNSUPPORTED_TIME_WINDOW_TYPE);
 }
 
-export function calculateWindowSize(timeWindow: TimeWindow): number {
-  const now = Date.now();
-  const addition = getAddForTimeWindowUnit(timeWindow.durationUnit);
-  const futureDate = addition(now, timeWindow.duration);
-  return futureDate.getTime() - now;
-}
-
 export function getMaxTimeWindowDurationValue(unit: DurationUnitType): number {
   switch (unit) {
     case 'day':
@@ -246,4 +198,24 @@ export function getMaxTimeWindowDurationValue(unit: DurationUnitType): number {
     default:
       return 12;
   }
+}
+
+export function adjustTimeWindowsToTimeConfig(timeConfig: TimeConfig, timeWindows: TimeConfig[]): TimeConfig[] {
+  const now = new Date().getTime();
+  const timeConfigStart = (timeConfig.to ?? now) - timeConfig.windowSize;
+  const timeConfigEnd = timeConfig.to ?? now;
+
+  return timeWindows.map(timeWindow => {
+    const timeWindowStart = (timeWindow.to ?? now) - timeWindow.windowSize;
+    const timeWindowEnd = timeWindow.to ?? now;
+
+    const adjustedStart = timeWindowStart < timeConfigStart ? timeConfigStart : timeWindowStart;
+    const adjustedEnd = timeWindowEnd > timeConfigEnd ? timeConfigEnd : timeWindowEnd;
+
+    return {
+      ...timeWindow,
+      to: adjustedEnd,
+      windowSize: adjustedEnd - adjustedStart
+    };
+  });
 }

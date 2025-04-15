@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   CarbonPopover as Popover,
@@ -12,37 +12,31 @@ import {
   CarbonTag as Tag,
   CarbonTile as Tile,
   CarbonContainedList as ContainedList,
-  CarbonContainedListItem as ContainedListItem
+  CarbonContainedListItem as ContainedListItem,
+  Tooltip as CarbonTooltip
 } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 import { TestResultListItem } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
-import { getResultErrorMessage } from 'in-synthetics/dashboards/details/utils';
+import { formatErrorMessage, getResultErrorMessage } from 'in-synthetics/dashboards/details/utils';
+import usePopoverClickHandler from 'in-synthetics/utils/usePopoverClickHandler';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/results/ResultsList.mless';
 
 const FailureTypePopover = ({ resultItem }: { resultItem: TestResultListItem }) => {
-  const [openFailurePopover, setOpenFailurePopover] = useState(false);
   const errors = resultItem?.testResultCommonProperties?.errors ?? [];
-  const handleFailureListClose = () => {
-    setOpenFailurePopover(false);
-  };
-
-  const handleFailureListOpen = () => {
-    setOpenFailurePopover(true);
-  };
+  const { open, toggle } = usePopoverClickHandler();
 
   return errors && errors?.length > 0 ? (
-    <span>
-      <Tag size="md" type="blue">
-        {getResultErrorMessage(errors[0])}
-      </Tag>
+    <span className={locals.failureType}>
+      <CarbonTooltip content={getResultErrorMessage(errors[0])}>
+        <Tag size="md" type="blue" className={locals.errorTag}>
+          {formatErrorMessage(errors[0], 35)}
+        </Tag>
+      </CarbonTooltip>
       {errors.length > 1 && (
-        <Popover open={openFailurePopover} align="bottom-end" onRequestClose={handleFailureListClose}>
-          <Tag size="md" type="gray" onClick={handleFailureListOpen}>
-            {`${errors.length - 1} +`}
-          </Tag>
+        <Popover open={open} caret={false} dropShadow align="left-start" onMouseEnter={toggle} onMouseLeave={toggle}>
           <PopoverContent className={locals.popoverContent}>
             <Tile>
               <ContainedList label={''} size="sm" kind="disclosed">
@@ -52,6 +46,9 @@ const FailureTypePopover = ({ resultItem }: { resultItem: TestResultListItem }) 
               </ContainedList>
             </Tile>
           </PopoverContent>
+          <Tag size="md" type="gray" onClick={toggle}>
+            {`${errors.length - 1} +`}
+          </Tag>
         </Popover>
       )}
     </span>

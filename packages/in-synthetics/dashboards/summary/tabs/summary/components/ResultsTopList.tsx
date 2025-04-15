@@ -232,7 +232,7 @@ function Label({ item, selectedMetric, testType }: LabelProps) {
         resultError &&
         resultError?.length > 0 && (
           <Tooltip content={getResultErrorMessage(resultError)}>
-            <span className={locals.secText}>{formatErrorMessage(resultError)}</span>
+            <span className={locals.secText}>{formatErrorMessage(resultError, 40)}</span>
           </Tooltip>
         )}
     </>

@@ -85,8 +85,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     isBeta = false,
     onHeaderClick = () => {},
     liveModeDisabled = false,
-    liveModeDisabledTooltip,
-    ariaLabel
+    liveModeDisabledTooltip
   } = props;
   let {
     label,
@@ -97,6 +96,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     renderTopLevelButtonLine
   } = props;
   const isLoading = result && result.data == null;
+  const isSynthetic = result && result.data?.synthetic;
 
   if (isLoading) {
     label = getSkeletonLabel();
@@ -116,101 +116,84 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     }
   }
 
-  const SyntheticIcon = () => {
-    const isSynthetic = result && result.data?.synthetic;
-    if (isSynthetic)
-      return (
-        <Tooltip content={t('in-applications:labelSyntheticEndpoint')}>
-          <span className={locals.specialIndicator} />
-        </Tooltip>
-      );
-    else {
-      return null;
-    }
-  };
   return (
-    <>
-      <section
-        className={classNames(
-          locals.dashboardHeader,
-          locals[theme],
-          className,
-          withBorderBottom && locals.borderBottom
-        )}
-        aria-label={ariaLabel}
-      >
-        <MigratedTenantBanner />
-        <Title title={title} dynamic={labelForTitle ?? (typeof label === 'string' ? label : null)} />
+    <section
+      className={classNames(locals.dashboardHeader, locals[theme], className, withBorderBottom && locals.borderBottom)}
+      aria-label={t('in-components:pageStructure.headerAriaLabel')}
+    >
+      <MigratedTenantBanner />
+      <Title title={title} dynamic={labelForTitle ?? (typeof label === 'string' ? label : null)} />
 
-        <div className={locals.firstLine}>
-          <div className={locals.leftContent}>
-            {contextConfigurations &&
-              contextConfigurations.map((config, i) => (
-                <Context
-                  key={i}
-                  {...config}
-                  {...props}
-                  shouldRenderDelimiter={
-                    // Render the delimiter for all context items except the last one
-                    // Except the last element is followed by an icon or a label
+      <div className={locals.firstLine}>
+        <div className={locals.leftContent}>
+          {contextConfigurations &&
+            contextConfigurations.map((config, i) => (
+              <Context
+                key={i}
+                {...config}
+                {...props}
+                shouldRenderDelimiter={
+                  // Render the delimiter for all context items except the last one
+                  // Except the last element is followed by an icon or a label
 
-                    isNotLastElement(i, contextConfigurations) || label != null || icon != null || renderIcon != null
-                  }
-                  headerHref$={headerHref$}
-                  onHeaderClick={onHeaderClick}
-                />
-              ))}
-            <SyntheticIcon />
-            {renderIcon ? (
-              <span role="img" aria-label={title} title={title}>
-                {renderIcon()}
-              </span>
-            ) : icon ? (
-              <span role="img" aria-label={title}>
-                <Tooltip content={title} delay={500}>
-                  <SvgIcon className={locals.icon} type={icon} size="l" />
-                </Tooltip>
-              </span>
-            ) : null}
-            {label &&
-              (typeof label === 'string' ? (
-                <Tooltip overflowEllipsis content={label} delay={500}>
-                  <h1 className={locals.label}>{label}</h1>
-                </Tooltip>
-              ) : (
-                <span className={locals.label}>{label}</span>
-              ))}
-            {renderMetaInformation && renderMetaInformation(props)}
-            {isBeta && <PreviewPill />}
-          </div>
-          <div className={locals.rightContent}>
-            {renderTopLevelButtonLine && renderTopLevelButtonLine(props)}
-            {renderTimeSelection ? (
-              renderTimeSelection(props)
-            ) : (
-              <TimeSelection
-                darkTheme={theme === themes.dark}
-                liveModeDisabled={liveModeDisabled}
-                liveModeDisabledTooltip={liveModeDisabledTooltip}
+                  isNotLastElement(i, contextConfigurations) || label != null || icon != null || renderIcon != null
+                }
+                headerHref$={headerHref$}
+                onHeaderClick={onHeaderClick}
               />
-            )}
-          </div>
+            ))}
+          {isSynthetic && (
+            <Tooltip content={t('in-applications:labelSyntheticEndpoint')}>
+              <span className={locals.specialIndicator} />
+            </Tooltip>
+          )}
+          {renderIcon ? (
+            <span role="img" aria-label={title} title={title}>
+              {renderIcon()}
+            </span>
+          ) : icon ? (
+            <span role="img" aria-label={title}>
+              <Tooltip content={title} delay={500}>
+                <SvgIcon className={locals.icon} type={icon} size="l" />
+              </Tooltip>
+            </span>
+          ) : null}
+          {label &&
+            (typeof label === 'string' ? (
+              <Tooltip overflowEllipsis content={label} delay={500}>
+                <h1 className={locals.label}>{label}</h1>
+              </Tooltip>
+            ) : (
+              <span className={locals.label}>{label}</span>
+            ))}
+          {renderMetaInformation && renderMetaInformation(props)}
+          {isBeta && <PreviewPill />}
         </div>
-        {(renderButtonLine || renderButtonLineSecondary) && (
-          <div
-            className={classNames({
-              [locals.buttonLine]: true,
-              [locals.withSecondary]: renderButtonLineSecondary
-            })}
-          >
-            <div className={locals.primaryActions}>{renderButtonLine && renderButtonLine(props)}</div>
-            <div className={locals.secondaryActions}>
-              {renderButtonLineSecondary && renderButtonLineSecondary(props)}
-            </div>
-          </div>
-        )}
-      </section>
-    </>
+        <div className={locals.rightContent}>
+          {renderTopLevelButtonLine && renderTopLevelButtonLine(props)}
+          {renderTimeSelection ? (
+            renderTimeSelection(props)
+          ) : (
+            <TimeSelection
+              darkTheme={theme === themes.dark}
+              liveModeDisabled={liveModeDisabled}
+              liveModeDisabledTooltip={liveModeDisabledTooltip}
+            />
+          )}
+        </div>
+      </div>
+      {(renderButtonLine || renderButtonLineSecondary) && (
+        <div
+          className={classNames({
+            [locals.buttonLine]: true,
+            [locals.withSecondary]: renderButtonLineSecondary
+          })}
+        >
+          <div className={locals.primaryActions}>{renderButtonLine && renderButtonLine(props)}</div>
+          <div className={locals.secondaryActions}>{renderButtonLineSecondary && renderButtonLineSecondary(props)}</div>
+        </div>
+      )}
+    </section>
   );
 }
 

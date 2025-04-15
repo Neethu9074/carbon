@@ -112,6 +112,7 @@
     "node": "ノード",
     "groupBy": "<labelSpan>グループ化の基準</labelSpan><sizeBy/>",
     "groupByLabel": "GROUP BY",
+    "chooseMetric": "メトリックの選択",
     "unknown": "不明",
     "value": "値",
     "highlightUnhealthy": "異常を強調表示",
@@ -259,7 +260,7 @@
       "clusterCost": "クラスター・コスト",
       "idle": "アイドル",
       "costByNameSpace": "名前空間別コスト",
-      "kubeCost": "コスト [公開プレビュー]",
+      "kubeCost": "コスト",
       "namespaceCumulativeCost": "名前空間別コスト",
       "trend": "トレンド %",
       "ramCost": "RAM",
@@ -272,6 +273,8 @@
       "cpuCost": "CPU",
       "namespace": "名前空間",
       "idleCost": "アイドル・コスト",
+      "viewInKubeCost": "Kubecostに表示",
+      "coreCountByCluster": "vCPU",
       "noKubecostData": "Kubecost でコストの監視と割り当てを有効にします。 この統合を設定するには、次の [steps][Docs] に従ってください。\n\n[Docs]:https://ibm.biz/kubecost"
     }
   },

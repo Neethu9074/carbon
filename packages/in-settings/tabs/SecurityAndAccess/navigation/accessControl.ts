@@ -22,7 +22,8 @@ import {
   securityAndAccessAccessLog,
   securityAndAccessActionLog,
   securityAndAccessActionLogRetention,
-  securityAndAccessAudit
+  securityAndAccessAudit,
+  securityAndAccessAccessControlRoleEdit
 } from 'in-settings/navigation/paths';
 //@ts-expect-error not migrated to typescript yet
 import GroupPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Group';
@@ -44,6 +45,7 @@ import { accessControlCarbonTable, rbacTeamsEnabled } from 'in-services/featureF
 import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
 import { Role } from 'in-types';
 import { t } from 'in-i18n';
+import RoleDetails from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/details/RoleDetails';
 
 interface NavigationTreePage {
   idx: string;
@@ -99,7 +101,13 @@ export function getNavigationTreeForRole({ role, defaultLogin }: GetNavigationTr
           path: securityAndAccessAccessControlRoles,
           label: t('in-settings:tabs.roles'),
           component: Roles,
-          subPages: []
+          subPages: [
+            {
+              idx: 'edit-role-page',
+              path: securityAndAccessAccessControlRoleEdit,
+              component: RoleDetails
+            }
+          ]
         });
       }
     }

@@ -16,17 +16,17 @@ import {
 import SloSmartAlertDetails from 'in-service-levels/components/SloDashboard/components/SloSmartAlertDetails';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import FloatingSloButtons from 'in-service-levels/components/FloatingSloButtons';
+import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import SloList from 'in-service-levels/components/SloList/SloList';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
 import Alerts from 'in-alerting/smart-alerts/slo/Alerts';
 import Footer from 'in-components/Footer/Footer';
-import Sticky from 'in-components/Sticky';
+import Sticky from 'in-components/Sticky/Sticky';
 import { t } from 'in-i18n';
 
 export default function ServiceLevelsOverview() {
