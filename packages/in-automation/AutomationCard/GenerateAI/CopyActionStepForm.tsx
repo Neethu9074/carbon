@@ -5,7 +5,7 @@
  */
 
 import { Field as FormField, MapForm } from 'formalistic';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { Spacer, Typography, IconButton, ValidationBlock, RadioButton, Stack } from '@instana/components';
 import { ActionType, Result } from '@instana/types';
@@ -27,8 +27,6 @@ import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
 import locals from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog.mless';
-
-// import { Result } from '@instana/types';
 
 type ActionFormItems = {
   name: FormField<string>;
@@ -85,11 +83,6 @@ export default function CopyActionStepForm({
   const availableTags = useActionTags();
   const exportType = exportForm?.get('exportType');
 
-  useEffect(() => {
-    if (isAnsibleScript && setExportForm) {
-      setExportForm(form => form.updateIn(['exportType'], item => item.setValue('github').setTouched(true)));
-    }
-  }, [isAnsibleScript, setExportForm]);
   return (
     <Row>
       <Col lg={7}>

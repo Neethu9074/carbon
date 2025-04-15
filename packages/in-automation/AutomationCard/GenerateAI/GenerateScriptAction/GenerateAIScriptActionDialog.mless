@@ -118,6 +118,7 @@
   .interpreterTypeAvailable {
     :global .CodeMirror {
       min-width: 450px;
+      height: calc(335px - 2.5rem);
     }
     @media (max-width: 1500px) and (min-height: 600px) {
       :global .CodeMirror {

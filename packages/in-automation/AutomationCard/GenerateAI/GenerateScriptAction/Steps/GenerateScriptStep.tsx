@@ -4,25 +4,25 @@
  * Copyright IBM Corp. 2024
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { Typography, Spacer, Button, RadioButton, Stack, Link } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
-import classNames from 'classnames';
+
 import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
+import { automationActionAiGenerationUnitEnabled, ansibleScriptGenerationEnabled } from 'in-services/featureFlags';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
 import FeedbackComponent from 'in-automation/AutomationCard/GenerateAI/FeedbackComponent';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingSection from 'in-automation/AutomationCard/GenerateAI/LoadingSection';
-import { automationActionAiGenerationUnitEnabled, ansibleScriptGenerationEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import ConsentForm from 'in-automation/components/ConsentForm/ConsentForm';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
-import yaml from 'js-yaml';
 import FormGroup from 'in-settings/components/FormGroup';
 import { pendingResult } from 'in-services/fixedObjects';
 import Code from 'in-components/form/Code/Code';
@@ -205,7 +205,6 @@ function ScriptSection({
         </Typography>
       </div>
       <div className={locals.CodeWithAISlug}>
-        {/* {        <CodeComponent showLineNumbers={false} code={yaml.safeDump(plaintextScript.toJS())} lang="yaml" />} */}
         <CodeComponent withExpandButton linesToShow={20} code={plaintextScript} lang={'bash'} softWrap />
       </div>
       <FeedbackComponent
@@ -308,9 +307,9 @@ export default function GenerateScriptStep({
                       checked={field.value === 'ANSIBLE'}
                       onChange={() => {
                         setForm(form =>
-                          form.updateIn(['prompt', 'interpreterType'], item =>
-                            item.setValue('ANSIBLE').setTouched(true)
-                          )
+                          form
+                            .updateIn(['prompt', 'interpreterType'], item => item.setValue('ANSIBLE').setTouched(true))
+                            .updateIn(['export', 'exportType'], item => item.setValue('github').setTouched(true))
                         );
                       }}
                     />
@@ -350,31 +349,3 @@ export default function GenerateScriptStep({
     </>
   );
 }
-
-// import { Card } from '@instana/components';
-// import yaml from 'js-yaml';
-// import React from 'react';
-
-// import { getRawPayload } from 'in-stores/snapshot';
-// import connectTo from 'in-hoc/connectTo';
-// import Code from 'in-components/Code';
-// import { t } from 'in-i18n';
-
-// export default connectTo(
-//   ({ snapshotId }) => {
-//     return {
-//       spec: getRawPayload(snapshotId, 'spec')
-//     };
-//   },
-//   function SpecList({ spec }) {
-//     if (!spec || spec.length === 0) {
-//       return null;
-//     }
-
-//     return (
-//       <Card title={t('in-kubernetes:dashboards.spec')}>
-//         <Code showLineNumbers={false} code={yaml.safeDump(spec.toJS())} lang="yaml" />
-//       </Card>
-//     );
-//   }
-// );
