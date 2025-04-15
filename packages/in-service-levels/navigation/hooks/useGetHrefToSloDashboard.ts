@@ -15,7 +15,7 @@ import { setTimeConfig } from 'in-stores/time/config';
 const sloIdParameter = defaultServiceLevelObjectiveUrlParameters.sloId;
 
 type SloDashboardHrefGenerator = (id: string, timeConfig?: TimeConfig) => string;
-export default function useHrefToSloDashboard(): SloDashboardHrefGenerator {
+export default function useGetHrefToSloDashboard(): SloDashboardHrefGenerator {
   const { location, createHref } = useNavigation();
 
   return (id: string, timeConfig?: TimeConfig) => {

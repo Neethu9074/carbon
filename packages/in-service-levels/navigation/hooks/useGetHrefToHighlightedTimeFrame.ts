@@ -16,7 +16,7 @@ import { minutes } from 'in-services/time/time';
 
 const MAX_ZOOM_LEVEL = minutes.toMillis(1);
 
-export default function useGetHighlightedTimeFrameUrl(): (highlightedTimeFrame?: TimeConfig) => string {
+export default function useGetHrefToHighlightedTimeFrame(): (highlightedTimeFrame?: TimeConfig) => string {
   const { location, createHref } = useNavigation();
 
   return highlightedTimeFrame => {

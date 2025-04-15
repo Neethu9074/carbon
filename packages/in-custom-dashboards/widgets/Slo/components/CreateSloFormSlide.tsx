@@ -17,9 +17,9 @@ import {
   SLO_CONFIG_DIALOG_FINISH
 } from 'in-services/tracking/eventNames';
 import SloFormStepsContainer from 'in-service-levels/components/ConfigDialog/components/SloFormStepsContainer';
+import { CreateSloDialogMode, SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { SlideInViewContentProps } from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/types';
 import { formToSloConfiguration } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
-import { CreateSloDialogMode, SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { UnstableTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { resetChildrenScrollPosition } from 'in-custom-dashboards/widgets/Slo/utils/slideInView';

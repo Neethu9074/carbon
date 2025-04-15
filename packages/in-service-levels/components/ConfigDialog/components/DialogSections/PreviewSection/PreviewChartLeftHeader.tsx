@@ -14,7 +14,7 @@ import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
 
-import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/PreviewSection/PreviewChartLeftHeader.mless';
+import locals from './PreviewChartLeftHeader.mless';
 
 interface WidgetLeftHeaderProps {
   status: FetchStatus;

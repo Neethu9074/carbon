@@ -7,13 +7,12 @@
 import { Field } from 'formalistic';
 import React from 'react';
 
-import { Stack, Typography } from '@instana/components';
+import { Stack, Typography, ValidationBlock } from '@instana/components';
 
 import { CustomBlueprintType, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import ThresholdInput from 'in-service-levels/components/Shared/ThresholdInput/ThresholdInput';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import PercentageInput from 'in-service-levels/components/PercentageInput';
-import ValidationBlock from 'in-components/form/ValidationBlock';
 import { t } from 'in-i18n';
 
 interface IndicatorThresholdFieldProps {

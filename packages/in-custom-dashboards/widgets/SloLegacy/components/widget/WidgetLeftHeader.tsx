@@ -11,7 +11,7 @@ import { CombinedSliEntity, SliConfig } from 'in-custom-dashboards/widgets/SloLe
 import SliConfigInfo from 'in-custom-dashboards/widgets/SloLegacy/components/SliConfigInfo';
 import SloEntityInfo from 'in-service-levels/components/SloList/components/SloEntityInfo';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/SloLegacy/constants';
-import { MonitoredEntity } from 'in-service-levels/utils/loadEntities';
+import { SloMonitoredEntity } from 'in-service-levels/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
@@ -23,7 +23,7 @@ interface WidgetLeftHeaderProps {
   status: FetchStatus;
   sliConfig?: SliConfig<CombinedSliEntity>;
   monitoredEntityType: MonitoringSource;
-  monitoredEntity?: MonitoredEntity;
+  monitoredEntity?: SloMonitoredEntity;
   isPreview?: boolean;
 }
 

@@ -7,14 +7,13 @@
 import { Field } from 'formalistic';
 import React from 'react';
 
-import { Stack, Typography } from '@instana/components';
+import { Stack, Typography, ValidationBlock } from '@instana/components';
 import { AggregationType } from '@instana/types';
 
 import AggregationSelectorInput from 'in-service-levels/components/Shared/AggregationSelectorInput/AggregationSelectorInput';
 import { SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { timeAggregationOptions } from 'in-service-levels/constants';
-import ValidationBlock from 'in-components/form/ValidationBlock';
 import { TimeAggregationOptions } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 

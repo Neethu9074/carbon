@@ -11,7 +11,7 @@ import {
   SloForm,
   SloFormOnChange
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
 
 interface SloFormContextProps {
   form: SloForm;

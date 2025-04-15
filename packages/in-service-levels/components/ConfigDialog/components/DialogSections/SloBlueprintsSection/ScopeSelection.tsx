@@ -10,14 +10,13 @@ import { Stack, Typography } from '@instana/components';
 
 import SloScopeServiceEndpointPanel from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloScopeServiceEndpointPanel';
 import ApplicationTagFilterBuilder from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilder';
-import TabSelect, {
-  TabSelectHeader,
-  TabSelectItem,
-  TabSelectMenu,
-  TabSelectPanel,
-  TabSelectPanels
-} from 'in-components/TabSelect';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import { TabSelectHeader } from 'in-components/TabSelect/components/TabSelectHeader';
+import { TabSelectPanels } from 'in-components/TabSelect/components/TabSelectPanels';
+import { TabSelectPanel } from 'in-components/TabSelect/components/TabSelectPanel';
+import { TabSelectMenu } from 'in-components/TabSelect/components/TabSelectMenu';
+import { TabSelectItem } from 'in-components/TabSelect/components/TabSelectItem';
+import TabSelect from 'in-components/TabSelect/components/TabSelect';
 import { t } from 'in-i18n';
 
 export default function ScopeSelection() {

@@ -10,10 +10,10 @@ import {
   testWebsiteForm,
   testApplicationForm,
   testApplicationSloConfig,
-  testWebsiteSloConfig
+  testWebsiteSloConfig,
+  testDate
 } from 'in-service-levels/components/ConfigDialog/createSloForm/testData';
 import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
-import { testDate } from 'in-service-levels/components/ConfigDialog/createSloForm/testData';
 
 describe('in-service-levels/components/SloList/components/DialogSections/createSloForm/createSloForm', () => {
   beforeAll(() => {

@@ -18,12 +18,12 @@ import {
 import { Spacer, Stack, SvgIcon, Typography } from '@instana/components';
 
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
-import { QueryBuilderComponent as QueryBuilderComponentType } from 'in-components/QueryBuilder';
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
+import type { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
-import Tooltip from 'in-components/Tooltip';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
 interface FilterInfoProps {
@@ -63,7 +63,7 @@ function FilterInfoContent({
   entity,
   indicator,
   QueryBuilderComponent
-}: FilterInfoProps & { QueryBuilderComponent: QueryBuilderComponentType }) {
+}: FilterInfoProps & { QueryBuilderComponent: QueryBuilderComponent }) {
   const { good, bad } = createGoodBadTagFilterExpression({ entity, indicator });
   return (
     <Stack gap="disabled">

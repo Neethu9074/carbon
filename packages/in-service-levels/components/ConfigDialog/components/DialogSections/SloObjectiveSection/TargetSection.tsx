@@ -6,14 +6,12 @@
 
 import React, { useContext } from 'react';
 
-import { Typography } from '@instana/components';
+import { Typography, ValidationBlock } from '@instana/components';
 
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
-import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
+import { SLO_TARGET_DECIMAL_PRECISION, titleWidth } from 'in-service-levels/constants';
 import PercentageInput from 'in-service-levels/components/PercentageInput';
-import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
-import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 

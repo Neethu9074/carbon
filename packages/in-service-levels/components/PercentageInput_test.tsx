@@ -6,9 +6,10 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
+import { Input } from '@instana/components';
+
 import PercentageInput from 'in-service-levels/components/PercentageInput';
 import { noop } from 'in-services/fixedObjects';
-import Input from 'in-components/form/Input';
 
 describe('in-custom-dashboards/widgets/SloLegacy/components/PercentageInput', () => {
   it(`displays it's value as a percentage`, () => {

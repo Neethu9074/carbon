@@ -7,13 +7,12 @@
 import { PaginatedResult, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 
 import useSloListMetrics, { SloMetricsResultMap } from 'in-service-levels/hooks/useSloListMetrics';
+import { calculateSloGranularity, applyAdjustedTimeframe } from 'in-service-levels/utils/time';
 import { GetAllSloConfigurationsArguments } from 'in-service-levels/api/configuration';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import useSloEntitiesLabels from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { getSingleNumberMetricValue } from 'in-service-levels/utils/format';
 import { SloListItem } from 'in-service-levels/components/SloList/SloList';
-import { calculateSloGranularity } from 'in-service-levels/utils/time';
-import { applyAdjustedTimeframe } from 'in-service-levels/utils/time';
 import { all as allProgress } from 'in-hooks/utils/progress';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { LabeledEntity } from 'in-service-levels/types';
