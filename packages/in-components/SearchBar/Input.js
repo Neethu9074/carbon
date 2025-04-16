@@ -24,7 +24,7 @@ import connectTo from 'in-hoc/connectTo';
 import 'in-components/SearchBar/searchTokenDefinitions.less';
 import './Input.less';
 
-const { isSpace, isCtrl, isReturn, isArrowUp, isArrowDown, isArrowLeft, isArrowRight, isEscape } = keyCodes;
+const { isSpace, isCtrl, isReturn, isArrowUp, isArrowDown, isArrowLeft, isArrowRight, isEscape, isTab } = keyCodes;
 const blockEndClass = 'cm-custom-block--end';
 const blockHighlightedClass = 'cm-custom-block--end--highlighted';
 const block = 'in-searchbar-input';
@@ -102,6 +102,14 @@ const SearchBarInput = connectTo(
         }
 
         if (isArrowLeft(event) || isArrowRight(event) || isEscape(event)) {
+          this.hide();
+        }
+        if (isTab(event) && !event.shiftKey) {
+          this.focusNextElement();
+          this.hide();
+        }
+        if (isTab(event) && event.shiftKey) {
+          this.focusNextElement(false);
           this.hide();
         }
       });
@@ -248,6 +256,19 @@ const SearchBarInput = connectTo(
       });
 
       this.leaveSubscription = onLeave(code, removeAllHighlightedClasses);
+    }
+
+    focusNextElement(next = true) {
+      // add all elements we want to include in our selection
+      const focussableSelectors =
+        'a:not([disabled]), button:not([disabled]), input[type=text]:not([disabled]), [tabindex]:not([disabled]):not([tabindex="-1"])';
+      const nodelist = document.querySelectorAll(focussableSelectors);
+      const focussableElements = Array.from(nodelist);
+      const index = focussableElements.indexOf(document.activeElement);
+      if (index > -1) {
+        const nextElement = focussableElements[next ? index + 1 : index - 1] || focussableElements[0];
+        nextElement.focus();
+      }
     }
 
     componentWillUnmount() {

@@ -82,7 +82,9 @@ export default function ViewSwitcher({ selectedEventType = null, onChange }) {
           <SecondLevelNavigationItem
             label={label}
             isActive={id === 'all' ? isNull(selectedEventType) : selectedEventType === id}
-            onClick={() => {
+            href="#"
+            onClick={e => {
+              e.preventDefault();
               // to remove filters when changing from one tab to another
               onChange({
                 filter: ''
