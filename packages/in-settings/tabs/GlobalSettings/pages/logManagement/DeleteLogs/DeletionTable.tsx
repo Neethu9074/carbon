@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   Button,
@@ -12,7 +12,8 @@ import {
   Card,
   DataTable as CarbonDataTable,
   SvgIcon,
-  TableSkeleton
+  TableSkeleton,
+  Pagination
 } from '@instana/components';
 import { DeleteLogsHistoryResult, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
@@ -21,11 +22,14 @@ import {
   carbonHeaders,
   getCarbonDataRows,
   getTableState,
-  TableState
+  TableState,
+  urlStateDefinition
 } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/utils';
 import { deletionTableLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 import getDeleteLogsHistory from 'in-logging/subscriptions/getDeleteLogsHistory';
 import { pendingResult } from 'in-services/fixedObjects';
+import useUrlState from 'in-hooks/useUrlState';
+import { t } from 'in-i18n';
 
 import locals from './DeletionTable.mless';
 
@@ -43,6 +47,30 @@ export const CarbonDeletionTable = ({
   result: Result<DeleteLogsHistoryResult>;
   openConfirmationDialog: () => void;
 }) => {
+  // Add preserve state URL
+  const allowedPageSizes = [10, 20, 30, 40, 50];
+
+  const [{ page: rawPage, pageSize: rawPageSize }, setUrlState] = useUrlState(urlStateDefinition);
+
+  const validatedPageSize = allowedPageSizes.includes(rawPageSize) ? rawPageSize : 10;
+  const totalItems = getCarbonDataRows(result).length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / validatedPageSize));
+
+  const validatedPage =
+    Number.isInteger(rawPage) && rawPage >= 1 && rawPage <= totalPages ? rawPage : Math.min(1, totalPages);
+
+  useEffect(() => {
+    if (rawPage !== validatedPage || rawPageSize !== validatedPageSize) {
+      setUrlState({ page: validatedPage, pageSize: validatedPageSize });
+    }
+  }, [rawPage, rawPageSize, validatedPage, validatedPageSize, setUrlState]);
+
+  const allRows = getCarbonDataRows(result);
+  const paginatedRows = allRows.slice((validatedPage - 1) * validatedPageSize, validatedPage * validatedPageSize);
+
+  const handlePageChange = ({ page, pageSize }: { page: number; pageSize: number }) => {
+    setUrlState({ page, pageSize });
+  };
   const LoadingSkeleton = <TableSkeleton headers={carbonHeaders} showHeader showToolbar />;
 
   const EmptyState = (
@@ -84,12 +112,22 @@ export const CarbonDeletionTable = ({
   );
 
   const DataTable = (
-    <CarbonDataTable
-      title={deletionTableLocalisationStrings.summary}
-      headers={carbonHeaders}
-      rows={getCarbonDataRows(result)}
-      toolBarContent={<DeleteButton openConfirmationDialog={openConfirmationDialog} />}
-    />
+    <>
+      <CarbonDataTable
+        title={deletionTableLocalisationStrings.summary}
+        headers={carbonHeaders}
+        rows={paginatedRows}
+        toolBarContent={<DeleteButton openConfirmationDialog={openConfirmationDialog} />}
+      />
+      <Pagination
+        page={validatedPage}
+        pageSize={validatedPageSize}
+        totalItems={totalItems}
+        onChange={handlePageChange}
+        pageSizes={allowedPageSizes}
+        itemsPerPageText={t('in-settings:tabs.deleteLogs.itemsPerPage')}
+      />
+    </>
   );
 
   const content = {

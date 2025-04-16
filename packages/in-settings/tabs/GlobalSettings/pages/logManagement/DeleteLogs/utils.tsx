@@ -14,8 +14,10 @@ import { themes } from '@instana/design-tokens';
 
 import { deletionTableLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 import { getDesignLibraryColorBySeverity, getDesignLibrarySeverityIcon } from 'in-stores/events';
+import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { siPrefixCompact } from 'in-stores/metric/formatters';
 import { hasError, isLoading } from 'in-services/util/result';
+import { Options } from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeletionTable.mless';
@@ -179,4 +181,29 @@ export const bytesToLargerUnit = (bytes: number, round?: number): { amount: numb
 export const getMonthName = (month: number): string => {
   const date = new Date(2000, month - 1);
   return format(date, 'MMMM');
+};
+
+export const urlStateDefinition: Options<{ page: number; pageSize: number }> = {
+  bind: [
+    {
+      path: '/delete',
+      name: 'page',
+      as: 'page',
+      initialState: 1,
+      parser: buildJsonParser(),
+      serializer: buildJsonSerializer()
+    },
+    {
+      path: '/delete',
+      name: 'pageSize',
+      as: 'pageSize',
+      initialState: 10,
+      parser: buildJsonParser(),
+      serializer: buildJsonSerializer()
+    }
+  ],
+  reducer: (prevState, { page, pageSize }) => ({
+    page: page ?? prevState.page,
+    pageSize: pageSize ?? prevState.pageSize
+  })
 };

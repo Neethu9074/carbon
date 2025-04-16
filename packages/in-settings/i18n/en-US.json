@@ -638,6 +638,7 @@
       "deletionReason": "Reasons for deletion",
       "typeToContinue": "Type {{logs}} to continue",
       "logs": "LOGS",
+      "itemsPerPage": "Items per page",
       "deletionInfo": "Deleting logs may take a while.\n Check the status in the \"Log deletion summary\" table.",
       "deletionError": "Logs couldn't be deleted",
       "deletionWarning": "No log data to delete for the given timeframe",
