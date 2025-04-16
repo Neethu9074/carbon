@@ -9,11 +9,16 @@ import React from 'react';
 import DashboardSwitcherOverlayPresenter from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcherOverlayPresenter';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import Overlay from 'in-components/overlays/Overlay';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
+
+import locals from './DashboardSwitcherOverlayPresenter.mless';
 
 export default function DashboardSwitcherPresenter(props) {
   const { activeDashboardTitle } = props;
 
+  const buttonContent =
+    activeDashboardTitle || t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherPresenter.loading');
   return (
     <Overlay withoutWrapper content={DashboardSwitcherOverlayPresenter} props={props}>
       {({ toggle, isOpen, refSetter }) => (
@@ -25,7 +30,9 @@ export default function DashboardSwitcherPresenter(props) {
           kind="tertiary"
           iconSize="xs"
         >
-          {activeDashboardTitle || t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherPresenter.loading')}
+          <Tooltip content={buttonContent} delay={500}>
+            <div className={locals.dashboardLongName_ellipses}>{buttonContent}</div>
+          </Tooltip>
         </DropdownButton>
       )}
     </Overlay>

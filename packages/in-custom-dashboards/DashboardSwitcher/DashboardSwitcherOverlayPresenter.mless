@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+@import '~in-themes/mixins.less';
+
 :local {
   .overlay {
     min-width: 30rem;
@@ -37,5 +39,10 @@
 
   .leftMargin {
     margin-left: 0.5rem;
+  }
+
+  .dashboardLongName_ellipses {
+    max-width: 55%;
+    .ellipsis();
   }
 }
