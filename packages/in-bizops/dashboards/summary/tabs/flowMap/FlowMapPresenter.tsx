@@ -104,7 +104,16 @@ export default function FlowMapPresenter({ timeConfig, mapData, addPaginateData 
 
   const defs = (
     <defs>
-      <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5">
+      <marker
+        id="arrow"
+        viewBox="0 0 10 10"
+        refX="10"
+        refY="5"
+        markerUnits="strokeWidth"
+        markerWidth="10"
+        markerHeight="10"
+        orient="auto"
+      >
         <path d="M 0 0 L 10 5 L 0 10 z" />
       </marker>
     </defs>
