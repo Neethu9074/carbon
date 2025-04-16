@@ -14,9 +14,9 @@ import {
   SCOPE_NAV_ITEMS
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.constants';
 import {
-  createRoleForm,
-  DefaultRoleFormFieldValues
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/roleForm';
+  createScopeForm,
+  DefaultScopeFormFieldValues
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
 import MapFormProvider, { FormMode } from 'in-settings/components/MapFormProvider/MapFormProvider';
 import { close as closeModal } from 'in-components/DialogPresenter/store';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
@@ -27,11 +27,11 @@ import { t } from 'in-i18n';
 
 interface ScopeDialogProps {
   mode: FormMode;
-  formValues?: DefaultRoleFormFieldValues;
+  formValues?: DefaultScopeFormFieldValues;
 }
 
 export default function ScopeDialog({ mode, formValues }: ScopeDialogProps) {
-  const [form, setForm] = useDerivedState(createRoleForm(formValues));
+  const [form, setForm] = useDerivedState(createScopeForm(formValues));
   //@ts-expect-error actions not defined yet
   const [status, submitForm] = useFormSubmission(SCOPE_FORM_ACTIONS[mode]);
 
