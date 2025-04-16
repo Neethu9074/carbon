@@ -9,7 +9,6 @@ require('in-services/browser').init();
 require('in-stores/timeOffset').init();
 require('in-shortcuts').init();
 require('in-services/security/csrf').init();
-require('in-components/SearchBar/stores/highlightedSuggestion').init();
 require('in-stores/usageInfo').init();
 require('in-stores/maintenance').init();
 require('in-services/unhandledErrors').init();

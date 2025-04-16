@@ -27,6 +27,25 @@ export const WithIconAndText = {
   )
 };
 
+export const WithShadow = () => {
+  return (
+    <FloatingActionButton onClick={storybookAction('clicked')} withBoxShadow>
+      Button
+    </FloatingActionButton>
+  );
+};
+
 export const WithIcon = {
   render: () => <FloatingActionButton icon="lib_alerts_create" onClick={storybookAction('clicked')} />
 };
+
+export const AllKinds = () => (
+  <>
+    <FloatingActionButton icon="lib_alerts_create" onClick={storybookAction('clicked')} kind={'primaryv2'}>
+      Primaryv2
+    </FloatingActionButton>
+    <FloatingActionButton icon="lib_alerts_create" onClick={storybookAction('clicked')} kind={'action'}>
+      Action
+    </FloatingActionButton>
+  </>
+);
