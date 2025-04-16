@@ -468,6 +468,7 @@
     },
     "azure": {
       "referenceToAzureContainerAppsDocumentation": "Go Application deployed in Azure Container Apps need to be manually instrumented in order to collect trace data. Follow the instructions of the <azureContainerAppsDoc>Azure Container Apps Go documentation</azureContainerAppsDoc>.",
+      "referenceAppServiceDocumentationContent": "Review the prerequisites and follow the installation guide for installing collector. For detailed instructions, refer to the <azureContainerAppsDoc>documentation</azureContainerAppsDoc>.",
       "selectAzureContainerAppsRuntime": "Select Azure Container Apps runtime",
       "reviewPrerequisitesAndConfigureContainerApps": "Review the prerequisites and configure your Azure Container Apps for tracing.",
       "containerAppSetEnvironmentVariables": "Set the following environment variables while creating an Azure Container App.",

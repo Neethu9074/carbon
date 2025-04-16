@@ -5,14 +5,13 @@
  */
 
 import React from 'react';
-
 import { Stack } from '@instana/components';
 
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import { t } from 'in-i18n';
 
 interface Runtime {
-  runtime: 'Go';
+  runtime: 'Go' | '.NET';
 }
 
 export const Documentations = ({ runtime }: Runtime): JSX.Element => {
@@ -24,6 +23,16 @@ export const Documentations = ({ runtime }: Runtime): JSX.Element => {
           <DocumentLink
             text={t('in-plg:agentDetails.azure.monitoringAzureContainerApps')}
             href="https://ibm.biz/azure-container-app-trace-go"
+          />
+        </Stack>
+      );
+    case '.NET':
+      return (
+        <Stack gap="small">
+          <DocumentLink text={t('in-plg:agentDetails.azure.monitoringAzure')} href="https://ibm.biz/ms-azure-agent" />
+          <DocumentLink
+            text={t('in-plg:agentDetails.azure.monitoringAzureContainerApps')}
+            href="https://ibm.biz/azure-container-app-trace-dotnet"
           />
         </Stack>
       );
@@ -43,6 +52,7 @@ export const Documentations = ({ runtime }: Runtime): JSX.Element => {
 export const Prerequisites = ({ runtime }: Runtime): JSX.Element => {
   switch (runtime) {
     case 'Go':
+    case '.NET':
       return (
         <Stack gap="small">
           <DocumentLink

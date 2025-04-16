@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { Typography, KeyValue } from '@instana/components';
 
 import GoRuntimeContent from 'in-plg/pages/onboarding/AgentList/Azure/ContainerApps/ContainerAppsRuntimes/GoRuntimeContent';
+import DotNetRuntimeContent from 'in-plg/pages/onboarding/AgentList/Azure/ContainerApps/ContainerAppsRuntimes/DotNetRuntimeContent';
 import { Documentations, Prerequisites } from 'in-plg/pages/onboarding/AgentList/Azure/ContainerApps/SupportView';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
@@ -19,11 +20,14 @@ import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import { t } from 'in-i18n';
 
 interface RuntimeOption {
-  key: 'Go';
+  key: 'Go' | '.NET';
   label: string;
 }
 
-const runtimeOptions: RuntimeOption[] = [{ key: 'Go', label: t('in-plg:agentDetails.runtime.go') }];
+const runtimeOptions: RuntimeOption[] = [
+  { key: 'Go', label: t('in-plg:agentDetails.runtime.go') },
+  { key: '.NET', label: t('in-plg:agentDetails.runtime.dotnet') }
+];
 
 export default function AzureContainerApps({
   id,
@@ -64,6 +68,18 @@ export default function AzureContainerApps({
             }}
           />
         );
+      case '.NET':
+        return (
+          <DotNetRuntimeContent
+            {...{
+              id,
+              downloadKey,
+              agentKey,
+              instanaDomain,
+              serverlessEndpoint
+            }}
+          />
+        );
       default:
         return (
           <GoRuntimeContent
@@ -82,7 +98,7 @@ export default function AzureContainerApps({
   }
 
   const handleRuntimeChange = (selectedValue: string) => {
-    const selectedRuntimeOption = runtimeOptions.find(option => option.key === selectedValue);
+    const selectedRuntimeOption = runtimeOptions.find(option => option.key === selectedValue as 'Go' | '.NET');
     if (selectedRuntimeOption) {
       setRuntime(selectedRuntimeOption);
     }
