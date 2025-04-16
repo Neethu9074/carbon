@@ -16,6 +16,7 @@ import downloadPDFAction from 'in-components/Chart/components/ContextMenu/action
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { customDashboardsExportPdfWidget } from 'in-services/featureFlags';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { DOWNLOAD_PDF_WIDGET } from 'in-services/tracking/tracking';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { containsIgnoreCase } from 'in-services/util/string';
@@ -26,6 +27,7 @@ import locals from './ContextMenu.mless';
 
 const { isEscape } = keyCodes;
 const MAX_ZOOM_LEVEL = minutes.toMillis(1);
+
 export default class extends React.Component {
   static displayName = 'ContextMenu';
 
@@ -55,7 +57,8 @@ export default class extends React.Component {
       },
       {
         ...zoomInAction,
-        getHref$: () => zoomInAction.getHref$(highlightedTimeframe)
+        getHrefWithLocation$: (location, createHref) =>
+          zoomInAction.getHighlightedTimeframeUrl$(highlightedTimeframe, location, createHref)
       },
       {
         ...downloadJSONAction,
@@ -100,6 +103,7 @@ export default class extends React.Component {
             }
           };
         }
+        // Need for renderedMetrics value population by getStrippedConfig func.
         if (config.getHref$) {
           const originalGetHref$ = config.getHref$;
           config.getHref$ = () =>
@@ -161,12 +165,6 @@ export default class extends React.Component {
       return null;
     }
 
-    const buttonProps = {
-      className: locals.button,
-      kind: 'action',
-      size: 'compact'
-    };
-
     const leftAligned = this.isLeftAligned();
     const barWidthInPx = xScale.getRangeArea(chart.config.granularity);
 
@@ -190,19 +188,7 @@ export default class extends React.Component {
               }}
             >
               {contextMenuButtons.slice(immediatelyOpenContextMenu ? 0 : 1).map((buttonConfig, index) => (
-                <Button
-                  key={index}
-                  {...buttonProps}
-                  icon={buttonConfig.icon}
-                  {...(typeof buttonConfig.getHref === 'string'
-                    ? { href: buttonConfig.getHref }
-                    : buttonConfig.getHref$
-                    ? { href$: buttonConfig.getHref$() }
-                    : {})}
-                  onClick={buttonConfig.onClick}
-                >
-                  {buttonConfig.label}
-                </Button>
+                <ContextMenuButton buttonConfig={buttonConfig} key={index} />
               ))}
             </div>
           )}
@@ -248,7 +234,7 @@ export default class extends React.Component {
       return null;
     }
 
-    const primaryButton = createIconButton(contextMenuButtons[0], true);
+    const primaryButton = <CreateIconButton config={contextMenuButtons[0]} isPrimary />;
 
     if (contextMenuButtons.length === 1) {
       return primaryButton;
@@ -272,28 +258,42 @@ export default class extends React.Component {
   };
 
   renderSecondaryButton = contextMenuButtons => {
-    return createIconButton(contextMenuButtons[1]);
+    return <CreateIconButton config={contextMenuButtons[1]} />;
   };
 
   renderContextMenu = () => {
-    return createIconButton({
-      icon: 'lib_menu_more_horizontal',
-      label: t('in-components:analyze.options'),
-      onClick: this.toggleContextMenu
-    });
+    return (
+      <CreateIconButton
+        config={{
+          icon: 'lib_menu_more_horizontal',
+          label: t('in-components:analyze.options'),
+          onClick: this.toggleContextMenu
+        }}
+      />
+    );
   };
 }
 
-function createIconButton(config, isPrimary) {
+function CreateIconButton(props) {
+  const { config, isPrimary } = props;
+  const { location, createHref } = useNavigation();
+  const { icon, getHref, getHref$, getHrefWithLocation$, onClick } = config;
   const button = (
     <Button
       hasIconOnly
       style={isPrimary ? { left: '1px' } : {}}
       className={locals.contextMenuOpenButton}
       href$={config.getHref$ && config.getHref$()}
-      onClick={config.onClick}
+      {...(typeof getHref === 'string'
+        ? { href: getHref }
+        : getHref$
+        ? { href$: getHref$() }
+        : getHrefWithLocation$
+        ? { href$: getHrefWithLocation$(location, createHref) }
+        : {})}
+      onClick={onClick}
       kind="tertiary"
-      icon={config.icon}
+      icon={icon}
       iconDescription={config.label}
       size="compact"
     >
@@ -341,4 +341,28 @@ export function sortByPrimaryAction(i1, i2, primaryContextMenuAction) {
     return 1;
   }
   return 0;
+}
+
+function ContextMenuButton(props) {
+  const { buttonConfig } = props;
+  const { location, createHref } = useNavigation();
+  const { icon, getHref, label, getHref$, getHrefWithLocation$, onClick } = buttonConfig;
+  return (
+    <Button
+      className={locals.button}
+      kind="action"
+      size="compact"
+      icon={icon}
+      {...(typeof getHref === 'string'
+        ? { href: getHref }
+        : buttonConfig.getHref$
+        ? { href$: getHref$() }
+        : getHrefWithLocation$
+        ? { href$: getHrefWithLocation$(location, createHref) }
+        : {})}
+      onClick={onClick}
+    >
+      {label}
+    </Button>
+  );
 }
