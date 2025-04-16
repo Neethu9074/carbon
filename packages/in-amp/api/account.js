@@ -60,7 +60,7 @@ function getReportingTechnologiesAsResultObservableInternal(
 
 export const getActiveLicensesAsResultObservable = memoize(
   getActiveLicensesAsResultObservableInternal,
-  page => page,
+  (page, pageSize) => `${page}-${pageSize}`,
   60000
 );
 function getActiveLicensesAsResultObservableInternal(page, pageSize) {
@@ -69,7 +69,7 @@ function getActiveLicensesAsResultObservableInternal(page, pageSize) {
 
 export const getExpiredLicensesAsResultObservable = memoize(
   getExpiredLicensesAsResultObservableInternal,
-  page => page,
+  (page, pageSize) => `${page}-${pageSize}`,
   60000
 );
 function getExpiredLicensesAsResultObservableInternal(page, pageSize) {
@@ -78,7 +78,7 @@ function getExpiredLicensesAsResultObservableInternal(page, pageSize) {
 
 export const getQueuedLicensesAsResultObservable = memoize(
   getQueuedLicensesAsResultObservableInternal,
-  page => page,
+  (page, pageSize) => `${page}-${pageSize}`,
   60000
 );
 function getQueuedLicensesAsResultObservableInternal(page, pageSize) {
