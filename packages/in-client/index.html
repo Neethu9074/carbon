@@ -45,7 +45,7 @@
       window.addEventListener('load', function () {
         if (!window.instana.config.featureFlags.tealiumPrivacyEnabled) return
         if (!localStorage.getItem('noticeCloseCookieDeleted') && document.cookie.includes('notice_close')) {
-          document.cookie = `notice_close=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.instana.config.butlerDomain}; secure`;
+          document.cookie = `notice_close=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.instana.config.butlerDomain}`;
           localStorage.setItem('noticeCloseCookieDeleted', 'true');
         }
       });

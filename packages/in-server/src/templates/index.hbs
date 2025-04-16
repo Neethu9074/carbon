@@ -41,7 +41,7 @@
     <script nonce="{{nonce}}">
       document.addEventListener("DOMContentLoaded", function () {
         if (!localStorage.getItem('noticeCloseCookieDeleted') && document.cookie.includes('notice_close')) {
-          document.cookie = `notice_close=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain={{noticeCloseCookieDomainName}}; secure`;
+          document.cookie = `notice_close=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain={{noticeCloseCookieDomainName}}`;
           localStorage.setItem('noticeCloseCookieDeleted', 'true');
         }
       });
