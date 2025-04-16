@@ -20,11 +20,10 @@ interface CanvasProps {
 }
 
 export function Canvas({ defs, children, width, height }: CanvasProps) {
-  const paddingAmount = 50;
   const svgRef = useRef<SVGSVGElement>(null);
   const [k, setK] = useState(1);
-  const [x, setX] = useState(paddingAmount);
-  const [y, setY] = useState(paddingAmount);
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
 
   function updateK(k: number) {
     if (svgRef.current) {
@@ -36,15 +35,10 @@ export function Canvas({ defs, children, width, height }: CanvasProps) {
   function resetView() {
     if (svgRef.current) {
       d3Zoom<SVGSVGElement, unknown>().scaleTo(d3Select<SVGSVGElement, unknown>(svgRef.current), 1, [x, y]);
-      d3Zoom<SVGSVGElement, unknown>().translateTo(
-        d3Select<SVGSVGElement, unknown>(svgRef.current),
-        paddingAmount,
-        paddingAmount,
-        [paddingAmount, paddingAmount]
-      );
+      d3Zoom<SVGSVGElement, unknown>().translateTo(d3Select<SVGSVGElement, unknown>(svgRef.current), 0, 0, [0, 0]);
       setK(1);
-      setX(paddingAmount);
-      setY(paddingAmount);
+      setX(0);
+      setY(0);
     }
   }
 

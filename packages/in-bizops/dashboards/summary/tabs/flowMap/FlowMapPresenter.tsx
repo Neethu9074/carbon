@@ -62,15 +62,16 @@ export default function FlowMapPresenter({ timeConfig, mapData, addPaginateData 
     addPaginateData(nodeId);
   }
 
+  const padding = 50.0;
   useEffect(() => {
     if (mapData) {
       const graph = {
         id: 'root',
         layoutOptions: {
           'elk.algorithm': 'layered',
-          'elk.spacing.nodeNode': '100.0', // vertical spacing
-          'elk.layered.spacing.nodeNodeBetweenLayers': '50.0', // horizontal spacing
-          'elk.layered.spacing.edgeNodeBetweenLayers': '50.0'
+          'elk.spacing.nodeNode': (padding * 2).toString(), // vertical spacing
+          'elk.layered.spacing.nodeNodeBetweenLayers': padding.toString(), // horizontal spacing
+          'elk.layered.spacing.edgeNodeBetweenLayers': padding.toString()
         },
         children: mapData.nodes,
         edges: mapData.edges
@@ -111,8 +112,10 @@ export default function FlowMapPresenter({ timeConfig, mapData, addPaginateData 
 
   return (
     <Canvas width="100%" height="100vh" defs={defs}>
-      {linkElements}
-      {nodeElements}
+      <g transform={`translate(${padding},${padding})`}>
+        {linkElements}
+        {nodeElements}
+      </g>
     </Canvas>
   );
 }
