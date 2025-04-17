@@ -107,7 +107,7 @@ function EventTable(props) {
   }
 
   function onItemClicked(eventId) {
-    // clicking into event list shoud re-enable tracking Event page view
+    // clicking into event list should re-enable tracking Event page view
     setOrDeleteMatrixKey(location, eventsPath, 'track', true);
     if (isApplicationDirect) {
       setOrDeleteMatrixKey(location, eventsPath, 'view', 'cve_issue');
