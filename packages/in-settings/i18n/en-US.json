@@ -357,7 +357,8 @@
     "errorTitle": "Error",
     "noDataAvailable": "No data available",
     "errorFailedToLoadData": "Failed to load the requested data",
-    "removedEntity": "Successfully removed {{entity}}"
+    "removedEntity": "Successfully removed {{entity}}",
+    "userNameColumnHead": "Name"
   },
   "details": {
     "role": {
