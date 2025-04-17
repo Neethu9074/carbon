@@ -2105,15 +2105,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@carbon/utilities@npm:^0.1.0":
-  version: 0.1.1
-  resolution: "@carbon/utilities@npm:0.1.1"
-  dependencies:
-    "@ibm/telemetry-js": ^1.6.1
-  checksum: 91c2c9311ccbb039b486c4c01216b70a9110f86edf2bba0fe67fd1db21bc9f92a58934b65e55feab33f7eb3cfdb9a49763cf8b1c2c20f729583f0b21ac3edac1
-  languageName: node
-  linkType: hard
-
 "@carbon/utils-position@npm:^1.3.0":
   version: 1.3.0
   resolution: "@carbon/utils-position@npm:1.3.0"
@@ -3162,7 +3153,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ibm/telemetry-js@npm:1.8.0, @ibm/telemetry-js@npm:^1.5.0, @ibm/telemetry-js@npm:^1.5.1, @ibm/telemetry-js@npm:^1.6.1, @ibm/telemetry-js@npm:^1.8.0":
+"@ibm/telemetry-js@npm:1.8.0, @ibm/telemetry-js@npm:^1.5.0, @ibm/telemetry-js@npm:^1.5.1, @ibm/telemetry-js@npm:^1.8.0":
   version: 1.8.0
   resolution: "@ibm/telemetry-js@npm:1.8.0"
   bin:
@@ -22629,7 +22620,6 @@ __metadata:
     "@carbon/colors": ^11.21.0
     "@carbon/icons": ^11.56.0
     "@carbon/pictograms-react": 11.63.0
-    "@carbon/utilities": ^0.1.0
     "@codemirror/autocomplete": ^6.0.0
     "@codemirror/commands": ^6.0.0
     "@codemirror/lang-javascript": ^6.1.2

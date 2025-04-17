@@ -68,7 +68,6 @@
     "@carbon/colors": "^11.21.0",
     "@carbon/icons": "^11.56.0",
     "@carbon/pictograms-react": "11.63.0",
-    "@carbon/utilities": "^0.1.0",
     "@codemirror/autocomplete": "^6.0.0",
     "@codemirror/commands": "^6.0.0",
     "@codemirror/lang-javascript": "^6.1.2",
