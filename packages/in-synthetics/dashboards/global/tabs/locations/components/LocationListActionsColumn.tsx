@@ -77,17 +77,32 @@ const LocationListActionsColumn = ({ item, isLoading }: LocationListActionsColum
         )}
       >
         {isActivateEnable && (
-          <MoreMenuButton icon="lib_actions_unlock" onClick={showActivateDialog}>
-            {'Activate'}
+          <MoreMenuButton
+            icon="lib_actions_unlock"
+            onClick={showActivateDialog}
+            requireTitle
+            title={t('in-synthetics:dashboard.locationList.activate')}
+          >
+            {t('in-synthetics:dashboard.locationList.activate')}
           </MoreMenuButton>
         )}
         {isDeleteEnable && (
-          <MoreMenuButton icon="lib_actions_delete" onClick={showDeleteDialog}>
+          <MoreMenuButton
+            icon="lib_actions_delete"
+            onClick={showDeleteDialog}
+            requireTitle
+            title={t('in-synthetics:dashboard.locationList.deleteLocation')}
+          >
             {t('in-synthetics:dashboard.locationList.deleteLocation')}
           </MoreMenuButton>
         )}
         {isDeactiveEnable && (
-          <MoreMenuButton icon="lib_actions_lock" onClick={showDeactivateDialog}>
+          <MoreMenuButton
+            icon="lib_actions_lock"
+            onClick={showDeactivateDialog}
+            requireTitle
+            title={t('in-synthetics:dashboard.locationList.deactivateLocation.deactivate')}
+          >
             {t('in-synthetics:dashboard.locationList.deactivateLocation.deactivate')}
           </MoreMenuButton>
         )}

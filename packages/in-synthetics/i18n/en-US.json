@@ -563,7 +563,8 @@
         "singleIPAddress": "{{number}} IP Address",
         "multipleIPAddress": "{{number}} IP Addresses",
         "noIPAddresses": "NA"
-      }
+      },
+      "activate": "Activate"
     },
     "summary": {
       "successRate": "Success rate",
