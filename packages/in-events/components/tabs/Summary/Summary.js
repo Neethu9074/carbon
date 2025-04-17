@@ -89,7 +89,7 @@ export default function Summary(props) {
   const location = useLocation();
 
   useEffect(() => {
-    // make sure that tracking is enabled. This is done because tab changes should not c
+    // make sure that tracking is enabled. This is done because tab changes should not cause duplicate page views
     const tracking = getMatrixParameter(location, eventsPath, 'track');
     // if the url is marked to ignore tracking (from ViewSwitcher) then don't send a PageView as this
     // causes duplicate PageViews that don't reflect reality
