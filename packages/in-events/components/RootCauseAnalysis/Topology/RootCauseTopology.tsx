@@ -113,7 +113,7 @@ function RootCauseTopologyPresenter({ nodes, links, width, height, algorithm, se
   );
 
   return (
-    <div id="rootCauseTopologyContainer">
+    <div>
       <RootCauseTopologySVGWrapper
         width={width}
         height={height}

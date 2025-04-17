@@ -129,15 +129,17 @@ export function RootCauseTopologySVGWrapper({
           </Stack>
         </Stack>
       </CarbonTile>
-      <svg
-        ref={svgRef}
-        width={width}
-        height={height}
-        style={{ display: 'block', transition: 'transform 1s ease-in-out' }}
-      >
-        {defs}
-        <g transform={`translate(${x},${y})scale(${k})`}>{children}</g>
-      </svg>
+      <div id="rootCauseTopologyContainer">
+        <svg
+          ref={svgRef}
+          width={width}
+          height={height}
+          style={{ display: 'block', transition: 'transform 1s ease-in-out' }}
+        >
+          {defs}
+          <g transform={`translate(${x},${y})scale(${k})`}>{children}</g>
+        </svg>
+      </div>
     </Stack>
   );
 }

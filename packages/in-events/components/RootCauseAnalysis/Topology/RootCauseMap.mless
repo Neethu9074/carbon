@@ -116,6 +116,8 @@
   }
 
   .topologySidePanel {
+    top: 15rem;
+
     :global .c4p--side-panel__title-text {
       word-break: break-all;
     }
