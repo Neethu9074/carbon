@@ -8,11 +8,12 @@ import { isEqual } from 'lodash';
 
 // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
 // eslint-disable-next-line import/no-deprecated
-import { mutateUrl, getModifiedUrl } from 'in-stores/navigation';
+import { mutateUrl } from 'in-stores/navigation';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { addReset, removeReset } from 'in-stores/navigation/urlParameterResets';
 import { Location, ParameterDefinition } from 'in-stores/navigation/types';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import { identity } from 'in-services/util/function';
 
@@ -45,6 +46,7 @@ export default function useUrlState<State extends StateWithoutGuarantees>({
   replaceHistory = true
 }: Options<State>): UrlStateReturn<State> {
   const location = useLocation();
+  const { createHref } = useNavigation();
   const [state, setState] = useState<StateWithoutGuarantees>(
     () => determineStateChange(bind, location, emptyObject) || emptyObject
   );
@@ -138,10 +140,10 @@ export default function useUrlState<State extends StateWithoutGuarantees>({
   function exposedGetStateChangeUrl(change: Partial<State>): string {
     // This will be addressed via https://instana.kanbanize.com/ctrl_board/103/cards/102691/details/
     // eslint-disable-next-line import/no-deprecated
-    return getModifiedUrl(location, location => {
-      const newState = reducer(state as State, change);
-      modifyLocation(bind, newState, location);
-    });
+    const newState = reducer(state as State, change);
+    modifyLocation(bind, newState, location);
+
+    return createHref(location);
   }
 }
 
