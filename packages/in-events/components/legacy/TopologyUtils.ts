@@ -432,13 +432,15 @@ export function constructNodesMap(
     if (constructedNodes[entityDataObject?.id || '']) {
       constructedNodes[entityDataObject?.id || ''].tags.add('RCA');
     } else {
-      addValueToConstructedNode(
-        entityDataObject?.id || '',
-        entityDataObject,
-        true,
-        entityType as RCA_TOPOLOGY_ENTITY_TYPE_TAGS,
-        new Set(['RCA', entityType as RCA_TOPOLOGY_ENTITY_TYPE_TAGS])
-      );
+      if (entityDataObject?.id) {
+        addValueToConstructedNode(
+          entityDataObject?.id || '',
+          entityDataObject,
+          true,
+          entityType as RCA_TOPOLOGY_ENTITY_TYPE_TAGS,
+          new Set(['RCA', entityType as RCA_TOPOLOGY_ENTITY_TYPE_TAGS])
+        );
+      }
     }
 
     // then add service nodes
