@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-// @ts-expect-error no typedef for carbon utilities yet
-import { dateTimeFormat as carbonDateTimeFormat } from '@carbon/utilities';
 import React from 'react';
 
 import { Stack, Tooltip } from '@instana/components';
@@ -17,6 +15,7 @@ import {
   fireCallbacksForEventAtFocusedMomentAsStream,
   getEventSeverityLabel
 } from 'in-stores/events';
+import { formatCarbonDate, formatCarbonTime } from 'in-events/components/util/carbonDateTimeFormat';
 import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import { formatDurationAccurately, formatTime } from 'in-services/formatters/date';
@@ -28,9 +27,9 @@ import { alwaysNull } from 'in-services/fixedStreams';
 import { Row, Col } from 'in-components/layout/Grid';
 import { serverTime$ } from 'in-stores/serverTime';
 import KpiCard from 'in-components/KpiCard';
-import { activeLanguage, t } from 'in-i18n';
 import { getEvents } from 'in-events/api';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import dateTimeLocals from 'in-components/KpiCard/DateTimeKpiCard.mless';
 
@@ -235,12 +234,8 @@ const CarbonDateTimeKpiCard = ({ title, time }) => (
     renderValue={value => (
       <Tooltip content={`${formatDate(time)} ${formatTime(time)}`}>
         <Stack gap="xxsmall">
-          <span className={dateTimeLocals.row}>
-            {carbonDateTimeFormat.absolute.formatDate(value, { locale: activeLanguage })}
-          </span>
-          <span className={dateTimeLocals.row}>
-            {carbonDateTimeFormat.absolute.formatTime(value, { locale: activeLanguage, style: 'medium' })}
-          </span>
+          <span className={dateTimeLocals.row}>{formatCarbonDate(value)}</span>
+          <span className={dateTimeLocals.row}>{formatCarbonTime(value)}</span>
         </Stack>
       </Tooltip>
     )}
