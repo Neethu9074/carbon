@@ -53,11 +53,9 @@ i18next.use(middleware.LanguageDetector).init({
 
 const router = (module.exports = express.Router());
 
-router.use(middleware.handle(i18next));
-
-router.get('/solis/hub_content', solisHubRoute);
-
-router.get('/solis/nav', async (req, res) => {
+router.get('/solis/hub_content', middleware.handle(i18next), solisHubRoute);
+ 
+router.get('/solis/nav', middleware.handle(i18next), async (req, res) => {
   try {
     const t = req.t;
     // Get feature flags
@@ -526,7 +524,7 @@ function generateAdministrationItems(t, role, features) {
   return adminItems;
 }
 
-router.get('/solis/about', async (req, res) => {
+router.get('/solis/about', middleware.handle(i18next), async (req, res) => {
   try {
     const instanaVersion = await getInstanaVersion(req);
 
@@ -573,7 +571,7 @@ async function getInstanaVersion(req) {
   return instanaVersion;
 }
 
-router.get('/solis/help', (req, res) => {
+router.get('/solis/help', middleware.handle(i18next), (req, res) => {
   const t = req.t;
 
   res.setHeader('Content-Type', 'application/json');
