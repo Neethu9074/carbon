@@ -10,26 +10,17 @@ import React from 'react';
 
 import { MenuItem, SideNavMenu, SvgIcon, CarbonSideNavLink } from '@instana/components';
 
-import { tenantSwitcherEnabled, userProfileMenuEnabled, releaseNotesEnabled } from 'in-services/featureFlags';
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
+import { releaseNotesEnabled } from 'in-services/featureFlags';
 import AsyncComponent from 'in-components/AsyncComponent';
-import { role, user } from 'in-stores/user';
-import config from 'in-services/config';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import local from './MoreMenuItem.mless';
-
-const signOut = () => {
-  const form = document.createElement('form');
-  form.method = 'post';
-  form.action = '/auth/signOut';
-  document.body.appendChild(form);
-  form.submit();
-};
 
 interface MoreMenuItemProps {
   isSideNavExpanded: boolean;
@@ -38,28 +29,12 @@ interface MoreMenuItemProps {
 export default function MoreMenuItem({ isSideNavExpanded }: MoreMenuItemProps) {
   const { matchLocation, createHrefToPath } = useNavigation();
 
-  const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
-  const shouldRenderTenantSwitcher = !userProfileMenuEnabled && tenantSwitcherEnabled;
-
   return (
     <SideNavMenu
       isSideNavExpanded={isSideNavExpanded}
       renderIcon={() => <SvgIcon size="s" type="lib_menu_additional_resources" />}
       title={t('in-components:mainNavigation.viewSwitcherLabelMore')}
     >
-      {shouldRenderTenantSwitcher && (
-        <CarbonSideNavLink
-          target="_blank"
-          className={local.externalLink}
-          id="main-nav-tenants"
-          key="main-nav-tenants"
-          href={tenantSwitcherLink}
-          renderIcon={() => <SvgIcon size="xs" type="lib_views_external_link" />}
-        >
-          <span className="cds--visually-hidden">{t('in-components:accessibility.opensNewTab')}</span>
-          <span>{t('in-components:mainNavigation.viewSwitcherLabelTenants')}</span>
-        </CarbonSideNavLink>
-      )}
       {role?.canConfigureAgents && (
         <MenuItem
           id="main-nav-agents"
@@ -109,20 +84,6 @@ export default function MoreMenuItem({ isSideNavExpanded }: MoreMenuItemProps) {
         }}
         label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
       />
-      {!userProfileMenuEnabled && (
-        <div key="main-nav-sign-out" className={local.signOutButton}>
-          <MenuItem
-            id="main-nav-sign-out"
-            onClick={signOut}
-            label={
-              <>
-                <div>{t('in-components:mainNavigation.viewSwitcherButtonSignOut')}</div>
-                <div className={local.emailAddress}>{user?.email}</div>
-              </>
-            }
-          />
-        </div>
-      )}
     </SideNavMenu>
   );
 }

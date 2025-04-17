@@ -26,10 +26,10 @@ import EventsMenuItem from 'in-components/MainNavigation/components/CarbonUIShel
 import LogsMenuItem from 'in-components/MainNavigation/components/CarbonUIShell/LogsMenuItem';
 import MoreMenuItem from 'in-components/MainNavigation/components/CarbonUIShell/MoreMenuItem';
 import ProfileMenu from 'in-components/MainNavigation/components/ProfileMenu/ProfileMenu';
-import { playwithEnabled, userProfileMenuEnabled } from 'in-services/featureFlags';
 import Header from 'in-components/MainNavigation/components/CarbonUIShell/Header';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useUIShellTitleDetail from 'in-plg/hooks/useUIShellTitleDetail';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 const { isEscape } = keyCodes;
@@ -83,15 +83,11 @@ export default function CarbonUIShell() {
       onSideNavClick={internalToggleClick}
       titleDetail={titleDetail}
       onToggle={(_, value) => setIsSideNavExpanded(value)}
-      {...(userProfileMenuEnabled
-        ? {
-            headerContent: <Header expanded={isHeaderExpanded} onClickSideNavExpand={onClickSideNavExpand} />,
-            headerPanelExpanded: isHeaderExpanded,
-            headerPanelContent: (
-              <ProfileMenu isSideNavExpanded={isHeaderExpanded} onClickSideNavExpand={onClickSideNavExpand} />
-            )
-          }
-        : { headerContent: <Header /> })}
+      headerContent={<Header expanded={isHeaderExpanded} onClickSideNavExpand={onClickSideNavExpand} />}
+      headerPanelContent={
+        <ProfileMenu isSideNavExpanded={isHeaderExpanded} onClickSideNavExpand={onClickSideNavExpand} />
+      }
+      headerPanelExpanded={isHeaderExpanded}
     >
       <HomeLinkMenuItem />
       <WebsiteMobileAppView />

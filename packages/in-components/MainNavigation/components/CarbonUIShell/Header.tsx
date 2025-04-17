@@ -12,13 +12,8 @@ import React from 'react';
 
 import { CarbonStack, CarbonHeaderGlobalAction as HeaderGlobalAction } from '@instana/components';
 
-import {
-  playwithEnabled,
-  playWithReleaseEnabled,
-  tealiumPrivacyEnabled,
-  userProfileMenuEnabled
-} from 'in-services/featureFlags';
 import { ShowPrivacyNotification } from 'in-plg/components/ShowPrivacyNotification/ShowPrivacyNotification';
+import { playwithEnabled, playWithReleaseEnabled, tealiumPrivacyEnabled } from 'in-services/featureFlags';
 import AsyncComponent from 'in-components/AsyncComponent';
 import UserIcon from 'in-components/UserIcon/UserIcon';
 import { t } from 'in-i18n';
@@ -35,7 +30,7 @@ export default function Header({ expanded, onClickSideNavExpand }: HeaderContent
     <>
       {playwithEnabled || playWithReleaseEnabled ? <AsyncComponent component={NewPlayWithHeader} /> : null}
       <AsyncComponent component={NotificationBarSticky} />
-      {userProfileMenuEnabled && !playwithEnabled && (
+      {!playwithEnabled && (
         <CarbonStack>
           <div id="profileMenu-switcher">
             <HeaderGlobalAction

@@ -692,11 +692,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'userProfileMenuEnabled',
-    instanaCtlKey: 'feature.user.profileMenu.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'unitForInfraMetricsEnabled',
     instanaCtlKey: 'feature.unit.for.infra.metrics.enabled',
     defaultValue: false
