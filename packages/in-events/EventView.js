@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useEffect, useCallback } from 'react';
 import { get, isEmpty } from 'lodash';
 
 import { ChatContainer } from '@instana/ai-chat';
@@ -164,6 +164,61 @@ function EventViewComponent(props) {
       }
     });
   }
+  function setDragListener() {
+    const elements = document.getElementsByTagName('cds-aichat-internal');
+    const selector = '.WACBotContainer .WACHeader__CenterContainer';
+    if (elements.length !== 1) {
+      return;
+    }
+    const movable = elements[0].shadowRoot.getElementById('WACWidget');
+    const AIChatHeader = elements[0].shadowRoot.querySelector(selector);
+    if (!AIChatHeader) {
+      // If page loads with chat closed
+      return;
+    }
+    if (AIChatHeader.getAttribute('data-draggable-event')) {
+      // Subsequent "window:open" events do not need to do anything here
+      return;
+    }
+    AIChatHeader.setAttribute('data-draggable-event', 'true');
+    movable.style.right = `32px`;
+    movable.style.bottom = `32px`;
+    AIChatHeader.addEventListener('pointerdown', e => {
+      // Used for mouse movement delta
+      const initialX = e.clientX;
+      const initialY = e.clientY;
+
+      // Initial location of chat window
+      const offsetX = parseInt(movable.style.right);
+      const offsetY = parseInt(movable.style.bottom);
+
+      // We need to remove the slide up animation in order to drag vertically.
+      // If the user closes the chat window and reopens it, the animation will be re-added
+      const upAnimation = movable.getAnimations()[0];
+      if (upAnimation) {
+        upAnimation.cancel();
+      }
+
+      const onPointerMove = moveEvent => {
+        movable.style.right = `${initialX - moveEvent.clientX + offsetX}px`;
+        movable.style.bottom = `${initialY - moveEvent.clientY + offsetY}px`;
+      };
+
+      const onPointerUp = () => {
+        document.removeEventListener('pointermove', onPointerMove);
+        document.removeEventListener('pointerup', onPointerUp);
+      };
+
+      document.addEventListener('pointermove', onPointerMove);
+      document.addEventListener('pointerup', onPointerUp);
+    });
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setDragListener();
+    }, 500);
+  });
 
   const fetchEvents = useCallback(
     ({ cursor }) => {
@@ -245,7 +300,22 @@ function EventViewComponent(props) {
       {eventsAIChatEnabled && (
         <ChatContainer
           config={config}
-          onBeforeRender={instance => {
+          onAfterRender={instance => {
+            instance.on({
+              type: 'window:open',
+              handler: () => {
+                const elements = document.getElementsByTagName('cds-aichat-internal');
+                if (elements.length === 1) {
+                  const movable = elements[0].shadowRoot.getElementById('WACWidget');
+                  movable.style.right = `32px`;
+                  movable.style.bottom = `32px`;
+                }
+                // Still need to wait for render
+                setTimeout(() => {
+                  setDragListener();
+                }, 500);
+              }
+            });
             instance.on({
               type: 'receive',
               handler: msg => {
