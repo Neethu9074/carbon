@@ -7,7 +7,7 @@ import React, { forwardRef } from 'react';
 
 import { IconButton } from '@instana/components';
 
-import { SETTINGS_EVENT_DELETE_TRIGGER } from 'in-services/tracking/tracking';
+import { SETTINGS_EVENT_DELETE_TRIGGER, SETTINGS_ALERT_CHANNEL_DELETE_SLACK } from 'in-services/tracking/tracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -51,6 +51,9 @@ export default forwardRef(function Delete(
             onSubmit={() => {
               close();
               doDelete(entity, deleteEntity, setErrorMessage);
+              if (entity?.kind === 'SLACK') {
+                trackCta(SETTINGS_ALERT_CHANNEL_DELETE_SLACK, { ...entity });
+              }
             }}
             confirmButtonAutoFocus
           />

@@ -290,6 +290,7 @@ export const SETTINGS_ALERT_CHANNEL_TEST_CLICK = 'settings.alertChannel.test.cli
 export const SETTINGS_ALERT_CHANNEL_CLICK = 'settings.alertChannel.click';
 export const SETTINGS_ALERT_CHANNEL_DELETE = 'settings.alertChannel.delete';
 export const SETTINGS_ALERT_CHANNEL_EDIT = 'settings.alertChannel.edit';
+export const SETTINGS_ALERT_CHANNEL_DELETE_SLACK = 'settings.alertChannel.delete.slack';
 
 export const SETTINGS_ALERT_SUBMIT = 'settings.alert.submit';
 export const SETTINGS_ALERT_DELETE = 'settings.alert.delete';

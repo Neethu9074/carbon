@@ -223,7 +223,7 @@ function getDefaultStateOfAdvancedSection(entity, form) {
 }
 
 function SubmissionButton({ form, message, loading, isCreate, listPath, customSubmit, setForm }) {
-  const { bypassApiCreate, submitSaveLabel, submitCreateLabel } = customSubmit ?? {};
+  const { noCreateAPI, submitSaveLabel, submitCreateLabel } = customSubmit ?? {};
   const saving = loading && message === entityFormSavingMessage;
   const saveButtonLabel = isCreate
     ? submitCreateLabel ?? t('forms.actions.create')
@@ -239,7 +239,7 @@ function SubmissionButton({ form, message, loading, isCreate, listPath, customSu
         <Button kind="secondary" className={locals.button} onClick={() => goToPath(listPath)}>
           {t('forms.actions.cancel')}
         </Button>
-        {bypassApiCreate ? (
+        {noCreateAPI ? (
           <Button
             className={locals.button}
             disabled={(!form.hierarchyValid && form.touched) || loading || saving}
