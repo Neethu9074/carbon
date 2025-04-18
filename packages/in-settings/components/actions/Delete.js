@@ -51,7 +51,7 @@ export default forwardRef(function Delete(
             onSubmit={() => {
               close();
               doDelete(entity, deleteEntity, setErrorMessage);
-              if (entity?.kind == 'SLACK') {
+              if (entity?.kind === 'SLACK') {
                 trackCta(SETTINGS_ALERT_CHANNEL_DELETE_SLACK, { ...entity });
               }
             }}
