@@ -514,7 +514,7 @@ module.exports = exports = [
   {
     uiClientKey: 'infraPredictiveDetectionEnabled',
     instanaCtlKey: 'feature.infra.predictive.detection.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'apiTokenExpirationEnabled',
