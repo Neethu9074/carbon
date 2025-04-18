@@ -49,7 +49,7 @@ export default function AnalyzeWebsiteEventButton({
     beaconType,
     timeConfig,
     groupBy: getGrouping(alertType, metricName),
-    chartedMetrics: getChartedMetrics(alertType, aggregation),
+    chartedMetrics: getChartedMetrics(alertType, aggregation, metricName),
     formModel: joinExpressions({
       expressions: [
         [tagFilter('beacon.website.name', EQUALS, websiteName)],
@@ -66,7 +66,7 @@ export default function AnalyzeWebsiteEventButton({
     return (
       <CarbonMenuItem
         label={getLinkTitle(alertType, metricName)}
-        renderIcon={() => <SvgIcon size="xs" type={getIcon(alertType)} />}
+        renderIcon={() => <SvgIcon size="xs" type={getIcon(alertType, metricName)} />}
         onClick={() => {
           websitesAlertingEventDetailsGoToAnalyze({ beaconType });
           navigate(parseUrl(linkToUAWithoutParams, true));
@@ -79,7 +79,7 @@ export default function AnalyzeWebsiteEventButton({
   return (
     <Button
       kind="primary"
-      icon={getIcon(alertType)}
+      icon={getIcon(alertType, metricName)}
       onClick={() => websitesAlertingEventDetailsGoToAnalyze({ beaconType })}
       href={linkToUAWithoutParams}
       style={{ outline: '10px red' }}
@@ -106,7 +106,7 @@ function getGrouping(alertType: string, metricName: string) {
   }
 }
 
-function getChartedMetrics(alertType: string, aggregation: AggregationType | undefined) {
+function getChartedMetrics(alertType: string, aggregation: AggregationType | undefined, metricName: string) {
   switch (alertType) {
     case 'specificJsError':
     case 'statusCode':
@@ -121,7 +121,7 @@ function getChartedMetrics(alertType: string, aggregation: AggregationType | und
     case 'slowness':
       return [
         {
-          metricId: 'onLoadTime',
+          metricId: metricName === 'httpLatency' ? 'beaconDuration' : 'onLoadTime',
           aggregationId: aggregation ?? 'P90'
         }
       ];
@@ -130,7 +130,7 @@ function getChartedMetrics(alertType: string, aggregation: AggregationType | und
   }
 }
 
-function getIcon(alertType: string) {
+function getIcon(alertType: string, metricName: string) {
   switch (alertType) {
     case 'specificJsError':
       return 'lib_website_error';
@@ -139,7 +139,7 @@ function getIcon(alertType: string) {
     case 'throughput':
       return 'lib_website_page_load';
     case 'slowness':
-      return 'lib_website_page_load';
+      return metricName === 'httpLatency' ? 'lib_website_ajax' : 'lib_website_page_load';
     case 'customEvent':
       return 'lib_website_custom';
     default:
@@ -158,7 +158,9 @@ function getLinkTitle(alertType: string, metricName: string) {
         ? t('in-events:titleAnalyzePageLoads')
         : t('in-events:titleAnalyzePageTransitions');
     case 'slowness':
-      return t('in-events:titleAnalyzeLoadTime');
+      return metricName === 'httpLatency'
+        ? t('in-events:titleAnalyzeHTTPRequests')
+        : t('in-events:titleAnalyzeLoadTime');
     case 'customEvent':
       return t('in-events:titleAnalyzeCustomEvents');
     default:

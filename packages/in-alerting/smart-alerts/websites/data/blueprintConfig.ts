@@ -386,6 +386,10 @@ function getExtraSlownessAnalyzeLinkTagFilterFormModel(
   timeConfig: FixedTimeConfig,
   adaptiveBaselineInfo = {}
 ): FormModelElement[] {
+  if (alertConfig?.rule?.metricName === 'httpLatency') {
+    return [];
+  }
+
   let value: number;
 
   const { threshold } = alertConfig;
