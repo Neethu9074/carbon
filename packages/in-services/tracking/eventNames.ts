@@ -621,6 +621,7 @@ export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
 // Notes and Activity Summary Feedback Tracking
 export const NOTES_SUMMARY_FEEDBACK_POSITIVE = 'notes.summary.feedback.positive';
 export const NOTES_SUMMARY_FEEDBACK_NEGATIVE = 'notes.summary.feedback.negative';
+export const NOTES_SUMMARY_FEEDBACK_SUBMIT = 'notes.summary.feedback.submit';
 
 // Flow Map Tracking (services and endpoints)
 export const FLOW_MAP_CLICK = 'flowmap.click';

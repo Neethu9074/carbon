@@ -35,7 +35,7 @@ describe('AISummary', () => {
     expect(wrapper.find(`div.${locals.summarySection}`).at(1).text()).toEqual(
       'Successful actions taken for similar incidents:<ActionEntry />'
     );
-    expect(wrapper.find(CarbonIconButton)).toHaveLength(2);
+    expect(wrapper.find(CarbonIconButton)).toHaveLength(4);
     expect(wrapper.find(CarbonInlineLoading)).toHaveLength(0);
     expect(wrapper.find(SvgIcon)).toHaveLength(2);
   });
@@ -85,9 +85,9 @@ describe('AISummary', () => {
     expect(wrapper.find(`div.${locals.summarySection}`).at(1).text()).toEqual(
       'Successful actions taken for similar incidents:-Action Nametype: ACTIONTYPEloading'
     );
-    expect(wrapper.find(CarbonIconButton)).toHaveLength(2);
+    expect(wrapper.find(CarbonIconButton)).toHaveLength(4);
     expect(wrapper.find(CarbonInlineLoading)).toHaveLength(1);
-    expect(wrapper.find(SvgIcon)).toHaveLength(4);
+    expect(wrapper.find(SvgIcon)).toHaveLength(2);
     expect(wrapper.find(ShowAllButton)).toHaveLength(0);
   });
 
@@ -182,9 +182,9 @@ describe('AISummary', () => {
     expect(wrapper.find(`div.${locals.summarySection}`).at(1).text()).toEqual(
       'Successful actions taken for similar incidents:-Action Nametype: ACTIONTYPEloading-Action Name2type: ACTIONTYPE2loading-Action Name3type: ACTIONTYPE3loading-Action Name4type: ACTIONTYPE4loading-Action Name5type: ACTIONTYPE5loadingShow all'
     );
-    expect(wrapper.find(CarbonIconButton)).toHaveLength(2);
+    expect(wrapper.find(CarbonIconButton)).toHaveLength(4);
     expect(wrapper.find(CarbonInlineLoading)).toHaveLength(5);
-    expect(wrapper.find(SvgIcon)).toHaveLength(4);
+    expect(wrapper.find(SvgIcon)).toHaveLength(2);
     expect(wrapper.find(ShowAllButton)).toHaveLength(2);
   });
 
@@ -221,9 +221,9 @@ describe('AISummary', () => {
     expect(wrapper.find(`div.${locals.summarySection}`).at(1).text()).toEqual(
       'Successful actions taken for similar incidents:No data available at the time the summary was generated.'
     );
-    expect(wrapper.find(CarbonIconButton)).toHaveLength(2);
+    expect(wrapper.find(CarbonIconButton)).toHaveLength(4);
     expect(wrapper.find(CarbonInlineLoading)).toHaveLength(0);
-    expect(wrapper.find(SvgIcon)).toHaveLength(4);
+    expect(wrapper.find(SvgIcon)).toHaveLength(2);
     expect(wrapper.find(ShowAllButton)).toHaveLength(0);
   });
 });

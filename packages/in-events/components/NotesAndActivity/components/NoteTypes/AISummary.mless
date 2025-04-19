@@ -39,4 +39,15 @@
   .bold {
     font-weight: 700;
   }
+
+  .feedbackSurveyBtn {
+    border-radius: 25px 25px 25px 25px;
+    height: 0px;
+    padding-inline-end: 1.25rem;
+    margin-top: 0.5rem;
+  }
+  .surveyBtnContents {
+    display: block;
+    padding-right: 0.625rem;
+  }
 }

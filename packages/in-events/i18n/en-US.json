@@ -144,7 +144,6 @@
   "unidentifiedEntityTooltip": "There was an error retrieving information about this entity. You can visit the entity's dashboard by clicking the 'Unidentified Entity' link for more details.",
   "headerStatus": "Status",
   "eventHelpfulText": "Was this event helpful?",
-  "summaryHelpfulText": "Was this summary helpful?",
   "thankYouForYourFeedback": "Thank you for your feedback!",
   "hostOffLineEventProblemChangeTime": "Click the link below to go to the last version of the host monitored by Instana. Doing so will change the start of your time window to a point in time when the host was monitored by Instana",
   "offLineEventProblemChangeTime": "Click the link below to go to the last version of the process monitored by Instana. Doing so will change the start of your time window to a point in time when the process was monitored by Instana",
@@ -444,7 +443,10 @@
     "subject": "Subject",
     "body": "Body",
     "takeSomeTimeReview": "Take some time to review and potentially modify the summary before sharing with others.",
-    "invalidEmail": "Email must be valid (user@domain) separated by commas"
+    "invalidEmail": "Email must be valid (user@domain) separated by commas",
+    "positiveFeedback": "This summary was helpful",
+    "negativeFeedback": "This summary was not helpful",
+    "surveyButtonTxt": "Share your feedback"
   },
   "incident": {
     "overviewTitle": "Incident overview",
@@ -466,5 +468,16 @@
   "affectedIncidents": {
     "affectedIncident": "Affected incident",
     "noAffectedIncidents": "No affected incidents found"
+  },
+  "feedbackModal": {
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "title": "Share your feedback",
+    "helpfulQ": "What did you find helpful about the summary?",
+    "improveQ": "How could we improve the summary?",
+    "maxChars": "Maximum of 750 characters",
+    "followUpQuestion": "Would you like us to follow up with you regarding your feedback?",
+    "yesContect": "Yes, please contact me.",
+    "noContact": "No, I prefer not to be contacted."
   }
 }

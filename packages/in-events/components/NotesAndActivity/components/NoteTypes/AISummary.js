@@ -4,18 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
+import { ThumbsUp, ThumbsDown, ThumbsUpFilled, ThumbsDownFilled, ChatLaunch } from '@carbon/icons-react';
 import React, { useState } from 'react';
 
-import {
-  SvgIcon,
-  CarbonButton,
-  CarbonIconButton,
-  CarbonInlineLoading,
-  Typography,
-  Stack,
-  IconButton
-} from '@instana/components';
-import { themes } from '@instana/design-tokens';
+import { SvgIcon, CarbonButton, CarbonIconButton, CarbonInlineLoading } from '@instana/components';
 
 import {
   EVENT_AI_SHOW_MORE_INCIDENTS,
@@ -23,13 +15,15 @@ import {
   EVENT_AI_SHARE_OPENED,
   EVENT_AI_RUN_ACTION,
   NOTES_SUMMARY_FEEDBACK_NEGATIVE,
-  NOTES_SUMMARY_FEEDBACK_POSITIVE
+  NOTES_SUMMARY_FEEDBACK_POSITIVE,
+  NOTES_SUMMARY_FEEDBACK_SUBMIT
 } from 'in-services/tracking/eventNames';
 import {
   convertIncidentSummaryToString,
   convertActionsToString,
   convertNotesSummaryToString
 } from 'in-events/components/NotesAndActivity/components/NoteTypes/utils';
+import FeedbackModal from 'in-events/components/NotesAndActivity/components/NoteTypes/FeedbackModal';
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
@@ -56,6 +50,7 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
   // Show alls that handle showing more incidents / Actions
   const [showAllIncidents, setShowAllIncidents] = useState(false);
   const [showAllActions, setShowAllActions] = useState(false);
+  const [feedbackState, setFeedbackState] = useState(null); // up, down, or null
 
   // Little Slice function for grabbing the first 5 entries for incidents / actions
   const subArray = (arr, i = 0, n = 1) => arr?.slice(i, n);
@@ -77,6 +72,21 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
   const actionHistorySummary = convertActionsToString(actionHistory);
   const fullSummaryText = `${incidentSummary}${notesSummary}\n${actionHistorySummary}`;
 
+  //Feedback collection
+  const { trackCta } = useSegmentTracking();
+  const { location } = useNavigation();
+  const summaryFeedbackObject = {
+    summaryID: noteObj?.id,
+    eventID: location?.matrix[eventsPath]?.eventId
+  };
+
+  function submitTracking(feedbackObject) {
+    const trackingObj = {
+      id: noteObj.id,
+      ...feedbackObject
+    };
+    trackCta(NOTES_SUMMARY_FEEDBACK_SUBMIT, trackingObj);
+  }
   return (
     <>
       <div className={locals.contentsHeader}>{t('in-events:notes.sumGenerated')}</div>
@@ -140,8 +150,46 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
         >
           <SvgIcon type="lib_actions_copy" size="xs" />
         </CarbonIconButton>
+        {/* Positive feedback button */}
+        <CarbonIconButton
+          kind={'ghost'}
+          size={'sm'}
+          label={t('in-events:notes.positiveFeedback')}
+          onClick={() => {
+            setFeedbackState('up');
+            trackCta(NOTES_SUMMARY_FEEDBACK_POSITIVE, summaryFeedbackObject);
+          }}
+        >
+          {feedbackState === 'up' ? <ThumbsUpFilled size={'16'} /> : <ThumbsUp size={'16'} />}
+        </CarbonIconButton>
+        {/* Negative feedback button */}
+        <CarbonIconButton
+          kind={'ghost'}
+          size={'sm'}
+          label={t('in-events:notes.negativeFeedback')}
+          onClick={() => {
+            setFeedbackState('down');
+            trackCta(NOTES_SUMMARY_FEEDBACK_NEGATIVE, summaryFeedbackObject);
+          }}
+        >
+          {feedbackState === 'down' ? <ThumbsDownFilled size={'16'} /> : <ThumbsDown size={'16'} />}
+        </CarbonIconButton>
       </div>
-      <SummaryFeedbackComponent noteObj={noteObj} />
+
+      {/* Share feedback button */}
+      {feedbackState && (
+        <CarbonButton
+          kind="tertiary"
+          className={locals.feedbackSurveyBtn}
+          size="sm"
+          onClick={() => {
+            addActiveDialog(<FeedbackModal handleSubmitTracking={submitTracking} feedbackState={feedbackState} />);
+          }}
+          renderIcon={() => <ChatLaunch size="16" />}
+        >
+          <div className={locals.surveyBtnContents}> {t('in-events:notes.surveyButtonTxt')}</div>
+        </CarbonButton>
+      )}
     </>
   );
 }
@@ -270,66 +318,4 @@ function handleRunActionClick(action, noteId, eventObjId) {
 // Copy text to clipboard
 function copyToClipboard(str) {
   navigator.clipboard.writeText(str);
-}
-
-//Modified from EventTable FeedbackComponents
-function SummaryFeedbackComponent({ noteObj, textVariant = 'body-regular', iconSize = 's' }) {
-  const { trackCta } = useSegmentTracking();
-  const tup = 'thumbsUp';
-  const tdown = 'thumbsDown';
-  const [feedbackState, setFeedbackState] = useState('');
-  const { location } = useNavigation();
-
-  return (
-    <Stack direction="horizontal" gap="xxsmall" distribution="start" align="center">
-      <Typography variant={textVariant} align="center">
-        {feedbackState === '' ? t('in-events:summaryHelpfulText') : t('in-events:thankYouForYourFeedback')}
-      </Typography>
-
-      <Stack direction="horizontal" align="center" gap="xxsmall">
-        <IconButton
-          kind="subtle"
-          // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
-          //TODO: Find an alternative to this (i.e. bring in a filled in thumbs up icon)
-          color={feedbackState === tup ? themes.default.ids.color.option.neutral['300'] : undefined}
-          size="compact"
-          type="lib_thumbs_up"
-          iconSize={iconSize}
-          onClick={() => {
-            const summaryFeedbackObject = {
-              summaryID: noteObj.id,
-              eventID: location.matrix[eventsPath]?.eventId
-            };
-            trackCta(NOTES_SUMMARY_FEEDBACK_POSITIVE, summaryFeedbackObject);
-            if (feedbackState === tup) {
-              setFeedbackState('');
-            } else {
-              setFeedbackState(tup);
-            }
-          }}
-        />
-        <IconButton
-          kind="subtle"
-          // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
-          //TODO: Find an alternative to this (i.e. bring in a filled in thumbs down icon)
-          color={feedbackState === tdown ? themes.default.ids.color.option.neutral['300'] : undefined}
-          size="compact"
-          iconSize={iconSize}
-          type="lib_thumbs_down"
-          onClick={() => {
-            const summaryFeedbackObject = {
-              summaryID: noteObj.id,
-              eventID: location.matrix[eventsPath]?.eventId
-            };
-            trackCta(NOTES_SUMMARY_FEEDBACK_NEGATIVE, summaryFeedbackObject);
-            if (feedbackState === tdown) {
-              setFeedbackState('');
-            } else {
-              setFeedbackState(tdown);
-            }
-          }}
-        />
-      </Stack>
-    </Stack>
-  );
 }
