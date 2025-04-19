@@ -68,6 +68,28 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           </KpiKeyValue>
         )}
 
+        {isAixOs(snapshot) && (
+          <KpiKeyValue label={t('in-forge:plugins.host.dashboard.systemCalls')}>
+            <MetricValue
+              snapshotId={snapshot.get('id')}
+              metric="cpu.systemCalls"
+              formatter={rate => (rate < 0 ? t('in-forge:plugins.host.dashboard.notCollected') : number.compact(rate))}
+            />
+          </KpiKeyValue>
+        )}
+
+        {isAixOs(snapshot) && (
+          <KpiKeyValue label={t('in-forge:plugins.host.dashboard.avgRunQueue')}>
+            <MetricValue
+              snapshotId={snapshot.get('id')}
+              metric="cpu.avgRunQueue"
+              formatter={value =>
+                value < 0 ? t('in-forge:plugins.host.dashboard.notCollected') : twoDecimalPlaces(value)
+              }
+            />
+          </KpiKeyValue>
+        )}
+
         {!(isWindows(snapshot) || isZos(snapshot)) && (
           <KpiKeyValue label={t('in-forge:plugins.host.dashboard.cpuLoad')}>
             <MetricValue snapshotId={snapshot.get('id')} metric="load.1min" formatter={twoDecimalPlaces} />
@@ -335,7 +357,6 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             y1={{
               formatter: number.compact,
               metrics: [
-                'cpu.systemCalls',
                 'cpu.systemWrites',
                 'cpu.nonBlockReads',
                 'cpu.nonBlockWrites',
@@ -343,7 +364,6 @@ export default function HostDashboard({ snapshot, timeConfig }) {
                 'cpu.logicalBlockWrites'
               ],
               labels: [
-                t('in-forge:plugins.host.dashboard.systemCalls'),
                 t('in-forge:plugins.host.dashboard.systemWrites'),
                 t('in-forge:plugins.host.dashboard.nonBlockReads'),
                 t('in-forge:plugins.host.dashboard.nonBlockWrites'),
