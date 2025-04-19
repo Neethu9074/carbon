@@ -282,6 +282,9 @@ export const WELCOME_PAGE_WHATS_NEW_LINK_CLICK = 'welcomePage.whatsNewLink.click
 
 // Owned by Team Alert Response
 // Tracking all team owned components
+export const MANUAL_CLOSE_SUBMIT = 'manualClose.submit';
+export const MANUAL_CLOSE_CANCEL = 'manualClose.cancel';
+
 export const SETTINGS_ALERT_CHANNEL_CREATE = 'settings.alertChannel.create';
 export const SETTINGS_ALERT_CHANNEL_OPEN_SUBMIT_FORM = 'settings.alertChannel.new';
 export const SETTINGS_ALERT_CHANNEL_ADD_MENU_CLICK = 'settings.alertChannel.addMenu.click';

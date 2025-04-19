@@ -19,11 +19,15 @@ import FeedbackStepThree from 'in-events/components/feedback/FeedbackStepThree';
 import FeedbackStepOne from 'in-events/components/feedback/FeedbackStepOne';
 import FeedbackStepTwo from 'in-events/components/feedback/FeedbackStepTwo';
 import { FeedbackConfigEventForm } from 'in-events/components/feedback/api';
+import { MANUAL_CLOSE_SUBMIT } from 'in-services/tracking/eventNames';
+import { manualCloseFeedbackPath } from 'in-events/navigation/paths';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
+import { manualCloseCTATracker } from 'in-events/tracker';
 import EventIcon from 'in-events/components/EventIcon';
 import { manuallyCloseIssue } from 'in-events/api';
 import { EventOrMap } from 'in-events/types';
 import { role, user } from 'in-stores/user';
+import { config } from 'in-services/config';
 import { Trans, t } from 'in-i18n';
 
 export interface FeedbackStepConfigs {
@@ -178,13 +182,21 @@ export const eventStepConfig: IStepConfig = {
         //@ts-expect-error
         const username = user?.email || user?.fullName || user?.id;
 
-        return {
+        const manualCloseConfig: ManualCloseInfo = {
           closeTimestamp: Date.now(),
           reasonForClosing: closureComments,
           username,
           muteAlerts: false,
           disableEvent: false
         };
+        manualCloseCTATracker(
+          MANUAL_CLOSE_SUBMIT,
+          manualCloseFeedbackPath,
+          `tenant=${config.tenant}`,
+          JSON.stringify(manualCloseConfig)
+        );
+
+        return manualCloseConfig;
       }
     },
     isEnd: false,

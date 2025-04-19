@@ -10,6 +10,8 @@ import { Message, Stack, Typography, Toggle, Tooltip, SvgIcon, CarbonTextInput }
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
+import { MANUAL_CLOSE_SUBMIT, MANUAL_CLOSE_CANCEL } from 'in-services/tracking/eventNames';
+import { manualCloseIncidentPath, manualCloseIssuePath } from 'in-events/navigation/paths';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
@@ -17,8 +19,10 @@ import { ManualCloseInfoForm, manuallyCloseIssue } from 'in-events/api';
 import { disableEventConfigEnabled } from 'in-services/featureFlags';
 import { Error, ErrorCode, ManualCloseInfo } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
+import { manualCloseCTATracker } from 'in-events/tracker';
 import { toHtml } from 'in-services/formatters/markdown';
 import { EventOrMap } from 'in-events/types';
+import { config } from 'in-services/config';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -34,6 +38,11 @@ interface ManualCloseIssueConfigFormProps {
   eventType?: string;
 }
 
+//@ts-expect-error
+const username = user?.email || user?.fullName || user?.id;
+const getManualClosePath = (eventType: string | undefined) =>
+  eventType === 'incident' ? manualCloseIncidentPath : manualCloseIssuePath;
+
 export default function ManualCloseIssueConfigForm({
   onSaveSuccess,
   problem,
@@ -47,6 +56,7 @@ export default function ManualCloseIssueConfigForm({
   const [error, setError] = useState<Error[]>([]);
 
   const eventId = event.get('id') as string;
+  const manualClosePath = getManualClosePath(eventType);
 
   const canSuppressAlertAndDisableEvent = disableEventConfigEnabled && user?.role?.canConfigureEventsAndAlerts;
 
@@ -61,7 +71,10 @@ export default function ManualCloseIssueConfigForm({
       primaryActionText={buttonText}
       primaryActionDisabled={!form.hierarchyValid}
       secondaryActionText={t('in-components:blueprintFormMultistep.buttonCancel')}
-      onSecondaryActionClick={onClose}
+      onSecondaryActionClick={() => {
+        manualCloseCTATracker(MANUAL_CLOSE_CANCEL, manualClosePath, `tenant=${config.tenant}`);
+        onClose();
+      }}
     />
   );
 
@@ -81,7 +94,7 @@ export default function ManualCloseIssueConfigForm({
       form.setTouched(true, { recurse: true });
       return;
     }
-    save(form, eventId, onSaveSuccess, onError);
+    save(form, eventId, manualClosePath, onSaveSuccess, onError);
   };
 
   const setValue = (form: MapForm<any>, path: string[], value: any) => {
@@ -193,6 +206,7 @@ function createForm(): MapForm<ManualCloseInfoForm> {
 function save(
   form: MapForm<ManualCloseInfoForm>,
   eventId: string,
+  manualClosePath: string,
   onSaveSuccess: () => void,
   onError: (data: any) => void
 ) {
@@ -200,17 +214,22 @@ function save(
   const reasonForClosing = form.get('reasonForClosing').value;
   const muteAlerts = form.get('muteAlerts').value;
   const disableEvent = form.get('disableEvent').value;
-  //@ts-expect-error
-  const username = user?.email || user?.fullName || user?.id;
 
-  const config: ManualCloseInfo = {
+  const manualCloseConfig: ManualCloseInfo = {
     closeTimestamp,
     muteAlerts,
     disableEvent,
     reasonForClosing,
     username
   };
-  const result$ = manuallyCloseIssue(eventId, config);
+  manualCloseCTATracker(
+    MANUAL_CLOSE_SUBMIT,
+    manualClosePath,
+    `tenant=${config.tenant}`,
+    JSON.stringify(manualCloseConfig)
+  );
+
+  const result$ = manuallyCloseIssue(eventId, manualCloseConfig);
 
   result$.once(() => {
     onSaveSuccess();
