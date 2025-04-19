@@ -168,18 +168,24 @@ export default [
   },
   {
     metrics: [
+      'cpu.systemReads',
       'cpu.systemWrites',
+      'cpu.blockReads',
+      'cpu.blockWrites',
       'cpu.nonBlockReads',
       'cpu.nonBlockWrites',
       'cpu.logicalBlockReads',
       'cpu.logicalBlockWrites'
     ],
     labels: [
-      t('in-forge:plugins.host.systemWrites'),
-      t('in-forge:plugins.host.nonBlockReads'),
-      t('in-forge:plugins.host.nonBlockWrites'),
-      t('in-forge:plugins.host.logicalBlockReads'),
-      t('in-forge:plugins.host.logicalBlockWrites')
+      t('in-forge:plugins.host.dashboard.systemReads'),
+      t('in-forge:plugins.host.dashboard.systemWrites'),
+      t('in-forge:plugins.host.dashboard.blockReads'),
+      t('in-forge:plugins.host.dashboard.blockWrites'),
+      t('in-forge:plugins.host.dashboard.nonBlockReads'),
+      t('in-forge:plugins.host.dashboard.nonBlockWrites'),
+      t('in-forge:plugins.host.dashboard.logicalBlockReads'),
+      t('in-forge:plugins.host.dashboard.logicalBlockWrites')
     ],
     category: [t('in-forge:plugins.host.cpu')],
     min: 0,

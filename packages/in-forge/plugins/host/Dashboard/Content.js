@@ -357,14 +357,20 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             y1={{
               formatter: number.compact,
               metrics: [
+                'cpu.systemReads',
                 'cpu.systemWrites',
+                'cpu.blockReads',
+                'cpu.blockWrites',
                 'cpu.nonBlockReads',
                 'cpu.nonBlockWrites',
                 'cpu.logicalBlockReads',
                 'cpu.logicalBlockWrites'
               ],
               labels: [
+                t('in-forge:plugins.host.dashboard.systemReads'),
                 t('in-forge:plugins.host.dashboard.systemWrites'),
+                t('in-forge:plugins.host.dashboard.blockReads'),
+                t('in-forge:plugins.host.dashboard.blockWrites'),
                 t('in-forge:plugins.host.dashboard.nonBlockReads'),
                 t('in-forge:plugins.host.dashboard.nonBlockWrites'),
                 t('in-forge:plugins.host.dashboard.logicalBlockReads'),
