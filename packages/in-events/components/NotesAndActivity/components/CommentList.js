@@ -136,17 +136,16 @@ export function CommentList({
 }
 
 // Handle which icon should be rendered for each note entry
-export function EntryIcon({ note, displayIcon }) {
+export function EntryIcon({ note = {}, displayIcon }) {
   const aiSum = note.type === TYPE_AI_SUMMARY;
   const serviceNow = note.origin === 'ServiceNow';
   const slack = note.origin === 'Slack';
-  const iconType =
-    (slack && 'lib_slack_icon') || (serviceNow && 'lib_snow_icon') || (!serviceNow && 'lib_actions_user') || '';
+  const iconType = (slack && 'lib_slack_icon') || (serviceNow && 'lib_snow_icon') || 'lib_actions_user';
   const iconSize = (!serviceNow && 'xs') || 'sm';
   const iconViewBox = (serviceNow && '0 0 24 24') || (slack && '4 4 24 24') || '0 0 16 16';
   return (
     <>
-      {displayIcon && (
+      {displayIcon && !aiSum && (
         <SvgIcon
           type={iconType}
           size={iconSize}
