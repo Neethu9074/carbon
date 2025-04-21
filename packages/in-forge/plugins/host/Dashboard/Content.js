@@ -70,11 +70,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
 
         {isAixOs(snapshot) && (
           <KpiKeyValue label={t('in-forge:plugins.host.dashboard.systemCalls')}>
-            <MetricValue
-              snapshotId={snapshot.get('id')}
-              metric="cpu.systemCalls"
-              formatter={rate => (rate < 0 ? t('in-forge:plugins.host.dashboard.notCollected') : number.compact(rate))}
-            />
+            <MetricValue snapshotId={snapshot.get('id')} metric="cpu.systemCalls" formatter={number.compact} />
           </KpiKeyValue>
         )}
 

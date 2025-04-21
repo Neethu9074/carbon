@@ -164,7 +164,7 @@ export default [
     labels: t('in-forge:plugins.host.systemCalls'),
     category: [t('in-forge:plugins.host.cpu')],
     min: 0,
-    formatter: rate => (rate < 0 ? t('in-forge:plugins.host.dashboard.notCollected') : number.compact(rate))
+    formatter: number.compact
   },
   {
     metrics: [
