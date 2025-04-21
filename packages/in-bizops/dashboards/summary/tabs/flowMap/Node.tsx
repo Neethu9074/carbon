@@ -11,7 +11,6 @@ import { Button, CarbonPopover, CarbonPopoverContent, Typography } from '@instan
 import { CardNode } from '@instana/carbon-charts';
 
 import { BizOpsElkNode } from 'in-bizops/dashboards/summary/tabs/flowMap/FlowMapPresenter';
-import { bizopsProcessFlowMapHealthOverlayEnabled } from 'in-services/featureFlags';
 import BizOpsOpenIssuesList from 'in-bizops/components/BizOpsOpenIssuesList';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
 import { millis } from 'in-services/formatters/number';
@@ -38,7 +37,7 @@ function ProcessNode({ name, metrics, onClick }: ProcessNodeProps) {
   const cardColor = getDesignLibraryColorBySeverity(maxSeverity);
 
   // Only make nodes with health issues clickable
-  const onClickHealthAware = maxSeverity > 0 && bizopsProcessFlowMapHealthOverlayEnabled ? onClick : undefined;
+  const onClickHealthAware = maxSeverity > 0 ? onClick : undefined;
 
   return (
     <CardNode className={local.container} style={{ borderColor: cardColor }} onClick={onClickHealthAware}>

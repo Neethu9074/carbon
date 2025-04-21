@@ -366,11 +366,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'bizopsProcessFlowMapHealthOverlayEnabled',
-    instanaCtlKey: 'feature.bizops.process.flow.map.health.overlay.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
     instanaCtlKey: 'feature.trace.limit.visible.nesting.levels.enabled',
     defaultValue: false

@@ -244,9 +244,6 @@ export const hiddenSearchFieldValues = {
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
 export const bizopsGenAIEnabled = isFeatureFlagEnabled('bizopsGenAIEnabled');
-export const bizopsProcessFlowMapHealthOverlayEnabled = isFeatureFlagEnabled(
-  'bizopsProcessFlowMapHealthOverlayEnabled'
-);
 
 // ########################################################################################
 // Chart gap hiding
