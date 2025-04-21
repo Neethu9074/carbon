@@ -157,7 +157,6 @@ function renderFailurePopover(item: TestResultListItem) {
 }
 
 const runTypeColumnContent = (item: TestResultListItem) => {
-  // @ts-expect-error
   return <span className={locals.metricLabel}>{item.testResultCommonProperties?.runType ?? ''}</span>;
 };
 
