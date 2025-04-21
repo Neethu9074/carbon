@@ -16,8 +16,8 @@ import {
   TYPE_AI_SUMMARY
 } from 'in-events/components/NotesAndActivity/utils';
 import { noteNameAndTimeFormat, createDataString } from 'in-events/components/NotesAndActivity/components/utils';
+import { AISummary, WatsonAIAvatar } from 'in-events/components/NotesAndActivity/components/NoteTypes/AISummary';
 import { ExternalNote } from 'in-events/components/NotesAndActivity/components/NoteTypes/ExternalNote';
-import { AISummary } from 'in-events/components/NotesAndActivity/components/NoteTypes/AISummary';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
 import { user } from 'in-stores/user';
@@ -97,14 +97,12 @@ export function CommentList({
           const date = formatDateWithActiveLanguage(new Date(note.timestamp), `${dateFormat}, ${timeFormat}`);
           const isEdited = note?.updated && note?.updated != 0;
           const iconType =
-            (!aiSum && slack && 'lib_slack_icon') ||
-            (!aiSum && serviceNow && 'lib_snow_icon') ||
-            (!aiSum && !serviceNow && 'lib_actions_user') ||
-            'lib_watson_x';
-          const iconSize = (aiSum && 'regular') || (!aiSum && !serviceNow && 'xs') || 'sm';
-          const iconViewBox = (serviceNow && '0 0 24 24') || ((aiSum || slack) && '4 4 24 24') || '0 0 16 16';
-          // Display the icon if its not my chat message OR if its AI Summary
-          const displayIcon = !myBubble || aiSum;
+            (slack && 'lib_slack_icon') || (serviceNow && 'lib_snow_icon') || (!serviceNow && 'lib_actions_user') || '';
+          const iconSize = (!serviceNow && 'xs') || 'sm';
+          const iconViewBox = (serviceNow && '0 0 24 24') || (slack && '4 4 24 24') || '0 0 16 16';
+          // Display the icon if its not my chat message
+          // Dont show for AI Summary because we display a different component
+          const displayIcon = !myBubble && !aiSum;
           return (
             <div key={note.id}>
               <div
@@ -125,10 +123,11 @@ export function CommentList({
                     })}
                   />
                 )}
+                {aiSum && <WatsonAIAvatar />}
                 <div
                   className={classNames({
-                    [locals.chatEntryInfo]: displayIcon,
-                    [locals.myChatEntryInfo]: myBubble
+                    [locals.myChatEntryInfo]: true,
+                    [locals.chatEntryInfo]: displayIcon
                   })}
                 >
                   {noteNameAndTimeFormat(myBubble, note, date, type, isEdited)}

@@ -12,6 +12,10 @@
     gap: 0.5rem;
   }
 
+  .watsonxAvatar {
+    width: 25px;
+  }
+
   .summaryList {
     display: flex;
     gap: 1rem;
