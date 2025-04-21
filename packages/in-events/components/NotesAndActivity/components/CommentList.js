@@ -92,14 +92,8 @@ export function CommentList({
           const myBubble = note.authorId == user.id;
           const type = note.type;
           const aiSum = type === TYPE_AI_SUMMARY;
-          const serviceNow = note.origin === 'ServiceNow';
-          const slack = note.origin === 'Slack';
           const date = formatDateWithActiveLanguage(new Date(note.timestamp), `${dateFormat}, ${timeFormat}`);
           const isEdited = note?.updated && note?.updated != 0;
-          const iconType =
-            (slack && 'lib_slack_icon') || (serviceNow && 'lib_snow_icon') || (!serviceNow && 'lib_actions_user') || '';
-          const iconSize = (!serviceNow && 'xs') || 'sm';
-          const iconViewBox = (serviceNow && '0 0 24 24') || (slack && '4 4 24 24') || '0 0 16 16';
           // Display the icon if its not my chat message
           // Dont show for AI Summary because we display a different component
           const displayIcon = !myBubble && !aiSum;
@@ -111,19 +105,7 @@ export function CommentList({
                   [locals.chatEntry]: true
                 })}
               >
-                {displayIcon && (
-                  <SvgIcon
-                    type={iconType}
-                    size={iconSize}
-                    viewBox={iconViewBox}
-                    className={classNames({
-                      [locals.userIcon]: !aiSum && !serviceNow && !slack,
-                      [locals.snowIcon]: serviceNow,
-                      [locals.aiIcon]: aiSum && !serviceNow
-                    })}
-                  />
-                )}
-                {aiSum && <WatsonAIAvatar />}
+                <EntryIcon displayIcon={displayIcon} note={note} />
                 <div
                   className={classNames({
                     [locals.myChatEntryInfo]: true,
@@ -150,6 +132,34 @@ export function CommentList({
           );
         })}
     </div>
+  );
+}
+
+// Handle which icon should be rendered for each note entry
+export function EntryIcon({ note, displayIcon }) {
+  const aiSum = note.type === TYPE_AI_SUMMARY;
+  const serviceNow = note.origin === 'ServiceNow';
+  const slack = note.origin === 'Slack';
+  const iconType =
+    (slack && 'lib_slack_icon') || (serviceNow && 'lib_snow_icon') || (!serviceNow && 'lib_actions_user') || '';
+  const iconSize = (!serviceNow && 'xs') || 'sm';
+  const iconViewBox = (serviceNow && '0 0 24 24') || (slack && '4 4 24 24') || '0 0 16 16';
+  return (
+    <>
+      {displayIcon && (
+        <SvgIcon
+          type={iconType}
+          size={iconSize}
+          viewBox={iconViewBox}
+          className={classNames({
+            [locals.userIcon]: !aiSum && !serviceNow && !slack,
+            [locals.snowIcon]: serviceNow,
+            [locals.aiIcon]: aiSum && !serviceNow
+          })}
+        />
+      )}
+      {aiSum && <WatsonAIAvatar />}
+    </>
   );
 }
 
