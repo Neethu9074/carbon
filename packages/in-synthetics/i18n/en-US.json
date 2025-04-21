@@ -632,6 +632,9 @@
       "dns": {
         "failureType": "Failure type",
         "na": "N/A"
+      },
+      "cicd": {
+        "executionType": "Execution type"
       }
     },
     "detailsPage": {

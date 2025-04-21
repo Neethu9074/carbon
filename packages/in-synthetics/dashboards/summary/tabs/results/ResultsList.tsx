@@ -30,6 +30,7 @@ import { syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigat
 import ResultFilters from 'in-synthetics/dashboards/summary/tabs/results/ResultFilters';
 import { locationLabelTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { syntheticDNSEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -38,7 +39,6 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { syntheticDNSEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
@@ -58,7 +58,7 @@ function StartTimeColumnContent(item: TestResultListItem) {
 
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
 
-  const resultId = item.testResultCommonProperties.id || '';
+  const resultId = item.testResultCommonProperties.id ?? '';
   const testLabel: string = getMatrixParameter(location, syntheticsDashboard, 'testLabel') ?? '';
   const locationIds: string = getMatrixParameter(location, syntheticsDashboard, 'locationIds') ?? '';
   const locationDisplayLabels: string =
@@ -156,6 +156,11 @@ function renderFailurePopover(item: TestResultListItem) {
   return <FailureTypePopover resultItem={item} />;
 }
 
+const runTypeColumnContent = (item: TestResultListItem) => {
+  // @ts-expect-error
+  return <span className={locals.metricLabel}>{item.testResultCommonProperties?.runType ?? ''}</span>;
+};
+
 interface ResultListProps {
   test: TestResponse;
 }
@@ -192,31 +197,42 @@ export default function ResultsList({ test }: ResultListProps) {
     />
   );
 
-  const failureTypecolumn = {
-    id: 'failure_type',
-    sortable: false,
-    width: 25,
-    label: t('in-synthetics:dashboard.resultsListPage.dns.failureType'),
-    getContent: (item: TestResultListItem) => renderFailurePopover(item)
-  };
-
-  let columnDefinitionsBasedOnType = columnDefinitions;
-  if (isSSLCertificate || isDNS) {
-    columnDefinitionsBasedOnType = columnDefinitions.filter(
-      columnDefinition => columnDefinition.id !== 'response_size'
-    );
-    if (isSSLCertificate) {
-      columnDefinitionsBasedOnType.push({
-        id: 'days_remaining',
-        sortable: false,
-        label: t('in-synthetics:dashboard.resultsListPage.daysRemaining'),
-        getContent: daysRemainingColumnContent
-      });
-    }
-    if (syntheticDNSEnabled && isDNS) {
-      columnDefinitionsBasedOnType.push(failureTypecolumn);
-    }
-  }
+  let columnDefinitionsBasedOnType = [
+    ...(isSSLCertificate || isDNS
+      ? columnDefinitions.filter(columnDefinition => columnDefinition.id !== 'response_size')
+      : columnDefinitions),
+    ...(syntheticRunNowEnabled
+      ? [
+          {
+            id: 'synthetic.runType',
+            defaultOrderDirection: 'DESC',
+            label: t('in-synthetics:dashboard.resultsListPage.cicd.executionType'),
+            getContent: runTypeColumnContent
+          }
+        ]
+      : []),
+    ...(isSSLCertificate
+      ? [
+          {
+            id: 'days_remaining',
+            sortable: false,
+            label: t('in-synthetics:dashboard.resultsListPage.daysRemaining'),
+            getContent: daysRemainingColumnContent
+          }
+        ]
+      : []),
+    ...(syntheticDNSEnabled && isDNS
+      ? [
+          {
+            id: 'failure_type',
+            sortable: false,
+            width: 25,
+            label: t('in-synthetics:dashboard.resultsListPage.dns.failureType'),
+            getContent: renderFailurePopover
+          }
+        ]
+      : [])
+  ];
 
   const ServerTableWithUrlState = createServerTableWithUrlState({
     Renderer: withEmptyTableState({
