@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number } from 'in-services/formatters/number';
+import { number, percentagePlain } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -60,5 +60,11 @@ export default [
     labels: [t('in-forge:plugins.ibmMqQueueManager.clusterSuspendIndicator')],
     min: 0,
     formatter: number
+  },
+  {
+    metrics: ['mqiFailures'],
+    labels: [t('in-forge:plugins.ibmMqQueueManager.mqiFailures')],
+    min: 0,
+    formatter: percentagePlain
   }
 ];

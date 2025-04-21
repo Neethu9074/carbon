@@ -12504,7 +12504,8 @@
       "messagesOut": "Messages Out",
       "uncommittedMessages": "Uncommitted Messages",
       "clusterStatus": "Cluster status",
-	    "clusterSuspendIndicator": "Cluster Suspend Indicator"
+      "clusterSuspendIndicator": "Cluster Suspend Indicator",
+      "mqiFailures": "MQI Failures"
     },
     "ibmMqQueueUsage": {
       "dashboard": {
