@@ -48,7 +48,13 @@ describe('in-settings/components/ApiTokenExpiration/ExpiryDateTimePicker/ExpiryD
     const dateInput: HTMLInputElement = getByPlaceholderText(/yyyy-mm-dd/i) as HTMLInputElement;
 
     // set date in future
-    const dateString = new Date().toISOString().slice(0, 10);
+    const date = new Date();
+    const dateString =
+      date.getFullYear() +
+      '-' +
+      (date.getMonth() + 101).toString().substring(1) +
+      '-' +
+      (date.getDate() + 100).toString().substring(1);
 
     await userEvent.type(dateInput, `${dateString}{enter}`);
     expect(mockSetState).toHaveBeenCalled();
