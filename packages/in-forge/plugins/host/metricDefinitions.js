@@ -178,18 +178,18 @@ export default [
       'cpu.logicalBlockWrites'
     ],
     labels: [
-      t('in-forge:plugins.host.dashboard.systemReads'),
-      t('in-forge:plugins.host.dashboard.systemWrites'),
-      t('in-forge:plugins.host.dashboard.blockReads'),
-      t('in-forge:plugins.host.dashboard.blockWrites'),
-      t('in-forge:plugins.host.dashboard.nonBlockReads'),
-      t('in-forge:plugins.host.dashboard.nonBlockWrites'),
-      t('in-forge:plugins.host.dashboard.logicalBlockReads'),
-      t('in-forge:plugins.host.dashboard.logicalBlockWrites')
+      t('in-forge:plugins.host.systemReads'),
+      t('in-forge:plugins.host.systemWrites'),
+      t('in-forge:plugins.host.blockReads'),
+      t('in-forge:plugins.host.blockWrites'),
+      t('in-forge:plugins.host.nonBlockReads'),
+      t('in-forge:plugins.host.nonBlockWrites'),
+      t('in-forge:plugins.host.logicalBlockReads'),
+      t('in-forge:plugins.host.logicalBlockWrites')
     ],
     category: [t('in-forge:plugins.host.cpu')],
     min: 0,
-    formatter: number
+    formatter: number.compact
   },
   {
     metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal', 'cpu.used', 'cpu.idle', 'cpu.hypv'],
