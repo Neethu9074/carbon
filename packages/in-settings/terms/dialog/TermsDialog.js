@@ -16,7 +16,9 @@ export default function TermsDialog({ onSave, fullTermsConfigEnabled }) {
   const [form, setForm] = useState(termsFormDefinition(window.instana.termsAndPrivacySettings));
 
   const onSaveHandler = (e, _form) => {
-    stopPropagationAndPreventDefault(e);
+    if (e?.stopPropagation) {
+      stopPropagationAndPreventDefault(e);
+    }
     if (!_form.hierarchyValid) {
       setForm(_form.setTouched(true, { recurse: true }));
       return;
