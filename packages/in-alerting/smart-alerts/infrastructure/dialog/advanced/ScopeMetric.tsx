@@ -166,9 +166,7 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex, isTea
         metricCatalog={stableMetricCatalog.data}
         loading={stableMetricCatalog.progress.loading}
         errors={stableMetricCatalog.errors}
-        onMetricChange={(metricObj: Node) =>
-          onMetricChange(metricObj, form, updateForm, metric, entityType, isTearsheet)
-        }
+        onMetricChange={(metricObj: Node) => onMetricChange(metricObj, form, updateForm, entityType, isTearsheet)}
         query={catalogQuery.value}
         onQueryChange={catalogQuery.onChange}
         selectMetric={t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.metric.selectMetric')}
@@ -266,22 +264,19 @@ function onMetricChangeMethod() {
     metricObj: Node,
     form: MapForm<any>,
     updateForm: (form: MapForm<any>) => void,
-    metric: string,
     entityType: string,
     isTearsheet: boolean
   ) => {
-    if (metric !== metricObj.metric) {
-      updateFormField({
-        updateForm,
-        form,
-        metricLabel: metricObj.label,
-        metricPath: metricObj.parentLabels,
-        metric: metricObj.metric,
-        entityType: metricObj.levelType,
-        clearGroupFilter: entityType == metricObj.levelType ? false : true,
-        isTearsheet
-      });
-    }
+    updateFormField({
+      updateForm,
+      form,
+      metricLabel: metricObj.label,
+      metricPath: metricObj.parentLabels,
+      metric: metricObj.metric,
+      entityType: metricObj.levelType,
+      clearGroupFilter: entityType == metricObj.levelType ? false : true,
+      isTearsheet
+    });
   };
 }
 
