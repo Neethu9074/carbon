@@ -28,6 +28,7 @@ import EditableOptions from 'in-events/components/AIChat/EditableOptions';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import DisplayChart from 'in-events/components/AIChat/DisplayChart';
 import { spreadTimeConfig, concatQueries } from 'in-events/utils';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -339,6 +340,8 @@ function EventViewComponent(props) {
             switch (messageItem.user_defined?.user_defined_type) {
               case `editable_options`:
                 return <EditableOptions messageItem={messageItem} instance={instance} />;
+              case 'bar_chart':
+                return <DisplayChart messageItem={messageItem} />;
               default:
                 return undefined;
             }

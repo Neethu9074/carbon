@@ -11,7 +11,7 @@ import {
   DefinedTreeQuestions,
   handleDefinedTreeQuestions,
   InitialLoadOptions,
-  technologyOptions
+  reprompt
 } from 'in-events/components/AIChat/DefinedQuestions';
 import { sendAPIQuery, fetchAPIData, formatForTable } from 'in-events/components/AIChat/chatAPI';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
@@ -32,24 +32,33 @@ export async function CustomSendMessages(
   } else {
     instance.updateAssistantInputFieldVisibility(false);
   }
-  function sendMessage(text, restart) {
-    instance.messaging.addMessage(
+  async function sendTextMessage(text, restart) {
+    await instance.messaging.addMessage(
       {
         output: {
           generic: [
             {
               response_type: 'text',
               text: text
-            },
-            restart && technologyOptions
+            }
           ]
         }
       },
       { silent: false }
     );
+    if (restart) {
+      await instance.messaging.addMessage(
+        {
+          output: {
+            generic: reprompt
+          }
+        },
+        { silent: false }
+      );
+    }
   }
-  function sendError(errorMessage) {
-    instance.messaging.addMessage(
+  async function sendError(errorMessage) {
+    await instance.messaging.addMessage(
       {
         output: {
           generic: [
@@ -57,9 +66,17 @@ export async function CustomSendMessages(
               agent_message_type: 'inline_error',
               response_type: 'text',
               text: errorMessage
-            },
-            technologyOptions
+            }
           ]
+        }
+      },
+      { silent: false }
+    );
+
+    await instance.messaging.addMessage(
+      {
+        output: {
+          generic: reprompt
         }
       },
       { silent: false }
@@ -70,7 +87,7 @@ export async function CustomSendMessages(
   const userQuery = request.input.text;
   if (userQuery !== undefined && userQuery !== '' && !DefinedTreeQuestions.includes(userQuery)) {
     if (!automationActionAiGenerationUnitEnabled) {
-      sendMessage(t('in-events:aichat.youMustAccept'), false);
+      sendTextMessage(t('in-events:aichat.youMustAccept'), false);
       return;
     }
 
@@ -128,15 +145,23 @@ export async function CustomSendMessages(
           { silent: false }
         );
         fetchAPIData(response.api).once(
-          apiData => {
+          async apiData => {
             const tabular = formatForTable(apiData);
-            instance.messaging.removeMessages([statusMessageId]);
+            await instance.messaging.removeMessages([statusMessageId]);
             if (tabular.output?.generic?.[0]?.rows?.length == 0) {
-              sendMessage(t('in-events:aichat.noMatching'), true);
+              sendTextMessage(t('in-events:aichat.noMatching'), true);
             } else {
-              instance.messaging.addMessage(tabular, { silent: false });
+              await instance.messaging.addMessage(tabular, { silent: false });
+              await instance.messaging.addMessage(
+                {
+                  output: {
+                    generic: reprompt
+                  }
+                },
+                { silent: false }
+              );
             }
-            instance.updateCSSVariables({ 'BASE-width': '700px' });
+            await instance.updateCSSVariables({ 'BASE-width': '700px' });
           },
           apiError => {
             instance.messaging.removeMessages([statusMessageId]);
