@@ -21,17 +21,15 @@ import {
   CarbonEmptyState as EmptyState
 } from '@instana/components';
 import { DataSource, Group, Result, SavedFilter } from '@instana/types';
-import { useObservable } from '@instana/hooks';
 
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { DeleteFilterModal } from 'in-applications/analyze/components/SaveFilters/DeleteFilterModal';
 import { RenderIcon } from 'in-applications/analyze/components/SaveFilters/RenderIcon';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { setSelectedFilter } from 'in-applications/analyze/utils/filterUtils';
+import { setClickedFilter } from 'in-applications/analyze/utils/filterUtils';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import { getSavedFilters } from 'in-applications/api/filters';
 import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
@@ -40,14 +38,14 @@ import locals from 'in-applications/analyze/components/SaveFilters/SavedFilters.
 interface SavedFiltersProps {
   dataSource: DataSource;
   setUrlState: ({ groupBy, formModel }: { groupBy: Group | {}; formModel: FormModelElement[] }) => void;
+  setFilterToEdit: (filter: SavedFilter) => void;
+  result: Result<SavedFilter[]>;
 }
 
-export const SavedFilters = ({ dataSource, setUrlState }: SavedFiltersProps): JSX.Element => {
+export const SavedFilters = ({ dataSource, result, setUrlState, setFilterToEdit }: SavedFiltersProps): JSX.Element => {
   const [isFiltersListOpen, setIsFiltersListOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<SavedFilter[]>([]);
-
-  const result = useObservable(() => getSavedFilters(), []) as Result<SavedFilter[]>;
 
   useDisabledBodyScroll(isFiltersListOpen);
 
@@ -69,9 +67,8 @@ export const SavedFilters = ({ dataSource, setUrlState }: SavedFiltersProps): JS
   };
 
   const handleEdit = (event: React.MouseEvent, filter: SavedFilter) => {
-    //Need to test in pink in chrome
     stopPropagationAndPreventDefault(event);
-    setSelectedFilter('edit', filter);
+    setFilterToEdit(filter);
     setIsFiltersListOpen(false);
   };
 
@@ -90,7 +87,7 @@ export const SavedFilters = ({ dataSource, setUrlState }: SavedFiltersProps): JS
             groupBy: {}
           })
     });
-    setSelectedFilter('click', filter);
+    setClickedFilter(filter);
     setIsFiltersListOpen(false);
   };
 
