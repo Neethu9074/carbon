@@ -42,7 +42,7 @@ export default function TermsPageProfile({
   }
   return tealiumPrivacyEnabled ? (
     <Modal
-      className="disableClose"
+      className={locals.disableClose}
       modalLabel={t('in-settings:terms.preferences')}
       size="md"
       modalHeading={t('in-settings:termsDialog.termsPage4.heading')}

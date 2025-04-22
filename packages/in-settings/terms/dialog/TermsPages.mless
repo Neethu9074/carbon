@@ -110,7 +110,9 @@
       margin: -1rem 0 0 2rem;
     }
   }
-  :global(.disableClose) :global(.cds--modal-close) {
-    display: none !important;
+  .disableClose {
+    :global(.cds--modal-close) {
+      display: none;
+    }
   }
 }
