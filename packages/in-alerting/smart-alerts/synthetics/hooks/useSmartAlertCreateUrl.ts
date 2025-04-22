@@ -9,22 +9,23 @@ import { isEmpty } from 'lodash';
 import { SyntheticAlertConfigWithMetadata } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
+import useRemoveQueryFromNavigation, {
+  useCheckLocationPath
+} from 'in-alerting/smart-alerts/hooks/useRemoveQueryFromLocation';
 import { syntheticSmartAlertsFullScreen, syntheticSmartAlertsFullScreenPath } from 'in-synthetics/navigation/paths';
 import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import { alertCreated, isDuplicateMode, isEditMode, alertId } from 'in-synthetics/navigation/matrix';
 import generateAlertConfig from 'in-alerting/smart-alerts/synthetics/data/generateAlertConfig';
 import { AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { successObservable } from 'in-services/util/result';
 import { Location } from 'in-stores/navigation/types';
 import { Result } from 'in-types';
 
 export function useSmartAlertCreateUrl({ alertId, alertConfigCreated, duplicateMode, editMode }: AlertURLProps) {
-  const { createHref, location } = useNavigation();
-  const currentLocation = useLocation();
+  const isClearQueryPath = useCheckLocationPath(duplicateMode, editMode);
+  const { createHref, location, currentLocation } = useRemoveQueryFromNavigation(isClearQueryPath);
   const returnUrlWithParams = createHref(currentLocation);
   const navigateURL = updateCreatePathMatrixParams(
     location,

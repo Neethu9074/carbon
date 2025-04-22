@@ -20,11 +20,10 @@ import {
   isDuplicateMode,
   isEditMode
 } from 'in-applications/navigation/matrix';
+import useRemoveQueryFromNavigation from 'in-alerting/smart-alerts/hooks/useRemoveQueryFromLocation';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/components/list/constants';
 import { AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { smartAlertPath } from 'in-applications/navigation/paths';
@@ -56,8 +55,7 @@ export function useSmartAlertCreateUrl(): ({
   duplicateMode,
   editMode
 }: ApplicationAlertURLProps) => string {
-  const { createHref, location } = useNavigation();
-  const currentLocation = useLocation();
+  const { createHref, location, currentLocation } = useRemoveQueryFromNavigation();
 
   return useCallback(
     ({

@@ -18,13 +18,14 @@ import {
   tagFilters as tag_filters,
   mobileAppId as mobileApp_id
 } from 'in-mobile-apps/navigation/matrix';
+import useRemoveQueryFromNavigation, {
+  useCheckLocationPath
+} from 'in-alerting/smart-alerts/hooks/useRemoveQueryFromLocation';
 import { mobileAppSmartAlertsFullScreenFullyQualified, mobileAppSmartAlerts } from 'in-mobile-apps/navigation/paths';
 import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
 import { generateAlertConfig } from 'in-alerting/smart-alerts/mobileApp/data/sharedFunctions';
 import { BluePrint } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { successObservable } from 'in-services/util/result';
 import { Location } from 'in-stores/navigation/types';
@@ -48,8 +49,8 @@ export function useSmartAlertCreateUrl({
   customEventName,
   tagFilters
 }: AlertURLProps) {
-  const { createHref, location } = useNavigation();
-  const currentLocation = useLocation();
+  const isClearQueryPath = useCheckLocationPath();
+  const { createHref, location, currentLocation } = useRemoveQueryFromNavigation(isClearQueryPath);
   const returnUrlWithParams = createHref(currentLocation);
   const navigateURL = updateCreatePathMatrixParams(
     location,

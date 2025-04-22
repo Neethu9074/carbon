@@ -20,6 +20,9 @@ import {
   errorId as error_id,
   tagFilters as tag_filters
 } from 'in-websites/navigation/matrix';
+import useRemoveQueryFromNavigation, {
+  useCheckLocationPath
+} from 'in-alerting/smart-alerts/hooks/useRemoveQueryFromLocation';
 import { websiteSmartAlerts, websiteSmartAlertsFullScreenFullyQualified } from 'in-websites/navigation/paths';
 import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
@@ -27,8 +30,6 @@ import { generateAlertConfig } from 'in-alerting/smart-alerts/websites/TearSheet
 import { AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { BluePrint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { successObservable } from 'in-services/util/result';
 import { Location } from 'in-stores/navigation/types';
@@ -52,8 +53,8 @@ export function useSmartAlertCreateUrl({
   errorId,
   tagFilters
 }: WebsiteAlertURLProps) {
-  const { createHref, location } = useNavigation();
-  const currentLocation = useLocation();
+  const isClearQueryPath = useCheckLocationPath();
+  const { createHref, location, currentLocation } = useRemoveQueryFromNavigation(isClearQueryPath);
   const returnUrlWithParams = createHref(currentLocation);
   const navigateURL = updateCreatePathMatrixParams(
     location,

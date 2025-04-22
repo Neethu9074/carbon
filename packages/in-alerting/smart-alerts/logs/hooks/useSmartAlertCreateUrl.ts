@@ -10,21 +10,20 @@ import { useObservable } from '@instana/hooks';
 
 import { logSmartAlertsFullScreen, logSmartAlertsFullScreenFullyQualifiedPath } from 'in-logging/navigation/paths';
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
+import useRemoveQueryFromNavigation from 'in-alerting/smart-alerts/hooks/useRemoveQueryFromLocation';
 import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import { alertCreated, isDuplicateMode, isEditMode, alertId } from 'in-logging/navigation/matrix';
 import generateAlertConfig from 'in-alerting/smart-alerts/logs/data/generateAlertConfig';
 import { AlertURLProps } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { cancelUrl } from 'in-alerting/smart-alerts/components/list/constants';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { successObservable } from 'in-services/util/result';
 import { Location } from 'in-stores/navigation/types';
 import { Result } from 'in-types';
 
 export function useSmartAlertCreateUrl({ alertId, alertConfigCreated, duplicateMode, editMode }: AlertURLProps) {
-  const { createHref, location } = useNavigation();
-  const currentLocation = useLocation();
+  const { createHref, location, currentLocation } = useRemoveQueryFromNavigation();
+
   const returnUrlWithParams = createHref(currentLocation);
   const navigateURL = updateCreatePathMatrixParams(
     location,
