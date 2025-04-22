@@ -51,7 +51,7 @@
   .toggleBar {
     width: 3rem;
     border-right: 1px solid #d5dfe4;
-    z-index: 125;
+    z-index: 123;
   }
 
   .toggleWrapper {
