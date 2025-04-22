@@ -12,7 +12,11 @@ import memoize from 'in-services/util/memoizingObservableGenerator';
 
 const API_BASE_PATH_AUTH = '/api/settings/authentication';
 
-const refreshSignal = create().emit(true);
+const refreshSignal = create<number>().emit(0);
+
+export function refreshAuthOverview() {
+  refreshSignal.emit(refreshSignal._lastEmittedValue ?? 0 + 1);
+}
 
 function getAuthOverviewInternal(): Observable<Result<AuthenticationOverview>> {
   return refreshSignal.flatMap(() =>
@@ -28,6 +32,6 @@ function getAuthOverviewInternal(): Observable<Result<AuthenticationOverview>> {
 
 export const getAuthOverview = memoize<void, Result<AuthenticationOverview>>(
   getAuthOverviewInternal,
-  () => 'AuthOverview',
+  () => `${refreshSignal._lastEmittedValue}`,
   minutes.toMillis(1)
 );

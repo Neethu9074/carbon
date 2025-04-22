@@ -8,7 +8,7 @@ import { ValidationResult } from 'formalistic';
 import React from 'react';
 
 import { Observable } from '@instana/observables';
-import { Error, Result } from '@instana/types';
+import { Error, IdpState, Result } from '@instana/types';
 import { Link } from '@instana/components';
 
 import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/configuredIdPCheck';
@@ -22,13 +22,13 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { ApiItemMessage } from 'in-settings/types';
 import { PendingInvitation } from 'in-api/users';
 import { t, Trans } from 'in-i18n';
+import { isIdpActive } from 'in-settings/utils/idp';
 
 interface IdpConfiguration {
   title: string;
   disabledTitle: string;
   description: string;
-  isActive: boolean | null | undefined;
-  isAvailableToConfigure: boolean;
+  idpState: IdpState;
   helpDoc?: JSX.Element;
   IdpComponent: JSX.Element;
   isAnotherIdpActivated: boolean;
@@ -115,57 +115,49 @@ export const LdapHelpDoc = () => (
 );
 
 export const getIdpTilesInfo = (
-  isGoogleSSOAvailable: boolean,
-  isSamlAvailable: boolean,
-  isOidcAvailable: boolean,
-  isLdapAvailable: boolean,
-  isGoogleSSOActive: boolean | null | undefined,
-  isSamlActive: boolean | null | undefined,
-  isOidcActive: boolean | null | undefined,
-  isLdapActive: boolean | null | undefined,
+  ldap: IdpState,
+  oidc: IdpState,
+  saml: IdpState,
+  sso: IdpState,
   handleFormUpdate: () => void
 ): IdpConfiguration[] => [
   {
     title: t('in-settings:tabs.authenticationProviders.googleSSOTileTitle'),
     description: t('in-settings:tabs.authenticationProviders.googleSSOTileDescription'),
-    isActive: isGoogleSSOActive,
-    isAvailableToConfigure: isGoogleSSOAvailable,
     IdpComponent: <GoogleSSODialog />,
-    isAnotherIdpActivated: isAnotherIdpActivated([isOidcActive, isSamlActive, isLdapActive]),
+    isAnotherIdpActivated: isAnotherIdpActivated([isIdpActive(oidc), isIdpActive(saml), isIdpActive(ldap)]),
     disabledTitle: t('in-settings:tabs.authenticationProviders.cannotConfigureIdpIfAnotherOneIsAlreadyActive'),
-    id: 'googleSSO'
+    id: 'googleSSO',
+    idpState: sso
   },
   {
     title: t('in-settings:tabs.authenticationProviders.samlTileTitle'),
     description: t('in-settings:tabs.authenticationProviders.samlTileDescription'),
-    isActive: isSamlActive,
-    isAvailableToConfigure: isSamlAvailable,
     helpDoc: <SamlHelpDoc />,
-    IdpComponent: <SamlDialog isActive={isSamlActive ?? false} onFormUpdate={handleFormUpdate} />,
-    isAnotherIdpActivated: isAnotherIdpActivated([isOidcActive, isLdapActive]),
+    IdpComponent: <SamlDialog isActive={isIdpActive(saml)} onFormUpdate={handleFormUpdate} />,
+    isAnotherIdpActivated: isAnotherIdpActivated([isIdpActive(oidc), isIdpActive(ldap)]),
     disabledTitle: t('in-settings:tabs.cannotConfigureSamlIfAnotherOneIsAlreadyActive'),
-    id: 'saml'
+    id: 'saml',
+    idpState: saml
   },
   {
     title: t('in-settings:tabs.authenticationProviders.oidcTileTitle'),
     description: t('in-settings:tabs.authenticationProviders.oidcTileDescription'),
-    isActive: isOidcActive,
-    isAvailableToConfigure: isOidcAvailable,
-    IdpComponent: <OIDCDialog isActive={isOidcActive ?? false} onFormUpdate={handleFormUpdate} />,
-    isAnotherIdpActivated: isAnotherIdpActivated([isSamlActive, isLdapActive]),
+    IdpComponent: <OIDCDialog isActive={isIdpActive(oidc)} onFormUpdate={handleFormUpdate} />,
+    isAnotherIdpActivated: isAnotherIdpActivated([isIdpActive(saml), isIdpActive(ldap)]),
     disabledTitle: t('in-settings:tabs.cannotConfigureOidcIfAnotherOneIsAlreadyActive'),
-    id: 'oidc'
+    id: 'oidc',
+    idpState: oidc
   },
   {
     title: t('in-settings:tabs.authenticationProviders.ldapTileTitle'),
     description: t('in-settings:tabs.authenticationProviders.ldapTileDescription'),
-    isActive: isLdapActive,
-    isAvailableToConfigure: isLdapAvailable,
     helpDoc: <LdapHelpDoc />,
-    IdpComponent: <LdapDialog isActive={isLdapActive ?? false} onFormUpdate={handleFormUpdate} />,
-    isAnotherIdpActivated: isAnotherIdpActivated([isSamlActive, isOidcActive]),
+    IdpComponent: <LdapDialog isActive={isIdpActive(ldap)} onFormUpdate={handleFormUpdate} />,
+    isAnotherIdpActivated: isAnotherIdpActivated([isIdpActive(saml), isIdpActive(oidc)]),
     disabledTitle: t('in-settings:tabs.ldapCannotbeConfiguredWithOtherIdPActive'),
-    id: 'ldap'
+    id: 'ldap',
+    idpState: ldap
   }
 ];
 

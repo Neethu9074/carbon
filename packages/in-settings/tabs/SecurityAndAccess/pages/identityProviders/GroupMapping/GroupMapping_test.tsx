@@ -18,12 +18,10 @@ import {
   IdentityProviderPatch,
   IdpGroupMapping
 } from 'in-settings/tabs/SecurityAndAccess/api/groupMappings';
-import { getConfigAsResultObservableNotMemoized as ldapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
 import GroupMapping from 'in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMapping/GroupMapping';
-import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
-import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import { getGroupsAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/groups';
 import { t } from 'in-i18n';
+import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
 
 jest.mock('in-settings/tabs/SecurityAndAccess/api/groupMappings');
 jest.mock('in-settings/tabs/SecurityAndAccess/api/groups');
@@ -40,20 +38,6 @@ function getLoadedResult(data: any) {
     data
   };
 }
-
-const setIdpsAvailability = (value: any) => {
-  const saml = create();
-  saml.emit(getLoadedResult({ activated: value }));
-  (samlConfig as jest.Mock).mockReturnValue(saml);
-
-  const oidc = create();
-  oidc.emit(getLoadedResult({ activated: value }));
-  (oidcConfig as jest.Mock).mockReturnValue(oidc);
-
-  const ldap = create();
-  ldap.emit(getLoadedResult({ url: value ? 'ldap://ldap.foo.com' : null }));
-  (ldapConfig as jest.Mock).mockReturnValue(ldap);
-};
 
 const setMappingsFromServer = (value: any) => {
   const obs = create();
@@ -80,6 +64,17 @@ enum IdpMappingField {
 }
 
 describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMapping/GroupMapping', () => {
+  const DEFAULT_VIEW_PROPS: ViewProps = {
+    defaultLogin: false,
+    ldap: 'AVAILABLE',
+    oidc: 'AVAILABLE',
+    saml: 'AVAILABLE',
+    sso: 'AVAILABLE',
+    isGoogleSSOAvailable: true,
+    isLdapAvailable: true,
+    isOidcAvailable: true,
+    isSamlAvailable: true
+  };
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -100,9 +95,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMappin
       })
     );
 
-    setIdpsAvailability(true);
-
-    render(<GroupMapping />);
+    render(<GroupMapping {...DEFAULT_VIEW_PROPS} ldap="ACTIVE" />);
 
     expect(screen.getByDisplayValue('Akey')).toBeInTheDocument();
     expect(screen.getByDisplayValue('AValue')).toBeInTheDocument();
@@ -123,8 +116,6 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMappin
 
     setMappingsFromServer(getLoadedResult([{ id: 'ABC', key: 'Akey', value: 'AValue', groupId: 'InstaGroupA' }]));
 
-    setIdpsAvailability(true);
-
     setGroupsFromServer(
       getLoadedResult([
         { id: 'InstaGroupA', name: 'Instana Group A' },
@@ -139,7 +130,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMappin
       })
     );
 
-    const groupMappingScreen = render(<GroupMapping />);
+    const groupMappingScreen = render(<GroupMapping {...DEFAULT_VIEW_PROPS} ldap="ACTIVE" />);
 
     setKeyAt(1, 'MyNewKey');
     setValueAt(1, 'MyNewValue');
@@ -165,8 +156,6 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMappin
 
     setMappingsFromServer(getLoadedResult([{ id: 'ABC', key: 'Akey', value: 'AValue', groupId: 'InstaGroupA' }]));
 
-    setIdpsAvailability(true);
-
     setGroupsFromServer(
       getLoadedResult([
         { id: 'InstaGroupA', name: 'Instana Group A' },
@@ -181,7 +170,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMappin
       })
     );
 
-    const groupMappingScreen = render(<GroupMapping />);
+    const groupMappingScreen = render(<GroupMapping {...DEFAULT_VIEW_PROPS} ldap="ACTIVE" />);
 
     const addRowButton = groupMappingScreen.getByText(t('in-settings:tabs.addGroupMapping'));
     clickOn(addRowButton);
@@ -224,7 +213,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMappin
       ])
     );
 
-    const groupMappingScreen = render(<GroupMapping />);
+    const groupMappingScreen = render(<GroupMapping {...DEFAULT_VIEW_PROPS} ldap="ACTIVE" />);
 
     const selector = `table > tbody > tr:nth-child(1) > td:nth-child(4) svg`;
     const deleteButton = document.querySelector(selector);
@@ -242,8 +231,6 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMappin
 
     setMappingsFromServer(getLoadedResult([{ key: 'Akey', value: 'AValue', groupId: 'InstaGroupA' }]));
 
-    setIdpsAvailability(true);
-
     setGroupsFromServer(
       getLoadedResult([
         { id: 'InstaGroupA', name: 'Instana Group A' },
@@ -258,7 +245,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMappin
       })
     );
 
-    render(<GroupMapping />);
+    render(<GroupMapping {...DEFAULT_VIEW_PROPS} ldap="ACTIVE" />);
 
     const denyCheckBox = screen.getByLabelText(t('in-settings:tabs.denyUserWithNoGroup'));
     clickOn(denyCheckBox);
@@ -280,8 +267,6 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMappin
 
     setMappingsFromServer(getLoadedResult([]));
 
-    setIdpsAvailability(false);
-
     setGroupsFromServer(getLoadedResult([]));
 
     setIdpFromServer(
@@ -290,7 +275,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/identityProviders/GroupMappin
       })
     );
 
-    render(<GroupMapping />);
+    render(<GroupMapping {...DEFAULT_VIEW_PROPS} />);
 
     expect(screen.getByText(t('in-settings:tabs.failIfNoIdp'))).toBeInTheDocument();
   });

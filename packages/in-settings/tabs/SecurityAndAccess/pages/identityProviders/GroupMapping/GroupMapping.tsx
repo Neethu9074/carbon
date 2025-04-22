@@ -39,9 +39,6 @@ import {
   IdentityProviderPatch
 } from 'in-settings/tabs/SecurityAndAccess/api/groupMappings';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { getConfigAsResultObservableNotMemoized as ldapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
-import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
-import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getGroupsAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/groups';
 // @ts-expect-error
@@ -63,6 +60,8 @@ import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';
 
 import locals from './GroupMapping.mless';
+import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
+import { isIdpActive } from 'in-settings/utils/idp';
 
 interface InstanaGroup {
   id: string;
@@ -75,6 +74,10 @@ interface GroupMappingTableProps extends ServerTablePresenterProps<MapForm<any>>
   getRowIndex: (payloadField: Item) => number;
   updateIn: (path: string[], updater: (item: Item) => Item) => void;
   deleteRow: (toBeDeleted: MapForm<any>) => void;
+}
+
+interface EnrichFormProps extends ViewProps {
+  result: any;
 }
 
 const DENY_ACCESS = 'denyAccess';
@@ -90,7 +93,7 @@ interface RenderProps {
   readonly setForm: (newForm: MapForm<any>) => void;
 }
 
-export default function GroupMapping() {
+export default function GroupMapping(props: ViewProps) {
   const [page, setPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string | undefined>('');
   const { trackCta } = useSegmentTracking();
@@ -100,10 +103,7 @@ export default function GroupMapping() {
     const apis = {
       mappings: getMappings(),
       instanaGroups: getGroupsAsResultObservable(),
-      denyCheck: getIdpRestriction(),
-      samlConfig: samlConfig(undefined),
-      ldapConfig: ldapConfig(),
-      oidcConfig: oidcConfig(undefined)
+      denyCheck: getIdpRestriction()
     };
     const observableKeys: any = Object.keys(apis);
     const observableValues: any = Object.values(apis);
@@ -332,12 +332,19 @@ export default function GroupMapping() {
   }
 
   return (
-    <ApiItemView enrichForm={enrichForm} onCancelClick={refresh} saveItem={saveItem} render={render} result={data} />
+    <ApiItemView
+      enrichForm={enrichForm}
+      onCancelClick={refresh}
+      saveItem={saveItem}
+      render={render}
+      result={data}
+      {...props}
+    />
   );
 
-  function enrichForm(_form: MapForm<any>, { result }: { result: any }) {
-    const hasIdp = result.samlConfig?.activated || result.oidcConfig?.activated || result.ldapConfig?.url;
-    if (!hasIdp) {
+  function enrichForm(_form: MapForm<any>, { result, ldap, oidc, saml }: EnrichFormProps) {
+    const isIdpActiveOtherThanSSO = isIdpActive(ldap) || isIdpActive(oidc) || isIdpActive(saml);
+    if (!isIdpActiveOtherThanSSO) {
       return createMapForm({ items: { hasIdp: createField({ value: false }) } });
     }
 
