@@ -13,9 +13,12 @@ import { SvgIcon } from '@instana/components';
 import {
   CommentList,
   ChatBubble,
-  EditDeleteOverflowMenu
+  EditDeleteOverflowMenu,
+  EntryIcon
 } from 'in-events/components/NotesAndActivity/components/CommentList';
+import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_AI_SUMMARY } from 'in-events/components/NotesAndActivity/utils';
 import { ExternalNote } from 'in-events/components/NotesAndActivity/components/NoteTypes/ExternalNote';
+import { WatsonAIAvatar } from 'in-events/components/NotesAndActivity/components/NoteTypes/AISummary';
 
 import locals from './CommentList.mless';
 
@@ -50,7 +53,7 @@ describe('ChatBubble', () => {
         type="note"
         noteObj={{
           author: 'John Doe',
-          type: 'note',
+          type: TYPE_NOTE,
           contents: 'Hello',
           timestamp: 1717523244282
         }}
@@ -73,7 +76,7 @@ describe('ChatBubble', () => {
         type="external_note"
         noteObj={{
           author: 'John Doe',
-          type: 'external_note',
+          type: TYPE_EXT_NOTE,
           contents: 'Hello',
           timestamp: 1717523244282,
           label: 'Ext Note'
@@ -97,7 +100,7 @@ describe('ChatBubble', () => {
         type="ai_summary"
         noteObj={{
           author: 'John Doe',
-          type: 'external_note',
+          type: TYPE_EXT_NOTE,
           data: [
             new Map([
               ['entitySummary', 'This is an ai generated message'],
@@ -126,7 +129,7 @@ describe('ChatBubble', () => {
         type="external_field_change"
         noteObj={{
           author: 'John Doe',
-          type: 'external_note',
+          type: TYPE_EXT_NOTE,
           contents: 'This is an ai generated message',
           timestamp: 1717523244282,
           label: 'Updated Status',
@@ -163,14 +166,14 @@ describe('CommentList', () => {
       {
         author: 'John Doe',
         authorId: 'asdf',
-        type: 'note',
+        type: TYPE_NOTE,
         contents: 'This is a test note.',
         timestamp: 1717523244282
       },
       {
         author: 'Jane Doe',
         authorId: 'asdfasdf',
-        type: 'note',
+        type: TYPE_NOTE,
         note: 'This is another test note.',
         timestamp: 1717523244282
       }
@@ -180,9 +183,9 @@ describe('CommentList', () => {
     expect(wrapper.find(`div.${locals.myChatEntry}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.chatEntryInfo}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.chatEntryInfo}`).at(0).text()).toEqual('Jane Doe 2024-06-04, 19:47:24');
-    expect(wrapper.find(`div.${locals.myChatEntryInfo}`)).toHaveLength(1);
-    expect(wrapper.find(`div.${locals.myChatEntryInfo}`).at(0).text()).toEqual('You 2024-06-04, 19:47:24');
-    expect(wrapper.find(SvgIcon)).toHaveLength(1);
+    expect(wrapper.find(`div.${locals.myChatEntryInfo}`)).toHaveLength(2);
+    expect(wrapper.find(`div.${locals.myChatEntryInfo}`).at(1).text()).toEqual('You 2024-06-04, 19:47:24');
+    expect(wrapper.find(EntryIcon)).toHaveLength(2);
     expect(wrapper.find(ChatBubble)).toHaveLength(2);
   });
 
@@ -192,7 +195,141 @@ describe('CommentList', () => {
     expect(wrapper.find(`div.${locals.chatEntry}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.myChatEntry}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.chatEntryInfo}`)).toHaveLength(0);
-    expect(wrapper.find(SvgIcon)).toHaveLength(0);
+    expect(wrapper.find(EntryIcon)).toHaveLength(0);
     expect(wrapper.find(ChatBubble)).toHaveLength(0);
+  });
+});
+
+describe('EntryIcon', () => {
+  it('renders without errors', () => {
+    shallow(<EntryIcon />);
+  });
+
+  it('renders neither SvgIcon or watson avatar', () => {
+    const wrapper = shallow(<EntryIcon displayIcon={false} note={{}} />);
+    expect(wrapper.find(SvgIcon)).toHaveLength(0);
+    expect(wrapper.find(WatsonAIAvatar)).toHaveLength(0);
+  });
+
+  it('renders the watson avatar', () => {
+    const wrapper = shallow(
+      <EntryIcon
+        displayIcon={false}
+        note={{
+          author: 'John Doe',
+          type: TYPE_AI_SUMMARY,
+          contents: 'Hello',
+          timestamp: 1717523244282
+        }}
+      />
+    );
+    expect(wrapper.find(WatsonAIAvatar)).toHaveLength(1);
+    expect(wrapper.find(SvgIcon)).toHaveLength(0);
+  });
+
+  it('renders the nothing because its a message by this user', () => {
+    const wrapper = shallow(
+      <EntryIcon
+        displayIcon={false}
+        note={{
+          author: 'John Doe',
+          type: TYPE_NOTE,
+          contents: 'Hello',
+          timestamp: 1717523244282
+        }}
+      />
+    );
+    expect(wrapper.find(WatsonAIAvatar)).toHaveLength(0);
+    expect(wrapper.find(SvgIcon)).toHaveLength(0);
+  });
+
+  it('renders the ai summary only even if on accident displayIcon is true', () => {
+    const wrapper = shallow(
+      <EntryIcon
+        displayIcon
+        note={{
+          author: 'John Doe',
+          type: TYPE_AI_SUMMARY,
+          contents: 'Hello',
+          timestamp: 1717523244282
+        }}
+      />
+    );
+    expect(wrapper.find(WatsonAIAvatar)).toHaveLength(1);
+    expect(wrapper.find(SvgIcon)).toHaveLength(0);
+  });
+
+  it('renders the lib_actions_user icon', () => {
+    const wrapper = shallow(
+      <EntryIcon
+        displayIcon
+        note={{
+          author: 'John Doe',
+          type: TYPE_NOTE,
+          contents: 'Hello',
+          timestamp: 1717523244282
+        }}
+      />
+    );
+    expect(wrapper.find(WatsonAIAvatar)).toHaveLength(0);
+    expect(wrapper.find(SvgIcon)).toHaveLength(1);
+    expect(wrapper.find(SvgIcon).props()).toEqual(
+      expect.objectContaining({
+        className: 'local-css-userIcon',
+        size: 'xs',
+        type: 'lib_actions_user',
+        viewBox: '0 0 16 16'
+      })
+    );
+  });
+
+  it('renders the lib_slack_icon icon', () => {
+    const wrapper = shallow(
+      <EntryIcon
+        displayIcon
+        note={{
+          author: 'John Doe',
+          type: TYPE_NOTE,
+          contents: 'Hello',
+          timestamp: 1717523244282,
+          origin: 'Slack'
+        }}
+      />
+    );
+    expect(wrapper.find(WatsonAIAvatar)).toHaveLength(0);
+    expect(wrapper.find(SvgIcon)).toHaveLength(1);
+    expect(wrapper.find(SvgIcon).props()).toEqual(
+      expect.objectContaining({
+        className: '',
+        size: 'xs',
+        type: 'lib_slack_icon',
+        viewBox: '4 4 24 24'
+      })
+    );
+  });
+
+  it('renders the lib_snow_icon icon', () => {
+    const wrapper = shallow(
+      <EntryIcon
+        displayIcon
+        note={{
+          author: 'John Doe',
+          type: TYPE_NOTE,
+          contents: 'Hello',
+          timestamp: 1717523244282,
+          origin: 'ServiceNow'
+        }}
+      />
+    );
+    expect(wrapper.find(WatsonAIAvatar)).toHaveLength(0);
+    expect(wrapper.find(SvgIcon)).toHaveLength(1);
+    expect(wrapper.find(SvgIcon).props()).toEqual(
+      expect.objectContaining({
+        className: 'local-css-snowIcon',
+        size: 'sm',
+        type: 'lib_snow_icon',
+        viewBox: '0 0 24 24'
+      })
+    );
   });
 });
