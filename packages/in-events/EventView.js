@@ -48,6 +48,8 @@ import { getEvent } from 'in-stores/events';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
 
+import locals from './EventView.mless';
+
 export default function LegacyEventViewMigration(props) {
   const query = get(props, ['location', 'query']);
   const eventId = getMatrixParameter(props.location, eventsPath, 'eventId');
@@ -142,7 +144,8 @@ function EventViewComponent(props) {
     messaging: {
       disablePDFViewer: true,
       customSendMessage: CustomSendMessages
-    }
+    },
+    showLauncher: false
   };
   // Table sort for AI Chat
   function customSortRow(lhs, rhs, collator) {
@@ -261,6 +264,7 @@ function EventViewComponent(props) {
     },
     [eventType, query, orderBy, orderDirection, staticTimeConfigToUseForTable, timeConfig, filter]
   );
+
   const tableProps = useCursorPagination(fetchEvents, [
     eventType,
     query,
@@ -331,6 +335,74 @@ function EventViewComponent(props) {
             // TODO -- Update this once aichat packages version bumps where new function
             // allows you to cancel all together
             instance.showLauncherGreetingMessage(100000000000000, 'desktop');
+
+            const launcherElement = document.getElementById('Launcher');
+            launcherElement.addEventListener('click', openMainWindow);
+            instance.on({ type: 'view:change', handler: onLoad });
+
+            function openMainWindow() {
+              instance?.changeView('mainWindow');
+            }
+            function onLoad() {
+              instance.render();
+              instance.on({ type: 'view:change', handler: viewChangeHandler });
+            }
+            function viewChangeHandler(event) {
+              if (event.newViewState.mainWindow) {
+                launcherElement.style.display = 'none';
+              } else {
+                launcherElement.style.display = '';
+              }
+            }
+
+            // Make the DIV element draggable:
+            dragElement(document.getElementById('mydiv'));
+
+            function dragElement(elmnt) {
+              var pos1 = 0,
+                pos2 = 0,
+                pos3 = 0,
+                pos4 = 0;
+              if (document.getElementById(elmnt.id + 'header')) {
+                // if present, the header is where you move the DIV from:
+                document.getElementById(elmnt.id + 'header').onmousedown = dragMouseDown;
+              } else {
+                // otherwise, move the DIV from anywhere inside the DIV:
+                elmnt.onmousedown = dragMouseDown;
+              }
+
+              function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // get the mouse cursor position at startup:
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                // call a function whenever the cursor moves:
+                document.onmousemove = elementDrag;
+              }
+
+              function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // calculate the new cursor position:
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                // set the element's new position:
+                elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
+                elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
+                elmnt.style.right = 'auto';
+                elmnt.style.bottom = 'auto';
+              }
+
+              function closeDragElement() {
+                // stop moving when mouse button is released:
+                document.onmouseup = null;
+                document.onmousemove = null;
+              }
+            }
           }}
           renderUserDefinedResponse={({ messageItem }, instance) => {
             if (!messageItem) {
@@ -345,6 +417,11 @@ function EventViewComponent(props) {
           }}
         />
       )}
+      <div id="mydiv" className={locals.aiChatDraggableDiv}>
+        <button className={locals.aiChatDraggableButton} id="Launcher" type="button">
+          Open web chat
+        </button>
+      </div>
     </Sticky>
   );
 }
