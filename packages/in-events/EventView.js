@@ -6,10 +6,10 @@
 import React, { useMemo, useEffect, useCallback } from 'react';
 import { get, isEmpty } from 'lodash';
 
+import { Stack, SvgIcon } from '@instana/components';
 import { ChatContainer } from '@instana/ai-chat';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
-import { Stack } from '@instana/components';
 
 // This function returns a React component for user defined responses.
 import {
@@ -306,21 +306,6 @@ function EventViewComponent(props) {
           config={config}
           onAfterRender={instance => {
             instance.on({
-              type: 'window:open',
-              handler: () => {
-                const elements = document.getElementsByTagName('cds-aichat-internal');
-                if (elements.length === 1) {
-                  const movable = elements[0].shadowRoot.getElementById('WACWidget');
-                  movable.style.right = `32px`;
-                  movable.style.bottom = `32px`;
-                }
-                // Still need to wait for render
-                setTimeout(() => {
-                  setDragListener();
-                }, 500);
-              }
-            });
-            instance.on({
               type: 'receive',
               handler: msg => {
                 if (msg.data?.output?.generic?.[0]?.response_type === 'table') {
@@ -336,12 +321,25 @@ function EventViewComponent(props) {
             // allows you to cancel all together
             instance.showLauncherGreetingMessage(100000000000000, 'desktop');
 
-            const launcherElement = document.getElementById('Launcher');
+            let isDragging = false;
+            const launcherElement = document.getElementById('aiChatLauncher');
             launcherElement.addEventListener('click', openMainWindow);
             instance.on({ type: 'view:change', handler: onLoad });
-
             function openMainWindow() {
-              instance?.changeView('mainWindow');
+              if (!isDragging) {
+                instance?.changeView('mainWindow');
+                launcherElement.style.display = 'none';
+                const elements = document.getElementsByTagName('cds-aichat-internal');
+                if (elements.length === 1) {
+                  const movable = elements[0].shadowRoot.getElementById('WACWidget');
+                  movable.style.right = `32px`;
+                  movable.style.bottom = `32px`;
+                }
+                // Still need to wait for render
+                setTimeout(() => {
+                  setDragListener();
+                }, 500);
+              }
             }
             function onLoad() {
               instance.render();
@@ -355,53 +353,47 @@ function EventViewComponent(props) {
               }
             }
 
-            // Make the DIV element draggable:
-            dragElement(document.getElementById('mydiv'));
-
+            dragElement(document.getElementById('aiChatDraggableDiv'));
             function dragElement(elmnt) {
               var pos1 = 0,
                 pos2 = 0,
                 pos3 = 0,
                 pos4 = 0;
-              if (document.getElementById(elmnt.id + 'header')) {
-                // if present, the header is where you move the DIV from:
-                document.getElementById(elmnt.id + 'header').onmousedown = dragMouseDown;
-              } else {
-                // otherwise, move the DIV from anywhere inside the DIV:
-                elmnt.onmousedown = dragMouseDown;
-              }
 
-              function dragMouseDown(e) {
+              const dragMouseDown = e => {
                 e = e || window.event;
                 e.preventDefault();
-                // get the mouse cursor position at startup:
+                // Get position on start and call function on move
                 pos3 = e.clientX;
                 pos4 = e.clientY;
                 document.onmouseup = closeDragElement;
-                // call a function whenever the cursor moves:
                 document.onmousemove = elementDrag;
-              }
-
-              function elementDrag(e) {
+              };
+              const elementDrag = e => {
+                isDragging = true;
                 e = e || window.event;
                 e.preventDefault();
-                // calculate the new cursor position:
+                // Determine new cursor position and then
+                // set the elements position
                 pos1 = pos3 - e.clientX;
                 pos2 = pos4 - e.clientY;
                 pos3 = e.clientX;
                 pos4 = e.clientY;
-                // set the element's new position:
                 elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
                 elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
                 elmnt.style.right = 'auto';
                 elmnt.style.bottom = 'auto';
-              }
-
-              function closeDragElement() {
-                // stop moving when mouse button is released:
+              };
+              const closeDragElement = () => {
+                // When click is released stop moving
                 document.onmouseup = null;
                 document.onmousemove = null;
-              }
+                // Set a slight delay so then a second click would open the chat
+                setTimeout(() => {
+                  isDragging = false;
+                }, 25);
+              };
+              elmnt.onmousedown = dragMouseDown;
             }
           }}
           renderUserDefinedResponse={({ messageItem }, instance) => {
@@ -417,9 +409,9 @@ function EventViewComponent(props) {
           }}
         />
       )}
-      <div id="mydiv" className={locals.aiChatDraggableDiv}>
-        <button className={locals.aiChatDraggableButton} id="Launcher" type="button">
-          Open web chat
+      <div id="aiChatDraggableDiv" className={locals.aiChatDraggableDiv}>
+        <button className={locals.aiChatDraggableButton} id="aiChatLauncher" type="button">
+          <SvgIcon type={'lib_message_send'} size="s" />
         </button>
       </div>
     </Sticky>
