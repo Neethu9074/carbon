@@ -124,6 +124,11 @@ export function UsageBanner({ message }: UsageBannerProps) {
               {t('in-plg:licenseBanner.share')}
             </CarbonButton>
           </Tooltip>
+          {showGetAnswers && (
+            <>
+              <div className={locals.verticalLine} /> <AssistMe />
+            </>
+          )}
           <div className={locals.verticalLine} />
           <div className={locals.subText}>
             <Trans
