@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -19,6 +19,20 @@ export default function SharingDialog({ config, onSubmit }) {
     accessRules: config.accessRules,
     selectedUserId: ''
   }));
+
+  const [changesMade, setChangesMade] = useState(false);
+
+  useEffect(() => {
+    if (!accessRules || !config.accessRules) return;
+
+    const valueChanged = accessRules.toString() !== config.accessRules.toString();
+
+    if (!changesMade && valueChanged) {
+      setChangesMade(true);
+    } else if (changesMade && !valueChanged) {
+      setChangesMade(false);
+    }
+  }, [accessRules, config.accessRules, changesMade]);
 
   return (
     <SharingDialogPresenter
@@ -37,6 +51,7 @@ export default function SharingDialog({ config, onSubmit }) {
         close();
         onSubmit(accessRules);
       }}
+      changesMade={changesMade}
     />
   );
 }

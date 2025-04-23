@@ -28,10 +28,11 @@ interface SharingDialogPresenterProps {
   addEditor: () => void;
   removeEditor: () => void;
   accessRules: AccessRule[];
+  changesMade: boolean;
 }
 
 export default function SharingDialogPresenter(props: SharingDialogPresenterProps) {
-  const { isPrivate, setPrivate, onSubmit, isUsingAdvancedAccessRules, userIsDashboardOwner } = props;
+  const { isPrivate, setPrivate, onSubmit, isUsingAdvancedAccessRules, userIsDashboardOwner, changesMade } = props;
 
   return (
     <Dialog
@@ -79,7 +80,7 @@ export default function SharingDialogPresenter(props: SharingDialogPresenterProp
           <Button onClick={close} kind="secondary" className={locals.button}>
             {t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.cancel')}
           </Button>
-          <Button kind="primary" type="submit" className={locals.button}>
+          <Button kind="primary" type="submit" className={locals.button} disabled={!changesMade}>
             {t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.save')}
           </Button>
         </Actions>
