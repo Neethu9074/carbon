@@ -16921,7 +16921,7 @@
         "httpWorkloadDes": "The workload for API Simple tests running in http playback engine",
         "javascriptWorkloadDes": "The workload for API Script tests running in javascript playback engine",
         "browserWorkloadDes": "The workload for Browser Script, Webpage Simple and Webpage Script tests running in browserscript playback engine",
-        "ismWorkloadDes": "The workload for SSL Certificate tests running in ISM playback engine",
+        "ismWorkloadDes": "The workload for SSL Certificate and DNS tests running in ISM playback engine",
         "status": "Status"
       }
     },
