@@ -1,0 +1,21 @@
+{
+    "windowshypervisor": "Windows Hypervisor",
+    "noMonitoringDataFound": "No monitoring data found",
+    "hostName": "Host name",
+    "noOfVms": "No of virutal machines",
+    "cpuUsage": "CPU usage",
+    "memoryUsage": "Memory usage",
+    "summary": "Summary",
+    "host": "Host",
+    "hosts": "Hosts",
+    "dashboards":{
+        "address": "IP address",
+        "processorCount": "Number of cores",
+        "os": "Os",
+        "freeRAM": "Free RAM",
+        "cpuAveragePercentage": "CPU average (%)",
+        "cpuAverage": "CPU average",
+        "memoryFree": "Memory free",
+        "memoryTotal":"Memory total"
+    }
+}
