@@ -12,7 +12,7 @@ import {
   Button,
   Stack,
   Typography,
-  Checkbox,
+  CarbonCheckbox,
   CarbonTextInput as TextInput,
   CarbonModal as Modal
 } from '@instana/components';
@@ -77,15 +77,19 @@ export default function TermsPageProfile({
         <RolesSelector form={form} onChange={(fieldName, value) => onChange(form, fieldName, value)} />
 
         {fullTermsConfigEnabled &&
-          form.get('testingGroup').map(({ value }) => (
-            <Checkbox
-              label={t('in-settings:tabs.profileCheckboxText')}
-              checked={value}
-              onChange={({ target }) => {
-                onChange(form, 'testingGroup', target.checked);
-              }}
-            />
-          ))}
+          form
+            .get('testingGroup')
+            .map(({ value }) => (
+              <CarbonCheckbox
+                id="user-testing-group"
+                labelText={t('in-settings:tabs.userTestingGroup')}
+                hideLabel
+                className={locals.profileCheckbox}
+                helperText={t('in-settings:tabs.profileCheckboxText')}
+                checked={value}
+                onChange={() => onChange(form, 'testingGroup', !value)}
+              />
+            ))}
       </Stack>
 
       <div
@@ -150,14 +154,12 @@ export default function TermsPageProfile({
       </div>
 
       <FormFooter className={locals.buttons}>
-        {!tealiumPrivacyEnabled ? (
-          <Button
-            onClick={() => handleBackClick(hasErrorOnSave, unsetSaveError, onBack, fullTermsConfigEnabled)}
-            kind="secondary"
-          >
-            {t('in-settings:termsDialog.back')}
-          </Button>
-        ) : null}
+        <Button
+          onClick={() => handleBackClick(hasErrorOnSave, unsetSaveError, onBack, fullTermsConfigEnabled)}
+          kind="secondary"
+        >
+          {t('in-settings:termsDialog.back')}
+        </Button>
         <Button type="submit" disabled={isSubmitDisabled(form)}>
           {t('in-settings:termsDialog.save')}
         </Button>

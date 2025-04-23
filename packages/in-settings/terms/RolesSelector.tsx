@@ -6,8 +6,7 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
-import { Dropdown } from '@instana/components';
-import { Select } from '@instana/components';
+import { Select, CarbonDropdown } from '@instana/components';
 
 import { tealiumPrivacyEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -30,33 +29,36 @@ export default function RolesSelector({ form, onChange }: Props) {
       {(form.get('role') as Field<string>).map(({ value }) => (
         <>
           <FormGroup>
-            <Label htmlFor="role-selection">{t('in-settings:terms.role')}</Label>
             {!tealiumPrivacyEnabled ? (
-              <Select
-                name="role"
-                value={value}
-                onChange={e => onChange('role', e.target.value || '')}
-                id="role-selection"
-              >
-                {!value && (
-                  <option disabled value="">
-                    {t('in-settings:tabs.pleaseSelect')}
-                  </option>
-                )}
-                {roles.map(({ value, label }) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </Select>
+              <>
+                <Label htmlFor="role-selection">{t('in-settings:terms.role')}</Label>
+                <Select
+                  name="role"
+                  value={value}
+                  onChange={e => onChange('role', e.target.value || '')}
+                  id="role-selection"
+                >
+                  {!value && (
+                    <option disabled value="">
+                      {t('in-settings:tabs.pleaseSelect')}
+                    </option>
+                  )}
+                  {roles.map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </Select>
+              </>
             ) : (
-              <Dropdown
-                value={value ?? ''}
-                items={[
-                  ...(value ? [] : [{ value: '', label: t('in-settings:tabs.pleaseSelect') }]),
-                  ...roles.map(({ value, label }) => ({ value, label }))
-                ]}
-                onChange={newValue => onChange('role', newValue)}
+              <CarbonDropdown
+                id="role-selection"
+                items={[...roles]}
+                itemToString={item => item?.label ?? ''}
+                initialSelectedItem={roles.find(role => role.value === value) || null}
+                titleText={t('in-settings:terms.role')}
+                label={roles.find(role => role.value === value)?.label ?? t('in-settings:tabs.pleaseSelect')}
+                onChange={({ selectedItem }) => onChange('role', selectedItem?.value ?? '')}
               />
             )}
           </FormGroup>
