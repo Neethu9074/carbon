@@ -25,12 +25,12 @@ import {
   noInvalidDurationUnit
 } from 'in-alerting/smart-alerts/slo/form/validators';
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
+import { defaultOperator, defaultSloAlertConfig } from 'in-alerting/smart-alerts/slo/data/sloAlertConfig';
 import { isServiceLevelAlertConfigWithMetaData } from 'in-alerting/smart-alerts/slo/types';
-import { defaultSloAlertConfig } from 'in-alerting/smart-alerts/slo/data/sloAlertConfig';
-import { burnRateFormValidator } from 'in-alerting/smart-alerts/slo/form/validators';
 import { maxValidator, positiveNumberValidator } from 'in-services/validators/number';
-import { notBlankValidator } from 'in-services/validators/string';
+import { burnRateFormValidator } from 'in-alerting/smart-alerts/slo/form/validators';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { notBlankValidator } from 'in-services/validators/string';
 
 export type SloAlertRuleFormFields = {
   alertType: Field<ServiceLevelsAlertRuleUnion['alertType']>;
@@ -205,11 +205,11 @@ export function createSloAlertForm(
       }),
       rule: createSloAlertRuleForm(alertConfig),
       threshold: createField({
-        value: alertConfig.threshold.value,
-        validator: composeAndShortCircuitOnError(maxValidator(100),positiveNumberValidator)
+        value: alertConfig?.threshold?.value,
+        validator: composeAndShortCircuitOnError(maxValidator(100), positiveNumberValidator)
       }),
       operator: createField({
-        value: alertConfig.threshold.operator,
+        value: alertConfig?.threshold?.operator ?? defaultOperator,
         validator: noInvalidOperator
       }),
       timeThreshold: createSloAlertTimeThresholdForm(alertConfig),
