@@ -106,6 +106,7 @@ const CreateSyntheticTestDialogPresenter = ({
   const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties(form));
   const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
   const [targetFilters, setTargetFilters] = useState(getDefaultTargetFilters(form));
+  const [showAssertionsWarning, setShowAssertionsWarning] = useState(false);
   /**
    * A single form is being rendered in multiple pages in the simple mode
    * It makes the form validation hard as on clicking the proceed button it has to validate only the rendered
@@ -210,7 +211,7 @@ const CreateSyntheticTestDialogPresenter = ({
       // for SSL Certificate
       SSLCertificateErrorsExist(configForm, syntheticTypeField) ||
       // for DNS
-      DNSErrorsExist(configForm, syntheticTypeField, targetFilters) ||
+      DNSErrorsExist(configForm, syntheticTypeField, targetFilters, showAssertionsWarning) ||
       !syntheticTypeField.valid ||
       locationsField.value.length === 0 ||
       !frequencyField.valid ||
@@ -363,6 +364,8 @@ const CreateSyntheticTestDialogPresenter = ({
             setInvalidTimeout={setInvalidTimeout}
             targetFilters={targetFilters}
             setTargetFilters={setTargetFilters}
+            showAssertionsWarning={showAssertionsWarning}
+            setShowAssertionsWarning={setShowAssertionsWarning}
           />
         )}
       </div>

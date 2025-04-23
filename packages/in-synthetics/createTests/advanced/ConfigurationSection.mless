@@ -103,4 +103,8 @@
       }
     }
   }
+
+  .fullInline {
+    max-width: 100%;
+  }
 }

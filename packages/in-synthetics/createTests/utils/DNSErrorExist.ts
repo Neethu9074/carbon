@@ -11,7 +11,8 @@ import { AssertionTargetFilter } from 'in-synthetics/utils/constants';
 export const DNSErrorsExist = (
   configForm: MapForm<any>,
   syntheticTypeField: Field<string>,
-  targetFilters: AssertionTargetFilter[]
+  targetFilters: AssertionTargetFilter[],
+  showAssertionsWarning: boolean
 ) => {
   if (syntheticTypeField.value === 'DNS') {
     const fieldsToBeValidated = ['lookup', 'lookupServerName', 'port', 'server', 'queryTime', 'serverRetries'];
@@ -25,10 +26,11 @@ export const DNSErrorsExist = (
     }
     return (
       configForm.get('targetValues') &&
-      targetFilters.some(
-        targetFilter =>
-          targetFilter.error.key.invalid || targetFilter.error.operator.invalid || targetFilter.error.value.invalid
-      )
+      (showAssertionsWarning ||
+        targetFilters.some(
+          targetFilter =>
+            targetFilter.error.key.invalid || targetFilter.error.operator.invalid || targetFilter.error.value.invalid
+        ))
     );
   }
   return undefined;

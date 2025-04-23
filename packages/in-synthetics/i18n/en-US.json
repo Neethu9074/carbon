@@ -231,8 +231,8 @@
             "portHelperText": "The DNS server port is the network port used or communication between your device (PoP) and the DNS server, typically port 53",
             "queryTimeLabel": "Response time",
             "queryTimeHelperText": "Optimal DNS resolution time is between 20-120 ms",
-            "recordTypeTitle": "Assertions (optional)",
-            "recordTypeSubtitle": "These fields are optional, but when filled they all need to be true for the test to be successful.",
+            "assertionsTitle": "Assertions (optional)",
+            "assertionsSubtitle": "These fields are optional, but when filled they all need to be true for the test to be successful.",
             "recordTypeLabel": "Record type",
             "operatorLabel": "Conditional",
             "operatorOptionMatches": "Matches",
@@ -256,7 +256,9 @@
               "invalidIPv6Address": "IPv6 address not valid",
               "invalidRecordType": "Record type not valid",
               "invalidResolutionRecord": "Resolution record not valid"
-            }
+            },
+            "assertionsNotificationTitle": "Assertions required",
+            "assertionsNotificationDescription": "Add at least one assertion when using the \"ALL associated with assertions\" query type."
           }
         },
         "loadMore": "Load more",

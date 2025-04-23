@@ -17,7 +17,9 @@ import {
   CarbonIconButton as IconButton,
   CarbonButton as Button,
   Label,
-  SvgIcon
+  SvgIcon,
+  CarbonInlineNotification as InlineNotification,
+  Spacer
 } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 import { DNSFilterQueryTime } from '@instana/types';
@@ -45,8 +47,8 @@ import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages'
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
 import { numberValidator } from 'in-services/validators/jsonType';
+import { isBlank, isNotBlank } from 'in-services/util/string';
 import { minValidator } from 'in-services/validators/number';
-import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/createTests/advanced/ConfigurationSection.mless';
@@ -58,6 +60,8 @@ interface DNSConfigurationProps {
   setTargetFilters: React.Dispatch<React.SetStateAction<AssertionTargetFilter[]>>;
   invalidTimeout: Invalid;
   setInvalidTimeout: React.Dispatch<React.SetStateAction<Invalid>>;
+  showAssertionsWarning: boolean;
+  setShowAssertionsWarning: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function DNSConfiguration({
@@ -66,7 +70,9 @@ export default function DNSConfiguration({
   targetFilters,
   setTargetFilters,
   invalidTimeout,
-  setInvalidTimeout
+  setInvalidTimeout,
+  showAssertionsWarning,
+  setShowAssertionsWarning
 }: DNSConfigurationProps) {
   const configForm = form.get('configuration') as MapForm<any>;
   const lookupField = configForm.get('lookup') as Field<string>;
@@ -127,6 +133,7 @@ export default function DNSConfiguration({
       targetFilters.findIndex(targetFilter => targetFilter.id === idToDelete),
       1
     );
+    checkTargetFiltersEmpty(queryTypeField.value, [...targetFilters]);
     setTargetFilters([...targetFilters]);
     updateForm(
       form.updateIn(['configuration', 'targetValues'], (field: Item) =>
@@ -134,6 +141,18 @@ export default function DNSConfiguration({
       )
     );
   }
+
+  const checkTargetFiltersEmpty = (queryType: string, updatedTargetFilters: AssertionTargetFilter[]) => {
+    const isTargetFiltersEmpty = !updatedTargetFilters.some(
+      targetFilter =>
+        isNotBlank(targetFilter.key) && isNotBlank(targetFilter.operator) && isNotBlank(targetFilter.value)
+    );
+    if (queryType === 'ALL_CONDITIONS' && isTargetFiltersEmpty) {
+      setShowAssertionsWarning(true);
+    } else {
+      setShowAssertionsWarning(false);
+    }
+  };
 
   return (
     <>
@@ -161,6 +180,7 @@ export default function DNSConfiguration({
               items={DNSQueryTypes}
               initialSelectedItem={DNSQueryTypes.find(queryType => queryType.value === queryTypeField.value)}
               onChange={({ selectedItem }) => {
+                checkTargetFiltersEmpty(selectedItem?.value!, targetFilters);
                 const updatedTargetFilters = checkQueryTypeAssertionMismatch(selectedItem?.value!, targetFilters);
                 setTargetFilters([...updatedTargetFilters]);
                 updateForm(
@@ -244,10 +264,25 @@ export default function DNSConfiguration({
         <Stack gap={3}>
           <Fragment>
             <h4 className={locals.headline}>
-              <span>{t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.recordTypeTitle')}</span>
+              <span>{t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.assertionsTitle')}</span>
             </h4>
-            <p>{t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.recordTypeSubtitle')}</p>
+            <p>{t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.assertionsSubtitle')}</p>
           </Fragment>
+          {showAssertionsWarning && (
+            <div>
+              <InlineNotification
+                kind="warning"
+                lowContrast
+                title={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.assertionsNotificationTitle')}
+                subtitle={t(
+                  'in-synthetics:dialog.createTest.advancedMode.configStep.dns.assertionsNotificationDescription'
+                )}
+                className={locals.fullInline}
+                hideCloseButton
+              />
+              <Spacer size="xsmall" />
+            </div>
+          )}
           {targetFilters.map(selectedFilter => {
             return (
               <Stack key={selectedFilter.id} className={locals.queryStack} orientation="horizontal" gap={6}>
@@ -285,6 +320,7 @@ export default function DNSConfiguration({
                         targetFilter.error = validator.error;
                       }
                     });
+                    checkTargetFiltersEmpty(queryTypeField.value, [...targetFilters]);
                     setTargetFilters([...targetFilters]);
                     updateForm(
                       form.updateIn(['configuration', 'targetValues'], (field: Item) =>
@@ -316,6 +352,7 @@ export default function DNSConfiguration({
                         targetFilter.error = validator.error;
                       }
                     });
+                    checkTargetFiltersEmpty(queryTypeField.value, [...targetFilters]);
                     setTargetFilters([...targetFilters]);
                     updateForm(
                       form.updateIn(['configuration', 'targetValues'], (field: Item) =>
@@ -346,6 +383,7 @@ export default function DNSConfiguration({
                         targetFilter.error = validator.error;
                       }
                     });
+                    checkTargetFiltersEmpty(queryTypeField.value, [...targetFilters]);
                     setTargetFilters([...targetFilters]);
                     updateForm(
                       form.updateIn(['configuration', 'targetValues'], (field: Item) =>
