@@ -7,10 +7,15 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { SvgIcon, Button, Stack, Typography } from '@instana/components';
-import { CarbonTextInput as TextInput } from '@instana/components';
-import { CarbonModal as Modal } from '@instana/components';
-import { Checkbox } from '@instana/components';
+import {
+  SvgIcon,
+  Button,
+  Stack,
+  Typography,
+  Checkbox,
+  CarbonTextInput as TextInput,
+  CarbonModal as Modal
+} from '@instana/components';
 
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
