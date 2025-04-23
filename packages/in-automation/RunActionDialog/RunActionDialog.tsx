@@ -119,6 +119,7 @@ export default function RunActionDialog({
               policy={policy}
               error={error}
               test={test}
+              agentSnapShots={agentSnapShots}
               actionInstanceId={actionInstanceId}
               isSaving={isSaving}
               form={form}
@@ -505,9 +506,19 @@ interface RunActionFooterProps {
   onSave: () => void;
   test?: boolean;
   policy?: NewPolicy;
+  agentSnapShots: OUT | null | undefined;
 }
 
-function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave, test, policy }: RunActionFooterProps) {
+function RunActionFooter({
+  error,
+  actionInstanceId,
+  isSaving,
+  form,
+  onSave,
+  test,
+  policy,
+  agentSnapShots
+}: RunActionFooterProps) {
   const navigateToActionHistory = useNavigateToActionHistory();
   if (error || actionInstanceId) {
     return (
@@ -542,7 +553,13 @@ function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave, test
   return (
     <>
       <CancelButton isSaving={isSaving} onClick={close} />
-      <SaveButton kind="primary" form={form} disabled={!form} isSaving={isSaving} onClick={onSave}>
+      <SaveButton
+        kind="primary"
+        form={form}
+        disabled={!form || agentSnapShots?.progress?.loading}
+        isSaving={isSaving}
+        onClick={onSave}
+      >
         {policy
           ? t('in-automation:actionHistory.saveButton')
           : test
