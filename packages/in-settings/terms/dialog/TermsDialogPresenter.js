@@ -26,16 +26,60 @@ export default function TermsDialogPresenter({
   fullTermsConfigEnabled
 }) {
   const [pageNumber, setPageNumber] = useState(1);
-
+  const [isModalOpen, setIsModalOpen] = useState(true);
   const nrPages = tealiumPrivacyEnabled ? 0 : fullTermsConfigEnabled ? 3 : 2;
 
+  function handleSave(formToSave) {
+    onSave(null, formToSave);
+    setIsModalOpen(false);
+  }
+  if (tealiumPrivacyEnabled) {
+    return (
+      <TermsPageProfile
+        onBack={setPageNumber}
+        onChange={onChange}
+        onSave={handleSave}
+        open={isModalOpen}
+        form={form}
+        pageNumber={2}
+        hasErrorOnSave={saveError}
+        fullTermsConfigEnabled={fullTermsConfigEnabled}
+        nrPages={nrPages}
+        unsetSaveError={unsetSaveError}
+        userName={userName}
+        userEmail={userEmail}
+      />
+    );
+  }
   return (
     <Dialog title={t('in-settings:terms.preferences')} doNotCloseOnOutsideClick withoutBodyPadding>
       <form onSubmit={e => onSave(e, form)} className={locals.dialogContent}>
-        {tealiumPrivacyEnabled ? (
+        {pageNumber === 1 && (
+          <TermsPageMessaging
+            onNext={setPageNumber}
+            onChange={onChange}
+            form={form}
+            nrPages={nrPages}
+            fullTermsConfigEnabled={fullTermsConfigEnabled}
+          />
+        )}
+
+        {fullTermsConfigEnabled && pageNumber === 2 && (
+          <TermsPageCookies
+            onBack={setPageNumber}
+            onNext={setPageNumber}
+            onChange={onChange}
+            form={form}
+            nrPages={nrPages}
+          />
+        )}
+
+        {!fullTermsConfigEnabled && pageNumber === 2 && (
           <TermsPageProfile
             onBack={setPageNumber}
             onChange={onChange}
+            onSave={onSave}
+            open
             form={form}
             pageNumber={2}
             hasErrorOnSave={saveError}
@@ -45,58 +89,23 @@ export default function TermsDialogPresenter({
             userName={userName}
             userEmail={userEmail}
           />
-        ) : (
-          <>
-            {pageNumber === 1 && (
-              <TermsPageMessaging
-                onNext={setPageNumber}
-                onChange={onChange}
-                form={form}
-                nrPages={nrPages}
-                fullTermsConfigEnabled={fullTermsConfigEnabled}
-              />
-            )}
+        )}
 
-            {fullTermsConfigEnabled && pageNumber === 2 && (
-              <TermsPageCookies
-                onBack={setPageNumber}
-                onNext={setPageNumber}
-                onChange={onChange}
-                form={form}
-                nrPages={nrPages}
-              />
-            )}
-
-            {!fullTermsConfigEnabled && pageNumber === 2 && (
-              <TermsPageProfile
-                onBack={setPageNumber}
-                onChange={onChange}
-                form={form}
-                pageNumber={2}
-                hasErrorOnSave={saveError}
-                fullTermsConfigEnabled={fullTermsConfigEnabled}
-                nrPages={nrPages}
-                unsetSaveError={unsetSaveError}
-                userName={userName}
-                userEmail={userEmail}
-              />
-            )}
-
-            {pageNumber === 3 && (
-              <TermsPageProfile
-                onBack={setPageNumber}
-                onChange={onChange}
-                form={form}
-                pageNumber={3}
-                fullTermsConfigEnabled={fullTermsConfigEnabled}
-                hasErrorOnSave={saveError}
-                unsetSaveError={unsetSaveError}
-                nrPages={nrPages}
-                userName={userName}
-                userEmail={userEmail}
-              />
-            )}
-          </>
+        {pageNumber === 3 && (
+          <TermsPageProfile
+            onBack={setPageNumber}
+            onChange={onChange}
+            onSave={onSave}
+            open
+            form={form}
+            pageNumber={3}
+            fullTermsConfigEnabled={fullTermsConfigEnabled}
+            hasErrorOnSave={saveError}
+            unsetSaveError={unsetSaveError}
+            nrPages={nrPages}
+            userName={userName}
+            userEmail={userEmail}
+          />
         )}
       </form>
     </Dialog>

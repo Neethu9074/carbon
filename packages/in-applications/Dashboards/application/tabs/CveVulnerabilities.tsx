@@ -5,46 +5,39 @@
  */
 
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 
-import { Stack, TableSkeleton } from '@instana/components';
-import { useObservable } from '@instana/hooks';
+import { Stack } from '@instana/components';
 
-import {
-  eventIdUrlParameter,
-  orderDirectionParameter,
-  orderByUrlParameter,
-  pageNumberUrlParameter
-} from 'in-events/navigation/urlParameters';
-import DetectionColumnDefinitions from 'in-vulnerability-center/Dashboard/DetectionColumnDefinitions';
-import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import DetectionDetailDialog from 'in-vulnerability-center/Dashboard/DetectionDetailDialog';
-import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { vulnerabilitydetectionPath } from 'in-vulnerability-center/navigation/paths';
+// import { vulnerabilitydetectionPath } from 'in-vulnerability-center/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+// @ts-expect-error Module needs to be translated to TS
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+// @ts-expect-error Module needs to be translated to TS
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+// @ts-expect-error Module needs to be translated to TS
+import getRawCVEEvents from 'in-subscription/getRawCVEEvents';
+import DetectionColumnDefinitions from 'in-vulnerability-center/Dashboard/DetectionColumnDefinitions';
+import DetectionDetailDialog from 'in-vulnerability-center/Dashboard/DetectionDetailDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConcertBanner from 'in-vulnerability-center/components/ConcertBanner';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import getRawCVEEvents from 'in-subscription/getRawCVEEvents';
 import { solisEnabled } from 'in-services/featureFlags';
-import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/fixedObjects';
-import useUrlState from 'in-hooks/useUrlState';
+import { RawEvent } from 'in-types';
 import { t } from 'in-i18n';
 
-export default function AffectedCvePresenter({ location }) {
+export default function AffectedCvePresenter() {
+  const { location } = useNavigation();
+
   const eventType = 'cve_issue';
   const timeConfig = useTimeConfig();
   const appId = getMatrixParameter(location, '/application', 'appId') ?? '';
-  const urlSettingsConfig = {
-    bind: [eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter, pageNumberUrlParameter],
-    replaceHistory: false
-  };
-  const [urlState] = useUrlState(urlSettingsConfig);
-  const { orderBy, orderDirection } = urlState;
-  const pathSegment = vulnerabilitydetectionPath;
+
+  const pathSegment = '/CveVulnerabilities';
   const matrixPrefix = '';
+
   const ServerTableWithUrlState = createServerTableWithUrlState({
     Renderer: withEmptyTableState({
       columnDefinitions: DetectionColumnDefinitions,
@@ -55,45 +48,51 @@ export default function AffectedCvePresenter({ location }) {
     columnDefinitions: DetectionColumnDefinitions,
     defaultOrderBy: 'problem.problemText',
     defaultOrderDirection: 'ASC',
-    isSearchable: false,
+    isSearchable: true,
     pathSegment,
     matrixPrefix
   });
 
+  interface FetchParams {
+    orderBy?: string;
+    orderDirection?: 'ASC' | 'DESC';
+    page?: number;
+    pageSize?: number;
+  }
+
   const fetchCVEEvents = useCallback(
-    ({ cursor }) =>
-      getRawCVEEvents({
+    ({ orderBy = 'problem.problemText', orderDirection = 'ASC', page = 1, pageSize = 30 }: FetchParams) => {
+      let query = `event.type:${eventType} AND entity.application.id:"${appId}"`;
+      let searchQuery = location?.matrix?.[pathSegment]?.query;
+      if (location?.query?.q) {
+        query += ` AND (${location.query.q})`;
+      }
+      if (searchQuery) {
+        searchQuery = searchQuery.replace(/-/g, ' ');
+        query += ` AND (event.text:*${searchQuery}*)`;
+      }
+      const offset = page > 1 ? (page - 1) * pageSize - 1 : -1;
+      return getRawCVEEvents({
         timeConfig,
-        query: `event.type:${eventType} AND entity.application.id:"${appId}"`,
+        query,
         pagination: {
-          retrievalSize: 30,
-          cursor
+          cursor: {
+            '@class': '.IngestionOffsetCursor',
+            ingestionTime: 0,
+            offset
+          },
+          retrievalSize: pageSize
         },
         order: {
           by: orderBy,
           direction: orderDirection
         }
-      }),
-    [timeConfig, orderBy, orderDirection, eventType, appId]
+      });
+    },
+    [timeConfig, appId, location]
   );
 
-  const cveEventsResult = useObservable(fetchCVEEvents({ cursor: null }), [timeConfig, orderBy, orderDirection]);
-
-  if (isLoading(cveEventsResult)) {
-    return solisEnabled ? (
-      <TableSkeleton />
-    ) : (
-      <>
-        <ConcertBanner expanded="showVulnerabilityInfoPanel" />
-        <TableSkeleton />
-      </>
-    );
-  }
-
-  if (isLoading(cveEventsResult)) {
-    return <TableSkeleton />;
-  }
-  const handleOnRowClick = item => {
+  const handleOnRowClick = (item: RawEvent) => {
     addActiveDialog(<DetectionDetailDialog event={item} timeConfig={timeConfig} onClose={close} />);
   };
 
@@ -106,12 +105,8 @@ export default function AffectedCvePresenter({ location }) {
         title={t('in-vulnerability-center:detection.table.mainLabel')}
         rightHeader={noop}
         showHeaderCount
-        onRowClick={item => handleOnRowClick(item)}
+        onRowClick={handleOnRowClick}
       />
     </Stack>
   );
 }
-
-AffectedCvePresenter.propTypes = {
-  location: PropTypes.any
-};

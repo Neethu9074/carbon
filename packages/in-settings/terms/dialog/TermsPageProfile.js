@@ -7,7 +7,15 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { SvgIcon, Button, Stack, CarbonCheckbox } from '@instana/components';
+import {
+  SvgIcon,
+  Button,
+  Stack,
+  Typography,
+  CarbonCheckbox,
+  CarbonTextInput as TextInput,
+  CarbonModal as Modal
+} from '@instana/components';
 
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
@@ -22,6 +30,8 @@ import locals from './TermsPages.mless';
 export default function TermsPageProfile({
   onBack,
   onChange,
+  open,
+  onSave,
   form,
   hasErrorOnSave = false,
   unsetSaveError,
@@ -32,8 +42,83 @@ export default function TermsPageProfile({
   nrPages
 }) {
   const isRoleMessagePresent = form.get('dynamicRole')?.valid;
+  function handleSubmit() {
+    onSave(form);
+  }
+  const errorWarningMessages = (
+    <>
+      <div
+        className={classNames({
+          [locals.errorText]: true,
+          [locals.hidden]: !hasErrorOnSave
+        })}
+      >
+        <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
+        <span>{t('in-settings:termsDialog.unableToSaveText')}</span>
+      </div>
 
-  return (
+      {isRoleMessagePresent && (
+        <div
+          className={classNames({
+            [locals.warningText]: true,
+            [locals.hidden]: !isRoleMessagePresent || form.hierarchyValid
+          })}
+        >
+          <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
+          <span>{t('in-settings:termsDialog.roleNeededText')}</span>
+        </div>
+      )}
+    </>
+  );
+  return tealiumPrivacyEnabled ? (
+    <Modal
+      className={locals.disableClose}
+      modalLabel={t('in-settings:terms.preferences')}
+      size="md"
+      modalHeading={t('in-settings:termsDialog.termsPage4.heading')}
+      primaryButtonText={t('in-settings:termsDialog.save')}
+      primaryButtonDisabled={isSubmitDisabled(form)}
+      open={open}
+      onRequestSubmit={handleSubmit}
+    >
+      <Stack>
+        <Typography variant="body-regular">{t('in-settings:termsDialog.termsPage4.introduction')}</Typography>
+        <TextInput
+          id="user-name-input"
+          labelText={t('in-settings:termsDialog.termsPage4.name')}
+          placeholder={userName}
+          type="text"
+          readOnly
+        />
+
+        <TextInput
+          id="user-email"
+          labelText={t('in-settings:termsDialog.termsPage4.email')}
+          placeholder={userEmail}
+          type="text"
+          readOnly
+        />
+
+        <RolesSelector form={form} onChange={(fieldName, value) => onChange(form, fieldName, value)} />
+
+        {fullTermsConfigEnabled &&
+          form
+            .get('testingGroup')
+            .map(({ value }) => (
+              <CarbonCheckbox
+                id="user-testing-group"
+                labelText={t('in-settings:tabs.userTestingGroup')}
+                hideLabel
+                className={locals.profileCheckbox}
+                helperText={t('in-settings:tabs.profileCheckboxText')}
+                checked={value}
+                onChange={() => onChange(form, 'testingGroup', !value)}
+              />
+            ))}
+      </Stack>
+      {errorWarningMessages}
+    </Modal>
+  ) : (
     <div className={locals.container}>
       <div className={locals.pageContent}>
         <TermsProgressIndicator pageNumber={pageNumber} nrPages={nrPages} />
@@ -47,55 +132,17 @@ export default function TermsPageProfile({
           <InputField label={t('in-settings:termsDialog.termsPage4.email')} value={userEmail} />
 
           <RolesSelector form={form} onChange={(fieldName, value) => onChange(form, fieldName, value)} />
-          {tealiumPrivacyEnabled &&
-            fullTermsConfigEnabled &&
-            form
-              .get('testingGroup')
-              .map(({ value }) => (
-                <CarbonCheckbox
-                  id="user-testing-group"
-                  labelText={t('in-settings:tabs.userTestingGroup')}
-                  hideLabel
-                  className={locals.profileCheckbox}
-                  helperText={t('in-settings:tabs.profileCheckboxText')}
-                  checked={value}
-                  onChange={() => onChange(form, 'testingGroup', !value)}
-                />
-              ))}
         </Stack>
-
-        <div
-          className={classNames({
-            [locals.errorText]: true,
-            [locals.hidden]: !hasErrorOnSave
-          })}
-        >
-          <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
-          <span>{t('in-settings:termsDialog.unableToSaveText')}</span>
-        </div>
-
-        {isRoleMessagePresent && (
-          <div
-            className={classNames({
-              [locals.warningText]: true,
-              [locals.hidden]: !isRoleMessagePresent || form.hierarchyValid
-            })}
-          >
-            <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
-            <span>{t('in-settings:termsDialog.roleNeededText')}</span>
-          </div>
-        )}
+        {errorWarningMessages}
       </div>
 
       <FormFooter className={locals.buttons}>
-        {!tealiumPrivacyEnabled ? (
-          <Button
-            onClick={() => handleBackClick(hasErrorOnSave, unsetSaveError, onBack, fullTermsConfigEnabled)}
-            kind="secondary"
-          >
-            {t('in-settings:termsDialog.back')}
-          </Button>
-        ) : null}
+        <Button
+          onClick={() => handleBackClick(hasErrorOnSave, unsetSaveError, onBack, fullTermsConfigEnabled)}
+          kind="secondary"
+        >
+          {t('in-settings:termsDialog.back')}
+        </Button>
         <Button type="submit" disabled={isSubmitDisabled(form)}>
           {t('in-settings:termsDialog.save')}
         </Button>
@@ -138,6 +185,8 @@ TermsPageProfile.propTypes = {
   onBack: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
+  open: PropTypes.bool.isRequired,
+  onSave: PropTypes.func.isRequired,
   hasErrorOnSave: PropTypes.bool.isRequired,
   unsetSaveError: PropTypes.func.isRequired,
   userName: PropTypes.string,

@@ -98,6 +98,14 @@ export const technologyOptions = {
   }
 };
 
+export const reprompt = [
+  {
+    response_type: 'text',
+    text: t('in-events:aichat.anyOtherQs')
+  },
+  technologyOptions
+];
+
 export const InitialLoadOptions = [
   {
     response_type: 'text',

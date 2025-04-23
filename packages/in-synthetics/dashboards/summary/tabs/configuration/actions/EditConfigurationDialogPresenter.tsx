@@ -89,6 +89,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     title: null,
     onClose: null
   });
+  const [showAssertionsWarning, setShowAssertionsWarning] = useState(false);
 
   const getDefaultHeaders = (): ConfigItem[] => {
     const headers = form.get('configuration')?.get('headers')
@@ -239,7 +240,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
       // for SSL Certificate
       SSLCertificateErrorsExist(configForm, syntheticTypeField) ||
       // for DNS
-      DNSErrorsExist(configForm, syntheticTypeField, targetFilters) ||
+      DNSErrorsExist(configForm, syntheticTypeField, targetFilters, showAssertionsWarning) ||
       !syntheticTypeField.valid ||
       !frequencyField.valid ||
       !labelField.valid ||
@@ -340,6 +341,8 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
           setInvalidTimeout={setInvalidTimeout}
           targetFilters={targetFilters}
           setTargetFilters={setTargetFilters}
+          showAssertionsWarning={showAssertionsWarning}
+          setShowAssertionsWarning={setShowAssertionsWarning}
         />
       </form>
     </DialogWithSlideInView>

@@ -21,6 +21,8 @@ export const NOT_STARTS_WITH: TagFilterOperator = 'NOT_STARTS_WITH';
 export const NOT_ENDS_WITH: TagFilterOperator = 'NOT_ENDS_WITH';
 export const GREATER_OR_EQUAL_THAN: TagFilterOperator = 'GREATER_OR_EQUAL_THAN';
 export const LESS_OR_EQUAL_THAN: TagFilterOperator = 'LESS_OR_EQUAL_THAN';
+// @ts-expect-error
+export const REGEX_MATCH: TagFilterOperator = 'REGEX_MATCH';
 
 export function isUnaryOperator(operator: TagFilterOperator): boolean {
   return operator === NOT_EMPTY || operator === IS_EMPTY || operator === NOT_BLANK || operator === IS_BLANK;

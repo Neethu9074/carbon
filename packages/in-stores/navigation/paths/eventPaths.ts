@@ -48,6 +48,7 @@ export function useGetEventsViewFilteredByEntity(entityId: string, eventTypeFilt
   // eslint-disable-next-line import/no-deprecated
 
   const { location, createHref } = useNavigation();
+
   const query = `entity.id:"${entityId}"`;
   const viewFilterFilteredLocation = {
     ...location,
@@ -110,7 +111,10 @@ export function useGetEventsViewFilteredBy() {
     }
     query = query.trim();
 
-    removeDFQueryFromLocationWhenChangingArea(location, eventsPath);
+    // The DFQ as part of the URL query
+    // should only be carried over, when navigating inside of events view (or infra),
+    // but not when switching areas.
+    removeDFQueryFromLocationWhenChangingArea(location, eventsPath); // TODO check: should it be targetPath? see below
 
     const targetPath = eventTypeFilter === 'cve_issue' ? vulnerabilitydetectionPath : eventsPath;
 
@@ -120,16 +124,22 @@ export function useGetEventsViewFilteredBy() {
     };
 
     if (query) {
-      eventViewFilteredByLocation = { ...eventViewFilteredByLocation, query: { q: query } };
+      eventViewFilteredByLocation = {
+        ...eventViewFilteredByLocation,
+        query: {
+          ...eventViewFilteredByLocation.query,
+          q: query
+        }
+      };
     }
-
     setOrDeleteMatrixKey(
       eventViewFilteredByLocation,
       targetPath,
       eventIdMatricParam,
       eventId || location.query.eventId
     );
-    delete location.query.eventId;
+
+    delete eventViewFilteredByLocation.query.eventId;
 
     if (timeConfig) {
       setTimeConfig(eventViewFilteredByLocation, timeConfig);

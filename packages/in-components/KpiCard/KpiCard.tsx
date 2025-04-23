@@ -6,7 +6,15 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, Card, ButtonKinds, IconButton, HeadingElement, HeadingVariant } from '@instana/components';
+import {
+  SvgIcon,
+  Card,
+  ButtonKinds,
+  IconButton,
+  HeadingElement,
+  HeadingVariant,
+  ButtonSizes
+} from '@instana/components';
 import { Observable } from '@instana/observables';
 
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
@@ -28,6 +36,7 @@ export interface IconAction {
   href$?: Observable<string>;
   href?: string;
   onClick?: (e: any) => void;
+  size?: keyof typeof ButtonSizes;
 }
 
 export interface KpiCardProps {
@@ -226,6 +235,7 @@ export default function KpiCard({
             type={iconAction.icon}
             onClick={iconAction.onClick}
             isWrapperedByTooltip
+            size={iconAction.size}
           />
         )}
         {actions && <div className={locals.actions}>{actions}</div>}

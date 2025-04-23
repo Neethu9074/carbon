@@ -59,7 +59,9 @@ const AdvancedMode = ({
   invalidTimeout,
   setInvalidTimeout,
   targetFilters,
-  setTargetFilters
+  setTargetFilters,
+  showAssertionsWarning,
+  setShowAssertionsWarning
 }: AdvancedModeProps) => {
   const EMPTY = [] as SyntheticLocation[];
   const getSelectedBlueprintIndex = () => {
@@ -153,6 +155,8 @@ const AdvancedMode = ({
             setTargetFilters={setTargetFilters}
             invalidTimeout={invalidTimeout}
             setInvalidTimeout={setInvalidTimeout}
+            showAssertionsWarning={showAssertionsWarning}
+            setShowAssertionsWarning={setShowAssertionsWarning}
           />
         );
       default:

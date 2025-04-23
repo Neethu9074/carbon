@@ -59,6 +59,9 @@
             isSpa: true,
             tealiumProfileName: 'in-app-usage'
           },
+          trustarc: {
+            isCookiePreferencesInstalled: true
+          },
           'digitalData.page.pageInfo.segment.enabled': window.instana.config.featureFlags.segmentAnalyticsEnabled ,
           'digitalData.page.pageInfo.segment.key': 'K8GUn26weHMSk0fXYVNyiKtDPHmzr9Fj',
           'digitalData.page.pageInfo.walkme.enabled': window.instana.config.featureFlags.tealiumPrivacyEnabled ? window.instana.config.featureFlags.walkmeToolEnabled : window.instana.termsAndPrivacySettings.walkmeAnalyticsServices,

@@ -16,8 +16,8 @@ import {
   TYPE_AI_SUMMARY
 } from 'in-events/components/NotesAndActivity/utils';
 import { noteNameAndTimeFormat, createDataString } from 'in-events/components/NotesAndActivity/components/utils';
+import { AISummary, WatsonAIAvatar } from 'in-events/components/NotesAndActivity/components/NoteTypes/AISummary';
 import { ExternalNote } from 'in-events/components/NotesAndActivity/components/NoteTypes/ExternalNote';
-import { AISummary } from 'in-events/components/NotesAndActivity/components/NoteTypes/AISummary';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
 import { user } from 'in-stores/user';
@@ -92,19 +92,11 @@ export function CommentList({
           const myBubble = note.authorId == user.id;
           const type = note.type;
           const aiSum = type === TYPE_AI_SUMMARY;
-          const serviceNow = note.origin === 'ServiceNow';
-          const slack = note.origin === 'Slack';
           const date = formatDateWithActiveLanguage(new Date(note.timestamp), `${dateFormat}, ${timeFormat}`);
           const isEdited = note?.updated && note?.updated != 0;
-          const iconType =
-            (!aiSum && slack && 'lib_slack_icon') ||
-            (!aiSum && serviceNow && 'lib_snow_icon') ||
-            (!aiSum && !serviceNow && 'lib_actions_user') ||
-            'lib_watson_x';
-          const iconSize = (aiSum && 'regular') || (!aiSum && !serviceNow && 'xs') || 'sm';
-          const iconViewBox = (serviceNow && '0 0 24 24') || ((aiSum || slack) && '4 4 24 24') || '0 0 16 16';
-          // Display the icon if its not my chat message OR if its AI Summary
-          const displayIcon = !myBubble || aiSum;
+          // Display the icon if its not my chat message
+          // Dont show for AI Summary because we display a different component
+          const displayIcon = !myBubble && !aiSum;
           return (
             <div key={note.id}>
               <div
@@ -113,22 +105,11 @@ export function CommentList({
                   [locals.chatEntry]: true
                 })}
               >
-                {displayIcon && (
-                  <SvgIcon
-                    type={iconType}
-                    size={iconSize}
-                    viewBox={iconViewBox}
-                    className={classNames({
-                      [locals.userIcon]: !aiSum && !serviceNow && !slack,
-                      [locals.snowIcon]: serviceNow,
-                      [locals.aiIcon]: aiSum && !serviceNow
-                    })}
-                  />
-                )}
+                <EntryIcon displayIcon={displayIcon} note={note} />
                 <div
                   className={classNames({
-                    [locals.chatEntryInfo]: displayIcon,
-                    [locals.myChatEntryInfo]: myBubble
+                    [locals.myChatEntryInfo]: true,
+                    [locals.chatEntryInfo]: displayIcon
                   })}
                 >
                   {noteNameAndTimeFormat(myBubble, note, date, type, isEdited)}
@@ -151,6 +132,33 @@ export function CommentList({
           );
         })}
     </div>
+  );
+}
+
+// Handle which icon should be rendered for each note entry
+export function EntryIcon({ note = {}, displayIcon }) {
+  const aiSum = note.type === TYPE_AI_SUMMARY;
+  const serviceNow = note.origin === 'ServiceNow';
+  const slack = note.origin === 'Slack';
+  const iconType = (slack && 'lib_slack_icon') || (serviceNow && 'lib_snow_icon') || 'lib_actions_user';
+  const iconSize = (!serviceNow && 'xs') || 'sm';
+  const iconViewBox = (serviceNow && '0 0 24 24') || (slack && '4 4 24 24') || '0 0 16 16';
+  return (
+    <>
+      {displayIcon && !aiSum && (
+        <SvgIcon
+          type={iconType}
+          size={iconSize}
+          viewBox={iconViewBox}
+          className={classNames({
+            [locals.userIcon]: !aiSum && !serviceNow && !slack,
+            [locals.snowIcon]: serviceNow,
+            [locals.aiIcon]: aiSum && !serviceNow
+          })}
+        />
+      )}
+      {aiSum && <WatsonAIAvatar />}
+    </>
   );
 }
 

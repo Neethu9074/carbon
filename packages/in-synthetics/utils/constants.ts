@@ -541,6 +541,8 @@ export interface AdvancedModeProps {
   setInvalidTimeout: React.Dispatch<React.SetStateAction<Invalid>>;
   targetFilters: AssertionTargetFilter[];
   setTargetFilters: React.Dispatch<React.SetStateAction<AssertionTargetFilter[]>>;
+  showAssertionsWarning: boolean;
+  setShowAssertionsWarning: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface SlideInConfig {

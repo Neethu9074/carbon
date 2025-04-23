@@ -10,6 +10,7 @@ import { ChatContainer } from '@instana/ai-chat';
 
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
 import EditableOptions from 'in-events/components/AIChat/EditableOptions';
+import DisplayChart from 'in-events/components/AIChat/DisplayChart';
 
 function customSortRow(lhs, rhs, collator) {
   const nlhs = Number(lhs);
@@ -108,6 +109,8 @@ export function AIChat({ launcherWrapperID, launcherButtonID }) {
         switch (messageItem.user_defined?.user_defined_type) {
           case `editable_options`:
             return <EditableOptions messageItem={messageItem} instance={instance} />;
+          case 'bar_chart':
+            return <DisplayChart messageItem={messageItem} />;
           default:
             return undefined;
         }

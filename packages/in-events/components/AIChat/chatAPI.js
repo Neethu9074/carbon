@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { technologyOptions } from 'in-events/components/AIChat/DefinedQuestions';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
@@ -58,10 +57,12 @@ export function formatForTable(apiResponse) {
           rows: []
         },
         {
-          response_type: 'text',
-          text: t('in-events:aichat.anyOtherQs')
-        },
-        technologyOptions
+          response_type: 'user_defined',
+          user_defined: {
+            user_defined_type: 'bar_chart',
+            chart_data: formatForBarChart({ headers: [], rows: [] })
+          }
+        }
       ]
     }
   };
@@ -144,11 +145,63 @@ export function formatForTable(apiResponse) {
           rows: response.data.rows
         },
         {
-          response_type: 'text',
-          text: t('in-events:aichat.anyOtherQs')
-        },
-        technologyOptions
+          response_type: 'user_defined',
+          user_defined: {
+            user_defined_type: 'bar_chart',
+            chart_data: formatForBarChart({ headers: response.data.headers, rows: response.data.rows })
+          }
+        }
       ]
     }
+  };
+}
+
+export function formatForBarChart(tableData) {
+  const options = {
+    title: '',
+    axes: {
+      left: {
+        mapsTo: 'value'
+      },
+      bottom: {
+        mapsTo: 'group',
+        scaleType: 'labels'
+      }
+    },
+    height: '600px'
+  };
+
+  const emptyChartData = {
+    data: [],
+    options: options
+  };
+
+  const response = [];
+  if (!tableData || tableData.rows.length === 0) {
+    return emptyChartData;
+  }
+
+  // Extract headers and rows
+  const headers = tableData.headers;
+  const rows = tableData.rows;
+
+  // Sort rows by the second column in descending order and take the top 5
+  const sortedRows = rows.sort((a, b) => b.cells[1] - a.cells[1]).slice(0, 5);
+
+  // Map sorted rows to bar chart format
+  sortedRows.forEach(row => {
+    const group = row.cells[0];
+    const value = row.cells[1];
+    const timestamp = row.cells[headers.length - 1];
+    response.push({
+      group: group,
+      value: value,
+      timestamp: timestamp ? new Date(timestamp) : undefined // Format to YYYY-MM-DD
+    });
+  });
+
+  return {
+    data: response,
+    options: options
   };
 }
