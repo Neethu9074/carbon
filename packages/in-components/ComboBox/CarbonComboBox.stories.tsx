@@ -45,7 +45,7 @@ export const CarbonComboBoxDefault = () => {
 };
 
 export const CarbonComboBoxSingleNotClearable = () => {
-  const [valueC, setValueC] = useState('');
+  const [valueC, setValueC] = useState('chocolate');
   return (
     <>
       <div style={{ margin: '1rem' }}>Carbon</div>
@@ -56,7 +56,6 @@ export const CarbonComboBoxSingleNotClearable = () => {
           setValueC((t as Option)?.value);
         }}
         isClearable={false}
-        defaultValue={options[0]}
       />
     </>
   );

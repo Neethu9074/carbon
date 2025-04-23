@@ -17,7 +17,7 @@ import { t } from 'in-i18n';
 import locals from './CarbonComboBox.mless';
 
 export default function ComboBox(props: ComboBoxProps): JSX.Element {
-  const { options, resultsToShow, placeholder, value, components, highlightFilter } = props;
+  const { options, resultsToShow, placeholder, value, components, highlightFilter, defaultValue } = props;
   const [filter, setFilter] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(resultsToShow ? options.slice(0, resultsToShow) : options);
 
@@ -26,6 +26,8 @@ export default function ComboBox(props: ComboBoxProps): JSX.Element {
   }, [options, resultsToShow]);
 
   const selopt = value !== null && value !== undefined ? options?.find(e => e.value === value) : value;
+  const defopt =
+    defaultValue !== null && defaultValue !== undefined ? options?.find(e => e.value === defaultValue) : selopt;
 
   const getHighlightedText = (text: string | null, highlight: string | null) => {
     if (!highlight || !text) {
@@ -81,6 +83,7 @@ export default function ComboBox(props: ComboBoxProps): JSX.Element {
 
   const cprops: CarbonComboBoxProps = {
     ...props,
+    defaultValue: defopt as Option,
     options: filteredOptions,
     placeholder: placeholder ? placeholder : t('in-components:comboBox.placeholderSelect'),
     value: selopt as Option,
