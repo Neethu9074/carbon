@@ -45,6 +45,31 @@ export default function TermsPageProfile({
   function handleSubmit() {
     onSave(form);
   }
+  const errorWarningMessages = (
+    <>
+      <div
+        className={classNames({
+          [locals.errorText]: true,
+          [locals.hidden]: !hasErrorOnSave
+        })}
+      >
+        <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
+        <span>{t('in-settings:termsDialog.unableToSaveText')}</span>
+      </div>
+
+      {isRoleMessagePresent && (
+        <div
+          className={classNames({
+            [locals.warningText]: true,
+            [locals.hidden]: !isRoleMessagePresent || form.hierarchyValid
+          })}
+        >
+          <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
+          <span>{t('in-settings:termsDialog.roleNeededText')}</span>
+        </div>
+      )}
+    </>
+  );
   return tealiumPrivacyEnabled ? (
     <Modal
       className={locals.disableClose}
@@ -91,28 +116,7 @@ export default function TermsPageProfile({
               />
             ))}
       </Stack>
-
-      <div
-        className={classNames({
-          [locals.errorText]: true,
-          [locals.hidden]: !hasErrorOnSave
-        })}
-      >
-        <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
-        <span>{t('in-settings:termsDialog.unableToSaveText')}</span>
-      </div>
-
-      {isRoleMessagePresent && (
-        <div
-          className={classNames({
-            [locals.warningText]: true,
-            [locals.hidden]: !isRoleMessagePresent || form.hierarchyValid
-          })}
-        >
-          <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
-          <span>{t('in-settings:termsDialog.roleNeededText')}</span>
-        </div>
-      )}
+      {errorWarningMessages}
     </Modal>
   ) : (
     <div className={locals.container}>
@@ -129,28 +133,7 @@ export default function TermsPageProfile({
 
           <RolesSelector form={form} onChange={(fieldName, value) => onChange(form, fieldName, value)} />
         </Stack>
-
-        <div
-          className={classNames({
-            [locals.errorText]: true,
-            [locals.hidden]: !hasErrorOnSave
-          })}
-        >
-          <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
-          <span>{t('in-settings:termsDialog.unableToSaveText')}</span>
-        </div>
-
-        {isRoleMessagePresent && (
-          <div
-            className={classNames({
-              [locals.warningText]: true,
-              [locals.hidden]: !isRoleMessagePresent || form.hierarchyValid
-            })}
-          >
-            <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
-            <span>{t('in-settings:termsDialog.roleNeededText')}</span>
-          </div>
-        )}
+        {errorWarningMessages}
       </div>
 
       <FormFooter className={locals.buttons}>
