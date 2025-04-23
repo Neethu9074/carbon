@@ -216,12 +216,10 @@ function EventViewComponent(props) {
       )}
       {eventsAIChatEnabled && (
         <>
-          <AIChat launcherWrapperID="aiChatDraggableDiv" launcherButtonID="aiChatLauncher" />
-          <div id="aiChatDraggableDiv" className={locals.aiChatDraggableDiv}>
-            <button className={locals.aiChatDraggableButton} id="aiChatLauncher" type="button">
-              <SvgIcon type={'lib_message_send'} size="s" />
-            </button>
-          </div>
+          <AIChat launcherButtonID="aiChatLauncher" />
+          <button className={locals.aiChatDraggableButton} id="aiChatLauncher" type="button">
+            <SvgIcon type={'lib_message_send'} size="s" />
+          </button>
         </>
       )}
     </Sticky>

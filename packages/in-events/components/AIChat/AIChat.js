@@ -92,7 +92,7 @@ const config = {
   showLauncher: false
 };
 
-export function AIChat({ launcherWrapperID, launcherButtonID }) {
+export function AIChat({ launcherButtonID }) {
   useEffect(() => {
     setTimeout(() => {
       setDragListener();
@@ -131,12 +131,13 @@ export function AIChat({ launcherWrapperID, launcherButtonID }) {
         // TODO -- Update this once aichat packages version bumps where new function
         // allows you to cancel all together
         instance.showLauncherGreetingMessage(100000000000000, 'desktop');
-
+        // isDragging is shared accross the various functions to synchronize actions accordingly
         let isDragging = false;
         const launcherElement = document.getElementById(launcherButtonID);
-        launcherElement.addEventListener('click', openMainWindow);
-        instance.on({ type: 'view:change', handler: onLoad });
-        function openMainWindow() {
+        // Listen to when the launcher is clicked
+        // Clicks could mean two things, dragging or opening
+        launcherElement.addEventListener('click', () => {
+          // If its NOT isDragging we open the window, otherwise do nothing
           if (!isDragging) {
             instance?.changeView('mainWindow');
             launcherElement.style.display = 'none';
@@ -151,21 +152,22 @@ export function AIChat({ launcherWrapperID, launcherButtonID }) {
               setDragListener();
             }, 500);
           }
-        }
-        function onLoad() {
-          instance.on({ type: 'view:change', handler: viewChangeHandler });
-        }
-        function viewChangeHandler(event) {
-          if (event.newViewState.mainWindow) {
-            launcherElement.style.display = 'none';
-          } else {
-            launcherElement.style.display = '';
+        });
+        // Whenever the chat window opens / closes we want to hide / show the launcher button
+        instance.on({
+          type: 'view:change',
+          handler: event => {
+            if (event.newViewState.mainWindow) {
+              launcherElement.style.display = 'none';
+            } else {
+              launcherElement.style.display = '';
+            }
           }
-        }
+        });
 
         // Drag Element will make the Ai Launcher Button Draggable across the screen
-        dragElement(document.getElementById(launcherWrapperID));
-        function dragElement(elmnt) {
+        dragElement(document.getElementById(launcherButtonID));
+        function dragElement(element) {
           var pos1 = 0,
             pos2 = 0,
             pos3 = 0,
@@ -190,10 +192,10 @@ export function AIChat({ launcherWrapperID, launcherButtonID }) {
             pos2 = pos4 - e.clientY;
             pos3 = e.clientX;
             pos4 = e.clientY;
-            elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
-            elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
-            elmnt.style.right = 'auto';
-            elmnt.style.bottom = 'auto';
+            element.style.top = element.offsetTop - pos2 + 'px';
+            element.style.left = element.offsetLeft - pos1 + 'px';
+            element.style.right = 'auto';
+            element.style.bottom = 'auto';
           };
           const closeDragElement = () => {
             // When click is released stop moving
@@ -204,7 +206,7 @@ export function AIChat({ launcherWrapperID, launcherButtonID }) {
               isDragging = false;
             }, 25);
           };
-          elmnt.onmousedown = dragMouseDown;
+          element.onmousedown = dragMouseDown;
         }
       }}
     />

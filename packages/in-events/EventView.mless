@@ -5,25 +5,17 @@
  */
 
 :local {
-  .aiChatDraggableDiv {
-    position: fixed;
-    z-index: 90000000000000;
-    background-color: var(--cds-button-primary, #0f62fe);
-    text-align: center;
-    right: 30px;
-    bottom: 50px;
-    border-radius: 28px;
-  }
-
   .aiChatDraggableButton {
-    padding: 10px;
-    z-index: 10;
+    position: fixed;
+    z-index: var(--ids-z-index-option-overlays);
     background-color: var(--cds-button-primary, #0f62fe);
+    border: none;
     color: #fff;
     border-radius: 28px;
-    border: none;
-    width: 50px;
-    height: 50px;
+    width: 56px;
+    height: 56px;
+    right: 30px;
+    bottom: 30px;
   }
 
   .aiChatDraggableButton:active {
