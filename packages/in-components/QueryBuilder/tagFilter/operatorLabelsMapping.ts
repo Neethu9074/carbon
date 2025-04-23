@@ -19,6 +19,7 @@ export const STRING_NOT_STARTS_WITH = t('in-components:queryBuilder.string.doesN
 export const STRING_NOT_ENDS_WITH = t('in-components:queryBuilder.string.doesNotEndWith');
 export const STRING_IS_BLANK = t('in-components:queryBuilder.string.isBlank');
 export const STRING_NOT_BLANK = t('in-components:queryBuilder.string.notBlank');
+export const STRING_REGEX_MATCH = t('in-components:queryBuilder.string.matchesRegex');
 
 export const STRING_EQUALS_DESCRIPTION = t('in-components:queryBuilder.string.equals');
 export const STRING_NOT_EQUAL_DESCRIPTION = t('in-components:queryBuilder.string.doesNotEqual');
@@ -35,6 +36,7 @@ export const STRING_SET_NOT_STARTS_WITH = STRING_NOT_STARTS_WITH;
 export const STRING_SET_NOT_ENDS_WITH = STRING_NOT_ENDS_WITH;
 export const STRING_SET_IS_BLANK = STRING_IS_BLANK;
 export const STRING_SET_NOT_BLANK = STRING_NOT_BLANK;
+export const STRING_SET_REGEX_MATCH = STRING_REGEX_MATCH;
 
 export const STRING_SET_EQUALS_DESCRIPTION = STRING_EQUALS_DESCRIPTION;
 export const STRING_SET_NOT_EQUAL_DESCRIPTION = STRING_NOT_EQUAL_DESCRIPTION;
@@ -51,6 +53,7 @@ export const STRING_LIST_NOT_STARTS_WITH = STRING_SET_NOT_STARTS_WITH;
 export const STRING_LIST_NOT_ENDS_WITH = STRING_SET_NOT_ENDS_WITH;
 export const STRING_LIST_IS_BLANK = STRING_IS_BLANK;
 export const STRING_LIST_NOT_BLANK = STRING_NOT_BLANK;
+export const STRING_LIST_REGEX_MATCH = STRING_REGEX_MATCH;
 
 export const STRING_LIST_EQUALS_DESCRIPTION = STRING_EQUALS_DESCRIPTION;
 export const STRING_LIST_NOT_EQUAL_DESCRIPTION = STRING_NOT_EQUAL_DESCRIPTION;

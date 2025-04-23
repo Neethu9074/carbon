@@ -21,7 +21,8 @@ import {
   NOT_STARTS_WITH,
   NOT_ENDS_WITH,
   GREATER_OR_EQUAL_THAN,
-  LESS_OR_EQUAL_THAN
+  LESS_OR_EQUAL_THAN,
+  REGEX_MATCH
 } from 'in-components/QueryBuilder/tagFilter/operators';
 import { emptyArray } from 'in-services/fixedObjects';
 
@@ -40,7 +41,8 @@ export const STRING = [
   STARTS_WITH,
   ENDS_WITH,
   NOT_STARTS_WITH,
-  NOT_ENDS_WITH
+  NOT_ENDS_WITH,
+  REGEX_MATCH
 ];
 export const STRING_SET = STRING;
 export const STRING_LIST = STRING_SET;
