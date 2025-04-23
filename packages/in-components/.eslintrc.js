@@ -49,6 +49,7 @@ module.exports = {
         'in-vsphere',
         'in-vulnerability-center',
         'in-websites',
+        'in-windowshypervisor',
         'in-xenserver',
         'in-zhmc',
 

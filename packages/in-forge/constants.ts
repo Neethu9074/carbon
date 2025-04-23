@@ -372,6 +372,8 @@ export const nonServicePlugins = {
   webSphereCluster: 'webSphereCluster',
   webSphereMember: 'webSphereMember',
   webSphereLibertyApplicationContainer: 'webSphereLibertyApplicationContainer',
+  windowsHypervisorHost: 'windowsHypervisorHost',
+  windowsHypervisorVM: 'windowsHypervisorVM',
   xenServerHost: 'xenServerHost',
   xenServerVM: 'xenServerVM',
   zhmcConsole: 'zhmcConsole',
@@ -838,6 +840,9 @@ export const fullyQualifiedPlugins = {
   webSphereMember: 'com.instana.forge.infrastructure.application.webspheredmgr.derivedentity.member.WebSphereMember',
   xenServerHost: 'com.instana.forge.infrastructure.paas.xenserver.derivedentity.host.XenServerHost',
   xenServerVM: 'com.instana.forge.infrastructure.paas.xenserver.derivedentity.vm.XenServerVM',
+  windowsHypervisorHost:
+    'com.instana.forge.infrastructure.paas.windowshypervisor.derivedentity.host.WindowsHypervisorHost',
+  windowsHypervisorVM: 'com.instana.forge.infrastructure.paas.windowshypervisor.derivedentity.vm.WindowsHypervisorVM',
   zhmcConsole: 'com.instana.forge.infrastructure.paas.zhmc.derivedentity.console.ZhmcConsole',
   zhmcCpc: 'com.instana.forge.infrastructure.paas.zhmc.derivedentity.console.ZhmcCpc',
   zooKeeper: 'com.instana.forge.infrastructure.database.zookeeper.ZooKeeper',

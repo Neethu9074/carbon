@@ -717,6 +717,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'windowsHypervisorEnabled',
+    instanaCtlKey: 'feature.windowshypervisor.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'automationActionAiGenerationUnitEnabled',
     instanaCtlKey: 'feature.automation.action.ai.generation.unit.enabled',
     defaultValue: false

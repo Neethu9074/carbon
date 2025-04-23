@@ -18,7 +18,8 @@ import {
   hasSAPAccess,
   hasVSphereAccess,
   hasZHMCAccess,
-  hasXenServerAccess
+  hasXenServerAccess,
+  hasWindowsHypervisorAccess
 } from 'in-stores/permission';
 // @ts-expect-error no declaration file
 import { sap, sapSystemListFullyQualified as sapSystemList } from 'in-sap/navigation/paths';
@@ -28,6 +29,7 @@ import {
 } from 'in-cloudfoundry/navigation/paths';
 // @ts-expect-error needs ts migration
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
+import { windowsHypervisor, windowsHypervisorHostListFullyQualified } from 'in-windowshypervisor/navigation/paths';
 import { kubernetes, clusterListFullyQualified as kubernetesClusterList } from 'in-kubernetes/navigation/paths';
 // @ts-expect-error needs ts migration
 import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
@@ -50,6 +52,7 @@ const shouldRenderNutanix = hasNutanixAccess && !playwithEnabled;
 const shouldRenderSap = hasSAPAccess && !playwithEnabled;
 const shouldRenderVSphere = hasVSphereAccess && !playwithEnabled;
 const shouldRenderXenServer = hasXenServerAccess && !playwithEnabled;
+const shouldRenderWindowsHypervisor = hasWindowsHypervisorAccess && !playwithEnabled;
 
 const numberOfAllowedPlatforms = [
   shouldRenderPCFA,
@@ -61,7 +64,8 @@ const numberOfAllowedPlatforms = [
   shouldRenderNutanix,
   shouldRenderSap,
   shouldRenderVSphere,
-  shouldRenderXenServer
+  shouldRenderXenServer,
+  shouldRenderWindowsHypervisor
 ].filter(Boolean).length;
 
 interface PlatformsMenuItemProps {
@@ -93,7 +97,8 @@ function PlatformsSideNavMenuItem({ isSideNavExpanded }: PlatformsSideNavMenuIte
     nutanix,
     sap,
     vsphere,
-    xenserver
+    xenserver,
+    windowsHypervisor
   );
 
   return (
@@ -214,6 +219,16 @@ function PlatformsMenuItemContent(props: PlatformsMenuItemContentProps) {
           label={t('in-components:mainNavigation.viewSwitcherLabelXenServer')}
           href={createHrefToPath(xenserverHostListFullyQualified)}
           isActive={matchLocation(xenserver)}
+        />
+      )}
+      {shouldRenderWindowsHypervisor && (
+        <MenuItem
+          {...props}
+          id="main-nav-windowshypervisor"
+          key="main-nav-windowshypervisor"
+          label={t('in-components:mainNavigation.viewSwitcherLabelWindowsHypervisor')}
+          href={createHrefToPath(windowsHypervisorHostListFullyQualified)}
+          isActive={matchLocation(windowsHypervisor)}
         />
       )}
     </>
