@@ -224,7 +224,6 @@
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "The URL is the domain name being tested for DNS resolution",
-            "lookupPlaceholder": "Your website's url",
             "queryType": "Query type",
             "serverLabel": "DNS server",
             "serverHelperText": "The DNS server is the server responsible for translating the domain name into an IP address",

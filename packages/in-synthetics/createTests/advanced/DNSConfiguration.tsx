@@ -152,7 +152,6 @@ export default function DNSConfiguration({
                 );
               }}
               helperText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.lookupHelperText')}
-              placeholder={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.lookupPlaceholder')}
               labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.lookupLabel')}
               invalid={lookupField.touched && !lookupField.valid}
               invalidText={lookupField.messages[0]?.message ?? ''}
