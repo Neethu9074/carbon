@@ -6,8 +6,8 @@
 
 import React, { useEffect } from 'react';
 
+import { SvgIcon, CarbonButton } from '@instana/components';
 import { ChatContainer } from '@instana/ai-chat';
-import { SvgIcon } from '@instana/components';
 
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
 import EditableOptions from 'in-events/components/AIChat/EditableOptions';
@@ -216,9 +216,9 @@ export function AIChat() {
           }
         }}
       />
-      <button className={locals.aiChatDraggableButton} id={LAUNCHER_BUTTON_ID} type="button">
+      <CarbonButton className={locals.aiChatDraggableButton} id={LAUNCHER_BUTTON_ID}>
         <SvgIcon type={'lib_message_send'} size="s" />
-      </button>
+      </CarbonButton>
     </>
   );
 }
