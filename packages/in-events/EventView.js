@@ -6,8 +6,8 @@
 import React, { useMemo, useCallback } from 'react';
 import { get, isEmpty } from 'lodash';
 
-import { Stack, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Stack } from '@instana/components';
 import { just } from '@instana/observables';
 
 // This function returns a React component for user defined responses.
@@ -44,8 +44,6 @@ import useUrlState from 'in-hooks/useUrlState';
 import { getEvent } from 'in-stores/events';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
-
-import locals from './EventView.mless';
 
 export default function LegacyEventViewMigration(props) {
   const query = get(props, ['location', 'query']);
@@ -214,14 +212,7 @@ function EventViewComponent(props) {
           </Stack>
         </LeftRightPadding>
       )}
-      {eventsAIChatEnabled && (
-        <>
-          <AIChat launcherButtonID="aiChatLauncher" />
-          <button className={locals.aiChatDraggableButton} id="aiChatLauncher" type="button">
-            <SvgIcon type={'lib_message_send'} size="s" />
-          </button>
-        </>
-      )}
+      {eventsAIChatEnabled && <AIChat />}
     </Sticky>
   );
 }

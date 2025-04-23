@@ -7,10 +7,15 @@
 import React, { useEffect } from 'react';
 
 import { ChatContainer } from '@instana/ai-chat';
+import { SvgIcon } from '@instana/components';
 
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
 import EditableOptions from 'in-events/components/AIChat/EditableOptions';
 import DisplayChart from 'in-events/components/AIChat/DisplayChart';
+
+import locals from './AIChat.mless';
+
+const LAUNCHER_BUTTON_ID = 'aiChatLauncher';
 
 function customSortRow(lhs, rhs, collator) {
   const nlhs = Number(lhs);
@@ -92,7 +97,7 @@ const config = {
   showLauncher: false
 };
 
-export function AIChat({ launcherButtonID }) {
+export function AIChat() {
   useEffect(() => {
     setTimeout(() => {
       setDragListener();
@@ -100,115 +105,120 @@ export function AIChat({ launcherButtonID }) {
   });
 
   return (
-    <ChatContainer
-      config={config}
-      renderUserDefinedResponse={({ messageItem }, instance) => {
-        if (!messageItem) {
-          return;
-        }
-        switch (messageItem.user_defined?.user_defined_type) {
-          case `editable_options`:
-            return <EditableOptions messageItem={messageItem} instance={instance} />;
-          case 'bar_chart':
-            return <DisplayChart messageItem={messageItem} />;
-          default:
-            return undefined;
-        }
-      }}
-      onAfterRender={instance => {
-        instance.on({
-          type: 'receive',
-          handler: msg => {
-            if (msg.data?.output?.generic?.[0]?.response_type === 'table') {
-              // Wait for table to display
+    <>
+      <ChatContainer
+        config={config}
+        renderUserDefinedResponse={({ messageItem }, instance) => {
+          if (!messageItem) {
+            return;
+          }
+          switch (messageItem.user_defined?.user_defined_type) {
+            case `editable_options`:
+              return <EditableOptions messageItem={messageItem} instance={instance} />;
+            case 'bar_chart':
+              return <DisplayChart messageItem={messageItem} />;
+            default:
+              return undefined;
+          }
+        }}
+        onAfterRender={instance => {
+          instance.on({
+            type: 'receive',
+            handler: msg => {
+              if (msg.data?.output?.generic?.[0]?.response_type === 'table') {
+                // Wait for table to display
+                setTimeout(() => {
+                  setCustomSortRow();
+                }, 500);
+              }
+            }
+          });
+          // HACK -- To keep the greeting message from popping up we add a LONG delay.
+          // TODO -- Update this once aichat packages version bumps where new function
+          // allows you to cancel all together
+          instance.showLauncherGreetingMessage(100000000000000, 'desktop');
+          // isDragging is shared accross the various functions to synchronize actions accordingly
+          let isDragging = false;
+          const launcherElement = document.getElementById(LAUNCHER_BUTTON_ID);
+          // Listen to when the launcher is clicked
+          // Clicks could mean two things, dragging or opening
+          launcherElement.addEventListener('click', () => {
+            // If its NOT isDragging we open the window, otherwise do nothing
+            if (!isDragging) {
+              instance?.changeView('mainWindow');
+              launcherElement.style.display = 'none';
+              const elements = document.getElementsByTagName('cds-aichat-internal');
+              if (elements.length === 1) {
+                const movable = elements[0].shadowRoot.getElementById('WACWidget');
+                movable.style.right = `32px`;
+                movable.style.bottom = `32px`;
+              }
+              // Still need to wait for render
               setTimeout(() => {
-                setCustomSortRow();
+                setDragListener();
               }, 500);
             }
-          }
-        });
-        // HACK -- To keep the greeting message from popping up we add a LONG delay.
-        // TODO -- Update this once aichat packages version bumps where new function
-        // allows you to cancel all together
-        instance.showLauncherGreetingMessage(100000000000000, 'desktop');
-        // isDragging is shared accross the various functions to synchronize actions accordingly
-        let isDragging = false;
-        const launcherElement = document.getElementById(launcherButtonID);
-        // Listen to when the launcher is clicked
-        // Clicks could mean two things, dragging or opening
-        launcherElement.addEventListener('click', () => {
-          // If its NOT isDragging we open the window, otherwise do nothing
-          if (!isDragging) {
-            instance?.changeView('mainWindow');
-            launcherElement.style.display = 'none';
-            const elements = document.getElementsByTagName('cds-aichat-internal');
-            if (elements.length === 1) {
-              const movable = elements[0].shadowRoot.getElementById('WACWidget');
-              movable.style.right = `32px`;
-              movable.style.bottom = `32px`;
+          });
+          // Whenever the chat window opens / closes we want to hide / show the launcher button
+          instance.on({
+            type: 'view:change',
+            handler: event => {
+              if (event.newViewState.mainWindow) {
+                launcherElement.style.display = 'none';
+              } else {
+                launcherElement.style.display = '';
+              }
             }
-            // Still need to wait for render
-            setTimeout(() => {
-              setDragListener();
-            }, 500);
-          }
-        });
-        // Whenever the chat window opens / closes we want to hide / show the launcher button
-        instance.on({
-          type: 'view:change',
-          handler: event => {
-            if (event.newViewState.mainWindow) {
-              launcherElement.style.display = 'none';
-            } else {
-              launcherElement.style.display = '';
-            }
-          }
-        });
+          });
 
-        // Drag Element will make the Ai Launcher Button Draggable across the screen
-        dragElement(document.getElementById(launcherButtonID));
-        function dragElement(element) {
-          var pos1 = 0,
-            pos2 = 0,
-            pos3 = 0,
-            pos4 = 0;
+          // Drag Element will make the Ai Launcher Button Draggable across the screen
+          dragElement(document.getElementById(LAUNCHER_BUTTON_ID));
+          function dragElement(element) {
+            var pos1 = 0,
+              pos2 = 0,
+              pos3 = 0,
+              pos4 = 0;
 
-          const dragMouseDown = e => {
-            e = e || window.event;
-            e.preventDefault();
-            // Get position on start and call function on move
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
-            document.onmousemove = elementDrag;
-          };
-          const elementDrag = e => {
-            isDragging = true;
-            e = e || window.event;
-            e.preventDefault();
-            // Determine new cursor position and then
-            // set the elements position
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            element.style.top = element.offsetTop - pos2 + 'px';
-            element.style.left = element.offsetLeft - pos1 + 'px';
-            element.style.right = 'auto';
-            element.style.bottom = 'auto';
-          };
-          const closeDragElement = () => {
-            // When click is released stop moving
-            document.onmouseup = null;
-            document.onmousemove = null;
-            // Set a slight delay so then a second click would open the chat
-            setTimeout(() => {
-              isDragging = false;
-            }, 25);
-          };
-          element.onmousedown = dragMouseDown;
-        }
-      }}
-    />
+            const dragMouseDown = e => {
+              e = e || window.event;
+              e.preventDefault();
+              // Get position on start and call function on move
+              pos3 = e.clientX;
+              pos4 = e.clientY;
+              document.onmouseup = closeDragElement;
+              document.onmousemove = elementDrag;
+            };
+            const elementDrag = e => {
+              isDragging = true;
+              e = e || window.event;
+              e.preventDefault();
+              // Determine new cursor position and then
+              // set the elements position
+              pos1 = pos3 - e.clientX;
+              pos2 = pos4 - e.clientY;
+              pos3 = e.clientX;
+              pos4 = e.clientY;
+              element.style.top = element.offsetTop - pos2 + 'px';
+              element.style.left = element.offsetLeft - pos1 + 'px';
+              element.style.right = 'auto';
+              element.style.bottom = 'auto';
+            };
+            const closeDragElement = () => {
+              // When click is released stop moving
+              document.onmouseup = null;
+              document.onmousemove = null;
+              // Set a slight delay so then a second click would open the chat
+              setTimeout(() => {
+                isDragging = false;
+              }, 25);
+            };
+            element.onmousedown = dragMouseDown;
+          }
+        }}
+      />
+      <button className={locals.aiChatDraggableButton} id={LAUNCHER_BUTTON_ID} type="button">
+        <SvgIcon type={'lib_message_send'} size="s" />
+      </button>
+    </>
   );
 }
