@@ -6,8 +6,6 @@
 //@ts-expect-error needs TS migration
 import ReadOnlyConfiguration from 'in-applications/Dashboards/application/tabs/ReadOnlyConfiguration';
 //@ts-expect-error needs TS migration
-import CveVulnerabilities from 'in-applications/Dashboards/application/tabs/CveVulnerabilities';
-//@ts-expect-error needs TS migration
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 //@ts-expect-error needs TS migration
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
@@ -27,6 +25,7 @@ import ResourceOptimizationTab from 'in-applications/Dashboards/application/tabs
 //@ts-expect-error needs TS migration
 import Map from 'in-applications/Dashboards/application/tabs/Map';
 import SloDashboardList from 'in-service-levels/components/Shared/SloDashboardList/SloDashboardList';
+import CveVulnerabilities from 'in-applications/Dashboards/application/tabs/CveVulnerabilities';
 import LogMessagesTab from 'in-logging/components/Dashboards/components/LogMessages';
 import { hasInfrastructureAccess, hasSyntheticsAccess } from 'in-stores/permission';
 import { applicationDashboard } from 'in-applications/navigation/paths';
