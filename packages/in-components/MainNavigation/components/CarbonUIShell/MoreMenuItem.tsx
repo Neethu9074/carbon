@@ -62,8 +62,8 @@ export default function MoreMenuItem({ isSideNavExpanded }: MoreMenuItemProps) {
         href="https://www.ibm.com/docs/en/obi/current"
         renderIcon={() => <SvgIcon size="xs" type="lib_views_external_link" />}
       >
-        <span className="cds--visually-hidden">{t('in-components:accessibility.opensNewTab')}</span>
         <span>{t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}</span>
+        <span className="cds--visually-hidden">{t('in-components:accessibility.opensNewTab')}</span>
       </CarbonSideNavLink>
       <CarbonSideNavLink
         target="_blank"
@@ -73,8 +73,8 @@ export default function MoreMenuItem({ isSideNavExpanded }: MoreMenuItemProps) {
         href="https://www.ibm.com/mysupport/s/?language=en_US"
         renderIcon={() => <SvgIcon size="xs" type="lib_views_external_link" />}
       >
-        <span className="cds--visually-hidden">{t('in-components:accessibility.opensNewTab')}</span>
         <span>{t('in-components:mainNavigation.viewSwitcherLabelSupport')}</span>
+        <span className="cds--visually-hidden">{t('in-components:accessibility.opensNewTab')}</span>
       </CarbonSideNavLink>
       <MenuItem
         id="main-nav-about"
