@@ -97,8 +97,8 @@ function PlatformsSideNavMenuItem({ isSideNavExpanded }: PlatformsSideNavMenuIte
     nutanix,
     sap,
     vsphere,
-    xenserver,
-    windowsHypervisor
+    windowsHypervisor,
+    xenserver
   );
 
   return (

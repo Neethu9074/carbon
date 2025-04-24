@@ -212,7 +212,8 @@ export const hasAPlatformAccess =
   hasKubernetesAccess ||
   hasSAPAccess ||
   hasWindowsHypervisorAccess ||
-  hasNutanixAccess;
+  hasNutanixAccess ||
+  hasXenServerAccess;
 
 export const hasCanCreateHeapDump =
   hasInfrastructureAccess && permissions.includes(InfrastructureCapability.CAN_CREATE_HEAP_DUMP);

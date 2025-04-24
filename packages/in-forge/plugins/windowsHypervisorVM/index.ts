@@ -10,5 +10,6 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.windowsHypervisorVM,
+  //TODO: display the icon based on the VM operating system
   getIconType: () => 'windowshypervisor'
 });

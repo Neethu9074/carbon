@@ -104,7 +104,6 @@ export default (
     {loggingRoutes}
     {deepLinkRoutes}
     {hasNutanixAccess && nutanixRoutes}
-    {hasXenServerAccess && xenserverRoutes}
     {hasWindowsHypervisorAccess && windowsHypervisorRoutes}
 
     {/* The landing page must be the very last item as it dynamically redirects */}
