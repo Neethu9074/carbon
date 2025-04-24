@@ -30,7 +30,6 @@ import { syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigat
 import ResultFilters from 'in-synthetics/dashboards/summary/tabs/results/ResultFilters';
 import { locationLabelTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { syntheticDNSEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -39,6 +38,7 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { syntheticDNSEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
@@ -51,7 +51,7 @@ const metrics = ['start_time', 'location_id', 'response_time', 'response_size', 
 let testId = '';
 let testType: string;
 
-function StartTimeColumnContent(item: TestResultListItem) {
+function StartTimeColumnContent({ item }: { item: TestResultListItem }) {
   const { trackCta } = useSegmentTracking();
   const { location, createHref } = useNavigation();
   location.pathname = syntheticDetailsPath;
@@ -99,12 +99,18 @@ function StartTimeColumnContent(item: TestResultListItem) {
   );
 }
 
+const runTypeColumnContent = (item: TestResultListItem) => {
+  return <span className={locals.metricLabel}>{item.testResultCommonProperties?.runType ?? ''}</span>;
+};
+
 let columnDefinitions: ColumnDefinition<TestResultListItem>[] = [
   {
     id: 'start_time',
     label: t('in-synthetics:dashboard.resultsListPage.startedColumn'),
     defaultOrderDirection: 'DESC',
-    getContent: StartTimeColumnContent
+    getContent(item: TestResultListItem) {
+      return <StartTimeColumnContent item={item} />;
+    }
   },
   {
     //location_label => location display name
@@ -144,6 +150,12 @@ let columnDefinitions: ColumnDefinition<TestResultListItem>[] = [
       const count = get(item, ['metrics', 'retries', 0, 1], 0);
       return <span className={locals.metricLabel}>{count}</span>;
     }
+  },
+  {
+    id: 'synthetic.runType',
+    defaultOrderDirection: 'DESC',
+    label: t('in-synthetics:dashboard.resultsListPage.cicd.executionType'),
+    getContent: runTypeColumnContent
   }
 ];
 
@@ -155,10 +167,6 @@ const daysRemainingColumnContent = (item: TestResultListItem) => {
 function renderFailurePopover(item: TestResultListItem) {
   return <FailureTypePopover resultItem={item} />;
 }
-
-const runTypeColumnContent = (item: TestResultListItem) => {
-  return <span className={locals.metricLabel}>{item.testResultCommonProperties?.runType ?? ''}</span>;
-};
 
 interface ResultListProps {
   test: TestResponse;
@@ -200,16 +208,6 @@ export default function ResultsList({ test }: ResultListProps) {
     ...(isSSLCertificate || isDNS
       ? columnDefinitions.filter(columnDefinition => columnDefinition.id !== 'response_size')
       : columnDefinitions),
-    ...(syntheticRunNowEnabled
-      ? [
-          {
-            id: 'synthetic.runType',
-            defaultOrderDirection: 'DESC',
-            label: t('in-synthetics:dashboard.resultsListPage.cicd.executionType'),
-            getContent: runTypeColumnContent
-          }
-        ]
-      : []),
     ...(isSSLCertificate
       ? [
           {

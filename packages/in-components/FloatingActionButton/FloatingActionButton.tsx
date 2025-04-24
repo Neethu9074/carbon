@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { forwardRef } from 'react';
+import React, { ReactNode, forwardRef } from 'react';
 import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
@@ -16,7 +16,7 @@ import locals from 'in-components/FloatingActionButton/FloatingActionButton.mles
 export const kinds = ['primaryv2', 'action'];
 
 interface Props {
-  children: Element | string;
+  children: ReactNode;
   icon?: string;
   onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => unknown;
   withBoxShadow?: boolean;

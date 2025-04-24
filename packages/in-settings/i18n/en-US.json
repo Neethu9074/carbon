@@ -715,7 +715,6 @@
       "noMembersYet": "No members yet",
       "noRoleSelectedError": "At least one role needs to be selected.",
       "removeMemberFromTeam": "Remove member from team",
-      "rolesTag": "{{count}} roles",
       "scopeAlertChannels": "Alert channels",
       "scopeAlertChannelsSubtitle": "{{count}} alert channels",
       "scopeApplications": "Applications",

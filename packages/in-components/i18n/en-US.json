@@ -806,7 +806,8 @@
       "equals": "equals",
       "doesNotEqual": "does not equal",
       "isBlank": "has blank value",
-      "notBlank": "has non-blank value"
+      "notBlank": "has non-blank value",
+      "matchesRegex": "matching RegEx"
     },
     "number": {
       "isPresent": "is present",

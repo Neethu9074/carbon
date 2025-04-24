@@ -95,6 +95,9 @@ export const nonServicePlugins = {
   azureServiceBus: 'azureServiceBus',
   azureServiceBusQueues: 'azureServiceBusQueues',
   azureServiceBusTopics: 'azureServiceBusTopics',
+  azureEventHubNamespace: 'azureEventHubNamespace',
+  azureEventHubClusteredNamespace: 'azureEventHubClusteredNamespace',
+  azureEventHubCluster: 'azureEventHubCluster',
   azureMachineLearning: 'azureMachineLearning',
   azureKeyVault: 'azureKeyVault',
   microsoftPurview: 'microsoftPurview',
@@ -514,6 +517,11 @@ export const fullyQualifiedPlugins = {
     'com.instana.forge.hardware.virtual.azure.servicebus.derivedentity.queues.AzureServiceBusQueues',
   azureServiceBusTopics:
     'com.instana.forge.hardware.virtual.azure.servicebus.derivedentity.topics.AzureServiceBusTopics',
+  azureEventHubNamespace:
+    'com.instana.forge.hardware.virtual.azure.eventhub.derivedentity.namespace.AzureEventHubNamespace',
+  azureEventHubClusteredNamespace:
+    'com.instana.forge.hardware.virtual.azure.eventhub.derivedentity.clusterednamespace.AzureEventHubClusteredNamespace',
+  azureEventHubCluster: 'com.instana.forge.hardware.virtual.azure.eventhub.derivedentity.cluster.AzureEventHubCluster',
   azureMachineLearning: 'com.instana.forge.hardware.virtual.azure.machinelearning.AzureMachineLearning',
   azureKeyVault: 'com.instana.forge.hardware.virtual.azure.keyvault.AzureKeyVault',
   azureManagedHSM: 'com.instana.forge.hardware.virtual.azure.managedhsm.AzureManagedHSM',

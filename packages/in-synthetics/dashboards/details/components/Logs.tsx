@@ -13,8 +13,13 @@ import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
+import {
+  BrowserMessage,
+  dummyTestResultLogs,
+  consoleLogColumnProps,
+  TestResultLog
+} from 'in-synthetics/utils/constants';
 import { logLevelColumn, logMessageColum, timestampColumn } from 'in-synthetics/utils/browserLogsColumnDefinitions';
-import { BrowserMessage, dummyTestResultLogs, TestResultLog } from 'in-synthetics/utils/constants';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import LogMessageColumn from 'in-synthetics/dashboards/details/components/LogMessageColumn';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
@@ -32,7 +37,9 @@ const consoleColumnDefinitions = [
     id: 'consoleLogMessage',
     useMaxHeight: true,
     widthInAbsoluteUnit: true,
-    getContent: LogMessageColumn
+    getContent: ({ logs }: consoleLogColumnProps) => {
+      return <LogMessageColumn logs={logs} />;
+    }
   }
 ];
 

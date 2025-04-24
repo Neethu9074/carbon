@@ -24,6 +24,7 @@ import RunActionContent, {
 import { getTimeoutFromFields, getAnsibleHostIdFromFields } from 'in-automation/utils/actionField';
 import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
+import { getGitLinkFromFields, getGitTypeFromFields } from 'in-automation/utils/actionField';
 import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
@@ -118,6 +119,7 @@ export default function RunActionDialog({
               policy={policy}
               error={error}
               test={test}
+              agentSnapShots={agentSnapShots}
               actionInstanceId={actionInstanceId}
               isSaving={isSaving}
               form={form}
@@ -193,7 +195,13 @@ function filterAgentSnapShotsArray(hostId: string, agents: OUT | null | undefine
 function useAgentSnapShots({ action }: { action: Action }) {
   const timeConfig = useTimeConfig();
   let query = '';
-  if (action.type === ACTION_TYPE.SCRIPT) query = 'entity.agent.capability:action-script';
+  const gitUrl = getGitLinkFromFields(action.fields);
+  const gitType = getGitTypeFromFields(action.fields);
+  if (action.type === ACTION_TYPE.SCRIPT && gitUrl.value === '') query = 'entity.agent.capability:action-script';
+  else if (action.type === ACTION_TYPE.SCRIPT && gitUrl.value !== '' && gitType.value === 'github')
+    query = 'entity.agent.capability:action-script entity.agent.capability:action-github-ops';
+  else if (action.type === ACTION_TYPE.SCRIPT && gitUrl.value !== '' && gitType.value === 'gitlab')
+    query = 'entity.agent.capability:action-script entity.agent.capability:action-gitlab-ops';
   else if (action.type === ACTION_TYPE.HTTP) query = 'entity.agent.capability:action-http';
   else if (action.type === ACTION_TYPE.ANSIBLE) query = 'entity.agent.capability:action-ansible';
   else if (action.type === ACTION_TYPE.GITHUB) query = 'entity.agent.capability:action-github';
@@ -498,9 +506,19 @@ interface RunActionFooterProps {
   onSave: () => void;
   test?: boolean;
   policy?: NewPolicy;
+  agentSnapShots: OUT | null | undefined;
 }
 
-function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave, test, policy }: RunActionFooterProps) {
+function RunActionFooter({
+  error,
+  actionInstanceId,
+  isSaving,
+  form,
+  onSave,
+  test,
+  policy,
+  agentSnapShots
+}: RunActionFooterProps) {
   const navigateToActionHistory = useNavigateToActionHistory();
   if (error || actionInstanceId) {
     return (
@@ -535,7 +553,13 @@ function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave, test
   return (
     <>
       <CancelButton isSaving={isSaving} onClick={close} />
-      <SaveButton kind="primary" form={form} disabled={!form} isSaving={isSaving} onClick={onSave}>
+      <SaveButton
+        kind="primary"
+        form={form}
+        disabled={!form || agentSnapShots?.progress?.loading}
+        isSaving={isSaving}
+        onClick={onSave}
+      >
         {policy
           ? t('in-automation:actionHistory.saveButton')
           : test

@@ -257,7 +257,7 @@
     "kubecost": {
       "costByDeployment": "Cost by deployment",
       "deployment": "Deployment",
-      "totalCost": "Total cost",
+      "totalCost": "Cost",
       "cost": "Cost",
       "clusterCost": "Cluster cost",
       "idle": "Idle",
@@ -266,7 +266,7 @@
       "namespaceCumulativeCost": "Cost by namespace",
       "trend": "Trend %",
       "ramCost": "RAM",
-      "totalEfficiency": "Total efficiency",
+      "totalEfficiency": "Efficiency",
       "sharedCost": "Shared",
       "loadBalancerCost": "Load balancer",
       "pvCost": "Persistent volume",
@@ -285,7 +285,23 @@
       "workloadEfficiencyTooltipinfo": "The average efficiency of each workload over the chosen window. Workload efficiency is the costweighted ratio of RAM and CPU usage to configured RAM and CPU requests.",
       "estimatedMonthlySavingsTooltipinfo": "The estimated monthly savings available for your cluster, as determined using historical data from the time frame selected.",
       "deploymentInfoNotRetrieving": "Kubecost is not retrieving deployments information",
-      "notRetrievingData": "Kubecost is not retrieving data"
+      "notRetrievingData": "Kubecost is not retrieving data",
+      "upgradeNow": "Upgrade Now",
+      "restrictdata": "Your free license includes a 250 vCPU limit and up to 15 days of data. ",
+      "enterpriseLicense": "Upgrade to Enterprise today and unlock Kubecost's full potential.",
+      "coreNearing250": "You are nearing the 250 CPU free license limit. ",
+      "limitedReached": "You have reached the 250 vCPU free license limit. ",
+      "continueKubecostEnterprise": "To continue using Kubecost upgrade to Enterprise today.",
+      "costMonitoring": "Cost monitoring, powered by IBM Kubecost",
+      "configureKubeCost": "Configure IBM Kubecost",
+      "freeTrial": "Get started for free and see up to 15-days of cost insights for your cluster.",
+      "configureNow": "Configure now",
+      "connectSales": "Connect with sales",
+      "salesTeam": "To buy an Enterprise license, reach out to our sales team now.",
+      "assessement": "Get an assessement",
+      "helpGrow": "Help us grow",
+      "shareThoughts": "Share your thoughts with us so we can continue to provide the features you want the most.",
+      "feedback": "Give feedback"
     }
   },
   "cloudNative": {

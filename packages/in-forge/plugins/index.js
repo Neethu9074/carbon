@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
  */
 
 // require all forge modules inside this one, as
@@ -13,6 +14,7 @@ import './webSphereLibertyApplicationContainer';
 import './kubernetesHorizontalPodAutoscaler';
 import './kubernetesPersistentVolumeClaim';
 import './kubernetesReplicationController';
+import './azureEventHubClusteredNamespace';
 import './dropwizardApplicationContainer';
 import './springbootApplicationContainer';
 import './webSphereInfrastructureManager';
@@ -54,6 +56,7 @@ import './redisEnterpriseCluster';
 import './entityStatisticsMember';
 import './ibmOpenstackHypervisor';
 import './powerVCComputeInstance';
+import './azureEventHubNamespace';
 import './aliCloudRocketMqGroup';
 import './aliCloudRocketMqTopic';
 import './golangRuntimePlatform';
@@ -71,6 +74,7 @@ import './azureServiceBusTopics';
 import './awsDocumentDbInstance';
 import './snowflakeOrganization';
 import './windowsHypervisorHost';
+import './azureEventHubCluster';
 import './redisEnterpriseShard';
 import './tuxedoAppApplication';
 import './ibmCloudClinicalData';

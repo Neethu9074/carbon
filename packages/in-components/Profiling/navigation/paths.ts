@@ -49,6 +49,7 @@ export function useLinkToProfiles({
 }: UseLinkToProfiles) {
   const { location, createHref } = useNavigation();
   location.pathname = `${analyzeProfilePathFullyQualified}/${subPath || 'summary'}`;
+  delete location.query['tl.tf'];
 
   if (processSnapshotId) {
     setOrDeleteMatrixKey(location, profilingPath, processIdMatrixParameter, processSnapshotId);

@@ -22,7 +22,7 @@ export default function AlertTypeColumn({ config }: AlertTypeColumnProps) {
     <DefaultCell
       title={t('in-alerting:smartAlerts.slo.alertList.title', { context: config.rule.metric })}
       subtitle={t('in-alerting:smartAlerts.slo.alertList.threshold', {
-        value: isBurnRateAlert ? config.threshold.value : percentage.detailed(config.threshold.value),
+        value: isBurnRateAlert ? config?.threshold?.value : percentage.detailed(config?.threshold?.value ?? 0),
         context: config.rule.metric
       })}
     />
