@@ -51,7 +51,7 @@ const metrics = ['start_time', 'location_id', 'response_time', 'response_size', 
 let testId = '';
 let testType: string;
 
-function StartTimeColumnContent(item: TestResultListItem) {
+function StartTimeColumnContent({ item }: { item: TestResultListItem }) {
   const { trackCta } = useSegmentTracking();
   const { location, createHref } = useNavigation();
   location.pathname = syntheticDetailsPath;
@@ -108,7 +108,9 @@ let columnDefinitions: ColumnDefinition<TestResultListItem>[] = [
     id: 'start_time',
     label: t('in-synthetics:dashboard.resultsListPage.startedColumn'),
     defaultOrderDirection: 'DESC',
-    getContent: StartTimeColumnContent
+    getContent(item: TestResultListItem) {
+      return <StartTimeColumnContent item={item} />;
+    }
   },
   {
     //location_label => location display name

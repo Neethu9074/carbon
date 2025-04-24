@@ -810,3 +810,9 @@ export interface AssertionTargetFilter extends TargetFilter {
     value: Invalid;
   };
 }
+
+export interface consoleLogColumnProps {
+  logs: string;
+  name: string;
+  timestamp: number;
+}
