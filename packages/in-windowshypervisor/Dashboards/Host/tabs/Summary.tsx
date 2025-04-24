@@ -11,8 +11,8 @@ import { Card } from '@instana/components';
 
 // @ts-expect-error needs migration
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
-import { number, kiloBytesTwoDecimalPlaces, megaBytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import InfrastructureMetricChart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { number, megaBytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -33,9 +33,9 @@ export default function Summary({ timeConfig, data: host }: SummaryData) {
         <KpiCard title={t('in-windowshypervisor:dashboards.address')} value={host.address} />
         <KpiCard title={t('in-windowshypervisor:dashboards.processorCount')} value={host.cpuCount} />
         <InfraMetricKpiCard
-          title={t('in-windowshypervisor:dashboards.freeRAM')}
+          title={t('in-windowshypervisor:dashboards.storageSpaceUsed')}
           snapshotId={snapshotId}
-          metric="freeRAM"
+          metric="memoryUsedKib"
           formatter={megaBytesTwoDecimalPlaces}
         />
       </KpiGridRow>
@@ -55,17 +55,14 @@ export default function Summary({ timeConfig, data: host }: SummaryData) {
           </Card>
         </Col>
         <Col lg={6}>
-          <Card title={t('in-windowshypervisor:memoryUsage')} useMaxAvailableHeight>
+          <Card title={t('in-windowshypervisor:dashboards.freeRAM')} useMaxAvailableHeight>
             <InfrastructureMetricChart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: kiloBytesTwoDecimalPlaces,
-                metrics: ['memoryTotalKib', 'memoryFreeKib'],
-                labels: [
-                  t('in-windowshypervisor:dashboards.memoryTotal'),
-                  t('in-windowshypervisor:dashboards.memoryFree')
-                ],
+                formatter: megaBytesTwoDecimalPlaces,
+                metrics: ['freeRAM'],
+                labels: [t('in-windowshypervisor:dashboards.freeRAM')],
                 type: 'line'
               }}
             />

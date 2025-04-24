@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2025
  */
 
-import { get } from 'lodash';
 import React from 'react';
 
 import getWindowsHypervisorHost from 'in-windowshypervisor/subscriptions/getWindowsHypervisorHost';
@@ -54,11 +53,5 @@ export default function HostDashboard({ location }: HostDashboardProps) {
 }
 
 function HostDashboardHeader(props: HostBreadcrumbProps) {
-  return (
-    <DashboardHeader
-      title={t('in-windowshypervisor:host')}
-      icon="lib_windows"
-      label={get(props.result, ['data', 'name'])}
-    />
-  );
+  return <DashboardHeader title={t('in-windowshypervisor:host')} icon="lib_windows" label={props.result?.data?.name} />;
 }

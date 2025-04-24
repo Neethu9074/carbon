@@ -15,7 +15,6 @@
         "freeRAM": "Free RAM",
         "cpuAveragePercentage": "CPU average (%)",
         "cpuAverage": "CPU average",
-        "memoryFree": "Memory free",
-        "memoryTotal":"Memory total"
+        "storageSpaceUsed": "Total storage space"
     }
 }
