@@ -35,11 +35,8 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailabl
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { productAreas } from 'in-services/tracking/productAreas';
-import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { OnEntity } from 'in-events/components/EventsListRow';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
-import { pageNames } from 'in-services/tracking/pageNames';
 import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -102,12 +99,6 @@ export default function PrcIssueEventContent({ event }: PrcIssueEventContentProp
   ];
   return (
     <>
-      <ViewTrackingMeta
-        data={{
-          productArea: productAreas.events,
-          pageRootName: pageNames.event
-        }}
-      />
       <Row withoutSideMargin>
         <Col xs>
           <Card title={t('in-events:titleDescription')}>

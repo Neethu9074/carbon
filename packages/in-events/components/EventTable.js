@@ -37,11 +37,8 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
-import { productAreas } from 'in-services/tracking/productAreas';
-import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { isAppDataEntityType } from 'in-services/entityUtils';
 import DashboardHeader from 'in-components/DashboardHeader';
-import { pageNames } from 'in-services/tracking/pageNames';
 import EventsList from 'in-events/components/EventsList';
 import { eventsPath } from 'in-events/navigation/paths';
 import EventIcon from 'in-events/components/EventIcon';
@@ -94,13 +91,6 @@ export default class extends React.Component {
   render() {
     return (
       <div ref={table => (this.table = table)}>
-        <ViewTrackingMeta
-          data={{
-            productArea: productAreas.events,
-            pageRootName: pageNames.events
-          }}
-        />
-
         <EventTable {...this.props} />
       </div>
     );
@@ -117,12 +107,14 @@ function EventTable(props) {
   }
 
   function onItemClicked(eventId) {
+    // clicking into event list should re-enable tracking Event page view
+    setOrDeleteMatrixKey(location, eventsPath, 'track', true);
     if (isApplicationDirect) {
       setOrDeleteMatrixKey(location, eventsPath, 'view', 'cve_issue');
       setOrDeleteMatrixKey(location, eventsPath, 'eventId', eventId);
-      navigate(location);
     }
     onChange({ eventId, relatedEventsPage: 1 });
+    navigate(location);
   }
 
   if (!selectedEventId) {
