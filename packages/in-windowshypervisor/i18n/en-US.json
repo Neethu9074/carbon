@@ -11,7 +11,7 @@
     "dashboards":{
         "address": "IP address",
         "processorCount": "Number of cores",
-        "os": "Os",
+        "os": "Operating System",
         "freeRAM": "Free RAM",
         "cpuAveragePercentage": "CPU average (%)",
         "cpuAverage": "CPU average",

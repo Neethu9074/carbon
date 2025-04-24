@@ -42,7 +42,7 @@ export default function HostDashboard({ location }: HostDashboardProps) {
             timeConfig: hostProps.timeConfig
           }
         })}
-        HeaderComponent={Header}
+        HeaderComponent={HostDashboardHeader}
         location={location}
         tabs={tabs}
         props={hostProps}
@@ -53,7 +53,7 @@ export default function HostDashboard({ location }: HostDashboardProps) {
   );
 }
 
-function Header(props: HostBreadcrumbProps) {
+function HostDashboardHeader(props: HostBreadcrumbProps) {
   return (
     <DashboardHeader
       title={t('in-windowshypervisor:host')}

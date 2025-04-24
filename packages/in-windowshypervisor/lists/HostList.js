@@ -42,7 +42,7 @@ const columnDefinitions = [
   {
     id: 'virtualMachines',
     label: t('in-windowshypervisor:noOfVms'),
-    getContent: item => <TableEntityCounter count={item.vms} />
+    getContent: item => <TableEntityCounter count={item.noOfVms} />
   },
   {
     id: 'cpuUsage',

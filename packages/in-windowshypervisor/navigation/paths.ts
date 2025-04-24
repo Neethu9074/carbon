@@ -12,10 +12,6 @@ import { LocationMutator } from 'in-stores/navigation/navigation';
 
 export const windowsHypervisor = '/windowshypervisor';
 
-export const poolList = '/pools';
-export const poolDashboard = '/pool';
-export const poolDashboardFullyQualified = `${windowsHypervisor}${poolDashboard}`;
-
 export const hostList = '/hosts';
 export const hostDashboard = '/host';
 export const hostDashboardFullyQualified = `${windowsHypervisor}${hostDashboard}`;
@@ -69,10 +65,10 @@ export const useWindowsHypervisorEntityLink = (
       break;
   }
 
-  return useNewNavigateToDashboard(hookParams);
+  return useNavigateToSummaryDashboard(hookParams);
 };
 
-export const useNewNavigateToDashboard = ({
+export const useNavigateToSummaryDashboard = ({
   base,
   matrixSegment,
   matrixParam,
