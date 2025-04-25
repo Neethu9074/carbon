@@ -15,10 +15,8 @@ import { getMultiThresholdComboBoxValue } from 'in-alerting/smart-alerts/compone
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
 import { ThresholdTypeOptions } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
-import mobileAppCreateRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 import { getThresholdDescription } from 'in-alerting/smart-alerts/eum/utils/eumCommon';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
-import websiteCreateRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import Dropdown from 'in-alerting/components/Dropdown';
@@ -44,9 +42,8 @@ export default function ThresholdTypeSelection({
   const thresholdType = (warningThresholdField ?? criticalThresholdField).get('type')?.value;
   const seasonality = form.get('threshold')?.get('warningThreshold').get('seasonality')?.value;
   const options = thresholdTypeOptions.filter(getOptionsFilterForThresholdTyp(thresholdType));
+  const onThresholdTypeChange = useOnThresholdTypeChange();
   const thresholdComboBoxValue = getMultiThresholdComboBoxValue(form);
-  const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
-  const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange(mobileAppCreateRuleForm);
   return (
     <Stack gap="xsmall" direction="horizontal">
       {options.length > 1 && (
@@ -57,11 +54,8 @@ export default function ThresholdTypeSelection({
               className={locals.dropdownxlg}
               items={options}
               onChange={newThresholdTypeWithSeasonality => {
-                if (eumType === websiteEum) {
-                  return websiteOnThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm);
-                }
-                if (eumType === mobileAppEum) {
-                  return mobileAppOnThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm);
+                if (eumType === websiteEum || eumType === mobileAppEum) {
+                  return onThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm);
                 }
                 return '';
               }}

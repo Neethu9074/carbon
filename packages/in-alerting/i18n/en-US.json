@@ -1171,7 +1171,7 @@
         },
         "slowness": {
           "headline": "Automatic alerts for onLoad time or HTTP latency",
-          "text": "Receive an alert when the onLoad time exceeds expectations that are derived from historical data."
+          "text": "Receive an alert when the onLoad time or HTTP latency exceeds a specified threshold."
         },
         "JsErrors": {
           "name": "JS errors",

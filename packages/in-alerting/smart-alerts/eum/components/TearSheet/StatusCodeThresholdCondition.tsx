@@ -18,10 +18,7 @@ import { BluePrint as MobileAppBluePrint } from 'in-alerting/smart-alerts/mobile
 import { BluePrint as WebsiteBluePrint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
-import mobileAppCreateRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
-import websiteCreateRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
-import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import Dropdown from 'in-alerting/components/Dropdown';
@@ -64,6 +61,7 @@ export default function StatusCodeThresholdCondition({
   const percentageMetric = isPercentageMetric(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
   const thresholdType = form.get('threshold').get('warningThreshold').get('type')?.value;
+  const onThresholdTypeChange = useOnThresholdTypeChange();
   const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
 
   const resetChartConfigSelectionWhenAdaptiveBaseline = (updatedForm: MapForm<any>) => {
@@ -72,8 +70,6 @@ export default function StatusCodeThresholdCondition({
     }
     return updateForm(updatedForm);
   };
-  const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
-  const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange(mobileAppCreateRuleForm);
 
   return (
     <Stack gap="medium">
@@ -112,7 +108,7 @@ export default function StatusCodeThresholdCondition({
         <StaticOrAdaptiveSwitch
           form={form}
           setForm={resetChartConfigSelectionWhenAdaptiveBaseline}
-          onThresholdTypeChange={eumType === websiteEum ? websiteOnThresholdTypeChange : mobileAppOnThresholdTypeChange}
+          onThresholdTypeChange={onThresholdTypeChange}
           isTearSheet
         />
         <Spacer size="xsmall" />

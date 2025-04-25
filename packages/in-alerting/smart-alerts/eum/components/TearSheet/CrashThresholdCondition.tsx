@@ -18,7 +18,6 @@ import { BluePrint as MobileAppBlueprint } from 'in-alerting/smart-alerts/mobile
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
-import mobileAppCreateRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -57,7 +56,7 @@ export default function CrashThresholdCondition({
     return updateForm(updatedForm);
   };
 
-  const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange(mobileAppCreateRuleForm);
+  const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange();
 
   const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
