@@ -426,7 +426,7 @@ InfrastructureList.propTypes = {
   displayChart: rpt.bool
 };
 
-function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, granularity, isWidget }) {
+export function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, granularity, isWidget }) {
   return metrics
     .filter(m => !m.removeFromTable)
     .map(

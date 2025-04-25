@@ -12,9 +12,9 @@ import { Spacer, Stack } from '@instana/components';
 //@ts-expect-error TS migration
 import ScopeGroup from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeGroup';
 import { ScopeWrapper, SectionWrapper } from 'in-alerting/smart-alerts/components/tearSheet/CustomWrappers/Wrapper';
+import ScopeAlertEvaluation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAlertEvaluation';
 import { ThresholdChart } from 'in-alerting/smart-alerts/infrastructure/tearsheet/components/ThresholdChart';
 import ScopeAggregation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAggregation';
-import ScopeAlerting from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAlerting';
 import ScopeMetric from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeMetric';
 import ScopeFilter from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeFilter';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
@@ -22,8 +22,6 @@ import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Secti
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { t } from 'in-i18n';
-
-const displayAlertingScope = false; // TODO : this flag variable can be removed once the API supports the feature and the technical design is completed.
 
 interface AlertConfigTearSheetStep1Props {
   form: MapForm<any>;
@@ -69,7 +67,7 @@ export default function AlertConfigTearSheetStep1({
             <ScopeAggregation form={form} updateForm={updateForm} isTearSheet />
 
             {/* select alerting method */}
-            {displayAlertingScope && <ScopeAlerting />}
+            <ScopeAlertEvaluation form={form} updateForm={updateForm} SectionWrapper={Section} />
           </Stack>
         </div>
       </TearSheetStepTitleWrapper>
@@ -100,13 +98,7 @@ export default function AlertConfigTearSheetStep1({
               description={t('in-alerting:smartAlerts.infrastructure.tearSheet.scopeGroupBy.groupByDescription')}
               gap={'normal'}
             >
-              <ScopeGroup
-                form={form}
-                updateForm={updateForm}
-                tagCatalog={tagCatalog}
-                SectionWrapper={SectionWrapper}
-                isTearSheet
-              />
+              <ScopeGroup form={form} updateForm={updateForm} tagCatalog={tagCatalog} SectionWrapper={SectionWrapper} />
             </ScopeWrapper>
           </Stack>
         </div>

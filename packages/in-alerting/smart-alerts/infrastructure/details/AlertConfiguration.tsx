@@ -5,6 +5,7 @@
  */
 
 import React, { useMemo, useState } from 'react';
+import { isEmpty } from 'lodash';
 
 import { Stack } from '@instana/components';
 
@@ -23,6 +24,7 @@ import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/inf
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
+import InfraEntityList from 'in-alerting/smart-alerts/infrastructure/components/perEntity/InfraEntityList';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/infrastructure/details/AlertThresholdInfos';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { InfraMetricChart } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart';
@@ -74,7 +76,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
     customPayloadFields,
     groupBy,
     forecastingConfig,
-    rules
+    rules,
+    evaluationType
   } = alertConfig;
 
   const firstRule: RuleWithThreshold<InfraAlertRuleUnion> = rules[0];
@@ -83,7 +86,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
     thresholdOperator,
     thresholds: thresholdsMap
   } = firstRule;
-  const order = { by: groupBy[0], direction: 'DESC' };
+  const isPerEntityEvaluation = evaluationType === 'PER_ENTITY';
+  const order = isPerEntityEvaluation ? { by: 'label', direction: 'ASC' } : { by: groupBy[0], direction: 'DESC' };
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const tagCatalog = useTagCatalog({ ownerType: entityType });
@@ -122,6 +126,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
           thresholdsMap={thresholdsMap}
           rule={{ metricName, entityType } as InfraAlertRuleUnion}
           metricLabel={metricLabel}
+          evaluationType={evaluationType}
         />
       </ExpandableLightCard>
 
@@ -144,7 +149,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
               metricName={metricName}
               metricLabel={metricLabel}
             />
-            {groupBy.length > 0 && (
+            {evaluationType === 'CUSTOM' && groupBy.length > 0 && (
               <InfraMetricGroup
                 backendQueryModel={tagFilterExpression}
                 backendGroupBy={groupBy}
@@ -159,6 +164,23 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
                 }}
                 metricMetadatas={metricMetadatas}
                 tagCatalog={tagCatalog}
+              />
+            )}
+            {isPerEntityEvaluation && !isEmpty(entityType) && !isEmpty(metricName) && (
+              <InfraEntityList
+                backendQueryModel={tagFilterExpression}
+                order={order as Order}
+                timeConfig={{
+                  ...chartViewConfig.timeConfig,
+                  to: timeConfig.to,
+                  focusedMoment: timeConfig.focusedMoment
+                }}
+                metricMetadatas={metricMetadatas}
+                aggregation={aggregation}
+                crossSeriesAggregation={crossSeriesAggregation}
+                entityType={entityType}
+                regex={regex}
+                metricName={metricName}
               />
             )}
           </>

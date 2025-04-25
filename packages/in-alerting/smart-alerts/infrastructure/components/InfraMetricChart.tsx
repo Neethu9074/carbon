@@ -45,13 +45,15 @@ export function InfraMetricChart({
     return <ChartSkeleton />;
   }
 
+  const isCustomEvaluationType = alertConfig.evaluationType === 'CUSTOM';
+
   if ((!selectedMetricGroup && groupBy.length > 0) || (!entityType && !metricName)) {
     return (
       <Message withIcon fullInlineWidth>
         {t('in-alerting:smartAlerts.infrastructure.form.noMetricSelected')}
       </Message>
     );
-  } else if (groupBy.length === 0 && entityType && metricName) {
+  } else if (isCustomEvaluationType && groupBy.length === 0 && entityType && metricName) {
     return (
       <InfraAlertChartWrapper
         alertConfig={alertConfig}
@@ -70,10 +72,12 @@ export function InfraMetricChart({
 
   return (
     <div className={local.minHeight}>
-      <div className={local.container}>
-        {t('in-alerting:components.previewFor')}
-        <h4 className={local.space}> {(chartPreviewName as string[])?.join(', ')}</h4>
-      </div>
+      {isCustomEvaluationType && (
+        <div className={local.container}>
+          {t('in-alerting:components.previewFor')}
+          <h4 className={local.space}> {(chartPreviewName as string[])?.join(', ')}</h4>
+        </div>
+      )}
 
       <InfraAlertChartWrapper
         alertConfig={alertConfig}
