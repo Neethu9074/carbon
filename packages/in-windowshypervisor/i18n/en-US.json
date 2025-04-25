@@ -13,6 +13,8 @@
         "processorCount": "Number of cores",
         "os": "Operating System",
         "freeRAM": "Free RAM",
+        "ram": "RAM",
+        "totalRAM": "Total RAM",
         "cpuAveragePercentage": "CPU average (%)",
         "cpuAverage": "CPU average",
         "storageSpaceUsed": "Total storage space"
