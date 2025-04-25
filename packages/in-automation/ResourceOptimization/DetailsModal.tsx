@@ -29,9 +29,11 @@ import { ActionInstance } from 'in-automation/subscriptions/turboSubmitActionExe
 import { setActiveKey } from 'in-automation/AutomationCard/OptimizationsButtonGroup';
 import { refresh } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
+import { getSolisIntegrationUrl } from 'in-services/integrations/solis';
 import { runResourceOptimizationAction } from 'in-automation/api';
 import { close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracker } from 'in-automation/tracker';
+import { solisEnabled } from 'in-services/featureFlags';
 import { t, Trans } from 'in-i18n';
 
 import locals from './DetailsModal.mless';
@@ -331,7 +333,11 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
             <ApplicationImpactSection />
             {currentAction?.actionDetailsURL && (
               <div className={locals.turboLink}>
-                <Link href={currentAction?.actionDetailsURL} linkIconType={'lib_views_external_link'} external>
+                <Link
+                  href={getSolisIntegrationUrl(currentAction?.actionDetailsURL, 'turbonomic')}
+                  linkIconType={'lib_views_external_link'}
+                  external={!solisEnabled}
+                >
                   {t('in-automation:resourceOptimization.viewInTurbo')}
                 </Link>
               </div>
