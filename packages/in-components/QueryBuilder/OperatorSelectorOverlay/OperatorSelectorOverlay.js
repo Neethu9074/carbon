@@ -13,17 +13,23 @@ import { REGEX_MATCH } from 'in-components/QueryBuilder/tagFilter/operators';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import OverlayOption from 'in-components/OverlayOption/OverlayOption';
+import { regexMatchEnabled } from 'in-services/featureFlags';
 
 import locals from './OperatorSelectorOverlay.mless';
 
 export default function OperatorSelectorOverlay({ value, allowedOperators, onChange, close, tagType }) {
   const { matrix } = useLocation();
-  const isLogging = Boolean(matrix['/logs'] || matrix['/customDashboards']);
-  allowedOperators = isLogging ? allowedOperators : allowedOperators.filter(operator => operator !== REGEX_MATCH);
+
+  const isLoggingRoute = Boolean(matrix['/logs'] || matrix['/customDashboards']);
+  const shouldFilterRegex = !regexMatchEnabled || !isLoggingRoute;
+
+  const filteredOperators = shouldFilterRegex
+    ? allowedOperators.filter(operator => operator !== REGEX_MATCH)
+    : allowedOperators;
 
   return (
     <Ul framed={false} className={locals.list} borderRadius="medium" onKeyDown={onArrowKeyDownFocusSiblings}>
-      {allowedOperators.map(operator => {
+      {filteredOperators.map(operator => {
         const description = operatorLabels[`${tagType}_${operator}_DESCRIPTION`];
         return (
           <OverlayOption
