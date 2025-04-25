@@ -905,5 +905,10 @@ module.exports = exports = [
     uiClientKey: 'ansibleScriptGenerationEnabled',
     instanaCtlKey: 'feature.automation.ansible.script.generation.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'regexMatchEnabled',
+    instanaCtlKey: 'feature.regex.match.enabled',
+    defaultValue: false
   }
 ];
