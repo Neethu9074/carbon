@@ -95,6 +95,7 @@ export function NotesAndActivity(props) {
         selectorPageContent={targetID}
         onRequestClose={() => {
           setDisplayNotes(false);
+          setStretchOverlay(false);
           setSearchInput('');
           MoveAIChatLauncher('50px');
         }}
