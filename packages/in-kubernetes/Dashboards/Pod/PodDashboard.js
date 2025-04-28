@@ -140,9 +140,7 @@ function Header(props) {
 }
 
 function renderButtonLine({ podId, timeConfig, result }) {
-  // TODO: this needs investigation and adoption for case of {...undefined}
-  // eslint-disable-next-line no-unsafe-optional-chaining
-  const { clusterId: clusterName, namespace: namespaceName, label: podName } = result?.data;
+  const { clusterId: clusterName, namespace: namespaceName, label: podName } = result?.data || {};
 
   return (
     <>
