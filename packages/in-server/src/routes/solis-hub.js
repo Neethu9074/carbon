@@ -147,7 +147,7 @@ const createEventWidgets = async req => {
         status_indicator: { status: 'error' },
         tag: { type: 'high-contrast', children: t('in-server:mainNavigation.incident') },
         kpi: { label: t('in-server:mainNavigation.activeTotal'), primary_value: `${criticalEvents}/${totalEvents}` },
-        href: '#/events;orderDirection=DESC;orderBy=start;filter;view=incident?q=event.severity%3Acritical%20and%20event.state%3AOPEN'
+        href: '#/events;orderDirection=DESC;orderBy=start;filter;view=incident?q=event.severity%3Acritical%20AND%20event.state%3AOPEN'
       }
     },
     {
@@ -157,7 +157,7 @@ const createEventWidgets = async req => {
         status_indicator: { status: 'warning' },
         tag: { type: 'high-contrast', children: t('in-server:mainNavigation.incident') },
         kpi: { label: t('in-server:mainNavigation.activeTotal'), primary_value: `${warningEvents}/${totalEvents}` },
-        href: '#/events;orderDirection=DESC;orderBy=start;filter;view=incident?q=event.severity%3Awarning%20and%20event.state%3AOPEN'
+        href: '#/events;orderDirection=DESC;orderBy=start;filter;view=incident?q=event.severity%3Awarning%20AND%20event.state%3AOPEN'
       }
     }
   ];
