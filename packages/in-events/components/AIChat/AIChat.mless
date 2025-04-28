@@ -1,0 +1,26 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .aiChatDraggableButton {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: var(--ids-z-index-option-overlays);
+    color: #fff;
+    border-radius: 28px;
+    width: 56px;
+    height: 56px;
+    right: 30px;
+    bottom: 30px;
+    --cds-layout-density-padding-inline-local: none;
+  }
+
+  .aiChatDraggableButton:active {
+    box-shadow: 0 0 0 3px var(--cds-button-primary-active, #002d9c), inset 0 0 0 2px white;
+  }
+}
