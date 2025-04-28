@@ -120,7 +120,24 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             />
           )}
 
-          {!isAixOs(snapshot) && (
+          {isIbmiOs(snapshot) && (
+            <Chart
+              snapshotId={snapshot.get('id')}
+              snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+              hasActionlane
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: percentageZeroDecimalPlaces,
+                metrics: ['cpu.user'],
+                labels: [t('in-forge:plugins.host.dashboard.user')],
+                type: 'stackedArea'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          )}
+
+          {!isAixOs(snapshot) && !isIbmiOs(snapshot) && (
             <Chart
               snapshotId={snapshot.get('id')}
               snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
@@ -206,7 +223,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         )}
       </Columize>
 
-      <CpuTable snapshot={snapshot} timeConfig={timeConfig} />
+      {!isIbmiOs(snapshot) && <CpuTable snapshot={snapshot} timeConfig={timeConfig} />}
 
       {gpuInfoAvailable && <GpuTable snapshot={snapshot} timeConfig={timeConfig} />}
       {gpuInfoAvailable && <GpuProcessList snapshot={snapshot} timeConfig={timeConfig} />}
