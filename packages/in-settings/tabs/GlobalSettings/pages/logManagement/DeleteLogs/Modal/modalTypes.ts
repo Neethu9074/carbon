@@ -30,7 +30,7 @@ export interface InputValues {
 export interface SetInputValues {
   reason: (value: string) => void;
   startDate?: (value: string[]) => void;
-  endDate: (value: string[]) => void;
+  endDate: (value: string) => void;
   validation: (value: string) => void;
   startTime?: (value: string) => void;
   endTime: (value: string) => void;

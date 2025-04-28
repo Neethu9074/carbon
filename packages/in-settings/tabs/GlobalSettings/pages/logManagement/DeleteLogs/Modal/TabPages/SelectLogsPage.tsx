@@ -102,7 +102,7 @@ export const SelectLogsPage = ({
               locale={activeLocale}
               hasError={!!validationMessages.endDate}
               value={new Date(inputValues.endDate as string)}
-              onChange={e => setInputValues.endDate(e as string[])}
+              onChange={e => setInputValues.endDate(e as string)}
             />
           </section>
           {validationMessages.endDate && (

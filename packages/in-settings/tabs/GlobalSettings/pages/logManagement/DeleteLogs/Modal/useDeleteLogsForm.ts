@@ -119,7 +119,7 @@ export default function useDeleteLogsForm() {
   const setInputValues = {
     reason: (value: string) => updateField('reason', value),
     startDate: (value: string[]) => updateField('deletionStartDate', value[0]),
-    endDate: (value: string[]) => updateField('deletionEndDate', value[0]),
+    endDate: (value: string) => updateField('deletionEndDate', value),
     validation: (value: string) => updateField('validation', value),
     startTime: (value: string) => updateField('deletionStartTime', value),
     endTime: (value: string) => updateField('deletionEndTime', value)
@@ -174,7 +174,11 @@ export default function useDeleteLogsForm() {
       !validationMessages.startDate;
   }
 
-  const canSubmit = form.hierarchyValid;
+  const isValidTime = !getValidationTime(
+    form.get('deletionEndDate')?.value,
+    form.get('deletionEndTime')?.value as string
+  );
+  const canSubmit = form.hierarchyValid && isValidTime;
 
   const resetForm = () => setForm(getInitialFormState());
   const touchForm = () => setForm(form.setTouched(true, { recurse: true }));
