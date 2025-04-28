@@ -4,19 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
-import { Result, TimeConfig } from '@instana/types';
+import { Result, BusinessFlowMapQuery } from '@instana/types';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-
-// TODO: This type will be generated
-interface BusinessFlowMapQuery {
-  processDefinitionId: string;
-  timeConfig: TimeConfig;
-  nodePagination: {
-    originNodeId?: string;
-    maxNodes: number;
-  };
-}
 
 interface BusinessFlowMapNode {
   id: string;
