@@ -15,7 +15,7 @@ import DisplayChart from 'in-events/components/AIChat/DisplayChart';
 
 import locals from './AIChat.mless';
 
-const LAUNCHER_BUTTON_ID = 'aiChatLauncher';
+export const LAUNCHER_BUTTON_ID = 'aiChatLauncher';
 
 function customSortRow(lhs, rhs, collator) {
   const nlhs = Number(lhs);

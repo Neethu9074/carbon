@@ -23,6 +23,7 @@ import { CommentList } from 'in-events/components/NotesAndActivity/components/Co
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { incidentSummarizationEnabled } from 'in-services/featureFlags';
+import { LAUNCHER_BUTTON_ID } from 'in-events/components/AIChat/AIChat';
 import { t } from 'in-i18n';
 
 import locals from './NotesAndActivity.mless';
@@ -33,6 +34,7 @@ export function OpenNotesAndActivity({ displayNotes, setDisplayNotes, event }) {
   const openNotes = () => {
     handleTracking(incidentId, EVENT_SIDE_PANEL_CLICK);
     setDisplayNotes(true);
+    MoveAIChatLauncher('500px');
   };
 
   if (!displayNotes) {
@@ -94,6 +96,7 @@ export function NotesAndActivity(props) {
         onRequestClose={() => {
           setDisplayNotes(false);
           setSearchInput('');
+          MoveAIChatLauncher('50px');
         }}
         title={t('in-events:notes.notesActivity')}
         size={(stretchOverlay && 'lg') || 'md'}
@@ -103,6 +106,11 @@ export function NotesAndActivity(props) {
               kind="action"
               onClick={() => {
                 setStretchOverlay(!stretchOverlay);
+                if (stretchOverlay) {
+                  MoveAIChatLauncher('500px');
+                } else {
+                  MoveAIChatLauncher('670px');
+                }
               }}
               type={(stretchOverlay && 'lib_actions_minimize') || 'lib_actions_maximize'}
               size="compact"
@@ -222,4 +230,9 @@ export function EmptyState() {
       <p className={locals.emptyInfo}>{t('in-events:notes.noActivityDetails')}</p>
     </div>
   );
+}
+
+function MoveAIChatLauncher(pixel) {
+  const launcherIcon = document.getElementById(LAUNCHER_BUTTON_ID);
+  launcherIcon.style.right = pixel;
 }
