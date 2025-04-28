@@ -217,7 +217,7 @@ export function AIChat() {
         }}
       />
       <CarbonButton className={locals.aiChatDraggableButton} id={LAUNCHER_BUTTON_ID}>
-        <SvgIcon type={'lib_message_send'} size="s" />
+        <SvgIcon type={'lib_actions_chat_launch'} size="regular" />
       </CarbonButton>
     </>
   );
