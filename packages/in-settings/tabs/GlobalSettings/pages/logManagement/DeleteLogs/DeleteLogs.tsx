@@ -47,9 +47,9 @@ import useDeleteLogsForm from './Modal/useDeleteLogsForm';
 import { NotificationState } from './types';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { formatDate, parseDateTime } from 'in-services/formatters/date';
 import TimePicker from 'in-components/form/TimePicker/TimePicker';
 import { deleteLogsV3Enabled } from 'in-services/featureFlags';
-import { parseDateTime } from 'in-services/formatters/date';
 import { deleteLogs } from 'in-logging/api/deleteLogs';
 import Title from 'in-components/Title/Title';
 import { activeLocale } from 'in-i18n';
@@ -463,6 +463,8 @@ export function DeleteLogsModal({
   return (
     <>
       <CarbonModal
+        loadingStatus={isDeleting ? 'active' : 'inactive'}
+        preventCloseOnClickOutside
         open
         danger
         primaryButtonText={deleteLogsLocalisationStrings.deleteLogs}
@@ -489,7 +491,9 @@ export function DeleteLogsModal({
                     hasError={!!validationMessages.endDate}
                     disabled={isDeleting}
                     value={new Date(inputValues.endDate as string)}
-                    onChange={e => setInputValues.endDate(e as string[])}
+                    onChange={e => {
+                      setInputValues.endDate(formatDate((e as Date[])[0]) as string);
+                    }}
                     locale={activeLocale}
                     labelText={deleteLogsLocalisationStrings.deletionUntilDate}
                   />
