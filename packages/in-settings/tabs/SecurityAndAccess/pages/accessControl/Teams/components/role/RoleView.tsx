@@ -4,21 +4,14 @@
  * Copyright IBM Corp. 2025
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
-import {
-  CarbonContainedList,
-  CarbonContainedListItem,
-  CarbonPopover,
-  CarbonPopoverContent,
-  CarbonTag
-} from '@instana/components';
+import { TagSet } from '@instana/ibm-products';
 import { createLogger } from '@instana/logger';
 
 import { ApiTeamRole as TeamRole } from 'in-settings/tabs/SecurityAndAccess/api/teams';
+import { defaultRoleId } from 'in-stores/user';
 import { t } from 'in-i18n';
-
-import locals from './RoleView.mless';
 
 interface RoleViewProps {
   roles: Array<TeamRole>;
@@ -27,15 +20,13 @@ interface RoleViewProps {
 const logger = createLogger('TeamRoleView');
 
 const RoleView = ({ roles }: RoleViewProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   // Will be removed once backend API also returns role name besides id
   const getRoleName = (role: TeamRole & { roleName?: string }) => {
     logger.warn('Temporary function to be removed when user name and role name are available through team API');
     if (role.roleName) {
       return role.roleName;
     }
-    if (role.roleId === '-1') {
+    if (role.roleId === defaultRoleId) {
       return 'Default';
     } else {
       return role.roleId;
@@ -43,22 +34,13 @@ const RoleView = ({ roles }: RoleViewProps) => {
   };
 
   return (
-    <CarbonPopover open={isOpen} caret={false}>
-      <CarbonTag type="high-contrast" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
-        {roles?.length === 1 ? getRoleName(roles[0]) : t('in-settings:tabs.teams.rolesTag', { count: roles?.length })}
-      </CarbonTag>
-      <CarbonPopoverContent>
-        <div>
-          <CarbonContainedList label={t('in-settings:tabs.teams.assignedRoles')} size="md" isInset>
-            {roles?.map(role => (
-              <CarbonContainedListItem key={role.roleId} className={locals.listItem}>
-                <span>{getRoleName(role)}</span>
-              </CarbonContainedListItem>
-            ))}
-          </CarbonContainedList>
-        </div>
-      </CarbonPopoverContent>
-    </CarbonPopover>
+    <TagSet
+      allTagsModalTitle={t('in-settings:tabs.teams.assignedRoles')}
+      overflowType="tag"
+      tags={roles.map(role => {
+        return { label: getRoleName(role), type: 'high-contrast' };
+      })}
+    />
   );
 };
 

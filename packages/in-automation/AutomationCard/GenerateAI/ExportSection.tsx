@@ -314,6 +314,14 @@ function ExportFields({
 
   const branches = useExportData({ data });
   const errored = hasError(branches);
+
+  useEffect(() => {
+    if (!isLoading(branches) && branches?.data?.length > 0) {
+      const defaultBranch = branches?.data.filter((obj: { name: string; default: boolean }) => obj.default === true);
+      setExportForm(form => form.updateIn(['base'], item => item.setValue(defaultBranch[0].name).setTouched(true)));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [branches]);
   if (isLoading(branches)) return <LoadingIndicator size={'xs'} />;
   if (errored) return <ErroneousResultPresenter errors={branches?.errors} />;
   return (
@@ -384,7 +392,7 @@ function ExportFields({
             )}
             id="target_branch"
             value={base.value}
-            isClearable
+            isClearable={false}
             onChange={e => {
               setExportForm(form =>
                 form.updateIn(['base'], item => item.setValue((e as Option)?.value ?? null).setTouched(true))

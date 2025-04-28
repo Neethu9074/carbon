@@ -5,7 +5,7 @@
  */
 
 :local {
-  .listItem {
-    background-color: var(--cds-background);
+  .alertEvaluationOption {
+    max-width: 20rem;
   }
 }

@@ -33,6 +33,8 @@ export default function ThresholdSection({
   const entityType = ruleForm.get('entityType').value;
   const metricName = ruleForm.get('metricName').value;
   const aggregation = ruleForm.get('aggregation');
+  const evaluationType = form.get('evaluationType').value;
+  const isPerEntityEvaluation = evaluationType === 'PER_ENTITY';
 
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
 
@@ -97,8 +99,8 @@ export default function ThresholdSection({
           updateForm={updateForm}
           percentageMetric={percentageMetric}
           metricUnitPostfix={metricUnitPostfix}
-          groupBy={groupBy}
           alertChannelPerSeverityEnabled={alertChannelPerSeverityInfraSaEnabled}
+          showSuggestedValueButton={!isPerEntityEvaluation && !groupBy?.length}
         />
       </Section>
 

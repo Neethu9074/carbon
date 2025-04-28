@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 
-import { Select, Button } from '@instana/components';
+import { Select, Button, Toggle } from '@instana/components';
 
 import { getContextForDropwizard } from 'in-internal/monitoringUnit/dataRetrieval';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -20,120 +20,132 @@ const block = 'dropwizard-extension-select-box';
 export default connect(({ snapshot, timeConfig }) => ({
   context: getContextForDropwizard(snapshot, timeConfig)
 }))(function DropwizardDashboardExtensions({ context }) {
+  const [portForward, setPortForward] = useState(true);
   if (!context) {
     return null;
   }
 
-  const { container, pod } = context;
+  const { container, pod, host } = context;
 
-  const host = extractHost(pod);
-  const adminPort = extractPort(pod, container);
-  const adminUrl = `http://${host}:${adminPort}`;
+  const hostIp = portForward ? 'localhost' : extractHostFromPod(pod) || extractHostFqdn(host);
+  const adminPort = extractPort(container);
+  const adminUrl = `http://${hostIp}:${adminPort}`;
 
   const getLogsCommand = extractLogsCommand(pod);
 
   return (
     <Fragment>
-      <DashboardSection>
-        <Button href={adminUrl} target="_blank">
-          {t('in-internal:monitoringUnit.dropwizardDashboardExt.admin')}
-        </Button>
-        <Button href={`${adminUrl}/admin/config.yaml`} target="_blank">
-          {t('in-internal:monitoringUnit.dropwizardDashboardExt.config')}
-        </Button>
-        <Button href={`${adminUrl}/admin/build.json`} target="_blank">
-          {t('in-internal:monitoringUnit.dropwizardDashboardExt.version')}
-        </Button>
-        <Button href={`${adminUrl}/admin/injector-bindings`} target="_blank">
-          {t('in-internal:monitoringUnit.dropwizardDashboardExt.injectorBindings')}
-        </Button>
-
-        {containerLabelIncludes(container, 'filler') && (
-          <Fragment>
-            <Button href={`${adminUrl}/admin/metric-explosions`} target="_blank">
-              {t('in-internal:monitoringUnit.dropwizardDashboardExt.metricExplosions')}
-            </Button>
-            <Select
-              id="cache-selection"
-              value=""
-              className={block + '__select'}
-              onChange={e => window.open(e.target.value, '_blank')}
-              autoFocus
-            >
-              <option value="">{t('in-internal:monitoringUnit.dropwizardDashboardExt.cacheDataSelectOne')}</option>
-              <option value={`${adminUrl}/admin/snapshots`}>
-                {t('in-internal:monitoringUnit.dropwizardDashboardExt.snapshotsDepend')}
-              </option>
-              <option value={`${adminUrl}/admin/search-snapshots`}>
-                {t('in-internal:monitoringUnit.dropwizardDashboardExt.searchSnapshots')}
-              </option>
-            </Select>
-          </Fragment>
-        )}
-
-        {containerLabelIncludes(container, 'ap-legacy-converter') && (
-          <Button href={`${adminUrl}/admin/appdata-entity-explosions`} target="_blank">
-            {t('in-internal:monitoringUnit.dropwizardDashboardExt.appdataEntityExplosions')}
-          </Button>
-        )}
-
-        {containerLabelIncludes(container, 'appdata-processor') && (
-          <Select
-            id="tag-selection"
-            value=""
-            className={block + '__select'}
-            onChange={e => window.open(e.target.value, '_blank')}
-            autoFocus
-          >
-            <option value="">{t('in-internal:monitoringUnit.dropwizardDashboardExt.tagDataSelectOne')}</option>
-            <option value={`${adminUrl}/admin/applicationTagCache`}>
-              {t('in-internal:monitoringUnit.dropwizardDashboardExt.allTags')}
-            </option>
-            <option value={`${adminUrl}/admin/applicationTagCache/cluster`}>
-              {t('in-internal:monitoringUnit.dropwizardDashboardExt.clusterTags')}
-            </option>
-            <option value={`${adminUrl}/admin/applicationTagCache/alternatives`}>
-              {t('in-internal:monitoringUnit.dropwizardDashboardExt.hostPortRef')}
-            </option>
-          </Select>
-        )}
-
-        {containerLabelIncludes(container, 'appdata-processor') && (
-          <Select
-            id="resilient-selection"
-            value=""
-            className={block + '__select'}
-            onChange={e => window.open(e.target.value, '_blank')}
-            autoFocus
-          >
-            <option value="">{t('in-internal:monitoringUnit.dropwizardDashboardExt.resilientMapSelectOne')}</option>
-            <option value={`${adminUrl}/admin/appCacheEntries?size=50&minEntities=0`}>
-              {t('in-internal:monitoringUnit.dropwizardDashboardExt.appMapping')}
-            </option>
-            <option value={`${adminUrl}/admin/serviceCacheEntries?size=50&minEntities=0`}>
-              {t('in-internal:monitoringUnit.dropwizardDashboardExt.serviceMapping')}
-            </option>
-            <option value={`${adminUrl}/admin/pathTemplateEntries`}>
-              {t('in-internal:monitoringUnit.dropwizardDashboardExt.endpointMapPathTemplateCache')}
-            </option>
-            <option value={`${adminUrl}/admin/invalidPathTemplates`}>
-              {t('in-internal:monitoringUnit.dropwizardDashboardExt.endpointMapInvalidPathTemplates')}
-            </option>
-          </Select>
-        )}
-
-        {containerLabelIncludes(container, 'acceptor', ['eum', 'serverless', 'cashier']) && (
-          <Button href={`${adminUrl}/admin/agentTimeSkewEntries`} target="_blank">
-            {t('in-internal:monitoringUnit.dropwizardDashboardExt.agentClockSkew')}
-          </Button>
-        )}
-      </DashboardSection>
-
       {getLogsCommand && (
         <DashboardSection title={t('in-internal:monitoringUnit.dropwizardDashboardExt.commonCommands')}>
           <Code lang="bash" code={getLogsCommand} showLineNumbers={false} />
         </DashboardSection>
       )}
+      <DashboardSection>
+        <div>
+          <Toggle
+            checked={portForward}
+            labelA={t('in-internal:monitoringUnit.dropwizardDashboardExt.vpn')}
+            labelB={t('in-internal:monitoringUnit.dropwizardDashboardExt.portForward')}
+            onToggle={() => {
+              setPortForward(_portForward => !_portForward);
+            }}
+          />
+        </div>
+        <div>
+          <Button href={adminUrl} target="_blank">
+            {t('in-internal:monitoringUnit.dropwizardDashboardExt.admin')}
+          </Button>
+          <Button href={`${adminUrl}/admin/config.yaml`} target="_blank">
+            {t('in-internal:monitoringUnit.dropwizardDashboardExt.config')}
+          </Button>
+          <Button href={`${adminUrl}/admin/build.json`} target="_blank">
+            {t('in-internal:monitoringUnit.dropwizardDashboardExt.version')}
+          </Button>
+          <Button href={`${adminUrl}/admin/injector-bindings`} target="_blank">
+            {t('in-internal:monitoringUnit.dropwizardDashboardExt.injectorBindings')}
+          </Button>
+
+          {containerLabelIncludes(container, 'filler') && (
+            <Fragment>
+              <Button href={`${adminUrl}/admin/metric-explosions`} target="_blank">
+                {t('in-internal:monitoringUnit.dropwizardDashboardExt.metricExplosions')}
+              </Button>
+              <Select
+                id="cache-selection"
+                value=""
+                className={block + '__select'}
+                onChange={e => window.open(e.target.value, '_blank')}
+                autoFocus
+              >
+                <option value="">{t('in-internal:monitoringUnit.dropwizardDashboardExt.cacheDataSelectOne')}</option>
+                <option value={`${adminUrl}/admin/snapshots`}>
+                  {t('in-internal:monitoringUnit.dropwizardDashboardExt.snapshotsDepend')}
+                </option>
+                <option value={`${adminUrl}/admin/search-snapshots`}>
+                  {t('in-internal:monitoringUnit.dropwizardDashboardExt.searchSnapshots')}
+                </option>
+              </Select>
+            </Fragment>
+          )}
+
+          {containerLabelIncludes(container, 'ap-legacy-converter') && (
+            <Button href={`${adminUrl}/admin/appdata-entity-explosions`} target="_blank">
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.appdataEntityExplosions')}
+            </Button>
+          )}
+
+          {containerLabelIncludes(container, 'appdata-processor') && (
+            <Select
+              id="tag-selection"
+              value=""
+              className={block + '__select'}
+              onChange={e => window.open(e.target.value, '_blank')}
+              autoFocus
+            >
+              <option value="">{t('in-internal:monitoringUnit.dropwizardDashboardExt.tagDataSelectOne')}</option>
+              <option value={`${adminUrl}/admin/applicationTagCache`}>
+                {t('in-internal:monitoringUnit.dropwizardDashboardExt.allTags')}
+              </option>
+              <option value={`${adminUrl}/admin/applicationTagCache/cluster`}>
+                {t('in-internal:monitoringUnit.dropwizardDashboardExt.clusterTags')}
+              </option>
+              <option value={`${adminUrl}/admin/applicationTagCache/alternatives`}>
+                {t('in-internal:monitoringUnit.dropwizardDashboardExt.hostPortRef')}
+              </option>
+            </Select>
+          )}
+
+          {containerLabelIncludes(container, 'appdata-processor') && (
+            <Select
+              id="resilient-selection"
+              value=""
+              className={block + '__select'}
+              onChange={e => window.open(e.target.value, '_blank')}
+              autoFocus
+            >
+              <option value="">{t('in-internal:monitoringUnit.dropwizardDashboardExt.resilientMapSelectOne')}</option>
+              <option value={`${adminUrl}/admin/appCacheEntries?size=50&minEntities=0`}>
+                {t('in-internal:monitoringUnit.dropwizardDashboardExt.appMapping')}
+              </option>
+              <option value={`${adminUrl}/admin/serviceCacheEntries?size=50&minEntities=0`}>
+                {t('in-internal:monitoringUnit.dropwizardDashboardExt.serviceMapping')}
+              </option>
+              <option value={`${adminUrl}/admin/pathTemplateEntries`}>
+                {t('in-internal:monitoringUnit.dropwizardDashboardExt.endpointMapPathTemplateCache')}
+              </option>
+              <option value={`${adminUrl}/admin/invalidPathTemplates`}>
+                {t('in-internal:monitoringUnit.dropwizardDashboardExt.endpointMapInvalidPathTemplates')}
+              </option>
+            </Select>
+          )}
+
+          {containerLabelIncludes(container, 'acceptor', ['eum', 'serverless', 'cashier']) && (
+            <Button href={`${adminUrl}/admin/agentTimeSkewEntries`} target="_blank">
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.agentClockSkew')}
+            </Button>
+          )}
+        </div>
+      </DashboardSection>
     </Fragment>
   );
 });
@@ -150,7 +162,7 @@ function containerLabelIncludes(container, includedString, notIncludingList) {
   }
 }
 
-function extractHost(pod) {
+function extractHostFromPod(pod) {
   if (pod) {
     const podIp = pod.getIn(['data', 'podIp']);
     if (podIp) {
@@ -159,18 +171,25 @@ function extractHost(pod) {
   }
 }
 
-function extractPort(pod, container) {
-  if (pod) {
-    try {
-      const adminPortDefinition = JSON.parse(container.getIn(['data', 'labels', 'io.kubernetes.container.ports'])).find(
-        l => l.name === 'admin'
-      );
-      if (adminPortDefinition) {
-        return adminPortDefinition.containerPort;
-      }
-    } catch (e) {
-      // ignore
+function extractHostFqdn(host) {
+  if (host) {
+    const fqdn = host.getIn(['data', 'fqdn']);
+    if (fqdn) {
+      return fqdn;
     }
+  }
+}
+
+function extractPort(container) {
+  try {
+    const adminPortDefinition = JSON.parse(container.getIn(['data', 'labels', 'io.kubernetes.container.ports'])).find(
+      l => l.name === 'admin'
+    );
+    if (adminPortDefinition) {
+      return adminPortDefinition.containerPort;
+    }
+  } catch (e) {
+    // ignore
   }
 }
 
@@ -180,23 +199,22 @@ function extractLogsCommand(pod) {
     const name = pod.getIn(['data', 'name']);
     const app = pod.getIn(['data', 'labels', 'app']);
     return `
-# Kubectl not configured? Check the "kubectl" section in the
-# "K8S: Environments" slide deck in Google docs.
+# In order to use the admin port, you need to forward the ports locally.
 
-# Remember to switch the Kubernetes context
+# Switch the Kubernetes context
 kubectx ${namespace?.replace('-', '.club-')}
 
-# Get the configuration file
-kubectl exec --namespace ${namespace} ${name} -- cat '/etc/instana/${app}/config.yaml' | less
+# Get the configuration file (credentials are at the end of the file)
+kubectl exec --namespace ${namespace} ${name} -- cat '/etc/instana/${app}/config.yaml'
 
-# Get logs directly via kubectl.
+# Forward ports locally to be able to use the buttons below
+kubectl port-forward --namespace ${namespace} ${name} 8600 8601
+
+# Get logs
 kubectl logs --namespace ${namespace} ${name} ${app} | less
 
 # Enter the container
 kubectl exec -it --namespace ${namespace} ${name} -- bash
-
-# Forward ports locally
-kubectl port-forward --namespace ${namespace} ${name} 8600 8601
       `.trim();
   }
 }

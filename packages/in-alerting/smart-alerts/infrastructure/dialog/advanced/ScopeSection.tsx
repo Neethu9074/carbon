@@ -10,6 +10,7 @@ import React from 'react';
 import { Stack } from '@instana/components';
 import { TagCatalog } from '@instana/types';
 
+import ScopeAlertEvaluation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAlertEvaluation';
 //@ts-expect-error
 import ScopeGroup from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeGroup';
 import ScopeAggregation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAggregation';
@@ -45,6 +46,7 @@ export default function ScopeSection({
             <ScopeMetric form={form} updateForm={updateForm} onChange={onChange} isRegex={isRegex} />
           </Section>
           <ScopeAggregation form={form} updateForm={updateForm} />
+          <ScopeAlertEvaluation form={form} updateForm={updateForm} />
           <ScopeFilter
             form={form}
             updateForm={updateForm}

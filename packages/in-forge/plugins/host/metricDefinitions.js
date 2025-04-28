@@ -139,6 +139,13 @@ export default [
     formatter: number
   },
   {
+    metric: 'cpu.avgRunQueue',
+    label: t('in-forge:plugins.host.avgRunQueue'),
+    category: [t('in-forge:plugins.host.cpu')],
+    min: 0,
+    formatter: value => (value < 0 ? t('in-forge:plugins.host.notCollected') : number.twoDecimalPlaces(value))
+  },
+  {
     metric: 'ctxt',
     label: t('in-forge:plugins.host.contextSwitches'),
     category: [t('in-forge:plugins.host.cpu')],
@@ -151,6 +158,38 @@ export default [
     category: [t('in-forge:plugins.host.cpu')],
     min: 0,
     formatter: number
+  },
+  {
+    metrics: 'cpu.systemCalls',
+    labels: t('in-forge:plugins.host.systemCalls'),
+    category: [t('in-forge:plugins.host.cpu')],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: [
+      'cpu.systemReads',
+      'cpu.systemWrites',
+      'cpu.blockReads',
+      'cpu.blockWrites',
+      'cpu.nonBlockReads',
+      'cpu.nonBlockWrites',
+      'cpu.logicalBlockReads',
+      'cpu.logicalBlockWrites'
+    ],
+    labels: [
+      t('in-forge:plugins.host.systemReads'),
+      t('in-forge:plugins.host.systemWrites'),
+      t('in-forge:plugins.host.blockReads'),
+      t('in-forge:plugins.host.blockWrites'),
+      t('in-forge:plugins.host.nonBlockReads'),
+      t('in-forge:plugins.host.nonBlockWrites'),
+      t('in-forge:plugins.host.logicalBlockReads'),
+      t('in-forge:plugins.host.logicalBlockWrites')
+    ],
+    category: [t('in-forge:plugins.host.cpu')],
+    min: 0,
+    formatter: number.compact
   },
   {
     metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal', 'cpu.used', 'cpu.idle', 'cpu.hypv'],

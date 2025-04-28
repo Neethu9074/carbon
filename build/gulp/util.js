@@ -65,7 +65,7 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
     agentEndpoint: 'ingress-pink-saas.instana.rocks',
     agentEndpointPort: 443,
     serverlessEndpoint: 'https://serverless-pink-saas.instana.rocks',
-    mobileEndpoint: 'https://pink.instana.rocks/mobile/',
+    mobileEndpoint: 'https://eum-pink-saas.instana.rocks/mobile',
     websiteEndpoint: 'https://eum-pink-saas.instana.rocks',
     websiteScriptSource: 'https://eum.instana.io/eum.min.js',
     // mcspDetails is used to simulate (MCSP) environment details for testing and UI display in pink env.
@@ -98,7 +98,7 @@ exports.getDevModeReleaseConfig = function getDevModeReleaseConfig(envConfig) {
     agentEndpoint: 'ingress-magenta-saas.instana.rocks',
     agentEndpointPort: 443,
     serverlessEndpoint: 'serverless-magenta-saas.instana.rocks',
-    mobileEndpoint: 'https://magenta.instana.rocks/mobile/',
+    mobileEndpoint: 'https://eum-magenta-saas.instana.rocks/mobile',
     websiteEndpoint: 'https://eum-magenta-saas.instana.rocks',
     websiteScriptSource: 'https://eum.instana.io/eum.min.js'
   };

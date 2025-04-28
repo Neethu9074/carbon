@@ -23,6 +23,7 @@ import {
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { createOrSaveAlertFromTearSheet } from 'in-alerting/smart-alerts/infrastructure/components/AlertCreateOrSave';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
+import { alertChannelPerSeverityInfraSaEnabled, perEntityInfraSmartAlertsEnabled } from 'in-services/featureFlags';
 import getAlertingUrlParameters from 'in-alerting/smart-alerts/infrastructure/tearsheet/getAlertingUrlParameters';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { useAlertConfig } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
@@ -30,7 +31,6 @@ import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Load
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { InfraAlertConfig, InfraAlertRuleUnion, RuleWithThreshold } from 'in-types';
-import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useNavigationToAlertConfig } from 'in-infrastructure/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -177,6 +177,7 @@ function toAlertConfig(
     groupBy: toBackendGroupBy(form.get(fieldNames.groupBy).value),
     forecastingConfig: form.get(fieldNames.forecastingConfig).value,
     customPayloadFields: form.get('customPayloadFields').toJS(),
-    rules: [ruleWithThreshold]
+    rules: [ruleWithThreshold],
+    evaluationType: perEntityInfraSmartAlertsEnabled ? form.get('evaluationType').value : null
   });
 }

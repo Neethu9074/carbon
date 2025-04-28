@@ -7,8 +7,6 @@
 import { Field, MapForm } from 'formalistic';
 import { useCallback } from 'react';
 
-import { MobileAppAlertRule, WebsiteAlertRule } from '@instana/types';
-
 import {
   ThresholdType,
   Granularity,
@@ -26,9 +24,7 @@ import createThresholdForm, { defaultDeviationFactor } from 'in-alerting/smart-a
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
-export function useOnThresholdTypeChange(
-  createRuleForm: ((rule: WebsiteAlertRule) => MapForm<any>) | ((rule: MobileAppAlertRule) => MapForm<any>)
-) {
+export function useOnThresholdTypeChange() {
   return useCallback(
     (
       typeWithOptionalSeasonality: string,
@@ -70,11 +66,7 @@ export function useOnThresholdTypeChange(
           );
       }
 
-      const ruleWithoutAggregation = { ...rule, aggregation: null };
-      // aggregation will be reset to default value
-      const newRuleForm = createRuleForm(ruleWithoutAggregation);
-
-      let updatedForm = form.put('threshold', newThresholdForm).put('rule', newRuleForm);
+      let updatedForm = form.put('threshold', newThresholdForm);
 
       const granularity = (form.get('granularity') as Field<Granularity>).value;
       updatedForm = updateFormIfAdaptiveBaseline(updatedForm, updatedThresholdType, granularity);
@@ -84,7 +76,7 @@ export function useOnThresholdTypeChange(
 
       trackThresholdTypeChanged?.(getTrackingObject(form, { value: updatedThresholdType }));
     },
-    [createRuleForm]
+    []
   );
 }
 

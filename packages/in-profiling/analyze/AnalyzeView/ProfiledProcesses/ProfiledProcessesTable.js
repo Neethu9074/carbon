@@ -71,7 +71,7 @@ export default function ProfiledProcessesTable(props) {
 }
 
 function EntityLinkToProfiles({ item }) {
-  const linkToProfiles = useLinkToProfiles({ processSnapshotId: item.processSnapshotId, time: item.time });
+  const linkToProfiles = useLinkToProfiles({ processSnapshotId: item.processSnapshotId });
   const observable = useObservable;
   let entityLabel = item.entityLabel;
   let entityPlugin = item.entityPlugin;

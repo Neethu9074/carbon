@@ -12,15 +12,15 @@ import { CarbonLayer, LiLoadMore } from '@instana/components';
 //@ts-expect-error
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import MetricGroupHeader from 'in-alerting/smart-alerts/aggregated/components/MetricGroupHeader';
+import { InfrastructureExploreItem, InfrastructureGroup, LogGroupItem, Order } from 'in-types';
 import TableLoading from 'in-alerting/smart-alerts/aggregated/components/TableLoading';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import { InfrastructureGroup, LogGroupItem, Order } from 'in-types';
 import { State } from 'in-hooks/useCursorPagination';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/aggregated/components/GroupTableList.mless';
 
-interface GroupTableListProps extends State<any, any> {
+interface GroupTableListProps<G extends GroupItem> extends State<any, any> {
   isLoading: boolean;
   hasErrors: boolean;
   order?: Order;
@@ -31,13 +31,13 @@ interface GroupTableListProps extends State<any, any> {
   loadMore: () => void;
   canLoadMore: boolean;
   setBackendQueryModel: (arg?: string) => void;
-  setSelectedMetricGroup: any;
+  setSelectedMetricGroup: (selectedItem: G) => void;
   onOrderByChange?: ({ by, direction }: Order) => void;
 }
 
-type GroupItem = LogGroupItem | InfrastructureGroup;
+type GroupItem = LogGroupItem | InfrastructureGroup | InfrastructureExploreItem;
 
-export default function GroupTableList({
+export default function GroupTableList<G extends GroupItem>({
   items,
   isLoading,
   totalHits,
@@ -52,7 +52,7 @@ export default function GroupTableList({
   fixedLayout,
   loadMore: defaultCursorPaginationLoadMore,
   onOrderByChange
-}: GroupTableListProps) {
+}: GroupTableListProps<G>) {
   return (
     <>
       <div
@@ -82,9 +82,7 @@ export default function GroupTableList({
               defaultOrderDirection={order && order.direction}
               orderBy={order?.by}
               orderDirection={order?.direction}
-              onRowClick={(item: GroupItem) => {
-                setSelectedMetricGroup('label' in item ? item?.label : 'tags' in item ? item?.tags : '');
-              }}
+              onRowClick={(item: G) => setSelectedMetricGroup(item)}
               fixedLayout={fixedLayout}
               size="compact"
             />

@@ -989,7 +989,9 @@
       "config": "Config",
       "version": "Version",
       "injectorBindings": "Injector bindings",
-      "agentClockSkew": "Agent clock skew"
+      "agentClockSkew": "Agent clock skew",
+      "portForward": "Use kubectl port forwarding",
+      "vpn": "Use VPN"
     },
     "region": {
       "units": "Units",

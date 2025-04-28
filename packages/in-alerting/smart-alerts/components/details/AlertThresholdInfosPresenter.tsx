@@ -15,7 +15,7 @@ import locals from './AlertThresholdInfosPresenter.mless';
 interface Props {
   thresholdTypeLabel: string;
   metricLabel: string;
-  scopeLabel: string;
+  scopeLabel?: string;
   threshold?: React.ReactElement;
 }
 

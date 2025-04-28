@@ -12,6 +12,7 @@ import { createForm as createListFormForCustomPayloads } from 'in-alerting/compo
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 //@ts-expect-error
 import { titleValidator } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
+import { evaluationTypes } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/CustomOrPerEntityOption';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import createThresholdForm from 'in-alerting/smart-alerts/infrastructure/form/thresholdForm';
 import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
@@ -63,7 +64,8 @@ export default function alertFormDefinition(
     name = '',
     forecastingConfig = undefined,
     tagFilterExpression,
-    id = ''
+    id = '',
+    evaluationType
   } = alertConfig;
   const alertChannelList = [...new Set([...(alertChannels?.WARNING ?? []), ...(alertChannels?.CRITICAL ?? [])])];
   //@ts-expect-error
@@ -140,6 +142,12 @@ export default function alertFormDefinition(
       createTimeThresholdForm(alertConfig.timeThreshold, granularity, alertConfig.threshold?.type as ThresholdType)
     )
     .put('threshold', createThresholdForm(alertConfig.rules[0] ?? {}, editMode))
+    .put(
+      'evaluationType',
+      createField({
+        value: evaluationType ?? evaluationTypes.custom
+      })
+    )
     .put('hiddenFields', createHiddenFieldsForm(editMode, alertChannelList))
     .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
 }

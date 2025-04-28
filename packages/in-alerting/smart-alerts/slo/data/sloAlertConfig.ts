@@ -10,7 +10,7 @@ import { deepCopy } from 'in-services/util/object';
 import { minutes } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
-const defaultOperator: ThresholdOperator = '>=';
+export const defaultOperator: ThresholdOperator = '>=';
 
 export const defaultSloAlertConfig = Object.freeze({
   alertChannelIds: [],

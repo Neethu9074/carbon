@@ -48,7 +48,6 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blue
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
-import mobileAppCreateRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import useMobileApp from 'in-mobile-apps/hooks/useMobileApp';
 import StepsContainer from 'in-components/StepsContainer';
@@ -93,7 +92,7 @@ export default function AdvancedModeContainer(
 
   const mobileAppId = form.get('mobileAppId')?.value;
   const [mobileApp] = useMobileApp(mobileAppId);
-  const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange(mobileAppCreateRuleForm);
+  const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange();
 
   const resetChartConfigSelectionWhenAdaptiveBaseline = (updatedForm: MapForm<any>) => {
     if (isAdaptiveBaselineConfig(updatedForm.get('threshold').toJS())) {

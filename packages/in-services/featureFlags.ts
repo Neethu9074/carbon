@@ -57,6 +57,8 @@ export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const deleteLogsV3Enabled = isFeatureFlagEnabled('deleteLogsV3Enabled');
+export const regexMatchEnabled = isFeatureFlagEnabled('regexMatchEnabled');
+
 export const patternRecognitionEnabled = isFeatureFlagEnabled('patternRecognitionEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');

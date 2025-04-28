@@ -26,6 +26,7 @@ import { ApiTeam as Team, ApiTeamMember as TeamMember } from 'in-settings/tabs/S
 import { getEntityIdView, securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { defaultRoleId } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './MemberCard.mless';
@@ -40,7 +41,7 @@ interface MemberCardProps {
 const MemberCard = ({ isLoading, team, setTeamData, saveTeam }: MemberCardProps) => {
   const addMembers = (users: Array<UserResult>) => {
     const userIds = users.map(user => {
-      return { fullName: user.fullName, userId: user.id, roleIds: [{ roleId: '-1', viaIdP: false }] };
+      return { fullName: user.fullName, userId: user.id, roleIds: [{ roleId: defaultRoleId, viaIdP: false }] };
     });
 
     if (userIds) {

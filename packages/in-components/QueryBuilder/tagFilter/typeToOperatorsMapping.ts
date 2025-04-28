@@ -68,7 +68,8 @@ export const KEY_VALUE_PAIR = [
   STARTS_WITH,
   ENDS_WITH,
   NOT_BLANK,
-  IS_BLANK
+  IS_BLANK,
+  REGEX_MATCH
 ];
 
 export const KEY_NUMBER_PAIR = NUMBER;

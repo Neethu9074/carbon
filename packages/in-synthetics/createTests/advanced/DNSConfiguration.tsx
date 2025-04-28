@@ -456,7 +456,6 @@ export default function DNSConfiguration({
               label=""
               titleText={t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.transportProtocolLabel')}
               type="default"
-              disabled
             />
           </div>
           <RadioButtonGroup

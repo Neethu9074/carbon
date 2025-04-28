@@ -405,5 +405,9 @@ function invertTagFilterOperator(operator: TagFilterOperator): TagFilterOperator
       return 'IS_BLANK';
     case 'NOT_EMPTY':
       return 'IS_EMPTY';
+    default: {
+      // should be unreachable. Throwing satisfies the compiler.
+      throw new Error(`Unsupported operator: ${operator}`);
+    }
   }
 }

@@ -17,9 +17,7 @@ import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/d
 import { ThresholdTypesHelp } from 'in-alerting/smart-alerts/components/dialog/ThresholdTypesHelp';
 import { ThresholdTypeOptions } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
-import mobileAppCreateRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
-import websiteCreateRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import Dropdown from 'in-alerting/components/Dropdown';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
@@ -43,8 +41,8 @@ export default function ThresholdTypeSelection({
   const thresholdType = (warningThresholdField ?? criticalThresholdField).get('type')?.value;
   const options = thresholdTypeOptions.filter(getOptionsFilterForThresholdTyp(thresholdType));
   const thresholdComboBoxValue = getMultiThresholdComboBoxValue(form);
-  const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
-  const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange(mobileAppCreateRuleForm);
+  const websiteOnThresholdTypeChange = useOnThresholdTypeChange();
+  const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange();
 
   return (
     <>

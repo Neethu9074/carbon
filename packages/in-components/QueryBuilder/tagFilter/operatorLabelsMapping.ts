@@ -86,6 +86,7 @@ export const KEY_VALUE_PAIR_IS_BLANK = t('in-components:queryBuilder.keyValuePai
 export const KEY_VALUE_PAIR_NOT_BLANK = t('in-components:queryBuilder.keyValuePair.notBlank');
 export const KEY_VALUE_PAIR_STARTS_WITH = t('in-components:queryBuilder.keyValuePair.startsWith');
 export const KEY_VALUE_PAIR_ENDS_WITH = t('in-components:queryBuilder.keyValuePair.endsWith');
+export const KEY_VALUE_PAIR_REGEX_MATCH = t('in-components:queryBuilder.string.matchesRegex');
 
 export const KEY_NUMBER_PAIR_EQUALS = '=';
 export const KEY_NUMBER_PAIR_NOT_EQUAL = '!=';

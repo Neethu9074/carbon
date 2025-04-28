@@ -68,6 +68,24 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           </KpiKeyValue>
         )}
 
+        {isAixOs(snapshot) && (
+          <KpiKeyValue label={t('in-forge:plugins.host.dashboard.systemCalls')}>
+            <MetricValue snapshotId={snapshot.get('id')} metric="cpu.systemCalls" formatter={number.compact} />
+          </KpiKeyValue>
+        )}
+
+        {isAixOs(snapshot) && (
+          <KpiKeyValue label={t('in-forge:plugins.host.dashboard.avgRunQueue')}>
+            <MetricValue
+              snapshotId={snapshot.get('id')}
+              metric="cpu.avgRunQueue"
+              formatter={value =>
+                value < 0 ? t('in-forge:plugins.host.dashboard.notCollected') : twoDecimalPlaces(value)
+              }
+            />
+          </KpiKeyValue>
+        )}
+
         {!(isWindows(snapshot) || isZos(snapshot)) && (
           <KpiKeyValue label={t('in-forge:plugins.host.dashboard.cpuLoad')}>
             <MetricValue snapshotId={snapshot.get('id')} metric="load.1min" formatter={twoDecimalPlaces} />
@@ -102,7 +120,24 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             />
           )}
 
-          {!isAixOs(snapshot) && (
+          {isIbmiOs(snapshot) && (
+            <Chart
+              snapshotId={snapshot.get('id')}
+              snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+              hasActionlane
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: percentageZeroDecimalPlaces,
+                metrics: ['cpu.user'],
+                labels: [t('in-forge:plugins.host.dashboard.user')],
+                type: 'stackedArea'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          )}
+
+          {!isAixOs(snapshot) && !isIbmiOs(snapshot) && (
             <Chart
               snapshotId={snapshot.get('id')}
               snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
@@ -188,7 +223,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         )}
       </Columize>
 
-      <CpuTable snapshot={snapshot} timeConfig={timeConfig} />
+      {!isIbmiOs(snapshot) && <CpuTable snapshot={snapshot} timeConfig={timeConfig} />}
 
       {gpuInfoAvailable && <GpuTable snapshot={snapshot} timeConfig={timeConfig} />}
       {gpuInfoAvailable && <GpuProcessList snapshot={snapshot} timeConfig={timeConfig} />}
@@ -326,6 +361,41 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           )}
         </DashboardSection>
       )}
+
+      {isAixOs(snapshot) && (
+        <DashboardSection title={t('in-forge:plugins.host.dashboard.systemEvents')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: [
+                'cpu.systemReads',
+                'cpu.systemWrites',
+                'cpu.blockReads',
+                'cpu.blockWrites',
+                'cpu.nonBlockReads',
+                'cpu.nonBlockWrites',
+                'cpu.logicalBlockReads',
+                'cpu.logicalBlockWrites'
+              ],
+              labels: [
+                t('in-forge:plugins.host.dashboard.systemReads'),
+                t('in-forge:plugins.host.dashboard.systemWrites'),
+                t('in-forge:plugins.host.dashboard.blockReads'),
+                t('in-forge:plugins.host.dashboard.blockWrites'),
+                t('in-forge:plugins.host.dashboard.nonBlockReads'),
+                t('in-forge:plugins.host.dashboard.nonBlockWrites'),
+                t('in-forge:plugins.host.dashboard.logicalBlockReads'),
+                t('in-forge:plugins.host.dashboard.logicalBlockWrites')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      )}
+
       {isAixOs(snapshot) && <VolumeGroups snapshot={snapshot} timeConfig={timeConfig} />}
       {isAixOs(snapshot) && <PhysicalVolume snapshot={snapshot} timeConfig={timeConfig} />}
       {isAixOs(snapshot) && <Disks snapshot={snapshot} timeConfig={timeConfig} />}

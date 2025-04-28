@@ -45,6 +45,21 @@ export function setDefaultMetrics(items, setSelectedMetricGroup, selectedMetricG
   setSelectedMetricGroup(items[0].tags);
 }
 
+export function setDefaultEntity(items, setSelectedSnapshotId, selectedSnapshotId) {
+  if (items?.length === 0) {
+    return;
+  }
+
+  if (selectedSnapshotId) {
+    const entitySnapshotId = items.find(item => item.snapshotId === selectedSnapshotId);
+    if (entitySnapshotId) {
+      return;
+    }
+  }
+
+  setSelectedSnapshotId(items[0].snapshotId);
+}
+
 export function titleValidator() {
   return value => {
     if (typeof value === 'string' && value.length > MAX_LABEL_LENGTH) {

@@ -13,10 +13,12 @@ import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/comp
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 //@ts-expect-error
 import { getAggregationValue } from 'in-alerting/smart-alerts/applications/dialog/advanced/thresholdConditionUtil';
+import { getMetricLabelValue } from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/MetricDropdown';
 import MultiThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/Section/MultiThresholdCondition';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/eum/components/TearSheet/ThresholdTypeSelection';
 import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
+import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import mobileAppCreateRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
@@ -71,14 +73,27 @@ export default function SlownessThresholdCondition({
         }
         titleWidth="8rem"
       >
-        <Dropdown
-          value={getAggregationValue(form)}
-          items={getAggregationOptions(form)}
-          className={locals.dropdownsm}
-          onChange={value => {
-            updateForm(form.updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true)));
-          }}
-        />
+        <Stack direction="horizontal" gap="xsmall">
+          <Dropdown
+            value={metricName}
+            items={ruleMetricNameOptions.slowness}
+            className={locals.dropdownmd}
+            onChange={value => {
+              updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
+            }}
+          />
+          <Dropdown
+            value={getAggregationValue(form)}
+            className={locals.dropdownxlg}
+            items={getAggregationOptions(form).map(item => ({
+              value: item.value,
+              label: getMetricLabelValue(item.label)
+            }))}
+            onChange={value => {
+              updateForm(form.updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true)));
+            }}
+          />
+        </Stack>
       </Section>
 
       {/* Threshold Type */}

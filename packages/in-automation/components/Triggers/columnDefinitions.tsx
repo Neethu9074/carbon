@@ -99,8 +99,10 @@ export const triggerNameColumn: ColumnDefinition<TriggerSpecification> = {
     if (isEventSpecification(item)) {
       return <EventName hasRowNavigation={false} entity={item} />;
     }
-
-    return <NameColumnCell config={item} getSubtitle={config => getSubtitleLog(config.threshold)} />;
+    if (item && item.threshold) {
+      return <NameColumnCell config={item} getSubtitle={config => getSubtitleLog(config.threshold!)} />;
+    }
+    return null;
   },
   width: 25
 };

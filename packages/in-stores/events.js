@@ -9,16 +9,21 @@ import { get } from 'lodash';
 
 import { themes } from '@instana/design-tokens';
 
+import { productCode, productCodeType, productPlatformTitle, productTitle, ut30 } from 'in-services/util/constants';
 // eslint-disable-next-line no-restricted-imports
 import { carbonAlert } from 'in-themes/chartColors';
 import createTotalRawEventsSubscription from 'in-subscription/totalRawEventsCount';
+import { getLicenseTypeForSegment } from 'in-services/util/segmentLicenseType';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createHealthInfoSubscription from 'in-subscription/healthInfo';
+import { customRealmName } from 'in-services/util/constants';
 import createEventObservable from 'in-subscription/event';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
 import { createStore } from 'in-stores/store';
+import { config } from 'in-services/config';
+import { user } from 'in-stores/user';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
@@ -362,6 +367,31 @@ export function getEventType(event) {
   }
 }
 
+export function getEventTrackingType(event) {
+  const isImmutableObject = !!event.get;
+  const eventType = isImmutableObject ? event.get('type') : event.type;
+  return getParentPage(eventType);
+}
+
+export function getParentPage(eventType) {
+  switch (eventType) {
+    case 'incident':
+      return 'Incident';
+    case 'change':
+      return 'Change';
+    case 'agent_monitoring_issue': // can be handled just as any other issue in the UI
+      return 'Agent Monitoring Issue';
+    case 'cve_issue':
+      return 'CVE Issue';
+    case 'prc_issue':
+      return 'PRC Issue';
+    case 'issue':
+      return 'Issue';
+    default:
+      return 'All';
+  }
+}
+
 export function annotateEvent(note) {
   const obj = http({
     method: 'PUT',
@@ -410,4 +440,44 @@ export function shareEventSummary(incidentId, recipients, timestamp, sender, sub
     }
   });
   return obj.map(response => response.body);
+}
+
+export function eventsPageTracker(productArea, pageRootName, location, configType) {
+  if (!window.analytics) {
+    return;
+  }
+
+  const url = window.location.href;
+  const { tenantUnitId, tenantId, tenantUnit, tenant, activeLicenseType } = config;
+  if (!tenantUnitId) {
+    return;
+  }
+
+  const path = location.pathname;
+  const userSelfDefinedRole =
+    window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
+  const productPlanType = getLicenseTypeForSegment(activeLicenseType);
+  const userId = customRealmName + '-' + user?.id;
+  window.analytics.page('Page Viewed', {
+    UT30: ut30,
+    instanceId: tenantUnitId,
+    instanceName: tenantUnit,
+    tenantId: tenantId,
+    tenantName: tenant,
+    parentPageCategory: productArea,
+    parentPageName: pageRootName,
+    category: configType,
+    path: path,
+    productCode: productCode,
+    productCodeType: productCodeType,
+    productPlanType: productPlanType,
+    productTitle: productTitle,
+    url: url,
+    altUserId: userId,
+    platformTitle: productPlatformTitle,
+    roles: [userSelfDefinedRole],
+    'user.bluemixId': userId
+  });
+
+  return null; // SegmentEventTracker does not render anything
 }

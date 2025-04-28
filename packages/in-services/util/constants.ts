@@ -4,9 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
-import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
+import { config } from 'in-services/config';
 
-const deploymentType = onPremLicenseInformationEnabled ? 'Self-Hosted' : 'SaaS';
+const { region } = config;
+const deploymentType = region === 'onprem' ? 'Self-Hosted' : 'SaaS';
+
 //used to uniquely identify non-ibm id users
 export const customRealmName = 'instanaProduct';
 //Segment productTitle value

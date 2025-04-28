@@ -31,6 +31,7 @@ interface MultiThresholdConditionProps {
   groupBy?: any;
   alertChannelPerSeverityEnabled?: boolean;
   max?: number;
+  showSuggestedValueButton?: boolean;
 }
 
 export default function MultiThresholdCondition({
@@ -40,7 +41,8 @@ export default function MultiThresholdCondition({
   metricUnitPostfix,
   groupBy = [],
   alertChannelPerSeverityEnabled,
-  max
+  max,
+  showSuggestedValueButton = !groupBy?.length
 }: MultiThresholdConditionProps) {
   const maxValue = max ?? getMaxMetricValue(percentageMetric);
   const warningThresholdValueField = form.get('threshold')?.get('warningThreshold')?.get('value');
@@ -108,7 +110,7 @@ export default function MultiThresholdCondition({
           />
         </div>
         {/* threshold suggestion for warning threshold */}
-        {!groupBy?.length && (
+        {showSuggestedValueButton && (
           <div className={locals.wrapper}>
             <Spacer />
             <Stack direction="horizontal">

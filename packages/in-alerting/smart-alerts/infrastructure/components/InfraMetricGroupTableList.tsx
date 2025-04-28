@@ -18,6 +18,7 @@ import { getColumnDefinition } from 'in-alerting/smart-alerts/infrastructure/dat
 import GroupTableList from 'in-alerting/smart-alerts/aggregated/components/GroupTableList';
 import { Metadatas } from 'in-infrastructure/hooks/useMetricMetadatas';
 import { State } from 'in-hooks/useCursorPagination';
+import { InfrastructureGroup } from 'in-types';
 
 interface InfraMetricGroupTableListProps extends State<any, any> {
   groupBy: string[];
@@ -96,13 +97,13 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
   });
 
   return (
-    <GroupTableList
+    <GroupTableList<InfrastructureGroup>
       {...props}
       isLoading={isLoading}
       hasErrors={hasErrors}
       columnDefinitions={columnDefinitions}
       retrievalSize={retrievalSize}
-      setSelectedMetricGroup={setSelectedMetricGroup}
+      setSelectedMetricGroup={(item: InfrastructureGroup) => setSelectedMetricGroup(item.tags)}
       loadMore={loadMore}
     />
   );

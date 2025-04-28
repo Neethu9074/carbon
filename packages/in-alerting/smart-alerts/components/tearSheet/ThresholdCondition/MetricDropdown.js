@@ -83,7 +83,7 @@ export default function MetricDropdown({ alertType, updateForm, form, blueprintC
   }
 }
 
-function getMetricLabelValue(label) {
+export function getMetricLabelValue(label) {
   if (label === 'min') {
     return t('in-alerting:smartAlerts.applications.tearSheet.threshold.minLatency');
   } else if (label === 'max') {

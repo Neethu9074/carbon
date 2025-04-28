@@ -5,10 +5,11 @@
  */
 
 import React, { useEffect, useMemo } from 'react';
-import { MapForm } from 'formalistic';
+import { Field, MapForm } from 'formalistic';
+import { isEmpty } from 'lodash';
 
+import { InfraAlertEvaluationType, RuleWithThreshold } from '@instana/types/typeDefinitions';
 import { InfraAlertRuleUnion, Order, TagCatalog } from '@instana/types';
-import { RuleWithThreshold } from '@instana/types/typeDefinitions';
 import { create } from '@instana/observables';
 
 import InfraMultiThresholdCondition from 'in-alerting/smart-alerts/infrastructure/components/InfraMultiThresholdCondition';
@@ -16,6 +17,7 @@ import { getFormatter, getMetricUnitPostfix } from 'in-alerting/smart-alerts/inf
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import InfraEntityList from 'in-alerting/smart-alerts/infrastructure/components/perEntity/InfraEntityList';
 import { InfraMetricChart } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
@@ -51,6 +53,7 @@ export default function ThresholdSelectionInteractiveChart({
 }: ThresholdProps): JSX.Element {
   const chartViewConfigs = defaultChartViewConfigs;
 
+  const evaluationType = (form.get('evaluationType') as Field<InfraAlertEvaluationType>).value;
   const groupBy = form.get('groupBy').value;
 
   const ruleForm = form.get('rule');
@@ -67,7 +70,11 @@ export default function ThresholdSelectionInteractiveChart({
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
 
   const backendGroupBy = toBackendGroupBy(groupBy) ?? [];
-  const order = { by: backendGroupBy?.[0], direction: 'DESC' };
+  const isPerEntityEvaluation = evaluationType === 'PER_ENTITY';
+
+  const order = isPerEntityEvaluation
+    ? { by: 'label', direction: 'ASC' }
+    : { by: backendGroupBy?.[0], direction: 'DESC' };
   const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, regex, metricLabel);
 
   const kpiDefinitions = getKpiDefinitions(entityType);
@@ -114,7 +121,7 @@ export default function ThresholdSelectionInteractiveChart({
               alertsPreviewEnabled
               metricLabel={metricLabel}
             />
-            {groupBy.length > 0 && (
+            {evaluationType === 'CUSTOM' && groupBy.length > 0 && (
               <InfraMetricGroup
                 backendQueryModel={alertConfigModel.tagFilterExpression}
                 backendGroupBy={backendGroupBy}
@@ -129,6 +136,23 @@ export default function ThresholdSelectionInteractiveChart({
                 }}
                 metricMetadatas={metricMetadatas}
                 tagCatalog={tagCatalog}
+              />
+            )}
+            {isPerEntityEvaluation && !isEmpty(entityType) && !isEmpty(metricName) && (
+              <InfraEntityList
+                backendQueryModel={alertConfigModel.tagFilterExpression}
+                order={order as Order}
+                timeConfig={{
+                  ...chartViewConfig.timeConfig,
+                  to: timeConfig.to,
+                  focusedMoment: timeConfig.focusedMoment
+                }}
+                metricMetadatas={metricMetadatas}
+                aggregation={aggregation}
+                crossSeriesAggregation={crossSeriesAggregation}
+                entityType={entityType}
+                regex={regex}
+                metricName={metricName}
               />
             )}
           </>
