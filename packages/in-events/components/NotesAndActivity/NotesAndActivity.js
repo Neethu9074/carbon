@@ -23,7 +23,7 @@ import { CommentList } from 'in-events/components/NotesAndActivity/components/Co
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { incidentSummarizationEnabled } from 'in-services/featureFlags';
-import { LAUNCHER_BUTTON_ID } from 'in-events/components/AIChat/AIChat';
+import { MoveAIChatLauncher } from 'in-events/components/AIChat/AIChat';
 import { t } from 'in-i18n';
 
 import locals from './NotesAndActivity.mless';
@@ -230,9 +230,4 @@ export function EmptyState() {
       <p className={locals.emptyInfo}>{t('in-events:notes.noActivityDetails')}</p>
     </div>
   );
-}
-
-function MoveAIChatLauncher(pixel) {
-  const launcherIcon = document.getElementById(LAUNCHER_BUTTON_ID);
-  launcherIcon.style.right = pixel;
 }
