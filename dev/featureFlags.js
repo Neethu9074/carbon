@@ -74,6 +74,7 @@ module.exports = {
   mobileAppPerfBeaconEnabled: true,
   mobileAppPerformanceTabEnabled: true,
   mobileAppDroppedBeaconsEnabled: true,
+  mobileAppScreenRenderingDurationEnabled: false,
   websiteBeaconQueryOptimizationEnabled: true,
   eumImpactedUsersForAppAlertEnabled: true,
   controlPlaneEnabled: true,

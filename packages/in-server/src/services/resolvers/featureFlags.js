@@ -351,6 +351,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'screenRenderingDurationEnabled',
+    instanaCtlKey: 'feature.eum.mobile.app.screen.rendering.duration.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'controlPlaneEnabled',
     instanaCtlKey: 'feature.kubernetes.controlplane.enabled',
     defaultValue: false

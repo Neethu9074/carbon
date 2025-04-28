@@ -91,6 +91,10 @@ export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashB
 export const mobileAppPerfBeaconEnabled = isFeatureFlagEnabled('mobileAppPerfBeaconEnabled', true);
 export const mobileAppPerformanceTabEnabled = isFeatureFlagEnabled('mobileAppPerformanceTabEnabled', true);
 export const mobileAppDroppedBeaconsEnabled = isFeatureFlagEnabled('mobileAppDroppedBeaconsEnabled', true);
+export const mobileAppScreenRenderingDurationEnabled = isFeatureFlagEnabled(
+  'mobileAppScreenRenderingDurationEnabled',
+  false
+);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
 
 export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', true);

@@ -188,6 +188,15 @@ function getTableData({
         metric: 'views',
         aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeConfig)
+      },
+      beaconDurationAgg: {
+        metric: 'beaconDuration',
+        aggregation: 'P75'
+      },
+      beaconDuration: {
+        metric: 'beaconDuration',
+        aggregation: 'P75',
+        granularity: getSparkChartGranularity(timeConfig)
       }
     }
   });

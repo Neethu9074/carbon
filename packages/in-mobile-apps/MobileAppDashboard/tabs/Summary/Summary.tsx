@@ -17,6 +17,7 @@ import MobileAppGeoHeatMap from 'in-mobile-apps/MobileAppDashboard/components/Mo
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 // @ts-expect-error Could not find a declaration file for module
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
+import { mobileAppCrashBeaconEnabled, mobileAppScreenRenderingDurationEnabled } from 'in-services/featureFlags';
 import HttpRequestOriginTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/HttpRequestOriginTopList';
 import MobileAppBigNumberCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppBigNumberCard';
 import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
@@ -25,7 +26,6 @@ import CrashTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/CrashTo
 import { summaryTab, useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
-import { mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { number, percentage } from 'in-services/formatters/number';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -303,6 +303,11 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               tagFilters={tagFilters}
               timeConfig={timeConfig}
               mobileAppId={mobileAppId}
+              urlMatrixParamConfig={
+                mobileAppScreenRenderingDurationEnabled
+                  ? { path: summaryTab, paramTab: 'viewsTab', paramMetric: 'views' }
+                  : undefined
+              }
               renderHistoricDataIndicator
             />
           </Col>
@@ -362,6 +367,11 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               tagFilters={tagFilters}
               timeConfig={timeConfig}
               mobileAppId={mobileAppId}
+              urlMatrixParamConfig={
+                mobileAppScreenRenderingDurationEnabled
+                  ? { path: summaryTab, paramTab: 'viewsTab', paramMetric: 'views' }
+                  : undefined
+              }
               renderHistoricDataIndicator
             />
           </Col>

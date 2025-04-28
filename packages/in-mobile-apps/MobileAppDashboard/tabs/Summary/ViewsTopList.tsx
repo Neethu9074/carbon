@@ -13,20 +13,26 @@ import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopLi
 // @ts-expect-error Could not find a declaration file for module
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
+import { mobileAppScreenRenderingDurationEnabled } from 'in-services/featureFlags';
 import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
-import { number } from 'in-services/formatters/number';
+import { UrlMatrixParamConfig } from 'in-applications/types';
+import { number, ms } from 'in-services/formatters/number';
 import { TagFilter, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
-const metrics = ['views'];
-const labels = [t('in-mobile-apps:dashboard.tabs.occurrencesLabel')];
-const aggregations = ['SUM'];
-const formatters = [number.compact, number.compact];
+const metrics = mobileAppScreenRenderingDurationEnabled ? ['views', 'beaconDuration'] : ['views'];
+const labels = [
+  t('in-mobile-apps:dashboard.tabs.occurrencesLabel'),
+  t('in-mobile-apps:dashboard.tabs.screenrenderingDuartion')
+];
+const aggregations = ['SUM', 'P75'];
+const formatters = [number.compact, ms.compact];
 
 interface ViewsTopListProps {
   mobileAppId: string;
   timeConfig: TimeConfig;
   tagFilters?: Array<TagFilter>;
+  urlMatrixParamConfig?: UrlMatrixParamConfig;
   renderHistoricDataIndicator: boolean;
 }
 
@@ -34,6 +40,7 @@ export default function ViewsTopList({
   mobileAppId,
   timeConfig,
   tagFilters,
+  urlMatrixParamConfig,
   renderHistoricDataIndicator
 }: ViewsTopListProps) {
   return (
@@ -51,6 +58,7 @@ export default function ViewsTopList({
       mobileAppId={mobileAppId}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
+      urlMatrixParamConfig={urlMatrixParamConfig}
       renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
