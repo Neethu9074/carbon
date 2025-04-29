@@ -68,7 +68,7 @@ export default function AlertChannelsList({
       isSearchable={isSearchable}
       searchAttributes={['name', getKind, getStringifiedParameters, getStringifiedTags]}
       extraFilters={createFilters(hiddenIds)}
-      onFilter={createTeamsFilter}
+      onFilter={(createTeamsFilter([]) && createTeamsFilter) || false}
       searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
       boundedPath="/channels"
