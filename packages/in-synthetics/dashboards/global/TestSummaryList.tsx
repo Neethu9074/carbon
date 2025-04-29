@@ -92,7 +92,7 @@ const urlStateDefinition: Options<FilterState> = {
 
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
-    columnDefinitions: columnDefinitions,
+    columnDefinitions,
     title: t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle'),
     description: t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')
   }),
@@ -102,7 +102,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     locationsUrlParameter,
     syntheticRbacLimitedEnabled ? entityIdsUrlParameter : applicationsUrlParameter
   ],
-  columnDefinitions: columnDefinitions,
+  columnDefinitions,
   defaultOrderBy: 'successRate',
   defaultOrderDirection: 'ASC',
   pathSegment,
