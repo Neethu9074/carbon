@@ -912,6 +912,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'mobileAppSmartAlertSlownessBlueprintEnabled',
+    instanaCtlKey: 'feature.mobile.app.smart.alert.slowness.blueprint.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'tealiumPrivacyEnabled',
     instanaCtlKey: 'feature.tealium.privacy.enabled',
     defaultValue: false

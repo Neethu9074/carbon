@@ -190,5 +190,6 @@ module.exports = {
   mobileAppSmartAlertDialogViewEnabled: true,
   ansibleScriptGenerationEnabled: true,
   actionAiGenerationEnabled: true,
+  mobileAppSmartAlertSlownessBlueprintEnabled: false,
   regexMatchEnabled: true
 };

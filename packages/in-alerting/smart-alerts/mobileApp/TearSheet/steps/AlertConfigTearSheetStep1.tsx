@@ -52,6 +52,12 @@ export default function AlertConfigTearSheetStep1({
       />
       <AlertTypeSwitch
         alertType={alertType}
+        renderSlowness={() => (
+          <SelectedBlueprintPresenter
+            title={blueprintConfig.tearSheet.headline}
+            description={blueprintConfig.tearSheet.text}
+          />
+        )}
         renderStatusCode={() => (
           <SelectedBlueprintPresenter
             title={blueprintConfig.tearSheet.headline}

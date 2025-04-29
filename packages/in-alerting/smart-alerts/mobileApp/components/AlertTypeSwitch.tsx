@@ -12,6 +12,7 @@ interface AlertTypeSwitchProps {
   renderThroughput?: () => JSX.Element;
   renderCustomEvent?: () => JSX.Element;
   renderCrash?: () => JSX.Element;
+  renderSlowness?: () => JSX.Element;
 }
 
 export default function AlertTypeSwitch({
@@ -19,7 +20,8 @@ export default function AlertTypeSwitch({
   renderStatusCode,
   renderThroughput,
   renderCustomEvent,
-  renderCrash
+  renderCrash,
+  renderSlowness
 }: AlertTypeSwitchProps) {
   let render;
   if (alertType === 'statusCode') {
@@ -30,6 +32,8 @@ export default function AlertTypeSwitch({
     render = renderCustomEvent;
   } else if (alertType === 'crash') {
     render = renderCrash;
+  } else if (alertType === 'slowness') {
+    render = renderSlowness;
   }
   return render?.() ?? null;
 }

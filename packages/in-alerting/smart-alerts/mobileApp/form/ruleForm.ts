@@ -25,6 +25,8 @@ export default function createRuleForm(rule: MobileAppAlertRule): MapForm<any> {
   const baseForm = createBaseForm(rule);
 
   switch (alertType) {
+    case 'slowness':
+      return extendForSlowness(baseForm, rule);
     case 'throughput':
     case 'crash':
       return baseForm;
@@ -50,6 +52,15 @@ function createBaseForm(rule: MobileAppAlertRule): MapForm<any> {
         value: rule.metricName ?? 'httpxxx'
       })
     );
+}
+
+function extendForSlowness(baseForm: MapForm<any>, rule: MobileAppAlertRule): MapForm<any> {
+  return baseForm.put(
+    'aggregation',
+    createField({
+      value: rule.aggregation ?? 'P90'
+    })
+  );
 }
 
 function extendForStatusCode(

@@ -8,6 +8,9 @@ import { Field, MapForm } from 'formalistic';
 import { CustomEventWebsiteAlertRule } from '@instana/types';
 
 import {
+  getSlownessGreaterOrLessOperatorText,
+  getSlownessSimpleAboveOrBelowOperatorText,
+  getSlownessSimpleHighOrLowOperatorText,
   getStaticThresholdHigherOrLowerOperatorText,
   getStatusCodeSimpleAboveOrBelowOperatorText,
   getThresholdHigherOrLowerOperatorText,
@@ -27,7 +30,6 @@ import { severityMap, WARNING_SEVERITY } from 'in-alerting/smart-alerts/componen
 import { isEmpty as checkIsEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { errorRate, onLoadTime, statusCodeRate } from 'in-alerting/smart-alerts/websites/constants';
 import { getStatusCodeLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
-import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { operators } from 'in-analyze/applicationFilter';
@@ -183,61 +185,5 @@ function getJSErrorText(operator: TagFilterOperator, ruleValue?: string) {
       return t('in-alerting:smartAlerts.eum.form.JSErrorTextEndsWith', { ruleValue });
     default:
       throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedOperator', { operator }));
-  }
-}
-
-function getSlownessSimpleHighOrLowOperatorText(
-  metricLabel: string,
-  aggregationText: string,
-  operator: ThresholdOperator
-) {
-  return isGreaterOperator(operator)
-    ? t('in-alerting:smartAlerts.eum.form.slownessSimpleHighOperatorTextWithMetric', { metricLabel, aggregationText })
-    : t('in-alerting:smartAlerts.eum.form.slownessSimpleLowOperatorTextWithMetric', { metricLabel, aggregationText });
-}
-
-function getSlownessSimpleAboveOrBelowOperatorText(
-  metricLabel: string,
-  aggregationText: string,
-  operator: ThresholdOperator
-) {
-  return isGreaterOperator(operator)
-    ? t('in-alerting:smartAlerts.eum.form.slownessSimpleAboveOperatorTextWithMetric', { metricLabel, aggregationText })
-    : t('in-alerting:smartAlerts.eum.form.slownessSimpleBelowOperatorTextWithMetric', { metricLabel, aggregationText });
-}
-
-function getSlownessGreaterOrLessOperatorText(
-  metricLabel: string,
-  aggregationText: string,
-  operator: ThresholdOperator,
-  thresholdValue: number
-) {
-  switch (operator) {
-    case '>':
-      return t('in-alerting:smartAlerts.eum.form.slownessGreaterOperatorTextWithMetric', {
-        metricLabel,
-        aggregationText,
-        thresholdValue
-      });
-    case '>=':
-      return t('in-alerting:smartAlerts.eum.form.slownessGreaterEqualsOperatorTextWithMetric', {
-        metricLabel,
-        aggregationText,
-        thresholdValue
-      });
-    case '<':
-      return t('in-alerting:smartAlerts.eum.form.slownessLessOperatorTextWithMetric', {
-        metricLabel,
-        aggregationText,
-        thresholdValue
-      });
-    case '<=':
-      return t('in-alerting:smartAlerts.eum.form.slownessLessEqualsOperatorTextWithMetric', {
-        metricLabel,
-        aggregationText,
-        thresholdValue
-      });
-    default:
-      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedOperator', { operator: operator }));
   }
 }

@@ -67,3 +67,59 @@ export function getStatusCodeSimpleAboveOrBelowOperatorText(statusCodeLabel: str
         statusCodeLabel
       });
 }
+
+export function getSlownessSimpleHighOrLowOperatorText(
+  metricLabel: string,
+  aggregationText: string,
+  operator: ThresholdOperator
+): string {
+  return isGreaterOperator(operator)
+    ? t('in-alerting:smartAlerts.eum.form.slownessSimpleHighOperatorTextWithMetric', { metricLabel, aggregationText })
+    : t('in-alerting:smartAlerts.eum.form.slownessSimpleLowOperatorTextWithMetric', { metricLabel, aggregationText });
+}
+
+export function getSlownessSimpleAboveOrBelowOperatorText(
+  metricLabel: string,
+  aggregationText: string,
+  operator: ThresholdOperator
+): string {
+  return isGreaterOperator(operator)
+    ? t('in-alerting:smartAlerts.eum.form.slownessSimpleAboveOperatorTextWithMetric', { metricLabel, aggregationText })
+    : t('in-alerting:smartAlerts.eum.form.slownessSimpleBelowOperatorTextWithMetric', { metricLabel, aggregationText });
+}
+
+export function getSlownessGreaterOrLessOperatorText(
+  metricLabel: string,
+  aggregationText: string,
+  operator: ThresholdOperator,
+  thresholdValue: number
+): string {
+  switch (operator) {
+    case '>':
+      return t('in-alerting:smartAlerts.eum.form.slownessGreaterOperatorTextWithMetric', {
+        metricLabel,
+        aggregationText,
+        thresholdValue
+      });
+    case '>=':
+      return t('in-alerting:smartAlerts.eum.form.slownessGreaterEqualsOperatorTextWithMetric', {
+        metricLabel,
+        aggregationText,
+        thresholdValue
+      });
+    case '<':
+      return t('in-alerting:smartAlerts.eum.form.slownessLessOperatorTextWithMetric', {
+        metricLabel,
+        aggregationText,
+        thresholdValue
+      });
+    case '<=':
+      return t('in-alerting:smartAlerts.eum.form.slownessLessEqualsOperatorTextWithMetric', {
+        metricLabel,
+        aggregationText,
+        thresholdValue
+      });
+    default:
+      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedOperator', { operator: operator }));
+  }
+}

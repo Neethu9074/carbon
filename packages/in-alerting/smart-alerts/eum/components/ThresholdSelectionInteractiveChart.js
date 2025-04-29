@@ -13,12 +13,12 @@ import {
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
 import JsErrorsThresholdCondition from 'in-alerting/smart-alerts/websites/dialog/advanced/JsErrorsThresholdCondition';
-import SlownessThresholdCondition from 'in-alerting/smart-alerts/websites/dialog/advanced/SlownessThresholdCondition';
 import CustomEventsThresholdCondition from 'in-alerting/smart-alerts/eum/components/CustomEventsThresholdCondition';
 import CrashThresholdCondition from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/CrashThresholdCondition';
 import StatusCodeThresholdCondition from 'in-alerting/smart-alerts/eum/components/StatusCodeThresholdCondition';
 import ThroughputThresholdCondition from 'in-alerting/smart-alerts/eum/components/ThroughputThresholdCondition';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/dialog/IncompleteChartPlaceholder';
+import SlownessThresholdCondition from 'in-alerting/smart-alerts/eum/components/SlownessThresholdCondition';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import toAlertConfigWithRules from 'in-alerting/smart-alerts/eum/utils/thresholdChartUtil';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
@@ -72,16 +72,15 @@ export default function ThresholdSelectionInteractiveChart({
             getMetricUnitPostfix={getMetricUnitPostfix}
           />
         )}
-        renderSlowness={() =>
-          eumType === websiteEum && (
-            <SlownessThresholdCondition
-              form={form}
-              blueprintConfig={blueprintConfig}
-              updateForm={updateForm}
-              editMode={editMode}
-            />
-          )
-        }
+        renderSlowness={() => (
+          <SlownessThresholdCondition
+            form={form}
+            blueprintConfig={blueprintConfig}
+            updateForm={updateForm}
+            editMode={editMode}
+            eumType={eumType}
+          />
+        )}
         renderStatusCode={() => (
           <StatusCodeThresholdCondition
             form={form}

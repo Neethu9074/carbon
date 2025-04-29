@@ -52,7 +52,7 @@ export default function AnalyzeMobileAppEventButton({
       beaconType,
       timeConfig,
       groupBy: getGrouping(alertType, metricName),
-      chartedMetrics: getChartedMetrics(alertType),
+      chartedMetrics: getChartedMetrics(alertType, alertConfig?.rule.aggregation),
       formModel: joinExpressions({
         expressions: [
           [tagFilter('mobileBeacon.mobileApp.name', EQUALS, mobileAppName)],
@@ -86,6 +86,7 @@ export default function AnalyzeMobileAppEventButton({
 
 function getGrouping(alertType: MobileAlertType, metricName: string) {
   switch (alertType) {
+    case 'slowness':
     case 'statusCode':
       return defaultGroupings.httpRequest;
     case 'throughput':
@@ -99,8 +100,15 @@ function getGrouping(alertType: MobileAlertType, metricName: string) {
   }
 }
 
-function getChartedMetrics(alertType: MobileAlertType) {
+function getChartedMetrics(alertType: MobileAlertType, aggregation?: string) {
   switch (alertType) {
+    case 'slowness':
+      return [
+        {
+          metricId: 'beaconDuration',
+          aggregationId: aggregation ?? 'MEAN'
+        }
+      ];
     case 'statusCode':
     case 'throughput':
     case 'customEvent':
@@ -118,6 +126,7 @@ function getChartedMetrics(alertType: MobileAlertType) {
 
 function getIcon(alertType: MobileAlertType) {
   switch (alertType) {
+    case 'slowness':
     case 'statusCode':
       return 'lib_mobile_app_request';
     case 'throughput':
@@ -133,6 +142,7 @@ function getIcon(alertType: MobileAlertType) {
 
 function getLinkTitle(alertType: MobileAlertType, metricName: string) {
   switch (alertType) {
+    case 'slowness':
     case 'statusCode':
       return t('in-events:titleAnalyzeHTTPRequests');
     case 'throughput':

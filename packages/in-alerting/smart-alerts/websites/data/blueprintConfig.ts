@@ -157,7 +157,7 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
 const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'slowness',
-  name: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigName'),
+  name: t('in-alerting:smartAlerts.eum.slowness.blueprintConfigName'),
   headline: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigHeadline'),
   text: `
       <p>
@@ -357,7 +357,7 @@ function getSlownessMetricLabel(metricName: MetricName, aggregation?: Aggregatio
   const metricLabel =
     metricName == 'onLoadTime'
       ? t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel')
-      : t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigHttpMetricLabel');
+      : t('in-alerting:smartAlerts.eum.slowness.httpLatencyMetricLabel');
 
   return aggregation ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
 }

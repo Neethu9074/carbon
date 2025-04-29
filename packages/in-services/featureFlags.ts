@@ -235,6 +235,11 @@ export const websitesSmartAlertDialogViewEnabled = isFeatureFlagEnabled('website
 // Dialog view for MobileApp smart alert
 export const mobileAppSmartAlertDialogViewEnabled = isFeatureFlagEnabled('mobileAppSmartAlertDialogViewEnabled');
 
+// Slowness Blueprint in Mobile smart alert
+export const mobileAppSmartAlertSlownessBlueprintEnabled = isFeatureFlagEnabled(
+  'mobileAppSmartAlertSlownessBlueprintEnabled'
+);
+
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
 

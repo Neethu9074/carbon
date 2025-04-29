@@ -66,6 +66,7 @@ export default function SimpleAlertConfigDialogStep1({
             <ProvideStatusCode form={form} updateForm={updateForm} />
           </SelectedBlueprintPresenter>
         )}
+        renderSlowness={() => <SelectedBlueprintPresenter title={headline ?? ''} description={text} />}
         renderThroughput={() => <BlueprintDescription config={blueprintConfig} isSimpleMode />}
         renderCrash={() => (
           <SelectedBlueprintPresenter title={headline ?? ''} description={text}>
@@ -73,7 +74,7 @@ export default function SimpleAlertConfigDialogStep1({
           </SelectedBlueprintPresenter>
         )}
         renderCustomEvent={() => (
-          <SelectedBlueprintPresenter title={headline ?? ''} description={text}>
+          <SelectedBlueprintPresenter title={headline ?? ''} description={text + ' = Custome'}>
             <ProvideCustomEvent
               form={form}
               updateForm={updateForm}
