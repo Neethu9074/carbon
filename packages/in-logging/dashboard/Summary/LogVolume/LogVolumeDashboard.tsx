@@ -58,12 +58,11 @@ export default function LogVolumeDashboard() {
   );
 
   const { progress, data } = result || { progress: { loading: false }, data: {} };
-  const logVolume = data?.logVolumeUsageItems?.[0]?.logVolume ?? 0;
-  const hasLogVolume = logVolume != null;
+  const logVolume = data?.logVolumeUsageItems?.[0]?.logVolume;
 
   return (
     <>
-      {!progress.loading && hasLogVolume ? (
+      {!progress.loading && logVolume ? (
         <KpiCard title={localisationStrings.logVolumeTitle} iconAction={logVolumeIcon} noTooltipOnTitle>
           <div className={locals.body}>
             <p className={locals.retentionContent}>
