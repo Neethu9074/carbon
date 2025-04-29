@@ -17,6 +17,14 @@ import locals from './AIChat.mless';
 
 const LAUNCHER_BUTTON_ID = 'aiChatLauncher';
 
+// Helper function when needing to reposition the launcher icon
+export function MoveAIChatLauncher(pixel) {
+  const launcherIcon = document.getElementById(LAUNCHER_BUTTON_ID);
+  if (launcherIcon) {
+    launcherIcon.style.right = pixel;
+  }
+}
+
 function customSortRow(lhs, rhs, collator) {
   const nlhs = Number(lhs);
   const nrhs = Number(rhs);
@@ -103,6 +111,9 @@ export function AIChat() {
       setDragListener();
     }, 500);
   });
+  // This will move the Chat launcher back to original location.
+  // This is needed because we need it to reset on page navigation
+  MoveAIChatLauncher('50px');
 
   return (
     <>
