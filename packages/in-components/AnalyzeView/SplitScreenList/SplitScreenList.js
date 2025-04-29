@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useLayoutEffect } from 'react';
-import { findIndex, isEqual } from 'lodash';
+import { findIndex, isEqual, pick } from 'lodash';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
@@ -81,7 +81,14 @@ function ExpandedList(props) {
     onOpenItem
   } = props;
 
-  const itemIndex = findIndex(items, item => isEqual(getId(item), detailId));
+  function isActiveItem(item) {
+    const id = getId(item);
+    // detailId has sometimes more arguments
+    const strippedObj = pick(detailId, Object.keys(id));
+    return isEqual(strippedObj, id);
+  }
+  const itemIndex = findIndex(items, isActiveItem);
+
   const hasNext = itemIndex + 1 < items.length;
   const hasPrev = itemIndex > 0;
 
@@ -168,11 +175,12 @@ function ExpandedList(props) {
                 <Ul space="disabled">
                   {items.map((item, i) => {
                     const id = getId(item);
+                    const isActive = isActiveItem(item);
                     return (
                       <Li
                         key={`${generateStableHash(id)}${i}`}
                         size="normal"
-                        active={isEqual(id, detailId)}
+                        active={isActive}
                         href={getHrefToDetailId(id)}
                         onDefaultHrefInteractionSideEffect={() => onOpenItem?.(item)}
                       >
