@@ -6,12 +6,12 @@
 
 import React, { useEffect, useState } from 'react';
 
-import {
-  MetricType,
-  selectedMetricGroup$
-} from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 //@ts-expect-error TS migration needed
 import { setDefaultEntity } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
+import {
+  MetricType,
+  Tags
+} from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { getColumnDefinition } from 'in-alerting/smart-alerts/infrastructure/components/perEntity/getColumnDefinition';
 import GroupTableList from 'in-alerting/smart-alerts/aggregated/components/GroupTableList';
 import { InfrastructureExploreItem, Order, Result, TimeConfig } from 'in-types';
@@ -32,33 +32,41 @@ interface InfraEntitiesTableListProps extends State<any, any> {
   canLoadMore: boolean;
   setBackendQueryModel: (arg?: string) => void;
   onOrderByChange: ({ by, direction }: Order) => void;
+  setSelectedMetricGroup: React.Dispatch<React.SetStateAction<Tags | null>>;
 }
 
 export default function InfraEntitiesTableList(props: InfraEntitiesTableListProps) {
-  const { errors, progress, items, metrics, type, retrievalSize, metricMetadatas, timeConfig, loadMore } = props;
+  const {
+    errors,
+    progress,
+    items,
+    metrics,
+    type,
+    retrievalSize,
+    metricMetadatas,
+    timeConfig,
+    loadMore,
+    setSelectedMetricGroup
+  } = props;
 
   const hasErrors = errors && errors?.length > 0;
   const isLoading = progress && progress?.loading;
   const [selectedSnapshotId, setSelectedSnapshotId] = useState<string>();
 
   useEffect(() => {
-    if (isLoading) {
-      selectedMetricGroup$.emit({ loading: true });
-      return;
-    }
-
     if (items?.length > 0) {
       setDefaultEntity(items, setSelectedSnapshotId, selectedSnapshotId);
     } else {
       // if the loading is completed and the item is empty set the selected metric group to null
       setSelectedSnapshotId(undefined);
-      selectedMetricGroup$.emit(null);
+      setSelectedMetricGroup(null);
     }
 
     if (selectedSnapshotId) {
       const snapshotFilterKey = `id.${type}`;
-      selectedMetricGroup$.emit({ [snapshotFilterKey]: selectedSnapshotId });
+      setSelectedMetricGroup({ [snapshotFilterKey]: selectedSnapshotId });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSnapshotId, items, isLoading, type]);
 
   const columnDefinitions = getColumnDefinition({

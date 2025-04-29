@@ -15,8 +15,11 @@ import {
   getQueryBuilder,
   getGroupByQueryBuilder
 } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
+import {
+  getMetrics,
+  Tags
+} from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/infrastructure/hooks/useTagBasedPayloadConfigurator';
-import { getMetrics } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import ForecastAlertingDescription from 'in-alerting/smart-alerts/infrastructure/details/ForecastAlertingDescription';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
@@ -111,6 +114,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   const groupingFilter = groupBy && toUIGrouping(groupBy);
 
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator({ metricName, regex, entityType });
+  const [selectedMetricGroup, setSelectedMetricGroup] = useState<Tags | null>(null);
 
   return (
     <AlertDetailsCard>
@@ -148,6 +152,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
               entityType={entityType}
               metricName={metricName}
               metricLabel={metricLabel}
+              selectedMetricGroup={selectedMetricGroup}
             />
             {evaluationType === 'CUSTOM' && groupBy.length > 0 && (
               <InfraMetricGroup
@@ -164,6 +169,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
                 }}
                 metricMetadatas={metricMetadatas}
                 tagCatalog={tagCatalog}
+                setSelectedMetricGroup={setSelectedMetricGroup}
+                selectedMetricGroup={selectedMetricGroup}
               />
             )}
             {isPerEntityEvaluation && !isEmpty(entityType) && !isEmpty(metricName) && (
@@ -181,6 +188,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
                 entityType={entityType}
                 regex={regex}
                 metricName={metricName}
+                setSelectedMetricGroup={setSelectedMetricGroup}
+                selectedMetricGroup={selectedMetricGroup}
               />
             )}
           </>
