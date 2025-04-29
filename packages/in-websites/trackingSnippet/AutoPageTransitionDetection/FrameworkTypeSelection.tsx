@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { RadioButton, Spacer } from '@instana/components';
+import { RadioButton, Spacer, CarbonFormGroup as FormGroup } from '@instana/components';
 
 import {
   pageTransitionMethods,
@@ -48,38 +48,40 @@ const FrameworkTypeSelection = ({
   return (
     <>
       <Spacer vertical="large" />
-      <div className={locals.wrapper}>
-        <SubHeading text={t('in-websites:trackingSnippet.autoPageTransition.frameworkTypeSelectionLabel')} />
-        <div className={locals.radioButtonWrapper}>
-          {Object.values(frameworkTypes).map(type => (
-            <RadioButton
-              key={type}
-              label={
-                type === frameworkTypes.MPA
-                  ? t('in-websites:trackingSnippet.autoPageTransition.mpaLabel')
-                  : t('in-websites:trackingSnippet.autoPageTransition.spaLabel')
-              }
-              checked={frameworkType === type}
-              onChange={() => handleFrameworkChange(type)}
-            />
-          ))}
+      <FormGroup legendText={t('in-websites:trackingSnippet.autoPageTransition.frameworkTypeSelectionLabel')}>
+        <div className={locals.wrapper}>
+          <SubHeading text={t('in-websites:trackingSnippet.autoPageTransition.frameworkTypeSelectionLabel')} />
+          <div className={locals.radioButtonWrapper}>
+            {Object.values(frameworkTypes).map(type => (
+              <RadioButton
+                key={type}
+                label={
+                  type === frameworkTypes.MPA
+                    ? t('in-websites:trackingSnippet.autoPageTransition.mpaLabel')
+                    : t('in-websites:trackingSnippet.autoPageTransition.spaLabel')
+                }
+                checked={frameworkType === type}
+                onChange={() => handleFrameworkChange(type)}
+              />
+            ))}
+          </div>
+          <LearnMoreLink
+            label={t('in-websites:trackingSnippet.autoPageTransition.learnMoreAboutText')}
+            linkText={t('in-websites:trackingSnippet.autoPageTransition.applicationFrameworkText')}
+            url={applicationFrameworkURL}
+          />
         </div>
-        <LearnMoreLink
-          label={t('in-websites:trackingSnippet.autoPageTransition.learnMoreAboutText')}
-          linkText={t('in-websites:trackingSnippet.autoPageTransition.applicationFrameworkText')}
-          url={applicationFrameworkURL}
-        />
-      </div>
-      {frameworkType === frameworkTypes.SPA && (
-        <AutoPageTransitionDetection
-          enableAutoPageDetection={enableAutoPageDetection}
-          setEnableAutoPageDetection={setEnableAutoPageDetection}
-          pageTransitionMethod={pageTransitionMethod}
-          setPageTransitionMethod={setPageTransitionMethod}
-          setRegexMappingRules={setRegexMappingRules}
-          setWithoutCopyButton={setWithoutCopyButton}
-        />
-      )}
+        {frameworkType === frameworkTypes.SPA && (
+          <AutoPageTransitionDetection
+            enableAutoPageDetection={enableAutoPageDetection}
+            setEnableAutoPageDetection={setEnableAutoPageDetection}
+            pageTransitionMethod={pageTransitionMethod}
+            setPageTransitionMethod={setPageTransitionMethod}
+            setRegexMappingRules={setRegexMappingRules}
+            setWithoutCopyButton={setWithoutCopyButton}
+          />
+        )}
+      </FormGroup>
     </>
   );
 };

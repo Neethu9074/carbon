@@ -40,7 +40,7 @@ export default function Uploader({ apiUrl, documentationUrl }: Props) {
               i18nKey="in-websites:websiteDashboard.tabs.configuration.customGeoDetails.uploader.help"
               components={{
                 documentation: (
-                  <Link href={documentationUrl} external>
+                  <Link href={documentationUrl} externalWithIcon>
                     null
                   </Link>
                 )

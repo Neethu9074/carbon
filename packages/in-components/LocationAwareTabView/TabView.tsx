@@ -85,7 +85,7 @@ export default function TabView<TabData, TabProps extends {} = {}, ExtensionProp
     <section>
       <Sticky
         header={
-          <div aria-label="Page Header">
+          <div>
             {!withoutBreadcrumb && <BreadcrumbHeader />}
             {(!hasErrors || renderHeaderOnErrors) && (
               <Header

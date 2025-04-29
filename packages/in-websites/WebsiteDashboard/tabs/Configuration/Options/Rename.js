@@ -7,8 +7,9 @@ import { createField } from 'formalistic';
 import { get, find } from 'lodash';
 import React from 'react';
 
-import { Stack, Card, Button, Typography } from '@instana/components';
+import { Stack, Card, Button, Form } from '@instana/components';
 
+import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
 import SaveIndicator from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/SaveIndicator';
 import { renameWebsite as renameWebsiteTracker } from 'in-websites/tracking/segTracker';
 import { renameWebsite, getWebsites } from 'in-websites/api/websites';
@@ -16,7 +17,6 @@ import { notBlankValidator } from 'in-services/validators/string';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
-import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
@@ -123,42 +123,43 @@ export default class Rename extends React.PureComponent {
         headerClassName={locals.title}
         className={locals.configurationBlock}
       >
-        <form onSubmit={this.onSubmit}>
-          <FormGroup className={locals.group}>
-            {saveError && <SaveError>{saveError}</SaveError>}
+        <Form
+          onSubmit={this.onSubmit}
+          className={locals.group}
+          aria-label={t('in-websites:websiteDashboard.tabs.configuration.configurationRenameTitle')}
+        >
+          {saveError && <SaveError>{saveError}</SaveError>}
 
-            <Typography variant="body-regular" component="p">
-              {t('in-websites:rename.help')}
-            </Typography>
+          <HelpParagraph>{t('in-websites:rename.help')}</HelpParagraph>
 
-            <Stack direction="horizontal" align="center">
-              <Input
-                id="website-name"
-                type="text"
-                value={field.value}
-                onChange={this.onChange}
-                hasError={field.touched && !field.valid}
-                className={locals.input}
-                disabled={loading}
-              />
-              <Button
-                type="submit"
-                kind="create"
-                disabled={loading || (field.touched && !field.valid) || savedLabel === field.value}
-              >
-                {t('in-websites:websiteDashboard.tabs.configuration.configurationRenameButton')}
-              </Button>
-              <SaveIndicator id={this.state.saveResult} />
-            </Stack>
+          <Stack direction="horizontal" align="center">
+            <Input
+              id="website-name"
+              type="text"
+              value={field.value}
+              onChange={this.onChange}
+              hasError={field.touched && !field.valid}
+              className={locals.input}
+              disabled={loading}
+              aria-label={t('in-websites:websiteDashboard.tabs.configuration.configurationRenameTitle')}
+            />
+            <Button
+              type="submit"
+              kind="create"
+              disabled={loading || (field.touched && !field.valid) || savedLabel === field.value}
+            >
+              {t('in-websites:websiteDashboard.tabs.configuration.configurationRenameButton')}
+            </Button>
+            <SaveIndicator id={this.state.saveResult} />
+          </Stack>
 
-            {field.touched &&
-              field.messages.map((message, i) => (
-                <ValidationBlock hasError key={i}>
-                  {message.message}
-                </ValidationBlock>
-              ))}
-          </FormGroup>
-        </form>
+          {field.touched &&
+            field.messages.map((message, i) => (
+              <ValidationBlock hasError key={i}>
+                {message.message}
+              </ValidationBlock>
+            ))}
+        </Form>
       </Card>
     );
   }
