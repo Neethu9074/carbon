@@ -258,7 +258,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
           shouldDisplayAlertLevelSection={false}
         />
       </ExpandableLightCard>
-      <GlobalCustomPayloadCard context="INFRA" />
+      <GlobalCustomPayloadCard context="INFRA" ownerType={entityType} />
       <CustomPayloadCard
         customPayloadFields={customPayloadFields}
         TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}

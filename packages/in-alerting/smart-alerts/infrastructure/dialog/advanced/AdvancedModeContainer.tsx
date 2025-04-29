@@ -227,7 +227,7 @@ export default function AdvancedModeContainer(
           valid: isCustomPayloadValidOrUntouched(form),
           content: (
             <>
-              <GlobalCustomPayloadCard context="INFRA" />
+              <GlobalCustomPayloadCard context="INFRA" ownerType={entityType} />
               <AlertConfigCustomPayload
                 form={form}
                 setForm={updateForm}
