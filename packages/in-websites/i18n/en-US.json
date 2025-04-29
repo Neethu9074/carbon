@@ -576,6 +576,7 @@
         "fileDownloadConfigurationDialogLabelHost": "Host",
         "fileDownloadConfigurationDialogLabelHostHelpText": "Describe how to match the host segment of URLs. You can define wildcard matching via <code>{{asterisks}}</code>",
         "fileDownloadConfigurationDialogLabelPath": "Path",
+        "fileDownloadConfigurationDialogIconButton": "Remove Rule",
         "fileDownloadConfigurationDialogLabelPathHelpText": "Describe how to match the path segment of URLs. You can define wildcard matching via <code>{{asterisks}}</code>",
         "fileDownloadConfigurationDialogButtonAddMatchingRule": "Add matching rule",
         "fileDownloadConfigurationDialogHeadingHTTPBasicAuthentication": "HTTP basic authentication",

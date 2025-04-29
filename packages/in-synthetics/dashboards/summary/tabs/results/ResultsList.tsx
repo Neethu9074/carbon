@@ -51,7 +51,7 @@ const metrics = ['start_time', 'location_id', 'response_time', 'response_size', 
 let testId = '';
 let testType: string;
 
-function StartTimeColumnContent({ item }: { item: TestResultListItem }) {
+function StartTimeColumn({ item }: { item: TestResultListItem }) {
   const { trackCta } = useSegmentTracking();
   const { location, createHref } = useNavigation();
   location.pathname = syntheticDetailsPath;
@@ -103,62 +103,6 @@ const runTypeColumnContent = (item: TestResultListItem) => {
   return <span className={locals.metricLabel}>{item.testResultCommonProperties?.runType ?? ''}</span>;
 };
 
-let columnDefinitions: ColumnDefinition<TestResultListItem>[] = [
-  {
-    id: 'start_time',
-    label: t('in-synthetics:dashboard.resultsListPage.startedColumn'),
-    defaultOrderDirection: 'DESC',
-    getContent(item: TestResultListItem) {
-      return <StartTimeColumnContent item={item} />;
-    }
-  },
-  {
-    //location_label => location display name
-    id: 'location_label',
-    label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
-    getContent(item: TestResultListItem) {
-      const displayLabel = massageLocationDisplayLabel(
-        item?.testResultCommonProperties?.locationDisplayLabel ?? '',
-        item?.testResultCommonProperties?.locationId ?? ''
-      );
-      return <span className={locals.metricLabel}>{displayLabel}</span>;
-    }
-  },
-  {
-    id: 'response_time',
-    defaultOrderDirection: 'DESC',
-    label: t('in-synthetics:dashboard.resultsListPage.responseTimeColumn'),
-    getContent(item: TestResultListItem) {
-      const count = get(item, ['metrics', 'response_time', 0, 1], 0);
-      return <span className={locals.metricLabel}>{timeByMillisZeroDecimalPlaces(count)}</span>;
-    }
-  },
-  {
-    id: 'response_size',
-    defaultOrderDirection: 'DESC',
-    label: t('in-synthetics:dashboard.resultsListPage.responseSizeColumn'),
-    getContent(item: TestResultListItem) {
-      const count = get(item, ['metrics', 'response_size', 0, 1], 0);
-      return <span className={locals.metricLabel}>{bytesTwoDecimalPlaces(count)}</span>;
-    }
-  },
-  {
-    id: 'retries',
-    defaultOrderDirection: 'DESC',
-    label: t('in-synthetics:dashboard.resultsListPage.retriesColumn'),
-    getContent(item: TestResultListItem) {
-      const count = get(item, ['metrics', 'retries', 0, 1], 0);
-      return <span className={locals.metricLabel}>{count}</span>;
-    }
-  },
-  {
-    id: 'synthetic.runType',
-    defaultOrderDirection: 'DESC',
-    label: t('in-synthetics:dashboard.resultsListPage.cicd.executionType'),
-    getContent: runTypeColumnContent
-  }
-];
-
 const daysRemainingColumnContent = (item: TestResultListItem) => {
   const daysRemaining = get(item, ['metrics', 'synthetic.customMetrics.daysRemaining', 0, 1]);
   return <span className={locals.metricLabel}>{daysRemaining}</span>;
@@ -204,10 +148,74 @@ export default function ResultsList({ test }: ResultListProps) {
     />
   );
 
-  let columnDefinitionsBasedOnType = [
-    ...(isSSLCertificate || isDNS
-      ? columnDefinitions.filter(columnDefinition => columnDefinition.id !== 'response_size')
-      : columnDefinitions),
+  const startTimeColumnContent = (item: TestResultListItem) => {
+    return <StartTimeColumn item={item} />;
+  };
+
+  const locationLabelColumnContent = (item: TestResultListItem) => {
+    const displayLabel = massageLocationDisplayLabel(
+      item?.testResultCommonProperties?.locationDisplayLabel ?? '',
+      item?.testResultCommonProperties?.locationId ?? ''
+    );
+    return <span className={locals.metricLabel}>{displayLabel}</span>;
+  };
+
+  const responseTimeColumnContent = (item: TestResultListItem) => {
+    const count = get(item, ['metrics', 'response_time', 0, 1], 0);
+    return <span className={locals.metricLabel}>{timeByMillisZeroDecimalPlaces(count)}</span>;
+  };
+
+  const responseSizeColumnContent = (item: TestResultListItem) => {
+    const count = get(item, ['metrics', 'response_size', 0, 1], 0);
+    return <span className={locals.metricLabel}>{bytesTwoDecimalPlaces(count)}</span>;
+  };
+
+  const retriesColumnContent = (item: TestResultListItem) => {
+    const count = get(item, ['metrics', 'retries', 0, 1], 0);
+    return <span className={locals.metricLabel}>{count}</span>;
+  };
+
+  let columnDefinitions: ColumnDefinition<TestResultListItem>[] = [
+    {
+      id: 'start_time',
+      label: t('in-synthetics:dashboard.resultsListPage.startedColumn'),
+      defaultOrderDirection: 'DESC',
+      getContent: startTimeColumnContent
+    },
+    {
+      //location_label => location display name
+      id: 'location_label',
+      label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
+      getContent: locationLabelColumnContent
+    },
+    {
+      id: 'response_time',
+      defaultOrderDirection: 'DESC',
+      label: t('in-synthetics:dashboard.resultsListPage.responseTimeColumn'),
+      getContent: responseTimeColumnContent
+    },
+    ...(!isSSLCertificate && !isDNS
+      ? [
+          {
+            id: 'response_size',
+            defaultOrderDirection: 'DESC' as OrderDirection,
+            label: t('in-synthetics:dashboard.resultsListPage.responseSizeColumn'),
+            getContent: responseSizeColumnContent
+          }
+        ]
+      : []),
+    {
+      id: 'retries',
+      defaultOrderDirection: 'DESC',
+      label: t('in-synthetics:dashboard.resultsListPage.retriesColumn'),
+      getContent: retriesColumnContent
+    },
+    {
+      id: 'synthetic.runType',
+      defaultOrderDirection: 'DESC',
+      label: t('in-synthetics:dashboard.resultsListPage.cicd.executionType'),
+      getContent: runTypeColumnContent
+    },
     ...(isSSLCertificate
       ? [
           {
@@ -233,7 +241,7 @@ export default function ResultsList({ test }: ResultListProps) {
 
   const ServerTableWithUrlState = createServerTableWithUrlState({
     Renderer: withEmptyTableState({
-      columnDefinitions: columnDefinitionsBasedOnType,
+      columnDefinitions,
       title: t('in-synthetics:dashboard.noDataAvailable.resultsTitle'),
       description: t('in-synthetics:dashboard.noDataAvailable.resultsDescription')
     }),
@@ -241,7 +249,7 @@ export default function ResultsList({ test }: ResultListProps) {
       ...timeConfigUrlParameters,
       resultsFilterUrlStateDefinition(selectedMetric!).bind
     ],
-    columnDefinitions: columnDefinitionsBasedOnType,
+    columnDefinitions,
     defaultOrderBy,
     defaultOrderDirection,
     pathSegment,

@@ -1,0 +1,67 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as FlowMapPresenterStories from './FlowMapPresenter.stories'
+
+<Meta of={FlowMapPresenterStories} />
+
+# FlowMapPresenter
+
+This document aims to explain the implementation of the BizOps flow map feature.
+
+<Canvas of={FlowMapPresenterStories.FlowMapPresenterExample} layout='fullscreen' />
+
+# Data structure
+
+The flow map is built by rendering a `BizOpsMapData` object.
+
+The `BizOpsMapData` object is the result of the computation of node and edge positions.
+The computation is done using the [elkjs](https://github.com/kieler/elkjs?tab=readme-ov-file) library.
+The type definitions of objects we're reliant on can be found in the
+[elkjs codebase](https://github.com/kieler/elkjs/blob/master/typings/elk-api.d.ts).
+
+The edges are drawn using the [d3-path](https://d3js.org/d3-path) library.
+
+# Canvas
+
+The Canvas uses the [d3-zoom](https://d3js.org/d3-zoom) and [d3-selection](https://d3js.org/d3-selection) libraries to
+handle user interaction with the canvas.
+
+The positional variables `x,y,k` are stored in a React state and used to translate the node SVG around the canvas.
+[This webpage](https://www.d3indepth.com/zoom-and-pan/) is helpful in understanding how to use the d3 library to
+programmatically pan and zoom.
+
+<Canvas of={FlowMapPresenterStories.CanvasExample} layout='fullscreen' />
+
+## Controls
+
+The controls component is custom built using Carbon icons, and styled via a custom style file. Therefore it
+is fully maintained by the BizOps team.
+
+
+# Backend integration
+
+## getBusinessFlowMap
+
+The `getBusinessFlowMap` endpoint is called upon initial load of the Flow Map tab to fetch
+the map structure of the business process.
+It details all the activity nodes and their connections to each other.
+
+The endpoint is called upon the initial load of the flow map tab, with the attribute `originNodeId` set to
+`null` or an empty string. This indicates that the call is requesting `maxNodes` number of nodes in the
+graph starting from the origin, utilizing a breadth-first search (BFS) method.
+
+When the user clicks on the `load more` button, another request to this endpoint is made with
+the `originNodeId` set to the ID of the node clicked on by the user. The response is also of size
+`maxNodes` and utilizes BFS.
+
+## getBusinessActivities
+
+The `getBusinessActivities` endpoint is called to fetch metric data of each activity node.
+
+# Storybook limitations
+
+The following are little errors that only exist here in Storybook, and are not found in the product
+in production environments.
+
+- The border around unhealthy nodes do not render
+- The health overlay does not return data and is stuck in the loading state
+- The `load more` button at the end node is non-functional

@@ -6,7 +6,7 @@
 import React, { MutableRefObject, RefCallback } from 'react';
 import classNames from 'classnames';
 
-import { Button, ButtonSizes, Stack } from '@instana/components';
+import { Button, ButtonSizes, CarbonButton, Stack } from '@instana/components';
 import { Observable } from '@instana/observables';
 
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
@@ -46,6 +46,27 @@ export default function HealthIndicatorButtonPresenter({
   const isDanger = kind === 'danger';
   const iconButton = getLabel(openIssues, openIncidents) === '' ? true : false;
 
+  if (iconButton) {
+    return (
+      <CarbonButton
+        hasIconOnly
+        kind="tertiary"
+        onClick={onClick}
+        size="sm"
+        className={classNames({
+          [locals.noIssues]: isWithoutIssues,
+          [locals.warning]: isWarning,
+          [locals.danger]: isDanger,
+          [locals.iconOnly]: iconButton
+        })}
+        disabled={!onClick && !href$}
+        renderIcon={iconButton ? () => <HealthIcon severity={maxSeverity} iconSize="xs" /> : () => <></>}
+        aria-haspopup
+        aria-expanded={isOpen}
+      />
+    );
+  }
+
   return (
     <Button
       kind="tertiary"
@@ -59,7 +80,6 @@ export default function HealthIndicatorButtonPresenter({
         [locals.danger]: isDanger,
         [locals.iconOnly]: iconButton
       })}
-      hasIconOnly={iconButton}
       iconDescription={kind}
       disabled={!onClick && !href$}
       icon={isWithoutIssues || iconButton ? undefined : isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}

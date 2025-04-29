@@ -51,12 +51,12 @@ const urlStateDefinition = {
 
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
-    columnDefinitions: columnDefinitions,
+    columnDefinitions,
     title: t('in-synthetics:dashboard.noDataAvailable.locationListTitle'),
     description: t('in-synthetics:dashboard.noDataAvailable.locationListDescription')
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, locationTypesUrlParameter],
-  columnDefinitions: columnDefinitions,
+  columnDefinitions,
   defaultOrderBy: 'location_name',
   defaultOrderDirection: 'ASC',
   pathSegment,

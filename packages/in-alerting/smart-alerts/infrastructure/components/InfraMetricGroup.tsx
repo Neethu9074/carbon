@@ -34,9 +34,9 @@ interface InfraMetricGroupProps {
   timeConfig: TimeConfig;
   groupBy: string[];
   metricMetadatas: Result<Metadatas>;
-  selectedMetricGroup?: Tags;
-  setSelectedMetricGroup?: React.Dispatch<Tags>;
   tagCatalog?: TagCatalog;
+  setSelectedMetricGroup: React.Dispatch<React.SetStateAction<Tags | null>>;
+  selectedMetricGroup: Tags | null;
 }
 
 /**
@@ -184,8 +184,3 @@ export function getGroups({ timeConfig, backendQueryModel, groupBy, cursor, type
     order
   });
 }
-
-/**
- * Sets the backend query model.
- * @param searchBy The table search by value.
- */

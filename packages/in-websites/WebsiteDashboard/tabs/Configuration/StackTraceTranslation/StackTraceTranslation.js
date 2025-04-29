@@ -162,7 +162,12 @@ export default function StackTraceTranslationConfigurationPresenter({ websiteId 
           </HelpParagraph>
 
           <Stack direction="horizontal">
-            <Button href="https://ibm.biz/-stack-trace-translation" kind="primaryv2" target="_blank">
+            <Button
+              href="https://ibm.biz/-stack-trace-translation"
+              kind="primaryv2"
+              target="_blank"
+              icon="lib_views_external_link"
+            >
               {t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLearnMoreLabel')}
             </Button>
           </Stack>

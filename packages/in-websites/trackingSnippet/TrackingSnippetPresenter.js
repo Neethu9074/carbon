@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 
-import { Toggle, Typography, Spacer, Message } from '@instana/components';
+import { Toggle, Spacer, Message } from '@instana/components';
 import { Select } from '@instana/components';
 
 import {
@@ -164,12 +164,9 @@ export default function TrackingSnippetPresenter({
                   );
                 }
               }}
+              labelA={t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}
+              labelB={t('in-websites:trackingSnippet.trackingSnippetPresenterToggleYes')}
             />
-            <div className={locals.toggleLabel}>
-              {enableSRI
-                ? t('in-websites:trackingSnippet.trackingSnippetPresenterToggleYes')
-                : t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}
-            </div>
           </div>
           <Spacer vertical="xsmall" />
           <SubHeadingHelpText text={t('in-websites:trackingSnippet.enableSubResourceIntegrityHelpText')} />
@@ -178,17 +175,18 @@ export default function TrackingSnippetPresenter({
             label={t('in-websites:trackingSnippet.autoPageTransition.learnMoreAboutText')}
             linkText={t('in-websites:trackingSnippet.autoPageTransition.subresourceIntegrityText')}
             url={subresourceIntegrityURL}
+            externalWithIcon
           />
 
           {enableSRI && (
             <>
               <Spacer vertical="normal" />
-              <Typography variant="label-01" component="p" noMargin align="inherit">
-                {t('in-websites:trackingSnippet.trackingSnippetPresenterLabelAgentVersion')}
-              </Typography>
-
-              <Spacer vertical="xsmall" />
-              <Select value={selectedWeaselVersion} onChange={e => handleVersionChange(e.target.value)}>
+              <Select
+                value={selectedWeaselVersion}
+                onChange={e => handleVersionChange(e.target.value)}
+                labelText={t('in-websites:trackingSnippet.trackingSnippetPresenterLabelAgentVersion')}
+                hideLabel={false}
+              >
                 {weaselArray.map(version => (
                   <option value={version.value} key={version.label}>
                     {version.label}
@@ -209,12 +207,13 @@ export default function TrackingSnippetPresenter({
       <div className={locals.options}>
         <SubHeading text={t('in-websites:trackingSnippet.trackingSnippetPresenterLabelTrackSessions')} />
         <div className={locals.toggle}>
-          <Toggle id="trackSessions" checked={trackSessions} onToggle={toggleSessionTracking} />
-          <div className={locals.toggleLabel}>
-            {trackSessions
-              ? t('in-websites:trackingSnippet.trackingSnippetPresenterToggleYes')
-              : t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}
-          </div>
+          <Toggle
+            id="trackSessions"
+            checked={trackSessions}
+            onToggle={toggleSessionTracking}
+            labelA={t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}
+            labelB={t('in-websites:trackingSnippet.trackingSnippetPresenterToggleYes')}
+          />
         </div>
       </div>
       <Spacer vertical="xsmall" />
@@ -223,6 +222,7 @@ export default function TrackingSnippetPresenter({
         label={t('in-websites:trackingSnippet.autoPageTransition.learnMoreAboutText')}
         linkText={t('in-websites:trackingSnippet.autoPageTransition.trackingSessionsText')}
         url={sessionTrackingURL}
+        externalWithIcon
       />
       {weaselVersionNumber > MIN_SUPPORTED_REGEX_VERSION && (
         <FrameworkTypeSelection

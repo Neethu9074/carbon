@@ -4,13 +4,12 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 
 import { InfraAlertEvaluationType, RuleWithThreshold } from '@instana/types/typeDefinitions';
 import { InfraAlertRuleUnion, Order, TagCatalog } from '@instana/types';
-import { create } from '@instana/observables';
 
 import InfraMultiThresholdCondition from 'in-alerting/smart-alerts/infrastructure/components/InfraMultiThresholdCondition';
 import { getFormatter, getMetricUnitPostfix } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
@@ -29,8 +28,6 @@ import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
-
-export const selectedMetricGroup$ = create().emit(null);
 
 export interface ThresholdProps {
   form: MapForm<any>;
@@ -87,9 +84,11 @@ export default function ThresholdSelectionInteractiveChart({
     return chartTimeConfig;
   }, []);
 
+  const [selectedMetricGroup, setSelectedMetricGroup] = useState<Tags | null>(null);
+
   useEffect(() => {
     if (groupBy.length === 0) {
-      selectedMetricGroup$.emit(null);
+      setSelectedMetricGroup(null);
     }
   }, [groupBy]);
 
@@ -120,6 +119,7 @@ export default function ThresholdSelectionInteractiveChart({
               metricName={metricName}
               alertsPreviewEnabled
               metricLabel={metricLabel}
+              selectedMetricGroup={selectedMetricGroup}
             />
             {evaluationType === 'CUSTOM' && groupBy.length > 0 && (
               <InfraMetricGroup
@@ -136,6 +136,8 @@ export default function ThresholdSelectionInteractiveChart({
                 }}
                 metricMetadatas={metricMetadatas}
                 tagCatalog={tagCatalog}
+                setSelectedMetricGroup={setSelectedMetricGroup}
+                selectedMetricGroup={selectedMetricGroup}
               />
             )}
             {isPerEntityEvaluation && !isEmpty(entityType) && !isEmpty(metricName) && (
@@ -153,6 +155,8 @@ export default function ThresholdSelectionInteractiveChart({
                 entityType={entityType}
                 regex={regex}
                 metricName={metricName}
+                setSelectedMetricGroup={setSelectedMetricGroup}
+                selectedMetricGroup={selectedMetricGroup}
               />
             )}
           </>

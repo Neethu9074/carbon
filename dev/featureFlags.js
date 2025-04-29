@@ -120,6 +120,8 @@ module.exports = {
   syntheticRbacLimitedEnabled: true,
   syntheticDNSEnabled: true,
   syntheticRunNowEnabled: true,
+  syntheticNodeJs22Enabled: true,
+  syntheticSSLImprovementEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,

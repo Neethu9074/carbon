@@ -94,88 +94,102 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
           <TouchedMessages field={rule} />
 
           <div className={locals.removableRow}>
-            <Row>
-              <Col md={2}>
-                {rule.get('allowTransmissionViaInsecureChannel').map(field => (
-                  <FormGroup>
-                    <Label
-                      htmlFor={`config-${i}-allowTransmissionViaInsecureChannel`}
-                      hasError={!field.valid && field.touched}
-                    >
-                      {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelScheme')}
-                    </Label>
-                    <Select
-                      id={`config-${i}-allowTransmissionViaInsecureChannel`}
-                      value={String(field.value)}
-                      onChange={e =>
-                        onChange(['matchingRules', i, 'allowTransmissionViaInsecureChannel'], e.target.value === 'true')
-                      }
-                      hasError={!field.valid && field.touched}
-                    >
-                      <option value="false">https://</option>
-                      <option value="true">
+            <FormGroup
+              legendText={t(
+                'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogHeadingMatchingRules'
+              )}
+            >
+              <Row>
+                <Col md={2}>
+                  {rule.get('allowTransmissionViaInsecureChannel').map(field => (
+                    <FormGroup>
+                      <Label
+                        htmlFor={`config-${i}-allowTransmissionViaInsecureChannel`}
+                        hasError={!field.valid && field.touched}
+                      >
                         {t(
-                          'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelHTTPSOrHTTP'
+                          'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelScheme'
                         )}
-                      </option>
-                    </Select>
-                    <TouchedMessages field={field} />
-                  </FormGroup>
-                ))}
-              </Col>
-              <Col md={5}>
-                {rule.get('host').map(field => (
-                  <FormGroup>
-                    <Label htmlFor={`config-${i}-host`} hasError={!field.valid && field.touched}>
-                      {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelHost')}
-                    </Label>
-                    <Input
-                      id={`config-${i}-host`}
-                      type="text"
-                      value={field.value || ''}
-                      onChange={e => onChange(['matchingRules', i, 'host'], e.target.value)}
-                      hasError={!field.valid && field.touched}
-                    />
-                    <HelpText>
-                      <Trans
-                        i18nKey="in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelHostHelpText"
-                        values={{ asterisks: new SecureString('*') }}
+                      </Label>
+                      <Select
+                        id={`config-${i}-allowTransmissionViaInsecureChannel`}
+                        value={String(field.value)}
+                        onChange={e =>
+                          onChange(
+                            ['matchingRules', i, 'allowTransmissionViaInsecureChannel'],
+                            e.target.value === 'true'
+                          )
+                        }
+                        hasError={!field.valid && field.touched}
+                      >
+                        <option value="false">https://</option>
+                        <option value="true">
+                          {t(
+                            'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelHTTPSOrHTTP'
+                          )}
+                        </option>
+                      </Select>
+                      <TouchedMessages field={field} />
+                    </FormGroup>
+                  ))}
+                </Col>
+                <Col md={5}>
+                  {rule.get('host').map(field => (
+                    <FormGroup>
+                      <Label htmlFor={`config-${i}-host`} hasError={!field.valid && field.touched}>
+                        {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelHost')}
+                      </Label>
+                      <Input
+                        id={`config-${i}-host`}
+                        type="text"
+                        value={field.value || ''}
+                        onChange={e => onChange(['matchingRules', i, 'host'], e.target.value)}
+                        hasError={!field.valid && field.touched}
                       />
-                    </HelpText>
-                    <TouchedMessages field={field} />
-                  </FormGroup>
-                ))}
-              </Col>
-              <Col md={5}>
-                {rule.get('path').map(field => (
-                  <FormGroup>
-                    <Label htmlFor={`config-${i}-path`} hasError={!field.valid && field.touched}>
-                      {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelPath')}
-                    </Label>
-                    <Input
-                      id={`config-${i}-path`}
-                      type="text"
-                      value={field.value || ''}
-                      onChange={e => onChange(['matchingRules', i, 'path'], e.target.value)}
-                      hasError={!field.valid && field.touched}
-                    />
-                    <HelpText>
-                      <Trans
-                        i18nKey="in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelPathHelpText"
-                        values={{ asterisks: new SecureString('*') }}
+                      <HelpText>
+                        <Trans
+                          i18nKey="in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelHostHelpText"
+                          values={{ asterisks: new SecureString('*') }}
+                        />
+                      </HelpText>
+                      <TouchedMessages field={field} />
+                    </FormGroup>
+                  ))}
+                </Col>
+                <Col md={5}>
+                  {rule.get('path').map(field => (
+                    <FormGroup>
+                      <Label htmlFor={`config-${i}-path`} hasError={!field.valid && field.touched}>
+                        {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelPath')}
+                      </Label>
+                      <Input
+                        id={`config-${i}-path`}
+                        type="text"
+                        value={field.value || ''}
+                        onChange={e => onChange(['matchingRules', i, 'path'], e.target.value)}
+                        hasError={!field.valid && field.touched}
                       />
-                    </HelpText>
-                    <TouchedMessages field={field} />
-                  </FormGroup>
-                ))}
-              </Col>
-            </Row>
-            <IconButton
-              kind="primary"
-              className={locals.removeButton}
-              type="lib_actions_delete"
-              onClick={() => !disabled && removeMatchingRule(i)}
-            />
+                      <HelpText>
+                        <Trans
+                          i18nKey="in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelPathHelpText"
+                          values={{ asterisks: new SecureString('*') }}
+                        />
+                      </HelpText>
+                      <TouchedMessages field={field} />
+                    </FormGroup>
+                  ))}
+                </Col>
+              </Row>
+              <IconButton
+                aria-label={t(
+                  'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogIconButton'
+                )}
+                kind="primary"
+                className={locals.removeButton}
+                type="lib_actions_delete"
+                onClick={() => !disabled && removeMatchingRule(i)}
+              />
+            </FormGroup>
           </div>
         </Fragment>
       ))}
@@ -277,51 +291,56 @@ function HttpHeaders({ form, onChange, addHeader, removeHeader, disabled }) {
       {form.get('headers').map((header, i) => (
         <Fragment key={i}>
           <TouchedMessages field={header} />
-
           <div className={locals.removableRow}>
-            <Row>
-              <Col md={6}>
-                {header.get('key').map(field => (
-                  <FormGroup>
-                    <Label htmlFor={`config-headers-${i}-key`} hasError={!field.valid && field.touched}>
-                      {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelKey')}
-                    </Label>
-                    <Input
-                      id={`config-headers-${i}-key`}
-                      type="text"
-                      value={field.value || ''}
-                      onChange={e => onChange(['headers', i, 'key'], e.target.value)}
-                      hasError={!field.valid && field.touched}
-                    />
-                    <TouchedMessages field={field} />
-                  </FormGroup>
-                ))}
-              </Col>
-              <Col md={6}>
-                {header.get('value').map(field => (
-                  <FormGroup>
-                    <Label htmlFor={`config-headers-${i}-value`} hasError={!field.valid && field.touched}>
-                      {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelValue')}
-                    </Label>
-                    <Input
-                      id={`config-headers-${i}-value`}
-                      type="text"
-                      value={field.value || ''}
-                      onChange={e => onChange(['headers', i, 'value'], e.target.value)}
-                      hasError={!field.valid && field.touched}
-                    />
-                    <TouchedMessages field={field} />
-                  </FormGroup>
-                ))}
-              </Col>
-            </Row>
+            <FormGroup
+              legendText={t(
+                'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogHeadingCustomHTTPRequestHeaders'
+              )}
+            >
+              <Row>
+                <Col md={6}>
+                  {header.get('key').map(field => (
+                    <FormGroup>
+                      <Label htmlFor={`config-headers-${i}-key`} hasError={!field.valid && field.touched}>
+                        {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelKey')}
+                      </Label>
+                      <Input
+                        id={`config-headers-${i}-key`}
+                        type="text"
+                        value={field.value || ''}
+                        onChange={e => onChange(['headers', i, 'key'], e.target.value)}
+                        hasError={!field.valid && field.touched}
+                      />
+                      <TouchedMessages field={field} />
+                    </FormGroup>
+                  ))}
+                </Col>
+                <Col md={6}>
+                  {header.get('value').map(field => (
+                    <FormGroup>
+                      <Label htmlFor={`config-headers-${i}-value`} hasError={!field.valid && field.touched}>
+                        {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelValue')}
+                      </Label>
+                      <Input
+                        id={`config-headers-${i}-value`}
+                        type="text"
+                        value={field.value || ''}
+                        onChange={e => onChange(['headers', i, 'value'], e.target.value)}
+                        hasError={!field.valid && field.touched}
+                      />
+                      <TouchedMessages field={field} />
+                    </FormGroup>
+                  ))}
+                </Col>
+              </Row>
 
-            <IconButton
-              kind="primary"
-              className={locals.removeButton}
-              type="lib_actions_delete"
-              onClick={() => !disabled && removeHeader(i)}
-            />
+              <IconButton
+                kind="primary"
+                className={locals.removeButton}
+                type="lib_actions_delete"
+                onClick={() => !disabled && removeHeader(i)}
+              />
+            </FormGroup>
           </div>
         </Fragment>
       ))}

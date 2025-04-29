@@ -83,8 +83,8 @@ export default function FlowMapPresenter({ timeConfig, mapData, addPaginateData 
 
   if (!positions) return null;
 
-  // If an node is selected, we need to render the overlay. Due to the painters model of rendering SVG elements,
-  // we need to move the active node to the bottom of the DOM to correctly render the overlay on top of all other nodes
+  // If a node was clicked on by a user, we need to render the health overlay. Due to the painters model of rendering SVG elements,
+  // we need to move the active node to the bottom of the DOM to correctly render the overlay on top of all other nodes.
   const activeNodeIndex = positions.children?.findIndex(node => node?.id === selectedNodeId) ?? -1;
   if (positions?.children !== undefined && positions.children.length >= 0 && activeNodeIndex >= 0)
     positions.children?.push(positions.children.splice(activeNodeIndex, 1)[0]);

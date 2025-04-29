@@ -31,7 +31,7 @@ interface ColumnDefinitionProps {
   metricMetadatas: Result<Metadatas>;
   timeConfig: TimeConfig;
   granularity: number;
-  selectedMetricGroup?: Tags;
+  selectedMetricGroup: Tags | null;
   tagCatalog?: TagCatalog;
 }
 

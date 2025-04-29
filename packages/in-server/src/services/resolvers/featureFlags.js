@@ -461,6 +461,16 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticNodeJs22Enabled',
+    instanaCtlKey: 'feature.synthetic.node.js.22.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticSSLImprovementEnabled',
+    instanaCtlKey: 'feature.synthetic.ssl.improvement.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'customWidgetEventsTableEnabled',
     instanaCtlKey: 'feature.custom.widget.events.table.enabled',
     defaultValue: true

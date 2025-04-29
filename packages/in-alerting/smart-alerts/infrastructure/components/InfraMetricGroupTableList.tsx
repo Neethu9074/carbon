@@ -4,13 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { Order, Result, TagCatalog, TimeConfig } from '@instana/types';
 
 //@ts-expect-error TS migration needed
 import { setDefaultMetrics } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
-import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { MetricType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { sparkChartGranularity } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
@@ -36,6 +35,8 @@ interface InfraMetricGroupTableListProps extends State<any, any> {
   setBackendQueryModel: (arg?: string) => void;
   onOrderByChange: ({ by, direction }: Order) => void;
   tagCatalog?: TagCatalog;
+  setSelectedMetricGroup: React.Dispatch<React.SetStateAction<Tags | null>>;
+  selectedMetricGroup: Tags | null;
 }
 
 /**
@@ -57,31 +58,25 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
     metricMetadatas,
     timeConfig,
     loadMore,
-    tagCatalog
+    tagCatalog,
+    setSelectedMetricGroup,
+    selectedMetricGroup
   } = props;
 
   const hasErrors = errors && errors?.length > 0;
   const isLoading = progress && progress?.loading;
-  const [selectedMetricGroup, setSelectedMetricGroup] = useState<Tags>();
 
   useEffect(() => {
-    if (isLoading) {
-      selectedMetricGroup$.emit({ loading: true });
-      return;
-    }
-
     if (items?.length > 0) {
       // If the value is not in the'selectedMetricGroup', set the first one as selected by default.
       setDefaultMetrics(items, setSelectedMetricGroup, selectedMetricGroup);
-    } else {
-      // if the loading is completed and the item is empty set the selected metric group to null
-      setSelectedMetricGroup(undefined);
-      selectedMetricGroup$.emit(null);
+    } else if (isLoading && !selectedMetricGroup) {
+      setSelectedMetricGroup({ loading: true });
+
+      return;
     }
 
-    if (selectedMetricGroup) {
-      selectedMetricGroup$.emit(selectedMetricGroup);
-    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMetricGroup, items, isLoading]);
 
   const columnDefinitions = getColumnDefinition({
@@ -103,6 +98,7 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
       hasErrors={hasErrors}
       columnDefinitions={columnDefinitions}
       retrievalSize={retrievalSize}
+      //@ts-expect-error TODO
       setSelectedMetricGroup={(item: InfrastructureGroup) => setSelectedMetricGroup(item.tags)}
       loadMore={loadMore}
     />

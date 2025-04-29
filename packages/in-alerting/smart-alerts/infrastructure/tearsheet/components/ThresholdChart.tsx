@@ -4,19 +4,19 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 import { isEmpty } from 'lodash';
 
 import { CarbonLayer, Spacer, Stack, StackItem } from '@instana/components';
 import { InfraAlertEvaluationType } from '@instana/types/typeDefinitions';
 import { ButtonGroup } from '@instana/components';
-import { create } from '@instana/observables';
 import { Order } from '@instana/types';
 
 import {
   alertConfigWithDefaultThresholdAndTfe,
-  getMetrics
+  getMetrics,
+  Tags
 } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import {
   ChartViewConfigItem,
@@ -37,8 +37,6 @@ import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { t } from 'in-i18n';
 
 import locals from './ThresholdChart.mless';
-
-export const selectedMetricGroup$ = create().emit(null);
 
 interface ThresholdChartProps {
   form: MapForm<any>;
@@ -81,11 +79,14 @@ export function ThresholdChart({ form, onChartViewConfigChange, selectedChartVie
     return chartTimeConfig;
   }, []);
 
+  const [selectedMetricGroup, setSelectedMetricGroup] = useState<Tags | null>(null);
+
   useEffect(() => {
     if (groupBy.length === 0) {
-      selectedMetricGroup$.emit(null);
+      setSelectedMetricGroup(null);
     }
   }, [groupBy]);
+
   return (
     <Stack>
       <Spacer size="gutter" />
@@ -107,6 +108,7 @@ export function ThresholdChart({ form, onChartViewConfigChange, selectedChartVie
                     metricName={metricName}
                     alertsPreviewEnabled
                     metricLabel={metricLabel}
+                    selectedMetricGroup={selectedMetricGroup}
                   />
                 </div>
               </BorderedContainer>
@@ -129,6 +131,8 @@ export function ThresholdChart({ form, onChartViewConfigChange, selectedChartVie
                     }}
                     metricMetadatas={metricMetadatas}
                     tagCatalog={tagCatalog}
+                    setSelectedMetricGroup={setSelectedMetricGroup}
+                    selectedMetricGroup={selectedMetricGroup}
                   />
                 </CarbonLayer>
               </>
@@ -151,6 +155,8 @@ export function ThresholdChart({ form, onChartViewConfigChange, selectedChartVie
                     entityType={entityType}
                     regex={regex}
                     metricName={metricName}
+                    setSelectedMetricGroup={setSelectedMetricGroup}
+                    selectedMetricGroup={selectedMetricGroup}
                   />
                 </CarbonLayer>
               </>

@@ -27,7 +27,7 @@ export default function CustomGeoDetails({ apiUrl, documentationUrl }: Props) {
               i18nKey="in-websites:websiteDashboard.tabs.configuration.customGeoDetails.help1"
               components={{
                 maxmind: (
-                  <Link href="https://www.maxmind.com" external>
+                  <Link href="https://www.maxmind.com" externalWithIcon>
                     null
                   </Link>
                 )
@@ -40,7 +40,7 @@ export default function CustomGeoDetails({ apiUrl, documentationUrl }: Props) {
               i18nKey="in-websites:websiteDashboard.tabs.configuration.customGeoDetails.help2"
               components={{
                 documentation: (
-                  <Link href={documentationUrl} external>
+                  <Link href={documentationUrl} externalWithIcon>
                     null
                   </Link>
                 )
@@ -52,7 +52,7 @@ export default function CustomGeoDetails({ apiUrl, documentationUrl }: Props) {
             <Button href={apiUrl} kind="secondary" target="_blank">
               {t('in-websites:websiteDashboard.tabs.configuration.customGeoDetails.download')}
             </Button>
-            <Button href={documentationUrl} kind="secondary" target="_blank">
+            <Button href={documentationUrl} kind="secondary" target="_blank" icon="lib_views_external_link">
               {t('in-websites:websiteDashboard.tabs.configuration.customGeoDetails.documentation')}
             </Button>
           </Stack>

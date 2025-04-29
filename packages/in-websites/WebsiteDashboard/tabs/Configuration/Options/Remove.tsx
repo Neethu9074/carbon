@@ -7,7 +7,7 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 
-import { Card, Button } from '@instana/components';
+import { Card, Button, Checkbox } from '@instana/components';
 import { Disposable } from '@instana/observables';
 
 //@ts-expect-error no declaration file found
@@ -106,14 +106,13 @@ const Remove = (props: Props) => {
       </HelpParagraph>
 
       <div className={locals.confirmWrapper}>
-        <input
-          type="checkbox"
+        <Checkbox
+          label={t('in-websites:websiteDashboard.tabs.configuration.configurationRemoveInput')}
           checked={checkboxChecked}
           onChange={onTickChange}
           disabled={loading}
           className={locals.confirm}
         />
-        {t('in-websites:websiteDashboard.tabs.configuration.configurationRemoveInput')}
       </div>
 
       {removeError && <SaveError>{removeError}</SaveError>}

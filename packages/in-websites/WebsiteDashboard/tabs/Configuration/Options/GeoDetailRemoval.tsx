@@ -5,10 +5,10 @@
 
 import React, { FormEvent, useState } from 'react';
 
-import { Card, Stack, Button } from '@instana/components';
+import { Card, Stack, Button, Select } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Select } from '@instana/components';
+import { Form } from '@instana/carbon';
 
 import SaveIndicator from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/SaveIndicator';
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
@@ -41,7 +41,7 @@ export default function GeoDetailRemovalComp({ get, set }: Props) {
   const value = state.value ?? result.data ?? geoDetailRemovalOptions[0];
 
   return (
-    <form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit} aria-label={t('in-websites:websiteDashboard.tabs.configuration.geoDetailRemoval.title')}>
       <Card title={t('in-websites:websiteDashboard.tabs.configuration.geoDetailRemoval.title')}>
         <HelpParagraph>{t('in-websites:websiteDashboard.tabs.configuration.geoDetailRemoval.help')}</HelpParagraph>
 
@@ -54,6 +54,7 @@ export default function GeoDetailRemovalComp({ get, set }: Props) {
                 value: e.target.value as GeoDetailRemoval
               })
             }
+            aria-label={t('in-websites:websiteDashboard.tabs.configuration.geoDetailRemoval.title')}
             disabled={disabled}
           >
             {geoDetailRemovalOptions.map(geoDetailRemoval => (
@@ -71,7 +72,7 @@ export default function GeoDetailRemovalComp({ get, set }: Props) {
           <SaveIndicator id={state.saveId} />
         </Stack>
       </Card>
-    </form>
+    </Form>
   );
 
   function onSubmit(e: FormEvent) {
