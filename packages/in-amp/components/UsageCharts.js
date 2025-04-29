@@ -113,7 +113,8 @@ export default function UsageCharts({
       [t('in-amp:components.usageCharts.traces')],
       [t('in-amp:components.usageCharts.synthetics')],
       [t('in-amp:components.usageCharts.eumMobile')],
-      [t('in-amp:components.usageCharts.eumWebsite')]
+      [t('in-amp:components.usageCharts.eumWebsite')],
+      [t('in-amp:components.usageCharts.businessMetrics')]
     ],
     formatter: 'bytes.compact'
   };
@@ -124,7 +125,8 @@ export default function UsageCharts({
       'data_ingested_traces_cumulative',
       'data_ingested_synthetics_cumulative',
       'data_ingested_eum_mobile_cumulative',
-      'data_ingested_eum_website_cumulative'
+      'data_ingested_eum_website_cumulative',
+      'data_ingested_business_metrics_cumulative'
     );
   } else {
     dataChartY2.metrics.push(
@@ -132,7 +134,8 @@ export default function UsageCharts({
       'bytes_ingested_traces',
       'bytes_ingested_synthetics',
       'bytes_ingested_eum_mobile',
-      'bytes_ingested_eum_website'
+      'bytes_ingested_eum_website',
+      'bytes_ingested_business_metrics'
     );
   }
   // APM Chart Y1 definition
