@@ -68,8 +68,10 @@ export default function AlertChannelsList({
       isSearchable={isSearchable}
       searchAttributes={['name', getKind, getStringifiedParameters, getStringifiedTags]}
       extraFilters={createFilters(hiddenIds)}
+      onFilter={createTeamsFilter}
       searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
+      boundedPath="/channels"
       getDetailsHref={
         onRowClick || !hasRowNavigation
           ? null
@@ -250,4 +252,21 @@ export function createFilters(hiddenIds) {
   }
 
   return filters;
+}
+
+// If the URL contains '/channels;query=team:' we want to filter which teams are visible
+// This filter is used in place of the default searching filter as long as the team query exists
+// Otherwise we return false and then the default search filter is applied
+export function createTeamsFilter(entities) {
+  const hash = window.location.hash;
+  if (hash.includes('/channels;query=team:') || hash.includes('/channels;query=team%3A')) {
+    // query=team:thisIsATeam
+    const teamQuery = hash.split(';')[1];
+    // team:thisIsATeam || team%3AthisIsATeam
+    const team = (teamQuery.includes(':') && teamQuery.split(':')) || teamQuery.split('%3A');
+    // const result = entities.filter(entity => entity.team == team[1])
+    const result = entities.filter(entity => entity.kind.toLowerCase() == team[1].trim().toLowerCase());
+    return result;
+  }
+  return false;
 }
