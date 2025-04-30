@@ -152,8 +152,7 @@ export const pageNames = Object.freeze({
   nutanix: 'Nutanix',
   xenserver: 'XenServer',
   xenserver_host: 'XenServer Host',
-  windowshypervisor: 'Windows Hypervisor',
-  windowshypervisor_host: 'Windows Hypervisor Host'
+  windowshypervisor: 'Windows Hypervisor'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
 export type PageName = (typeof pageNames)[PageNameKeys];
