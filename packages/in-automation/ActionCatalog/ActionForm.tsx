@@ -59,7 +59,6 @@ import { isLoading } from 'in-services/util/result';
 import Code from 'in-components/form/Code/Code';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Action.mless';
@@ -214,7 +213,7 @@ function MetaDataSection({ actionFilter }: { actionFilter: 'all' | ActionFilter 
           <TextArea
             id="action-description"
             value={field.value}
-            readOnly={isNotEditable}
+            disabled={isNotEditable}
             onChange={e =>
               setForm(form =>
                 form.updateIn(['description'], item =>
@@ -245,7 +244,7 @@ function MetaDataSection({ actionFilter }: { actionFilter: 'all' | ActionFilter 
             onChange={newTags =>
               setForm(form => form.updateIn(['tags'], item => item.setValue(newTags).setTouched(true)))
             }
-            disabled={isNotEditable || !role?.canConfigureAutomationActions}
+            disabled={isNotEditable}
           />
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
         </FormGroup>
