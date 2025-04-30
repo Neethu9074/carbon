@@ -7,6 +7,7 @@ import React from 'react';
 
 import { getSvgIconNames, SvgIcon } from '@instana/components';
 
+// @ts-expect-error import WithHealthIndication from 'in-components/health/WithHealthIndication';
 import WithHealthIndication from 'in-components/health/WithHealthIndication';
 
 export default {
