@@ -14,6 +14,7 @@ import { stickyWrapperClassName } from 'in-components/Sticky/scrolling';
 import createSideEffectHook from 'in-hooks/createSideEffectHook';
 import { debouncedResize$ } from 'in-services/browser';
 import { getCoords } from 'in-services/util/dom';
+import { t } from 'in-i18n';
 
 import locals from './Sticky.mless';
 
@@ -129,7 +130,9 @@ export default class Sticky extends React.Component<StickyProps> {
         <Header setHeader={r => this.setHeader(r)} setOrder={o => this.setOrder(o)}>
           {this.props.header}
         </Header>
-        <div ref={r => this.setContentWrapper(r!)}>{this.props.children}</div>
+        <section aria-label={t('in-components:pageStructure.contentAriaLabel')} ref={r => this.setContentWrapper(r!)}>
+          {this.props.children}
+        </section>
       </section>
     );
   }
