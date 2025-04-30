@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+// @ts-expect-error import TimeCount from 'in-components/time/TimeCount';
 import TimeCount from 'in-components/time/TimeCount';
 
 export default {
