@@ -96,7 +96,6 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     renderTopLevelButtonLine
   } = props;
   const isLoading = result && result.data == null;
-  const isSynthetic = result && result.data?.synthetic;
 
   if (isLoading) {
     label = getSkeletonLabel();
@@ -142,11 +141,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
                 onHeaderClick={onHeaderClick}
               />
             ))}
-          {isSynthetic && (
-            <Tooltip content={t('in-applications:labelSyntheticEndpoint')}>
-              <span className={locals.specialIndicator} />
-            </Tooltip>
-          )}
+
           {renderIcon ? (
             <span role="img" aria-label={title} title={title}>
               {renderIcon()}
