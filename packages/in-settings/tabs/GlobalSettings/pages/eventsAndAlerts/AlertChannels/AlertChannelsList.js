@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useState } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
 import { Link } from '@instana/components';
 
+import AlertChannelsFilter from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsFilter';
 import { getEntityHref, getEntityIdView, globalSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 import { fullyQualified } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { clickAlertChannelTracker, alertChannelCTATrackerSegment } from 'in-settings/tracker';
@@ -51,6 +52,7 @@ export default function AlertChannelsList({
     alertChannelPerSeverityEnabled && detailView
       ? [...columnDefinitions(hasRowNavigation), ...columnDefinitionsAlertLevel(alertChannels)]
       : columnDefinitions(hasRowNavigation);
+  const [filteredList, setFilteredList] = useState([]);
 
   return (
     <List
@@ -61,6 +63,9 @@ export default function AlertChannelsList({
       tableActions={tableActions}
       loadEntities={loadEntities ? loadEntities : getAlertChannelsInfosMutable}
       noDataMessage={noDataMessage}
+      toolBarContent={
+        rbacTeamsEnabled && <AlertChannelsFilter filteredList={filteredList} setFilteredList={setFilteredList} />
+      }
       renderNoDataAvailable={renderNoDataAvailable}
       pageSize={pageSize}
       initialOrderBy="name"
