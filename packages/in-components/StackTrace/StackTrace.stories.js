@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+// @ts-expect-error import { StackTraceLines, StackTraceLine, InfoIndicator } from 'in-components/StackTrace';
 import { StackTraceLines, StackTraceLine, InfoIndicator } from 'in-components/StackTrace';
 
 export default {
