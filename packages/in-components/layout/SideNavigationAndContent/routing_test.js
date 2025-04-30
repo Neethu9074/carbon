@@ -5,6 +5,7 @@
 
 import { expect } from 'chai';
 
+// @ts-expect-error import { getRegexForPathPatternsWithRouteParamPlaceholders } from 'in-components/layout/SideNavigationAndContent/routing';
 import { getRegexForPathPatternsWithRouteParamPlaceholders } from 'in-components/layout/SideNavigationAndContent/routing';
 
 describe('in-components/layout/SideNavigationAndContent/routing', () => {
