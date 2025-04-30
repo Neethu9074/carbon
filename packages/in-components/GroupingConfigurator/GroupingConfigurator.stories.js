@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+// @ts-expect-error import GroupingConfigurator from 'in-components/GroupingConfigurator/GroupingConfigurator';
 import GroupingConfigurator from 'in-components/GroupingConfigurator/GroupingConfigurator';
 
 const tagCatalog = {
