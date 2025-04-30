@@ -46,6 +46,7 @@ exports.createImportRestrictionRule = ({
         '@carbon/grid',
         '@carbon/styles',
         '@carbon/react',
+        '@carbon/ibm-products',
 
         {
           name: 'react-router',

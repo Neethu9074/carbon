@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
-import { SidePanel } from '@carbon/ibm-products';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { SvgIcon, CarbonInlineLoading, IconButton, CarbonSearch, CarbonModal, Stack } from '@instana/components';
+import { SidePanel } from '@instana/ibm-products';
 
 // Not using Carbon tooltip since tooltip has not been migrated
 // Using Carbon tooltip would cause mismatch in design on the page
