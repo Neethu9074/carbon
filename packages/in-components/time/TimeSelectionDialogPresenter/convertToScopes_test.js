@@ -5,6 +5,7 @@
 
 import { expect } from 'chai';
 
+// @ts-expect-error import convertToScopes from 'in-components/time/TimeSelectionDialogPresenter/convertToScopes';
 import convertToScopes from 'in-components/time/TimeSelectionDialogPresenter/convertToScopes';
 
 describe('in-components/time/convertToScopes', () => {
