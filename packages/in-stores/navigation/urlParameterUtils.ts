@@ -5,3 +5,4 @@
 
 export const intParser = (v?: string) => (v != null ? parseInt(v, 10) : 1);
 export const numberParser = (v?: string) => (v != null ? parseFloat(v) : 1);
+export const arrayParser = (v?: Array<string>) => (v != null ?  v.toString() : '');

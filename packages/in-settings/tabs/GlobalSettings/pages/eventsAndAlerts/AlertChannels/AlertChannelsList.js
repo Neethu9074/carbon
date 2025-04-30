@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { get } from 'lodash';
 
 import { Link } from '@instana/components';
@@ -22,6 +22,8 @@ import WithSubscript from 'in-settings/components/WithSubscript';
 import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
+import useUrlState from 'in-hooks/useUrlState';
+import { arrayParser } from 'in-stores/navigation/urlParameterUtils';
 
 import locals from './AlertChannelsList.mless';
 
@@ -52,8 +54,17 @@ export default function AlertChannelsList({
     alertChannelPerSeverityEnabled && detailView
       ? [...columnDefinitions(hasRowNavigation), ...columnDefinitionsAlertLevel(alertChannels)]
       : columnDefinitions(hasRowNavigation);
-  const [filteredList, setFilteredList] = useState([]);
-
+  const [{ filter }, setUrlState] = useUrlState({
+    bind: [
+      {
+        path: '/channels' ?? '/',
+        name: 'filter',
+        initialState: '',
+        parser: arrayParser
+      }
+    ]
+  });
+  
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}
@@ -64,7 +75,7 @@ export default function AlertChannelsList({
       loadEntities={loadEntities ? loadEntities : getAlertChannelsInfosMutable}
       noDataMessage={noDataMessage}
       toolBarContent={
-        rbacTeamsEnabled && <AlertChannelsFilter filteredList={filteredList} setFilteredList={setFilteredList} />
+        rbacTeamsEnabled && <AlertChannelsFilter setUrlState={setUrlState} />
       }
       renderNoDataAvailable={renderNoDataAvailable}
       pageSize={pageSize}

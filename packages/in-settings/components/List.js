@@ -109,6 +109,7 @@ function InnerList({
   searchPlaceholder,
   searchMaxWidth,
   toolBarContent,
+  // filterList,
   entities,
   noDataMessage,
   renderNoDataAvailable,

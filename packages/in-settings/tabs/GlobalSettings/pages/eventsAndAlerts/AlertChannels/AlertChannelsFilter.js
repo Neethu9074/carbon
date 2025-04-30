@@ -12,12 +12,11 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { getTeamsOverview } from 'in-api/teams';
 
 import locals from './AlertChannelsFilter.mless';
-
-export default function AlertChannelsFilter({ filteredList, setFilteredList }) {
+export default function AlertChannelsFilter({ setUrlState }) {
   const teamsList = useObservable(getTeamsOverview, []) ?? pendingResult;
   const prefix = 'cds';
   const [isOpen, setIsOpen] = useState(false);
-  const [thisFilteredList, setThisFilteredList] = useState(filteredList);
+  const [thisFilteredList, setThisFilteredList] = useState([]);
   return (
     <CarbonPopover open={isOpen} isTabTip onRequestClose={() => setIsOpen(false)} align={'bottom-end'}>
       <button
@@ -61,8 +60,8 @@ export default function AlertChannelsFilter({ filteredList, setFilteredList }) {
           kind="secondary"
           title="Reset filters"
           onClick={() => {
-            setFilteredList([]);
             setThisFilteredList([]);
+            setUrlState({ filter: [] });
           }}
         >
           Reset filters
@@ -71,7 +70,7 @@ export default function AlertChannelsFilter({ filteredList, setFilteredList }) {
           kind="primary"
           title="Apply filters"
           onClick={() => {
-            setFilteredList(thisFilteredList);
+            setUrlState({ filter: thisFilteredList });
           }}
         >
           Apply filter
