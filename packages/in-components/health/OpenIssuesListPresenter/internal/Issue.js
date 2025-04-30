@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -13,6 +13,7 @@ import { getDesignLibraryColorBySeverity, getDesignLibrarySeverityIcon } from 'i
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toHtml } from 'in-services/formatters/markdown';
+import { issueClickTracker } from 'in-components/tracker';
 import { t } from 'in-i18n';
 
 import locals from './Issue.mless';
@@ -63,8 +64,9 @@ export default function Issue({ issue, getIssueLink }) {
   );
 
   if (getIssueLink) {
+    const issueHref = getIssueLink(issue.id);
     content = (
-      <Link href={getIssueLink(issue.id)} className={locals.link}>
+      <Link href={issueHref} className={locals.link} onClick={() => issueClickTracker({ path: issueHref })}>
         {content}
       </Link>
     );

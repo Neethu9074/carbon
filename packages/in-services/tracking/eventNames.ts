@@ -521,6 +521,7 @@ export const AUTOMATION_AI_BAD_FEEDBACK = 'automation.ai.bad.feedback';
 export const AUTOMATION_CLICK_EPWT_LINK = 'automation.click.epwt.link';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
+export const ISSUE_LINK_CLICK = 'issue.link.clicked';
 
 // Smart Alert Tracking
 
