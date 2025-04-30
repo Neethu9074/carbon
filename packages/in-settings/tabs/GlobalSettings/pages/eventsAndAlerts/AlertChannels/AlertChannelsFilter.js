@@ -12,11 +12,11 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { getTeamsOverview } from 'in-api/teams';
 
 import locals from './AlertChannelsFilter.mless';
-export default function AlertChannelsFilter({ setUrlState }) {
+export default function AlertChannelsFilter({ setUrlState, onLoadFilters }) {
   const teamsList = useObservable(getTeamsOverview, []) ?? pendingResult;
   const prefix = 'cds';
   const [isOpen, setIsOpen] = useState(false);
-  const [thisFilteredList, setThisFilteredList] = useState([]);
+  const [thisFilteredList, setThisFilteredList] = useState(onLoadFilters);
   return (
     <CarbonPopover open={isOpen} isTabTip onRequestClose={() => setIsOpen(false)} align={'bottom-end'}>
       <button

@@ -59,11 +59,16 @@ export default function AlertChannelsList({
       {
         path: '/channels' ?? '/',
         name: 'filter',
-        initialState: '',
-        parser: arrayParser
+        initialState: [],
+        // parser: arrayParser
       }
     ]
   });
+
+  console.log('filter from url', filter, handleUrlFilter(filter))
+  // const onLoadFilters = constructFilterFromURL();
+  // const onLoadFilters = filter.split(',')
+  const onLoadFilters = handleUrlFilter(filter)
   
   return (
     <List
@@ -75,7 +80,7 @@ export default function AlertChannelsList({
       loadEntities={loadEntities ? loadEntities : getAlertChannelsInfosMutable}
       noDataMessage={noDataMessage}
       toolBarContent={
-        rbacTeamsEnabled && <AlertChannelsFilter setUrlState={setUrlState} />
+        rbacTeamsEnabled && <AlertChannelsFilter setUrlState={setUrlState} onLoadFilters={onLoadFilters} />
       }
       renderNoDataAvailable={renderNoDataAvailable}
       pageSize={pageSize}
@@ -83,8 +88,8 @@ export default function AlertChannelsList({
       rightHeader={rightHeader}
       isSearchable={isSearchable}
       searchAttributes={['name', getKind, getStringifiedParameters, getStringifiedTags]}
-      extraFilters={createFilters(hiddenIds)}
-      onFilter={(createTeamsFilter([]) && createTeamsFilter) || false}
+      extraFilters={createFilters(hiddenIds, onLoadFilters)}
+      // onFilter={(createTeamsFilter([]) && createTeamsFilter) || false}
       searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
       boundedPath="/channels"
@@ -261,28 +266,64 @@ export function noRightHeader() {
   return null;
 }
 
-export function createFilters(hiddenIds) {
+export function createFilters(hiddenIds, filtersTeams) {
   const filters = [];
   if (hiddenIds) {
     filters.push(entity => hiddenIds.indexOf(entity.id) < 0);
   }
-
+  if(filtersTeams.length > 0){
+    filters.push(createExtraFilter(filtersTeams))
+  }
   return filters;
 }
 
 // If the URL contains '/channels;query=team:' we want to filter which teams are visible
 // This filter is used in place of the default searching filter as long as the team query exists
 // Otherwise we return false and then the default search filter is applied
-export function createTeamsFilter(entities) {
-  const hash = window.location.hash;
-  if (hash.includes('/channels;query=team:') || hash.includes('/channels;query=team%3A')) {
-    // query=team:thisIsATeam
-    const teamQuery = hash.split(';')[1];
-    // team:thisIsATeam || team%3AthisIsATeam
-    const team = (teamQuery.includes(':') && teamQuery.split(':')) || teamQuery.split('%3A');
-    // const result = entities.filter(entity => entity.team == team[1])
-    const result = entities.filter(entity => entity.kind.toLowerCase() == team[1].trim().toLowerCase());
-    return result;
+// export function createTeamsFilter(entities) {
+//   const hash = window.location.hash;
+//   if (hash.includes('/channels;query=team:') || hash.includes('/channels;query=team%3A')) {
+//     // query=team:thisIsATeam
+//     const teamQuery = hash.split(';')[1];
+//     // team:thisIsATeam || team%3AthisIsATeam
+//     const team = (teamQuery.includes(':') && teamQuery.split(':')) || teamQuery.split('%3A');
+//     // const result = entities.filter(entity => entity.team == team[1])
+//     const result = entities.filter(entity => entity.kind.toLowerCase() == team[1].trim().toLowerCase());
+//     return result;
+//   }
+//   return false;
+// }
+
+function createExtraFilter(filters) {
+  if(filters?.length > 0) {
+    const filter = (entity) => { 
+      var pass = false
+      entity.rbacTags.map((i) => {
+        if(filters.includes(i.displayName)){
+          pass =  true
+        }
+      })
+      return pass
+    }
+    return filter;
   }
-  return false;
+}
+
+// function constructFilterFromURL() {
+//   const hash = window.location.hash;
+//   if (hash.includes('/channels;filter=')) {
+//     // filter=thisIsATeam
+//     const teamFilter = hash.split(';')[1];
+//     const team = (teamFilter.includes('=') && teamFilter.split('='))[1];
+//     const result = decodeURIComponent(team)
+//     return result.split(',')
+//   }
+//   return []
+// }
+
+function handleUrlFilter(filter) {
+  if(typeof filter == 'string'){
+    return filter.split(',')
+  }
+  return filter
 }
