@@ -9,16 +9,21 @@ import InstanaOnboardingComponent from 'promise-loader?global,onboarding!in-init
 import { Router } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import React from 'react';
-import { role } from 'in-stores/user';
+
 import { create, just } from '@instana/observables';
 
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import history from 'in-stores/navigation/history';
+import { role } from 'in-stores/user';
 
 export function init() {
   const reportingData = window.instana.reportingData;
+  //The onboarding dialog is skipped when the user has no permission.
+  if (!role.canConfigureAgents) {
+    return just(true);
+  }
   // The onboarding dialog is skipped when there are reporting hosts or monitored serverless entities.
-  if ((reportingData && (reportingData.hostCount > 0 || reportingData.serverlessCount > 0)) || !role.canConfigureAgents) {
+  if (reportingData && (reportingData.hostCount > 0 || reportingData.serverlessCount > 0)) {
     return just(true);
   }
 
