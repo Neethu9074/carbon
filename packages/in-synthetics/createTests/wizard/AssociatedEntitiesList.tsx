@@ -46,7 +46,6 @@ export default function AssociatedEntitiesList({
 
   return (
     <List<GroupPermissionEntity>
-      title={title}
       getHeader={defaultGetHeader(title, inSelectListDialog, tableActions)}
       columnDefinitions={getColumnDefinitions()}
       tableActions={tableActions}
