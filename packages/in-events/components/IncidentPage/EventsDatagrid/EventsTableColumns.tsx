@@ -19,12 +19,16 @@ import EventIcon from 'in-events/components/EventIcon';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
+import locals from 'in-events/components/IncidentPage/EventsDatagrid/EventsTableColumns.mless';
+
 const defaultHeaders = ['severity', 'title', 'on', 'started', 'end', 'state'];
 
 const TitleCell = ({ row }: { row: Row<RawEvent> }) => {
   const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
   return (
     <Link
+      ellipsis
+      className={locals.title}
       href={getEventsViewFilteredBy({
         eventId: row.original.id
       })}

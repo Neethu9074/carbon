@@ -9,9 +9,10 @@ import { Card, Stack, Typography, Collapsible, CarbonLayer, IconButton } from '@
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
+import RelatedEventsOptimized from 'in-events/components/IncidentPage/RelatedEvents/RelatedEventsOptimized';
 import LegacyRootCauseSection from 'in-events/components/RootCauseAnalysis/Legacy/LegacyRootCauseSection';
-import { eventFeedbackEnabled, businessObservabilityEnabled } from 'in-services/featureFlags';
 import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
+import { eventFeedbackEnabled, businessObservabilityEnabled } from 'in-services/featureFlags';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
 import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/EventListItem';
 import { CombinedEventListItemContent } from 'in-events/components/legacy/EventListItem';
@@ -24,6 +25,7 @@ import EventEntityDetails from 'in-events/components/legacy/EventEntityDetails';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { relatedEventsDatgridEnabled } from 'in-services/featureFlags';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import { FeedbackComponents } from 'in-events/components/EventTable';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -159,12 +161,16 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
         <MetricViolations triggeringEvent={triggeringEvent} latestSnapshot={latestSnapshot} incident={incident} />
         {/* Related events */}
 
-        <RelatedEvents
-          incident={incident}
-          triggeringProblemId={triggeringProblemId}
-          latestSnapshot={latestSnapshot}
-          triggeringEventId={triggeringEventId}
-        />
+        {relatedEventsDatgridEnabled ? (
+          <RelatedEventsOptimized incident={incident} triggeringEventId={triggeringEventId} />
+        ) : (
+          <RelatedEvents
+            incident={incident}
+            triggeringProblemId={triggeringProblemId}
+            latestSnapshot={latestSnapshot}
+            triggeringEventId={triggeringEventId}
+          />
+        )}
         {eventFeedbackEnabled && incident && (
           <div className={locals.feedbackContainer}>
             <FeedbackComponents iconSize="xs" eventData={incident} />

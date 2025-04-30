@@ -182,6 +182,7 @@ module.exports = {
   sloBurnRateEnabled: false,
   mobileAppSmartAlertFullScreenDesignEnabled: true,
   tealiumPrivacyEnabled: false,
+  relatedEventsDatagridEnabled: true,
   isSmartAlertDialogViewDefaultEnabled: true,
   logSmartAlertDialogViewEnabled: true,
   syntheticSmartAlertDialogViewEnabled: true,

@@ -170,6 +170,21 @@ const EventsDatagrid = (props: EventsDatagridProps) => {
               </CarbonTableRow>
             );
           })}
+          {loading && (
+            <CarbonTableRow>
+              {showExpand && (
+                <CarbonTableCell>
+                  <LoadingSkeleton />
+                </CarbonTableCell>
+              )}
+
+              {table.getVisibleFlatColumns().map(c => (
+                <CarbonTableCell key={c.id}>
+                  <LoadingSkeleton />
+                </CarbonTableCell>
+              ))}
+            </CarbonTableRow>
+          )}
           {paddingBottom > 0 && (
             <CarbonTableRow>
               <CarbonTableCell style={{ height: `${paddingBottom}px` }} colSpan={columns.length + 1} />

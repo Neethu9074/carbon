@@ -930,5 +930,10 @@ module.exports = exports = [
     uiClientKey: 'regexMatchEnabled',
     instanaCtlKey: 'feature.regex.match.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'relatedEventsDatagrid',
+    instanaCtlKey: 'feature.related.events.datagrid.enabled',
+    defaultValue: false
   }
 ];
