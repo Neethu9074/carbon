@@ -17,7 +17,7 @@ export default function AgentLogStreamer({ snapshot }: { snapshot: SnapshotData 
       stopAction="agent.log.stop"
       onAggregate={readLogs}
       throttle
-      logStreamTargetId="supportLogStreamId"
+      logStreamTargetId="agentLogStreamId"
     />
   );
 }
