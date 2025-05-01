@@ -620,12 +620,14 @@ export const EVENT_AI_SHOW_MORE_ACTIONS = 'event.ai.show.more.actions';
 export const EVENT_AI_SHARE_OPENED = 'event.ai.share.opened';
 export const EVENT_AI_SHARE_SUBMIT = 'event.ai.share.submit';
 export const EVENT_AI_RUN_ACTION = 'event.ai.run.action';
+export const EVENT_AI_CLICK_EPWT_LINK = 'event.ai.click.epwt.link';
 export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
 
 // Notes and Activity Summary Feedback Tracking
 export const NOTES_SUMMARY_FEEDBACK_POSITIVE = 'notes.summary.feedback.positive';
 export const NOTES_SUMMARY_FEEDBACK_NEGATIVE = 'notes.summary.feedback.negative';
 export const NOTES_SUMMARY_FEEDBACK_SUBMIT = 'notes.summary.feedback.submit';
+export const NOTES_SUMMARY_CLICK_EPWT_LINK = 'notes.summary.click.epwt.link';
 
 // Flow Map Tracking (services and endpoints)
 export const FLOW_MAP_CLICK = 'flowmap.click';

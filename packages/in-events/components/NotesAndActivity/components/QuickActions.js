@@ -17,10 +17,10 @@ import {
   Link
 } from '@instana/components';
 
+import { EVENT_AI_GENERATE_SUBMIT, NOTES_SUMMARY_CLICK_EPWT_LINK } from 'in-services/tracking/eventNames';
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPopover';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
-import { EVENT_AI_GENERATE_SUBMIT } from 'in-services/tracking/eventNames';
 import { generateJournalSummary } from 'in-stores/events';
 import { t } from 'in-i18n';
 
@@ -60,6 +60,7 @@ export function QuickActions(props) {
           className={locals.actionsButton}
           target="_blank"
           onClick={e => {
+            handleTracking(incidentId, NOTES_SUMMARY_CLICK_EPWT_LINK);
             e.stopPropagation();
           }}
           renderIcon={() => {

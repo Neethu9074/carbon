@@ -194,6 +194,6 @@ export async function CustomSendMessages(
       });
     }
   } else {
-    handleDefinedTreeQuestions(request, instance);
+    handleDefinedTreeQuestions(request, instance, instance.trackCta);
   }
 }
