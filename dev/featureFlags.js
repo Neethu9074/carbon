@@ -38,6 +38,7 @@ module.exports = {
   tenantSwitcherEnabled: true,
   useInstanaSaasEumTrackingUrlEnabled: true,
   vsphereEnabled: true,
+  windowsHypervisorEnabled: true,
   openstackEnabled: true,
   zhmcEnabled: true,
   websiteUserBreakdownEnabled: true,

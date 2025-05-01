@@ -12,7 +12,7 @@ import { Card } from '@instana/components';
 // @ts-expect-error needs migration
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import InfrastructureMetricChart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { number, megaBytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { number, kiloBytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -36,7 +36,7 @@ export default function Summary({ timeConfig, data: host }: SummaryData) {
           title={t('in-windowshypervisor:dashboards.storageSpaceUsed')}
           snapshotId={snapshotId}
           metric="memoryUsedKib"
-          formatter={megaBytesTwoDecimalPlaces}
+          formatter={kiloBytesTwoDecimalPlaces}
         />
       </KpiGridRow>
       <Row verticallyStretchColumns>
@@ -55,14 +55,14 @@ export default function Summary({ timeConfig, data: host }: SummaryData) {
           </Card>
         </Col>
         <Col lg={6}>
-          <Card title={t('in-windowshypervisor:dashboards.freeRAM')} useMaxAvailableHeight>
+          <Card title={t('in-windowshypervisor:dashboards.ram')} useMaxAvailableHeight>
             <InfrastructureMetricChart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: megaBytesTwoDecimalPlaces,
-                metrics: ['freeRAM'],
-                labels: [t('in-windowshypervisor:dashboards.freeRAM')],
+                formatter: kiloBytesTwoDecimalPlaces,
+                metrics: ['totalRAM', 'freeRAM'],
+                labels: [t('in-windowshypervisor:dashboards.totalRAM'), t('in-windowshypervisor:dashboards.freeRAM')],
                 type: 'line'
               }}
             />

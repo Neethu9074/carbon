@@ -26,6 +26,7 @@ module.exports = {
         'in-custom-dashboards',
         'in-nutanix',
         'in-xenserver',
+        'in-windowshypervisor',
         'in-bizops',
         'in-websites',
         'in-vsphere',
