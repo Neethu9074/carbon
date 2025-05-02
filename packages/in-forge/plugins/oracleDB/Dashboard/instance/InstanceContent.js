@@ -83,6 +83,22 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
       <Columize>
         <DbTimePerSecond snapshot={snapshot} timeConfig={timeConfig} />
         <DbSlashCpuTime snapshot={snapshot} timeConfig={timeConfig} />
+        <Columize>
+          <DashboardSection title={t('in-forge:plugins.oracleDB.diskUsed')}>
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeConfig={timeConfig}
+              height={200}
+              y1={{
+                formatter: percentage.detailed,
+                metrics: ['stats.diskUsedPercentage'],
+                labels: [t('in-forge:plugins.oracleDB.diskUsedPercentage')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        </Columize>
       </Columize>
       <Columize>
         <DashboardSection title={t('in-forge:plugins.oracleDB.timeWaitedPerSecond')}>
