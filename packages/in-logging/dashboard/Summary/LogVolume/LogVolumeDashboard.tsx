@@ -62,22 +62,22 @@ export default function LogVolumeDashboard() {
 
   return (
     <>
-      {!progress.loading && logVolume ? (
-        <KpiCard title={localisationStrings.logVolumeTitle} iconAction={logVolumeIcon} noTooltipOnTitle>
-          <div className={locals.body}>
-            <p className={locals.retentionContent}>
-              <span data-testid="retentionValue" className={locals.number}>
-                {bytesToLargerUnit(logVolume, 2)?.amount}
-              </span>{' '}
-              {bytesToLargerUnit(logVolume, 2)?.localizedUnit}
-            </p>
-          </div>
-        </KpiCard>
-      ) : (
+      {progress.loading ? (
         <>
           <HorizontalIndicator className={locals.loadingIndicator} progress={progress} />
           <LoadingSkeleton className={locals.skeleton} />
         </>
+      ) : (
+        <KpiCard title={localisationStrings.logVolumeTitle} iconAction={logVolumeIcon} noTooltipOnTitle>
+          <div className={locals.body}>
+            <p className={locals.retentionContent}>
+              <span data-testid="retentionValue" className={locals.number}>
+                {bytesToLargerUnit(logVolume ?? 0, 2)?.amount}
+              </span>{' '}
+              {bytesToLargerUnit(logVolume ?? 0, 2)?.localizedUnit}
+            </p>
+          </div>
+        </KpiCard>
       )}
     </>
   );
