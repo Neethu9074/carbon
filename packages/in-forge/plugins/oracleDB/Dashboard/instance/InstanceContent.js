@@ -92,7 +92,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
               y1={{
                 formatter: percentage.detailed,
                 metrics: ['stats.diskUsedPercentage'],
-                labels: [t('in-forge:plugins.oracleDB.diskUsedPercentage')],
+                labels: [t('in-forge:plugins.oracleDB.Percentage')],
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
