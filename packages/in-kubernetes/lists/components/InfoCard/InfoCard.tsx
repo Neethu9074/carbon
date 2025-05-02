@@ -131,7 +131,7 @@ export default function InfoCard({ type, data, onDataFetched, getHrefs, workload
     <div className={locals.infoCard}>
       <InfoCardHeader
         id={id}
-        label={name}
+        label={name ?? label}
         clusterDistribution={clusterDistribution}
         clusterName={clusterName}
         icon={isClusterType ? `lib_${clusterDistribution}` : `lib_kubernetes_namespace`}
