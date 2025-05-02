@@ -41,8 +41,11 @@
     margin-left: 0.5rem;
   }
 
+  .dashboardDropdownButton {
+    max-width: 20rem;
+  }
+
   .dashboardLongName_ellipses {
-    max-width: 55%;
     .ellipsis();
   }
 }

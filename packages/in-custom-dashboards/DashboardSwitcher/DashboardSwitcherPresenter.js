@@ -9,7 +9,6 @@ import React from 'react';
 import DashboardSwitcherOverlayPresenter from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcherOverlayPresenter';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import Overlay from 'in-components/overlays/Overlay';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './DashboardSwitcherOverlayPresenter.mless';
@@ -23,16 +22,17 @@ export default function DashboardSwitcherPresenter(props) {
     <Overlay withoutWrapper content={DashboardSwitcherOverlayPresenter} props={props}>
       {({ toggle, isOpen, refSetter }) => (
         <DropdownButton
+          spanClassName={locals.dashboardLongName_ellipses}
+          className={locals.dashboardDropdownButton}
           expanded={isOpen}
           onClick={toggle}
           refSetter={refSetter}
           size="normal"
           kind="tertiary"
           iconSize="xs"
+          title={buttonContent}
         >
-          <Tooltip content={buttonContent} delay={500}>
-            <div className={locals.dashboardLongName_ellipses}>{buttonContent}</div>
-          </Tooltip>
+          {buttonContent}
         </DropdownButton>
       )}
     </Overlay>

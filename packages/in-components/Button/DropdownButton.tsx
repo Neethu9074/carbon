@@ -1,14 +1,13 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
  */
 
 import classNames from 'classnames';
 import React from 'react';
 
 import { Button as CarbonButton, ButtonProps, SvgIcon } from '@instana/components';
-
-import { LegacyButton as Button } from 'in-components/Button/LegacyButton';
 
 import locals from './DropdownButton.mless';
 
@@ -28,6 +27,7 @@ const DropdownButton = React.forwardRef<HTMLButtonElement, Props>(function Dropd
     kind,
     icon,
     darkTheme,
+    title,
     isBreadCrumbButton,
     className = '',
     spanClassName,
@@ -35,12 +35,9 @@ const DropdownButton = React.forwardRef<HTMLButtonElement, Props>(function Dropd
   },
   ref
 ) {
-  const Component = isBreadCrumbButton ? Button : CarbonButton;
-
   return (
-    <Component
+    <CarbonButton
       {...buttonProps}
-      //@ts-expect-error kind is different for legacy button
       kind={kind}
       ref={ref}
       size={size ?? 'compact'}
@@ -48,6 +45,7 @@ const DropdownButton = React.forwardRef<HTMLButtonElement, Props>(function Dropd
       className={className}
       aria-haspopup
       aria-expanded={expanded}
+      title={title}
       {...(isBreadCrumbButton ? {} : { darkTheme: darkTheme })}
     >
       {isBreadCrumbButton ? (
@@ -68,7 +66,7 @@ const DropdownButton = React.forwardRef<HTMLButtonElement, Props>(function Dropd
           <span className={spanClassName}>{children}</span>
         </>
       )}
-    </Component>
+    </CarbonButton>
   );
 });
 export default DropdownButton;
