@@ -169,7 +169,7 @@ const cols = [
 export default function GlobalCpuProcessTable({ snapshot, timeConfig }) {
   const rows = [
     {
-      key: 'global-cpu-processes',
+      key: 'global_cpu_processes',
       timeConfig,
       snapshotId: snapshot.get('id')
     }
