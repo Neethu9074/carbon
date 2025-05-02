@@ -6,7 +6,7 @@
 
 import { get, isEmpty, isNull } from 'lodash';
 
-import { Application, Endpoint, ServiceLabel, Snapshot, TimeConfig } from '@instana/types';
+import { Application, Endpoint, Event, ServiceLabel, Snapshot, TimeConfig } from '@instana/types';
 
 import { QualifiedRCAEntityTypes } from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -16,8 +16,12 @@ import { Location, MatrixParameters, Parameters } from 'in-stores/navigation/typ
 import { Explainability } from 'in-events/components/RootCauseAnalysis/utils/types';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import { CTA_CLICKED } from 'in-services/util/constants';
+import { getEventTrackingType } from 'in-stores/events';
 import { setTimeConfig } from 'in-stores/time/config';
 import { Nullish } from 'in-types';
 
@@ -316,4 +320,53 @@ export function getIconForRCADisplay(entityType: string, plugin?: string): strin
  * */
 export function isServiceLabelValidToDisplayInRCA(label: string | Nullish): boolean {
   return label ? label !== 'UNKNOWN' && label !== 'Unspecified' : false;
+}
+
+/**
+ * Categorizes the probability level of a root cause based on the probability score.
+ * @param probabilityScore - Number representing the confidence score of the RCA
+ * @returns String (either N/A, HIGH, MODERATE, or LOW) which represents the probability level.
+ * */
+export function getProbabilityLevel(probabilityScore: number | null | undefined): string {
+  if (probabilityScore === null || probabilityScore === undefined) {
+    return 'N/A';
+  } else if (probabilityScore >= 0.7) {
+    return 'HIGH';
+  } else if (probabilityScore >= 0.35) {
+    return 'MODERATE';
+  } else {
+    return 'LOW';
+  }
+}
+export interface TrackRcaClickProps {
+  incident: Event;
+  location: Location;
+  rootCauseTab: number;
+  rcaEntityType: string | QualifiedRCAEntityTypes;
+  probabilityScore: number;
+  ctaEvent?: string;
+  payload?: object;
+}
+export function trackRcaClick({
+  incident,
+  location,
+  rootCauseTab,
+  rcaEntityType,
+  probabilityScore,
+  ctaEvent,
+  payload
+}: TrackRcaClickProps) {
+  const data = {
+    category: incident.metadata?.eventConfigurationType,
+    path: location.pathname,
+    eventId: incident.id,
+    parentPageCategory: productAreas.prc,
+    parentPageName: getEventTrackingType(incident),
+    CTA: ctaEvent,
+    data: JSON.stringify(payload),
+    menuItem: rootCauseTab,
+    objectType: rcaEntityType,
+    label: getProbabilityLevel(probabilityScore)
+  };
+  eventTracker({ data, segmentEventName: CTA_CLICKED });
 }

@@ -14,9 +14,12 @@ import RootCauseContextDashboard from 'in-events/components/RootCauseAnalysis/Lo
 import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hooks/SelectedRootCauseContext';
 import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
 import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
+import { trackRcaClick } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import { EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK } from 'in-services/tracking/eventNames';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { entityType } from 'in-custom-dashboards/widgets/SloLegacy/form';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { Endpoint, Event } from 'in-types';
@@ -26,12 +29,12 @@ import locals from 'in-events/components/legacy/EventList.mless';
 
 interface RootCauseLogsSectionProps {
   incident: Event;
+  rootCause: RootCause;
 }
 
-const RootCauseLogsSection = ({ incident }: RootCauseLogsSectionProps) => {
+const RootCauseLogsSection = ({ incident, rootCause }: RootCauseLogsSectionProps) => {
   const { selectedRootCause } = useContext(SelectedRootCauseContext);
-  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
-  const { trackCta } = useSegmentTracking();
+  const { location } = useNavigation();
 
   const incidentTimeWindow = useMemo(() => getIncidentTimeConfig(incident), [incident]);
 
@@ -59,11 +62,20 @@ const RootCauseLogsSection = ({ incident }: RootCauseLogsSectionProps) => {
 
   if (loadingStackData || loadingSnapshotData) return <LoadingIndicator />;
 
+  const probabilityScore = rootCause.probFailure;
+  const rcaTrackingData = {
+    incident,
+    location,
+    rootCauseTab: selectedRootCause,
+    rcaEntityType: entityType,
+    probabilityScore
+  };
+
   return (
     <Collapsible
       onOpen={() => {
-        const instrumentationEventProperties = { expanded: true };
-        trackCta(EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+        const payload = { expanded: true };
+        trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK, payload });
       }}
     >
       <Collapsible.Header style={{ background: 'none' }}>
@@ -87,6 +99,7 @@ const RootCauseLogsSection = ({ incident }: RootCauseLogsSectionProps) => {
               hostName={rcaEntityType === 'infrastructure' ? getHostFQDN(entityData) : undefined}
               plugin={rcaEntityType === 'infrastructure' ? get(entityData, 'plugin') : undefined}
               timeConfig={incidentTimeWindow}
+              rcaTrackingData={rcaTrackingData}
             />
           )}
         </div>

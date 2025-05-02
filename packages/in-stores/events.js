@@ -442,7 +442,7 @@ export function shareEventSummary(incidentId, recipients, timestamp, sender, sub
   return obj.map(response => response.body);
 }
 
-export function eventsPageTracker(productArea, pageRootName, location, event) {
+export function eventsPageTracker(productArea, pageRootName, location, event, referrer) {
   let incidentData = undefined;
   let configType = event?.getIn(['metadata', 'eventConfigurationType']);
   const hasRca = event?.getIn(['metadata', 'rootCause', 'found']) === true;
@@ -497,6 +497,7 @@ export function eventsPageTracker(productArea, pageRootName, location, event) {
     url: url,
     altUserId: userId,
     platformTitle: productPlatformTitle,
+    referrer: referrer,
     roles: [userSelfDefinedRole],
     'user.bluemixId': userId
   });

@@ -12,6 +12,7 @@ export const productAreas = Object.freeze({
   synthetic_monitoring: 'Synthetic Monitoring',
   logging: 'Logging',
   analytics: 'Analytics',
+  prc: 'Probable Root Cause',
   event: 'Event',
   events: 'Events',
   slo: 'Service Level Objectives',

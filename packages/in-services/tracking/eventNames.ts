@@ -600,6 +600,9 @@ export const EVENT_RCA_ANALYZE_CLICK = 'event.rca.analyze.click';
 export const EVENT_RCA_ENTITY_CLICK = 'event.rca.entity.click';
 export const EVENT_RCA_ASSOCIATED_EVENTS_CLICK = 'event.rca.associated_events.click';
 export const EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK = 'event.rca.trace_and_error_logs.click';
+export const EVENT_RCA_PANNEL_TAB_CLICK = 'event.rca.pannel.tab.click';
+export const EVENT_RCA_ERROR_LOGS_TAB_CLICK = 'event.rca.error_logs.tab.click';
+export const EVENT_RCA_TRACE_LOGS_TAB_CLICK = 'event.rca.trace_logs.tab.click';
 
 // Events Page Feedback Tracking
 export const EVENT_FEEDBACK_SUBMIT = 'event.feedback.submit';

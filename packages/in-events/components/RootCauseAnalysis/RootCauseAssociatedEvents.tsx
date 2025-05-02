@@ -4,16 +4,20 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Typography, CarbonLayer, Collapsible } from '@instana/components';
+import { Event } from '@instana/types';
 
+import determineEntityTypeFromEntityIDMap from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
+import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hooks/SelectedRootCauseContext';
 //@ts-expect-error file needs to be converted
 import getRawEvents from 'in-subscription/getRawEvents';
 import EventsDatagrid from 'in-events/components/IncidentPage/EventsDatagrid/EventsDatagrid';
+import { trackRcaClick } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import { EVENT_RCA_ASSOCIATED_EVENTS_CLICK } from 'in-services/tracking/tracking';
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { RawEvent } from 'in-types';
@@ -23,17 +27,27 @@ import locals from 'in-events/components/legacy/EventList.mless';
 
 interface AssociatedEventsProps {
   rootCause: RootCause;
+  incident: Event;
 }
 
-export default function AssociatedEvents({ rootCause }: AssociatedEventsProps) {
-  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
-  const { trackCta } = useSegmentTracking();
-
+export default function AssociatedEvents({ rootCause, incident }: AssociatedEventsProps) {
   const userTimeConfig = useTimeConfig();
 
+  const { location } = useNavigation();
   const steadyId = rootCause.entityID.steadyId;
   const pluginId = rootCause.entityID.pluginId;
   const hostIdValue = rootCause.entityID.host;
+  const rcaEntityType = determineEntityTypeFromEntityIDMap(rootCause.entityID);
+
+  const { selectedRootCause: rootCauseTab } = useContext(SelectedRootCauseContext);
+  const probabilityScore = rootCause.probFailure;
+  const rcaTrackingData = {
+    incident,
+    location,
+    rootCauseTab,
+    rcaEntityType,
+    probabilityScore
+  };
 
   const {
     items: rawAssociatedEvents,
@@ -63,8 +77,8 @@ export default function AssociatedEvents({ rootCause }: AssociatedEventsProps) {
     <CarbonLayer>
       <Collapsible
         onOpen={() => {
-          const instrumentationEventProperties = { expanded: true };
-          trackCta(EVENT_RCA_ASSOCIATED_EVENTS_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+          const payload = { expanded: true };
+          trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ASSOCIATED_EVENTS_CLICK, payload });
         }}
       >
         <Collapsible.Header>

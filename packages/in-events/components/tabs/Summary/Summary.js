@@ -91,12 +91,15 @@ export default function Summary(props) {
   useEffect(() => {
     // make sure that tracking is enabled. This is done because tab changes should not cause duplicate page views
     const tracking = getMatrixParameter(location, eventsPath, 'track');
+    const referrer = location.query['ref']; // get referrer if that info is available in the url
     // if the url is marked to ignore tracking (from ViewSwitcher) then don't send a PageView as this
     // causes duplicate PageViews that don't reflect reality
     if (selectedEventId !== undefined && tracking !== 'false') {
       setOrDeleteMatrixKey(location, eventsPath, 'track', false);
+      // delete reference from url if the user was refered to the page from an alert (otherwise subsequent page views will also consider it to be referred)
+      delete location.query['ref'];
       navigate(location);
-      eventsPageTracker(productAreas.event, getEventTrackingType(event), props.location, event);
+      eventsPageTracker(productAreas.event, getEventTrackingType(event), props.location, event, referrer);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [event.get('id')]);
