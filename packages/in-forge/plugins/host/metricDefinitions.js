@@ -21,7 +21,8 @@ const availableCpuMetricSuffixes = {
   nice: t('in-forge:plugins.host.nice'),
   steal: t('in-forge:plugins.host.steal'),
   used: t('in-forge:plugins.host.used'),
-  idle: t('in-forge:plugins.host.idle')
+  idle: t('in-forge:plugins.host.idle'),
+  usersysratio: t('in-forge:plugins.host.usersysratio')
 };
 
 function getMaxFilesystemCapacity(snapshot, match) {
@@ -187,6 +188,13 @@ export default [
       t('in-forge:plugins.host.logicalBlockReads'),
       t('in-forge:plugins.host.logicalBlockWrites')
     ],
+    category: [t('in-forge:plugins.host.cpu')],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: ['cpu.usersysratio'],
+    labels: [t('in-forge:plugins.host.usersysratio')],
     category: [t('in-forge:plugins.host.cpu')],
     min: 0,
     formatter: number.compact
