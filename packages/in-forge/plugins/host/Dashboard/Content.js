@@ -137,7 +137,32 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             />
           )}
 
-          {!isAixOs(snapshot) && !isIbmiOs(snapshot) && (
+          {isLinux(snapshot) && (
+            <Chart
+              snapshotId={snapshot.get('id')}
+              snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+              hasActionlane
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                max: 1,
+                formatter: percentageZeroDecimalPlaces,
+                metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal', 'cpu.idle'],
+                labels: [
+                  t('in-forge:plugins.host.dashboard.user'),
+                  t('in-forge:plugins.host.dashboard.system'),
+                  t('in-forge:plugins.host.dashboard.wait'),
+                  t('in-forge:plugins.host.dashboard.nice'),
+                  t('in-forge:plugins.host.dashboard.steal'),
+                  t('in-forge:plugins.host.dashboard.idle')
+                ],
+                type: 'stackedArea'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          )}
+
+          {!isAixOs(snapshot) && !isIbmiOs(snapshot) && !isLinux(snapshot) && (
             <Chart
               snapshotId={snapshot.get('id')}
               snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
