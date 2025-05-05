@@ -26,6 +26,7 @@ export default forwardRef(function Delete(
       id={validTypes.includes(entity?.type) ? `delete_${entity.id}` : undefined}
       disabled={disabled}
       type="lib_actions_delete"
+      aria-label={t('in-settings:components.delete')}
       kind="primaryv2"
       onClick={e => {
         stopPropagationAndPreventDefault(e);
