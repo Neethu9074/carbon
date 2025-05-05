@@ -16174,7 +16174,7 @@
       "dbDetails": "DB Details",
       "sqlExecutionAndParseDetails": "SQL Execution And Parse Details",
       "diskUsed": "Disk Used",
-      "Percentage": "Percentage"
+      "percentage": "Percentage"
     },
     "azureCosmosDb": {
       "totalRequests": "Total Requests",
