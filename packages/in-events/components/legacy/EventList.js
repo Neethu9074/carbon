@@ -9,22 +9,29 @@ import { Card, Stack, Typography, Collapsible, CarbonLayer, IconButton } from '@
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
+import { InfraAggregatedEntitiesTablePresenter } from 'in-events/components/EventContent/InfraAggregatedEntities';
+import { getTimeConfigForAggregatedEntitiesTable } from 'in-events/components/EventContent/InfraEventContent';
+import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import RelatedEventsOptimized from 'in-events/components/IncidentPage/RelatedEvents/RelatedEventsOptimized';
 import LegacyRootCauseSection from 'in-events/components/RootCauseAnalysis/Legacy/LegacyRootCauseSection';
 import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
+import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { eventFeedbackEnabled, businessObservabilityEnabled } from 'in-services/featureFlags';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
 import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/EventListItem';
 import { CombinedEventListItemContent } from 'in-events/components/legacy/EventListItem';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import RootCauseSection from 'in-events/components/RootCauseAnalysis/RootCauseSection';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import AutomationCardForPRC from 'in-automation/AutomationCard/AutomationCardForPRC';
 import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventEntityDetails from 'in-events/components/legacy/EventEntityDetails';
+import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { isInfraSmartAlertEvent } from 'in-events/components/eventUtil';
 import { relatedEventsDatgridEnabled } from 'in-services/featureFlags';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import { FeedbackComponents } from 'in-events/components/EventTable';
@@ -32,8 +39,10 @@ import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { toHtml } from 'in-services/formatters/markdown';
 import { rcaUIEnabled } from 'in-services/featureFlags';
+import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { deepCopy } from 'in-services/util/object';
 import { getEventType } from 'in-stores/events';
 import { getEvent } from 'in-stores/events';
 import { role } from 'in-stores/user';
@@ -157,6 +166,7 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
         >
           <TriggeringEvent incident={incident} triggeringEvent={triggeringEvent} latestSnapshot={latestSnapshot} />
         </Card>
+        {isInfraSmartAlertEvent(incident) && <AggregatedInfraEntities incident={incident} />}
         {/* Metric violations */}
         <MetricViolations triggeringEvent={triggeringEvent} latestSnapshot={latestSnapshot} incident={incident} />
         {/* Related events */}
@@ -178,6 +188,45 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
         )}
       </Col>
     </Row>
+  );
+};
+
+const AggregatedInfraEntities = ({ incident }) => {
+  const alertConfig = useInfraEventAlertConfig(incident);
+  const entityType = alertConfig?.rule?.entityType ?? 'all';
+  const metricName = incident.getIn(['metadata', 'smartAlertInfo', 'metricName'], '');
+  const aggregation = incident.getIn(['metadata', 'smartAlertInfo', 'metricAggregation'], '');
+  const groupingTags = incident.getIn(['metadata', 'groupingTags'], emptyMap).toJS();
+  const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
+  const [aggregatedEntitiesOpen, setAggregatedEntitiesOpen] = useState(true);
+  const tagFilterExpression = alertConfig?.tagFilterExpression;
+  const [ruleWithThreshold] = alertConfig?.rules ?? [];
+  const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+  const alertConfigWithGroupingExpression = {
+    ...alertConfig,
+    tagFilterExpression: {
+      ...getExpressionWithGroupingTags(deepCopy(tagFilterExpression), groupingTags)
+    }
+  };
+
+  if (alertConfig?.evaluationType !== 'CUSTOM') {
+    return null;
+  }
+
+  return (
+    <div className={locals.layerBackground}>
+      <CarbonLayer>
+        <InfraAggregatedEntitiesTablePresenter
+          tagFilterFormModel={tagFilterFormModel}
+          timeConfig={getTimeConfigForAggregatedEntitiesTable(incident, alertConfigWithGroupingExpression.granularity)}
+          ruleWithThreshold={ruleWithThreshold}
+          tagFilterExpression={alertConfigWithGroupingExpression.tagFilterExpression}
+          metricLabel={metricLabel}
+          aggregatedEntitiesOpen={aggregatedEntitiesOpen}
+          setAggregatedEntitiesOpen={setAggregatedEntitiesOpen}
+        />
+      </CarbonLayer>
+    </div>
   );
 };
 

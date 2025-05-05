@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
 
 import {
   GetLinkToExploreProps,
@@ -15,19 +15,34 @@ import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/f
 import { TimeConfig, GenericInfraAlertRule, TagFilterExpressionElementUnion, Order } from 'in-types';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { Grouping } from 'in-custom-dashboards/widgets/Table/types';
+import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { t } from 'in-i18n';
 
 interface Props {
   alertConfig: InfraSmartAlertConfig;
   timeConfig: TimeConfig;
+  as?: 'menuItem' | 'button';
 }
 
-export default function AnalyzeInfraEventButton({ alertConfig, timeConfig }: Props) {
+export default function AnalyzeInfraEventButton({ alertConfig, timeConfig, as = 'button' }: Props) {
   const { tagFilterExpression, rule } = alertConfig;
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
-
+  const { navigate } = useNavigation();
   const linkToUA = getLinkToUnboundAnalytics(rule, tagFilterExpression, getLinkToInfraEntityExplore, timeConfig);
+
+  if (as === 'menuItem') {
+    return (
+      <CarbonMenuItem
+        renderIcon={() => <SvgIcon type="lib_analyze" size="xs" />}
+        onClick={() => {
+          navigate(parseUrl(linkToUA, true));
+        }}
+        label={t('in-analyze:analyzeHeader.analyzeInfrastructureSelectedTitle')}
+      />
+    );
+  }
 
   return (
     <Button kind="primary" icon="lib_analyze_inverted" href={linkToUA}>

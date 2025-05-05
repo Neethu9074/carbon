@@ -245,7 +245,10 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
   );
 }
 
-function getTimeConfigForAggregatedEntitiesTable(event: EventOrMap, granularity: number): TimeConfig | undefined {
+export function getTimeConfigForAggregatedEntitiesTable(
+  event: EventOrMap,
+  granularity: number
+): TimeConfig | undefined {
   const from = getFromOfEvent(event);
   if (!from) return undefined;
   const toForWs = adjustTimestamp(getToOfEvent(event) || Date.now(), granularity);
