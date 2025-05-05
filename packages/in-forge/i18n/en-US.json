@@ -11070,7 +11070,7 @@
         "processesSleeping": "Sleeping",
         "processesIdle": "Idle",
         "processesStopped": "Stopped",
-        "CpuProcess": "Processes",
+        "CpuProcess": "Process Stats",
         "load": "Load",
         "memory": "Memory",
         "used": "Used",
