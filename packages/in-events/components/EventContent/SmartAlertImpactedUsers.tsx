@@ -11,7 +11,7 @@ import { TimeConfig } from '@instana/types';
 import { just } from '@instana/observables';
 
 // @ts-ignore
-import {  getEnrichedAnalyzeTagFilterFormModel, getEnrichedAnalyzeTagFilterFormModelImpactedTraces } from 'in-events/components/AnalyzeApplicationEventButton';
+import { getEnrichedAnalyzeTagFilterFormModel, impactedTracesTagFilterExpressionGenerator } from 'in-events/components/AnalyzeApplicationEventButton';
 import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { joinExpressions, FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -79,7 +79,7 @@ export default function SmartAlertImpactedUsers({
 
   return (
     <ImpactedUsers
-      alertType = {alertConfig?.rule.alertType}
+      alertType={alertConfig?.rule.alertType}
       timeConfig={timeConfig}
       joinFilterForImpactedUsers={filterExpressions.impacted}
       joinFilterForTotalUsers={filterExpressions.total}
@@ -87,7 +87,6 @@ export default function SmartAlertImpactedUsers({
     />
   );
 }
-
 
 function getImpactedTimeConfigFromEvent(event: EventOrMap): TimeConfig {
   const now = Date.now();
@@ -187,7 +186,7 @@ function createFilterExpressionsForAppAlert(
   }
 
   function getQueryModelForAppAlertFromAlertConfig(excludeViolationRelatedFilters: boolean) {
-    if (alertConfig?.rule.alertType === 'throughput'){
+    if (alertConfig?.rule.alertType === 'throughput') {
       return toBackendQueryModel(
         getEnrichedAnalyzeTagFilterFormModel({
           alertConfig,
@@ -201,14 +200,12 @@ function createFilterExpressionsForAppAlert(
         })
       );
     }
- 
-      return toBackendQueryModel(
-        getEnrichedAnalyzeTagFilterFormModelImpactedTraces({
-          alertConfig,
-          alertId: alertId,
-          applicationId: applicationId,
-        })
-      );
 
+    return toBackendQueryModel(
+      impactedTracesTagFilterExpressionGenerator({
+        alertId: alertId,
+        applicationId: applicationId
+      })
+    );
   }
 }

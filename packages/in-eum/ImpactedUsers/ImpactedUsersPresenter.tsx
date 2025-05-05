@@ -18,6 +18,7 @@ import {
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import AnalyzeImpactedUsersButton from 'in-eum/ImpactedUsers/AnalyzeImpactedUsersButton';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import { TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -107,7 +108,7 @@ export default function ImpactedUsersPresenter({
           </DescriptionText>
         )}
         <Row withoutSideMargin>
-          <Col className={locals.container}>
+          <Col className={locals.container} lg={12}>
             <span className={locals.label}>{t('in-eum:labelImpactedUsers')}</span>
             {impacted?.state === 'pending' ? (
               <LoadingSkeleton className={locals.skeleton} />
@@ -124,8 +125,9 @@ export default function ImpactedUsersPresenter({
           </Col>
         </Row>
         <Row withoutSideMargin>
-          <Col>
+          <Col lg={12}>
             <DataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+            {carbonRows && carbonRows?.length === 0 && <NoDataAvailable height={150} />}
           </Col>
         </Row>
         <Row withoutSideMargin>
