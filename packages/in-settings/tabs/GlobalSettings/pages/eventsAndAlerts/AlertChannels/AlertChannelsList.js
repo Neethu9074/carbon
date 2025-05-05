@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import { Link } from '@instana/components';
 
@@ -20,10 +20,9 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { rbacTeamsEnabled } from 'in-services/featureFlags';
+import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
-import useUrlState from 'in-hooks/useUrlState';
-import { arrayParser } from 'in-stores/navigation/urlParameterUtils';
 
 import locals from './AlertChannelsList.mless';
 
@@ -54,22 +53,22 @@ export default function AlertChannelsList({
     alertChannelPerSeverityEnabled && detailView
       ? [...columnDefinitions(hasRowNavigation), ...columnDefinitionsAlertLevel(alertChannels)]
       : columnDefinitions(hasRowNavigation);
-  const [{ filter }, setUrlState] = useUrlState({
+  const [{ query, filter }, setUrlState] = useUrlState({
     bind: [
       {
         path: '/channels' ?? '/',
+        name: 'query',
+        initialState: ''
+      },
+      {
+        path: '/channels' ?? '/',
         name: 'filter',
-        initialState: [],
-        // parser: arrayParser
+        initialState: []
       }
     ]
   });
 
-  console.log('filter from url', filter, handleUrlFilter(filter))
-  // const onLoadFilters = constructFilterFromURL();
-  // const onLoadFilters = filter.split(',')
-  const onLoadFilters = handleUrlFilter(filter)
-  
+  const onLoadFilters = handleUrlFilter(filter);
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}
@@ -89,7 +88,8 @@ export default function AlertChannelsList({
       isSearchable={isSearchable}
       searchAttributes={['name', getKind, getStringifiedParameters, getStringifiedTags]}
       extraFilters={createFilters(hiddenIds, onLoadFilters)}
-      // onFilter={(createTeamsFilter([]) && createTeamsFilter) || false}
+      // onFilter={(createTeamsFilter([], query) && createTeamsFilter([], query)) || false}
+      onFilter={(createTeamsFilter([], query) && (entities => createTeamsFilter(entities, query))) || false}
       searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
       boundedPath="/channels"
@@ -271,8 +271,8 @@ export function createFilters(hiddenIds, filtersTeams) {
   if (hiddenIds) {
     filters.push(entity => hiddenIds.indexOf(entity.id) < 0);
   }
-  if(filtersTeams.length > 0){
-    filters.push(createExtraFilter(filtersTeams))
+  if (filtersTeams.length > 0) {
+    filters.push(createExtraFilter(filtersTeams));
   }
   return filters;
 }
@@ -280,50 +280,51 @@ export function createFilters(hiddenIds, filtersTeams) {
 // If the URL contains '/channels;query=team:' we want to filter which teams are visible
 // This filter is used in place of the default searching filter as long as the team query exists
 // Otherwise we return false and then the default search filter is applied
-// export function createTeamsFilter(entities) {
-//   const hash = window.location.hash;
-//   if (hash.includes('/channels;query=team:') || hash.includes('/channels;query=team%3A')) {
-//     // query=team:thisIsATeam
-//     const teamQuery = hash.split(';')[1];
-//     // team:thisIsATeam || team%3AthisIsATeam
-//     const team = (teamQuery.includes(':') && teamQuery.split(':')) || teamQuery.split('%3A');
-//     // const result = entities.filter(entity => entity.team == team[1])
-//     const result = entities.filter(entity => entity.kind.toLowerCase() == team[1].trim().toLowerCase());
-//     return result;
-//   }
-//   return false;
-// }
+export function createTeamsFilter(entities, query) {
+  if ((query && query != '' && query.includes('team:')) || query.includes('team%3A')) {
+    const team = (query.includes(':') && query.split(':')) || query.split('%3A');
+    const teamArr = (team && team[1] && team[1].split(',')) || [];
+    const result = entities.filter(entity => {
+      const rbacTagsArr = [];
+      entity.rbacTags.map(i => {
+        rbacTagsArr.push(i.displayName);
+      });
+      const isSubset = teamArr.every(element => rbacTagsArr.includes(element));
+      if (isSubset) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    return result;
+  }
+  return false;
+}
 
 function createExtraFilter(filters) {
-  if(filters?.length > 0) {
-    const filter = (entity) => { 
-      var pass = false
-      entity.rbacTags.map((i) => {
-        if(filters.includes(i.displayName)){
-          pass =  true
-        }
-      })
-      return pass
-    }
+  if (filters?.length > 0) {
+    const filter = entity => {
+      const rbacTagsArr = [];
+      entity.rbacTags.map(i => {
+        rbacTagsArr.push(i.displayName);
+      });
+      const isSubset = filters.every(element => rbacTagsArr.includes(element));
+      if (isSubset) {
+        return true;
+      } else {
+        return false;
+      }
+    };
     return filter;
   }
 }
 
-// function constructFilterFromURL() {
-//   const hash = window.location.hash;
-//   if (hash.includes('/channels;filter=')) {
-//     // filter=thisIsATeam
-//     const teamFilter = hash.split(';')[1];
-//     const team = (teamFilter.includes('=') && teamFilter.split('='))[1];
-//     const result = decodeURIComponent(team)
-//     return result.split(',')
-//   }
-//   return []
-// }
-
 function handleUrlFilter(filter) {
-  if(typeof filter == 'string'){
-    return filter.split(',')
+  if (filter == '') {
+    return [];
   }
-  return filter
+  if (typeof filter == 'string') {
+    return filter.split(',');
+  }
+  return filter;
 }

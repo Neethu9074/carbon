@@ -12,6 +12,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { getTeamsOverview } from 'in-api/teams';
 
 import locals from './AlertChannelsFilter.mless';
+
 export default function AlertChannelsFilter({ setUrlState, onLoadFilters }) {
   const teamsList = useObservable(getTeamsOverview, []) ?? pendingResult;
   const prefix = 'cds';
