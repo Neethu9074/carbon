@@ -62,7 +62,10 @@ export default function ImpactedUsersPresenter({
       header: t('in-eum:titleImpactedUsers')
     }
   ];
-
+  let TimeConfigToUse: TimeConfig = timeConfig;
+  if (alertType === 'throughput') {
+    TimeConfigToUse = overallStatus.timeForTraceEstimation || timeConfig;
+  }
   const carbonRows =
     websitesOrMobiles?.data?.items?.map(it => ({
       id: it.result.eumCfgId,
@@ -142,7 +145,7 @@ export default function ImpactedUsersPresenter({
                   overallStatus.timeForTraceEstimation
                 )
               }
-              timeConfig={overallStatus.timeForTraceEstimation}
+              timeConfig={TimeConfigToUse}
               {...downloadProp}
             />
           </Col>
