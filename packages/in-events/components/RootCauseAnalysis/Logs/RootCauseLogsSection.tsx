@@ -18,7 +18,6 @@ import { trackRcaClick } from 'in-events/components/RootCauseAnalysis/utils/root
 import { EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK } from 'in-services/tracking/eventNames';
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { entityType } from 'in-custom-dashboards/widgets/SloLegacy/form';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
@@ -67,7 +66,7 @@ const RootCauseLogsSection = ({ incident, rootCause }: RootCauseLogsSectionProps
     incident,
     location,
     rootCauseTab: selectedRootCause,
-    rcaEntityType: entityType,
+    rcaEntityType: rcaEntityType,
     probabilityScore
   };
 
