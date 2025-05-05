@@ -500,6 +500,11 @@ export default connectTo(
                       }
                     />
                     <LinkListItem
+                      label={t('in-internal:components.landing.bytesIngestedStatistics')}
+                      href={createHref({ ...location, pathname: '/internal/thisUnit/bytesIngestedStatistics' })}
+                      description={t('in-internal:components.landing.bytesIngestedStatisticsDesc')}
+                    />
+                    <LinkListItem
                       label={t('in-internal:components.landing.agents')}
                       href={createHref({ ...location, pathname: '/internal/thisUnit/agents' })}
                       description={t('in-internal:components.landing.agentsDesc')}

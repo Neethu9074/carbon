@@ -50,7 +50,7 @@ export interface DashboardHeaderProps {
   renderIcon?: () => React.ReactNode;
   title: string;
   renderTimeSelection?: (props: any) => React.ReactNode;
-  label: string | React.ReactNode;
+  label?: string | React.ReactNode;
   labelForTitle?: string;
   renderMetaInformation?: (props: any) => React.ReactNode;
   renderButtonLine?: (props: any) => React.ReactNode;

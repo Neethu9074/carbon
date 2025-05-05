@@ -33,6 +33,7 @@ import LogHealthProcessor from 'in-internal/monitoringUnit/log/LogHealthProcesso
 import SloViolations from 'in-internal/monitoringUnit/SloViolations/SloViolations';
 import ResilientMapping from 'in-internal/monitoringUnit/Appdata/ResilientMapping';
 import BatchingInsights from 'in-internal/monitoringUnit/Appdata/BatchingInsights';
+import BytesIngestedStatistics from 'in-internal/thisUnit/BytesIngestedStatistics';
 import { RenderWithRouteProps } from 'in-components/routing/createAsyncComponent';
 import ProfilesCassandra from 'in-internal/monitoringUnit/sre/ProfilesCassandra';
 import InternalEvents from 'in-internal/thisUnit/InternalEvents/InternalEvents';
@@ -212,6 +213,11 @@ export default function Internal() {
       {wrapInInternalView(SyntheticsReader)}
     </Route>,
     <Route key="internalEntityStatistics" path="/internal/thisUnit/entityStatistics" component={EntityStatistics} />,
+    <Route
+      key="internalBytesIngestedStatistics"
+      path="/internal/thisUnit/bytesIngestedStatistics"
+      component={BytesIngestedStatistics}
+    />,
     <Route key="internalGraphExplorer" path="/internal/thisUnit/graphExplorer">
       {wrapInInternalView(GraphExplorer)}
     </Route>,

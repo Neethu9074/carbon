@@ -14,7 +14,7 @@ import { t } from 'in-i18n';
 
 import locals from './InternalViewWrapper.mless';
 
-export default function InternalViewWrapper({ children }) {
+export default function InternalViewWrapper({ children }: { children: React.ReactElement }) {
   const { location, createHref } = useNavigation();
   const targetLocation = locationWithoutQueryParameter({ ...location, pathname: '/internal' });
   function renderContext() {
