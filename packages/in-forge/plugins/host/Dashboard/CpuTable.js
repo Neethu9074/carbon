@@ -13,108 +13,105 @@ import { isLinux } from 'in-forge/plugins/host/hostUtils';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
-const cols = [
-  {
-    id: 'CPU',
-    title: t('in-forge:plugins.host.dashboard.cpu'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.cpuNumber;
-      },
-      getContent(cpuNumber) {
-        return `CPU ${cpuNumber}`;
-      }
-    }
-  },
-  {
-    id: 'User',
-    title: t('in-forge:plugins.host.dashboard.user'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `cpus.${row.cpuNumber}.user`;
-      },
-      getContent: percentage.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    id: 'System',
-    title: t('in-forge:plugins.host.dashboard.system'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `cpus.${row.cpuNumber}.sys`;
-      },
-      getContent: percentage.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    id: 'Wait',
-    title: t('in-forge:plugins.host.dashboard.wait'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `cpus.${row.cpuNumber}.wait`;
-      },
-      getContent: percentage.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    id: 'Nice',
-    title: t('in-forge:plugins.host.dashboard.nice'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `cpus.${row.cpuNumber}.nice`;
-      },
-      getContent: percentage.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    id: 'Steal',
-    title: t('in-forge:plugins.host.dashboard.steal'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `cpus.${row.cpuNumber}.steal`;
-      },
-      getContent: percentage.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+const CpuNumberColumn = {
+  id: 'CPU',
+  title: t('in-forge:plugins.host.dashboard.cpu'),
+  type: 'number',
+  typeArgs: {
+    getValue(row) {
+      return row.cpuNumber;
+    },
+    getContent(cpuNumber) {
+      return `CPU ${cpuNumber}`;
     }
   }
-];
-
-const IdleCpuColumn = {
+};
+const CpuUserColumn = {
+  id: 'User',
+  title: t('in-forge:plugins.host.dashboard.user'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.snapshotId;
+    },
+    getMetricName(row) {
+      return `cpus.${row.cpuNumber}.user`;
+    },
+    getContent: percentage.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
+const CpuSystemColumn = {
+  id: 'System',
+  title: t('in-forge:plugins.host.dashboard.system'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.snapshotId;
+    },
+    getMetricName(row) {
+      return `cpus.${row.cpuNumber}.sys`;
+    },
+    getContent: percentage.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
+const CpuWaitColumn = {
+  id: 'Wait',
+  title: t('in-forge:plugins.host.dashboard.wait'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.snapshotId;
+    },
+    getMetricName(row) {
+      return `cpus.${row.cpuNumber}.wait`;
+    },
+    getContent: percentage.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
+const CpuNiceColumn = {
+  id: 'Nice',
+  title: t('in-forge:plugins.host.dashboard.nice'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.snapshotId;
+    },
+    getMetricName(row) {
+      return `cpus.${row.cpuNumber}.nice`;
+    },
+    getContent: percentage.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
+const CpuStealColumn = {
+  id: 'Steal',
+  title: t('in-forge:plugins.host.dashboard.steal'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.snapshotId;
+    },
+    getMetricName(row) {
+      return `cpus.${row.cpuNumber}.steal`;
+    },
+    getContent: percentage.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
+const CpuIdleColumn = {
   id: 'idle',
   title: t('in-forge:plugins.host.dashboard.idle'),
   type: 'metric',
@@ -165,12 +162,15 @@ export default function CpuTable({ snapshot, timeConfig }) {
         key: String(cpuNumber),
         cpuNumber,
         timeConfig,
-        snapshotId: snapshot.get('id')
+        snapshotId: snapshot.get('id'),
+        linux
       };
     });
 
+  const cols = [CpuNumberColumn, CpuUserColumn, CpuSystemColumn, CpuWaitColumn, CpuNiceColumn, CpuStealColumn];
+
   if (linux) {
-    cols.push(IdleCpuColumn);
+    cols.push(CpuIdleColumn);
     cols.push(UserSystemCpuRatioColumn);
   }
   // typical CPU counts are 2, 4, 8, 16, 32, 64
