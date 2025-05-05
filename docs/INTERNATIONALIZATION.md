@@ -142,7 +142,6 @@ This will be used in other translations (e.g. Japanese)
  - Do not translate logger statements.
  - Do not translate JavaScript error messages, e.g. `new Error(…)`.
  - Do not translate Segment API calls and `in-components/ViewTrackingMeta` usages.
- - Do not translate `in-server`.
  - Translation of `in-internal` is optional.
 
 [context]: https://www.i18next.com/translation-function/context
