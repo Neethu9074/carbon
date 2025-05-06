@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "@amplitude/experiment-js-client": "^1.11.0",
+    "@babel/core": "^7.12.3",
     "@babel/runtime": "7.26.10",
     "@carbon/colors": "^11.21.0",
     "@carbon/icons": "^11.56.0",
@@ -174,7 +175,6 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
-    "@babel/core": "^7.12.3",
     "@babel/eslint-parser": "^7.17.0",
     "@babel/plugin-transform-block-scoping": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
