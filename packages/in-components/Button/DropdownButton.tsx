@@ -9,6 +9,8 @@ import React from 'react';
 
 import { Button as CarbonButton, ButtonProps, SvgIcon } from '@instana/components';
 
+import { LegacyButton as Button } from 'in-components/Button/LegacyButton';
+
 import locals from './DropdownButton.mless';
 
 interface Props extends ButtonProps {
@@ -35,9 +37,12 @@ const DropdownButton = React.forwardRef<HTMLButtonElement, Props>(function Dropd
   },
   ref
 ) {
+  const Component = isBreadCrumbButton ? Button : CarbonButton;
+
   return (
-    <CarbonButton
+    <Component
       {...buttonProps}
+      //@ts-expect-error kind is different for legacy button
       kind={kind}
       ref={ref}
       size={size ?? 'compact'}
@@ -66,7 +71,7 @@ const DropdownButton = React.forwardRef<HTMLButtonElement, Props>(function Dropd
           <span className={spanClassName}>{children}</span>
         </>
       )}
-    </CarbonButton>
+    </Component>
   );
 });
 export default DropdownButton;
