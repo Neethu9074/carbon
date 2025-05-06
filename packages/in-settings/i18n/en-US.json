@@ -749,7 +749,10 @@
       "teamTagUsedOnEntitiesMessage": "Entities are displayed on this list as team members operate (create or delete).",
       "teamsTitle": "Teams",
       "teamTagUsedOnAlertChannels": "Alert channels",
-      "teamTagUsedOnCustomDashboards": "Custom dashboards"
+      "teamTagUsedOnCustomDashboards": "Custom dashboards",
+      "teamFilterOptions": "Filter options",
+      "teamFilterReset": "Reset filters",
+      "teamApplyFilters": "Apply filters"
     },
     "auditTrail": "Audit trail",
     "failedToSaveConfig": "Failed to save config: {{err}}",

@@ -10,6 +10,7 @@ import { useObservable } from '@instana/hooks';
 
 import { pendingResult } from 'in-services/fixedObjects';
 import { getTeamsOverview } from 'in-api/teams';
+import { t } from 'in-i18n';
 
 import locals from './AlertChannelsFilter.mless';
 
@@ -31,11 +32,11 @@ export default function AlertChannelsFilter({ setUrlState, onLoadFilters }) {
       >
         <SvgIcon type={'lib_actions_filter'} size="xs" className={locals.filter} />
       </button>
-      <CarbonPopoverContent id={'toolbarFilerId'}>
+      <CarbonPopoverContent id={'alertChannelsTeamFilter'}>
         <div className={`${prefix}--container-checkbox`}>
           <fieldset className={`${prefix}--fieldset`}>
             <legend className={`${prefix}--label`}>
-              <div className={locals.header}>Filter options</div>
+              <div className={locals.header}>{t('in-settings:tabs.teams.teamFilterOptions')}</div>
             </legend>
             <div className={locals.content}>
               {teamsList?.data?.map(team => {
@@ -59,22 +60,22 @@ export default function AlertChannelsFilter({ setUrlState, onLoadFilters }) {
         </div>
         <CarbonButton
           kind="secondary"
-          title="Reset filters"
+          title={t('in-settings:tabs.teams.teamFilterReset')}
           onClick={() => {
             setThisFilteredList([]);
             setUrlState({ filter: [] });
           }}
         >
-          Reset filters
+          {t('in-settings:tabs.teams.teamFilterReset')}
         </CarbonButton>
         <CarbonButton
           kind="primary"
-          title="Apply filters"
+          title={t('in-settings:tabs.teams.teamApplyFilters')}
           onClick={() => {
             setUrlState({ filter: thisFilteredList });
           }}
         >
-          Apply filter
+          {t('in-settings:tabs.teams.teamApplyFilters')}
         </CarbonButton>
       </CarbonPopoverContent>
     </CarbonPopover>

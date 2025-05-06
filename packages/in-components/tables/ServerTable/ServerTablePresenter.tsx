@@ -216,8 +216,8 @@ export default function ServerTablePresenter<
     carbonHeaders[0].width = '2.5rem';
   }
 
-  // For customized column header where user can select which column to render.
-  // A checklist containing all the header names to choose to render is got from
+  // For customised column header where user can select which column to render.
+  // A checklist containing all the header names to choose to rendere is got from
   // the below component.
   const isConfigurationColumn = optionalColumns && optionalColumns.length;
   const toolBar = isConfigurationColumn ? (

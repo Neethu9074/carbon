@@ -48,6 +48,7 @@ export default function AlertChannelsList({
   alertChannelPerSeverityEnabled,
   getHeader = defaultGetHeader(inSelectListDialog, tableActions)
 }) {
+  const BOUNDED_PATH = '/channels';
   const { location } = useNavigation();
   const channelListColumnDefinitions =
     alertChannelPerSeverityEnabled && detailView
@@ -56,19 +57,21 @@ export default function AlertChannelsList({
   const [{ query, filter }, setUrlState] = useUrlState({
     bind: [
       {
-        path: '/channels' ?? '/',
+        path: BOUNDED_PATH,
         name: 'query',
         initialState: ''
       },
       {
-        path: '/channels' ?? '/',
+        path: BOUNDED_PATH,
         name: 'filter',
         initialState: []
       }
     ]
   });
 
+  // Handle team filters and convert to array
   const onLoadFilters = handleUrlFilter(filter);
+
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}
@@ -88,11 +91,10 @@ export default function AlertChannelsList({
       isSearchable={isSearchable}
       searchAttributes={['name', getKind, getStringifiedParameters, getStringifiedTags]}
       extraFilters={createFilters(hiddenIds, onLoadFilters)}
-      // onFilter={(createTeamsFilter([], query) && createTeamsFilter([], query)) || false}
-      onFilter={(createTeamsFilter([], query) && (entities => createTeamsFilter(entities, query))) || false}
+      onFilter={(createTeamsQueryFilter([], query) && (entities => createTeamsQueryFilter(entities, query))) || false}
       searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
-      boundedPath="/channels"
+      boundedPath={BOUNDED_PATH}
       getDetailsHref={
         onRowClick || !hasRowNavigation
           ? null
@@ -271,51 +273,52 @@ export function createFilters(hiddenIds, filtersTeams) {
   if (hiddenIds) {
     filters.push(entity => hiddenIds.indexOf(entity.id) < 0);
   }
+  // If the have been teams selected in the filter, create RBAC filter
   if (filtersTeams.length > 0) {
-    filters.push(createExtraFilter(filtersTeams));
+    filters.push(createRBACFilter(filtersTeams));
   }
   return filters;
 }
 
-// If the URL contains '/channels;query=team:' we want to filter which teams are visible
+// If the URL contains 'query=team:' we want to filter which teams are visible
 // This filter is used in place of the default searching filter as long as the team query exists
 // Otherwise we return false and then the default search filter is applied
-export function createTeamsFilter(entities, query) {
+export function createTeamsQueryFilter(entities, query) {
   if ((query && query != '' && query.includes('team:')) || query.includes('team%3A')) {
     const team = (query.includes(':') && query.split(':')) || query.split('%3A');
     const teamArr = (team && team[1] && team[1].split(',')) || [];
     const result = entities.filter(entity => {
-      const rbacTagsArr = [];
-      entity.rbacTags.map(i => {
-        rbacTagsArr.push(i.displayName);
-      });
-      const isSubset = teamArr.every(element => rbacTagsArr.includes(element));
-      if (isSubset) {
-        return true;
-      } else {
-        return false;
-      }
+      return isTeamFilterSubset(entity, teamArr);
     });
     return result;
   }
   return false;
 }
 
-function createExtraFilter(filters) {
+// This filter is created for teams
+// Show the Alert Channel if every filter selected exists in the alert channel
+function createRBACFilter(filters) {
   if (filters?.length > 0) {
     const filter = entity => {
-      const rbacTagsArr = [];
-      entity.rbacTags.map(i => {
-        rbacTagsArr.push(i.displayName);
-      });
-      const isSubset = filters.every(element => rbacTagsArr.includes(element));
-      if (isSubset) {
-        return true;
-      } else {
-        return false;
-      }
+      return isTeamFilterSubset(entity, filters);
     };
     return filter;
+  }
+}
+
+// Returns true if the all the team filters selected for filter
+// exist in the alert channel RBAC Tags
+// Returns false otherwise
+function isTeamFilterSubset(entity, filters) {
+  const rbacTagsArr = [];
+  entity.rbacTags.map(i => {
+    rbacTagsArr.push(i.displayName);
+  });
+  const isSubset = filters.every(element => rbacTagsArr.includes(element));
+  if (isSubset) {
+    return true;
+  } else {
+    return false;
   }
 }
 
