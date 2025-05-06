@@ -80,7 +80,7 @@ export default [
     formatter: percentage
   },
   {
-    metric: 'memory.virtualUsed',
+    metric: 'memory.virtualUsedCalc',
     label: t('in-forge:plugins.host.virtualUsed'),
     category: [t('in-forge:plugins.host.memory')],
     min: 0,
@@ -96,6 +96,9 @@ export default [
       'memory.available',
       'memory.virtualFree',
       'memory.virtualTotal',
+      'memory.virtualUsed',
+      'memory.total',
+      'memory.shared',
       'memory.virtualActive',
       'memory.computational',
       'memory.nonComputational',
@@ -109,6 +112,9 @@ export default [
       t('in-forge:plugins.host.available'),
       t('in-forge:plugins.host.virtualFree'),
       t('in-forge:plugins.host.virtualTotal'),
+      t('in-forge:plugins.host.virtualUsed'),
+      t('in-forge:plugins.host.total'),
+      t('in-forge:plugins.host.shared'),
       t('in-forge:plugins.host.virtualActive'),
       t('in-forge:plugins.host.computational'),
       t('in-forge:plugins.host.nonComputational'),

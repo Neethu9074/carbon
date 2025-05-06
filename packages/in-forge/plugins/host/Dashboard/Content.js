@@ -62,6 +62,17 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshot.get('id')} metric="cpu.used" formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
 
+        {isLinux(snapshot) && (
+          <>
+            <KpiKeyValue label={t('in-forge:plugins.host.dashboard.processBlockedState')}>
+              <MetricValue snapshotId={snapshot.get('id')} metric="systemProcess.blockedProcesses" formatter={number.compact} />
+            </KpiKeyValue>
+            <KpiKeyValue label={t('in-forge:plugins.host.dashboard.processWaitingRuntime')}>
+              <MetricValue snapshotId={snapshot.get('id')} metric="systemProcess.runningProcesses" formatter={number.compact} />
+            </KpiKeyValue>
+          </>
+        )}
+
         {!isIbmiOs(snapshot) && (
           <KpiKeyValue label={t('in-forge:plugins.host.dashboard.memoryUsage')}>
             <MetricValue snapshotId={snapshot.get('id')} metric="memory.used" formatter={percentageZeroDecimalPlaces} />
@@ -306,6 +317,42 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           )}
+          {(isLinux(snapshot)) && (
+            <Chart
+              snapshotId={snapshot.get('id')}
+              snapshotHostFqdn={snapshot.getIn(['date', 'fqdn'])}
+              hasActionlane
+              timeConfig={timeConfig}
+              y1={{
+                min:0,
+                formatter: bytes.detailed,
+                metrics: ['memory.virtualTotal', 'memory.virtualUsed', 'memory.virtualFree'],
+                labels: [
+                  t('in-forge:plugins.host.dashboard.virtualTotal'),
+                  t('in-forge:plugins.host.dashboard.virtualUsed'),
+                  t('in-forge:plugins.host.dashboard.virtualFree')
+                ],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          )}
+          {(isLinux(snapshot)) && (
+            <Chart
+              snapshotId={snapshot.get('id')}
+              snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+              hasActionlane
+              timeConfig={timeConfig}
+              y1={{
+                min:0,
+                formatter: bytes.detailed,
+                metrics: ['memory.shared'],
+                labels: [t('in-forge:plugins.host.dashboard.shared')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          )}
           {isAixOs(snapshot) && (
             <Chart
               snapshotId={snapshot.get('id')}
@@ -326,7 +373,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
                 max: 1,
                 formatter: percentageTwoDecimalPlaces,
                 tooltipFormatter: percentageTwoDecimalPlaces,
-                metrics: ['memory.virtualUsed'],
+                metrics: ['memory.virtualUsedCalc'],
                 labels: [t('in-forge:plugins.host.dashboard.virtualUsed')],
                 type: 'line'
               }}
