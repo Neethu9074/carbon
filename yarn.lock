@@ -5250,6 +5250,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-window@npm:^1.8.8":
+  version: 1.8.8
+  resolution: "@types/react-window@npm:1.8.8"
+  dependencies:
+    "@types/react": "*"
+  checksum: 253c9d6e0c942f34633edbddcbc369324403c42458ff004457c5bd5972961d8433a909c0cc1a89c918063d5eb85ecbdd774142af2555fae61f4ceb3ba9884b5a
+  languageName: node
+  linkType: hard
+
 "@types/react@npm:^17.0.14":
   version: 17.0.34
   resolution: "@types/react@npm:17.0.34"
@@ -13637,6 +13646,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"i@npm:^0.3.7":
+  version: 0.3.7
+  resolution: "i@npm:0.3.7"
+  checksum: 97db09a9377223511bbc416f22e24ee7b90417b0a384710756b2ab74e6cbd95a93ff5856c4bdd8d12d9a74e2460fcbf895f0c2525b6ab2f7898795cb5a5743cf
+  languageName: node
+  linkType: hard
+
 "iconv-lite@npm:0.4.24, iconv-lite@npm:^0.4.24":
   version: 0.4.24
   resolution: "iconv-lite@npm:0.4.24"
@@ -19731,6 +19747,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-window@npm:^1.8.11":
+  version: 1.8.11
+  resolution: "react-window@npm:1.8.11"
+  dependencies:
+    "@babel/runtime": ^7.0.0
+    memoize-one: ">=3.1.1 <6"
+  peerDependencies:
+    react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 04f0835869fbc1dc69637416e91bd7dfd462dcb9bf33ed2db4b4a515116c7a1c1ded3ca5e6df8d9a9ea3ec4f34e8e05f642d50f969bb495a9e11906d6a8cc418
+  languageName: node
+  linkType: hard
+
 "react@npm:^17.0.2":
   version: 17.0.2
   resolution: "react@npm:17.0.2"
@@ -22626,6 +22655,7 @@ __metadata:
     "@types/react-router": ^5.1.20
     "@types/react-router-dom": ^5.3.3
     "@types/react-select": ^4.0.18
+    "@types/react-window": ^1.8.8
     "@types/sinon": ^10.0.13
     "@types/sockjs-client": ^1.5.1
     "@typescript-eslint/eslint-plugin": ^5.62.0
@@ -22697,6 +22727,7 @@ __metadata:
     history: 4.7.2-ENCODING-FIX
     html-loader: ^3.0.1
     husky: ^9.0.11
+    i: ^0.3.7
     i18next: ^19.8.4
     i18next-scanner: ^4.4.0
     image-webpack-loader: ^6.0.0
@@ -22753,6 +22784,7 @@ __metadata:
     react-select: ^4.3.1
     react-select-async-paginate: ~0.5
     react-test-renderer: ^17
+    react-window: ^1.8.11
     rrule: ^2.7.1
     semver: ^5.7.2
     sinon: ^13.0.1

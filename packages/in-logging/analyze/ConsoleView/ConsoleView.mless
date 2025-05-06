@@ -1,0 +1,84 @@
+.consoleView {
+  height: calc(100vh - 16rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .toggleContainer {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .consoleContainer {
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: pre;
+    height: 100%;
+    border: 1px solid var(--ids-color-option-neutral-400);
+    padding-left: 0.5rem;
+  }
+
+  .level {
+    font-weight: bolder;
+    color: white;
+    padding: 0.25rem;
+    height: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  //line height has to be set via inline styles because of the virtual list
+  .logLine {
+    align-items: flex-start;
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: auto 4rem auto;
+    justify-content: start;
+    cursor: pointer;
+  }
+
+  .logLine:hover {
+    background-color: var(--ids-color-option-neutral-400);
+  }
+
+  .timestamp {
+    color: var(--cds-text-secondary);
+  }
+
+  .console {
+    height: 100%;
+    min-width: 100%;
+
+    button {
+      display: none !important;
+    }
+
+    > div[role='textbox'] {
+      max-height: unset !important;
+      height: 100% !important;
+    }
+  }
+
+  fieldset {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+.searchNavigation {
+  z-index: 1;
+  padding: 0.2rem;
+  background: var(--cds-popover-background-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: absolute;
+  right: 3rem;
+  font-family: sans-serif;
+  span {
+    padding: 0 1rem;
+  }
+}

@@ -35,6 +35,7 @@ export interface AnalyzeHeaderProps {
   contextConfigurations?: ContextConfiguration[];
   liveModeDisabled?: boolean;
   liveModeDisabledTooltip?: string;
+  showTimeSelection?: boolean;
 }
 
 export interface LabelProps {

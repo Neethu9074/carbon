@@ -33,6 +33,8 @@ interface LoggingQueryBuilderWorkspaceProps extends StateManagementChildProps {
   children: React.ReactNode;
   validationError?: string;
   disableHeader?: boolean;
+  showGroupingConfiguration?: boolean;
+  showTimeSelection?: boolean;
 }
 type FilterAddedTrackingPayload = { dataSource: string; tagName: string; tagFilter?: TagFilter };
 export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderWorkspaceProps) {
@@ -48,7 +50,9 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
     dataSource,
     isLoading,
     groupBy,
-    disableHeader
+    disableHeader,
+    showGroupingConfiguration = true,
+    showTimeSelection = true
   } = props;
   const { trackUa2QueryBuilderFilterAdded, trackUa2NestingDepth, trackUa2GroupChanged } = useAnalyzeTracker();
   const tracking: QueryBuilderTrackingFunctions = {
@@ -82,19 +86,21 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
               tracking={tracking}
             />
 
-            <GroupingConfiguratorSection
-              value={groupBy}
-              onChange={onGroupByChange}
-              GroupingConfigurator={LogsGroupingConfigurator}
-              tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
-              tracking={{
-                onGroupAdded: group =>
-                  trackUa2GroupChanged({
-                    dataSource,
-                    tagName: group.groupbyTag
-                  })
-              }}
-            />
+            {showGroupingConfiguration && (
+              <GroupingConfiguratorSection
+                value={groupBy}
+                onChange={onGroupByChange}
+                GroupingConfigurator={LogsGroupingConfigurator}
+                tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
+                tracking={{
+                  onGroupAdded: group =>
+                    trackUa2GroupChanged({
+                      dataSource,
+                      tagName: group.groupbyTag
+                    })
+                }}
+              />
+            )}
           </Sections>
           {!isValid && !isLoading && (
             <Message className={locals.message} inline type="error" withIcon small>
@@ -114,6 +120,7 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
       header={
         <>
           <AnalyzeHeader
+            showTimeSelection={showTimeSelection}
             isGrouped={isGrouped}
             liveModeDisabled
             liveModeDisabledTooltip={t('in-logging:liveModeDisabled')}

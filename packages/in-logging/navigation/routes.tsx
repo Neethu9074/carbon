@@ -12,7 +12,7 @@ import AlertConfigTearSheet from 'promise-loader?global,logging!in-alerting/smar
 //@ts-expect-error
 import SmartAlertDetailsView from 'promise-loader?global,logging!!in-alerting/smart-alerts/logs/details/AlertDetails';
 //@ts-expect-error needs TS migration
-import AnalyzeView from 'promise-loader?global,logging!in-logging/analyze/AnalyzeView/AnalyzeView';
+import LoggingAnalytics from 'promise-loader?global,logging!in-logging/analyze/LoggingAnalytics';
 //@ts-expect-error
 import LoggingDashboardWrapper from 'promise-loader?global,logging!in-logging/dashboard/LoggingDashboardWrapper';
 //@ts-expect-error
@@ -65,7 +65,7 @@ export default [
     {renderAsyncRouteChildren(SmartAlertList)}
   </Route>,
   <Route key="logsAnalyze" path={logsPath}>
-    {renderAsyncRouteChildren(AnalyzeView)}
+    {renderAsyncRouteChildren(LoggingAnalytics)}
   </Route>,
   <Route key="loggingDashboardManagement" path={dashboardRetentionManagementPath}>
     {renderAsyncRouteChildren(RetentionPeriod)}

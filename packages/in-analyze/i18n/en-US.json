@@ -75,6 +75,7 @@
       "infrastructure": "Infrastructure",
       "profiles": "Profiles",
       "logs": "Logs",
+      "logsConsole": "Log console",
       "pageLoads": "Page loads",
       "pageTransitions": "Page transitions",
       "pageTransitions2": "Page transitions",

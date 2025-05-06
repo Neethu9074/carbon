@@ -932,6 +932,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'logConsoleEnabled',
+    instanaCtlKey: 'feature.log.console.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'regexMatchEnabled',
     instanaCtlKey: 'feature.regex.match.enabled',
     defaultValue: false

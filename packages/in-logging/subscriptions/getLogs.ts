@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { LogsQuery, LogsResult, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import {LogsQuery, LogsResult, Result} from '@instana/types';
 
 export default createResultSubscriptionFactory<LogsQuery, Result<LogsResult>>({
-  eventId: 'logs.getLogs'
+  eventId: 'logs.getLogs',
+  memoizeFor: 0
 });

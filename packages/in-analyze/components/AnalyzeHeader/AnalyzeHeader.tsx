@@ -40,7 +40,8 @@ export default function AnalyzeHeader({
   onHeaderClick,
   contextConfigurations = undefined,
   liveModeDisabled,
-  liveModeDisabledTooltip
+  liveModeDisabledTooltip,
+  showTimeSelection = true
 }: AnalyzeHeaderProps) {
   const location = useLocation();
   const activeConfiguration = getActiveConfiguration(location) as ActiveConfiguration;
@@ -94,15 +95,17 @@ export default function AnalyzeHeader({
     );
   };
 
-  const renderTimeSelection = () => {
-    return (
-      <TimeSelection
-        darkTheme={false}
-        liveModeDisabled={liveModeDisabled}
-        liveModeDisabledTooltip={liveModeDisabledTooltip}
-      />
-    );
-  };
+  const renderTimeSelection = showTimeSelection
+    ? () => {
+        return (
+          <TimeSelection
+            darkTheme={false}
+            liveModeDisabled={liveModeDisabled}
+            liveModeDisabledTooltip={liveModeDisabledTooltip}
+          />
+        );
+      }
+    : () => <div style={{ height: '3rem' }} />;
 
   const dashboardHeaderProps = {
     showHistoricDataWarning: false,
