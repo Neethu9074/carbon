@@ -13,6 +13,10 @@
     &_unitTenantSection {
       padding: 0rem 1rem;
     }
+
+    &_teamFocusSection {
+      padding: 0rem 1rem;
+    }
   }
 
   :global(.cds--header-panel) {
