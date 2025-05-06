@@ -4,6 +4,8 @@
  */
 
 import * as syntheticMonitoring from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/syntheticMonitoring';
+import { bizopsBusinessMetricsCustomDashboardEnabled, syntheticCustomDashboardEnabled } from 'in-services/featureFlags';
+import * as businessMetrics from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/businessMetrics';
 import * as infrastructure from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure';
 import * as application from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application';
 import * as mobileApp from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp';
@@ -13,7 +15,6 @@ import * as bizops from 'in-custom-dashboards/widgets/_shared/MetricConfigurator
 import * as event from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event';
 import * as sli from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
 import * as slo from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/slo';
-import { syntheticCustomDashboardEnabled } from 'in-services/featureFlags';
 
 let all = {
   [bizops.source]: bizops,
@@ -28,6 +29,9 @@ let all = {
 };
 if (syntheticCustomDashboardEnabled) {
   all = { ...all, [syntheticMonitoring.source]: syntheticMonitoring };
+}
+if (bizopsBusinessMetricsCustomDashboardEnabled) {
+  all = { ...all, [businessMetrics.source]: businessMetrics };
 }
 
 export default all;

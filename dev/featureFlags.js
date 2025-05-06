@@ -14,6 +14,7 @@ module.exports = {
   vulnerabilityCenterEnabled: true,
   businessObservabilityEnabled: true,
   bizopsGenAIEnabled: true,
+  bizopsBusinessMetricsCustomDashboardEnabled: true,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,
