@@ -59,7 +59,7 @@ interface IndividualEditRightSelectionProps {
   selectedUserId: string;
   setSelectedUserId: (id: string) => void;
   addEditor: () => void;
-  removeEditor: () => void;
+  removeEditor: (userId: string) => void;
   accessRules: AccessRule[];
 }
 
