@@ -207,12 +207,12 @@ export default function SmartAlertTablePresenter<
         />
       </span>
       {/* Table Pagination */}
-      {result?.data && result.data.totalHits > pageSize && (
+      {result?.data && (
         <Pagination
           currentPage={page}
-          totalItems={result.data.totalHits}
-          pageSize={pageSize}
-          pageSizes={pageSizes ?? [pageSize]}
+          totalItems={result?.data?.totalHits}
+          pageSize={Number(pageSize)}
+          pageSizes={pageSizes}
           onChange={data => {
             onChange?.({ query, orderBy, orderDirection, page: data.page, pageSize: data.pageSize, pageSizes });
           }}

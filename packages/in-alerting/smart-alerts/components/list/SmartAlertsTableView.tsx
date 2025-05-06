@@ -15,26 +15,28 @@ import {
   getConfigByCategory,
   getSearchResults,
   sortBy,
-  useOptionalExternalState,
   useSmartAlertConfigs
 } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
+import {
+  defaultState,
+  SmartAlertsTableViewProps,
+  TableState
+} from 'in-alerting/smart-alerts/components/list/SmartAlertsTableWithUrlState';
 import {
   categoryGlobal,
   categoryLocal,
   isCategoryGlobal,
   isCategoryLocal
 } from 'in-alerting/smart-alerts/components/list/constants';
-import { SmartAlertsTableViewProps } from 'in-alerting/smart-alerts/components/list/SmartAlertsTableWithUrlState';
 import SmartAlertTablePresenter from 'in-alerting/smart-alerts/components/list/SmartAlertTablePresenter';
 import TableSortingConfigurator from 'in-alerting/smart-alerts/components/list/TableSortingConfigurator';
 import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
-import { TableState } from 'in-components/tables/ServerTable/types';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
-const defaultPageSize = 10;
+const pageSizes = [10, 20, 30, 40, 50];
 
 const refreshSignal = create().emit({ emitLatestOnSubscribe: false });
 
@@ -50,7 +52,6 @@ export default function SmartAlertsTableView<AlertConfig extends AlertConfigType
   columnDefinitions,
   externalState,
   setExternalState,
-  pageSize = defaultPageSize,
   configsCategory = categoryLocal,
   setConfigsCategory,
   extraSearchAttributes = [],
@@ -60,7 +61,7 @@ export default function SmartAlertsTableView<AlertConfig extends AlertConfigType
   sortOptions,
   noDataDescription
 }: SmartAlertsTableViewProps<AlertConfig>) {
-  const [{ orderBy, orderDirection, page, query }, setState] = useOptionalExternalState(
+  const [{ orderBy, orderDirection, page, query, pageSize }, setState] = useOptionalExternalState(
     externalState,
     setExternalState
   );
@@ -110,7 +111,7 @@ export default function SmartAlertsTableView<AlertConfig extends AlertConfigType
       listItems.current = [...searchResultsSelected].sort(sortBy(orderBy, orderDirection)).slice(offset, until);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchResultsSelected, loading, orderBy, orderDirection, page]);
+  }, [searchResultsSelected, loading, orderBy, orderDirection, page, pageSize]);
 
   if (loading) {
     return <LoadingList numSkeletonRows={3} />;
@@ -127,13 +128,14 @@ export default function SmartAlertsTableView<AlertConfig extends AlertConfigType
       page={page}
       query={query}
       pageSize={pageSize}
-      pageSizes={[pageSize]}
+      pageSizes={pageSizes}
       onChange={(data: Partial<TableState>) => {
         setState({
           page: data.page ?? page,
           orderBy: !isEmpty(data.orderBy) ? data.orderBy : orderBy,
           orderDirection: data.orderDirection,
-          query: data.query ?? query
+          query: data.query ?? query,
+          pageSize: data.pageSize ?? pageSize
         });
       }}
       toolBarContent={
@@ -256,4 +258,13 @@ function handleRowSelect(
 
 function handleToolBarActionCancel(setSelectedRows: React.Dispatch<React.SetStateAction<string[]>>) {
   setSelectedRows([]);
+}
+
+function useOptionalExternalState(externalState: TableState, setExternalState: (state: Partial<TableState>) => void) {
+  const [state, defaultSetState] = useState(defaultState);
+  const setState = (newState: Partial<TableState>) => defaultSetState({ ...state, ...newState });
+  if (setExternalState) {
+    return [externalState, setExternalState] as const;
+  }
+  return [state, setState] as const;
 }
