@@ -15,7 +15,8 @@ import {
   mobileAppCrashBeaconEnabled,
   mobileAppPerfBeaconEnabled,
   mobileAppDroppedBeaconsEnabled,
-  analyzeSubtracesEnabled
+  analyzeSubtracesEnabled,
+  logConsoleEnabled
 } from 'in-services/featureFlags';
 /* eslint-enable no-restricted-imports */
 import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
@@ -47,7 +48,6 @@ import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
-import { logConsoleEnabled } from '../../../../dev/featureFlags';
 import unwrapLink from 'in-stores/navigation/unwrapLink';
 import { role } from 'in-stores/user';
 
