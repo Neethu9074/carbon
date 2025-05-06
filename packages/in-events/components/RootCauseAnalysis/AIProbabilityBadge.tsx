@@ -10,6 +10,8 @@ import { LoadingSkeleton, Stack, SvgIcon, Tooltip, Typography } from '@instana/c
 import { Pill } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import { getProbabilityLevel } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
+
 import locals from 'in-events/components/legacy/EventList.mless';
 
 interface AIProbabilityBadgeProps {
@@ -19,21 +21,13 @@ interface AIProbabilityBadgeProps {
 const LOW = 'LOW';
 const MODERATE = 'MODERATE';
 const HIGH = 'HIGH';
-const NA = 'N/A';
 
 export default function AIProbabilityBadge({ probabilityScore, loading }: AIProbabilityBadgeProps) {
   const [probabilityThreshold, setProbabilityThreshold] = useState(HIGH);
 
   useEffect(() => {
-    if (probabilityScore === null || probabilityScore === undefined) {
-      setProbabilityThreshold(NA);
-    } else if (probabilityScore >= 0.7) {
-      setProbabilityThreshold(HIGH);
-    } else if (probabilityScore >= 0.35) {
-      setProbabilityThreshold(MODERATE);
-    } else {
-      setProbabilityThreshold(LOW);
-    }
+    const probabilityLevel = getProbabilityLevel(probabilityScore);
+    setProbabilityThreshold(probabilityLevel);
   }, [probabilityScore]);
 
   return (

@@ -8,6 +8,8 @@ import React, { Fragment, useState } from 'react';
 
 import { ButtonGroup } from '@instana/components';
 
+import { EVENT_RCA_ERROR_LOGS_TAB_CLICK, EVENT_RCA_TRACE_LOGS_TAB_CLICK } from 'in-services/tracking/eventNames';
+import { trackRcaClick, TrackRcaClickProps } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import RootCauseErrorMessagesTable from 'in-events/components/RootCauseAnalysis/Logs/RootCauseErrorTable';
 import RootCauseLogMessagesTable from 'in-events/components/RootCauseAnalysis/Logs/RootCauseLogTable';
 import { ApplicationBoundaryScope, TimeConfig } from 'in-types';
@@ -28,6 +30,7 @@ interface RootCauseContextDashboardProps {
   hostName: string;
   plugin: string;
   timeConfig: TimeConfig;
+  rcaTrackingData: TrackRcaClickProps;
 }
 
 export default function RootCauseContextDashboard({
@@ -44,7 +47,8 @@ export default function RootCauseContextDashboard({
   processContainerType,
   hostName,
   plugin,
-  timeConfig
+  timeConfig,
+  rcaTrackingData
 }: RootCauseContextDashboardProps) {
   const [configsCategory, setConfigsCategory] = useState('errorMessages');
   const leftHeaderContent = (
@@ -56,6 +60,7 @@ export default function RootCauseContextDashboard({
           key: 'errorMessages',
           onClick() {
             setConfigsCategory('errorMessages');
+            trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ERROR_LOGS_TAB_CLICK });
           }
         },
         {
@@ -63,6 +68,7 @@ export default function RootCauseContextDashboard({
           key: 'traceLogs',
           onClick() {
             setConfigsCategory('traceLogs');
+            trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_TRACE_LOGS_TAB_CLICK });
           }
         }
       ]}
