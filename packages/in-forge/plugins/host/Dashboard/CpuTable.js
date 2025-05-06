@@ -6,9 +6,9 @@
 import { Range } from 'immutable';
 import React from 'react';
 
+import { percentage, number, twoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { percentage, number } from 'in-services/formatters/number';
 import { isLinux } from 'in-forge/plugins/host/hostUtils';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -204,8 +204,7 @@ function getRowDetails(row) {
               'cpus.' + row.cpuNumber + '.wait',
               'cpus.' + row.cpuNumber + '.nice',
               'cpus.' + row.cpuNumber + '.steal',
-              'cpus.' + row.cpuNumber + '.idle',
-              'cpus.' + row.cpuNumber + '.usersysratio'
+              'cpus.' + row.cpuNumber + '.idle'
             ],
             labels: [
               t('in-forge:plugins.host.dashboard.user'),
@@ -213,9 +212,16 @@ function getRowDetails(row) {
               t('in-forge:plugins.host.dashboard.wait'),
               t('in-forge:plugins.host.dashboard.nice'),
               t('in-forge:plugins.host.dashboard.steal'),
-              t('in-forge:plugins.host.dashboard.idle'),
-              t('in-forge:plugins.host.dashboard.usersysratio')
+              t('in-forge:plugins.host.dashboard.idle')
             ],
+            type: 'stackedArea'
+          }}
+          y2={{
+            min: 0,
+            max: 1,
+            formatter: twoDecimalPlaces,
+            metrics: ['cpus.' + row.cpuNumber + '.usersysratio'],
+            labels: [t('in-forge:plugins.host.dashboard.usersysratio')],
             type: 'stackedArea'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
