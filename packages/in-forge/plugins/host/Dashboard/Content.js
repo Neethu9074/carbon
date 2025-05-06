@@ -240,20 +240,45 @@ export default function HostDashboard({ snapshot, timeConfig }) {
       {gpuInfoAvailable && <GpuProcessList snapshot={snapshot} timeConfig={timeConfig} />}
       {!isIbmiOs(snapshot) && (
         <DashboardSection title={t('in-forge:plugins.host.dashboard.memory')}>
-          <Chart
-            snapshotId={snapshot.get('id')}
-            snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
-            hasActionlane
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: percentageZeroDecimalPlaces,
-              metrics: memoryUsedMetrics,
-              labels: memoryUsedMetricsLabels,
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
+          {!isLinux(snapshot) && (
+            <Chart
+              snapshotId={snapshot.get('id')}
+              snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+              hasActionlane
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: percentageZeroDecimalPlaces,
+                metrics: memoryUsedMetrics,
+                labels: memoryUsedMetricsLabels,
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          )}
+          {isLinux(snapshot) && (
+            <Chart
+              snapshotId={snapshot.get('id')}
+              snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
+              hasActionlane
+              timeConfig={timeConfig}
+              y1={{
+                 min: 0,
+                 formatter: bytes.detailed,
+                 metrics: ['memory.total'],
+                 labels: [t('in-forge:plugins.host.total')],
+                 type: 'line'
+              }}
+              y2={{
+                 min: 0,
+                 formatter: percentageZeroDecimalPlaces,
+                 metrics: memoryUsedMetrics,
+                 labels: memoryUsedMetricsLabels,
+                 type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          )}
           {isAixOs(snapshot) && (
             <Chart
               snapshotId={snapshot.get('id')}
