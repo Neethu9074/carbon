@@ -55,6 +55,7 @@ export default function EventEntityDetails({
       timeConfig={timeConfig}
       linkTimeConfig={getTimeConfigFromEvent(triggeringEvent)}
       shouldDisplayDefaultLabel={shouldDisplayDefaultLabel}
+      plugin={triggeringEvent.get('plugin')}
     />
   );
 }

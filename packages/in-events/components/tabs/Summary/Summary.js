@@ -195,6 +195,7 @@ function EventContent({ event, latestSnapshot, reload }) {
               metadata={event.get('metadata')}
               timeConfig={timeConfig}
               linkTimeConfig={getTimeConfigFromEvent(event)}
+              plugin={event.get('plugin')}
             />
             <SubEntityInformation event={event} />
             {isAgentMonitoringIssueEvent(event) ? (

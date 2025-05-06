@@ -119,7 +119,7 @@ export const OnEntity = connectTo(
   props => {
     const {
       rawEvent,
-      rawEvent: { entityType, entityLabel, plugin, smartAlert }
+      rawEvent: { entityType, entityLabel, plugin, smartAlert, aggregated }
     } = props;
 
     if (isNotBlank(entityLabel)) {
@@ -131,11 +131,15 @@ export const OnEntity = connectTo(
 
     if (smartAlert && isInfraEntityType(entityType)) {
       // Infra Smart Alerts use a pseudo-entity for aggregated entities
+      const pluginName = getPluginName(plugin, 1);
       const pseudoEntityLabel = t('in-events:infraSmartAlerts.pseudoAggregatedEntityLabel', {
-        entityName: getPluginName(plugin, 1)
+        entityName: pluginName
       });
+
+      // If entityLabel enrichment fails for single-entity infra smart alert events we
+      // default the value to the plugin name.
       return {
-        label: just(pseudoEntityLabel)
+        label: aggregated ? just(pseudoEntityLabel) : just(pluginName)
       };
     }
 
