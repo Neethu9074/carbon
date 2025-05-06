@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { AccessRule, CustomDashboardWithUserSpecificInformation } from '@instana/types';
+import { AccessRule, CustomDashboardWithUserSpecificInformation, Result, UserResult } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import SharingDialogPresenter from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialogPresenter';
@@ -25,7 +25,7 @@ interface UserState {
 }
 
 export default function SharingDialog({ config, onSubmit }: SharingDialogProps) {
-  const usersResult = useObservable(getUsers(), []);
+  const usersResult = useObservable<Result<UserResult[]>, any[]>(getUsers(), []);
   const [{ accessRules, selectedUserId }, setState] = useState<UserState>(() => ({
     accessRules: config.accessRules,
     selectedUserId: ''
