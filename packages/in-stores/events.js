@@ -443,6 +443,10 @@ export function shareEventSummary(incidentId, recipients, timestamp, sender, sub
 }
 
 export function eventsPageTracker(productArea, pageRootName, location, event, referrer) {
+  if (!window.analytics) {
+    return;
+  }
+
   let incidentData = undefined;
   let configType = event?.getIn(['metadata', 'eventConfigurationType']);
   const hasRca = event?.getIn(['metadata', 'rootCause', 'found']) === true;
@@ -461,10 +465,6 @@ export function eventsPageTracker(productArea, pageRootName, location, event, re
     if (event?.getIn(['metadata', 'agent_monitoring_issue']) === true) {
       configType = 'Agent Monitoring Issue';
     } else if (event?.getIn(['metadata', 'cve_issue']) === true) configType = 'CVE Issue';
-  }
-
-  if (!window.analytics) {
-    return;
   }
 
   const url = window.location.href;
