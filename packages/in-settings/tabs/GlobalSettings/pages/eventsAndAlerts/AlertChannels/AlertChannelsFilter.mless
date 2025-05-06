@@ -3,13 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/mixins.less';
-
 :local {
   .filterButton {
     width: 3rem;
     block-size: 3rem;
   }
+
   .header {
     padding: 0.5rem 1rem 0.5rem 1rem;
   }

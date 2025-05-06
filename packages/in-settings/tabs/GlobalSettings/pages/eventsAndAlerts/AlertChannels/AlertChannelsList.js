@@ -284,11 +284,11 @@ export function createFilters(hiddenIds, filtersTeams) {
 // This filter is used in place of the default searching filter as long as the team query exists
 // Otherwise we return false and then the default search filter is applied
 export function createTeamsQueryFilter(entities, query) {
-  if ((query && query != '' && query.includes('team:')) || query.includes('team%3A')) {
+  if ((query && query != '' && query.includes(':teams:')) || query.includes('%3Ateam%3A')) {
     const team = (query.includes(':') && query.split(':')) || query.split('%3A');
-    const teamArr = (team && team[1] && team[1].split(',')) || [];
+    const teamArr = (team && team[2] && team[2].split(',')) || [];
     const result = entities.filter(entity => {
-      return isTeamFilterSubset(entity, teamArr);
+      return handleTeamsFilter(entity, teamArr);
     });
     return result;
   }
@@ -300,26 +300,34 @@ export function createTeamsQueryFilter(entities, query) {
 function createRBACFilter(filters) {
   if (filters?.length > 0) {
     const filter = entity => {
-      return isTeamFilterSubset(entity, filters);
+      return handleTeamsFilter(entity, filters);
     };
     return filter;
   }
 }
 
-// Returns true if the all the team filters selected for filter
-// exist in the alert channel RBAC Tags
-// Returns false otherwise
-function isTeamFilterSubset(entity, filters) {
+// Handler for teams filter
+// If a team ends with a "!" we want to search on the exact naming
+// If a team doesnt end with "!" we do a includes for partial patching
+function handleTeamsFilter(entity, filters) {
+  // Generate the rbac tags for the entity
   const rbacTagsArr = [];
   entity.rbacTags.map(i => {
-    rbacTagsArr.push(i.displayName);
+    rbacTagsArr.push(i.displayName.toLowerCase());
   });
-  const isSubset = filters.every(element => rbacTagsArr.includes(element));
-  if (isSubset) {
-    return true;
-  } else {
-    return false;
-  }
+
+  // Go through the team filters list
+  return filters.every(element => {
+    const lastChar = element.charAt(element.length - 1);
+    // If the last character is a "!" we want exact matching
+    if (lastChar == '!') {
+      const newElement = element.substring(0, element.length - 1);
+      return rbacTagsArr.includes(newElement.toLowerCase());
+    } else {
+      // else do partial includes for substrings
+      return rbacTagsArr.some(string => string.includes(element.toLowerCase()));
+    }
+  });
 }
 
 function handleUrlFilter(filter) {
