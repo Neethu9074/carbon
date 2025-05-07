@@ -15,7 +15,7 @@
     "url": "https://github.ibm.com/instana/ui-client.git"
   },
   "dependencies": {
-    "@instana/collector": "^3.6.0",
+    "@instana/collector": "^4.0.0",
     "cookie-parser": "^1.4.5",
     "d3-format": "3.1.0",
     "express": "4.21.2",
