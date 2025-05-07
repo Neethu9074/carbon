@@ -309,7 +309,7 @@ function createRBACFilter(filters) {
 // Handler for teams filter
 // If a team ends with a "!" we want to search on the exact naming
 // If a team doesnt end with "!" we do a includes for partial patching
-function handleTeamsFilter(entity, filters) {
+export function handleTeamsFilter(entity, filters) {
   // Generate the rbac tags for the entity
   const rbacTagsArr = [];
   entity.rbacTags.map(i => {
@@ -330,7 +330,7 @@ function handleTeamsFilter(entity, filters) {
   });
 }
 
-function handleUrlFilter(filter) {
+export function handleUrlFilter(filter) {
   if (filter == '') {
     return [];
   }
