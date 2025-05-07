@@ -108,6 +108,7 @@ export default function PrcIssueEventContent({ event }: PrcIssueEventContentProp
               metadata={event.get('metadata')}
               timeConfig={timeConfig}
               linkTimeConfig={timeConfig}
+              plugin={event.get('plugin')}
             />
             <ProblemDescription fixSuggestion={fixSuggestion} />
           </Card>

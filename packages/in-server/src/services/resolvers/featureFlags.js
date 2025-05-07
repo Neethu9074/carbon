@@ -196,6 +196,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'whatsNewBannerEnabled',
+    instanaCtlKey: 'feature.whats.new.banner.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'ibmCommonEnabled',
     instanaCtlKey: 'feature.ibm.common.enabled',
     defaultValue: false
@@ -368,6 +373,11 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsGenAIEnabled',
     instanaCtlKey: 'feature.bizops.genAI.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'bizopsBusinessMetricsCustomDashboardEnabled',
+    instanaCtlKey: 'feature.bizops.business.metrics.custom.dashboard.enabled',
     defaultValue: false
   },
   {
@@ -732,6 +742,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'windowsHypervisorEnabled',
+    instanaCtlKey: 'feature.windowshypervisor.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'automationActionAiGenerationUnitEnabled',
     instanaCtlKey: 'feature.automation.action.ai.generation.unit.enabled',
     defaultValue: false
@@ -912,6 +927,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'mobileAppSmartAlertSlownessBlueprintEnabled',
+    instanaCtlKey: 'feature.mobile.app.smart.alert.slowness.blueprint.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'tealiumPrivacyEnabled',
     instanaCtlKey: 'feature.tealium.privacy.enabled',
     defaultValue: false
@@ -922,8 +942,18 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'logConsoleEnabled',
+    instanaCtlKey: 'feature.log.console.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'regexMatchEnabled',
     instanaCtlKey: 'feature.regex.match.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'relatedEventsDatagrid',
+    instanaCtlKey: 'feature.related.events.datagrid.enabled',
     defaultValue: false
   }
 ];

@@ -11,16 +11,21 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
+import {
+  getTimeConfigForSnapshotRetrieval,
+  isSloSmartAlertEvent,
+  isInfraSmartAlertEvent,
+  isMobileAppSmartAlertEvent
+} from 'in-events/components/eventUtil';
 import { getColorForEventAtFocusedMomentAsStream, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import ApplicationEventListItemContent from 'in-events/components/legacy/ApplicationEventListItemContent';
-import { getTimeConfigForSnapshotRetrieval, isSloSmartAlertEvent } from 'in-events/components/eventUtil';
 import MobileAppEventListItemContent from 'in-events/components/legacy/MobileAppEventListItemContent';
 import WebsiteEventListItemContent from 'in-events/components/legacy/WebsiteEventListItemContent';
+import InfraEventListItemContent from 'in-events/components/legacy/InfraEventListItemContent';
 import SloEventListItemContent from 'in-events/components/legacy/SloEventListItemContent';
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
 import EventListItemContent from 'in-events/components/legacy/EventListItemContent';
 import EventEntityDetails from 'in-events/components/legacy/EventEntityDetails';
-import { isMobileAppSmartAlertEvent } from 'in-events/components/eventUtil';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -228,6 +233,8 @@ export function CombinedEventListItemContent({ event, latestSnapshot, justChart 
     return <ApplicationEventListItemContent event={event} justChart={justChart} />;
   } else if (isMobileAppSmartAlertEvent(event)) {
     return <MobileAppEventListItemContent event={event} justChart={justChart} />;
+  } else if (isInfraSmartAlertEvent(event)) {
+    return <InfraEventListItemContent event={event} justChart={justChart} />;
   }
 
   return <EventListItemContent event={event} latestSnapshot={latestSnapshot} justChart={justChart} />;

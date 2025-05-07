@@ -164,13 +164,11 @@ export function getLinkToUnboundAnalytics(
   return urlWithoutQueryParameter(linkToApplicationAnalyze);
 }
 
-export function getEnrichedAnalyzeTagFilterFormModelImpactedTraces({ alertConfig, alertId, applicationId }) {
-  const { tagFilterExpression } = alertConfig;
+export function impactedTracesTagFilterExpressionGenerator({ alertId, applicationId }) {
   return joinExpressions({
     expressions: [
       alertId ? tagFilter('impactedTrace.alertId', EQUALS, alertId) : null,
-      applicationId ? tagFilter('impactedTrace.applicationId', EQUALS, applicationId) : null,
-      fromBackendModel(tagFilterExpression)
+      applicationId ? tagFilter('impactedTrace.applicationId', EQUALS, applicationId) : null
     ].filter(Boolean)
   });
 }

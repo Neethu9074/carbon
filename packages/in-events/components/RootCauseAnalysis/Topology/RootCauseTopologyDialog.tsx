@@ -5,11 +5,11 @@
  */
 
 import React, { createContext, useContext, useState } from 'react';
-import { ErrorEmptyState } from '@carbon/ibm-products';
 import { Set } from 'immutable';
 import { get } from 'lodash';
 
 import { CarbonTab, CarbonTabList, CarbonTabs, LoadingSpinner } from '@instana/components';
+import { ErrorEmptyState } from '@instana/ibm-products';
 import { useObservable } from '@instana/hooks';
 
 import {

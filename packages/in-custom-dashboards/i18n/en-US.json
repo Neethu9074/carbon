@@ -173,7 +173,19 @@
         "metric": "Metric"
       },
       "index": {
-        "bizOps": "Business Processes (Activities)"
+        "bizOps": "Business processes (Activities)"
+      }
+    },
+    "srcBusinessMetrics": {
+      "formComponent": {
+        "pleaseSelect": "Please select",
+        "pleaseSelectMetric": "Please select a metric",
+        "aggregation": "Aggregation",
+        "metric": "Metric",
+        "unit":  "Unit"
+      },
+      "index": {
+        "businessMetrics": "Business metrics"
       }
     },
     "srcApp": {

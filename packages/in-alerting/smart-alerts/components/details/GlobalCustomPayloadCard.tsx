@@ -21,13 +21,16 @@ import { t } from 'in-i18n';
 
 export default function GlobalCustomPayloadCard({
   context = 'ALL',
+  ownerType,
   isTearSheetView
 }: {
   context?: CustomPayloadContext;
+  ownerType?: string;
   isTearSheetView?: boolean;
 }) {
   const globalCustomPayloads: Result<CustomPayloadConfigurationWithLastUpdated> =
-    useObservable(() => getGlobalCustomPayloadAsResultObservable(context), [context]) ?? pendingResult;
+    useObservable(() => getGlobalCustomPayloadAsResultObservable({ context, ownerType }), [context, ownerType]) ??
+    pendingResult;
 
   const loading = isLoading(globalCustomPayloads);
   const hasErrors = hasError(globalCustomPayloads);

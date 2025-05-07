@@ -87,6 +87,7 @@ export default function EntityCountVerificationEventContent({ event, snapshot }:
               metadata={event.get('metadata')}
               timeConfig={timeConfig}
               linkTimeConfig={getTimeConfigFromEvent(event as EventOrMap)}
+              plugin={event.get('plugin')}
             />
 
             <ProblemDescription fixSuggestion={fixSuggestion} />

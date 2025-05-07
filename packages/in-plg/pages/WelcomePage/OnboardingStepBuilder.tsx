@@ -21,26 +21,16 @@ import {
 } from 'in-services/tracking/eventNames';
 import { securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { HeaderItemTile } from 'in-plg/components/HeaderItemTile/HeaderItemTile';
-import { TileButtonTypes } from 'in-plg/components/HeaderItemTile/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { getValidButtonType } from 'in-plg/pages/WelcomePage/utils';
+import { TileDataType } from 'in-plg/pages/WelcomePage/types';
 import { CTA_CLICKED } from 'in-services/util/constants';
 import { hasWebsitesAccess } from 'in-stores/permission';
 import config from 'in-services/config';
 import { role } from 'in-stores/user';
 
-interface TileDataType {
-  key: string;
-  title: string;
-  description: string;
-  buttonName: string;
-  buttonType: string;
-  href?: string;
-  hasPermission?: boolean;
-  isActionCompleted?: boolean;
-  onButtonClick: () => void;
-}
 //we cannot provide correct type for activationData as the json object keys are dynamic
 export default function OnboardingStepBuilder({ activation }: { activation: any }) {
   const currentTenantUnit = `${config.tenant}#${config.tenantUnit}`;
@@ -58,14 +48,6 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
   });
 
   const { pageRootName, productArea } = getViewTrackingMetaData();
-
-  function getValidButtonType(buttonType?: string): (typeof TileButtonTypes)[number] {
-    if (buttonType && TileButtonTypes.includes(buttonType as any)) {
-      return buttonType as any;
-    } else {
-      return 'primary';
-    }
-  }
 
   const createRedirectHref = useCallback(
     (currentTile: string) => {

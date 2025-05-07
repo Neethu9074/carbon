@@ -11,7 +11,7 @@ import {
   Button,
   CarbonLayer,
   Collapsible,
-  Stack,
+  Typography,
   Pagination as CarbonPagination,
   CarbonDataTable,
   CarbonTableContainer,
@@ -74,7 +74,7 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
 
   // recent events
   // @ts-expect-error no typedef for incident or events
-  const allRecentEvents = incident
+  const recentEventIds = incident
     .get('recentEvents', emptyList)
     .sort(
       (a: Map<string, Object>, b: Map<string, Object>) =>
@@ -84,7 +84,7 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
     .filter((_eid: string) => _eid !== triggeringEventId)
     .toArray();
 
-  const totalRecentEvents = allRecentEvents.length;
+  const totalRecentEvents = recentEventIds.length;
 
   // START related events pagination
 
@@ -93,7 +93,7 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
 
   const [pageSize, setPageSize] = useLocalStorage('relatedEventsPageSize', 5);
 
-  const paginatedRecentEventIds = allRecentEvents?.slice(
+  const paginatedRecentEventIds = recentEventIds?.slice(
     pageSize * (relatedEventsPage - 1),
     pageSize * relatedEventsPage
   );
@@ -111,67 +111,75 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
 
   const [expandedEventOnClickInTimeline, setExpandedEventOnClickInTimeline] = useState('');
 
-  // END related events pagination
-
   const [highlightEventOnHover, setHighlightEventOnHover] = useState('');
 
-  if (allRecentEvents.length === 0) {
+  // END related events pagination
+
+  // getRawEvents to fetch the related events
+
+  // end of getRawEventsQuery
+
+  if (recentEventIds.length === 0) {
     return <RelatedEventsEmptyState />;
   }
 
-  if (!paginatedRecentEvents && totalRecentEvents.length === 0) return <LoadingIndicator />;
+  if (!paginatedRecentEvents && totalRecentEvents === 0) return <LoadingIndicator />;
 
   return (
     <div className={locals.layerBackground}>
       <CarbonLayer>
         <Collapsible initiallyOpen={relatedEventsSection} onOpen={() => setRelatedEventsSection(!relatedEventsSection)}>
           <Collapsible.Header>
-            {t('in-events:titleRelatedEvents', {
-              eventCount: totalRecentEvents
-            })}
+            <Typography variant="body-regular">
+              {t('in-events:titleRelatedEvents', {
+                eventCount: totalRecentEvents
+              })}
+            </Typography>
           </Collapsible.Header>
           <Collapsible.Content>
             <LeftRightPadding>
-              <Stack align="end">
+              <div className={locals.accordionContent}>
                 <ChangesButton
                   recentEvents={paginatedRecentEventsRaw}
                   changesAreVisible={changesAreVisible}
                   setChangesAreVisible={setChangesAreVisible}
                 />
-              </Stack>
-              <PopulationChart
-                incidentId={incident.get('id')}
-                recentEvents={paginatedRecentEvents}
-                changesAreVisible={changesAreVisible}
-                setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
-                setHighlightEventOnHover={setHighlightEventOnHover}
-              />
-              {allRecentEvents.length !== 0 && !paginatedRecentEvents && <LoadingIndicator size="xl" />}
-              <RelatedEventsTable
-                relatedEvents={paginatedRecentEvents}
-                triggeringProblemId={triggeringProblemId}
-                latestSnapshot={latestSnapshot}
-                expandedEventOnClickInTimeline={expandedEventOnClickInTimeline}
-                setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
-                highlightEventOnHover={highlightEventOnHover}
-                incident={incident}
-              />
-              {allRecentEvents.length !== 0 &&
-                !paginatedRecentEvents &&
-                Array(pageSize).map((_, idx) => <EventListItemSkeleton id={`${idx}`} />)}
-              {totalRecentEvents > pageSize && (
-                <CarbonPagination
-                  currentPage={relatedEventsPage}
-                  totalItems={totalRecentEvents}
-                  pageSize={pageSize}
-                  pageSizes={[5, 10, 15, 20]}
-                  onChange={data => {
-                    const { page: newPage, pageSize: newPageSize } = data;
-                    setRelatedEventsPage(newPage);
-                    setPageSize(newPageSize);
-                  }}
+                <PopulationChart
+                  incidentId={incident.get('id')}
+                  recentEvents={paginatedRecentEvents}
+                  changesAreVisible={changesAreVisible}
+                  setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
+                  setHighlightEventOnHover={setHighlightEventOnHover}
                 />
-              )}
+                <div>
+                  {recentEventIds.length !== 0 && !paginatedRecentEvents && <LoadingIndicator size="xl" />}
+                  <RelatedEventsTable
+                    relatedEvents={paginatedRecentEvents}
+                    triggeringProblemId={triggeringProblemId}
+                    latestSnapshot={latestSnapshot}
+                    expandedEventOnClickInTimeline={expandedEventOnClickInTimeline}
+                    setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
+                    highlightEventOnHover={highlightEventOnHover}
+                    incident={incident}
+                  />
+                  {recentEventIds.length !== 0 &&
+                    !paginatedRecentEvents &&
+                    Array(pageSize).map((_, idx) => <EventListItemSkeleton id={`${idx}`} />)}
+                  {totalRecentEvents > pageSize && (
+                    <CarbonPagination
+                      currentPage={relatedEventsPage}
+                      totalItems={totalRecentEvents}
+                      pageSize={pageSize}
+                      pageSizes={[5, 10, 15, 20]}
+                      onChange={data => {
+                        const { page: newPage, pageSize: newPageSize } = data;
+                        setRelatedEventsPage(newPage);
+                        setPageSize(newPageSize);
+                      }}
+                    />
+                  )}
+                </div>
+              </div>
             </LeftRightPadding>
           </Collapsible.Content>
         </Collapsible>
@@ -388,6 +396,7 @@ const ChangesButton = ({ recentEvents, changesAreVisible, setChangesAreVisible }
       kind={changesAreVisible ? 'primaryv2' : 'secondary'}
       onClick={() => setChangesAreVisible(!changesAreVisible)}
       // icon={changesAreVisible ? 'lib_views_hide' : 'lib_views_show'}
+      style={{ alignSelf: 'flex-end' }}
     >
       {changesAreVisible ? t('in-events:buttonHideChanges') : t('in-events:buttonShowChanges')}
     </Button>

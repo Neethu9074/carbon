@@ -60,6 +60,9 @@ export const selectableCredentialsFilter = 'Selectable credentials';
 export const inheritedCredentialsFilter = 'Inherited credentials';
 export const syntheticCustomMetricPrefix = 'synthetic.customMetrics.';
 
+// CI/CD
+export const runTypeCICD = 'CI/CD';
+
 export const DNSTransportOptions: { label: string; value: string }[] = [
   {
     label: 'UDP',
@@ -811,8 +814,17 @@ export interface AssertionTargetFilter extends TargetFilter {
   };
 }
 
-export interface consoleLogColumnProps {
+export interface ConsoleLogColumnProps {
   logs: string;
   name: string;
   timestamp: number;
+}
+
+export interface CICDConfig {
+  testId: string;
+  customization: {
+    locations: string[];
+    configuration: Record<string, any>;
+    customProperties?: Record<string, string>;
+  };
 }

@@ -20,11 +20,12 @@ import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constan
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
+import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
 
-export default function SlownessThresholdCondition({ form, updateForm, blueprintConfig, editMode }) {
+export default function SlownessThresholdCondition({ form, updateForm, blueprintConfig, editMode, eumType }) {
   const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
@@ -33,14 +34,18 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
   return (
     <>
       <ThresholdConditionFormGroup>
-        <Dropdown
-          value={metricName}
-          items={ruleMetricNameOptions.slowness}
-          className={locals.dropdownmd}
-          onChange={value => {
-            updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
-          }}
-        />
+        {eumType == websiteEum ? (
+          <Dropdown
+            value={metricName}
+            items={ruleMetricNameOptions.slowness}
+            className={locals.dropdownmd}
+            onChange={value => {
+              updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
+            }}
+          />
+        ) : (
+          <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
+        )}
         <Dropdown
           value={getAggregationValue(form)}
           items={getAggregationOptions(form)}
@@ -81,5 +86,6 @@ SlownessThresholdCondition.propTypes = {
   blueprintConfig: blueprintConfigPropType.isRequired,
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
-  editMode: PropTypes.bool
+  editMode: PropTypes.bool,
+  eumType: PropTypes.string.isRequired
 };

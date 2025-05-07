@@ -15,7 +15,8 @@ import {
   ThresholdOperator,
   StaticThresholdRule,
   StaticBaselineThresholdRule,
-  AdaptiveBaselineData
+  AdaptiveBaselineData,
+  SlownessMobileAppAlertRule
 } from '@instana/types';
 
 import getMobileAppMetricThresholdSuggestion from 'in-alerting/smart-alerts/mobileApp/subscriptions/getMobileAppMetricsThresholdSuggestion';
@@ -23,6 +24,7 @@ import getMobileAppMetricAlertsPreview from 'in-alerting/smart-alerts/mobileApp/
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { MobileAppSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import { mobileAppSmartAlertSlownessBlueprintEnabled } from 'in-services/featureFlags';
 import { number, NumberFormatter, percentage } from 'in-services/formatters/number';
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -40,6 +42,7 @@ export type ThresholdTypeOptions = readonly Option[];
 
 export type MetricName =
   | 'httpxxx'
+  | 'httpLatency'
   | 'beaconRate'
   | 'sessions'
   | 'views'
@@ -141,6 +144,30 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   getAlertsPreviewRequest: () => getMobileAppMetricAlertsPreview,
   getThresholdSuggestionRequest: () => getMobileAppMetricThresholdSuggestion,
   enrichWithDefaultThresholdValues: enrichWithDefaultThresholdValuesForBaselines
+});
+
+const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze({
+  ...baseBlueprint,
+  type: 'slowness',
+  name: t('in-alerting:smartAlerts.eum.slowness.blueprintConfigName'),
+  defaultMetric: 'httpLatency',
+  headline: t('in-alerting:smartAlerts.mobileApp.data.slownessBlueprintConfigHeadline'),
+  text: t('in-alerting:smartAlerts.mobileApp.data.slownessBlueprintConfigTextP'),
+  getBeaconType: () => 'httpRequest',
+  getMetricFormat: () => number.forcedCompact,
+  getAggregation: (alertRule: MobileAppAlertRule) => {
+    return (alertRule as SlownessMobileAppAlertRule).aggregation;
+  },
+  getMetricName: (alertRule: MobileAppAlertRule) => alertRule.metricName,
+  getMetricLabel: () => t('in-alerting:smartAlerts.eum.slowness.httpLatencyMetricLabel'),
+  getAvailableTags: () => getIncludedTags(availableFilterTags.httpRequest),
+  isRuleComplete: () => true,
+  getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
+  baselineEnabled: true,
+  tearSheet: {
+    headline: t('in-alerting:smartAlerts.mobileApp.tearSheet.slowness.headline'),
+    text: t('in-alerting:smartAlerts.mobileApp.tearSheet.slowness.text')
+  }
 });
 
 const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
@@ -258,6 +285,7 @@ const crashBlueprintConfig: Readonly<BluePrint> = Object.freeze({
 
 export const blueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([
   statusCodeBlueprintConfig,
+  ...(mobileAppSmartAlertSlownessBlueprintEnabled ? [slownessBlueprintConfig] : []),
   throughputBlueprintConfig,
   customEventBlueprintConfig,
   crashBlueprintConfig
@@ -265,6 +293,7 @@ export const blueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([
 
 export const simpleModeBlueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([
   statusCodeBlueprintConfig,
+  ...(mobileAppSmartAlertSlownessBlueprintEnabled ? [slownessBlueprintConfig] : []),
   {
     ...throughputBlueprintConfig,
     subType: 'unexpectedDropViews',

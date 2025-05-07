@@ -16,7 +16,7 @@ import { t } from '@instana/i18n-react';
 import {
   BrowserMessage,
   dummyTestResultLogs,
-  consoleLogColumnProps,
+  ConsoleLogColumnProps,
   TestResultLog
 } from 'in-synthetics/utils/constants';
 import { logLevelColumn, logMessageColum, timestampColumn } from 'in-synthetics/utils/browserLogsColumnDefinitions';
@@ -37,7 +37,7 @@ const consoleColumnDefinitions = [
     id: 'consoleLogMessage',
     useMaxHeight: true,
     widthInAbsoluteUnit: true,
-    getContent: ({ logs }: consoleLogColumnProps) => {
+    getContent: ({ logs }: ConsoleLogColumnProps) => {
       return <LogMessageColumn logs={logs} />;
     }
   }

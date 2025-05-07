@@ -63,6 +63,7 @@ function StartTimeColumn({ item }: { item: TestResultListItem }) {
   const locationIds: string = getMatrixParameter(location, syntheticsDashboard, 'locationIds') ?? '';
   const locationDisplayLabels: string =
     getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels') ?? '';
+  const executionType = item?.testResultCommonProperties?.runType ?? '';
 
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'testId', item.testResultCommonProperties.testId);
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'id', resultId);
@@ -91,6 +92,7 @@ function StartTimeColumn({ item }: { item: TestResultListItem }) {
     'resultsLabel',
     item.testResultCommonProperties.locationDisplayLabel + ', ' + getRelativeTime(item)
   );
+  setOrDeleteMatrixKey(location, syntheticDetailsPath, 'runType', executionType);
 
   return (
     <div onClick={() => clickSyntheticMonitoringResultsListDetailTracker(trackCta)}>

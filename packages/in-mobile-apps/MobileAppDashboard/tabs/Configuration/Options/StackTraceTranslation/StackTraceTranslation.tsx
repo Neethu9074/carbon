@@ -19,7 +19,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { formatDateTime } from 'in-services/formatters/date';
 import { SourceMapUploadConfig } from 'in-types';
 import { seconds } from 'in-services/time';
-import { t, Trans } from 'in-i18n';
+import { t } from 'in-i18n';
 
 import locals from './StackTraceTranslation.mless';
 
@@ -74,15 +74,18 @@ export default function StackTraceTranslationConfigurationPresenter({ mobileAppI
           )}
         >
           <HelpParagraph>
-            <Trans
-              i18nKey={
-                'in-mobile-apps:dashboard.tabs.configurations.symbolFileConfig.stackTraceTranslationExplanationWithUploadFeature'
-              }
-            />
+            {t(
+              'in-mobile-apps:dashboard.tabs.configurations.symbolFileConfig.stackTraceTranslationExplanationWithUploadFeature'
+            )}
           </HelpParagraph>
 
           <Stack direction="horizontal">
-            <Button href="https://ibm.biz/Instana_-_Crash_analysis" kind="primaryv2" target="_blank">
+            <Button
+              href="https://ibm.biz/Instana_-_Crash_analysis"
+              kind="primaryv2"
+              target="_blank"
+              icon="lib_views_external_link"
+            >
               {t('in-mobile-apps:dashboard.tabs.configurations.symbolFileConfig.stackTraceTranslationLearnMoreLabel')}
             </Button>
           </Stack>

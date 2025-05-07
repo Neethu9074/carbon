@@ -110,7 +110,7 @@ export default function FileUploadConfigurationDialogPresenter(props: Props) {
                 i18nKey="in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogOpenAPIHelp"
                 components={{
                   documentation: (
-                    <Link href="https://ibm.biz/javascript-source-maps" external>
+                    <Link href="https://ibm.biz/javascript-source-maps" externalWithIcon>
                       null
                     </Link>
                   )

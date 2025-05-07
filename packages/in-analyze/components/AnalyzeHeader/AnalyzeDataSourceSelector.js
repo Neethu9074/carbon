@@ -15,7 +15,8 @@ import {
   mobileAppCrashBeaconEnabled,
   mobileAppPerfBeaconEnabled,
   mobileAppDroppedBeaconsEnabled,
-  analyzeSubtracesEnabled
+  analyzeSubtracesEnabled,
+  logConsoleEnabled
 } from 'in-services/featureFlags';
 /* eslint-enable no-restricted-imports */
 import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
@@ -36,6 +37,7 @@ import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/com
 import { useLinkToAnalyze as useLinkToProfileAnalyze } from 'in-components/Profiling/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
+import { useGenerateLinkToLogs, useLinkToLogsConsole } from 'in-logging/navigation/paths';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
@@ -44,7 +46,6 @@ import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
-import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import unwrapLink from 'in-stores/navigation/unwrapLink';
@@ -79,6 +80,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
   const getAnalyzeHref = useGenerateLinkToAnalyze();
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   const generateLogsHref = useGenerateLinkToLogs();
+  const logsConsoleRef = useLinkToLogsConsole();
 
   const linkToProfileAnalyze = useLinkToProfileAnalyze();
   const productAreas = [
@@ -90,7 +92,16 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
           dataSource: 'logs',
           getHref: generateLogsHref,
           onClickSideEffect: () => trackJumpToLogs({ source: 'navigation' })
-        }
+        },
+        ...(logConsoleEnabled
+          ? [
+              {
+                dataSource: 'logsConsole',
+                getHref: () => logsConsoleRef,
+                beta: true
+              }
+            ]
+          : [])
       ]
     },
     {

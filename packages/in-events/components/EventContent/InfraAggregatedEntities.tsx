@@ -86,18 +86,21 @@ export function InfraAggregatedEntitiesTablePresenter({
       </Message>
     );
   }
-  return InfraAggregatedEntities({
-    tagFilterFormModel,
-    timeConfig,
-    ruleWithThreshold,
-    tagFilterExpression,
-    metricLabel,
-    aggregatedEntitiesOpen,
-    setAggregatedEntitiesOpen
-  });
+
+  return (
+    <InfraAggregatedEntities
+      tagFilterFormModel={tagFilterFormModel}
+      timeConfig={timeConfig}
+      ruleWithThreshold={ruleWithThreshold}
+      tagFilterExpression={tagFilterExpression}
+      metricLabel={metricLabel}
+      aggregatedEntitiesOpen={aggregatedEntitiesOpen}
+      setAggregatedEntitiesOpen={setAggregatedEntitiesOpen}
+    />
+  );
 }
 
-function InfraAggregatedEntities({
+const InfraAggregatedEntities = ({
   tagFilterFormModel,
   timeConfig,
   ruleWithThreshold,
@@ -105,7 +108,7 @@ function InfraAggregatedEntities({
   metricLabel,
   aggregatedEntitiesOpen,
   setAggregatedEntitiesOpen
-}: AggregatedEntitiesProps) {
+}: AggregatedEntitiesProps) => {
   const { rule, thresholdOperator } = ruleWithThreshold;
 
   const { metricName, entityType, aggregation, crossSeriesAggregation, regex } = rule || {};
@@ -177,7 +180,7 @@ function InfraAggregatedEntities({
       </CarbonAccordionItem>
     </CarbonAccordion>
   );
-}
+};
 
 interface AggregatedEntitiesTableProps {
   items: Cursorific<Cursor>[];

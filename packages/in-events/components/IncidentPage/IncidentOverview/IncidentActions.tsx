@@ -17,6 +17,8 @@ import { isWebsiteSmartAlertEvent, isApplicationSmartAlertEvent } from 'in-event
 // @ts-expect-error No typedef available
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 // @ts-expect-error No typedef available
+import { isSloSmartAlertEvent, isInfraSmartAlertEvent } from 'in-events/components/eventUtil';
+// @ts-expect-error No typedef available
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 // @ts-expect-error No typedef available
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
@@ -32,9 +34,8 @@ import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity
 import { isMobileAppSmartAlertEvent } from 'in-events/components/eventUtil';
 // @ts-expect-error No typedef available
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
-// @ts-expect-error No typedef available
-import { isSloSmartAlertEvent } from 'in-events/components/eventUtil';
 import DisableEventConfigButton from 'in-events/components/tabs/Summary/DisableEventConfigButton';
+import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import AnalyzeMobileAppEventButton from 'in-events/components/AnalyzeMobileAppEventButton';
@@ -44,17 +45,24 @@ import EventSpecificationLink from 'in-events/components/legacy/EventSpecificati
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
 import useSloAlertConfig from 'in-alerting/smart-alerts/slo/hooks/useSloAlertConfig';
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
+import AnalyzeInfraEventButton from 'in-events/components/AnalyzeInfraEventButton';
 import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
+import InfraAlertConfigButton from 'in-events/components/InfraAlertConfigButton';
+import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
 import AnalyzeSloEventButton from 'in-events/components/AnalyzeSloEventButton';
 import { aqmDisableConfigOnEventViewEnabled } from 'in-services/featureFlags';
 import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
 import SloAlertConfigButton from 'in-events/components/SloAlertConfigButton';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
+import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import useSloEventEntity from 'in-events/hooks/useSloEventEntity';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventIcon from 'in-events/components/EventIcon';
+import { emptyMap } from 'in-services/fixedImmutables';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { deepCopy } from 'in-services/util/object';
+import { TagFilterExpression } from 'in-types';
 import { EventOrMap } from 'in-events/types';
 import { role } from 'in-stores/user';
 
@@ -109,6 +117,8 @@ const IncidentActionsByType = ({ triggeringEvent }: IncidentActionsByTypeProps) 
     return <ApplicationSmartAlertActions event={triggeringEvent} />;
   } else if (isMobileAppSmartAlertEvent(triggeringEvent)) {
     return <MobileAppSmartAlertActions event={triggeringEvent} />;
+  } else if (isInfraSmartAlertEvent(triggeringEvent)) {
+    return <InfraSmartAlertActions event={triggeringEvent} />;
   }
   return <GenericAlertActions event={triggeringEvent} />;
 };
@@ -142,6 +152,37 @@ const MobileAppSmartAlertActions = ({ event }: ActionProps) => {
         mobileAppName={eventEntity.mobileAppName}
         timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
       />
+    </>
+  );
+};
+
+const InfraSmartAlertActions = ({ event }: ActionProps) => {
+  const alertConfig = useInfraEventAlertConfig(event);
+
+  if (!alertConfig) {
+    return null;
+  }
+
+  const groupingTags = event.getIn(['metadata', 'groupingTags'], emptyMap).toJS();
+  const tagFilterExpression = alertConfig?.tagFilterExpression;
+
+  const alertConfigWithGroupingExpression = {
+    ...alertConfig,
+    tagFilterExpression: {
+      ...getExpressionWithGroupingTags(deepCopy(tagFilterExpression as TagFilterExpression), groupingTags)
+    }
+  };
+
+  return (
+    <>
+      <InfraAlertConfigButton alertConfig={alertConfig} as="menuItem" />
+      {hasInfrastructureAnalyzeAccess && (
+        <AnalyzeInfraEventButton
+          alertConfig={alertConfigWithGroupingExpression}
+          timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+          as="menuItem"
+        />
+      )}
     </>
   );
 };

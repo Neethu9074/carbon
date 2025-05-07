@@ -467,6 +467,7 @@
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
+    "viewSwitcherLabelWindowsHypervisor": "Windows Hypervisor",
     "viewSwitcherLabelXenServer": "XenServer",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "Platforms",
@@ -483,7 +484,9 @@
     "profileMenu_switchUnitOrTenant": "Switch unit or tenant",
     "profileMenu_saasConsole": "IBM SaaS Console",
     "profileMenu_privacy": "Privacy",
-    "profileMenu_logOut": "Log out"
+    "profileMenu_logOut": "Log out",
+    "teamFocus_title": "Team Focus",
+    "teamFocus_entireUnit": "Entire Unit"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Select metrics",

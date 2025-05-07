@@ -16,6 +16,7 @@ export const logsPath = '/logs';
 //logs is already taken by Analytics > Logs
 export const loggingDashboardPath = '/logging';
 export const logsPathWithDataSource = '/logs;dataSource=logs';
+export const logsConsolePathWithDataSource = '/logs;dataSource=logsConsole';
 export const alertsPath = '/alerts';
 export const alertsDetailsPath = '/details';
 export const alertsFullyQualifiedPath = `${logsPath}${alertsPath}`;
@@ -93,6 +94,12 @@ export function getLogsHref(
   }
 
   return createHref(location);
+}
+
+export function useLinkToLogsConsole() {
+  const { createHrefToPath } = useNavigation();
+
+  return createHrefToPath(logsConsolePathWithDataSource);
 }
 
 export function useLinkToLogs({ tagFilterExpression, timeConfig, groups }: GetLinkToLogsProps) {

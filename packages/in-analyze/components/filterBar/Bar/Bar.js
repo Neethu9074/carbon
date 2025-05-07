@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { SvgIcon, Button } from '@instana/components';
+import { SvgIcon, Button, Typography } from '@instana/components';
 
 import { t } from 'in-i18n';
 
@@ -17,12 +17,14 @@ export default function Bar({ children, showClearFilters = true, onClearFilters,
   const label = isGrouping ? t('in-analyze:components.filterBar.group') : t('in-analyze:components.filterBar.filters');
 
   return (
-    <div className={locals.bar}>
+    <section aria-label={t('in-components:pageStructure.filterAriaLabel')} className={locals.bar}>
       <div className={locals.left}>
         {!withoutLabel && (
           <span className={locals.filter}>
             <SvgIcon className={locals.icon} type={iconName} />
-            {label}
+            <Typography component={'h2'} noMargin>
+              {label}
+            </Typography>
           </span>
         )}
         <div className={locals.options}>{children}</div>
@@ -33,7 +35,7 @@ export default function Bar({ children, showClearFilters = true, onClearFilters,
           {t('in-analyze:components.filterBar.clearFilters')}
         </Button>
       )}
-    </div>
+    </section>
   );
 }
 

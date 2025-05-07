@@ -7,7 +7,7 @@ import { createField } from 'formalistic';
 import { get, find } from 'lodash';
 import React from 'react';
 
-import { Stack, Card, Button } from '@instana/components';
+import { Stack, Card, Button, Form } from '@instana/components';
 
 import HelpParagraph from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/HelpParagraph';
 import SaveIndicator from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/SaveIndicator';
@@ -17,7 +17,6 @@ import { notBlankValidator } from 'in-services/validators/string';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
-import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
 import { t, Trans } from 'in-i18n';
 
@@ -122,42 +121,45 @@ export default class Rename extends React.PureComponent {
 
     return (
       <Card title={t('in-mobile-apps:dashboard.tabs.renameAppTitle')}>
-        <form onSubmit={this.onSubmit}>
-          <FormGroup className={locals.group}>
-            {saveError && <SaveError>{saveError}</SaveError>}
+        <Form
+          className={locals.group}
+          aria-label={t('in-mobile-apps:dashboard.tabs.renameAppTitle')}
+          onSubmit={this.onSubmit}
+        >
+          {saveError && <SaveError>{saveError}</SaveError>}
 
-            <HelpParagraph>
-              <Trans i18nKey="in-mobile-apps:dashboard.tabs.renameAppHelp" />
-            </HelpParagraph>
+          <HelpParagraph>
+            <Trans i18nKey="in-mobile-apps:dashboard.tabs.renameAppHelp" />
+          </HelpParagraph>
 
-            <Stack direction="horizontal" align="center">
-              <Input
-                id="mobile-app-name"
-                type="text"
-                value={field.value}
-                onChange={this.onChange}
-                hasError={field.touched && !field.valid}
-                className={locals.input}
-                disabled={loading}
-              />
-              <Button
-                type="submit"
-                kind="create"
-                disabled={loading || (field.touched && !field.valid) || savedLabel === field.value}
-              >
-                {t('in-mobile-apps:dashboard.tabs.renameAppBtn')}
-              </Button>
-              <SaveIndicator id={this.state.saveResult} />
-            </Stack>
+          <Stack direction="horizontal" align="center">
+            <Input
+              id="mobile-app-name"
+              type="text"
+              value={field.value}
+              onChange={this.onChange}
+              hasError={field.touched && !field.valid}
+              className={locals.input}
+              disabled={loading}
+              aria-label={t('in-mobile-apps:dashboard.tabs.renameAppHelp')}
+            />
+            <Button
+              type="submit"
+              kind="create"
+              disabled={loading || (field.touched && !field.valid) || savedLabel === field.value}
+            >
+              {t('in-mobile-apps:dashboard.tabs.renameAppBtn')}
+            </Button>
+            <SaveIndicator id={this.state.saveResult} />
+          </Stack>
 
-            {field.touched &&
-              field.messages.map((message, i) => (
-                <ValidationBlock hasError key={i}>
-                  {message.message}
-                </ValidationBlock>
-              ))}
-          </FormGroup>
-        </form>
+          {field.touched &&
+            field.messages.map((message, i) => (
+              <ValidationBlock hasError key={i}>
+                {message.message}
+              </ValidationBlock>
+            ))}
+        </Form>
       </Card>
     );
   }

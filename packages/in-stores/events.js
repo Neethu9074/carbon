@@ -442,9 +442,29 @@ export function shareEventSummary(incidentId, recipients, timestamp, sender, sub
   return obj.map(response => response.body);
 }
 
-export function eventsPageTracker(productArea, pageRootName, location, configType) {
+export function eventsPageTracker(productArea, pageRootName, location, event, referrer) {
   if (!window.analytics) {
     return;
+  }
+
+  let incidentData = undefined;
+  let configType = event?.getIn(['metadata', 'eventConfigurationType']);
+  const hasRca = event?.getIn(['metadata', 'rootCause', 'found']) === true;
+  const hasRelatedEvents = event?.get('recentEvents')?.size > 1;
+  const eventId = event?.get('id');
+
+  // annotations specific to incidents (whether the incident has RCA/Related Events)
+  if (hasRca || hasRelatedEvents) {
+    incidentData = hasRca ? 'rca ' : '';
+    incidentData = hasRelatedEvents ? incidentData + 'relatedEvents ' : incidentData;
+    incidentData = incidentData.trimEnd();
+  }
+
+  // add config type category for agent monitoring issues and CVE issues (these are handled differently than other events)
+  if (configType === undefined) {
+    if (event?.getIn(['metadata', 'agent_monitoring_issue']) === true) {
+      configType = 'Agent Monitoring Issue';
+    } else if (event?.getIn(['metadata', 'cve_issue']) === true) configType = 'CVE Issue';
   }
 
   const url = window.location.href;
@@ -466,6 +486,8 @@ export function eventsPageTracker(productArea, pageRootName, location, configTyp
     tenantName: tenant,
     parentPageCategory: productArea,
     parentPageName: pageRootName,
+    eventId: eventId,
+    data: incidentData,
     category: configType,
     path: path,
     productCode: productCode,
@@ -475,6 +497,7 @@ export function eventsPageTracker(productArea, pageRootName, location, configTyp
     url: url,
     altUserId: userId,
     platformTitle: productPlatformTitle,
+    referrer: referrer,
     roles: [userSelfDefinedRole],
     'user.bluemixId': userId
   });

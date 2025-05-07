@@ -14,6 +14,7 @@ module.exports = {
   vulnerabilityCenterEnabled: true,
   businessObservabilityEnabled: true,
   bizopsGenAIEnabled: true,
+  bizopsBusinessMetricsCustomDashboardEnabled: true,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,
@@ -38,6 +39,7 @@ module.exports = {
   tenantSwitcherEnabled: true,
   useInstanaSaasEumTrackingUrlEnabled: true,
   vsphereEnabled: true,
+  windowsHypervisorEnabled: true,
   openstackEnabled: true,
   zhmcEnabled: true,
   websiteUserBreakdownEnabled: true,
@@ -182,6 +184,7 @@ module.exports = {
   sloBurnRateEnabled: false,
   mobileAppSmartAlertFullScreenDesignEnabled: true,
   tealiumPrivacyEnabled: false,
+  relatedEventsDatagridEnabled: true,
   isSmartAlertDialogViewDefaultEnabled: true,
   logSmartAlertDialogViewEnabled: true,
   syntheticSmartAlertDialogViewEnabled: true,
@@ -190,5 +193,8 @@ module.exports = {
   mobileAppSmartAlertDialogViewEnabled: true,
   ansibleScriptGenerationEnabled: true,
   actionAiGenerationEnabled: true,
-  regexMatchEnabled: true
+  logConsoleEnabled: true,
+  mobileAppSmartAlertSlownessBlueprintEnabled: false,
+  regexMatchEnabled: true,
+  whatsNewBannerEnabled: true
 };

@@ -27,9 +27,11 @@ import {
   hasSloAccess,
   hasAutomationAccess,
   hasNutanixAccess,
-  hasXenServerAccess
+  hasXenServerAccess,
+  hasWindowsHypervisorAccess
 } from 'in-stores/permission';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
+import windowsHypervisorRoutes from 'in-windowshypervisor/navigation/routes';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
 import vulnerabilityRoutes from 'in-vulnerability-center/navigation/routes';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
@@ -102,6 +104,7 @@ export default (
     {loggingRoutes}
     {deepLinkRoutes}
     {hasNutanixAccess && nutanixRoutes}
+    {hasWindowsHypervisorAccess && windowsHypervisorRoutes}
 
     {/* The landing page must be the very last item as it dynamically redirects */}
     <Route path="/" component={LandingPage} />

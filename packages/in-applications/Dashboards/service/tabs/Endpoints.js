@@ -6,8 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { Button, Tooltip } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
 
 import {
   applicationDashboardUrlParameters,
@@ -32,6 +32,7 @@ import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import { createGroupBy } from 'in-analyze/navigation/paths';
+import { capitalize } from 'in-services/formatters/string';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
@@ -91,7 +92,23 @@ const columnDefinitions = [
     label: t('in-applications:labelTypes'),
     sortable: false,
     getContent(item) {
-      return <Badge color={getColor(item.endpoint.type)}>{item.endpoint.type}</Badge>;
+      return (
+        <div className={locals.typeWrapper}>
+          <Badge color={getColor(item.endpoint.type)}>{item.endpoint.type}</Badge>
+          {item.endpoint.synthetic ? (
+            <Tooltip
+              align="topMiddle"
+              content={
+                item.endpoint.syntheticType === 'MIXED'
+                  ? t('in-applications:syntheticAndNonsynthetic')
+                  : t('in-applications:synthetic')
+              }
+            >
+              <Badge type="magenta">{capitalize(item.endpoint.syntheticType)}</Badge>
+            </Tooltip>
+          ) : null}
+        </div>
+      );
     }
   },
   {

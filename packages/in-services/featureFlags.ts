@@ -52,6 +52,7 @@ export const phmcEnabled = isFeatureFlagEnabled('phmcEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
 export const openstackEnabled = isFeatureFlagEnabled('openstackEnabled');
 export const xenserverEnabled = isFeatureFlagEnabled('xenserverEnabled');
+export const windowsHypervisorEnabled = isFeatureFlagEnabled('windowsHypervisorEnabled');
 export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
@@ -65,6 +66,7 @@ export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEna
 export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
 export const bidirectionalSlackEnabled = isFeatureFlagEnabled('bidirectionalSlackEnabled');
+export const logConsoleEnabled = isFeatureFlagEnabled('logConsoleEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
@@ -235,6 +237,11 @@ export const websitesSmartAlertDialogViewEnabled = isFeatureFlagEnabled('website
 // Dialog view for MobileApp smart alert
 export const mobileAppSmartAlertDialogViewEnabled = isFeatureFlagEnabled('mobileAppSmartAlertDialogViewEnabled');
 
+// Slowness Blueprint in Mobile smart alert
+export const mobileAppSmartAlertSlownessBlueprintEnabled = isFeatureFlagEnabled(
+  'mobileAppSmartAlertSlownessBlueprintEnabled'
+);
+
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
 
@@ -256,6 +263,9 @@ export const hiddenSearchFieldValues = {
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
 export const bizopsGenAIEnabled = isFeatureFlagEnabled('bizopsGenAIEnabled');
+export const bizopsBusinessMetricsCustomDashboardEnabled = isFeatureFlagEnabled(
+  'bizopsBusinessMetricsCustomDashboardEnabled'
+);
 
 // ########################################################################################
 // Chart gap hiding
@@ -361,4 +371,6 @@ export const sloFullEnabled = isFeatureFlagEnabled('sloFullEnabled', true);
 export const sloBurnRateEnabled = isFeatureFlagEnabled('sloBurnRateEnabled', false);
 export const solisEnabled = isFeatureFlagEnabled('solisEnabled', false);
 export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled', false);
+export const whatsNewBannerEnabled = isFeatureFlagEnabled('whatsNewBannerEnabled', false);
 export const ansibleScriptGenerationEnabled = isFeatureFlagEnabled('ansibleScriptGenerationEnabled', false);
+export const relatedEventsDatgridEnabled = isFeatureFlagEnabled('relatedEventsDatagridEnabled', false);

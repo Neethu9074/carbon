@@ -9,11 +9,15 @@ import { Field, MapForm } from 'formalistic';
 import {
   CustomEventMobileAppAlertRule,
   MobileAppAlertRule,
+  SlownessMobileAppAlertRule,
   StatusCodeMobileAppAlertRule,
   ThroughputMobileAppAlertRule
 } from '@instana/types';
 
 import {
+  getSlownessGreaterOrLessOperatorText,
+  getSlownessSimpleAboveOrBelowOperatorText,
+  getSlownessSimpleHighOrLowOperatorText,
   getStaticThresholdHigherOrLowerOperatorText,
   getStatusCodeSimpleAboveOrBelowOperatorText,
   getThresholdHigherOrLowerOperatorText,
@@ -28,6 +32,7 @@ import { severityMap, WARNING_SEVERITY } from 'in-alerting/smart-alerts/componen
 import { isEmpty as checkIsEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { getStatusCodeLabel } from 'in-alerting/smart-alerts/mobileApp/form/ruleFormData';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { onLoadTime, beaconRate } from 'in-alerting/smart-alerts/mobileApp/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { ThresholdOperator } from 'in-types';
@@ -38,9 +43,22 @@ export function getTitlePlaceholder(form: MapForm<any>) {
   const alertType = rule.alertType;
   const blueprintConfig = getBlueprintConfig(alertType);
   const metricName = blueprintConfig.getMetricName(rule as MobileAppAlertRule);
-  const thresholdOperator = ((form.get('threshold') as MapForm<any>).get('operator') as Field<ThresholdOperator>).value;
+  const thresholdForm = form.get('threshold') as MapForm<any>;
+  const thresholdOperator = (thresholdForm.get('operator') as Field<ThresholdOperator>).value;
 
   switch (alertType) {
+    case 'slowness': {
+      const blueprintConfig = getBlueprintConfig(alertType);
+      const metricName = blueprintConfig!.getMetricName(rule as MobileAppAlertRule);
+      const metricLabel = blueprintConfig!.getMetricLabel(metricName as MetricName);
+      const thresholdOperator = ((form.get('threshold') as MapForm<any>).get('operator') as Field<ThresholdOperator>)
+        .value;
+      return getSlownessSimpleHighOrLowOperatorText(
+        metricLabel,
+        getAggregationText((rule as SlownessMobileAppAlertRule).aggregation),
+        thresholdOperator
+      );
+    }
     case 'statusCode': {
       const statusCodeString = (rule as StatusCodeMobileAppAlertRule).value;
       return t('in-alerting:smartAlerts.eum.form.HTTPStatusCodes', {
@@ -74,8 +92,25 @@ export function getDescriptionPlaceholder(form: MapForm<any>, severity?: number)
   const blueprintConfig = getBlueprintConfig(alertType);
   const metricName = blueprintConfig!.getMetricName(rule as ThroughputMobileAppAlertRule);
   const metricLabel = blueprintConfig!.getMetricLabel(metricName as MetricName);
+  const thresholdType = thresholdForm.get('warningThreshold').get('type').value;
+  const isMultiThresholdConfigured =
+    !checkIsEmpty(thresholdForm?.get('warningThreshold')?.get('value')?.value) &&
+    !checkIsEmpty(thresholdForm?.get('criticalThreshold')?.get('value')?.value);
 
   switch (alertType) {
+    case 'slowness': {
+      const blueprintConfig = getBlueprintConfig(alertType);
+      const metricName = blueprintConfig!.getMetricName(rule as MobileAppAlertRule);
+      const metricLabel = blueprintConfig!.getMetricLabel(metricName as MetricName);
+
+      const slownessRule = rule as SlownessMobileAppAlertRule;
+      const aggregationText = getAggregationText(slownessRule.aggregation);
+      if (thresholdType === STATIC_THRESHOLD && !isMultiThresholdConfigured) {
+        const thresholdValue = getThresholdValue(thresholdForm, severity);
+        return getSlownessGreaterOrLessOperatorText(metricLabel, aggregationText, thresholdOperator, thresholdValue);
+      }
+      return getSlownessSimpleAboveOrBelowOperatorText(metricLabel, aggregationText, thresholdOperator);
+    }
     case 'statusCode': {
       const statusCodeRule = rule as StatusCodeMobileAppAlertRule;
       const statusCodeString = statusCodeRule.value;

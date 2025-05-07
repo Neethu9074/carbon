@@ -138,6 +138,9 @@ export const REVIEW_DATA_USAGE_BUTTON = 'reviewDataUsage.clicked';
 export const FAIR_USE_POLICY_BLOG = 'learnMoreFupDocumentation.clicked';
 export const CONTACT_SALES = 'learnMoreContactSales.clicked';
 
+export const KUBECOST_INTEGRATION_BUTTON_CLICKED = 'whatsnew.KubecostIntegration';
+export const LOGS_IN_CONTEXT_BUTTON_CLICKED = 'whatsnew.Logs';
+
 export const TABLE_ENTITY_ADDED = 'table.entity.added';
 export const TABLE_ENTITY_CLEARED = 'table.entity.cleared';
 export const TABLE_ENTITY_REMOVED = 'table.entity.removed';
@@ -521,6 +524,7 @@ export const AUTOMATION_AI_BAD_FEEDBACK = 'automation.ai.bad.feedback';
 export const AUTOMATION_CLICK_EPWT_LINK = 'automation.click.epwt.link';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
+export const ISSUE_LINK_CLICK = 'issue.link.clicked';
 
 // Smart Alert Tracking
 
@@ -600,6 +604,9 @@ export const EVENT_RCA_ANALYZE_CLICK = 'event.rca.analyze.click';
 export const EVENT_RCA_ENTITY_CLICK = 'event.rca.entity.click';
 export const EVENT_RCA_ASSOCIATED_EVENTS_CLICK = 'event.rca.associated_events.click';
 export const EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK = 'event.rca.trace_and_error_logs.click';
+export const EVENT_RCA_PANNEL_TAB_CLICK = 'event.rca.pannel.tab.click';
+export const EVENT_RCA_ERROR_LOGS_TAB_CLICK = 'event.rca.error_logs.tab.click';
+export const EVENT_RCA_TRACE_LOGS_TAB_CLICK = 'event.rca.trace_logs.tab.click';
 
 // Events Page Feedback Tracking
 export const EVENT_FEEDBACK_SUBMIT = 'event.feedback.submit';
@@ -619,12 +626,14 @@ export const EVENT_AI_SHOW_MORE_ACTIONS = 'event.ai.show.more.actions';
 export const EVENT_AI_SHARE_OPENED = 'event.ai.share.opened';
 export const EVENT_AI_SHARE_SUBMIT = 'event.ai.share.submit';
 export const EVENT_AI_RUN_ACTION = 'event.ai.run.action';
+export const EVENT_AI_CLICK_EPWT_LINK = 'event.ai.click.epwt.link';
 export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
 
 // Notes and Activity Summary Feedback Tracking
 export const NOTES_SUMMARY_FEEDBACK_POSITIVE = 'notes.summary.feedback.positive';
 export const NOTES_SUMMARY_FEEDBACK_NEGATIVE = 'notes.summary.feedback.negative';
 export const NOTES_SUMMARY_FEEDBACK_SUBMIT = 'notes.summary.feedback.submit';
+export const NOTES_SUMMARY_CLICK_EPWT_LINK = 'notes.summary.click.epwt.link';
 
 // Flow Map Tracking (services and endpoints)
 export const FLOW_MAP_CLICK = 'flowmap.click';
@@ -655,3 +664,16 @@ export const VULNERABILITIES_DETECTIONS_TAB_ROW_CLICK = 'vulnerabilities.detecti
 export const VULNERABILITIES_DETECTIONS_DETAIL_ON_ENTITY_CLICK = 'vulnerabilities.detections.detail.on.entity.click';
 export const VULNERABILITIES_DETECTIONS_DETAIL_ANY_ASSOCIATED_APPLICATION_CLICK =
   'vulnerabilities.detections.detail.any.associated.application.click';
+
+export const KUBECOST_EXPORT_NAMESPACE_COST_CLICK = 'kubecost.export.namespace.cost.click';
+export const KUBECOST_EXPORT_DEPLOYMENT_COST_CLICK = 'kubecost.export.deployment.cost.click';
+
+export const KUBECOST_BANNER_LEARN_MORE_CLICK = 'kubecost.banner.learn.more.click';
+export const KUBECOST_BANNER_CONFIGURE_NOW_CLICK = 'kubecost.banner.configure.now.click';
+export const KUBECOST_BANNER_UPGRAGE_NOW_CLICK = 'kubecost.banner.upgrade.now.click';
+
+export const KUBECOST_VCPU_RESTRICTED_UPGRADE_NOW_CLICK = 'kubecost.free.license.upgrade.now.click';
+
+export const KUBECOST_VCPU_NEARING_LIMIT_UPGRADE_NOW_CLICK = 'kubecost.vcpu.nearing.limit.upgrade.now.click';
+
+export const KUBECOST_VCPU_LIMIT_REACHED_UPGRADE_NOW_CLICK = 'kubecost.vcpu.limit.reached.upgrade.now.click';

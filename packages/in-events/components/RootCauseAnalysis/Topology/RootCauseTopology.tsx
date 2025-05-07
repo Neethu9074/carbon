@@ -6,10 +6,10 @@
 
 import ELK, { ElkExtendedEdge } from 'elkjs/lib/elk.bundled';
 import React, { useEffect, useMemo, useState } from 'react';
-import { SidePanel } from '@carbon/ibm-products';
 import { isEmpty } from 'lodash';
 
 import { LoadingSkeleton } from '@instana/components';
+import { SidePanel } from '@instana/ibm-products';
 
 import { RootCauseTopologySVGWrapper } from 'in-events/components/RootCauseAnalysis/Topology/RootCauseTopologySVGWrapper';
 import convertRCALinksToElkLinks from 'in-events/components/RootCauseAnalysis/Topology/utils/convertRCALinksToElkLinks';

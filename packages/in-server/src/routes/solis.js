@@ -14,7 +14,7 @@ const { getCurrentUser } = require('../auth');
 const { activeResolver } = require('../services/resolvers');
 const { solisHubRoute, createRequest } = require('./solis-hub');
 
-const i18nPath = path.join(__dirname, 'translations');
+const i18nPath = path.join(__dirname, '..', '..', 'i18n');
 const namespace = 'in-server';
 const translations = {};
 
@@ -54,7 +54,7 @@ i18next.use(middleware.LanguageDetector).init({
 const router = (module.exports = express.Router());
 
 router.get('/solis/hub_content', middleware.handle(i18next), solisHubRoute);
- 
+
 router.get('/solis/nav', middleware.handle(i18next), async (req, res) => {
   try {
     const t = req.t;

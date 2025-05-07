@@ -18,7 +18,15 @@ import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import useUrlState, { Options } from 'in-hooks/useUrlState';
 import { Result } from 'in-types';
 
-export type TableState = Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns' | 'pageSize'>;
+export type TableState = Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>;
+
+export const defaultState: TableState = {
+  orderBy: 'name',
+  orderDirection: 'ASC',
+  page: 1,
+  query: '',
+  pageSize: 10
+};
 
 const urlStateDefinition = (alertsTab: string): Options<TableState> => {
   return {
@@ -47,6 +55,12 @@ const urlStateDefinition = (alertsTab: string): Options<TableState> => {
         name: 'query',
         as: 'query',
         initialState: ''
+      },
+      {
+        path: alertsTab,
+        name: 'pageSize',
+        as: 'pageSize',
+        initialState: 10
       }
     ],
     resets: [
@@ -78,7 +92,6 @@ export interface SmartAlertsTableViewProps<AlertConfig extends AlertConfigType> 
   getGlobalAlertConfigTitle?: (numberOfAlerts: number) => string;
   columnDefinitions: ColumnDefinition<AlertConfig>[];
   sortOptions: SortOption[];
-  pageSize?: number;
   configsCategory?: typeof categoryLocal | typeof categoryGlobal;
   setConfigsCategory?: (a: string) => void;
   extraSearchAttributes?: ExtraSearchAttributes<AlertConfig>;

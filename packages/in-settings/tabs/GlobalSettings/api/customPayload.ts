@@ -28,11 +28,21 @@ function mapAndRefresh(response: Response<CustomPayloadConfigurationWithLastUpda
 }
 
 export const getGlobalCustomPayloadAsResultObservable = memoize<
-  CustomPayloadContext | undefined,
+  { context: CustomPayloadContext | undefined; ownerType: string | undefined },
   Result<CustomPayloadConfigurationWithLastUpdated>
->(getGlobalCustomPayloadAsResultObservableInternal, context => context ?? 'ALL', 60000);
+>(
+  getGlobalCustomPayloadAsResultObservableInternal,
+  ({ context, ownerType }) => `${context ?? 'ALL'}-${ownerType ?? ''}`,
+  60000
+);
 
-function getGlobalCustomPayloadAsResultObservableInternal(context: CustomPayloadContext = 'ALL') {
+function getGlobalCustomPayloadAsResultObservableInternal({
+  context = 'ALL',
+  ownerType
+}: {
+  context?: CustomPayloadContext;
+  ownerType?: string;
+}) {
   return refreshCustomPayload.flatMap(() =>
     http<CustomPayloadConfigurationWithLastUpdated>({
       mapToResultObject: true,
@@ -41,7 +51,8 @@ function getGlobalCustomPayloadAsResultObservableInternal(context: CustomPayload
       maxRetries: 3,
       headers: getCsrfHeader(),
       queryParams: {
-        context
+        context,
+        ownerType
       }
     })
   );

@@ -143,6 +143,7 @@ enum EntityEnum {
   traces,
   subtraces,
   logs,
+  logsConsole,
   sessionStart,
   viewChange,
   crash,
@@ -169,6 +170,7 @@ export const entityNames = Object.freeze<Record<Entity, string>>({
   traces: t('in-analyze:analyzeView.dataSources.traces'),
   subtraces: t('in-analyze:analyzeView.dataSources.subtraces'),
   logs: t('in-analyze:analyzeView.dataSources.logs'),
+  logsConsole: t('in-analyze:analyzeView.dataSources.logs'),
   sessionStart: t('in-analyze:analyzeView.dataSources.sessionStarts'),
   viewChange: t('in-analyze:analyzeView.dataSources.viewTransitions'),
   crash: t('in-analyze:analyzeView.dataSources.crashes'),
@@ -191,6 +193,7 @@ export const entityLabels = Object.freeze<Record<Entity, string>>({
   traces: t('in-analyze:analyzeView.dataSources.traces'),
   subtraces: t('in-analyze:analyzeView.dataSources.subtraces'),
   logs: t('in-analyze:analyzeView.dataSources.logs'),
+  logsConsole: t('in-analyze:analyzeView.dataSources.logsConsole'),
   crash: t('in-analyze:analyzeView.dataSources.crashes'),
   perf: t('in-analyze:analyzeView.dataSources.perf'),
   dropBeacon: t('in-analyze:analyzeView.dataSources.dropBeacon')
@@ -242,7 +245,8 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
     profiles: 'lib_profiling'
   },
   logs: {
-    logs: 'lib_application_logging'
+    logs: 'lib_application_logging',
+    logsConsole: 'lib_application_logging'
   }
 });
 

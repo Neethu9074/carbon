@@ -17,8 +17,10 @@ import {
   extractAggregatedErrorRateFromExplainability,
   getIconForRCADisplay,
   isServiceLabelValidToDisplayInRCA,
-  useGenerateLinkToDashboard,
-  useGenerateLinkToAnalyzePage
+  trackRcaClick,
+  TrackRcaClickProps,
+  useGenerateLinkToAnalyzePage,
+  useGenerateLinkToDashboard
 } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import determineEntityTypeFromEntityIDMap from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import { RCAEntityDataType } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
@@ -51,8 +53,6 @@ interface RootCauseEntityDetailsParams {
 export default function RootCauseEntityDetails({ incident, rootCauses }: RootCauseEntityDetailsParams) {
   const { selectedRootCause: rootCauseTab } = useContext(SelectedRootCauseContext);
   const selectedRootCause = rootCauses[rootCauseTab];
-  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
-  const { trackCta } = useSegmentTracking();
   const { location } = useNavigation();
 
   const [isTopologyOpen, setIsTopologyOpen] = useState(false);
@@ -64,6 +64,15 @@ export default function RootCauseEntityDetails({ incident, rootCauses }: RootCau
       : selectedRootCause.entityID.steadyId;
 
   const incidentTimeWindow = useMemo(() => getIncidentTimeConfig(incident), [incident]);
+
+  const probabilityScore = selectedRootCause.probFailure;
+  const rcaTrackingData = {
+    incident,
+    location,
+    rootCauseTab,
+    rcaEntityType,
+    probabilityScore
+  };
 
   /*
     These query state variables hold on to the necessary observable queries that will later get used by our data state variables.
@@ -126,6 +135,7 @@ export default function RootCauseEntityDetails({ incident, rootCauses }: RootCau
         <CarbonTabPanel key={rcaSnapshotID}>
           <div className={locals.entityDescription}>
             <UnknownEntityPath
+              rcaTrackingData={rcaTrackingData}
               entityID={rcaSnapshotID}
               entityType={rcaEntityType}
               relatedApplicationInformation={relatedApplicationInformation}
@@ -165,6 +175,7 @@ export default function RootCauseEntityDetails({ incident, rootCauses }: RootCau
               <Stack gap="xxsmall">
                 {entityData !== null && rcaEntityType !== 'infrastructure' && rcaEntityType !== 'process' && (
                   <EntityPath
+                    rcaTrackingData={rcaTrackingData}
                     relatedApplicationInformation={relatedApplicationInformation}
                     entityInformation={entityData as Snapshot}
                     serviceLabelInformation={nonInfraServiceLabelInformation}
@@ -178,6 +189,7 @@ export default function RootCauseEntityDetails({ incident, rootCauses }: RootCau
                   !loadingStackData &&
                   (rcaEntityType === 'infrastructure' || rcaEntityType === 'process') && (
                     <InfrastructureVisualHierarchy
+                      rcaTrackingData={rcaTrackingData}
                       relatedApplicationInformation={relatedApplicationInformation}
                       hierarchySnapshots={hierarchySnapshots}
                       entityInformation={entityData as Snapshot}
@@ -198,6 +210,7 @@ export default function RootCauseEntityDetails({ incident, rootCauses }: RootCau
                     <CarbonTabPanel key={rcaSnapshotID}>
                       <div className={locals.entityDescription}>
                         <UnknownEntityPath
+                          rcaTrackingData={rcaTrackingData}
                           entityID={rcaSnapshotID}
                           entityType={rcaEntityType}
                           relatedApplicationInformation={relatedApplicationInformation}
@@ -264,8 +277,8 @@ export default function RootCauseEntityDetails({ incident, rootCauses }: RootCau
                 href={urlForAnalysisPage}
                 size="compact"
                 onClick={() => {
-                  const instrumentationEventProperties = { urlForEntity: urlForAnalysisPage };
-                  trackCta(EVENT_RCA_ANALYZE_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+                  const payload = { urlForEntity: urlForAnalysisPage };
+                  trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ANALYZE_CLICK, payload });
                 }}
                 className={locals.analyzeButton}
               >
@@ -349,6 +362,7 @@ function FailedText({
 }
 
 interface EntityPathProps {
+  rcaTrackingData: TrackRcaClickProps;
   relatedApplicationInformation: Application | null | undefined;
   entityInformation: RCAEntityDataType['entityData'];
   originalID: string;
@@ -358,6 +372,7 @@ interface EntityPathProps {
 }
 
 function EntityPath({
+  rcaTrackingData,
   relatedApplicationInformation,
   entityInformation,
   originalID,
@@ -365,9 +380,6 @@ function EntityPath({
   entityType,
   timeWindow
 }: EntityPathProps) {
-  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
-  const { trackCta } = useSegmentTracking();
-
   const { location } = useNavigation();
 
   // Pulling out labels
@@ -392,8 +404,8 @@ function EntityPath({
         <Link
           href={linkToEntity}
           onClick={() => {
-            const instrumentationEventProperties = { mainEntity: true, entityType: entityType };
-            trackCta(EVENT_RCA_ENTITY_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+            const payload = { mainEntity: true, entityType: entityType };
+            trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ENTITY_CLICK, payload });
           }}
         >
           <Stack direction="horizontal" gap="xsmall" align="center">
@@ -431,6 +443,7 @@ function EntityPath({
 }
 
 interface UnknownEntityPathProps {
+  rcaTrackingData: TrackRcaClickProps;
   relatedApplicationInformation: Application | Nullish;
   entityType: string;
   entityID: string;
@@ -438,15 +451,13 @@ interface UnknownEntityPathProps {
 }
 
 function UnknownEntityPath({
+  rcaTrackingData,
   relatedApplicationInformation,
   entityType,
   entityID,
   timeWindow
 }: UnknownEntityPathProps) {
-  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
-
   const { location } = useNavigation();
-  const { trackCta } = useSegmentTracking();
 
   const relatedAPID = relatedApplicationInformation ? relatedApplicationInformation.id : null;
 
@@ -462,8 +473,8 @@ function UnknownEntityPath({
       <Link
         href={linkToEntity}
         onClick={() => {
-          const instrumentationEventProperties = { mainEntity: true, entityType: entityType };
-          trackCta(EVENT_RCA_ENTITY_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+          const payload = { mainEntity: true, entityType: entityType };
+          trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ENTITY_CLICK, payload });
         }}
       >
         <Stack direction="horizontal" gap="xsmall" align="center">
@@ -476,6 +487,7 @@ function UnknownEntityPath({
 }
 
 interface InfrastructureVisualHierarchyProps {
+  rcaTrackingData: TrackRcaClickProps;
   relatedApplicationInformation: Application | null | undefined;
   entityInformation: Snapshot;
   originalID: string;
@@ -492,6 +504,7 @@ interface RelevantSnapshotData {
 }
 
 const InfrastructureVisualHierarchy = ({
+  rcaTrackingData,
   relatedApplicationInformation,
   hierarchySnapshots,
   entityInformation,
@@ -501,9 +514,6 @@ const InfrastructureVisualHierarchy = ({
   entityType,
   timeWindow
 }: InfrastructureVisualHierarchyProps) => {
-  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
-  const { trackCta } = useSegmentTracking();
-
   const { location } = useNavigation();
 
   let hostDataFromHierarchy: RelevantSnapshotData | null = null;
@@ -581,8 +591,8 @@ const InfrastructureVisualHierarchy = ({
         <Link
           href={linkToEntity}
           onClick={() => {
-            const instrumentationEventProperties = { mainEntity: true, entityType: entityType };
-            trackCta(EVENT_RCA_ENTITY_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+            const payload = { mainEntity: true, entityType: entityType };
+            trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ENTITY_CLICK, payload });
           }}
         >
           <Stack direction="horizontal" gap="xsmall" align="center">

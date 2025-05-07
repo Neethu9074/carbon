@@ -31,8 +31,10 @@ import {
   EVENT_RCA_FEEDBACK_NEXT,
   EVENT_FEEDBACK_SKIP,
   EVENT_RCA_FEEDBACK_CLOSED_MANUALLY,
-  EVENT_RCA_FEEDBACK_SUBMIT
+  EVENT_RCA_FEEDBACK_SUBMIT,
+  EVENT_RCA_PANNEL_TAB_CLICK
 } from 'in-services/tracking/tracking';
+import determineEntityTypeFromEntityIDMap from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import getRootCauseTabSecondaryLabel from 'in-events/components/RootCauseAnalysis/utils/getRootCauseTabSecondaryLabel';
 import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hooks/SelectedRootCauseContext';
 import { RootCauseDataProvider } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
@@ -40,11 +42,13 @@ import getRootCauseTabLabel from 'in-events/components/RootCauseAnalysis/utils/g
 import RootCauseLogsSection from 'in-events/components/RootCauseAnalysis/Logs/RootCauseLogsSection';
 import RootCauseEntityDetails from 'in-events/components/RootCauseAnalysis/RootCauseEntityDetails';
 import AssociatedEvents from 'in-events/components/RootCauseAnalysis/RootCauseAssociatedEvents';
+import { trackRcaClick } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { rcaFailedStateEnabled, rcaLogsEnabled } from 'in-services/featureFlags';
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { useLinkToAnalyze } from 'in-applications/navigation/paths';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
@@ -76,7 +80,7 @@ const getRootCauses = (incident: Event) => {
 
 const RootCauseSection = ({ incident, rcaRef }: RootCauseSectionProps) => {
   const [rootCauseTab, setRootCauseTab] = useState(0);
-
+  const { location } = useNavigation();
   const incidentJSON: Event = useMemo(() => incident.toJS(), [incident]);
   const rootCauses = useMemo(() => getRootCauses(incidentJSON), [incidentJSON]);
 
@@ -162,7 +166,22 @@ const RootCauseSection = ({ incident, rcaRef }: RootCauseSectionProps) => {
           <Col xs>
             <ProbableRootCauseCard rcaRef={rcaRef}>
               <div>
-                <CarbonTabs selectedIndex={rootCauseTab} onChange={val => setRootCauseTab(val.selectedIndex ?? 0)}>
+                <CarbonTabs
+                  selectedIndex={rootCauseTab}
+                  onChange={val => {
+                    setRootCauseTab(val.selectedIndex ?? 0);
+                    const probabilityScore = rootCauses[val.selectedIndex].probFailure;
+                    const rcaEntityType = determineEntityTypeFromEntityIDMap(rootCauses[val.selectedIndex].entityID);
+                    const rcaTrackingData = {
+                      incident,
+                      location,
+                      rootCauseTab,
+                      rcaEntityType,
+                      probabilityScore
+                    };
+                    trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_PANNEL_TAB_CLICK });
+                  }}
+                >
                   <CarbonTabList aria-label="List of RCA Entities" contained>
                     {rootCauses.map((rootCause, idx) => (
                       <CarbonTab key={rootCause.snapshotId} secondaryLabel={getRootCauseTabSecondaryLabel(rootCause)}>
@@ -176,8 +195,12 @@ const RootCauseSection = ({ incident, rcaRef }: RootCauseSectionProps) => {
 
               {!isNull(rootCauses[rootCauseTab]) && (
                 <Stack gap="disabled">
-                  {rcaLogsEnabled ? <RootCauseLogsSection incident={incidentJSON} /> : <></>}
-                  <AssociatedEvents rootCause={rootCauses[rootCauseTab]} />
+                  {rcaLogsEnabled ? (
+                    <RootCauseLogsSection incident={incidentJSON} rootCause={rootCauses[rootCauseTab]} />
+                  ) : (
+                    <></>
+                  )}
+                  <AssociatedEvents rootCause={rootCauses[rootCauseTab]} incident={incidentJSON} />
                   <div className={locals.accordionContent}>
                     <FeedbackComponent incident={incident} />
                   </div>

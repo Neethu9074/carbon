@@ -19,6 +19,7 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn/Ce
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { twoDecimalPlaces } from 'in-services/formatters/number';
+import { playwithEnabled } from 'in-services/featureFlags';
 import ArticleContent from 'in-components/ArticleContent';
 import { t } from 'in-i18n';
 
@@ -63,7 +64,7 @@ export default function Summary({ currencyCode, url, clusterId, snapshotId, time
       <DashboardSection
         title={t('in-kubernetes:dashboards.kubecost.cost')}
         button={
-          <Link externalWithIcon href={kubecostClusterUrl}>
+          <Link disabled={playwithEnabled} externalWithIcon href={kubecostClusterUrl}>
             {t('in-kubernetes:dashboards.kubecost.viewInKubeCost')}
           </Link>
         }

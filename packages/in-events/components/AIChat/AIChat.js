@@ -10,6 +10,7 @@ import { SvgIcon, CarbonButton } from '@instana/components';
 import { ChatContainer } from '@instana/ai-chat';
 
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import EditableOptions from 'in-events/components/AIChat/EditableOptions';
 import DisplayChart from 'in-events/components/AIChat/DisplayChart';
 
@@ -114,6 +115,7 @@ export function AIChat() {
   // This will move the Chat launcher back to original location.
   // This is needed because we need it to reset on page navigation
   MoveAIChatLauncher('50px');
+  const { trackCta } = useSegmentTracking();
 
   return (
     <>
@@ -131,6 +133,9 @@ export function AIChat() {
             default:
               return undefined;
           }
+        }}
+        onBeforeRender={instance => {
+          instance.trackCta = trackCta;
         }}
         onAfterRender={instance => {
           instance.on({

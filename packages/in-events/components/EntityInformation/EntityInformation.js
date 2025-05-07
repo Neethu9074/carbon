@@ -36,7 +36,7 @@ import { t } from 'in-i18n';
 import locals from './EntityInformation.mless';
 
 export default function EntityInformation(props) {
-  const { snapshot, entityId, entityType, metadata, timeConfig, onClose, isCveRedirect } = props;
+  const { snapshot, entityId, entityType, metadata, timeConfig, onClose, isCveRedirect, plugin } = props;
 
   const determineEntityInformationCall = () => {
     if (snapshot) {
@@ -54,7 +54,7 @@ export default function EntityInformation(props) {
 
   const entity = useObservable(determineEntityInformationCall(), [entityId]);
 
-  if (metadata && metadata.has('infraSmartAlert')) {
+  if (metadata && metadata.has('infraSmartAlert') && !isPerEntityInfraSmartAlert(metadata, plugin)) {
     return <InfraSmartAlertEntityInformation metadata={metadata} />;
   }
 
@@ -74,6 +74,12 @@ export default function EntityInformation(props) {
     // !entityType || entityType === 'Entity10'
     return <InfraEntityInformation {...props} entity={entity} onClose={onClose} isCveRedirect={isCveRedirect} />;
   }
+}
+
+function isPerEntityInfraSmartAlert(metadata, plugin) {
+  const groupingInfo = metadata.get('groupingTags', {}).toJS();
+  const groupByTags = Object.keys(groupingInfo);
+  return groupByTags.length === 1 && groupByTags[0] === `id.${plugin}`;
 }
 
 function InfraSmartAlertEntityInformation({ metadata }) {

@@ -13,11 +13,23 @@ import {
   alertingEventDetailsChartTimeframe as minDurationMillis,
   alertingDialogItemPickerTimeframe as maxDurationMillis
 } from 'in-alerting/components/constants';
+import {
+  getChartTimeConfigByEvent,
+  getFromOfEvent,
+  getTimeConfigFromEvent,
+  getToOfEvent,
+  minEventEntityWindowSize
+} from 'in-events/timeframe';
+import {
+  customEvaluationType,
+  perEntityEvaluationType
+} from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/CustomOrPerEntityOption';
 import InfraAlertChartWrapper, {
   useGetMetricLabel
 } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
-import { getChartTimeConfigByEvent, getFromOfEvent, getToOfEvent, minEventEntityWindowSize } from 'in-events/timeframe';
 import { InfraAggregatedEntitiesTablePresenter } from 'in-events/components/EventContent/InfraAggregatedEntities';
+// @ts-expect-error
+import EntityInformation from 'in-events/components/EntityInformation/EntityInformation';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import { adjustTimestamp, getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
@@ -36,8 +48,8 @@ import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { infraPredictiveDetectionEnabled } from 'in-services/featureFlags';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { TagCatalog, TagFilterExpression, TimeConfig } from 'in-types';
@@ -48,7 +60,7 @@ import { emptyList, emptyMap } from 'in-services/fixedImmutables';
 import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
 import { deepCopy } from 'in-services/util/object';
-import PluginIcon from 'in-components/PluginIcon';
+import { getPluginName } from 'in-sdk/pluginName';
 import { EventOrMap } from 'in-events/types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -63,6 +75,8 @@ interface Props {
 
 export default function InfraEventContent({ event, snapshot, reload }: Props) {
   const alertConfig = useInfraEventAlertConfig(event);
+  const evaluationType = alertConfig?.evaluationType ?? customEvaluationType;
+  const isPerEntityEvaluation = evaluationType === perEntityEvaluationType;
   const entityType = alertConfig?.rule?.entityType ?? 'all';
   const tagCatalog = useTagCatalog({ ownerType: entityType });
 
@@ -77,8 +91,10 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
   }
 
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
-  const entityName = event.getIn(['metadata', 'entityName'], '');
-  const entityLabel = event.getIn(['metadata', 'entityLabel'], '');
+  const entityLabel = isPerEntityEvaluation
+    ? getPluginName(entityType, 1)
+    : event.getIn(['metadata', 'entityLabel'], '');
+
   const groupingTags = event.getIn(['metadata', 'groupingTags'], emptyMap).toJS();
   const predictions = event.getIn(['metadata', 'predictions'], emptyList).toJS();
   const lowerBound = event.getIn(['metadata', 'predictionsLowerBound'], emptyList).toJS();
@@ -120,14 +136,19 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
         <Col xs>
           <Card title={t('in-events:titleDescription')} leftHeaderContent={pillContent} className={locals.cardPadding}>
             <div className={locals.withPadding}>
-              <HorizontalFlexWrapper>
-                <PluginIcon className={locals.icon} size="s" plugin={entityType as string} />
-                {t('in-events:infraSmartAlerts.pseudoAggregatedEntityLabel', { entityName: entityName })}
-              </HorizontalFlexWrapper>
+              <EntityInformation
+                pathname={physicalDashboardPath}
+                entityId={event.get('entityId')}
+                entityType={event.get('entityType')}
+                metadata={event.get('metadata')}
+                timeConfig={timeConfig}
+                linkTimeConfig={getTimeConfigFromEvent(event)}
+                plugin={event.get('plugin')}
+              />
 
               <ProblemDescription fixSuggestion={fixSuggestion} />
             </div>
-            {alertConfig.evaluationType === 'CUSTOM' && (
+            {alertConfig.evaluationType === customEvaluationType && (
               <InfraAggregatedEntitiesTablePresenter
                 tagFilterFormModel={tagFilterFormModel}
                 timeConfig={getTimeConfigForAggregatedEntitiesTable(
@@ -229,7 +250,10 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
                 scopePath={
                   <>
                     <InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />
-                    <ScopeGroupingTags AlertQueryBuilder={AlertQueryBuilder} groupingTags={groupingTags} />
+                    <ScopeGroupingTags
+                      AlertQueryBuilder={AlertQueryBuilder}
+                      groupingTags={isPerEntityEvaluation ? {} : groupingTags}
+                    />
                   </>
                 }
               />
@@ -245,7 +269,10 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
   );
 }
 
-function getTimeConfigForAggregatedEntitiesTable(event: EventOrMap, granularity: number): TimeConfig | undefined {
+export function getTimeConfigForAggregatedEntitiesTable(
+  event: EventOrMap,
+  granularity: number
+): TimeConfig | undefined {
   const from = getFromOfEvent(event);
   if (!from) return undefined;
   const toForWs = adjustTimestamp(getToOfEvent(event) || Date.now(), granularity);

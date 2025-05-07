@@ -18,6 +18,7 @@ export default function MsSqlInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.msSqlDatabase.processId')}>{data.get('pid')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.msSqlDatabase.instanceName')}>{data.get('instance')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.msSqlDatabase.version')}>{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.msSqlDatabase.hostname')}>{data.get('hostname')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );

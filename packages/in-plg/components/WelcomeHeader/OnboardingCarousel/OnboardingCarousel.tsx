@@ -9,9 +9,12 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Stack, Typography, CarbonButton } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import WhatsNewBannerStepBuilder from 'in-plg/pages/WelcomePage/WhatsNewBanner/WhatsNewBannerStepBuilder';
 import { AccountActivationProp } from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
 import OnboardingStepBuilder from 'in-plg/pages/WelcomePage/OnboardingStepBuilder';
+import { playwithEnabled, whatsNewBannerEnabled } from 'in-services/featureFlags';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
+import config from 'in-services/config';
 
 import locals from 'in-plg/components/WelcomeHeader/OnboardingCarousel/OnboardingCarousel.mless';
 
@@ -25,11 +28,17 @@ export default function OnboardingCarousel({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState((localStorage.getItem('expandedState') as unknown as boolean) ?? true);
   const [isScrollDisabled, setIsScrollDisabled] = useState(false);
-  const [isLeftDisabled, setIsLeftDisabled] = useState(false);
-  const [isRightDisabled, setIsRightDisabled] = useState(false);
+  const [isLeftDisabled, setIsLeftDisabled] = useState(true);
+  const [isRightDisabled, setIsRightDisabled] = useState(true);
+  const { activeLicenseType } = config;
+  const showNewBanner = (whatsNewBannerEnabled && activeLicenseType !== 'selfService') || playwithEnabled;
   const collapsibleButton = {
-    showOnboardingTasks: t('in-plg:welcomepage.collapsibleButton.showOnboardingTasks'),
-    hideOnboardingTasks: t('in-plg:welcomepage.collapsibleButton.hideOnboardingTasks')
+    showButtonText: showNewBanner
+      ? t('in-plg:welcomepage.collapsibleButton.showWhatsNew')
+      : t('in-plg:welcomepage.collapsibleButton.showOnboardingTasks'),
+    hideButtonText: showNewBanner
+      ? t('in-plg:welcomepage.collapsibleButton.hideWhatsNew')
+      : t('in-plg:welcomepage.collapsibleButton.hideOnboardingTasks')
   };
 
   const checkScrollPosition = useCallback(() => {
@@ -125,21 +134,32 @@ export default function OnboardingCarousel({
   }, [handleScroll]);
 
   return (
-    activationData &&
-    activation !== null && (
-      <Stack direction="vertical" distribution="center">
-        {isExpanded && (
-          <div className={locals.carouselStack}>
-            <Stack direction="vertical" gap="medium">
-              <div className={locals.carouselTitle}>
-                <Typography variant="heading-05">{t('in-plg:welcomepage.foldableTileTitle')}</Typography>
-              </div>
-              <div ref={scrollContainerRef} id="carouselStack" className={locals.carousel}>
-                <OnboardingStepBuilder activation={activationData} />
-              </div>
-            </Stack>
-          </div>
-        )}
+    <Stack direction="vertical" distribution="center">
+      {!showNewBanner && activationData && activation !== null && isExpanded && (
+        <div className={locals.carouselStack}>
+          <Stack direction="vertical" gap="medium">
+            <div className={locals.carouselTitle}>
+              <Typography variant="heading-05">{t('in-plg:welcomepage.foldableTileTitle')}</Typography>
+            </div>
+            <div ref={scrollContainerRef} id="carouselStack" className={locals.carousel}>
+              <OnboardingStepBuilder activation={activationData} />
+            </div>
+          </Stack>
+        </div>
+      )}
+      {showNewBanner && isExpanded && (
+        <div className={locals.carouselStack}>
+          <Stack direction="vertical" gap="medium">
+            <div className={locals.carouselTitle}>
+              <Typography variant="heading-05">{t('in-plg:welcomepage.foldableTileTitleNewBanner')}</Typography>
+            </div>
+            <div ref={scrollContainerRef} id="newCarouselStack" className={locals.carousel}>
+              <WhatsNewBannerStepBuilder />
+            </div>
+          </Stack>
+        </div>
+      )}
+      {((activationData && activation !== null) || showNewBanner) && (
         <div className={`${locals.toolbarSection} ${!isExpanded ? locals.expanded : ''}`}>
           <Stack direction="horizontal" align="center" distribution="spaceBetween">
             <Stack align="start">
@@ -153,7 +173,7 @@ export default function OnboardingCarousel({
                 )}
                 onClick={toggleVisibility}
               >
-                {isExpanded ? collapsibleButton?.hideOnboardingTasks : collapsibleButton?.showOnboardingTasks}
+                {isExpanded ? collapsibleButton?.hideButtonText : collapsibleButton?.showButtonText}
               </CarbonButton>
             </Stack>
             {isExpanded && (
@@ -178,7 +198,7 @@ export default function OnboardingCarousel({
             )}
           </Stack>
         </div>
-      </Stack>
-    )
+      )}
+    </Stack>
   );
 }

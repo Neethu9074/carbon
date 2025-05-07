@@ -49,6 +49,7 @@ import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventC
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import MobileEventContent from 'in-events/components/EventContent/MobileEventContent';
 import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
@@ -61,12 +62,11 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import { productAreas } from 'in-services/tracking/productAreas';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventChart from 'in-events/components/EventChart';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -86,19 +86,23 @@ export default function Summary(props) {
   const latestSnapshot = expiredSnapshotVersions && getLatestSnapshot(expiredSnapshotVersions.toArray());
   const eventType = getEventType(event);
   const isIncident = eventType === EVENT_TYPES.INCIDENT;
-  const location = useLocation();
+  const { location, navigate } = useNavigation();
 
   useEffect(() => {
     // make sure that tracking is enabled. This is done because tab changes should not cause duplicate page views
     const tracking = getMatrixParameter(location, eventsPath, 'track');
+    const referrer = location.query['ref']; // get referrer if that info is available in the url
     // if the url is marked to ignore tracking (from ViewSwitcher) then don't send a PageView as this
     // causes duplicate PageViews that don't reflect reality
     if (selectedEventId !== undefined && tracking !== 'false') {
-      const configType = event.getIn(['metadata', 'eventConfigurationType']);
-      eventsPageTracker(productAreas.event, getEventTrackingType(event), props.location, configType);
+      setOrDeleteMatrixKey(location, eventsPath, 'track', false);
+      // delete reference from url if the user was refered to the page from an alert (otherwise subsequent page views will also consider it to be referred)
+      delete location.query['ref'];
+      navigate(location);
+      eventsPageTracker(productAreas.event, getEventTrackingType(event), props.location, event, referrer);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [event]);
+  }, [event.get('id')]);
 
   if (!event || selectedEventId !== event.get('id')) {
     return <LoadingIndicator size="xxxl" style={{ height: '200px' }} />;
@@ -191,6 +195,7 @@ function EventContent({ event, latestSnapshot, reload }) {
               metadata={event.get('metadata')}
               timeConfig={timeConfig}
               linkTimeConfig={getTimeConfigFromEvent(event)}
+              plugin={event.get('plugin')}
             />
             <SubEntityInformation event={event} />
             {isAgentMonitoringIssueEvent(event) ? (

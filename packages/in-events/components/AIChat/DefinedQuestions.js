@@ -4,6 +4,7 @@
  */
 
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
+import { EVENT_AI_CLICK_EPWT_LINK } from 'in-services/tracking/tracking';
 import { t } from 'in-i18n';
 
 const WELCOME_TEXT = t('in-events:aichat.welcome');
@@ -114,10 +115,11 @@ export const InitialLoadOptions = [
   technologyOptions
 ];
 
-export function handleDefinedTreeQuestions(request, instance) {
+export function handleDefinedTreeQuestions(request, instance, trackCta) {
   if (!automationActionAiGenerationUnitEnabled) {
     if (request.input.text === CONSENT_PROMPT.action) {
       window.open(CONSENT_PROMPT.href, '_blank');
+      trackCta?.(EVENT_AI_CLICK_EPWT_LINK, {});
       instance.messaging.addMessage({
         output: {
           generic: [

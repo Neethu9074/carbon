@@ -73,27 +73,25 @@ export default function ThresholdSelectionInteractiveSection({
             />
           </CustomEventsThresholdCondition>
         )}
-        renderSlowness={() =>
-          eumType === websiteEum && (
-            <SlownessThresholdCondition
-              form={form}
-              blueprintConfig={blueprintConfig}
-              updateForm={updateForm}
-              editMode={editMode}
-              eumType={eumType}
-              onChartViewConfigChange={onChartViewConfigChange}
-              isPercentageMetric={isPercentageMetric}
-              alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
-            >
-              <InvalidFilterMessage
-                isTagFilterFormModelValid={isTagFilterFormModelValid}
-                tagFilterExpression={tagFilterExpression}
-                thresholdType={thresholdType}
-                setStep={setStep}
-              />
-            </SlownessThresholdCondition>
-          )
-        }
+        renderSlowness={() => (
+          <SlownessThresholdCondition
+            form={form}
+            blueprintConfig={blueprintConfig}
+            updateForm={updateForm}
+            editMode={editMode}
+            eumType={eumType}
+            onChartViewConfigChange={onChartViewConfigChange}
+            isPercentageMetric={isPercentageMetric}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
+          >
+            <InvalidFilterMessage
+              isTagFilterFormModelValid={isTagFilterFormModelValid}
+              tagFilterExpression={tagFilterExpression}
+              thresholdType={thresholdType}
+              setStep={setStep}
+            />
+          </SlownessThresholdCondition>
+        )}
         renderStatusCode={() => (
           <StatusCodeThresholdCondition
             form={form}

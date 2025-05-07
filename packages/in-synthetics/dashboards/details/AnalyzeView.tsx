@@ -4,27 +4,30 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { get, head } from 'lodash';
 
-import { PaginatedResult, Result, TestResultListItem } from '@instana/types/typeDefinitions';
+import { Error, PaginatedResult, Result, TestResultListItem } from '@instana/types/typeDefinitions';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
+import {
+  dummyResultDetails,
+  dummyResultMetadata,
+  dummyTestResultList,
+  ResultDetailsResponse,
+  ResultMetadataResponse,
+  runTypeCICD
+} from 'in-synthetics/utils/constants';
 import {
   useSyntheticContextConfiguration,
   getTestTypeTimeline,
   getSyntheticCustomMetricLabels,
   getSyntheticTagLabels
 } from 'in-synthetics/dashboards/details/utils';
-import {
-  dummyResultDetails,
-  dummyResultMetadata,
-  dummyTestResultList,
-  ResultDetailsResponse,
-  ResultMetadataResponse
-} from 'in-synthetics/utils/constants';
+import { showCICDRerunErrorMessage, showCICDRerunSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import { CustomPropertiesSection } from 'in-synthetics/dashboards/details/components/CustomPropertiesSection';
 import SSLCertificateDetails from 'in-synthetics/dashboards/details/components/SSLCertificateDetails';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -33,6 +36,7 @@ import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDe
 import getTestResultListStatus from 'in-synthetics/subscriptions/getTestResultListStatus';
 import { startTimeTagName, testIdTagName, testResultIdTagName } from 'in-synthetics/tags';
 import DownloadButton from 'in-synthetics/dashboards/details/components/DownloadButton';
+import { syntheticDNSEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -44,21 +48,23 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
+import { getTestResultMetadata, rerunTest } from 'in-synthetics/api';
 import Logs from 'in-synthetics/dashboards/details/components/Logs';
 import { getValidFormat } from 'in-synthetics/utils/getValidFormat';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
-import { syntheticDNSEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
-import { getTestResultMetadata } from 'in-synthetics/api';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Sticky from 'in-components/Sticky';
+
+import locals from 'in-synthetics/dashboards/details/components/DownloadButton.mless';
 
 const AnalyzeView = () => {
   const location = useLocation();
   const timeConfig = useTimeConfig();
+  const [isRerunningTest, setIsRerunningTest] = useState(false);
   const page = 1;
   const pageSize = 1;
   const testId: string = getMatrixParameter(location, syntheticDetailsPath, 'testId') ?? '';
@@ -74,9 +80,10 @@ const AnalyzeView = () => {
   const isDNS: boolean = testType === 'DNS';
   const responseSize = getMatrixParameter(location, syntheticDetailsPath, 'responseSize');
   const resultsLabel: string = getMatrixParameter(location, syntheticDetailsPath, 'resultsLabel') ?? '';
+  const runType: string = getMatrixParameter(location, syntheticDetailsPath, 'runType') ?? '';
 
   const testResultMetadata: ResultMetadataResponse =
-    useObservable<any, [number]>(() => getTestResultMetadata(testId, resultId, startTime), [0]) || dummyResultMetadata;
+    useObservable<any, [number]>(() => getTestResultMetadata(testId, resultId, startTime), [0]) ?? dummyResultMetadata;
   const formatType = testResultMetadata.progress.loading ? '' : getValidFormat(testResultMetadata);
   const metadata = testResultMetadata.progress.loading
     ? ''
@@ -97,7 +104,7 @@ const AnalyzeView = () => {
         }
       },
       [formatType]
-    ) || dummyResultDetails;
+    ) ?? dummyResultDetails;
 
   const tagFilters = [
     {
@@ -147,7 +154,33 @@ const AnalyzeView = () => {
           tagFilters: tagFilters
         }),
       [0]
-    ) || dummyTestResultList;
+    ) ?? dummyTestResultList;
+
+  const triggerRerun = () => {
+    try {
+      setIsRerunningTest(true);
+      rerunTest([
+        {
+          testId,
+          customization: JSON.parse(
+            resultList.data?.items[0]?.testResultCommonProperties.customTags?.testCICDCustomization!
+          )
+        }
+      ]).once(
+        () => {
+          setIsRerunningTest(false);
+          showCICDRerunSuccessMessage();
+        },
+        error => {
+          setIsRerunningTest(false);
+          showCICDRerunErrorMessage(error.message);
+        }
+      );
+    } catch (error) {
+      setIsRerunningTest(false);
+      showCICDRerunErrorMessage((error as Error).message ?? 'Unknown error');
+    }
+  };
 
   return (
     <Sticky
@@ -177,9 +210,25 @@ const AnalyzeView = () => {
             }}
           />
           <Fragment>
-            {isBrowserTest && (
+            {(isBrowserTest || (syntheticRunNowEnabled && runType === runTypeCICD)) && (
               <Row>
-                <DownloadButton testId={testId} resultId={resultId} metadata={metadata} startTime={startTime} />
+                <Col xs>
+                  <div className={locals.button}>
+                    {syntheticRunNowEnabled && runType === runTypeCICD && (
+                      <Button
+                        className={locals.buttonLabel}
+                        kind="secondary"
+                        onClick={triggerRerun}
+                        disabled={isRerunningTest}
+                      >
+                        {t('in-synthetics:dashboard.detailsPage.cicd.rerunButtonLabel')}
+                      </Button>
+                    )}
+                    {isBrowserTest && (
+                      <DownloadButton testId={testId} resultId={resultId} metadata={metadata} startTime={startTime} />
+                    )}
+                  </div>
+                </Col>
               </Row>
             )}
             <AnalyzeViewKPIs

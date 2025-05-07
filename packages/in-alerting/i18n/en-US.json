@@ -1061,12 +1061,10 @@
         "specificStatusCodeRate": "Status code rate",
         "pageLoads": "Page loads",
         "pageTransitions": "Page transitions",
-        "slownessBlueprintConfigName": "Slowness",
 
         "slownessBlueprintConfigHeadline": "Automatic alerts for onLoad time or HTTP latency",
         "slownessBlueprintConfigTextP": "Receive an alert when the onLoad time or HTTP latency exceeds a specified threshold.",
         "slownessBlueprintConfigMetricLabel": "onLoad time",
-        "slownessBlueprintConfigHttpMetricLabel": "HTTP latency",
         "jsErrorsBlueprintConfigName": "JS errors",
         "jsErrorsBlueprintConfigHeadline": "Automatic alerts for JS errors",
         "jsErrorsBlueprintConfigText": "Receive an alert every time when matching JS error messages occur more often than usual.",
@@ -1105,7 +1103,6 @@
         "ruleMetricNameOptionStatusCodeHttpxxx": "Status code count",
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "Status code rate",
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad time",
-        "ruleMetricNameOptionSlownessHttpLatency": "HTTP latency",
         "ruleMetricNameOptionThroughputPageLoads": "Page loads",
         "ruleMetricNameOptionThroughputPageTransitions": "Page transitions"
       },
@@ -1359,6 +1356,8 @@
     },
     "mobileApp": {
       "data": {
+        "slownessBlueprintConfigHeadline": "Automatic alerts for HTTP latency",
+        "slownessBlueprintConfigTextP": "Receive an alert when the HTTP latency exceeds a specified threshold.",
         "statusCodeCount": "Status code count",
         "beaconRate": "Status code rate",
         "views": "Views",
@@ -1498,6 +1497,10 @@
           "title": "Define alert channels",
           "description": "Select where you want to be notified for this alert"
         },
+        "slowness": {
+          "headline": "Automatic alerts for HTTP latency",
+          "text": "Receive an alert when the HTTP latency exceeds a specified threshold."
+        },
         "statusCode": {
           "headline": "Automatic alerts for HTTP status codes",
           "text": "Receive an alert when an HTTP status code occurs more often than usual."
@@ -1527,6 +1530,10 @@
       }
     },
     "eum": {
+      "slowness": { 
+        "blueprintConfigName": "Slowness",
+        "httpLatencyMetricLabel": "HTTP latency" 
+      },
       "customEvent": {
         "customEventSelectionSliderTitle": "Choose custom event",
         "customEventLabel": "Custom event",

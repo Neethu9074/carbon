@@ -85,6 +85,8 @@
       "entityAndMetricStatistics": "Entity and metric statistics",
       "entityStatisticsDesc": "Shows how many infrastructure entities are monitored within this unit, broken down by plugin.",
       "entityAndMetricStatisticsDesc": "Shows how many infrastructure entities and metrics are monitored within this unit, broken down by plugin.",
+      "bytesIngestedStatistics": "Bytes ingested statistics",
+      "bytesIngestedStatisticsDesc": "Show how many byes were ingested, broken down by plugin.",
       "agentsDesc": "Metrics for all agents reporting to this unit.",
       "graphExplorer": "Graph explorer",
       "graphExplorerDesc": "Use this to analyze graph relations between infrastructure entities existing within this unit.",
@@ -833,6 +835,10 @@
         "metricCount": "Metric count",
         "entityAndMetricCount": "Entity and metric counts",
         "perPluginEntityAndMetricCount": "Per plugin entity and metric counts"
+      },
+      "bytesIngestedStatistics": {
+        "plugin": "Plugin",
+        "size": "Bytes ingested"
       },
       "eum": {
         "websiteBeacons": "Website beacons",

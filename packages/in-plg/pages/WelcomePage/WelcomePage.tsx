@@ -12,9 +12,9 @@ import useGetAccountActivation, {
   AccountActivationProp
 } from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
 import { Activation } from 'in-plg/pages/WelcomePage/widgets/types/AccountInfoTypeDefinition';
+import { solisEnabled, whatsNewBannerEnabled } from 'in-services/featureFlags';
 import WelcomeHeader from 'in-plg/components/WelcomeHeader/WelcomeHeader';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { playwithEnabled, solisEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
 import PageContent from 'in-plg/pages/WelcomePage/PageContent';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -27,7 +27,7 @@ export default function WelcomePage() {
   const { location } = useNavigation();
   const activation = useGetAccountActivation();
   const currentTenantUnit = `${config.tenant}#${config.tenantUnit}`;
-
+  const { activeLicenseType } = config;
   const [randomNumber, setRandomNumber] = useState(0);
 
   // Temporary. In the future, which teaser is loaded depends on which products are already integrated with Instana.
@@ -39,7 +39,7 @@ export default function WelcomePage() {
     <div className={locals.container}>
       <ThemeProvider theme="g10">
         <WelcomeHeader
-          onboardingHeaderEnabled={showCarousal(activation, currentTenantUnit)}
+          onboardingHeaderEnabled={showCarousal(activation, currentTenantUnit, activeLicenseType)}
           accountActivationData={activation}
         />
         <ViewTrackingMeta
@@ -76,8 +76,13 @@ export default function WelcomePage() {
  * @param {string} currentTenantUnit The key representing the tenant unit to check within the activation object.
  * @returns {boolean} Returns `true` if all specified activation statuses are `true`, otherwise `false`.
  */
-const showCarousal = (activation: AccountActivationProp, currentTenantUnit: string): boolean => {
-  if (playwithEnabled) return false;
+const showCarousal = (
+  activation: AccountActivationProp,
+  currentTenantUnit: string,
+  activeLicenseType: string
+): boolean => {
+  if (activeLicenseType !== 'selfService' && whatsNewBannerEnabled) return true;
+  // If it is selfService or if featureflag is off show the banner based on the below checklist
   if (!activation || !activation[currentTenantUnit]) return false;
   const keysToCheck: Array<keyof Activation[typeof currentTenantUnit]> = [
     'fa',

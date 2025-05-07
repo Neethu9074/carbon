@@ -16,6 +16,8 @@ import {
   Stack,
   Spacer
 } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -24,9 +26,13 @@ import {
   PROFILE_MENU_USER_PROFILE_CLICK,
   PROFILE_MENU_SAAS_CONSOLE_CLICK
 } from 'in-services/tracking/tracking';
-import { tealiumPrivacyEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
+import { rbacTeamsEnabled, tealiumPrivacyEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
+import TeamFocusDropdown from 'in-components/MainNavigation/components/ProfileMenu/TeamFocusDropdown';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { userSettingsProfile } from 'in-settings/navigation/paths';
+import { pendingResult } from 'in-services/fixedObjects';
+import { isLoading } from 'in-services/util/result';
+import { getTeamsByUserId } from 'in-api/teams';
 import config from 'in-services/config';
 import { user } from 'in-stores/user';
 
@@ -46,6 +52,10 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
   // and the active license type is either 'hostBasedPaid' or 'payPerUse'.
   const shouldShowMcspMenuItems =
     isMcspEnvironment && (activeLicenseType === 'hostBasedPaid' || activeLicenseType === 'payPerUse');
+
+  const teamsObservable = useObservable(rbacTeamsEnabled ? getTeamsByUserId() : just(null), []) ?? pendingResult;
+  const teams = teamsObservable?.data ?? [];
+  const isTeamsLoading = isLoading(teamsObservable);
 
   const signOut = (event: MouseEvent) => {
     event.preventDefault();
@@ -84,6 +94,12 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
           </Typography>
         </div>
         <SwitcherDivider />
+        {rbacTeamsEnabled && !isTeamsLoading && (
+          <div className={local.profileMenu_teamFocusSection}>
+            <TeamFocusDropdown teams={teams} />
+          </div>
+        )}
+        {rbacTeamsEnabled && <SwitcherDivider />}
         <div className={local.profileMenu_unitTenantSection}>
           <Typography variant="label-01" onDark>
             <label className={local.profileMenu_label}>

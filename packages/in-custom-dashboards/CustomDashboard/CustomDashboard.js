@@ -37,6 +37,7 @@ import ZoomWidgetDialog from 'in-custom-dashboards/CustomDashboard/ZoomWidgetDia
 import EditAsJsonDialog from 'in-custom-dashboards/CustomDashboard/EditAsJsonDialog/EditAsJsonDialog';
 import { CustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/CustomDashboardContext';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
+import { FilterContext } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
 import { activeDialogs$, addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
@@ -231,14 +232,16 @@ export default function CustomDashboardLoader(props) {
     const { Widget } = widgets[widget.type];
     trackCta(CUSTOM_DASHBOARD_ZOOM_WIDGET_START, getTrackingMeta(widget));
     addActiveDialog(
-      <ZoomWidgetDialog
-        widget={widget}
-        component={Widget}
-        close={() => {
-          trackCta(CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH, getTrackingMeta(widget));
-          close();
-        }}
-      />
+      <FilterContext.Provider value={topLevelFilters}>
+        <ZoomWidgetDialog
+          widget={widget}
+          component={Widget}
+          close={() => {
+            trackCta(CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH, getTrackingMeta(widget));
+            close();
+          }}
+        />
+      </FilterContext.Provider>
     );
   }
 

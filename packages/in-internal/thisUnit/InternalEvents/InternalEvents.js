@@ -113,6 +113,7 @@ function Event({ event, timeConfig }) {
             metadata={event.metadata}
             timeConfig={timeConfig}
             linkTimeConfig={getTimeConfigFromEvent(event)}
+            plugin={event.plugin}
           />
         </Col>
       </Row>

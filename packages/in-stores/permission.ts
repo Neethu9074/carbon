@@ -13,14 +13,15 @@ import {
   sapEnabled,
   syntheticsEnabled,
   vsphereEnabled,
+  windowsHypervisorEnabled,
+  xenserverEnabled,
   zhmcEnabled,
   sloFullEnabled,
   powervcEnabled,
   infraSmartAlertsEnabled,
   logSmartAlertsEnabled,
   applicationSubtracesEnabled,
-  nutanixEnabled,
-  xenserverEnabled
+  nutanixEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -36,13 +37,14 @@ export const LimitedAccessScope = Object.freeze({
   LIMITED_VSPHERE_SCOPE: 'LIMITED_VSPHERE_SCOPE',
   LIMITED_PHMC_SCOPE: 'LIMITED_PHMC_SCOPE',
   LIMITED_POWERVC_SCOPE: 'LIMITED_POWERVC_SCOPE',
+  LIMITED_XENSERVER_SCOPE: 'LIMITED_XENSERVER_SCOPE',
+  LIMITED_WINDOWS_HYPERVISOR_SCOPE: 'LIMITED_WINDOWS_HYPERVISOR_SCOPE',
   LIMITED_ZHMC_SCOPE: 'LIMITED_ZHMC_SCOPE',
   LIMITED_PCF_SCOPE: 'LIMITED_PCF_SCOPE',
   LIMITED_OPENSTACK_SCOPE: 'LIMITED_OPENSTACK_SCOPE',
   LIMITED_SAP_SCOPE: 'LIMITED_SAP_SCOPE',
   LIMITED_AUTOMATION_SCOPE: 'LIMITED_AUTOMATION_SCOPE',
-  LIMITED_NUTANIX_SCOPE: 'LIMITED_NUTANIX_SCOPE',
-  LIMITED_XENSERVER_SCOPE: 'LIMITED_XENSERVER_SCOPE'
+  LIMITED_NUTANIX_SCOPE: 'LIMITED_NUTANIX_SCOPE'
 } as const);
 export type LimitedAccessScopeType = keyof typeof LimitedAccessScope;
 export const LimitedAccessScopes = Object.freeze(Object.values(LimitedAccessScope));
@@ -57,6 +59,8 @@ export const AreaPermission = Object.freeze({
   ACCESS_VSPHERE: 'ACCESS_VSPHERE',
   ACCESS_PHMC: 'ACCESS_PHMC',
   ACCESS_POWERVC: 'ACCESS_POWERVC',
+  ACCESS_XENSERVER: 'ACCESS_XENSERVER',
+  ACCESS_WINDOWS_HYPERVISOR: 'ACCESS_WINDOWS_HYPERVISOR',
   ACCESS_ZHMC: 'ACCESS_ZHMC',
   ACCESS_PCF: 'ACCESS_PCF',
   ACCESS_OPENSTACK: 'ACCESS_OPENSTACK',
@@ -64,8 +68,7 @@ export const AreaPermission = Object.freeze({
   ACCESS_SAP: 'ACCESS_SAP',
   ACCESS_BIZOPS: 'ACCESS_BIZOPS',
   ACCESS_AUTOMATION: 'ACCESS_AUTOMATION',
-  ACCESS_NUTANIX: 'ACCESS_NUTANIX',
-  ACCESS_XENSERVER: 'ACCESS_XENSERVER'
+  ACCESS_NUTANIX: 'ACCESS_NUTANIX'
 } as const);
 export type AreaPermissionType = keyof typeof AreaPermission;
 export const AreaPermissions = Object.freeze(Object.values(AreaPermission));
@@ -184,6 +187,9 @@ export const hasPHMCAccess =
   hasPermission(LimitedAccessScope.LIMITED_PHMC_SCOPE, AreaPermission.ACCESS_PHMC) && phmcEnabled;
 export const hasPowerVcAccess =
   hasPermission(LimitedAccessScope.LIMITED_POWERVC_SCOPE, AreaPermission.ACCESS_POWERVC) && powervcEnabled;
+export const hasWindowsHypervisorAccess =
+  hasPermission(LimitedAccessScope.LIMITED_WINDOWS_HYPERVISOR_SCOPE, AreaPermission.ACCESS_WINDOWS_HYPERVISOR) &&
+  windowsHypervisorEnabled;
 export const hasZHMCAccess =
   hasPermission(LimitedAccessScope.LIMITED_ZHMC_SCOPE, AreaPermission.ACCESS_ZHMC) && zhmcEnabled;
 export const hasPCFAccess =
@@ -205,6 +211,7 @@ export const hasAPlatformAccess =
   hasOpenStackAccess ||
   hasKubernetesAccess ||
   hasSAPAccess ||
+  hasWindowsHypervisorAccess ||
   hasNutanixAccess ||
   hasXenServerAccess;
 
@@ -226,6 +233,7 @@ export const amountPlatformAccesses = (() => {
   if (hasSAPAccess) count++;
   if (hasNutanixAccess) count++;
   if (hasXenServerAccess) count++;
+  if (hasWindowsHypervisorAccess) count++;
   return count;
 })();
 

@@ -24,7 +24,7 @@ import { logsPath } from 'in-logging/navigation/paths';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export default function LoggingAnalyzeView() {
+export default function AnalyzeView() {
   const { trackCta } = useSegmentTracking();
   useTimeSpentInsideComponent(millisSpentOnAnalyzeView =>
     trackCta(ANALYZE_LOGGING_TIME_SPENT, { millisSpentOnAnalyzeView })

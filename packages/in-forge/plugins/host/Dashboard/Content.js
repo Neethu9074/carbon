@@ -22,6 +22,7 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
 import WinServicesTable from 'in-forge/plugins/host/Dashboard/WinServicesTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import CpuProcessTable from 'in-forge/plugins/host/Dashboard/CpuProcessTable';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
@@ -396,6 +397,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
 
+      {isAixOs(snapshot) && <CpuProcessTable snapshot={snapshot} timeConfig={timeConfig} />}
       {isAixOs(snapshot) && <VolumeGroups snapshot={snapshot} timeConfig={timeConfig} />}
       {isAixOs(snapshot) && <PhysicalVolume snapshot={snapshot} timeConfig={timeConfig} />}
       {isAixOs(snapshot) && <Disks snapshot={snapshot} timeConfig={timeConfig} />}

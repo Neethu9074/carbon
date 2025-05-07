@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Tooltip } from '@instana/components';
 import { just } from '@instana/observables';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -27,6 +28,7 @@ import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import ServiceContext from 'in-applications/components/ServiceContext';
+import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoint from 'in-applications/subscriptions/getEndpoint';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
@@ -37,6 +39,7 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { capitalize } from 'in-services/formatters/string';
 import { boundaryScopes } from 'in-applications/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
@@ -243,9 +246,22 @@ function RenderButtonLineSecondary({ currentTab, applicationId, boundaryScope, o
 }
 
 function renderMetaInformation({ result }) {
+  const isSynthetic = result?.data.synthetic;
   return (
     <>
       <EndpointTypeBadgeList types={[result.data.type]} />
+      {isSynthetic && (
+        <Tooltip
+          align="leftMiddle"
+          content={
+            result.data.syntheticType === 'MIXED'
+              ? t('in-applications:syntheticAndNonsynthetic')
+              : t('in-applications:synthetic')
+          }
+        >
+          <Badge type={'magenta'}>{capitalize(result.data.syntheticType)}</Badge>
+        </Tooltip>
+      )}
       <TechnologyIndicatorList technologies={result.data.technologies} responsive={false} />
     </>
   );

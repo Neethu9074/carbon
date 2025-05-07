@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
  */
 
 import classNames from 'classnames';
@@ -28,6 +29,7 @@ const DropdownButton = React.forwardRef<HTMLButtonElement, Props>(function Dropd
     kind,
     icon,
     darkTheme,
+    title,
     isBreadCrumbButton,
     className = '',
     spanClassName,
@@ -48,6 +50,7 @@ const DropdownButton = React.forwardRef<HTMLButtonElement, Props>(function Dropd
       className={className}
       aria-haspopup
       aria-expanded={expanded}
+      title={title}
       {...(isBreadCrumbButton ? {} : { darkTheme: darkTheme })}
     >
       {isBreadCrumbButton ? (
