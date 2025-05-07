@@ -76,6 +76,8 @@ export default function Summary({ data }: { data: SnapshotData }) {
               metric={'workloadcounts.workProcessRowCount'}
               formatter={number.compact}
             />
+            /
+            <MetricValue snapshotId={snapshotId} metric={'workloadcounts.waiting'} formatter={number.compact} />
           </KpiCard>
         </Col>
         <Col lg={3}>
