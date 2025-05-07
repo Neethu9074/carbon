@@ -9,7 +9,7 @@ import React, { Fragment, useState } from 'react';
 import { ButtonGroup } from '@instana/components';
 
 import { EVENT_RCA_ERROR_LOGS_TAB_CLICK, EVENT_RCA_TRACE_LOGS_TAB_CLICK } from 'in-services/tracking/eventNames';
-import { trackRcaClick, TrackRcaClickProps } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
+import { trackClick, TrackRcaClickProps } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import RootCauseErrorMessagesTable from 'in-events/components/RootCauseAnalysis/Logs/RootCauseErrorTable';
 import RootCauseLogMessagesTable from 'in-events/components/RootCauseAnalysis/Logs/RootCauseLogTable';
 import { ApplicationBoundaryScope, TimeConfig } from 'in-types';
@@ -60,7 +60,7 @@ export default function RootCauseContextDashboard({
           key: 'errorMessages',
           onClick() {
             setConfigsCategory('errorMessages');
-            trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ERROR_LOGS_TAB_CLICK });
+            trackClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ERROR_LOGS_TAB_CLICK });
           }
         },
         {
@@ -68,7 +68,7 @@ export default function RootCauseContextDashboard({
           key: 'traceLogs',
           onClick() {
             setConfigsCategory('traceLogs');
-            trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_TRACE_LOGS_TAB_CLICK });
+            trackClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_TRACE_LOGS_TAB_CLICK });
           }
         }
       ]}

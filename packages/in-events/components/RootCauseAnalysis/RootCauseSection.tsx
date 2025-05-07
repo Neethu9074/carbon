@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { ReactNode, Ref, memo, useMemo, useState } from 'react';
+import React, { ReactNode, Ref, memo, useContext, useMemo, useState } from 'react';
 import { get, has, isEmpty, isNull } from 'lodash';
 
 import {
@@ -42,18 +42,16 @@ import getRootCauseTabLabel from 'in-events/components/RootCauseAnalysis/utils/g
 import RootCauseLogsSection from 'in-events/components/RootCauseAnalysis/Logs/RootCauseLogsSection';
 import RootCauseEntityDetails from 'in-events/components/RootCauseAnalysis/RootCauseEntityDetails';
 import AssociatedEvents from 'in-events/components/RootCauseAnalysis/RootCauseAssociatedEvents';
-import { trackRcaClick } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
+import { trackClick } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { rcaFailedStateEnabled, rcaLogsEnabled } from 'in-services/featureFlags';
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { useLinkToAnalyze } from 'in-applications/navigation/paths';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { EventOrMap } from 'in-events/types';
-import { Nullish } from 'in-types';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 
@@ -173,13 +171,13 @@ const RootCauseSection = ({ incident, rcaRef }: RootCauseSectionProps) => {
                     const probabilityScore = rootCauses[val.selectedIndex].probFailure;
                     const rcaEntityType = determineEntityTypeFromEntityIDMap(rootCauses[val.selectedIndex].entityID);
                     const rcaTrackingData = {
-                      incident,
+                      event: incidentJSON,
                       location,
-                      rootCauseTab,
+                      rootCauseTab: val.selectedIndex,
                       rcaEntityType,
                       probabilityScore
                     };
-                    trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_PANNEL_TAB_CLICK });
+                    trackClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_PANNEL_TAB_CLICK });
                   }}
                 >
                   <CarbonTabList aria-label="List of RCA Entities" contained>
@@ -202,7 +200,7 @@ const RootCauseSection = ({ incident, rcaRef }: RootCauseSectionProps) => {
                   )}
                   <AssociatedEvents rootCause={rootCauses[rootCauseTab]} incident={incidentJSON} />
                   <div className={locals.accordionContent}>
-                    <FeedbackComponent incident={incident} />
+                    <FeedbackComponent incident={incidentJSON} rootCause={rootCauses[rootCauseTab]} />
                   </div>
                 </Stack>
               )}
@@ -247,15 +245,24 @@ const ProbableRootCauseCard = ({ children, rcaRef }: ProbableRootCauseCardProps)
 );
 
 interface FeedbackComponentProps {
-  incident: EventOrMap | Nullish;
+  incident: Event;
+  rootCause: RootCause;
 }
 
-function FeedbackComponent({ incident }: FeedbackComponentProps) {
-  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
-  const { trackCta } = useSegmentTracking();
-
+function FeedbackComponent({ incident, rootCause }: FeedbackComponentProps) {
   const [thumbsDown, setThumbsDown] = useState(false);
   const [thumbsUp, setThumbsUp] = useState(false);
+  const { selectedRootCause } = useContext(SelectedRootCauseContext);
+  const { location } = useNavigation();
+  const probabilityScore = rootCause.probFailure;
+  const rcaEntityType = determineEntityTypeFromEntityIDMap(rootCause.entityID);
+  const rcaTrackingData = {
+    event: incident,
+    location,
+    rootCauseTab: selectedRootCause,
+    rcaEntityType,
+    probabilityScore
+  };
 
   return (
     <Stack direction="horizontal" gap="small" align="center">
@@ -270,7 +277,7 @@ function FeedbackComponent({ incident }: FeedbackComponentProps) {
         type="lib_thumbs_up"
         iconSize="xs"
         onClick={() => {
-          trackCta(EVENT_RCA_SUGGESTION_HELPFUL, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
+          trackClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_SUGGESTION_HELPFUL });
           setThumbsUp(true);
         }}
       />
@@ -280,27 +287,26 @@ function FeedbackComponent({ incident }: FeedbackComponentProps) {
         type="lib_thumbs_down"
         iconSize="xs"
         onClick={() => {
-          trackCta(EVENT_RCA_SUGGESTION_UNHELPFUL, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
+          trackClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_SUGGESTION_UNHELPFUL });
           addActiveDialog(
             <EventFeedbackDialog
               stepConfig={rcaStepConfig}
-              nextStepTracker={instrumentationEventProperties => {
-                trackCta(EVENT_RCA_FEEDBACK_NEXT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+              nextStepTracker={() => {
+                trackClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_FEEDBACK_NEXT });
               }}
-              skipStepTracker={instrumentationEventProperties => {
-                trackCta(EVENT_FEEDBACK_SKIP, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+              skipStepTracker={() => {
+                trackClick({ ...rcaTrackingData, ctaEvent: EVENT_FEEDBACK_SKIP });
               }}
-              closedManuallyTracker={instrumentationEventProperties => {
-                trackCta(
-                  EVENT_RCA_FEEDBACK_CLOSED_MANUALLY,
-                  instrumentationEventProperties,
-                  SEGMENT_EVENT_PROPERTY_CHANNEL
-                );
+              closedManuallyTracker={() => {
+                trackClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_FEEDBACK_CLOSED_MANUALLY });
               }}
               submitTracker={instrumentationEventProperties => {
-                trackCta(EVENT_RCA_FEEDBACK_SUBMIT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+                trackClick({
+                  ...rcaTrackingData,
+                  ctaEvent: EVENT_RCA_FEEDBACK_SUBMIT,
+                  payload: instrumentationEventProperties
+                });
               }}
-              submitMetadata={{ incident }}
             />
           );
           setThumbsDown(true);

@@ -25,13 +25,8 @@ export const rcaStepConfig: IStepConfig = {
       <FeedbackStepOne nextStep={nextStep} form={form} setForm={setForm} />
     ),
     validateStep: (form: MapForm<FeedbackConfigEventForm>) => {
-      if (form && form.get('thingsWentWrong') && !form.get('thingsWentWrong').touched) return true;
-      if (
-        form &&
-        form.get('thingsWentWrong') &&
-        form.get('thingsWentWrong').touched &&
-        form.get('thingsWentWrong').value.length <= 0
-      )
+      if (form && form.get('feedback') && !form.get('feedback').touched) return true;
+      if (form && form.get('feedback') && form.get('feedback').touched && form.get('feedback').value.length <= 0)
         return true;
       return false;
     },

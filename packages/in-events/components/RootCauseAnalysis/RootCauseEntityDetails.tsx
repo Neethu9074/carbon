@@ -17,7 +17,7 @@ import {
   extractAggregatedErrorRateFromExplainability,
   getIconForRCADisplay,
   isServiceLabelValidToDisplayInRCA,
-  trackRcaClick,
+  trackClick,
   TrackRcaClickProps,
   useGenerateLinkToAnalyzePage,
   useGenerateLinkToDashboard
@@ -67,7 +67,7 @@ export default function RootCauseEntityDetails({ incident, rootCauses }: RootCau
 
   const probabilityScore = selectedRootCause.probFailure;
   const rcaTrackingData = {
-    incident,
+    event: incident,
     location,
     rootCauseTab,
     rcaEntityType,
@@ -278,7 +278,7 @@ export default function RootCauseEntityDetails({ incident, rootCauses }: RootCau
                 size="compact"
                 onClick={() => {
                   const payload = { urlForEntity: urlForAnalysisPage };
-                  trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ANALYZE_CLICK, payload });
+                  trackClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ANALYZE_CLICK, payload });
                 }}
                 className={locals.analyzeButton}
               >
@@ -405,7 +405,7 @@ function EntityPath({
           href={linkToEntity}
           onClick={() => {
             const payload = { mainEntity: true, entityType: entityType };
-            trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ENTITY_CLICK, payload });
+            trackClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ENTITY_CLICK, payload });
           }}
         >
           <Stack direction="horizontal" gap="xsmall" align="center">
@@ -474,7 +474,7 @@ function UnknownEntityPath({
         href={linkToEntity}
         onClick={() => {
           const payload = { mainEntity: true, entityType: entityType };
-          trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ENTITY_CLICK, payload });
+          trackClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ENTITY_CLICK, payload });
         }}
       >
         <Stack direction="horizontal" gap="xsmall" align="center">
@@ -592,7 +592,7 @@ const InfrastructureVisualHierarchy = ({
           href={linkToEntity}
           onClick={() => {
             const payload = { mainEntity: true, entityType: entityType };
-            trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ENTITY_CLICK, payload });
+            trackClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ENTITY_CLICK, payload });
           }}
         >
           <Stack direction="horizontal" gap="xsmall" align="center">

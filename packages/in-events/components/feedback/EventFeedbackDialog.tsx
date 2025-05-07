@@ -21,7 +21,6 @@ import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { close } from 'in-components/DialogPresenter/store';
 import { eventsPath } from 'in-events/navigation/paths';
-import { Location } from 'in-stores/navigation/types';
 import { EventOrMap } from 'in-events/types';
 import { t } from 'in-i18n';
 
@@ -33,7 +32,6 @@ interface FeedbackDialogProps {
   nextStepTracker: (e: Object) => void;
   skipStepTracker: (e: Object) => void;
   submitTracker: (e: Object) => void;
-  submitMetadata?: Object; // meant to be any additional data you want to send to mixpanel so I generalized it to be Object
   eventData?: EventOrMap;
 }
 
@@ -43,7 +41,6 @@ export default function EventFeedbackDialog({
   nextStepTracker,
   skipStepTracker,
   submitTracker,
-  submitMetadata = {},
   eventData
 }: FeedbackDialogProps) {
   const [step, setStep] = useState<string>('start_0');
@@ -68,12 +65,11 @@ export default function EventFeedbackDialog({
       form.setTouched(true, { recurse: true });
       return;
     }
-    save(form, location, submitTracker, submitMetadata);
+    save(form, submitTracker);
   };
 
   useEffect(() => {
     if (currentStepConfig.isEnd) {
-      onSubmit(null);
       setTimeout(() => close(), 3 * 1000);
     }
     //eslint-disable-next-line
@@ -152,13 +148,13 @@ export default function EventFeedbackDialog({
             : t('in-settings:maintenanceWindow.feedback.shareFeedback')
         }
         onClose={() => {
-          const thingsWentWrong = form.get('thingsWentWrong').value;
+          const feedback = form.get('feedback').value;
           const id = form.get('id').value;
 
           const contactMe = form.get('contactMe').value;
           closedManuallyTracker({
             id,
-            thingsWentWrong,
+            feedback,
             contactMe,
             eventID: location.matrix[eventsPath]?.eventId,
             eventType: location.matrix[eventsPath]?.view
@@ -214,7 +210,7 @@ function createForm(): MapForm<FeedbackConfigEventForm> {
   return createMapForm<FeedbackConfigEventForm>({
     items: {
       id: createField({ value: generateUniqueShortId() }),
-      thingsWentWrong: createField({ value: '' }),
+      feedback: createField({ value: '' }),
       contactMe: createField({ value: undefined }),
       closureComments: createField({ value: '' }),
       muteAlerts: createField({ value: false }),
@@ -223,23 +219,15 @@ function createForm(): MapForm<FeedbackConfigEventForm> {
   });
 }
 
-function save(
-  form: MapForm<FeedbackConfigEventForm>,
-  location: Location,
-  submitTracker: (e: Object) => void,
-  submitMetadata: Object
-) {
-  const thingsWentWrong = form.get('thingsWentWrong').value;
+function save(form: MapForm<FeedbackConfigEventForm>, submitTracker: (e: Object) => void) {
+  const feedback = form.get('feedback').value;
   const id = form.get('id').value;
 
   const contactMe = form.get('contactMe').value;
   const config = {
     id,
-    thingsWentWrong,
-    contactMe,
-    eventID: location.matrix[eventsPath]?.eventId || '',
-    eventType: location.matrix[eventsPath]?.view || '',
-    additionalInformation: { ...submitMetadata }
+    feedback,
+    contactMe
   };
   return saveEventFeedbackForm(config, submitTracker);
 }
