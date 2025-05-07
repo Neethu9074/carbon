@@ -1,25 +1,13 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
 import {
   createTeamsQueryFilter,
-  handleTeamsFilter,
-  handleUrlFilter
+  handleTeamsFilter
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
-
-describe('handleUrlFilter', () => {
-  it('general case', () => {
-    expect(handleUrlFilter(null)).toEqual(null);
-    expect(handleUrlFilter(undefined)).toEqual(undefined);
-    expect(handleUrlFilter('')).toEqual([]);
-    expect(handleUrlFilter('asdfasdf')).toEqual(['asdfasdf']);
-    expect(handleUrlFilter('asdfasdf,asdf')).toEqual(['asdfasdf', 'asdf']);
-    expect(handleUrlFilter('asdfasdf,asdffffff!')).toEqual(['asdfasdf', 'asdffffff!']);
-  });
-});
 
 describe('handleTeamsFilter', () => {
   it('general case', () => {

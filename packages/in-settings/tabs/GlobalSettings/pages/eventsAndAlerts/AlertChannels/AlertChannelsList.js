@@ -8,7 +8,6 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
-import AlertChannelsFilter from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsFilter';
 import { getEntityHref, getEntityIdView, globalSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 import { fullyQualified } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { clickAlertChannelTracker, alertChannelCTATrackerSegment } from 'in-settings/tracker';
@@ -54,23 +53,15 @@ export default function AlertChannelsList({
     alertChannelPerSeverityEnabled && detailView
       ? [...columnDefinitions(hasRowNavigation), ...columnDefinitionsAlertLevel(alertChannels)]
       : columnDefinitions(hasRowNavigation);
-  const [{ query, filter }, setUrlState] = useUrlState({
+  const [{ query }] = useUrlState({
     bind: [
       {
         path: BOUNDED_PATH,
         name: 'query',
         initialState: ''
-      },
-      {
-        path: BOUNDED_PATH,
-        name: 'filter',
-        initialState: []
       }
     ]
   });
-
-  // Handle team filters and convert to array
-  const onLoadFilters = handleUrlFilter(filter);
 
   return (
     <List
@@ -81,17 +72,14 @@ export default function AlertChannelsList({
       tableActions={tableActions}
       loadEntities={loadEntities ? loadEntities : getAlertChannelsInfosMutable}
       noDataMessage={noDataMessage}
-      toolBarContent={
-        rbacTeamsEnabled && <AlertChannelsFilter setUrlState={setUrlState} onLoadFilters={onLoadFilters} />
-      }
       renderNoDataAvailable={renderNoDataAvailable}
       pageSize={pageSize}
       initialOrderBy="name"
       rightHeader={rightHeader}
       isSearchable={isSearchable}
       searchAttributes={['name', getKind, getStringifiedParameters, getStringifiedTags]}
-      extraFilters={createFilters(hiddenIds, onLoadFilters)}
-      onFilter={(createTeamsQueryFilter([], query) && (entities => createTeamsQueryFilter(entities, query))) || false}
+      extraFilters={createFilters(hiddenIds)}
+      onFilter={query.includes(':teams:') && (entities => createTeamsQueryFilter(entities, query))}
       searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
       boundedPath={BOUNDED_PATH}
@@ -268,14 +256,10 @@ export function noRightHeader() {
   return null;
 }
 
-export function createFilters(hiddenIds, filtersTeams) {
+export function createFilters(hiddenIds) {
   const filters = [];
   if (hiddenIds) {
     filters.push(entity => hiddenIds.indexOf(entity.id) < 0);
-  }
-  // If the have been teams selected in the filter, create RBAC filter
-  if (filtersTeams.length > 0) {
-    filters.push(createRBACFilter(filtersTeams));
   }
   return filters;
 }
@@ -284,8 +268,8 @@ export function createFilters(hiddenIds, filtersTeams) {
 // This filter is used in place of the default searching filter as long as the team query exists
 // Otherwise we return false and then the default search filter is applied
 export function createTeamsQueryFilter(entities, query) {
-  if ((query && query != '' && query.includes(':teams:')) || query.includes('%3Ateam%3A')) {
-    const team = (query.includes(':') && query.split(':')) || query.split('%3A');
+  if (query && query != '' && query.includes(':teams:')) {
+    const team = query.includes(':') && query.split(':');
     const teamArr = (team && team[2] && team[2].split(',')) || [];
     const result = entities.filter(entity => {
       return handleTeamsFilter(entity, teamArr);
@@ -293,17 +277,6 @@ export function createTeamsQueryFilter(entities, query) {
     return result;
   }
   return false;
-}
-
-// This filter is created for teams
-// Show the Alert Channel if every filter selected exists in the alert channel
-function createRBACFilter(filters) {
-  if (filters?.length > 0) {
-    const filter = entity => {
-      return handleTeamsFilter(entity, filters);
-    };
-    return filter;
-  }
 }
 
 // Handler for teams filter
@@ -328,14 +301,4 @@ export function handleTeamsFilter(entity, filters) {
       return rbacTagsArr.some(string => string.includes(element.toLowerCase()));
     }
   });
-}
-
-export function handleUrlFilter(filter) {
-  if (filter == '') {
-    return [];
-  }
-  if (typeof filter == 'string') {
-    return filter.split(',');
-  }
-  return filter;
 }

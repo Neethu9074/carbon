@@ -108,7 +108,6 @@ function InnerList({
   extraFilterValues,
   searchPlaceholder,
   searchMaxWidth,
-  toolBarContent,
   entities,
   noDataMessage,
   renderNoDataAvailable,
@@ -267,7 +266,6 @@ function InnerList({
         renderNoDataAvailable={renderNoDataAvailable}
         cardTitle={cardTitle}
         tableInCard={tableInCard}
-        toolBarContent={toolBarContent}
         fixedLayout
         rightHeader={
           rightHeader ??
