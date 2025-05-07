@@ -425,7 +425,6 @@
       "RunTheAgentDeploymentCode": "Step 2: Run the agent deployment code (From USS layer of z/OS).",
       "installagentOnZOS": "Install agent on z/OS (Air-Gapped Env)",
       "installagentOnZOS1": "Post Agent Installation (Tracing Prereq Check)"
-
     },
     "ibmi": {
       "ibmi": "IBM i",
@@ -527,12 +526,25 @@
   "welcomepage": {
     "heading": "Welcome to Instana",
     "foldableTileTitle": "Let’s get started.",
+    "foldableTileTitleNewBanner": "Check out Instana’s new features",
     "viewAll": "View all",
     "addMore": "Add",
     "create": "Create",
     "collapsibleButton": {
       "showOnboardingTasks": "Show onboarding tasks",
-      "hideOnboardingTasks": "Hide onboarding tasks"
+      "hideOnboardingTasks": "Hide onboarding tasks",
+      "showWhatsNew": "Show what's new",
+      "hideWhatsNew":"Hide what's new"
+    },
+    "kubecost": {
+      "title": "Cost visibility with IBM Kubecost",
+      "description": "Get started for free and see cost insights and estimated savings for your clusters.",
+      "buttonName": "Explore now"
+    },
+    "logging": {
+      "title": "Instana logging",
+      "description": "Now accepting logs anywhere through OTel, and with longer retention up to 90-days as an add-on feature.",
+      "buttonName": "Learn more"
     },
     "startIntegrating": {
       "title": "Start integrating data",
@@ -857,7 +869,7 @@
     "otherGoalPlaceholder": "For example, Gain visibility across my environment",
     "otherGoalToAccomplish": "What other goals are you trying to accomplish?"
   },
-  "privacyNotification":{
+  "privacyNotification": {
     "title": "Manage your profile",
     "description": "View and update your profile, adjust privacy settings, and log out — all in one place.",
     "buttonText": "Done"

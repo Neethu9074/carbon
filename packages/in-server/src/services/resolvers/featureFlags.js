@@ -196,6 +196,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'whatsNewBannerEnabled',
+    instanaCtlKey: 'feature.whats.new.banner.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'ibmCommonEnabled',
     instanaCtlKey: 'feature.ibm.common.enabled',
     defaultValue: false

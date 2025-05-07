@@ -138,6 +138,9 @@ export const REVIEW_DATA_USAGE_BUTTON = 'reviewDataUsage.clicked';
 export const FAIR_USE_POLICY_BLOG = 'learnMoreFupDocumentation.clicked';
 export const CONTACT_SALES = 'learnMoreContactSales.clicked';
 
+export const KUBECOST_INTEGRATION_BUTTON_CLICKED = 'whatsnew.KubecostIntegration';
+export const LOGS_IN_CONTEXT_BUTTON_CLICKED = 'whatsnew.Logs';
+
 export const TABLE_ENTITY_ADDED = 'table.entity.added';
 export const TABLE_ENTITY_CLEARED = 'table.entity.cleared';
 export const TABLE_ENTITY_REMOVED = 'table.entity.removed';

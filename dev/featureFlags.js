@@ -195,5 +195,6 @@ module.exports = {
   actionAiGenerationEnabled: true,
   logConsoleEnabled: true,
   mobileAppSmartAlertSlownessBlueprintEnabled: false,
-  regexMatchEnabled: true
+  regexMatchEnabled: true,
+  whatsNewBannerEnabled: true
 };
