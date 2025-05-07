@@ -64,7 +64,7 @@ function OverlaysReactComponent({ update$, globeView, data$, getValue }) {
         <div className={locals.buttonRow}>
           <div className={locals.buttonColumn}>
             <Tooltip
-              content={t('in-websites:websiteDashboard.components.overlaysTooltipToogleHeatMap')}
+              content={t('in-websites:websiteDashboard.components.overlaysTooltipToggleHeatMap')}
               align="leftMiddle"
             >
               <Button
@@ -86,7 +86,7 @@ function OverlaysReactComponent({ update$, globeView, data$, getValue }) {
               <Button dark icon="lib_arrow_drop_up" onClick={() => globeView.pinchUp()} />
             </Tooltip>
             <Tooltip
-              content={t('in-websites:websiteDashboard.components.overlaysTooltipToogleAutomaticSpinning')}
+              content={t('in-websites:websiteDashboard.components.overlaysTooltipToggleAutomaticSpinning')}
               align="leftMiddle"
             >
               <Button

@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
 module.exports = exports = [
@@ -845,6 +845,11 @@ module.exports = exports = [
     uiClientKey: 'websitesSmartAlertDialogViewEnabled',
     instanaCtlKey: 'feature.websites.smart.alert.dialog.view.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'websitesBusinessMonitoringEnabled',
+    instanaCtlKey: 'feature.websites.business.monitoring.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'perEntityInfraSmartAlertsEnabled',

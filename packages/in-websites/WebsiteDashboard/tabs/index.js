@@ -1,10 +1,16 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
-import { playwithEnabled, syntheticRbacLimitedEnabled, websiteUserBreakdownEnabled } from 'in-services/featureFlags';
+import {
+  playwithEnabled,
+  syntheticRbacLimitedEnabled,
+  websiteUserBreakdownEnabled,
+  websitesBusinessMonitoringEnabled
+} from 'in-services/featureFlags';
 import SyntheticMonitoring from 'in-websites/WebsiteDashboard/tabs/SyntheticMonitoring/SyntheticMonitoring';
+import BusinessMonitoring from 'in-websites/WebsiteDashboard/tabs/BusinessMonitoring/BusinessMonitoring';
 import SloDashboardList from 'in-service-levels/components/Shared/SloDashboardList/SloDashboardList';
 import Configuration from 'in-websites/WebsiteDashboard/tabs/Configuration/Configuration';
 import Geography from 'in-websites/WebsiteDashboard/tabs/Geography/Geography';
@@ -76,6 +82,12 @@ export const websiteTabs = [
     label: t('in-websites:websiteDashboard.tabs.synthetic.tabLabel'),
     path: `${websitePathFullyQualified}/synthetics`,
     component: SyntheticMonitoring,
+    websiteOnly: true
+  },
+  websitesBusinessMonitoringEnabled && {
+    label: t('in-websites:websiteDashboard.tabs.indexLabelBusinessMonitoring'),
+    path: `${websitePathFullyQualified}/businessMonitoring`,
+    component: BusinessMonitoring,
     websiteOnly: true
   },
   {

@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 // the keys (not the values) need to be kept in sync with
@@ -190,6 +190,7 @@ module.exports = {
   syntheticSmartAlertDialogViewEnabled: true,
   infraSmartAlertDialogViewEnabled: true,
   websitesSmartAlertDialogViewEnabled: true,
+  websitesBusinessMonitoringEnabled: true,
   mobileAppSmartAlertDialogViewEnabled: true,
   ansibleScriptGenerationEnabled: true,
   actionAiGenerationEnabled: true,

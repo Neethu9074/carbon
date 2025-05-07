@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2025
  */
 
 import { isFeatureFlagEnabled } from 'in-services/config';
@@ -209,6 +209,10 @@ export const syntheticSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
   'syntheticSmartAlertFullScreenDesignEnabled'
 );
 
+// ########################################################################################
+// EUM - Websites and Mobile Apps
+// ########################################################################################
+
 // websites SA full screen design
 export const websitesSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
   'websitesSmartAlertFullScreenDesignEnabled'
@@ -218,6 +222,11 @@ export const websitesSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
 export const mobileAppSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertFullScreenDesignEnabled'
 );
+
+// Websites business monitoring tab
+export const websitesBusinessMonitoringEnabled = isFeatureFlagEnabled('websitesBusinessMonitoringEnabled');
+
+// ########################################################################################
 
 // Dialog view default for all smart alert
 export const isSmartAlertDialogViewDefaultEnabled = isFeatureFlagEnabled('isSmartAlertDialogViewDefaultEnabled');

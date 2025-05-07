@@ -419,7 +419,7 @@
       "viewAllOs": "View all operating systems",
       "appVersions": "App versions",
       "viewAllVersions": "View all versions",
-      "syntheticMonitoringLabel": "Synthetic Monitoring",
+      "syntheticMonitoringLabel": "Synthetic monitoring",
       "configurations": {
         "symbolFileConfigLabel": "Stack trace translation",
         "symbolFileConfig": {
@@ -499,7 +499,7 @@
         "viewTopListLinkLabel": "View all views",
         "viewTopListTitle": "Views"
       },
-      "smartAlerts": "Smart Alerts"
+      "smartAlerts": "Smart alerts"
     },
     "noDataAvailable": {
       "viewsTitle": "No views available",

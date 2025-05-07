@@ -416,10 +416,10 @@
   },
   "websiteDashboard": {
     "components": {
-      "overlaysTooltipToogleHeatMap": "Toogle heat map",
+      "overlaysTooltipToggleHeatMap": "Toggle heat map",
       "overlaysTooltipPanLeft": "Pan left",
       "overlaysTooltipPanUp": "Pan up",
-      "overlaysTooltipToogleAutomaticSpinning": "Toogle automatic spinning",
+      "overlaysTooltipToggleAutomaticSpinning": "Toggle automatic spinning",
       "overlaysTooltipPanDown": "Pan down",
       "overlaysTooltipToggleCountryRegionNames": "Toggle country/region names",
       "overlaysTooltipPanRight": "Pan right",
@@ -801,7 +801,7 @@
         "sizesTechnicalLabelAtMost": "At most {{max}}px (inclusive)"
       },
       "synthetic": {
-        "tabLabel": "Synthetic Monitoring",
+        "tabLabel": "Synthetic monitoring",
         "noDataTitle": "No synthetic tests are associated with this website."
       },
       "indexLabelSummary": "Summary",
@@ -814,8 +814,9 @@
       "indexLabelCustomEvents": "Custom events",
       "indexLabelPages": "Pages",
       "indexLabelAlerts": "Smart alerts",
+      "indexLabelBusinessMonitoring": "Business monitoring",
       "indexLabelConfiguration": "Configuration",
-      "indexLabelServiceLevels":"Service Levels",
+      "indexLabelServiceLevels":"Service levels",
       "pagesLabelName": "Name",
       "pagesLabelPageViews": "Page views",
       "pagesLabelOnLoadTime": "onLoad time",
