@@ -11075,6 +11075,7 @@
         "load": "Load",
         "memory": "Memory",
         "used": "Used",
+        "shared": "Shared",
         "buffers": "Buffers",
         "cached": "Cached",
         "available": "Available",
@@ -11184,7 +11185,9 @@
         "readAwaitTime": "Read Time",
         "writeAwaitTime": "Write Time",
         "avgDiscardRequestsTime": "Discard Requests Time",
-        "avgFlushRequestsTime": "Flush Requests Time"
+        "avgFlushRequestsTime": "Flush Requests Time",
+        "processBlockedState": "Process Blocked State",
+        "processWaitingRuntime": "Process Waiting Runtime"
       },
       "os": "OS",
       "distribution": "Distribution",
@@ -11222,6 +11225,8 @@
       "nice": "Nice",
       "steal": "Steal",
       "free": "Free",
+      "total": "Total",
+      "shared": "Shared",
       "idle": "Idle",
       "used": "Used",
       "usersysratio": "User/System Ratio",
