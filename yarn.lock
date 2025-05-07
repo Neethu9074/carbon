@@ -3290,15 +3290,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/carbon@npm:1.3.1":
-  version: 1.3.1
-  resolution: "@instana/carbon@npm:1.3.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcarbon%2F-%2F%40instana%2Fcarbon-1.3.1.tgz"
+"@instana/carbon@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@instana/carbon@npm:1.5.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcarbon%2F-%2F%40instana%2Fcarbon-1.5.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.45.0
     "@carbon/react": 1.72.0
     "@ibm/telemetry-js": 1.8.0
     react: ^17.0.2
-  checksum: bee8d1a24dc033eb91126d73bbf0958c1e94d916929581a43a8e60d75c015bddcffe98b6dfa62cd59aa7cc519ebd46e0b99907e4d1a2a47935fc7568f5080e7d
+  checksum: 3d84377be36b7c71a34075c51b51e1b2c1b627e04eb1c30fb9ccb4f85d7a63bbd369c17ce9d78c7a18b534cbe5a1490ee3544ac0260b259c28a2ecd98e431af9
   languageName: node
   linkType: hard
 
@@ -22603,7 +22603,7 @@ __metadata:
     "@dnd-kit/core": 6.1.0
     "@dnd-kit/sortable": 8.0.0
     "@instana/ai-chat": 0.1.9
-    "@instana/carbon": 1.3.1
+    "@instana/carbon": 1.5.0
     "@instana/carbon-charts": 0.9.0
     "@instana/components": 5.15.0
     "@instana/design-tokens": 1.29.0
