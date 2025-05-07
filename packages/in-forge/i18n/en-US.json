@@ -16352,7 +16352,9 @@
       "instanceID": "Instance ID",
       "processDetails": "Process Details",
       "dbDetails": "DB Details",
-      "sqlExecutionAndParseDetails": "SQL Execution And Parse Details"
+      "sqlExecutionAndParseDetails": "SQL Execution And Parse Details",
+      "diskUsed": "Disk Used",
+      "percentage": "Percentage"
     },
     "azureCosmosDb": {
       "totalRequests": "Total Requests",
