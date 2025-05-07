@@ -9,7 +9,8 @@ import {
   bytes,
   kiloBytes,
   siMultiplyPrefix,
-  bytesPerSecondTwoDecimalPlaces
+  bytesPerSecondTwoDecimalPlaces,
+  twoDecimalPlaces
 } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
@@ -21,7 +22,8 @@ const availableCpuMetricSuffixes = {
   nice: t('in-forge:plugins.host.nice'),
   steal: t('in-forge:plugins.host.steal'),
   used: t('in-forge:plugins.host.used'),
-  idle: t('in-forge:plugins.host.idle')
+  idle: t('in-forge:plugins.host.idle'),
+  usersysratio: t('in-forge:plugins.host.usersysratio')
 };
 
 function getMaxFilesystemCapacity(snapshot, match) {
@@ -190,6 +192,13 @@ export default [
     category: [t('in-forge:plugins.host.cpu')],
     min: 0,
     formatter: number.compact
+  },
+  {
+    metrics: ['cpu.usersysratio'],
+    labels: [t('in-forge:plugins.host.usersysratio')],
+    category: [t('in-forge:plugins.host.cpu')],
+    min: 0,
+    formatter: twoDecimalPlaces
   },
   {
     metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal', 'cpu.used', 'cpu.idle', 'cpu.hypv'],
