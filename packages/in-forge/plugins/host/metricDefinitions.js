@@ -9,7 +9,8 @@ import {
   bytes,
   kiloBytes,
   siMultiplyPrefix,
-  bytesPerSecondTwoDecimalPlaces
+  bytesPerSecondTwoDecimalPlaces,
+  twoDecimalPlaces
 } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
@@ -197,7 +198,7 @@ export default [
     labels: [t('in-forge:plugins.host.usersysratio')],
     category: [t('in-forge:plugins.host.cpu')],
     min: 0,
-    formatter: number.compact
+    formatter: twoDecimalPlaces
   },
   {
     metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal', 'cpu.used', 'cpu.idle', 'cpu.hypv'],

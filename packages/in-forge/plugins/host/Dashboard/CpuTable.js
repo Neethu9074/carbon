@@ -6,9 +6,9 @@
 import { Range } from 'immutable';
 import React from 'react';
 
-import { percentage, number, twoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { percentage, twoDecimalPlaces } from 'in-services/formatters/number';
 import { isLinux } from 'in-forge/plugins/host/hostUtils';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -140,7 +140,7 @@ const UserSystemCpuRatioColumn = {
     getMetricName(row) {
       return `cpus.${row.cpuNumber}.usersysratio`;
     },
-    getContent: number.compact,
+    getContent: twoDecimalPlaces,
     getTimeWindowAggregation() {
       return 'mean';
     }
