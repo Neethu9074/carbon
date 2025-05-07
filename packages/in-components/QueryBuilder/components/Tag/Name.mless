@@ -31,15 +31,13 @@
   }
 
   .name_disablehover {
-    .icon {
-      fill: var(--query-builder-element-color);
-    }
+    cursor: not-allowed;
     &:focus,
     &:active,
     &:hover {
       color: var(--query-builder-element-color);
       .icon {
-        fill: var(--query-builder-element-color);
+        fill: var(--ids-color-option-neutral-400);
       }
     }
   }

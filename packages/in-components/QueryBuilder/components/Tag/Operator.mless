@@ -47,17 +47,17 @@
   }
 
   .operator_disablehover {
-    border-left: none;
-    border-right: none;
     font-weight: 600;
     color: var(--query-builder-element-color);
+    border-left: 1px solid var(--ids-color-option-neutral-300);
+    border-right: 1px solid var(--ids-color-option-neutral-300);
+    cursor: not-allowed;
     &:hover,
     &:focus,
     &:active {
       outline: none;
       background: none;
-      border: none;
-      border-color: none;
+      border-color: var(--ids-color-option-neutral-300);
       color: unset;
     }
   }
