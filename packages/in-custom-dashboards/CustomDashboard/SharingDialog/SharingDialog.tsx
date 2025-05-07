@@ -24,6 +24,12 @@ interface UserState {
   selectedUserId: string;
 }
 
+const PUBLIC_DASHBOARD_ACCESS_RULE: AccessRule = {
+  accessType: 'READ',
+  relationType: 'GLOBAL',
+  relatedId: ''
+};
+
 export default function SharingDialog({ config, onSubmit }: SharingDialogProps) {
   const usersResult = useObservable<Result<UserResult[]>, any[]>(getUsers(), []);
   const [{ accessRules, selectedUserId }, setState] = useState<UserState>(() => ({
@@ -36,11 +42,11 @@ export default function SharingDialog({ config, onSubmit }: SharingDialogProps) 
   useEffect(() => {
     if (!accessRules || !config.accessRules) return;
 
-    const valueChanged = accessRules.toString() !== config.accessRules.toString();
+    const configsAreEqual = areConfigsEqual(accessRules, config.accessRules);
 
-    if (!changesMade && valueChanged) {
+    if (!changesMade && !configsAreEqual) {
       setChangesMade(true);
-    } else if (changesMade && !valueChanged) {
+    } else if (changesMade && configsAreEqual) {
       setChangesMade(false);
     }
   }, [accessRules, config.accessRules, changesMade]);
@@ -86,11 +92,7 @@ function setPrivate(
       ({ relatedId, relationType }) => relatedId === user?.id && relationType === 'USER'
     );
   } else {
-    accessRules.push({
-      accessType: 'READ',
-      relationType: 'GLOBAL',
-      relatedId: ''
-    });
+    if (!findRule(accessRules, PUBLIC_DASHBOARD_ACCESS_RULE)) accessRules.push(PUBLIC_DASHBOARD_ACCESS_RULE);
   }
 
   setState({
@@ -145,4 +147,27 @@ function isUsingAdvancedAccessRules(accessRules: AccessRule[]) {
   }
 
   return false;
+}
+
+function findRule(conifgToIterateThrough: AccessRule[], ruleToCheck: AccessRule) {
+  for (const rule of conifgToIterateThrough) {
+    if (
+      rule.accessType === ruleToCheck.accessType &&
+      rule.relatedId === ruleToCheck.relatedId &&
+      rule.relationType === ruleToCheck.relationType
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function areConfigsEqual(originalConfig: AccessRule[], editedConfig: AccessRule[]) {
+  if (originalConfig.length !== editedConfig.length) return false;
+
+  for (const rule of editedConfig) {
+    if (!findRule(originalConfig, rule)) return false;
+  }
+
+  return true;
 }
