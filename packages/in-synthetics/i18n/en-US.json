@@ -331,7 +331,9 @@
       "failureTitle": "Failed!",
       "failureMessageCreate": "Failed to create the synthetic test: {{errorMessage}}",
       "failureMessageUpdate": "Failed to update the synthetic test: {{errorMessage}}",
-      "failureMesssageDelete": "Failed to delete the synthetic test: {{errorMessage}}"
+      "failureMesssageDelete": "Failed to delete the synthetic test: {{errorMessage}}",
+      "successMessageCICDRerun": "Successfully reran the synthetic test",
+      "failureMesssageCICDRerun": "Failed to rerun the synthetic test: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "Successfully deleted the location",
@@ -784,6 +786,9 @@
         "ttl": "TTL",
         "data": "Data",
         "noRecordsFound": "No records found"
+      },
+      "cicd": {
+        "rerunButtonLabel": "Rerun the test"
       }
     },
     "noDataAvailable": {

@@ -19,6 +19,7 @@ import {
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { CICDConfig } from 'in-synthetics/utils/constants';
 import { roundDownToWeek } from 'in-services/util/date';
 import { deepFreeze } from 'in-services/util/object';
 import { isNotBlank } from 'in-services/util/string';
@@ -32,6 +33,7 @@ const resultUrl = `/api/synthetics/results`;
 const applicationsListUrl = `/api/application-monitoring/settings/application`;
 const tagCatalogUrl = `/api/synthetics/catalog`;
 const credentialUrl = `/api/synthetics/settings/credentials`;
+const cicdTestUrl = `/api/synthetics/settings/tests/ci-cd`;
 
 export function getLocations(): Observable<unknown> {
   return http({
@@ -282,4 +284,14 @@ export function deleteCredential(credentialName: string): Observable<unknown> {
     headers: getCsrfHeader(),
     url: credentialUrl + '/' + credentialName
   }).map(response => deepFreeze(response));
+}
+
+export function rerunTest(cicdConfig: CICDConfig[]): Observable<unknown> {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: cicdTestUrl,
+    data: cicdConfig
+  }).map(response => deepFreeze(response.body));
 }

@@ -13,7 +13,6 @@ import ViewScreenshotsDialog from 'in-synthetics/dashboards/details/components/V
 import ViewRecordingDialog from 'in-synthetics/dashboards/details/components/ViewRecordingDialog';
 import { IMGFormatType, RECORDINGFormatType } from 'in-synthetics/utils/getValidFormat';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { Col } from 'in-components/layout/Grid/Grid';
 import download from 'in-synthetics/utils/download';
 
 import locals from 'in-synthetics/dashboards/details/components/DownloadButton.mless';
@@ -35,47 +34,45 @@ export default function DownloadButton({ testId, resultId, metadata, startTime }
   const isRecordingAvailable: boolean = resultMetadata.includes(RECORDINGFormatType);
 
   return (
-    <Col xs>
-      <div className={locals.button}>
-        <Button
-          className={locals.buttonLabel}
-          kind="secondary"
-          icon={'lib_actions_download'}
-          onClick={() => download('HAR', harRef)}
-        >
-          {t('in-synthetics:dashboard.detailsPage.downloadHar')}
-        </Button>
-        <Button
-          className={locals.buttonLabel}
-          kind="secondary"
-          icon={'lib_actions_download'}
-          onClick={() => download('LOGS', logRef)}
-        >
-          {t('in-synthetics:dashboard.detailsPage.downloadLog')}
-        </Button>
-        <Button
-          className={locals.buttonLabel}
-          kind="secondary"
-          icon={'lib_views_external_link'}
-          onClick={() =>
-            addActiveDialog(<ViewScreenshotsDialog testId={testId} resultId={resultId} startTime={startTime} />)
-          }
-          hidden={!isScreenshotAvailable}
-        >
-          {t('in-synthetics:dashboard.detailsPage.viewScreenshotsLabel')}
-        </Button>
-        <Button
-          className={locals.buttonLabel}
-          kind="secondary"
-          icon={'lib_views_external_link'}
-          onClick={() =>
-            addActiveDialog(<ViewRecordingDialog testId={testId} resultId={resultId} startTime={startTime} />)
-          }
-          hidden={!isRecordingAvailable}
-        >
-          {t('in-synthetics:dashboard.detailsPage.viewRecordingLabel')}
-        </Button>
-      </div>
-    </Col>
+    <>
+      <Button
+        className={locals.buttonLabel}
+        kind="secondary"
+        icon={'lib_actions_download'}
+        onClick={() => download('HAR', harRef)}
+      >
+        {t('in-synthetics:dashboard.detailsPage.downloadHar')}
+      </Button>
+      <Button
+        className={locals.buttonLabel}
+        kind="secondary"
+        icon={'lib_actions_download'}
+        onClick={() => download('LOGS', logRef)}
+      >
+        {t('in-synthetics:dashboard.detailsPage.downloadLog')}
+      </Button>
+      <Button
+        className={locals.buttonLabel}
+        kind="secondary"
+        icon={'lib_views_external_link'}
+        onClick={() =>
+          addActiveDialog(<ViewScreenshotsDialog testId={testId} resultId={resultId} startTime={startTime} />)
+        }
+        hidden={!isScreenshotAvailable}
+      >
+        {t('in-synthetics:dashboard.detailsPage.viewScreenshotsLabel')}
+      </Button>
+      <Button
+        className={locals.buttonLabel}
+        kind="secondary"
+        icon={'lib_views_external_link'}
+        onClick={() =>
+          addActiveDialog(<ViewRecordingDialog testId={testId} resultId={resultId} startTime={startTime} />)
+        }
+        hidden={!isRecordingAvailable}
+      >
+        {t('in-synthetics:dashboard.detailsPage.viewRecordingLabel')}
+      </Button>
+    </>
   );
 }
