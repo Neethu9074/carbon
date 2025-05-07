@@ -34,7 +34,7 @@ export default function ApplicationEntityOpenIssuesList({
       [(applicationId, serviceId, endpointId, timeConfig)]
     ) ?? pendingResult;
 
-  const additionalDFQFilter = getAdditionalFilters({ applicationId, serviceId, endpointId });
+  const additionalDFQFilter = `event.state:open`;
 
   // A simple solution to avoid some parts of the popup area hidden when too wide.
   // This workaround tackles it, until
@@ -78,26 +78,4 @@ export default function ApplicationEntityOpenIssuesList({
       />
     </WithMaxWidthWhenInContentArea>
   );
-}
-
-function getAdditionalFilters({ applicationId, serviceId, endpointId }) {
-  // There is a bug currently which lead to all events are hidden in the event view.
-  // A user wouldn't be able then to investigate further because there is no event to click on.
-  // Till that is solved, we disable this filter.
-  // const dfq = `event.state:open`;
-  const dfq = '';
-
-  if ((applicationId, serviceId, endpointId)) {
-    return `entity.selfType:endpoint ${dfq}`;
-  }
-
-  if ((applicationId, serviceId)) {
-    return `entity.selfType:service ${dfq}`;
-  }
-
-  if (applicationId) {
-    return `entity.selfType:application ${dfq}`;
-  }
-
-  return dfq;
 }

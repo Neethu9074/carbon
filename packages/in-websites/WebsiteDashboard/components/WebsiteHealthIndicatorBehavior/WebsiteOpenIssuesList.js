@@ -23,7 +23,7 @@ export default connectTo(
         .map(result => mapData(result, data => data.openIssues))
     };
   },
-  function WebsiteOpenIssuesList({ inContentArea, openIssuesResult, eventId, close }) {
+  function WebsiteOpenIssuesList({ inContentArea, openIssuesResult, eventId, close, websiteId }) {
     // A simple solution to avoid some parts of the popup area hidden when too wide.
     // This workaround tackles it, until
     // a fix will have been implemented which solves the layout problem on other areas, too
@@ -47,7 +47,9 @@ export default connectTo(
           openIssuesResult={openIssuesResult}
           analyzeLink={getEventsViewFilteredBy({
             eventId,
-            eventTypeFilter: 'issue'
+            eventTypeFilter: 'issue',
+            applicationId: websiteId,
+            additionalDFQFilter: `event.state:"open"`
           })}
           getIssueLink={getIssueLink}
         />

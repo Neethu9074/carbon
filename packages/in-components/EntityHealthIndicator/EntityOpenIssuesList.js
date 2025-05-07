@@ -38,7 +38,8 @@ export default connectTo(
         openIssuesResult={openIssuesResult}
         analyzeLink={getEventsViewFilteredBy({
           snapshotId,
-          eventTypeFilter: 'issue'
+          eventTypeFilter: 'issue',
+          additionalDFQFilter: ` event.state:"open"`
         })}
         getIssueLink={getIssueLink}
       />

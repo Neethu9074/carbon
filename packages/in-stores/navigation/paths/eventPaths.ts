@@ -91,15 +91,10 @@ export function useGetEventsViewFilteredBy() {
     additionalDFQFilter
   }: GetEventsViewProps) => {
     endpointId = resolvedEndpointId ? resolvedEndpointId : endpointId;
-    if (endpointId) {
-      query += ` entity.endpoint.id:"${endpointId}"`;
+    if (endpointId || serviceId || applicationId) {
+      query += ` event.steadyId:"${endpointId || serviceId || applicationId}"`;
     }
-    if (serviceId) {
-      query += ` entity.service.id:"${serviceId}"`;
-    }
-    if (applicationId) {
-      query += ` entity.application.id:"${applicationId}"`;
-    }
+
     if (snapshotId) {
       query += ` entity.id:"${snapshotId}"`;
     }
