@@ -15789,6 +15789,7 @@
       "topQueries": "Top Queries",
       "msSql": "MS SQL",
       "processId": "Process ID",
+      "hostname": "Host Name",
       "instanceName": "Instance Name",
       "version": "Version",
       "pageIoLatchExWaitTimesMs": "Page IO-Latch EX Wait-Times",
