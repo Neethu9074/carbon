@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { SvgIcon, Tooltip, Stack, Typography, Link } from '@instana/components';
-import { themes } from '@instana/design-tokens';
 
 import HealthIndicatorButtonPresenter, {
   HealthIndicatorButtonPresenterProps
@@ -65,9 +64,7 @@ export default function InfoCardHeader({
             <span className={locals.clusterName}>{clusterName}</span>
           </Typography>
         )}
-        {version && (
-          <BadgeList types={[version]} type={version} getColor={() => themes.default.ids.color.option.neutral['700']} />
-        )}
+        {version && <BadgeList types={[version]} type={version} getColor={() => 'blue'} />}
         <TypesBadgeList
           type={t('in-kubernetes:dashboards.clusterDistributionBadgeType', {
             clusterDistributionName: clusterBadgeName(clusterDistribution)

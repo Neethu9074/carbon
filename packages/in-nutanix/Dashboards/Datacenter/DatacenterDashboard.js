@@ -7,8 +7,6 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { themes } from '@instana/design-tokens';
-
 import { datacenterId as matrixDatacenterId } from 'in-nutanix/navigation/matrix';
 import getNutanixDatacenter from 'in-nutanix/subscriptions/getNutanixDatacenter';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
@@ -88,5 +86,5 @@ function Header(props) {
 
 function RenderMetaInformation({ result }) {
   const version = get(result, ['data', 'version']);
-  return <>{version && <BadgeList type={version} getColor={() => themes.default.ids.color.option.neutral['700']} />}</>;
+  return <>{version && <BadgeList type={version} getColor={() => 'blue'} />}</>;
 }

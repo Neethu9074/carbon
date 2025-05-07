@@ -5,24 +5,23 @@
 
 import React, { Fragment } from 'react';
 
-import { themes } from '@instana/design-tokens';
 import { Pill } from '@instana/components';
 
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './BadgeList.mless';
 
-export default function BadgeList<T extends string>({
-  type,
-  types,
-  getColor,
-  limit
-}: {
+interface BadgeListProps<T extends string> {
+  /** @param type Single badge text */
   type: T;
+  /** @param types Array of multiple badge texts */
   types: T[];
+  /** @param getColor function to return colour based on badge text*/
   getColor: (type: T) => string;
+  /** @param limit Maximum number of badges to show*/
   limit?: number;
-}) {
+}
+export default function BadgeList<T extends string>({ type, types, getColor, limit }: BadgeListProps<T>) {
   if (type && !types) {
     types = [type];
   }
@@ -37,7 +36,7 @@ export default function BadgeList<T extends string>({
 
   const remainingTooltip = limitRequired ? (
     <Tooltip align={'topMiddle'} content={remainingTypes.join(', ')}>
-      <Pill key={firstRemainingType} className={locals.badge} color={themes.default.ids.color.option.purple['500']}>
+      <Pill key={firstRemainingType} className={locals.badge} type={'purple'}>
         {'+' + remainingTypes.length}
       </Pill>
     </Tooltip>
@@ -48,11 +47,15 @@ export default function BadgeList<T extends string>({
       {typesToDisplay
         .slice()
         .sort()
-        .map(type => (
-          <Pill key={type} className={locals.badge} color={getColor(type)}>
-            {type}
-          </Pill>
-        ))}
+        .map(type => {
+          const colorForType = getColor(type);
+          return (
+            // @ts-expect-error string not assignable to CarbonTag type , see TagBaseProps type
+            <Pill key={type} className={locals.badge} type={colorForType}>
+              {type}
+            </Pill>
+          );
+        })}
       {remainingTooltip}
     </Fragment>
   );

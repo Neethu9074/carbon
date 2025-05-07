@@ -6,8 +6,6 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { themes } from '@instana/design-tokens';
-
 import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
@@ -156,7 +154,7 @@ function RenderMetaInformation({ result }) {
 
   return (
     <>
-      {version && <BadgeList type={version} getColor={() => themes.default.ids.color.option.neutral['700']} />}
+      {version && <BadgeList type={version} getColor={() => 'blue'} />}
       <TypesBadgeList type={t('in-kubernetes:dashboards.k8SNode')} />
       <KubernetesIndicator result={result} />
     </>

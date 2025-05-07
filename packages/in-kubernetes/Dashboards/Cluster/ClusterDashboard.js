@@ -6,8 +6,6 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { themes } from '@instana/design-tokens';
-
 import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
@@ -168,7 +166,7 @@ function RenderMetaInformation({ result }) {
   const clusterManagement = get(result, ['data', 'clusterManagement']);
   return (
     <>
-      {version && <BadgeList type={version} getColor={() => themes.default.ids.color.option.neutral['700']} />}
+      {version && <BadgeList type={version} getColor={() => 'blue'} />}
       <TypesBadgeList
         type={t('in-kubernetes:dashboards.clusterDistributionBadgeType', {
           clusterDistributionName: clusterBadgeName(clusterDistribution)
