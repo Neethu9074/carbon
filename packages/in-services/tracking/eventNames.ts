@@ -667,3 +667,13 @@ export const VULNERABILITIES_DETECTIONS_DETAIL_ANY_ASSOCIATED_APPLICATION_CLICK 
 
 export const KUBECOST_EXPORT_NAMESPACE_COST_CLICK = 'kubecost.export.namespace.cost.click';
 export const KUBECOST_EXPORT_DEPLOYMENT_COST_CLICK = 'kubecost.export.deployment.cost.click';
+
+export const KUBECOST_BANNER_LEARN_MORE_CLICK = 'kubecost.banner.learn.more.click';
+export const KUBECOST_BANNER_CONFIGURE_NOW_CLICK = 'kubecost.banner.configure.now.click';
+export const KUBECOST_BANNER_UPGRAGE_NOW_CLICK = 'kubecost.banner.upgrade.now.click';
+
+export const KUBECOST_VCPU_RESTRICTED_UPGRADE_NOW_CLICK = 'kubecost.free.license.upgrade.now.click';
+
+export const KUBECOST_VCPU_NEARING_LIMIT_UPGRADE_NOW_CLICK = 'kubecost.vcpu.nearing.limit.upgrade.now.click';
+
+export const KUBECOST_VCPU_LIMIT_REACHED_UPGRADE_NOW_CLICK = 'kubecost.vcpu.limit.reached.upgrade.now.click';

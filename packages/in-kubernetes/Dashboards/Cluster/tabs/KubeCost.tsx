@@ -7,8 +7,8 @@
 import React from 'react';
 
 import { KubernetesCluster, TimeConfig } from '@instana/types';
-import { Li, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Li } from '@instana/components';
 
 import EntityPageMainNotification from 'in-components/EntityPageMainNotification/EntityPageMainNotification';
 import getRelatedResourcesForKubeCost from 'in-kubernetes/subscriptions/getRelatedResourcesForKubeCost';
@@ -17,7 +17,7 @@ import updateTimeConfig from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost/upd
 import KubeCostMetrics from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost/KubeCostMetrics';
 import KubeCostBanner from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost/KubeCostBanner';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import InfoPanel from 'in-automation/components/InfoPanel/InfoPanel';
+import Banner from 'in-kubernetes/Dashboards/Cluster/tabs/Banner/Banner';
 import { getMetricForFocusedMoment } from 'in-stores/metric/metric';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -32,36 +32,6 @@ interface SummaryProps {
 }
 
 export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
-  const kubeCostInfoContent = {
-    title: t('in-kubernetes:dashboards.kubecost.costMonitoring'),
-    columns: [
-      {
-        title: t('in-kubernetes:dashboards.kubecost.configureKubeCost'),
-        text: t('in-kubernetes:dashboards.kubecost.freeTrial'),
-        link: {
-          url: 'https://ibm.biz/kubecost',
-          label: t('in-kubernetes:dashboards.kubecost.configureNow')
-        }
-      },
-      {
-        title: t('in-kubernetes:dashboards.kubecost.connectSales'),
-        text: t('in-kubernetes:dashboards.kubecost.salesTeam'),
-        link: {
-          url: 'https://www.kubecost.com/contact/',
-          label: t('in-kubernetes:dashboards.kubecost.assessement')
-        }
-      },
-      {
-        title: t('in-kubernetes:dashboards.kubecost.helpGrow'),
-        text: t('in-kubernetes:dashboards.kubecost.shareThoughts'),
-        link: {
-          url: 'https://your.feedback.ibm.com/jfe/form/SV_9vuvqild7snrUhw',
-          label: t('in-kubernetes:dashboards.kubecost.feedback')
-        }
-      }
-    ]
-  };
-
   const id = cluster.id;
   const kubeCostData =
     useObservable(
@@ -79,25 +49,25 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
   let finalTimeConfig: TimeConfig = isEnterprise ? timeConfig : updateTimeConfig(timeConfig);
 
   const snapshotId = kubeCostData?.data?.id;
-  let coreCount = useObservable(
-    () =>
-      getMetricForFocusedMoment({
-        snapshotId: snapshotId,
-        metric: 'coreCountStats.coreCountByCluster'
-      })
-        .map((v: [number, number]) => v[1])
-        .distinct(),
-    [snapshotId, timeConfig]
-  );
+  const coreCount =
+    useObservable(
+      snapshotId
+        ? () =>
+            getMetricForFocusedMoment({
+              snapshotId: snapshotId,
+              metric: 'coreCountStats.coreCountByCluster'
+            })
+              .map((v: [number, number]) => v[1])
+              .distinct()
+        : undefined, // if snapshotId is not available, don't subscribe
+      [snapshotId, timeConfig]
+    ) ?? 0;
 
-  coreCount = coreCount == null ? 0 : coreCount;
   if (loading) {
     return <LoadingIndicator />;
   }
   return (
     <>
-      <InfoPanel content={kubeCostInfoContent} expanded="showKubeCostInfoPanel" />
-      <Spacer size="normal" />
       {!loading && kubeCostData.data ? (
         <>
           <ViewTrackingMeta
@@ -110,17 +80,38 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
           <KubeCostMetrics kubeCostData={kubeCostData.data} timeConfig={finalTimeConfig} cluster={cluster} />
         </>
       ) : (
-        <Li>
-          <CenterAlignmentColumn>
-            <EntityPageMainNotification
-              icon="lib_missing_data"
-              title="Cost information not found"
-              explanation={() => (
-                <ArticleContent markdownContent={t('in-kubernetes:dashboards.kubecost.noKubecostData')} />
-              )}
-            />
-          </CenterAlignmentColumn>
-        </Li>
+        <>
+          <Banner
+            targetProductName="KubeCost"
+            expanded="showKubeCostInfoPanel"
+            variation="configure"
+            headline={t('in-kubernetes:dashboards.kubecost.costKubernetes')}
+            tag={t('in-kubernetes:dashboards.kubecost.configureNow')}
+            showLabel={t('in-kubernetes:dashboards.kubecost.configureforFree')}
+            description={t('in-kubernetes:dashboards.kubecost.configureKubecostForFree')}
+            primaryCta={{
+              label: t('in-kubernetes:dashboards.kubecost.configureNow'),
+              href: 'https://ibm.biz/kubecost',
+              target: '_blank'
+            }}
+            secondaryCta={{
+              label: t('in-kubernetes:dashboards.kubecost.learnMore'),
+              href: 'https://www.kubecost.com',
+              target: '_blank'
+            }}
+          />
+          <Li>
+            <CenterAlignmentColumn>
+              <EntityPageMainNotification
+                icon="lib_missing_data"
+                title="Cost information not found"
+                explanation={() => (
+                  <ArticleContent markdownContent={t('in-kubernetes:dashboards.kubecost.noKubecostData')} />
+                )}
+              />
+            </CenterAlignmentColumn>
+          </Li>
+        </>
       )}
     </>
   );
