@@ -661,3 +661,6 @@ export const VULNERABILITIES_DETECTIONS_TAB_ROW_CLICK = 'vulnerabilities.detecti
 export const VULNERABILITIES_DETECTIONS_DETAIL_ON_ENTITY_CLICK = 'vulnerabilities.detections.detail.on.entity.click';
 export const VULNERABILITIES_DETECTIONS_DETAIL_ANY_ASSOCIATED_APPLICATION_CLICK =
   'vulnerabilities.detections.detail.any.associated.application.click';
+
+export const KUBECOST_EXPORT_NAMESPACE_COST_CLICK = 'kubecost.export.namespace.cost.click';
+export const KUBECOST_EXPORT_DEPLOYMENT_COST_CLICK = 'kubecost.export.deployment.cost.click';

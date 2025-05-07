@@ -111,12 +111,6 @@ export default function KubeCost({ timeConfig, data: cluster }: SummaryProps) {
         </>
       ) : (
         <Li>
-          <ViewTrackingMeta
-            data={{
-              productArea: productAreas.kubernetes,
-              pageRootName: pageNames.cluster_cost
-            }}
-          />
           <CenterAlignmentColumn>
             <EntityPageMainNotification
               icon="lib_missing_data"

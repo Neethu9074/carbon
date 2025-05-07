@@ -14,6 +14,8 @@ import { TimeConfig } from '@instana/types';
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 // @ts-expect-error needs TS migration
 import Badge from 'in-components/tables/ServerTable/components/Badge';
+import { KUBECOST_EXPORT_DEPLOYMENT_COST_CLICK } from 'in-services/tracking/eventNames';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { percentagePlain } from 'in-services/formatters/number';
 import CsvExporter from 'in-components/CsvExporter/CsvExporter';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -281,6 +283,7 @@ function getCurrency(value: DeploymentCostRow) {
 }
 
 const CSVExportButton = ({ csvHeaders, csvData }: CSVExportProps) => {
+  const { trackCta } = useSegmentTracking();
   const headers: string[] = [];
   const cols: string[][] = [];
   csvHeaders.forEach((csvHeader: Record<string, any>) => headers.push(csvHeader.header));
@@ -297,6 +300,8 @@ const CSVExportButton = ({ csvHeaders, csvData }: CSVExportProps) => {
     });
     cols.push(arr);
   });
+
+  trackCta(KUBECOST_EXPORT_DEPLOYMENT_COST_CLICK);
 
   return <CsvExporter headers={headers} data={cols} fileName="deployment_cost.csv" />;
 };
