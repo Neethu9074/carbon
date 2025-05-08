@@ -107,13 +107,13 @@ export default function FeedbackDialog() {
       <DialogWithSlideInView
         title={t('in-settings:maintenanceWindow.feedback.shareFeedback')}
         onClose={() => {
-          const thingsWentWrong = form.get('thingsWentWrong').value;
+          const feedback = form.get('feedback').value;
           const id = form.get('id').value;
 
           const contactMe = form.get('contactMe').value;
           const instrumentationEventProperties = {
             id,
-            thingsWentWrong,
+            feedback,
             contactMe,
             eventID: location.matrix[eventsPath]?.eventId,
             eventType: location.matrix[eventsPath]?.view
@@ -160,7 +160,7 @@ function createForm(): MapForm<FeedbackConfigEventForm> {
   return createMapForm<FeedbackConfigEventForm>({
     items: {
       id: createField({ value: generateUniqueShortId() }),
-      thingsWentWrong: createField({ value: '' }),
+      feedback: createField({ value: '' }),
       contactMe: createField({ value: undefined }),
       closureComments: createField({ value: '' }),
       muteAlerts: createField({ value: false }),
@@ -170,14 +170,14 @@ function createForm(): MapForm<FeedbackConfigEventForm> {
 }
 
 function save(form: MapForm<FeedbackConfigEventForm>, location: Location, submitTracker: (e: Object) => void) {
-  const thingsWentWrong = form.get('thingsWentWrong').value;
+  const feedback = form.get('feedback').value;
   const id = form.get('id').value;
 
   const contactMe = form.get('contactMe').value;
   return saveEventFeedbackForm(
     {
       id,
-      thingsWentWrong,
+      feedback,
       contactMe,
       eventID: location.matrix[eventsPath]?.eventId || '',
       eventType: location.matrix[eventsPath]?.view || ''

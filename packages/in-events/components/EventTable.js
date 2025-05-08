@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { findIndex } from 'lodash';
 
 import { Stack, Typography, Pill, IconButton } from '@instana/components';
@@ -27,16 +27,17 @@ import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/Navi
 import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import EventsNavItems from 'in-events/components/EventContent/EventsNavItems/EventsNavItems';
 import { eventFeedbackEnabled, notesAndActivityEnabled } from 'in-services/featureFlags';
+import { trackClick } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import EventsTable from 'in-events/components/EventsPage/EventsTable/EventsTable';
 import { eventStepConfig } from 'in-events/components/feedback/eventStepConfig';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { aqmDataGridEventTableEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { isAppDataEntityType } from 'in-services/entityUtils';
 import DashboardHeader from 'in-components/DashboardHeader';
 import EventsList from 'in-events/components/EventsList';
@@ -225,13 +226,18 @@ function renderMetaInformation({ event }) {
 }
 
 export function FeedbackComponents({ eventData, textVariant = 'body-regular', iconSize = 's' }) {
-  const { trackCta } = useSegmentTracking();
-  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'event feedback';
   const tup = 'thumbsUp';
   const tdown = 'thumbsDown';
   const [feedbackState, setFeedbackState] = useState('');
   const { location } = useNavigation();
   const [selectedID, setSelectedID] = useState(location.matrix[eventsPath].eventId);
+  const eventJSON = useMemo(() => eventData.toJS(), [eventData]);
+
+  const trackingData = {
+    parentPageCategory: productAreas.event,
+    event: eventJSON,
+    location
+  };
 
   // If event ID changes then we need to trigger an update for our feedback state
   useEffect(() => {
@@ -247,25 +253,29 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular', ic
 
   // If user pressed thumbs down then bring up feedback dialog
   useEffect(() => {
-    if (feedbackState === tdown)
+    if (feedbackState === tdown) {
+      trackClick({ ...trackingData, ctaEvent: EVENT_FEEDBACK_NEGATIVE });
       addActiveDialog(
         <EventFeedbackDialog
           stepConfig={eventStepConfig}
-          closedManuallyTracker={instrumentationEventProperties => {
-            trackCta(EVENT_FEEDBACK_CLOSED_MANUALLY, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+          closedManuallyTracker={() => {
+            trackClick({ ...trackingData, ctaEvent: EVENT_FEEDBACK_CLOSED_MANUALLY });
           }}
-          nextStepTracker={instrumentationEventProperties => {
-            trackCta(EVENT_FEEDBACK_NEXT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+          nextStepTracker={() => {
+            trackClick({ ...trackingData, ctaEvent: EVENT_FEEDBACK_NEXT });
           }}
-          skipStepTracker={instrumentationEventProperties => {
-            trackCta(EVENT_FEEDBACK_SKIP, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+          skipStepTracker={() => {
+            trackClick({ ...trackingData, ctaEvent: EVENT_FEEDBACK_SKIP });
           }}
           submitTracker={instrumentationEventProperties => {
-            trackCta(EVENT_FEEDBACK_SUBMIT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+            trackClick({ ...trackingData, ctaEvent: EVENT_FEEDBACK_SUBMIT, payload: instrumentationEventProperties });
           }}
           eventData={eventData}
         />
       );
+    } else if (feedbackState === tup) {
+      trackClick({ ...trackingData, ctaEvent: EVENT_FEEDBACK_POSITIVE });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [feedbackState]);
 
@@ -285,11 +295,6 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular', ic
           type="lib_thumbs_up"
           iconSize={iconSize}
           onClick={() => {
-            const instrumentationEventProperties = {
-              eventID: location.matrix[eventsPath]?.eventId,
-              eventType: location.matrix[eventsPath]?.view
-            };
-            trackCta(EVENT_FEEDBACK_POSITIVE, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
             if (feedbackState === tup) {
               setFeedbackState('');
             } else {
@@ -306,11 +311,6 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular', ic
           iconSize={iconSize}
           type="lib_thumbs_down"
           onClick={() => {
-            const instrumentationEventProperties = {
-              eventID: location.matrix[eventsPath]?.eventId,
-              eventType: location.matrix[eventsPath]?.view
-            };
-            trackCta(EVENT_FEEDBACK_NEGATIVE, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
             if (feedbackState === tdown) {
               setFeedbackState('');
             } else {

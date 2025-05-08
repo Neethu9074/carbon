@@ -9,7 +9,7 @@ import { generateUniqueShortId } from '@instana/utils';
 
 export interface FeedbackConfigEvent {
   id: string;
-  thingsWentWrong: string;
+  feedback: string;
   contactMe: boolean | undefined;
   eventID?: string;
   eventType?: string;
@@ -17,7 +17,7 @@ export interface FeedbackConfigEvent {
 
 export interface FeedbackConfigEventForm extends MapFormItems {
   id: Field<string>;
-  thingsWentWrong: Field<string>;
+  feedback: Field<string>;
   contactMe: Field<boolean | undefined>;
   closureComments: Field<string>;
   muteAlerts: Field<boolean>;
@@ -31,7 +31,7 @@ export function saveEventFeedbackForm(config: FeedbackConfigEvent, feedbackSubmi
 export function createFeedbackForm(): FeedbackConfigEvent {
   return {
     id: generateUniqueShortId(),
-    thingsWentWrong: '',
+    feedback: '',
     contactMe: undefined
   };
 }
