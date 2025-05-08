@@ -117,7 +117,7 @@ module.exports = {
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
   syntheticRbacLimitedEnabled: true,
-  syntheticDNSEnabled: true,
+  syntheticDnsEnabled: true,
   syntheticRunNowEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,

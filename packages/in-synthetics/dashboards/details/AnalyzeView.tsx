@@ -48,7 +48,7 @@ import Logs from 'in-synthetics/dashboards/details/components/Logs';
 import { getValidFormat } from 'in-synthetics/utils/getValidFormat';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
-import { syntheticDNSEnabled } from 'in-services/featureFlags';
+import { syntheticDnsEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
@@ -214,7 +214,7 @@ const AnalyzeView = () => {
                 </Col>
               </Row>
             )}
-            {syntheticDNSEnabled && isDNS && resultList.data?.items[0]?.testResultCommonProperties?.ismDetails && (
+            {syntheticDnsEnabled && isDNS && resultList.data?.items[0]?.testResultCommonProperties?.ismDetails && (
               <Row>
                 <Col xs>
                   <DNSTestDetails resultList={resultList} />
