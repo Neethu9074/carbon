@@ -71,7 +71,7 @@ export default function InfoCardHeader({
           })}
         />
         <EntityHealthIndicator IndicatorPresenter={IndicatorPresenter} snapshotId={id} timeConfig={timeConfig} />
-        <ArgoCDCluster snapshotId={id} timeConfig={timeConfig} />
+        <ArgoCDCluster buttonSize="compact" snapshotId={id} timeConfig={timeConfig} />
       </Stack>
     </div>
   );

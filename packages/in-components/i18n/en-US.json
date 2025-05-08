@@ -59,6 +59,8 @@
       "retryButtonLabel": "Retry",
       "openList": "Open list"
     },
+    "chartCDEventsLanePresenterLabel": "CD events",
+    "chartCDEventsLanePresenterTooltip": "+{{len}} more CD events",
     "chartReleasesLanePresenterReleasesLabel": "Releases",
     "chartReleasesLanePresenterTooltip": "+{{len}} more releases",
     "highlightedTimeframeCloseButtonClearHighlight": "Clear highlight",

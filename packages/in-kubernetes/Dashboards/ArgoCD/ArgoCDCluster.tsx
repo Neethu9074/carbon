@@ -6,8 +6,8 @@
 
 import React from 'react';
 
+import { Button, ButtonSizes } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
 import { TimeConfig } from '@instana/types';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -19,9 +19,10 @@ import { t } from 'in-i18n';
 interface ArgoCDClusterProps {
   snapshotId: string;
   timeConfig: TimeConfig;
+  buttonSize: keyof typeof ButtonSizes;
 }
 
-const ArgoCDSubscription = ({ snapshotId, timeConfig }: ArgoCDClusterProps) => {
+const ArgoCDSubscription = ({ snapshotId, timeConfig, buttonSize }: ArgoCDClusterProps) => {
   const result =
     useObservable(getArgocdCluster({ id: snapshotId, timeConfig }), [snapshotId, timeConfig]) ?? pendingResult;
 
@@ -62,13 +63,13 @@ const ArgoCDSubscription = ({ snapshotId, timeConfig }: ArgoCDClusterProps) => {
     );
   };
   return (
-    <>
+    <div style={{ margin: '0px 1px' }}>
       {argoCDClusterData && Object.keys(argoCDClusterData)?.length > 0 && (
-        <Button kind="tertiary" size="compact" icon={iconType} onClick={handleClick}>
+        <Button kind="tertiary" size={buttonSize} icon={iconType} onClick={handleClick}>
           {label}
         </Button>
       )}
-    </>
+    </div>
   );
 };
 export default ArgoCDSubscription;

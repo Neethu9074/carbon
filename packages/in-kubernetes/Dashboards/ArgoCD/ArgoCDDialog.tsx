@@ -42,7 +42,7 @@ const ArgoCDDialog = ({ snapshotId, timeConfig, onClose, totalApps, unsyncedApps
   };
 
   const headerActions = (
-    <Button kind="primary" size="compact" icon={launchIcon} onClick={openInNewTab}>
+    <Button kind="primary" icon={launchIcon} onClick={openInNewTab}>
       {t('in-kubernetes:argocd.launchArgocd')}
     </Button>
   );
@@ -55,11 +55,14 @@ const ArgoCDDialog = ({ snapshotId, timeConfig, onClose, totalApps, unsyncedApps
       onClose={onClose}
       open
       hasCloseIcon
+      selectorPrimaryFocus="#argocdApplications"
       closeIconDescription={t('in-kubernetes:argocd.close')}
       className={locals.tearsheet}
     >
-      <DashboardNotification type="neutral">{label}</DashboardNotification>
-      {totalApps != 0 && <ArgoCDTable snapshotId={snapshotId} timeConfig={timeConfig} />}
+      <div id="argocdApplications">
+        <DashboardNotification type="neutral">{label}</DashboardNotification>
+        {totalApps != 0 && <ArgoCDTable snapshotId={snapshotId} timeConfig={timeConfig} />}
+      </div>
     </Tearsheet>
   );
 };
