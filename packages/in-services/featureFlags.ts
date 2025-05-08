@@ -137,7 +137,7 @@ export const syntheticRunNowEnabled = isFeatureFlagEnabled('syntheticRunNowEnabl
 export const syntheticNodeJs22Enabled = isFeatureFlagEnabled('syntheticNodeJs22Enabled');
 
 // Synthetic SSL Improvement feature flag
-export const syntheticSSLImprovementEnabled = isFeatureFlagEnabled('syntheticSSLImprovementEnabled');
+export const syntheticSslImprovementEnabled = isFeatureFlagEnabled('syntheticSslImprovementEnabled');
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(

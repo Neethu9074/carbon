@@ -123,7 +123,7 @@ module.exports = {
   syntheticDNSEnabled: true,
   syntheticRunNowEnabled: true,
   syntheticNodeJs22Enabled: true,
-  syntheticSSLImprovementEnabled: true,
+  syntheticSslImprovementEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,

@@ -476,7 +476,7 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticSSLImprovementEnabled',
+    uiClientKey: 'syntheticSslImprovementEnabled',
     instanaCtlKey: 'feature.synthetic.ssl.improvement.enabled',
     defaultValue: false
   },
