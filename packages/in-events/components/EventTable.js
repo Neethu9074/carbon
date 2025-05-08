@@ -260,19 +260,15 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular', ic
           stepConfig={eventStepConfig}
           closedManuallyTracker={() => {
             trackClick({ ...trackingData, ctaEvent: EVENT_FEEDBACK_CLOSED_MANUALLY });
-            //trackCta(EVENT_FEEDBACK_CLOSED_MANUALLY, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
           nextStepTracker={() => {
             trackClick({ ...trackingData, ctaEvent: EVENT_FEEDBACK_NEXT });
-            //trackCta(EVENT_FEEDBACK_NEXT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
           skipStepTracker={() => {
             trackClick({ ...trackingData, ctaEvent: EVENT_FEEDBACK_SKIP });
-            //trackCta(EVENT_FEEDBACK_SKIP, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
           submitTracker={instrumentationEventProperties => {
             trackClick({ ...trackingData, ctaEvent: EVENT_FEEDBACK_SUBMIT, payload: instrumentationEventProperties });
-            //trackCta(EVENT_FEEDBACK_SUBMIT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
           eventData={eventData}
         />
