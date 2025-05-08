@@ -56,7 +56,7 @@ function EndpointLabelContent({ item, applicationId, serviceId, boundaryScope, s
       severity={maxSeverity}
       icon="lib_application_endpoint"
       label={item.endpoint.label}
-      tooltip={item.endpoint.synthetic ? t('in-applications:labelSyntheticEndpoint') : null}
+      tooltip={item.endpoint.label}
       specialIndicator={!!item.endpoint.synthetic}
       href={getLinkToEndpointDashboard({
         applicationId,

@@ -15,6 +15,16 @@
     & + .wrapper {
       margin-left: 0.5rem;
     }
+    :global {
+      .carbonTooltipPopoverWrapper {
+        width: 100%;
+      }
+    }
+    :global {
+      .cds--popover-container {
+        width: 100%;
+      }
+    }
   }
 
   .linkEntityIcon {
