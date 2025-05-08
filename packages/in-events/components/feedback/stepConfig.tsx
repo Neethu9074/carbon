@@ -54,7 +54,12 @@ export const stepConfigs: IStepConfig = {
     ),
     validateStep: (form: MapForm<FeedbackConfigEventForm>) => {
       if (form && form.get('feedback') && !form.get('feedback').touched) return true;
-      if (form && form.get('feedback') && form.get('feedback').touched && form.get('feedback').value.length <= 0)
+      if (
+        form && 
+        form.get('feedback') && 
+        form.get('feedback').touched && 
+        form.get('feedback').value.length <= 0
+      )
         return true;
       return false;
     },
