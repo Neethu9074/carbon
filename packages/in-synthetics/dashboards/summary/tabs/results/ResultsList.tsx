@@ -38,7 +38,7 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { syntheticDNSEnabled } from 'in-services/featureFlags';
+import { syntheticDnsEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
@@ -218,7 +218,7 @@ export default function ResultsList({ test }: ResultListProps) {
           }
         ]
       : []),
-    ...(syntheticDNSEnabled && isDNS
+    ...(syntheticDnsEnabled && isDNS
       ? [
           {
             id: 'failure_type',
