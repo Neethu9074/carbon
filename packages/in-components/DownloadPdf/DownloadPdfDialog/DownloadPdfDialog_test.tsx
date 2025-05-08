@@ -10,7 +10,7 @@ import domtoimage from 'dom-to-image';
 import { jsPDF } from 'jspdf';
 import React from 'react';
 
-import DownloadPdfDialog from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/DownloadPdfDialog';
+import DownloadPdfDialog from 'in-components/DownloadPdf/DownloadPdfDialog/DownloadPdfDialog';
 
 jest.mock('jspdf');
 jest.mock('dom-to-image');
@@ -45,7 +45,7 @@ describe('DownloadPdfDialog Component', () => {
   });
 
   it('should generate pdf in landscape mode', async () => {
-    const { getByText } = render(<DownloadPdfDialog customDashboardId="test-pdf" node={mockNode} close={() => {}} />);
+    const { getByText } = render(<DownloadPdfDialog id="test-pdf" node={mockNode} close={() => {}} />);
 
     // Click to generate preview
     fireEvent.click(getByText('Generate preview'));
@@ -58,7 +58,7 @@ describe('DownloadPdfDialog Component', () => {
   });
 
   it('should generate pdf in portrait mode', async () => {
-    const { getByText } = render(<DownloadPdfDialog customDashboardId="test-pdf" node={mockNode} close={() => {}} />);
+    const { getByText } = render(<DownloadPdfDialog id="test-pdf" node={mockNode} close={() => {}} />);
 
     // Click to change to portrait mode
     fireEvent.click(getByText('Portrait'));

@@ -4,16 +4,24 @@
  * Copyright IBM Corp. 2024
  */
 
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 
 export interface CustomDashboardContextProps {
-  setExportWidgetId: React.Dispatch<React.SetStateAction<string>>;
-  setTooltipRef: React.Dispatch<React.SetStateAction<HTMLElement>>;
-  setShouldExportWidget: React.Dispatch<React.SetStateAction<boolean>>;
+  widgets: any;
+  exportWidgetToPdf: any;
 }
 
 export const CustomDashboardContext = createContext<CustomDashboardContextProps>({
-  setExportWidgetId: () => {},
-  setTooltipRef: () => {},
-  setShouldExportWidget: () => {}
+  widgets: {},
+  exportWidgetToPdf: () => {}
 });
+
+export function useCustomDashboardContext() {
+  const context = useContext(CustomDashboardContext);
+
+  if (context === undefined) {
+    throw new Error('Must be used within CustomDashboardContext Provider');
+  }
+
+  return context;
+}

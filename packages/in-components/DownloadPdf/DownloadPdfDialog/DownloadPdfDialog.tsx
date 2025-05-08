@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect, useMemo, useReducer, useCallback } from 'react';
+import React, { useEffect, useReducer, useCallback } from 'react';
 
 import { Stack, StackItem, RadioButton, Button, Checkbox } from '@instana/components';
 
@@ -15,16 +15,12 @@ import {
   DOWNLOAD_PDF_LAYOUT,
   DOWNLOAD_PDF_ORIENTATION
 } from 'in-services/tracking/tracking';
-import {
-  sanitizeNode,
-  generateImagesFromNodes,
-  getPdfHeader
-} from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/utils';
-import { actions, initialState, pdfReducer } from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/reducer';
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
+import { actions, initialState, pdfReducer } from 'in-components/DownloadPdf/DownloadPdfDialog/reducer';
+import { generateImagesFromNodes } from 'in-components/DownloadPdf/utils/generateImagesFromNodes';
+import { generateImageFromNode } from 'in-components/DownloadPdf/utils/generateImageFromNode';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import CancelButton from 'in-components/form/CancelButton';
-import { nodeToImage } from 'in-services/util/nodeToImage';
 import { imagesToPdf } from 'in-services/util/imagesToPdf';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
@@ -34,78 +30,64 @@ import Actions from 'in-components/Dialog/Actions';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
-import locals from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/DownloadPdfDialog.mless';
+import locals from 'in-components/DownloadPdf/DownloadPdfDialog/DownloadPdfDialog.mless';
 
 interface Props {
   node: HTMLElement;
-  header?: HTMLElement;
-  customDashboardId: string;
+  id: string;
+  filename?: string;
   close: () => void;
+  headerUrl?: string;
+  sanitize?: (node: Node) => boolean;
+  isStackWidgets?: boolean;
 }
 
-export default function DownloadPdfDialog({ customDashboardId, close, node, header }: Readonly<Props>) {
+export default function DownloadPdfDialog({
+  id,
+  filename,
+  close,
+  node,
+  headerUrl,
+  sanitize,
+  isStackWidgets = true
+}: Readonly<Props>) {
   const [state, dispatch] = useReducer(pdfReducer, initialState);
   const { trackCta } = useSegmentTracking();
 
   const {
-    imagesUrls,
-    headerUrl,
-    isGenerating: { value, text },
-    orientation,
     pdf,
+    imagesUrls,
+    orientation,
     shouldFitPdf,
-    stackedWidgets
+    stackedWidgets,
+    isGenerating: { value, text }
   } = state;
-  const { setIsGenerating, setPdf, setHeaderUrl, setImagesUrls, setStackedWidgets, setOrientation, setShouldFitPdf } =
-    actions;
   const pdfBlob = pdf ? URL.createObjectURL(pdf.output('blob')) : '';
+  const { setIsGenerating, setPdf, setImagesUrls, setStackedWidgets, setOrientation, setShouldFitPdf } = actions;
 
-  const getImagesUrls = useMemo(
-    () => async (node: HTMLElement) =>
-      await nodeToImage({
-        node,
-        options: {
-          filter: node => sanitizeNode(node)
-        }
-      }).then(imageUrl => dispatch({ type: setImagesUrls, payload: [imageUrl] })),
-    [setImagesUrls]
-  );
-
-  const getImagesFromNodes = useMemo(
-    () => async (nodes: HTMLElement[]) =>
-      await generateImagesFromNodes(nodes, setIsGenerating, dispatch).then(imageUrl =>
-        dispatch({ type: setImagesUrls, payload: imageUrl })
-      ),
-    [setImagesUrls, setIsGenerating]
-  );
-
-  const generateImageFromNode = useCallback(() => {
+  // Function that will dispatch the generation of the images to be added in the pdf.
+  const dispatchGenerateImagesFromNodes = useCallback(async () => {
     dispatch({ type: setPdf, payload: null });
     dispatch({ type: setIsGenerating, payload: { value: true } });
 
-    // Generate pdf header image
-    // Header url will be available in headerUrl variable.
-    if (header) {
-      getPdfHeader({
-        node: header,
-        dispatch: (headerUrl: string) => dispatch({ type: setHeaderUrl, payload: headerUrl })
-      });
-    }
-
+    // If stacked, generates an image for each node.
     if (stackedWidgets) {
-      getImagesFromNodes([...node.childNodes] as HTMLElement[]);
+      generateImagesFromNodes([...node.childNodes] as HTMLElement[], setIsGenerating, dispatch, sanitize).then(
+        imageUrl => dispatch({ type: setImagesUrls, payload: imageUrl })
+      );
     } else {
-      getImagesUrls(node);
+      // It generates one single image from the node.
+      generateImageFromNode({ node }).then(imageUrl => dispatch({ type: setImagesUrls, payload: [imageUrl] }));
     }
-  }, [getImagesFromNodes, getImagesUrls, header, node, setHeaderUrl, setIsGenerating, setPdf, stackedWidgets]);
+  }, [node, sanitize, setImagesUrls, setIsGenerating, setPdf, stackedWidgets]);
 
   const createPdf = useCallback(
-    (imagesUrls, headerUrl, customDashboardId) =>
+    (imagesUrls, headerUrl, id) =>
       imagesToPdf({
         imageScale: stackedWidgets ? 1 : 2,
         imagesUrls,
         headerUrl,
-        filename: customDashboardId,
+        filename: id,
         shouldFitPdf,
         shouldDownloadAfterGeneration: false,
         pdfSettings: {
@@ -123,30 +105,26 @@ export default function DownloadPdfDialog({ customDashboardId, close, node, head
   useEffect(() => {
     if (value && node) {
       if (!imagesUrls || imagesUrls.length === 0) {
-        generateImageFromNode();
+        dispatchGenerateImagesFromNodes();
       } else {
-        createPdf(imagesUrls, headerUrl, customDashboardId);
+        createPdf(imagesUrls, headerUrl, id);
       }
     }
-  }, [value, node, imagesUrls, stackedWidgets, generateImageFromNode, createPdf, customDashboardId, headerUrl]);
+  }, [id, value, node, imagesUrls, stackedWidgets, headerUrl, createPdf, dispatchGenerateImagesFromNodes]);
 
   return (
-    <Dialog
-      title={t('in-custom-dashboards:customDashboard.downloadPdfDialog.downloadPdf')}
-      onClose={close}
-      className={locals.dialog}
-    >
+    <Dialog title={t('in-components:downloadPdf.downloadPdfFile')} onClose={close} className={locals.dialog}>
       <Stack gap="large">
         <StackItem>
           <Stack gap="normal">
-            <Header>{t('in-custom-dashboards:customDashboard.downloadPdfDialog.settings')}</Header>
+            <Header>{t('in-components:downloadPdf.settings')}</Header>
             <Sections>
-              <Section title={t('in-custom-dashboards:customDashboard.downloadPdfDialog.pdfOrientation')}>
+              <Section title={t('in-components:downloadPdf.pdfOrientation')}>
                 <div className={locals.row}>
                   <Stack direction="horizontal">
                     <RadioButton
                       key="landscape"
-                      label={t('in-custom-dashboards:customDashboard.downloadPdfDialog.landscape')}
+                      label={t('in-components:downloadPdf.landscape')}
                       checked={orientation === 'landscape'}
                       onChange={() => {
                         dispatch({ type: setPdf, payload: null });
@@ -157,7 +135,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node, head
                     />
                     <RadioButton
                       key="portrait"
-                      label={t('in-custom-dashboards:customDashboard.downloadPdfDialog.portrait')}
+                      label={t('in-components:downloadPdf.portrait')}
                       checked={orientation === 'portrait'}
                       onChange={() => {
                         dispatch({ type: setPdf, payload: null });
@@ -171,13 +149,13 @@ export default function DownloadPdfDialog({ customDashboardId, close, node, head
               </Section>
             </Sections>
             <Sections>
-              <Section title={t('in-custom-dashboards:customDashboard.downloadPdfDialog.pdfLayout')}>
+              <Section title={t('in-components:downloadPdf.pdfLayout')}>
                 <div className={locals.row}>
                   <Stack direction="horizontal">
                     <RadioButton
                       key="single-page"
-                      label={t('in-custom-dashboards:customDashboard.downloadPdfDialog.singlePage')}
-                      explanation={t('in-custom-dashboards:customDashboard.downloadPdfDialog.singlePageInfo')}
+                      label={t('in-components:downloadPdf.singlePage')}
+                      explanation={t('in-components:downloadPdf.singlePageInfo')}
                       checked={shouldFitPdf}
                       onChange={() => {
                         dispatch({ type: setPdf, payload: null });
@@ -190,8 +168,8 @@ export default function DownloadPdfDialog({ customDashboardId, close, node, head
                     />
                     <RadioButton
                       key="multiple-pages"
-                      label={t('in-custom-dashboards:customDashboard.downloadPdfDialog.multiPages')}
-                      explanation={t('in-custom-dashboards:customDashboard.downloadPdfDialog.multiPagesInfo')}
+                      label={t('in-components:downloadPdf.multiPages')}
+                      explanation={t('in-components:downloadPdf.multiPagesInfo')}
                       checked={!shouldFitPdf}
                       onChange={() => {
                         dispatch({ type: setPdf, payload: null });
@@ -203,34 +181,36 @@ export default function DownloadPdfDialog({ customDashboardId, close, node, head
                 </div>
               </Section>
             </Sections>
-            <Sections>
-              <Section title={t('in-custom-dashboards:customDashboard.downloadPdfDialog.widgetsDisplay')}>
-                <div className={locals.row}>
-                  <Stack direction="horizontal">
-                    <Checkbox
-                      key="stack-vertically"
-                      label={t('in-custom-dashboards:customDashboard.downloadPdfDialog.stackWidgetsTitle')}
-                      checked={stackedWidgets}
-                      explanation={t('in-custom-dashboards:customDashboard.downloadPdfDialog.stackWidgetsInfo')}
-                      onChange={() => {
-                        dispatch({ type: setIsGenerating, payload: { value: false } });
-                        dispatch({ type: setPdf, payload: null });
-                        dispatch({ type: setShouldFitPdf, payload: stackedWidgets });
-                        dispatch({ type: setImagesUrls, payload: null });
-                        dispatch({ type: setStackedWidgets, payload: !stackedWidgets });
-                        trackCta(DOWNLOAD_PDF_DISPLAY, { stackedWidgets: !stackedWidgets });
-                      }}
-                    />
-                  </Stack>
-                </div>
-              </Section>
-            </Sections>
+            {isStackWidgets && (
+              <Sections>
+                <Section title={t('in-components:downloadPdf.widgetsDisplay')}>
+                  <div className={locals.row}>
+                    <Stack direction="horizontal">
+                      <Checkbox
+                        key="stack-vertically"
+                        label={t('in-components:downloadPdf.stackWidgetsTitle')}
+                        checked={stackedWidgets}
+                        explanation={t('in-components:downloadPdf.stackWidgetsInfo')}
+                        onChange={() => {
+                          dispatch({ type: setIsGenerating, payload: { value: false } });
+                          dispatch({ type: setPdf, payload: null });
+                          dispatch({ type: setShouldFitPdf, payload: stackedWidgets });
+                          dispatch({ type: setImagesUrls, payload: null });
+                          dispatch({ type: setStackedWidgets, payload: !stackedWidgets });
+                          trackCta(DOWNLOAD_PDF_DISPLAY, { stackedWidgets: !stackedWidgets });
+                        }}
+                      />
+                    </Stack>
+                  </div>
+                </Section>
+              </Sections>
+            )}
           </Stack>
         </StackItem>
         <Divider />
         <div className={locals.preview}>
           <Stack gap="normal">
-            <Header>{t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetPreview.preview')}</Header>
+            <Header>{t('in-components:downloadPdf.preview')}</Header>
             <Stack gap="normal" align="center">
               <Button
                 kind="secondary"
@@ -245,7 +225,7 @@ export default function DownloadPdfDialog({ customDashboardId, close, node, head
                 {text}
               </Button>
               {value && <IndeterminateLoadingIndicator />}
-              {pdf && <iframe width="100%" height="600" src={pdfBlob} />}
+              {pdf && <iframe width="100%" height="600" src={pdfBlob} title={id || filename} />}
             </Stack>
           </Stack>
         </div>
@@ -255,12 +235,12 @@ export default function DownloadPdfDialog({ customDashboardId, close, node, head
         <Button
           disabled={!(pdf && pdfBlob)}
           onClick={() => {
-            pdf?.save(`${customDashboardId}.pdf`);
-            trackCta(DOWNLOAD_PDF_FINISH, { customDashboardId });
+            pdf?.save(`${filename ?? id}.pdf`);
+            trackCta(DOWNLOAD_PDF_FINISH, { id });
             close();
           }}
         >
-          {t('in-custom-dashboards:customDashboard.downloadPdfDialog.downloadPdf')}
+          {t('in-components:downloadPdf.downloadPdfFile')}
         </Button>
       </Actions>
     </Dialog>

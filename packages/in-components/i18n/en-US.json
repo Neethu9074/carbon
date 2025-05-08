@@ -134,6 +134,31 @@
   "carbonSearchBar": {
     "search": "Search"
   },
+  "downloadPdf": {
+    "downloadPdfFile": "Download PDF file",
+    "settings": "Settings",
+    "pdfOrientation": "Orientation",
+    "portrait": "Portrait",
+    "landscape": "Landscape",
+    "pdfLayout": "Layout",
+    "widgetsDisplay": "Display",
+    "singlePage": "Single page",
+    "singlePageInfo": "Fit the entire dashboard on one page, with content resized to fit.",
+    "multiPages": "Multiple pages",
+    "multiPagesInfo": "Distribute the dashboard across multiple pages, keeping the original layout. Some widgets may be cut off.",
+    "stackWidgetsTitle": "Stack widgets",
+    "stackWidgetsInfo": "Display widgets in a vertical stack across multiple pages.",
+    "loadingWidget": "Loading widget {{widgetIndex}} of {{totalNodes}}",
+    "generatePreview": "Generate preview",
+    "generatingPreview": "Generating pdf preview",
+    "generatingPDFTitle": "Generating pdf",
+    "generatingPDFContent": "Please wait while the pdf is being generated.",
+    "generatedPDFTitle": "Pdf Generated",
+    "generatedPDFContent": "The pdf download will start shortly.",
+    "timeRange": "Time range",
+    "preview": "Preview",
+    "widgetNotAvailableToBeExported": "This widget is not available to be exported."
+  },
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "Analyze this group",

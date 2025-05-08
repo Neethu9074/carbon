@@ -127,7 +127,6 @@ export default connectTo(
       const nearestTimeInMetrics = this.getNearestTimeInMetrics();
       const cursorXPosition = this.getAnimationOffsetAwareXPosition(nearestTimeInMetrics);
       const showTooltip = !showContextMenu && cursorXPosition != null && this.showTooltipForTheChart();
-
       return (
         <>
           {showTooltip && (
@@ -148,10 +147,6 @@ export default connectTo(
               showContextMenu={showContextMenu}
               tooltipRef={this.lastTooltipRef}
               isCustomDashboard={this.props.isCustomDashboard}
-              setExportWidgetId={this.props.setExportWidgetId}
-              setTooltipRef={this.props.setTooltipRef}
-              trackCta={this.props.trackCta}
-              setShouldExportWidget={this.props.setShouldExportWidget}
               setShowContextMenu={showContextMenu => this.setState({ showContextMenu })}
             />
           )}

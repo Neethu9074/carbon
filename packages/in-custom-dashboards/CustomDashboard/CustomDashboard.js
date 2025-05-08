@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { find, isEqual, debounce } from 'lodash';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import { find, isEqual } from 'lodash';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
@@ -28,29 +28,28 @@ import {
   dashboardIdUrlParameter,
   dashboardTopLevelFilterUrlParameter
 } from 'in-custom-dashboards/navigation/url';
-import PdfWidgetContainer from 'in-custom-dashboards/CustomDashboard/PdfWidgetContainer/PdfWidgetContainer';
+import PdfWidgetContainer from 'in-custom-dashboards/CustomDashboard/DownloadPdf/components/PdfWidgetContainer/PdfWidgetContainer';
+import { exportWidgetAsPdf, getWidgetProperties } from 'in-custom-dashboards/CustomDashboard/DownloadPdf/utils';
 import WidgetEditorDialog from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
-import { sanitizeNode, getPdfHeader } from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/utils';
-import DownloadPdfDialog from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/DownloadPdfDialog';
+import { sanitizeWidgets } from 'in-custom-dashboards/CustomDashboard/DownloadPdf/sanitize/sanitizeWidgets';
 import ZoomWidgetDialog from 'in-custom-dashboards/CustomDashboard/ZoomWidgetDialog/ZoomWidgetDialog';
 import EditAsJsonDialog from 'in-custom-dashboards/CustomDashboard/EditAsJsonDialog/EditAsJsonDialog';
 import { CustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/CustomDashboardContext';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import { FilterContext } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
+import DownloadPdfDialog from 'in-components/DownloadPdf/DownloadPdfDialog/DownloadPdfDialog';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
 import { activeDialogs$, addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
-import { usePdfContext } from 'in-components/DownloadPdfDialog/context/PdfContext';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import usePdfExport from 'in-components/DownloadPdf/hooks/usePdfExport';
 import { getTrackingMeta } from 'in-custom-dashboards/tracker';
-import { nodeToImage } from 'in-services/util/nodeToImage';
-import { imagesToPdf } from 'in-services/util/imagesToPdf';
 import widgets from 'in-custom-dashboards/widgets';
 import { deepCopy } from 'in-services/util/object';
 import Prompt from 'in-components/Dialog/Prompt';
@@ -64,20 +63,13 @@ export default function CustomDashboardLoader(props) {
     replaceHistory: false
   };
 
+  const { generatePdfFromComponent, getPdfHeaderUrl, PdfExportRenderer } = usePdfExport();
   const [{ dashboardId, tagFilterExpression }, setUrlState] = useUrlState(urlStateDefinition);
-
   const result = useObservable(getCustomDashboard(dashboardId), [dashboardId]);
 
   const [config, setConfig] = useState(getInitialState(result).config);
   const [isSaving, setSaving] = useState(getInitialState(result).isSaving);
-  const [isReadyToExport, setIsReadyToExport] = useState(false);
-  const [exportWidgetId, setExportWidgetId] = useState(null);
-  const [shouldExportWidget, setShouldExportWidget] = useState(false);
   const [downloadDashboard, setDownloadDashboard] = useState(false);
-  const [tooltipRef, setTooltipRef] = useState(null);
-  const pdfWidgetContainerRef = useRef(null);
-  const { pdfHeaderRef } = usePdfContext();
-
   const activeDialogs = useObservable(activeDialogs$, []) ?? [];
 
   const { location, navigate } = useNavigation();
@@ -89,8 +81,6 @@ export default function CustomDashboardLoader(props) {
     [setUrlState]
   );
   useEffect(() => setTopLevelFilters(tagFilterExpression), [tagFilterExpression]);
-
-  const exportWidget = exportWidgetId && find(config?.widgets, eachWidget => exportWidgetId === eachWidget.id);
 
   useEffect(() => {
     setConfig(getInitialState(result).config);
@@ -118,23 +108,28 @@ export default function CustomDashboardLoader(props) {
     };
   }, [config, activeDialogs.length]);
 
-  useEffect(() => {
-    if (isReadyToExport && shouldExportWidget) {
-      const onPDFDownloadDebounce = debounceOnPDFDownload({
-        exportWidgetId,
-        onPDFDownload,
-        setIsReadyToExport,
-        setShouldExportWidget,
-        tooltipRef
+  const exportWidgetToPdf = useCallback(
+    ({ target, tooltipRef, isHistogram }) => {
+      const { widgetNode, widgetType, widgetId } = getWidgetProperties(target);
+      return exportWidgetAsPdf({
+        action: options => generatePdfFromComponent(<PdfWidgetContainer widgetId={widgetId} />, options),
+        widgetNode,
+        widgetId,
+        widgetType,
+        tooltipRef,
+        isHistogram,
+        trackCta
       });
+    },
+    [generatePdfFromComponent, trackCta]
+  );
 
-      onPDFDownloadDebounce();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [exportWidgetId, isReadyToExport, shouldExportWidget, tooltipRef]);
-
+  const contextValues = useMemo(
+    () => ({ widgets: config?.widgets, exportWidgetToPdf }),
+    [config?.widgets, exportWidgetToPdf]
+  );
   return (
-    <CustomDashboardContext.Provider value={{ setExportWidgetId, setTooltipRef, setShouldExportWidget }}>
+    <CustomDashboardContext.Provider value={contextValues}>
       <CustomDashboardPresenter
         {...props}
         result={result}
@@ -160,6 +155,7 @@ export default function CustomDashboardLoader(props) {
         onZoomWidget={onZoomWidget}
         onRemoveWidget={onRemoveWidget}
         onDiscardChanges={onDiscardChanges}
+        onPDFDownload={onPDFDownload}
         onPDFDashboardDownload={() => {
           setDownloadDashboard(true);
           trackCta(DOWNLOAD_PDF_START, { customDashboardId: dashboardId });
@@ -173,9 +169,7 @@ export default function CustomDashboardLoader(props) {
         topLevelFilters={topLevelFilters}
         onTopLevelFiltersChange={onTopLevelFiltersChange}
       />
-      {exportWidget && (
-        <PdfWidgetContainer widget={exportWidget} ref={pdfWidgetContainerRef} setIsReadyToExport={setIsReadyToExport} />
-      )}
+      {PdfExportRenderer}
     </CustomDashboardContext.Provider>
   );
 
@@ -364,70 +358,14 @@ export default function CustomDashboardLoader(props) {
     setConfig(deepCopy(result.data));
   }
 
-  async function onPDFDownload(id, tooltipRef) {
-    const widget = find(config.widgets, eachWidget => id === eachWidget.id);
-    const widgetType = widget?.type;
-    const widgetNode = document.getElementById(getWidgetId(id));
-    const nodeToExport = pdfWidgetContainerRef?.current?.firstChild;
-    const orientation = ['chart', 'apdex', 'histogram', 'slo', 'slo2'].includes(widgetType) ? 'l' : 'p';
-
-    if (nodeToExport) {
-      if (tooltipRef) {
-        handleTooltip({ tooltipRef, nodeToExport, widget: widgetNode, widgetType });
-      } else {
-        nodeToExport?.querySelector('.tooltip')?.classList?.add('hidden');
-      }
-
-      addMessage(
-        {
-          type: 'info',
-          timeout: 4000,
-          title: t('in-custom-dashboards:customDashboard.customDashboard.generatingPDFTitle'),
-          content: t('in-custom-dashboards:customDashboard.customDashboard.generatingPDFContent')
-        },
-        'custom-dashboard-pdf-generation'
-      );
-
-      const headerUrl = await getPdfHeader({ node: pdfHeaderRef.current });
-      const imagesUrls = [
-        await nodeToImage({
-          node: nodeToExport,
-          options: {
-            filter: node => sanitizeNode(node, widgetType)
-          }
-        }).finally(() => {
-          setExportWidgetId(null);
-          setTooltipRef(null);
-        })
-      ];
-
-      imagesToPdf({
-        imageScale: 2,
-        imagesUrls,
-        headerUrl,
-        filename: id,
-        shouldFitPdf: true,
-        pdfSettings: {
-          orientation
-        }
-      }).then(({ onfulfilled }) => {
-        if (onfulfilled) {
-          addMessage(
-            {
-              type: 'info',
-              timeout: 5000,
-              title: t('in-custom-dashboards:customDashboard.customDashboard.generatedPDFTitle'),
-              content: t('in-custom-dashboards:customDashboard.customDashboard.generatedPDFContent')
-            },
-            'custom-dashboard-pdf-generated'
-          );
-        }
-      });
-    }
+  function onPDFDownload(id) {
+    const target = document.getElementById(getWidgetId(id));
+    exportWidgetToPdf({ target, tooltipRef: null, isHistogram: false });
   }
 
-  function onPDFDashboardDownload(customDashboardId) {
+  async function onPDFDashboardDownload(customDashboardId) {
     const node = document.querySelector('.react-grid-layout');
+    const pdfHeaderUrl = await getPdfHeaderUrl();
 
     if (!node) {
       setDownloadDashboard(false);
@@ -436,13 +374,14 @@ export default function CustomDashboardLoader(props) {
 
     addActiveDialog(
       <DownloadPdfDialog
-        customDashboardId={customDashboardId}
+        id={customDashboardId}
+        headerUrl={pdfHeaderUrl}
+        node={node}
+        sanitize={sanitizeWidgets}
         close={() => {
           setDownloadDashboard(false);
           close();
         }}
-        node={node}
-        header={pdfHeaderRef.current}
       />
     );
   }
@@ -470,70 +409,4 @@ function hasChanges(result, config) {
   }
 
   return !isEqual(result.data, config);
-}
-
-function handleTooltip({ tooltipRef, nodeToExport, widget, widgetType }) {
-  const chartOverlaySelector = '.chart-overlay';
-  const isHistogram = widgetType === 'histogram';
-  const widgetChartOverlay = getElementInRef(widget, chartOverlaySelector);
-  const nodeToExportChartOverlay = getElementInRef(nodeToExport, chartOverlaySelector);
-
-  if (!widgetChartOverlay || !nodeToExportChartOverlay) {
-    return;
-  }
-
-  // Get the scale to position the tooltip in the right place, respecting the proportion.
-  const scaleToAdjustTooltipPosition = nodeToExportChartOverlay.offsetWidth / widgetChartOverlay.offsetWidth;
-
-  if (isHistogram) {
-    adjustHistogramTooltip(tooltipRef, scaleToAdjustTooltipPosition);
-  } else {
-    adjustTooltipPosition(tooltipRef, scaleToAdjustTooltipPosition);
-  }
-
-  // Append tooltip to nodeToExport chart overlay
-  nodeToExportChartOverlay.appendChild(tooltipRef);
-}
-
-function debounceOnPDFDownload({
-  exportWidgetId,
-  onPDFDownload,
-  setIsReadyToExport,
-  setShouldExportWidget,
-  tooltipRef
-}) {
-  if (!exportWidgetId) {
-    return null;
-  }
-  return debounce(() => {
-    onPDFDownload(exportWidgetId, tooltipRef);
-    setShouldExportWidget(false);
-    setIsReadyToExport(false);
-  }, 1000);
-}
-
-function adjustTooltipPosition(node, scale) {
-  const position = parseFloat(node.style.left);
-  if (isNaN(position)) {
-    return;
-  }
-
-  const adjustedPosition = position * scale;
-  node.style.left = `${adjustedPosition}px`;
-}
-
-function getElementInRef(ref, query) {
-  return ref?.querySelector(query);
-}
-
-function adjustHistogramTooltip(tooltipRef, scaleToAdjustTooltipPosition) {
-  const [barStrike, tooltipContent] = tooltipRef?.children || [];
-
-  if (barStrike) {
-    adjustTooltipPosition(barStrike, scaleToAdjustTooltipPosition);
-  }
-
-  if (tooltipContent) {
-    adjustTooltipPosition(tooltipContent, scaleToAdjustTooltipPosition);
-  }
 }

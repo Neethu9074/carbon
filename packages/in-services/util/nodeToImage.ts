@@ -15,6 +15,10 @@ export interface NodeToImageProps {
   options?: Options;
 }
 
+/**
+ * Function that transforms a node into an image
+ * It returns the url of the image generated
+ */
 export const nodeToImage = ({ node, format = 'png', scale = 2, options }: NodeToImageProps): Promise<string> => {
   const isPng = format.toLowerCase() === 'png';
   const hasCanvas = node?.querySelector('canvas') !== null;

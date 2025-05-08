@@ -12,7 +12,6 @@ export type ActionsTypes =
   | 'IS_GENERATING_PDF'
   | 'SET_ORIENTATION'
   | 'SET_IMAGES_URLS'
-  | 'SET_HEADER_URL'
   | 'SET_SHOULD_FIT_PDF'
   | 'SET_STACKED_WIDGETS'
   | 'SET_PDF';
@@ -33,7 +32,6 @@ export const actions: Record<string, ActionsTypes> = {
   setIsGenerating: 'IS_GENERATING_PDF',
   setOrientation: 'SET_ORIENTATION',
   setImagesUrls: 'SET_IMAGES_URLS',
-  setHeaderUrl: 'SET_HEADER_URL',
   setShouldFitPdf: 'SET_SHOULD_FIT_PDF',
   setStackedWidgets: 'SET_STACKED_WIDGETS',
   setPdf: 'SET_PDF'
@@ -41,7 +39,6 @@ export const actions: Record<string, ActionsTypes> = {
 
 interface PdfState {
   imagesUrls: string | null;
-  headerUrl: string | null;
   isGenerating: IsGenerating;
   orientation: Orientation;
   pdf: jsPDF | null;
@@ -51,10 +48,9 @@ interface PdfState {
 
 export const initialState: PdfState = {
   imagesUrls: null,
-  headerUrl: null,
   isGenerating: {
     value: false,
-    text: t('in-custom-dashboards:customDashboard.downloadPdfDialog.generatePreview')
+    text: t('in-components:downloadPdf.generatePreview')
   },
   orientation: 'landscape',
   pdf: null,
@@ -94,10 +90,6 @@ export function pdfReducer(state: PdfState, action: PdfAction): PdfState {
       return { ...state, imagesUrls: payload as PdfState['imagesUrls'] };
     }
 
-    case actions.setHeaderUrl: {
-      return { ...state, headerUrl: payload as PdfState['headerUrl'] };
-    }
-
     case actions.setPdf: {
       return { ...state, pdf: payload as PdfState['pdf'] };
     }
@@ -112,10 +104,10 @@ export function pdfReducer(state: PdfState, action: PdfAction): PdfState {
 }
 
 function getGeneratingText(payload: IsGenerating) {
-  let text = t('in-custom-dashboards:customDashboard.downloadPdfDialog.generatePreview');
+  let text = t('in-components:downloadPdf.generatePreview');
 
   if (payload.value) {
-    text = t('in-custom-dashboards:customDashboard.downloadPdfDialog.generatingPreview');
+    text = t('in-components:downloadPdf.generatingPreview');
   }
 
   if ('text' in payload && payload.text !== undefined) {
