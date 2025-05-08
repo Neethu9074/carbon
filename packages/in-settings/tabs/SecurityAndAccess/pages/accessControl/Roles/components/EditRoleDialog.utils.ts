@@ -4,59 +4,61 @@
  * Copyright IBM Corp. 2025
  */
 
-import { ProductAreaPermissionUnion } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/roleForm';
+import { ProductAreaPermissionUnion } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
 
 export function combinePermissions(
-  currentPermissions: Array<ProductAreaPermissionUnion>,
+  current: Array<ProductAreaPermissionUnion>,
   newPermissions: Array<ProductAreaPermissionUnion>
 ): Array<ProductAreaPermissionUnion> {
   // Filter permissions to avoid redundancies
-  const otherPermissions = currentPermissions.filter(permission => !newPermissions.includes(permission));
+  const otherPermissions = current.filter(permission => !newPermissions.includes(permission));
   return [...otherPermissions, ...newPermissions];
 }
 
 export function filterPermissions(
-  currentPermissions: Array<ProductAreaPermissionUnion>,
-  permissionsToBeRemoved: Array<ProductAreaPermissionUnion>
+  current: Array<ProductAreaPermissionUnion>,
+  toBeRemoved: Array<ProductAreaPermissionUnion>
 ): Array<ProductAreaPermissionUnion> {
-  return currentPermissions.filter(permission => !permissionsToBeRemoved.includes(permission));
+  return current.filter(permission => !toBeRemoved.includes(permission));
 }
 
-export function containsSomePermissions(
-  currentPermissions: Array<ProductAreaPermissionUnion>,
-  expectedPermissions: Array<ProductAreaPermissionUnion>
+export function containsAnyPermission(
+  current: Array<ProductAreaPermissionUnion>,
+  expected: Array<ProductAreaPermissionUnion>
 ): boolean {
-  return expectedPermissions.some(permission => currentPermissions.includes(permission));
+  return expected.some(permission => current.includes(permission));
 }
 
 export function containsAllPermissions(
-  currentPermissions: Array<ProductAreaPermissionUnion>,
-  expectedPermissions: Array<ProductAreaPermissionUnion>
+  current: Array<ProductAreaPermissionUnion>,
+  expected: Array<ProductAreaPermissionUnion>
 ): boolean {
-  return expectedPermissions.every(permission => currentPermissions.includes(permission));
+  return expected.every(permission => current.includes(permission));
 }
 
 /**
  * Given permissions will be added to or removed from the permissions array
  **/
 export function modifyPermissions(
-  currentPermissions: Array<ProductAreaPermissionUnion>,
-  permissionsToBeAdded: Array<ProductAreaPermissionUnion> = [],
-  permissionsToBeRemoved: Array<ProductAreaPermissionUnion> = []
+  current: Array<ProductAreaPermissionUnion>,
+  toBeAdded: Array<ProductAreaPermissionUnion> = [],
+  toBeRemoved: Array<ProductAreaPermissionUnion> = []
 ): Array<ProductAreaPermissionUnion> {
-  let updatedPermissions = [...currentPermissions];
+  let updatedPermissions = [...current];
 
-  if (permissionsToBeRemoved.length) updatedPermissions = filterPermissions(updatedPermissions, permissionsToBeRemoved);
-  if (permissionsToBeAdded.length) updatedPermissions = combinePermissions(updatedPermissions, permissionsToBeAdded);
+  if (toBeRemoved.length) updatedPermissions = filterPermissions(updatedPermissions, toBeRemoved);
+  if (toBeAdded.length) updatedPermissions = combinePermissions(updatedPermissions, toBeAdded);
 
   return updatedPermissions;
 }
 
 interface TogglePermissions {
-  currentPermissions: Array<ProductAreaPermissionUnion>;
-  permissionsToAddOnEnabled: Array<ProductAreaPermissionUnion>;
-  permissionsToRemoveOnDisabled: Array<ProductAreaPermissionUnion>;
+  current: Array<ProductAreaPermissionUnion>;
   enabled?: boolean;
+  toAddOnDisabled?: Array<ProductAreaPermissionUnion>;
+  toAddOnEnabled?: Array<ProductAreaPermissionUnion>;
+  toRemoveOnDisabled?: Array<ProductAreaPermissionUnion>;
+  toRemoveOnEnabled?: Array<ProductAreaPermissionUnion>;
 }
 
 /**
@@ -64,12 +66,14 @@ interface TogglePermissions {
  * can be utilize to add or remove given permissions on the permissions array
  **/
 export function togglePermissions({
-  currentPermissions,
-  permissionsToAddOnEnabled,
-  permissionsToRemoveOnDisabled,
-  enabled
+  current,
+  enabled,
+  toAddOnDisabled = [],
+  toAddOnEnabled = [],
+  toRemoveOnDisabled = [],
+  toRemoveOnEnabled = []
 }: TogglePermissions): Array<ProductAreaPermissionUnion> {
-  const permissionsToBeAdded = enabled ? permissionsToAddOnEnabled : [];
-  const permissionsToBeRemoved = !enabled ? permissionsToRemoveOnDisabled : [];
-  return modifyPermissions(currentPermissions, permissionsToBeAdded, permissionsToBeRemoved);
+  const toBeAdded = enabled ? toAddOnEnabled : toAddOnDisabled;
+  const toBeRemoved = enabled ? toRemoveOnEnabled : toRemoveOnDisabled;
+  return modifyPermissions(current, toBeAdded, toBeRemoved);
 }

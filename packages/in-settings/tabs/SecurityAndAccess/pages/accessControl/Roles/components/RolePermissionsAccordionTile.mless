@@ -13,9 +13,4 @@
   .permissionItemTitle {
     padding: var(--cds-spacing-02);
   }
-
-  .spaceBetweenStack {
-    justify-content: space-between;
-    width: 100%;
-  }
 }

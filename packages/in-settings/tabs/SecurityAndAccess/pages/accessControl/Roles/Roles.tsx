@@ -16,7 +16,8 @@ import {
   ROLES_TABLE_DELETE_MENU_ITEM,
   ROLES_TABLE_HEADERS,
   ROLES_TABLE_PAGE_SIZES,
-  ROLES_TABLE_ORDER
+  ROLES_TABLE_ORDER,
+  LEAST_ROLE_PERMISSIONS
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.constants';
 import MultiSelectDataTable, {
   DataTableRow,
@@ -118,7 +119,9 @@ export default function Roles() {
       labelNew={t('in-settings:tabs.role.newRole')}
       loading={progress.loading}
       onCreateNew={() => {
-        addActiveDialog(<EditRoleDialog mode={FORM_MODE.NEW} />);
+        addActiveDialog(
+          <EditRoleDialog mode={FORM_MODE.NEW} formValues={{ permissions: [...LEAST_ROLE_PERMISSIONS] }} />
+        );
         trackCta(SETTINGS_ROLE_OPEN_SUBMIT_FORM);
       }}
       pageSizes={ROLES_TABLE_PAGE_SIZES}

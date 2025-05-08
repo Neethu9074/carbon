@@ -1,0 +1,205 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+import React, { useState } from 'react';
+
+import {
+  CarbonButton,
+  CarbonContainedList,
+  CarbonContainedListItem,
+  CarbonInlineLoading,
+  CarbonLayer,
+  CarbonStack,
+  IconButton,
+  Link,
+  LoadingSkeleton,
+  Typography
+} from '@instana/components';
+import { Member } from '@instana/types';
+
+import SelectUserDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/components/SelectUserDialog';
+import { addRoleMembers, removeMemberFromRole } from 'in-settings/tabs/SecurityAndAccess/api/roles';
+import { securityAndAccessAccessControlUserEdit } from 'in-settings/navigation/paths';
+import useUserList from 'in-settings/tabs/SecurityAndAccess/hooks/useUserList';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import SpaceBetweenStack from 'in-settings/components/SpaceBetweenStack';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import useFormSubmission from 'in-hooks/useFormSubmission';
+import { FetchStatus } from 'in-hooks/utils/types';
+import { config } from 'in-services/config';
+import { t } from 'in-i18n';
+
+import locals from './TeamsAndMembersList.mless';
+
+interface TeamsAndMembersListProps {
+  /**
+   * This property is used to specify exactly which members are to be
+   * displayed. It is used to hide specific members that do not correspond to
+   * a specific query parameter, for example.
+   **/
+  listedMembers: Array<Member>;
+  /**
+   * This should contain all members of a team and is be used to pre-select
+   * users in the "add-user"-dialog.
+   **/
+  members: Array<Member>;
+  roleId?: string;
+  status: FetchStatus;
+  teamId?: string;
+  teamTag?: string;
+}
+
+export default function TeamsAndMembersList({
+  listedMembers,
+  members,
+  roleId,
+  status,
+  teamId,
+  teamTag
+}: TeamsAndMembersListProps) {
+  const { createHrefToPath } = useNavigation();
+  const [, doAddMember] = useFormSubmission(addRoleMembers);
+  const [deleteStatus, doRemoveMember] = useFormSubmission(removeMemberFromRole);
+  const [lastInteractedUserId, setLastInteractedUserId] = useState<string>();
+
+  const scopeTitle = t('in-settings:details.role.scopeTitle', {
+    context: teamId ? 'teamScope' : 'entireTu',
+    teamTag: teamTag ?? `${config.tenantUnit}-${config.tenant}`
+  });
+
+  return (
+    <CarbonLayer level={2}>
+      <CarbonContainedList
+        label={
+          <TeamScopeLabel
+            scopeTitle={scopeTitle}
+            selectedMembers={members}
+            status={status}
+            onUpdateTeamMembers={userIds => {
+              if (!roleId) return;
+
+              doAddMember({
+                payload: { roleId, userIds },
+                onSuccess: () => {
+                  addMessage({
+                    type: 'success',
+                    content: t('in-settings:details.role.successfullyAddedMemberToRole', { count: userIds.length })
+                  });
+                  close();
+                },
+                onError: () => {
+                  addMessage({
+                    type: 'danger',
+                    content: t('in-components:error.serverErrorInfo')
+                  });
+                }
+              });
+            }}
+          />
+        }
+        kind="on-page"
+      >
+        {listedMembers.map(({ userId, email, name }) => (
+          <CarbonContainedListItem key={`team-${teamId}-member-${userId}`}>
+            <SpaceBetweenStack>
+              <CarbonStack orientation="vertical">
+                <Typography variant="body-bold">
+                  <Link href={createHrefToPath(securityAndAccessAccessControlUserEdit, { id: userId })}>{name}</Link>
+                </Typography>
+                <Typography variant="body-small">{email}</Typography>
+              </CarbonStack>
+              <div className={locals.alignRight}>
+                {deleteStatus === 'pending' && lastInteractedUserId === userId ? (
+                  <CarbonInlineLoading />
+                ) : (
+                  <IconButton
+                    aria-label={t('in-settings:components.removeMemberFromRoleButton')}
+                    iconSize="xs"
+                    kind="secondary"
+                    onClick={() => {
+                      if (!roleId) return;
+
+                      setLastInteractedUserId(userId);
+
+                      doRemoveMember({
+                        payload: { roleId, userId },
+                        onSuccess: () => {
+                          addMessage({
+                            type: 'success',
+                            content: t('in-settings:details.role.successfullyRemovedMemberFromRole')
+                          });
+                          close();
+                        },
+                        onError: () => {
+                          addMessage({
+                            type: 'danger',
+                            content: t('in-components:error.serverErrorInfo')
+                          });
+                        }
+                      });
+                    }}
+                    type="lib_actions_delete"
+                  />
+                )}
+              </div>
+            </SpaceBetweenStack>
+          </CarbonContainedListItem>
+        ))}
+      </CarbonContainedList>
+    </CarbonLayer>
+  );
+}
+
+interface TeamScopeLabelProps extends SelectMembersDialogProps {
+  scopeTitle: string;
+  status: FetchStatus;
+}
+
+function TeamScopeLabel({ onUpdateTeamMembers, scopeTitle, selectedMembers, status }: TeamScopeLabelProps) {
+  if (status === 'pending') return <LoadingSkeleton />;
+
+  return (
+    <SpaceBetweenStack>
+      <CarbonStack orientation="vertical" className={locals.paddingTop}>
+        <Typography variant="label-01">{t('in-settings:components.teamScopeTitle')}</Typography>
+        <Typography variant="body-large">{scopeTitle}</Typography>
+      </CarbonStack>
+
+      <div className={locals.alignRight}>
+        <CarbonButton
+          kind="ghost"
+          onClick={() =>
+            addActiveDialog(
+              <SelectMembersDialog selectedMembers={selectedMembers} onUpdateTeamMembers={onUpdateTeamMembers} />
+            )
+          }
+        >
+          {t('in-settings:components.addMemberToRoleButton')}
+        </CarbonButton>
+      </div>
+    </SpaceBetweenStack>
+  );
+}
+
+interface SelectMembersDialogProps {
+  selectedMembers: Member[];
+  onUpdateTeamMembers: (userIds: string[]) => void;
+}
+
+function SelectMembersDialog({ selectedMembers, onUpdateTeamMembers }: SelectMembersDialogProps) {
+  const [users] = useUserList();
+
+  return (
+    <SelectUserDialog
+      modalHeading={t('in-settings:components.selectMembersDialogTitle')}
+      onCancel={close}
+      onConfirm={onUpdateTeamMembers}
+      preselectedIds={selectedMembers?.map(({ userId }) => userId) ?? []}
+      users={users ?? []}
+    />
+  );
+}

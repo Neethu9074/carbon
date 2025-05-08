@@ -49,7 +49,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/details/R
 
     // When
     const { getByText } = render(<RoleDetails />);
-    const roleTitle = getByText('Permissions (2 / 63)', { selector });
+    const roleTitle = getByText('Permissions (15 / 63)', { selector });
 
     // Then
     expect(roleTitle).toBeTruthy();

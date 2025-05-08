@@ -358,13 +358,20 @@
     "noDataAvailable": "No data available",
     "errorFailedToLoadData": "Failed to load the requested data",
     "removedEntity": "Successfully removed {{entity}}",
-    "userNameColumnHead": "Name"
+    "userNameColumnHead": "Name",
+    "removeMemberFromRoleButton": "Remove user from role",
+    "addMemberToRoleButton": "Add user",
+    "selectMembersDialogTitle": "Select user",
+    "teamScopeTitle": "Scope"
   },
   "details": {
     "role": {
       "title": "Role",
       "permissionsTitle": "Permissions ({{actual}} / {{count}})",
-      "usersTitle": "Users ({{actual}} / {{count}})",
+      "usersTitle": "Users ({{count}})",
+      "usersTitle_plural": "Users ({{count}})",
+      "usersTitle_0": "Users ({{count}})",
+      "usersTitle_1": "User ({{count}})",
       "noPermission": "No permission set",
       "permissionListHeader": "Permissions",
       "permissionCount": "{{actual}} / {{count}} permissions",
@@ -376,7 +383,14 @@
       "clearSearchButton": "Clear search input",
       "userSearchLabel": "Search members in role",
       "userSearchPlaceholder": "Search",
-      "addUsersButton": "Add users"
+      "scopeTitle": "-",
+      "scopeTitle_entireTu": "Entire {{teamTag}}",
+      "scopeTitle_teamScope": "Team {{teamTag}}",
+      "successfullyAddedMemberToRole": "$t(in-settings:details.role.successfullyAddedMemberToRole_1)",
+      "successfullyAddedMemberToRole_plural": "Successfully added members to role.",
+      "successfullyAddedMemberToRole_1": "Successfully added member to role.",
+      "successfullyAddedMemberToRole_2": "Successfully added members to role.",
+      "successfullyRemovedMemberFromRole": "Successfully removed member from role."
     }
   },
   "dialogs": {
@@ -481,7 +495,6 @@
       "customDashboardsSharePublickCheckboxLegendText": "This permission grants the ability to share private custom dashboards with all users and API tokens of this Instana unit. Additionally, this permission allows assigning editors to public custom dashboards. Users with this permission can view the names and the email addresses of all users, as well as a complete list of all API token IDs and their names. Note: This permission is an owner-level permission.",
       "customDashboardsManageAllCheckboxLegendText": "This permission grants the ability to edit and delete any shared custom dashboard. This permission allows editing or deleting any shared custom dashboard and the custom dashboards that were shared by other current or deleted users. Note: This permission is an owner-level permission.",
       "logsCheckboxGroupLegendText": "Enabling permissions to access logs enables viewing log analysis by default",
-      "syntheticsPartialPermissionsWarning": "Only partial view permissions were set. Toggle the synthetics monitoring button off and on again to add all view permissions.",
       "syntheticsCheckboxGroupLegendText": "Enabling permissions to access synthetic monitoring enables viewing snyhetic tests and their configuration by default",
       "automationCheckboxGroupLegendText": "Enabling permissions to access automation enables viewing actions, policies and action history by default",
       "accessControlRoleManagementHelpText": "Permits configuration and management of roles.",

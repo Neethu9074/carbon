@@ -8,10 +8,7 @@ import { createField, createMapForm, Field, MapForm, notBlankValidator } from 'f
 
 import { Member } from '@instana/types';
 
-import { ProductAreaType } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
-import { PermissionsUnion } from 'in-stores/permission';
-
-export type ProductAreaPermissionUnion = PermissionsUnion | ProductAreaType;
+import { ProductAreaPermissionUnion } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
 
 export type RoleFormFields = {
   id: Field<string | undefined>;
