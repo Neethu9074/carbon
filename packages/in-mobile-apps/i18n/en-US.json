@@ -328,7 +328,7 @@
       "configurationLabel": "Configuration",
       "nameLabel": "Name",
       "occurrencesLabel": "Occurrences",
-      "screenrenderingDuartion": "Rendering duration",
+      "screenRenderingDuration": "Rendering duration",
       "affectedUsersLabel": "Affected users",
       "uniqueUsersTitle": "Unique users",
       "crashActivityTitle": "Crashes",

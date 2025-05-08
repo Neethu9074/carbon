@@ -356,7 +356,7 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'screenRenderingDurationEnabled',
+    uiClientKey: 'mobileAppScreenRenderingDurationEnabled',
     instanaCtlKey: 'feature.eum.mobile.app.screen.rendering.duration.enabled',
     defaultValue: false
   },

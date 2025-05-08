@@ -23,7 +23,7 @@ import { t } from 'in-i18n';
 const metrics = mobileAppScreenRenderingDurationEnabled ? ['views', 'beaconDuration'] : ['views'];
 const labels = [
   t('in-mobile-apps:dashboard.tabs.occurrencesLabel'),
-  t('in-mobile-apps:dashboard.tabs.screenrenderingDuartion')
+  t('in-mobile-apps:dashboard.tabs.screenRenderingDuration')
 ];
 const aggregations = ['SUM', 'P75'];
 const formatters = [number.compact, ms.compact];

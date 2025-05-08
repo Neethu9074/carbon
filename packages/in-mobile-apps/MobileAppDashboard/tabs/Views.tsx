@@ -24,10 +24,11 @@ import emptyListExplanation from 'in-mobile-apps/emptyListExplanation';
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { mobileAppScreenRenderingDurationEnabled } from 'in-services/featureFlags';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
-import { number } from 'in-services/formatters/number';
+import { ms, number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -36,6 +37,30 @@ interface ViewListProp extends ServerTablePresenterProps<MobileAppPaginatedBeaco
   result: any;
   timeConfig: TimeConfig;
 }
+
+const columnScreenRendering: Array<ColumnDefinition<MobileAppPaginatedBeaconGroupsItem, ViewListProp>> =
+  mobileAppScreenRenderingDurationEnabled
+    ? [
+        {
+          id: 'beaconDurationAgg',
+          label: t('in-mobile-apps:dashboard.tabs.screenRenderingDuration'),
+          defaultOrderDirection: 'DESC',
+          getContent(item, { result, timeConfig }) {
+            return (
+              <SparkChart
+                loading={result?.progress?.loading}
+                rollup={getSparkChartGranularity(timeConfig)}
+                timeConfig={getResolvedTimeConfig(timeConfig, result)}
+                aggregation="P75"
+                metrics={item.metrics.beaconDuration}
+                metric={item.metrics.beaconDurationAgg}
+                tooltipFormatter={ms.compact}
+              />
+            );
+          }
+        }
+      ]
+    : [];
 
 const columnDefinitions: Array<ColumnDefinition<MobileAppPaginatedBeaconGroupsItem, ViewListProp>> = [
   {
@@ -52,6 +77,7 @@ const columnDefinitions: Array<ColumnDefinition<MobileAppPaginatedBeaconGroupsIt
       return <LabelLink mobileAppId={mobileAppId} label={label} />;
     }
   },
+  ...columnScreenRendering,
   {
     id: 'viewsAgg',
     label: t('in-mobile-apps:dashboard.tabs.occurrencesLabel'),
