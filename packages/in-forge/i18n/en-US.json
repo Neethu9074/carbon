@@ -9758,13 +9758,14 @@
         "swapMemory": "Swap Memory Usage",
         "totalSize": "Total Size",
         "usedSize": "Used Size",
+        "usedPercentage": "Usage",
         "entryCount": "Entry Count",
         "insertCount": "Insert Count",
         "invalidateCount": "Invalidate Count",
         "hitCount": "Hit Count",
         "missCount": "Miss Count",
         "cacheId": "Cache ID",
-        "aggregatedCacheStats": "Aggregated Cache Information",
+        "aggregatedCacheStats": "Aggregated Cache",
         "networkStats": "Service Network I/O Statistics",
         "senderHost": "Sender Host",
         "senderPort": "Sender Port",
@@ -9854,7 +9855,12 @@
         "jobName": "Job Name",
         "currentProgress": "Current Progress",
         "maxProgress": "Maximum Progress",
-        "progressDetail": "Progress Detail"
+        "progressDetail": "Progress Detail",
+        "category": "Category",
+        "allocatedSize": "Allocated Size",
+        "freeSize": "Free Size",
+        "sharedMemoryStats": "Shared Memory",
+        "rowStoreMemoryStats": "Row Store Memory"
       },
       "systemId": "System ID",
       "databaseName": "Database Name",
@@ -9904,7 +9910,8 @@
       "tcpSegmentsSentOut": "Sent Out",
       "tcpSegmentsRetransmitted": "Retransmitted",
       "tcpBadSegmentsReceived": "Broken",
-      "upTime": "Up Time"
+      "upTime": "Up Time",
+      "installTime": "Database Installed On"
     },
     "service": {
       "service": "Service",

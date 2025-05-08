@@ -25,8 +25,10 @@ import ArchiveLogBackupStatsList from 'in-forge/plugins/sapHana/Dashboard/Archiv
 import AggregatedCacheStatsList from 'in-forge/plugins/sapHana/Dashboard/AggregatedCacheStats';
 import ActiveStatementStatsList from 'in-forge/plugins/sapHana/Dashboard/ActiveStatementStats';
 import ServiceDetailsStatsList from 'in-forge/plugins/sapHana/Dashboard/ServiceDetailsStats';
+import RowStoreMemoryStatsList from 'in-forge/plugins/sapHana/Dashboard/RowStoreMemoryStats';
 import SchedulerJobsStatsList from 'in-forge/plugins/sapHana/Dashboard/SchedulerJobsStats';
 import SqlPlanCacheStatsList from 'in-forge/plugins/sapHana/Dashboard/SqlPlanCacheStats';
+import SharedMemoryStatsList from 'in-forge/plugins/sapHana/Dashboard/SharedMemoryStats';
 import SystemEventStatsList from 'in-forge/plugins/sapHana/Dashboard/SystemEventStats';
 import TransactionStatsList from 'in-forge/plugins/sapHana/Dashboard/TransactionStats';
 import JobPorgressStatsList from 'in-forge/plugins/sapHana/Dashboard/JobProgressStats';
@@ -454,6 +456,8 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
       <LockWaitStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <NetworkStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <TableSizeStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <SharedMemoryStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <RowStoreMemoryStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <AggregatedCacheStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <ArchiveLogBackupStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <BackupStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
