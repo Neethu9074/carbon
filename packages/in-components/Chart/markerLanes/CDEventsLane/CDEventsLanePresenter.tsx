@@ -5,7 +5,6 @@
 
 import React, { ForwardedRef, forwardRef } from 'react';
 
-//import { CDEventCluster } from '@instana/types/typeDefinitions';
 import { themes } from '@instana/design-tokens';
 
 import MarkerLane, { LaneItemProps, MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
