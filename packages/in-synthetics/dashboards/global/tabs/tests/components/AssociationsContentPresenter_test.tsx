@@ -28,7 +28,7 @@ describe('AssociationsContentPresenter', () => {
     );
   });
 
-  it('Should render an overlay with 6 Associations', () => {
+  it('Should render an overlay with 6 associations', () => {
     const { getByText } = render(
       <AssociationsContentPresenter
         applicationIds={['appOne, appTwo']}
@@ -42,7 +42,7 @@ describe('AssociationsContentPresenter', () => {
         mobileAppIdsCanBeLinked={['mobileOne']}
       />
     );
-    expect(getByText('6 Associations')).toBeTruthy();
+    expect(getByText('6 associations')).toBeTruthy();
   });
 
   it('Should not render an overlay if there are no associations', () => {

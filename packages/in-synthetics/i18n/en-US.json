@@ -487,13 +487,13 @@
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "After key/cert files are provided, use the kubectl command to create a secret.",
         "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n\t--type=\"kubernetes.io/tls\" \\\n\t--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n\t--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n\t--from-file=tls.key=\"<path/to/tls.key>\"",
-        "associationsTitle": "{{number}} Associations",
-        "singleAssociationTitle": "{{number}} Association"
+        "associationsTitle": "{{number}} associations",
+        "singleAssociationTitle": "{{number}} association"
       },
       "multiAppDialog": {
         "filterLabel": "Applications",
-        "singleAppHeader": "{{ number }} Association",
-        "multiAppHeader": "{{ number }} Associations",
+        "singleAppHeader": "{{ number }} association",
+        "multiAppHeader": "{{ number }} associations",
         "noApplicationsAssociated": "No applications associated"
       },
       "multiWebDialog": {
@@ -516,7 +516,7 @@
       "type": "Type",
       "successRate": "Success rate",
       "successRuns": "{{successRuns}} / {{totalRuns}} results",
-      "latency": "Latency",
+      "latency": "Avg. response time",
       "locationLabel": "Locations",
       "locationsColumn": {
         "singleLocation": "{{number}} location",
@@ -545,7 +545,7 @@
       "noHealthInfo": "NA",
       "labelConfirmRemoveLocation": "Are you sure you want to remove <strong>{{label}}</strong> ({{status}}) location?",
       "activeTestLinked": "There are {{linkedTests}} active tests associated with location <strong>{{label}}</strong> ({{status}}). Deleting this location will cause data loss in test summary charts. Are you sure you want to delete this location?<br/><br/>To upgrade the location without deleting, see <documentLink>documentation</documentLink>.",
-      "deleteLocation": "Delete location",
+      "deleteLocation": "Delete",
       "noDataAvailable": {
         "message": "{{component}} not available"
       },
