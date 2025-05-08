@@ -53,8 +53,6 @@ export default function App() {
                   <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
                 </div>
 
-                <img id="image" />
-
                 <ErrorBoundary name="dialogs">
                   {/* for release notes */}
                   <ReleaseNotesDialog />
