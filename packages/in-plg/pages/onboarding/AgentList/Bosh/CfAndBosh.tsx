@@ -264,7 +264,7 @@ export default function CfAndBosh({
                           <Trans
                             i18nKey={'in-plg:agentDetails.bosh.createInstanaUAAClientDesc'}
                             components={{
-                              uaacTool: <a href="test-url" rel="noopener noreferrer" target="_blank" />
+                              uaacTool: <a href="https://ibm.biz/cf-uaac" rel="noopener noreferrer" target="_blank" />
                             }}
                           />
                         </Typography>
