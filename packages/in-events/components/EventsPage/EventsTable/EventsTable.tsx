@@ -17,7 +17,6 @@ import {
   useDatagrid,
   useFiltering,
   useInfiniteScroll,
-  useOnRowClick,
   useSortableColumns,
   useSelectRows,
   useDisableSelectRows
@@ -191,9 +190,6 @@ const EventsTable = (props: EventsTableProps) => {
       data: rawEvents,
       multiLineWrapAll: false,
       getRowId: (row: RawEvent) => row.id,
-      onRowClick: (row: { original: RawEvent }) => {
-        onItemClicked(row.original.id as string);
-      },
       DatagridActions: shouldShowFilters ? DatagridActions : null,
       filterProps: shouldShowFilters ? filterProps : {},
       manualSortBy: true,
@@ -247,7 +243,8 @@ const EventsTable = (props: EventsTableProps) => {
           order: orderDirection
         },
         hiddenColumns,
-        selectedRowIds: selectedRows
+        selectedRowIds: selectedRows,
+        onItemClicked
       },
       isFetching: loading,
       // infinite scroll
@@ -263,7 +260,6 @@ const EventsTable = (props: EventsTableProps) => {
       // end infinite scroll
     },
     useFiltering,
-    useOnRowClick,
     useInfiniteScroll,
     useSortableColumns,
     shouldShowMultiClose && useSelectRows
