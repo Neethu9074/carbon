@@ -168,8 +168,9 @@ function SelectTriggerDialog({
   }
 
   function onChange(item: TriggerSpecification) {
+    const selectedTriggerType = selectedTab === 'event' ? getTriggerType(item) : selectedTab;
     setSelectedId(item.id);
-    setSelectedType(getTriggerType(item));
+    setSelectedType(selectedTriggerType);
     setServerTableUrlState({ page: 1, query: '' });
   }
 
