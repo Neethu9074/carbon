@@ -472,6 +472,7 @@ export default function GenerateAIActionDialog({
                       setForm={setForm}
                       action={getActionFromForm(form)}
                       trigger={trigger}
+                      event={event}
                     />
                   );
                 default:

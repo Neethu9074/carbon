@@ -28,7 +28,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { TagFilter, TestResultListItem, TimeConfig } from 'in-types';
 import { statusTagName, testIdTagName } from 'in-synthetics/tags';
-import { syntheticDNSEnabled } from 'in-services/featureFlags';
+import { syntheticDnsEnabled } from 'in-services/featureFlags';
 import { latency } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -73,7 +73,7 @@ export default function ResultsTopList({ testId, testType }: ResultsTopListProps
           {...props}
           testType={testType}
           useMaxAvailableHeight
-          isScrollbarVisible={syntheticDNSEnabled && testType === 'DNS'}
+          isScrollbarVisible={syntheticDnsEnabled && testType === 'DNS'}
         />
       </div>
     );
@@ -139,7 +139,7 @@ function getList({ testId, timeConfig, selectedMetric, testType }: GetList) {
 
   const tagFilters = [statusTagFilters, baseTagFilters, baseTagFilters];
 
-  if (syntheticDNSEnabled && testType === 'DNS' && !metrics.includes('errors')) {
+  if (syntheticDnsEnabled && testType === 'DNS' && !metrics.includes('errors')) {
     metrics.push('errors');
   }
 
@@ -226,7 +226,7 @@ function Label({ item, selectedMetric, testType }: LabelProps) {
           {resultsLabel}
         </Link>
       </div>
-      {syntheticDNSEnabled &&
+      {syntheticDnsEnabled &&
         testType === 'DNS' &&
         selectedMetric === 'status' &&
         resultError &&

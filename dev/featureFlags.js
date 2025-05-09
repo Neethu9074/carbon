@@ -120,7 +120,7 @@ module.exports = {
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
   syntheticRbacLimitedEnabled: true,
-  syntheticDNSEnabled: true,
+  syntheticDnsEnabled: true,
   syntheticRunNowEnabled: true,
   syntheticNodeJs22Enabled: true,
   syntheticSSLImprovementEnabled: true,
