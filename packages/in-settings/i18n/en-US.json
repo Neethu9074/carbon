@@ -486,7 +486,6 @@
       "mobileAppsCheckboxGroupLegendText": "Enabling permissions to access mobile apps enables view permission by default",
       "businessMonitoringCheckboxGroupLegendText": "Enabling permissions to access business processes enables viewing business perspectives and processes by default",
       "applicationsCheckboxGroupLegendText": "Enabling permissions to access applications enables viewing application perspectives and their configuration by default",
-      "applicationsConfigGlobalSmartAlertsHelpText": "Applicable only in case of full unit access",
       "platformSectionCheckboxGroupLegendText": "Platform permissions are available with feature flags enabled on the unit",
       "infrastructureViewAnalyzeCheckboxLegendText": "Applicable only on full unit scope",
       "infrastructureCreateHeapDumpCheckboxLegendText": "Applicable only on the graphical user interface",

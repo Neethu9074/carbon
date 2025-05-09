@@ -44,6 +44,7 @@ import { SETTINGS_ROLE_SUBMIT } from 'in-services/tracking/eventNames';
 import useFormSubmission from 'in-hooks/useFormSubmission';
 import useDerivedState from 'in-hooks/useDerivedState';
 import { FetchStatus } from 'in-hooks/utils/types';
+import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
 import locals from './EditRoleDialog.mless';
@@ -91,15 +92,17 @@ export default function EditRoleDialog({ mode, formValues }: EditRoleDialogProps
       payload,
       onError: () => {
         addMessage({
-          type: 'danger',
-          content: t('in-components:error.serverErrorInfo')
+          content: t('in-components:error.serverErrorInfo'),
+          timeout: seconds.toMillis(4),
+          type: 'danger'
         });
       },
       onSuccess: () => {
         const { permissions, ...customData } = payload;
         addMessage({
-          type: 'success',
-          content: t('in-settings:dialogs.role.roleSuccessfullySaved')
+          content: t('in-settings:dialogs.role.roleSuccessfullySaved'),
+          timeout: seconds.toMillis(6),
+          type: 'success'
         });
         unstable_trackEvent(
           mode === FORM_MODE.EDIT ? UPDATED_OBJECT : CREATED_OBJECT,
@@ -584,10 +587,7 @@ function ApplicationsSection() {
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
-        <CarbonCheckboxGroup
-          legendText=""
-          helperText={t('in-settings:dialogs.role.applicationsConfigGlobalSmartAlertsHelpText')}
-        >
+        <CarbonCheckboxGroup legendText="">
           <CarbonCheckbox
             checked={containsAnyPermission(permissionsField.value, [
               Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS

@@ -30,6 +30,7 @@ import SpaceBetweenStack from 'in-settings/components/SpaceBetweenStack';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import useFormSubmission from 'in-hooks/useFormSubmission';
 import { FetchStatus } from 'in-hooks/utils/types';
+import { seconds } from 'in-services/time/time';
 import { config } from 'in-services/config';
 import { t } from 'in-i18n';
 
@@ -86,15 +87,17 @@ export default function TeamsAndMembersList({
                 payload: { roleId, userIds },
                 onSuccess: () => {
                   addMessage({
+                    content: t('in-settings:details.role.successfullyAddedMemberToRole', { count: userIds.length }),
                     type: 'success',
-                    content: t('in-settings:details.role.successfullyAddedMemberToRole', { count: userIds.length })
+                    timeout: seconds.toMillis(4)
                   });
                   close();
                 },
                 onError: () => {
                   addMessage({
-                    type: 'danger',
-                    content: t('in-components:error.serverErrorInfo')
+                    content: t('in-components:error.serverErrorInfo'),
+                    timeout: seconds.toMillis(6),
+                    type: 'danger'
                   });
                 }
               });
@@ -107,10 +110,12 @@ export default function TeamsAndMembersList({
           <CarbonContainedListItem key={`team-${teamId}-member-${userId}`}>
             <SpaceBetweenStack>
               <CarbonStack orientation="vertical">
-                <Typography variant="body-bold">
+                <Typography variant="body-bold" noWrap>
                   <Link href={createHrefToPath(securityAndAccessAccessControlUserEdit, { id: userId })}>{name}</Link>
                 </Typography>
-                <Typography variant="body-small">{email}</Typography>
+                <Typography variant="body-small" noWrap>
+                  {email}
+                </Typography>
               </CarbonStack>
               <div className={locals.alignRight}>
                 {deleteStatus === 'pending' && lastInteractedUserId === userId ? (
@@ -165,8 +170,12 @@ function TeamScopeLabel({ onUpdateTeamMembers, scopeTitle, selectedMembers, stat
   return (
     <SpaceBetweenStack>
       <CarbonStack orientation="vertical" className={locals.paddingTop}>
-        <Typography variant="label-01">{t('in-settings:components.teamScopeTitle')}</Typography>
-        <Typography variant="body-large">{scopeTitle}</Typography>
+        <Typography variant="label-01" noWrap>
+          {t('in-settings:components.teamScopeTitle')}
+        </Typography>
+        <Typography variant="body-large" noWrap>
+          {scopeTitle}
+        </Typography>
       </CarbonStack>
 
       <div className={locals.alignRight}>

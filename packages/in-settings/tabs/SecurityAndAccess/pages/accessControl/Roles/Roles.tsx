@@ -7,8 +7,8 @@
 import { TrashCan } from '@carbon/icons-react';
 import React from 'react';
 
+import { CarbonStack, Link, Pill, Typography } from '@instana/components';
 import { combineLatest } from '@instana/observables';
-import { Link, Pill } from '@instana/components';
 import { RoleOverview } from '@instana/types';
 
 import {
@@ -66,9 +66,13 @@ function createTableRowsForRoles(
     disabled: false,
     isLimited: role.isLimited ? t('in-settings:tabs.limitedAccess') : t('in-settings:tabs.accessAll'),
     name: (
-      <Link href={createHref(securityAndAccessAccessControlRoleEdit, { id: role.id })}>
-        {role.name} {role.hasScope ? <Pill>{t('in-settings:tabs.role.deprecated')}</Pill> : null}
-      </Link>
+      <CarbonStack>
+        <Typography variant="body-regular" noWrap>
+          <Link href={createHref(securityAndAccessAccessControlRoleEdit, { id: role.id })}>
+            {role.name} {role.hasScope ? <Pill>{t('in-settings:tabs.role.deprecated')}</Pill> : null}
+          </Link>
+        </Typography>
+      </CarbonStack>
     ),
     rowData: role
   }));
