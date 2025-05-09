@@ -7,8 +7,8 @@
 :local {
   .dialog {
     > div {
-      max-width: 30rem;
-      min-width: 30rem;
+      max-width: 40rem;
+      min-width: 40rem;
     }
   }
 

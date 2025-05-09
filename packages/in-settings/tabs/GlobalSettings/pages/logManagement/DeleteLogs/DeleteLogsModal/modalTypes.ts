@@ -11,28 +11,22 @@ import { NotificationState } from '../types';
 
 export interface ValidationMessages {
   reason: string | null;
-  startDate?: string | null;
   endDate: string | null;
-  startTime?: string | null;
   endTime: string | null;
   validation: string | null;
 }
 
 export interface InputValues {
   reason: string;
-  startDate?: DateFormatterOutput;
   endDate: DateFormatterOutput;
-  startTime?: string;
   endTime: string;
   validation: string;
 }
 
 export interface SetInputValues {
   reason: (value: string) => void;
-  startDate?: (value: string[]) => void;
   endDate: (value: string) => void;
   validation: (value: string) => void;
-  startTime?: (value: string) => void;
   endTime: (value: string) => void;
 }
 
@@ -53,10 +47,4 @@ export interface SelectLogsPageProps {
   canGoNextStep: boolean;
 }
 
-export type DeleteLogsFormFields =
-  | 'validation'
-  | 'reason'
-  | 'deletionEndDate'
-  | 'deletionEndTime'
-  | 'deletionStartTime'
-  | 'deletionStartDate';
+export type DeleteLogsFormFields = 'validation' | 'reason' | 'deletionEndDate' | 'deletionEndTime';

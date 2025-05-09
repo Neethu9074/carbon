@@ -57,7 +57,6 @@ export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
-export const deleteLogsV3Enabled = isFeatureFlagEnabled('deleteLogsV3Enabled');
 export const regexMatchEnabled = isFeatureFlagEnabled('regexMatchEnabled');
 
 export const patternRecognitionEnabled = isFeatureFlagEnabled('patternRecognitionEnabled');

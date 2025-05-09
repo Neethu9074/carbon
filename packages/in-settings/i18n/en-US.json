@@ -683,7 +683,10 @@
       "toastSuccessMessage": "You can close this pop-up window and check the status in the \"Log deletion action history\" table.",
       "toastErrorTitle": "Log deletion failed",
       "toastErrorMessage": "Logs could not be deleted. Please try again.",
-      "toastNoLogsMessage": "No log data to delete for the given timeframe."
+      "toastNoLogsMessage": "No log data to delete for the given timeframe.",
+      "deletionAlreadyRunning": "Deletion for this tenant is already running",
+      "requesting": "Requesting...",
+      "deletionStarted":"Deletion started"
     },
     "logVolume": {
       "logVolume": "Log volume",

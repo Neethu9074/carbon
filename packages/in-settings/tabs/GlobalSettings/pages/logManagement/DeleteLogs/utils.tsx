@@ -12,6 +12,7 @@ import { IconButton, LoadingSkeleton } from '@instana/components';
 import { DateFormatterOutput } from '@instana/format-date';
 import { themes } from '@instana/design-tokens';
 
+import { deleteLogsLocalisationStrings as literals } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 import { deletionTableLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 import { getDesignLibraryColorBySeverity, getDesignLibrarySeverityIcon } from 'in-stores/events';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
@@ -207,3 +208,45 @@ export const urlStateDefinition: Options<{ page: number; pageSize: number }> = {
     pageSize: pageSize ?? prevState.pageSize
   })
 };
+
+export const hasInProgressDeletion = (result: Result<DeleteLogsHistoryResult>) =>
+  result.data?.deletions?.some(item => item.deletedStatus === DELETE_STATUS.inProgress) ?? false;
+
+type LoadingStatus = 'inactive' | 'active' | 'finished' | 'error';
+
+interface DeletionStateProps {
+  isDeleting: boolean;
+  deletionInProgress: boolean;
+  showFinished: boolean;
+}
+
+export function getDeletionStatus({ isDeleting, deletionInProgress, showFinished }: DeletionStateProps): {
+  loadingStatus: LoadingStatus;
+  loadingDescription: string;
+} {
+  if (isDeleting) {
+    return {
+      loadingStatus: 'active',
+      loadingDescription: literals.requesting
+    };
+  }
+
+  if (showFinished) {
+    return {
+      loadingStatus: 'finished',
+      loadingDescription: literals.deletionStarted
+    };
+  }
+
+  if (deletionInProgress) {
+    return {
+      loadingStatus: 'active',
+      loadingDescription: literals.deletionAlreadyRunning
+    };
+  }
+
+  return {
+    loadingStatus: 'inactive',
+    loadingDescription: ''
+  };
+}

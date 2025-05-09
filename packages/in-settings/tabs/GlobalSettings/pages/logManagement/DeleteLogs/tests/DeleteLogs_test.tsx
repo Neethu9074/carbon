@@ -9,9 +9,9 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import { deleteLogsLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
-import DeleteLogs, { DeleteLogsModal } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogs';
+import { DeleteLogsModal } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/DeleteLogsModal';
+import DeleteLogs from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogs';
 
-//Lets wait to test this until we have final version (delete Logs v2 vs v3)
 describe('DeleteLogs Component', () => {
   test('renders correctly', () => {
     render(<DeleteLogs />);
@@ -20,12 +20,12 @@ describe('DeleteLogs Component', () => {
 });
 
 describe('DeleteLogsModal Component', () => {
-  let mockSetShowConfirmation: jest.Mock;
+  let mockSetShowModal: jest.Mock;
   let mockSetIsDeleting: jest.Mock;
   let mockSetRetryCount: jest.Mock;
 
   beforeEach(() => {
-    mockSetShowConfirmation = jest.fn();
+    mockSetShowModal = jest.fn();
     mockSetIsDeleting = jest.fn();
     mockSetRetryCount = jest.fn();
   });
@@ -33,11 +33,12 @@ describe('DeleteLogsModal Component', () => {
   test('renders modal with correct elements', () => {
     render(
       <DeleteLogsModal
-        setShowConfirmation={mockSetShowConfirmation}
+        closeModal={mockSetShowModal}
         setIsDeleting={mockSetIsDeleting}
         isDeleting={false}
         setRetryCount={mockSetRetryCount}
         retryCount={0}
+        deletionInProgress={false}
       />
     );
 
@@ -54,11 +55,12 @@ describe('DeleteLogsModal Component', () => {
   test('allows user to type in inputs', () => {
     render(
       <DeleteLogsModal
-        setShowConfirmation={mockSetShowConfirmation}
+        closeModal={mockSetShowModal}
         setIsDeleting={mockSetIsDeleting}
         isDeleting={false}
         setRetryCount={mockSetRetryCount}
         retryCount={0}
+        deletionInProgress={false}
       />
     );
 
@@ -70,11 +72,12 @@ describe('DeleteLogsModal Component', () => {
   test('calls handleSubmit when delete button is clicked', async () => {
     render(
       <DeleteLogsModal
-        setShowConfirmation={mockSetShowConfirmation}
+        closeModal={mockSetShowModal}
         setIsDeleting={mockSetIsDeleting}
         isDeleting={false}
         setRetryCount={mockSetRetryCount}
         retryCount={0}
+        deletionInProgress={false}
       />
     );
 
@@ -95,17 +98,18 @@ describe('DeleteLogsModal Component', () => {
   test('closes modal when cancel button is clicked', () => {
     render(
       <DeleteLogsModal
-        setShowConfirmation={mockSetShowConfirmation}
+        closeModal={mockSetShowModal}
         setIsDeleting={mockSetIsDeleting}
         isDeleting={false}
         setRetryCount={mockSetRetryCount}
         retryCount={0}
+        deletionInProgress={false}
       />
     );
 
     const cancelButton = screen.getByRole('button', { name: deleteLogsLocalisationStrings.cancel });
     fireEvent.click(cancelButton);
 
-    expect(mockSetShowConfirmation).toHaveBeenCalledWith(false);
+    expect(mockSetShowModal).toHaveBeenCalled();
   });
 });

@@ -81,7 +81,7 @@ describe('DeletionTable', () => {
 
     (useObservable as jest.Mock).mockReturnValue(mockResult);
 
-    render(<DeletionTable isDeleting={false} openConfirmationDialog={jest.fn()} />);
+    render(<DeletionTable isDeleting={false} openConfirmationDialog={jest.fn()} handleIsInProgress={jest.fn()} />);
 
     expect(screen.getByTestId('deletionTableEmpty')).toBeInTheDocument();
   });
@@ -105,7 +105,7 @@ describe('DeletionTable', () => {
 
     (useObservable as jest.Mock).mockReturnValue(mockResult);
 
-    render(<DeletionTable isDeleting={false} openConfirmationDialog={jest.fn()} />);
+    render(<DeletionTable isDeleting={false} openConfirmationDialog={jest.fn()} handleIsInProgress={jest.fn()} />);
 
     expect(screen.getByText('Test reason')).toBeInTheDocument();
     expect(screen.getByText('testUser')).toBeInTheDocument();

@@ -22,6 +22,7 @@ import {
   carbonHeaders,
   getCarbonDataRows,
   getTableState,
+  hasInProgressDeletion,
   TableState,
   urlStateDefinition
 } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/utils';
@@ -146,13 +147,18 @@ export const CarbonDeletionTable = ({
 
 export const DeletionTable = ({
   isDeleting,
-  openConfirmationDialog
+  openConfirmationDialog,
+  handleIsInProgress
 }: {
   isDeleting: boolean;
   openConfirmationDialog: () => void;
+  handleIsInProgress: (isInProgress: boolean) => void;
 }) => {
   const deletionHistoryResult =
     useObservable<Result<DeleteLogsHistoryResult>, [boolean]>(() => getDeleteLogsHistory(null), [isDeleting]) ??
     pendingResult;
+
+  handleIsInProgress(hasInProgressDeletion(deletionHistoryResult));
+
   return <CarbonDeletionTable openConfirmationDialog={openConfirmationDialog} result={deletionHistoryResult} />;
 };
