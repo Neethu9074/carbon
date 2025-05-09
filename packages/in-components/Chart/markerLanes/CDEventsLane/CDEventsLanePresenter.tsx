@@ -50,7 +50,9 @@ export default function CDEventsLanePresenter(props: CDEventsLanePresenterProps)
           {clusteredCDEvents.slice(0, maxNumEventsToShow).map(({ name, start }) => (
             <div key={start}>
               <time dateTime={new Date(start).toISOString()}>{formatDateTime(start)}</time>
-              <div className={locals.name}>{`${name}`}</div>
+              <div className={locals.name}>
+                {t('in-components:chart.chartCDEventsLanePresenterApplicationSyncTooltip', { name })}
+              </div>
             </div>
           ))}
           {clusteredCDEvents.length > maxNumEventsToShow && (

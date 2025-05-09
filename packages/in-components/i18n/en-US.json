@@ -60,6 +60,7 @@
       "openList": "Open list"
     },
     "chartCDEventsLanePresenterLabel": "CD events",
+    "chartCDEventsLanePresenterApplicationSyncTooltip": "Argo CD sync for {{name}}.",
     "chartCDEventsLanePresenterTooltip": "+{{len}} more CD events",
     "chartReleasesLanePresenterReleasesLabel": "Releases",
     "chartReleasesLanePresenterTooltip": "+{{len}} more releases",
