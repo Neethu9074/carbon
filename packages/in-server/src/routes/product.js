@@ -200,7 +200,6 @@ router.get('/', async (req, res) => {
     const isAssistMeEnabled = ibmCommonEnabled && featureFlags.assistmeEnabled && walkmeEnabled;
     const isSessionPlayBackRequired =
       walkmeEnabled && (activeLicenseInfo == 'selfService' || featureFlags.playwithEnabled);
-    const noticeCloseCookieDomainName = clientConfig.butlerDomain;
     const segmentAnalyticsEnabled = featureFlags.segmentAnalyticsEnabled;
     res.set(
       'Content-Security-Policy',
@@ -238,7 +237,6 @@ router.get('/', async (req, res) => {
         walkmeEnabled,
         walkmeTestEnabled,
         ibmCommonEnabled,
-        noticeCloseCookieDomainName,
         tealiumPrivacyEnabled,
         segmentKeyValue,
         segmentAnalyticsEnabled

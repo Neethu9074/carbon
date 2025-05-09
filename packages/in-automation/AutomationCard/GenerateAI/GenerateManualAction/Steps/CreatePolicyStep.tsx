@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { Spacer, Typography } from '@instana/components';
-import { Result } from '@instana/types';
+import { Result, Event } from '@instana/types';
 
 import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/useGenerateAIActionForm';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
@@ -20,13 +20,15 @@ export default function CreatePolicyStep({
   setForm,
   action,
   trigger,
-  result
+  result,
+  event
 }: {
   form: GenerateAIActionForm;
   setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
   action: NewAction;
   trigger: Result<TriggerSpecification>;
   result: Result<any> | null;
+  event: Event;
 }) {
   const policyForm = form.get('policy');
 
@@ -40,6 +42,7 @@ export default function CreatePolicyStep({
         form={policyForm}
         trigger={trigger}
         action={action}
+        event={event}
       />
     </>
   );

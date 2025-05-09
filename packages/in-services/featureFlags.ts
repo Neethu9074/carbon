@@ -127,7 +127,7 @@ export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticI
 export const syntheticRbacLimitedEnabled = isFeatureFlagEnabled('syntheticRbacLimitedEnabled');
 
 // Synthetic DNS feature flag
-export const syntheticDNSEnabled = isFeatureFlagEnabled('syntheticDNSEnabled');
+export const syntheticDnsEnabled = isFeatureFlagEnabled('syntheticDnsEnabled');
 
 // Synthetic runNow feature flag
 export const syntheticRunNowEnabled = isFeatureFlagEnabled('syntheticRunNowEnabled');

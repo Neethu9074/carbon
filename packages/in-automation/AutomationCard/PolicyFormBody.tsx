@@ -8,7 +8,7 @@ import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import { Spacer, Typography } from '@instana/components';
-import { Result } from '@instana/types';
+import { Result, Event } from '@instana/types';
 
 import {
   appFilterAppliedColumn,
@@ -26,12 +26,12 @@ import { descriptionColumn, nameColumn } from 'in-automation/ActionTable/columnD
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import CreatableTagSelect from 'in-components/CreatableTagSelect/CreatableTagSelect';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { NewAction, TriggerSpecification } from 'in-automation/types';
 import { isLoading, listSuccess } from 'in-services/util/result';
 import usePolicyTags from 'in-automation/hooks/usePolicyTags';
-import { getTriggerType } from 'in-automation/utils/trigger';
 import TextArea from 'in-components/form/TextArea/TextArea';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -52,12 +52,14 @@ export default function PolicyFormBody({
   setForm,
   form,
   action,
-  trigger
+  trigger,
+  event
 }: {
   setForm: (setValueFunc: (value: PolicyForm) => PolicyForm) => void;
   form: PolicyForm;
   action: NewAction;
   trigger: Result<TriggerSpecification>;
+  event: Event;
 }) {
   const availableTags = usePolicyTags();
   const name = form.get('name');
@@ -126,14 +128,14 @@ export default function PolicyFormBody({
       ))}
       <Spacer vertical="normal" />
       <ActionSection action={action} />
-      <TriggerSection trigger={trigger} />
+      <TriggerSection trigger={trigger} event={event} />
       <Spacer vertical="xxlarge" />
     </>
   );
 }
 
-function TriggerSection({ trigger }: { trigger: Result<TriggerSpecification> }) {
-  const triggerType = getTriggerType(trigger.data!);
+function TriggerSection({ trigger, event }: { trigger: Result<TriggerSpecification>; event: Event }) {
+  const triggerType = getTriggerTypeFromEvent(event);
   const columnDefinitions: ColumnDefinition<TriggerSpecification>[] = [triggerNameColumn, triggerDescriptionColumn];
 
   if (triggerType === 'applicationSmartAlert' || triggerType === 'globalApplicationSmartAlert')

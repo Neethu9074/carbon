@@ -39,15 +39,16 @@
       // };
     </script>
 
-    <!-- This is a temparory script to remove the notice_close cookie from users' browser to display the telium banner.
- It will be removed in R296. -->
+    <!-- This is a temparory script to remove the notice_close cookie from users' browser to display the tealium banner.
+ It will be removed in R298. -->
     <script type="text/javascript">
       window.addEventListener('load', function () {
         if (!window.instana.config.featureFlags.tealiumPrivacyEnabled) return
-        if (!localStorage.getItem('noticeCloseCookieDeleted') && document.cookie.includes('notice_close')) {
-          document.cookie = `notice_close=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.instana.config.butlerDomain}`;
+        if (!localStorage.getItem('cookieBannerShown') && document.cookie.includes('notice_close')) {
+          document.cookie = 'notice_close=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
           document.cookie = 'notice_close=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.instana.rocks; secure';
-          localStorage.setItem('noticeCloseCookieDeleted', 'true');
+          if(localStorage.getItem('noticeCloseCookieDeleted')) localStorage.removeItem('noticeCloseCookieDeleted');
+          localStorage.setItem('cookieBannerShown', 'true');
         }
       });
     </script>
