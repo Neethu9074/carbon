@@ -37,7 +37,9 @@ import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/util/function';
+import { seconds } from 'in-services/time/time';
 import { Trans, t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget.mless';
@@ -58,9 +60,13 @@ export interface MetricItem {
 }
 
 export default function InfrastructureTableWidget(props: TableWidgetProps) {
+  const realTimeConfig = useTimeConfig();
+
   return (
     <FixatedTimeConfigContextModification>
-      {() => <InfrastructureTable {...props} />}
+      {({ refresh }: { refresh: () => void }) => (
+        <InfrastructureTable {...props} refreshFixatedTimeConfig={refresh} realTimeConfig={realTimeConfig} />
+      )}
     </FixatedTimeConfigContextModification>
   );
 }
@@ -70,7 +76,27 @@ function InfrastructureTable(props: TableWidgetProps) {
   const { goToPath } = useNavigation();
   const [totalItemsCount, setTotalItemsCount] = useState();
 
-  const { config, title, actions, dragHandle, isInModal, isPreview, topLevelFilterNote } = props;
+  const {
+    config,
+    title,
+    actions,
+    dragHandle,
+    isInModal,
+    isPreview,
+    topLevelFilterNote,
+    realTimeConfig,
+    refreshFixatedTimeConfig
+  } = props;
+
+  useEffect(() => {
+    let interval: NodeJS.Timer;
+
+    if (!isPreview && realTimeConfig.autoRefresh) {
+      interval = setInterval(refreshFixatedTimeConfig, seconds.toMillis(10));
+    }
+
+    return () => (interval ? clearInterval(interval) : undefined);
+  }, [isPreview, realTimeConfig, refreshFixatedTimeConfig]);
 
   const {
     entityType: type = '',
