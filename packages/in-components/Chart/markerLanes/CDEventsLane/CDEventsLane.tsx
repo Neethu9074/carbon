@@ -49,41 +49,6 @@ export default function CDEventsLane(props: CDEventsLaneProps) {
   const { timeConfig, clusterSizeMillis, snapshotId } = props;
   const cdEvents = useObservable(getCDEventsObservable, [timeConfig, clusterSizeMillis, snapshotId]) ?? emptyArray;
 
-  const TooltipContent = ({ clusteredCDEvents = [] }: { clusteredCDEvents?: CDEventWithId[] }) => {
-    const eventsToShow = clusteredCDEvents.slice(0, maxNumEventsToShow);
-    const extraCount = clusteredCDEvents.length - eventsToShow.length;
-
-    return (
-      <div className={locals.tooltipContent}>
-        {eventsToShow.map(({ name, start }, idx) => {
-          const isFirst = idx === 0;
-          const isLast = idx === eventsToShow.length - 1;
-
-          return (
-            <div
-              key={start}
-              className={classNames({
-                [locals.tooltipItem]: true,
-                [locals.withBottomBorder]: !isLast,
-                [locals.withTopPadding]: !isFirst
-              })}
-            >
-              <time dateTime={new Date(start).toISOString()}>{formatDateTime(start)}</time>
-              <div className={locals.name}>
-                {t('in-components:chart.chartCDEventsLaneApplicationSyncTooltip', { name })}
-              </div>
-            </div>
-          );
-        })}
-        {extraCount > 0 && (
-          <div className={locals.tooltipItem}>
-            {t('in-components:chart.chartCDEventsLaneTooltip', { len: extraCount })}
-          </div>
-        )}
-      </div>
-    );
-  };
-
   return (
     <MarkerLane<CDEventCluster>
       {...props}
@@ -94,6 +59,41 @@ export default function CDEventsLane(props: CDEventsLaneProps) {
       LaneItem={CDEventMarkerLaneItem}
       HoverOverlay={props.isClustered ? HoverArea : HoverLine}
     />
+  );
+}
+
+function TooltipContent({ clusteredCDEvents = [] }: { clusteredCDEvents?: CDEventWithId[] }) {
+  const eventsToShow = clusteredCDEvents.slice(0, maxNumEventsToShow);
+  const extraCount = clusteredCDEvents.length - eventsToShow.length;
+
+  return (
+    <div className={locals.tooltipContent}>
+      {eventsToShow.map(({ name, start }, idx) => {
+        const isFirst = idx === 0;
+        const isLast = idx === eventsToShow.length - 1;
+
+        return (
+          <div
+            key={start}
+            className={classNames({
+              [locals.tooltipItem]: true,
+              [locals.withBottomBorder]: !isLast,
+              [locals.withTopPadding]: !isFirst
+            })}
+          >
+            <time dateTime={new Date(start).toISOString()}>{formatDateTime(start)}</time>
+            <div className={locals.name}>
+              {t('in-components:chart.chartCDEventsLaneApplicationSyncTooltip', { name })}
+            </div>
+          </div>
+        );
+      })}
+      {extraCount > 0 && (
+        <div className={locals.tooltipItem}>
+          {t('in-components:chart.chartCDEventsLaneTooltip', { len: extraCount })}
+        </div>
+      )}
+    </div>
   );
 }
 
