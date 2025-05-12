@@ -128,7 +128,7 @@
     "dialogRequireFilterMsg": "Please specify a filter to save.",
     "filterConfirmRemovalHeader": "Confirm removal",
     "filterConfirmButtonLabel": "Remove filter",
-    "filterConfirmRemoveMsg": "Are you sure you want to remove the filter <strong>{{filterName}}</strong>?",
+    "filterConfirmRemoveMsg": "Are you sure you want to remove the filter <strong>{{filterName}}</strong>? This action cannot be undone.",
     "helpDialogTitleUsingTheSearchBar": "Using the search bar"
   },
   "carbonSearchBar": {

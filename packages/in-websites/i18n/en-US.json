@@ -362,7 +362,7 @@
     "trackingSnippetPresenterEnablingModalTitle": "Enable Subresource Integrity (SRI)",
     "trackingSnippetPresenterEnablingModalBody": "Enabling SRI is recommended for security. Ensure that you have selected the latest agent version from the dropdown.",
     "trackingSnippetPresenterDisableModal": "Disable",
-    "trackingSnippetPresenterDisablingModalTitle": "Are you sure you want to disable Subresource Integrity (SRI)?",
+    "trackingSnippetPresenterDisablingModalTitle": "Are you sure you want to disable Subresource Integrity (SRI)? This action cannot be undone.",
     "trackingSnippetPresenterDisablingModalFirstLine": "Disabling SRI might cause security issues.",
     "trackingSnippetPresenterDisablingModalBody": "If you decide to disable it, ensure that you are in a secure network environment. When SRI is disabled, the tracking script defaults to the latest JavaScript agent version but will not be able to ensure that browsers can verify the resources they fetch. ",
     "addTrackingScriptTitle": "Add tracking script",

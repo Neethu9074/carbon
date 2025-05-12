@@ -518,7 +518,7 @@
   },
   "deleteDialog": {
     "confirmRemove": "Confirm remove",
-    "confirmRemoveMsg": "Are you sure you want to delete <strong>{{name}}</strong>?",
+    "confirmRemoveMsg": "Are you sure you want to delete <strong>{{name}}</strong>? This action cannot be undone.",
     "delete": "Delete"
   },
   "turboActionCategories": {

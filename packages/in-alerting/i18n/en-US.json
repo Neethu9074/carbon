@@ -14,7 +14,7 @@
     "alertHeaderEditTooltip": "Edit",
     "alertHeaderDuplicateTooltip": "Duplicate",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Confirm remove",
-    "alertHeaderRestoreDeleteConfirmationDialogDescription": "Are you sure you want to remove the alert <strong>{{alertConfigName}}</strong>?",
+    "alertHeaderRestoreDeleteConfirmationDialogDescription": "Are you sure you want to remove the alert <strong>{{alertConfigName}}</strong>? This action cannot be undone.",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remove",
     "alertHeaderIsNotLatestRevisionMessage": "You are looking at revision {{description}} of this alert configuration. Please <latestRevisionButton>select the latest revision</latestRevisionButton> or <restoreRevisionButton>restore from current revision</restoreRevisionButton> if you want to make changes.",
     "alertHeaderAriaLabelSeverity": "Event has severity {{severity}}",
@@ -530,7 +530,7 @@
         "labelActionButtonDelete": "Delete",
         "labelAlertFilters": "Filters",
         "labelConfirm": "Confirm remove",
-        "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
+        "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>? This action cannot be undone.",
         "labelRemove": "Remove",
         "numberOfApplicationsSelected": "{{count}} application selected",
         "numberOfApplicationsSelected_plural": "{{count}} applications selected",
@@ -991,7 +991,7 @@
       },
       "list": {
         "labelConfirm": "Confirm remove",
-        "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
+        "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>? This action cannot be undone.",
         "labelRemove": "Remove"
       },
       "gracePeriod": {

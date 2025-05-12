@@ -66,7 +66,7 @@
     "customDashboard": {
       "confirmDashboardDel": "Confirm dashboard deletion",
       "delDashboard": "Delete dashboard",
-      "uWantDelDashboardConfig": "Are you sure you want to delete the dashboard <strong>{{title}}</strong>?",
+      "uWantDelDashboardConfig": "Are you sure you want to delete the dashboard <strong>{{title}}</strong>? This action cannot be undone.",
       "failDelDashboard": "Failed to delete the dashboard.",
       "renameDashboard": "Rename dashboard",
       "dashboardName": "Dashboard name",
@@ -606,7 +606,7 @@
         "viewCloneSliConfig": "View/Clone SLI configuration",
         "delSliConfig": "Delete SLI configuration",
         "confirmRemove": "Confirm remove",
-        "confirmRemoveMsg": "Are you sure you want to delete <strong>{{sliName}}</strong>?",
+        "confirmRemoveMsg": "Are you sure you want to delete <strong>{{sliName}}</strong>? This action cannot be undone.",
         "delete": "Delete",
         "eventBasedSli": "Event-based",
         "timeBasedSli": "Time-based, {{metricNameLabel}}"
@@ -758,7 +758,7 @@
         "nameColumn": "Apdex configuration",
         "thresholdColumn": "Threshold",
         "confirmDeleteHeader": "Confirm remove",
-        "confirmDeleteMessage": "Are you sure you want to delete {{apdex}}?",
+        "confirmDeleteMessage": "Are you sure you want to delete {{apdex}}? This action cannot be undone.",
         "editApdexTooltip": "Edit/Clone Apdex configuration",
         "deleteApdexTooltip": "Delete Apdex configuration",
         "confirmDeleteButton": "Delete",
