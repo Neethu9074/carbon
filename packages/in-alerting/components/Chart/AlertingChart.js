@@ -345,7 +345,6 @@ export function getY1ForMultiThreshold(
   };
 
   function computeMax(metricsMaxValue) {
-    const fromTime = viewConfig ? Date.now() - viewConfig.timeConfig.windowSize : undefined;
     const definedThresholdType = warningThreshold?.type ?? criticalThreshold?.type;
 
     switch (definedThresholdType) {
@@ -362,8 +361,7 @@ export function getY1ForMultiThreshold(
           operator,
           criticalThreshold?.baseline ?? warningThreshold?.baseline,
           warningThreshold?.deviationFactor ?? 0,
-          criticalThreshold?.deviationFactor ?? 0,
-          fromTime
+          criticalThreshold?.deviationFactor ?? 0
         );
       }
 
@@ -374,8 +372,7 @@ export function getY1ForMultiThreshold(
           operator,
           criticalThreshold?.baseline ?? warningThreshold?.baseline,
           warningThreshold?.deviationFactor ?? 0,
-          criticalThreshold?.deviationFactor ?? 0,
-          fromTime
+          criticalThreshold?.deviationFactor ?? 0
         );
       }
 
@@ -391,8 +388,7 @@ function getMaxForAdaptiveBaselineChartMultiThreshold(
   operator,
   baseline,
   warningSensitivity,
-  criticalSensitivity,
-  fromTime
+  criticalSensitivity
 ) {
   if (baselineEntriesFromMetadata === undefined) {
     return getMaxForBaselineChartMultiThreshold(
@@ -400,20 +396,14 @@ function getMaxForAdaptiveBaselineChartMultiThreshold(
       operator,
       baseline,
       warningSensitivity,
-      criticalSensitivity,
-      fromTime
+      criticalSensitivity
     );
   }
-
-  const opSign = isGreaterOperator(operator) ? 1 : -1;
 
   // baselineEntriesFromMetadata is an array of tuples, where each tuple contains:
   // [timestamp, warningValue, criticalValue].
   const overallMaxValue = baselineEntriesFromMetadata
-    .flatMap(baselineEntry => [
-      baselineEntry[1] + opSign * warningSensitivity,
-      baselineEntry[2] + opSign * criticalSensitivity
-    ])
+    .flatMap(baselineEntry => [baselineEntry[1], baselineEntry[2]])
     .reduce((max, current) => Math.max(max, current), metricsMaxValue);
   return overallMaxValue * 1.1;
 }
@@ -423,12 +413,10 @@ function getMaxForBaselineChartMultiThreshold(
   operator,
   baseline,
   warningSensitivity,
-  criticalSensitivity,
-  fromTime
+  criticalSensitivity
 ) {
   const opSign = isGreaterOperator(operator) ? 1 : -1;
   const overallMaxValue = (baseline || [])
-    .filter(v => !fromTime || fromTime < v[0])
     .flatMap(baselineEntry => [
       baselineEntry[1] + opSign * baselineEntry[2] * warningSensitivity,
       baselineEntry[1] + opSign * baselineEntry[2] * criticalSensitivity
