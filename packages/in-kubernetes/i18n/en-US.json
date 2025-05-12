@@ -403,7 +403,7 @@
     "99plusOutOfSync": "Argo CD: 99+ Out of Sync",
     "countOutOfSync": "Argo CD: {{count}} Out of Sync",
     "notificationError": "Data cannot be displayed. Please try again later.",
-    "infoNotification": "Argo CD applications are Custom Resource Definition (CRD) as defined in Argo CD.",
+    "infoNotification": "Argo CD applications are Custom Resource Definition (CRD) as defined in Argo CD. <linkArgoCD>Learn more</linkArgoCD> about Argo CD integration.",
     "noAppsNotification": "No Argo CD applications found. Get started by creating an application in the Argo CD interface.",
     "launchArgocd": "Launch Argo CD interface",
     "argoCdAppName": "Argo CD application name",

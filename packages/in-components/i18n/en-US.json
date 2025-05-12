@@ -59,9 +59,9 @@
       "retryButtonLabel": "Retry",
       "openList": "Open list"
     },
-    "chartCDEventsLanePresenterLabel": "CD events",
-    "chartCDEventsLanePresenterApplicationSyncTooltip": "Argo CD sync for {{name}}.",
-    "chartCDEventsLanePresenterTooltip": "+{{len}} more CD events",
+    "chartCDEventsLaneLabel": "CD events",
+    "chartCDEventsLaneApplicationSyncTooltip": "Argo CD sync for {{name}}.",
+    "chartCDEventsLaneTooltip": "+{{len}} more CD events",
     "chartReleasesLanePresenterReleasesLabel": "Releases",
     "chartReleasesLanePresenterTooltip": "+{{len}} more releases",
     "highlightedTimeframeCloseButtonClearHighlight": "Clear highlight",

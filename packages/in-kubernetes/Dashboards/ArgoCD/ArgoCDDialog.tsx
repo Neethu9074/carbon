@@ -9,10 +9,11 @@ import React from 'react';
 import { Tearsheet } from '@instana/ibm-products';
 import { Button } from '@instana/components';
 import { TimeConfig } from '@instana/types';
+import { Link } from '@instana/components';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification/DashboardNotification';
 import ArgoCDTable from 'in-kubernetes/Dashboards/ArgoCD/ArgoCdTable';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './ArgoCD.mless';
 
@@ -34,7 +35,20 @@ const ArgoCDDialog = ({ snapshotId, timeConfig, onClose, totalApps, unsyncedApps
   } else if (totalApps == undefined) {
     label = t('in-kubernetes:argocd.notificationError');
   } else {
-    label = t('in-kubernetes:argocd.infoNotification');
+    label = (
+      <Trans
+        i18nKey="in-kubernetes:argocd.infoNotification"
+        components={{
+          linkArgoCD: (
+            // @ts-expect-error
+            <Link
+              href="https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-argo-cd-public-preview"
+              external
+            />
+          )
+        }}
+      />
+    );
   }
 
   const openInNewTab = () => {
@@ -60,7 +74,9 @@ const ArgoCDDialog = ({ snapshotId, timeConfig, onClose, totalApps, unsyncedApps
       className={locals.tearsheet}
     >
       <div id="argocdApplications">
-        <DashboardNotification type="neutral">{label}</DashboardNotification>
+        <DashboardNotification type="neutral">
+          <div className={locals.notification}>{label}</div>
+        </DashboardNotification>
         {totalApps != 0 && <ArgoCDTable snapshotId={snapshotId} timeConfig={timeConfig} />}
       </div>
     </Tearsheet>

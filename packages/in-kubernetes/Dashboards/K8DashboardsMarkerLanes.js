@@ -18,7 +18,7 @@ export default function K8DashboardsMarkerLanes(props) {
       {props.hasActionlane && hasAutomationAccess && (
         <ActionsLane snapshotId={props.snapshotId} {...props} boundaryScope="ALL" />
       )}
-      <CDEventsLane />
+      <CDEventsLane {...props} />
     </MarkerLanesPresenter>
   );
 }

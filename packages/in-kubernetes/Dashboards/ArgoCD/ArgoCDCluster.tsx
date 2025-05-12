@@ -16,8 +16,6 @@ import ArgoCDDialog from 'in-kubernetes/Dashboards/ArgoCD/ArgoCDDialog';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
-import locals from './ArgoCD.mless';
-
 interface ArgoCDClusterProps {
   snapshotId: string;
   timeConfig: TimeConfig;
@@ -65,13 +63,13 @@ const ArgoCDSubscription = ({ snapshotId, timeConfig, buttonSize }: ArgoCDCluste
     );
   };
   return (
-    <div className={locals.argocdButton}>
+    <>
       {argoCDClusterData && Object.keys(argoCDClusterData)?.length > 0 && (
         <Button kind="tertiary" size={buttonSize} icon={iconType} onClick={handleClick}>
           {label}
         </Button>
       )}
-    </div>
+    </>
   );
 };
 export default ArgoCDSubscription;
