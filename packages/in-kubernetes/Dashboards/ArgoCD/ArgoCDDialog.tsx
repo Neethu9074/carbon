@@ -6,10 +6,9 @@
 
 import React from 'react';
 
+import { Button, Link } from '@instana/components';
 import { Tearsheet } from '@instana/ibm-products';
-import { Button } from '@instana/components';
 import { TimeConfig } from '@instana/types';
-import { Link } from '@instana/components';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification/DashboardNotification';
 import ArgoCDTable from 'in-kubernetes/Dashboards/ArgoCD/ArgoCdTable';
