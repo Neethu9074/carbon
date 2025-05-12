@@ -45,6 +45,7 @@ import EventIcon from 'in-events/components/EventIcon';
 import { eventId } from 'in-events/navigation/matrix';
 import { isLoading } from 'in-services/util/result';
 import tabs from 'in-events/components/tabs/index';
+import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
 import locals from './EventTable.mless';
@@ -178,9 +179,22 @@ function Header(props) {
 }
 
 const IncidentHeader = ({ event, timeConfig }) => {
+  const [{ notes }] = useUrlState({
+    bind: [
+      {
+        path: '/events',
+        name: 'notes',
+        initialState: ''
+      }
+    ]
+  });
+
   const { location, createHref } = useNavigation();
   setOrDeleteMatrixKey(location, eventsPath, eventId, null);
   const [displayNotes, setDisplayNotes] = useState(false);
+  if ((notes == 'open' || notes == 'openGenerate') && !displayNotes) {
+    setDisplayNotes(true);
+  }
 
   return (
     <LeftRightPadding className={locals.incidentHeader}>

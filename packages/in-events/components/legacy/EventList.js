@@ -5,7 +5,16 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Card, Stack, Typography, Collapsible, CarbonLayer, IconButton } from '@instana/components';
+import {
+  Card,
+  Stack,
+  Typography,
+  Collapsible,
+  CarbonLayer,
+  IconButton,
+  CarbonButton,
+  SvgIcon
+} from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
@@ -44,6 +53,7 @@ import { Row, Col } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { deepCopy } from 'in-services/util/object';
 import { getEventType } from 'in-stores/events';
+import useUrlState from 'in-hooks/useUrlState';
 import { getEvent } from 'in-stores/events';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -142,6 +152,17 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
     getEventViewWithTimeFocusedAt(incident.get('start'), windowSize, location, incident.get('id'), incident.get('type'))
   );
 
+  // eslint-disable-next-line no-unused-vars
+  const [{ notes }, setUrlChange] = useUrlState({
+    bind: [
+      {
+        path: '/events',
+        name: 'notes',
+        initialState: ''
+      }
+    ]
+  });
+
   return (
     <Row withoutSideMargin>
       <Col xs>
@@ -162,6 +183,22 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
                 iconSize="xs"
               />
             </>
+          }
+          leftHeaderContent={
+            <CarbonButton
+              kind={'tertiary'}
+              className={locals.actionsButton}
+              size={'sm'}
+              id="generate_summary_ai_header"
+              renderIcon={() => {
+                return <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" id="ai_summary_loading" />;
+              }}
+              onClick={() => {
+                setUrlChange({ notes: 'openGenerate' });
+              }}
+            >
+              <div className={locals.generateSummaryButtonContents}>{'Generate a summary'}</div>
+            </CarbonButton>
           }
         >
           <TriggeringEvent incident={incident} triggeringEvent={triggeringEvent} latestSnapshot={latestSnapshot} />

@@ -22,6 +22,7 @@ import { handleTracking } from 'in-events/components/NotesAndActivity/components
 import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPopover';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { generateJournalSummary } from 'in-stores/events';
+import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
 import locals from './QuickActions.mless';
@@ -48,6 +49,41 @@ export function QuickActions(props) {
     setLoadingSummary(false);
     clearTimeout(summaryTimeout);
     setShowTimeoutMessage(false);
+  }
+
+  const [{ notes }, setUrlChange] = useUrlState({
+    bind: [
+      {
+        path: '/events',
+        name: 'notes',
+        initialState: ''
+      }
+    ]
+  });
+
+  // If openGenerate is in the URL we want to execute a summary generation and then
+  // set it back to open
+  if (notes == 'openGenerate') {
+    handleSummaryGenerate();
+    setUrlChange({ notes: 'open' });
+  }
+
+  function handleSummaryGenerate() {
+    // Set the current summary count BEFORE generating the summary
+    setThisSummaryCount(summaryCount);
+    // Start the loading spinner
+    setLoadingSummary(true);
+    // Generate API Call
+    generateJournalSummary(incidentId);
+    // Tacking clicks
+    handleTracking(incidentId, EVENT_AI_GENERATE_SUBMIT);
+    // Timeout is started for a max of 2 mins and then the
+    // spinner will terminate and we will show a timeout message
+    const id = setTimeout(() => {
+      setLoadingSummary(false);
+      setShowTimeoutMessage(true);
+    }, 120000); // 2 mins
+    setSummaryTimeout(id);
   }
 
   function consentSection() {
@@ -95,21 +131,7 @@ export function QuickActions(props) {
             );
           }}
           onClick={() => {
-            // Set the current summary count BEFORE generating the summary
-            setThisSummaryCount(summaryCount);
-            // Start the loading spinner
-            setLoadingSummary(true);
-            // Generate API Call
-            generateJournalSummary(incidentId);
-            // Tacking clicks
-            handleTracking(incidentId, EVENT_AI_GENERATE_SUBMIT);
-            // Timeout is started for a max of 2 mins and then the
-            // spinner will terminate and we will show a timeout message
-            const id = setTimeout(() => {
-              setLoadingSummary(false);
-              setShowTimeoutMessage(true);
-            }, 120000); // 2 mins
-            setSummaryTimeout(id);
+            handleSummaryGenerate();
           }}
         >
           <div className={locals.quickActionButtonContents}>{t('in-events:notes.generateSummary')}</div>

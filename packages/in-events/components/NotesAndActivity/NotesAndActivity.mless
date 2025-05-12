@@ -56,6 +56,21 @@
     line-height: 1rem;
   }
 
+  .generateSummaryButtonContents {
+    display: block;
+    padding-right: 0.625rem;
+  }
+
+  .actionsButton {
+    height: 0px;
+    padding-inline-end: 1.25rem;
+  }
+
+  .aiIconHeader {
+    border-style: solid;
+    border-width: 1px;
+  }
+
   :global(#NotesAndActivityWrapper .c4p--side-panel .c4p--side-panel__inner-content) {
     padding: 0px;
   }
