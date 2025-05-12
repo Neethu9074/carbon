@@ -937,11 +937,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'ansibleScriptGenerationEnabled',
-    instanaCtlKey: 'feature.automation.ansible.script.generation.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'logConsoleEnabled',
     instanaCtlKey: 'feature.log.console.enabled',
     defaultValue: false

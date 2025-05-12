@@ -92,7 +92,9 @@ export default function CopyActionStepForm({
             {exportType.map(field => (
               <div>
                 <Typography variant="body-regular" noMargin>
-                  {t('in-automation:GenerateAIActionDialog.generateScriptDialog.step3Headline')}
+                  {isAnsibleScript
+                    ? t('in-automation:GenerateAIActionDialog.generateScriptDialog.step3HeadlineAnsible')
+                    : t('in-automation:GenerateAIActionDialog.generateScriptDialog.step3Headline')}
                 </Typography>
                 <Spacer vertical="small" />
                 <Stack direction="horizontal">

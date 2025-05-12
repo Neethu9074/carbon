@@ -380,5 +380,4 @@ export const sloBurnRateEnabled = isFeatureFlagEnabled('sloBurnRateEnabled', fal
 export const solisEnabled = isFeatureFlagEnabled('solisEnabled', false);
 export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled', false);
 export const whatsNewBannerEnabled = isFeatureFlagEnabled('whatsNewBannerEnabled', false);
-export const ansibleScriptGenerationEnabled = isFeatureFlagEnabled('ansibleScriptGenerationEnabled', false);
 export const relatedEventsDatgridEnabled = isFeatureFlagEnabled('relatedEventsDatagridEnabled', false);

@@ -164,6 +164,7 @@
       "step2Headline1": "Review the details for the action step and make any edits needed. Then click Generate  to see the results from watsonx.",
       "step2Headline2": "You can edit and generate again to see different results. Learn more in  <Link>IBM Docs</Link>.",
       "step3Headline": "Create action or export script to an external source",
+      "step3HeadlineAnsible": "Export script to an external source",
       "noDataAvailableLive": "To see results from watsonx here, click <strong>Generate</strong>.",
       "generateScriptButton": "Generate script",
       "generateButton": "Generate",

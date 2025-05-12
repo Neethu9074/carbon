@@ -191,7 +191,6 @@ module.exports = {
   websitesSmartAlertDialogViewEnabled: true,
   websitesBusinessMonitoringEnabled: true,
   mobileAppSmartAlertDialogViewEnabled: true,
-  ansibleScriptGenerationEnabled: true,
   actionAiGenerationEnabled: true,
   logConsoleEnabled: true,
   mobileAppSmartAlertSlownessBlueprintEnabled: false,

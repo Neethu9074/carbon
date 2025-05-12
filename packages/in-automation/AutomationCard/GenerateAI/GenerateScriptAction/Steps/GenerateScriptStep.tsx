@@ -12,12 +12,12 @@ import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
 import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
-import { automationActionAiGenerationUnitEnabled, ansibleScriptGenerationEnabled } from 'in-services/featureFlags';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
 import FeedbackComponent from 'in-automation/AutomationCard/GenerateAI/FeedbackComponent';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingSection from 'in-automation/AutomationCard/GenerateAI/LoadingSection';
+import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import ConsentForm from 'in-automation/components/ConsentForm/ConsentForm';
@@ -205,7 +205,14 @@ function ScriptSection({
         </Typography>
       </div>
       <div className={locals.CodeWithAISlug}>
-        <CodeComponent withExpandButton linesToShow={20} code={plaintextScript} lang={'bash'} softWrap />
+        <CodeComponent
+          wrapperClassName={locals.scriptSection}
+          withExpandButton
+          linesToShow={20}
+          code={plaintextScript}
+          lang={'bash'}
+          softWrap
+        />
       </div>
       <FeedbackComponent
         trackerPayload={trackerPayload}
@@ -270,54 +277,40 @@ export default function GenerateScriptStep({
         <Col lg={6}>
           <Spacer vertical="normal" />
 
-          {ansibleScriptGenerationEnabled && (
-            <>
-              {interpreterType.map(field => (
-                <div>
-                  <Typography variant="body-regular" noMargin>
-                    Select interpreter for script generation
-                  </Typography>
-                  <Spacer vertical="small" />
-                  <Stack direction="horizontal">
-                    <RadioButton
-                      key="Bash"
-                      label="Bash"
-                      checked={field.value === 'BASH'}
-                      onChange={() => {
-                        setForm(form =>
-                          form.updateIn(['prompt', 'interpreterType'], item => item.setValue('BASH').setTouched(true))
-                        );
-                      }}
-                    />
-                    <RadioButton
-                      key="Powershell"
-                      label="Powershell"
-                      checked={field.value === 'POWERSHELL'}
-                      onChange={() => {
-                        setForm(form =>
-                          form.updateIn(['prompt', 'interpreterType'], item =>
-                            item.setValue('POWERSHELL').setTouched(true)
-                          )
-                        );
-                      }}
-                    />
-                    <RadioButton
-                      key="Ansible"
-                      label="Ansible"
-                      checked={field.value === 'ANSIBLE'}
-                      onChange={() => {
-                        setForm(form =>
-                          form
-                            .updateIn(['prompt', 'interpreterType'], item => item.setValue('ANSIBLE').setTouched(true))
-                            .updateIn(['export', 'exportType'], item => item.setValue('github').setTouched(true))
-                        );
-                      }}
-                    />
-                  </Stack>
-                </div>
-              ))}
-            </>
-          )}
+          <>
+            {interpreterType.map(field => (
+              <div>
+                <Typography variant="body-regular" noMargin>
+                  Select interpreter for script generation
+                </Typography>
+                <Spacer vertical="small" />
+                <Stack direction="horizontal">
+                  <RadioButton
+                    key="Bash"
+                    label="Bash"
+                    checked={field.value === 'BASH'}
+                    onChange={() => {
+                      setForm(form =>
+                        form.updateIn(['prompt', 'interpreterType'], item => item.setValue('BASH').setTouched(true))
+                      );
+                    }}
+                  />
+                  <RadioButton
+                    key="Ansible"
+                    label="Ansible"
+                    checked={field.value === 'ANSIBLE'}
+                    onChange={() => {
+                      setForm(form =>
+                        form
+                          .updateIn(['prompt', 'interpreterType'], item => item.setValue('ANSIBLE').setTouched(true))
+                          .updateIn(['export', 'exportType'], item => item.setValue('github').setTouched(true))
+                      );
+                    }}
+                  />
+                </Stack>
+              </div>
+            ))}
+          </>
 
           {promptStep.map(field => (
             <FormGroup>
@@ -328,8 +321,7 @@ export default function GenerateScriptStep({
               </div>
               <div
                 className={classNames({
-                  [locals.promptCode]: true,
-                  [locals.interpreterTypeAvailable]: ansibleScriptGenerationEnabled
+                  [locals.promptCode]: true
                 })}
               >
                 <Code mode="markdown" lineWrapping value={field.value} onChange={onChangeValue} />
