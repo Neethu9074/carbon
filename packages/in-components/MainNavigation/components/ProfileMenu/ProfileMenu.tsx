@@ -177,6 +177,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
           {tenantSwitcherEnabled && <SwitcherDivider />}
           {shouldShowMcspMenuItems ? (
             <SwitcherItem
+              target="_blank"
               href={mcspSaasConsoleUrl}
               onClick={() => {
                 trackCta(PROFILE_MENU_SAAS_CONSOLE_CLICK); // Add tracking for SaaS Console click
