@@ -179,7 +179,6 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
             </>
           }
           leftHeaderContent={
-            automationActionAiGenerationUnitEnabled &&
             notesAndActivityEnabled && (
               <CarbonButton
                 kind={'tertiary'}
@@ -190,7 +189,7 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
                   return <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" id="ai_summary_loading" />;
                 }}
                 onClick={() => {
-                  setSummaryNotes(true, true);
+                  setSummaryNotes(true, automationActionAiGenerationUnitEnabled);
                 }}
               >
                 <div className={locals.generateSummaryButtonContents}>{t('in-events:notes.generateSummary')}</div>
