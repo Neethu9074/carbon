@@ -41,12 +41,12 @@ export default function CredentialList() {
   const matrixPrefix = '';
   const ServerTableWithUrlState = createServerTableWithUrlState({
     Renderer: withEmptyTableState({
-      columnDefinitions: columnDefinitions,
+      columnDefinitions,
       title: t('in-synthetics:dashboard.credentialList.noDataAvailable.noCredentialsAvailableTitle'),
       description: t('in-synthetics:dashboard.credentialList.noDataAvailable.noCredentialsAvailableDescription')
     }),
     paginationResettingUrlParameters: [timeConfigUrlParameters],
-    columnDefinitions: columnDefinitions,
+    columnDefinitions,
     defaultOrderBy: 'credentialName',
     defaultOrderDirection: 'ASC',
     pathSegment,
