@@ -16,16 +16,20 @@ import {
   Typography,
   Link
 } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import { EVENT_AI_GENERATE_SUBMIT, NOTES_SUMMARY_CLICK_EPWT_LINK } from 'in-services/tracking/eventNames';
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPopover';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
-import { generateJournalSummary } from 'in-stores/events';
-import useUrlState from 'in-hooks/useUrlState';
+// import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
+import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
+import { generateJournalSummary } from 'in-stores/events';
 
 import locals from './QuickActions.mless';
+
+// var testThis = false;
 
 // Main view that gives an overview for this side panel
 // Gives the user the options to add a note or generate a summary
@@ -51,21 +55,29 @@ export function QuickActions(props) {
     setShowTimeoutMessage(false);
   }
 
-  const [{ notes }, setUrlChange] = useUrlState({
-    bind: [
-      {
-        path: '/events',
-        name: 'notes',
-        initialState: ''
-      }
-    ]
-  });
+  // const [{ notes }, setUrlChange] = useUrlState({
+  //   bind: [
+  //     {
+  //       path: '/events',
+  //       name: 'notes',
+  //       initialState: ''
+  //     }
+  //   ]
+  // });
 
   // If openGenerate is in the URL we want to execute a summary generation and then
   // set it back to open
-  if (notes == 'openGenerate') {
+  // if (notes == 'openGenerate') {
+  //   handleSummaryGenerate();
+  //   setUrlChange({ notes: 'open' });
+  //   testThis = true
+  // }
+
+  const summaryNotesData = useObservable(summaryNotes$, [summaryNotes$]);
+
+  if (summaryNotesData?.generateAISummary == true) {
     handleSummaryGenerate();
-    setUrlChange({ notes: 'open' });
+    setSummaryNotes(true, false);
   }
 
   function handleSummaryGenerate() {

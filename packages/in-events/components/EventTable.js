@@ -8,6 +8,7 @@ import { findIndex } from 'lodash';
 
 import { Stack, Typography, Pill, IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
+import { useObservable } from '@instana/hooks';
 import { on } from '@instana/observables';
 
 import {
@@ -34,6 +35,7 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { aqmDataGridEventTableEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -45,7 +47,6 @@ import EventIcon from 'in-events/components/EventIcon';
 import { eventId } from 'in-events/navigation/matrix';
 import { isLoading } from 'in-services/util/result';
 import tabs from 'in-events/components/tabs/index';
-import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
 import locals from './EventTable.mless';
@@ -179,22 +180,35 @@ function Header(props) {
 }
 
 const IncidentHeader = ({ event, timeConfig }) => {
-  const [{ notes }] = useUrlState({
-    bind: [
-      {
-        path: '/events',
-        name: 'notes',
-        initialState: ''
-      }
-    ]
-  });
+  // const [{ notes }] = useUrlState({
+  //   bind: [
+  //     {
+  //       path: '/events',
+  //       name: 'notes',
+  //       initialState: ''
+  //     }
+  //   ]
+  // });
 
   const { location, createHref } = useNavigation();
   setOrDeleteMatrixKey(location, eventsPath, eventId, null);
-  const [displayNotes, setDisplayNotes] = useState(false);
-  if ((notes == 'open' || notes == 'openGenerate') && !displayNotes) {
-    setDisplayNotes(true);
-  }
+  // const [displayNotes, setDisplayNotes] = useState(false);
+  const displayNotes = useObservable(summaryNotes$, [summaryNotes$])?.open;
+  const setDisplayNotes = val => {
+    // const newValue = {
+    //   open: val,
+    //   loading: displayNotes?.loading,
+    //   generateAISummary: displayNotes?.generateAISummary,
+    // }
+    // console.log('huhhhh', newValue)
+    setSummaryNotes(val, displayNotes?.generateAISummary);
+  };
+  // if ((notes == 'open' || notes == 'openGenerate') && !displayNotes) {
+  //   setDisplayNotes(true);
+  // }
+
+  // console.log('summaryNotes$', useObservable(summaryNotes$, [summaryNotes$]))
+  // console.log('setSummaryNotes', setSummaryNotes(false))
 
   return (
     <LeftRightPadding className={locals.incidentHeader}>

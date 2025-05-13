@@ -24,29 +24,28 @@ import { handleTracking } from 'in-events/components/NotesAndActivity/components
 import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { incidentSummarizationEnabled } from 'in-services/featureFlags';
 import { MoveAIChatLauncher } from 'in-events/components/AIChat/AIChat';
-import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
 import locals from './NotesAndActivity.mless';
 
 export function OpenNotesAndActivity({ displayNotes, setDisplayNotes, event }) {
   // eslint-disable-next-line no-unused-vars
-  const [{ notesUrl }, setUrlChange] = useUrlState({
-    bind: [
-      {
-        path: '/events',
-        name: 'notes',
-        initialState: ''
-      }
-    ]
-  });
+  // const [{ notesUrl }, setUrlChange] = useUrlState({
+  //   bind: [
+  //     {
+  //       path: '/events',
+  //       name: 'notes',
+  //       initialState: ''
+  //     }
+  //   ]
+  // });
   const incidentId = event?.get('id');
 
   const openNotes = () => {
     handleTracking(incidentId, EVENT_SIDE_PANEL_CLICK);
     setDisplayNotes(true);
     MoveAIChatLauncher('500px');
-    setUrlChange({ notes: 'open' });
+    // setUrlChange({ notes: 'open' });
   };
 
   if (!displayNotes) {
@@ -75,15 +74,15 @@ export function NotesAndActivity(props) {
   const problemText = event?.get('problem')?.get('problemText');
   const loading = event == undefined;
 
-  const [{ notes }, setUrlChange] = useUrlState({
-    bind: [
-      {
-        path: '/events',
-        name: 'notes',
-        initialState: ''
-      }
-    ]
-  });
+  // const [{ notes }, setUrlChange] = useUrlState({
+  //   bind: [
+  //     {
+  //       path: '/events',
+  //       name: 'notes',
+  //       initialState: ''
+  //     }
+  //   ]
+  // });
 
   // Boolean to control when the notes section is opened
   // Current value of the typed out note
@@ -111,7 +110,7 @@ export function NotesAndActivity(props) {
   const filteredNotes = filterSearchNotes(notesResult, searchInput.toLowerCase());
 
   // Open side panel if the state is true or notesUrl is set to open
-  const openSide = displayNotes || (notes && notes == 'open') || notes == 'openGenerate';
+  const openSide = displayNotes; //|| (notes && notes == 'open') || notes == 'openGenerate';
 
   return (
     <div id="NotesAndActivityWrapper">
@@ -125,7 +124,7 @@ export function NotesAndActivity(props) {
           setStretchOverlay(false);
           setSearchInput('');
           MoveAIChatLauncher('50px');
-          setUrlChange({ notes: 'close' });
+          // setUrlChange({ notes: 'close' });
         }}
         title={t('in-events:notes.notesActivity')}
         size={(stretchOverlay && 'lg') || 'md'}

@@ -49,11 +49,11 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { toHtml } from 'in-services/formatters/markdown';
 import { rcaUIEnabled } from 'in-services/featureFlags';
 import { emptyMap } from 'in-services/fixedImmutables';
+import { setSummaryNotes } from 'in-stores/incidents';
 import { Row, Col } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { deepCopy } from 'in-services/util/object';
 import { getEventType } from 'in-stores/events';
-import useUrlState from 'in-hooks/useUrlState';
 import { getEvent } from 'in-stores/events';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -153,15 +153,17 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
   );
 
   // eslint-disable-next-line no-unused-vars
-  const [{ notes }, setUrlChange] = useUrlState({
-    bind: [
-      {
-        path: '/events',
-        name: 'notes',
-        initialState: ''
-      }
-    ]
-  });
+  // const [{ notes }, setUrlChange] = useUrlState({
+  //   bind: [
+  //     {
+  //       path: '/events',
+  //       name: 'notes',
+  //       initialState: ''
+  //     }
+  //   ]
+  // });
+  // const summaryNotesValues = useObservable(summaryNotes$, [summaryNotes$])
+  // const setDisplayNotes = (val) => {setSummaryNotes(val)}
 
   return (
     <Row withoutSideMargin>
@@ -194,7 +196,13 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
                 return <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" id="ai_summary_loading" />;
               }}
               onClick={() => {
-                setUrlChange({ notes: 'openGenerate' });
+                // setUrlChange({ notes: 'openGenerate' });
+                // const newValue = {
+                //   open: true,
+                //   loading: summaryNotesValues?.loading,
+                //   generateAISummary: true,
+                // }
+                setSummaryNotes(true, true);
               }}
             >
               <div className={locals.generateSummaryButtonContents}>{'Generate a summary'}</div>
