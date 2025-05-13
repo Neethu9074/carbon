@@ -5,6 +5,9 @@
 
 import { createStore } from 'in-stores/store';
 
+// This store is currently used in `NotesAndActivity.js` to control
+// the opening and closing of the notes side panel as well as
+// if we should trigger a ai summary generation.
 const summaryNotesStore = createStore({
   name: 'summaryNotes',
   initialValue: {

@@ -10,13 +10,11 @@
   }
 
   .generateSummaryButtonContents {
-    display: block;
     padding-right: 0.625rem;
   }
 
   .actionsButton {
     border-radius: 25px 25px 25px 25px;
-    height: 0px;
     padding-inline-end: 1.25rem;
   }
 

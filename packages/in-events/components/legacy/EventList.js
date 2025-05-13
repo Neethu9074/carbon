@@ -186,7 +186,7 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
                 setSummaryNotes(true, true);
               }}
             >
-              <div className={locals.generateSummaryButtonContents}>{'Generate a summary'}</div>
+              <div className={locals.generateSummaryButtonContents}>{t('in-events:notes.generateSummary')}</div>
             </CarbonButton>
           }
         >
