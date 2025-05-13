@@ -92,14 +92,14 @@ describe('EmptyState', () => {
   it('renders the correct empty state header text', () => {
     const getByText = shallow(<EmptyState />);
     expect(getByText.find(`h3.${locals.emptyHeader}`)).toHaveLength(1);
-    expect(getByText.find(`h3.${locals.emptyHeader}`).text()).toEqual('No activity yet');
+    expect(getByText.find(`h3.${locals.emptyHeader}`).text()).toEqual('No notes yet');
   });
 
   it('renders the correct empty state info text', () => {
     const getByText = shallow(<EmptyState />);
     expect(getByText.find(`p.${locals.emptyInfo}`)).toHaveLength(1);
     expect(getByText.find(`p.${locals.emptyInfo}`).text()).toEqual(
-      'There are no notes or activity to show yet. Use the Add comment field to share knowledge or an update for this incident with your team.'
+      'There are no summaries or notes to show yet. Use the Add comment field to share knowledge or an update for this incident with your team.'
     );
   });
 });
