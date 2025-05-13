@@ -18,6 +18,14 @@ import {
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
+import {
+  automationActionAiGenerationUnitEnabled,
+  notesAndActivityEnabled,
+  rcaUIEnabled,
+  relatedEventsDatgridEnabled,
+  businessObservabilityEnabled,
+  eventFeedbackEnabled
+} from 'in-services/featureFlags';
 import { InfraAggregatedEntitiesTablePresenter } from 'in-events/components/EventContent/InfraAggregatedEntities';
 import { getTimeConfigForAggregatedEntitiesTable } from 'in-events/components/EventContent/InfraEventContent';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
@@ -25,7 +33,6 @@ import RelatedEventsOptimized from 'in-events/components/IncidentPage/RelatedEve
 import LegacyRootCauseSection from 'in-events/components/RootCauseAnalysis/Legacy/LegacyRootCauseSection';
 import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
-import { eventFeedbackEnabled, businessObservabilityEnabled } from 'in-services/featureFlags';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
 import { getEventViewWithTimeFocusedAt } from 'in-events/components/legacy/EventListItem';
 import { CombinedEventListItemContent } from 'in-events/components/legacy/EventListItem';
@@ -41,13 +48,11 @@ import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraSmartAlertEvent } from 'in-events/components/eventUtil';
-import { relatedEventsDatgridEnabled } from 'in-services/featureFlags';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import { FeedbackComponents } from 'in-events/components/EventTable';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { toHtml } from 'in-services/formatters/markdown';
-import { rcaUIEnabled } from 'in-services/featureFlags';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { setSummaryNotes } from 'in-stores/incidents';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -174,20 +179,23 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
             </>
           }
           leftHeaderContent={
-            <CarbonButton
-              kind={'tertiary'}
-              className={locals.actionsButton}
-              size={'sm'}
-              id="generate_summary_ai_header"
-              renderIcon={() => {
-                return <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" id="ai_summary_loading" />;
-              }}
-              onClick={() => {
-                setSummaryNotes(true, true);
-              }}
-            >
-              <div className={locals.generateSummaryButtonContents}>{t('in-events:notes.generateSummary')}</div>
-            </CarbonButton>
+            automationActionAiGenerationUnitEnabled &&
+            notesAndActivityEnabled && (
+              <CarbonButton
+                kind={'tertiary'}
+                className={locals.actionsButton}
+                size={'sm'}
+                id="generate_summary_ai_header"
+                renderIcon={() => {
+                  return <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" id="ai_summary_loading" />;
+                }}
+                onClick={() => {
+                  setSummaryNotes(true, true);
+                }}
+              >
+                <div className={locals.generateSummaryButtonContents}>{t('in-events:notes.generateSummary')}</div>
+              </CarbonButton>
+            )
           }
         >
           <TriggeringEvent incident={incident} triggeringEvent={triggeringEvent} latestSnapshot={latestSnapshot} />
