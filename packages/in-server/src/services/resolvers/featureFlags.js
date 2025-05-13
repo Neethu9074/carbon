@@ -950,5 +950,10 @@ module.exports = exports = [
     uiClientKey: 'relatedEventsDatagrid',
     instanaCtlKey: 'feature.related.events.datagrid.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'allSmartAlertsViewEnabled',
+    instanaCtlKey: 'feature.all.smart.alerts.view.enabled',
+    defaultValue: false
   }
 ];

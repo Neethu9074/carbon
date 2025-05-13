@@ -120,6 +120,7 @@
   "labelMonitoringIssues": "Monitoring issues",
   "labelCveIssue": "Vulnerabilities",
   "labelPrcIssue": "Probable root causes",
+  "smartAlerts": "Smart Alerts",
   "labelAll": "All",
   "buttonViewCustomEvent": "View custom event",
   "buttonViewBuiltInEvent": "View built-in event",

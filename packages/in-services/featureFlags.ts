@@ -253,6 +253,9 @@ export const mobileAppSmartAlertSlownessBlueprintEnabled = isFeatureFlagEnabled(
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
 
+// Slowness Blueprint in Mobile smart alert
+export const allSmartAlertsViewEnabled = isFeatureFlagEnabled('allSmartAlertsViewEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
