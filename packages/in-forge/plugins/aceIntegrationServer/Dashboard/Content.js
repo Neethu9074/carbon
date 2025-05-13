@@ -25,7 +25,7 @@ export default function AceIntegrationServerDashboard({ snapshot, timeConfig }) 
         {sensorConnectionStatus}
         <Link
           external
-          href="https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-app-connect-enterprise#troubleshooting"
+          href="https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-app-connect-enterprise#troubleshooting"
         >
           {t('in-forge:plugins.aceIntegrationServer.readMore')}
         </Link>

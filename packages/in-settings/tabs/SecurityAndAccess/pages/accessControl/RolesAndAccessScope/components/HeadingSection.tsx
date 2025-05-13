@@ -19,7 +19,7 @@ export default function HeadingSection() {
         {t('in-settings:headingSection.description')}&nbsp;
         <Link
           external
-          href="https://www.ibm.com/docs/en/instana-observability/current?topic=instana-managing-user-access#add-areas-to-a-group"
+          href="https://www.ibm.com/docs/en/instana-observability/latest?topic=instana-managing-user-access#add-areas-to-a-group"
         >
           {t('in-settings:headingSection.link')}
         </Link>

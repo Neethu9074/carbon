@@ -71,7 +71,7 @@ export default function IbmCloudLogMezmoForm({ form, onChange, disabled, areFiel
               documentationLink: (
                 <Link
                   size="sm"
-                  href="https://www.ibm.com/docs/en/instana-observability/current?topic=logging-mezmo"
+                  href="https://www.ibm.com/docs/en/instana-observability/latest?topic=logging-mezmo"
                   external
                 />
               )

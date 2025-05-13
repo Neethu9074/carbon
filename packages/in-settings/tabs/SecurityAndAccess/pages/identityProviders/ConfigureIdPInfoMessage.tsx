@@ -24,7 +24,7 @@ export default function ConfigureIdPInfoMessage() {
       lowContrast
       actionButtonLabel={t('in-settings:tabs.viewDocumentation')}
       onActionButtonClick={() =>
-        goToPath('https://www.ibm.com/docs/en/instana-observability/current?topic=instana-configuring-authentication')
+        goToPath('https://www.ibm.com/docs/en/instana-observability/latest?topic=instana-configuring-authentication')
       }
       subtitle={t('in-settings:tabs.configureIdPCanBeDeletedThroughAPI')}
     />

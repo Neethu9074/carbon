@@ -46,7 +46,7 @@ export default function CoralogixForm({ form, onChange, disabled, areFieldsBlank
             documentationLink: (
               <Link
                 size="sm"
-                href="https://www.ibm.com/docs/en/instana-observability/current?topic=logging-coralogix"
+                href="https://www.ibm.com/docs/en/instana-observability/latest?topic=logging-coralogix"
                 external
               />
             )

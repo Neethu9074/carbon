@@ -106,12 +106,12 @@ const RootCauseSection = ({ incident, rcaRef }: RootCauseSectionProps) => {
       } else if (failureReason === 'not_enough_application_impact') {
         failedTextReason = t('in-events:RCA.failureReasons.notEnoughApplicationImpact');
         externalLink =
-          'https://www.ibm.com/docs/en/instana-observability/current?topic=applications-application-perspectives';
+          'https://www.ibm.com/docs/en/instana-observability/latest?topic=applications-application-perspectives';
         buttonText = t('in-events:RCA.failureReasons.viewDocumentation');
       }
     } else {
       failedTextReason = t('in-events:RCA.failureReasons.notSupported');
-      externalLink = 'https://www.ibm.com/docs/en/instana-observability/current?topic=ma-smart-alerts';
+      externalLink = 'https://www.ibm.com/docs/en/instana-observability/latest?topic=ma-smart-alerts';
       buttonText = t('in-events:RCA.failureReasons.viewDocumentation');
     }
 
@@ -227,7 +227,7 @@ const ProbableRootCauseCard = ({ children, rcaRef }: ProbableRootCauseCardProps)
           <Button
             kind="tertiary"
             icon="lib_views_external_link"
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=capabilities-root-cause-analysis#automatic-probable-root-cause-public-preview"
+            href="https://www.ibm.com/docs/en/instana-observability/latest?topic=capabilities-root-cause-analysis#automatic-probable-root-cause-public-preview"
           >
             {t('in-events:RCA.failureReasons.viewDocumentation')}
           </Button>

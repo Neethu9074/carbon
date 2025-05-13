@@ -105,7 +105,7 @@ export const LdapHelpDoc = () => (
       docLink: (
         <Link
           external
-          href=" https://www.ibm.com/docs/en/instana-observability/current?topic=configuration-configuring-ldap"
+          href=" https://www.ibm.com/docs/en/instana-observability/latest?topic=configuration-configuring-ldap"
         >
           null
         </Link>

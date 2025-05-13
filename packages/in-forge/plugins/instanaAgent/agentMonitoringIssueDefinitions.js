@@ -236,7 +236,7 @@ export default {
     },
     // TODO Third party sensor troubleshooting doc page needs to be made and linked here
     explanationLinkLabel: t('in-forge:plugins.remoteThirdParty.troubleShootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=agents-managing-host#troubleshooting`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=agents-managing-host#troubleshooting`
   },
   remote_third_party_config_err: {
     issueDescription: {
@@ -259,7 +259,7 @@ export default {
     },
     // TODO Third party sensor troubleshooting doc page needs to be made and linked here
     explanationLinkLabel: t('in-forge:plugins.remoteThirdParty.troubleShootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=agents-managing-host#troubleshooting`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=agents-managing-host#troubleshooting`
   },
   remote_third_party_unk_err: {
     issueDescription: {
@@ -278,7 +278,7 @@ export default {
     },
     // TODO Third party sensor troubleshooting doc page needs to be made and linked here
     explanationLinkLabel: t('in-forge:plugins.remoteThirdParty.troubleShootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=agents-managing-host#troubleshooting`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=agents-managing-host#troubleshooting`
   },
   turbonomic_sensor_exception: {
     issueDescription: {

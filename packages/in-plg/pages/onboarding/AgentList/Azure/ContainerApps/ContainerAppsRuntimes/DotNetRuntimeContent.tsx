@@ -30,7 +30,7 @@ export default function DotnetRuntimeContent({ agentKey, serverlessEndpoint }: O
               i18nKey={'in-plg:agentDetails.azure.referenceAppServiceDocumentationContent'}
               components={{
                 azureContainerAppsDoc: (
-                  <Link href="https://www.ibm.com/docs/en/instana-observability/current?topic=services-azure-app-service-tracing-net" target="_blank">
+                  <Link href="https://www.ibm.com/docs/en/instana-observability/latest?topic=services-azure-app-service-tracing-net" target="_blank">
                     {t('in-plg:agentDetails.azure.referenceAppServiceDocumentationContent')}
                   </Link>
                 )

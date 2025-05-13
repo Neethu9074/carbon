@@ -18,7 +18,7 @@ const globalMonitoringIssues = {
     },
     explanationLinkLabel: t('in-sdk:agentMonitoringExplanationLinkLabel'),
     explanationLinkHref:
-      'https://www.ibm.com/docs/en/instana-observability/current?topic=dashboards-example-infrastructure#limitations'
+      'https://www.ibm.com/docs/en/instana-observability/latest?topic=dashboards-example-infrastructure#limitations'
   },
   max_metrics_reached: {
     issueDescription: {
@@ -31,7 +31,7 @@ const globalMonitoringIssues = {
     },
     explanationLinkLabel: t('in-sdk:agentMonitoringExplanationLinkLabel'),
     explanationLinkHref:
-      'https://www.ibm.com/docs/en/instana-observability/current?topic=instana-monitoring-infrastructure#limitations'
+      'https://www.ibm.com/docs/en/instana-observability/latest?topic=instana-monitoring-infrastructure#limitations'
   }
 };
 

@@ -129,7 +129,7 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
             {t('in-settings:PermissionSection.infrastructureDfqUse')}&nbsp;
             <Link
               external
-              href="https://www.ibm.com/docs/en/instana-observability/current?topic=instana-filtering-dynamic-focus"
+              href="https://www.ibm.com/docs/en/instana-observability/latest?topic=instana-filtering-dynamic-focus"
             >
               {t('in-settings:PermissionSection.infrastructureDfqMore')}
             </Link>

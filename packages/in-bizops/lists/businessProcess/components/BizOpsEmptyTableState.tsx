@@ -43,7 +43,7 @@ function NoDataAvailable(href: string) {
           {t('in-bizops:processes.deployAgentFirst')}
           <br />
           {t('in-bizops:processes.forMoreInformation')}{' '}
-          <a href="https://www.ibm.com/docs/en/instana-observability/current?topic=instana-business-monitoring">
+          <a href="https://www.ibm.com/docs/en/instana-observability/latest?topic=instana-business-monitoring">
             {t('in-bizops:processes.documentation')}
           </a>
         </p>
