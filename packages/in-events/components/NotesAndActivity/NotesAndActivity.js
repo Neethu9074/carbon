@@ -32,13 +32,14 @@ import locals from './NotesAndActivity.mless';
 
 export function OpenNotesAndActivity({ event }) {
   // From the summaryNotes store we get the "open" value
-  const displayNotes = useObservable(summaryNotes$, [summaryNotes$])?.open;
+  const summaryNotesData = useObservable(summaryNotes$, [summaryNotes$]);
+  const displayNotes = summaryNotesData?.open;
 
   const incidentId = event?.get('id');
 
   const openNotes = () => {
     handleTracking(incidentId, EVENT_SIDE_PANEL_CLICK);
-    setSummaryNotes(true, displayNotes?.generateAISummary);
+    setSummaryNotes(true, summaryNotesData?.generateAISummary, summaryNotesData?.summaryLoading);
     MoveAIChatLauncher('500px');
   };
 
@@ -67,7 +68,8 @@ export function NotesAndActivity(props) {
   const loading = event == undefined;
 
   // From the summaryNotes store we get the "open" value
-  const displayNotes = useObservable(summaryNotes$, [summaryNotes$])?.open;
+  const summaryNotesData = useObservable(summaryNotes$, [summaryNotes$]);
+  const displayNotes = summaryNotesData?.open;
 
   // Boolean to control when the notes section is opened
   // Current value of the typed out note
@@ -102,7 +104,7 @@ export function NotesAndActivity(props) {
         slideIn
         selectorPageContent={targetID}
         onRequestClose={() => {
-          setSummaryNotes(false, displayNotes?.generateAISummary);
+          setSummaryNotes(false, summaryNotesData?.generateAISummary, summaryNotesData?.summaryLoading);
           setStretchOverlay(false);
           setSearchInput('');
           MoveAIChatLauncher('50px');

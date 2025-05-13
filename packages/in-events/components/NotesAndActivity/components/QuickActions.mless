@@ -63,6 +63,7 @@
     border-radius: 25px 25px 25px 25px;
     height: 0px;
     padding-inline-end: 1.25rem;
+    transition: border-color 0.25s ease;
   }
 
   .generating {

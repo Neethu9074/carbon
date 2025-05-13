@@ -19,7 +19,6 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import {
-  automationActionAiGenerationUnitEnabled,
   notesAndActivityEnabled,
   rcaUIEnabled,
   relatedEventsDatgridEnabled,
@@ -50,11 +49,11 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraSmartAlertEvent } from 'in-events/components/eventUtil';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import { FeedbackComponents } from 'in-events/components/EventTable';
+import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { toHtml } from 'in-services/formatters/markdown';
 import { emptyMap } from 'in-services/fixedImmutables';
-import { setSummaryNotes } from 'in-stores/incidents';
 import { Row, Col } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { deepCopy } from 'in-services/util/object';
@@ -156,6 +155,8 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
   const timeConfigLink = createHref(
     getEventViewWithTimeFocusedAt(incident.get('start'), windowSize, location, incident.get('id'), incident.get('type'))
   );
+  // From the summaryNotes store we get the "summaryLoading" value
+  const summaryLoading = useObservable(summaryNotes$, [summaryNotes$])?.summaryLoading;
 
   return (
     <Row withoutSideMargin>
@@ -189,7 +190,8 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
                   return <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" id="ai_summary_loading" />;
                 }}
                 onClick={() => {
-                  setSummaryNotes(true, automationActionAiGenerationUnitEnabled);
+                  // Open notes, generate summary, pass existing summary loading state
+                  setSummaryNotes(true, true, summaryLoading);
                 }}
               >
                 <div className={locals.generateSummaryButtonContents}>{t('in-events:notes.generateSummary')}</div>

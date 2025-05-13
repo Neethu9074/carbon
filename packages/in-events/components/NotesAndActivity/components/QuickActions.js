@@ -32,6 +32,7 @@ import locals from './QuickActions.mless';
 // Gives the user the options to add a note or generate a summary
 export function QuickActions(props) {
   const { displayQuickStart, incidentId, summaryCount } = props;
+  const summaryNotesData = useObservable(summaryNotes$, [summaryNotes$]);
   // To prevent multiple clicks of the generate summary button
   // add a enable boolean keeps track of the loading of the summary
   const [loadingSummary, setLoadingSummary] = useState(false);
@@ -50,14 +51,31 @@ export function QuickActions(props) {
     setLoadingSummary(false);
     clearTimeout(summaryTimeout);
     setShowTimeoutMessage(false);
+    setSummaryNotes(summaryNotesData?.open, summaryNotesData?.generateAISummary, false);
   }
 
   // Look at the summaryNotes store to determine if the ai generation should occur
-  const summaryNotesData = useObservable(summaryNotes$, [summaryNotes$]);
-  if (summaryNotesData?.generateAISummary == true) {
-    handleSummaryGenerate();
-    // Keep the side panel open but turn off the ai generation after its began
-    setSummaryNotes(true, false);
+  const generateAISummary = summaryNotesData?.generateAISummary;
+  // If the generate summary was triggered but the consent has not been accepted, highlight
+  // the button so they visually get attention brought to it.
+  if (generateAISummary == true && !automationActionAiGenerationUnitEnabled) {
+    const el = document.getElementById('generate_summary_consent');
+    if (el) {
+      el.style.borderColor = 'white';
+      setTimeout(() => {
+        el.style.borderColor = '#0f62fe';
+      }, 250);
+    }
+  } else if (generateAISummary == true && automationActionAiGenerationUnitEnabled) {
+    // Handle summary generation if the consent has been accepted
+    // and another summary is not already in progress
+    if (automationActionAiGenerationUnitEnabled && summaryNotesData?.summaryLoading == false) {
+      handleSummaryGenerate();
+      setSummaryNotes(true, false, true);
+    } else {
+      // Keep the side panel open but turn off the ai generation after its began and keep loading state
+      setSummaryNotes(true, false, summaryNotesData?.summaryLoading);
+    }
   }
 
   function handleSummaryGenerate() {
@@ -86,6 +104,7 @@ export function QuickActions(props) {
           kind="tertiary"
           size={'sm'}
           className={locals.actionsButton}
+          id="generate_summary_consent"
           target="_blank"
           onClick={e => {
             handleTracking(incidentId, NOTES_SUMMARY_CLICK_EPWT_LINK);

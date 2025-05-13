@@ -12,17 +12,19 @@ const summaryNotesStore = createStore({
   name: 'summaryNotes',
   initialValue: {
     open: false,
-    generateAISummary: false
+    generateAISummary: false,
+    summaryLoading: false
   }
 });
 
 export const summaryNotes = summaryNotesStore.observable;
 export const summaryNotes$ = summaryNotes;
 
-export function setSummaryNotes(open: boolean, generateAISummary: boolean) {
+export function setSummaryNotes(open: boolean, generateAISummary: boolean, summaryLoading: boolean) {
   const newValue = {
     open: open,
-    generateAISummary: generateAISummary
+    generateAISummary: generateAISummary,
+    summaryLoading: summaryLoading
   };
   summaryNotesStore.applyStateMutation(() => newValue);
 }
