@@ -9,6 +9,7 @@ import classNames from 'classnames';
 
 import { SvgIcon, CarbonInlineLoading, IconButton, CarbonSearch, CarbonModal, Stack } from '@instana/components';
 import { SidePanel } from '@instana/ibm-products';
+import { useObservable } from '@instana/hooks';
 
 // Not using Carbon tooltip since tooltip has not been migrated
 // Using Carbon tooltip would cause mismatch in design on the page
@@ -24,16 +25,20 @@ import { handleTracking } from 'in-events/components/NotesAndActivity/components
 import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { incidentSummarizationEnabled } from 'in-services/featureFlags';
 import { MoveAIChatLauncher } from 'in-events/components/AIChat/AIChat';
+import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { t } from 'in-i18n';
 
 import locals from './NotesAndActivity.mless';
 
-export function OpenNotesAndActivity({ displayNotes, setDisplayNotes, event }) {
+export function OpenNotesAndActivity({ event }) {
+  // From the summaryNotes store we get the "open" value
+  const displayNotes = useObservable(summaryNotes$, [summaryNotes$])?.open;
+
   const incidentId = event?.get('id');
 
   const openNotes = () => {
     handleTracking(incidentId, EVENT_SIDE_PANEL_CLICK);
-    setDisplayNotes(true);
+    setSummaryNotes(true, displayNotes?.generateAISummary);
     MoveAIChatLauncher('500px');
   };
 
@@ -53,13 +58,16 @@ export function OpenNotesAndActivity({ displayNotes, setDisplayNotes, event }) {
 }
 
 export function NotesAndActivity(props) {
-  const { event, displayNotes, setDisplayNotes, targetID } = props;
+  const { event, targetID } = props;
   // Extract the notes from the event
   const notes = getNotes(event);
   const incidentId = event?.get('id');
   const eventType = event?.get('type');
   const problemText = event?.get('problem')?.get('problemText');
   const loading = event == undefined;
+
+  // From the summaryNotes store we get the "open" value
+  const displayNotes = useObservable(summaryNotes$, [summaryNotes$])?.open;
 
   // Boolean to control when the notes section is opened
   // Current value of the typed out note
@@ -94,11 +102,10 @@ export function NotesAndActivity(props) {
         slideIn
         selectorPageContent={targetID}
         onRequestClose={() => {
-          setDisplayNotes(false);
+          setSummaryNotes(false, displayNotes?.generateAISummary);
           setStretchOverlay(false);
           setSearchInput('');
           MoveAIChatLauncher('50px');
-          // setUrlChange({ notes: 'close' });
         }}
         title={t('in-events:notes.notesActivity')}
         size={(stretchOverlay && 'lg') || 'md'}

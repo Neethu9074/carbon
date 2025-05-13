@@ -8,7 +8,6 @@ import { findIndex } from 'lodash';
 
 import { Stack, Typography, Pill, IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { useObservable } from '@instana/hooks';
 import { on } from '@instana/observables';
 
 import {
@@ -35,7 +34,6 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { aqmDataGridEventTableEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -182,12 +180,6 @@ function Header(props) {
 const IncidentHeader = ({ event, timeConfig }) => {
   const { location, createHref } = useNavigation();
   setOrDeleteMatrixKey(location, eventsPath, eventId, null);
-  // From the summaryNotes store we get the "open" value
-  const displayNotes = useObservable(summaryNotes$, [summaryNotes$])?.open;
-  // Function to open and close the notes in the store
-  const setDisplayNotes = val => {
-    setSummaryNotes(val, displayNotes?.generateAISummary);
-  };
 
   return (
     <LeftRightPadding className={locals.incidentHeader}>
@@ -200,9 +192,7 @@ const IncidentHeader = ({ event, timeConfig }) => {
             </Typography>
           </Stack>
           <Stack align="center" direction="horizontal">
-            {notesAndActivityEnabled && (
-              <OpenNotesAndActivity event={event} displayNotes={displayNotes} setDisplayNotes={setDisplayNotes} />
-            )}
+            {notesAndActivityEnabled && <OpenNotesAndActivity event={event} />}
             <IconButton
               href={createHref(location)}
               type="lib_openclose_cancel"
@@ -212,14 +202,7 @@ const IncidentHeader = ({ event, timeConfig }) => {
               align="left"
               size="normal"
             />
-            {notesAndActivityEnabled && (
-              <NotesAndActivity
-                event={event}
-                displayNotes={displayNotes}
-                setDisplayNotes={setDisplayNotes}
-                targetID="#eventSummaryContainer"
-              />
-            )}
+            {notesAndActivityEnabled && <NotesAndActivity event={event} targetID="#eventSummaryContainer" />}
           </Stack>
         </Stack>
       </Stack>

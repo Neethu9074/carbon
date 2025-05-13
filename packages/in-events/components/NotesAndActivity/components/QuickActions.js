@@ -22,14 +22,11 @@ import { EVENT_AI_GENERATE_SUBMIT, NOTES_SUMMARY_CLICK_EPWT_LINK } from 'in-serv
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPopover';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
-// import useUrlState from 'in-hooks/useUrlState';
-import { t } from 'in-i18n';
 import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { generateJournalSummary } from 'in-stores/events';
+import { t } from 'in-i18n';
 
 import locals from './QuickActions.mless';
-
-// var testThis = false;
 
 // Main view that gives an overview for this side panel
 // Gives the user the options to add a note or generate a summary
