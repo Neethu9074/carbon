@@ -98,11 +98,15 @@ export const QuickLinks = () => {
         )}
         <QuickLinkButton
           icon="lib_views_external_link"
-          iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.whatsNewLink')}
-          buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.whatsNewLink')}
+          iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.communityBlogsLink')}
+          buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.communityBlogsLink')}
           onClick={() => {
             trackCta(WELCOME_PAGE_WHATS_NEW_LINK_CLICK, getPageType(location.pathname));
-            window.open('https://community.ibm.com/community/user/instana/participate/blogs ', '_blank', 'noreferrer');
+            window.open(
+              'https://community.ibm.com/community/user/groups/community-home?CommunityKey=8d661410-d1fb-4067-ab9a-019475fc541e ',
+              '_blank',
+              'noreferrer'
+            );
           }}
         />
       </Stack>
