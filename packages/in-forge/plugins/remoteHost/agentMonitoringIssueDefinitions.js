@@ -45,6 +45,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.host.troubleshootingDocs'),
-    explanationLinkHref: 'https://www.ibm.com/docs/en/instana-observability/current'
+    explanationLinkHref: 'https://www.ibm.com/docs/en/instana-observability/latest'
   }
 };

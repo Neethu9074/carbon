@@ -66,7 +66,7 @@ export default function SplunkForm({ form, onChange, disabled, areFieldsBlank, i
             documentationLink: (
               <Link
                 size="sm"
-                href="https://www.ibm.com/docs/en/instana-observability/current?topic=logging-splunk"
+                href="https://www.ibm.com/docs/en/instana-observability/latest?topic=logging-splunk"
                 external
               />
             )

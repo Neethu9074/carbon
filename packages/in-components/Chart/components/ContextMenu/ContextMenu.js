@@ -17,7 +17,6 @@ import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoo
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { customDashboardsExportPdfWidget } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { DOWNLOAD_PDF_WIDGET } from 'in-services/tracking/tracking';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { minutes } from 'in-services/time';
@@ -40,10 +39,7 @@ export default class extends React.Component {
       chart,
       chartWrapper,
       isCustomDashboard,
-      setExportWidgetId,
-      setTooltipRef,
-      setShouldExportWidget,
-      trackCta,
+      exportWidgetToPdf,
       tooltipRef
     } = props;
 
@@ -73,14 +69,7 @@ export default class extends React.Component {
     if (isCustomDashboard && customDashboardsExportPdfWidget) {
       basicButtonConfigs.push({
         ...downloadPDFAction,
-        onClick: () => {
-          setTooltipRef(tooltipRef);
-          setShouldExportWidget(true);
-          const widgetNode = chartWrapper.closest('[id^="widget-"]');
-          const widgetId = widgetNode?.id.replace(/^widget-/, '') || '';
-          trackCta(DOWNLOAD_PDF_WIDGET, { widgetId });
-          downloadPDFAction.onClick({ widgetId, setExportWidgetId });
-        }
+        onClick: () => exportWidgetToPdf({ target: chartWrapper, tooltipRef, isHistogram: false })
       });
     }
 

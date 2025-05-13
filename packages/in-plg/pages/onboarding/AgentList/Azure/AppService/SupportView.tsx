@@ -23,7 +23,7 @@ export const Documentations = ({ runtime }: Runtime): JSX.Element => {
           <DocumentLink text={t('in-plg:agentDetails.azure.monitoringAzure')} href="https://ibm.biz/ms-azure-agent" />
           <DocumentLink
             text={t('in-plg:agentDetails.azure.dotnet.monitoringAppService')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=services-azure-app-service-tracing-net"
+            href="https://www.ibm.com/docs/en/instana-observability/latest?topic=services-azure-app-service-tracing-net"
           />
         </Stack>
       );

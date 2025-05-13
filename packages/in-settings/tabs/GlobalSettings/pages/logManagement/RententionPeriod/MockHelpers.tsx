@@ -59,7 +59,7 @@ export const errorFeedback = (
           <Typography variant="body-regular">{errorMessage}</Typography>
           <Link
             className={locals.newLine}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=support"
+            href="https://www.ibm.com/docs/en/instana-observability/latest?topic=support"
           >
             {contactSupportLink}
           </Link>

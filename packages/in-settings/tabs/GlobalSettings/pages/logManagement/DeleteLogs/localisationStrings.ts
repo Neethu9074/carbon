@@ -40,7 +40,11 @@ export const deleteLogsLocalisationStrings = {
   toastErrorMessage: t('in-settings:tabs.deleteLogs.toastErrorMessage'),
   toastNoLogsMessage: t('in-settings:tabs.deleteLogs.toastNoLogsMessage'),
   warning: t('in-settings:tabs.deleteLogs.warning'),
-  learnMore: t('in-settings:tabs.deleteLogs.learnMore')
+  learnMore: t('in-settings:tabs.deleteLogs.learnMore'),
+  deletionAlreadyRunning: t('in-settings:tabs.deleteLogs.deletionAlreadyRunning'),
+  deleting: t('in-settings:tabs.deleteLogs.deletionAlreadyRunning'),
+  requesting: t('in-settings:tabs.deleteLogs.requesting'),
+  deletionStarted: t('in-settings:tabs.deleteLogs.deletionStarted')
 };
 
 export const deletionTableLocalisationStrings = {
@@ -58,4 +62,14 @@ export const deletionTableLocalisationStrings = {
   success: t('in-settings:tabs.deleteLogs.success'),
   failed: t('in-settings:tabs.deleteLogs.failed'),
   inProgress: t('in-settings:tabs.deleteLogs.inProgress')
+};
+
+export const modalLocalisationStrings = {
+  typeValidation: t('in-settings:tabs.deleteLogs.typeToContinue', {
+    logs: t('in-settings:tabs.deleteLogs.logs')
+  }),
+  untilDate: t('in-settings:tabs.deleteLogs.untilDateValidationMessage'),
+  untilTime: t('in-settings:tabs.deleteLogs.untilTimeValidationMessage'),
+  reasonRequired: t('in-settings:tabs.deleteLogs.reasonValidationMessage'),
+  correctTimeFormat: t('in-settings:tabs.deleteLogs.correctTimeFormat')
 };

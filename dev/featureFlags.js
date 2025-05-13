@@ -50,7 +50,6 @@ module.exports = {
   amplitudeExperimentEnabled: false,
   ibmCommonEnabled: true,
   loggingEnabled: true,
-  deleteLogsV3Enabled: false,
   patternRecognitionEnabled: false,
   notesAndActivityEnabled: true,
   carbonTooltipEnabled: true,
@@ -120,10 +119,10 @@ module.exports = {
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
   syntheticRbacLimitedEnabled: true,
-  syntheticDNSEnabled: true,
+  syntheticDnsEnabled: true,
   syntheticRunNowEnabled: true,
   syntheticNodeJs22Enabled: true,
-  syntheticSSLImprovementEnabled: true,
+  syntheticSslImprovementEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,
@@ -192,10 +191,10 @@ module.exports = {
   websitesSmartAlertDialogViewEnabled: true,
   websitesBusinessMonitoringEnabled: true,
   mobileAppSmartAlertDialogViewEnabled: true,
-  ansibleScriptGenerationEnabled: true,
   actionAiGenerationEnabled: true,
   logConsoleEnabled: true,
   mobileAppSmartAlertSlownessBlueprintEnabled: false,
   regexMatchEnabled: true,
-  whatsNewBannerEnabled: true
+  whatsNewBannerEnabled: true,
+  allSmartAlertsViewEnabled: false
 };

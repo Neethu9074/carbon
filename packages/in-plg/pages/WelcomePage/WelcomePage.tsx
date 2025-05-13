@@ -53,7 +53,8 @@ export default function WelcomePage() {
           <PageContent />
         </Stack>
       </ThemeProvider>
-      {solisEnabled &&
+      {false && solisEnabled &&
+        // temporary disabled for a demo given for exec
         (randomNumber < 0.5 ? (
           // @ts-expect-error TS2304: Cannot find name solis
           // component is loaded from a script in ui-client/packages/in-client/index.html
@@ -63,6 +64,12 @@ export default function WelcomePage() {
           // component is loaded from a script in ui-client/packages/in-client/index.html
           <solis-teaser product="concert" type="pop-up" variation="vulnerabilities" />
         ))}
+      {solisEnabled &&
+        // temporary overridden for a demo given for exec
+          // @ts-expect-error TS2304: Cannot find name solis
+          // component is loaded from a script in ui-client/packages/in-client/index.html
+          <solis-teaser product="kubecost" type="pop-up" variation="demo" />
+        }
     </div>
   );
 }

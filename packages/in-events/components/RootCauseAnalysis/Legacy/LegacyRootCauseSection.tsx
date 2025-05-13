@@ -232,7 +232,6 @@ function FeedbackComponent({
           submitTracker={() => {
             trackCta(EVENT_RCA_FEEDBACK_SUBMIT, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
           }}
-          submitMetadata={extractFeedbackMetadataFromIncident(incident, snapshotMetadata)}
         />
       );
     }
@@ -318,21 +317,6 @@ function determineEntityTypeFromEntityIDMap(entityID: Map<string, string>) {
   if (pluginName === 'application' || pluginName === 'service' || pluginName === 'endpoint') return pluginName;
 
   return 'infrastructure';
-}
-
-function extractFeedbackMetadataFromIncident(incident: EventOrMap, snapshotMetadata: Map<string, string>) {
-  let entityType = '';
-
-  const metrics = incident.getIn(['metadata', 'metrics']) ?? List();
-
-  const metricInfo = metrics
-    .map((metricObject: Map<string, string>) => {
-      return metricObject.get('metricName');
-    })
-    .toArray();
-  if (snapshotMetadata && snapshotMetadata.has('EntityType')) entityType = snapshotMetadata.get('EntityType');
-
-  return { entityType, metricInfo };
 }
 
 // Eventually should be directly retrieved once all RCA inclusive events don't use the old data structure anymore

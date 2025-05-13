@@ -11,6 +11,7 @@ import {
   RolesTableHeader
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
 import { BatchActionItemProps } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
+import { LimitedAccessScope } from 'in-stores/permission';
 import { deepFreeze } from 'in-services/util/object';
 import { t } from 'in-i18n';
 
@@ -51,3 +52,23 @@ export const ROLES_TABLE_DELETE_MENU_ITEM: RolesMenuItem = deepFreeze({
   isDisabledMenuItem: false,
   label: ''
 } as const);
+
+export const LEAST_ROLE_PERMISSIONS = Object.freeze([
+  LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE,
+  LimitedAccessScope.LIMITED_AUTOMATION_SCOPE,
+  LimitedAccessScope.LIMITED_BIZOPS_SCOPE,
+  LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
+  LimitedAccessScope.LIMITED_KUBERNETES_SCOPE,
+  LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE,
+  LimitedAccessScope.LIMITED_NUTANIX_SCOPE,
+  LimitedAccessScope.LIMITED_OPENSTACK_SCOPE,
+  LimitedAccessScope.LIMITED_PCF_SCOPE,
+  LimitedAccessScope.LIMITED_PHMC_SCOPE,
+  LimitedAccessScope.LIMITED_POWERVC_SCOPE,
+  LimitedAccessScope.LIMITED_SAP_SCOPE,
+  LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE,
+  LimitedAccessScope.LIMITED_VSPHERE_SCOPE,
+  LimitedAccessScope.LIMITED_WEBSITES_SCOPE,
+  LimitedAccessScope.LIMITED_XENSERVER_SCOPE,
+  LimitedAccessScope.LIMITED_ZHMC_SCOPE
+] as const);

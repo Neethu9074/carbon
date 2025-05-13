@@ -96,7 +96,7 @@ export default function RegexMetricSelectorOverlay({
 }
 
 const documentationLink =
-  'https://www.ibm.com/docs/en/instana-observability/current?topic=dashboards-example-infrastructure';
+  'https://www.ibm.com/docs/en/instana-observability/latest?topic=dashboards-example-infrastructure';
 
 function HelpOverlay() {
   return (

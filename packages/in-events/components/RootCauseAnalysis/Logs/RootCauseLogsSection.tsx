@@ -14,7 +14,7 @@ import RootCauseContextDashboard from 'in-events/components/RootCauseAnalysis/Lo
 import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hooks/SelectedRootCauseContext';
 import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
 import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
-import { trackRcaClick } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
+import { trackClick } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import { EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK } from 'in-services/tracking/eventNames';
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -63,7 +63,7 @@ const RootCauseLogsSection = ({ incident, rootCause }: RootCauseLogsSectionProps
 
   const probabilityScore = rootCause.probFailure;
   const rcaTrackingData = {
-    incident,
+    event: incident,
     location,
     rootCauseTab: selectedRootCause,
     rcaEntityType: rcaEntityType,
@@ -74,7 +74,7 @@ const RootCauseLogsSection = ({ incident, rootCause }: RootCauseLogsSectionProps
     <Collapsible
       onOpen={() => {
         const payload = { expanded: true };
-        trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK, payload });
+        trackClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK, payload });
       }}
     >
       <Collapsible.Header style={{ background: 'none' }}>

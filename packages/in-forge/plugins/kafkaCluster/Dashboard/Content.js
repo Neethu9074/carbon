@@ -194,13 +194,13 @@ const ExpandableClientMetrics = connectTo(
     clientSnapshots: timeConfig$
       .flatMap(timeConfig => createClusterClientsSubscription({ snapshotId: snapshot.get('id'), timeConfig }))
       // FIXME As a workaround to ensure the tables are not causing a memory leak and the UI to crash,
-      //       we limit the number of client subscriptions to an arbitrary number, where 100 can still yield thousands
+      //       we limit the number of client subscriptions to an arbitrary number, where 1000 can still yield thousands
       //       of individual clients in each table. To fully resolve this, either server-side pagination should be used
       //       in the table, or the rows of the table need to be resolved lazily. So that getSnapshots is not called
       //       for each of the items.
       //       As a current trade-off of this workaround, the list might not be complete. But with tens of thousands of rows,
       //       that is rarely relevant, especially when they are not usable due to a frozen UI.
-      .map(clientSubscriptions => clientSubscriptions.slice(0, 100))
+      .map(clientSubscriptions => clientSubscriptions.slice(0, 1000))
       .flatMap(getSnapshots)
   }),
   function ProducersAndConsumersTables({ timeConfig, clientSnapshots }) {

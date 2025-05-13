@@ -4,15 +4,22 @@
  * Copyright IBM Corp. 2025
  */
 
-import { ApiRole, RoleOverview } from '@instana/types';
+import { ApiRole, RoleDetails, RoleOverview } from '@instana/types';
 
 import {
   DataTableHeader,
   OverflowMenuItemProps
 } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
-import { ProductAreaPermissionUnion } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/roleForm';
+import { ProductAreaType } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
+import { PermissionsUnion } from 'in-stores/permission';
+
+export type ProductAreaPermissionUnion = PermissionsUnion | ProductAreaType;
 
 export interface ApiRoleWithPermissions extends Omit<ApiRole, 'permissions'> {
+  permissions: Array<ProductAreaPermissionUnion>;
+}
+
+export interface RoleDetailsWithPermissions extends Omit<RoleDetails, 'permissions'> {
   permissions: Array<ProductAreaPermissionUnion>;
 }
 

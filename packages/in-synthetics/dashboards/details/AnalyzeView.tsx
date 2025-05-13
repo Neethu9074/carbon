@@ -36,7 +36,7 @@ import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDe
 import getTestResultListStatus from 'in-synthetics/subscriptions/getTestResultListStatus';
 import { startTimeTagName, testIdTagName, testResultIdTagName } from 'in-synthetics/tags';
 import DownloadButton from 'in-synthetics/dashboards/details/components/DownloadButton';
-import { syntheticDNSEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
+import { syntheticDnsEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -263,7 +263,7 @@ const AnalyzeView = () => {
                 </Col>
               </Row>
             )}
-            {syntheticDNSEnabled && isDNS && resultList.data?.items[0]?.testResultCommonProperties?.ismDetails && (
+            {syntheticDnsEnabled && isDNS && resultList.data?.items[0]?.testResultCommonProperties?.ismDetails && (
               <Row>
                 <Col xs>
                   <DNSTestDetails resultList={resultList} />

@@ -57,7 +57,6 @@ export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
-export const deleteLogsV3Enabled = isFeatureFlagEnabled('deleteLogsV3Enabled');
 export const regexMatchEnabled = isFeatureFlagEnabled('regexMatchEnabled');
 
 export const patternRecognitionEnabled = isFeatureFlagEnabled('patternRecognitionEnabled');
@@ -128,7 +127,7 @@ export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticI
 export const syntheticRbacLimitedEnabled = isFeatureFlagEnabled('syntheticRbacLimitedEnabled');
 
 // Synthetic DNS feature flag
-export const syntheticDNSEnabled = isFeatureFlagEnabled('syntheticDNSEnabled');
+export const syntheticDnsEnabled = isFeatureFlagEnabled('syntheticDnsEnabled');
 
 // Synthetic runNow feature flag
 export const syntheticRunNowEnabled = isFeatureFlagEnabled('syntheticRunNowEnabled');
@@ -137,7 +136,7 @@ export const syntheticRunNowEnabled = isFeatureFlagEnabled('syntheticRunNowEnabl
 export const syntheticNodeJs22Enabled = isFeatureFlagEnabled('syntheticNodeJs22Enabled');
 
 // Synthetic SSL Improvement feature flag
-export const syntheticSSLImprovementEnabled = isFeatureFlagEnabled('syntheticSSLImprovementEnabled');
+export const syntheticSslImprovementEnabled = isFeatureFlagEnabled('syntheticSslImprovementEnabled');
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
@@ -253,6 +252,9 @@ export const mobileAppSmartAlertSlownessBlueprintEnabled = isFeatureFlagEnabled(
 
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
+
+// Slowness Blueprint in Mobile smart alert
+export const allSmartAlertsViewEnabled = isFeatureFlagEnabled('allSmartAlertsViewEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords
@@ -381,5 +383,4 @@ export const sloBurnRateEnabled = isFeatureFlagEnabled('sloBurnRateEnabled', fal
 export const solisEnabled = isFeatureFlagEnabled('solisEnabled', false);
 export const tealiumPrivacyEnabled = isFeatureFlagEnabled('tealiumPrivacyEnabled', false);
 export const whatsNewBannerEnabled = isFeatureFlagEnabled('whatsNewBannerEnabled', false);
-export const ansibleScriptGenerationEnabled = isFeatureFlagEnabled('ansibleScriptGenerationEnabled', false);
 export const relatedEventsDatgridEnabled = isFeatureFlagEnabled('relatedEventsDatagridEnabled', false);

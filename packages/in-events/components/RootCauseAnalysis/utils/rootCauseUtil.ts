@@ -339,29 +339,31 @@ export function getProbabilityLevel(probabilityScore: number | null | undefined)
   }
 }
 export interface TrackRcaClickProps {
-  incident: Event;
+  event: Event;
   location: Location;
   rootCauseTab: number;
   rcaEntityType: string | QualifiedRCAEntityTypes;
   probabilityScore: number;
   ctaEvent?: string;
   payload?: object;
+  parentPageCategory?: string;
 }
-export function trackRcaClick({
-  incident,
+export function trackClick({
+  event,
   location,
   rootCauseTab,
   rcaEntityType,
   probabilityScore,
   ctaEvent,
-  payload
+  payload,
+  parentPageCategory
 }: TrackRcaClickProps) {
   const data = {
-    category: incident.metadata?.eventConfigurationType,
+    category: event.metadata?.eventConfigurationType,
     path: location.pathname,
-    eventId: incident.id,
-    parentPageCategory: productAreas.prc,
-    parentPageName: getEventTrackingType(incident),
+    eventId: event.id,
+    parentPageCategory: parentPageCategory ? parentPageCategory : productAreas.prc,
+    parentPageName: getEventTrackingType(event),
     CTA: ctaEvent,
     data: JSON.stringify(payload),
     menuItem: rootCauseTab,

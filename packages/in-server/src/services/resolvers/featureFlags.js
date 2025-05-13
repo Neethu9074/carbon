@@ -246,11 +246,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'deleteLogsV3Enabled',
-    instanaCtlKey: 'feature.delete.logs.v3.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'logWidgetsEnabled',
     instanaCtlKey: 'feature.log.widgets.enabled',
     defaultValue: false
@@ -356,7 +351,7 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'screenRenderingDurationEnabled',
+    uiClientKey: 'mobileAppScreenRenderingDurationEnabled',
     instanaCtlKey: 'feature.eum.mobile.app.screen.rendering.duration.enabled',
     defaultValue: false
   },
@@ -461,7 +456,7 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'syntheticDNSEnabled',
+    uiClientKey: 'syntheticDnsEnabled',
     instanaCtlKey: 'feature.synthetic.dns.enabled',
     defaultValue: false
   },
@@ -476,7 +471,7 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticSSLImprovementEnabled',
+    uiClientKey: 'syntheticSslImprovementEnabled',
     instanaCtlKey: 'feature.synthetic.ssl.improvement.enabled',
     defaultValue: false
   },
@@ -579,7 +574,7 @@ module.exports = exports = [
   {
     uiClientKey: 'incidentSummarizationEnabled',
     instanaCtlKey: 'feature.incident.ai.summarization.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'eventsAIChatEnabled',
@@ -942,11 +937,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'ansibleScriptGenerationEnabled',
-    instanaCtlKey: 'feature.automation.ansible.script.generation.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'logConsoleEnabled',
     instanaCtlKey: 'feature.log.console.enabled',
     defaultValue: false
@@ -959,6 +949,11 @@ module.exports = exports = [
   {
     uiClientKey: 'relatedEventsDatagrid',
     instanaCtlKey: 'feature.related.events.datagrid.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'allSmartAlertsViewEnabled',
+    instanaCtlKey: 'feature.all.smart.alerts.view.enabled',
     defaultValue: false
   }
 ];

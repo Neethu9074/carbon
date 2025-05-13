@@ -26,7 +26,7 @@ export default function FeedbackStepOne({ form, setForm }: FeedbackStepConfigs) 
       onChange={e => {
         if (e.target) {
           const target = e.target as HTMLTextAreaElement;
-          setValue(form, ['thingsWentWrong'], target.value);
+          setValue(form, ['feedback'], target.value);
         }
       }}
     />

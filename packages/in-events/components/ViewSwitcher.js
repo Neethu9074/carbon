@@ -13,7 +13,8 @@ import {
   agentMonitoringIssuesEnabled,
   cveIssueEnabled,
   playwithEnabled,
-  prcIssueEnabled
+  prcIssueEnabled,
+  allSmartAlertsViewEnabled
 } from 'in-services/featureFlags';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -66,6 +67,14 @@ const generateEventTypes = isInternalVisible => [
         {
           id: 'prc_issue',
           label: eventTypeLabels.prc_issue
+        }
+      ]
+    : []),
+  ...(allSmartAlertsViewEnabled
+    ? [
+        {
+          id: 'smart_alerts',
+          label: eventTypeLabels.smart_alerts
         }
       ]
     : [])

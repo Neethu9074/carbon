@@ -48,7 +48,7 @@ export function notDuplicatedMetricValues(fieldsArray: any): ValidationResult {
 function hasDuplicatesByProperties(array: Metric[], properties: Array<keyof Metric>): boolean {
   const compositeKeysSet = new Set<string>();
 
-  for (const object of array) {
+  for (var object of array) {
     if (Object.values(object).some(value => value !== '')) {
       const compositeKey = properties.map(property => String(object[property])).join('_');
 

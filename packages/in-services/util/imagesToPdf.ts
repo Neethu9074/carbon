@@ -16,7 +16,7 @@ export interface ImagesToPdfProps {
   imageScale: number;
   pdfSettings?: jsPDFOptions;
   shouldFitPdf: boolean;
-  shouldDownloadAfterGeneration: boolean;
+  shouldDownloadAfterGeneration?: boolean;
 }
 
 interface Props extends Omit<ImagesToPdfProps, 'imagesUrls'> {
@@ -44,7 +44,7 @@ export const imagesToPdf = ({
   headerUrl,
   imageScale,
   shouldFitPdf,
-  shouldDownloadAfterGeneration
+  shouldDownloadAfterGeneration = true
 }: ImagesToPdfProps): Promise<{
   onfulfilled: boolean;
   pdf: jsPDF;
@@ -195,7 +195,7 @@ export function stackItemsInPdf({ images, pdf, headerImage, format }: FunctionPr
   const pdfWidth = pdf.internal.pageSize.getWidth();
   const headerHeight = headerImage ? (headerImage.height * pdfWidth) / headerImage.width : 0;
   const pdfHeight = pdf.internal.pageSize.getHeight() - headerHeight;
-  let position = 0;
+  let position = headerHeight;
 
   for (const image of images) {
     let imgWidth = image.width;

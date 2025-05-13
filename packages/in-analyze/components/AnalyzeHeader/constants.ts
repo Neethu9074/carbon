@@ -57,6 +57,6 @@ export const dataSourceSources: DataSourceMatrix[] = [
 export const analyzeDocs = {
   logs: 'https://ibm.biz/instana-logging',
   logsRetention:
-    'https://www.ibm.com/docs/en/instana-observability/current?topic=logging-configuring-extended-log-retention',
-  infrastructure: 'https://www.ibm.com/docs/en/instana-observability/current?topic=analytics-analyze-infrastructure'
+    'https://www.ibm.com/docs/en/instana-observability/latest?topic=logging-configuring-extended-log-retention',
+  infrastructure: 'https://www.ibm.com/docs/en/instana-observability/latest?topic=analytics-analyze-infrastructure'
 } as Partial<Record<Entity | string, string>>;

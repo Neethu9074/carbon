@@ -65,7 +65,7 @@ export default function FalconLogScaleForm({ form, onChange, disabled, areFields
             documentationLink: (
               <Link
                 size="sm"
-                href="https://www.ibm.com/docs/en/instana-observability/current?topic=logging-humio"
+                href="https://www.ibm.com/docs/en/instana-observability/latest?topic=logging-humio"
                 external
               />
             )

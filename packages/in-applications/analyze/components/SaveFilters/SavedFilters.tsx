@@ -29,6 +29,7 @@ import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { setClickedFilter } from 'in-applications/analyze/utils/filterUtils';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import usePopoverClickHandler from 'in-hooks/usePopoverClickHandler';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
@@ -43,11 +44,11 @@ interface SavedFiltersProps {
 }
 
 export const SavedFilters = ({ dataSource, result, setUrlState, setFilterToEdit }: SavedFiltersProps): JSX.Element => {
-  const [isFiltersListOpen, setIsFiltersListOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<SavedFilter[]>([]);
+  const { open, toggle, ref } = usePopoverClickHandler();
 
-  useDisabledBodyScroll(isFiltersListOpen);
+  useDisabledBodyScroll(open);
 
   useEffect(() => {
     const fetchedData = result?.data?.filter(item => item.area === dataSource) || [];
@@ -69,7 +70,7 @@ export const SavedFilters = ({ dataSource, result, setUrlState, setFilterToEdit 
   const handleEdit = (event: React.MouseEvent, filter: SavedFilter) => {
     stopPropagationAndPreventDefault(event);
     setFilterToEdit(filter);
-    setIsFiltersListOpen(false);
+    if (open) toggle();
   };
 
   const handleClick = (filter: SavedFilter) => {
@@ -88,7 +89,7 @@ export const SavedFilters = ({ dataSource, result, setUrlState, setFilterToEdit 
           })
     });
     setClickedFilter(filter);
-    setIsFiltersListOpen(false);
+    if (open) toggle();
   };
 
   const handleDelete = (filter: SavedFilter) => {
@@ -96,13 +97,14 @@ export const SavedFilters = ({ dataSource, result, setUrlState, setFilterToEdit 
     addActiveDialog(<DeleteFilterModal filterId={id} filterName={name} />);
   };
 
-  const handleClose = () => {
-    setIsFiltersListOpen(false);
-  };
   const itemActions = (item: SavedFilter) => {
     return (
       <>
-        <IconButton label="edit" kind="ghost" onClick={event => handleEdit(event, item)}>
+        <IconButton
+          label="edit"
+          kind="ghost"
+          onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleEdit(event, item)}
+        >
           <SvgIcon type="lib_actions_edit" size="s" />
         </IconButton>
         <IconButton label="delete" kind="ghost" onClick={() => handleDelete(item)}>
@@ -114,15 +116,13 @@ export const SavedFilters = ({ dataSource, result, setUrlState, setFilterToEdit 
 
   return (
     <Layer>
-      <Popover open={isFiltersListOpen} align="bottom-end" onRequestClose={handleClose}>
+      <Popover ref={ref} open={open} align="bottom-end">
         <Button
-          onClick={() => setIsFiltersListOpen(!isFiltersListOpen)}
+          onClick={toggle}
           kind="tertiary"
-          aria-expanded={isFiltersListOpen}
+          aria-expanded={open}
           aria-haspopup
-          renderIcon={() => (
-            <RenderIcon size="s" type={isFiltersListOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} />
-          )}
+          renderIcon={() => <RenderIcon size="s" type={open ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} />}
           size="sm"
         >
           {t('in-applications:analyze.filters')}

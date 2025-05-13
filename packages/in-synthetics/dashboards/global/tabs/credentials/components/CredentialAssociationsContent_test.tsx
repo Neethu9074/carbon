@@ -45,8 +45,8 @@ describe(CredentialAssociationsContent, () => {
     expect(getByTestId('noAssociations')).not.toBeNull();
   });
 
-  it('Should render an overlay with 6 Associations', () => {
+  it('Should render an overlay with 6 associations', () => {
     const { getByText } = render(<CredentialAssociationsContent item={credentialDataWithAssociations} />);
-    expect(getByText('6 Associations')).toBeTruthy();
+    expect(getByText('6 associations')).toBeTruthy();
   });
 });

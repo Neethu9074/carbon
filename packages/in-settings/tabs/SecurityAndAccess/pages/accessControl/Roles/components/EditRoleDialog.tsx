@@ -20,15 +20,14 @@ import {
 import { ApiRole, CreateRole } from '@instana/types';
 
 import {
-  containsAllPermissions,
-  containsSomePermissions,
-  togglePermissions
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/EditRoleDialog.utils';
-import {
   createRoleForm,
   DefaultRoleFormFieldValues,
   RoleFormFields
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/roleForm';
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/EditRoleDialog.form';
+import {
+  containsAnyPermission,
+  togglePermissions
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/EditRoleDialog.utils';
 import MapFormProvider, {
   FORM_MODE,
   FormMode,
@@ -45,6 +44,7 @@ import { SETTINGS_ROLE_SUBMIT } from 'in-services/tracking/eventNames';
 import useFormSubmission from 'in-hooks/useFormSubmission';
 import useDerivedState from 'in-hooks/useDerivedState';
 import { FetchStatus } from 'in-hooks/utils/types';
+import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
 import locals from './EditRoleDialog.mless';
@@ -92,15 +92,17 @@ export default function EditRoleDialog({ mode, formValues }: EditRoleDialogProps
       payload,
       onError: () => {
         addMessage({
-          type: 'danger',
-          content: t('in-components:error.serverErrorInfo')
+          content: t('in-components:error.serverErrorInfo'),
+          timeout: seconds.toMillis(4),
+          type: 'danger'
         });
       },
       onSuccess: () => {
         const { permissions, ...customData } = payload;
         addMessage({
-          type: 'success',
-          content: t('in-settings:dialogs.role.roleSuccessfullySaved')
+          content: t('in-settings:dialogs.role.roleSuccessfullySaved'),
+          timeout: seconds.toMillis(6),
+          type: 'success'
         });
         unstable_trackEvent(
           mode === FORM_MODE.EDIT ? UPDATED_OBJECT : CREATED_OBJECT,
@@ -293,7 +295,7 @@ function WebsitesSection() {
   return (
     <>
       <CarbonToggle
-        toggled={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_WEBSITES_SCOPE])}
+        toggled={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_WEBSITES_SCOPE])}
         id="rbac-role-website-access"
         hideLabel
         labelText={t('in-settings:dialogs.role.permissionLabel', {
@@ -301,14 +303,14 @@ function WebsitesSection() {
         })}
         onToggle={enabled => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_WEBSITES_SCOPE],
-            permissionsToRemoveOnDisabled: [
-              LimitedAccessScope.LIMITED_WEBSITES_SCOPE,
+            current: permissionsField.value,
+            enabled,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_WEBSITES_SCOPE],
+            toRemoveOnDisabled: [
               Capability.CAN_CONFIGURE_EUM_APPLICATIONS,
               Capability.CAN_CONFIGURE_WEBSITE_SMART_ALERTS
             ],
-            enabled
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_WEBSITES_SCOPE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
@@ -319,39 +321,35 @@ function WebsitesSection() {
         className={locals.checkboxGroup}
       >
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_EUM_APPLICATIONS])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_EUM_APPLICATIONS])}
           id="rbac-role-websites-write-access"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_EUM_APPLICATIONS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_WEBSITES_SCOPE,
-                Capability.CAN_CONFIGURE_EUM_APPLICATIONS
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_EUM_APPLICATIONS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_CONFIGURE_EUM_APPLICATIONS],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_EUM_APPLICATIONS],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_WEBSITES_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_WEBSITE_SMART_ALERTS])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_WEBSITE_SMART_ALERTS])}
           id="rbac-role-websites-config-smart-alerts"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_WEBSITE_SMART_ALERTS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_WEBSITES_SCOPE,
-                Capability.CAN_CONFIGURE_WEBSITE_SMART_ALERTS
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_WEBSITE_SMART_ALERTS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_CONFIGURE_WEBSITE_SMART_ALERTS],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_WEBSITE_SMART_ALERTS],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_WEBSITES_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
@@ -369,7 +367,7 @@ function MobileAppsSection() {
   return (
     <>
       <CarbonToggle
-        toggled={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE])}
+        toggled={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE])}
         id="rbac-role-mobile-apps-access"
         hideLabel
         labelText={t('in-settings:dialogs.role.permissionLabel', {
@@ -377,14 +375,14 @@ function MobileAppsSection() {
         })}
         onToggle={enabled => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE],
-            permissionsToRemoveOnDisabled: [
-              LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE,
+            current: permissionsField.value,
+            enabled,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE],
+            toRemoveOnDisabled: [
               Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING,
               Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS
             ],
-            enabled
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
@@ -395,39 +393,35 @@ function MobileAppsSection() {
         className={locals.checkboxGroup}
       >
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING])}
           id="rbac-role-mobile-apps-write-access"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE,
-                Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS])}
           id="rbac-role-mobile-apps-config-smart-alerts"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE,
-                Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
@@ -445,7 +439,7 @@ function BusinessMonitoringSection() {
   return (
     <>
       <CarbonToggle
-        toggled={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_BIZOPS_SCOPE])}
+        toggled={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_BIZOPS_SCOPE])}
         id="rbac-role-business-monitoring-access"
         hideLabel
         labelText={t('in-settings:dialogs.role.permissionLabel', {
@@ -453,10 +447,11 @@ function BusinessMonitoringSection() {
         })}
         onToggle={enabled => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_BIZOPS_SCOPE],
-            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_BIZOPS_SCOPE],
+            toRemoveOnDisabled: [AreaPermission.ACCESS_BIZOPS],
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_BIZOPS_SCOPE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
@@ -467,17 +462,18 @@ function BusinessMonitoringSection() {
         className={locals.checkboxGroup}
       >
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [AreaPermission.ACCESS_BIZOPS])}
+          checked={containsAnyPermission(permissionsField.value, [AreaPermission.ACCESS_BIZOPS])}
           id="rbac-role-business-manage-and-configure"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: AreaPermission.ACCESS_BIZOPS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS],
-              permissionsToRemoveOnDisabled: [AreaPermission.ACCESS_BIZOPS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [AreaPermission.ACCESS_BIZOPS],
+              toRemoveOnDisabled: [AreaPermission.ACCESS_BIZOPS],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_BIZOPS_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
@@ -495,7 +491,7 @@ function ApplicationsSection() {
   return (
     <>
       <CarbonToggle
-        toggled={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE])}
+        toggled={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE])}
         id="rbac-role-applications-access"
         hideLabel
         labelText={t('in-settings:dialogs.role.permissionLabel', {
@@ -503,17 +499,17 @@ function ApplicationsSection() {
         })}
         onToggle={enabled => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE],
-            permissionsToRemoveOnDisabled: [
-              LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE,
+            current: permissionsField.value,
+            enabled,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE],
+            toRemoveOnDisabled: [
               Capability.CAN_VIEW_TRACE_DETAILS,
               Capability.CAN_CONFIGURE_SERVICE_MAPPING,
               Capability.CAN_CONFIGURE_APPLICATIONS,
               Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS,
               Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS
             ],
-            enabled
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
@@ -524,87 +520,76 @@ function ApplicationsSection() {
         className={locals.checkboxGroup}
       >
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_VIEW_TRACE_DETAILS])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_VIEW_TRACE_DETAILS])}
           id="rbac-role-applications-view-trace-details"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_VIEW_TRACE_DETAILS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE,
-                Capability.CAN_VIEW_TRACE_DETAILS
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_VIEW_TRACE_DETAILS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_VIEW_TRACE_DETAILS],
+              toRemoveOnDisabled: [Capability.CAN_VIEW_TRACE_DETAILS],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_SERVICE_MAPPING])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_SERVICE_MAPPING])}
           id="rbac-role-applications-config-service-mapping"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_SERVICE_MAPPING
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE,
-                Capability.CAN_CONFIGURE_SERVICE_MAPPING
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_SERVICE_MAPPING],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_CONFIGURE_SERVICE_MAPPING],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_SERVICE_MAPPING],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_APPLICATIONS])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_APPLICATIONS])}
           id="rbac-role-applications-write-access"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_APPLICATIONS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE,
-                Capability.CAN_CONFIGURE_APPLICATIONS
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_APPLICATIONS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_CONFIGURE_APPLICATIONS],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_APPLICATIONS],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS])}
           id="rbac-role-applications-config-smart-alerts"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE,
-                Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
-        <CarbonCheckboxGroup
-          legendText=""
-          helperText={t('in-settings:dialogs.role.applicationsConfigGlobalSmartAlertsHelpText')}
-        >
+        <CarbonCheckboxGroup legendText="">
           <CarbonCheckbox
-            checked={containsSomePermissions(permissionsField.value, [
+            checked={containsAnyPermission(permissionsField.value, [
               Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS
             ])}
             id="rbac-role-applications-config-global-smart-alerts"
@@ -613,13 +598,11 @@ function ApplicationsSection() {
             })}
             onChange={(_e, { checked: enabled }) => {
               const updatedPermissions = togglePermissions({
-                currentPermissions: permissionsField.value,
-                permissionsToAddOnEnabled: [
-                  LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE,
-                  Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS
-                ],
-                permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS],
-                enabled
+                current: permissionsField.value,
+                enabled,
+                toAddOnEnabled: [Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS],
+                toRemoveOnDisabled: [Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS],
+                toRemoveOnEnabled: [LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE]
               });
               updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
             }}
@@ -641,129 +624,129 @@ function PlatformsSection() {
       className={locals.checkboxGroup}
     >
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_PCF_SCOPE])}
+        checked={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_PCF_SCOPE])}
         id="rbac-role-platforms-cloud-foundry"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: LimitedAccessScope.LIMITED_PCF_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_PCF_SCOPE],
-            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_PCF_SCOPE],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_PCF_SCOPE],
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_PCF_SCOPE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_PHMC_SCOPE])}
+        checked={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_PHMC_SCOPE])}
         id="rbac-role-platforms-power-hmc"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: LimitedAccessScope.LIMITED_PHMC_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_PHMC_SCOPE],
-            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_PHMC_SCOPE],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_PHMC_SCOPE],
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_PHMC_SCOPE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_POWERVC_SCOPE])}
+        checked={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_POWERVC_SCOPE])}
         id="rbac-role-platforms-powervc"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: LimitedAccessScope.LIMITED_POWERVC_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_POWERVC_SCOPE],
-            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_POWERVC_SCOPE],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_POWERVC_SCOPE],
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_POWERVC_SCOPE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_OPENSTACK_SCOPE])}
+        checked={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_OPENSTACK_SCOPE])}
         id="rbac-role-platforms-openstack"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: LimitedAccessScope.LIMITED_OPENSTACK_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_OPENSTACK_SCOPE],
-            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_OPENSTACK_SCOPE],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_OPENSTACK_SCOPE],
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_OPENSTACK_SCOPE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_KUBERNETES_SCOPE])}
+        checked={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_KUBERNETES_SCOPE])}
         id="rbac-role-platforms-kubernetes"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: LimitedAccessScope.LIMITED_KUBERNETES_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_KUBERNETES_SCOPE],
-            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_KUBERNETES_SCOPE],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_KUBERNETES_SCOPE],
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_KUBERNETES_SCOPE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_NUTANIX_SCOPE])}
+        checked={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_NUTANIX_SCOPE])}
         id="rbac-role-platforms-nutanix"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: LimitedAccessScope.LIMITED_NUTANIX_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_NUTANIX_SCOPE],
-            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_NUTANIX_SCOPE],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_NUTANIX_SCOPE],
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_NUTANIX_SCOPE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_SAP_SCOPE])}
+        checked={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_SAP_SCOPE])}
         id="rbac-role-platforms-sap"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: LimitedAccessScope.LIMITED_SAP_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_SAP_SCOPE],
-            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_SAP_SCOPE],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_SAP_SCOPE],
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_SAP_SCOPE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_VSPHERE_SCOPE])}
+        checked={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_VSPHERE_SCOPE])}
         id="rbac-role-platforms-vsphere"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: LimitedAccessScope.LIMITED_VSPHERE_SCOPE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_VSPHERE_SCOPE],
-            permissionsToRemoveOnDisabled: [LimitedAccessScope.LIMITED_VSPHERE_SCOPE],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_VSPHERE_SCOPE],
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_VSPHERE_SCOPE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
@@ -780,7 +763,7 @@ function InfrastructureSection() {
   return (
     <>
       <CarbonToggle
-        toggled={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE])}
+        toggled={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE])}
         id="rbac-role-infrastructure-access"
         hideLabel
         labelText={t('in-settings:dialogs.role.permissionLabel', {
@@ -788,16 +771,16 @@ function InfrastructureSection() {
         })}
         onToggle={enabled => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE],
-            permissionsToRemoveOnDisabled: [
+            current: permissionsField.value,
+            enabled,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE],
+            toRemoveOnDisabled: [
               AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE,
-              LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
               Capability.CAN_CREATE_HEAP_DUMP,
               Capability.CAN_CREATE_THREAD_DUMP,
               Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS
             ],
-            enabled
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
@@ -808,7 +791,7 @@ function InfrastructureSection() {
         className={classNames([locals.checkboxGroup, locals.checkboxGroupWithoutLegendText])}
       >
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE])}
+          checked={containsAnyPermission(permissionsField.value, [AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE])}
           id="rbac-role-infrastructure-view-analyze"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE
@@ -816,19 +799,17 @@ function InfrastructureSection() {
           helperText={t('in-settings:dialogs.role.infrastructureViewAnalyzeCheckboxLegendText')}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
-                AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE
-              ],
-              permissionsToRemoveOnDisabled: [AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE],
+              toRemoveOnDisabled: [AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CREATE_HEAP_DUMP])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CREATE_HEAP_DUMP])}
           id="rbac-role-infrastructure-create-heap-dump"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CREATE_HEAP_DUMP
@@ -836,19 +817,17 @@ function InfrastructureSection() {
           helperText={t('in-settings:dialogs.role.infrastructureCreateHeapDumpCheckboxLegendText')}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
-                Capability.CAN_CREATE_HEAP_DUMP
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CREATE_HEAP_DUMP],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_CREATE_HEAP_DUMP],
+              toRemoveOnDisabled: [Capability.CAN_CREATE_HEAP_DUMP],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CREATE_THREAD_DUMP])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CREATE_THREAD_DUMP])}
           id="rbac-role-infrastructure-create-thread-dump"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CREATE_THREAD_DUMP
@@ -856,21 +835,17 @@ function InfrastructureSection() {
           helperText={t('in-settings:dialogs.role.infrastructureCreateThreadDumpCheckbboxLegendText')}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
-                Capability.CAN_CREATE_THREAD_DUMP
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CREATE_THREAD_DUMP],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_CREATE_THREAD_DUMP],
+              toRemoveOnDisabled: [Capability.CAN_CREATE_THREAD_DUMP],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [
-            Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS
-          ])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS])}
           id="rbac-role-infrastructure-config-global-smart-alerts"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS
@@ -878,13 +853,11 @@ function InfrastructureSection() {
           helperText={t('in-settings:dialogs.role.infrastructureConfigGlobalSmartAlertsCheckboxLegendText')}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
-                Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
@@ -905,7 +878,7 @@ function CustomDashboardsSection() {
       className={classNames([locals.checkboxGroup, locals.checkboxGroupWithoutLegendText])}
     >
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS])}
         id="rbac-role-custom-dashboards-share-public"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS
@@ -913,18 +886,16 @@ function CustomDashboardsSection() {
         helperText={t('in-settings:dialogs.role.customDashboardsSharePublickCheckboxLegendText')}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS],
-            permissionsToRemoveOnDisabled: [Capability.CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS],
+            toRemoveOnDisabled: [Capability.CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [
-          Capability.CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS
-        ])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS])}
         id="rbac-role-custom-dashboards-manage-all"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS
@@ -932,26 +903,26 @@ function CustomDashboardsSection() {
         helperText={t('in-settings:dialogs.role.customDashboardsManageAllCheckboxLegendText')}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS],
-            permissionsToRemoveOnDisabled: [Capability.CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS],
+            toRemoveOnDisabled: [Capability.CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS])}
         id="rbac-role-custom-dashboard-config-service-level-indicators"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS],
-            permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
@@ -968,7 +939,7 @@ function LogsSection() {
   return (
     <>
       <CarbonToggle
-        toggled={containsSomePermissions(permissionsField.value, [Capability.CAN_VIEW_LOGS])}
+        toggled={containsAnyPermission(permissionsField.value, [Capability.CAN_VIEW_LOGS])}
         id="rbac-role-logs-access"
         hideLabel
         labelText={t('in-settings:dialogs.role.permissionLabel', {
@@ -976,18 +947,17 @@ function LogsSection() {
         })}
         onToggle={enabled => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_VIEW_LOGS],
-            permissionsToRemoveOnDisabled: [
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_VIEW_LOGS],
+            toRemoveOnDisabled: [
               Capability.CAN_VIEW_LOGS,
-              Capability.CAN_CONFIGURE_LOG_MANAGEMENT,
               Capability.CAN_CONFIGURE_LOG_MANAGEMENT,
               Capability.CAN_DELETE_LOGS,
               Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS,
               Capability.CAN_VIEW_LOG_VOLUME,
               Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD
-            ],
-            enabled
+            ]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
@@ -998,81 +968,81 @@ function LogsSection() {
         className={locals.checkboxGroup}
       >
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_LOG_MANAGEMENT])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_LOG_MANAGEMENT])}
           id="rbac-role-logs-management"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_LOG_MANAGEMENT
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [Capability.CAN_VIEW_LOGS, Capability.CAN_CONFIGURE_LOG_MANAGEMENT],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_LOG_MANAGEMENT],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_VIEW_LOGS, Capability.CAN_CONFIGURE_LOG_MANAGEMENT],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_LOG_MANAGEMENT]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_DELETE_LOGS])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_DELETE_LOGS])}
           id="rbac-role-logs-delete"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_DELETE_LOGS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [Capability.CAN_VIEW_LOGS, Capability.CAN_DELETE_LOGS],
-              permissionsToRemoveOnDisabled: [Capability.CAN_DELETE_LOGS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_VIEW_LOGS, Capability.CAN_DELETE_LOGS],
+              toRemoveOnDisabled: [Capability.CAN_DELETE_LOGS]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS])}
           id="rbac-role-logs-config-global-smart-alerts"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [Capability.CAN_VIEW_LOGS, Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_VIEW_LOGS, Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_VIEW_LOG_VOLUME])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_VIEW_LOG_VOLUME])}
           id="rbac-role-logs-view-volume-report"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_VIEW_LOG_VOLUME
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [Capability.CAN_VIEW_LOGS, Capability.CAN_VIEW_LOG_VOLUME],
-              permissionsToRemoveOnDisabled: [Capability.CAN_VIEW_LOG_VOLUME],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_VIEW_LOGS, Capability.CAN_VIEW_LOG_VOLUME],
+              toRemoveOnDisabled: [Capability.CAN_VIEW_LOG_VOLUME]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD])}
           id="rbac-role-logs-config-retention-period"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [Capability.CAN_VIEW_LOGS, Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_VIEW_LOGS, Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
@@ -1088,23 +1058,15 @@ function SyntheticMonitoringSection() {
   const permissionsField = form.getIn(['permissions']);
 
   const syntheticsViewPermissions = [
-    LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE,
     Capability.CAN_VIEW_SYNTHETIC_LOCATIONS,
-    Capability.CAN_VIEW_SYNTHETIC_TESTS,
     Capability.CAN_VIEW_SYNTHETIC_TESTS,
     Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS
   ];
-  const hasAllViewPermissions = containsAllPermissions(permissionsField.value, syntheticsViewPermissions);
-  const hasSomeViewPermissions = containsSomePermissions(permissionsField.value, syntheticsViewPermissions);
-  const showPartialPermissionsWarning = !hasAllViewPermissions && hasSomeViewPermissions;
 
   return (
     <>
-      {showPartialPermissionsWarning && (
-        <Message type="warning">{t('in-settings:dialogs.role.syntheticsPartialPermissionsWarning')}</Message>
-      )}
       <CarbonToggle
-        toggled={hasSomeViewPermissions}
+        toggled={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE])}
         id="rbac-role-synhetics-access"
         hideLabel
         labelText={t('in-settings:dialogs.role.permissionLabel', {
@@ -1112,17 +1074,19 @@ function SyntheticMonitoringSection() {
         })}
         onToggle={enabled => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: syntheticsViewPermissions,
-            permissionsToRemoveOnDisabled: [
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: syntheticsViewPermissions,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE],
+            toRemoveOnDisabled: [
               ...syntheticsViewPermissions,
-              Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
               Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS,
+              Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS,
               Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
-              Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
-              Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
+              Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
+              Capability.CAN_USE_SYNTHETIC_CREDENTIALS
             ],
-            enabled
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
@@ -1133,23 +1097,24 @@ function SyntheticMonitoringSection() {
         className={locals.checkboxGroup}
       >
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_SYNTHETIC_TESTS])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_SYNTHETIC_TESTS])}
           id="rbac-role-synthetics-write-access"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_SYNTHETIC_TESTS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [...syntheticsViewPermissions, Capability.CAN_CONFIGURE_SYNTHETIC_TESTS],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_SYNTHETIC_TESTS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [...syntheticsViewPermissions, Capability.CAN_CONFIGURE_SYNTHETIC_TESTS],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_SYNTHETIC_TESTS],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [
+          checked={containsAnyPermission(permissionsField.value, [
             Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS
           ])}
           id="rbac-role-synthetics-config-smart-alerts"
@@ -1158,61 +1123,62 @@ function SyntheticMonitoringSection() {
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                ...syntheticsViewPermissions,
-                Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [...syntheticsViewPermissions, Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS])}
           id="rbac-role-synthetics-config-locations"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [...syntheticsViewPermissions, Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [...syntheticsViewPermissions, Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_USE_SYNTHETIC_CREDENTIALS])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_USE_SYNTHETIC_CREDENTIALS])}
           id="rbac-role-synthetics-use-credentials"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_USE_SYNTHETIC_CREDENTIALS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [...syntheticsViewPermissions, Capability.CAN_USE_SYNTHETIC_CREDENTIALS],
-              permissionsToRemoveOnDisabled: [Capability.CAN_USE_SYNTHETIC_CREDENTIALS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [...syntheticsViewPermissions, Capability.CAN_USE_SYNTHETIC_CREDENTIALS],
+              toRemoveOnDisabled: [Capability.CAN_USE_SYNTHETIC_CREDENTIALS],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS])}
           id="rbac-role-synthetics-config-credentials"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [...syntheticsViewPermissions, Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [...syntheticsViewPermissions, Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
@@ -1230,7 +1196,7 @@ function AutomationSection() {
   return (
     <>
       <CarbonToggle
-        toggled={containsSomePermissions(permissionsField.value, [LimitedAccessScope.LIMITED_AUTOMATION_SCOPE])}
+        toggled={!containsAnyPermission(permissionsField.value, [LimitedAccessScope.LIMITED_AUTOMATION_SCOPE])}
         id="rbac-role-automation-access"
         hideLabel
         labelText={t('in-settings:dialogs.role.permissionLabel', {
@@ -1238,16 +1204,16 @@ function AutomationSection() {
         })}
         onToggle={enabled => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [LimitedAccessScope.LIMITED_AUTOMATION_SCOPE],
-            permissionsToRemoveOnDisabled: [
-              LimitedAccessScope.LIMITED_AUTOMATION_SCOPE,
+            current: permissionsField.value,
+            enabled,
+            toAddOnDisabled: [LimitedAccessScope.LIMITED_AUTOMATION_SCOPE],
+            toRemoveOnDisabled: [
               Capability.CAN_RUN_AUTOMATION_ACTIONS,
               Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
               Capability.CAN_CONFIGURE_AUTOMATION_POLICIES,
               Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY
             ],
-            enabled
+            toRemoveOnEnabled: [LimitedAccessScope.LIMITED_AUTOMATION_SCOPE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
@@ -1258,77 +1224,69 @@ function AutomationSection() {
         className={locals.checkboxGroup}
       >
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_RUN_AUTOMATION_ACTIONS])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_RUN_AUTOMATION_ACTIONS])}
           id="rbac-role-automation-run-actions"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_RUN_AUTOMATION_ACTIONS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_AUTOMATION_SCOPE,
-                Capability.CAN_RUN_AUTOMATION_ACTIONS
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_RUN_AUTOMATION_ACTIONS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_RUN_AUTOMATION_ACTIONS],
+              toRemoveOnDisabled: [Capability.CAN_RUN_AUTOMATION_ACTIONS],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_AUTOMATION_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS])}
           id="rbac-role-automation-config-actions"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_AUTOMATION_SCOPE,
-                Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_AUTOMATION_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_AUTOMATION_POLICIES])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_AUTOMATION_POLICIES])}
           id="rbac-role-automation-config-policies"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_AUTOMATION_POLICIES
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_AUTOMATION_SCOPE,
-                Capability.CAN_CONFIGURE_AUTOMATION_POLICIES
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_AUTOMATION_POLICIES],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_CONFIGURE_AUTOMATION_POLICIES],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_AUTOMATION_POLICIES],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_AUTOMATION_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY])}
           id="rbac-role-automation-delete-action-history"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [
-                LimitedAccessScope.LIMITED_AUTOMATION_SCOPE,
-                Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY
-              ],
-              permissionsToRemoveOnDisabled: [Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY],
+              toRemoveOnDisabled: [Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY],
+              toRemoveOnEnabled: [LimitedAccessScope.LIMITED_AUTOMATION_SCOPE]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
@@ -1349,81 +1307,81 @@ function EventsAndAlertsSection() {
       className={classNames([locals.checkboxGroup, locals.checkboxGroupWithoutLegendText])}
     >
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_INTEGRATIONS])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_INTEGRATIONS])}
         id="rbac-role-events-and-alerts-config-alert-channels"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_CONFIGURE_INTEGRATIONS
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_CONFIGURE_INTEGRATIONS],
-            permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_INTEGRATIONS],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_INTEGRATIONS],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_INTEGRATIONS]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_EVENTS_AND_ALERTS])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_EVENTS_AND_ALERTS])}
         id="rbac-role-events-and-alerts-config-events-alerts"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_CONFIGURE_EVENTS_AND_ALERTS
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_CONFIGURE_EVENTS_AND_ALERTS],
-            permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_EVENTS_AND_ALERTS],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_EVENTS_AND_ALERTS],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_EVENTS_AND_ALERTS]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_MAINTENANCE_WINDOWS])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_MAINTENANCE_WINDOWS])}
         id="rbac-role-events-and-alerts-config-maintenance-windows"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_CONFIGURE_MAINTENANCE_WINDOWS
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_CONFIGURE_MAINTENANCE_WINDOWS],
-            permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_MAINTENANCE_WINDOWS],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_MAINTENANCE_WINDOWS],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_MAINTENANCE_WINDOWS]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD])}
         id="rbac-role-events-and-alerts-config-global-alert-payload"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD],
-            permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_MANUALLY_CLOSE_ISSUE])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_MANUALLY_CLOSE_ISSUE])}
         id="rbac-role-events-and-alerts-manually-close"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_MANUALLY_CLOSE_ISSUE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_MANUALLY_CLOSE_ISSUE],
-            permissionsToRemoveOnDisabled: [Capability.CAN_MANUALLY_CLOSE_ISSUE],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_MANUALLY_CLOSE_ISSUE],
+            toRemoveOnDisabled: [Capability.CAN_MANUALLY_CLOSE_ISSUE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
@@ -1443,65 +1401,65 @@ function GlobalFunctionsSection() {
       className={classNames([locals.checkboxGroup, locals.checkboxGroupWithoutLegendText])}
     >
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS])}
         id="rbac-role-global-functions-config-personal-api-tokens"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS],
-            permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_RELEASES])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_RELEASES])}
         id="rbac-role-global-functions-config-releases"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_CONFIGURE_RELEASES
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_CONFIGURE_RELEASES],
-            permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_RELEASES],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_RELEASES],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_RELEASES]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION])}
         id="rbac-role-global-functions-view-billing-info"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION],
-            permissionsToRemoveOnDisabled: [Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION],
+            toRemoveOnDisabled: [Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_DATABASE_MANAGEMENT])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_DATABASE_MANAGEMENT])}
         id="rbac-role-global-functions-config-database-management"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_CONFIGURE_DATABASE_MANAGEMENT
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_CONFIGURE_DATABASE_MANAGEMENT],
-            permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_DATABASE_MANAGEMENT],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_DATABASE_MANAGEMENT],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_DATABASE_MANAGEMENT]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
@@ -1521,49 +1479,49 @@ function AgentDeploymentSection() {
       className={classNames([locals.checkboxGroup, locals.checkboxGroupWithoutLegendText])}
     >
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_INSTALL_NEW_AGENTS])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_INSTALL_NEW_AGENTS])}
         id="rbac-role-agent-deployment-install-agents"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_INSTALL_NEW_AGENTS
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_INSTALL_NEW_AGENTS],
-            permissionsToRemoveOnDisabled: [Capability.CAN_INSTALL_NEW_AGENTS],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_INSTALL_NEW_AGENTS],
+            toRemoveOnDisabled: [Capability.CAN_INSTALL_NEW_AGENTS]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_AGENTS])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_AGENTS])}
         id="rbac-role-agent-deployment-config-agents"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_CONFIGURE_AGENTS
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_CONFIGURE_AGENTS],
-            permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_AGENTS],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_AGENTS],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_AGENTS]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_AGENT_RUN_MODE])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_AGENT_RUN_MODE])}
         id="rbac-role-agent-deployment-config-agent-mode"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_CONFIGURE_AGENT_RUN_MODE
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_CONFIGURE_AGENT_RUN_MODE],
-            permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_AGENT_RUN_MODE],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_AGENT_RUN_MODE],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_AGENT_RUN_MODE]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
@@ -1583,17 +1541,17 @@ function AccessControlSection() {
       className={classNames([locals.checkboxGroup, locals.checkboxGroupWithoutLegendText])}
     >
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_TEAMS])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_TEAMS])}
         id="rbac-role-access-control-config-teams"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_CONFIGURE_TEAMS
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_CONFIGURE_TEAMS],
-            permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_TEAMS],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_TEAMS],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_TEAMS]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
@@ -1601,16 +1559,16 @@ function AccessControlSection() {
       {/* Note: Role specific permissions are not yet available in backend */}
       {/* <CarbonCheckboxGroup legendText="" helperText={t('in-settings:dialogs.role.accessControlRoleManagementHelpText')}> */}
       {/*   <CarbonCheckbox */}
-      {/*     checked={containsSomePermissions(permissionsField.value, [])} */}
+      {/*     checked={containsAnyPermission(permissionsField.value, [])} */}
       {/*     id="rbac-role-access-control-role-management" */}
       {/*   labelText={t('in-settings:dialogs.role.permissionLabel', { */}
       {/*     context: Capability.CAN_CONFIGURE_ROLES */}
       {/*   })} */}
       {/*     onChange={(_e, { checked: enabled }) => { */}
       {/*       const updatedPermissions = togglePermissions({ */}
-      {/*         currentPermissions: permissionsField.value, */}
-      {/*         permissionsToAddOnEnabled: [], */}
-      {/*         permissionsToRemoveOnDisabled: [], */}
+      {/*         current: permissionsField.value, */}
+      {/*         toAddOnEnabled: [], */}
+      {/*         toRemoveOnDisabled: [], */}
       {/*         enabled */}
       {/*       }); */}
       {/*       updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true)); */}
@@ -1622,14 +1580,14 @@ function AccessControlSection() {
       {/*   helperText={t('in-settings:dialogs.role.accessControlTeamScopeManagementHelpText')} */}
       {/* > */}
       {/*   <CarbonCheckbox */}
-      {/*     checked={containsSomePermissions(permissionsField.value, [])} */}
+      {/*     checked={containsAnyPermission(permissionsField.value, [])} */}
       {/*     id="rbac-role-access-control-team-scope-management" */}
       {/*     labelText={t('in-settings:dialogs.role.accessControlTeamScopeManagementCheckboxLabel')} */}
       {/*     onChange={(_e, { checked: enabled }) => { */}
       {/*       const updatedPermissions = togglePermissions({ */}
-      {/*         currentPermissions: permissionsField.value, */}
-      {/*         permissionsToAddOnEnabled: [], */}
-      {/*         permissionsToRemoveOnDisabled: [], */}
+      {/*         current: permissionsField.value, */}
+      {/*         toAddOnEnabled: [], */}
+      {/*         toRemoveOnDisabled: [], */}
       {/*         enabled */}
       {/*       }); */}
       {/*       updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true)); */}
@@ -1641,66 +1599,66 @@ function AccessControlSection() {
         helperText={t('in-settings:dialogs.role.accessControlConfigApiTokensHelpText')}
       >
         <CarbonCheckbox
-          checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_API_TOKENS])}
+          checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_API_TOKENS])}
           id="rbac-role-access-control-config-api-tokens"
           labelText={t('in-settings:dialogs.role.permissionLabel', {
             context: Capability.CAN_CONFIGURE_API_TOKENS
           })}
           onChange={(_e, { checked: enabled }) => {
             const updatedPermissions = togglePermissions({
-              currentPermissions: permissionsField.value,
-              permissionsToAddOnEnabled: [Capability.CAN_CONFIGURE_API_TOKENS],
-              permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_API_TOKENS],
-              enabled
+              current: permissionsField.value,
+              enabled,
+              toAddOnEnabled: [Capability.CAN_CONFIGURE_API_TOKENS],
+              toRemoveOnDisabled: [Capability.CAN_CONFIGURE_API_TOKENS]
             });
             updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
           }}
         />
       </CarbonCheckboxGroup>
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_AUTHENTICATION_METHODS])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_AUTHENTICATION_METHODS])}
         id="rbac-role-access-control-config-auth-methods"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_CONFIGURE_AUTHENTICATION_METHODS
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_CONFIGURE_AUTHENTICATION_METHODS],
-            permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_AUTHENTICATION_METHODS],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_AUTHENTICATION_METHODS],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_AUTHENTICATION_METHODS]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_VIEW_AUDIT_LOG])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_VIEW_AUDIT_LOG])}
         id="rbac-role-access-control-view-audit-trail"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_VIEW_AUDIT_LOG
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_VIEW_AUDIT_LOG],
-            permissionsToRemoveOnDisabled: [Capability.CAN_VIEW_AUDIT_LOG],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_VIEW_AUDIT_LOG],
+            toRemoveOnDisabled: [Capability.CAN_VIEW_AUDIT_LOG]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}
       />
       <CarbonCheckbox
-        checked={containsSomePermissions(permissionsField.value, [Capability.CAN_CONFIGURE_SESSION_SETTINGS])}
+        checked={containsAnyPermission(permissionsField.value, [Capability.CAN_CONFIGURE_SESSION_SETTINGS])}
         id="rbac-role-access-control-view-token-and-timeout-settings"
         labelText={t('in-settings:dialogs.role.permissionLabel', {
           context: Capability.CAN_CONFIGURE_SESSION_SETTINGS
         })}
         onChange={(_e, { checked: enabled }) => {
           const updatedPermissions = togglePermissions({
-            currentPermissions: permissionsField.value,
-            permissionsToAddOnEnabled: [Capability.CAN_CONFIGURE_SESSION_SETTINGS],
-            permissionsToRemoveOnDisabled: [Capability.CAN_CONFIGURE_SESSION_SETTINGS],
-            enabled
+            current: permissionsField.value,
+            enabled,
+            toAddOnEnabled: [Capability.CAN_CONFIGURE_SESSION_SETTINGS],
+            toRemoveOnDisabled: [Capability.CAN_CONFIGURE_SESSION_SETTINGS]
           });
           updateIn(['permissions'], permissionsField.setValue(updatedPermissions).setTouched(true));
         }}

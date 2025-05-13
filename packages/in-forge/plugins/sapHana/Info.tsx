@@ -18,6 +18,7 @@ export default function Info({ snapshot }: { snapshot: SnapshotData }) {
   return (
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.sapHana.dashboard.host')}>{data.get('hostName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapHana.port')}>{data.get('port')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.sapHana.hostActiveStatus')}>
         {data.get('hostActiveStatus')}
       </DescriptionItem>
@@ -28,7 +29,7 @@ export default function Info({ snapshot }: { snapshot: SnapshotData }) {
         {data.get('instanceNumber')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.sapHana.version')}>{data.get('version')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.sapHana.port')}>{data.get('port')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapHana.installTime')}>{data.get('installTime')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.sapHana.usage')}>{data.get('usage')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.sapHana.distributed')}>{data.get('distributed')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.sapHana.allServicesStarted')}>

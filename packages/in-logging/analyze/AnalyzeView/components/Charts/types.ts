@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { InputValues } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/Modal/modalTypes';
+import { InputValues } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogsModal/modalTypes';
 import { UngroupedViewProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import { ChartedMetric } from 'in-components/AnalyzeView/StateManagement';
 import { ChartConfig } from 'in-components/Chart/types';
@@ -15,7 +15,6 @@ export interface LogsDistributionChartSectionProps extends UngroupedViewProps {
   showHeader?: boolean;
   onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
   isDashboard?: boolean;
-  isModalGraph?: boolean;
   deleteLogsFormValues?: InputValues;
   canGoNextStep?: boolean;
 }
@@ -23,7 +22,6 @@ export interface LogsDistributionChartSectionProps extends UngroupedViewProps {
 export interface ChartProps extends UngroupedViewProps {
   metric: ChartedMetric;
   rightHeaderContent?: any;
-  isModalGraph?: boolean;
   deleteLogsFormValues?: InputValues;
   canGoNextStep?: boolean;
 }

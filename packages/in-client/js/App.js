@@ -12,8 +12,6 @@ import SessionTimeoutContainer from 'in-components/SessionTimeoutDialog/SessionT
 import { playwithEnabled, timeOutSessionEnabled, solisEnabled } from 'in-services/featureFlags';
 import CarbonUIShell from 'in-components/MainNavigation/components/CarbonUIShell/CarbonUIShell';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
-import PdfHeader from 'in-components/DownloadPdfDialog/components/PdfHeader/PdfHeader';
-import { PdfProvider } from 'in-components/DownloadPdfDialog/context/PdfProvider';
 import LocationStateProvider from 'in-stores/navigation/LocationStateProvider';
 import ScrollTrackingWrapper from 'in-components/ScrollTrackingWrapper';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
@@ -46,40 +44,33 @@ export default function App() {
           <ThemeProvider theme={fallbackTheme}>
             <ScrollTrackingWrapper>
               <GlobalTimeConfig>
-                <PdfProvider>
-                  <ErrorBoundary name="main-navigation">
-                    {window.RUNTIME_CONTEXT === 'solis' ? <solis-nav /> : <CarbonUIShell />}
-                  </ErrorBoundary>
-                  <div className={locals.content} role="main">
-                    {/* For "Skip to main content" target */}
-                    <div tabIndex={-1} id="main-content" style={{ display: 'hidden' }} />
-                    <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
-                  </div>
+                <ErrorBoundary name="main-navigation">
+                  {window.RUNTIME_CONTEXT === 'solis' ? <solis-nav /> : <CarbonUIShell />}
+                </ErrorBoundary>
+                <div className={locals.content} role="main">
+                  {/* For "Skip to main content" target */}
+                  <div tabIndex={-1} id="main-content" style={{ display: 'hidden' }} />
+                  <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
+                </div>
 
-                  <ErrorBoundary name="dialogs">
-                    {/* for release notes */}
-                    <ReleaseNotesDialog />
-                    {timeOutSessionEnabled && <SessionTimeoutContainer />}
-                    {/* for hints about deprecations, and required actions */}
-                    <DeprecatedCustomEventsPopUp />
-                    <TooltipPresenter />
-                    <OverlayPresenter />
-                    {/* the flyouts on the top right corner */}
-                    <MessageFlyout />
-                    {/* all the different dialogs e.g. in the settings */}
-                    <DialogPresenter />
-                  </ErrorBoundary>
+                <ErrorBoundary name="dialogs">
+                  {/* for release notes */}
+                  <ReleaseNotesDialog />
+                  {timeOutSessionEnabled && <SessionTimeoutContainer />}
+                  {/* for hints about deprecations, and required actions */}
+                  <DeprecatedCustomEventsPopUp />
+                  <TooltipPresenter />
+                  <OverlayPresenter />
+                  {/* the flyouts on the top right corner */}
+                  <MessageFlyout />
+                  {/* all the different dialogs e.g. in the settings */}
+                  <DialogPresenter />
+                </ErrorBoundary>
 
-                  <ErrorBoundary name="pdf">
-                    {/* header for the pdf generation */}
-                    <PdfHeader />
-                  </ErrorBoundary>
-
-                  <ErrorBoundary name="floatinButtons">
-                    {/* floating action buttons at the bottom of the screen */}
-                    {!playwithEnabled && <FloatingActionButtonPresenter />}
-                  </ErrorBoundary>
-                </PdfProvider>
+                <ErrorBoundary name="floatinButtons">
+                  {/* floating action buttons at the bottom of the screen */}
+                  {!playwithEnabled && <FloatingActionButtonPresenter />}
+                </ErrorBoundary>
               </GlobalTimeConfig>
             </ScrollTrackingWrapper>
           </ThemeProvider>

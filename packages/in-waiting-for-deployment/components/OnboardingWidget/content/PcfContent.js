@@ -26,7 +26,7 @@ export default function PcfContent({ agentKey, downloadKey, agentEndpoint, agent
       <Spacer />
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.uploadTheInstanaMicroservicesApplicationMonitoringTileToYourOpsManagerAsDescribedInThe"
-        href="https://www.ibm.com/docs/en/instana-observability/current?topic=tanzu-installing-configuring-microservices-applications"
+        href="https://www.ibm.com/docs/en/instana-observability/latest?topic=tanzu-installing-configuring-microservices-applications"
       />
       <Description
         lines={[

@@ -76,7 +76,7 @@ export default {
   isBeta: true,
   feedbackLink: 'https://forms.gle/upGyAkgaxZyHbYt9A',
   referencesDocumentation: true,
-  documentationLink: 'https://www.ibm.com/docs/en/instana-observability/current?topic=alerting-salesforce-open-beta',
+  documentationLink: 'https://www.ibm.com/docs/en/instana-observability/latest?topic=alerting-salesforce-open-beta',
 
   getParameters(): Array<AlertChannelParameterValue> {
     return parameters;

@@ -3,23 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 
 import { LogGroupItem, TagFilterExpression, TimeConfig } from '@instana/types';
 import { Group, IngestionOffsetCursor } from '@instana/types/typeDefinitions';
 import { useObservable } from '@instana/hooks';
 
-import {
-  getLogsChartConfig,
-  getMetricConfig,
-  getTimeDifferenceInMilliseconds
-} from 'in-logging/analyze/AnalyzeView/components/Charts/utils';
 // @ts-expect-error needs TS migration
 import ChartingConfiguratorSection from 'in-components/ChartingConfigurator/ChartingConfiguratorSection';
 // @ts-expect-error needs TS migration
 import GroupedChartingConfigurator from 'in-components/ChartingConfigurator/GroupedChartingConfigurator';
 import { ChartProps, LogsDistributionChartSectionProps } from 'in-logging/analyze/AnalyzeView/components/Charts/types';
+import { getLogsChartConfig, getMetricConfig } from 'in-logging/analyze/AnalyzeView/components/Charts/utils';
 import { customChartHeight, logsChartOptions } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { useLoggingAnalyzeContext } from 'in-logging/analyze/AnalyzeView/LoggingAnalyzeContext';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
@@ -90,37 +86,8 @@ function Chart(props: ChartProps) {
   return <LogsChart {...props} />;
 }
 
-function LogsChart({
-  backendQueryModelWithFacets,
-  metric,
-  rightHeaderContent,
-  isModalGraph,
-  deleteLogsFormValues,
-  canGoNextStep,
-  facets,
-  formModel
-}: ChartProps) {
-  let timeConfig = useTimeConfig();
-  const lastValidValueRef = useRef(0);
-
-  const diferenceInMilis = useMemo(() => {
-    if (canGoNextStep) {
-      const currentDate = deleteLogsFormValues?.startDate;
-
-      const currentValue = getTimeDifferenceInMilliseconds(currentDate);
-
-      lastValidValueRef.current = currentValue;
-
-      return currentValue;
-    }
-
-    return lastValidValueRef.current;
-  }, [canGoNextStep, deleteLogsFormValues?.startDate]);
-
-  timeConfig = isModalGraph
-    ? { ...timeConfig, windowSize: diferenceInMilis } /* 30 days back since is the maximum* */
-    : timeConfig;
-
+function LogsChart({ backendQueryModelWithFacets, metric, rightHeaderContent, facets, formModel }: ChartProps) {
+  const timeConfig = useTimeConfig();
   const { setState, state } = useLoggingAnalyzeContext();
 
   const logGroupsResult =

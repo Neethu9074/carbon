@@ -20,6 +20,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.dropwizardApplicationContainer.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-dropwizard#metrics`
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/latest?topic=technologies-monitoring-dropwizard#metrics`
   }
 };

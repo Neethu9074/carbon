@@ -8,7 +8,12 @@ import { useHistory } from 'react-router';
 import { History } from 'history';
 import { useMemo } from 'react';
 
-import { IsViewArg, IsViewPredicate, removeDFQueryFromLocationWhenChangingArea } from 'in-stores/navigation/utils';
+import {
+  IsViewArg,
+  IsViewPredicate,
+  removeDFQueryFromLocationWhenChangingArea,
+  substitutePathParams
+} from 'in-stores/navigation/utils';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { applyResets } from 'in-stores/navigation/urlParameterResets';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
@@ -36,8 +41,9 @@ interface UseNavigationResult {
    * Creates a href string
    * that can be used to trigger a navigation to the target location state via default browser means, like <a/> elements.
    * @param target The target location state
+   * @param params Optional parameters to be replaced on the path
    */
-  createHref: (target: Location) => string;
+  createHref: (target: Location, params?: Record<string, string>) => string;
 
   /**
    * Creates a href string
@@ -69,7 +75,7 @@ export function useNavigation(): UseNavigationResult {
     () => ({
       location: cloneLocation(location),
       navigate: (target: Location, replace?: boolean) => navigate(history, location, target, replace),
-      createHref: (target: Location) => createHref(location, target),
+      createHref: (target: Location, params) => createHref(location, target, params),
       createHrefToPath: (pathname, params) => createHrefToPath(location, pathname, params),
       goToPath: (path: string) => goToPath(history, location, path),
       matchLocation: (...args: IsViewArg[]) => matchLocation(location, ...args)
@@ -92,19 +98,16 @@ function navigate(history: History, current: Location, target: Location, replace
   }
 }
 
-function createHref(current: Location, target: Location): string {
+function createHref(current: Location, target: Location, params?: Record<string, string>): string {
   applyResets(current, target);
-  return formatPathWithTU(`/#${stringify(target)}`);
+  const pathname = params ? substitutePathParams(target.pathname, params) : target.pathname;
+  return formatPathWithTU(`/#${stringify({ ...target, pathname })}`);
 }
 
 function goToPath(history: History, current: Location, path: string): void {
   const target = cloneLocation(current);
   target.pathname = path;
   navigate(history, current, target);
-}
-
-function substitutePathParams(path: string, params: Record<string, string>): string {
-  return Object.keys(params).reduce((lastPath, paramKey) => lastPath.replace(`:${paramKey}`, params[paramKey]), path);
 }
 
 function createHrefToPath(current: Location, path: string, params?: Record<string, string>): string {

@@ -7,6 +7,7 @@
 import React, { ReactElement } from 'react';
 
 import { DateFormatterInput, DateFormatterOutput, formatDateTime } from '@instana/format-date';
+import { Link } from '@instana/components';
 import { RawEvent } from '@instana/types';
 
 import { EVENT_TYPES, getEventSeverityLabelWithEventType, getEventType } from 'in-stores/events';
@@ -21,6 +22,7 @@ interface ColumnDefinition {
   accessor: string;
   Cell?: (props: {
     cell: { row: { original: RawEvent }; value: DateFormatterInput | any };
+    initialState: { onItemClicked: (eventId: string) => {} };
   }) => ReactElement<any, any> | DateFormatterOutput;
   disableSortBy?: boolean;
   width?: number;
@@ -30,7 +32,7 @@ interface ColumnDefinition {
 export const severity: ColumnDefinition = {
   Header: '',
   accessor: 'severity',
-  Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
+  Cell: ({ cell }) => {
     const event = cell.row.original;
     const timeConfig = useTimeConfig();
     return <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />;
@@ -42,7 +44,25 @@ export const severity: ColumnDefinition = {
 export const title: ColumnDefinition = {
   Header: t('in-events:dataGridEventTable.title'),
   accessor: 'title',
-  width: 350
+  width: 350,
+  Cell: props => {
+    const event = props.cell.row.original;
+    const { onItemClicked } = props.initialState;
+
+    return (
+      <Link
+        ellipsis
+        style={{
+          cursor: 'pointer'
+        }}
+        // @ts-expect-error
+        tabIndex={0}
+        onClick={() => onItemClicked(event.id || '')}
+      >
+        {event.title}
+      </Link>
+    );
+  }
 };
 
 export const on: ColumnDefinition = {
@@ -59,14 +79,14 @@ export const on: ColumnDefinition = {
 export const started: ColumnDefinition = {
   Header: t('in-events:dataGridEventTable.started'),
   accessor: 'start',
-  Cell: ({ cell: { value } }: { cell: { value: DateFormatterInput } }) => formatDateTime(value),
+  Cell: ({ cell: { value } }) => formatDateTime(value),
   width: 250
 };
 
 export const end: ColumnDefinition = {
   Header: t('in-events:dataGridEventTable.end'),
   accessor: 'end',
-  Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
+  Cell: ({ cell }) => {
     const event = cell.row.original;
     const eventType = getEventType(event);
     const isChangeEvent = eventType === EVENT_TYPES.CHANGE;
@@ -82,7 +102,7 @@ export const end: ColumnDefinition = {
 export const timeline: ColumnDefinition = {
   Header: 'Timeline',
   accessor: 'Timeline',
-  Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
+  Cell: ({ cell }) => {
     const event = cell.row.original;
     return <TimelineCell event={event} />;
   },
@@ -92,7 +112,7 @@ export const timeline: ColumnDefinition = {
 export const state: ColumnDefinition = {
   Header: t('in-events:dataGridEventTable.state'),
   accessor: 'state',
-  Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
+  Cell: ({ cell }) => {
     const event = cell.row.original;
     return getStateBadge(event);
   }

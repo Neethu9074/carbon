@@ -59,6 +59,7 @@ export default function CustomDashboardPresenter(props) {
     onCopyWidget,
     onDuplicateWidget,
     onZoomWidget,
+    onPDFDownload,
     topLevelFilters,
     onTopLevelFiltersChange,
     shouldWidgetRenderOutsideViewport
@@ -158,6 +159,7 @@ export default function CustomDashboardPresenter(props) {
                         onLayoutChange={onLayoutChange}
                         onEditWidget={onEditWidget}
                         onRemoveWidget={onRemoveWidget}
+                        onPDFDownload={onPDFDownload}
                         onCopyWidget={onCopyWidget}
                         onDuplicateWidget={onDuplicateWidget}
                         onZoomWidget={onZoomWidget}

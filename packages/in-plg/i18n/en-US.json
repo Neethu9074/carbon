@@ -800,14 +800,14 @@
         "user": "User",
         "externalLink": "External Link",
         "resultNew": "Result New",
-        "whatsNewLink": "Whats new Link"
+        "communityBlogsLink": "Community blogs"
       },
       "buttonNames": {
         "deployAgent": "Deploy agent",
         "addUser": "Add user",
         "documentation": "IBM documentation",
         "releaseNotes": "Release notes",
-        "whatsNewLink": "What’s new in Instana"
+        "communityBlogsLink": "Community blogs"
       },
       "toolTip": {
         "makeDefault": "This action sets the Instana homepage as your default landing page, replacing any custom dashboard you've set."

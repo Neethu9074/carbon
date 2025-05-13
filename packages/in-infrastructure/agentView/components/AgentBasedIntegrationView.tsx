@@ -39,7 +39,7 @@ function Description({ lines }: { lines: string[] }) {
 const AgentBasedIntegrationView = () => {
   const architectureOptions = ['AMD 64', 's390x'];
   const [architecture, setArchitecture] = useState(architectureOptions[0]);
-  const supportsUrl = 'https://www.ibm.com/docs/en/instana-observability/current?topic=apis-agent-based-integrations';
+  const supportsUrl = 'https://www.ibm.com/docs/en/instana-observability/latest?topic=apis-agent-based-integrations';
   return (
     <DialogWithSlideInView
       title={

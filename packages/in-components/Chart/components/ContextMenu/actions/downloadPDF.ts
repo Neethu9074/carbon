@@ -9,17 +9,7 @@ import { t } from 'in-i18n';
 const config = {
   name: 'download',
   icon: 'lib_actions_download',
-  label: t('in-components:chart.chartDownloadPDFLabel'),
-  onClick: download
+  label: t('in-components:chart.chartDownloadPDFLabel')
 };
 
-interface Props {
-  widgetId: string;
-  setExportWidgetId: (id: string) => void;
-}
-
 export default config;
-
-async function download({ widgetId, setExportWidgetId }: Props) {
-  setExportWidgetId(widgetId);
-}

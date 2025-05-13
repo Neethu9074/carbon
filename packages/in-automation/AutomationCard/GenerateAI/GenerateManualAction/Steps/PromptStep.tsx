@@ -313,7 +313,7 @@ export default function PromptStep({
                 // @ts-expect-error
                 <Link
                   external
-                  href="https://www.ibm.com/docs/en/instana-observability/current?topic=ma-intelligent-remediation-live-action-generation-watsonx-public-preview"
+                  href="https://www.ibm.com/docs/en/instana-observability/latest?topic=ma-intelligent-remediation-live-action-generation-watsonx-public-preview"
                 />
               )
             }}

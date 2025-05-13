@@ -14,7 +14,7 @@ import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hoo
 //@ts-expect-error file needs to be converted
 import getRawEvents from 'in-subscription/getRawEvents';
 import EventsDatagrid from 'in-events/components/IncidentPage/EventsDatagrid/EventsDatagrid';
-import { trackRcaClick } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
+import { trackClick } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import { EVENT_RCA_ASSOCIATED_EVENTS_CLICK } from 'in-services/tracking/tracking';
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -42,7 +42,7 @@ export default function AssociatedEvents({ rootCause, incident }: AssociatedEven
   const { selectedRootCause: rootCauseTab } = useContext(SelectedRootCauseContext);
   const probabilityScore = rootCause.probFailure;
   const rcaTrackingData = {
-    incident,
+    event: incident,
     location,
     rootCauseTab,
     rcaEntityType,
@@ -78,7 +78,7 @@ export default function AssociatedEvents({ rootCause, incident }: AssociatedEven
       <Collapsible
         onOpen={() => {
           const payload = { expanded: true };
-          trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ASSOCIATED_EVENTS_CLICK, payload });
+          trackClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_ASSOCIATED_EVENTS_CLICK, payload });
         }}
       >
         <Collapsible.Header>

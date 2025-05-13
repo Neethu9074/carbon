@@ -77,7 +77,9 @@ export default function CreatePolicyDialog({ action, event, trigger }: CreatePol
               case 0:
                 return <ViewActionStep action={action} />;
               case 1:
-                return <CreatePolicyStep form={form} setForm={setForm} trigger={trigger} action={action} />;
+                return (
+                  <CreatePolicyStep form={form} setForm={setForm} trigger={trigger} action={action} event={event} />
+                );
               default:
                 return null;
             }

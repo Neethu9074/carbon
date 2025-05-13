@@ -5,17 +5,15 @@
  */
 
 :local {
-  .accordionBorderBox {
-    border-left: 1px solid var(--cds-border-subtle);
-    border-right: 1px solid var(--cds-border-subtle);
+  .menuButtonsContainer {
+    position: relative;
   }
 
-  .permissionItemTitle {
-    padding: var(--cds-spacing-02);
-  }
-
-  .spaceBetweenStack {
-    justify-content: space-between;
-    width: 100%;
+  .menuButtonsWrapper {
+    padding: var(--cds-layout-density-padding-inline-normal);
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: var(--ids-z-index-option-map-overlay-controls);
   }
 }

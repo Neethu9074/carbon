@@ -147,31 +147,35 @@ function EventViewComponent(props) {
       queries = queries.map(q => `(${q})`).join(' AND ');
       // End combine filters
 
-      return eventType === 'cve_issue'
-        ? getRawCVEEvents({
-            timeConfig: staticTimeConfigToUseForTable || timeConfig,
-            query: concatQueries(queries, eventType),
-            pagination: {
-              cursor,
-              retrievalSize: 30
-            },
-            order: {
-              by: orderBy,
-              direction: orderDirection
-            }
-          })
-        : getRawEvents({
-            timeConfig: staticTimeConfigToUseForTable || timeConfig,
-            query: concatQueries(queries, eventType),
-            pagination: {
-              cursor,
-              retrievalSize: 30
-            },
-            order: {
-              by: orderBy,
-              direction: orderDirection
-            }
-          });
+      if (eventType === 'cve_issue') {
+        return getRawCVEEvents({
+          timeConfig: staticTimeConfigToUseForTable || timeConfig,
+          query: concatQueries(queries, eventType),
+          pagination: {
+            cursor,
+            retrievalSize: 30
+          },
+          order: {
+            by: orderBy,
+            direction: orderDirection
+          }
+        });
+      } else if (eventType === 'smart_alerts') {
+        return just([]);
+      } else {
+        return getRawEvents({
+          timeConfig: staticTimeConfigToUseForTable || timeConfig,
+          query: concatQueries(queries, eventType),
+          pagination: {
+            cursor,
+            retrievalSize: 30
+          },
+          order: {
+            by: orderBy,
+            direction: orderDirection
+          }
+        });
+      }
     },
     [eventType, query, orderBy, orderDirection, staticTimeConfigToUseForTable, timeConfig, filter]
   );
@@ -204,6 +208,8 @@ function EventViewComponent(props) {
     >
       {eventId ? (
         <EventTable {...props} {...tableProps} eventType={eventType} selectedEventId={eventId} />
+      ) : eventType === 'smart_alerts' ? (
+        <></>
       ) : (
         <LeftRightPadding>
           <Stack gap="normal">

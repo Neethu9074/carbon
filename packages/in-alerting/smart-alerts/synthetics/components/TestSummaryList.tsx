@@ -41,6 +41,7 @@ export interface StateProps {
   page: number;
   orderBy: string;
   orderDirection: string;
+  pageSize: number;
 }
 
 export interface TableActions<ItemType extends Object> {
@@ -50,11 +51,15 @@ export interface TableActions<ItemType extends Object> {
   selectCheckbox?: {
     selectCheckbox: (entity: ItemType) => void;
     get: (entity: ItemType) => boolean;
+    setAllOnCurrentPage: (entities: ItemType[], selected: boolean, page: number, pageSize: number) => void;
   };
   disabled?: (entity: ItemType) => boolean;
   get?: (entity: ItemType) => boolean;
   toggle?: (entity: ItemType) => void;
 }
+
+const pageSize = 5;
+const pageSizes = [5, 10, 20, 30, 40, 50, 100];
 
 let defaultState: StateProps = {
   query: '',
@@ -63,10 +68,9 @@ let defaultState: StateProps = {
   applicationIds: [],
   page: 1,
   orderBy: 'successRate',
-  orderDirection: 'ASC'
+  orderDirection: 'ASC',
+  pageSize: pageSize
 };
-
-const pageSize = 5;
 
 export default function TestSummaryList({
   tableActions,
@@ -115,7 +119,7 @@ export function SummaryList({
         orderBy: state.orderBy ?? 'successRate',
         orderDirection: state.orderDirection ?? 'ASC',
         page: state.page ?? 1,
-        pageSize: pageSize,
+        pageSize: state.pageSize,
         query: state.query ?? '',
         context: '',
         syntheticTypes: state.syntheticTypes ?? [],
@@ -132,7 +136,8 @@ export function SummaryList({
       state.timeQuery,
       state.orderBy,
       state.orderDirection,
-      state.query
+      state.query,
+      state.pageSize
     ]
   );
 
@@ -150,8 +155,8 @@ export function SummaryList({
   return (
     <ServerTablePresenter<TestResultListItem, TestListProps>
       timeConfig={timeConfig}
-      onChange={({ page, query, orderBy, orderDirection }) => {
-        const updatedState = { ...state, ...{ page, query, orderBy, orderDirection } };
+      onChange={({ page, query, orderBy, orderDirection, pageSize }) => {
+        const updatedState = { ...state, ...{ page, query, orderBy, orderDirection, pageSize } };
         setState(updatedState);
       }}
       columnDefinitions={addTableActions({
@@ -165,7 +170,7 @@ export function SummaryList({
       orderDirection={state.orderDirection}
       result={listData}
       noDataMessage={''}
-      pageSize={pageSize}
+      pageSize={state.pageSize}
       rightHeader={
         <Filters
           result={syntheticTests}
@@ -179,11 +184,12 @@ export function SummaryList({
       searchPlaceholder={t('in-settings:tabs.filter')}
       cardTitle={isTearSheet ? ' ' : t('in-alerting:smartAlerts.synthetics.selectTests.alertTests')}
       allRowsAreSelected={areAllRowsOnCurrentPageSelected(listData?.data, tableActions)}
-      setSelectedStateForRows={setSelectedStateForRowsOnCurrentPage(listData?.data, tableActions)}
+      setSelectedStateForRows={setSelectedStateForRowsOnCurrentPage(listData?.data, tableActions, state.pageSize)}
       shadowless
       renderNoDataAvailable={() => (
         <NoItemSelected text={t('in-alerting:smartAlerts.synthetics.selectTests.noTestAvailable')} />
       )}
+      pageSizes={pageSizes}
     />
   );
 }
@@ -276,7 +282,11 @@ function areAllRowsOnCurrentPageSelected(
   return areAllRowsSelected(entities?.items, tableActions, 0);
 }
 
-function areAllRowsSelected(entities: TestResultListItemId[] | undefined, tableActions: any, startIndex: number) {
+function areAllRowsSelected(
+  entities: TestResultListItemId[] | undefined,
+  tableActions: TableActions<any>,
+  startIndex: number
+) {
   if (!tableActions.selectCheckbox || !entities || entities.length === 0) {
     return false;
   }
@@ -290,13 +300,14 @@ function areAllRowsSelected(entities: TestResultListItemId[] | undefined, tableA
 
 function setSelectedStateForRowsOnCurrentPage(
   entities: PaginatedResult<TestResultListItemId> | undefined,
-  tableActions: any
+  tableActions: TableActions<any>,
+  currentPageSize: number
 ) {
   if (!tableActions.selectCheckbox || !entities || entities?.items?.length === 0) {
     return noop;
   }
   return (selected: boolean) => {
-    return tableActions.selectCheckbox.setAllOnCurrentPage(entities.items, selected, 1, pageSize);
+    return tableActions?.selectCheckbox?.setAllOnCurrentPage(entities.items, selected, 1, currentPageSize);
   };
 }
 

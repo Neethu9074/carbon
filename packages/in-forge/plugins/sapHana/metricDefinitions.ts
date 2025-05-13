@@ -286,6 +286,91 @@ export default [
   },
   {
     metrics: [
+      getDynamicMetricMatch('sharedMemoryStats', 'allocatedSize', t('in-forge:plugins.sapHana.dashboard.allocatedSize'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.allocatedSize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.allocatedSize')],
+    min: 0,
+    formatter: bytesTwoDecimalPlaces
+  },
+  {
+    metrics: [getDynamicMetricMatch('sharedMemoryStats', 'freeSize', t('in-forge:plugins.sapHana.dashboard.freeSize'))],
+    labels: [t('in-forge:plugins.sapHana.dashboard.freeSize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.freeSize')],
+    min: 0,
+    formatter: bytesTwoDecimalPlaces
+  },
+  {
+    metrics: [getDynamicMetricMatch('sharedMemoryStats', 'usedSize', t('in-forge:plugins.sapHana.dashboard.usedSize'))],
+    labels: [t('in-forge:plugins.sapHana.dashboard.usedSize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.usedSize')],
+    min: 0,
+    formatter: bytesTwoDecimalPlaces
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'rowStoreMemoryStats',
+        'allocatedSize',
+        t('in-forge:plugins.sapHana.dashboard.allocatedSize')
+      )
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.allocatedSize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.allocatedSize')],
+    min: 0,
+    formatter: bytesTwoDecimalPlaces
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('rowStoreMemoryStats', 'freeSize', t('in-forge:plugins.sapHana.dashboard.freeSize'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.freeSize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.freeSize')],
+    min: 0,
+    formatter: bytesTwoDecimalPlaces
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('rowStoreMemoryStats', 'usedSize', t('in-forge:plugins.sapHana.dashboard.usedSize'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.usedSize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.usedSize')],
+    min: 0,
+    formatter: bytesTwoDecimalPlaces
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'rowStoreMemoryStats',
+        'usedPercentage',
+        t('in-forge:plugins.sapHana.dashboard.usedPercentage')
+      )
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.usedPercentage')],
+    category: [t('in-forge:plugins.sapHana.dashboard.usedPercentage')],
+    min: 0,
+    formatter: percentage.detailed
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('aggregatedCacheStats', 'usedSize', t('in-forge:plugins.sapHana.dashboard.usedSize'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.usedSize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.usedSize')],
+    min: 0,
+    formatter: bytesTwoDecimalPlaces
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('aggregatedCacheStats', 'totalSize', t('in-forge:plugins.sapHana.dashboard.totalSize'))
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.totalSize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.totalSize')],
+    min: 0,
+    formatter: bytesTwoDecimalPlaces
+  },
+  {
+    metrics: [
       getDynamicMetricMatch('aggregatedCacheStats', 'entryCount', t('in-forge:plugins.sapHana.dashboard.entryCount'))
     ],
     labels: [t('in-forge:plugins.sapHana.dashboard.entryCount')],

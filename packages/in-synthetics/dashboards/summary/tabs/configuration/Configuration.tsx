@@ -22,7 +22,7 @@ import Locations from 'in-synthetics/dashboards/summary/tabs/configuration/secti
 import TestType from 'in-synthetics/dashboards/summary/tabs/configuration/sections/TestType';
 import Schedule from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Schedule';
 import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Identify';
-import { syntheticDNSEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
+import { syntheticDnsEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -180,7 +180,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
       'WebpageScript',
       'WebpageAction',
       'SSLCertificate',
-      ...(syntheticDNSEnabled ? ['DNS'] : [])
+      ...(syntheticDnsEnabled ? ['DNS'] : [])
     ];
 
     // Disable if test type is not in the list of supported test types.

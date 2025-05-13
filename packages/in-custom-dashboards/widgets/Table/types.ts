@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Group, Order, TagFilterExpressionElementUnion } from 'in-types';
+import { Group, Order, TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
 
 export interface Grouping extends Group {
   tagType: string;
@@ -50,5 +50,6 @@ export interface TableWidgetProps {
   isPreview: boolean;
   isInModal?: boolean;
   topLevelFilterNote?: string;
+  realTimeConfig: TimeConfig;
   refreshFixatedTimeConfig: () => void;
 }

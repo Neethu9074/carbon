@@ -6,9 +6,10 @@
 
 import { createField, createMapForm, Field, MapForm, notBlankValidator } from 'formalistic';
 
+import { Member } from '@instana/types';
+
 import { ProductAreaType } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { PermissionsUnion } from 'in-stores/permission';
-import { Member } from 'in-types';
 
 export type ProductAreaPermissionUnion = PermissionsUnion | ProductAreaType;
 

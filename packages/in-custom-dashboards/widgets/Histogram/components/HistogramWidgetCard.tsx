@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { ReactNode, useContext, useRef } from 'react';
+import React, { ReactNode, useRef } from 'react';
 import classNames from 'classnames';
 
 import { Card } from '@instana/components';
@@ -13,24 +13,20 @@ import {
   getFilterResultNote,
   useFilteredMetricConfiguration
 } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
-import {
-  CustomDashboardContext,
-  CustomDashboardContextProps
-} from 'in-custom-dashboards/CustomDashboard/CustomDashboardContext';
 // @ts-expect-error needs ts migration
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { customDashboardsExportPdfWidget, customDashboardsFastQueryModeEnabled } from 'in-services/featureFlags';
 import { metricConfigurationPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
+import { useCustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/CustomDashboardContext';
 import { hasApplicationMetrics } from 'in-custom-dashboards/widgets/_shared/hasApplicationMetrics';
 import downloadPDFAction from 'in-components/Chart/components/ContextMenu/actions/downloadPDF';
 import useResultData from 'in-custom-dashboards/widgets/Histogram/hooks/useResultData';
 import WidgetCardHeader from 'in-components/WidgetCardHeader/WidgetCardHeader';
 import { HistogramConfig } from 'in-custom-dashboards/widgets/Histogram/form';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import HistogramChart from 'in-components/HistogramChart/HistogramChart';
+import usePdfExport from 'in-components/DownloadPdf/hooks/usePdfExport';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
-import { DOWNLOAD_PDF_WIDGET } from 'in-services/tracking/tracking';
 import { UnifiedMetricConfigurationUnion } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -58,15 +54,14 @@ export default function HistogramWidgetCard({
   const { metricConfiguration, result: filterResult } = useFilteredMetricConfiguration(
     baseConfig[metricConfigurationPath] as UnifiedMetricConfigurationUnion
   );
+  const { PdfExportRenderer } = usePdfExport();
+  const { exportWidgetToPdf } = useCustomDashboardContext();
   //Using stable instance to avoid unnecessary rendering
   const config = useStableObjectInstance({ ...baseConfig, metricConfiguration });
   const result = useResultData({ config });
   const ref = useRef<HTMLDivElement>(null);
   const { matchLocation } = useNavigation();
   const [tooltip, setTooltip] = React.useState<HTMLElement>(document.createElement('div'));
-  const { setExportWidgetId, setTooltipRef, setShouldExportWidget } =
-    useContext<CustomDashboardContextProps>(CustomDashboardContext);
-  const { trackCta } = useSegmentTracking();
 
   const tooltipRef = (tooltip: HTMLElement) => (tooltip ? setTooltip(tooltip) : null);
   const isCustomDashboard = matchLocation(customDashboardsPath);
@@ -85,15 +80,7 @@ export default function HistogramWidgetCard({
   if (isCustomDashboard && customDashboardsExportPdfWidget) {
     selectionMenuItems.push({
       ...downloadPDFAction,
-      onClick: () => {
-        const cardNode = ref.current;
-        const widgetNode = cardNode?.closest('[id^="widget-"]') as HTMLElement;
-        const widgetId = widgetNode?.id.replace(/^widget-/, '') || '';
-        trackCta(DOWNLOAD_PDF_WIDGET, { widgetId });
-        setTooltipRef(tooltip);
-        setShouldExportWidget(true);
-        downloadPDFAction.onClick({ widgetId, setExportWidgetId });
-      }
+      onClick: () => exportWidgetToPdf({ target: ref?.current, tooltipRef: tooltip, isHistogram: true })
     });
     if (
       customDashboardsFastQueryModeEnabled &&
@@ -148,6 +135,7 @@ export default function HistogramWidgetCard({
           selectionMenuItems={selectionMenuItems}
         />
       </div>
+      {PdfExportRenderer}
     </Card>
   );
 }

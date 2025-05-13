@@ -83,7 +83,7 @@ export default function ElkForm({ form, onChange, disabled, id }) {
             documentationLink: (
               <Link
                 size="sm"
-                href="https://www.ibm.com/docs/en/instana-observability/current?topic=logging-elk"
+                href="https://www.ibm.com/docs/en/instana-observability/latest?topic=logging-elk"
                 external
               />
             )

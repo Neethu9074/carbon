@@ -197,7 +197,7 @@ function LdapForm({ form, setForm, testResultMessage, setTestResultMessage, resu
                   <Link
                     external
                     size="sm"
-                    href=" https://www.ibm.com/docs/en/instana-observability/current?topic=configuration-configuring-ldap"
+                    href=" https://www.ibm.com/docs/en/instana-observability/latest?topic=configuration-configuring-ldap"
                   />
                 )
               }}
