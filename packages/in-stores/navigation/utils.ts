@@ -10,6 +10,13 @@ import { Location } from 'in-stores/navigation/types';
 export type IsViewPredicate = (path: string) => boolean;
 export type IsViewArg = string | IsViewPredicate;
 
+export function substitutePathParams(path: string, params: Record<string, string>): string {
+  return Object.keys(params).reduce(
+    (lastPath, paramKey) => lastPath.replace(`:${paramKey}`, encodeURIComponent(params[paramKey])),
+    path
+  );
+}
+
 export function removeDFQueryFromLocationWhenChangingArea(location: Location, path: string): Location {
   const { pathname: currentPath } = location;
   if (

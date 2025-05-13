@@ -6,8 +6,9 @@
 
 import React, { useState } from 'react';
 
-import { CarbonLayer, CarbonSearch, CarbonTile, Spacer, Typography } from '@instana/components';
 import { Member, RoleDetails, RoleDetailsRoleTeamDetails } from '@instana/types';
+import { Spacer, Typography } from '@instana/components';
+import { Layer, Search, Tile } from '@instana/carbon';
 
 import TeamsAndMembersList from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/TeamsAndMembersList';
 import SpaceBetweenStack from 'in-settings/components/SpaceBetweenStack';
@@ -42,13 +43,13 @@ export default function RoleMembersTile({ role, status }: RoleMembersTileProps) 
   const membersTotal = membersCount + teamMembersCount;
 
   return (
-    <CarbonTile>
-      <CarbonLayer level={0}>
+    <Tile>
+      <Layer level={0}>
         <SpaceBetweenStack>
           <Typography variant="heading-200" component="h4">
             {t('in-settings:details.role.usersTitle', { count: membersTotal })}
           </Typography>
-          <CarbonSearch
+          <Search
             closeButtonLabelText={t('in-settings:details.role.clearSearchButton')}
             id="role-member-search"
             labelText={t('in-settings:details.role.userSearchLabel')}
@@ -78,7 +79,7 @@ export default function RoleMembersTile({ role, status }: RoleMembersTileProps) 
               />
             )
         )}
-      </CarbonLayer>
-    </CarbonTile>
+      </Layer>
+    </Tile>
   );
 }

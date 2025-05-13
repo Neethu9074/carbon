@@ -7,6 +7,7 @@ import { ApiGroup, ApplicationNameExists, GroupReference, Result, SearchResult }
 import { Observable, create } from '@instana/observables';
 
 import {
+  translateRoleResult,
   translateRolesResponse,
   translateRolesResult,
   translateStaticRoleName,
@@ -78,6 +79,18 @@ export const getGroups = memoize(
   () => 'groups',
   60000
 );
+
+export const getGroup = memoize(getGroupInternal, groupId => groupId, 60000);
+function getGroupInternal(groupId: string): Observable<Result<ApiGroup>> {
+  return refreshSignalTeams.flatMap(() =>
+    http<ApiGroup>({
+      mapToResultObject: true,
+      maxRetries: 3,
+      method: 'GET',
+      url: `${basePath}/${groupId}`
+    }).map(translateRoleResult)
+  );
+}
 
 export const getGroupsAsResultObservable = () =>
   memoize<undefined, Result<ApiGroup[]>>(getGroupsAsResultObservableInternal, () => '', 60000)(undefined);

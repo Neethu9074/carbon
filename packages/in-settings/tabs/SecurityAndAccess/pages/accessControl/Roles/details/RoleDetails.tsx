@@ -4,24 +4,57 @@
  * Copyright IBM Corp. 2025
  */
 
+import React, { PropsWithChildren, useEffect } from 'react';
 import { useParams } from 'react-router';
-import React from 'react';
 
-import { CarbonColumn, CarbonGrid, Typography } from '@instana/components';
+import { Column, Grid, InlineLoading, Tab, TabList, TabPanel, TabPanels, Tabs } from '@instana/carbon';
+import { MoreMenu, MoreMenuButton, Typography } from '@instana/components';
 import { LoadingSkeleton } from '@instana/components';
+import { generateStableHash } from '@instana/utils';
 
 import RolePermissionsAccordionTile from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/RolePermissionsAccordionTile';
+import RolesAndAccessScopeTile from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/RoleAccessScopeTile';
+import usePermissionCount from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/hooks/usePermissionCount';
 import RoleMembersTile from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/RoleMembersTile';
+import { RoleDetailsWithPermissions } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
+import EditRoleDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/EditRoleDialog';
 import useRoleDetails from 'in-settings/tabs/SecurityAndAccess/hooks/useRoleDetails';
+import { FORM_MODE } from 'in-settings/components/MapFormProvider/MapFormProvider';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { FetchStatus } from 'in-hooks/utils/types';
+import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
+
+import locals from './RoleDetails.mless';
 
 export default function RoleDetails() {
   const { id: roleId } = useParams<{ id: string }>();
+  const { location } = useNavigation();
   const [role, status] = useRoleDetails({ id: roleId });
+  const [{ availablePermissions, enabledPermissions }, addPermissionItems, resetPermissionItems] = usePermissionCount();
+
+  const { permissions } = role ?? {};
+  const hasScope = !!location.query.hasScope;
+
+  // We must reset the permission items if the permissions array has changed;
+  // for example after editing the permissions of a role.
+  useEffect(resetPermissionItems, [resetPermissionItems, generateStableHash(permissions)]);
+
+  const permissionsAccordion = (
+    <RolePermissionsAccordionTile
+      addPermissionItems={addPermissionItems}
+      availablePermissions={availablePermissions}
+      enabledPermissions={enabledPermissions}
+      role={role}
+      showHeader={hasScope}
+      status={status}
+    />
+  );
 
   return (
-    <CarbonGrid fullWidth>
-      <CarbonColumn sm="100%">
+    <Grid fullWidth>
+      <Column sm="100%">
         <Typography variant="heading-100" noMargin>
           {t('in-settings:details.role.title')}
         </Typography>
@@ -39,13 +72,92 @@ export default function RoleDetails() {
             {role?.name}
           </Typography>
         )}
-      </CarbonColumn>
-      <CarbonColumn md={8}>
-        <RolePermissionsAccordionTile role={role} status={status} />
-      </CarbonColumn>
-      <CarbonColumn md={8}>
+      </Column>
+      <Column md={8}>
+        <FloatingMenuButtons status={status} hasScope={!!hasScope} role={role} />
+        {hasScope && (
+          <AccesScopeTabs
+            availablePermissions={availablePermissions}
+            enabledPermissions={enabledPermissions}
+            roleId={roleId}
+          >
+            {permissionsAccordion}
+          </AccesScopeTabs>
+        )}
+        {!hasScope && permissionsAccordion}
+      </Column>
+      <Column md={8}>
         <RoleMembersTile role={role} status={status} />
-      </CarbonColumn>
-    </CarbonGrid>
+      </Column>
+    </Grid>
+  );
+}
+
+interface AccessScopeTabsProps {
+  availablePermissions: number;
+  enabledPermissions: number;
+  roleId: string;
+}
+
+function AccesScopeTabs({
+  availablePermissions,
+  children,
+  enabledPermissions,
+  roleId
+}: PropsWithChildren<AccessScopeTabsProps>) {
+  return (
+    <Tabs>
+      <TabList contained aria-label={t('in-settings:details.role.permissionTabsLabel')}>
+        <Tab secondaryLabel={`(${enabledPermissions}/${availablePermissions})`}>
+          {t('in-settings:details.role.permissionTabsPermissionsLabel')}
+        </Tab>
+        <Tab secondaryLabel={t('in-settings:details.role.permissionTabsScopeScopeSecondaryLabel')}>
+          {t('in-settings:details.role.permissionTabsScopeLabel')}
+        </Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel>{children}</TabPanel>
+        <TabPanel>
+          <RolesAndAccessScopeTile roleId={roleId} />
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  );
+}
+
+interface FloatingMenuButtonsProps {
+  hasScope?: boolean;
+  role?: RoleDetailsWithPermissions;
+  status: FetchStatus;
+}
+
+function FloatingMenuButtons({ hasScope, role, status }: FloatingMenuButtonsProps) {
+  return (
+    <>
+      {/* Note: This container is used to align the wrapper relative to the parent element */}
+      <div className={locals.menuButtonsContainer}>
+        {/* Note: This wrapper is used to align the elements relative to the top right corner of the container */}
+        <div className={locals.menuButtonsWrapper}>
+          {status === 'pending' ? (
+            <InlineLoading />
+          ) : (
+            <MoreMenu>
+              <MoreMenuButton
+                onClick={() => addActiveDialog(<EditRoleDialog mode={FORM_MODE.EDIT} formValues={role} />)}
+              >
+                {t('in-settings:details.role.editPermissionsButton')}
+              </MoreMenuButton>
+              {/* TODO: Will implement button handlers in a follow-up PR */}
+              {hasScope && (
+                <MoreMenuButton onClick={noop}>{t('in-settings:details.role.editAsGroupButton')}</MoreMenuButton>
+              )}
+              {hasScope && (
+                <MoreMenuButton onClick={noop}>{t('in-settings:details.role.deleteScopeButton')}</MoreMenuButton>
+              )}
+            </MoreMenu>
+          )}
+        </div>
+      </div>
+    </>
   );
 }

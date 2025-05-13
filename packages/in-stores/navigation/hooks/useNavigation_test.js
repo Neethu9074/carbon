@@ -193,6 +193,30 @@ describe('in-stores/navigation/hooks/useNavigation', () => {
       expect(href).not.toContain('foo');
       expect(href).not.toContain('bar');
     });
+
+    it('replaces parameters on pathname correctly', () => {
+      // Given
+      const params = { bar: 'heureka' };
+      const currentLocation = {
+        matrix: {},
+        pathname: '/foo',
+        query: {}
+      };
+      const targetLocation = {
+        matrix: {},
+        pathname: '/foo/:bar',
+        query: {}
+      };
+      useLocation.mockReturnValueOnce(currentLocation);
+
+      // When
+      const { result } = renderHook(useNavigation);
+      const { createHref } = result.current;
+      const href = createHref(targetLocation, params);
+
+      // Then
+      expect(href).toEqual('/#/foo/heureka');
+    });
   });
 
   describe('returned goToPath function', () => {
@@ -269,6 +293,26 @@ describe('in-stores/navigation/hooks/useNavigation', () => {
 
       // Then
       expect(actual).not.toContain('someDummyDFQ');
+    });
+
+    it('replaces parameters on pathname correctly', () => {
+      // Given
+      const params = { bar: 'heureka' };
+      const path = '/foo/:bar';
+      const currentLocation = {
+        matrix: {},
+        pathname: '/foo',
+        query: {}
+      };
+      useLocation.mockReturnValueOnce(currentLocation);
+
+      // When
+      const { result } = renderHook(useNavigation);
+      const { createHrefToPath } = result.current;
+      const href = createHrefToPath(path, params);
+
+      // Then
+      expect(href).toEqual('/#/foo/heureka');
     });
   });
 });

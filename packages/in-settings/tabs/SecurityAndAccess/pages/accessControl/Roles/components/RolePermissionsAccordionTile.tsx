@@ -6,116 +6,59 @@
 
 import React, { useEffect } from 'react';
 
-import {
-  CarbonAccordion,
-  CarbonAccordionItem,
-  CarbonInlineLoading,
-  CarbonLayer,
-  CarbonStack,
-  CarbonTile,
-  MoreMenu,
-  MoreMenuButton,
-  Spacer,
-  Typography
-} from '@instana/components';
-import { generateStableHash } from '@instana/utils';
+import { Accordion, AccordionItem, Layer, Stack, Tile } from '@instana/carbon';
+import { Spacer, Typography } from '@instana/components';
 
 import {
   ProductAreaPermissionUnion,
   RoleDetailsWithPermissions
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/Roles.types';
-import EditRoleDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/EditRoleDialog';
+import {
+  AddPermissionItemsFunction,
+  PermissionMap
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/hooks/usePermissionCount';
 import PermissionList from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/components/PermissionList';
-import useChildUniqueItemCount from 'in-settings/tabs/SecurityAndAccess/hooks/useChildUniqueItemCount';
 import { AreaPermission, Capability, LimitedAccessScope } from 'in-stores/permission';
-import { FORM_MODE } from 'in-settings/components/MapFormProvider/MapFormProvider';
 import SpaceBetweenStack from 'in-settings/components/SpaceBetweenStack';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
 
 import locals from './RolePermissionsAccordionTile.mless';
 
-interface PermissionMap<T> {
-  availablePermissions: T;
-  enabledPermissions: T;
-}
-
-type AddPermissionItemsFunction = (
-  availablePermissions: Array<ProductAreaPermissionUnion>,
-  enabledPermissions: Array<ProductAreaPermissionUnion>
-) => void;
-type ResetPermissionItemsFunction = () => void;
-
-/**
- * In order to automatically align amount of permissions with the permissions
- * within the accordion items, we maintain a specific state that will be
- * updated by the PermissionAccordionItem.
- **/
-function usePermissionCount(): [PermissionMap<number>, AddPermissionItemsFunction, ResetPermissionItemsFunction] {
-  const [availablePermissions, addAvailablePermissionItems, resetAvailablePermissionItems] =
-    useChildUniqueItemCount<ProductAreaPermissionUnion>();
-  const [enabledPermissions, addEnabledPermissionItems, resetEnabledPermissionItems] =
-    useChildUniqueItemCount<ProductAreaPermissionUnion>();
-
-  function addPermissionItems(
-    availablePermissions: Array<ProductAreaPermissionUnion>,
-    enabledPermissions: Array<ProductAreaPermissionUnion>
-  ) {
-    addAvailablePermissionItems(availablePermissions);
-    addEnabledPermissionItems(enabledPermissions);
-  }
-
-  function resetPermissionItems() {
-    resetAvailablePermissionItems();
-    resetEnabledPermissionItems();
-  }
-
-  return [
-    {
-      availablePermissions,
-      enabledPermissions
-    },
-    addPermissionItems,
-    resetPermissionItems
-  ];
-}
-
-interface RolePermissionAccordionTileProps {
+interface RolePermissionAccordionTileProps<T> extends PermissionMap<T> {
+  addPermissionItems: AddPermissionItemsFunction;
   role?: RoleDetailsWithPermissions;
+  showHeader?: boolean;
   status: FetchStatus;
 }
 
-export default function RolePermissionsAccordionTile({ role, status }: RolePermissionAccordionTileProps) {
+export default function RolePermissionsAccordionTile<T>({
+  addPermissionItems,
+  availablePermissions,
+  enabledPermissions,
+  role,
+  showHeader,
+  status
+}: RolePermissionAccordionTileProps<T>) {
   const { permissions } = role ?? {};
-  const [{ availablePermissions, enabledPermissions }, addPermissionItems, resetPermissionItems] = usePermissionCount();
-
-  // We must reset the permission items if the permissions array has changed;
-  // for example after editing the permissions of a role.
-  useEffect(resetPermissionItems, [resetPermissionItems, generateStableHash(permissions)]);
 
   return (
-    <CarbonTile>
-      <SpaceBetweenStack>
-        <Typography variant="heading-200" component="h4">
-          {t('in-settings:details.role.permissionsTitle', {
-            actual: enabledPermissions,
-            count: availablePermissions
-          })}
-        </Typography>
-        {status === 'pending' ? (
-          <CarbonInlineLoading />
-        ) : (
-          <MoreMenu>
-            <MoreMenuButton onClick={() => addActiveDialog(<EditRoleDialog mode={FORM_MODE.EDIT} formValues={role} />)}>
-              {t('in-settings:details.role.editPermissionsButton')}
-            </MoreMenuButton>
-          </MoreMenu>
-        )}
-      </SpaceBetweenStack>
-      <Spacer vertical="normal" />
-      <CarbonLayer level={0} className={locals.accordionBorderBox}>
-        <CarbonAccordion>
+    <Tile>
+      {!showHeader && (
+        <>
+          <SpaceBetweenStack>
+            <Typography variant="heading-200" component="h4">
+              {t('in-settings:details.role.permissionsTitle', {
+                actual: enabledPermissions,
+                count: availablePermissions
+              })}
+            </Typography>
+          </SpaceBetweenStack>
+          <Spacer vertical="normal" />
+        </>
+      )}
+      <Layer level={0} className={locals.accordionBorderBox}>
+        <Accordion>
           <PermissionAccordionItem
             addPermissionItems={addPermissionItems}
             availablePermissions={[
@@ -290,9 +233,9 @@ export default function RolePermissionsAccordionTile({ role, status }: RolePermi
             label={t('in-settings:dialogs.role.accessControlSectionTitle')}
             status={status}
           />
-        </CarbonAccordion>
-      </CarbonLayer>
-    </CarbonTile>
+        </Accordion>
+      </Layer>
+    </Tile>
   );
 }
 
@@ -303,14 +246,14 @@ interface PermissionItemTitleProps {
 
 function PermissionItemTitle({ name, info }: PermissionItemTitleProps) {
   return (
-    <CarbonStack orientation="vertical" as="span" gap="var(--cds-spacing-02)" className={locals.permissionItemTitle}>
+    <Stack orientation="vertical" as="span" gap="var(--cds-spacing-02)" className={locals.permissionItemTitle}>
       <Typography variant="body-regular" component="span">
         {name}
       </Typography>
       <Typography variant="body-regular" component="span">
         {info}
       </Typography>
-    </CarbonStack>
+    </Stack>
   );
 }
 
@@ -363,18 +306,18 @@ function PermissionAccordionItem({
   );
 
   return (
-    <CarbonAccordionItem
+    <AccordionItem
       title={
         <PermissionItemTitle name={label} info={t('in-settings:details.role.permissionCount', { actual, count })} />
       }
     >
-      <CarbonLayer level={1}>
+      <Layer level={1}>
         <PermissionList
           availablePermissions={availablePermissionsWithLimiting}
           enabledPermissions={enabledPermissionsWithLimiting}
           status={status}
         />
-      </CarbonLayer>
-    </CarbonAccordionItem>
+      </Layer>
+    </AccordionItem>
   );
 }

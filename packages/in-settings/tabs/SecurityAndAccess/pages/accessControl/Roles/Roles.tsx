@@ -35,6 +35,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { DELETED_OBJECT } from 'in-services/util/constants';
 import { STATIC_GROUP_NAMES } from 'in-settings/constants';
+import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
 
 function createMenuItemsForRow(
@@ -59,23 +60,32 @@ function createMenuItemsForRow(
 
 function createTableRowsForRoles(
   roles: RoleOverview[],
-  createHref: ReturnType<typeof useNavigation>['createHrefToPath']
+  location: Location,
+  createHref: ReturnType<typeof useNavigation>['createHref']
 ): Array<Omit<DataTableRow<[], RoleOverview>, 'cells'>> {
-  return roles.map(role => ({
-    ...role,
-    disabled: false,
-    isLimited: role.isLimited ? t('in-settings:tabs.limitedAccess') : t('in-settings:tabs.accessAll'),
-    name: (
-      <CarbonStack>
-        <Typography variant="body-regular" noWrap>
-          <Link href={createHref(securityAndAccessAccessControlRoleEdit, { id: role.id })}>
-            {role.name} {role.hasScope ? <Pill>{t('in-settings:tabs.role.deprecated')}</Pill> : null}
-          </Link>
-        </Typography>
-      </CarbonStack>
-    ),
-    rowData: role
-  }));
+  return roles.map(role => {
+    const { hasScope } = role;
+    const roleLocation = {
+      ...location,
+      pathname: securityAndAccessAccessControlRoleEdit,
+      query: { hasScope: hasScope ? '1' : null }
+    };
+    return {
+      ...role,
+      disabled: false,
+      isLimited: role.isLimited ? t('in-settings:tabs.limitedAccess') : t('in-settings:tabs.accessAll'),
+      name: (
+        <CarbonStack>
+          <Typography variant="body-regular" noWrap>
+            <Link href={createHref(roleLocation, { id: role.id })}>
+              {role.name} {hasScope ? <Pill>{t('in-settings:tabs.role.deprecated')}</Pill> : null}
+            </Link>
+          </Typography>
+        </CarbonStack>
+      ),
+      rowData: role
+    };
+  });
 }
 
 const getRoleTableActions = (unstable_trackEvent: UnstableTrackingFunction): Readonly<TableActions<RoleOverview>> => ({
@@ -106,7 +116,7 @@ const getRoleTableActions = (unstable_trackEvent: UnstableTrackingFunction): Rea
 
 export default function Roles() {
   const [data, , , progress] = useRolesOverview();
-  const { createHrefToPath } = useNavigation();
+  const { location, createHref } = useNavigation();
 
   const roles = data ?? [];
   const { trackCta, unstable_trackEvent } = useSegmentTracking();
@@ -133,7 +143,7 @@ export default function Roles() {
       searchPlaceholderText={t('in-settings:components.search')}
       tableActions={getRoleTableActions(unstable_trackEvent)}
       tableHeaders={ROLES_TABLE_HEADERS}
-      tableRows={createTableRowsForRoles(roles, createHrefToPath)}
+      tableRows={createTableRowsForRoles(roles, location, createHref)}
       title={t('in-settings:tabs.roles')}
     />
   );

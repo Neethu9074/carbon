@@ -6,7 +6,7 @@
 import { Location, Parameters } from 'in-stores/navigation/types';
 
 export function stringify(location: Location) {
-  let href = location.pathname
+  const href = location.pathname
     .split('/')
     .slice(1)
     .reduce((agg, path) => {

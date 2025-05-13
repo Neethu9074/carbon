@@ -367,6 +367,10 @@
   "details": {
     "role": {
       "title": "Role",
+      "permissionTabsLabel": "Permissions and access scope",
+      "permissionTabsPermissionsLabel": "Permissions",
+      "permissionTabsScopeLabel": "Access scope",
+      "permissionTabsScopeScopeSecondaryLabel": "(deprecated)",
       "permissionsTitle": "Permissions ({{actual}} / {{count}})",
       "usersTitle": "Users ({{count}})",
       "usersTitle_plural": "Users ({{count}})",
@@ -380,6 +384,8 @@
       "permissionCount_1": "{{actual}} / {{count}} permission",
       "permissionCount_2": "{{actual}} / {{count}} permissions",
       "editPermissionsButton": "Edit permissions",
+      "editAsGroupButton": "Edit as group",
+      "deleteScopeButton": "Delete access scope",
       "clearSearchButton": "Clear search input",
       "userSearchLabel": "Search members in role",
       "userSearchPlaceholder": "Search",
@@ -686,7 +692,7 @@
       "toastNoLogsMessage": "No log data to delete for the given timeframe.",
       "deletionAlreadyRunning": "Deletion for this tenant is already running",
       "requesting": "Requesting...",
-      "deletionStarted":"Deletion started"
+      "deletionStarted": "Deletion started"
     },
     "logVolume": {
       "logVolume": "Log volume",

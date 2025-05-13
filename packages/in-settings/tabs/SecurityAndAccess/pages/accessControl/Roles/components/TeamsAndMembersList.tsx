@@ -6,18 +6,8 @@
 
 import React, { useState } from 'react';
 
-import {
-  CarbonButton,
-  CarbonContainedList,
-  CarbonContainedListItem,
-  CarbonInlineLoading,
-  CarbonLayer,
-  CarbonStack,
-  IconButton,
-  Link,
-  LoadingSkeleton,
-  Typography
-} from '@instana/components';
+import { Stack, Button, ContainedList, ContainedListItem, InlineLoading, Layer } from '@instana/carbon';
+import { IconButton, Link, LoadingSkeleton, Typography } from '@instana/components';
 import { Member } from '@instana/types';
 
 import SelectUserDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/components/SelectUserDialog';
@@ -28,13 +18,27 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import SpaceBetweenStack from 'in-settings/components/SpaceBetweenStack';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import useFormSubmission from 'in-hooks/useFormSubmission';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { seconds } from 'in-services/time/time';
 import { config } from 'in-services/config';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './TeamsAndMembersList.mless';
+
+function showDeleteConfirmationDialog(onConfirm: VoidFunction, itemName: string, isSaving?: boolean): void {
+  addActiveDialog(
+    <ConfirmationDialog
+      isSaving={isSaving}
+      header={t('in-settings:components.confirmRemove')}
+      description={<Trans i18nKey="in-settings:components.confirmRemoveItem" values={{ itemName }} />}
+      confirmButtonLabel={t('in-settings:components.removeBtn')}
+      onSubmit={onConfirm}
+      confirmButtonAutoFocus
+    />
+  );
+}
 
 interface TeamsAndMembersListProps {
   /**
@@ -73,8 +77,8 @@ export default function TeamsAndMembersList({
   });
 
   return (
-    <CarbonLayer level={2}>
-      <CarbonContainedList
+    <Layer level={2}>
+      <ContainedList
         label={
           <TeamScopeLabel
             scopeTitle={scopeTitle}
@@ -107,55 +111,66 @@ export default function TeamsAndMembersList({
         kind="on-page"
       >
         {listedMembers.map(({ userId, email, name }) => (
-          <CarbonContainedListItem key={`team-${teamId}-member-${userId}`}>
+          <ContainedListItem key={`team-${teamId}-member-${userId}`}>
             <SpaceBetweenStack>
-              <CarbonStack orientation="vertical">
+              <Stack orientation="vertical">
                 <Typography variant="body-bold" noWrap>
                   <Link href={createHrefToPath(securityAndAccessAccessControlUserEdit, { id: userId })}>{name}</Link>
                 </Typography>
                 <Typography variant="body-small" noWrap>
                   {email}
                 </Typography>
-              </CarbonStack>
+              </Stack>
               <div className={locals.alignRight}>
                 {deleteStatus === 'pending' && lastInteractedUserId === userId ? (
-                  <CarbonInlineLoading />
+                  <InlineLoading />
                 ) : (
                   <IconButton
                     aria-label={t('in-settings:components.removeMemberFromRoleButton')}
                     iconSize="xs"
                     kind="secondary"
                     onClick={() => {
-                      if (!roleId) return;
+                      const userName = listedMembers?.findLast(({ userId: uId }) => userId === uId)?.name ?? '';
 
-                      setLastInteractedUserId(userId);
+                      showDeleteConfirmationDialog(
+                        function onConfirm() {
+                          if (!roleId) return;
 
-                      doRemoveMember({
-                        payload: { roleId, userId },
-                        onSuccess: () => {
-                          addMessage({
-                            type: 'success',
-                            content: t('in-settings:details.role.successfullyRemovedMemberFromRole')
+                          setLastInteractedUserId(userId);
+
+                          doRemoveMember({
+                            payload: { roleId, userId },
+                            onSuccess: () => {
+                              addMessage({
+                                content: t('in-settings:details.role.successfullyRemovedMemberFromRole'),
+                                timeout: seconds.toMillis(4),
+                                type: 'success'
+                              });
+                              close();
+                            },
+                            onError: () => {
+                              addMessage({
+                                content: t('in-components:error.serverErrorInfo'),
+                                timeout: seconds.toMillis(6),
+                                type: 'danger'
+                              });
+                              close();
+                            }
                           });
-                          close();
                         },
-                        onError: () => {
-                          addMessage({
-                            type: 'danger',
-                            content: t('in-components:error.serverErrorInfo')
-                          });
-                        }
-                      });
+                        userName,
+                        deleteStatus === 'pending'
+                      );
                     }}
                     type="lib_actions_delete"
                   />
                 )}
               </div>
             </SpaceBetweenStack>
-          </CarbonContainedListItem>
+          </ContainedListItem>
         ))}
-      </CarbonContainedList>
-    </CarbonLayer>
+      </ContainedList>
+    </Layer>
   );
 }
 
@@ -169,17 +184,17 @@ function TeamScopeLabel({ onUpdateTeamMembers, scopeTitle, selectedMembers, stat
 
   return (
     <SpaceBetweenStack>
-      <CarbonStack orientation="vertical" className={locals.paddingTop}>
+      <Stack orientation="vertical" className={locals.paddingTop}>
         <Typography variant="label-01" noWrap>
           {t('in-settings:components.teamScopeTitle')}
         </Typography>
         <Typography variant="body-large" noWrap>
           {scopeTitle}
         </Typography>
-      </CarbonStack>
+      </Stack>
 
       <div className={locals.alignRight}>
-        <CarbonButton
+        <Button
           kind="ghost"
           onClick={() =>
             addActiveDialog(
@@ -188,7 +203,7 @@ function TeamScopeLabel({ onUpdateTeamMembers, scopeTitle, selectedMembers, stat
           }
         >
           {t('in-settings:components.addMemberToRoleButton')}
-        </CarbonButton>
+        </Button>
       </div>
     </SpaceBetweenStack>
   );
