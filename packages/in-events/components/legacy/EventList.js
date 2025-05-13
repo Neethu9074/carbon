@@ -47,6 +47,7 @@ import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraSmartAlertEvent } from 'in-events/components/eventUtil';
+import { MoveAIChatLauncher } from 'in-events/components/AIChat/AIChat';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import { FeedbackComponents } from 'in-events/components/EventTable';
 import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
@@ -155,8 +156,8 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
   const timeConfigLink = createHref(
     getEventViewWithTimeFocusedAt(incident.get('start'), windowSize, location, incident.get('id'), incident.get('type'))
   );
-  // From the summaryNotes store we get the "summaryLoading" value
-  const summaryLoading = useObservable(summaryNotes$, [summaryNotes$])?.summaryLoading;
+  // From the summaryNotes store we get the "open" value
+  const summaryOpen = useObservable(summaryNotes$, [summaryNotes$])?.open;
 
   return (
     <Row withoutSideMargin>
@@ -186,12 +187,14 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
                 className={locals.actionsButton}
                 size={'sm'}
                 id="generate_summary_ai_header"
+                disabled={summaryOpen}
                 renderIcon={() => {
                   return <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" id="ai_summary_loading" />;
                 }}
                 onClick={() => {
-                  // Open notes, generate summary, pass existing summary loading state
-                  setSummaryNotes(true, true, summaryLoading);
+                  // Open notes, generate summary
+                  setSummaryNotes(true, true);
+                  MoveAIChatLauncher('500px');
                 }}
               >
                 <div className={locals.generateSummaryButtonContents}>{t('in-events:notes.generateSummary')}</div>

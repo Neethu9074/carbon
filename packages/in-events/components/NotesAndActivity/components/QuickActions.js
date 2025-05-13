@@ -51,7 +51,6 @@ export function QuickActions(props) {
     setLoadingSummary(false);
     clearTimeout(summaryTimeout);
     setShowTimeoutMessage(false);
-    setSummaryNotes(summaryNotesData?.open, summaryNotesData?.generateAISummary, false);
   }
 
   // Look at the summaryNotes store to determine if the ai generation should occur
@@ -69,14 +68,9 @@ export function QuickActions(props) {
     }
   } else if (generateAISummary == true && automationActionAiGenerationUnitEnabled) {
     // Handle summary generation if the consent has been accepted
-    // and another summary is not already in progress
-    if (automationActionAiGenerationUnitEnabled && summaryNotesData?.summaryLoading == false) {
-      handleSummaryGenerate();
-      setSummaryNotes(true, false, true);
-    } else {
-      // Keep the side panel open but turn off the ai generation after its began and keep loading state
-      setSummaryNotes(true, false, summaryNotesData?.summaryLoading);
-    }
+    handleSummaryGenerate();
+    // Keep the side panel open but turn off the ai generation after its began and keep loading state
+    setSummaryNotes(true, false);
   }
 
   function handleSummaryGenerate() {

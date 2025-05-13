@@ -39,7 +39,7 @@ export function OpenNotesAndActivity({ event }) {
 
   const openNotes = () => {
     handleTracking(incidentId, EVENT_SIDE_PANEL_CLICK);
-    setSummaryNotes(true, summaryNotesData?.generateAISummary, summaryNotesData?.summaryLoading);
+    setSummaryNotes(true, summaryNotesData?.generateAISummary);
     MoveAIChatLauncher('500px');
   };
 
@@ -104,7 +104,7 @@ export function NotesAndActivity(props) {
         slideIn
         selectorPageContent={targetID}
         onRequestClose={() => {
-          setSummaryNotes(false, summaryNotesData?.generateAISummary, summaryNotesData?.summaryLoading);
+          setSummaryNotes(false, summaryNotesData?.generateAISummary);
           setStretchOverlay(false);
           setSearchInput('');
           MoveAIChatLauncher('50px');
