@@ -29,37 +29,24 @@ import { t } from 'in-i18n';
 import locals from './NotesAndActivity.mless';
 
 export function OpenNotesAndActivity({ displayNotes, setDisplayNotes, event }) {
-  // eslint-disable-next-line no-unused-vars
-  // const [{ notesUrl }, setUrlChange] = useUrlState({
-  //   bind: [
-  //     {
-  //       path: '/events',
-  //       name: 'notes',
-  //       initialState: ''
-  //     }
-  //   ]
-  // });
   const incidentId = event?.get('id');
 
   const openNotes = () => {
     handleTracking(incidentId, EVENT_SIDE_PANEL_CLICK);
     setDisplayNotes(true);
     MoveAIChatLauncher('500px');
-    // setUrlChange({ notes: 'open' });
   };
 
   if (!displayNotes) {
     return (
-      <>
-        <Tooltip content={t('in-events:notes.openNotes')}>
-          <div onClick={openNotes} className={locals.closedNotesWrapper}>
-            <Stack direction="horizontal" gap="xxsmall">
-              {t('in-events:notes.notesActivity')}
-            </Stack>
-            <SvgIcon type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'} size="s" />
-          </div>
-        </Tooltip>
-      </>
+      <Tooltip content={t('in-events:notes.openNotes')}>
+        <div onClick={openNotes} className={locals.closedNotesWrapper}>
+          <Stack direction="horizontal" gap="xxsmall">
+            {t('in-events:notes.notesActivity')}
+          </Stack>
+          <SvgIcon type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'} size="s" />
+        </div>
+      </Tooltip>
     );
   }
   return <></>;
@@ -68,21 +55,11 @@ export function OpenNotesAndActivity({ displayNotes, setDisplayNotes, event }) {
 export function NotesAndActivity(props) {
   const { event, displayNotes, setDisplayNotes, targetID } = props;
   // Extract the notes from the event
-  const notesResult = getNotes(event);
+  const notes = getNotes(event);
   const incidentId = event?.get('id');
   const eventType = event?.get('type');
   const problemText = event?.get('problem')?.get('problemText');
   const loading = event == undefined;
-
-  // const [{ notes }, setUrlChange] = useUrlState({
-  //   bind: [
-  //     {
-  //       path: '/events',
-  //       name: 'notes',
-  //       initialState: ''
-  //     }
-  //   ]
-  // });
 
   // Boolean to control when the notes section is opened
   // Current value of the typed out note
@@ -106,17 +83,14 @@ export function NotesAndActivity(props) {
     return null;
   }
 
-  const emptyList = notesResult?.length === 0;
-  const filteredNotes = filterSearchNotes(notesResult, searchInput.toLowerCase());
-
-  // Open side panel if the state is true or notesUrl is set to open
-  const openSide = displayNotes; //|| (notes && notes == 'open') || notes == 'openGenerate';
+  const emptyList = notes?.length === 0;
+  const filteredNotes = filterSearchNotes(notes, searchInput.toLowerCase());
 
   return (
     <div id="NotesAndActivityWrapper">
       <SidePanel
         className={locals.sidePanelContainer}
-        open={openSide}
+        open={displayNotes}
         slideIn
         selectorPageContent={targetID}
         onRequestClose={() => {
@@ -182,7 +156,7 @@ export function NotesAndActivity(props) {
                 <QuickActions
                   displayQuickStart={displayQuickStart}
                   incidentId={incidentId}
-                  summaryCount={getSummaryCount(notesResult)}
+                  summaryCount={getSummaryCount(notes)}
                 />
               )}
               {!incidentSummarizationEnabled && emptyList && <EmptyState />}

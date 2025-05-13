@@ -180,35 +180,14 @@ function Header(props) {
 }
 
 const IncidentHeader = ({ event, timeConfig }) => {
-  // const [{ notes }] = useUrlState({
-  //   bind: [
-  //     {
-  //       path: '/events',
-  //       name: 'notes',
-  //       initialState: ''
-  //     }
-  //   ]
-  // });
-
   const { location, createHref } = useNavigation();
   setOrDeleteMatrixKey(location, eventsPath, eventId, null);
-  // const [displayNotes, setDisplayNotes] = useState(false);
+  // From the summaryNotes store we get the "open" value
   const displayNotes = useObservable(summaryNotes$, [summaryNotes$])?.open;
+  // Function to open and close the notes in the store
   const setDisplayNotes = val => {
-    // const newValue = {
-    //   open: val,
-    //   loading: displayNotes?.loading,
-    //   generateAISummary: displayNotes?.generateAISummary,
-    // }
-    // console.log('huhhhh', newValue)
     setSummaryNotes(val, displayNotes?.generateAISummary);
   };
-  // if ((notes == 'open' || notes == 'openGenerate') && !displayNotes) {
-  //   setDisplayNotes(true);
-  // }
-
-  // console.log('summaryNotes$', useObservable(summaryNotes$, [summaryNotes$]))
-  // console.log('setSummaryNotes', setSummaryNotes(false))
 
   return (
     <LeftRightPadding className={locals.incidentHeader}>

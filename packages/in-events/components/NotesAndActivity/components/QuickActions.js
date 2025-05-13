@@ -55,28 +55,11 @@ export function QuickActions(props) {
     setShowTimeoutMessage(false);
   }
 
-  // const [{ notes }, setUrlChange] = useUrlState({
-  //   bind: [
-  //     {
-  //       path: '/events',
-  //       name: 'notes',
-  //       initialState: ''
-  //     }
-  //   ]
-  // });
-
-  // If openGenerate is in the URL we want to execute a summary generation and then
-  // set it back to open
-  // if (notes == 'openGenerate') {
-  //   handleSummaryGenerate();
-  //   setUrlChange({ notes: 'open' });
-  //   testThis = true
-  // }
-
+  // Look at the summaryNotes store to determine if the ai generation should occur
   const summaryNotesData = useObservable(summaryNotes$, [summaryNotes$]);
-
   if (summaryNotesData?.generateAISummary == true) {
     handleSummaryGenerate();
+    // Keep the side panel open but turn off the ai generation after its began
     setSummaryNotes(true, false);
   }
 

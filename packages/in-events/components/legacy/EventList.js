@@ -152,19 +152,6 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
     getEventViewWithTimeFocusedAt(incident.get('start'), windowSize, location, incident.get('id'), incident.get('type'))
   );
 
-  // eslint-disable-next-line no-unused-vars
-  // const [{ notes }, setUrlChange] = useUrlState({
-  //   bind: [
-  //     {
-  //       path: '/events',
-  //       name: 'notes',
-  //       initialState: ''
-  //     }
-  //   ]
-  // });
-  // const summaryNotesValues = useObservable(summaryNotes$, [summaryNotes$])
-  // const setDisplayNotes = (val) => {setSummaryNotes(val)}
-
   return (
     <Row withoutSideMargin>
       <Col xs>
@@ -196,12 +183,6 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
                 return <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" id="ai_summary_loading" />;
               }}
               onClick={() => {
-                // setUrlChange({ notes: 'openGenerate' });
-                // const newValue = {
-                //   open: true,
-                //   loading: summaryNotesValues?.loading,
-                //   generateAISummary: true,
-                // }
                 setSummaryNotes(true, true);
               }}
             >
