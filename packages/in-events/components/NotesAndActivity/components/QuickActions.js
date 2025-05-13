@@ -61,6 +61,7 @@ export function QuickActions(props) {
   if (generateAISummary == true && !automationActionAiGenerationUnitEnabled) {
     const el = document.getElementById('generate_summary_consent');
     if (el) {
+      el.style.transition = 'border-color 0.25s ease';
       el.style.borderColor = 'white';
       setTimeout(() => {
         el.style.borderColor = '#0f62fe';
