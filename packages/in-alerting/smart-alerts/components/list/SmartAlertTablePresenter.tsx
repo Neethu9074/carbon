@@ -205,31 +205,34 @@ export default function SmartAlertTablePresenter<
           onSelectRow={row => handleRowSelect?.(row)}
           toolBarContent={undefined}
         />
-      </span>
-      {/* Table Pagination */}
-      {result?.data && (
-        <Pagination
-          currentPage={page}
-          totalItems={result?.data?.totalHits}
-          pageSize={Number(pageSize)}
-          pageSizes={pageSizes}
-          onChange={data => {
-            onChange?.({ query, orderBy, orderDirection, page: data.page, pageSize: data.pageSize, pageSizes });
-          }}
-        />
-      )}
-      {/* Empty Content */}
-      {carbonRows.length === 0 && (
-        <NoDataEmptyState
-          title={noDataHeader}
-          subtitle={noDataDescription}
-          illustrationPosition="left"
-          className={locals.noDataTile}
-        />
-      )}
 
-      {/* Error */}
-      {hasError(result) && <TableErrorRows cols={columnDefinitions.length} errors={result.errors} size="regular" />}
+        {/* Table Pagination */}
+        {carbonRows.length > 0 && (
+          <Pagination
+            currentPage={page}
+            totalItems={result?.data?.totalHits}
+            pageSize={Number(pageSize)}
+            pageSizes={pageSizes}
+            onChange={data => {
+              onChange?.({ query, orderBy, orderDirection, page: data.page, pageSize: data.pageSize, pageSizes });
+            }}
+          />
+        )}
+        {/* Empty Content */}
+        {carbonRows.length === 0 && (
+          <div className={locals.whitebg}>
+            <NoDataEmptyState
+              title={noDataHeader}
+              subtitle={noDataDescription}
+              illustrationPosition="left"
+              className={locals.noDataTile}
+            />
+          </div>
+        )}
+
+        {/* Error */}
+        {hasError(result) && <TableErrorRows cols={columnDefinitions.length} errors={result.errors} size="regular" />}
+      </span>
     </Stack>
   );
 }
