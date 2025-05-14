@@ -7,7 +7,7 @@ import { Field, Item, MapForm, createField } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
-import { IconButton, Select } from '@instana/components';
+import { IconButton, Select, Stack, Spacer } from '@instana/components';
 import { DynamicFieldValue } from '@instana/types';
 
 import {
@@ -24,7 +24,6 @@ import {
 } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { AdditionalContentPropsType } from 'in-alerting/components/CustomPayload/CustomPayloadTable';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
@@ -42,7 +41,7 @@ export const deleteItemColumnDefinition = {
     { deleteRow, enabled }: { deleteRow: (itemForm: MapForm<any>) => void; enabled: boolean }
   ) {
     return (
-      <div className={locals.controls}>
+      <Stack gap="disabled">
         <Tooltip content={t('in-alerting:components.customPayload.deleteRow')} delay={500}>
           <IconButton
             kind="primaryv2"
@@ -54,7 +53,8 @@ export const deleteItemColumnDefinition = {
             onClick={() => enabled && deleteRow(itemForm)}
           />
         </Tooltip>
-      </div>
+        <Spacer size="xsmall" />
+      </Stack>
     );
   }
 };
@@ -83,44 +83,48 @@ export const valueColumnDefinition = {
 
     if (type === staticType) {
       return (
-        <FormGroup withoutBottomMargin>
-          <Input
-            disabled={!enabled}
-            className={locals.colValue}
-            value={value}
-            hasError={!valueField?.valid && valueField?.touched}
-            onChange={({ target }) => {
-              onChange(['value'], (f: Item) => (f as Field<string>).setValue(target.value).setTouched(true));
-            }}
-            maxLength={512}
-          />
-          <TouchedMessages field={valueField} />
+        <FormGroup withoutBottomMargin className={locals.cpColumn}>
+          <Stack gap="disabled">
+            <Input
+              disabled={!enabled}
+              className={locals.colValue}
+              value={value}
+              hasError={!valueField?.valid && valueField?.touched}
+              onChange={({ target }) => {
+                onChange(['value'], (f: Item) => (f as Field<string>).setValue(target.value).setTouched(true));
+              }}
+              maxLength={512}
+            />
+            <ValidationError fieldValue={valueField} />
+          </Stack>
         </FormGroup>
       );
     }
 
     if (type === dynamicType) {
       return (
-        <FormGroup withoutBottomMargin className={locals.colValue}>
-          {valueField.map((field: Field<DynamicFieldValue>) => {
-            const value = field?.value;
-            const storeIntoFormModel = (payloadItem: ViewModel) => {
-              const formModel = toFormModel(payloadItem);
-              onChange(['value'], (f: Item) => (f as Field<DynamicFieldValue>).setValue(formModel).setTouched(true));
-            };
-            return (
-              <div className={locals.fullWidth}>
-                <TagBasedPayloadConfigurator
-                  disabled={!enabled}
-                  value={toViewModel(value)}
-                  onChange={storeIntoFormModel}
-                  suggestionsAlignedLeft={suggestionsAlignedLeft}
-                  tagFilterExpression={EMPTY_EXPRESSION}
-                />
-                <TouchedMessages field={field} className={locals.fullWidth} />
-              </div>
-            );
-          })}
+        <FormGroup withoutBottomMargin className={locals.cpColumn}>
+          <Stack gap="disabled">
+            {valueField.map((field: Field<DynamicFieldValue>) => {
+              const value = field?.value;
+              const storeIntoFormModel = (payloadItem: ViewModel) => {
+                const formModel = toFormModel(payloadItem);
+                onChange(['value'], (f: Item) => (f as Field<DynamicFieldValue>).setValue(formModel).setTouched(true));
+              };
+              return (
+                <div>
+                  <TagBasedPayloadConfigurator
+                    disabled={!enabled}
+                    value={toViewModel(value)}
+                    onChange={storeIntoFormModel}
+                    suggestionsAlignedLeft={suggestionsAlignedLeft}
+                    tagFilterExpression={EMPTY_EXPRESSION}
+                  />
+                  <ValidationError fieldValue={field} />
+                </div>
+              );
+            })}
+          </Stack>
         </FormGroup>
       );
     }
@@ -143,22 +147,24 @@ export const keyColumnDefinition = {
     const value = valueField.value;
 
     return (
-      <FormGroup withoutBottomMargin>
-        <HorizontalFlexWrapper className={locals.colName}>
-          <span className={locals.prefix}>{t('in-alerting:components.customPayload.customWithColon')}</span>
-          <Input
-            disabled={!enabled}
-            className={locals.key}
-            value={value}
-            hasError={!valueField?.valid && valueField?.touched}
-            onChange={({ target }) => {
-              onChange(['key'], (f: Item) => (f as Field<string>).setValue(target.value).setTouched(true));
-            }}
-            maxLength={128}
-            autoFocus={Boolean(item.get('id').value)}
-          />
-        </HorizontalFlexWrapper>
-        <TouchedMessages field={item.get('key')} />
+      <FormGroup withoutBottomMargin className={locals.cpColumn}>
+        <Stack gap="disabled">
+          <Stack direction="horizontal" align="center">
+            <span className={locals.prefix}>{t('in-alerting:components.customPayload.customWithColon')}</span>
+            <Input
+              disabled={!enabled}
+              className={locals.key}
+              value={value}
+              hasError={!valueField?.valid && valueField?.touched}
+              onChange={({ target }) => {
+                onChange(['key'], (f: Item) => (f as Field<string>).setValue(target.value).setTouched(true));
+              }}
+              maxLength={128}
+              autoFocus={Boolean(item.get('id').value)}
+            />
+          </Stack>
+          <ValidationError fieldValue={item.get('key')} />
+        </Stack>
       </FormGroup>
     );
   }
@@ -193,31 +199,41 @@ export const typeColumnDefinition = {
     };
 
     return (
-      <FormGroup withoutBottomMargin>
-        {item.get('type').map((field: Field<string>) => {
-          return (
-            <Select
-              wrapperClassName={locals.colType}
-              disabled={!enabled}
-              //className={locals.colType}
-              value={field.value ?? defaultType}
-              hasError={!field?.valid && field?.touched}
-              onChange={({ target }) => {
-                onChangeType(target.value);
-              }}
-            >
-              {[
-                { value: staticType, label: staticLabel },
-                { value: dynamicType, label: dynamicLabel }
-              ].map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </Select>
-          );
-        })}
+      <FormGroup withoutBottomMargin className={locals.cpColumn}>
+        <Stack direction="vertical" align="start" distribution="stretch">
+          {item.get('type').map((field: Field<string>) => {
+            return (
+              <Select
+                wrapperClassName={locals.fullWidth}
+                disabled={!enabled}
+                value={field.value ?? defaultType}
+                hasError={!field?.valid && field?.touched}
+                onChange={({ target }) => {
+                  onChangeType(target.value);
+                }}
+              >
+                {[
+                  { value: staticType, label: staticLabel },
+                  { value: dynamicType, label: dynamicLabel }
+                ].map(({ value, label }) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </Select>
+            );
+          })}
+          <Spacer size="xsmall" />
+        </Stack>
       </FormGroup>
     );
   }
 };
+
+function ValidationError({ fieldValue }: { fieldValue?: Item }) {
+  return (
+    <div className={locals.errorDiv}>
+      <TouchedMessages field={fieldValue} />
+    </div>
+  );
+}
