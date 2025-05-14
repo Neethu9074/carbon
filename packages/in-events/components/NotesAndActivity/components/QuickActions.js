@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 
 import {
@@ -54,30 +54,39 @@ export function QuickActions(props) {
   }
 
   // Look at the summaryNotes store to determine if the ai generation should occur
-  const generateAISummary = summaryNotesData?.generateAISummary;
-  // If the generate summary was triggered but the consent has not been accepted, highlight
-  // the button so they visually get attention brought to it.
-  if (generateAISummary == true && !automationActionAiGenerationUnitEnabled) {
-    const el = document.getElementById('generate_summary_consent');
-    if (el) {
-      el.style.transition = 'border-color 0.25s ease';
-      el.style.borderColor = 'white';
-      setTimeout(() => {
-        el.style.borderColor = '#0f62fe';
-      }, 250);
-    }
-  } else if (generateAISummary == true && automationActionAiGenerationUnitEnabled) {
-    // Handle summary generation if the consent has been accepted
-    handleSummaryGenerate();
-    // Keep the side panel open but turn off the ai generation after its began and keep loading state
-    setSummaryNotes(true, false);
-  }
+  const generateAISummary = summaryNotesData?.generateAISummary || false;
+
+  // Trigger only when the value of generateAISummary changes
+  useEffect(() => {
+    // If the generate summary was triggered but the consent has not been accepted, highlight
+    // the button so they visually get attention brought to it.
+    if (generateAISummary == true && !automationActionAiGenerationUnitEnabled) {
+      const el = document.getElementById('generate_summary_consent');
+      if (el) {
+        // Pulse the border color once to get the users attention
+        setTimeout(() => {
+          el.style.transition = 'border-color 0.25s ease';
+          el.style.borderColor = 'white';
+          setTimeout(() => {
+            el.style.borderColor = '#0f62fe';
+          }, 250);
+        }, 500);
+      }
+    } else if (generateAISummary == true && automationActionAiGenerationUnitEnabled) {
+      // Handle summary generation if the consent has been accepted
+      handleSummaryGenerate();
+      // Keep the side panel open but turn off the ai generation after its began and keep loading state
+      setSummaryNotes(true, false);
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [generateAISummary]);
 
   function handleSummaryGenerate() {
     // Set the current summary count BEFORE generating the summary
     setThisSummaryCount(summaryCount);
     // Start the loading spinner
     setLoadingSummary(true);
+    // Generate API Call
+    generateJournalSummary(incidentId);
     // Tacking clicks
     handleTracking(incidentId, EVENT_AI_GENERATE_SUBMIT);
     // Timeout is started for a max of 2 mins and then the
@@ -136,8 +145,6 @@ export function QuickActions(props) {
           }}
           onClick={() => {
             handleSummaryGenerate();
-            // Generate API Call
-            generateJournalSummary(incidentId);
           }}
         >
           <div className={locals.quickActionButtonContents}>{t('in-events:notes.generateSummary')}</div>
