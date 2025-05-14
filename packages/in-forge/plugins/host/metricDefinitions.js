@@ -168,8 +168,8 @@ export default [
     formatter: number
   },
   {
-    metrics: 'cpu.systemCalls',
-    labels: t('in-forge:plugins.host.systemCalls'),
+    metric: 'cpu.systemCalls',
+    label: t('in-forge:plugins.host.systemCalls'),
     category: [t('in-forge:plugins.host.cpu')],
     min: 0,
     formatter: number.compact
