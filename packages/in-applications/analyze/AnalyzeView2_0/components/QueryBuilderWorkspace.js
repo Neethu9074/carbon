@@ -22,7 +22,6 @@ import CallQueryBuilder from 'in-applications/analyze/components/workspace/CallQ
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { findInvalidTraceIdTagFilter } from 'in-analyze/AnalyzeView/validationUtils';
 import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
-import { applicationSaveFiltersEnabled } from 'in-services/featureFlags';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
@@ -168,58 +167,34 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
 
             <ActionSection
               left={
-                applicationSaveFiltersEnabled && (
-                  <Stack direction={'horizontal'} gap={'small'}>
-                    {CustomAction && <CustomAction {...props} />}
-                    <ApiQueryAction
-                      group={hasNoGroupingForCalls ? defaultGroupings.calls : groupBy}
-                      hiddenCalls={hiddenCalls}
-                      metrics={getMetricsAsApi()}
-                      order={isGrouped ? removeAggregation(orderByGroups, dataSource) : orderBy}
-                      backendQueryModel={backendQueryModel}
-                      backendQueryModelWithFacets={backendQueryModelWithFacets}
-                      tracking={{
-                        onClick: () => trackUa2ApiQueryPressed({ dataSource })
-                      }}
-                      docsLink={docLink}
-                      endpointUrl={endpointUrl}
-                      timeFrame={timeConfig}
-                      disabled={disableApiQuery}
-                      disabledTooltip={disabledApiQueryTooltip}
-                    />
-                  </Stack>
-                )
+                <Stack direction={'horizontal'} gap={'small'}>
+                  {CustomAction && <CustomAction {...props} />}
+                  <ApiQueryAction
+                    group={hasNoGroupingForCalls ? defaultGroupings.calls : groupBy}
+                    hiddenCalls={hiddenCalls}
+                    metrics={getMetricsAsApi()}
+                    order={isGrouped ? removeAggregation(orderByGroups, dataSource) : orderBy}
+                    backendQueryModel={backendQueryModel}
+                    backendQueryModelWithFacets={backendQueryModelWithFacets}
+                    tracking={{
+                      onClick: () => trackUa2ApiQueryPressed({ dataSource })
+                    }}
+                    docsLink={docLink}
+                    endpointUrl={endpointUrl}
+                    timeFrame={timeConfig}
+                    disabled={disableApiQuery}
+                    disabledTooltip={disabledApiQueryTooltip}
+                  />
+                </Stack>
               }
               right={
-                applicationSaveFiltersEnabled ? (
-                  <FilterActions
-                    backendQueryModel={backendQueryModel}
-                    group={groupBy}
-                    formModel={formModel}
-                    setUrlState={props.setUrlState}
-                    dataSource={dataSource}
-                  />
-                ) : (
-                  <Stack direction={'horizontal'} gap={'small'}>
-                    {CustomAction && <CustomAction {...props} />}
-                    <ApiQueryAction
-                      group={hasNoGroupingForCalls ? defaultGroupings.calls : groupBy}
-                      hiddenCalls={hiddenCalls}
-                      metrics={getMetricsAsApi()}
-                      order={isGrouped ? removeAggregation(orderByGroups, dataSource) : orderBy}
-                      backendQueryModel={backendQueryModel}
-                      backendQueryModelWithFacets={backendQueryModelWithFacets}
-                      tracking={{
-                        onClick: () => trackUa2ApiQueryPressed({ dataSource })
-                      }}
-                      docsLink={docLink}
-                      endpointUrl={endpointUrl}
-                      timeFrame={timeConfig}
-                      disabled={disableApiQuery}
-                      disabledTooltip={disabledApiQueryTooltip}
-                    />
-                  </Stack>
-                )
+                <FilterActions
+                  backendQueryModel={backendQueryModel}
+                  group={groupBy}
+                  formModel={formModel}
+                  setUrlState={props.setUrlState}
+                  dataSource={dataSource}
+                />
               }
             />
           </Sections>
