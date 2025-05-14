@@ -20,6 +20,7 @@ import { SETTINGS_ALERT_CHANNEL_CREATE } from 'in-services/tracking/eventNames';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { savingMessage as entityFormSavingMessage } from 'in-hoc/entityForm';
+import { getTagsResult } from 'in-settings/tabs/SecurityAndAccess/api/tags';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -32,7 +33,6 @@ import Notification from 'in-components/form/Notification';
 import { pendingResult } from 'in-services/fixedObjects';
 import { saveAlertChannel } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
-import { getTeamsOverview } from 'in-api/teams';
 import entityForm from 'in-hoc/entityForm';
 import { t, Trans } from 'in-i18n';
 
@@ -54,7 +54,7 @@ function AlertChannelModificationForm(props) {
     setMinHeight = false
   } = props;
 
-  const dataResult = useObservable(getTeamsOverview, []) ?? pendingResult;
+  const dataResult = useObservable(getTagsResult, []) ?? pendingResult;
   const teamsLoading = isLoading(dataResult);
   const teamsHasErrors = hasError(dataResult);
   const teamsList = !teamsLoading && !teamsHasErrors ? dataResult.data : [];
@@ -176,7 +176,7 @@ function AlertChannelModificationForm(props) {
                   onChange={data => onSelectionChanged(data.selectedItems)}
                   items={teamsList}
                   selectedItems={selectedList}
-                  itemToString={item => (item ? item.name : '')}
+                  itemToString={item => (item ? item.displayName : '')}
                 />
               </div>
             </Section>
