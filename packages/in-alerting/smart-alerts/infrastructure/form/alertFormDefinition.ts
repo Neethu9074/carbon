@@ -28,6 +28,7 @@ export const defaultAdaptiveBaselineGranularity = 1200000;
 export const fieldNames = Object.freeze({
   alertChannelIds: 'alertChannelIds',
   alertChannels: 'alertChannels',
+  triggering: 'triggering',
   customPayloadFields: 'customPayloadFields',
   description: 'description',
   granularity: 'granularity',
@@ -57,6 +58,7 @@ export default function alertFormDefinition(
   const {
     alertChannelIds = [],
     alertChannels = { WARNING: [], CRITICAL: [] },
+    triggering = undefined,
     description = '',
     granularity = 600000,
     gracePeriod = granularity,
@@ -82,6 +84,12 @@ export default function alertFormDefinition(
       createField({
         value: alertChannels,
         validator: stringMaxLengthValidator(MAX_LONG_STRING_LENGTH)
+      })
+    )
+    .put(
+      fieldNames.triggering,
+      createField({
+        value: triggering
       })
     )
     .put(

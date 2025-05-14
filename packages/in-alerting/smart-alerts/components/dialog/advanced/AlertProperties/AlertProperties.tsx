@@ -19,6 +19,7 @@ interface AlertPropertiesProps {
   isTearSheet?: boolean;
   shouldDisplayAlertLevelSelection?: boolean;
   descriptionPlaceholder?: { WARNING?: string; CRITICAL?: string };
+  displayTriggerIncident?: boolean;
 }
 
 export default function AlertProperties({
@@ -28,13 +29,14 @@ export default function AlertProperties({
   renderAlertPropertiesTitleRow,
   isTearSheet,
   shouldDisplayAlertLevelSelection = true,
-  descriptionPlaceholder
+  descriptionPlaceholder,
+  displayTriggerIncident = true
 }: AlertPropertiesProps): JSX.Element {
   return (
     <Sections>
       {renderAlertPropertiesTitleRow()}
       {shouldDisplayAlertLevelSelection && <AlertLevelRow onChange={onChange} form={form} isTearSheet={isTearSheet} />}
-      <TriggersIncidentRow form={form} onChange={onChange} isTearSheet={isTearSheet} />
+      {displayTriggerIncident && <TriggersIncidentRow form={form} onChange={onChange} isTearSheet={isTearSheet} />}
       <AlertDescriptionRow
         form={form}
         getDescriptionPlaceholder={getDescriptionPlaceholder}

@@ -256,6 +256,9 @@ export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarb
 // Slowness Blueprint in Mobile smart alert
 export const allSmartAlertsViewEnabled = isFeatureFlagEnabled('allSmartAlertsViewEnabled');
 
+// Trigger Incident for Infra smart alert
+export const incidentTriggeringInfraSaEnabled = isFeatureFlagEnabled('incidentTriggeringInfraSaEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

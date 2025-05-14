@@ -837,6 +837,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'incidentTriggeringInfraSaEnabled',
+    instanaCtlKey: 'feature.incident.triggering.infra.sa.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'websitesSmartAlertDialogViewEnabled',
     instanaCtlKey: 'feature.websites.smart.alert.dialog.view.enabled',
     defaultValue: true

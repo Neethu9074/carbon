@@ -25,6 +25,7 @@ import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details
 import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
+import { incidentTriggeringInfraSaEnabled } from 'in-services/featureFlags';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import { InfraAlertRuleUnion } from 'in-types';
@@ -89,6 +90,7 @@ export default function AlertConfigTearSheetStep3({
                 />
               )}
               shouldDisplayAlertLevelSelection={false}
+              displayTriggerIncident={incidentTriggeringInfraSaEnabled}
               isTearSheet
             />
           )}

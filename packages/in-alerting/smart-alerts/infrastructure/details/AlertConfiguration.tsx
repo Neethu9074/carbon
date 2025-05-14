@@ -25,6 +25,7 @@ import ForecastAlertingDescription from 'in-alerting/smart-alerts/infrastructure
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
+import { alertChannelPerSeverityInfraSaEnabled, incidentTriggeringInfraSaEnabled } from 'in-services/featureFlags';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import InfraEntityList from 'in-alerting/smart-alerts/infrastructure/components/perEntity/InfraEntityList';
@@ -42,7 +43,6 @@ import { toUIGrouping } from 'in-alerting/smart-alerts/aggregated/utils/groupfil
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import { AlertGrouping } from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
@@ -254,7 +254,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         <AlertPropertyInfos
           alertConfig={alertConfig}
           renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(alertConfig)}
-          disableTrigger
+          disableTrigger={!incidentTriggeringInfraSaEnabled}
           shouldDisplayAlertLevelSection={false}
         />
       </ExpandableLightCard>

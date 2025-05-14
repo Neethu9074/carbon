@@ -191,6 +191,7 @@ module.exports = {
   websitesSmartAlertDialogViewEnabled: true,
   websitesBusinessMonitoringEnabled: true,
   mobileAppSmartAlertDialogViewEnabled: true,
+  incidentTriggeringInfraSaEnabled: true,
   actionAiGenerationEnabled: true,
   logConsoleEnabled: true,
   mobileAppSmartAlertSlownessBlueprintEnabled: false,

@@ -9,16 +9,17 @@ import { isEmpty } from 'lodash';
 import React from 'react';
 
 import {
+  infraPredictiveDetectionEnabled,
+  oneMinuteGranularityForStaticThresholdEnabled,
+  alertChannelPerSeverityInfraSaEnabled,
+  incidentTriggeringInfraSaEnabled
+} from 'in-services/featureFlags';
+import {
   useGetAlertTitle,
   useFormattedThresholdValue,
   generateTitle,
   getTitlePlaceholderData
 } from 'in-alerting/smart-alerts/infrastructure/hooks/useGetAlertTitle';
-import {
-  infraPredictiveDetectionEnabled,
-  oneMinuteGranularityForStaticThresholdEnabled,
-  alertChannelPerSeverityInfraSaEnabled
-} from 'in-services/featureFlags';
 import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
@@ -205,6 +206,7 @@ export default function AdvancedModeContainer(
                       )}
                     />
                   )}
+                  displayTriggerIncident={incidentTriggeringInfraSaEnabled}
                   shouldDisplayAlertLevelSelection={false}
                 />
               )}
