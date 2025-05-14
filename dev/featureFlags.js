@@ -109,6 +109,7 @@ module.exports = {
   rcaLogsEnabled: true,
   rcaFailedStateEnabled: false,
   rcaTopologyEnabled: true,
+  rcaAiAutomatedInvestigationEnabled: false,
   eventFeedbackEnabled: true,
   incidentSummarizationEnabled: true,
   eventsAIChatEnabled: true,

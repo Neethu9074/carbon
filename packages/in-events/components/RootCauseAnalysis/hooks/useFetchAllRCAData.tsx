@@ -72,11 +72,15 @@ const useFetchAllRCAData = (incident: Event) => {
 
   const rca3Data = useFetchAppropriateRCAEntityData(rca3props.entityType, rca3props.snapshotID, incidentTimeWindow);
 
-  return [rc1Data, rca2Data, rca3Data];
+  return {
+    rootCauses: [rc1Data, rca2Data, rca3Data],
+    rootCauseMetadata: rootCauses
+  };
 };
 
 const defaultValue: {
   rootCauses: RCAEntityDataType[];
+  rootCauseMetadata: RootCause[];
 } = {
   rootCauses: [
     {
@@ -91,22 +95,15 @@ const defaultValue: {
       ...NoAppropriateRCAEntityData,
       entityType: 'infrastructure'
     }
-  ]
+  ],
+  rootCauseMetadata: []
 };
 
 const RootCauseDataContext = createContext(defaultValue);
 
 const RootCauseDataProvider = ({ incident, children }: { incident: Event; children: ReactNode }) => {
   const rcaDatas = useFetchAllRCAData(incident);
-  return (
-    <RootCauseDataContext.Provider
-      value={{
-        rootCauses: rcaDatas
-      }}
-    >
-      {children}
-    </RootCauseDataContext.Provider>
-  );
+  return <RootCauseDataContext.Provider value={rcaDatas}>{children}</RootCauseDataContext.Provider>;
 };
 
 export { RootCauseDataContext, RootCauseDataProvider };
