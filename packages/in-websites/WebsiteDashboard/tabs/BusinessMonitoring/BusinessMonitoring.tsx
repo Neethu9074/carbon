@@ -7,12 +7,13 @@
 import React from 'react';
 
 import SessionsChart from 'in-websites/WebsiteDashboard/tabs/BusinessMonitoring/components/SessionsChart';
+import UsersChart from 'in-websites/WebsiteDashboard/tabs/BusinessMonitoring/components/UsersChart';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { TimeConfig } from 'in-types';
 
 interface BusinessMonitoringProps {
   websiteId: string;
-  timeConfig: TimeConfig
+  timeConfig: TimeConfig;
 }
 
 export default function BusinessMonitoring({ websiteId, timeConfig }: BusinessMonitoringProps) {
@@ -21,6 +22,9 @@ export default function BusinessMonitoring({ websiteId, timeConfig }: BusinessMo
       <Row>
         <Col lg>
           <SessionsChart websiteId={websiteId} timeConfig={timeConfig} />
+        </Col>
+        <Col lg>
+          <UsersChart websiteId={websiteId} timeConfig={timeConfig} />
         </Col>
       </Row>
     </>

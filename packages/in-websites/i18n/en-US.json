@@ -805,6 +805,8 @@
         "noDataTitle": "No synthetic tests are associated with this website."
       },
       "businessMonitoring": {
+        "usersChartTitle": "Users",
+        "usersChartTotalLabel": "Total",
         "sessionsChartTitle": "Sessions",
         "sessionsChartStartedLabel": "Started"
       },
