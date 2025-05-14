@@ -74,14 +74,16 @@ export default function SlownessThresholdCondition({
         titleWidth="8rem"
       >
         <Stack direction="horizontal" gap="xsmall">
-          <Dropdown
-            value={metricName}
-            items={ruleMetricNameOptions.slowness}
-            className={locals.dropdownmd}
-            onChange={value => {
-              updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
-            }}
-          />
+          {eumType == websiteEum && (
+            <Dropdown
+              value={metricName}
+              items={ruleMetricNameOptions.slowness}
+              className={locals.dropdownmd}
+              onChange={value => {
+                updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
+              }}
+            />
+          )}
           <Dropdown
             value={getAggregationValue(form)}
             className={locals.dropdownxlg}
