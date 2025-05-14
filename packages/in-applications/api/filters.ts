@@ -12,7 +12,7 @@ import { getHeader } from 'in-services/security/csrf';
 import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 
-const basePath = '/api/application-monitoring/settings/saved-filter';
+const basePath = '/api/saved-filter';
 export const refreshSignal$ = create<string>().emit('');
 
 export const getSavedFilters = memoize(getSavedFiltersInternal, () => '', minutes.toMillis(10)) as () => Observable<
