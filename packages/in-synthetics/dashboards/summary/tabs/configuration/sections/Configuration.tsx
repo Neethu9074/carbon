@@ -325,6 +325,22 @@ const renderSSLCertificateTestTypeContent = (configuration: SSLCertificateConfig
     </Row>,
     showTimeoutAndRetryOptions(configuration)
   ];
+  if (configuration.acceptSelfSignedCertificate) {
+    content.push(
+      <Row key={'additionalOptions'}>
+        <LightCard
+          className={locals.lastConfigRow}
+          title={t('in-synthetics:dashboard.configuration.additionalOptionsTitle')}
+          darkFrame
+          useMaxAvailableHeight
+        >
+          <Row key={'acceptSelfSignedCertificate'} className={locals.additionalOptionsRow}>
+            {t('in-synthetics:dashboard.configuration.acceptSelfSignedCertificate')}
+          </Row>
+        </LightCard>
+      </Row>
+    );
+  }
   return content;
 };
 

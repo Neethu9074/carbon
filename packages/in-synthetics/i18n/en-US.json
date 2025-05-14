@@ -223,6 +223,7 @@
           "downloadZip": "Download .zip file",
           "mainFileNameHelperText": "Provide the name of the file within this .zip file that contains the test's entry point",
           "recordVideo": "Record user actions on failure",
+          "acceptSelfSignedCertificate":"Accept self-signed certificate",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "The URL is the domain name being tested for DNS resolution",
@@ -880,6 +881,7 @@
       "associatedMobileApps": "Associated Mobile Apps",
       "noMobileAppAssociated": "No Mobile Apps associated",
       "recordVideo": "Record user actions on failure",
+      "acceptSelfSignedCertificate":"Accept self-signed certificate",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "Query type",

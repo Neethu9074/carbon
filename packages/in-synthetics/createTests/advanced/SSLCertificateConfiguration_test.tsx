@@ -46,7 +46,7 @@ describe('SSLCertificateConfiguration', () => {
         setInvalidTimeout={setInvalidTimeout}
       />
     );
-    expect(container.getElementsByTagName('input').length).toBe(10);
+    expect(container.getElementsByTagName('input').length).toBe(11);
     // Host Name
     expect(screen.getByTestId('host-name')).toHaveValue('');
     // Port
@@ -114,6 +114,12 @@ describe('SSLCertificateConfiguration', () => {
             value: true
           })
         )
+        .put(
+          'acceptSelfSignedCertificate',
+          createField({
+            value: false
+          })
+        )
     );
 
     render(
@@ -174,6 +180,12 @@ describe('SSLCertificateConfiguration', () => {
           'markSyntheticCall',
           createField({
             value: true
+          })
+        )
+        .put(
+          'acceptSelfSignedCertificate',
+          createField({
+            value: false
           })
         )
     );

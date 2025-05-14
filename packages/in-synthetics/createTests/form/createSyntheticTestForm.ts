@@ -623,6 +623,13 @@ export function createAdvancedSSLCertificateConfigurationForm(savedState?: Recor
         value: savedState?.markSyntheticCall ?? true,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
       })
+    )
+    .put(
+      'acceptSelfSignedCertificate',
+      createField({
+        value: savedState?.acceptSelfSignedCertificate ?? false,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
     );
 }
 

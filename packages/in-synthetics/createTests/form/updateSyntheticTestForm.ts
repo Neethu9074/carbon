@@ -484,6 +484,13 @@ function createAdvancedSSLCertificateConfigurationForm(configuration?: Record<st
         value: configuration?.retries,
         validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
       })
+    )
+    .put(
+      'acceptSelfSignedCertificate',
+      createField({
+        value: configuration?.acceptSelfSignedCertificate,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
     );
 
   if (configuration?.retryInterval) {

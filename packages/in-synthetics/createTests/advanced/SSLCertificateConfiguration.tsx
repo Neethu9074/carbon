@@ -8,6 +8,7 @@ import { Field, Item, MapForm, createField } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Stack, RadioButton } from '@instana/components';
+import { Checkbox } from '@instana/carbon';
 
 import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
 import Section, { ActionTitle, Description } from 'in-synthetics/createTests/wizard/Section';
@@ -48,6 +49,7 @@ export default function SSLCertificateConfiguration({
   const timeoutField = configForm.get('timeout') as Field<string>;
   const retriesField = configForm.get('retries') as Field<number>;
   const retryIntervalField = configForm.get('retryInterval') as Field<number>;
+  const acceptSelfSignedCertificate = configForm.get('acceptSelfSignedCertificate') as Field<boolean>;
 
   const [timeout, setTimeout] = useState({
     value: timeoutField.value.replace(/\D/g, ''),
@@ -241,6 +243,22 @@ export default function SSLCertificateConfiguration({
             </Section>
           )}
         </FormGroup>
+      </div>
+      <div className={locals.configContainer}>
+        <Stack direction="horizontal">
+          <Checkbox
+            id="acceptSelfSignedCertificate"
+            checked={acceptSelfSignedCertificate.value}
+            labelText={t('in-synthetics:dialog.createTest.advancedMode.configStep.acceptSelfSignedCertificate')}
+            onChange={({ target }) => {
+              updateForm(
+                form.updateIn(['configuration', 'acceptSelfSignedCertificate'], (field: Item) =>
+                  (field as Field<boolean>).setValue(target.checked).setTouched(true)
+                )
+              );
+            }}
+          />
+        </Stack>
       </div>
     </>
   );
