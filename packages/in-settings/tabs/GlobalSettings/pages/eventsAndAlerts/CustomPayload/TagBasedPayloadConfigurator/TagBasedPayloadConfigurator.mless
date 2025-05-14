@@ -4,6 +4,15 @@
  */
 
 :local {
+  .wrapper {
+    width: 100%;
+  }
+
+  // override the max size in carbon styling of popover
+  .content {
+    max-inline-size: max-content;
+  }
+
   .configurator {
     // same height as all other input fields on this page
     height: 2rem;

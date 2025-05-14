@@ -9,7 +9,8 @@ import { useEffect, useCallback, useState, useRef } from 'react';
 /**
  * Handler to deal with clicks outside or inside the component
  * Can handle problems with stoppropagation and still
- * close the popover on clicks outside
+ * close the popover on clicks outside also fixes issues with clicking Icons inside a button
+
  * @returns {{open: boolean, toggle: Callback, ref: HTMLDivElement}}
  */
 export default function usePopoverClickHandler() {

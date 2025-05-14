@@ -6,6 +6,7 @@
 import React, { useRef } from 'react';
 import rpt from 'prop-types';
 
+import { Popover, PopoverContent } from '@instana/carbon';
 import { Message, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
@@ -16,7 +17,7 @@ import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOver
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-components/GroupingConfigurator/LoadingIndicator';
 import { getTagCatalogOnce, enrichTagCatalog } from 'in-services/tags/tagCatalog';
-import Overlay from 'in-components/overlays/Overlay';
+import usePopoverClickHandler from 'in-hooks/usePopoverClickHandler';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
@@ -30,10 +31,11 @@ export default function TagBasedPayloadConfigurator({
   getTagCatalog,
   suggestionsAlignedLeft,
   getSuggestions,
-  // temporary solution
-  inSidePanel = false,
+  align = 'bottom-start',
   hideDestinationSourceTag = false
 }) {
+  const { open, toggle, ref } = usePopoverClickHandler();
+
   const timeConfig = useTimeConfig();
   const tagCatalogResult = useObservable(getTagCatalog({ timeConfig }), [getTagCatalog]);
   const autoFocus = useRef();
@@ -48,67 +50,60 @@ export default function TagBasedPayloadConfigurator({
   }
 
   const tagPath = tagCatalog.tagsByName[value.tagName];
+  const tagPathComponent = tagPath ? (
+    <TagBasedPayloadView
+      tagCatalog={tagCatalog}
+      payloadValue={value}
+      hideDestinationSourceTag={hideDestinationSourceTag}
+      doesTagNodeNeedSecondLevelKey={doesTagNodeNeedSecondLevelKey(tagPath)}
+    />
+  ) : (
+    <Message type="error">{t('in-settings:tabs.team.customPayload.unknownTag', { tagName: value?.tagName })}</Message>
+  );
+
+  const payloadComponent = value?.tagName ? (
+    <TagBasedPayload
+      onChange={onChange}
+      getSuggestions={getSuggestions}
+      suggestionsAlignedLeft={suggestionsAlignedLeft}
+      payload={value}
+      toggle={toggle}
+      ref={autoFocus}
+      tagName={value.tagName}
+      tagTreeNode={tagCatalog.tagsByName[value.tagName]}
+      tagFilterExpression={tagFilterExpression}
+      autoFocus={autoFocus.current}
+    />
+  ) : (
+    <Button className={locals.selectPayloadButton} kind="action" size="compact" onClick={toggle}>
+      {t('in-settings:tabs.selectTag')}
+    </Button>
+  );
 
   return (
-    <Overlay
-      content={TagSelectorOverlay}
-      props={{
-        tagCatalog,
-        showTypeBadge: true,
-        onChange: ({ name }) => {
-          autoFocus.current = Date.now();
-          const tagTreeNode = tagCatalog.tagsByName[name];
-          if (doesTagNodeNeedSecondLevelKey(tagTreeNode)) {
-            onChange({ tagName: name, secondLevelKey: '' });
-          } else {
-            onChange({ tagName: name });
-          }
-        }
-      }}
-      align="bottomLeft"
-      inSidePanel={inSidePanel}
-      withoutWrapper
-    >
-      {({ toggle, refSetter }) =>
-        disabled ? (
-          tagPath ? (
-            <TagBasedPayloadView
+    <Popover ref={ref} align={align} autoAlign open={open} dropShadow className={locals.wrapper} caret={false}>
+      <PopoverContent className={locals.content}>
+        {open && (
+          <div className={locals.contents}>
+            <TagSelectorOverlay
               tagCatalog={tagCatalog}
-              payloadValue={value}
-              hideDestinationSourceTag={hideDestinationSourceTag}
-              doesTagNodeNeedSecondLevelKey={doesTagNodeNeedSecondLevelKey(tagPath)}
+              showTypeBadge
+              close={toggle}
+              onChange={({ name }) => {
+                autoFocus.current = Date.now();
+                const tagTreeNode = tagCatalog.tagsByName[name];
+                if (doesTagNodeNeedSecondLevelKey(tagTreeNode)) {
+                  onChange({ tagName: name, secondLevelKey: '' });
+                } else {
+                  onChange({ tagName: name });
+                }
+              }}
             />
-          ) : (
-            <Message type="error" small>
-              {t('in-settings:tabs.team.customPayload.unknownTag', { tagName: value?.tagName })}
-            </Message>
-          )
-        ) : value?.tagName ? (
-          <TagBasedPayload
-            onChange={onChange}
-            getSuggestions={getSuggestions}
-            suggestionsAlignedLeft={suggestionsAlignedLeft}
-            payload={value}
-            toggle={toggle}
-            ref={refSetter}
-            tagName={value.tagName}
-            tagTreeNode={tagCatalog.tagsByName[value.tagName]}
-            tagFilterExpression={tagFilterExpression}
-            autoFocus={autoFocus.current}
-          />
-        ) : (
-          <Button
-            className={locals.selectPayloadButton}
-            kind="action"
-            size="compact"
-            refSetter={refSetter}
-            onClick={toggle}
-          >
-            {t('in-settings:tabs.selectTag')}
-          </Button>
-        )
-      }
-    </Overlay>
+          </div>
+        )}
+      </PopoverContent>
+      {disabled ? tagPathComponent : payloadComponent}
+    </Popover>
   );
 }
 
@@ -125,7 +120,7 @@ TagBasedPayloadConfigurator.propTypes = {
   suggestionsAlignedLeft: rpt.bool,
   tagFilterExpression: rpt.object,
   hideDestinationSourceTag: rpt.bool,
-  inSidePanel: rpt.bool
+  align: rpt.string
 };
 
 export function createTagBasedApplicationPayloadConfigurator({ getTagCatalog, getSuggestions }) {

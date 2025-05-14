@@ -1,0 +1,35 @@
+import { Meta } from '@storybook/blocks';
+import usePopoverClickHandler from 'in-hooks/usePopoverClickHandler';
+
+<Meta title='in-hooks/usePopoverClickHandler' />
+
+## Handle Popover click event
+
+You can use the `usePopoverClickHandler` hook to manage the open/close (toggle) state of a Popover, including closing Popover when clicking outside.
+
+## Import
+
+```js
+import usePopoverClickHandler from 'in-hooks/usePopoverClickHandler';
+```
+
+## Best-Practice Usage
+
+```jsx
+import React from 'react';
+import {Button, Popover, PopoverContent} from '@instanan/carbon';
+
+
+function MyComponent() {
+  const {open, toggle, ref} = usePopoverClickHandler();
+
+  return (
+     <Popover ref={ref} open={open}>
+        <Button onClick={toggle}>
+        <PopoverContent>
+          {open && <div>Some content</div>}
+        </PopoverContent>
+     </Popover>
+  );
+}
+```
