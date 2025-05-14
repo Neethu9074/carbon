@@ -13,10 +13,6 @@
     }
   }
 
-  .colName {
-    width: 100%;
-  }
-
   .colValue {
     flex-direction: row !important;
     vertical-align: middle;
@@ -24,10 +20,6 @@
     min-height: 2rem; // for suggestion button aligned in the middle
     flex-wrap: wrap; // forcing validation message in next line
   }
-
-  .colType {
-  }
-
   .prefix {
     padding-right: 0.25rem;
   }
@@ -51,12 +43,6 @@
     cursor: default;
   }
 
-  .controls {
-    display: flex;
-    align-items: center;
-    height: 2rem;
-  }
-
   .fullWidth {
     width: 100%;
   }
@@ -70,5 +56,11 @@
     :global .cds--data-table-content {
       overflow-x: visible;
     }
+  }
+  .errorDiv {
+    min-height: 1.5rem;
+  }
+  .cpColumn {
+    padding-top: 1rem;
   }
 }
