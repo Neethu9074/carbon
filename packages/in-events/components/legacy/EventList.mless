@@ -14,7 +14,7 @@
   }
 
   .actionsButton {
-    border-radius: 25px 25px 25px 25px;
+    border-radius: 1.625rem;
     padding-inline-end: 1.25rem;
   }
 
