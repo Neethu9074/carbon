@@ -27,6 +27,7 @@ import { t } from 'in-i18n';
 import locals from './Management.mless';
 
 const localisationStrings = {
+  management: t('in-logging:dashboard.management'),
   logVolume: t('in-logging:dashboard.managementPage.logVolume'),
   logVolumeDescription: t('in-logging:dashboard.managementPage.logVolumeDescription'),
   logIntegrations: t('in-logging:dashboard.managementPage.logIntegrations'),
@@ -38,7 +39,7 @@ const localisationStrings = {
 };
 
 export default function Management() {
-  const { goToPath } = useNavigation();
+  const { createHrefToPath } = useNavigation();
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
 
   const shouldShowRetentionPeriod = isLoggingAddonUser && user?.role?.canConfigureLogRetentionPeriod;
@@ -49,15 +50,11 @@ export default function Management() {
 
   return (
     <LoggingDashboardWrapper>
-      <h2 className={locals.hiddenHeading}>Management</h2>
+      <h2 className="cds--assistive-text">{localisationStrings.management}</h2>
       <div className={locals.layout}>
         {shouldShowRetentionPeriod && (
-          <CarbonClickableTile
-            aria-label={localisationStrings.retentionPeriod}
-            role="tabpanel"
-            onClick={() => goToPath(dashboardRetentionManagementPath)}
-          >
-            <section className={locals.card}>
+          <CarbonClickableTile href={createHrefToPath(dashboardRetentionManagementPath)}>
+            <div className={locals.card}>
               <div className={locals.pictogramWrapper}>
                 <TimePlot width={56} />
               </div>
@@ -68,15 +65,11 @@ export default function Management() {
               <div className={locals.navButton}>
                 <IconButton color="#0F62FE" aria-label={'logRetention-link-button'} type="lib_arrow_right" />
               </div>
-            </section>
+            </div>
           </CarbonClickableTile>
         )}
         {shouldShowLogVolume && (
-          <CarbonClickableTile
-            aria-label={localisationStrings.logVolume}
-            role="tabpanel"
-            onClick={() => goToPath(dashboardLogVolumePath)}
-          >
+          <CarbonClickableTile href={createHrefToPath(dashboardLogVolumePath)}>
             <section className={locals.card}>
               <div className={locals.pictogramWrapper}>
                 <CalendarEvent width={56} />
@@ -92,11 +85,7 @@ export default function Management() {
           </CarbonClickableTile>
         )}
         {shouldShowIntegrations && (
-          <CarbonClickableTile
-            aria-label={localisationStrings.logIntegrations}
-            role="tabpanel"
-            onClick={() => goToPath(dashboardIntegrationsPath)}
-          >
+          <CarbonClickableTile href={createHrefToPath(dashboardIntegrationsPath)}>
             <section className={locals.card}>
               <div className={locals.pictogramWrapper}>
                 <Integration width={56} />
@@ -112,11 +101,7 @@ export default function Management() {
           </CarbonClickableTile>
         )}
         {shouldShowPatterRecognition && (
-          <CarbonClickableTile
-            aria-label={localisationStrings.patternRecognition}
-            role="tabpanel"
-            onClick={() => goToPath(dashboardPatternRecognitionPath)}
-          >
+          <CarbonClickableTile href={createHrefToPath(dashboardPatternRecognitionPath)}>
             <section className={locals.card}>
               <div className={locals.pictogramWrapper}>
                 <AnalyzesData width={56} />

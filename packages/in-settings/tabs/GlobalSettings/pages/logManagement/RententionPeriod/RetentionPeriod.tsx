@@ -35,12 +35,10 @@ import { ModalNotification, NotificationState } from './ModalNotification';
 import { SETTINGS_LOG_MANAGEMENT_RETENTION_PERIOD_SUBMITTED } from 'in-services/tracking/eventNames';
 import { securityAndAccessActionLogRetention } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import Title from 'in-components/Title/Title';
 import http from 'in-services/http/http';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -48,7 +46,6 @@ import { t } from 'in-i18n';
 import locals from './RetentionPeriod.mless';
 
 const localisationStrings = {
-  retentionPeriod: t('in-settings:tabs.retentionPeriod.retentionPeriod'),
   aboutRetentionPeriod: t('in-settings:tabs.retentionPeriod.aboutRetentionPeriod'),
   currentRetentionPeriod: t('in-settings:tabs.retentionPeriod.currentRetentionPeriod'),
   retentionDialogDescription: t('in-settings:tabs.retentionPeriod.retentionDialogDescription'),
@@ -106,10 +103,8 @@ export default function RetentionPeriod() {
   return (
     <>
       <section className={locals.detailPageSection}>
-        <Title title={localisationStrings.retentionPeriod} />
         <section className={locals.titleSection}>
           <div>
-            <SubViewHeaderComponent>{localisationStrings.retentionPeriod}</SubViewHeaderComponent>
             <Typography variant="body-regular">
               {localisationStrings.aboutRetentionPeriod}
               <Link externalWithIcon href={analyzeDocs.logsRetention}>

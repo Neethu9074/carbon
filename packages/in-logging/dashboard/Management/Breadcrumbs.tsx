@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
+// eslint-disable-next-line no-restricted-imports
+import { Breadcrumb, BreadcrumbItem } from '@carbon/react';
 import React from 'react';
-
-import { Link } from '@instana/components';
 
 import {
   dashboardManagementPath,
@@ -35,14 +35,17 @@ const locationLabels = [
 
 export default function Breadcrumbs() {
   const { createHrefToPath, matchLocation } = useNavigation();
+  const currentLocation = locationLabels.find(location => matchLocation(location.path));
 
   return (
-    <section className={locals.crumbs} aria-label="Page Navigation">
-      <Link href={createHrefToPath(loggingDashboardPath)}>{localisationStrings.logs}</Link>
-      <span>/</span>
-      <Link href={createHrefToPath(dashboardManagementPath)}>{localisationStrings.management}</Link>
-      <span>/</span>
-      <Link>{locationLabels.find(location => matchLocation(location.path))?.label}</Link>
-    </section>
+    <Breadcrumb noTrailingSlash className={locals.crumbs}>
+      <BreadcrumbItem href={createHrefToPath(loggingDashboardPath)}>{localisationStrings.logs}</BreadcrumbItem>
+      <BreadcrumbItem href={createHrefToPath(dashboardManagementPath)}>{localisationStrings.management}</BreadcrumbItem>
+      {currentLocation && (
+        <BreadcrumbItem isCurrentPage href={createHrefToPath(currentLocation.path)}>
+          {currentLocation.label}
+        </BreadcrumbItem>
+      )}
+    </Breadcrumb>
   );
 }

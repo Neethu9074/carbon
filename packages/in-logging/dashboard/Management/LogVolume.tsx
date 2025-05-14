@@ -9,10 +9,12 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import { LogVolume as LogVolumeContent } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/LogVolume';
+import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import Breadcrumbs from 'in-logging/dashboard/Management/Breadcrumbs';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import RestrictedAccessMessage from 'in-components/rbac';
 import { user } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 import locals from './Management.mless';
 
@@ -23,12 +25,17 @@ export default function LogVolume() {
 
   return (
     <main>
-      <header>
+      <LoggingDashboardWrapper
+        title={t('in-settings:tabs.logVolume.logVolume')}
+        withButton={false}
+        withTabs={false}
+        withTimeSelection={false}
+      >
         <Breadcrumbs />
-      </header>
-      <section className={locals.content}>
-        <LogVolumeContent />
-      </section>
+        <section className={locals.content}>
+          <LogVolumeContent />
+        </section>
+      </LoggingDashboardWrapper>
     </main>
   );
 }

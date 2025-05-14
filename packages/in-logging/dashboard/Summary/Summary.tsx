@@ -31,7 +31,7 @@ export default function Summary() {
 
   const contentToRender = (
     <div className={locals.dashboardContainer}>
-      <h2 style={{ display: 'none' }}>-</h2>
+      <h2 className="cds--assistive-text">{t('in-logging:dashboard.summary')}</h2>
       <div className={locals.dashboardCards}>
         <KpiGridRow sizes={[3, 3]}>
           <RetentionPeriodDashboard />

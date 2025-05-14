@@ -89,7 +89,7 @@ function MonthReport({ expandedState, logVolume, numberOfMonth, retentionPeriods
   }
 
   return (
-    <div role="grid" aria-label={monthString} className={locals.LogVolumeDetailsContainer}>
+    <div role="listitem" aria-label={monthString} className={locals.LogVolumeDetailsContainer}>
       <Li className={locals.LogVolumeDetails}>
         <div className={locals.tableLabel}>
           <h2>{monthString}</h2>

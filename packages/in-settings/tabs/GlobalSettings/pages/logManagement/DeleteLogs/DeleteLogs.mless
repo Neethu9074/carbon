@@ -58,11 +58,4 @@
     margin: 0 1ch;
     text-decoration: underline;
   }
-
-  .hiddenHeading {
-    visibility: hidden;
-  }
-
-  .untilDateInput {
-  }
 }

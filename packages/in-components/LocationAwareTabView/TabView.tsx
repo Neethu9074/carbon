@@ -19,6 +19,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { Location } from 'in-stores/navigation/types';
 import Sticky from 'in-components/Sticky';
 import { Nullish } from 'in-types';
+import { t } from 'in-i18n';
 
 export type TabFilterPredicate<TabData, T extends Tab<TabData, any>> = (
   result: Result<TabData> | Nullish
@@ -85,7 +86,7 @@ export default function TabView<TabData, TabProps extends {} = {}, ExtensionProp
     <section>
       <Sticky
         header={
-          <div>
+          <section aria-label={t('in-components:pageStructure.headerAriaLabel')}>
             {!withoutBreadcrumb && <BreadcrumbHeader />}
             {(!hasErrors || renderHeaderOnErrors) && (
               <Header
@@ -98,7 +99,7 @@ export default function TabView<TabData, TabProps extends {} = {}, ExtensionProp
                 additionalHeader={additionalHeader}
               />
             )}
-          </div>
+          </section>
         }
       >
         <div>{warnMessage}</div>

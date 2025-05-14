@@ -56,7 +56,7 @@ describe('renderIconsByStatus', () => {
         color={themes.default.ids.color.option.green[500]}
         iconSize={'xs'}
         isWrapperedByTooltip
-        iconDescription={t('in-logging:tooltipEntityHealthNoIssues')}
+        iconDescription={t('in-logging:deleteLogsTootilpSuccess')}
         enterDelayMs={500}
       />
     );
@@ -70,7 +70,7 @@ describe('renderIconsByStatus', () => {
         color={getDesignLibraryColorBySeverity(10)}
         iconSize={'xs'}
         isWrapperedByTooltip
-        iconDescription={t('in-logging:tooltipEntityHealthFailed')}
+        iconDescription={t('in-logging:deleteLogsTooltipFailed')}
         enterDelayMs={500}
       />
     );
@@ -94,31 +94,31 @@ describe('addSecondsIfValidFormat', () => {
 });
 
 describe('bytesToLargerUnit', () => {
-  test('debe convertir 1 GiB correctamente', () => {
+  test('correctly converts 1 GiB', () => {
     const result = bytesToLargerUnit(1024 ** 3); // 1 GiB in bytes
     expect(result.amount).toBeCloseTo(1, 2);
     expect(result.localizedUnit).toBe('GiB');
   });
 
-  test('debe convertir 1 TiB correctamente', () => {
+  test('correctly converts 1 TiB', () => {
     const result = bytesToLargerUnit(1024 ** 4); // 1 TiB in bytes
     expect(result.amount).toBeCloseTo(1, 2);
     expect(result.localizedUnit).toBe('TiB');
   });
 
-  test('debe convertir 5 TiB correctamente', () => {
+  test('correctly converts 5 TiB', () => {
     const result = bytesToLargerUnit(5 * 1024 ** 4); // 5 TiB in bytes
     expect(result.amount).toBeCloseTo(5, 2);
     expect(result.localizedUnit).toBe('TiB');
   });
 
-  test('debe redondear correctamente a 2 decimales', () => {
+  test('rounds to 2 decimal places correctly', () => {
     const result = bytesToLargerUnit(1500000000, 2); // ~1.4 GiB
     expect(result.amount).toBeCloseTo(1.4, 2);
     expect(result.localizedUnit).toBe('GiB');
   });
 
-  test('debe manejar valores pequeños correctamente (por debajo de 1 GiB)', () => {
+  test('handles small values correctly (below 1 GiB)', () => {
     const result = bytesToLargerUnit(500000000);
     expect(result.amount).toBeCloseTo(0.4657, 2);
     expect(result.localizedUnit).toBe('GiB');

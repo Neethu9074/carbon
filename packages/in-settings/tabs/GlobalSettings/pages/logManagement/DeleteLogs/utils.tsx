@@ -53,7 +53,7 @@ export const renderIconsByStatus = (status: string) => {
         color={themes.default.ids.color.option.green[500]}
         iconSize={'xs'}
         isWrapperedByTooltip
-        iconDescription={t('in-logging:tooltipEntityHealthNoIssues')}
+        iconDescription={t('in-logging:deleteLogsTootilpSuccess')}
         enterDelayMs={500}
       />
     ),
@@ -63,7 +63,7 @@ export const renderIconsByStatus = (status: string) => {
         color={getDesignLibraryColorBySeverity(10)}
         iconSize={'xs'}
         isWrapperedByTooltip
-        iconDescription={t('in-logging:tooltipEntityHealthFailed')}
+        iconDescription={t('in-logging:deleteLogsTooltipFailed')}
         enterDelayMs={500}
       />
     ),
@@ -74,7 +74,7 @@ export const renderIconsByStatus = (status: string) => {
         iconSize={'xs'}
         isWrapperedByTooltip
         iconSpinning
-        iconDescription={t('in-logging:tooltipEntityHealthInProgress')}
+        iconDescription={t('in-logging:deleteLogsTooltipInProgress')}
         enterDelayMs={500}
       />
     )

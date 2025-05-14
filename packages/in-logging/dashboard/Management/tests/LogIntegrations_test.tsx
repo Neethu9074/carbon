@@ -12,6 +12,10 @@ import { user } from 'in-stores/user';
 
 jest.mock('in-logging/dashboard/Management/Breadcrumbs', () => () => <div>Mocked Breadcrumbs</div>);
 
+jest.mock('in-logging/dashboard/LoggingDashboardWrapper', () => ({
+  __esModule: true,
+  default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>
+}));
 jest.mock('in-settings/tabs/GlobalSettings/pages/integrations/logging/Integrations/Integrations', () => () => (
   <div>Mocked Log Integrations Content</div>
 ));

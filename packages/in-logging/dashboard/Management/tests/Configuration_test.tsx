@@ -45,13 +45,13 @@ jest.mock('in-logging/dashboard/LoggingDashboardWrapper', () => (props: any) => 
 ));
 
 describe('Management Component', () => {
-  const mockGoToPath = jest.fn();
+  const mockCreateHrefToPath = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
 
     (useNavigation as jest.Mock).mockReturnValue({
-      goToPath: mockGoToPath
+      createHrefToPath: mockCreateHrefToPath
     });
 
     (useObservable as jest.Mock).mockReturnValue(true);
@@ -74,7 +74,7 @@ describe('Management Component', () => {
     expect(screen.getByText('Manage the retention period for logs.')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button'));
-    expect(mockGoToPath).toHaveBeenCalledWith('/logging/manage/retention');
+    expect(mockCreateHrefToPath).toHaveBeenCalledWith('/logging/manage/retention');
   });
 
   test('renders Log Volume card when permission is granted', () => {
@@ -86,7 +86,7 @@ describe('Management Component', () => {
     expect(screen.getByText('View log volume details.')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button'));
-    expect(mockGoToPath).toHaveBeenCalledWith('/logging/manage/logVolume');
+    expect(mockCreateHrefToPath).toHaveBeenCalledWith('/logging/manage/logVolume');
   });
 
   test('renders Log Integrations card when permission is granted', () => {
@@ -98,7 +98,7 @@ describe('Management Component', () => {
     expect(screen.getByText('Manage log integrations.')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button'));
-    expect(mockGoToPath).toHaveBeenCalledWith('/logging/manage/integrations');
+    expect(mockCreateHrefToPath).toHaveBeenCalledWith('/logging/manage/integrations');
   });
 
   test('renders all cards when all permissions are granted', () => {

@@ -18,6 +18,11 @@ jest.mock('in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/
   <div>Mocked Retention Period Content</div>
 ));
 
+jest.mock('in-logging/dashboard/LoggingDashboardWrapper', () => ({
+  __esModule: true,
+  default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>
+}));
+
 jest.mock('in-components/rbac', () => () => <div>Restricted Access</div>);
 
 jest.mock('in-logging/api/licence', () => ({

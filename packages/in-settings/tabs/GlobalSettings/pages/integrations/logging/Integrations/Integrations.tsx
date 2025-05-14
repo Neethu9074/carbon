@@ -15,17 +15,14 @@ import {
 import { callToastFlyout } from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Integrations/utils';
 // @ts-ignore
 import { refresh } from 'in-integrations/logging/configurationsStore';
-import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 // @ts-ignore
 import { get, save } from 'in-integrations/logging/api';
-import Title from 'in-components/Title/Title';
 import { t } from 'in-i18n';
 
 import locals from './Integrations.mless';
 
 const localisationStrings = {
-  logIntegrations: t('in-settings:tabs.integrations.logIntegrations'),
   logIntegrationsTooltip: t('in-settings:tabs.integrations.logIntegrationsTooltip'),
   logIntegrationsDescription: t('in-settings:tabs.integrations.logIntegrationsDescription'),
   logIntegrationsTooltipApiError: t('in-settings:tabs.integrations.logIntegrationsTooltipApiError'),
@@ -128,12 +125,10 @@ export default function LogIntegrations() {
 
   return (
     <>
-      <Title title="Log Integrations" />
-      <section className={locals.titleSection} aria-label="Page header">
-        <SubViewHeaderComponent>{localisationStrings.logIntegrations}</SubViewHeaderComponent>
+      <section className={locals.titleSection} aria-label={t('in-components:pageStructure.headerAriaLabel')}>
         <Typography variant="body-regular">{localisationStrings.logIntegrationsDescription}</Typography>
       </section>
-      <section className={locals.marginRight} aria-label="Content">
+      <section className={locals.marginRight} aria-label={t('in-components:pageStructure.contentAriaLabel')}>
         <Stack direction="horizontal" gap="large" wrap>
           {integrations &&
             integrations.map((integration: Integration) => {

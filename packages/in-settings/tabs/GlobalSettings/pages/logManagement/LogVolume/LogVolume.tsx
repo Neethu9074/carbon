@@ -20,21 +20,18 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { getLogVolumeReport, GetVolumeReportData } from 'in-logging/api/logVolume';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
-import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { dataSource } from 'in-applications/navigation/matrix';
 import useUrlState, { Options } from 'in-hooks/useUrlState';
 import Select from 'in-components/form/Select/Select';
 import { hasError } from 'in-services/util/result';
 import Label from 'in-components/form/Label';
-import Title from 'in-components/Title';
 
 import locals from './LogVolume.mless';
 
 export const localisationStrings = {
-  logVolume: t('in-settings:tabs.logVolume.logVolume'),
   timeRange: t('in-settings:tabs.logVolume.timeRange'),
   timeRangeAndGroup: t('in-settings:tabs.logVolume.timeRangeAndGroup'),
-  content: t('in-settings:tabs.logVolume.content')
+  content: t('in-components:pageStructure.contentAriaLabel')
 };
 
 const defaultProps = {
@@ -105,10 +102,6 @@ export function LogVolume() {
   return (
     <>
       <section className={locals.page}>
-        <Title title={localisationStrings.logVolume} />
-        <section className={locals.titleSection}>
-          <SubViewHeader>{localisationStrings.logVolume}</SubViewHeader>
-        </section>
         <div>
           <section aria-label={localisationStrings.timeRangeAndGroup}>
             <Ul>

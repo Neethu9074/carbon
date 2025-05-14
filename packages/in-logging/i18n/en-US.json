@@ -39,9 +39,10 @@
   "namespace": "Namespace",
   "deployment": "Deployment",
   "pod": "Pod",
+  "deleteLogsTootilpSuccess": "Success",
   "tooltipEntityHealthNoIssues": "No issues",
-  "tooltipEntityHealthInProgress": "In Progress",
-  "tooltipEntityHealthFailed": "Failed",
+  "deleteLogsTooltipInProgress": "In Progress",
+  "deleteLogsTooltipFailed": "Failed",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} issues",
   "endOfInfiniteScroll": "No more logs available",
   "liveModeDisabled": "Live mode is not supported when analysing logs",
@@ -81,7 +82,7 @@
       "logIntegrations": "Log integrations",
       "logIntegrationsDescription": "Connect your log management solutions and configure them to meet your needs.",
       "retentionPeriod": "Retention period",
-      "retentionPeriodDescription": "Changing the retention period affects the time that logs are retained and available in Applications, Dashboards, and Analytics, and has an impact on cost and billing.",
+      "retentionPeriodDescription": "Change how long logs are retained and available in Applications, Dashboards, and Analytics. This may affect cost and billing.",
       "patternRecognition": "Log pattern recognition",
       "patternRecognitionDescription": "AI functionality that discover recurrent patterns in your logs. Patterns provide a high level overview of your logs and help decrease the time to resolve on trouble shooting."
     }
