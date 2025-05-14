@@ -514,8 +514,8 @@
     "profileMenu_saasConsole": "IBM SaaS Console",
     "profileMenu_privacy": "Privacy",
     "profileMenu_logOut": "Log out",
-    "teamFocus_title": "Team Focus",
-    "teamFocus_entireUnit": "Entire Unit"
+    "scope_title": "Scope",
+    "scope_defaultScope": "Default scope"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Select metrics",

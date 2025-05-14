@@ -17,13 +17,9 @@
     &_teamFocusSection {
       padding: 0rem 1rem;
     }
-  }
 
-  :global(.cds--header-panel) {
-    height: fit-content;
-    max-height: calc(100vh - 3rem);
-    transform: translate(0);
-    transition: unset;
-    overflow: auto;
+    &_switcherDivider {
+      inline-size: calc(100% - 2rem);
+    }
   }
 }

@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { CarbonDropdown as Dropdown } from '@instana/components';
+import { Dropdown, Layer } from '@instana/carbon';
 import { TeamTag } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
@@ -18,7 +18,7 @@ interface TeamFocusDropdownProps {
 
 export default function TeamFocusDropdown(props: TeamFocusDropdownProps) {
   const { teams } = props;
-  const defaultOption = { displayName: t('in-components:mainNavigation.teamFocus_entireUnit'), id: '' };
+  const defaultOption = { displayName: t('in-components:mainNavigation.scope_defaultScope'), id: '' };
 
   const teamsOptions = [...teams, defaultOption];
   // @ts-expect-error
@@ -40,15 +40,18 @@ export default function TeamFocusDropdown(props: TeamFocusDropdownProps) {
   };
 
   return (
-    <Dropdown
-      id="team-focus-selection"
-      initialSelectedItem={selectedTeamFocus}
-      itemToString={item => item?.displayName ?? ''}
-      items={teamsOptions}
-      label={selectedTeamFocus}
-      titleText={t('in-components:mainNavigation.teamFocus_title')}
-      type="default"
-      onChange={({ selectedItem }) => onChangeTeamFocus(selectedItem as TeamTag)}
-    />
+    <Layer level={1}>
+      <Dropdown
+        id="scope-selection"
+        initialSelectedItem={selectedTeamFocus}
+        itemToString={item => item?.displayName ?? ''}
+        items={teamsOptions}
+        label={selectedTeamFocus?.displayName}
+        titleText={t('in-components:mainNavigation.scope_title')}
+        type="default"
+        onChange={({ selectedItem }) => onChangeTeamFocus(selectedItem as TeamTag)}
+        size="sm"
+      />
+    </Layer>
   );
 }

@@ -93,13 +93,13 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
             </Link>
           </Typography>
         </div>
-        <SwitcherDivider />
+        <SwitcherDivider className={local.profileMenu_switcherDivider} />
         {rbacTeamsEnabled && !isTeamsLoading && (
           <div className={local.profileMenu_teamFocusSection}>
             <TeamFocusDropdown teams={teams} />
           </div>
         )}
-        {rbacTeamsEnabled && <SwitcherDivider />}
+        {rbacTeamsEnabled && <SwitcherDivider className={local.profileMenu_switcherDivider} />}
         <div className={local.profileMenu_unitTenantSection}>
           <Typography variant="label-01" onDark>
             <label className={local.profileMenu_label}>
@@ -138,7 +138,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
           </div>
         ) : null}
         <Switcher aria-label="Switcher Container" expanded={isSideNavExpanded}>
-          <SwitcherDivider />
+          <SwitcherDivider className={local.profileMenu_switcherDivider} />
           {tealiumPrivacyEnabled ? (
             <SwitcherItem
               data-autoid="dds--privacy-cp__link"
@@ -154,7 +154,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
               </Typography>
             </SwitcherItem>
           ) : null}
-          {tealiumPrivacyEnabled ? <SwitcherDivider /> : null}
+          {tealiumPrivacyEnabled ? <SwitcherDivider className={local.profileMenu_switcherDivider} /> : null}
           {tenantSwitcherEnabled ? (
             <SwitcherItem
               target="_blank"
@@ -174,7 +174,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
               </Stack>
             </SwitcherItem>
           ) : null}
-          {tenantSwitcherEnabled && <SwitcherDivider />}
+          {tenantSwitcherEnabled && <SwitcherDivider className={local.profileMenu_switcherDivider} />}
           {shouldShowMcspMenuItems ? (
             <SwitcherItem
               target="_blank"
@@ -193,7 +193,7 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
               </Stack>
             </SwitcherItem>
           ) : null}
-          {shouldShowMcspMenuItems && <SwitcherDivider />}
+          {shouldShowMcspMenuItems && <SwitcherDivider className={local.profileMenu_switcherDivider} />}
           <SwitcherItem href="#" onClick={signOut} aria-label={t('in-components:mainNavigation.profileMenu_logOut')}>
             <Stack direction="horizontal" gap="xsmall" align="center">
               <SvgIcon type="lib_log_out" size="xs" color="white" />
