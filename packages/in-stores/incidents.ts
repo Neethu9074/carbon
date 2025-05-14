@@ -25,5 +25,5 @@ export function setSummaryNotes(open: boolean, generateAISummary: boolean) {
     open: open,
     generateAISummary: generateAISummary
   };
-  summaryNotesStore.applyStateMutation(() => newValue);
+  summaryNotesStore.mutateTo(newValue);
 }

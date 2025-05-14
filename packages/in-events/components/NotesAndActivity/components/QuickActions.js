@@ -78,8 +78,6 @@ export function QuickActions(props) {
     setThisSummaryCount(summaryCount);
     // Start the loading spinner
     setLoadingSummary(true);
-    // Generate API Call
-    generateJournalSummary(incidentId);
     // Tacking clicks
     handleTracking(incidentId, EVENT_AI_GENERATE_SUBMIT);
     // Timeout is started for a max of 2 mins and then the
@@ -138,6 +136,8 @@ export function QuickActions(props) {
           }}
           onClick={() => {
             handleSummaryGenerate();
+            // Generate API Call
+            generateJournalSummary(incidentId);
           }}
         >
           <div className={locals.quickActionButtonContents}>{t('in-events:notes.generateSummary')}</div>

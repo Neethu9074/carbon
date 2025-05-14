@@ -23,7 +23,8 @@ import {
   rcaUIEnabled,
   relatedEventsDatgridEnabled,
   businessObservabilityEnabled,
-  eventFeedbackEnabled
+  eventFeedbackEnabled,
+  automationActionAiGenerationUnitEnabled
 } from 'in-services/featureFlags';
 import { InfraAggregatedEntitiesTablePresenter } from 'in-events/components/EventContent/InfraAggregatedEntities';
 import { getTimeConfigForAggregatedEntitiesTable } from 'in-events/components/EventContent/InfraEventContent';
@@ -53,6 +54,7 @@ import { FeedbackComponents } from 'in-events/components/EventTable';
 import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { generateJournalSummary } from 'in-stores/events';
 import { toHtml } from 'in-services/formatters/markdown';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -194,6 +196,10 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
                 onClick={() => {
                   // Open notes, generate summary
                   setSummaryNotes(true, true);
+                  // Generate API Call
+                  if (automationActionAiGenerationUnitEnabled) {
+                    generateJournalSummary(incident.get('id'));
+                  }
                   MoveAIChatLauncher('500px');
                 }}
               >
