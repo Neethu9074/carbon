@@ -32,6 +32,7 @@ module.exports = {
         'in-subscription',
         'in-test',
         'in-themes',
+        'in-custom-dashboards',
 
         // unwanted dependencies, that will need refactoring
         'in-alerting',

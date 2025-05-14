@@ -804,6 +804,10 @@
         "tabLabel": "Synthetic monitoring",
         "noDataTitle": "No synthetic tests are associated with this website."
       },
+      "businessMonitoring": {
+        "sessionsChartTitle": "Sessions",
+        "sessionsChartStartedLabel": "Started"
+      },
       "indexLabelSummary": "Summary",
       "indexLabelSpeed": "Speed",
       "indexLabelResources": "Resources",

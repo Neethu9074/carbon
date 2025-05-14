@@ -6,6 +6,23 @@
 
 import React from 'react';
 
-export default function BusinessMonitoring() {
-  return <></>;
+import SessionsChart from 'in-websites/WebsiteDashboard/tabs/BusinessMonitoring/components/SessionsChart';
+import { Col, Row } from 'in-components/layout/Grid/Grid';
+import { TimeConfig } from 'in-types';
+
+interface BusinessMonitoringProps {
+  websiteId: string;
+  timeConfig: TimeConfig
+}
+
+export default function BusinessMonitoring({ websiteId, timeConfig }: BusinessMonitoringProps) {
+  return (
+    <>
+      <Row>
+        <Col lg>
+          <SessionsChart websiteId={websiteId} timeConfig={timeConfig} />
+        </Col>
+      </Row>
+    </>
+  );
 }
