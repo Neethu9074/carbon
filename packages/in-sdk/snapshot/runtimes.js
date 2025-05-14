@@ -23,6 +23,10 @@ const runtimes = [
     label: t('in-sdk:snapshot.runtimeLabelNodeJS')
   },
   {
+    key: 'php',
+    label: t('in-sdk:snapshot.runtimeLabelPhp')
+  },
+  {
     key: 'python',
     label: t('in-sdk:snapshot.runtimeLabelPython')
   },
