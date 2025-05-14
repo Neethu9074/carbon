@@ -17,4 +17,7 @@
       margin-bottom: 2%;
     }
   }
+  .notification {
+    white-space: nowrap;
+  }
 }

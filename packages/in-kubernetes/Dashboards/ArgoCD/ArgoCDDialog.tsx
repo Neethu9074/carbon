@@ -6,13 +6,13 @@
 
 import React from 'react';
 
+import { Button, Link } from '@instana/components';
 import { Tearsheet } from '@instana/ibm-products';
-import { Button } from '@instana/components';
 import { TimeConfig } from '@instana/types';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification/DashboardNotification';
 import ArgoCDTable from 'in-kubernetes/Dashboards/ArgoCD/ArgoCdTable';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './ArgoCD.mless';
 
@@ -34,7 +34,20 @@ const ArgoCDDialog = ({ snapshotId, timeConfig, onClose, totalApps, unsyncedApps
   } else if (totalApps == undefined) {
     label = t('in-kubernetes:argocd.notificationError');
   } else {
-    label = t('in-kubernetes:argocd.infoNotification');
+    label = (
+      <Trans
+        i18nKey="in-kubernetes:argocd.infoNotification"
+        components={{
+          linkArgoCD: (
+            // @ts-expect-error
+            <Link
+              href="https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-argo-cd-public-preview"
+              external
+            />
+          )
+        }}
+      />
+    );
   }
 
   const openInNewTab = () => {
@@ -42,7 +55,7 @@ const ArgoCDDialog = ({ snapshotId, timeConfig, onClose, totalApps, unsyncedApps
   };
 
   const headerActions = (
-    <Button kind="primary" size="compact" icon={launchIcon} onClick={openInNewTab}>
+    <Button kind="primary" icon={launchIcon} onClick={openInNewTab}>
       {t('in-kubernetes:argocd.launchArgocd')}
     </Button>
   );
@@ -55,11 +68,16 @@ const ArgoCDDialog = ({ snapshotId, timeConfig, onClose, totalApps, unsyncedApps
       onClose={onClose}
       open
       hasCloseIcon
+      selectorPrimaryFocus="#argocdApplications"
       closeIconDescription={t('in-kubernetes:argocd.close')}
       className={locals.tearsheet}
     >
-      <DashboardNotification type="neutral">{label}</DashboardNotification>
-      {totalApps != 0 && <ArgoCDTable snapshotId={snapshotId} timeConfig={timeConfig} />}
+      <div id="argocdApplications">
+        <DashboardNotification type="neutral">
+          <div className={locals.notification}>{label}</div>
+        </DashboardNotification>
+        {totalApps != 0 && <ArgoCDTable snapshotId={snapshotId} timeConfig={timeConfig} />}
+      </div>
     </Tearsheet>
   );
 };

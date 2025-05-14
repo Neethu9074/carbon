@@ -57,7 +57,6 @@ export default function ContextGuide({
         includeSelfEntity={includeSelfEntity}
         plugin={plugin}
         syntheticCalls={syntheticCalls}
-        noAutoMargin
         size={size}
       />
       <UpstreamDownstreamButton
