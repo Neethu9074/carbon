@@ -11,4 +11,14 @@
   .sortingConfiguratorWrapper {
     margin-right: 1rem;
   }
+
+  .dropdownWidth {
+    width: 14rem;
+    :global .cds--list-box {
+      max-block-size: 3rem !important;
+    }
+    :global .cds--dropdown {
+      block-size: 3rem !important;
+    }
+  }
 }

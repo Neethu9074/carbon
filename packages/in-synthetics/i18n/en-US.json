@@ -476,6 +476,10 @@
         "smartAlerts": "Smart Alerts",
         "credentials": "Credentials"
       },
+      "options":{
+        "scheduledLabel":"Data scope : Scheduled",
+        "onDemandLabel":"Data scope : On demand"
+      },
       "popDialog": {
         "popUpDialogTitle": "Permissions for synthetic monitoring",
         "popUpDialog": "Please check the <documentationLink>document</documentationLink> for information about setting synthetic monitoring permissions",

@@ -108,7 +108,16 @@ export const DNSQueryTypes: { label: string; value: string }[] = [
     value: 'ALL_CONDITIONS'
   }
 ];
-
+export const datascopeRunTypes = [
+  {
+    label: t('in-synthetics:dashboard.testList.options.scheduledLabel'),
+    value: 'Scheduled'
+  },
+  {
+    label: t('in-synthetics:dashboard.testList.options.onDemandLabel'),
+    value: 'CI/CD'
+  }
+];
 export const DNSFilterOperators: { label: string; value: SyntheticTestFilterOperator }[] = [
   {
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionContains'),

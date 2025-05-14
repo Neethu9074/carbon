@@ -16,6 +16,7 @@ export const applicationIdTagName = 'synthetic.applicationId';
 export const websiteIdTagName = 'synthetic.websiteId';
 export const mobileAppIdTagName = 'synthetic.mobileApplicationId';
 export const serviceIdTagName = 'synthetic.serviceId';
+export const runTypeTagName = 'synthetic.runType';
 export const typeTagName = 'synthetic.syntheticType';
 export const startTimeTagName = 'synthetic.startTime';
 export const finishTimeTagName = 'synthetic.finishTime';

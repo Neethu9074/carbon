@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   OrderDirection,
@@ -17,6 +17,7 @@ import {
   TimeConfig
 } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { Dropdown } from '@instana/carbon';
 
 import {
   CurrentState,
@@ -27,6 +28,7 @@ import {
   syntheticTypesUrlParameter,
   locationsUrlParameter,
   applicationsUrlParameter,
+  datascopeRunTypes,
   entityIdsUrlParameter
 } from 'in-synthetics/utils/constants';
 import {
@@ -36,6 +38,7 @@ import {
   mobileAppIdTagName,
   testIdTagName,
   testNameTagName,
+  runTypeTagName,
   typeTagName
 } from 'in-synthetics/tags';
 import showNotification, {
@@ -50,6 +53,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import columnDefinitions from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
+import { syntheticRbacLimitedEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { CONTAINS, EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -60,7 +64,6 @@ import CreateSyntheticTest from 'in-synthetics/createTests/CreateSyntheticTest';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useFilterHeader } from 'in-synthetics/dashboards/global/utils';
-import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -77,6 +80,8 @@ import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
+import locals from 'in-synthetics/dashboards/global/TestSummaryList.mless';
+
 const urlStateDefinition: Options<FilterState> = {
   bind: filterUrlStateDefinition.bind,
   reducer: (prevState: FilterState, { syntheticTypes, locationIds, applicationIds, entityIds }: CurrentState) => {
@@ -89,7 +94,6 @@ const urlStateDefinition: Options<FilterState> = {
       : { ...commonUrlStateProps, applicationIds: applicationIds || prevState.applicationIds };
   }
 };
-
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
@@ -137,6 +141,7 @@ const TestSummaryList = () => {
   const [{ syntheticTypes, locationIds, applicationIds, entityIds }, setFilter] = useUrlState(urlStateDefinition);
   const storedDialogAlarm = storedAlarmTimeOrNull();
   const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(() => getTests(), []) ?? pendingResult;
+  const [runType, setRunType] = useState<string>(datascopeRunTypes[0].value);
   if (syntheticRbacLimitedEnabled && !syntheticTests?.progress?.loading) {
     syntheticTests?.data?.forEach(function (item: SyntheticTest) {
       if (item?.applications) {
@@ -185,6 +190,25 @@ const TestSummaryList = () => {
           timeConfig={timeConfig}
           rightHeader={rightHeader}
           cardTitle={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
+          toolBarContent={
+            syntheticRunNowEnabled && (
+              <Dropdown
+                className={locals.dropdownWidth}
+                items={datascopeRunTypes}
+                onChange={({ selectedItem }) => {
+                  if (selectedItem != null) {
+                    setRunType(selectedItem.value);
+                  }
+                }}
+                label=""
+                id={runType}
+                titleText=""
+                selectedItem={datascopeRunTypes.find(item => item.value === runType)}
+                initialSelectedItem={datascopeRunTypes[0]}
+              />
+            )
+          }
+          runType={runType}
           syntheticTypes={syntheticTypes}
           locationIds={locationIds}
           applicationIds={applicationIds}
@@ -226,6 +250,7 @@ interface GetTestSummaryList {
   associations?: Record<string, string[]>;
   mobileAppIds?: string[];
   excludeIds?: string[];
+  runType?: string;
 }
 
 export const getTestSummaryListData = ({
@@ -244,7 +269,8 @@ export const getTestSummaryListData = ({
   applicationIds = [],
   entityIds = [],
   associations,
-  excludeIds = []
+  excludeIds = [],
+  runType = ''
 }: GetTestSummaryList) => {
   const baseTagFilterExpression: TagFilterExpression = {
     elements: [],
@@ -338,7 +364,21 @@ export const getTestSummaryListData = ({
       type: 'TAG_FILTER'
     });
   }
-
+  if (syntheticRunNowEnabled) {
+    const runTypeTagFilterExpression: TagFilterExpression = {
+      elements: [],
+      logicalOperator: 'OR',
+      type: 'EXPRESSION'
+    };
+    runTypeTagFilterExpression.elements.push({
+      value: runType,
+      name: runTypeTagName,
+      operator: EQUALS,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    });
+    baseTagFilterExpression.elements.push(runTypeTagFilterExpression);
+  }
   addFilter(syntheticTypes, typeTagName, EQUALS, typeTagFilterExpression);
   addFilter(locationIds, locationIdTagName, EQUALS, locationTagFilterExpression);
   addFilter(applicationIds, applicationIdTagName, EQUALS, appTagFilterExpression);
