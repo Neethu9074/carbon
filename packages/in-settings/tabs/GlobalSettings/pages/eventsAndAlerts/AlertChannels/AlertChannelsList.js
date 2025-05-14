@@ -19,6 +19,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { rbacTeamsEnabled } from 'in-services/featureFlags';
+import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -46,11 +47,21 @@ export default function AlertChannelsList({
   alertChannelPerSeverityEnabled,
   getHeader = defaultGetHeader(inSelectListDialog, tableActions)
 }) {
+  const BOUNDED_PATH = '/channels';
   const { location } = useNavigation();
   const channelListColumnDefinitions =
     alertChannelPerSeverityEnabled && detailView
       ? [...columnDefinitions(hasRowNavigation), ...columnDefinitionsAlertLevel(alertChannels)]
       : columnDefinitions(hasRowNavigation);
+  const [{ query }] = useUrlState({
+    bind: [
+      {
+        path: BOUNDED_PATH,
+        name: 'query',
+        initialState: ''
+      }
+    ]
+  });
 
   return (
     <List
@@ -68,8 +79,10 @@ export default function AlertChannelsList({
       isSearchable={isSearchable}
       searchAttributes={['name', getKind, getStringifiedParameters, getStringifiedTags]}
       extraFilters={createFilters(hiddenIds)}
+      onFilter={query.includes(':teams:') && (entities => createTeamsQueryFilter(entities, query))}
       searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
+      boundedPath={BOUNDED_PATH}
       getDetailsHref={
         onRowClick || !hasRowNavigation
           ? null
@@ -248,6 +261,44 @@ export function createFilters(hiddenIds) {
   if (hiddenIds) {
     filters.push(entity => hiddenIds.indexOf(entity.id) < 0);
   }
-
   return filters;
+}
+
+// If the URL contains 'query=team:' we want to filter which teams are visible
+// This filter is used in place of the default searching filter as long as the team query exists
+// Otherwise we return false and then the default search filter is applied
+export function createTeamsQueryFilter(entities, query) {
+  if (query && query != '' && query.includes(':teams:')) {
+    const team = query.includes(':') && query.split(':');
+    const teamArr = (team && team[2] && team[2].split(',')) || [];
+    const result = entities.filter(entity => {
+      return handleTeamsFilter(entity, teamArr);
+    });
+    return result;
+  }
+  return false;
+}
+
+// Handler for teams filter
+// If a team ends with a "!" we want to search on the exact naming
+// If a team doesnt end with "!" we do a includes for partial patching
+export function handleTeamsFilter(entity, filters) {
+  // Generate the rbac tags for the entity
+  const rbacTagsArr = [];
+  entity.rbacTags.map(i => {
+    rbacTagsArr.push(i.displayName.toLowerCase());
+  });
+
+  // Go through the team filters list
+  return filters.every(element => {
+    const lastChar = element.charAt(element.length - 1);
+    // If the last character is a "!" we want exact matching
+    if (lastChar == '!') {
+      const newElement = element.substring(0, element.length - 1);
+      return rbacTagsArr.includes(newElement.toLowerCase());
+    } else {
+      // else do partial includes for substrings
+      return rbacTagsArr.some(string => string.includes(element.toLowerCase()));
+    }
+  });
 }
