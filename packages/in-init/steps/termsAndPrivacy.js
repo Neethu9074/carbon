@@ -6,7 +6,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import { ThemeProvider, getThemeOverride } from '@instana/components';
+import { ThemeProvider } from '@instana/components';
 import { just, create } from '@instana/observables';
 import { createLogger } from '@instana/logger';
 
@@ -22,12 +22,11 @@ export function init() {
   if (accepted) {
     return just(true);
   }
-  const currentTheme = getThemeOverride() ?? 'default';
 
   ReactDOM.render(
     <ErrorBoundary name="terms-and-privacy-dialog">
       <GlobalTheme>
-        <ThemeProvider theme={currentTheme}>
+        <ThemeProvider theme="g10">
           <TermsDialog onSave={onSave} fullTermsConfigEnabled={fullTermsConfigEnabled} />
         </ThemeProvider>
       </GlobalTheme>

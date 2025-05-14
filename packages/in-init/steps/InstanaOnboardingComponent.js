@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { getThemeOverride, ThemeProvider } from '@instana/components';
+import { ThemeProvider } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
@@ -42,7 +42,7 @@ export default function InstanaOnboardingComponent({ onDialogSkip }) {
   return (
     <ErrorBoundary name="Instana onboarding dialog">
       <GlobalTheme>
-        <ThemeProvider theme={getThemeOverride() ?? 'default'}>
+        <ThemeProvider theme="g10">
           <DialogPresenter />
 
           <MessageFlyout onlyShowUsageRelatedMessages />
