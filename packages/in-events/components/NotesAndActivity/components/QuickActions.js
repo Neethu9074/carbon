@@ -16,11 +16,13 @@ import {
   Typography,
   Link
 } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import { EVENT_AI_GENERATE_SUBMIT, NOTES_SUMMARY_CLICK_EPWT_LINK } from 'in-services/tracking/eventNames';
 import { handleTracking } from 'in-events/components/NotesAndActivity/components/utils';
 import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPopover';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
+import { summaryNotes$, setSummaryNotes } from 'in-stores/incidents';
 import { generateJournalSummary } from 'in-stores/events';
 import { t } from 'in-i18n';
 
@@ -30,6 +32,7 @@ import locals from './QuickActions.mless';
 // Gives the user the options to add a note or generate a summary
 export function QuickActions(props) {
   const { displayQuickStart, incidentId, summaryCount } = props;
+  const summaryNotesData = useObservable(summaryNotes$, [summaryNotes$]);
   // To prevent multiple clicks of the generate summary button
   // add a enable boolean keeps track of the loading of the summary
   const [loadingSummary, setLoadingSummary] = useState(false);
@@ -50,6 +53,44 @@ export function QuickActions(props) {
     setShowTimeoutMessage(false);
   }
 
+  // Look at the summaryNotes store to determine if the ai generation should occur
+  const generateAISummary = summaryNotesData?.generateAISummary;
+  // If the generate summary was triggered but the consent has not been accepted, highlight
+  // the button so they visually get attention brought to it.
+  if (generateAISummary == true && !automationActionAiGenerationUnitEnabled) {
+    const el = document.getElementById('generate_summary_consent');
+    if (el) {
+      el.style.transition = 'border-color 0.25s ease';
+      el.style.borderColor = 'white';
+      setTimeout(() => {
+        el.style.borderColor = '#0f62fe';
+      }, 250);
+    }
+  } else if (generateAISummary == true && automationActionAiGenerationUnitEnabled) {
+    // Handle summary generation if the consent has been accepted
+    handleSummaryGenerate();
+    // Keep the side panel open but turn off the ai generation after its began and keep loading state
+    setSummaryNotes(true, false);
+  }
+
+  function handleSummaryGenerate() {
+    // Set the current summary count BEFORE generating the summary
+    setThisSummaryCount(summaryCount);
+    // Start the loading spinner
+    setLoadingSummary(true);
+    // Generate API Call
+    generateJournalSummary(incidentId);
+    // Tacking clicks
+    handleTracking(incidentId, EVENT_AI_GENERATE_SUBMIT);
+    // Timeout is started for a max of 2 mins and then the
+    // spinner will terminate and we will show a timeout message
+    const id = setTimeout(() => {
+      setLoadingSummary(false);
+      setShowTimeoutMessage(true);
+    }, 120000); // 2 mins
+    setSummaryTimeout(id);
+  }
+
   function consentSection() {
     return (
       <div className={locals.consentWrapper}>
@@ -58,6 +99,7 @@ export function QuickActions(props) {
           kind="tertiary"
           size={'sm'}
           className={locals.actionsButton}
+          id="generate_summary_consent"
           target="_blank"
           onClick={e => {
             handleTracking(incidentId, NOTES_SUMMARY_CLICK_EPWT_LINK);
@@ -95,21 +137,7 @@ export function QuickActions(props) {
             );
           }}
           onClick={() => {
-            // Set the current summary count BEFORE generating the summary
-            setThisSummaryCount(summaryCount);
-            // Start the loading spinner
-            setLoadingSummary(true);
-            // Generate API Call
-            generateJournalSummary(incidentId);
-            // Tacking clicks
-            handleTracking(incidentId, EVENT_AI_GENERATE_SUBMIT);
-            // Timeout is started for a max of 2 mins and then the
-            // spinner will terminate and we will show a timeout message
-            const id = setTimeout(() => {
-              setLoadingSummary(false);
-              setShowTimeoutMessage(true);
-            }, 120000); // 2 mins
-            setSummaryTimeout(id);
+            handleSummaryGenerate();
           }}
         >
           <div className={locals.quickActionButtonContents}>{t('in-events:notes.generateSummary')}</div>

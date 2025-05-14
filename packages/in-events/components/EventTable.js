@@ -181,7 +181,6 @@ function Header(props) {
 const IncidentHeader = ({ event, timeConfig }) => {
   const { location, createHref } = useNavigation();
   setOrDeleteMatrixKey(location, eventsPath, eventId, null);
-  const [displayNotes, setDisplayNotes] = useState(false);
 
   return (
     <LeftRightPadding className={locals.incidentHeader}>
@@ -194,9 +193,7 @@ const IncidentHeader = ({ event, timeConfig }) => {
             </Typography>
           </Stack>
           <Stack align="center" direction="horizontal">
-            {notesAndActivityEnabled && (
-              <OpenNotesAndActivity event={event} displayNotes={displayNotes} setDisplayNotes={setDisplayNotes} />
-            )}
+            {notesAndActivityEnabled && <OpenNotesAndActivity event={event} />}
             <IconButton
               href={createHref(location)}
               type="lib_openclose_cancel"
@@ -206,14 +203,7 @@ const IncidentHeader = ({ event, timeConfig }) => {
               align="left"
               size="normal"
             />
-            {notesAndActivityEnabled && (
-              <NotesAndActivity
-                event={event}
-                displayNotes={displayNotes}
-                setDisplayNotes={setDisplayNotes}
-                targetID="#eventSummaryContainer"
-              />
-            )}
+            {notesAndActivityEnabled && <NotesAndActivity event={event} targetID="#eventSummaryContainer" />}
           </Stack>
         </Stack>
       </Stack>
