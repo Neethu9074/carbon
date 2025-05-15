@@ -18,7 +18,7 @@ import AsyncComponent from 'in-components/AsyncComponent';
 import UserIcon from 'in-components/UserIcon/UserIcon';
 import { t } from 'in-i18n';
 
-import local from 'in-components/MainNavigation/components/CarbonUIShell/Header.mless';
+import local from 'in-client/js/CarbonUIShell/Header.mless';
 
 interface HeaderContentProps {
   expanded?: boolean;
