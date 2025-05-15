@@ -3,9 +3,6 @@
  * (c) Copyright Instana Inc. 2025
  */
 
-// ...to.be.true is a valid syntax in chai, but eslint complains, so we turn this off
-/* eslint-disable babel/no-unused-expressions */
-
 import { expect } from 'chai';
 import sinon from 'sinon';
 

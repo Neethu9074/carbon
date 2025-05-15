@@ -4,7 +4,7 @@
 
 - The Webpack dev mode will check for type errors and present them within its dev output (see `/build/gulp/dev.js`).
 - The TypeScript compiler is leveraged for type checking as part of the pre-commit hook and CI (see `/package.json`).
-- We leverage eslint to lint TypeScript code (see `/.eslintrc.js`).
+- We leverage eslint to lint TypeScript code (see `/eslint.config.mjs`).
 - Visual Studio Code linting and type checking works out of the box.
 
 ## Cheat Sheets

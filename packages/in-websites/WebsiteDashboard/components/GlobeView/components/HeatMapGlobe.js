@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* global require:false */
 import { create } from '@instana/observables';
 
 import countryMap from 'in-websites/WebsiteDashboard/components/GlobeView/components/countryConfig.json';

@@ -1,0 +1,21 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+/* eslint-disable no-restricted-imports */
+import { createImportRestrictionRule } from '../../build/linting/restrictedImportRule.js';
+import baseConfig from '../../eslint.config.mjs';
+
+export default [
+  ...baseConfig,
+  {
+    rules: {
+      ...createImportRestrictionRule({
+        enforceAbsoluteImportPaths: true,
+
+        allowedInPackages: ['in-amp', 'in-components', 'in-hooks', 'in-services', 'in-settings', 'in-stores', 'in-themes']
+      })
+    }
+  }
+];

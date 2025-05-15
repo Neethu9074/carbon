@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* global require:false */
 import { Mesh, PlaneBufferGeometry, DoubleSide, MeshBasicMaterial } from 'in-map/3DLibProvider';
 import { OrthographicCamera, Scene, LinearFilter } from 'in-map/3DLibProvider';
 import { loadImage } from 'in-map/services/imageLoader';

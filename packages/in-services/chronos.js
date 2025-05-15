@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* global global:false */
+/* eslint no-redeclare: ["off", { "builtinGlobals": true }] */
 
 // Copy from:
 // https://github.com/fitzgen/chronos

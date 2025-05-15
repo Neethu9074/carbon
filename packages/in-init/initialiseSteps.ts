@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* global require:false */
+
 
 export default function initialiseSteps(initializationSteps: string[]): void {
   function nextStep(index: number): void {

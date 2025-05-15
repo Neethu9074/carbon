@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* global require:false */
+
 
 require('in-services/browser').init();
 require('in-stores/timeOffset').init();

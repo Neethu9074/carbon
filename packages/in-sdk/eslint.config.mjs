@@ -1,0 +1,38 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2025
+ */
+
+/* eslint-disable no-restricted-imports */
+import { createImportRestrictionRule } from '../../build/linting/restrictedImportRule.js';
+import baseConfig from '../../eslint.config.mjs';
+
+export default [
+  ...baseConfig,
+  {
+    rules: {
+      ...createImportRestrictionRule({
+        enforceAbsoluteImportPaths: true,
+
+        allowedInPackages: [
+          // current package
+          'in-sdk',
+
+          // unwanted dependencies, that will need refactoring
+          'in-applications',
+          'in-infrastructure',
+
+          // shared packages
+          'in-components',
+          'in-services',
+          'in-test',
+          'in-hooks',
+          'in-stores',
+          'in-forge',
+          'in-hoc'
+        ]
+      })
+    }
+  }
+];
