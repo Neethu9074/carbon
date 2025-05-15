@@ -25,7 +25,8 @@
       "customMetricsLabelMean": "Mean",
       "customMetricsLabelP50": "50th",
       "customMetricsLabelP99": "99th",
-      "customMetricsLabelRate": "Rate"
+      "customMetricsLabelRate": "Rate",
+      "noMetrics": "No custom metrics available"
     },
     "table": {
       "tableNoData": "No data.",

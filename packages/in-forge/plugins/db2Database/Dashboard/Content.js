@@ -32,6 +32,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ReorgTable from 'in-forge/plugins/db2Database/Dashboard/ReorgTable';
 import TableSizes from 'in-forge/plugins/db2Database/Dashboard/TableSizes';
 import Db2Member from 'in-forge/plugins/db2Database/Dashboard/Db2Member';
+import GenericCustomMetrics from 'in-forge/common/GenericCustomMetrics';
 import UOWTable from 'in-forge/plugins/db2Database/Dashboard/UOWTable';
 import Db2Cf from 'in-forge/plugins/db2Database/Dashboard/Db2Cf';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -672,6 +673,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       <RunStatsTable snapshotId={snapshotId} />
       <ReorgTable snapshotId={snapshotId} />
       <DiagLogInfoTable snapshotId={snapshotId} />
+      <GenericCustomMetrics snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }
