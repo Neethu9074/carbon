@@ -191,7 +191,12 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   }
 
   function removeDeletedFavoritedEntries(items?: any, tableType?: string) {
-    if (tableType === 'websitesWidget' || tableType === 'mobileListWidget' || tableType === 'dashboardWidget') {
+    if (
+      tableType === 'websitesWidget' ||
+      tableType === 'mobileListWidget' ||
+      tableType === 'dashboardWidget' ||
+      tableType === 'platformsWidget'
+    ) {
       return items.filter((item: any) => !hasError(item.result));
     } else return items;
   }
