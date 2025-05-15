@@ -34,14 +34,7 @@ import {
   EVENT_RCA_FEEDBACK_SUBMIT,
   EVENT_RCA_PANNEL_TAB_CLICK
 } from 'in-services/tracking/tracking';
-import {
-  rcaFailedStateEnabled,
-  rcaLogsEnabled,
-  rcaAiAutomatedInvestigationEnabled,
-  automationActionAiGenerationUnitEnabled
-} from 'in-services/featureFlags';
 import determineEntityTypeFromEntityIDMap from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
-import RootCauseInvestigation from 'in-events/components/RootCauseAnalysis/RootCauseInvestigation/RootCauseInvestigation';
 import getRootCauseTabSecondaryLabel from 'in-events/components/RootCauseAnalysis/utils/getRootCauseTabSecondaryLabel';
 import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hooks/SelectedRootCauseContext';
 import { RootCauseDataProvider } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
@@ -51,6 +44,7 @@ import RootCauseEntityDetails from 'in-events/components/RootCauseAnalysis/RootC
 import AssociatedEvents from 'in-events/components/RootCauseAnalysis/RootCauseAssociatedEvents';
 import { trackClick } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
+import { rcaFailedStateEnabled, rcaLogsEnabled } from 'in-services/featureFlags';
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -83,7 +77,6 @@ const getRootCauses = (incident: Event) => {
 };
 
 const RootCauseSection = ({ incident, rcaRef }: RootCauseSectionProps) => {
-  const [openInvestigation, setOpenInvestigation] = useState(false);
   const [rootCauseTab, setRootCauseTab] = useState(0);
   const { location } = useNavigation();
   const incidentJSON: Event = useMemo(() => incident.toJS(), [incident]);
@@ -195,22 +188,11 @@ const RootCauseSection = ({ incident, rcaRef }: RootCauseSectionProps) => {
                     ))}
                   </CarbonTabList>
                 </CarbonTabs>
-                <RootCauseEntityDetails
-                  incident={incidentJSON}
-                  rootCauses={rootCauses}
-                  setOpenInvestigation={setOpenInvestigation}
-                />
+                <RootCauseEntityDetails incident={incidentJSON} rootCauses={rootCauses} />
               </div>
 
               {!isNull(rootCauses[rootCauseTab]) && (
                 <Stack gap="disabled">
-                  {rcaAiAutomatedInvestigationEnabled && automationActionAiGenerationUnitEnabled && (
-                    <RootCauseInvestigation
-                      openInvestigation={openInvestigation}
-                      incident={incidentJSON}
-                      setOpenInvestigation={setOpenInvestigation}
-                    />
-                  )}
                   {rcaLogsEnabled ? (
                     <RootCauseLogsSection incident={incidentJSON} rootCause={rootCauses[rootCauseTab]} />
                   ) : (

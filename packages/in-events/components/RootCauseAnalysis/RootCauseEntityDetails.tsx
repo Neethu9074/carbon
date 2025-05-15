@@ -22,17 +22,6 @@ import {
   useGenerateLinkToAnalyzePage,
   useGenerateLinkToDashboard
 } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
-import {
-  EVENT_RCA_ANALYZE_CLICK,
-  EVENT_RCA_ENTITY_CLICK,
-  EVENT_RCA_LLM_INVESTIGATION_START_CLICK,
-  EVENT_RCA_TOPOLOGY_VIEW_CLICK
-} from 'in-services/tracking/tracking';
-import {
-  rcaTopologyEnabled,
-  rcaAiAutomatedInvestigationEnabled,
-  automationActionAiGenerationUnitEnabled
-} from 'in-services/featureFlags';
 import determineEntityTypeFromEntityIDMap from 'in-events/components/RootCauseAnalysis/utils/determineEntityTypeFromEntityIDMap';
 import { RCAEntityDataType } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
 import RootCauseTopologyDialog from 'in-events/components/RootCauseAnalysis/Topology/RootCauseTopologyDialog';
@@ -40,6 +29,7 @@ import SelectedRootCauseContext from 'in-events/components/RootCauseAnalysis/hoo
 import getIncidentTimeConfig from 'in-events/components/RootCauseAnalysis/utils/getIncidentTimeConfig';
 import { RootCauseDataContext } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAllRCAData';
 import { Application, EntityId, Event, Nullish, ServiceLabel, Snapshot, TimeConfig } from 'in-types';
+import { EVENT_RCA_ANALYZE_CLICK, EVENT_RCA_ENTITY_CLICK } from 'in-services/tracking/tracking';
 import AIProbabilityBadge from 'in-events/components/RootCauseAnalysis/AIProbabilityBadge';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import { RootCause } from 'in-events/components/RootCauseAnalysis/utils/types';
@@ -48,6 +38,7 @@ import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
+import { rcaTopologyEnabled } from 'in-services/featureFlags';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { setTimeConfig } from 'in-stores/time/config';
@@ -57,14 +48,9 @@ import locals from 'in-events/components/legacy/EventList.mless';
 interface RootCauseEntityDetailsParams {
   incident: Event;
   rootCauses: RootCause[];
-  setOpenInvestigation: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function RootCauseEntityDetails({
-  incident,
-  rootCauses,
-  setOpenInvestigation
-}: RootCauseEntityDetailsParams) {
+export default function RootCauseEntityDetails({ incident, rootCauses }: RootCauseEntityDetailsParams) {
   const { selectedRootCause: rootCauseTab } = useContext(SelectedRootCauseContext);
   const selectedRootCause = rootCauses[rootCauseTab];
   const { location } = useNavigation();
@@ -304,10 +290,7 @@ export default function RootCauseEntityDetails({
                     kind="tertiary"
                     icon="lib_actions_force_layout"
                     size="compact"
-                    onClick={() => {
-                      trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_TOPOLOGY_VIEW_CLICK });
-                      setIsTopologyOpen(true);
-                    }}
+                    onClick={() => setIsTopologyOpen(true)}
                   >
                     {t('in-events:RCA.topology.viewTopology')}
                   </Button>
@@ -336,20 +319,6 @@ export default function RootCauseEntityDetails({
                     />
                   </Tearsheet>
                 </>
-              )}
-              {rcaAiAutomatedInvestigationEnabled && automationActionAiGenerationUnitEnabled && (
-                <Button
-                  kind="tertiary"
-                  icon="lib_launch_ai"
-                  size="compact"
-                  onClick={() => {
-                    setOpenInvestigation(true);
-                    trackRcaClick({ ...rcaTrackingData, ctaEvent: EVENT_RCA_LLM_INVESTIGATION_START_CLICK });
-                  }}
-                  className={locals.analyzeButton}
-                >
-                  {t('in-events:RCA.singleEntityLLM.investigateButtonLabel')}
-                </Button>
               )}
             </Stack>
           </Stack>
