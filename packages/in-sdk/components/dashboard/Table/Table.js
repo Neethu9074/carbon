@@ -137,8 +137,6 @@ export default class Table extends React.Component {
                 searchText={this.state.filter}
               />
               <EmptyContent
-                cols={cols?.length}
-                size="compact"
                 renderNoDataAvailable={() => (
                   <NoDataAvailable text={t('in-sdk:dashboard.table.tableNoData')} height={80} />
                 )}

@@ -47,8 +47,6 @@ export default function ComponentStatusTable({ cluster }) {
       <div className={locals.emptyTable}>
         {componentStatuses.length === 0 && (
           <EmptyContent
-            cols={3}
-            size="compact"
             renderNoDataAvailable={() => (
               <NoDataAvailable text={t('in-kubernetes:dashboards.noComponentStatusDataAvailable')} height={80} />
             )}

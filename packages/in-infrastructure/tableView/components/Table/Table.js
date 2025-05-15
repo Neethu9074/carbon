@@ -139,8 +139,6 @@ export default class Table extends React.Component {
         <div className={locals.emptyTable}>
           <CarbonDataTable headers={carbonHeaders} rows={[]} />
           <EmptyContent
-            cols={cols?.length}
-            size="compact"
             renderNoDataAvailable={() => (
               <NoDataAvailable text={this.props.noDataText || t('in-infrastructure:tableView.noData')} height={80} />
             )}

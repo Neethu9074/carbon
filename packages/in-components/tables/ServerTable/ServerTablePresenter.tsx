@@ -329,12 +329,7 @@ export default function ServerTablePresenter<
         {/* Empty Content */}
         {emptyContent && !hasError(result) && (
           <div className={locals.emptyTable}>
-            <EmptyContent
-              cols={visibleColumns?.length}
-              size={size}
-              renderNoDataAvailable={renderNoDataAvailable}
-              noDataMessage={noDataMessage}
-            />
+            <EmptyContent renderNoDataAvailable={renderNoDataAvailable} noDataMessage={noDataMessage} />
           </div>
         )}
         {/* Error */}
