@@ -28,27 +28,11 @@ import locals from './config.mless';
 // globals
 window.__DEV__ = true;
 
-const SUPPORTED_THEMES = [
-  { name: 'g10', info: 'Carbon' },
-  { name: 'default', info: 'Instana' }
-];
-
-export const globalTypes = {
-  theme: {
-    name: 'Theme',
-    description: 'Global theme for components',
-    defaultValue: 'g10',
-    toolbar: {
-      icon: 'beaker',
-      items: SUPPORTED_THEMES.map(({ name, info }) => ({ value: name, title: name.toUpperCase(), right: info })),
-      dynamicTitle: true
-    }
-  }
-};
+export const globalTypes = {};
 
 export const decorators = [
-  (Story, { globals }) => (
-    <ThemeProvider theme={globals.theme}>
+  Story => (
+    <ThemeProvider>
       <TooltipPresenter />
       <OverlayPresenter />
       <div id="main" role="main" className={locals.root}>
@@ -75,10 +59,9 @@ export const parameters = {
       headingSelector: 'h1, h2, h3'
     },
     container: ({ children, ...rest }) => {
-      const { context: globals } = rest;
       return (
         <DocsContainer {...rest}>
-          <ThemeProvider theme={globals.theme}>{children}</ThemeProvider>
+          <ThemeProvider>{children}</ThemeProvider>
         </DocsContainer>
       );
     },

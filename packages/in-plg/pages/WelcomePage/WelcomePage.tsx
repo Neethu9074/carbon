@@ -37,7 +37,7 @@ export default function WelcomePage() {
 
   return (
     <div className={locals.container}>
-      <ThemeProvider theme="g10">
+      <ThemeProvider>
         <WelcomeHeader
           onboardingHeaderEnabled={showCarousal(activation, currentTenantUnit, activeLicenseType)}
           accountActivationData={activation}

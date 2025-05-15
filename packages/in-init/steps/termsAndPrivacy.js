@@ -26,7 +26,7 @@ export function init() {
   ReactDOM.render(
     <ErrorBoundary name="terms-and-privacy-dialog">
       <GlobalTheme>
-        <ThemeProvider theme="g10">
+        <ThemeProvider>
           <TermsDialog onSave={onSave} fullTermsConfigEnabled={fullTermsConfigEnabled} />
         </ThemeProvider>
       </GlobalTheme>

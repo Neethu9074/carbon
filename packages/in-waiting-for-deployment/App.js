@@ -18,13 +18,12 @@ import config, { baseUrl } from 'in-services/config';
 import GlobalTheme from 'in-themes/GlobalTheme';
 
 const trackingService = createTracker('onboarding');
-const fallbackTheme = 'g10';
 
 export default function App() {
   return (
     <ErrorBoundary name="app">
       <GlobalTheme>
-        <ThemeProvider theme={fallbackTheme}>
+        <ThemeProvider>
           <DialogPresenter />
           <FullViewOnboardingWidget Renderer={Renderer} />
           <TooltipPresenter />

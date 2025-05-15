@@ -6,8 +6,6 @@
 
 import React, { useEffect } from 'react';
 
-import { ThemeProvider } from '@instana/components';
-
 import DashboardWidget from 'in-plg/pages/WelcomePage/widgets/DashboardWidget';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import { getWidget } from 'in-plg/pages/WelcomePage/PageContent';
@@ -41,16 +39,14 @@ export default function CustomDashboards() {
         }}
       />
       <div className={locals.container}>
-        <ThemeProvider theme="g10">
-          <DashboardHeader
-            icon="lib_custom_dashboard"
-            title={t('in-custom-dashboards:customDashboard.customDashboardsTitle')}
-            label={t('in-custom-dashboards:customDashboard.customDashboardsTitle')}
-          />
-          <section aria-label={t('in-components:pageStructure.contentAriaLabel')} className={locals.content}>
-            <DashboardWidget dashboardTileProps={dashboardTileProps} maxItems={null} viewAll={false} mainPage />
-          </section>
-        </ThemeProvider>
+        <DashboardHeader
+          icon="lib_custom_dashboard"
+          title={t('in-custom-dashboards:customDashboard.customDashboardsTitle')}
+          label={t('in-custom-dashboards:customDashboard.customDashboardsTitle')}
+        />
+        <section aria-label={t('in-components:pageStructure.contentAriaLabel')} className={locals.content}>
+          <DashboardWidget dashboardTileProps={dashboardTileProps} maxItems={null} viewAll={false} mainPage />
+        </section>
       </div>
     </>
   );

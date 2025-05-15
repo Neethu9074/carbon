@@ -28,7 +28,6 @@ import locals from './App.mless';
 
 export default function App() {
   window.RUNTIME_CONTEXT = solisEnabled ? 'solis' : 'standalone';
-  const fallbackTheme = 'g10';
 
   return (
     <ErrorBoundary name="app">
@@ -41,7 +40,7 @@ export default function App() {
           // TODO investigate for usages and decide if it can be completely be removed.
         }
         <GlobalTheme>
-          <ThemeProvider theme={fallbackTheme}>
+          <ThemeProvider>
             <ScrollTrackingWrapper>
               <GlobalTimeConfig>
                 <ErrorBoundary name="main-navigation">

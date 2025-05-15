@@ -42,7 +42,7 @@ export default function InstanaOnboardingComponent({ onDialogSkip }) {
   return (
     <ErrorBoundary name="Instana onboarding dialog">
       <GlobalTheme>
-        <ThemeProvider theme="g10">
+        <ThemeProvider>
           <DialogPresenter />
 
           <MessageFlyout onlyShowUsageRelatedMessages />
