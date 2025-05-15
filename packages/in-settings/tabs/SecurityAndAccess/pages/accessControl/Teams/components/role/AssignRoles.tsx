@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { CarbonContainedList, CarbonContainedListItem, CarbonFilterableMultiSelect } from '@instana/components';
+import { ContainedList, ContainedListItem, FilterableMultiSelect } from '@instana/carbon';
 import { createLogger } from '@instana/logger';
 import { RoleOverview } from '@instana/types';
 
@@ -66,7 +66,7 @@ export const AssignRoles = ({ form, onSelectRoles, roles }: AssignRolesProps) =>
     const roleIds = membersListForm.get(0)?.get('roleIds')?.value ?? [];
     return (
       <div className={locals.sameRoleForAllMembersSelectWrapper}>
-        <CarbonFilterableMultiSelect
+        <FilterableMultiSelect
           className={locals.sameRoleForAllMembersSelect}
           filterItems={defaultFilterItems}
           id="rbac-team-select-same-role-for-all-members"
@@ -85,7 +85,7 @@ export const AssignRoles = ({ form, onSelectRoles, roles }: AssignRolesProps) =>
     );
   } else if (roleSelectionType === TeamRoleSelectionType.INDIVIDUAL) {
     return (
-      <CarbonContainedList
+      <ContainedList
         label={
           <div className={locals.indivdualRoleSelectionList}>
             <span>{t('in-settings:tabs.teams.assignRoleColumnHeaderUser')}</span>
@@ -102,11 +102,11 @@ export const AssignRoles = ({ form, onSelectRoles, roles }: AssignRolesProps) =>
             const roleIdsField = memberMapForm.get('roleIds');
             const roleIds = roleIdsField.value;
             return (
-              <CarbonContainedListItem key={userId}>
+              <ContainedListItem key={userId}>
                 <div className={locals.indivdualRoleSelectionList}>
                   <span>{fullName ? fullName : userId}</span>
                   <span>
-                    <CarbonFilterableMultiSelect
+                    <FilterableMultiSelect
                       filterItems={defaultFilterItems}
                       id={`rbac-team-select-individual-role-${userId}`}
                       initialSelectedItems={createInitialSelectedItems(roles, roleIds)}
@@ -121,11 +121,11 @@ export const AssignRoles = ({ form, onSelectRoles, roles }: AssignRolesProps) =>
                     />
                   </span>
                 </div>
-              </CarbonContainedListItem>
+              </ContainedListItem>
             );
           })
         }
-      </CarbonContainedList>
+      </ContainedList>
     );
   } else {
     return <></>;

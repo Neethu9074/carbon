@@ -4,21 +4,25 @@
  * Copyright IBM Corp. 2025
  */
 
-import { TeamScope } from '@instana/types';
+import { Result, TeamScope, TimeConfig } from '@instana/types';
+import { Observable } from '@instana/observables';
 
 import { ApiTeam as Team } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 
-export interface ScopeAreaSection {
+export interface ScopeAreaSection<I> {
   id: string;
   title?: string;
-  items: Array<any> | Array<string> | undefined;
+  items: Array<string> | undefined;
+  observable: () => Observable<Result<I[]>>;
+  extractId: (entity: I) => string;
+  extractName: (entity: I) => string;
 }
 
-export interface ScopeArea {
+export interface ScopeArea<I> {
   id: string;
   title?: string;
   subtitle?: (scope: TeamScope | undefined) => string;
-  items: (scope: TeamScope | undefined) => ScopeAreaSection[];
+  items: (scope: TeamScope | undefined, timeConfig: TimeConfig) => ScopeAreaSection<I>[];
 }
 
 export interface ScopeOverviewProps {

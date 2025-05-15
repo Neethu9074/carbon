@@ -8,71 +8,79 @@ import { createField, createMapForm, Field, MapForm } from 'formalistic';
 
 import { AccessRestriction, RestrictedApplicationFilter } from 'in-types';
 
+export const SCOPE_FORM_ID = 'rbac-scope-form';
+
 export type ScopeFormFields = {
-  accessPermissions: Field<AccessRestriction[]>;
-  actionFilters: Field<string[]>;
-  applications: Field<string[]>;
-  businessPerspectives: Field<string[]>;
-  infraDfqFilters: Field<string[]>;
-  kubernetesClusters: Field<string[]>;
-  kubernetesNamesspaces: Field<string[]>;
-  logFilters: Field<string[]>;
-  mobileApps: Field<string[]>;
-  restrictedApplicationFilter: Field<RestrictedApplicationFilter>;
-  syntheticCredentials: Field<string[]>;
-  syntheticTests: Field<string[]>;
-  tagIds: Field<string[]>;
-  websites: Field<string[]>;
+  accessPermissions: Field<AccessRestriction[] | undefined>;
+  actionFilters: Field<string[] | undefined>;
+  applications: Field<string[] | undefined>;
+  businessPerspectives: Field<string[] | undefined>;
+  infraDfqFilters: Field<string[] | undefined>;
+  kubernetesClusters: Field<string[] | undefined>;
+  kubernetesNamespaces: Field<string[] | undefined>;
+  logFilters: Field<string[] | undefined>;
+  mobileApps: Field<string[] | undefined>;
+  restrictedApplicationFilter: Field<RestrictedApplicationFilter | undefined>;
+  syntheticCredentials: Field<string[] | undefined>;
+  syntheticTests: Field<string[] | undefined>;
+  tagIds: Field<string[] | undefined>;
+  websites: Field<string[] | undefined>;
 };
+
+export type ScopeTableFormFields = Exclude<ScopeFormFields, 'accessPermissions' | 'restrictedApplicationFilter'>;
+
+export type ScopeFormFieldType = keyof ScopeFormFields;
+
+export type ScopeTableFormFieldType = Exclude<ScopeFormFieldType, 'accessPermissions' | 'restrictedApplicationFilter'>;
 
 export type DefaultScopeFormFieldValues = {
   [key in keyof ScopeFormFields]: ScopeFormFields[key]['value'];
 };
 
-export function createScopeForm(initValues?: DefaultScopeFormFieldValues): MapForm<ScopeFormFields> {
+export function createScopeForm(initValues?: Partial<DefaultScopeFormFieldValues>): MapForm<ScopeFormFields> {
   return createMapForm<ScopeFormFields>({
     items: {
       accessPermissions: createField({
-        value: initValues?.accessPermissions ?? []
+        value: initValues?.accessPermissions ?? undefined
       }),
       actionFilters: createField({
-        value: initValues?.actionFilters ?? []
+        value: initValues?.actionFilters ?? undefined
       }),
       applications: createField({
-        value: initValues?.applications ?? []
+        value: initValues?.applications ?? undefined
       }),
       businessPerspectives: createField({
-        value: initValues?.businessPerspectives ?? []
+        value: initValues?.businessPerspectives ?? undefined
       }),
       infraDfqFilters: createField({
-        value: initValues?.infraDfqFilters ?? []
+        value: initValues?.infraDfqFilters ?? undefined
       }),
       kubernetesClusters: createField({
-        value: initValues?.kubernetesClusters ?? []
+        value: initValues?.kubernetesClusters ?? undefined
       }),
-      kubernetesNamesspaces: createField({
-        value: initValues?.kubernetesNamesspaces ?? []
+      kubernetesNamespaces: createField({
+        value: initValues?.kubernetesNamespaces ?? undefined
       }),
       logFilters: createField({
-        value: initValues?.logFilters ?? []
+        value: initValues?.logFilters ?? undefined
       }),
       mobileApps: createField({
-        value: initValues?.mobileApps ?? []
+        value: initValues?.mobileApps ?? undefined
       }),
       restrictedApplicationFilter: createField({
-        value: initValues?.restrictedApplicationFilter ?? {}
+        value: initValues?.restrictedApplicationFilter ?? undefined
       }),
       syntheticCredentials: createField({
-        value: initValues?.syntheticCredentials ?? []
+        value: initValues?.syntheticCredentials ?? undefined
       }),
       syntheticTests: createField({
-        value: initValues?.syntheticTests ?? []
+        value: initValues?.syntheticTests ?? undefined
       }),
       tagIds: createField({
-        value: initValues?.tagIds ?? []
+        value: initValues?.tagIds ?? undefined
       }),
       websites: createField({
-        value: initValues?.websites ?? []
+        value: initValues?.websites ?? undefined
       })
     }
   });

@@ -548,6 +548,9 @@
       "automationSectionTitle": "Automation",
       "eventsAndAlertsSectionTitle": "Events and alerts management",
       "scopeSuccessfullySaved": "Scope successfully saved."
+    },
+    "selectEntities": {
+      "doneButton": "Done"
     }
   },
   "tabs": {

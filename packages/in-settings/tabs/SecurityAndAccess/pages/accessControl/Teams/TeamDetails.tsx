@@ -147,31 +147,35 @@ const TeamDetails = () => {
     });
   };
 
-  // Update team
-  const saveTeamHandler = (data: Team) => {
-    saveTeam(data).once(
-      savedTeam => {
-        //setTeam(savedTeam.body);
-        setTeam(
-          enrichTeam(
-            savedTeam.body,
-            isResultLoading(usersResult) ? [] : usersResult.data,
-            rolesProgress?.loading ? [] : rolesData
-          )
-        );
+  const refreshTeam = (data: Team) => {
+    //setTeam(data);
+    setTeam(
+      enrichTeam(data, isResultLoading(usersResult) ? [] : usersResult.data, rolesProgress?.loading ? [] : rolesData)
+    );
 
-        // Track team update via Segment
-        const customData = {
-          id: savedTeam.body.id
-        };
-        unstable_trackEvent(UPDATED_OBJECT, { objectType: SETTINGS_TEAM_UPDATE }, customData);
+    // Track team update via Segment
+    const customData = {
+      id: data?.id
+    };
+    unstable_trackEvent(UPDATED_OBJECT, { objectType: SETTINGS_TEAM_UPDATE }, customData);
+  };
+
+  const onError = (message: string) => {
+    setNotification({
+      kind: 'error',
+      title: t('in-settings:tabs.teams.failedToSaveTeam'),
+      subtitle: message
+    });
+  };
+
+  // Update team
+  const saveTeamHandler = (data: Team, onSuccess: (data: Team) => void, onError: (message: string) => void) => {
+    saveTeam(data).once(
+      () => {
+        onSuccess(data);
       },
       error => {
-        setNotification({
-          kind: 'error',
-          title: t('in-settings:tabs.teams.failedToSaveTeam'),
-          subtitle: error.message
-        });
+        onError(error.message);
       }
     );
   };
@@ -188,7 +192,7 @@ const TeamDetails = () => {
         team={team}
         setMessage={setNotification}
         setTeamData={setTeamData}
-        saveTeam={saveTeamHandler}
+        saveTeam={data => saveTeamHandler(data, refreshTeam, onError)}
       />
 
       <div className={locals.row}>
@@ -205,11 +209,11 @@ const TeamDetails = () => {
             }
             team={team}
             setTeamData={setTeamData}
-            saveTeam={saveTeamHandler}
+            saveTeam={data => saveTeamHandler(data, refreshTeam, onError)}
           />
         </div>
         <div className={locals.column}>
-          <ScopeCard isLoading={isLoading} team={MOCK_TEAM} />
+          <ScopeCard isLoading={isLoading} team={team} refreshTeam={refreshTeam} saveTeam={saveTeamHandler} />
         </div>
       </div>
 

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { Team, TeamMember, TeamRole } from '@instana/types';
+import { Result, Team, TeamMember, TeamRole } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { refresh as refreshTags } from 'in-settings/tabs/SecurityAndAccess/api/tags';
@@ -24,6 +24,16 @@ export interface TeamTagUsed {
   alertChannels: number;
   customDashboards: number;
   mobileApps?: number;
+}
+
+/**
+ * Model for selectable team scope entities like websites, mobile apps etc.
+ * @property {string} id - unique id of the entity
+ * @property {string} name - name of the entity
+ */
+export interface TeamScopeEntity {
+  readonly id: string;
+  readonly name: string;
 }
 
 /**
@@ -115,20 +125,22 @@ export function addUsersToTeam(teamId: string, users: User[]) {
   });
 }
 
-export function saveTeam(team: ApiTeam): Observable<Response<ApiTeam>> {
+export function saveTeam(team: ApiTeam): Observable<Result<ApiTeam>> {
   const method = team?.id ? 'PUT' : 'POST';
   const url = team?.id ? `${basePath}/${encodeURIComponent(team.id)}` : basePath;
   return http<ApiTeam>({
     method: method,
     url: url,
     headers: getCsrfHeader(),
+    mapToResultObject: true,
+    treat400AsError: true,
     data: team
-  }).map(v => {
-    if (v?.body?.id) refreshSignal.emit(v?.body?.id);
+  }).map(res => {
+    if (res?.data?.id) refreshSignal.emit(res?.data?.id);
 
     // Team name is saved as tag, therefore also refresh tags
     refreshTags();
 
-    return v;
+    return res;
   });
 }

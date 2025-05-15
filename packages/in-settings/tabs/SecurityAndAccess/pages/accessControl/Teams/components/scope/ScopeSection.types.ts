@@ -6,11 +6,18 @@
 
 import { ReactNode } from 'react';
 
-import { TeamScope } from '@instana/types';
+import { AccessRestriction, Result } from '@instana/types';
+import { Observable } from '@instana/observables';
 
-export interface ScopeSectionProps {
+import { ScopeTableFormFieldType } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
+
+export interface ScopeSectionProps<I> {
+  extractId: (entity: I) => string;
+  extractName: (entity: I) => string;
+  fieldName: ScopeTableFormFieldType;
   limitedAccessSwitchLabel: string;
-  scope?: TeamScope;
+  observable: () => Observable<Result<I[]>>;
+  limitedAccessScopes: AccessRestriction[];
   tableAddLabel: string;
   tableTitle: string;
 }
@@ -21,7 +28,9 @@ export interface ScopeItemRow<ROW_DATA> {
   rowData: ROW_DATA;
 }
 
-export interface ScopeItemResult {
-  readonly id: string;
-  readonly name: string;
+export interface ToggleAccessPermissions {
+  current: Array<AccessRestriction>;
+  limited?: boolean;
+  toAddOnEnabled?: Array<AccessRestriction>;
+  toRemoveOnDisabled?: Array<AccessRestriction>;
 }

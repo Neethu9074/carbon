@@ -57,7 +57,7 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
 
         // Track team creation via Segment
         const customData = {
-          id: savedTeam.body.id
+          id: savedTeam?.data?.id
         };
         unstable_trackEvent(CREATED_OBJECT, { objectType: SETTINGS_TEAM_CREATE }, customData);
 

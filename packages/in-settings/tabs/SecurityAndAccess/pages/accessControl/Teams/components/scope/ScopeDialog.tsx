@@ -4,36 +4,37 @@
  * Copyright IBM Corp. 2025
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { CarbonModal } from '@instana/components';
 
 import {
-  SCOPE_FORM_ACTIONS,
-  SCOPE_FORM_ID,
-  SCOPE_NAV_ITEMS
-} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.constants';
-import {
   createScopeForm,
-  DefaultScopeFormFieldValues
+  SCOPE_FORM_ID
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
+import { createNavItems } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.navItems';
 import MapFormProvider, { FormMode } from 'in-settings/components/MapFormProvider/MapFormProvider';
+import { ApiTeam as Team } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { close as closeModal } from 'in-components/DialogPresenter/store';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import useFormSubmission from 'in-hooks/useFormSubmission';
 import useDerivedState from 'in-hooks/useDerivedState';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
 interface ScopeDialogProps {
   mode: FormMode;
-  formValues?: DefaultScopeFormFieldValues;
+  team: Team;
+  refreshTeam: (data: Team) => void;
+  saveTeam: (data: Team, onSuccess: (data: Team) => void, onError: (message: string) => void) => void;
 }
 
-export default function ScopeDialog({ mode, formValues }: ScopeDialogProps) {
-  const [form, setForm] = useDerivedState(createScopeForm(formValues));
-  //@ts-expect-error actions not defined yet
-  const [status, submitForm] = useFormSubmission(SCOPE_FORM_ACTIONS[mode]);
+const ScopeDialog = ({ mode, team, refreshTeam, saveTeam }: ScopeDialogProps) => {
+  const [form, setForm] = useDerivedState(createScopeForm(team.scope));
+  const [status, setStatus] = useState('');
+  const timeConfig = useTimeConfig();
+  const navigationItems = createNavItems(timeConfig);
 
   function onSubmit() {
     if (!form.hierarchyValid) {
@@ -43,24 +44,34 @@ export default function ScopeDialog({ mode, formValues }: ScopeDialogProps) {
       return setForm(form.setTouched(true));
     }
 
-    const payload = form.toJS();
+    setStatus('pending');
 
-    submitForm({
+    const payload = {
+      ...team,
+      scope: form.toJS()
+    };
+
+    saveTeam(
       payload,
-      onError: () => {
-        addMessage({
-          type: 'danger',
-          content: t('in-components:error.serverErrorInfo')
-        });
-      },
-      onSuccess: () => {
+      data => {
+        setStatus('success');
         addMessage({
           type: 'success',
-          content: t('in-settings:dialogs.scope.scopeSuccessfullySaved')
+          content: t('in-settings:dialogs.scope.scopeSuccessfullySaved'),
+          timeout: seconds.toMillis(4)
         });
+        refreshTeam(data);
         closeModal();
+      },
+      () => {
+        setStatus('error');
+        addMessage({
+          type: 'danger',
+          content: t('in-components:error.serverErrorInfo'),
+          timeout: seconds.toMillis(6)
+        });
       }
-    });
+    );
   }
 
   return (
@@ -77,9 +88,11 @@ export default function ScopeDialog({ mode, formValues }: ScopeDialogProps) {
         size="lg"
       >
         <form>
-          <StepsContainer navItems={SCOPE_NAV_ITEMS} noDivider />
+          <StepsContainer navItems={navigationItems} noDivider />
         </form>
       </CarbonModal>
     </MapFormProvider>
   );
-}
+};
+
+export default ScopeDialog;

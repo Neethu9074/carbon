@@ -4,13 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-import { TrashCan } from '@carbon/icons-react';
-
-import {
-  BatchActionItemProps,
-  DataTableHeader,
-  TableActions
-} from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
+import { DataTableHeader, TableActions } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
 import { deepFreeze } from 'in-services/util/object';
 import { t } from 'in-i18n';
 
@@ -32,10 +26,4 @@ export const ENTITY_TABLE_ACTIONS: TableActions<any> = deepFreeze({
   }
 } as const);
 
-export const ENTITY_TABLE_BATCH_ACTIONS: Readonly<Array<BatchActionItemProps>> = deepFreeze([
-  {
-    renderIcon: TrashCan,
-    actionName: t('in-settings:components.delete'),
-    actionType: 'delete'
-  }
-] as const);
+export const ENTITY_TABLE_SEARCH_ATTRIBUTES = Object.freeze(['name'] as const);

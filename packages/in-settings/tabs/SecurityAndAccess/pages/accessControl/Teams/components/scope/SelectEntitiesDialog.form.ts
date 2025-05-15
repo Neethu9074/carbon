@@ -10,15 +10,11 @@ export type EntitiesFormFields = {
   selectedIds: Field<string[]>;
 };
 
-export type DefaultEntitiesFormFieldValues = {
-  [key in keyof EntitiesFormFields]: EntitiesFormFields[key]['value'];
-};
-
-export function createEntitiesForm(initValues?: DefaultEntitiesFormFieldValues): MapForm<EntitiesFormFields> {
+export function createEntitiesForm(initValues?: string[]): MapForm<EntitiesFormFields> {
   return createMapForm<EntitiesFormFields>({
     items: {
       selectedIds: createField({
-        value: initValues?.selectedIds ?? []
+        value: initValues ?? []
       })
     }
   });

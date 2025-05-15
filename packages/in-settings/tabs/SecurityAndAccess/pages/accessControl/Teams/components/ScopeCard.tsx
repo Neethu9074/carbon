@@ -21,9 +21,11 @@ import { t } from 'in-i18n';
 interface ScopeCardProps {
   team: Team;
   isLoading: boolean;
+  refreshTeam: (data: Team) => void;
+  saveTeam: (data: Team, onSuccess: (data: Team) => void, onError: (message: string) => void) => void;
 }
 
-const ScopeCard = ({ isLoading, team }: ScopeCardProps) => {
+const ScopeCard = ({ isLoading, team, refreshTeam, saveTeam }: ScopeCardProps) => {
   return (
     <ProductiveCard
       actionIcons={[
@@ -32,7 +34,9 @@ const ScopeCard = ({ isLoading, team }: ScopeCardProps) => {
           iconDescription: t('in-settings:tabs.teams.edit'),
           id: '1',
           onClick: () => {
-            addActiveDialog(<ScopeDialog mode={FORM_MODE.NEW} />);
+            addActiveDialog(
+              <ScopeDialog mode={FORM_MODE.EDIT} team={team} refreshTeam={refreshTeam} saveTeam={saveTeam} />
+            );
           }
         }
       ]}

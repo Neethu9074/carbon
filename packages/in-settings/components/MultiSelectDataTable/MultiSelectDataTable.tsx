@@ -123,6 +123,7 @@ interface MultiSelectDataTableProps<
   labelNew: string;
   loading: boolean;
   onCreateNew?: () => void;
+  onRowSelect?: (selectedRows: string[]) => void;
   searchPlaceholderText: string;
   initalSortConfig: Readonly<{ key: string; direction: string }>;
   boundedPath?: string;
@@ -151,6 +152,7 @@ export default function MultiSelectDataTable<
     loading,
     labelNew,
     onCreateNew,
+    onRowSelect,
     searchPlaceholderText,
     getMenuItems,
     getBatchActionItems,
@@ -381,9 +383,16 @@ export default function MultiSelectDataTable<
                     selectRow(row.id);
                   }
                 });
+
+                if (onRowSelect) {
+                  // Row is not yet selected therefore isSelected is still false
+                  const selectedIds = rows.filter(row => !row.isSelected).map(row => row.id);
+                  onRowSelect(selectedIds);
+                }
               }
             })
           };
+
           return (
             <TableContainer
               title={defaultHeaderWithCount(title, tableRows.length, filteredRows.length, isLoading)}
@@ -436,7 +445,18 @@ export default function MultiSelectDataTable<
                     <TableHead>
                       <TableRow>
                         {enableMultSelect && !isEmptyState && (
-                          <TableSelectAll {...(getSelectionProps({} as any) as any)} />
+                          <TableSelectAll
+                            {...(getSelectionProps({
+                              rows,
+                              onClick: () => {
+                                if (onRowSelect) {
+                                  // Row is not yet selected therefore isSelected is still false
+                                  const selectedIds = rows.filter(row => !row.isSelected).map(row => row.id);
+                                  onRowSelect(selectedIds);
+                                }
+                              }
+                            } as any) as any)}
+                          />
                         )}
                         {headers.map(header => (
                           <TableHeader
@@ -477,7 +497,26 @@ export default function MultiSelectDataTable<
                               row
                             })}
                           >
-                            {enableMultSelect && <TableSelectRow {...(getSelectionProps({ row }) as any)} />}
+                            {enableMultSelect && (
+                              <TableSelectRow
+                                {...(getSelectionProps({
+                                  row,
+                                  onChange: () => {
+                                    if (onRowSelect) {
+                                      let selectedIds = selectedRows.map(row => row.id);
+                                      if (row.isSelected) {
+                                        // row was previously selected
+                                        selectedIds = selectedIds.filter(id => id !== row.id);
+                                      } else {
+                                        // row has been selected
+                                        selectedIds.push(row.id);
+                                      }
+                                      onRowSelect(selectedIds);
+                                    }
+                                  }
+                                }) as any)}
+                              />
+                            )}
                             {row.cells.map(cell => (
                               <TableCell key={`table-cell-${cell.id}`}>{cell.value}</TableCell>
                             ))}

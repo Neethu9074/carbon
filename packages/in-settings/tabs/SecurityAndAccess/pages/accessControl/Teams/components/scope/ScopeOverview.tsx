@@ -6,24 +6,22 @@
 
 import React from 'react';
 
-import {
-  CarbonAccordion,
-  CarbonAccordionItem,
-  CarbonContainedList,
-  CarbonContainedListItem
-} from '@instana/components';
+import { Accordion, AccordionItem } from '@instana/carbon';
 
 import { ScopeOverviewProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeOverview.types';
+import ScopeOverviewSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeOverviewSection';
 import { SCOPE_AREAS } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeOverview.constants';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from './ScopeOverview.mless';
 
 const ScopeOverview = ({ team }: ScopeOverviewProps) => {
+  const timeConfig = useTimeConfig();
   return (
-    <CarbonAccordion>
+    <Accordion>
       {SCOPE_AREAS.map(area => {
         return (
-          <CarbonAccordionItem
+          <AccordionItem
             key={area.id}
             title={
               <div className={locals.scopeTitle}>
@@ -32,27 +30,13 @@ const ScopeOverview = ({ team }: ScopeOverviewProps) => {
               </div>
             }
           >
-            {area?.items(team.scope)?.map(section => {
-              return (
-                <CarbonContainedList
-                  key={`${area.id}-${section.id}`}
-                  label={section.title ? section.title : ''}
-                  className={section.title ? undefined : locals.hideTitle}
-                >
-                  {section?.items?.map((item: any) => {
-                    return (
-                      <CarbonContainedListItem key={`${section.id}-${item.scopeId}`}>
-                        {item?.scopeId}
-                      </CarbonContainedListItem>
-                    );
-                  })}
-                </CarbonContainedList>
-              );
+            {area?.items(team.scope, timeConfig)?.map(section => {
+              return <ScopeOverviewSection key={`${area.id}-${section.id}`} areaId={area.id} section={section} />;
             })}
-          </CarbonAccordionItem>
+          </AccordionItem>
         );
       })}
-    </CarbonAccordion>
+    </Accordion>
   );
 };
 

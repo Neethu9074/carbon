@@ -4,10 +4,26 @@
  * Copyright IBM Corp. 2025
  */
 
+import { just } from '@instana/observables';
+
+import {
+  getAllSyntheticCredentialsForEntitySelectionWithDefaults,
+  getAllSyntheticTestsForEntitySelectionWithDefaults
+} from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
+import { getAllBusinessPerspectivesForEntitySelectionWithDefaults } from 'in-bizops/subscriptions/helpers/getAllBusinessPerspectivesForEntitySelectionWithDefaults';
+import {
+  extractId,
+  extractName
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.navItems';
+import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
+import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
 import { ScopeArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeOverview.types';
+import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
+import { TeamScopeEntity } from 'in-settings/tabs/SecurityAndAccess/api/teams';
+import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
-export const SCOPE_AREAS: Array<ScopeArea> = [
+export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
   {
     id: 'websites-mobile-apps',
     title: t('in-settings:tabs.teams.scopeWebsitesAndMobileApps'),
@@ -17,10 +33,24 @@ export const SCOPE_AREAS: Array<ScopeArea> = [
         mobileAppsCount: scope?.mobileApps?.length
       });
     },
-    items: scope => {
+    items: (scope, timeConfig) => {
       return [
-        { id: 'websites', title: t('in-settings:tabs.teams.scopeSectionWebsites'), items: scope?.websites },
-        { id: 'mobile-apps', title: t('in-settings:tabs.teams.scopeSectionMobileApps'), items: scope?.mobileApps }
+        {
+          id: 'websites',
+          title: t('in-settings:tabs.teams.scopeSectionWebsites'),
+          items: scope?.websites,
+          observable: () => getAllWebsitesForEntitySelectionWithDefaults({ timeConfig }),
+          extractId: extractId,
+          extractName: extractName
+        },
+        {
+          id: 'mobile-apps',
+          title: t('in-settings:tabs.teams.scopeSectionMobileApps'),
+          items: scope?.mobileApps,
+          observable: () => getAllMobileAppsForEntitySelectionWithDefaults({ timeConfig }),
+          extractId: extractId,
+          extractName: extractName
+        }
       ];
     }
   },
@@ -32,8 +62,16 @@ export const SCOPE_AREAS: Array<ScopeArea> = [
         count: scope?.businessPerspectives?.length
       });
     },
-    items: scope => {
-      return [{ id: 'business-perspectives', items: scope?.businessPerspectives }];
+    items: (scope, timeConfig) => {
+      return [
+        {
+          id: 'business-perspectives',
+          items: scope?.businessPerspectives,
+          observable: () => getAllBusinessPerspectivesForEntitySelectionWithDefaults({ timeConfig }),
+          extractId: extractId,
+          extractName: extractName
+        }
+      ];
     }
   },
   {
@@ -42,20 +80,36 @@ export const SCOPE_AREAS: Array<ScopeArea> = [
     subtitle: scope => {
       return t('in-settings:tabs.teams.scopeApplicationsSubtitle', { count: scope?.applications?.length });
     },
-    items: scope => {
-      return [{ id: 'application-perspectives', items: scope?.applications }];
+    items: (scope, timeConfig) => {
+      return [
+        {
+          id: 'application-perspectives',
+          items: scope?.applications,
+          observable: () => getAllApplicationsForEntitySelectionWithDefaults({ timeConfig }),
+          extractId: extractId,
+          extractName: extractName
+        }
+      ];
     }
   },
   {
     id: 'platforms-infrastructure',
     title: t('in-settings:tabs.teams.scopePlatformsAndInfrastructure'),
-    subtitle: scope => {
+    subtitle: () => {
       return t('in-settings:tabs.teams.scopePlatformsAndInfrastructureSubtitle', {
-        count: scope?.applications?.length
+        count: 0
       });
     },
-    items: scope => {
-      return [{ id: 'entities', items: scope?.applications }];
+    items: () => {
+      return [
+        {
+          id: 'entities',
+          items: [],
+          observable: () => just(success([])),
+          extractId: extractId,
+          extractName: extractName
+        }
+      ];
     }
   },
   {
@@ -65,7 +119,15 @@ export const SCOPE_AREAS: Array<ScopeArea> = [
       return t('in-settings:tabs.teams.scopeCustomDashboardsSubtitle', { count: 0 });
     },
     items: () => {
-      return [{ id: 'dashboards', items: [] }];
+      return [
+        {
+          id: 'dashboards',
+          items: [],
+          observable: () => just(success([])),
+          extractId: extractId,
+          extractName: extractName
+        }
+      ];
     }
   },
   {
@@ -77,13 +139,23 @@ export const SCOPE_AREAS: Array<ScopeArea> = [
         credentialsCount: scope?.syntheticCredentials?.length
       });
     },
-    items: scope => {
+    items: (scope, timeConfig) => {
       return [
-        { id: 'synthetic-tests', title: t('in-settings:tabs.teams.scopeSectionTests'), items: scope?.syntheticTests },
+        {
+          id: 'synthetic-tests',
+          title: t('in-settings:tabs.teams.scopeSectionTests'),
+          items: scope?.syntheticTests,
+          observable: () => getAllSyntheticTestsForEntitySelectionWithDefaults({ timeConfig }),
+          extractId: extractId,
+          extractName: extractName
+        },
         {
           id: 'synthetic-credentials',
           title: t('in-settings:tabs.teams.scopeSectionCredentials'),
-          items: scope?.syntheticCredentials
+          items: scope?.syntheticCredentials,
+          observable: () => getAllSyntheticCredentialsForEntitySelectionWithDefaults({ timeConfig }),
+          extractId: extractId,
+          extractName: extractName
         }
       ];
     }
@@ -95,7 +167,15 @@ export const SCOPE_AREAS: Array<ScopeArea> = [
       return t('in-settings:tabs.teams.scopeAlertChannelsSubtitle', { count: 0 });
     },
     items: () => {
-      return [{ id: 'channels', items: [] }];
+      return [
+        {
+          id: 'channels',
+          items: [],
+          observable: () => just(success([])),
+          extractId: extractId,
+          extractName: extractName
+        }
+      ];
     }
   },
   {
@@ -105,7 +185,15 @@ export const SCOPE_AREAS: Array<ScopeArea> = [
       return t('in-settings:tabs.teams.scopeAutomationsSubtitle', { count: 0 });
     },
     items: () => {
-      return [{ id: 'automations', items: [] }];
+      return [
+        {
+          id: 'automations',
+          items: [],
+          observable: () => just(success([])),
+          extractId: extractId,
+          extractName: extractName
+        }
+      ];
     }
   }
 ];
