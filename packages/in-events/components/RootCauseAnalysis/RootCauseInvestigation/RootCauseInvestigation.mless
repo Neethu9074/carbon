@@ -1,0 +1,10 @@
+:local {
+  .llmOutput {
+    ol,
+    li {
+      list-style: circle;
+      margin-left: 0.5rem;
+      margin-top: 0.2rem;
+    }
+  }
+}

@@ -291,6 +291,20 @@
       "legendRCA": "Root Cause Entity",
       "legendOther": "Other node",
       "legendTrigger": "Triggering Event Entity"
+    },
+    "singleEntityLLM": {
+      "investigateButtonLabel": "Investigate for me",
+      "investigationPanelTitle": "Agentic investigation",
+      "errorTitle": "Error",
+      "commonErrorMessage": "There was an unexpected error while investigating this root cause.",
+      "diagnosisTitle": "Diagnosis",
+      "aiExplainedTitle": "AI explained",
+      "factualityScoreTitle": "Factuality score",
+      "reasoningTitle": "Reasoning",
+      "errorLogSummaryTitle": "Error log summary",
+      "traceLogSummaryTitle": "Trace log summary",
+      "associatedEventsSummaryTitle": "Associated events summary",
+      "runInvestigationInstructions": "To launch an investigation, click <strong>Investigate for me</strong>."
     }
   },
   "dataGridEventTable": {
