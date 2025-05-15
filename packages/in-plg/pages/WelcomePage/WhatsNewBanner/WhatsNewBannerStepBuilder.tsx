@@ -13,7 +13,9 @@ import { KUBECOST_INTEGRATION_BUTTON_CLICKED, LOGS_IN_CONTEXT_BUTTON_CLICKED } f
 import { HeaderItemTile } from 'in-plg/components/HeaderItemTile/HeaderItemTile';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getValidButtonType } from 'in-plg/pages/WelcomePage/utils';
+import { hasKubernetesAccess } from 'in-stores/permission';
 import { TileDataType } from 'in-plg/pages/WelcomePage/types';
+import { role } from 'in-stores/user';
 
 export default function WhatsNewBannerStepBuilder() {
   const { trackCta } = useSegmentTracking();
@@ -23,6 +25,7 @@ export default function WhatsNewBannerStepBuilder() {
       title: t('in-plg:welcomepage.kubecost.title'),
       description: t('in-plg:welcomepage.kubecost.description'),
       buttonName: t('in-plg:welcomepage.kubecost.buttonName'),
+      hasPermission: hasKubernetesAccess,
       buttonType: 'primary',
       onButtonClick: () => {
         trackCta(KUBECOST_INTEGRATION_BUTTON_CLICKED);
@@ -37,6 +40,7 @@ export default function WhatsNewBannerStepBuilder() {
       description: t('in-plg:welcomepage.logging.description'),
       buttonName: t('in-plg:welcomepage.logging.buttonName'),
       buttonType: 'ghost',
+      hasPermission: role?.canViewLogs,
       onButtonClick: () => {
         trackCta(LOGS_IN_CONTEXT_BUTTON_CLICKED);
         //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script

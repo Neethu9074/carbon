@@ -9,11 +9,18 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Stack, Typography, CarbonButton } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import {
+  WHATS_NEW_OPENED,
+  WHATS_NEW_CLOSED,
+  ONBOARDING_CHECKLIST_OPENED,
+  ONBOARDING_CHECKLIST_CLOSED
+} from 'in-services/tracking/eventNames';
 import WhatsNewBannerStepBuilder from 'in-plg/pages/WelcomePage/WhatsNewBanner/WhatsNewBannerStepBuilder';
 import { AccountActivationProp } from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
 import OnboardingStepBuilder from 'in-plg/pages/WelcomePage/OnboardingStepBuilder';
 import { playwithEnabled, whatsNewBannerEnabled } from 'in-services/featureFlags';
 import { IconForButton } from 'in-plg/components/IconForButton/IconForButton';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import config from 'in-services/config';
 
 import locals from 'in-plg/components/WelcomeHeader/OnboardingCarousel/OnboardingCarousel.mless';
@@ -30,9 +37,12 @@ export default function OnboardingCarousel({
   const [isScrollDisabled, setIsScrollDisabled] = useState(false);
   const [isLeftDisabled, setIsLeftDisabled] = useState(true);
   const [isRightDisabled, setIsRightDisabled] = useState(true);
+  const { trackCta } = useSegmentTracking();
   const { activeLicenseType } = config;
   const showNewBanner = (whatsNewBannerEnabled && activeLicenseType !== 'selfService') || playwithEnabled;
   const collapsibleButton = {
+    collapsedSegmentEvent: showNewBanner ? WHATS_NEW_OPENED : ONBOARDING_CHECKLIST_OPENED,
+    expandedSegmentEvent: showNewBanner ? WHATS_NEW_CLOSED : ONBOARDING_CHECKLIST_CLOSED,
     showButtonText: showNewBanner
       ? t('in-plg:welcomepage.collapsibleButton.showWhatsNew')
       : t('in-plg:welcomepage.collapsibleButton.showOnboardingTasks'),
@@ -171,7 +181,12 @@ export default function OnboardingCarousel({
                 renderIcon={() => (
                   <IconForButton icon={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} iconSize="s" />
                 )}
-                onClick={toggleVisibility}
+                onClick={() => {
+                  trackCta(
+                    isExpanded ? collapsibleButton.expandedSegmentEvent : collapsibleButton.collapsedSegmentEvent
+                  );
+                  toggleVisibility();
+                }}
               >
                 {isExpanded ? collapsibleButton?.hideButtonText : collapsibleButton?.showButtonText}
               </CarbonButton>

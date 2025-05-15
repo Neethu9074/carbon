@@ -140,6 +140,10 @@ export const CONTACT_SALES = 'learnMoreContactSales.clicked';
 
 export const KUBECOST_INTEGRATION_BUTTON_CLICKED = 'whatsnew.KubecostIntegration';
 export const LOGS_IN_CONTEXT_BUTTON_CLICKED = 'whatsnew.Logs';
+export const WHATS_NEW_OPENED = 'whatsnew.opened';
+export const WHATS_NEW_CLOSED = 'whatsnew.closed';
+export const ONBOARDING_CHECKLIST_OPENED = 'onboardingChecklist.opened';
+export const ONBOARDING_CHECKLIST_CLOSED = 'onboardingChecklist.closed';
 
 export const TABLE_ENTITY_ADDED = 'table.entity.added';
 export const TABLE_ENTITY_CLEARED = 'table.entity.cleared';
