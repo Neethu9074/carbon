@@ -30,7 +30,7 @@ const PdfContent = forwardRef<HTMLDivElement, Props>(({ className, orientation, 
       const isLoading = loadingSelectors.some(selector => contentNode.querySelectorAll(`.${selector}`).length > 0);
       if (!isLoading && !hasLoaded) {
         clearInterval(interval);
-        onReady?.();
+        setTimeout(() => onReady?.());
         setHasLoaded(true);
       }
     };

@@ -115,7 +115,7 @@ function Header(props) {
   );
 }
 
-function renderButtonLineSecondary({ timeConfig, podId, kubernetesTimeShiftSelectTracker }) {
+function renderButtonLineSecondary({ timeConfig, clusterId, kubernetesTimeShiftSelectTracker }) {
   return (
     <>
       {beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled && (
@@ -130,7 +130,7 @@ function renderButtonLineSecondary({ timeConfig, podId, kubernetesTimeShiftSelec
           }
         />
       )}
-      <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={podId} />
+      <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={clusterId} />
     </>
   );
 }

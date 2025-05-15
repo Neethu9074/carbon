@@ -7,6 +7,7 @@
 import { generateImageFromNode } from 'in-components/DownloadPdf/utils/generateImageFromNode';
 import { ActionsTypes, PdfAction } from 'in-components/DownloadPdf/DownloadPdfDialog/reducer';
 import { baseSanitizeNode } from 'in-components/DownloadPdf/utils/baseSanitizeNode';
+import excludeDataNoPdf from 'in-components/DownloadPdf/utils/excludeDataNoPdf';
 import { t } from 'in-i18n';
 
 /**
@@ -19,7 +20,7 @@ export async function generateImagesFromNodes(
   dispatch: React.Dispatch<PdfAction>,
   sanitize?: (node: Node) => boolean
 ) {
-  const combinedFilter = (node: Node) => baseSanitizeNode(node) && (sanitize?.(node) ?? true);
+  const combinedFilter = (node: Node) => baseSanitizeNode(node) && excludeDataNoPdf(node) && (sanitize?.(node) ?? true);
   const images = [];
   for (let [i, node] of nodes.entries()) {
     try {

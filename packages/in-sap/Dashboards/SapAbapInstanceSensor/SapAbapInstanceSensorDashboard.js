@@ -8,10 +8,12 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { hostId as matrixHostId, systemPrefix, systemSnapShotPrefix } from 'in-sap/navigation/matrix';
+import DownloadPdfMenu from 'in-components/DownloadPdf/components/DownloadPdfMenu/DownloadPdfMenu';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import getSapAbapInstanceSensor from 'in-sap/subscriptions/getSapAbapInstanceSensor';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { sapAbapInstanceSensorDashboard } from 'in-sap/navigation/paths';
+import usePdfExport from 'in-components/DownloadPdf/hooks/usePdfExport';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import tabs from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/index';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
@@ -42,6 +44,8 @@ export default function SapAbapInstanceSensorDashboard({ location }) {
     timeConfig: getTimeConfig(location)
   };
 
+  const { exportDashboardToPdf, PdfExportRenderer } = usePdfExport();
+
   return (
     <Fragment>
       <Breadcrumbs items={SapAbapSensorBreadcrumbs(props)} />
@@ -51,7 +55,6 @@ export default function SapAbapInstanceSensorDashboard({ location }) {
           pageRootName: pageNames.sapAbapInstanceSensor
         }}
       />
-
       <TabView
         result$={getSapAbapInstanceSensor({
           filter: {
@@ -59,7 +62,7 @@ export default function SapAbapInstanceSensorDashboard({ location }) {
             timeConfig: props.timeConfig
           }
         })}
-        HeaderComponent={Header}
+        HeaderComponent={props => <Header {...props} exportDashboardToPdf={exportDashboardToPdf} />}
         location={location}
         tabs={tabs}
         props={props}
@@ -74,7 +77,7 @@ export default function SapAbapInstanceSensorDashboard({ location }) {
           </CenterAlignmentColumn>
         )}
       />
-
+      {PdfExportRenderer}
       <Footer />
     </Fragment>
   );
@@ -88,6 +91,7 @@ function Header(props) {
       icon="lib_sap_instances"
       label={get(props.result, ['data', 'serviceName'])}
       renderButtonLine={renderButtonLine}
+      renderButtonLineSecondary={props => <DownloadPdfMenu {...props} />}
       renderMetaInformation={renderMetaInformation}
     />
   );

@@ -46,6 +46,7 @@ export default function StackButton({
     >
       {({ toggle, refSetter, isOpen }) => (
         <Button
+          data-no-pdf
           kind="tertiary"
           icon={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
           onClick={toggle}

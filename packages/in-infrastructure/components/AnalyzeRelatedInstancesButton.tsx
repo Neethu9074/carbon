@@ -27,7 +27,7 @@ export default function AnalyzeRelatedInstancesButton(
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
   return (
-    <Button kind="primary" size="compact" href={getLinkToInfraEntityExplore(props)} onClick={props.onClick}>
+    <Button kind="primary" data-no-pdf size="compact" href={getLinkToInfraEntityExplore(props)} onClick={props.onClick}>
       <Stack direction="horizontal" gap="disabled" align="center">
         {t('in-infrastructure:explore.relatedInstances')}
         <PreviewPill />

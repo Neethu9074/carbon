@@ -7,6 +7,7 @@
 import { Options } from 'dom-to-image';
 
 import { baseSanitizeNode } from 'in-components/DownloadPdf/utils/baseSanitizeNode';
+import excludeDataNoPdf from 'in-components/DownloadPdf/utils/excludeDataNoPdf';
 import { nodeToImage } from 'in-services/util/nodeToImage';
 
 interface Props {
@@ -20,7 +21,8 @@ interface Props {
  * It returns the image url.
  */
 export function generateImageFromNode({ node, format, options }: Props): Promise<string> {
-  const combinedFilter = (node: Node) => baseSanitizeNode(node) && (options?.filter?.(node) ?? true);
+  const combinedFilter = (node: Node) =>
+    baseSanitizeNode(node) && excludeDataNoPdf(node) && (options?.filter?.(node) ?? true);
   return nodeToImage({
     node,
     format,

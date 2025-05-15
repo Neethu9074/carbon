@@ -140,6 +140,7 @@
   },
   "downloadPdf": {
     "downloadPdfFile": "Download PDF file",
+    "downloadPdfLabel": "Download PDF",
     "settings": "Settings",
     "pdfOrientation": "Orientation",
     "portrait": "Portrait",

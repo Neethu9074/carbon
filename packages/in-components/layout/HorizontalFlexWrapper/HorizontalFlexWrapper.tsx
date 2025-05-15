@@ -18,7 +18,7 @@ export default forwardRef<HTMLDivElement, HorizontalFlexWrapperProps>(function H
   ref
 ) {
   return (
-    <div ref={ref} className={classNames(locals.wrapper, className)} {...furtherProps}>
+    <div ref={ref} data-no-pdf className={classNames(locals.wrapper, className)} {...furtherProps}>
       {children}
     </div>
   );

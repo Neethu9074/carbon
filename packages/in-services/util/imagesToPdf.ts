@@ -33,7 +33,7 @@ export const defaultPdfSettings: jsPDFOptions = {
   compress: true
 };
 
-export const defaultFilename = 'dashboard-widget-export';
+export const defaultFilename = 'generated-instana-report';
 export const defaultFormat = 'png';
 
 export const imagesToPdf = ({

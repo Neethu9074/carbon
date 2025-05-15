@@ -41,6 +41,7 @@ export default function AnalyzeCallsButton({
 
   return (
     <Button
+      data-no-pdf
       kind="action"
       icon="lib_application_call"
       href={getLinkToApplicationAnalyze({

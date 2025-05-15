@@ -7,7 +7,10 @@
 import React, { useCallback, useRef, ReactNode, useState } from 'react';
 import { jsPDFOptions } from 'jspdf';
 
+import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { generateImageFromNode } from 'in-components/DownloadPdf/utils/generateImageFromNode';
+import DOMNodeWrapper from 'in-components/DownloadPdf/utils/DOMNodeWrapper/DOMNodeWrapper';
+import { DOWNLOAD_PDF_FINISH, DOWNLOAD_PDF_START } from 'in-services/tracking/tracking';
 import PdfExportPortal from 'in-components/DownloadPdf/components/PdfExportPortal';
 import { pdfContent, pdfHeader } from 'in-components/DownloadPdf/utils/constants';
 import { getPdfHeader } from 'in-components/DownloadPdf/utils/getPdfHeader';
@@ -32,6 +35,7 @@ interface ActionProps {
 
 export default function usePdfExport() {
   const portalRef = useRef<HTMLDivElement>(null);
+  const { trackCta } = useSegmentTracking();
   const [portal, setPortal] = useState<JSX.Element | null>(null);
 
   // Function that sets the portal and dispatches the onReady function when the portal is added.
@@ -72,9 +76,19 @@ export default function usePdfExport() {
   /**
    * Function that mounts the portal and generates the pdf based on a component provided.
    */
-  const generatePdfFromComponent = (target: React.ReactNode, options: Options) => {
+  const generatePdfFromElement = (target: React.ReactNode, options: Options) => {
+    const isNode = target instanceof HTMLElement;
+    let component = target;
+
+    // Clone node and canvas in case it's a node and wrapp in a container.
+    if (isNode) {
+      const clonedNode = target.cloneNode(true) as HTMLElement;
+      cloneWithCanvasContents(target, clonedNode);
+      component = <DOMNodeWrapper node={clonedNode} />;
+    }
+
     renderPortal(
-      target,
+      component,
       async ({ pdfHeaderNode: node, pdfContentNode }) => {
         const { customize, shouldFitPdf = true } = options;
         const headerUrl = await getPdfHeader({ node });
@@ -88,6 +102,7 @@ export default function usePdfExport() {
 
         // Generates an image if there are nodes to be exported and pdf header exists
         if (headerUrl) {
+          trackCta?.(DOWNLOAD_PDF_START);
           generateImageFromNode({
             node: pdfContentNode,
             options: {
@@ -102,21 +117,26 @@ export default function usePdfExport() {
               filename,
               shouldFitPdf,
               pdfSettings
-            }).then(({ onfulfilled }) => {
-              if (onfulfilled) {
-                notify({
-                  title: t(`in-components:downloadPdf.generatedPDFTitle`),
-                  content: t(`in-components:downloadPdf.generatedPDFContent`),
-                  action: 'generated'
-                });
-                setPortal(null);
-              }
-            });
+            }).then(({ onfulfilled }) => handleSuccess({ onfulfilled, setPortal, trackCta }));
           });
         }
       },
       options
     );
+  };
+
+  /**
+   * Function that mounts the portal and exports the dashboard to pdf.
+   */
+  const exportDashboardToPdf = (
+    options: Options = { shouldFitPdf: false, isPortalContentFullWidth: true, filename: 'generated-instana-report' }
+  ) => {
+    const node = document.querySelector('.sticky-wrapper');
+    generatePdfFromElement(node, {
+      shouldFitPdf: false,
+      isPortalContentFullWidth: true,
+      ...options
+    });
   };
 
   /**
@@ -130,7 +150,8 @@ export default function usePdfExport() {
     });
 
   return {
-    generatePdfFromComponent,
+    generatePdfFromElement,
+    exportDashboardToPdf,
     getPdfHeaderUrl,
     PdfExportRenderer: portal
   };
@@ -146,4 +167,43 @@ function notify({ title, content, action }: { title: string; content: string; ac
     },
     `custom-dashboard-pdf-${action}`
   );
+}
+
+/**
+ * Function that copies any canvas from original node to the cloned one.
+ * It's necessary to render the canvas in the pdf.
+ */
+function cloneWithCanvasContents(original: HTMLElement, clone: HTMLElement) {
+  const origCanvases = original.querySelectorAll('canvas');
+  const cloneCanvases = clone.querySelectorAll('canvas');
+  origCanvases.forEach((origCanvas: HTMLCanvasElement, i: number) => {
+    const cloneCanvas = cloneCanvases[i];
+    cloneCanvas.width = origCanvas.width;
+    cloneCanvas.height = origCanvas.height;
+    const ctx = cloneCanvas.getContext('2d');
+    ctx?.drawImage(origCanvas, 0, 0);
+    cloneCanvas.style.width = '100%';
+    cloneCanvas.style.height = 'auto';
+    cloneCanvas.style.display = 'block';
+  });
+  return clone;
+}
+
+interface Props {
+  onfulfilled: boolean;
+  setPortal: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
+  trackCta: CtaTrackingFunction;
+}
+
+function handleSuccess({ onfulfilled, setPortal, trackCta }: Props) {
+  if (!onfulfilled) {
+    return;
+  }
+  notify({
+    title: t(`in-components:downloadPdf.generatedPDFTitle`),
+    content: t(`in-components:downloadPdf.generatedPDFContent`),
+    action: 'generated'
+  });
+  setPortal(null);
+  trackCta?.(DOWNLOAD_PDF_FINISH);
 }

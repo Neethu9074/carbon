@@ -164,7 +164,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
           {renderMetaInformation && renderMetaInformation(props)}
           {isBeta && <PreviewPill />}
         </div>
-        <div className={locals.rightContent}>
+        <div data-no-pdf className={locals.rightContent}>
           {renderTopLevelButtonLine && renderTopLevelButtonLine(props)}
           {renderTimeSelection ? (
             renderTimeSelection(props)
@@ -185,7 +185,9 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
           })}
         >
           <div className={locals.primaryActions}>{renderButtonLine && renderButtonLine(props)}</div>
-          <div className={locals.secondaryActions}>{renderButtonLineSecondary && renderButtonLineSecondary(props)}</div>
+          <div data-no-pdf className={locals.secondaryActions}>
+            {renderButtonLineSecondary?.(props)}
+          </div>
         </div>
       )}
     </section>

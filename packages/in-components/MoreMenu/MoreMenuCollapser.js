@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { Button } from '@instana/components';
@@ -15,6 +16,7 @@ export default function MoreMenuCollapserWrapper(props) {
   const numItemsUntilCreatingMenu = props.numItemsUntilCreatingMenu || 2;
   const buttonItems = props.items.slice().splice(0, numItemsUntilCreatingMenu);
   const menuItems = props.items.slice(numItemsUntilCreatingMenu);
+  const { size = 'normal' } = props;
 
   return (
     <>
@@ -22,7 +24,7 @@ export default function MoreMenuCollapserWrapper(props) {
         <ComponentResolver key={i} {...props} {...item} Renderer={Button} />
       ))}
       {menuItems.length > 0 && (
-        <MoreMenu kind="secondaryDarker">
+        <MoreMenu kind="secondaryDarker" size={size}>
           {menuItems.map((item, i) => (
             <ComponentResolver key={i} {...props} {...item} Renderer={MoreMenuButton} />
           ))}
@@ -79,3 +81,9 @@ const ComponentResolver = connectTo(props => (props.getObservables ? props.getOb
     return button;
   }
 );
+
+MoreMenuCollapserWrapper.propTypes = {
+  size: PropTypes.string,
+  numItemsUntilCreatingMenu: PropTypes.number,
+  items: PropTypes.array
+};

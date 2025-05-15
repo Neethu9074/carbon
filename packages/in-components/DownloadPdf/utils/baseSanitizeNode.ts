@@ -13,5 +13,11 @@ export const baseSanitizeNode = (node: Node): boolean => {
   if (node instanceof HTMLElement && node.tagName === 'A') {
     node.setAttribute('href', '#');
   }
+
+  // If exporting dashboards, remove any styles from the target
+  if (node instanceof HTMLElement && node.classList.contains('sticky-wrapper')) {
+    (node?.firstChild as Element)?.removeAttribute('style');
+    node.style.padding = '0';
+  }
   return true;
 };

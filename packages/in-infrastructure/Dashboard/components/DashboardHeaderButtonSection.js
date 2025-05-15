@@ -11,6 +11,8 @@ import { isInternalVisible$ } from 'in-components/MainNavigation/components/View
 import getProfilesAvailable from 'in-components/Profiling/subscriptions/getProfilesAvailable';
 import EntityVersionDialog from 'in-infrastructure/Dashboard/components/EntityVersionDialog';
 import { useLinkToProfiles } from 'in-components/Profiling/navigation/paths';
+import { infraDashboardExportPdfEnabled } from 'in-services/featureFlags';
+import usePdfExport from 'in-components/DownloadPdf/hooks/usePdfExport';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getDashboardHeaderActions } from 'in-sdk/snapshot';
 import { MoreMenuCollapser } from 'in-components/MoreMenu';
@@ -41,32 +43,44 @@ export default connectTo(
       snapshot,
       snapshotId,
       processSnapshotId,
-
+      numItemsUntilCreatingMenu,
       timeConfig,
       profilesAvailable
     } = props;
 
     const linkToProfiles = useLinkToProfiles({ processSnapshotId });
+    const { exportDashboardToPdf, PdfExportRenderer } = usePdfExport();
+
     return (
-      <MoreMenuCollapser
-        items={[
-          ...getDashboardHeaderActions(props),
-          isInternalVisible && {
-            label: t('in-infrastructure:dashboard.snapshotVersions'),
-            icon: 'lib_views_list',
-            onClick: ({ snapshotId, timeConfig }) =>
-              addActiveDialog(<EntityVersionDialog snapshotId={snapshotId} timeConfig={timeConfig} />)
-          },
-          profilesAvailable && {
-            label: t('in-infrastructure:dashboard.analyzeProfiles'),
-            icon: 'lib_profiling',
-            href: linkToProfiles
-          }
-        ].filter(Boolean)}
-        snapshot={snapshot}
-        snapshotId={snapshotId}
-        timeConfig={timeConfig}
-      />
+      <>
+        <MoreMenuCollapser
+          numItemsUntilCreatingMenu={numItemsUntilCreatingMenu}
+          size="compact"
+          items={[
+            ...getDashboardHeaderActions(props),
+            isInternalVisible && {
+              label: t('in-infrastructure:dashboard.snapshotVersions'),
+              icon: 'lib_views_list',
+              onClick: ({ snapshotId, timeConfig }) =>
+                addActiveDialog(<EntityVersionDialog snapshotId={snapshotId} timeConfig={timeConfig} />)
+            },
+            profilesAvailable && {
+              label: t('in-infrastructure:dashboard.analyzeProfiles'),
+              icon: 'lib_profiling',
+              href: linkToProfiles
+            },
+            infraDashboardExportPdfEnabled && {
+              icon: 'lib_actions_download',
+              label: t('in-components:downloadPdf.downloadPdfLabel'),
+              onClick: exportDashboardToPdf
+            }
+          ].filter(Boolean)}
+          snapshot={snapshot}
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+        />
+        {PdfExportRenderer}
+      </>
     );
   }
 );

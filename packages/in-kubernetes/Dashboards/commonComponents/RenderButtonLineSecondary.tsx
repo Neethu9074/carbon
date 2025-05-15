@@ -24,5 +24,12 @@ export default function RenderButtonLineSecondary({ timeConfig, snapshotId }: Re
     return <></>;
   }
 
-  return <DashboardHeaderButtonSection snapshot={snapshot} snapshotId={snapshotId} timeConfig={timeConfig} />;
+  return (
+    <DashboardHeaderButtonSection
+      snapshot={snapshot}
+      snapshotId={snapshotId}
+      timeConfig={timeConfig}
+      numItemsUntilCreatingMenu={1}
+    />
+  );
 }

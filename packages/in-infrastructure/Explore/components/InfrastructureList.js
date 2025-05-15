@@ -25,6 +25,7 @@ import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/Me
 import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/ServerTable/internalComponents/LegacySeverityIndicatorCellContentWrapper';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
+import DownloadPdfButton from 'in-components/DownloadPdf/components/DownloadPdfButton/DownloadPdfButton';
 import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import { extremeValueInSeries, getThresholdColors } from 'in-components/Threshold/threshold';
@@ -587,6 +588,7 @@ function getHeaderActions(props) {
         cursor={cursor}
         columns={columns}
       />
+      <DownloadPdfButton />
       <MetricCatalogAndSortingConfigurator {...props} metrics={metrics.filter(m => !m.removeFromTable)} />
     </>
   );

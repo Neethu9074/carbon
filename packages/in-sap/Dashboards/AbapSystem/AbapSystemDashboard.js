@@ -8,9 +8,11 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { hostId as matrixHostId, systemPrefix, systemSnapShotPrefix } from 'in-sap/navigation/matrix';
+import DownloadPdfMenu from 'in-components/DownloadPdf/components/DownloadPdfMenu/DownloadPdfMenu';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
+import usePdfExport from 'in-components/DownloadPdf/hooks/usePdfExport';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -40,6 +42,9 @@ export default function AbapSystemDashboard({ location }) {
     viewPath: abapSystemDashboard,
     timeConfig: getTimeConfig(location)
   };
+
+  const { exportDashboardToPdf, PdfExportRenderer } = usePdfExport();
+
   return (
     <Fragment>
       <Breadcrumbs items={AbapSystemBreadcrumbs(props)} />
@@ -56,7 +61,7 @@ export default function AbapSystemDashboard({ location }) {
             timeConfig: props.timeConfig
           }
         })}
-        HeaderComponent={Header}
+        HeaderComponent={props => <Header {...props} exportDashboardToPdf={exportDashboardToPdf} />}
         location={location}
         tabs={tabs}
         props={props}
@@ -71,7 +76,7 @@ export default function AbapSystemDashboard({ location }) {
           </CenterAlignmentColumn>
         )}
       />
-
+      {PdfExportRenderer}
       <Footer />
     </Fragment>
   );
@@ -85,6 +90,7 @@ function Header(props) {
       icon="lib_sap_system"
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
+      renderButtonLineSecondary={props => <DownloadPdfMenu {...props} />}
       renderMetaInformation={renderMetaInformation}
     />
   );

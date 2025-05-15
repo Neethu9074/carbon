@@ -14,6 +14,7 @@ interface DashboardHeaderButtonSectionProps {
   snapshot: SnapshotData;
   snapshotId: string;
   timeConfig: TimeConfig;
+  numItemsUntilCreatingMenu?: number;
 }
 
 declare const DashboardHeaderButtonSection: React.SFC<DashboardHeaderButtonSectionProps>;

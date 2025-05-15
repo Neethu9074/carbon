@@ -8,10 +8,12 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { hostId as matrixHostId, systemPrefix, systemSnapShotPrefix } from 'in-sap/navigation/matrix';
+import DownloadPdfMenu from 'in-components/DownloadPdf/components/DownloadPdfMenu/DownloadPdfMenu';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import getSapAbapSystemSensor from 'in-sap/subscriptions/getSapAbapSystemSensor';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
+import usePdfExport from 'in-components/DownloadPdf/hooks/usePdfExport';
 import { sapAbapSystemSensorDashboard } from 'in-sap/navigation/paths';
 import tabs from 'in-sap/Dashboards/SapAbapSystemSensor/tabs/index';
 import { SapAbapSystemSensorBreadcrumbs } from 'in-sap/breadcrumbs';
@@ -42,6 +44,8 @@ export default function SapAbapSystemSensorDashboard({ location }) {
     timeConfig: getTimeConfig(location)
   };
 
+  const { exportDashboardToPdf, PdfExportRenderer } = usePdfExport();
+
   return (
     <Fragment>
       <Breadcrumbs items={SapAbapSystemSensorBreadcrumbs(props)} />
@@ -59,7 +63,7 @@ export default function SapAbapSystemSensorDashboard({ location }) {
             timeConfig: props.timeConfig
           }
         })}
-        HeaderComponent={Header}
+        HeaderComponent={props => <Header {...props} exportDashboardToPdf={exportDashboardToPdf} />}
         location={location}
         tabs={tabs}
         props={props}
@@ -74,7 +78,7 @@ export default function SapAbapSystemSensorDashboard({ location }) {
           </CenterAlignmentColumn>
         )}
       />
-
+      {PdfExportRenderer}
       <Footer />
     </Fragment>
   );
@@ -88,6 +92,7 @@ function Header(props) {
       icon="lib_sap_sapAbapSystemSensor"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
+      renderButtonLineSecondary={props => <DownloadPdfMenu {...props} />}
       renderMetaInformation={renderMetaInformation}
     />
   );

@@ -32,6 +32,7 @@ import {
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
+import DownloadPdfButton from 'in-components/DownloadPdf/components/DownloadPdfButton/DownloadPdfButton';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -698,6 +699,7 @@ function getHeaderActions(props) {
         columns={columns}
         cursor={cursor}
       />
+      <DownloadPdfButton />
       <MetricCatalogAndSortingConfigurator {...props} showTagCatalog={false} />
     </>
   );

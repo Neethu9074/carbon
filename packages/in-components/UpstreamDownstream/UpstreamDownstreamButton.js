@@ -43,6 +43,7 @@ export default function UpstreamDownstreamButton({
       {({ toggle, refSetter, isOpen }) => (
         <Button
           kind="tertiary"
+          data-no-pdf
           icon={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
           onClick={toggle}
           refSetter={refSetter}

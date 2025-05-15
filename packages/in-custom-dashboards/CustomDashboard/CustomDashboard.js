@@ -63,7 +63,7 @@ export default function CustomDashboardLoader(props) {
     replaceHistory: false
   };
 
-  const { generatePdfFromComponent, getPdfHeaderUrl, PdfExportRenderer } = usePdfExport();
+  const { generatePdfFromElement, getPdfHeaderUrl, PdfExportRenderer } = usePdfExport();
   const [{ dashboardId, tagFilterExpression }, setUrlState] = useUrlState(urlStateDefinition);
   const result = useObservable(getCustomDashboard(dashboardId), [dashboardId]);
 
@@ -112,7 +112,7 @@ export default function CustomDashboardLoader(props) {
     ({ target, tooltipRef, isHistogram }) => {
       const { widgetNode, widgetType, widgetId } = getWidgetProperties(target);
       return exportWidgetAsPdf({
-        action: options => generatePdfFromComponent(<PdfWidgetContainer widgetId={widgetId} />, options),
+        action: options => generatePdfFromElement(<PdfWidgetContainer widgetId={widgetId} />, options),
         widgetNode,
         widgetId,
         widgetType,
@@ -121,7 +121,7 @@ export default function CustomDashboardLoader(props) {
         trackCta
       });
     },
-    [generatePdfFromComponent, trackCta]
+    [generatePdfFromElement, trackCta]
   );
 
   const contextValues = useMemo(

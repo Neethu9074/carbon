@@ -6,6 +6,8 @@
 
 :local {
   .pdfExportLayout {
+    --max-width-export-layout: 90rem;
+
     width: 100%;
     max-width: 8.27in;
     height: 100%;
@@ -20,7 +22,7 @@
   }
 
   .fullWidth {
-    max-width: none;
+    max-width: var(--max-width-export-layout);
   }
 
   .landscape {
