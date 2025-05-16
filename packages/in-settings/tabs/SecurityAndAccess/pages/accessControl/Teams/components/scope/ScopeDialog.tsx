@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { CarbonModal } from '@instana/components';
+import { Modal } from '@instana/carbon';
 
 import {
   createScopeForm,
@@ -76,7 +76,7 @@ const ScopeDialog = ({ mode, team, refreshTeam, saveTeam }: ScopeDialogProps) =>
 
   return (
     <MapFormProvider id={SCOPE_FORM_ID} form={form} mode={mode} updateForm={setForm}>
-      <CarbonModal
+      <Modal
         modalHeading={t('in-settings:dialogs.scope.title', { context: mode })}
         onRequestClose={closeModal}
         onRequestSubmit={onSubmit}
@@ -90,7 +90,7 @@ const ScopeDialog = ({ mode, team, refreshTeam, saveTeam }: ScopeDialogProps) =>
         <form>
           <StepsContainer navItems={navigationItems} noDivider />
         </form>
-      </CarbonModal>
+      </Modal>
     </MapFormProvider>
   );
 };

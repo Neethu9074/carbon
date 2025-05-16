@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { CarbonForm, CarbonTag, CarbonTextArea, CarbonTextInput } from '@instana/components';
+import { Form, Tag, TextArea, TextInput } from '@instana/carbon';
 import { useObservable } from '@instana/hooks';
 import { TeamTag } from '@instana/types';
 
@@ -58,15 +58,15 @@ const NameForm = ({
     <>
       {!editable && (
         <>
-          <CarbonTag type="blue" size="lg">
+          <Tag type="blue" size="lg">
             {name}
-          </CarbonTag>
+          </Tag>
           <div className={locals.description}>{description}</div>
         </>
       )}
       {editable && (
-        <CarbonForm>
-          <CarbonTextInput
+        <Form>
+          <TextInput
             helperText={t('in-settings:tabs.teams.nameHelperText')}
             id="rbac-team-name"
             invalid={!!nameValidationMessage}
@@ -82,7 +82,7 @@ const NameForm = ({
             type="text"
             value={name}
           />
-          <CarbonTextArea
+          <TextArea
             className={locals.description}
             helperText={t('in-settings:tabs.teams.descriptionHelperText')}
             id="rbac-team-description"
@@ -95,7 +95,7 @@ const NameForm = ({
             rows={7}
             value={description}
           />
-        </CarbonForm>
+        </Form>
       )}
     </>
   );

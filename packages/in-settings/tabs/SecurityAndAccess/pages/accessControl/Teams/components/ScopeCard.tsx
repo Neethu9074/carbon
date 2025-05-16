@@ -7,8 +7,9 @@
 import { Edit } from '@carbon/icons-react';
 import React from 'react';
 
-import { CarbonInlineLoading, Typography } from '@instana/components';
 import { ProductiveCard } from '@instana/ibm-products';
+import { Typography } from '@instana/components';
+import { InlineLoading } from '@instana/carbon';
 
 import ScopeOverview from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeOverview';
 import ScopeDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog';
@@ -42,7 +43,7 @@ const ScopeCard = ({ isLoading, team, refreshTeam, saveTeam }: ScopeCardProps) =
       ]}
       title={t('in-settings:tabs.teams.teamScope')}
     >
-      {isLoading && <CarbonInlineLoading />}
+      {isLoading && <InlineLoading />}
       {!isLoading && !team?.scope && (
         <>
           <Typography variant="heading-03">

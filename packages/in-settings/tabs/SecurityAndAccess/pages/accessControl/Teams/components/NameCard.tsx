@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { CarbonInlineLoading } from '@instana/components';
+import { InlineLoading } from '@instana/carbon';
 
 import NameDescriptionCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/name/NameDescriptionCard';
 import NameForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/name/NameForm';
@@ -100,7 +100,7 @@ const NameCard = ({ isLoading, team, setMessage, setTeamData, saveTeam }: NameCa
       teamName={team?.tag}
       title={t('in-settings:tabs.teams.teamNameAndDescription')}
     >
-      {isLoading && <CarbonInlineLoading />}
+      {isLoading && <InlineLoading />}
       {!isLoading && (
         <NameForm
           description={isEditMode ? editTeam?.info?.description : team?.info?.description}

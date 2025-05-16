@@ -7,7 +7,8 @@
 import { ArrowRight } from '@carbon/icons-react';
 import React from 'react';
 
-import { CarbonClickableTile, CarbonInlineLoading, Typography, Spacer, CarbonLayer } from '@instana/components';
+import { ClickableTile, InlineLoading, Layer } from '@instana/carbon';
+import { Typography, Spacer } from '@instana/components';
 import { ProductiveCard } from '@instana/ibm-products';
 
 import { TEAMTAG_USED_ENTITIES } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/tagUsedOnCard/TagUsedOnCard.constants';
@@ -27,22 +28,22 @@ const TagUsedOnCard = ({ isLoading, teamTagUsed }: TagUsedOnCardProps) => {
 
   return (
     <ProductiveCard title={t('in-settings:tabs.teams.teamTagUsedOn')} className={locals.teamTagUsageContainer}>
-      {isLoading && <CarbonInlineLoading />}
+      {isLoading && <InlineLoading />}
       {!isLoading && isEmptyTagInUse && <NoTagUsedOn />}
       {!isLoading && !isEmptyTagInUse && (
         <div className={locals.entityTile}>
           {TEAMTAG_USED_ENTITIES.map(teamTagUsedEntity => {
             const { title, id } = teamTagUsedEntity;
             return (
-              <CarbonLayer key={id}>
-                <CarbonClickableTile title={title} renderIcon={ArrowRight} id={id}>
+              <Layer key={id}>
+                <ClickableTile title={title} renderIcon={ArrowRight} id={id}>
                   <Typography variant="body-01" component="p">
                     {title}
                   </Typography>
                   <Typography variant="heading-03">{teamTagUsed[id] > 99 ? '+99' : teamTagUsed[id]}</Typography>
                   <Spacer vertical="small" />
-                </CarbonClickableTile>
-              </CarbonLayer>
+                </ClickableTile>
+              </Layer>
             );
           })}
         </div>

@@ -6,8 +6,8 @@
 
 import React from 'react';
 
-import { CarbonModal } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Modal } from '@instana/carbon';
 
 import {
   ENTITY_TABLE_ACTIONS,
@@ -91,7 +91,7 @@ const SelectEntitiesDialog = <I,>({
 
   return (
     <MapFormProvider id={SELECT_ENTITIES_FORM_ID} form={form} mode={FORM_MODE.EDIT} updateForm={setForm}>
-      <CarbonModal
+      <Modal
         className={locals.selectEntitiesDialog}
         modalHeading={title}
         onRequestClose={closeModal}
@@ -121,7 +121,7 @@ const SelectEntitiesDialog = <I,>({
             title={title}
           />
         </form>
-      </CarbonModal>
+      </Modal>
     </MapFormProvider>
   );
 };

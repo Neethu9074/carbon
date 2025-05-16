@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { CarbonModal } from '@instana/components';
+import { Modal } from '@instana/carbon';
 
 import NameForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/name/NameForm';
 import { Notification } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
@@ -57,7 +57,7 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
 
         // Track team creation via Segment
         const customData = {
-          id: savedTeam?.data?.id
+          id: savedTeam?.body?.id
         };
         unstable_trackEvent(CREATED_OBJECT, { objectType: SETTINGS_TEAM_CREATE }, customData);
 
@@ -75,7 +75,7 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
   };
 
   return (
-    <CarbonModal
+    <Modal
       modalHeading={t('in-settings:tabs.teams.createTeamDialogTitle')}
       onRequestClose={close}
       onRequestSubmit={save}
@@ -93,7 +93,7 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
         setTeamData={setTeamData}
         setValid={setValid}
       />
-    </CarbonModal>
+    </Modal>
   );
 };
 

@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2025
  */
 
-import { Result, Team } from '@instana/types';
 import { Observable } from '@instana/observables';
+import { Team } from '@instana/types';
+
 import { refresh as refreshTags } from 'in-settings/tabs/SecurityAndAccess/api/tags';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { Response } from 'in-services/http/types';
@@ -103,22 +104,20 @@ export function addUsersToTeam(teamId: string, users: User[]) {
   });
 }
 
-export function saveTeam(team: ApiTeam): Observable<Result<ApiTeam>> {
+export function saveTeam(team: ApiTeam): Observable<Response<ApiTeam>> {
   const method = team?.id ? 'PUT' : 'POST';
   const url = team?.id ? `${basePath}/${encodeURIComponent(team.id)}` : basePath;
   return http<ApiTeam>({
     method: method,
     url: url,
     headers: getCsrfHeader(),
-    mapToResultObject: true,
-    treat400AsError: true,
     data: team
-  }).map(res => {
-    if (res?.data?.id) refreshSignal.emit(res?.data?.id);
+  }).map(v => {
+    if (v?.body?.id) refreshSignal.emit(v?.body?.id);
 
     // Team name is saved as tag, therefore also refresh tags
     refreshTags();
 
-    return res;
+    return v;
   });
 }
