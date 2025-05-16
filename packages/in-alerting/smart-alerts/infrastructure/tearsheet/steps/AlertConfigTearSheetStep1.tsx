@@ -98,7 +98,13 @@ export default function AlertConfigTearSheetStep1({
               description={t('in-alerting:smartAlerts.infrastructure.tearSheet.scopeGroupBy.groupByDescription')}
               gap={'normal'}
             >
-              <ScopeGroup form={form} updateForm={updateForm} tagCatalog={tagCatalog} SectionWrapper={SectionWrapper} />
+              <ScopeGroup
+                form={form}
+                updateForm={updateForm}
+                tagCatalog={tagCatalog}
+                SectionWrapper={SectionWrapper}
+                isTearSheet
+              />
             </ScopeWrapper>
           </Stack>
         </div>

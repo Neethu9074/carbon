@@ -5,6 +5,7 @@
  */
 
 import React, { useMemo } from 'react';
+import classNames from 'classnames';
 
 import { Button, Stack, SvgIcon } from '@instana/components';
 import { themes } from '@instana/design-tokens';
@@ -12,6 +13,7 @@ import { themes } from '@instana/design-tokens';
 import GroupingConfigurator, {
   isGroupingConfigurationValid
 } from 'in-infrastructure/Explore/components/GroupingConfigurator';
+import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/dialog/ClearTagFilterExpressionButton';
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { evaluationTypes } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/CustomOrPerEntityOption';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
@@ -21,7 +23,9 @@ import Section from 'in-components/workspace/Section';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-export default function ScopeGroup({ form, updateForm, tagCatalog, SectionWrapper = Section }) {
+import locals from './ScopeGroup.mless';
+
+export default function ScopeGroup({ form, updateForm, tagCatalog, SectionWrapper = Section, isTearSheet }) {
   const tagFilterExpression = form?.get('tagFilterExpression')?.value;
   const groupBy = form?.get('groupBy')?.value;
   const evaluationType = form.get('evaluationType').value;
@@ -37,21 +41,41 @@ export default function ScopeGroup({ form, updateForm, tagCatalog, SectionWrappe
     updateForm(form.updateIn(['groupBy'], f => f.setValue(groups).setTouched(true)));
   };
 
+  const clearGroupBy = () => {
+    updateForm(form.updateIn(['groupBy'], f => f.setValue([]).setTouched(true)));
+  };
+
   const groupByTagCatalog = useGroupByCatalog(tagCatalog);
   const isPerEntityAlerting = evaluationType === evaluationTypes.perEntity;
 
   return (
     <>
       {!isPerEntityAlerting && groupByTagCatalog && (
-        <GroupingConfiguratorSection
-          value={groupBy}
-          GroupingConfigurator={GroupingConfigurator}
-          tagCatalog={groupByTagCatalog}
-          tagFilterExpression={backendQueryModel || EMPTY_EXPRESSION}
-          onChange={groups => handleGroupChange(groups, form, updateForm)}
-          SectionWrapper={SectionWrapper}
-          fixOverlayLeftAlignment
-        />
+        <Stack gap="xsmall" direction="horizontal" distribution="spaceBetween">
+          <GroupingConfiguratorSection
+            value={groupBy}
+            GroupingConfigurator={GroupingConfigurator}
+            tagCatalog={groupByTagCatalog}
+            tagFilterExpression={backendQueryModel || EMPTY_EXPRESSION}
+            onChange={groups => handleGroupChange(groups, form, updateForm)}
+            SectionWrapper={SectionWrapper}
+            fixOverlayLeftAlignment
+          />
+          <div
+            className={classNames({
+              [locals.alignEnd]: true,
+              [locals.paddingEnd]: !isTearSheet
+            })}
+          >
+            {groupBy.length > 0 && (
+              <ClearTagFilterExpressionButton
+                form={form}
+                updateForm={updateForm}
+                customFormUpdater={() => handleGroupChange([], form, updateForm)}
+              />
+            )}
+          </div>
+        </Stack>
       )}
       {isPerEntityAlerting && (
         <SectionWrapper title={t('in-components:groupingConfigurator.titleGroup')} icon="lib_group_by">
