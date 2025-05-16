@@ -467,6 +467,7 @@
     },
     "azure": {
       "referenceToAzureContainerAppsDocumentation": "Azure コンテナ アプリにデプロイされた Go アプリケーションは、トレース・データを収集するために手動でインスツルメンテーションする必要があります。 <azureContainerAppsDoc>Azure Container Apps Go documentation</azureContainerAppsDoc> の指示に従ってください。",
+      "referenceAppServiceDocumentationContent": "前提条件を確認し、インストール・ガイドに従ってコレクタをインス トールします。 詳しい説明は、<azureContainerAppsDoc>ドキュメント</azureContainerAppsDoc>を参照してください。",
       "selectAzureContainerAppsRuntime": "Azure Container Apps ランタイムを選択します",
       "reviewPrerequisitesAndConfigureContainerApps": "前提条件を確認し、Azure Container Apps をトレース用に設定します。",
       "containerAppSetEnvironmentVariables": "Azure コンテナアプリを作成する際に、以下の環境変数を設定します。",
@@ -525,12 +526,25 @@
   "welcomepage": {
     "heading": "Instanaへようこそ",
     "foldableTileTitle": "開始しましょう。",
+    "foldableTileTitleNewBanner": "Instanaの新機能をチェック",
     "viewAll": "すべて表示",
     "addMore": "追加",
     "create": "作成",
     "collapsibleButton": {
       "showOnboardingTasks": "オンボーディング・タスクの表示",
-      "hideOnboardingTasks": "オンボーディング・タスクの非表示"
+      "hideOnboardingTasks": "オンボーディング・タスクの非表示",
+      "showWhatsNew": "新着情報を表示する",
+      "hideWhatsNew": "新着情報を隠す"
+    },
+    "kubecost": {
+      "title": "IBM Kubecostによるコストの可視化",
+      "description": "無料で開始して、お客様のコスト分析情報と推定節約額を確認してください。",
+      "buttonName": "詳細はこちら"
+    },
+    "logging": {
+      "title": "Instanaロギング",
+      "description": "現在、OTelを通じてどこからでもログを受け入れることができ、アドオン機能として最大90日間の長期保存が可能です。",
+      "buttonName": "詳細情報"
     },
     "startIntegrating": {
       "title": "データの統合を始める",
@@ -629,7 +643,7 @@
         "viewAllLabel": "プラットフォーム"
       },
       "bizopsWidget": {
-        "label": "ビジネス・モニタリング",
+        "label": "ビジネス・プロセス",
         "name": "名前",
         "activities": "アクティビティー",
         "started": "開始済み",
@@ -786,14 +800,14 @@
         "user": "ユーザー",
         "externalLink": "外部リンク",
         "resultNew": "結果 新規",
-        "whatsNewLink": "新着情報 リンク"
+        "communityBlogsLink": "コミュニティー・ブログ"
       },
       "buttonNames": {
         "deployAgent": "エージェントのデプロイ",
         "addUser": "ユーザーの追加",
         "documentation": "IBM 資料",
         "releaseNotes": "リリース情報",
-        "whatsNewLink": "インスタナの新機能"
+        "communityBlogsLink": "コミュニティー・ブログ"
       },
       "toolTip": {
         "makeDefault": "このアクションにより、Instana のホーム・ページがデフォルトのランディング・ページとして設定され、カスタム・ダッシュボードが置き換えられます。"

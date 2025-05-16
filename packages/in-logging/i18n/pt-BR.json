@@ -81,7 +81,9 @@
       "logIntegrations": "Integrações de log",
       "logIntegrationsDescription": "Conecte suas soluções de gerenciamento de log e configure-as para atender às suas necessidades.",
       "retentionPeriod": "Período de retenção",
-      "retentionPeriodDescription": "A mudança do período de retenção afeta o tempo em que os logs são retidos e disponibilizados em aplicativos, painéis e análises de dados e possui um impacto em custo e faturamento."
+      "retentionPeriodDescription": "A mudança do período de retenção afeta o tempo em que os logs são retidos e disponibilizados em aplicativos, painéis e análises de dados e possui um impacto em custo e faturamento.",
+      "patternRecognition": "Reconhecimento de padrões de log",
+      "patternRecognitionDescription": "Funcionalidade de IA que identifica padrões recorrentes em seus logs. Os padrões fornecem uma visão geral de alto nível dos seus logs e ajudam a reduzir o tempo de resolução de problemas."
     }
   }
 }

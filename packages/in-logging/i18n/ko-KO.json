@@ -81,7 +81,9 @@
       "logIntegrations": "로그 통합",
       "logIntegrationsDescription": "로그 관리 솔루션을 연결하고 필요에 맞게 구성하십시오.",
       "retentionPeriod": "보존 기간",
-      "retentionPeriodDescription": "보존 기간을 변경하면 로그가 애플리케이션, 대시보드, 분석에서 보존되고 사용할 수 있는 시간이 영향을 받으며 비용과 청구에 영향을 미칩니다."
+      "retentionPeriodDescription": "보존 기간을 변경하면 로그가 애플리케이션, 대시보드, 분석에서 보존되고 사용할 수 있는 시간이 영향을 받으며 비용과 청구에 영향을 미칩니다.",
+      "patternRecognition": "로그 패턴 인식",
+      "patternRecognitionDescription": "로그에서 반복되는 패턴을 발견하는 AI 기능. 패턴은 로그에 대한 높은 레벨의 개요를 제공하며 문제 해결에 걸리는 시간을 줄이는 데 도움이 됩니다."
     }
   }
 }

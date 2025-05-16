@@ -81,7 +81,9 @@
       "logIntegrations": "ログ統合",
       "logIntegrationsDescription": "ログ管理ソリューションを接続し、ニーズに合わせて設定します。",
       "retentionPeriod": "保存期間",
-      "retentionPeriodDescription": "保持期間を変更すると、ログが保持され、アプリケーション、ダッシュボード、およびアナリティクスで利用できるようになる時間に影響し、コストと請求に影響します。"
+      "retentionPeriodDescription": "保持期間を変更すると、ログが保持され、アプリケーション、ダッシュボード、およびアナリティクスで利用できるようになる時間に影響し、コストと請求に影響します。",
+      "patternRecognition": "ログ・パターン認識",
+      "patternRecognitionDescription": "ログ内の繰り返しパターンを検出するAI機能。 パターンはログの概要を提供し、トラブルシューティングの解決時間を短縮するのに役立ちます。"
     }
   }
 }

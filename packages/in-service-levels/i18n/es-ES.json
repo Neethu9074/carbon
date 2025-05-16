@@ -146,7 +146,7 @@
     },
     "deleteDialog": {
       "confirmRemove": "Confirmar eliminación",
-      "confirmRemoveMsg": "¿Seguro que desea suprimir <strong>{{name}}</strong>?",
+      "confirmRemoveMsg": "¿Seguro que desea suprimir <strong>{{name}}</strong>? Esta acción no se puede deshacer.",
       "delete": "Suprimir"
     }
   },

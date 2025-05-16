@@ -146,7 +146,7 @@
     },
     "deleteDialog": {
       "confirmRemove": "確認移除",
-      "confirmRemoveMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？",
+      "confirmRemoveMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？ 這個動作無法復原。",
       "delete": "刪除"
     }
   },

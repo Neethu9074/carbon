@@ -81,7 +81,9 @@
       "logIntegrations": "Intégrations de journaux",
       "logIntegrationsDescription": "Connectez vos solutions de gestion des journaux et configurez-les en fonction de vos besoins.",
       "retentionPeriod": "Durée de conservation",
-      "retentionPeriodDescription": "La modification de la période de conservation a une incidence sur la durée pendant laquelle les journaux sont conservés et disponibles dans les applications, les tableaux de bord et les analyses, et a un impact sur les coûts et la facturation."
+      "retentionPeriodDescription": "La modification de la période de conservation a une incidence sur la durée pendant laquelle les journaux sont conservés et disponibles dans les applications, les tableaux de bord et les analyses, et a un impact sur les coûts et la facturation.",
+      "patternRecognition": "Reconnaissance des modèles de journal",
+      "patternRecognitionDescription": "Fonctionnalité d'IA qui identifie des schémas récurrents dans vos journaux. Les modèles fournissent une vue d'ensemble de vos journaux et contribuent à la réduction du temps de résolution des problèmes."
     }
   }
 }

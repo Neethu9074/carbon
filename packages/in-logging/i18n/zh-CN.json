@@ -81,7 +81,9 @@
       "logIntegrations": "日志集成",
       "logIntegrationsDescription": "连接日志管理解决方案并进行配置，以满足您的需求。",
       "retentionPeriod": "保留期",
-      "retentionPeriodDescription": "更改保留期会影响日志的保留时间以及在应用程序、仪表板和分析中的可用情况，并会对成本和计费产生影响。"
+      "retentionPeriodDescription": "更改保留期会影响日志的保留时间以及在应用程序、仪表板和分析中的可用情况，并会对成本和计费产生影响。",
+      "patternRecognition": "日志模式识别",
+      "patternRecognitionDescription": "可发现日志中重复出现模式的人工智能功能。 这些模式可提供日志的简要概览，有助于缩短解决故障的时间。"
     }
   }
 }

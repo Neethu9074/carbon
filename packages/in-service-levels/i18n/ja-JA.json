@@ -146,7 +146,7 @@
     },
     "deleteDialog": {
       "confirmRemove": "削除の確認",
-      "confirmRemoveMsg": "<strong>{{name}}</strong> を削除してよろしいですか?",
+      "confirmRemoveMsg": "<strong>{{name}}</strong> を削除してよろしいですか? この操作は元に戻せません。",
       "delete": "削除"
     }
   },

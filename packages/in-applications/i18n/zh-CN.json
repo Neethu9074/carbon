@@ -52,7 +52,6 @@
   "labelCount": "计数",
   "labelFlow": "流程",
   "labelEndpoint": "端点",
-  "labelSyntheticEndpoint": "合成端点",
   "labelNameRule": "名称规则",
   "labelTag": "标记",
   "labelKey": "密钥",
@@ -135,6 +134,8 @@
   "UnexpectedErrorOccurred": "发生意外错误",
   "callsLiveModeDisabled": "分析调用时不支持实时方式",
   "tracesLiveModeDisabled": "分析跟踪时不支持实时方式",
+  "syntheticAndNonsynthetic": "合成和非合成",
+  "synthetic": "合成",
   "applicationMap": {
     "webglNotSupportedTitle": "浏览器不支持 WebGL",
     "webglNotSupported": "Instana 用户界面包含使用名为 WebGL 的技术呈现的 3D 组件。遗憾的是，此技术尚未在所有平台上提供。某些浏览器（尤其是较低版本的浏览器）不支持 WebGL。我们建议使用最新一代的自动更新浏览器：Chrome、Firefox、Safari 8 或 MS Edge。\n\n我们尽力支持所有平台和浏览器组合。但是，可能是我们对 WebGL 的使用存在错误。您可以使用 [联机测试](https://get.webgl.org/) 来检查平台是否支持 WebGL。如果在线测试表明平台支持 WebGL，但 Instana 3D Map 仍无法运行，[请联系我们](https://support.instana.com/hc/en-us/requests/new)。\n\n有关更多故障诊断信息，请参阅 [WebGL 兼容性表](http://caniuse.com/#feat=webgl) 或 [WebGL Web 站点 ](http://webgl.org/)。",

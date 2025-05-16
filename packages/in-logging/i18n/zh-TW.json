@@ -81,7 +81,9 @@
       "logIntegrations": "日誌整合",
       "logIntegrationsDescription": "連接您的日誌管理解決方案並配置它們以符合您的需求。",
       "retentionPeriod": "保留期間",
-      "retentionPeriodDescription": "變更保留期間會影響日誌在應用程式、儀表板和分析中保留和提供使用的時間，並對成本和計費產生影響。"
+      "retentionPeriodDescription": "變更保留期間會影響日誌在應用程式、儀表板和分析中保留和提供使用的時間，並對成本和計費產生影響。",
+      "patternRecognition": "日誌型樣辨識",
+      "patternRecognitionDescription": "AI 功能可在您的日誌中探索到重複出現的型樣。 型樣提供日誌的高層次概觀，有助於減少疑難排解的時間。"
     }
   }
 }

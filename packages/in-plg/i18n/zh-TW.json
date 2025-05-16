@@ -467,6 +467,7 @@
     },
     "azure": {
       "referenceToAzureContainerAppsDocumentation": "部署在 Azure 容器應用程式中的 Go 應用程式需要手動檢測才能收集追蹤資料。 請遵循 <azureContainerAppsDoc>Azure Container Apps Go 文件的指示</azureContainerAppsDoc>。",
+      "referenceAppServiceDocumentationContent": "檢視必要條件，並依照安裝手冊安裝收集器。 如需詳細說明，請參閱<azureContainerAppsDoc>說明文件</azureContainerAppsDoc>。",
       "selectAzureContainerAppsRuntime": "選取 Azure 容器應用程式執行時期",
       "reviewPrerequisitesAndConfigureContainerApps": "檢閱先決條件並配置您的 Azure 容器應用程式以進行追蹤。",
       "containerAppSetEnvironmentVariables": "建立 Azure 容器應用程式時設定下列環境變數。",
@@ -525,12 +526,25 @@
   "welcomepage": {
     "heading": "歡迎使用 Instana",
     "foldableTileTitle": "我們開始吧。",
+    "foldableTileTitleNewBanner": "查看 Instana 的新增特性",
     "viewAll": "檢視全部",
     "addMore": "新增",
     "create": "建立",
     "collapsibleButton": {
       "showOnboardingTasks": "顯示上線作業",
-      "hideOnboardingTasks": "隱藏上線作業"
+      "hideOnboardingTasks": "隱藏上線作業",
+      "showWhatsNew": "顯示新增功能",
+      "hideWhatsNew": "隱藏新增功能"
+    },
+    "kubecost": {
+      "title": "IBM Kubecost 的成本可見性",
+      "description": "免費開始使用，並查看叢集的成本洞察力和預估節省金額。",
+      "buttonName": "立即探索"
+    },
+    "logging": {
+      "title": "Instana 記載",
+      "description": "現在已支援透過 OTel 從任意位置接收日誌，並可透過附加特性將保留時間延長至 90 天。",
+      "buttonName": "進一步瞭解"
     },
     "startIntegrating": {
       "title": "開始整合資料",
@@ -629,7 +643,7 @@
         "viewAllLabel": "平台"
       },
       "bizopsWidget": {
-        "label": "商業監視",
+        "label": "商業程序",
         "name": "名稱",
         "activities": "活動",
         "started": "已開始",
@@ -786,14 +800,14 @@
         "user": "使用者",
         "externalLink": "外部鏈結",
         "resultNew": "新結果",
-        "whatsNewLink": "新增功能鏈結"
+        "communityBlogsLink": "社群部落格"
       },
       "buttonNames": {
         "deployAgent": "部署代理程式",
         "addUser": "新增使用者",
         "documentation": "IBM 說明文件",
         "releaseNotes": "版本注意事項",
-        "whatsNewLink": "Instana 的新增功能"
+        "communityBlogsLink": "社群部落格"
       },
       "toolTip": {
         "makeDefault": "此動作會將 Instana 首頁設定為預設登陸頁面，取代您設定的任何自訂儀表板。"

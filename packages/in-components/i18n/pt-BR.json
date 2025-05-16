@@ -1,10 +1,14 @@
 {
+  "accessibility": {
+    "opensNewTab": "Abre em uma nova guia"
+  },
   "csvExporterButton": {
     "label": "Exportar para CSV"
   },
   "pageStructure": {
     "headerAriaLabel": "Cabeçalho da página",
-    "contentAriaLabel": "Conteúdo"
+    "contentAriaLabel": "Conteúdo",
+    "filterAriaLabel": "Filtro"
   },
   "fileInputButton": {
     "label": {
@@ -55,6 +59,9 @@
       "retryButtonLabel": "Tentar novamente",
       "openList": "Abrir lista"
     },
+    "chartCDEventsLaneLabel": "Eventos de CD",
+    "chartCDEventsLaneApplicationSyncTooltip": "Sincronização de Argo CD para {{name}}.",
+    "chartCDEventsLaneTooltip": "+ {{len}} mais eventos de CD",
     "chartReleasesLanePresenterReleasesLabel": "Liberações",
     "chartReleasesLanePresenterTooltip": "+{{len}} mais liberações",
     "highlightedTimeframeCloseButtonClearHighlight": "Limpar destaque",
@@ -110,7 +117,7 @@
     "formStateLabel": "Estado"
   },
   "searchBar": {
-    "usingTheSearchBar": "A funcionalidade de procura Dynamic Focus da Instana pode ser usada para filtrar mapas 3D, tabelas de comparação e visualizações de incidentes. A barra de procura tem capacidades extensas para procurar usando buscas difusas e curingas, bem como operadores booleanos. Por exemplo, a consulta a\nseguir restringe as visualizações para hosts de produção com menos de quatro CPUs:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## O Syntax\nDynamic Focus alavanca a [sintaxe de consulta lucene](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) com as seguintes diferenças do padrão Lucene:\n- **Operador padrão:** `AND`.\n- **Restrições de sintaxe:** são listadas na [documentação](https://ibm.biz/dynamic-focus-syntax-constraints)\n## Interação da barra de procura\n A barra de procura suporta a conclusão automática dos campos de procura e a sintaxe destaca a consulta lucene enquanto você digita.\nDurante a digitação, a barra de procura proporá campos de procura que correspondam à entrada atual. É possível aceitar os campos propostos pressionando `RETORNAR`. Pressione `CTRL+ESPAÇO` para abrir o pop-up de conclusão automática.\n## Folha de dicas de sintaxe da consulta Lucene\n - **Procura em campos:** `entity.host.cpu.count:>4`\n - **Operadores booleanos:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Agrupamento:** `(entity.host.cpu.count:<4 AND entity.zone:production)OR entity.host.cpu.count:>4`\n - **Procuras com curinga:** `entity.type:container*`\n\nConsulte a [documentação](https://ibm.biz/filtering-dynamic-focus) para obter informações adicionais.",
+    "usingTheSearchBar": "A funcionalidade de procura Dynamic Focus da Instana pode ser usada para filtrar mapas 3D, tabelas de comparação e visualizações de incidentes. A barra de procura tem capacidades extensas para procurar usando buscas difusas e curingas, bem como operadores booleanos. Por exemplo, a consulta a\nseguir restringe as visualizações para hosts de produção com menos de quatro CPUs:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## O Syntax\nDynamic Focus alavanca a [sintaxe de consulta lucene](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) com as seguintes diferenças do padrão Lucene:\n- ** Operador padrão:** `AND`.\n- ** Restrições de sintaxe:** são listadas na [documentação](https://ibm.biz/dynamic-focus-syntax-constraints)\n##Interação da barra de procura\n A barra de procura suporta a conclusão automática dos campos de procura e a sintaxe destaca a consulta lucene enquanto você digita.\nDurante a digitação, a barra de procura proporá campos de procura que correspondam à entrada atual. É possível aceitar os campos propostos pressionando `RETORNAR`. Pressione `CTRL+ESPAÇO` para abrir o pop-up de conclusão automática.## Folha de dicas de sintaxe da consulta Lucene\n - **Procura em campos:** `entity.host.cpu.count:>4`\n - **Operadores booleanos:** `entity.host.cpu.count:<4 AND entity.zone:production`\n -**Agrupamento:** `(entity.host.cpu.count:<4 AND entity.zone:production)OR entity.host.cpu.count:>4`\n - **Procuras com curinga:** `entity.type:container*`\n\nConsulte a [documentação](https://ibm.biz/filtering-dynamic-focus) para obter informações adicionais.",
     "filtersBtn": "Filtros",
     "filterPresetsMenuHeading": "Filtros",
     "filterPresetsSaveFilters": "Salvar filtros para fácil acesso aqui",
@@ -124,11 +131,36 @@
     "dialogRequireFilterMsg": "Especifique um filtro para salvar.",
     "filterConfirmRemovalHeader": "Confirmar remoção",
     "filterConfirmButtonLabel": "Remover filtro",
-    "filterConfirmRemoveMsg": "Tem certeza de que deseja remover o filtro <strong>{{filterName}}</strong>?",
+    "filterConfirmRemoveMsg": "Tem certeza de que deseja remover o filtro <strong>{{filterName}}</strong>? Essa ação não pode ser desfeita",
     "helpDialogTitleUsingTheSearchBar": "Usando a barra de procura"
   },
   "carbonSearchBar": {
     "search": "Procura"
+  },
+  "downloadPdf": {
+    "downloadPdfFile": "Fazer download do arquivo PDF",
+    "settings": "Configurações",
+    "pdfOrientation": "Orientação",
+    "portrait": "Retrato",
+    "landscape": "Paisagem",
+    "pdfLayout": "Layout",
+    "widgetsDisplay": "Exibir",
+    "singlePage": "Página única",
+    "singlePageInfo": "Coloque todo o painel em uma página, com o conteúdo redimensionado para caber na página.",
+    "multiPages": "Diversas páginas",
+    "multiPagesInfo": "Distribua o painel entre diversas páginas, mantendo o layout original. A exibição de alguns widgets pode ficar cortada.",
+    "stackWidgetsTitle": "Empilhar widgets",
+    "stackWidgetsInfo": "Exiba widgets em uma pilha vertical entre as diversas páginas.",
+    "loadingWidget": "Carregando o widget {{widgetIndex}} de {{totalNodes}}",
+    "generatePreview": "Gerar visualização",
+    "generatingPreview": "Gerando a visualização em PDF",
+    "generatingPDFTitle": "Gerando PDF",
+    "generatingPDFContent": "Considere aguardar enquanto o PDF está sendo gerado.",
+    "generatedPDFTitle": "PDF gerado",
+    "generatedPDFContent": "O download do PDF será iniciado em breve.",
+    "timeRange": "Intervalo de tempo",
+    "preview": "Visualizar",
+    "widgetNotAvailableToBeExported": "Esse widget não está disponível para ser exportado."
   },
   "tables": {
     "serverTable": {
@@ -462,12 +494,11 @@
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
+    "viewSwitcherLabelWindowsHypervisor": "Hypervisor do Windows",
     "viewSwitcherLabelXenServer": "XenServer",
     "viewSwitcherLabelzhmc": "HMC do IBM Z",
     "viewSwitcherLabelPlatforms": "Plataformas",
-    "viewSwitcherButtonSignOut": "Sair",
     "viewSwitcherCustomDashboards": "Painéis customizados",
-    "viewSwitcherLabelTenants": "Locatários",
     "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Nova versão da IU da Instana disponível",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Recarregue para atualizar",
@@ -480,7 +511,9 @@
     "profileMenu_switchUnitOrTenant": "Alternar unidade ou locatário",
     "profileMenu_saasConsole": "IBM SaaS Console",
     "profileMenu_privacy": "Privacidade",
-    "profileMenu_logOut": "Efetuar logout"
+    "profileMenu_logOut": "Efetuar logout",
+    "teamFocus_title": "Foco da equipe",
+    "teamFocus_entireUnit": "Unidade inteira"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Selecionar métricas",
@@ -802,7 +835,8 @@
       "equals": "Igual a",
       "doesNotEqual": "não é igual",
       "isBlank": "tem valor em branco",
-      "notBlank": "tem valor não em branco"
+      "notBlank": "tem valor não em branco",
+      "matchesRegex": "RegEx correspondente"
     },
     "number": {
       "isPresent": "está presente",

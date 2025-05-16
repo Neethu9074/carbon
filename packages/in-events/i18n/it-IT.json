@@ -120,6 +120,7 @@
   "labelMonitoringIssues": "Problemi di monitoraggio",
   "labelCveIssue": "Vulnerabilità",
   "labelPrcIssue": "Probabili cause principali",
+  "smartAlerts": "Avvisi smart",
   "labelAll": "Tutti",
   "buttonViewCustomEvent": "Visualizza evento personalizzato",
   "buttonViewBuiltInEvent": "Visualizza evento integrato",
@@ -144,7 +145,6 @@
   "unidentifiedEntityTooltip": "Si è verificato un errore durante il richiamo delle informazioni su questa entità. Per maggiori dettagli, è possibile visitare il dashboard dell'entità facendo clic sul link \"Entità non identificata\".",
   "headerStatus": "Stato",
   "eventHelpfulText": "Questo evento è stato utile?",
-  "summaryHelpfulText": "Questo riepilogo è stato utile?",
   "thankYouForYourFeedback": "Grazie per il tuo feedback!",
   "hostOffLineEventProblemChangeTime": "Fare clic sul link sottostante per passare all'ultima versione dell'host monitorato da Instana. In questo modo si cambierà l'inizio della finestra temporale ad un momento in cui l'host è stato monitorato da Instana",
   "offLineEventProblemChangeTime": "Fare clic sul link sottostante per passare all'ultima versione del processo monitorato da Instana. In questo modo si cambierà l'inizio della finestra temporale ad un momento in cui il processo è stato monitorato da Instana",
@@ -373,6 +373,7 @@
     "name": "Nome",
     "count": "Conteggio",
     "noMatching": "Nessun record corrispondente trovato.",
+    "anyOtherQs": "Ci sono altre domande a cui possiamo rispondere?",
     "timestamp": "Data/Ora",
     "numCalls": "# Chiamate",
     "meanLatency": "Latenza media",
@@ -388,7 +389,6 @@
   },
   "notes": {
     "openNotes": "Apri note e attività",
-    "closeNotes": "Chiudi note e attività",
     "notesActivity": "Note e attività con l'AI",
     "confirmDelete": "Conferma eliminazione",
     "you": "Tu {{date}}",
@@ -442,7 +442,10 @@
     "subject": "Oggetto",
     "body": "Corpo",
     "takeSomeTimeReview": "Prendetevi un po' di tempo per rivedere ed eventualmente modificare il riepilogo prima di condividerlo con altri.",
-    "invalidEmail": "L'email deve essere valida (user@domain) separata da virgole"
+    "invalidEmail": "L'email deve essere valida (user@domain) separata da virgole",
+    "positiveFeedback": "Questo riaepilogo è stato utile",
+    "negativeFeedback": "Questo riepilogo non è stato utile",
+    "surveyButtonTxt": "Condividere il proprio feedback"
   },
   "incident": {
     "overviewTitle": "Panoramica dell'incidente",
@@ -464,5 +467,16 @@
   "affectedIncidents": {
     "affectedIncident": "Incidente correlato",
     "noAffectedIncidents": "Non sono stati rilevati incidenti correlati"
+  },
+  "feedbackModal": {
+    "cancel": "Annulla",
+    "submit": "Inoltra",
+    "title": "Condividere il proprio feedback",
+    "helpfulQ": "Cosa avete trovato utile nel riepilogo?",
+    "improveQ": "Come potremmo migliorare la sintesi?",
+    "maxChars": "Massimo 750 caratteri",
+    "followUpQuestion": "Desiderate che vi contattiamo in merito al vostro feedback?",
+    "yesContect": "Sì, contattatemi.",
+    "noContact": "No, preferisco non essere contattato."
   }
 }

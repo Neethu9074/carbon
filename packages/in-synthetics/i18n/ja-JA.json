@@ -192,6 +192,7 @@
           "buttonSave": "保存",
           "uploadFileLabel": "ファイルのアップロード",
           "uploadFileDescription": "単独の .js ファイル、または .js ファイルをまとめた .zip ファイルのいずれかをアップロードできます。",
+          "node22UploadFileDescription": "単一の.js、.cjs、もしくは.mjsファイル、または、バンドルされた.js、.cjs、もしくは.mjsファイルを含むzipファイルのいずれかをアップロードできます。",
           "scriptDescription": "アップロードしたスクリプトがここに表示されます。または、以下に手動で入力することもできます。",
           "validScriptMessage": "スクリプトは有効です。",
           "zipFileUploadedMessage": "バンドル・ファイルは変更も検証もできません",
@@ -200,6 +201,7 @@
           "invalidMainFileName": "メインファイル名が無効です",
           "webpageUrl": "Web ページ URL",
           "browserUploadFileDescription": "アップロードできるのは、単一の .js ファイル、バンドルされた .js ファイルの zip ファイル、または SeleniumIDE によって記録された .side スクリプトのいずれかです。",
+          "node22BrowserUploadFileDescription": "単一の.js、.cjs、もしくは.mjsファイル、またはバンドルされた.js、.cjs、もしくは.mjsファイルを含む.zipファイル、またはSelenium IDEによって記録された.sideスクリプトのいずれかをアップロードできます。",
           "sideFileUploadedMessage": "Selenium スクリプトは変更も検証もできません。",
           "bundleFileNotSupportedMessage": "サポートされないファイルが選択されました。 バンドルは拡張モードでのみサポートされます。",
           "timeoutFieldLabel": "Timeout",
@@ -221,10 +223,10 @@
           "downloadZip": ".zip ファイルをダウンロードする",
           "mainFileNameHelperText": "この .zip ファイル内の、テストのエントリー・ポイントを含むファイル名を指定してください",
           "recordVideo": "失敗時にユーザーアクションを記録する",
+          "acceptSelfSignedCertificate": "自己署名証明書を受け入れる",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "URL は、DNS 解決のためにテストされているドメイン名です",
-            "lookupPlaceholder": "お客様のウェブサイトの URL",
             "queryType": "照会タイプ",
             "serverLabel": "DNSサーバー",
             "serverHelperText": "DNS サーバーは、ドメイン名を IP アドレスに変換する役割を担うサーバーです",
@@ -232,8 +234,8 @@
             "portHelperText": "DNS サーバー・ポートは、使用されるネットワーク・ポートまたはデバイス (PoP) と DNS サーバ (通常はポート 53) 間の通信です",
             "queryTimeLabel": "応答時間",
             "queryTimeHelperText": "最適な DNS 解決時間は 20～120 ミリ秒です",
-            "recordTypeTitle": "アサーション (オプション)",
-            "recordTypeSubtitle": "これらのフィールドは任意ですが、記入する場合は、テストを成功させるにはすべて「true」にする必要があります。",
+            "assertionsTitle": "アサーション (オプション)",
+            "assertionsSubtitle": "これらのフィールドは任意ですが、記入する場合は、テストを成功させるにはすべて「true」にする必要があります。",
             "recordTypeLabel": "レコード・タイプ",
             "operatorLabel": "条件",
             "operatorOptionMatches": "一致",
@@ -257,7 +259,9 @@
               "invalidIPv6Address": "IPv6 アドレスが有効ではありません",
               "invalidRecordType": "無効なレコード・タイプ",
               "invalidResolutionRecord": "解像度レコードが無効"
-            }
+            },
+            "assertionsNotificationTitle": "必要なアサーション",
+            "assertionsNotificationDescription": "「アサーションに関連付けられたすべてのもの」のクエリー・タイプを使用する場合は、少なくとも1つのアサーションを追加します。"
           }
         },
         "loadMore": "さらにロード",
@@ -330,7 +334,9 @@
       "failureTitle": "失敗",
       "failureMessageCreate": "シンセティック・テストの作成に失敗しました: {{errorMessage}}",
       "failureMessageUpdate": "シンセティック・テストの更新に失敗しました: {{errorMessage}}",
-      "failureMesssageDelete": "シンセティック・テストの削除に失敗しました: {{errorMessage}}"
+      "failureMesssageDelete": "シンセティック・テストの削除に失敗しました: {{errorMessage}}",
+      "successMessageCICDRerun": "合成テストの再実施に成功",
+      "failureMesssageCICDRerun": "合成テストの再実行に失敗: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "ロケーションが正常に削除されました",
@@ -470,6 +476,10 @@
         "smartAlerts": "スマート・アラート",
         "credentials": "資格情報"
       },
+      "options": {
+        "scheduledLabel": "データ範囲: 予定",
+        "onDemandLabel": "データ範囲: オンデマンド"
+      },
       "popDialog": {
         "popUpDialogTitle": "合成モニタリングのための権限",
         "popUpDialog": "合成モニタリングの権限の設定については、<documentationLink>ドキュメント</documentationLink>を参照してください",
@@ -484,13 +494,13 @@
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "鍵/証明書ファイルが提供されたら、kubectlコマンドを使用して秘密を作成します。",
         "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\"",
-        "associationsTitle": "{{number}} アソシエーション",
-        "singleAssociationTitle": "{{number}} 協会"
+        "associationsTitle": "{{number}} 関連",
+        "singleAssociationTitle": "{{number}} 関連"
       },
       "multiAppDialog": {
         "filterLabel": "アプリケーション",
-        "singleAppHeader": "{{ number }} 協会",
-        "multiAppHeader": "{{ number }} 連想",
+        "singleAppHeader": "{{ number }} 関連",
+        "multiAppHeader": "{{ number }} 関連",
         "noApplicationsAssociated": "関連付けられたアプリケーションなし"
       },
       "multiWebDialog": {
@@ -513,7 +523,7 @@
       "type": "タイプ",
       "successRate": "成功率",
       "successRuns": "{{successRuns}} / {{totalRuns}} 件の結果",
-      "latency": "待ち時間",
+      "latency": "平均応答時間",
       "locationLabel": "ロケーション",
       "locationsColumn": {
         "singleLocation": "{{number}} 場所",
@@ -526,7 +536,7 @@
       "associationLabel": "関連付け",
       "health": "正常性",
       "action": "アクション",
-      "labelConfirmRemoveTest": "<strong>{{testLabel}}</strong> テストを削除してもよろしいですか。",
+      "labelConfirmRemoveTest": "<strong>{{testLabel}}</strong> テストを削除してもよろしいですか。 この操作は元に戻せません。",
       "na": "該当なし"
     },
     "locationList": {
@@ -540,9 +550,9 @@
       "namespace": "名前空間",
       "health": "正常性",
       "noHealthInfo": "NA",
-      "labelConfirmRemoveLocation": "<strong>{{label}}</strong> ({{status}}) の場所を削除しますか?",
-      "activeTestLinked": "ロケーション <strong>{{label}}</strong> ({{status}}) に関連付けられた {{linkedTests}} アクティブ・テストがあります。 このロケーションを削除すると、テスト・サマリー・グラフでデータ損失が発生します。 このロケーションを削除してもよろしいですか。<br/><br/>削除せずにロケーションをアップグレードするには、<documentLink>資料</documentLink>を参照してください。",
-      "deleteLocation": "ロケーションの削除",
+      "labelConfirmRemoveLocation": "<strong>{{label}}</strong> ({{status}}) の場所を削除しますか? この操作は元に戻せません。",
+      "activeTestLinked": "ロケーション <strong>{{label}}</strong> ({{status}}) に関連付けられた {{linkedTests}} アクティブ・テストがあります。 このロケーションを削除すると、テスト・サマリー・グラフでデータ損失が発生します。 このロケーションを削除してもよろしいですか。 この操作は元に戻せません。<br/><br/>削除せずに場所をアップグレードするには、<documentLink>資料</documentLink>を参照してください。",
+      "deleteLocation": "削除",
       "noDataAvailable": {
         "message": "{{component}} が使用不可です"
       },
@@ -563,7 +573,8 @@
         "singleIPAddress": "{{number}}IPアドレス",
         "multipleIPAddress": "{{number}} IPアドレス",
         "noIPAddresses": "NA"
-      }
+      },
+      "activate": "アクティブ"
     },
     "summary": {
       "successRate": "成功率",
@@ -631,6 +642,9 @@
       "dns": {
         "failureType": "障害タイプ",
         "na": "該当なし"
+      },
+      "cicd": {
+        "executionType": "実行タイプ"
       }
     },
     "detailsPage": {
@@ -775,10 +789,13 @@
       "dns": {
         "title": "テストの詳細",
         "description": "照会タイプ{{queryType}}のDNS結果",
-        "name": "名前",
+        "domainName": "ドメイン名",
         "ttl": "TTL",
         "data": "データ",
         "noRecordsFound": "レコードが見つかりません"
+      },
+      "cicd": {
+        "rerunButtonLabel": "テストの再実行"
       }
     },
     "noDataAvailable": {
@@ -868,6 +885,7 @@
       "associatedMobileApps": "関連モバイル・アプリ",
       "noMobileAppAssociated": "モバイル・アプリは関連なし",
       "recordVideo": "失敗時にユーザーアクションを記録する",
+      "acceptSelfSignedCertificate": "自己署名証明書を受け入れる",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "照会タイプ",
@@ -907,7 +925,7 @@
       "deleteAction": {
         "deleteActionLabel": "削除",
         "deleteCredentialTitle": "合成クレデンシャル {{credentialName}} を削除する",
-        "credentialNameValidation": "削除を確認するため、認証情報のフルネームを入力します",
+        "credentialNameValidation": "削除を確認するには、資格情報のフルネームを入力してください。 この操作は元に戻せません。",
         "deleteButtonLabel": "資格情報の削除",
         "cancelButtonLabel": "キャンセル",
         "deletionSuccess": "クレデンシャルが削除されました"

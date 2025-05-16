@@ -1,10 +1,14 @@
 {
+  "accessibility": {
+    "opensNewTab": "新規タブで開く"
+  },
   "csvExporterButton": {
     "label": "CSV にエクスポート"
   },
   "pageStructure": {
     "headerAriaLabel": "ページ・ヘッダー",
-    "contentAriaLabel": "内容"
+    "contentAriaLabel": "内容",
+    "filterAriaLabel": "フィルター"
   },
   "fileInputButton": {
     "label": {
@@ -55,6 +59,9 @@
       "retryButtonLabel": "再試行",
       "openList": "リストを開く"
     },
+    "chartCDEventsLaneLabel": "CDイベント",
+    "chartCDEventsLaneApplicationSyncTooltip": "{{name}} 向けArgo CD同期。",
+    "chartCDEventsLaneTooltip": "+ {{len}} 件のCDイベント",
     "chartReleasesLanePresenterReleasesLabel": "リリース",
     "chartReleasesLanePresenterTooltip": "さらに +{{len}} 件のリリース",
     "highlightedTimeframeCloseButtonClearHighlight": "強調表示を解除",
@@ -110,7 +117,7 @@
     "formStateLabel": "都道府県/州"
   },
   "searchBar": {
-    "usingTheSearchBar": "Instana ダイナミック・フォーカス検索機能を使用して、3D マップ、比較表、インシデント・ビューをフィルタリングできます。 検索バーには、ファジー検索とワイルドカード検索、およびブール演算子を使用して検索するための広範な機能があります。 例えば、以下の\n照会は、CPU が 4 つ未満の実動ホストにビューを制限します。\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 構文\n動的フォーカスでは、Lucene 標準とは異なり、[lucene 照会構文](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) を利用します。\n- **デフォルト演算子:** `AND`\n- **構文制約:** は、[資料](https://ibm.biz/dynamic-focus-syntax-constraints)\n## 検索バーの相互作用\nにリストされています。検索バーは、検索フィールドのオートコンプリートをサポートしており、入力中に構文によって lucene 照会が強調表示されます。\n入力すると、検索バーは現在の入力に一致する検索フィールドを提案します。 「RETURN」を押すと、提案されたフィールドを受け入れることができます。「CTRL + SPACE」を押すと、オートコンプリート・ポップアップが開きます。\n## Lucene 照会構文虎の巻\n- **フィールド検索:** `entity.host.cpu.count:>4`\n- **ブール演算子:** `entity.host.cpu.count:<4 AND entity.zone:production`\n- **Grouping:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n- **ワイルドカード検索:** `entity.type:container*`\n\n詳しくは、[資料](https://ibm.biz/filtering-dynamic-focus) を参照してください。\n",
+    "usingTheSearchBar": "Instana ダイナミック・フォーカス検索機能を使用して、3D マップ、比較表、インシデント・ビューをフィルタリングできます。 検索バーには、ファジー検索とワイルドカード検索、およびブール演算子を使用して検索するための広範な機能があります。 例えば、以下の\n照会は、CPU が 4 つ未満の実動ホストにビューを制限します。\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 構文\n動的フォーカスでは、Lucene 標準とは異なり、[lucene 照会構文] (https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) を利用します。\n-** デフォルト演算子: ** ` AND `\n-** 構文制約: ** は、[資料] (https://ibm.biz/dynamic-focus-syntax-constraints)\n## 検索バーの相互作用\nにリストされています。検索バーは、検索フィールドのオートコンプリートをサポートしており、入力中に構文によって lucene 照会が強調表示されます。\n入力すると、検索バーは現在の入力に一致する検索フィールドを提案します。 「RETURN」を押すと、提案されたフィールドを受け入れることができます。「CTRL + SPACE」を押すと、オートコンプリート・ポップアップが開きます。## Lucene 照会構文虎の巻\n -** フィールド検索: ** `entity.host.cpu.count:>4`\n -** ブール演算子: ** `entity.host.cpu.count:<4 AND entity.zone:production`\n -** Grouping:** ` (entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4` \n -** ワイルドカード検索: ** `entity.type:container* `\n\n詳しくは、[資料] (https://ibm.biz/filtering-dynamic-focus) を参照してください。",
     "filtersBtn": "フィルター",
     "filterPresetsMenuHeading": "フィルター",
     "filterPresetsSaveFilters": "ここで簡単にアクセスできるようにフィルターを保存",
@@ -124,11 +131,36 @@
     "dialogRequireFilterMsg": "保存するフィルターを指定してください。",
     "filterConfirmRemovalHeader": "削除の確認",
     "filterConfirmButtonLabel": "フィルターの削除",
-    "filterConfirmRemoveMsg": "フィルター <strong>{{filterName}}</strong> を削除しますか?",
+    "filterConfirmRemoveMsg": "フィルター <strong>{{filterName}}</strong> を削除しますか? この操作は元に戻せません。",
     "helpDialogTitleUsingTheSearchBar": "検索バーの使用"
   },
   "carbonSearchBar": {
     "search": "検索"
+  },
+  "downloadPdf": {
+    "downloadPdfFile": "PDF ファイルをダウンロード",
+    "settings": "設定",
+    "pdfOrientation": "方向",
+    "portrait": "縦長",
+    "landscape": "横長",
+    "pdfLayout": "レイアウト",
+    "widgetsDisplay": "Display",
+    "singlePage": "シングルページ",
+    "singlePageInfo": "コンテンツをサイズに合わせてリサイズして、ダッシュボード全体を 1 ページに収めてください。",
+    "multiPages": "複数ページ",
+    "multiPagesInfo": "元のレイアウトを維持したまま、ダッシュボードを複数のページに分散させる。 一部のウィジェットがカットされる場合があります。",
+    "stackWidgetsTitle": "スタック・ウィジェット",
+    "stackWidgetsInfo": "複数のページにわたってウィジェットを垂直スタックで表示します。",
+    "loadingWidget": "{{totalNodes}} のウィジェット {{widgetIndex}} をロードする",
+    "generatePreview": "プレビューを生成します",
+    "generatingPreview": "pdf プレビューを生成中",
+    "generatingPDFTitle": "PDF の作成",
+    "generatingPDFContent": "PDF が生成されるまでお待ちください。",
+    "generatedPDFTitle": "作成済み PDF",
+    "generatedPDFContent": "PDF のダウンロードはまもなく開始されます。",
+    "timeRange": "時刻範囲",
+    "preview": "プレビュー",
+    "widgetNotAvailableToBeExported": "このウィジェットはエクスポートできません。"
   },
   "tables": {
     "serverTable": {
@@ -462,12 +494,11 @@
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
+    "viewSwitcherLabelWindowsHypervisor": "Windowsハイパーバイザー",
     "viewSwitcherLabelXenServer": "XenServer",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "プラットフォーム",
-    "viewSwitcherButtonSignOut": "サインアウト",
     "viewSwitcherCustomDashboards": "カスタム・ダッシュボード",
-    "viewSwitcherLabelTenants": "テナント",
     "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "新規バージョンの Instana UI が使用可能です",
     "newUiClientVersionAvailableButtonReloadToUpdate": "再ロードして更新",
@@ -480,7 +511,9 @@
     "profileMenu_switchUnitOrTenant": "スイッチ・ユニットまたはテナント",
     "profileMenu_saasConsole": "IBM SaaS コンソール",
     "profileMenu_privacy": "プライバシー",
-    "profileMenu_logOut": "ログアウト"
+    "profileMenu_logOut": "ログアウト",
+    "teamFocus_title": "チーム・フォーカス",
+    "teamFocus_entireUnit": "ユニット全体"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "メトリックの選択",
@@ -786,9 +819,9 @@
     "sanitizedTagFilterValue": "タグ・フィルター値が、最大許容長に短縮されました。",
     "sanitizedTagFilterValueAndOperator": "タグ・フィルター値が最大許容長に短縮され、それに応じて演算子が調整されました。",
     "source": "ソース",
-    "sourceAbbreviated": "ソース",
+    "sourceAbbreviated": "Src",
     "destination": "宛先",
-    "destinationAbbreviated": "宛先",
+    "destinationAbbreviated": "移動先",
     "documentation": "Documentation",
     "string": {
       "contains": "次を含む",
@@ -802,7 +835,8 @@
       "equals": "次と等しい",
       "doesNotEqual": "次と等しくない",
       "isBlank": "ブランク値を持つ",
-      "notBlank": "非ブランク値を持つ"
+      "notBlank": "非ブランク値を持つ",
+      "matchesRegex": "RegExのマッチング"
     },
     "number": {
       "isPresent": "存在する",

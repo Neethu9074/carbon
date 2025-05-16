@@ -120,6 +120,7 @@
   "labelMonitoringIssues": "監視問題",
   "labelCveIssue": "漏洞",
   "labelPrcIssue": "可能的根本原因",
+  "smartAlerts": "智慧型警示",
   "labelAll": "全部",
   "buttonViewCustomEvent": "檢視自訂事件",
   "buttonViewBuiltInEvent": "檢視內建事件",
@@ -144,7 +145,6 @@
   "unidentifiedEntityTooltip": "擷取此實體的相關資訊時發生了錯誤。 您可以透過按一下「未識別的實體」連結來存取該實體的儀表板以了解更多詳細資料。",
   "headerStatus": "狀態",
   "eventHelpfulText": "此事件是否能提供協助？",
-  "summaryHelpfulText": "此摘要是否有幫助？",
   "thankYouForYourFeedback": "謝謝您的意見！",
   "hostOffLineEventProblemChangeTime": "按下方的鏈結，以移至 Instana 所監視之主機的最近一個版本。這樣做會將您時間範圍的開始時間變更為 Instana 監視主機的那個時間點",
   "offLineEventProblemChangeTime": "按下方的鏈結，以移至 Instana 所監視之程序的最近一個版本。這樣做會將您時間範圍的開始時間變更為 Instana 監視程序的那個時間點",
@@ -373,6 +373,7 @@
     "name": "名稱",
     "count": "計數",
     "noMatching": "找不到相符的記錄。",
+    "anyOtherQs": "還有其他問題需要我們回答嗎？",
     "timestamp": "時間戳記",
     "numCalls": "呼叫數",
     "meanLatency": "平均延遲時間",
@@ -388,7 +389,6 @@
   },
   "notes": {
     "openNotes": "開啟附註和活動",
-    "closeNotes": "關閉附註和活動",
     "notesActivity": "使用 AI 的附註和活動",
     "confirmDelete": "確認刪除",
     "you": "您 {{date}}",
@@ -442,7 +442,10 @@
     "subject": "主旨",
     "body": "內文",
     "takeSomeTimeReview": "請花一些時間檢閱摘要，並可能進行修改，再與他人共用。",
-    "invalidEmail": "電子郵件必須有效 (user@domain)，以逗點區隔"
+    "invalidEmail": "電子郵件必須有效 (user@domain)，以逗點區隔",
+    "positiveFeedback": "這份摘要很有幫助",
+    "negativeFeedback": "這份摘要沒有幫助",
+    "surveyButtonTxt": "分享您的意見"
   },
   "incident": {
     "overviewTitle": "事件概觀",
@@ -464,5 +467,16 @@
   "affectedIncidents": {
     "affectedIncident": "受影響事件",
     "noAffectedIncidents": "找不到受影響的事件"
+  },
+  "feedbackModal": {
+    "cancel": "取消",
+    "submit": "提交",
+    "title": "分享您的意見",
+    "helpfulQ": "您覺得摘要對您有什麼幫助？",
+    "improveQ": "我們可以如何改善摘要？",
+    "maxChars": "最多 750 個字元",
+    "followUpQuestion": "您是否希望我們針對您的意見回饋再與您聯絡？",
+    "yesContect": "是的，請與我聯絡。",
+    "noContact": "否，我寧可不要聯絡"
   }
 }

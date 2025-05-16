@@ -1,6 +1,6 @@
 {
-  "labelBizOps": "Processus",
-  "labelPerspectives": "Perspectives",
+  "labelBizOps": "Processus métier",
+  "labelPerspectives": "Perspectives métier",
   "labelPerspective": "Perspective",
   "components": {
     "count": "Nombre"
@@ -8,8 +8,7 @@
   "lists": {
     "id": "ID",
     "version": "Version",
-    "pageTitle": "Surveillance métier",
-    "cardTitle": "Processus métier",
+    "pageTitle": "Processus métier",
     "theId": "ID du processus",
     "theVersion": "La version du processus",
     "hasBeenCopied": "a été copié avec succès dans le presse-papiers",
@@ -39,9 +38,8 @@
     "documentation": "documentation."
   },
   "perspectives": {
-    "newPerspective": "Créer une perspective",
+    "newPerspective": "Créer",
     "lists": {
-      "perspectives": "Perspectives métier",
       "descriptionLabel": "Description",
       "numberProcessesLabel": "Nombre de processus"
     },
@@ -77,7 +75,7 @@
     }
   },
   "navigation": {
-    "businessMonitoring": "Surveillance métier"
+    "businessMonitoring": "Processus métier"
   },
   "dashboards": {
     "analyzeInstances": "Analyser les instances",

@@ -66,18 +66,12 @@
     "customDashboard": {
       "confirmDashboardDel": "確認刪除儀表板",
       "delDashboard": "刪除儀表板",
-      "uWantDelDashboardConfig": "您確定要刪除儀表板 <strong>{{title}}</strong> 嗎？",
+      "uWantDelDashboardConfig": "您確定要刪除儀表板 <strong>{{title}}</strong> 嗎？ 這個動作無法復原。",
       "failDelDashboard": "無法刪除儀表板。",
       "renameDashboard": "重新命名儀表板",
       "dashboardName": "儀表板名稱",
       "rename": "重新命名",
-      "failSaveDashboard": "無法儲存儀表板。",
-      "generatingPDFTitle": "正在產生 pdf",
-      "generatingPDFContent": "正在產生 pdf，請稍候。",
-      "generatedPDFTitle": "已產生 PDF",
-      "generatedPDFContent": "pdf 下載即將開始。",
-      "timeRange": "時間範圍",
-      "widgetNotAvailableToBeExported": "此小組件無法匯出。"
+      "failSaveDashboard": "無法儲存儀表板。"
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "儀表板找不到",
@@ -102,24 +96,6 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "無法剖析 JSON 形式的輸入。",
       "jsonRootMustBeAnObject": "JSON root 必須是物件。"
-    },
-    "downloadPdfDialog": {
-      "downloadPdf": "下載 PDF 檔案",
-      "settings": "設定",
-      "pdfOrientation": "方向",
-      "portrait": "直印",
-      "landscape": "橫印",
-      "pdfLayout": "佈置",
-      "widgetsDisplay": "顯示",
-      "singlePage": "單一頁面",
-      "singlePageInfo": "將整個儀表板放在一頁上，並調整內容至合適大小。",
-      "multiPages": "多頁",
-      "multiPagesInfo": "將儀表板分佈在多個頁面上，保持原始佈置。 某些小組件可能會被截斷。",
-      "stackWidgetsTitle": "堆疊小組件",
-      "stackWidgetsInfo": "在多個頁面的垂直堆疊中顯示小組件。",
-      "loadingWidget": "正在載入小組件 {{widgetIndex}}，共 {{totalNodes}} 個",
-      "generatePreview": "產生預覽",
-      "generatingPreview": "產生 pdf 預覽"
     },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "套用了一些目前的儀表板過濾器。",
@@ -174,6 +150,18 @@
       },
       "index": {
         "bizOps": "業務程序（活動）"
+      }
+    },
+    "srcBusinessMetrics": {
+      "formComponent": {
+        "pleaseSelect": "請選取",
+        "pleaseSelectMetric": "請選取度量",
+        "aggregation": "聚集",
+        "metric": "度量",
+        "unit": "單元"
+      },
+      "index": {
+        "businessMetrics": "商業度量"
       }
     },
     "srcApp": {
@@ -618,7 +606,7 @@
         "viewCloneSliConfig": "檢視/複製 SLI 配置",
         "delSliConfig": "刪除 SLI 配置",
         "confirmRemove": "確認移除",
-        "confirmRemoveMsg": "您確定要刪除 <strong>{{sliName}}</strong> 嗎？",
+        "confirmRemoveMsg": "您確定要刪除 <strong>{{sliName}}</strong> 嗎？ 這個動作無法復原。",
         "delete": "刪除",
         "eventBasedSli": "事件型",
         "timeBasedSli": "時間型，{{metricNameLabel}}"
@@ -770,7 +758,7 @@
         "nameColumn": "Apdex 配置",
         "thresholdColumn": "臨界值",
         "confirmDeleteHeader": "確認移除",
-        "confirmDeleteMessage": "您確定要刪除 {{apdex}} 嗎？",
+        "confirmDeleteMessage": "您確定要刪除 {{apdex}} 嗎？ 這個動作無法復原。",
         "editApdexTooltip": "編輯/複製 Apdex 配置",
         "deleteApdexTooltip": "刪除 Apdex 配置",
         "confirmDeleteButton": "Delete",

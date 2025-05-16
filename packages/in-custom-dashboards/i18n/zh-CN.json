@@ -66,18 +66,12 @@
     "customDashboard": {
       "confirmDashboardDel": "确认删除仪表板",
       "delDashboard": "删除仪表板",
-      "uWantDelDashboardConfig": "是否确定要删除仪表板 <strong>{{title}}</strong>？",
+      "uWantDelDashboardConfig": "是否确定要删除仪表板 <strong>{{title}}</strong>？ 此操作不可撤销。",
       "failDelDashboard": "无法删除该仪表板。",
       "renameDashboard": "重命名仪表板",
       "dashboardName": "仪表板名称",
       "rename": "重命名",
-      "failSaveDashboard": "无法保存仪表板。",
-      "generatingPDFTitle": "正在生成 pdf",
-      "generatingPDFContent": "请稍候，正在生成 PDF 文件。",
-      "generatedPDFTitle": "已生成 PDF",
-      "generatedPDFContent": "pdf 下载即将开始。",
-      "timeRange": "时间范围",
-      "widgetNotAvailableToBeExported": "此窗口小部件无法导出。"
+      "failSaveDashboard": "无法保存仪表板。"
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "仪表板找不到",
@@ -102,24 +96,6 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "无法将输入解析为 JSON。",
       "jsonRootMustBeAnObject": "JSON 根必须为一个对象。"
-    },
-    "downloadPdfDialog": {
-      "downloadPdf": "下载 PDF 文件",
-      "settings": "设置",
-      "pdfOrientation": "定向",
-      "portrait": "纵向",
-      "landscape": "横向",
-      "pdfLayout": "布局",
-      "widgetsDisplay": "显示",
-      "singlePage": "单页",
-      "singlePageInfo": "使整个仪表板适合单页大小，并调整内容大小。",
-      "multiPages": "多页",
-      "multiPagesInfo": "将仪表板分布在多个页面上，保持原来的布局。 某些窗口小部件可能会被切断。",
-      "stackWidgetsTitle": "堆叠窗口小部件",
-      "stackWidgetsInfo": "在多个页面上以垂直堆叠的方式显示窗口小部件。",
-      "loadingWidget": "加载 {{totalNodes}} 的窗口小部件 {{widgetIndex}}",
-      "generatePreview": "生成预览",
-      "generatingPreview": "生成 pdf 预览"
     },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "应用了某些当前仪表盘过滤器。",
@@ -174,6 +150,18 @@
       },
       "index": {
         "bizOps": "业务流程（活动）"
+      }
+    },
+    "srcBusinessMetrics": {
+      "formComponent": {
+        "pleaseSelect": "请选择",
+        "pleaseSelectMetric": "请选择指标",
+        "aggregation": "汇总",
+        "metric": "指标",
+        "unit": "单元"
+      },
+      "index": {
+        "businessMetrics": "业务度量"
       }
     },
     "srcApp": {
@@ -618,7 +606,7 @@
         "viewCloneSliConfig": "查看/克隆 SLI 配置",
         "delSliConfig": "删除 SLI 配置",
         "confirmRemove": "确认移除",
-        "confirmRemoveMsg": "是否确定要删除 <strong>{{sliName}}</strong>？",
+        "confirmRemoveMsg": "是否确定要删除 <strong>{{sliName}}</strong>？ 此操作不可撤销。",
         "delete": "删除",
         "eventBasedSli": "基于事件",
         "timeBasedSli": "基于时间，{{metricNameLabel}}"
@@ -770,7 +758,7 @@
         "nameColumn": "Apdex 配置",
         "thresholdColumn": "阈值",
         "confirmDeleteHeader": "确认移除",
-        "confirmDeleteMessage": "确定要将 {{apdex}} 删除吗？",
+        "confirmDeleteMessage": "确定要将 {{apdex}} 删除吗？ 此操作不可撤销。",
         "editApdexTooltip": "编辑/克隆 Apdex 配置",
         "deleteApdexTooltip": "删除 Apdex 配置",
         "confirmDeleteButton": "删除",

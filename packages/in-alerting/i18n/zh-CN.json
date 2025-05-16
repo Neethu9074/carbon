@@ -14,7 +14,7 @@
     "alertHeaderEditTooltip": "编辑",
     "alertHeaderDuplicateTooltip": "复制",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "确认移除",
-    "alertHeaderRestoreDeleteConfirmationDialogDescription": "确定要除去警报 <strong>{{alertConfigName}}</strong> 吗？",
+    "alertHeaderRestoreDeleteConfirmationDialogDescription": "确定要除去警报 <strong>{{alertConfigName}}</strong> 吗？ 此操作不可撤销。",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
     "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警报配置的修订版 {{description}}。如果要进行更改，请<latestRevisionButton>选择最新修订版</latestRevisionButton>或<restoreRevisionButton>从当前修订版复原</restoreRevisionButton>。",
     "alertHeaderAriaLabelSeverity": "事件的严重性为 {{severity}}",
@@ -530,7 +530,7 @@
         "labelActionButtonDelete": "删除",
         "labelAlertFilters": "过滤器",
         "labelConfirm": "确认移除",
-        "labelConfirmRemoveConfig": "确定要除去警报 <strong>{{configName}}</strong> 吗？",
+        "labelConfirmRemoveConfig": "确定要除去警报 <strong>{{configName}}</strong> 吗？ 此操作不可撤销。",
         "labelRemove": "移除",
         "numberOfApplicationsSelected": "已选择 {{count}} 个应用程序",
         "numberOfApplicationsSelected_plural": "已选定 {{count}} 个应用程序",
@@ -991,7 +991,7 @@
       },
       "list": {
         "labelConfirm": "确认移除",
-        "labelConfirmRemoveConfig": "确定要除去警报 <strong>{{configName}}</strong> 吗？",
+        "labelConfirmRemoveConfig": "确定要除去警报 <strong>{{configName}}</strong> 吗？ 此操作不可撤销。",
         "labelRemove": "除去"
       },
       "gracePeriod": {
@@ -1039,6 +1039,7 @@
         "propertiesLabel": "属性",
         "propertiesTitle": "其他警报属性",
         "thresholdValue": "阈值",
+        "thresholdType": "阈值类型",
         "payloadsLabel": "有效内容",
         "payloadsTitle": "定制有效内容",
         "evaluationSwitch": {
@@ -1060,11 +1061,9 @@
         "specificStatusCodeRate": "状态码比率",
         "pageLoads": "页面加载数",
         "pageTransitions": "页面转换数",
-        "slownessBlueprintConfigName": "缓慢",
         "slownessBlueprintConfigHeadline": "onLoad 时间或 HTTP 等待时间的自动警报",
         "slownessBlueprintConfigTextP": "当 onLoad 时间或 HTTP 延迟超过指定阈值时收到警报。",
         "slownessBlueprintConfigMetricLabel": "onLoad 时间",
-        "slownessBlueprintConfigHttpMetricLabel": "HTTP 等待时间",
         "jsErrorsBlueprintConfigName": "JS 错误",
         "jsErrorsBlueprintConfigHeadline": "JS 错误的自动警报",
         "jsErrorsBlueprintConfigText": "每当匹配 JS 错误消息的出现频率超过正常值时，就会接收警报。",
@@ -1103,7 +1102,6 @@
         "ruleMetricNameOptionStatusCodeHttpxxx": "状态码计数",
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "状态码比率",
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad 时间",
-        "ruleMetricNameOptionSlownessHttpLatency": "HTTP 等待时间",
         "ruleMetricNameOptionThroughputPageLoads": "页面加载数",
         "ruleMetricNameOptionThroughputPageTransitions": "页面转换数"
       },
@@ -1169,7 +1167,7 @@
         },
         "slowness": {
           "headline": "onLoad 时间或 HTTP 等待时间的自动警报",
-          "text": "当 onLoad 时间超出从历史数据得出的预期值时，就会收到警报。"
+          "text": "当 onLoad 时间或 HTTP 延迟超过指定阈值时收到警报。"
         },
         "JsErrors": {
           "name": "JS 错误",
@@ -1357,6 +1355,8 @@
     },
     "mobileApp": {
       "data": {
+        "slownessBlueprintConfigHeadline": "HTTP 延迟自动警报",
+        "slownessBlueprintConfigTextP": "当 HTTP 延迟超过指定阈值时收到警报。",
         "statusCodeCount": "状态码计数",
         "beaconRate": "状态码比率",
         "views": "视图数",
@@ -1496,6 +1496,10 @@
           "title": "定义警报通道",
           "description": "选择要在何处收到此警报的通知"
         },
+        "slowness": {
+          "headline": "HTTP 延迟自动警报",
+          "text": "当 HTTP 延迟超过指定阈值时收到警报。"
+        },
         "statusCode": {
           "headline": "HTTP 状态码的自动警报",
           "text": "当 HTTP 状态码的出现频率高于正常值时，就会收到警报。"
@@ -1525,6 +1529,10 @@
       }
     },
     "eum": {
+      "slowness": {
+        "blueprintConfigName": "缓慢",
+        "httpLatencyMetricLabel": "HTTP 等待时间"
+      },
       "customEvent": {
         "customEventSelectionSliderTitle": "选择定制事件",
         "customEventLabel": "定制事件",
@@ -1689,13 +1697,6 @@
           "header": "您希望在何处收到此警报的通知？",
           "description": "选择该警报的收件人"
         },
-        "scopeAlerting": {
-          "title": "选择警报的提醒方式",
-          "customAggregation": "自定义汇总",
-          "customAggregationDescription": "将范围内的所有指标汇总为每个组的单一指标。 每个小组每次最多只有一个活动议题。",
-          "perEntityAlerting": "每个实体警报",
-          "perEntityAlertingDescription": "单独监控各项指标。 您将收到违反阈值的每个指标的警报。"
-        },
         "scopeFilter": {
           "title": "选择基础架构的范围",
           "filter": "过滤",
@@ -1730,7 +1731,23 @@
       "descriptionIsHigherThan": "{{metricName}} 大于 {{value}}。",
       "descriptionIsHigherOrEqualTo": "{{metricName}} 大于或等于 {{value}}。",
       "descriptionIsLowerThan": "{{metricName}} 小于 {{value}}。",
-      "descriptionIsLowerThanOrEqualTo": "{{metricName}} 小于或等于 {{value}}。"
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} 小于或等于 {{value}}。",
+      "evaluationType": {
+        "title": "选择警报方式",
+        "custom": {
+          "title": "自定义汇总",
+          "description": "将范围内的所有指标合并为每个组的单一指标。 每个组每次只跟踪一个活动问题。"
+        },
+        "perEntity": {
+          "title": "每个实体警报",
+          "description": "单独监控每个指标。 您将收到每一个违反阈值的指标的警报。"
+        }
+      },
+      "group": {
+        "disabled": {
+          "tooltipInfo": "添加组仅适用于自定义聚合。"
+        }
+      }
     },
     "logs": {
       "alertDetails": {

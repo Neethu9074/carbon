@@ -146,7 +146,7 @@
     },
     "deleteDialog": {
       "confirmRemove": "Entfernen bestätigen",
-      "confirmRemoveMsg": "Möchten Sie <strong>{{name}}</strong> wirklich löschen?",
+      "confirmRemoveMsg": "Möchten Sie <strong>{{name}}</strong> wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
       "delete": "Löschen"
     }
   },

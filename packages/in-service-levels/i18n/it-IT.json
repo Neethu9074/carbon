@@ -146,7 +146,7 @@
     },
     "deleteDialog": {
       "confirmRemove": "Conferma rimozione",
-      "confirmRemoveMsg": "Si è sicuri di voler eliminare <strong>{{name}}</strong>?",
+      "confirmRemoveMsg": "Si è sicuri di voler eliminare <strong>{{name}}</strong>? Questa azione non può essere annullata.",
       "delete": "Elimina"
     }
   },

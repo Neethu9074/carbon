@@ -192,6 +192,7 @@
           "buttonSave": "Salvar",
           "uploadFileLabel": "Fazer upload de arquivo",
           "uploadFileDescription": "É possível fazer upload de um único arquivo .js ou de um arquivo zip com arquivos .js agrupados.",
+          "node22UploadFileDescription": "É possível fazer upload de um único arquivo .js, .cjs ou .mjs, ou de um arquivo .zip contendo arquivos .js, .cjs ou .mjs em um pacote configurável.",
           "scriptDescription": "Seu script transferido por upload aparecerá aqui ou será possível inseri-lo manualmente abaixo.",
           "validScriptMessage": "O script é válido.",
           "zipFileUploadedMessage": "O arquivos em pacote configurável não podem ser modificados ou validados",
@@ -200,6 +201,7 @@
           "invalidMainFileName": "O nome do arquivo principal não é válido",
           "webpageUrl": "URL da página da web",
           "browserUploadFileDescription": "É possível fazer upload de um único arquivo .js, um arquivo zip de arquivos .js agrupados ou um script .side gravado pelo SeleniumIDE.",
+          "node22BrowserUploadFileDescription": "É possível fazer upload de um único arquivo .js, .cjs ou .mjs, um arquivo .zip contendo arquivos .js, .cjs ou .mjs em um pacote configurável ou um script .side gravado pelo Selenium IDE.",
           "sideFileUploadedMessage": "Os scripts Selenium não podem ser modificados ou validados",
           "bundleFileNotSupportedMessage": "O arquivo não suportado é selecionado. Os pacotes configuráveis são suportados somente no modo avançado.",
           "timeoutFieldLabel": "Tempo limite",
@@ -221,10 +223,10 @@
           "downloadZip": "Fazer download do arquivo zip",
           "mainFileNameHelperText": "Forneça o nome do arquivo dentro desse arquivo zip que contém o ponto de entrada do teste",
           "recordVideo": "Registre as ações do usuário em caso de falha",
+          "acceptSelfSignedCertificate": "Aceitar certificado autoassinado",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "A URL é o nome de domínio que está sendo testado para resolução de DNS",
-            "lookupPlaceholder": "A URL do seu website",
             "queryType": "Tipo de consulta",
             "serverLabel": "Servidor DNS",
             "serverHelperText": "O servidor DNS é o servidor responsável por traduzir o nome de domínio em um endereço IP",
@@ -232,8 +234,8 @@
             "portHelperText": "A porta do servidor DNS é a porta de rede usada para a comunicação entre seu dispositivo (PoP) e o servidor DNS, normalmente a porta 53",
             "queryTimeLabel": "Tempo de resposta",
             "queryTimeHelperText": "O tempo ideal de resolução de DNS é entre 20 e 120 ms",
-            "recordTypeTitle": "Asserções (opcional)",
-            "recordTypeSubtitle": "Esses campos são opcionais, mas, quando preenchidos, todos precisam ser verdadeiros para que o teste seja bem-sucedido.",
+            "assertionsTitle": "Asserções (opcional)",
+            "assertionsSubtitle": "Esses campos são opcionais, mas, quando preenchidos, todos precisam ser verdadeiros para que o teste seja bem-sucedido.",
             "recordTypeLabel": "Tipo de registro",
             "operatorLabel": "Condicional",
             "operatorOptionMatches": "Correspondências",
@@ -257,7 +259,9 @@
               "invalidIPv6Address": "Endereço IPv6 inválido",
               "invalidRecordType": "Tipo de registro não válido",
               "invalidResolutionRecord": "Registro de resolução não válido"
-            }
+            },
+            "assertionsNotificationTitle": "Asserções necessárias",
+            "assertionsNotificationDescription": "Inclua pelo menos uma asserção ao usar o tipo de consulta \"TODOS associados a asserções\"."
           }
         },
         "loadMore": "Carregar mais",
@@ -330,7 +334,9 @@
       "failureTitle": "Falhou!",
       "failureMessageCreate": "Falha ao criar o teste sintético: {{errorMessage}}",
       "failureMessageUpdate": "Falha ao atualizar o teste sintético: {{errorMessage}}",
-      "failureMesssageDelete": "Falha ao excluir o teste sintético: {{errorMessage}}"
+      "failureMesssageDelete": "Falha ao excluir o teste sintético: {{errorMessage}}",
+      "successMessageCICDRerun": "A nova execução de teste sintético foi concluída com sucesso",
+      "failureMesssageCICDRerun": "Falha ao executar novamente o teste sintético: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "O local foi excluído com sucesso",
@@ -470,6 +476,10 @@
         "smartAlerts": "Alertas inteligentes",
         "credentials": "Credenciais"
       },
+      "options": {
+        "scheduledLabel": "Escopo de dados: planejado",
+        "onDemandLabel": "Escopo de dados: sob demanda"
+      },
       "popDialog": {
         "popUpDialogTitle": "Permissões para o monitoramento sintético",
         "popUpDialog": "Verifique o <documentationLink>documento</documentationLink> para obter informações sobre como configurar as permissões de monitoramento sintético",
@@ -484,13 +494,13 @@
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "Após os arquivos de chave/certificado serem fornecidos, use o comando kubectl para criar um segredo.",
         "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\"",
-        "associationsTitle": "{{number}} Associações",
-        "singleAssociationTitle": "{{number}} Associação"
+        "associationsTitle": "{{number}} associações",
+        "singleAssociationTitle": "{{number}} associação"
       },
       "multiAppDialog": {
         "filterLabel": "Aplicativos",
-        "singleAppHeader": "{{ number }} Associação",
-        "multiAppHeader": "{{ number }} Associações",
+        "singleAppHeader": "{{ number }} associação",
+        "multiAppHeader": "{{ number }} associações",
         "noApplicationsAssociated": "Nenhum aplicativo associado"
       },
       "multiWebDialog": {
@@ -513,7 +523,7 @@
       "type": "Tipo",
       "successRate": "Pontuação de sucesso",
       "successRuns": "{{successRuns}} / {{totalRuns}} resultados",
-      "latency": "Latência",
+      "latency": "Tempo médio de resposta",
       "locationLabel": "Locais",
       "locationsColumn": {
         "singleLocation": "{{number}} localização",
@@ -526,7 +536,7 @@
       "associationLabel": "Associações",
       "health": "Funcionamento",
       "action": "Ação",
-      "labelConfirmRemoveTest": "Tem certeza de que deseja remover o teste <strong>{{testLabel}}</strong>?",
+      "labelConfirmRemoveTest": "Tem certeza de que deseja remover o teste <strong>{{testLabel}}</strong>? Essa ação não pode ser desfeita",
       "na": "N/D"
     },
     "locationList": {
@@ -540,9 +550,9 @@
       "namespace": "Namespace",
       "health": "Funcionamento",
       "noHealthInfo": "NA",
-      "labelConfirmRemoveLocation": "Tem certeza de que deseja remover o local <strong>{{label}}</strong> ({{status}})?",
-      "activeTestLinked": "Há {{linkedTests}} testes ativos associados ao local <strong>{{label}}</strong> ({{status}}). A exclusão desse local causará perda de dados nos gráficos de resumo de teste. Tem certeza de que deseja excluir este local?<br/><br/>Para fazer upgrade do local sem excluir, consulte a <documentLink>documentação</documentLink>.",
-      "deleteLocation": "Excluir local",
+      "labelConfirmRemoveLocation": "Tem certeza de que deseja remover o local <strong>{{label}}</strong> ({{status}})? Essa ação não pode ser desfeita",
+      "activeTestLinked": "Há {{linkedTests}} testes ativos associados ao local <strong>{{label}}</strong> ({{status}}). A exclusão desse local causará perda de dados nos gráficos de resumo de teste. Tem certeza de que deseja excluir este local? Esta ação não pode ser desfeita.<br/><br/>Para fazer o upgrade do local sem exclusão, consulte a <documentLink>documentação</documentLink>.",
+      "deleteLocation": "Excluir",
       "noDataAvailable": {
         "message": "{{component}} não disponível"
       },
@@ -563,7 +573,8 @@
         "singleIPAddress": "{{number}} endereço IP",
         "multipleIPAddress": "{{number}} endereços IP",
         "noIPAddresses": "NA"
-      }
+      },
+      "activate": "Ativar"
     },
     "summary": {
       "successRate": "Pontuação de sucesso",
@@ -631,6 +642,9 @@
       "dns": {
         "failureType": "Tipo de falha",
         "na": "N/D"
+      },
+      "cicd": {
+        "executionType": "Tipo de execução"
       }
     },
     "detailsPage": {
@@ -775,10 +789,13 @@
       "dns": {
         "title": "Detalhes de teste",
         "description": "Resultado do DNS para o tipo de consulta {{queryType}}",
-        "name": "Nome",
+        "domainName": "Nome de domínio",
         "ttl": "TTL",
         "data": "Dados",
         "noRecordsFound": "Nenhum registro localizado"
+      },
+      "cicd": {
+        "rerunButtonLabel": "Executar novamente o teste"
       }
     },
     "noDataAvailable": {
@@ -868,6 +885,7 @@
       "associatedMobileApps": "Aplicativos móveis associados",
       "noMobileAppAssociated": "Nenhum aplicativo móvel associado",
       "recordVideo": "Registre as ações do usuário em caso de falha",
+      "acceptSelfSignedCertificate": "Aceitar certificado autoassinado",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "Tipo de consulta",
@@ -907,7 +925,7 @@
       "deleteAction": {
         "deleteActionLabel": "Excluir",
         "deleteCredentialTitle": "Excluir credencial sintética {{credentialName}}",
-        "credentialNameValidation": "Insira o nome completo das credenciais para confirmar a exclusão.",
+        "credentialNameValidation": "Insira o nome completo das credenciais para confirmar a exclusão. Essa ação não pode ser desfeita",
         "deleteButtonLabel": "Excluir credencial",
         "cancelButtonLabel": "Cancelar",
         "deletionSuccess": "A credencial foi excluída."

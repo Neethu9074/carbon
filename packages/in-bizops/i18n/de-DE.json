@@ -1,6 +1,6 @@
 {
-  "labelBizOps": "Prozesse",
-  "labelPerspectives": "Perspektiven",
+  "labelBizOps": "Geschäftsprozesse",
+  "labelPerspectives": "Geschäftsperspektiven",
   "labelPerspective": "Perspektive",
   "components": {
     "count": "Anzahl"
@@ -8,8 +8,7 @@
   "lists": {
     "id": "ID",
     "version": "Version",
-    "pageTitle": "Business Monitoring",
-    "cardTitle": "Geschäftsprozesse",
+    "pageTitle": "Geschäftsprozesse",
     "theId": "Die Prozess-ID",
     "theVersion": "Die Prozessversion",
     "hasBeenCopied": "wurde erfolgreich in die Zwischenablage kopiert",
@@ -39,9 +38,8 @@
     "documentation": "Dokumentation."
   },
   "perspectives": {
-    "newPerspective": "Perspektive schaffen",
+    "newPerspective": "Erstellen",
     "lists": {
-      "perspectives": "Geschäftsperspektiven",
       "descriptionLabel": "Beschreibung",
       "numberProcessesLabel": "Anzahl der Prozesse"
     },
@@ -77,7 +75,7 @@
     }
   },
   "navigation": {
-    "businessMonitoring": "Business Monitoring"
+    "businessMonitoring": "Geschäftsprozesse"
   },
   "dashboards": {
     "analyzeInstances": "Instanzen analysieren",

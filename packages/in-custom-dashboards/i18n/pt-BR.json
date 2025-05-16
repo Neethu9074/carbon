@@ -66,18 +66,12 @@
     "customDashboard": {
       "confirmDashboardDel": "Confirmar exclusão do painel",
       "delDashboard": "Excluir painel",
-      "uWantDelDashboardConfig": "Tem certeza de que deseja excluir o painel <strong>{{title}}</strong>?",
+      "uWantDelDashboardConfig": "Tem certeza de que deseja excluir o painel <strong>{{title}}</strong>? Essa ação não pode ser desfeita",
       "failDelDashboard": "Falha ao excluir o painel.",
       "renameDashboard": "Renomear painel",
       "dashboardName": "Nome do painel",
       "rename": "Renomear",
-      "failSaveDashboard": "Falha ao salvar o painel.",
-      "generatingPDFTitle": "Gerando PDF",
-      "generatingPDFContent": "Considere aguardar enquanto o PDF está sendo gerado.",
-      "generatedPDFTitle": "PDF gerado",
-      "generatedPDFContent": "O download do PDF será iniciado em breve.",
-      "timeRange": "Intervalo de tempo",
-      "widgetNotAvailableToBeExported": "Esse widget não está disponível para ser exportado."
+      "failSaveDashboard": "Falha ao salvar o painel."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Painel não localizado",
@@ -102,24 +96,6 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Falha ao analisar entrada como JSON.",
       "jsonRootMustBeAnObject": "A raiz JSON deve ser um objeto."
-    },
-    "downloadPdfDialog": {
-      "downloadPdf": "Fazer download do arquivo PDF",
-      "settings": "Configurações",
-      "pdfOrientation": "Orientação",
-      "portrait": "Retrato",
-      "landscape": "Paisagem",
-      "pdfLayout": "Layout",
-      "widgetsDisplay": "Exibir",
-      "singlePage": "Página única",
-      "singlePageInfo": "Coloque todo o painel em uma página, com o conteúdo redimensionado para caber na página.",
-      "multiPages": "Diversas páginas",
-      "multiPagesInfo": "Distribua o painel entre diversas páginas, mantendo o layout original. A exibição de alguns widgets pode ficar cortada.",
-      "stackWidgetsTitle": "Empilhar widgets",
-      "stackWidgetsInfo": "Exiba widgets em uma pilha vertical entre as diversas páginas.",
-      "loadingWidget": "Carregando o widget {{widgetIndex}} de {{totalNodes}}",
-      "generatePreview": "Gerar visualização",
-      "generatingPreview": "Gerando a visualização em PDF"
     },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "Alguns dos filtros do painel atual foram aplicados.",
@@ -174,6 +150,18 @@
       },
       "index": {
         "bizOps": "Processos de negócios (atividades)"
+      }
+    },
+    "srcBusinessMetrics": {
+      "formComponent": {
+        "pleaseSelect": "Selecionar",
+        "pleaseSelectMetric": "Selecionar uma métrica",
+        "aggregation": "Agregação",
+        "metric": "Métrica",
+        "unit": "Unit"
+      },
+      "index": {
+        "businessMetrics": "Métricas de negócios"
       }
     },
     "srcApp": {
@@ -618,7 +606,7 @@
         "viewCloneSliConfig": "Visualizar/clonar configuração de SLI",
         "delSliConfig": "Excluir configuração de SLI",
         "confirmRemove": "Confirmar remoção",
-        "confirmRemoveMsg": "Tem certeza de que deseja excluir <strong>{{sliName}}</strong>?",
+        "confirmRemoveMsg": "Tem certeza de que deseja excluir <strong>{{sliName}}</strong>? Essa ação não pode ser desfeita",
         "delete": "Excluir",
         "eventBasedSli": "Com base em evento",
         "timeBasedSli": "Com base em tempo, {{metricNameLabel}}"
@@ -770,7 +758,7 @@
         "nameColumn": "Configuração do Apdex",
         "thresholdColumn": "Limite",
         "confirmDeleteHeader": "Confirmar remoção",
-        "confirmDeleteMessage": "Tem certeza de que deseja excluir {{apdex}}?",
+        "confirmDeleteMessage": "Tem certeza de que deseja excluir {{apdex}}? Essa ação não pode ser desfeita",
         "editApdexTooltip": "Editar/clonar configuração do Apdex",
         "deleteApdexTooltip": "Excluir configuração do Apdex",
         "confirmDeleteButton": "Excluir",

@@ -120,6 +120,7 @@
   "labelMonitoringIssues": "Problemas de monitoramento",
   "labelCveIssue": "Vulnerabilidades",
   "labelPrcIssue": "Causas raízes prováveis",
+  "smartAlerts": "Alertas inteligentes",
   "labelAll": "Todos",
   "buttonViewCustomEvent": "Visualizar evento customizado",
   "buttonViewBuiltInEvent": "Visualizar evento integrado",
@@ -144,7 +145,6 @@
   "unidentifiedEntityTooltip": "Ocorreu um erro ao recuperar as informações sobre essa entidade. É possível acessar o painel da entidade clicando no link \"Entidade não identificada\" para obter detalhes adicionais.",
   "headerStatus": "Status",
   "eventHelpfulText": "Este evento foi útil?",
-  "summaryHelpfulText": "Este resumo foi útil?",
   "thankYouForYourFeedback": "Obrigado por seu feedback.",
   "hostOffLineEventProblemChangeTime": "Clique no link abaixo para acessar a última versão do host monitorado por Instana. Fazer isso mudará o início de seu espaço de tempo para um momento no qual o host foi monitorado por Instana",
   "offLineEventProblemChangeTime": "Clique no link abaixo para acessar a última versão do processo monitorado pelo Instana. Isso mudará o início do seu espaço de tempo para um momento no qual o processo foi monitorado pelo Instana",
@@ -373,6 +373,7 @@
     "name": "Nome",
     "count": "Contagem",
     "noMatching": "Nenhum registro correspondente localizado.",
+    "anyOtherQs": "Há outras perguntas que possamos responder?",
     "timestamp": "Registro de data e hora",
     "numCalls": "Nº de chamadas",
     "meanLatency": "Latência média",
@@ -388,7 +389,6 @@
   },
   "notes": {
     "openNotes": "Abrir notas e atividades",
-    "closeNotes": "Fechar notas e atividades",
     "notesActivity": "Notas e atividades com IA",
     "confirmDelete": "Confirmar exclusão",
     "you": "Você {{date}}",
@@ -442,7 +442,10 @@
     "subject": "Assunto",
     "body": "Corpo",
     "takeSomeTimeReview": "Reserve algum tempo para revisar e possivelmente modificar o resumo antes de compartilhá-lo com outras pessoas.",
-    "invalidEmail": "O e-mail deve ser válido (usuário@domínio) separado por vírgulas."
+    "invalidEmail": "O e-mail deve ser válido (usuário@domínio) separado por vírgulas.",
+    "positiveFeedback": "Este resumo foi útil",
+    "negativeFeedback": "Esse resumo não foi útil",
+    "surveyButtonTxt": "Compartilhe seu feedback"
   },
   "incident": {
     "overviewTitle": "Visão geral do incidente",
@@ -464,5 +467,16 @@
   "affectedIncidents": {
     "affectedIncident": "Incidente afetado",
     "noAffectedIncidents": "Nenhum incidente afetado foi localizado"
+  },
+  "feedbackModal": {
+    "cancel": "Cancelar",
+    "submit": "Enviar",
+    "title": "Compartilhe seu feedback",
+    "helpfulQ": "O que você achou útil no resumo?",
+    "improveQ": "Como poderíamos melhorar o resumo?",
+    "maxChars": "Máximo de 750 caracteres",
+    "followUpQuestion": "Gostaria que entrássemos em contato com você a respeito do seu feedback?",
+    "yesContect": "Sim, entre em contato comigo.",
+    "noContact": "Não, prefiro não ser contactado."
   }
 }

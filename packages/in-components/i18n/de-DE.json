@@ -1,10 +1,14 @@
 {
+  "accessibility": {
+    "opensNewTab": "Wird in einer neuen Registerkarte geöffnet"
+  },
   "csvExporterButton": {
     "label": "In CSV exportieren"
   },
   "pageStructure": {
     "headerAriaLabel": "Seitenheader",
-    "contentAriaLabel": "Inhalt"
+    "contentAriaLabel": "Inhalt",
+    "filterAriaLabel": "Filter"
   },
   "fileInputButton": {
     "label": {
@@ -55,6 +59,9 @@
       "retryButtonLabel": "Wiederholen",
       "openList": "Liste öffnen"
     },
+    "chartCDEventsLaneLabel": "CD-Veranstaltungen",
+    "chartCDEventsLaneApplicationSyncTooltip": "Argo CD Sync für {{name}}.",
+    "chartCDEventsLaneTooltip": "+{{len}} mehr CD-Veranstaltungen",
     "chartReleasesLanePresenterReleasesLabel": "Releases",
     "chartReleasesLanePresenterTooltip": "+{{len}} weitere Releases",
     "highlightedTimeframeCloseButtonClearHighlight": "Hervorhebung aufheben",
@@ -110,7 +117,7 @@
     "formStateLabel": "Bundesstaat"
   },
   "searchBar": {
-    "usingTheSearchBar": "Die Instana-Suchfunktion 'Dynamischer Fokus' kann verwendet werden, um die 3D-Karten, Vergleichstabellen und Ereignisansichten zu filtern. Die Suchleiste bietet umfangreiche Möglichkeiten für Suchen nach groben Übereinstimmungen und für Platzhaltersuchen sowie für Suchen mit booleschen Operatoren. Die folgende\nAbfrage beschränkt beispielsweise Ansichten auf Produktionshosts mit weniger als vier CPUs:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\n Dynamic Focus nutzt die [Lucene-Abfragesyntax](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) mit den folgenden Unterschieden zum Lucene-Standard:\n- **Standardoperator:** `AND`\n- **Syntaxbedingungen:** werden in der [Dokumentation](https://ibm.biz/dynamic-focus-syntax-constraints)\n## Suchleisteninteraktion\naufgelistet. Die Suchleiste unterstützt die automatische Vervollständigung für Suchfelder und hebt die Lucene-Abfrage während der Eingabe hervor.\nNach der Eingabe schlägt die Suchleiste Suchfelder vor, die mit der aktuellen Eingabe übereinstimmen. Sie können vorgeschlagene Felder akzeptieren, indem Sie die Eingabetaste drücken. Drücken Sie die Tastenkombination `Strg + Leertaste`, um das Popup-Fenster für die automatische Vervollständigung zu öffnen.\n## Cheat-Sheet für Lucene-Abfragesyntax\n - **Feldspezifische Suche:** `entity.host.cpu.count:>4`\n - **Boolesche Operatoren:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Gruppierung:** ` (entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Platzhaltersuchen:** `entity.type:container*`\n\nWeitere Informationen finden Sie in der [Dokumentation](https://ibm.biz/filtering-dynamic-focus).",
+    "usingTheSearchBar": "Die Instana-Suchfunktion 'Dynamischer Fokus' kann verwendet werden, um die 3D-Karten, Vergleichstabellen und Ereignisansichten zu filtern. Die Suchleiste bietet umfangreiche Möglichkeiten für Suchen nach groben Übereinstimmungen und für Platzhaltersuchen sowie für Suchen mit booleschen Operatoren. Die folgende\nAbfrage beschränkt beispielsweise Ansichten auf Produktionshosts mit weniger als vier CPUs:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\n Dynamic Focus nutzt die [Lucene-Abfragesyntax](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) mit den folgenden Unterschieden zum Lucene-Standard:\n- **Standardoperator:** `AND`\n- **Syntaxbedingungen:** werden in der [Dokumentation](https://ibm.biz/dynamic-focus-syntax-constraints)\n## Suchleisteninteraktion\naufgelistet. Die Suchleiste unterstützt die automatische Vervollständigung für Suchfelder und hebt die Lucene-Abfrage während der Eingabe hervor.\nNach der Eingabe schlägt die Suchleiste Suchfelder vor, die mit der aktuellen Eingabe übereinstimmen. Sie können vorgeschlagene Felder akzeptieren, indem Sie die Eingabetaste drücken. Drücken Sie die Tastenkombination Strg + Leertaste, um das Popup-Fenster für die automatische Vervollständigung zu öffnen.## Cheat-Sheet für Lucene-Abfragesyntax\n - **Feldspezifische Suche:** `entity.host.cpu.count:>4`\n - **Boolesche Operatoren:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - ** Gruppierung:** ` (entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - ** Platzhaltersuchen:** `entity.type:container*`\n\nWeitere Informationen finden Sie in der [Dokumentation](https://ibm.biz/filtering-dynamic-focus).",
     "filtersBtn": "Filter",
     "filterPresetsMenuHeading": "Filter",
     "filterPresetsSaveFilters": "Speichern Sie hier Filter für einfachen Zugriff",
@@ -124,11 +131,36 @@
     "dialogRequireFilterMsg": "Geben Sie einen zu speichernden Filter an.",
     "filterConfirmRemovalHeader": "Entfernung bestätigen",
     "filterConfirmButtonLabel": "Filter entfernen",
-    "filterConfirmRemoveMsg": "Sind Sie sicher, dass Sie den Filter <strong>{{filterName}}</strong> entfernen möchten?",
+    "filterConfirmRemoveMsg": "Sind Sie sicher, dass Sie den Filter <strong>{{filterName}}</strong> entfernen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
     "helpDialogTitleUsingTheSearchBar": "Suchleiste verwenden"
   },
   "carbonSearchBar": {
     "search": "Suchen"
+  },
+  "downloadPdf": {
+    "downloadPdfFile": "PDF-Datei herunterladen",
+    "settings": "Einstellungen",
+    "pdfOrientation": "Ausrichtung",
+    "portrait": "Hochformat",
+    "landscape": "Querformat",
+    "pdfLayout": "Layout",
+    "widgetsDisplay": "Anzeige",
+    "singlePage": "Einzelseite",
+    "singlePageInfo": "Platzieren Sie das gesamte Dashboard auf einer Seite, wobei der Inhalt an die Größe angepasst wird.",
+    "multiPages": "Mehrere Seiten",
+    "multiPagesInfo": "Verteilen Sie das Dashboard auf mehrere Seiten und behalten Sie dabei das ursprüngliche Layout bei. Einige Widgets können abgeschnitten sein.",
+    "stackWidgetsTitle": "Widgets stapeln",
+    "stackWidgetsInfo": "Anzeige von Widgets in einem vertikalen Stapel über mehrere Seiten hinweg.",
+    "loadingWidget": "Laden des Widgets {{widgetIndex}} von {{totalNodes}}",
+    "generatePreview": "Vorschau generieren",
+    "generatingPreview": "Pdf-Vorschau generieren",
+    "generatingPDFTitle": "Pdf generieren",
+    "generatingPDFContent": "Bitte warten Sie, während die PDF-Datei erstellt wird.",
+    "generatedPDFTitle": "PDF Generiert",
+    "generatedPDFContent": "Der PDF-Download wird in Kürze beginnen.",
+    "timeRange": "Zeitbereich",
+    "preview": "Vorschau",
+    "widgetNotAvailableToBeExported": "Dieses Widget kann nicht exportiert werden."
   },
   "tables": {
     "serverTable": {
@@ -462,12 +494,11 @@
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
+    "viewSwitcherLabelWindowsHypervisor": "Windows-Hypervisor",
     "viewSwitcherLabelXenServer": "XenServer",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "Plattformen",
-    "viewSwitcherButtonSignOut": "Abmelden",
     "viewSwitcherCustomDashboards": "Benutzerdefinierte Dashboards",
-    "viewSwitcherLabelTenants": "Tenants",
     "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Neue Version der Instana-Benutzerschnittstelle verfügbar",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Erneut laden zum Aktualisieren",
@@ -480,7 +511,9 @@
     "profileMenu_switchUnitOrTenant": "Einheit oder Nutzer wechseln",
     "profileMenu_saasConsole": "IBM SaaS-Konsole",
     "profileMenu_privacy": "Datenschutz",
-    "profileMenu_logOut": "Abmelden"
+    "profileMenu_logOut": "Abmelden",
+    "teamFocus_title": "Team Fokus",
+    "teamFocus_entireUnit": "Gesamte Einheit"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Messdaten auswählen",
@@ -802,7 +835,8 @@
       "equals": "ist gleich",
       "doesNotEqual": "ist ungleich",
       "isBlank": "hat einen leeren Wert",
-      "notBlank": "hat einen Wert, der nicht leer ist"
+      "notBlank": "hat einen Wert, der nicht leer ist",
+      "matchesRegex": "passend zu RegEx"
     },
     "number": {
       "isPresent": "ist vorhanden",

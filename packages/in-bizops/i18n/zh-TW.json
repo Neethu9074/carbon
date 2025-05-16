@@ -1,6 +1,6 @@
 {
-  "labelBizOps": "程序",
-  "labelPerspectives": "視景",
+  "labelBizOps": "商業程序",
+  "labelPerspectives": "業務視景",
   "labelPerspective": "視景",
   "components": {
     "count": "計數"
@@ -8,8 +8,7 @@
   "lists": {
     "id": "ID",
     "version": "版本",
-    "pageTitle": "商業監視",
-    "cardTitle": "商業程序",
+    "pageTitle": "商業程序",
     "theId": "處理程序 ID",
     "theVersion": "流程版本",
     "hasBeenCopied": "已成功複製到剪貼簿",
@@ -39,9 +38,8 @@
     "documentation": "說明文件"
   },
   "perspectives": {
-    "newPerspective": "建立視景",
+    "newPerspective": "建立",
     "lists": {
-      "perspectives": "業務視景",
       "descriptionLabel": "說明",
       "numberProcessesLabel": "處理程序數目"
     },
@@ -77,7 +75,7 @@
     }
   },
   "navigation": {
-    "businessMonitoring": "商業監視"
+    "businessMonitoring": "商業程序"
   },
   "dashboards": {
     "analyzeInstances": "分析實例",

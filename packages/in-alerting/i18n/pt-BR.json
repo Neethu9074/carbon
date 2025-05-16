@@ -14,7 +14,7 @@
     "alertHeaderEditTooltip": "Editar",
     "alertHeaderDuplicateTooltip": "Duplicata",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Confirmar remoção",
-    "alertHeaderRestoreDeleteConfirmationDialogDescription": "Tem certeza de que deseja remover o alerta <strong>{{alertConfigName}}</strong>?",
+    "alertHeaderRestoreDeleteConfirmationDialogDescription": "Tem certeza de que deseja remover o alerta <strong>{{alertConfigName}}</strong>? Essa ação não pode ser desfeita",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remover",
     "alertHeaderIsNotLatestRevisionMessage": "Você está consultando a revisão {{description}} desta configuração de alerta. <latestRevisionButton>Selecione a revisão mais recente</latestRevisionButton> ou <restoreRevisionButton>restaure da revisão atual</restoreRevisionButton> se quiser fazer mudanças.",
     "alertHeaderAriaLabelSeverity": "O evento tem a severidade {{severity}}",
@@ -530,7 +530,7 @@
         "labelActionButtonDelete": "Excluir",
         "labelAlertFilters": "Filtros",
         "labelConfirm": "Confirmar remoção",
-        "labelConfirmRemoveConfig": "Tem certeza de que deseja remover o alerta <strong>{{configName}}</strong>?",
+        "labelConfirmRemoveConfig": "Tem certeza de que deseja remover o alerta <strong>{{configName}}</strong>? Essa ação não pode ser desfeita",
         "labelRemove": "Remover",
         "numberOfApplicationsSelected": "{{count}} aplicativo selecionado",
         "numberOfApplicationsSelected_plural": "{{count}} aplicativos selecionados",
@@ -991,7 +991,7 @@
       },
       "list": {
         "labelConfirm": "Confirmar remoção",
-        "labelConfirmRemoveConfig": "Tem certeza de que deseja remover o alerta <strong>{{configName}}</strong>?",
+        "labelConfirmRemoveConfig": "Tem certeza de que deseja remover o alerta <strong>{{configName}}</strong>? Essa ação não pode ser desfeita",
         "labelRemove": "Remover"
       },
       "gracePeriod": {
@@ -1039,6 +1039,7 @@
         "propertiesLabel": "Propriedades",
         "propertiesTitle": "Propriedades de alerta adicionais",
         "thresholdValue": "Valor do limite",
+        "thresholdType": "Tipo de limite",
         "payloadsLabel": "Cargas úteis",
         "payloadsTitle": "Cargas úteis customizadas",
         "evaluationSwitch": {
@@ -1060,11 +1061,9 @@
         "specificStatusCodeRate": "Taxa de código de status",
         "pageLoads": "Carregamentos de página",
         "pageTransitions": "Transições de página",
-        "slownessBlueprintConfigName": "Lentidão",
         "slownessBlueprintConfigHeadline": "Alertas automáticos para tempo de onLoad ou latência HTTP",
         "slownessBlueprintConfigTextP": "Receba um alerta quando o tempo onLoad ou a latência HTTP exceder um limite especificado.",
         "slownessBlueprintConfigMetricLabel": "Tempo de onLoad",
-        "slownessBlueprintConfigHttpMetricLabel": "Latência HTTP",
         "jsErrorsBlueprintConfigName": "Erros de JS",
         "jsErrorsBlueprintConfigHeadline": "Alertas automáticos para erros de JS",
         "jsErrorsBlueprintConfigText": "Receba um alerta sempre que mensagens de erro de JS correspondentes ocorrerem com mais frequência do que o normal.",
@@ -1103,7 +1102,6 @@
         "ruleMetricNameOptionStatusCodeHttpxxx": "Contagem de código de status",
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "Taxa de código de status",
         "ruleMetricNameOptionSlownessOnLoadTime": "Tempo de onLoad",
-        "ruleMetricNameOptionSlownessHttpLatency": "Latência HTTP",
         "ruleMetricNameOptionThroughputPageLoads": "Carregamentos de página",
         "ruleMetricNameOptionThroughputPageTransitions": "Transições de página"
       },
@@ -1169,7 +1167,7 @@
         },
         "slowness": {
           "headline": "Alertas automáticos para tempo de onLoad ou latência HTTP",
-          "text": "Receba um alerta quando o tempo de onLoad exceder as expectativas derivadas de dados históricos."
+          "text": "Receba um alerta quando o tempo onLoad ou a latência HTTP exceder um limite especificado."
         },
         "JsErrors": {
           "name": "Erros de JS",
@@ -1357,6 +1355,8 @@
     },
     "mobileApp": {
       "data": {
+        "slownessBlueprintConfigHeadline": "Alertas automáticos para latência HTTP",
+        "slownessBlueprintConfigTextP": "Receba um alerta quando a latência HTTP exceder um limite especificado.",
         "statusCodeCount": "Contagem de código de status",
         "beaconRate": "Taxa de código de status",
         "views": "Visualizações",
@@ -1496,6 +1496,10 @@
           "title": "Definir canais de alerta",
           "description": "Selecione onde você deseja ser notificado sobre esse alerta"
         },
+        "slowness": {
+          "headline": "Alertas automáticos para latência HTTP",
+          "text": "Receba um alerta quando a latência HTTP exceder um limite especificado."
+        },
         "statusCode": {
           "headline": "Alertas automáticos para códigos de status HTTP",
           "text": "Receba um alerta quando um código de status HTTP ocorrer com mais frequência do que o normal."
@@ -1525,6 +1529,10 @@
       }
     },
     "eum": {
+      "slowness": {
+        "blueprintConfigName": "Lentidão",
+        "httpLatencyMetricLabel": "Latência HTTP"
+      },
       "customEvent": {
         "customEventSelectionSliderTitle": "Escolher um evento customizado",
         "customEventLabel": "Evento customizado",
@@ -1689,13 +1697,6 @@
           "header": "Onde você deseja ser notificado sobre esse alerta?",
           "description": "Selecione o(s) destinatário(s) desse alerta"
         },
-        "scopeAlerting": {
-          "title": "Escolher como deseja ser alertado",
-          "customAggregation": "Agregação customizada",
-          "customAggregationDescription": "Agrega todas as métricas no escopo em uma única métrica por grupo. Haverá, no máximo, uma questão ativa por vez por grupo.",
-          "perEntityAlerting": "Emissão de alerta por entidade",
-          "perEntityAlertingDescription": "Monitora cada métrica individualmente. Você receberá um alerta para cada métrica individual que estiver violando o limite."
-        },
         "scopeFilter": {
           "title": "Escolher o escopo da infraestrutura",
           "filter": "Filtro",
@@ -1730,7 +1731,23 @@
       "descriptionIsHigherThan": "{{metricName}} é maior do que {{value}}.",
       "descriptionIsHigherOrEqualTo": "{{metricName}} é maior ou igual a {{value}}.",
       "descriptionIsLowerThan": "{{metricName}} é menor do que {{value}}.",
-      "descriptionIsLowerThanOrEqualTo": "{{metricName}} é menor ou igual a {{value}}."
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} é menor ou igual a {{value}}.",
+      "evaluationType": {
+        "title": "Escolha seu método de alerta",
+        "custom": {
+          "title": "Agregação customizada",
+          "description": "Combina todas as métricas no escopo em uma única métrica por grupo. Apenas um problema ativo será rastreado por vez por grupo."
+        },
+        "perEntity": {
+          "title": "Emissão de alerta por entidade",
+          "description": "Monitora cada métrica individualmente. Você receberá um alerta para cada métrica que violar o limite."
+        }
+      },
+      "group": {
+        "disabled": {
+          "tooltipInfo": "A inclusão de grupos funciona somente com agregação customizada."
+        }
+      }
     },
     "logs": {
       "alertDetails": {

@@ -52,7 +52,6 @@
   "labelCount": "数",
   "labelFlow": "フロー",
   "labelEndpoint": "エンドポイント",
-  "labelSyntheticEndpoint": "合成エンドポイント",
   "labelNameRule": "名前ルール",
   "labelTag": "タグ",
   "labelKey": "キー",
@@ -135,6 +134,8 @@
   "UnexpectedErrorOccurred": "予期しないエラーが発生しました",
   "callsLiveModeDisabled": "コールの分析時にライブ・モードはサポートされません",
   "tracesLiveModeDisabled": "トレースの分析時にライブ・モードはサポートされません",
+  "syntheticAndNonsynthetic": "合成と非合成",
+  "synthetic": "シンセティック",
   "applicationMap": {
     "webglNotSupportedTitle": "ブラウザーが WebGL をサポートしていません",
     "webglNotSupported": "Instana ユーザー・インターフェースには、WebGL というテクノロジーを使用してレンダリングされる 3D コンポーネントが含まれています。 残念ながら、このテクノロジーは、まだすべてのプラットフォームで使用できるわけではありません。 一部のブラウザー (特に古いバージョンのブラウザー) は、WebGL をサポートしていません。 最新世代の自動更新ブラウザー (Chrome、Firefox、Safari 8、または MS Edge) を使用することをお勧めします。\n\nすべてのプラットフォームとブラウザーの組み合わせをサポートするように最善を尽くしています。 ただし、WebGL の使用法にエラーが含まれている可能性があります。 [オンライン・テスト](https://get.webgl.org/)を使用して、ご使用のプラットフォームが WebGL をサポートしているかどうかを確認できます。\n\nオンライン・テストの結果、ご使用のプラットフォームが WebGL をサポートしているにもかかわらず、Instana 3D マップが作動不能なままである場合は、[お問い合わせください](https://support.instana.com/hc/en-us/requests/new)。\n\n詳細なトラブルシューティング情報については、[WebGL 互換性の表](http://caniuse.com/#feat=webgl) または [WebGL Web サイト](http://webgl.org/)を参照してください。",

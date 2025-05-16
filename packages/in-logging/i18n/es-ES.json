@@ -81,7 +81,9 @@
       "logIntegrations": "Integraciones de registros",
       "logIntegrationsDescription": "Conecte sus soluciones de gestión de registros y configúrelas para satisfacer sus necesidades.",
       "retentionPeriod": "Periodo de retención",
-      "retentionPeriodDescription": "El cambio en el periodo de retención afecta al tiempo que los registros se conservan y están disponibles en Aplicaciones, Paneles de control y Análisis, y tiene un impacto en el coste y la facturación."
+      "retentionPeriodDescription": "El cambio en el periodo de retención afecta al tiempo que los registros se conservan y están disponibles en Aplicaciones, Paneles de control y Análisis, y tiene un impacto en el coste y la facturación.",
+      "patternRecognition": "Reconocimiento de patrones de registro",
+      "patternRecognitionDescription": "Funciones de IA que descubren patrones recurrentes en sus registros. Los patrones proporcionan una visión general de sus registros y ayudan a reducir el tiempo de resolución de problemas."
     }
   }
 }
