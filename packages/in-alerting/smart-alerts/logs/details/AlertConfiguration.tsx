@@ -60,6 +60,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
 
   const firstRule: RuleWithThreshold<LogAlertRuleUnion> = rules[0];
   const { thresholdOperator, thresholds: thresholdsMap } = firstRule;
+
   const tagCatalog = useTagCatalog('SMART_ALERTS');
   //@ts-expect-error TODO : remove expect error once typedefinition updated with this usecase.
   const groupByTagCatalog = useTagCatalog('SMART_ALERTS_GROUPING');
@@ -163,7 +164,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogSm
       >
         <Stack gap="large">
           <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
-          <GracePeriodDescription gracePeriod={gracePeriod} />
+          <GracePeriodDescription gracePeriod={gracePeriod} granularity={granularity} />
         </Stack>
       </ExpandableLightCard>
       <ExpandableLightCard

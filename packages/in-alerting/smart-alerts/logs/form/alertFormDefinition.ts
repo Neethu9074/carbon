@@ -14,6 +14,7 @@ import { logsGroupbyTag } from 'in-alerting/smart-alerts/logs/dialog/advanced/Al
 import { LogSmartAlertConfig } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { getGracePeriod } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import createThresholdForm from 'in-alerting/smart-alerts/logs/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/logs/form/ruleForm';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
@@ -83,7 +84,7 @@ export default function alertFormDefinition(
     .put(
       fieldNames.gracePeriod,
       createField({
-        value: gracePeriod ?? granularity
+        value: getGracePeriod(gracePeriod, granularity)
       })
     )
     .put(

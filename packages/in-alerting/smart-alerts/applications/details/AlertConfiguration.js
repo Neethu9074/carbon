@@ -56,6 +56,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
     name,
     evaluationType,
     gracePeriod,
+    granularity,
     timeThreshold,
     alertChannelIds,
     alertChannels,
@@ -71,9 +72,11 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
     thresholdOperator,
     thresholds: thresholdsMap
   } = ruleWithThreshold;
+
   const blueprintConfig = getBlueprintConfig(alertType);
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
   const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator(applications, boundaryScope);
+
   return (
     <AlertDetailsCard>
       <ListTitle>{t('in-alerting:smartAlerts.applications.alertConfiguration')} </ListTitle>
@@ -160,7 +163,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
       >
         <Stack gap="large">
           <TimeThresholdDescription timeThreshold={timeThreshold} />
-          <GracePeriodDescription gracePeriod={gracePeriod} />
+          <GracePeriodDescription gracePeriod={gracePeriod} granularity={granularity} />
         </Stack>
       </ExpandableLightCard>
 

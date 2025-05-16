@@ -37,6 +37,7 @@ import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresen
 import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { useAlertConfig } from 'in-alerting/smart-alerts/synthetics/hooks/useSmartAlertCreateUrl';
+import { defaultGracePeriod } from 'in-alerting/smart-alerts/components/GracePeriod';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -171,6 +172,8 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
 
 function toAlertConfig(form: MapForm<any>): Readonly<SyntheticAlertConfig> {
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
+  const gracePeriod = form.get(fieldNames.gracePeriod).value;
+  const gracePeriodForBackend = gracePeriod === defaultGracePeriod ? null : gracePeriod;
 
   return Object.freeze({
     rule: (form.get('rule') as Field<SyntheticAlertRuleUnion>).toJS(),
@@ -180,7 +183,7 @@ function toAlertConfig(form: MapForm<any>): Readonly<SyntheticAlertConfig> {
     description: (form.get(fieldNames.description) as Field<string>).value || getDescriptionPlaceholder(form),
     name: (form.get(fieldNames.name) as Field<string>).value || getTitlePlaceholder(),
     syntheticTestIds: (form.get(fieldNames.syntheticTestIds) as Field<string[]>).value,
-    gracePeriod: form.get(fieldNames.gracePeriod).value,
+    gracePeriod: gracePeriodForBackend,
     timeThreshold: (form.get('timeThreshold') as Field<SyntheticTimeThresholdUnion>).toJS(),
     customPayloadFields: form.get('customPayloadFields').toJS()
   });

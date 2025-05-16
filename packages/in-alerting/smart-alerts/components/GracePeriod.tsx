@@ -19,6 +19,8 @@ interface GracePeriodProps {
   updateForm: (form: MapForm<any>) => void;
 }
 
+export const defaultGracePeriod = 0;
+
 export default function GracePeriod({ form, updateForm }: GracePeriodProps) {
   const gracePeriod = form.get('gracePeriod')?.value;
   const granularity = form?.get('granularity')?.value;
@@ -59,7 +61,7 @@ const predefinedPeriods = [
 
 export function generateGracePeriodOptions(granularityMillis: number): DropdownItem[] {
   const granularityPeriods: number[] = [];
-  for (let i = 1; i <= 10; i++) {
+  for (let i = 0; i <= 10; i++) {
     granularityPeriods.push(i * granularityMillis);
   }
 
@@ -71,6 +73,9 @@ export function generateGracePeriodOptions(granularityMillis: number): DropdownI
 
   return allPeriods.map(period => ({
     value: period.toString(),
-    label: formatDurationAccurately(period, minutes.toMillis(1), false) as string
+    label:
+      period === 0
+        ? t('in-alerting:smartAlerts.components.gracePeriod.defaultGracePeriod')
+        : (formatDurationAccurately(period, minutes.toMillis(1), false) as string)
   }));
 }

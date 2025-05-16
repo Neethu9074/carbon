@@ -998,7 +998,8 @@
         "title": "Grace period (optional)",
         "description": "Select how long an issue should stay open after the violation threshold is no longer met. Once this time elapses, the issue will automatically be closed.",
         "label": "Select",
-        "summary": "Automatically close an issue after the violation threshold is no longer met <strong>for {{gracePeriodValue}}</strong>."
+        "defaultGracePeriod": "Default",
+        "summary": "Automatically close an issue after the violation threshold is no longer met for"
       },
       "tearSheet": {
         "cancelModalTitle": "Are you sure you want to cancel?",
@@ -1530,9 +1531,9 @@
       }
     },
     "eum": {
-      "slowness": { 
+      "slowness": {
         "blueprintConfigName": "Slowness",
-        "httpLatencyMetricLabel": "HTTP latency" 
+        "httpLatencyMetricLabel": "HTTP latency"
       },
       "customEvent": {
         "customEventSelectionSliderTitle": "Choose custom event",

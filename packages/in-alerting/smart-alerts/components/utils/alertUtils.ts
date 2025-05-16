@@ -7,7 +7,8 @@ import {
   applicationSmartAlertFullScreenDesignEnabled,
   applicationSmartAlertDialogView
 } from 'in-services/featureFlags';
-import { ThresholdOperator, TagFilterOperator } from 'in-types';
+import { ThresholdOperator, TagFilterOperator, Granularity, Nullish } from 'in-types';
+import { defaultGracePeriod } from 'in-alerting/smart-alerts/components/GracePeriod';
 import { t } from 'in-i18n';
 
 export function toTagFilterNumberOperator(thresholdOperator: ThresholdOperator): TagFilterOperator {
@@ -47,4 +48,21 @@ export function getButtonName(label: string) {
     return `${label} ${labelNew}`;
   }
   return label;
+}
+
+export function getGracePeriod(gracePeriod: number | Nullish, granularity: Granularity | undefined) {
+  if (!gracePeriod || !granularity) {
+    return defaultGracePeriod;
+  }
+  return gracePeriod - granularity;
+}
+
+export function calculateEffectiveGracePeriodForBackend(
+  gracePeriod: number,
+  granularity: Granularity
+): number | undefined {
+  if (!gracePeriod) {
+    return undefined;
+  }
+  return gracePeriod + granularity;
 }

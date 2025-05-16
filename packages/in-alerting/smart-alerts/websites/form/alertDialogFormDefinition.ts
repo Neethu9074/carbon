@@ -12,6 +12,7 @@ import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eu
 import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { getGracePeriod } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
@@ -139,7 +140,7 @@ export default function alertFormDefinition(
     .put(
       'gracePeriod',
       createField({
-        value: gracePeriod ?? granularity
+        value: getGracePeriod(gracePeriod, granularity)
       })
     )
     .put(

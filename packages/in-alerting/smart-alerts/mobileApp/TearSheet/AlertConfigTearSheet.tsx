@@ -12,6 +12,7 @@ import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/mobileAp
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertMultiThresholdFormSideEffects';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/mobileApp/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
+import { calculateEffectiveGracePeriodForBackend } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import getAlertingUrlParameters from 'in-alerting/smart-alerts/mobileApp/TearSheet/getAlertingUrlParameters';
@@ -154,6 +155,8 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
 function toAlertConfig(form: MapForm<any>): Readonly<MobileAppAlertConfig> {
   form.remove('hiddenFields').remove('rule').remove('threshold');
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
+  const gracePeriod = form.get(fieldNames.gracePeriod).value;
+  const granularity = form.get(fieldNames.granularity).value;
   const ruleWithThreshold = getRuleWithThreshold(form);
 
   return Object.freeze({
@@ -166,8 +169,8 @@ function toAlertConfig(form: MapForm<any>): Readonly<MobileAppAlertConfig> {
     name: form.get(fieldNames.name).value || getTitlePlaceholder(form),
     mobileAppId: form.get(fieldNames.mobileAppId).value,
     timeThreshold: form.get('timeThreshold').toJS(),
-    granularity: form.get(fieldNames.granularity).value,
-    gracePeriod: form.get(fieldNames.gracePeriod).value,
+    granularity: granularity,
+    gracePeriod: calculateEffectiveGracePeriodForBackend(gracePeriod, granularity),
     rules: [ruleWithThreshold],
     customPayloadFields: form.get('customPayloadFields').toJS()
   });

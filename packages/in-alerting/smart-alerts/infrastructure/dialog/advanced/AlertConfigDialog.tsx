@@ -21,6 +21,7 @@ import { useInfraSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/infr
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/infrastructure/dialog/AlertConfigDialogWithThreshold';
 import { alertChannelPerSeverityInfraSaEnabled, perEntityInfraSmartAlertsEnabled } from 'in-services/featureFlags';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
+import { calculateEffectiveGracePeriodForBackend } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/infrastructure/components/AlertCreateOrSave';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -138,8 +139,9 @@ function toAlertConfig(
   placeHolderText: { alertTitle: string; alertDescription: { WARNING?: string; CRITICAL?: string } }
 ): Readonly<InfraAlertConfig> {
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
+  const gracePeriod = form.get(fieldNames.gracePeriod).value;
+  const granularity = form.get(fieldNames.granularity).value;
   const ruleWithThreshold = getRuleWithThreshold(form);
-
   const { alertTitle, alertDescription } = placeHolderText;
 
   return Object.freeze({
@@ -151,8 +153,8 @@ function toAlertConfig(
     triggering: form.get(fieldNames.triggering).value,
     id: form.get(fieldNames.id).value,
     timeThreshold: form.get('timeThreshold').toJS(),
-    granularity: form.get(fieldNames.granularity).value,
-    gracePeriod: form.get(fieldNames.gracePeriod).value,
+    granularity: granularity,
+    gracePeriod: calculateEffectiveGracePeriodForBackend(gracePeriod, granularity),
     groupBy: toBackendGroupBy(form.get(fieldNames.groupBy).value),
     forecastingConfig: form.get(fieldNames.forecastingConfig).value,
     customPayloadFields: form.get('customPayloadFields').toJS(),

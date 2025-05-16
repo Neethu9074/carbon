@@ -10,6 +10,7 @@ import React, { useMemo, useState } from 'react';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/logs/tearsheet/AlertConfigTearSheetWithThreshold';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertMultiThresholdFormSideEffects';
+import { calculateEffectiveGracePeriodForBackend } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { duplicateAlertConfig, getHeaderTitle } from 'in-alerting/smart-alerts/logs/tearsheet/sharedFunctions';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
@@ -117,6 +118,8 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
 
 function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
+  const gracePeriod = form.get(fieldNames.gracePeriod).value;
+  const granularity = form.get(fieldNames.granularity).value;
   const ruleWithThreshold = getRuleWithThreshold(form);
 
   return Object.freeze({
@@ -127,8 +130,8 @@ function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
     name: form.get(fieldNames.name).value || getTitlePlaceholder(),
     id: form.get(fieldNames.id).value,
     timeThreshold: form.get('timeThreshold').toJS(),
-    granularity: form.get(fieldNames.granularity).value,
-    gracePeriod: form.get(fieldNames.gracePeriod).value,
+    granularity: granularity,
+    gracePeriod: calculateEffectiveGracePeriodForBackend(gracePeriod, granularity),
     groupBy: form.get(fieldNames.groupBy).value ? toGroupByTag([form.get(fieldNames.groupBy).value]) : undefined,
     customPayloadFields: form.get('customPayloadFields').toJS(),
     rules: [ruleWithThreshold]

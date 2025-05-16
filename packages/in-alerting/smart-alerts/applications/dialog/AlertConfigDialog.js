@@ -20,6 +20,7 @@ import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/a
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { useLinkToAlertConfig, useLinkToGlobalAlertConfigWithoutAPDashboard } from 'in-applications/navigation/paths';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { calculateEffectiveGracePeriodForBackend } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/useApplicationLabel';
@@ -225,6 +226,8 @@ function createOrSaveAlert({
 
 function toAlertConfig(form) {
   const ruleWithThreshold = getRuleWithThreshold(form);
+  const gracePeriod = form.get('gracePeriod').value;
+  const granularity = form.get('granularity').value;
   let alertConfig = form
     .remove('hiddenFields')
     .remove('rule')
@@ -246,7 +249,7 @@ function toAlertConfig(form) {
   } else {
     alertConfig.alertChannels = null;
   }
-
+  alertConfig.gracePeriod = calculateEffectiveGracePeriodForBackend(gracePeriod, granularity);
   alertConfig.name = alertConfig.name || getTitlePlaceholder(form);
   alertConfig.description = alertConfig.description || getDescriptionPlaceholder(form);
   return alertConfig;

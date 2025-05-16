@@ -171,7 +171,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
       >
         <Stack gap="large">
           <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
-          <GracePeriodDescription gracePeriod={gracePeriod} />
+          <GracePeriodDescription gracePeriod={gracePeriod} granularity={granularity} />
         </Stack>
       </ExpandableLightCard>
 

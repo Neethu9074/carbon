@@ -23,6 +23,7 @@ import { SyntheticAlertConfigWithID } from 'in-alerting/smart-alerts/synthetics/
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { useSegmentTracking, CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
+import { defaultGracePeriod } from 'in-alerting/smart-alerts/components/GracePeriod';
 import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { ADVANCED, SIMPLE } from 'in-alerting/smart-alerts/data/constants';
@@ -205,6 +206,8 @@ function createOrSaveAlert(
 
 function toAlertConfig(form: MapForm<any>): Readonly<SyntheticAlertConfig> {
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
+  const gracePeriod = form.get(fieldNames.gracePeriod).value;
+  const gracePeriodForBackend = gracePeriod === defaultGracePeriod ? null : gracePeriod;
 
   return Object.freeze({
     rule: (form.get('rule') as Field<SyntheticAlertRuleUnion>).toJS(),
@@ -214,7 +217,7 @@ function toAlertConfig(form: MapForm<any>): Readonly<SyntheticAlertConfig> {
     description: (form.get(fieldNames.description) as Field<string>).value || getDescriptionPlaceholder(form),
     name: (form.get(fieldNames.name) as Field<string>).value || getTitlePlaceholder(),
     syntheticTestIds: (form.get(fieldNames.syntheticTestIds) as Field<string[]>).value,
-    gracePeriod: form.get(fieldNames.gracePeriod).value,
+    gracePeriod: gracePeriodForBackend,
     timeThreshold: (form.get('timeThreshold') as Field<SyntheticTimeThresholdUnion>).toJS(),
     customPayloadFields: form.get('customPayloadFields').toJS()
   });

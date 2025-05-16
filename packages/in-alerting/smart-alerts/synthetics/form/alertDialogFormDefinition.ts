@@ -10,6 +10,7 @@ import { createForm as createListFormForCustomPayloads } from 'in-alerting/compo
 //@ts-expect-error
 import { titleValidator } from 'in-alerting/smart-alerts/synthetics/data/alertConfigUtils';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { defaultGracePeriod } from 'in-alerting/smart-alerts/components/GracePeriod';
 import { SyntheticAlertConfig, TagFilter, VersionedConfig } from 'in-types';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
@@ -45,7 +46,7 @@ export default function alertFormDefinition(
     syntheticTestIds = [],
     id = '',
     rule,
-    gracePeriod = 60000,
+    gracePeriod,
     timeThreshold
   } = alertConfig;
 
@@ -111,7 +112,7 @@ export default function alertFormDefinition(
     .put(
       fieldNames.gracePeriod,
       createField({
-        value: gracePeriod
+        value: gracePeriod ?? defaultGracePeriod
       })
     )
     .put(

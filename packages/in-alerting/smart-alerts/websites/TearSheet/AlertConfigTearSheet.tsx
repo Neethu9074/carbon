@@ -20,6 +20,7 @@ import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/websites
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertMultiThresholdFormSideEffects';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
+import { calculateEffectiveGracePeriodForBackend } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import getAlertingUrlParameters from 'in-alerting/smart-alerts/websites/TearSheet/getAlertingUrlParameters';
@@ -160,7 +161,8 @@ function toAlertConfig(form: MapForm<any>): Readonly<WebsiteAlertConfig> {
   const ruleWithThreshold = getRuleWithThreshold(form);
 
   form.remove('hiddenFields').remove('rule').remove('threshold');
-
+  const gracePeriod = form.get(fieldNames.gracePeriod).value;
+  const granularity = form.get(fieldNames.granularity).value;
   const tagFilterFormModel = form.get(fieldNames.tagFilterExpression).value;
 
   return Object.freeze({
@@ -176,8 +178,8 @@ function toAlertConfig(form: MapForm<any>): Readonly<WebsiteAlertConfig> {
     name: form.get(fieldNames.name).value || getTitlePlaceholder(form),
     websiteId: form.get(fieldNames.websiteId).value,
     timeThreshold: form.get('timeThreshold').toJS(),
-    granularity: form.get(fieldNames.granularity).value,
-    gracePeriod: form.get(fieldNames.gracePeriod).value,
+    granularity: granularity,
+    gracePeriod: calculateEffectiveGracePeriodForBackend(gracePeriod, granularity),
     customPayloadFields: form.get('customPayloadFields').toJS()
   });
 }

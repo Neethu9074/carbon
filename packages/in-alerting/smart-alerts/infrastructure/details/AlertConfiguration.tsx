@@ -225,7 +225,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
       >
         <Stack gap="large">
           <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
-          <GracePeriodDescription gracePeriod={gracePeriod} />
+          <GracePeriodDescription gracePeriod={gracePeriod} granularity={granularity} />
           <ForecastAlertingDescription forecastingConfig={forecastingConfig} />
         </Stack>
       </ExpandableLightCard>

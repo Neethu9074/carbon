@@ -20,6 +20,7 @@ import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { MAX_LONG_STRING_LENGTH, MAX_LABEL_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { getGracePeriod } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { ThresholdType, SmartAlertThresholdRuleUnion } from 'in-types';
@@ -131,7 +132,7 @@ export function createSmartAlertForm(
         value: granularity ?? getDefaultGranularity(rules?.[0]?.thresholds?.WARNING)
       }),
       gracePeriod: createField({
-        value: gracePeriod ?? granularity ?? getDefaultGranularity(rules?.[0]?.thresholds?.WARNING)
+        value: getGracePeriod(gracePeriod, granularity)
       }),
       id: createField({
         value: id ?? ''

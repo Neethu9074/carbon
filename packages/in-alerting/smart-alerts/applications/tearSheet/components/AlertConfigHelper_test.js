@@ -21,7 +21,7 @@ import { t } from 'in-i18n';
 const alertConfigData = {
   evaluationType: 'PER_AP',
   granularity: 600000,
-  gracePeriod: 600000,
+  gracePeriod: 1200000,
   id: '',
   includeInternal: false,
   includeSynthetic: false,
@@ -90,6 +90,8 @@ describe('in-alerting/smart-alerts/applications/tearSheet/components/AlertConfig
 
   describe('getDetailedMetricTooltipValueFormatter', () => {
     const alertConfig = {
+      granularity: 600000,
+      gracePeriod: 1200000,
       rules: [
         {
           thresholds: {

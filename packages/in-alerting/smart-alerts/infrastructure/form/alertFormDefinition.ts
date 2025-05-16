@@ -18,6 +18,7 @@ import createThresholdForm from 'in-alerting/smart-alerts/infrastructure/form/th
 import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { getGracePeriod } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import createRuleForm from 'in-alerting/smart-alerts/infrastructure/form/ruleForm';
 import { groupbyTag } from 'in-alerting/smart-alerts/utils/groupingUtils';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
@@ -61,7 +62,7 @@ export default function alertFormDefinition(
     triggering = undefined,
     description = '',
     granularity = 600000,
-    gracePeriod = granularity,
+    gracePeriod,
     groupBy = [],
     name = '',
     forecastingConfig = undefined,
@@ -108,7 +109,7 @@ export default function alertFormDefinition(
     .put(
       fieldNames.gracePeriod,
       createField({
-        value: gracePeriod ?? granularity
+        value: getGracePeriod(gracePeriod, granularity)
       })
     )
     .put(

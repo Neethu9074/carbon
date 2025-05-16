@@ -12,6 +12,7 @@ import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/use
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialogWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/mobileApp/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
+import { calculateEffectiveGracePeriodForBackend } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { MobileAppSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { getRuleWithThreshold } from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
@@ -99,6 +100,8 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
 function toAlertConfig(form: MapForm<any>): Readonly<MobileAppAlertConfig> {
   form.remove('hiddenFields').remove('rule').remove('threshold');
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
+  const gracePeriod = form.get(fieldNames.gracePeriod).value;
+  const granularity = form.get(fieldNames.granularity).value;
   const ruleWithThreshold = getRuleWithThreshold(form);
 
   return Object.freeze({
@@ -111,8 +114,8 @@ function toAlertConfig(form: MapForm<any>): Readonly<MobileAppAlertConfig> {
     name: form.get(fieldNames.name).value || getTitlePlaceholder(form),
     mobileAppId: form.get(fieldNames.mobileAppId).value,
     timeThreshold: form.get('timeThreshold').toJS(),
-    granularity: form.get(fieldNames.granularity).value,
-    gracePeriod: form.get(fieldNames.gracePeriod).value,
+    granularity: granularity,
+    gracePeriod: calculateEffectiveGracePeriodForBackend(gracePeriod, granularity),
     rules: [ruleWithThreshold],
     customPayloadFields: form.get('customPayloadFields').toJS()
   });
