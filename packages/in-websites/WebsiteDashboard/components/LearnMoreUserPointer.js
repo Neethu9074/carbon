@@ -10,6 +10,7 @@ import { useObservable } from '@instana/hooks';
 
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import LearnMoreCard from 'in-websites/LearnMoreCard/LearnMoreCard';
+import { URL } from 'in-websites/constants';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -64,7 +65,7 @@ export default function LearnMoreUserPointer({ websiteId }) {
         className={locals.wrapper}
         title={t('in-websites:websiteDashboard.components.learnMoreUserPointerTitle')}
         explanation={explanation}
-        learnMoreHref="https://ibm.biz/api-identify-users"
+        learnMoreHref={URL.learnToAddUserData}
         learnMoreLabel={t('in-websites:websiteDashboard.components.learnMoreUserPointerLearnMoreLabel')}
       />
     );

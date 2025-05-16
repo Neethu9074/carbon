@@ -11,6 +11,7 @@ import { SvgIcon, Link, Button } from '@instana/components';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import UserIcon from 'in-components/UserIcon/UserIcon';
 import Tooltip from 'in-components/Tooltip';
+import { URL } from 'in-websites/constants';
 import { t } from 'in-i18n';
 
 import locals from './User.mless';
@@ -32,7 +33,7 @@ export default function User({ beacon, beacons }) {
       <div className={locals.noUserData}>
         {t('in-websites:analyze.analyzeView.beaconUserSummary.noUserDataDefined')}
         &nbsp;
-        <Button href="https://ibm.biz/api-identify-users" kind="primaryv2" target="_blank" size="compact">
+        <Button href={URL.learnToAddUserData} kind="primaryv2" target="_blank" size="compact">
           {t('in-websites:analyze.analyzeView.beaconUserSummary.learnHowToAddUserData')}
         </Button>
       </div>
@@ -49,7 +50,7 @@ export default function User({ beacon, beacons }) {
             <Tooltip content="Only a subset of the beacons of this page load have associated user data. This can result in surprising statistics and analyze results.">
               <Link
                 external
-                href="https://ibm.biz/api-identify-users"
+                href={URL.learnToAddUserData}
                 className={locals.firstBeaconIsMissingUserDataLink}
               >
                 <SvgIcon type="lib_help_error_warning" className={locals.firstBeaconIsMissingUserData} size="s" />
