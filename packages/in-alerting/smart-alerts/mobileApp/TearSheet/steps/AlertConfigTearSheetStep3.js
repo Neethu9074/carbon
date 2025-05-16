@@ -110,7 +110,7 @@ export default function AlertConfigTearSheetStep3({
             onChange={onChange}
             updateForm={updateForm}
             impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
-            hasTraceImpactOption
+            hasUserImpactOption
             oneMinuteGranularityAllowed={
               thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
             }
