@@ -7,23 +7,17 @@
 import { TrashCan } from '@carbon/icons-react';
 import React from 'react';
 
-import {
-  CarbonButton,
-  CarbonContainedList,
-  CarbonContainedListItem,
-  CarbonInlineLoading,
-  Link,
-  Typography
-} from '@instana/components';
+import { Button, ContainedList, ContainedListItem, InlineLoading } from '@instana/carbon';
+import { TeamMember, UserResult } from '@instana/types';
+import { Link, Typography } from '@instana/components';
 import { ProductiveCard } from '@instana/ibm-products';
-import { UserResult } from '@instana/types';
 
 //@ts-expect-error not a typescript component yet
 import { AddUserDialog } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/AddUserButton';
 import { AssignRoleDialog } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoleDialog';
 import RoleView from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/RoleView';
-import { ApiTeam as Team, ApiTeamMember as TeamMember } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { getEntityIdView, securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
+import { ApiTeam as Team } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { defaultRoleId } from 'in-stores/user';
@@ -41,7 +35,7 @@ interface MemberCardProps {
 const MemberCard = ({ isLoading, team, setTeamData, saveTeam }: MemberCardProps) => {
   const addMembers = (users: Array<UserResult>) => {
     const userIds = users.map(user => {
-      return { fullName: user.fullName, userId: user.id, roleIds: [{ roleId: defaultRoleId, viaIdP: false }] };
+      return { name: user.fullName, userId: user.id, roles: [{ roleId: defaultRoleId, viaIdP: false }] };
     });
 
     if (userIds) {
@@ -51,12 +45,7 @@ const MemberCard = ({ isLoading, team, setTeamData, saveTeam }: MemberCardProps)
       // Remove fullName as not yet supported by API
       const teamData = {
         ...team,
-        members: members.map(member => {
-          return {
-            userId: member.userId,
-            roleIds: member?.roleIds ? member?.roleIds : []
-          };
-        })
+        members: members
       };
 
       // Save added members
@@ -69,7 +58,7 @@ const MemberCard = ({ isLoading, team, setTeamData, saveTeam }: MemberCardProps)
   const removeMember = (member: TeamMember) => {
     const teamData = {
       ...team,
-      members: team.members.filter(m => m.userId !== member.userId)
+      members: team.members?.filter(m => m.userId !== member.userId)
     };
 
     setTeamData({ members: teamData.members });
@@ -102,7 +91,7 @@ const MemberCard = ({ isLoading, team, setTeamData, saveTeam }: MemberCardProps)
         // replace with new pure Carbon AddUserDialog
         addActiveDialog(<AddUserDialog members={team?.members} onSubmit={addMembers} />);
       }}
-      {...(team?.members?.length > 0
+      {...(team?.members && team?.members.length > 0
         ? {
             secondaryButtonPlacement: 'top',
             secondaryButtonText: t('in-settings:tabs.teams.assignRoleForMembers'),
@@ -113,21 +102,21 @@ const MemberCard = ({ isLoading, team, setTeamData, saveTeam }: MemberCardProps)
         : {})}
       title={t('in-settings:tabs.teams.members', { count: team?.members?.length })}
     >
-      {isLoading && <CarbonInlineLoading />}
-      {!isLoading && team?.members?.length <= 0 && (
+      {isLoading && <InlineLoading />}
+      {!isLoading && team?.members && team?.members.length <= 0 && (
         <>
           <Typography variant="heading-03">{t('in-settings:tabs.teams.noMembersYet')}</Typography>
           <Typography variant="body-01">{t('in-settings:tabs.teams.noMembersDefinedMessage')}</Typography>
         </>
       )}
-      {!isLoading && team?.members?.length > 0 && (
-        <CarbonContainedList label={''} size="md" className={locals.hideTitle}>
+      {!isLoading && team?.members && team?.members.length > 0 && (
+        <ContainedList label={''} size="md" className={locals.hideTitle}>
           {team?.members?.map(member => {
             return (
-              <CarbonContainedListItem
+              <ContainedListItem
                 key={member?.userId}
                 action={
-                  <CarbonButton
+                  <Button
                     aria-label={t('in-settings:tabs.teams.removeMemberFromTeam')}
                     hasIconOnly
                     iconDescription={t('in-settings:tabs.teams.removeMemberFromTeam')}
@@ -141,7 +130,7 @@ const MemberCard = ({ isLoading, team, setTeamData, saveTeam }: MemberCardProps)
                               i18nKey="in-settings:components.confirmRemoveItem"
                               values={{
                                 itemName: t('in-settings:tabs.teams.memberWithName', {
-                                  name: member?.fullName ? member?.fullName : member?.userId
+                                  name: member?.name ? member?.name : member?.userId
                                 })
                               }}
                             />
@@ -160,15 +149,18 @@ const MemberCard = ({ isLoading, team, setTeamData, saveTeam }: MemberCardProps)
                 <div className={locals.memberContent}>
                   <span>
                     <Link href={getEntityIdView(securityAndAccessAccessControlUsers, member.userId)} ellipsis>
-                      {member?.fullName ? member.fullName : member?.userId}
+                      {member?.name ? member.name : member?.userId}
                     </Link>
+                    <Typography variant="body-small" noMargin component="div">
+                      {member.email}
+                    </Typography>
                   </span>
-                  <span>{member?.roleIds && <RoleView roles={member.roleIds} />}</span>
+                  <span>{member?.roles && <RoleView roles={member.roles} />}</span>
                 </div>
-              </CarbonContainedListItem>
+              </ContainedListItem>
             );
           })}
-        </CarbonContainedList>
+        </ContainedList>
       )}
     </ProductiveCard>
   );

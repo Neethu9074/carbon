@@ -7,17 +7,18 @@
 import { createField, createListForm, createMapForm, ValidationResult } from 'formalistic';
 import { isEqual } from 'lodash';
 
+import { TeamMember, TeamRole } from '@instana/types';
+
 import {
   AssignRoleDialogFormItems,
   TeamRoleIds,
   TeamRoleSelectionType
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoleDialog.types';
-import { ApiTeamMember as TeamMember, ApiTeamRole as TeamRole } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { t } from 'in-i18n';
 
-const getRoleSelectionType = (members: Array<TeamMember>, roleIds: TeamRoleIds) => {
+const getRoleSelectionType = (members?: Array<TeamMember>, roleIds?: TeamRoleIds) => {
   // If only one member exists or all members have the same role => SAME_ROLE_FOR_ALL_MEMBERS otherwise => INDIVIDUAL
-  if (members?.length === 1 || members.every(member => isEqual(member.roleIds, members[0]?.roleIds)) || roleIds) {
+  if (members?.length === 1 || members?.every(member => isEqual(member.roles, members[0]?.roles)) || roleIds) {
     return TeamRoleSelectionType.SAME_ROLE_FOR_ALL_MEMBERS;
   } else {
     return TeamRoleSelectionType.INDIVIDUAL;
@@ -29,7 +30,7 @@ const roleAssignmentFormValidator = ({ members }: AssignRoleDialogFormItems): Va
     for (let i = 0; i < members.size; i++) {
       const memberForm = members.get(i);
       if (memberForm) {
-        const roleIds = memberForm.get('roleIds').value;
+        const roleIds = memberForm.get('roles').value;
         // If a member without role assignment exists the form is invalid
         if (roleIds.length === 0) {
           return [
@@ -69,18 +70,18 @@ const getRoleIds = (roleIds: TeamRoleIds, globalRoleIds: TeamRoleIds) => {
   return [];
 };
 
-const buildListFormItems = (members: Array<TeamMember>, roleIds: TeamRoleIds) => {
-  return members.map(member => {
+const buildListFormItems = (members?: Array<TeamMember>, roleIds?: TeamRoleIds) => {
+  return members?.map(member => {
     return createMapForm({
       items: {
         userId: createField({
           value: member.userId
         }),
-        fullName: createField({
-          value: member.fullName
+        name: createField({
+          value: member.name
         }),
-        roleIds: createField({
-          value: getRoleIds(member.roleIds, roleIds),
+        roles: createField({
+          value: getRoleIds(member.roles, roleIds),
           validator: rolesValidator
         })
       }
@@ -88,7 +89,7 @@ const buildListFormItems = (members: Array<TeamMember>, roleIds: TeamRoleIds) =>
   });
 };
 
-export const createForm = (members: Array<TeamMember>, roleIds: TeamRoleIds = undefined) => {
+export const createForm = (members?: Array<TeamMember>, roleIds: TeamRoleIds = undefined) => {
   return createMapForm({
     items: {
       roleSelectionType: createField({

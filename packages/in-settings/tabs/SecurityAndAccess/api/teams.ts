@@ -4,9 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
-import { Result, Team, TeamMember, TeamRole } from '@instana/types';
+import { Result, Team } from '@instana/types';
 import { Observable } from '@instana/observables';
-
 import { refresh as refreshTags } from 'in-settings/tabs/SecurityAndAccess/api/tags';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { Response } from 'in-services/http/types';
@@ -36,29 +35,8 @@ export interface TeamScopeEntity {
   readonly name: string;
 }
 
-/**
- * Extended model for a Team role until type from backend has roleName
- * @property {string} roleName - name of the role
- */
-export interface ApiTeamRole extends TeamRole {
-  readonly roleName?: string;
-}
-
-/**
- * Extended model for a Team member until type from backend has fullName
- * @property {string} fullName - array of role ids for the team member
- */
-export interface ApiTeamMember extends Omit<TeamMember, 'roleIds'> {
-  readonly fullName?: string;
-  readonly roleIds?: ApiTeamRole[];
-}
-
-/**
- * Extended model for a Team until type from backend has roleName and fullName for members
- * @property {Array<ApiTeamMember>} members - users that are members of the team
- */
-export interface ApiTeam extends Omit<Team, 'members'> {
-  readonly members: Array<ApiTeamMember>;
+//  Extended model for a Team until type from backend has TeamTagUsed
+export interface ApiTeam extends Team {
   readonly teamTagUsed: TeamTagUsed;
 }
 

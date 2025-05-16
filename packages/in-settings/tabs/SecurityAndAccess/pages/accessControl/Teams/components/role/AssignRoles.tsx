@@ -7,8 +7,7 @@
 import React from 'react';
 
 import { ContainedList, ContainedListItem, FilterableMultiSelect } from '@instana/carbon';
-import { createLogger } from '@instana/logger';
-import { RoleOverview } from '@instana/types';
+import { RoleOverview, TeamRole } from '@instana/types';
 
 import {
   TeamRoleSelectionType,
@@ -16,12 +15,9 @@ import {
   FilterableMultiSelectItemExtraProps
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoleDialog.types';
 import { AssignRolesProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoles.types';
-import { ApiTeamRole as TeamRole } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { t } from 'in-i18n';
 
 import locals from './AssignRoles.mless';
-
-const logger = createLogger('TeamAssignRoles');
 
 const defaultFilterItems = (
   items: Array<FilterableMultiSelectItemProps>,
@@ -35,16 +31,9 @@ const defaultFilterItems = (
   });
 };
 
-// Will be removed once backend API also returns role name besides id
-const getRoleName = (roles: Array<RoleOverview>, roleId: string) => {
-  logger.warn('Temporary function to be removed when user name and role name are available through team API');
-  const role = roles.find(role => role.id === roleId);
-  return role ? role.name : '';
-};
-
-const createInitialSelectedItems = (roles: Array<RoleOverview>, roleIds: Array<TeamRole>) => {
+const createInitialSelectedItems = (roleIds: Array<TeamRole>) => {
   return roleIds.map(roleId => {
-    return { id: roleId.roleId, text: getRoleName(roles, roleId.roleId) };
+    return { id: roleId.roleId, text: roleId.roleName ?? '' };
   });
 };
 
@@ -63,14 +52,14 @@ export const AssignRoles = ({ form, onSelectRoles, roles }: AssignRolesProps) =>
 
   if (roleSelectionType === TeamRoleSelectionType.SAME_ROLE_FOR_ALL_MEMBERS) {
     // Use roles from first member as preselect
-    const roleIds = membersListForm.get(0)?.get('roleIds')?.value ?? [];
+    const roleIds = membersListForm.get(0)?.get('roles')?.value ?? [];
     return (
       <div className={locals.sameRoleForAllMembersSelectWrapper}>
         <FilterableMultiSelect
           className={locals.sameRoleForAllMembersSelect}
           filterItems={defaultFilterItems}
           id="rbac-team-select-same-role-for-all-members"
-          initialSelectedItems={createInitialSelectedItems(roles, roleIds)}
+          initialSelectedItems={createInitialSelectedItems(roleIds)}
           invalid={!form.valid}
           invalidText={form?.messages[0]?.message}
           items={createMultiSelectItems(roles)}
@@ -98,8 +87,8 @@ export const AssignRoles = ({ form, onSelectRoles, roles }: AssignRolesProps) =>
           //@ts-expect-error formalistic type definition does not match implementation (index is missing in type definition)
           membersListForm.map((memberMapForm, index) => {
             const userId = memberMapForm.get('userId').value;
-            const fullName = memberMapForm.get('fullName').value;
-            const roleIdsField = memberMapForm.get('roleIds');
+            const fullName = memberMapForm.get('name').value;
+            const roleIdsField = memberMapForm.get('roles');
             const roleIds = roleIdsField.value;
             return (
               <ContainedListItem key={userId}>
@@ -109,7 +98,7 @@ export const AssignRoles = ({ form, onSelectRoles, roles }: AssignRolesProps) =>
                     <FilterableMultiSelect
                       filterItems={defaultFilterItems}
                       id={`rbac-team-select-individual-role-${userId}`}
-                      initialSelectedItems={createInitialSelectedItems(roles, roleIds)}
+                      initialSelectedItems={createInitialSelectedItems(roleIds)}
                       invalid={!roleIdsField.valid}
                       invalidText={roleIdsField?.messages[0]?.message}
                       items={createMultiSelectItems(roles)}

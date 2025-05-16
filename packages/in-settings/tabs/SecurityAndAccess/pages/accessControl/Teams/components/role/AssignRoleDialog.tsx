@@ -6,14 +6,7 @@
 
 import React, { useState } from 'react';
 
-import {
-  CarbonContentSwitcher,
-  CarbonForm,
-  CarbonFormGroup,
-  CarbonInlineLoading,
-  CarbonModal,
-  CarbonSwitch
-} from '@instana/components';
+import { ContentSwitcher, Form, FormGroup, InlineLoading, Modal, Switch } from '@instana/carbon';
 
 import {
   AssignRoleDialogProps,
@@ -55,7 +48,7 @@ export const AssignRoleDialog = ({ team, onSubmit }: AssignRoleDialogProps) => {
             form.updateIn(['members'], listForm =>
               listForm.set(
                 index,
-                memberMapForm.updateIn(['roleIds'], f => f.setValue(newRoles).setTouched(true))
+                memberMapForm.updateIn(['roles'], f => f.setValue(newRoles).setTouched(true))
               )
             )
           );
@@ -65,7 +58,7 @@ export const AssignRoleDialog = ({ team, onSubmit }: AssignRoleDialogProps) => {
   };
 
   return (
-    <CarbonModal
+    <Modal
       modalHeading={t('in-settings:tabs.teams.assignRoleDialogTitle', { team: team.tag })}
       onRequestClose={() => {
         close();
@@ -84,13 +77,13 @@ export const AssignRoleDialog = ({ team, onSubmit }: AssignRoleDialogProps) => {
       secondaryButtonText={t('in-settings:tabs.cancel')}
       size="md"
     >
-      <CarbonForm>
-        {progress.loading && <CarbonInlineLoading />}
+      <Form>
+        {progress.loading && <InlineLoading />}
 
         {!progress.loading && (
           <>
-            <CarbonFormGroup legendText={t('in-settings:tabs.teams.selectRoles')}>
-              <CarbonContentSwitcher
+            <FormGroup legendText={t('in-settings:tabs.teams.selectRoles')}>
+              <ContentSwitcher
                 className={locals.roleTypeSwitcher}
                 selectedIndex={Object.values(TeamRoleSelectionType).indexOf(form.get('roleSelectionType').value)}
                 onChange={({ index = 0 }) =>
@@ -102,23 +95,23 @@ export const AssignRoleDialog = ({ team, onSubmit }: AssignRoleDialogProps) => {
                 }
                 size="sm"
               >
-                <CarbonSwitch
+                <Switch
                   name={TeamRoleSelectionType.SAME_ROLE_FOR_ALL_MEMBERS}
                   text={t('in-settings:tabs.teams.assignSameRolesForAllMembers')}
                 />
-                <CarbonSwitch
+                <Switch
                   name={TeamRoleSelectionType.INDIVIDUAL}
                   text={t('in-settings:tabs.teams.assignIndiviudalRolesForEachTeamMember')}
                 />
-              </CarbonContentSwitcher>
-            </CarbonFormGroup>
+              </ContentSwitcher>
+            </FormGroup>
 
             <div className={locals.assignRolesWrapper}>
               <AssignRoles form={form} onSelectRoles={onSelectRoles} roles={roles} setForm={setForm} />
             </div>
           </>
         )}
-      </CarbonForm>
-    </CarbonModal>
+      </Form>
+    </Modal>
   );
 };

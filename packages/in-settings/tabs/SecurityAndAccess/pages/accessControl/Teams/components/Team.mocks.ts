@@ -93,7 +93,7 @@ export const MOCK_TEAM: ApiTeam = {
   members: [
     {
       userId: '63eb0ff0b35b6c0001dfc7e5',
-      roleIds: [
+      roles: [
         {
           roleId: 'zw9g5lcPQFaHRBJazX_bzg',
           viaIdP: false
@@ -106,7 +106,7 @@ export const MOCK_TEAM: ApiTeam = {
     },
     {
       userId: '661fbdbd3aae6d00013c4d27',
-      roleIds: [
+      roles: [
         {
           roleId: 'zw9g5lcPQFaHRBJazX_bzg',
           viaIdP: false
@@ -119,7 +119,7 @@ export const MOCK_TEAM: ApiTeam = {
     },
     {
       userId: '64ba3caf5cad590001fe4ae0',
-      roleIds: [
+      roles: [
         {
           roleId: '-1',
           viaIdP: false
@@ -128,7 +128,7 @@ export const MOCK_TEAM: ApiTeam = {
     },
     {
       userId: '654331b6898b000001e2ec68',
-      roleIds: [
+      roles: [
         {
           roleId: 'zw9g5lcPQFaHRBJazX_bzg',
           viaIdP: false
