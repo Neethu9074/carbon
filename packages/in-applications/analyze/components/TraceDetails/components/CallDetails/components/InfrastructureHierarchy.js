@@ -9,10 +9,8 @@ import { LoadingSkeleton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import InfrastructureEntityLink from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/InfrastructureEntityLink';
-import { extendTimeConfigToInclude } from 'in-applications/metrics';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import Hierarchy from 'in-components/Link/Hierarchy';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 import locals from './InfrastructureHierarchy.mless';
@@ -30,12 +28,11 @@ export default function InfrastructureHierarchy({
   physicalContext
 }) {
   const hierarchy = useObservable(getHierarchy, [snapshotId, timeConfig, calculateHierarchy]);
-  const currentTimeConfig = useTimeConfig();
 
   if (!hierarchy) {
     return <LoadingSkeleton />;
   }
-  const resolvedTimeConfig = timeConfig || extendTimeConfigToInclude(currentTimeConfig, entity?.time, false);
+
   if (hierarchy.size < 2) {
     return (
       <div>
@@ -44,7 +41,7 @@ export default function InfrastructureHierarchy({
           plugin={plugin}
           snapshotId={snapshotId}
           physicalContext={physicalContext}
-          timeConfig={resolvedTimeConfig}
+          timeConfig={timeConfig}
         />
         <div className={locals.noRelation}>
           {t('in-analyze:traceDetail.components.callDetails.noOtherRelationsFound')}
@@ -60,7 +57,7 @@ export default function InfrastructureHierarchy({
       hierarchySnapshots={hierarchySnapshots}
       useSnapshotLink={useSnapshotLink}
       pathname={pathname}
-      timeConfig={resolvedTimeConfig}
+      timeConfig={timeConfig}
     />
   );
 }
