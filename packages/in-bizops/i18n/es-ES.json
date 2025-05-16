@@ -1,6 +1,6 @@
 {
-  "labelBizOps": "Procesos",
-  "labelPerspectives": "Perspectivas",
+  "labelBizOps": "Procesos empresariales",
+  "labelPerspectives": "Perspectivas empresariales",
   "labelPerspective": "Perspectiva",
   "components": {
     "count": "Count"
@@ -8,8 +8,7 @@
   "lists": {
     "id": "ID",
     "version": "Versión",
-    "pageTitle": "Supervisión de negocio",
-    "cardTitle": "Procesos empresariales",
+    "pageTitle": "Procesos empresariales",
     "theId": "El ID del proceso",
     "theVersion": "La versión del proceso",
     "hasBeenCopied": "se ha copiado correctamente en el portapapeles",
@@ -39,9 +38,8 @@
     "documentation": "documentación."
   },
   "perspectives": {
-    "newPerspective": "Crear perspectiva",
+    "newPerspective": "Crear",
     "lists": {
-      "perspectives": "Perspectivas empresariales",
       "descriptionLabel": "Descripción",
       "numberProcessesLabel": "Número de procesos"
     },
@@ -77,7 +75,7 @@
     }
   },
   "navigation": {
-    "businessMonitoring": "Supervisión de negocio"
+    "businessMonitoring": "Procesos empresariales"
   },
   "dashboards": {
     "analyzeInstances": "Analizar instancias",

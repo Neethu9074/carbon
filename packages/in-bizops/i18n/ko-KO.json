@@ -1,6 +1,6 @@
 {
-  "labelBizOps": "프로세스",
-  "labelPerspectives": "퍼스펙티브",
+  "labelBizOps": "비즈니스 프로세스",
+  "labelPerspectives": "비즈니스 퍼스펙티브",
   "labelPerspective": "퍼스펙티브",
   "components": {
     "count": "개수"
@@ -8,8 +8,7 @@
   "lists": {
     "id": "ID",
     "version": "버전",
-    "pageTitle": "비즈니스 모니터링",
-    "cardTitle": "비즈니스 프로세스",
+    "pageTitle": "비즈니스 프로세스",
     "theId": "프로세스 ID",
     "theVersion": "프로세스 버전",
     "hasBeenCopied": "클립보드로 복사 완료",
@@ -39,9 +38,8 @@
     "documentation": "문서를 검토하십시오."
   },
   "perspectives": {
-    "newPerspective": "관점 작성",
+    "newPerspective": "작성",
     "lists": {
-      "perspectives": "비즈니스 퍼스펙티브",
       "descriptionLabel": "설명",
       "numberProcessesLabel": "프로세스 수"
     },
@@ -77,7 +75,7 @@
     }
   },
   "navigation": {
-    "businessMonitoring": "비즈니스 모니터링"
+    "businessMonitoring": "비즈니스 프로세스"
   },
   "dashboards": {
     "analyzeInstances": "인스턴스 분석",

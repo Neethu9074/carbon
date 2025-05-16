@@ -14,7 +14,7 @@
     "alertHeaderEditTooltip": "編輯",
     "alertHeaderDuplicateTooltip": "複製",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "確認移除",
-    "alertHeaderRestoreDeleteConfirmationDialogDescription": "您確定要移除警示 <strong>{{alertConfigName}}</strong> 嗎？",
+    "alertHeaderRestoreDeleteConfirmationDialogDescription": "您確定要移除警示 <strong>{{alertConfigName}}</strong> 嗎？ 這個動作無法復原。",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
     "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警示配置的修訂「{{description}}」。若您想要進行變更，請<latestRevisionButton>選取最新修訂</latestRevisionButton>或<restoreRevisionButton>從現行修訂還原</restoreRevisionButton>。",
     "alertHeaderAriaLabelSeverity": "事件具有嚴重性 {{severity}}",
@@ -530,7 +530,7 @@
         "labelActionButtonDelete": "刪除",
         "labelAlertFilters": "過濾器",
         "labelConfirm": "確認移除",
-        "labelConfirmRemoveConfig": "您確定要移除警示 <strong>{{configName}}</strong> 嗎？",
+        "labelConfirmRemoveConfig": "您確定要移除警示 <strong>{{configName}}</strong> 嗎？ 這個動作無法復原。",
         "labelRemove": "移除",
         "numberOfApplicationsSelected": "已選取 {{count}} 個應用程式",
         "numberOfApplicationsSelected_plural": "已選取 {{count}} 個應用程式",
@@ -991,7 +991,7 @@
       },
       "list": {
         "labelConfirm": "確認移除",
-        "labelConfirmRemoveConfig": "您確定要移除警示 <strong>{{configName}}</strong> 嗎？",
+        "labelConfirmRemoveConfig": "您確定要移除警示 <strong>{{configName}}</strong> 嗎？ 這個動作無法復原。",
         "labelRemove": "移除"
       },
       "gracePeriod": {
@@ -1039,6 +1039,7 @@
         "propertiesLabel": "屬性",
         "propertiesTitle": "其他警示內容",
         "thresholdValue": "臨界值",
+        "thresholdType": "臨界值類型",
         "payloadsLabel": "有效負載",
         "payloadsTitle": "自訂有效負載",
         "evaluationSwitch": {
@@ -1060,11 +1061,9 @@
         "specificStatusCodeRate": "狀態碼比率",
         "pageLoads": "頁面載入",
         "pageTransitions": "頁面轉移",
-        "slownessBlueprintConfigName": "緩慢",
         "slownessBlueprintConfigHeadline": "針對 onLoad 時間或 HTTP 延遲自動發出警示",
         "slownessBlueprintConfigTextP": "當 onLoad 時間或 HTTP 延遲超過指定的臨界值時，會收到警示。",
         "slownessBlueprintConfigMetricLabel": "載入時間",
-        "slownessBlueprintConfigHttpMetricLabel": "HTTP 延遲",
         "jsErrorsBlueprintConfigName": "JS 錯誤",
         "jsErrorsBlueprintConfigHeadline": "針對 JS 錯誤自動發出警示",
         "jsErrorsBlueprintConfigText": "每次當相符的 JS 錯誤訊息比平常更頻繁地出現時都會收到警示。",
@@ -1103,7 +1102,6 @@
         "ruleMetricNameOptionStatusCodeHttpxxx": "狀態碼計數",
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "狀態碼比率",
         "ruleMetricNameOptionSlownessOnLoadTime": "載入時間",
-        "ruleMetricNameOptionSlownessHttpLatency": "HTTP 延遲",
         "ruleMetricNameOptionThroughputPageLoads": "頁面載入",
         "ruleMetricNameOptionThroughputPageTransitions": "頁面轉移"
       },
@@ -1169,7 +1167,7 @@
         },
         "slowness": {
           "headline": "針對 onLoad 時間或 HTTP 延遲自動發出警示",
-          "text": "當 onLoad 時間超出根據歷史資料得出的預期時收到警示。"
+          "text": "當 onLoad 時間或 HTTP 延遲超過指定的臨界值時，會收到警示。"
         },
         "JsErrors": {
           "name": "JS 錯誤",
@@ -1357,6 +1355,8 @@
     },
     "mobileApp": {
       "data": {
+        "slownessBlueprintConfigHeadline": "HTTP 延遲自動警示",
+        "slownessBlueprintConfigTextP": "當 HTTP 延遲超過指定的臨界值時，會收到警示。",
         "statusCodeCount": "狀態碼計數",
         "beaconRate": "狀態碼比率",
         "views": "檢視表",
@@ -1496,6 +1496,10 @@
           "title": "定義警示通道",
           "description": "選取您希望接收此警示通知的位置"
         },
+        "slowness": {
+          "headline": "HTTP 延遲自動警示",
+          "text": "當 HTTP 延遲超過指定的臨界值時，會收到警示。"
+        },
         "statusCode": {
           "headline": "HTTP 狀態碼的自動警示",
           "text": "當 HTTP 狀態碼比平常更頻繁地出現時收到警示。"
@@ -1525,6 +1529,10 @@
       }
     },
     "eum": {
+      "slowness": {
+        "blueprintConfigName": "緩慢",
+        "httpLatencyMetricLabel": "HTTP 延遲"
+      },
       "customEvent": {
         "customEventSelectionSliderTitle": "選擇自訂事件",
         "customEventLabel": "自訂事件",
@@ -1689,13 +1697,6 @@
           "header": "您希望在何處收到此警示的通知？",
           "description": "選取此警示的接收者"
         },
-        "scopeAlerting": {
-          "title": "選擇您希望如何收到警示",
-          "customAggregation": "自訂聚集",
-          "customAggregationDescription": "將範圍內的所有度量聚集為每個群組的單一度量。 每個群組一次最多有一個作用中問題。",
-          "perEntityAlerting": "每個實體警示",
-          "perEntityAlertingDescription": "個別監視每個度量。 您將收到針對違反臨界值的每個個別度量的警示。"
-        },
         "scopeFilter": {
           "title": "選擇基礎架構的範圍",
           "filter": "過濾器",
@@ -1730,7 +1731,23 @@
       "descriptionIsHigherThan": "{{metricName}} 高於 {{value}}。",
       "descriptionIsHigherOrEqualTo": "{{metricName}} 高於或等於 {{value}}。",
       "descriptionIsLowerThan": "{{metricName}} 低於 {{value}}。",
-      "descriptionIsLowerThanOrEqualTo": "{{metricName}} 低於或等於 {{value}}。"
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} 低於或等於 {{value}}。",
+      "evaluationType": {
+        "title": "選擇您的警示方法",
+        "custom": {
+          "title": "自訂聚集",
+          "description": "將範圍內的所有度量合併為每個群組的單一度量。 每個群組一次只能追蹤一個活動的問題。"
+        },
+        "perEntity": {
+          "title": "每個實體警示",
+          "description": "個別監視每個度量。 每個違反臨界值的度量都會收到警示。"
+        }
+      },
+      "group": {
+        "disabled": {
+          "tooltipInfo": "新增群組只適用於自訂聚集。"
+        }
+      }
     },
     "logs": {
       "alertDetails": {

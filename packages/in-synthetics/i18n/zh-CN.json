@@ -192,6 +192,7 @@
           "buttonSave": "保存",
           "uploadFileLabel": "上载文件",
           "uploadFileDescription": "您可以上传单个 .js 文件或捆绑了多个 .js 文件的 .zip 文件。",
+          "node22UploadFileDescription": "您可以上传单个 .js、.cjs 或.mjs 文件，也可以上传包含捆绑 .js、.cjs 或.mjs 文件的 .zip 文件。",
           "scriptDescription": "您上载的脚本将显示在此处，或者您可以在下面手动输入该脚本。",
           "validScriptMessage": "脚本有效。",
           "zipFileUploadedMessage": "无法修改或验证捆绑文件",
@@ -200,6 +201,7 @@
           "invalidMainFileName": "主文件名无效",
           "webpageUrl": "Web 页面 URL",
           "browserUploadFileDescription": "您可以上传单个 .js 文件、捆绑了多个 .js 文件的 .zip 文件或由 SeleniumIDE 记录的 .side 脚本。",
+          "node22BrowserUploadFileDescription": "您可以上传单个 .js、.cjs 或 .mjs 文件，也可以上传包含捆绑 .js、.cjs 或 .mjs 文件的 .zip 文件，还可以上传 Selenium IDE 录制的 .side 脚本。",
           "sideFileUploadedMessage": "无法修改或验证 Selenium 脚本",
           "bundleFileNotSupportedMessage": "选择了不受支持的文件。 仅在高级方式下支持捆绑软件。",
           "timeoutFieldLabel": "超时",
@@ -221,10 +223,10 @@
           "downloadZip": "下载 .zip 文件",
           "mainFileNameHelperText": "请提供此 .zip 文件中包含测试入口点的文件名",
           "recordVideo": "记录用户在发生故障时的操作",
+          "acceptSelfSignedCertificate": "接受自签名证书",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "URL 是正在测试 DNS 解析的域名",
-            "lookupPlaceholder": "Web 站点的 url",
             "queryType": "查询类型",
             "serverLabel": "DNS 服务器",
             "serverHelperText": "DNS 服务器是指负责将域名转换为 IP 地址的服务器",
@@ -232,8 +234,8 @@
             "portHelperText": "DNS 服务器端口是指您的设备 (PoP) 与 DNS 服务器之间使用的网络端口或通信端口，通常为端口 53",
             "queryTimeLabel": "响应时间",
             "queryTimeHelperText": "最佳 DNS 解析时间在 20-120 毫秒之间",
-            "recordTypeTitle": "断言（可选）",
-            "recordTypeSubtitle": "这些字段是可选的，但填写时必须全部为 true，测试才能成功。",
+            "assertionsTitle": "断言（可选）",
+            "assertionsSubtitle": "这些字段是可选的，但填写时必须全部为 true，测试才能成功。",
             "recordTypeLabel": "记录类型",
             "operatorLabel": "条件性",
             "operatorOptionMatches": "匹配项",
@@ -257,7 +259,9 @@
               "invalidIPv6Address": "IPv6 地址无效",
               "invalidRecordType": "记录类型无效",
               "invalidResolutionRecord": "解析记录无效"
-            }
+            },
+            "assertionsNotificationTitle": "所需断言",
+            "assertionsNotificationDescription": "使用“所有与断言相关内容”查询类型时，至少添加一个断言。"
           }
         },
         "loadMore": "加载更多",
@@ -330,7 +334,9 @@
       "failureTitle": "失败！",
       "failureMessageCreate": "未能创建合成测试：{{errorMessage}}",
       "failureMessageUpdate": "未能更新合成测试：{{errorMessage}}",
-      "failureMesssageDelete": "未能删除合成测试: {{errorMessage}}"
+      "failureMesssageDelete": "未能删除合成测试: {{errorMessage}}",
+      "successMessageCICDRerun": "已成功重新运行了合成测试",
+      "failureMesssageCICDRerun": "重新运行合成测试失败：{{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "已成功删除位置",
@@ -470,6 +476,10 @@
         "smartAlerts": "智能警报",
         "credentials": "凭证"
       },
+      "options": {
+        "scheduledLabel": "数据范围：预定",
+        "onDemandLabel": "数据范围：按需"
+      },
       "popDialog": {
         "popUpDialogTitle": "合成监视许可权",
         "popUpDialog": "请检查<documentationLink>文档</documentationLink>以获取有关设置合成监视许可权的信息",
@@ -513,7 +523,7 @@
       "type": "类型",
       "successRate": "成功率",
       "successRuns": "{{successRuns}} 条结果（共 {{totalRuns}} 条）",
-      "latency": "等待时间",
+      "latency": "平均响应时间",
       "locationLabel": "位置",
       "locationsColumn": {
         "singleLocation": "{{number}} 个位置",
@@ -526,7 +536,7 @@
       "associationLabel": "关联",
       "health": "运行状况",
       "action": "操作",
-      "labelConfirmRemoveTest": "确定要除去 <strong>{{testLabel}}</strong> 测试吗？",
+      "labelConfirmRemoveTest": "确定要除去 <strong>{{testLabel}}</strong> 测试吗？ 此操作不可撤销。",
       "na": "不适用"
     },
     "locationList": {
@@ -540,9 +550,9 @@
       "namespace": "名称空间",
       "health": "运行状况",
       "noHealthInfo": "不适用",
-      "labelConfirmRemoveLocation": "确定要除去 <strong>{{label}}</strong> ({{status}}) 位置吗？",
-      "activeTestLinked": "存在 {{linkedTests}} 个与位置 <strong>{{label}}</strong> ({{status}}) 关联的活动测试。 删除此位置将导致测试摘要图表中的数据丢失。 确定要删除此位置吗？<br/><br/>要升级位置而不删除，请参阅<documentLink>文档</documentLink>。",
-      "deleteLocation": "删除位置",
+      "labelConfirmRemoveLocation": "确定要除去 <strong>{{label}}</strong> ({{status}}) 位置吗？ 此操作不可撤销。",
+      "activeTestLinked": "存在 {{linkedTests}} 个与位置 <strong>{{label}}</strong> ({{status}}) 关联的活动测试。 删除此位置将导致测试摘要图表中的数据丢失。 确定要删除此位置吗？ 此操作无法撤销。<br/><br/>要在不删除的情况下升级位置，请参阅<documentLink>文档</documentLink>。",
+      "deleteLocation": "删除",
       "noDataAvailable": {
         "message": "{{component}} 不可用"
       },
@@ -563,7 +573,8 @@
         "singleIPAddress": "{{number}} IP 地址",
         "multipleIPAddress": "{{number}} IP 地址",
         "noIPAddresses": "不适用"
-      }
+      },
+      "activate": "激活"
     },
     "summary": {
       "successRate": "成功率",
@@ -631,6 +642,9 @@
       "dns": {
         "failureType": "故障类型",
         "na": "不适用"
+      },
+      "cicd": {
+        "executionType": "执行类型"
       }
     },
     "detailsPage": {
@@ -775,10 +789,13 @@
       "dns": {
         "title": "测试详细信息",
         "description": "查询类型 {{queryType}} 的 DNS 结果",
-        "name": "名称",
+        "domainName": "域名",
         "ttl": "TTL",
         "data": "数据",
         "noRecordsFound": "找不到记录"
+      },
+      "cicd": {
+        "rerunButtonLabel": "重新运行测试"
       }
     },
     "noDataAvailable": {
@@ -868,6 +885,7 @@
       "associatedMobileApps": "关联的移动应用",
       "noMobileAppAssociated": "无关联的移动应用",
       "recordVideo": "记录用户在发生故障时的操作",
+      "acceptSelfSignedCertificate": "接受自签名证书",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "查询类型",
@@ -907,7 +925,7 @@
       "deleteAction": {
         "deleteActionLabel": "删除",
         "deleteCredentialTitle": "删除合成凭证 {{credentialName}}",
-        "credentialNameValidation": "输入凭证全名以确认删除",
+        "credentialNameValidation": "输入证书全名以确认删除。 此操作不可撤销。",
         "deleteButtonLabel": "删除凭证",
         "cancelButtonLabel": "取消",
         "deletionSuccess": "已删除凭证"

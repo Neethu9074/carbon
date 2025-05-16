@@ -14,7 +14,7 @@
     "alertHeaderEditTooltip": "編集",
     "alertHeaderDuplicateTooltip": "複製",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "削除の確認",
-    "alertHeaderRestoreDeleteConfirmationDialogDescription": "アラート<strong>{{alertConfigName}}</strong>を削除しますか？",
+    "alertHeaderRestoreDeleteConfirmationDialogDescription": "アラート<strong>{{alertConfigName}}</strong>を削除しますか？ この操作は元に戻せません。",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "削除",
     "alertHeaderIsNotLatestRevisionMessage": "このアラート構成のリビジョン {{description}} を表示しています。 変更する場合は、<latestRevisionButton>最新の改定を選択</latestRevisionButton>するか、または<restoreRevisionButton>現在のリビジョンから復元</restoreRevisionButton>してください。",
     "alertHeaderAriaLabelSeverity": "イベントの重大度は {{severity}} です",
@@ -530,7 +530,7 @@
         "labelActionButtonDelete": "削除",
         "labelAlertFilters": "フィルター",
         "labelConfirm": "削除の確認",
-        "labelConfirmRemoveConfig": "アラート<strong>{{configName}}</strong>を削除しますか？",
+        "labelConfirmRemoveConfig": "アラート<strong>{{configName}}</strong>を削除しますか？ この操作は元に戻せません。",
         "labelRemove": "削除",
         "numberOfApplicationsSelected": "{{count}} 件のアプリケーションが選択されています",
         "numberOfApplicationsSelected_plural": "{{count}} 件のアプリケーションが選択されています",
@@ -991,7 +991,7 @@
       },
       "list": {
         "labelConfirm": "削除の確認",
-        "labelConfirmRemoveConfig": "アラート<strong>{{configName}}</strong>を削除しますか？",
+        "labelConfirmRemoveConfig": "アラート<strong>{{configName}}</strong>を削除しますか？ この操作は元に戻せません。",
         "labelRemove": "削除"
       },
       "gracePeriod": {
@@ -1039,6 +1039,7 @@
         "propertiesLabel": "プロパティ－",
         "propertiesTitle": "追加のアラート・プロパティー",
         "thresholdValue": "しきい値",
+        "thresholdType": "しきい値タイプ",
         "payloadsLabel": "積載量",
         "payloadsTitle": "カスタム・ペイロード",
         "evaluationSwitch": {
@@ -1060,11 +1061,9 @@
         "specificStatusCodeRate": "状況コードの比率",
         "pageLoads": "ページ・ロード",
         "pageTransitions": "ページ遷移",
-        "slownessBlueprintConfigName": "低速",
         "slownessBlueprintConfigHeadline": "onLoad 時間または HTTP の遅延の自動アラート",
         "slownessBlueprintConfigTextP": "onLoad時間またはHTTP遅延が指定されたしきい値を超えた場合にアラートを受け取ります。",
         "slownessBlueprintConfigMetricLabel": "onLoad 時間",
-        "slownessBlueprintConfigHttpMetricLabel": "HTTP レイテンシ",
         "jsErrorsBlueprintConfigName": "JSエラー",
         "jsErrorsBlueprintConfigHeadline": "JS エラーに対する自動アラート",
         "jsErrorsBlueprintConfigText": "通常よりも頻繁に発生する一致する JS エラー・メッセージがあるたびにアラートを受け取ります。",
@@ -1103,7 +1102,6 @@
         "ruleMetricNameOptionStatusCodeHttpxxx": "状況コードのカウント",
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "状況コードの比率",
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad 時間",
-        "ruleMetricNameOptionSlownessHttpLatency": "HTTP レイテンシ",
         "ruleMetricNameOptionThroughputPageLoads": "ページ・ロード",
         "ruleMetricNameOptionThroughputPageTransitions": "ページ遷移"
       },
@@ -1169,7 +1167,7 @@
         },
         "slowness": {
           "headline": "onLoad 時間または HTTP の遅延の自動アラート",
-          "text": "onLoad の時間が過去のデータから導き出された予想を上回った場合にアラートを受け取ります。"
+          "text": "onLoad時間またはHTTP遅延が指定されたしきい値を超えた場合にアラートを受け取ります。"
         },
         "JsErrors": {
           "name": "JSエラー",
@@ -1357,6 +1355,8 @@
     },
     "mobileApp": {
       "data": {
+        "slownessBlueprintConfigHeadline": "HTTPの遅延に対する自動アラート",
+        "slownessBlueprintConfigTextP": "HTTPの遅延が指定されたしきい値を超えたときにアラートを受信します。",
         "statusCodeCount": "状況コードのカウント",
         "beaconRate": "状況コードの比率",
         "views": "ビュー",
@@ -1496,6 +1496,10 @@
           "title": "アラート・チャンネルの定義",
           "description": "このアラートについて通知を受け取る場所を選択してください"
         },
+        "slowness": {
+          "headline": "HTTPの遅延に対する自動アラート",
+          "text": "HTTPの遅延が指定されたしきい値を超えたときにアラートを受信します。"
+        },
         "statusCode": {
           "headline": "HTTP状況コードに対する自動アラート",
           "text": "HTTP ステータ・スコードが通常より頻繁に発生した場合は、アラートを受け取ります。"
@@ -1525,6 +1529,10 @@
       }
     },
     "eum": {
+      "slowness": {
+        "blueprintConfigName": "低速",
+        "httpLatencyMetricLabel": "HTTP レイテンシ"
+      },
       "customEvent": {
         "customEventSelectionSliderTitle": "カスタム・イベントの選択",
         "customEventLabel": "カスタム・イベント",
@@ -1689,13 +1697,6 @@
           "header": "このアラートの通知先はどこにしますか?",
           "description": "このアラートの受信者を選択する"
         },
-        "scopeAlerting": {
-          "title": "アラート通知方法を選択する",
-          "customAggregation": "カスタム集計",
-          "customAggregationDescription": "スコープ内のすべてのメトリックを、グループごとに単一のメトリックに集計します。 アクティブな問題は、1グループにつき1つまでになります。",
-          "perEntityAlerting": "エンティティーごとのアラート",
-          "perEntityAlertingDescription": "各メトリックを個別にモニターします。 しきい値に違反しているメトリックごとにアラートが表示されます。"
-        },
         "scopeFilter": {
           "title": "インフラストラクチャーの範囲の選択",
           "filter": "フィルター",
@@ -1730,7 +1731,23 @@
       "descriptionIsHigherThan": "{{metricName}} は、{{value}} より高い。",
       "descriptionIsHigherOrEqualTo": "{{metricName}} は、{{value}} 以上です。",
       "descriptionIsLowerThan": "{{metricName}} は、{{value}} より低い。",
-      "descriptionIsLowerThanOrEqualTo": "{{metricName}} は、{{value}} 以下です。"
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} は、{{value}} 以下です。",
+      "evaluationType": {
+        "title": "警告方法を選択する",
+        "custom": {
+          "title": "カスタム集計",
+          "description": "スコープ内のすべてのメトリクスを、グループごとに1つのメトリクスにまとめます。 グループごとに一度に追跡されるアクティブな問題は1つだけです。"
+        },
+        "perEntity": {
+          "title": "エンティティーごとのアラート",
+          "description": "各メトリックを個別にモニターします。 しきい値に違反するすべてのメトリックについてアラートを受け取ります。"
+        }
+      },
+      "group": {
+        "disabled": {
+          "tooltipInfo": "グループの追加はカスタム集計でのみ機能します。"
+        }
+      }
     },
     "logs": {
       "alertDetails": {

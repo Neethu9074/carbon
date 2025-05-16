@@ -467,6 +467,7 @@
     },
     "azure": {
       "referenceToAzureContainerAppsDocumentation": "L'application Go déployée dans Azure Container Apps doit être instrumentée manuellement afin de collecter des données de trace. Suivez les instructions de la documentation <azureContainerAppsDoc>Azure Container Apps Go</azureContainerAppsDoc>.",
+      "referenceAppServiceDocumentationContent": "Passez en revue les conditions préalables et suivez le guide d'installation pour installer le collecteur. Pour obtenir des instructions détaillées, reportez-vous à la <azureContainerAppsDoc>documentation</azureContainerAppsDoc>.",
       "selectAzureContainerAppsRuntime": "Sélectionnez l'environnement d'exécution Azure Container Apps",
       "reviewPrerequisitesAndConfigureContainerApps": "Vérifiez les prérequis et configurez votre Azure Container Apps pour le traçage.",
       "containerAppSetEnvironmentVariables": "Définissez les variables d'environnement suivantes lors de la création d'Azure Container App.",
@@ -525,12 +526,25 @@
   "welcomepage": {
     "heading": "Bienvenue dans Instana",
     "foldableTileTitle": "Il est temps de se lancer !",
+    "foldableTileTitleNewBanner": "Découvrir les nouvelles fonctionnalités d'Instana",
     "viewAll": "Afficher tout",
     "addMore": "Ajouter",
     "create": "Créer",
     "collapsibleButton": {
       "showOnboardingTasks": "Afficher les tâches d'intégration",
-      "hideOnboardingTasks": "Masquer les tâches d'intégration"
+      "hideOnboardingTasks": "Masquer les tâches d'intégration",
+      "showWhatsNew": "Afficher les nouveautés",
+      "hideWhatsNew": "Cacher les nouveautés"
+    },
+    "kubecost": {
+      "title": "Visibilité des coûts avec IBM Kubecost",
+      "description": "Initiez-vous gratuitement et affichez des informations ainsi qu'une estimation des économies pour vos clusters.",
+      "buttonName": "Découvrir maintenant"
+    },
+    "logging": {
+      "title": "Journalisation Instana",
+      "description": "Désormais, les journaux sont acceptés partout grâce à OTel, avec une durée de conservation plus longue, jusqu'à 90 jours, en tant que fonction du module complémentaire.",
+      "buttonName": "En savoir plus"
     },
     "startIntegrating": {
       "title": "Commencez par intégrer des données",
@@ -629,7 +643,7 @@
         "viewAllLabel": "Plateformes"
       },
       "bizopsWidget": {
-        "label": "Surveillance métier",
+        "label": "Processus métier",
         "name": "Nom",
         "activities": "Activités",
         "started": "Démarré",
@@ -786,14 +800,14 @@
         "user": "Utilisateur",
         "externalLink": "Lien externe",
         "resultNew": "Nouveau résultat",
-        "whatsNewLink": "Lien vers les nouveautés"
+        "communityBlogsLink": "Blogues de communauté"
       },
       "buttonNames": {
         "deployAgent": "Déployer l'agent",
         "addUser": "Ajouter un utilisateur",
         "documentation": "Documentation IBM",
         "releaseNotes": "Notes d'édition",
-        "whatsNewLink": "Nouveautés dans Instana"
+        "communityBlogsLink": "Blogues de communauté"
       },
       "toolTip": {
         "makeDefault": "Cette action définit la page d'accueil Instana comme page de destination par défaut, en remplacement de tout tableau de bord personnalisé que vous avez défini."

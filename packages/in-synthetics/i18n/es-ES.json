@@ -192,6 +192,7 @@
           "buttonSave": "Guardar",
           "uploadFileLabel": "Cargar archivo",
           "uploadFileDescription": "Puede cargar un único archivo .js o un archivo .zip de archivos .js agrupados.",
+          "node22UploadFileDescription": "Puede cargar un único archivo .js, .cjs o .mjs, o un archivo .zip que contenga archivos .js, .cjs o .mjs empaquetados.",
           "scriptDescription": "El script cargado aparecerá aquí, o puede especificarlo manualmente a continuación.",
           "validScriptMessage": "El script es válido.",
           "zipFileUploadedMessage": "Los archivos empaquetados no se pueden modificar ni validar",
@@ -200,6 +201,7 @@
           "invalidMainFileName": "Nombre de archivo principal no válido",
           "webpageUrl": "URL de página web",
           "browserUploadFileDescription": "Puede cargar un único archivo .js, un archivo .zip de archivos .js agrupados o un script .side grabado por SeleniumIDE.",
+          "node22BrowserUploadFileDescription": "Puede cargar un único archivo .js, .cjs o .mjs, un archivo .zip que contenga archivos .js, .cjs o .mjs empaquetados, o un script .side grabado por Selenium IDE.",
           "sideFileUploadedMessage": "Los scripts de Selenium no se pueden modificar ni validar",
           "bundleFileNotSupportedMessage": "Se ha seleccionado un archivo no soportado. Los paquetes solo están admitidos en el modo avanzado.",
           "timeoutFieldLabel": "Tiempo de espera",
@@ -221,10 +223,10 @@
           "downloadZip": "Descargar archivo .zip",
           "mainFileNameHelperText": "Proporcione el nombre del archivo dentro de este archivo .zip que contiene el punto de entrada de la prueba",
           "recordVideo": "Registrar las acciones del usuario en caso de error",
+          "acceptSelfSignedCertificate": "Aceptar certificado autofirmado",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "El URL es el nombre de dominio que se está probando para la resolución de DNS",
-            "lookupPlaceholder": "URL de su sitio web",
             "queryType": "Tipo de consulta",
             "serverLabel": "Servidor DNS",
             "serverHelperText": "El servidor DNS es el servidor responsable de convertir el nombre de dominio en una dirección IP",
@@ -232,8 +234,8 @@
             "portHelperText": "El puerto del servidor DNS es el puerto de red utilizado o la comunicación entre su dispositivo (PoP) y el servidor DNS, normalmente el puerto 53",
             "queryTimeLabel": "Tiempo de respuesta",
             "queryTimeHelperText": "El tiempo óptimo de resolución de DNS es de entre 20 y 120 ms",
-            "recordTypeTitle": "Declaraciones (opcional)",
-            "recordTypeSubtitle": "Estos campos son opcionales, pero cuando se rellenan todos deben ser verdaderos para que la prueba se realice correctamente.",
+            "assertionsTitle": "Declaraciones (opcional)",
+            "assertionsSubtitle": "Estos campos son opcionales, pero cuando se rellenan todos deben ser verdaderos para que la prueba se realice correctamente.",
             "recordTypeLabel": "Tipo de registro",
             "operatorLabel": "Condicional",
             "operatorOptionMatches": "Coincidencias",
@@ -257,7 +259,9 @@
               "invalidIPv6Address": "Dirección IPv6 no válida",
               "invalidRecordType": "Tipo de registro no válido",
               "invalidResolutionRecord": "Registro de resolución no válido"
-            }
+            },
+            "assertionsNotificationTitle": "Afirmaciones necesarias",
+            "assertionsNotificationDescription": "Añada al menos una afirmación cuando utilice el tipo de consulta \"ALL associated with assertions\"."
           }
         },
         "loadMore": "Cargar más",
@@ -330,7 +334,9 @@
       "failureTitle": "Failed!",
       "failureMessageCreate": "No se ha podido crear la prueba sintética: {{errorMessage}}",
       "failureMessageUpdate": "No se ha podido actualizar la prueba sintética: {{errorMessage}}",
-      "failureMesssageDelete": "No se ha podido suprimir la prueba sintética: {{errorMessage}}"
+      "failureMesssageDelete": "No se ha podido suprimir la prueba sintética: {{errorMessage}}",
+      "successMessageCICDRerun": "Se ha vuelto a ejecutar correctamente la prueba sintética",
+      "failureMesssageCICDRerun": "No se ha podido volver a ejecutar la prueba sintética: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "La ubicación se ha suprimido correctamente",
@@ -470,6 +476,10 @@
         "smartAlerts": "Alertas inteligentes",
         "credentials": "Credenciales"
       },
+      "options": {
+        "scheduledLabel": "Ámbito de los datos : Planificado",
+        "onDemandLabel": "Ámbito de los datos : A petición"
+      },
       "popDialog": {
         "popUpDialogTitle": "Permisos para supervisión sintética",
         "popUpDialog": "Consulte el <documentationLink>documento</documentationLink> para obtener información sobre cómo establecer permisos de supervisión sintética",
@@ -513,7 +523,7 @@
       "type": "Tipo",
       "successRate": "Índice de éxito",
       "successRuns": "Resultados de {{successRuns}} / {{totalRuns}}",
-      "latency": "Latencia",
+      "latency": "Tiempo medio de respuesta",
       "locationLabel": "Ubicaciones",
       "locationsColumn": {
         "singleLocation": "{{number}} ubicación",
@@ -526,7 +536,7 @@
       "associationLabel": "Asociaciones",
       "health": "Estado",
       "action": "Acción",
-      "labelConfirmRemoveTest": "¿Seguro que desea eliminar la prueba <strong>{{testLabel}}</strong>?",
+      "labelConfirmRemoveTest": "¿Seguro que desea eliminar la prueba <strong>{{testLabel}}</strong>? Esta acción no se puede deshacer.",
       "na": "N/A"
     },
     "locationList": {
@@ -540,9 +550,9 @@
       "namespace": "Espacio de nombres",
       "health": "Estado",
       "noHealthInfo": "N/D",
-      "labelConfirmRemoveLocation": "¿Seguro que desea eliminar la ubicación <strong>{{label}}</strong> ({{status}})?",
-      "activeTestLinked": "Hay {{linkedTests}} pruebas activas asociadas a la ubicación <strong>{{label}}</strong> ({{status}}). La supresión de esta ubicación provocará una pérdida de datos en los gráficos de resumen de prueba. ¿Seguro que desea suprimir esta ubicación?<br/><br/>Para actualizar la ubicación sin suprimirla, consulte la <documentLink>documentación</documentLink>.",
-      "deleteLocation": "Suprimir ubicación",
+      "labelConfirmRemoveLocation": "¿Seguro que desea eliminar la ubicación <strong>{{label}}</strong> ({{status}})? Esta acción no se puede deshacer.",
+      "activeTestLinked": "Hay {{linkedTests}} pruebas activas asociadas a la ubicación <strong>{{label}}</strong> ({{status}}). La supresión de esta ubicación provocará una pérdida de datos en los gráficos de resumen de prueba. ¿Seguro que desea suprimir esta ubicación? Esta acción no se puede deshacer.<br/><br/>Para actualizar la ubicación sin eliminar, consulte la <documentLink>documentación</documentLink>.",
+      "deleteLocation": "Suprimir",
       "noDataAvailable": {
         "message": "{{component}} no disponible"
       },
@@ -563,7 +573,8 @@
         "singleIPAddress": "{{number}} dirección IP",
         "multipleIPAddress": "{{number}} direcciones IP",
         "noIPAddresses": "N/D"
-      }
+      },
+      "activate": "Activar"
     },
     "summary": {
       "successRate": "Índice de éxito",
@@ -631,6 +642,9 @@
       "dns": {
         "failureType": "Tipo de anomalía",
         "na": "N/A"
+      },
+      "cicd": {
+        "executionType": "Tipo de ejecución"
       }
     },
     "detailsPage": {
@@ -775,10 +789,13 @@
       "dns": {
         "title": "Detalles de la prueba",
         "description": "Resultado de DNS para el tipo de consulta {{queryType}}",
-        "name": "Nombre",
+        "domainName": "Nombre de dominio",
         "ttl": "TTL",
         "data": "Data",
         "noRecordsFound": "No se han encontrado registros"
+      },
+      "cicd": {
+        "rerunButtonLabel": "Volver a ejecutar la prueba"
       }
     },
     "noDataAvailable": {
@@ -868,6 +885,7 @@
       "associatedMobileApps": "Aplicaciones móviles asociadas",
       "noMobileAppAssociated": "No hay aplicaciones móviles asociadas",
       "recordVideo": "Registrar las acciones del usuario en caso de error",
+      "acceptSelfSignedCertificate": "Aceptar certificado autofirmado",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "Tipo de consulta",
@@ -907,7 +925,7 @@
       "deleteAction": {
         "deleteActionLabel": "Suprimir",
         "deleteCredentialTitle": "Suprimir credencial sintética {{credentialName}}",
-        "credentialNameValidation": "Especifique el nombre completo de las credenciales para confirmar la supresión",
+        "credentialNameValidation": "Especifique el nombre completo de las credenciales para confirmar la eliminación. Esta acción no se puede deshacer.",
         "deleteButtonLabel": "Suprimir credencial",
         "cancelButtonLabel": "Cancelar",
         "deletionSuccess": "Se ha suprimido la credencial"

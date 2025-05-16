@@ -467,6 +467,7 @@
     },
     "azure": {
       "referenceToAzureContainerAppsDocumentation": "Las aplicaciones Go desplegadas en Azure Container Apps necesitan ser instrumentadas manualmente para poder recopilar datos de rastreo. Siga las instrucciones de la <azureContainerAppsDoc>documentación de Go de Azure Container Apps</azureContainerAppsDoc>.",
+      "referenceAppServiceDocumentationContent": "Revise los requisitos previos y siga la guía de instalación para instalar el recopilador. Para obtener instrucciones detalladas, consulte la <azureContainerAppsDoc>documentación</azureContainerAppsDoc>.",
       "selectAzureContainerAppsRuntime": "Seleccione el entorno de ejecución de Azure Container Apps",
       "reviewPrerequisitesAndConfigureContainerApps": "Revise los requisitos previos y configure su Azure Container Apps para el seguimiento.",
       "containerAppSetEnvironmentVariables": "Establezca las siguientes variables de entorno cuando cree un Azure Container App.",
@@ -525,12 +526,25 @@
   "welcomepage": {
     "heading": "Le damos la bienvenida a Instana",
     "foldableTileTitle": "Empecemos.",
+    "foldableTileTitleNewBanner": "Consulte las nuevas funciones de Instana",
     "viewAll": "Ver todo",
     "addMore": "Añadir",
     "create": "Crear",
     "collapsibleButton": {
       "showOnboardingTasks": "Mostrar tareas de incorporación",
-      "hideOnboardingTasks": "Ocultar tareas de incorporación"
+      "hideOnboardingTasks": "Ocultar tareas de incorporación",
+      "showWhatsNew": "Mostrar novedades",
+      "hideWhatsNew": "Ocultar novedades"
+    },
+    "kubecost": {
+      "title": "Visibilidad de costes con IBM Kubecost",
+      "description": "Empiece gratis y descubra los costes y el ahorro estimado para sus clústeres.",
+      "buttonName": "Explorar ahora"
+    },
+    "logging": {
+      "title": "Registro de Instana",
+      "description": "Ahora acepta registros en cualquier lugar a través de OTel, y con una retención más larga de hasta 90 días como función adicional.",
+      "buttonName": "Más información"
     },
     "startIntegrating": {
       "title": "Iniciar la integración de datos",
@@ -629,7 +643,7 @@
         "viewAllLabel": "plataformas"
       },
       "bizopsWidget": {
-        "label": "Supervisión de negocio",
+        "label": "Procesos empresariales",
         "name": "Nombre",
         "activities": "Actividades",
         "started": "Iniciado",
@@ -786,14 +800,14 @@
         "user": "Usuario",
         "externalLink": "Enlace externo",
         "resultNew": "Nuevo resultado",
-        "whatsNewLink": "Enlace Novedades"
+        "communityBlogsLink": "Blogs de la comunidad"
       },
       "buttonNames": {
         "deployAgent": "Desplegar agente",
         "addUser": "Añadir usuario",
         "documentation": "Documentación de IBM",
         "releaseNotes": "Notas del release",
-        "whatsNewLink": "Novedades de Instana"
+        "communityBlogsLink": "Blogs de la comunidad"
       },
       "toolTip": {
         "makeDefault": "Esta acción establece la página de inicio de Instana como su página de destino predeterminada, reemplazando cualquier panel de control personalizado que haya establecido."

@@ -1,10 +1,14 @@
 {
+  "accessibility": {
+    "opensNewTab": "S'ouvre dans un nouvel onglet"
+  },
   "csvExporterButton": {
     "label": "Exporter en CSV"
   },
   "pageStructure": {
     "headerAriaLabel": "En-tête de page",
-    "contentAriaLabel": "Contenu"
+    "contentAriaLabel": "Contenu",
+    "filterAriaLabel": "Filtrer"
   },
   "fileInputButton": {
     "label": {
@@ -55,6 +59,9 @@
       "retryButtonLabel": "Réessayer",
       "openList": "Ouvrir la liste"
     },
+    "chartCDEventsLaneLabel": "Evénements CD",
+    "chartCDEventsLaneApplicationSyncTooltip": "Synchronisation Argo CD pour {{name}}.",
+    "chartCDEventsLaneTooltip": "+{{len}} événement(s) CD supplémentaire(s)",
     "chartReleasesLanePresenterReleasesLabel": "Mises en production",
     "chartReleasesLanePresenterTooltip": "+{{len}} éditions de plus",
     "highlightedTimeframeCloseButtonClearHighlight": "Effacer la mise en évidence",
@@ -124,11 +131,36 @@
     "dialogRequireFilterMsg": "Spécifiez un filtre à sauvegarder.",
     "filterConfirmRemovalHeader": "Confirmer le retrait",
     "filterConfirmButtonLabel": "Retirer le filtre",
-    "filterConfirmRemoveMsg": "Voulez-vous vraiment retirer le filtre <strong>{{filterName}}</strong> ?",
+    "filterConfirmRemoveMsg": "Voulez-vous vraiment retirer le filtre <strong>{{filterName}}</strong> ? Cette action ne peut pas être annulée.",
     "helpDialogTitleUsingTheSearchBar": "Utilisation de la barre de recherche"
   },
   "carbonSearchBar": {
     "search": "Rechercher"
+  },
+  "downloadPdf": {
+    "downloadPdfFile": "Télécharger le fichier PDF",
+    "settings": "Paramètres",
+    "pdfOrientation": "Orientation",
+    "portrait": "Portrait",
+    "landscape": "Paysage",
+    "pdfLayout": "Présentation",
+    "widgetsDisplay": "Afficher",
+    "singlePage": "Page unique",
+    "singlePageInfo": "Placez l'ensemble du tableau de bord sur une seule page, avec un contenu redimensionné en conséquence.",
+    "multiPages": "Pages multiples",
+    "multiPagesInfo": "Répartir le tableau de bord sur plusieurs pages, en conservant la présentation d'origine. Certains widgets peuvent être interrompus.",
+    "stackWidgetsTitle": "Widgets en pile",
+    "stackWidgetsInfo": "Affichez les widgets dans une pile verticale sur plusieurs pages.",
+    "loadingWidget": "Chargement du widget {{widgetIndex}} de {{totalNodes}}",
+    "generatePreview": "Générer un aperçu",
+    "generatingPreview": "Génération d'un aperçu pdf",
+    "generatingPDFTitle": "Génération du PDF",
+    "generatingPDFContent": "Veuillez patienter pendant que le PDF est en cours de génération.",
+    "generatedPDFTitle": "PDF généré",
+    "generatedPDFContent": "Le téléchargement du PDF va bientôt commencer.",
+    "timeRange": "Intervalle",
+    "preview": "Aperçu",
+    "widgetNotAvailableToBeExported": "Ce widget ne peut pas être exporté."
   },
   "tables": {
     "serverTable": {
@@ -462,12 +494,11 @@
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
+    "viewSwitcherLabelWindowsHypervisor": "Hyperviseur Windows",
     "viewSwitcherLabelXenServer": "XenServer",
     "viewSwitcherLabelzhmc": "Console HMC IBM Z",
     "viewSwitcherLabelPlatforms": "Plateformes",
-    "viewSwitcherButtonSignOut": "Se déconnecter",
     "viewSwitcherCustomDashboards": "Tableaux de bord personnalisés",
-    "viewSwitcherLabelTenants": "Locataires",
     "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Nouvelle version de l'interface utilisateur Instana disponible",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Recharger pour mettre à jour",
@@ -480,7 +511,9 @@
     "profileMenu_switchUnitOrTenant": "Changement d'unité ou de locataire",
     "profileMenu_saasConsole": "Console IBM SaaS",
     "profileMenu_privacy": "Confidentialité",
-    "profileMenu_logOut": "Déconnexion"
+    "profileMenu_logOut": "Déconnexion",
+    "teamFocus_title": "Focalisation des équipes",
+    "teamFocus_entireUnit": "Unité entière"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Sélectionner des métriques",
@@ -802,7 +835,8 @@
       "equals": "est égal à",
       "doesNotEqual": "différent de",
       "isBlank": "a une valeur vide",
-      "notBlank": "a une valeur non vide"
+      "notBlank": "a une valeur non vide",
+      "matchesRegex": "correspondant à RegEx"
     },
     "number": {
       "isPresent": "est présent",

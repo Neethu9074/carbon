@@ -52,7 +52,6 @@
   "labelCount": "Anzahl",
   "labelFlow": "Datenfluss",
   "labelEndpoint": "Endpunkt",
-  "labelSyntheticEndpoint": "Synthetischer Endpunkt",
   "labelNameRule": "Namensregel",
   "labelTag": "Tag",
   "labelKey": "Schlüssel",
@@ -135,6 +134,8 @@
   "UnexpectedErrorOccurred": "Ein unerwarteter Fehler ist aufgetreten",
   "callsLiveModeDisabled": "Live-Modus wird bei der Analyse von Anrufen nicht unterstützt",
   "tracesLiveModeDisabled": "Bei der Analyse von Traces wird der Livemodus nicht unterstützt",
+  "syntheticAndNonsynthetic": "Synthetisch und nicht synthetisch",
+  "synthetic": "Synthetisch",
   "applicationMap": {
     "webglNotSupportedTitle": "Browser unterstützt WebGL nicht",
     "webglNotSupported": "Die Instana-Benutzerschnittstelle enthält 3D-Komponenten, die mit einer Technologie namens WebGL wiedergegeben werden. Leider ist diese Technologie noch nicht auf allen Plattformen verfügbar. Einige Browser, insbesondere Browser in älteren Versionen, unterstützen WebGL nicht. Wir empfehlen die Verwendung der neuesten Generation von Browsern mit automatischer Aktualisierung: Chrome, Firefox, Safari 8 oder MS Edge.\n \nWir versuchen unser Bestes, alle Kombinationen aus Plattform und Browser zu unterstützen.Es kann jedoch sein, dass unsere Verwendung von WebGL Fehler enthält. Sie können einen [Onlinetest] (https: //get.webgl.org/) verwenden, um zu überprüfen, ob Ihre Plattform WebGL unterstützt.\n \nSollte der Online-Test ergeben, dass Ihre Plattform WebGL unterstützt, aber die Instana-3D-Karte noch nicht funktionsfähig ist, [wenden Sie sich an uns] (https: //support.instana.com/hc/en-us/requests/new).\n\nWeitere Fehlerbehebungsinformationen finden Sie in der [WebGL-Kompatibilitätstabelle](http://caniuse.com/#feat=webgl) oder auf der [WebGL-Website](http://webgl.org/).",

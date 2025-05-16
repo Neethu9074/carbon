@@ -14,7 +14,7 @@
     "alertHeaderEditTooltip": "편집",
     "alertHeaderDuplicateTooltip": "복제",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "제거 확인",
-    "alertHeaderRestoreDeleteConfirmationDialogDescription": "<strong>{{alertConfigName}}</strong> 경보를 제거하시겠습니까?",
+    "alertHeaderRestoreDeleteConfirmationDialogDescription": "<strong>{{alertConfigName}}</strong> 경보를 제거하시겠습니까? 이 조치는 실행 취소할 수 없습니다.",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "제거",
     "alertHeaderIsNotLatestRevisionMessage": "이 경보 구성의 {{description}} 개정을 보고 계십니다. 변경하려는 경우 <latestRevisionButton>최신 버전 선택</latestRevisionButton> 또는 <restoreRevisionButton>현재 버전에서 복원</restoreRevisionButton>을 클릭하십시오.",
     "alertHeaderAriaLabelSeverity": "이벤트의 심각도가 {{severity}}임",
@@ -530,7 +530,7 @@
         "labelActionButtonDelete": "삭제",
         "labelAlertFilters": "필터",
         "labelConfirm": "제거 확인",
-        "labelConfirmRemoveConfig": "<strong>{{configName}}</strong> 경보를 제거하시겠습니까?",
+        "labelConfirmRemoveConfig": "<strong>{{configName}}</strong> 경보를 제거하시겠습니까? 이 조치는 실행 취소할 수 없습니다.",
         "labelRemove": "제거",
         "numberOfApplicationsSelected": "{{count}}개 애플리케이션이 선택됨",
         "numberOfApplicationsSelected_plural": "{{count}}개 애플리케이션이 선택됨",
@@ -991,7 +991,7 @@
       },
       "list": {
         "labelConfirm": "제거 확인",
-        "labelConfirmRemoveConfig": "<strong>{{configName}}</strong> 경보를 제거하시겠습니까?",
+        "labelConfirmRemoveConfig": "<strong>{{configName}}</strong> 경보를 제거하시겠습니까? 이 조치는 실행 취소할 수 없습니다.",
         "labelRemove": "제거"
       },
       "gracePeriod": {
@@ -1039,6 +1039,7 @@
         "propertiesLabel": "특성",
         "propertiesTitle": "추가 경보 특성",
         "thresholdValue": "임계값",
+        "thresholdType": "임계값 유형",
         "payloadsLabel": "페이로드",
         "payloadsTitle": "사용자 정의 페이로드",
         "evaluationSwitch": {
@@ -1060,11 +1061,9 @@
         "specificStatusCodeRate": "상태 코드 비율",
         "pageLoads": "페이지 로드",
         "pageTransitions": "페이지 전환",
-        "slownessBlueprintConfigName": "느리기",
         "slownessBlueprintConfigHeadline": "onLoad 시간 또는 HTTP 대기 시간에 대한 자동 경보",
         "slownessBlueprintConfigTextP": "onLoad 시간 또는 HTTP 대기 시간이 지정된 임계값을 초과하면 경보를 받습니다.",
         "slownessBlueprintConfigMetricLabel": "onLoad 시간",
-        "slownessBlueprintConfigHttpMetricLabel": "HTTP 대기 시간",
         "jsErrorsBlueprintConfigName": "JS 오류",
         "jsErrorsBlueprintConfigHeadline": "JS 오류에 대한 자동 경보",
         "jsErrorsBlueprintConfigText": "일치하는 JS 오류 메시지가 보통보다 자주 발생하는 경우 항상 경보를 수신합니다.",
@@ -1103,7 +1102,6 @@
         "ruleMetricNameOptionStatusCodeHttpxxx": "상태 코드 수",
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "상태 코드 비율",
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad 시간",
-        "ruleMetricNameOptionSlownessHttpLatency": "HTTP 대기 시간",
         "ruleMetricNameOptionThroughputPageLoads": "페이지 로드",
         "ruleMetricNameOptionThroughputPageTransitions": "페이지 전환"
       },
@@ -1169,7 +1167,7 @@
         },
         "slowness": {
           "headline": "onLoad 시간 또는 HTTP 대기 시간에 대한 자동 경보",
-          "text": "onLoad 시간이 히스토리 데이터로부터 도출된 예상 시간을 초과할 경우 경보를 수신합니다."
+          "text": "onLoad 시간 또는 HTTP 대기 시간이 지정된 임계값을 초과하면 경보를 받습니다."
         },
         "JsErrors": {
           "name": "JS 오류",
@@ -1357,6 +1355,8 @@
     },
     "mobileApp": {
       "data": {
+        "slownessBlueprintConfigHeadline": "HTTP 대기 시간에 대한 자동 경보",
+        "slownessBlueprintConfigTextP": "HTTP 대기 시간이 지정된 임계값을 초과하면 경보를 수신합니다.",
         "statusCodeCount": "상태 코드 수",
         "beaconRate": "상태 코드 비율",
         "views": "보기",
@@ -1496,6 +1496,10 @@
           "title": "경보 채널 정의",
           "description": "이 경보에 대해 알림을 받을 위치 선택"
         },
+        "slowness": {
+          "headline": "HTTP 대기 시간에 대한 자동 경보",
+          "text": "HTTP 대기 시간이 지정된 임계값을 초과하면 경보를 수신합니다."
+        },
         "statusCode": {
           "headline": "HTTP 상태 코드에 대한 자동 경보",
           "text": "HTTP 상태 코드가 평소보다 자주 발생하면 경보를 수신합니다."
@@ -1525,6 +1529,10 @@
       }
     },
     "eum": {
+      "slowness": {
+        "blueprintConfigName": "느리기",
+        "httpLatencyMetricLabel": "HTTP 대기 시간"
+      },
       "customEvent": {
         "customEventSelectionSliderTitle": "사용자 정의 이벤트 선택",
         "customEventLabel": "사용자 정의 이벤트",
@@ -1689,13 +1697,6 @@
           "header": "이 경보에 대한 알림을 어디에서 받으시겠습니까?",
           "description": "이 경보를 받을 수신자 선택"
         },
-        "scopeAlerting": {
-          "title": "경보를 받을 방법 선택",
-          "customAggregation": "사용자 정의 집계",
-          "customAggregationDescription": "범위의 모든 메트릭을 그룹당 단일 메트릭으로 집계합니다. 그룹당 한 번에 최대 하나의 문제만 활성화할 수 있습니다.",
-          "perEntityAlerting": "엔터티별 알림",
-          "perEntityAlertingDescription": "각 메트릭을 개별적으로 모니터링합니다. 임계값을 위반하는 각 개별 메트릭에 대해 알림을 받게 됩니다."
-        },
         "scopeFilter": {
           "title": "인프라 범위 선택",
           "filter": "필터",
@@ -1730,7 +1731,23 @@
       "descriptionIsHigherThan": "{{metricName}}이(가) {{value}}보다 높습니다.",
       "descriptionIsHigherOrEqualTo": "{{metricName}}이(가) {{value}}보다 크거나 같습니다.",
       "descriptionIsLowerThan": "{{metricName}}이(가) {{value}}보다 낮습니다.",
-      "descriptionIsLowerThanOrEqualTo": "{{metricName}}이(가) {{value}}보다 낮거나 같습니다."
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}}이(가) {{value}}보다 낮거나 같습니다.",
+      "evaluationType": {
+        "title": "경보 방법 선택",
+        "custom": {
+          "title": "사용자 정의 집계",
+          "description": "범위의 모든 메트릭을 그룹당 단일 메트릭으로 겷합합니다. 그룹당 한 번에 하나의 활성 문제만 추적됩니다."
+        },
+        "perEntity": {
+          "title": "엔터티별 알림",
+          "description": "각 메트릭을 개별적으로 모니터합니다. 임계값을 위반하는 모든 메트릭에 대해 경보를 수신하게 됩니다."
+        }
+      },
+      "group": {
+        "disabled": {
+          "tooltipInfo": "그룹 추가는 사용자 정의 집계에서만 작동합니다."
+        }
+      }
     },
     "logs": {
       "alertDetails": {

@@ -66,18 +66,12 @@
     "customDashboard": {
       "confirmDashboardDel": "Confirmer la suppression du tableau de bord",
       "delDashboard": "Supprimer le tableau de bord",
-      "uWantDelDashboardConfig": "Voulez-vous vraiment supprimer le tableau de bord <strong>{{title}}</strong> ?",
+      "uWantDelDashboardConfig": "Voulez-vous vraiment supprimer le tableau de bord <strong>{{title}}</strong> ? Cette action ne peut pas être annulée.",
       "failDelDashboard": "Echec de la suppression du tableau de bord.",
       "renameDashboard": "Renommer le tableau de bord",
       "dashboardName": "Nom du tableau de bord",
       "rename": "Renommer",
-      "failSaveDashboard": "Echec de la sauvegarde du tableau de bord.",
-      "generatingPDFTitle": "Génération du PDF",
-      "generatingPDFContent": "Veuillez patienter pendant que le PDF est en cours de génération.",
-      "generatedPDFTitle": "PDF généré",
-      "generatedPDFContent": "Le téléchargement du PDF va bientôt commencer.",
-      "timeRange": "Intervalle",
-      "widgetNotAvailableToBeExported": "Ce widget ne peut pas être exporté."
+      "failSaveDashboard": "Echec de la sauvegarde du tableau de bord."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Tableau de bord introuvable",
@@ -102,24 +96,6 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Impossible d'analyser l'entrée en tant que JSON.",
       "jsonRootMustBeAnObject": "La racine JSON doit être un objet."
-    },
-    "downloadPdfDialog": {
-      "downloadPdf": "Télécharger le fichier PDF",
-      "settings": "Paramètres",
-      "pdfOrientation": "Orientation",
-      "portrait": "Portrait",
-      "landscape": "Paysage",
-      "pdfLayout": "Présentation",
-      "widgetsDisplay": "Afficher",
-      "singlePage": "Page unique",
-      "singlePageInfo": "Placez l'ensemble du tableau de bord sur une seule page, avec un contenu redimensionné en conséquence.",
-      "multiPages": "Pages multiples",
-      "multiPagesInfo": "Répartir le tableau de bord sur plusieurs pages, en conservant la présentation d'origine. Certains widgets peuvent être interrompus.",
-      "stackWidgetsTitle": "Widgets en pile",
-      "stackWidgetsInfo": "Affichez les widgets dans une pile verticale sur plusieurs pages.",
-      "loadingWidget": "Chargement du widget {{widgetIndex}} de {{totalNodes}}",
-      "generatePreview": "Générer un aperçu",
-      "generatingPreview": "Génération d'un aperçu pdf"
     },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "Certains filtres du tableau de bord actuel ont été appliqués.",
@@ -174,6 +150,18 @@
       },
       "index": {
         "bizOps": "Processus métier (activités)"
+      }
+    },
+    "srcBusinessMetrics": {
+      "formComponent": {
+        "pleaseSelect": "Effectuez une sélection",
+        "pleaseSelectMetric": "Sélectionnez une métrique.",
+        "aggregation": "Agrégation",
+        "metric": "Métrique",
+        "unit": "Unité"
+      },
+      "index": {
+        "businessMetrics": "Métriques métier"
       }
     },
     "srcApp": {
@@ -618,7 +606,7 @@
         "viewCloneSliConfig": "Afficher/Cloner la configuration SLI",
         "delSliConfig": "Supprimer la configuration SLI",
         "confirmRemove": "Confirmer la suppression",
-        "confirmRemoveMsg": "Voulez-vous vraiment supprimer <strong>{{sliName}}</strong> ?",
+        "confirmRemoveMsg": "Voulez-vous vraiment supprimer <strong>{{sliName}}</strong> ? Cette action ne peut pas être annulée.",
         "delete": "Supprimer",
         "eventBasedSli": "En fonction des événements",
         "timeBasedSli": "Basées sur le temps, {{metricNameLabel}}"
@@ -770,7 +758,7 @@
         "nameColumn": "Configuration d'Apdex",
         "thresholdColumn": "Seuil",
         "confirmDeleteHeader": "Confirmer la suppression",
-        "confirmDeleteMessage": "Voulez-vous vraiment supprimer {{apdex}} ?",
+        "confirmDeleteMessage": "Voulez-vous vraiment supprimer {{apdex}} ? Cette action ne peut pas être annulée.",
         "editApdexTooltip": "Modifier/cloner la configuration d'Apdex",
         "deleteApdexTooltip": "Supprimer la configuration d'Apdex",
         "confirmDeleteButton": "Supprimer",

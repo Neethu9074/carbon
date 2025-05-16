@@ -66,18 +66,12 @@
     "customDashboard": {
       "confirmDashboardDel": "ダッシュボードの削除の確認",
       "delDashboard": "ダッシュボードの削除",
-      "uWantDelDashboardConfig": "ダッシュボード <strong>{{title}}</strong> を削除しますか?",
+      "uWantDelDashboardConfig": "ダッシュボード <strong>{{title}}</strong> を削除しますか? この操作は元に戻せません。",
       "failDelDashboard": "ダッシュボードを削除できませんでした。",
       "renameDashboard": "ダッシュボードの名前変更",
       "dashboardName": "ダッシュボード名",
       "rename": "名前を変更",
-      "failSaveDashboard": "ダッシュボードを保存できませんでした。",
-      "generatingPDFTitle": "PDF の作成",
-      "generatingPDFContent": "PDF が生成されるまでお待ちください。",
-      "generatedPDFTitle": "作成済み PDF",
-      "generatedPDFContent": "PDF のダウンロードはまもなく開始されます。",
-      "timeRange": "時刻範囲",
-      "widgetNotAvailableToBeExported": "このウィジェットはエクスポートできません。"
+      "failSaveDashboard": "ダッシュボードを保存できませんでした。"
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "ダッシュボードが見つかりません",
@@ -102,24 +96,6 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "入力を JSON として解析できませんでした。",
       "jsonRootMustBeAnObject": "JSON root はオブジェクトでなければなりません。"
-    },
-    "downloadPdfDialog": {
-      "downloadPdf": "PDF ファイルをダウンロード",
-      "settings": "設定",
-      "pdfOrientation": "方向",
-      "portrait": "縦長",
-      "landscape": "横長",
-      "pdfLayout": "レイアウト",
-      "widgetsDisplay": "Display",
-      "singlePage": "シングルページ",
-      "singlePageInfo": "コンテンツをサイズに合わせてリサイズして、ダッシュボード全体を 1 ページに収めてください。",
-      "multiPages": "複数ページ",
-      "multiPagesInfo": "元のレイアウトを維持したまま、ダッシュボードを複数のページに分散させる。 一部のウィジェットがカットされる場合があります。",
-      "stackWidgetsTitle": "スタック・ウィジェット",
-      "stackWidgetsInfo": "複数のページにわたってウィジェットを垂直スタックで表示します。",
-      "loadingWidget": "{{totalNodes}} のウィジェット {{widgetIndex}} をロードする",
-      "generatePreview": "プレビューを生成します",
-      "generatingPreview": "pdf プレビューを生成中"
     },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "現在のダッシュボードのフィルターの一部が適用された。",
@@ -174,6 +150,18 @@
       },
       "index": {
         "bizOps": "ビジネス・プロセス(アクティビティー)"
+      }
+    },
+    "srcBusinessMetrics": {
+      "formComponent": {
+        "pleaseSelect": "選択してください",
+        "pleaseSelectMetric": "メトリックを選択してください",
+        "aggregation": "集約",
+        "metric": "メトリック",
+        "unit": "ユニット"
+      },
+      "index": {
+        "businessMetrics": "ビジネス・メトリック"
       }
     },
     "srcApp": {
@@ -618,7 +606,7 @@
         "viewCloneSliConfig": "SLI 構成の表示/複製",
         "delSliConfig": "SLI 構成の削除",
         "confirmRemove": "削除の確認",
-        "confirmRemoveMsg": "<strong>{{sliName}}</strong> を削除しますか?",
+        "confirmRemoveMsg": "<strong>{{sliName}}</strong> を削除しますか? この操作は元に戻せません。",
         "delete": "削除",
         "eventBasedSli": "イベント・ベース",
         "timeBasedSli": "時間ベース、{{metricNameLabel}}"
@@ -690,7 +678,6 @@
       "atLeastOneFilterExpressionMustBeConfigured": "少なくとも 1 つのフィルター式を構成する必要があります。",
       "timeBased": "時刻ベース",
       "eventBased": "イベント・ベース",
-      "sloLite": "SLO Lite",
       "sloLegacy": "SLO の旧バージョン",
       "slo": "SLO",
       "monitoringSourceSelector": {
@@ -770,7 +757,7 @@
         "nameColumn": "Apdex 構成",
         "thresholdColumn": "しきい値",
         "confirmDeleteHeader": "削除の確認",
-        "confirmDeleteMessage": "{{apdex}} を削除してよろしいですか?",
+        "confirmDeleteMessage": "{{apdex}} を削除してよろしいですか? この操作は元に戻せません。",
         "editApdexTooltip": "Apdex 構成の編集/複製",
         "deleteApdexTooltip": "Apdex 構成の削除",
         "confirmDeleteButton": "削除",

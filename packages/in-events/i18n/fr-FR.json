@@ -120,6 +120,7 @@
   "labelMonitoringIssues": "Problèmes de surveillance",
   "labelCveIssue": "Vulnérabilités",
   "labelPrcIssue": "Causes premières probables",
+  "smartAlerts": "Alertes intelligentes",
   "labelAll": "Tout",
   "buttonViewCustomEvent": "Afficher l'événement personnalisé",
   "buttonViewBuiltInEvent": "Afficher l'événement intégré",
@@ -144,7 +145,6 @@
   "unidentifiedEntityTooltip": "Une erreur s'est produite lors de la recherche d'informations sur cette entité. Vous pouvez consulter le tableau de bord de l'entité en cliquant sur le lien \"Entité non identifiée\" pour plus de détails.",
   "headerStatus": "Statut",
   "eventHelpfulText": "Cet événement a-t-il été utile ?",
-  "summaryHelpfulText": "Ce résumé vous a-t-il été utile?",
   "thankYouForYourFeedback": "Merci pour vos commentaires !",
   "hostOffLineEventProblemChangeTime": "Cliquez sur le lien ci-dessous pour accéder à la dernière version de l'hôte surveillé par Instana. Cela changera le début de votre fenêtre de temps à un moment où l'hôte a été surveillé par Instana.",
   "offLineEventProblemChangeTime": "Cliquez sur le lien ci-dessous pour accéder à la dernière version du processus surveillé par Instana. Cela changera le début de votre fenêtre de temps à un moment où le processus a été surveillé par Instana.",
@@ -373,6 +373,7 @@
     "name": "Nom",
     "count": "Nombre",
     "noMatching": "Aucun enregistrement correspondant trouvé.",
+    "anyOtherQs": "Avez-vous d'autres questions ?",
     "timestamp": "Horodatage",
     "numCalls": "Nbre d'appels",
     "meanLatency": "Temps d'attente moyen",
@@ -388,7 +389,6 @@
   },
   "notes": {
     "openNotes": "Ouvrir les notes et l'activité",
-    "closeNotes": "Fermer les notes et l'activité",
     "notesActivity": "Notes et activités avec l'IA",
     "confirmDelete": "Confirmer la suppression",
     "you": "Vous {{date}}",
@@ -442,7 +442,10 @@
     "subject": "Objet",
     "body": "Corps",
     "takeSomeTimeReview": "Prenez le temps d'examiner et éventuellement de modifier le récapitulatif avant de le partager avec d'autres.",
-    "invalidEmail": "L'e-mail doit être valide (utilisateur@domaine) et séparé par des virgules"
+    "invalidEmail": "L'e-mail doit être valide (utilisateur@domaine) et séparé par des virgules",
+    "positiveFeedback": "Ce récapitulatif a été utile",
+    "negativeFeedback": "Ce récapitulatif n'a pas été utile",
+    "surveyButtonTxt": "Partagez vos commentaires"
   },
   "incident": {
     "overviewTitle": "Vue générale des incidents",
@@ -464,5 +467,16 @@
   "affectedIncidents": {
     "affectedIncident": "Incident concerné",
     "noAffectedIncidents": "Aucun incident n'a été détecté"
+  },
+  "feedbackModal": {
+    "cancel": "Annuler",
+    "submit": "Soumettre",
+    "title": "Partagez vos commentaires",
+    "helpfulQ": "Qu'avez-vous trouvé utile dans le récapitulatif ?",
+    "improveQ": "Comment pourrions-nous améliorer le récapitulatif ?",
+    "maxChars": "750 caractères au maximum",
+    "followUpQuestion": "Voulez-vous que nous prenions contact avec vous au sujet de vos commentaires ?",
+    "yesContect": "Oui, veuillez me contacter.",
+    "noContact": "Non, je préfère ne pas être contacté"
   }
 }

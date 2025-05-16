@@ -66,18 +66,12 @@
     "customDashboard": {
       "confirmDashboardDel": "Conferma eliminazione del dashboard",
       "delDashboard": "Elimina dashboard",
-      "uWantDelDashboardConfig": "Si è sicuri di voler eliminare il dashboard <strong>{{title}}</strong>?",
+      "uWantDelDashboardConfig": "Si è sicuri di voler eliminare il dashboard <strong>{{title}}</strong>? Questa azione non può essere annullata.",
       "failDelDashboard": "Impossibile eliminare il dashboard.",
       "renameDashboard": "Rinomina dashboard",
       "dashboardName": "Nome dashboard",
       "rename": "Rinomina",
-      "failSaveDashboard": "Impossibile salvare il dashboard.",
-      "generatingPDFTitle": "Generazione del pdf",
-      "generatingPDFContent": "Attendere mentre il pdf viene generato.",
-      "generatedPDFTitle": "Pdf generato",
-      "generatedPDFContent": "Il download del pdf inizierà a breve.",
-      "timeRange": "Intervallo di tempo",
-      "widgetNotAvailableToBeExported": "Questo widget non può essere esportato."
+      "failSaveDashboard": "Impossibile salvare il dashboard."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Dashboard non trovato",
@@ -102,24 +96,6 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Impossibile analizzare l'input come JSON.",
       "jsonRootMustBeAnObject": "La root JSON deve essere un oggetto"
-    },
-    "downloadPdfDialog": {
-      "downloadPdf": "Scarica il file PDF",
-      "settings": "Impostazioni",
-      "pdfOrientation": "Orientamento",
-      "portrait": "Verticale",
-      "landscape": "Scenario",
-      "pdfLayout": "Layout",
-      "widgetsDisplay": "Visualizzazione",
-      "singlePage": "Pagina singola",
-      "singlePageInfo": "L'intero dashboard si trova in una sola pagina, con i contenuti ridimensionati per adattarsi.",
-      "multiPages": "Pagine multiple",
-      "multiPagesInfo": "Distribuire il dashboard su più pagine, mantenendo il layout originale. Alcuni widget potrebbero essere interrotti.",
-      "stackWidgetsTitle": "Widget stack",
-      "stackWidgetsInfo": "Visualizzare i widget in uno stack verticale su più pagine.",
-      "loadingWidget": "Caricamento del widget {{widgetIndex}} di {{totalNodes}}",
-      "generatePreview": "Generare l'anteprima",
-      "generatingPreview": "Generazione dell'anteprima pdf"
     },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "Sono stati applicati alcuni dei filtri del dashboard corrente.",
@@ -174,6 +150,18 @@
       },
       "index": {
         "bizOps": "Processi aziendali (attività)"
+      }
+    },
+    "srcBusinessMetrics": {
+      "formComponent": {
+        "pleaseSelect": "Selezionare",
+        "pleaseSelectMetric": "Selezionare una metrica",
+        "aggregation": "Aggregazione",
+        "metric": "Metrica",
+        "unit": "Unità"
+      },
+      "index": {
+        "businessMetrics": "Metriche di business"
       }
     },
     "srcApp": {
@@ -618,7 +606,7 @@
         "viewCloneSliConfig": "Visualizza/clona configurazione dello SLI",
         "delSliConfig": "Elimina configurazione dello SLI",
         "confirmRemove": "Conferma rimozione",
-        "confirmRemoveMsg": "Si è certi di voler eliminare <strong>{{sliName}}</strong>?",
+        "confirmRemoveMsg": "Si è certi di voler eliminare <strong>{{sliName}}</strong>? Questa azione non può essere annullata.",
         "delete": "Elimina",
         "eventBasedSli": "Basato sull'evento",
         "timeBasedSli": "Basato sul tempo, {{metricNameLabel}}"
@@ -770,7 +758,7 @@
         "nameColumn": "Configurazione apdex",
         "thresholdColumn": "Soglia",
         "confirmDeleteHeader": "Conferma rimozione",
-        "confirmDeleteMessage": "Si è certi di voler eliminare {{apdex}}?",
+        "confirmDeleteMessage": "Si è certi di voler eliminare {{apdex}}? Questa azione non può essere annullata.",
         "editApdexTooltip": "Modifica/Clona configurazione Apdex",
         "deleteApdexTooltip": "Elimina configurazione Apdex",
         "confirmDeleteButton": "Elimina",

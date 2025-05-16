@@ -146,7 +146,7 @@
     },
     "deleteDialog": {
       "confirmRemove": "제거 확인",
-      "confirmRemoveMsg": "<strong>{{name}}</strong>을(를) 삭제하시겠습니까?",
+      "confirmRemoveMsg": "<strong>{{name}}</strong>을(를) 삭제하시겠습니까? 이 조치는 실행 취소할 수 없습니다.",
       "delete": "삭제"
     }
   },

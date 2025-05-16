@@ -192,6 +192,7 @@
           "buttonSave": "저장",
           "uploadFileLabel": "파일 업로드",
           "uploadFileDescription": "단일 .js 파일이나 여러 .js 파일을 묶어 .zip 파일을 업로드할 수 있습니다.",
+          "node22UploadFileDescription": "단일 .js, .cjs 또는 .mjs 파일 또는 번들된 .js, .cjs 또는 .mjs 파일이 포함된 .zip 파일을 업로드할 수 있습니다.",
           "scriptDescription": "업로드한 스크립트가 여기에 표시되거나 아래에 수동으로 입력할 수 있습니다.",
           "validScriptMessage": "스크립트가 올바릅니다.",
           "zipFileUploadedMessage": "번들 파일은 수정하거나 유효성 검증할 수 없음",
@@ -200,6 +201,7 @@
           "invalidMainFileName": "기본 파일 이름이 올바르지 않음",
           "webpageUrl": "웹 페이지 URL",
           "browserUploadFileDescription": "단일 .js 파일, .js 파일을 묶어 .zip 파일 또는 SeleniumIDE에서 기록한 .side 스크립트를 업로드할 수 있습니다.",
+          "node22BrowserUploadFileDescription": "단일 .js, .cjs 또는 .mjs 파일, 번들 .js, .cjs 또는 .mjs 파일이 포함된 .zip 파일 또는 Selenium IDE에서 기록한 .side 스크립트 중 하나를 업로드할 수 있습니다.",
           "sideFileUploadedMessage": "Selenium 스크립트는 수정하거나 유효성 검증할 수 없습니다.",
           "bundleFileNotSupportedMessage": "지원되지 않는 파일을 선택했습니다. 번들은 고급 모드에서만 지원됩니다.",
           "timeoutFieldLabel": "제한시간",
@@ -221,10 +223,10 @@
           "downloadZip": ".zip 파일 다운로드",
           "mainFileNameHelperText": "테스트의 진입점이 포함된 이 .zip 파일 안에 있는 파일 이름을 입력하십시오",
           "recordVideo": "실패 시 사용자 조치 기록",
+          "acceptSelfSignedCertificate": "자체 서명 인증서 승인",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "URL은 DNS 확인을 위해 테스트 중인 도메인 이름입니다.",
-            "lookupPlaceholder": "웹 사이트의 URL",
             "queryType": "쿼리 유형",
             "serverLabel": "DNS 서버",
             "serverHelperText": "DNS 서버는 도메인 이름을 IP 주소로 변환하는 서버입니다.",
@@ -232,8 +234,8 @@
             "portHelperText": "DNS 서버 포트는 장치(PoP)와 DNS 서버 간의 통신에 사용되는 네트워크 포트이며, 일반적으로 포트 53입니다.",
             "queryTimeLabel": "응답 시간",
             "queryTimeHelperText": "최적의 DNS 확인 시간은 20-120밀리초 사이입니다",
-            "recordTypeTitle": "어설쎤(선택사항)",
-            "recordTypeSubtitle": "이 필드는 선택사항이지만, 입력된 모든 필드가 참이어야 테스트가 성공합니다.",
+            "assertionsTitle": "어설쎤(선택사항)",
+            "assertionsSubtitle": "이 필드는 선택사항이지만, 입력된 모든 필드가 참이어야 테스트가 성공합니다.",
             "recordTypeLabel": "레코드 유형",
             "operatorLabel": "조건부",
             "operatorOptionMatches": "Matches",
@@ -257,7 +259,9 @@
               "invalidIPv6Address": "IPv6 주소가 올바르지 않음",
               "invalidRecordType": "레코드 유형이 올바르지 않음",
               "invalidResolutionRecord": "해결 레코드가 올바르지 않음"
-            }
+            },
+            "assertionsNotificationTitle": "필요한 어설션",
+            "assertionsNotificationDescription": "\"어설션과 연관된 모든\" 쿼리 유형을 사용할 때는 어설션을 하나 이상 추가하십시오."
           }
         },
         "loadMore": "추가 로드",
@@ -330,7 +334,9 @@
       "failureTitle": "실패함",
       "failureMessageCreate": "합성 테스트를 작성하는 데 실패했습니다. {{errorMessage}}",
       "failureMessageUpdate": "합성 테스트를 업데이트하는 데 실패했습니다. {{errorMessage}}",
-      "failureMesssageDelete": "합성 테스트를 삭제하는 데 실패했습니다. {{errorMessage}}"
+      "failureMesssageDelete": "합성 테스트를 삭제하는 데 실패했습니다. {{errorMessage}}",
+      "successMessageCICDRerun": "합성 테스트 재실행 성공",
+      "failureMesssageCICDRerun": "합성 테스트 다시 시작 실패: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "위치가 성공적으로 삭제됨",
@@ -470,6 +476,10 @@
         "smartAlerts": "스마트 경보",
         "credentials": "신임 정보"
       },
+      "options": {
+        "scheduledLabel": "데이터 범위: 스케줄됨",
+        "onDemandLabel": "데이터 범위 : 온디맨드"
+      },
       "popDialog": {
         "popUpDialogTitle": "합성 모니터링에 대한 권한",
         "popUpDialog": "합성 모니터링 권한 설정에 대한 정보는 <documentationLink>문서</documentationLink>를 확인하십시오.",
@@ -513,7 +523,7 @@
       "type": "유형",
       "successRate": "성공률",
       "successRuns": "{{successRuns}}/{{totalRuns}}개의 결과",
-      "latency": "대기 시간",
+      "latency": "평균 응답 시간",
       "locationLabel": "위치",
       "locationsColumn": {
         "singleLocation": "{{number}} 위치",
@@ -526,7 +536,7 @@
       "associationLabel": "연관",
       "health": "상태",
       "action": "조치",
-      "labelConfirmRemoveTest": "<strong>{{testLabel}}</strong> 테스트를 제거하시겠습니까?",
+      "labelConfirmRemoveTest": "<strong>{{testLabel}}</strong> 테스트를 제거하시겠습니까? 이 조치는 실행 취소할 수 없습니다.",
       "na": "해당사항 없음"
     },
     "locationList": {
@@ -540,9 +550,9 @@
       "namespace": "네임스페이스",
       "health": "상태",
       "noHealthInfo": "해당사항 없음",
-      "labelConfirmRemoveLocation": "<strong>{{label}}</strong>({{status}}) 위치를 제거하시겠습니까?",
-      "activeTestLinked": "위치 <strong>{{label}}</strong>과(와) 연관된 {{linkedTests}} 활성 테스트가 있습니다({{status}}). 이 위치를 삭제하면 테스트 요약 차트에서 데이터가 유실됩니다. 위치를 삭제하시겠습니까?<br/><br/>삭제하지 않고 위치를 업그레이드하려면 <documentLink>문서</documentLink>를 참조하십시오.",
-      "deleteLocation": "위치 삭제",
+      "labelConfirmRemoveLocation": "<strong>{{label}}</strong>({{status}}) 위치를 제거하시겠습니까? 이 조치는 실행 취소할 수 없습니다.",
+      "activeTestLinked": "위치 <strong>{{label}}</strong>과(와) 연관된 {{linkedTests}} 활성 테스트가 있습니다({{status}}). 이 위치를 삭제하면 테스트 요약 차트에서 데이터가 유실됩니다. 위치를 삭제하시겠습니까? <br/><br/>삭제하지 않고 위치를 업그레이드하려면 <documentLink>문서</documentLink>를 참조하십시오.",
+      "deleteLocation": "삭제",
       "noDataAvailable": {
         "message": "{{component}} 사용 불가"
       },
@@ -563,7 +573,8 @@
         "singleIPAddress": "{{number}} IP 주소",
         "multipleIPAddress": "{{number}} IP 주소",
         "noIPAddresses": "해당사항 없음"
-      }
+      },
+      "activate": "활성화"
     },
     "summary": {
       "successRate": "성공률",
@@ -631,6 +642,9 @@
       "dns": {
         "failureType": "실패 유형",
         "na": "해당사항 없음"
+      },
+      "cicd": {
+        "executionType": "실행 유형"
       }
     },
     "detailsPage": {
@@ -775,10 +789,13 @@
       "dns": {
         "title": "테스트 세부 정보",
         "description": "쿼리 유형 {{queryType}}에 대한 DNS 결과",
-        "name": "이름",
+        "domainName": "도메인 이름",
         "ttl": "TTL",
         "data": "데이터",
         "noRecordsFound": "레코드를 찾을 수 없음"
+      },
+      "cicd": {
+        "rerunButtonLabel": "테스트 다시 실행"
       }
     },
     "noDataAvailable": {
@@ -868,6 +885,7 @@
       "associatedMobileApps": "연관된 모바일 앱",
       "noMobileAppAssociated": "연관된 모바일 앱 없음",
       "recordVideo": "실패 시 사용자 조치 기록",
+      "acceptSelfSignedCertificate": "자체 서명 인증서 승인",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "쿼리 유형",
@@ -907,7 +925,7 @@
       "deleteAction": {
         "deleteActionLabel": "삭제",
         "deleteCredentialTitle": "합성 신임 정보 {{credentialName}} 삭제",
-        "credentialNameValidation": "삭제를 확인하려면 신임 정보 전체 이름 입력",
+        "credentialNameValidation": "삭제를 확인하려면 신임 정보 전체 이름을 입력하십시오. 이 조치는 실행 취소할 수 없습니다.",
         "deleteButtonLabel": "신임 정보 삭제",
         "cancelButtonLabel": "취소",
         "deletionSuccess": "신임 정보 삭제 완료"

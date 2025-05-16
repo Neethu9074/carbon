@@ -14,7 +14,7 @@
     "alertHeaderEditTooltip": "Bearbeiten",
     "alertHeaderDuplicateTooltip": "Duplizieren",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Entfernen bestätigen",
-    "alertHeaderRestoreDeleteConfirmationDialogDescription": "Soll der Alert <strong>{{alertConfigName}}</strong> entfernt werden?",
+    "alertHeaderRestoreDeleteConfirmationDialogDescription": "Soll der Alert <strong>{{alertConfigName}}</strong> entfernt werden? Diese Aktion kann nicht rückgängig gemacht werden.",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Entfernen",
     "alertHeaderIsNotLatestRevisionMessage": "Dies ist die Überarbeitung {{description}} dieser Alertkonfiguration. Wählen Sie die <latestRevisionButton>aktuelle Überarbeitung aus</latestRevisionButton> oder nehmen Sie eine <restoreRevisionButton>Wiederherstellung aus der aktuellen Überarbeitung vor</restoreRevisionButton>, wenn Sie Änderungen vornehmen möchten.",
     "alertHeaderAriaLabelSeverity": "Ereignis hat Schweregrad {{severity}}",
@@ -530,7 +530,7 @@
         "labelActionButtonDelete": "Löschen",
         "labelAlertFilters": "Filter",
         "labelConfirm": "Entfernen bestätigen",
-        "labelConfirmRemoveConfig": "Soll der Alert <strong>{{configName}}</strong> entfernt werden?",
+        "labelConfirmRemoveConfig": "Soll der Alert <strong>{{configName}}</strong> entfernt werden? Diese Aktion kann nicht rückgängig gemacht werden.",
         "labelRemove": "Entfernen",
         "numberOfApplicationsSelected": "{{count}} Anwendung ausgewählt",
         "numberOfApplicationsSelected_plural": "{{count}} Anwendungen ausgewählt",
@@ -991,7 +991,7 @@
       },
       "list": {
         "labelConfirm": "Entfernen bestätigen",
-        "labelConfirmRemoveConfig": "Soll der Alert <strong>{{configName}}</strong> entfernt werden?",
+        "labelConfirmRemoveConfig": "Soll der Alert <strong>{{configName}}</strong> entfernt werden? Diese Aktion kann nicht rückgängig gemacht werden.",
         "labelRemove": "Entfernen"
       },
       "gracePeriod": {
@@ -1039,6 +1039,7 @@
         "propertiesLabel": "Eigenschaften",
         "propertiesTitle": "Zusätzliche Alerteigenschaften",
         "thresholdValue": "Schwellenwert",
+        "thresholdType": "Schwellenwerttyp",
         "payloadsLabel": "Nutzdaten",
         "payloadsTitle": "Angepasste Nutzdaten",
         "evaluationSwitch": {
@@ -1060,11 +1061,9 @@
         "specificStatusCodeRate": "Statuscoderate",
         "pageLoads": "Seitenladevorgänge",
         "pageTransitions": "Seitenwechsel",
-        "slownessBlueprintConfigName": "Langsamkeit",
         "slownessBlueprintConfigHeadline": "Automatische Warnmeldungen für OnLoad-Zeit oder HTTP-Latenz",
         "slownessBlueprintConfigTextP": "Sie erhalten eine Warnung, wenn die Zeit von onLoad oder die Latenzzeit von HTTP einen bestimmten Schwellenwert überschreitet.",
         "slownessBlueprintConfigMetricLabel": "onLoad-Zeit",
-        "slownessBlueprintConfigHttpMetricLabel": "HTTP Latenzzeit",
         "jsErrorsBlueprintConfigName": "JS-Fehler",
         "jsErrorsBlueprintConfigHeadline": "Automatische Alerts für JS-Fehler",
         "jsErrorsBlueprintConfigText": "Jedes Mal einen Alert empfangen, wenn übereinstimmende JS-Fehlernachrichten häufiger auftreten als üblich.",
@@ -1103,7 +1102,6 @@
         "ruleMetricNameOptionStatusCodeHttpxxx": "Statuscodeanzahl",
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "Statuscoderate",
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad-Zeit",
-        "ruleMetricNameOptionSlownessHttpLatency": "HTTP Latenzzeit",
         "ruleMetricNameOptionThroughputPageLoads": "Seitenladevorgänge",
         "ruleMetricNameOptionThroughputPageTransitions": "Seitenwechsel"
       },
@@ -1169,7 +1167,7 @@
         },
         "slowness": {
           "headline": "Automatische Warnmeldungen für OnLoad-Zeit oder HTTP-Latenz",
-          "text": "Erhalten Sie eine Benachrichtigung, wenn die Zeit von OnLoad die Erwartungen übertrifft, die aus historischen Daten abgeleitet wurden."
+          "text": "Sie erhalten eine Warnung, wenn die Zeit von onLoad oder die Latenzzeit von HTTP einen bestimmten Schwellenwert überschreitet."
         },
         "JsErrors": {
           "name": "JS-Fehler",
@@ -1357,6 +1355,8 @@
     },
     "mobileApp": {
       "data": {
+        "slownessBlueprintConfigHeadline": "Automatische Warnungen bei HTTP Latenzzeit",
+        "slownessBlueprintConfigTextP": "Erhalten Sie eine Warnung, wenn die Latenzzeit von HTTP einen bestimmten Schwellenwert überschreitet.",
         "statusCodeCount": "Statuscodeanzahl",
         "beaconRate": "Statuscoderate",
         "views": "Ansichten",
@@ -1496,6 +1496,10 @@
           "title": "Alertkanäle definieren",
           "description": "Wählen Sie aus, wo Sie über diese Warnmeldung benachrichtigt werden möchten"
         },
+        "slowness": {
+          "headline": "Automatische Warnungen bei HTTP Latenzzeit",
+          "text": "Erhalten Sie eine Warnung, wenn die Latenzzeit von HTTP einen bestimmten Schwellenwert überschreitet."
+        },
         "statusCode": {
           "headline": "Automatische Alerts für HTTP-Statuscodes",
           "text": "Lassen Sie sich benachrichtigen, wenn ein HTTP-Statuscode häufiger als üblich auftritt."
@@ -1525,6 +1529,10 @@
       }
     },
     "eum": {
+      "slowness": {
+        "blueprintConfigName": "Langsamkeit",
+        "httpLatencyMetricLabel": "HTTP Latenzzeit"
+      },
       "customEvent": {
         "customEventSelectionSliderTitle": "Angepasstes Ereignis auswählen",
         "customEventLabel": "Angepasstes Ereignis",
@@ -1689,13 +1697,6 @@
           "header": "Wo möchten Sie über diese Warnmeldung benachrichtigt werden?",
           "description": "Wählen Sie den/die Empfänger dieser Warnmeldung"
         },
-        "scopeAlerting": {
-          "title": "Wählen Sie, wie Sie gewarnt werden möchten",
-          "customAggregation": "Benutzerdefinierte Aggregation",
-          "customAggregationDescription": "Fasst alle Metriken im Geltungsbereich zu einer einzigen Metrik pro Gruppe zusammen. Pro Gruppe gibt es höchstens ein aktives Thema zur gleichen Zeit.",
-          "perEntityAlerting": "Alarmierung pro Einheit",
-          "perEntityAlertingDescription": "Überwacht jede Metrik einzeln. Sie erhalten eine Warnung für jede einzelne Kennzahl, die den Schwellenwert überschreitet."
-        },
         "scopeFilter": {
           "title": "Wählen Sie den Umfang der Infrastruktur",
           "filter": "Filter",
@@ -1730,7 +1731,23 @@
       "descriptionIsHigherThan": "{{metricName}} ist höher als {{value}}.",
       "descriptionIsHigherOrEqualTo": "{{metricName}} ist höher oder gleich {{value}}.",
       "descriptionIsLowerThan": "{{metricName}} ist niedriger als {{value}}.",
-      "descriptionIsLowerThanOrEqualTo": "{{metricName}} ist kleiner oder gleich {{value}}."
+      "descriptionIsLowerThanOrEqualTo": "{{metricName}} ist kleiner oder gleich {{value}}.",
+      "evaluationType": {
+        "title": "Wählen Sie Ihre Benachrichtigungsmethode",
+        "custom": {
+          "title": "Benutzerdefinierte Aggregation",
+          "description": "Kombiniert alle Metriken im Geltungsbereich zu einer einzigen Metrik pro Gruppe. Pro Gruppe wird jeweils nur ein aktives Problem verfolgt."
+        },
+        "perEntity": {
+          "title": "Alarmierung pro Einheit",
+          "description": "Überwacht jede Metrik einzeln. Sie erhalten eine Warnung für jede Metrik, die den Schwellenwert überschreitet."
+        }
+      },
+      "group": {
+        "disabled": {
+          "tooltipInfo": "Das Hinzufügen einer Gruppe funktioniert nur bei der benutzerdefinierten Aggregation."
+        }
+      }
     },
     "logs": {
       "alertDetails": {

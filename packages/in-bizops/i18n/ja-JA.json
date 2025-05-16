@@ -1,6 +1,6 @@
 {
-  "labelBizOps": "プロセス",
-  "labelPerspectives": "パースペクティブ",
+  "labelBizOps": "ビジネス・プロセス",
+  "labelPerspectives": "ビジネス・パースペクティブ",
   "labelPerspective": "パースペクティブ",
   "components": {
     "count": "数"
@@ -8,8 +8,7 @@
   "lists": {
     "id": "ID",
     "version": "バージョン",
-    "pageTitle": "ビジネス・モニタリング",
-    "cardTitle": "ビジネス・プロセス",
+    "pageTitle": "ビジネス・プロセス",
     "theId": "プロセス ID",
     "theVersion": "プロセス・バージョン",
     "hasBeenCopied": "クリップボードに正常にコピーされました",
@@ -39,9 +38,8 @@
     "documentation": "資料"
   },
   "perspectives": {
-    "newPerspective": "パースペクティブを作る",
+    "newPerspective": "作成",
     "lists": {
-      "perspectives": "ビジネス・パースペクティブ",
       "descriptionLabel": "説明",
       "numberProcessesLabel": "プロセスの数"
     },
@@ -77,7 +75,7 @@
     }
   },
   "navigation": {
-    "businessMonitoring": "ビジネス・モニタリング"
+    "businessMonitoring": "ビジネス・プロセス"
   },
   "dashboards": {
     "analyzeInstances": "インスタンスの分析",

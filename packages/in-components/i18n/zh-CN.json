@@ -1,10 +1,14 @@
 {
+  "accessibility": {
+    "opensNewTab": "在新选项卡中打开"
+  },
   "csvExporterButton": {
     "label": "导出为 CSV"
   },
   "pageStructure": {
     "headerAriaLabel": "页眉",
-    "contentAriaLabel": "内容"
+    "contentAriaLabel": "内容",
+    "filterAriaLabel": "过滤"
   },
   "fileInputButton": {
     "label": {
@@ -55,6 +59,9 @@
       "retryButtonLabel": "重试",
       "openList": "打开列表"
     },
+    "chartCDEventsLaneLabel": "CD 事件",
+    "chartCDEventsLaneApplicationSyncTooltip": "用于 {{name}} 的 Argo CD 同步。",
+    "chartCDEventsLaneTooltip": "+{{len}} 更多 CD 事件",
     "chartReleasesLanePresenterReleasesLabel": "版本",
     "chartReleasesLanePresenterTooltip": "+ 其他 {{len}} 个版本",
     "highlightedTimeframeCloseButtonClearHighlight": "清除突出显示",
@@ -124,11 +131,36 @@
     "dialogRequireFilterMsg": "请指定要保存的过滤器。",
     "filterConfirmRemovalHeader": "确认删除",
     "filterConfirmButtonLabel": "移除过滤器",
-    "filterConfirmRemoveMsg": "是否确定要移除过滤器 <strong>{{filterName}}</strong>？",
+    "filterConfirmRemoveMsg": "是否确定要移除过滤器 <strong>{{filterName}}</strong>？ 此操作不可撤销。",
     "helpDialogTitleUsingTheSearchBar": "使用搜索栏"
   },
   "carbonSearchBar": {
     "search": "搜索"
+  },
+  "downloadPdf": {
+    "downloadPdfFile": "下载 PDF 文件",
+    "settings": "设置",
+    "pdfOrientation": "定向",
+    "portrait": "纵向",
+    "landscape": "横向",
+    "pdfLayout": "布局",
+    "widgetsDisplay": "显示",
+    "singlePage": "单页",
+    "singlePageInfo": "使整个仪表板适合单页大小，并调整内容大小。",
+    "multiPages": "多页",
+    "multiPagesInfo": "将仪表板分布在多个页面上，保持原来的布局。 某些窗口小部件可能会被切断。",
+    "stackWidgetsTitle": "堆叠窗口小部件",
+    "stackWidgetsInfo": "在多个页面上以垂直堆叠的方式显示窗口小部件。",
+    "loadingWidget": "加载 {{totalNodes}} 的窗口小部件 {{widgetIndex}}",
+    "generatePreview": "生成预览",
+    "generatingPreview": "生成 pdf 预览",
+    "generatingPDFTitle": "正在生成 pdf",
+    "generatingPDFContent": "请稍候，正在生成 PDF 文件。",
+    "generatedPDFTitle": "已生成 PDF",
+    "generatedPDFContent": "pdf 下载即将开始。",
+    "timeRange": "时间范围",
+    "preview": "预览",
+    "widgetNotAvailableToBeExported": "此窗口小部件无法导出。"
   },
   "tables": {
     "serverTable": {
@@ -462,12 +494,11 @@
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
+    "viewSwitcherLabelWindowsHypervisor": "Windows 系统管理程序",
     "viewSwitcherLabelXenServer": "XenServer",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "平台",
-    "viewSwitcherButtonSignOut": "注销",
     "viewSwitcherCustomDashboards": "定制仪表板",
-    "viewSwitcherLabelTenants": "租户",
     "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Instana UI 存在可用的新版本",
     "newUiClientVersionAvailableButtonReloadToUpdate": "重新加载以更新",
@@ -480,7 +511,9 @@
     "profileMenu_switchUnitOrTenant": "切换单位或租户",
     "profileMenu_saasConsole": "IBM SaaS 控制台",
     "profileMenu_privacy": "隐私",
-    "profileMenu_logOut": "注销"
+    "profileMenu_logOut": "注销",
+    "teamFocus_title": "团队焦点",
+    "teamFocus_entireUnit": "整个单元"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "选择指标",
@@ -802,7 +835,8 @@
       "equals": "等于",
       "doesNotEqual": "不等于",
       "isBlank": "具有空白值",
-      "notBlank": "具有非空白值"
+      "notBlank": "具有非空白值",
+      "matchesRegex": "匹配 RegEx"
     },
     "number": {
       "isPresent": "存在",

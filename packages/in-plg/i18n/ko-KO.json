@@ -467,6 +467,7 @@
     },
     "azure": {
       "referenceToAzureContainerAppsDocumentation": "추적 데이터를 수집하려면 Azure 컨테이너 앱에 배치된 Go 애플리케이션을 수동으로 계측해야 합니다. <azureContainerAppsDoc>Azure 컨테이너 앱 Go 문서</azureContainerAppsDoc>의 지시사항을 따르십시오.",
+      "referenceAppServiceDocumentationContent": "전제조건을 검토하고 콜렉터 설치를 위한 설치 안내서를 따르십시오. 자세한 지시사항은 <azureContainerAppsDoc>문서</azureContainerAppsDoc>를 참조하십시오.",
       "selectAzureContainerAppsRuntime": "Azure 컨테이너 앱 런타임 선택",
       "reviewPrerequisitesAndConfigureContainerApps": "전제조건을 검토하고 추적을 위해 Azure 컨테이너 앱을 구성하십시오.",
       "containerAppSetEnvironmentVariables": "Azure 컨테이너 앱을 작성하는 동안 다음 환경 변수를 설정하십시오.",
@@ -525,12 +526,25 @@
   "welcomepage": {
     "heading": "Instana 시작",
     "foldableTileTitle": "시작합니다.",
+    "foldableTileTitleNewBanner": "Instana의 새로운 기능 확인",
     "viewAll": "모두 보기",
     "addMore": "추가",
     "create": "작성",
     "collapsibleButton": {
       "showOnboardingTasks": "온보딩 태스크 표시",
-      "hideOnboardingTasks": "온보딩 작업 숨기기"
+      "hideOnboardingTasks": "온보딩 작업 숨기기",
+      "showWhatsNew": "새로운 기능 표시",
+      "hideWhatsNew": "새로운 기능 숨기기"
+    },
+    "kubecost": {
+      "title": "IBM Kubecost를 통한 비용 가시성",
+      "description": "무료로 시작하여 클러스터에 대한 비용 인사이트와 예상 절감액을 확인하십시오.",
+      "buttonName": "지금 알아보기"
+    },
+    "logging": {
+      "title": "Instana 로깅",
+      "description": "이제 OTel을 통해 어디서나 로그를 수락할 수 있으며, 추가 기능으로 최대 90일까지 더 오래 보관할 수 있습니다.",
+      "buttonName": "자세히 알아보기"
     },
     "startIntegrating": {
       "title": "데이터 통합 시작",
@@ -629,7 +643,7 @@
         "viewAllLabel": "플랫폼"
       },
       "bizopsWidget": {
-        "label": "비즈니스 모니터링",
+        "label": "비즈니스 프로세스",
         "name": "이름",
         "activities": "활동",
         "started": "시작됨",
@@ -786,14 +800,14 @@
         "user": "사용자",
         "externalLink": "외부 링크",
         "resultNew": "새로운 결과",
-        "whatsNewLink": "새로운 기능 링크"
+        "communityBlogsLink": "커뮤니티 블로그"
       },
       "buttonNames": {
         "deployAgent": "에이전트 배치",
         "addUser": "사용자 추가",
         "documentation": "IBM 문서",
         "releaseNotes": "릴리스 정보",
-        "whatsNewLink": "Instana의 새로운 기능"
+        "communityBlogsLink": "커뮤니티 블로그"
       },
       "toolTip": {
         "makeDefault": "이 조치를 수행하면 Instana 홈 페이지가 기본 랜딩 페이지로 설정되어, 설정한 사용자 정의 대시보드를 대체합니다."

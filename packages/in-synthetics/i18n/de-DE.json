@@ -192,6 +192,7 @@
           "buttonSave": "Speichern",
           "uploadFileLabel": "Datei hochladen",
           "uploadFileDescription": "Sie können entweder eine einzelne .js-Datei oder eine .zip-Datei mit gebündelten .js-Dateien hochladen.",
+          "node22UploadFileDescription": "Sie können entweder eine einzelne.js-,.cjs- oder.mjs-Datei oder eine.zip-Datei mit gebündelten.js-,.cjs- oder.mjs-Dateien hochladen.",
           "scriptDescription": "Ihr hochgeladenes Script wird hier angezeigt. Sie können es auf Wunsch unten manuell eingeben.",
           "validScriptMessage": "Script ist gültig.",
           "zipFileUploadedMessage": "Gebündelte Dateien können nicht geändert oder validiert werden",
@@ -200,6 +201,7 @@
           "invalidMainFileName": "Hauptdateiname nicht gültig",
           "webpageUrl": "URL der Webseite",
           "browserUploadFileDescription": "Sie können entweder eine einzelne .js-Datei, eine .zip-Datei mit gebündelten .js-Dateien oder ein .side-Skript hochladen, das von SeleniumIDE aufgezeichnet wurde.",
+          "node22BrowserUploadFileDescription": "Sie können entweder eine einzelne.js-,.cjs- oder.mjs-Datei, eine.zip-Datei mit gebündelten.js-,.cjs- oder.mjs-Dateien oder ein von Selenium IDE aufgezeichnetes.side-Skript hochladen.",
           "sideFileUploadedMessage": "Selenium-Scripts können nicht geändert oder validiert werden.",
           "bundleFileNotSupportedMessage": "Nicht unterstützte Datei ausgewählt. Bundles werden nur im erweiterten Modus unterstützt.",
           "timeoutFieldLabel": "Zeitlimit",
@@ -221,10 +223,10 @@
           "downloadZip": "ZIP-Datei herunterladen",
           "mainFileNameHelperText": "Geben Sie den Namen der Datei in dieser ZIP-Datei an, die den Einstiegspunkt des Tests enthält",
           "recordVideo": "Benutzeraktionen bei Fehlern aufzeichnen",
+          "acceptSelfSignedCertificate": "Selbstsigniertes Zertifikat akzeptieren",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "Die E-Mail-Adresse URL ist der Domainname, der auf DNS-Auflösung getestet wird",
-            "lookupPlaceholder": "URL Ihrer Website",
             "queryType": "Abfragetyp",
             "serverLabel": "DNS-Server",
             "serverHelperText": "Der DNS-Server ist der Server, der für die Übersetzung des Domainnamens in eine IP-Adresse verantwortlich ist",
@@ -232,8 +234,8 @@
             "portHelperText": "Der DNS-Server-Port ist der Netzwerk-Port, der für die Kommunikation zwischen Ihrem Gerät (PoP) und dem DNS-Server verwendet wird, in der Regel Port 53",
             "queryTimeLabel": "Antwortzeit",
             "queryTimeHelperText": "Die optimale DNS-Auflösungszeit liegt zwischen 20 und 120 ms",
-            "recordTypeTitle": "Behauptungen (optional)",
-            "recordTypeSubtitle": "Diese Felder sind optional, aber wenn sie ausgefüllt werden, müssen sie alle wahr sein, damit der Test erfolgreich ist.",
+            "assertionsTitle": "Behauptungen (optional)",
+            "assertionsSubtitle": "Diese Felder sind optional, aber wenn sie ausgefüllt werden, müssen sie alle wahr sein, damit der Test erfolgreich ist.",
             "recordTypeLabel": "Datensatztyp",
             "operatorLabel": "Bedingt",
             "operatorOptionMatches": "Übereinstimmungen",
@@ -257,7 +259,9 @@
               "invalidIPv6Address": "IPv6-Adresse ungültig",
               "invalidRecordType": "Datensatztyp ungültig",
               "invalidResolutionRecord": "Aufzeichnungsbeleg ungültig"
-            }
+            },
+            "assertionsNotificationTitle": "Erforderliche Behauptungen",
+            "assertionsNotificationDescription": "Fügen Sie mindestens eine Behauptung hinzu, wenn Sie den Abfragetyp \"ALL associated with assertions\" verwenden."
           }
         },
         "loadMore": "Weitere laden",
@@ -330,7 +334,9 @@
       "failureTitle": "Fehlgeschlagen!",
       "failureMessageCreate": "Erstellen des synthetischen Tests fehlgeschlagen: {{errorMessage}}",
       "failureMessageUpdate": "Aktualisieren des synthetischen Tests fehlgeschlagen: {{errorMessage}}",
-      "failureMesssageDelete": "Löschen des synthetischen Tests fehlgeschlagen: {{errorMessage}}"
+      "failureMesssageDelete": "Löschen des synthetischen Tests fehlgeschlagen: {{errorMessage}}",
+      "successMessageCICDRerun": "Erfolgreiche Wiederholung des synthetischen Tests",
+      "failureMesssageCICDRerun": "Der synthetische Test konnte nicht wiederholt werden: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "Position erfolgreich gelöscht",
@@ -470,6 +476,10 @@
         "smartAlerts": "Smart Alerts",
         "credentials": "Berechtigungsnachweise"
       },
+      "options": {
+        "scheduledLabel": "Datenumfang : Geplant",
+        "onDemandLabel": "Datenumfang : Auf Anfrage"
+      },
       "popDialog": {
         "popUpDialogTitle": "Berechtigungen für synthetische Überwachung",
         "popUpDialog": "Informationen zum Festlegen der Berechtigungen für synthetische Überwachung finden Sie in diesem <documentationLink>Dokument</documentationLink>",
@@ -513,7 +523,7 @@
       "type": "Typ",
       "successRate": "Erfolgsquote",
       "successRuns": "{{successRuns}} / {{totalRuns}} Ergebnisse",
-      "latency": "Latenzzeit",
+      "latency": "Durchschn. Antwortzeit",
       "locationLabel": "Standorte",
       "locationsColumn": {
         "singleLocation": "{{number}} Standort",
@@ -526,7 +536,7 @@
       "associationLabel": "Zuordnungen",
       "health": "Status",
       "action": "Aktion",
-      "labelConfirmRemoveTest": "Soll der Test <strong>{{testLabel}}</strong> wirklich entfernt werden?",
+      "labelConfirmRemoveTest": "Soll der Test <strong>{{testLabel}}</strong> wirklich entfernt werden? Diese Aktion kann nicht rückgängig gemacht werden.",
       "na": "Nicht zutreffend"
     },
     "locationList": {
@@ -540,9 +550,9 @@
       "namespace": "Namensbereich",
       "health": "Status",
       "noHealthInfo": "Nicht verfügbar",
-      "labelConfirmRemoveLocation": "Möchten Sie die Position von <strong>{{label}}</strong> ({{status}}) wirklich entfernen?",
-      "activeTestLinked": "Der Position <strong>{{label}}</strong> sind {{linkedTests}} aktive Tests zugeordnet ({{status}}). Das Löschen dieser Position hat einen Datenverlust in Testzusammenfassungsdiagrammen zur Folge. Möchten Sie diesen Standort wirklich löschen?<br/><br/>Informationen zum Upgrade der Position ohne Löschen finden Sie in der <documentLink>Dokumentation</documentLink>.",
-      "deleteLocation": "Position löschen",
+      "labelConfirmRemoveLocation": "Möchten Sie die Position von <strong>{{label}}</strong> ({{status}}) wirklich entfernen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "activeTestLinked": "Der Position <strong>{{label}}</strong> sind {{linkedTests}} aktive Tests zugeordnet ({{status}}). Das Löschen dieser Position hat einen Datenverlust in Testzusammenfassungsdiagrammen zur Folge. Möchten Sie diesen Standort wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.<br/><br/>Um den Speicherort zu aktualisieren, ohne ihn zu löschen, siehe <documentLink>Dokumentation</documentLink>.",
+      "deleteLocation": "Löschen",
       "noDataAvailable": {
         "message": "{{component}} nicht verfügbar"
       },
@@ -563,7 +573,8 @@
         "singleIPAddress": "{{number}} IP-Adresse",
         "multipleIPAddress": "{{number}} IP-Adressen",
         "noIPAddresses": "Nicht verfügbar"
-      }
+      },
+      "activate": "Aktivieren"
     },
     "summary": {
       "successRate": "Erfolgsquote",
@@ -631,6 +642,9 @@
       "dns": {
         "failureType": "Fehlertyp",
         "na": "Nicht zutreffend"
+      },
+      "cicd": {
+        "executionType": "Ausführungstyp"
       }
     },
     "detailsPage": {
@@ -775,10 +789,13 @@
       "dns": {
         "title": "Testdetails",
         "description": "DNS-Ergebnis für Abfragetyp {{queryType}}",
-        "name": "Name",
+        "domainName": "Domänenname",
         "ttl": "TTL",
         "data": "Daten",
         "noRecordsFound": "Keine Datensätze gefunden"
+      },
+      "cicd": {
+        "rerunButtonLabel": "Wiederholen Sie den Test"
       }
     },
     "noDataAvailable": {
@@ -868,6 +885,7 @@
       "associatedMobileApps": "Zugeordnete Mobile Apps",
       "noMobileAppAssociated": "Keine zugeordneten Mobile Apps",
       "recordVideo": "Benutzeraktionen bei Fehlern aufzeichnen",
+      "acceptSelfSignedCertificate": "Selbstsigniertes Zertifikat akzeptieren",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "Abfragetyp",
@@ -907,7 +925,7 @@
       "deleteAction": {
         "deleteActionLabel": "Löschen",
         "deleteCredentialTitle": "Synthetischen Berechtigungsnachweis löschen {{credentialName}}",
-        "credentialNameValidation": "Geben Sie den vollständigen Namen des Berechtigungsnachweises ein, um die Löschung zu bestätigen",
+        "credentialNameValidation": "Geben Sie den vollständigen Namen des Berechtigungsnachweises ein, um die Löschung zu bestätigen. Diese Aktion kann nicht rückgängig gemacht werden.",
         "deleteButtonLabel": "Berechtigungsnachweis löschen",
         "cancelButtonLabel": "Abbrechen",
         "deletionSuccess": "Der Berechtigungsnachweis wurde gelöscht"

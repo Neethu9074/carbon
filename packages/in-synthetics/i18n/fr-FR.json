@@ -192,6 +192,7 @@
           "buttonSave": "Sauvegarder",
           "uploadFileLabel": "Envoyer un fichier par téléchargement",
           "uploadFileDescription": "Vous pouvez télécharger un seul fichier .js ou un fichier .zip de fichiers .js intégrés.",
+          "node22UploadFileDescription": "Vous pouvez transférer un fichier .js, .cjs ou.mjs unique ou un fichier.zip contenant des fichiers .js, .cjs ou.mjs regroupés.",
           "scriptDescription": "Votre script téléchargé apparaît ici ou vous pouvez l'entrer manuellement ci-dessous.",
           "validScriptMessage": "Le script est valide.",
           "zipFileUploadedMessage": "Les fichiers groupés ne peuvent pas être modifiés ou validés",
@@ -200,6 +201,7 @@
           "invalidMainFileName": "Nom de fichier principal non valide",
           "webpageUrl": "URL de la page Web",
           "browserUploadFileDescription": "Vous pouvez télécharger un seul fichier .js, un fichier .zip de fichiers .js intégrés ou un script .side enregistré par SeleniumIDE.",
+          "node22BrowserUploadFileDescription": "Vous pouvez transférer un fichier .js, .cjs ou.mjs unique, un fichier.zip contenant des fichiers .js, .cjs ou.mjs regroupés ou un script .side enregistré par Selenium IDE.",
           "sideFileUploadedMessage": "Les scripts Selenium ne peuvent pas être modifiés ou validés",
           "bundleFileNotSupportedMessage": "Un fichier non pris en charge est sélectionné. Les bundles sont uniquement pris en charge en mode avancé.",
           "timeoutFieldLabel": "Dépassements du délai d'attente",
@@ -221,10 +223,10 @@
           "downloadZip": "Téléchargez le fichier .zip",
           "mainFileNameHelperText": "Fournir le nom du fichier dans ce fichier .zip qui contient le point d'entrée du test",
           "recordVideo": "Enregistrement des actions de l'utilisateur en cas d'échec",
+          "acceptSelfSignedCertificate": "Accepter le certificat autosigné",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "URL est le nom de domaine testé pour la résolution DNS",
-            "lookupPlaceholder": "L'URL de votre site web",
             "queryType": "Type de requête",
             "serverLabel": "Serveur DNS",
             "serverHelperText": "Le serveur DNS est le serveur chargé de traduire le nom de domaine en adresse IP",
@@ -232,8 +234,8 @@
             "portHelperText": "Le port du serveur DNS est le port réseau utilisé ou la communication entre votre appareil (PoP) et le serveur DNS, généralement le port 53",
             "queryTimeLabel": "Temps de réponse",
             "queryTimeHelperText": "Le temps de résolution DNS optimal est compris entre 20 et 120 ms",
-            "recordTypeTitle": "Affirmations (facultatif)",
-            "recordTypeSubtitle": "Ces zones sont facultatives, mais lorsqu'elles sont renseignées, elles doivent tous être remplies pour que le test soit réussi.",
+            "assertionsTitle": "Affirmations (facultatif)",
+            "assertionsSubtitle": "Ces zones sont facultatives, mais lorsqu'elles sont renseignées, elles doivent tous être remplies pour que le test soit réussi.",
             "recordTypeLabel": "Type d'enregistrement",
             "operatorLabel": "Conditionnel",
             "operatorOptionMatches": "Correspond",
@@ -257,7 +259,9 @@
               "invalidIPv6Address": "Adresse IPv6 non valide",
               "invalidRecordType": "Type d'enregistrement non valide",
               "invalidResolutionRecord": "Enregistrement de la résolution non valide"
-            }
+            },
+            "assertionsNotificationTitle": "Assertions requises",
+            "assertionsNotificationDescription": "Ajoutez au moins une assertion si vous utilisez le type de requête \"TOUS les éléments associés à des assertions\"."
           }
         },
         "loadMore": "Charger plus",
@@ -330,7 +334,9 @@
       "failureTitle": "Echec !",
       "failureMessageCreate": "Échec de la création du test synthétique {{errorMessage}}",
       "failureMessageUpdate": "Échec de la mise à jour du test synthétique {{errorMessage}}",
-      "failureMesssageDelete": "Echec de la suppression du test synthétique : {{errorMessage}}"
+      "failureMesssageDelete": "Echec de la suppression du test synthétique : {{errorMessage}}",
+      "successMessageCICDRerun": "Le test synthétique a été réexécuté",
+      "failureMesssageCICDRerun": "Echec de la réexécution du test synthétique : {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "La suppression de l'emplacement a abouti",
@@ -470,6 +476,10 @@
         "smartAlerts": "Alertes intelligentes",
         "credentials": "Données d'identification"
       },
+      "options": {
+        "scheduledLabel": "Portée des données : planifiée",
+        "onDemandLabel": "Portée des données : à la demande"
+      },
       "popDialog": {
         "popUpDialogTitle": "Droits d'accès pour la surveillance synthétique",
         "popUpDialog": "Consultez le <documentationLink>document</documentationLink> pour plus d'informations sur la définition des droits d'accès pour la surveillance synthétique",
@@ -513,7 +523,7 @@
       "type": "Type",
       "successRate": "Taux de réussite",
       "successRuns": "{{successRuns}} / {{totalRuns}} résultats",
-      "latency": "Temps d'attente",
+      "latency": "Temps de réponse moyen",
       "locationLabel": "Emplacements",
       "locationsColumn": {
         "singleLocation": "{{number}} emplacement",
@@ -526,7 +536,7 @@
       "associationLabel": "Associations",
       "health": "Intégrité",
       "action": "Action",
-      "labelConfirmRemoveTest": "Voulez-vous vraiment supprimer le test <strong>{{testLabel}}</strong>  ?",
+      "labelConfirmRemoveTest": "Voulez-vous vraiment supprimer le test <strong>{{testLabel}}</strong>  ? Cette action ne peut pas être annulée.",
       "na": "Non disponible"
     },
     "locationList": {
@@ -540,9 +550,9 @@
       "namespace": "Espace de nom",
       "health": "Intégrité",
       "noHealthInfo": "ND",
-      "labelConfirmRemoveLocation": "Voulez-vous vraiment retirer l'emplacement <strong>{{label}}</strong> ({{status}}) ?",
-      "activeTestLinked": "{{linkedTests}} tests actifs sont associés à l'emplacement <strong>{{label}}</strong> ({{status}}). La suppression de cet emplacement entraînera la perte de données dans les graphiques récapitulatifs de test. Voulez-vous vraiment supprimer cet emplacement ?<br/><br/>Pour mettre à niveau l'emplacement sans le supprimer, voir la <documentLink>documentation</documentLink>.",
-      "deleteLocation": "Supprimer l'emplacement",
+      "labelConfirmRemoveLocation": "Voulez-vous vraiment retirer l'emplacement <strong>{{label}}</strong> ({{status}}) ? Cette action ne peut pas être annulée.",
+      "activeTestLinked": "{{linkedTests}} tests actifs sont associés à l'emplacement <strong>{{label}}</strong> ({{status}}). La suppression de cet emplacement entraînera la perte de données dans les graphiques récapitulatifs de test. Voulez-vous vraiment supprimer cet emplacement ? Cette action est irréversible.<br/><br/>Pour mettre à niveau l'emplacement sans le supprimer, voir la <documentLink>documentation</documentLink>.",
+      "deleteLocation": "Supprimer",
       "noDataAvailable": {
         "message": "{{component}} non disponible"
       },
@@ -563,7 +573,8 @@
         "singleIPAddress": "{{number}} adresse IP",
         "multipleIPAddress": "{{number}} adresses IP",
         "noIPAddresses": "ND"
-      }
+      },
+      "activate": "Activer"
     },
     "summary": {
       "successRate": "Taux de réussite",
@@ -631,6 +642,9 @@
       "dns": {
         "failureType": "Type d'incident",
         "na": "Non disponible"
+      },
+      "cicd": {
+        "executionType": "Type d'exécution"
       }
     },
     "detailsPage": {
@@ -775,10 +789,13 @@
       "dns": {
         "title": "Détails du test",
         "description": "Résultat du DNS pour le type de requête {{queryType}}",
-        "name": "Nom",
+        "domainName": "Nom de domaine",
         "ttl": "TTL",
         "data": "Données",
         "noRecordsFound": "Aucun enregistrement trouvé"
+      },
+      "cicd": {
+        "rerunButtonLabel": "Réexécuter le test"
       }
     },
     "noDataAvailable": {
@@ -868,6 +885,7 @@
       "associatedMobileApps": "Applications mobiles associées",
       "noMobileAppAssociated": "Aucune application mobile associée",
       "recordVideo": "Enregistrement des actions de l'utilisateur en cas d'échec",
+      "acceptSelfSignedCertificate": "Accepter le certificat autosigné",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "Type de requête",
@@ -907,7 +925,7 @@
       "deleteAction": {
         "deleteActionLabel": "Supprimer",
         "deleteCredentialTitle": "Supprimer les données d'identification synthétiques {{credentialName}}",
-        "credentialNameValidation": "Entrez le nom complet des données d'identification pour confirmer la suppression",
+        "credentialNameValidation": "Entrez le nom complet des données d'identification pour confirmer la suppression. Cette action ne peut pas être annulée.",
         "deleteButtonLabel": "Supprimer les données d'identification",
         "cancelButtonLabel": "Annuler",
         "deletionSuccess": "Les données d'identification ont été supprimées"

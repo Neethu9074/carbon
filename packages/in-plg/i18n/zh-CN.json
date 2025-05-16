@@ -467,6 +467,7 @@
     },
     "azure": {
       "referenceToAzureContainerAppsDocumentation": "在 Azure Container Apps 中部署的 Go 应用程序需要手动检测，以便收集跟踪数据。 请按照 <azureContainerAppsDoc>Azure Container Apps Go 文档</azureContainerAppsDoc>中的说明进行操作。",
+      "referenceAppServiceDocumentationContent": "查看先决条件，并按照安装指南安装收集器。 有关详细说明，请参阅<azureContainerAppsDoc>文档</azureContainerAppsDoc>。",
       "selectAzureContainerAppsRuntime": "选择 Azure Container Apps 运行时",
       "reviewPrerequisitesAndConfigureContainerApps": "查看先决条件并配置 Azure Container Apps 以进行跟踪。",
       "containerAppSetEnvironmentVariables": "在创建 Azure Container Apps 时设置以下环境变量。",
@@ -525,12 +526,25 @@
   "welcomepage": {
     "heading": "欢迎使用 Instana",
     "foldableTileTitle": "开始吧！",
+    "foldableTileTitleNewBanner": "查看 Instana 的新功能",
     "viewAll": "查看所有",
     "addMore": "添加",
     "create": "创建",
     "collapsibleButton": {
       "showOnboardingTasks": "显示加入任务",
-      "hideOnboardingTasks": "隐藏上线任务"
+      "hideOnboardingTasks": "隐藏上线任务",
+      "showWhatsNew": "显示新增内容",
+      "hideWhatsNew": "隐藏新增内容"
+    },
+    "kubecost": {
+      "title": "通过 IBM Kubecost 实现成本可视性",
+      "description": "免费开始使用，查看您的集群的成本洞察和预计节省情况。",
+      "buttonName": "立即探索"
+    },
+    "logging": {
+      "title": "Instana 日志记录",
+      "description": "现在可通过 OTel 在任何地方接受日志，作为附加功能，保留时间可长达 90 天。",
+      "buttonName": "了解更多"
     },
     "startIntegrating": {
       "title": "开始集成数据",
@@ -629,7 +643,7 @@
         "viewAllLabel": "平台"
       },
       "bizopsWidget": {
-        "label": "业务监视",
+        "label": "业务流程",
         "name": "名称",
         "activities": "活动",
         "started": "已启动",
@@ -786,14 +800,14 @@
         "user": "用户",
         "externalLink": "外部链接",
         "resultNew": "结果 - 新",
-        "whatsNewLink": "“新增功能”链接"
+        "communityBlogsLink": "社区博客"
       },
       "buttonNames": {
         "deployAgent": "部署代理程序",
         "addUser": "添加用户",
         "documentation": "IBM 文档",
         "releaseNotes": "发行说明",
-        "whatsNewLink": "Instana 中的新增功能"
+        "communityBlogsLink": "社区博客"
       },
       "toolTip": {
         "makeDefault": "此操作会将 Instana 主页设置为您的缺省登录页面，并替换您设置的任何自定义仪表板。"

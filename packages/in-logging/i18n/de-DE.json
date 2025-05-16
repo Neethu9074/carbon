@@ -81,7 +81,9 @@
       "logIntegrations": "Protokoll-Integrationen",
       "logIntegrationsDescription": "Verbinden Sie Ihre Protokollverwaltungslösungen und konfigurieren Sie sie entsprechend Ihren Anforderungen.",
       "retentionPeriod": "Aufbewahrungszeitraum",
-      "retentionPeriodDescription": "Die Änderung des Aufbewahrungszeitraums wirkt sich auf den Zeitraum aus, in dem Protokolle aufbewahrt werden und in Anwendungen, Dashboards und Analysen verfügbar sind, und hat Auswirkungen auf Kosten und Abrechnung."
+      "retentionPeriodDescription": "Die Änderung des Aufbewahrungszeitraums wirkt sich auf den Zeitraum aus, in dem Protokolle aufbewahrt werden und in Anwendungen, Dashboards und Analysen verfügbar sind, und hat Auswirkungen auf Kosten und Abrechnung.",
+      "patternRecognition": "Log-Mustererkennung",
+      "patternRecognitionDescription": "KI-Funktionen, die wiederkehrende Muster in Ihren Protokollen erkennen. Muster bieten einen umfassenden Überblick über Ihre Protokolle und tragen dazu bei, die Zeit für die Behebung von Problemen zu verkürzen."
     }
   }
 }

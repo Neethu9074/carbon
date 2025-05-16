@@ -1,6 +1,6 @@
 {
-  "labelBizOps": "进程",
-  "labelPerspectives": "透视图",
+  "labelBizOps": "业务流程",
+  "labelPerspectives": "业务透视图",
   "labelPerspective": "透视图",
   "components": {
     "count": "计数"
@@ -8,8 +8,7 @@
   "lists": {
     "id": "标识",
     "version": "版本",
-    "pageTitle": "业务监视",
-    "cardTitle": "业务流程",
+    "pageTitle": "业务流程",
     "theId": "流程 ID",
     "theVersion": "流程版本",
     "hasBeenCopied": "已成功复制到剪贴板",
@@ -39,9 +38,8 @@
     "documentation": "文档中提供。"
   },
   "perspectives": {
-    "newPerspective": "创建透视图",
+    "newPerspective": "创建",
     "lists": {
-      "perspectives": "业务透视图",
       "descriptionLabel": "描述",
       "numberProcessesLabel": "流程数"
     },
@@ -77,7 +75,7 @@
     }
   },
   "navigation": {
-    "businessMonitoring": "业务监视"
+    "businessMonitoring": "业务流程"
   },
   "dashboards": {
     "analyzeInstances": "分析实例",

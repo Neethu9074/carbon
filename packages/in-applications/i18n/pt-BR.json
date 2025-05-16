@@ -52,7 +52,6 @@
   "labelCount": "Contagem",
   "labelFlow": "Fluxo",
   "labelEndpoint": "Terminal",
-  "labelSyntheticEndpoint": "Terminal sintético",
   "labelNameRule": "Regra de nome",
   "labelTag": "Tag",
   "labelKey": "Chave",
@@ -135,6 +134,8 @@
   "UnexpectedErrorOccurred": "Ocorreu um erro inesperado",
   "callsLiveModeDisabled": "O modo em tempo real não é suportado na análise de chamadas",
   "tracesLiveModeDisabled": "O modo em tempo real não é suportado na análise de rastreios",
+  "syntheticAndNonsynthetic": "Sintético e não sintético",
+  "synthetic": "Sintético",
   "applicationMap": {
     "webglNotSupportedTitle": "O navegador não suporta WebGL",
     "webglNotSupported": "A interface com o usuário da Instana contém componentes 3D que são renderizados usando uma tecnologia chamada WebGL. Infelizmente, essa tecnologia ainda não está disponível em todas as plataformas. Alguns navegadores, especialmente aqueles em versões mais antigas, não suportam a WebGL. Recomendamos utilizar a mais nova geração de navegadores de atualização automática: Chrome, Firefox, Safari 8 ou MS Edge.\n\nFazemos nosso melhor para suportar todas as combinações de plataforma e navegador. No entanto, é possível que nosso uso da WebGL contenha erros. É possível usar um [teste on-line](https://get.webgl.org/) para verificar se a sua plataforma suporta WebGL.\n\nSe o teste on-line afirmar que sua plataforma suporta a WebGL, mas o Mapa 3D da Instana continuar inoperante, [entre em contato conosco](https://support.instana.com/hc/en-us/requests/new).\n\nPara obter mais informações sobre resolução de problemas, consulte a [tabela de compatibilidade da WebGL](http://caniuse.com/#feat=webgl) ou o [website da WebGL](http://webgl.org/).",

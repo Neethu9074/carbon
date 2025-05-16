@@ -52,7 +52,6 @@
   "labelCount": "Nombre",
   "labelFlow": "Flux",
   "labelEndpoint": "Noeud final",
-  "labelSyntheticEndpoint": "Noeud final synthétique",
   "labelNameRule": "Nom de la règle",
   "labelTag": "Étiquette",
   "labelKey": "Clé",
@@ -135,6 +134,8 @@
   "UnexpectedErrorOccurred": "Une erreur inattendue s'est produite.",
   "callsLiveModeDisabled": "Le mode opérationnel n'est pas pris en charge lors de l'analyse des appels",
   "tracesLiveModeDisabled": "Le mode opérationnel n'est pas pris en charge lors de l'analyse des traces",
+  "syntheticAndNonsynthetic": "Synthétique et non synthétique",
+  "synthetic": "Synthétique",
   "applicationMap": {
     "webglNotSupportedTitle": "Le navigateur ne prend pas en charge WebGL",
     "webglNotSupported": "L'interface utilisateur Instana contient des composants 3D qui sont rendus à l'aide de la technologie WebGL. Malheureusement, cette technologie n'est pas encore disponible sur toutes les plateformes. Certains navigateurs, en particulier les anciennes versions des navigateurs, ne prennent pas en charge WebGL. Nous recommandons d'utiliser la nouvelle génération de navigateurs à mise à jour automatique : Chrome, Firefox, Safari 8 ou MS Edge.\n\nNous prenons toutes les dispositions pour prendre en charge toutes les combinaisons de plateformes et de navigateurs. Cependant, il se peut que notre utilisation de WebGL contienne des erreurs. Vous pouvez utiliser un [test en ligne](https://get.webgl.org/) pour vérifier que votre plateforme prend en charge WebGL.\n\nSi le test en ligne indique que votre plateforme prend en charge WebGL et que la mappe 3D Instana reste inexploitable, [veuillez nous contacter](https://support.instana.com/hc/en-us/requests/new).\n\nPour plus d'informations sur le traitement des incidents, reportez-vous au [tableau de compatibilité WebGL](http://caniuse.com/#feat=webgl) ou consultez le site Web [WebGL](http://webgl.org/).",

@@ -467,6 +467,7 @@
     },
     "azure": {
       "referenceToAzureContainerAppsDocumentation": "Go-Anwendungen, die in Azure-Container-Apps bereitgestellt werden, müssen manuell instrumentiert werden, um Tracedaten zu erfassen. Befolgen Sie die Anweisungen in der <azureContainerAppsDoc>Azure Container Apps Go Dokumentation</azureContainerAppsDoc>.",
+      "referenceAppServiceDocumentationContent": "Überprüfen Sie die Voraussetzungen und folgen Sie der Installationsanleitung für die Installation des Collectors. Eine ausführliche Anleitung finden Sie in der <azureContainerAppsDoc>Dokumentation</azureContainerAppsDoc>.",
       "selectAzureContainerAppsRuntime": "Wählen Sie Azure Container Apps Runtime",
       "reviewPrerequisitesAndConfigureContainerApps": "Überprüfen Sie die Voraussetzungen und konfigurieren Sie Ihre Azure Container Apps für die Traceerstellung.",
       "containerAppSetEnvironmentVariables": "Stellen Sie die folgenden Umgebungsvariablen beim Erstellen einer Azure Container App ein.",
@@ -525,12 +526,25 @@
   "welcomepage": {
     "heading": "Willkommen bei Instana",
     "foldableTileTitle": "Erste Schritte",
+    "foldableTileTitleNewBanner": "Sehen Sie sich die neuen Funktionen von Instana an",
     "viewAll": "Alle anzeigen",
     "addMore": "Hinzufügen",
     "create": "Erstellen",
     "collapsibleButton": {
       "showOnboardingTasks": "Onboarding-Aufgaben anzeigen",
-      "hideOnboardingTasks": "Onboarding-Tasks ausblenden"
+      "hideOnboardingTasks": "Onboarding-Tasks ausblenden",
+      "showWhatsNew": "Zeigen, was es Neues gibt",
+      "hideWhatsNew": "Neues ausblenden"
+    },
+    "kubecost": {
+      "title": "Kostentransparenz mit IBM Kubecost",
+      "description": "Starten Sie kostenlos und erhalten Sie Einblicke in die Kosten und geschätzten Einsparungen für Ihre Cluster.",
+      "buttonName": "Jetzt ansehen"
+    },
+    "logging": {
+      "title": "Instana-Protokollierung",
+      "description": "Jetzt können Logs überall über OTel angenommen werden, und die Aufbewahrungszeit kann als Zusatzfunktion auf bis zu 90 Tage verlängert werden.",
+      "buttonName": "Weitere Informationen"
     },
     "startIntegrating": {
       "title": "Integration von Daten starten",
@@ -629,7 +643,7 @@
         "viewAllLabel": "-Plattformen"
       },
       "bizopsWidget": {
-        "label": "Business Monitoring",
+        "label": "Geschäftsprozesse",
         "name": "Name",
         "activities": "Aktivitäten",
         "started": "Gestartet",
@@ -786,14 +800,14 @@
         "user": "Benutzer",
         "externalLink": "Externer Link",
         "resultNew": "Ergebnis Neu",
-        "whatsNewLink": "Was neu ist Link"
+        "communityBlogsLink": "Community-Blogs"
       },
       "buttonNames": {
         "deployAgent": "Agenten implementieren",
         "addUser": "Benutzer hinzufügen",
         "documentation": "IBM Dokumentation",
         "releaseNotes": "Releaseinformationen",
-        "whatsNewLink": "Was ist neu in Instana"
+        "communityBlogsLink": "Community-Blogs"
       },
       "toolTip": {
         "makeDefault": "Diese Aktion legt die Instana-Startseite als Ihre Standard-Landingpage fest und ersetzt jedes benutzerdefinierte Dashboard, das Sie eingerichtet haben."

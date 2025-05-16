@@ -467,6 +467,7 @@
     },
     "azure": {
       "referenceToAzureContainerAppsDocumentation": "Le applicazioni Go distribuite nelle applicazioni contenitore di Azure devono essere strumentate manualmente per raccogliere i dati di traccia. Seguire le istruzioni della documentazione di <azureContainerAppsDoc>Azure Container Apps Go</azureContainerAppsDoc>.",
+      "referenceAppServiceDocumentationContent": "Riesaminare i prerequisiti e seguire la guida all'installazione per installare il programma di raccolta. Per istruzioni dettagliate, fare riferimento alla <azureContainerAppsDoc>documentazione</azureContainerAppsDoc>.",
       "selectAzureContainerAppsRuntime": "Selezionare il runtime delle applicazioni contenitore di Azure",
       "reviewPrerequisitesAndConfigureContainerApps": "Esaminare i prerequisiti e configurare le applicazioni contenitore di Azure per il tracciamento.",
       "containerAppSetEnvironmentVariables": "Impostare le seguenti variabili d'ambiente durante la creazione di un'applicazione contenitore di Azure.",
@@ -525,12 +526,25 @@
   "welcomepage": {
     "heading": "Benvenuto in Instana",
     "foldableTileTitle": "Iniziamo.",
+    "foldableTileTitleNewBanner": "Scoprite le nuove funzionalità di Instana",
     "viewAll": "Visualizza tutto",
     "addMore": "Aggiungi",
     "create": "Crea",
     "collapsibleButton": {
       "showOnboardingTasks": "Mostra le attività di onboarding",
-      "hideOnboardingTasks": "Nascondi attività di onboarding"
+      "hideOnboardingTasks": "Nascondi attività di onboarding",
+      "showWhatsNew": "Mostra le novità",
+      "hideWhatsNew": "Nascondere le novità"
+    },
+    "kubecost": {
+      "title": "Visibilità dei costi con IBM Kubecost",
+      "description": "Iniziate gratuitamente e vedete le analisi dei costi e i risparmi stimati per i vostri cluster.",
+      "buttonName": "Esplora ora"
+    },
+    "logging": {
+      "title": "Registrazione Instana",
+      "description": "Ora accetta i log ovunque attraverso OTel, e con una conservazione più lunga fino a 90 giorni come funzione aggiuntiva.",
+      "buttonName": "Ulteriori informazioni"
     },
     "startIntegrating": {
       "title": "Inizia l'integrazione dei dati",
@@ -629,7 +643,7 @@
         "viewAllLabel": "piattaforme"
       },
       "bizopsWidget": {
-        "label": "Monitoraggio del business",
+        "label": "Processi di business",
         "name": "Nome",
         "activities": "Attività",
         "started": "Avviato",
@@ -786,14 +800,14 @@
         "user": "Utente",
         "externalLink": "Link esterno",
         "resultNew": "Risultato nuovo",
-        "whatsNewLink": "Novità Link"
+        "communityBlogsLink": "Blog della comunità"
       },
       "buttonNames": {
         "deployAgent": "Distribuisci agent",
         "addUser": "Aggiungi utente",
         "documentation": "Documentazione IBM",
         "releaseNotes": "Note di release",
-        "whatsNewLink": "Cosa c'è di nuovo in Instana"
+        "communityBlogsLink": "Blog della comunità"
       },
       "toolTip": {
         "makeDefault": "Questa azione imposta la homepage di Instana come pagina di destinazione predefinita, sostituendo qualsiasi dashboard personalizzato impostato dall'utente."

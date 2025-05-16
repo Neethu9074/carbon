@@ -120,6 +120,7 @@
   "labelMonitoringIssues": "Überwachungsprobleme",
   "labelCveIssue": "Sicherheitslücken",
   "labelPrcIssue": "Wahrscheinliche Ursachen",
+  "smartAlerts": "Smart Alerts",
   "labelAll": "Alle",
   "buttonViewCustomEvent": "Angepasstes Ereignis anzeigen",
   "buttonViewBuiltInEvent": "Integriertes Ereignis anzeigen",
@@ -144,7 +145,6 @@
   "unidentifiedEntityTooltip": "Es ist ein Fehler beim Abrufen von Informationen über diese Entität aufgetreten. Sie können das Dashboard der Entität besuchen, indem Sie auf den Link 'Unidentifizierte Entität' klicken, um weitere Einzelheiten zu erfahren.",
   "headerStatus": "Status",
   "eventHelpfulText": "War dieses Ereignis hilfreich?",
-  "summaryHelpfulText": "War diese Zusammenfassung hilfreich?",
   "thankYouForYourFeedback": "Danke für Ihr Feedback!",
   "hostOffLineEventProblemChangeTime": "Klicken Sie auf den Link unten, um zur letzten Version des Hosts zu gelangen, der von Instana überwacht wird. Dadurch ändert sich der Start Ihres Zeitfensters in einen Zeitpunkt, zu dem der Host von Instana überwacht wurde",
   "offLineEventProblemChangeTime": "Klicken Sie auf den Link unten, um zur letzten Version des Prozesses zu gelangen, der von Instana überwacht wird. Dadurch ändert sich der Start Ihres Zeitfensters in einen Zeitpunkt, zu dem der Prozess von Instana überwacht wurde",
@@ -373,6 +373,7 @@
     "name": "Name",
     "count": "Anzahl",
     "noMatching": "Keine übereinstimmenden Datensätze gefunden.",
+    "anyOtherQs": "Haben Sie noch weitere Fragen, die wir beantworten können?",
     "timestamp": "Zeitmarke",
     "numCalls": "Anzahl der Aufrufe",
     "meanLatency": "Mittlere Latenz",
@@ -388,7 +389,6 @@
   },
   "notes": {
     "openNotes": "Notizen und Aktivität öffnen",
-    "closeNotes": "Notizen und Aktivität schließen",
     "notesActivity": "Notizen und Aktivitäten mit KI",
     "confirmDelete": "Löschen bestätigen",
     "you": "Sie {{date}}",
@@ -442,7 +442,10 @@
     "subject": "Betreff",
     "body": "Hauptteil",
     "takeSomeTimeReview": "Nehmen Sie sich etwas Zeit, um die Zusammenfassung zu überprüfen und eventuell zu ändern, bevor Sie sie an andere weitergeben.",
-    "invalidEmail": "E-Mail muss gültig seinuser@domain), durch Kommata getrennt"
+    "invalidEmail": "E-Mail muss gültig seinuser@domain), durch Kommata getrennt",
+    "positiveFeedback": "Diese Zusammenfassung war hilfreich",
+    "negativeFeedback": "Diese Zusammenfassung war nicht hilfreich",
+    "surveyButtonTxt": "Teilen Sie Ihr Feedback"
   },
   "incident": {
     "overviewTitle": "Übersicht über Vorfälle",
@@ -464,5 +467,16 @@
   "affectedIncidents": {
     "affectedIncident": "Betroffenes Ereignis",
     "noAffectedIncidents": "Keine betroffenen Vorfälle gefunden"
+  },
+  "feedbackModal": {
+    "cancel": "Abbrechen",
+    "submit": "Übergeben",
+    "title": "Teilen Sie Ihr Feedback",
+    "helpfulQ": "Was fanden Sie an der Zusammenfassung hilfreich?",
+    "improveQ": "Wie könnten wir die Zusammenfassung verbessern?",
+    "maxChars": "Maximal 750 Zeichen",
+    "followUpQuestion": "Möchten Sie, dass wir uns bezüglich Ihres Feedbacks mit Ihnen in Verbindung setzen?",
+    "yesContect": "Ja, bitte kontaktieren Sie mich.",
+    "noContact": "Nein, ich möchte nicht kontaktiert werden."
   }
 }

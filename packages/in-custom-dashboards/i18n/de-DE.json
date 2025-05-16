@@ -66,18 +66,12 @@
     "customDashboard": {
       "confirmDashboardDel": "Löschung des Dashboards bestätigen",
       "delDashboard": "Dashboard löschen",
-      "uWantDelDashboardConfig": "Sind Sie sicher, dass Sie das Dashboard <strong>{{title}}</strong> löschen möchten?",
+      "uWantDelDashboardConfig": "Sind Sie sicher, dass Sie das Dashboard <strong>{{title}}</strong> löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
       "failDelDashboard": "Fehler beim Löschen des Dashboards.",
       "renameDashboard": "Dashboard umbenennen",
       "dashboardName": "Dashboardname",
       "rename": "Umbenennen",
-      "failSaveDashboard": "Fehler beim Speichern des Dashboards.",
-      "generatingPDFTitle": "Pdf generieren",
-      "generatingPDFContent": "Bitte warten Sie, während die PDF-Datei erstellt wird.",
-      "generatedPDFTitle": "PDF Generiert",
-      "generatedPDFContent": "Der PDF-Download wird in Kürze beginnen.",
-      "timeRange": "Zeitbereich",
-      "widgetNotAvailableToBeExported": "Dieses Widget kann nicht exportiert werden."
+      "failSaveDashboard": "Fehler beim Speichern des Dashboards."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Dashboard nicht gefunden",
@@ -102,24 +96,6 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Fehler beim Analysieren von Eingaben als JSON.",
       "jsonRootMustBeAnObject": "JSON-Root muss ein Objekt sein."
-    },
-    "downloadPdfDialog": {
-      "downloadPdf": "PDF-Datei herunterladen",
-      "settings": "Einstellungen",
-      "pdfOrientation": "Ausrichtung",
-      "portrait": "Hochformat",
-      "landscape": "Querformat",
-      "pdfLayout": "Layout",
-      "widgetsDisplay": "Anzeige",
-      "singlePage": "Einzelseite",
-      "singlePageInfo": "Platzieren Sie das gesamte Dashboard auf einer Seite, wobei der Inhalt an die Größe angepasst wird.",
-      "multiPages": "Mehrere Seiten",
-      "multiPagesInfo": "Verteilen Sie das Dashboard auf mehrere Seiten und behalten Sie dabei das ursprüngliche Layout bei. Einige Widgets können abgeschnitten sein.",
-      "stackWidgetsTitle": "Widgets stapeln",
-      "stackWidgetsInfo": "Anzeige von Widgets in einem vertikalen Stapel über mehrere Seiten hinweg.",
-      "loadingWidget": "Laden des Widgets {{widgetIndex}} von {{totalNodes}}",
-      "generatePreview": "Vorschau generieren",
-      "generatingPreview": "Pdf-Vorschau generieren"
     },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "Einige der aktuellen Dashboard-Filter wurden angewendet.",
@@ -174,6 +150,18 @@
       },
       "index": {
         "bizOps": "Geschäftsprozesse (Aktivitäten)"
+      }
+    },
+    "srcBusinessMetrics": {
+      "formComponent": {
+        "pleaseSelect": "Bitte auswählen",
+        "pleaseSelectMetric": "Wählen Sie einen Messwert aus",
+        "aggregation": "Aggregation",
+        "metric": "Metrik",
+        "unit": "Einheit"
+      },
+      "index": {
+        "businessMetrics": "Geschäftsmetriken"
       }
     },
     "srcApp": {
@@ -618,7 +606,7 @@
         "viewCloneSliConfig": "SLI-Konfiguration anzeigen/klonen",
         "delSliConfig": "SLI-Konfiguration löschen",
         "confirmRemove": "Entfernen bestätigen",
-        "confirmRemoveMsg": "Sind Sie sicher, dass Sie <strong>{{sliName}}</strong> löschen möchten?",
+        "confirmRemoveMsg": "Sind Sie sicher, dass Sie <strong>{{sliName}}</strong> löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
         "delete": "Löschen",
         "eventBasedSli": "Ereignisbasiert",
         "timeBasedSli": "Zeitbasiert, {{metricNameLabel}}"
@@ -770,7 +758,7 @@
         "nameColumn": "Apdex-Konfiguration",
         "thresholdColumn": "Schwellenwert",
         "confirmDeleteHeader": "Entfernen bestätigen",
-        "confirmDeleteMessage": "Möchten Sie {{apdex}} wirklich löschen?",
+        "confirmDeleteMessage": "Möchten Sie {{apdex}} wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
         "editApdexTooltip": "Apdex-Konfiguration bearbeiten/klonen",
         "deleteApdexTooltip": "Apdex-Konfiguration löschen",
         "confirmDeleteButton": "Löschen",

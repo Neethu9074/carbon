@@ -1,10 +1,14 @@
 {
+  "accessibility": {
+    "opensNewTab": "Se abre en una pestaña nueva"
+  },
   "csvExporterButton": {
     "label": "Exportar a CSV"
   },
   "pageStructure": {
     "headerAriaLabel": "Cabecera de página",
-    "contentAriaLabel": "Contenido"
+    "contentAriaLabel": "Contenido",
+    "filterAriaLabel": "Filtrar"
   },
   "fileInputButton": {
     "label": {
@@ -55,6 +59,9 @@
       "retryButtonLabel": "Reintento",
       "openList": "Abrir lista"
     },
+    "chartCDEventsLaneLabel": "Sucesos de CD",
+    "chartCDEventsLaneApplicationSyncTooltip": "Sincronización de Argo CD para {{name}}.",
+    "chartCDEventsLaneTooltip": "+{{len}} más sucesos de CD",
     "chartReleasesLanePresenterReleasesLabel": "Releases",
     "chartReleasesLanePresenterTooltip": "+{{len}} más releases",
     "highlightedTimeframeCloseButtonClearHighlight": "Borrar resaltado",
@@ -124,11 +131,36 @@
     "dialogRequireFilterMsg": "Especifique un filtro para guardar.",
     "filterConfirmRemovalHeader": "Confirmar eliminación",
     "filterConfirmButtonLabel": "Eliminar filtro",
-    "filterConfirmRemoveMsg": "¿Está seguro de que desea eliminar el filtro <strong>{{filterName}}</strong>?",
+    "filterConfirmRemoveMsg": "¿Está seguro de que desea eliminar el filtro <strong>{{filterName}}</strong>? Esta acción no se puede deshacer.",
     "helpDialogTitleUsingTheSearchBar": "Utilizar la barra de búsqueda"
   },
   "carbonSearchBar": {
     "search": "Búsqueda"
+  },
+  "downloadPdf": {
+    "downloadPdfFile": "Descargar archivo PDF",
+    "settings": "Valores",
+    "pdfOrientation": "Orientación",
+    "portrait": "Vertical",
+    "landscape": "Horizontal",
+    "pdfLayout": "Diseño",
+    "widgetsDisplay": "Visualización",
+    "singlePage": "Una sola página",
+    "singlePageInfo": "Incluir todo el panel de control en una página, con el contenido adaptado a su tamaño.",
+    "multiPages": "Varias páginas",
+    "multiPagesInfo": "Distribuir el panel de control en varias páginas, manteniendo el diseño original. Puede que algunos widgets aparezcan cortados.",
+    "stackWidgetsTitle": "Apilar widgets",
+    "stackWidgetsInfo": "Mostrar widgets en una pila vertical en múltiples páginas.",
+    "loadingWidget": "Cargando widget {{widgetIndex}} de {{totalNodes}}",
+    "generatePreview": "Generar vista previa",
+    "generatingPreview": "Generando vista previa en pdf",
+    "generatingPDFTitle": "Generar pdf",
+    "generatingPDFContent": "Espere mientras se genera el pdf.",
+    "generatedPDFTitle": "Pdf generado",
+    "generatedPDFContent": "La descarga del pdf comenzará en breve.",
+    "timeRange": "Intervalo de tiempo",
+    "preview": "Vista previa",
+    "widgetNotAvailableToBeExported": "Este widget no se puede exportar."
   },
   "tables": {
     "serverTable": {
@@ -462,12 +494,11 @@
     "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelPowervc": "IBM PowerVC",
     "viewSwitcherLabelSap": "SAP",
+    "viewSwitcherLabelWindowsHypervisor": "Hipervisor de Windows",
     "viewSwitcherLabelXenServer": "XenServer",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "Plataformas",
-    "viewSwitcherButtonSignOut": "Cerrar sesión",
     "viewSwitcherCustomDashboards": "Paneles de control personalizados",
-    "viewSwitcherLabelTenants": "Arrendatarios",
     "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Nueva versión de la IU de Instana",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Volver a cargar para actualizar",
@@ -480,7 +511,9 @@
     "profileMenu_switchUnitOrTenant": "Cambiar de unidad o de arrendatario",
     "profileMenu_saasConsole": "Consola de IBM SaaS",
     "profileMenu_privacy": "Privacidad",
-    "profileMenu_logOut": "Cerrar sesión"
+    "profileMenu_logOut": "Cerrar sesión",
+    "teamFocus_title": "Enfoque de equipo",
+    "teamFocus_entireUnit": "Unidad completa"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Seleccionar métricas",
@@ -802,7 +835,8 @@
       "equals": "igual a",
       "doesNotEqual": "no igual a",
       "isBlank": "tiene un valor en blanco",
-      "notBlank": "tiene un valor no en blanco"
+      "notBlank": "tiene un valor no en blanco",
+      "matchesRegex": "RegEx coincidente"
     },
     "number": {
       "isPresent": "está presente",

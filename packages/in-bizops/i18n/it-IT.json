@@ -1,6 +1,6 @@
 {
-  "labelBizOps": "Processi",
-  "labelPerspectives": "Prospettive",
+  "labelBizOps": "Processi di business",
+  "labelPerspectives": "Prospettive di business",
   "labelPerspective": "Prospettiva",
   "components": {
     "count": "Conteggio"
@@ -8,8 +8,7 @@
   "lists": {
     "id": "ID",
     "version": "Versione",
-    "pageTitle": "Monitoraggio del business",
-    "cardTitle": "Processi di business",
+    "pageTitle": "Processi di business",
     "theId": "L'ID processo",
     "theVersion": "La versione di processo",
     "hasBeenCopied": "è stato copiato con successo negli appunti",
@@ -39,9 +38,8 @@
     "documentation": "documentazione."
   },
   "perspectives": {
-    "newPerspective": "Crea prospettiva",
+    "newPerspective": "Crea",
     "lists": {
-      "perspectives": "Prospettive di business",
       "descriptionLabel": "Descrizione",
       "numberProcessesLabel": "Numero di processi"
     },
@@ -77,7 +75,7 @@
     }
   },
   "navigation": {
-    "businessMonitoring": "Monitoraggio del business"
+    "businessMonitoring": "Processi di business"
   },
   "dashboards": {
     "analyzeInstances": "Analizza istanze",

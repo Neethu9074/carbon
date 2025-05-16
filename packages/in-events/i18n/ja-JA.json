@@ -120,6 +120,7 @@
   "labelMonitoringIssues": "モニタリングの問題",
   "labelCveIssue": "脆弱性",
   "labelPrcIssue": "考えられる根本原因",
+  "smartAlerts": "スマート・アラート",
   "labelAll": "すべて",
   "buttonViewCustomEvent": "カスタム・イベントの表示",
   "buttonViewBuiltInEvent": "組み込みイベントを表示",
@@ -144,7 +145,6 @@
   "unidentifiedEntityTooltip": "このエンティティに関する情報の取得にエラーが発生しました。 詳細については、「Unidentified Entity」リンクをクリックして、エンティティのダッシュボードにアクセスしてください。",
   "headerStatus": "状況",
   "eventHelpfulText": "このイベントは役に立ちましたか?",
-  "summaryHelpfulText": "この要約は役に立ちましたか?",
   "thankYouForYourFeedback": "フィードバックをありがとうございました。",
   "hostOffLineEventProblemChangeTime": "以下のリンクをクリックすると、Instana によってモニターされていたホストの最後のバージョンに移動します。 これにより、時間枠の開始が、Instana によってホストがモニターされていた時点に変更されます",
   "offLineEventProblemChangeTime": "以下のリンクをクリックすると、Instana によってモニターされていたプロセスの最後のバージョンに移動します。 これにより、時間枠の開始が、Instana によってプロセスがモニターされていた時点に変更されます",
@@ -373,6 +373,7 @@
     "name": "名前",
     "count": "数",
     "noMatching": "一致するレコードは見つかりませんでした。",
+    "anyOtherQs": "他にご質問があればお答えいたします。",
     "timestamp": "タイムスタンプ",
     "numCalls": "# Calls",
     "meanLatency": "平均待ち時間",
@@ -388,7 +389,6 @@
   },
   "notes": {
     "openNotes": "注釈およびアクティビティーを開く",
-    "closeNotes": "注釈およびアクティビティーを閉じる",
     "notesActivity": "AI によるメモとアクティビティ",
     "confirmDelete": "削除の確認",
     "you": "{{date}} は",
@@ -442,7 +442,10 @@
     "subject": "件名",
     "body": "Body",
     "takeSomeTimeReview": "他の人と共有する前に、要約を見直して必要に応じて修正してください。",
-    "invalidEmail": "電子メールはカンマで区切られた有効なもの (user@domain) である必要があります"
+    "invalidEmail": "電子メールはカンマで区切られた有効なもの (user@domain) である必要があります",
+    "positiveFeedback": "この要約は参考になった",
+    "negativeFeedback": "この要約は役に立たなかった",
+    "surveyButtonTxt": "フィードバックのお願い"
   },
   "incident": {
     "overviewTitle": "インシデントの概要",
@@ -464,5 +467,16 @@
   "affectedIncidents": {
     "affectedIncident": "影響を受けたインシデント",
     "noAffectedIncidents": "影響を受けたインシデントは見つからなかった"
+  },
+  "feedbackModal": {
+    "cancel": "キャンセル",
+    "submit": "実行依頼",
+    "title": "フィードバックのお願い",
+    "helpfulQ": "要約のどこが参考になりましたか？",
+    "improveQ": "どうすれば要約を改善できるでしょう？",
+    "maxChars": "最大750文字",
+    "followUpQuestion": "いただいたフィードバックに関してフォローアップをご希望ですか？",
+    "yesContect": "はい、連絡してください。",
+    "noContact": "いいえ、連絡は不要です。"
   }
 }

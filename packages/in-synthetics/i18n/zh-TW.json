@@ -192,6 +192,7 @@
           "buttonSave": "儲存",
           "uploadFileLabel": "上傳檔案",
           "uploadFileDescription": "您可以上傳單一 .js 檔案或捆綁的 .js 檔案的 .zip 檔案。",
+          "node22UploadFileDescription": "您可以上傳單一的 .js、.cjs 或 .mjs 檔案，或包含這些檔案的 .zip 檔案。",
           "scriptDescription": "您上傳的 Script 會出現在這裡，或者您可以在下面手動輸入它。",
           "validScriptMessage": "Script 有效。",
           "zipFileUploadedMessage": "無法修改或驗證組合檔案",
@@ -200,6 +201,7 @@
           "invalidMainFileName": "主要檔名稱無效",
           "webpageUrl": "網頁 URL",
           "browserUploadFileDescription": "您可以上傳單一 .js 檔案、捆綁的 .js 檔案的 .zip 檔案或 SeleniumIDE 所錄製的 .side Script。",
+          "node22BrowserUploadFileDescription": "您可以上傳單一的 .js、.cjs 或 .mjs 檔案、一個包含這些檔案的 .zip 檔案，或由 Selenium IDE 錄製的 .side Script。",
           "sideFileUploadedMessage": "無法修改或驗證 Selenium Script",
           "bundleFileNotSupportedMessage": "已選取不受支援的檔案。 只有在「進階模式」中才支援軟體組。",
           "timeoutFieldLabel": "逾時",
@@ -221,10 +223,10 @@
           "downloadZip": "下載 .zip 檔案",
           "mainFileNameHelperText": "提供此 .zip 檔案中包含測試入口點的檔案的名稱",
           "recordVideo": "記錄使用者在失敗時的動作",
+          "acceptSelfSignedCertificate": "接受自簽憑證",
           "dns": {
             "lookupLabel": "URL",
             "lookupHelperText": "URL 是正在測試 DNS 解析的網域名稱",
-            "lookupPlaceholder": "您的網站 URL",
             "queryType": "查詢類型",
             "serverLabel": "DNS伺服器",
             "serverHelperText": "DNS 伺服器是負責將網域名稱轉換為 IP 位址的伺服器",
@@ -232,8 +234,8 @@
             "portHelperText": "DNS 伺服器連接埠是您的裝置 (PoP) 與 DNS 伺服器之間使用或通訊的網路連接埠，通常是連接埠 53",
             "queryTimeLabel": "回應時間",
             "queryTimeHelperText": "最佳 DNS 解析時間介於 20-120 毫秒之間",
-            "recordTypeTitle": "斷言（選用）",
-            "recordTypeSubtitle": "這些欄位是選用的，但填寫後所有欄位都必須為 True，測試才算成功。",
+            "assertionsTitle": "斷言（選用）",
+            "assertionsSubtitle": "這些欄位是選用的，但填寫後所有欄位都必須為 True，測試才算成功。",
             "recordTypeLabel": "記錄類型",
             "operatorLabel": "條件式",
             "operatorOptionMatches": "符合",
@@ -257,7 +259,9 @@
               "invalidIPv6Address": "IPv6 位址無效",
               "invalidRecordType": "記錄類型無效",
               "invalidResolutionRecord": "解析記錄無效"
-            }
+            },
+            "assertionsNotificationTitle": "所需主張",
+            "assertionsNotificationDescription": "使用「全部與主張相關」查詢類型時，請至少新增一個主張。"
           }
         },
         "loadMore": "載入更多",
@@ -330,7 +334,9 @@
       "failureTitle": "失敗！",
       "failureMessageCreate": "無法建立虛構測試：{{errorMessage}}",
       "failureMessageUpdate": "無法更新虛構測試：{{errorMessage}}",
-      "failureMesssageDelete": "無法刪除綜合測試：{{errorMessage}}"
+      "failureMesssageDelete": "無法刪除綜合測試：{{errorMessage}}",
+      "successMessageCICDRerun": "成功重新執行綜合測試",
+      "failureMesssageCICDRerun": "無法重新執行綜合測試：{{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "已順利刪除位置",
@@ -470,6 +476,10 @@
         "smartAlerts": "智慧型警示",
         "credentials": "認證"
       },
+      "options": {
+        "scheduledLabel": "資料範圍 : 已排程",
+        "onDemandLabel": "資料範圍：隨需應變"
+      },
       "popDialog": {
         "popUpDialogTitle": "綜合監視的權限",
         "popUpDialog": "如需設定綜合監視權限的相關資訊，請查看<documentationLink>文件</documentationLink>",
@@ -513,7 +523,7 @@
       "type": "類型",
       "successRate": "成功率",
       "successRuns": "{{successRuns}} / {{totalRuns}} 個結果",
-      "latency": "延遲",
+      "latency": "平均回應時間",
       "locationLabel": "位置",
       "locationsColumn": {
         "singleLocation": "{{number}} 個位置",
@@ -526,7 +536,7 @@
       "associationLabel": "關聯",
       "health": "性能",
       "action": "動作",
-      "labelConfirmRemoveTest": "您確定要移除 <strong>{{testLabel}}</strong> 測試嗎？",
+      "labelConfirmRemoveTest": "您確定要移除 <strong>{{testLabel}}</strong> 測試嗎？ 這個動作無法復原。",
       "na": "N/A"
     },
     "locationList": {
@@ -540,9 +550,9 @@
       "namespace": "名稱空間",
       "health": "性能",
       "noHealthInfo": "NA",
-      "labelConfirmRemoveLocation": "您確定要移除 <strong>{{label}}</strong> ({{status}}) 位置嗎？",
-      "activeTestLinked": "有 {{linkedTests}} 個作用中測試與位置 <strong>{{label}}</strong> ({{status}}) 相關聯。 刪除此位置將導致測試摘要圖表中的資料流失。 您確定要刪除此位置嗎？<br/><br/>若要升級位置而不刪除，請參閱<documentLink>文件</documentLink>。",
-      "deleteLocation": "刪除位置",
+      "labelConfirmRemoveLocation": "您確定要移除 <strong>{{label}}</strong> ({{status}}) 位置嗎？ 這個動作無法復原。",
+      "activeTestLinked": "有 {{linkedTests}} 個作用中測試與位置 <strong>{{label}}</strong> ({{status}}) 相關聯。 刪除此位置將導致測試摘要圖表中的資料流失。 您確定要刪除此位置嗎？ 此動作無法復原。<br/><br/>若要升級位置而不刪除，請參閱<documentLink>說明文件</documentLink>。",
+      "deleteLocation": "刪除",
       "noDataAvailable": {
         "message": "{{component}} 無法使用"
       },
@@ -563,7 +573,8 @@
         "singleIPAddress": "{{number}} 個 IP 位址",
         "multipleIPAddress": "{{number}} 個 IP 位址",
         "noIPAddresses": "NA"
-      }
+      },
+      "activate": "啟動"
     },
     "summary": {
       "successRate": "成功率",
@@ -631,6 +642,9 @@
       "dns": {
         "failureType": "失敗類型",
         "na": "N/A"
+      },
+      "cicd": {
+        "executionType": "執行類型"
       }
     },
     "detailsPage": {
@@ -775,10 +789,13 @@
       "dns": {
         "title": "測試詳細資料",
         "description": "查詢類型 {{queryType}} 的 DNS 結果",
-        "name": "名稱",
+        "domainName": "網域名稱",
         "ttl": "TTL",
         "data": "日期",
         "noRecordsFound": "找不到記錄"
+      },
+      "cicd": {
+        "rerunButtonLabel": "重新執行測試"
       }
     },
     "noDataAvailable": {
@@ -868,6 +885,7 @@
       "associatedMobileApps": "相關聯的行動應用程式",
       "noMobileAppAssociated": "沒有相關聯的行動應用程式",
       "recordVideo": "記錄使用者在失敗時的動作",
+      "acceptSelfSignedCertificate": "接受自簽憑證",
       "dns": {
         "lookupLabel": "URL",
         "queryTypeLabel": "查詢類型",
@@ -907,7 +925,7 @@
       "deleteAction": {
         "deleteActionLabel": "刪除",
         "deleteCredentialTitle": "刪除綜合認證 {{credentialName}}",
-        "credentialNameValidation": "輸入認證完整名稱以確認刪除",
+        "credentialNameValidation": "輸入認證完整名稱，以確認刪除。 這個動作無法復原。",
         "deleteButtonLabel": "刪除認證",
         "cancelButtonLabel": "取消",
         "deletionSuccess": "認證已刪除"
