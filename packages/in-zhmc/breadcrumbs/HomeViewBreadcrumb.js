@@ -5,11 +5,13 @@
 
 import React from 'react';
 
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { zhmcListFullyQualified } from 'in-zhmc/navigation/paths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import { getView } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
 export default function HomeViewBreadcrumb() {
-  return <Breadcrumb href$={getView(zhmcListFullyQualified)}>{t('in-zhmc:breadcrumbs.zhmcs')}</Breadcrumb>;
+  const { createHrefToPath } = useNavigation();
+
+  return <Breadcrumb href={createHrefToPath(zhmcListFullyQualified)}>{t('in-zhmc:breadcrumbs.zhmcs')}</Breadcrumb>;
 }
