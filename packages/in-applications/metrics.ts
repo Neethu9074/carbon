@@ -40,38 +40,17 @@ export function getResolvedTimeConfig(timeConfig: TimeConfig, resultOrTime: numb
 }
 
 /**
- * Extend the given time range to include a timestamp
- * @param timeConfig time range
- * @param timeToInclude point in time to extend the timeframe to
- * @param extendBefore allow extending the time range to the past of timeConfig
- * @param extendAfter allow extending the time range to the future of timeConfig
+ * Focus on the call itself
  */
-export function extendTimeConfigToInclude(
-  timeConfig: TimeConfig,
-  timeToInclude?: number,
-  extendBefore: boolean = true,
-  extendAfter: boolean = true
-): TimeConfig {
-  const { to, windowSize } = timeConfig;
-  if (!timeToInclude || !to) {
-    return timeConfig;
-  }
-  const from = to - windowSize;
-  if (extendBefore && timeToInclude < from) {
-    return {
-      ...timeConfig,
-      windowSize: to - timeToInclude
-    };
-  }
-  if (extendAfter && to && timeToInclude > to) {
-    return {
-      ...timeConfig,
-      to: timeToInclude,
-      focusedMoment: timeToInclude,
-      windowSize: timeToInclude - from
-    };
-  }
-  return timeConfig;
+export function timeConfigFromCall(callTime: number, callDuration: number): TimeConfig {
+  const to = callTime + Math.max(callDuration, 1);
+  const from = callTime;
+  return {
+    to,
+    windowSize: to - from,
+    focusedMoment: to,
+    autoRefresh: false
+  };
 }
 
 export const getSparkChartGranularity = getChartGranularity;

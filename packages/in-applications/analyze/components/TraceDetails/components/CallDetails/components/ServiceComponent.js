@@ -23,9 +23,8 @@ import WebsiteBeaconDetails from 'in-applications/analyze/components/TraceDetail
 import ProfileInformation from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ProfileInformation';
 import SpanDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SpanDetails';
 import LogsCard from 'in-logging/components/TraceDetails/components/LogDetails/LogsCard';
+import { timeConfigFromCall } from 'in-applications/metrics';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
-import { extendTimeConfigToInclude } from 'in-applications/metrics';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
 import Tooltip from 'in-components/Tooltip';
@@ -49,10 +48,8 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
   const sourceEntity = getEntity(call, 'source');
   const destinationEntity = getEntity(call, 'destination');
 
-  const timeConfig = useTimeConfig();
-
-  const sourceEntityTimeConfig = extendTimeConfigToInclude(timeConfig, sourceEntity?.time, false);
-  const destinationEntityTimeConfig = extendTimeConfigToInclude(timeConfig, destinationEntity?.time, false);
+  const sourceEntityTimeConfig = timeConfigFromCall(call.start, call.duration);
+  const destinationEntityTimeConfig = timeConfigFromCall(call.start, call.duration);
 
   const sourceSnapshotId = getSnapshotId(call, 'source');
   const destinationSnapshotId = getSnapshotId(call, 'destination');
