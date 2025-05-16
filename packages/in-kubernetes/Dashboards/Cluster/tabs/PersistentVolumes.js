@@ -5,19 +5,18 @@
 
 import React from 'react';
 
-import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
+import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import getKubernetesPersistentVolumes from 'in-kubernetes/subscriptions/getKubernetesPersistentVolumes';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { getHistoricMetric, getInfraGranularity } from 'in-stores/metric/metric';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
-import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import useTimeConfig from 'in-hooks/useTimeConfig';
+import { getInfraGranularity } from 'in-stores/metric/metric';
 import { t } from 'in-i18n';
 
 const pathSegment = '/nodes';
@@ -32,38 +31,66 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'storageClassName',
+    label: t('in-kubernetes:dashboards.storageClassName'),
+    getContent({ persistentVolume }) {
+      const { storageClassName } = persistentVolume;
+      return storageClassName || valueMissingPlaceholder;
+    }
+  },
+  {
+    id: 'capacity.storage',
+    label: t('in-kubernetes:dashboards.storageTotalCapacity'),
+    sortable: false,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.persistentVolume.id}
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={bytesTwoDecimalPlaces}
+          minRollup={10000}
+        />
+      );
+    }
+  },
+  {
+    id: 'currentMetrics.capacity.used',
+    label: t('in-kubernetes:dashboards.storageUsedCapacity'),
+    sortable: false,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.persistentVolume.id}
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={bytesTwoDecimalPlaces}
+          minRollup={10000}
+        />
+      );
+    }
+  },
+  {
+    id: 'currentMetrics.capacity.usedPercent',
+    label: t('in-kubernetes:dashboards.storageUtilization'),
+    sortable: false,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.persistentVolume.id}
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={percentageTwoDecimalPlaces}
+          minRollup={10000}
+        />
+      );
+    }
+  },
+  {
     id: 'phase',
     label: t('in-kubernetes:dashboards.phase'),
     getContent(item) {
       return item.phase;
-    }
-  },
-  {
-    id: 'reclaimPolicy',
-    label: t('in-kubernetes:dashboards.reclaimPolicy'),
-    getContent(item) {
-      return item.persistentVolume.reclaimPolicy;
-    }
-  },
-  {
-    id: 'storageClassName',
-    label: t('in-kubernetes:dashboards.storageClassName'),
-    getContent(item) {
-      return item.persistentVolume.storageClassName;
-    }
-  },
-  {
-    id: 'capacity',
-    label: t('in-kubernetes:dashboards.storageCapacity'),
-    sortable: false,
-    getContent(item) {
-      return (
-        <VolumeMetric
-          metric={'capacity.storage'}
-          snapshotId={item.persistentVolume.id}
-          formatter={bytesTwoDecimalPlaces}
-        />
-      );
     }
   }
 ];
@@ -126,20 +153,4 @@ function getTableData({
     },
     granularity: getInfraGranularity(timeConfig)
   });
-}
-
-function VolumeMetric({ snapshotId, metric, formatter }) {
-  const timeConfig = useTimeConfig();
-  const metricValue = useObservable(
-    getHistoricMetric({
-      snapshotId,
-      metric: metric,
-      timeConfig: timeConfig
-    })
-      .map(v => formatter(v[1]))
-      .distinct(),
-    []
-  );
-
-  return <>{metricValue || valueMissingPlaceholder}</>;
 }

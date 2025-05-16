@@ -8,11 +8,11 @@ import React from 'react';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import MetricValue from 'in-components/MetricValue';
 
-export default function ServerSideSortedMetricValue({ snapshotId, metric, sortedMetricValue, formatter }) {
+export default function ServerSideSortedMetricValue({ snapshotId, metric, sortedMetricValue, formatter, minRollup }) {
   if (sortedMetricValue !== false) {
     return sortedMetricValue === null || sortedMetricValue === undefined
       ? valueMissingPlaceholder
       : formatter(sortedMetricValue);
   }
-  return <MetricValue snapshotId={snapshotId} metric={metric} formatter={formatter} />;
+  return <MetricValue snapshotId={snapshotId} metric={metric} formatter={formatter} minRollup={minRollup} />;
 }
