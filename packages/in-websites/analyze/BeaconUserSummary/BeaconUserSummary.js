@@ -16,6 +16,7 @@ import { useLinkToAnalyze } from 'in-websites/navigation/paths';
 import User from 'in-websites/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
 import { Col, Row } from 'in-components/layout/Grid';
+import { URL } from 'in-websites/constants';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
@@ -113,7 +114,7 @@ export default function BeaconUserSummary({ beacon, beacons, withoutSideMargin }
           {!hasMeta && (
             <NotDefined
               explanation={t('in-websites:analyze.analyzeView.beaconUserSummary.explanationNoMetaDataDefined')}
-              learnMoreHref="https://ibm.biz/metadata"
+              learnMoreHref={URL.addJSMetaDataDoc}
               learnMoreLabel={t('in-websites:analyze.analyzeView.beaconUserSummary.labelLearnHowToAddMetaData')}
             />
           )}
