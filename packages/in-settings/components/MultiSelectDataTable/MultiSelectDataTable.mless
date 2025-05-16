@@ -19,8 +19,4 @@
       margin-bottom: 0;
     }
   }
-
-  :global(.in-components_Dialog_Dialog_mless___wrapper) {
-    z-index: 9001;
-  }
 }

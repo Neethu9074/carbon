@@ -40,8 +40,8 @@ import { Observable } from '@instana/observables';
 import { createLogger } from '@instana/logger';
 import { t, Trans } from '@instana/i18n-react';
 
+import ConfirmationDialog from 'in-settings/components/ConfirmationDialog/ConfirmationDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import useUrlState from 'in-hooks/useUrlState';
 
@@ -249,7 +249,8 @@ export default function MultiSelectDataTable<
     const entity = paginatedRows.filter(item => item.id === row.id)[0].rowData;
     return addActiveDialog(
       <ConfirmationDialog
-        header={t('in-settings:components.confirmRemove')}
+        danger
+        title={t('in-settings:components.confirmRemove')}
         description={
           customDialogMessage ? (
             customDialogMessage(entity)
@@ -259,7 +260,7 @@ export default function MultiSelectDataTable<
             </span>
           )
         }
-        confirmButtonLabel={customDialogConfirmLabel || t('in-settings:components.removeBtn')}
+        primaryButtonText={customDialogConfirmLabel ?? t('in-settings:components.removeBtn')}
         onSubmit={() => {
           close();
           const deletion$ = deleteEntity.deleteEntity?.(entity);
@@ -286,7 +287,6 @@ export default function MultiSelectDataTable<
             setLoadingRow(null);
           });
         }}
-        confirmButtonAutoFocus
       />
     );
   };
@@ -299,7 +299,8 @@ export default function MultiSelectDataTable<
     const selectedIds = entities.map(entity => entity.id);
     return addActiveDialog(
       <ConfirmationDialog
-        header={t('in-settings:components.confirmRemove')}
+        danger
+        title={t('in-settings:components.confirmRemove')}
         description={
           customBatchDeleteMessage ? (
             customBatchDeleteMessage(entities)
@@ -314,7 +315,7 @@ export default function MultiSelectDataTable<
             </span>
           )
         }
-        confirmButtonLabel={customDialogConfirmLabel || t('in-settings:components.removeBtn')}
+        primaryButtonText={customDialogConfirmLabel ?? t('in-settings:components.removeBtn')}
         onSubmit={() => {
           setIsBatchDeleting(true);
           close();
@@ -342,7 +343,6 @@ export default function MultiSelectDataTable<
             });
           });
         }}
-        confirmButtonAutoFocus
       />
     );
   };
