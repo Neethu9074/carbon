@@ -11,7 +11,7 @@ import { fromJS } from 'immutable';
 
 import { Typography, Spacer, Link, DescriptionList, DescriptionItem } from '@instana/components';
 import { Action, Parameter, VolatileId, DynamicFieldValue } from '@instana/types';
-import { combineLatest } from '@instana/observables';
+import { combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -46,6 +46,7 @@ import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
+import ValidationBlock from 'in-components/form/ValidationBlock';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Notification from 'in-components/form/Notification';
@@ -174,34 +175,47 @@ function AgentSelection({
   policy
 }: Pick<RunActionDialogContentProps, 'form' | 'setForm' | 'agentSnapShots' | 'volatileId' | 'policy'>) {
   const targetAgent = form?.get('targetAgent') as Field<string> | undefined;
+
   const hostSnapshots = useObservable(() => {
     const getHostSnapshotIds = (agentSnapShots?.data?.online || []).map(agent =>
       getHostSnapshotId(fromJS(agent)).map(id => ({ id, agent }))
     );
-    return combineLatest(getHostSnapshotIds).flatMap(hostData =>
-      combineLatest(
-        hostData.map(({ id, agent }) =>
-          getSnapshot(id).map(hostSnapshot => ({
-            hostSnapshot,
-            agent
-          }))
-        )
-      )
-    );
-  }, [agentSnapShots?.data?.online]);
+
+    if (getHostSnapshotIds.length > 0) {
+      return combineLatest(getHostSnapshotIds).flatMap(
+        hostData =>
+          combineLatest(
+            hostData.map(({ id, agent }) =>
+              getSnapshot(id).map(hostSnapshot => ({
+                hostSnapshot,
+                agent
+              }))
+            )
+          ).map(data => ({ loading: false, data })) // wrap result
+      );
+    } else {
+      return just({ loading: false, data: [] });
+    }
+  }, [agentSnapShots?.data?.online]) ?? { loading: true, data: [] };
+
+  if ('loading' in hostSnapshots && hostSnapshots.loading) {
+    return <LoadingIndicator size="xxl" />;
+  }
 
   if (!hostSnapshots) return null;
-  const sortedOptions =
-    hostSnapshots
-      ?.map(({ hostSnapshot, agent }) => {
-        const isTriggeringAgent = agent.volatileId?.host_id === volatileId.host_id;
-        const hostname = hostSnapshot?.get('label');
-        return {
-          label: isTriggeringAgent ? t('in-automation:triggeringAgent', { hostname }) : hostname,
-          value: agent.volatileId?.host_id ?? ''
-        };
-      })
-      .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
+
+  const sortedOptions = Array.isArray(hostSnapshots.data)
+    ? hostSnapshots.data
+        .map(({ hostSnapshot, agent }) => {
+          const isTriggeringAgent = agent.volatileId?.host_id === volatileId.host_id;
+          const hostname = hostSnapshot?.get('label');
+          return {
+            label: isTriggeringAgent ? t('in-automation:triggeringAgent', { hostname }) : hostname,
+            value: agent.volatileId?.host_id ?? ''
+          };
+        })
+        .sort((a, b) => a.label.localeCompare(b.label))
+    : [];
 
   const options = policy
     ? [...sortedOptions, { value: TRIGGERING_AGENT, label: t('in-automation:policies.triggeringAgent') }]
@@ -226,8 +240,12 @@ function AgentSelection({
               setForm(updatedForm);
             }}
           />
+
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           <HelpText className={locals.subTextFormField}>{t('in-automation:targetAgentDescription')}</HelpText>
+          {options.length === 0 && (
+            <ValidationBlock className={locals.subErrorTextFormField}>{t('in-automation:agentEmpty')}</ValidationBlock>
+          )}
         </FormGroup>
       ))}
     </>
