@@ -7,10 +7,14 @@
 import React from 'react';
 
 import { sapHanaDashboardFullyQualified } from 'in-sap/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import { getView } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
 export default function SapHanaBreadcrumb() {
-  return <Breadcrumb href$={getView(sapHanaDashboardFullyQualified)}>{t('in-sap:breadcrumbs.SapHana')}</Breadcrumb>;
+  const { createHrefToPath } = useNavigation();
+
+  return (
+    <Breadcrumb href={createHrefToPath(sapHanaDashboardFullyQualified)}>{t('in-sap:breadcrumbs.SapHana')}</Breadcrumb>
+  );
 }

@@ -6,14 +6,15 @@
 
 import React from 'react';
 
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { sapSystemListFullyQualified } from 'in-sap/navigation/paths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import { getView } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
 export default function AbapSystemHomeViewBreadcrumb() {
+  const { createHrefToPath } = useNavigation();
   return (
-    <Breadcrumb href$={getView(sapSystemListFullyQualified)} icon="lib_sap_host">
+    <Breadcrumb href={createHrefToPath(sapSystemListFullyQualified)} icon="lib_sap_host">
       {t('in-sap:breadcrumbs.abapOrJavaSystem')}
     </Breadcrumb>
   );

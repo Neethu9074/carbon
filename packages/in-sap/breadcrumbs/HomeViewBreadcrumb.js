@@ -11,17 +11,18 @@ import {
   sapDbInstanceListFullyQualified,
   sapInstanceListFullyQualified
 } from 'in-sap/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import { getView } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
 export default function HomeViewBreadcrumb(props) {
+  const { createHrefToPath } = useNavigation();
   switch (props.systemPrefix) {
     case 'abapinstances.':
     case 'sapjavainstances.':
     case 'abapinstancessensor.':
       return (
-        <Breadcrumb href$={getView(sapInstanceListFullyQualified)} icon="lib_sap_instances">
+        <Breadcrumb href={createHrefToPath(sapInstanceListFullyQualified)} icon="lib_sap_instances">
           {t('in-sap:breadcrumbs.sapInstances')}
         </Breadcrumb>
       );
@@ -30,7 +31,7 @@ export default function HomeViewBreadcrumb(props) {
     case 'sapdbtenant.':
     case 'saphana.':
       return (
-        <Breadcrumb href$={getView(sapDbInstanceListFullyQualified)} icon="lib_sap_dbms">
+        <Breadcrumb href={createHrefToPath(sapDbInstanceListFullyQualified)} icon="lib_sap_dbms">
           {t('in-sap:breadcrumbs.sapDbInstance')}
         </Breadcrumb>
       );
@@ -40,7 +41,7 @@ export default function HomeViewBreadcrumb(props) {
     case 'sapwebdispatchers.':
     case 'abapsystemssensor.':
       return (
-        <Breadcrumb href$={getView(sapSystemListFullyQualified)} icon="lib_sap_host">
+        <Breadcrumb href={createHrefToPath(sapSystemListFullyQualified)} icon="lib_sap_host">
           {t('in-sap:breadcrumbs.abapSystems')}
         </Breadcrumb>
       );

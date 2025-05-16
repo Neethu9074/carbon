@@ -6,14 +6,16 @@
 
 import React from 'react';
 
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { sapInstanceListFullyQualified } from 'in-sap/navigation/paths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import { getView } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
 export default function AbapInstanceHomeViewBreadcrumb() {
+  const { createHrefToPath } = useNavigation();
+
   return (
-    <Breadcrumb href$={getView(sapInstanceListFullyQualified)} icon="lib_sap_instances">
+    <Breadcrumb href={createHrefToPath(sapInstanceListFullyQualified)} icon="lib_sap_instances">
       {t('in-sap:breadcrumbs.sapInstances')}
     </Breadcrumb>
   );

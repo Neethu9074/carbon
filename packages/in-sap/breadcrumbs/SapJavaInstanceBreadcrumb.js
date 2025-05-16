@@ -7,13 +7,15 @@
 import React from 'react';
 
 import { sapJavaInstanceDashboardFullyQualified } from 'in-sap/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import { getView } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
 export default function SapJavaInstanceBreadcrumb() {
+  const { createHrefToPath } = useNavigation();
+
   return (
-    <Breadcrumb href$={getView(sapJavaInstanceDashboardFullyQualified)}>
+    <Breadcrumb href={createHrefToPath(sapJavaInstanceDashboardFullyQualified)}>
       {t('in-sap:breadcrumbs.SapJavaInstance')}
     </Breadcrumb>
   );
