@@ -16,10 +16,10 @@ import {
   CONCERT_INTEGRATION_BUTTON_CLICKED
 } from 'in-services/tracking/eventNames';
 import { HeaderItemTile } from 'in-plg/components/HeaderItemTile/HeaderItemTile';
+import { hasKubernetesAccess, hasApplicationsAccess } from 'in-stores/permission';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getValidButtonType } from 'in-plg/pages/WelcomePage/utils';
 import { TileDataType } from 'in-plg/pages/WelcomePage/types';
-import { hasKubernetesAccess } from 'in-stores/permission';
 import { role } from 'in-stores/user';
 
 export default function WhatsNewBannerStepBuilder() {
@@ -59,7 +59,7 @@ export default function WhatsNewBannerStepBuilder() {
       description: t('in-plg:welcomepage.turbonometric.description'),
       buttonName: t('in-plg:welcomepage.turbonometric.buttonName'),
       buttonType: 'ghost',
-      hasPermission: role?.canViewLogs,
+      hasPermission: hasApplicationsAccess,
       onButtonClick: () => {
         trackCta(TURBONOMETRIC_OPTIMIZATION_BUTTON_CLICKED);
         //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script
@@ -73,7 +73,7 @@ export default function WhatsNewBannerStepBuilder() {
       description: t('in-plg:welcomepage.concert.description'),
       buttonName: t('in-plg:welcomepage.concert.buttonName'),
       buttonType: 'ghost',
-      hasPermission: role?.canViewLogs,
+      hasPermission: hasApplicationsAccess,
       onButtonClick: () => {
         trackCta(CONCERT_INTEGRATION_BUTTON_CLICKED);
         //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script
