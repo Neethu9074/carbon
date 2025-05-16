@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo, useState } from 'react';
 import { isEqual } from 'lodash';
 
 import {
@@ -84,7 +84,8 @@ export default function GroupedInfrastructure(props) {
     retrievalSize = 20,
     getTotalItems,
     onItemClicked,
-    showGroupsWithMissingTags
+    showGroupsWithMissingTags,
+    isLiveModeEnabled = false
   } = props;
 
   const previousMetrics = usePrevious(metrics);
@@ -100,7 +101,10 @@ export default function GroupedInfrastructure(props) {
   });
   const order = useMemo(() => fixOrderForBackwardsCompatibility(incomingOrder, metrics), [incomingOrder, metrics]);
 
-  const { totalHits, ...cursorPaginatedProps } = useCursorPagination(
+  const [cachedResults, setCachedResults] = useState([]);
+  const [cachedCursor, setCachedCursor] = useState(undefined);
+
+  const { totalHits, items, cursor, progress, ...cursorPaginatedProps } = useCursorPagination(
     ({ cursor }) =>
       getGroups({
         timeConfig,
@@ -116,6 +120,28 @@ export default function GroupedInfrastructure(props) {
       }),
     [timeConfig, backendQueryModel, backendGroupBy, order, type, showGroupsWithMissingTags, ...dependencies]
   );
+
+  useEffect(() => {
+    if (!isLiveModeEnabled) return;
+
+    if (!progress.loading && items) setCachedResults(items);
+  }, [items, progress, isLiveModeEnabled]);
+
+  useEffect(() => {
+    if (!isLiveModeEnabled) return;
+
+    const cachedCursorNotSet = !cachedCursor && cursor;
+    const cachedCursorShouldBeReset = cachedCursor && cursor && cachedCursor.offset !== cursor.offset;
+
+    if (cachedCursorNotSet || cachedCursorShouldBeReset) {
+      setCachedCursor(cursor);
+    }
+  }, [cursor, cachedCursor, isLiveModeEnabled]);
+
+  useEffect(() => {
+    setCachedCursor(undefined);
+    setCachedResults([]);
+  }, [type, isLiveModeEnabled]);
 
   const hasTagNotPresent = cursorPaginatedProps?.items?.some(({ tags }) =>
     Object.values(tags).some(value => value === tag_not_present_group)
@@ -142,11 +168,15 @@ export default function GroupedInfrastructure(props) {
       onItemClicked={onItemClicked}
       isLoadMoreEnabled={isLoadMoreEnabled}
       isCounterVisible={isCounterVisible}
+      isLiveModeEnabled={isLiveModeEnabled}
       totalHits={totalHits}
       fixedLayout={fixedLayout}
       {...cursorPaginatedProps}
       {...props}
       order={order}
+      items={isLiveModeEnabled && progress.loading ? cachedResults : items}
+      cursor={cursor}
+      progress={!isLiveModeEnabled || cachedResults.length === 0 ? progress : undefined}
     />
   );
 }
@@ -167,6 +197,7 @@ function Presenter({
   isTableMode,
   isLoadMoreEnabled,
   isCounterVisible,
+  isLiveModeEnabled,
   fixedLayout,
   onItemClicked,
   progress,
@@ -306,6 +337,7 @@ function Presenter({
                   type={type}
                   metricMetadatas={metricMetadatas}
                   tracking={tracking}
+                  isLiveModeEnabled={isLiveModeEnabled}
                 />
               )}
             >
@@ -546,7 +578,17 @@ export function getGroups({
   });
 }
 
-function ExpandedGroup({ group, backendQueryModel, timeConfig, type, metrics, order, tracking, metricMetadatas }) {
+function ExpandedGroup({
+  group,
+  backendQueryModel,
+  timeConfig,
+  type,
+  metrics,
+  order,
+  tracking,
+  metricMetadatas,
+  isLiveModeEnabled
+}) {
   const numberOfEntitiesPerGroup = 20;
   return (
     <InfrastructureList
@@ -563,6 +605,7 @@ function ExpandedGroup({ group, backendQueryModel, timeConfig, type, metrics, or
         onLoadMore: page => tracking?.onLoadMore?.(page, LOAD_MORE_CONTEXT.ENTITIES_IN_GROUP)
       }}
       displayChart={false}
+      isLiveModeEnabled={isLiveModeEnabled}
     />
   );
 }

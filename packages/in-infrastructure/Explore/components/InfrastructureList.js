@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
+import { LoadingSpinner, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
-import { Ul } from '@instana/components';
 
 import {
   firstValue,
@@ -70,6 +70,7 @@ export default function InfrastructureList({
   setOrder = noop,
   getTotalItems,
   isLoadMoreEnabled = true,
+  isLiveModeEnabled = false,
   isPreview = false,
   isWidget = false,
   fixedLayout = true,
@@ -99,6 +100,7 @@ export default function InfrastructureList({
     metrics
   });
   const order = useMemo(() => fixOrderForBackwardsCompatibility(incomingOrder, metrics), [incomingOrder, metrics]);
+  const [cachedCursor, setCachedCursor] = useState(undefined);
   const {
     items,
     totalHits,
@@ -111,21 +113,29 @@ export default function InfrastructureList({
     progress,
     ...tableProps
   } = useCursorPagination(
-    ({ cursor }) =>
-      getTableData({
+    ({ cursor }) => {
+      let retrievalSizeBasedOnCachedCursor = retrievalSize;
+
+      if (isLiveModeEnabled && cachedCursor && !cursor) {
+        retrievalSizeBasedOnCachedCursor = cachedCursor.offset + retrievalSize;
+      }
+
+      return getTableData({
         timeConfig,
         granularity,
-        retrievalSize,
+        retrievalSize: retrievalSizeBasedOnCachedCursor,
         backendQueryModel,
         order,
         tags,
         type,
         metrics,
         cursor
-      }),
+      });
+    },
     [timeConfig, retrievalSize, backendQueryModel, type, order, ...dependencies]
   );
 
+  const [cachedResults, setCachedResults] = useState([]);
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
 
@@ -141,6 +151,30 @@ export default function InfrastructureList({
       }
     }
   }, [tagCatalog, tags, setTags]);
+
+  useEffect(() => {
+    if (!isLiveModeEnabled) return;
+
+    if (!progress.loading && items) {
+      setCachedResults(items);
+    }
+  }, [items, progress, isLiveModeEnabled]);
+
+  useEffect(() => {
+    if (!isLiveModeEnabled) return;
+
+    const cachedCursorNotSet = !cachedCursor && cursor;
+    const cachedCursorShouldBeReset = cachedCursor && cursor && cachedCursor.offset !== cursor.offset;
+
+    if (cachedCursorNotSet || cachedCursorShouldBeReset) {
+      setCachedCursor(cursor);
+    }
+  }, [cursor, cachedCursor, isLiveModeEnabled]);
+
+  useEffect(() => {
+    setCachedCursor(undefined);
+    setCachedResults([]);
+  }, [type, isLiveModeEnabled]);
 
   const columnDefinitions = [
     getLabelColumn(tracking?.onNavigateToEntity, isPreview, timeConfig),
@@ -172,6 +206,7 @@ export default function InfrastructureList({
       widthInAbsoluteUnit: true,
       sortable: false,
       getContent(item) {
+        if (progress.loading) return <LoadingSpinner withOverlay={false} small />;
         return (
           <EntityHealthIndicator
             openIssues={item.entityHealthInfo?.openIssues?.length ?? 0}
@@ -247,10 +282,10 @@ export default function InfrastructureList({
           cursorPaginationDefaultLoadMore();
           tracking?.onLoadMore?.(pagesLoaded(cursor?.offset, retrievalSize));
         }}
-        progress={progress}
+        progress={!isLiveModeEnabled || cachedResults.length <= 0 ? progress : undefined} //only want to show loading state between changes when we don't have a cached result
         {...tableProps}
         canLoadMore={canLoadMore && isLoadMoreEnabled}
-        items={items}
+        items={isLiveModeEnabled && progress.loading ? cachedResults : items} // when we're loading in new data show cached results in loading state
         fixedLayout={fixedLayout}
         orderBy={order.by}
         orderDirection={order.direction}
@@ -424,7 +459,8 @@ InfrastructureList.propTypes = {
   metricCatalog: rpt.object,
   tagCatalog: rpt.object,
   chartedMetrics: rpt.array,
-  displayChart: rpt.bool
+  displayChart: rpt.bool,
+  isLiveModeEnabled: rpt.bool
 };
 
 export function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, granularity, isWidget }) {

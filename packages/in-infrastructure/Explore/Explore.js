@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { Message, Stack } from '@instana/components';
 import { just } from '@instana/observables';
@@ -59,6 +59,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
 import useUrlState from 'in-hooks/useUrlState';
+import { seconds } from 'in-services/time';
 import Title from 'in-components/Title';
 import config from 'in-services/config';
 import { t } from 'in-i18n';
@@ -83,14 +84,18 @@ const urlStateDefinition = {
 };
 
 export default function InfraExploreView() {
+  const realTimeConfig = useTimeConfig();
+
   return (
     <FixatedTimeConfigContextModification>
-      {({ refresh }) => <InfraExploreViewWithFixatedTimeConfig refreshFixatedTimeConfig={refresh} />}
+      {({ refresh }) => (
+        <InfraExploreViewWithFixatedTimeConfig refreshFixatedTimeConfig={refresh} realTimeConfig={realTimeConfig} />
+      )}
     </FixatedTimeConfigContextModification>
   );
 }
 
-function InfraExploreViewWithFixatedTimeConfig() {
+function InfraExploreViewWithFixatedTimeConfig(props) {
   const timeConfig = useTimeConfig();
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
   const {
@@ -101,6 +106,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
     typeSelectorChangedTracker,
     chartChangedTracker
   } = useSegmentTracker();
+
+  const { refreshFixatedTimeConfig, realTimeConfig } = props;
 
   const [
     {
@@ -197,10 +204,11 @@ function InfraExploreViewWithFixatedTimeConfig() {
             getInfraExploreState={getInfraExploreState}
             kpiDefinitions={kpiDefinitions}
             tagCatalog={tagCatalog}
-            refreshFixatedTimeConfig={() => {}}
             chartedMetrics={chartedMetrics}
             backendGroupBy={backendGroupBy}
             showGroupsWithMissingTags={showGroupsWithMissingTags}
+            refreshFixatedTimeConfig={refreshFixatedTimeConfig}
+            realTimeConfig={realTimeConfig}
           />
         </Stack>
       </LeftRightPadding>
@@ -228,7 +236,9 @@ function Content({
   tagCatalog,
   chartedMetrics,
   backendGroupBy,
-  showGroupsWithMissingTags
+  showGroupsWithMissingTags,
+  refreshFixatedTimeConfig,
+  realTimeConfig
 }) {
   const setMetrics = useCallback(
     metrics => setUrl({ metrics, order: getUpdatedOrder(order, metrics, backendGroupBy) }),
@@ -368,6 +378,8 @@ function Content({
       onChartedMetricsChange={onChartedMetricsChange}
       chartedMetrics={chartedMetrics}
       showGroupsWithMissingTags={showGroupsWithMissingTags}
+      refreshFixatedTimeConfig={refreshFixatedTimeConfig}
+      realTimeConfig={realTimeConfig}
     />
   );
 
@@ -403,12 +415,24 @@ function List({
   catalogQuery,
   onChartedMetricsChange,
   chartedMetrics,
-  showGroupsWithMissingTags
+  showGroupsWithMissingTags,
+  refreshFixatedTimeConfig,
+  realTimeConfig
 }) {
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
   const { sortingTracker, loadMoreTracker, groupFocusedOnTracker, groupExpandedTracker, groupCollapsedTracker } =
     useSegmentTracker();
+
+  useEffect(() => {
+    let interval;
+
+    if (realTimeConfig.autoRefresh) {
+      interval = setInterval(refreshFixatedTimeConfig, seconds.toMillis(10));
+    }
+
+    return () => (interval ? clearInterval(interval) : undefined);
+  }, [realTimeConfig, refreshFixatedTimeConfig]);
 
   if (isInitPage) {
     return (
@@ -455,6 +479,7 @@ function List({
         query={catalogQuery.value}
         onQueryChange={catalogQuery.onChange}
         showGroupsWithMissingTags={showGroupsWithMissingTags}
+        isLiveModeEnabled={realTimeConfig.autoRefresh}
       />
     );
   }
@@ -486,6 +511,7 @@ function List({
       tagCatalog={(catalogQuery.value === catalogQuery.debouncedValue && tagCatalog) || pendingResult}
       query={catalogQuery.value}
       onQueryChange={catalogQuery.onChange}
+      isLiveModeEnabled={realTimeConfig.autoRefresh}
     />
   );
 }

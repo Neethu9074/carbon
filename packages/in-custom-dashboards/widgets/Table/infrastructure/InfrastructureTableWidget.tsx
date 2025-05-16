@@ -269,6 +269,7 @@ function InfrastructureTable(props: TableWidgetProps) {
             query={debouncedQuery.value}
             onQueryChange={debouncedQuery.onChange}
             isWidget
+            isLiveModeEnabled={realTimeConfig.autoRefresh}
           />
         )}
 
