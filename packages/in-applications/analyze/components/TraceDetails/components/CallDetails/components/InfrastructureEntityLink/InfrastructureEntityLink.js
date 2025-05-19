@@ -11,13 +11,11 @@ import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { extendTimeConfigToInclude } from 'in-applications/metrics';
 import { getSnapshotOrDefaultOnTimeout } from 'in-stores/snapshot';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { formatDateTime } from 'in-services/formatters/date';
 import { pendingResult } from 'in-services/fixedObjects';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import PluginIcon from 'in-components/PluginIcon';
 import { t } from 'in-i18n';
 
@@ -33,8 +31,6 @@ export default function InfrastructureEntityLink({ entity, plugin, physicalConte
         : just(null),
     [entity]
   );
-  const currentTimeConfig = useTimeConfig();
-  const resolvedTimeConfig = timeConfig || extendTimeConfigToInclude(currentTimeConfig, entity?.time, false);
   const isLoading = get(snapshot, ['progress', 'loading']);
   const getDashboardLink = useGetDashboardLink();
 
@@ -55,6 +51,20 @@ export default function InfrastructureEntityLink({ entity, plugin, physicalConte
     );
   }
 
+  const entityFrom = snapshot.get('from');
+
+  var resolvedTimeConfig = timeConfig;
+  if (timeConfig.to < entityFrom) {
+    const to = entityFrom;
+    const from = timeConfig.to - timeConfig.windowSize;
+    resolvedTimeConfig = {
+      to,
+      focusedMoment: to,
+      windowSize: to - from,
+      autoRefresh: false
+    };
+  }
+
   return (
     <EntityLink
       plugin={plugin}
@@ -62,9 +72,7 @@ export default function InfrastructureEntityLink({ entity, plugin, physicalConte
       label={entity.label || `Unknown at ${formatDateTime(entity.time)}`}
       href={getDashboardLink(entity.id, {
         pathname: '/physical/dashboard',
-        to: resolvedTimeConfig.to,
-        focusedMoment: resolvedTimeConfig.focusedMoment,
-        autoRefresh: resolvedTimeConfig.autoRefresh
+        timeConfig: resolvedTimeConfig
       })}
     />
   );
