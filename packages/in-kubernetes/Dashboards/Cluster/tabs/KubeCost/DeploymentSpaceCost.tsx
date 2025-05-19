@@ -38,7 +38,7 @@ interface CSVExportProps {
   csvData: Record<string, any>[];
 }
 
-export const colorFormatter = function Color(value: object | undefined | null) {
+export const colorFormatter = function Color(value: number | object) {
   if (typeof value === 'number') {
     if (value > 0) {
       return themes.default.ids.color.option.red['500'];
@@ -232,8 +232,9 @@ const cols = [
         return `deploymentCostList.${row.key}.trend`;
       },
       getContent(row: DeploymentCostRow) {
-        const trendValue = row;
-        return <Badge color={colorFormatter(trendValue)}>{trendValue + '%'}</Badge>;
+        // beeinstana won't support negative values.
+        let adjustedtrendValue = row != null && typeof row === 'number' ? row - 1000 : row;
+        return <Badge color={colorFormatter(adjustedtrendValue)}>{adjustedtrendValue + '%'}</Badge>;
       },
       getTimeWindowAggregation() {
         return 'sum';
