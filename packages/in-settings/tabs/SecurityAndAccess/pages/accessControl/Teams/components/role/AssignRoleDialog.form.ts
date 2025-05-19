@@ -80,6 +80,9 @@ const buildListFormItems = (members?: Array<TeamMember>, roleIds?: TeamRoleIds) 
         name: createField({
           value: member.name
         }),
+        email: createField({
+          value: member.email
+        }),
         roles: createField({
           value: getRoleIds(member.roles, roleIds),
           validator: rolesValidator

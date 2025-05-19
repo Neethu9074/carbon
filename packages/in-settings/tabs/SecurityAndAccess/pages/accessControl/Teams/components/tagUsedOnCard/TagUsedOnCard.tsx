@@ -8,42 +8,45 @@ import { ArrowRight } from '@carbon/icons-react';
 import React from 'react';
 
 import { ClickableTile, InlineLoading, Layer } from '@instana/carbon';
+import { TeamDetailsTeamEntityDetails } from '@instana/types';
 import { Typography, Spacer } from '@instana/components';
 import { ProductiveCard } from '@instana/ibm-products';
 
 import { TEAMTAG_USED_ENTITIES } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/tagUsedOnCard/TagUsedOnCard.constants';
 import NoTagUsedOn from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/tagUsedOnCard/NoTagUsedOn';
-import { TeamTagUsed } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { t } from 'in-i18n';
 
 import locals from './TagUsedOnCard.mless';
 
 interface TagUsedOnCardProps {
   isLoading: boolean;
-  teamTagUsed: TeamTagUsed;
+  entities?: TeamDetailsTeamEntityDetails[];
 }
 
-const TagUsedOnCard = ({ isLoading, teamTagUsed }: TagUsedOnCardProps) => {
-  const isEmptyTagInUse = teamTagUsed ? Object.values(teamTagUsed).every(value => value === 0) : true;
+const TagUsedOnCard = ({ isLoading, entities }: TagUsedOnCardProps) => {
+  const isEmptyTagInUse = entities ? Object.values(entities).every(entity => entity.ids?.length === 0) : true;
 
   return (
-    <ProductiveCard title={t('in-settings:tabs.teams.teamTagUsedOn')} className={locals.teamTagUsageContainer}>
+    <ProductiveCard title={t('in-settings:tabs.teams.teamTagUsedOn')} className={locals.tagUsedOnCard}>
       {isLoading && <InlineLoading />}
       {!isLoading && isEmptyTagInUse && <NoTagUsedOn />}
       {!isLoading && !isEmptyTagInUse && (
-        <div className={locals.entityTile}>
+        <div className={locals.tagTileContainer}>
           {TEAMTAG_USED_ENTITIES.map(teamTagUsedEntity => {
-            const { title, id } = teamTagUsedEntity;
+            const { id, title } = teamTagUsedEntity;
+            const entityCount = entities?.find(entity => entity.name === id)?.ids?.length ?? 0;
             return (
-              <Layer key={id}>
-                <ClickableTile title={title} renderIcon={ArrowRight} id={id}>
-                  <Typography variant="body-01" component="p">
-                    {title}
-                  </Typography>
-                  <Typography variant="heading-03">{teamTagUsed[id] > 99 ? '+99' : teamTagUsed[id]}</Typography>
-                  <Spacer vertical="small" />
-                </ClickableTile>
-              </Layer>
+              entityCount > 0 && (
+                <Layer key={id}>
+                  <ClickableTile title={title} renderIcon={ArrowRight} id={id} className={locals.tagTile}>
+                    <Typography variant="body-01" component="p">
+                      {title}
+                    </Typography>
+                    <Typography variant="heading-03">{entityCount > 99 ? '+99' : entityCount}</Typography>
+                    <Spacer vertical="small" />
+                  </ClickableTile>
+                </Layer>
+              )
             );
           })}
         </div>

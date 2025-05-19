@@ -8,7 +8,7 @@ import { TrashCan } from '@carbon/icons-react';
 import React from 'react';
 
 import { Button, ContainedList, ContainedListItem, InlineLoading } from '@instana/carbon';
-import { TeamMember, UserResult } from '@instana/types';
+import { Team, TeamMember, UserResult } from '@instana/types';
 import { Link, Typography } from '@instana/components';
 import { ProductiveCard } from '@instana/ibm-products';
 
@@ -17,9 +17,9 @@ import { AddUserDialog } from 'in-settings/tabs/SecurityAndAccess/pages/accessCo
 import { AssignRoleDialog } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/AssignRoleDialog';
 import RoleView from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/role/RoleView';
 import { getEntityIdView, securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
-import { ApiTeam as Team } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { STATIC_GROUP_NAMES } from 'in-settings/constants';
 import { defaultRoleId } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
@@ -35,14 +35,18 @@ interface MemberCardProps {
 const MemberCard = ({ isLoading, team, setTeamData, saveTeam }: MemberCardProps) => {
   const addMembers = (users: Array<UserResult>) => {
     const userIds = users.map(user => {
-      return { name: user.fullName, userId: user.id, roles: [{ roleId: defaultRoleId, viaIdP: false }] };
+      return {
+        name: user.fullName,
+        userId: user.id,
+        email: user.email,
+        roles: [{ roleId: defaultRoleId, viaIdP: false, roleName: STATIC_GROUP_NAMES.DEFAULT }]
+      };
     });
 
     if (userIds) {
       const members = [...(team?.members ? team.members : []), ...userIds];
       setTeamData({ members });
 
-      // Remove fullName as not yet supported by API
       const teamData = {
         ...team,
         members: members

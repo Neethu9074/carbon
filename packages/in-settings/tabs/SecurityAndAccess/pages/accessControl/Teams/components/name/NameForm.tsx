@@ -8,9 +8,8 @@ import React, { useState } from 'react';
 
 import { Form, Tag, TextArea, TextInput } from '@instana/carbon';
 import { useObservable } from '@instana/hooks';
-import { TeamTag } from '@instana/types';
+import { Team, TeamTag } from '@instana/types';
 
-import { ApiTeam as Team } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { getTagsResult } from 'in-settings/tabs/SecurityAndAccess/api/tags';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';

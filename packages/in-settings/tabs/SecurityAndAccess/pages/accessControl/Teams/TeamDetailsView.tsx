@@ -9,32 +9,31 @@ import { useParams } from 'react-router-dom';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { ToastNotification } from '@instana/carbon';
+import { Team, TeamDetails } from '@instana/types';
 
 import TagUsedOnCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/tagUsedOnCard/TagUsedOnCard';
-import { MOCK_TEAM } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/Team.mocks';
 import MemberCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/MemberCard';
 import ScopeCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/ScopeCard';
 import NameCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/NameCard';
-import { ApiTeam as Team, getTeam, saveTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { Notification } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
+import { getTeam, saveTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SETTINGS_TEAM_UPDATE } from 'in-services/tracking/eventNames';
 import { UPDATED_OBJECT } from 'in-services/util/constants';
 import { t } from 'in-i18n';
 
-import locals from './TeamDetails.mless';
+import locals from './TeamDetailsView.mless';
 
-const TeamDetails = () => {
+const TeamDetailsView = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [team, setTeam] = useState<Team>({
+  const [team, setTeam] = useState<TeamDetails>({
     id: '',
     tag: '',
     info: {
       description: ''
     },
     members: [],
-    scope: {},
-    teamTagUsed: { alertChannels: 0, customDashboards: 0 }
+    scope: {}
   });
   const [message, setMessage] = useState<Notification>();
   const { unstable_trackEvent } = useSegmentTracking();
@@ -46,7 +45,7 @@ const TeamDetails = () => {
 
   useEffect(() => {
     // Load team from URL id
-    getTeam(teamId).once(
+    getTeam(teamId, true).once(
       teamData => {
         setTeam(teamData);
         setIsLoading(false);
@@ -127,9 +126,9 @@ const TeamDetails = () => {
         </div>
       </div>
 
-      <TagUsedOnCard isLoading={isLoading} teamTagUsed={MOCK_TEAM.teamTagUsed} />
+      <TagUsedOnCard isLoading={isLoading} entities={team.entities} />
     </div>
   );
 };
 
-export default TeamDetails;
+export default TeamDetailsView;

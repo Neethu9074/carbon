@@ -4,10 +4,8 @@
  * Copyright IBM Corp. 2025
  */
 
-import { Result, TeamScope, TimeConfig } from '@instana/types';
+import { Result, Team, TeamScope, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
-
-import { ApiTeam as Team } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 
 export interface ScopeAreaSection<I> {
   id: string;

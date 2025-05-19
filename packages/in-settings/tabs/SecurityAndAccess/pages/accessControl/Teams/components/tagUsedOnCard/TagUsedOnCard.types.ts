@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2025
  */
 
-export type TeamTagUsedEntityType = 'alertChannels' | 'customDashboards';
+export type TeamTagUsedEntityType = 'ALERT_CHANNEL' | 'CUSTOM_DASHBOARD';
 
 export interface TeamTagUsedEntity {
   id: TeamTagUsedEntityType;

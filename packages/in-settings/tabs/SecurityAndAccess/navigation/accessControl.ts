@@ -30,8 +30,9 @@ import GroupPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Gr
 //@ts-expect-error not migrated to typescript yet
 import UserPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/User';
 import ApiTokenFormDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/ApiTokens/ApiTokenFormDialog';
+import TeamDetailsPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/TeamDetailsView';
+import RoleDetails from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/details/RoleDetails';
 import ApiTokensPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/ApiTokens/ApiTokens';
-import TeamDetailsPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/TeamDetails';
 import InvitesPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/Invites';
 import InvitesV2 from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/InvitesV2';
 import UsersV2 from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/Users/UsersV2';
@@ -45,7 +46,6 @@ import { accessControlCarbonTable, rbacTeamsEnabled } from 'in-services/featureF
 import { ViewProps } from 'in-settings/tabs/SecurityAndAccess/View';
 import { Role } from 'in-types';
 import { t } from 'in-i18n';
-import RoleDetails from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Roles/details/RoleDetails';
 
 interface NavigationTreePage {
   idx: string;

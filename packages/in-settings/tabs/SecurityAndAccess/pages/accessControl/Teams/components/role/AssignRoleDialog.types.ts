@@ -7,10 +7,9 @@
 import { Field, ListForm, MapForm, MapFormItems } from 'formalistic';
 import React from 'react';
 
-import { TeamRole } from '@instana/types';
+import { Team, TeamRole } from '@instana/types';
 
 import { Notification } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
-import { ApiTeam as Team } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 
 export interface AssignRoleDialogProps {
   onSubmit: (members: Array<any>) => void;
@@ -39,6 +38,7 @@ export interface AssignRoleDialogFormItems extends MapFormItems {
     MapForm<{
       userId: Field<string>;
       name: Field<string | undefined>;
+      email: Field<string | undefined>;
       roles: Field<Array<TeamRole>>;
     }>[]
   >;

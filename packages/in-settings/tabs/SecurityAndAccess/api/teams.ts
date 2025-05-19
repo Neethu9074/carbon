@@ -5,7 +5,7 @@
  */
 
 import { Observable } from '@instana/observables';
-import { Team } from '@instana/types';
+import { TeamDetails } from '@instana/types';
 
 import { refresh as refreshTags } from 'in-settings/tabs/SecurityAndAccess/api/tags';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -15,17 +15,6 @@ import http from 'in-services/http';
 import { User } from 'in-types';
 
 const basePath = '/api/settings/rbac/teams';
-
-export interface TeamTagUsed {
-  websites?: number;
-  applications?: number;
-  syntheticTests?: number;
-  syntheticCredentials?: number;
-  alertChannels: number;
-  customDashboards: number;
-  mobileApps?: number;
-}
-
 /**
  * Model for selectable team scope entities like websites, mobile apps etc.
  * @property {string} id - unique id of the entity
@@ -36,20 +25,18 @@ export interface TeamScopeEntity {
   readonly name: string;
 }
 
-//  Extended model for a Team until type from backend has TeamTagUsed
-export interface ApiTeam extends Team {
-  readonly teamTagUsed: TeamTagUsed;
+export function getTeam(id: string, includeTeamUsage?: boolean): Observable<TeamDetails> {
+  return getTeamInternal(id, includeTeamUsage).map(response => response.body);
 }
 
-export function getTeam(id: string): Observable<ApiTeam> {
-  return getTeamInternal(id).map(response => response.body);
-}
-
-function getTeamInternal(id: string): Observable<Response<ApiTeam>> {
-  return http<ApiTeam>({
+function getTeamInternal(id: string, includeTeamUsage?: boolean): Observable<Response<TeamDetails>> {
+  return http<TeamDetails>({
     method: 'GET',
     maxRetries: 3,
-    url: `${basePath}/${encodeURIComponent(id)}`
+    url: `${basePath}/${encodeURIComponent(id)}`,
+    queryParams: {
+      includeTeamUsage
+    }
   });
 }
 
@@ -104,10 +91,10 @@ export function addUsersToTeam(teamId: string, users: User[]) {
   });
 }
 
-export function saveTeam(team: ApiTeam): Observable<Response<ApiTeam>> {
+export function saveTeam(team: TeamDetails): Observable<Response<TeamDetails>> {
   const method = team?.id ? 'PUT' : 'POST';
   const url = team?.id ? `${basePath}/${encodeURIComponent(team.id)}` : basePath;
-  return http<ApiTeam>({
+  return http<TeamDetails>({
     method: method,
     url: url,
     headers: getCsrfHeader(),

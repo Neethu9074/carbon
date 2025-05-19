@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 
 import { Modal } from '@instana/carbon';
+import { Team } from '@instana/types';
 
 import {
   createScopeForm,
@@ -14,7 +15,6 @@ import {
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
 import { createNavItems } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.navItems';
 import MapFormProvider, { FormMode } from 'in-settings/components/MapFormProvider/MapFormProvider';
-import { ApiTeam as Team } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { close as closeModal } from 'in-components/DialogPresenter/store';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';

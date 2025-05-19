@@ -5,12 +5,12 @@
  */
 
 :local {
-  .teamTagUsageContainer {
-    .entityTile {
+  .tagUsedOnCard {
+    .tagTileContainer {
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
-      :global(.cds--tile) {
+      .tagTile {
         margin-bottom: 0.5rem;
         margin-right: 0.5rem;
         min-width: 180px;

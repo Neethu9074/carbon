@@ -7,12 +7,13 @@
 import React, { useState } from 'react';
 
 import { InlineLoading } from '@instana/carbon';
+import { Team } from '@instana/types';
 
 import NameDescriptionCard from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/name/NameDescriptionCard';
 import NameForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/name/NameForm';
 import { Notification } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
-import { ApiTeam as Team, deleteTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { securityAndAccessAccessControlTeams } from 'in-settings/navigation/paths';
+import { deleteTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';

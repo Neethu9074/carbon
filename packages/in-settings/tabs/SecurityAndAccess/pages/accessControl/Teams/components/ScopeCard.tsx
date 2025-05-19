@@ -10,11 +10,11 @@ import React from 'react';
 import { ProductiveCard } from '@instana/ibm-products';
 import { Typography } from '@instana/components';
 import { InlineLoading } from '@instana/carbon';
+import { Team } from '@instana/types';
 
 import ScopeOverview from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeOverview';
 import ScopeDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog';
 import { FORM_MODE } from 'in-settings/components/MapFormProvider/MapFormProvider';
-import { ApiTeam as Team } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import config from 'in-services/config';
 import { t } from 'in-i18n';

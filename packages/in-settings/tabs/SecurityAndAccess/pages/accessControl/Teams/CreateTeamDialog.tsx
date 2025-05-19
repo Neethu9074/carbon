@@ -6,12 +6,13 @@
 
 import React, { useState } from 'react';
 
+import { TeamDetails } from '@instana/types';
 import { Modal } from '@instana/carbon';
 
 import NameForm from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/name/NameForm';
 import { Notification } from 'in-settings/components/MultiSelectDataTable/MultiSelectDataTable';
-import { ApiTeam as Team, saveTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { saveTeam } from 'in-settings/tabs/SecurityAndAccess/api/teams';
 import { SETTINGS_TEAM_CREATE } from 'in-services/tracking/eventNames';
 import { close } from 'in-components/DialogPresenter/store';
 import { CREATED_OBJECT } from 'in-services/util/constants';
@@ -24,18 +25,17 @@ interface CreateTeamDialogProps {
 const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
   const [isValid, setValid] = useState(false);
   const { unstable_trackEvent } = useSegmentTracking();
-  const [team, setTeam] = useState({
+  const [team, setTeam] = useState<TeamDetails>({
     id: '',
     tag: '',
     info: {
       description: ''
     },
     members: [],
-    scope: {},
-    teamTagUsed: { alertChannels: 0, customDashboards: 0 }
+    scope: {}
   });
 
-  const setTeamData = ({ tag, info }: Partial<Team>) => {
+  const setTeamData = ({ tag, info }: Partial<TeamDetails>) => {
     setTeam(previous => {
       return {
         ...previous,
@@ -87,7 +87,7 @@ const CreateTeamDialog = ({ setMessage }: CreateTeamDialogProps) => {
       size="sm"
     >
       <NameForm
-        description={team.info.description}
+        description={team.info?.description}
         editable
         name={team.tag}
         setTeamData={setTeamData}

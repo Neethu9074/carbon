@@ -10,11 +10,11 @@ import { TeamTagUsedEntity } from 'in-settings/tabs/SecurityAndAccess/pages/acce
 
 export const TEAMTAG_USED_ENTITIES: Array<TeamTagUsedEntity> = [
   {
-    id: 'alertChannels',
+    id: 'ALERT_CHANNEL',
     title: t('in-settings:tabs.teams.teamTagUsedOnAlertChannels')
   },
   {
-    id: 'customDashboards',
+    id: 'CUSTOM_DASHBOARD',
     title: t('in-settings:tabs.teams.teamTagUsedOnCustomDashboards')
   }
 ];
