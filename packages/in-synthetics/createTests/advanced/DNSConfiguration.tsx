@@ -117,7 +117,8 @@ export default function DNSConfiguration({
             invalid: false,
             message: ''
           }
-        }
+        },
+        inValidResolutionRecord: false
       }
     ];
     setTargetFilters([...updatedTargetFilters]);
@@ -328,8 +329,6 @@ export default function DNSConfiguration({
                       )
                     );
                   }}
-                  invalid={selectedFilter.error.key.invalid}
-                  invalidText={selectedFilter.error.key.message}
                 />
                 <Dropdown
                   id={generateUniqueShortId()}
@@ -360,8 +359,6 @@ export default function DNSConfiguration({
                       )
                     );
                   }}
-                  invalid={selectedFilter.error.operator.invalid}
-                  invalidText={selectedFilter.error.operator.message}
                 />
                 <TextInput
                   id={generateUniqueShortId()}
@@ -386,13 +383,20 @@ export default function DNSConfiguration({
                     checkTargetFiltersEmpty(queryTypeField.value, [...targetFilters]);
                     setTargetFilters([...targetFilters]);
                     updateForm(
-                      form.updateIn(['configuration', 'targetValues'], (field: Item) =>
-                        (field as Field<AssertionTargetFilter[]>).setValue([...targetFilters]).setTouched(true)
-                      )
+                      form.updateIn(['configuration', 'targetValues'], (field: Item) => {
+                        const valueField = field as Field<AssertionTargetFilter[]>;
+                        valueField.setValue([...targetFilters]).setTouched(true);
+                        if (valueField.touched && selectedFilter.error.value.invalid) {
+                          selectedFilter.inValidResolutionRecord = true;
+                        } else {
+                          selectedFilter.inValidResolutionRecord = false;
+                        }
+                        return valueField;
+                      })
                     );
                   }}
-                  invalid={selectedFilter.error.value.invalid}
-                  invalidText={selectedFilter.error.value.message}
+                  invalid={selectedFilter.inValidResolutionRecord}
+                  invalidText={selectedFilter.inValidResolutionRecord ? selectedFilter.error.value.message : ''}
                 />
                 <IconButton
                   kind="ghost"

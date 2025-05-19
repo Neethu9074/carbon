@@ -32,7 +32,8 @@ export const getDefaultTargetFilters = (form: MapForm<any>) => {
             invalid: false,
             message: ''
           }
-        }
+        },
+        inValidResolutionRecord: false
       };
     });
   else {
@@ -55,7 +56,8 @@ export const getDefaultTargetFilters = (form: MapForm<any>) => {
             invalid: false,
             message: ''
           }
-        }
+        },
+        inValidResolutionRecord: false
       }
     ];
   }

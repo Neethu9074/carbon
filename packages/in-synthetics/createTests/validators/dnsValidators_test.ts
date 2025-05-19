@@ -210,7 +210,8 @@ describe('assertionValidator', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         },
         '8.8.8.1',
         'ANY',
@@ -234,7 +235,8 @@ describe('assertionValidator', () => {
           invalid: false,
           message: ''
         }
-      }
+      },
+      inValidResolutionRecord: false
     }));
 
   test('validates the DNS assertion and return updated assertion if only operator is filled', () =>
@@ -258,7 +260,8 @@ describe('assertionValidator', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         },
         'CONTAINS',
         'ANY',
@@ -282,7 +285,8 @@ describe('assertionValidator', () => {
           invalid: true,
           message: t('in-services:validators.theValueMustNotBeBlank')
         }
-      }
+      },
+      inValidResolutionRecord: false
     }));
 
   test('validates the DNS assertion and return updated assertion if only query type is filled', () =>
@@ -306,7 +310,8 @@ describe('assertionValidator', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         },
         'A',
         'ANY',
@@ -330,7 +335,8 @@ describe('assertionValidator', () => {
           invalid: true,
           message: t('in-services:validators.theValueMustNotBeBlank')
         }
-      }
+      },
+      inValidResolutionRecord: false
     }));
 
   test('validates the DNS assertion and return updated assertion if only record resolution is filled', () =>
@@ -354,7 +360,8 @@ describe('assertionValidator', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         },
         '8.8.8.8',
         'ANY',
@@ -378,7 +385,8 @@ describe('assertionValidator', () => {
           invalid: false,
           message: ''
         }
-      }
+      },
+      inValidResolutionRecord: false
     }));
 
   test('validates the DNS assertion and return updated assertion if record resolution is also invalid', () =>
@@ -402,7 +410,8 @@ describe('assertionValidator', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         },
         '8.8.8 .8',
         'ANY',
@@ -426,7 +435,8 @@ describe('assertionValidator', () => {
           invalid: true,
           message: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.validators.invalidResolutionRecord')
         }
-      }
+      },
+      inValidResolutionRecord: false
     }));
 
   test('validates the DNS assertion and return updated assertion if query type and selected record type mismatches', () =>
@@ -450,7 +460,8 @@ describe('assertionValidator', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         },
         'AAAA',
         'A',
@@ -474,7 +485,8 @@ describe('assertionValidator', () => {
           invalid: false,
           message: ''
         }
-      }
+      },
+      inValidResolutionRecord: false
     }));
 });
 
@@ -537,7 +549,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         }
       ])
     ).toStrictEqual([
@@ -559,7 +572,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
             invalid: false,
             message: ''
           }
-        }
+        },
+        inValidResolutionRecord: false
       }
     ]);
     expect(
@@ -582,7 +596,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         }
       ])
     ).toStrictEqual([
@@ -604,7 +619,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
             invalid: false,
             message: ''
           }
-        }
+        },
+        inValidResolutionRecord: false
       }
     ]);
     expect(
@@ -627,7 +643,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         }
       ])
     ).toStrictEqual([
@@ -649,7 +666,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
             invalid: false,
             message: ''
           }
-        }
+        },
+        inValidResolutionRecord: false
       }
     ]);
     expect(
@@ -672,7 +690,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         }
       ])
     ).toStrictEqual([
@@ -694,7 +713,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
             invalid: false,
             message: ''
           }
-        }
+        },
+        inValidResolutionRecord: false
       }
     ]);
     expect(
@@ -717,7 +737,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         }
       ])
     ).toStrictEqual([
@@ -739,7 +760,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
             invalid: false,
             message: ''
           }
-        }
+        },
+        inValidResolutionRecord: false
       }
     ]);
     expect(
@@ -762,7 +784,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         }
       ])
     ).toStrictEqual([
@@ -784,7 +807,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
             invalid: false,
             message: ''
           }
-        }
+        },
+        inValidResolutionRecord: false
       }
     ]);
   });
@@ -809,7 +833,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         }
       ])
     ).toStrictEqual([
@@ -831,7 +856,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
             invalid: false,
             message: ''
           }
-        }
+        },
+        inValidResolutionRecord: false
       }
     ]);
     expect(
@@ -854,7 +880,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         }
       ])
     ).toStrictEqual([
@@ -876,7 +903,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
             invalid: false,
             message: ''
           }
-        }
+        },
+        inValidResolutionRecord: false
       }
     ]);
     expect(
@@ -899,7 +927,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         }
       ])
     ).toStrictEqual([
@@ -921,7 +950,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
             invalid: false,
             message: ''
           }
-        }
+        },
+        inValidResolutionRecord: false
       }
     ]);
     expect(
@@ -944,7 +974,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
               invalid: false,
               message: ''
             }
-          }
+          },
+          inValidResolutionRecord: false
         }
       ])
     ).toStrictEqual([
@@ -966,7 +997,8 @@ describe('checkQueryTypeAssertionMismatch', () => {
             invalid: false,
             message: ''
           }
-        }
+        },
+        inValidResolutionRecord: false
       }
     ]);
   });

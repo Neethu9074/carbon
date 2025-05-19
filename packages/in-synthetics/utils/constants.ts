@@ -821,6 +821,7 @@ export interface AssertionTargetFilter extends TargetFilter {
     operator: Invalid;
     value: Invalid;
   };
+  inValidResolutionRecord: boolean;
 }
 
 export interface ConsoleLogColumnProps {
