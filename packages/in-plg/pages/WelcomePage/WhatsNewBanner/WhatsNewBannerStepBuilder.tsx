@@ -9,11 +9,16 @@ import React from 'react';
 import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { KUBECOST_INTEGRATION_BUTTON_CLICKED, LOGS_IN_CONTEXT_BUTTON_CLICKED } from 'in-services/tracking/eventNames';
+import {
+  KUBECOST_INTEGRATION_BUTTON_CLICKED,
+  LOGS_IN_CONTEXT_BUTTON_CLICKED,
+  TURBONOMIC_OPTIMIZATION_BUTTON_CLICKED,
+  CONCERT_INTEGRATION_BUTTON_CLICKED
+} from 'in-services/tracking/eventNames';
+import { hasKubernetesAccess, hasApplicationsAccess } from 'in-stores/permission';
 import { HeaderItemTile } from 'in-plg/components/HeaderItemTile/HeaderItemTile';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getValidButtonType } from 'in-plg/pages/WelcomePage/utils';
-import { hasKubernetesAccess } from 'in-stores/permission';
 import { TileDataType } from 'in-plg/pages/WelcomePage/types';
 import { role } from 'in-stores/user';
 
@@ -46,6 +51,34 @@ export default function WhatsNewBannerStepBuilder() {
         //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script
         //the id of the smart walk-thru is taken from walkme editor
         WalkMeAPI.startFlowById(2094310);
+      }
+    },
+    {
+      key: 'turbonomic',
+      title: t('in-plg:welcomepage.turbonomic.title'),
+      description: t('in-plg:welcomepage.turbonomic.description'),
+      buttonName: t('in-plg:welcomepage.turbonomic.buttonName'),
+      buttonType: 'ghost',
+      hasPermission: hasApplicationsAccess,
+      onButtonClick: () => {
+        trackCta(TURBONOMIC_OPTIMIZATION_BUTTON_CLICKED);
+        //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script
+        //the id of the smart walk-thru is taken from walkme editor
+        WalkMeAPI.startFlowById(2103008);
+      }
+    },
+    {
+      key: 'concert',
+      title: t('in-plg:welcomepage.concert.title'),
+      description: t('in-plg:welcomepage.concert.description'),
+      buttonName: t('in-plg:welcomepage.concert.buttonName'),
+      buttonType: 'ghost',
+      hasPermission: hasApplicationsAccess,
+      onButtonClick: () => {
+        trackCta(CONCERT_INTEGRATION_BUTTON_CLICKED);
+        //@ts-expect-error WalkMeAPI is loaded during runtime using walkme script
+        //the id of the smart walk-thru is taken from walkme editor
+        WalkMeAPI.startFlowById(2103195);
       }
     }
   ];
