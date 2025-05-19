@@ -149,11 +149,7 @@ export function AIChat() {
               }
             }
           });
-          // HACK -- To keep the greeting message from popping up we add a LONG delay.
-          // TODO -- Update this once aichat packages version bumps where new function
-          // allows you to cancel all together
-          instance.showLauncherGreetingMessage(100000000000000, 'desktop');
-          // isDragging is shared accross the various functions to synchronize actions accordingly
+          // isDragging is shared across the various functions to synchronize actions accordingly
           let isDragging = false;
           const launcherElement = document.getElementById(LAUNCHER_BUTTON_ID);
           // Listen to when the launcher is clicked
