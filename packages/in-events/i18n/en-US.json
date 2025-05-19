@@ -401,7 +401,11 @@
     "whatToKnow": "What do you want to know about {{category}}?",
     "welcome": "Hello and welcome. Get started with AI by exploring the varied examples below.",
     "apps": "Applications",
-    "infra": "Infrastructure"
+    "infra": "Infrastructure",
+    "tableView": "Table view",
+    "chartView": "Chart view",
+    "searchTable": "Search table",
+    "download": "Download"
   },
   "notes": {
     "openNotes": "Open summary and notes",

@@ -5,7 +5,7 @@
  */
 
 // @ts-expect-error not ts file
-import { formatForTable, sendAPIQuery, fetchAPIData } from 'in-events/components/AIChat/chatAPI';
+import { formatForTable, sendAPIQuery, fetchAPIData, formatForBarChart } from 'in-events/components/AIChat/chatAPI';
 
 const DATA = {
   emptyItems: {
@@ -244,58 +244,163 @@ describe('sendAPIQuery', () => {
 describe('formatForTable', () => {
   it('works with empty items array', () => {
     const fmt = formatForTable(DATA.emptyItems);
-    expect(fmt.output.generic[0].rows.length).toBe(0);
+    const userDefined = fmt.output.generic[0].user_defined;
+    expect(userDefined.rows.length).toBe(0);
   });
   it('returns empty result if no primary column is found', () => {
     const fmt = formatForTable(DATA.noName);
-    expect(fmt.output.generic[0].rows.length).toBe(0);
+    const userDefined = fmt.output.generic[0].user_defined;
+    expect(userDefined.rows.length).toBe(0);
   });
   it('does not error if timestamp is undefined', () => {
     const fmt = formatForTable(DATA.noTimestamp);
-    const firstRow = fmt.output.generic[0].rows[0].cells;
-    expect(firstRow[firstRow.length - 1]).toBeUndefined();
+    const userDefined = fmt.output.generic[0].user_defined;
+    const firstRow = userDefined.rows[0];
+    expect(firstRow.timestamp).toBeUndefined();
   });
   it('parses single metric response', () => {
     const fmt = formatForTable(DATA.labelKube);
+    const userDefined = fmt.output.generic[0].user_defined;
     const firstLabel = 'aap/aap-gateway-operator-controller-manager';
-    expect(fmt.output.generic[0].rows[0].cells[0]).toBe(firstLabel);
-    expect(fmt.output.generic[0].rows[0].cells[1]).toBe(123123);
-    expect(fmt.output.generic[0].rows[0].cells[2]).toBe('2025-03-26T22:20:54.000Z');
+    const metricKey = 'desiredReplicas.MEAN';
+    expect(userDefined.rows[0].name).toBe(firstLabel);
+    expect(userDefined.rows[0][metricKey]).toBe(123123);
+    expect(userDefined.rows[0].timestamp).toBe('Mar 26, 2025 11:20:54 PM');
   });
   it('parses two metric response with count', () => {
     const fmt = formatForTable(DATA.multipleWithCount);
-    expect(fmt.output.generic[0].headers[0]).toBe('Name');
-    expect(fmt.output.generic[0].headers[1]).toBe('# Calls');
-    expect(fmt.output.generic[0].headers[2]).toBe('Mean latency');
-    expect(fmt.output.generic[0].headers[3]).toBe('Count');
-    expect(fmt.output.generic[0].headers[4]).toBe('Timestamp');
-    expect(fmt.output.generic[0].rows[0].cells[1]).toBe(123);
-    expect(fmt.output.generic[0].rows[0].cells[2]).toBe(456);
-    expect(fmt.output.generic[0].rows[0].cells[3]).toBe(987);
-    expect(fmt.output.generic[0].rows[0].cells[4]).toBe('2025-03-26T23:08:00.000Z');
+    const userDefined = fmt.output.generic[0].user_defined;
+    const callsKey = 'calls.sum';
+    const meanKey = 'latency.mean';
+    expect(userDefined.headers[0].header).toBe('Name');
+    expect(userDefined.headers[1].header).toBe('# Calls');
+    expect(userDefined.headers[2].header).toBe('Mean latency');
+    expect(userDefined.headers[3].header).toBe('Count');
+    expect(userDefined.headers[4].header).toBe('Timestamp');
+    expect(userDefined.rows[0][callsKey]).toBe(123);
+    expect(userDefined.rows[0][meanKey]).toBe(456);
+    expect(userDefined.rows[0].count).toBe(987);
+    expect(userDefined.rows[0].timestamp).toBe('Mar 27, 2025 12:08:00 AM');
   });
   it('parses two metric response', () => {
     const fmt = formatForTable(DATA.multiple);
+    const userDefined = fmt.output.generic[0].user_defined;
     const firstLabel = '/calc/{id}';
-    expect(fmt.output.generic[0].headers[0]).toBe('Name');
-    expect(fmt.output.generic[0].headers[1]).toBe('# Calls');
-    expect(fmt.output.generic[0].headers[2]).toBe('Mean latency');
-    expect(fmt.output.generic[0].headers[3]).toBe('Timestamp');
-    expect(fmt.output.generic[0].rows[0].cells[0]).toBe(firstLabel);
-    expect(fmt.output.generic[0].rows[0].cells[1]).toBe(123);
-    expect(fmt.output.generic[0].rows[0].cells[2]).toBe(456);
-    expect(fmt.output.generic[0].rows[0].cells[3]).toBe('2025-03-26T23:08:00.000Z');
+    const callsKey = 'calls.sum';
+    const meanKey = 'latency.mean';
+    expect(userDefined.headers[0].header).toBe('Name');
+    expect(userDefined.headers[1].header).toBe('# Calls');
+    expect(userDefined.headers[2].header).toBe('Mean latency');
+    expect(userDefined.headers[3].header).toBe('Timestamp');
+    expect(userDefined.rows[0].name).toBe(firstLabel);
+    expect(userDefined.rows[0][callsKey]).toBe(123);
+    expect(userDefined.rows[0][meanKey]).toBe(456);
+    expect(userDefined.rows[0].timestamp).toBe('Mar 27, 2025 12:08:00 AM');
   });
   it('shows count as a column', () => {
     const fmt = formatForTable(DATA.showCount);
+    const userDefined = fmt.output.generic[0].user_defined;
     const firstLabel = 'aap-gateway-operator-controller-manager';
-    expect(fmt.output.generic[0].rows[0].cells[0]).toBe(firstLabel);
-    expect(fmt.output.generic[0].rows[0].cells[1]).toBe(987);
+    const tagKey = 'kubernetes.deployment.name';
+    expect(userDefined.rows[0][tagKey]).toBe(firstLabel);
+    expect(userDefined.rows[0].count).toBe(987);
   });
   it('parses correctly', () => {
     const fmt = formatForTable(DATA.parse);
+    const userDefined = fmt.output.generic[0].user_defined;
     const firstLabel = 'instana-agent/controller-manager-5cd6df6d96-75bwg';
-    expect(fmt.output.generic[0].rows[0].cells[0]).toBe(firstLabel);
-    expect(fmt.output.generic[0].rows[0].cells[1]).toBe(0.199999880616829);
+    const cpuKey = 'cpuRequests.MEAN';
+    expect(userDefined.rows[0].name).toBe(firstLabel);
+    expect(userDefined.rows[0][cpuKey]).toBe(0.199999880616829);
+  });
+});
+
+const tableDataSingleMetric = {
+  //Show the mean latency from service nginx-web to service discount, grouped by the HTTP method
+  items: [
+    {
+      name: 'POST',
+      timestamp: 1747684804160,
+      cursor: {
+        '@class': '.IngestionOffsetCursor',
+        ingestionTime: 1747686571000,
+        offset: 1
+      },
+      metrics: {
+        'latency.mean': [[1747686540000, 36.173857868020306]]
+      }
+    }
+  ],
+  canLoadMore: false,
+  totalHits: 1,
+  totalRepresentedItemCount: 1,
+  totalRetainedItemCount: 1,
+  adjustedTimeframe: {
+    windowSize: 1740000,
+    to: 1747686540000
+  }
+};
+
+const tableDataDoubleMetric = {
+  //Show the mean latency and number of calls from service nginx-web to service discount, grouped by the HTTP method
+  items: [
+    {
+      name: 'POST',
+      timestamp: 1747684921917,
+      cursor: {
+        '@class': '.IngestionOffsetCursor',
+        ingestionTime: 1747686687000,
+        offset: 1
+      },
+      metrics: {
+        'calls.sum': [[1747686660000, 774.0]],
+        'latency.mean': [[1747686660000, 36.29586563307493]]
+      }
+    }
+  ],
+  canLoadMore: false,
+  totalHits: 1,
+  totalRepresentedItemCount: 1,
+  totalRetainedItemCount: 1,
+  adjustedTimeframe: {
+    windowSize: 1740000,
+    to: 1747686660000
+  }
+};
+
+describe('formatForBarChart', () => {
+  const chartOptions = {
+    title: '',
+    axes: {
+      left: {
+        mapsTo: 'value'
+      },
+      bottom: {
+        mapsTo: 'group',
+        scaleType: 'labels'
+      }
+    },
+    height: '400px'
+  };
+  test('returns empty chart data when input tableData is empty', () => {
+    const result = formatForBarChart();
+    expect(result).toEqual({
+      data: [],
+      options: chartOptions
+    });
+  });
+  test('returns correct chart data for one metric column', () => {
+    const tableResponse = formatForTable(tableDataSingleMetric).output.generic[0].user_defined;
+    const result = formatForBarChart({ headers: tableResponse.headers, rows: tableResponse.rows });
+    expect(result?.data?.[0].group).toBe('POST');
+    expect(result?.data[0].value).toBe(36.173857868020306);
+    expect(result?.options).toEqual(chartOptions);
+  });
+  test('returns first metric in chart data for multiple metrics columns', () => {
+    const tableResponse = formatForTable(tableDataDoubleMetric).output.generic[0].user_defined;
+    const result = formatForBarChart({ headers: tableResponse.headers, rows: tableResponse.rows });
+    expect(result?.data?.[0].group).toBe('POST');
+    expect(result?.data[0].value).toBe(774);
+    expect(result?.options).toEqual(chartOptions);
   });
 });

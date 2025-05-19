@@ -148,18 +148,18 @@ export async function CustomSendMessages(
           async apiData => {
             const tabular = formatForTable(apiData);
             await instance.messaging.removeMessages([statusMessageId]);
-            if (tabular.output?.generic?.[0]?.rows?.length == 0) {
+            if (tabular.output?.generic?.[0]?.user_defined.rows?.length == 0) {
               sendTextMessage(t('in-events:aichat.noMatching'), true);
             } else {
-              await instance.messaging.addMessage(tabular, { silent: false });
-              await instance.messaging.addMessage(
-                {
+              instance.messaging.addMessage(tabular);
+
+              setTimeout(() => {
+                instance.messaging.addMessage({
                   output: {
                     generic: reprompt
                   }
-                },
-                { silent: false }
-              );
+                });
+              }, 500);
             }
             await instance.updateCSSVariables({ 'BASE-width': '700px' });
           },

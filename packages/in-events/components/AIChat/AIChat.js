@@ -12,9 +12,9 @@ import { ChatContainer } from '@instana/ai-chat';
 import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessages';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import EditableOptions from 'in-events/components/AIChat/EditableOptions';
-import DisplayChart from 'in-events/components/AIChat/DisplayChart';
 
 import locals from './AIChat.mless';
+import TableChartSwitcher from 'in-events/components/AIChat/TableChartSwitcher';
 
 const LAUNCHER_BUTTON_ID = 'aiChatLauncher';
 
@@ -24,27 +24,6 @@ export function MoveAIChatLauncher(pixel) {
   if (launcherIcon) {
     launcherIcon.style.right = pixel;
   }
-}
-
-function customSortRow(lhs, rhs, collator) {
-  const nlhs = Number(lhs);
-  const nrhs = Number(rhs);
-  if (!Number.isNaN(nlhs) && !Number.isNaN(nrhs)) {
-    return nlhs - nrhs;
-  }
-  return collator.compare(lhs, rhs);
-}
-
-function setCustomSortRow() {
-  const tables = document.querySelector('cds-aichat-internal').shadowRoot.querySelectorAll('cds-aichat-table');
-  // NodeList needs to be [] to iterate
-  [...tables].forEach(elm => {
-    const table = elm.shadowRoot.querySelector('cds-table');
-    if (table && !table.hasCustomSort) {
-      table.customSortRow = customSortRow;
-      table.hasCustomSort = true;
-    }
-  });
 }
 
 function setDragListener() {
@@ -128,8 +107,8 @@ export function AIChat() {
           switch (messageItem.user_defined?.user_defined_type) {
             case `editable_options`:
               return <EditableOptions messageItem={messageItem} instance={instance} />;
-            case 'bar_chart':
-              return <DisplayChart messageItem={messageItem} />;
+            case 'table_chart':
+              return <TableChartSwitcher messageItem={messageItem} />;
             default:
               return undefined;
           }
@@ -138,17 +117,6 @@ export function AIChat() {
           instance.trackCta = trackCta;
         }}
         onAfterRender={instance => {
-          instance.on({
-            type: 'receive',
-            handler: msg => {
-              if (msg.data?.output?.generic?.[0]?.response_type === 'table') {
-                // Wait for table to display
-                setTimeout(() => {
-                  setCustomSortRow();
-                }, 500);
-              }
-            }
-          });
           // HACK -- To keep the greeting message from popping up we add a LONG delay.
           // TODO -- Update this once aichat packages version bumps where new function
           // allows you to cancel all together

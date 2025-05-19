@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { formatCarbonDate, formatCarbonTime } from 'in-events/components/util/carbonDateTimeFormat';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
@@ -52,22 +53,18 @@ export function formatForTable(apiResponse) {
     output: {
       generic: [
         {
-          response_type: 'table',
-          headers: [],
-          rows: []
-        },
-        {
           response_type: 'user_defined',
           user_defined: {
-            user_defined_type: 'bar_chart',
-            chart_data: formatForBarChart({ headers: [], rows: [] })
+            user_defined_type: 'table_chart',
+            headers: [],
+            rows: []
           }
         }
       ]
     }
   };
   const response = {
-    response_type: 'table',
+    response_type: 'user_defined',
     data: {
       headers: [],
       rows: []
@@ -82,9 +79,9 @@ export function formatForTable(apiResponse) {
   const potentialTags = (Object.keys(first.tags || {}) || []).filter(x => /^label\..*|.*\.name$/.test(x));
   let useTag = potentialTags.length > 0 ? potentialTags[0] : null;
   if (first.name) {
-    response.data.headers.push(t('in-events:aichat.name'));
+    response.data.headers.push({ key: 'name', header: t('in-events:aichat.name') });
   } else if (useTag) {
-    response.data.headers.push(headerAlias[useTag] || useTag);
+    response.data.headers.push({ key: useTag, header: headerAlias[useTag] || useTag });
   } else {
     // No primary column found
     return emptyResult;
@@ -96,59 +93,55 @@ export function formatForTable(apiResponse) {
   if (firstMetric.length === 2) {
     // [timestamp, metric] format
     metricKeys.forEach(key => {
-      response.data.headers.push(headerAlias[key] || key);
+      response.data.headers.push({ key: key, header: headerAlias[key] || key });
     });
     if (countPresent) {
-      response.data.headers.push(t('in-events:aichat.count'));
+      response.data.headers.push({ key: 'count', header: t('in-events:aichat.count') });
     }
-    response.data.headers.push(t('in-events:aichat.timestamp'));
-    instanaApiResponse.forEach(entry => {
-      const cells = [];
-      cells.push(entry.name || entry.tags?.[useTag]);
+    response.data.headers.push({ key: 'timestamp', header: t('in-events:aichat.timestamp') });
+    instanaApiResponse.forEach((entry, i) => {
+      const row = {};
+      row.name = entry.name || entry.tags?.[useTag];
       let timestamp;
       metricKeys.forEach((key, index) => {
         if (index === 0) {
           timestamp = entry.metrics[key]?.[0]?.[0];
         }
-        cells.push(entry.metrics[key]?.[0]?.[1]);
+        row[key] = entry.metrics[key]?.[0]?.[1];
       });
       if (countPresent) {
-        cells.push(entry.count);
+        row.count = entry.count;
       }
       if (timestamp) {
-        cells.push(new Date(timestamp).toISOString());
+        row.timestamp = `${formatCarbonDate(timestamp)} ${formatCarbonTime(timestamp)}`;
       } else {
-        cells.push(undefined);
+        row.timestamp = undefined;
       }
-      response.data.rows.push({ cells });
+      response.data.rows.push({ id: i, ...row });
     });
   } else {
     // No metric found, just push primary column data
     if (countPresent) {
-      response.data.headers.push(t('in-events:aichat.count'));
+      response.data.headers.push({ key: 'count', header: t('in-events:aichat.count') });
     }
     instanaApiResponse.forEach(entry => {
-      let cells = [];
-      cells.push(entry.tags?.[useTag]);
+      const row = {};
+      row[useTag] = entry.tags?.[useTag];
       if (countPresent) {
-        cells.push(entry.count);
+        row.count = entry.count;
       }
-      response.data.rows.push({ cells });
+      response.data.rows.push({ id: entry.id, ...row });
     });
   }
   return {
     output: {
       generic: [
         {
-          response_type: response.response_type,
-          headers: response.data.headers,
-          rows: response.data.rows
-        },
-        {
           response_type: 'user_defined',
           user_defined: {
-            user_defined_type: 'bar_chart',
-            chart_data: formatForBarChart({ headers: response.data.headers, rows: response.data.rows })
+            user_defined_type: 'table_chart',
+            headers: response.data.headers,
+            rows: response.data.rows
           }
         }
       ]
@@ -156,6 +149,11 @@ export function formatForTable(apiResponse) {
   };
 }
 
+/**
+ * Convert table headers and rows to chart format
+ * @param tableData - { headers: headers, rows: paginatedRows }
+ * @returns object - { data: response, options: options }
+ */
 export function formatForBarChart(tableData) {
   const options = {
     title: '',
@@ -168,7 +166,7 @@ export function formatForBarChart(tableData) {
         scaleType: 'labels'
       }
     },
-    height: '600px'
+    height: '400px'
   };
 
   const emptyChartData = {
@@ -185,18 +183,14 @@ export function formatForBarChart(tableData) {
   const headers = tableData.headers;
   const rows = tableData.rows;
 
-  // Sort rows by the second column in descending order and take the top 5
-  const sortedRows = rows.sort((a, b) => b.cells[1] - a.cells[1]).slice(0, 5);
-
   // Map sorted rows to bar chart format
-  sortedRows.forEach(row => {
-    const group = row.cells[0];
-    const value = row.cells[1];
-    const timestamp = row.cells[headers.length - 1];
+  rows.forEach(row => {
+    const group = row[headers[0].key];
+    // currently only visualizing first column of metrics
+    const value = row[headers[1].key];
     response.push({
       group: group,
-      value: value,
-      timestamp: timestamp ? new Date(timestamp) : undefined // Format to YYYY-MM-DD
+      value: value
     });
   });
 
