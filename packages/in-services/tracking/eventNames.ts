@@ -140,7 +140,7 @@ export const CONTACT_SALES = 'learnMoreContactSales.clicked';
 
 export const KUBECOST_INTEGRATION_BUTTON_CLICKED = 'whatsnew.KubecostIntegration';
 export const LOGS_IN_CONTEXT_BUTTON_CLICKED = 'whatsnew.Logs';
-export const TURBONOMETRIC_OPTIMIZATION_BUTTON_CLICKED = 'whatsnew.TurbonometricOptimization';
+export const TURBONOMIC_OPTIMIZATION_BUTTON_CLICKED = 'whatsnew.TurbonomicOptimization';
 export const CONCERT_INTEGRATION_BUTTON_CLICKED = 'whatsnew.ConcertIntegration';
 export const WHATS_NEW_OPENED = 'whatsnew.opened';
 export const WHATS_NEW_CLOSED = 'whatsnew.closed';

@@ -546,14 +546,14 @@
       "description": "Now accepting logs anywhere through OTel, and with longer retention up to 90-days as an add-on feature.",
       "buttonName": "Learn more"
     },
-    "turbonometric": {
-      "title": "Resource actions, powered by Turbonometric",
-      "description": "See how resources actions can help your applications.",
+    "turbonomic": {
+      "title": "Resource actions, powered by Turbonomic",
+      "description": "See how resource actions can help your applications.",
       "buttonName": "Learn more"
     },
     "concert": {
-      "title": "AI driven insights with IBM concerts",
-      "description": "Uncover crucial insights about your operations and automations.",
+      "title": "AI driven insights with IBM Concert",
+      "description": "Uncover crucial insights about your operations and automate actions.",
       "buttonName": "Learn more"
     },
     "startIntegrating": {
