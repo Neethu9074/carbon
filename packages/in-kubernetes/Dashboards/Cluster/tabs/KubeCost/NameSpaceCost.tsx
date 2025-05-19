@@ -232,8 +232,12 @@ const cols = [
         return `namespaceCostList.${row.key}.trend`;
       },
       getContent(row: NamespaceCostRow) {
-        // beeinstana won't support negative values.
-        let adjustedtrendValue = row != null && typeof row === 'number' ? row - 1000 : row;
+        // BeeInstana doesn't support negative values, so we subtract the 1000 offset (added by the sensor) to normalize the values for display.
+        const isValidNumber = typeof row === 'number';
+        const adjustedtrendValue = isValidNumber ? row - 1000 : row;
+
+        if (!isValidNumber) return '-';
+
         return <Badge color={colorFormatter(adjustedtrendValue)}>{adjustedtrendValue + '%'}</Badge>;
       },
       getTimeWindowAggregation() {
