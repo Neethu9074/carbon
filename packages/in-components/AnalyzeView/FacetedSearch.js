@@ -11,7 +11,11 @@ import FacetedSearchHeader from 'in-components/AnalyzeView/FacetedFilters/Facete
 import locals from './FacetedSearch.mless';
 
 function orderByMetric(suggestions) {
-  const hasMetricData = Boolean(suggestions?.length > 0 && suggestions[0]?.metrics?.facetedSearchMetric[0][1]);
+  const hasMetricData = Boolean(
+    suggestions?.length > 0 &&
+      Object.keys(suggestions[0]?.metrics).length &&
+      suggestions[0]?.metrics?.facetedSearchMetric[0][1]
+  );
   return hasMetricData
     ? sortBy(suggestions, suggestion => -1 * suggestion.metrics.facetedSearchMetric[0][1])
     : suggestions;

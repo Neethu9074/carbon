@@ -39,6 +39,7 @@ import { custom as customType, metric as metricType } from 'in-components/Analyz
 import FacetedFilterGeneric from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
 import GroupedResults from 'in-applications/analyze/AnalyzeView2_0/components/GroupedResults';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
+import getSubtraceSideFilter from 'in-applications/subscriptions/getSubtraceSideFilter';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
@@ -52,6 +53,7 @@ import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
+import { analyzeSubtracesEnabled } from 'in-services/featureFlags';
 import { GROUP_COLORS } from 'in-components/AnalyzeView/utils.ts';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { perSecondDetailed } from 'in-stores/metric/formatters';
@@ -105,6 +107,17 @@ const defaultChartedMetrics = {
         }
       ]
     }
+  ],
+  subtraces: [
+    {
+      templateId: 'subtrace.overview',
+      metrics: [
+        {
+          metricId: 'subtraceDuration',
+          aggregationId: 'MEAN'
+        }
+      ]
+    }
   ]
 };
 const dataSourceParameter = {
@@ -120,27 +133,35 @@ const timestampNames = {
   traces: {
     ungrouped: 'startTime',
     grouped: 'firstTimestamp'
+  },
+  subtraces: {
+    ungrouped: 'startTime',
+    grouped: 'firstTimestamp'
   }
 };
 
 const groupedView = {
   calls: getGroupedView('calls'),
-  traces: getGroupedView('traces')
+  traces: getGroupedView('traces'),
+  subtraces: getGroupedView('subtraces')
 };
 
 const ungroupedView = {
   calls: getUngroupedView('calls'),
-  traces: getUngroupedView('traces')
+  traces: getUngroupedView('traces'),
+  subtraces: getUngroupedView('subtraces')
 };
 
 const fixedFields = {
   calls: getFixedFields('calls'),
-  traces: getFixedFields('traces')
+  traces: getFixedFields('traces'),
+  subtraces: getFixedFields('subtraces')
 };
 
 const typePerDataSource = {
   calls: 'call',
-  traces: 'trace'
+  traces: 'trace',
+  subtraces: 'subtraces'
 };
 
 const callsMetricCatalogTransformer = createMetricCatalogTransformer('calls');
@@ -264,6 +285,16 @@ export function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }
       fixedFields: fixedFields.traces,
       defaultSelectableFields,
       defaultChartedMetrics: defaultChartedMetrics['traces']
+    },
+    subtraces: {
+      metricCatalogTransformer: tracesMetricCatalogTransformer, //TODO:  need to change
+      chartableMetricCatalogTransformer: tracesChartableMetricCatalogTransformer, //TODO:  need to change
+      facetedSearchItems: getFacetedSearchItems({ dataSource: 'subtraces', hiddenCalls, onChangeHiddenCalls }),
+      ungroupedView: ungroupedView.subtraces,
+      groupedView: groupedView.traces, // TODO:  need to change
+      fixedFields: fixedFields.subtraces,
+      defaultSelectableFields,
+      defaultChartedMetrics: defaultChartedMetrics['subtraces']
     }
   };
 }
@@ -415,9 +446,47 @@ function getMetric({ metrics }) {
 }
 
 function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls }) {
-  const isCallsDataSource = dataSource !== 'traces';
+  const isSubTraceDataSource = dataSource === 'subtraces';
+  const isCallsDataSource = dataSource === 'calls';
   const renderer = isCallsDataSource ? FacetedFilterMultiSelect : FacetedFilterGeneric;
 
+  if (isSubTraceDataSource && analyzeSubtracesEnabled) {
+    return [
+      {
+        renderer: FacetedFilterRangeInput,
+        title: t('in-applications:subtraces.labelDuration'),
+        tag: 'subtrace.duration',
+        openByDefault: true
+      },
+      {
+        renderer: FacetedFilterRangeInput,
+        title: t('in-applications:analyze.NumberOfSubCalls'),
+        tag: 'subtrace.call.count',
+        openByDefault: true
+      },
+      {
+        renderer: FacetedFilterMultiSelect,
+        title: t('in-applications:analyze.services'),
+        tag: 'subtrace.service.name',
+        entity: DESTINATION,
+        enableUseAsGroup: false,
+        getItems,
+        getSuggestionName,
+        getMetric
+      },
+      {
+        renderer: FacetedFilterMultiSelect,
+        title: t('in-applications:analyze.technologies'),
+        tag: 'subtrace.technology',
+        entity: DESTINATION,
+        customLabelMapper: label => getPluginName(label),
+        enableUseAsGroup: false,
+        getItems,
+        getSuggestionName,
+        getMetric
+      }
+    ];
+  }
   return [
     {
       renderer: FacetedFilterRangeInput,
@@ -535,7 +604,8 @@ function getFacetedSearchSuggestions({
   formModel,
   group,
   metricKey,
-  hiddenCalls
+  hiddenCalls,
+  dataSource
 }) {
   const { includeSynthetic = false, includeInternal = false } = hiddenCalls;
   const backendQuery = toBackendQuery({
@@ -544,6 +614,17 @@ function getFacetedSearchSuggestions({
     facetedSearchConfiguration: facetedSearchItems,
     tagToExclude: tag
   });
+
+  if (dataSource === 'subtraces' && analyzeSubtracesEnabled) {
+    return getSubtraceSideFilter({
+      tagFilterExpression: backendQuery,
+      tagName: group.groupbyTag,
+      filter: {
+        timeConfig: timeConfig
+      }
+    });
+  }
+
   return getTagSuggestions({
     tagFilterExpression: backendQuery,
     tagName: group.groupbyTag,
