@@ -143,6 +143,7 @@ packages/in-forge/plugins/kubernetesReplicaSet                  @Instana-IBM-Git
 packages/in-forge/plugins/kubernetesService                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
 packages/in-forge/plugins/kubernetesStatefulSet                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
 packages/in-forge/plugins/liferayApplicationContainer           @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/linuxKVMHypervisor*                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/lxc                                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/mariaDbDatabase                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/memcached                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
@@ -265,6 +266,7 @@ packages/in-server                                                              
 packages/in-nutanix                                                                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 packages/in-xenserver                                                                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 packages/in-windowshypervisor                                                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
+packages/in-linuxkvmhypervisor                                                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
 
 # enable sensors team to update aws iam permissions
 packages/in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor.tsx                       @Instana-IBM-GitHub-Enterprise @instana/eng-plg @instana/eng-ui @instana/eng-sensors
