@@ -1,0 +1,26 @@
+:local {
+  .container {
+    display: flex;
+    flex-direction: column;
+    > section {
+      padding-bottom: 2rem;
+      > div {
+        padding-right: 16rem;
+        line-height: 1.125rem;
+        white-space: pre-line;
+      }
+    }
+  }
+
+  .toggle {
+    align-self: flex-start;
+  }
+
+  h3,
+  h2 {
+    font-weight: bold;
+  }
+  h2 {
+    font-size: 1rem;
+  }
+}

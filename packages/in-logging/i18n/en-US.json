@@ -60,7 +60,7 @@
   "fileOnHost": "on",
   "file": "File",
   "logExpiration": "Retained until",
-  "stacktraceLogMessage":"Stacktrace",
+  "stacktraceLogMessage": "Stacktrace",
   "logTraceTitle": "Stacktrace",
   "stackTraceHeader": "Stacktrace Message",
   "dashboard": {
@@ -68,7 +68,7 @@
     "smartAlerts": "Smart alerts",
     "deleteLogs": "Delete logs",
     "management": "Management",
-    "logVolume":{
+    "logVolume": {
       "logVolumeTitle": "Current month log volume",
       "gib": "GiB",
       "tib": "TiB",
@@ -84,7 +84,23 @@
       "retentionPeriod": "Retention period",
       "retentionPeriodDescription": "Change how long logs are retained and available in Applications, Dashboards, and Analytics. This may affect cost and billing.",
       "patternRecognition": "Log pattern recognition",
-      "patternRecognitionDescription": "AI functionality that discover recurrent patterns in your logs. Patterns provide a high level overview of your logs and help decrease the time to resolve on trouble shooting."
+      "patternRecognitionDescription": "AI functionality that discover recurrent patterns in your logs. Patterns provide a high level overview of your logs and help decrease the time to resolve on trouble shooting.",
+      "patternRecognitionSet": {
+        "gotIt": "Got it",
+        "cancel": "Cancel",
+        "gettingStarted": "Getting Started",
+        "howDoesItWorks": "How does this work?",
+        "firstDescription_0": "Log pattern recognition trains an AI algorithm to discover recurrent patterns in your logs. By analyzing high volumes of logs, it is able to recognize variable and static portions of the logs and discover patterns in them. \n\n The AI algorithm only relies on your log messages and does not share them with other client's logs. This ensures the privacy and security of your data.",
+        "howWillHelpMe": "How will it help me?",
+        "secondDescription_0": "Recognizing patterns in your logs can help decrease the time needed to resolve an issue when troubleshooting. You can filter for a specific pattern or group by a large amount of logs. \n\n Grouping can provide a high-level overview of the logs you are ingesting and help refine your open telemetry configuration to avoid ingesting irrelevant logs,  saving storage and ingestion costs.",
+        "learnMore": "Learn more",
+        "popHoverSecondDescription": "By analyzing high volumes of logs, it is able to recognize variable and static portions of the logs and discover patterns in them.\n\nThe AI algorithm only relies on your log messages and does not share them with other client's logs. This ensures the privacy and security of your data",
+        "hotItWorks": "How it works",
+        "popHoverFirstDescription":"Log pattern recognition trains an AI algorithm to discover recurrent patterns in your logs. ",
+        "aiExpained": "AI explained"
+
+
+      }
     }
   }
 }

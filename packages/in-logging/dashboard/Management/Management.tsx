@@ -4,10 +4,12 @@
  * Copyright IBM Corp. 2024
  */
 
-import { CalendarEvent, Integration, TimePlot, AnalyzesData } from '@carbon/pictograms-react';
-import React from 'react';
+import { AnalyzesData, CalendarEvent, Integration, TimePlot } from '@carbon/pictograms-react';
+// eslint-disable-next-line no-restricted-imports
+import { AILabel } from '@carbon/react';
+import React, { useState } from 'react';
 
-import { CarbonClickableTile, IconButton } from '@instana/components';
+import { CarbonClickableTile, CarbonModal, IconButton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -16,31 +18,25 @@ import {
   dashboardPatternRecognitionPath,
   dashboardRetentionManagementPath
 } from 'in-logging/navigation/paths';
+import {
+  localisationStrings,
+  patterRecognitionLocalisationStrings
+} from 'in-logging/dashboard/Management/localisationStrings';
+import InitialModalScreen from 'in-logging/dashboard/Management/PatternRecognitionModal/InitialScreen';
+import { LogPatternsAiLabel } from 'in-logging/dashboard/Management/LogPatternsAiLabel';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { patternRecognitionEnabled } from 'in-services/featureFlags';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import RestrictedAccessMessage from 'in-components/rbac';
 import { user } from 'in-stores/user';
-import { t } from 'in-i18n';
 
 import locals from './Management.mless';
 
-const localisationStrings = {
-  management: t('in-logging:dashboard.management'),
-  logVolume: t('in-logging:dashboard.managementPage.logVolume'),
-  logVolumeDescription: t('in-logging:dashboard.managementPage.logVolumeDescription'),
-  logIntegrations: t('in-logging:dashboard.managementPage.logIntegrations'),
-  logIntegrationsDescription: t('in-logging:dashboard.managementPage.logIntegrationsDescription'),
-  retentionPeriod: t('in-logging:dashboard.managementPage.retentionPeriod'),
-  retentionPeriodDescription: t('in-logging:dashboard.managementPage.retentionPeriodDescription'),
-  patternRecognition: t('in-logging:dashboard.managementPage.patternRecognition'),
-  patternRecognitionDescription: t('in-logging:dashboard.managementPage.patternRecognitionDescription')
-};
-
 export default function Management() {
-  const { createHrefToPath } = useNavigation();
+  const { createHrefToPath, goToPath } = useNavigation();
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
+  const [openTearsheet, setOpenTearsheet] = useState(false);
 
   const shouldShowRetentionPeriod = isLoggingAddonUser && user?.role?.canConfigureLogRetentionPeriod;
   const shouldShowLogVolume = isLoggingAddonUser && user?.role?.canViewLogVolume;
@@ -84,6 +80,27 @@ export default function Management() {
             </section>
           </CarbonClickableTile>
         )}
+        {shouldShowPatterRecognition && (
+          <CarbonClickableTile
+            aria-label={localisationStrings.patternRecognition}
+            role="tabpanel"
+            onClick={() => setOpenTearsheet(true)}
+            decorator={<AILabel />}
+          >
+            <section className={locals.card}>
+              <div className={locals.pictogramWrapper}>
+                <AnalyzesData width={56} />
+              </div>
+              <div className={locals.description}>
+                <h3>{localisationStrings.patternRecognition}</h3>
+                <p>{localisationStrings.patternRecognitionDescription}</p>
+              </div>
+              <div className={locals.navButton}>
+                <IconButton color="#0F62FE" aria-label={'patternRecognition-link-button'} type="lib_arrow_right" />
+              </div>
+            </section>
+          </CarbonClickableTile>
+        )}
         {shouldShowIntegrations && (
           <CarbonClickableTile href={createHrefToPath(dashboardIntegrationsPath)}>
             <section className={locals.card}>
@@ -100,21 +117,22 @@ export default function Management() {
             </section>
           </CarbonClickableTile>
         )}
-        {shouldShowPatterRecognition && (
-          <CarbonClickableTile href={createHrefToPath(dashboardPatternRecognitionPath)}>
-            <section className={locals.card}>
-              <div className={locals.pictogramWrapper}>
-                <AnalyzesData width={56} />
-              </div>
-              <div className={locals.description}>
-                <h3>{localisationStrings.patternRecognition}</h3>
-                <p>{localisationStrings.patternRecognitionDescription}</p>
-              </div>
-              <div className={locals.navButton}>
-                <IconButton color="#0F62FE" aria-label={'patternRecognition-link-button'} type="lib_arrow_right" />
-              </div>
-            </section>
-          </CarbonClickableTile>
+
+        {openTearsheet && (
+          <CarbonModal
+            className={locals.tearsheet}
+            open
+            modalHeading={localisationStrings.patternRecognition}
+            primaryButtonText={patterRecognitionLocalisationStrings.gotIt}
+            secondaryButtonText={patterRecognitionLocalisationStrings.cancel}
+            onRequestSubmit={() => goToPath(dashboardPatternRecognitionPath)}
+            onSecondarySubmit={() => setOpenTearsheet(false)}
+            onRequestClose={() => setOpenTearsheet(false)}
+            decorator={<LogPatternsAiLabel />}
+            size="md"
+          >
+            <InitialModalScreen />
+          </CarbonModal>
         )}
       </div>
     </LoggingDashboardWrapper>

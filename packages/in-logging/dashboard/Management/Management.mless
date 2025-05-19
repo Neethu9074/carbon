@@ -10,6 +10,27 @@
     align-items: center;
   }
 
+  .popHoverContainer {
+    > span {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 18px;
+      letter-spacing: 0.16px;
+      color: var(--ids-color-option-neutral-500);
+    }
+
+    > p {
+      white-space: pre-line;
+    }
+
+    > h1 {
+      padding-top: 1rem;
+      font-size: 26px;
+      line-height: 36px;
+      letter-spacing: 0px;
+    }
+  }
+
   .layout {
     margin: 0 2rem;
     display: grid;

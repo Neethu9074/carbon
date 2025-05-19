@@ -50,7 +50,7 @@ module.exports = {
   amplitudeExperimentEnabled: false,
   ibmCommonEnabled: true,
   loggingEnabled: true,
-  patternRecognitionEnabled: false,
+  patternRecognitionEnabled: true,
   notesAndActivityEnabled: true,
   carbonTooltipEnabled: true,
   pseudoLanguageEnabled: true,
