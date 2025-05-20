@@ -242,25 +242,26 @@ describe('sendAPIQuery', () => {
 });
 
 describe('formatForTable', () => {
+  const nlg = '';
   it('works with empty items array', () => {
-    const fmt = formatForTable(DATA.emptyItems);
-    const userDefined = fmt.output.generic[0].user_defined;
+    const fmt = formatForTable(nlg, DATA.emptyItems);
+    const userDefined = fmt.output.generic[1].user_defined;
     expect(userDefined.rows.length).toBe(0);
   });
   it('returns empty result if no primary column is found', () => {
-    const fmt = formatForTable(DATA.noName);
-    const userDefined = fmt.output.generic[0].user_defined;
+    const fmt = formatForTable(nlg, DATA.noName);
+    const userDefined = fmt.output.generic[1].user_defined;
     expect(userDefined.rows.length).toBe(0);
   });
   it('does not error if timestamp is undefined', () => {
-    const fmt = formatForTable(DATA.noTimestamp);
-    const userDefined = fmt.output.generic[0].user_defined;
+    const fmt = formatForTable(nlg, DATA.noTimestamp);
+    const userDefined = fmt.output.generic[1].user_defined;
     const firstRow = userDefined.rows[0];
     expect(firstRow.timestamp).toBeUndefined();
   });
   it('parses single metric response', () => {
-    const fmt = formatForTable(DATA.labelKube);
-    const userDefined = fmt.output.generic[0].user_defined;
+    const fmt = formatForTable(nlg, DATA.labelKube);
+    const userDefined = fmt.output.generic[1].user_defined;
     const firstLabel = 'aap/aap-gateway-operator-controller-manager';
     const metricKey = 'desiredReplicas.MEAN';
     expect(userDefined.rows[0].name).toBe(firstLabel);
@@ -268,8 +269,8 @@ describe('formatForTable', () => {
     expect(userDefined.rows[0].timestamp).toBe('Mar 26, 2025 11:20:54 PM');
   });
   it('parses two metric response with count', () => {
-    const fmt = formatForTable(DATA.multipleWithCount);
-    const userDefined = fmt.output.generic[0].user_defined;
+    const fmt = formatForTable(nlg, DATA.multipleWithCount);
+    const userDefined = fmt.output.generic[1].user_defined;
     const callsKey = 'calls.sum';
     const meanKey = 'latency.mean';
     expect(userDefined.headers[0].header).toBe('Name');
@@ -283,8 +284,8 @@ describe('formatForTable', () => {
     expect(userDefined.rows[0].timestamp).toBe('Mar 27, 2025 12:08:00 AM');
   });
   it('parses two metric response', () => {
-    const fmt = formatForTable(DATA.multiple);
-    const userDefined = fmt.output.generic[0].user_defined;
+    const fmt = formatForTable(nlg, DATA.multiple);
+    const userDefined = fmt.output.generic[1].user_defined;
     const firstLabel = '/calc/{id}';
     const callsKey = 'calls.sum';
     const meanKey = 'latency.mean';
@@ -298,16 +299,16 @@ describe('formatForTable', () => {
     expect(userDefined.rows[0].timestamp).toBe('Mar 27, 2025 12:08:00 AM');
   });
   it('shows count as a column', () => {
-    const fmt = formatForTable(DATA.showCount);
-    const userDefined = fmt.output.generic[0].user_defined;
+    const fmt = formatForTable(nlg, DATA.showCount);
+    const userDefined = fmt.output.generic[1].user_defined;
     const firstLabel = 'aap-gateway-operator-controller-manager';
     const tagKey = 'kubernetes.deployment.name';
     expect(userDefined.rows[0][tagKey]).toBe(firstLabel);
     expect(userDefined.rows[0].count).toBe(987);
   });
   it('parses correctly', () => {
-    const fmt = formatForTable(DATA.parse);
-    const userDefined = fmt.output.generic[0].user_defined;
+    const fmt = formatForTable(nlg, DATA.parse);
+    const userDefined = fmt.output.generic[1].user_defined;
     const firstLabel = 'instana-agent/controller-manager-5cd6df6d96-75bwg';
     const cpuKey = 'cpuRequests.MEAN';
     expect(userDefined.rows[0].name).toBe(firstLabel);
@@ -369,6 +370,7 @@ const tableDataDoubleMetric = {
 };
 
 describe('formatForBarChart', () => {
+  const nlg = '';
   const chartOptions = {
     title: '',
     axes: {
@@ -390,14 +392,14 @@ describe('formatForBarChart', () => {
     });
   });
   test('returns correct chart data for one metric column', () => {
-    const tableResponse = formatForTable(tableDataSingleMetric).output.generic[0].user_defined;
+    const tableResponse = formatForTable(nlg, tableDataSingleMetric).output.generic[1].user_defined;
     const result = formatForBarChart({ headers: tableResponse.headers, rows: tableResponse.rows });
     expect(result?.data?.[0].group).toBe('POST');
     expect(result?.data[0].value).toBe(36.173857868020306);
     expect(result?.options).toEqual(chartOptions);
   });
   test('returns first metric in chart data for multiple metrics columns', () => {
-    const tableResponse = formatForTable(tableDataDoubleMetric).output.generic[0].user_defined;
+    const tableResponse = formatForTable(nlg, tableDataDoubleMetric).output.generic[1].user_defined;
     const result = formatForBarChart({ headers: tableResponse.headers, rows: tableResponse.rows });
     expect(result?.data?.[0].group).toBe('POST');
     expect(result?.data[0].value).toBe(774);
