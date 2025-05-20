@@ -262,9 +262,10 @@ describe('formatForTable', () => {
   it('parses single metric response', () => {
     const fmt = formatForTable(nlg, DATA.labelKube);
     const userDefined = fmt.output.generic[1].user_defined;
+    const firstColumn = userDefined.headers[0].key;
     const firstLabel = 'aap/aap-gateway-operator-controller-manager';
     const metricKey = 'desiredReplicas.MEAN';
-    expect(userDefined.rows[0].name).toBe(firstLabel);
+    expect(userDefined.rows[0][firstColumn]).toBe(firstLabel);
     expect(userDefined.rows[0][metricKey]).toBe(123123);
     expect(userDefined.rows[0].timestamp).toBe('Mar 26, 2025 11:20:54 PM');
   });
@@ -309,9 +310,10 @@ describe('formatForTable', () => {
   it('parses correctly', () => {
     const fmt = formatForTable(nlg, DATA.parse);
     const userDefined = fmt.output.generic[1].user_defined;
+    const firstColumn = userDefined.headers[0].key;
     const firstLabel = 'instana-agent/controller-manager-5cd6df6d96-75bwg';
     const cpuKey = 'cpuRequests.MEAN';
-    expect(userDefined.rows[0].name).toBe(firstLabel);
+    expect(userDefined.rows[0][firstColumn]).toBe(firstLabel);
     expect(userDefined.rows[0][cpuKey]).toBe(0.199999880616829);
   });
 });
