@@ -41,7 +41,7 @@ export function fetchAPIData(chatPayload) {
   return obj.map(response => response.body);
 }
 
-export function formatForTable(apiResponse) {
+export function formatForTable(nlg, apiResponse) {
   // Human readable column names
   const headerAlias = {
     'label.kubernetesNode': t('in-events:aichat.host'),
@@ -51,6 +51,10 @@ export function formatForTable(apiResponse) {
   const emptyResult = {
     output: {
       generic: [
+        {
+          response_type: 'text',
+          text: nlg
+        },
         {
           response_type: 'table',
           headers: [],
@@ -139,6 +143,10 @@ export function formatForTable(apiResponse) {
   return {
     output: {
       generic: [
+        {
+          response_type: 'text',
+          text: nlg
+        },
         {
           response_type: response.response_type,
           headers: response.data.headers,

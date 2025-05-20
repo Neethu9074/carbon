@@ -32,11 +32,19 @@ export async function CustomSendMessages(
   } else {
     instance.updateAssistantInputFieldVisibility(false);
   }
-  async function sendTextMessage(text, restart) {
+  async function sendTextMessage(nlg, text, restart) {
     await instance.messaging.addMessage(
       {
         output: {
           generic: [
+            ...(nlg
+              ? [
+                  {
+                    response_type: 'text',
+                    text: nlg
+                  }
+                ]
+              : []),
             {
               response_type: 'text',
               text: text
@@ -57,11 +65,19 @@ export async function CustomSendMessages(
       );
     }
   }
-  async function sendError(errorMessage) {
+  async function sendError(nlg, errorMessage) {
     await instance.messaging.addMessage(
       {
         output: {
           generic: [
+            ...(nlg
+              ? [
+                  {
+                    response_type: 'text',
+                    text: nlg
+                  }
+                ]
+              : []),
             {
               agent_message_type: 'inline_error',
               response_type: 'text',
@@ -110,20 +126,21 @@ export async function CustomSendMessages(
       // On Success
       response => {
         instance.messaging.removeMessages([loadingMessageId]);
+        const nlgResponse = response?.api?.NLG;
         if (!response) {
-          sendError(t('in-events:aichat.noData'));
+          sendError(nlgResponse, t('in-events:aichat.noData'));
           return;
         }
         if (response.error) {
-          sendError(response.error);
+          sendError(nlgResponse, response.error);
           return;
         }
         if (response.api?.error) {
-          sendError(response.api.error);
+          sendError(nlgResponse, response.api.error);
           return;
         }
         if (!response.api?.api_endpoint) {
-          sendError(t('in-events:aichat.unableToFindError'));
+          sendError(nlgResponse, t('in-events:aichat.unableToFindError'));
           return;
         }
         const statusMessageId = uniqueId('aichat_');
@@ -132,6 +149,10 @@ export async function CustomSendMessages(
             id: statusMessageId,
             output: {
               generic: [
+                {
+                  response_type: 'text',
+                  text: nlgResponse
+                },
                 {
                   response_type: 'text',
                   text: t('in-events:aichat.findingInfoFrom', { endpoint: response.api.api_endpoint })
@@ -146,10 +167,10 @@ export async function CustomSendMessages(
         );
         fetchAPIData(response.api).once(
           async apiData => {
-            const tabular = formatForTable(apiData);
+            const tabular = formatForTable(nlgResponse, apiData);
             await instance.messaging.removeMessages([statusMessageId]);
             if (tabular.output?.generic?.[0]?.rows?.length == 0) {
-              sendTextMessage(t('in-events:aichat.noMatching'), true);
+              sendTextMessage(nlgResponse, t('in-events:aichat.noMatching'), true);
             } else {
               await instance.messaging.addMessage(tabular, { silent: false });
               await instance.messaging.addMessage(
@@ -165,7 +186,7 @@ export async function CustomSendMessages(
           },
           apiError => {
             instance.messaging.removeMessages([statusMessageId]);
-            sendError(apiError);
+            sendError(nlgResponse, apiError);
           }
         );
       },
