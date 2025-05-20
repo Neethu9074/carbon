@@ -14,13 +14,17 @@ import {
   alertsDetailsPath,
   dashboardAlertDetailsFullPath
 } from 'in-logging/navigation/paths';
+import {
+  getAllAlertConfigsWithResult,
+  getLogsConfigsAsResultObservable
+} from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
 import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/form/logAlertConfigTypes';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/logs/hooks/useSmartAlertCreateUrl';
-import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/logs/lists/ListActionHandlers';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import LogsAlertsTabHeader from 'in-alerting/smart-alerts/logs/LogsAlertsTabHeader';
@@ -32,42 +36,49 @@ import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import ScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { eventsPath } from 'in-events/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer/Footer';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/logs/Alerts.mless';
-
-export default function Alerts({ isLogsDashboardHeader = false }) {
+export default function Alerts({ isLogsDashboardHeader = false, isEventsView = false }) {
   const handlers = role?.canConfigureGlobalLogSmartAlerts ? actionHandlers : {};
 
   const Header = isLogsDashboardHeader ? LoggingDashboardWrapper : LogsAlertsTabHeader;
+
+  const List = (
+    <AlertBaseList<LogSmartAlertConfigWithMetadata>
+      extraColumnDefinitions={getColumnDefinitions()}
+      actionHandlers={handlers}
+      getAlertConfigs={() => (isEventsView ? getLogsConfigsAsResultObservable() : getAllAlertConfigsWithResult())}
+      getSubtitle={config => getSubtitle(config.threshold)}
+      sortOptions={sortOptions}
+      alertsTab={isEventsView ? eventsPath : alertsPath}
+      createRowLinkLocation={(config, location) => createRowLinkLocation(config, location, isLogsDashboardHeader)}
+      // for carbon table
+      extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
+      carbonActionHandlers={handlers}
+      getNameSubtitle={() => getLogSubtitle(t('in-alerting:smartAlerts.logs.logCount'))}
+      displayCarbonTable={smartAlertCarbonTableEnabled}
+      toolBarContent={role?.canConfigureGlobalLogSmartAlerts ? <CreateSmartAlert isListingPage /> : undefined}
+      noDataHeader={t('in-alerting:smartAlerts.logs.list.noDataHeader')}
+      noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.logs.list.noDataDescription" />}
+      useSmartAlertCreateUrl={useSmartAlertCreateUrl}
+      displayTitle={isEventsView}
+    />
+  );
+
+  if (isEventsView) {
+    return List;
+  }
+
   return (
     <>
       <Header>
-        <div className={locals.wrapper}>
-          <AlertBaseList<LogSmartAlertConfigWithMetadata>
-            extraColumnDefinitions={getColumnDefinitions()}
-            actionHandlers={handlers}
-            getAlertConfigs={() => getAllAlertConfigsWithResult()}
-            getSubtitle={config => getSubtitle(config.threshold)}
-            sortOptions={sortOptions}
-            alertsTab={alertsPath}
-            createRowLinkLocation={(config, location) => createRowLinkLocation(config, location, isLogsDashboardHeader)}
-            // for carbon table
-            extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
-            carbonActionHandlers={handlers}
-            getNameSubtitle={() => getLogSubtitle(t('in-alerting:smartAlerts.logs.logCount'))}
-            displayCarbonTable={smartAlertCarbonTableEnabled}
-            toolBarContent={role?.canConfigureGlobalLogSmartAlerts ? <CreateSmartAlert isListingPage /> : undefined}
-            noDataHeader={t('in-alerting:smartAlerts.logs.list.noDataHeader')}
-            noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.logs.list.noDataDescription" />}
-            useSmartAlertCreateUrl={useSmartAlertCreateUrl}
-          />
-          <Footer />
-        </div>
+        <LeftRightPadding> {List} </LeftRightPadding>
+        <Footer />
       </Header>
       {!smartAlertCarbonTableEnabled && <CreateLogsSmartAlertFloatingButton />}
     </>

@@ -15,6 +15,8 @@ import { SyntheticAlertConfig, SyntheticAlertConfigWithMetadata, ConfigVersion, 
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
+import memoize from 'in-services/util/memoizingObservableGenerator';
+import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 
 const baseUrl = apiEndpoint.SYNTHETICS;
@@ -65,6 +67,22 @@ export function getAllAlertConfigs(
   });
   return config.asObservable ? createObservable(request) : request.map(response => response.body);
 }
+
+export function getAllAlertConfigsWithResult(): Observable<Result<SyntheticAlertConfigWithMetadata[]>> {
+  const request = http<SyntheticAlertConfigWithMetadata[]>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: baseUrl
+  });
+  return createObservable(request);
+}
+
+export const getSyntheticConfigsAsResultObservable = memoize<void, Result<SyntheticAlertConfigWithMetadata[]>>(
+  getAllAlertConfigsWithResult,
+  () => '',
+  minutes.toMillis(2)
+);
 
 export function getAllVersionsOfAlertConfig(
   id: string,

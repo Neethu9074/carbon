@@ -7,26 +7,31 @@
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
+import { MenuButton, MenuItem } from '@instana/carbon';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
+  dashboardAlertsFullyQualified,
+  syntheticResultsListPath,
+  syntheticsDashboard,
+  syntheticsSummaryPath
+} from 'in-synthetics/navigation/paths';
+import {
   clickSyntheticMonitoringConfigurationTabTracker,
   clickSyntheticMonitoringResultsTabTracker
 } from 'in-synthetics/tracking/tracker';
+import { TestResponse, dummyTest, dataScopes, DataScopeType } from 'in-synthetics/utils/constants';
+import { smartAlertCarbonTableEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
-import { dashboardAlertsFullyQualified } from 'in-synthetics/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
-import { TestResponse, dummyTest } from 'in-synthetics/utils/constants';
-import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import hasEmptyStrings from 'in-synthetics/utils/hasEmptyStrings';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -45,21 +50,24 @@ import locals from './SyntheticSummary.mless';
 const SyntheticSummaryDashboard = () => {
   const { trackCta } = useSegmentTracking();
   const [count, setReloadCount] = useState(0);
-
+  const [dataScope, setDataScope] = useState<DataScopeType>(dataScopes[1]);
   const location: Location = useLocation();
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [count]) || dummyTest;
-
   const hideButtonInAlertsTab = smartAlertCarbonTableEnabled
     ? location.pathname !== dashboardAlertsFullyQualified
     : true;
-
+  const showDatascopeDropdown =
+    syntheticRunNowEnabled && [syntheticsSummaryPath, syntheticResultsListPath].includes(location.pathname);
   const props = {
     testId,
     location,
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
     test,
     setReloadCount,
+    dataScope,
+    setDataScope,
+    showDatascopeDropdown,
     viewPath: syntheticsDashboard
   };
 
@@ -116,11 +124,39 @@ const Header = (
       title={t('in-synthetics:dashboard.testList.mainLabel')}
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={role?.canConfigureSyntheticTests ? RenderButtonLine : undefined}
+      renderButtonLineSecondary={({ setDataScope, dataScope, showDatascopeDropdown }: RenderButtonLineSecondaryProps) =>
+        showDatascopeDropdown && (
+          <MenuButton
+            id="runType"
+            kind="tertiary"
+            size="sm"
+            menuAlignment="bottom-end"
+            label={t('in-synthetics:dashboard.testList.options.dashboardHeaderLabel', {
+              dataScopeLabel: dataScope.label
+            })}
+          >
+            {dataScopes.map(item => (
+              <MenuItem
+                key={item.value}
+                label={item.label}
+                onClick={() => {
+                  setDataScope(item);
+                }}
+              />
+            ))}
+          </MenuButton>
+        )
+      }
       renderMetaInformation={RenderMetaInformation}
     />
   );
 };
 
+interface RenderButtonLineSecondaryProps {
+  setDataScope: React.Dispatch<React.SetStateAction<DataScopeType>>;
+  dataScope: DataScopeType;
+  showDatascopeDropdown: boolean;
+}
 interface RenderMetaInformationProps {
   test: TestResponse;
 }

@@ -15,7 +15,9 @@ import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infr
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
+import memoize from 'in-services/util/memoizingObservableGenerator';
 import { ConfigVersion, InfraAlertConfig, Result } from 'in-types';
+import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 
 const baseUrl = apiEndpoint.INFRA;
@@ -46,6 +48,12 @@ export function getAllAlertConfigsWithResult(): Observable<Result<InfraSmartAler
   });
   return createObservable(request);
 }
+
+export const getInfraConfigsAsResultObservable = memoize<void, Result<InfraSmartAlertConfigWithMetadata[]>>(
+  getAllAlertConfigsWithResult,
+  () => '',
+  minutes.toMillis(2)
+);
 
 export function getAlertConfigByIdAndTimestamp(
   id: string,

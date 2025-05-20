@@ -24,15 +24,16 @@ interface SummaryChartsProps {
   locationIds: string;
   locationDisplayLabels: string;
   timeShiftConfig: TimeShift;
+  runType?: string;
 }
-
 export default function SummaryCharts({
   testId,
   testType,
   test,
   locationIds,
   locationDisplayLabels,
-  timeShiftConfig
+  timeShiftConfig,
+  runType
 }: SummaryChartsProps) {
   const MarkerLanes = MarkerLanesSynthetic({ testId });
 
@@ -74,7 +75,7 @@ export default function SummaryCharts({
 
   const resultsChart = (
     <Col xs key="results">
-      <ResultsTopList testId={testId} testType={testType} />
+      <ResultsTopList testId={testId} testType={testType} runType={runType} />
     </Col>
   );
 

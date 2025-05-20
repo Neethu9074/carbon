@@ -253,7 +253,7 @@ export const mobileAppSmartAlertSlownessBlueprintEnabled = isFeatureFlagEnabled(
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
 
-// Slowness Blueprint in Mobile smart alert
+// SA in events section
 export const allSmartAlertsViewEnabled = isFeatureFlagEnabled('allSmartAlertsViewEnabled');
 
 // Trigger Incident for Infra smart alert

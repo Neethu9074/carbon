@@ -5,11 +5,7 @@
  */
 
 :local {
-  .scopeTypeContentSwitcher {
-    width: 50%;
-  }
-
-  .scopeSection {
+  .scopeSelectEntitiesTable {
     :global(.cds--data-table-header) {
       display: none;
     }

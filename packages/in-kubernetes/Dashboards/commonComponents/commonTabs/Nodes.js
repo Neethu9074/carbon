@@ -12,7 +12,7 @@ import { Card } from '@instana/components';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Table/components/ViewWidthRestrictedColumn';
-import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
+import ServerSideSortedK8sMetricValue from 'in-kubernetes/Dashboards/commonComponents/ServerSideSortedK8sMetricValue';
 import { clusterIdUrlParameter, daemonSetIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
@@ -109,7 +109,7 @@ const columnDefinitions = [
     sortable: true,
     getContent(item, props, columnId) {
       return (
-        <ServerSideSortedMetricValue
+        <ServerSideSortedK8sMetricValue
           snapshotId={item.node.id}
           metric={columnId}
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
@@ -124,7 +124,7 @@ const columnDefinitions = [
     sortable: true,
     getContent(item, props, columnId) {
       return (
-        <ServerSideSortedMetricValue
+        <ServerSideSortedK8sMetricValue
           snapshotId={item.node.id}
           metric={columnId}
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
@@ -139,7 +139,7 @@ const columnDefinitions = [
     sortable: true,
     getContent(item, props, columnId) {
       return (
-        <ServerSideSortedMetricValue
+        <ServerSideSortedK8sMetricValue
           snapshotId={item.node.id}
           metric={columnId}
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
@@ -154,7 +154,7 @@ const columnDefinitions = [
     sortable: true,
     getContent(item, props, columnId) {
       return (
-        <ServerSideSortedMetricValue
+        <ServerSideSortedK8sMetricValue
           snapshotId={item.node.id}
           metric={columnId}
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}

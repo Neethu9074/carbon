@@ -541,7 +541,7 @@ export default function MultiSelectDataTable<
                                 </OverflowMenu>
                               </TableCell>
                             ) : (
-                              <TableCell>
+                              <TableCell className={locals.actionIcons}>
                                 {getMenuItems(row as Omit<DataTableRow<COL_TYPE, ROW_DATA_TYPE>, 'rowData'>).map(
                                   (item, index) => (
                                     <span key={`table-menu-${row.id}-${index}`}>

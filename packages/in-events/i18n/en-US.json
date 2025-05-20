@@ -329,6 +329,13 @@
     "sloSa": "SLO Smart Alert",
     "filterTitle": "Filter"
   },
+  "eventsSmartAlerts": {
+    "globalApplicationSmartAlert": "Global Application Smart Alerts",
+    "ApplicationSmartAlert": "Application Smart Alerts",
+    "syntheticsSA": "Synthetics Smart Alerts",
+    "infraSA": "Infrastructure Smart Alerts",
+    "logSA": "Log Smart Alerts"
+  },
   "feedback": {
     "skip": "Skip",
     "descriptionUnpleasant": {
@@ -401,7 +408,11 @@
     "whatToKnow": "What do you want to know about {{category}}?",
     "welcome": "Hello and welcome. Get started with AI by exploring the varied examples below.",
     "apps": "Applications",
-    "infra": "Infrastructure"
+    "infra": "Infrastructure",
+    "tableView": "Table view",
+    "chartView": "Chart view",
+    "searchTable": "Search table",
+    "download": "Download"
   },
   "notes": {
     "openNotes": "Open summary and notes",

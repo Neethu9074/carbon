@@ -118,6 +118,24 @@ export const datascopeRunTypes = [
     value: 'CI/CD'
   }
 ];
+export const dataScopes = [
+  {
+    label: t('in-synthetics:dashboard.testList.options.allLabel'),
+    value: 'ALL'
+  },
+  {
+    label: t('in-synthetics:dashboard.testList.options.scheduledMenuLabel'),
+    value: 'Scheduled'
+  },
+  {
+    label: t('in-synthetics:dashboard.testList.options.onDemandMenuLabel'),
+    value: 'CI/CD'
+  }
+];
+export interface DataScopeType {
+  label: string;
+  value: string;
+}
 export const DNSFilterOperators: { label: string; value: SyntheticTestFilterOperator }[] = [
   {
     label: t('in-synthetics:dialog.createTest.advancedMode.configStep.dns.operatorOptionContains'),

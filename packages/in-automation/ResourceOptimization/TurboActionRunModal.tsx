@@ -35,11 +35,11 @@ import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/me
 import { ActionInstance } from 'in-automation/subscriptions/turboSubmitActionExecution';
 import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
+import { playwithEnabled, solisEnabled } from 'in-services/featureFlags';
 import { getSolisIntegrationUrl } from 'in-services/integrations/solis';
 import { runResourceOptimizationAction } from 'in-automation/api';
 import { close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracker } from 'in-automation/tracker';
-import { solisEnabled } from 'in-services/featureFlags';
 import { ScoredAction } from 'in-automation/types';
 import { t, Trans } from 'in-i18n';
 
@@ -346,7 +346,7 @@ export default function TurboActionRunModal({ action, agents, targetSnapshotId, 
       onRequestClose={close}
       modalHeading={t('in-automation:resourceOptimization.details')}
       primaryButtonText={t('in-automation:runAction')}
-      primaryButtonDisabled={metadata?.actionMode === 'RECOMMEND'}
+      primaryButtonDisabled={metadata?.actionMode === 'RECOMMEND' || playwithEnabled}
       secondaryButtonText={t('in-automation:cancel')}
       size="lg"
       onRequestSubmit={() =>

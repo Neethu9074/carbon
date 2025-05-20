@@ -1,4 +1,7 @@
 :local {
+  .actionIcons {
+    text-align: end !important;
+  }
   .loadingIcon {
     padding: 0 14px;
   }

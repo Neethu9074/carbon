@@ -109,7 +109,7 @@ export default function MonthlyFrequency({ form, setFormRRule, rrule }: MonthlyF
               { value: '-1', label: t('in-settings:maintenanceWindow.last') }
             ]}
             value={posDay}
-            onChange={v => setPosDay((v as Option).value)}
+            onChange={v => setPosDay((v as Option)?.value)}
             placeholder={t('in-settings:maintenanceWindow.number')}
             disabled={onDay}
           />
@@ -145,7 +145,7 @@ export default function MonthlyFrequency({ form, setFormRRule, rrule }: MonthlyF
               }
             ]}
             value={weekDay}
-            onChange={v => setWeekDay((v as Option).value)}
+            onChange={v => setWeekDay((v as Option)?.value)}
             isClearable={false}
             placeholder={t('in-settings:maintenanceWindow.weekday')}
             disabled={onDay}

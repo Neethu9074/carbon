@@ -29,8 +29,8 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
     title: t('in-settings:tabs.teams.scopeWebsitesAndMobileApps'),
     subtitle: scope => {
       return t('in-settings:tabs.teams.scopeWebsitesAndMobileAppsSubtitle', {
-        websitesCount: scope?.websites?.length,
-        mobileAppsCount: scope?.mobileApps?.length
+        websitesCount: scope?.websites?.length ?? 0,
+        mobileAppsCount: scope?.mobileApps?.length ?? 0
       });
     },
     items: (scope, timeConfig) => {
@@ -59,7 +59,7 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
     title: t('in-settings:tabs.teams.scopeBusinessMonitoring'),
     subtitle: scope => {
       return t('in-settings:tabs.teams.scopeBusinessMonitoringSubtitle', {
-        count: scope?.businessPerspectives?.length
+        count: scope?.businessPerspectives?.length ?? 0
       });
     },
     items: (scope, timeConfig) => {
@@ -78,7 +78,7 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
     id: 'applications',
     title: t('in-settings:tabs.teams.scopeApplications'),
     subtitle: scope => {
-      return t('in-settings:tabs.teams.scopeApplicationsSubtitle', { count: scope?.applications?.length });
+      return t('in-settings:tabs.teams.scopeApplicationsSubtitle', { count: scope?.applications?.length ?? 0 });
     },
     items: (scope, timeConfig) => {
       return [
@@ -113,30 +113,12 @@ export const SCOPE_AREAS: Array<ScopeArea<TeamScopeEntity>> = [
     }
   },
   {
-    id: 'custom-dashboards',
-    title: t('in-settings:tabs.teams.scopeCustomDashboards'),
-    subtitle: () => {
-      return t('in-settings:tabs.teams.scopeCustomDashboardsSubtitle', { count: 0 });
-    },
-    items: () => {
-      return [
-        {
-          id: 'dashboards',
-          items: [],
-          observable: () => just(success([])),
-          extractId: extractId,
-          extractName: extractName
-        }
-      ];
-    }
-  },
-  {
     id: 'synthetic-monitoring',
     title: t('in-settings:tabs.teams.scopeSyntheticMonitoring'),
     subtitle: scope => {
       return t('in-settings:tabs.teams.scopeSyntheticMonitoringSubtitle', {
-        testsCount: scope?.syntheticTests?.length,
-        credentialsCount: scope?.syntheticCredentials?.length
+        testsCount: scope?.syntheticTests?.length ?? 0,
+        credentialsCount: scope?.syntheticCredentials?.length ?? 0
       });
     },
     items: (scope, timeConfig) => {

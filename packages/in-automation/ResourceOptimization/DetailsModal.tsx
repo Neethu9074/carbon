@@ -29,11 +29,11 @@ import { ActionInstance } from 'in-automation/subscriptions/turboSubmitActionExe
 import { setActiveKey } from 'in-automation/AutomationCard/OptimizationsButtonGroup';
 import { refresh } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
+import { playwithEnabled, solisEnabled } from 'in-services/featureFlags';
 import { getSolisIntegrationUrl } from 'in-services/integrations/solis';
 import { runResourceOptimizationAction } from 'in-automation/api';
 import { close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracker } from 'in-automation/tracker';
-import { solisEnabled } from 'in-services/featureFlags';
 import { t, Trans } from 'in-i18n';
 
 import locals from './DetailsModal.mless';
@@ -310,7 +310,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
       onRequestClose={close}
       modalHeading={t('in-automation:resourceOptimization.details')}
       primaryButtonText={t('in-automation:runAction')}
-      primaryButtonDisabled={currentAction?.actionMode === 'RECOMMEND'}
+      primaryButtonDisabled={currentAction?.actionMode === 'RECOMMEND' || playwithEnabled}
       secondaryButtonText={t('in-automation:cancel')}
       size="lg"
       onRequestSubmit={() => handleRunAction()}

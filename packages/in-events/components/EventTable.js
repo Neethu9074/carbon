@@ -114,6 +114,11 @@ function EventTable(props) {
       setOrDeleteMatrixKey(location, eventsPath, 'view', 'cve_issue');
       setOrDeleteMatrixKey(location, eventsPath, 'eventId', eventId);
     }
+    // remove referrer from URL as it already has been recorded
+    const referrer = location.query['ref'];
+    if (referrer) {
+      delete location.query['ref'];
+    }
     onChange({ eventId, relatedEventsPage: 1 });
     navigate(location);
   }

@@ -117,7 +117,7 @@ export default function GlobalInventorySmartAlertsList({ onNoData }) {
   );
 }
 
-function getNoDataMessage(configsCategory) {
+export function getNoDataMessage(configsCategory) {
   if (isCategoryGlobal(configsCategory)) {
     return <Trans i18nKey="in-alerting:smartAlerts.applications.inventory.noGlobalAlertDataDescription" />;
   }
