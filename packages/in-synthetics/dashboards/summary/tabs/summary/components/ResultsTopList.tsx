@@ -21,14 +21,14 @@ import { clickSyntheticMonitoringResultsWidgetDetailTracker } from 'in-synthetic
 import { formatErrorMessage, getResultErrorMessage } from 'in-synthetics/dashboards/details/utils';
 import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { syntheticDnsEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
+import { runTypeTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { TagFilter, TestResultListItem, TimeConfig } from 'in-types';
-import { statusTagName, testIdTagName } from 'in-synthetics/tags';
-import { syntheticDnsEnabled } from 'in-services/featureFlags';
 import { latency } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -55,9 +55,9 @@ const companionFormatters = [null, null, null];
 interface ResultsTopListProps {
   testId: string;
   testType: string | null | undefined;
+  runType?: string;
 }
-
-export default function ResultsTopList({ testId, testType }: ResultsTopListProps) {
+export default function ResultsTopList({ testId, testType, runType }: ResultsTopListProps) {
   const timeConfig = useTimeConfig();
   const colors = [themes.default.ids.color.option.red['500'], null, null];
   const urlMatrixParamConfig = {
@@ -91,6 +91,7 @@ export default function ResultsTopList({ testId, testType }: ResultsTopListProps
       ViewAll={ViewAll}
       timeConfig={timeConfig}
       testId={testId}
+      runType={runType}
       renderHistoricDataIndicator
       getList={getList}
       Renderer={TopListCardPresenterWithScroll}
@@ -107,9 +108,10 @@ type GetList = {
   timeConfig: TimeConfig;
   selectedMetric: string;
   testType: string;
+  runType?: string;
 };
 
-function getList({ testId, timeConfig, selectedMetric, testType }: GetList) {
+function getList({ testId, timeConfig, selectedMetric, testType, runType }: GetList) {
   const baseTagFilters: TagFilter[] = [
     {
       stringValue: testId,
@@ -136,13 +138,20 @@ function getList({ testId, timeConfig, selectedMetric, testType }: GetList) {
       type: 'TAG_FILTER'
     }
   ];
-
   const tagFilters = [statusTagFilters, baseTagFilters, baseTagFilters];
-
+  if (syntheticRunNowEnabled) {
+    const runTypeTagFilter: TagFilter = {
+      stringValue: runType,
+      name: runTypeTagName,
+      operator: EQUALS,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    };
+    tagFilters[metrics.indexOf(selectedMetric)].push(runTypeTagFilter);
+  }
   if (syntheticDnsEnabled && testType === 'DNS' && !metrics.includes('errors')) {
     metrics.push('errors');
   }
-
   return getTestResultList({
     pagination: {
       page: 1,

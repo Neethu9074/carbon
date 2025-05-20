@@ -10,26 +10,28 @@ import { OrderDirection, TagFilter, TagFilterExpression, TestResultListItem, Tim
 import { formatDateTime, fromNow } from '@instana/format-date';
 import { t } from '@instana/i18n-react';
 
-// @ts-expect-error Could not find declaration type
-import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-// @ts-expect-error Could not find declaration type
-import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import {
+  DataScopeType,
   ResultsCurrentState,
   ResultsFilterState,
   resultsFilterUrlStateDefinition,
   TestResponse
 } from 'in-synthetics/utils/constants';
 // @ts-expect-error Could not find declaration type
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+// @ts-expect-error Could not find declaration type
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+// @ts-expect-error Could not find declaration type
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import { locationLabelTagName, runTypeTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { bytesTwoDecimalPlaces, timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
 import { clickSyntheticMonitoringResultsListDetailTracker } from 'in-synthetics/tracking/tracker';
 import FailureTypePopover from 'in-synthetics/dashboards/summary/tabs/results/FailureTypePopover';
 import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import ResultFilters from 'in-synthetics/dashboards/summary/tabs/results/ResultFilters';
-import { locationLabelTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { syntheticDnsEnabled, syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -38,7 +40,6 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { syntheticDnsEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
@@ -113,12 +114,12 @@ const daysRemainingColumnContent = (item: TestResultListItem) => {
 function renderFailurePopover(item: TestResultListItem) {
   return <FailureTypePopover resultItem={item} />;
 }
-
 interface ResultListProps {
   test: TestResponse;
+  dataScope?: DataScopeType;
 }
 
-export default function ResultsList({ test }: ResultListProps) {
+export default function ResultsList({ test, dataScope }: ResultListProps) {
   const timeConfig = useTimeConfig();
   const location = useLocation();
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
@@ -267,6 +268,7 @@ export default function ResultsList({ test }: ResultListProps) {
         rightHeader={rightHeader}
         status={status}
         locationLabels={locationLabels}
+        runType={dataScope?.value}
       />
       <Footer />
     </>
@@ -282,6 +284,7 @@ type GetList = {
   query: string;
   status?: string[];
   locationLabels?: string[];
+  runType?: string;
 };
 
 function getSynthTableData({
@@ -292,7 +295,8 @@ function getSynthTableData({
   pageSize = 20,
   query = '',
   status = [],
-  locationLabels = []
+  locationLabels = [],
+  runType = ''
 }: GetList) {
   if (testType === 'SSLCertificate') {
     metrics.push('custom_metrics');
@@ -378,7 +382,21 @@ function getSynthTableData({
     logicalOperator: 'AND',
     type: 'EXPRESSION'
   };
-
+  if (syntheticRunNowEnabled) {
+    const runTypeTagFilterExpression: TagFilterExpression = {
+      elements: [],
+      logicalOperator: 'OR',
+      type: 'EXPRESSION'
+    };
+    runTypeTagFilterExpression.elements.push({
+      value: runType,
+      name: runTypeTagName,
+      operator: EQUALS,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    });
+    tagFilterExpression.elements.push(runTypeTagFilterExpression);
+  }
   return getTestResultList({
     pagination: {
       page,

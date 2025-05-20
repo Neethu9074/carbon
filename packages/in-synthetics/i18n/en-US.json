@@ -477,8 +477,12 @@
         "credentials": "Credentials"
       },
       "options":{
+        "scheduledMenuLabel":"Scheduled",
+        "onDemandMenuLabel":"On demand",
+        "allLabel":"All",
         "scheduledLabel":"Data scope : Scheduled",
-        "onDemandLabel":"Data scope : On demand"
+        "onDemandLabel":"Data scope : On demand",
+        "dashboardHeaderLabel" :"Data based on : {{dataScopeLabel}}"
       },
       "popDialog": {
         "popUpDialogTitle": "Permissions for synthetic monitoring",

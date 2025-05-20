@@ -9,27 +9,29 @@ import { PaginatedResult, Result, TagFilter, TestResultListItem } from '@instana
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
 
+import { DataScopeType, TestResponse, dummyTestResultList } from 'in-synthetics/utils/constants';
 import SummaryCharts from 'in-synthetics/dashboards/summary/tabs/summary/SummaryCharts';
 import SummaryKPIs from 'in-synthetics/dashboards/summary/tabs/summary/SummaryKPIs';
-import { TestResponse, dummyTestResultList } from 'in-synthetics/utils/constants';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
+import { testIdTagName, runTypeTagName } from 'in-synthetics/tags';
+import { syntheticRunNowEnabled } from 'in-services/featureFlags';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { TimeShift } from 'in-components/Chart/types';
 import { Location } from 'in-stores/navigation/types';
-import { testIdTagName } from 'in-synthetics/tags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 interface SummaryProps {
   test: TestResponse;
+  dataScope?: DataScopeType;
 }
 
-export default function Summary({ test }: SummaryProps) {
+export default function Summary({ test, dataScope }: SummaryProps) {
   const page = 1;
   const pageSize = 1;
   const timeConfig = useTimeConfig();
@@ -51,7 +53,15 @@ export default function Summary({ test }: SummaryProps) {
       type: 'TAG_FILTER'
     }
   ];
-
+  if (syntheticRunNowEnabled) {
+    tagFilters.push({
+      stringValue: dataScope?.value,
+      name: runTypeTagName,
+      operator: EQUALS,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    });
+  }
   const resultList: Result<PaginatedResult<TestResultListItem>> =
     useObservable<any, [number]>(
       () =>
@@ -104,6 +114,7 @@ export default function Summary({ test }: SummaryProps) {
           locationIds={locationIds}
           locationDisplayLabels={locationDisplayLabels}
           timeShiftConfig={timeShiftConfig}
+          runType={dataScope?.value}
         />
       )}
     </Fragment>
