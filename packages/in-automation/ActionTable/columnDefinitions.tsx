@@ -88,7 +88,6 @@ export const scoreColumn: ColumnDefinition<ScoredAction> = {
   width: 8,
   sortable: true,
   getContent(action) {
-    if (action.type === ACTION_TYPE.EXTERNAL) return null;
     return (
       <Tooltip
         content={t('in-automation:ActionCatalog.confidenceHelpText', { source: action.aiEngine })}
