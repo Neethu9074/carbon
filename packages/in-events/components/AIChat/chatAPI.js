@@ -57,11 +57,6 @@ export function formatForTable(nlg, apiResponse) {
           text: nlg
         },
         {
-          response_type: 'table',
-          headers: [],
-          rows: []
-        },
-        {
           response_type: 'user_defined',
           user_defined: {
             user_defined_type: 'table_chart',
@@ -148,11 +143,6 @@ export function formatForTable(nlg, apiResponse) {
         {
           response_type: 'text',
           text: nlg
-        },
-        {
-          response_type: response.response_type,
-          headers: response.data.headers,
-          rows: response.data.rows
         },
         {
           response_type: 'user_defined',

@@ -13,6 +13,8 @@ import { formatForBarChart } from 'in-events/components/AIChat/chatAPI';
 import TableView from 'in-events/components/AIChat/TableView';
 import { t } from 'in-i18n';
 
+import locals from './TableChartSwitcher.mless';
+
 const TableChartSwitcher = ({ messageItem }) => {
   const rows = useMemo(() => {
     return messageItem?.user_defined?.rows || [];
@@ -76,7 +78,12 @@ const TableChartSwitcher = ({ messageItem }) => {
 
   return (
     <div>
-      <ContentSwitcher onChange={({ index }) => setSelectedIndex(index)} selectedIndex={selectedIndex} size={'sm'}>
+      <ContentSwitcher
+        onChange={({ index }) => setSelectedIndex(index)}
+        selectedIndex={selectedIndex}
+        size={'sm'}
+        className={locals.contentSwitcherContainer}
+      >
         <Switch name="table" text={t('in-events:aichat.tableView')} />
         <Switch name="chart" text={t('in-events:aichat.chartView')} />
       </ContentSwitcher>
