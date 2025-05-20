@@ -15,6 +15,7 @@ import {
 } from 'in-events/components/AIChat/DefinedQuestions';
 import { sendAPIQuery, fetchAPIData, formatForTable } from 'in-events/components/AIChat/chatAPI';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
+import { cleanUpText } from 'in-events/components/AIChat/utils';
 import { t } from 'in-i18n';
 
 // Params:
@@ -126,7 +127,7 @@ export async function CustomSendMessages(
       // On Success
       response => {
         instance.messaging.removeMessages([loadingMessageId]);
-        const nlgResponse = response?.api?.NLG;
+        const nlgResponse = response?.api?.NLG && cleanUpText(response?.api?.NLG);
         if (!response) {
           sendError(nlgResponse, t('in-events:aichat.noData'));
           return;
@@ -169,7 +170,7 @@ export async function CustomSendMessages(
           async apiData => {
             const tabular = formatForTable(nlgResponse, apiData);
             await instance.messaging.removeMessages([statusMessageId]);
-            if (tabular.output?.generic?.[0]?.rows?.length == 0) {
+            if (tabular.output?.generic?.[0]?.user_defined?.rows?.length == 0) {
               sendTextMessage(nlgResponse, t('in-events:aichat.noMatching'), true);
             } else {
               instance.messaging.addMessage(tabular);
