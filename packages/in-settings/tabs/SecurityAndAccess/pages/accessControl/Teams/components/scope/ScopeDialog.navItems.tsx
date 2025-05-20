@@ -13,6 +13,7 @@ import {
   getAllSyntheticTestsForEntitySelectionWithDefaults
 } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
 import { getAllBusinessPerspectivesForEntitySelectionWithDefaults } from 'in-bizops/subscriptions/helpers/getAllBusinessPerspectivesForEntitySelectionWithDefaults';
+import LimitedAccessSwitcher from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/LimitedAccessSwitcher';
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
@@ -142,24 +143,6 @@ export const createNavItems = (timeConfig: TimeConfig) => {
         <ScopeSection<TeamScopeEntity>
           extractId={extractId}
           extractName={extractName}
-          fieldName="tagIds"
-          limitedAccessScopes={[]}
-          limitedAccessSwitchLabel={t('in-settings:dialogs.scope.limitedCustomDashboardsSwitchLabel')}
-          tableAddLabel={t('in-settings:dialogs.scope.addCustomDashboardsLabel')}
-          tableTitle={t('in-settings:dialogs.scope.customDashboardsSectionTitle')}
-          observable={() => just(success([]))}
-        />
-      ),
-      label: t('in-settings:dialogs.scope.customDashboardsSectionTitle'),
-      scrollId: 'custom-dashboards-section',
-      title: t('in-settings:dialogs.scope.customDashboardsSectionTitle'),
-      valid: true
-    },
-    {
-      content: (
-        <ScopeSection<TeamScopeEntity>
-          extractId={extractId}
-          extractName={extractName}
           fieldName="syntheticTests"
           limitedAccessScopes={[LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE]}
           limitedAccessSwitchLabel={t('in-settings:dialogs.scope.limitedSyntheticTestsSwitchLabel')}
@@ -193,15 +176,9 @@ export const createNavItems = (timeConfig: TimeConfig) => {
     },
     {
       content: (
-        <ScopeSection<TeamScopeEntity>
-          extractId={extractId}
-          extractName={extractName}
-          fieldName="tagIds"
+        <LimitedAccessSwitcher
           limitedAccessScopes={['LIMITED_ALERT_CHANNELS_SCOPE']}
           limitedAccessSwitchLabel={t('in-settings:dialogs.scope.limitedAlertChannelsSwitchLabel')}
-          tableAddLabel={t('in-settings:dialogs.scope.addAlertChannelsLabel')}
-          tableTitle={t('in-settings:dialogs.scope.eventsAndAlertsSectionTitle')}
-          observable={() => just(success([]))}
         />
       ),
       label: t('in-settings:dialogs.scope.eventsAndAlertsSectionTitle'),
@@ -211,15 +188,9 @@ export const createNavItems = (timeConfig: TimeConfig) => {
     },
     {
       content: (
-        <ScopeSection<TeamScopeEntity>
-          extractId={extractId}
-          extractName={extractName}
-          fieldName="tagIds"
+        <LimitedAccessSwitcher
           limitedAccessScopes={[LimitedAccessScope.LIMITED_AUTOMATION_SCOPE]}
           limitedAccessSwitchLabel={t('in-settings:dialogs.scope.limitedAutomationsSwitchLabel')}
-          tableAddLabel={t('in-settings:dialogs.scope.addAutomationsLabel')}
-          tableTitle={t('in-settings:dialogs.scope.automationSectionTitle')}
-          observable={() => just(success([]))}
         />
       ),
       label: t('in-settings:dialogs.scope.automationSectionTitle'),

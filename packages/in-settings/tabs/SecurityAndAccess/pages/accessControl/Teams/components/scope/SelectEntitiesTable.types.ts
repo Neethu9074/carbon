@@ -6,18 +6,16 @@
 
 import { ReactNode } from 'react';
 
-import { AccessRestriction, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
+import { Result } from '@instana/types';
 
 import { ScopeTableFormFieldType } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Teams/components/scope/ScopeDialog.form';
 
-export interface ScopeSectionProps<I> {
+export interface SelectEntitiesTableProps<I> {
   extractId: (entity: I) => string;
   extractName: (entity: I) => string;
   fieldName: ScopeTableFormFieldType;
-  limitedAccessSwitchLabel: string;
   observable: () => Observable<Result<I[]>>;
-  limitedAccessScopes: AccessRestriction[];
   tableAddLabel: string;
   tableTitle: string;
 }
