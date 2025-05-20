@@ -64,6 +64,7 @@ interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
   toolBarContent?: JSX.Element;
   isSelectable?: boolean;
   useSmartAlertCreateUrl?: (args: AlertURLProps) => string;
+  displayTitle?: boolean;
 }
 
 export interface AlertConfigType {
@@ -104,7 +105,8 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
   isSelectable = false,
   noDataHeader,
   noDataDescription,
-  useSmartAlertCreateUrl
+  useSmartAlertCreateUrl,
+  displayTitle = false
 }: AlertBaseListProps<AlertConfig>) {
   const columnDef = createColumnDefinition(
     extraColumnDefinitions,
@@ -130,9 +132,11 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
           columnDefinitions={columnDefForTable}
           getLocalAlertConfigsFetchFunction={getAlertConfigs}
           getLocalAlertConfigTitle={(numberOfAlerts: number) =>
-            t('in-alerting:smartAlerts.list.header.configuredAlerts', {
-              numberOfAlerts
-            })
+            !displayTitle
+              ? t('in-alerting:smartAlerts.list.header.configuredAlerts', {
+                  numberOfAlerts
+                })
+              : ''
           }
           alertsTab={alertsTab}
           toolBarContent={toolBarContent}

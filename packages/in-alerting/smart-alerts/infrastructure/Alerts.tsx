@@ -10,6 +10,10 @@ import { ThresholdConfigUnion, InfraAlertRuleUnion, ForecastingConfig } from '@i
 import { themes } from '@instana/design-tokens';
 
 import {
+  getAllAlertConfigsWithResult,
+  getInfraConfigsAsResultObservable
+} from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
+import {
   infraAlertsDetailsPath,
   infraAlertDetailsFullyQualifiedPath,
   infraSmartAlerts
@@ -20,13 +24,14 @@ import {
 } from 'in-infrastructure/navigation/matrix';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
-import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
+import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { actionHandlers } from 'in-alerting/smart-alerts/infrastructure/lists/ListActionHandlers';
 import CreateSmartAlert from 'in-alerting/smart-alerts/infrastructure/CreateSmartAlert';
 import { MetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
 import { sortOptions } from 'in-alerting/smart-alerts/infrastructure/lists/constants';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import ScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -34,6 +39,7 @@ import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
+import { eventsPath } from 'in-events/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
 import { getPluginName } from 'in-sdk/pluginName';
 import Footer from 'in-components/Footer/Footer';
@@ -42,7 +48,7 @@ import { t, Trans } from 'in-i18n';
 
 import locals from './Alerts.mless';
 
-export default function Alerts() {
+export default function Alerts({ isEventsView = false }: { isEventsView?: boolean }) {
   const handlers = role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope ? actionHandlers : {};
 
   function getColumnDefinitions() {
@@ -55,30 +61,38 @@ export default function Alerts() {
     ];
   }
 
+  const List = (
+    <AlertBaseList<InfraSmartAlertConfigWithMetadata>
+      extraColumnDefinitions={getColumnDefinitions()}
+      actionHandlers={handlers}
+      getAlertConfigs={() => (isEventsView ? getInfraConfigsAsResultObservable() : getAllAlertConfigsWithResult())}
+      createRowLinkLocation={createRowLinkLocation}
+      getSubtitle={config => getSubtitle(config.rule, config.threshold, config.forecastingConfig)}
+      sortOptions={sortOptions}
+      alertsTab={isEventsView ? eventsPath : infraSmartAlerts}
+      renderName={replaceTitlePlaceholdersWithMarkup}
+      hideAlertIcon
+      // for carbon table
+      displayCarbonTable={smartAlertCarbonTableEnabled}
+      extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
+      carbonActionHandlers={handlers}
+      getNameSubtitle={(config: InfraSmartAlertConfigWithMetadata) => getNameSubtitle(config)}
+      toolBarContent={role?.canConfigureGlobalInfraSmartAlerts ? <CreateSmartAlert isListingPage /> : undefined}
+      noDataHeader={t('in-alerting:smartAlerts.infrastructure.list.noDataHeader')}
+      noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.infrastructure.list.noDataDescription" />}
+      useSmartAlertCreateUrl={useSmartAlertCreateUrl}
+      displayTitle={isEventsView}
+    />
+  );
+
+  if (isEventsView) {
+    return List;
+  }
+
   return (
     <>
-      <div className={locals.wrapper}>
-        <AlertBaseList<InfraSmartAlertConfigWithMetadata>
-          extraColumnDefinitions={getColumnDefinitions()}
-          actionHandlers={handlers}
-          getAlertConfigs={() => getAllAlertConfigsWithResult()}
-          createRowLinkLocation={createRowLinkLocation}
-          getSubtitle={config => getSubtitle(config.rule, config.threshold, config.forecastingConfig)}
-          sortOptions={sortOptions}
-          alertsTab={infraSmartAlerts}
-          renderName={replaceTitlePlaceholdersWithMarkup}
-          hideAlertIcon
-          // for carbon table
-          displayCarbonTable={smartAlertCarbonTableEnabled}
-          extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
-          carbonActionHandlers={handlers}
-          getNameSubtitle={(config: InfraSmartAlertConfigWithMetadata) => getNameSubtitle(config)}
-          toolBarContent={role?.canConfigureGlobalInfraSmartAlerts ? <CreateSmartAlert isListingPage /> : undefined}
-          noDataHeader={t('in-alerting:smartAlerts.infrastructure.list.noDataHeader')}
-          noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.infrastructure.list.noDataDescription" />}
-          useSmartAlertCreateUrl={useSmartAlertCreateUrl}
-        />
-      </div>
+      <DashboardHeaderShadowModule />
+      <LeftRightPadding>{List}</LeftRightPadding>
       <Footer />
     </>
   );

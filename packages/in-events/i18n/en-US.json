@@ -329,6 +329,13 @@
     "sloSa": "SLO Smart Alert",
     "filterTitle": "Filter"
   },
+  "eventsSmartAlerts": {
+    "globalApplicationSmartAlert": "Global Application Smart Alerts",
+    "ApplicationSmartAlert": "Application Smart Alerts",
+    "syntheticsSA": "Synthetics Smart Alerts",
+    "infraSA": "Infrastructure Smart Alerts",
+    "logSA": "Log Smart Alerts"
+  },
   "feedback": {
     "skip": "Skip",
     "descriptionUnpleasant": {

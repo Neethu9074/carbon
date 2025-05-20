@@ -16,6 +16,8 @@ import { LogSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/logs/f
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
+import memoize from 'in-services/util/memoizingObservableGenerator';
+import { minutes } from 'in-services/time';
 import { LogAlertConfig } from 'in-types';
 import http from 'in-services/http';
 
@@ -30,6 +32,12 @@ export function getAllAlertConfigsWithResult(): Observable<Result<LogSmartAlertC
   });
   return createObservable(request);
 }
+
+export const getLogsConfigsAsResultObservable = memoize<void, Result<LogSmartAlertConfigWithMetadata[]>>(
+  getAllAlertConfigsWithResult,
+  () => '',
+  minutes.toMillis(2)
+);
 
 export function enableAlertConfig(id: string): Observable<void> {
   return enableAlertConfigApi(id, baseUrl);

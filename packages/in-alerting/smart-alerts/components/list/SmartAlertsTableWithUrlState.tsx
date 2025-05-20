@@ -33,13 +33,13 @@ const urlStateDefinition = (alertsTab: string): Options<TableState> => {
     bind: [
       {
         path: alertsTab,
-        name: 'orderBy',
+        name: 'alertOrderBy',
         as: 'orderBy',
         initialState: 'created'
       },
       {
         path: alertsTab,
-        name: 'orderDirection',
+        name: 'alertOrderDirection',
         as: 'orderDirection',
         initialState: 'DESC'
       },
@@ -68,11 +68,11 @@ const urlStateDefinition = (alertsTab: string): Options<TableState> => {
         bind: [
           {
             path: alertsTab,
-            name: 'orderBy'
+            name: 'alertOrderBy'
           },
           {
             path: alertsTab,
-            name: 'orderDirection'
+            name: 'alertOrderDirection'
           }
         ],
         reset: { page: 1 }

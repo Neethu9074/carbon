@@ -12,7 +12,9 @@ import {
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
+import memoize from 'in-services/util/memoizingObservableGenerator';
 import { ConfigVersion, Result } from 'in-types';
+import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 
 const baseUrl = apiEndpoint.APPLICATION_GLOBAL;
@@ -67,6 +69,23 @@ export function getAllGlobalAlertConfigs(
   });
   return config.asObservable ? createObservable(request) : request.map(response => response.body);
 }
+
+function getAllGlobalAlertConfigsForApplications(): Observable<
+  Result<GlobalApplicationsSmartAlertConfigWithMetadata[]>
+> {
+  const request = http<GlobalApplicationsSmartAlertConfigWithMetadata[]>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: baseUrl
+  });
+  return createObservable(request);
+}
+
+export const getAllGlobalAlertConfigsForApplicationsAsResultObservable = memoize<
+  void,
+  Result<GlobalApplicationsSmartAlertConfigWithMetadata[]>
+>(getAllGlobalAlertConfigsForApplications, () => '', minutes.toMillis(2));
 
 export function getAllGlobalAlertConfigsRelatedToApplicationId(
   applicationId: string,

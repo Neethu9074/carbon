@@ -20,6 +20,7 @@ import {
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import SmartAlerts from 'in-events/components/SmartAlerts/Components/SmartAlerts';
 import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
@@ -209,7 +210,7 @@ function EventViewComponent(props) {
       {eventId ? (
         <EventTable {...props} {...tableProps} eventType={eventType} selectedEventId={eventId} />
       ) : eventType === 'smart_alerts' ? (
-        <></>
+        <SmartAlerts />
       ) : (
         <LeftRightPadding>
           <Stack gap="normal">

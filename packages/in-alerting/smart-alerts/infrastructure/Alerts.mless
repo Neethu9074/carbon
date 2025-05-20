@@ -5,10 +5,6 @@
  */
 
 :local {
-  .wrapper {
-    padding: 1.5rem;
-  }
-
   .iconWrapper {
     display: flex;
     gap: 0.25rem;

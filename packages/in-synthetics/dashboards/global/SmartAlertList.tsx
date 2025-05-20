@@ -9,13 +9,18 @@ import React from 'react';
 import { Spacer } from '@instana/components';
 
 import {
+  getAllAlertConfigs,
+  getSyntheticConfigsAsResultObservable
+} from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
+import {
   alertId as alertIdMatrixParam,
   alertCreated as alertCreatedMatrixParam
 } from 'in-synthetics/navigation/matrix';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import { alertsTabDetailsFullyQualified, syntheticSmartAlertsPath } from 'in-synthetics/navigation/paths';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/synthetics/hooks/useSmartAlertCreateUrl';
-import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
+// eslint-disable-next-line no-restricted-imports
+import { eventsPath } from 'in-events/navigation/paths';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListActionHandlers';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
@@ -39,9 +44,39 @@ import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
-export default function SmartAlertList() {
+export default function SmartAlertList({ isEventsView = false }: { isEventsView?: boolean }) {
   const handlers = (role as Role).canConfigureGlobalSyntheticSmartAlerts ? actionHandlers : {};
   const location = useLocation();
+
+  const List = (
+    <AlertBaseList<SyntheticAlertConfigWithMetadata>
+      extraColumnDefinitions={extraColumnDefinitions}
+      getAlertConfigs={() =>
+        isEventsView ? getSyntheticConfigsAsResultObservable() : getAllAlertConfigs('', { asObservable: true })
+      }
+      actionHandlers={handlers}
+      getSubtitle={() => t('in-synthetics:dashboard.alertList.numberOfFailures')}
+      createRowLinkLocation={createRowLinkLocation}
+      sortOptions={sortOptions}
+      alertsTab={isEventsView ? eventsPath : syntheticSmartAlertsPath}
+      renderName={config => replaceTitlePlaceholdersWithMarkup(config.name)}
+      // for carbon table
+      extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
+      carbonActionHandlers={handlers}
+      getNameSubtitle={config => getSyntheticsSubtitle(config)}
+      displayCarbonTable={smartAlertCarbonTableEnabled}
+      toolBarContent={role?.canConfigureGlobalSyntheticSmartAlerts ? <CreateSmartAlert isListingPage /> : undefined}
+      noDataHeader={t('in-alerting:smartAlerts.synthetics.alertList.noDataHeader')}
+      noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.synthetics.alertList.noDataDescription" />}
+      useSmartAlertCreateUrl={useSmartAlertCreateUrl}
+      displayTitle={isEventsView}
+    />
+  );
+
+  if (isEventsView) {
+    return List;
+  }
+
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
@@ -52,25 +87,7 @@ export default function SmartAlertList() {
             pageRootName: pageNames.smart_alerts
           }}
         />
-        <AlertBaseList<SyntheticAlertConfigWithMetadata>
-          extraColumnDefinitions={extraColumnDefinitions}
-          getAlertConfigs={() => getAllAlertConfigs('', { asObservable: true })}
-          actionHandlers={handlers}
-          getSubtitle={() => t('in-synthetics:dashboard.alertList.numberOfFailures')}
-          createRowLinkLocation={createRowLinkLocation}
-          sortOptions={sortOptions}
-          alertsTab={syntheticSmartAlertsPath}
-          renderName={config => replaceTitlePlaceholdersWithMarkup(config.name)}
-          // for carbon table
-          extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
-          carbonActionHandlers={handlers}
-          getNameSubtitle={config => getSyntheticsSubtitle(config)}
-          displayCarbonTable={smartAlertCarbonTableEnabled}
-          toolBarContent={role?.canConfigureGlobalSyntheticSmartAlerts ? <CreateSmartAlert isListingPage /> : undefined}
-          noDataHeader={t('in-alerting:smartAlerts.synthetics.alertList.noDataHeader')}
-          noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.synthetics.alertList.noDataDescription" />}
-          useSmartAlertCreateUrl={useSmartAlertCreateUrl}
-        />
+        {List}
         <Spacer size="gutter" />
       </LeftRightPadding>
       <Footer />
