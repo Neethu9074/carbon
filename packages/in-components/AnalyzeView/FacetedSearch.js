@@ -13,7 +13,7 @@ import locals from './FacetedSearch.mless';
 function orderByMetric(suggestions) {
   const hasMetricData = Boolean(
     suggestions?.length > 0 &&
-      Object.keys(suggestions[0]?.metrics).length &&
+      Object.keys(suggestions[0]?.metrics ?? {}).length &&
       suggestions[0]?.metrics?.facetedSearchMetric[0][1]
   );
   return hasMetricData
