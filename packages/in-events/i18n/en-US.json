@@ -412,7 +412,9 @@
     "tableView": "Table view",
     "chartView": "Chart view",
     "searchTable": "Search table",
-    "download": "Download"
+    "download": "Download",
+    "showLess": "Show less",
+    "showMore": "Show more"
   },
   "notes": {
     "openNotes": "Open summary and notes",
