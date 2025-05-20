@@ -116,7 +116,6 @@ function PromptInputs({
             }
             hasError={!field.valid && field.touched}
             maxLength={256}
-            autoFocus
           />
           <TouchedMessages field={field} />
         </FormGroup>
