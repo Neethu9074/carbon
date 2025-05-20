@@ -26,16 +26,27 @@ export default function CrioDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.crio.dashboard.cpuTotal')}>
-          <MetricValue snapshotId={snapshotId} metric="cpu.total_usage" formatter={percentageZeroDecimalPlaces} />
+          <MetricValue
+            snapshotId={snapshotId}
+            metric="cpu.total_usage"
+            formatter={percentageZeroDecimalPlaces}
+            minRollup={10000}
+          />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.crio.dashboard.memoryUsage')}>
-          <MetricValue snapshotId={snapshotId} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />
+          <MetricValue
+            snapshotId={snapshotId}
+            metric="memory.usage"
+            formatter={bytesTwoDecimalPlaces}
+            minRollup={10000}
+          />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.crio.dashboard.memoryTotalUsagePercentage')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="memory.used_percentage"
             formatter={percentageZeroDecimalPlaces}
+            minRollup={10000}
           />
         </KpiKeyValue>
       </KpiSection>
@@ -44,6 +55,7 @@ export default function CrioDashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
+          minRollup={10000}
           y1={{
             min: 0,
             metrics: ['cpu.total_usage', 'cpu.system_usage', 'cpu.user_usage'],
@@ -60,6 +72,7 @@ export default function CrioDashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
+          minRollup={10000}
           y1={{
             min: 0,
             metrics: ['cpu.throttling_count'],
@@ -81,6 +94,7 @@ export default function CrioDashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
+          minRollup={10000}
           y1={{
             min: 0,
             metrics: ['memory.usage', 'memory.total_rss', 'memory.total_cache'],
@@ -97,6 +111,7 @@ export default function CrioDashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
+          minRollup={10000}
           y1={{
             min: 0,
             metrics: ['memory.active_anon', 'memory.active_file', 'memory.inactive_anon', 'memory.inactive_file'],
@@ -114,6 +129,7 @@ export default function CrioDashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
+          minRollup={10000}
           y1={{
             min: 0,
             metrics: ['memory.total_rss_percent'],
@@ -129,6 +145,7 @@ export default function CrioDashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
+          minRollup={10000}
           y1={{
             min: 0,
             metrics: ['blkio.blk_read', 'blkio.blk_write'],

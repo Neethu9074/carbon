@@ -23,7 +23,7 @@ import {
   statefulSetIdUrlParameter
 } from 'in-kubernetes/navigation/urlParameters';
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
-import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
+import ServerSideSortedK8sMetricValue from 'in-kubernetes/Dashboards/commonComponents/ServerSideSortedK8sMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getKubernetesPodsData } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/utils';
@@ -124,7 +124,7 @@ const allColumnDefinitions = [
     sortable: true,
     getContent(item, props, columnId) {
       return (
-        <ServerSideSortedMetricValue
+        <ServerSideSortedK8sMetricValue
           snapshotId={item.pod.id}
           metric={columnId}
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
