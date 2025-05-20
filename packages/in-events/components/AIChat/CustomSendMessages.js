@@ -15,7 +15,6 @@ import {
 } from 'in-events/components/AIChat/DefinedQuestions';
 import { sendAPIQuery, fetchAPIData, formatForTable } from 'in-events/components/AIChat/chatAPI';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
-import { cleanUpText } from 'in-events/components/AIChat/utils';
 import { t } from 'in-i18n';
 
 // Params:
@@ -41,8 +40,11 @@ export async function CustomSendMessages(
             ...(nlg
               ? [
                   {
-                    response_type: 'text',
-                    text: nlg
+                    response_type: 'user_defined',
+                    user_defined: {
+                      user_defined_type: 'nlg_response',
+                      text: nlg
+                    }
                   }
                 ]
               : []),
@@ -74,8 +76,11 @@ export async function CustomSendMessages(
             ...(nlg
               ? [
                   {
-                    response_type: 'text',
-                    text: nlg
+                    response_type: 'user_defined',
+                    user_defined: {
+                      user_defined_type: 'nlg_response',
+                      text: nlg
+                    }
                   }
                 ]
               : []),
@@ -127,7 +132,7 @@ export async function CustomSendMessages(
       // On Success
       response => {
         instance.messaging.removeMessages([loadingMessageId]);
-        const nlgResponse = response?.api?.NLG && cleanUpText(response?.api?.NLG);
+        const nlgResponse = response?.api?.NLG;
         if (!response) {
           sendError(nlgResponse, t('in-events:aichat.noData'));
           return;
@@ -151,8 +156,11 @@ export async function CustomSendMessages(
             output: {
               generic: [
                 {
-                  response_type: 'text',
-                  text: nlgResponse
+                  response_type: 'user_defined',
+                  user_defined: {
+                    user_defined_type: 'nlg_response',
+                    text: nlgResponse
+                  }
                 },
                 {
                   response_type: 'text',

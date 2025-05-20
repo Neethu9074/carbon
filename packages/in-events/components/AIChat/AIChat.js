@@ -13,6 +13,7 @@ import { CustomSendMessages } from 'in-events/components/AIChat/CustomSendMessag
 import TableChartSwitcher from 'in-events/components/AIChat/TableChartSwitcher';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import EditableOptions from 'in-events/components/AIChat/EditableOptions';
+import NLGResponse from 'in-events/components/AIChat/NLGResponse';
 
 import locals from './AIChat.mless';
 
@@ -109,6 +110,8 @@ export function AIChat() {
               return <EditableOptions messageItem={messageItem} instance={instance} />;
             case 'table_chart':
               return <TableChartSwitcher messageItem={messageItem} />;
+            case 'nlg_response':
+              return <NLGResponse messageItem={messageItem} />;
             default:
               return undefined;
           }

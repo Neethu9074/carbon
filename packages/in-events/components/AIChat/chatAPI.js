@@ -53,8 +53,11 @@ export function formatForTable(nlg, apiResponse) {
     output: {
       generic: [
         {
-          response_type: 'text',
-          text: nlg
+          response_type: 'user_defined',
+          user_defined: {
+            user_defined_type: 'nlg_response',
+            text: nlg
+          }
         },
         {
           response_type: 'user_defined',
@@ -141,8 +144,11 @@ export function formatForTable(nlg, apiResponse) {
     output: {
       generic: [
         {
-          response_type: 'text',
-          text: nlg
+          response_type: 'user_defined',
+          user_defined: {
+            user_defined_type: 'nlg_response',
+            text: nlg
+          }
         },
         {
           response_type: 'user_defined',
