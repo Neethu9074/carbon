@@ -12,13 +12,17 @@ import {
   CarbonOverflowMenu as OverflowMenu,
   CarbonOverflowMenuItem as OverflowMenuItem
 } from '@instana/components';
+import { Pill, Stack } from '@instana/components';
 
 import {
   customDashboardTopLevelFiltersEnabled,
   customDashboardsExportPdfEntireDashboard,
-  customDashboardsFastQueryModeEnabled
+  customDashboardsFastQueryModeEnabled,
+  rbacTeamsEnabled
 } from 'in-services/featureFlags';
 import EntityPageMainNotificationLightCardV2 from 'in-components/EntityPageMainNotification/EntityPageMainNotificationLightCardV2';
+// eslint-disable-next-line no-restricted-imports
+import TagsInTable from 'in-settings/tabs/GlobalSettings/components/TagsInTable';
 import { FastQueryModeToggle } from 'in-custom-dashboards/CustomDashboard/FastQueryModeToggle/FastQueryModeToggle';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
 import TopLevelFilterBar from 'in-custom-dashboards/CustomDashboard/FilterContext/TopLevelFilterBar';
@@ -180,9 +184,31 @@ export default function CustomDashboardPresenter(props) {
   );
 }
 
-function ButtonLine({ onSaveConfiguration, hasChanges, editable, isSaving, onDiscardChanges }) {
+function ButtonLine({ onSaveConfiguration, hasChanges, editable, isSaving, onDiscardChanges, config }) {
   if (!isSaving && (!editable || !hasChanges)) {
-    return null;
+    if (rbacTeamsEnabled) {
+      let pillText = null;
+      if (config?.accessRules?.length) {
+        const hasGlobalRelation = config.accessRules.some(item => item.relationType === 'GLOBAL');
+        if (hasGlobalRelation) {
+          pillText = 'Shared';
+        } else {
+          pillText = 'Private';
+        }
+      }
+      return (
+        <Stack direction="horizontal">
+          {pillText && (
+            <Pill type="grey" size="md">
+              {pillText}
+            </Pill>
+          )}
+          {config?.rbacTags && <TagsInTable tags={config.rbacTags} />}
+        </Stack>
+      );
+    } else {
+      return null;
+    }
   }
 
   return (
@@ -210,6 +236,7 @@ function SecondaryButtonLine({
   customDashboardId,
   onDeleteCustomDashboard,
   onRenameDashboard,
+  onEditTeams,
   onDuplicateDashboard,
   onPDFDashboardDownload,
   editable,
@@ -256,6 +283,13 @@ function SecondaryButtonLine({
           <OverflowMenuItem
             itemText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.editName')}
             onClick={onRenameDashboard}
+          />
+        )}
+
+        {editable && rbacTeamsEnabled && (
+          <OverflowMenuItem
+            itemText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.editTeams')}
+            onClick={onEditTeams}
           />
         )}
 

@@ -13,6 +13,7 @@ import {
   CUSTOM_DASHBOARD_SHARE,
   CUSTOM_DASHBOARD_EDIT_SAVE,
   CUSTOM_DASHBOARD_DELETE,
+  CUSTOM_DASHBOARD_EIDT_TEAMS,
   CUSTOM_DASHBOARD_ADD_WIDGET_START,
   CUSTOM_DASHBOARD_ADD_WIDGET_FINISH,
   CUSTOM_DASHBOARD_EDIT_WIDGET_START,
@@ -37,6 +38,7 @@ import ZoomWidgetDialog from 'in-custom-dashboards/CustomDashboard/ZoomWidgetDia
 import EditAsJsonDialog from 'in-custom-dashboards/CustomDashboard/EditAsJsonDialog/EditAsJsonDialog';
 import { CustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/CustomDashboardContext';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
+import EditTeamsDialog from 'in-custom-dashboards/CustomDashboard/EditTeamsDialog/EditTeamsDialog';
 import { FilterContext } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 import DownloadPdfDialog from 'in-components/DownloadPdf/DownloadPdfDialog/DownloadPdfDialog';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
@@ -146,6 +148,7 @@ export default function CustomDashboardLoader(props) {
         onDeleteCustomDashboard={onDeleteCustomDashboard}
         onSaveConfiguration={onSaveConfiguration}
         onRenameDashboard={() => onRenameDashboard(config, setConfig)}
+        onEditTeams={onEditTeams}
         onDuplicateDashboard={onDuplicateDashboard}
         onAddWidget={onAddWidget}
         onEditWidget={onEditWidget}
@@ -246,6 +249,10 @@ export default function CustomDashboardLoader(props) {
     setConfig(newConfig);
   }
 
+  function onEditTeams() {
+    trackCta(CUSTOM_DASHBOARD_EIDT_TEAMS);
+    addActiveDialog(<EditTeamsDialog config={config} onSubmit={setConfig} />);
+  }
   function onEditAsJson() {
     addActiveDialog(<EditAsJsonDialog config={config} onSubmit={setConfig} />);
   }

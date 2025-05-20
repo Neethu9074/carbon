@@ -20,6 +20,7 @@ export const CUSTOM_DASHBOARD_EDIT_WIDGET_CANCEL = 'custom.dashboard.edit.widget
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH = 'custom.dashboard.edit.widget.finish';
 export const CUSTOM_DASHBOARD_DELETE_WIDGET = 'custom.dashboard.delete.widget';
 export const CUSTOM_DASHBOARD_VIEW_WIDGET = 'custom.dashboard.view.widget';
+export const CUSTOM_DASHBOARD_EIDT_TEAMS = 'custom.dashboard.edit.teams';
 export const CUSTOM_DASHBOARD_ZOOM_WIDGET_START = 'custom.dashboard.zoom.widget.start';
 export const CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH = 'custom.dashboard.zoom.widget.finish';
 export const DOWNLOAD_PDF_WIDGET = 'download.pdf.widget';

@@ -1,4 +1,6 @@
 {
+  "cancel": "Cancel",
+  "save": "Save",
   "editor": {
     "copyOf": "Copy of {{title}}"
   },
@@ -10,6 +12,13 @@
         "dashboardAJson": "Dashboard as JSON",
         "editDashboard": "Edit dashboard"
       }
+    },
+    "editTeamsDialog": {
+      "title": "Edit teams",
+      "description": "Select teams to associate with this dashboard.",
+      "calloutMessage": "Adding teams will allow team members to view and edit this dashboard. It will also be reflected in the teams page in settings.",
+      "selectorLabel": "Teams",
+      "chooseTeams": "Choose Teams"
     },
     "grid": {
       "grid": {
@@ -84,6 +93,7 @@
       "addWidget": "Add widget",
       "tvMode": "TV mode",
       "editName": "Edit name",
+      "editTeams": "Edit teams",
       "editAsJson": "Edit as JSON",
       "viewAsJson": "View as JSON",
       "copyAllWidgets": "Copy all widgets",
