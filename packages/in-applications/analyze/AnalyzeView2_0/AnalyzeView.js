@@ -326,7 +326,11 @@ function getCustomGroupLabel(groupName, groupbyTag) {
     return '< 1';
   }
   if (groupbyTag === 'call.ingestion_time') {
-    return `${formatDateTime(new Date(Number(groupName)))} (${groupName})`;
+    try {
+      return `${formatDateTime(new Date(Number(groupName)))} (${groupName})`;
+    } catch (e) {
+      // do not customize if the value is not a valid timestamp
+    }
   }
   return groupName;
 }
