@@ -6,11 +6,9 @@
 
 import React, { useState } from 'react';
 
-import { Button } from '@instana/carbon';
+import { t } from 'in-i18n';
 
 import locals from './NLGResponse.mless';
-
-// import { t } from 'in-i18n';
 
 const NLGResponse = ({ messageItem }) => {
   const text = messageItem?.user_defined?.text || '';
@@ -23,7 +21,7 @@ const NLGResponse = ({ messageItem }) => {
     <div>
       {textToDisplay}
       <div onClick={() => setShow(!show)} className={locals.showHidButton}>
-        {(show && 'Collapse') || 'Show more'}
+        {(show && t('in-events:aichat.showLess')) || t('in-events:aichat.showMore')}
       </div>
     </div>
   );
