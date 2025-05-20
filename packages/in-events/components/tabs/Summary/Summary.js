@@ -49,7 +49,6 @@ import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventC
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
-import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import MobileEventContent from 'in-events/components/EventContent/MobileEventContent';
 import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
@@ -66,6 +65,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventChart from 'in-events/components/EventChart';
@@ -86,7 +86,7 @@ export default function Summary(props) {
   const latestSnapshot = expiredSnapshotVersions && getLatestSnapshot(expiredSnapshotVersions.toArray());
   const eventType = getEventType(event);
   const isIncident = eventType === EVENT_TYPES.INCIDENT;
-  const { location, navigate } = useNavigation();
+  const { location } = useNavigation();
 
   useEffect(() => {
     // make sure that tracking is enabled. This is done because tab changes should not cause duplicate page views
@@ -95,10 +95,6 @@ export default function Summary(props) {
     // if the url is marked to ignore tracking (from ViewSwitcher) then don't send a PageView as this
     // causes duplicate PageViews that don't reflect reality
     if (selectedEventId !== undefined && tracking !== 'false') {
-      setOrDeleteMatrixKey(location, eventsPath, 'track', false);
-      // delete reference from url if the user was refered to the page from an alert (otherwise subsequent page views will also consider it to be referred)
-      delete location.query['ref'];
-      navigate(location);
       eventsPageTracker(productAreas.event, getEventTrackingType(event), props.location, event, referrer);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
